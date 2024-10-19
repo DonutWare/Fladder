@@ -22,7 +22,6 @@ import 'package:fladder/screens/shared/default_alert_dialog.dart';
 import 'package:fladder/screens/shared/input_fields.dart';
 import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/custom_color_themes.dart';
-import 'package:fladder/util/local_extension.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/option_dialogue.dart';
 import 'package:fladder/util/simple_duration_picker.dart';
@@ -234,30 +233,39 @@ class _ClientSettingsPageState extends ConsumerState<ClientSettingsPage> {
           SettingsLabelDivider(label: context.localized.settingsVisual),
           SettingsListTile(
             label: Text(context.localized.displayLanguage),
-            trailing: EnumBox(
-              current: ref.watch(
+            trailing: Localizations.override(
+              context: context,
+              locale: ref.watch(
                 clientSettingsProvider.select(
-                  (value) => (value.selectedLocale ?? currentLocale).label(),
+                  (value) => (value.selectedLocale ?? currentLocale),
                 ),
               ),
-              itemBuilder: (context) {
-                return [
-                  ...AppLocalizations.supportedLocales.map(
-                    (entry) => PopupMenuItem(
-                      value: entry,
-                      child: Text(
-                        entry.label(),
-                        style: TextStyle(
-                          fontWeight: currentLocale.languageCode == entry.languageCode ? FontWeight.bold : null,
+              child: Builder(builder: (context) {
+                return EnumBox(
+                  current: context.localized.nativeName,
+                  itemBuilder: (context) {
+                    return [
+                      ...AppLocalizations.supportedLocales.map(
+                        (entry) => PopupMenuItem(
+                          value: entry,
+                          child: Localizations.override(
+                            context: context,
+                            locale: entry,
+                            child: Builder(builder: (context) {
+                              return Text(
+                                context.localized.nativeName,
+                              );
+                            }),
+                          ),
+                          onTap: () => ref
+                              .read(clientSettingsProvider.notifier)
+                              .update((state) => state.copyWith(selectedLocale: entry)),
                         ),
-                      ),
-                      onTap: () => ref
-                          .read(clientSettingsProvider.notifier)
-                          .update((state) => state.copyWith(selectedLocale: entry)),
-                    ),
-                  )
-                ];
-              },
+                      )
+                    ];
+                  },
+                );
+              }),
             ),
           ),
           SettingsListTile(
