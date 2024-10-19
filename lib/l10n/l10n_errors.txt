@@ -1,41 +1,43 @@
 {
   "es": [
-    "nativeName",
-    "settingsHomeBannerTitle",
-    "settingsHomeBannerDescription",
     "homeBannerBanner",
-    "homeBannerCarousel"
+    "homeBannerCarousel",
+    "settingsHomeBannerDescription",
+    "settingsHomeBannerTitle"
   ],
 
   "fr": [
-    "nativeName",
-    "settingsHomeBannerTitle",
-    "settingsHomeBannerDescription",
     "homeBannerBanner",
-    "homeBannerCarousel"
+    "homeBannerCarousel",
+    "settingsHomeBannerDescription",
+    "settingsHomeBannerTitle"
   ],
 
   "ja": [
-    "nativeName",
-    "settingsHomeBannerTitle",
-    "settingsHomeBannerDescription",
     "homeBannerBanner",
-    "homeBannerCarousel"
+    "homeBannerCarousel",
+    "settingsHomeBannerDescription",
+    "settingsHomeBannerTitle"
   ],
 
   "nl": [
-    "nativeName",
-    "settingsHomeBannerTitle",
-    "settingsHomeBannerDescription",
     "homeBannerBanner",
-    "homeBannerCarousel"
+    "homeBannerCarousel",
+    "settingsHomeBannerDescription",
+    "settingsHomeBannerTitle"
+  ],
+
+  "uk": [
+    "homeBannerBanner",
+    "homeBannerCarousel",
+    "settingsHomeBannerDescription",
+    "settingsHomeBannerTitle"
   ],
 
   "zh": [
-    "nativeName",
-    "settingsHomeBannerTitle",
-    "settingsHomeBannerDescription",
     "homeBannerBanner",
-    "homeBannerCarousel"
+    "homeBannerCarousel",
+    "settingsHomeBannerDescription",
+    "settingsHomeBannerTitle"
   ]
 }
