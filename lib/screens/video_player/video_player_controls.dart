@@ -10,6 +10,7 @@ import 'package:collection/collection.dart';
 import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:screen_brightness/screen_brightness.dart';
+import 'package:universal_html/html.dart' as html;
 import 'package:window_manager/window_manager.dart';
 
 import 'package:fladder/models/items/intro_skip_model.dart';
@@ -30,6 +31,8 @@ import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/string_extensions.dart';
+import 'package:fladder/widgets/shared/full_screen_button.dart'
+    if (dart.library.html) 'package:fladder/widgets/shared/full_screen_button_web.dart';
 
 class DesktopControls extends ConsumerStatefulWidget {
   const DesktopControls({super.key});
@@ -222,44 +225,40 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
       child: Stack(
         children: [
           if (AdaptiveLayout.of(context).isDesktop)
-            const Flexible(
-              child: Align(
-                alignment: Alignment.topRight,
-                child: DefaultTitleBar(),
-              ),
+            const Align(
+              alignment: Alignment.topRight,
+              child: DefaultTitleBar(),
             ),
-          Flexible(
-            child: Padding(
-              padding: MediaQuery.paddingOf(context).copyWith(bottom: 0),
-              child: Container(
-                alignment: Alignment.topCenter,
-                height: 80,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          IconButton(
-                            onPressed: () => minimizePlayer(context),
-                            icon: const Icon(
-                              IconsaxOutline.arrow_down_1,
-                              size: 24,
-                            ),
+          Padding(
+            padding: MediaQuery.paddingOf(context).copyWith(bottom: 0),
+            child: Container(
+              alignment: Alignment.topCenter,
+              height: 80,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          onPressed: () => minimizePlayer(context),
+                          icon: const Icon(
+                            IconsaxOutline.arrow_down_1,
+                            size: 24,
                           ),
-                          const SizedBox(width: 16),
-                          Flexible(
-                            child: Text(
-                              currentItem?.title ?? "",
-                              style: Theme.of(context).textTheme.titleLarge,
-                            ),
+                        ),
+                        const SizedBox(width: 16),
+                        Flexible(
+                          child: Text(
+                            currentItem?.title ?? "",
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -390,18 +389,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                               onChanged: () => resetTimer(),
                             ),
                           ),
-                          FutureBuilder(
-                            future: windowManager.isFullScreen(),
-                            builder: (context, snapshot) {
-                              final isFullScreen = snapshot.data ?? true;
-                              return IconButton(
-                                onPressed: () => windowManager.setFullScreen(!isFullScreen),
-                                icon: Icon(
-                                  isFullScreen ? IconsaxOutline.close_square : IconsaxOutline.maximize_4,
-                                ),
-                              );
-                            },
-                          ),
+                          const FullScreenButton(),
                         }
                       ].addInBetween(const SizedBox(width: 8)),
                     ),
@@ -627,9 +615,17 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     Navigator.of(context).pop();
   }
 
+  void resetTimer() => timer.reset();
+
+  Future<void> closePlayer() async {
+    clearOverlaySettings();
+    ref.read(videoPlayerProvider).stop();
+    Navigator.of(context).pop();
+  }
+
   Future<void> clearOverlaySettings() async {
     toggleOverlay(value: true);
-    if (!AdaptiveLayout.of(context).isDesktop) {
+    if (!(AdaptiveLayout.of(context).isDesktop || kIsWeb)) {
       ScreenBrightness().resetScreenBrightness();
     } else {
       disableFullscreen();
@@ -642,19 +638,18 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     timer.cancel();
   }
 
-  void resetTimer() => timer.reset();
-
-  Future<void> closePlayer() async {
-    clearOverlaySettings();
-    ref.read(videoPlayerProvider).stop();
-    Navigator.of(context).pop();
-  }
-
   Future<void> disableFullscreen() async {
     resetTimer();
-    final isFullScreen = await windowManager.isFullScreen();
-    if (isFullScreen) {
-      await windowManager.setFullScreen(false);
+    if (kIsWeb) {
+      if (html.document.fullscreenElement != null) {
+        html.document.exitFullscreen();
+        await Future.delayed(const Duration(milliseconds: 500));
+      }
+    } else {
+      final isFullScreen = await windowManager.isFullScreen();
+      if (isFullScreen) {
+        await windowManager.setFullScreen(false);
+      }
     }
   }
 

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,7 +29,7 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     //Don't pause on desktop focus loss
-    if (!AdaptiveLayout.of(context).isDesktop) {
+    if (!(AdaptiveLayout.of(context).isDesktop || kIsWeb)) {
       switch (state) {
         case AppLifecycleState.resumed:
           if (playing) ref.read(videoPlayerProvider).play();
