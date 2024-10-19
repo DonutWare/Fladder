@@ -296,6 +296,7 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
                   onSubmitted: (value) => retrieveListOfUsers(),
                   autoFillHints: const [AutofillHints.url],
                   keyboardType: TextInputType.url,
+                  autocorrect: false,
                   textInputAction: TextInputAction.go,
                   label: context.localized.server,
                   errorText: (invalidUrl == null || serverTextController.text.isEmpty || !startCheckingForErrors)
@@ -347,6 +348,7 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
                             controller: usernameController,
                             autoFillHints: const [AutofillHints.username],
                             textInputAction: TextInputAction.next,
+                            autocorrect: false,
                             onChanged: (value) => setState(() {}),
                             label: context.localized.userName,
                           ),
@@ -355,6 +357,7 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
                             autoFillHints: const [AutofillHints.password],
                             keyboardType: TextInputType.visiblePassword,
                             focusNode: focusNode,
+                            autocorrect: false,
                             textInputAction: TextInputAction.send,
                             onSubmitted: (value) => enterCredentialsTryLogin?.call(),
                             onChanged: (value) => setState(() {}),
