@@ -1,11 +1,14 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+
 import 'package:ficonsax/ficonsax.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:fladder/models/credentials_model.dart';
 import 'package:fladder/providers/discovery_provider.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/theme_extensions.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class DiscoverServersWidget extends ConsumerWidget {
   final List<CredentialsModel> serverCredentials;
@@ -18,6 +21,7 @@ class DiscoverServersWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    if (kIsWeb) return const SizedBox.shrink();
     final existingServers = serverCredentials
         .map(
           (credentials) => DiscoveryInfo(
