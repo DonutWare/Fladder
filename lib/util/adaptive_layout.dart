@@ -186,8 +186,8 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
   Widget build(BuildContext context) {
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(
-        padding: isDesktop ? const EdgeInsets.only(top: defaultTitleBarHeight, bottom: 16) : null,
-        viewPadding: isDesktop ? const EdgeInsets.only(top: defaultTitleBarHeight, bottom: 16) : null,
+        padding: isDesktop || kIsWeb ? const EdgeInsets.only(top: defaultTitleBarHeight, bottom: 16) : null,
+        viewPadding: isDesktop || kIsWeb ? const EdgeInsets.only(top: defaultTitleBarHeight, bottom: 16) : null,
       ),
       child: AdaptiveLayout(
         layout: layout,
