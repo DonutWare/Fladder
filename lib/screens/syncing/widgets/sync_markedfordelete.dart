@@ -1,9 +1,12 @@
-import 'package:ficonsax/ficonsax.dart';
-import 'package:fladder/models/syncing/sync_item.dart';
-import 'package:fladder/util/list_padding.dart';
 import 'package:flutter/material.dart';
+
+import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:fladder/models/syncing/sync_item.dart';
+import 'package:fladder/util/list_padding.dart';
+
+///This is a wrapper widget for marking a synced item as deleted (while it is being deleted)
 class SyncMarkedForDelete extends ConsumerWidget {
   final SyncedItem syncedItem;
   final Widget child;

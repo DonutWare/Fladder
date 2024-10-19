@@ -1,8 +1,10 @@
+import 'package:flutter/material.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 Future<void> showBottomSheetPill({
   ItemBaseModel? item,
@@ -32,7 +34,10 @@ Future<void> showBottomSheetPill({
         controller: controller,
         children: [
           if (item != null) ...{
-            ItemBottomSheetPreview(item: item),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: ItemBottomSheetPreview(item: item),
+            ),
             const Divider(),
           },
           content(context, controller),
@@ -51,49 +56,46 @@ class ItemBottomSheetPreview extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Row(
-            children: [
-              Card(
-                child: SizedBox(
-                  height: 90,
-                  child: AspectRatio(
-                    aspectRatio: 1,
-                    child: FladderImage(
-                      image: item.images?.primary,
-                      fit: BoxFit.contain,
-                    ),
+        Row(
+          children: [
+            Card(
+              child: SizedBox(
+                height: 90,
+                child: AspectRatio(
+                  aspectRatio: 1,
+                  child: FladderImage(
+                    image: item.images?.primary,
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),
-              const SizedBox(width: 16),
-              Flexible(
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      item.title,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    if (item.subText?.isNotEmpty ?? false)
-                      Opacity(
-                        opacity: 0.75,
-                        child: Text(
-                          item.subText!,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
+            ),
+            const SizedBox(width: 16),
+            Flexible(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    item.title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  if (item.subText?.isNotEmpty ?? false)
+                    Opacity(
+                      opacity: 0.75,
+                      child: Text(
+                        item.subText!,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                        style: Theme.of(context).textTheme.titleMedium,
                       ),
-                  ],
-                ),
+                    ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ],
     );

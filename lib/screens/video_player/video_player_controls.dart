@@ -208,46 +208,51 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
           Colors.black.withOpacity(0),
         ],
       )),
-      child: Padding(
-        padding:
-            EdgeInsets.only(top: topPadding + (AdaptiveLayout.of(context).platform == TargetPlatform.macOS ? 28 : 0.0)),
-        child: Container(
-          alignment: Alignment.topCenter,
-          height: 80,
-          child: Column(
-            children: [
-              if (AdaptiveLayout.of(context).isDesktop)
-                const Flexible(
-                  child: Align(
-                    alignment: Alignment.topRight,
-                    child: DefaultTitleBar(),
-                  ),
-                ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+      child: Stack(
+        children: [
+          if (AdaptiveLayout.of(context).isDesktop)
+            const Flexible(
+              child: Align(
+                alignment: Alignment.topRight,
+                child: DefaultTitleBar(),
+              ),
+            ),
+          Flexible(
+            child: Padding(
+              padding: MediaQuery.paddingOf(context).copyWith(bottom: 0),
+              child: Container(
+                alignment: Alignment.topCenter,
+                height: 80,
+                child: Column(
                   children: [
-                    IconButton(
-                      onPressed: () => minimizePlayer(context),
-                      icon: const Icon(
-                        IconsaxOutline.arrow_down_1,
-                        size: 24,
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Flexible(
-                      child: Text(
-                        currentItem?.title ?? "",
-                        style: Theme.of(context).textTheme.titleLarge,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            onPressed: () => minimizePlayer(context),
+                            icon: const Icon(
+                              IconsaxOutline.arrow_down_1,
+                              size: 24,
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Flexible(
+                            child: Text(
+                              currentItem?.title ?? "",
+                              style: Theme.of(context).textTheme.titleLarge,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -264,10 +269,9 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         ],
       )),
       child: Padding(
-        padding: EdgeInsets.only(bottom: bottomPadding)
-            .copyWith(bottom: 21)
-            .add(const EdgeInsets.symmetric(vertical: 16))
-            .add(EdgeInsets.symmetric(horizontal: AdaptiveLayout.of(context).isDesktop ? 32 : 0)),
+        padding: MediaQuery.paddingOf(context).add(
+          const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 12),
+        ),
         child: Column(
           children: [
             Padding(

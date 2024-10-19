@@ -1,12 +1,13 @@
-import 'package:fladder/util/adaptive_layout.dart';
 import 'package:flutter/material.dart';
 
+import 'package:fladder/util/adaptive_layout.dart';
+
 Future<void> showDialogAdaptive(
-    {required BuildContext context, bool useSafeArea = true, required Widget Function(BuildContext context) builder}) {
+    {required BuildContext context, required Widget Function(BuildContext context) builder}) {
   if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer) {
     return showDialog(
       context: context,
-      useSafeArea: useSafeArea,
+      useSafeArea: false,
       builder: (context) => Dialog(
         child: builder(context),
       ),
@@ -14,7 +15,7 @@ Future<void> showDialogAdaptive(
   } else {
     return showDialog(
       context: context,
-      useSafeArea: useSafeArea,
+      useSafeArea: false,
       builder: (context) => Dialog.fullscreen(
         child: builder(context),
       ),

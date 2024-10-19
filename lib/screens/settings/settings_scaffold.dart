@@ -43,11 +43,11 @@ class SettingsScaffold extends ConsumerWidget {
                     backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                     leading: context.router.backButton(),
                     flexibleSpace: FlexibleSpaceBar(
-                      titlePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16)
+                      titlePadding: const EdgeInsets.symmetric(horizontal: 16)
                           .add(EdgeInsets.only(left: padding.left, right: padding.right)),
                       title: Row(
                         children: [
-                          Text(label, style: Theme.of(context).textTheme.headlineSmall),
+                          Text(label, style: Theme.of(context).textTheme.headlineLarge),
                           const Spacer(),
                           if (showUserIcon)
                             SizedBox.fromSize(
@@ -73,8 +73,11 @@ class SettingsScaffold extends ConsumerWidget {
                           style: Theme.of(context).textTheme.headlineLarge),
                     ),
                   ),
-                SliverList(
-                  delegate: SliverChildListDelegate(items),
+                SliverPadding(
+                  padding: MediaQuery.paddingOf(context),
+                  sliver: SliverList(
+                    delegate: SliverChildListDelegate(items),
+                  ),
                 ),
                 if (bottomActions.isEmpty)
                   const SliverToBoxAdapter(child: SizedBox(height: kBottomNavigationBarHeight + 40)),

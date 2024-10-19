@@ -1,8 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
 
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+
+import 'package:collection/collection.dart';
 
 abstract class ItemAction {
   Widget toMenuItemButton();
@@ -67,7 +68,11 @@ class ItemActionButton extends ItemAction {
                     iconTheme: IconThemeData(color: Theme.of(context).colorScheme.onSurface),
                   ),
                   child: Row(
-                    children: [if (icon != null) icon!, const SizedBox(width: 8), if (label != null) Flexible(child: label!)],
+                    children: [
+                      if (icon != null) icon!,
+                      const SizedBox(width: 8),
+                      if (label != null) Flexible(child: label!)
+                    ],
                   ),
                 ),
               );
@@ -82,25 +87,38 @@ class ItemActionButton extends ItemAction {
   }
 
   @override
-  ListTile toListItem(BuildContext context, {bool useIcons = false, bool shouldPop = true}) {
-    return ListTile(
-      onTap: () {
+  Widget toListItem(BuildContext context, {bool useIcons = false, bool shouldPop = true}) {
+    return ElevatedButton(
+      style: ButtonStyle(
+        backgroundColor: const WidgetStatePropertyAll(Colors.transparent),
+        padding: const WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 12)),
+        minimumSize: const WidgetStatePropertyAll(Size(50, 50)),
+        elevation: const WidgetStatePropertyAll(0),
+        foregroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.onSurface),
+      ),
+      onPressed: () {
         if (shouldPop) {
           Navigator.of(context).pop();
         }
         action?.call();
       },
-      title: useIcons
-          ? Builder(builder: (context) {
-              return Theme(
-                data: ThemeData(
-                  iconTheme: IconThemeData(color: Theme.of(context).colorScheme.onSurface),
-                ),
-                child: Row(
-                  children: [if (icon != null) icon!, const SizedBox(width: 8), if (label != null) Flexible(child: label!)],
-                ),
-              );
-            })
+      child: useIcons
+          ? Builder(
+              builder: (context) {
+                return Theme(
+                  data: ThemeData(
+                    iconTheme: IconThemeData(color: Theme.of(context).colorScheme.onSurface),
+                  ),
+                  child: Row(
+                    children: [
+                      if (icon != null) icon!,
+                      const SizedBox(width: 8),
+                      if (label != null) Flexible(child: label!)
+                    ],
+                  ),
+                );
+              },
+            )
           : label,
     );
   }

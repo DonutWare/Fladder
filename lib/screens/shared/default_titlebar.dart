@@ -9,7 +9,7 @@ class DefaultTitleBar extends ConsumerStatefulWidget {
   final String? label;
   final double? height;
   final Brightness? brightness;
-  const DefaultTitleBar({this.height = 35, this.label, this.brightness, super.key});
+  const DefaultTitleBar({this.height = defaultTitleBarHeight, this.label, this.brightness, super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _DefaultTitleBarState();
@@ -161,7 +161,13 @@ class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> with WindowLi
               ),
             ],
           ),
-        TargetPlatform.macOS => null,
+        TargetPlatform.macOS => const Row(
+            children: [
+              Spacer(),
+              Text("Fladder"),
+              SizedBox(width: 16),
+            ],
+          ),
         _ => Text(widget.label ?? "Fladder"),
       },
     );
