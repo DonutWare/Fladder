@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SettingsLabelDivider extends ConsumerWidget {
@@ -8,11 +9,7 @@ class SettingsLabelDivider extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8).add(
-        EdgeInsets.symmetric(
-          horizontal: MediaQuery.paddingOf(context).horizontal,
-        ),
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Text(
         label,
         style: Theme.of(context).textTheme.titleMedium?.copyWith(

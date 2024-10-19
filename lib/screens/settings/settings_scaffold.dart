@@ -73,8 +73,11 @@ class SettingsScaffold extends ConsumerWidget {
                           style: Theme.of(context).textTheme.headlineLarge),
                     ),
                   ),
-                SliverList(
-                  delegate: SliverChildListDelegate(items),
+                SliverPadding(
+                  padding: MediaQuery.paddingOf(context),
+                  sliver: SliverList(
+                    delegate: SliverChildListDelegate(items),
+                  ),
                 ),
                 if (bottomActions.isEmpty)
                   const SliverToBoxAdapter(child: SizedBox(height: kBottomNavigationBarHeight + 40)),
