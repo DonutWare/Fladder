@@ -1,3 +1,7 @@
+import 'package:flutter/material.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:fladder/jellyfin/enum_models.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
@@ -5,8 +9,6 @@ import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/enum_selection.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 Future<void> showRefreshPopup(BuildContext context, String itemId, String itemName) async {
   return showDialog(
@@ -60,18 +62,22 @@ class _RefreshPopupDialogState extends ConsumerState<RefreshPopupDialog> {
                   ),
                 ),
               ),
+              const Divider(),
               const SizedBox(height: 16),
-              EnumBox(
-                current: refreshMode.label(context),
-                itemBuilder: (context) => MetadataRefresh.values
-                    .map((value) => PopupMenuItem(
-                          value: value,
-                          child: Text(value.label(context)),
-                          onTap: () => setState(() {
-                            refreshMode = value;
-                          }),
-                        ))
-                    .toList(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: EnumBox(
+                  current: refreshMode.label(context),
+                  itemBuilder: (context) => MetadataRefresh.values
+                      .map((value) => PopupMenuItem(
+                            value: value,
+                            child: Text(value.label(context)),
+                            onTap: () => setState(() {
+                              refreshMode = value;
+                            }),
+                          ))
+                      .toList(),
+                ),
               ),
               if (refreshMode != MetadataRefresh.defaultRefresh)
                 SettingsListTile(
@@ -87,7 +93,7 @@ class _RefreshPopupDialogState extends ConsumerState<RefreshPopupDialog> {
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
               ),
-              const SizedBox(height: 16),
+              const Divider(),
               Container(
                 color: Theme.of(context).colorScheme.surface,
                 child: Padding(
