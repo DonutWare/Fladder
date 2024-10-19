@@ -123,7 +123,8 @@ class _NavigationBodyState extends ConsumerState<NavigationBody> {
         Flexible(
           child: Padding(
             key: const Key('navigation_rail'),
-            padding: MediaQuery.paddingOf(context).copyWith(right: 0),
+            padding:
+                MediaQuery.paddingOf(context).copyWith(right: 0, top: AdaptiveLayout.of(context).isDesktop ? 8 : null),
             child: Column(
               children: [
                 IconButton(
