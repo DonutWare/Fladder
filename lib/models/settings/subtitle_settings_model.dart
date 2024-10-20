@@ -2,12 +2,13 @@
 import 'dart:convert';
 import 'dart:math' as math;
 
+import 'package:flutter/material.dart';
+
 import 'package:collection/collection.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:fladder/providers/settings/subtitle_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class SubtitleSettingsModel {
   final double fontSize;
@@ -79,7 +80,7 @@ class SubtitleSettingsModel {
       height: 1.4,
       fontSize: fontSize,
       fontWeight: fontWeight,
-      fontFamily: GoogleFonts.openSans().fontFamily,
+      fontFamily: 'OpenSans',
       letterSpacing: 0.0,
       wordSpacing: 0.0,
       color: color,

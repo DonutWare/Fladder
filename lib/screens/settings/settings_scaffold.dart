@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
@@ -74,7 +75,8 @@ class SettingsScaffold extends ConsumerWidget {
                     ),
                   ),
                 SliverPadding(
-                  padding: MediaQuery.paddingOf(context),
+                  padding: MediaQuery.paddingOf(context)
+                      .copyWith(top: AdaptiveLayout.of(context).isDesktop || kIsWeb ? 0 : null),
                   sliver: SliverList(
                     delegate: SliverChildListDelegate(items),
                   ),

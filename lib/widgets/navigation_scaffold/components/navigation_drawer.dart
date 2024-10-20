@@ -42,7 +42,7 @@ class NestedNavigationDrawer extends ConsumerWidget {
       surfaceTintColor: isExpanded ? Colors.transparent : null,
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(28, AdaptiveLayout.of(context).isDesktop ? 0 : 16, 16, 0),
+          padding: EdgeInsets.fromLTRB(28, AdaptiveLayout.of(context).isDesktop || kIsWeb ? 0 : 16, 16, 0),
           child: Row(
             children: [
               Expanded(
