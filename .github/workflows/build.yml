@@ -9,296 +9,296 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-android:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4.1.1
+  # build-android:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4.1.1
 
-      - name: Decode Keystore
-        env:
-          ENCODED_STRING: ${{ secrets.KEYSTORE_BASE_64 }}
-          RELEASE_KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
-          RELEASE_KEYSTORE_ALIAS: ${{ secrets.RELEASE_KEYSTORE_ALIAS }}
-          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
-          GITHUB_RUN_NUMBER: ${{ github.run_number }}
-        run: |
-          echo "$ENCODED_STRING" | base64 -d > android/app/keystore.jks
+  #     - name: Decode Keystore
+  #       env:
+  #         ENCODED_STRING: ${{ secrets.KEYSTORE_BASE_64 }}
+  #         RELEASE_KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
+  #         RELEASE_KEYSTORE_ALIAS: ${{ secrets.RELEASE_KEYSTORE_ALIAS }}
+  #         RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+  #         GITHUB_RUN_NUMBER: ${{ github.run_number }}
+  #       run: |
+  #         echo "$ENCODED_STRING" | base64 -d > android/app/keystore.jks
 
-          # Create the key.properties file
-          cat > android/app/key.properties <<EOF
-          storePassword=$RELEASE_KEYSTORE_PASSWORD
-          keyPassword=$RELEASE_KEY_PASSWORD
-          keyAlias=$RELEASE_KEYSTORE_ALIAS
-          EOF
+  #         # Create the key.properties file
+  #         cat > android/app/key.properties <<EOF
+  #         storePassword=$RELEASE_KEYSTORE_PASSWORD
+  #         keyPassword=$RELEASE_KEY_PASSWORD
+  #         keyAlias=$RELEASE_KEYSTORE_ALIAS
+  #         EOF
 
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: "zulu"
-          java-version: "17"
-          cache: "gradle"
-          check-latest: true
+  #     - name: Setup Java
+  #       uses: actions/setup-java@v4
+  #       with:
+  #         distribution: "zulu"
+  #         java-version: "17"
+  #         cache: "gradle"
+  #         check-latest: true
 
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2.16.0
-        with:
-          channel: ${{ vars.FLUTTER_CHANNEL }}
-          flutter-version: ${{ vars.FLUTTER_VERSION }}
-          cache: true
-          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
-          cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
+  #     - name: Set up Flutter
+  #       uses: subosito/flutter-action@v2.16.0
+  #       with:
+  #         channel: ${{ vars.FLUTTER_CHANNEL }}
+  #         flutter-version: ${{ vars.FLUTTER_VERSION }}
+  #         cache: true
+  #         cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
+  #         cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
 
-      - name: Get dependencies
-        run: flutter pub get
+  #     - name: Get dependencies
+  #       run: flutter pub get
 
-      - name: Build Android APK and AAB
-        run: |
-          APP_NAME=$(grep '^name:' pubspec.yaml | cut -d ':' -f2 | tr -d ' ')
-          VERSION_NAME=$(grep '^version:' pubspec.yaml | cut -d ':' -f2 | cut -d '+' -f1 | tr -d ' ')
-          echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
-          echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
+  #     - name: Build Android APK and AAB
+  #       run: |
+  #         APP_NAME=$(grep '^name:' pubspec.yaml | cut -d ':' -f2 | tr -d ' ')
+  #         VERSION_NAME=$(grep '^version:' pubspec.yaml | cut -d ':' -f2 | cut -d '+' -f1 | tr -d ' ')
+  #         echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
+  #         echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
 
-          # Build APK
-          flutter build apk --release \
-            --build-name=$VERSION_NAME \
-            --build-number=$GITHUB_RUN_NUMBER \
-            --flavor production
+  #         # Build APK
+  #         flutter build apk --release \
+  #           --build-name=$VERSION_NAME \
+  #           --build-number=$GITHUB_RUN_NUMBER \
+  #           --flavor production
 
-          # Build AAB
-          flutter build appbundle --release \
-            --build-name=$VERSION_NAME \
-            --build-number=$GITHUB_RUN_NUMBER \
-            --flavor production
+  #         # Build AAB
+  #         flutter build appbundle --release \
+  #           --build-name=$VERSION_NAME \
+  #           --build-number=$GITHUB_RUN_NUMBER \
+  #           --flavor production
 
-      - name: Rename APK and AAB
-        run: |
-          mkdir -p build/app/outputs/android_artifacts
-          mv build/app/outputs/flutter-apk/app-production-release.apk "build/app/outputs/android_artifacts/${{ env.APP_NAME }}-Android-${{ env.VERSION_NAME }}.apk"
-          mv build/app/outputs/bundle/productionRelease/app-production-release.aab "build/app/outputs/android_artifacts/${{ env.APP_NAME }}-Android-${{ env.VERSION_NAME }}.aab"
+  #     - name: Rename APK and AAB
+  #       run: |
+  #         mkdir -p build/app/outputs/android_artifacts
+  #         mv build/app/outputs/flutter-apk/app-production-release.apk "build/app/outputs/android_artifacts/${{ env.APP_NAME }}-Android-${{ env.VERSION_NAME }}.apk"
+  #         mv build/app/outputs/bundle/productionRelease/app-production-release.aab "build/app/outputs/android_artifacts/${{ env.APP_NAME }}-Android-${{ env.VERSION_NAME }}.aab"
 
-      - name: Archive Android artifacts
-        uses: actions/upload-artifact@v4.0.0
-        with:
-          name: ${{ env.APP_NAME }}-Android-${{ env.VERSION_NAME }}
-          path: build/app/outputs/android_artifacts/            
+  #     - name: Archive Android artifacts
+  #       uses: actions/upload-artifact@v4.0.0
+  #       with:
+  #         name: ${{ env.APP_NAME }}-Android-${{ env.VERSION_NAME }}
+  #         path: build/app/outputs/android_artifacts/            
 
-  build-windows:
-    #Use windows-2019, latest(2022) causes MSVCP140.dll related crashes
-    runs-on: windows-2019
+  # build-windows:
+  #   #Use windows-2019, latest(2022) causes MSVCP140.dll related crashes
+  #   runs-on: windows-2019
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4.1.1
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4.1.1
 
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2.16.0
-        with:
-          channel: ${{ vars.FLUTTER_CHANNEL }}
-          flutter-version: ${{ vars.FLUTTER_VERSION }}
-          cache: true
-          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache
-          cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
+  #     - name: Set up Flutter
+  #       uses: subosito/flutter-action@v2.16.0
+  #       with:
+  #         channel: ${{ vars.FLUTTER_CHANNEL }}
+  #         flutter-version: ${{ vars.FLUTTER_VERSION }}
+  #         cache: true
+  #         cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache
+  #         cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
 
-      - name: Get dependencies
-        run: flutter pub get
+  #     - name: Get dependencies
+  #       run: flutter pub get
 
-      - name: Build Windows EXE
-        run: |
-          $pubspec = Get-Content pubspec.yaml
-          $APP_NAME = ($pubspec | Select-String '^name:' | ForEach-Object { ($_ -split ':')[1].Trim() })
-          $VERSION_NAME = ($pubspec | Select-String '^version:' | ForEach-Object { ($_ -split ':')[1].Trim().Split('+')[0] })
+  #     - name: Build Windows EXE
+  #       run: |
+  #         $pubspec = Get-Content pubspec.yaml
+  #         $APP_NAME = ($pubspec | Select-String '^name:' | ForEach-Object { ($_ -split ':')[1].Trim() })
+  #         $VERSION_NAME = ($pubspec | Select-String '^version:' | ForEach-Object { ($_ -split ':')[1].Trim().Split('+')[0] })
 
-          echo "APP_NAME=$APP_NAME" >> $Env:GITHUB_ENV
-          echo "VERSION_NAME=$VERSION_NAME" >> $Env:GITHUB_ENV
+  #         echo "APP_NAME=$APP_NAME" >> $Env:GITHUB_ENV
+  #         echo "VERSION_NAME=$VERSION_NAME" >> $Env:GITHUB_ENV
 
-          flutter build windows --build-name=$VERSION_NAME --build-number=${{ github.run_number }}
+  #         flutter build windows --build-name=$VERSION_NAME --build-number=${{ github.run_number }}
 
-      - name: Archive Windows artifact
-        uses: actions/upload-artifact@v4.0.0
-        with:
-          name: ${{ env.APP_NAME }}-Windows-${{ env.VERSION_NAME }}
-          path: build\windows\x64\runner\Release\
+  #     - name: Archive Windows artifact
+  #       uses: actions/upload-artifact@v4.0.0
+  #       with:
+  #         name: ${{ env.APP_NAME }}-Windows-${{ env.VERSION_NAME }}
+  #         path: build\windows\x64\runner\Release\
 
-  build-ios:
-    runs-on: macos-latest
+  # build-ios:
+  #   runs-on: macos-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4.1.1
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4.1.1
 
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2.16.0
-        with:
-          channel: ${{ vars.FLUTTER_CHANNEL }}
-          flutter-version: ${{ vars.FLUTTER_VERSION }}
-          cache: true
-          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to specify the cache path
-          cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
+  #     - name: Set up Flutter
+  #       uses: subosito/flutter-action@v2.16.0
+  #       with:
+  #         channel: ${{ vars.FLUTTER_CHANNEL }}
+  #         flutter-version: ${{ vars.FLUTTER_VERSION }}
+  #         cache: true
+  #         cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to specify the cache path
+  #         cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
 
-      - name: Get dependencies
-        run: flutter pub get
+  #     - name: Get dependencies
+  #       run: flutter pub get
 
-      - name: Build iOS app
-        run: |
-          APP_NAME=$(grep '^name:' pubspec.yaml | cut -d ':' -f2 | tr -d ' ')
-          VERSION_NAME=$(grep '^version:' pubspec.yaml | cut -d ':' -f2 | cut -d '+' -f1 | tr -d ' ')
-          echo "PACKAGE_NAME=$APP_NAME-iOS-$VERSION_NAME" >> $GITHUB_ENV
+  #     - name: Build iOS app
+  #       run: |
+  #         APP_NAME=$(grep '^name:' pubspec.yaml | cut -d ':' -f2 | tr -d ' ')
+  #         VERSION_NAME=$(grep '^version:' pubspec.yaml | cut -d ':' -f2 | cut -d '+' -f1 | tr -d ' ')
+  #         echo "PACKAGE_NAME=$APP_NAME-iOS-$VERSION_NAME" >> $GITHUB_ENV
 
-          flutter build ipa --no-codesign --build-name=$VERSION_NAME --build-number=${{ github.run_number }}
+  #         flutter build ipa --no-codesign --build-name=$VERSION_NAME --build-number=${{ github.run_number }}
 
-      - name: Create unsigned IPA
-        run: |
-          cd build/ios/archive/Runner.xcarchive/Products/Applications/
-          mkdir Payload
-          mv Runner.app Payload/
-          zip -r ${{ env.PACKAGE_NAME }}.ipa Payload
+  #     - name: Create unsigned IPA
+  #       run: |
+  #         cd build/ios/archive/Runner.xcarchive/Products/Applications/
+  #         mkdir Payload
+  #         mv Runner.app Payload/
+  #         zip -r ${{ env.PACKAGE_NAME }}.ipa Payload
 
-      - name: Archive iOS IPA artifact
-        uses: actions/upload-artifact@v4.0.0
-        with:
-          name: ${{ env.PACKAGE_NAME }}
-          path: build/ios/archive/Runner.xcarchive/Products/Applications/${{ env.PACKAGE_NAME }}.ipa
+  #     - name: Archive iOS IPA artifact
+  #       uses: actions/upload-artifact@v4.0.0
+  #       with:
+  #         name: ${{ env.PACKAGE_NAME }}
+  #         path: build/ios/archive/Runner.xcarchive/Products/Applications/${{ env.PACKAGE_NAME }}.ipa
 
-  build-macos:
-    runs-on: macos-latest
+  # build-macos:
+  #   runs-on: macos-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4.1.1
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4.1.1
 
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2.16.0
-        with:
-          channel: ${{ vars.FLUTTER_CHANNEL }}
-          flutter-version: ${{ vars.FLUTTER_VERSION }}
-          cache: true
-          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache
-          cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
+  #     - name: Set up Flutter
+  #       uses: subosito/flutter-action@v2.16.0
+  #       with:
+  #         channel: ${{ vars.FLUTTER_CHANNEL }}
+  #         flutter-version: ${{ vars.FLUTTER_VERSION }}
+  #         cache: true
+  #         cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache
+  #         cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
 
-      - name: Get dependencies
-        run: flutter pub get
+  #     - name: Get dependencies
+  #       run: flutter pub get
 
-      - name: Build macOS app
-        run: |
-          APP_NAME=$(grep '^name:' pubspec.yaml | cut -d ':' -f2 | tr -d ' ')
-          VERSION_NAME=$(grep '^version:' pubspec.yaml | cut -d ':' -f2 | cut -d '+' -f1 | tr -d ' ')
-          echo "PACKAGE_NAME=$APP_NAME-macOS-$VERSION_NAME" >> $GITHUB_ENV
+  #     - name: Build macOS app
+  #       run: |
+  #         APP_NAME=$(grep '^name:' pubspec.yaml | cut -d ':' -f2 | tr -d ' ')
+  #         VERSION_NAME=$(grep '^version:' pubspec.yaml | cut -d ':' -f2 | cut -d '+' -f1 | tr -d ' ')
+  #         echo "PACKAGE_NAME=$APP_NAME-macOS-$VERSION_NAME" >> $GITHUB_ENV
 
-          flutter build macos --build-name=$VERSION_NAME --build-number=${{ github.run_number }}
+  #         flutter build macos --build-name=$VERSION_NAME --build-number=${{ github.run_number }}
 
-      - name: Create DMG file
-        run: |
-          hdiutil create -format UDZO -srcfolder build/macos/Build/Products/Release/fladder.app build/macos/Build/Products/Release/${{ env.PACKAGE_NAME }}.dmg
+  #     - name: Create DMG file
+  #       run: |
+  #         hdiutil create -format UDZO -srcfolder build/macos/Build/Products/Release/fladder.app build/macos/Build/Products/Release/${{ env.PACKAGE_NAME }}.dmg
 
-      - name: Archive macOS artifact
-        uses: actions/upload-artifact@v4.0.0
-        with:
-          name: ${{ env.PACKAGE_NAME }}
-          path: build/macos/Build/Products/Release/${{ env.PACKAGE_NAME }}.dmg
+  #     - name: Archive macOS artifact
+  #       uses: actions/upload-artifact@v4.0.0
+  #       with:
+  #         name: ${{ env.PACKAGE_NAME }}
+  #         path: build/macos/Build/Products/Release/${{ env.PACKAGE_NAME }}.dmg
 
-  build-linux:
-    runs-on: ubuntu-latest
+  # build-linux:
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4.1.1
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4.1.1
 
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2.16.0
-        with:
-          channel: ${{ vars.FLUTTER_CHANNEL }}
-          flutter-version: ${{ vars.FLUTTER_VERSION }}
-          cache: true
-          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache
-          cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
+  #     - name: Set up Flutter
+  #       uses: subosito/flutter-action@v2.16.0
+  #       with:
+  #         channel: ${{ vars.FLUTTER_CHANNEL }}
+  #         flutter-version: ${{ vars.FLUTTER_VERSION }}
+  #         cache: true
+  #         cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache
+  #         cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
 
-      - name: Get dependencies
-        run: flutter pub get
+  #     - name: Get dependencies
+  #       run: flutter pub get
 
-      - name: Get packages
-        run: |
-          sudo apt-get update -y
-          sudo apt-get install -y ninja-build libgtk-3-dev libmpv-dev patchelf
-      - name: Build Linux app
-        run: |
-          APP_NAME=$(grep '^name:' pubspec.yaml | cut -d ':' -f2 | tr -d ' ')
-          VERSION_NAME=$(grep '^version:' pubspec.yaml | cut -d ':' -f2 | cut -d '+' -f1 | tr -d ' ')
-          echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
-          echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
+  #     - name: Get packages
+  #       run: |
+  #         sudo apt-get update -y
+  #         sudo apt-get install -y ninja-build libgtk-3-dev libmpv-dev patchelf
+  #     - name: Build Linux app
+  #       run: |
+  #         APP_NAME=$(grep '^name:' pubspec.yaml | cut -d ':' -f2 | tr -d ' ')
+  #         VERSION_NAME=$(grep '^version:' pubspec.yaml | cut -d ':' -f2 | cut -d '+' -f1 | tr -d ' ')
+  #         echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
+  #         echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
 
-          # Build APK
-          flutter build linux --release \
-            --build-name=$VERSION_NAME \
-            --build-number=${{ github.run_number }}
+  #         # Build APK
+  #         flutter build linux --release \
+  #           --build-name=$VERSION_NAME \
+  #           --build-number=${{ github.run_number }}
 
-      - name: Fix RPATH
-        run: |
-          for lib in "build/linux/x64/release/bundle/lib"/*.so; do
-            [[ -f "$lib" && -n "$(patchelf --print-rpath "$lib")" ]] && \
-            patchelf --set-rpath '$ORIGIN' "$lib"
-          done
-          patchelf --set-rpath '$ORIGIN/lib' "build/linux/x64/release/bundle/Fladder"
+  #     - name: Fix RPATH
+  #       run: |
+  #         for lib in "build/linux/x64/release/bundle/lib"/*.so; do
+  #           [[ -f "$lib" && -n "$(patchelf --print-rpath "$lib")" ]] && \
+  #           patchelf --set-rpath '$ORIGIN' "$lib"
+  #         done
+  #         patchelf --set-rpath '$ORIGIN/lib' "build/linux/x64/release/bundle/Fladder"
 
-      - name: Archive Linux artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.APP_NAME }}-Linux-${{ env.VERSION_NAME }}
-          path: build/linux/x64/release/bundle
+  #     - name: Archive Linux artifact
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: ${{ env.APP_NAME }}-Linux-${{ env.VERSION_NAME }}
+  #         path: build/linux/x64/release/bundle
 
-  build-web:
-    runs-on: ubuntu-latest
+  # build-web:
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4.1.1
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4.1.1
 
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2.16.0
-        with:
-          channel: ${{ vars.FLUTTER_CHANNEL }}
-          flutter-version: ${{ vars.FLUTTER_VERSION }}
-          cache: true
-          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache
-          cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
+  #     - name: Set up Flutter
+  #       uses: subosito/flutter-action@v2.16.0
+  #       with:
+  #         channel: ${{ vars.FLUTTER_CHANNEL }}
+  #         flutter-version: ${{ vars.FLUTTER_VERSION }}
+  #         cache: true
+  #         cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache
+  #         cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
 
-      - name: Get dependencies
-        run: flutter pub get
+  #     - name: Get dependencies
+  #       run: flutter pub get
 
-      - name: Build web app
-        run: |
-          APP_NAME=$(grep '^name:' pubspec.yaml | cut -d ':' -f2 | tr -d ' ')
-          VERSION_NAME=$(grep '^version:' pubspec.yaml | cut -d ':' -f2 | cut -d '+' -f1 | tr -d ' ')
-          echo "PACKAGE_NAME=$APP_NAME-Web-$VERSION_NAME" >> $GITHUB_ENV
+  #     - name: Build web app
+  #       run: |
+  #         APP_NAME=$(grep '^name:' pubspec.yaml | cut -d ':' -f2 | tr -d ' ')
+  #         VERSION_NAME=$(grep '^version:' pubspec.yaml | cut -d ':' -f2 | cut -d '+' -f1 | tr -d ' ')
+  #         echo "PACKAGE_NAME=$APP_NAME-Web-$VERSION_NAME" >> $GITHUB_ENV
 
-          flutter build web --release --build-number=$GITHUB_RUN_NUMBER
+  #         flutter build web --release --build-number=$GITHUB_RUN_NUMBER
 
-      - name: Archive web artifact
-        uses: actions/upload-artifact@v4.0.0
-        with:
-          name: ${{ env.PACKAGE_NAME }}
-          path: build/web
+  #     - name: Archive web artifact
+  #       uses: actions/upload-artifact@v4.0.0
+  #       with:
+  #         name: ${{ env.PACKAGE_NAME }}
+  #         path: build/web
 
-      - name: Deploy to ghcr.io
-        if: startsWith(github.ref, 'refs/tags/v')
-        uses: mr-smithers-excellent/docker-build-push@v6
-        with:
-          image: fladder
-          addLatest: true
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+  #     - name: Deploy to ghcr.io
+  #       if: startsWith(github.ref, 'refs/tags/v')
+  #       uses: mr-smithers-excellent/docker-build-push@v6
+  #       with:
+  #         image: fladder
+  #         addLatest: true
+  #         registry: ghcr.io
+  #         username: ${{ github.actor }}
+  #         password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build Github pages web
-        if: startsWith(github.ref, 'refs/tags/v')        
-        run: flutter build web --base-href /${{ github.event.repository.name }}/ --release --build-number=$GITHUB_RUN_NUMBER
+  #     - name: Build Github pages web
+  #       if: startsWith(github.ref, 'refs/tags/v')        
+  #       run: flutter build web --base-href /${{ github.event.repository.name }}/ --release --build-number=$GITHUB_RUN_NUMBER
 
-      - name: Deploy to GitHub Pages
-        if: startsWith(github.ref, 'refs/tags/v')        
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }} # Automatically provided by GitHub Actions
-          publish_dir: ./build/web
+  #     - name: Deploy to GitHub Pages
+  #       if: startsWith(github.ref, 'refs/tags/v')        
+  #       uses: peaceiris/actions-gh-pages@v4
+  #       with:
+  #         github_token: ${{ secrets.GITHUB_TOKEN }} # Automatically provided by GitHub Actions
+  #         publish_dir: ./build/web
 
   build-appimage:
     runs-on: ubuntu-latest
