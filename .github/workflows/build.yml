@@ -342,9 +342,10 @@ jobs:
             patchelf --set-rpath '$ORIGIN' "$lib"
           done
           patchelf --set-rpath '$ORIGIN/lib' "build/linux/x64/release/bundle/Fladder"
-      - name: Copy binary to root
+      - name: Copy binary and icon to root
         run: |
           cp -R build/linux/x64/release/bundle AppDir
+          cp icons/production/fladder_icon.png AppDir/fladder_icon.png
       - name: Build AppImage
         uses: AppImageCrafters/build-appimage-action@master
         env:
