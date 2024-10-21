@@ -1,0 +1,50 @@
+# appimage-builder recipe see https://appimage-builder.readthedocs.io for details
+version: 1
+AppDir:
+  path: /home/bailey/Fladder/AppDir
+  app_info:
+    id: nl.jknaapen.fladder
+    name: Fladder
+    icon: application-vnd.appimage
+    version: latest
+    exec: Fladder
+    exec_args: $@
+  apt:
+    arch:
+    - amd64
+    allow_unauthenticated: true
+    sources:
+    - sourceline: deb http://ftp.au.debian.org/debian/ bookworm main non-free-firmware
+    - sourceline: deb http://security.debian.org/debian-security bookworm-security
+        main non-free-firmware
+    - sourceline: deb http://ftp.au.debian.org/debian/ bookworm-updates main non-free-firmware
+    include:
+    - libc6:amd64
+    - mpv:amd64
+  files:
+    include: []
+    exclude:
+    - usr/share/man
+    - usr/share/doc/*/README.*
+    - usr/share/doc/*/changelog.*
+    - usr/share/doc/*/NEWS.*
+    - usr/share/doc/*/TODO.*
+  test:
+    fedora-30:
+      image: appimagecrafters/tests-env:fedora-30
+      command: ./AppRun
+    debian-stable:
+      image: appimagecrafters/tests-env:debian-stable
+      command: ./AppRun
+    archlinux-latest:
+      image: appimagecrafters/tests-env:archlinux-latest
+      command: ./AppRun
+    centos-7:
+      image: appimagecrafters/tests-env:centos-7
+      command: ./AppRun
+    ubuntu-xenial:
+      image: appimagecrafters/tests-env:ubuntu-xenial
+      command: ./AppRun
+AppImage:
+  arch: x86_64
+  update-information: guess
