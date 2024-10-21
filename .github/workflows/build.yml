@@ -240,7 +240,18 @@ jobs:
             patchelf --set-rpath '$ORIGIN' "$lib"
           done
           patchelf --set-rpath '$ORIGIN/lib' "build/linux/x64/release/bundle/Fladder"
-          
+
+      - name: Create AppImage
+        run:
+          # Download and install appimage-builder
+          wget -O appimage-builder-x86_64.AppImage https://github.com/AppImageCrafters/appimage-builder/releases/download/v1.1.0/appimage-builder-1.1.0-x86_64.AppImage
+          chmod +x appimage-builder-x86_64.AppImage
+          mv appimage-builder-x86_64.AppImage /usr/local/bin/appimage-builder
+          # Copy binary to temp AppDir
+          cp -R build/linux/x64/release/bundle build/AppImage
+          # Generate AppImage
+          appimage-builder --recipe appimage-recipe.yml --appdir build/AppImage
+
       - name: Archive Linux artifact
         uses: actions/upload-artifact@v4
         with:
