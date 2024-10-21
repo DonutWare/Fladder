@@ -7,6 +7,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:fladder/models/settings/client_settings_model.dart';
 import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/home_settings_provider.dart';
@@ -181,6 +182,28 @@ class _ClientSettingsPageState extends ConsumerState<ClientSettingsPage> {
                       onTap: () => ref
                           .read(homeSettingsProvider.notifier)
                           .update((context) => context.copyWith(carouselSettings: entry)),
+                    ),
+                  )
+                  .toList(),
+            ),
+          ),
+          SettingsListTile(
+            label: Text(context.localized.settingsHomeBannerTitle),
+            subLabel: Text(context.localized.settingsHomeBannerDescription),
+            trailing: EnumBox(
+              current: ref.watch(
+                clientSettingsProvider.select(
+                  (value) => value.homeBanner.label(context),
+                ),
+              ),
+              itemBuilder: (context) => HomeBanner.values
+                  .map(
+                    (entry) => PopupMenuItem(
+                      value: entry,
+                      child: Text(entry.label(context)),
+                      onTap: () => ref
+                          .read(clientSettingsProvider.notifier)
+                          .update((context) => context.copyWith(homeBanner: entry)),
                     ),
                   )
                   .toList(),

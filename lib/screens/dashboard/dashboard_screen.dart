@@ -16,7 +16,7 @@ import 'package:fladder/providers/settings/home_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/views_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
-import 'package:fladder/screens/shared/media/carousel_banner.dart';
+import 'package:fladder/screens/dashboard/top_posters_row.dart';
 import 'package:fladder/screens/shared/media/poster_row.dart';
 import 'package:fladder/screens/shared/nested_scaffold.dart';
 import 'package:fladder/screens/shared/nested_sliver_appbar.dart';
@@ -104,20 +104,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   SliverToBoxAdapter(
                     child: Transform.translate(
                       offset: Offset(0, AdaptiveLayout.layoutOf(context) == LayoutState.phone ? -14 : 0),
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                            minHeight: AdaptiveLayout.of(context).isDesktop ? 350 : 275,
-                            maxHeight: (MediaQuery.sizeOf(context).height * 0.25).clamp(400, double.infinity)),
-                        child: AspectRatio(
-                          aspectRatio: 1.6,
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            child: CarouselBanner(
-                              items: homeCarouselItems,
-                            ),
-                          ),
-                        ),
-                      ),
+                      child: TopPostersRow(posters: homeCarouselItems),
                     ),
                   ),
                 } else if (AdaptiveLayout.of(context).isDesktop)

@@ -27,6 +27,7 @@ mixin _$ClientSettingsModel {
   Duration? get nextUpDateCutoff => throw _privateConstructorUsedError;
   ThemeMode get themeMode => throw _privateConstructorUsedError;
   ColorThemes? get themeColor => throw _privateConstructorUsedError;
+  HomeBanner get homeBanner => throw _privateConstructorUsedError;
   bool get amoledBlack => throw _privateConstructorUsedError;
   bool get blurPlaceHolders => throw _privateConstructorUsedError;
   bool get blurUpcomingEpisodes => throw _privateConstructorUsedError;
@@ -38,8 +39,12 @@ mixin _$ClientSettingsModel {
   bool get mouseDragSupport => throw _privateConstructorUsedError;
   int? get libraryPageSize => throw _privateConstructorUsedError;
 
+  /// Serializes this ClientSettingsModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ClientSettingsModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ClientSettingsModelCopyWith<ClientSettingsModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -58,6 +63,7 @@ abstract class $ClientSettingsModelCopyWith<$Res> {
       Duration? nextUpDateCutoff,
       ThemeMode themeMode,
       ColorThemes? themeColor,
+      HomeBanner homeBanner,
       bool amoledBlack,
       bool blurPlaceHolders,
       bool blurUpcomingEpisodes,
@@ -79,6 +85,8 @@ class _$ClientSettingsModelCopyWithImpl<$Res, $Val extends ClientSettingsModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ClientSettingsModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -89,6 +97,7 @@ class _$ClientSettingsModelCopyWithImpl<$Res, $Val extends ClientSettingsModel>
     Object? nextUpDateCutoff = freezed,
     Object? themeMode = null,
     Object? themeColor = freezed,
+    Object? homeBanner = null,
     Object? amoledBlack = null,
     Object? blurPlaceHolders = null,
     Object? blurUpcomingEpisodes = null,
@@ -128,6 +137,10 @@ class _$ClientSettingsModelCopyWithImpl<$Res, $Val extends ClientSettingsModel>
           ? _value.themeColor
           : themeColor // ignore: cast_nullable_to_non_nullable
               as ColorThemes?,
+      homeBanner: null == homeBanner
+          ? _value.homeBanner
+          : homeBanner // ignore: cast_nullable_to_non_nullable
+              as HomeBanner,
       amoledBlack: null == amoledBlack
           ? _value.amoledBlack
           : amoledBlack // ignore: cast_nullable_to_non_nullable
@@ -184,6 +197,7 @@ abstract class _$$ClientSettingsModelImplCopyWith<$Res>
       Duration? nextUpDateCutoff,
       ThemeMode themeMode,
       ColorThemes? themeColor,
+      HomeBanner homeBanner,
       bool amoledBlack,
       bool blurPlaceHolders,
       bool blurUpcomingEpisodes,
@@ -203,6 +217,8 @@ class __$$ClientSettingsModelImplCopyWithImpl<$Res>
       $Res Function(_$ClientSettingsModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ClientSettingsModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -213,6 +229,7 @@ class __$$ClientSettingsModelImplCopyWithImpl<$Res>
     Object? nextUpDateCutoff = freezed,
     Object? themeMode = null,
     Object? themeColor = freezed,
+    Object? homeBanner = null,
     Object? amoledBlack = null,
     Object? blurPlaceHolders = null,
     Object? blurUpcomingEpisodes = null,
@@ -252,6 +269,10 @@ class __$$ClientSettingsModelImplCopyWithImpl<$Res>
           ? _value.themeColor
           : themeColor // ignore: cast_nullable_to_non_nullable
               as ColorThemes?,
+      homeBanner: null == homeBanner
+          ? _value.homeBanner
+          : homeBanner // ignore: cast_nullable_to_non_nullable
+              as HomeBanner,
       amoledBlack: null == amoledBlack
           ? _value.amoledBlack
           : amoledBlack // ignore: cast_nullable_to_non_nullable
@@ -304,6 +325,7 @@ class _$ClientSettingsModelImpl extends _ClientSettingsModel
       this.nextUpDateCutoff,
       this.themeMode = ThemeMode.system,
       this.themeColor,
+      this.homeBanner = HomeBanner.carousel,
       this.amoledBlack = false,
       this.blurPlaceHolders = false,
       this.blurUpcomingEpisodes = false,
@@ -338,6 +360,9 @@ class _$ClientSettingsModelImpl extends _ClientSettingsModel
   final ColorThemes? themeColor;
   @override
   @JsonKey()
+  final HomeBanner homeBanner;
+  @override
+  @JsonKey()
   final bool amoledBlack;
   @override
   @JsonKey()
@@ -365,7 +390,7 @@ class _$ClientSettingsModelImpl extends _ClientSettingsModel
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ClientSettingsModel(syncPath: $syncPath, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, themeMode: $themeMode, themeColor: $themeColor, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, libraryPageSize: $libraryPageSize)';
+    return 'ClientSettingsModel(syncPath: $syncPath, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, themeMode: $themeMode, themeColor: $themeColor, homeBanner: $homeBanner, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, libraryPageSize: $libraryPageSize)';
   }
 
   @override
@@ -380,6 +405,7 @@ class _$ClientSettingsModelImpl extends _ClientSettingsModel
       ..add(DiagnosticsProperty('nextUpDateCutoff', nextUpDateCutoff))
       ..add(DiagnosticsProperty('themeMode', themeMode))
       ..add(DiagnosticsProperty('themeColor', themeColor))
+      ..add(DiagnosticsProperty('homeBanner', homeBanner))
       ..add(DiagnosticsProperty('amoledBlack', amoledBlack))
       ..add(DiagnosticsProperty('blurPlaceHolders', blurPlaceHolders))
       ..add(DiagnosticsProperty('blurUpcomingEpisodes', blurUpcomingEpisodes))
@@ -408,6 +434,8 @@ class _$ClientSettingsModelImpl extends _ClientSettingsModel
                 other.themeMode == themeMode) &&
             (identical(other.themeColor, themeColor) ||
                 other.themeColor == themeColor) &&
+            (identical(other.homeBanner, homeBanner) ||
+                other.homeBanner == homeBanner) &&
             (identical(other.amoledBlack, amoledBlack) ||
                 other.amoledBlack == amoledBlack) &&
             (identical(other.blurPlaceHolders, blurPlaceHolders) ||
@@ -428,7 +456,7 @@ class _$ClientSettingsModelImpl extends _ClientSettingsModel
                 other.libraryPageSize == libraryPageSize));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -439,6 +467,7 @@ class _$ClientSettingsModelImpl extends _ClientSettingsModel
       nextUpDateCutoff,
       themeMode,
       themeColor,
+      homeBanner,
       amoledBlack,
       blurPlaceHolders,
       blurUpcomingEpisodes,
@@ -449,7 +478,9 @@ class _$ClientSettingsModelImpl extends _ClientSettingsModel
       mouseDragSupport,
       libraryPageSize);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ClientSettingsModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ClientSettingsModelImplCopyWith<_$ClientSettingsModelImpl> get copyWith =>
@@ -473,6 +504,7 @@ abstract class _ClientSettingsModel extends ClientSettingsModel {
       final Duration? nextUpDateCutoff,
       final ThemeMode themeMode,
       final ColorThemes? themeColor,
+      final HomeBanner homeBanner,
       final bool amoledBlack,
       final bool blurPlaceHolders,
       final bool blurUpcomingEpisodes,
@@ -502,6 +534,8 @@ abstract class _ClientSettingsModel extends ClientSettingsModel {
   @override
   ColorThemes? get themeColor;
   @override
+  HomeBanner get homeBanner;
+  @override
   bool get amoledBlack;
   @override
   bool get blurPlaceHolders;
@@ -520,8 +554,11 @@ abstract class _ClientSettingsModel extends ClientSettingsModel {
   bool get mouseDragSupport;
   @override
   int? get libraryPageSize;
+
+  /// Create a copy of ClientSettingsModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ClientSettingsModelImplCopyWith<_$ClientSettingsModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
