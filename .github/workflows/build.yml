@@ -345,7 +345,7 @@ jobs:
       - name: Copy binary and icon to root
         run: |
           cp -R build/linux/x64/release/bundle AppDir
-          cp icons/production/fladder_icon.png AppDir/fladder_icon.png
+          cp icons/production/fladder_icon.png /github/workspace/AppDir/usr/share/icons/fladder_icon.png
       - name: Build AppImage
         uses: AppImageCrafters/build-appimage-action@master
         env:

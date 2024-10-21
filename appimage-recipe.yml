@@ -5,7 +5,7 @@ AppDir:
   app_info:
     id: nl.jknaapen.fladder
     name: Fladder
-    icon: fladder_icon.png
+    icon: fladder_icon
     version: latest
     exec: Fladder
     exec_args: $@
