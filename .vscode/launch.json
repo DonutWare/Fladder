@@ -5,51 +5,62 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "fladder",
+			"name": "Fladder Development (debug)",
 			"request": "launch",
 			"type": "dart",
 			"args": [
-				"--web-port",
-				"8096"
-			],
+				"--flavor",
+				"development"
+			]
 		},
 		{
-			"name": "fladder (profile mode)",
+			"name": "Fladder Production (debug)",
+			"request": "launch",
+			"type": "dart",
+			"args": [
+				"--flavor",
+				"production"
+			]
+		},
+		{
+			"name": "Fladder Development (profile mode)",
 			"request": "launch",
 			"type": "dart",
 			"flutterMode": "profile",
 			"args": [
-				"--web-port",
-				"9090"
-			],
+				"--flavor",
+				"development"
+			]
 		},
 		{
-			"name": "fladder (release mode)",
+			"name": "Fladder Production (profile mode)",
+			"request": "launch",
+			"type": "dart",
+			"flutterMode": "profile",
+			"args": [
+				"--flavor",
+				"production"
+			]
+		},
+		{
+			"name": "Fladder Development (release mode)",
 			"request": "launch",
 			"type": "dart",
 			"flutterMode": "release",
 			"args": [
-				"--web-port",
-				"9090"
-			],
+				"--flavor",
+				"development"
+			]
 		},
 		{
-			"name": "Android",
+			"name": "Fladder Production (release mode)",
 			"request": "launch",
 			"type": "dart",
-		},
-		{
-			"name": "iPhone",
-			"request": "launch",
-			"type": "dart",
-			"deviceId": "iphone"
-		},
-		{
-			"name": "Windows",
-			"request": "launch",
-			"type": "dart",
-			"flutterMode": "debug",
-			"deviceId": "windows"
+			"flutterMode": "release",
+			"args": [
+				"--flavor",
+				"production"
+			]
 		},
 		{
 			"name": "Web",
@@ -72,20 +83,5 @@
 				"9090"
 			],
 		},
-		{
-			"name": "AndroidTV",
-			"request": "launch",
-			"program": "lib/android_tv/main.dart",
-			"type": "dart",
-		},
 	],
-	"compounds": [
-		{
-			"name": "All Devices",
-			"configurations": [
-				"Windows",
-				"Android"
-			],
-		}
-	]
 }

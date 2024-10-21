@@ -1,7 +1,9 @@
-import 'package:dynamic_color/dynamic_color.dart';
-import 'package:fladder/util/custom_color_themes.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
+import 'package:dynamic_color/dynamic_color.dart';
+
+import 'package:fladder/theme/fonts.dart';
+import 'package:fladder/util/custom_color_themes.dart';
 
 ColorScheme? generateDynamicColourSchemes(ColorScheme? theme) {
   if (theme == null) return null;
@@ -34,7 +36,7 @@ class FladderTheme {
   static ThemeData theme(ColorScheme? colorScheme) {
     final ColorScheme? scheme = generateDynamicColourSchemes(colorScheme);
 
-    final textTheme = GoogleFonts.rubikTextTheme(
+    final textTheme = FladderFonts.rubikTextTheme(
       const TextTheme(),
     );
     return ThemeData(

@@ -75,10 +75,15 @@
 			"command": "dart",
 			"args": [
 				"run",
-				"icons_launcher:create"
+				"icons_launcher:create",
+				"--flavors",
+				"development,production"
 			],
-			"label": "dart: generate launcher icons",
-			"detail": ""
+			"label": "dart: generate icons_launcher",
+			"detail": "",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
 		}
 	],
 }

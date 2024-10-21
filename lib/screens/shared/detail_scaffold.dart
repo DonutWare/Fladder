@@ -140,85 +140,87 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
             //Top row buttons
             IconTheme(
               data: IconThemeData(color: Theme.of(context).colorScheme.onSurface),
-              child: Transform.translate(
-                offset: const Offset(0, kToolbarHeight),
+              child: Padding(
+                padding: MediaQuery.paddingOf(context).add(
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                ),
                 child: Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16),
-                      child: IconButton.filledTonal(
-                        style: IconButton.styleFrom(
-                          backgroundColor: backGroundColor,
-                        ),
-                        onPressed: () => context.router.popBack(),
-                        icon: Padding(
-                          padding:
-                              EdgeInsets.all(AdaptiveLayout.of(context).inputDevice == InputDevice.pointer ? 0 : 4),
-                          child: const Icon(IconsaxOutline.arrow_left_2),
-                        ),
+                    IconButton.filledTonal(
+                      style: IconButton.styleFrom(
+                        backgroundColor: backGroundColor,
+                      ),
+                      onPressed: () => context.router.popBack(),
+                      icon: Padding(
+                        padding: EdgeInsets.all(AdaptiveLayout.of(context).inputDevice == InputDevice.pointer ? 0 : 4),
+                        child: const Icon(IconsaxOutline.arrow_left_2),
                       ),
                     ),
                     const Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 16),
-                      child: AnimatedSize(
-                        duration: const Duration(milliseconds: 250),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: backGroundColor, borderRadius: FladderTheme.defaultShape.borderRadius),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              if (widget.item != null) ...[
-                                Builder(
-                                  builder: (context) {
-                                    final newActions = widget.actions?.call(context);
-                                    if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer) {
-                                      return PopupMenuButton(
-                                        tooltip: context.localized.moreOptions,
-                                        enabled: newActions?.isNotEmpty == true,
-                                        icon: Icon(widget.item!.type.icon),
-                                        itemBuilder: (context) => newActions?.popupMenuItems(useIcons: true) ?? [],
-                                      );
-                                    } else {
-                                      return IconButton(
-                                        onPressed: () => showBottomSheetPill(
-                                          context: context,
-                                          content: (context, scrollController) => ListView(
-                                            controller: scrollController,
-                                            shrinkWrap: true,
-                                            children: newActions?.listTileItems(context, useIcons: true) ?? [],
-                                          ),
+                    AnimatedSize(
+                      duration: const Duration(milliseconds: 250),
+                      child: Container(
+                        decoration:
+                            BoxDecoration(color: backGroundColor, borderRadius: FladderTheme.defaultShape.borderRadius),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if (widget.item != null) ...[
+                              Builder(
+                                builder: (context) {
+                                  final newActions = widget.actions?.call(context);
+                                  if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer) {
+                                    return PopupMenuButton(
+                                      tooltip: context.localized.moreOptions,
+                                      enabled: newActions?.isNotEmpty == true,
+                                      icon: Icon(widget.item!.type.icon),
+                                      itemBuilder: (context) => newActions?.popupMenuItems(useIcons: true) ?? [],
+                                    );
+                                  } else {
+                                    return IconButton(
+                                      onPressed: () => showBottomSheetPill(
+                                        context: context,
+                                        content: (context, scrollController) => ListView(
+                                          controller: scrollController,
+                                          shrinkWrap: true,
+                                          children: newActions?.listTileItems(context, useIcons: true) ?? [],
                                         ),
-                                        icon: Icon(
-                                          widget.item!.type.icon,
-                                        ),
-                                      );
-                                    }
-                                  },
-                                ),
-                              ],
-                              if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer)
-                                Builder(
-                                  builder: (context) => Tooltip(
-                                    message: context.localized.refresh,
-                                    child: IconButton(
-                                      onPressed: () => context.refreshData(),
-                                      icon: const Icon(IconsaxOutline.refresh),
-                                    ),
-                                  ),
-                                ),
-                              if (AdaptiveLayout.of(context).size == ScreenLayout.single)
-                                const SizedBox(height: 30, width: 30, child: SettingsUserIcon()),
-                              Tooltip(
-                                message: context.localized.home,
-                                child: IconButton(
-                                  onPressed: () => context.router.navigate(const DashboardRoute()),
-                                  icon: const Icon(IconsaxOutline.home),
-                                ),
+                                      ),
+                                      icon: Icon(
+                                        widget.item!.type.icon,
+                                      ),
+                                    );
+                                  }
+                                },
                               ),
                             ],
-                          ),
+                            if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer)
+                              Builder(
+                                builder: (context) => Tooltip(
+                                  message: context.localized.refresh,
+                                  child: IconButton(
+                                    onPressed: () => context.refreshData(),
+                                    icon: const Icon(IconsaxOutline.refresh),
+                                  ),
+                                ),
+                              ),
+                            if (AdaptiveLayout.of(context).size == ScreenLayout.single)
+                              Container(
+                                margin: const EdgeInsets.symmetric(horizontal: 6),
+                                child: const SizedBox(
+                                  height: 30,
+                                  width: 30,
+                                  child: SettingsUserIcon(),
+                                ),
+                              ),
+                            Tooltip(
+                              message: context.localized.home,
+                              child: IconButton(
+                                onPressed: () => context.router.navigate(const DashboardRoute()),
+                                icon: const Icon(IconsaxOutline.home),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),

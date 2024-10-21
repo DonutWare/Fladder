@@ -1,11 +1,15 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+
 import 'package:ficonsax/ficonsax.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:fladder/models/credentials_model.dart';
 import 'package:fladder/providers/discovery_provider.dart';
+import 'package:fladder/util/fladder_config.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/theme_extensions.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class DiscoverServersWidget extends ConsumerWidget {
   final List<CredentialsModel> serverCredentials;
@@ -18,6 +22,7 @@ class DiscoverServersWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    if (FladderConfig.baseUrl?.isNotEmpty == true) return const SizedBox.shrink();
     final existingServers = serverCredentials
         .map(
           (credentials) => DiscoveryInfo(
@@ -54,51 +59,53 @@ class DiscoverServersWidget extends ConsumerWidget {
               )
               .toList()
               .addInBetween(const SizedBox(height: 4)),
-          const Divider(),
         ],
-        Row(
-          children: [
-            Text(
-              context.localized.discovered,
-              style: context.textTheme.bodyLarge,
-            ),
-            const Spacer(),
-            const Opacity(opacity: 0.65, child: Icon(IconsaxBold.airdrop, size: 16)),
-          ],
-        ),
-        const SizedBox(height: 4),
-        discoverdServersStream.when(
-          data: (data) {
-            final servers = data.where((discoverdServer) => !existingServers.contains(discoverdServer));
-            return servers.isNotEmpty
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ...servers.map(
-                        (serverInfo) => _ServerInfoCard(
-                          server: serverInfo,
-                          onPressed: onPressed,
-                        ),
-                      )
-                    ].toList().addInBetween(const SizedBox(height: 4)),
-                  )
-                : Center(
-                    child: Opacity(
-                    opacity: 0.65,
-                    child: Text(
-                      context.localized.noServersFound,
-                      style: context.textTheme.bodyLarge,
-                    ),
-                  ));
-          },
-          error: (error, stackTrace) => Text(context.localized.error),
-          loading: () => const Center(
-            child: SizedBox.square(
-              dimension: 24.0,
-              child: CircularProgressIndicator.adaptive(strokeCap: StrokeCap.round),
+        if (!kIsWeb) ...[
+          const Divider(),
+          Row(
+            children: [
+              Text(
+                context.localized.discovered,
+                style: context.textTheme.bodyLarge,
+              ),
+              const Spacer(),
+              const Opacity(opacity: 0.65, child: Icon(IconsaxBold.airdrop, size: 16)),
+            ],
+          ),
+          const SizedBox(height: 4),
+          discoverdServersStream.when(
+            data: (data) {
+              final servers = data.where((discoverdServer) => !existingServers.contains(discoverdServer));
+              return servers.isNotEmpty
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ...servers.map(
+                          (serverInfo) => _ServerInfoCard(
+                            server: serverInfo,
+                            onPressed: onPressed,
+                          ),
+                        )
+                      ].toList().addInBetween(const SizedBox(height: 4)),
+                    )
+                  : Center(
+                      child: Opacity(
+                      opacity: 0.65,
+                      child: Text(
+                        context.localized.noServersFound,
+                        style: context.textTheme.bodyLarge,
+                      ),
+                    ));
+            },
+            error: (error, stackTrace) => Text(context.localized.error),
+            loading: () => const Center(
+              child: SizedBox.square(
+                dimension: 24.0,
+                child: CircularProgressIndicator.adaptive(strokeCap: StrokeCap.round),
+              ),
             ),
           ),
-        ),
+        ],
         const SizedBox(height: 32),
       ],
     );

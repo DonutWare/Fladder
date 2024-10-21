@@ -1,5 +1,5 @@
 {
-	"name": "PartyDonut's Repository",
+	"name": "DonutWare Repository",
 	"subtitle": "A source for Fladder and co.",
 	"iconURL": "https://avatars.githubusercontent.com/u/42371342",
 	"tintColor": "#3A2101",
@@ -7,7 +7,7 @@
 	  {
 	    "name": "Fladder",
 	    "bundleIdentifier": "nl.jknaapen.fladder",
-	    "developerName": "PartyDonut",
+	    "developerName": "DonutWare",
 	    "localizedDescription": "A Simple Jellyfin Frontend built on top of Flutter.",
 	    "iconURL": "https://github.com/DonutWare/Fladder/raw/develop/icons/fladder_macos_icon.png?raw=true",
 	    "category": "entertainment",

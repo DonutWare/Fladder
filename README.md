@@ -1,7 +1,7 @@
 
 <h1 align="center">
   <br>
-    <a href="https://github.com/DonutWare/Fladder"><img src="https://github.com/DonutWare/Fladder/blob/develop/icons/fladder_macos_icon.png?raw=true" alt="Fladder" width="200"></a>
+    <a href="https://github.com/DonutWare/Fladder"><img src="https://raw.githubusercontent.com/DonutWare/Fladder/refs/heads/develop/icons/production/fladder_macos_icon.png" alt="Fladder" width="200"></a>
   <br>
   Fladder
   <br>
@@ -19,11 +19,16 @@
   <a href="#license">License</a>
 </p>
 
-<p align="center">
-  <a href="https://github.com/DonutWare/Fladder/actions/workflows/build.yml"><img src="https://github.com/DonutWare/Fladder/actions/workflows/build.yml/badge.svg?branch=develop" alt="Build" /></a>
-  <a href="https://github.com/DonutWare/Fladder/releases/latest"> <img alt="GitHub Downloads (all assets, all releases)" src="https://img.shields.io/github/downloads/DonutWare/fladder/total"></a>
-  <a href="https://github.com/DonutWare/Fladder/releases/latest"> <img alt="GitHub Release" src="https://img.shields.io/github/v/release/DonutWare/fladder?display_name=tag"></a>   
-</p>
+<div align="center">
+  
+  [![Build](https://github.com/DonutWare/Fladder/actions/workflows/build.yml/badge.svg?branch=develop)](https://github.com/DonutWare/Fladder/actions/workflows/build.yml)
+  [![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/DonutWare/fladder/total)](https://github.com/DonutWare/Fladder/releases/latest)
+  [![GitHub Release](https://img.shields.io/github/v/release/DonutWare/fladder?display_name=tag)](https://github.com/DonutWare/Fladder/releases/latest)
+  [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
+  
+</div>
+
+
 
 ## Key Features
 
@@ -81,11 +86,11 @@ The latest release executeables for Windows, MacOS, iOS, Android and Web can be 
 The Android app is currently in testing you can help testing by joining this group https://groups.google.com/g/fladder
 
 <a href='https://play.google.com/store/apps/details?id=nl.jknaapen.fladder&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width=250/></a>
-
+<!-- 
 ### AltStore
 The iOS app can be installed through AltStore by adding this repo
 
-<a href='https://shorturl.at/Pj7Z7'><img alt='Get it on AltStore' src='https://camo.githubusercontent.com/d09e24361b730206b40f7c3a5950a17ba3341e67c533e27c155ddb34f0440b44/68747470733a2f2f692e696d6775722e636f6d2f343671684541762e706e67' width=250/></a>
+<a href='https://shorturl.at/Pj7Z7'><img alt='Get it on AltStore' src='https://camo.githubusercontent.com/d09e24361b730206b40f7c3a5950a17ba3341e67c533e27c155ddb34f0440b44/68747470733a2f2f692e696d6775722e636f6d2f343671684541762e706e67' width=250/></a> -->
 
 ## How to Contribute
 Interest in contributing? Here are a couple of ways you can help:
@@ -99,6 +104,11 @@ Interest in contributing? Here are a couple of ways you can help:
 - **Pull requests are always welcome!** 
 - For new features or large changes, please open a discussion or issue first to ensure that no one else is already working on it.
 - **Keep pull requests short and focused**: try to avoid fixing multiple issues in a single pull request. This helps make the review process smoother and quicker.
+
+### 🌐 Translations 
+<a href="https://hosted.weblate.org/engage/fladder/">
+<img src="https://hosted.weblate.org/widget/fladder/fladder/multi-auto.svg" alt="Translation status" />
+</a>
 
 Thank you for helping to make this project better! 🙌
 

@@ -121,6 +121,8 @@ class AdaptiveLayout extends InheritedWidget {
   }
 }
 
+const defaultTitleBarHeight = 35.0;
+
 class AdaptiveLayoutBuilder extends ConsumerStatefulWidget {
   final List<LayoutPoints> layoutPoints;
   final LayoutState fallBack;
@@ -182,20 +184,26 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    return AdaptiveLayout(
-      layout: layout,
-      controller: controller,
-      size: size,
-      inputDevice: (isDesktop || kIsWeb) ? InputDevice.pointer : InputDevice.touch,
-      platform: currentPlatform,
-      isDesktop: isDesktop,
-      router: router,
-      posterDefaults: switch (layout) {
-        LayoutState.phone => const PosterDefaults(size: 300, ratio: 0.55),
-        LayoutState.tablet => const PosterDefaults(size: 350, ratio: 0.55),
-        LayoutState.desktop => const PosterDefaults(size: 400, ratio: 0.55),
-      },
-      child: widget.child,
+    return MediaQuery(
+      data: MediaQuery.of(context).copyWith(
+        padding: isDesktop || kIsWeb ? const EdgeInsets.only(top: defaultTitleBarHeight, bottom: 16) : null,
+        viewPadding: isDesktop || kIsWeb ? const EdgeInsets.only(top: defaultTitleBarHeight, bottom: 16) : null,
+      ),
+      child: AdaptiveLayout(
+        layout: layout,
+        controller: controller,
+        size: size,
+        inputDevice: (isDesktop || kIsWeb) ? InputDevice.pointer : InputDevice.touch,
+        platform: currentPlatform,
+        isDesktop: isDesktop,
+        router: router,
+        posterDefaults: switch (layout) {
+          LayoutState.phone => const PosterDefaults(size: 300, ratio: 0.55),
+          LayoutState.tablet => const PosterDefaults(size: 350, ratio: 0.55),
+          LayoutState.desktop => const PosterDefaults(size: 400, ratio: 0.55),
+        },
+        child: widget.child,
+      ),
     );
   }
 }

@@ -111,76 +111,79 @@ class _NavigationBodyState extends ConsumerState<NavigationBody> {
   }
 
   Widget navigationRail(BuildContext context) {
-    return Padding(
-      key: const Key('navigation_rail'),
-      padding: AdaptiveLayout.of(context).isDesktop ? EdgeInsets.zero : MediaQuery.of(context).padding,
-      child: Column(
-        children: [
-          if (AdaptiveLayout.of(context).isDesktop && AdaptiveLayout.of(context).platform != TargetPlatform.macOS) ...{
-            const SizedBox(height: 4),
-            Text(
-              "Fladder",
-              style: Theme.of(context).textTheme.titleSmall,
-            ),
-          },
-          if (AdaptiveLayout.of(context).platform == TargetPlatform.macOS)
-            const SizedBox(height: 32)
-          else
-            const SizedBox(height: 16),
-          IconButton(
-            onPressed: () {
-              if (AdaptiveLayout.layoutOf(context) != LayoutState.desktop) {
-                widget.drawerKey.currentState?.openDrawer();
-              } else {
-                setState(() {
-                  expandedSideBar = true;
-                });
-              }
-            },
-            icon: const Icon(IconsaxBold.menu),
+    return Column(
+      children: [
+        if (AdaptiveLayout.of(context).isDesktop && AdaptiveLayout.of(context).platform != TargetPlatform.macOS) ...{
+          const SizedBox(height: 4),
+          Text(
+            "Fladder",
+            style: Theme.of(context).textTheme.titleSmall,
           ),
-          if (AdaptiveLayout.of(context).size == ScreenLayout.dual) ...[
-            const SizedBox(height: 8),
-            AnimatedFadeSize(
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 250),
-                transitionBuilder: (Widget child, Animation<double> animation) {
-                  return ScaleTransition(scale: animation, child: child);
-                },
-                child: actionButton()?.normal,
-              ),
-            ),
-          ],
-          const Spacer(),
-          IconTheme(
-            data: const IconThemeData(size: 28),
+        },
+        Flexible(
+          child: Padding(
+            key: const Key('navigation_rail'),
+            padding:
+                MediaQuery.paddingOf(context).copyWith(right: 0, top: AdaptiveLayout.of(context).isDesktop ? 8 : null),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                ...widget.destinations.mapIndexed(
-                  (index, destination) => destination.toNavigationButton(widget.currentIndex == index, false),
-                )
+                IconButton(
+                  onPressed: () {
+                    if (AdaptiveLayout.layoutOf(context) != LayoutState.desktop) {
+                      widget.drawerKey.currentState?.openDrawer();
+                    } else {
+                      setState(() {
+                        expandedSideBar = true;
+                      });
+                    }
+                  },
+                  icon: const Icon(IconsaxBold.menu),
+                ),
+                if (AdaptiveLayout.of(context).size == ScreenLayout.dual) ...[
+                  const SizedBox(height: 8),
+                  AnimatedFadeSize(
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 250),
+                      transitionBuilder: (Widget child, Animation<double> animation) {
+                        return ScaleTransition(scale: animation, child: child);
+                      },
+                      child: actionButton()?.normal,
+                    ),
+                  ),
+                ],
+                const Spacer(),
+                IconTheme(
+                  data: const IconThemeData(size: 28),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ...widget.destinations.mapIndexed(
+                        (index, destination) => destination.toNavigationButton(widget.currentIndex == index, false),
+                      )
+                    ],
+                  ),
+                ),
+                const Spacer(),
+                SizedBox(
+                  height: 48,
+                  child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 250),
+                      child: widget.currentLocation.contains(const SettingsRoute().routeName)
+                          ? Card(
+                              color: Theme.of(context).colorScheme.primaryContainer,
+                              child: const Padding(
+                                padding: EdgeInsets.all(10),
+                                child: Icon(IconsaxBold.setting_3),
+                              ),
+                            )
+                          : const SettingsUserIcon()),
+                ),
+                if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer) const SizedBox(height: 16),
               ],
             ),
           ),
-          const Spacer(),
-          SizedBox(
-            height: 48,
-            child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 250),
-                child: widget.currentLocation.contains(const SettingsRoute().routeName)
-                    ? Card(
-                        color: Theme.of(context).colorScheme.primaryContainer,
-                        child: const Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Icon(IconsaxBold.setting_3),
-                        ),
-                      )
-                    : const SettingsUserIcon()),
-          ),
-          if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer) const SizedBox(height: 16),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

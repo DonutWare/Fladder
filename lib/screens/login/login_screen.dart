@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
@@ -55,6 +54,11 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
       addingNewUser = true;
       editingUsers = false;
     });
+    if (FladderConfig.baseUrl != null) {
+      serverTextController.text = FladderConfig.baseUrl!;
+      _parseUrl(FladderConfig.baseUrl!);
+      retrieveListOfUsers();
+    }
   }
 
   @override
@@ -224,7 +228,6 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
   Future<Null> Function()? get enterCredentialsTryLogin => emptyFields()
       ? null
       : () async {
-          log('try login');
           serverTextController.text = serverTextController.text.rtrim('/');
           ref.read(authProvider.notifier).setServer(serverTextController.text.rtrim('/'));
           final response = await ref.read(authProvider.notifier).authenticateByName(
@@ -296,6 +299,7 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
                   onSubmitted: (value) => retrieveListOfUsers(),
                   autoFillHints: const [AutofillHints.url],
                   keyboardType: TextInputType.url,
+                  autocorrect: false,
                   textInputAction: TextInputAction.go,
                   label: context.localized.server,
                   errorText: (invalidUrl == null || serverTextController.text.isEmpty || !startCheckingForErrors)
@@ -347,6 +351,7 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
                             controller: usernameController,
                             autoFillHints: const [AutofillHints.username],
                             textInputAction: TextInputAction.next,
+                            autocorrect: false,
                             onChanged: (value) => setState(() {}),
                             label: context.localized.userName,
                           ),
@@ -355,6 +360,7 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
                             autoFillHints: const [AutofillHints.password],
                             keyboardType: TextInputType.visiblePassword,
                             focusNode: focusNode,
+                            autocorrect: false,
                             textInputAction: TextInputAction.send,
                             onSubmitted: (value) => enterCredentialsTryLogin?.call(),
                             onChanged: (value) => setState(() {}),

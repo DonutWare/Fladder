@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 
@@ -73,9 +72,7 @@ void main() async {
   if (kIsWeb) {
     html.document.onContextMenu.listen((event) => event.preventDefault());
     final result = await loadConfig();
-    log(result.toString());
     FladderConfig.fromJson(result);
-    log(FladderConfig.baseUrl.toString());
   }
 
   final sharedPreferences = await SharedPreferences.getInstance();

@@ -63,26 +63,25 @@ jobs:
           flutter build apk --release \
             --build-name=$VERSION_NAME \
             --build-number=$GITHUB_RUN_NUMBER \
-            --dart-define=FLAVOR=release
+            --flavor production
 
           # Build AAB
           flutter build appbundle --release \
             --build-name=$VERSION_NAME \
             --build-number=$GITHUB_RUN_NUMBER \
-            --dart-define=FLAVOR=release
+            --flavor production
 
       - name: Rename APK and AAB
         run: |
-          mv build/app/outputs/flutter-apk/app-release.apk "build/app/outputs/flutter-apk/${{ env.APP_NAME }}-${{ env.VERSION_NAME }}-signed.apk"
-          mv build/app/outputs/bundle/release/app-release.aab "build/app/outputs/bundle/release/${{ env.APP_NAME }}-${{ env.VERSION_NAME }}-signed.aab"
+          mkdir -p build/app/outputs/android_artifacts
+          mv build/app/outputs/flutter-apk/app-production-release.apk "build/app/outputs/android_artifacts/${{ env.APP_NAME }}-Android-${{ env.VERSION_NAME }}.apk"
+          mv build/app/outputs/bundle/productionRelease/app-production-release.aab "build/app/outputs/android_artifacts/${{ env.APP_NAME }}-Android-${{ env.VERSION_NAME }}.aab"
 
       - name: Archive Android artifacts
         uses: actions/upload-artifact@v4.0.0
         with:
           name: ${{ env.APP_NAME }}-Android-${{ env.VERSION_NAME }}
-          path: |
-            build/app/outputs/flutter-apk/${{ env.APP_NAME }}-${{ env.VERSION_NAME }}-signed.apk
-            build/app/outputs/bundle/release/${{ env.APP_NAME }}-${{ env.VERSION_NAME }}-signed.aab
+          path: build/app/outputs/android_artifacts/            
 
   build-windows:
     #Use windows-2019, latest(2022) causes MSVCP140.dll related crashes
@@ -220,7 +219,7 @@ jobs:
       - name: Get packages
         run: |
           sudo apt-get update -y
-          sudo apt-get install -y ninja-build libgtk-3-dev libmpv-dev
+          sudo apt-get install -y ninja-build libgtk-3-dev libmpv-dev patchelf
 
       - name: Build Linux app
         run: |
@@ -234,6 +233,14 @@ jobs:
             --build-name=$VERSION_NAME \
             --build-number=${{ github.run_number }}
 
+      - name: Fix RPATH
+        run: |
+          for lib in "build/linux/x64/release/bundle/lib"/*.so; do
+            [[ -f "$lib" && -n "$(patchelf --print-rpath "$lib")" ]] && \
+            patchelf --set-rpath '$ORIGIN' "$lib"
+          done
+          patchelf --set-rpath '$ORIGIN/lib' "build/linux/x64/release/bundle/Fladder"
+          
       - name: Archive Linux artifact
         uses: actions/upload-artifact@v4
         with:
@@ -274,6 +281,7 @@ jobs:
           path: build/web
 
       - name: Deploy to ghcr.io
+        if: startsWith(github.ref, 'refs/tags/v')
         uses: mr-smithers-excellent/docker-build-push@v6
         with:
           image: fladder
@@ -283,9 +291,11 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build Github pages web
+        if: startsWith(github.ref, 'refs/tags/v')        
         run: flutter build web --base-href /${{ github.event.repository.name }}/ --release --build-number=$GITHUB_RUN_NUMBER
 
       - name: Deploy to GitHub Pages
+        if: startsWith(github.ref, 'refs/tags/v')        
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }} # Automatically provided by GitHub Actions

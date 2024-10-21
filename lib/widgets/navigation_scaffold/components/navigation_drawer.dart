@@ -41,9 +41,8 @@ class NestedNavigationDrawer extends ConsumerWidget {
       backgroundColor: isExpanded ? Colors.transparent : null,
       surfaceTintColor: isExpanded ? Colors.transparent : null,
       children: [
-        if (AdaptiveLayout.of(context).isDesktop || kIsWeb) const SizedBox(height: 16),
         Padding(
-          padding: const EdgeInsets.fromLTRB(28, 16, 16, 0),
+          padding: EdgeInsets.fromLTRB(28, AdaptiveLayout.of(context).isDesktop || kIsWeb ? 0 : 16, 16, 0),
           child: Row(
             children: [
               Expanded(

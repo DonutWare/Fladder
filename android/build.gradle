@@ -7,6 +7,10 @@ allprojects {
 
 rootProject.buildDir = '../build'
 
+buildscript {
+    ext.kotlin_version = '1.8.0'
+}
+
 //[Fixes AAPT: error: resource android:attr/lStar not found]
 subprojects {
     afterEvaluate { project ->

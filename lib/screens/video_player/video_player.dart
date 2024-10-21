@@ -1,14 +1,15 @@
 import 'dart:async';
 
-import 'package:fladder/models/media_playback_model.dart';
-import 'package:fladder/providers/settings/video_player_settings_provider.dart';
-import 'package:fladder/screens/video_player/video_player_controls.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:media_kit_video/media_kit_video.dart';
 
+import 'package:fladder/models/media_playback_model.dart';
+import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
+import 'package:fladder/screens/video_player/video_player_controls.dart';
 import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/themes_data.dart';
 
@@ -28,7 +29,7 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     //Don't pause on desktop focus loss
-    if (!AdaptiveLayout.of(context).isDesktop) {
+    if (!(AdaptiveLayout.of(context).isDesktop || kIsWeb)) {
       switch (state) {
         case AppLifecycleState.resumed:
           if (playing) ref.read(videoPlayerProvider).play();
@@ -62,14 +63,11 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
 
   @override
   Widget build(BuildContext context) {
-    final playerProvider = ref.watch(videoPlayerProvider);
-    ref.listen(videoPlayerSettingsProvider.select((value) => value.volume), (previous, next) {
-      playerProvider.setVolume(next);
-    });
-    final videoPlayerSettings = ref.watch(videoPlayerSettingsProvider);
+    final fillScreen = ref.watch(videoPlayerSettingsProvider.select((value) => value.fillScreen));
+    final videoFit = ref.watch(videoPlayerSettingsProvider.select((value) => value.videoFit));
     final padding = MediaQuery.of(context).padding;
 
-    final playerController = playerProvider.controller;
+    final playerController = ref.watch(videoPlayerProvider.select((value) => value.controller));
 
     return Material(
       color: Colors.black,
@@ -95,20 +93,16 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
                 children: [
                   if (playerController != null)
                     Padding(
-                      padding: videoPlayerSettings.fillScreen
-                          ? EdgeInsets.zero
-                          : EdgeInsets.only(left: padding.left, right: padding.right),
+                      padding: fillScreen ? EdgeInsets.zero : EdgeInsets.only(left: padding.left, right: padding.right),
                       child: OrientationBuilder(builder: (context, orientation) {
                         return Video(
-                          key: Key("$videoPlayerSettings|$orientation"),
+                          key: Key(orientation.toString()),
                           controller: playerController,
                           fill: Colors.transparent,
                           wakelock: true,
-                          fit: videoPlayerSettings.fillScreen
-                              ? (MediaQuery.of(context).orientation == Orientation.portrait
-                                  ? videoPlayerSettings.videoFit
-                                  : BoxFit.cover)
-                              : videoPlayerSettings.videoFit,
+                          fit: fillScreen
+                              ? (MediaQuery.of(context).orientation == Orientation.portrait ? videoFit : BoxFit.cover)
+                              : videoFit,
                           subtitleViewConfiguration: const SubtitleViewConfiguration(visible: false),
                           controls: NoVideoControls,
                         );

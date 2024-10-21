@@ -68,12 +68,24 @@ android {
 
     buildTypes {
 		release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
 			signingConfig signingConfigs.release
 		}
-		debug{
-			applicationIdSuffix = ".debug"
-		}
     }	
+
+    flavorDimensions "default"
+    productFlavors {        
+        development {
+            dimension "default"
+            applicationIdSuffix ".dev"
+        }
+        production {
+            dimension "default"
+            applicationIdSuffix ""
+        }
+    }
 }
 
 flutter {
