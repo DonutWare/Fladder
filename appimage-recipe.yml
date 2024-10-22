@@ -3,6 +3,7 @@ version: 1
 script:
   # Ensure that the mksquashfs tool is installed (workaround for the AppImageCrafters/build-appimage GHA)
   - which mksquashfs || apt install squashfs-tools
+  - apt install libjson-glib-dev
 AppDir:
 
   path: /home/bailey/Fladder/AppDir
