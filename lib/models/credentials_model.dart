@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:xid/xid.dart';
 
 import 'package:fladder/util/application_info.dart';
-import 'package:xid/xid.dart';
 
 class CredentialsModel {
   final String token;
@@ -27,9 +27,8 @@ class CredentialsModel {
     final application = ref.read(applicationInfoProvider);
     final headers = {
       'content-type': 'application/json',
-      'x-emby-token': token,
-      'x-emby-authorization':
-          'MediaBrowser Client="${application.name}", Device="${application.os}", DeviceId="$deviceId", Version="${application.version}"'
+      'authorization':
+          'MediaBrowser Token="$token", Client="${application.name}", Device="${application.os}", DeviceId="$deviceId", Version="${application.version}"'
     };
     return headers;
   }
