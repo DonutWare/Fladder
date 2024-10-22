@@ -1,6 +1,10 @@
 # appimage-builder recipe see https://appimage-builder.readthedocs.io for details
 version: 1
+script:
+  # Ensure that the mksquashfs tool is installed (workaround for the AppImageCrafters/build-appimage GHA)
+  - which mksquashfs || apt install squashfs-tools
 AppDir:
+
   path: /home/bailey/Fladder/AppDir
   app_info:
     id: nl.jknaapen.fladder
