@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
@@ -45,7 +44,7 @@ class SettingsScaffold extends ConsumerWidget {
                     leading: context.router.backButton(),
                     flexibleSpace: FlexibleSpaceBar(
                       titlePadding: const EdgeInsets.symmetric(horizontal: 16)
-                          .add(EdgeInsets.only(left: padding.left, right: padding.right)),
+                          .add(EdgeInsets.only(left: padding.left, right: padding.right, bottom: 4)),
                       title: Row(
                         children: [
                           Text(label, style: Theme.of(context).textTheme.headlineLarge),
@@ -75,8 +74,7 @@ class SettingsScaffold extends ConsumerWidget {
                     ),
                   ),
                 SliverPadding(
-                  padding: MediaQuery.paddingOf(context)
-                      .copyWith(top: AdaptiveLayout.of(context).isDesktop || kIsWeb ? 0 : null),
+                  padding: MediaQuery.paddingOf(context).copyWith(top: AdaptiveLayout.of(context).isDesktop ? 0 : 8),
                   sliver: SliverList(
                     delegate: SliverChildListDelegate(items),
                   ),
