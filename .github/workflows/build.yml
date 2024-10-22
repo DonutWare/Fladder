@@ -356,5 +356,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: AppImage
-          path: *.AppImage
+          path: |
+            *.AppImage
 
