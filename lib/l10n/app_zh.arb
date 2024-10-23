@@ -1,6 +1,7 @@
 {
   "@@locale": "zh",
   "nativeName": "简体中文",
+  "@nativeName": {},
   "about": "关于",
   "@about": {},
   "accept": "接受",
@@ -932,7 +933,5 @@
         "example": "1"
       }
     }
-  },
-  "nativeName": "简体中文",
-  "@nativeName": {}
+  }
 }
