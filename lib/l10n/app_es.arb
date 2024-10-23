@@ -330,7 +330,7 @@
       }
     }
   },
-  "logoutUserPopupTitle": "¿Cerrar sesión {userName}?",
+  "logoutUserPopupTitle": "¿Cerrar sesión de {userName}?",
   "@logoutUserPopupTitle": {
     "description": "Pop-up para cerrar sesión del usuario",
     "placeholders": {
@@ -801,7 +801,7 @@
   "@switchUser": {},
   "sync": "Sincronizar",
   "@sync": {},
-  "syncDeleteItemDesc": "¿Eliminar todos los datos sincronizados de?\n{item}",
+  "syncDeleteItemDesc": "¿Eliminar todos los datos sincronizados para {item}?",
   "@syncDeleteItemDesc": {
     "description": "Ventana emergente de eliminación de elemento sincronizado",
     "placeholders": {
@@ -880,7 +880,7 @@
   "@unPlayed": {},
   "unableToConnectHost": "No se puede conectar al host",
   "@unableToConnectHost": {},
-  "unableToReverseAction": "Esta acción no se puede deshacer. Eliminará todos los ajustes.",
+  "unableToReverseAction": "Esta acción no se puede revertir. Eliminará todo los ajustes.",
   "@unableToReverseAction": {},
   "unknown": "Desconocido",
   "@unknown": {},
@@ -933,5 +933,13 @@
         "example": "1"
       }
     }
-  }
+  },
+  "homeBannerBanner": "Banner",
+  "@homeBannerBanner": {},
+  "homeBannerCarousel": "Carrusel",
+  "@homeBannerCarousel": {},
+  "settingsHomeBannerDescription": "Cambiar entre banner y carrusel con desplazamiento",
+  "@settingsHomeBannerDescription": {},
+  "settingsHomeBannerTitle": "Banner de inicio",
+  "@settingsHomeBannerTitle": {}
 }
