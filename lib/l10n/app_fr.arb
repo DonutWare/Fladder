@@ -1,6 +1,7 @@
 {
   "@@locale": "fr",
   "nativeName": "Français",
+  "@nativeName": {},
   "about": "À propos",
   "@about": {},
   "accept": "Accepter",
@@ -932,7 +933,5 @@
         "example": "1"
       }
     }
-  },
-  "nativeName": "Français",
-  "@nativeName": {}
+  }
 }
