@@ -801,7 +801,7 @@
   "@switchUser": {},
   "sync": "Synchroniseren",
   "@sync": {},
-  "syncDeleteItemDesc": "Alle gesynchroniseerde gegevens verwijderen voor?\n{item}",
+  "syncDeleteItemDesc": "Alle gesynchroniseerde gegevens verwijderen voor {item}?",
   "@syncDeleteItemDesc": {
     "description": "Pop-upvenster voor synchronisatie van te verwijderen item",
     "placeholders": {
@@ -936,7 +936,7 @@
   },
   "settingsHomeBannerDescription": "Wisselen tussen een banner of een scrollbare carrousel",
   "@settingsHomeBannerDescription": {},
-  "homeBannerBanner": "Banier",
+  "homeBannerBanner": "Banner",
   "@homeBannerBanner": {},
   "homeBannerCarousel": "Carrousel",
   "@homeBannerCarousel": {},
