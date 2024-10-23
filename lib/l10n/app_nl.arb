@@ -1,6 +1,7 @@
 {
   "@@locale": "nl",
   "nativeName": "Nederlands",
+  "@nativeName": {},
   "about": "Over",
   "@about": {},
   "accept": "Accepteren",
@@ -212,7 +213,7 @@
   "@favorite": {},
   "favorites": "Favorieten",
   "@favorites": {},
-  "fetchingLibrary": "Bibliotheek items ophalen",
+  "fetchingLibrary": "Bibliotheek items ophalen…",
   "@fetchingLibrary": {},
   "filter": "{count, plural, other{Filters} one{Filter}}",
   "@filter": {
@@ -262,7 +263,7 @@
   "@identify": {},
   "immediately": "Direct",
   "@immediately": {},
-  "incorrectPinTryAgain": "Onjuiste pin, probeer opnieuw",
+  "incorrectPinTryAgain": "Onjuiste pin, probeer opnieuw.",
   "@incorrectPinTryAgain": {},
   "info": "Info",
   "@info": {},
@@ -446,7 +447,7 @@
   "@notPartOfAlbum": {},
   "openParent": "Bovenliggende map openen",
   "@openParent": {},
-  "openShow": "Open show",
+  "openShow": "Serie openen",
   "@openShow": {},
   "openWebLink": "Weblink openen",
   "@openWebLink": {},
@@ -623,7 +624,7 @@
       }
     }
   },
-  "scanningName": "Scannen - {name}",
+  "scanningName": "Scannen - {name}…",
   "@scanningName": {
     "placeholders": {
       "name": {
@@ -770,7 +771,7 @@
   "@shuffleVideos": {},
   "somethingWentWrong": "Er is iets misgegaan",
   "@somethingWentWrong": {},
-  "somethingWentWrongPasswordCheck": "Er is iets misgegaan, controleer uw wachtwoord",
+  "somethingWentWrongPasswordCheck": "Er is iets misgegaan, controleer je wachtwoord.",
   "@somethingWentWrongPasswordCheck": {},
   "sortBy": "Sorteer op",
   "@sortBy": {},
@@ -865,7 +866,7 @@
       }
     }
   },
-  "type": "{count, plural, other{Types} one{Type}}",
+  "type": "{count, plural, other{Soorten} one{Soort}}",
   "@type": {
     "description": "type",
     "placeholders": {
@@ -933,6 +934,12 @@
       }
     }
   },
-  "nativeName": "Nederlands",
-  "@nativeName": {}
+  "settingsHomeBannerDescription": "Wisselen tussen een banner of een scrollbare carrousel",
+  "@settingsHomeBannerDescription": {},
+  "homeBannerBanner": "Banier",
+  "@homeBannerBanner": {},
+  "homeBannerCarousel": "Carrousel",
+  "@homeBannerCarousel": {},
+  "settingsHomeBannerTitle": "Start banner",
+  "@settingsHomeBannerTitle": {}
 }
