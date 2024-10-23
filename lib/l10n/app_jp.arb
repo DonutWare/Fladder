@@ -1,6 +1,7 @@
 {
   "@@locale": "ja",
   "nativeName": "日本語 (にほんご)",
+  "@nativeName": {},
   "about": "情報",
   "@about": {},
   "accept": "承認",
@@ -932,7 +933,5 @@
         "example": "1"
       }
     }
-  },
-  "nativeName": "日本語 (にほんご)",
-  "@nativeName": {}
+  }
 }
