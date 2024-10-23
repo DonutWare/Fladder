@@ -1,6 +1,7 @@
 {
   "@@locale": "es",
   "nativeName": "Español",
+  "@nativeName": {},
   "about": "Acerca de",
   "@about": {},
   "accept": "Aceptar",
@@ -932,7 +933,5 @@
         "example": "1"
       }
     }
-  },
-  "nativeName": "Español",
-  "@nativeName": {}
+  }
 }
