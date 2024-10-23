@@ -6,7 +6,7 @@
 
 <!-- Please describe the problem that is being fixed and, if applicable, reference a GitHub issue -->
 
-Issue Number: N/A
+Resolves #issue-number
 
 ## Screenshots / Recordings
 
