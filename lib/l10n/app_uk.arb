@@ -940,5 +940,13 @@
   "viewPhotos": "Переглянути фото",
   "@viewPhotos": {},
   "nativeName": "Українська",
-  "@nativeName": {}
+  "@nativeName": {},
+  "homeBannerBanner": "Банер",
+  "@homeBannerBanner": {},
+  "homeBannerCarousel": "Карусель",
+  "@homeBannerCarousel": {},
+  "settingsHomeBannerDescription": "Перемикання між банером та каруселлю з прокруткою",
+  "@settingsHomeBannerDescription": {},
+  "settingsHomeBannerTitle": "Банер на головній сторінці",
+  "@settingsHomeBannerTitle": {}
 }
