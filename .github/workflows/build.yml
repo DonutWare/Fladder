@@ -145,7 +145,7 @@ jobs:
           VERSION_NAME=$(grep '^version:' pubspec.yaml | cut -d ':' -f2 | cut -d '+' -f1 | tr -d ' ')
           echo "PACKAGE_NAME=$APP_NAME-iOS-$VERSION_NAME" >> $GITHUB_ENV
 
-          flutter build ipa --no-codesign --build-name=$VERSION_NAME --build-number=${{ github.run_number }}
+          flutter build ipa --no-codesign --flavor production --build-name=$VERSION_NAME --build-number=${{ github.run_number }} 
 
       - name: Create unsigned IPA
         run: |
