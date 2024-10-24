@@ -941,5 +941,9 @@
   "homeBannerCarousel": "Carrousel",
   "@homeBannerCarousel": {},
   "settingsHomeBannerTitle": "Start banner",
-  "@settingsHomeBannerTitle": {}
+  "@settingsHomeBannerTitle": {},
+  "settingsHomeBannerInformationDesc": "Informatie om weer te geven in de home-banner",
+  "@settingsHomeBannerInformationDesc": {},
+  "settingsHomeBannerInformationTitle": "Bannerinformatie",
+  "@settingsHomeBannerInformationTitle": {}
 }
