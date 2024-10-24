@@ -145,7 +145,7 @@ jobs:
           VERSION_NAME=$(grep '^version:' pubspec.yaml | cut -d ':' -f2 | cut -d '+' -f1 | tr -d ' ')
           echo "PACKAGE_NAME=$APP_NAME-iOS-$VERSION_NAME" >> $GITHUB_ENV
 
-          flutter build ipa --no-codesign --build-name=$VERSION_NAME --build-number=${{ github.run_number }}
+          flutter build ipa --no-codesign --flavor production --build-name=$VERSION_NAME --build-number=${{ github.run_number }} 
 
       - name: Create unsigned IPA
         run: |
@@ -185,17 +185,17 @@ jobs:
           VERSION_NAME=$(grep '^version:' pubspec.yaml | cut -d ':' -f2 | cut -d '+' -f1 | tr -d ' ')
           echo "PACKAGE_NAME=$APP_NAME-macOS-$VERSION_NAME" >> $GITHUB_ENV
 
-          flutter build macos --build-name=$VERSION_NAME --build-number=${{ github.run_number }}
+          flutter build macos --flavor production --build-name=$VERSION_NAME --build-number=${{ github.run_number }}
 
       - name: Create DMG file
         run: |
-          hdiutil create -format UDZO -srcfolder build/macos/Build/Products/Release/fladder.app build/macos/Build/Products/Release/${{ env.PACKAGE_NAME }}.dmg
+          hdiutil create -format UDZO -srcfolder build/macos/Build/Products/Release-production/fladder.app build/macos/Build/Products/Release-production/${{ env.PACKAGE_NAME }}.dmg
 
       - name: Archive macOS artifact
         uses: actions/upload-artifact@v4.0.0
         with:
           name: ${{ env.PACKAGE_NAME }}
-          path: build/macos/Build/Products/Release/${{ env.PACKAGE_NAME }}.dmg
+          path: build/macos/Build/Products/Release-production/${{ env.PACKAGE_NAME }}.dmg
 
   build-linux:
     runs-on: ubuntu-latest
