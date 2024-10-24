@@ -1,0 +1,944 @@
+{
+  "amoledBlack": "Nattsvart",
+  "@amoledBlack": {},
+  "addAsFavorite": "Legg til som favoritt",
+  "@addAsFavorite": {},
+  "appLockAutoLogin": "Automatisk innlogging",
+  "@appLockAutoLogin": {},
+  "about": "Om",
+  "@about": {},
+  "accept": "Godta",
+  "@accept": {},
+  "active": "Aktiv",
+  "@active": {},
+  "addToCollection": "Legg til i samling",
+  "@addToCollection": {},
+  "addToPlaylist": "Legg til i spilleliste",
+  "@addToPlaylist": {},
+  "all": "Alle",
+  "@all": {},
+  "ascending": "Stigende",
+  "@ascending": {},
+  "audio": "Lyd",
+  "@audio": {},
+  "backgroundBlur": "Bakgrunnstilsløring",
+  "@backgroundBlur": {},
+  "backgroundOpacity": "Bakgrunnsdekkevne",
+  "@backgroundOpacity": {},
+  "cancel": "Avbryt",
+  "@cancel": {},
+  "change": "Endre",
+  "@change": {},
+  "clear": "Tøm",
+  "@clear": {},
+  "clearAllSettings": "Fjern alle innstillinger",
+  "@clearAllSettings": {},
+  "clearAllSettingsQuestion": "Fjern alle innstillinger?",
+  "@clearAllSettingsQuestion": {},
+  "clearChanges": "Fjern innstillinger",
+  "@clearChanges": {},
+  "clearSelection": "Tøm utvalg",
+  "@clearSelection": {},
+  "close": "Lukk",
+  "@close": {},
+  "code": "Kode",
+  "@code": {},
+  "color": "Farge",
+  "@color": {},
+  "dashboard": "Kontrollpanel",
+  "@dashboard": {},
+  "dashboardContinue": "Fortsett",
+  "@dashboardContinue": {},
+  "dashboardContinueListening": "Fortsett lytting",
+  "@dashboardContinueListening": {},
+  "dashboardContinueReading": "Fortsett lesing",
+  "@dashboardContinueReading": {},
+  "dashboardContinueWatching": "Fortsett visning",
+  "@dashboardContinueWatching": {},
+  "dashboardNextUp": "Neste",
+  "@dashboardNextUp": {},
+  "appLockTitle": "Velg innloggingsmetode for {userName}",
+  "@appLockTitle": {
+    "description": "Pop-up to pick a login method",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "descending": "Synkende",
+  "@descending": {},
+  "advanced": "Avansert",
+  "@advanced": {},
+  "appLockBiometrics": "Biometri",
+  "@appLockBiometrics": {},
+  "editMetadata": "Rediger metadata",
+  "@editMetadata": {},
+  "empty": "Tom",
+  "@empty": {},
+  "combined": "Kombinert",
+  "@combined": {},
+  "dateAdded": "Dato tillagt",
+  "@dateAdded": {},
+  "days": "Dager",
+  "@days": {},
+  "delete": "Slett",
+  "@delete": {},
+  "deleteItem": "Slett {item}?",
+  "@deleteItem": {
+    "description": "deleteItem",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "discovered": "Oppdaget",
+  "@discovered": {},
+  "dynamicText": "Dynamisk",
+  "@dynamicText": {},
+  "error": "Feil",
+  "@error": {},
+  "folders": "Mapper",
+  "@folders": {},
+  "fontColor": "Skriftfarge",
+  "@fontColor": {},
+  "fontSize": "Skriftstørrelse",
+  "@fontSize": {},
+  "goTo": "Gå til",
+  "@goTo": {},
+  "mode": "Modus",
+  "@mode": {},
+  "nextUp": "Neste",
+  "@nextUp": {},
+  "noServersFound": "Fant ikke noen nye tjenere",
+  "@noServersFound": {},
+  "noSuggestionsFound": "Fant ikke noen forslag",
+  "@noSuggestionsFound": {},
+  "none": "Ingen",
+  "@none": {},
+  "normal": "Normal",
+  "@normal": {},
+  "notPartOfAlbum": "Ikke på et album",
+  "@notPartOfAlbum": {},
+  "openShow": "Åpne visning",
+  "@openShow": {},
+  "options": "Alternativer",
+  "@options": {},
+  "quickConnectInputACode": "Skriv inn en kode",
+  "@quickConnectInputACode": {},
+  "quickConnectTitle": "Hurtigtilkobling",
+  "@quickConnectTitle": {},
+  "quickConnectWrongCode": "Feil kode",
+  "@quickConnectWrongCode": {},
+  "random": "Tilfeldig",
+  "@random": {},
+  "metaDataSavedFor": "Metadata lagret for {item}",
+  "@metaDataSavedFor": {
+    "description": "metaDataSavedFor",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "navigation": "Navigasjon",
+  "@navigation": {},
+  "moreFrom": "Mer fra {info}",
+  "@moreFrom": {
+    "description": "More from",
+    "placeholders": {
+      "info": {
+        "type": "String"
+      }
+    }
+  },
+  "never": "Aldri",
+  "@never": {},
+  "moreOptions": "Flere alternativer",
+  "@moreOptions": {},
+  "name": "Navn",
+  "@name": {},
+  "musicAlbum": "Album",
+  "@musicAlbum": {},
+  "navigationFavorites": "Favoritter",
+  "@navigationFavorites": {},
+  "other": "Annet",
+  "@other": {},
+  "outlineColor": "Utrissfarge",
+  "@outlineColor": {},
+  "outlineSize": "Utriss-størrelse",
+  "@outlineSize": {},
+  "password": "Passord",
+  "@password": {},
+  "play": "Spill {item}",
+  "@play": {
+    "description": "Play with",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "playVideos": "Spill videoer",
+  "@playVideos": {},
+  "overview": "Oversikt",
+  "@overview": {},
+  "page": "Side {index}",
+  "@page": {
+    "description": "page",
+    "placeholders": {
+      "index": {
+        "type": "int"
+      }
+    }
+  },
+  "played": "Avspilt",
+  "@played": {},
+  "quickConnectAction": "Skriv inn hurtigtilkoblingskode for",
+  "@quickConnectAction": {},
+  "reWatch": "Se igjen",
+  "@reWatch": {},
+  "read": "Les {item}",
+  "@read": {
+    "description": "read",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "replaceAllImages": "Erstatt alle bilder",
+  "@replaceAllImages": {},
+  "bold": "Fet",
+  "@bold": {},
+  "collectionFolder": "Mappe for samling",
+  "@collectionFolder": {},
+  "communityRating": "Gemenskapsvurdering",
+  "@communityRating": {},
+  "controls": "Kontroller",
+  "@controls": {},
+  "dashboardRecentlyAdded": "Nylig lagt til i {name}",
+  "@dashboardRecentlyAdded": {
+    "description": "Recently added on home screen",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "actor": "{count, plural, other{Skuespillere} one{Skuespiller}}",
+  "@actor": {
+    "description": "actor",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "appLockPasscode": "Passord",
+  "@appLockPasscode": {},
+  "autoPlay": "Auto-avspilling",
+  "@autoPlay": {},
+  "replaceExistingImages": "Erstatt eksisterende bilder",
+  "@replaceExistingImages": {},
+  "result": "Resultat",
+  "@result": {},
+  "retry": "Prøv igjen",
+  "@retry": {},
+  "save": "Lagre",
+  "@save": {},
+  "scanLibrary": "Skann bibliotek",
+  "@scanLibrary": {},
+  "shadow": "Skygge",
+  "@shadow": {},
+  "showAlbum": "Vis album",
+  "@showAlbum": {},
+  "showDetails": "Vis detaljer",
+  "@showDetails": {},
+  "shuffleGallery": "Omstokking av galleri",
+  "@shuffleGallery": {},
+  "shuffleVideos": "Omstokking av videoer",
+  "@shuffleVideos": {},
+  "somethingWentWrong": "Noe gikk galt",
+  "@somethingWentWrong": {},
+  "sortName": "Navn",
+  "@sortName": {},
+  "start": "Start",
+  "@start": {},
+  "switchUser": "Bytt bruker",
+  "@switchUser": {},
+  "theme": "Drakt",
+  "@theme": {},
+  "settingsPosterSize": "Plakatstørrelse",
+  "@settingsPosterSize": {},
+  "settingsProfileTitle": "Profil",
+  "@settingsProfileTitle": {},
+  "saved": "Lagret",
+  "@saved": {},
+  "settingsSecurity": "Sikkerhet",
+  "@settingsSecurity": {},
+  "scanBiometricHint": "Bekreft identitet",
+  "@scanBiometricHint": {},
+  "settingsProfileDesc": "Låseskjerm",
+  "@settingsProfileDesc": {},
+  "settingsQuickConnectTitle": "Hurtigtilkobling",
+  "@settingsQuickConnectTitle": {},
+  "sortBy": "Sorter etter",
+  "@sortBy": {},
+  "sortOrder": "Sorteringsrekkefølge",
+  "@sortOrder": {},
+  "subtitles": "Undertekster",
+  "@subtitles": {},
+  "themeModeDark": "Mørk",
+  "@themeModeDark": {},
+  "themeModeSystem": "System",
+  "@themeModeSystem": {},
+  "videoScalingCover": "Omslag",
+  "@videoScalingCover": {},
+  "themeModeLight": "Lys",
+  "@themeModeLight": {},
+  "totalSize": "Total størrelse: {size}",
+  "@totalSize": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "unknown": "Ukjent",
+  "@unknown": {},
+  "themeColor": "Draktfarge",
+  "@themeColor": {},
+  "useDefaults": "Bruk forvalg",
+  "@useDefaults": {},
+  "userName": "Brukernavn",
+  "@userName": {},
+  "video": "Video",
+  "@video": {},
+  "videoScalingFill": "Fyll",
+  "@videoScalingFill": {},
+  "timeAndAnnotation": "{minutes} og {seconds}",
+  "@timeAndAnnotation": {
+    "description": "timeAndAnnotation",
+    "placeholders": {
+      "minutes": {
+        "type": "String"
+      },
+      "seconds": {
+        "type": "String"
+      }
+    }
+  },
+  "videoScalingFillScreenTitle": "Fyll skjerm",
+  "@videoScalingFillScreenTitle": {},
+  "videoScalingFillScreenDesc": "Fyll navigasjon og statusfelt",
+  "@videoScalingFillScreenDesc": {},
+  "videoScalingFitWidth": "Tilpass bredde",
+  "@videoScalingFitWidth": {},
+  "videoScalingFitHeight": "Tilpass høyde",
+  "@videoScalingFitHeight": {},
+  "viewPhotos": "Vis bilder",
+  "@viewPhotos": {},
+  "datePlayed": "Dato avspilt",
+  "@datePlayed": {},
+  "biometricsFailedCheckAgain": "Biometri mislyktes. Sjekk innstillingene og prøv igjen.",
+  "@biometricsFailedCheckAgain": {},
+  "disableFilters": "Skru av filtre",
+  "@disableFilters": {},
+  "disabled": "Avskrudd",
+  "@disabled": {},
+  "displayLanguage": "Visningsspråk",
+  "@displayLanguage": {},
+  "downloadsClearTitle": "Tøm synkronisert data",
+  "@downloadsClearTitle": {},
+  "downloadsPath": "Sti",
+  "@downloadsPath": {},
+  "downloadsSyncedData": "Synkronisert data",
+  "@downloadsSyncedData": {},
+  "endsAt": "slutter {date}",
+  "@endsAt": {
+    "description": "endsAt",
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "jm"
+      }
+    }
+  },
+  "favorite": "Favoritt",
+  "@favorite": {},
+  "favorites": "Favoritter",
+  "@favorites": {},
+  "fetchingLibrary": "Henter bibliotekselementer …",
+  "@fetchingLibrary": {},
+  "forceRefresh": "Påtving gjenoppfriskning",
+  "@forceRefresh": {},
+  "grid": "Rutenett",
+  "@grid": {},
+  "group": "Gruppe",
+  "@group": {},
+  "markAsUnwatched": "Marker som usett",
+  "@markAsUnwatched": {},
+  "markAsWatched": "Marker som sett",
+  "@markAsWatched": {},
+  "mediaTypeBook": "Bok",
+  "@mediaTypeBook": {},
+  "mediaTypeEpisode": "Episode",
+  "@mediaTypeEpisode": {},
+  "mediaTypeFolder": "Mappe",
+  "@mediaTypeFolder": {},
+  "mediaTypeMovie": "Film",
+  "@mediaTypeMovie": {},
+  "mediaTypePerson": "Person",
+  "@mediaTypePerson": {},
+  "mediaTypePhoto": "Bilde",
+  "@mediaTypePhoto": {},
+  "mediaTypePhotoAlbum": "Fotoalbum",
+  "@mediaTypePhotoAlbum": {},
+  "mediaTypePlaylist": "Spilleliste",
+  "@mediaTypePlaylist": {},
+  "mediaTypeSeason": "Sesong",
+  "@mediaTypeSeason": {},
+  "mediaTypeSeries": "Serie",
+  "@mediaTypeSeries": {},
+  "metadataRefreshDefault": "Se etter nye og oppdaterte filer",
+  "@metadataRefreshDefault": {},
+  "metadataRefreshFull": "Erstatt all metadata",
+  "@metadataRefreshFull": {},
+  "metadataRefreshValidation": "Søk etter manglende metadata",
+  "@metadataRefreshValidation": {},
+  "libraryPageSizeTitle": "Sidestørrelse for bibliotek",
+  "@libraryPageSizeTitle": {},
+  "mediaTypeBoxset": "Bokssett",
+  "@mediaTypeBoxset": {},
+  "mouseDragSupport": "Dra med musen",
+  "@mouseDragSupport": {},
+  "navigationSync": "Synkronisert",
+  "@navigationSync": {},
+  "noItemsToShow": "Ingen elementer å vise",
+  "@noItemsToShow": {},
+  "noRating": "Ingen vurdering",
+  "@noRating": {},
+  "noResults": "Resultatløst",
+  "@noResults": {},
+  "openParent": "Åpne inneholdende",
+  "@openParent": {},
+  "openWebLink": "Åpne vev-lenke",
+  "@openWebLink": {},
+  "playFrom": "Spill fra {name}",
+  "@playFrom": {
+    "description": "playFrom",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "playCount": "Antall avspillinger",
+  "@playCount": {},
+  "playLabel": "Spill",
+  "@playLabel": {},
+  "navigationDashboard": "Oversikt",
+  "@navigationDashboard": {},
+  "minutes": "{count, plural, other{Minutter} one{Minutt} }",
+  "@minutes": {
+    "description": "minute",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "noItemsSynced": "Ingen elementer synkronisert",
+  "@noItemsSynced": {},
+  "pathClearTitle": "Tøm nedlastninigssti",
+  "@pathClearTitle": {},
+  "pathEditSelect": "Velg nedlastningsmål",
+  "@pathEditSelect": {},
+  "pathEditTitle": "Endre plassering",
+  "@pathEditTitle": {},
+  "playFromStart": "Spill {name} fra starten",
+  "@playFromStart": {
+    "description": "speel vanaf het begin",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "refresh": "Gjenoppfrisk",
+  "@refresh": {},
+  "refreshMetadata": "Gjenoppfrisk metadata",
+  "@refreshMetadata": {},
+  "related": "Reatert",
+  "@related": {},
+  "releaseDate": "Slippdato",
+  "@releaseDate": {},
+  "removeAsFavorite": "Fjern som favoritt",
+  "@removeAsFavorite": {},
+  "selectTime": "Velg tid",
+  "@selectTime": {},
+  "selectViewType": "Velg visningstype",
+  "@selectViewType": {},
+  "selectAll": "Velg alt",
+  "@selectAll": {},
+  "search": "Søk",
+  "@search": {},
+  "scrollToTop": "Rull til toppen",
+  "@scrollToTop": {},
+  "removeFromCollection": "Fjern fra samling",
+  "@removeFromCollection": {},
+  "restart": "Start på ny",
+  "@restart": {},
+  "downloadsTitle": "Nedlastninger",
+  "@downloadsTitle": {},
+  "enabled": "Påskrudd",
+  "@enabled": {},
+  "groupBy": "Grupper etter",
+  "@groupBy": {},
+  "identify": "Identifiser",
+  "@identify": {},
+  "heightOffset": "Høydeavvik",
+  "@heightOffset": {},
+  "episode": "{count, plural, other{Episoder} one{Episode} }",
+  "@episode": {
+    "description": "episode",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "hide": "Skjul",
+  "@hide": {},
+  "home": "Hjem",
+  "@home": {},
+  "immediately": "Umiddelbart",
+  "@immediately": {},
+  "hideEmpty": "Skjul tomme",
+  "@hideEmpty": {},
+  "info": "Info",
+  "@info": {},
+  "itemCount": "Elementantall: {count}",
+  "@itemCount": {
+    "description": "Item count",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "invalidUrl": "Ugyldig nettadresse",
+  "@invalidUrl": {},
+  "light": "Lys",
+  "@light": {},
+  "loop": "Gjentagelse",
+  "@loop": {},
+  "list": "Liste",
+  "@list": {},
+  "login": "Logg inn",
+  "@login": {},
+  "lockscreen": "Låseskjerm",
+  "@lockscreen": {},
+  "loggedIn": "Innlogget",
+  "@loggedIn": {},
+  "libraryFetchNoItemsFound": "Fant ikke noen slike elementer. Prøv andre innstillinger.",
+  "@libraryFetchNoItemsFound": {},
+  "incorrectPinTryAgain": "Feil PIN. Prøv igjen.",
+  "@incorrectPinTryAgain": {},
+  "invalidUrlDesc": "Nettadressen må starte med http(s)://",
+  "@invalidUrlDesc": {},
+  "libraryPageSizeDesc": "Sett mengden å laste inn samtidig. «0» skrur av sideinndeling.",
+  "@libraryPageSizeDesc": {},
+  "logout": "Logg ut",
+  "@logout": {},
+  "resumable": "Kan fortsettes",
+  "@resumable": {},
+  "runTime": "Spilletid",
+  "@runTime": {},
+  "removeFromPlaylist": "Fjern fra samling",
+  "@removeFromPlaylist": {},
+  "scanningName": "Skanner — {name} …",
+  "@scanningName": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "chapter": "{count, plural, other{Kapitler} one{Kapittel}}",
+  "@chapter": {
+    "description": "chapter",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "continuePage": "Fortsett — side {page}",
+  "@continuePage": {
+    "description": "Continue - page 1",
+    "placeholders": {
+      "page": {
+        "type": "int"
+      }
+    }
+  },
+  "dateLastContentAdded": "Dato innhold sist ble lagt til",
+  "@dateLastContentAdded": {},
+  "failedToLoadImage": "Kunne ikke laste inn bilde",
+  "@failedToLoadImage": {},
+  "filter": "{count, plural, other{Filtre} one{Filter}}",
+  "@filter": {
+    "description": "filter",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "deleteFileFromSystem": "Sletting av elementet «{item}» sletter det både fra filsystemet og ditt mediabibliotek.\nEr du sikker på at du vil fortsette?",
+  "@deleteFileFromSystem": {
+    "description": "Delete file from system",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "director": "{count, plural, other{Regissør} two{Regissører}}",
+  "@director": {
+    "description": "director",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "downloadsClearDesc": "Fjern all synkronisert data, noe som\nfjerner all data for alle synkroniserte brukere?",
+  "@downloadsClearDesc": {},
+  "genre": "{count, plural, other{Sjangere} one{Sjanger}}",
+  "@genre": {
+    "description": "genre",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "logoutUserPopupTitle": "Logg ut {userName}?",
+  "@logoutUserPopupTitle": {
+    "description": "Pop-up for loging out the user",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "library": "{count, plural, other{Bibliotek} one{Bibliotek}}",
+  "@library": {
+    "description": "Plural",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "masonry": "Flislegging",
+  "@masonry": {},
+  "mediaTypeBase": "Basetype",
+  "@mediaTypeBase": {},
+  "logoutUserPopupContent": "Dette vil logge ut {userName} og slette brukeren fra programmet.\nDu vil måtte logge inn igjen på {serverName}.",
+  "@logoutUserPopupContent": {
+    "description": "Pop-up for loging out the user description",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      },
+      "serverName": {
+        "type": "String"
+      }
+    }
+  },
+  "parentalRating": "Foreldreveiledning",
+  "@parentalRating": {},
+  "pathEditDesc": "Dette målet er satt for alle brukere, og all synkronisert data vil bli utilgjengelig.\nDen vil forbli på lagringen din.",
+  "@pathEditDesc": {},
+  "separate": "For seg selv",
+  "@separate": {},
+  "server": "Tjener",
+  "@server": {},
+  "set": "Sett",
+  "@set": {
+    "description": "Use for setting a certain value",
+    "context": "Set 'time'"
+  },
+  "setIdentityTo": "Sett identitet til {name}",
+  "@setIdentityTo": {
+    "description": "setIdentityTo",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "settingSecurityApplockTitle": "Programlås",
+  "@settingSecurityApplockTitle": {},
+  "settings": "Innstillinger",
+  "@settings": {},
+  "settingsBlurEpisodesDesc": "Tilslør alle kommende episoder",
+  "@settingsBlurEpisodesDesc": {},
+  "rating": "{count, plural, other{Vurderinger} one{Vurdering}}",
+  "@rating": {
+    "description": "rating",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "readFromStart": "Les {item} fra begynnelsen",
+  "@readFromStart": {
+    "description": "Read book from start",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "recursive": "Rekursivt",
+  "@recursive": {},
+  "refreshPopup": "Gjenoppfrisk — {name}",
+  "@refreshPopup": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "resume": "Fortsett {item}",
+  "@resume": {
+    "description": "resume",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "retrievePublicListOfUsers": "Hent offentlig liste over brukere",
+  "@retrievePublicListOfUsers": {},
+  "seconds": "{count, plural, other{Sekunder} one{Sekund}}",
+  "@seconds": {
+    "description": "second",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "settingsBlurEpisodesTitle": "Tilslør kommende episoder",
+  "@settingsBlurEpisodesTitle": {},
+  "settingsBlurredPlaceholderDesc": "Vis tilslørt bakgrunn ved innlasting av plakater",
+  "@settingsBlurredPlaceholderDesc": {},
+  "refreshPopupContentMetadata": "Metadata gjenoppfriskes basert på innstillinger og Internett-tjenester som er påskrudd i oversikten.",
+  "@refreshPopupContentMetadata": {},
+  "scanYourFingerprintToAuthenticate": "Skann fingeravtrykket ditt for å identitetsbekrefte {user}",
+  "@scanYourFingerprintToAuthenticate": {
+    "placeholders": {
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsBlurredPlaceholderTitle": "Tilslørt plassholder",
+  "@settingsBlurredPlaceholderTitle": {},
+  "settingsClientDesc": "Generelt, tidsavbrudd, oppsett, drakt",
+  "@settingsClientDesc": {},
+  "settingsClientTitle": "Fladder",
+  "@settingsClientTitle": {},
+  "settingsContinue": "Fortsett",
+  "@settingsContinue": {},
+  "settingsEnableOsMediaControls": "Skru på mediakontroll fra operativsystemet",
+  "@settingsEnableOsMediaControls": {},
+  "settingsHomeCarouselDesc": "Viser en karusell i oversikten",
+  "@settingsHomeCarouselDesc": {},
+  "settingsHomeCarouselTitle": "Oversiktskarusell",
+  "@settingsHomeCarouselTitle": {},
+  "settingsHomeNextUpDesc": "Plakattype i oversikten",
+  "@settingsHomeNextUpDesc": {},
+  "settingsHomeNextUpTitle": "Plakater for kommende materiale",
+  "@settingsHomeNextUpTitle": {},
+  "settingsNextUpCutoffDays": "Grense for kommende",
+  "@settingsNextUpCutoffDays": {},
+  "settingsPlayerCustomSubtitlesDesc": "Tilpass — størrelse, farge, posisjon, omriss",
+  "@settingsPlayerCustomSubtitlesDesc": {},
+  "settingsPlayerCustomSubtitlesTitle": "Tilpass undertekster",
+  "@settingsPlayerCustomSubtitlesTitle": {},
+  "settingsPlayerDesc": "Sideretningsforhold, avansert",
+  "@settingsPlayerDesc": {},
+  "settingsPlayerNativeLibassAccelTitle": "Systemspesifikke libass-undertekster",
+  "@settingsPlayerNativeLibassAccelTitle": {},
+  "settingsPlayerTitle": "Avspiller",
+  "@settingsPlayerTitle": {},
+  "settingsPlayerVideoHWAccelTitle": "Maskinvareakselerasjon",
+  "@settingsPlayerVideoHWAccelTitle": {},
+  "settingsShowScaleSlider": "Vis størrelsesglidebryter for plakater",
+  "@settingsShowScaleSlider": {},
+  "settingsVisual": "Visuell",
+  "@settingsVisual": {},
+  "showEmpty": "Vis tom",
+  "@showEmpty": {},
+  "subtitleConfigurator": "Undertekst-tilpasning",
+  "@subtitleConfigurator": {},
+  "subtitleConfiguratorPlaceHolder": "Dette er en plassholdertekst,\n kun ufisk her.",
+  "@subtitleConfiguratorPlaceHolder": {},
+  "settingsPlayerVideoHWAccelDesc": "Bruk grafikkortet til opptegning av video (anbefalt)",
+  "@settingsPlayerVideoHWAccelDesc": {},
+  "studio": "{count, plural, other{Studio} one{Studio}}",
+  "@studio": {
+    "description": "studio",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "settingsPlayerNativeLibassAccelDesc": "Bruk videospilleren libass som undertekstopptegner",
+  "@settingsPlayerNativeLibassAccelDesc": {},
+  "sync": "Synkroniser",
+  "@sync": {},
+  "syncDeleteItemDesc": "Slett all synkronisert data for?\n{item}",
+  "@syncDeleteItemDesc": {
+    "description": "Sync delete item pop-up window",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "syncDeleteItemTitle": "Slett synkronisert element",
+  "@syncDeleteItemTitle": {},
+  "syncDetails": "Synkroniseringsdetaljer",
+  "@syncDetails": {},
+  "syncOpenParent": "Åpne inneholdende",
+  "@syncOpenParent": {},
+  "syncRemoveDataTitle": "Fjern synkronisert data?",
+  "@syncRemoveDataTitle": {},
+  "syncedItems": "Synkroniserte elementer",
+  "@syncedItems": {},
+  "timeOut": "Tidsavbrudd",
+  "@timeOut": {},
+  "type": "{count, plural, other{Typer} one{Type}}",
+  "@type": {
+    "description": "type",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "unPlayed": "Ikke spilt",
+  "@unPlayed": {},
+  "unableToConnectHost": "Kunne ikke koble til verten",
+  "@unableToConnectHost": {},
+  "unableToReverseAction": "Denne handlingen kan ikke angres. Alle innstillinger vil bli fjernet.",
+  "@unableToReverseAction": {},
+  "videoScalingContain": "Inneholder",
+  "@videoScalingContain": {},
+  "videoScaling": "Videoskalering",
+  "@videoScaling": {},
+  "videoScalingScaleDown": "Skaler ned",
+  "@videoScalingScaleDown": {},
+  "watchOn": "Sett",
+  "@watchOn": {},
+  "writer": "{count, plural, other{Forfatter} two{Forfattere}}",
+  "@writer": {
+    "description": "writer",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "year": "{count, plural, other{År} one{År}}",
+  "@year": {
+    "description": "year",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "syncDeletePopupPermanent": "Denne handlingen kan ikke angres og vil fjerne alle lokalt synkroniserte filer.",
+  "@syncDeletePopupPermanent": {},
+  "syncRemoveDataDesc": "Slett synkronisert videodata? Dette kan ikke angres og du vil måtte re-synkronisere filene.",
+  "@syncRemoveDataDesc": {},
+  "videoScalingFillScreenNotif": "Fylling av skjermen overstyrer videotilpasning, i vannrett sideretning",
+  "@videoScalingFillScreenNotif": {},
+  "tag": "{count, plural, one{Tagg} other{Tagger}}",
+  "@tag": {
+    "description": "tag",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "label": "{count, plural, other{Etiketter} one{Etiketter}}",
+  "@label": {
+    "description": "label",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "selected": "Valgt",
+  "@selected": {},
+  "season": "{count, plural, other{Sesong} one{Sesonger} }",
+  "@season": {
+    "description": "season",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "selectedWith": "Valgte {info}",
+  "@selectedWith": {
+    "description": "selected",
+    "placeholders": {
+      "info": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsPosterPinch": "Knip-forstørrelse for oppblåsing av plakater",
+  "@settingsPosterPinch": {},
+  "settingsPosterSlider": "Vis skala-glidebryter",
+  "@settingsPosterSlider": {},
+  "somethingWentWrongPasswordCheck": "Noe gikk galt. Sjekk passordet ditt.",
+  "@somethingWentWrongPasswordCheck": {},
+  "settingsPlayerMobileWarning": "Å skru på maskinvareaskelerasjon og systemspesifikke libass-undertekster på Android kan føre til at noen undertekster ikke vises.",
+  "@settingsPlayerMobileWarning": {},
+  "nativeName": "Norsk bokmål",
+  "@nativeName": {}
+}

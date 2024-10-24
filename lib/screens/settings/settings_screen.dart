@@ -10,14 +10,12 @@ import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/settings/quick_connect_window.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/settings/settings_scaffold.dart';
-import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/screens/shared/fladder_icon.dart';
 import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/application_info.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/router_extension.dart';
 import 'package:fladder/util/theme_extensions.dart';
-import 'package:fladder/widgets/shared/hide_on_scroll.dart';
 
 @RoutePage()
 class SettingsScreen extends ConsumerStatefulWidget {
@@ -153,85 +151,71 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             ),
           ),
         ],
-        floatingActionButton: HideOnScroll(
-          controller: scrollController,
-          visibleBuilder: (visible) {
-            return AnimatedFadeSize(
-              child: visible
-                  ? Padding(
-                      padding: EdgeInsets.symmetric(horizontal: MediaQuery.paddingOf(context).horizontal),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            const Spacer(),
-                            FloatingActionButton(
-                              key: Key(context.localized.switchUser),
-                              tooltip: context.localized.switchUser,
-                              onPressed: () async {
-                                await ref.read(userProvider.notifier).logoutUser();
-                                context.router.replaceAll([const LoginRoute()]);
-                              },
-                              child: const Icon(
-                                IconsaxOutline.arrow_swap_horizontal,
-                              ),
-                            ),
-                            const SizedBox(width: 16),
-                            FloatingActionButton(
-                              heroTag: context.localized.logout,
-                              key: Key(context.localized.logout),
-                              tooltip: context.localized.logout,
-                              backgroundColor: Theme.of(context).colorScheme.errorContainer,
-                              onPressed: () {
-                                final user = ref.read(userProvider);
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    title: Text(context.localized.logoutUserPopupTitle(user?.name ?? "")),
-                                    scrollable: true,
-                                    content: Text(
-                                      context.localized.logoutUserPopupContent(user?.name ?? "", user?.server ?? ""),
-                                    ),
-                                    actions: [
-                                      ElevatedButton(
-                                        onPressed: () => Navigator.pop(context),
-                                        child: Text(context.localized.cancel),
-                                      ),
-                                      ElevatedButton(
-                                        style: ElevatedButton.styleFrom().copyWith(
-                                          foregroundColor:
-                                              WidgetStatePropertyAll(Theme.of(context).colorScheme.onErrorContainer),
-                                          backgroundColor:
-                                              WidgetStatePropertyAll(Theme.of(context).colorScheme.errorContainer),
-                                        ),
-                                        onPressed: () async {
-                                          await ref.read(authProvider.notifier).logOutUser();
-                                          if (context.mounted) {
-                                            context.router.replaceAll([const LoginRoute()]);
-                                          }
-                                        },
-                                        child: Text(context.localized.logout),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                              child: Icon(
-                                IconsaxOutline.logout,
-                                color: Theme.of(context).colorScheme.onErrorContainer,
-                              ),
-                            ),
-                          ],
+        floatingActionButton: Padding(
+          padding: EdgeInsets.symmetric(horizontal: MediaQuery.paddingOf(context).horizontal),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                const Spacer(),
+                FloatingActionButton(
+                  key: Key(context.localized.switchUser),
+                  tooltip: context.localized.switchUser,
+                  onPressed: () async {
+                    await ref.read(userProvider.notifier).logoutUser();
+                    context.router.replaceAll([const LoginRoute()]);
+                  },
+                  child: const Icon(
+                    IconsaxOutline.arrow_swap_horizontal,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                FloatingActionButton(
+                  heroTag: context.localized.logout,
+                  key: Key(context.localized.logout),
+                  tooltip: context.localized.logout,
+                  backgroundColor: Theme.of(context).colorScheme.errorContainer,
+                  onPressed: () {
+                    final user = ref.read(userProvider);
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text(context.localized.logoutUserPopupTitle(user?.name ?? "")),
+                        scrollable: true,
+                        content: Text(
+                          context.localized.logoutUserPopupContent(user?.name ?? "", user?.server ?? ""),
                         ),
+                        actions: [
+                          ElevatedButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text(context.localized.cancel),
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom().copyWith(
+                              foregroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.onErrorContainer),
+                              backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.errorContainer),
+                            ),
+                            onPressed: () async {
+                              await ref.read(authProvider.notifier).logOutUser();
+                              if (context.mounted) {
+                                context.router.replaceAll([const LoginRoute()]);
+                              }
+                            },
+                            child: Text(context.localized.logout),
+                          ),
+                        ],
                       ),
-                    )
-                  : Container(
-                      height: 0,
-                      key: UniqueKey(),
-                    ),
-            );
-          },
+                    );
+                  },
+                  child: Icon(
+                    IconsaxOutline.logout,
+                    color: Theme.of(context).colorScheme.onErrorContainer,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

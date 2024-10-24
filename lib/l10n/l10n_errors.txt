@@ -1,1 +1,93 @@
-{}
+{
+  "de": [
+    "homeBannerBanner",
+    "homeBannerCarousel",
+    "masonry",
+    "mediaTypeBoxset",
+    "settingsHomeBannerDescription",
+    "settingsHomeBannerTitle",
+    "settingsHomeNextUpDesc",
+    "settingsNextUpCutoffDays",
+    "settingsPlayerNativeLibassAccelDesc",
+    "settingsPlayerNativeLibassAccelTitle",
+    "settingsPosterPinch",
+    "settingsPosterSize",
+    "settingsShowScaleSlider",
+    "syncDeleteItemDesc",
+    "syncRemoveDataDesc",
+    "timeAndAnnotation",
+    "totalSize",
+    "unknown",
+    "useDefaults",
+    "videoScalingFillScreenNotif",
+    "videoScalingFillScreenTitle",
+    "videoScalingFitHeight",
+    "videoScalingFitWidth",
+    "videoScalingScaleDown",
+    "viewPhotos",
+    "writer"
+  ],
+
+  "es": [
+    "homeBannerBanner",
+    "homeBannerCarousel",
+    "settingsHomeBannerDescription",
+    "settingsHomeBannerTitle"
+  ],
+
+  "fr": [
+    "homeBannerBanner",
+    "homeBannerCarousel",
+    "settingsHomeBannerDescription",
+    "settingsHomeBannerTitle"
+  ],
+
+  "ja": [
+    "homeBannerBanner",
+    "homeBannerCarousel",
+    "settingsHomeBannerDescription",
+    "settingsHomeBannerTitle"
+  ],
+
+  "nb": [
+    "homeBannerBanner",
+    "homeBannerCarousel",
+    "settingsHomeBannerDescription",
+    "settingsHomeBannerTitle"
+  ],
+
+  "nl": [
+    "homeBannerBanner",
+    "homeBannerCarousel",
+    "settingsHomeBannerDescription",
+    "settingsHomeBannerTitle"
+  ],
+
+  "pt": [
+    "homeBannerBanner",
+    "homeBannerCarousel",
+    "settingsHomeBannerDescription",
+    "settingsHomeBannerTitle"
+  ],
+
+  "pt_BR": [
+    "homeBannerBanner",
+    "homeBannerCarousel",
+    "settingsHomeBannerDescription",
+    "settingsHomeBannerTitle"
+  ],
+
+  "uk": [
+    "homeBannerBanner",
+    "homeBannerCarousel",
+    "settingsHomeBannerDescription",
+    "settingsHomeBannerTitle"
+  ],
+
+  "zh": [
+    "homeBannerBanner",
+    "homeBannerCarousel",
+    "settingsHomeBannerDescription",
+    "settingsHomeBannerTitle"
+  ]
+}

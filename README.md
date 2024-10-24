@@ -70,6 +70,7 @@
 </details>
 
 Web/Desktop [try out the web build!](https://DonutWare.github.io/Fladder)
+#### Notice: The github hosted web build only allows https connections. This is a limitation on githubs end, for self-hosted versions http works fine. 
 
 ## Planned Features
 
