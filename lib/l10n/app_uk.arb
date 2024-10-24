@@ -876,7 +876,7 @@
   "@settingsPlayerNativeLibassAccelDesc": {},
   "settingsPlayerVideoHWAccelDesc": "Використовувати GPU для рендерингу відео (рекомендовано)",
   "@settingsPlayerVideoHWAccelDesc": {},
-  "syncDeleteItemDesc": "Видалити всі синхронізовані дані для?\n{item}",
+  "syncDeleteItemDesc": "Видалити всі синхронізовані дані для {item}?",
   "@syncDeleteItemDesc": {
     "description": "Sync delete item pop-up window",
     "placeholders": {
