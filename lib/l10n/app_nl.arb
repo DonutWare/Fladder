@@ -934,7 +934,7 @@
       }
     }
   },
-  "settingsHomeBannerDescription": "Wisselen tussen een banner of een scrollbare carrousel",
+  "settingsHomeBannerDescription": "Weergeven als diavoorstelling, carrousel, of de banner verbergen",
   "@settingsHomeBannerDescription": {},
   "homeBannerBanner": "Banner",
   "@homeBannerBanner": {},
