@@ -27,7 +27,8 @@ import 'package:fladder/screens/settings/security_settings_page.dart' as _i10;
 import 'package:fladder/screens/settings/settings_screen.dart' as _i11;
 import 'package:fladder/screens/splash_screen.dart' as _i12;
 import 'package:fladder/screens/syncing/synced_screen.dart' as _i13;
-import 'package:flutter/material.dart' as _i16;
+import 'package:flutter/foundation.dart' as _i16;
+import 'package:flutter/material.dart' as _i19;
 
 /// generated route for
 /// [_i1.ClientSettingsPage]
@@ -355,7 +356,7 @@ class SettingsRoute extends _i14.PageRouteInfo<void> {
 class SplashRoute extends _i14.PageRouteInfo<SplashRouteArgs> {
   SplashRoute({
     dynamic Function(bool)? loggedIn,
-    _i16.Key? key,
+    _i19.Key? key,
     List<_i14.PageRouteInfo>? children,
   }) : super(
           SplashRoute.name,
@@ -389,7 +390,7 @@ class SplashRouteArgs {
 
   final dynamic Function(bool)? loggedIn;
 
-  final _i16.Key? key;
+  final _i19.Key? key;
 
   @override
   String toString() {
@@ -401,8 +402,8 @@ class SplashRouteArgs {
 /// [_i13.SyncedScreen]
 class SyncedRoute extends _i14.PageRouteInfo<SyncedRouteArgs> {
   SyncedRoute({
-    _i16.ScrollController? navigationScrollController,
-    _i16.Key? key,
+    _i19.ScrollController? navigationScrollController,
+    _i19.Key? key,
     List<_i14.PageRouteInfo>? children,
   }) : super(
           SyncedRoute.name,
@@ -434,9 +435,9 @@ class SyncedRouteArgs {
     this.key,
   });
 
-  final _i16.ScrollController? navigationScrollController;
+  final _i19.ScrollController? navigationScrollController;
 
-  final _i16.Key? key;
+  final _i19.Key? key;
 
   @override
   String toString() {

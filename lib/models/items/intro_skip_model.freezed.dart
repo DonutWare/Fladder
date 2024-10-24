@@ -23,8 +23,12 @@ mixin _$IntroOutSkipModel {
   IntroSkipModel? get intro => throw _privateConstructorUsedError;
   IntroSkipModel? get credits => throw _privateConstructorUsedError;
 
+  /// Serializes this IntroOutSkipModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of IntroOutSkipModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $IntroOutSkipModelCopyWith<IntroOutSkipModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -51,6 +55,8 @@ class _$IntroOutSkipModelCopyWithImpl<$Res, $Val extends IntroOutSkipModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of IntroOutSkipModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -69,6 +75,8 @@ class _$IntroOutSkipModelCopyWithImpl<$Res, $Val extends IntroOutSkipModel>
     ) as $Val);
   }
 
+  /// Create a copy of IntroOutSkipModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $IntroSkipModelCopyWith<$Res>? get intro {
@@ -81,6 +89,8 @@ class _$IntroOutSkipModelCopyWithImpl<$Res, $Val extends IntroOutSkipModel>
     });
   }
 
+  /// Create a copy of IntroOutSkipModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $IntroSkipModelCopyWith<$Res>? get credits {
@@ -118,6 +128,8 @@ class __$$IntroOutSkipModelImplCopyWithImpl<$Res>
       $Res Function(_$IntroOutSkipModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of IntroOutSkipModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -164,11 +176,13 @@ class _$IntroOutSkipModelImpl extends _IntroOutSkipModel {
             (identical(other.credits, credits) || other.credits == credits));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, intro, credits);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of IntroOutSkipModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$IntroOutSkipModelImplCopyWith<_$IntroOutSkipModelImpl> get copyWith =>
@@ -196,8 +210,11 @@ abstract class _IntroOutSkipModel extends IntroOutSkipModel {
   IntroSkipModel? get intro;
   @override
   IntroSkipModel? get credits;
+
+  /// Create a copy of IntroOutSkipModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$IntroOutSkipModelImplCopyWith<_$IntroOutSkipModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -233,8 +250,12 @@ mixin _$IntroSkipModel {
       toJson: _durationToMilliseconds)
   Duration get hideTime => throw _privateConstructorUsedError;
 
+  /// Serializes this IntroSkipModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of IntroSkipModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $IntroSkipModelCopyWith<IntroSkipModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -280,6 +301,8 @@ class _$IntroSkipModelCopyWithImpl<$Res, $Val extends IntroSkipModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of IntroSkipModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -360,6 +383,8 @@ class __$$IntroSkipModelImplCopyWithImpl<$Res>
       _$IntroSkipModelImpl _value, $Res Function(_$IntroSkipModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of IntroSkipModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -480,12 +505,14 @@ class _$IntroSkipModelImpl implements _IntroSkipModel {
                 other.hideTime == hideTime));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, id, valid, start, end, showTime, hideTime);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of IntroSkipModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$IntroSkipModelImplCopyWith<_$IntroSkipModelImpl> get copyWith =>
@@ -558,8 +585,11 @@ abstract class _IntroSkipModel implements IntroSkipModel {
       fromJson: _durationFromMilliseconds,
       toJson: _durationToMilliseconds)
   Duration get hideTime;
+
+  /// Create a copy of IntroSkipModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$IntroSkipModelImplCopyWith<_$IntroSkipModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

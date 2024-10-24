@@ -28,8 +28,12 @@ mixin _$TrickPlayModel {
   Duration get interval => throw _privateConstructorUsedError;
   List<String> get images => throw _privateConstructorUsedError;
 
+  /// Serializes this TrickPlayModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TrickPlayModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TrickPlayModelCopyWith<TrickPlayModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -60,6 +64,8 @@ class _$TrickPlayModelCopyWithImpl<$Res, $Val extends TrickPlayModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TrickPlayModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -130,6 +136,8 @@ class __$$TrickPlayModelImplCopyWithImpl<$Res>
       _$TrickPlayModelImpl _value, $Res Function(_$TrickPlayModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TrickPlayModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -235,7 +243,7 @@ class _$TrickPlayModelImpl extends _TrickPlayModel {
             const DeepCollectionEquality().equals(other._images, _images));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -247,7 +255,9 @@ class _$TrickPlayModelImpl extends _TrickPlayModel {
       interval,
       const DeepCollectionEquality().hash(_images));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TrickPlayModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TrickPlayModelImplCopyWith<_$TrickPlayModelImpl> get copyWith =>
@@ -290,8 +300,11 @@ abstract class _TrickPlayModel extends TrickPlayModel {
   Duration get interval;
   @override
   List<String> get images;
+
+  /// Create a copy of TrickPlayModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TrickPlayModelImplCopyWith<_$TrickPlayModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

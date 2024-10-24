@@ -25,9 +25,6 @@ _$ClientSettingsModelImpl _$$ClientSettingsModelImplFromJson(
       themeMode: $enumDecodeNullable(_$ThemeModeEnumMap, json['themeMode']) ??
           ThemeMode.system,
       themeColor: $enumDecodeNullable(_$ColorThemesEnumMap, json['themeColor']),
-      homeBanner:
-          $enumDecodeNullable(_$HomeBannerEnumMap, json['homeBanner']) ??
-              HomeBanner.carousel,
       amoledBlack: json['amoledBlack'] as bool? ?? false,
       blurPlaceHolders: json['blurPlaceHolders'] as bool? ?? false,
       blurUpcomingEpisodes: json['blurUpcomingEpisodes'] as bool? ?? false,
@@ -50,7 +47,6 @@ Map<String, dynamic> _$$ClientSettingsModelImplToJson(
       'nextUpDateCutoff': instance.nextUpDateCutoff?.inMicroseconds,
       'themeMode': _$ThemeModeEnumMap[instance.themeMode]!,
       'themeColor': _$ColorThemesEnumMap[instance.themeColor],
-      'homeBanner': _$HomeBannerEnumMap[instance.homeBanner]!,
       'amoledBlack': instance.amoledBlack,
       'blurPlaceHolders': instance.blurPlaceHolders,
       'blurUpcomingEpisodes': instance.blurUpcomingEpisodes,
@@ -84,9 +80,4 @@ const _$ColorThemesEnumMap = {
   ColorThemes.purple: 'purple',
   ColorThemes.deepPurple: 'deepPurple',
   ColorThemes.blueGrey: 'blueGrey',
-};
-
-const _$HomeBannerEnumMap = {
-  HomeBanner.carousel: 'carousel',
-  HomeBanner.banner: 'banner',
 };

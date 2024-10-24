@@ -19,7 +19,9 @@ mixin _$ItemPropertiesModel {
   bool get canDelete => throw _privateConstructorUsedError;
   bool get canDownload => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ItemPropertiesModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ItemPropertiesModelCopyWith<ItemPropertiesModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -43,6 +45,8 @@ class _$ItemPropertiesModelCopyWithImpl<$Res, $Val extends ItemPropertiesModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ItemPropertiesModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -81,6 +85,8 @@ class __$$ItemPropertiesModelImplCopyWithImpl<$Res>
       $Res Function(_$ItemPropertiesModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ItemPropertiesModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -131,7 +137,9 @@ class _$ItemPropertiesModelImpl extends _ItemPropertiesModel {
   @override
   int get hashCode => Object.hash(runtimeType, canDelete, canDownload);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ItemPropertiesModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ItemPropertiesModelImplCopyWith<_$ItemPropertiesModelImpl> get copyWith =>
@@ -149,8 +157,11 @@ abstract class _ItemPropertiesModel extends ItemPropertiesModel {
   bool get canDelete;
   @override
   bool get canDownload;
+
+  /// Create a copy of ItemPropertiesModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ItemPropertiesModelImplCopyWith<_$ItemPropertiesModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

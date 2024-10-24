@@ -16,7 +16,7 @@ import 'package:fladder/providers/settings/home_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/views_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
-import 'package:fladder/screens/dashboard/top_posters_row.dart';
+import 'package:fladder/screens/dashboard/home_banner_widget.dart';
 import 'package:fladder/screens/shared/media/poster_row.dart';
 import 'package:fladder/screens/shared/nested_scaffold.dart';
 import 'package:fladder/screens/shared/nested_sliver_appbar.dart';
@@ -69,6 +69,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     final dashboardData = ref.watch(dashboardProvider);
     final views = ref.watch(viewsProvider);
     final homeSettings = ref.watch(homeSettingsProvider);
+    final homeBanner = ref.watch(homeSettingsProvider.select((value) => value.homeBanner)) != HomeBanner.hide;
     final resumeVideo = dashboardData.resumeVideo;
     final resumeAudio = dashboardData.resumeAudio;
     final resumeBooks = dashboardData.resumeBooks;
@@ -79,7 +80,6 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       HomeCarouselSettings.nextUp => dashboardData.nextUp,
       HomeCarouselSettings.combined => [...allResume, ...dashboardData.nextUp],
       HomeCarouselSettings.cont => allResume,
-      _ => [...allResume, ...dashboardData.nextUp],
     };
 
     return MediaQuery.removeViewInsets(
@@ -100,11 +100,11 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     route: LibrarySearchRoute(),
                     parent: context,
                   ),
-                if (homeSettings.carouselSettings != HomeCarouselSettings.off && homeCarouselItems.isNotEmpty) ...{
+                if (homeBanner && homeCarouselItems.isNotEmpty) ...{
                   SliverToBoxAdapter(
                     child: Transform.translate(
                       offset: Offset(0, AdaptiveLayout.layoutOf(context) == LayoutState.phone ? -14 : 0),
-                      child: TopPostersRow(posters: homeCarouselItems),
+                      child: HomeBannerWidget(posters: homeCarouselItems),
                     ),
                   ),
                 } else if (AdaptiveLayout.of(context).isDesktop)
@@ -147,7 +147,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                       (homeSettings.nextUp == HomeNextUp.nextUp || homeSettings.nextUp == HomeNextUp.separate))
                     SliverToBoxAdapter(
                       child: PosterRow(
-                        label: context.localized.dashboardNextUp,
+                        label: context.localized.nextUp,
                         posters: dashboardData.nextUp,
                       ),
                     ),

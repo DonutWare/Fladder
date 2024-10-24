@@ -33,7 +33,9 @@ mixin _$SyncedItem {
   @UserDataJsonSerializer()
   UserData? get userData => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SyncedItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SyncedItemCopyWith<SyncedItem> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -74,6 +76,8 @@ class _$SyncedItemCopyWithImpl<$Res, $Val extends SyncedItem>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SyncedItem
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -152,6 +156,8 @@ class _$SyncedItemCopyWithImpl<$Res, $Val extends SyncedItem>
     ) as $Val);
   }
 
+  /// Create a copy of SyncedItem
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $IntroOutSkipModelCopyWith<$Res>? get introOutSkipModel {
@@ -164,6 +170,8 @@ class _$SyncedItemCopyWithImpl<$Res, $Val extends SyncedItem>
     });
   }
 
+  /// Create a copy of SyncedItem
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TrickPlayModelCopyWith<$Res>? get fTrickPlayModel {
@@ -215,6 +223,8 @@ class __$$SyncItemImplCopyWithImpl<$Res>
       _$SyncItemImpl _value, $Res Function(_$SyncItemImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SyncedItem
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -415,7 +425,9 @@ class _$SyncItemImpl extends _SyncItem {
       const DeepCollectionEquality().hash(_subtitles),
       userData);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SyncedItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SyncItemImplCopyWith<_$SyncItemImpl> get copyWith =>
@@ -469,8 +481,11 @@ abstract class _SyncItem extends SyncedItem {
   @override
   @UserDataJsonSerializer()
   UserData? get userData;
+
+  /// Create a copy of SyncedItem
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SyncItemImplCopyWith<_$SyncItemImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

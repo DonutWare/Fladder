@@ -18,7 +18,9 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$SyncSettingsModel {
   List<SyncedItem> get items => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SyncSettingsModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SyncSettingsModelCopyWith<SyncSettingsModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -42,6 +44,8 @@ class _$SyncSettingsModelCopyWithImpl<$Res, $Val extends SyncSettingsModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SyncSettingsModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -75,6 +79,8 @@ class __$$SyncSettignsModelImplCopyWithImpl<$Res>
       $Res Function(_$SyncSettignsModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SyncSettingsModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -122,7 +128,9 @@ class _$SyncSettignsModelImpl extends _SyncSettignsModel {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_items));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SyncSettingsModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SyncSettignsModelImplCopyWith<_$SyncSettignsModelImpl> get copyWith =>
@@ -137,8 +145,11 @@ abstract class _SyncSettignsModel extends SyncSettingsModel {
 
   @override
   List<SyncedItem> get items;
+
+  /// Create a copy of SyncSettingsModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SyncSettignsModelImplCopyWith<_$SyncSettignsModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

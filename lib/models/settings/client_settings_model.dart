@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:fladder/util/custom_color_themes.dart';
-import 'package:fladder/util/localization_helper.dart';
 
 part 'client_settings_model.freezed.dart';
 part 'client_settings_model.g.dart';
@@ -23,7 +22,6 @@ class ClientSettingsModel with _$ClientSettingsModel {
     Duration? nextUpDateCutoff,
     @Default(ThemeMode.system) ThemeMode themeMode,
     ColorThemes? themeColor,
-    @Default(HomeBanner.carousel) HomeBanner homeBanner,
     @Default(false) bool amoledBlack,
     @Default(false) bool blurPlaceHolders,
     @Default(false) bool blurUpcomingEpisodes,
@@ -71,18 +69,6 @@ class LocaleConvert implements JsonConverter<Locale?, String?> {
     }
     return '${object.languageCode}_${object.countryCode}';
   }
-}
-
-enum HomeBanner {
-  carousel,
-  banner;
-
-  const HomeBanner();
-
-  String label(BuildContext context) => switch (this) {
-        HomeBanner.carousel => context.localized.homeBannerCarousel,
-        HomeBanner.banner => context.localized.homeBannerBanner,
-      };
 }
 
 class Vector2 {

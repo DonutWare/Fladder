@@ -1,6 +1,7 @@
+import 'package:flutter/material.dart';
+
 import 'package:fladder/util/num_extension.dart';
 import 'package:fladder/widgets/gapped_container_shape.dart';
-import 'package:flutter/material.dart';
 
 double normalize(double min, double max, double value) {
   return (value - min) / (max - min);
@@ -12,6 +13,8 @@ class FladderSlider extends StatefulWidget {
   final double max;
   final int? divisions;
   final double thumbWidth;
+  final Color? activeTrackColor;
+  final Color? inactiveTrackColor;
   final bool showThumb;
   final Duration animation;
   final Function(double value)? onChanged;
@@ -25,6 +28,8 @@ class FladderSlider extends StatefulWidget {
     this.divisions,
     this.onChanged,
     this.thumbWidth = 6.5,
+    this.activeTrackColor,
+    this.inactiveTrackColor,
     this.showThumb = true,
     this.animation = const Duration(milliseconds: 100),
     this.onChangeStart,
@@ -146,6 +151,8 @@ class FladderSliderState extends State<FladderSlider> with SingleTickerProviderS
                           height: height,
                           width: constraints.maxWidth,
                           child: GappedContainerShape(
+                            activeColor: widget.activeTrackColor,
+                            inActiveColor: widget.inactiveTrackColor,
                             thumbPosition: relativeValue,
                           ),
                         ),

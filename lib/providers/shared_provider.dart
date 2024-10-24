@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:fladder/models/account_model.dart';
 import 'package:fladder/models/settings/client_settings_model.dart';
 import 'package:fladder/models/settings/home_settings_model.dart';
@@ -15,8 +18,6 @@ import 'package:fladder/providers/settings/photo_view_settings_provider.dart';
 import 'package:fladder/providers/settings/subtitle_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
   throw UnimplementedError();
@@ -116,14 +117,15 @@ class SharedUtility {
 
   HomeSettingsModel get homeSettings {
     try {
-      return HomeSettingsModel.fromJson(sharedPreferences.getString(_homeSettingsKey) ?? "");
+      return HomeSettingsModel.fromJson(jsonDecode(sharedPreferences.getString(_homeSettingsKey) ?? ""));
     } catch (e) {
       log(e.toString());
       return HomeSettingsModel();
     }
   }
 
-  set homeSettings(HomeSettingsModel settings) => sharedPreferences.setString(_homeSettingsKey, settings.toJson());
+  set homeSettings(HomeSettingsModel settings) =>
+      sharedPreferences.setString(_homeSettingsKey, jsonEncode(settings.toJson()));
 
   BookViewerSettingsModel get bookViewSettings {
     try {

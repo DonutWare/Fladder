@@ -21,7 +21,9 @@ mixin _$ApplicationInfo {
   String get buildNumber => throw _privateConstructorUsedError;
   String get os => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ApplicationInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ApplicationInfoCopyWith<ApplicationInfo> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -45,6 +47,8 @@ class _$ApplicationInfoCopyWithImpl<$Res, $Val extends ApplicationInfo>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ApplicationInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -93,6 +97,8 @@ class __$$ApplicationInfoImplCopyWithImpl<$Res>
       _$ApplicationInfoImpl _value, $Res Function(_$ApplicationInfoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ApplicationInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -156,7 +162,9 @@ class _$ApplicationInfoImpl extends _ApplicationInfo {
   @override
   int get hashCode => Object.hash(runtimeType, name, version, buildNumber, os);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ApplicationInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ApplicationInfoImplCopyWith<_$ApplicationInfoImpl> get copyWith =>
@@ -180,8 +188,11 @@ abstract class _ApplicationInfo extends ApplicationInfo {
   String get buildNumber;
   @override
   String get os;
+
+  /// Create a copy of ApplicationInfo
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ApplicationInfoImplCopyWith<_$ApplicationInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

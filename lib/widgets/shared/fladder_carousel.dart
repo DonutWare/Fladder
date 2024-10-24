@@ -48,7 +48,8 @@ class FladderCarousel extends StatefulWidget {
   /// Creates a Material Design carousel.
   const FladderCarousel({
     super.key,
-    this.padding,
+    this.itemPadding,
+    this.padding = EdgeInsets.zero,
     this.backgroundColor,
     this.elevation,
     this.shape,
@@ -68,7 +69,9 @@ class FladderCarousel extends StatefulWidget {
   /// The amount of space to surround each carousel item with.
   ///
   /// Defaults to [EdgeInsets.all] of 4 pixels.
-  final EdgeInsets? padding;
+  final EdgeInsets? itemPadding;
+
+  final EdgeInsets padding;
 
   /// The background color for each carousel item.
   ///
@@ -234,7 +237,7 @@ class _CarouselViewState extends State<FladderCarousel> {
     final AxisDirection axisDirection = _getDirection(context);
     final ScrollPhysics physics =
         widget.itemSnapping ? const CarouselScrollPhysics() : ScrollConfiguration.of(context).getScrollPhysics(context);
-    final EdgeInsets effectivePadding = widget.padding ?? const EdgeInsets.all(4.0);
+    final EdgeInsets effectivePadding = widget.itemPadding ?? const EdgeInsets.all(4.0);
     final Color effectiveBackgroundColor = widget.backgroundColor ?? Theme.of(context).colorScheme.surface;
     final double effectiveElevation = widget.elevation ?? 0.0;
     final ShapeBorder effectiveShape =
@@ -266,7 +269,10 @@ class _CarouselViewState extends State<FladderCarousel> {
                 delegate: SliverChildBuilderDelegate(
                   (BuildContext context, int index) {
                     return Padding(
-                      padding: effectivePadding,
+                      padding: effectivePadding.add(EdgeInsets.only(
+                        left: index == 0 ? widget.padding.left : 0,
+                        right: index == widget.children.length - 1 ? widget.padding.right : 0,
+                      )),
                       child: Material(
                         clipBehavior: Clip.antiAlias,
                         color: effectiveBackgroundColor,
@@ -276,29 +282,31 @@ class _CarouselViewState extends State<FladderCarousel> {
                           fit: StackFit.expand,
                           children: <Widget>[
                             widget.children.elementAt(index),
-                            Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                onTap: widget.onTap != null ? () => widget.onTap!.call(index) : null,
-                                onLongPress: widget.onLongPress != null ? () => widget.onLongPress!.call(index) : null,
-                                onSecondaryTapDown: widget.onSecondaryTap != null
-                                    ? (details) => widget.onSecondaryTap!.call((index, details))
-                                    : null,
-                                overlayColor: widget.overlayColor ??
-                                    WidgetStateProperty.resolveWith((Set<WidgetState> states) {
-                                      if (states.contains(WidgetState.pressed)) {
-                                        return theme.colorScheme.onSurface.withOpacity(0.1);
-                                      }
-                                      if (states.contains(WidgetState.hovered)) {
-                                        return theme.colorScheme.onSurface.withOpacity(0.08);
-                                      }
-                                      if (states.contains(WidgetState.focused)) {
-                                        return theme.colorScheme.onSurface.withOpacity(0.1);
-                                      }
-                                      return null;
-                                    }),
+                            if (widget.onTap != null || widget.onSecondaryTap != null || widget.onLongPress != null)
+                              Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  onTap: widget.onTap != null ? () => widget.onTap!.call(index) : null,
+                                  onLongPress:
+                                      widget.onLongPress != null ? () => widget.onLongPress!.call(index) : null,
+                                  onSecondaryTapDown: widget.onSecondaryTap != null
+                                      ? (details) => widget.onSecondaryTap!.call((index, details))
+                                      : null,
+                                  overlayColor: widget.overlayColor ??
+                                      WidgetStateProperty.resolveWith((Set<WidgetState> states) {
+                                        if (states.contains(WidgetState.pressed)) {
+                                          return theme.colorScheme.onSurface.withOpacity(0.1);
+                                        }
+                                        if (states.contains(WidgetState.hovered)) {
+                                          return theme.colorScheme.onSurface.withOpacity(0.08);
+                                        }
+                                        if (states.contains(WidgetState.focused)) {
+                                          return theme.colorScheme.onSurface.withOpacity(0.1);
+                                        }
+                                        return null;
+                                      }),
+                                ),
                               ),
-                            ),
                           ],
                         ),
                       ),

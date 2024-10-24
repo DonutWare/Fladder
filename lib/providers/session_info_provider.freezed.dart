@@ -23,8 +23,12 @@ mixin _$SessionInfoModel {
   String? get playbackModel => throw _privateConstructorUsedError;
   TranscodingInfo? get transCodeInfo => throw _privateConstructorUsedError;
 
+  /// Serializes this SessionInfoModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SessionInfoModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SessionInfoModelCopyWith<SessionInfoModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -48,6 +52,8 @@ class _$SessionInfoModelCopyWithImpl<$Res, $Val extends SessionInfoModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SessionInfoModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -86,6 +92,8 @@ class __$$SessionInfoModelImplCopyWithImpl<$Res>
       $Res Function(_$SessionInfoModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SessionInfoModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -134,11 +142,13 @@ class _$SessionInfoModelImpl extends _SessionInfoModel {
                 other.transCodeInfo == transCodeInfo));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, playbackModel, transCodeInfo);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SessionInfoModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SessionInfoModelImplCopyWith<_$SessionInfoModelImpl> get copyWith =>
@@ -166,8 +176,11 @@ abstract class _SessionInfoModel extends SessionInfoModel {
   String? get playbackModel;
   @override
   TranscodingInfo? get transCodeInfo;
+
+  /// Create a copy of SessionInfoModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SessionInfoModelImplCopyWith<_$SessionInfoModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
