@@ -425,7 +425,7 @@
   "@navigationSync": {},
   "never": "Nunca",
   "@never": {},
-  "nextUp": "Próximos",
+  "nextUp": "Siguiente",
   "@nextUp": {},
   "noItemsSynced": "No hay elementos sincronizados",
   "@noItemsSynced": {},
@@ -938,8 +938,134 @@
   "@homeBannerBanner": {},
   "homeBannerCarousel": "Carrusel",
   "@homeBannerCarousel": {},
-  "settingsHomeBannerDescription": "Cambiar entre banner y carrusel con desplazamiento",
+  "settingsHomeBannerDescription": "Mostrar como una presentación de diapositivas, carrusel, o ocultar el baner",
   "@settingsHomeBannerDescription": {},
   "settingsHomeBannerTitle": "Banner de inicio",
-  "@settingsHomeBannerTitle": {}
+  "@settingsHomeBannerTitle": {},
+  "syncStatusWaitingToRetry": "Esperando para reintentar",
+  "@syncStatusWaitingToRetry": {},
+  "settingsHomeBannerInformationTitle": "Información del banner",
+  "@settingsHomeBannerInformationTitle": {},
+  "syncStatusCanceled": "Cancelada",
+  "@syncStatusCanceled": {},
+  "aboutSocials": "Sociales",
+  "@aboutSocials": {},
+  "addedToPlaylist": "Añadido a la lista de reproducción {playlistName}",
+  "@addedToPlaylist": {
+    "placeholders": {
+      "playlistName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncStatusFailed": "Fallida",
+  "@syncStatusFailed": {},
+  "aboutBuild": "Compilación: {buildNumber}",
+  "@aboutBuild": {
+    "placeholders": {
+      "buildNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutVersion": "Versión: {version}",
+  "@aboutVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "syncRemoveUnableToDeleteItem": "No se puede eliminar el elemento sincronizado, algo salió mal",
+  "@syncRemoveUnableToDeleteItem": {},
+  "syncStatusComplete": "Completa",
+  "@syncStatusComplete": {},
+  "removedFromCollection": "Eliminado de la colección {collectionName}",
+  "@removedFromCollection": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncStatusPaused": "Pausada",
+  "@syncStatusPaused": {},
+  "syncStatusSynced": "Sincronizada",
+  "@syncStatusSynced": {},
+  "syncAddItemForSyncing": "Añadido {item} para sincronizar",
+  "@syncAddItemForSyncing": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "syncStatusNotFound": "No encontrado",
+  "@syncStatusNotFound": {},
+  "addToNewPlaylist": "Nueva lista de reproducción",
+  "@addToNewPlaylist": {},
+  "addToNewCollection": "Nueva colección",
+  "@addToNewCollection": {},
+  "unableToSyncItem": "No se ha podido sincronizar {item}, algo ha ido mal",
+  "@unableToSyncItem": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "syncStatusEnqueued": "En cola",
+  "@syncStatusEnqueued": {},
+  "homeBannerSlideshow": "Presentación de diapositivas",
+  "@homeBannerSlideshow": {},
+  "settingsHomeBannerInformationDesc": "Información para mostrar en el banner de inicio",
+  "@settingsHomeBannerInformationDesc": {},
+  "addItemsToCollection": "Añadir {itemLength} artículo(s) a la colección",
+  "@addItemsToCollection": {
+    "placeholders": {
+      "itemLength": {
+        "type": "int"
+      }
+    }
+  },
+  "syncStatusRunning": "Ejecutándose",
+  "@syncStatusRunning": {},
+  "syncStatusPartially": "Parcialmente",
+  "@syncStatusPartially": {},
+  "syncOverlayDeleting": "Eliminar elemento(s) sincronizado(s)",
+  "@syncOverlayDeleting": {},
+  "syncOverlaySyncing": "Sincronizar detalle(s) de artículo(s)",
+  "@syncOverlaySyncing": {},
+  "syncSelectDownloadsFolder": "Selecciona la carpeta de descargas",
+  "@syncSelectDownloadsFolder": {},
+  "syncNoFolderSetup": "La carpeta para la sincronización no está configurada",
+  "@syncNoFolderSetup": {},
+  "startedSyncingItem": "La sincronización de {item} ha comenzado",
+  "@startedSyncingItem": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutCreatedBy": "Creado por DonutWare",
+  "@aboutCreatedBy": {},
+  "aboutLicenses": "Licencias",
+  "@aboutLicenses": {},
+  "addedToCollection": "Añadido a la colección {collectionName}",
+  "@addedToCollection": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "addItemsToPlaylist": "Añadir {itemLength} elemento(s) a la lista de reproducción",
+  "@addItemsToPlaylist": {
+    "placeholders": {
+      "itemLength": {
+        "type": "int"
+      }
+    }
+  }
 }
