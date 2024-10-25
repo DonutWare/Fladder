@@ -945,8 +945,12 @@
   "@homeBannerBanner": {},
   "homeBannerCarousel": "Карусель",
   "@homeBannerCarousel": {},
-  "settingsHomeBannerDescription": "Перемикання між банером та каруселлю з прокруткою",
+  "settingsHomeBannerDescription": "Відобразити у вигляді слайд-шоу, каруселі або приховати банер",
   "@settingsHomeBannerDescription": {},
   "settingsHomeBannerTitle": "Банер на головній сторінці",
-  "@settingsHomeBannerTitle": {}
+  "@settingsHomeBannerTitle": {},
+  "settingsHomeBannerInformationTitle": "Інформація про банер",
+  "@settingsHomeBannerInformationTitle": {},
+  "settingsHomeBannerInformationDesc": "Інформація для показу в банері на головній сторінці",
+  "@settingsHomeBannerInformationDesc": {}
 }
