@@ -1001,5 +1001,71 @@
         "type": "String"
       }
     }
-  }
+  },
+  "removedFromCollection": "Verwijderd uit de collectie {collectionName}",
+  "@removedFromCollection": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "addItemsToPlaylist": "Voeg {itemLength} item(s) toe aan afspeellijst",
+  "@addItemsToPlaylist": {
+    "placeholders": {
+      "itemLength": {
+        "type": "int"
+      }
+    }
+  },
+  "addToNewCollection": "Nieuwe collectie",
+  "@addToNewCollection": {},
+  "addToNewPlaylist": "Nieuwe afspeellijst",
+  "@addToNewPlaylist": {},
+  "aboutVersion": "Versie: {version}",
+  "@aboutVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutCreatedBy": "Gemaakt door DonutWare",
+  "@aboutCreatedBy": {},
+  "aboutLicenses": "Licenties",
+  "@aboutLicenses": {},
+  "addItemsToCollection": "Voeg {itemLength} item(s) toe aan collectie",
+  "@addItemsToCollection": {
+    "placeholders": {
+      "itemLength": {
+        "type": "int"
+      }
+    }
+  },
+  "addedToPlaylist": "Toegevoegd aan {playlistName} afspeellijst",
+  "@addedToPlaylist": {
+    "placeholders": {
+      "playlistName": {
+        "type": "String"
+      }
+    }
+  },
+  "addedToCollection": "Toegevoegd aan de collectie {collectionName}",
+  "@addedToCollection": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutBuild": "Iteratie: {buildNumber}",
+  "@aboutBuild": {
+    "placeholders": {
+      "buildNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutSocials": "Sociaal",
+  "@aboutSocials": {}
 }
