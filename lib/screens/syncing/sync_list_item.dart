@@ -1,18 +1,20 @@
+import 'package:flutter/material.dart';
+
 import 'package:ficonsax/ficonsax.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/providers/sync/sync_provider_helpers.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/screens/shared/default_alert_dialog.dart';
 import 'package:fladder/screens/syncing/sync_item_details.dart';
 import 'package:fladder/screens/syncing/sync_widgets.dart';
-import 'package:fladder/screens/syncing/widgets/sync_markedfordelete.dart';
 import 'package:fladder/screens/syncing/widgets/sync_progress_builder.dart';
+import 'package:fladder/screens/syncing/widgets/sync_status_overlay.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/size_formatting.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SyncListItem extends ConsumerStatefulWidget {
   final SyncedItem syncedItem;
@@ -29,7 +31,7 @@ class SyncListItemState extends ConsumerState<SyncListItem> {
     final baseItem = ref.read(syncProvider.notifier).getItem(syncedItem);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
-      child: SyncMarkedForDelete(
+      child: SyncStatusOverlay(
         syncedItem: syncedItem,
         child: Card(
           elevation: 1,
@@ -53,7 +55,7 @@ class SyncListItemState extends ConsumerState<SyncListItem> {
                   context.localized.deleteItem(baseItem?.detailedName(context) ?? ""),
                   context.localized.syncDeletePopupPermanent,
                   (context) async {
-                    ref.read(syncProvider.notifier).removeSync(syncedItem);
+                    ref.read(syncProvider.notifier).removeSync(context, syncedItem);
                     Navigator.of(context).pop();
                     return true;
                   },

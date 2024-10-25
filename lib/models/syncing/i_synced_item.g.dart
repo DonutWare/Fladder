@@ -29,6 +29,10 @@ const ISyncedItemSchema = IsarGeneratedSchema(
         type: IsarType.string,
       ),
       IsarPropertySchema(
+        name: 'syncing',
+        type: IsarType.bool,
+      ),
+      IsarPropertySchema(
         name: 'sortName',
         type: IsarType.string,
       ),
@@ -94,16 +98,9 @@ int serializeISyncedItem(IsarWriter writer, ISyncedItem object) {
     }
   }
   IsarCore.writeString(writer, 2, object.id);
+  IsarCore.writeBool(writer, 3, object.syncing);
   {
     final value = object.sortName;
-    if (value == null) {
-      IsarCore.writeNull(writer, 3);
-    } else {
-      IsarCore.writeString(writer, 3, value);
-    }
-  }
-  {
-    final value = object.parentId;
     if (value == null) {
       IsarCore.writeNull(writer, 4);
     } else {
@@ -111,24 +108,24 @@ int serializeISyncedItem(IsarWriter writer, ISyncedItem object) {
     }
   }
   {
-    final value = object.path;
+    final value = object.parentId;
     if (value == null) {
       IsarCore.writeNull(writer, 5);
     } else {
       IsarCore.writeString(writer, 5, value);
     }
   }
-  IsarCore.writeLong(writer, 6, object.fileSize ?? -9223372036854775808);
   {
-    final value = object.videoFileName;
+    final value = object.path;
     if (value == null) {
-      IsarCore.writeNull(writer, 7);
+      IsarCore.writeNull(writer, 6);
     } else {
-      IsarCore.writeString(writer, 7, value);
+      IsarCore.writeString(writer, 6, value);
     }
   }
+  IsarCore.writeLong(writer, 7, object.fileSize ?? -9223372036854775808);
   {
-    final value = object.trickPlayModel;
+    final value = object.videoFileName;
     if (value == null) {
       IsarCore.writeNull(writer, 8);
     } else {
@@ -136,7 +133,7 @@ int serializeISyncedItem(IsarWriter writer, ISyncedItem object) {
     }
   }
   {
-    final value = object.introOutroSkipModel;
+    final value = object.trickPlayModel;
     if (value == null) {
       IsarCore.writeNull(writer, 9);
     } else {
@@ -144,7 +141,7 @@ int serializeISyncedItem(IsarWriter writer, ISyncedItem object) {
     }
   }
   {
-    final value = object.images;
+    final value = object.introOutroSkipModel;
     if (value == null) {
       IsarCore.writeNull(writer, 10);
     } else {
@@ -152,19 +149,15 @@ int serializeISyncedItem(IsarWriter writer, ISyncedItem object) {
     }
   }
   {
-    final list = object.chapters;
-    if (list == null) {
+    final value = object.images;
+    if (value == null) {
       IsarCore.writeNull(writer, 11);
     } else {
-      final listWriter = IsarCore.beginList(writer, 11, list.length);
-      for (var i = 0; i < list.length; i++) {
-        IsarCore.writeString(listWriter, i, list[i]);
-      }
-      IsarCore.endList(writer, listWriter);
+      IsarCore.writeString(writer, 11, value);
     }
   }
   {
-    final list = object.subtitles;
+    final list = object.chapters;
     if (list == null) {
       IsarCore.writeNull(writer, 12);
     } else {
@@ -176,11 +169,23 @@ int serializeISyncedItem(IsarWriter writer, ISyncedItem object) {
     }
   }
   {
-    final value = object.userData;
-    if (value == null) {
+    final list = object.subtitles;
+    if (list == null) {
       IsarCore.writeNull(writer, 13);
     } else {
-      IsarCore.writeString(writer, 13, value);
+      final listWriter = IsarCore.beginList(writer, 13, list.length);
+      for (var i = 0; i < list.length; i++) {
+        IsarCore.writeString(listWriter, i, list[i]);
+      }
+      IsarCore.endList(writer, listWriter);
+    }
+  }
+  {
+    final value = object.userData;
+    if (value == null) {
+      IsarCore.writeNull(writer, 14);
+    } else {
+      IsarCore.writeString(writer, 14, value);
     }
   }
   return Isar.fastHash(object.id);
@@ -192,15 +197,17 @@ ISyncedItem deserializeISyncedItem(IsarReader reader) {
   _userId = IsarCore.readString(reader, 1);
   final String _id;
   _id = IsarCore.readString(reader, 2) ?? '';
+  final bool _syncing;
+  _syncing = IsarCore.readBool(reader, 3);
   final String? _sortName;
-  _sortName = IsarCore.readString(reader, 3);
+  _sortName = IsarCore.readString(reader, 4);
   final String? _parentId;
-  _parentId = IsarCore.readString(reader, 4);
+  _parentId = IsarCore.readString(reader, 5);
   final String? _path;
-  _path = IsarCore.readString(reader, 5);
+  _path = IsarCore.readString(reader, 6);
   final int? _fileSize;
   {
-    final value = IsarCore.readLong(reader, 6);
+    final value = IsarCore.readLong(reader, 7);
     if (value == -9223372036854775808) {
       _fileSize = null;
     } else {
@@ -208,16 +215,16 @@ ISyncedItem deserializeISyncedItem(IsarReader reader) {
     }
   }
   final String? _videoFileName;
-  _videoFileName = IsarCore.readString(reader, 7);
+  _videoFileName = IsarCore.readString(reader, 8);
   final String? _trickPlayModel;
-  _trickPlayModel = IsarCore.readString(reader, 8);
+  _trickPlayModel = IsarCore.readString(reader, 9);
   final String? _introOutroSkipModel;
-  _introOutroSkipModel = IsarCore.readString(reader, 9);
+  _introOutroSkipModel = IsarCore.readString(reader, 10);
   final String? _images;
-  _images = IsarCore.readString(reader, 10);
+  _images = IsarCore.readString(reader, 11);
   final List<String>? _chapters;
   {
-    final length = IsarCore.readList(reader, 11, IsarCore.readerPtrPtr);
+    final length = IsarCore.readList(reader, 12, IsarCore.readerPtrPtr);
     {
       final reader = IsarCore.readerPtr;
       if (reader.isNull) {
@@ -234,7 +241,7 @@ ISyncedItem deserializeISyncedItem(IsarReader reader) {
   }
   final List<String>? _subtitles;
   {
-    final length = IsarCore.readList(reader, 12, IsarCore.readerPtrPtr);
+    final length = IsarCore.readList(reader, 13, IsarCore.readerPtrPtr);
     {
       final reader = IsarCore.readerPtr;
       if (reader.isNull) {
@@ -250,10 +257,11 @@ ISyncedItem deserializeISyncedItem(IsarReader reader) {
     }
   }
   final String? _userData;
-  _userData = IsarCore.readString(reader, 13);
+  _userData = IsarCore.readString(reader, 14);
   final object = ISyncedItem(
     userId: _userId,
     id: _id,
+    syncing: _syncing,
     sortName: _sortName,
     parentId: _parentId,
     path: _path,
@@ -277,22 +285,22 @@ dynamic deserializeISyncedItemProp(IsarReader reader, int property) {
     case 2:
       return IsarCore.readString(reader, 2) ?? '';
     case 3:
-      return IsarCore.readString(reader, 3);
+      return IsarCore.readBool(reader, 3);
     case 4:
       return IsarCore.readString(reader, 4);
     case 5:
       return IsarCore.readString(reader, 5);
     case 6:
+      return IsarCore.readString(reader, 6);
+    case 7:
       {
-        final value = IsarCore.readLong(reader, 6);
+        final value = IsarCore.readLong(reader, 7);
         if (value == -9223372036854775808) {
           return null;
         } else {
           return value;
         }
       }
-    case 7:
-      return IsarCore.readString(reader, 7);
     case 8:
       return IsarCore.readString(reader, 8);
     case 9:
@@ -300,22 +308,7 @@ dynamic deserializeISyncedItemProp(IsarReader reader, int property) {
     case 10:
       return IsarCore.readString(reader, 10);
     case 11:
-      {
-        final length = IsarCore.readList(reader, 11, IsarCore.readerPtrPtr);
-        {
-          final reader = IsarCore.readerPtr;
-          if (reader.isNull) {
-            return null;
-          } else {
-            final list = List<String>.filled(length, '', growable: true);
-            for (var i = 0; i < length; i++) {
-              list[i] = IsarCore.readString(reader, i) ?? '';
-            }
-            IsarCore.freeReader(reader);
-            return list;
-          }
-        }
-      }
+      return IsarCore.readString(reader, 11);
     case 12:
       {
         final length = IsarCore.readList(reader, 12, IsarCore.readerPtrPtr);
@@ -334,7 +327,24 @@ dynamic deserializeISyncedItemProp(IsarReader reader, int property) {
         }
       }
     case 13:
-      return IsarCore.readString(reader, 13);
+      {
+        final length = IsarCore.readList(reader, 13, IsarCore.readerPtrPtr);
+        {
+          final reader = IsarCore.readerPtr;
+          if (reader.isNull) {
+            return null;
+          } else {
+            final list = List<String>.filled(length, '', growable: true);
+            for (var i = 0; i < length; i++) {
+              list[i] = IsarCore.readString(reader, i) ?? '';
+            }
+            IsarCore.freeReader(reader);
+            return list;
+          }
+        }
+      }
+    case 14:
+      return IsarCore.readString(reader, 14);
     default:
       throw ArgumentError('Unknown property: $property');
   }
@@ -344,6 +354,7 @@ sealed class _ISyncedItemUpdate {
   bool call({
     required String id,
     String? userId,
+    bool? syncing,
     String? sortName,
     String? parentId,
     String? path,
@@ -365,6 +376,7 @@ class _ISyncedItemUpdateImpl implements _ISyncedItemUpdate {
   bool call({
     required String id,
     Object? userId = ignore,
+    Object? syncing = ignore,
     Object? sortName = ignore,
     Object? parentId = ignore,
     Object? path = ignore,
@@ -379,15 +391,16 @@ class _ISyncedItemUpdateImpl implements _ISyncedItemUpdate {
           id
         ], {
           if (userId != ignore) 1: userId as String?,
-          if (sortName != ignore) 3: sortName as String?,
-          if (parentId != ignore) 4: parentId as String?,
-          if (path != ignore) 5: path as String?,
-          if (fileSize != ignore) 6: fileSize as int?,
-          if (videoFileName != ignore) 7: videoFileName as String?,
-          if (trickPlayModel != ignore) 8: trickPlayModel as String?,
-          if (introOutroSkipModel != ignore) 9: introOutroSkipModel as String?,
-          if (images != ignore) 10: images as String?,
-          if (userData != ignore) 13: userData as String?,
+          if (syncing != ignore) 3: syncing as bool?,
+          if (sortName != ignore) 4: sortName as String?,
+          if (parentId != ignore) 5: parentId as String?,
+          if (path != ignore) 6: path as String?,
+          if (fileSize != ignore) 7: fileSize as int?,
+          if (videoFileName != ignore) 8: videoFileName as String?,
+          if (trickPlayModel != ignore) 9: trickPlayModel as String?,
+          if (introOutroSkipModel != ignore) 10: introOutroSkipModel as String?,
+          if (images != ignore) 11: images as String?,
+          if (userData != ignore) 14: userData as String?,
         }) >
         0;
   }
@@ -397,6 +410,7 @@ sealed class _ISyncedItemUpdateAll {
   int call({
     required List<String> id,
     String? userId,
+    bool? syncing,
     String? sortName,
     String? parentId,
     String? path,
@@ -418,6 +432,7 @@ class _ISyncedItemUpdateAllImpl implements _ISyncedItemUpdateAll {
   int call({
     required List<String> id,
     Object? userId = ignore,
+    Object? syncing = ignore,
     Object? sortName = ignore,
     Object? parentId = ignore,
     Object? path = ignore,
@@ -430,15 +445,16 @@ class _ISyncedItemUpdateAllImpl implements _ISyncedItemUpdateAll {
   }) {
     return collection.updateProperties(id, {
       if (userId != ignore) 1: userId as String?,
-      if (sortName != ignore) 3: sortName as String?,
-      if (parentId != ignore) 4: parentId as String?,
-      if (path != ignore) 5: path as String?,
-      if (fileSize != ignore) 6: fileSize as int?,
-      if (videoFileName != ignore) 7: videoFileName as String?,
-      if (trickPlayModel != ignore) 8: trickPlayModel as String?,
-      if (introOutroSkipModel != ignore) 9: introOutroSkipModel as String?,
-      if (images != ignore) 10: images as String?,
-      if (userData != ignore) 13: userData as String?,
+      if (syncing != ignore) 3: syncing as bool?,
+      if (sortName != ignore) 4: sortName as String?,
+      if (parentId != ignore) 5: parentId as String?,
+      if (path != ignore) 6: path as String?,
+      if (fileSize != ignore) 7: fileSize as int?,
+      if (videoFileName != ignore) 8: videoFileName as String?,
+      if (trickPlayModel != ignore) 9: trickPlayModel as String?,
+      if (introOutroSkipModel != ignore) 10: introOutroSkipModel as String?,
+      if (images != ignore) 11: images as String?,
+      if (userData != ignore) 14: userData as String?,
     });
   }
 }
@@ -452,6 +468,7 @@ extension ISyncedItemUpdate on IsarCollection<String, ISyncedItem> {
 sealed class _ISyncedItemQueryUpdate {
   int call({
     String? userId,
+    bool? syncing,
     String? sortName,
     String? parentId,
     String? path,
@@ -473,6 +490,7 @@ class _ISyncedItemQueryUpdateImpl implements _ISyncedItemQueryUpdate {
   @override
   int call({
     Object? userId = ignore,
+    Object? syncing = ignore,
     Object? sortName = ignore,
     Object? parentId = ignore,
     Object? path = ignore,
@@ -485,15 +503,16 @@ class _ISyncedItemQueryUpdateImpl implements _ISyncedItemQueryUpdate {
   }) {
     return query.updateProperties(limit: limit, {
       if (userId != ignore) 1: userId as String?,
-      if (sortName != ignore) 3: sortName as String?,
-      if (parentId != ignore) 4: parentId as String?,
-      if (path != ignore) 5: path as String?,
-      if (fileSize != ignore) 6: fileSize as int?,
-      if (videoFileName != ignore) 7: videoFileName as String?,
-      if (trickPlayModel != ignore) 8: trickPlayModel as String?,
-      if (introOutroSkipModel != ignore) 9: introOutroSkipModel as String?,
-      if (images != ignore) 10: images as String?,
-      if (userData != ignore) 13: userData as String?,
+      if (syncing != ignore) 3: syncing as bool?,
+      if (sortName != ignore) 4: sortName as String?,
+      if (parentId != ignore) 5: parentId as String?,
+      if (path != ignore) 6: path as String?,
+      if (fileSize != ignore) 7: fileSize as int?,
+      if (videoFileName != ignore) 8: videoFileName as String?,
+      if (trickPlayModel != ignore) 9: trickPlayModel as String?,
+      if (introOutroSkipModel != ignore) 10: introOutroSkipModel as String?,
+      if (images != ignore) 11: images as String?,
+      if (userData != ignore) 14: userData as String?,
     });
   }
 }
@@ -514,6 +533,7 @@ class _ISyncedItemQueryBuilderUpdateImpl implements _ISyncedItemQueryUpdate {
   @override
   int call({
     Object? userId = ignore,
+    Object? syncing = ignore,
     Object? sortName = ignore,
     Object? parentId = ignore,
     Object? path = ignore,
@@ -528,15 +548,16 @@ class _ISyncedItemQueryBuilderUpdateImpl implements _ISyncedItemQueryUpdate {
     try {
       return q.updateProperties(limit: limit, {
         if (userId != ignore) 1: userId as String?,
-        if (sortName != ignore) 3: sortName as String?,
-        if (parentId != ignore) 4: parentId as String?,
-        if (path != ignore) 5: path as String?,
-        if (fileSize != ignore) 6: fileSize as int?,
-        if (videoFileName != ignore) 7: videoFileName as String?,
-        if (trickPlayModel != ignore) 8: trickPlayModel as String?,
-        if (introOutroSkipModel != ignore) 9: introOutroSkipModel as String?,
-        if (images != ignore) 10: images as String?,
-        if (userData != ignore) 13: userData as String?,
+        if (syncing != ignore) 3: syncing as bool?,
+        if (sortName != ignore) 4: sortName as String?,
+        if (parentId != ignore) 5: parentId as String?,
+        if (path != ignore) 6: path as String?,
+        if (fileSize != ignore) 7: fileSize as int?,
+        if (videoFileName != ignore) 8: videoFileName as String?,
+        if (trickPlayModel != ignore) 9: trickPlayModel as String?,
+        if (introOutroSkipModel != ignore) 10: introOutroSkipModel as String?,
+        if (images != ignore) 11: images as String?,
+        if (userData != ignore) 14: userData as String?,
       });
     } finally {
       q.close();
@@ -920,17 +941,30 @@ extension ISyncedItemQueryFilter
     });
   }
 
+  QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition> syncingEqualTo(
+    bool value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 3,
+          value: value,
+        ),
+      );
+    });
+  }
+
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
       sortNameIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const IsNullCondition(property: 3));
+      return query.addFilterCondition(const IsNullCondition(property: 4));
     });
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
       sortNameIsNotNull() {
     return QueryBuilder.apply(not(), (query) {
-      return query.addFilterCondition(const IsNullCondition(property: 3));
+      return query.addFilterCondition(const IsNullCondition(property: 4));
     });
   }
 
@@ -941,7 +975,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         EqualCondition(
-          property: 3,
+          property: 4,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -957,7 +991,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         GreaterCondition(
-          property: 3,
+          property: 4,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -973,7 +1007,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         GreaterOrEqualCondition(
-          property: 3,
+          property: 4,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -989,7 +1023,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         LessCondition(
-          property: 3,
+          property: 4,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1005,7 +1039,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         LessOrEqualCondition(
-          property: 3,
+          property: 4,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1021,7 +1055,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         BetweenCondition(
-          property: 3,
+          property: 4,
           lower: lower,
           upper: upper,
           caseSensitive: caseSensitive,
@@ -1038,7 +1072,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         StartsWithCondition(
-          property: 3,
+          property: 4,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1054,7 +1088,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         EndsWithCondition(
-          property: 3,
+          property: 4,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1067,7 +1101,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         ContainsCondition(
-          property: 3,
+          property: 4,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1081,7 +1115,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         MatchesCondition(
-          property: 3,
+          property: 4,
           wildcard: pattern,
           caseSensitive: caseSensitive,
         ),
@@ -1094,7 +1128,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const EqualCondition(
-          property: 3,
+          property: 4,
           value: '',
         ),
       );
@@ -1106,7 +1140,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const GreaterCondition(
-          property: 3,
+          property: 4,
           value: '',
         ),
       );
@@ -1116,14 +1150,14 @@ extension ISyncedItemQueryFilter
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
       parentIdIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const IsNullCondition(property: 4));
+      return query.addFilterCondition(const IsNullCondition(property: 5));
     });
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
       parentIdIsNotNull() {
     return QueryBuilder.apply(not(), (query) {
-      return query.addFilterCondition(const IsNullCondition(property: 4));
+      return query.addFilterCondition(const IsNullCondition(property: 5));
     });
   }
 
@@ -1134,7 +1168,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         EqualCondition(
-          property: 4,
+          property: 5,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1150,7 +1184,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         GreaterCondition(
-          property: 4,
+          property: 5,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1166,7 +1200,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         GreaterOrEqualCondition(
-          property: 4,
+          property: 5,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1182,7 +1216,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         LessCondition(
-          property: 4,
+          property: 5,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1198,7 +1232,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         LessOrEqualCondition(
-          property: 4,
+          property: 5,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1214,7 +1248,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         BetweenCondition(
-          property: 4,
+          property: 5,
           lower: lower,
           upper: upper,
           caseSensitive: caseSensitive,
@@ -1231,7 +1265,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         StartsWithCondition(
-          property: 4,
+          property: 5,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1247,7 +1281,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         EndsWithCondition(
-          property: 4,
+          property: 5,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1260,7 +1294,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         ContainsCondition(
-          property: 4,
+          property: 5,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1274,7 +1308,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         MatchesCondition(
-          property: 4,
+          property: 5,
           wildcard: pattern,
           caseSensitive: caseSensitive,
         ),
@@ -1287,7 +1321,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const EqualCondition(
-          property: 4,
+          property: 5,
           value: '',
         ),
       );
@@ -1299,7 +1333,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const GreaterCondition(
-          property: 4,
+          property: 5,
           value: '',
         ),
       );
@@ -1308,14 +1342,14 @@ extension ISyncedItemQueryFilter
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition> pathIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const IsNullCondition(property: 5));
+      return query.addFilterCondition(const IsNullCondition(property: 6));
     });
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
       pathIsNotNull() {
     return QueryBuilder.apply(not(), (query) {
-      return query.addFilterCondition(const IsNullCondition(property: 5));
+      return query.addFilterCondition(const IsNullCondition(property: 6));
     });
   }
 
@@ -1326,7 +1360,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         EqualCondition(
-          property: 5,
+          property: 6,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1341,7 +1375,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         GreaterCondition(
-          property: 5,
+          property: 6,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1357,7 +1391,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         GreaterOrEqualCondition(
-          property: 5,
+          property: 6,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1372,7 +1406,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         LessCondition(
-          property: 5,
+          property: 6,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1388,7 +1422,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         LessOrEqualCondition(
-          property: 5,
+          property: 6,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1404,7 +1438,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         BetweenCondition(
-          property: 5,
+          property: 6,
           lower: lower,
           upper: upper,
           caseSensitive: caseSensitive,
@@ -1420,7 +1454,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         StartsWithCondition(
-          property: 5,
+          property: 6,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1435,7 +1469,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         EndsWithCondition(
-          property: 5,
+          property: 6,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1449,7 +1483,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         ContainsCondition(
-          property: 5,
+          property: 6,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1463,7 +1497,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         MatchesCondition(
-          property: 5,
+          property: 6,
           wildcard: pattern,
           caseSensitive: caseSensitive,
         ),
@@ -1475,7 +1509,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const EqualCondition(
-          property: 5,
+          property: 6,
           value: '',
         ),
       );
@@ -1487,7 +1521,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const GreaterCondition(
-          property: 5,
+          property: 6,
           value: '',
         ),
       );
@@ -1497,14 +1531,14 @@ extension ISyncedItemQueryFilter
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
       fileSizeIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const IsNullCondition(property: 6));
+      return query.addFilterCondition(const IsNullCondition(property: 7));
     });
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
       fileSizeIsNotNull() {
     return QueryBuilder.apply(not(), (query) {
-      return query.addFilterCondition(const IsNullCondition(property: 6));
+      return query.addFilterCondition(const IsNullCondition(property: 7));
     });
   }
 
@@ -1514,7 +1548,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         EqualCondition(
-          property: 6,
+          property: 7,
           value: value,
         ),
       );
@@ -1528,7 +1562,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         GreaterCondition(
-          property: 6,
+          property: 7,
           value: value,
         ),
       );
@@ -1542,7 +1576,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         GreaterOrEqualCondition(
-          property: 6,
+          property: 7,
           value: value,
         ),
       );
@@ -1556,7 +1590,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         LessCondition(
-          property: 6,
+          property: 7,
           value: value,
         ),
       );
@@ -1570,7 +1604,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         LessOrEqualCondition(
-          property: 6,
+          property: 7,
           value: value,
         ),
       );
@@ -1584,7 +1618,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         BetweenCondition(
-          property: 6,
+          property: 7,
           lower: lower,
           upper: upper,
         ),
@@ -1595,14 +1629,14 @@ extension ISyncedItemQueryFilter
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
       videoFileNameIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const IsNullCondition(property: 7));
+      return query.addFilterCondition(const IsNullCondition(property: 8));
     });
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
       videoFileNameIsNotNull() {
     return QueryBuilder.apply(not(), (query) {
-      return query.addFilterCondition(const IsNullCondition(property: 7));
+      return query.addFilterCondition(const IsNullCondition(property: 8));
     });
   }
 
@@ -1614,7 +1648,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         EqualCondition(
-          property: 7,
+          property: 8,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1630,7 +1664,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         GreaterCondition(
-          property: 7,
+          property: 8,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1646,7 +1680,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         GreaterOrEqualCondition(
-          property: 7,
+          property: 8,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1662,7 +1696,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         LessCondition(
-          property: 7,
+          property: 8,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1678,7 +1712,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         LessOrEqualCondition(
-          property: 7,
+          property: 8,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1695,7 +1729,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         BetweenCondition(
-          property: 7,
+          property: 8,
           lower: lower,
           upper: upper,
           caseSensitive: caseSensitive,
@@ -1712,7 +1746,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         StartsWithCondition(
-          property: 7,
+          property: 8,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1728,7 +1762,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         EndsWithCondition(
-          property: 7,
+          property: 8,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1741,7 +1775,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         ContainsCondition(
-          property: 7,
+          property: 8,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1754,7 +1788,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         MatchesCondition(
-          property: 7,
+          property: 8,
           wildcard: pattern,
           caseSensitive: caseSensitive,
         ),
@@ -1767,7 +1801,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const EqualCondition(
-          property: 7,
+          property: 8,
           value: '',
         ),
       );
@@ -1779,7 +1813,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const GreaterCondition(
-          property: 7,
+          property: 8,
           value: '',
         ),
       );
@@ -1789,14 +1823,14 @@ extension ISyncedItemQueryFilter
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
       trickPlayModelIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const IsNullCondition(property: 8));
+      return query.addFilterCondition(const IsNullCondition(property: 9));
     });
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
       trickPlayModelIsNotNull() {
     return QueryBuilder.apply(not(), (query) {
-      return query.addFilterCondition(const IsNullCondition(property: 8));
+      return query.addFilterCondition(const IsNullCondition(property: 9));
     });
   }
 
@@ -1808,7 +1842,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         EqualCondition(
-          property: 8,
+          property: 9,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1824,7 +1858,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         GreaterCondition(
-          property: 8,
+          property: 9,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1840,7 +1874,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         GreaterOrEqualCondition(
-          property: 8,
+          property: 9,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1856,7 +1890,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         LessCondition(
-          property: 8,
+          property: 9,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1872,7 +1906,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         LessOrEqualCondition(
-          property: 8,
+          property: 9,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1889,7 +1923,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         BetweenCondition(
-          property: 8,
+          property: 9,
           lower: lower,
           upper: upper,
           caseSensitive: caseSensitive,
@@ -1906,7 +1940,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         StartsWithCondition(
-          property: 8,
+          property: 9,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1922,7 +1956,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         EndsWithCondition(
-          property: 8,
+          property: 9,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1935,7 +1969,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         ContainsCondition(
-          property: 8,
+          property: 9,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1948,7 +1982,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         MatchesCondition(
-          property: 8,
+          property: 9,
           wildcard: pattern,
           caseSensitive: caseSensitive,
         ),
@@ -1961,7 +1995,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const EqualCondition(
-          property: 8,
+          property: 9,
           value: '',
         ),
       );
@@ -1973,7 +2007,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const GreaterCondition(
-          property: 8,
+          property: 9,
           value: '',
         ),
       );
@@ -1983,14 +2017,14 @@ extension ISyncedItemQueryFilter
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
       introOutroSkipModelIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const IsNullCondition(property: 9));
+      return query.addFilterCondition(const IsNullCondition(property: 10));
     });
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
       introOutroSkipModelIsNotNull() {
     return QueryBuilder.apply(not(), (query) {
-      return query.addFilterCondition(const IsNullCondition(property: 9));
+      return query.addFilterCondition(const IsNullCondition(property: 10));
     });
   }
 
@@ -2002,7 +2036,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         EqualCondition(
-          property: 9,
+          property: 10,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2018,7 +2052,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         GreaterCondition(
-          property: 9,
+          property: 10,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2034,7 +2068,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         GreaterOrEqualCondition(
-          property: 9,
+          property: 10,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2050,7 +2084,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         LessCondition(
-          property: 9,
+          property: 10,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2066,7 +2100,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         LessOrEqualCondition(
-          property: 9,
+          property: 10,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2083,7 +2117,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         BetweenCondition(
-          property: 9,
+          property: 10,
           lower: lower,
           upper: upper,
           caseSensitive: caseSensitive,
@@ -2100,7 +2134,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         StartsWithCondition(
-          property: 9,
+          property: 10,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2116,7 +2150,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         EndsWithCondition(
-          property: 9,
+          property: 10,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2129,7 +2163,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         ContainsCondition(
-          property: 9,
+          property: 10,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2142,7 +2176,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         MatchesCondition(
-          property: 9,
+          property: 10,
           wildcard: pattern,
           caseSensitive: caseSensitive,
         ),
@@ -2155,7 +2189,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const EqualCondition(
-          property: 9,
+          property: 10,
           value: '',
         ),
       );
@@ -2167,7 +2201,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const GreaterCondition(
-          property: 9,
+          property: 10,
           value: '',
         ),
       );
@@ -2176,14 +2210,14 @@ extension ISyncedItemQueryFilter
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition> imagesIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const IsNullCondition(property: 10));
+      return query.addFilterCondition(const IsNullCondition(property: 11));
     });
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
       imagesIsNotNull() {
     return QueryBuilder.apply(not(), (query) {
-      return query.addFilterCondition(const IsNullCondition(property: 10));
+      return query.addFilterCondition(const IsNullCondition(property: 11));
     });
   }
 
@@ -2194,7 +2228,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         EqualCondition(
-          property: 10,
+          property: 11,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2210,7 +2244,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         GreaterCondition(
-          property: 10,
+          property: 11,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2226,7 +2260,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         GreaterOrEqualCondition(
-          property: 10,
+          property: 11,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2241,7 +2275,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         LessCondition(
-          property: 10,
+          property: 11,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2257,7 +2291,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         LessOrEqualCondition(
-          property: 10,
+          property: 11,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2273,7 +2307,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         BetweenCondition(
-          property: 10,
+          property: 11,
           lower: lower,
           upper: upper,
           caseSensitive: caseSensitive,
@@ -2290,7 +2324,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         StartsWithCondition(
-          property: 10,
+          property: 11,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2305,7 +2339,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         EndsWithCondition(
-          property: 10,
+          property: 11,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2319,7 +2353,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         ContainsCondition(
-          property: 10,
+          property: 11,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2333,7 +2367,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         MatchesCondition(
-          property: 10,
+          property: 11,
           wildcard: pattern,
           caseSensitive: caseSensitive,
         ),
@@ -2346,7 +2380,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const EqualCondition(
-          property: 10,
+          property: 11,
           value: '',
         ),
       );
@@ -2358,7 +2392,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const GreaterCondition(
-          property: 10,
+          property: 11,
           value: '',
         ),
       );
@@ -2368,14 +2402,14 @@ extension ISyncedItemQueryFilter
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
       chaptersIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const IsNullCondition(property: 11));
+      return query.addFilterCondition(const IsNullCondition(property: 12));
     });
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
       chaptersIsNotNull() {
     return QueryBuilder.apply(not(), (query) {
-      return query.addFilterCondition(const IsNullCondition(property: 11));
+      return query.addFilterCondition(const IsNullCondition(property: 12));
     });
   }
 
@@ -2387,7 +2421,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         EqualCondition(
-          property: 11,
+          property: 12,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2403,7 +2437,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         GreaterCondition(
-          property: 11,
+          property: 12,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2419,7 +2453,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         GreaterOrEqualCondition(
-          property: 11,
+          property: 12,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2435,7 +2469,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         LessCondition(
-          property: 11,
+          property: 12,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2451,7 +2485,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         LessOrEqualCondition(
-          property: 11,
+          property: 12,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2468,7 +2502,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         BetweenCondition(
-          property: 11,
+          property: 12,
           lower: lower,
           upper: upper,
           caseSensitive: caseSensitive,
@@ -2485,7 +2519,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         StartsWithCondition(
-          property: 11,
+          property: 12,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2501,7 +2535,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         EndsWithCondition(
-          property: 11,
+          property: 12,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2514,7 +2548,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         ContainsCondition(
-          property: 11,
+          property: 12,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2527,7 +2561,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         MatchesCondition(
-          property: 11,
+          property: 12,
           wildcard: pattern,
           caseSensitive: caseSensitive,
         ),
@@ -2540,7 +2574,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const EqualCondition(
-          property: 11,
+          property: 12,
           value: '',
         ),
       );
@@ -2552,7 +2586,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const GreaterCondition(
-          property: 11,
+          property: 12,
           value: '',
         ),
       );
@@ -2570,7 +2604,7 @@ extension ISyncedItemQueryFilter
       chaptersIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
-        const GreaterOrEqualCondition(property: 11, value: null),
+        const GreaterOrEqualCondition(property: 12, value: null),
       );
     });
   }
@@ -2578,14 +2612,14 @@ extension ISyncedItemQueryFilter
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
       subtitlesIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const IsNullCondition(property: 12));
+      return query.addFilterCondition(const IsNullCondition(property: 13));
     });
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
       subtitlesIsNotNull() {
     return QueryBuilder.apply(not(), (query) {
-      return query.addFilterCondition(const IsNullCondition(property: 12));
+      return query.addFilterCondition(const IsNullCondition(property: 13));
     });
   }
 
@@ -2597,7 +2631,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         EqualCondition(
-          property: 12,
+          property: 13,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2613,7 +2647,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         GreaterCondition(
-          property: 12,
+          property: 13,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2629,7 +2663,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         GreaterOrEqualCondition(
-          property: 12,
+          property: 13,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2645,7 +2679,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         LessCondition(
-          property: 12,
+          property: 13,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2661,7 +2695,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         LessOrEqualCondition(
-          property: 12,
+          property: 13,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2678,7 +2712,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         BetweenCondition(
-          property: 12,
+          property: 13,
           lower: lower,
           upper: upper,
           caseSensitive: caseSensitive,
@@ -2695,7 +2729,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         StartsWithCondition(
-          property: 12,
+          property: 13,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2711,7 +2745,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         EndsWithCondition(
-          property: 12,
+          property: 13,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2724,7 +2758,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         ContainsCondition(
-          property: 12,
+          property: 13,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2737,7 +2771,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         MatchesCondition(
-          property: 12,
+          property: 13,
           wildcard: pattern,
           caseSensitive: caseSensitive,
         ),
@@ -2750,7 +2784,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const EqualCondition(
-          property: 12,
+          property: 13,
           value: '',
         ),
       );
@@ -2762,7 +2796,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const GreaterCondition(
-          property: 12,
+          property: 13,
           value: '',
         ),
       );
@@ -2780,7 +2814,7 @@ extension ISyncedItemQueryFilter
       subtitlesIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
-        const GreaterOrEqualCondition(property: 12, value: null),
+        const GreaterOrEqualCondition(property: 13, value: null),
       );
     });
   }
@@ -2788,14 +2822,14 @@ extension ISyncedItemQueryFilter
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
       userDataIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const IsNullCondition(property: 13));
+      return query.addFilterCondition(const IsNullCondition(property: 14));
     });
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
       userDataIsNotNull() {
     return QueryBuilder.apply(not(), (query) {
-      return query.addFilterCondition(const IsNullCondition(property: 13));
+      return query.addFilterCondition(const IsNullCondition(property: 14));
     });
   }
 
@@ -2806,7 +2840,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         EqualCondition(
-          property: 13,
+          property: 14,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2822,7 +2856,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         GreaterCondition(
-          property: 13,
+          property: 14,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2838,7 +2872,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         GreaterOrEqualCondition(
-          property: 13,
+          property: 14,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2854,7 +2888,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         LessCondition(
-          property: 13,
+          property: 14,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2870,7 +2904,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         LessOrEqualCondition(
-          property: 13,
+          property: 14,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2886,7 +2920,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         BetweenCondition(
-          property: 13,
+          property: 14,
           lower: lower,
           upper: upper,
           caseSensitive: caseSensitive,
@@ -2903,7 +2937,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         StartsWithCondition(
-          property: 13,
+          property: 14,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2919,7 +2953,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         EndsWithCondition(
-          property: 13,
+          property: 14,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2932,7 +2966,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         ContainsCondition(
-          property: 13,
+          property: 14,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2946,7 +2980,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         MatchesCondition(
-          property: 13,
+          property: 14,
           wildcard: pattern,
           caseSensitive: caseSensitive,
         ),
@@ -2959,7 +2993,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const EqualCondition(
-          property: 13,
+          property: 14,
           value: '',
         ),
       );
@@ -2971,7 +3005,7 @@ extension ISyncedItemQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const GreaterCondition(
-          property: 13,
+          property: 14,
           value: '',
         ),
       );
@@ -3026,11 +3060,23 @@ extension ISyncedItemQuerySortBy
     });
   }
 
+  QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy> sortBySyncing() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(3);
+    });
+  }
+
+  QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy> sortBySyncingDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(3, sort: Sort.desc);
+    });
+  }
+
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy> sortBySortName(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(
-        3,
+        4,
         caseSensitive: caseSensitive,
       );
     });
@@ -3040,7 +3086,7 @@ extension ISyncedItemQuerySortBy
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(
-        3,
+        4,
         sort: Sort.desc,
         caseSensitive: caseSensitive,
       );
@@ -3051,7 +3097,7 @@ extension ISyncedItemQuerySortBy
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(
-        4,
+        5,
         caseSensitive: caseSensitive,
       );
     });
@@ -3061,7 +3107,7 @@ extension ISyncedItemQuerySortBy
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(
-        4,
+        5,
         sort: Sort.desc,
         caseSensitive: caseSensitive,
       );
@@ -3072,7 +3118,7 @@ extension ISyncedItemQuerySortBy
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(
-        5,
+        6,
         caseSensitive: caseSensitive,
       );
     });
@@ -3082,7 +3128,7 @@ extension ISyncedItemQuerySortBy
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(
-        5,
+        6,
         sort: Sort.desc,
         caseSensitive: caseSensitive,
       );
@@ -3091,13 +3137,13 @@ extension ISyncedItemQuerySortBy
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy> sortByFileSize() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(6);
+      return query.addSortBy(7);
     });
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy> sortByFileSizeDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(6, sort: Sort.desc);
+      return query.addSortBy(7, sort: Sort.desc);
     });
   }
 
@@ -3105,7 +3151,7 @@ extension ISyncedItemQuerySortBy
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(
-        7,
+        8,
         caseSensitive: caseSensitive,
       );
     });
@@ -3115,7 +3161,7 @@ extension ISyncedItemQuerySortBy
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(
-        7,
+        8,
         sort: Sort.desc,
         caseSensitive: caseSensitive,
       );
@@ -3126,7 +3172,7 @@ extension ISyncedItemQuerySortBy
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(
-        8,
+        9,
         caseSensitive: caseSensitive,
       );
     });
@@ -3136,7 +3182,7 @@ extension ISyncedItemQuerySortBy
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(
-        8,
+        9,
         sort: Sort.desc,
         caseSensitive: caseSensitive,
       );
@@ -3147,7 +3193,7 @@ extension ISyncedItemQuerySortBy
       sortByIntroOutroSkipModel({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(
-        9,
+        10,
         caseSensitive: caseSensitive,
       );
     });
@@ -3157,7 +3203,7 @@ extension ISyncedItemQuerySortBy
       sortByIntroOutroSkipModelDesc({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(
-        9,
+        10,
         sort: Sort.desc,
         caseSensitive: caseSensitive,
       );
@@ -3168,7 +3214,7 @@ extension ISyncedItemQuerySortBy
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(
-        10,
+        11,
         caseSensitive: caseSensitive,
       );
     });
@@ -3178,7 +3224,7 @@ extension ISyncedItemQuerySortBy
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(
-        10,
+        11,
         sort: Sort.desc,
         caseSensitive: caseSensitive,
       );
@@ -3189,7 +3235,7 @@ extension ISyncedItemQuerySortBy
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(
-        13,
+        14,
         caseSensitive: caseSensitive,
       );
     });
@@ -3199,7 +3245,7 @@ extension ISyncedItemQuerySortBy
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(
-        13,
+        14,
         sort: Sort.desc,
         caseSensitive: caseSensitive,
       );
@@ -3237,127 +3283,139 @@ extension ISyncedItemQuerySortThenBy
     });
   }
 
+  QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy> thenBySyncing() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(3);
+    });
+  }
+
+  QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy> thenBySyncingDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(3, sort: Sort.desc);
+    });
+  }
+
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy> thenBySortName(
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(3, caseSensitive: caseSensitive);
-    });
-  }
-
-  QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy> thenBySortNameDesc(
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(3, sort: Sort.desc, caseSensitive: caseSensitive);
-    });
-  }
-
-  QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy> thenByParentId(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(4, caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy> thenByParentIdDesc(
+  QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy> thenBySortNameDesc(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(4, sort: Sort.desc, caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy> thenByPath(
+  QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy> thenByParentId(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(5, caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy> thenByPathDesc(
+  QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy> thenByParentIdDesc(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(5, sort: Sort.desc, caseSensitive: caseSensitive);
     });
   }
 
+  QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy> thenByPath(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(6, caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy> thenByPathDesc(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(6, sort: Sort.desc, caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy> thenByFileSize() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(6);
+      return query.addSortBy(7);
     });
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy> thenByFileSizeDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(6, sort: Sort.desc);
+      return query.addSortBy(7, sort: Sort.desc);
     });
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy> thenByVideoFileName(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(7, caseSensitive: caseSensitive);
+      return query.addSortBy(8, caseSensitive: caseSensitive);
     });
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy> thenByVideoFileNameDesc(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(7, sort: Sort.desc, caseSensitive: caseSensitive);
+      return query.addSortBy(8, sort: Sort.desc, caseSensitive: caseSensitive);
     });
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy> thenByTrickPlayModel(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(8, caseSensitive: caseSensitive);
+      return query.addSortBy(9, caseSensitive: caseSensitive);
     });
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy> thenByTrickPlayModelDesc(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(8, sort: Sort.desc, caseSensitive: caseSensitive);
+      return query.addSortBy(9, sort: Sort.desc, caseSensitive: caseSensitive);
     });
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy>
       thenByIntroOutroSkipModel({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(9, caseSensitive: caseSensitive);
+      return query.addSortBy(10, caseSensitive: caseSensitive);
     });
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy>
       thenByIntroOutroSkipModelDesc({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(9, sort: Sort.desc, caseSensitive: caseSensitive);
+      return query.addSortBy(10, sort: Sort.desc, caseSensitive: caseSensitive);
     });
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy> thenByImages(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(10, caseSensitive: caseSensitive);
+      return query.addSortBy(11, caseSensitive: caseSensitive);
     });
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy> thenByImagesDesc(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(10, sort: Sort.desc, caseSensitive: caseSensitive);
+      return query.addSortBy(11, sort: Sort.desc, caseSensitive: caseSensitive);
     });
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy> thenByUserData(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(13, caseSensitive: caseSensitive);
+      return query.addSortBy(14, caseSensitive: caseSensitive);
     });
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy> thenByUserDataDesc(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(13, sort: Sort.desc, caseSensitive: caseSensitive);
+      return query.addSortBy(14, sort: Sort.desc, caseSensitive: caseSensitive);
     });
   }
 }
@@ -3371,77 +3429,83 @@ extension ISyncedItemQueryWhereDistinct
     });
   }
 
-  QueryBuilder<ISyncedItem, ISyncedItem, QAfterDistinct> distinctBySortName(
-      {bool caseSensitive = true}) {
+  QueryBuilder<ISyncedItem, ISyncedItem, QAfterDistinct> distinctBySyncing() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(3, caseSensitive: caseSensitive);
+      return query.addDistinctBy(3);
     });
   }
 
-  QueryBuilder<ISyncedItem, ISyncedItem, QAfterDistinct> distinctByParentId(
+  QueryBuilder<ISyncedItem, ISyncedItem, QAfterDistinct> distinctBySortName(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(4, caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<ISyncedItem, ISyncedItem, QAfterDistinct> distinctByPath(
+  QueryBuilder<ISyncedItem, ISyncedItem, QAfterDistinct> distinctByParentId(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(5, caseSensitive: caseSensitive);
     });
   }
 
+  QueryBuilder<ISyncedItem, ISyncedItem, QAfterDistinct> distinctByPath(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(6, caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterDistinct> distinctByFileSize() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(6);
+      return query.addDistinctBy(7);
     });
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterDistinct>
       distinctByVideoFileName({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(7, caseSensitive: caseSensitive);
+      return query.addDistinctBy(8, caseSensitive: caseSensitive);
     });
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterDistinct>
       distinctByTrickPlayModel({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(8, caseSensitive: caseSensitive);
+      return query.addDistinctBy(9, caseSensitive: caseSensitive);
     });
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterDistinct>
       distinctByIntroOutroSkipModel({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(9, caseSensitive: caseSensitive);
+      return query.addDistinctBy(10, caseSensitive: caseSensitive);
     });
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterDistinct> distinctByImages(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(10, caseSensitive: caseSensitive);
+      return query.addDistinctBy(11, caseSensitive: caseSensitive);
     });
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterDistinct> distinctByChapters() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(11);
+      return query.addDistinctBy(12);
     });
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterDistinct> distinctBySubtitles() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(12);
+      return query.addDistinctBy(13);
     });
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterDistinct> distinctByUserData(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(13, caseSensitive: caseSensitive);
+      return query.addDistinctBy(14, caseSensitive: caseSensitive);
     });
   }
 }
@@ -3460,70 +3524,76 @@ extension ISyncedItemQueryProperty1
     });
   }
 
-  QueryBuilder<ISyncedItem, String?, QAfterProperty> sortNameProperty() {
+  QueryBuilder<ISyncedItem, bool, QAfterProperty> syncingProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(3);
     });
   }
 
-  QueryBuilder<ISyncedItem, String?, QAfterProperty> parentIdProperty() {
+  QueryBuilder<ISyncedItem, String?, QAfterProperty> sortNameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(4);
     });
   }
 
-  QueryBuilder<ISyncedItem, String?, QAfterProperty> pathProperty() {
+  QueryBuilder<ISyncedItem, String?, QAfterProperty> parentIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(5);
     });
   }
 
-  QueryBuilder<ISyncedItem, int?, QAfterProperty> fileSizeProperty() {
+  QueryBuilder<ISyncedItem, String?, QAfterProperty> pathProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(6);
     });
   }
 
-  QueryBuilder<ISyncedItem, String?, QAfterProperty> videoFileNameProperty() {
+  QueryBuilder<ISyncedItem, int?, QAfterProperty> fileSizeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(7);
     });
   }
 
-  QueryBuilder<ISyncedItem, String?, QAfterProperty> trickPlayModelProperty() {
+  QueryBuilder<ISyncedItem, String?, QAfterProperty> videoFileNameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(8);
+    });
+  }
+
+  QueryBuilder<ISyncedItem, String?, QAfterProperty> trickPlayModelProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(9);
     });
   }
 
   QueryBuilder<ISyncedItem, String?, QAfterProperty>
       introOutroSkipModelProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addProperty(9);
+      return query.addProperty(10);
     });
   }
 
   QueryBuilder<ISyncedItem, String?, QAfterProperty> imagesProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addProperty(10);
+      return query.addProperty(11);
     });
   }
 
   QueryBuilder<ISyncedItem, List<String>?, QAfterProperty> chaptersProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addProperty(11);
+      return query.addProperty(12);
     });
   }
 
   QueryBuilder<ISyncedItem, List<String>?, QAfterProperty> subtitlesProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addProperty(12);
+      return query.addProperty(13);
     });
   }
 
   QueryBuilder<ISyncedItem, String?, QAfterProperty> userDataProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addProperty(13);
+      return query.addProperty(14);
     });
   }
 }
@@ -3542,74 +3612,80 @@ extension ISyncedItemQueryProperty2<R>
     });
   }
 
-  QueryBuilder<ISyncedItem, (R, String?), QAfterProperty> sortNameProperty() {
+  QueryBuilder<ISyncedItem, (R, bool), QAfterProperty> syncingProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(3);
     });
   }
 
-  QueryBuilder<ISyncedItem, (R, String?), QAfterProperty> parentIdProperty() {
+  QueryBuilder<ISyncedItem, (R, String?), QAfterProperty> sortNameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(4);
     });
   }
 
-  QueryBuilder<ISyncedItem, (R, String?), QAfterProperty> pathProperty() {
+  QueryBuilder<ISyncedItem, (R, String?), QAfterProperty> parentIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(5);
     });
   }
 
-  QueryBuilder<ISyncedItem, (R, int?), QAfterProperty> fileSizeProperty() {
+  QueryBuilder<ISyncedItem, (R, String?), QAfterProperty> pathProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(6);
     });
   }
 
-  QueryBuilder<ISyncedItem, (R, String?), QAfterProperty>
-      videoFileNameProperty() {
+  QueryBuilder<ISyncedItem, (R, int?), QAfterProperty> fileSizeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(7);
     });
   }
 
   QueryBuilder<ISyncedItem, (R, String?), QAfterProperty>
-      trickPlayModelProperty() {
+      videoFileNameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(8);
     });
   }
 
   QueryBuilder<ISyncedItem, (R, String?), QAfterProperty>
-      introOutroSkipModelProperty() {
+      trickPlayModelProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(9);
     });
   }
 
-  QueryBuilder<ISyncedItem, (R, String?), QAfterProperty> imagesProperty() {
+  QueryBuilder<ISyncedItem, (R, String?), QAfterProperty>
+      introOutroSkipModelProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(10);
     });
   }
 
-  QueryBuilder<ISyncedItem, (R, List<String>?), QAfterProperty>
-      chaptersProperty() {
+  QueryBuilder<ISyncedItem, (R, String?), QAfterProperty> imagesProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(11);
     });
   }
 
   QueryBuilder<ISyncedItem, (R, List<String>?), QAfterProperty>
-      subtitlesProperty() {
+      chaptersProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(12);
     });
   }
 
-  QueryBuilder<ISyncedItem, (R, String?), QAfterProperty> userDataProperty() {
+  QueryBuilder<ISyncedItem, (R, List<String>?), QAfterProperty>
+      subtitlesProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(13);
+    });
+  }
+
+  QueryBuilder<ISyncedItem, (R, String?), QAfterProperty> userDataProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(14);
     });
   }
 }
@@ -3628,74 +3704,80 @@ extension ISyncedItemQueryProperty3<R1, R2>
     });
   }
 
-  QueryBuilder<ISyncedItem, (R1, R2, String?), QOperations> sortNameProperty() {
+  QueryBuilder<ISyncedItem, (R1, R2, bool), QOperations> syncingProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(3);
     });
   }
 
-  QueryBuilder<ISyncedItem, (R1, R2, String?), QOperations> parentIdProperty() {
+  QueryBuilder<ISyncedItem, (R1, R2, String?), QOperations> sortNameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(4);
     });
   }
 
-  QueryBuilder<ISyncedItem, (R1, R2, String?), QOperations> pathProperty() {
+  QueryBuilder<ISyncedItem, (R1, R2, String?), QOperations> parentIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(5);
     });
   }
 
-  QueryBuilder<ISyncedItem, (R1, R2, int?), QOperations> fileSizeProperty() {
+  QueryBuilder<ISyncedItem, (R1, R2, String?), QOperations> pathProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(6);
     });
   }
 
-  QueryBuilder<ISyncedItem, (R1, R2, String?), QOperations>
-      videoFileNameProperty() {
+  QueryBuilder<ISyncedItem, (R1, R2, int?), QOperations> fileSizeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(7);
     });
   }
 
   QueryBuilder<ISyncedItem, (R1, R2, String?), QOperations>
-      trickPlayModelProperty() {
+      videoFileNameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(8);
     });
   }
 
   QueryBuilder<ISyncedItem, (R1, R2, String?), QOperations>
-      introOutroSkipModelProperty() {
+      trickPlayModelProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(9);
     });
   }
 
-  QueryBuilder<ISyncedItem, (R1, R2, String?), QOperations> imagesProperty() {
+  QueryBuilder<ISyncedItem, (R1, R2, String?), QOperations>
+      introOutroSkipModelProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(10);
     });
   }
 
-  QueryBuilder<ISyncedItem, (R1, R2, List<String>?), QOperations>
-      chaptersProperty() {
+  QueryBuilder<ISyncedItem, (R1, R2, String?), QOperations> imagesProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(11);
     });
   }
 
   QueryBuilder<ISyncedItem, (R1, R2, List<String>?), QOperations>
-      subtitlesProperty() {
+      chaptersProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(12);
     });
   }
 
-  QueryBuilder<ISyncedItem, (R1, R2, String?), QOperations> userDataProperty() {
+  QueryBuilder<ISyncedItem, (R1, R2, List<String>?), QOperations>
+      subtitlesProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(13);
+    });
+  }
+
+  QueryBuilder<ISyncedItem, (R1, R2, String?), QOperations> userDataProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(14);
     });
   }
 }

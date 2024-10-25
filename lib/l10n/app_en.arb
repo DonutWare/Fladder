@@ -267,8 +267,8 @@
   "@hideEmpty": {},
   "home": "Home",
   "@home": {},
-  "homeBannerBanner": "Banner",
-  "@homeBannerBanner": {},
+  "homeBannerSlideshow": "Slideshow",
+  "@homeBannerSlideshow": {},
   "homeBannerCarousel": "Carousel",
   "@homeBannerCarousel": {},
   "identify": "Identify",
@@ -957,5 +957,34 @@
   "syncStatusWaitingToRetry": "Waiting to retry",
   "syncStatusPaused": "Paused",
   "syncStatusSynced": "Synced",
-  "syncStatusPartially": "Partially"
+  "syncStatusPartially": "Partially",
+  "syncOverlayDeleting": "Removing synced item",
+  "syncOverlaySyncing": "Syncing item details",
+  "syncSelectDownloadsFolder": "Select downloads folder",
+  "syncNoFolderSetup": "No sync folder setup",
+  "syncRemoveUnableToDeleteItem": "Unable to remove synced item, somethin went wrong",
+  "syncAddItemForSyncing": "Added {item} for syncing",
+  "@syncAddItemForSyncing":{
+    "placeholders": {
+      "item":{
+        "type": "String"
+      }
+    }
+  } ,
+  "startedSyncingItem": "Started syncing {item}",
+  "@startedSyncingItem": {
+    "placeholders": {
+      "item":{
+        "type": "String"
+      }
+    }
+  },
+  "unableToSyncItem": "Unable to sync {item}, something went wrong",
+  "@unableToSyncItem": {
+    "placeholders": {
+      "item":{
+        "type": "String"
+      }
+    }
+  }
 }

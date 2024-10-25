@@ -5,12 +5,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/util/list_padding.dart';
+import 'package:fladder/util/localization_helper.dart';
 
-///This is a wrapper widget for marking a synced item as deleted (while it is being deleted)
-class SyncMarkedForDelete extends ConsumerWidget {
+class SyncStatusOverlay extends ConsumerWidget {
   final SyncedItem syncedItem;
   final Widget child;
-  const SyncMarkedForDelete({required this.syncedItem, required this.child, super.key});
+  const SyncStatusOverlay({required this.syncedItem, required this.child, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -32,12 +32,35 @@ class SyncMarkedForDelete extends ConsumerWidget {
                     strokeCap: StrokeCap.round,
                     valueColor: AlwaysStoppedAnimation(Theme.of(context).colorScheme.error),
                   ),
-                  const Text("Deleting"),
+                  Text(context.localized.syncOverlayDeleting),
                   const Icon(IconsaxOutline.trash)
                 ].addPadding(const EdgeInsets.symmetric(horizontal: 16)),
               ),
             ),
-          )
+          ),
+        if (syncedItem.syncing)
+          Positioned.fill(
+            child: IgnorePointer(
+              child: Card(
+                elevation: 0,
+                semanticContainer: false,
+                color: Colors.black.withOpacity(0.6),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator.adaptive(
+                      strokeCap: StrokeCap.round,
+                      valueColor: AlwaysStoppedAnimation(Theme.of(context).colorScheme.error),
+                    ),
+                    Text(context.localized.syncOverlaySyncing),
+                    const Icon(IconsaxOutline.cloud_notif)
+                  ].addPadding(const EdgeInsets.symmetric(horizontal: 16)),
+                ),
+              ),
+            ),
+          ),
       ],
     );
   }

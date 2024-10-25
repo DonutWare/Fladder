@@ -28,6 +28,7 @@ part 'i_synced_item.g.dart';
 class ISyncedItem {
   String? userId;
   String id;
+  bool syncing;
   String? sortName;
   String? parentId;
   String? path;
@@ -42,6 +43,7 @@ class ISyncedItem {
   ISyncedItem({
     this.userId,
     required this.id,
+    required this.syncing,
     this.sortName,
     this.parentId,
     this.path,
@@ -59,6 +61,7 @@ class ISyncedItem {
     return ISyncedItem(
       id: syncedItem.id,
       parentId: syncedItem.parentId,
+      syncing: syncedItem.syncing,
       userId: syncedItem.userId,
       path: syncedItem.path?.replaceAll(path ?? "", '').substring(1),
       fileSize: syncedItem.fileSize,

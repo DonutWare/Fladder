@@ -15,8 +15,8 @@ import 'package:fladder/screens/shared/default_alert_dialog.dart';
 import 'package:fladder/screens/shared/media/poster_widget.dart';
 import 'package:fladder/screens/syncing/sync_child_item.dart';
 import 'package:fladder/screens/syncing/sync_widgets.dart';
-import 'package:fladder/screens/syncing/widgets/sync_markedfordelete.dart';
 import 'package:fladder/screens/syncing/widgets/sync_progress_builder.dart';
+import 'package:fladder/screens/syncing/widgets/sync_status_overlay.dart';
 import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -55,7 +55,7 @@ class _SyncItemDetailsState extends ConsumerState<SyncItemDetails> {
     final syncChildren = ref.read(syncProvider.notifier).getChildren(syncedItem);
     final downloadTask = ref.read(downloadTasksProvider(syncedItem.id));
 
-    return SyncMarkedForDelete(
+    return SyncStatusOverlay(
         syncedItem: syncedItem,
         child: ActionContent(
           title: Row(
@@ -135,7 +135,9 @@ class _SyncItemDetailsState extends ConsumerState<SyncItemDetails> {
                                     icon: const Icon(IconsaxBold.play),
                                   ),
                                   IconButton(
-                                    onPressed: () => ref.read(syncProvider.notifier).deleteFullSyncFiles(syncedItem),
+                                    onPressed: () => ref
+                                        .read(syncProvider.notifier)
+                                        .deleteFullSyncFiles(syncedItem, combinedStream?.task),
                                     icon: const Icon(IconsaxBold.stop),
                                   ),
                                 ],
@@ -177,7 +179,7 @@ class _SyncItemDetailsState extends ConsumerState<SyncItemDetails> {
                             context.localized.syncRemoveDataTitle,
                             context.localized.syncRemoveDataDesc,
                             (context) {
-                              ref.read(syncProvider.notifier).deleteFullSyncFiles(syncedItem);
+                              ref.read(syncProvider.notifier).deleteFullSyncFiles(syncedItem, downloadTask.task);
                               Navigator.of(context).pop();
                             },
                             context.localized.delete,
@@ -217,7 +219,7 @@ class _SyncItemDetailsState extends ConsumerState<SyncItemDetails> {
                     context.localized.syncDeleteItemTitle,
                     context.localized.syncDeleteItemDesc(baseItem?.detailedName(context) ?? ""),
                     (context) async {
-                      await ref.read(syncProvider.notifier).removeSync(syncedItem);
+                      await ref.read(syncProvider.notifier).removeSync(context, syncedItem);
                       Navigator.pop(context);
                       Navigator.pop(context);
                     },

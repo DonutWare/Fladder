@@ -1,4 +1,8 @@
+import 'package:flutter/material.dart';
+
 import 'package:ficonsax/ficonsax.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/providers/sync/sync_provider_helpers.dart';
@@ -10,8 +14,6 @@ import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/size_formatting.dart';
 import 'package:fladder/widgets/shared/icon_button_await.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SyncedEpisodeItem extends ConsumerStatefulWidget {
   const SyncedEpisodeItem({
@@ -106,7 +108,7 @@ class _SyncedEpisodeItemState extends ConsumerState<SyncedEpisodeItem> {
                 context.localized.syncRemoveDataTitle,
                 context.localized.syncRemoveDataDesc,
                 (context) async {
-                  await ref.read(syncProvider.notifier).deleteFullSyncFiles(syncedItem);
+                  await ref.read(syncProvider.notifier).deleteFullSyncFiles(syncedItem, downloadTask.task);
                   Navigator.pop(context);
                 },
                 context.localized.delete,

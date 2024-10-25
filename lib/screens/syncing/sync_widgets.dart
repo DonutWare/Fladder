@@ -84,7 +84,7 @@ class SyncProgressBar extends ConsumerWidget {
                 icon: const Icon(IconsaxBold.play),
               ),
               IconButton(
-                onPressed: () => ref.read(syncProvider.notifier).deleteFullSyncFiles(item),
+                onPressed: () => ref.read(syncProvider.notifier).deleteFullSyncFiles(item, downloadTask),
                 icon: const Icon(IconsaxBold.stop),
               )
             ],

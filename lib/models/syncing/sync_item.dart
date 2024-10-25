@@ -30,6 +30,7 @@ class SyncedItem with _$SyncedItem {
 
   factory SyncedItem({
     required String id,
+    @Default(false) bool syncing,
     String? parentId,
     required String userId,
     String? path,
@@ -73,7 +74,7 @@ class SyncedItem with _$SyncedItem {
         _ => SyncStatus.partially,
       };
 
-  String? get taskId => null;
+  String? get taskId => task?.taskId;
 
   bool get childHasTask => false;
 
@@ -127,6 +128,7 @@ class SyncedItem with _$SyncedItem {
       parentId: isarSyncedItem.parentId,
       userId: isarSyncedItem.userId ?? "",
       sortName: isarSyncedItem.sortName,
+      syncing: isarSyncedItem.syncing,
       path: joinAll([savePath, isarSyncedItem.path ?? ""]),
       fileSize: isarSyncedItem.fileSize,
       videoFileName: isarSyncedItem.videoFileName,

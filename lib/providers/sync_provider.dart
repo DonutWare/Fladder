@@ -13,6 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:isar/isar.dart';
 import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
@@ -35,6 +36,7 @@ import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/sync/background_download_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/util/localization_helper.dart';
 
 final syncProvider = StateNotifierProvider<SyncNotifier, SyncSettingsModel>((ref) => throw UnimplementedError());
 
@@ -46,6 +48,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
   }
 
   void _init() {
+    cleanupTemporaryFiles();
     ref.listen(
       userProvider,
       (previous, next) {
@@ -82,6 +85,35 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     _subscription = queryStream?.listen((items) {
       state = state.copyWith(items: items);
     });
+  }
+
+  Future<void> cleanupTemporaryFiles() async {
+    // List of directories to check
+    final directories = [
+      //Desktop directory
+      await getTemporaryDirectory(),
+      //Mobile directory
+      await getApplicationSupportDirectory(),
+    ];
+
+    for (final dir in directories) {
+      final List<FileSystemEntity> files = dir.listSync();
+
+      for (var file in files) {
+        if (file is File) {
+          final fileName = file.path.split(Platform.pathSeparator).last;
+          final fileSize = await file.length();
+          if (fileName.startsWith('com.bbflight.background_downloader') && fileSize != 0) {
+            try {
+              await file.delete();
+              log('Deleted temporary file: $fileName from ${dir.path}');
+            } catch (e) {
+              log('Failed to delete file $fileName: $e');
+            }
+          }
+        }
+      }
+    }
   }
 
   final Ref ref;
@@ -190,19 +222,20 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     return syncedItem.createItemModel(ref);
   }
 
-  Future<SyncedItem?> addSyncItem(BuildContext? context, ItemBaseModel item) async {
-    if (context == null) return null;
+  Future<void> addSyncItem(BuildContext? context, ItemBaseModel item) async {
+    if (context == null) return;
 
     if (saveDirectory == null) {
-      String? selectedDirectory = await FilePicker.platform.getDirectoryPath(dialogTitle: 'Select downloads folder');
+      String? selectedDirectory =
+          await FilePicker.platform.getDirectoryPath(dialogTitle: context.localized.syncSelectDownloadsFolder);
       if (selectedDirectory?.isEmpty == true) {
-        fladderSnackbar(context, title: "No sync folder setup");
-        return null;
+        fladderSnackbar(context, title: context.localized.syncNoFolderSetup);
+        return;
       }
       ref.read(clientSettingsProvider.notifier).setSyncPath(selectedDirectory);
     }
 
-    fladderSnackbar(context, title: "Added ${item.detailedName(context)} for syncing");
+    fladderSnackbar(context, title: context.localized.syncAddItemForSyncing(item.detailedName(context) ?? "Unknown"));
     final newSync = switch (item) {
       EpisodeModel episode => await syncSeries(item.parentBaseModel, episode: episode),
       SeriesModel series => await syncSeries(series),
@@ -211,12 +244,12 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     };
     fladderSnackbar(context,
         title: newSync != null
-            ? "Started syncing ${item.detailedName(context)}"
-            : "Unable to sync ${item.detailedName(context)}, type not supported?");
-    return newSync;
+            ? context.localized.startedSyncingItem(item.detailedName(context) ?? "Unknown")
+            : context.localized.unableToSyncItem(item.detailedName(context) ?? "Unknown"));
+    return;
   }
 
-  Future<bool> removeSync(SyncedItem? item) async {
+  Future<bool> removeSync(BuildContext context, SyncedItem? item) async {
     try {
       if (item == null) return false;
 
@@ -259,6 +292,8 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     } catch (e) {
       log('Error deleting synced item');
       log(e.toString());
+      state = state.copyWith(items: state.items.map((e) => e.copyWith(markedForDelete: false)).toList());
+      fladderSnackbar(context, title: context.localized.syncRemoveUnableToDeleteItem);
       return false;
     }
   }
@@ -366,14 +401,23 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     isar?.write((isar) => syncedItems?.put(ISyncedItem.fromSynced(syncedItem, syncPath ?? "")));
   }
 
-  Future<SyncedItem> deleteFullSyncFiles(SyncedItem syncedItem) async {
+  Future<SyncedItem> deleteFullSyncFiles(SyncedItem syncedItem, DownloadTask? task) async {
     await syncedItem.deleteDatFiles(ref);
+
     ref.read(downloadTasksProvider(syncedItem.id).notifier).update((state) => DownloadStream.empty());
+
+    final taskId = task?.taskId;
+    if (taskId != null) {
+      ref.read(backgroundDownloaderProvider).cancelTaskWithId(taskId);
+    }
+    cleanupTemporaryFiles();
     refresh();
     return syncedItem;
   }
 
   Future<DownloadStream?> syncVideoFile(SyncedItem syncItem, bool skipDownload) async {
+    cleanupTemporaryFiles();
+
     final playbackResponse = await api.itemsItemIdPlaybackInfoPost(
       itemId: syncItem.id,
       body: const PlaybackInfoDto(
@@ -480,27 +524,37 @@ extension SyncNotifierHelpers on SyncNotifier {
 
     final Directory? parentDirectory = parent?.directory;
 
-    SyncedItem syncItem = SyncedItem(id: item.id, userId: ref.read(userProvider)?.id ?? "");
     final directory = Directory(path.joinAll([(parentDirectory ?? saveDirectory)?.path ?? "", item.id]));
 
     await directory.create(recursive: true);
 
     File dataFile = File(path.joinAll([directory.path, 'data.json']));
     await dataFile.writeAsString(jsonEncode(response.toJson()));
-
     final imageData = await saveImageData(item.images, directory);
-    final origChapters = Chapter.chaptersFromInfo(item.id, response.chapters ?? [], ref);
 
-    return syncItem.copyWith(
+    SyncedItem syncItem = SyncedItem(
+      syncing: true,
       id: item.id,
       parentId: parent?.id,
       sortName: response.sortName,
+      fImages: imageData,
+      userId: ref.read(userProvider)?.id ?? "",
       path: directory.path,
+      userData: item.userData,
+    );
+
+    //Save item if parent so the user is aware.
+    if (parent == null) {
+      isar?.write((isar) => syncedItems?.put(ISyncedItem.fromSynced(syncItem, syncPath)));
+    }
+
+    final origChapters = Chapter.chaptersFromInfo(item.id, response.chapters ?? [], ref);
+
+    return syncItem.copyWith(
       fChapters: await saveChapterImages(origChapters, directory) ?? [],
       fileSize: response.mediaSources?.firstOrNull?.size ?? 0,
-      fImages: imageData,
+      syncing: false,
       videoFileName: response.path?.split('/').lastOrNull ?? "",
-      userData: item.userData,
     );
   }
 
@@ -528,7 +582,7 @@ extension SyncNotifierHelpers on SyncNotifier {
 
     await syncVideoFile(syncItem, skipDownload);
 
-    await isar?.writeAsync((isar) => syncedItems?.put(ISyncedItem.fromSynced(syncItem, syncPath)));
+    isar?.write((isar) => syncedItems?.put(ISyncedItem.fromSynced(syncItem, syncPath)));
 
     return syncItem;
   }

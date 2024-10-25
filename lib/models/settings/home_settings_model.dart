@@ -28,7 +28,7 @@ enum HomeBanner {
   String label(BuildContext context) => switch (this) {
         HomeBanner.hide => context.localized.hide,
         HomeBanner.carousel => context.localized.homeBannerCarousel,
-        HomeBanner.banner => context.localized.homeBannerBanner,
+        HomeBanner.banner => context.localized.homeBannerSlideshow,
       };
 }
 
