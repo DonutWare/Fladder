@@ -945,5 +945,61 @@
   "settingsHomeBannerInformationDesc": "Informatie om weer te geven in de home-banner",
   "@settingsHomeBannerInformationDesc": {},
   "settingsHomeBannerInformationTitle": "Bannerinformatie",
-  "@settingsHomeBannerInformationTitle": {}
+  "@settingsHomeBannerInformationTitle": {},
+  "syncStatusEnqueued": "In wachtrij",
+  "@syncStatusEnqueued": {},
+  "syncStatusComplete": "Voltooid",
+  "@syncStatusComplete": {},
+  "syncStatusNotFound": "Niet gevonden",
+  "@syncStatusNotFound": {},
+  "syncStatusSynced": "Gesynchroniseerd",
+  "@syncStatusSynced": {},
+  "syncStatusPartially": "Gedeeltelijk",
+  "@syncStatusPartially": {},
+  "syncOverlayDeleting": "Gesynchroniseerd item verwijderen",
+  "@syncOverlayDeleting": {},
+  "syncOverlaySyncing": "Item details synchroniseren",
+  "@syncOverlaySyncing": {},
+  "homeBannerSlideshow": "Diavoorstelling",
+  "@homeBannerSlideshow": {},
+  "syncStatusRunning": "Downloaden",
+  "@syncStatusRunning": {},
+  "syncStatusFailed": "Mislukt",
+  "@syncStatusFailed": {},
+  "syncStatusCanceled": "Geannuleerd",
+  "@syncStatusCanceled": {},
+  "syncStatusPaused": "Gepauzeerd",
+  "@syncStatusPaused": {},
+  "syncStatusWaitingToRetry": "Wachten om opnieuw te proberen",
+  "@syncStatusWaitingToRetry": {},
+  "syncSelectDownloadsFolder": "Selecteer de downloadmap",
+  "@syncSelectDownloadsFolder": {},
+  "syncNoFolderSetup": "Geen synchronisatiemap gezet",
+  "@syncNoFolderSetup": {},
+  "syncRemoveUnableToDeleteItem": "Kan gesynchroniseerd item niet verwijderen, er is iets misgegaan",
+  "@syncRemoveUnableToDeleteItem": {},
+  "syncAddItemForSyncing": "{item} toegevoegd voor synchronisatie",
+  "@syncAddItemForSyncing": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "startedSyncingItem": "Begonnen met synchroniseren {item}",
+  "@startedSyncingItem": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "unableToSyncItem": "Kan {item} niet synchroniseren, er is iets misgegaan",
+  "@unableToSyncItem": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  }
 }
