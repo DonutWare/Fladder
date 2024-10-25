@@ -947,5 +947,15 @@
         "example": "1"
       }
     }
-  }
+  },
+  "syncStatusEnqueued": "Enqueued",
+  "syncStatusRunning": "Running",
+  "syncStatusComplete": "Complete",
+  "syncStatusNotFound": "Not Found",
+  "syncStatusFailed": "Failed",
+  "syncStatusCanceled": "Canceled",
+  "syncStatusWaitingToRetry": "Waiting to retry",
+  "syncStatusPaused": "Paused",
+  "syncStatusSynced": "Synced",
+  "syncStatusPartially": "Partially"
 }

@@ -1,5 +1,9 @@
+import 'package:flutter/material.dart';
+
 import 'package:background_downloader/background_downloader.dart';
 import 'package:ficonsax/ficonsax.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/items/season_model.dart';
 import 'package:fladder/models/items/series_model.dart';
@@ -10,8 +14,6 @@ import 'package:fladder/providers/sync/sync_provider_helpers.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SyncLabel extends ConsumerWidget {
   final String? label;
@@ -28,7 +30,7 @@ class SyncLabel extends ConsumerWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
         child: Text(
-          label ?? status.label,
+          label ?? status.label(context),
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: status.color,
@@ -55,7 +57,7 @@ class SyncProgressBar extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(downloadStatus.name),
+        Text(downloadStatus.name(context)),
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
@@ -129,7 +131,7 @@ class SyncSubtitle extends ConsumerWidget {
                   );
                 },
               ),
-            _ => Text(syncStatus.label),
+            _ => Text(syncStatus.label(context)),
           },
         ),
       ),

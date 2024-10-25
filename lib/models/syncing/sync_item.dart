@@ -20,6 +20,7 @@ import 'package:fladder/models/items/trick_play_model.dart';
 import 'package:fladder/models/syncing/i_synced_item.dart';
 import 'package:fladder/providers/sync/sync_provider_helpers.dart';
 import 'package:fladder/providers/sync_provider.dart';
+import 'package:fladder/util/localization_helper.dart';
 
 part 'sync_item.freezed.dart';
 
@@ -155,21 +156,25 @@ class SyncedItem with _$SyncedItem {
 
 enum SyncStatus {
   complete(
-    "Synced",
     Color.fromARGB(255, 141, 214, 58),
     IconsaxOutline.tick_circle,
   ),
   partially(
-    "Partially",
     Color.fromARGB(255, 221, 135, 23),
     IconsaxOutline.more_circle,
   ),
   ;
 
-  const SyncStatus(this.label, this.color, this.icon);
+  const SyncStatus(this.color, this.icon);
 
   final Color color;
-  final String label;
+  String label(BuildContext context) {
+    return switch (this) {
+      SyncStatus.partially => context.localized.syncStatusPartially,
+      SyncStatus.complete => context.localized.syncStatusSynced,
+    };
+  }
+
   final IconData icon;
 }
 
@@ -183,14 +188,14 @@ extension StatusExtension on TaskStatus {
         TaskStatus.paused => Colors.orangeAccent,
       };
 
-  String get name => switch (this) {
-        TaskStatus.enqueued => 'Enqueued',
-        TaskStatus.running => 'Running',
-        TaskStatus.complete => 'Complete',
-        TaskStatus.notFound => 'Not Found',
-        TaskStatus.failed => 'Failed',
-        TaskStatus.canceled => 'Canceled',
-        TaskStatus.waitingToRetry => 'Waiting To Retry',
-        TaskStatus.paused => 'Paused',
+  String name(BuildContext context) => switch (this) {
+        TaskStatus.enqueued => context.localized.syncStatusEnqueued,
+        TaskStatus.running => context.localized.syncStatusRunning,
+        TaskStatus.complete => context.localized.syncStatusComplete,
+        TaskStatus.notFound => context.localized.syncStatusNotFound,
+        TaskStatus.failed => context.localized.syncStatusFailed,
+        TaskStatus.canceled => context.localized.syncStatusCanceled,
+        TaskStatus.waitingToRetry => context.localized.syncStatusWaitingToRetry,
+        TaskStatus.paused => context.localized.syncStatusPaused,
       };
 }
