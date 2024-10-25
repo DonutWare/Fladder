@@ -63,7 +63,7 @@
   "@collectionFolder": {},
   "color": "Колір",
   "@color": {},
-  "combined": "Комбінована",
+  "combined": "Комбіновано",
   "@combined": {},
   "communityRating": "Рейтинг спільноти",
   "@communityRating": {},
@@ -281,7 +281,7 @@
   "@name": {},
   "navigationDashboard": "Інформаційна панель",
   "@navigationDashboard": {},
-  "navigationFavorites": "Улюблені",
+  "navigationFavorites": "Улюблене",
   "@navigationFavorites": {},
   "nextUp": "Наступне",
   "@nextUp": {},
@@ -289,7 +289,7 @@
   "@noItemsSynced": {},
   "noRating": "Немає рейтингу",
   "@noRating": {},
-  "openParent": "Відкрити батьківську теку",
+  "openParent": "Відкрити вміст",
   "@openParent": {},
   "openShow": "Відкрити серіал",
   "@openShow": {},
@@ -376,7 +376,7 @@
   },
   "scrollToTop": "Прокрутити догори",
   "@scrollToTop": {},
-  "search": "Пошук",
+  "search": "Шукати",
   "@search": {},
   "season": "{count, plural, other{Сезони} one{Сезон} }",
   "@season": {
@@ -460,7 +460,7 @@
   "@subtitles": {},
   "switchUser": "Змінити користувача",
   "@switchUser": {},
-  "sync": "Синхронізація",
+  "sync": "Синхронізувати",
   "@sync": {},
   "syncDeleteItemTitle": "Видалити синхронізований елемент",
   "@syncDeleteItemTitle": {},
@@ -643,7 +643,7 @@
   },
   "libraryFetchNoItemsFound": "Не знайдено жодного елемента. Спробуйте інші налаштування.",
   "@libraryFetchNoItemsFound": {},
-  "light": "Світла",
+  "light": "Худий",
   "@light": {},
   "list": "Список",
   "@list": {},
@@ -715,7 +715,7 @@
   "@settingsHomeCarouselTitle": {},
   "settingsHomeNextUpDesc": "Тип постерів, що відображаються на екрані інформаційної панелі",
   "@settingsHomeNextUpDesc": {},
-  "navigationSync": "Синхронізовано",
+  "navigationSync": "Синхронізоване",
   "@navigationSync": {},
   "never": "Ніколи",
   "@never": {},
@@ -889,7 +889,7 @@
   "@syncDeletePopupPermanent": {},
   "syncDetails": "Деталі синхронізації",
   "@syncDetails": {},
-  "syncOpenParent": "Відкрити батьківську теку",
+  "syncOpenParent": "Відкрити вміст",
   "@syncOpenParent": {},
   "syncRemoveDataDesc": "Видалити синхронізовані відеодані? Це незворотній процес, і вам потрібно буде повторно синхронізувати файли",
   "@syncRemoveDataDesc": {},
@@ -933,9 +933,9 @@
   "@videoScalingContain": {},
   "videoScaling": "Масштабування відео",
   "@videoScaling": {},
-  "videoScalingFillScreenTitle": "Заповнити екран",
+  "videoScalingFillScreenTitle": "Заповнення екрана",
   "@videoScalingFillScreenTitle": {},
-  "watchOn": "Дивитися далі",
+  "watchOn": "Дивіться на",
   "@watchOn": {},
   "viewPhotos": "Переглянути фото",
   "@viewPhotos": {},
@@ -949,8 +949,130 @@
   "@settingsHomeBannerDescription": {},
   "settingsHomeBannerTitle": "Банер на головній сторінці",
   "@settingsHomeBannerTitle": {},
-  "settingsHomeBannerInformationTitle": "Інформація про банер",
+  "settingsHomeBannerInformationTitle": "Інформація на банері",
   "@settingsHomeBannerInformationTitle": {},
-  "settingsHomeBannerInformationDesc": "Інформація для показу в банері на головній сторінці",
-  "@settingsHomeBannerInformationDesc": {}
+  "settingsHomeBannerInformationDesc": "Інформація для показу на банері на головній сторінці",
+  "@settingsHomeBannerInformationDesc": {},
+  "homeBannerSlideshow": "Слайд-шоу",
+  "@homeBannerSlideshow": {},
+  "syncStatusEnqueued": "У черзі",
+  "@syncStatusEnqueued": {},
+  "syncStatusRunning": "Виконується",
+  "@syncStatusRunning": {},
+  "syncStatusComplete": "Завершено",
+  "@syncStatusComplete": {},
+  "syncStatusNotFound": "Не знайдено",
+  "@syncStatusNotFound": {},
+  "syncStatusFailed": "Не вдалося",
+  "@syncStatusFailed": {},
+  "syncStatusCanceled": "Скасовано",
+  "@syncStatusCanceled": {},
+  "syncRemoveUnableToDeleteItem": "Не вдалося видалити синхронізований елемент, щось пішло не так",
+  "@syncRemoveUnableToDeleteItem": {},
+  "aboutLicenses": "Ліцензії",
+  "@aboutLicenses": {},
+  "aboutSocials": "Соцмережі",
+  "@aboutSocials": {},
+  "syncStatusPartially": "Частково",
+  "@syncStatusPartially": {},
+  "syncStatusWaitingToRetry": "Очікує на повторну спробу",
+  "@syncStatusWaitingToRetry": {},
+  "syncStatusPaused": "Призупинено",
+  "@syncStatusPaused": {},
+  "syncStatusSynced": "Синхронізовано",
+  "@syncStatusSynced": {},
+  "syncOverlayDeleting": "Видалення синхронізованого елемента",
+  "@syncOverlayDeleting": {},
+  "syncOverlaySyncing": "Деталі про елемент синхронізації",
+  "@syncOverlaySyncing": {},
+  "syncSelectDownloadsFolder": "Вибрати теку для завантаження",
+  "@syncSelectDownloadsFolder": {},
+  "syncNoFolderSetup": "Немає налаштувань теки синхронізації",
+  "@syncNoFolderSetup": {},
+  "addToNewCollection": "Нова колекція",
+  "@addToNewCollection": {},
+  "addItemsToCollection": "Додати {itemLength} елемент(и) до колекції",
+  "@addItemsToCollection": {
+    "placeholders": {
+      "itemLength": {
+        "type": "int"
+      }
+    }
+  },
+  "syncAddItemForSyncing": "Додано {item} для синхронізації",
+  "@syncAddItemForSyncing": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "startedSyncingItem": "Розпочато синхронізацію {item}",
+  "@startedSyncingItem": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "unableToSyncItem": "Не вдалося синхронізувати {item}, щось пішло не так",
+  "@unableToSyncItem": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "addedToCollection": "Додано до колекції {collectionName}",
+  "@addedToCollection": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "removedFromCollection": "Видалено з колекції {collectionName}",
+  "@removedFromCollection": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "addToNewPlaylist": "Новий плейлист",
+  "@addToNewPlaylist": {},
+  "addItemsToPlaylist": "Додати {itemLength} елемент(и) до плейлиста",
+  "@addItemsToPlaylist": {
+    "placeholders": {
+      "itemLength": {
+        "type": "int"
+      }
+    }
+  },
+  "aboutVersion": "Версія: {version}",
+  "@aboutVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutCreatedBy": "Створено DonutWare",
+  "@aboutCreatedBy": {},
+  "addedToPlaylist": "Додано до плейлиста {playlistName}",
+  "@addedToPlaylist": {
+    "placeholders": {
+      "playlistName": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutBuild": "Збірка: {buildNumber}",
+  "@aboutBuild": {
+    "placeholders": {
+      "buildNumber": {
+        "type": "String"
+      }
+    }
+  }
 }
