@@ -86,6 +86,7 @@ dependencies:
   flutter_blurhash: ^0.8.2
   extended_image: ^8.1.1
   flutter_widget_from_html: ^0.14.11
+  font_awesome_flutter: ^10.7.0
 
   # Navigation
   auto_route: ^9.2.2

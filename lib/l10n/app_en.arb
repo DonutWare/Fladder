@@ -1029,5 +1029,24 @@
         "type": "String"
       }
     }
-  }
+  },
+  "aboutVersion": "Version: {version}",
+  "@aboutVersion":{
+    "placeholders": {
+      "version":{
+        "type": "String"
+      }
+    }
+  },
+  "aboutBuild": "Build: {buildNumber}",
+  "@aboutBuild":{
+    "placeholders": {
+      "buildNumber":{
+        "type": "String"
+      }
+    }
+  },
+  "aboutCreatedBy": "Created by DonutWare",
+  "aboutSocials": "Socials",
+  "aboutLicenses": "Licenses"
 }

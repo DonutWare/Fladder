@@ -24,7 +24,9 @@ class ApplicationInfo with _$ApplicationInfo {
     required String os,
   }) = _ApplicationInfo;
 
-  String get versionAndPlatform => "$version ($os)\n#$buildNumber";
+  String get versionPlatformBuild => "$version ($os)\n#$buildNumber";
+
+  String get versionAndPlatform => "$version ($os)";
 
   @override
   String toString() => 'ApplicationInfo(name: $name, version: $version, os: $os)';

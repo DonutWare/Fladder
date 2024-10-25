@@ -96,6 +96,7 @@ final List<AutoRoute> _settingsChildren = [
       page: ClientSettingsRoute.page, initial: true, transitionsBuilder: TransitionsBuilders.fadeIn, path: 'client'),
   CustomRoute(page: SecuritySettingsRoute.page, transitionsBuilder: TransitionsBuilders.fadeIn, path: 'security'),
   CustomRoute(page: PlayerSettingsRoute.page, transitionsBuilder: TransitionsBuilders.fadeIn, path: 'player'),
+  CustomRoute(page: AboutSettingsRoute.page, transitionsBuilder: TransitionsBuilders.fadeIn, path: 'about'),
 ];
 
 class LockScreenGuard extends AutoRouteGuard {

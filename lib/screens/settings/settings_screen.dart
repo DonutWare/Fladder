@@ -12,7 +12,6 @@ import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/settings/settings_scaffold.dart';
 import 'package:fladder/screens/shared/fladder_icon.dart';
 import 'package:fladder/util/adaptive_layout.dart';
-import 'package:fladder/util/application_info.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/router_extension.dart';
 import 'package:fladder/util/theme_extensions.dart';
@@ -136,6 +135,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           SettingsListTile(
             label: Text(context.localized.about),
             subLabel: const Text("Fladder"),
+            selected: containsRoute(const AboutSettingsRoute()),
             suffix: Opacity(
               opacity: 1,
               child: FladderIconOutlined(
@@ -143,12 +143,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 color: context.colors.onSurfaceVariant,
               ),
             ),
-            onTap: () => showAboutDialog(
-              context: context,
-              applicationIcon: const FladderIcon(size: 85),
-              applicationVersion: ref.watch(applicationInfoProvider).versionAndPlatform,
-              applicationLegalese: "Donut Factory",
-            ),
+            onTap: () => navigateTo(const AboutSettingsRoute()),
           ),
         ],
         floatingActionButton: Padding(
