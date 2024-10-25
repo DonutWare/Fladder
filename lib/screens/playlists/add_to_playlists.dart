@@ -47,12 +47,12 @@ class _AddToPlaylistState extends ConsumerState<AddToPlaylist> {
               children: [
                 if (widget.items.length == 1)
                   Text(
-                    'Add to collection',
+                    context.localized.addToPlaylist,
                     style: Theme.of(context).textTheme.titleLarge,
                   )
                 else
                   Text(
-                    'Add ${widget.items.length} item(s) to collection',
+                    context.localized.addItemsToPlaylist(widget.items.length),
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                 IconButton(
@@ -71,7 +71,7 @@ class _AddToPlaylistState extends ConsumerState<AddToPlaylist> {
             children: [
               Flexible(
                 child: OutlinedTextField(
-                  label: 'New Playlist',
+                  label: context.localized.addToNewPlaylist,
                   controller: controller,
                   onChanged: (value) => setState(() {}),
                 ),
@@ -86,8 +86,8 @@ class _AddToPlaylistState extends ConsumerState<AddToPlaylist> {
                           if (context.mounted) {
                             fladderSnackbar(context,
                                 title: response.isSuccessful
-                                    ? "Added to new ${controller.text} playlist"
-                                    : 'Unable to create new playlist - (${response.statusCode}) - ${response.base.reasonPhrase}');
+                                    ? context.localized.addedToPlaylist(controller.text)
+                                    : '${context.localized.somethingWentWrong} - (${response.statusCode}) - ${response.base.reasonPhrase}');
                           }
                           setState(() => controller.text = '');
                         }
@@ -124,8 +124,8 @@ class _AddToPlaylistState extends ConsumerState<AddToPlaylist> {
                                   if (context.mounted) {
                                     fladderSnackbar(context,
                                         title: response.isSuccessful
-                                            ? "Added to ${e.key.name} playlist"
-                                            : 'Unable to add to playlist - (${response.statusCode}) - ${response.base.reasonPhrase}');
+                                            ? context.localized.addedToPlaylist(controller.text)
+                                            : '${context.localized.somethingWentWrong} - (${response.statusCode}) - ${response.base.reasonPhrase}');
                                   }
                                 },
                                 icon: Icon(Icons.add_rounded, color: Theme.of(context).colorScheme.primary),

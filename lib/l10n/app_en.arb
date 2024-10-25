@@ -948,6 +948,49 @@
       }
     }
   },
+  "addToNewCollection": "New collection",
+  "addItemsToCollection": "Add {itemLength} item(s) to collection",
+  "addedToCollection": "Added to {collectionName} collection",
+  "@addedToCollection":{
+    "placeholders": {
+      "collectionName":{
+        "type": "String"
+      }
+    }
+  },
+  "removedFromCollection": "Removed from {collectionName} collection",
+  "@removedFromCollection":{
+    "placeholders": {
+      "collectionName":{
+        "type": "String"
+      }
+    }
+  },
+  "@addItemsToCollection": {
+    "placeholders": {
+      "itemLength":{
+        "type": "int"
+      }
+    }
+  },
+  
+  "addToNewPlaylist": "New playlist",
+  "addItemsToPlaylist": "Add {itemLength} item(s) to playlist",
+  "addedToPlaylist": "Added to {playlistName} playlist",
+  "@addedToPlaylist":{
+    "placeholders": {
+      "playlistName":{
+        "type": "String"
+      }
+    }
+  },
+  "@addItemsToPlaylist": {
+    "placeholders": {
+      "itemLength":{
+        "type": "int"
+      }
+    }
+  },
   "syncStatusEnqueued": "Enqueued",
   "syncStatusRunning": "Running",
   "syncStatusComplete": "Complete",

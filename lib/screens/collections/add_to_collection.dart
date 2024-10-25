@@ -52,12 +52,12 @@ class _AddToCollectionState extends ConsumerState<AddToCollection> {
               children: [
                 if (widget.items.length == 1)
                   Text(
-                    'Add to collection',
+                    context.localized.addToCollection,
                     style: Theme.of(context).textTheme.titleLarge,
                   )
                 else
                   Text(
-                    'Add ${widget.items.length} item(s) to collection',
+                    context.localized.addItemsToCollection(widget.items.length),
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                 IconButton(
@@ -76,7 +76,7 @@ class _AddToCollectionState extends ConsumerState<AddToCollection> {
             children: [
               Flexible(
                 child: OutlinedTextField(
-                  label: 'New collection',
+                  label: context.localized.addToNewCollection,
                   controller: controller,
                   onChanged: (value) => setState(() {}),
                 ),
@@ -112,8 +112,10 @@ class _AddToCollectionState extends ConsumerState<AddToCollection> {
                           if (context.mounted) {
                             fladderSnackbar(context,
                                 title: response.isSuccessful
-                                    ? "${value == true ? "Added to" : "Removed from"} ${e.key.name} collection"
-                                    : 'Unable to ${value == true ? "add to" : "remove from"} ${e.key.name} collection - (${response.statusCode}) - ${response.base.reasonPhrase}');
+                                    ? value == true
+                                        ? context.localized.addedToCollection(e.key.name)
+                                        : context.localized.removedFromCollection(e.key.name)
+                                    : '${context.localized.somethingWentWrong} - (${response.statusCode}) - ${response.base.reasonPhrase}');
                           }
                         },
                       );
@@ -140,8 +142,8 @@ class _AddToCollectionState extends ConsumerState<AddToCollection> {
                                     if (context.mounted) {
                                       fladderSnackbar(context,
                                           title: response.isSuccessful
-                                              ? "Added to ${e.key.name} collection"
-                                              : 'Unable to add to ${e.key.name} collection - (${response.statusCode}) - ${response.base.reasonPhrase}');
+                                              ? context.localized.addedToCollection(e.key.name)
+                                              : '${context.localized.somethingWentWrong} - (${response.statusCode}) - ${response.base.reasonPhrase}');
                                     }
                                   },
                                   child: Icon(Icons.add_rounded, color: Theme.of(context).colorScheme.primary),
