@@ -1,11 +1,13 @@
+import 'package:flutter/material.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:fladder/providers/settings/subtitle_settings_provider.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/widget_extensions.dart';
 import 'package:fladder/widgets/shared/fladder_slider.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 Future<void> showSubtitleControls({
   required BuildContext context,
@@ -18,7 +20,8 @@ Future<void> showSubtitleControls({
       backgroundColor: Colors.transparent,
       elevation: 0,
       content: ConstrainedBox(
-          constraints: BoxConstraints(minWidth: MediaQuery.sizeOf(context).width * 0.75), child: VideoSubtitleControls(label: label)),
+          constraints: BoxConstraints(minWidth: MediaQuery.sizeOf(context).width * 0.75),
+          child: VideoSubtitleControls(label: label)),
     ),
   );
   return;
@@ -52,6 +55,8 @@ class _VideoSubtitleControlsState extends ConsumerState<VideoSubtitleControls> {
     final provider = ref.read(subtitleSettingsProvider.notifier);
     final controlsHidden = hideControls ? false : showPartial;
     return AnimatedContainer(
+      height: MediaQuery.sizeOf(context).width * 0.85,
+      width: MediaQuery.sizeOf(context).height * 0.7,
       duration: const Duration(milliseconds: 250),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
@@ -90,7 +95,9 @@ class _VideoSubtitleControlsState extends ConsumerState<VideoSubtitleControls> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               ElevatedButton(
-                                onPressed: subSettings != lastSettings ? () => provider.resetSettings(value: lastSettings) : null,
+                                onPressed: subSettings != lastSettings
+                                    ? () => provider.resetSettings(value: lastSettings)
+                                    : null,
                                 child: Text(context.localized.clearChanges),
                               ),
                               const SizedBox(width: 32),
@@ -105,15 +112,18 @@ class _VideoSubtitleControlsState extends ConsumerState<VideoSubtitleControls> {
                             multiSelectionEnabled: false,
                             segments: [
                               ButtonSegment(
-                                label: Text(context.localized.light, style: const TextStyle(fontWeight: FontWeight.w100)),
+                                label:
+                                    Text(context.localized.light, style: const TextStyle(fontWeight: FontWeight.w100)),
                                 value: FontWeight.w100,
                               ),
                               ButtonSegment(
-                                label: Text(context.localized.normal, style: const TextStyle(fontWeight: FontWeight.w500)),
+                                label:
+                                    Text(context.localized.normal, style: const TextStyle(fontWeight: FontWeight.w500)),
                                 value: FontWeight.normal,
                               ),
                               ButtonSegment(
-                                label: Text(context.localized.bold, style: const TextStyle(fontWeight: FontWeight.w900)),
+                                label:
+                                    Text(context.localized.bold, style: const TextStyle(fontWeight: FontWeight.w900)),
                                 value: FontWeight.bold,
                               ),
                             ],
@@ -210,7 +220,8 @@ class _VideoSubtitleControlsState extends ConsumerState<VideoSubtitleControls> {
                                   const Icon(Icons.border_color_rounded),
                                   ...[Colors.white, Colors.yellow, Colors.black, Colors.grey, Colors.transparent].map(
                                     (e) => FlatButton(
-                                      onTap: () => provider.setOutlineColor(e == Colors.transparent ? e : e.withOpacity(0.85)),
+                                      onTap: () =>
+                                          provider.setOutlineColor(e == Colors.transparent ? e : e.withOpacity(0.85)),
                                       borderRadiusGeometry: BorderRadius.circular(5),
                                       clipBehavior: Clip.antiAlias,
                                       child: Container(
@@ -290,7 +301,8 @@ class _VideoSubtitleControlsState extends ConsumerState<VideoSubtitleControls> {
                               ),
                               Text(context.localized.backgroundOpacity),
                             ],
-                          ).addVisiblity(activeKey == null ? controlsHidden : activeKey == const Key('backGroundOpacity')),
+                          ).addVisiblity(
+                              activeKey == null ? controlsHidden : activeKey == const Key('backGroundOpacity')),
                           Column(
                             children: [
                               Row(

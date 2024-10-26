@@ -1,14 +1,15 @@
 import 'dart:convert';
 
-import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
 import 'package:flutter/material.dart';
 
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
 import 'package:fladder/providers/user_provider.dart';
+import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/video_properties.dart';
 
 class MediaStreamsModel {
@@ -233,6 +234,14 @@ class AudioStreamModel extends StreamModel {
     );
   }
 
+  String label(BuildContext context) {
+    if (index == -1) {
+      return context.localized.off;
+    } else {
+      return displayTitle;
+    }
+  }
+
   String get title =>
       [name, language, codec, channelLayout].whereNotNull().where((element) => element.isNotEmpty).join(' - ');
 
@@ -282,6 +291,14 @@ class SubStreamModel extends StreamModel {
     super.index = -1,
     this.supportsExternalStream = false,
   });
+
+  String label(BuildContext context) {
+    if (index == -1) {
+      return context.localized.off;
+    } else {
+      return displayTitle;
+    }
+  }
 
   factory SubStreamModel.fromMediaStream(dto.MediaStream stream, Ref ref) {
     return SubStreamModel(

@@ -1048,5 +1048,12 @@
   },
   "aboutCreatedBy": "Created by DonutWare",
   "aboutSocials": "Socials",
-  "aboutLicenses": "Licenses"
+  "aboutLicenses": "Licenses",
+  "subtitle": "Subtitle",
+  "subtitleConfiguration": "Subtitle configuration",
+  "off": "Off",
+  "screenBrightness": "Screen brightness",
+  "scale":"Scale",
+  "playBackSettings": "Playback Settings"
+
 }
