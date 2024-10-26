@@ -1,40 +1,27 @@
 import 'package:flutter/material.dart';
 
 import 'package:ficonsax/ficonsax.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:window_manager/window_manager.dart';
 
-class FullScreenButton extends StatefulWidget {
+import 'package:fladder/providers/video_player_provider.dart';
+
+Future<void> toggleFullScreen(WidgetRef ref) async {
+  final isFullScreen = await windowManager.isFullScreen();
+  await windowManager.setFullScreen(!isFullScreen);
+  ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(fullScreen: !isFullScreen));
+}
+
+class FullScreenButton extends ConsumerWidget {
   const FullScreenButton({super.key});
 
   @override
-  State<FullScreenButton> createState() => _FullScreenButtonState();
-}
-
-class _FullScreenButtonState extends State<FullScreenButton> {
-  bool isFullScreen = false;
-
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(checkFullScreen);
-  }
-
-  void checkFullScreen() async {
-    final fullScreen = await windowManager.isFullScreen();
-    setState(() {
-      isFullScreen = fullScreen;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final fullScreen = ref.watch(mediaPlaybackProvider.select((value) => value.fullScreen));
     return IconButton(
-      onPressed: () async {
-        await windowManager.setFullScreen(!isFullScreen);
-        checkFullScreen();
-      },
+      onPressed: () => toggleFullScreen(ref),
       icon: Icon(
-        isFullScreen ? IconsaxOutline.close_square : IconsaxOutline.maximize_4,
+        fullScreen ? IconsaxOutline.close_square : IconsaxOutline.maximize_4,
       ),
     );
   }

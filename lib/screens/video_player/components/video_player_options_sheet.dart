@@ -19,6 +19,7 @@ import 'package:fladder/screens/playlists/add_to_playlists.dart';
 import 'package:fladder/screens/video_player/components/video_player_queue.dart';
 import 'package:fladder/screens/video_player/components/video_subtitle_controls.dart';
 import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/widgets/shared/enum_selection.dart';
@@ -91,7 +92,7 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Flexible(flex: 1, child: Text("Screen Brightness")),
+                  Flexible(flex: 1, child: Text(context.localized.screenBrightness)),
                   Flexible(
                     child: Row(
                       children: [
@@ -124,13 +125,13 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
               ),
             ),
           SpacedListTile(
-            title: const Text("Subtitles"),
-            content: Text(currentMediaStreams?.currentSubStream?.displayTitle ?? "Off"),
+            title: Text(context.localized.subtitles),
+            content: Text(currentMediaStreams?.currentSubStream?.label(context) ?? context.localized.off),
             onTap: currentMediaStreams?.subStreams.isNotEmpty == true ? () => showSubSelection(context) : null,
           ),
           SpacedListTile(
-            title: const Text("Audio"),
-            content: Text(currentMediaStreams?.currentAudioStream?.displayTitle ?? "Off"),
+            title: Text(context.localized.audio),
+            content: Text(currentMediaStreams?.currentAudioStream?.label(context) ?? context.localized.off),
             onTap: currentMediaStreams?.audioStreams.isNotEmpty == true ? () => showAudioSelection(context) : null,
           ),
           ListTile(
@@ -139,7 +140,7 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
               children: [
                 Flexible(
                   child: EnumSelection(
-                    label: const Text("Scale"),
+                    label: Text(context.localized.scale),
                     current: videoSettings.videoFit.name.toUpperCaseSplit(),
                     itemBuilder: (context) => BoxFit.values
                         .map((value) => PopupMenuItem(
@@ -159,9 +160,9 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
               title: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Expanded(
+                  Expanded(
                     flex: 3,
-                    child: Text("Fill-screen"),
+                    child: Text(context.localized.videoScalingFill),
                   ),
                   const Spacer(),
                   Switch.adaptive(
@@ -235,7 +236,7 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
                 widget.minimizePlayer();
                 (this as EpisodeModel).parentBaseModel.navigateTo(context);
               },
-              title: const Text("Open show"),
+              title: Text(context.localized.openShow),
             ),
           ListTile(
             onTap: () async {
@@ -243,7 +244,7 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
               widget.minimizePlayer();
               await currentItem.navigateTo(context);
             },
-            title: const Text("Show details"),
+            title: Text(context.localized.showDetails),
           ),
           if (currentItem.type != FladderItemType.boxset)
             ListTile(
@@ -253,7 +254,7 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
                   context.refreshData();
                 }
               },
-              title: const Text("Add to collection"),
+              title: Text(context.localized.addToCollection),
             ),
           if (currentItem.type != FladderItemType.playlist)
             ListTile(
@@ -263,7 +264,7 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
                   context.refreshData();
                 }
               },
-              title: const Text("Add to playlist"),
+              title: Text(context.localized.addToPlaylist),
             ),
           ListTile(
             onTap: () async {
@@ -280,14 +281,16 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
               ref.read(playBackModel.notifier).update((state) => playbackModel);
               Navigator.of(context).pop();
             },
-            title: Text(currentItem.userData.isFavourite == true ? "Remove from favorites" : "Add to favourites"),
+            title: Text(currentItem.userData.isFavourite == true
+                ? context.localized.removeAsFavorite
+                : context.localized.addAsFavorite),
           ),
           ListTile(
             onTap: () {
               Navigator.of(context).pop();
               showInfoScreen(context, currentItem);
             },
-            title: const Text('Media info'),
+            title: Text(context.localized.info),
           ),
         }
       ],
@@ -340,14 +343,14 @@ Future<void> showSubSelection(BuildContext context) {
             contentPadding: const EdgeInsets.only(top: 8, bottom: 24),
             title: Row(
               children: [
-                const Text("Subtitle"),
+                Text(context.localized.subtitle),
                 const Spacer(),
                 IconButton.outlined(
                     onPressed: () {
                       Navigator.pop(context);
                       showSubtitleControls(
                         context: context,
-                        label: 'Subtitle configuration',
+                        label: context.localized.subtitleConfiguration,
                       );
                     },
                     icon: const Icon(Icons.display_settings_rounded))
@@ -357,7 +360,7 @@ Future<void> showSubSelection(BuildContext context) {
               (index, subModel) {
                 final selected = playbackModel.mediaStreams?.defaultSubStreamIndex == subModel.index;
                 return ListTile(
-                  title: Text(subModel.displayTitle),
+                  title: Text(subModel.label(context)),
                   tileColor: selected ? Theme.of(context).colorScheme.primary.withOpacity(0.3) : null,
                   subtitle: subModel.language.isNotEmpty
                       ? Opacity(opacity: 0.6, child: Text(subModel.language.capitalize()))
@@ -391,24 +394,14 @@ Future<void> showAudioSelection(BuildContext context) {
             contentPadding: const EdgeInsets.only(top: 8, bottom: 24),
             title: Row(
               children: [
-                const Text("Subtitle"),
-                const Spacer(),
-                IconButton.outlined(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      showSubtitleControls(
-                        context: context,
-                        label: 'Subtitle configuration',
-                      );
-                    },
-                    icon: const Icon(Icons.display_settings_rounded))
+                Text(context.localized.audio),
               ],
             ),
             children: playbackModel?.audioStreams?.mapIndexed(
               (index, audioStream) {
                 final selected = playbackModel.mediaStreams?.defaultAudioStreamIndex == audioStream.index;
                 return ListTile(
-                    title: Text(audioStream.displayTitle),
+                    title: Text(audioStream.label(context)),
                     tileColor: selected ? Theme.of(context).colorScheme.primary.withOpacity(0.3) : null,
                     subtitle: audioStream.language.isNotEmpty
                         ? Opacity(opacity: 0.6, child: Text(audioStream.language.capitalize()))

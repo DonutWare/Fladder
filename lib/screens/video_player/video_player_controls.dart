@@ -42,6 +42,11 @@ class DesktopControls extends ConsumerStatefulWidget {
 }
 
 class _DesktopControlsState extends ConsumerState<DesktopControls> {
+  late RestartableTimer timer = RestartableTimer(
+    const Duration(seconds: 5),
+    () => mounted ? toggleOverlay(value: false) : null,
+  );
+
   final fadeDuration = const Duration(milliseconds: 350);
   final focusNode = FocusNode();
   bool showOverlay = true;
@@ -49,6 +54,72 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
 
   late final double topPadding = MediaQuery.of(context).viewPadding.top;
   late final double bottomPadding = MediaQuery.of(context).viewPadding.bottom;
+
+  bool _onKey(KeyEvent value) {
+    final introSkipModel = ref.read(playBackModel.select((value) => value?.introSkipModel));
+    final position = ref.read(mediaPlaybackProvider).position;
+    bool showIntroSkipButton = introSkipModel?.introInRange(position) ?? false;
+    bool showCreditSkipButton = introSkipModel?.creditsInRange(position) ?? false;
+    if (value is KeyRepeatEvent) {
+      if (value.logicalKey == LogicalKeyboardKey.arrowUp) {
+        resetTimer();
+        ref.read(videoPlayerSettingsProvider.notifier).steppedVolume(5);
+      }
+      if (value.logicalKey == LogicalKeyboardKey.arrowDown) {
+        resetTimer();
+        ref.read(videoPlayerSettingsProvider.notifier).steppedVolume(-5);
+      }
+      return true;
+    }
+    if (value is KeyDownEvent) {
+      if (value.logicalKey == LogicalKeyboardKey.keyS) {
+        if (showIntroSkipButton) {
+          skipIntro(introSkipModel);
+        } else if (showCreditSkipButton) {
+          skipCredits(introSkipModel);
+        }
+        focusNode.requestFocus();
+      }
+      if (value.logicalKey == LogicalKeyboardKey.escape) {
+        disableFullscreen();
+      }
+      if (value.logicalKey == LogicalKeyboardKey.space) {
+        ref.read(videoPlayerProvider).playOrPause();
+      }
+      if (value.logicalKey == LogicalKeyboardKey.arrowLeft) {
+        seekBack(ref);
+      }
+      if (value.logicalKey == LogicalKeyboardKey.arrowRight) {
+        seekForward(ref);
+      }
+      if (value.logicalKey == LogicalKeyboardKey.keyF) {
+        toggleFullScreen(ref);
+      }
+      if (value.logicalKey == LogicalKeyboardKey.arrowUp) {
+        resetTimer();
+        ref.read(videoPlayerSettingsProvider.notifier).steppedVolume(5);
+      }
+      if (value.logicalKey == LogicalKeyboardKey.arrowDown) {
+        resetTimer();
+        ref.read(videoPlayerSettingsProvider.notifier).steppedVolume(-5);
+      }
+      return true;
+    }
+    return false;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    ServicesBinding.instance.keyboard.addHandler(_onKey);
+    timer.reset();
+  }
+
+  @override
+  void dispose() {
+    ServicesBinding.instance.keyboard.removeHandler(_onKey);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,121 +137,75 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
             closePlayer();
           }
         },
-        child: KeyboardListener(
-          focusNode: focusNode,
-          autofocus: AdaptiveLayout.of(context).inputDevice == InputDevice.pointer,
-          onKeyEvent: (value) {
-            final position = ref.read(mediaPlaybackProvider).position;
-            bool showIntroSkipButton = introSkipModel?.introInRange(position) ?? false;
-            bool showCreditSkipButton = introSkipModel?.creditsInRange(position) ?? false;
-            if (value is KeyRepeatEvent) {}
-            if (value is KeyDownEvent) {
-              if (value.logicalKey == LogicalKeyboardKey.keyS) {
-                if (showIntroSkipButton) {
-                  skipIntro(introSkipModel);
-                } else if (showCreditSkipButton) {
-                  skipCredits(introSkipModel);
-                }
-                focusNode.requestFocus();
-              }
-              if (value.logicalKey == LogicalKeyboardKey.escape) {
-                disableFullscreen();
-              }
-              if (value.logicalKey == LogicalKeyboardKey.space) {
-                ref.read(videoPlayerProvider).playOrPause();
-              }
-              if (value.logicalKey == LogicalKeyboardKey.arrowLeft) {
-                seekBack(ref);
-              }
-              if (value.logicalKey == LogicalKeyboardKey.arrowRight) {
-                seekForward(ref);
-              }
-              if (value.logicalKey == LogicalKeyboardKey.keyF) {
-                toggleFullScreen();
-              }
-              if (AdaptiveLayout.of(context).isDesktop || kIsWeb) {
-                if (value.logicalKey == LogicalKeyboardKey.arrowUp) {
-                  resetTimer();
-                  ref.read(videoPlayerSettingsProvider.notifier).steppedVolume(5);
-                }
-                if (value.logicalKey == LogicalKeyboardKey.arrowDown) {
-                  resetTimer();
-                  ref.read(videoPlayerSettingsProvider.notifier).steppedVolume(-5);
-                }
-              }
-              focusNode.requestFocus();
-            }
-          },
-          child: GestureDetector(
-            onTap: () => toggleOverlay(),
-            child: MouseRegion(
-              cursor: showOverlay ? SystemMouseCursors.basic : SystemMouseCursors.none,
-              onEnter: (event) => toggleOverlay(value: true),
-              onExit: (event) => toggleOverlay(value: false),
-              onHover: AdaptiveLayout.of(context).isDesktop || kIsWeb ? (event) => toggleOverlay(value: true) : null,
-              child: Stack(
-                children: [
-                  if (player != null)
-                    VideoSubtitles(
-                      key: const Key('subtitles'),
-                      controller: player,
-                      overlayed: showOverlay,
-                    ),
-                  if (AdaptiveLayout.of(context).isDesktop)
-                    Consumer(builder: (context, ref, child) {
-                      final playing = ref.watch(mediaPlaybackProvider.select((value) => value.playing));
-                      final buffering = ref.watch(mediaPlaybackProvider.select((value) => value.buffering));
-                      return playButton(playing, buffering);
-                    }),
-                  IgnorePointer(
-                    ignoring: !showOverlay,
-                    child: AnimatedOpacity(
-                      duration: fadeDuration,
-                      opacity: showOverlay ? 1 : 0,
-                      child: Column(
-                        children: [
-                          topButtons(context),
-                          const Spacer(),
-                          bottomButtons(context),
-                        ],
-                      ),
+        child: GestureDetector(
+          onTap: () => toggleOverlay(),
+          child: MouseRegion(
+            cursor: showOverlay ? SystemMouseCursors.basic : SystemMouseCursors.none,
+            onEnter: (event) => toggleOverlay(value: true),
+            onExit: (event) => toggleOverlay(value: false),
+            onHover: AdaptiveLayout.of(context).isDesktop || kIsWeb ? (event) => toggleOverlay(value: true) : null,
+            child: Stack(
+              children: [
+                if (player != null)
+                  VideoSubtitles(
+                    key: const Key('subtitles'),
+                    controller: player,
+                    overlayed: showOverlay,
+                  ),
+                if (AdaptiveLayout.of(context).isDesktop)
+                  Consumer(builder: (context, ref, child) {
+                    final playing = ref.watch(mediaPlaybackProvider.select((value) => value.playing));
+                    final buffering = ref.watch(mediaPlaybackProvider.select((value) => value.buffering));
+                    return playButton(playing, buffering);
+                  }),
+                IgnorePointer(
+                  ignoring: !showOverlay,
+                  child: AnimatedOpacity(
+                    duration: fadeDuration,
+                    opacity: showOverlay ? 1 : 0,
+                    child: Column(
+                      children: [
+                        topButtons(context),
+                        const Spacer(),
+                        bottomButtons(context),
+                      ],
                     ),
                   ),
-                  Consumer(
-                    builder: (context, ref, child) {
-                      final position = ref.watch(mediaPlaybackProvider.select((value) => value.position));
-                      bool showIntroSkipButton = introSkipModel?.introInRange(position) ?? false;
-                      bool showCreditSkipButton = introSkipModel?.creditsInRange(position) ?? false;
-                      return Stack(
-                        children: [
-                          if (showIntroSkipButton)
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: Padding(
-                                padding: const EdgeInsets.all(32),
-                                child: IntroSkipButton(
-                                  isOverlayVisible: showOverlay,
-                                  skipIntro: () => skipIntro(introSkipModel),
-                                ),
+                ),
+                Consumer(
+                  builder: (context, ref, child) {
+                    final position = ref.watch(mediaPlaybackProvider.select((value) => value.position));
+                    bool showIntroSkipButton = introSkipModel?.introInRange(position) ?? false;
+                    bool showCreditSkipButton = introSkipModel?.creditsInRange(position) ?? false;
+                    return Stack(
+                      children: [
+                        if (showIntroSkipButton)
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Padding(
+                              padding: const EdgeInsets.all(32),
+                              child: IntroSkipButton(
+                                isOverlayVisible: showOverlay,
+                                skipIntro: () => skipIntro(introSkipModel),
                               ),
                             ),
-                          if (showCreditSkipButton)
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: Padding(
-                                padding: const EdgeInsets.all(32),
-                                child: CreditsSkipButton(
-                                  isOverlayVisible: showOverlay,
-                                  skipCredits: () => skipCredits(introSkipModel),
-                                ),
+                          ),
+                        if (showCreditSkipButton)
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Padding(
+                              padding: const EdgeInsets.all(32),
+                              child: CreditsSkipButton(
+                                isOverlayVisible: showOverlay,
+                                skipCredits: () => skipCredits(introSkipModel),
                               ),
-                            )
-                        ],
-                      );
-                    },
-                  ),
-                ],
-              ),
+                            ),
+                          )
+                      ],
+                    );
+                  },
+                ),
+              ],
             ),
           ),
         ),
@@ -317,11 +342,11 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                               onPressed: () => showSubSelection(context),
                               icon: const Icon(IconsaxOutline.subtitle),
                               label: Text(
-                                ref
-                                        .watch(playBackModel.select((value) => value?.mediaStreams?.currentSubStream))
-                                        ?.language
-                                        .capitalize() ??
-                                    "Off",
+                                ref.watch(playBackModel.select((value) {
+                                      final language = value?.mediaStreams?.currentSubStream?.language;
+                                      return language?.isEmpty == true ? context.localized.off : language;
+                                    }))?.capitalize() ??
+                                    "",
                                 maxLines: 1,
                               ),
                             ),
@@ -331,11 +356,11 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                               onPressed: () => showAudioSelection(context),
                               icon: const Icon(IconsaxOutline.audio_square),
                               label: Text(
-                                ref
-                                        .watch(playBackModel.select((value) => value?.mediaStreams?.currentAudioStream))
-                                        ?.language
-                                        .capitalize() ??
-                                    "Off",
+                                ref.watch(playBackModel.select((value) {
+                                      final language = value?.mediaStreams?.currentAudioStream?.language;
+                                      return language?.isEmpty == true ? context.localized.off : language;
+                                    }))?.capitalize() ??
+                                    "",
                                 maxLines: 1,
                               ),
                             ),
@@ -591,11 +616,6 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     ref.read(videoPlayerProvider).seek(Duration(seconds: newPosition));
   }
 
-  late RestartableTimer timer = RestartableTimer(
-    const Duration(seconds: 5),
-    () => mounted ? toggleOverlay(value: false) : null,
-  );
-
   void toggleOverlay({bool? value}) {
     if (showOverlay == (value ?? !showOverlay)) return;
     setState(() => showOverlay = (value ?? !showOverlay));
@@ -651,10 +671,5 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         await windowManager.setFullScreen(false);
       }
     }
-  }
-
-  Future<void> toggleFullScreen() async {
-    final isFullScreen = await windowManager.isFullScreen();
-    await windowManager.setFullScreen(!isFullScreen);
   }
 }

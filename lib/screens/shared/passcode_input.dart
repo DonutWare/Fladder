@@ -1,8 +1,10 @@
-import 'package:fladder/screens/shared/animated_fade_size.dart';
-import 'package:fladder/util/list_padding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:fladder/screens/shared/animated_fade_size.dart';
+import 'package:fladder/util/list_padding.dart';
 
 class PassCodeInput extends ConsumerStatefulWidget {
   final ValueChanged<String> passCode;
@@ -16,80 +18,90 @@ class _PassCodeInputState extends ConsumerState<PassCodeInput> {
   final iconSize = 45.0;
   final passCodeLength = 4;
   var currentPasscode = "";
-  final focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    ServicesBinding.instance.keyboard.addHandler(_onKey);
+  }
+
+  @override
+  void dispose() {
+    ServicesBinding.instance.keyboard.removeHandler(_onKey);
+    super.dispose();
+  }
+
+  bool _onKey(KeyEvent value) {
+    if (value is KeyDownEvent) {
+      final keyInt = int.tryParse(value.logicalKey.keyLabel);
+      if (keyInt != null) {
+        addToPassCode(value.logicalKey.keyLabel);
+        return true;
+      }
+      if (value.logicalKey == LogicalKeyboardKey.backspace) {
+        backSpace();
+        return true;
+      }
+    }
+    return false;
+  }
 
   @override
   Widget build(BuildContext context) {
-    focusNode.requestFocus();
-    return KeyboardListener(
-      focusNode: focusNode,
-      autofocus: true,
-      onKeyEvent: (value) {
-        if (value is KeyDownEvent) {
-          final keyInt = int.tryParse(value.logicalKey.keyLabel);
-          if (keyInt != null) {
-            addToPassCode(value.logicalKey.keyLabel);
-          }
-          if (value.logicalKey == LogicalKeyboardKey.backspace) {
-            backSpace();
-          }
-        }
-      },
-      child: AlertDialog(
-        scrollable: true,
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: List.generate(
-                passCodeLength,
-                (index) => Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: SizedBox(
-                      height: iconSize * 1.2,
-                      width: iconSize * 1.2,
-                      child: Card(
-                        child: Transform.translate(
-                          offset: const Offset(0, 5),
-                          child: AnimatedFadeSize(
-                            child: Text(
-                              currentPasscode.length > index ? "*" : "",
-                              style: Theme.of(context).textTheme.displayLarge?.copyWith(fontSize: 60),
-                            ),
+    return AlertDialog(
+      scrollable: true,
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: List.generate(
+              passCodeLength,
+              (index) => Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: SizedBox(
+                    height: iconSize * 1.2,
+                    width: iconSize * 1.2,
+                    child: Card(
+                      child: Transform.translate(
+                        offset: const Offset(0, 5),
+                        child: AnimatedFadeSize(
+                          child: Text(
+                            currentPasscode.length > index ? "*" : "",
+                            style: Theme.of(context).textTheme.displayLarge?.copyWith(fontSize: 60),
                           ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ).toList(),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: List.of([1, 2, 3]).map((e) => passCodeNumber(e)).toList(),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: List.of([4, 5, 6]).map((e) => passCodeNumber(e)).toList(),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: List.of([7, 8, 9]).map((e) => passCodeNumber(e)).toList(),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                backSpaceButton,
-                passCodeNumber(0),
-                clearAllButton,
-              ],
-            )
-          ].addPadding(const EdgeInsets.symmetric(vertical: 8)),
-        ),
+              ),
+            ).toList(),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: List.of([1, 2, 3]).map((e) => passCodeNumber(e)).toList(),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: List.of([4, 5, 6]).map((e) => passCodeNumber(e)).toList(),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: List.of([7, 8, 9]).map((e) => passCodeNumber(e)).toList(),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              backSpaceButton,
+              passCodeNumber(0),
+              clearAllButton,
+            ],
+          )
+        ].addPadding(const EdgeInsets.symmetric(vertical: 8)),
       ),
     );
   }
