@@ -9,7 +9,23 @@ on:
   workflow_dispatch:
 
 jobs:
+  fetch-info:
+    runs-on: ubuntu-latest
+    outputs:
+      version_name: ${{ steps.fetch.outputs.version_name }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.1.1
+
+      - name: Fetch version name
+        id: fetch
+        run: |
+          VERSION_NAME=$(grep '^version:' pubspec.yaml | cut -d ':' -f2 | cut -d '+' -f1 | tr -d ' ')
+          echo "version_name=${VERSION_NAME}" >> "$GITHUB_OUTPUT"
+        shell: bash
+        
   build-android:
+    needs: [fetch-info]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -54,38 +70,25 @@ jobs:
 
       - name: Build Android APK and AAB
         run: |
-          APP_NAME=$(grep '^name:' pubspec.yaml | cut -d ':' -f2 | tr -d ' ')
-          VERSION_NAME=$(grep '^version:' pubspec.yaml | cut -d ':' -f2 | cut -d '+' -f1 | tr -d ' ')
-          echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
-          echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
-
-          # Build APK
-          flutter build apk --release \
-            --build-name=$VERSION_NAME \
-            --build-number=$GITHUB_RUN_NUMBER \
-            --flavor production
-
-          # Build AAB
-          flutter build appbundle --release \
-            --build-name=$VERSION_NAME \
-            --build-number=$GITHUB_RUN_NUMBER \
-            --flavor production
+          flutter build apk --release --build-number=${{github.run_number}} --flavor production
+          flutter build appbundle --release --build-number=${{github.run_number}} --flavor production    
 
       - name: Rename APK and AAB
         run: |
           mkdir -p build/app/outputs/android_artifacts
-          mv build/app/outputs/flutter-apk/app-production-release.apk "build/app/outputs/android_artifacts/${{ env.APP_NAME }}-Android-${{ env.VERSION_NAME }}.apk"
-          mv build/app/outputs/bundle/productionRelease/app-production-release.aab "build/app/outputs/android_artifacts/${{ env.APP_NAME }}-Android-${{ env.VERSION_NAME }}.aab"
+          mv build/app/outputs/flutter-apk/app-production-release.apk "build/app/outputs/android_artifacts/release-signed.apk"
+          mv build/app/outputs/bundle/productionRelease/app-production-release.aab "build/app/outputs/android_artifacts/release-signed.aab"
 
       - name: Archive Android artifacts
         uses: actions/upload-artifact@v4.0.0
         with:
-          name: ${{ env.APP_NAME }}-Android-${{ env.VERSION_NAME }}
+          name: fladder-android
           path: build/app/outputs/android_artifacts/            
 
   build-windows:
     #Use windows-2019, latest(2022) causes MSVCP140.dll related crashes
     runs-on: windows-2019
+    needs: [fetch-info]
 
     steps:
       - name: Checkout repository
@@ -104,24 +107,17 @@ jobs:
         run: flutter pub get
 
       - name: Build Windows EXE
-        run: |
-          $pubspec = Get-Content pubspec.yaml
-          $APP_NAME = ($pubspec | Select-String '^name:' | ForEach-Object { ($_ -split ':')[1].Trim() })
-          $VERSION_NAME = ($pubspec | Select-String '^version:' | ForEach-Object { ($_ -split ':')[1].Trim().Split('+')[0] })
-
-          echo "APP_NAME=$APP_NAME" >> $Env:GITHUB_ENV
-          echo "VERSION_NAME=$VERSION_NAME" >> $Env:GITHUB_ENV
-
-          flutter build windows --build-name=$VERSION_NAME --build-number=${{ github.run_number }}
+        run: flutter build windows --build-number=${{ github.run_number }}
 
       - name: Archive Windows artifact
         uses: actions/upload-artifact@v4.0.0
         with:
-          name: ${{ env.APP_NAME }}-Windows-${{ env.VERSION_NAME }}
+          name: fladder-windows
           path: build\windows\x64\runner\Release\
 
   build-ios:
     runs-on: macos-latest
+    needs: [fetch-info]
 
     steps:
       - name: Checkout repository
@@ -140,29 +136,25 @@ jobs:
         run: flutter pub get
 
       - name: Build iOS app
-        run: |
-          APP_NAME=$(grep '^name:' pubspec.yaml | cut -d ':' -f2 | tr -d ' ')
-          VERSION_NAME=$(grep '^version:' pubspec.yaml | cut -d ':' -f2 | cut -d '+' -f1 | tr -d ' ')
-          echo "PACKAGE_NAME=$APP_NAME-iOS-$VERSION_NAME" >> $GITHUB_ENV
-
-          flutter build ipa --no-codesign --flavor production --build-name=$VERSION_NAME --build-number=${{ github.run_number }} 
+        run: flutter build ipa --no-codesign --flavor production --build-number=${{ github.run_number }} 
 
       - name: Create unsigned IPA
         run: |
           cd build/ios/archive/Runner.xcarchive/Products/Applications/
           mkdir Payload
           mv Runner.app Payload/
-          zip -r ${{ env.PACKAGE_NAME }}.ipa Payload
+          zip -r iOS.ipa Payload
 
       - name: Archive iOS IPA artifact
         uses: actions/upload-artifact@v4.0.0
         with:
-          name: ${{ env.PACKAGE_NAME }}
-          path: build/ios/archive/Runner.xcarchive/Products/Applications/${{ env.PACKAGE_NAME }}.ipa
+          name: fladder-iOS
+          path: build/ios/archive/Runner.xcarchive/Products/Applications/iOS.ipa
 
   build-macos:
     runs-on: macos-latest
-
+    needs: [fetch-info]
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4.1.1
@@ -180,25 +172,20 @@ jobs:
         run: flutter pub get
 
       - name: Build macOS app
-        run: |
-          APP_NAME=$(grep '^name:' pubspec.yaml | cut -d ':' -f2 | tr -d ' ')
-          VERSION_NAME=$(grep '^version:' pubspec.yaml | cut -d ':' -f2 | cut -d '+' -f1 | tr -d ' ')
-          echo "PACKAGE_NAME=$APP_NAME-macOS-$VERSION_NAME" >> $GITHUB_ENV
-
-          flutter build macos --flavor production --build-name=$VERSION_NAME --build-number=${{ github.run_number }}
+        run: flutter build macos --flavor production --build-number=${{ github.run_number }}
 
       - name: Create DMG file
-        run: |
-          hdiutil create -format UDZO -srcfolder build/macos/Build/Products/Release-production/fladder.app build/macos/Build/Products/Release-production/${{ env.PACKAGE_NAME }}.dmg
+        run:  hdiutil create -format UDZO -srcfolder build/macos/Build/Products/Release-production/fladder.app build/macos/Build/Products/Release-production/macOS.dmg
 
       - name: Archive macOS artifact
         uses: actions/upload-artifact@v4.0.0
         with:
-          name: ${{ env.PACKAGE_NAME }}
-          path: build/macos/Build/Products/Release-production/${{ env.PACKAGE_NAME }}.dmg
+          name: fladder-macOS
+          path: build/macos/Build/Products/Release-production/macOS.dmg
 
   build-linux:
     runs-on: ubuntu-latest
+    needs: [fetch-info]
 
     steps:
       - name: Checkout repository
@@ -222,16 +209,7 @@ jobs:
           sudo apt-get install -y ninja-build libgtk-3-dev libmpv-dev patchelf
 
       - name: Build Linux app
-        run: |
-          APP_NAME=$(grep '^name:' pubspec.yaml | cut -d ':' -f2 | tr -d ' ')
-          VERSION_NAME=$(grep '^version:' pubspec.yaml | cut -d ':' -f2 | cut -d '+' -f1 | tr -d ' ')
-          echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
-          echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
-
-          # Build APK
-          flutter build linux --release \
-            --build-name=$VERSION_NAME \
-            --build-number=${{ github.run_number }}
+        run: flutter build linux --release --build-number=${{ github.run_number }}
 
       - name: Fix RPATH
         run: |
@@ -244,11 +222,12 @@ jobs:
       - name: Archive Linux artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.APP_NAME }}-Linux-${{ env.VERSION_NAME }}
+          name: fladder-linux
           path: build/linux/x64/release/bundle
 
   build-web:
     runs-on: ubuntu-latest
+    needs: [fetch-info]
 
     steps:
       - name: Checkout repository
@@ -268,16 +247,12 @@ jobs:
 
       - name: Build web app
         run: |
-          APP_NAME=$(grep '^name:' pubspec.yaml | cut -d ':' -f2 | tr -d ' ')
-          VERSION_NAME=$(grep '^version:' pubspec.yaml | cut -d ':' -f2 | cut -d '+' -f1 | tr -d ' ')
-          echo "PACKAGE_NAME=$APP_NAME-Web-$VERSION_NAME" >> $GITHUB_ENV
-
-          flutter build web --release --build-number=$GITHUB_RUN_NUMBER
+          flutter build web --release --build-number=${{github.run_number}}
 
       - name: Archive web artifact
         uses: actions/upload-artifact@v4.0.0
         with:
-          name: ${{ env.PACKAGE_NAME }}
+          name: fladder-web
           path: build/web
 
       - name: Deploy to ghcr.io
@@ -301,4 +276,80 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }} # Automatically provided by GitHub Actions
           publish_dir: ./build/web
 
- 
+  create_release:
+    name: Create Release
+    needs: [fetch-info,build-android,build-windows,build-ios,build-macos,build-linux,build-web]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')       
+    steps:
+      - name: Download Artifacts Android
+        uses: actions/download-artifact@v4
+        with:
+          name: fladder-android
+          path: fladder-android
+
+      - name: Move Android
+        run: |
+          mv fladder-android/release-signed.apk Fladder-Android-${{needs.fetch-info.outputs.version_name}}.apk
+          mv fladder-android/release-signed.aab Fladder-Android-${{needs.fetch-info.outputs.version_name}}.aab
+
+      - name: Download Artifacts Windows
+        uses: actions/download-artifact@v4
+        with:
+          name: fladder-windows
+          path: fladder-windows
+
+      - name: Compress Windows
+        run:  zip -r Fladder-Windows-${{needs.fetch-info.outputs.version_name}}.zip fladder-windows
+      
+      - name: Download Artifacts iOS
+        uses: actions/download-artifact@v4
+        with:
+          name: fladder-iOS
+          path: fladder-iOS
+
+      - name: Move iOS
+        run: mv fladder-iOS/iOS.ipa Fladder-iOS-${{needs.fetch-info.outputs.version_name}}.ipa
+
+      - name: Download Artifacts macOS
+        uses: actions/download-artifact@v4
+        with:
+          name: fladder-macOS
+          path: fladder-macOS
+
+      - name: Move macOS
+        run: mv fladder-macOS/macOS.dmg Fladder-macOS-${{needs.fetch-info.outputs.version_name}}.dmg
+
+      - name: Download Artifacts Linux
+        uses: actions/download-artifact@v4
+        with:
+          name: fladder-linux
+          path: fladder-linux
+
+      - name: Compress Linux
+        run: zip -r Fladder-Linux-${{needs.fetch-info.outputs.version_name}}.zip fladder-linux
+
+      - name: Download Artifacts Web
+        uses: actions/download-artifact@v4
+        with:
+          name: fladder-web
+          path: fladder-web
+
+      - name: Compress Web
+        run: zip -r Fladder-Web-${{needs.fetch-info.outputs.version_name}}.zip fladder-web
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+          fail_on_unmatched_files: true
+          generate_release_notes: true
+          files: |
+            Fladder-Android-${{needs.fetch-info.outputs.version_name}}.apk
+            Fladder-Windows-${{needs.fetch-info.outputs.version_name}}.zip
+            Fladder-iOS-${{needs.fetch-info.outputs.version_name}}.ipa
+            Fladder-macOS-${{needs.fetch-info.outputs.version_name}}.dmg
+            Fladder-Linux-${{needs.fetch-info.outputs.version_name}}.zip
+            Fladder-Web-${{needs.fetch-info.outputs.version_name}}.zip
+
+  
