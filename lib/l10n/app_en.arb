@@ -692,7 +692,7 @@
     "description": "Use for setting a certain value",
     "context": "Set 'time'"
   },
-  "setIdentityTo": "Set identity to {name}",
+  "setIdentityTo": "Change identity to {name}",
   "@setIdentityTo": {
     "description": "setIdentityTo",
     "placeholders": {
@@ -949,75 +949,91 @@
     }
   },
   "addToNewCollection": "New collection",
+  "@addToNewCollection": {},
   "addItemsToCollection": "Add {itemLength} item(s) to collection",
-  "addedToCollection": "Added to {collectionName} collection",
-  "@addedToCollection":{
+  "@addItemsToCollection": {
     "placeholders": {
-      "collectionName":{
+      "itemLength": {
+        "type": "int"
+      }
+    }
+  },
+  "addedToCollection": "Added to {collectionName} collection",
+  "@addedToCollection": {
+    "placeholders": {
+      "collectionName": {
         "type": "String"
       }
     }
   },
   "removedFromCollection": "Removed from {collectionName} collection",
-  "@removedFromCollection":{
+  "@removedFromCollection": {
     "placeholders": {
-      "collectionName":{
+      "collectionName": {
         "type": "String"
       }
     }
   },
-  "@addItemsToCollection": {
-    "placeholders": {
-      "itemLength":{
-        "type": "int"
-      }
-    }
-  },
-  
   "addToNewPlaylist": "New playlist",
+  "@addToNewPlaylist": {},
   "addItemsToPlaylist": "Add {itemLength} item(s) to playlist",
-  "addedToPlaylist": "Added to {playlistName} playlist",
-  "@addedToPlaylist":{
-    "placeholders": {
-      "playlistName":{
-        "type": "String"
-      }
-    }
-  },
   "@addItemsToPlaylist": {
     "placeholders": {
-      "itemLength":{
+      "itemLength": {
         "type": "int"
+      }
+    }
+  },
+  "addedToPlaylist": "Added to {playlistName} playlist",
+  "@addedToPlaylist": {
+    "placeholders": {
+      "playlistName": {
+        "type": "String"
       }
     }
   },
   "syncStatusEnqueued": "Enqueued",
+  "@syncStatusEnqueued": {},
   "syncStatusRunning": "Running",
+  "@syncStatusRunning": {},
   "syncStatusComplete": "Complete",
+  "@syncStatusComplete": {},
   "syncStatusNotFound": "Not Found",
+  "@syncStatusNotFound": {},
   "syncStatusFailed": "Failed",
+  "@syncStatusFailed": {},
   "syncStatusCanceled": "Canceled",
+  "@syncStatusCanceled": {},
   "syncStatusWaitingToRetry": "Waiting to retry",
+  "@syncStatusWaitingToRetry": {},
   "syncStatusPaused": "Paused",
+  "@syncStatusPaused": {},
   "syncStatusSynced": "Synced",
+  "@syncStatusSynced": {},
   "syncStatusPartially": "Partially",
+  "@syncStatusPartially": {},
   "syncOverlayDeleting": "Removing synced item",
+  "@syncOverlayDeleting": {},
   "syncOverlaySyncing": "Syncing item details",
+  "@syncOverlaySyncing": {},
   "syncSelectDownloadsFolder": "Select downloads folder",
+  "@syncSelectDownloadsFolder": {},
   "syncNoFolderSetup": "No sync folder setup",
+  "@syncNoFolderSetup": {},
   "syncRemoveUnableToDeleteItem": "Unable to remove synced item, somethin went wrong",
+  "@syncRemoveUnableToDeleteItem": {},
   "syncAddItemForSyncing": "Added {item} for syncing",
-  "@syncAddItemForSyncing":{
+  "@syncAddItemForSyncing": {
     "placeholders": {
-      "item":{
+      "item": {
         "type": "String"
       }
     }
-  } ,
+  },
   "startedSyncingItem": "Started syncing {item}",
   "@startedSyncingItem": {
     "placeholders": {
-      "item":{
+      "item": {
         "type": "String"
       }
     }
@@ -1025,28 +1041,31 @@
   "unableToSyncItem": "Unable to sync {item}, something went wrong",
   "@unableToSyncItem": {
     "placeholders": {
-      "item":{
+      "item": {
         "type": "String"
       }
     }
   },
   "aboutVersion": "Version: {version}",
-  "@aboutVersion":{
+  "@aboutVersion": {
     "placeholders": {
-      "version":{
+      "version": {
         "type": "String"
       }
     }
   },
   "aboutBuild": "Build: {buildNumber}",
-  "@aboutBuild":{
+  "@aboutBuild": {
     "placeholders": {
-      "buildNumber":{
+      "buildNumber": {
         "type": "String"
       }
     }
   },
   "aboutCreatedBy": "Created by DonutWare",
+  "@aboutCreatedBy": {},
   "aboutSocials": "Socials",
-  "aboutLicenses": "Licenses"
+  "@aboutSocials": {},
+  "aboutLicenses": "Licenses",
+  "@aboutLicenses": {}
 }
