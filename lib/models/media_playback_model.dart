@@ -14,6 +14,7 @@ class MediaPlaybackModel {
   final bool completed;
   final bool errorPlaying;
   final bool buffering;
+  final bool fullScreen;
   MediaPlaybackModel({
     this.state = VideoPlayerState.disposed,
     this.playing = false,
@@ -24,6 +25,7 @@ class MediaPlaybackModel {
     this.completed = false,
     this.errorPlaying = false,
     this.buffering = false,
+    this.fullScreen = false,
   });
 
   MediaPlaybackModel copyWith({
@@ -36,6 +38,7 @@ class MediaPlaybackModel {
     bool? completed,
     bool? errorPlaying,
     bool? buffering,
+    bool? fullScreen,
   }) {
     return MediaPlaybackModel(
       state: state ?? this.state,
@@ -47,6 +50,7 @@ class MediaPlaybackModel {
       completed: completed ?? this.completed,
       errorPlaying: errorPlaying ?? this.errorPlaying,
       buffering: buffering ?? this.buffering,
+      fullScreen: fullScreen ?? this.fullScreen,
     );
   }
 }

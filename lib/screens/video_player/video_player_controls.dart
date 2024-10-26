@@ -93,7 +93,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         seekForward(ref);
       }
       if (value.logicalKey == LogicalKeyboardKey.keyF) {
-        toggleFullScreen();
+        toggleFullScreen(ref);
       }
       if (value.logicalKey == LogicalKeyboardKey.arrowUp) {
         resetTimer();
@@ -671,10 +671,5 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         await windowManager.setFullScreen(false);
       }
     }
-  }
-
-  Future<void> toggleFullScreen() async {
-    final isFullScreen = await windowManager.isFullScreen();
-    await windowManager.setFullScreen(!isFullScreen);
   }
 }
