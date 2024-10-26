@@ -23,6 +23,7 @@ import 'package:fladder/screens/shared/default_titlebar.dart';
 import 'package:fladder/screens/video_player/components/video_playback_information.dart';
 import 'package:fladder/screens/video_player/components/video_player_controls_extras.dart';
 import 'package:fladder/screens/video_player/components/video_player_options_sheet.dart';
+import 'package:fladder/screens/video_player/components/video_player_seek_indicator.dart';
 import 'package:fladder/screens/video_player/components/video_progress_bar.dart';
 import 'package:fladder/screens/video_player/components/video_subtitles.dart';
 import 'package:fladder/screens/video_player/components/video_volume_slider.dart';
@@ -85,12 +86,6 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
       }
       if (value.logicalKey == LogicalKeyboardKey.space) {
         ref.read(videoPlayerProvider).playOrPause();
-      }
-      if (value.logicalKey == LogicalKeyboardKey.arrowLeft) {
-        seekBack(ref);
-      }
-      if (value.logicalKey == LogicalKeyboardKey.arrowRight) {
-        seekForward(ref);
       }
       if (value.logicalKey == LogicalKeyboardKey.keyF) {
         toggleFullScreen(ref);
@@ -172,6 +167,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                     ),
                   ),
                 ),
+                const VideoPlayerSeekIndicator(),
                 Consumer(
                   builder: (context, ref, child) {
                     final position = ref.watch(mediaPlaybackProvider.select((value) => value.position));
