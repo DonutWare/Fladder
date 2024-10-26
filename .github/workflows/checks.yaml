@@ -26,5 +26,10 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
 
-      - name: Linting
-        run: flutter analyze --no-fatal-infos --no-fatal-warnings
+      - name: Setup dart
+        uses: dart-lang/setup-dart@v1
+
+      - name: Analyze Dart      
+        uses: invertase/github-action-dart-analyzer@v3
+        with:
+          custom-lint: true
