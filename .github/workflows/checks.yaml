@@ -33,4 +33,3 @@ jobs:
         uses: invertase/github-action-dart-analyzer@v3
         with:
           custom-lint: true
-          fatal-warnings: false

@@ -6,10 +6,6 @@ import 'package:window_manager/window_manager.dart';
 
 import 'package:fladder/providers/video_player_provider.dart';
 
-Future<void> otherObviousTest() async {
-  final unusedVar = "";
-}
-
 Future<void> toggleFullScreen(WidgetRef ref) async {
   final isFullScreen = await windowManager.isFullScreen();
   await windowManager.setFullScreen(!isFullScreen);
