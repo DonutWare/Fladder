@@ -58,7 +58,7 @@
       }
     }
   },
-  "dateAdded": "Data adicionada",
+  "dateAdded": "Data de adição",
   "@dateAdded": {},
   "dateLastContentAdded": "Data do último conteúdo adicionado",
   "@dateLastContentAdded": {},
@@ -86,7 +86,7 @@
   "@amoledBlack": {},
   "autoPlay": "Reprodução automática",
   "@autoPlay": {},
-  "bold": "Audaciosa",
+  "bold": "Negrito",
   "@bold": {},
   "backgroundBlur": "Desfoque de fundo",
   "@backgroundBlur": {},
@@ -267,7 +267,7 @@
   "@restart": {},
   "result": "Resultado",
   "@result": {},
-  "resumable": "remontar",
+  "resumable": "Retomável",
   "@resumable": {},
   "retrievePublicListOfUsers": "Recuperar lista pública de usuários",
   "@retrievePublicListOfUsers": {},
@@ -629,7 +629,7 @@
   "@settingsBlurredPlaceholderTitle": {},
   "settingsClientDesc": "Geral, Tempo limite, Layout, Tema",
   "@settingsClientDesc": {},
-  "settingsClientTitle": "Vibração",
+  "settingsClientTitle": "Fladder",
   "@settingsClientTitle": {},
   "settingsContinue": "Continuar",
   "@settingsContinue": {},
@@ -876,7 +876,7 @@
   "@syncedItems": {},
   "syncRemoveDataTitle": "Remover dados sincronizados?",
   "@syncRemoveDataTitle": {},
-  "tag": "{count, plural, one{Etiqueta} other{Etiquetas}}",
+  "tag": "{count, plural, other{Etiquetas} one{Etiqueta}}",
   "@tag": {
     "description": "tag",
     "placeholders": {
@@ -890,7 +890,7 @@
   "@themeColor": {},
   "themeModeDark": "Escuro",
   "@themeModeDark": {},
-  "themeModeLight": "Luz",
+  "themeModeLight": "Claro",
   "@themeModeLight": {},
   "timeAndAnnotation": "{minutes} e {seconds}",
   "@timeAndAnnotation": {
@@ -914,7 +914,7 @@
   "@videoScalingFitWidth": {},
   "watchOn": "Assistir em",
   "@watchOn": {},
-  "writer": "{count, plural, one{Escritor} other{Escritores}}",
+  "writer": "{count, plural, other{Escritores} one{Escritor}}",
   "@writer": {
     "description": "writer",
     "placeholders": {
@@ -932,7 +932,7 @@
   "@videoScalingFill": {},
   "videoScalingFillScreenTitle": "Tela cheia",
   "@videoScalingFillScreenTitle": {},
-  "videoScalingFitHeight": "Altura adequada",
+  "videoScalingFitHeight": "Ajustar altura",
   "@videoScalingFitHeight": {},
   "videoScalingContain": "Conter",
   "@videoScalingContain": {},
@@ -1067,5 +1067,23 @@
   "aboutLicenses": "Licenças",
   "@aboutLicenses": {},
   "homeBannerCarousel": "Carrossel",
-  "@homeBannerCarousel": {}
+  "@homeBannerCarousel": {},
+  "syncStatusRunning": "Executando",
+  "@syncStatusRunning": {},
+  "syncStatusFailed": "Falha",
+  "@syncStatusFailed": {},
+  "syncNoFolderSetup": "Nenhuma configuração de pasta de sincronização",
+  "@syncNoFolderSetup": {},
+  "off": "Desativado",
+  "@off": {},
+  "screenBrightness": "Brilho da tela",
+  "@screenBrightness": {},
+  "scale": "Escala",
+  "@scale": {},
+  "playBackSettings": "Configurações de reprodução",
+  "@playBackSettings": {},
+  "subtitle": "Legenda",
+  "@subtitle": {},
+  "subtitleConfiguration": "Configuração de legenda",
+  "@subtitleConfiguration": {}
 }

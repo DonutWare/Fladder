@@ -1,7 +1,7 @@
 {
   "active": "Ativa",
   "@active": {},
-  "addToPlaylist": "Adicionar à lista de reprodução",
+  "addToPlaylist": "Adicionar à playlist",
   "@addToPlaylist": {},
   "advanced": "Avançado",
   "@advanced": {},
@@ -9,7 +9,7 @@
   "@appLockAutoLogin": {},
   "appLockBiometrics": "Biometria",
   "@appLockBiometrics": {},
-  "appLockPasscode": "Senha",
+  "appLockPasscode": "Código de acesso",
   "@appLockPasscode": {},
   "appLockTitle": "Defina o método de login para {userName}",
   "@appLockTitle": {
@@ -48,7 +48,7 @@
   "@dashboardContinueListening": {},
   "dashboardContinueReading": "Continuar lendo",
   "@dashboardContinueReading": {},
-  "dashboardRecentlyAdded": "Adicionado recentemente em {name}",
+  "dashboardRecentlyAdded": "{name} mais recente",
   "@dashboardRecentlyAdded": {
     "description": "Recently added on home screen",
     "placeholders": {
@@ -57,7 +57,7 @@
       }
     }
   },
-  "dateAdded": "Data adicionada",
+  "dateAdded": "Data de adição",
   "@dateAdded": {},
   "dateLastContentAdded": "Data do último conteúdo adicionado",
   "@dateLastContentAdded": {},
@@ -85,7 +85,7 @@
   "@amoledBlack": {},
   "autoPlay": "Reprodução automática",
   "@autoPlay": {},
-  "bold": "Audaciosa",
+  "bold": "Negrito",
   "@bold": {},
   "backgroundBlur": "Desfoque de fundo",
   "@backgroundBlur": {},
@@ -103,7 +103,7 @@
       }
     }
   },
-  "clear": "Claro",
+  "clear": "Limpar",
   "@clear": {},
   "communityRating": "Classificação da comunidade",
   "@communityRating": {},
@@ -143,7 +143,7 @@
       }
     }
   },
-  "light": "Luz",
+  "light": "Claro",
   "@light": {},
   "list": "Lista",
   "@list": {},
@@ -151,7 +151,7 @@
   "@lockscreen": {},
   "loggedIn": "Conectado",
   "@loggedIn": {},
-  "login": "Faça login",
+  "login": "Login",
   "@login": {},
   "logout": "Sair",
   "@logout": {},
@@ -217,11 +217,11 @@
       }
     }
   },
-  "parentalRating": "Classificação Parental",
+  "parentalRating": "Classificação parental",
   "@parentalRating": {},
   "pathEditTitle": "Alterar localização",
   "@pathEditTitle": {},
-  "play": "Tocar {item}",
+  "play": "Reproduzir {item}",
   "@play": {
     "description": "Play with",
     "placeholders": {
@@ -230,7 +230,7 @@
       }
     }
   },
-  "playFromStart": "Jogue {name} desde o início",
+  "playFromStart": "Reproduzir {name} desde o início",
   "@playFromStart": {
     "description": "speel vanaf het begin",
     "placeholders": {
@@ -266,7 +266,7 @@
   "@restart": {},
   "result": "Resultado",
   "@result": {},
-  "resumable": "remontar",
+  "resumable": "Retomável",
   "@resumable": {},
   "retrievePublicListOfUsers": "Recuperar lista pública de usuários",
   "@retrievePublicListOfUsers": {},
@@ -280,9 +280,9 @@
   "@scanBiometricHint": {},
   "scanLibrary": "Digitalizar biblioteca",
   "@scanLibrary": {},
-  "nextUp": "Próximo passo",
+  "nextUp": "Próximo",
   "@nextUp": {},
-  "logoutUserPopupContent": "Isso fará o logout de {userName} e excluirá o usuário do aplicativo.\nVocê terá que fazer o login novamente em {serverName}.",
+  "logoutUserPopupContent": "Isto irá desconectar {userName} e excluir o usuário do aplicativo.\nVocê precisará fazer login novamente em {serverName}.",
   "@logoutUserPopupContent": {
     "description": "Pop-up for loging out the user description",
     "placeholders": {
@@ -296,7 +296,7 @@
   },
   "masonry": "Alvenaria",
   "@masonry": {},
-  "mediaTypeBoxset": "Conjunto de caixas",
+  "mediaTypeBoxset": "Boxset",
   "@mediaTypeBoxset": {},
   "mediaTypeFolder": "Pasta",
   "@mediaTypeFolder": {},
@@ -311,7 +311,7 @@
   },
   "mediaTypeMovie": "Filme",
   "@mediaTypeMovie": {},
-  "mediaTypePlaylist": "Lista de reprodução",
+  "mediaTypePlaylist": "Playlist",
   "@mediaTypePlaylist": {},
   "mediaTypeSeason": "Temporada",
   "@mediaTypeSeason": {},
@@ -319,7 +319,7 @@
   "@mediaTypePhotoAlbum": {},
   "metadataRefreshDefault": "Verificar se há arquivos novos e atualizados",
   "@metadataRefreshDefault": {},
-  "minutes": "{count, plural, one{Minuto} other{Minutos}}",
+  "minutes": "{count, plural, other{Minutos} one{Minuto}}",
   "@minutes": {
     "description": "minute",
     "placeholders": {
@@ -329,7 +329,7 @@
       }
     }
   },
-  "navigationDashboard": "Painel",
+  "navigationDashboard": "Dashboard",
   "@navigationDashboard": {},
   "moreOptions": "Mais opções",
   "@moreOptions": {},
@@ -362,7 +362,7 @@
   "@normal": {},
   "openWebLink": "Abrir link da web",
   "@openWebLink": {},
-  "openParent": "Principal Aberto",
+  "openParent": "Abrir pasta superior",
   "@openParent": {},
   "other": "Outro",
   "@other": {},
@@ -372,7 +372,7 @@
   "@outlineColor": {},
   "overview": "Visão geral",
   "@overview": {},
-  "password": "Palavra passe",
+  "password": "Senha",
   "@password": {},
   "pathClearTitle": "Limpar caminho de downloads",
   "@pathClearTitle": {},
@@ -407,9 +407,9 @@
       }
     }
   },
-  "random": "aleatório",
+  "random": "Aleatório",
   "@random": {},
-  "rating": "{count, plural, one{Avaliação} other{Avaliações}}",
+  "rating": "{count, plural, other{Avaliações} one{Avaliação}}",
   "@rating": {
     "description": "rating",
     "placeholders": {
@@ -438,7 +438,7 @@
   "@refreshPopupContentMetadata": {},
   "removeAsFavorite": "Remover dos favoritos",
   "@removeAsFavorite": {},
-  "removeFromPlaylist": "Remover da lista de reprodução",
+  "removeFromPlaylist": "Remover da playlist",
   "@removeFromPlaylist": {},
   "replaceExistingImages": "Substituir imagens existentes",
   "@replaceExistingImages": {},
@@ -455,7 +455,7 @@
       }
     }
   },
-  "season": "{count, plural, other{Estações} one{Estação} }",
+  "season": "{count, plural, other{Temporadas} one{Temporada} }",
   "@season": {
     "description": "season",
     "placeholders": {
@@ -508,7 +508,7 @@
   "@selected": {},
   "selectViewType": "Selecione o tipo de exibição",
   "@selectViewType": {},
-  "seconds": "{count, plural, one{Segundo} other{Segundos}}",
+  "seconds": "{count, plural, other{Segundos} one{Segundo}}",
   "@seconds": {
     "description": "second",
     "placeholders": {
@@ -523,7 +523,7 @@
     "description": "Use for setting a certain value",
     "context": "Set 'time'"
   },
-  "setIdentityTo": "Definir identidade para {name}",
+  "setIdentityTo": "Alterar identidade para {name}",
   "@setIdentityTo": {
     "description": "setIdentityTo",
     "placeholders": {
@@ -595,7 +595,7 @@
   "@heightOffset": {},
   "hide": "Esconder",
   "@hide": {},
-  "home": "Página inicial",
+  "home": "Início",
   "@home": {},
   "identify": "Identificar",
   "@identify": {},
@@ -628,7 +628,7 @@
   "@settingsBlurredPlaceholderTitle": {},
   "settingsClientDesc": "Geral, Tempo limite, Layout, Tema",
   "@settingsClientDesc": {},
-  "settingsClientTitle": "Vibração",
+  "settingsClientTitle": "Fladder",
   "@settingsClientTitle": {},
   "settingsContinue": "Continuar",
   "@settingsContinue": {},
@@ -680,15 +680,15 @@
   "@subtitles": {},
   "disableFilters": "Desative os filtros",
   "@disableFilters": {},
-  "disabled": "Desligado",
+  "disabled": "Desativado",
   "@disabled": {},
-  "failedToLoadImage": "Falha ao carregar imagem",
+  "failedToLoadImage": "Falha ao carregar a imagem",
   "@failedToLoadImage": {},
-  "invalidUrl": "Endereço inválido",
+  "invalidUrl": "URL inválido",
   "@invalidUrl": {},
   "incorrectPinTryAgain": "PIN incorreto. Tente novamente.",
   "@incorrectPinTryAgain": {},
-  "label": "{count, plural, one{Rótulo} other{Rótulos}}",
+  "label": "{count, plural, other{Etiquetas} one{Etiqueta}}",
   "@label": {
     "description": "label",
     "placeholders": {
@@ -706,7 +706,7 @@
   "@somethingWentWrongPasswordCheck": {},
   "settingsPlayerVideoHWAccelDesc": "Use a GPU para renderizar vídeo (recomendado)",
   "@settingsPlayerVideoHWAccelDesc": {},
-  "director": "{count, plural, one{Diretor} other{Diretores}}",
+  "director": "{count, plural, other{Diretor} two{Diretores}}",
   "@director": {
     "description": "director",
     "placeholders": {
@@ -716,25 +716,25 @@
       }
     }
   },
-  "displayLanguage": "Exibir idioma",
+  "displayLanguage": "Idioma",
   "@displayLanguage": {},
   "downloadsClearDesc": "Remover todos os dados sincronizados, limpando\ntodos os dados de cada usuário sincronizado?",
   "@downloadsClearDesc": {},
   "dynamicText": "Dinâmico",
   "@dynamicText": {},
-  "downloadsTitle": "Transferências",
+  "downloadsTitle": "Downloads",
   "@downloadsTitle": {},
   "editMetadata": "Editar metadados",
   "@editMetadata": {},
   "empty": "Vazio",
   "@empty": {},
-  "enabled": "ligado",
+  "enabled": "Ativado",
   "@enabled": {},
-  "fetchingLibrary": "Buscando itens da biblioteca…",
+  "fetchingLibrary": "Carregando os itens da biblioteca…",
   "@fetchingLibrary": {},
   "favorites": "Favoritos",
   "@favorites": {},
-  "filter": "{count, plural, one{Filtro} other{Filtros}}",
+  "filter": "{count, plural, other{Filtros} one{Filtro}}",
   "@filter": {
     "description": "filter",
     "placeholders": {
@@ -744,7 +744,7 @@
       }
     }
   },
-  "fontSize": "Tamanho da letra",
+  "fontSize": "Tamanho da fonte",
   "@fontSize": {},
   "fontColor": "Cor da fonte",
   "@fontColor": {},
@@ -760,9 +760,9 @@
       }
     }
   },
-  "hideEmpty": "Esconder vazio",
+  "hideEmpty": "Ocultar vazios",
   "@hideEmpty": {},
-  "invalidUrlDesc": "Endereço precisa começar com http(s)://",
+  "invalidUrlDesc": "A URL precisa começar com http(s)://",
   "@invalidUrlDesc": {},
   "settingsNextUpCutoffDays": "Próximos dias de corte",
   "@settingsNextUpCutoffDays": {},
@@ -772,11 +772,11 @@
   "@settingsSecurity": {},
   "settingsPlayerMobileWarning": "Ativar a aceleração de hardware e as legendas nativas do Libass no Android pode fazer com que algumas legendas não sejam renderizadas.",
   "@settingsPlayerMobileWarning": {},
-  "settingsPosterPinch": "Aperte o zoom para dimensionar os pôsteres",
+  "settingsPosterPinch": "Use o gesto de pinça para ampliar os pôsteres",
   "@settingsPosterPinch": {},
   "settingsProfileTitle": "Perfil",
   "@settingsProfileTitle": {},
-  "settingsQuickConnectTitle": "Conexão rapida",
+  "settingsQuickConnectTitle": "Conexão rápida",
   "@settingsQuickConnectTitle": {},
   "settingsProfileDesc": "Tela de bloqueio",
   "@settingsProfileDesc": {},
@@ -802,7 +802,7 @@
   },
   "start": "Iniciar",
   "@start": {},
-  "syncDeleteItemDesc": "Excluir todos os dados sincronizados para?\n{item}",
+  "syncDeleteItemDesc": "Excluir todos os dados sincronizados para {item}?",
   "@syncDeleteItemDesc": {
     "description": "Sync delete item pop-up window",
     "placeholders": {
@@ -889,7 +889,7 @@
   "@themeColor": {},
   "themeModeDark": "Escuro",
   "@themeModeDark": {},
-  "themeModeLight": "Luz",
+  "themeModeLight": "Claro",
   "@themeModeLight": {},
   "timeAndAnnotation": "{minutes} e {seconds}",
   "@timeAndAnnotation": {
@@ -913,7 +913,7 @@
   "@videoScalingFitWidth": {},
   "watchOn": "Assistir em",
   "@watchOn": {},
-  "writer": "{count, plural, one{Escritor} other{Escritores}}",
+  "writer": "{count, plural, other{Escritor} two{Escritores}}",
   "@writer": {
     "description": "writer",
     "placeholders": {
@@ -931,7 +931,7 @@
   "@videoScalingFill": {},
   "videoScalingFillScreenTitle": "Tela cheia",
   "@videoScalingFillScreenTitle": {},
-  "videoScalingFitHeight": "Altura adequada",
+  "videoScalingFitHeight": "Ajustar altura",
   "@videoScalingFitHeight": {},
   "videoScalingContain": "Conter",
   "@videoScalingContain": {},
@@ -940,5 +940,149 @@
   "videoScalingCover": "Capa",
   "@videoScalingCover": {},
   "nativeName": "Português (Brasil)",
-  "@nativeName": {}
+  "@nativeName": {},
+  "homeBannerSlideshow": "Apresentação de slides",
+  "@homeBannerSlideshow": {},
+  "settingsHomeBannerInformationDesc": "Informações para mostrar no banner inicial",
+  "@settingsHomeBannerInformationDesc": {},
+  "syncStatusEnqueued": "Enfileirado",
+  "@syncStatusEnqueued": {},
+  "syncStatusRunning": "Executando",
+  "@syncStatusRunning": {},
+  "syncStatusComplete": "Completo",
+  "@syncStatusComplete": {},
+  "syncStatusFailed": "Falha",
+  "@syncStatusFailed": {},
+  "syncStatusCanceled": "Cancelado",
+  "@syncStatusCanceled": {},
+  "syncStatusWaitingToRetry": "Aguardando para tentar novamente",
+  "@syncStatusWaitingToRetry": {},
+  "syncStatusPaused": "Pausado",
+  "@syncStatusPaused": {},
+  "syncStatusSynced": "Sincronizado",
+  "@syncStatusSynced": {},
+  "addToNewCollection": "Nova coleção",
+  "@addToNewCollection": {},
+  "addedToCollection": "Adicionado à coleção {collectionName}",
+  "@addedToCollection": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "addToNewPlaylist": "Nova playlist",
+  "@addToNewPlaylist": {},
+  "addedToPlaylist": "Adicionado à playlist {playlistName}",
+  "@addedToPlaylist": {
+    "placeholders": {
+      "playlistName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncStatusPartially": "Parcialmente",
+  "@syncStatusPartially": {},
+  "syncOverlayDeleting": "Removendo item sincronizado",
+  "@syncOverlayDeleting": {},
+  "syncOverlaySyncing": "Sincronizando detalhes do item",
+  "@syncOverlaySyncing": {},
+  "syncSelectDownloadsFolder": "Selecione a pasta de downloads",
+  "@syncSelectDownloadsFolder": {},
+  "syncNoFolderSetup": "Nenhuma configuração de pasta de sincronização",
+  "@syncNoFolderSetup": {},
+  "syncRemoveUnableToDeleteItem": "Não foi possível remover o item sincronizado, algo deu errado",
+  "@syncRemoveUnableToDeleteItem": {},
+  "syncAddItemForSyncing": "Adicionado {item} para sincronização",
+  "@syncAddItemForSyncing": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "startedSyncingItem": "Iniciada a sincronização de {item}",
+  "@startedSyncingItem": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "subtitle": "Legenda",
+  "@subtitle": {},
+  "subtitleConfiguration": "Configuração de legenda",
+  "@subtitleConfiguration": {},
+  "off": "Desativado",
+  "@off": {},
+  "settingsHomeBannerInformationTitle": "Banner de informação",
+  "@settingsHomeBannerInformationTitle": {},
+  "removedFromCollection": "Removido da coleção {collectionName}",
+  "@removedFromCollection": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncStatusNotFound": "Não encontrado",
+  "@syncStatusNotFound": {},
+  "addItemsToCollection": "Adicionar {itemLength} item(ns) à coleção",
+  "@addItemsToCollection": {
+    "placeholders": {
+      "itemLength": {
+        "type": "int"
+      }
+    }
+  },
+  "addItemsToPlaylist": "Adicionar {itemLength} item(ns) à playlist",
+  "@addItemsToPlaylist": {
+    "placeholders": {
+      "itemLength": {
+        "type": "int"
+      }
+    }
+  },
+  "unableToSyncItem": "Não foi possível sincronizar {item}, algo deu errado",
+  "@unableToSyncItem": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutCreatedBy": "Criado por DonutWare",
+  "@aboutCreatedBy": {},
+  "aboutSocials": "Social",
+  "@aboutSocials": {},
+  "aboutVersion": "Versão: {version}",
+  "@aboutVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutBuild": "Compilação: {buildNumber}",
+  "@aboutBuild": {
+    "placeholders": {
+      "buildNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutLicenses": "Licenças",
+  "@aboutLicenses": {},
+  "screenBrightness": "Brilho da tela",
+  "@screenBrightness": {},
+  "scale": "Escala",
+  "@scale": {},
+  "playBackSettings": "Configurações de reprodução",
+  "@playBackSettings": {},
+  "settingsHomeBannerTitle": "Banner inicial",
+  "@settingsHomeBannerTitle": {},
+  "settingsHomeBannerDescription": "Exibir como apresentação de slides, carrossel ou ocultar o banner",
+  "@settingsHomeBannerDescription": {},
+  "homeBannerCarousel": "Carrossel",
+  "@homeBannerCarousel": {}
 }

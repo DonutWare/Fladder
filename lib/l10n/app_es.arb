@@ -682,7 +682,7 @@
     "description": "Usar para establecer un cierto valor",
     "context": "Establecer 'tiempo'"
   },
-  "setIdentityTo": "Establecer identidad a {name}",
+  "setIdentityTo": "Cambiar identidad a {name}",
   "@setIdentityTo": {
     "description": "setIdentityTo",
     "placeholders": {
@@ -1067,5 +1067,17 @@
         "type": "int"
       }
     }
-  }
+  },
+  "subtitleConfiguration": "Configuración de subtítulos",
+  "@subtitleConfiguration": {},
+  "screenBrightness": "Brillo de la pantalla",
+  "@screenBrightness": {},
+  "scale": "Escala",
+  "@scale": {},
+  "subtitle": "Subtitular",
+  "@subtitle": {},
+  "playBackSettings": "Configuración de reproducción",
+  "@playBackSettings": {},
+  "off": "Apagar",
+  "@off": {}
 }

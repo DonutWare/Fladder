@@ -1074,5 +1074,17 @@
         "type": "String"
       }
     }
-  }
+  },
+  "subtitleConfiguration": "Налаштування субтитрів",
+  "@subtitleConfiguration": {},
+  "off": "Вимкнути",
+  "@off": {},
+  "playBackSettings": "Параметри відтворення",
+  "@playBackSettings": {},
+  "subtitle": "Субтитри",
+  "@subtitle": {},
+  "screenBrightness": "Яскравість екрана",
+  "@screenBrightness": {},
+  "scale": "Масштаб",
+  "@scale": {}
 }

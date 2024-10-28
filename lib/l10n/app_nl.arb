@@ -1067,5 +1067,17 @@
     }
   },
   "aboutSocials": "Sociaal",
-  "@aboutSocials": {}
+  "@aboutSocials": {},
+  "subtitle": "Ondertitel",
+  "@subtitle": {},
+  "subtitleConfiguration": "Ondertitel instellingen",
+  "@subtitleConfiguration": {},
+  "off": "Uit",
+  "@off": {},
+  "screenBrightness": "Scherm helderheid",
+  "@screenBrightness": {},
+  "scale": "Schaal",
+  "@scale": {},
+  "playBackSettings": "Afspeel instellingen",
+  "@playBackSettings": {}
 }
