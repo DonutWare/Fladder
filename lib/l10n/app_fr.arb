@@ -682,7 +682,7 @@
     "description": "Utiliser pour définir une certaine valeur",
     "context": "Régler 'heure'"
   },
-  "setIdentityTo": "Définir l'identité sur {name}",
+  "setIdentityTo": "Changer l'identité pour {name}",
   "@setIdentityTo": {
     "description": "setIdentityTo",
     "placeholders": {
@@ -801,7 +801,7 @@
   "@switchUser": {},
   "sync": "Synchroniser",
   "@sync": {},
-  "syncDeleteItemDesc": "Supprimer toutes les données synchronisées pour ?\n{item}",
+  "syncDeleteItemDesc": "Supprimer toutes les données synchronisées pour {item}",
   "@syncDeleteItemDesc": {
     "description": "Fenêtre contextuelle de suppression d'élément synchronisé",
     "placeholders": {
@@ -933,5 +933,123 @@
         "example": "1"
       }
     }
-  }
+  },
+  "syncStatusPartially": "Partiellement",
+  "@syncStatusPartially": {},
+  "syncStatusComplete": "Fini",
+  "@syncStatusComplete": {},
+  "syncStatusCanceled": "Annulé",
+  "@syncStatusCanceled": {},
+  "addItemsToPlaylist": "Ajouter {itemLength} contenus à la playlist",
+  "@addItemsToPlaylist": {
+    "placeholders": {
+      "itemLength": {
+        "type": "int"
+      }
+    }
+  },
+  "aboutLicenses": "Licences",
+  "@aboutLicenses": {},
+  "addToNewCollection": "Nouvelle collection",
+  "@addToNewCollection": {},
+  "aboutBuild": "Build : {buildNumber}",
+  "@aboutBuild": {
+    "placeholders": {
+      "buildNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "syncStatusNotFound": "Non-trouvé",
+  "@syncStatusNotFound": {},
+  "settingsHomeBannerTitle": "Bannière-menu",
+  "@settingsHomeBannerTitle": {},
+  "aboutCreatedBy": "Créé par DonutWare",
+  "@aboutCreatedBy": {},
+  "unableToSyncItem": "Incapable de synchroniser {item}, quelque chose a mal tourné",
+  "@unableToSyncItem": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsHomeBannerInformationDesc": "Information a afficher dans la bannière menu",
+  "@settingsHomeBannerInformationDesc": {},
+  "settingsHomeBannerInformationTitle": "Bannière d'information",
+  "@settingsHomeBannerInformationTitle": {},
+  "homeBannerSlideshow": "Diaporama",
+  "@homeBannerSlideshow": {},
+  "addItemsToCollection": "Ajouter {itemLength} objet(s) à la collection",
+  "@addItemsToCollection": {
+    "placeholders": {
+      "itemLength": {
+        "type": "int"
+      }
+    }
+  },
+  "addToNewPlaylist": "Nouvelle playlist",
+  "@addToNewPlaylist": {},
+  "syncStatusEnqueued": "Ajouté à la file d'attente",
+  "@syncStatusEnqueued": {},
+  "syncStatusFailed": "Echoué",
+  "@syncStatusFailed": {},
+  "syncStatusWaitingToRetry": "En attente pour réessayer",
+  "@syncStatusWaitingToRetry": {},
+  "syncStatusPaused": "En pause",
+  "@syncStatusPaused": {},
+  "syncStatusSynced": "Synchronisé",
+  "@syncStatusSynced": {},
+  "syncOverlaySyncing": "Synchronisation des détails",
+  "@syncOverlaySyncing": {},
+  "syncOverlayDeleting": "Suppression du contenu synchronisé",
+  "@syncOverlayDeleting": {},
+  "syncSelectDownloadsFolder": "Sélectionnez le dossier de téléchargement",
+  "@syncSelectDownloadsFolder": {},
+  "syncNoFolderSetup": "Pas de dossier de synchronisation configuré",
+  "@syncNoFolderSetup": {},
+  "syncRemoveUnableToDeleteItem": "Incapable de supprimer l'élément synchronisé, quelque chose a mal tourné",
+  "@syncRemoveUnableToDeleteItem": {},
+  "syncAddItemForSyncing": "Ajouté {item} pour la synchronisation",
+  "@syncAddItemForSyncing": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "startedSyncingItem": "Synchronisation commencée pour {item}",
+  "@startedSyncingItem": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutVersion": "Version : {version}",
+  "@aboutVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutSocials": "Réseaux Sociaux",
+  "@aboutSocials": {},
+  "subtitle": "Sous-titre",
+  "@subtitle": {},
+  "subtitleConfiguration": "Configuration des sous-titres",
+  "@subtitleConfiguration": {},
+  "off": "Désactivé",
+  "@off": {},
+  "screenBrightness": "Luminosité de l'écran",
+  "@screenBrightness": {},
+  "scale": "Mise à l'échelle",
+  "@scale": {},
+  "playBackSettings": "Paramètres de lecture",
+  "@playBackSettings": {},
+  "homeBannerCarousel": "Carrousel",
+  "@homeBannerCarousel": {},
+  "settingsHomeBannerDescription": "Afficher en tant que Diaporama, carrousel, ou cacher la bannière",
+  "@settingsHomeBannerDescription": {}
 }
