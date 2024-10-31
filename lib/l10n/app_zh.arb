@@ -20,7 +20,7 @@
   },
   "addAsFavorite": "添加为收藏",
   "@addAsFavorite": {},
-  "addToCollection": "添加到收藏",
+  "addToCollection": "添加到收藏夹",
   "@addToCollection": {},
   "addToPlaylist": "添加到播放列表",
   "@addToPlaylist": {},
@@ -28,7 +28,7 @@
   "@advanced": {},
   "all": "全部",
   "@all": {},
-  "amoledBlack": "Amoled 黑色",
+  "amoledBlack": "AMOLED 黑色",
   "@amoledBlack": {},
   "appLockAutoLogin": "自动登录",
   "@appLockAutoLogin": {},
@@ -175,7 +175,7 @@
   "@discovered": {},
   "displayLanguage": "显示语言 (显示语言)",
   "@displayLanguage": {},
-  "downloadsClearDesc": "你确定要删除所有同步数据吗？\n这将清除每个同步用户的所有数据！",
+  "downloadsClearDesc": "删除所有已同步数据，清除\n每个已同步用户的所有数据？",
   "@downloadsClearDesc": {},
   "downloadsClearTitle": "清除同步数据",
   "@downloadsClearTitle": {},
@@ -213,7 +213,7 @@
   "@favorite": {},
   "favorites": "收藏",
   "@favorites": {},
-  "fetchingLibrary": "正在获取库项目",
+  "fetchingLibrary": "正在获取媒体库项目…",
   "@fetchingLibrary": {},
   "filter": "{count, plural, other{过滤器} one{过滤器}}",
   "@filter": {
@@ -263,7 +263,7 @@
   "@identify": {},
   "immediately": "立即",
   "@immediately": {},
-  "incorrectPinTryAgain": "错误的 PIN，请重试",
+  "incorrectPinTryAgain": "PIN 码不正确。请重试。",
   "@incorrectPinTryAgain": {},
   "info": "信息",
   "@info": {},
@@ -290,7 +290,7 @@
       }
     }
   },
-  "library": "{count, plural, other{库} one{库}}",
+  "library": "{count, plural, other{媒体库} one{媒体库}}",
   "@library": {
     "description": "复数",
     "placeholders": {
@@ -300,11 +300,11 @@
       }
     }
   },
-  "libraryFetchNoItemsFound": "未找到项目，请尝试不同的设置。",
+  "libraryFetchNoItemsFound": "未找到项目。请尝试不同的设置。",
   "@libraryFetchNoItemsFound": {},
   "libraryPageSizeDesc": "设置每次加载的数量。0 禁用分页。",
   "@libraryPageSizeDesc": {},
-  "libraryPageSizeTitle": "库页面大小",
+  "libraryPageSizeTitle": "媒体库页面大小",
   "@libraryPageSizeTitle": {},
   "light": "浅色",
   "@light": {},
@@ -386,7 +386,7 @@
   "@metadataRefreshFull": {},
   "metadataRefreshValidation": "搜索缺失的元数据",
   "@metadataRefreshValidation": {},
-  "minutes": "{count}分钟",
+  "minutes": "{count, plural, other{分钟} one{分钟} }",
   "@minutes": {
     "description": "分钟",
     "placeholders": {
@@ -425,9 +425,9 @@
   "@navigationSync": {},
   "never": "从不",
   "@never": {},
-  "nextUp": "下一个",
+  "nextUp": "接下来",
   "@nextUp": {},
-  "noItemsSynced": "没有同步项目",
+  "noItemsSynced": "没有已同步的项目",
   "@noItemsSynced": {},
   "noItemsToShow": "没有可显示的项目",
   "@noItemsToShow": {},
@@ -476,7 +476,7 @@
   "@password": {},
   "pathClearTitle": "清除下载路径",
   "@pathClearTitle": {},
-  "pathEditDesc": "此位置设置适用于所有用户，任何同步的数据将不再可访问。\n它将保留在你的存储中。",
+  "pathEditDesc": "此位置设置适用于所有用户，任何已同步的数据将不再可访问。\n它将保留在你的存储中。",
   "@pathEditDesc": {},
   "pathEditSelect": "选择下载目标",
   "@pathEditSelect": {},
@@ -591,7 +591,7 @@
   "@restart": {},
   "result": "结果",
   "@result": {},
-  "resumable": "可恢复",
+  "resumable": "可续播",
   "@resumable": {},
   "resume": "继续 {item}",
   "@resume": {
@@ -614,7 +614,7 @@
   "@saved": {},
   "scanBiometricHint": "验证身份",
   "@scanBiometricHint": {},
-  "scanLibrary": "扫描库",
+  "scanLibrary": "扫描媒体库",
   "@scanLibrary": {},
   "scanYourFingerprintToAuthenticate": "扫描您的指纹以验证 {user}",
   "@scanYourFingerprintToAuthenticate": {
@@ -624,7 +624,7 @@
       }
     }
   },
-  "scanningName": "扫描 - {name}",
+  "scanningName": "扫描 - {name}…",
   "@scanningName": {
     "placeholders": {
       "name": {
@@ -646,7 +646,7 @@
       }
     }
   },
-  "seconds": "{count}秒",
+  "seconds": "{count, plural, other{秒} one{秒}}",
   "@seconds": {
     "description": "秒",
     "placeholders": {
@@ -682,7 +682,7 @@
     "description": "用于设置某个值",
     "context": "设置时间"
   },
-  "setIdentityTo": "设置身份为 {name}",
+  "setIdentityTo": "变更身份为 {name}",
   "@setIdentityTo": {
     "description": "setIdentityTo",
     "placeholders": {
@@ -695,9 +695,9 @@
   "@settingSecurityApplockTitle": {},
   "settings": "设置",
   "@settings": {},
-  "settingsBlurEpisodesDesc": "模糊所有即将播放的集数",
+  "settingsBlurEpisodesDesc": "模糊所有即将播放的剧集",
   "@settingsBlurEpisodesDesc": {},
-  "settingsBlurEpisodesTitle": "模糊下一个集数",
+  "settingsBlurEpisodesTitle": "模糊下一个剧集",
   "@settingsBlurEpisodesTitle": {},
   "settingsBlurredPlaceholderDesc": "加载海报时显示模糊的背景",
   "@settingsBlurredPlaceholderDesc": {},
@@ -721,7 +721,7 @@
   "@settingsHomeNextUpTitle": {},
   "settingsNextUpCutoffDays": "下一个截止天数",
   "@settingsNextUpCutoffDays": {},
-  "settingsPlayerCustomSubtitlesDesc": "自定义大小、颜色、位置、轮廓",
+  "settingsPlayerCustomSubtitlesDesc": "自定义大小、颜色、位置和轮廓",
   "@settingsPlayerCustomSubtitlesDesc": {},
   "settingsPlayerCustomSubtitlesTitle": "自定义字幕",
   "@settingsPlayerCustomSubtitlesTitle": {},
@@ -769,9 +769,9 @@
   "@shuffleGallery": {},
   "shuffleVideos": "随机播放视频",
   "@shuffleVideos": {},
-  "somethingWentWrong": "出了些问题",
+  "somethingWentWrong": "出了点问题",
   "@somethingWentWrong": {},
-  "somethingWentWrongPasswordCheck": "出了点问题，请检查您的密码",
+  "somethingWentWrongPasswordCheck": "出了点问题。请检查您的密码。",
   "@somethingWentWrongPasswordCheck": {},
   "sortBy": "排序方式",
   "@sortBy": {},
@@ -793,7 +793,7 @@
   },
   "subtitleConfigurator": "字幕配置器",
   "@subtitleConfigurator": {},
-  "subtitleConfiguratorPlaceHolder": "这是占位符文本，\n这里没有什么可看的。",
+  "subtitleConfiguratorPlaceHolder": "这是占位符文本，\n此处无任何内容。",
   "@subtitleConfiguratorPlaceHolder": {},
   "subtitles": "字幕",
   "@subtitles": {},
@@ -801,7 +801,7 @@
   "@switchUser": {},
   "sync": "同步",
   "@sync": {},
-  "syncDeleteItemDesc": "删除所有同步数据？\n{item}",
+  "syncDeleteItemDesc": "为 {item} 删除所有已同步的数据？",
   "@syncDeleteItemDesc": {
     "description": "同步删除项目弹出窗口",
     "placeholders": {
@@ -810,19 +810,19 @@
       }
     }
   },
-  "syncDeleteItemTitle": "删除同步的项目",
+  "syncDeleteItemTitle": "删除已同步的项目",
   "@syncDeleteItemTitle": {},
-  "syncDeletePopupPermanent": "此操作是永久性的，将删除所有本地同步的文件",
+  "syncDeletePopupPermanent": "此操作是永久性的，将删除所有已在本地同步的文件",
   "@syncDeletePopupPermanent": {},
   "syncDetails": "同步详情",
   "@syncDetails": {},
   "syncOpenParent": "打开父级",
   "@syncOpenParent": {},
-  "syncRemoveDataDesc": "删除同步的视频数据？这是永久性的，您需要重新同步文件",
+  "syncRemoveDataDesc": "删除已同步的视频数据？这是永久性的，您需要重新同步文件",
   "@syncRemoveDataDesc": {},
-  "syncRemoveDataTitle": "删除同步的数据？",
+  "syncRemoveDataTitle": "删除已同步的数据？",
   "@syncRemoveDataTitle": {},
-  "syncedItems": "同步项目",
+  "syncedItems": "已同步的项目",
   "@syncedItems": {},
   "tag": "{count, plural, one{标签} other{标签}}",
   "@tag": {
@@ -933,5 +933,149 @@
         "example": "1"
       }
     }
-  }
+  },
+  "homeBannerSlideshow": "幻灯片",
+  "@homeBannerSlideshow": {},
+  "aboutLicenses": "许可证",
+  "@aboutLicenses": {},
+  "addItemsToCollection": "将 {itemLength} 个项目添加到收藏夹",
+  "@addItemsToCollection": {
+    "placeholders": {
+      "itemLength": {
+        "type": "int"
+      }
+    }
+  },
+  "syncStatusComplete": "完成",
+  "@syncStatusComplete": {},
+  "syncNoFolderSetup": "未设置同步文件夹",
+  "@syncNoFolderSetup": {},
+  "syncStatusNotFound": "未找到",
+  "@syncStatusNotFound": {},
+  "syncStatusPaused": "已暂停",
+  "@syncStatusPaused": {},
+  "syncOverlayDeleting": "正在删除已同步的项目",
+  "@syncOverlayDeleting": {},
+  "aboutBuild": "构建：{buildNumber}",
+  "@aboutBuild": {
+    "placeholders": {
+      "buildNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "syncStatusCanceled": "已取消",
+  "@syncStatusCanceled": {},
+  "settingsHomeBannerInformationDesc": "主页横幅中显示的信息",
+  "@settingsHomeBannerInformationDesc": {},
+  "settingsHomeBannerInformationTitle": "横幅信息",
+  "@settingsHomeBannerInformationTitle": {},
+  "syncStatusEnqueued": "已添加到队列",
+  "@syncStatusEnqueued": {},
+  "syncStatusRunning": "运行中",
+  "@syncStatusRunning": {},
+  "syncStatusFailed": "已失败",
+  "@syncStatusFailed": {},
+  "syncStatusWaitingToRetry": "等待重试中",
+  "@syncStatusWaitingToRetry": {},
+  "syncStatusSynced": "已同步",
+  "@syncStatusSynced": {},
+  "syncStatusPartially": "部分地",
+  "@syncStatusPartially": {},
+  "syncOverlaySyncing": "正在同步项目详情",
+  "@syncOverlaySyncing": {},
+  "syncSelectDownloadsFolder": "选择下载文件夹",
+  "@syncSelectDownloadsFolder": {},
+  "syncRemoveUnableToDeleteItem": "无法移除已同步的项目，出了点问题",
+  "@syncRemoveUnableToDeleteItem": {},
+  "syncAddItemForSyncing": "已添加 {item} 进行同步",
+  "@syncAddItemForSyncing": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "startedSyncingItem": "已开始同步 {item}",
+  "@startedSyncingItem": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "unableToSyncItem": "无法同步 {item}，出了点问题",
+  "@unableToSyncItem": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "addToNewCollection": "新建收藏夹",
+  "@addToNewCollection": {},
+  "removedFromCollection": "已从 {collectionName} 收藏夹中移除",
+  "@removedFromCollection": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsHomeBannerDescription": "显示为幻灯片、轮播或隐藏横幅",
+  "@settingsHomeBannerDescription": {},
+  "homeBannerCarousel": "轮播",
+  "@homeBannerCarousel": {},
+  "settingsHomeBannerTitle": "主页横幅",
+  "@settingsHomeBannerTitle": {},
+  "addItemsToPlaylist": "将 {itemLength} 个项目添加到播放列表",
+  "@addItemsToPlaylist": {
+    "placeholders": {
+      "itemLength": {
+        "type": "int"
+      }
+    }
+  },
+  "aboutVersion": "版本：{version}",
+  "@aboutVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutCreatedBy": "由 DonutWare 创建",
+  "@aboutCreatedBy": {},
+  "addedToPlaylist": "已添加到 {playlistName} 播放列表",
+  "@addedToPlaylist": {
+    "placeholders": {
+      "playlistName": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutSocials": "社交",
+  "@aboutSocials": {},
+  "subtitle": "字幕",
+  "@subtitle": {},
+  "subtitleConfiguration": "字幕设置",
+  "@subtitleConfiguration": {},
+  "off": "关闭",
+  "@off": {},
+  "screenBrightness": "屏幕亮度",
+  "@screenBrightness": {},
+  "playBackSettings": "播放设置",
+  "@playBackSettings": {},
+  "addedToCollection": "已添加到 {collectionName} 收藏夹",
+  "@addedToCollection": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "addToNewPlaylist": "新建播放列表",
+  "@addToNewPlaylist": {},
+  "scale": "缩放",
+  "@scale": {}
 }
