@@ -120,6 +120,7 @@ class _NavigationBodyState extends ConsumerState<NavigationBody> {
             style: Theme.of(context).textTheme.titleSmall,
           ),
         },
+        if (AdaptiveLayout.of(context).platform == TargetPlatform.macOS) SizedBox(height: MediaQuery.of(context).padding.top),
         Flexible(
           child: Padding(
             key: const Key('navigation_rail'),
