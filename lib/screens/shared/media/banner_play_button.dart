@@ -27,11 +27,16 @@ class BannerPlayButton extends ConsumerWidget {
             child: Stack(
               children: [
                 Positioned.fill(
-                  child: SquareProgressIndicator(
-                    value: item.userData.progress / 100,
-                    borderRadius: 12,
-                    strokeCap: StrokeCap.round,
-                    color: Theme.of(context).colorScheme.primary,
+                  child: Transform.scale(
+                    scale: 1.01,
+                    child: SquareProgressIndicator(
+                      value: item.userData.progress / 100,
+                      borderRadius: 12,
+                      strokeWidth: 12,
+                      strokeAlign: SquareStrokeAlign.center,
+                      strokeCap: StrokeCap.round,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                   ),
                 ),
                 IconButton(
