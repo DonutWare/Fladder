@@ -1,4 +1,10 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+
 import 'package:collection/collection.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:window_manager/window_manager.dart';
+
 import 'package:fladder/models/book_model.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/photos_model.dart';
@@ -18,11 +24,8 @@ import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/screens/video_player/video_player.dart';
 import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/list_extensions.dart';
+import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:window_manager/window_manager.dart';
 
 Future<void> _showLoadingIndicator(BuildContext context) async {
   return showDialog(
@@ -70,7 +73,7 @@ Future<void> _playVideo(
   if (current == null) {
     if (context.mounted) {
       Navigator.of(context, rootNavigator: true).pop();
-      fladderSnackbar(context, title: "No video found to play");
+      fladderSnackbar(context, title: context.localized.unableToPlayMedia);
     }
     return;
   }
@@ -83,7 +86,7 @@ Future<void> _playVideo(
   if (!loadedCorrectly) {
     if (context.mounted) {
       Navigator.of(context, rootNavigator: true).pop();
-      fladderSnackbar(context, title: "An error occurred loading media");
+      fladderSnackbar(context, title: context.localized.errorOpeningMedia);
     }
     return;
   }
@@ -121,11 +124,10 @@ extension BookBaseModelExtension on BookModel? {
     BuildContext? parentContext,
   }) async {
     if (kIsWeb) {
-      fladderSnackbar(context, title: "Books are not supported on web for now.");
+      fladderSnackbar(context, title: context.localized.unableToPlayBooksOnWeb);
       return;
     }
     if (this == null) {
-      fladderSnackbar(context, title: "Not a selected book");
       return;
     }
     var newProvider = provider;
@@ -237,10 +239,6 @@ extension ItemBaseModelExtensions on ItemBaseModel? {
     } else {
       model = (await ref.read(playbackModelHelper).createServerPlaybackModel(itemModel, PlaybackType.directStream)) ??
           await ref.read(playbackModelHelper).createOfflinePlaybackModel(itemModel, syncedItem);
-    }
-
-    if (model == null) {
-      return;
     }
 
     await _playVideo(context, startPosition: startPosition, current: model, ref: ref);

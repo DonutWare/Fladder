@@ -1,6 +1,10 @@
 import 'dart:math' as math;
 
+import 'package:flutter/material.dart';
+
 import 'package:collection/collection.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:fladder/models/items/chapters_model.dart';
 import 'package:fladder/models/items/intro_skip_model.dart';
 import 'package:fladder/providers/video_player_provider.dart';
@@ -10,8 +14,6 @@ import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/widgets/gapped_container_shape.dart';
 import 'package:fladder/widgets/shared/fladder_slider.dart';
 import 'package:fladder/widgets/shared/trickplay_image.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ChapterProgressSlider extends ConsumerStatefulWidget {
   final Function(bool value) wasPlayingChanged;
@@ -171,7 +173,8 @@ class _ChapterProgressSliderState extends ConsumerState<ChapterProgressSlider> {
                     Positioned(
                       left: 0,
                       child: SizedBox(
-                        width: (constraints.maxWidth / (widget.duration.inMilliseconds / widget.buffer.inMilliseconds)),
+                        width: (constraints.maxWidth / (widget.duration.inMilliseconds / widget.buffer.inMilliseconds))
+                            .clamp(1, constraints.maxWidth),
                         height: sliderHeight,
                         child: GappedContainerShape(
                           activeColor: Theme.of(context).colorScheme.primary.withOpacity(0.5),
@@ -223,7 +226,8 @@ class _ChapterProgressSliderState extends ConsumerState<ChapterProgressSlider> {
             if (!widget.buffering) ...[
               chapterCard(context, position, isVisible),
               Positioned(
-                left: (constraints.maxWidth / (widget.duration.inMilliseconds / position.inMilliseconds)),
+                left: (constraints.maxWidth / (widget.duration.inMilliseconds / position.inMilliseconds))
+                    .clamp(1, constraints.maxWidth),
                 child: Transform.translate(
                   offset: Offset(-(constraints.maxHeight / 2), 0),
                   child: IgnorePointer(

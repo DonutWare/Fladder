@@ -1081,5 +1081,8 @@
   "autoNextOffStaticTitle": "Static",
   "autoNextOffStaticDesc": "Show the next-up screen when 30 seconds of playtime remain",
   "playbackRate": "Playback rate",
-  "speed": "Speed"
+  "speed": "Speed",
+  "unableToPlayMedia": "There was an error finding a compatible media type",
+  "errorOpeningMedia": "Something went trying to play this media",
+  "unableToPlayBooksOnWeb": "Books are not supported on web for now"
 }
