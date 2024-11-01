@@ -1,4 +1,11 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+
 import 'package:ficonsax/ficonsax.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:media_kit_video/media_kit_video.dart';
+import 'package:window_manager/window_manager.dart';
+
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
@@ -9,11 +16,8 @@ import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/refresh_state.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:media_kit_video/media_kit_video.dart';
-import 'package:window_manager/window_manager.dart';
+
+const videoPlayerHeroTag = "HeroPlayer";
 
 class FloatingPlayerBar extends ConsumerStatefulWidget {
   const FloatingPlayerBar({super.key});
@@ -97,7 +101,7 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
                                           child: Stack(
                                             children: [
                                               Hero(
-                                                tag: "HeroPlayer",
+                                                tag: videoPlayerHeroTag,
                                                 child: Video(
                                                   controller: player.controller!,
                                                   fit: BoxFit.fitHeight,

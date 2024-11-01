@@ -9,6 +9,7 @@ import 'package:media_kit_video/media_kit_video.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
+import 'package:fladder/screens/video_player/components/video_player_next_wrapper.dart';
 import 'package:fladder/screens/video_player/video_player_controls.dart';
 import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/themes_data.dart';
@@ -87,12 +88,9 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
               }
               lastScale = 0.0;
             },
-            child: Hero(
-              tag: "HeroPlayer",
-              child: Stack(
-                children: [
-                  if (playerController != null)
-                    Padding(
+            child: VideoPlayerNextWrapper(
+              video: playerController != null
+                  ? Padding(
                       padding: fillScreen ? EdgeInsets.zero : EdgeInsets.only(left: padding.left, right: padding.right),
                       child: OrientationBuilder(builder: (context, orientation) {
                         return Video(
@@ -107,11 +105,12 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
                           controls: NoVideoControls,
                         );
                       }),
-                    ),
-                  const DesktopControls(),
-                  if (errorPlaying) const _VideoErrorWidget(),
-                ],
-              ),
+                    )
+                  : const SizedBox.shrink(),
+              controls: const DesktopControls(),
+              overlays: [
+                if (errorPlaying) const _VideoErrorWidget(),
+              ],
             ),
           ),
         ),

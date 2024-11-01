@@ -1,4 +1,12 @@
+import 'dart:io' show Platform;
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/settings/settings_scaffold.dart';
@@ -10,10 +18,7 @@ import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/box_fit_extension.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/option_dialogue.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'dart:io' show Platform;
+import 'package:fladder/widgets/shared/enum_selection.dart';
 
 @RoutePage()
 class PlayerSettingsPage extends ConsumerStatefulWidget {
@@ -104,6 +109,27 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                   : Container(),
             ),
           ],
+          SettingsListTile(
+            label: Text(context.localized.settingsHomeNextUpTitle),
+            subLabel: Text(context.localized.settingsHomeNextUpDesc),
+            trailing: EnumBox(
+              current: ref.watch(
+                videoPlayerSettingsProvider.select(
+                  (value) => value.nextVideoType.label(context),
+                ),
+              ),
+              itemBuilder: (context) => AutoNextType.values
+                  .map(
+                    (entry) => PopupMenuItem(
+                      value: entry,
+                      child: Text(entry.label(context)),
+                      onTap: () => ref.read(videoPlayerSettingsProvider.notifier).state =
+                          ref.read(videoPlayerSettingsProvider).copyWith(nextVideoType: entry),
+                    ),
+                  )
+                  .toList(),
+            ),
+          ),
           SettingsListTile(
             label: Text(context.localized.settingsPlayerCustomSubtitlesTitle),
             subLabel: Text(context.localized.settingsPlayerCustomSubtitlesDesc),

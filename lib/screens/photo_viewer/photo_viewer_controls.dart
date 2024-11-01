@@ -55,8 +55,8 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with
   double dragUpDelta = 0.0;
 
   final controller = TextEditingController();
-  late final timerController =
-      RestarableTimerController(ref.read(photoViewSettingsProvider).timer, const Duration(milliseconds: 32), () {
+  late final timerController = RestarableTimerController(
+      ref.read(photoViewSettingsProvider).timer, const Duration(milliseconds: 32), onTimeout: () {
     if (widget.pageController.page == widget.itemCount - 1) {
       widget.pageController.animateToPage(0, duration: const Duration(milliseconds: 250), curve: Curves.easeInOut);
     } else {
@@ -314,6 +314,13 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with
                           ),
                           ProgressFloatingButton(
                             controller: timerController,
+                            onLongPress: (duration) {
+                              if (duration != null) {
+                                ref
+                                    .read(photoViewSettingsProvider.notifier)
+                                    .update((state) => state.copyWith(timer: duration));
+                              }
+                            },
                           ),
                         ].addPadding(const EdgeInsets.symmetric(horizontal: 8)),
                       ),

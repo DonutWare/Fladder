@@ -170,15 +170,15 @@ class SharedUtility {
 
   VideoPlayerSettingsModel get videoPlayerSettings {
     try {
-      return VideoPlayerSettingsModel.fromJson(sharedPreferences.getString(_videoPlayerSettingsKey) ?? "");
+      return VideoPlayerSettingsModel.fromJson(jsonDecode(sharedPreferences.getString(_videoPlayerSettingsKey) ?? ""));
     } catch (e) {
       log(e.toString());
-      return const VideoPlayerSettingsModel();
+      return VideoPlayerSettingsModel();
     }
   }
 
   set videoPlayerSettings(VideoPlayerSettingsModel settings) {
-    sharedPreferences.setString(_videoPlayerSettingsKey, settings.toJson());
+    sharedPreferences.setString(_videoPlayerSettingsKey, jsonEncode(settings.toJson()));
   }
 
   PhotoViewSettingsModel get photoViewSettings {

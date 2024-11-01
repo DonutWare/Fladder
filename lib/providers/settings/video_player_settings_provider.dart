@@ -13,7 +13,7 @@ final videoPlayerSettingsProvider =
 });
 
 class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSettingsModel> {
-  VideoPlayerSettingsProviderNotifier(this.ref) : super(const VideoPlayerSettingsModel());
+  VideoPlayerSettingsProviderNotifier(this.ref) : super(VideoPlayerSettingsModel());
 
   final Ref ref;
 
@@ -29,7 +29,7 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
 
   void setScreenBrightness(double? value) async {
     state = state.copyWith(
-      screenBrightness: () => value,
+      screenBrightness: value,
     );
     if (state.screenBrightness != null) {
       ScreenBrightness().setScreenBrightness(state.screenBrightness!);
@@ -45,13 +45,13 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
   }
 
   void setFillScreen(bool? value, {BuildContext? context}) {
-    state = state.copyWith(fillScreen: value);
+    state = state.copyWith(fillScreen: value ?? false);
   }
 
-  void setHardwareAccel(bool? value) => state = state.copyWith(hardwareAccel: value);
-  void setUseLibass(bool? value) => state = state.copyWith(useLibass: value);
+  void setHardwareAccel(bool? value) => state = state.copyWith(hardwareAccel: value ?? true);
+  void setUseLibass(bool? value) => state = state.copyWith(useLibass: value ?? false);
 
-  void setFitType(BoxFit? value) => state = state.copyWith(videoFit: value);
+  void setFitType(BoxFit? value) => state = state.copyWith(videoFit: value ?? BoxFit.contain);
 
   void setVolume(double value) {
     state = state.copyWith(internalVolume: value);
