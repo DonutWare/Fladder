@@ -1074,8 +1074,10 @@
   "screenBrightness": "Screen brightness",
   "scale":"Scale",
   "playBackSettings": "Playback Settings",
+  "settingsAutoNextTitle": "Next-up preview",
+  "settingsAutoNextDesc": "Displays a next-up preview near the end if another item is queued",
   "autoNextOffSmartTitle": "Smart",
-  "autoNextOffSmartDesc": "Shows the next-up screen when the credits start if no more then 10 seconds remain after the credits. Else it shows the next-up screen with 30 seconds left.",
+  "autoNextOffSmartDesc": "Shows the next-up screen when the credits start if no more then 10 seconds remain after the credits. Else it shows the next-up screen with 30 seconds of playtime remaining",
   "autoNextOffStaticTitle": "Static",
-  "autoNextOffStaticDesc": "Show the next-up screen when 30 seconds of playtime remain."
+  "autoNextOffStaticDesc": "Show the next-up screen when 30 seconds of playtime remain"
 }

@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
+
+import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:fladder/util/list_padding.dart';
 
 enum MessageType {
   info,
   warning,
   error;
 
-  Color color(BuildContext context) {
-    switch (this) {
-      case info:
-        return Theme.of(context).colorScheme.surface;
-      case warning:
-        return Theme.of(context).colorScheme.primaryContainer;
-      case error:
-        return Theme.of(context).colorScheme.errorContainer;
-    }
-  }
+  Color color(BuildContext context) => switch (this) {
+        MessageType.info => Theme.of(context).colorScheme.secondaryContainer,
+        MessageType.warning => Theme.of(context).colorScheme.primaryContainer,
+        MessageType.error => Theme.of(context).colorScheme.errorContainer,
+      };
 }
 
 class SettingsMessageBox extends ConsumerWidget {
@@ -38,7 +37,20 @@ class SettingsMessageBox extends ConsumerWidget {
           color: messageType.color(context),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(message),
+            child: Row(
+              children: [
+                Icon(
+                  switch (messageType) {
+                    MessageType.info => IconsaxOutline.information,
+                    MessageType.warning => IconsaxOutline.warning_2,
+                    MessageType.error => IconsaxOutline.danger,
+                  },
+                ),
+                Flexible(
+                  child: Text(message),
+                ),
+              ].addInBetween(const SizedBox(width: 12)),
+            ),
           ),
         ),
       ),

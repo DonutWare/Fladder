@@ -110,8 +110,8 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
             ),
           ],
           SettingsListTile(
-            label: Text(context.localized.settingsHomeNextUpTitle),
-            subLabel: Text(context.localized.settingsHomeNextUpDesc),
+            label: Text(context.localized.settingsAutoNextTitle),
+            subLabel: Text(context.localized.settingsAutoNextDesc),
             trailing: EnumBox(
               current: ref.watch(
                 videoPlayerSettingsProvider.select(
@@ -129,6 +129,13 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                   )
                   .toList(),
             ),
+          ),
+          AnimatedFadeSize(
+            child: switch (ref.watch(videoPlayerSettingsProvider.select((value) => value.nextVideoType))) {
+              AutoNextType.smart => SettingsMessageBox(AutoNextType.smart.desc(context)),
+              AutoNextType.static => SettingsMessageBox(AutoNextType.static.desc(context)),
+              _ => const SizedBox.shrink(),
+            },
           ),
           SettingsListTile(
             label: Text(context.localized.settingsPlayerCustomSubtitlesTitle),
