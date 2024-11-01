@@ -1051,5 +1051,29 @@
   "homeBannerCarousel": "Carrousel",
   "@homeBannerCarousel": {},
   "settingsHomeBannerDescription": "Afficher en tant que Diaporama, carrousel, ou cacher la bannière",
-  "@settingsHomeBannerDescription": {}
+  "@settingsHomeBannerDescription": {},
+  "removedFromCollection": "Supprimé de {collectionName}",
+  "@removedFromCollection": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "addedToCollection": "Ajouter à {collectionName}",
+  "@addedToCollection": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "addedToPlaylist": "Ajouté(e) à {playlistName}",
+  "@addedToPlaylist": {
+    "placeholders": {
+      "playlistName": {
+        "type": "String"
+      }
+    }
+  }
 }
