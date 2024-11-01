@@ -469,10 +469,10 @@ Future<void> showPlaybackSpeed(BuildContext context) {
                         child: SizedBox(
                           width: 250,
                           child: FladderSlider(
-                            min: 0.1,
-                            max: 6.0,
+                            min: 0.25,
+                            max: 10,
                             value: lastSpeed,
-                            divisions: 60,
+                            divisions: 39,
                             onChanged: (value) {
                               ref.read(playbackRateProvider.notifier).state = value;
                               player?.setRate(value);
@@ -480,7 +480,7 @@ Future<void> showPlaybackSpeed(BuildContext context) {
                           ),
                         ),
                       ),
-                      Text("x${lastSpeed.toStringAsFixed(1)}")
+                      Text("x${lastSpeed.toStringAsFixed(2)}")
                     ].addInBetween(const SizedBox(width: 8)),
                   ),
                 )
