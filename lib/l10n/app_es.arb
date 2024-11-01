@@ -1095,5 +1095,11 @@
   "speed": "Velocidad",
   "@speed": {},
   "autoNextOffSmartDesc": "Muestra la siguiente pantalla cuando comienzan los créditos, si no quedan más de 10 segundos después de los créditos. Si no muestra la siguiente pantalla con 30 segundos de tiempo de reproducción restante",
-  "@autoNextOffSmartDesc": {}
+  "@autoNextOffSmartDesc": {},
+  "unableToPlayMedia": "Hubo un error al encontrar un tipo de medio compatible",
+  "@unableToPlayMedia": {},
+  "errorOpeningMedia": "Algo sucedió al reproducir este medio",
+  "@errorOpeningMedia": {},
+  "unableToPlayBooksOnWeb": "Los libros no se pueden consultar en la web por ahora",
+  "@unableToPlayBooksOnWeb": {}
 }
