@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart';
+
 import 'package:ficonsax/ficonsax.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/widgets/shared/fladder_slider.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class VideoVolumeSlider extends ConsumerStatefulWidget {
   final double? width;
@@ -58,6 +60,7 @@ class _VideoVolumeSliderState extends ConsumerState<VideoVolumeSlider> {
           child: Text(
             (volume).toStringAsFixed(0),
             textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
         ),
       ].addInBetween(const SizedBox(width: 6)),

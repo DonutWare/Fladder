@@ -311,7 +311,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: progressBar(mediaPlayback),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -461,7 +461,9 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                     child: Card(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                        child: Text(playbackModel?.label ?? ""),
+                        child: Text(
+                          playbackModel?.label ?? "",
+                        ),
                       ),
                     ),
                   ),
@@ -469,7 +471,9 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                   Card(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      child: Text('${item.streamModel?.displayProfile?.value} ${item.streamModel?.resolution?.value}'),
+                      child: Text(
+                        '${item.streamModel?.displayProfile?.value} ${item.streamModel?.resolution?.value}',
+                      ),
                     ),
                   ),
                 }
@@ -494,8 +498,14 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(mediaPlayback.position.readAbleDuration),
-                Text("-${(mediaPlayback.duration - mediaPlayback.position).readAbleDuration}"),
+                Text(
+                  mediaPlayback.position.readAbleDuration,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                Text(
+                  "-${(mediaPlayback.duration - mediaPlayback.position).readAbleDuration}",
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
               ],
             ),
           ],
