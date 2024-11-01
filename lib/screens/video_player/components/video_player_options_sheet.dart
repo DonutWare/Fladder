@@ -19,12 +19,16 @@ import 'package:fladder/screens/playlists/add_to_playlists.dart';
 import 'package:fladder/screens/video_player/components/video_player_queue.dart';
 import 'package:fladder/screens/video_player/components/video_subtitle_controls.dart';
 import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/widgets/shared/enum_selection.dart';
+import 'package:fladder/widgets/shared/fladder_slider.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 import 'package:fladder/widgets/shared/spaced_list_tile.dart';
+
+final playbackRateProvider = StateProvider<double>((ref) => 1.0);
 
 Future<void> showVideoPlayerOptions(BuildContext context, Function() minimizePlayer) {
   return showBottomSheetPill(
@@ -172,6 +176,23 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
                 ],
               ),
             ),
+          ListTile(
+            onTap: () {
+              Navigator.of(context).pop();
+              showPlaybackSpeed(context);
+            },
+            title: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: Text(context.localized.playbackRate),
+                ),
+                const Spacer(),
+                Text("x${ref.watch(playbackRateProvider)}")
+              ],
+            ),
+          ),
         ],
       );
     }
@@ -183,7 +204,7 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
         shrinkWrap: true,
         controller: widget.controller,
         children: [
-          navTitle("Playback Settings", null),
+          navTitle(context.localized.playBackSettings, null),
           if (playbackState?.queue.isNotEmpty == true)
             ListTile(
               leading: const Icon(Icons.video_collection_rounded),
@@ -418,6 +439,56 @@ Future<void> showAudioSelection(BuildContext context) {
           );
         },
       );
+    },
+  );
+}
+
+Future<void> showPlaybackSpeed(BuildContext context) {
+  return showDialog(
+    context: context,
+    builder: (context) {
+      return StatefulBuilder(builder: (context, setState) {
+        return Consumer(
+          builder: (context, ref, child) {
+            final player = ref.watch(videoPlayerProvider.select((value) => value.player));
+            final lastSpeed = ref.watch(playbackRateProvider);
+            return SimpleDialog(
+              contentPadding: const EdgeInsets.only(top: 8, bottom: 24),
+              title: Row(children: [Text(context.localized.playbackRate)]),
+              children: [
+                const Divider(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12).copyWith(top: 6),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text("${context.localized.speed}: "),
+                      Flexible(
+                        child: SizedBox(
+                          width: 250,
+                          child: FladderSlider(
+                            min: 0.1,
+                            max: 6.0,
+                            value: lastSpeed,
+                            divisions: 60,
+                            onChanged: (value) {
+                              ref.read(playbackRateProvider.notifier).state = value;
+                              player?.setRate(value);
+                            },
+                          ),
+                        ),
+                      ),
+                      Text("x${lastSpeed.toStringAsFixed(1)}")
+                    ].addInBetween(const SizedBox(width: 8)),
+                  ),
+                )
+              ],
+            );
+          },
+        );
+      });
     },
   );
 }
