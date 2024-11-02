@@ -22,7 +22,7 @@ final showSyncButtonProviderProvider = AutoDisposeProvider<bool>.internal(
 );
 
 typedef ShowSyncButtonProviderRef = AutoDisposeProviderRef<bool>;
-String _$userHash() => r'418b3d4ade830479db9f48c7793ac5b646778b82';
+String _$userHash() => r'e83369c0d569d5a862aa1b92f3f0a45a9d1fe446';
 
 /// See also [User].
 @ProviderFor(User)

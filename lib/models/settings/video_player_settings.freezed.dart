@@ -27,6 +27,8 @@ mixin _$VideoPlayerSettingsModel {
   bool get hardwareAccel => throw _privateConstructorUsedError;
   bool get useLibass => throw _privateConstructorUsedError;
   double get internalVolume => throw _privateConstructorUsedError;
+  Set<DeviceOrientation>? get allowedOrientations =>
+      throw _privateConstructorUsedError;
   AutoNextType get nextVideoType => throw _privateConstructorUsedError;
   String? get audioDevice => throw _privateConstructorUsedError;
 
@@ -53,6 +55,7 @@ abstract class $VideoPlayerSettingsModelCopyWith<$Res> {
       bool hardwareAccel,
       bool useLibass,
       double internalVolume,
+      Set<DeviceOrientation>? allowedOrientations,
       AutoNextType nextVideoType,
       String? audioDevice});
 }
@@ -79,6 +82,7 @@ class _$VideoPlayerSettingsModelCopyWithImpl<$Res,
     Object? hardwareAccel = null,
     Object? useLibass = null,
     Object? internalVolume = null,
+    Object? allowedOrientations = freezed,
     Object? nextVideoType = null,
     Object? audioDevice = freezed,
   }) {
@@ -107,6 +111,10 @@ class _$VideoPlayerSettingsModelCopyWithImpl<$Res,
           ? _value.internalVolume
           : internalVolume // ignore: cast_nullable_to_non_nullable
               as double,
+      allowedOrientations: freezed == allowedOrientations
+          ? _value.allowedOrientations
+          : allowedOrientations // ignore: cast_nullable_to_non_nullable
+              as Set<DeviceOrientation>?,
       nextVideoType: null == nextVideoType
           ? _value.nextVideoType
           : nextVideoType // ignore: cast_nullable_to_non_nullable
@@ -135,6 +143,7 @@ abstract class _$$VideoPlayerSettingsModelImplCopyWith<$Res>
       bool hardwareAccel,
       bool useLibass,
       double internalVolume,
+      Set<DeviceOrientation>? allowedOrientations,
       AutoNextType nextVideoType,
       String? audioDevice});
 }
@@ -160,6 +169,7 @@ class __$$VideoPlayerSettingsModelImplCopyWithImpl<$Res>
     Object? hardwareAccel = null,
     Object? useLibass = null,
     Object? internalVolume = null,
+    Object? allowedOrientations = freezed,
     Object? nextVideoType = null,
     Object? audioDevice = freezed,
   }) {
@@ -188,6 +198,10 @@ class __$$VideoPlayerSettingsModelImplCopyWithImpl<$Res>
           ? _value.internalVolume
           : internalVolume // ignore: cast_nullable_to_non_nullable
               as double,
+      allowedOrientations: freezed == allowedOrientations
+          ? _value._allowedOrientations
+          : allowedOrientations // ignore: cast_nullable_to_non_nullable
+              as Set<DeviceOrientation>?,
       nextVideoType: null == nextVideoType
           ? _value.nextVideoType
           : nextVideoType // ignore: cast_nullable_to_non_nullable
@@ -211,9 +225,11 @@ class _$VideoPlayerSettingsModelImpl extends _VideoPlayerSettingsModel
       this.hardwareAccel = true,
       this.useLibass = false,
       this.internalVolume = 100,
+      final Set<DeviceOrientation>? allowedOrientations,
       this.nextVideoType = AutoNextType.static,
       this.audioDevice})
-      : super._();
+      : _allowedOrientations = allowedOrientations,
+        super._();
 
   factory _$VideoPlayerSettingsModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$VideoPlayerSettingsModelImplFromJson(json);
@@ -235,6 +251,17 @@ class _$VideoPlayerSettingsModelImpl extends _VideoPlayerSettingsModel
   @override
   @JsonKey()
   final double internalVolume;
+  final Set<DeviceOrientation>? _allowedOrientations;
+  @override
+  Set<DeviceOrientation>? get allowedOrientations {
+    final value = _allowedOrientations;
+    if (value == null) return null;
+    if (_allowedOrientations is EqualUnmodifiableSetView)
+      return _allowedOrientations;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableSetView(value);
+  }
+
   @override
   @JsonKey()
   final AutoNextType nextVideoType;
@@ -243,7 +270,7 @@ class _$VideoPlayerSettingsModelImpl extends _VideoPlayerSettingsModel
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, internalVolume: $internalVolume, nextVideoType: $nextVideoType, audioDevice: $audioDevice)';
+    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, audioDevice: $audioDevice)';
   }
 
   @override
@@ -257,6 +284,7 @@ class _$VideoPlayerSettingsModelImpl extends _VideoPlayerSettingsModel
       ..add(DiagnosticsProperty('hardwareAccel', hardwareAccel))
       ..add(DiagnosticsProperty('useLibass', useLibass))
       ..add(DiagnosticsProperty('internalVolume', internalVolume))
+      ..add(DiagnosticsProperty('allowedOrientations', allowedOrientations))
       ..add(DiagnosticsProperty('nextVideoType', nextVideoType))
       ..add(DiagnosticsProperty('audioDevice', audioDevice));
   }
@@ -286,6 +314,7 @@ abstract class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel {
       final bool hardwareAccel,
       final bool useLibass,
       final double internalVolume,
+      final Set<DeviceOrientation>? allowedOrientations,
       final AutoNextType nextVideoType,
       final String? audioDevice}) = _$VideoPlayerSettingsModelImpl;
   _VideoPlayerSettingsModel._() : super._();
@@ -305,6 +334,8 @@ abstract class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel {
   bool get useLibass;
   @override
   double get internalVolume;
+  @override
+  Set<DeviceOrientation>? get allowedOrientations;
   @override
   AutoNextType get nextVideoType;
   @override

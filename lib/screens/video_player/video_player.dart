@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:media_kit_video/media_kit_video.dart';
@@ -49,6 +50,7 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    SystemChrome.setPreferredOrientations(DeviceOrientation.values);
     super.dispose();
   }
 
@@ -58,6 +60,8 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
     WidgetsBinding.instance.addObserver(this);
     Future.microtask(() {
       ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(state: VideoPlayerState.fullScreen));
+      final orientations = ref.read(videoPlayerSettingsProvider.select((value) => value.allowedOrientations));
+      SystemChrome.setPreferredOrientations(orientations?.toList() ?? DeviceOrientation.values);
       return ref.read(videoPlayerSettingsProvider.notifier).setSavedBrightness();
     });
   }
@@ -69,6 +73,15 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
     final padding = MediaQuery.of(context).padding;
 
     final playerController = ref.watch(videoPlayerProvider.select((value) => value.controller));
+
+    ref.listen(
+      videoPlayerSettingsProvider.select((value) => value.allowedOrientations),
+      (previous, next) {
+        if (previous != next) {
+          SystemChrome.setPreferredOrientations(next?.toList() ?? DeviceOrientation.values);
+        }
+      },
+    );
 
     return Material(
       color: Colors.black,

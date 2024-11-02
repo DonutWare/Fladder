@@ -16,6 +16,9 @@ _$VideoPlayerSettingsModelImpl _$$VideoPlayerSettingsModelImplFromJson(
       hardwareAccel: json['hardwareAccel'] as bool? ?? true,
       useLibass: json['useLibass'] as bool? ?? false,
       internalVolume: (json['internalVolume'] as num?)?.toDouble() ?? 100,
+      allowedOrientations: (json['allowedOrientations'] as List<dynamic>?)
+          ?.map((e) => $enumDecode(_$DeviceOrientationEnumMap, e))
+          .toSet(),
       nextVideoType:
           $enumDecodeNullable(_$AutoNextTypeEnumMap, json['nextVideoType']) ??
               AutoNextType.static,
@@ -31,6 +34,9 @@ Map<String, dynamic> _$$VideoPlayerSettingsModelImplToJson(
       'hardwareAccel': instance.hardwareAccel,
       'useLibass': instance.useLibass,
       'internalVolume': instance.internalVolume,
+      'allowedOrientations': instance.allowedOrientations
+          ?.map((e) => _$DeviceOrientationEnumMap[e]!)
+          .toList(),
       'nextVideoType': _$AutoNextTypeEnumMap[instance.nextVideoType]!,
       'audioDevice': instance.audioDevice,
     };
@@ -43,6 +49,13 @@ const _$BoxFitEnumMap = {
   BoxFit.fitHeight: 'fitHeight',
   BoxFit.none: 'none',
   BoxFit.scaleDown: 'scaleDown',
+};
+
+const _$DeviceOrientationEnumMap = {
+  DeviceOrientation.portraitUp: 'portraitUp',
+  DeviceOrientation.landscapeLeft: 'landscapeLeft',
+  DeviceOrientation.portraitDown: 'portraitDown',
+  DeviceOrientation.landscapeRight: 'landscapeRight',
 };
 
 const _$AutoNextTypeEnumMap = {

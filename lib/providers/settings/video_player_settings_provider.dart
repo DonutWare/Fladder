@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:screen_brightness/screen_brightness.dart';
@@ -63,4 +64,7 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
     state = state.copyWith(internalVolume: value);
     ref.read(videoPlayerProvider).setVolume(value);
   }
+
+  void toggleOrientation(Set<DeviceOrientation>? orientation) =>
+      state = state.copyWith(allowedOrientations: orientation);
 }

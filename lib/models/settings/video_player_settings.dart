@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -20,6 +21,7 @@ class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     @Default(true) bool hardwareAccel,
     @Default(false) bool useLibass,
     @Default(100) double internalVolume,
+    Set<DeviceOrientation>? allowedOrientations,
     @Default(AutoNextType.static) AutoNextType nextVideoType,
     String? audioDevice,
   }) = _VideoPlayerSettingsModel;

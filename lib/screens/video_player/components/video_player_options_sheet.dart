@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:collection/collection.dart';
 import 'package:ficonsax/ficonsax.dart';
@@ -176,6 +177,10 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
                 ],
               ),
             ),
+          SpacedListTile(
+            title: Text("Orientations"),
+            onTap: () => showOrientationOptions(context, ref),
+          ),
           ListTile(
             onTap: () {
               Navigator.of(context).pop();
@@ -491,4 +496,57 @@ Future<void> showPlaybackSpeed(BuildContext context) {
       });
     },
   );
+}
+
+Future<void> showOrientationOptions(BuildContext context, WidgetRef ref) async {
+  Set<DeviceOrientation>? orientations =
+      ref.read(videoPlayerSettingsProvider.select((value) => value.allowedOrientations));
+
+  void toggleOrientation(DeviceOrientation orientation) {
+    final allowedOrientations = (orientations ?? <DeviceOrientation>{}).toSet();
+
+    if (allowedOrientations.contains(orientation)) {
+      allowedOrientations.remove(orientation);
+    } else {
+      allowedOrientations.add(orientation);
+    }
+
+    orientations = allowedOrientations;
+  }
+
+  await showDialog(
+    context: context,
+    builder: (context) {
+      return StatefulBuilder(builder: (context, state) {
+        return SimpleDialog(
+          contentPadding: const EdgeInsets.only(top: 8, bottom: 24),
+          title: Row(children: [Text(context.localized.playbackRate)]),
+          children: [
+            const Divider(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12).copyWith(top: 6),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  ...DeviceOrientation.values.map(
+                    (orientation) => CheckboxListTile.adaptive(
+                      title: Text(orientation.name),
+                      value: orientations == null ? true : orientations?.contains(orientation),
+                      onChanged: (value) {
+                        state(() => toggleOrientation(orientation));
+                      },
+                    ),
+                  )
+                ].addInBetween(const SizedBox(width: 8)),
+              ),
+            )
+          ],
+        );
+      });
+    },
+  );
+
+  ref.read(videoPlayerSettingsProvider.notifier).toggleOrientation(orientations?.isEmpty == true ? null : orientations);
 }
