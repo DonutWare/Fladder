@@ -20,6 +20,7 @@ import 'package:fladder/screens/settings/widgets/settings_label_divider.dart';
 import 'package:fladder/screens/shared/default_alert_dialog.dart';
 import 'package:fladder/screens/shared/input_fields.dart';
 import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/color_extensions.dart';
 import 'package:fladder/util/custom_color_themes.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/option_dialogue.dart';
@@ -424,6 +425,33 @@ class _ClientSettingsPageState extends ConsumerState<ClientSettingsPage> {
                   contentPadding: EdgeInsets.zero,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                   onTap: () => ref.read(clientSettingsProvider.notifier).setThemeColor(type),
+                ),
+              ),
+            ),
+          ),
+          SettingsListTile(
+            label: Text(context.localized.clientSettingsSchemeVariantTitle),
+            subLabel: Text(clientSettings.schemeVariant.label(context)),
+            onTap: () => openOptionDialogue<DynamicSchemeVariant>(
+              context,
+              isNullable: false,
+              label: context.localized.themeColor,
+              items: DynamicSchemeVariant.values,
+              itemBuilder: (type) => Consumer(
+                builder: (context, ref, child) => ListTile(
+                  title: Row(
+                    children: [
+                      Checkbox.adaptive(
+                        value: type == ref.watch(clientSettingsProvider.select((value) => value.schemeVariant)),
+                        onChanged: (value) => ref.read(clientSettingsProvider.notifier).setSchemeVariant(type),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(type?.label(context) ?? ""),
+                    ],
+                  ),
+                  contentPadding: EdgeInsets.zero,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  onTap: () => ref.read(clientSettingsProvider.notifier).setSchemeVariant(type),
                 ),
               ),
             ),

@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:fladder/models/settings/client_settings_model.dart';
 import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/util/custom_color_themes.dart';
 import 'package:fladder/util/debouncer.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final clientSettingsProvider = StateNotifierProvider<ClientSettingsNotifier, ClientSettingsModel>((ref) {
   return ClientSettingsNotifier(ref);
@@ -51,4 +53,7 @@ class ClientSettingsNotifier extends StateNotifier<ClientSettingsModel> {
   void setSyncPath(String? path) => state = state.copyWith(syncPath: path);
 
   void update(Function(ClientSettingsModel current) value) => state = value(state);
+
+  void setSchemeVariant(DynamicSchemeVariant? type) =>
+      state = state.copyWith(schemeVariant: type ?? state.schemeVariant);
 }

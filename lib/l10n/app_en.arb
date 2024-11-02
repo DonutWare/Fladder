@@ -1105,5 +1105,15 @@
   "deviceOrientationPortraitUp": "Portrait Up",
   "deviceOrientationPortraitDown": "Portrait Down",
   "deviceOrientationLandscapeLeft": "Landscape Left",
-  "deviceOrientationLandscapeRight": "Landscape Right"
+  "deviceOrientationLandscapeRight": "Landscape Right",
+  "clientSettingsSchemeVariantTitle": "Scheme variant",
+  "schemeSettingsTonalSpot": "Tonal spot",
+  "schemeSettingsFidelity": "Fidelity",
+  "schemeSettingsMonochrome": "Monochrome",
+  "schemeSettingsNeutral": "Neutral",
+  "schemeSettingsVibrant": "Vibrant",
+  "schemeSettingsExpressive": "Expressive",
+  "schemeSettingsContent": "Content",
+  "schemeSettingsRainbow": "Rainbow",
+  "schemeSettingsFruitSalad": "Fruit salad"
 }

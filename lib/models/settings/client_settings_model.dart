@@ -30,6 +30,7 @@ class ClientSettingsModel with _$ClientSettingsModel {
     @Default(1.0) double posterSize,
     @Default(false) bool pinchPosterZoom,
     @Default(false) bool mouseDragSupport,
+    @Default(DynamicSchemeVariant.tonalSpot) DynamicSchemeVariant schemeVariant,
     int? libraryPageSize,
   }) = _ClientSettingsModel;
 

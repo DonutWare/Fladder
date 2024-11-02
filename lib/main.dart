@@ -274,6 +274,7 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
     final themeColor = ref.watch(clientSettingsProvider.select((value) => value.themeColor));
     final amoledBlack = ref.watch(clientSettingsProvider.select((value) => value.amoledBlack));
     final mouseDrag = ref.watch(clientSettingsProvider.select((value) => value.mouseDragSupport));
+    final schemeVariant = ref.watch(clientSettingsProvider.select((value) => value.schemeVariant));
     final language = ref.watch(clientSettingsProvider
         .select((value) => value.selectedLocale ?? WidgetsBinding.instance.platformDispatcher.locale));
     final scrollBehaviour = const MaterialScrollBehavior();
@@ -283,11 +284,11 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
       },
       child: DynamicColorBuilder(builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
         final lightTheme = themeColor == null
-            ? FladderTheme.theme(lightDynamic ?? FladderTheme.defaultScheme(Brightness.light))
-            : FladderTheme.theme(themeColor.schemeLight);
+            ? FladderTheme.theme(lightDynamic ?? FladderTheme.defaultScheme(Brightness.light), schemeVariant)
+            : FladderTheme.theme(themeColor.schemeLight, schemeVariant);
         final darkTheme = (themeColor == null
-            ? FladderTheme.theme(darkDynamic ?? FladderTheme.defaultScheme(Brightness.dark))
-            : FladderTheme.theme(themeColor.schemeDark));
+            ? FladderTheme.theme(darkDynamic ?? FladderTheme.defaultScheme(Brightness.dark), schemeVariant)
+            : FladderTheme.theme(themeColor.schemeDark, schemeVariant));
         final amoledOverwrite = amoledBlack ? Colors.black : null;
         return ThemesData(
           light: lightTheme,

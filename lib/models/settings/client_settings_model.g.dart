@@ -34,6 +34,9 @@ _$ClientSettingsModelImpl _$$ClientSettingsModelImplFromJson(
       posterSize: (json['posterSize'] as num?)?.toDouble() ?? 1.0,
       pinchPosterZoom: json['pinchPosterZoom'] as bool? ?? false,
       mouseDragSupport: json['mouseDragSupport'] as bool? ?? false,
+      schemeVariant: $enumDecodeNullable(
+              _$DynamicSchemeVariantEnumMap, json['schemeVariant']) ??
+          DynamicSchemeVariant.tonalSpot,
       libraryPageSize: (json['libraryPageSize'] as num?)?.toInt(),
     );
 
@@ -55,6 +58,7 @@ Map<String, dynamic> _$$ClientSettingsModelImplToJson(
       'posterSize': instance.posterSize,
       'pinchPosterZoom': instance.pinchPosterZoom,
       'mouseDragSupport': instance.mouseDragSupport,
+      'schemeVariant': _$DynamicSchemeVariantEnumMap[instance.schemeVariant]!,
       'libraryPageSize': instance.libraryPageSize,
     };
 
@@ -80,4 +84,16 @@ const _$ColorThemesEnumMap = {
   ColorThemes.purple: 'purple',
   ColorThemes.deepPurple: 'deepPurple',
   ColorThemes.blueGrey: 'blueGrey',
+};
+
+const _$DynamicSchemeVariantEnumMap = {
+  DynamicSchemeVariant.tonalSpot: 'tonalSpot',
+  DynamicSchemeVariant.fidelity: 'fidelity',
+  DynamicSchemeVariant.monochrome: 'monochrome',
+  DynamicSchemeVariant.neutral: 'neutral',
+  DynamicSchemeVariant.vibrant: 'vibrant',
+  DynamicSchemeVariant.expressive: 'expressive',
+  DynamicSchemeVariant.content: 'content',
+  DynamicSchemeVariant.rainbow: 'rainbow',
+  DynamicSchemeVariant.fruitSalad: 'fruitSalad',
 };

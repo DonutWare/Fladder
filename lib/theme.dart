@@ -5,9 +5,13 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:fladder/theme/fonts.dart';
 import 'package:fladder/util/custom_color_themes.dart';
 
-ColorScheme? generateDynamicColourSchemes(ColorScheme? theme) {
+ColorScheme? generateDynamicColourSchemes(ColorScheme? theme, DynamicSchemeVariant dynamicSchemeVariant) {
   if (theme == null) return null;
-  var base = ColorScheme.fromSeed(seedColor: theme.primary, brightness: theme.brightness);
+  var base = ColorScheme.fromSeed(
+    seedColor: theme.primary,
+    dynamicSchemeVariant: dynamicSchemeVariant,
+    brightness: theme.brightness,
+  );
 
   var newScheme = _insertAdditionalColours(base);
 
@@ -33,8 +37,8 @@ class FladderTheme {
   static Color get darkBackgroundColor => const Color.fromARGB(255, 10, 10, 10);
   static Color get lightBackgroundColor => const Color.fromARGB(237, 255, 255, 255);
 
-  static ThemeData theme(ColorScheme? colorScheme) {
-    final ColorScheme? scheme = generateDynamicColourSchemes(colorScheme);
+  static ThemeData theme(ColorScheme? colorScheme, DynamicSchemeVariant dynamicSchemeVariant) {
+    final ColorScheme? scheme = generateDynamicColourSchemes(colorScheme, dynamicSchemeVariant);
 
     final textTheme = FladderFonts.rubikTextTheme(
       const TextTheme(),
