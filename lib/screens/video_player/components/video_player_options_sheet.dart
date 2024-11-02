@@ -20,6 +20,7 @@ import 'package:fladder/screens/playlists/add_to_playlists.dart';
 import 'package:fladder/screens/video_player/components/video_player_queue.dart';
 import 'package:fladder/screens/video_player/components/video_subtitle_controls.dart';
 import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/device_orientation_extension.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
@@ -499,19 +500,17 @@ Future<void> showPlaybackSpeed(BuildContext context) {
 }
 
 Future<void> showOrientationOptions(BuildContext context, WidgetRef ref) async {
-  Set<DeviceOrientation>? orientations =
-      ref.read(videoPlayerSettingsProvider.select((value) => value.allowedOrientations));
+  Set<DeviceOrientation> orientations = ref
+      .read(videoPlayerSettingsProvider
+          .select((value) => value.allowedOrientations ?? Set.from(DeviceOrientation.values)))
+      .toSet();
 
   void toggleOrientation(DeviceOrientation orientation) {
-    final allowedOrientations = (orientations ?? <DeviceOrientation>{}).toSet();
-
-    if (allowedOrientations.contains(orientation)) {
-      allowedOrientations.remove(orientation);
+    if (orientations.contains(orientation) && orientations.length > 1) {
+      orientations.remove(orientation);
     } else {
-      allowedOrientations.add(orientation);
+      orientations.add(orientation);
     }
-
-    orientations = allowedOrientations;
   }
 
   await showDialog(
@@ -522,7 +521,6 @@ Future<void> showOrientationOptions(BuildContext context, WidgetRef ref) async {
           contentPadding: const EdgeInsets.only(top: 8, bottom: 24),
           title: Row(children: [Text(context.localized.playbackRate)]),
           children: [
-            const Divider(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12).copyWith(top: 6),
               child: Column(
@@ -530,14 +528,33 @@ Future<void> showOrientationOptions(BuildContext context, WidgetRef ref) async {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  const Divider(),
                   ...DeviceOrientation.values.map(
                     (orientation) => CheckboxListTile.adaptive(
-                      title: Text(orientation.name),
-                      value: orientations == null ? true : orientations?.contains(orientation),
+                      title: Text(orientation.label(context)),
+                      value: orientations.contains(orientation),
                       onChanged: (value) {
                         state(() => toggleOrientation(orientation));
                       },
                     ),
+                  ),
+                  const Divider(),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        child: Text(context.localized.cancel),
+                      ),
+                      FilledButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          ref.read(videoPlayerSettingsProvider.notifier).toggleOrientation(orientations);
+                        },
+                        child: Text(context.localized.save),
+                      ),
+                    ].addInBetween(const SizedBox(width: 8)),
                   )
                 ].addInBetween(const SizedBox(width: 8)),
               ),
@@ -547,6 +564,4 @@ Future<void> showOrientationOptions(BuildContext context, WidgetRef ref) async {
       });
     },
   );
-
-  ref.read(videoPlayerSettingsProvider.notifier).toggleOrientation(orientations?.isEmpty == true ? null : orientations);
 }

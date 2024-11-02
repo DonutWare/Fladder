@@ -1099,5 +1099,11 @@
   "deleteFilterConfirmation": "Are you sure you want to delete this filter?",
   "libraryFiltersLimitReached" : "Filter limit reached (10) remove some filters",
   "libraryFiltersRemoveAll": "Remove all filters",
-  "libraryFiltersRemoveAllConfirm": "This will delete all saved filters for every library"
+  "libraryFiltersRemoveAllConfirm": "This will delete all saved filters for every library",
+  "playerSettingsOrientationTitle": "Player orientation",
+  "playerSettingsOrientationDesc": "Force the video player into certain orientations",
+  "deviceOrientationPortraitUp": "Portrait Up",
+  "deviceOrientationPortraitDown": "Portrait Down",
+  "deviceOrientationLandscapeLeft": "Landscape Left",
+  "deviceOrientationLandscapeRight": "Landscape Right"
 }

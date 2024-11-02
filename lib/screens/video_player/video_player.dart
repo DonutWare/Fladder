@@ -61,7 +61,8 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
     Future.microtask(() {
       ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(state: VideoPlayerState.fullScreen));
       final orientations = ref.read(videoPlayerSettingsProvider.select((value) => value.allowedOrientations));
-      SystemChrome.setPreferredOrientations(orientations?.toList() ?? DeviceOrientation.values);
+      SystemChrome.setPreferredOrientations(
+          orientations?.isNotEmpty == true ? orientations!.toList() : DeviceOrientation.values);
       return ref.read(videoPlayerSettingsProvider.notifier).setSavedBrightness();
     });
   }
@@ -78,7 +79,7 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
       videoPlayerSettingsProvider.select((value) => value.allowedOrientations),
       (previous, next) {
         if (previous != next) {
-          SystemChrome.setPreferredOrientations(next?.toList() ?? DeviceOrientation.values);
+          SystemChrome.setPreferredOrientations(next?.isNotEmpty == true ? next!.toList() : DeviceOrientation.values);
         }
       },
     );

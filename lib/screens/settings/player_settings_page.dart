@@ -153,8 +153,8 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                   },
           ),
           SettingsListTile(
-            label: Text("Force orientation"),
-            subLabel: Text("Allowed rotations when playing video"),
+            label: Text(context.localized.playerSettingsOrientationTitle),
+            subLabel: Text(context.localized.playerSettingsOrientationDesc),
             onTap: () => showOrientationOptions(context, ref),
           ),
         ],
