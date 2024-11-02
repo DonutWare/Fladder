@@ -152,11 +152,12 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                     );
                   },
           ),
-          SettingsListTile(
-            label: Text(context.localized.playerSettingsOrientationTitle),
-            subLabel: Text(context.localized.playerSettingsOrientationDesc),
-            onTap: () => showOrientationOptions(context, ref),
-          ),
+          if (!AdaptiveLayout.of(context).isDesktop && !kIsWeb)
+            SettingsListTile(
+              label: Text(context.localized.playerSettingsOrientationTitle),
+              subLabel: Text(context.localized.playerSettingsOrientationDesc),
+              onTap: () => showOrientationOptions(context, ref),
+            ),
         ],
       ),
     );

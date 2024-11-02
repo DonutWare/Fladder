@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -178,10 +179,11 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
                 ],
               ),
             ),
-          SpacedListTile(
-            title: Text("Orientations"),
-            onTap: () => showOrientationOptions(context, ref),
-          ),
+          if (!AdaptiveLayout.of(context).isDesktop && !kIsWeb)
+            SpacedListTile(
+              title: Text(context.localized.playerSettingsOrientationTitle),
+              onTap: () => showOrientationOptions(context, ref),
+            ),
           ListTile(
             onTap: () {
               Navigator.of(context).pop();
