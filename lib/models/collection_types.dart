@@ -20,7 +20,7 @@ extension CollectionTypeExtension on CollectionType {
       case CollectionType.tvshows:
         return {FladderItemType.series};
       case CollectionType.homevideos:
-        return {FladderItemType.photoalbum, FladderItemType.folder, FladderItemType.photo, FladderItemType.video};
+        return {FladderItemType.photoAlbum, FladderItemType.folder, FladderItemType.photo, FladderItemType.video};
       case CollectionType.boxsets:
       case CollectionType.folders:
       case CollectionType.books:

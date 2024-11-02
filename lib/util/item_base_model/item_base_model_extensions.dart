@@ -106,7 +106,7 @@ extension ItemBaseModelExtensions on ItemBaseModel {
         )
       else if (!exclude.contains(ItemActions.showAlbum) && galleryItem)
         ItemActionButton(
-          icon: Icon(FladderItemType.photoalbum.icon),
+          icon: Icon(FladderItemType.photoAlbum.icon),
           action: () => (this as PhotoModel).navigateToAlbum(context),
           label: Text(context.localized.showAlbum),
         ),

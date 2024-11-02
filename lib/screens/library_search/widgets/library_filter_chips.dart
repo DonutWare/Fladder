@@ -190,10 +190,10 @@ List<Widget> libraryFilterChips(
     if (librarySearchResults.types[FladderItemType.series] == true)
       FilterChip(
         avatar: Icon(
-          librarySearchResults.hideEmtpyShows ? Icons.visibility_off_rounded : Icons.visibility_rounded,
+          librarySearchResults.hideEmptyShows ? Icons.visibility_off_rounded : Icons.visibility_rounded,
           color: Theme.of(context).colorScheme.onSurface,
         ),
-        selected: librarySearchResults.hideEmtpyShows,
+        selected: librarySearchResults.hideEmptyShows,
         showCheckmark: false,
         label: Text(context.localized.hideEmpty),
         onSelected: libraryProvider.setHideEmpty,

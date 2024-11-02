@@ -83,7 +83,7 @@ class LibrarySearchModelMapper extends ClassMapperBase<LibrarySearchModel> {
     FladderItemType.musicVideo: false,
     FladderItemType.photo: false,
     FladderItemType.person: false,
-    FladderItemType.photoalbum: false,
+    FladderItemType.photoAlbum: false,
     FladderItemType.series: true,
     FladderItemType.video: true
   });
@@ -98,9 +98,9 @@ class LibrarySearchModelMapper extends ClassMapperBase<LibrarySearchModel> {
   static SortingOrder _$sortOrder(LibrarySearchModel v) => v.sortOrder;
   static const Field<LibrarySearchModel, SortingOrder> _f$sortOrder =
       Field('sortOrder', _$sortOrder, opt: true, def: SortingOrder.ascending);
-  static bool _$hideEmtpyShows(LibrarySearchModel v) => v.hideEmtpyShows;
-  static const Field<LibrarySearchModel, bool> _f$hideEmtpyShows =
-      Field('hideEmtpyShows', _$hideEmtpyShows, opt: true, def: true);
+  static bool _$hideEmptyShows(LibrarySearchModel v) => v.hideEmptyShows;
+  static const Field<LibrarySearchModel, bool> _f$hideEmptyShows =
+      Field('hideEmptyShows', _$hideEmptyShows, opt: true, def: true);
   static bool _$recursive(LibrarySearchModel v) => v.recursive;
   static const Field<LibrarySearchModel, bool> _f$recursive =
       Field('recursive', _$recursive, opt: true, def: false);
@@ -138,7 +138,7 @@ class LibrarySearchModelMapper extends ClassMapperBase<LibrarySearchModel> {
     #favourites: _f$favourites,
     #sortingOption: _f$sortingOption,
     #sortOrder: _f$sortOrder,
-    #hideEmtpyShows: _f$hideEmtpyShows,
+    #hideEmptyShows: _f$hideEmptyShows,
     #recursive: _f$recursive,
     #groupBy: _f$groupBy,
     #lastIndices: _f$lastIndices,
@@ -167,7 +167,7 @@ class LibrarySearchModelMapper extends ClassMapperBase<LibrarySearchModel> {
         favourites: data.dec(_f$favourites),
         sortingOption: data.dec(_f$sortingOption),
         sortOrder: data.dec(_f$sortOrder),
-        hideEmtpyShows: data.dec(_f$hideEmtpyShows),
+        hideEmptyShows: data.dec(_f$hideEmptyShows),
         recursive: data.dec(_f$recursive),
         groupBy: data.dec(_f$groupBy),
         lastIndices: data.dec(_f$lastIndices),
@@ -257,7 +257,7 @@ abstract class LibrarySearchModelCopyWith<$R, $In extends LibrarySearchModel,
       bool? favourites,
       SortingOptions? sortingOption,
       SortingOrder? sortOrder,
-      bool? hideEmtpyShows,
+      bool? hideEmptyShows,
       bool? recursive,
       GroupBy? groupBy,
       Map<String, int>? lastIndices,
@@ -353,7 +353,7 @@ class _LibrarySearchModelCopyWithImpl<$R, $Out>
           bool? favourites,
           SortingOptions? sortingOption,
           SortingOrder? sortOrder,
-          bool? hideEmtpyShows,
+          bool? hideEmptyShows,
           bool? recursive,
           GroupBy? groupBy,
           Map<String, int>? lastIndices,
@@ -377,7 +377,7 @@ class _LibrarySearchModelCopyWithImpl<$R, $Out>
         if (favourites != null) #favourites: favourites,
         if (sortingOption != null) #sortingOption: sortingOption,
         if (sortOrder != null) #sortOrder: sortOrder,
-        if (hideEmtpyShows != null) #hideEmtpyShows: hideEmtpyShows,
+        if (hideEmptyShows != null) #hideEmptyShows: hideEmptyShows,
         if (recursive != null) #recursive: recursive,
         if (groupBy != null) #groupBy: groupBy,
         if (lastIndices != null) #lastIndices: lastIndices,
@@ -403,7 +403,7 @@ class _LibrarySearchModelCopyWithImpl<$R, $Out>
       favourites: data.get(#favourites, or: $value.favourites),
       sortingOption: data.get(#sortingOption, or: $value.sortingOption),
       sortOrder: data.get(#sortOrder, or: $value.sortOrder),
-      hideEmtpyShows: data.get(#hideEmtpyShows, or: $value.hideEmtpyShows),
+      hideEmptyShows: data.get(#hideEmptyShows, or: $value.hideEmptyShows),
       recursive: data.get(#recursive, or: $value.recursive),
       groupBy: data.get(#groupBy, or: $value.groupBy),
       lastIndices: data.get(#lastIndices, or: $value.lastIndices),

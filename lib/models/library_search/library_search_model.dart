@@ -1,8 +1,8 @@
-import 'package:collection/collection.dart';
-import 'package:dart_mappable/dart_mappable.dart';
-import 'package:fladder/util/list_extensions.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+import 'package:collection/collection.dart';
+import 'package:dart_mappable/dart_mappable.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
@@ -10,6 +10,7 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/library_search/library_search_options.dart';
 import 'package:fladder/models/view_model.dart';
+import 'package:fladder/util/list_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/map_bool_helper.dart';
 
@@ -34,7 +35,7 @@ class LibrarySearchModel with LibrarySearchModelMappable {
   final SortingOptions sortingOption;
   final SortingOrder sortOrder;
   final bool favourites;
-  final bool hideEmtpyShows;
+  final bool hideEmptyShows;
   final bool recursive;
   final GroupBy groupBy;
   final Map<String, int> lastIndices;
@@ -71,14 +72,14 @@ class LibrarySearchModel with LibrarySearchModelMappable {
       FladderItemType.musicVideo: false,
       FladderItemType.photo: false,
       FladderItemType.person: false,
-      FladderItemType.photoalbum: false,
+      FladderItemType.photoAlbum: false,
       FladderItemType.series: true,
       FladderItemType.video: true,
     },
     this.favourites = false,
     this.sortingOption = SortingOptions.name,
     this.sortOrder = SortingOrder.ascending,
-    this.hideEmtpyShows = true,
+    this.hideEmptyShows = true,
     this.recursive = false,
     this.groupBy = GroupBy.none,
     this.lastIndices = const {},
@@ -92,7 +93,7 @@ class LibrarySearchModel with LibrarySearchModelMappable {
         tags.hasEnabled ||
         years.hasEnabled ||
         officialRatings.hasEnabled ||
-        hideEmtpyShows ||
+        hideEmptyShows ||
         filters.hasEnabled ||
         favourites ||
         searchQuery.isNotEmpty;
@@ -146,7 +147,7 @@ class LibrarySearchModel with LibrarySearchModelMappable {
     if (totalItemCount == 0) return false;
     return types.included.isEmpty ||
         types.included.containsAny(
-          {...FladderItemType.galleryItem, FladderItemType.photoalbum, FladderItemType.folder},
+          {...FladderItemType.galleryItem, FladderItemType.photoAlbum, FladderItemType.folder},
         );
   }
 
@@ -177,7 +178,7 @@ class LibrarySearchModel with LibrarySearchModelMappable {
       favourites: false,
       recursive: false,
       studios: const {},
-      hideEmtpyShows: true,
+      hideEmptyShows: true,
     );
   }
 

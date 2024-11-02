@@ -348,7 +348,7 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
       recursive: false,
       studios: state.studios.setAll(false),
       filters: state.filters.setAll(false),
-      hideEmtpyShows: false,
+      hideEmptyShows: false,
     );
   }
 
@@ -356,7 +356,7 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
 
   void setSortOrder(SortingOrder e) => state = state.copyWith(sortOrder: e);
 
-  void setHideEmpty(bool value) => state = state.copyWith(hideEmtpyShows: value);
+  void setHideEmpty(bool value) => state = state.copyWith(hideEmptyShows: value);
   void setGroupBy(GroupBy groupBy) => state = state.copyWith(groupBy: groupBy);
 
   void setFolderId(ItemBaseModel item) {

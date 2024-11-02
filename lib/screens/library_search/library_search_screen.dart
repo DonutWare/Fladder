@@ -133,7 +133,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
   Widget build(BuildContext context) {
     final isEmptySearchScreen = widget.viewModelId == null && widget.favourites == null && widget.folderId == null;
     final librarySearchResults = ref.watch(providerKey);
-    final postersList = librarySearchResults.posters.hideEmptyChildren(librarySearchResults.hideEmtpyShows);
+    final postersList = librarySearchResults.posters.hideEmptyChildren(librarySearchResults.hideEmptyShows);
     final playerState = ref.watch(mediaPlaybackProvider.select((value) => value.state));
     final libraryViewType = ref.watch(libraryViewTypeProvider);
 
