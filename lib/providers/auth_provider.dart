@@ -1,6 +1,6 @@
-import 'dart:developer';
-
 import 'package:chopper/chopper.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:fladder/models/account_model.dart';
 import 'package:fladder/models/credentials_model.dart';
 import 'package:fladder/models/login_screen_model.dart';
@@ -13,7 +13,6 @@ import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/views_provider.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final authProvider = StateNotifierProvider<AuthNotifier, LoginScreenModel>((ref) {
   return AuthNotifier(ref);
@@ -77,15 +76,9 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
   }
 
   Future<Response?> logOutUser() async {
-    if (ref.read(userProvider) != null) {
-      final response = await api.sessionsLogoutPost();
-      if (response.isSuccessful) {
-        log('Logged out');
-      }
-      state = state.copyWith(tempCredentials: CredentialsModel.createNewCredentials());
-      await ref.read(sharedUtilityProvider).removeAccount(ref.read(userProvider));
-      return response;
-    }
+    final currentUser = ref.read(userProvider);
+    state = state.copyWith(tempCredentials: CredentialsModel.createNewCredentials());
+    await ref.read(sharedUtilityProvider).removeAccount(currentUser);
     clearAllProviders();
     return null;
   }

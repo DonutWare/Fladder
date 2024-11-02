@@ -64,8 +64,12 @@ class SharedUtility {
   Future<bool?> removeAccount(AccountModel? account) async {
     if (account == null) return null;
 
-    //Try to logout user
-    await ref.read(userProvider.notifier).forceLogoutUser(account);
+    try {
+      //Try to logout user
+      await ref.read(userProvider.notifier).forceLogoutUser(account);
+    } catch (e) {
+      log('Unable to log-out user forcing anyway $e');
+    }
 
     //Remove from local database
     final savedAccounts = getAccounts();
