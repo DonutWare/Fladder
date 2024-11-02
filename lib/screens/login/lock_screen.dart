@@ -101,37 +101,39 @@ class _LockScreenState extends ConsumerState<LockScreen> with WidgetsBindingObse
         }
       },
       child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          tooltip: context.localized.login,
+          onPressed: () {
+            ref.read(lockScreenActiveProvider.notifier).update((state) => false);
+            context.router.push(const LoginRoute());
+          },
+          child: const Icon(IconsaxOutline.arrow_swap_horizontal),
+        ),
         body: Center(
           child: Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
             alignment: WrapAlignment.center,
             runAlignment: WrapAlignment.center,
+            direction: Axis.vertical,
             children: [
               const Icon(
                 IconsaxOutline.lock_1,
                 size: 38,
               ),
-              ConstrainedBox(
-                constraints: const BoxConstraints(
-                  maxHeight: 400,
-                  maxWidth: 400,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(64.0),
-                  child: LoginIcon(
-                    user: user!,
-                    onPressed: () => tapLoggedInAccount(user),
+              if (user != null)
+                ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    maxHeight: 400,
+                    maxWidth: 400,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(64.0),
+                    child: LoginIcon(
+                      user: user,
+                      onPressed: () => tapLoggedInAccount(user),
+                    ),
                   ),
                 ),
-              ),
-              ElevatedButton.icon(
-                onPressed: () {
-                  ref.read(lockScreenActiveProvider.notifier).update((state) => false);
-                  context.router.push(const LoginRoute());
-                },
-                icon: const Icon(Icons.login_rounded),
-                label: Text(context.localized.login),
-              ),
             ],
           ),
         ),
