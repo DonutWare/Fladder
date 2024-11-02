@@ -46,7 +46,7 @@ class LibrarySavedFiltersDialogue extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              "Filters",
+              context.localized.filter(2),
               style: Theme.of(context).textTheme.titleLarge,
             ),
             if (filters.isNotEmpty) ...[
@@ -68,7 +68,7 @@ class LibrarySavedFiltersDialogue extends ConsumerWidget {
                                   children: [
                                     Expanded(child: Text(filter.name)),
                                     IconButton.filledTonal(
-                                      tooltip: 'Default filter for library',
+                                      tooltip: context.localized.defaultFilterForLibrary,
                                       style: ButtonStyle(
                                         backgroundColor: WidgetStatePropertyAll(
                                           filter.isFavourite ? Colors.yellowAccent.shade700.withOpacity(0.5) : null,
@@ -82,7 +82,7 @@ class LibrarySavedFiltersDialogue extends ConsumerWidget {
                                       ),
                                     ),
                                     IconButton.filledTonal(
-                                      tooltip: "Update filter",
+                                      tooltip: context.localized.updateFilterForLibrary,
                                       onPressed: () => provider.updateFilter(filter),
                                       icon: Icon(IconsaxBold.refresh),
                                     ),
@@ -91,8 +91,8 @@ class LibrarySavedFiltersDialogue extends ConsumerWidget {
                                       onPressed: () {
                                         showDefaultAlertDialog(
                                           context,
-                                          "Remove ${filter.name}?",
-                                          "Are you sure you want to delete this filter?",
+                                          context.localized.removeFilterForLibrary(filter.name),
+                                          context.localized.deleteFilterConfirmation,
                                           (context) {
                                             filterProvider.removeFilter(filter);
                                             Navigator.of(context).pop();
@@ -131,7 +131,7 @@ class LibrarySavedFiltersDialogue extends ConsumerWidget {
                   Flexible(
                     child: OutlinedTextField(
                       controller: controller,
-                      label: "Name",
+                      label: context.localized.name,
                       onSubmitted: (value) => provider.saveFiltersNew(value),
                     ),
                   ),
@@ -143,13 +143,13 @@ class LibrarySavedFiltersDialogue extends ConsumerWidget {
                 ],
               )
             else
-              Text("Filter limit reached (10) remove some filters"),
+              Text(context.localized.libraryFiltersLimitReached),
             ElevatedButton(
               onPressed: () {
                 showDefaultAlertDialog(
                   context,
-                  "Remove all filters?",
-                  "This will delete all saved filters for every library",
+                  context.localized.libraryFiltersRemoveAll,
+                  context.localized.libraryFiltersRemoveAllConfirm,
                   (context) {
                     filterProvider.deleteAllFilters();
                     Navigator.of(context).pop();
@@ -161,7 +161,7 @@ class LibrarySavedFiltersDialogue extends ConsumerWidget {
                   context.localized.cancel,
                 );
               },
-              child: Text('Remove all filters'),
+              child: Text(context.localized.libraryFiltersRemoveAll),
             ),
           ],
         ),

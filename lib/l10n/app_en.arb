@@ -1084,5 +1084,20 @@
   "speed": "Speed",
   "unableToPlayMedia": "There was an error finding a compatible media type",
   "errorOpeningMedia": "Something went trying to play this media",
-  "unableToPlayBooksOnWeb": "Books are not supported on web for now"
+  "unableToPlayBooksOnWeb": "Books are not supported on web for now",
+  "defaultFilterForLibrary": "Default filter for library",
+  "updateFilterForLibrary": "Update filter",
+  "removeFilterForLibrary": "Remove {filter}?",
+  "@removeFilterForLibrary": {
+    "description": "removeFilterForLibrary",
+    "placeholders": {
+      "filter":{
+        "type": "String"
+      }
+    }
+  },
+  "deleteFilterConfirmation": "Are you sure you want to delete this filter?",
+  "libraryFiltersLimitReached" : "Filter limit reached (10) remove some filters",
+  "libraryFiltersRemoveAll": "Remove all filters",
+  "libraryFiltersRemoveAllConfirm": "This will delete all saved filters for every library"
 }
