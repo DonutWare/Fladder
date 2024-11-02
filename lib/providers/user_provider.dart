@@ -1,12 +1,15 @@
 import 'package:chopper/chopper.dart';
+import 'package:collection/collection.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 import 'package:fladder/jellyfin/enum_models.dart';
 import 'package:fladder/models/account_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
+import 'package:fladder/models/library_filters_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'user_provider.g.dart';
 
@@ -142,4 +145,30 @@ class User extends _$User {
   AccountModel? build() {
     return null;
   }
+
+  void removeFilter(LibraryFiltersModel model) {
+    final currentList = ((state?.savedFilters ?? [])).toList(growable: true);
+    currentList.remove(model);
+    state = state?.copyWith(savedFilters: currentList);
+  }
+
+  void saveFilter(LibraryFiltersModel model) {
+    final currentList = (state?.savedFilters ?? []).toList(growable: true);
+    if (currentList.firstWhereOrNull((value) => value.id == model.id) != null) {
+      state = state?.copyWith(
+          savedFilters: currentList.map(
+        (e) {
+          if (e.id == model.id) {
+            return model;
+          } else {
+            return e.copyWith(isFavourite: model.isFavourite && model.containsSameIds(e.ids) ? false : e.isFavourite);
+          }
+        },
+      ).toList());
+    } else {
+      state = state?.copyWith(savedFilters: [model, ...currentList]);
+    }
+  }
+
+  void deleteAllFilters() => state = state?.copyWith(savedFilters: []);
 }

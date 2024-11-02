@@ -26,6 +26,11 @@ _$AccountModelImpl _$$AccountModelImplFromJson(Map<String, dynamic> json) =>
               .toList() ??
           const [],
       quickConnectState: json['quickConnectState'] as bool? ?? false,
+      savedFilters: (json['savedFilters'] as List<dynamic>?)
+              ?.map((e) =>
+                  LibraryFiltersModel.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$AccountModelImplToJson(_$AccountModelImpl instance) =>
@@ -40,6 +45,7 @@ Map<String, dynamic> _$$AccountModelImplToJson(_$AccountModelImpl instance) =>
       'latestItemsExcludes': instance.latestItemsExcludes,
       'searchQueryHistory': instance.searchQueryHistory,
       'quickConnectState': instance.quickConnectState,
+      'savedFilters': instance.savedFilters,
     };
 
 const _$AuthenticationEnumMap = {

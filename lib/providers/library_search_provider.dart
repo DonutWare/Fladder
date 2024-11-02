@@ -13,11 +13,13 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/folder_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/photos_model.dart';
+import 'package:fladder/models/library_filters_model.dart';
 import 'package:fladder/models/library_search/library_search_model.dart';
 import 'package:fladder/models/library_search/library_search_options.dart';
 import 'package:fladder/models/playlist_model.dart';
 import 'package:fladder/models/view_model.dart';
 import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/providers/library_filters_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
@@ -40,6 +42,8 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
 
   int get pageSize => ref.read(clientSettingsProvider).libraryPageSize ?? 500;
 
+  LibraryFiltersProvider get filterProvider => libraryFiltersProvider(state.views.included.map((e) => e.id).toList());
+
   late final JellyService api = ref.read(jellyApiProvider);
 
   set loading(bool loading) => state = state.copyWith(loading: loading);
@@ -52,6 +56,8 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
     List<String>? folderId,
     String? viewModelId,
     bool? favourites,
+    SortingOrder? sortOrder,
+    SortingOptions? sortingOptions,
   ) async {
     loading = true;
     state = state.resetLazyLoad();
@@ -59,7 +65,7 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
       if (folderId != null) {
         await loadFolders(folderId: folderId);
       } else {
-        await loadViews(viewModelId, favourites);
+        await loadViews(viewModelId, favourites, sortOrder, sortingOptions);
       }
     }
 
@@ -151,7 +157,12 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
   }
 
   //Pas viewmodel otherwise select first
-  Future<void> loadViews(String? viewModelId, bool? favourites) async {
+  Future<void> loadViews(
+    String? viewModelId,
+    bool? favourites,
+    SortingOrder? sortOrder,
+    SortingOptions? sortingOptions,
+  ) async {
     final response = await api.usersUserIdViewsGet(includeHidden: false);
     final createdViews = response.body?.items?.map((e) => ViewModel.fromBodyDto(e, ref));
     Map<ViewModel, bool> mappedModels =
@@ -159,12 +170,28 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
 
     final selectedModel = mappedModels.keys.firstWhereOrNull((element) => element.id == viewModelId);
 
+    final views = selectedModel != null
+        ? mappedModels.setKey(mappedModels.keys.firstWhere((element) => element.id == viewModelId), true)
+        : mappedModels;
+
     state = state.copyWith(
-      views: selectedModel != null
-          ? mappedModels.setKey(mappedModels.keys.firstWhere((element) => element.id == viewModelId), true)
-          : mappedModels,
-      favourites: favourites,
+      views: views,
     );
+
+    if (sortOrder == null && sortingOptions == null && favourites == null) {
+      final findFavouriteFilter = ref
+          .read(libraryFiltersProvider(views.included.map((e) => e.id).toList()))
+          .firstWhereOrNull((element) => element.isFavourite);
+      if (findFavouriteFilter != null) {
+        loadModel(findFavouriteFilter);
+      }
+    } else {
+      state = state.copyWith(
+        sortOrder: sortOrder,
+        sortingOption: sortingOptions,
+        favourites: favourites,
+      );
+    }
   }
 
   Future<void> loadFolders({List<String>? folderId}) async {
@@ -460,13 +487,6 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
     state = state.copyWith(posters: currentItems);
   }
 
-  void setDefaultOptions(SortingOrder? sortOrder, SortingOptions? sortingOptions) {
-    state = state.copyWith(
-      sortOrder: sortOrder,
-      sortingOption: sortingOptions,
-    );
-  }
-
   void updateUserDataMain(UserData? userData) {
     state = state.copyWith(
       folderOverwrite: [state.folderOverwrite.lastOrNull?.copyWith(userData: userData)].whereNotNull().toList(),
@@ -656,6 +676,34 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
 
   void updateEverything() {
     state = state.copyWith();
+  }
+
+  void loadModel(LibraryFiltersModel model) {
+    state = state.copyWith(
+      genres: state.genres.replaceMap(model.genres),
+      filters: state.filters.replaceMap(model.filters),
+      studios: state.studios.replaceMap(model.studios),
+      tags: state.tags.replaceMap(model.tags),
+      years: state.years.replaceMap(model.years),
+      officialRatings: state.officialRatings.replaceMap(model.officialRatings),
+      types: state.types.replaceMap(model.types),
+      sortingOption: model.sortingOption,
+      sortOrder: model.sortOrder,
+      favourites: model.favourites,
+      hideEmptyShows: model.hideEmptyShows,
+      recursive: model.recursive,
+      groupBy: model.groupBy,
+    );
+  }
+
+  void saveFiltersNew(String newName) =>
+      ref.read(filterProvider.notifier).saveFilter(LibraryFiltersModel.fromLibrarySearch(newName, state));
+
+  void updateFilter(LibraryFiltersModel model) {
+    ref.read(filterProvider.notifier).saveFilter(LibraryFiltersModel.fromLibrarySearch(model.name, state).copyWith(
+          isFavourite: model.isFavourite,
+          id: model.id,
+        ));
   }
 }
 

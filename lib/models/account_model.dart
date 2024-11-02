@@ -1,16 +1,17 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, invalid_annotation_target
 
-import 'package:ficonsax/ficonsax.dart';
-import 'package:fladder/util/localization_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import 'package:ficonsax/ficonsax.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/credentials_model.dart';
+import 'package:fladder/models/library_filters_model.dart';
 import 'package:fladder/util/adaptive_layout.dart';
-
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:fladder/util/localization_helper.dart';
 
 part 'account_model.freezed.dart';
 part 'account_model.g.dart';
@@ -30,6 +31,7 @@ class AccountModel with _$AccountModel {
     @Default([]) List<String> latestItemsExcludes,
     @Default([]) List<String> searchQueryHistory,
     @Default(false) bool quickConnectState,
+    @Default([]) List<LibraryFiltersModel> savedFilters,
     @JsonKey(includeFromJson: false, includeToJson: false) UserPolicy? policy,
     @JsonKey(includeFromJson: false, includeToJson: false) ServerConfiguration? serverConfiguration,
   }) = _AccountModel;

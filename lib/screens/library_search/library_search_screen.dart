@@ -18,6 +18,7 @@ import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/collections/add_to_collection.dart';
 import 'package:fladder/screens/library_search/widgets/library_filter_chips.dart';
+import 'package:fladder/screens/library_search/widgets/library_saved_filters.dart';
 import 'package:fladder/screens/library_search/widgets/library_sort_dialogue.dart';
 import 'package:fladder/screens/library_search/widgets/library_views.dart';
 import 'package:fladder/screens/library_search/widgets/suggestion_search_bar.dart';
@@ -31,6 +32,7 @@ import 'package:fladder/util/fab_extended_anim.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/util/map_bool_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/util/router_extension.dart';
 import 'package:fladder/util/sliver_list_padding.dart';
@@ -105,14 +107,12 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
 
     Future.microtask(
       () async {
-        if (libraryProvider.mounted) {
-          libraryProvider.setDefaultOptions(widget.sortOrder, widget.sortingOptions);
-        }
         await refreshKey.currentState?.show();
         SystemChrome.setEnabledSystemUIMode(
           SystemUiMode.edgeToEdge,
           overlays: [],
         );
+
         if (context.mounted && widget.photoToView != null) {
           libraryProvider.viewGallery(context, selected: widget.photoToView);
         }
@@ -230,7 +230,12 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                           onRefresh: () async {
                             if (libraryProvider.mounted) {
                               return libraryProvider.initRefresh(
-                                  widget.folderId, widget.viewModelId, widget.favourites);
+                                widget.folderId,
+                                widget.viewModelId,
+                                widget.favourites,
+                                widget.sortOrder,
+                                widget.sortingOptions,
+                              );
                             }
                           },
                           refreshOnStart: false,
@@ -280,6 +285,11 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                                     final refreshAction = ItemActionButton(
                                       label: Text(context.localized.forceRefresh),
                                       action: () => refreshKey.currentState?.show(),
+                                      icon: const Icon(IconsaxOutline.refresh),
+                                    );
+                                    final showSavedFiltersDialogue = ItemActionButton(
+                                      label: Text("Filters"),
+                                      action: () => showSavedFilters(context, librarySearchResults, libraryProvider),
                                       icon: const Icon(IconsaxOutline.refresh),
                                     );
                                     final itemViewAction = ItemActionButton(
@@ -359,6 +369,8 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                                                   itemCountWidget.toPopupMenuItem(useIcons: true),
                                                   refreshAction.toPopupMenuItem(useIcons: true),
                                                   itemViewAction.toPopupMenuItem(useIcons: true),
+                                                  if (librarySearchResults.views.hasEnabled == true)
+                                                    showSavedFiltersDialogue.toPopupMenuItem(useIcons: true),
                                                   if (itemActions.isNotEmpty) ItemActionDivider().toPopupMenuItem(),
                                                   ...itemActions.popupMenuItems(useIcons: true),
                                                 ],
@@ -374,6 +386,8 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                                                     itemCountWidget.toListItem(context, useIcons: true),
                                                     refreshAction.toListItem(context, useIcons: true),
                                                     itemViewAction.toListItem(context, useIcons: true),
+                                                    if (librarySearchResults.views.hasEnabled == true)
+                                                      showSavedFiltersDialogue.toPopupMenuItem(useIcons: true),
                                                     if (itemActions.isNotEmpty) ItemActionDivider().toListItem(context),
                                                     ...itemActions.listTileItems(context, useIcons: true),
                                                   ],
