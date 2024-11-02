@@ -157,7 +157,7 @@
   },
   "descending": "Descendente",
   "@descending": {},
-  "director": "{count, plural, other{Directores} one{Director}}",
+  "director": "count, plural, zero{Ningún director} one{Director} other{Directores}",
   "@director": {
     "description": "director",
     "placeholders": {
