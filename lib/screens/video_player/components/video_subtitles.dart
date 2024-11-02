@@ -10,10 +10,10 @@ import 'package:fladder/models/settings/subtitle_settings_model.dart';
 
 class VideoSubtitles extends ConsumerStatefulWidget {
   final VideoController controller;
-  final bool overlayed;
+  final bool overLayed;
   const VideoSubtitles({
     required this.controller,
-    this.overlayed = false,
+    this.overLayed = false,
     super.key,
   });
 
@@ -56,7 +56,7 @@ class _VideoSubtitlesState extends ConsumerState<VideoSubtitles> {
       return SubtitleText(
         subModel: settings,
         padding: padding,
-        offset: (widget.overlayed ? 0.5 : settings.verticalOffset),
+        offset: (widget.overLayed ? 0.5 : settings.verticalOffset),
         text: text,
       );
     }

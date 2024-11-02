@@ -5,6 +5,7 @@ import 'package:async/async.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/providers/video_player_provider.dart';
+import 'package:fladder/util/input_handler.dart';
 import 'package:fladder/util/localization_helper.dart';
 
 class VideoPlayerSeekIndicator extends ConsumerStatefulWidget {
@@ -20,18 +21,6 @@ class _VideoPlayerSeekIndicatorState extends ConsumerState<VideoPlayerSeekIndica
   bool visible = false;
   int seekPosition = 0;
 
-  @override
-  void initState() {
-    super.initState();
-    ServicesBinding.instance.keyboard.addHandler(_onKey);
-  }
-
-  @override
-  void dispose() {
-    ServicesBinding.instance.keyboard.removeHandler(_onKey);
-    super.dispose();
-  }
-
   void onSeekEnd() {
     setState(() {
       visible = false;
@@ -46,7 +35,7 @@ class _VideoPlayerSeekIndicatorState extends ConsumerState<VideoPlayerSeekIndica
 
   void onSeekStart(int value) {
     if (timer == null) {
-      timer = RestartableTimer(const Duration(seconds: 2), () => onSeekEnd());
+      timer = RestartableTimer(const Duration(milliseconds: 500), () => onSeekEnd());
       setState(() {
         seekPosition = 0;
       });
@@ -85,28 +74,32 @@ class _VideoPlayerSeekIndicatorState extends ConsumerState<VideoPlayerSeekIndica
 
   @override
   Widget build(BuildContext context) {
-    return IgnorePointer(
-      child: AnimatedOpacity(
-        duration: const Duration(milliseconds: 500),
-        opacity: (visible && seekPosition != 0) ? 1 : 0,
-        child: Center(
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.85),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    seekPosition > 0
-                        ? "+$seekPosition ${context.localized.seconds(seekPosition)}"
-                        : "$seekPosition ${context.localized.seconds(seekPosition)}",
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  )
-                ],
+    return InputHandler(
+      autoFocus: true,
+      onKeyEvent: (node, event) => _onKey(event) ? KeyEventResult.handled : KeyEventResult.ignored,
+      child: IgnorePointer(
+        child: AnimatedOpacity(
+          duration: const Duration(milliseconds: 500),
+          opacity: (visible && seekPosition != 0) ? 1 : 0,
+          child: Center(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.85),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      seekPosition > 0
+                          ? "+$seekPosition ${context.localized.seconds(seekPosition)}"
+                          : "$seekPosition ${context.localized.seconds(seekPosition)}",
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    )
+                  ],
+                ),
               ),
             ),
           ),

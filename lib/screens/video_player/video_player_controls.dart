@@ -29,6 +29,7 @@ import 'package:fladder/screens/video_player/components/video_subtitles.dart';
 import 'package:fladder/screens/video_player/components/video_volume_slider.dart';
 import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/duration_extensions.dart';
+import 'package:fladder/util/input_handler.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/string_extensions.dart';
@@ -49,7 +50,6 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   );
 
   final fadeDuration = const Duration(milliseconds: 350);
-  final focusNode = FocusNode();
   bool showOverlay = true;
   bool wasPlaying = false;
 
@@ -79,7 +79,6 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         } else if (showCreditSkipButton) {
           skipCredits(introSkipModel);
         }
-        focusNode.requestFocus();
       }
       if (value.logicalKey == LogicalKeyboardKey.escape) {
         disableFullscreen();
@@ -104,104 +103,92 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    ServicesBinding.instance.keyboard.addHandler(_onKey);
-    timer.reset();
-  }
-
-  @override
-  void dispose() {
-    ServicesBinding.instance.keyboard.removeHandler(_onKey);
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final introSkipModel = ref.watch(playBackModel.select((value) => value?.introSkipModel));
     final player = ref.watch(videoPlayerProvider.select((value) => value.controller));
-    if (AdaptiveLayout.of(context).isDesktop) {
-      focusNode.requestFocus();
-    }
-    return Listener(
-      onPointerSignal: (event) => resetTimer(),
-      child: PopScope(
-        canPop: false,
-        onPopInvokedWithResult: (didPop, result) {
-          if (!didPop) {
-            closePlayer();
-          }
-        },
-        child: GestureDetector(
-          onTap: () => toggleOverlay(),
-          child: MouseRegion(
-            cursor: showOverlay ? SystemMouseCursors.basic : SystemMouseCursors.none,
-            onEnter: (event) => toggleOverlay(value: true),
-            onExit: (event) => toggleOverlay(value: false),
-            onHover: AdaptiveLayout.of(context).isDesktop || kIsWeb ? (event) => toggleOverlay(value: true) : null,
-            child: Stack(
-              children: [
-                if (player != null)
-                  VideoSubtitles(
-                    key: const Key('subtitles'),
-                    controller: player,
-                    overlayed: showOverlay,
-                  ),
-                if (AdaptiveLayout.of(context).isDesktop)
-                  Consumer(builder: (context, ref, child) {
-                    final playing = ref.watch(mediaPlaybackProvider.select((value) => value.playing));
-                    final buffering = ref.watch(mediaPlaybackProvider.select((value) => value.buffering));
-                    return playButton(playing, buffering);
-                  }),
-                IgnorePointer(
-                  ignoring: !showOverlay,
-                  child: AnimatedOpacity(
-                    duration: fadeDuration,
-                    opacity: showOverlay ? 1 : 0,
-                    child: Column(
-                      children: [
-                        topButtons(context),
-                        const Spacer(),
-                        bottomButtons(context),
-                      ],
+    return InputHandler(
+      autoFocus: false,
+      onKeyEvent: (node, event) => _onKey(event) ? KeyEventResult.handled : KeyEventResult.ignored,
+      child: Listener(
+        onPointerSignal: (event) => resetTimer(),
+        child: PopScope(
+          canPop: false,
+          onPopInvokedWithResult: (didPop, result) {
+            if (!didPop) {
+              closePlayer();
+            }
+          },
+          child: GestureDetector(
+            onTap: () => toggleOverlay(),
+            child: MouseRegion(
+              cursor: showOverlay ? SystemMouseCursors.basic : SystemMouseCursors.none,
+              onEnter: (event) => toggleOverlay(value: true),
+              onExit: (event) => toggleOverlay(value: false),
+              onHover: AdaptiveLayout.of(context).isDesktop || kIsWeb ? (event) => toggleOverlay(value: true) : null,
+              child: Stack(
+                children: [
+                  if (player != null)
+                    VideoSubtitles(
+                      key: const Key('subtitles'),
+                      controller: player,
+                      overLayed: showOverlay,
+                    ),
+                  if (AdaptiveLayout.of(context).isDesktop)
+                    Consumer(builder: (context, ref, child) {
+                      final playing = ref.watch(mediaPlaybackProvider.select((value) => value.playing));
+                      final buffering = ref.watch(mediaPlaybackProvider.select((value) => value.buffering));
+                      return playButton(playing, buffering);
+                    }),
+                  IgnorePointer(
+                    ignoring: !showOverlay,
+                    child: AnimatedOpacity(
+                      duration: fadeDuration,
+                      opacity: showOverlay ? 1 : 0,
+                      child: Column(
+                        children: [
+                          topButtons(context),
+                          const Spacer(),
+                          bottomButtons(context),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                const VideoPlayerSeekIndicator(),
-                Consumer(
-                  builder: (context, ref, child) {
-                    final position = ref.watch(mediaPlaybackProvider.select((value) => value.position));
-                    bool showIntroSkipButton = introSkipModel?.introInRange(position) ?? false;
-                    bool showCreditSkipButton = introSkipModel?.creditsInRange(position) ?? false;
-                    return Stack(
-                      children: [
-                        if (showIntroSkipButton)
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Padding(
-                              padding: const EdgeInsets.all(32),
-                              child: IntroSkipButton(
-                                isOverlayVisible: showOverlay,
-                                skipIntro: () => skipIntro(introSkipModel),
+                  const VideoPlayerSeekIndicator(),
+                  Consumer(
+                    builder: (context, ref, child) {
+                      final position = ref.watch(mediaPlaybackProvider.select((value) => value.position));
+                      bool showIntroSkipButton = introSkipModel?.introInRange(position) ?? false;
+                      bool showCreditSkipButton = introSkipModel?.creditsInRange(position) ?? false;
+                      return Stack(
+                        children: [
+                          if (showIntroSkipButton)
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Padding(
+                                padding: const EdgeInsets.all(32),
+                                child: IntroSkipButton(
+                                  isOverlayVisible: showOverlay,
+                                  skipIntro: () => skipIntro(introSkipModel),
+                                ),
                               ),
                             ),
-                          ),
-                        if (showCreditSkipButton)
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Padding(
-                              padding: const EdgeInsets.all(32),
-                              child: CreditsSkipButton(
-                                isOverlayVisible: showOverlay,
-                                skipCredits: () => skipCredits(introSkipModel),
+                          if (showCreditSkipButton)
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Padding(
+                                padding: const EdgeInsets.all(32),
+                                child: CreditsSkipButton(
+                                  isOverlayVisible: showOverlay,
+                                  skipCredits: () => skipCredits(introSkipModel),
+                                ),
                               ),
-                            ),
-                          )
-                      ],
-                    );
-                  },
-                ),
-              ],
+                            )
+                        ],
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),
