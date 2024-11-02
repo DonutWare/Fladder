@@ -84,6 +84,24 @@
 			"options": {
 				"cwd": "${workspaceFolder}"
 			}
+		},
+		{
+			"type": "flutter",
+			"command": "dart",
+			"args": [
+				"run",
+				"build_runner",
+				"watch"
+			],
+			"problemMatcher": [
+				"$dart-build_runner"
+			],
+			"group": "build",
+			"label": "dart: dart pub run build_runner watch",
+			"detail": "",
+			"runOptions": {
+				"runOn": "folderOpen"
+			}
 		}
 	],
 }

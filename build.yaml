@@ -3,7 +3,9 @@ targets:
     sources:
       - lib/$lib$
       - "**/models/**.dart"
+      - "**/models/**/**.dart"
       - "**/providers/**.dart"
+      - "**/providers/**/**.dart"
       - lib/util/**.dart
       - lib/jellyfin/**.dart
       - "**/**_screen.dart"
@@ -33,16 +35,17 @@ targets:
           ignoreNull: true
           discriminatorKey: type
           generateMethods: [decode, encode, copy, stringify]
+      chopper_generator:
+        options:
+          header: "//Generated jellyfin api code"
+          include_if_null: false
       swagger_dart_code_generator:
         options:
           input_folder: "swagger/"
           output_folder: "lib/jellyfin/"
+          generate_for: swagger/**
           with_converter: true
           build_only_models: false
           with_base_url: false
           include_if_null: false
           auto_apply: dependents
-      chopper_generator:
-        options:
-          header: "//Generated jellyfin api code"
-          include_if_null: false
