@@ -566,7 +566,7 @@
   },
   "dateLastContentAdded": "Дата останнього додавання вмісту",
   "@dateLastContentAdded": {},
-  "deleteFileFromSystem": "Видалення цього елемента {item} призведе до видалення його з файлової системи та медіатеки.\nВи впевнені, що хочете продовжити?",
+  "deleteFileFromSystem": "Видалення цього елемента {item} призведе до видалення його з файлової системи та медіатеки. Ви впевнені, що хочете продовжити?",
   "@deleteFileFromSystem": {
     "description": "Delete file from system",
     "placeholders": {
@@ -575,7 +575,7 @@
       }
     }
   },
-  "downloadsClearDesc": "Видалити всі синхронізовані дані, очистивши\nвсі дані для кожного синхронізованого користувача?",
+  "downloadsClearDesc": "Видалити всі синхронізовані дані, очистивши всі дані для кожного синхронізованого користувача?",
   "@downloadsClearDesc": {},
   "downloadsPath": "Шлях",
   "@downloadsPath": {},
@@ -709,7 +709,7 @@
   "@subtitleConfigurator": {},
   "refreshPopupContentMetadata": "Метадані оновлюються на основі налаштувань та інтернет-сервісів, увімкнених на інформаційній панелі.",
   "@refreshPopupContentMetadata": {},
-  "subtitleConfiguratorPlaceHolder": "Це текст-заповнювач, \n тут нема на що дивитися.",
+  "subtitleConfiguratorPlaceHolder": "Це текст-заповнювач, тут нема на що дивитися.",
   "@subtitleConfiguratorPlaceHolder": {},
   "settingsHomeCarouselTitle": "Карусель інформаційної панелі",
   "@settingsHomeCarouselTitle": {},
@@ -750,7 +750,7 @@
   "@outlineColor": {},
   "quickConnectTitle": "Швидке підключення",
   "@quickConnectTitle": {},
-  "pathEditDesc": "Це місце встановлюється для всіх користувачів, будь-які синхронізовані дані більше не будуть доступні.\nВони залишаться у вашому сховищі.",
+  "pathEditDesc": "Це місце встановлюється для всіх користувачів, будь-які синхронізовані дані більше не будуть доступні. Вони залишаться у вашому сховищі.",
   "@pathEditDesc": {},
   "play": "Відтворити {item}",
   "@play": {
@@ -1086,5 +1086,25 @@
   "screenBrightness": "Яскравість екрана",
   "@screenBrightness": {},
   "scale": "Масштаб",
-  "@scale": {}
+  "@scale": {},
+  "settingsAutoNextTitle": "Попередній перегляд \"наступного\"",
+  "@settingsAutoNextTitle": {},
+  "autoNextOffSmartDesc": "Показує екран \"наступне\" після початку титрів, якщо після них залишилося не більше 10 секунд. В іншому випадку показує екран \"наступне\", коли залишається 30 секунд відтворення",
+  "@autoNextOffSmartDesc": {},
+  "settingsAutoNextDesc": "Відображає попередній перегляд \"наступного\" в кінці, якщо в черзі стоїть інший елемент",
+  "@settingsAutoNextDesc": {},
+  "autoNextOffStaticDesc": "Показати екран \"наступне\", коли залишиться 30 секунд до завершення відтворення",
+  "@autoNextOffStaticDesc": {},
+  "autoNextOffStaticTitle": "Статичний",
+  "@autoNextOffStaticTitle": {},
+  "autoNextOffSmartTitle": "Розумний",
+  "@autoNextOffSmartTitle": {},
+  "playbackRate": "Швидкість відтворення",
+  "@playbackRate": {},
+  "speed": "Швидкість",
+  "@speed": {},
+  "unableToPlayMedia": "Виникла помилка під час пошуку сумісного типу носія",
+  "@unableToPlayMedia": {},
+  "unableToPlayBooksOnWeb": "Наразі книги не підтримуються на вебі",
+  "@unableToPlayBooksOnWeb": {}
 }
