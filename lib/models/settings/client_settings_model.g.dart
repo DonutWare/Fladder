@@ -26,7 +26,7 @@ _$ClientSettingsModelImpl _$$ClientSettingsModelImplFromJson(
           ThemeMode.system,
       themeColor: $enumDecodeNullable(_$ColorThemesEnumMap, json['themeColor']),
       amoledBlack: json['amoledBlack'] as bool? ?? false,
-      blurPlaceHolders: json['blurPlaceHolders'] as bool? ?? false,
+      blurPlaceHolders: json['blurPlaceHolders'] as bool? ?? true,
       blurUpcomingEpisodes: json['blurUpcomingEpisodes'] as bool? ?? false,
       selectedLocale:
           const LocaleConvert().fromJson(json['selectedLocale'] as String?),
@@ -34,6 +34,7 @@ _$ClientSettingsModelImpl _$$ClientSettingsModelImplFromJson(
       posterSize: (json['posterSize'] as num?)?.toDouble() ?? 1.0,
       pinchPosterZoom: json['pinchPosterZoom'] as bool? ?? false,
       mouseDragSupport: json['mouseDragSupport'] as bool? ?? false,
+      requireWifi: json['requireWifi'] as bool? ?? true,
       schemeVariant: $enumDecodeNullable(
               _$DynamicSchemeVariantEnumMap, json['schemeVariant']) ??
           DynamicSchemeVariant.tonalSpot,
@@ -58,6 +59,7 @@ Map<String, dynamic> _$$ClientSettingsModelImplToJson(
       'posterSize': instance.posterSize,
       'pinchPosterZoom': instance.pinchPosterZoom,
       'mouseDragSupport': instance.mouseDragSupport,
+      'requireWifi': instance.requireWifi,
       'schemeVariant': _$DynamicSchemeVariantEnumMap[instance.schemeVariant]!,
       'libraryPageSize': instance.libraryPageSize,
     };

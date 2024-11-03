@@ -145,6 +145,15 @@ class _ClientSettingsPageState extends ConsumerState<ClientSettingsPage> {
                 );
               },
             ),
+            SettingsListTile(
+              label: Text(context.localized.clientSettingsRequireWifiTitle),
+              subLabel: Text(context.localized.clientSettingsRequireWifiDesc),
+              onTap: () => ref.read(clientSettingsProvider.notifier).setRequireWifi(!clientSettings.requireWifi),
+              trailing: Switch(
+                value: clientSettings.requireWifi,
+                onChanged: (value) => ref.read(clientSettingsProvider.notifier).setRequireWifi(value),
+              ),
+            ),
             const Divider(),
           ],
           SettingsLabelDivider(label: context.localized.lockscreen),

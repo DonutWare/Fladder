@@ -1115,5 +1115,7 @@
   "schemeSettingsExpressive": "Expressive",
   "schemeSettingsContent": "Content",
   "schemeSettingsRainbow": "Rainbow",
-  "schemeSettingsFruitSalad": "Fruit salad"
+  "schemeSettingsFruitSalad": "Fruit salad",
+  "clientSettingsRequireWifiTitle": "Require Wi-Fi",
+  "clientSettingsRequireWifiDesc": "Only download when connected to a Wi-Fi network"
 }

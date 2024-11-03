@@ -462,7 +462,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
           filename: syncItem.videoFileName,
           updates: Updates.statusAndProgress,
           baseDirectory: BaseDirectory.root,
-          requiresWiFi: true,
+          requiresWiFi: ref.read(clientSettingsProvider.select((value) => value.requireWifi)),
           retries: 5,
           allowPause: true,
         );

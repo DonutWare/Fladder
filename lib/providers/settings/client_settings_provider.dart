@@ -56,4 +56,6 @@ class ClientSettingsNotifier extends StateNotifier<ClientSettingsModel> {
 
   void setSchemeVariant(DynamicSchemeVariant? type) =>
       state = state.copyWith(schemeVariant: type ?? state.schemeVariant);
+
+  void setRequireWifi(bool value) => state = state.copyWith(requireWifi: value);
 }
