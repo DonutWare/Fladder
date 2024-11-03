@@ -1099,5 +1099,38 @@
   "errorOpeningMedia": "尝试播放此媒体时发生错误",
   "@errorOpeningMedia": {},
   "unableToPlayBooksOnWeb": "目前书籍在网页上不受支持",
-  "@unableToPlayBooksOnWeb": {}
+  "@unableToPlayBooksOnWeb": {},
+  "updateFilterForLibrary": "更新过滤器",
+  "@updateFilterForLibrary": {},
+  "deleteFilterConfirmation": "您确实要删除该过滤器吗？",
+  "@deleteFilterConfirmation": {},
+  "libraryFiltersLimitReached": "已达到过滤器限制 (10) 删除一些过滤器",
+  "@libraryFiltersLimitReached": {},
+  "libraryFiltersRemoveAll": "删除所有过滤器",
+  "@libraryFiltersRemoveAll": {},
+  "libraryFiltersRemoveAllConfirm": "这将删除每个媒体库的所有已保存的过滤器",
+  "@libraryFiltersRemoveAllConfirm": {},
+  "playerSettingsOrientationDesc": "设置视频播放器为特定方向",
+  "@playerSettingsOrientationDesc": {},
+  "deviceOrientationLandscapeLeft": "水平向左",
+  "@deviceOrientationLandscapeLeft": {},
+  "deviceOrientationLandscapeRight": "水平向右",
+  "@deviceOrientationLandscapeRight": {},
+  "defaultFilterForLibrary": "媒体库的默认过滤器",
+  "@defaultFilterForLibrary": {},
+  "removeFilterForLibrary": "删除 {filter}？",
+  "@removeFilterForLibrary": {
+    "description": "removeFilterForLibrary",
+    "placeholders": {
+      "filter": {
+        "type": "String"
+      }
+    }
+  },
+  "playerSettingsOrientationTitle": "播放器方向",
+  "@playerSettingsOrientationTitle": {},
+  "deviceOrientationPortraitUp": "纵向向上",
+  "@deviceOrientationPortraitUp": {},
+  "deviceOrientationPortraitDown": "纵向向下",
+  "@deviceOrientationPortraitDown": {}
 }
