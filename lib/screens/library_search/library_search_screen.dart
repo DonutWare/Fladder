@@ -18,6 +18,7 @@ import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/collections/add_to_collection.dart';
 import 'package:fladder/screens/library_search/widgets/library_filter_chips.dart';
+import 'package:fladder/screens/library_search/widgets/library_play_options_.dart';
 import 'package:fladder/screens/library_search/widgets/library_saved_filters.dart';
 import 'package:fladder/screens/library_search/widgets/library_sort_dialogue.dart';
 import 'package:fladder/screens/library_search/widgets/library_views.dart';
@@ -171,25 +172,34 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  if (librarySearchResults.showPlayButtons)
+                  if (librarySearchResults.activePosters.isNotEmpty)
                     FloatingActionButtonAnimated(
                       key: Key(context.localized.playLabel),
                       isExtended: visible,
                       tooltip: context.localized.playVideos,
-                      onPressed: () async => await libraryProvider.playLibraryItems(context, ref),
+                      onPressed: () async {
+                        if (librarySearchResults.showGalleryButtons && !librarySearchResults.showPlayButtons) {
+                          libraryProvider.viewGallery(context);
+                          return;
+                        } else if (!librarySearchResults.showGalleryButtons && librarySearchResults.showPlayButtons) {
+                          libraryProvider.playLibraryItems(context, ref);
+                          return;
+                        }
+
+                        await showLibraryPlayOptions(
+                          context,
+                          context.localized.libraryPlayItems,
+                          playVideos: librarySearchResults.showPlayButtons
+                              ? () => libraryProvider.playLibraryItems(context, ref)
+                              : null,
+                          viewGallery: librarySearchResults.showGalleryButtons
+                              ? () => libraryProvider.viewGallery(context)
+                              : null,
+                        );
+                      },
                       label: Text(context.localized.playLabel),
                       icon: const Icon(IconsaxBold.play),
                     ),
-                  if (librarySearchResults.showGalleryButtons)
-                    FloatingActionButtonAnimated(
-                      key: Key(context.localized.viewPhotos),
-                      isExtended: visible,
-                      alternate: true,
-                      tooltip: context.localized.viewPhotos,
-                      onPressed: () async => await libraryProvider.viewGallery(context),
-                      label: Text(context.localized.viewPhotos),
-                      icon: const Icon(IconsaxBold.gallery),
-                    )
                 ].addInBetween(const SizedBox(height: 10)),
               ),
             ),
@@ -288,7 +298,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                                       icon: const Icon(IconsaxOutline.refresh),
                                     );
                                     final showSavedFiltersDialogue = ItemActionButton(
-                                      label: Text("Filters"),
+                                      label: Text(context.localized.filter(2)),
                                       action: () => showSavedFilters(context, librarySearchResults, libraryProvider),
                                       icon: const Icon(IconsaxOutline.refresh),
                                     );
@@ -772,43 +782,44 @@ class _LibrarySearchBottomBar extends ConsumerWidget {
                     : const SizedBox(),
               ),
               const Spacer(),
-              IconButton(
-                tooltip: context.localized.random,
-                onPressed: () => libraryProvider.openRandom(context),
-                icon: Card(
-                  color: Theme.of(context).colorScheme.secondary,
-                  child: Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: Icon(
-                      IconsaxBold.arrow_up_1,
-                      color: Theme.of(context).colorScheme.onSecondary,
-                    ),
-                  ),
-                ),
-              ),
-              if (librarySearchResults.showGalleryButtons)
+              if (librarySearchResults.activePosters.isNotEmpty)
                 IconButton(
-                  tooltip: context.localized.shuffleGallery,
-                  onPressed: () => libraryProvider.viewGallery(context, shuffle: true),
+                  tooltip: context.localized.random,
+                  onPressed: () => libraryProvider.openRandom(context),
                   icon: Card(
-                    color: Theme.of(context).colorScheme.primary,
+                    color: Theme.of(context).colorScheme.secondary,
                     child: Padding(
                       padding: const EdgeInsets.all(2.0),
                       child: Icon(
-                        IconsaxBold.shuffle,
-                        color: Theme.of(context).colorScheme.onPrimary,
+                        IconsaxBold.arrow_up_1,
+                        color: Theme.of(context).colorScheme.onSecondary,
                       ),
                     ),
                   ),
                 ),
-              if (librarySearchResults.showPlayButtons)
+              if (librarySearchResults.activePosters.isNotEmpty)
                 IconButton(
                   tooltip: context.localized.shuffleVideos,
-                  onPressed: librarySearchResults.activePosters.isNotEmpty
-                      ? () async {
-                          await libraryProvider.playLibraryItems(context, ref, shuffle: true);
-                        }
-                      : null,
+                  onPressed: () async {
+                    if (librarySearchResults.showGalleryButtons && !librarySearchResults.showPlayButtons) {
+                      libraryProvider.viewGallery(context, shuffle: true);
+                      return;
+                    } else if (!librarySearchResults.showGalleryButtons && librarySearchResults.showPlayButtons) {
+                      libraryProvider.playLibraryItems(context, ref, shuffle: true);
+                      return;
+                    }
+
+                    await showLibraryPlayOptions(
+                      context,
+                      context.localized.libraryShuffleAndPlayItems,
+                      playVideos: librarySearchResults.showPlayButtons
+                          ? () => libraryProvider.playLibraryItems(context, ref, shuffle: true)
+                          : null,
+                      viewGallery: librarySearchResults.showGalleryButtons
+                          ? () => libraryProvider.viewGallery(context, shuffle: true)
+                          : null,
+                    );
+                  },
                   icon: const Icon(IconsaxOutline.shuffle),
                 ),
             ],

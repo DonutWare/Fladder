@@ -1,13 +1,15 @@
-import 'package:ficonsax/ficonsax.dart';
-import 'package:fladder/models/account_model.dart';
-import 'package:fladder/providers/auth_provider.dart';
-import 'package:fladder/screens/shared/user_icon.dart';
-import 'package:fladder/screens/shared/flat_button.dart';
-import 'package:fladder/util/adaptive_layout.dart';
-import 'package:fladder/util/list_padding.dart';
 import 'package:flutter/material.dart';
+
+import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reorderable_grid/reorderable_grid.dart';
+
+import 'package:fladder/models/account_model.dart';
+import 'package:fladder/providers/auth_provider.dart';
+import 'package:fladder/screens/shared/flat_button.dart';
+import 'package:fladder/screens/shared/user_icon.dart';
+import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/list_padding.dart';
 
 class LoginUserGrid extends ConsumerWidget {
   final List<AccountModel> users;
@@ -41,7 +43,7 @@ class LoginUserGrid extends ConsumerWidget {
             children: [
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                mainAxisSize: MainAxisSize.max,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Flexible(
                     child: UserIcon(
