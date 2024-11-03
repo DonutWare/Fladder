@@ -226,7 +226,7 @@ class _$VideoPlayerSettingsModelImpl extends _VideoPlayerSettingsModel
       this.useLibass = false,
       this.internalVolume = 100,
       final Set<DeviceOrientation>? allowedOrientations,
-      this.nextVideoType = AutoNextType.static,
+      this.nextVideoType = AutoNextType.smart,
       this.audioDevice})
       : _allowedOrientations = allowedOrientations,
         super._();

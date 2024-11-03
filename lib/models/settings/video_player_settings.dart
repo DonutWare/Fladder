@@ -22,7 +22,7 @@ class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     @Default(false) bool useLibass,
     @Default(100) double internalVolume,
     Set<DeviceOrientation>? allowedOrientations,
-    @Default(AutoNextType.static) AutoNextType nextVideoType,
+    @Default(AutoNextType.smart) AutoNextType nextVideoType,
     String? audioDevice,
   }) = _VideoPlayerSettingsModel;
 

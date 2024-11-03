@@ -21,7 +21,8 @@ LibraryFiltersModel _$LibraryFiltersModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$LibraryFiltersModel {
   String get id => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
+  String get name =>
+      throw _privateConstructorUsedError; // ignore: unused_element
   dynamic get isFavourite => throw _privateConstructorUsedError;
   List<String> get ids => throw _privateConstructorUsedError;
   Map<String, bool> get genres => throw _privateConstructorUsedError;
@@ -348,6 +349,7 @@ class _$LibraryFiltersModelImpl extends _LibraryFiltersModel {
   final String id;
   @override
   final String name;
+// ignore: unused_element
   @override
   @JsonKey()
   final dynamic isFavourite;
@@ -531,7 +533,7 @@ abstract class _LibraryFiltersModel extends LibraryFiltersModel {
   @override
   String get id;
   @override
-  String get name;
+  String get name; // ignore: unused_element
   @override
   dynamic get isFavourite;
   @override

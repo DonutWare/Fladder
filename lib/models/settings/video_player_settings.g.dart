@@ -21,7 +21,7 @@ _$VideoPlayerSettingsModelImpl _$$VideoPlayerSettingsModelImplFromJson(
           .toSet(),
       nextVideoType:
           $enumDecodeNullable(_$AutoNextTypeEnumMap, json['nextVideoType']) ??
-              AutoNextType.static,
+              AutoNextType.smart,
       audioDevice: json['audioDevice'] as String?,
     );
 
