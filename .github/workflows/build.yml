@@ -24,167 +24,167 @@ jobs:
           echo "version_name=${VERSION_NAME}" >> "$GITHUB_OUTPUT"
         shell: bash
         
-  # build-android:
-  #   needs: [fetch-info]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v4.1.1
+  build-android:
+    needs: [fetch-info]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.1.1
 
-  #     - name: Decode Keystore
-  #       env:
-  #         ENCODED_STRING: ${{ secrets.KEYSTORE_BASE_64 }}
-  #         RELEASE_KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
-  #         RELEASE_KEYSTORE_ALIAS: ${{ secrets.RELEASE_KEYSTORE_ALIAS }}
-  #         RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
-  #         GITHUB_RUN_NUMBER: ${{ github.run_number }}
-  #       run: |
-  #         echo "$ENCODED_STRING" | base64 -d > android/app/keystore.jks
+      - name: Decode Keystore
+        env:
+          ENCODED_STRING: ${{ secrets.KEYSTORE_BASE_64 }}
+          RELEASE_KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
+          RELEASE_KEYSTORE_ALIAS: ${{ secrets.RELEASE_KEYSTORE_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+          GITHUB_RUN_NUMBER: ${{ github.run_number }}
+        run: |
+          echo "$ENCODED_STRING" | base64 -d > android/app/keystore.jks
 
-  #         # Create the key.properties file
-  #         cat > android/app/key.properties <<EOF
-  #         storePassword=$RELEASE_KEYSTORE_PASSWORD
-  #         keyPassword=$RELEASE_KEY_PASSWORD
-  #         keyAlias=$RELEASE_KEYSTORE_ALIAS
-  #         EOF
+          # Create the key.properties file
+          cat > android/app/key.properties <<EOF
+          storePassword=$RELEASE_KEYSTORE_PASSWORD
+          keyPassword=$RELEASE_KEY_PASSWORD
+          keyAlias=$RELEASE_KEYSTORE_ALIAS
+          EOF
 
-  #     - name: Setup Java
-  #       uses: actions/setup-java@v4
-  #       with:
-  #         distribution: "zulu"
-  #         java-version: "17"
-  #         cache: "gradle"
-  #         check-latest: true
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "zulu"
+          java-version: "17"
+          cache: "gradle"
+          check-latest: true
 
-  #     - name: Set up Flutter
-  #       uses: subosito/flutter-action@v2.16.0
-  #       with:
-  #         channel: ${{ vars.FLUTTER_CHANNEL }}
-  #         flutter-version: ${{ vars.FLUTTER_VERSION }}
-  #         cache: true
-  #         cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
-  #         cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2.16.0
+        with:
+          channel: ${{ vars.FLUTTER_CHANNEL }}
+          flutter-version: ${{ vars.FLUTTER_VERSION }}
+          cache: true
+          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
+          cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
 
-  #     - name: Get dependencies
-  #       run: flutter pub get
+      - name: Get dependencies
+        run: flutter pub get
 
-  #     - name: Build Android APK and AAB
-  #       run: |
-  #         flutter build apk --release --build-number=${{github.run_number}} --flavor production
-  #         flutter build appbundle --release --build-number=${{github.run_number}} --flavor production    
+      - name: Build Android APK and AAB
+        run: |
+          flutter build apk --release --build-number=${{github.run_number}} --flavor production
+          flutter build appbundle --release --build-number=${{github.run_number}} --flavor production    
 
-  #     - name: Rename APK and AAB
-  #       run: |
-  #         mkdir -p build/app/outputs/android_artifacts
-  #         mv build/app/outputs/flutter-apk/app-production-release.apk "build/app/outputs/android_artifacts/release-signed.apk"
-  #         mv build/app/outputs/bundle/productionRelease/app-production-release.aab "build/app/outputs/android_artifacts/release-signed.aab"
+      - name: Rename APK and AAB
+        run: |
+          mkdir -p build/app/outputs/android_artifacts
+          mv build/app/outputs/flutter-apk/app-production-release.apk "build/app/outputs/android_artifacts/release-signed.apk"
+          mv build/app/outputs/bundle/productionRelease/app-production-release.aab "build/app/outputs/android_artifacts/release-signed.aab"
 
-  #     - name: Archive Android artifacts
-  #       uses: actions/upload-artifact@v4.0.0
-  #       with:
-  #         name: fladder-android
-  #         path: build/app/outputs/android_artifacts/            
+      - name: Archive Android artifacts
+        uses: actions/upload-artifact@v4.0.0
+        with:
+          name: fladder-android
+          path: build/app/outputs/android_artifacts/            
 
-  # build-windows:
-  #   #Use windows-2019, latest(2022) causes MSVCP140.dll related crashes
-  #   runs-on: windows-2019
-  #   needs: [fetch-info]
+  build-windows:
+    #Use windows-2019, latest(2022) causes MSVCP140.dll related crashes
+    runs-on: windows-2019
+    needs: [fetch-info]
 
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v4.1.1
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.1.1
 
-  #     - name: Set up Flutter
-  #       uses: subosito/flutter-action@v2.16.0
-  #       with:
-  #         channel: ${{ vars.FLUTTER_CHANNEL }}
-  #         flutter-version: ${{ vars.FLUTTER_VERSION }}
-  #         cache: true
-  #         cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache
-  #         cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2.16.0
+        with:
+          channel: ${{ vars.FLUTTER_CHANNEL }}
+          flutter-version: ${{ vars.FLUTTER_VERSION }}
+          cache: true
+          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache
+          cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
 
-  #     - name: Get dependencies
-  #       run: flutter pub get
+      - name: Get dependencies
+        run: flutter pub get
 
-  #     - name: Build Windows EXE
-  #       run: flutter build windows --build-number=${{ github.run_number }}
+      - name: Build Windows EXE
+        run: flutter build windows --build-number=${{ github.run_number }}
 
-  #     - name: Archive Windows artifact
-  #       uses: actions/upload-artifact@v4.0.0
-  #       with:
-  #         name: fladder-windows
-  #         path: build\windows\x64\runner\Release\
+      - name: Archive Windows artifact
+        uses: actions/upload-artifact@v4.0.0
+        with:
+          name: fladder-windows
+          path: build\windows\x64\runner\Release\
 
-  # build-ios:
-  #   runs-on: macos-latest
-  #   needs: [fetch-info]
+  build-ios:
+    runs-on: macos-latest
+    needs: [fetch-info]
 
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v4.1.1
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.1.1
 
-  #     - name: Set up Flutter
-  #       uses: subosito/flutter-action@v2.16.0
-  #       with:
-  #         channel: ${{ vars.FLUTTER_CHANNEL }}
-  #         flutter-version: ${{ vars.FLUTTER_VERSION }}
-  #         cache: true
-  #         cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to specify the cache path
-  #         cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2.16.0
+        with:
+          channel: ${{ vars.FLUTTER_CHANNEL }}
+          flutter-version: ${{ vars.FLUTTER_VERSION }}
+          cache: true
+          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to specify the cache path
+          cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
 
-  #     - name: Get dependencies
-  #       run: flutter pub get
+      - name: Get dependencies
+        run: flutter pub get
 
-  #     - name: Build iOS app
-  #       run: flutter build ipa --no-codesign --flavor production --build-number=${{ github.run_number }} 
+      - name: Build iOS app
+        run: flutter build ipa --no-codesign --flavor production --build-number=${{ github.run_number }} 
 
-  #     - name: Create unsigned IPA
-  #       run: |
-  #         cd build/ios/archive/Runner.xcarchive/Products/Applications/
-  #         mkdir Payload
-  #         mv Runner.app Payload/
-  #         zip -r iOS.ipa Payload
+      - name: Create unsigned IPA
+        run: |
+          cd build/ios/archive/Runner.xcarchive/Products/Applications/
+          mkdir Payload
+          mv Runner.app Payload/
+          zip -r iOS.ipa Payload
 
-  #     - name: Archive iOS IPA artifact
-  #       uses: actions/upload-artifact@v4.0.0
-  #       with:
-  #         name: fladder-iOS
-  #         path: build/ios/archive/Runner.xcarchive/Products/Applications/iOS.ipa
+      - name: Archive iOS IPA artifact
+        uses: actions/upload-artifact@v4.0.0
+        with:
+          name: fladder-iOS
+          path: build/ios/archive/Runner.xcarchive/Products/Applications/iOS.ipa
 
-  # build-macos:
-  #   runs-on: macos-latest
-  #   needs: [fetch-info]
+  build-macos:
+    runs-on: macos-latest
+    needs: [fetch-info]
     
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v4.1.1
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.1.1
 
-  #     - name: Set up Flutter
-  #       uses: subosito/flutter-action@v2.16.0
-  #       with:
-  #         channel: ${{ vars.FLUTTER_CHANNEL }}
-  #         flutter-version: ${{ vars.FLUTTER_VERSION }}
-  #         cache: true
-  #         cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache
-  #         cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2.16.0
+        with:
+          channel: ${{ vars.FLUTTER_CHANNEL }}
+          flutter-version: ${{ vars.FLUTTER_VERSION }}
+          cache: true
+          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache
+          cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
 
-  #     - name: Get dependencies
-  #       run: flutter pub get
+      - name: Get dependencies
+        run: flutter pub get
 
-  #     - name: Build macOS app
-  #       run: flutter build macos --flavor production --build-number=${{ github.run_number }}
+      - name: Build macOS app
+        run: flutter build macos --flavor production --build-number=${{ github.run_number }}
 
-  #     - name: Create DMG file
-  #       run:  hdiutil create -format UDZO -srcfolder build/macos/Build/Products/Release-production/fladder.app build/macos/Build/Products/Release-production/macOS.dmg
+      - name: Create DMG file
+        run:  hdiutil create -format UDZO -srcfolder build/macos/Build/Products/Release-production/fladder.app build/macos/Build/Products/Release-production/macOS.dmg
 
-  #     - name: Archive macOS artifact
-  #       uses: actions/upload-artifact@v4.0.0
-  #       with:
-  #         name: fladder-macOS
-  #         path: build/macos/Build/Products/Release-production/macOS.dmg
+      - name: Archive macOS artifact
+        uses: actions/upload-artifact@v4.0.0
+        with:
+          name: fladder-macOS
+          path: build/macos/Build/Products/Release-production/macOS.dmg
 
   build-linux:
-    runs-on: ubuntu-24.04  # bumped as it would otherwise use libmpv1
+    runs-on: ubuntu-24.04  # bumped from 22.04 (latest) as it would otherwise use libmpv1
     needs: [fetch-info]
 
     steps:
@@ -255,110 +255,110 @@ jobs:
           name: fladder-linux-flatpak
           path: Fladder-Linux.flatpak
 
-  # build-web:
-  #   runs-on: ubuntu-latest
-  #   needs: [fetch-info]
+  build-web:
+    runs-on: ubuntu-latest
+    needs: [fetch-info]
 
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v4.1.1
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.1.1
 
-  #     - name: Set up Flutter
-  #       uses: subosito/flutter-action@v2.16.0
-  #       with:
-  #         channel: ${{ vars.FLUTTER_CHANNEL }}
-  #         flutter-version: ${{ vars.FLUTTER_VERSION }}
-  #         cache: true
-  #         cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache
-  #         cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2.16.0
+        with:
+          channel: ${{ vars.FLUTTER_CHANNEL }}
+          flutter-version: ${{ vars.FLUTTER_VERSION }}
+          cache: true
+          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache
+          cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
 
-  #     - name: Get dependencies
-  #       run: flutter pub get
+      - name: Get dependencies
+        run: flutter pub get
 
-  #     - name: Build web app
-  #       run: |
-  #         flutter build web --release --build-number=${{github.run_number}}
+      - name: Build web app
+        run: |
+          flutter build web --release --build-number=${{github.run_number}}
 
-  #     - name: Archive web artifact
-  #       uses: actions/upload-artifact@v4.0.0
-  #       with:
-  #         name: fladder-web
-  #         path: build/web
+      - name: Archive web artifact
+        uses: actions/upload-artifact@v4.0.0
+        with:
+          name: fladder-web
+          path: build/web
 
-  #     - name: Deploy to ghcr.io
-  #       if: startsWith(github.ref, 'refs/tags/v')
-  #       uses: mr-smithers-excellent/docker-build-push@v6
-  #       with:
-  #         image: fladder
-  #         addLatest: true
-  #         registry: ghcr.io
-  #         username: ${{ github.actor }}
-  #         password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy to ghcr.io
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: mr-smithers-excellent/docker-build-push@v6
+        with:
+          image: fladder
+          addLatest: true
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-  #     - name: Build Github pages web
-  #       if: startsWith(github.ref, 'refs/tags/v')        
-  #       run: flutter build web --base-href /${{ github.event.repository.name }}/ --release --build-number=$GITHUB_RUN_NUMBER
+      - name: Build Github pages web
+        if: startsWith(github.ref, 'refs/tags/v')        
+        run: flutter build web --base-href /${{ github.event.repository.name }}/ --release --build-number=$GITHUB_RUN_NUMBER
 
-  #     - name: Deploy to GitHub Pages
-  #       if: startsWith(github.ref, 'refs/tags/v')        
-  #       uses: peaceiris/actions-gh-pages@v4
-  #       with:
-  #         github_token: ${{ secrets.GITHUB_TOKEN }} # Automatically provided by GitHub Actions
-  #         publish_dir: ./build/web
+      - name: Deploy to GitHub Pages
+        if: startsWith(github.ref, 'refs/tags/v')        
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }} # Automatically provided by GitHub Actions
+          publish_dir: ./build/web
 
   create_release:
     name: Create Release
     needs:
       - fetch-info
-      # - build-android
-      # - build-windows
-      # - build-ios
-      # - build-macos
+      - build-android
+      - build-windows
+      - build-ios
+      - build-macos
       - build-linux
       - build-linux-flatpak
-      # - build-web
+      - build-web
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')       
     steps:
-      # - name: Download Artifacts Android
-      #   uses: actions/download-artifact@v4
-      #   with:
-      #     name: fladder-android
-      #     path: fladder-android
+      - name: Download Artifacts Android
+        uses: actions/download-artifact@v4
+        with:
+          name: fladder-android
+          path: fladder-android
 
-      # - name: Move Android
-      #   run: |
-      #     mv fladder-android/release-signed.apk Fladder-Android-${{needs.fetch-info.outputs.version_name}}.apk
-      #     mv fladder-android/release-signed.aab Fladder-Android-${{needs.fetch-info.outputs.version_name}}.aab
+      - name: Move Android
+        run: |
+          mv fladder-android/release-signed.apk Fladder-Android-${{needs.fetch-info.outputs.version_name}}.apk
+          mv fladder-android/release-signed.aab Fladder-Android-${{needs.fetch-info.outputs.version_name}}.aab
 
-      # - name: Download Artifacts Windows
-      #   uses: actions/download-artifact@v4
-      #   with:
-      #     name: fladder-windows
-      #     path: fladder-windows
+      - name: Download Artifacts Windows
+        uses: actions/download-artifact@v4
+        with:
+          name: fladder-windows
+          path: fladder-windows
 
-      # - name: Compress Windows
-      #   run:  |
-      #     cd fladder-windows
-      #     zip -r ../Fladder-Windows-${{needs.fetch-info.outputs.version_name}}.zip .
+      - name: Compress Windows
+        run:  |
+          cd fladder-windows
+          zip -r ../Fladder-Windows-${{needs.fetch-info.outputs.version_name}}.zip .
       
-      # - name: Download Artifacts iOS
-      #   uses: actions/download-artifact@v4
-      #   with:
-      #     name: fladder-iOS
-      #     path: fladder-iOS
+      - name: Download Artifacts iOS
+        uses: actions/download-artifact@v4
+        with:
+          name: fladder-iOS
+          path: fladder-iOS
 
-      # - name: Move iOS
-      #   run: mv fladder-iOS/iOS.ipa Fladder-iOS-${{needs.fetch-info.outputs.version_name}}.ipa
+      - name: Move iOS
+        run: mv fladder-iOS/iOS.ipa Fladder-iOS-${{needs.fetch-info.outputs.version_name}}.ipa
 
-      # - name: Download Artifacts macOS
-      #   uses: actions/download-artifact@v4
-      #   with:
-      #     name: fladder-macOS
-      #     path: fladder-macOS
+      - name: Download Artifacts macOS
+        uses: actions/download-artifact@v4
+        with:
+          name: fladder-macOS
+          path: fladder-macOS
 
-      # - name: Move macOS
-      #   run: mv fladder-macOS/macOS.dmg Fladder-macOS-${{needs.fetch-info.outputs.version_name}}.dmg
+      - name: Move macOS
+        run: mv fladder-macOS/macOS.dmg Fladder-macOS-${{needs.fetch-info.outputs.version_name}}.dmg
 
       - name: Download Artifacts Linux
         uses: actions/download-artifact@v4
@@ -380,16 +380,16 @@ jobs:
       - name: Move Linux Flatpak
         run: mv fladder-linux-flatpak/Fladder-Linux.flatpak Fladder-Linux-${{needs.fetch-info.outputs.version_name}}.flatpak
 
-      # - name: Download Artifacts Web
-      #   uses: actions/download-artifact@v4
-      #   with:
-      #     name: fladder-web
-      #     path: fladder-web
+      - name: Download Artifacts Web
+        uses: actions/download-artifact@v4
+        with:
+          name: fladder-web
+          path: fladder-web
 
-      # - name: Compress Web
-      #   run: |
-      #     cd fladder-web
-      #     zip -r ../Fladder-Web-${{needs.fetch-info.outputs.version_name}}.zip .
+      - name: Compress Web
+        run: |
+          cd fladder-web
+          zip -r ../Fladder-Web-${{needs.fetch-info.outputs.version_name}}.zip .
 
       - name: Release
         uses: softprops/action-gh-release@v2
@@ -397,12 +397,12 @@ jobs:
           draft: true
           fail_on_unmatched_files: true
           generate_release_notes: true
-            # Fladder-Android-${{needs.fetch-info.outputs.version_name}}.apk
-            # Fladder-Windows-${{needs.fetch-info.outputs.version_name}}.zip
-            # Fladder-iOS-${{needs.fetch-info.outputs.version_name}}.ipa
-            # Fladder-macOS-${{needs.fetch-info.outputs.version_name}}.dmg
-            # Fladder-Web-${{needs.fetch-info.outputs.version_name}}.zip
           files: |
+            Fladder-Android-${{needs.fetch-info.outputs.version_name}}.apk
+            Fladder-Windows-${{needs.fetch-info.outputs.version_name}}.zip
+            Fladder-iOS-${{needs.fetch-info.outputs.version_name}}.ipa
+            Fladder-macOS-${{needs.fetch-info.outputs.version_name}}.dmg
+            Fladder-Web-${{needs.fetch-info.outputs.version_name}}.zip
             Fladder-Linux-${{needs.fetch-info.outputs.version_name}}.zip
             Fladder-Linux-${{needs.fetch-info.outputs.version_name}}.flatpak
 
