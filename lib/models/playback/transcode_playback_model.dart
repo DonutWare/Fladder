@@ -122,7 +122,6 @@ class TranscodePlaybackModel implements PlaybackModel {
             isMuted: false,
             isPaused: false,
             repeatMode: RepeatMode.repeatall,
-            nowPlayingQueue: itemsInQueue,
           ),
         );
     return null;
@@ -139,7 +138,6 @@ class TranscodePlaybackModel implements PlaybackModel {
             playSessionId: playbackInfo.playSessionId,
             positionTicks: position.toRuntimeTicks,
             failed: false,
-            nowPlayingQueue: itemsInQueue,
           ),
           totalDuration: totalDuration,
         );
@@ -172,7 +170,6 @@ class TranscodePlaybackModel implements PlaybackModel {
         isPaused: !isPlaying,
         isMuted: false,
         repeatMode: RepeatMode.repeatall,
-        nowPlayingQueue: itemsInQueue,
       ),
     );
     return this;
