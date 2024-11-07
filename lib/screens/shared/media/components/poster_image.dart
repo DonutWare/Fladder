@@ -58,8 +58,30 @@ class _PosterImageState extends ConsumerState<PosterImage> {
   bool hover = false;
 
   Widget get placeHolder {
-    return Center(
-      child: Icon(widget.poster.type.icon),
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Align(
+          alignment: Alignment.topRight,
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Opacity(opacity: 0.5, child: Icon(widget.poster.type.icon)),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              widget.poster.name,
+              maxLines: 2,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.titleMedium,
+              softWrap: true,
+            ),
+          ),
+        )
+      ],
     );
   }
 
