@@ -1156,5 +1156,11 @@
   "clientSettingsRequireWifiTitle": "WiFi requerida",
   "@clientSettingsRequireWifiTitle": {},
   "clientSettingsRequireWifiDesc": "Descargar solo cuando esté conectado a una WiFi",
-  "@clientSettingsRequireWifiDesc": {}
+  "@clientSettingsRequireWifiDesc": {},
+  "deviceOrientationPortraitDown": "Retrato hacia abajo",
+  "@deviceOrientationPortraitDown": {},
+  "clientSettingsSchemeVariantTitle": "Variante de esquema",
+  "@clientSettingsSchemeVariantTitle": {},
+  "schemeSettingsTonalSpot": "Punto tonal",
+  "@schemeSettingsTonalSpot": {}
 }
