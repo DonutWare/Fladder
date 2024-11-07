@@ -9,6 +9,7 @@ import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/photos_model.dart';
 import 'package:fladder/models/items/series_model.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
+import 'package:fladder/screens/shared/media/components/poster_placeholder.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/disable_keypad_focus.dart';
@@ -56,52 +57,6 @@ class PosterImage extends ConsumerStatefulWidget {
 class _PosterImageState extends ConsumerState<PosterImage> {
   late String currentTag = widget.heroTag == true ? widget.poster.id : UniqueKey().toString();
   bool hover = false;
-
-  Widget get placeHolder {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        Align(
-          alignment: Alignment.topRight,
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Opacity(opacity: 0.5, child: Icon(widget.poster.type.icon)),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  widget.poster.title,
-                  maxLines: 2,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.titleMedium,
-                  softWrap: true,
-                ),
-                if (widget.poster.label(context) != null) ...[
-                  Opacity(
-                    opacity: 0.75,
-                    child: Text(
-                      widget.poster.label(context)!,
-                      maxLines: 2,
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.titleSmall,
-                      softWrap: true,
-                    ),
-                  ),
-                ],
-              ],
-            ),
-          ),
-        )
-      ],
-    );
-  }
 
   void pressedWidget() async {
     if (widget.heroTag == false) {
@@ -153,7 +108,7 @@ class _PosterImageState extends ConsumerState<PosterImage> {
             children: [
               FladderImage(
                 image: widget.poster.getPosters?.primary ?? widget.poster.getPosters?.backDrop?.lastOrNull,
-                placeHolder: placeHolder,
+                placeHolder: PosterPlaceholder(item: widget.poster),
               ),
               if (poster.userData.progress > 0 && widget.poster.type == FladderItemType.book)
                 Align(
