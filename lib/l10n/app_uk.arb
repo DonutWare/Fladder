@@ -1169,5 +1169,9 @@
   "clientSettingsRequireWifiTitle": "Потрібен Wi-Fi",
   "@clientSettingsRequireWifiTitle": {},
   "clientSettingsRequireWifiDesc": "Завантажувати тільки при підключенні до мережі Wi-Fi",
-  "@clientSettingsRequireWifiDesc": {}
+  "@clientSettingsRequireWifiDesc": {},
+  "clientSettingsShowAllCollectionsTitle": "Показати всі типи колекцій",
+  "@clientSettingsShowAllCollectionsTitle": {},
+  "clientSettingsShowAllCollectionsDesc": "Якщо увімкнено, показувати всі типи колекцій, включно з тими, що не підтримує Fladder",
+  "@clientSettingsShowAllCollectionsDesc": {}
 }
