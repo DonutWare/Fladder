@@ -72,12 +72,30 @@ class _PosterImageState extends ConsumerState<PosterImage> {
           padding: const EdgeInsets.all(16.0),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(
-              widget.poster.name,
-              maxLines: 2,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.titleMedium,
-              softWrap: true,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  widget.poster.title,
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.titleMedium,
+                  softWrap: true,
+                ),
+                if (widget.poster.label(context) != null) ...[
+                  Opacity(
+                    opacity: 0.75,
+                    child: Text(
+                      widget.poster.label(context)!,
+                      maxLines: 2,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.titleSmall,
+                      softWrap: true,
+                    ),
+                  ),
+                ],
+              ],
             ),
           ),
         )
