@@ -1,4 +1,3 @@
-import 'package:fladder/util/router_extension.dart';
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
@@ -20,6 +19,7 @@ import 'package:fladder/screens/shared/media/poster_row.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/item_base_model/play_item_helpers.dart';
 import 'package:fladder/util/list_padding.dart';
+import 'package:fladder/util/router_extension.dart';
 import 'package:fladder/util/widget_extensions.dart';
 import 'package:fladder/widgets/shared/selectable_icon_button.dart';
 
