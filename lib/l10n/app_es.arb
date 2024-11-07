@@ -1162,5 +1162,9 @@
   "clientSettingsSchemeVariantTitle": "Variante de esquema",
   "@clientSettingsSchemeVariantTitle": {},
   "schemeSettingsTonalSpot": "Punto tonal",
-  "@schemeSettingsTonalSpot": {}
+  "@schemeSettingsTonalSpot": {},
+  "clientSettingsShowAllCollectionsTitle": "Mostrar todos los tipos de colección",
+  "@clientSettingsShowAllCollectionsTitle": {},
+  "clientSettingsShowAllCollectionsDesc": "Cuando está habilitado, muestra todos los tipos de colección, incluyendo aquellos que no son compatibles con Fladder",
+  "@clientSettingsShowAllCollectionsDesc": {}
 }
