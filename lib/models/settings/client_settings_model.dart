@@ -31,6 +31,7 @@ class ClientSettingsModel with _$ClientSettingsModel {
     @Default(false) bool pinchPosterZoom,
     @Default(false) bool mouseDragSupport,
     @Default(true) bool requireWifi,
+    @Default(false) bool showAllCollectionTypes,
     @Default(DynamicSchemeVariant.tonalSpot) DynamicSchemeVariant schemeVariant,
     int? libraryPageSize,
   }) = _ClientSettingsModel;

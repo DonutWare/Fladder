@@ -35,6 +35,7 @@ _$ClientSettingsModelImpl _$$ClientSettingsModelImplFromJson(
       pinchPosterZoom: json['pinchPosterZoom'] as bool? ?? false,
       mouseDragSupport: json['mouseDragSupport'] as bool? ?? false,
       requireWifi: json['requireWifi'] as bool? ?? true,
+      showAllCollectionTypes: json['showAllCollectionTypes'] as bool? ?? false,
       schemeVariant: $enumDecodeNullable(
               _$DynamicSchemeVariantEnumMap, json['schemeVariant']) ??
           DynamicSchemeVariant.tonalSpot,
@@ -60,6 +61,7 @@ Map<String, dynamic> _$$ClientSettingsModelImplToJson(
       'pinchPosterZoom': instance.pinchPosterZoom,
       'mouseDragSupport': instance.mouseDragSupport,
       'requireWifi': instance.requireWifi,
+      'showAllCollectionTypes': instance.showAllCollectionTypes,
       'schemeVariant': _$DynamicSchemeVariantEnumMap[instance.schemeVariant]!,
       'libraryPageSize': instance.libraryPageSize,
     };
