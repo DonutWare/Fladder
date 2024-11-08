@@ -256,7 +256,7 @@
   "@metadataRefreshFull": {},
   "metadataRefreshValidation": "Пошук відсутніх метаданих",
   "@metadataRefreshValidation": {},
-  "minutes": "{count, plural, other{Хвилини} one{Хвилина} }",
+  "minutes": "{count, plural, other{Хвилини} one{Хвилина} few{Хвилини} many{Хвилин}}",
   "@minutes": {
     "description": "minute",
     "placeholders": {
@@ -833,7 +833,7 @@
       }
     }
   },
-  "seconds": "{count, plural, other{Секунди} one{Секунда}}",
+  "seconds": "{count, plural, other{Секунди} one{Секунда} few{Секунди} many{Секунд}}",
   "@seconds": {
     "description": "second",
     "placeholders": {
@@ -843,7 +843,7 @@
       }
     }
   },
-  "selectTime": "Вибрати час",
+  "selectTime": "Виберіть час",
   "@selectTime": {},
   "selectViewType": "Вибрати тип перегляду",
   "@selectViewType": {},
