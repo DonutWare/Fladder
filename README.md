@@ -13,7 +13,7 @@
   <a href="#key-features">Key Features</a> •
   <a href="#screenshots">Screenshots</a> •
   <a href="#planned-features">Planned Features</a> •
-  <a href="#installation">Installation</a> •
+  <a href="#download">Download</a> •
   <a href="#how-to-contribute">Contributing</a> •
   <a href="#credits">Credits</a> •
   <a href="#license">License</a>
@@ -79,7 +79,7 @@ Web/Desktop [try out the web build!](https://DonutWare.github.io/Fladder)
 * Server management
 * And more???
 
-## Installation
+## Download
 
 The latest executables for Windows, macOS, Linux, iOS and Android can be found on the [releases page](https://github.com/DonutWare/Fladder/releases).
 
