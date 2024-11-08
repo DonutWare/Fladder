@@ -19,12 +19,19 @@ class _InputHandlerState extends State<InputHandler> {
   final focusNode = FocusNode();
 
   @override
+  void initState() {
+    super.initState();
+    //Focus on start
+    focusNode.requestFocus();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Focus(
       autofocus: widget.autoFocus,
       focusNode: focusNode,
       onFocusChange: (value) {
-        if (!focusNode.hasFocus) {
+        if (!focusNode.hasFocus && widget.autoFocus) {
           focusNode.requestFocus();
         }
       },

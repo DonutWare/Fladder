@@ -56,7 +56,7 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with
   double dragUpDelta = 0.0;
 
   final controller = TextEditingController();
-  late final timerController = RestarableTimerController(
+  late final timerController = RestartableTimerController(
       ref.read(photoViewSettingsProvider).timer, const Duration(milliseconds: 32), onTimeout: () {
     if (widget.pageController.page == widget.itemCount - 1) {
       widget.pageController.animateToPage(0, duration: const Duration(milliseconds: 250), curve: Curves.easeInOut);
@@ -146,6 +146,7 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with
     return PopScope(
       onPopInvokedWithResult: (didPop, result) async => await WakelockPlus.disable(),
       child: InputHandler(
+        autoFocus: false,
         onKeyEvent: (node, event) => _onKey(event) ? KeyEventResult.handled : KeyEventResult.ignored,
         child: Stack(
           children: [

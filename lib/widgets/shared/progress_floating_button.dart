@@ -10,7 +10,7 @@ import 'package:square_progress_indicator/square_progress_indicator.dart';
 
 import 'package:fladder/util/simple_duration_picker.dart';
 
-class RestarableTimerController {
+class RestartableTimerController {
   late Duration _steps = const Duration(milliseconds: 32);
   RestartableTimer? _timer;
   late Duration _duration = const Duration(seconds: 1);
@@ -25,7 +25,7 @@ class RestarableTimerController {
   final StreamController<Duration> _timeLeftController = StreamController<Duration>.broadcast();
   final StreamController<bool> _isActiveController = StreamController<bool>.broadcast();
 
-  RestarableTimerController(Duration duration, Duration steps, {Function()? onTimeout}) {
+  RestartableTimerController(Duration duration, Duration steps, {Function()? onTimeout}) {
     _steps = steps;
     _duration = duration;
     _onTimeout = onTimeout;
@@ -85,7 +85,7 @@ class RestarableTimerController {
 }
 
 class ProgressFloatingButton extends ConsumerStatefulWidget {
-  final RestarableTimerController? controller;
+  final RestartableTimerController? controller;
   final Function()? onTimeOut;
   final Function(Duration? newDuration)? onLongPress;
   const ProgressFloatingButton({this.controller, this.onTimeOut, this.onLongPress, super.key});
@@ -95,7 +95,7 @@ class ProgressFloatingButton extends ConsumerStatefulWidget {
 }
 
 class _ProgressFloatingButtonState extends ConsumerState<ProgressFloatingButton> {
-  late RestarableTimerController timer;
+  late RestartableTimerController timer;
   late Duration timeLeft = timer._duration;
   late bool isActive = false;
 
@@ -105,7 +105,7 @@ class _ProgressFloatingButtonState extends ConsumerState<ProgressFloatingButton>
   void initState() {
     super.initState();
     timer = widget.controller ??
-        RestarableTimerController(
+        RestartableTimerController(
           const Duration(seconds: 1),
           const Duration(milliseconds: 32),
           onTimeout: widget.onTimeOut ?? () {},

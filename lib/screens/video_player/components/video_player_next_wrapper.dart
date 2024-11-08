@@ -38,8 +38,8 @@ class VideoPlayerNextWrapper extends ConsumerStatefulWidget {
 class _VideoPlayerNextWrapperState extends ConsumerState<VideoPlayerNextWrapper> {
   bool show = false;
   bool showOverwrite = false;
-  late RestarableTimerController timerController =
-      RestarableTimerController(const Duration(seconds: 30), const Duration(milliseconds: 33), onTimeout: onTimeOut);
+  late RestartableTimerController timerController =
+      RestartableTimerController(const Duration(seconds: 30), const Duration(milliseconds: 33), onTimeout: onTimeOut);
 
   void onTimeOut() {
     timerController.cancel();

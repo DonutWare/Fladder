@@ -1,10 +1,12 @@
 import 'dart:developer';
 
-import 'package:fladder/screens/shared/outlined_text_field.dart';
-import 'package:fladder/util/localization_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:fladder/screens/shared/outlined_text_field.dart';
+import 'package:fladder/util/localization_helper.dart';
 
 String timePickerString(BuildContext context, Duration? duration) {
   if (duration == null) return context.localized.never;
@@ -113,8 +115,10 @@ class SimpleDurationPicker extends ConsumerWidget {
                           final parsedValue = int.parse(value);
                           if (parsedValue >= 60) {
                             secondsTextController.text = (parsedValue % 60).toString().padLeft(2, '0');
-                            minuteTextController.text =
-                                (int.parse(minuteTextController.text) + parsedValue / 60).floor().toString().padLeft(2, '0');
+                            minuteTextController.text = (int.parse(minuteTextController.text) + parsedValue / 60)
+                                .floor()
+                                .toString()
+                                .padLeft(2, '0');
                           }
                           onChanged(
                             Duration(
