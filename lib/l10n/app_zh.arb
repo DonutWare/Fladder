@@ -1160,5 +1160,9 @@
   "clientSettingsRequireWifiTitle": "需要 Wi-Fi",
   "@clientSettingsRequireWifiTitle": {},
   "clientSettingsRequireWifiDesc": "仅在连接到 Wi-Fi 网络时下载",
-  "@clientSettingsRequireWifiDesc": {}
+  "@clientSettingsRequireWifiDesc": {},
+  "clientSettingsShowAllCollectionsTitle": "显示所有收藏类型",
+  "@clientSettingsShowAllCollectionsTitle": {},
+  "clientSettingsShowAllCollectionsDesc": "启用后，显示所有收藏类型，包括 Fladder 不支持的收藏类型",
+  "@clientSettingsShowAllCollectionsDesc": {}
 }
