@@ -1119,5 +1119,7 @@
   "clientSettingsRequireWifiTitle": "Require Wi-Fi",
   "clientSettingsRequireWifiDesc": "Only download when connected to a Wi-Fi network",
   "libraryShuffleAndPlayItems": "Shuffle and play items",
-  "libraryPlayItems": "Play items"
+  "libraryPlayItems": "Play items",
+  "clientSettingsShowAllCollectionsTitle": "Show all collection types",
+  "clientSettingsShowAllCollectionsDesc": "When enabled, show all collection types, including those not supported by Fladder" 
 }

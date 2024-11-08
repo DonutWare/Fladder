@@ -1,7 +1,9 @@
 {
 	"cSpell.words": [
+		"ficonsax",
+		"jellyfin",
 		"Jellyfin",
-		"jellyfin"
+		"LTRB"
 	],
 	"dart.flutterSdkPath": ".fvm/versions/3.24.3",
 	"search.exclude": {

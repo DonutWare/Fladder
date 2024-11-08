@@ -237,6 +237,19 @@ class _ClientSettingsPageState extends ConsumerState<ClientSettingsPage> {
                   .toList(),
             ),
           ),
+          SettingsListTile(
+            label: Text(context.localized.clientSettingsShowAllCollectionsTitle),
+            subLabel: Text(context.localized.clientSettingsShowAllCollectionsDesc),
+            onTap: () => ref
+                .read(clientSettingsProvider.notifier)
+                .update((current) => current.copyWith(showAllCollectionTypes: !current.showAllCollectionTypes)),
+            trailing: Switch(
+              value: clientSettings.showAllCollectionTypes,
+              onChanged: (value) => ref
+                  .read(clientSettingsProvider.notifier)
+                  .update((current) => current.copyWith(showAllCollectionTypes: value)),
+            ),
+          ),
           const Divider(),
           SettingsLabelDivider(label: context.localized.settingsVisual),
           SettingsListTile(

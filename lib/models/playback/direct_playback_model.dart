@@ -121,7 +121,6 @@ class DirectPlaybackModel implements PlaybackModel {
             isMuted: false,
             isPaused: false,
             repeatMode: RepeatMode.repeatall,
-            nowPlayingQueue: itemsInQueue,
           ),
         );
     return null;
@@ -138,7 +137,6 @@ class DirectPlaybackModel implements PlaybackModel {
             playSessionId: playbackInfo.playSessionId,
             positionTicks: position.toRuntimeTicks,
             failed: false,
-            nowPlayingQueue: itemsInQueue,
           ),
           totalDuration: totalDuration,
         );
@@ -170,7 +168,6 @@ class DirectPlaybackModel implements PlaybackModel {
         isMuted: false,
         positionTicks: position.toRuntimeTicks,
         repeatMode: RepeatMode.repeatall,
-        nowPlayingQueue: itemsInQueue,
       ),
     );
 

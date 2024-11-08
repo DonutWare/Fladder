@@ -99,9 +99,9 @@
 			"group": "build",
 			"label": "dart: dart pub run build_runner watch",
 			"detail": "",
-			"runOptions": {
-				"runOn": "folderOpen"
-			}
+			// "runOptions": {
+			// 	"runOn": "folderOpen"
+			// }
 		}
 	],
 }
