@@ -1167,5 +1167,9 @@
   "clientSettingsRequireWifiTitle": "Requer Wi-Fi",
   "@clientSettingsRequireWifiTitle": {},
   "clientSettingsRequireWifiDesc": "Download disponível apenas quando conectado a uma rede Wi-Fi",
-  "@clientSettingsRequireWifiDesc": {}
+  "@clientSettingsRequireWifiDesc": {},
+  "clientSettingsShowAllCollectionsTitle": "Mostrar todos os tipos de coleção",
+  "@clientSettingsShowAllCollectionsTitle": {},
+  "clientSettingsShowAllCollectionsDesc": "Quando ativado, mostra todos os tipos de coleção, incluindo aqueles não suportados pelo Fladder",
+  "@clientSettingsShowAllCollectionsDesc": {}
 }
