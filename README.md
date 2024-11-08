@@ -83,7 +83,7 @@ Web/Desktop [try out the web build!](https://DonutWare.github.io/Fladder)
 
 The latest executables for Windows, macOS, Linux, iOS and Android can be found on the [releases page](https://github.com/DonutWare/Fladder/releases).
 
-### Linux
+<!-- ### Linux
 
 An AUR package is available (thanks @tam1m). Install it using your favourite AUR helper.
 
@@ -95,6 +95,7 @@ Paru: `paru -S fladder-git`
 The Android app is currently in testing, you can help by joining this group: https://groups.google.com/g/fladder
 
 <a href='https://play.google.com/store/apps/details?id=nl.jknaapen.fladder&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width=250/></a>
+-->
 
 <!-- 
 ### AltStore (iOS)
