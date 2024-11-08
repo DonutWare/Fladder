@@ -475,7 +475,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
             const SizedBox(height: 4),
             SizedBox(
               height: 25,
-              child: ChapterProgressSlider(
+              child: VideoProgressBar(
                 wasPlayingChanged: (value) => wasPlaying = value,
                 wasPlaying: wasPlaying,
                 duration: mediaPlayback.duration,

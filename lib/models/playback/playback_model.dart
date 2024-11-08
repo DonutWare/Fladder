@@ -2,9 +2,6 @@ import 'dart:developer';
 
 import 'package:chopper/chopper.dart';
 import 'package:collection/collection.dart';
-import 'package:fladder/models/items/intro_skip_model.dart';
-import 'package:fladder/models/items/season_model.dart';
-import 'package:fladder/models/items/series_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:media_kit/media_kit.dart';
 
@@ -12,7 +9,10 @@ import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/chapters_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
+import 'package:fladder/models/items/intro_skip_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
+import 'package:fladder/models/items/season_model.dart';
+import 'package:fladder/models/items/series_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
 import 'package:fladder/models/playback/direct_playback_model.dart';
 import 'package:fladder/models/playback/offline_playback_model.dart';
@@ -127,8 +127,8 @@ class PlaybackModelHelper {
   }
 
   Future<EpisodeModel?> getNextUpEpisode(String itemId) async {
-    final responnse = await api.showsNextUpGet(parentId: itemId, fields: [ItemFields.overview]);
-    final episode = responnse.body?.items?.firstOrNull;
+    final response = await api.showsNextUpGet(parentId: itemId, fields: [ItemFields.overview]);
+    final episode = response.body?.items?.firstOrNull;
     if (episode == null) {
       return null;
     } else {

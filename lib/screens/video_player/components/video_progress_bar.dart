@@ -13,9 +13,9 @@ import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/widgets/gapped_container_shape.dart';
 import 'package:fladder/widgets/shared/fladder_slider.dart';
-import 'package:fladder/widgets/shared/trickplay_image.dart';
+import 'package:fladder/widgets/shared/trick_play_image.dart';
 
-class ChapterProgressSlider extends ConsumerStatefulWidget {
+class VideoProgressBar extends ConsumerStatefulWidget {
   final Function(bool value) wasPlayingChanged;
   final bool wasPlaying;
   final VoidCallback timerReset;
@@ -24,7 +24,7 @@ class ChapterProgressSlider extends ConsumerStatefulWidget {
   final bool buffering;
   final Duration buffer;
   final Function(Duration duration) onPositionChanged;
-  const ChapterProgressSlider({
+  const VideoProgressBar({
     required this.wasPlayingChanged,
     required this.wasPlaying,
     required this.timerReset,
@@ -40,7 +40,7 @@ class ChapterProgressSlider extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _ChapterProgressSliderState();
 }
 
-class _ChapterProgressSliderState extends ConsumerState<ChapterProgressSlider> {
+class _ChapterProgressSliderState extends ConsumerState<VideoProgressBar> {
   bool onHoverStart = false;
   bool onDragStart = false;
   double _chapterPosition = 0.0;
@@ -54,12 +54,12 @@ class _ChapterProgressSliderState extends ConsumerState<ChapterProgressSlider> {
     final isVisible = (onDragStart ? true : onHoverStart);
     final player = ref.watch(videoPlayerProvider);
     final position = onDragStart ? currentDuration : widget.position;
-    final IntroOutSkipModel? introOutro = ref.read(playBackModel.select((value) => value?.introSkipModel));
+    final IntroOutSkipModel? introCreditsModel = ref.read(playBackModel.select((value) => value?.introSkipModel));
     final relativeFraction = position.inMilliseconds / widget.duration.inMilliseconds;
     return LayoutBuilder(
       builder: (context, constraints) {
         final sliderHeight = SliderTheme.of(context).trackHeight ?? (constraints.maxHeight / 3);
-        final bufferWidth = calculateFracionWidth(constraints, widget.buffer);
+        final bufferWidth = calculateFractionWidth(constraints, widget.buffer);
         final bufferFraction = relativeFraction / (bufferWidth / constraints.maxWidth);
         return Stack(
           clipBehavior: Clip.none,
@@ -138,10 +138,10 @@ class _ChapterProgressSliderState extends ConsumerState<ChapterProgressSlider> {
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  if (introOutro?.intro?.start != null && introOutro?.intro?.end != null)
+                  if (introCreditsModel?.intro?.start != null && introCreditsModel?.intro?.end != null)
                     Positioned(
-                      left: calculateStartOffset(constraints, introOutro!.intro!.start),
-                      right: calculateRightOffset(constraints, introOutro.intro!.end),
+                      left: calculateStartOffset(constraints, introCreditsModel!.intro!.start),
+                      right: calculateRightOffset(constraints, introCreditsModel.intro!.end),
                       bottom: 0,
                       child: Container(
                         height: 6,
@@ -153,10 +153,10 @@ class _ChapterProgressSliderState extends ConsumerState<ChapterProgressSlider> {
                         ),
                       ),
                     ),
-                  if (introOutro?.credits?.start != null && introOutro?.credits?.end != null)
+                  if (introCreditsModel?.credits?.start != null && introCreditsModel?.credits?.end != null)
                     Positioned(
-                      left: calculateStartOffset(constraints, introOutro!.credits!.start),
-                      right: calculateRightOffset(constraints, introOutro.credits!.end),
+                      left: calculateStartOffset(constraints, introCreditsModel!.credits!.start),
+                      right: calculateRightOffset(constraints, introCreditsModel.credits!.end),
                       bottom: 0,
                       child: Container(
                         height: 6,
@@ -259,7 +259,7 @@ class _ChapterProgressSliderState extends ConsumerState<ChapterProgressSlider> {
     );
   }
 
-  double calculateFracionWidth(BoxConstraints constraints, Duration incoming) {
+  double calculateFractionWidth(BoxConstraints constraints, Duration incoming) {
     return (constraints.maxWidth * (incoming.inSeconds / widget.duration.inSeconds)).clamp(0, constraints.maxWidth);
   }
 
@@ -320,7 +320,7 @@ class _ChapterProgressSliderState extends ConsumerState<ChapterProgressSlider> {
                                       : const SizedBox.shrink()
                                   : AspectRatio(
                                       aspectRatio: trickPlay.width.toDouble() / trickPlay.height.toDouble(),
-                                      child: TrickplayImage(
+                                      child: TrickPlayImage(
                                         trickPlay,
                                         position: currentDuration,
                                       ),

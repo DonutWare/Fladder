@@ -4,21 +4,21 @@ import 'dart:typed_data';
 
 import 'package:chopper/chopper.dart';
 import 'package:collection/collection.dart';
-import 'package:fladder/jellyfin/enum_models.dart';
-import 'package:fladder/models/credentials_model.dart';
-import 'package:fladder/models/items/intro_skip_model.dart';
-import 'package:fladder/models/items/trick_play_model.dart';
-import 'package:fladder/providers/image_provider.dart';
-import 'package:fladder/util/duration_extensions.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path/path.dart';
 
+import 'package:fladder/jellyfin/enum_models.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/account_model.dart';
+import 'package:fladder/models/credentials_model.dart';
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/items/intro_skip_model.dart';
+import 'package:fladder/models/items/trick_play_model.dart';
 import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/providers/image_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
+import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/jellyfin_extension.dart';
-import 'package:path/path.dart';
 
 final jellyServiceProvider = StateProvider<JellyService>(
   (ref) => JellyService(
@@ -913,8 +913,7 @@ class JellyService {
 
       if (server == null) return null;
 
-      final lines = response.bodyString.split('\n')
-        ..removeWhere((element) => element.startsWith('#') || !element.contains('.jpg'));
+      final lines = response.bodyString.split('\n')..removeWhere((element) => element.startsWith('#'));
       return response.copyWith(
           body: trickPlayModel.copyWith(
               images: lines
