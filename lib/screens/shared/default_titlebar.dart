@@ -42,28 +42,26 @@ class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> with WindowLi
     return SizedBox(
       height: widget.height,
       child: switch (AdaptiveLayout.of(context).platform) {
+        TargetPlatform.android || TargetPlatform.iOS => SizedBox(height: MediaQuery.paddingOf(context).top),
         TargetPlatform.windows || TargetPlatform.linux => Row(
             children: [
               Expanded(
                 child: DragToMoveArea(
-                  child: Container(
-                    color: Colors.red.withOpacity(0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.only(left: 16),
-                          child: DefaultTextStyle(
-                            style: TextStyle(
-                              color: iconColor,
-                              fontSize: 14,
-                            ),
-                            child: Text(widget.label ?? ""),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.only(left: 16),
+                        child: DefaultTextStyle(
+                          style: TextStyle(
+                            color: iconColor,
+                            fontSize: 14,
                           ),
+                          child: Text(widget.label ?? ""),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -161,13 +159,7 @@ class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> with WindowLi
               ),
             ],
           ),
-        TargetPlatform.macOS => const Row(
-            children: [
-              Spacer(),
-              Text("Fladder"),
-              SizedBox(width: 16),
-            ],
-          ),
+        TargetPlatform.macOS => const SizedBox.shrink(),
         _ => Text(widget.label ?? "Fladder"),
       },
     );

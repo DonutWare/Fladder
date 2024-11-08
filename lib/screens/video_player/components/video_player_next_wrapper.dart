@@ -283,16 +283,19 @@ class _VideoPlayerNextWrapperState extends ConsumerState<VideoPlayerNextWrapper>
                         ],
                       ),
                     ),
-                    AnimatedFadeSize(
-                      duration: animSpeed,
-                      child: show
-                          ? Padding(
-                              padding: const EdgeInsets.only(top: 16),
-                              child: _SimpleControls(
-                                skip: nextUp != null ? () => onTimeOut() : null,
-                              ),
-                            )
-                          : const SizedBox.shrink(),
+                    IgnorePointer(
+                      ignoring: !show,
+                      child: AnimatedFadeSize(
+                        duration: animSpeed,
+                        child: show
+                            ? Padding(
+                                padding: const EdgeInsets.only(top: 16),
+                                child: _SimpleControls(
+                                  skip: nextUp != null ? () => onTimeOut() : null,
+                                ),
+                              )
+                            : const SizedBox.shrink(),
+                      ),
                     ),
                   ],
                 ),
@@ -300,12 +303,15 @@ class _VideoPlayerNextWrapperState extends ConsumerState<VideoPlayerNextWrapper>
             ),
           ),
           if (AdaptiveLayout.of(context).isDesktop)
-            AnimatedOpacity(
-              duration: animSpeed,
-              opacity: show ? 1 : 0,
-              child: const Align(
-                alignment: Alignment.topRight,
-                child: DefaultTitleBar(),
+            IgnorePointer(
+              ignoring: !show,
+              child: AnimatedOpacity(
+                duration: animSpeed,
+                opacity: show ? 1 : 0,
+                child: const Align(
+                  alignment: Alignment.topRight,
+                  child: DefaultTitleBar(),
+                ),
               ),
             ),
         ],

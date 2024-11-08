@@ -255,6 +255,7 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
   ListView itemInfo(ItemBaseModel? currentItem, BuildContext context) {
     return ListView(
       shrinkWrap: true,
+      controller: widget.controller,
       children: [
         navTitle(currentItem?.title, currentItem?.subTextShort(context)),
         if (currentItem != null) ...{
