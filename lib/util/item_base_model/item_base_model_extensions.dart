@@ -122,7 +122,7 @@ extension ItemBaseModelExtensions on ItemBaseModel {
                 : context.localized.playFromStart(subTextShort(context) ?? name)),
           ),
       ItemActionDivider(),
-      if (!exclude.contains(ItemActions.addCollection))
+      if (!exclude.contains(ItemActions.addCollection) && isAdmin)
         if (type != FladderItemType.boxset)
           ItemActionButton(
             icon: const Icon(IconsaxOutline.archive_add),
