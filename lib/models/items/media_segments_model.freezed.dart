@@ -287,9 +287,10 @@ class __$$MediaSegmentImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$MediaSegmentImpl implements _MediaSegment {
+class _$MediaSegmentImpl extends _MediaSegment {
   _$MediaSegmentImpl(
-      {required this.type, required this.start, required this.end});
+      {required this.type, required this.start, required this.end})
+      : super._();
 
   factory _$MediaSegmentImpl.fromJson(Map<String, dynamic> json) =>
       _$$MediaSegmentImplFromJson(json);
@@ -336,11 +337,12 @@ class _$MediaSegmentImpl implements _MediaSegment {
   }
 }
 
-abstract class _MediaSegment implements MediaSegment {
+abstract class _MediaSegment extends MediaSegment {
   factory _MediaSegment(
       {required final MediaSegmentType type,
       required final Duration start,
       required final Duration end}) = _$MediaSegmentImpl;
+  _MediaSegment._() : super._();
 
   factory _MediaSegment.fromJson(Map<String, dynamic> json) =
       _$MediaSegmentImpl.fromJson;

@@ -20,20 +20,12 @@ class MediaSegmentsModel with _$MediaSegmentsModel {
 
   MediaSegment? get intro => segments.firstWhereOrNull((element) => element.type == MediaSegmentType.intro);
   MediaSegment? get outro => segments.firstWhereOrNull((element) => element.type == MediaSegmentType.outro);
-
-  bool introInRange(Duration position) {
-    if (intro == null) return false;
-    return (position.compareTo(intro!.start) >= 0 && position.compareTo(intro!.end) <= 0);
-  }
-
-  bool creditsInRange(Duration position) {
-    if (outro == null) return false;
-    return (position.compareTo(outro!.start) >= 0 && position.compareTo(outro!.end) <= 0);
-  }
 }
 
 @freezed
 class MediaSegment with _$MediaSegment {
+  const MediaSegment._();
+
   factory MediaSegment({
     required MediaSegmentType type,
     required Duration start,
@@ -41,6 +33,8 @@ class MediaSegment with _$MediaSegment {
   }) = _MediaSegment;
 
   factory MediaSegment.fromJson(Map<String, dynamic> json) => _$MediaSegmentFromJson(json);
+
+  bool inRange(Duration position) => (position.compareTo(start) >= 0 && position.compareTo(end) <= 0);
 }
 
 enum MediaSegmentType {

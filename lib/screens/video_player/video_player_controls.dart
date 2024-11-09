@@ -57,10 +57,10 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   late final double bottomPadding = MediaQuery.of(context).viewPadding.bottom;
 
   bool _onKey(KeyEvent value) {
-    final introSkipModel = ref.read(playBackModel.select((value) => value?.mediaSegments));
+    final mediaSegments = ref.read(playBackModel.select((value) => value?.mediaSegments));
     final position = ref.read(mediaPlaybackProvider).position;
-    bool showIntroSkipButton = introSkipModel?.introInRange(position) ?? false;
-    bool showCreditSkipButton = introSkipModel?.creditsInRange(position) ?? false;
+    bool showIntroSkipButton = mediaSegments?.intro?.inRange(position) ?? false;
+    bool showOutroSkipButton = mediaSegments?.outro?.inRange(position) ?? false;
     if (value is KeyRepeatEvent) {
       if (value.logicalKey == LogicalKeyboardKey.arrowUp) {
         resetTimer();
@@ -76,9 +76,9 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     if (value is KeyDownEvent) {
       if (value.logicalKey == LogicalKeyboardKey.keyS) {
         if (showIntroSkipButton) {
-          skipIntro(introSkipModel);
-        } else if (showCreditSkipButton) {
-          skipCredits(introSkipModel);
+          skipIntro(mediaSegments);
+        } else if (showOutroSkipButton) {
+          skipOutro(mediaSegments);
         }
         return true;
       }
@@ -116,7 +116,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
 
   @override
   Widget build(BuildContext context) {
-    final introSkipModel = ref.watch(playBackModel.select((value) => value?.mediaSegments));
+    final mediaSegments = ref.watch(playBackModel.select((value) => value?.mediaSegments));
     final player = ref.watch(videoPlayerProvider.select((value) => value.controller));
     return InputHandler(
       autoFocus: false,
@@ -167,8 +167,8 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                 Consumer(
                   builder: (context, ref, child) {
                     final position = ref.watch(mediaPlaybackProvider.select((value) => value.position));
-                    bool showIntroSkipButton = introSkipModel?.introInRange(position) ?? false;
-                    bool showCreditSkipButton = introSkipModel?.creditsInRange(position) ?? false;
+                    bool showIntroSkipButton = mediaSegments?.intro?.inRange(position) ?? false;
+                    bool showOutroSkipButton = mediaSegments?.outro?.inRange(position) ?? false;
                     return Stack(
                       children: [
                         if (showIntroSkipButton)
@@ -178,18 +178,18 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                               padding: const EdgeInsets.all(32),
                               child: IntroSkipButton(
                                 isOverlayVisible: showOverlay,
-                                skipIntro: () => skipIntro(introSkipModel),
+                                skipIntro: () => skipIntro(mediaSegments),
                               ),
                             ),
                           ),
-                        if (showCreditSkipButton)
+                        if (showOutroSkipButton)
                           Align(
                             alignment: Alignment.centerRight,
                             child: Padding(
                               padding: const EdgeInsets.all(32),
-                              child: CreditsSkipButton(
+                              child: OutroSkipButton(
                                 isOverlayVisible: showOverlay,
-                                skipCredits: () => skipCredits(introSkipModel),
+                                skipOutro: () => skipOutro(mediaSegments),
                               ),
                             ),
                           )
@@ -582,17 +582,17 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     );
   }
 
-  void skipIntro(MediaSegmentsModel? introSkipModel) {
+  void skipIntro(MediaSegmentsModel? mediaSegments) {
     resetTimer();
-    final end = introSkipModel?.intro?.end;
+    final end = mediaSegments?.intro?.end;
     if (end != null) {
       ref.read(videoPlayerProvider).seek(end);
     }
   }
 
-  void skipCredits(MediaSegmentsModel? introSkipModel) {
+  void skipOutro(MediaSegmentsModel? mediaSegments) {
     resetTimer();
-    final end = introSkipModel?.outro?.end;
+    final end = mediaSegments?.outro?.end;
     if (end != null) {
       ref.read(videoPlayerProvider).seek(end);
     }

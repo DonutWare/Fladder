@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -56,7 +55,6 @@ class _ChapterProgressSliderState extends ConsumerState<VideoProgressBar> {
     final player = ref.watch(videoPlayerProvider);
     final position = onDragStart ? currentDuration : widget.position;
     final MediaSegmentsModel? mediaSegments = ref.read(playBackModel.select((value) => value?.mediaSegments));
-    log(mediaSegments?.segments.length.toString() ?? "Empty");
     final relativeFraction = position.inMilliseconds / widget.duration.inMilliseconds;
     return LayoutBuilder(
       builder: (context, constraints) {
