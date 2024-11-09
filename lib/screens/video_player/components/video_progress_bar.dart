@@ -6,7 +6,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/items/chapters_model.dart';
-import 'package:fladder/models/items/intro_skip_model.dart';
+import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/list_padding.dart';
@@ -54,7 +54,7 @@ class _ChapterProgressSliderState extends ConsumerState<VideoProgressBar> {
     final isVisible = (onDragStart ? true : onHoverStart);
     final player = ref.watch(videoPlayerProvider);
     final position = onDragStart ? currentDuration : widget.position;
-    final IntroOutSkipModel? introCreditsModel = ref.read(playBackModel.select((value) => value?.introSkipModel));
+    final MediaSegmentsModel? mediaSegments = ref.read(playBackModel.select((value) => value?.mediaSegments));
     final relativeFraction = position.inMilliseconds / widget.duration.inMilliseconds;
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -138,36 +138,22 @@ class _ChapterProgressSliderState extends ConsumerState<VideoProgressBar> {
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  if (introCreditsModel?.intro?.start != null && introCreditsModel?.intro?.end != null)
-                    Positioned(
-                      left: calculateStartOffset(constraints, introCreditsModel!.intro!.start),
-                      right: calculateRightOffset(constraints, introCreditsModel.intro!.end),
+                  ...?mediaSegments?.segments.map(
+                    (segment) => Positioned(
+                      left: calculateStartOffset(constraints, segment.start),
+                      right: calculateRightOffset(constraints, segment.end),
                       bottom: 0,
                       child: Container(
                         height: 6,
                         decoration: BoxDecoration(
-                          color: Colors.greenAccent.withOpacity(0.8),
+                          color: segment.type.color,
                           borderRadius: BorderRadius.circular(
                             100,
                           ),
                         ),
                       ),
                     ),
-                  if (introCreditsModel?.credits?.start != null && introCreditsModel?.credits?.end != null)
-                    Positioned(
-                      left: calculateStartOffset(constraints, introCreditsModel!.credits!.start),
-                      right: calculateRightOffset(constraints, introCreditsModel.credits!.end),
-                      bottom: 0,
-                      child: Container(
-                        height: 6,
-                        decoration: BoxDecoration(
-                          color: Colors.orangeAccent.withOpacity(0.8),
-                          borderRadius: BorderRadius.circular(
-                            100,
-                          ),
-                        ),
-                      ),
-                    ),
+                  ),
                   if (!widget.buffering) ...{
                     //VideoBufferBar
                     Positioned(

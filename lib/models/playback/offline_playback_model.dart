@@ -1,21 +1,21 @@
 import 'package:collection/collection.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:media_kit/media_kit.dart';
+
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
+import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/items/chapters_model.dart';
+import 'package:fladder/models/items/media_segments_model.dart';
+import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
+import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
+import 'package:fladder/providers/sync_provider.dart';
+import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/list_extensions.dart';
 import 'package:fladder/wrappers/media_control_wrapper.dart'
     if (dart.library.html) 'package:fladder/wrappers/media_control_wrapper_web.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:media_kit/media_kit.dart';
-
-import 'package:fladder/models/item_base_model.dart';
-import 'package:fladder/models/items/chapters_model.dart';
-import 'package:fladder/models/items/intro_skip_model.dart';
-import 'package:fladder/models/items/media_streams_model.dart';
-import 'package:fladder/models/playback/playback_model.dart';
-import 'package:fladder/providers/sync_provider.dart';
-import 'package:fladder/util/duration_extensions.dart';
 
 class OfflinePlaybackModel implements PlaybackModel {
   OfflinePlaybackModel({
@@ -24,7 +24,7 @@ class OfflinePlaybackModel implements PlaybackModel {
     required this.syncedItem,
     this.mediaStreams,
     this.playbackInfo,
-    this.introSkipModel,
+    this.mediaSegments,
     this.trickPlay,
     this.queue = const [],
     this.syncedQueue = const [],
@@ -45,7 +45,7 @@ class OfflinePlaybackModel implements PlaybackModel {
   final MediaStreamsModel? mediaStreams;
 
   @override
-  final IntroOutSkipModel? introSkipModel;
+  final MediaSegmentsModel? mediaSegments;
 
   @override
   List<Chapter>? get chapters => syncedItem.chapters;
@@ -156,7 +156,7 @@ class OfflinePlaybackModel implements PlaybackModel {
     ValueGetter<Media?>? media,
     SyncedItem? syncedItem,
     ValueGetter<MediaStreamsModel?>? mediaStreams,
-    ValueGetter<IntroOutSkipModel?>? introSkipModel,
+    ValueGetter<MediaSegmentsModel?>? mediaSegments,
     ValueGetter<TrickPlayModel?>? trickPlay,
     List<ItemBaseModel>? queue,
     List<SyncedItem>? syncedQueue,
@@ -166,7 +166,7 @@ class OfflinePlaybackModel implements PlaybackModel {
       media: media != null ? media() : this.media,
       syncedItem: syncedItem ?? this.syncedItem,
       mediaStreams: mediaStreams != null ? mediaStreams() : this.mediaStreams,
-      introSkipModel: introSkipModel != null ? introSkipModel() : this.introSkipModel,
+      mediaSegments: mediaSegments != null ? mediaSegments() : this.mediaSegments,
       trickPlay: trickPlay != null ? trickPlay() : this.trickPlay,
       queue: queue ?? this.queue,
       syncedQueue: syncedQueue ?? this.syncedQueue,

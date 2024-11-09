@@ -81,7 +81,7 @@ class _VideoPlayerNextWrapperState extends ConsumerState<VideoPlayerNextWrapper>
       return;
     }
 
-    final credits = ref.read(playBackModel)?.introSkipModel?.credits;
+    final credits = ref.read(playBackModel)?.mediaSegments?.outro;
 
     if (nextType == AutoNextType.static || credits == null) {
       if ((model.duration - model.position).abs() < const Duration(seconds: 32)) {
