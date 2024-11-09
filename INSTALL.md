@@ -7,12 +7,12 @@ Platform-specific installation instructions can be found in this document.
 - [Windows](#windows)
 - [macOS](#macos)
 - [Linux](#linux)
-	- [Arch](#arch-linux)
+	- [Arch](#arch)
 	- [Fedora](#fedora)
 	- [Ubuntu/Debian](#ubuntudebian)
 - [Android](#android)
 - [iOS](#ios)
-	- [AltStore/SideStore](#altstore-sidestore)
+	- [AltStore/SideStore](#altstoresidestore)
 	- [TrollStore](#trollstore)
 
 
