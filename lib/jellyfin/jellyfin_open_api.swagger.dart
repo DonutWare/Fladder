@@ -504,7 +504,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -534,13 +534,14 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vp8, vp9, vpx (deprecated), wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
   ///@param videoStreamIndex Optional. The index of the video stream to use. If omitted the first video stream will be used.
   ///@param context Optional. The MediaBrowser.Model.Dlna.EncodingContext.
   ///@param streamOptions Optional. The streaming options.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
   Future<chopper.Response<String>> audioItemIdStreamGet({
     required String? itemId,
     String? container,
@@ -591,6 +592,7 @@ abstract class JellyfinOpenApi extends ChopperService {
     int? videoStreamIndex,
     enums.AudioItemIdStreamGetContext? context,
     Object? streamOptions,
+    bool? enableAudioVbrEncoding,
   }) {
     return _audioItemIdStreamGet(
         itemId: itemId,
@@ -641,7 +643,8 @@ abstract class JellyfinOpenApi extends ChopperService {
         audioStreamIndex: audioStreamIndex,
         videoStreamIndex: videoStreamIndex,
         context: context?.value?.toString(),
-        streamOptions: streamOptions);
+        streamOptions: streamOptions,
+        enableAudioVbrEncoding: enableAudioVbrEncoding);
   }
 
   ///Gets an audio stream.
@@ -657,7 +660,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -687,13 +690,14 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vp8, vp9, vpx (deprecated), wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
   ///@param videoStreamIndex Optional. The index of the video stream to use. If omitted the first video stream will be used.
   ///@param context Optional. The MediaBrowser.Model.Dlna.EncodingContext.
   ///@param streamOptions Optional. The streaming options.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
   @Get(path: '/Audio/{itemId}/stream')
   Future<chopper.Response<String>> _audioItemIdStreamGet({
     @Path('itemId') required String? itemId,
@@ -745,6 +749,7 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('videoStreamIndex') int? videoStreamIndex,
     @Query('context') String? context,
     @Query('streamOptions') Object? streamOptions,
+    @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
   });
 
   ///Gets an audio stream.
@@ -760,7 +765,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -790,13 +795,14 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vp8, vp9, vpx (deprecated), wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
   ///@param videoStreamIndex Optional. The index of the video stream to use. If omitted the first video stream will be used.
   ///@param context Optional. The MediaBrowser.Model.Dlna.EncodingContext.
   ///@param streamOptions Optional. The streaming options.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
   Future<chopper.Response<String>> audioItemIdStreamHead({
     required String? itemId,
     String? container,
@@ -847,6 +853,7 @@ abstract class JellyfinOpenApi extends ChopperService {
     int? videoStreamIndex,
     enums.AudioItemIdStreamHeadContext? context,
     Object? streamOptions,
+    bool? enableAudioVbrEncoding,
   }) {
     return _audioItemIdStreamHead(
         itemId: itemId,
@@ -897,7 +904,8 @@ abstract class JellyfinOpenApi extends ChopperService {
         audioStreamIndex: audioStreamIndex,
         videoStreamIndex: videoStreamIndex,
         context: context?.value?.toString(),
-        streamOptions: streamOptions);
+        streamOptions: streamOptions,
+        enableAudioVbrEncoding: enableAudioVbrEncoding);
   }
 
   ///Gets an audio stream.
@@ -913,7 +921,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -943,13 +951,14 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vp8, vp9, vpx (deprecated), wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
   ///@param videoStreamIndex Optional. The index of the video stream to use. If omitted the first video stream will be used.
   ///@param context Optional. The MediaBrowser.Model.Dlna.EncodingContext.
   ///@param streamOptions Optional. The streaming options.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
   @Head(path: '/Audio/{itemId}/stream')
   Future<chopper.Response<String>> _audioItemIdStreamHead({
     @Path('itemId') required String? itemId,
@@ -1001,6 +1010,7 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('videoStreamIndex') int? videoStreamIndex,
     @Query('context') String? context,
     @Query('streamOptions') Object? streamOptions,
+    @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
   });
 
   ///Gets an audio stream.
@@ -1016,7 +1026,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -1046,13 +1056,14 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vp8, vp9, vpx (deprecated), wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
   ///@param videoStreamIndex Optional. The index of the video stream to use. If omitted the first video stream will be used.
   ///@param context Optional. The MediaBrowser.Model.Dlna.EncodingContext.
   ///@param streamOptions Optional. The streaming options.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
   Future<chopper.Response<String>> audioItemIdStreamContainerGet({
     required String? itemId,
     required String? container,
@@ -1103,6 +1114,7 @@ abstract class JellyfinOpenApi extends ChopperService {
     int? videoStreamIndex,
     enums.AudioItemIdStreamContainerGetContext? context,
     Object? streamOptions,
+    bool? enableAudioVbrEncoding,
   }) {
     return _audioItemIdStreamContainerGet(
         itemId: itemId,
@@ -1153,7 +1165,8 @@ abstract class JellyfinOpenApi extends ChopperService {
         audioStreamIndex: audioStreamIndex,
         videoStreamIndex: videoStreamIndex,
         context: context?.value?.toString(),
-        streamOptions: streamOptions);
+        streamOptions: streamOptions,
+        enableAudioVbrEncoding: enableAudioVbrEncoding);
   }
 
   ///Gets an audio stream.
@@ -1169,7 +1182,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -1199,13 +1212,14 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vp8, vp9, vpx (deprecated), wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
   ///@param videoStreamIndex Optional. The index of the video stream to use. If omitted the first video stream will be used.
   ///@param context Optional. The MediaBrowser.Model.Dlna.EncodingContext.
   ///@param streamOptions Optional. The streaming options.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
   @Get(path: '/Audio/{itemId}/stream.{container}')
   Future<chopper.Response<String>> _audioItemIdStreamContainerGet({
     @Path('itemId') required String? itemId,
@@ -1257,6 +1271,7 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('videoStreamIndex') int? videoStreamIndex,
     @Query('context') String? context,
     @Query('streamOptions') Object? streamOptions,
+    @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
   });
 
   ///Gets an audio stream.
@@ -1272,7 +1287,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -1302,13 +1317,14 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vp8, vp9, vpx (deprecated), wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
   ///@param videoStreamIndex Optional. The index of the video stream to use. If omitted the first video stream will be used.
   ///@param context Optional. The MediaBrowser.Model.Dlna.EncodingContext.
   ///@param streamOptions Optional. The streaming options.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
   Future<chopper.Response<String>> audioItemIdStreamContainerHead({
     required String? itemId,
     required String? container,
@@ -1359,6 +1375,7 @@ abstract class JellyfinOpenApi extends ChopperService {
     int? videoStreamIndex,
     enums.AudioItemIdStreamContainerHeadContext? context,
     Object? streamOptions,
+    bool? enableAudioVbrEncoding,
   }) {
     return _audioItemIdStreamContainerHead(
         itemId: itemId,
@@ -1409,7 +1426,8 @@ abstract class JellyfinOpenApi extends ChopperService {
         audioStreamIndex: audioStreamIndex,
         videoStreamIndex: videoStreamIndex,
         context: context?.value?.toString(),
-        streamOptions: streamOptions);
+        streamOptions: streamOptions,
+        enableAudioVbrEncoding: enableAudioVbrEncoding);
   }
 
   ///Gets an audio stream.
@@ -1425,7 +1443,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -1455,13 +1473,14 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vp8, vp9, vpx (deprecated), wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
   ///@param videoStreamIndex Optional. The index of the video stream to use. If omitted the first video stream will be used.
   ///@param context Optional. The MediaBrowser.Model.Dlna.EncodingContext.
   ///@param streamOptions Optional. The streaming options.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
   @Head(path: '/Audio/{itemId}/stream.{container}')
   Future<chopper.Response<String>> _audioItemIdStreamContainerHead({
     @Path('itemId') required String? itemId,
@@ -1513,6 +1532,7 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('videoStreamIndex') int? videoStreamIndex,
     @Query('context') String? context,
     @Query('streamOptions') Object? streamOptions,
+    @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
   });
 
   ///Gets branding configuration.
@@ -1918,9 +1938,10 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Get Devices.
   ///@param userId Gets or sets the user identifier.
-  Future<chopper.Response<DeviceInfoQueryResult>> devicesGet({String? userId}) {
-    generatedMapping.putIfAbsent(
-        DeviceInfoQueryResult, () => DeviceInfoQueryResult.fromJsonFactory);
+  Future<chopper.Response<DeviceInfoDtoQueryResult>> devicesGet(
+      {String? userId}) {
+    generatedMapping.putIfAbsent(DeviceInfoDtoQueryResult,
+        () => DeviceInfoDtoQueryResult.fromJsonFactory);
 
     return _devicesGet(userId: userId);
   }
@@ -1928,7 +1949,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///Get Devices.
   ///@param userId Gets or sets the user identifier.
   @Get(path: '/Devices')
-  Future<chopper.Response<DeviceInfoQueryResult>> _devicesGet(
+  Future<chopper.Response<DeviceInfoDtoQueryResult>> _devicesGet(
       {@Query('userId') String? userId});
 
   ///Deletes a device.
@@ -1944,8 +1965,10 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Get info for a device.
   ///@param id Device Id.
-  Future<chopper.Response<DeviceInfo>> devicesInfoGet({required String? id}) {
-    generatedMapping.putIfAbsent(DeviceInfo, () => DeviceInfo.fromJsonFactory);
+  Future<chopper.Response<DeviceInfoDto>> devicesInfoGet(
+      {required String? id}) {
+    generatedMapping.putIfAbsent(
+        DeviceInfoDto, () => DeviceInfoDto.fromJsonFactory);
 
     return _devicesInfoGet(id: id);
   }
@@ -1953,15 +1976,15 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///Get info for a device.
   ///@param id Device Id.
   @Get(path: '/Devices/Info')
-  Future<chopper.Response<DeviceInfo>> _devicesInfoGet(
+  Future<chopper.Response<DeviceInfoDto>> _devicesInfoGet(
       {@Query('id') required String? id});
 
   ///Get options for a device.
   ///@param id Device Id.
-  Future<chopper.Response<DeviceOptions>> devicesOptionsGet(
+  Future<chopper.Response<DeviceOptionsDto>> devicesOptionsGet(
       {required String? id}) {
     generatedMapping.putIfAbsent(
-        DeviceOptions, () => DeviceOptions.fromJsonFactory);
+        DeviceOptionsDto, () => DeviceOptionsDto.fromJsonFactory);
 
     return _devicesOptionsGet(id: id);
   }
@@ -1969,7 +1992,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///Get options for a device.
   ///@param id Device Id.
   @Get(path: '/Devices/Options')
-  Future<chopper.Response<DeviceOptions>> _devicesOptionsGet(
+  Future<chopper.Response<DeviceOptionsDto>> _devicesOptionsGet(
       {@Query('id') required String? id});
 
   ///Update device options.
@@ -2072,7 +2095,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -2103,13 +2126,14 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vpx, wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
   ///@param videoStreamIndex Optional. The index of the video stream to use. If omitted the first video stream will be used.
   ///@param context Optional. The MediaBrowser.Model.Dlna.EncodingContext.
   ///@param streamOptions Optional. The streaming options.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
   Future<chopper.Response<String>>
       audioItemIdHls1PlaylistIdSegmentIdContainerGet({
     required String? itemId,
@@ -2167,6 +2191,7 @@ abstract class JellyfinOpenApi extends ChopperService {
     int? videoStreamIndex,
     enums.AudioItemIdHls1PlaylistIdSegmentIdContainerGetContext? context,
     Object? streamOptions,
+    bool? enableAudioVbrEncoding,
   }) {
     return _audioItemIdHls1PlaylistIdSegmentIdContainerGet(
         itemId: itemId,
@@ -2222,7 +2247,8 @@ abstract class JellyfinOpenApi extends ChopperService {
         audioStreamIndex: audioStreamIndex,
         videoStreamIndex: videoStreamIndex,
         context: context?.value?.toString(),
-        streamOptions: streamOptions);
+        streamOptions: streamOptions,
+        enableAudioVbrEncoding: enableAudioVbrEncoding);
   }
 
   ///Gets a video stream using HTTP live streaming.
@@ -2242,7 +2268,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -2273,13 +2299,14 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vpx, wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
   ///@param videoStreamIndex Optional. The index of the video stream to use. If omitted the first video stream will be used.
   ///@param context Optional. The MediaBrowser.Model.Dlna.EncodingContext.
   ///@param streamOptions Optional. The streaming options.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
   @Get(path: '/Audio/{itemId}/hls1/{playlistId}/{segmentId}.{container}')
   Future<chopper.Response<String>>
       _audioItemIdHls1PlaylistIdSegmentIdContainerGet({
@@ -2337,6 +2364,7 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('videoStreamIndex') int? videoStreamIndex,
     @Query('context') String? context,
     @Query('streamOptions') Object? streamOptions,
+    @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
   });
 
   ///Gets an audio stream using HTTP live streaming.
@@ -2351,7 +2379,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -2382,13 +2410,14 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vpx, wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
   ///@param videoStreamIndex Optional. The index of the video stream to use. If omitted the first video stream will be used.
   ///@param context Optional. The MediaBrowser.Model.Dlna.EncodingContext.
   ///@param streamOptions Optional. The streaming options.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
   Future<chopper.Response<String>> audioItemIdMainM3u8Get({
     required String? itemId,
     bool? $static,
@@ -2439,6 +2468,7 @@ abstract class JellyfinOpenApi extends ChopperService {
     int? videoStreamIndex,
     enums.AudioItemIdMainM3u8GetContext? context,
     Object? streamOptions,
+    bool? enableAudioVbrEncoding,
   }) {
     return _audioItemIdMainM3u8Get(
         itemId: itemId,
@@ -2489,7 +2519,8 @@ abstract class JellyfinOpenApi extends ChopperService {
         audioStreamIndex: audioStreamIndex,
         videoStreamIndex: videoStreamIndex,
         context: context?.value?.toString(),
-        streamOptions: streamOptions);
+        streamOptions: streamOptions,
+        enableAudioVbrEncoding: enableAudioVbrEncoding);
   }
 
   ///Gets an audio stream using HTTP live streaming.
@@ -2504,7 +2535,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -2535,13 +2566,14 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vpx, wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
   ///@param videoStreamIndex Optional. The index of the video stream to use. If omitted the first video stream will be used.
   ///@param context Optional. The MediaBrowser.Model.Dlna.EncodingContext.
   ///@param streamOptions Optional. The streaming options.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
   @Get(path: '/Audio/{itemId}/main.m3u8')
   Future<chopper.Response<String>> _audioItemIdMainM3u8Get({
     @Path('itemId') required String? itemId,
@@ -2593,6 +2625,7 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('videoStreamIndex') int? videoStreamIndex,
     @Query('context') String? context,
     @Query('streamOptions') Object? streamOptions,
+    @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
   });
 
   ///Gets an audio hls playlist stream.
@@ -2607,7 +2640,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -2638,7 +2671,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vp8, vp9, vpx (deprecated), wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
@@ -2646,6 +2679,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param context Optional. The MediaBrowser.Model.Dlna.EncodingContext.
   ///@param streamOptions Optional. The streaming options.
   ///@param enableAdaptiveBitrateStreaming Enable adaptive bitrate streaming.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
   Future<chopper.Response<String>> audioItemIdMasterM3u8Get({
     required String? itemId,
     bool? $static,
@@ -2697,6 +2731,7 @@ abstract class JellyfinOpenApi extends ChopperService {
     enums.AudioItemIdMasterM3u8GetContext? context,
     Object? streamOptions,
     bool? enableAdaptiveBitrateStreaming,
+    bool? enableAudioVbrEncoding,
   }) {
     return _audioItemIdMasterM3u8Get(
         itemId: itemId,
@@ -2748,7 +2783,8 @@ abstract class JellyfinOpenApi extends ChopperService {
         videoStreamIndex: videoStreamIndex,
         context: context?.value?.toString(),
         streamOptions: streamOptions,
-        enableAdaptiveBitrateStreaming: enableAdaptiveBitrateStreaming);
+        enableAdaptiveBitrateStreaming: enableAdaptiveBitrateStreaming,
+        enableAudioVbrEncoding: enableAudioVbrEncoding);
   }
 
   ///Gets an audio hls playlist stream.
@@ -2763,7 +2799,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -2794,7 +2830,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vp8, vp9, vpx (deprecated), wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
@@ -2802,6 +2838,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param context Optional. The MediaBrowser.Model.Dlna.EncodingContext.
   ///@param streamOptions Optional. The streaming options.
   ///@param enableAdaptiveBitrateStreaming Enable adaptive bitrate streaming.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
   @Get(path: '/Audio/{itemId}/master.m3u8')
   Future<chopper.Response<String>> _audioItemIdMasterM3u8Get({
     @Path('itemId') required String? itemId,
@@ -2855,6 +2892,7 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('streamOptions') Object? streamOptions,
     @Query('enableAdaptiveBitrateStreaming')
     bool? enableAdaptiveBitrateStreaming,
+    @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
   });
 
   ///Gets an audio hls playlist stream.
@@ -2869,7 +2907,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -2900,7 +2938,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vp8, vp9, vpx (deprecated), wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
@@ -2908,6 +2946,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param context Optional. The MediaBrowser.Model.Dlna.EncodingContext.
   ///@param streamOptions Optional. The streaming options.
   ///@param enableAdaptiveBitrateStreaming Enable adaptive bitrate streaming.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
   Future<chopper.Response<String>> audioItemIdMasterM3u8Head({
     required String? itemId,
     bool? $static,
@@ -2959,6 +2998,7 @@ abstract class JellyfinOpenApi extends ChopperService {
     enums.AudioItemIdMasterM3u8HeadContext? context,
     Object? streamOptions,
     bool? enableAdaptiveBitrateStreaming,
+    bool? enableAudioVbrEncoding,
   }) {
     return _audioItemIdMasterM3u8Head(
         itemId: itemId,
@@ -3010,7 +3050,8 @@ abstract class JellyfinOpenApi extends ChopperService {
         videoStreamIndex: videoStreamIndex,
         context: context?.value?.toString(),
         streamOptions: streamOptions,
-        enableAdaptiveBitrateStreaming: enableAdaptiveBitrateStreaming);
+        enableAdaptiveBitrateStreaming: enableAdaptiveBitrateStreaming,
+        enableAudioVbrEncoding: enableAudioVbrEncoding);
   }
 
   ///Gets an audio hls playlist stream.
@@ -3025,7 +3066,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -3056,7 +3097,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vp8, vp9, vpx (deprecated), wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
@@ -3064,6 +3105,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param context Optional. The MediaBrowser.Model.Dlna.EncodingContext.
   ///@param streamOptions Optional. The streaming options.
   ///@param enableAdaptiveBitrateStreaming Enable adaptive bitrate streaming.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
   @Head(path: '/Audio/{itemId}/master.m3u8')
   Future<chopper.Response<String>> _audioItemIdMasterM3u8Head({
     @Path('itemId') required String? itemId,
@@ -3117,6 +3159,7 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('streamOptions') Object? streamOptions,
     @Query('enableAdaptiveBitrateStreaming')
     bool? enableAdaptiveBitrateStreaming,
+    @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
   });
 
   ///Gets a video stream using HTTP live streaming.
@@ -3136,7 +3179,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -3168,13 +3211,15 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vp8, vp9, vpx (deprecated), wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
   ///@param videoStreamIndex Optional. The index of the video stream to use. If omitted the first video stream will be used.
   ///@param context Optional. The MediaBrowser.Model.Dlna.EncodingContext.
   ///@param streamOptions Optional. The streaming options.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
+  ///@param alwaysBurnInSubtitleWhenTranscoding Whether to always burn in subtitles when transcoding.
   Future<chopper.Response<String>>
       videosItemIdHls1PlaylistIdSegmentIdContainerGet({
     required String? itemId,
@@ -3233,6 +3278,8 @@ abstract class JellyfinOpenApi extends ChopperService {
     int? videoStreamIndex,
     enums.VideosItemIdHls1PlaylistIdSegmentIdContainerGetContext? context,
     Object? streamOptions,
+    bool? enableAudioVbrEncoding,
+    bool? alwaysBurnInSubtitleWhenTranscoding,
   }) {
     return _videosItemIdHls1PlaylistIdSegmentIdContainerGet(
         itemId: itemId,
@@ -3289,7 +3336,10 @@ abstract class JellyfinOpenApi extends ChopperService {
         audioStreamIndex: audioStreamIndex,
         videoStreamIndex: videoStreamIndex,
         context: context?.value?.toString(),
-        streamOptions: streamOptions);
+        streamOptions: streamOptions,
+        enableAudioVbrEncoding: enableAudioVbrEncoding,
+        alwaysBurnInSubtitleWhenTranscoding:
+            alwaysBurnInSubtitleWhenTranscoding);
   }
 
   ///Gets a video stream using HTTP live streaming.
@@ -3309,7 +3359,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -3341,13 +3391,15 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vp8, vp9, vpx (deprecated), wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
   ///@param videoStreamIndex Optional. The index of the video stream to use. If omitted the first video stream will be used.
   ///@param context Optional. The MediaBrowser.Model.Dlna.EncodingContext.
   ///@param streamOptions Optional. The streaming options.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
+  ///@param alwaysBurnInSubtitleWhenTranscoding Whether to always burn in subtitles when transcoding.
   @Get(path: '/Videos/{itemId}/hls1/{playlistId}/{segmentId}.{container}')
   Future<chopper.Response<String>>
       _videosItemIdHls1PlaylistIdSegmentIdContainerGet({
@@ -3406,6 +3458,9 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('videoStreamIndex') int? videoStreamIndex,
     @Query('context') String? context,
     @Query('streamOptions') Object? streamOptions,
+    @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
+    @Query('alwaysBurnInSubtitleWhenTranscoding')
+    bool? alwaysBurnInSubtitleWhenTranscoding,
   });
 
   ///Gets a hls live stream.
@@ -3421,7 +3476,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -3451,7 +3506,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vp8, vp9, vpx (deprecated), wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
@@ -3461,6 +3516,8 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param maxWidth Optional. The max width.
   ///@param maxHeight Optional. The max height.
   ///@param enableSubtitlesInManifest Optional. Whether to enable subtitles in the manifest.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
+  ///@param alwaysBurnInSubtitleWhenTranscoding Whether to always burn in subtitles when transcoding.
   Future<chopper.Response<String>> videosItemIdLiveM3u8Get({
     required String? itemId,
     String? container,
@@ -3514,6 +3571,8 @@ abstract class JellyfinOpenApi extends ChopperService {
     int? maxWidth,
     int? maxHeight,
     bool? enableSubtitlesInManifest,
+    bool? enableAudioVbrEncoding,
+    bool? alwaysBurnInSubtitleWhenTranscoding,
   }) {
     return _videosItemIdLiveM3u8Get(
         itemId: itemId,
@@ -3567,7 +3626,10 @@ abstract class JellyfinOpenApi extends ChopperService {
         streamOptions: streamOptions,
         maxWidth: maxWidth,
         maxHeight: maxHeight,
-        enableSubtitlesInManifest: enableSubtitlesInManifest);
+        enableSubtitlesInManifest: enableSubtitlesInManifest,
+        enableAudioVbrEncoding: enableAudioVbrEncoding,
+        alwaysBurnInSubtitleWhenTranscoding:
+            alwaysBurnInSubtitleWhenTranscoding);
   }
 
   ///Gets a hls live stream.
@@ -3583,7 +3645,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -3613,7 +3675,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vp8, vp9, vpx (deprecated), wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
@@ -3623,6 +3685,8 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param maxWidth Optional. The max width.
   ///@param maxHeight Optional. The max height.
   ///@param enableSubtitlesInManifest Optional. Whether to enable subtitles in the manifest.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
+  ///@param alwaysBurnInSubtitleWhenTranscoding Whether to always burn in subtitles when transcoding.
   @Get(path: '/Videos/{itemId}/live.m3u8')
   Future<chopper.Response<String>> _videosItemIdLiveM3u8Get({
     @Path('itemId') required String? itemId,
@@ -3677,6 +3741,9 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('maxWidth') int? maxWidth,
     @Query('maxHeight') int? maxHeight,
     @Query('enableSubtitlesInManifest') bool? enableSubtitlesInManifest,
+    @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
+    @Query('alwaysBurnInSubtitleWhenTranscoding')
+    bool? alwaysBurnInSubtitleWhenTranscoding,
   });
 
   ///Gets a video stream using HTTP live streaming.
@@ -3691,7 +3758,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -3723,13 +3790,15 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vp8, vp9, vpx (deprecated), wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
   ///@param videoStreamIndex Optional. The index of the video stream to use. If omitted the first video stream will be used.
   ///@param context Optional. The MediaBrowser.Model.Dlna.EncodingContext.
   ///@param streamOptions Optional. The streaming options.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
+  ///@param alwaysBurnInSubtitleWhenTranscoding Whether to always burn in subtitles when transcoding.
   Future<chopper.Response<String>> videosItemIdMainM3u8Get({
     required String? itemId,
     bool? $static,
@@ -3781,6 +3850,8 @@ abstract class JellyfinOpenApi extends ChopperService {
     int? videoStreamIndex,
     enums.VideosItemIdMainM3u8GetContext? context,
     Object? streamOptions,
+    bool? enableAudioVbrEncoding,
+    bool? alwaysBurnInSubtitleWhenTranscoding,
   }) {
     return _videosItemIdMainM3u8Get(
         itemId: itemId,
@@ -3832,7 +3903,10 @@ abstract class JellyfinOpenApi extends ChopperService {
         audioStreamIndex: audioStreamIndex,
         videoStreamIndex: videoStreamIndex,
         context: context?.value?.toString(),
-        streamOptions: streamOptions);
+        streamOptions: streamOptions,
+        enableAudioVbrEncoding: enableAudioVbrEncoding,
+        alwaysBurnInSubtitleWhenTranscoding:
+            alwaysBurnInSubtitleWhenTranscoding);
   }
 
   ///Gets a video stream using HTTP live streaming.
@@ -3847,7 +3921,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -3879,13 +3953,15 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vp8, vp9, vpx (deprecated), wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
   ///@param videoStreamIndex Optional. The index of the video stream to use. If omitted the first video stream will be used.
   ///@param context Optional. The MediaBrowser.Model.Dlna.EncodingContext.
   ///@param streamOptions Optional. The streaming options.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
+  ///@param alwaysBurnInSubtitleWhenTranscoding Whether to always burn in subtitles when transcoding.
   @Get(path: '/Videos/{itemId}/main.m3u8')
   Future<chopper.Response<String>> _videosItemIdMainM3u8Get({
     @Path('itemId') required String? itemId,
@@ -3938,6 +4014,9 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('videoStreamIndex') int? videoStreamIndex,
     @Query('context') String? context,
     @Query('streamOptions') Object? streamOptions,
+    @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
+    @Query('alwaysBurnInSubtitleWhenTranscoding')
+    bool? alwaysBurnInSubtitleWhenTranscoding,
   });
 
   ///Gets a video hls playlist stream.
@@ -3952,7 +4031,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -3984,7 +4063,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vp8, vp9, vpx (deprecated), wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
@@ -3993,6 +4072,8 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param streamOptions Optional. The streaming options.
   ///@param enableAdaptiveBitrateStreaming Enable adaptive bitrate streaming.
   ///@param enableTrickplay Enable trickplay image playlists being added to master playlist.
+  ///@param enableAudioVbrEncoding Whether to enable Audio Encoding.
+  ///@param alwaysBurnInSubtitleWhenTranscoding Whether to always burn in subtitles when transcoding.
   Future<chopper.Response<String>> videosItemIdMasterM3u8Get({
     required String? itemId,
     bool? $static,
@@ -4046,6 +4127,8 @@ abstract class JellyfinOpenApi extends ChopperService {
     Object? streamOptions,
     bool? enableAdaptiveBitrateStreaming,
     bool? enableTrickplay,
+    bool? enableAudioVbrEncoding,
+    bool? alwaysBurnInSubtitleWhenTranscoding,
   }) {
     return _videosItemIdMasterM3u8Get(
         itemId: itemId,
@@ -4099,7 +4182,10 @@ abstract class JellyfinOpenApi extends ChopperService {
         context: context?.value?.toString(),
         streamOptions: streamOptions,
         enableAdaptiveBitrateStreaming: enableAdaptiveBitrateStreaming,
-        enableTrickplay: enableTrickplay);
+        enableTrickplay: enableTrickplay,
+        enableAudioVbrEncoding: enableAudioVbrEncoding,
+        alwaysBurnInSubtitleWhenTranscoding:
+            alwaysBurnInSubtitleWhenTranscoding);
   }
 
   ///Gets a video hls playlist stream.
@@ -4114,7 +4200,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -4146,7 +4232,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vp8, vp9, vpx (deprecated), wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
@@ -4155,6 +4241,8 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param streamOptions Optional. The streaming options.
   ///@param enableAdaptiveBitrateStreaming Enable adaptive bitrate streaming.
   ///@param enableTrickplay Enable trickplay image playlists being added to master playlist.
+  ///@param enableAudioVbrEncoding Whether to enable Audio Encoding.
+  ///@param alwaysBurnInSubtitleWhenTranscoding Whether to always burn in subtitles when transcoding.
   @Get(path: '/Videos/{itemId}/master.m3u8')
   Future<chopper.Response<String>> _videosItemIdMasterM3u8Get({
     @Path('itemId') required String? itemId,
@@ -4210,6 +4298,9 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('enableAdaptiveBitrateStreaming')
     bool? enableAdaptiveBitrateStreaming,
     @Query('enableTrickplay') bool? enableTrickplay,
+    @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
+    @Query('alwaysBurnInSubtitleWhenTranscoding')
+    bool? alwaysBurnInSubtitleWhenTranscoding,
   });
 
   ///Gets a video hls playlist stream.
@@ -4224,7 +4315,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -4256,7 +4347,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vp8, vp9, vpx (deprecated), wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
@@ -4265,6 +4356,8 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param streamOptions Optional. The streaming options.
   ///@param enableAdaptiveBitrateStreaming Enable adaptive bitrate streaming.
   ///@param enableTrickplay Enable trickplay image playlists being added to master playlist.
+  ///@param enableAudioVbrEncoding Whether to enable Audio Encoding.
+  ///@param alwaysBurnInSubtitleWhenTranscoding Whether to always burn in subtitles when transcoding.
   Future<chopper.Response<String>> videosItemIdMasterM3u8Head({
     required String? itemId,
     bool? $static,
@@ -4318,6 +4411,8 @@ abstract class JellyfinOpenApi extends ChopperService {
     Object? streamOptions,
     bool? enableAdaptiveBitrateStreaming,
     bool? enableTrickplay,
+    bool? enableAudioVbrEncoding,
+    bool? alwaysBurnInSubtitleWhenTranscoding,
   }) {
     return _videosItemIdMasterM3u8Head(
         itemId: itemId,
@@ -4371,7 +4466,10 @@ abstract class JellyfinOpenApi extends ChopperService {
         context: context?.value?.toString(),
         streamOptions: streamOptions,
         enableAdaptiveBitrateStreaming: enableAdaptiveBitrateStreaming,
-        enableTrickplay: enableTrickplay);
+        enableTrickplay: enableTrickplay,
+        enableAudioVbrEncoding: enableAudioVbrEncoding,
+        alwaysBurnInSubtitleWhenTranscoding:
+            alwaysBurnInSubtitleWhenTranscoding);
   }
 
   ///Gets a video hls playlist stream.
@@ -4386,7 +4484,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -4418,7 +4516,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vp8, vp9, vpx (deprecated), wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
@@ -4427,6 +4525,8 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param streamOptions Optional. The streaming options.
   ///@param enableAdaptiveBitrateStreaming Enable adaptive bitrate streaming.
   ///@param enableTrickplay Enable trickplay image playlists being added to master playlist.
+  ///@param enableAudioVbrEncoding Whether to enable Audio Encoding.
+  ///@param alwaysBurnInSubtitleWhenTranscoding Whether to always burn in subtitles when transcoding.
   @Head(path: '/Videos/{itemId}/master.m3u8')
   Future<chopper.Response<String>> _videosItemIdMasterM3u8Head({
     @Path('itemId') required String? itemId,
@@ -4482,6 +4582,9 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('enableAdaptiveBitrateStreaming')
     bool? enableAdaptiveBitrateStreaming,
     @Query('enableTrickplay') bool? enableTrickplay,
+    @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
+    @Query('alwaysBurnInSubtitleWhenTranscoding')
+    bool? alwaysBurnInSubtitleWhenTranscoding,
   });
 
   ///Get Default directory browser.
@@ -8409,6 +8512,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param hasSpecialFeature Optional filter by items with special features.
   ///@param hasTrailer Optional filter by items with trailers.
   ///@param adjacentTo Optional. Return items that are siblings of a supplied item.
+  ///@param indexNumber Optional filter by index number.
   ///@param parentIndexNumber Optional filter by parent index number.
   ///@param hasParentalRating Optional filter by items that have or do not have a parental rating.
   ///@param isHd Optional filter by items that are HD or not.
@@ -8495,6 +8599,7 @@ abstract class JellyfinOpenApi extends ChopperService {
     bool? hasSpecialFeature,
     bool? hasTrailer,
     String? adjacentTo,
+    int? indexNumber,
     int? parentIndexNumber,
     bool? hasParentalRating,
     bool? isHd,
@@ -8585,6 +8690,7 @@ abstract class JellyfinOpenApi extends ChopperService {
         hasSpecialFeature: hasSpecialFeature,
         hasTrailer: hasTrailer,
         adjacentTo: adjacentTo,
+        indexNumber: indexNumber,
         parentIndexNumber: parentIndexNumber,
         hasParentalRating: hasParentalRating,
         isHd: isHd,
@@ -8673,6 +8779,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param hasSpecialFeature Optional filter by items with special features.
   ///@param hasTrailer Optional filter by items with trailers.
   ///@param adjacentTo Optional. Return items that are siblings of a supplied item.
+  ///@param indexNumber Optional filter by index number.
   ///@param parentIndexNumber Optional filter by parent index number.
   ///@param hasParentalRating Optional filter by items that have or do not have a parental rating.
   ///@param isHd Optional filter by items that are HD or not.
@@ -8760,6 +8867,7 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('hasSpecialFeature') bool? hasSpecialFeature,
     @Query('hasTrailer') bool? hasTrailer,
     @Query('adjacentTo') String? adjacentTo,
+    @Query('indexNumber') int? indexNumber,
     @Query('parentIndexNumber') int? parentIndexNumber,
     @Query('hasParentalRating') bool? hasParentalRating,
     @Query('isHd') bool? isHd,
@@ -9269,81 +9377,117 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param itemId The item id.
   ///@param userId Optional. Filter by user id, and attach user data.
   ///@param inheritFromParent Optional. Determines whether or not parent items should be searched for theme media.
+  ///@param sortBy Optional. Specify one or more sort orders, comma delimited. Options: Album, AlbumArtist, Artist, Budget, CommunityRating, CriticRating, DateCreated, DatePlayed, PlayCount, PremiereDate, ProductionYear, SortName, Random, Revenue, Runtime.
+  ///@param sortOrder Optional. Sort Order - Ascending, Descending.
   Future<chopper.Response<AllThemeMediaResult>> itemsItemIdThemeMediaGet({
     required String? itemId,
     String? userId,
     bool? inheritFromParent,
+    List<enums.ItemSortBy>? sortBy,
+    List<enums.SortOrder>? sortOrder,
   }) {
     generatedMapping.putIfAbsent(
         AllThemeMediaResult, () => AllThemeMediaResult.fromJsonFactory);
 
     return _itemsItemIdThemeMediaGet(
-        itemId: itemId, userId: userId, inheritFromParent: inheritFromParent);
+        itemId: itemId,
+        userId: userId,
+        inheritFromParent: inheritFromParent,
+        sortBy: itemSortByListToJson(sortBy),
+        sortOrder: sortOrderListToJson(sortOrder));
   }
 
   ///Get theme songs and videos for an item.
   ///@param itemId The item id.
   ///@param userId Optional. Filter by user id, and attach user data.
   ///@param inheritFromParent Optional. Determines whether or not parent items should be searched for theme media.
+  ///@param sortBy Optional. Specify one or more sort orders, comma delimited. Options: Album, AlbumArtist, Artist, Budget, CommunityRating, CriticRating, DateCreated, DatePlayed, PlayCount, PremiereDate, ProductionYear, SortName, Random, Revenue, Runtime.
+  ///@param sortOrder Optional. Sort Order - Ascending, Descending.
   @Get(path: '/Items/{itemId}/ThemeMedia')
   Future<chopper.Response<AllThemeMediaResult>> _itemsItemIdThemeMediaGet({
     @Path('itemId') required String? itemId,
     @Query('userId') String? userId,
     @Query('inheritFromParent') bool? inheritFromParent,
+    @Query('sortBy') List<Object?>? sortBy,
+    @Query('sortOrder') List<Object?>? sortOrder,
   });
 
   ///Get theme songs for an item.
   ///@param itemId The item id.
   ///@param userId Optional. Filter by user id, and attach user data.
   ///@param inheritFromParent Optional. Determines whether or not parent items should be searched for theme media.
+  ///@param sortBy Optional. Specify one or more sort orders, comma delimited. Options: Album, AlbumArtist, Artist, Budget, CommunityRating, CriticRating, DateCreated, DatePlayed, PlayCount, PremiereDate, ProductionYear, SortName, Random, Revenue, Runtime.
+  ///@param sortOrder Optional. Sort Order - Ascending, Descending.
   Future<chopper.Response<ThemeMediaResult>> itemsItemIdThemeSongsGet({
     required String? itemId,
     String? userId,
     bool? inheritFromParent,
+    List<enums.ItemSortBy>? sortBy,
+    List<enums.SortOrder>? sortOrder,
   }) {
     generatedMapping.putIfAbsent(
         ThemeMediaResult, () => ThemeMediaResult.fromJsonFactory);
 
     return _itemsItemIdThemeSongsGet(
-        itemId: itemId, userId: userId, inheritFromParent: inheritFromParent);
+        itemId: itemId,
+        userId: userId,
+        inheritFromParent: inheritFromParent,
+        sortBy: itemSortByListToJson(sortBy),
+        sortOrder: sortOrderListToJson(sortOrder));
   }
 
   ///Get theme songs for an item.
   ///@param itemId The item id.
   ///@param userId Optional. Filter by user id, and attach user data.
   ///@param inheritFromParent Optional. Determines whether or not parent items should be searched for theme media.
+  ///@param sortBy Optional. Specify one or more sort orders, comma delimited. Options: Album, AlbumArtist, Artist, Budget, CommunityRating, CriticRating, DateCreated, DatePlayed, PlayCount, PremiereDate, ProductionYear, SortName, Random, Revenue, Runtime.
+  ///@param sortOrder Optional. Sort Order - Ascending, Descending.
   @Get(path: '/Items/{itemId}/ThemeSongs')
   Future<chopper.Response<ThemeMediaResult>> _itemsItemIdThemeSongsGet({
     @Path('itemId') required String? itemId,
     @Query('userId') String? userId,
     @Query('inheritFromParent') bool? inheritFromParent,
+    @Query('sortBy') List<Object?>? sortBy,
+    @Query('sortOrder') List<Object?>? sortOrder,
   });
 
   ///Get theme videos for an item.
   ///@param itemId The item id.
   ///@param userId Optional. Filter by user id, and attach user data.
   ///@param inheritFromParent Optional. Determines whether or not parent items should be searched for theme media.
+  ///@param sortBy Optional. Specify one or more sort orders, comma delimited. Options: Album, AlbumArtist, Artist, Budget, CommunityRating, CriticRating, DateCreated, DatePlayed, PlayCount, PremiereDate, ProductionYear, SortName, Random, Revenue, Runtime.
+  ///@param sortOrder Optional. Sort Order - Ascending, Descending.
   Future<chopper.Response<ThemeMediaResult>> itemsItemIdThemeVideosGet({
     required String? itemId,
     String? userId,
     bool? inheritFromParent,
+    List<enums.ItemSortBy>? sortBy,
+    List<enums.SortOrder>? sortOrder,
   }) {
     generatedMapping.putIfAbsent(
         ThemeMediaResult, () => ThemeMediaResult.fromJsonFactory);
 
     return _itemsItemIdThemeVideosGet(
-        itemId: itemId, userId: userId, inheritFromParent: inheritFromParent);
+        itemId: itemId,
+        userId: userId,
+        inheritFromParent: inheritFromParent,
+        sortBy: itemSortByListToJson(sortBy),
+        sortOrder: sortOrderListToJson(sortOrder));
   }
 
   ///Get theme videos for an item.
   ///@param itemId The item id.
   ///@param userId Optional. Filter by user id, and attach user data.
   ///@param inheritFromParent Optional. Determines whether or not parent items should be searched for theme media.
+  ///@param sortBy Optional. Specify one or more sort orders, comma delimited. Options: Album, AlbumArtist, Artist, Budget, CommunityRating, CriticRating, DateCreated, DatePlayed, PlayCount, PremiereDate, ProductionYear, SortName, Random, Revenue, Runtime.
+  ///@param sortOrder Optional. Sort Order - Ascending, Descending.
   @Get(path: '/Items/{itemId}/ThemeVideos')
   Future<chopper.Response<ThemeMediaResult>> _itemsItemIdThemeVideosGet({
     @Path('itemId') required String? itemId,
     @Query('userId') String? userId,
     @Query('inheritFromParent') bool? inheritFromParent,
+    @Query('sortBy') List<Object?>? sortBy,
+    @Query('sortOrder') List<Object?>? sortOrder,
   });
 
   ///Get item counts.
@@ -11294,6 +11438,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param itemId The item id.
   ///@param enableDirectPlay Whether to enable direct play. Default: true.
   ///@param enableDirectStream Whether to enable direct stream. Default: true.
+  ///@param alwaysBurnInSubtitleWhenTranscoding Always burn-in subtitle when transcoding.
   Future<chopper.Response<LiveStreamResponse>> liveStreamsOpenPost({
     String? openToken,
     String? userId,
@@ -11306,6 +11451,7 @@ abstract class JellyfinOpenApi extends ChopperService {
     String? itemId,
     bool? enableDirectPlay,
     bool? enableDirectStream,
+    bool? alwaysBurnInSubtitleWhenTranscoding,
     required OpenLiveStreamDto? body,
   }) {
     generatedMapping.putIfAbsent(
@@ -11323,6 +11469,8 @@ abstract class JellyfinOpenApi extends ChopperService {
         itemId: itemId,
         enableDirectPlay: enableDirectPlay,
         enableDirectStream: enableDirectStream,
+        alwaysBurnInSubtitleWhenTranscoding:
+            alwaysBurnInSubtitleWhenTranscoding,
         body: body);
   }
 
@@ -11338,6 +11486,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param itemId The item id.
   ///@param enableDirectPlay Whether to enable direct play. Default: true.
   ///@param enableDirectStream Whether to enable direct stream. Default: true.
+  ///@param alwaysBurnInSubtitleWhenTranscoding Always burn-in subtitle when transcoding.
   @Post(
     path: '/LiveStreams/Open',
     optionalBody: true,
@@ -11354,6 +11503,8 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('itemId') String? itemId,
     @Query('enableDirectPlay') bool? enableDirectPlay,
     @Query('enableDirectStream') bool? enableDirectStream,
+    @Query('alwaysBurnInSubtitleWhenTranscoding')
+    bool? alwaysBurnInSubtitleWhenTranscoding,
     @Body() required OpenLiveStreamDto? body,
   });
 
@@ -11368,6 +11519,30 @@ abstract class JellyfinOpenApi extends ChopperService {
   @Get(path: '/Playback/BitrateTest')
   Future<chopper.Response<String>> _playbackBitrateTestGet(
       {@Query('size') int? size});
+
+  ///Gets all media segments based on an itemId.
+  ///@param itemId The ItemId.
+  ///@param includeSegmentTypes Optional filter of requested segment types.
+  Future<chopper.Response<MediaSegmentDtoQueryResult>> mediaSegmentsItemIdGet({
+    required String? itemId,
+    List<enums.MediaSegmentType>? includeSegmentTypes,
+  }) {
+    generatedMapping.putIfAbsent(MediaSegmentDtoQueryResult,
+        () => MediaSegmentDtoQueryResult.fromJsonFactory);
+
+    return _mediaSegmentsItemIdGet(
+        itemId: itemId,
+        includeSegmentTypes: mediaSegmentTypeListToJson(includeSegmentTypes));
+  }
+
+  ///Gets all media segments based on an itemId.
+  ///@param itemId The ItemId.
+  ///@param includeSegmentTypes Optional filter of requested segment types.
+  @Get(path: '/MediaSegments/{itemId}')
+  Future<chopper.Response<MediaSegmentDtoQueryResult>> _mediaSegmentsItemIdGet({
+    @Path('itemId') required String? itemId,
+    @Query('includeSegmentTypes') List<Object?>? includeSegmentTypes,
+  });
 
   ///Gets movie recommendations.
   ///@param userId Optional. Filter by user id, and attach user data.
@@ -11744,319 +11919,6 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('userId') String? userId,
   });
 
-  ///
-  ///@param breakdownType
-  ///@param days
-  ///@param endDate
-  ///@param timezoneOffset
-  Future<chopper.Response> userUsageStatsBreakdownTypeBreakdownReportGet({
-    required String? breakdownType,
-    int? days,
-    DateTime? endDate,
-    num? timezoneOffset,
-  }) {
-    return _userUsageStatsBreakdownTypeBreakdownReportGet(
-        breakdownType: breakdownType,
-        days: days,
-        endDate: endDate,
-        timezoneOffset: timezoneOffset);
-  }
-
-  ///
-  ///@param breakdownType
-  ///@param days
-  ///@param endDate
-  ///@param timezoneOffset
-  @Get(path: '/user_usage_stats/{breakdownType}/BreakdownReport')
-  Future<chopper.Response> _userUsageStatsBreakdownTypeBreakdownReportGet({
-    @Path('breakdownType') required String? breakdownType,
-    @Query('days') int? days,
-    @Query('endDate') DateTime? endDate,
-    @Query('timezoneOffset') num? timezoneOffset,
-  });
-
-  ///
-  ///@param userId
-  ///@param date
-  ///@param filter
-  ///@param timezoneOffset
-  Future<chopper.Response> userUsageStatsUserIdDateGetItemsGet({
-    required String? userId,
-    required String? date,
-    String? filter,
-    num? timezoneOffset,
-  }) {
-    return _userUsageStatsUserIdDateGetItemsGet(
-        userId: userId,
-        date: date,
-        filter: filter,
-        timezoneOffset: timezoneOffset);
-  }
-
-  ///
-  ///@param userId
-  ///@param date
-  ///@param filter
-  ///@param timezoneOffset
-  @Get(path: '/user_usage_stats/{userId}/{date}/GetItems')
-  Future<chopper.Response> _userUsageStatsUserIdDateGetItemsGet({
-    @Path('userId') required String? userId,
-    @Path('date') required String? date,
-    @Query('filter') String? filter,
-    @Query('timezoneOffset') num? timezoneOffset,
-  });
-
-  ///
-  ///@param days
-  ///@param endDate
-  ///@param filter
-  Future<chopper.Response> userUsageStatsDurationHistogramReportGet({
-    int? days,
-    DateTime? endDate,
-    String? filter,
-  }) {
-    return _userUsageStatsDurationHistogramReportGet(
-        days: days, endDate: endDate, filter: filter);
-  }
-
-  ///
-  ///@param days
-  ///@param endDate
-  ///@param filter
-  @Get(path: '/user_usage_stats/DurationHistogramReport')
-  Future<chopper.Response> _userUsageStatsDurationHistogramReportGet({
-    @Query('days') int? days,
-    @Query('endDate') DateTime? endDate,
-    @Query('filter') String? filter,
-  });
-
-  ///
-  ///@param days
-  ///@param endDate
-  ///@param timezoneOffset
-  Future<chopper.Response> userUsageStatsGetTvShowsReportGet({
-    int? days,
-    DateTime? endDate,
-    num? timezoneOffset,
-  }) {
-    return _userUsageStatsGetTvShowsReportGet(
-        days: days, endDate: endDate, timezoneOffset: timezoneOffset);
-  }
-
-  ///
-  ///@param days
-  ///@param endDate
-  ///@param timezoneOffset
-  @Get(path: '/user_usage_stats/GetTvShowsReport')
-  Future<chopper.Response> _userUsageStatsGetTvShowsReportGet({
-    @Query('days') int? days,
-    @Query('endDate') DateTime? endDate,
-    @Query('timezoneOffset') num? timezoneOffset,
-  });
-
-  ///
-  ///@param days
-  ///@param endDate
-  ///@param filter
-  ///@param timezoneOffset
-  Future<chopper.Response> userUsageStatsHourlyReportGet({
-    int? days,
-    DateTime? endDate,
-    String? filter,
-    num? timezoneOffset,
-  }) {
-    return _userUsageStatsHourlyReportGet(
-        days: days,
-        endDate: endDate,
-        filter: filter,
-        timezoneOffset: timezoneOffset);
-  }
-
-  ///
-  ///@param days
-  ///@param endDate
-  ///@param filter
-  ///@param timezoneOffset
-  @Get(path: '/user_usage_stats/HourlyReport')
-  Future<chopper.Response> _userUsageStatsHourlyReportGet({
-    @Query('days') int? days,
-    @Query('endDate') DateTime? endDate,
-    @Query('filter') String? filter,
-    @Query('timezoneOffset') num? timezoneOffset,
-  });
-
-  ///
-  ///@param backupFilePath
-  Future<chopper.Response<List<String>>> userUsageStatsLoadBackupGet(
-      {String? backupFilePath}) {
-    return _userUsageStatsLoadBackupGet(backupFilePath: backupFilePath);
-  }
-
-  ///
-  ///@param backupFilePath
-  @Get(path: '/user_usage_stats/load_backup')
-  Future<chopper.Response<List<String>>> _userUsageStatsLoadBackupGet(
-      {@Query('backupFilePath') String? backupFilePath});
-
-  ///
-  ///@param days
-  ///@param endDate
-  ///@param timezoneOffset
-  Future<chopper.Response> userUsageStatsMoviesReportGet({
-    int? days,
-    DateTime? endDate,
-    num? timezoneOffset,
-  }) {
-    return _userUsageStatsMoviesReportGet(
-        days: days, endDate: endDate, timezoneOffset: timezoneOffset);
-  }
-
-  ///
-  ///@param days
-  ///@param endDate
-  ///@param timezoneOffset
-  @Get(path: '/user_usage_stats/MoviesReport')
-  Future<chopper.Response> _userUsageStatsMoviesReportGet({
-    @Query('days') int? days,
-    @Query('endDate') DateTime? endDate,
-    @Query('timezoneOffset') num? timezoneOffset,
-  });
-
-  ///
-  ///@param days
-  ///@param endDate
-  ///@param filter
-  ///@param dataType
-  ///@param timezoneOffset
-  Future<chopper.Response> userUsageStatsPlayActivityGet({
-    int? days,
-    DateTime? endDate,
-    String? filter,
-    String? dataType,
-    num? timezoneOffset,
-  }) {
-    return _userUsageStatsPlayActivityGet(
-        days: days,
-        endDate: endDate,
-        filter: filter,
-        dataType: dataType,
-        timezoneOffset: timezoneOffset);
-  }
-
-  ///
-  ///@param days
-  ///@param endDate
-  ///@param filter
-  ///@param dataType
-  ///@param timezoneOffset
-  @Get(path: '/user_usage_stats/PlayActivity')
-  Future<chopper.Response> _userUsageStatsPlayActivityGet({
-    @Query('days') int? days,
-    @Query('endDate') DateTime? endDate,
-    @Query('filter') String? filter,
-    @Query('dataType') String? dataType,
-    @Query('timezoneOffset') num? timezoneOffset,
-  });
-
-  ///
-  Future<chopper.Response<List<String>>> userUsageStatsSaveBackupGet() {
-    return _userUsageStatsSaveBackupGet();
-  }
-
-  ///
-  @Get(path: '/user_usage_stats/save_backup')
-  Future<chopper.Response<List<String>>> _userUsageStatsSaveBackupGet();
-
-  ///
-  Future<chopper.Response<Object>> userUsageStatsSubmitCustomQueryPost(
-      {required CustomQueryData? body}) {
-    return _userUsageStatsSubmitCustomQueryPost(body: body);
-  }
-
-  ///
-  @Post(
-    path: '/user_usage_stats/submit_custom_query',
-    optionalBody: true,
-  )
-  Future<chopper.Response<Object>> _userUsageStatsSubmitCustomQueryPost(
-      {@Body() required CustomQueryData? body});
-
-  ///
-  Future<chopper.Response> userUsageStatsTypeFilterListGet() {
-    return _userUsageStatsTypeFilterListGet();
-  }
-
-  ///
-  @Get(path: '/user_usage_stats/type_filter_list')
-  Future<chopper.Response> _userUsageStatsTypeFilterListGet();
-
-  ///
-  ///@param days
-  ///@param endDate
-  ///@param timezoneOffset
-  Future<chopper.Response> userUsageStatsUserActivityGet({
-    int? days,
-    DateTime? endDate,
-    num? timezoneOffset,
-  }) {
-    return _userUsageStatsUserActivityGet(
-        days: days, endDate: endDate, timezoneOffset: timezoneOffset);
-  }
-
-  ///
-  ///@param days
-  ///@param endDate
-  ///@param timezoneOffset
-  @Get(path: '/user_usage_stats/user_activity')
-  Future<chopper.Response> _userUsageStatsUserActivityGet({
-    @Query('days') int? days,
-    @Query('endDate') DateTime? endDate,
-    @Query('timezoneOffset') num? timezoneOffset,
-  });
-
-  ///
-  Future<chopper.Response> userUsageStatsUserListGet() {
-    return _userUsageStatsUserListGet();
-  }
-
-  ///
-  @Get(path: '/user_usage_stats/user_list')
-  Future<chopper.Response> _userUsageStatsUserListGet();
-
-  ///
-  ///@param id
-  Future<chopper.Response<bool>> userUsageStatsUserManageAddGet({String? id}) {
-    return _userUsageStatsUserManageAddGet(id: id);
-  }
-
-  ///
-  ///@param id
-  @Get(path: '/user_usage_stats/user_manage/add')
-  Future<chopper.Response<bool>> _userUsageStatsUserManageAddGet(
-      {@Query('id') String? id});
-
-  ///
-  Future<chopper.Response<bool>> userUsageStatsUserManagePruneGet() {
-    return _userUsageStatsUserManagePruneGet();
-  }
-
-  ///
-  @Get(path: '/user_usage_stats/user_manage/prune')
-  Future<chopper.Response<bool>> _userUsageStatsUserManagePruneGet();
-
-  ///
-  ///@param id
-  Future<chopper.Response<bool>> userUsageStatsUserManageRemoveGet(
-      {String? id}) {
-    return _userUsageStatsUserManageRemoveGet(id: id);
-  }
-
-  ///
-  ///@param id
-  @Get(path: '/user_usage_stats/user_manage/remove')
-  Future<chopper.Response<bool>> _userUsageStatsUserManageRemoveGet(
-      {@Query('id') String? id});
-
   ///Creates a new playlist.
   ///@param name The playlist name.
   ///@param ids The item ids.
@@ -12116,6 +11978,22 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Path('playlistId') required String? playlistId,
     @Body() required UpdatePlaylistDto? body,
   });
+
+  ///Get a playlist.
+  ///@param playlistId The playlist id.
+  Future<chopper.Response<PlaylistDto>> playlistsPlaylistIdGet(
+      {required String? playlistId}) {
+    generatedMapping.putIfAbsent(
+        PlaylistDto, () => PlaylistDto.fromJsonFactory);
+
+    return _playlistsPlaylistIdGet(playlistId: playlistId);
+  }
+
+  ///Get a playlist.
+  ///@param playlistId The playlist id.
+  @Get(path: '/Playlists/{playlistId}')
+  Future<chopper.Response<PlaylistDto>> _playlistsPlaylistIdGet(
+      {@Path('playlistId') required String? playlistId});
 
   ///Adds items to a playlist.
   ///@param playlistId The playlist id.
@@ -13141,13 +13019,13 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param controllableByUserId Filter by sessions that a given user is allowed to remote control.
   ///@param deviceId Filter by device Id.
   ///@param activeWithinSeconds Optional. Filter by sessions that were active in the last n seconds.
-  Future<chopper.Response<List<SessionInfo>>> sessionsGet({
+  Future<chopper.Response<List<SessionInfoDto>>> sessionsGet({
     String? controllableByUserId,
     String? deviceId,
     int? activeWithinSeconds,
   }) {
     generatedMapping.putIfAbsent(
-        SessionInfo, () => SessionInfo.fromJsonFactory);
+        SessionInfoDto, () => SessionInfoDto.fromJsonFactory);
 
     return _sessionsGet(
         controllableByUserId: controllableByUserId,
@@ -13160,7 +13038,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param deviceId Filter by device Id.
   ///@param activeWithinSeconds Optional. Filter by sessions that were active in the last n seconds.
   @Get(path: '/Sessions')
-  Future<chopper.Response<List<SessionInfo>>> _sessionsGet({
+  Future<chopper.Response<List<SessionInfoDto>>> _sessionsGet({
     @Query('controllableByUserId') String? controllableByUserId,
     @Query('deviceId') String? deviceId,
     @Query('activeWithinSeconds') int? activeWithinSeconds,
@@ -13509,115 +13387,6 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('sessionId') String? sessionId,
     @Query('itemId') required String? itemId,
   });
-
-  ///
-  ///@param id
-  Future<chopper.Response<Object>> episodeIdIntroSkipperSegmentsGet(
-      {required String? id}) {
-    return _episodeIdIntroSkipperSegmentsGet(id: id);
-  }
-
-  ///
-  ///@param id
-  @Get(path: '/Episode/{id}/IntroSkipperSegments')
-  Future<chopper.Response<Object>> _episodeIdIntroSkipperSegmentsGet(
-      {@Path('id') required String? id});
-
-  ///
-  ///@param id
-  ///@param mode
-  Future<chopper.Response<Intro>> episodeIdIntroTimestampsGet({
-    required String? id,
-    enums.EpisodeIdIntroTimestampsGetMode? mode,
-  }) {
-    generatedMapping.putIfAbsent(Intro, () => Intro.fromJsonFactory);
-
-    return _episodeIdIntroTimestampsGet(id: id, mode: mode?.value?.toString());
-  }
-
-  ///
-  ///@param id
-  ///@param mode
-  @Get(path: '/Episode/{id}/IntroTimestamps')
-  Future<chopper.Response<Intro>> _episodeIdIntroTimestampsGet({
-    @Path('id') required String? id,
-    @Query('mode') String? mode,
-  });
-
-  ///
-  ///@param id
-  ///@param mode
-  Future<chopper.Response<Intro>> episodeIdIntroTimestampsV1Get({
-    required String? id,
-    enums.EpisodeIdIntroTimestampsV1GetMode? mode,
-  }) {
-    generatedMapping.putIfAbsent(Intro, () => Intro.fromJsonFactory);
-
-    return _episodeIdIntroTimestampsV1Get(
-        id: id, mode: mode?.value?.toString());
-  }
-
-  ///
-  ///@param id
-  ///@param mode
-  @Get(path: '/Episode/{id}/IntroTimestamps/v1')
-  Future<chopper.Response<Intro>> _episodeIdIntroTimestampsV1Get({
-    @Path('id') required String? id,
-    @Query('mode') String? mode,
-  });
-
-  ///
-  ///@param mode
-  Future<chopper.Response<List<IntroWithMetadata>>> introsAllGet(
-      {enums.IntrosAllGetMode? mode}) {
-    generatedMapping.putIfAbsent(
-        IntroWithMetadata, () => IntroWithMetadata.fromJsonFactory);
-
-    return _introsAllGet(mode: mode?.value?.toString());
-  }
-
-  ///
-  ///@param mode
-  @Get(path: '/Intros/All')
-  Future<chopper.Response<List<IntroWithMetadata>>> _introsAllGet(
-      {@Query('mode') String? mode});
-
-  ///
-  ///@param mode
-  ///@param eraseCache
-  Future<chopper.Response> introsEraseTimestampsPost({
-    enums.IntrosEraseTimestampsPostMode? mode,
-    bool? eraseCache,
-  }) {
-    return _introsEraseTimestampsPost(
-        mode: mode?.value?.toString(), eraseCache: eraseCache);
-  }
-
-  ///
-  ///@param mode
-  ///@param eraseCache
-  @Post(
-    path: '/Intros/EraseTimestamps',
-    optionalBody: true,
-  )
-  Future<chopper.Response> _introsEraseTimestampsPost({
-    @Query('mode') String? mode,
-    @Query('eraseCache') bool? eraseCache,
-  });
-
-  ///
-  Future<chopper.Response<UserInterfaceConfiguration>>
-      introsUserInterfaceConfigurationGet() {
-    generatedMapping.putIfAbsent(UserInterfaceConfiguration,
-        () => UserInterfaceConfiguration.fromJsonFactory);
-
-    return _introsUserInterfaceConfigurationGet();
-  }
-
-  ///
-  @Get(path: '/Intros/UserInterfaceConfiguration')
-  Future<chopper.Response<UserInterfaceConfiguration>>
-      _introsUserInterfaceConfigurationGet();
 
   ///Completes the startup wizard.
   Future<chopper.Response> startupCompletePost() {
@@ -14611,18 +14380,6 @@ abstract class JellyfinOpenApi extends ChopperService {
   @Get(path: '/Tmdb/ClientConfiguration')
   Future<chopper.Response<ConfigImageTypes>> _tmdbClientConfigurationGet();
 
-  ///
-  Future<chopper.Response> tMDbBoxSetsRefreshPost() {
-    return _tMDbBoxSetsRefreshPost();
-  }
-
-  ///
-  @Post(
-    path: '/TMDbBoxSets/Refresh',
-    optionalBody: true,
-  )
-  Future<chopper.Response> _tMDbBoxSetsRefreshPost();
-
   ///Finds movies and trailers similar to a given trailer.
   ///@param userId The user id supplied as query parameter; this is required when not using an API key.
   ///@param maxOfficialRating Optional filter by maximum official rating (PG, PG-13, TV-MA, etc).
@@ -15057,121 +14814,6 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('enableImages') bool? enableImages,
   });
 
-  ///
-  ///@param userGuid
-  Future<chopper.Response> traktUsersUserGuidAuthorizePost(
-      {required String? userGuid}) {
-    return _traktUsersUserGuidAuthorizePost(userGuid: userGuid);
-  }
-
-  ///
-  ///@param userGuid
-  @Post(
-    path: '/Trakt/Users/{userGuid}/Authorize',
-    optionalBody: true,
-  )
-  Future<chopper.Response> _traktUsersUserGuidAuthorizePost(
-      {@Path('userGuid') required String? userGuid});
-
-  ///
-  ///@param userGuid
-  Future<chopper.Response<String>> traktUsersUserGuidDeauthorizePost(
-      {required String? userGuid}) {
-    return _traktUsersUserGuidDeauthorizePost(userGuid: userGuid);
-  }
-
-  ///
-  ///@param userGuid
-  @Post(
-    path: '/Trakt/Users/{userGuid}/Deauthorize',
-    optionalBody: true,
-  )
-  Future<chopper.Response<String>> _traktUsersUserGuidDeauthorizePost(
-      {@Path('userGuid') required String? userGuid});
-
-  ///
-  ///@param userGuid
-  ///@param itemId
-  ///@param rating
-  Future<chopper.Response<TraktSyncResponse>>
-      traktUsersUserGuidItemsItemIdRatePost({
-    required String? userGuid,
-    required String? itemId,
-    int? rating,
-  }) {
-    generatedMapping.putIfAbsent(
-        TraktSyncResponse, () => TraktSyncResponse.fromJsonFactory);
-
-    return _traktUsersUserGuidItemsItemIdRatePost(
-        userGuid: userGuid, itemId: itemId, rating: rating);
-  }
-
-  ///
-  ///@param userGuid
-  ///@param itemId
-  ///@param rating
-  @Post(
-    path: '/Trakt/Users/{userGuid}/Items/{itemId}/Rate',
-    optionalBody: true,
-  )
-  Future<chopper.Response<TraktSyncResponse>>
-      _traktUsersUserGuidItemsItemIdRatePost({
-    @Path('userGuid') required String? userGuid,
-    @Path('itemId') required String? itemId,
-    @Query('rating') int? rating,
-  });
-
-  ///
-  ///@param userGuid
-  Future<chopper.Response> traktUsersUserGuidPollAuthorizationStatusGet(
-      {required String? userGuid}) {
-    return _traktUsersUserGuidPollAuthorizationStatusGet(userGuid: userGuid);
-  }
-
-  ///
-  ///@param userGuid
-  @Get(path: '/Trakt/Users/{userGuid}/PollAuthorizationStatus')
-  Future<chopper.Response> _traktUsersUserGuidPollAuthorizationStatusGet(
-      {@Path('userGuid') required String? userGuid});
-
-  ///
-  ///@param userGuid
-  Future<chopper.Response<List<TraktMovie>>>
-      traktUsersUserGuidRecommendedMoviesPost({required String? userGuid}) {
-    generatedMapping.putIfAbsent(TraktMovie, () => TraktMovie.fromJsonFactory);
-
-    return _traktUsersUserGuidRecommendedMoviesPost(userGuid: userGuid);
-  }
-
-  ///
-  ///@param userGuid
-  @Post(
-    path: '/Trakt/Users/{userGuid}/RecommendedMovies',
-    optionalBody: true,
-  )
-  Future<chopper.Response<List<TraktMovie>>>
-      _traktUsersUserGuidRecommendedMoviesPost(
-          {@Path('userGuid') required String? userGuid});
-
-  ///
-  ///@param userGuid
-  Future<chopper.Response<List<TraktShow>>>
-      traktUsersUserGuidRecommendedShowsPost({required String? userGuid}) {
-    generatedMapping.putIfAbsent(TraktShow, () => TraktShow.fromJsonFactory);
-
-    return _traktUsersUserGuidRecommendedShowsPost(userGuid: userGuid);
-  }
-
-  ///
-  ///@param userGuid
-  @Post(
-    path: '/Trakt/Users/{userGuid}/RecommendedShows',
-    optionalBody: true,
-  )
-  Future<chopper.Response<List<TraktShow>>>
-      _traktUsersUserGuidRecommendedShowsPost(
-          {@Path('userGuid') required String? userGuid});
-
   ///Gets a trickplay tile image.
   ///@param itemId The item id.
   ///@param width The width of a single tile.
@@ -15226,15 +14868,6 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Path('width') required int? width,
     @Query('mediaSourceId') String? mediaSourceId,
   });
-
-  ///
-  Future<chopper.Response<String>> introSkipperSupportBundleGet() {
-    return _introSkipperSupportBundleGet();
-  }
-
-  ///
-  @Get(path: '/IntroSkipper/SupportBundle')
-  Future<chopper.Response<String>> _introSkipperSupportBundleGet();
 
   ///Gets episodes for a tv season.
   ///@param seriesId The series id.
@@ -15554,6 +15187,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param maxAudioSampleRate Optional. The maximum audio sample rate.
   ///@param maxAudioBitDepth Optional. The maximum audio bit depth.
   ///@param enableRemoteMedia Optional. Whether to enable remote media.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
   ///@param breakOnNonKeyFrames Optional. Whether to break on non key frames.
   ///@param enableRedirection Whether to enable redirection. Defaults to true.
   Future<chopper.Response<String>> audioItemIdUniversalGet({
@@ -15573,6 +15207,7 @@ abstract class JellyfinOpenApi extends ChopperService {
     int? maxAudioSampleRate,
     int? maxAudioBitDepth,
     bool? enableRemoteMedia,
+    bool? enableAudioVbrEncoding,
     bool? breakOnNonKeyFrames,
     bool? enableRedirection,
   }) {
@@ -15593,6 +15228,7 @@ abstract class JellyfinOpenApi extends ChopperService {
         maxAudioSampleRate: maxAudioSampleRate,
         maxAudioBitDepth: maxAudioBitDepth,
         enableRemoteMedia: enableRemoteMedia,
+        enableAudioVbrEncoding: enableAudioVbrEncoding,
         breakOnNonKeyFrames: breakOnNonKeyFrames,
         enableRedirection: enableRedirection);
   }
@@ -15614,6 +15250,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param maxAudioSampleRate Optional. The maximum audio sample rate.
   ///@param maxAudioBitDepth Optional. The maximum audio bit depth.
   ///@param enableRemoteMedia Optional. Whether to enable remote media.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
   ///@param breakOnNonKeyFrames Optional. Whether to break on non key frames.
   ///@param enableRedirection Whether to enable redirection. Defaults to true.
   @Get(path: '/Audio/{itemId}/universal')
@@ -15634,6 +15271,7 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('maxAudioSampleRate') int? maxAudioSampleRate,
     @Query('maxAudioBitDepth') int? maxAudioBitDepth,
     @Query('enableRemoteMedia') bool? enableRemoteMedia,
+    @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
     @Query('breakOnNonKeyFrames') bool? breakOnNonKeyFrames,
     @Query('enableRedirection') bool? enableRedirection,
   });
@@ -15655,6 +15293,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param maxAudioSampleRate Optional. The maximum audio sample rate.
   ///@param maxAudioBitDepth Optional. The maximum audio bit depth.
   ///@param enableRemoteMedia Optional. Whether to enable remote media.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
   ///@param breakOnNonKeyFrames Optional. Whether to break on non key frames.
   ///@param enableRedirection Whether to enable redirection. Defaults to true.
   Future<chopper.Response<String>> audioItemIdUniversalHead({
@@ -15674,6 +15313,7 @@ abstract class JellyfinOpenApi extends ChopperService {
     int? maxAudioSampleRate,
     int? maxAudioBitDepth,
     bool? enableRemoteMedia,
+    bool? enableAudioVbrEncoding,
     bool? breakOnNonKeyFrames,
     bool? enableRedirection,
   }) {
@@ -15694,6 +15334,7 @@ abstract class JellyfinOpenApi extends ChopperService {
         maxAudioSampleRate: maxAudioSampleRate,
         maxAudioBitDepth: maxAudioBitDepth,
         enableRemoteMedia: enableRemoteMedia,
+        enableAudioVbrEncoding: enableAudioVbrEncoding,
         breakOnNonKeyFrames: breakOnNonKeyFrames,
         enableRedirection: enableRedirection);
   }
@@ -15715,6 +15356,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param maxAudioSampleRate Optional. The maximum audio sample rate.
   ///@param maxAudioBitDepth Optional. The maximum audio bit depth.
   ///@param enableRemoteMedia Optional. Whether to enable remote media.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
   ///@param breakOnNonKeyFrames Optional. Whether to break on non key frames.
   ///@param enableRedirection Whether to enable redirection. Defaults to true.
   @Head(path: '/Audio/{itemId}/universal')
@@ -15735,6 +15377,7 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('maxAudioSampleRate') int? maxAudioSampleRate,
     @Query('maxAudioBitDepth') int? maxAudioBitDepth,
     @Query('enableRemoteMedia') bool? enableRemoteMedia,
+    @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
     @Query('breakOnNonKeyFrames') bool? breakOnNonKeyFrames,
     @Query('enableRedirection') bool? enableRedirection,
   });
@@ -16348,7 +15991,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -16380,13 +16023,14 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vp8, vp9, vpx (deprecated), wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
   ///@param videoStreamIndex Optional. The index of the video stream to use. If omitted the first video stream will be used.
   ///@param context Optional. The MediaBrowser.Model.Dlna.EncodingContext.
   ///@param streamOptions Optional. The streaming options.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
   Future<chopper.Response<String>> videosItemIdStreamGet({
     required String? itemId,
     String? container,
@@ -16439,6 +16083,7 @@ abstract class JellyfinOpenApi extends ChopperService {
     int? videoStreamIndex,
     enums.VideosItemIdStreamGetContext? context,
     Object? streamOptions,
+    bool? enableAudioVbrEncoding,
   }) {
     return _videosItemIdStreamGet(
         itemId: itemId,
@@ -16491,7 +16136,8 @@ abstract class JellyfinOpenApi extends ChopperService {
         audioStreamIndex: audioStreamIndex,
         videoStreamIndex: videoStreamIndex,
         context: context?.value?.toString(),
-        streamOptions: streamOptions);
+        streamOptions: streamOptions,
+        enableAudioVbrEncoding: enableAudioVbrEncoding);
   }
 
   ///Gets a video stream.
@@ -16507,7 +16153,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -16539,13 +16185,14 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vp8, vp9, vpx (deprecated), wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
   ///@param videoStreamIndex Optional. The index of the video stream to use. If omitted the first video stream will be used.
   ///@param context Optional. The MediaBrowser.Model.Dlna.EncodingContext.
   ///@param streamOptions Optional. The streaming options.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
   @Get(path: '/Videos/{itemId}/stream')
   Future<chopper.Response<String>> _videosItemIdStreamGet({
     @Path('itemId') required String? itemId,
@@ -16599,6 +16246,7 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('videoStreamIndex') int? videoStreamIndex,
     @Query('context') String? context,
     @Query('streamOptions') Object? streamOptions,
+    @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
   });
 
   ///Gets a video stream.
@@ -16614,7 +16262,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -16646,13 +16294,14 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vp8, vp9, vpx (deprecated), wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
   ///@param videoStreamIndex Optional. The index of the video stream to use. If omitted the first video stream will be used.
   ///@param context Optional. The MediaBrowser.Model.Dlna.EncodingContext.
   ///@param streamOptions Optional. The streaming options.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
   Future<chopper.Response<String>> videosItemIdStreamHead({
     required String? itemId,
     String? container,
@@ -16705,6 +16354,7 @@ abstract class JellyfinOpenApi extends ChopperService {
     int? videoStreamIndex,
     enums.VideosItemIdStreamHeadContext? context,
     Object? streamOptions,
+    bool? enableAudioVbrEncoding,
   }) {
     return _videosItemIdStreamHead(
         itemId: itemId,
@@ -16757,7 +16407,8 @@ abstract class JellyfinOpenApi extends ChopperService {
         audioStreamIndex: audioStreamIndex,
         videoStreamIndex: videoStreamIndex,
         context: context?.value?.toString(),
-        streamOptions: streamOptions);
+        streamOptions: streamOptions,
+        enableAudioVbrEncoding: enableAudioVbrEncoding);
   }
 
   ///Gets a video stream.
@@ -16773,7 +16424,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -16805,13 +16456,14 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vp8, vp9, vpx (deprecated), wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
   ///@param videoStreamIndex Optional. The index of the video stream to use. If omitted the first video stream will be used.
   ///@param context Optional. The MediaBrowser.Model.Dlna.EncodingContext.
   ///@param streamOptions Optional. The streaming options.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
   @Head(path: '/Videos/{itemId}/stream')
   Future<chopper.Response<String>> _videosItemIdStreamHead({
     @Path('itemId') required String? itemId,
@@ -16865,6 +16517,7 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('videoStreamIndex') int? videoStreamIndex,
     @Query('context') String? context,
     @Query('streamOptions') Object? streamOptions,
+    @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
   });
 
   ///Gets a video stream.
@@ -16880,7 +16533,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -16912,13 +16565,14 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vp8, vp9, vpx (deprecated), wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
   ///@param videoStreamIndex Optional. The index of the video stream to use. If omitted the first video stream will be used.
   ///@param context Optional. The MediaBrowser.Model.Dlna.EncodingContext.
   ///@param streamOptions Optional. The streaming options.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
   Future<chopper.Response<String>> videosItemIdStreamContainerGet({
     required String? itemId,
     required String? container,
@@ -16971,6 +16625,7 @@ abstract class JellyfinOpenApi extends ChopperService {
     int? videoStreamIndex,
     enums.VideosItemIdStreamContainerGetContext? context,
     Object? streamOptions,
+    bool? enableAudioVbrEncoding,
   }) {
     return _videosItemIdStreamContainerGet(
         itemId: itemId,
@@ -17023,7 +16678,8 @@ abstract class JellyfinOpenApi extends ChopperService {
         audioStreamIndex: audioStreamIndex,
         videoStreamIndex: videoStreamIndex,
         context: context?.value?.toString(),
-        streamOptions: streamOptions);
+        streamOptions: streamOptions,
+        enableAudioVbrEncoding: enableAudioVbrEncoding);
   }
 
   ///Gets a video stream.
@@ -17039,7 +16695,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -17071,13 +16727,14 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vp8, vp9, vpx (deprecated), wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
   ///@param videoStreamIndex Optional. The index of the video stream to use. If omitted the first video stream will be used.
   ///@param context Optional. The MediaBrowser.Model.Dlna.EncodingContext.
   ///@param streamOptions Optional. The streaming options.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
   @Get(path: '/Videos/{itemId}/stream.{container}')
   Future<chopper.Response<String>> _videosItemIdStreamContainerGet({
     @Path('itemId') required String? itemId,
@@ -17131,6 +16788,7 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('videoStreamIndex') int? videoStreamIndex,
     @Query('context') String? context,
     @Query('streamOptions') Object? streamOptions,
+    @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
   });
 
   ///Gets a video stream.
@@ -17146,7 +16804,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -17178,13 +16836,14 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vp8, vp9, vpx (deprecated), wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
   ///@param videoStreamIndex Optional. The index of the video stream to use. If omitted the first video stream will be used.
   ///@param context Optional. The MediaBrowser.Model.Dlna.EncodingContext.
   ///@param streamOptions Optional. The streaming options.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
   Future<chopper.Response<String>> videosItemIdStreamContainerHead({
     required String? itemId,
     required String? container,
@@ -17237,6 +16896,7 @@ abstract class JellyfinOpenApi extends ChopperService {
     int? videoStreamIndex,
     enums.VideosItemIdStreamContainerHeadContext? context,
     Object? streamOptions,
+    bool? enableAudioVbrEncoding,
   }) {
     return _videosItemIdStreamContainerHead(
         itemId: itemId,
@@ -17289,7 +16949,8 @@ abstract class JellyfinOpenApi extends ChopperService {
         audioStreamIndex: audioStreamIndex,
         videoStreamIndex: videoStreamIndex,
         context: context?.value?.toString(),
-        streamOptions: streamOptions);
+        streamOptions: streamOptions,
+        enableAudioVbrEncoding: enableAudioVbrEncoding);
   }
 
   ///Gets a video stream.
@@ -17305,7 +16966,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param minSegments The minimum number of segments.
   ///@param mediaSourceId The media version id, if playing an alternate version.
   ///@param deviceId The device id of the client requesting. Used to stop encoding processes when needed.
-  ///@param audioCodec Optional. Specify a audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension. Options: aac, mp3, vorbis, wma.
+  ///@param audioCodec Optional. Specify an audio codec to encode to, e.g. mp3. If omitted the server will auto-select using the url's extension.
   ///@param enableAutoStreamCopy Whether or not to allow automatic stream copy if requested values match the original source. Defaults to true.
   ///@param allowVideoStreamCopy Whether or not to allow copying of the video stream url.
   ///@param allowAudioStreamCopy Whether or not to allow copying of the audio stream url.
@@ -17337,13 +16998,14 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
   ///@param enableMpegtsM2TsMode Optional. Whether to enable the MpegtsM2Ts mode.
-  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension. Options: h265, h264, mpeg4, theora, vp8, vp9, vpx (deprecated), wmv.
+  ///@param videoCodec Optional. Specify a video codec to encode to, e.g. h264. If omitted the server will auto-select using the url's extension.
   ///@param subtitleCodec Optional. Specify a subtitle codec to encode to.
   ///@param transcodeReasons Optional. The transcoding reason.
   ///@param audioStreamIndex Optional. The index of the audio stream to use. If omitted the first audio stream will be used.
   ///@param videoStreamIndex Optional. The index of the video stream to use. If omitted the first video stream will be used.
   ///@param context Optional. The MediaBrowser.Model.Dlna.EncodingContext.
   ///@param streamOptions Optional. The streaming options.
+  ///@param enableAudioVbrEncoding Optional. Whether to enable Audio Encoding.
   @Head(path: '/Videos/{itemId}/stream.{container}')
   Future<chopper.Response<String>> _videosItemIdStreamContainerHead({
     @Path('itemId') required String? itemId,
@@ -17397,6 +17059,7 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('videoStreamIndex') int? videoStreamIndex,
     @Query('context') String? context,
     @Query('streamOptions') Object? streamOptions,
+    @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
   });
 
   ///Merges videos into a single record.
@@ -17414,96 +17077,6 @@ abstract class JellyfinOpenApi extends ChopperService {
   )
   Future<chopper.Response> _videosMergeVersionsPost(
       {@Query('ids') required List<String>? ids});
-
-  ///
-  ///@param id
-  Future<chopper.Response<List<int>>> introsEpisodeIdChromaprintGet(
-      {required String? id}) {
-    return _introsEpisodeIdChromaprintGet(id: id);
-  }
-
-  ///
-  ///@param id
-  @Get(path: '/Intros/Episode/{Id}/Chromaprint')
-  Future<chopper.Response<List<int>>> _introsEpisodeIdChromaprintGet(
-      {@Path('id') required String? id});
-
-  ///
-  ///@param id
-  Future<chopper.Response> introsEpisodeIdUpdateIntroTimestampsPost({
-    required String? id,
-    required Intro? body,
-  }) {
-    return _introsEpisodeIdUpdateIntroTimestampsPost(id: id, body: body);
-  }
-
-  ///
-  ///@param id
-  @Post(
-    path: '/Intros/Episode/{Id}/UpdateIntroTimestamps',
-    optionalBody: true,
-  )
-  Future<chopper.Response> _introsEpisodeIdUpdateIntroTimestampsPost({
-    @Path('id') required String? id,
-    @Body() required Intro? body,
-  });
-
-  ///
-  ///@param series
-  ///@param season
-  Future<chopper.Response<List<EpisodeVisualization>>>
-      introsShowSeriesSeasonGet({
-    required String? series,
-    required String? season,
-  }) {
-    generatedMapping.putIfAbsent(
-        EpisodeVisualization, () => EpisodeVisualization.fromJsonFactory);
-
-    return _introsShowSeriesSeasonGet(series: series, season: season);
-  }
-
-  ///
-  ///@param series
-  ///@param season
-  @Get(path: '/Intros/Show/{Series}/{Season}')
-  Future<chopper.Response<List<EpisodeVisualization>>>
-      _introsShowSeriesSeasonGet({
-    @Path('series') required String? series,
-    @Path('season') required String? season,
-  });
-
-  ///
-  ///@param series
-  ///@param season
-  ///@param eraseCache
-  Future<chopper.Response> introsShowSeriesSeasonDelete({
-    required String? series,
-    required String? season,
-    bool? eraseCache,
-  }) {
-    return _introsShowSeriesSeasonDelete(
-        series: series, season: season, eraseCache: eraseCache);
-  }
-
-  ///
-  ///@param series
-  ///@param season
-  ///@param eraseCache
-  @Delete(path: '/Intros/Show/{Series}/{Season}')
-  Future<chopper.Response> _introsShowSeriesSeasonDelete({
-    @Path('series') required String? series,
-    @Path('season') required String? season,
-    @Query('eraseCache') bool? eraseCache,
-  });
-
-  ///
-  Future<chopper.Response<Object>> introsShowsGet() {
-    return _introsShowsGet();
-  }
-
-  ///
-  @Get(path: '/Intros/Shows')
-  Future<chopper.Response<Object>> _introsShowsGet();
 
   ///Get years.
   ///@param startIndex Skips over a given number of items within the results. Use for paging.
@@ -19132,7 +18705,7 @@ class AuthenticationResult {
   @JsonKey(name: 'User', includeIfNull: false)
   final UserDto? user;
   @JsonKey(name: 'SessionInfo', includeIfNull: false)
-  final SessionInfo? sessionInfo;
+  final SessionInfoDto? sessionInfo;
   @JsonKey(name: 'AccessToken', includeIfNull: false)
   final String? accessToken;
   @JsonKey(name: 'ServerId', includeIfNull: false)
@@ -19171,7 +18744,7 @@ class AuthenticationResult {
 extension $AuthenticationResultExtension on AuthenticationResult {
   AuthenticationResult copyWith(
       {UserDto? user,
-      SessionInfo? sessionInfo,
+      SessionInfoDto? sessionInfo,
       String? accessToken,
       String? serverId}) {
     return AuthenticationResult(
@@ -19183,7 +18756,7 @@ extension $AuthenticationResultExtension on AuthenticationResult {
 
   AuthenticationResult copyWithWrapped(
       {Wrapped<UserDto?>? user,
-      Wrapped<SessionInfo?>? sessionInfo,
+      Wrapped<SessionInfoDto?>? sessionInfo,
       Wrapped<String?>? accessToken,
       Wrapped<String?>? serverId}) {
     return AuthenticationResult(
@@ -22154,176 +21727,6 @@ extension $ChapterInfoExtension on ChapterInfo {
 }
 
 @JsonSerializable(explicitToJson: true)
-class ClientCapabilities {
-  const ClientCapabilities({
-    this.playableMediaTypes,
-    this.supportedCommands,
-    this.supportsMediaControl,
-    this.supportsPersistentIdentifier,
-    this.deviceProfile,
-    this.appStoreUrl,
-    this.iconUrl,
-    this.supportsContentUploading,
-    this.supportsSync,
-  });
-
-  factory ClientCapabilities.fromJson(Map<String, dynamic> json) =>
-      _$ClientCapabilitiesFromJson(json);
-
-  static const toJsonFactory = _$ClientCapabilitiesToJson;
-  Map<String, dynamic> toJson() => _$ClientCapabilitiesToJson(this);
-
-  @JsonKey(
-    name: 'PlayableMediaTypes',
-    includeIfNull: false,
-    toJson: mediaTypeListToJson,
-    fromJson: mediaTypeListFromJson,
-  )
-  final List<enums.MediaType>? playableMediaTypes;
-  @JsonKey(
-    name: 'SupportedCommands',
-    includeIfNull: false,
-    toJson: generalCommandTypeListToJson,
-    fromJson: generalCommandTypeListFromJson,
-  )
-  final List<enums.GeneralCommandType>? supportedCommands;
-  @JsonKey(name: 'SupportsMediaControl', includeIfNull: false)
-  final bool? supportsMediaControl;
-  @JsonKey(name: 'SupportsPersistentIdentifier', includeIfNull: false)
-  final bool? supportsPersistentIdentifier;
-  @JsonKey(name: 'DeviceProfile', includeIfNull: false)
-  final DeviceProfile? deviceProfile;
-  @JsonKey(name: 'AppStoreUrl', includeIfNull: false)
-  final String? appStoreUrl;
-  @JsonKey(name: 'IconUrl', includeIfNull: false)
-  final String? iconUrl;
-  @JsonKey(
-      name: 'SupportsContentUploading',
-      includeIfNull: false,
-      defaultValue: false)
-  @deprecated
-  final bool? supportsContentUploading;
-  @JsonKey(name: 'SupportsSync', includeIfNull: false, defaultValue: false)
-  @deprecated
-  final bool? supportsSync;
-  static const fromJsonFactory = _$ClientCapabilitiesFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is ClientCapabilities &&
-            (identical(other.playableMediaTypes, playableMediaTypes) ||
-                const DeepCollectionEquality()
-                    .equals(other.playableMediaTypes, playableMediaTypes)) &&
-            (identical(other.supportedCommands, supportedCommands) ||
-                const DeepCollectionEquality()
-                    .equals(other.supportedCommands, supportedCommands)) &&
-            (identical(other.supportsMediaControl, supportsMediaControl) ||
-                const DeepCollectionEquality().equals(
-                    other.supportsMediaControl, supportsMediaControl)) &&
-            (identical(other.supportsPersistentIdentifier,
-                    supportsPersistentIdentifier) ||
-                const DeepCollectionEquality().equals(
-                    other.supportsPersistentIdentifier,
-                    supportsPersistentIdentifier)) &&
-            (identical(other.deviceProfile, deviceProfile) ||
-                const DeepCollectionEquality()
-                    .equals(other.deviceProfile, deviceProfile)) &&
-            (identical(other.appStoreUrl, appStoreUrl) ||
-                const DeepCollectionEquality()
-                    .equals(other.appStoreUrl, appStoreUrl)) &&
-            (identical(other.iconUrl, iconUrl) ||
-                const DeepCollectionEquality()
-                    .equals(other.iconUrl, iconUrl)) &&
-            (identical(
-                    other.supportsContentUploading, supportsContentUploading) ||
-                const DeepCollectionEquality().equals(
-                    other.supportsContentUploading,
-                    supportsContentUploading)) &&
-            (identical(other.supportsSync, supportsSync) ||
-                const DeepCollectionEquality()
-                    .equals(other.supportsSync, supportsSync)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(playableMediaTypes) ^
-      const DeepCollectionEquality().hash(supportedCommands) ^
-      const DeepCollectionEquality().hash(supportsMediaControl) ^
-      const DeepCollectionEquality().hash(supportsPersistentIdentifier) ^
-      const DeepCollectionEquality().hash(deviceProfile) ^
-      const DeepCollectionEquality().hash(appStoreUrl) ^
-      const DeepCollectionEquality().hash(iconUrl) ^
-      const DeepCollectionEquality().hash(supportsContentUploading) ^
-      const DeepCollectionEquality().hash(supportsSync) ^
-      runtimeType.hashCode;
-}
-
-extension $ClientCapabilitiesExtension on ClientCapabilities {
-  ClientCapabilities copyWith(
-      {List<enums.MediaType>? playableMediaTypes,
-      List<enums.GeneralCommandType>? supportedCommands,
-      bool? supportsMediaControl,
-      bool? supportsPersistentIdentifier,
-      DeviceProfile? deviceProfile,
-      String? appStoreUrl,
-      String? iconUrl,
-      bool? supportsContentUploading,
-      bool? supportsSync}) {
-    return ClientCapabilities(
-        playableMediaTypes: playableMediaTypes ?? this.playableMediaTypes,
-        supportedCommands: supportedCommands ?? this.supportedCommands,
-        supportsMediaControl: supportsMediaControl ?? this.supportsMediaControl,
-        supportsPersistentIdentifier:
-            supportsPersistentIdentifier ?? this.supportsPersistentIdentifier,
-        deviceProfile: deviceProfile ?? this.deviceProfile,
-        appStoreUrl: appStoreUrl ?? this.appStoreUrl,
-        iconUrl: iconUrl ?? this.iconUrl,
-        supportsContentUploading:
-            supportsContentUploading ?? this.supportsContentUploading,
-        supportsSync: supportsSync ?? this.supportsSync);
-  }
-
-  ClientCapabilities copyWithWrapped(
-      {Wrapped<List<enums.MediaType>?>? playableMediaTypes,
-      Wrapped<List<enums.GeneralCommandType>?>? supportedCommands,
-      Wrapped<bool?>? supportsMediaControl,
-      Wrapped<bool?>? supportsPersistentIdentifier,
-      Wrapped<DeviceProfile?>? deviceProfile,
-      Wrapped<String?>? appStoreUrl,
-      Wrapped<String?>? iconUrl,
-      Wrapped<bool?>? supportsContentUploading,
-      Wrapped<bool?>? supportsSync}) {
-    return ClientCapabilities(
-        playableMediaTypes: (playableMediaTypes != null
-            ? playableMediaTypes.value
-            : this.playableMediaTypes),
-        supportedCommands: (supportedCommands != null
-            ? supportedCommands.value
-            : this.supportedCommands),
-        supportsMediaControl: (supportsMediaControl != null
-            ? supportsMediaControl.value
-            : this.supportsMediaControl),
-        supportsPersistentIdentifier: (supportsPersistentIdentifier != null
-            ? supportsPersistentIdentifier.value
-            : this.supportsPersistentIdentifier),
-        deviceProfile:
-            (deviceProfile != null ? deviceProfile.value : this.deviceProfile),
-        appStoreUrl:
-            (appStoreUrl != null ? appStoreUrl.value : this.appStoreUrl),
-        iconUrl: (iconUrl != null ? iconUrl.value : this.iconUrl),
-        supportsContentUploading: (supportsContentUploading != null
-            ? supportsContentUploading.value
-            : this.supportsContentUploading),
-        supportsSync:
-            (supportsSync != null ? supportsSync.value : this.supportsSync));
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
 class ClientCapabilitiesDto {
   const ClientCapabilitiesDto({
     this.playableMediaTypes,
@@ -22333,8 +21736,6 @@ class ClientCapabilitiesDto {
     this.deviceProfile,
     this.appStoreUrl,
     this.iconUrl,
-    this.supportsContentUploading,
-    this.supportsSync,
   });
 
   factory ClientCapabilitiesDto.fromJson(Map<String, dynamic> json) =>
@@ -22367,15 +21768,6 @@ class ClientCapabilitiesDto {
   final String? appStoreUrl;
   @JsonKey(name: 'IconUrl', includeIfNull: false)
   final String? iconUrl;
-  @JsonKey(
-      name: 'SupportsContentUploading',
-      includeIfNull: false,
-      defaultValue: false)
-  @deprecated
-  final bool? supportsContentUploading;
-  @JsonKey(name: 'SupportsSync', includeIfNull: false, defaultValue: false)
-  @deprecated
-  final bool? supportsSync;
   static const fromJsonFactory = _$ClientCapabilitiesDtoFromJson;
 
   @override
@@ -22403,16 +21795,7 @@ class ClientCapabilitiesDto {
                 const DeepCollectionEquality()
                     .equals(other.appStoreUrl, appStoreUrl)) &&
             (identical(other.iconUrl, iconUrl) ||
-                const DeepCollectionEquality()
-                    .equals(other.iconUrl, iconUrl)) &&
-            (identical(
-                    other.supportsContentUploading, supportsContentUploading) ||
-                const DeepCollectionEquality().equals(
-                    other.supportsContentUploading,
-                    supportsContentUploading)) &&
-            (identical(other.supportsSync, supportsSync) ||
-                const DeepCollectionEquality()
-                    .equals(other.supportsSync, supportsSync)));
+                const DeepCollectionEquality().equals(other.iconUrl, iconUrl)));
   }
 
   @override
@@ -22427,8 +21810,6 @@ class ClientCapabilitiesDto {
       const DeepCollectionEquality().hash(deviceProfile) ^
       const DeepCollectionEquality().hash(appStoreUrl) ^
       const DeepCollectionEquality().hash(iconUrl) ^
-      const DeepCollectionEquality().hash(supportsContentUploading) ^
-      const DeepCollectionEquality().hash(supportsSync) ^
       runtimeType.hashCode;
 }
 
@@ -22440,9 +21821,7 @@ extension $ClientCapabilitiesDtoExtension on ClientCapabilitiesDto {
       bool? supportsPersistentIdentifier,
       DeviceProfile? deviceProfile,
       String? appStoreUrl,
-      String? iconUrl,
-      bool? supportsContentUploading,
-      bool? supportsSync}) {
+      String? iconUrl}) {
     return ClientCapabilitiesDto(
         playableMediaTypes: playableMediaTypes ?? this.playableMediaTypes,
         supportedCommands: supportedCommands ?? this.supportedCommands,
@@ -22451,10 +21830,7 @@ extension $ClientCapabilitiesDtoExtension on ClientCapabilitiesDto {
             supportsPersistentIdentifier ?? this.supportsPersistentIdentifier,
         deviceProfile: deviceProfile ?? this.deviceProfile,
         appStoreUrl: appStoreUrl ?? this.appStoreUrl,
-        iconUrl: iconUrl ?? this.iconUrl,
-        supportsContentUploading:
-            supportsContentUploading ?? this.supportsContentUploading,
-        supportsSync: supportsSync ?? this.supportsSync);
+        iconUrl: iconUrl ?? this.iconUrl);
   }
 
   ClientCapabilitiesDto copyWithWrapped(
@@ -22464,9 +21840,7 @@ extension $ClientCapabilitiesDtoExtension on ClientCapabilitiesDto {
       Wrapped<bool?>? supportsPersistentIdentifier,
       Wrapped<DeviceProfile?>? deviceProfile,
       Wrapped<String?>? appStoreUrl,
-      Wrapped<String?>? iconUrl,
-      Wrapped<bool?>? supportsContentUploading,
-      Wrapped<bool?>? supportsSync}) {
+      Wrapped<String?>? iconUrl}) {
     return ClientCapabilitiesDto(
         playableMediaTypes: (playableMediaTypes != null
             ? playableMediaTypes.value
@@ -22484,12 +21858,7 @@ extension $ClientCapabilitiesDtoExtension on ClientCapabilitiesDto {
             (deviceProfile != null ? deviceProfile.value : this.deviceProfile),
         appStoreUrl:
             (appStoreUrl != null ? appStoreUrl.value : this.appStoreUrl),
-        iconUrl: (iconUrl != null ? iconUrl.value : this.iconUrl),
-        supportsContentUploading: (supportsContentUploading != null
-            ? supportsContentUploading.value
-            : this.supportsContentUploading),
-        supportsSync:
-            (supportsSync != null ? supportsSync.value : this.supportsSync));
+        iconUrl: (iconUrl != null ? iconUrl.value : this.iconUrl));
   }
 }
 
@@ -22546,6 +21915,7 @@ class CodecProfile {
     this.applyConditions,
     this.codec,
     this.container,
+    this.subContainer,
   });
 
   factory CodecProfile.fromJson(Map<String, dynamic> json) =>
@@ -22575,6 +21945,8 @@ class CodecProfile {
   final String? codec;
   @JsonKey(name: 'Container', includeIfNull: false)
   final String? container;
+  @JsonKey(name: 'SubContainer', includeIfNull: false)
+  final String? subContainer;
   static const fromJsonFactory = _$CodecProfileFromJson;
 
   @override
@@ -22593,7 +21965,10 @@ class CodecProfile {
                 const DeepCollectionEquality().equals(other.codec, codec)) &&
             (identical(other.container, container) ||
                 const DeepCollectionEquality()
-                    .equals(other.container, container)));
+                    .equals(other.container, container)) &&
+            (identical(other.subContainer, subContainer) ||
+                const DeepCollectionEquality()
+                    .equals(other.subContainer, subContainer)));
   }
 
   @override
@@ -22606,6 +21981,7 @@ class CodecProfile {
       const DeepCollectionEquality().hash(applyConditions) ^
       const DeepCollectionEquality().hash(codec) ^
       const DeepCollectionEquality().hash(container) ^
+      const DeepCollectionEquality().hash(subContainer) ^
       runtimeType.hashCode;
 }
 
@@ -22615,13 +21991,15 @@ extension $CodecProfileExtension on CodecProfile {
       List<ProfileCondition>? conditions,
       List<ProfileCondition>? applyConditions,
       String? codec,
-      String? container}) {
+      String? container,
+      String? subContainer}) {
     return CodecProfile(
         type: type ?? this.type,
         conditions: conditions ?? this.conditions,
         applyConditions: applyConditions ?? this.applyConditions,
         codec: codec ?? this.codec,
-        container: container ?? this.container);
+        container: container ?? this.container,
+        subContainer: subContainer ?? this.subContainer);
   }
 
   CodecProfile copyWithWrapped(
@@ -22629,7 +22007,8 @@ extension $CodecProfileExtension on CodecProfile {
       Wrapped<List<ProfileCondition>?>? conditions,
       Wrapped<List<ProfileCondition>?>? applyConditions,
       Wrapped<String?>? codec,
-      Wrapped<String?>? container}) {
+      Wrapped<String?>? container,
+      Wrapped<String?>? subContainer}) {
     return CodecProfile(
         type: (type != null ? type.value : this.type),
         conditions: (conditions != null ? conditions.value : this.conditions),
@@ -22637,7 +22016,9 @@ extension $CodecProfileExtension on CodecProfile {
             ? applyConditions.value
             : this.applyConditions),
         codec: (codec != null ? codec.value : this.codec),
-        container: (container != null ? container.value : this.container));
+        container: (container != null ? container.value : this.container),
+        subContainer:
+            (subContainer != null ? subContainer.value : this.subContainer));
   }
 }
 
@@ -22914,6 +22295,7 @@ class ContainerProfile {
     this.type,
     this.conditions,
     this.container,
+    this.subContainer,
   });
 
   factory ContainerProfile.fromJson(Map<String, dynamic> json) =>
@@ -22936,6 +22318,8 @@ class ContainerProfile {
   final List<ProfileCondition>? conditions;
   @JsonKey(name: 'Container', includeIfNull: false)
   final String? container;
+  @JsonKey(name: 'SubContainer', includeIfNull: false)
+  final String? subContainer;
   static const fromJsonFactory = _$ContainerProfileFromJson;
 
   @override
@@ -22949,7 +22333,10 @@ class ContainerProfile {
                     .equals(other.conditions, conditions)) &&
             (identical(other.container, container) ||
                 const DeepCollectionEquality()
-                    .equals(other.container, container)));
+                    .equals(other.container, container)) &&
+            (identical(other.subContainer, subContainer) ||
+                const DeepCollectionEquality()
+                    .equals(other.subContainer, subContainer)));
   }
 
   @override
@@ -22960,6 +22347,7 @@ class ContainerProfile {
       const DeepCollectionEquality().hash(type) ^
       const DeepCollectionEquality().hash(conditions) ^
       const DeepCollectionEquality().hash(container) ^
+      const DeepCollectionEquality().hash(subContainer) ^
       runtimeType.hashCode;
 }
 
@@ -22967,21 +22355,26 @@ extension $ContainerProfileExtension on ContainerProfile {
   ContainerProfile copyWith(
       {enums.DlnaProfileType? type,
       List<ProfileCondition>? conditions,
-      String? container}) {
+      String? container,
+      String? subContainer}) {
     return ContainerProfile(
         type: type ?? this.type,
         conditions: conditions ?? this.conditions,
-        container: container ?? this.container);
+        container: container ?? this.container,
+        subContainer: subContainer ?? this.subContainer);
   }
 
   ContainerProfile copyWithWrapped(
       {Wrapped<enums.DlnaProfileType?>? type,
       Wrapped<List<ProfileCondition>?>? conditions,
-      Wrapped<String?>? container}) {
+      Wrapped<String?>? container,
+      Wrapped<String?>? subContainer}) {
     return ContainerProfile(
         type: (type != null ? type.value : this.type),
         conditions: (conditions != null ? conditions.value : this.conditions),
-        container: (container != null ? container.value : this.container));
+        container: (container != null ? container.value : this.container),
+        subContainer:
+            (subContainer != null ? subContainer.value : this.subContainer));
   }
 }
 
@@ -23345,65 +22738,6 @@ extension $CultureDtoExtension on CultureDto {
 }
 
 @JsonSerializable(explicitToJson: true)
-class CustomQueryData {
-  const CustomQueryData({
-    this.customQueryString,
-    this.replaceUserId,
-  });
-
-  factory CustomQueryData.fromJson(Map<String, dynamic> json) =>
-      _$CustomQueryDataFromJson(json);
-
-  static const toJsonFactory = _$CustomQueryDataToJson;
-  Map<String, dynamic> toJson() => _$CustomQueryDataToJson(this);
-
-  @JsonKey(name: 'CustomQueryString', includeIfNull: false)
-  final String? customQueryString;
-  @JsonKey(name: 'ReplaceUserId', includeIfNull: false)
-  final bool? replaceUserId;
-  static const fromJsonFactory = _$CustomQueryDataFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is CustomQueryData &&
-            (identical(other.customQueryString, customQueryString) ||
-                const DeepCollectionEquality()
-                    .equals(other.customQueryString, customQueryString)) &&
-            (identical(other.replaceUserId, replaceUserId) ||
-                const DeepCollectionEquality()
-                    .equals(other.replaceUserId, replaceUserId)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(customQueryString) ^
-      const DeepCollectionEquality().hash(replaceUserId) ^
-      runtimeType.hashCode;
-}
-
-extension $CustomQueryDataExtension on CustomQueryData {
-  CustomQueryData copyWith({String? customQueryString, bool? replaceUserId}) {
-    return CustomQueryData(
-        customQueryString: customQueryString ?? this.customQueryString,
-        replaceUserId: replaceUserId ?? this.replaceUserId);
-  }
-
-  CustomQueryData copyWithWrapped(
-      {Wrapped<String?>? customQueryString, Wrapped<bool?>? replaceUserId}) {
-    return CustomQueryData(
-        customQueryString: (customQueryString != null
-            ? customQueryString.value
-            : this.customQueryString),
-        replaceUserId:
-            (replaceUserId != null ? replaceUserId.value : this.replaceUserId));
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
 class DefaultDirectoryBrowserInfoDto {
   const DefaultDirectoryBrowserInfoDto({
     this.path,
@@ -23448,8 +22782,8 @@ extension $DefaultDirectoryBrowserInfoDtoExtension
 }
 
 @JsonSerializable(explicitToJson: true)
-class DeviceInfo {
-  const DeviceInfo({
+class DeviceInfoDto {
+  const DeviceInfoDto({
     this.name,
     this.customName,
     this.accessToken,
@@ -23463,11 +22797,11 @@ class DeviceInfo {
     this.iconUrl,
   });
 
-  factory DeviceInfo.fromJson(Map<String, dynamic> json) =>
-      _$DeviceInfoFromJson(json);
+  factory DeviceInfoDto.fromJson(Map<String, dynamic> json) =>
+      _$DeviceInfoDtoFromJson(json);
 
-  static const toJsonFactory = _$DeviceInfoToJson;
-  Map<String, dynamic> toJson() => _$DeviceInfoToJson(this);
+  static const toJsonFactory = _$DeviceInfoDtoToJson;
+  Map<String, dynamic> toJson() => _$DeviceInfoDtoToJson(this);
 
   @JsonKey(name: 'Name', includeIfNull: false)
   final String? name;
@@ -23488,15 +22822,15 @@ class DeviceInfo {
   @JsonKey(name: 'DateLastActivity', includeIfNull: false)
   final DateTime? dateLastActivity;
   @JsonKey(name: 'Capabilities', includeIfNull: false)
-  final ClientCapabilities? capabilities;
+  final ClientCapabilitiesDto? capabilities;
   @JsonKey(name: 'IconUrl', includeIfNull: false)
   final String? iconUrl;
-  static const fromJsonFactory = _$DeviceInfoFromJson;
+  static const fromJsonFactory = _$DeviceInfoDtoFromJson;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other is DeviceInfo &&
+        (other is DeviceInfoDto &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.customName, customName) ||
@@ -23548,8 +22882,8 @@ class DeviceInfo {
       runtimeType.hashCode;
 }
 
-extension $DeviceInfoExtension on DeviceInfo {
-  DeviceInfo copyWith(
+extension $DeviceInfoDtoExtension on DeviceInfoDto {
+  DeviceInfoDto copyWith(
       {String? name,
       String? customName,
       String? accessToken,
@@ -23559,9 +22893,9 @@ extension $DeviceInfoExtension on DeviceInfo {
       String? appVersion,
       String? lastUserId,
       DateTime? dateLastActivity,
-      ClientCapabilities? capabilities,
+      ClientCapabilitiesDto? capabilities,
       String? iconUrl}) {
-    return DeviceInfo(
+    return DeviceInfoDto(
         name: name ?? this.name,
         customName: customName ?? this.customName,
         accessToken: accessToken ?? this.accessToken,
@@ -23575,7 +22909,7 @@ extension $DeviceInfoExtension on DeviceInfo {
         iconUrl: iconUrl ?? this.iconUrl);
   }
 
-  DeviceInfo copyWithWrapped(
+  DeviceInfoDto copyWithWrapped(
       {Wrapped<String?>? name,
       Wrapped<String?>? customName,
       Wrapped<String?>? accessToken,
@@ -23585,9 +22919,9 @@ extension $DeviceInfoExtension on DeviceInfo {
       Wrapped<String?>? appVersion,
       Wrapped<String?>? lastUserId,
       Wrapped<DateTime?>? dateLastActivity,
-      Wrapped<ClientCapabilities?>? capabilities,
+      Wrapped<ClientCapabilitiesDto?>? capabilities,
       Wrapped<String?>? iconUrl}) {
-    return DeviceInfo(
+    return DeviceInfoDto(
         name: (name != null ? name.value : this.name),
         customName: (customName != null ? customName.value : this.customName),
         accessToken:
@@ -23608,31 +22942,31 @@ extension $DeviceInfoExtension on DeviceInfo {
 }
 
 @JsonSerializable(explicitToJson: true)
-class DeviceInfoQueryResult {
-  const DeviceInfoQueryResult({
+class DeviceInfoDtoQueryResult {
+  const DeviceInfoDtoQueryResult({
     this.items,
     this.totalRecordCount,
     this.startIndex,
   });
 
-  factory DeviceInfoQueryResult.fromJson(Map<String, dynamic> json) =>
-      _$DeviceInfoQueryResultFromJson(json);
+  factory DeviceInfoDtoQueryResult.fromJson(Map<String, dynamic> json) =>
+      _$DeviceInfoDtoQueryResultFromJson(json);
 
-  static const toJsonFactory = _$DeviceInfoQueryResultToJson;
-  Map<String, dynamic> toJson() => _$DeviceInfoQueryResultToJson(this);
+  static const toJsonFactory = _$DeviceInfoDtoQueryResultToJson;
+  Map<String, dynamic> toJson() => _$DeviceInfoDtoQueryResultToJson(this);
 
-  @JsonKey(name: 'Items', includeIfNull: false, defaultValue: <DeviceInfo>[])
-  final List<DeviceInfo>? items;
+  @JsonKey(name: 'Items', includeIfNull: false, defaultValue: <DeviceInfoDto>[])
+  final List<DeviceInfoDto>? items;
   @JsonKey(name: 'TotalRecordCount', includeIfNull: false)
   final int? totalRecordCount;
   @JsonKey(name: 'StartIndex', includeIfNull: false)
   final int? startIndex;
-  static const fromJsonFactory = _$DeviceInfoQueryResultFromJson;
+  static const fromJsonFactory = _$DeviceInfoDtoQueryResultFromJson;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other is DeviceInfoQueryResult &&
+        (other is DeviceInfoDtoQueryResult &&
             (identical(other.items, items) ||
                 const DeepCollectionEquality().equals(other.items, items)) &&
             (identical(other.totalRecordCount, totalRecordCount) ||
@@ -23654,91 +22988,25 @@ class DeviceInfoQueryResult {
       runtimeType.hashCode;
 }
 
-extension $DeviceInfoQueryResultExtension on DeviceInfoQueryResult {
-  DeviceInfoQueryResult copyWith(
-      {List<DeviceInfo>? items, int? totalRecordCount, int? startIndex}) {
-    return DeviceInfoQueryResult(
+extension $DeviceInfoDtoQueryResultExtension on DeviceInfoDtoQueryResult {
+  DeviceInfoDtoQueryResult copyWith(
+      {List<DeviceInfoDto>? items, int? totalRecordCount, int? startIndex}) {
+    return DeviceInfoDtoQueryResult(
         items: items ?? this.items,
         totalRecordCount: totalRecordCount ?? this.totalRecordCount,
         startIndex: startIndex ?? this.startIndex);
   }
 
-  DeviceInfoQueryResult copyWithWrapped(
-      {Wrapped<List<DeviceInfo>?>? items,
+  DeviceInfoDtoQueryResult copyWithWrapped(
+      {Wrapped<List<DeviceInfoDto>?>? items,
       Wrapped<int?>? totalRecordCount,
       Wrapped<int?>? startIndex}) {
-    return DeviceInfoQueryResult(
+    return DeviceInfoDtoQueryResult(
         items: (items != null ? items.value : this.items),
         totalRecordCount: (totalRecordCount != null
             ? totalRecordCount.value
             : this.totalRecordCount),
         startIndex: (startIndex != null ? startIndex.value : this.startIndex));
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class DeviceOptions {
-  const DeviceOptions({
-    this.id,
-    this.deviceId,
-    this.customName,
-  });
-
-  factory DeviceOptions.fromJson(Map<String, dynamic> json) =>
-      _$DeviceOptionsFromJson(json);
-
-  static const toJsonFactory = _$DeviceOptionsToJson;
-  Map<String, dynamic> toJson() => _$DeviceOptionsToJson(this);
-
-  @JsonKey(name: 'Id', includeIfNull: false)
-  final int? id;
-  @JsonKey(name: 'DeviceId', includeIfNull: false)
-  final String? deviceId;
-  @JsonKey(name: 'CustomName', includeIfNull: false)
-  final String? customName;
-  static const fromJsonFactory = _$DeviceOptionsFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is DeviceOptions &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.deviceId, deviceId) ||
-                const DeepCollectionEquality()
-                    .equals(other.deviceId, deviceId)) &&
-            (identical(other.customName, customName) ||
-                const DeepCollectionEquality()
-                    .equals(other.customName, customName)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(deviceId) ^
-      const DeepCollectionEquality().hash(customName) ^
-      runtimeType.hashCode;
-}
-
-extension $DeviceOptionsExtension on DeviceOptions {
-  DeviceOptions copyWith({int? id, String? deviceId, String? customName}) {
-    return DeviceOptions(
-        id: id ?? this.id,
-        deviceId: deviceId ?? this.deviceId,
-        customName: customName ?? this.customName);
-  }
-
-  DeviceOptions copyWithWrapped(
-      {Wrapped<int?>? id,
-      Wrapped<String?>? deviceId,
-      Wrapped<String?>? customName}) {
-    return DeviceOptions(
-        id: (id != null ? id.value : this.id),
-        deviceId: (deviceId != null ? deviceId.value : this.deviceId),
-        customName: (customName != null ? customName.value : this.customName));
   }
 }
 
@@ -24316,6 +23584,7 @@ class EncodingOptions {
     this.encoderAppPath,
     this.encoderAppPathDisplay,
     this.vaapiDevice,
+    this.qsvDevice,
     this.enableTonemapping,
     this.enableVppTonemapping,
     this.enableVideoToolboxTonemapping,
@@ -24334,6 +23603,8 @@ class EncodingOptions {
     this.deinterlaceMethod,
     this.enableDecodingColorDepth10Hevc,
     this.enableDecodingColorDepth10Vp9,
+    this.enableDecodingColorDepth10HevcRext,
+    this.enableDecodingColorDepth12HevcRext,
     this.enableEnhancedNvdecDecoder,
     this.preferSystemNativeHwDecoder,
     this.enableIntelLowPowerH264HwEncoder,
@@ -24381,26 +23652,48 @@ class EncodingOptions {
   final bool? enableSegmentDeletion;
   @JsonKey(name: 'SegmentKeepSeconds', includeIfNull: false)
   final int? segmentKeepSeconds;
-  @JsonKey(name: 'HardwareAccelerationType', includeIfNull: false)
-  final String? hardwareAccelerationType;
+  @JsonKey(
+    name: 'HardwareAccelerationType',
+    includeIfNull: false,
+    toJson: hardwareAccelerationTypeNullableToJson,
+    fromJson: hardwareAccelerationTypeNullableFromJson,
+  )
+  final enums.HardwareAccelerationType? hardwareAccelerationType;
   @JsonKey(name: 'EncoderAppPath', includeIfNull: false)
   final String? encoderAppPath;
   @JsonKey(name: 'EncoderAppPathDisplay', includeIfNull: false)
   final String? encoderAppPathDisplay;
   @JsonKey(name: 'VaapiDevice', includeIfNull: false)
   final String? vaapiDevice;
+  @JsonKey(name: 'QsvDevice', includeIfNull: false)
+  final String? qsvDevice;
   @JsonKey(name: 'EnableTonemapping', includeIfNull: false)
   final bool? enableTonemapping;
   @JsonKey(name: 'EnableVppTonemapping', includeIfNull: false)
   final bool? enableVppTonemapping;
   @JsonKey(name: 'EnableVideoToolboxTonemapping', includeIfNull: false)
   final bool? enableVideoToolboxTonemapping;
-  @JsonKey(name: 'TonemappingAlgorithm', includeIfNull: false)
-  final String? tonemappingAlgorithm;
-  @JsonKey(name: 'TonemappingMode', includeIfNull: false)
-  final String? tonemappingMode;
-  @JsonKey(name: 'TonemappingRange', includeIfNull: false)
-  final String? tonemappingRange;
+  @JsonKey(
+    name: 'TonemappingAlgorithm',
+    includeIfNull: false,
+    toJson: tonemappingAlgorithmNullableToJson,
+    fromJson: tonemappingAlgorithmNullableFromJson,
+  )
+  final enums.TonemappingAlgorithm? tonemappingAlgorithm;
+  @JsonKey(
+    name: 'TonemappingMode',
+    includeIfNull: false,
+    toJson: tonemappingModeNullableToJson,
+    fromJson: tonemappingModeNullableFromJson,
+  )
+  final enums.TonemappingMode? tonemappingMode;
+  @JsonKey(
+    name: 'TonemappingRange',
+    includeIfNull: false,
+    toJson: tonemappingRangeNullableToJson,
+    fromJson: tonemappingRangeNullableFromJson,
+  )
+  final enums.TonemappingRange? tonemappingRange;
   @JsonKey(name: 'TonemappingDesat', includeIfNull: false)
   final double? tonemappingDesat;
   @JsonKey(name: 'TonemappingPeak', includeIfNull: false)
@@ -24415,16 +23708,30 @@ class EncodingOptions {
   final int? h264Crf;
   @JsonKey(name: 'H265Crf', includeIfNull: false)
   final int? h265Crf;
-  @JsonKey(name: 'EncoderPreset', includeIfNull: false)
-  final String? encoderPreset;
+  @JsonKey(
+    name: 'EncoderPreset',
+    includeIfNull: false,
+    toJson: encoderPresetNullableToJson,
+    fromJson: encoderPresetNullableFromJson,
+  )
+  final enums.EncoderPreset? encoderPreset;
   @JsonKey(name: 'DeinterlaceDoubleRate', includeIfNull: false)
   final bool? deinterlaceDoubleRate;
-  @JsonKey(name: 'DeinterlaceMethod', includeIfNull: false)
-  final String? deinterlaceMethod;
+  @JsonKey(
+    name: 'DeinterlaceMethod',
+    includeIfNull: false,
+    toJson: deinterlaceMethodNullableToJson,
+    fromJson: deinterlaceMethodNullableFromJson,
+  )
+  final enums.DeinterlaceMethod? deinterlaceMethod;
   @JsonKey(name: 'EnableDecodingColorDepth10Hevc', includeIfNull: false)
   final bool? enableDecodingColorDepth10Hevc;
   @JsonKey(name: 'EnableDecodingColorDepth10Vp9', includeIfNull: false)
   final bool? enableDecodingColorDepth10Vp9;
+  @JsonKey(name: 'EnableDecodingColorDepth10HevcRext', includeIfNull: false)
+  final bool? enableDecodingColorDepth10HevcRext;
+  @JsonKey(name: 'EnableDecodingColorDepth12HevcRext', includeIfNull: false)
+  final bool? enableDecodingColorDepth12HevcRext;
   @JsonKey(name: 'EnableEnhancedNvdecDecoder', includeIfNull: false)
   final bool? enableEnhancedNvdecDecoder;
   @JsonKey(name: 'PreferSystemNativeHwDecoder', includeIfNull: false)
@@ -24506,15 +23813,16 @@ class EncodingOptions {
             (identical(other.vaapiDevice, vaapiDevice) ||
                 const DeepCollectionEquality()
                     .equals(other.vaapiDevice, vaapiDevice)) &&
+            (identical(other.qsvDevice, qsvDevice) ||
+                const DeepCollectionEquality()
+                    .equals(other.qsvDevice, qsvDevice)) &&
             (identical(other.enableTonemapping, enableTonemapping) ||
                 const DeepCollectionEquality()
                     .equals(other.enableTonemapping, enableTonemapping)) &&
             (identical(other.enableVppTonemapping, enableVppTonemapping) ||
                 const DeepCollectionEquality().equals(
                     other.enableVppTonemapping, enableVppTonemapping)) &&
-            (identical(other.enableVideoToolboxTonemapping, enableVideoToolboxTonemapping) ||
-                const DeepCollectionEquality()
-                    .equals(other.enableVideoToolboxTonemapping, enableVideoToolboxTonemapping)) &&
+            (identical(other.enableVideoToolboxTonemapping, enableVideoToolboxTonemapping) || const DeepCollectionEquality().equals(other.enableVideoToolboxTonemapping, enableVideoToolboxTonemapping)) &&
             (identical(other.tonemappingAlgorithm, tonemappingAlgorithm) || const DeepCollectionEquality().equals(other.tonemappingAlgorithm, tonemappingAlgorithm)) &&
             (identical(other.tonemappingMode, tonemappingMode) || const DeepCollectionEquality().equals(other.tonemappingMode, tonemappingMode)) &&
             (identical(other.tonemappingRange, tonemappingRange) || const DeepCollectionEquality().equals(other.tonemappingRange, tonemappingRange)) &&
@@ -24530,6 +23838,8 @@ class EncodingOptions {
             (identical(other.deinterlaceMethod, deinterlaceMethod) || const DeepCollectionEquality().equals(other.deinterlaceMethod, deinterlaceMethod)) &&
             (identical(other.enableDecodingColorDepth10Hevc, enableDecodingColorDepth10Hevc) || const DeepCollectionEquality().equals(other.enableDecodingColorDepth10Hevc, enableDecodingColorDepth10Hevc)) &&
             (identical(other.enableDecodingColorDepth10Vp9, enableDecodingColorDepth10Vp9) || const DeepCollectionEquality().equals(other.enableDecodingColorDepth10Vp9, enableDecodingColorDepth10Vp9)) &&
+            (identical(other.enableDecodingColorDepth10HevcRext, enableDecodingColorDepth10HevcRext) || const DeepCollectionEquality().equals(other.enableDecodingColorDepth10HevcRext, enableDecodingColorDepth10HevcRext)) &&
+            (identical(other.enableDecodingColorDepth12HevcRext, enableDecodingColorDepth12HevcRext) || const DeepCollectionEquality().equals(other.enableDecodingColorDepth12HevcRext, enableDecodingColorDepth12HevcRext)) &&
             (identical(other.enableEnhancedNvdecDecoder, enableEnhancedNvdecDecoder) || const DeepCollectionEquality().equals(other.enableEnhancedNvdecDecoder, enableEnhancedNvdecDecoder)) &&
             (identical(other.preferSystemNativeHwDecoder, preferSystemNativeHwDecoder) || const DeepCollectionEquality().equals(other.preferSystemNativeHwDecoder, preferSystemNativeHwDecoder)) &&
             (identical(other.enableIntelLowPowerH264HwEncoder, enableIntelLowPowerH264HwEncoder) || const DeepCollectionEquality().equals(other.enableIntelLowPowerH264HwEncoder, enableIntelLowPowerH264HwEncoder)) &&
@@ -24563,6 +23873,7 @@ class EncodingOptions {
       const DeepCollectionEquality().hash(encoderAppPath) ^
       const DeepCollectionEquality().hash(encoderAppPathDisplay) ^
       const DeepCollectionEquality().hash(vaapiDevice) ^
+      const DeepCollectionEquality().hash(qsvDevice) ^
       const DeepCollectionEquality().hash(enableTonemapping) ^
       const DeepCollectionEquality().hash(enableVppTonemapping) ^
       const DeepCollectionEquality().hash(enableVideoToolboxTonemapping) ^
@@ -24581,6 +23892,8 @@ class EncodingOptions {
       const DeepCollectionEquality().hash(deinterlaceMethod) ^
       const DeepCollectionEquality().hash(enableDecodingColorDepth10Hevc) ^
       const DeepCollectionEquality().hash(enableDecodingColorDepth10Vp9) ^
+      const DeepCollectionEquality().hash(enableDecodingColorDepth10HevcRext) ^
+      const DeepCollectionEquality().hash(enableDecodingColorDepth12HevcRext) ^
       const DeepCollectionEquality().hash(enableEnhancedNvdecDecoder) ^
       const DeepCollectionEquality().hash(preferSystemNativeHwDecoder) ^
       const DeepCollectionEquality().hash(enableIntelLowPowerH264HwEncoder) ^
@@ -24609,16 +23922,17 @@ extension $EncodingOptionsExtension on EncodingOptions {
       int? throttleDelaySeconds,
       bool? enableSegmentDeletion,
       int? segmentKeepSeconds,
-      String? hardwareAccelerationType,
+      enums.HardwareAccelerationType? hardwareAccelerationType,
       String? encoderAppPath,
       String? encoderAppPathDisplay,
       String? vaapiDevice,
+      String? qsvDevice,
       bool? enableTonemapping,
       bool? enableVppTonemapping,
       bool? enableVideoToolboxTonemapping,
-      String? tonemappingAlgorithm,
-      String? tonemappingMode,
-      String? tonemappingRange,
+      enums.TonemappingAlgorithm? tonemappingAlgorithm,
+      enums.TonemappingMode? tonemappingMode,
+      enums.TonemappingRange? tonemappingRange,
       double? tonemappingDesat,
       double? tonemappingPeak,
       double? tonemappingParam,
@@ -24626,11 +23940,13 @@ extension $EncodingOptionsExtension on EncodingOptions {
       double? vppTonemappingContrast,
       int? h264Crf,
       int? h265Crf,
-      String? encoderPreset,
+      enums.EncoderPreset? encoderPreset,
       bool? deinterlaceDoubleRate,
-      String? deinterlaceMethod,
+      enums.DeinterlaceMethod? deinterlaceMethod,
       bool? enableDecodingColorDepth10Hevc,
       bool? enableDecodingColorDepth10Vp9,
+      bool? enableDecodingColorDepth10HevcRext,
+      bool? enableDecodingColorDepth12HevcRext,
       bool? enableEnhancedNvdecDecoder,
       bool? preferSystemNativeHwDecoder,
       bool? enableIntelLowPowerH264HwEncoder,
@@ -24663,6 +23979,7 @@ extension $EncodingOptionsExtension on EncodingOptions {
         encoderAppPathDisplay:
             encoderAppPathDisplay ?? this.encoderAppPathDisplay,
         vaapiDevice: vaapiDevice ?? this.vaapiDevice,
+        qsvDevice: qsvDevice ?? this.qsvDevice,
         enableTonemapping: enableTonemapping ?? this.enableTonemapping,
         enableVppTonemapping: enableVppTonemapping ?? this.enableVppTonemapping,
         enableVideoToolboxTonemapping:
@@ -24687,6 +24004,12 @@ extension $EncodingOptionsExtension on EncodingOptions {
             this.enableDecodingColorDepth10Hevc,
         enableDecodingColorDepth10Vp9:
             enableDecodingColorDepth10Vp9 ?? this.enableDecodingColorDepth10Vp9,
+        enableDecodingColorDepth10HevcRext:
+            enableDecodingColorDepth10HevcRext ??
+                this.enableDecodingColorDepth10HevcRext,
+        enableDecodingColorDepth12HevcRext:
+            enableDecodingColorDepth12HevcRext ??
+                this.enableDecodingColorDepth12HevcRext,
         enableEnhancedNvdecDecoder:
             enableEnhancedNvdecDecoder ?? this.enableEnhancedNvdecDecoder,
         preferSystemNativeHwDecoder:
@@ -24721,16 +24044,17 @@ extension $EncodingOptionsExtension on EncodingOptions {
       Wrapped<int?>? throttleDelaySeconds,
       Wrapped<bool?>? enableSegmentDeletion,
       Wrapped<int?>? segmentKeepSeconds,
-      Wrapped<String?>? hardwareAccelerationType,
+      Wrapped<enums.HardwareAccelerationType?>? hardwareAccelerationType,
       Wrapped<String?>? encoderAppPath,
       Wrapped<String?>? encoderAppPathDisplay,
       Wrapped<String?>? vaapiDevice,
+      Wrapped<String?>? qsvDevice,
       Wrapped<bool?>? enableTonemapping,
       Wrapped<bool?>? enableVppTonemapping,
       Wrapped<bool?>? enableVideoToolboxTonemapping,
-      Wrapped<String?>? tonemappingAlgorithm,
-      Wrapped<String?>? tonemappingMode,
-      Wrapped<String?>? tonemappingRange,
+      Wrapped<enums.TonemappingAlgorithm?>? tonemappingAlgorithm,
+      Wrapped<enums.TonemappingMode?>? tonemappingMode,
+      Wrapped<enums.TonemappingRange?>? tonemappingRange,
       Wrapped<double?>? tonemappingDesat,
       Wrapped<double?>? tonemappingPeak,
       Wrapped<double?>? tonemappingParam,
@@ -24738,11 +24062,13 @@ extension $EncodingOptionsExtension on EncodingOptions {
       Wrapped<double?>? vppTonemappingContrast,
       Wrapped<int?>? h264Crf,
       Wrapped<int?>? h265Crf,
-      Wrapped<String?>? encoderPreset,
+      Wrapped<enums.EncoderPreset?>? encoderPreset,
       Wrapped<bool?>? deinterlaceDoubleRate,
-      Wrapped<String?>? deinterlaceMethod,
+      Wrapped<enums.DeinterlaceMethod?>? deinterlaceMethod,
       Wrapped<bool?>? enableDecodingColorDepth10Hevc,
       Wrapped<bool?>? enableDecodingColorDepth10Vp9,
+      Wrapped<bool?>? enableDecodingColorDepth10HevcRext,
+      Wrapped<bool?>? enableDecodingColorDepth12HevcRext,
       Wrapped<bool?>? enableEnhancedNvdecDecoder,
       Wrapped<bool?>? preferSystemNativeHwDecoder,
       Wrapped<bool?>? enableIntelLowPowerH264HwEncoder,
@@ -24802,6 +24128,7 @@ extension $EncodingOptionsExtension on EncodingOptions {
             : this.encoderAppPathDisplay),
         vaapiDevice:
             (vaapiDevice != null ? vaapiDevice.value : this.vaapiDevice),
+        qsvDevice: (qsvDevice != null ? qsvDevice.value : this.qsvDevice),
         enableTonemapping: (enableTonemapping != null
             ? enableTonemapping.value
             : this.enableTonemapping),
@@ -24851,20 +24178,25 @@ extension $EncodingOptionsExtension on EncodingOptions {
         enableDecodingColorDepth10Vp9: (enableDecodingColorDepth10Vp9 != null
             ? enableDecodingColorDepth10Vp9.value
             : this.enableDecodingColorDepth10Vp9),
+        enableDecodingColorDepth10HevcRext: (enableDecodingColorDepth10HevcRext != null
+            ? enableDecodingColorDepth10HevcRext.value
+            : this.enableDecodingColorDepth10HevcRext),
+        enableDecodingColorDepth12HevcRext:
+            (enableDecodingColorDepth12HevcRext != null
+                ? enableDecodingColorDepth12HevcRext.value
+                : this.enableDecodingColorDepth12HevcRext),
         enableEnhancedNvdecDecoder: (enableEnhancedNvdecDecoder != null
             ? enableEnhancedNvdecDecoder.value
             : this.enableEnhancedNvdecDecoder),
         preferSystemNativeHwDecoder: (preferSystemNativeHwDecoder != null
             ? preferSystemNativeHwDecoder.value
             : this.preferSystemNativeHwDecoder),
-        enableIntelLowPowerH264HwEncoder:
-            (enableIntelLowPowerH264HwEncoder != null
-                ? enableIntelLowPowerH264HwEncoder.value
-                : this.enableIntelLowPowerH264HwEncoder),
-        enableIntelLowPowerHevcHwEncoder:
-            (enableIntelLowPowerHevcHwEncoder != null
-                ? enableIntelLowPowerHevcHwEncoder.value
-                : this.enableIntelLowPowerHevcHwEncoder),
+        enableIntelLowPowerH264HwEncoder: (enableIntelLowPowerH264HwEncoder != null
+            ? enableIntelLowPowerH264HwEncoder.value
+            : this.enableIntelLowPowerH264HwEncoder),
+        enableIntelLowPowerHevcHwEncoder: (enableIntelLowPowerHevcHwEncoder != null
+            ? enableIntelLowPowerHevcHwEncoder.value
+            : this.enableIntelLowPowerHevcHwEncoder),
         enableHardwareEncoding: (enableHardwareEncoding != null
             ? enableHardwareEncoding.value
             : this.enableHardwareEncoding),
@@ -24880,12 +24212,7 @@ extension $EncodingOptionsExtension on EncodingOptions {
         hardwareDecodingCodecs: (hardwareDecodingCodecs != null
             ? hardwareDecodingCodecs.value
             : this.hardwareDecodingCodecs),
-        allowOnDemandMetadataBasedKeyframeExtractionForExtensions:
-            (allowOnDemandMetadataBasedKeyframeExtractionForExtensions != null
-                ? allowOnDemandMetadataBasedKeyframeExtractionForExtensions
-                    .value
-                : this
-                    .allowOnDemandMetadataBasedKeyframeExtractionForExtensions));
+        allowOnDemandMetadataBasedKeyframeExtractionForExtensions: (allowOnDemandMetadataBasedKeyframeExtractionForExtensions != null ? allowOnDemandMetadataBasedKeyframeExtractionForExtensions.value : this.allowOnDemandMetadataBasedKeyframeExtractionForExtensions));
   }
 }
 
@@ -24947,58 +24274,6 @@ extension $EndPointInfoExtension on EndPointInfo {
 }
 
 @JsonSerializable(explicitToJson: true)
-class EpisodeVisualization {
-  const EpisodeVisualization({
-    this.id,
-    this.name,
-  });
-
-  factory EpisodeVisualization.fromJson(Map<String, dynamic> json) =>
-      _$EpisodeVisualizationFromJson(json);
-
-  static const toJsonFactory = _$EpisodeVisualizationToJson;
-  Map<String, dynamic> toJson() => _$EpisodeVisualizationToJson(this);
-
-  @JsonKey(name: 'Id', includeIfNull: false)
-  final String? id;
-  @JsonKey(name: 'Name', includeIfNull: false)
-  final String? name;
-  static const fromJsonFactory = _$EpisodeVisualizationFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is EpisodeVisualization &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(name) ^
-      runtimeType.hashCode;
-}
-
-extension $EpisodeVisualizationExtension on EpisodeVisualization {
-  EpisodeVisualization copyWith({String? id, String? name}) {
-    return EpisodeVisualization(id: id ?? this.id, name: name ?? this.name);
-  }
-
-  EpisodeVisualization copyWithWrapped(
-      {Wrapped<String?>? id, Wrapped<String?>? name}) {
-    return EpisodeVisualization(
-        id: (id != null ? id.value : this.id),
-        name: (name != null ? name.value : this.name));
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
 class ExternalIdInfo {
   const ExternalIdInfo({
     this.name,
@@ -25025,6 +24300,7 @@ class ExternalIdInfo {
   )
   final enums.ExternalIdMediaType? type;
   @JsonKey(name: 'UrlFormatString', includeIfNull: false)
+  @deprecated
   final String? urlFormatString;
   static const fromJsonFactory = _$ExternalIdInfoFromJson;
 
@@ -25773,7 +25049,8 @@ class GetProgramsDto {
   final List<String>? genreIds;
   @JsonKey(name: 'EnableImages', includeIfNull: false)
   final bool? enableImages;
-  @JsonKey(name: 'EnableTotalRecordCount', includeIfNull: false)
+  @JsonKey(
+      name: 'EnableTotalRecordCount', includeIfNull: false, defaultValue: true)
   final bool? enableTotalRecordCount;
   @JsonKey(name: 'ImageTypeLimit', includeIfNull: false)
   final int? imageTypeLimit;
@@ -26956,247 +26233,6 @@ extension $InstallationInfoExtension on InstallationInfo {
 }
 
 @JsonSerializable(explicitToJson: true)
-class Intro {
-  const Intro({
-    this.episodeId,
-    this.valid,
-    this.introStart,
-    this.introEnd,
-    this.showSkipPromptAt,
-    this.hideSkipPromptAt,
-  });
-
-  factory Intro.fromJson(Map<String, dynamic> json) => _$IntroFromJson(json);
-
-  static const toJsonFactory = _$IntroToJson;
-  Map<String, dynamic> toJson() => _$IntroToJson(this);
-
-  @JsonKey(name: 'EpisodeId', includeIfNull: false)
-  final String? episodeId;
-  @JsonKey(name: 'Valid', includeIfNull: false)
-  final bool? valid;
-  @JsonKey(name: 'IntroStart', includeIfNull: false)
-  final double? introStart;
-  @JsonKey(name: 'IntroEnd', includeIfNull: false)
-  final double? introEnd;
-  @JsonKey(name: 'ShowSkipPromptAt', includeIfNull: false)
-  final double? showSkipPromptAt;
-  @JsonKey(name: 'HideSkipPromptAt', includeIfNull: false)
-  final double? hideSkipPromptAt;
-  static const fromJsonFactory = _$IntroFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is Intro &&
-            (identical(other.episodeId, episodeId) ||
-                const DeepCollectionEquality()
-                    .equals(other.episodeId, episodeId)) &&
-            (identical(other.valid, valid) ||
-                const DeepCollectionEquality().equals(other.valid, valid)) &&
-            (identical(other.introStart, introStart) ||
-                const DeepCollectionEquality()
-                    .equals(other.introStart, introStart)) &&
-            (identical(other.introEnd, introEnd) ||
-                const DeepCollectionEquality()
-                    .equals(other.introEnd, introEnd)) &&
-            (identical(other.showSkipPromptAt, showSkipPromptAt) ||
-                const DeepCollectionEquality()
-                    .equals(other.showSkipPromptAt, showSkipPromptAt)) &&
-            (identical(other.hideSkipPromptAt, hideSkipPromptAt) ||
-                const DeepCollectionEquality()
-                    .equals(other.hideSkipPromptAt, hideSkipPromptAt)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(episodeId) ^
-      const DeepCollectionEquality().hash(valid) ^
-      const DeepCollectionEquality().hash(introStart) ^
-      const DeepCollectionEquality().hash(introEnd) ^
-      const DeepCollectionEquality().hash(showSkipPromptAt) ^
-      const DeepCollectionEquality().hash(hideSkipPromptAt) ^
-      runtimeType.hashCode;
-}
-
-extension $IntroExtension on Intro {
-  Intro copyWith(
-      {String? episodeId,
-      bool? valid,
-      double? introStart,
-      double? introEnd,
-      double? showSkipPromptAt,
-      double? hideSkipPromptAt}) {
-    return Intro(
-        episodeId: episodeId ?? this.episodeId,
-        valid: valid ?? this.valid,
-        introStart: introStart ?? this.introStart,
-        introEnd: introEnd ?? this.introEnd,
-        showSkipPromptAt: showSkipPromptAt ?? this.showSkipPromptAt,
-        hideSkipPromptAt: hideSkipPromptAt ?? this.hideSkipPromptAt);
-  }
-
-  Intro copyWithWrapped(
-      {Wrapped<String?>? episodeId,
-      Wrapped<bool?>? valid,
-      Wrapped<double?>? introStart,
-      Wrapped<double?>? introEnd,
-      Wrapped<double?>? showSkipPromptAt,
-      Wrapped<double?>? hideSkipPromptAt}) {
-    return Intro(
-        episodeId: (episodeId != null ? episodeId.value : this.episodeId),
-        valid: (valid != null ? valid.value : this.valid),
-        introStart: (introStart != null ? introStart.value : this.introStart),
-        introEnd: (introEnd != null ? introEnd.value : this.introEnd),
-        showSkipPromptAt: (showSkipPromptAt != null
-            ? showSkipPromptAt.value
-            : this.showSkipPromptAt),
-        hideSkipPromptAt: (hideSkipPromptAt != null
-            ? hideSkipPromptAt.value
-            : this.hideSkipPromptAt));
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class IntroWithMetadata {
-  const IntroWithMetadata({
-    this.episodeId,
-    this.valid,
-    this.introStart,
-    this.introEnd,
-    this.showSkipPromptAt,
-    this.hideSkipPromptAt,
-    this.series,
-    this.season,
-    this.title,
-  });
-
-  factory IntroWithMetadata.fromJson(Map<String, dynamic> json) =>
-      _$IntroWithMetadataFromJson(json);
-
-  static const toJsonFactory = _$IntroWithMetadataToJson;
-  Map<String, dynamic> toJson() => _$IntroWithMetadataToJson(this);
-
-  @JsonKey(name: 'EpisodeId', includeIfNull: false)
-  final String? episodeId;
-  @JsonKey(name: 'Valid', includeIfNull: false)
-  final bool? valid;
-  @JsonKey(name: 'IntroStart', includeIfNull: false)
-  final double? introStart;
-  @JsonKey(name: 'IntroEnd', includeIfNull: false)
-  final double? introEnd;
-  @JsonKey(name: 'ShowSkipPromptAt', includeIfNull: false)
-  final double? showSkipPromptAt;
-  @JsonKey(name: 'HideSkipPromptAt', includeIfNull: false)
-  final double? hideSkipPromptAt;
-  @JsonKey(name: 'Series', includeIfNull: false)
-  final String? series;
-  @JsonKey(name: 'Season', includeIfNull: false)
-  final int? season;
-  @JsonKey(name: 'Title', includeIfNull: false)
-  final String? title;
-  static const fromJsonFactory = _$IntroWithMetadataFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is IntroWithMetadata &&
-            (identical(other.episodeId, episodeId) ||
-                const DeepCollectionEquality()
-                    .equals(other.episodeId, episodeId)) &&
-            (identical(other.valid, valid) ||
-                const DeepCollectionEquality().equals(other.valid, valid)) &&
-            (identical(other.introStart, introStart) ||
-                const DeepCollectionEquality()
-                    .equals(other.introStart, introStart)) &&
-            (identical(other.introEnd, introEnd) ||
-                const DeepCollectionEquality()
-                    .equals(other.introEnd, introEnd)) &&
-            (identical(other.showSkipPromptAt, showSkipPromptAt) ||
-                const DeepCollectionEquality()
-                    .equals(other.showSkipPromptAt, showSkipPromptAt)) &&
-            (identical(other.hideSkipPromptAt, hideSkipPromptAt) ||
-                const DeepCollectionEquality()
-                    .equals(other.hideSkipPromptAt, hideSkipPromptAt)) &&
-            (identical(other.series, series) ||
-                const DeepCollectionEquality().equals(other.series, series)) &&
-            (identical(other.season, season) ||
-                const DeepCollectionEquality().equals(other.season, season)) &&
-            (identical(other.title, title) ||
-                const DeepCollectionEquality().equals(other.title, title)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(episodeId) ^
-      const DeepCollectionEquality().hash(valid) ^
-      const DeepCollectionEquality().hash(introStart) ^
-      const DeepCollectionEquality().hash(introEnd) ^
-      const DeepCollectionEquality().hash(showSkipPromptAt) ^
-      const DeepCollectionEquality().hash(hideSkipPromptAt) ^
-      const DeepCollectionEquality().hash(series) ^
-      const DeepCollectionEquality().hash(season) ^
-      const DeepCollectionEquality().hash(title) ^
-      runtimeType.hashCode;
-}
-
-extension $IntroWithMetadataExtension on IntroWithMetadata {
-  IntroWithMetadata copyWith(
-      {String? episodeId,
-      bool? valid,
-      double? introStart,
-      double? introEnd,
-      double? showSkipPromptAt,
-      double? hideSkipPromptAt,
-      String? series,
-      int? season,
-      String? title}) {
-    return IntroWithMetadata(
-        episodeId: episodeId ?? this.episodeId,
-        valid: valid ?? this.valid,
-        introStart: introStart ?? this.introStart,
-        introEnd: introEnd ?? this.introEnd,
-        showSkipPromptAt: showSkipPromptAt ?? this.showSkipPromptAt,
-        hideSkipPromptAt: hideSkipPromptAt ?? this.hideSkipPromptAt,
-        series: series ?? this.series,
-        season: season ?? this.season,
-        title: title ?? this.title);
-  }
-
-  IntroWithMetadata copyWithWrapped(
-      {Wrapped<String?>? episodeId,
-      Wrapped<bool?>? valid,
-      Wrapped<double?>? introStart,
-      Wrapped<double?>? introEnd,
-      Wrapped<double?>? showSkipPromptAt,
-      Wrapped<double?>? hideSkipPromptAt,
-      Wrapped<String?>? series,
-      Wrapped<int?>? season,
-      Wrapped<String?>? title}) {
-    return IntroWithMetadata(
-        episodeId: (episodeId != null ? episodeId.value : this.episodeId),
-        valid: (valid != null ? valid.value : this.valid),
-        introStart: (introStart != null ? introStart.value : this.introStart),
-        introEnd: (introEnd != null ? introEnd.value : this.introEnd),
-        showSkipPromptAt: (showSkipPromptAt != null
-            ? showSkipPromptAt.value
-            : this.showSkipPromptAt),
-        hideSkipPromptAt: (hideSkipPromptAt != null
-            ? hideSkipPromptAt.value
-            : this.hideSkipPromptAt),
-        series: (series != null ? series.value : this.series),
-        season: (season != null ? season.value : this.season),
-        title: (title != null ? title.value : this.title));
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
 class IPlugin {
   const IPlugin({
     this.name,
@@ -27492,58 +26528,6 @@ extension $ItemCountsExtension on ItemCounts {
 }
 
 @JsonSerializable(explicitToJson: true)
-class Items {
-  const Items({
-    this.movies,
-    this.episodes,
-  });
-
-  factory Items.fromJson(Map<String, dynamic> json) => _$ItemsFromJson(json);
-
-  static const toJsonFactory = _$ItemsToJson;
-  Map<String, dynamic> toJson() => _$ItemsToJson(this);
-
-  @JsonKey(name: 'movies', includeIfNull: false)
-  final int? movies;
-  @JsonKey(name: 'episodes', includeIfNull: false)
-  final int? episodes;
-  static const fromJsonFactory = _$ItemsFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is Items &&
-            (identical(other.movies, movies) ||
-                const DeepCollectionEquality().equals(other.movies, movies)) &&
-            (identical(other.episodes, episodes) ||
-                const DeepCollectionEquality()
-                    .equals(other.episodes, episodes)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(movies) ^
-      const DeepCollectionEquality().hash(episodes) ^
-      runtimeType.hashCode;
-}
-
-extension $ItemsExtension on Items {
-  Items copyWith({int? movies, int? episodes}) {
-    return Items(
-        movies: movies ?? this.movies, episodes: episodes ?? this.episodes);
-  }
-
-  Items copyWithWrapped({Wrapped<int?>? movies, Wrapped<int?>? episodes}) {
-    return Items(
-        movies: (movies != null ? movies.value : this.movies),
-        episodes: (episodes != null ? episodes.value : this.episodes));
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
 class JoinGroupRequestDto {
   const JoinGroupRequestDto({
     this.groupId,
@@ -27750,12 +26734,21 @@ class LibraryOptions {
     this.localMetadataReaderOrder,
     this.disabledSubtitleFetchers,
     this.subtitleFetcherOrder,
+    this.disabledMediaSegmentProviders,
+    this.mediaSegmentProvideOrder,
     this.skipSubtitlesIfEmbeddedSubtitlesPresent,
     this.skipSubtitlesIfAudioTrackMatches,
     this.subtitleDownloadLanguages,
     this.requirePerfectSubtitleMatch,
     this.saveSubtitlesWithMedia,
     this.saveLyricsWithMedia,
+    this.saveTrickplayWithMedia,
+    this.disabledLyricFetchers,
+    this.lyricFetcherOrder,
+    this.preferNonstandardArtistsTag,
+    this.useCustomTagDelimiters,
+    this.customTagDelimiters,
+    this.delimiterWhitelist,
     this.automaticallyAddToCollection,
     this.allowEmbeddedSubtitles,
     this.typeOptions,
@@ -27832,6 +26825,16 @@ class LibraryOptions {
       defaultValue: <String>[])
   final List<String>? subtitleFetcherOrder;
   @JsonKey(
+      name: 'DisabledMediaSegmentProviders',
+      includeIfNull: false,
+      defaultValue: <String>[])
+  final List<String>? disabledMediaSegmentProviders;
+  @JsonKey(
+      name: 'MediaSegmentProvideOrder',
+      includeIfNull: false,
+      defaultValue: <String>[])
+  final List<String>? mediaSegmentProvideOrder;
+  @JsonKey(
       name: 'SkipSubtitlesIfEmbeddedSubtitlesPresent', includeIfNull: false)
   final bool? skipSubtitlesIfEmbeddedSubtitlesPresent;
   @JsonKey(name: 'SkipSubtitlesIfAudioTrackMatches', includeIfNull: false)
@@ -27848,6 +26851,35 @@ class LibraryOptions {
   @JsonKey(
       name: 'SaveLyricsWithMedia', includeIfNull: false, defaultValue: false)
   final bool? saveLyricsWithMedia;
+  @JsonKey(
+      name: 'SaveTrickplayWithMedia', includeIfNull: false, defaultValue: false)
+  final bool? saveTrickplayWithMedia;
+  @JsonKey(
+      name: 'DisabledLyricFetchers',
+      includeIfNull: false,
+      defaultValue: <String>[])
+  final List<String>? disabledLyricFetchers;
+  @JsonKey(
+      name: 'LyricFetcherOrder', includeIfNull: false, defaultValue: <String>[])
+  final List<String>? lyricFetcherOrder;
+  @JsonKey(
+      name: 'PreferNonstandardArtistsTag',
+      includeIfNull: false,
+      defaultValue: false)
+  final bool? preferNonstandardArtistsTag;
+  @JsonKey(
+      name: 'UseCustomTagDelimiters', includeIfNull: false, defaultValue: false)
+  final bool? useCustomTagDelimiters;
+  @JsonKey(
+      name: 'CustomTagDelimiters',
+      includeIfNull: false,
+      defaultValue: <String>[])
+  final List<String>? customTagDelimiters;
+  @JsonKey(
+      name: 'DelimiterWhitelist',
+      includeIfNull: false,
+      defaultValue: <String>[])
+  final List<String>? delimiterWhitelist;
   @JsonKey(name: 'AutomaticallyAddToCollection', includeIfNull: false)
   final bool? automaticallyAddToCollection;
   @JsonKey(
@@ -27918,12 +26950,21 @@ class LibraryOptions {
             (identical(other.localMetadataReaderOrder, localMetadataReaderOrder) || const DeepCollectionEquality().equals(other.localMetadataReaderOrder, localMetadataReaderOrder)) &&
             (identical(other.disabledSubtitleFetchers, disabledSubtitleFetchers) || const DeepCollectionEquality().equals(other.disabledSubtitleFetchers, disabledSubtitleFetchers)) &&
             (identical(other.subtitleFetcherOrder, subtitleFetcherOrder) || const DeepCollectionEquality().equals(other.subtitleFetcherOrder, subtitleFetcherOrder)) &&
+            (identical(other.disabledMediaSegmentProviders, disabledMediaSegmentProviders) || const DeepCollectionEquality().equals(other.disabledMediaSegmentProviders, disabledMediaSegmentProviders)) &&
+            (identical(other.mediaSegmentProvideOrder, mediaSegmentProvideOrder) || const DeepCollectionEquality().equals(other.mediaSegmentProvideOrder, mediaSegmentProvideOrder)) &&
             (identical(other.skipSubtitlesIfEmbeddedSubtitlesPresent, skipSubtitlesIfEmbeddedSubtitlesPresent) || const DeepCollectionEquality().equals(other.skipSubtitlesIfEmbeddedSubtitlesPresent, skipSubtitlesIfEmbeddedSubtitlesPresent)) &&
             (identical(other.skipSubtitlesIfAudioTrackMatches, skipSubtitlesIfAudioTrackMatches) || const DeepCollectionEquality().equals(other.skipSubtitlesIfAudioTrackMatches, skipSubtitlesIfAudioTrackMatches)) &&
             (identical(other.subtitleDownloadLanguages, subtitleDownloadLanguages) || const DeepCollectionEquality().equals(other.subtitleDownloadLanguages, subtitleDownloadLanguages)) &&
             (identical(other.requirePerfectSubtitleMatch, requirePerfectSubtitleMatch) || const DeepCollectionEquality().equals(other.requirePerfectSubtitleMatch, requirePerfectSubtitleMatch)) &&
             (identical(other.saveSubtitlesWithMedia, saveSubtitlesWithMedia) || const DeepCollectionEquality().equals(other.saveSubtitlesWithMedia, saveSubtitlesWithMedia)) &&
             (identical(other.saveLyricsWithMedia, saveLyricsWithMedia) || const DeepCollectionEquality().equals(other.saveLyricsWithMedia, saveLyricsWithMedia)) &&
+            (identical(other.saveTrickplayWithMedia, saveTrickplayWithMedia) || const DeepCollectionEquality().equals(other.saveTrickplayWithMedia, saveTrickplayWithMedia)) &&
+            (identical(other.disabledLyricFetchers, disabledLyricFetchers) || const DeepCollectionEquality().equals(other.disabledLyricFetchers, disabledLyricFetchers)) &&
+            (identical(other.lyricFetcherOrder, lyricFetcherOrder) || const DeepCollectionEquality().equals(other.lyricFetcherOrder, lyricFetcherOrder)) &&
+            (identical(other.preferNonstandardArtistsTag, preferNonstandardArtistsTag) || const DeepCollectionEquality().equals(other.preferNonstandardArtistsTag, preferNonstandardArtistsTag)) &&
+            (identical(other.useCustomTagDelimiters, useCustomTagDelimiters) || const DeepCollectionEquality().equals(other.useCustomTagDelimiters, useCustomTagDelimiters)) &&
+            (identical(other.customTagDelimiters, customTagDelimiters) || const DeepCollectionEquality().equals(other.customTagDelimiters, customTagDelimiters)) &&
+            (identical(other.delimiterWhitelist, delimiterWhitelist) || const DeepCollectionEquality().equals(other.delimiterWhitelist, delimiterWhitelist)) &&
             (identical(other.automaticallyAddToCollection, automaticallyAddToCollection) || const DeepCollectionEquality().equals(other.automaticallyAddToCollection, automaticallyAddToCollection)) &&
             (identical(other.allowEmbeddedSubtitles, allowEmbeddedSubtitles) || const DeepCollectionEquality().equals(other.allowEmbeddedSubtitles, allowEmbeddedSubtitles)) &&
             (identical(other.typeOptions, typeOptions) || const DeepCollectionEquality().equals(other.typeOptions, typeOptions)));
@@ -27960,6 +27001,8 @@ class LibraryOptions {
       const DeepCollectionEquality().hash(localMetadataReaderOrder) ^
       const DeepCollectionEquality().hash(disabledSubtitleFetchers) ^
       const DeepCollectionEquality().hash(subtitleFetcherOrder) ^
+      const DeepCollectionEquality().hash(disabledMediaSegmentProviders) ^
+      const DeepCollectionEquality().hash(mediaSegmentProvideOrder) ^
       const DeepCollectionEquality()
           .hash(skipSubtitlesIfEmbeddedSubtitlesPresent) ^
       const DeepCollectionEquality().hash(skipSubtitlesIfAudioTrackMatches) ^
@@ -27967,6 +27010,13 @@ class LibraryOptions {
       const DeepCollectionEquality().hash(requirePerfectSubtitleMatch) ^
       const DeepCollectionEquality().hash(saveSubtitlesWithMedia) ^
       const DeepCollectionEquality().hash(saveLyricsWithMedia) ^
+      const DeepCollectionEquality().hash(saveTrickplayWithMedia) ^
+      const DeepCollectionEquality().hash(disabledLyricFetchers) ^
+      const DeepCollectionEquality().hash(lyricFetcherOrder) ^
+      const DeepCollectionEquality().hash(preferNonstandardArtistsTag) ^
+      const DeepCollectionEquality().hash(useCustomTagDelimiters) ^
+      const DeepCollectionEquality().hash(customTagDelimiters) ^
+      const DeepCollectionEquality().hash(delimiterWhitelist) ^
       const DeepCollectionEquality().hash(automaticallyAddToCollection) ^
       const DeepCollectionEquality().hash(allowEmbeddedSubtitles) ^
       const DeepCollectionEquality().hash(typeOptions) ^
@@ -27999,12 +27049,21 @@ extension $LibraryOptionsExtension on LibraryOptions {
       List<String>? localMetadataReaderOrder,
       List<String>? disabledSubtitleFetchers,
       List<String>? subtitleFetcherOrder,
+      List<String>? disabledMediaSegmentProviders,
+      List<String>? mediaSegmentProvideOrder,
       bool? skipSubtitlesIfEmbeddedSubtitlesPresent,
       bool? skipSubtitlesIfAudioTrackMatches,
       List<String>? subtitleDownloadLanguages,
       bool? requirePerfectSubtitleMatch,
       bool? saveSubtitlesWithMedia,
       bool? saveLyricsWithMedia,
+      bool? saveTrickplayWithMedia,
+      List<String>? disabledLyricFetchers,
+      List<String>? lyricFetcherOrder,
+      bool? preferNonstandardArtistsTag,
+      bool? useCustomTagDelimiters,
+      List<String>? customTagDelimiters,
+      List<String>? delimiterWhitelist,
       bool? automaticallyAddToCollection,
       enums.EmbeddedSubtitleOptions? allowEmbeddedSubtitles,
       List<TypeOptions>? typeOptions}) {
@@ -28050,6 +27109,10 @@ extension $LibraryOptionsExtension on LibraryOptions {
         disabledSubtitleFetchers:
             disabledSubtitleFetchers ?? this.disabledSubtitleFetchers,
         subtitleFetcherOrder: subtitleFetcherOrder ?? this.subtitleFetcherOrder,
+        disabledMediaSegmentProviders:
+            disabledMediaSegmentProviders ?? this.disabledMediaSegmentProviders,
+        mediaSegmentProvideOrder:
+            mediaSegmentProvideOrder ?? this.mediaSegmentProvideOrder,
         skipSubtitlesIfEmbeddedSubtitlesPresent:
             skipSubtitlesIfEmbeddedSubtitlesPresent ??
                 this.skipSubtitlesIfEmbeddedSubtitlesPresent,
@@ -28062,6 +27125,17 @@ extension $LibraryOptionsExtension on LibraryOptions {
         saveSubtitlesWithMedia:
             saveSubtitlesWithMedia ?? this.saveSubtitlesWithMedia,
         saveLyricsWithMedia: saveLyricsWithMedia ?? this.saveLyricsWithMedia,
+        saveTrickplayWithMedia:
+            saveTrickplayWithMedia ?? this.saveTrickplayWithMedia,
+        disabledLyricFetchers:
+            disabledLyricFetchers ?? this.disabledLyricFetchers,
+        lyricFetcherOrder: lyricFetcherOrder ?? this.lyricFetcherOrder,
+        preferNonstandardArtistsTag:
+            preferNonstandardArtistsTag ?? this.preferNonstandardArtistsTag,
+        useCustomTagDelimiters:
+            useCustomTagDelimiters ?? this.useCustomTagDelimiters,
+        customTagDelimiters: customTagDelimiters ?? this.customTagDelimiters,
+        delimiterWhitelist: delimiterWhitelist ?? this.delimiterWhitelist,
         automaticallyAddToCollection:
             automaticallyAddToCollection ?? this.automaticallyAddToCollection,
         allowEmbeddedSubtitles:
@@ -28094,12 +27168,21 @@ extension $LibraryOptionsExtension on LibraryOptions {
       Wrapped<List<String>?>? localMetadataReaderOrder,
       Wrapped<List<String>?>? disabledSubtitleFetchers,
       Wrapped<List<String>?>? subtitleFetcherOrder,
+      Wrapped<List<String>?>? disabledMediaSegmentProviders,
+      Wrapped<List<String>?>? mediaSegmentProvideOrder,
       Wrapped<bool?>? skipSubtitlesIfEmbeddedSubtitlesPresent,
       Wrapped<bool?>? skipSubtitlesIfAudioTrackMatches,
       Wrapped<List<String>?>? subtitleDownloadLanguages,
       Wrapped<bool?>? requirePerfectSubtitleMatch,
       Wrapped<bool?>? saveSubtitlesWithMedia,
       Wrapped<bool?>? saveLyricsWithMedia,
+      Wrapped<bool?>? saveTrickplayWithMedia,
+      Wrapped<List<String>?>? disabledLyricFetchers,
+      Wrapped<List<String>?>? lyricFetcherOrder,
+      Wrapped<bool?>? preferNonstandardArtistsTag,
+      Wrapped<bool?>? useCustomTagDelimiters,
+      Wrapped<List<String>?>? customTagDelimiters,
+      Wrapped<List<String>?>? delimiterWhitelist,
       Wrapped<bool?>? automaticallyAddToCollection,
       Wrapped<enums.EmbeddedSubtitleOptions?>? allowEmbeddedSubtitles,
       Wrapped<List<TypeOptions>?>? typeOptions}) {
@@ -28122,9 +27205,10 @@ extension $LibraryOptionsExtension on LibraryOptions {
         enableTrickplayImageExtraction: (enableTrickplayImageExtraction != null
             ? enableTrickplayImageExtraction.value
             : this.enableTrickplayImageExtraction),
-        extractTrickplayImagesDuringLibraryScan: (extractTrickplayImagesDuringLibraryScan != null
-            ? extractTrickplayImagesDuringLibraryScan.value
-            : this.extractTrickplayImagesDuringLibraryScan),
+        extractTrickplayImagesDuringLibraryScan:
+            (extractTrickplayImagesDuringLibraryScan != null
+                ? extractTrickplayImagesDuringLibraryScan.value
+                : this.extractTrickplayImagesDuringLibraryScan),
         pathInfos: (pathInfos != null ? pathInfos.value : this.pathInfos),
         saveLocalMetadata: (saveLocalMetadata != null
             ? saveLocalMetadata.value
@@ -28171,15 +27255,23 @@ extension $LibraryOptionsExtension on LibraryOptions {
         subtitleFetcherOrder: (subtitleFetcherOrder != null
             ? subtitleFetcherOrder.value
             : this.subtitleFetcherOrder),
-        skipSubtitlesIfEmbeddedSubtitlesPresent:
-            (skipSubtitlesIfEmbeddedSubtitlesPresent != null
-                ? skipSubtitlesIfEmbeddedSubtitlesPresent.value
-                : this.skipSubtitlesIfEmbeddedSubtitlesPresent),
+        disabledMediaSegmentProviders: (disabledMediaSegmentProviders != null
+            ? disabledMediaSegmentProviders.value
+            : this.disabledMediaSegmentProviders),
+        mediaSegmentProvideOrder: (mediaSegmentProvideOrder != null ? mediaSegmentProvideOrder.value : this.mediaSegmentProvideOrder),
+        skipSubtitlesIfEmbeddedSubtitlesPresent: (skipSubtitlesIfEmbeddedSubtitlesPresent != null ? skipSubtitlesIfEmbeddedSubtitlesPresent.value : this.skipSubtitlesIfEmbeddedSubtitlesPresent),
         skipSubtitlesIfAudioTrackMatches: (skipSubtitlesIfAudioTrackMatches != null ? skipSubtitlesIfAudioTrackMatches.value : this.skipSubtitlesIfAudioTrackMatches),
         subtitleDownloadLanguages: (subtitleDownloadLanguages != null ? subtitleDownloadLanguages.value : this.subtitleDownloadLanguages),
         requirePerfectSubtitleMatch: (requirePerfectSubtitleMatch != null ? requirePerfectSubtitleMatch.value : this.requirePerfectSubtitleMatch),
         saveSubtitlesWithMedia: (saveSubtitlesWithMedia != null ? saveSubtitlesWithMedia.value : this.saveSubtitlesWithMedia),
         saveLyricsWithMedia: (saveLyricsWithMedia != null ? saveLyricsWithMedia.value : this.saveLyricsWithMedia),
+        saveTrickplayWithMedia: (saveTrickplayWithMedia != null ? saveTrickplayWithMedia.value : this.saveTrickplayWithMedia),
+        disabledLyricFetchers: (disabledLyricFetchers != null ? disabledLyricFetchers.value : this.disabledLyricFetchers),
+        lyricFetcherOrder: (lyricFetcherOrder != null ? lyricFetcherOrder.value : this.lyricFetcherOrder),
+        preferNonstandardArtistsTag: (preferNonstandardArtistsTag != null ? preferNonstandardArtistsTag.value : this.preferNonstandardArtistsTag),
+        useCustomTagDelimiters: (useCustomTagDelimiters != null ? useCustomTagDelimiters.value : this.useCustomTagDelimiters),
+        customTagDelimiters: (customTagDelimiters != null ? customTagDelimiters.value : this.customTagDelimiters),
+        delimiterWhitelist: (delimiterWhitelist != null ? delimiterWhitelist.value : this.delimiterWhitelist),
         automaticallyAddToCollection: (automaticallyAddToCollection != null ? automaticallyAddToCollection.value : this.automaticallyAddToCollection),
         allowEmbeddedSubtitles: (allowEmbeddedSubtitles != null ? allowEmbeddedSubtitles.value : this.allowEmbeddedSubtitles),
         typeOptions: (typeOptions != null ? typeOptions.value : this.typeOptions));
@@ -28192,6 +27284,7 @@ class LibraryOptionsResultDto {
     this.metadataSavers,
     this.metadataReaders,
     this.subtitleFetchers,
+    this.lyricFetchers,
     this.typeOptions,
   });
 
@@ -28217,6 +27310,11 @@ class LibraryOptionsResultDto {
       defaultValue: <LibraryOptionInfoDto>[])
   final List<LibraryOptionInfoDto>? subtitleFetchers;
   @JsonKey(
+      name: 'LyricFetchers',
+      includeIfNull: false,
+      defaultValue: <LibraryOptionInfoDto>[])
+  final List<LibraryOptionInfoDto>? lyricFetchers;
+  @JsonKey(
       name: 'TypeOptions',
       includeIfNull: false,
       defaultValue: <LibraryTypeOptionsDto>[])
@@ -28236,6 +27334,9 @@ class LibraryOptionsResultDto {
             (identical(other.subtitleFetchers, subtitleFetchers) ||
                 const DeepCollectionEquality()
                     .equals(other.subtitleFetchers, subtitleFetchers)) &&
+            (identical(other.lyricFetchers, lyricFetchers) ||
+                const DeepCollectionEquality()
+                    .equals(other.lyricFetchers, lyricFetchers)) &&
             (identical(other.typeOptions, typeOptions) ||
                 const DeepCollectionEquality()
                     .equals(other.typeOptions, typeOptions)));
@@ -28249,6 +27350,7 @@ class LibraryOptionsResultDto {
       const DeepCollectionEquality().hash(metadataSavers) ^
       const DeepCollectionEquality().hash(metadataReaders) ^
       const DeepCollectionEquality().hash(subtitleFetchers) ^
+      const DeepCollectionEquality().hash(lyricFetchers) ^
       const DeepCollectionEquality().hash(typeOptions) ^
       runtimeType.hashCode;
 }
@@ -28258,11 +27360,13 @@ extension $LibraryOptionsResultDtoExtension on LibraryOptionsResultDto {
       {List<LibraryOptionInfoDto>? metadataSavers,
       List<LibraryOptionInfoDto>? metadataReaders,
       List<LibraryOptionInfoDto>? subtitleFetchers,
+      List<LibraryOptionInfoDto>? lyricFetchers,
       List<LibraryTypeOptionsDto>? typeOptions}) {
     return LibraryOptionsResultDto(
         metadataSavers: metadataSavers ?? this.metadataSavers,
         metadataReaders: metadataReaders ?? this.metadataReaders,
         subtitleFetchers: subtitleFetchers ?? this.subtitleFetchers,
+        lyricFetchers: lyricFetchers ?? this.lyricFetchers,
         typeOptions: typeOptions ?? this.typeOptions);
   }
 
@@ -28270,6 +27374,7 @@ extension $LibraryOptionsResultDtoExtension on LibraryOptionsResultDto {
       {Wrapped<List<LibraryOptionInfoDto>?>? metadataSavers,
       Wrapped<List<LibraryOptionInfoDto>?>? metadataReaders,
       Wrapped<List<LibraryOptionInfoDto>?>? subtitleFetchers,
+      Wrapped<List<LibraryOptionInfoDto>?>? lyricFetchers,
       Wrapped<List<LibraryTypeOptionsDto>?>? typeOptions}) {
     return LibraryOptionsResultDto(
         metadataSavers: (metadataSavers != null
@@ -28281,6 +27386,8 @@ extension $LibraryOptionsResultDtoExtension on LibraryOptionsResultDto {
         subtitleFetchers: (subtitleFetchers != null
             ? subtitleFetchers.value
             : this.subtitleFetchers),
+        lyricFetchers:
+            (lyricFetchers != null ? lyricFetchers.value : this.lyricFetchers),
         typeOptions:
             (typeOptions != null ? typeOptions.value : this.typeOptions));
   }
@@ -29834,7 +28941,6 @@ extension $MediaPathDtoExtension on MediaPathDto {
 class MediaPathInfo {
   const MediaPathInfo({
     this.path,
-    this.networkPath,
   });
 
   factory MediaPathInfo.fromJson(Map<String, dynamic> json) =>
@@ -29845,8 +28951,6 @@ class MediaPathInfo {
 
   @JsonKey(name: 'Path', includeIfNull: false)
   final String? path;
-  @JsonKey(name: 'NetworkPath', includeIfNull: false)
-  final String? networkPath;
   static const fromJsonFactory = _$MediaPathInfoFromJson;
 
   @override
@@ -29854,10 +28958,7 @@ class MediaPathInfo {
     return identical(this, other) ||
         (other is MediaPathInfo &&
             (identical(other.path, path) ||
-                const DeepCollectionEquality().equals(other.path, path)) &&
-            (identical(other.networkPath, networkPath) ||
-                const DeepCollectionEquality()
-                    .equals(other.networkPath, networkPath)));
+                const DeepCollectionEquality().equals(other.path, path)));
   }
 
   @override
@@ -29865,23 +28966,180 @@ class MediaPathInfo {
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(path) ^
-      const DeepCollectionEquality().hash(networkPath) ^
-      runtimeType.hashCode;
+      const DeepCollectionEquality().hash(path) ^ runtimeType.hashCode;
 }
 
 extension $MediaPathInfoExtension on MediaPathInfo {
-  MediaPathInfo copyWith({String? path, String? networkPath}) {
-    return MediaPathInfo(
-        path: path ?? this.path, networkPath: networkPath ?? this.networkPath);
+  MediaPathInfo copyWith({String? path}) {
+    return MediaPathInfo(path: path ?? this.path);
   }
 
-  MediaPathInfo copyWithWrapped(
-      {Wrapped<String?>? path, Wrapped<String?>? networkPath}) {
-    return MediaPathInfo(
-        path: (path != null ? path.value : this.path),
-        networkPath:
-            (networkPath != null ? networkPath.value : this.networkPath));
+  MediaPathInfo copyWithWrapped({Wrapped<String?>? path}) {
+    return MediaPathInfo(path: (path != null ? path.value : this.path));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class MediaSegmentDto {
+  const MediaSegmentDto({
+    this.id,
+    this.itemId,
+    this.type,
+    this.startTicks,
+    this.endTicks,
+  });
+
+  factory MediaSegmentDto.fromJson(Map<String, dynamic> json) =>
+      _$MediaSegmentDtoFromJson(json);
+
+  static const toJsonFactory = _$MediaSegmentDtoToJson;
+  Map<String, dynamic> toJson() => _$MediaSegmentDtoToJson(this);
+
+  @JsonKey(name: 'Id', includeIfNull: false)
+  final String? id;
+  @JsonKey(name: 'ItemId', includeIfNull: false)
+  final String? itemId;
+  @JsonKey(
+    name: 'Type',
+    includeIfNull: false,
+    toJson: mediaSegmentTypeNullableToJson,
+    fromJson: mediaSegmentTypeNullableFromJson,
+  )
+  final enums.MediaSegmentType? type;
+  @JsonKey(name: 'StartTicks', includeIfNull: false)
+  final int? startTicks;
+  @JsonKey(name: 'EndTicks', includeIfNull: false)
+  final int? endTicks;
+  static const fromJsonFactory = _$MediaSegmentDtoFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is MediaSegmentDto &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.itemId, itemId) ||
+                const DeepCollectionEquality().equals(other.itemId, itemId)) &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)) &&
+            (identical(other.startTicks, startTicks) ||
+                const DeepCollectionEquality()
+                    .equals(other.startTicks, startTicks)) &&
+            (identical(other.endTicks, endTicks) ||
+                const DeepCollectionEquality()
+                    .equals(other.endTicks, endTicks)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(itemId) ^
+      const DeepCollectionEquality().hash(type) ^
+      const DeepCollectionEquality().hash(startTicks) ^
+      const DeepCollectionEquality().hash(endTicks) ^
+      runtimeType.hashCode;
+}
+
+extension $MediaSegmentDtoExtension on MediaSegmentDto {
+  MediaSegmentDto copyWith(
+      {String? id,
+      String? itemId,
+      enums.MediaSegmentType? type,
+      int? startTicks,
+      int? endTicks}) {
+    return MediaSegmentDto(
+        id: id ?? this.id,
+        itemId: itemId ?? this.itemId,
+        type: type ?? this.type,
+        startTicks: startTicks ?? this.startTicks,
+        endTicks: endTicks ?? this.endTicks);
+  }
+
+  MediaSegmentDto copyWithWrapped(
+      {Wrapped<String?>? id,
+      Wrapped<String?>? itemId,
+      Wrapped<enums.MediaSegmentType?>? type,
+      Wrapped<int?>? startTicks,
+      Wrapped<int?>? endTicks}) {
+    return MediaSegmentDto(
+        id: (id != null ? id.value : this.id),
+        itemId: (itemId != null ? itemId.value : this.itemId),
+        type: (type != null ? type.value : this.type),
+        startTicks: (startTicks != null ? startTicks.value : this.startTicks),
+        endTicks: (endTicks != null ? endTicks.value : this.endTicks));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class MediaSegmentDtoQueryResult {
+  const MediaSegmentDtoQueryResult({
+    this.items,
+    this.totalRecordCount,
+    this.startIndex,
+  });
+
+  factory MediaSegmentDtoQueryResult.fromJson(Map<String, dynamic> json) =>
+      _$MediaSegmentDtoQueryResultFromJson(json);
+
+  static const toJsonFactory = _$MediaSegmentDtoQueryResultToJson;
+  Map<String, dynamic> toJson() => _$MediaSegmentDtoQueryResultToJson(this);
+
+  @JsonKey(
+      name: 'Items', includeIfNull: false, defaultValue: <MediaSegmentDto>[])
+  final List<MediaSegmentDto>? items;
+  @JsonKey(name: 'TotalRecordCount', includeIfNull: false)
+  final int? totalRecordCount;
+  @JsonKey(name: 'StartIndex', includeIfNull: false)
+  final int? startIndex;
+  static const fromJsonFactory = _$MediaSegmentDtoQueryResultFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is MediaSegmentDtoQueryResult &&
+            (identical(other.items, items) ||
+                const DeepCollectionEquality().equals(other.items, items)) &&
+            (identical(other.totalRecordCount, totalRecordCount) ||
+                const DeepCollectionEquality()
+                    .equals(other.totalRecordCount, totalRecordCount)) &&
+            (identical(other.startIndex, startIndex) ||
+                const DeepCollectionEquality()
+                    .equals(other.startIndex, startIndex)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(items) ^
+      const DeepCollectionEquality().hash(totalRecordCount) ^
+      const DeepCollectionEquality().hash(startIndex) ^
+      runtimeType.hashCode;
+}
+
+extension $MediaSegmentDtoQueryResultExtension on MediaSegmentDtoQueryResult {
+  MediaSegmentDtoQueryResult copyWith(
+      {List<MediaSegmentDto>? items, int? totalRecordCount, int? startIndex}) {
+    return MediaSegmentDtoQueryResult(
+        items: items ?? this.items,
+        totalRecordCount: totalRecordCount ?? this.totalRecordCount,
+        startIndex: startIndex ?? this.startIndex);
+  }
+
+  MediaSegmentDtoQueryResult copyWithWrapped(
+      {Wrapped<List<MediaSegmentDto>?>? items,
+      Wrapped<int?>? totalRecordCount,
+      Wrapped<int?>? startIndex}) {
+    return MediaSegmentDtoQueryResult(
+        items: (items != null ? items.value : this.items),
+        totalRecordCount: (totalRecordCount != null
+            ? totalRecordCount.value
+            : this.totalRecordCount),
+        startIndex: (startIndex != null ? startIndex.value : this.startIndex));
   }
 }
 
@@ -29908,6 +29166,7 @@ class MediaSourceInfo {
     this.supportsDirectStream,
     this.supportsDirectPlay,
     this.isInfiniteStream,
+    this.useMostCompatibleTranscodingProfile,
     this.requiresOpening,
     this.openToken,
     this.requiresClosing,
@@ -29922,6 +29181,7 @@ class MediaSourceInfo {
     this.mediaAttachments,
     this.formats,
     this.bitrate,
+    this.fallbackMaxStreamingBitrate,
     this.timestamp,
     this.requiredHttpHeaders,
     this.transcodingUrl,
@@ -29930,6 +29190,7 @@ class MediaSourceInfo {
     this.analyzeDurationMs,
     this.defaultAudioStreamIndex,
     this.defaultSubtitleStreamIndex,
+    this.hasSegments,
   });
 
   factory MediaSourceInfo.fromJson(Map<String, dynamic> json) =>
@@ -29993,6 +29254,11 @@ class MediaSourceInfo {
   final bool? supportsDirectPlay;
   @JsonKey(name: 'IsInfiniteStream', includeIfNull: false)
   final bool? isInfiniteStream;
+  @JsonKey(
+      name: 'UseMostCompatibleTranscodingProfile',
+      includeIfNull: false,
+      defaultValue: false)
+  final bool? useMostCompatibleTranscodingProfile;
   @JsonKey(name: 'RequiresOpening', includeIfNull: false)
   final bool? requiresOpening;
   @JsonKey(name: 'OpenToken', includeIfNull: false)
@@ -30040,6 +29306,8 @@ class MediaSourceInfo {
   final List<String>? formats;
   @JsonKey(name: 'Bitrate', includeIfNull: false)
   final int? bitrate;
+  @JsonKey(name: 'FallbackMaxStreamingBitrate', includeIfNull: false)
+  final int? fallbackMaxStreamingBitrate;
   @JsonKey(
     name: 'Timestamp',
     includeIfNull: false,
@@ -30066,6 +29334,8 @@ class MediaSourceInfo {
   final int? defaultAudioStreamIndex;
   @JsonKey(name: 'DefaultSubtitleStreamIndex', includeIfNull: false)
   final int? defaultSubtitleStreamIndex;
+  @JsonKey(name: 'HasSegments', includeIfNull: false)
+  final bool? hasSegments;
   static const fromJsonFactory = _$MediaSourceInfoFromJson;
 
   @override
@@ -30126,6 +29396,10 @@ class MediaSourceInfo {
             (identical(other.isInfiniteStream, isInfiniteStream) ||
                 const DeepCollectionEquality()
                     .equals(other.isInfiniteStream, isInfiniteStream)) &&
+            (identical(other.useMostCompatibleTranscodingProfile, useMostCompatibleTranscodingProfile) ||
+                const DeepCollectionEquality().equals(
+                    other.useMostCompatibleTranscodingProfile,
+                    useMostCompatibleTranscodingProfile)) &&
             (identical(other.requiresOpening, requiresOpening) ||
                 const DeepCollectionEquality()
                     .equals(other.requiresOpening, requiresOpening)) &&
@@ -30133,11 +29407,8 @@ class MediaSourceInfo {
                 const DeepCollectionEquality()
                     .equals(other.openToken, openToken)) &&
             (identical(other.requiresClosing, requiresClosing) ||
-                const DeepCollectionEquality()
-                    .equals(other.requiresClosing, requiresClosing)) &&
-            (identical(other.liveStreamId, liveStreamId) ||
-                const DeepCollectionEquality()
-                    .equals(other.liveStreamId, liveStreamId)) &&
+                const DeepCollectionEquality().equals(other.requiresClosing, requiresClosing)) &&
+            (identical(other.liveStreamId, liveStreamId) || const DeepCollectionEquality().equals(other.liveStreamId, liveStreamId)) &&
             (identical(other.bufferMs, bufferMs) || const DeepCollectionEquality().equals(other.bufferMs, bufferMs)) &&
             (identical(other.requiresLooping, requiresLooping) || const DeepCollectionEquality().equals(other.requiresLooping, requiresLooping)) &&
             (identical(other.supportsProbing, supportsProbing) || const DeepCollectionEquality().equals(other.supportsProbing, supportsProbing)) &&
@@ -30148,6 +29419,7 @@ class MediaSourceInfo {
             (identical(other.mediaAttachments, mediaAttachments) || const DeepCollectionEquality().equals(other.mediaAttachments, mediaAttachments)) &&
             (identical(other.formats, formats) || const DeepCollectionEquality().equals(other.formats, formats)) &&
             (identical(other.bitrate, bitrate) || const DeepCollectionEquality().equals(other.bitrate, bitrate)) &&
+            (identical(other.fallbackMaxStreamingBitrate, fallbackMaxStreamingBitrate) || const DeepCollectionEquality().equals(other.fallbackMaxStreamingBitrate, fallbackMaxStreamingBitrate)) &&
             (identical(other.timestamp, timestamp) || const DeepCollectionEquality().equals(other.timestamp, timestamp)) &&
             (identical(other.requiredHttpHeaders, requiredHttpHeaders) || const DeepCollectionEquality().equals(other.requiredHttpHeaders, requiredHttpHeaders)) &&
             (identical(other.transcodingUrl, transcodingUrl) || const DeepCollectionEquality().equals(other.transcodingUrl, transcodingUrl)) &&
@@ -30155,7 +29427,8 @@ class MediaSourceInfo {
             (identical(other.transcodingContainer, transcodingContainer) || const DeepCollectionEquality().equals(other.transcodingContainer, transcodingContainer)) &&
             (identical(other.analyzeDurationMs, analyzeDurationMs) || const DeepCollectionEquality().equals(other.analyzeDurationMs, analyzeDurationMs)) &&
             (identical(other.defaultAudioStreamIndex, defaultAudioStreamIndex) || const DeepCollectionEquality().equals(other.defaultAudioStreamIndex, defaultAudioStreamIndex)) &&
-            (identical(other.defaultSubtitleStreamIndex, defaultSubtitleStreamIndex) || const DeepCollectionEquality().equals(other.defaultSubtitleStreamIndex, defaultSubtitleStreamIndex)));
+            (identical(other.defaultSubtitleStreamIndex, defaultSubtitleStreamIndex) || const DeepCollectionEquality().equals(other.defaultSubtitleStreamIndex, defaultSubtitleStreamIndex)) &&
+            (identical(other.hasSegments, hasSegments) || const DeepCollectionEquality().equals(other.hasSegments, hasSegments)));
   }
 
   @override
@@ -30183,6 +29456,7 @@ class MediaSourceInfo {
       const DeepCollectionEquality().hash(supportsDirectStream) ^
       const DeepCollectionEquality().hash(supportsDirectPlay) ^
       const DeepCollectionEquality().hash(isInfiniteStream) ^
+      const DeepCollectionEquality().hash(useMostCompatibleTranscodingProfile) ^
       const DeepCollectionEquality().hash(requiresOpening) ^
       const DeepCollectionEquality().hash(openToken) ^
       const DeepCollectionEquality().hash(requiresClosing) ^
@@ -30197,6 +29471,7 @@ class MediaSourceInfo {
       const DeepCollectionEquality().hash(mediaAttachments) ^
       const DeepCollectionEquality().hash(formats) ^
       const DeepCollectionEquality().hash(bitrate) ^
+      const DeepCollectionEquality().hash(fallbackMaxStreamingBitrate) ^
       const DeepCollectionEquality().hash(timestamp) ^
       const DeepCollectionEquality().hash(requiredHttpHeaders) ^
       const DeepCollectionEquality().hash(transcodingUrl) ^
@@ -30205,6 +29480,7 @@ class MediaSourceInfo {
       const DeepCollectionEquality().hash(analyzeDurationMs) ^
       const DeepCollectionEquality().hash(defaultAudioStreamIndex) ^
       const DeepCollectionEquality().hash(defaultSubtitleStreamIndex) ^
+      const DeepCollectionEquality().hash(hasSegments) ^
       runtimeType.hashCode;
 }
 
@@ -30230,6 +29506,7 @@ extension $MediaSourceInfoExtension on MediaSourceInfo {
       bool? supportsDirectStream,
       bool? supportsDirectPlay,
       bool? isInfiniteStream,
+      bool? useMostCompatibleTranscodingProfile,
       bool? requiresOpening,
       String? openToken,
       bool? requiresClosing,
@@ -30244,6 +29521,7 @@ extension $MediaSourceInfoExtension on MediaSourceInfo {
       List<MediaAttachment>? mediaAttachments,
       List<String>? formats,
       int? bitrate,
+      int? fallbackMaxStreamingBitrate,
       enums.TransportStreamTimestamp? timestamp,
       Map<String, dynamic>? requiredHttpHeaders,
       String? transcodingUrl,
@@ -30251,7 +29529,8 @@ extension $MediaSourceInfoExtension on MediaSourceInfo {
       String? transcodingContainer,
       int? analyzeDurationMs,
       int? defaultAudioStreamIndex,
-      int? defaultSubtitleStreamIndex}) {
+      int? defaultSubtitleStreamIndex,
+      bool? hasSegments}) {
     return MediaSourceInfo(
         protocol: protocol ?? this.protocol,
         id: id ?? this.id,
@@ -30274,6 +29553,9 @@ extension $MediaSourceInfoExtension on MediaSourceInfo {
         supportsDirectStream: supportsDirectStream ?? this.supportsDirectStream,
         supportsDirectPlay: supportsDirectPlay ?? this.supportsDirectPlay,
         isInfiniteStream: isInfiniteStream ?? this.isInfiniteStream,
+        useMostCompatibleTranscodingProfile:
+            useMostCompatibleTranscodingProfile ??
+                this.useMostCompatibleTranscodingProfile,
         requiresOpening: requiresOpening ?? this.requiresOpening,
         openToken: openToken ?? this.openToken,
         requiresClosing: requiresClosing ?? this.requiresClosing,
@@ -30288,6 +29570,8 @@ extension $MediaSourceInfoExtension on MediaSourceInfo {
         mediaAttachments: mediaAttachments ?? this.mediaAttachments,
         formats: formats ?? this.formats,
         bitrate: bitrate ?? this.bitrate,
+        fallbackMaxStreamingBitrate:
+            fallbackMaxStreamingBitrate ?? this.fallbackMaxStreamingBitrate,
         timestamp: timestamp ?? this.timestamp,
         requiredHttpHeaders: requiredHttpHeaders ?? this.requiredHttpHeaders,
         transcodingUrl: transcodingUrl ?? this.transcodingUrl,
@@ -30298,7 +29582,8 @@ extension $MediaSourceInfoExtension on MediaSourceInfo {
         defaultAudioStreamIndex:
             defaultAudioStreamIndex ?? this.defaultAudioStreamIndex,
         defaultSubtitleStreamIndex:
-            defaultSubtitleStreamIndex ?? this.defaultSubtitleStreamIndex);
+            defaultSubtitleStreamIndex ?? this.defaultSubtitleStreamIndex,
+        hasSegments: hasSegments ?? this.hasSegments);
   }
 
   MediaSourceInfo copyWithWrapped(
@@ -30322,6 +29607,7 @@ extension $MediaSourceInfoExtension on MediaSourceInfo {
       Wrapped<bool?>? supportsDirectStream,
       Wrapped<bool?>? supportsDirectPlay,
       Wrapped<bool?>? isInfiniteStream,
+      Wrapped<bool?>? useMostCompatibleTranscodingProfile,
       Wrapped<bool?>? requiresOpening,
       Wrapped<String?>? openToken,
       Wrapped<bool?>? requiresClosing,
@@ -30336,6 +29622,7 @@ extension $MediaSourceInfoExtension on MediaSourceInfo {
       Wrapped<List<MediaAttachment>?>? mediaAttachments,
       Wrapped<List<String>?>? formats,
       Wrapped<int?>? bitrate,
+      Wrapped<int?>? fallbackMaxStreamingBitrate,
       Wrapped<enums.TransportStreamTimestamp?>? timestamp,
       Wrapped<Map<String, dynamic>?>? requiredHttpHeaders,
       Wrapped<String?>? transcodingUrl,
@@ -30343,7 +29630,8 @@ extension $MediaSourceInfoExtension on MediaSourceInfo {
       Wrapped<String?>? transcodingContainer,
       Wrapped<int?>? analyzeDurationMs,
       Wrapped<int?>? defaultAudioStreamIndex,
-      Wrapped<int?>? defaultSubtitleStreamIndex}) {
+      Wrapped<int?>? defaultSubtitleStreamIndex,
+      Wrapped<bool?>? hasSegments}) {
     return MediaSourceInfo(
         protocol: (protocol != null ? protocol.value : this.protocol),
         id: (id != null ? id.value : this.id),
@@ -30381,6 +29669,10 @@ extension $MediaSourceInfoExtension on MediaSourceInfo {
         isInfiniteStream: (isInfiniteStream != null
             ? isInfiniteStream.value
             : this.isInfiniteStream),
+        useMostCompatibleTranscodingProfile:
+            (useMostCompatibleTranscodingProfile != null
+                ? useMostCompatibleTranscodingProfile.value
+                : this.useMostCompatibleTranscodingProfile),
         requiresOpening: (requiresOpening != null
             ? requiresOpening.value
             : this.requiresOpening),
@@ -30408,6 +29700,9 @@ extension $MediaSourceInfoExtension on MediaSourceInfo {
             : this.mediaAttachments),
         formats: (formats != null ? formats.value : this.formats),
         bitrate: (bitrate != null ? bitrate.value : this.bitrate),
+        fallbackMaxStreamingBitrate: (fallbackMaxStreamingBitrate != null
+            ? fallbackMaxStreamingBitrate.value
+            : this.fallbackMaxStreamingBitrate),
         timestamp: (timestamp != null ? timestamp.value : this.timestamp),
         requiredHttpHeaders: (requiredHttpHeaders != null
             ? requiredHttpHeaders.value
@@ -30429,7 +29724,9 @@ extension $MediaSourceInfoExtension on MediaSourceInfo {
             : this.defaultAudioStreamIndex),
         defaultSubtitleStreamIndex: (defaultSubtitleStreamIndex != null
             ? defaultSubtitleStreamIndex.value
-            : this.defaultSubtitleStreamIndex));
+            : this.defaultSubtitleStreamIndex),
+        hasSegments:
+            (hasSegments != null ? hasSegments.value : this.hasSegments));
   }
 }
 
@@ -30451,6 +29748,7 @@ class MediaStream {
     this.elPresentFlag,
     this.blPresentFlag,
     this.dvBlSignalCompatibilityId,
+    this.rotation,
     this.comment,
     this.timeBase,
     this.codecTimeBase,
@@ -30482,6 +29780,7 @@ class MediaStream {
     this.width,
     this.averageFrameRate,
     this.realFrameRate,
+    this.referenceFrameRate,
     this.profile,
     this.type,
     this.aspectRatio,
@@ -30535,6 +29834,8 @@ class MediaStream {
   final int? blPresentFlag;
   @JsonKey(name: 'DvBlSignalCompatibilityId', includeIfNull: false)
   final int? dvBlSignalCompatibilityId;
+  @JsonKey(name: 'Rotation', includeIfNull: false)
+  final int? rotation;
   @JsonKey(name: 'Comment', includeIfNull: false)
   final String? comment;
   @JsonKey(name: 'TimeBase', includeIfNull: false)
@@ -30617,6 +29918,8 @@ class MediaStream {
   final double? averageFrameRate;
   @JsonKey(name: 'RealFrameRate', includeIfNull: false)
   final double? realFrameRate;
+  @JsonKey(name: 'ReferenceFrameRate', includeIfNull: false)
+  final double? referenceFrameRate;
   @JsonKey(name: 'Profile', includeIfNull: false)
   final String? profile;
   @JsonKey(
@@ -30708,6 +30011,9 @@ class MediaStream {
                 const DeepCollectionEquality().equals(
                     other.dvBlSignalCompatibilityId,
                     dvBlSignalCompatibilityId)) &&
+            (identical(other.rotation, rotation) ||
+                const DeepCollectionEquality()
+                    .equals(other.rotation, rotation)) &&
             (identical(other.comment, comment) ||
                 const DeepCollectionEquality()
                     .equals(other.comment, comment)) &&
@@ -30722,9 +30028,7 @@ class MediaStream {
             (identical(other.videoRange, videoRange) ||
                 const DeepCollectionEquality()
                     .equals(other.videoRange, videoRange)) &&
-            (identical(other.videoRangeType, videoRangeType) ||
-                const DeepCollectionEquality()
-                    .equals(other.videoRangeType, videoRangeType)) &&
+            (identical(other.videoRangeType, videoRangeType) || const DeepCollectionEquality().equals(other.videoRangeType, videoRangeType)) &&
             (identical(other.videoDoViTitle, videoDoViTitle) || const DeepCollectionEquality().equals(other.videoDoViTitle, videoDoViTitle)) &&
             (identical(other.audioSpatialFormat, audioSpatialFormat) || const DeepCollectionEquality().equals(other.audioSpatialFormat, audioSpatialFormat)) &&
             (identical(other.localizedUndefined, localizedUndefined) || const DeepCollectionEquality().equals(other.localizedUndefined, localizedUndefined)) &&
@@ -30750,6 +30054,7 @@ class MediaStream {
             (identical(other.width, width) || const DeepCollectionEquality().equals(other.width, width)) &&
             (identical(other.averageFrameRate, averageFrameRate) || const DeepCollectionEquality().equals(other.averageFrameRate, averageFrameRate)) &&
             (identical(other.realFrameRate, realFrameRate) || const DeepCollectionEquality().equals(other.realFrameRate, realFrameRate)) &&
+            (identical(other.referenceFrameRate, referenceFrameRate) || const DeepCollectionEquality().equals(other.referenceFrameRate, referenceFrameRate)) &&
             (identical(other.profile, profile) || const DeepCollectionEquality().equals(other.profile, profile)) &&
             (identical(other.type, type) || const DeepCollectionEquality().equals(other.type, type)) &&
             (identical(other.aspectRatio, aspectRatio) || const DeepCollectionEquality().equals(other.aspectRatio, aspectRatio)) &&
@@ -30787,6 +30092,7 @@ class MediaStream {
       const DeepCollectionEquality().hash(elPresentFlag) ^
       const DeepCollectionEquality().hash(blPresentFlag) ^
       const DeepCollectionEquality().hash(dvBlSignalCompatibilityId) ^
+      const DeepCollectionEquality().hash(rotation) ^
       const DeepCollectionEquality().hash(comment) ^
       const DeepCollectionEquality().hash(timeBase) ^
       const DeepCollectionEquality().hash(codecTimeBase) ^
@@ -30818,6 +30124,7 @@ class MediaStream {
       const DeepCollectionEquality().hash(width) ^
       const DeepCollectionEquality().hash(averageFrameRate) ^
       const DeepCollectionEquality().hash(realFrameRate) ^
+      const DeepCollectionEquality().hash(referenceFrameRate) ^
       const DeepCollectionEquality().hash(profile) ^
       const DeepCollectionEquality().hash(type) ^
       const DeepCollectionEquality().hash(aspectRatio) ^
@@ -30853,6 +30160,7 @@ extension $MediaStreamExtension on MediaStream {
       int? elPresentFlag,
       int? blPresentFlag,
       int? dvBlSignalCompatibilityId,
+      int? rotation,
       String? comment,
       String? timeBase,
       String? codecTimeBase,
@@ -30884,6 +30192,7 @@ extension $MediaStreamExtension on MediaStream {
       int? width,
       double? averageFrameRate,
       double? realFrameRate,
+      double? referenceFrameRate,
       String? profile,
       enums.MediaStreamType? type,
       String? aspectRatio,
@@ -30916,6 +30225,7 @@ extension $MediaStreamExtension on MediaStream {
         blPresentFlag: blPresentFlag ?? this.blPresentFlag,
         dvBlSignalCompatibilityId:
             dvBlSignalCompatibilityId ?? this.dvBlSignalCompatibilityId,
+        rotation: rotation ?? this.rotation,
         comment: comment ?? this.comment,
         timeBase: timeBase ?? this.timeBase,
         codecTimeBase: codecTimeBase ?? this.codecTimeBase,
@@ -30948,6 +30258,7 @@ extension $MediaStreamExtension on MediaStream {
         width: width ?? this.width,
         averageFrameRate: averageFrameRate ?? this.averageFrameRate,
         realFrameRate: realFrameRate ?? this.realFrameRate,
+        referenceFrameRate: referenceFrameRate ?? this.referenceFrameRate,
         profile: profile ?? this.profile,
         type: type ?? this.type,
         aspectRatio: aspectRatio ?? this.aspectRatio,
@@ -30982,6 +30293,7 @@ extension $MediaStreamExtension on MediaStream {
       Wrapped<int?>? elPresentFlag,
       Wrapped<int?>? blPresentFlag,
       Wrapped<int?>? dvBlSignalCompatibilityId,
+      Wrapped<int?>? rotation,
       Wrapped<String?>? comment,
       Wrapped<String?>? timeBase,
       Wrapped<String?>? codecTimeBase,
@@ -31013,6 +30325,7 @@ extension $MediaStreamExtension on MediaStream {
       Wrapped<int?>? width,
       Wrapped<double?>? averageFrameRate,
       Wrapped<double?>? realFrameRate,
+      Wrapped<double?>? referenceFrameRate,
       Wrapped<String?>? profile,
       Wrapped<enums.MediaStreamType?>? type,
       Wrapped<String?>? aspectRatio,
@@ -31057,6 +30370,7 @@ extension $MediaStreamExtension on MediaStream {
         dvBlSignalCompatibilityId: (dvBlSignalCompatibilityId != null
             ? dvBlSignalCompatibilityId.value
             : this.dvBlSignalCompatibilityId),
+        rotation: (rotation != null ? rotation.value : this.rotation),
         comment: (comment != null ? comment.value : this.comment),
         timeBase: (timeBase != null ? timeBase.value : this.timeBase),
         codecTimeBase:
@@ -31115,6 +30429,9 @@ extension $MediaStreamExtension on MediaStream {
             : this.averageFrameRate),
         realFrameRate:
             (realFrameRate != null ? realFrameRate.value : this.realFrameRate),
+        referenceFrameRate: (referenceFrameRate != null
+            ? referenceFrameRate.value
+            : this.referenceFrameRate),
         profile: (profile != null ? profile.value : this.profile),
         type: (type != null ? type.value : this.type),
         aspectRatio:
@@ -32851,96 +32168,6 @@ extension $NextItemRequestDtoExtension on NextItemRequestDto {
 }
 
 @JsonSerializable(explicitToJson: true)
-class NotFoundObjects {
-  const NotFoundObjects({
-    this.movies,
-    this.shows,
-    this.episodes,
-    this.seasons,
-    this.people,
-  });
-
-  factory NotFoundObjects.fromJson(Map<String, dynamic> json) =>
-      _$NotFoundObjectsFromJson(json);
-
-  static const toJsonFactory = _$NotFoundObjectsToJson;
-  Map<String, dynamic> toJson() => _$NotFoundObjectsToJson(this);
-
-  @JsonKey(name: 'movies', includeIfNull: false, defaultValue: <TraktMovie>[])
-  final List<TraktMovie>? movies;
-  @JsonKey(name: 'shows', includeIfNull: false, defaultValue: <TraktShow>[])
-  final List<TraktShow>? shows;
-  @JsonKey(
-      name: 'episodes', includeIfNull: false, defaultValue: <TraktEpisode>[])
-  final List<TraktEpisode>? episodes;
-  @JsonKey(name: 'seasons', includeIfNull: false, defaultValue: <TraktSeason>[])
-  final List<TraktSeason>? seasons;
-  @JsonKey(name: 'people', includeIfNull: false, defaultValue: <TraktPerson>[])
-  final List<TraktPerson>? people;
-  static const fromJsonFactory = _$NotFoundObjectsFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is NotFoundObjects &&
-            (identical(other.movies, movies) ||
-                const DeepCollectionEquality().equals(other.movies, movies)) &&
-            (identical(other.shows, shows) ||
-                const DeepCollectionEquality().equals(other.shows, shows)) &&
-            (identical(other.episodes, episodes) ||
-                const DeepCollectionEquality()
-                    .equals(other.episodes, episodes)) &&
-            (identical(other.seasons, seasons) ||
-                const DeepCollectionEquality()
-                    .equals(other.seasons, seasons)) &&
-            (identical(other.people, people) ||
-                const DeepCollectionEquality().equals(other.people, people)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(movies) ^
-      const DeepCollectionEquality().hash(shows) ^
-      const DeepCollectionEquality().hash(episodes) ^
-      const DeepCollectionEquality().hash(seasons) ^
-      const DeepCollectionEquality().hash(people) ^
-      runtimeType.hashCode;
-}
-
-extension $NotFoundObjectsExtension on NotFoundObjects {
-  NotFoundObjects copyWith(
-      {List<TraktMovie>? movies,
-      List<TraktShow>? shows,
-      List<TraktEpisode>? episodes,
-      List<TraktSeason>? seasons,
-      List<TraktPerson>? people}) {
-    return NotFoundObjects(
-        movies: movies ?? this.movies,
-        shows: shows ?? this.shows,
-        episodes: episodes ?? this.episodes,
-        seasons: seasons ?? this.seasons,
-        people: people ?? this.people);
-  }
-
-  NotFoundObjects copyWithWrapped(
-      {Wrapped<List<TraktMovie>?>? movies,
-      Wrapped<List<TraktShow>?>? shows,
-      Wrapped<List<TraktEpisode>?>? episodes,
-      Wrapped<List<TraktSeason>?>? seasons,
-      Wrapped<List<TraktPerson>?>? people}) {
-    return NotFoundObjects(
-        movies: (movies != null ? movies.value : this.movies),
-        shows: (shows != null ? shows.value : this.shows),
-        episodes: (episodes != null ? episodes.value : this.episodes),
-        seasons: (seasons != null ? seasons.value : this.seasons),
-        people: (people != null ? people.value : this.people));
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
 class OpenLiveStreamDto {
   const OpenLiveStreamDto({
     this.openToken,
@@ -32954,6 +32181,7 @@ class OpenLiveStreamDto {
     this.itemId,
     this.enableDirectPlay,
     this.enableDirectStream,
+    this.alwaysBurnInSubtitleWhenTranscoding,
     this.deviceProfile,
     this.directPlayProtocols,
   });
@@ -32986,6 +32214,8 @@ class OpenLiveStreamDto {
   final bool? enableDirectPlay;
   @JsonKey(name: 'EnableDirectStream', includeIfNull: false)
   final bool? enableDirectStream;
+  @JsonKey(name: 'AlwaysBurnInSubtitleWhenTranscoding', includeIfNull: false)
+  final bool? alwaysBurnInSubtitleWhenTranscoding;
   @JsonKey(name: 'DeviceProfile', includeIfNull: false)
   final DeviceProfile? deviceProfile;
   @JsonKey(
@@ -33032,6 +32262,11 @@ class OpenLiveStreamDto {
             (identical(other.enableDirectStream, enableDirectStream) ||
                 const DeepCollectionEquality()
                     .equals(other.enableDirectStream, enableDirectStream)) &&
+            (identical(other.alwaysBurnInSubtitleWhenTranscoding,
+                    alwaysBurnInSubtitleWhenTranscoding) ||
+                const DeepCollectionEquality().equals(
+                    other.alwaysBurnInSubtitleWhenTranscoding,
+                    alwaysBurnInSubtitleWhenTranscoding)) &&
             (identical(other.deviceProfile, deviceProfile) ||
                 const DeepCollectionEquality()
                     .equals(other.deviceProfile, deviceProfile)) &&
@@ -33056,6 +32291,7 @@ class OpenLiveStreamDto {
       const DeepCollectionEquality().hash(itemId) ^
       const DeepCollectionEquality().hash(enableDirectPlay) ^
       const DeepCollectionEquality().hash(enableDirectStream) ^
+      const DeepCollectionEquality().hash(alwaysBurnInSubtitleWhenTranscoding) ^
       const DeepCollectionEquality().hash(deviceProfile) ^
       const DeepCollectionEquality().hash(directPlayProtocols) ^
       runtimeType.hashCode;
@@ -33074,6 +32310,7 @@ extension $OpenLiveStreamDtoExtension on OpenLiveStreamDto {
       String? itemId,
       bool? enableDirectPlay,
       bool? enableDirectStream,
+      bool? alwaysBurnInSubtitleWhenTranscoding,
       DeviceProfile? deviceProfile,
       List<enums.MediaProtocol>? directPlayProtocols}) {
     return OpenLiveStreamDto(
@@ -33088,6 +32325,9 @@ extension $OpenLiveStreamDtoExtension on OpenLiveStreamDto {
         itemId: itemId ?? this.itemId,
         enableDirectPlay: enableDirectPlay ?? this.enableDirectPlay,
         enableDirectStream: enableDirectStream ?? this.enableDirectStream,
+        alwaysBurnInSubtitleWhenTranscoding:
+            alwaysBurnInSubtitleWhenTranscoding ??
+                this.alwaysBurnInSubtitleWhenTranscoding,
         deviceProfile: deviceProfile ?? this.deviceProfile,
         directPlayProtocols: directPlayProtocols ?? this.directPlayProtocols);
   }
@@ -33104,6 +32344,7 @@ extension $OpenLiveStreamDtoExtension on OpenLiveStreamDto {
       Wrapped<String?>? itemId,
       Wrapped<bool?>? enableDirectPlay,
       Wrapped<bool?>? enableDirectStream,
+      Wrapped<bool?>? alwaysBurnInSubtitleWhenTranscoding,
       Wrapped<DeviceProfile?>? deviceProfile,
       Wrapped<List<enums.MediaProtocol>?>? directPlayProtocols}) {
     return OpenLiveStreamDto(
@@ -33133,6 +32374,10 @@ extension $OpenLiveStreamDtoExtension on OpenLiveStreamDto {
         enableDirectStream: (enableDirectStream != null
             ? enableDirectStream.value
             : this.enableDirectStream),
+        alwaysBurnInSubtitleWhenTranscoding:
+            (alwaysBurnInSubtitleWhenTranscoding != null
+                ? alwaysBurnInSubtitleWhenTranscoding.value
+                : this.alwaysBurnInSubtitleWhenTranscoding),
         deviceProfile:
             (deviceProfile != null ? deviceProfile.value : this.deviceProfile),
         directPlayProtocols: (directPlayProtocols != null
@@ -33829,6 +33074,7 @@ class PlaybackInfoDto {
     this.allowVideoStreamCopy,
     this.allowAudioStreamCopy,
     this.autoOpenLiveStream,
+    this.alwaysBurnInSubtitleWhenTranscoding,
   });
 
   factory PlaybackInfoDto.fromJson(Map<String, dynamic> json) =>
@@ -33867,6 +33113,8 @@ class PlaybackInfoDto {
   final bool? allowAudioStreamCopy;
   @JsonKey(name: 'AutoOpenLiveStream', includeIfNull: false)
   final bool? autoOpenLiveStream;
+  @JsonKey(name: 'AlwaysBurnInSubtitleWhenTranscoding', includeIfNull: false)
+  final bool? alwaysBurnInSubtitleWhenTranscoding;
   static const fromJsonFactory = _$PlaybackInfoDtoFromJson;
 
   @override
@@ -33916,7 +33164,12 @@ class PlaybackInfoDto {
                     other.allowAudioStreamCopy, allowAudioStreamCopy)) &&
             (identical(other.autoOpenLiveStream, autoOpenLiveStream) ||
                 const DeepCollectionEquality()
-                    .equals(other.autoOpenLiveStream, autoOpenLiveStream)));
+                    .equals(other.autoOpenLiveStream, autoOpenLiveStream)) &&
+            (identical(other.alwaysBurnInSubtitleWhenTranscoding,
+                    alwaysBurnInSubtitleWhenTranscoding) ||
+                const DeepCollectionEquality().equals(
+                    other.alwaysBurnInSubtitleWhenTranscoding,
+                    alwaysBurnInSubtitleWhenTranscoding)));
   }
 
   @override
@@ -33939,6 +33192,7 @@ class PlaybackInfoDto {
       const DeepCollectionEquality().hash(allowVideoStreamCopy) ^
       const DeepCollectionEquality().hash(allowAudioStreamCopy) ^
       const DeepCollectionEquality().hash(autoOpenLiveStream) ^
+      const DeepCollectionEquality().hash(alwaysBurnInSubtitleWhenTranscoding) ^
       runtimeType.hashCode;
 }
 
@@ -33958,7 +33212,8 @@ extension $PlaybackInfoDtoExtension on PlaybackInfoDto {
       bool? enableTranscoding,
       bool? allowVideoStreamCopy,
       bool? allowAudioStreamCopy,
-      bool? autoOpenLiveStream}) {
+      bool? autoOpenLiveStream,
+      bool? alwaysBurnInSubtitleWhenTranscoding}) {
     return PlaybackInfoDto(
         userId: userId ?? this.userId,
         maxStreamingBitrate: maxStreamingBitrate ?? this.maxStreamingBitrate,
@@ -33974,7 +33229,10 @@ extension $PlaybackInfoDtoExtension on PlaybackInfoDto {
         enableTranscoding: enableTranscoding ?? this.enableTranscoding,
         allowVideoStreamCopy: allowVideoStreamCopy ?? this.allowVideoStreamCopy,
         allowAudioStreamCopy: allowAudioStreamCopy ?? this.allowAudioStreamCopy,
-        autoOpenLiveStream: autoOpenLiveStream ?? this.autoOpenLiveStream);
+        autoOpenLiveStream: autoOpenLiveStream ?? this.autoOpenLiveStream,
+        alwaysBurnInSubtitleWhenTranscoding:
+            alwaysBurnInSubtitleWhenTranscoding ??
+                this.alwaysBurnInSubtitleWhenTranscoding);
   }
 
   PlaybackInfoDto copyWithWrapped(
@@ -33992,7 +33250,8 @@ extension $PlaybackInfoDtoExtension on PlaybackInfoDto {
       Wrapped<bool?>? enableTranscoding,
       Wrapped<bool?>? allowVideoStreamCopy,
       Wrapped<bool?>? allowAudioStreamCopy,
-      Wrapped<bool?>? autoOpenLiveStream}) {
+      Wrapped<bool?>? autoOpenLiveStream,
+      Wrapped<bool?>? alwaysBurnInSubtitleWhenTranscoding}) {
     return PlaybackInfoDto(
         userId: (userId != null ? userId.value : this.userId),
         maxStreamingBitrate: (maxStreamingBitrate != null
@@ -34033,7 +33292,11 @@ extension $PlaybackInfoDtoExtension on PlaybackInfoDto {
             : this.allowAudioStreamCopy),
         autoOpenLiveStream: (autoOpenLiveStream != null
             ? autoOpenLiveStream.value
-            : this.autoOpenLiveStream));
+            : this.autoOpenLiveStream),
+        alwaysBurnInSubtitleWhenTranscoding:
+            (alwaysBurnInSubtitleWhenTranscoding != null
+                ? alwaysBurnInSubtitleWhenTranscoding.value
+                : this.alwaysBurnInSubtitleWhenTranscoding));
   }
 }
 
@@ -35120,6 +34383,77 @@ extension $PlaylistCreationResultExtension on PlaylistCreationResult {
 
   PlaylistCreationResult copyWithWrapped({Wrapped<String?>? id}) {
     return PlaylistCreationResult(id: (id != null ? id.value : this.id));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class PlaylistDto {
+  const PlaylistDto({
+    this.openAccess,
+    this.shares,
+    this.itemIds,
+  });
+
+  factory PlaylistDto.fromJson(Map<String, dynamic> json) =>
+      _$PlaylistDtoFromJson(json);
+
+  static const toJsonFactory = _$PlaylistDtoToJson;
+  Map<String, dynamic> toJson() => _$PlaylistDtoToJson(this);
+
+  @JsonKey(name: 'OpenAccess', includeIfNull: false)
+  final bool? openAccess;
+  @JsonKey(
+      name: 'Shares',
+      includeIfNull: false,
+      defaultValue: <PlaylistUserPermissions>[])
+  final List<PlaylistUserPermissions>? shares;
+  @JsonKey(name: 'ItemIds', includeIfNull: false, defaultValue: <String>[])
+  final List<String>? itemIds;
+  static const fromJsonFactory = _$PlaylistDtoFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is PlaylistDto &&
+            (identical(other.openAccess, openAccess) ||
+                const DeepCollectionEquality()
+                    .equals(other.openAccess, openAccess)) &&
+            (identical(other.shares, shares) ||
+                const DeepCollectionEquality().equals(other.shares, shares)) &&
+            (identical(other.itemIds, itemIds) ||
+                const DeepCollectionEquality().equals(other.itemIds, itemIds)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(openAccess) ^
+      const DeepCollectionEquality().hash(shares) ^
+      const DeepCollectionEquality().hash(itemIds) ^
+      runtimeType.hashCode;
+}
+
+extension $PlaylistDtoExtension on PlaylistDto {
+  PlaylistDto copyWith(
+      {bool? openAccess,
+      List<PlaylistUserPermissions>? shares,
+      List<String>? itemIds}) {
+    return PlaylistDto(
+        openAccess: openAccess ?? this.openAccess,
+        shares: shares ?? this.shares,
+        itemIds: itemIds ?? this.itemIds);
+  }
+
+  PlaylistDto copyWithWrapped(
+      {Wrapped<bool?>? openAccess,
+      Wrapped<List<PlaylistUserPermissions>?>? shares,
+      Wrapped<List<String>?>? itemIds}) {
+    return PlaylistDto(
+        openAccess: (openAccess != null ? openAccess.value : this.openAccess),
+        shares: (shares != null ? shares.value : this.shares),
+        itemIds: (itemIds != null ? itemIds.value : this.itemIds));
   }
 }
 
@@ -38184,76 +37518,6 @@ extension $RemoveFromPlaylistRequestDtoExtension
 }
 
 @JsonSerializable(explicitToJson: true)
-class ReportPlaybackOptions {
-  const ReportPlaybackOptions({
-    this.maxDataAge,
-    this.backupPath,
-    this.maxBackupFiles,
-  });
-
-  factory ReportPlaybackOptions.fromJson(Map<String, dynamic> json) =>
-      _$ReportPlaybackOptionsFromJson(json);
-
-  static const toJsonFactory = _$ReportPlaybackOptionsToJson;
-  Map<String, dynamic> toJson() => _$ReportPlaybackOptionsToJson(this);
-
-  @JsonKey(name: 'MaxDataAge', includeIfNull: false)
-  final int? maxDataAge;
-  @JsonKey(name: 'BackupPath', includeIfNull: false)
-  final String? backupPath;
-  @JsonKey(name: 'MaxBackupFiles', includeIfNull: false)
-  final int? maxBackupFiles;
-  static const fromJsonFactory = _$ReportPlaybackOptionsFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is ReportPlaybackOptions &&
-            (identical(other.maxDataAge, maxDataAge) ||
-                const DeepCollectionEquality()
-                    .equals(other.maxDataAge, maxDataAge)) &&
-            (identical(other.backupPath, backupPath) ||
-                const DeepCollectionEquality()
-                    .equals(other.backupPath, backupPath)) &&
-            (identical(other.maxBackupFiles, maxBackupFiles) ||
-                const DeepCollectionEquality()
-                    .equals(other.maxBackupFiles, maxBackupFiles)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(maxDataAge) ^
-      const DeepCollectionEquality().hash(backupPath) ^
-      const DeepCollectionEquality().hash(maxBackupFiles) ^
-      runtimeType.hashCode;
-}
-
-extension $ReportPlaybackOptionsExtension on ReportPlaybackOptions {
-  ReportPlaybackOptions copyWith(
-      {int? maxDataAge, String? backupPath, int? maxBackupFiles}) {
-    return ReportPlaybackOptions(
-        maxDataAge: maxDataAge ?? this.maxDataAge,
-        backupPath: backupPath ?? this.backupPath,
-        maxBackupFiles: maxBackupFiles ?? this.maxBackupFiles);
-  }
-
-  ReportPlaybackOptions copyWithWrapped(
-      {Wrapped<int?>? maxDataAge,
-      Wrapped<String?>? backupPath,
-      Wrapped<int?>? maxBackupFiles}) {
-    return ReportPlaybackOptions(
-        maxDataAge: (maxDataAge != null ? maxDataAge.value : this.maxDataAge),
-        backupPath: (backupPath != null ? backupPath.value : this.backupPath),
-        maxBackupFiles: (maxBackupFiles != null
-            ? maxBackupFiles.value
-            : this.maxBackupFiles));
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
 class RepositoryInfo {
   const RepositoryInfo({
     this.name,
@@ -40215,7 +39479,6 @@ class ServerConfiguration {
     this.enableCaseSensitiveItemIds,
     this.disableLiveTvChannelUserDataName,
     this.metadataPath,
-    this.metadataNetworkPath,
     this.preferredMetadataLanguage,
     this.metadataCountryCode,
     this.sortReplaceCharacters,
@@ -40290,8 +39553,6 @@ class ServerConfiguration {
   final bool? disableLiveTvChannelUserDataName;
   @JsonKey(name: 'MetadataPath', includeIfNull: false)
   final String? metadataPath;
-  @JsonKey(name: 'MetadataNetworkPath', includeIfNull: false)
-  final String? metadataNetworkPath;
   @JsonKey(name: 'PreferredMetadataLanguage', includeIfNull: false)
   final String? preferredMetadataLanguage;
   @JsonKey(name: 'MetadataCountryCode', includeIfNull: false)
@@ -40454,9 +39715,8 @@ class ServerConfiguration {
             (identical(other.metadataPath, metadataPath) ||
                 const DeepCollectionEquality()
                     .equals(other.metadataPath, metadataPath)) &&
-            (identical(other.metadataNetworkPath, metadataNetworkPath) ||
-                const DeepCollectionEquality().equals(other.metadataNetworkPath, metadataNetworkPath)) &&
-            (identical(other.preferredMetadataLanguage, preferredMetadataLanguage) || const DeepCollectionEquality().equals(other.preferredMetadataLanguage, preferredMetadataLanguage)) &&
+            (identical(other.preferredMetadataLanguage, preferredMetadataLanguage) ||
+                const DeepCollectionEquality().equals(other.preferredMetadataLanguage, preferredMetadataLanguage)) &&
             (identical(other.metadataCountryCode, metadataCountryCode) || const DeepCollectionEquality().equals(other.metadataCountryCode, metadataCountryCode)) &&
             (identical(other.sortReplaceCharacters, sortReplaceCharacters) || const DeepCollectionEquality().equals(other.sortReplaceCharacters, sortReplaceCharacters)) &&
             (identical(other.sortRemoveCharacters, sortRemoveCharacters) || const DeepCollectionEquality().equals(other.sortRemoveCharacters, sortRemoveCharacters)) &&
@@ -40517,7 +39777,6 @@ class ServerConfiguration {
       const DeepCollectionEquality().hash(enableCaseSensitiveItemIds) ^
       const DeepCollectionEquality().hash(disableLiveTvChannelUserDataName) ^
       const DeepCollectionEquality().hash(metadataPath) ^
-      const DeepCollectionEquality().hash(metadataNetworkPath) ^
       const DeepCollectionEquality().hash(preferredMetadataLanguage) ^
       const DeepCollectionEquality().hash(metadataCountryCode) ^
       const DeepCollectionEquality().hash(sortReplaceCharacters) ^
@@ -40577,7 +39836,6 @@ extension $ServerConfigurationExtension on ServerConfiguration {
       bool? enableCaseSensitiveItemIds,
       bool? disableLiveTvChannelUserDataName,
       String? metadataPath,
-      String? metadataNetworkPath,
       String? preferredMetadataLanguage,
       String? metadataCountryCode,
       List<String>? sortReplaceCharacters,
@@ -40638,7 +39896,6 @@ extension $ServerConfigurationExtension on ServerConfiguration {
         disableLiveTvChannelUserDataName: disableLiveTvChannelUserDataName ??
             this.disableLiveTvChannelUserDataName,
         metadataPath: metadataPath ?? this.metadataPath,
-        metadataNetworkPath: metadataNetworkPath ?? this.metadataNetworkPath,
         preferredMetadataLanguage:
             preferredMetadataLanguage ?? this.preferredMetadataLanguage,
         metadataCountryCode: metadataCountryCode ?? this.metadataCountryCode,
@@ -40717,7 +39974,6 @@ extension $ServerConfigurationExtension on ServerConfiguration {
       Wrapped<bool?>? enableCaseSensitiveItemIds,
       Wrapped<bool?>? disableLiveTvChannelUserDataName,
       Wrapped<String?>? metadataPath,
-      Wrapped<String?>? metadataNetworkPath,
       Wrapped<String?>? preferredMetadataLanguage,
       Wrapped<String?>? metadataCountryCode,
       Wrapped<List<String>?>? sortReplaceCharacters,
@@ -40793,9 +40049,6 @@ extension $ServerConfigurationExtension on ServerConfiguration {
             : this.disableLiveTvChannelUserDataName),
         metadataPath:
             (metadataPath != null ? metadataPath.value : this.metadataPath),
-        metadataNetworkPath: (metadataNetworkPath != null
-            ? metadataNetworkPath.value
-            : this.metadataNetworkPath),
         preferredMetadataLanguage: (preferredMetadataLanguage != null
             ? preferredMetadataLanguage.value
             : this.preferredMetadataLanguage),
@@ -40881,7 +40134,8 @@ extension $ServerConfigurationExtension on ServerConfiguration {
             ? slowResponseThresholdMs.value
             : this.slowResponseThresholdMs),
         corsHosts: (corsHosts != null ? corsHosts.value : this.corsHosts),
-        activityLogRetentionDays: (activityLogRetentionDays != null ? activityLogRetentionDays.value : this.activityLogRetentionDays),
+        activityLogRetentionDays:
+            (activityLogRetentionDays != null ? activityLogRetentionDays.value : this.activityLogRetentionDays),
         libraryScanFanoutConcurrency: (libraryScanFanoutConcurrency != null ? libraryScanFanoutConcurrency.value : this.libraryScanFanoutConcurrency),
         libraryMetadataRefreshConcurrency: (libraryMetadataRefreshConcurrency != null ? libraryMetadataRefreshConcurrency.value : this.libraryMetadataRefreshConcurrency),
         removeOldPlugins: (removeOldPlugins != null ? removeOldPlugins.value : this.removeOldPlugins),
@@ -41111,8 +40365,8 @@ extension $ServerShuttingDownMessageExtension on ServerShuttingDownMessage {
 }
 
 @JsonSerializable(explicitToJson: true)
-class SessionInfo {
-  const SessionInfo({
+class SessionInfoDto {
+  const SessionInfoDto({
     this.playState,
     this.additionalUsers,
     this.capabilities,
@@ -41144,11 +40398,11 @@ class SessionInfo {
     this.supportedCommands,
   });
 
-  factory SessionInfo.fromJson(Map<String, dynamic> json) =>
-      _$SessionInfoFromJson(json);
+  factory SessionInfoDto.fromJson(Map<String, dynamic> json) =>
+      _$SessionInfoDtoFromJson(json);
 
-  static const toJsonFactory = _$SessionInfoToJson;
-  Map<String, dynamic> toJson() => _$SessionInfoToJson(this);
+  static const toJsonFactory = _$SessionInfoDtoToJson;
+  Map<String, dynamic> toJson() => _$SessionInfoDtoToJson(this);
 
   @JsonKey(name: 'PlayState', includeIfNull: false)
   final PlayerStateInfo? playState;
@@ -41158,7 +40412,7 @@ class SessionInfo {
       defaultValue: <SessionUserInfo>[])
   final List<SessionUserInfo>? additionalUsers;
   @JsonKey(name: 'Capabilities', includeIfNull: false)
-  final ClientCapabilities? capabilities;
+  final ClientCapabilitiesDto? capabilities;
   @JsonKey(name: 'RemoteEndPoint', includeIfNull: false)
   final String? remoteEndPoint;
   @JsonKey(
@@ -41227,12 +40481,12 @@ class SessionInfo {
     fromJson: generalCommandTypeListFromJson,
   )
   final List<enums.GeneralCommandType>? supportedCommands;
-  static const fromJsonFactory = _$SessionInfoFromJson;
+  static const fromJsonFactory = _$SessionInfoDtoFromJson;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other is SessionInfo &&
+        (other is SessionInfoDto &&
             (identical(other.playState, playState) ||
                 const DeepCollectionEquality()
                     .equals(other.playState, playState)) &&
@@ -41343,11 +40597,11 @@ class SessionInfo {
       runtimeType.hashCode;
 }
 
-extension $SessionInfoExtension on SessionInfo {
-  SessionInfo copyWith(
+extension $SessionInfoDtoExtension on SessionInfoDto {
+  SessionInfoDto copyWith(
       {PlayerStateInfo? playState,
       List<SessionUserInfo>? additionalUsers,
-      ClientCapabilities? capabilities,
+      ClientCapabilitiesDto? capabilities,
       String? remoteEndPoint,
       List<enums.MediaType>? playableMediaTypes,
       String? id,
@@ -41374,7 +40628,7 @@ extension $SessionInfoExtension on SessionInfo {
       String? serverId,
       String? userPrimaryImageTag,
       List<enums.GeneralCommandType>? supportedCommands}) {
-    return SessionInfo(
+    return SessionInfoDto(
         playState: playState ?? this.playState,
         additionalUsers: additionalUsers ?? this.additionalUsers,
         capabilities: capabilities ?? this.capabilities,
@@ -41408,10 +40662,10 @@ extension $SessionInfoExtension on SessionInfo {
         supportedCommands: supportedCommands ?? this.supportedCommands);
   }
 
-  SessionInfo copyWithWrapped(
+  SessionInfoDto copyWithWrapped(
       {Wrapped<PlayerStateInfo?>? playState,
       Wrapped<List<SessionUserInfo>?>? additionalUsers,
-      Wrapped<ClientCapabilities?>? capabilities,
+      Wrapped<ClientCapabilitiesDto?>? capabilities,
       Wrapped<String?>? remoteEndPoint,
       Wrapped<List<enums.MediaType>?>? playableMediaTypes,
       Wrapped<String?>? id,
@@ -41438,7 +40692,7 @@ extension $SessionInfoExtension on SessionInfo {
       Wrapped<String?>? serverId,
       Wrapped<String?>? userPrimaryImageTag,
       Wrapped<List<enums.GeneralCommandType>?>? supportedCommands}) {
-    return SessionInfo(
+    return SessionInfoDto(
         playState: (playState != null ? playState.value : this.playState),
         additionalUsers: (additionalUsers != null
             ? additionalUsers.value
@@ -41522,8 +40776,8 @@ class SessionsMessage {
   static const toJsonFactory = _$SessionsMessageToJson;
   Map<String, dynamic> toJson() => _$SessionsMessageToJson(this);
 
-  @JsonKey(name: 'Data', includeIfNull: false, defaultValue: <SessionInfo>[])
-  final List<SessionInfo>? data;
+  @JsonKey(name: 'Data', includeIfNull: false, defaultValue: <SessionInfoDto>[])
+  final List<SessionInfoDto>? data;
   @JsonKey(name: 'MessageId', includeIfNull: false)
   final String? messageId;
   @JsonKey(
@@ -41567,7 +40821,7 @@ class SessionsMessage {
 
 extension $SessionsMessageExtension on SessionsMessage {
   SessionsMessage copyWith(
-      {List<SessionInfo>? data,
+      {List<SessionInfoDto>? data,
       String? messageId,
       enums.SessionMessageType? messageType}) {
     return SessionsMessage(
@@ -41577,7 +40831,7 @@ extension $SessionsMessageExtension on SessionsMessage {
   }
 
   SessionsMessage copyWithWrapped(
-      {Wrapped<List<SessionInfo>?>? data,
+      {Wrapped<List<SessionInfoDto>?>? data,
       Wrapped<String?>? messageId,
       Wrapped<enums.SessionMessageType?>? messageType}) {
     return SessionsMessage(
@@ -44735,825 +43989,6 @@ extension $TrailerInfoRemoteSearchQueryExtension
 }
 
 @JsonSerializable(explicitToJson: true)
-class TraktEpisode {
-  const TraktEpisode({
-    this.season,
-    this.number,
-    this.title,
-    this.ids,
-  });
-
-  factory TraktEpisode.fromJson(Map<String, dynamic> json) =>
-      _$TraktEpisodeFromJson(json);
-
-  static const toJsonFactory = _$TraktEpisodeToJson;
-  Map<String, dynamic> toJson() => _$TraktEpisodeToJson(this);
-
-  @JsonKey(name: 'season', includeIfNull: false)
-  final int? season;
-  @JsonKey(name: 'number', includeIfNull: false)
-  final int? number;
-  @JsonKey(name: 'title', includeIfNull: false)
-  final String? title;
-  @JsonKey(name: 'ids', includeIfNull: false)
-  final TraktEpisodeId? ids;
-  static const fromJsonFactory = _$TraktEpisodeFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is TraktEpisode &&
-            (identical(other.season, season) ||
-                const DeepCollectionEquality().equals(other.season, season)) &&
-            (identical(other.number, number) ||
-                const DeepCollectionEquality().equals(other.number, number)) &&
-            (identical(other.title, title) ||
-                const DeepCollectionEquality().equals(other.title, title)) &&
-            (identical(other.ids, ids) ||
-                const DeepCollectionEquality().equals(other.ids, ids)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(season) ^
-      const DeepCollectionEquality().hash(number) ^
-      const DeepCollectionEquality().hash(title) ^
-      const DeepCollectionEquality().hash(ids) ^
-      runtimeType.hashCode;
-}
-
-extension $TraktEpisodeExtension on TraktEpisode {
-  TraktEpisode copyWith(
-      {int? season, int? number, String? title, TraktEpisodeId? ids}) {
-    return TraktEpisode(
-        season: season ?? this.season,
-        number: number ?? this.number,
-        title: title ?? this.title,
-        ids: ids ?? this.ids);
-  }
-
-  TraktEpisode copyWithWrapped(
-      {Wrapped<int?>? season,
-      Wrapped<int?>? number,
-      Wrapped<String?>? title,
-      Wrapped<TraktEpisodeId?>? ids}) {
-    return TraktEpisode(
-        season: (season != null ? season.value : this.season),
-        number: (number != null ? number.value : this.number),
-        title: (title != null ? title.value : this.title),
-        ids: (ids != null ? ids.value : this.ids));
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class TraktEpisodeId {
-  const TraktEpisodeId({
-    this.trakt,
-    this.slug,
-    this.imdb,
-    this.tmdb,
-    this.tvdb,
-    this.tvrage,
-  });
-
-  factory TraktEpisodeId.fromJson(Map<String, dynamic> json) =>
-      _$TraktEpisodeIdFromJson(json);
-
-  static const toJsonFactory = _$TraktEpisodeIdToJson;
-  Map<String, dynamic> toJson() => _$TraktEpisodeIdToJson(this);
-
-  @JsonKey(name: 'trakt', includeIfNull: false)
-  final int? trakt;
-  @JsonKey(name: 'slug', includeIfNull: false)
-  final String? slug;
-  @JsonKey(name: 'imdb', includeIfNull: false)
-  final String? imdb;
-  @JsonKey(name: 'tmdb', includeIfNull: false)
-  final int? tmdb;
-  @JsonKey(name: 'tvdb', includeIfNull: false)
-  final String? tvdb;
-  @JsonKey(name: 'tvrage', includeIfNull: false)
-  final String? tvrage;
-  static const fromJsonFactory = _$TraktEpisodeIdFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is TraktEpisodeId &&
-            (identical(other.trakt, trakt) ||
-                const DeepCollectionEquality().equals(other.trakt, trakt)) &&
-            (identical(other.slug, slug) ||
-                const DeepCollectionEquality().equals(other.slug, slug)) &&
-            (identical(other.imdb, imdb) ||
-                const DeepCollectionEquality().equals(other.imdb, imdb)) &&
-            (identical(other.tmdb, tmdb) ||
-                const DeepCollectionEquality().equals(other.tmdb, tmdb)) &&
-            (identical(other.tvdb, tvdb) ||
-                const DeepCollectionEquality().equals(other.tvdb, tvdb)) &&
-            (identical(other.tvrage, tvrage) ||
-                const DeepCollectionEquality().equals(other.tvrage, tvrage)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(trakt) ^
-      const DeepCollectionEquality().hash(slug) ^
-      const DeepCollectionEquality().hash(imdb) ^
-      const DeepCollectionEquality().hash(tmdb) ^
-      const DeepCollectionEquality().hash(tvdb) ^
-      const DeepCollectionEquality().hash(tvrage) ^
-      runtimeType.hashCode;
-}
-
-extension $TraktEpisodeIdExtension on TraktEpisodeId {
-  TraktEpisodeId copyWith(
-      {int? trakt,
-      String? slug,
-      String? imdb,
-      int? tmdb,
-      String? tvdb,
-      String? tvrage}) {
-    return TraktEpisodeId(
-        trakt: trakt ?? this.trakt,
-        slug: slug ?? this.slug,
-        imdb: imdb ?? this.imdb,
-        tmdb: tmdb ?? this.tmdb,
-        tvdb: tvdb ?? this.tvdb,
-        tvrage: tvrage ?? this.tvrage);
-  }
-
-  TraktEpisodeId copyWithWrapped(
-      {Wrapped<int?>? trakt,
-      Wrapped<String?>? slug,
-      Wrapped<String?>? imdb,
-      Wrapped<int?>? tmdb,
-      Wrapped<String?>? tvdb,
-      Wrapped<String?>? tvrage}) {
-    return TraktEpisodeId(
-        trakt: (trakt != null ? trakt.value : this.trakt),
-        slug: (slug != null ? slug.value : this.slug),
-        imdb: (imdb != null ? imdb.value : this.imdb),
-        tmdb: (tmdb != null ? tmdb.value : this.tmdb),
-        tvdb: (tvdb != null ? tvdb.value : this.tvdb),
-        tvrage: (tvrage != null ? tvrage.value : this.tvrage));
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class TraktMovie {
-  const TraktMovie({
-    this.title,
-    this.year,
-    this.ids,
-  });
-
-  factory TraktMovie.fromJson(Map<String, dynamic> json) =>
-      _$TraktMovieFromJson(json);
-
-  static const toJsonFactory = _$TraktMovieToJson;
-  Map<String, dynamic> toJson() => _$TraktMovieToJson(this);
-
-  @JsonKey(name: 'title', includeIfNull: false)
-  final String? title;
-  @JsonKey(name: 'year', includeIfNull: false)
-  final int? year;
-  @JsonKey(name: 'ids', includeIfNull: false)
-  final TraktMovieId? ids;
-  static const fromJsonFactory = _$TraktMovieFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is TraktMovie &&
-            (identical(other.title, title) ||
-                const DeepCollectionEquality().equals(other.title, title)) &&
-            (identical(other.year, year) ||
-                const DeepCollectionEquality().equals(other.year, year)) &&
-            (identical(other.ids, ids) ||
-                const DeepCollectionEquality().equals(other.ids, ids)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(title) ^
-      const DeepCollectionEquality().hash(year) ^
-      const DeepCollectionEquality().hash(ids) ^
-      runtimeType.hashCode;
-}
-
-extension $TraktMovieExtension on TraktMovie {
-  TraktMovie copyWith({String? title, int? year, TraktMovieId? ids}) {
-    return TraktMovie(
-        title: title ?? this.title,
-        year: year ?? this.year,
-        ids: ids ?? this.ids);
-  }
-
-  TraktMovie copyWithWrapped(
-      {Wrapped<String?>? title,
-      Wrapped<int?>? year,
-      Wrapped<TraktMovieId?>? ids}) {
-    return TraktMovie(
-        title: (title != null ? title.value : this.title),
-        year: (year != null ? year.value : this.year),
-        ids: (ids != null ? ids.value : this.ids));
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class TraktMovieId {
-  const TraktMovieId({
-    this.trakt,
-    this.slug,
-    this.imdb,
-    this.tmdb,
-  });
-
-  factory TraktMovieId.fromJson(Map<String, dynamic> json) =>
-      _$TraktMovieIdFromJson(json);
-
-  static const toJsonFactory = _$TraktMovieIdToJson;
-  Map<String, dynamic> toJson() => _$TraktMovieIdToJson(this);
-
-  @JsonKey(name: 'trakt', includeIfNull: false)
-  final int? trakt;
-  @JsonKey(name: 'slug', includeIfNull: false)
-  final String? slug;
-  @JsonKey(name: 'imdb', includeIfNull: false)
-  final String? imdb;
-  @JsonKey(name: 'tmdb', includeIfNull: false)
-  final int? tmdb;
-  static const fromJsonFactory = _$TraktMovieIdFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is TraktMovieId &&
-            (identical(other.trakt, trakt) ||
-                const DeepCollectionEquality().equals(other.trakt, trakt)) &&
-            (identical(other.slug, slug) ||
-                const DeepCollectionEquality().equals(other.slug, slug)) &&
-            (identical(other.imdb, imdb) ||
-                const DeepCollectionEquality().equals(other.imdb, imdb)) &&
-            (identical(other.tmdb, tmdb) ||
-                const DeepCollectionEquality().equals(other.tmdb, tmdb)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(trakt) ^
-      const DeepCollectionEquality().hash(slug) ^
-      const DeepCollectionEquality().hash(imdb) ^
-      const DeepCollectionEquality().hash(tmdb) ^
-      runtimeType.hashCode;
-}
-
-extension $TraktMovieIdExtension on TraktMovieId {
-  TraktMovieId copyWith({int? trakt, String? slug, String? imdb, int? tmdb}) {
-    return TraktMovieId(
-        trakt: trakt ?? this.trakt,
-        slug: slug ?? this.slug,
-        imdb: imdb ?? this.imdb,
-        tmdb: tmdb ?? this.tmdb);
-  }
-
-  TraktMovieId copyWithWrapped(
-      {Wrapped<int?>? trakt,
-      Wrapped<String?>? slug,
-      Wrapped<String?>? imdb,
-      Wrapped<int?>? tmdb}) {
-    return TraktMovieId(
-        trakt: (trakt != null ? trakt.value : this.trakt),
-        slug: (slug != null ? slug.value : this.slug),
-        imdb: (imdb != null ? imdb.value : this.imdb),
-        tmdb: (tmdb != null ? tmdb.value : this.tmdb));
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class TraktPerson {
-  const TraktPerson({
-    this.name,
-    this.ids,
-  });
-
-  factory TraktPerson.fromJson(Map<String, dynamic> json) =>
-      _$TraktPersonFromJson(json);
-
-  static const toJsonFactory = _$TraktPersonToJson;
-  Map<String, dynamic> toJson() => _$TraktPersonToJson(this);
-
-  @JsonKey(name: 'name', includeIfNull: false)
-  final String? name;
-  @JsonKey(name: 'ids', includeIfNull: false)
-  final TraktPersonId? ids;
-  static const fromJsonFactory = _$TraktPersonFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is TraktPerson &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.ids, ids) ||
-                const DeepCollectionEquality().equals(other.ids, ids)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(ids) ^
-      runtimeType.hashCode;
-}
-
-extension $TraktPersonExtension on TraktPerson {
-  TraktPerson copyWith({String? name, TraktPersonId? ids}) {
-    return TraktPerson(name: name ?? this.name, ids: ids ?? this.ids);
-  }
-
-  TraktPerson copyWithWrapped(
-      {Wrapped<String?>? name, Wrapped<TraktPersonId?>? ids}) {
-    return TraktPerson(
-        name: (name != null ? name.value : this.name),
-        ids: (ids != null ? ids.value : this.ids));
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class TraktPersonId {
-  const TraktPersonId({
-    this.trakt,
-    this.slug,
-    this.imdb,
-    this.tmdb,
-    this.tvrage,
-  });
-
-  factory TraktPersonId.fromJson(Map<String, dynamic> json) =>
-      _$TraktPersonIdFromJson(json);
-
-  static const toJsonFactory = _$TraktPersonIdToJson;
-  Map<String, dynamic> toJson() => _$TraktPersonIdToJson(this);
-
-  @JsonKey(name: 'trakt', includeIfNull: false)
-  final int? trakt;
-  @JsonKey(name: 'slug', includeIfNull: false)
-  final String? slug;
-  @JsonKey(name: 'imdb', includeIfNull: false)
-  final String? imdb;
-  @JsonKey(name: 'tmdb', includeIfNull: false)
-  final int? tmdb;
-  @JsonKey(name: 'tvrage', includeIfNull: false)
-  final int? tvrage;
-  static const fromJsonFactory = _$TraktPersonIdFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is TraktPersonId &&
-            (identical(other.trakt, trakt) ||
-                const DeepCollectionEquality().equals(other.trakt, trakt)) &&
-            (identical(other.slug, slug) ||
-                const DeepCollectionEquality().equals(other.slug, slug)) &&
-            (identical(other.imdb, imdb) ||
-                const DeepCollectionEquality().equals(other.imdb, imdb)) &&
-            (identical(other.tmdb, tmdb) ||
-                const DeepCollectionEquality().equals(other.tmdb, tmdb)) &&
-            (identical(other.tvrage, tvrage) ||
-                const DeepCollectionEquality().equals(other.tvrage, tvrage)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(trakt) ^
-      const DeepCollectionEquality().hash(slug) ^
-      const DeepCollectionEquality().hash(imdb) ^
-      const DeepCollectionEquality().hash(tmdb) ^
-      const DeepCollectionEquality().hash(tvrage) ^
-      runtimeType.hashCode;
-}
-
-extension $TraktPersonIdExtension on TraktPersonId {
-  TraktPersonId copyWith(
-      {int? trakt, String? slug, String? imdb, int? tmdb, int? tvrage}) {
-    return TraktPersonId(
-        trakt: trakt ?? this.trakt,
-        slug: slug ?? this.slug,
-        imdb: imdb ?? this.imdb,
-        tmdb: tmdb ?? this.tmdb,
-        tvrage: tvrage ?? this.tvrage);
-  }
-
-  TraktPersonId copyWithWrapped(
-      {Wrapped<int?>? trakt,
-      Wrapped<String?>? slug,
-      Wrapped<String?>? imdb,
-      Wrapped<int?>? tmdb,
-      Wrapped<int?>? tvrage}) {
-    return TraktPersonId(
-        trakt: (trakt != null ? trakt.value : this.trakt),
-        slug: (slug != null ? slug.value : this.slug),
-        imdb: (imdb != null ? imdb.value : this.imdb),
-        tmdb: (tmdb != null ? tmdb.value : this.tmdb),
-        tvrage: (tvrage != null ? tvrage.value : this.tvrage));
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class TraktSeason {
-  const TraktSeason({
-    this.number,
-    this.ids,
-  });
-
-  factory TraktSeason.fromJson(Map<String, dynamic> json) =>
-      _$TraktSeasonFromJson(json);
-
-  static const toJsonFactory = _$TraktSeasonToJson;
-  Map<String, dynamic> toJson() => _$TraktSeasonToJson(this);
-
-  @JsonKey(name: 'number', includeIfNull: false)
-  final int? number;
-  @JsonKey(name: 'ids', includeIfNull: false)
-  final TraktSeasonId? ids;
-  static const fromJsonFactory = _$TraktSeasonFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is TraktSeason &&
-            (identical(other.number, number) ||
-                const DeepCollectionEquality().equals(other.number, number)) &&
-            (identical(other.ids, ids) ||
-                const DeepCollectionEquality().equals(other.ids, ids)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(number) ^
-      const DeepCollectionEquality().hash(ids) ^
-      runtimeType.hashCode;
-}
-
-extension $TraktSeasonExtension on TraktSeason {
-  TraktSeason copyWith({int? number, TraktSeasonId? ids}) {
-    return TraktSeason(number: number ?? this.number, ids: ids ?? this.ids);
-  }
-
-  TraktSeason copyWithWrapped(
-      {Wrapped<int?>? number, Wrapped<TraktSeasonId?>? ids}) {
-    return TraktSeason(
-        number: (number != null ? number.value : this.number),
-        ids: (ids != null ? ids.value : this.ids));
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class TraktSeasonId {
-  const TraktSeasonId({
-    this.trakt,
-    this.slug,
-    this.tmdb,
-    this.tvdb,
-    this.tvrage,
-  });
-
-  factory TraktSeasonId.fromJson(Map<String, dynamic> json) =>
-      _$TraktSeasonIdFromJson(json);
-
-  static const toJsonFactory = _$TraktSeasonIdToJson;
-  Map<String, dynamic> toJson() => _$TraktSeasonIdToJson(this);
-
-  @JsonKey(name: 'trakt', includeIfNull: false)
-  final int? trakt;
-  @JsonKey(name: 'slug', includeIfNull: false)
-  final String? slug;
-  @JsonKey(name: 'tmdb', includeIfNull: false)
-  final int? tmdb;
-  @JsonKey(name: 'tvdb', includeIfNull: false)
-  final int? tvdb;
-  @JsonKey(name: 'tvrage', includeIfNull: false)
-  final int? tvrage;
-  static const fromJsonFactory = _$TraktSeasonIdFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is TraktSeasonId &&
-            (identical(other.trakt, trakt) ||
-                const DeepCollectionEquality().equals(other.trakt, trakt)) &&
-            (identical(other.slug, slug) ||
-                const DeepCollectionEquality().equals(other.slug, slug)) &&
-            (identical(other.tmdb, tmdb) ||
-                const DeepCollectionEquality().equals(other.tmdb, tmdb)) &&
-            (identical(other.tvdb, tvdb) ||
-                const DeepCollectionEquality().equals(other.tvdb, tvdb)) &&
-            (identical(other.tvrage, tvrage) ||
-                const DeepCollectionEquality().equals(other.tvrage, tvrage)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(trakt) ^
-      const DeepCollectionEquality().hash(slug) ^
-      const DeepCollectionEquality().hash(tmdb) ^
-      const DeepCollectionEquality().hash(tvdb) ^
-      const DeepCollectionEquality().hash(tvrage) ^
-      runtimeType.hashCode;
-}
-
-extension $TraktSeasonIdExtension on TraktSeasonId {
-  TraktSeasonId copyWith(
-      {int? trakt, String? slug, int? tmdb, int? tvdb, int? tvrage}) {
-    return TraktSeasonId(
-        trakt: trakt ?? this.trakt,
-        slug: slug ?? this.slug,
-        tmdb: tmdb ?? this.tmdb,
-        tvdb: tvdb ?? this.tvdb,
-        tvrage: tvrage ?? this.tvrage);
-  }
-
-  TraktSeasonId copyWithWrapped(
-      {Wrapped<int?>? trakt,
-      Wrapped<String?>? slug,
-      Wrapped<int?>? tmdb,
-      Wrapped<int?>? tvdb,
-      Wrapped<int?>? tvrage}) {
-    return TraktSeasonId(
-        trakt: (trakt != null ? trakt.value : this.trakt),
-        slug: (slug != null ? slug.value : this.slug),
-        tmdb: (tmdb != null ? tmdb.value : this.tmdb),
-        tvdb: (tvdb != null ? tvdb.value : this.tvdb),
-        tvrage: (tvrage != null ? tvrage.value : this.tvrage));
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class TraktShow {
-  const TraktShow({
-    this.title,
-    this.year,
-    this.ids,
-  });
-
-  factory TraktShow.fromJson(Map<String, dynamic> json) =>
-      _$TraktShowFromJson(json);
-
-  static const toJsonFactory = _$TraktShowToJson;
-  Map<String, dynamic> toJson() => _$TraktShowToJson(this);
-
-  @JsonKey(name: 'title', includeIfNull: false)
-  final String? title;
-  @JsonKey(name: 'year', includeIfNull: false)
-  final int? year;
-  @JsonKey(name: 'ids', includeIfNull: false)
-  final TraktShowId? ids;
-  static const fromJsonFactory = _$TraktShowFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is TraktShow &&
-            (identical(other.title, title) ||
-                const DeepCollectionEquality().equals(other.title, title)) &&
-            (identical(other.year, year) ||
-                const DeepCollectionEquality().equals(other.year, year)) &&
-            (identical(other.ids, ids) ||
-                const DeepCollectionEquality().equals(other.ids, ids)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(title) ^
-      const DeepCollectionEquality().hash(year) ^
-      const DeepCollectionEquality().hash(ids) ^
-      runtimeType.hashCode;
-}
-
-extension $TraktShowExtension on TraktShow {
-  TraktShow copyWith({String? title, int? year, TraktShowId? ids}) {
-    return TraktShow(
-        title: title ?? this.title,
-        year: year ?? this.year,
-        ids: ids ?? this.ids);
-  }
-
-  TraktShow copyWithWrapped(
-      {Wrapped<String?>? title,
-      Wrapped<int?>? year,
-      Wrapped<TraktShowId?>? ids}) {
-    return TraktShow(
-        title: (title != null ? title.value : this.title),
-        year: (year != null ? year.value : this.year),
-        ids: (ids != null ? ids.value : this.ids));
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class TraktShowId {
-  const TraktShowId({
-    this.trakt,
-    this.slug,
-    this.imdb,
-    this.tmdb,
-    this.tvdb,
-    this.tvrage,
-  });
-
-  factory TraktShowId.fromJson(Map<String, dynamic> json) =>
-      _$TraktShowIdFromJson(json);
-
-  static const toJsonFactory = _$TraktShowIdToJson;
-  Map<String, dynamic> toJson() => _$TraktShowIdToJson(this);
-
-  @JsonKey(name: 'trakt', includeIfNull: false)
-  final int? trakt;
-  @JsonKey(name: 'slug', includeIfNull: false)
-  final String? slug;
-  @JsonKey(name: 'imdb', includeIfNull: false)
-  final String? imdb;
-  @JsonKey(name: 'tmdb', includeIfNull: false)
-  final int? tmdb;
-  @JsonKey(name: 'tvdb', includeIfNull: false)
-  final String? tvdb;
-  @JsonKey(name: 'tvrage', includeIfNull: false)
-  final String? tvrage;
-  static const fromJsonFactory = _$TraktShowIdFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is TraktShowId &&
-            (identical(other.trakt, trakt) ||
-                const DeepCollectionEquality().equals(other.trakt, trakt)) &&
-            (identical(other.slug, slug) ||
-                const DeepCollectionEquality().equals(other.slug, slug)) &&
-            (identical(other.imdb, imdb) ||
-                const DeepCollectionEquality().equals(other.imdb, imdb)) &&
-            (identical(other.tmdb, tmdb) ||
-                const DeepCollectionEquality().equals(other.tmdb, tmdb)) &&
-            (identical(other.tvdb, tvdb) ||
-                const DeepCollectionEquality().equals(other.tvdb, tvdb)) &&
-            (identical(other.tvrage, tvrage) ||
-                const DeepCollectionEquality().equals(other.tvrage, tvrage)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(trakt) ^
-      const DeepCollectionEquality().hash(slug) ^
-      const DeepCollectionEquality().hash(imdb) ^
-      const DeepCollectionEquality().hash(tmdb) ^
-      const DeepCollectionEquality().hash(tvdb) ^
-      const DeepCollectionEquality().hash(tvrage) ^
-      runtimeType.hashCode;
-}
-
-extension $TraktShowIdExtension on TraktShowId {
-  TraktShowId copyWith(
-      {int? trakt,
-      String? slug,
-      String? imdb,
-      int? tmdb,
-      String? tvdb,
-      String? tvrage}) {
-    return TraktShowId(
-        trakt: trakt ?? this.trakt,
-        slug: slug ?? this.slug,
-        imdb: imdb ?? this.imdb,
-        tmdb: tmdb ?? this.tmdb,
-        tvdb: tvdb ?? this.tvdb,
-        tvrage: tvrage ?? this.tvrage);
-  }
-
-  TraktShowId copyWithWrapped(
-      {Wrapped<int?>? trakt,
-      Wrapped<String?>? slug,
-      Wrapped<String?>? imdb,
-      Wrapped<int?>? tmdb,
-      Wrapped<String?>? tvdb,
-      Wrapped<String?>? tvrage}) {
-    return TraktShowId(
-        trakt: (trakt != null ? trakt.value : this.trakt),
-        slug: (slug != null ? slug.value : this.slug),
-        imdb: (imdb != null ? imdb.value : this.imdb),
-        tmdb: (tmdb != null ? tmdb.value : this.tmdb),
-        tvdb: (tvdb != null ? tvdb.value : this.tvdb),
-        tvrage: (tvrage != null ? tvrage.value : this.tvrage));
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class TraktSyncResponse {
-  const TraktSyncResponse({
-    this.added,
-    this.deleted,
-    this.updated,
-    this.notFound,
-  });
-
-  factory TraktSyncResponse.fromJson(Map<String, dynamic> json) =>
-      _$TraktSyncResponseFromJson(json);
-
-  static const toJsonFactory = _$TraktSyncResponseToJson;
-  Map<String, dynamic> toJson() => _$TraktSyncResponseToJson(this);
-
-  @JsonKey(name: 'added', includeIfNull: false)
-  final Items? added;
-  @JsonKey(name: 'deleted', includeIfNull: false)
-  final Items? deleted;
-  @JsonKey(name: 'updated', includeIfNull: false)
-  final Items? updated;
-  @JsonKey(name: 'not_found', includeIfNull: false)
-  final NotFoundObjects? notFound;
-  static const fromJsonFactory = _$TraktSyncResponseFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is TraktSyncResponse &&
-            (identical(other.added, added) ||
-                const DeepCollectionEquality().equals(other.added, added)) &&
-            (identical(other.deleted, deleted) ||
-                const DeepCollectionEquality()
-                    .equals(other.deleted, deleted)) &&
-            (identical(other.updated, updated) ||
-                const DeepCollectionEquality()
-                    .equals(other.updated, updated)) &&
-            (identical(other.notFound, notFound) ||
-                const DeepCollectionEquality()
-                    .equals(other.notFound, notFound)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(added) ^
-      const DeepCollectionEquality().hash(deleted) ^
-      const DeepCollectionEquality().hash(updated) ^
-      const DeepCollectionEquality().hash(notFound) ^
-      runtimeType.hashCode;
-}
-
-extension $TraktSyncResponseExtension on TraktSyncResponse {
-  TraktSyncResponse copyWith(
-      {Items? added,
-      Items? deleted,
-      Items? updated,
-      NotFoundObjects? notFound}) {
-    return TraktSyncResponse(
-        added: added ?? this.added,
-        deleted: deleted ?? this.deleted,
-        updated: updated ?? this.updated,
-        notFound: notFound ?? this.notFound);
-  }
-
-  TraktSyncResponse copyWithWrapped(
-      {Wrapped<Items?>? added,
-      Wrapped<Items?>? deleted,
-      Wrapped<Items?>? updated,
-      Wrapped<NotFoundObjects?>? notFound}) {
-    return TraktSyncResponse(
-        added: (added != null ? added.value : this.added),
-        deleted: (deleted != null ? deleted.value : this.deleted),
-        updated: (updated != null ? updated.value : this.updated),
-        notFound: (notFound != null ? notFound.value : this.notFound));
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
 class TranscodingInfo {
   const TranscodingInfo({
     this.audioCodec,
@@ -45602,10 +44037,10 @@ class TranscodingInfo {
   @JsonKey(
     name: 'HardwareAccelerationType',
     includeIfNull: false,
-    toJson: hardwareEncodingTypeNullableToJson,
-    fromJson: hardwareEncodingTypeNullableFromJson,
+    toJson: hardwareAccelerationTypeNullableToJson,
+    fromJson: hardwareAccelerationTypeNullableFromJson,
   )
-  final enums.HardwareEncodingType? hardwareAccelerationType;
+  final enums.HardwareAccelerationType? hardwareAccelerationType;
   @JsonKey(
     name: 'TranscodeReasons',
     includeIfNull: false,
@@ -45694,7 +44129,7 @@ extension $TranscodingInfoExtension on TranscodingInfo {
       int? width,
       int? height,
       int? audioChannels,
-      enums.HardwareEncodingType? hardwareAccelerationType,
+      enums.HardwareAccelerationType? hardwareAccelerationType,
       List<enums.TranscodeReason>? transcodeReasons}) {
     return TranscodingInfo(
         audioCodec: audioCodec ?? this.audioCodec,
@@ -45725,7 +44160,7 @@ extension $TranscodingInfoExtension on TranscodingInfo {
       Wrapped<int?>? width,
       Wrapped<int?>? height,
       Wrapped<int?>? audioChannels,
-      Wrapped<enums.HardwareEncodingType?>? hardwareAccelerationType,
+      Wrapped<enums.HardwareAccelerationType?>? hardwareAccelerationType,
       Wrapped<List<enums.TranscodeReason>?>? transcodeReasons}) {
     return TranscodingInfo(
         audioCodec: (audioCodec != null ? audioCodec.value : this.audioCodec),
@@ -45772,6 +44207,7 @@ class TranscodingProfile {
     this.segmentLength,
     this.breakOnNonKeyFrames,
     this.conditions,
+    this.enableAudioVbrEncoding,
   });
 
   factory TranscodingProfile.fromJson(Map<String, dynamic> json) =>
@@ -45850,6 +44286,9 @@ class TranscodingProfile {
       includeIfNull: false,
       defaultValue: <ProfileCondition>[])
   final List<ProfileCondition>? conditions;
+  @JsonKey(
+      name: 'EnableAudioVbrEncoding', includeIfNull: false, defaultValue: true)
+  final bool? enableAudioVbrEncoding;
   static const fromJsonFactory = _$TranscodingProfileFromJson;
 
   @override
@@ -45904,7 +44343,10 @@ class TranscodingProfile {
                     .equals(other.breakOnNonKeyFrames, breakOnNonKeyFrames)) &&
             (identical(other.conditions, conditions) ||
                 const DeepCollectionEquality()
-                    .equals(other.conditions, conditions)));
+                    .equals(other.conditions, conditions)) &&
+            (identical(other.enableAudioVbrEncoding, enableAudioVbrEncoding) ||
+                const DeepCollectionEquality().equals(
+                    other.enableAudioVbrEncoding, enableAudioVbrEncoding)));
   }
 
   @override
@@ -45928,6 +44370,7 @@ class TranscodingProfile {
       const DeepCollectionEquality().hash(segmentLength) ^
       const DeepCollectionEquality().hash(breakOnNonKeyFrames) ^
       const DeepCollectionEquality().hash(conditions) ^
+      const DeepCollectionEquality().hash(enableAudioVbrEncoding) ^
       runtimeType.hashCode;
 }
 
@@ -45948,7 +44391,8 @@ extension $TranscodingProfileExtension on TranscodingProfile {
       int? minSegments,
       int? segmentLength,
       bool? breakOnNonKeyFrames,
-      List<ProfileCondition>? conditions}) {
+      List<ProfileCondition>? conditions,
+      bool? enableAudioVbrEncoding}) {
     return TranscodingProfile(
         container: container ?? this.container,
         type: type ?? this.type,
@@ -45967,7 +44411,9 @@ extension $TranscodingProfileExtension on TranscodingProfile {
         minSegments: minSegments ?? this.minSegments,
         segmentLength: segmentLength ?? this.segmentLength,
         breakOnNonKeyFrames: breakOnNonKeyFrames ?? this.breakOnNonKeyFrames,
-        conditions: conditions ?? this.conditions);
+        conditions: conditions ?? this.conditions,
+        enableAudioVbrEncoding:
+            enableAudioVbrEncoding ?? this.enableAudioVbrEncoding);
   }
 
   TranscodingProfile copyWithWrapped(
@@ -45986,7 +44432,8 @@ extension $TranscodingProfileExtension on TranscodingProfile {
       Wrapped<int?>? minSegments,
       Wrapped<int?>? segmentLength,
       Wrapped<bool?>? breakOnNonKeyFrames,
-      Wrapped<List<ProfileCondition>?>? conditions}) {
+      Wrapped<List<ProfileCondition>?>? conditions,
+      Wrapped<bool?>? enableAudioVbrEncoding}) {
     return TranscodingProfile(
         container: (container != null ? container.value : this.container),
         type: (type != null ? type.value : this.type),
@@ -46019,7 +44466,10 @@ extension $TranscodingProfileExtension on TranscodingProfile {
         breakOnNonKeyFrames: (breakOnNonKeyFrames != null
             ? breakOnNonKeyFrames.value
             : this.breakOnNonKeyFrames),
-        conditions: (conditions != null ? conditions.value : this.conditions));
+        conditions: (conditions != null ? conditions.value : this.conditions),
+        enableAudioVbrEncoding: (enableAudioVbrEncoding != null
+            ? enableAudioVbrEncoding.value
+            : this.enableAudioVbrEncoding));
   }
 }
 
@@ -46142,6 +44592,7 @@ class TrickplayOptions {
   const TrickplayOptions({
     this.enableHwAcceleration,
     this.enableHwEncoding,
+    this.enableKeyFrameOnlyExtraction,
     this.scanBehavior,
     this.processPriority,
     this.interval,
@@ -46163,6 +44614,8 @@ class TrickplayOptions {
   final bool? enableHwAcceleration;
   @JsonKey(name: 'EnableHwEncoding', includeIfNull: false)
   final bool? enableHwEncoding;
+  @JsonKey(name: 'EnableKeyFrameOnlyExtraction', includeIfNull: false)
+  final bool? enableKeyFrameOnlyExtraction;
   @JsonKey(
     name: 'ScanBehavior',
     includeIfNull: false,
@@ -46204,6 +44657,11 @@ class TrickplayOptions {
             (identical(other.enableHwEncoding, enableHwEncoding) ||
                 const DeepCollectionEquality()
                     .equals(other.enableHwEncoding, enableHwEncoding)) &&
+            (identical(other.enableKeyFrameOnlyExtraction,
+                    enableKeyFrameOnlyExtraction) ||
+                const DeepCollectionEquality().equals(
+                    other.enableKeyFrameOnlyExtraction,
+                    enableKeyFrameOnlyExtraction)) &&
             (identical(other.scanBehavior, scanBehavior) ||
                 const DeepCollectionEquality()
                     .equals(other.scanBehavior, scanBehavior)) &&
@@ -46239,6 +44697,7 @@ class TrickplayOptions {
   int get hashCode =>
       const DeepCollectionEquality().hash(enableHwAcceleration) ^
       const DeepCollectionEquality().hash(enableHwEncoding) ^
+      const DeepCollectionEquality().hash(enableKeyFrameOnlyExtraction) ^
       const DeepCollectionEquality().hash(scanBehavior) ^
       const DeepCollectionEquality().hash(processPriority) ^
       const DeepCollectionEquality().hash(interval) ^
@@ -46255,6 +44714,7 @@ extension $TrickplayOptionsExtension on TrickplayOptions {
   TrickplayOptions copyWith(
       {bool? enableHwAcceleration,
       bool? enableHwEncoding,
+      bool? enableKeyFrameOnlyExtraction,
       enums.TrickplayScanBehavior? scanBehavior,
       enums.ProcessPriorityClass? processPriority,
       int? interval,
@@ -46267,6 +44727,8 @@ extension $TrickplayOptionsExtension on TrickplayOptions {
     return TrickplayOptions(
         enableHwAcceleration: enableHwAcceleration ?? this.enableHwAcceleration,
         enableHwEncoding: enableHwEncoding ?? this.enableHwEncoding,
+        enableKeyFrameOnlyExtraction:
+            enableKeyFrameOnlyExtraction ?? this.enableKeyFrameOnlyExtraction,
         scanBehavior: scanBehavior ?? this.scanBehavior,
         processPriority: processPriority ?? this.processPriority,
         interval: interval ?? this.interval,
@@ -46281,6 +44743,7 @@ extension $TrickplayOptionsExtension on TrickplayOptions {
   TrickplayOptions copyWithWrapped(
       {Wrapped<bool?>? enableHwAcceleration,
       Wrapped<bool?>? enableHwEncoding,
+      Wrapped<bool?>? enableKeyFrameOnlyExtraction,
       Wrapped<enums.TrickplayScanBehavior?>? scanBehavior,
       Wrapped<enums.ProcessPriorityClass?>? processPriority,
       Wrapped<int?>? interval,
@@ -46297,6 +44760,9 @@ extension $TrickplayOptionsExtension on TrickplayOptions {
         enableHwEncoding: (enableHwEncoding != null
             ? enableHwEncoding.value
             : this.enableHwEncoding),
+        enableKeyFrameOnlyExtraction: (enableKeyFrameOnlyExtraction != null
+            ? enableKeyFrameOnlyExtraction.value
+            : this.enableKeyFrameOnlyExtraction),
         scanBehavior:
             (scanBehavior != null ? scanBehavior.value : this.scanBehavior),
         processPriority: (processPriority != null
@@ -46410,6 +44876,9 @@ class TunerHostInfo {
     this.friendlyName,
     this.importFavoritesOnly,
     this.allowHWTranscoding,
+    this.allowFmp4TranscodingContainer,
+    this.allowStreamSharing,
+    this.fallbackMaxStreamingBitrate,
     this.enableStreamLooping,
     this.source,
     this.tunerCount,
@@ -46437,6 +44906,12 @@ class TunerHostInfo {
   final bool? importFavoritesOnly;
   @JsonKey(name: 'AllowHWTranscoding', includeIfNull: false)
   final bool? allowHWTranscoding;
+  @JsonKey(name: 'AllowFmp4TranscodingContainer', includeIfNull: false)
+  final bool? allowFmp4TranscodingContainer;
+  @JsonKey(name: 'AllowStreamSharing', includeIfNull: false)
+  final bool? allowStreamSharing;
+  @JsonKey(name: 'FallbackMaxStreamingBitrate', includeIfNull: false)
+  final int? fallbackMaxStreamingBitrate;
   @JsonKey(name: 'EnableStreamLooping', includeIfNull: false)
   final bool? enableStreamLooping;
   @JsonKey(name: 'Source', includeIfNull: false)
@@ -46471,6 +44946,19 @@ class TunerHostInfo {
             (identical(other.allowHWTranscoding, allowHWTranscoding) ||
                 const DeepCollectionEquality()
                     .equals(other.allowHWTranscoding, allowHWTranscoding)) &&
+            (identical(other.allowFmp4TranscodingContainer,
+                    allowFmp4TranscodingContainer) ||
+                const DeepCollectionEquality().equals(
+                    other.allowFmp4TranscodingContainer,
+                    allowFmp4TranscodingContainer)) &&
+            (identical(other.allowStreamSharing, allowStreamSharing) ||
+                const DeepCollectionEquality()
+                    .equals(other.allowStreamSharing, allowStreamSharing)) &&
+            (identical(other.fallbackMaxStreamingBitrate,
+                    fallbackMaxStreamingBitrate) ||
+                const DeepCollectionEquality().equals(
+                    other.fallbackMaxStreamingBitrate,
+                    fallbackMaxStreamingBitrate)) &&
             (identical(other.enableStreamLooping, enableStreamLooping) ||
                 const DeepCollectionEquality()
                     .equals(other.enableStreamLooping, enableStreamLooping)) &&
@@ -46499,6 +44987,9 @@ class TunerHostInfo {
       const DeepCollectionEquality().hash(friendlyName) ^
       const DeepCollectionEquality().hash(importFavoritesOnly) ^
       const DeepCollectionEquality().hash(allowHWTranscoding) ^
+      const DeepCollectionEquality().hash(allowFmp4TranscodingContainer) ^
+      const DeepCollectionEquality().hash(allowStreamSharing) ^
+      const DeepCollectionEquality().hash(fallbackMaxStreamingBitrate) ^
       const DeepCollectionEquality().hash(enableStreamLooping) ^
       const DeepCollectionEquality().hash(source) ^
       const DeepCollectionEquality().hash(tunerCount) ^
@@ -46516,6 +45007,9 @@ extension $TunerHostInfoExtension on TunerHostInfo {
       String? friendlyName,
       bool? importFavoritesOnly,
       bool? allowHWTranscoding,
+      bool? allowFmp4TranscodingContainer,
+      bool? allowStreamSharing,
+      int? fallbackMaxStreamingBitrate,
       bool? enableStreamLooping,
       String? source,
       int? tunerCount,
@@ -46529,6 +45023,11 @@ extension $TunerHostInfoExtension on TunerHostInfo {
         friendlyName: friendlyName ?? this.friendlyName,
         importFavoritesOnly: importFavoritesOnly ?? this.importFavoritesOnly,
         allowHWTranscoding: allowHWTranscoding ?? this.allowHWTranscoding,
+        allowFmp4TranscodingContainer:
+            allowFmp4TranscodingContainer ?? this.allowFmp4TranscodingContainer,
+        allowStreamSharing: allowStreamSharing ?? this.allowStreamSharing,
+        fallbackMaxStreamingBitrate:
+            fallbackMaxStreamingBitrate ?? this.fallbackMaxStreamingBitrate,
         enableStreamLooping: enableStreamLooping ?? this.enableStreamLooping,
         source: source ?? this.source,
         tunerCount: tunerCount ?? this.tunerCount,
@@ -46544,6 +45043,9 @@ extension $TunerHostInfoExtension on TunerHostInfo {
       Wrapped<String?>? friendlyName,
       Wrapped<bool?>? importFavoritesOnly,
       Wrapped<bool?>? allowHWTranscoding,
+      Wrapped<bool?>? allowFmp4TranscodingContainer,
+      Wrapped<bool?>? allowStreamSharing,
+      Wrapped<int?>? fallbackMaxStreamingBitrate,
       Wrapped<bool?>? enableStreamLooping,
       Wrapped<String?>? source,
       Wrapped<int?>? tunerCount,
@@ -46562,6 +45064,15 @@ extension $TunerHostInfoExtension on TunerHostInfo {
         allowHWTranscoding: (allowHWTranscoding != null
             ? allowHWTranscoding.value
             : this.allowHWTranscoding),
+        allowFmp4TranscodingContainer: (allowFmp4TranscodingContainer != null
+            ? allowFmp4TranscodingContainer.value
+            : this.allowFmp4TranscodingContainer),
+        allowStreamSharing: (allowStreamSharing != null
+            ? allowStreamSharing.value
+            : this.allowStreamSharing),
+        fallbackMaxStreamingBitrate: (fallbackMaxStreamingBitrate != null
+            ? fallbackMaxStreamingBitrate.value
+            : this.fallbackMaxStreamingBitrate),
         enableStreamLooping: (enableStreamLooping != null
             ? enableStreamLooping.value
             : this.enableStreamLooping),
@@ -47945,84 +46456,6 @@ extension $UserDtoExtension on UserDto {
         primaryImageAspectRatio: (primaryImageAspectRatio != null
             ? primaryImageAspectRatio.value
             : this.primaryImageAspectRatio));
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class UserInterfaceConfiguration {
-  const UserInterfaceConfiguration({
-    this.skipButtonVisible,
-    this.skipButtonIntroText,
-    this.skipButtonEndCreditsText,
-  });
-
-  factory UserInterfaceConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$UserInterfaceConfigurationFromJson(json);
-
-  static const toJsonFactory = _$UserInterfaceConfigurationToJson;
-  Map<String, dynamic> toJson() => _$UserInterfaceConfigurationToJson(this);
-
-  @JsonKey(name: 'SkipButtonVisible', includeIfNull: false)
-  final bool? skipButtonVisible;
-  @JsonKey(name: 'SkipButtonIntroText', includeIfNull: false)
-  final String? skipButtonIntroText;
-  @JsonKey(name: 'SkipButtonEndCreditsText', includeIfNull: false)
-  final String? skipButtonEndCreditsText;
-  static const fromJsonFactory = _$UserInterfaceConfigurationFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is UserInterfaceConfiguration &&
-            (identical(other.skipButtonVisible, skipButtonVisible) ||
-                const DeepCollectionEquality()
-                    .equals(other.skipButtonVisible, skipButtonVisible)) &&
-            (identical(other.skipButtonIntroText, skipButtonIntroText) ||
-                const DeepCollectionEquality()
-                    .equals(other.skipButtonIntroText, skipButtonIntroText)) &&
-            (identical(
-                    other.skipButtonEndCreditsText, skipButtonEndCreditsText) ||
-                const DeepCollectionEquality().equals(
-                    other.skipButtonEndCreditsText, skipButtonEndCreditsText)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(skipButtonVisible) ^
-      const DeepCollectionEquality().hash(skipButtonIntroText) ^
-      const DeepCollectionEquality().hash(skipButtonEndCreditsText) ^
-      runtimeType.hashCode;
-}
-
-extension $UserInterfaceConfigurationExtension on UserInterfaceConfiguration {
-  UserInterfaceConfiguration copyWith(
-      {bool? skipButtonVisible,
-      String? skipButtonIntroText,
-      String? skipButtonEndCreditsText}) {
-    return UserInterfaceConfiguration(
-        skipButtonVisible: skipButtonVisible ?? this.skipButtonVisible,
-        skipButtonIntroText: skipButtonIntroText ?? this.skipButtonIntroText,
-        skipButtonEndCreditsText:
-            skipButtonEndCreditsText ?? this.skipButtonEndCreditsText);
-  }
-
-  UserInterfaceConfiguration copyWithWrapped(
-      {Wrapped<bool?>? skipButtonVisible,
-      Wrapped<String?>? skipButtonIntroText,
-      Wrapped<String?>? skipButtonEndCreditsText}) {
-    return UserInterfaceConfiguration(
-        skipButtonVisible: (skipButtonVisible != null
-            ? skipButtonVisible.value
-            : this.skipButtonVisible),
-        skipButtonIntroText: (skipButtonIntroText != null
-            ? skipButtonIntroText.value
-            : this.skipButtonIntroText),
-        skipButtonEndCreditsText: (skipButtonEndCreditsText != null
-            ? skipButtonEndCreditsText.value
-            : this.skipButtonEndCreditsText));
   }
 }
 
@@ -49773,70 +48206,6 @@ extension $BaseItemPerson$ImageBlurHashesExtension
   }
 }
 
-String? analysisModeNullableToJson(enums.AnalysisMode? analysisMode) {
-  return analysisMode?.value;
-}
-
-String? analysisModeToJson(enums.AnalysisMode analysisMode) {
-  return analysisMode.value;
-}
-
-enums.AnalysisMode analysisModeFromJson(
-  Object? analysisMode, [
-  enums.AnalysisMode? defaultValue,
-]) {
-  return enums.AnalysisMode.values
-          .firstWhereOrNull((e) => e.value == analysisMode) ??
-      defaultValue ??
-      enums.AnalysisMode.swaggerGeneratedUnknown;
-}
-
-enums.AnalysisMode? analysisModeNullableFromJson(
-  Object? analysisMode, [
-  enums.AnalysisMode? defaultValue,
-]) {
-  if (analysisMode == null) {
-    return null;
-  }
-  return enums.AnalysisMode.values
-          .firstWhereOrNull((e) => e.value == analysisMode) ??
-      defaultValue;
-}
-
-String analysisModeExplodedListToJson(List<enums.AnalysisMode>? analysisMode) {
-  return analysisMode?.map((e) => e.value!).join(',') ?? '';
-}
-
-List<String> analysisModeListToJson(List<enums.AnalysisMode>? analysisMode) {
-  if (analysisMode == null) {
-    return [];
-  }
-
-  return analysisMode.map((e) => e.value!).toList();
-}
-
-List<enums.AnalysisMode> analysisModeListFromJson(
-  List? analysisMode, [
-  List<enums.AnalysisMode>? defaultValue,
-]) {
-  if (analysisMode == null) {
-    return defaultValue ?? [];
-  }
-
-  return analysisMode.map((e) => analysisModeFromJson(e.toString())).toList();
-}
-
-List<enums.AnalysisMode>? analysisModeNullableListFromJson(
-  List? analysisMode, [
-  List<enums.AnalysisMode>? defaultValue,
-]) {
-  if (analysisMode == null) {
-    return defaultValue;
-  }
-
-  return analysisMode.map((e) => analysisModeFromJson(e.toString())).toList();
-}
-
 String? audioSpatialFormatNullableToJson(
     enums.AudioSpatialFormat? audioSpatialFormat) {
   return audioSpatialFormat?.value;
@@ -50582,6 +48951,77 @@ List<enums.DayPattern>? dayPatternNullableListFromJson(
   return dayPattern.map((e) => dayPatternFromJson(e.toString())).toList();
 }
 
+String? deinterlaceMethodNullableToJson(
+    enums.DeinterlaceMethod? deinterlaceMethod) {
+  return deinterlaceMethod?.value;
+}
+
+String? deinterlaceMethodToJson(enums.DeinterlaceMethod deinterlaceMethod) {
+  return deinterlaceMethod.value;
+}
+
+enums.DeinterlaceMethod deinterlaceMethodFromJson(
+  Object? deinterlaceMethod, [
+  enums.DeinterlaceMethod? defaultValue,
+]) {
+  return enums.DeinterlaceMethod.values
+          .firstWhereOrNull((e) => e.value == deinterlaceMethod) ??
+      defaultValue ??
+      enums.DeinterlaceMethod.swaggerGeneratedUnknown;
+}
+
+enums.DeinterlaceMethod? deinterlaceMethodNullableFromJson(
+  Object? deinterlaceMethod, [
+  enums.DeinterlaceMethod? defaultValue,
+]) {
+  if (deinterlaceMethod == null) {
+    return null;
+  }
+  return enums.DeinterlaceMethod.values
+          .firstWhereOrNull((e) => e.value == deinterlaceMethod) ??
+      defaultValue;
+}
+
+String deinterlaceMethodExplodedListToJson(
+    List<enums.DeinterlaceMethod>? deinterlaceMethod) {
+  return deinterlaceMethod?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> deinterlaceMethodListToJson(
+    List<enums.DeinterlaceMethod>? deinterlaceMethod) {
+  if (deinterlaceMethod == null) {
+    return [];
+  }
+
+  return deinterlaceMethod.map((e) => e.value!).toList();
+}
+
+List<enums.DeinterlaceMethod> deinterlaceMethodListFromJson(
+  List? deinterlaceMethod, [
+  List<enums.DeinterlaceMethod>? defaultValue,
+]) {
+  if (deinterlaceMethod == null) {
+    return defaultValue ?? [];
+  }
+
+  return deinterlaceMethod
+      .map((e) => deinterlaceMethodFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.DeinterlaceMethod>? deinterlaceMethodNullableListFromJson(
+  List? deinterlaceMethod, [
+  List<enums.DeinterlaceMethod>? defaultValue,
+]) {
+  if (deinterlaceMethod == null) {
+    return defaultValue;
+  }
+
+  return deinterlaceMethod
+      .map((e) => deinterlaceMethodFromJson(e.toString()))
+      .toList();
+}
+
 String? dlnaProfileTypeNullableToJson(enums.DlnaProfileType? dlnaProfileType) {
   return dlnaProfileType?.value;
 }
@@ -50867,6 +49307,71 @@ List<enums.EmbeddedSubtitleOptions>?
   return embeddedSubtitleOptions
       .map((e) => embeddedSubtitleOptionsFromJson(e.toString()))
       .toList();
+}
+
+String? encoderPresetNullableToJson(enums.EncoderPreset? encoderPreset) {
+  return encoderPreset?.value;
+}
+
+String? encoderPresetToJson(enums.EncoderPreset encoderPreset) {
+  return encoderPreset.value;
+}
+
+enums.EncoderPreset encoderPresetFromJson(
+  Object? encoderPreset, [
+  enums.EncoderPreset? defaultValue,
+]) {
+  return enums.EncoderPreset.values
+          .firstWhereOrNull((e) => e.value == encoderPreset) ??
+      defaultValue ??
+      enums.EncoderPreset.swaggerGeneratedUnknown;
+}
+
+enums.EncoderPreset? encoderPresetNullableFromJson(
+  Object? encoderPreset, [
+  enums.EncoderPreset? defaultValue,
+]) {
+  if (encoderPreset == null) {
+    return null;
+  }
+  return enums.EncoderPreset.values
+          .firstWhereOrNull((e) => e.value == encoderPreset) ??
+      defaultValue;
+}
+
+String encoderPresetExplodedListToJson(
+    List<enums.EncoderPreset>? encoderPreset) {
+  return encoderPreset?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> encoderPresetListToJson(List<enums.EncoderPreset>? encoderPreset) {
+  if (encoderPreset == null) {
+    return [];
+  }
+
+  return encoderPreset.map((e) => e.value!).toList();
+}
+
+List<enums.EncoderPreset> encoderPresetListFromJson(
+  List? encoderPreset, [
+  List<enums.EncoderPreset>? defaultValue,
+]) {
+  if (encoderPreset == null) {
+    return defaultValue ?? [];
+  }
+
+  return encoderPreset.map((e) => encoderPresetFromJson(e.toString())).toList();
+}
+
+List<enums.EncoderPreset>? encoderPresetNullableListFromJson(
+  List? encoderPreset, [
+  List<enums.EncoderPreset>? defaultValue,
+]) {
+  if (encoderPreset == null) {
+    return defaultValue;
+  }
+
+  return encoderPreset.map((e) => encoderPresetFromJson(e.toString())).toList();
 }
 
 String? encodingContextNullableToJson(enums.EncodingContext? encodingContext) {
@@ -51639,75 +50144,76 @@ List<enums.GroupUpdateType>? groupUpdateTypeNullableListFromJson(
       .toList();
 }
 
-String? hardwareEncodingTypeNullableToJson(
-    enums.HardwareEncodingType? hardwareEncodingType) {
-  return hardwareEncodingType?.value;
+String? hardwareAccelerationTypeNullableToJson(
+    enums.HardwareAccelerationType? hardwareAccelerationType) {
+  return hardwareAccelerationType?.value;
 }
 
-String? hardwareEncodingTypeToJson(
-    enums.HardwareEncodingType hardwareEncodingType) {
-  return hardwareEncodingType.value;
+String? hardwareAccelerationTypeToJson(
+    enums.HardwareAccelerationType hardwareAccelerationType) {
+  return hardwareAccelerationType.value;
 }
 
-enums.HardwareEncodingType hardwareEncodingTypeFromJson(
-  Object? hardwareEncodingType, [
-  enums.HardwareEncodingType? defaultValue,
+enums.HardwareAccelerationType hardwareAccelerationTypeFromJson(
+  Object? hardwareAccelerationType, [
+  enums.HardwareAccelerationType? defaultValue,
 ]) {
-  return enums.HardwareEncodingType.values
-          .firstWhereOrNull((e) => e.value == hardwareEncodingType) ??
+  return enums.HardwareAccelerationType.values
+          .firstWhereOrNull((e) => e.value == hardwareAccelerationType) ??
       defaultValue ??
-      enums.HardwareEncodingType.swaggerGeneratedUnknown;
+      enums.HardwareAccelerationType.swaggerGeneratedUnknown;
 }
 
-enums.HardwareEncodingType? hardwareEncodingTypeNullableFromJson(
-  Object? hardwareEncodingType, [
-  enums.HardwareEncodingType? defaultValue,
+enums.HardwareAccelerationType? hardwareAccelerationTypeNullableFromJson(
+  Object? hardwareAccelerationType, [
+  enums.HardwareAccelerationType? defaultValue,
 ]) {
-  if (hardwareEncodingType == null) {
+  if (hardwareAccelerationType == null) {
     return null;
   }
-  return enums.HardwareEncodingType.values
-          .firstWhereOrNull((e) => e.value == hardwareEncodingType) ??
+  return enums.HardwareAccelerationType.values
+          .firstWhereOrNull((e) => e.value == hardwareAccelerationType) ??
       defaultValue;
 }
 
-String hardwareEncodingTypeExplodedListToJson(
-    List<enums.HardwareEncodingType>? hardwareEncodingType) {
-  return hardwareEncodingType?.map((e) => e.value!).join(',') ?? '';
+String hardwareAccelerationTypeExplodedListToJson(
+    List<enums.HardwareAccelerationType>? hardwareAccelerationType) {
+  return hardwareAccelerationType?.map((e) => e.value!).join(',') ?? '';
 }
 
-List<String> hardwareEncodingTypeListToJson(
-    List<enums.HardwareEncodingType>? hardwareEncodingType) {
-  if (hardwareEncodingType == null) {
+List<String> hardwareAccelerationTypeListToJson(
+    List<enums.HardwareAccelerationType>? hardwareAccelerationType) {
+  if (hardwareAccelerationType == null) {
     return [];
   }
 
-  return hardwareEncodingType.map((e) => e.value!).toList();
+  return hardwareAccelerationType.map((e) => e.value!).toList();
 }
 
-List<enums.HardwareEncodingType> hardwareEncodingTypeListFromJson(
-  List? hardwareEncodingType, [
-  List<enums.HardwareEncodingType>? defaultValue,
+List<enums.HardwareAccelerationType> hardwareAccelerationTypeListFromJson(
+  List? hardwareAccelerationType, [
+  List<enums.HardwareAccelerationType>? defaultValue,
 ]) {
-  if (hardwareEncodingType == null) {
+  if (hardwareAccelerationType == null) {
     return defaultValue ?? [];
   }
 
-  return hardwareEncodingType
-      .map((e) => hardwareEncodingTypeFromJson(e.toString()))
+  return hardwareAccelerationType
+      .map((e) => hardwareAccelerationTypeFromJson(e.toString()))
       .toList();
 }
 
-List<enums.HardwareEncodingType>? hardwareEncodingTypeNullableListFromJson(
-  List? hardwareEncodingType, [
-  List<enums.HardwareEncodingType>? defaultValue,
+List<enums.HardwareAccelerationType>?
+    hardwareAccelerationTypeNullableListFromJson(
+  List? hardwareAccelerationType, [
+  List<enums.HardwareAccelerationType>? defaultValue,
 ]) {
-  if (hardwareEncodingType == null) {
+  if (hardwareAccelerationType == null) {
     return defaultValue;
   }
 
-  return hardwareEncodingType
-      .map((e) => hardwareEncodingTypeFromJson(e.toString()))
+  return hardwareAccelerationType
+      .map((e) => hardwareAccelerationTypeFromJson(e.toString()))
       .toList();
 }
 
@@ -52627,6 +51133,77 @@ List<enums.MediaProtocol>? mediaProtocolNullableListFromJson(
   }
 
   return mediaProtocol.map((e) => mediaProtocolFromJson(e.toString())).toList();
+}
+
+String? mediaSegmentTypeNullableToJson(
+    enums.MediaSegmentType? mediaSegmentType) {
+  return mediaSegmentType?.value;
+}
+
+String? mediaSegmentTypeToJson(enums.MediaSegmentType mediaSegmentType) {
+  return mediaSegmentType.value;
+}
+
+enums.MediaSegmentType mediaSegmentTypeFromJson(
+  Object? mediaSegmentType, [
+  enums.MediaSegmentType? defaultValue,
+]) {
+  return enums.MediaSegmentType.values
+          .firstWhereOrNull((e) => e.value == mediaSegmentType) ??
+      defaultValue ??
+      enums.MediaSegmentType.swaggerGeneratedUnknown;
+}
+
+enums.MediaSegmentType? mediaSegmentTypeNullableFromJson(
+  Object? mediaSegmentType, [
+  enums.MediaSegmentType? defaultValue,
+]) {
+  if (mediaSegmentType == null) {
+    return null;
+  }
+  return enums.MediaSegmentType.values
+          .firstWhereOrNull((e) => e.value == mediaSegmentType) ??
+      defaultValue;
+}
+
+String mediaSegmentTypeExplodedListToJson(
+    List<enums.MediaSegmentType>? mediaSegmentType) {
+  return mediaSegmentType?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> mediaSegmentTypeListToJson(
+    List<enums.MediaSegmentType>? mediaSegmentType) {
+  if (mediaSegmentType == null) {
+    return [];
+  }
+
+  return mediaSegmentType.map((e) => e.value!).toList();
+}
+
+List<enums.MediaSegmentType> mediaSegmentTypeListFromJson(
+  List? mediaSegmentType, [
+  List<enums.MediaSegmentType>? defaultValue,
+]) {
+  if (mediaSegmentType == null) {
+    return defaultValue ?? [];
+  }
+
+  return mediaSegmentType
+      .map((e) => mediaSegmentTypeFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.MediaSegmentType>? mediaSegmentTypeNullableListFromJson(
+  List? mediaSegmentType, [
+  List<enums.MediaSegmentType>? defaultValue,
+]) {
+  if (mediaSegmentType == null) {
+    return defaultValue;
+  }
+
+  return mediaSegmentType
+      .map((e) => mediaSegmentTypeFromJson(e.toString()))
+      .toList();
 }
 
 String? mediaSourceTypeNullableToJson(enums.MediaSourceType? mediaSourceType) {
@@ -54945,6 +53522,219 @@ List<enums.TaskState>? taskStateNullableListFromJson(
   }
 
   return taskState.map((e) => taskStateFromJson(e.toString())).toList();
+}
+
+String? tonemappingAlgorithmNullableToJson(
+    enums.TonemappingAlgorithm? tonemappingAlgorithm) {
+  return tonemappingAlgorithm?.value;
+}
+
+String? tonemappingAlgorithmToJson(
+    enums.TonemappingAlgorithm tonemappingAlgorithm) {
+  return tonemappingAlgorithm.value;
+}
+
+enums.TonemappingAlgorithm tonemappingAlgorithmFromJson(
+  Object? tonemappingAlgorithm, [
+  enums.TonemappingAlgorithm? defaultValue,
+]) {
+  return enums.TonemappingAlgorithm.values
+          .firstWhereOrNull((e) => e.value == tonemappingAlgorithm) ??
+      defaultValue ??
+      enums.TonemappingAlgorithm.swaggerGeneratedUnknown;
+}
+
+enums.TonemappingAlgorithm? tonemappingAlgorithmNullableFromJson(
+  Object? tonemappingAlgorithm, [
+  enums.TonemappingAlgorithm? defaultValue,
+]) {
+  if (tonemappingAlgorithm == null) {
+    return null;
+  }
+  return enums.TonemappingAlgorithm.values
+          .firstWhereOrNull((e) => e.value == tonemappingAlgorithm) ??
+      defaultValue;
+}
+
+String tonemappingAlgorithmExplodedListToJson(
+    List<enums.TonemappingAlgorithm>? tonemappingAlgorithm) {
+  return tonemappingAlgorithm?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> tonemappingAlgorithmListToJson(
+    List<enums.TonemappingAlgorithm>? tonemappingAlgorithm) {
+  if (tonemappingAlgorithm == null) {
+    return [];
+  }
+
+  return tonemappingAlgorithm.map((e) => e.value!).toList();
+}
+
+List<enums.TonemappingAlgorithm> tonemappingAlgorithmListFromJson(
+  List? tonemappingAlgorithm, [
+  List<enums.TonemappingAlgorithm>? defaultValue,
+]) {
+  if (tonemappingAlgorithm == null) {
+    return defaultValue ?? [];
+  }
+
+  return tonemappingAlgorithm
+      .map((e) => tonemappingAlgorithmFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.TonemappingAlgorithm>? tonemappingAlgorithmNullableListFromJson(
+  List? tonemappingAlgorithm, [
+  List<enums.TonemappingAlgorithm>? defaultValue,
+]) {
+  if (tonemappingAlgorithm == null) {
+    return defaultValue;
+  }
+
+  return tonemappingAlgorithm
+      .map((e) => tonemappingAlgorithmFromJson(e.toString()))
+      .toList();
+}
+
+String? tonemappingModeNullableToJson(enums.TonemappingMode? tonemappingMode) {
+  return tonemappingMode?.value;
+}
+
+String? tonemappingModeToJson(enums.TonemappingMode tonemappingMode) {
+  return tonemappingMode.value;
+}
+
+enums.TonemappingMode tonemappingModeFromJson(
+  Object? tonemappingMode, [
+  enums.TonemappingMode? defaultValue,
+]) {
+  return enums.TonemappingMode.values
+          .firstWhereOrNull((e) => e.value == tonemappingMode) ??
+      defaultValue ??
+      enums.TonemappingMode.swaggerGeneratedUnknown;
+}
+
+enums.TonemappingMode? tonemappingModeNullableFromJson(
+  Object? tonemappingMode, [
+  enums.TonemappingMode? defaultValue,
+]) {
+  if (tonemappingMode == null) {
+    return null;
+  }
+  return enums.TonemappingMode.values
+          .firstWhereOrNull((e) => e.value == tonemappingMode) ??
+      defaultValue;
+}
+
+String tonemappingModeExplodedListToJson(
+    List<enums.TonemappingMode>? tonemappingMode) {
+  return tonemappingMode?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> tonemappingModeListToJson(
+    List<enums.TonemappingMode>? tonemappingMode) {
+  if (tonemappingMode == null) {
+    return [];
+  }
+
+  return tonemappingMode.map((e) => e.value!).toList();
+}
+
+List<enums.TonemappingMode> tonemappingModeListFromJson(
+  List? tonemappingMode, [
+  List<enums.TonemappingMode>? defaultValue,
+]) {
+  if (tonemappingMode == null) {
+    return defaultValue ?? [];
+  }
+
+  return tonemappingMode
+      .map((e) => tonemappingModeFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.TonemappingMode>? tonemappingModeNullableListFromJson(
+  List? tonemappingMode, [
+  List<enums.TonemappingMode>? defaultValue,
+]) {
+  if (tonemappingMode == null) {
+    return defaultValue;
+  }
+
+  return tonemappingMode
+      .map((e) => tonemappingModeFromJson(e.toString()))
+      .toList();
+}
+
+String? tonemappingRangeNullableToJson(
+    enums.TonemappingRange? tonemappingRange) {
+  return tonemappingRange?.value;
+}
+
+String? tonemappingRangeToJson(enums.TonemappingRange tonemappingRange) {
+  return tonemappingRange.value;
+}
+
+enums.TonemappingRange tonemappingRangeFromJson(
+  Object? tonemappingRange, [
+  enums.TonemappingRange? defaultValue,
+]) {
+  return enums.TonemappingRange.values
+          .firstWhereOrNull((e) => e.value == tonemappingRange) ??
+      defaultValue ??
+      enums.TonemappingRange.swaggerGeneratedUnknown;
+}
+
+enums.TonemappingRange? tonemappingRangeNullableFromJson(
+  Object? tonemappingRange, [
+  enums.TonemappingRange? defaultValue,
+]) {
+  if (tonemappingRange == null) {
+    return null;
+  }
+  return enums.TonemappingRange.values
+          .firstWhereOrNull((e) => e.value == tonemappingRange) ??
+      defaultValue;
+}
+
+String tonemappingRangeExplodedListToJson(
+    List<enums.TonemappingRange>? tonemappingRange) {
+  return tonemappingRange?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> tonemappingRangeListToJson(
+    List<enums.TonemappingRange>? tonemappingRange) {
+  if (tonemappingRange == null) {
+    return [];
+  }
+
+  return tonemappingRange.map((e) => e.value!).toList();
+}
+
+List<enums.TonemappingRange> tonemappingRangeListFromJson(
+  List? tonemappingRange, [
+  List<enums.TonemappingRange>? defaultValue,
+]) {
+  if (tonemappingRange == null) {
+    return defaultValue ?? [];
+  }
+
+  return tonemappingRange
+      .map((e) => tonemappingRangeFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.TonemappingRange>? tonemappingRangeNullableListFromJson(
+  List? tonemappingRange, [
+  List<enums.TonemappingRange>? defaultValue,
+]) {
+  if (tonemappingRange == null) {
+    return defaultValue;
+  }
+
+  return tonemappingRange
+      .map((e) => tonemappingRangeFromJson(e.toString()))
+      .toList();
 }
 
 String? transcodeReasonNullableToJson(enums.TranscodeReason? transcodeReason) {
@@ -64457,309 +63247,6 @@ List<enums.SessionsSessionIdViewingPostItemType>?
 
   return sessionsSessionIdViewingPostItemType
       .map((e) => sessionsSessionIdViewingPostItemTypeFromJson(e.toString()))
-      .toList();
-}
-
-String? episodeIdIntroTimestampsGetModeNullableToJson(
-    enums.EpisodeIdIntroTimestampsGetMode? episodeIdIntroTimestampsGetMode) {
-  return episodeIdIntroTimestampsGetMode?.value;
-}
-
-String? episodeIdIntroTimestampsGetModeToJson(
-    enums.EpisodeIdIntroTimestampsGetMode episodeIdIntroTimestampsGetMode) {
-  return episodeIdIntroTimestampsGetMode.value;
-}
-
-enums.EpisodeIdIntroTimestampsGetMode episodeIdIntroTimestampsGetModeFromJson(
-  Object? episodeIdIntroTimestampsGetMode, [
-  enums.EpisodeIdIntroTimestampsGetMode? defaultValue,
-]) {
-  return enums.EpisodeIdIntroTimestampsGetMode.values.firstWhereOrNull(
-          (e) => e.value == episodeIdIntroTimestampsGetMode) ??
-      defaultValue ??
-      enums.EpisodeIdIntroTimestampsGetMode.swaggerGeneratedUnknown;
-}
-
-enums.EpisodeIdIntroTimestampsGetMode?
-    episodeIdIntroTimestampsGetModeNullableFromJson(
-  Object? episodeIdIntroTimestampsGetMode, [
-  enums.EpisodeIdIntroTimestampsGetMode? defaultValue,
-]) {
-  if (episodeIdIntroTimestampsGetMode == null) {
-    return null;
-  }
-  return enums.EpisodeIdIntroTimestampsGetMode.values.firstWhereOrNull(
-          (e) => e.value == episodeIdIntroTimestampsGetMode) ??
-      defaultValue;
-}
-
-String episodeIdIntroTimestampsGetModeExplodedListToJson(
-    List<enums.EpisodeIdIntroTimestampsGetMode>?
-        episodeIdIntroTimestampsGetMode) {
-  return episodeIdIntroTimestampsGetMode?.map((e) => e.value!).join(',') ?? '';
-}
-
-List<String> episodeIdIntroTimestampsGetModeListToJson(
-    List<enums.EpisodeIdIntroTimestampsGetMode>?
-        episodeIdIntroTimestampsGetMode) {
-  if (episodeIdIntroTimestampsGetMode == null) {
-    return [];
-  }
-
-  return episodeIdIntroTimestampsGetMode.map((e) => e.value!).toList();
-}
-
-List<enums.EpisodeIdIntroTimestampsGetMode>
-    episodeIdIntroTimestampsGetModeListFromJson(
-  List? episodeIdIntroTimestampsGetMode, [
-  List<enums.EpisodeIdIntroTimestampsGetMode>? defaultValue,
-]) {
-  if (episodeIdIntroTimestampsGetMode == null) {
-    return defaultValue ?? [];
-  }
-
-  return episodeIdIntroTimestampsGetMode
-      .map((e) => episodeIdIntroTimestampsGetModeFromJson(e.toString()))
-      .toList();
-}
-
-List<enums.EpisodeIdIntroTimestampsGetMode>?
-    episodeIdIntroTimestampsGetModeNullableListFromJson(
-  List? episodeIdIntroTimestampsGetMode, [
-  List<enums.EpisodeIdIntroTimestampsGetMode>? defaultValue,
-]) {
-  if (episodeIdIntroTimestampsGetMode == null) {
-    return defaultValue;
-  }
-
-  return episodeIdIntroTimestampsGetMode
-      .map((e) => episodeIdIntroTimestampsGetModeFromJson(e.toString()))
-      .toList();
-}
-
-String? episodeIdIntroTimestampsV1GetModeNullableToJson(
-    enums.EpisodeIdIntroTimestampsV1GetMode?
-        episodeIdIntroTimestampsV1GetMode) {
-  return episodeIdIntroTimestampsV1GetMode?.value;
-}
-
-String? episodeIdIntroTimestampsV1GetModeToJson(
-    enums.EpisodeIdIntroTimestampsV1GetMode episodeIdIntroTimestampsV1GetMode) {
-  return episodeIdIntroTimestampsV1GetMode.value;
-}
-
-enums.EpisodeIdIntroTimestampsV1GetMode
-    episodeIdIntroTimestampsV1GetModeFromJson(
-  Object? episodeIdIntroTimestampsV1GetMode, [
-  enums.EpisodeIdIntroTimestampsV1GetMode? defaultValue,
-]) {
-  return enums.EpisodeIdIntroTimestampsV1GetMode.values.firstWhereOrNull(
-          (e) => e.value == episodeIdIntroTimestampsV1GetMode) ??
-      defaultValue ??
-      enums.EpisodeIdIntroTimestampsV1GetMode.swaggerGeneratedUnknown;
-}
-
-enums.EpisodeIdIntroTimestampsV1GetMode?
-    episodeIdIntroTimestampsV1GetModeNullableFromJson(
-  Object? episodeIdIntroTimestampsV1GetMode, [
-  enums.EpisodeIdIntroTimestampsV1GetMode? defaultValue,
-]) {
-  if (episodeIdIntroTimestampsV1GetMode == null) {
-    return null;
-  }
-  return enums.EpisodeIdIntroTimestampsV1GetMode.values.firstWhereOrNull(
-          (e) => e.value == episodeIdIntroTimestampsV1GetMode) ??
-      defaultValue;
-}
-
-String episodeIdIntroTimestampsV1GetModeExplodedListToJson(
-    List<enums.EpisodeIdIntroTimestampsV1GetMode>?
-        episodeIdIntroTimestampsV1GetMode) {
-  return episodeIdIntroTimestampsV1GetMode?.map((e) => e.value!).join(',') ??
-      '';
-}
-
-List<String> episodeIdIntroTimestampsV1GetModeListToJson(
-    List<enums.EpisodeIdIntroTimestampsV1GetMode>?
-        episodeIdIntroTimestampsV1GetMode) {
-  if (episodeIdIntroTimestampsV1GetMode == null) {
-    return [];
-  }
-
-  return episodeIdIntroTimestampsV1GetMode.map((e) => e.value!).toList();
-}
-
-List<enums.EpisodeIdIntroTimestampsV1GetMode>
-    episodeIdIntroTimestampsV1GetModeListFromJson(
-  List? episodeIdIntroTimestampsV1GetMode, [
-  List<enums.EpisodeIdIntroTimestampsV1GetMode>? defaultValue,
-]) {
-  if (episodeIdIntroTimestampsV1GetMode == null) {
-    return defaultValue ?? [];
-  }
-
-  return episodeIdIntroTimestampsV1GetMode
-      .map((e) => episodeIdIntroTimestampsV1GetModeFromJson(e.toString()))
-      .toList();
-}
-
-List<enums.EpisodeIdIntroTimestampsV1GetMode>?
-    episodeIdIntroTimestampsV1GetModeNullableListFromJson(
-  List? episodeIdIntroTimestampsV1GetMode, [
-  List<enums.EpisodeIdIntroTimestampsV1GetMode>? defaultValue,
-]) {
-  if (episodeIdIntroTimestampsV1GetMode == null) {
-    return defaultValue;
-  }
-
-  return episodeIdIntroTimestampsV1GetMode
-      .map((e) => episodeIdIntroTimestampsV1GetModeFromJson(e.toString()))
-      .toList();
-}
-
-String? introsAllGetModeNullableToJson(
-    enums.IntrosAllGetMode? introsAllGetMode) {
-  return introsAllGetMode?.value;
-}
-
-String? introsAllGetModeToJson(enums.IntrosAllGetMode introsAllGetMode) {
-  return introsAllGetMode.value;
-}
-
-enums.IntrosAllGetMode introsAllGetModeFromJson(
-  Object? introsAllGetMode, [
-  enums.IntrosAllGetMode? defaultValue,
-]) {
-  return enums.IntrosAllGetMode.values
-          .firstWhereOrNull((e) => e.value == introsAllGetMode) ??
-      defaultValue ??
-      enums.IntrosAllGetMode.swaggerGeneratedUnknown;
-}
-
-enums.IntrosAllGetMode? introsAllGetModeNullableFromJson(
-  Object? introsAllGetMode, [
-  enums.IntrosAllGetMode? defaultValue,
-]) {
-  if (introsAllGetMode == null) {
-    return null;
-  }
-  return enums.IntrosAllGetMode.values
-          .firstWhereOrNull((e) => e.value == introsAllGetMode) ??
-      defaultValue;
-}
-
-String introsAllGetModeExplodedListToJson(
-    List<enums.IntrosAllGetMode>? introsAllGetMode) {
-  return introsAllGetMode?.map((e) => e.value!).join(',') ?? '';
-}
-
-List<String> introsAllGetModeListToJson(
-    List<enums.IntrosAllGetMode>? introsAllGetMode) {
-  if (introsAllGetMode == null) {
-    return [];
-  }
-
-  return introsAllGetMode.map((e) => e.value!).toList();
-}
-
-List<enums.IntrosAllGetMode> introsAllGetModeListFromJson(
-  List? introsAllGetMode, [
-  List<enums.IntrosAllGetMode>? defaultValue,
-]) {
-  if (introsAllGetMode == null) {
-    return defaultValue ?? [];
-  }
-
-  return introsAllGetMode
-      .map((e) => introsAllGetModeFromJson(e.toString()))
-      .toList();
-}
-
-List<enums.IntrosAllGetMode>? introsAllGetModeNullableListFromJson(
-  List? introsAllGetMode, [
-  List<enums.IntrosAllGetMode>? defaultValue,
-]) {
-  if (introsAllGetMode == null) {
-    return defaultValue;
-  }
-
-  return introsAllGetMode
-      .map((e) => introsAllGetModeFromJson(e.toString()))
-      .toList();
-}
-
-String? introsEraseTimestampsPostModeNullableToJson(
-    enums.IntrosEraseTimestampsPostMode? introsEraseTimestampsPostMode) {
-  return introsEraseTimestampsPostMode?.value;
-}
-
-String? introsEraseTimestampsPostModeToJson(
-    enums.IntrosEraseTimestampsPostMode introsEraseTimestampsPostMode) {
-  return introsEraseTimestampsPostMode.value;
-}
-
-enums.IntrosEraseTimestampsPostMode introsEraseTimestampsPostModeFromJson(
-  Object? introsEraseTimestampsPostMode, [
-  enums.IntrosEraseTimestampsPostMode? defaultValue,
-]) {
-  return enums.IntrosEraseTimestampsPostMode.values
-          .firstWhereOrNull((e) => e.value == introsEraseTimestampsPostMode) ??
-      defaultValue ??
-      enums.IntrosEraseTimestampsPostMode.swaggerGeneratedUnknown;
-}
-
-enums.IntrosEraseTimestampsPostMode?
-    introsEraseTimestampsPostModeNullableFromJson(
-  Object? introsEraseTimestampsPostMode, [
-  enums.IntrosEraseTimestampsPostMode? defaultValue,
-]) {
-  if (introsEraseTimestampsPostMode == null) {
-    return null;
-  }
-  return enums.IntrosEraseTimestampsPostMode.values
-          .firstWhereOrNull((e) => e.value == introsEraseTimestampsPostMode) ??
-      defaultValue;
-}
-
-String introsEraseTimestampsPostModeExplodedListToJson(
-    List<enums.IntrosEraseTimestampsPostMode>? introsEraseTimestampsPostMode) {
-  return introsEraseTimestampsPostMode?.map((e) => e.value!).join(',') ?? '';
-}
-
-List<String> introsEraseTimestampsPostModeListToJson(
-    List<enums.IntrosEraseTimestampsPostMode>? introsEraseTimestampsPostMode) {
-  if (introsEraseTimestampsPostMode == null) {
-    return [];
-  }
-
-  return introsEraseTimestampsPostMode.map((e) => e.value!).toList();
-}
-
-List<enums.IntrosEraseTimestampsPostMode>
-    introsEraseTimestampsPostModeListFromJson(
-  List? introsEraseTimestampsPostMode, [
-  List<enums.IntrosEraseTimestampsPostMode>? defaultValue,
-]) {
-  if (introsEraseTimestampsPostMode == null) {
-    return defaultValue ?? [];
-  }
-
-  return introsEraseTimestampsPostMode
-      .map((e) => introsEraseTimestampsPostModeFromJson(e.toString()))
-      .toList();
-}
-
-List<enums.IntrosEraseTimestampsPostMode>?
-    introsEraseTimestampsPostModeNullableListFromJson(
-  List? introsEraseTimestampsPostMode, [
-  List<enums.IntrosEraseTimestampsPostMode>? defaultValue,
-]) {
-  if (introsEraseTimestampsPostMode == null) {
-    return defaultValue;
-  }
-
-  return introsEraseTimestampsPostMode
-      .map((e) => introsEraseTimestampsPostModeFromJson(e.toString()))
       .toList();
 }
 

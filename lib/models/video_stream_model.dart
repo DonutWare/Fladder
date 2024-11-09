@@ -1,16 +1,17 @@
+import 'package:flutter/material.dart';
+
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:collection/collection.dart';
 import 'package:ficonsax/ficonsax.dart';
-import 'package:fladder/models/items/item_stream_model.dart';
-import 'package:fladder/models/syncing/sync_item.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:media_kit/media_kit.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/items/chapters_model.dart';
-import 'package:fladder/models/items/intro_skip_model.dart';
+import 'package:fladder/models/items/item_stream_model.dart';
+import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
+import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/providers/user_provider.dart';
 
 enum PlaybackType {
@@ -100,7 +101,7 @@ class VideoStream {
   final String playSessionId;
   final List<Chapter>? chapters;
   final List<Chapter>? trickPlay;
-  final IntroSkipModel? introSkipModel;
+  final MediaSegmentsModel? mediaSegments;
   final int? audioStreamIndex;
   final int? subtitleStreamIndex;
   final MediaStreamsModel? mediaStreamsModel;
@@ -129,7 +130,7 @@ class VideoStream {
     required this.playSessionId,
     this.chapters,
     this.trickPlay,
-    this.introSkipModel,
+    this.mediaSegments,
     this.audioStreamIndex,
     this.subtitleStreamIndex,
     this.mediaStreamsModel,
@@ -143,7 +144,7 @@ class VideoStream {
     String? playSessionId,
     List<Chapter>? chapters,
     List<Chapter>? trickPlay,
-    IntroSkipModel? introSkipModel,
+    MediaSegmentsModel? mediaSegments,
     int? audioStreamIndex,
     int? subtitleStreamIndex,
     MediaStreamsModel? mediaStreamsModel,
@@ -156,7 +157,7 @@ class VideoStream {
       playSessionId: playSessionId ?? this.playSessionId,
       chapters: chapters ?? this.chapters,
       trickPlay: trickPlay ?? this.trickPlay,
-      introSkipModel: introSkipModel ?? this.introSkipModel,
+      mediaSegments: mediaSegments ?? this.mediaSegments,
       audioStreamIndex: audioStreamIndex ?? this.audioStreamIndex,
       subtitleStreamIndex: subtitleStreamIndex ?? this.subtitleStreamIndex,
       mediaStreamsModel: mediaStreamsModel ?? this.mediaStreamsModel,

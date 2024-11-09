@@ -304,6 +304,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
     int? videoStreamIndex,
     String? context,
     Object? streamOptions,
+    bool? enableAudioVbrEncoding,
   }) {
     final Uri $url = Uri.parse('/Audio/${itemId}/stream');
     final Map<String, dynamic> $params = <String, dynamic>{
@@ -355,6 +356,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
       'videoStreamIndex': videoStreamIndex,
       'context': context,
       'streamOptions': streamOptions,
+      'enableAudioVbrEncoding': enableAudioVbrEncoding,
     };
     final Request $request = Request(
       'GET',
@@ -416,6 +418,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
     int? videoStreamIndex,
     String? context,
     Object? streamOptions,
+    bool? enableAudioVbrEncoding,
   }) {
     final Uri $url = Uri.parse('/Audio/${itemId}/stream');
     final Map<String, dynamic> $params = <String, dynamic>{
@@ -467,6 +470,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
       'videoStreamIndex': videoStreamIndex,
       'context': context,
       'streamOptions': streamOptions,
+      'enableAudioVbrEncoding': enableAudioVbrEncoding,
     };
     final Request $request = Request(
       'HEAD',
@@ -528,6 +532,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
     int? videoStreamIndex,
     String? context,
     Object? streamOptions,
+    bool? enableAudioVbrEncoding,
   }) {
     final Uri $url = Uri.parse('/Audio/${itemId}/stream.${container}');
     final Map<String, dynamic> $params = <String, dynamic>{
@@ -578,6 +583,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
       'videoStreamIndex': videoStreamIndex,
       'context': context,
       'streamOptions': streamOptions,
+      'enableAudioVbrEncoding': enableAudioVbrEncoding,
     };
     final Request $request = Request(
       'GET',
@@ -639,6 +645,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
     int? videoStreamIndex,
     String? context,
     Object? streamOptions,
+    bool? enableAudioVbrEncoding,
   }) {
     final Uri $url = Uri.parse('/Audio/${itemId}/stream.${container}');
     final Map<String, dynamic> $params = <String, dynamic>{
@@ -689,6 +696,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
       'videoStreamIndex': videoStreamIndex,
       'context': context,
       'streamOptions': streamOptions,
+      'enableAudioVbrEncoding': enableAudioVbrEncoding,
     };
     final Request $request = Request(
       'HEAD',
@@ -1010,7 +1018,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
   }
 
   @override
-  Future<Response<DeviceInfoQueryResult>> _devicesGet({String? userId}) {
+  Future<Response<DeviceInfoDtoQueryResult>> _devicesGet({String? userId}) {
     final Uri $url = Uri.parse('/Devices');
     final Map<String, dynamic> $params = <String, dynamic>{'userId': userId};
     final Request $request = Request(
@@ -1019,7 +1027,8 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
       client.baseUrl,
       parameters: $params,
     );
-    return client.send<DeviceInfoQueryResult, DeviceInfoQueryResult>($request);
+    return client
+        .send<DeviceInfoDtoQueryResult, DeviceInfoDtoQueryResult>($request);
   }
 
   @override
@@ -1036,7 +1045,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
   }
 
   @override
-  Future<Response<DeviceInfo>> _devicesInfoGet({required String? id}) {
+  Future<Response<DeviceInfoDto>> _devicesInfoGet({required String? id}) {
     final Uri $url = Uri.parse('/Devices/Info');
     final Map<String, dynamic> $params = <String, dynamic>{'id': id};
     final Request $request = Request(
@@ -1045,11 +1054,11 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
       client.baseUrl,
       parameters: $params,
     );
-    return client.send<DeviceInfo, DeviceInfo>($request);
+    return client.send<DeviceInfoDto, DeviceInfoDto>($request);
   }
 
   @override
-  Future<Response<DeviceOptions>> _devicesOptionsGet({required String? id}) {
+  Future<Response<DeviceOptionsDto>> _devicesOptionsGet({required String? id}) {
     final Uri $url = Uri.parse('/Devices/Options');
     final Map<String, dynamic> $params = <String, dynamic>{'id': id};
     final Request $request = Request(
@@ -1058,7 +1067,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
       client.baseUrl,
       parameters: $params,
     );
-    return client.send<DeviceOptions, DeviceOptions>($request);
+    return client.send<DeviceOptionsDto, DeviceOptionsDto>($request);
   }
 
   @override
@@ -1179,6 +1188,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
     int? videoStreamIndex,
     String? context,
     Object? streamOptions,
+    bool? enableAudioVbrEncoding,
   }) {
     final Uri $url = Uri.parse(
         '/Audio/${itemId}/hls1/${playlistId}/${segmentId}.${container}');
@@ -1233,6 +1243,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
       'videoStreamIndex': videoStreamIndex,
       'context': context,
       'streamOptions': streamOptions,
+      'enableAudioVbrEncoding': enableAudioVbrEncoding,
     };
     final Request $request = Request(
       'GET',
@@ -1294,6 +1305,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
     int? videoStreamIndex,
     String? context,
     Object? streamOptions,
+    bool? enableAudioVbrEncoding,
   }) {
     final Uri $url = Uri.parse('/Audio/${itemId}/main.m3u8');
     final Map<String, dynamic> $params = <String, dynamic>{
@@ -1345,6 +1357,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
       'videoStreamIndex': videoStreamIndex,
       'context': context,
       'streamOptions': streamOptions,
+      'enableAudioVbrEncoding': enableAudioVbrEncoding,
     };
     final Request $request = Request(
       'GET',
@@ -1407,6 +1420,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
     String? context,
     Object? streamOptions,
     bool? enableAdaptiveBitrateStreaming,
+    bool? enableAudioVbrEncoding,
   }) {
     final Uri $url = Uri.parse('/Audio/${itemId}/master.m3u8');
     final Map<String, dynamic> $params = <String, dynamic>{
@@ -1459,6 +1473,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
       'context': context,
       'streamOptions': streamOptions,
       'enableAdaptiveBitrateStreaming': enableAdaptiveBitrateStreaming,
+      'enableAudioVbrEncoding': enableAudioVbrEncoding,
     };
     final Request $request = Request(
       'GET',
@@ -1521,6 +1536,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
     String? context,
     Object? streamOptions,
     bool? enableAdaptiveBitrateStreaming,
+    bool? enableAudioVbrEncoding,
   }) {
     final Uri $url = Uri.parse('/Audio/${itemId}/master.m3u8');
     final Map<String, dynamic> $params = <String, dynamic>{
@@ -1573,6 +1589,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
       'context': context,
       'streamOptions': streamOptions,
       'enableAdaptiveBitrateStreaming': enableAdaptiveBitrateStreaming,
+      'enableAudioVbrEncoding': enableAudioVbrEncoding,
     };
     final Request $request = Request(
       'HEAD',
@@ -1640,6 +1657,8 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
     int? videoStreamIndex,
     String? context,
     Object? streamOptions,
+    bool? enableAudioVbrEncoding,
+    bool? alwaysBurnInSubtitleWhenTranscoding,
   }) {
     final Uri $url = Uri.parse(
         '/Videos/${itemId}/hls1/${playlistId}/${segmentId}.${container}');
@@ -1695,6 +1714,9 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
       'videoStreamIndex': videoStreamIndex,
       'context': context,
       'streamOptions': streamOptions,
+      'enableAudioVbrEncoding': enableAudioVbrEncoding,
+      'alwaysBurnInSubtitleWhenTranscoding':
+          alwaysBurnInSubtitleWhenTranscoding,
     };
     final Request $request = Request(
       'GET',
@@ -1759,6 +1781,8 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
     int? maxWidth,
     int? maxHeight,
     bool? enableSubtitlesInManifest,
+    bool? enableAudioVbrEncoding,
+    bool? alwaysBurnInSubtitleWhenTranscoding,
   }) {
     final Uri $url = Uri.parse('/Videos/${itemId}/live.m3u8');
     final Map<String, dynamic> $params = <String, dynamic>{
@@ -1813,6 +1837,9 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
       'maxWidth': maxWidth,
       'maxHeight': maxHeight,
       'enableSubtitlesInManifest': enableSubtitlesInManifest,
+      'enableAudioVbrEncoding': enableAudioVbrEncoding,
+      'alwaysBurnInSubtitleWhenTranscoding':
+          alwaysBurnInSubtitleWhenTranscoding,
     };
     final Request $request = Request(
       'GET',
@@ -1875,6 +1902,8 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
     int? videoStreamIndex,
     String? context,
     Object? streamOptions,
+    bool? enableAudioVbrEncoding,
+    bool? alwaysBurnInSubtitleWhenTranscoding,
   }) {
     final Uri $url = Uri.parse('/Videos/${itemId}/main.m3u8');
     final Map<String, dynamic> $params = <String, dynamic>{
@@ -1927,6 +1956,9 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
       'videoStreamIndex': videoStreamIndex,
       'context': context,
       'streamOptions': streamOptions,
+      'enableAudioVbrEncoding': enableAudioVbrEncoding,
+      'alwaysBurnInSubtitleWhenTranscoding':
+          alwaysBurnInSubtitleWhenTranscoding,
     };
     final Request $request = Request(
       'GET',
@@ -1991,6 +2023,8 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
     Object? streamOptions,
     bool? enableAdaptiveBitrateStreaming,
     bool? enableTrickplay,
+    bool? enableAudioVbrEncoding,
+    bool? alwaysBurnInSubtitleWhenTranscoding,
   }) {
     final Uri $url = Uri.parse('/Videos/${itemId}/master.m3u8');
     final Map<String, dynamic> $params = <String, dynamic>{
@@ -2045,6 +2079,9 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
       'streamOptions': streamOptions,
       'enableAdaptiveBitrateStreaming': enableAdaptiveBitrateStreaming,
       'enableTrickplay': enableTrickplay,
+      'enableAudioVbrEncoding': enableAudioVbrEncoding,
+      'alwaysBurnInSubtitleWhenTranscoding':
+          alwaysBurnInSubtitleWhenTranscoding,
     };
     final Request $request = Request(
       'GET',
@@ -2109,6 +2146,8 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
     Object? streamOptions,
     bool? enableAdaptiveBitrateStreaming,
     bool? enableTrickplay,
+    bool? enableAudioVbrEncoding,
+    bool? alwaysBurnInSubtitleWhenTranscoding,
   }) {
     final Uri $url = Uri.parse('/Videos/${itemId}/master.m3u8');
     final Map<String, dynamic> $params = <String, dynamic>{
@@ -2163,6 +2202,9 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
       'streamOptions': streamOptions,
       'enableAdaptiveBitrateStreaming': enableAdaptiveBitrateStreaming,
       'enableTrickplay': enableTrickplay,
+      'enableAudioVbrEncoding': enableAudioVbrEncoding,
+      'alwaysBurnInSubtitleWhenTranscoding':
+          alwaysBurnInSubtitleWhenTranscoding,
     };
     final Request $request = Request(
       'HEAD',
@@ -4318,6 +4360,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
     bool? hasSpecialFeature,
     bool? hasTrailer,
     String? adjacentTo,
+    int? indexNumber,
     int? parentIndexNumber,
     bool? hasParentalRating,
     bool? isHd,
@@ -4406,6 +4449,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
       'hasSpecialFeature': hasSpecialFeature,
       'hasTrailer': hasTrailer,
       'adjacentTo': adjacentTo,
+      'indexNumber': indexNumber,
       'parentIndexNumber': parentIndexNumber,
       'hasParentalRating': hasParentalRating,
       'isHd': isHd,
@@ -4792,11 +4836,15 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
     required String? itemId,
     String? userId,
     bool? inheritFromParent,
+    List<Object?>? sortBy,
+    List<Object?>? sortOrder,
   }) {
     final Uri $url = Uri.parse('/Items/${itemId}/ThemeMedia');
     final Map<String, dynamic> $params = <String, dynamic>{
       'userId': userId,
       'inheritFromParent': inheritFromParent,
+      'sortBy': sortBy,
+      'sortOrder': sortOrder,
     };
     final Request $request = Request(
       'GET',
@@ -4812,11 +4860,15 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
     required String? itemId,
     String? userId,
     bool? inheritFromParent,
+    List<Object?>? sortBy,
+    List<Object?>? sortOrder,
   }) {
     final Uri $url = Uri.parse('/Items/${itemId}/ThemeSongs');
     final Map<String, dynamic> $params = <String, dynamic>{
       'userId': userId,
       'inheritFromParent': inheritFromParent,
+      'sortBy': sortBy,
+      'sortOrder': sortOrder,
     };
     final Request $request = Request(
       'GET',
@@ -4832,11 +4884,15 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
     required String? itemId,
     String? userId,
     bool? inheritFromParent,
+    List<Object?>? sortBy,
+    List<Object?>? sortOrder,
   }) {
     final Uri $url = Uri.parse('/Items/${itemId}/ThemeVideos');
     final Map<String, dynamic> $params = <String, dynamic>{
       'userId': userId,
       'inheritFromParent': inheritFromParent,
+      'sortBy': sortBy,
+      'sortOrder': sortOrder,
     };
     final Request $request = Request(
       'GET',
@@ -6247,6 +6303,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
     String? itemId,
     bool? enableDirectPlay,
     bool? enableDirectStream,
+    bool? alwaysBurnInSubtitleWhenTranscoding,
     required OpenLiveStreamDto? body,
   }) {
     final Uri $url = Uri.parse('/LiveStreams/Open');
@@ -6262,6 +6319,8 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
       'itemId': itemId,
       'enableDirectPlay': enableDirectPlay,
       'enableDirectStream': enableDirectStream,
+      'alwaysBurnInSubtitleWhenTranscoding':
+          alwaysBurnInSubtitleWhenTranscoding,
     };
     final $body = body;
     final Request $request = Request(
@@ -6285,6 +6344,25 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
       parameters: $params,
     );
     return client.send<String, String>($request);
+  }
+
+  @override
+  Future<Response<MediaSegmentDtoQueryResult>> _mediaSegmentsItemIdGet({
+    required String? itemId,
+    List<Object?>? includeSegmentTypes,
+  }) {
+    final Uri $url = Uri.parse('/MediaSegments/${itemId}');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'includeSegmentTypes': includeSegmentTypes
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client
+        .send<MediaSegmentDtoQueryResult, MediaSegmentDtoQueryResult>($request);
   }
 
   @override
@@ -6527,282 +6605,6 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
   }
 
   @override
-  Future<Response<dynamic>> _userUsageStatsBreakdownTypeBreakdownReportGet({
-    required String? breakdownType,
-    int? days,
-    DateTime? endDate,
-    num? timezoneOffset,
-  }) {
-    final Uri $url =
-        Uri.parse('/user_usage_stats/${breakdownType}/BreakdownReport');
-    final Map<String, dynamic> $params = <String, dynamic>{
-      'days': days,
-      'endDate': endDate,
-      'timezoneOffset': timezoneOffset,
-    };
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      parameters: $params,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _userUsageStatsUserIdDateGetItemsGet({
-    required String? userId,
-    required String? date,
-    String? filter,
-    num? timezoneOffset,
-  }) {
-    final Uri $url = Uri.parse('/user_usage_stats/${userId}/${date}/GetItems');
-    final Map<String, dynamic> $params = <String, dynamic>{
-      'filter': filter,
-      'timezoneOffset': timezoneOffset,
-    };
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      parameters: $params,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _userUsageStatsDurationHistogramReportGet({
-    int? days,
-    DateTime? endDate,
-    String? filter,
-  }) {
-    final Uri $url = Uri.parse('/user_usage_stats/DurationHistogramReport');
-    final Map<String, dynamic> $params = <String, dynamic>{
-      'days': days,
-      'endDate': endDate,
-      'filter': filter,
-    };
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      parameters: $params,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _userUsageStatsGetTvShowsReportGet({
-    int? days,
-    DateTime? endDate,
-    num? timezoneOffset,
-  }) {
-    final Uri $url = Uri.parse('/user_usage_stats/GetTvShowsReport');
-    final Map<String, dynamic> $params = <String, dynamic>{
-      'days': days,
-      'endDate': endDate,
-      'timezoneOffset': timezoneOffset,
-    };
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      parameters: $params,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _userUsageStatsHourlyReportGet({
-    int? days,
-    DateTime? endDate,
-    String? filter,
-    num? timezoneOffset,
-  }) {
-    final Uri $url = Uri.parse('/user_usage_stats/HourlyReport');
-    final Map<String, dynamic> $params = <String, dynamic>{
-      'days': days,
-      'endDate': endDate,
-      'filter': filter,
-      'timezoneOffset': timezoneOffset,
-    };
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      parameters: $params,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<List<String>>> _userUsageStatsLoadBackupGet(
-      {String? backupFilePath}) {
-    final Uri $url = Uri.parse('/user_usage_stats/load_backup');
-    final Map<String, dynamic> $params = <String, dynamic>{
-      'backupFilePath': backupFilePath
-    };
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      parameters: $params,
-    );
-    return client.send<List<String>, String>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _userUsageStatsMoviesReportGet({
-    int? days,
-    DateTime? endDate,
-    num? timezoneOffset,
-  }) {
-    final Uri $url = Uri.parse('/user_usage_stats/MoviesReport');
-    final Map<String, dynamic> $params = <String, dynamic>{
-      'days': days,
-      'endDate': endDate,
-      'timezoneOffset': timezoneOffset,
-    };
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      parameters: $params,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _userUsageStatsPlayActivityGet({
-    int? days,
-    DateTime? endDate,
-    String? filter,
-    String? dataType,
-    num? timezoneOffset,
-  }) {
-    final Uri $url = Uri.parse('/user_usage_stats/PlayActivity');
-    final Map<String, dynamic> $params = <String, dynamic>{
-      'days': days,
-      'endDate': endDate,
-      'filter': filter,
-      'dataType': dataType,
-      'timezoneOffset': timezoneOffset,
-    };
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      parameters: $params,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<List<String>>> _userUsageStatsSaveBackupGet() {
-    final Uri $url = Uri.parse('/user_usage_stats/save_backup');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-    );
-    return client.send<List<String>, String>($request);
-  }
-
-  @override
-  Future<Response<Object>> _userUsageStatsSubmitCustomQueryPost(
-      {required CustomQueryData? body}) {
-    final Uri $url = Uri.parse('/user_usage_stats/submit_custom_query');
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-    );
-    return client.send<Object, Object>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _userUsageStatsTypeFilterListGet() {
-    final Uri $url = Uri.parse('/user_usage_stats/type_filter_list');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _userUsageStatsUserActivityGet({
-    int? days,
-    DateTime? endDate,
-    num? timezoneOffset,
-  }) {
-    final Uri $url = Uri.parse('/user_usage_stats/user_activity');
-    final Map<String, dynamic> $params = <String, dynamic>{
-      'days': days,
-      'endDate': endDate,
-      'timezoneOffset': timezoneOffset,
-    };
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      parameters: $params,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _userUsageStatsUserListGet() {
-    final Uri $url = Uri.parse('/user_usage_stats/user_list');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<bool>> _userUsageStatsUserManageAddGet({String? id}) {
-    final Uri $url = Uri.parse('/user_usage_stats/user_manage/add');
-    final Map<String, dynamic> $params = <String, dynamic>{'id': id};
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      parameters: $params,
-    );
-    return client.send<bool, bool>($request);
-  }
-
-  @override
-  Future<Response<bool>> _userUsageStatsUserManagePruneGet() {
-    final Uri $url = Uri.parse('/user_usage_stats/user_manage/prune');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-    );
-    return client.send<bool, bool>($request);
-  }
-
-  @override
-  Future<Response<bool>> _userUsageStatsUserManageRemoveGet({String? id}) {
-    final Uri $url = Uri.parse('/user_usage_stats/user_manage/remove');
-    final Map<String, dynamic> $params = <String, dynamic>{'id': id};
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      parameters: $params,
-    );
-    return client.send<bool, bool>($request);
-  }
-
-  @override
   Future<Response<PlaylistCreationResult>> _playlistsPost({
     String? name,
     List<String>? ids,
@@ -6843,6 +6645,18 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
       body: $body,
     );
     return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<PlaylistDto>> _playlistsPlaylistIdGet(
+      {required String? playlistId}) {
+    final Uri $url = Uri.parse('/Playlists/${playlistId}');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<PlaylistDto, PlaylistDto>($request);
   }
 
   @override
@@ -7553,7 +7367,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
   }
 
   @override
-  Future<Response<List<SessionInfo>>> _sessionsGet({
+  Future<Response<List<SessionInfoDto>>> _sessionsGet({
     String? controllableByUserId,
     String? deviceId,
     int? activeWithinSeconds,
@@ -7570,7 +7384,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
       client.baseUrl,
       parameters: $params,
     );
-    return client.send<List<SessionInfo>, SessionInfo>($request);
+    return client.send<List<SessionInfoDto>, SessionInfoDto>($request);
   }
 
   @override
@@ -7805,95 +7619,6 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
       parameters: $params,
     );
     return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<Object>> _episodeIdIntroSkipperSegmentsGet(
-      {required String? id}) {
-    final Uri $url = Uri.parse('/Episode/${id}/IntroSkipperSegments');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-    );
-    return client.send<Object, Object>($request);
-  }
-
-  @override
-  Future<Response<Intro>> _episodeIdIntroTimestampsGet({
-    required String? id,
-    String? mode,
-  }) {
-    final Uri $url = Uri.parse('/Episode/${id}/IntroTimestamps');
-    final Map<String, dynamic> $params = <String, dynamic>{'mode': mode};
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      parameters: $params,
-    );
-    return client.send<Intro, Intro>($request);
-  }
-
-  @override
-  Future<Response<Intro>> _episodeIdIntroTimestampsV1Get({
-    required String? id,
-    String? mode,
-  }) {
-    final Uri $url = Uri.parse('/Episode/${id}/IntroTimestamps/v1');
-    final Map<String, dynamic> $params = <String, dynamic>{'mode': mode};
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      parameters: $params,
-    );
-    return client.send<Intro, Intro>($request);
-  }
-
-  @override
-  Future<Response<List<IntroWithMetadata>>> _introsAllGet({String? mode}) {
-    final Uri $url = Uri.parse('/Intros/All');
-    final Map<String, dynamic> $params = <String, dynamic>{'mode': mode};
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-      parameters: $params,
-    );
-    return client.send<List<IntroWithMetadata>, IntroWithMetadata>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _introsEraseTimestampsPost({
-    String? mode,
-    bool? eraseCache,
-  }) {
-    final Uri $url = Uri.parse('/Intros/EraseTimestamps');
-    final Map<String, dynamic> $params = <String, dynamic>{
-      'mode': mode,
-      'eraseCache': eraseCache,
-    };
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      parameters: $params,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<UserInterfaceConfiguration>>
-      _introsUserInterfaceConfigurationGet() {
-    final Uri $url = Uri.parse('/Intros/UserInterfaceConfiguration');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-    );
-    return client
-        .send<UserInterfaceConfiguration, UserInterfaceConfiguration>($request);
   }
 
   @override
@@ -8685,17 +8410,6 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
   }
 
   @override
-  Future<Response<dynamic>> _tMDbBoxSetsRefreshPost() {
-    final Uri $url = Uri.parse('/TMDbBoxSets/Refresh');
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
   Future<Response<BaseItemDtoQueryResult>> _trailersGet({
     String? userId,
     String? maxOfficialRating,
@@ -8880,84 +8594,6 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
   }
 
   @override
-  Future<Response<dynamic>> _traktUsersUserGuidAuthorizePost(
-      {required String? userGuid}) {
-    final Uri $url = Uri.parse('/Trakt/Users/${userGuid}/Authorize');
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<String>> _traktUsersUserGuidDeauthorizePost(
-      {required String? userGuid}) {
-    final Uri $url = Uri.parse('/Trakt/Users/${userGuid}/Deauthorize');
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-    );
-    return client.send<String, String>($request);
-  }
-
-  @override
-  Future<Response<TraktSyncResponse>> _traktUsersUserGuidItemsItemIdRatePost({
-    required String? userGuid,
-    required String? itemId,
-    int? rating,
-  }) {
-    final Uri $url = Uri.parse('/Trakt/Users/${userGuid}/Items/${itemId}/Rate');
-    final Map<String, dynamic> $params = <String, dynamic>{'rating': rating};
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      parameters: $params,
-    );
-    return client.send<TraktSyncResponse, TraktSyncResponse>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _traktUsersUserGuidPollAuthorizationStatusGet(
-      {required String? userGuid}) {
-    final Uri $url =
-        Uri.parse('/Trakt/Users/${userGuid}/PollAuthorizationStatus');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<List<TraktMovie>>> _traktUsersUserGuidRecommendedMoviesPost(
-      {required String? userGuid}) {
-    final Uri $url = Uri.parse('/Trakt/Users/${userGuid}/RecommendedMovies');
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-    );
-    return client.send<List<TraktMovie>, TraktMovie>($request);
-  }
-
-  @override
-  Future<Response<List<TraktShow>>> _traktUsersUserGuidRecommendedShowsPost(
-      {required String? userGuid}) {
-    final Uri $url = Uri.parse('/Trakt/Users/${userGuid}/RecommendedShows');
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-    );
-    return client.send<List<TraktShow>, TraktShow>($request);
-  }
-
-  @override
   Future<Response<String>> _videosItemIdTrickplayWidthIndexJpgGet({
     required String? itemId,
     required int? width,
@@ -8994,17 +8630,6 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
       $url,
       client.baseUrl,
       parameters: $params,
-    );
-    return client.send<String, String>($request);
-  }
-
-  @override
-  Future<Response<String>> _introSkipperSupportBundleGet() {
-    final Uri $url = Uri.parse('/IntroSkipper/SupportBundle');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
     );
     return client.send<String, String>($request);
   }
@@ -9187,6 +8812,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
     int? maxAudioSampleRate,
     int? maxAudioBitDepth,
     bool? enableRemoteMedia,
+    bool? enableAudioVbrEncoding,
     bool? breakOnNonKeyFrames,
     bool? enableRedirection,
   }) {
@@ -9207,6 +8833,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
       'maxAudioSampleRate': maxAudioSampleRate,
       'maxAudioBitDepth': maxAudioBitDepth,
       'enableRemoteMedia': enableRemoteMedia,
+      'enableAudioVbrEncoding': enableAudioVbrEncoding,
       'breakOnNonKeyFrames': breakOnNonKeyFrames,
       'enableRedirection': enableRedirection,
     };
@@ -9237,6 +8864,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
     int? maxAudioSampleRate,
     int? maxAudioBitDepth,
     bool? enableRemoteMedia,
+    bool? enableAudioVbrEncoding,
     bool? breakOnNonKeyFrames,
     bool? enableRedirection,
   }) {
@@ -9257,6 +8885,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
       'maxAudioSampleRate': maxAudioSampleRate,
       'maxAudioBitDepth': maxAudioBitDepth,
       'enableRemoteMedia': enableRemoteMedia,
+      'enableAudioVbrEncoding': enableAudioVbrEncoding,
       'breakOnNonKeyFrames': breakOnNonKeyFrames,
       'enableRedirection': enableRedirection,
     };
@@ -9775,6 +9404,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
     int? videoStreamIndex,
     String? context,
     Object? streamOptions,
+    bool? enableAudioVbrEncoding,
   }) {
     final Uri $url = Uri.parse('/Videos/${itemId}/stream');
     final Map<String, dynamic> $params = <String, dynamic>{
@@ -9828,6 +9458,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
       'videoStreamIndex': videoStreamIndex,
       'context': context,
       'streamOptions': streamOptions,
+      'enableAudioVbrEncoding': enableAudioVbrEncoding,
     };
     final Request $request = Request(
       'GET',
@@ -9891,6 +9522,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
     int? videoStreamIndex,
     String? context,
     Object? streamOptions,
+    bool? enableAudioVbrEncoding,
   }) {
     final Uri $url = Uri.parse('/Videos/${itemId}/stream');
     final Map<String, dynamic> $params = <String, dynamic>{
@@ -9944,6 +9576,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
       'videoStreamIndex': videoStreamIndex,
       'context': context,
       'streamOptions': streamOptions,
+      'enableAudioVbrEncoding': enableAudioVbrEncoding,
     };
     final Request $request = Request(
       'HEAD',
@@ -10007,6 +9640,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
     int? videoStreamIndex,
     String? context,
     Object? streamOptions,
+    bool? enableAudioVbrEncoding,
   }) {
     final Uri $url = Uri.parse('/Videos/${itemId}/stream.${container}');
     final Map<String, dynamic> $params = <String, dynamic>{
@@ -10059,6 +9693,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
       'videoStreamIndex': videoStreamIndex,
       'context': context,
       'streamOptions': streamOptions,
+      'enableAudioVbrEncoding': enableAudioVbrEncoding,
     };
     final Request $request = Request(
       'GET',
@@ -10122,6 +9757,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
     int? videoStreamIndex,
     String? context,
     Object? streamOptions,
+    bool? enableAudioVbrEncoding,
   }) {
     final Uri $url = Uri.parse('/Videos/${itemId}/stream.${container}');
     final Map<String, dynamic> $params = <String, dynamic>{
@@ -10174,6 +9810,7 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
       'videoStreamIndex': videoStreamIndex,
       'context': context,
       'streamOptions': streamOptions,
+      'enableAudioVbrEncoding': enableAudioVbrEncoding,
     };
     final Request $request = Request(
       'HEAD',
@@ -10196,79 +9833,6 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
       parameters: $params,
     );
     return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<List<int>>> _introsEpisodeIdChromaprintGet(
-      {required String? id}) {
-    final Uri $url = Uri.parse('/Intros/Episode/{Id}/Chromaprint');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-    );
-    return client.send<List<int>, int>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _introsEpisodeIdUpdateIntroTimestampsPost({
-    required String? id,
-    required Intro? body,
-  }) {
-    final Uri $url = Uri.parse('/Intros/Episode/{Id}/UpdateIntroTimestamps');
-    final $body = body;
-    final Request $request = Request(
-      'POST',
-      $url,
-      client.baseUrl,
-      body: $body,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<List<EpisodeVisualization>>> _introsShowSeriesSeasonGet({
-    required String? series,
-    required String? season,
-  }) {
-    final Uri $url = Uri.parse('/Intros/Show/{Series}/{Season}');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-    );
-    return client
-        .send<List<EpisodeVisualization>, EpisodeVisualization>($request);
-  }
-
-  @override
-  Future<Response<dynamic>> _introsShowSeriesSeasonDelete({
-    required String? series,
-    required String? season,
-    bool? eraseCache,
-  }) {
-    final Uri $url = Uri.parse('/Intros/Show/{Series}/{Season}');
-    final Map<String, dynamic> $params = <String, dynamic>{
-      'eraseCache': eraseCache
-    };
-    final Request $request = Request(
-      'DELETE',
-      $url,
-      client.baseUrl,
-      parameters: $params,
-    );
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response<Object>> _introsShowsGet() {
-    final Uri $url = Uri.parse('/Intros/Shows');
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-    );
-    return client.send<Object, Object>($request);
   }
 
   @override

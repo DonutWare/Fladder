@@ -35,7 +35,7 @@ class ISyncedItem {
   int? fileSize;
   String? videoFileName;
   String? trickPlayModel;
-  String? introOutroSkipModel;
+  String? mediaSegments;
   String? images;
   List<String>? chapters;
   List<String>? subtitles;
@@ -50,7 +50,7 @@ class ISyncedItem {
     this.fileSize,
     this.videoFileName,
     this.trickPlayModel,
-    this.introOutroSkipModel,
+    this.mediaSegments,
     this.images,
     this.chapters,
     this.subtitles,
@@ -68,8 +68,7 @@ class ISyncedItem {
       sortName: syncedItem.sortName,
       videoFileName: syncedItem.videoFileName,
       trickPlayModel: syncedItem.fTrickPlayModel != null ? jsonEncode(syncedItem.fTrickPlayModel?.toJson()) : null,
-      introOutroSkipModel:
-          syncedItem.introOutSkipModel != null ? jsonEncode(syncedItem.introOutSkipModel?.toJson()) : null,
+      mediaSegments: syncedItem.mediaSegments != null ? jsonEncode(syncedItem.mediaSegments?.toJson()) : null,
       images: syncedItem.fImages != null ? jsonEncode(syncedItem.fImages?.toJson()) : null,
       chapters: syncedItem.fChapters.map((e) => jsonEncode(e.toJson())).toList(),
       subtitles: syncedItem.subtitles.map((e) => jsonEncode(e.toJson())).toList(),

@@ -13,7 +13,7 @@ import 'package:screen_brightness/screen_brightness.dart';
 import 'package:universal_html/html.dart' as html;
 import 'package:window_manager/window_manager.dart';
 
-import 'package:fladder/models/items/intro_skip_model.dart';
+import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
@@ -57,7 +57,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   late final double bottomPadding = MediaQuery.of(context).viewPadding.bottom;
 
   bool _onKey(KeyEvent value) {
-    final introSkipModel = ref.read(playBackModel.select((value) => value?.introSkipModel));
+    final introSkipModel = ref.read(playBackModel.select((value) => value?.mediaSegments));
     final position = ref.read(mediaPlaybackProvider).position;
     bool showIntroSkipButton = introSkipModel?.introInRange(position) ?? false;
     bool showCreditSkipButton = introSkipModel?.creditsInRange(position) ?? false;
@@ -116,7 +116,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
 
   @override
   Widget build(BuildContext context) {
-    final introSkipModel = ref.watch(playBackModel.select((value) => value?.introSkipModel));
+    final introSkipModel = ref.watch(playBackModel.select((value) => value?.mediaSegments));
     final player = ref.watch(videoPlayerProvider.select((value) => value.controller));
     return InputHandler(
       autoFocus: false,
@@ -582,7 +582,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     );
   }
 
-  void skipIntro(IntroOutSkipModel? introSkipModel) {
+  void skipIntro(MediaSegmentsModel? introSkipModel) {
     resetTimer();
     final end = introSkipModel?.intro?.end;
     if (end != null) {
@@ -590,9 +590,9 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     }
   }
 
-  void skipCredits(IntroOutSkipModel? introSkipModel) {
+  void skipCredits(MediaSegmentsModel? introSkipModel) {
     resetTimer();
-    final end = introSkipModel?.credits?.end;
+    final end = introSkipModel?.outro?.end;
     if (end != null) {
       ref.read(videoPlayerProvider).seek(end);
     }

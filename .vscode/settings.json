@@ -4,7 +4,8 @@
 		"jellyfin",
 		"Jellyfin",
 		"LTRB",
-		"LTWH"
+		"LTWH",
+		"outro"
 	],
 	"dart.flutterSdkPath": ".fvm/versions/3.24.3",
 	"search.exclude": {

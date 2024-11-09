@@ -57,7 +57,7 @@ const ISyncedItemSchema = IsarGeneratedSchema(
         type: IsarType.string,
       ),
       IsarPropertySchema(
-        name: 'introOutroSkipModel',
+        name: 'mediaSegments',
         type: IsarType.string,
       ),
       IsarPropertySchema(
@@ -141,7 +141,7 @@ int serializeISyncedItem(IsarWriter writer, ISyncedItem object) {
     }
   }
   {
-    final value = object.introOutroSkipModel;
+    final value = object.mediaSegments;
     if (value == null) {
       IsarCore.writeNull(writer, 10);
     } else {
@@ -218,8 +218,8 @@ ISyncedItem deserializeISyncedItem(IsarReader reader) {
   _videoFileName = IsarCore.readString(reader, 8);
   final String? _trickPlayModel;
   _trickPlayModel = IsarCore.readString(reader, 9);
-  final String? _introOutroSkipModel;
-  _introOutroSkipModel = IsarCore.readString(reader, 10);
+  final String? _mediaSegments;
+  _mediaSegments = IsarCore.readString(reader, 10);
   final String? _images;
   _images = IsarCore.readString(reader, 11);
   final List<String>? _chapters;
@@ -268,7 +268,7 @@ ISyncedItem deserializeISyncedItem(IsarReader reader) {
     fileSize: _fileSize,
     videoFileName: _videoFileName,
     trickPlayModel: _trickPlayModel,
-    introOutroSkipModel: _introOutroSkipModel,
+    mediaSegments: _mediaSegments,
     images: _images,
     chapters: _chapters,
     subtitles: _subtitles,
@@ -361,7 +361,7 @@ sealed class _ISyncedItemUpdate {
     int? fileSize,
     String? videoFileName,
     String? trickPlayModel,
-    String? introOutroSkipModel,
+    String? mediaSegments,
     String? images,
     String? userData,
   });
@@ -383,7 +383,7 @@ class _ISyncedItemUpdateImpl implements _ISyncedItemUpdate {
     Object? fileSize = ignore,
     Object? videoFileName = ignore,
     Object? trickPlayModel = ignore,
-    Object? introOutroSkipModel = ignore,
+    Object? mediaSegments = ignore,
     Object? images = ignore,
     Object? userData = ignore,
   }) {
@@ -398,7 +398,7 @@ class _ISyncedItemUpdateImpl implements _ISyncedItemUpdate {
           if (fileSize != ignore) 7: fileSize as int?,
           if (videoFileName != ignore) 8: videoFileName as String?,
           if (trickPlayModel != ignore) 9: trickPlayModel as String?,
-          if (introOutroSkipModel != ignore) 10: introOutroSkipModel as String?,
+          if (mediaSegments != ignore) 10: mediaSegments as String?,
           if (images != ignore) 11: images as String?,
           if (userData != ignore) 14: userData as String?,
         }) >
@@ -417,7 +417,7 @@ sealed class _ISyncedItemUpdateAll {
     int? fileSize,
     String? videoFileName,
     String? trickPlayModel,
-    String? introOutroSkipModel,
+    String? mediaSegments,
     String? images,
     String? userData,
   });
@@ -439,7 +439,7 @@ class _ISyncedItemUpdateAllImpl implements _ISyncedItemUpdateAll {
     Object? fileSize = ignore,
     Object? videoFileName = ignore,
     Object? trickPlayModel = ignore,
-    Object? introOutroSkipModel = ignore,
+    Object? mediaSegments = ignore,
     Object? images = ignore,
     Object? userData = ignore,
   }) {
@@ -452,7 +452,7 @@ class _ISyncedItemUpdateAllImpl implements _ISyncedItemUpdateAll {
       if (fileSize != ignore) 7: fileSize as int?,
       if (videoFileName != ignore) 8: videoFileName as String?,
       if (trickPlayModel != ignore) 9: trickPlayModel as String?,
-      if (introOutroSkipModel != ignore) 10: introOutroSkipModel as String?,
+      if (mediaSegments != ignore) 10: mediaSegments as String?,
       if (images != ignore) 11: images as String?,
       if (userData != ignore) 14: userData as String?,
     });
@@ -475,7 +475,7 @@ sealed class _ISyncedItemQueryUpdate {
     int? fileSize,
     String? videoFileName,
     String? trickPlayModel,
-    String? introOutroSkipModel,
+    String? mediaSegments,
     String? images,
     String? userData,
   });
@@ -497,7 +497,7 @@ class _ISyncedItemQueryUpdateImpl implements _ISyncedItemQueryUpdate {
     Object? fileSize = ignore,
     Object? videoFileName = ignore,
     Object? trickPlayModel = ignore,
-    Object? introOutroSkipModel = ignore,
+    Object? mediaSegments = ignore,
     Object? images = ignore,
     Object? userData = ignore,
   }) {
@@ -510,7 +510,7 @@ class _ISyncedItemQueryUpdateImpl implements _ISyncedItemQueryUpdate {
       if (fileSize != ignore) 7: fileSize as int?,
       if (videoFileName != ignore) 8: videoFileName as String?,
       if (trickPlayModel != ignore) 9: trickPlayModel as String?,
-      if (introOutroSkipModel != ignore) 10: introOutroSkipModel as String?,
+      if (mediaSegments != ignore) 10: mediaSegments as String?,
       if (images != ignore) 11: images as String?,
       if (userData != ignore) 14: userData as String?,
     });
@@ -540,7 +540,7 @@ class _ISyncedItemQueryBuilderUpdateImpl implements _ISyncedItemQueryUpdate {
     Object? fileSize = ignore,
     Object? videoFileName = ignore,
     Object? trickPlayModel = ignore,
-    Object? introOutroSkipModel = ignore,
+    Object? mediaSegments = ignore,
     Object? images = ignore,
     Object? userData = ignore,
   }) {
@@ -555,7 +555,7 @@ class _ISyncedItemQueryBuilderUpdateImpl implements _ISyncedItemQueryUpdate {
         if (fileSize != ignore) 7: fileSize as int?,
         if (videoFileName != ignore) 8: videoFileName as String?,
         if (trickPlayModel != ignore) 9: trickPlayModel as String?,
-        if (introOutroSkipModel != ignore) 10: introOutroSkipModel as String?,
+        if (mediaSegments != ignore) 10: mediaSegments as String?,
         if (images != ignore) 11: images as String?,
         if (userData != ignore) 14: userData as String?,
       });
@@ -2015,21 +2015,21 @@ extension ISyncedItemQueryFilter
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
-      introOutroSkipModelIsNull() {
+      mediaSegmentsIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const IsNullCondition(property: 10));
     });
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
-      introOutroSkipModelIsNotNull() {
+      mediaSegmentsIsNotNull() {
     return QueryBuilder.apply(not(), (query) {
       return query.addFilterCondition(const IsNullCondition(property: 10));
     });
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
-      introOutroSkipModelEqualTo(
+      mediaSegmentsEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
@@ -2045,7 +2045,7 @@ extension ISyncedItemQueryFilter
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
-      introOutroSkipModelGreaterThan(
+      mediaSegmentsGreaterThan(
     String? value, {
     bool caseSensitive = true,
   }) {
@@ -2061,7 +2061,7 @@ extension ISyncedItemQueryFilter
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
-      introOutroSkipModelGreaterThanOrEqualTo(
+      mediaSegmentsGreaterThanOrEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
@@ -2077,7 +2077,7 @@ extension ISyncedItemQueryFilter
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
-      introOutroSkipModelLessThan(
+      mediaSegmentsLessThan(
     String? value, {
     bool caseSensitive = true,
   }) {
@@ -2093,7 +2093,7 @@ extension ISyncedItemQueryFilter
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
-      introOutroSkipModelLessThanOrEqualTo(
+      mediaSegmentsLessThanOrEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
@@ -2109,7 +2109,7 @@ extension ISyncedItemQueryFilter
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
-      introOutroSkipModelBetween(
+      mediaSegmentsBetween(
     String? lower,
     String? upper, {
     bool caseSensitive = true,
@@ -2127,7 +2127,7 @@ extension ISyncedItemQueryFilter
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
-      introOutroSkipModelStartsWith(
+      mediaSegmentsStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -2143,7 +2143,7 @@ extension ISyncedItemQueryFilter
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
-      introOutroSkipModelEndsWith(
+      mediaSegmentsEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -2159,7 +2159,7 @@ extension ISyncedItemQueryFilter
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
-      introOutroSkipModelContains(String value, {bool caseSensitive = true}) {
+      mediaSegmentsContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         ContainsCondition(
@@ -2172,7 +2172,7 @@ extension ISyncedItemQueryFilter
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
-      introOutroSkipModelMatches(String pattern, {bool caseSensitive = true}) {
+      mediaSegmentsMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         MatchesCondition(
@@ -2185,7 +2185,7 @@ extension ISyncedItemQueryFilter
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
-      introOutroSkipModelIsEmpty() {
+      mediaSegmentsIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const EqualCondition(
@@ -2197,7 +2197,7 @@ extension ISyncedItemQueryFilter
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>
-      introOutroSkipModelIsNotEmpty() {
+      mediaSegmentsIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const GreaterCondition(
@@ -3189,8 +3189,8 @@ extension ISyncedItemQuerySortBy
     });
   }
 
-  QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy>
-      sortByIntroOutroSkipModel({bool caseSensitive = true}) {
+  QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy> sortByMediaSegments(
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(
         10,
@@ -3199,8 +3199,8 @@ extension ISyncedItemQuerySortBy
     });
   }
 
-  QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy>
-      sortByIntroOutroSkipModelDesc({bool caseSensitive = true}) {
+  QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy> sortByMediaSegmentsDesc(
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(
         10,
@@ -3377,15 +3377,15 @@ extension ISyncedItemQuerySortThenBy
     });
   }
 
-  QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy>
-      thenByIntroOutroSkipModel({bool caseSensitive = true}) {
+  QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy> thenByMediaSegments(
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(10, caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy>
-      thenByIntroOutroSkipModelDesc({bool caseSensitive = true}) {
+  QueryBuilder<ISyncedItem, ISyncedItem, QAfterSortBy> thenByMediaSegmentsDesc(
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(10, sort: Sort.desc, caseSensitive: caseSensitive);
     });
@@ -3477,7 +3477,7 @@ extension ISyncedItemQueryWhereDistinct
   }
 
   QueryBuilder<ISyncedItem, ISyncedItem, QAfterDistinct>
-      distinctByIntroOutroSkipModel({bool caseSensitive = true}) {
+      distinctByMediaSegments({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(10, caseSensitive: caseSensitive);
     });
@@ -3566,8 +3566,7 @@ extension ISyncedItemQueryProperty1
     });
   }
 
-  QueryBuilder<ISyncedItem, String?, QAfterProperty>
-      introOutroSkipModelProperty() {
+  QueryBuilder<ISyncedItem, String?, QAfterProperty> mediaSegmentsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(10);
     });
@@ -3657,7 +3656,7 @@ extension ISyncedItemQueryProperty2<R>
   }
 
   QueryBuilder<ISyncedItem, (R, String?), QAfterProperty>
-      introOutroSkipModelProperty() {
+      mediaSegmentsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(10);
     });
@@ -3749,7 +3748,7 @@ extension ISyncedItemQueryProperty3<R1, R2>
   }
 
   QueryBuilder<ISyncedItem, (R1, R2, String?), QOperations>
-      introOutroSkipModelProperty() {
+      mediaSegmentsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(10);
     });

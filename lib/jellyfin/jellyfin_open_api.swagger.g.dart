@@ -483,7 +483,8 @@ AuthenticationResult _$AuthenticationResultFromJson(
           : UserDto.fromJson(json['User'] as Map<String, dynamic>),
       sessionInfo: json['SessionInfo'] == null
           ? null
-          : SessionInfo.fromJson(json['SessionInfo'] as Map<String, dynamic>),
+          : SessionInfoDto.fromJson(
+              json['SessionInfo'] as Map<String, dynamic>),
       accessToken: json['AccessToken'] as String?,
       serverId: json['ServerId'] as String?,
     );
@@ -1297,50 +1298,6 @@ Map<String, dynamic> _$ChapterInfoToJson(ChapterInfo instance) {
   return val;
 }
 
-ClientCapabilities _$ClientCapabilitiesFromJson(Map<String, dynamic> json) =>
-    ClientCapabilities(
-      playableMediaTypes:
-          mediaTypeListFromJson(json['PlayableMediaTypes'] as List?),
-      supportedCommands:
-          generalCommandTypeListFromJson(json['SupportedCommands'] as List?),
-      supportsMediaControl: json['SupportsMediaControl'] as bool?,
-      supportsPersistentIdentifier:
-          json['SupportsPersistentIdentifier'] as bool?,
-      deviceProfile: json['DeviceProfile'] == null
-          ? null
-          : DeviceProfile.fromJson(
-              json['DeviceProfile'] as Map<String, dynamic>),
-      appStoreUrl: json['AppStoreUrl'] as String?,
-      iconUrl: json['IconUrl'] as String?,
-      supportsContentUploading:
-          json['SupportsContentUploading'] as bool? ?? false,
-      supportsSync: json['SupportsSync'] as bool? ?? false,
-    );
-
-Map<String, dynamic> _$ClientCapabilitiesToJson(ClientCapabilities instance) {
-  final val = <String, dynamic>{
-    'PlayableMediaTypes': mediaTypeListToJson(instance.playableMediaTypes),
-    'SupportedCommands':
-        generalCommandTypeListToJson(instance.supportedCommands),
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('SupportsMediaControl', instance.supportsMediaControl);
-  writeNotNull(
-      'SupportsPersistentIdentifier', instance.supportsPersistentIdentifier);
-  writeNotNull('DeviceProfile', instance.deviceProfile?.toJson());
-  writeNotNull('AppStoreUrl', instance.appStoreUrl);
-  writeNotNull('IconUrl', instance.iconUrl);
-  writeNotNull('SupportsContentUploading', instance.supportsContentUploading);
-  writeNotNull('SupportsSync', instance.supportsSync);
-  return val;
-}
-
 ClientCapabilitiesDto _$ClientCapabilitiesDtoFromJson(
         Map<String, dynamic> json) =>
     ClientCapabilitiesDto(
@@ -1357,9 +1314,6 @@ ClientCapabilitiesDto _$ClientCapabilitiesDtoFromJson(
               json['DeviceProfile'] as Map<String, dynamic>),
       appStoreUrl: json['AppStoreUrl'] as String?,
       iconUrl: json['IconUrl'] as String?,
-      supportsContentUploading:
-          json['SupportsContentUploading'] as bool? ?? false,
-      supportsSync: json['SupportsSync'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$ClientCapabilitiesDtoToJson(
@@ -1382,8 +1336,6 @@ Map<String, dynamic> _$ClientCapabilitiesDtoToJson(
   writeNotNull('DeviceProfile', instance.deviceProfile?.toJson());
   writeNotNull('AppStoreUrl', instance.appStoreUrl);
   writeNotNull('IconUrl', instance.iconUrl);
-  writeNotNull('SupportsContentUploading', instance.supportsContentUploading);
-  writeNotNull('SupportsSync', instance.supportsSync);
   return val;
 }
 
@@ -1419,6 +1371,7 @@ CodecProfile _$CodecProfileFromJson(Map<String, dynamic> json) => CodecProfile(
           [],
       codec: json['Codec'] as String?,
       container: json['Container'] as String?,
+      subContainer: json['SubContainer'] as String?,
     );
 
 Map<String, dynamic> _$CodecProfileToJson(CodecProfile instance) {
@@ -1437,6 +1390,7 @@ Map<String, dynamic> _$CodecProfileToJson(CodecProfile instance) {
       instance.applyConditions?.map((e) => e.toJson()).toList());
   writeNotNull('Codec', instance.codec);
   writeNotNull('Container', instance.container);
+  writeNotNull('SubContainer', instance.subContainer);
   return val;
 }
 
@@ -1543,6 +1497,7 @@ ContainerProfile _$ContainerProfileFromJson(Map<String, dynamic> json) =>
               .toList() ??
           [],
       container: json['Container'] as String?,
+      subContainer: json['SubContainer'] as String?,
     );
 
 Map<String, dynamic> _$ContainerProfileToJson(ContainerProfile instance) {
@@ -1558,6 +1513,7 @@ Map<String, dynamic> _$ContainerProfileToJson(ContainerProfile instance) {
   writeNotNull(
       'Conditions', instance.conditions?.map((e) => e.toJson()).toList());
   writeNotNull('Container', instance.container);
+  writeNotNull('SubContainer', instance.subContainer);
   return val;
 }
 
@@ -1669,26 +1625,6 @@ Map<String, dynamic> _$CultureDtoToJson(CultureDto instance) {
   return val;
 }
 
-CustomQueryData _$CustomQueryDataFromJson(Map<String, dynamic> json) =>
-    CustomQueryData(
-      customQueryString: json['CustomQueryString'] as String?,
-      replaceUserId: json['ReplaceUserId'] as bool?,
-    );
-
-Map<String, dynamic> _$CustomQueryDataToJson(CustomQueryData instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('CustomQueryString', instance.customQueryString);
-  writeNotNull('ReplaceUserId', instance.replaceUserId);
-  return val;
-}
-
 DefaultDirectoryBrowserInfoDto _$DefaultDirectoryBrowserInfoDtoFromJson(
         Map<String, dynamic> json) =>
     DefaultDirectoryBrowserInfoDto(
@@ -1709,7 +1645,8 @@ Map<String, dynamic> _$DefaultDirectoryBrowserInfoDtoToJson(
   return val;
 }
 
-DeviceInfo _$DeviceInfoFromJson(Map<String, dynamic> json) => DeviceInfo(
+DeviceInfoDto _$DeviceInfoDtoFromJson(Map<String, dynamic> json) =>
+    DeviceInfoDto(
       name: json['Name'] as String?,
       customName: json['CustomName'] as String?,
       accessToken: json['AccessToken'] as String?,
@@ -1723,12 +1660,12 @@ DeviceInfo _$DeviceInfoFromJson(Map<String, dynamic> json) => DeviceInfo(
           : DateTime.parse(json['DateLastActivity'] as String),
       capabilities: json['Capabilities'] == null
           ? null
-          : ClientCapabilities.fromJson(
+          : ClientCapabilitiesDto.fromJson(
               json['Capabilities'] as Map<String, dynamic>),
       iconUrl: json['IconUrl'] as String?,
     );
 
-Map<String, dynamic> _$DeviceInfoToJson(DeviceInfo instance) {
+Map<String, dynamic> _$DeviceInfoDtoToJson(DeviceInfoDto instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -1752,19 +1689,19 @@ Map<String, dynamic> _$DeviceInfoToJson(DeviceInfo instance) {
   return val;
 }
 
-DeviceInfoQueryResult _$DeviceInfoQueryResultFromJson(
+DeviceInfoDtoQueryResult _$DeviceInfoDtoQueryResultFromJson(
         Map<String, dynamic> json) =>
-    DeviceInfoQueryResult(
+    DeviceInfoDtoQueryResult(
       items: (json['Items'] as List<dynamic>?)
-              ?.map((e) => DeviceInfo.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => DeviceInfoDto.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       totalRecordCount: (json['TotalRecordCount'] as num?)?.toInt(),
       startIndex: (json['StartIndex'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$DeviceInfoQueryResultToJson(
-    DeviceInfoQueryResult instance) {
+Map<String, dynamic> _$DeviceInfoDtoQueryResultToJson(
+    DeviceInfoDtoQueryResult instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -1776,28 +1713,6 @@ Map<String, dynamic> _$DeviceInfoQueryResultToJson(
   writeNotNull('Items', instance.items?.map((e) => e.toJson()).toList());
   writeNotNull('TotalRecordCount', instance.totalRecordCount);
   writeNotNull('StartIndex', instance.startIndex);
-  return val;
-}
-
-DeviceOptions _$DeviceOptionsFromJson(Map<String, dynamic> json) =>
-    DeviceOptions(
-      id: (json['Id'] as num?)?.toInt(),
-      deviceId: json['DeviceId'] as String?,
-      customName: json['CustomName'] as String?,
-    );
-
-Map<String, dynamic> _$DeviceOptionsToJson(DeviceOptions instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Id', instance.id);
-  writeNotNull('DeviceId', instance.deviceId);
-  writeNotNull('CustomName', instance.customName);
   return val;
 }
 
@@ -1971,17 +1886,21 @@ EncodingOptions _$EncodingOptionsFromJson(Map<String, dynamic> json) =>
       throttleDelaySeconds: (json['ThrottleDelaySeconds'] as num?)?.toInt(),
       enableSegmentDeletion: json['EnableSegmentDeletion'] as bool?,
       segmentKeepSeconds: (json['SegmentKeepSeconds'] as num?)?.toInt(),
-      hardwareAccelerationType: json['HardwareAccelerationType'] as String?,
+      hardwareAccelerationType: hardwareAccelerationTypeNullableFromJson(
+          json['HardwareAccelerationType']),
       encoderAppPath: json['EncoderAppPath'] as String?,
       encoderAppPathDisplay: json['EncoderAppPathDisplay'] as String?,
       vaapiDevice: json['VaapiDevice'] as String?,
+      qsvDevice: json['QsvDevice'] as String?,
       enableTonemapping: json['EnableTonemapping'] as bool?,
       enableVppTonemapping: json['EnableVppTonemapping'] as bool?,
       enableVideoToolboxTonemapping:
           json['EnableVideoToolboxTonemapping'] as bool?,
-      tonemappingAlgorithm: json['TonemappingAlgorithm'] as String?,
-      tonemappingMode: json['TonemappingMode'] as String?,
-      tonemappingRange: json['TonemappingRange'] as String?,
+      tonemappingAlgorithm:
+          tonemappingAlgorithmNullableFromJson(json['TonemappingAlgorithm']),
+      tonemappingMode: tonemappingModeNullableFromJson(json['TonemappingMode']),
+      tonemappingRange:
+          tonemappingRangeNullableFromJson(json['TonemappingRange']),
       tonemappingDesat: (json['TonemappingDesat'] as num?)?.toDouble(),
       tonemappingPeak: (json['TonemappingPeak'] as num?)?.toDouble(),
       tonemappingParam: (json['TonemappingParam'] as num?)?.toDouble(),
@@ -1991,13 +1910,18 @@ EncodingOptions _$EncodingOptionsFromJson(Map<String, dynamic> json) =>
           (json['VppTonemappingContrast'] as num?)?.toDouble(),
       h264Crf: (json['H264Crf'] as num?)?.toInt(),
       h265Crf: (json['H265Crf'] as num?)?.toInt(),
-      encoderPreset: json['EncoderPreset'] as String?,
+      encoderPreset: encoderPresetNullableFromJson(json['EncoderPreset']),
       deinterlaceDoubleRate: json['DeinterlaceDoubleRate'] as bool?,
-      deinterlaceMethod: json['DeinterlaceMethod'] as String?,
+      deinterlaceMethod:
+          deinterlaceMethodNullableFromJson(json['DeinterlaceMethod']),
       enableDecodingColorDepth10Hevc:
           json['EnableDecodingColorDepth10Hevc'] as bool?,
       enableDecodingColorDepth10Vp9:
           json['EnableDecodingColorDepth10Vp9'] as bool?,
+      enableDecodingColorDepth10HevcRext:
+          json['EnableDecodingColorDepth10HevcRext'] as bool?,
+      enableDecodingColorDepth12HevcRext:
+          json['EnableDecodingColorDepth12HevcRext'] as bool?,
       enableEnhancedNvdecDecoder: json['EnableEnhancedNvdecDecoder'] as bool?,
       preferSystemNativeHwDecoder: json['PreferSystemNativeHwDecoder'] as bool?,
       enableIntelLowPowerH264HwEncoder:
@@ -2042,17 +1966,24 @@ Map<String, dynamic> _$EncodingOptionsToJson(EncodingOptions instance) {
   writeNotNull('ThrottleDelaySeconds', instance.throttleDelaySeconds);
   writeNotNull('EnableSegmentDeletion', instance.enableSegmentDeletion);
   writeNotNull('SegmentKeepSeconds', instance.segmentKeepSeconds);
-  writeNotNull('HardwareAccelerationType', instance.hardwareAccelerationType);
+  writeNotNull(
+      'HardwareAccelerationType',
+      hardwareAccelerationTypeNullableToJson(
+          instance.hardwareAccelerationType));
   writeNotNull('EncoderAppPath', instance.encoderAppPath);
   writeNotNull('EncoderAppPathDisplay', instance.encoderAppPathDisplay);
   writeNotNull('VaapiDevice', instance.vaapiDevice);
+  writeNotNull('QsvDevice', instance.qsvDevice);
   writeNotNull('EnableTonemapping', instance.enableTonemapping);
   writeNotNull('EnableVppTonemapping', instance.enableVppTonemapping);
   writeNotNull(
       'EnableVideoToolboxTonemapping', instance.enableVideoToolboxTonemapping);
-  writeNotNull('TonemappingAlgorithm', instance.tonemappingAlgorithm);
-  writeNotNull('TonemappingMode', instance.tonemappingMode);
-  writeNotNull('TonemappingRange', instance.tonemappingRange);
+  writeNotNull('TonemappingAlgorithm',
+      tonemappingAlgorithmNullableToJson(instance.tonemappingAlgorithm));
+  writeNotNull('TonemappingMode',
+      tonemappingModeNullableToJson(instance.tonemappingMode));
+  writeNotNull('TonemappingRange',
+      tonemappingRangeNullableToJson(instance.tonemappingRange));
   writeNotNull('TonemappingDesat', instance.tonemappingDesat);
   writeNotNull('TonemappingPeak', instance.tonemappingPeak);
   writeNotNull('TonemappingParam', instance.tonemappingParam);
@@ -2060,13 +1991,19 @@ Map<String, dynamic> _$EncodingOptionsToJson(EncodingOptions instance) {
   writeNotNull('VppTonemappingContrast', instance.vppTonemappingContrast);
   writeNotNull('H264Crf', instance.h264Crf);
   writeNotNull('H265Crf', instance.h265Crf);
-  writeNotNull('EncoderPreset', instance.encoderPreset);
+  writeNotNull(
+      'EncoderPreset', encoderPresetNullableToJson(instance.encoderPreset));
   writeNotNull('DeinterlaceDoubleRate', instance.deinterlaceDoubleRate);
-  writeNotNull('DeinterlaceMethod', instance.deinterlaceMethod);
+  writeNotNull('DeinterlaceMethod',
+      deinterlaceMethodNullableToJson(instance.deinterlaceMethod));
   writeNotNull('EnableDecodingColorDepth10Hevc',
       instance.enableDecodingColorDepth10Hevc);
   writeNotNull(
       'EnableDecodingColorDepth10Vp9', instance.enableDecodingColorDepth10Vp9);
+  writeNotNull('EnableDecodingColorDepth10HevcRext',
+      instance.enableDecodingColorDepth10HevcRext);
+  writeNotNull('EnableDecodingColorDepth12HevcRext',
+      instance.enableDecodingColorDepth12HevcRext);
   writeNotNull(
       'EnableEnhancedNvdecDecoder', instance.enableEnhancedNvdecDecoder);
   writeNotNull(
@@ -2101,28 +2038,6 @@ Map<String, dynamic> _$EndPointInfoToJson(EndPointInfo instance) {
 
   writeNotNull('IsLocal', instance.isLocal);
   writeNotNull('IsInNetwork', instance.isInNetwork);
-  return val;
-}
-
-EpisodeVisualization _$EpisodeVisualizationFromJson(
-        Map<String, dynamic> json) =>
-    EpisodeVisualization(
-      id: json['Id'] as String?,
-      name: json['Name'] as String?,
-    );
-
-Map<String, dynamic> _$EpisodeVisualizationToJson(
-    EpisodeVisualization instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Id', instance.id);
-  writeNotNull('Name', instance.name);
   return val;
 }
 
@@ -2384,7 +2299,7 @@ GetProgramsDto _$GetProgramsDtoFromJson(Map<String, dynamic> json) =>
               .toList() ??
           [],
       enableImages: json['EnableImages'] as bool?,
-      enableTotalRecordCount: json['EnableTotalRecordCount'] as bool?,
+      enableTotalRecordCount: json['EnableTotalRecordCount'] as bool? ?? true,
       imageTypeLimit: (json['ImageTypeLimit'] as num?)?.toInt(),
       enableImageTypes:
           imageTypeListFromJson(json['EnableImageTypes'] as List?),
@@ -2732,67 +2647,6 @@ Map<String, dynamic> _$InstallationInfoToJson(InstallationInfo instance) {
   return val;
 }
 
-Intro _$IntroFromJson(Map<String, dynamic> json) => Intro(
-      episodeId: json['EpisodeId'] as String?,
-      valid: json['Valid'] as bool?,
-      introStart: (json['IntroStart'] as num?)?.toDouble(),
-      introEnd: (json['IntroEnd'] as num?)?.toDouble(),
-      showSkipPromptAt: (json['ShowSkipPromptAt'] as num?)?.toDouble(),
-      hideSkipPromptAt: (json['HideSkipPromptAt'] as num?)?.toDouble(),
-    );
-
-Map<String, dynamic> _$IntroToJson(Intro instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('EpisodeId', instance.episodeId);
-  writeNotNull('Valid', instance.valid);
-  writeNotNull('IntroStart', instance.introStart);
-  writeNotNull('IntroEnd', instance.introEnd);
-  writeNotNull('ShowSkipPromptAt', instance.showSkipPromptAt);
-  writeNotNull('HideSkipPromptAt', instance.hideSkipPromptAt);
-  return val;
-}
-
-IntroWithMetadata _$IntroWithMetadataFromJson(Map<String, dynamic> json) =>
-    IntroWithMetadata(
-      episodeId: json['EpisodeId'] as String?,
-      valid: json['Valid'] as bool?,
-      introStart: (json['IntroStart'] as num?)?.toDouble(),
-      introEnd: (json['IntroEnd'] as num?)?.toDouble(),
-      showSkipPromptAt: (json['ShowSkipPromptAt'] as num?)?.toDouble(),
-      hideSkipPromptAt: (json['HideSkipPromptAt'] as num?)?.toDouble(),
-      series: json['Series'] as String?,
-      season: (json['Season'] as num?)?.toInt(),
-      title: json['Title'] as String?,
-    );
-
-Map<String, dynamic> _$IntroWithMetadataToJson(IntroWithMetadata instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('EpisodeId', instance.episodeId);
-  writeNotNull('Valid', instance.valid);
-  writeNotNull('IntroStart', instance.introStart);
-  writeNotNull('IntroEnd', instance.introEnd);
-  writeNotNull('ShowSkipPromptAt', instance.showSkipPromptAt);
-  writeNotNull('HideSkipPromptAt', instance.hideSkipPromptAt);
-  writeNotNull('Series', instance.series);
-  writeNotNull('Season', instance.season);
-  writeNotNull('Title', instance.title);
-  return val;
-}
-
 IPlugin _$IPluginFromJson(Map<String, dynamic> json) => IPlugin(
       name: json['Name'] as String?,
       description: json['Description'] as String?,
@@ -2858,25 +2712,6 @@ Map<String, dynamic> _$ItemCountsToJson(ItemCounts instance) {
   writeNotNull('BoxSetCount', instance.boxSetCount);
   writeNotNull('BookCount', instance.bookCount);
   writeNotNull('ItemCount', instance.itemCount);
-  return val;
-}
-
-Items _$ItemsFromJson(Map<String, dynamic> json) => Items(
-      movies: (json['movies'] as num?)?.toInt(),
-      episodes: (json['episodes'] as num?)?.toInt(),
-    );
-
-Map<String, dynamic> _$ItemsToJson(Items instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('movies', instance.movies);
-  writeNotNull('episodes', instance.episodes);
   return val;
 }
 
@@ -3002,6 +2837,16 @@ LibraryOptions _$LibraryOptionsFromJson(Map<String, dynamic> json) =>
               ?.map((e) => e as String)
               .toList() ??
           [],
+      disabledMediaSegmentProviders:
+          (json['DisabledMediaSegmentProviders'] as List<dynamic>?)
+                  ?.map((e) => e as String)
+                  .toList() ??
+              [],
+      mediaSegmentProvideOrder:
+          (json['MediaSegmentProvideOrder'] as List<dynamic>?)
+                  ?.map((e) => e as String)
+                  .toList() ??
+              [],
       skipSubtitlesIfEmbeddedSubtitlesPresent:
           json['SkipSubtitlesIfEmbeddedSubtitlesPresent'] as bool?,
       skipSubtitlesIfAudioTrackMatches:
@@ -3014,6 +2859,26 @@ LibraryOptions _$LibraryOptionsFromJson(Map<String, dynamic> json) =>
       requirePerfectSubtitleMatch: json['RequirePerfectSubtitleMatch'] as bool?,
       saveSubtitlesWithMedia: json['SaveSubtitlesWithMedia'] as bool?,
       saveLyricsWithMedia: json['SaveLyricsWithMedia'] as bool? ?? false,
+      saveTrickplayWithMedia: json['SaveTrickplayWithMedia'] as bool? ?? false,
+      disabledLyricFetchers: (json['DisabledLyricFetchers'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          [],
+      lyricFetcherOrder: (json['LyricFetcherOrder'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          [],
+      preferNonstandardArtistsTag:
+          json['PreferNonstandardArtistsTag'] as bool? ?? false,
+      useCustomTagDelimiters: json['UseCustomTagDelimiters'] as bool? ?? false,
+      customTagDelimiters: (json['CustomTagDelimiters'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          [],
+      delimiterWhitelist: (json['DelimiterWhitelist'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          [],
       automaticallyAddToCollection:
           json['AutomaticallyAddToCollection'] as bool?,
       allowEmbeddedSubtitles: embeddedSubtitleOptionsNullableFromJson(
@@ -3067,6 +2932,9 @@ Map<String, dynamic> _$LibraryOptionsToJson(LibraryOptions instance) {
   writeNotNull('LocalMetadataReaderOrder', instance.localMetadataReaderOrder);
   writeNotNull('DisabledSubtitleFetchers', instance.disabledSubtitleFetchers);
   writeNotNull('SubtitleFetcherOrder', instance.subtitleFetcherOrder);
+  writeNotNull(
+      'DisabledMediaSegmentProviders', instance.disabledMediaSegmentProviders);
+  writeNotNull('MediaSegmentProvideOrder', instance.mediaSegmentProvideOrder);
   writeNotNull('SkipSubtitlesIfEmbeddedSubtitlesPresent',
       instance.skipSubtitlesIfEmbeddedSubtitlesPresent);
   writeNotNull('SkipSubtitlesIfAudioTrackMatches',
@@ -3076,6 +2944,14 @@ Map<String, dynamic> _$LibraryOptionsToJson(LibraryOptions instance) {
       'RequirePerfectSubtitleMatch', instance.requirePerfectSubtitleMatch);
   writeNotNull('SaveSubtitlesWithMedia', instance.saveSubtitlesWithMedia);
   writeNotNull('SaveLyricsWithMedia', instance.saveLyricsWithMedia);
+  writeNotNull('SaveTrickplayWithMedia', instance.saveTrickplayWithMedia);
+  writeNotNull('DisabledLyricFetchers', instance.disabledLyricFetchers);
+  writeNotNull('LyricFetcherOrder', instance.lyricFetcherOrder);
+  writeNotNull(
+      'PreferNonstandardArtistsTag', instance.preferNonstandardArtistsTag);
+  writeNotNull('UseCustomTagDelimiters', instance.useCustomTagDelimiters);
+  writeNotNull('CustomTagDelimiters', instance.customTagDelimiters);
+  writeNotNull('DelimiterWhitelist', instance.delimiterWhitelist);
   writeNotNull(
       'AutomaticallyAddToCollection', instance.automaticallyAddToCollection);
   writeNotNull('AllowEmbeddedSubtitles',
@@ -3103,6 +2979,11 @@ LibraryOptionsResultDto _$LibraryOptionsResultDtoFromJson(
                   LibraryOptionInfoDto.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
+      lyricFetchers: (json['LyricFetchers'] as List<dynamic>?)
+              ?.map((e) =>
+                  LibraryOptionInfoDto.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
       typeOptions: (json['TypeOptions'] as List<dynamic>?)
               ?.map((e) =>
                   LibraryTypeOptionsDto.fromJson(e as Map<String, dynamic>))
@@ -3126,6 +3007,8 @@ Map<String, dynamic> _$LibraryOptionsResultDtoToJson(
       instance.metadataReaders?.map((e) => e.toJson()).toList());
   writeNotNull('SubtitleFetchers',
       instance.subtitleFetchers?.map((e) => e.toJson()).toList());
+  writeNotNull(
+      'LyricFetchers', instance.lyricFetchers?.map((e) => e.toJson()).toList());
   writeNotNull(
       'TypeOptions', instance.typeOptions?.map((e) => e.toJson()).toList());
   return val;
@@ -3625,7 +3508,6 @@ Map<String, dynamic> _$MediaPathDtoToJson(MediaPathDto instance) {
 MediaPathInfo _$MediaPathInfoFromJson(Map<String, dynamic> json) =>
     MediaPathInfo(
       path: json['Path'] as String?,
-      networkPath: json['NetworkPath'] as String?,
     );
 
 Map<String, dynamic> _$MediaPathInfoToJson(MediaPathInfo instance) {
@@ -3638,7 +3520,59 @@ Map<String, dynamic> _$MediaPathInfoToJson(MediaPathInfo instance) {
   }
 
   writeNotNull('Path', instance.path);
-  writeNotNull('NetworkPath', instance.networkPath);
+  return val;
+}
+
+MediaSegmentDto _$MediaSegmentDtoFromJson(Map<String, dynamic> json) =>
+    MediaSegmentDto(
+      id: json['Id'] as String?,
+      itemId: json['ItemId'] as String?,
+      type: mediaSegmentTypeNullableFromJson(json['Type']),
+      startTicks: (json['StartTicks'] as num?)?.toInt(),
+      endTicks: (json['EndTicks'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$MediaSegmentDtoToJson(MediaSegmentDto instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('ItemId', instance.itemId);
+  writeNotNull('Type', mediaSegmentTypeNullableToJson(instance.type));
+  writeNotNull('StartTicks', instance.startTicks);
+  writeNotNull('EndTicks', instance.endTicks);
+  return val;
+}
+
+MediaSegmentDtoQueryResult _$MediaSegmentDtoQueryResultFromJson(
+        Map<String, dynamic> json) =>
+    MediaSegmentDtoQueryResult(
+      items: (json['Items'] as List<dynamic>?)
+              ?.map((e) => MediaSegmentDto.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      totalRecordCount: (json['TotalRecordCount'] as num?)?.toInt(),
+      startIndex: (json['StartIndex'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$MediaSegmentDtoQueryResultToJson(
+    MediaSegmentDtoQueryResult instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Items', instance.items?.map((e) => e.toJson()).toList());
+  writeNotNull('TotalRecordCount', instance.totalRecordCount);
+  writeNotNull('StartIndex', instance.startIndex);
   return val;
 }
 
@@ -3664,6 +3598,8 @@ MediaSourceInfo _$MediaSourceInfoFromJson(Map<String, dynamic> json) =>
       supportsDirectStream: json['SupportsDirectStream'] as bool?,
       supportsDirectPlay: json['SupportsDirectPlay'] as bool?,
       isInfiniteStream: json['IsInfiniteStream'] as bool?,
+      useMostCompatibleTranscodingProfile:
+          json['UseMostCompatibleTranscodingProfile'] as bool? ?? false,
       requiresOpening: json['RequiresOpening'] as bool?,
       openToken: json['OpenToken'] as String?,
       requiresClosing: json['RequiresClosing'] as bool?,
@@ -3687,6 +3623,8 @@ MediaSourceInfo _$MediaSourceInfoFromJson(Map<String, dynamic> json) =>
               .toList() ??
           [],
       bitrate: (json['Bitrate'] as num?)?.toInt(),
+      fallbackMaxStreamingBitrate:
+          (json['FallbackMaxStreamingBitrate'] as num?)?.toInt(),
       timestamp: transportStreamTimestampNullableFromJson(json['Timestamp']),
       requiredHttpHeaders: json['RequiredHttpHeaders'] as Map<String, dynamic>?,
       transcodingUrl: json['TranscodingUrl'] as String?,
@@ -3698,6 +3636,7 @@ MediaSourceInfo _$MediaSourceInfoFromJson(Map<String, dynamic> json) =>
           (json['DefaultAudioStreamIndex'] as num?)?.toInt(),
       defaultSubtitleStreamIndex:
           (json['DefaultSubtitleStreamIndex'] as num?)?.toInt(),
+      hasSegments: json['HasSegments'] as bool?,
     );
 
 Map<String, dynamic> _$MediaSourceInfoToJson(MediaSourceInfo instance) {
@@ -3730,6 +3669,8 @@ Map<String, dynamic> _$MediaSourceInfoToJson(MediaSourceInfo instance) {
   writeNotNull('SupportsDirectStream', instance.supportsDirectStream);
   writeNotNull('SupportsDirectPlay', instance.supportsDirectPlay);
   writeNotNull('IsInfiniteStream', instance.isInfiniteStream);
+  writeNotNull('UseMostCompatibleTranscodingProfile',
+      instance.useMostCompatibleTranscodingProfile);
   writeNotNull('RequiresOpening', instance.requiresOpening);
   writeNotNull('OpenToken', instance.openToken);
   writeNotNull('RequiresClosing', instance.requiresClosing);
@@ -3748,6 +3689,8 @@ Map<String, dynamic> _$MediaSourceInfoToJson(MediaSourceInfo instance) {
   writeNotNull('Formats', instance.formats);
   writeNotNull('Bitrate', instance.bitrate);
   writeNotNull(
+      'FallbackMaxStreamingBitrate', instance.fallbackMaxStreamingBitrate);
+  writeNotNull(
       'Timestamp', transportStreamTimestampNullableToJson(instance.timestamp));
   writeNotNull('RequiredHttpHeaders', instance.requiredHttpHeaders);
   writeNotNull('TranscodingUrl', instance.transcodingUrl);
@@ -3758,6 +3701,7 @@ Map<String, dynamic> _$MediaSourceInfoToJson(MediaSourceInfo instance) {
   writeNotNull('DefaultAudioStreamIndex', instance.defaultAudioStreamIndex);
   writeNotNull(
       'DefaultSubtitleStreamIndex', instance.defaultSubtitleStreamIndex);
+  writeNotNull('HasSegments', instance.hasSegments);
   return val;
 }
 
@@ -3778,6 +3722,7 @@ MediaStream _$MediaStreamFromJson(Map<String, dynamic> json) => MediaStream(
       blPresentFlag: (json['BlPresentFlag'] as num?)?.toInt(),
       dvBlSignalCompatibilityId:
           (json['DvBlSignalCompatibilityId'] as num?)?.toInt(),
+      rotation: (json['Rotation'] as num?)?.toInt(),
       comment: json['Comment'] as String?,
       timeBase: json['TimeBase'] as String?,
       codecTimeBase: json['CodecTimeBase'] as String?,
@@ -3811,6 +3756,7 @@ MediaStream _$MediaStreamFromJson(Map<String, dynamic> json) => MediaStream(
       width: (json['Width'] as num?)?.toInt(),
       averageFrameRate: (json['AverageFrameRate'] as num?)?.toDouble(),
       realFrameRate: (json['RealFrameRate'] as num?)?.toDouble(),
+      referenceFrameRate: (json['ReferenceFrameRate'] as num?)?.toDouble(),
       profile: json['Profile'] as String?,
       type: mediaStreamTypeNullableFromJson(json['Type']),
       aspectRatio: json['AspectRatio'] as String?,
@@ -3853,6 +3799,7 @@ Map<String, dynamic> _$MediaStreamToJson(MediaStream instance) {
   writeNotNull('ElPresentFlag', instance.elPresentFlag);
   writeNotNull('BlPresentFlag', instance.blPresentFlag);
   writeNotNull('DvBlSignalCompatibilityId', instance.dvBlSignalCompatibilityId);
+  writeNotNull('Rotation', instance.rotation);
   writeNotNull('Comment', instance.comment);
   writeNotNull('TimeBase', instance.timeBase);
   writeNotNull('CodecTimeBase', instance.codecTimeBase);
@@ -3886,6 +3833,7 @@ Map<String, dynamic> _$MediaStreamToJson(MediaStream instance) {
   writeNotNull('Width', instance.width);
   writeNotNull('AverageFrameRate', instance.averageFrameRate);
   writeNotNull('RealFrameRate', instance.realFrameRate);
+  writeNotNull('ReferenceFrameRate', instance.referenceFrameRate);
   writeNotNull('Profile', instance.profile);
   writeNotNull('Type', mediaStreamTypeNullableToJson(instance.type));
   writeNotNull('AspectRatio', instance.aspectRatio);
@@ -4452,47 +4400,6 @@ Map<String, dynamic> _$NextItemRequestDtoToJson(NextItemRequestDto instance) {
   return val;
 }
 
-NotFoundObjects _$NotFoundObjectsFromJson(Map<String, dynamic> json) =>
-    NotFoundObjects(
-      movies: (json['movies'] as List<dynamic>?)
-              ?.map((e) => TraktMovie.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
-      shows: (json['shows'] as List<dynamic>?)
-              ?.map((e) => TraktShow.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
-      episodes: (json['episodes'] as List<dynamic>?)
-              ?.map((e) => TraktEpisode.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
-      seasons: (json['seasons'] as List<dynamic>?)
-              ?.map((e) => TraktSeason.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
-      people: (json['people'] as List<dynamic>?)
-              ?.map((e) => TraktPerson.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
-    );
-
-Map<String, dynamic> _$NotFoundObjectsToJson(NotFoundObjects instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('movies', instance.movies?.map((e) => e.toJson()).toList());
-  writeNotNull('shows', instance.shows?.map((e) => e.toJson()).toList());
-  writeNotNull('episodes', instance.episodes?.map((e) => e.toJson()).toList());
-  writeNotNull('seasons', instance.seasons?.map((e) => e.toJson()).toList());
-  writeNotNull('people', instance.people?.map((e) => e.toJson()).toList());
-  return val;
-}
-
 OpenLiveStreamDto _$OpenLiveStreamDtoFromJson(Map<String, dynamic> json) =>
     OpenLiveStreamDto(
       openToken: json['OpenToken'] as String?,
@@ -4506,6 +4413,8 @@ OpenLiveStreamDto _$OpenLiveStreamDtoFromJson(Map<String, dynamic> json) =>
       itemId: json['ItemId'] as String?,
       enableDirectPlay: json['EnableDirectPlay'] as bool?,
       enableDirectStream: json['EnableDirectStream'] as bool?,
+      alwaysBurnInSubtitleWhenTranscoding:
+          json['AlwaysBurnInSubtitleWhenTranscoding'] as bool?,
       deviceProfile: json['DeviceProfile'] == null
           ? null
           : DeviceProfile.fromJson(
@@ -4534,6 +4443,8 @@ Map<String, dynamic> _$OpenLiveStreamDtoToJson(OpenLiveStreamDto instance) {
   writeNotNull('ItemId', instance.itemId);
   writeNotNull('EnableDirectPlay', instance.enableDirectPlay);
   writeNotNull('EnableDirectStream', instance.enableDirectStream);
+  writeNotNull('AlwaysBurnInSubtitleWhenTranscoding',
+      instance.alwaysBurnInSubtitleWhenTranscoding);
   writeNotNull('DeviceProfile', instance.deviceProfile?.toJson());
   val['DirectPlayProtocols'] =
       mediaProtocolListToJson(instance.directPlayProtocols);
@@ -4776,6 +4687,8 @@ PlaybackInfoDto _$PlaybackInfoDtoFromJson(Map<String, dynamic> json) =>
       allowVideoStreamCopy: json['AllowVideoStreamCopy'] as bool?,
       allowAudioStreamCopy: json['AllowAudioStreamCopy'] as bool?,
       autoOpenLiveStream: json['AutoOpenLiveStream'] as bool?,
+      alwaysBurnInSubtitleWhenTranscoding:
+          json['AlwaysBurnInSubtitleWhenTranscoding'] as bool?,
     );
 
 Map<String, dynamic> _$PlaybackInfoDtoToJson(PlaybackInfoDto instance) {
@@ -4802,6 +4715,8 @@ Map<String, dynamic> _$PlaybackInfoDtoToJson(PlaybackInfoDto instance) {
   writeNotNull('AllowVideoStreamCopy', instance.allowVideoStreamCopy);
   writeNotNull('AllowAudioStreamCopy', instance.allowAudioStreamCopy);
   writeNotNull('AutoOpenLiveStream', instance.autoOpenLiveStream);
+  writeNotNull('AlwaysBurnInSubtitleWhenTranscoding',
+      instance.alwaysBurnInSubtitleWhenTranscoding);
   return val;
 }
 
@@ -5068,6 +4983,34 @@ Map<String, dynamic> _$PlaylistCreationResultToJson(
   }
 
   writeNotNull('Id', instance.id);
+  return val;
+}
+
+PlaylistDto _$PlaylistDtoFromJson(Map<String, dynamic> json) => PlaylistDto(
+      openAccess: json['OpenAccess'] as bool?,
+      shares: (json['Shares'] as List<dynamic>?)
+              ?.map((e) =>
+                  PlaylistUserPermissions.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      itemIds: (json['ItemIds'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$PlaylistDtoToJson(PlaylistDto instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('OpenAccess', instance.openAccess);
+  writeNotNull('Shares', instance.shares?.map((e) => e.toJson()).toList());
+  writeNotNull('ItemIds', instance.itemIds);
   return val;
 }
 
@@ -6007,30 +5950,6 @@ Map<String, dynamic> _$RemoveFromPlaylistRequestDtoToJson(
   return val;
 }
 
-ReportPlaybackOptions _$ReportPlaybackOptionsFromJson(
-        Map<String, dynamic> json) =>
-    ReportPlaybackOptions(
-      maxDataAge: (json['MaxDataAge'] as num?)?.toInt(),
-      backupPath: json['BackupPath'] as String?,
-      maxBackupFiles: (json['MaxBackupFiles'] as num?)?.toInt(),
-    );
-
-Map<String, dynamic> _$ReportPlaybackOptionsToJson(
-    ReportPlaybackOptions instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('MaxDataAge', instance.maxDataAge);
-  writeNotNull('BackupPath', instance.backupPath);
-  writeNotNull('MaxBackupFiles', instance.maxBackupFiles);
-  return val;
-}
-
 RepositoryInfo _$RepositoryInfoFromJson(Map<String, dynamic> json) =>
     RepositoryInfo(
       name: json['Name'] as String?,
@@ -6595,7 +6514,6 @@ ServerConfiguration _$ServerConfigurationFromJson(Map<String, dynamic> json) =>
       disableLiveTvChannelUserDataName:
           json['DisableLiveTvChannelUserDataName'] as bool?,
       metadataPath: json['MetadataPath'] as String?,
-      metadataNetworkPath: json['MetadataNetworkPath'] as String?,
       preferredMetadataLanguage: json['PreferredMetadataLanguage'] as String?,
       metadataCountryCode: json['MetadataCountryCode'] as String?,
       sortReplaceCharacters: (json['SortReplaceCharacters'] as List<dynamic>?)
@@ -6714,7 +6632,6 @@ Map<String, dynamic> _$ServerConfigurationToJson(ServerConfiguration instance) {
   writeNotNull('DisableLiveTvChannelUserDataName',
       instance.disableLiveTvChannelUserDataName);
   writeNotNull('MetadataPath', instance.metadataPath);
-  writeNotNull('MetadataNetworkPath', instance.metadataNetworkPath);
   writeNotNull('PreferredMetadataLanguage', instance.preferredMetadataLanguage);
   writeNotNull('MetadataCountryCode', instance.metadataCountryCode);
   writeNotNull('SortReplaceCharacters', instance.sortReplaceCharacters);
@@ -6847,7 +6764,8 @@ Map<String, dynamic> _$ServerShuttingDownMessageToJson(
   return val;
 }
 
-SessionInfo _$SessionInfoFromJson(Map<String, dynamic> json) => SessionInfo(
+SessionInfoDto _$SessionInfoDtoFromJson(Map<String, dynamic> json) =>
+    SessionInfoDto(
       playState: json['PlayState'] == null
           ? null
           : PlayerStateInfo.fromJson(json['PlayState'] as Map<String, dynamic>),
@@ -6857,7 +6775,7 @@ SessionInfo _$SessionInfoFromJson(Map<String, dynamic> json) => SessionInfo(
           [],
       capabilities: json['Capabilities'] == null
           ? null
-          : ClientCapabilities.fromJson(
+          : ClientCapabilitiesDto.fromJson(
               json['Capabilities'] as Map<String, dynamic>),
       remoteEndPoint: json['RemoteEndPoint'] as String?,
       playableMediaTypes:
@@ -6911,7 +6829,7 @@ SessionInfo _$SessionInfoFromJson(Map<String, dynamic> json) => SessionInfo(
           generalCommandTypeListFromJson(json['SupportedCommands'] as List?),
     );
 
-Map<String, dynamic> _$SessionInfoToJson(SessionInfo instance) {
+Map<String, dynamic> _$SessionInfoDtoToJson(SessionInfoDto instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -6961,7 +6879,7 @@ Map<String, dynamic> _$SessionInfoToJson(SessionInfo instance) {
 SessionsMessage _$SessionsMessageFromJson(Map<String, dynamic> json) =>
     SessionsMessage(
       data: (json['Data'] as List<dynamic>?)
-              ?.map((e) => SessionInfo.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => SessionInfoDto.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       messageId: json['MessageId'] as String?,
@@ -7884,281 +7802,6 @@ Map<String, dynamic> _$TrailerInfoRemoteSearchQueryToJson(
   return val;
 }
 
-TraktEpisode _$TraktEpisodeFromJson(Map<String, dynamic> json) => TraktEpisode(
-      season: (json['season'] as num?)?.toInt(),
-      number: (json['number'] as num?)?.toInt(),
-      title: json['title'] as String?,
-      ids: json['ids'] == null
-          ? null
-          : TraktEpisodeId.fromJson(json['ids'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$TraktEpisodeToJson(TraktEpisode instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('season', instance.season);
-  writeNotNull('number', instance.number);
-  writeNotNull('title', instance.title);
-  writeNotNull('ids', instance.ids?.toJson());
-  return val;
-}
-
-TraktEpisodeId _$TraktEpisodeIdFromJson(Map<String, dynamic> json) =>
-    TraktEpisodeId(
-      trakt: (json['trakt'] as num?)?.toInt(),
-      slug: json['slug'] as String?,
-      imdb: json['imdb'] as String?,
-      tmdb: (json['tmdb'] as num?)?.toInt(),
-      tvdb: json['tvdb'] as String?,
-      tvrage: json['tvrage'] as String?,
-    );
-
-Map<String, dynamic> _$TraktEpisodeIdToJson(TraktEpisodeId instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('trakt', instance.trakt);
-  writeNotNull('slug', instance.slug);
-  writeNotNull('imdb', instance.imdb);
-  writeNotNull('tmdb', instance.tmdb);
-  writeNotNull('tvdb', instance.tvdb);
-  writeNotNull('tvrage', instance.tvrage);
-  return val;
-}
-
-TraktMovie _$TraktMovieFromJson(Map<String, dynamic> json) => TraktMovie(
-      title: json['title'] as String?,
-      year: (json['year'] as num?)?.toInt(),
-      ids: json['ids'] == null
-          ? null
-          : TraktMovieId.fromJson(json['ids'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$TraktMovieToJson(TraktMovie instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('title', instance.title);
-  writeNotNull('year', instance.year);
-  writeNotNull('ids', instance.ids?.toJson());
-  return val;
-}
-
-TraktMovieId _$TraktMovieIdFromJson(Map<String, dynamic> json) => TraktMovieId(
-      trakt: (json['trakt'] as num?)?.toInt(),
-      slug: json['slug'] as String?,
-      imdb: json['imdb'] as String?,
-      tmdb: (json['tmdb'] as num?)?.toInt(),
-    );
-
-Map<String, dynamic> _$TraktMovieIdToJson(TraktMovieId instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('trakt', instance.trakt);
-  writeNotNull('slug', instance.slug);
-  writeNotNull('imdb', instance.imdb);
-  writeNotNull('tmdb', instance.tmdb);
-  return val;
-}
-
-TraktPerson _$TraktPersonFromJson(Map<String, dynamic> json) => TraktPerson(
-      name: json['name'] as String?,
-      ids: json['ids'] == null
-          ? null
-          : TraktPersonId.fromJson(json['ids'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$TraktPersonToJson(TraktPerson instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('name', instance.name);
-  writeNotNull('ids', instance.ids?.toJson());
-  return val;
-}
-
-TraktPersonId _$TraktPersonIdFromJson(Map<String, dynamic> json) =>
-    TraktPersonId(
-      trakt: (json['trakt'] as num?)?.toInt(),
-      slug: json['slug'] as String?,
-      imdb: json['imdb'] as String?,
-      tmdb: (json['tmdb'] as num?)?.toInt(),
-      tvrage: (json['tvrage'] as num?)?.toInt(),
-    );
-
-Map<String, dynamic> _$TraktPersonIdToJson(TraktPersonId instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('trakt', instance.trakt);
-  writeNotNull('slug', instance.slug);
-  writeNotNull('imdb', instance.imdb);
-  writeNotNull('tmdb', instance.tmdb);
-  writeNotNull('tvrage', instance.tvrage);
-  return val;
-}
-
-TraktSeason _$TraktSeasonFromJson(Map<String, dynamic> json) => TraktSeason(
-      number: (json['number'] as num?)?.toInt(),
-      ids: json['ids'] == null
-          ? null
-          : TraktSeasonId.fromJson(json['ids'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$TraktSeasonToJson(TraktSeason instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('number', instance.number);
-  writeNotNull('ids', instance.ids?.toJson());
-  return val;
-}
-
-TraktSeasonId _$TraktSeasonIdFromJson(Map<String, dynamic> json) =>
-    TraktSeasonId(
-      trakt: (json['trakt'] as num?)?.toInt(),
-      slug: json['slug'] as String?,
-      tmdb: (json['tmdb'] as num?)?.toInt(),
-      tvdb: (json['tvdb'] as num?)?.toInt(),
-      tvrage: (json['tvrage'] as num?)?.toInt(),
-    );
-
-Map<String, dynamic> _$TraktSeasonIdToJson(TraktSeasonId instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('trakt', instance.trakt);
-  writeNotNull('slug', instance.slug);
-  writeNotNull('tmdb', instance.tmdb);
-  writeNotNull('tvdb', instance.tvdb);
-  writeNotNull('tvrage', instance.tvrage);
-  return val;
-}
-
-TraktShow _$TraktShowFromJson(Map<String, dynamic> json) => TraktShow(
-      title: json['title'] as String?,
-      year: (json['year'] as num?)?.toInt(),
-      ids: json['ids'] == null
-          ? null
-          : TraktShowId.fromJson(json['ids'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$TraktShowToJson(TraktShow instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('title', instance.title);
-  writeNotNull('year', instance.year);
-  writeNotNull('ids', instance.ids?.toJson());
-  return val;
-}
-
-TraktShowId _$TraktShowIdFromJson(Map<String, dynamic> json) => TraktShowId(
-      trakt: (json['trakt'] as num?)?.toInt(),
-      slug: json['slug'] as String?,
-      imdb: json['imdb'] as String?,
-      tmdb: (json['tmdb'] as num?)?.toInt(),
-      tvdb: json['tvdb'] as String?,
-      tvrage: json['tvrage'] as String?,
-    );
-
-Map<String, dynamic> _$TraktShowIdToJson(TraktShowId instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('trakt', instance.trakt);
-  writeNotNull('slug', instance.slug);
-  writeNotNull('imdb', instance.imdb);
-  writeNotNull('tmdb', instance.tmdb);
-  writeNotNull('tvdb', instance.tvdb);
-  writeNotNull('tvrage', instance.tvrage);
-  return val;
-}
-
-TraktSyncResponse _$TraktSyncResponseFromJson(Map<String, dynamic> json) =>
-    TraktSyncResponse(
-      added: json['added'] == null
-          ? null
-          : Items.fromJson(json['added'] as Map<String, dynamic>),
-      deleted: json['deleted'] == null
-          ? null
-          : Items.fromJson(json['deleted'] as Map<String, dynamic>),
-      updated: json['updated'] == null
-          ? null
-          : Items.fromJson(json['updated'] as Map<String, dynamic>),
-      notFound: json['not_found'] == null
-          ? null
-          : NotFoundObjects.fromJson(json['not_found'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$TraktSyncResponseToJson(TraktSyncResponse instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('added', instance.added?.toJson());
-  writeNotNull('deleted', instance.deleted?.toJson());
-  writeNotNull('updated', instance.updated?.toJson());
-  writeNotNull('not_found', instance.notFound?.toJson());
-  return val;
-}
-
 TranscodingInfo _$TranscodingInfoFromJson(Map<String, dynamic> json) =>
     TranscodingInfo(
       audioCodec: json['AudioCodec'] as String?,
@@ -8172,7 +7815,7 @@ TranscodingInfo _$TranscodingInfoFromJson(Map<String, dynamic> json) =>
       width: (json['Width'] as num?)?.toInt(),
       height: (json['Height'] as num?)?.toInt(),
       audioChannels: (json['AudioChannels'] as num?)?.toInt(),
-      hardwareAccelerationType: hardwareEncodingTypeNullableFromJson(
+      hardwareAccelerationType: hardwareAccelerationTypeNullableFromJson(
           json['HardwareAccelerationType']),
       transcodeReasons:
           transcodeReasonListFromJson(json['TranscodeReasons'] as List?),
@@ -8198,8 +7841,10 @@ Map<String, dynamic> _$TranscodingInfoToJson(TranscodingInfo instance) {
   writeNotNull('Width', instance.width);
   writeNotNull('Height', instance.height);
   writeNotNull('AudioChannels', instance.audioChannels);
-  writeNotNull('HardwareAccelerationType',
-      hardwareEncodingTypeNullableToJson(instance.hardwareAccelerationType));
+  writeNotNull(
+      'HardwareAccelerationType',
+      hardwareAccelerationTypeNullableToJson(
+          instance.hardwareAccelerationType));
   val['TranscodeReasons'] =
       transcodeReasonListToJson(instance.transcodeReasons);
   return val;
@@ -8230,6 +7875,7 @@ TranscodingProfile _$TranscodingProfileFromJson(Map<String, dynamic> json) =>
               ?.map((e) => ProfileCondition.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
+      enableAudioVbrEncoding: json['EnableAudioVbrEncoding'] as bool? ?? true,
     );
 
 Map<String, dynamic> _$TranscodingProfileToJson(TranscodingProfile instance) {
@@ -8260,6 +7906,7 @@ Map<String, dynamic> _$TranscodingProfileToJson(TranscodingProfile instance) {
   writeNotNull('BreakOnNonKeyFrames', instance.breakOnNonKeyFrames);
   writeNotNull(
       'Conditions', instance.conditions?.map((e) => e.toJson()).toList());
+  writeNotNull('EnableAudioVbrEncoding', instance.enableAudioVbrEncoding);
   return val;
 }
 
@@ -8297,6 +7944,8 @@ TrickplayOptions _$TrickplayOptionsFromJson(Map<String, dynamic> json) =>
     TrickplayOptions(
       enableHwAcceleration: json['EnableHwAcceleration'] as bool?,
       enableHwEncoding: json['EnableHwEncoding'] as bool?,
+      enableKeyFrameOnlyExtraction:
+          json['EnableKeyFrameOnlyExtraction'] as bool?,
       scanBehavior: trickplayScanBehaviorNullableFromJson(json['ScanBehavior']),
       processPriority:
           processPriorityClassNullableFromJson(json['ProcessPriority']),
@@ -8323,6 +7972,8 @@ Map<String, dynamic> _$TrickplayOptionsToJson(TrickplayOptions instance) {
 
   writeNotNull('EnableHwAcceleration', instance.enableHwAcceleration);
   writeNotNull('EnableHwEncoding', instance.enableHwEncoding);
+  writeNotNull(
+      'EnableKeyFrameOnlyExtraction', instance.enableKeyFrameOnlyExtraction);
   writeNotNull('ScanBehavior',
       trickplayScanBehaviorNullableToJson(instance.scanBehavior));
   writeNotNull('ProcessPriority',
@@ -8370,6 +8021,11 @@ TunerHostInfo _$TunerHostInfoFromJson(Map<String, dynamic> json) =>
       friendlyName: json['FriendlyName'] as String?,
       importFavoritesOnly: json['ImportFavoritesOnly'] as bool?,
       allowHWTranscoding: json['AllowHWTranscoding'] as bool?,
+      allowFmp4TranscodingContainer:
+          json['AllowFmp4TranscodingContainer'] as bool?,
+      allowStreamSharing: json['AllowStreamSharing'] as bool?,
+      fallbackMaxStreamingBitrate:
+          (json['FallbackMaxStreamingBitrate'] as num?)?.toInt(),
       enableStreamLooping: json['EnableStreamLooping'] as bool?,
       source: json['Source'] as String?,
       tunerCount: (json['TunerCount'] as num?)?.toInt(),
@@ -8393,6 +8049,11 @@ Map<String, dynamic> _$TunerHostInfoToJson(TunerHostInfo instance) {
   writeNotNull('FriendlyName', instance.friendlyName);
   writeNotNull('ImportFavoritesOnly', instance.importFavoritesOnly);
   writeNotNull('AllowHWTranscoding', instance.allowHWTranscoding);
+  writeNotNull(
+      'AllowFmp4TranscodingContainer', instance.allowFmp4TranscodingContainer);
+  writeNotNull('AllowStreamSharing', instance.allowStreamSharing);
+  writeNotNull(
+      'FallbackMaxStreamingBitrate', instance.fallbackMaxStreamingBitrate);
   writeNotNull('EnableStreamLooping', instance.enableStreamLooping);
   writeNotNull('Source', instance.source);
   writeNotNull('TunerCount', instance.tunerCount);
@@ -8809,30 +8470,6 @@ Map<String, dynamic> _$UserDtoToJson(UserDto instance) {
   writeNotNull('Configuration', instance.configuration?.toJson());
   writeNotNull('Policy', instance.policy?.toJson());
   writeNotNull('PrimaryImageAspectRatio', instance.primaryImageAspectRatio);
-  return val;
-}
-
-UserInterfaceConfiguration _$UserInterfaceConfigurationFromJson(
-        Map<String, dynamic> json) =>
-    UserInterfaceConfiguration(
-      skipButtonVisible: json['SkipButtonVisible'] as bool?,
-      skipButtonIntroText: json['SkipButtonIntroText'] as String?,
-      skipButtonEndCreditsText: json['SkipButtonEndCreditsText'] as String?,
-    );
-
-Map<String, dynamic> _$UserInterfaceConfigurationToJson(
-    UserInterfaceConfiguration instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('SkipButtonVisible', instance.skipButtonVisible);
-  writeNotNull('SkipButtonIntroText', instance.skipButtonIntroText);
-  writeNotNull('SkipButtonEndCreditsText', instance.skipButtonEndCreditsText);
   return val;
 }
 
