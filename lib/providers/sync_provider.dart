@@ -436,12 +436,12 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     final subtitles = await saveExternalSubtitles(newState?.mediaStreamsModel?.subStreams, syncItem);
 
     final trickPlayFile = await saveTrickPlayData(item, directory);
-    final introOutroSkip = (await api.introSkipGet(id: syncItem.id))?.body;
+    final mediaSegments = (await api.mediaSegmentsGet(id: syncItem.id))?.body;
 
     syncItem = syncItem.copyWith(
       subtitles: subtitles,
       fTrickPlayModel: trickPlayFile,
-      introOutSkipModel: introOutroSkip,
+      mediaSegments: mediaSegments,
     );
 
     await updateItem(syncItem);

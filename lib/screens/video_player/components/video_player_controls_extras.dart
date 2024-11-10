@@ -1,9 +1,9 @@
-import 'package:fladder/providers/video_player_provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:media_kit/media_kit.dart';
 
+import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/video_player/components/video_player_chapters.dart';
 import 'package:fladder/screens/video_player/components/video_player_queue.dart';
 
@@ -84,10 +84,10 @@ class IntroSkipButton extends ConsumerWidget {
   }
 }
 
-class CreditsSkipButton extends ConsumerWidget {
+class OutroSkipButton extends ConsumerWidget {
   final bool isOverlayVisible;
-  final Function()? skipCredits;
-  const CreditsSkipButton({this.skipCredits, required this.isOverlayVisible, super.key});
+  final Function()? skipOutro;
+  const OutroSkipButton({this.skipOutro, required this.isOverlayVisible, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -96,7 +96,7 @@ class CreditsSkipButton extends ConsumerWidget {
       opacity: 1,
       duration: const Duration(milliseconds: 250),
       child: ElevatedButton(
-        onPressed: () => skipCredits?.call(),
+        onPressed: () => skipOutro?.call(),
         style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
         child: const Padding(
           padding: EdgeInsets.all(8),

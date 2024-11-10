@@ -5,7 +5,7 @@ import 'package:media_kit/media_kit.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/chapters_model.dart';
-import 'package:fladder/models/items/intro_skip_model.dart';
+import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
@@ -23,7 +23,7 @@ class DirectPlaybackModel implements PlaybackModel {
     required this.media,
     required this.playbackInfo,
     this.mediaStreams,
-    this.introSkipModel,
+    this.mediaSegments,
     this.chapters,
     this.trickPlay,
     this.queue = const [],
@@ -42,7 +42,7 @@ class DirectPlaybackModel implements PlaybackModel {
   final MediaStreamsModel? mediaStreams;
 
   @override
-  final IntroOutSkipModel? introSkipModel;
+  final MediaSegmentsModel? mediaSegments;
 
   @override
   final List<Chapter>? chapters;
@@ -180,7 +180,7 @@ class DirectPlaybackModel implements PlaybackModel {
     ValueGetter<Duration>? lastPosition,
     PlaybackInfoResponse? playbackInfo,
     ValueGetter<MediaStreamsModel?>? mediaStreams,
-    ValueGetter<IntroOutSkipModel?>? introSkipModel,
+    ValueGetter<MediaSegmentsModel?>? mediaSegments,
     ValueGetter<List<Chapter>?>? chapters,
     ValueGetter<TrickPlayModel?>? trickPlay,
     List<ItemBaseModel>? queue,
@@ -190,7 +190,7 @@ class DirectPlaybackModel implements PlaybackModel {
       media: media != null ? media() : this.media,
       playbackInfo: playbackInfo ?? this.playbackInfo,
       mediaStreams: mediaStreams != null ? mediaStreams() : this.mediaStreams,
-      introSkipModel: introSkipModel != null ? introSkipModel() : this.introSkipModel,
+      mediaSegments: mediaSegments != null ? mediaSegments() : this.mediaSegments,
       chapters: chapters != null ? chapters() : this.chapters,
       trickPlay: trickPlay != null ? trickPlay() : this.trickPlay,
       queue: queue ?? this.queue,

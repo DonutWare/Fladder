@@ -25,8 +25,7 @@ mixin _$SyncedItem {
   String? get sortName => throw _privateConstructorUsedError;
   int? get fileSize => throw _privateConstructorUsedError;
   String? get videoFileName => throw _privateConstructorUsedError;
-  IntroOutSkipModel? get introOutSkipModel =>
-      throw _privateConstructorUsedError;
+  MediaSegmentsModel? get mediaSegments => throw _privateConstructorUsedError;
   TrickPlayModel? get fTrickPlayModel => throw _privateConstructorUsedError;
   ImagesData? get fImages => throw _privateConstructorUsedError;
   List<Chapter> get fChapters => throw _privateConstructorUsedError;
@@ -57,14 +56,14 @@ abstract class $SyncedItemCopyWith<$Res> {
       String? sortName,
       int? fileSize,
       String? videoFileName,
-      IntroOutSkipModel? introOutSkipModel,
+      MediaSegmentsModel? mediaSegments,
       TrickPlayModel? fTrickPlayModel,
       ImagesData? fImages,
       List<Chapter> fChapters,
       List<SubStreamModel> subtitles,
       @UserDataJsonSerializer() UserData? userData});
 
-  $IntroOutSkipModelCopyWith<$Res>? get introOutSkipModel;
+  $MediaSegmentsModelCopyWith<$Res>? get mediaSegments;
   $TrickPlayModelCopyWith<$Res>? get fTrickPlayModel;
 }
 
@@ -92,7 +91,7 @@ class _$SyncedItemCopyWithImpl<$Res, $Val extends SyncedItem>
     Object? sortName = freezed,
     Object? fileSize = freezed,
     Object? videoFileName = freezed,
-    Object? introOutSkipModel = freezed,
+    Object? mediaSegments = freezed,
     Object? fTrickPlayModel = freezed,
     Object? fImages = freezed,
     Object? fChapters = null,
@@ -136,10 +135,10 @@ class _$SyncedItemCopyWithImpl<$Res, $Val extends SyncedItem>
           ? _value.videoFileName
           : videoFileName // ignore: cast_nullable_to_non_nullable
               as String?,
-      introOutSkipModel: freezed == introOutSkipModel
-          ? _value.introOutSkipModel
-          : introOutSkipModel // ignore: cast_nullable_to_non_nullable
-              as IntroOutSkipModel?,
+      mediaSegments: freezed == mediaSegments
+          ? _value.mediaSegments
+          : mediaSegments // ignore: cast_nullable_to_non_nullable
+              as MediaSegmentsModel?,
       fTrickPlayModel: freezed == fTrickPlayModel
           ? _value.fTrickPlayModel
           : fTrickPlayModel // ignore: cast_nullable_to_non_nullable
@@ -167,13 +166,13 @@ class _$SyncedItemCopyWithImpl<$Res, $Val extends SyncedItem>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $IntroOutSkipModelCopyWith<$Res>? get introOutSkipModel {
-    if (_value.introOutSkipModel == null) {
+  $MediaSegmentsModelCopyWith<$Res>? get mediaSegments {
+    if (_value.mediaSegments == null) {
       return null;
     }
 
-    return $IntroOutSkipModelCopyWith<$Res>(_value.introOutSkipModel!, (value) {
-      return _then(_value.copyWith(introOutSkipModel: value) as $Val);
+    return $MediaSegmentsModelCopyWith<$Res>(_value.mediaSegments!, (value) {
+      return _then(_value.copyWith(mediaSegments: value) as $Val);
     });
   }
 
@@ -210,7 +209,7 @@ abstract class _$$SyncItemImplCopyWith<$Res>
       String? sortName,
       int? fileSize,
       String? videoFileName,
-      IntroOutSkipModel? introOutSkipModel,
+      MediaSegmentsModel? mediaSegments,
       TrickPlayModel? fTrickPlayModel,
       ImagesData? fImages,
       List<Chapter> fChapters,
@@ -218,7 +217,7 @@ abstract class _$$SyncItemImplCopyWith<$Res>
       @UserDataJsonSerializer() UserData? userData});
 
   @override
-  $IntroOutSkipModelCopyWith<$Res>? get introOutSkipModel;
+  $MediaSegmentsModelCopyWith<$Res>? get mediaSegments;
   @override
   $TrickPlayModelCopyWith<$Res>? get fTrickPlayModel;
 }
@@ -245,7 +244,7 @@ class __$$SyncItemImplCopyWithImpl<$Res>
     Object? sortName = freezed,
     Object? fileSize = freezed,
     Object? videoFileName = freezed,
-    Object? introOutSkipModel = freezed,
+    Object? mediaSegments = freezed,
     Object? fTrickPlayModel = freezed,
     Object? fImages = freezed,
     Object? fChapters = null,
@@ -289,10 +288,10 @@ class __$$SyncItemImplCopyWithImpl<$Res>
           ? _value.videoFileName
           : videoFileName // ignore: cast_nullable_to_non_nullable
               as String?,
-      introOutSkipModel: freezed == introOutSkipModel
-          ? _value.introOutSkipModel
-          : introOutSkipModel // ignore: cast_nullable_to_non_nullable
-              as IntroOutSkipModel?,
+      mediaSegments: freezed == mediaSegments
+          ? _value.mediaSegments
+          : mediaSegments // ignore: cast_nullable_to_non_nullable
+              as MediaSegmentsModel?,
       fTrickPlayModel: freezed == fTrickPlayModel
           ? _value.fTrickPlayModel
           : fTrickPlayModel // ignore: cast_nullable_to_non_nullable
@@ -330,7 +329,7 @@ class _$SyncItemImpl extends _SyncItem {
       this.sortName,
       this.fileSize,
       this.videoFileName,
-      this.introOutSkipModel,
+      this.mediaSegments,
       this.fTrickPlayModel,
       this.fImages,
       final List<Chapter> fChapters = const [],
@@ -361,7 +360,7 @@ class _$SyncItemImpl extends _SyncItem {
   @override
   final String? videoFileName;
   @override
-  final IntroOutSkipModel? introOutSkipModel;
+  final MediaSegmentsModel? mediaSegments;
   @override
   final TrickPlayModel? fTrickPlayModel;
   @override
@@ -390,7 +389,7 @@ class _$SyncItemImpl extends _SyncItem {
 
   @override
   String toString() {
-    return 'SyncedItem(id: $id, syncing: $syncing, parentId: $parentId, userId: $userId, path: $path, markedForDelete: $markedForDelete, sortName: $sortName, fileSize: $fileSize, videoFileName: $videoFileName, introOutSkipModel: $introOutSkipModel, fTrickPlayModel: $fTrickPlayModel, fImages: $fImages, fChapters: $fChapters, subtitles: $subtitles, userData: $userData)';
+    return 'SyncedItem(id: $id, syncing: $syncing, parentId: $parentId, userId: $userId, path: $path, markedForDelete: $markedForDelete, sortName: $sortName, fileSize: $fileSize, videoFileName: $videoFileName, mediaSegments: $mediaSegments, fTrickPlayModel: $fTrickPlayModel, fImages: $fImages, fChapters: $fChapters, subtitles: $subtitles, userData: $userData)';
   }
 
   @override
@@ -412,8 +411,8 @@ class _$SyncItemImpl extends _SyncItem {
                 other.fileSize == fileSize) &&
             (identical(other.videoFileName, videoFileName) ||
                 other.videoFileName == videoFileName) &&
-            (identical(other.introOutSkipModel, introOutSkipModel) ||
-                other.introOutSkipModel == introOutSkipModel) &&
+            (identical(other.mediaSegments, mediaSegments) ||
+                other.mediaSegments == mediaSegments) &&
             (identical(other.fTrickPlayModel, fTrickPlayModel) ||
                 other.fTrickPlayModel == fTrickPlayModel) &&
             (identical(other.fImages, fImages) || other.fImages == fImages) &&
@@ -437,7 +436,7 @@ class _$SyncItemImpl extends _SyncItem {
       sortName,
       fileSize,
       videoFileName,
-      introOutSkipModel,
+      mediaSegments,
       fTrickPlayModel,
       fImages,
       const DeepCollectionEquality().hash(_fChapters),
@@ -464,7 +463,7 @@ abstract class _SyncItem extends SyncedItem {
       final String? sortName,
       final int? fileSize,
       final String? videoFileName,
-      final IntroOutSkipModel? introOutSkipModel,
+      final MediaSegmentsModel? mediaSegments,
       final TrickPlayModel? fTrickPlayModel,
       final ImagesData? fImages,
       final List<Chapter> fChapters,
@@ -491,7 +490,7 @@ abstract class _SyncItem extends SyncedItem {
   @override
   String? get videoFileName;
   @override
-  IntroOutSkipModel? get introOutSkipModel;
+  MediaSegmentsModel? get mediaSegments;
   @override
   TrickPlayModel? get fTrickPlayModel;
   @override

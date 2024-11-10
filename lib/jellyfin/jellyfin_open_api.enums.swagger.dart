@@ -1,20 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:collection/collection.dart';
 
-enum AnalysisMode {
-  @JsonValue(null)
-  swaggerGeneratedUnknown(null),
-
-  @JsonValue('Introduction')
-  introduction('Introduction'),
-  @JsonValue('Credits')
-  credits('Credits');
-
-  final String? value;
-
-  const AnalysisMode(this.value);
-}
-
 enum AudioSpatialFormat {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -313,6 +299,20 @@ enum DayPattern {
   const DayPattern(this.value);
 }
 
+enum DeinterlaceMethod {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('yadif')
+  yadif('yadif'),
+  @JsonValue('bwdif')
+  bwdif('bwdif');
+
+  final String? value;
+
+  const DeinterlaceMethod(this.value);
+}
+
 enum DlnaProfileType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -342,7 +342,11 @@ enum DownMixStereoAlgorithms {
   @JsonValue('Dave750')
   dave750('Dave750'),
   @JsonValue('NightmodeDialogue')
-  nightmodedialogue('NightmodeDialogue');
+  nightmodedialogue('NightmodeDialogue'),
+  @JsonValue('Rfc7845')
+  rfc7845('Rfc7845'),
+  @JsonValue('Ac4')
+  ac4('Ac4');
 
   final String? value;
 
@@ -395,6 +399,38 @@ enum EmbeddedSubtitleOptions {
   final String? value;
 
   const EmbeddedSubtitleOptions(this.value);
+}
+
+enum EncoderPreset {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('auto')
+  auto('auto'),
+  @JsonValue('placebo')
+  placebo('placebo'),
+  @JsonValue('veryslow')
+  veryslow('veryslow'),
+  @JsonValue('slower')
+  slower('slower'),
+  @JsonValue('slow')
+  slow('slow'),
+  @JsonValue('medium')
+  medium('medium'),
+  @JsonValue('fast')
+  fast('fast'),
+  @JsonValue('faster')
+  faster('faster'),
+  @JsonValue('veryfast')
+  veryfast('veryfast'),
+  @JsonValue('superfast')
+  superfast('superfast'),
+  @JsonValue('ultrafast')
+  ultrafast('ultrafast');
+
+  final String? value;
+
+  const EncoderPreset(this.value);
 }
 
 enum EncodingContext {
@@ -705,28 +741,30 @@ enum GroupUpdateType {
   const GroupUpdateType(this.value);
 }
 
-enum HardwareEncodingType {
+enum HardwareAccelerationType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
-  @JsonValue('AMF')
-  amf('AMF'),
-  @JsonValue('QSV')
-  qsv('QSV'),
-  @JsonValue('NVENC')
-  nvenc('NVENC'),
-  @JsonValue('V4L2M2M')
-  v4l2m2m('V4L2M2M'),
-  @JsonValue('VAAPI')
-  vaapi('VAAPI'),
-  @JsonValue('VideoToolBox')
-  videotoolbox('VideoToolBox'),
-  @JsonValue('RKMPP')
-  rkmpp('RKMPP');
+  @JsonValue('none')
+  none('none'),
+  @JsonValue('amf')
+  amf('amf'),
+  @JsonValue('qsv')
+  qsv('qsv'),
+  @JsonValue('nvenc')
+  nvenc('nvenc'),
+  @JsonValue('v4l2m2m')
+  v4l2m2m('v4l2m2m'),
+  @JsonValue('vaapi')
+  vaapi('vaapi'),
+  @JsonValue('videotoolbox')
+  videotoolbox('videotoolbox'),
+  @JsonValue('rkmpp')
+  rkmpp('rkmpp');
 
   final String? value;
 
-  const HardwareEncodingType(this.value);
+  const HardwareAccelerationType(this.value);
 }
 
 enum ImageFormat {
@@ -1197,6 +1235,28 @@ enum MediaProtocol {
   final String? value;
 
   const MediaProtocol(this.value);
+}
+
+enum MediaSegmentType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('Unknown')
+  unknown('Unknown'),
+  @JsonValue('Commercial')
+  commercial('Commercial'),
+  @JsonValue('Preview')
+  preview('Preview'),
+  @JsonValue('Recap')
+  recap('Recap'),
+  @JsonValue('Outro')
+  outro('Outro'),
+  @JsonValue('Intro')
+  intro('Intro');
+
+  final String? value;
+
+  const MediaSegmentType(this.value);
 }
 
 enum MediaSourceType {
@@ -2011,6 +2071,68 @@ enum TaskState {
   const TaskState(this.value);
 }
 
+enum TonemappingAlgorithm {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('none')
+  none('none'),
+  @JsonValue('clip')
+  clip('clip'),
+  @JsonValue('linear')
+  linear('linear'),
+  @JsonValue('gamma')
+  gamma('gamma'),
+  @JsonValue('reinhard')
+  reinhard('reinhard'),
+  @JsonValue('hable')
+  hable('hable'),
+  @JsonValue('mobius')
+  mobius('mobius'),
+  @JsonValue('bt2390')
+  bt2390('bt2390');
+
+  final String? value;
+
+  const TonemappingAlgorithm(this.value);
+}
+
+enum TonemappingMode {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('auto')
+  auto('auto'),
+  @JsonValue('max')
+  max('max'),
+  @JsonValue('rgb')
+  rgb('rgb'),
+  @JsonValue('lum')
+  lum('lum'),
+  @JsonValue('itp')
+  itp('itp');
+
+  final String? value;
+
+  const TonemappingMode(this.value);
+}
+
+enum TonemappingRange {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('auto')
+  auto('auto'),
+  @JsonValue('tv')
+  tv('tv'),
+  @JsonValue('pc')
+  pc('pc');
+
+  final String? value;
+
+  const TonemappingRange(this.value);
+}
+
 enum TranscodeReason {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -2064,7 +2186,9 @@ enum TranscodeReason {
   @JsonValue('DirectPlayError')
   directplayerror('DirectPlayError'),
   @JsonValue('VideoRangeTypeNotSupported')
-  videorangetypenotsupported('VideoRangeTypeNotSupported');
+  videorangetypenotsupported('VideoRangeTypeNotSupported'),
+  @JsonValue('VideoCodecTagNotSupported')
+  videocodectagnotsupported('VideoCodecTagNotSupported');
 
   final String? value;
 
@@ -2138,7 +2262,9 @@ enum TranscodingInfoTranscodeReasons {
   @JsonValue('DirectPlayError')
   directplayerror('DirectPlayError'),
   @JsonValue('VideoRangeTypeNotSupported')
-  videorangetypenotsupported('VideoRangeTypeNotSupported');
+  videorangetypenotsupported('VideoRangeTypeNotSupported'),
+  @JsonValue('VideoCodecTagNotSupported')
+  videocodectagnotsupported('VideoCodecTagNotSupported');
 
   final String? value;
 
@@ -5021,62 +5147,6 @@ enum SessionsSessionIdViewingPostItemType {
   final String? value;
 
   const SessionsSessionIdViewingPostItemType(this.value);
-}
-
-enum EpisodeIdIntroTimestampsGetMode {
-  @JsonValue(null)
-  swaggerGeneratedUnknown(null),
-
-  @JsonValue('Introduction')
-  introduction('Introduction'),
-  @JsonValue('Credits')
-  credits('Credits');
-
-  final String? value;
-
-  const EpisodeIdIntroTimestampsGetMode(this.value);
-}
-
-enum EpisodeIdIntroTimestampsV1GetMode {
-  @JsonValue(null)
-  swaggerGeneratedUnknown(null),
-
-  @JsonValue('Introduction')
-  introduction('Introduction'),
-  @JsonValue('Credits')
-  credits('Credits');
-
-  final String? value;
-
-  const EpisodeIdIntroTimestampsV1GetMode(this.value);
-}
-
-enum IntrosAllGetMode {
-  @JsonValue(null)
-  swaggerGeneratedUnknown(null),
-
-  @JsonValue('Introduction')
-  introduction('Introduction'),
-  @JsonValue('Credits')
-  credits('Credits');
-
-  final String? value;
-
-  const IntrosAllGetMode(this.value);
-}
-
-enum IntrosEraseTimestampsPostMode {
-  @JsonValue(null)
-  swaggerGeneratedUnknown(null),
-
-  @JsonValue('Introduction')
-  introduction('Introduction'),
-  @JsonValue('Credits')
-  credits('Credits');
-
-  final String? value;
-
-  const IntrosEraseTimestampsPostMode(this.value);
 }
 
 enum ShowsSeriesIdEpisodesGetSortBy {

@@ -70,7 +70,7 @@
 </details>
 
 Web/Desktop [try out the web build!](https://DonutWare.github.io/Fladder)
-#### Notice: The GitHub hosted web build only allows `https` connections. This is a limitation on GitHub's end, for self-hosted versions `http` works fine. 
+> ℹ️ **Note:** The GitHub hosted web build only allows `https` connections. This is a limitation on GitHub's end, for self-hosted versions `http` works fine. 
 
 ## Planned Features
 
@@ -81,7 +81,9 @@ Web/Desktop [try out the web build!](https://DonutWare.github.io/Fladder)
 
 ## Download
 
-The latest executables for Windows, macOS, Linux, iOS and Android can be found on the [releases page](https://github.com/DonutWare/Fladder/releases).
+The latest executables for Windows, macOS, Linux, iOS, Android and Web can be found on the [releases page](https://github.com/DonutWare/Fladder/releases).
+
+You can pull the Docker version using the following tag: ```ghcr.io/donutware/fladder:latest```
 
 <!-- ### Linux
 
@@ -92,8 +94,6 @@ Yay: `yay -S fladder-git`
 Paru: `paru -S fladder-git`
 -->
 ### Play Store (Android)
-The Android app is currently in testing, you can help by joining this group: https://groups.google.com/g/fladder
-
 <a href='https://play.google.com/store/apps/details?id=nl.jknaapen.fladder&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width=250/></a>
 
 
