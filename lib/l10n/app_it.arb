@@ -1,1 +1,41 @@
-{}
+{
+  "accept": "Accetta",
+  "@accept": {},
+  "addAsFavorite": "Aggiungi ai preferiti",
+  "@addAsFavorite": {},
+  "all": "Tutti",
+  "@all": {},
+  "appLockAutoLogin": "Login automatico",
+  "@appLockAutoLogin": {},
+  "appLockTitle": "Imposta il metodo di autenticazione per {userName}",
+  "@appLockTitle": {
+    "description": "Pop-up to pick a login method",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "autoPlay": "Auto-play",
+  "@autoPlay": {},
+  "nativeName": "Italiano",
+  "@nativeName": {},
+  "about": "Informazioni",
+  "@about": {},
+  "active": "Attivo",
+  "@active": {},
+  "addToCollection": "Aggiungi alla collezione",
+  "@addToCollection": {},
+  "addToPlaylist": "Aggiungi alla playlist",
+  "@addToPlaylist": {},
+  "advanced": "Avanzate",
+  "@advanced": {},
+  "ascending": "Crescente",
+  "@ascending": {},
+  "appLockBiometrics": "Biometria",
+  "@appLockBiometrics": {},
+  "appLockPasscode": "Codice",
+  "@appLockPasscode": {},
+  "audio": "Audio",
+  "@audio": {}
+}
