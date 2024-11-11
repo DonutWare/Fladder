@@ -72,7 +72,7 @@ dependencies:
 
   # UI Components
   dynamic_color: ^1.7.0
-  flutter_svg: ^2.0.4
+  flutter_svg: ^2.0.14
   drop_shadow: ^0.1.0
   animations: ^2.0.7
   automatic_animated_list: ^1.1.0

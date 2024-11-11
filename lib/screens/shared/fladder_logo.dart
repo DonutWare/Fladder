@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:fladder/screens/shared/fladder_icon.dart';
 import 'package:fladder/util/application_info.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/util/theme_extensions.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FladderLogo extends ConsumerWidget {
   const FladderLogo({super.key});
@@ -19,7 +21,7 @@ class FladderLogo extends ConsumerWidget {
         spacing: 16,
         runSpacing: 8,
         children: [
-          const FladderIcon(),
+          Transform.translate(offset: const Offset(0, -8), child: const FladderIcon(size: 75)),
           Text(
             ref.read(applicationInfoProvider).name.capitalize(),
             style: context.textTheme.displayLarge,

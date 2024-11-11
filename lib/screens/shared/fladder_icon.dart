@@ -1,7 +1,10 @@
-import 'package:fladder/util/theme_extensions.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'dart:ui' as ui;
+
+import 'package:flutter/material.dart';
+
+import 'package:flutter_svg/flutter_svg.dart';
+
+import 'package:fladder/util/theme_extensions.dart';
 
 class FladderIcon extends StatelessWidget {
   final double size;
@@ -24,13 +27,10 @@ class FladderIcon extends StatelessWidget {
               ],
             );
           },
-          child: RotatedBox(
-            quarterTurns: 1,
-            child: SvgPicture.asset(
-              "icons/fladder_icon_grayscale.svg",
-              width: size,
-              colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-            ),
+          child: SvgPicture.asset(
+            "icons/fladder_icon_grayscale.svg",
+            width: size,
+            colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
           ),
         ),
       ],
@@ -45,13 +45,10 @@ class FladderIconOutlined extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RotatedBox(
-      quarterTurns: 1,
-      child: SvgPicture.asset(
-        "icons/fladder_icon_outline.svg",
-        width: size,
-        colorFilter: ColorFilter.mode(color ?? context.colors.onSurfaceVariant, BlendMode.srcATop),
-      ),
+    return SvgPicture.asset(
+      "icons/fladder_icon_outline.svg",
+      width: size,
+      colorFilter: ColorFilter.mode(color ?? context.colors.onSurfaceVariant, BlendMode.srcATop),
     );
   }
 }

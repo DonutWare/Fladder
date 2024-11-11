@@ -8,7 +8,7 @@ icons_launcher:
       notification_image: icons/fladder_notification_icon.png
       enable: true
     ios:
-      image_path: "icons/development/fladder_store_icon.jpg"
+      image_path: "icons/development/fladder_store_icon.png"
       enable: true
     windows:
       image_path: "icons/development/fladder_icon_desktop.png"
