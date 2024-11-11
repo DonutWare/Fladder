@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:fladder/screens/settings/settings_scaffold.dart';
 import 'package:fladder/screens/shared/fladder_icon.dart';
+import 'package:fladder/screens/shared/fladder_logo.dart';
 import 'package:fladder/screens/shared/media/external_urls.dart';
 import 'package:fladder/util/application_info.dart';
 import 'package:fladder/util/list_padding.dart';
@@ -44,21 +45,7 @@ class AboutSettingsPage extends ConsumerWidget {
       child: SettingsScaffold(
         label: "",
         items: [
-          Wrap(
-            runAlignment: WrapAlignment.center,
-            alignment: WrapAlignment.center,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            runSpacing: 24,
-            spacing: 24,
-            children: [
-              const FladderIcon(size: 85),
-              Text(
-                "Fladder",
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.displayLarge?.copyWith(fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
+          const FladderLogo(),
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -101,7 +88,7 @@ class AboutSettingsPage extends ConsumerWidget {
               FilledButton.tonal(
                 onPressed: () => showLicensePage(
                   context: context,
-                  applicationIcon: const FladderIcon(size: 85),
+                  applicationIcon: const FladderIcon(size: 55),
                   applicationVersion: applicationInfo.versionPlatformBuild,
                   applicationLegalese: "DonutWare",
                 ),

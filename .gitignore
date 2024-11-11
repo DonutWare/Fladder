@@ -45,3 +45,7 @@ app.*.map.json
 
 # FVM Version Cache
 .fvm/
+
+# Affinity lock
+*.afdesign~lock~
+*.afphoto~lock~
