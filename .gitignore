@@ -46,5 +46,10 @@ app.*.map.json
 # FVM Version Cache
 .fvm/
 
+
 # flatpak
 .flatpak-builder
+
+# Affinity lock
+*.afdesign~lock~
+*.afphoto~lock~

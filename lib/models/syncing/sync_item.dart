@@ -13,7 +13,7 @@ import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/chapters_model.dart';
 import 'package:fladder/models/items/images_models.dart';
-import 'package:fladder/models/items/intro_skip_model.dart';
+import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
@@ -38,7 +38,7 @@ class SyncedItem with _$SyncedItem {
     String? sortName,
     int? fileSize,
     String? videoFileName,
-    IntroOutSkipModel? introOutSkipModel,
+    MediaSegmentsModel? mediaSegments,
     TrickPlayModel? fTrickPlayModel,
     ImagesData? fImages,
     @Default([]) List<Chapter> fChapters,
@@ -132,8 +132,8 @@ class SyncedItem with _$SyncedItem {
       path: joinAll([savePath, isarSyncedItem.path ?? ""]),
       fileSize: isarSyncedItem.fileSize,
       videoFileName: isarSyncedItem.videoFileName,
-      introOutSkipModel: isarSyncedItem.introOutroSkipModel != null
-          ? IntroOutSkipModel.fromJson(jsonDecode(isarSyncedItem.introOutroSkipModel!))
+      mediaSegments: isarSyncedItem.mediaSegments != null
+          ? MediaSegmentsModel.fromJson(jsonDecode(isarSyncedItem.mediaSegments!))
           : null,
       fTrickPlayModel: isarSyncedItem.trickPlayModel != null
           ? TrickPlayModel.fromJson(jsonDecode(isarSyncedItem.trickPlayModel!))

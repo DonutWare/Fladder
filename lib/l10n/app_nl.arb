@@ -1162,5 +1162,9 @@
   "clientSettingsRequireWifiTitle": "Alleen op Wi-Fi",
   "@clientSettingsRequireWifiTitle": {},
   "schemeSettingsVibrant": "Levendig",
-  "@schemeSettingsVibrant": {}
+  "@schemeSettingsVibrant": {},
+  "clientSettingsShowAllCollectionsTitle": "Toon alle soorten collecties",
+  "@clientSettingsShowAllCollectionsTitle": {},
+  "clientSettingsShowAllCollectionsDesc": "Als deze optie is ingeschakeld, worden alle bibliotheek types weergegeven, inclusief de types die niet door Fladder worden ondersteund",
+  "@clientSettingsShowAllCollectionsDesc": {}
 }

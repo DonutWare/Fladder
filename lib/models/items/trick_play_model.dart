@@ -22,8 +22,8 @@ class TrickPlayModel with _$TrickPlayModel {
   int get imagesPerTile => tileWidth * tileHeight;
 
   String? getTile(Duration position) {
-    final int currentIndex = (position.inMilliseconds ~/ interval.inMilliseconds).clamp(0, thumbnailCount);
-    final int indexOfTile = (currentIndex ~/ imagesPerTile).clamp(0, images.length);
+    final int currentIndex = (position.inMilliseconds ~/ interval.inMilliseconds).clamp(0, thumbnailCount - 1);
+    final int indexOfTile = (currentIndex ~/ imagesPerTile).clamp(0, (images.length - 1));
     return images.elementAtOrNull(indexOfTile);
   }
 
@@ -32,7 +32,10 @@ class TrickPlayModel with _$TrickPlayModel {
     final int tileIndex = currentIndex % imagesPerTile;
     final int column = tileIndex % tileWidth;
     final int row = tileIndex ~/ tileWidth;
-    return Offset((width * column).toDouble(), (height * row).toDouble());
+    return Offset(
+      (width * column).toDouble(),
+      (height * row).toDouble(),
+    );
   }
 
   static Map<String, TrickPlayModel> toTrickPlayMap(Map<String, dynamic> map) {

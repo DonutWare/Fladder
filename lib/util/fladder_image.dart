@@ -6,7 +6,6 @@ import 'package:transparent_image/transparent_image.dart';
 
 import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
-import 'package:fladder/util/adaptive_layout.dart';
 
 class FladderImage extends ConsumerWidget {
   final ImageData? image;
@@ -29,7 +28,6 @@ class FladderImage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final useBluredPlaceHolder = ref.watch(clientSettingsProvider.select((value) => value.blurPlaceHolders));
     final newImage = image;
-    final blurSize = AdaptiveLayout.of(context).isDesktop ? 32 : 16;
     if (newImage == null) {
       return placeHolder ?? Container();
     } else {
@@ -44,8 +42,6 @@ class FladderImage extends ConsumerWidget {
               filterQuality: FilterQuality.low,
               image: BlurHashImage(
                 newImage.hash,
-                decodingWidth: blurSize,
-                decodingHeight: blurSize,
               ),
             ),
           if (!blurOnly)

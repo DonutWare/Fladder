@@ -1,11 +1,12 @@
-import 'package:collection/collection.dart';
-import 'package:fladder/jellyfin/enum_models.dart';
-import 'package:fladder/models/items/series_model.dart';
-import 'package:fladder/util/localization_helper.dart';
-import 'package:fladder/util/string_extensions.dart';
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
+
+import 'package:collection/collection.dart';
+import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:fladder/jellyfin/enum_models.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
 import 'package:fladder/models/items/chapters_model.dart';
 import 'package:fladder/models/items/images_models.dart';
@@ -13,7 +14,9 @@ import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/item_stream_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/overview_model.dart';
-import 'package:dart_mappable/dart_mappable.dart';
+import 'package:fladder/models/items/series_model.dart';
+import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/util/string_extensions.dart';
 
 part 'episode_model.mapper.dart';
 
@@ -164,16 +167,18 @@ class EpisodeModel extends ItemStreamModel with EpisodeModelMappable {
 
 extension EpisodeListExtensions on List<EpisodeModel> {
   Map<int, List<EpisodeModel>> get episodesBySeason {
-    Map<int, List<EpisodeModel>> groupedItems = {};
+    final Map<int, List<EpisodeModel>> groupedItems = {};
     for (int i = 0; i < length; i++) {
-      int seasonIndex = this[i].season;
-      if (!groupedItems.containsKey(seasonIndex)) {
-        groupedItems[seasonIndex] = [this[i]];
-      } else {
-        groupedItems[seasonIndex]?.add(this[i]);
-      }
+      final int seasonIndex = this[i].season;
+      groupedItems.putIfAbsent(seasonIndex, () => []).add(this[i]);
     }
-    return groupedItems;
+
+    String addPadding(int value) => value.toString().padLeft(6, '0');
+
+    return SplayTreeMap<int, List<EpisodeModel>>.from(
+      groupedItems,
+      (a, b) => addPadding(a).compareTo(addPadding(b)),
+    );
   }
 
   EpisodeModel? get nextUp {

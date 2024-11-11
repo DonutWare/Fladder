@@ -1,10 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'package:collection/collection.dart';
-import 'package:fladder/models/items/overview_model.dart';
-import 'package:fladder/models/items/series_model.dart';
-import 'package:fladder/util/localization_helper.dart';
 import 'package:flutter/material.dart';
+
+import 'package:collection/collection.dart';
+import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
@@ -12,8 +11,9 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
-
-import 'package:dart_mappable/dart_mappable.dart';
+import 'package:fladder/models/items/overview_model.dart';
+import 'package:fladder/models/items/series_model.dart';
+import 'package:fladder/util/localization_helper.dart';
 
 part 'season_model.mapper.dart';
 
@@ -24,6 +24,7 @@ class SeasonModel extends ItemBaseModel with SeasonModelMappable {
   final List<EpisodeModel> episodes;
   final int episodeCount;
   final String seriesId;
+  final int season;
   final String seriesName;
   const SeasonModel({
     required this.parentImages,
@@ -31,6 +32,7 @@ class SeasonModel extends ItemBaseModel with SeasonModelMappable {
     this.episodes = const [],
     required this.episodeCount,
     required this.seriesId,
+    required this.season,
     required this.seriesName,
     required super.name,
     required super.id,
@@ -50,6 +52,7 @@ class SeasonModel extends ItemBaseModel with SeasonModelMappable {
       name: item.name ?? "",
       id: item.id ?? "",
       childCount: item.childCount,
+      season: item.indexNumber ?? 0,
       overview: OverviewModel.fromBaseItemDto(item, ref),
       userData: UserData.fromDto(item.userData),
       parentId: item.seasonId ?? item.parentId,

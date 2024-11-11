@@ -39,6 +39,8 @@ class SeasonModelMapper extends SubClassMapperBase<SeasonModel> {
   static String _$seriesId(SeasonModel v) => v.seriesId;
   static const Field<SeasonModel, String> _f$seriesId =
       Field('seriesId', _$seriesId);
+  static int _$season(SeasonModel v) => v.season;
+  static const Field<SeasonModel, int> _f$season = Field('season', _$season);
   static String _$seriesName(SeasonModel v) => v.seriesName;
   static const Field<SeasonModel, String> _f$seriesName =
       Field('seriesName', _$seriesName);
@@ -84,6 +86,7 @@ class SeasonModelMapper extends SubClassMapperBase<SeasonModel> {
     #episodes: _f$episodes,
     #episodeCount: _f$episodeCount,
     #seriesId: _f$seriesId,
+    #season: _f$season,
     #seriesName: _f$seriesName,
     #name: _f$name,
     #id: _f$id,
@@ -116,6 +119,7 @@ class SeasonModelMapper extends SubClassMapperBase<SeasonModel> {
         episodes: data.dec(_f$episodes),
         episodeCount: data.dec(_f$episodeCount),
         seriesId: data.dec(_f$seriesId),
+        season: data.dec(_f$season),
         seriesName: data.dec(_f$seriesName),
         name: data.dec(_f$name),
         id: data.dec(_f$id),
@@ -184,6 +188,7 @@ abstract class SeasonModelCopyWith<$R, $In extends SeasonModel, $Out>
       List<EpisodeModel>? episodes,
       int? episodeCount,
       String? seriesId,
+      int? season,
       String? seriesName,
       String? name,
       String? id,
@@ -226,6 +231,7 @@ class _SeasonModelCopyWithImpl<$R, $Out>
           List<EpisodeModel>? episodes,
           int? episodeCount,
           String? seriesId,
+          int? season,
           String? seriesName,
           String? name,
           String? id,
@@ -245,6 +251,7 @@ class _SeasonModelCopyWithImpl<$R, $Out>
         if (episodes != null) #episodes: episodes,
         if (episodeCount != null) #episodeCount: episodeCount,
         if (seriesId != null) #seriesId: seriesId,
+        if (season != null) #season: season,
         if (seriesName != null) #seriesName: seriesName,
         if (name != null) #name: name,
         if (id != null) #id: id,
@@ -266,6 +273,7 @@ class _SeasonModelCopyWithImpl<$R, $Out>
       episodes: data.get(#episodes, or: $value.episodes),
       episodeCount: data.get(#episodeCount, or: $value.episodeCount),
       seriesId: data.get(#seriesId, or: $value.seriesId),
+      season: data.get(#season, or: $value.season),
       seriesName: data.get(#seriesName, or: $value.seriesName),
       name: data.get(#name, or: $value.name),
       id: data.get(#id, or: $value.id),

@@ -2,9 +2,6 @@ import 'dart:developer';
 
 import 'package:chopper/chopper.dart';
 import 'package:collection/collection.dart';
-import 'package:fladder/models/items/intro_skip_model.dart';
-import 'package:fladder/models/items/season_model.dart';
-import 'package:fladder/models/items/series_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:media_kit/media_kit.dart';
 
@@ -12,7 +9,10 @@ import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/chapters_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
+import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
+import 'package:fladder/models/items/season_model.dart';
+import 'package:fladder/models/items/series_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
 import 'package:fladder/models/playback/direct_playback_model.dart';
 import 'package:fladder/models/playback/offline_playback_model.dart';
@@ -43,7 +43,7 @@ abstract class PlaybackModel {
   final ItemBaseModel item = throw UnimplementedError();
   final Media? media = throw UnimplementedError();
   final List<ItemBaseModel> queue = const [];
-  final IntroOutSkipModel? introSkipModel = null;
+  final MediaSegmentsModel? mediaSegments = null;
   final PlaybackInfoResponse? playbackInfo = throw UnimplementedError();
 
   List<Chapter>? get chapters;
@@ -118,7 +118,7 @@ class PlaybackModelHelper {
       item: syncedItemModel,
       syncedItem: syncedItem,
       trickPlay: syncedItem.trickPlayModel,
-      introSkipModel: syncedItem.introOutSkipModel,
+      mediaSegments: syncedItem.mediaSegments,
       media: Media(syncedItem.videoFile.path),
       queue: itemQueue.whereNotNull().toList(),
       syncedQueue: children,
@@ -127,8 +127,8 @@ class PlaybackModelHelper {
   }
 
   Future<EpisodeModel?> getNextUpEpisode(String itemId) async {
-    final responnse = await api.showsNextUpGet(parentId: itemId, fields: [ItemFields.overview]);
-    final episode = responnse.body?.items?.firstOrNull;
+    final response = await api.showsNextUpGet(parentId: itemId, fields: [ItemFields.overview]);
+    final episode = response.body?.items?.firstOrNull;
     if (episode == null) {
       return null;
     } else {
@@ -188,7 +188,7 @@ class PlaybackModelHelper {
         defaultSubStreamIndex: streamModel?.defaultSubStreamIndex,
       );
 
-      final intro = await api.introSkipGet(id: item.id);
+      final mediaSegments = await api.mediaSegmentsGet(id: item.id);
       final trickPlay = (await api.getTrickPlay(item: fullItem.body, ref: ref))?.body;
       final chapters = fullItem.body?.overview.chapters ?? [];
 
@@ -214,7 +214,7 @@ class PlaybackModelHelper {
         return DirectPlaybackModel(
           item: fullItem.body ?? item,
           queue: queue,
-          introSkipModel: intro?.body,
+          mediaSegments: mediaSegments?.body,
           chapters: chapters,
           playbackInfo: playbackInfo,
           trickPlay: trickPlay,
@@ -225,7 +225,7 @@ class PlaybackModelHelper {
         return TranscodePlaybackModel(
           item: fullItem.body ?? item,
           queue: queue,
-          introSkipModel: intro?.body,
+          mediaSegments: mediaSegments?.body,
           chapters: chapters,
           trickPlay: trickPlay,
           playbackInfo: playbackInfo,
@@ -343,7 +343,7 @@ class PlaybackModelHelper {
       newModel = DirectPlaybackModel(
         item: playbackModel.item,
         queue: playbackModel.queue,
-        introSkipModel: playbackModel.introSkipModel,
+        mediaSegments: playbackModel.mediaSegments,
         chapters: playbackModel.chapters,
         playbackInfo: playbackInfo,
         trickPlay: playbackModel.trickPlay,
@@ -354,7 +354,7 @@ class PlaybackModelHelper {
       newModel = TranscodePlaybackModel(
         item: playbackModel.item,
         queue: playbackModel.queue,
-        introSkipModel: playbackModel.introSkipModel,
+        mediaSegments: playbackModel.mediaSegments,
         chapters: playbackModel.chapters,
         playbackInfo: playbackInfo,
         trickPlay: playbackModel.trickPlay,

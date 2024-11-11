@@ -10,19 +10,19 @@ import 'package:http/http.dart' as http;
 
 import 'package:fladder/models/items/trick_play_model.dart';
 
-class TrickplayImage extends ConsumerStatefulWidget {
-  final TrickPlayModel trickplay;
+class TrickPlayImage extends ConsumerStatefulWidget {
+  final TrickPlayModel trickPlay;
   final Duration? position;
 
-  const TrickplayImage(this.trickplay, {this.position, super.key});
+  const TrickPlayImage(this.trickPlay, {this.position, super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _TrickplayImageState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _TrickPlayImageState();
 }
 
-class _TrickplayImageState extends ConsumerState<TrickplayImage> {
+class _TrickPlayImageState extends ConsumerState<TrickPlayImage> {
   ui.Image? image;
-  late TrickPlayModel model = widget.trickplay;
+  late TrickPlayModel model = widget.trickPlay;
   late Duration time = widget.position ?? Duration.zero;
   late Offset currentOffset = const Offset(0, 0);
   String? currentUrl;
@@ -34,11 +34,11 @@ class _TrickplayImageState extends ConsumerState<TrickplayImage> {
   }
 
   @override
-  void didUpdateWidget(covariant TrickplayImage oldWidget) {
+  void didUpdateWidget(covariant TrickPlayImage oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.position?.inMilliseconds != widget.position?.inMilliseconds) {
       time = widget.position ?? Duration.zero;
-      model = widget.trickplay;
+      model = widget.trickPlay;
       loadImage();
     }
   }
@@ -48,11 +48,9 @@ class _TrickplayImageState extends ConsumerState<TrickplayImage> {
     return Container(
       child: image != null
           ? CustomPaint(
-              painter: TilledPainter(image!, currentOffset, widget.trickplay),
+              painter: _TrickPlayPainter(image!, currentOffset, widget.trickPlay),
             )
-          : Container(
-              color: Colors.purple,
-            ),
+          : const SizedBox.shrink(),
     );
   }
 
@@ -96,12 +94,12 @@ class _TrickplayImageState extends ConsumerState<TrickplayImage> {
   }
 }
 
-class TilledPainter extends CustomPainter {
+class _TrickPlayPainter extends CustomPainter {
   final ui.Image image;
   final Offset offset;
   final TrickPlayModel model;
 
-  TilledPainter(this.image, this.offset, this.model);
+  _TrickPlayPainter(this.image, this.offset, this.model);
 
   @override
   void paint(Canvas canvas, Size size) {

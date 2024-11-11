@@ -38,8 +38,8 @@ class VideoPlayerNextWrapper extends ConsumerStatefulWidget {
 class _VideoPlayerNextWrapperState extends ConsumerState<VideoPlayerNextWrapper> {
   bool show = false;
   bool showOverwrite = false;
-  late RestarableTimerController timerController =
-      RestarableTimerController(const Duration(seconds: 30), const Duration(milliseconds: 33), onTimeout: onTimeOut);
+  late RestartableTimerController timerController =
+      RestartableTimerController(const Duration(seconds: 30), const Duration(milliseconds: 33), onTimeout: onTimeOut);
 
   void onTimeOut() {
     timerController.cancel();
@@ -81,7 +81,7 @@ class _VideoPlayerNextWrapperState extends ConsumerState<VideoPlayerNextWrapper>
       return;
     }
 
-    final credits = ref.read(playBackModel)?.introSkipModel?.credits;
+    final credits = ref.read(playBackModel)?.mediaSegments?.outro;
 
     if (nextType == AutoNextType.static || credits == null) {
       if ((model.duration - model.position).abs() < const Duration(seconds: 32)) {
@@ -283,16 +283,19 @@ class _VideoPlayerNextWrapperState extends ConsumerState<VideoPlayerNextWrapper>
                         ],
                       ),
                     ),
-                    AnimatedFadeSize(
-                      duration: animSpeed,
-                      child: show
-                          ? Padding(
-                              padding: const EdgeInsets.only(top: 16),
-                              child: _SimpleControls(
-                                skip: nextUp != null ? () => onTimeOut() : null,
-                              ),
-                            )
-                          : const SizedBox.shrink(),
+                    IgnorePointer(
+                      ignoring: !show,
+                      child: AnimatedFadeSize(
+                        duration: animSpeed,
+                        child: show
+                            ? Padding(
+                                padding: const EdgeInsets.only(top: 16),
+                                child: _SimpleControls(
+                                  skip: nextUp != null ? () => onTimeOut() : null,
+                                ),
+                              )
+                            : const SizedBox.shrink(),
+                      ),
                     ),
                   ],
                 ),
@@ -300,12 +303,15 @@ class _VideoPlayerNextWrapperState extends ConsumerState<VideoPlayerNextWrapper>
             ),
           ),
           if (AdaptiveLayout.of(context).isDesktop)
-            AnimatedOpacity(
-              duration: animSpeed,
-              opacity: show ? 1 : 0,
-              child: const Align(
-                alignment: Alignment.topRight,
-                child: DefaultTitleBar(),
+            IgnorePointer(
+              ignoring: !show,
+              child: AnimatedOpacity(
+                duration: animSpeed,
+                opacity: show ? 1 : 0,
+                child: const Align(
+                  alignment: Alignment.topRight,
+                  child: DefaultTitleBar(),
+                ),
               ),
             ),
         ],

@@ -1,11 +1,25 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/view_model.dart';
 import 'package:fladder/models/views_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
+import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+//Known supported collection types
+const enableCollectionTypes = {
+  CollectionType.movies,
+  CollectionType.books,
+  CollectionType.tvshows,
+  CollectionType.homevideos,
+  CollectionType.boxsets,
+  CollectionType.playlists,
+  CollectionType.photos,
+  CollectionType.folders,
+};
 
 final viewsProvider = StateNotifierProvider<ViewsNotifier, ViewsModel>((ref) {
   return ViewsNotifier(ref);
@@ -20,8 +34,14 @@ class ViewsNotifier extends StateNotifier<ViewsModel> {
 
   Future<void> fetchViews() async {
     if (state.loading) return;
-    final response = await api.usersUserIdViewsGet();
-    final createdViews = response.body?.items?.map((e) => ViewModel.fromBodyDto(e, ref));
+    final showAllCollections = ref.read(clientSettingsProvider.select((value) => value.showAllCollectionTypes));
+    final response = await api.usersUserIdViewsGet(
+      includeExternalContent: showAllCollections,
+    );
+    final createdViews = response.body?.items?.map((e) => ViewModel.fromBodyDto(e, ref)).where((element) {
+      return showAllCollections ? true : enableCollectionTypes.contains(element.collectionType);
+    });
+
     List<ViewModel> newList = [];
 
     if (createdViews != null) {
@@ -32,6 +52,8 @@ class ViewsNotifier extends StateNotifier<ViewsModel> {
           parentId: e.id,
           imageTypeLimit: 1,
           limit: 16,
+          includeItemTypes:
+              (e.collectionType == CollectionType.books && !showAllCollections) ? [BaseItemKind.book] : null,
           enableImageTypes: [
             ImageType.primary,
             ImageType.backdrop,
