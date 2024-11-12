@@ -83,25 +83,13 @@ Web/Desktop [try out the web build!](https://DonutWare.github.io/Fladder)
 
 The latest executables for Windows, macOS, Linux, iOS, Android and Web can be found on the [releases page](https://github.com/DonutWare/Fladder/releases).
 
-You can pull the Docker version using the following tag: ```ghcr.io/donutware/fladder:latest```
+You can pull the Docker version using the following tag: ```ghcr.io/donutware/fladder:latest```.
 
-<!-- ### Linux
+*Platform-specific installation and usage instructions can be found [here](https://github.com/DonutWare/Fladder/blob/develop/INSTALL.md).*
 
-An AUR package is available (thanks @tam1m). Install it using your favourite AUR helper.
 
-Yay: `yay -S fladder-git`
-
-Paru: `paru -S fladder-git`
--->
-### Play Store (Android)
 <a href='https://play.google.com/store/apps/details?id=nl.jknaapen.fladder&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width=250/></a>
 
-
-<!-- 
-### AltStore (iOS)
-The iOS app can be installed through AltStore by adding this repo
-
-<a href='https://shorturl.at/Pj7Z7'><img alt='Get it on AltStore' src='https://camo.githubusercontent.com/d09e24361b730206b40f7c3a5950a17ba3341e67c533e27c155ddb34f0440b44/68747470733a2f2f692e696d6775722e636f6d2f343671684541762e706e67' width=250/></a> -->
 
 ## How to Contribute
 Interest in contributing? Here are a couple of ways you can help:
