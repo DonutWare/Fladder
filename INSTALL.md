@@ -78,7 +78,7 @@ You may need to allow unknown apps to be installed on your device, as this will 
 
 ### Sideloadly
 
-> [!IMPORTANT]
+> [!NOTE]
 > Installing using Sideloadly is the only method of using Fladder on iOS at this time. See [this issue](https://github.com/DonutWare/Fladder/issues/40) for more information.
 
 > [!IMPORTANT]
