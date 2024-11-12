@@ -6,9 +6,10 @@ icons_launcher:
       adaptive_background_color: "#3a2101"
       adaptive_monochrome_image: "icons/production/fladder_adaptive_icon.png"
       notification_image: icons/fladder_notification_icon.png
+
       enable: true
     ios:
-      image_path: "icons/production/fladder_store_icon.jpg"
+      image_path: "icons/production/fladder_store_icon.png"
       enable: true
     windows:
       image_path: "icons/production/fladder_icon_desktop.png"

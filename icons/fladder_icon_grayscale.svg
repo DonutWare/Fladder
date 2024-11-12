@@ -1,19 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- ***** BEGIN LICENSE BLOCK *****
-  - Part of the Jellyfin project (https://jellyfin.media)
-  - 
-  - All copyright belongs to the Jellyfin contributors; a full list can
-  - be found in the file CONTRIBUTORS.md
-  - 
-  - This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.
-  - To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/4.0/.
-- ***** END LICENSE BLOCK ***** -->
-<svg id="icon-transparent-white" 
-    xmlns="http://www.w3.org/2000/svg" 
-    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512">    
-    <title>icon-transparent-white</title>
-    <g id="icon-transparent">
-        <path id="inner-shape" d="M256,201.62c-20.44,0-86.23,119.29-76.2,139.43s142.48,19.92,152.4,0S276.47,201.63,256,201.62Z" fill="#ffffff"/>
-        <path id="outer-shape" d="M256,23.3C194.44,23.3-3.82,382.73,26.41,443.43s429.34,60,459.24,0S317.62,23.3,256,23.3ZM406.51,390.76c-19.59,39.33-281.08,39.77-300.89,0S215.71,115.48,256.06,115.48,426.1,351.42,406.51,390.76Z" fill="#ffffff"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 999 1020" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-18,-1)">
+        <g id="fladder_icon_grayscale" transform="matrix(1.62562,0,0,1.62562,-336.346,-293.316)">
+            <g transform="matrix(-219.465,692.872,568.765,180.155,539.36,136.978)">
+                <path d="M0.563,0.51C0.547,0.51 0.532,0.5 0.523,0.485C0.513,0.469 0.509,0.45 0.512,0.431C0.535,0.299 0.574,0.138 0.574,0.024C0.575,-0.188 0.527,-0.214 0.338,-0.3C0.288,-0.323 0.188,-0.462 0.179,-0.442C0.171,-0.421 0.143,-0.301 0.208,-0.173C0.279,-0.03 0.316,0.522 0.316,0.522C0.329,0.598 0.378,0.661 0.439,0.685C0.499,0.708 0.582,0.69 0.628,0.637C0.628,0.637 0.661,0.6 0.69,0.567C0.697,0.559 0.699,0.547 0.696,0.536C0.692,0.525 0.684,0.517 0.674,0.516C0.64,0.515 0.598,0.512 0.563,0.51Z" style="fill:white;"/>
+            </g>
+            <g transform="matrix(-219.465,692.872,568.765,180.155,476.499,117.067)">
+                <path d="M0.742,0.576C0.762,0.576 0.781,0.566 0.794,0.548C0.813,0.521 0.829,0.492 0.838,0.477C0.899,0.389 0.952,0.254 0.926,0.126C0.905,0.024 0.703,-0.146 0.615,-0.216C0.608,-0.22 0.6,-0.22 0.595,-0.215C0.589,-0.21 0.586,-0.2 0.588,-0.192C0.604,-0.123 0.628,0.004 0.627,0.144C0.626,0.228 0.593,0.408 0.567,0.509C0.563,0.523 0.565,0.539 0.572,0.551C0.579,0.563 0.59,0.57 0.602,0.571C0.647,0.572 0.707,0.574 0.742,0.576Z" style="fill:white;"/>
+            </g>
+        </g>
     </g>
 </svg>
