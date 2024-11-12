@@ -14,8 +14,7 @@ Platform-specific installation instructions can be found in this document.
 	- [Play Store](#play-store)
 	- [Manual installation](#manual)
 - [iOS](#ios)
-	- [AltStore](#altstore)
-	- [TrollStore](#trollstore)
+	- [Sideloadly](#sideloadly)
 
 
 ## Windows
@@ -112,7 +111,28 @@ You may need to allow unknown apps to be installed on your device, as this will 
 > [!NOTE]
 > Your password is only used for authentication to Apple's servers. It is not sent to any third parties.
 
-> [!TIP]
-> If you skip the steps regarding syncing your phone over Wi-Fi, you will need to plug it in via USB every time you need to refresh Fladder.
+> [!NOTE]
+> Once installed, Fladder will only be valid for 7 days. Enabling auto refesh will keep the app from expiring (this should already be enabled). Your computer needs to be on for this to occur.
 
 ## Docker
+
+You can install Fladder on your server to provide an alternate Jellyfin dashboard.
+
+Copy the contents of the `docker-compose.yml` file and save it to your server:
+```
+version: '3.4'
+
+services:
+  fladder:
+    image: ghcr.io/donutware/fladder:latest
+    ports:
+      - 80:80
+    environment:
+      - BASE_URL=https://server-url #OPTIONAL: Locks the Fladder front-end to a certain jellyfin server
+```
+
+Run `docker-compose up -d` to start the container. It will be available on `http://<server-ip>`.
+
+> [!TIP]
+> We recommend changing the `BASE_URL` environment variable to the URL you use to access Jellyfin, as this will skip entering it when you load the web UI.
+
