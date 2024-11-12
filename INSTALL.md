@@ -76,9 +76,43 @@ You may need to allow unknown apps to be installed on your device, as this will 
 
 ## iOS
 
+### Sideloadly
+
 > [!IMPORTANT]
-> This app is currently not compatible with iPadOS. 
-### AltStore
+> Installing using Sideloadly is the only method of using Fladder on iOS at this time. See [this issue](https://github.com/DonutWare/Fladder/issues/40) for more information.
 
-### TrollStore
+> [!IMPORTANT]
+> This guide assumes you are using an iPhone. iPadOS is not supported by Fladder at this time, however, contributions to add support are always appreciated.
 
+> [!IMPORTANT]
+> If you are using Windows, you must install the web versions of iTunes and iCloud (**not the Microsoft Store versions**) before installing Sideloadly. You can download them [here](https://www.apple.com/itunes/download/win64) and [here](https://updates.cdn-apple.com/2020/windows/001-39935-20200911-1A70AA56-F448-11EA-8CC0-99D41950005E/iCloudSetup.exe).
+
+1. Download and install Sideloadly from their [downloads page](https://sideloadly.io/#download).
+
+2. Download the latest iOS IPA file from the [Releases](https://github.com/DonutWare/Fladder/releases) page and save it to your computer.
+
+3. Plug your phone into your computer and open iTunes.
+
+4. Click the device icon in the top left next to the navigation buttons.
+
+5. Ensure **Sync with this iPhone over Wi-Fi** is checked.
+
+6. Click Done, then close iTunes.
+
+7. Open Sideloadly and click the Open IPA button in the top left. Select the IPA you downloaded earlier.
+
+8. Make sure your device is listed under **iDevice**. It will usually look like this: `<device name> (<iOS version>) <UDID> @USB`.
+
+9. Enter your Apple ID in the **Apple ID** box. We recommend creating a second Apple ID, but this is not required.
+
+10. Click Start. You will be prompted to enter your Apple ID password. Enter it and allow any two-factor authentication, if required.
+
+11. The installation process will take a while. Once it's finished, you will see the Fladder icon on your home screen or in your App Library.
+
+> [!NOTE]
+> Your password is only used for authentication to Apple's servers. It is not sent to any third parties.
+
+> [!TIP]
+> If you skip the steps regarding syncing your phone over Wi-Fi, you will need to plug it in via USB every time you need to refresh Fladder.
+
+## Docker
