@@ -21,7 +21,7 @@ Platform-specific installation instructions can be found in this document.
 
 Download the latest `.zip` file from the [Releases](https://github.com/DonutWare/Fladder/releases) page and extract it somewhere on your PC.
 
-Run `Fladder.exe` to start the application.
+Run `fladder.exe` to start the application.
 ## macOS
 
 Todo
@@ -69,9 +69,9 @@ This is the recommended way to install Fladder on Android.
 
 If your device can't access the Play Store, you can install Fladder manually.
 
-Download the latest `.apk` file from the [Releases](https://github.com/DonutWare/Fladder/releases) page and save it to your device.
+1. Download the latest `.apk` file from the [Releases](https://github.com/DonutWare/Fladder/releases) page and save it to your device.
 
-You may need to allow unknown apps to be installed on your device, as this will be disallowed by default.
+2. Open it to start the installation. You may need to allow unknown apps to be installed on your device, as this will be disallowed by default.
 
 ## iOS
 
