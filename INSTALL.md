@@ -112,7 +112,7 @@ If your device can't access the Play Store, you can install Fladder manually.
 > Your password is only used for authentication to Apple's servers. It is not sent to any third parties.
 
 > [!NOTE]
-> Once installed, Fladder will only be valid for 7 days. Enabling auto refesh will keep the app from expiring (this should already be enabled). Your computer needs to be on for this to occur.
+> Once installed, Fladder will only be valid for 7 days. Enabling auto refresh will keep the app from expiring (this should already be enabled). Your computer needs to be on for this to occur.
 
 ## Docker
 
