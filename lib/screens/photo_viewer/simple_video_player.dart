@@ -27,7 +27,7 @@ class SimpleVideoPlayer extends ConsumerStatefulWidget {
 
 class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with WindowListener, WidgetsBindingObserver {
   final Player player = Player(
-    configuration: const PlayerConfiguration(libass: true),
+    configuration: const PlayerConfiguration(title: "nl.jknaapen.fladder", libass: true),
   );
   late VideoController controller = VideoController(player);
   late String videoUrl = "";

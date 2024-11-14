@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Fladder
+StartupWMClass=nl.jknaapen.fladder
+Comment=A Simple Jellyfin Frontend built on top of Flutter.
+Exec=Fladder
+Icon=nl.jknaapen.fladder
+Terminal=false
+Type=Application
+Categories=Entertainment;

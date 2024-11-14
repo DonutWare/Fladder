@@ -184,7 +184,7 @@ jobs:
           path: build/macos/Build/Products/Release-production/macOS.dmg
 
   build-linux:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04  # bumped from 22.04 (latest) as it would otherwise use libmpv1
     needs: [fetch-info]
 
     steps:
@@ -206,7 +206,7 @@ jobs:
       - name: Get packages
         run: |
           sudo apt-get update -y
-          sudo apt-get install -y ninja-build libgtk-3-dev libmpv-dev patchelf
+          sudo apt-get install -y ninja-build libgtk-3-dev libmpv-dev patchelf cmake clang
 
       - name: Build Linux app
         run: flutter build linux --release --build-number=${{ github.run_number }}
@@ -224,6 +224,36 @@ jobs:
         with:
           name: fladder-linux
           path: build/linux/x64/release/bundle
+
+  build-linux-flatpak:
+    name: "Flatpak"
+    runs-on: ubuntu-latest
+    needs: [fetch-info, build-linux]
+    container:
+      image: bilelmoussaoui/flatpak-github-actions:gnome-46
+      options: --privileged
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.1.1
+        with:
+          submodules: true
+
+      - name: Download Artifacts Linux
+        uses: actions/download-artifact@v4
+        with:
+          name: fladder-linux
+          path: build/linux/x64/release/bundle
+
+      - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+        with:
+          bundle: Fladder-Linux.flatpak
+          manifest-path: flatpak/nl.jknaapen.fladder.yaml
+
+      - name: Archive Linux Flatpak bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: fladder-linux-flatpak
+          path: Fladder-Linux.flatpak
 
   build-web:
     runs-on: ubuntu-latest
@@ -278,7 +308,15 @@ jobs:
 
   create_release:
     name: Create Release
-    needs: [fetch-info,build-android,build-windows,build-ios,build-macos,build-linux,build-web]
+    needs:
+      - fetch-info
+      - build-android
+      - build-windows
+      - build-ios
+      - build-macos
+      - build-linux
+      - build-linux-flatpak
+      - build-web
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')       
     steps:
@@ -333,6 +371,15 @@ jobs:
           cd fladder-linux
           zip -r ../Fladder-Linux-${{needs.fetch-info.outputs.version_name}}.zip .
 
+      - name: Download Artifacts Linux Flatpak
+        uses: actions/download-artifact@v4
+        with:
+          name: fladder-linux-flatpak
+          path: fladder-linux-flatpak
+
+      - name: Move Linux Flatpak
+        run: mv fladder-linux-flatpak/Fladder-Linux.flatpak Fladder-Linux-${{needs.fetch-info.outputs.version_name}}.flatpak
+
       - name: Download Artifacts Web
         uses: actions/download-artifact@v4
         with:
@@ -355,7 +402,8 @@ jobs:
             Fladder-Windows-${{needs.fetch-info.outputs.version_name}}.zip
             Fladder-iOS-${{needs.fetch-info.outputs.version_name}}.ipa
             Fladder-macOS-${{needs.fetch-info.outputs.version_name}}.dmg
-            Fladder-Linux-${{needs.fetch-info.outputs.version_name}}.zip
             Fladder-Web-${{needs.fetch-info.outputs.version_name}}.zip
+            Fladder-Linux-${{needs.fetch-info.outputs.version_name}}.zip
+            Fladder-Linux-${{needs.fetch-info.outputs.version_name}}.flatpak
 
   

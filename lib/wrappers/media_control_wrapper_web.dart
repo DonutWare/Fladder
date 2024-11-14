@@ -41,6 +41,7 @@ class MediaControlsWrapper extends MediaPlayback implements MediaControlBase {
 
     final newPlayer = Player(
       configuration: PlayerConfiguration(
+        title: "nl.jknaapen.fladder",
         bufferSize: 64 * 1024 * 1024,
         libassAndroidFont: 'assets/fonts/mp-font.ttf',
         libass: ref.read(

@@ -1,0 +1,218 @@
+id: nl.jknaapen.fladder
+runtime: org.gnome.Platform
+runtime-version: '46'
+sdk: org.gnome.Sdk
+
+command: Fladder
+finish-args:
+  # X11/Wayland access
+  - --share=ipc
+  - --socket=fallback-x11
+  - --socket=wayland
+  # Audio playback
+  - --socket=pulseaudio
+  # Network access for Jellyfin streaming
+  - --share=network
+  # File access for downloads/media
+  - --filesystem=home
+  # Allow access to PipeWire socket for mpv
+  - --filesystem=xdg-run/pipewire-0:ro
+  # Hardware acceleration
+  - --device=dri
+  # Allow notification access
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=org.freedesktop.PowerManagement
+  - --talk-name=org.freedesktop.ScreenSaver
+  - --talk-name=org.freedesktop.portal.*
+
+modules:
+  - name: mpv
+    buildsystem: meson
+    config-opts:
+      - -Dlibmpv=true
+      - -Dcplayer=false
+      - -Dbuild-date=false
+      - -Dmanpage-build=disabled
+      - -Dvaapi=enabled
+      - -Dcuda-hwaccel=enabled
+      - -Dpulse=enabled
+      - -Dalsa=enabled
+      - -Duchardet=enabled
+    cleanup:
+      - /lib/pkgconfig
+      - /share
+      - /include
+    sources:
+      - type: git
+        url: https://github.com/mpv-player/mpv.git
+        tag: v0.39.0
+        commit: a0fba7be57f3822d967b04f0f6b6d6341e7516e7
+        x-checker-data:
+          type: git
+          tag-pattern: ^v([\d.]+)$
+    modules:
+      - name: ffnvcodec
+        buildsystem: simple
+        build-commands:
+          - make install PREFIX=/app
+        cleanup:
+          - /lib/pkgconfig
+          - /include
+        sources:
+          - type: git
+            url: https://github.com/FFmpeg/nv-codec-headers.git
+            tag: n12.2.72.0
+            commit: c69278340ab1d5559c7d7bf0edf615dc33ddbba7
+            x-checker-data:
+              type: git
+              tag-pattern: ^n([\d.]+)$
+
+      - name: ffmpeg
+        config-opts:
+          - --enable-shared
+          - --disable-static
+          - --enable-gnutls
+          - --enable-pic
+          - --disable-doc
+          - --disable-programs
+          - --disable-encoders
+          - --disable-muxers
+          - --disable-devices
+          - --enable-vaapi
+          - --enable-cuvid
+          - --enable-libdav1d
+          - --enable-gpl
+        cleanup:
+          - /lib/pkgconfig
+          - /share
+          - /include
+        sources:
+          - type: git
+            url: https://github.com/FFmpeg/FFmpeg.git
+            tag: n7.1
+            commit: b08d7969c550a804a59511c7b83f2dd8cc0499b8
+            x-checker-data:
+              type: git
+              tag-pattern: ^n([\d.]+)$
+
+      - shared-modules/luajit/luajit.json
+
+      - name: libass
+        config-opts:
+          - --enable-shared
+          - --disable-static
+        cleanup:
+          - /lib/*.la
+          - /lib/pkgconfig
+          - /include
+        sources:
+          - type: git
+            url: https://github.com/libass/libass.git
+            tag: 0.17.3
+            commit: e46aedea0a0d17da4c4ef49d84b94a7994664ab5
+            x-checker-data:
+              type: git
+              tag-pattern: ^([\d.]+)$
+
+      - name: uchardet
+        buildsystem: cmake-ninja
+        config-opts:
+          - -DCMAKE_BUILD_TYPE=Release
+          - -DCMAKE_INSTALL_LIBDIR=lib
+          - -DBUILD_BINARY=OFF
+        cleanup:
+          - /lib/*.a
+          - /lib/pkgconfig
+          - /share
+          - /include
+        sources:
+          - type: archive
+            url: https://www.freedesktop.org/software/uchardet/releases/uchardet-0.0.8.tar.xz
+            sha256: e97a60cfc00a1c147a674b097bb1422abd9fa78a2d9ce3f3fdcc2e78a34ac5f0
+            x-checker-data:
+              type: html
+              url: https://www.freedesktop.org/software/uchardet/releases/
+              version-pattern: uchardet-(\d+\.\d+\.\d+)\.tar\.xz
+              url-template: https://www.freedesktop.org/software/uchardet/releases/uchardet-$version.tar.xz
+
+      - name: libplacebo
+        buildsystem: meson
+        config-opts:
+          - -Dvulkan=enabled
+          - -Dshaderc=enabled
+        cleanup:
+          - /include
+          - /lib/pkgconfig
+        sources:
+          - type: git
+            url: https://code.videolan.org/videolan/libplacebo.git
+            tag: v7.349.0
+            commit: 1fd3c7bde7b943fe8985c893310b5269a09b46c5
+            x-checker-data:
+              type: git
+              tag-pattern: ^v([\d.]+)$
+        modules:
+          - name: shaderc
+            buildsystem: cmake-ninja
+            builddir: true
+            config-opts:
+              - -DSHADERC_SKIP_COPYRIGHT_CHECK=ON
+              - -DSHADERC_SKIP_EXAMPLES=ON
+              - -DSHADERC_SKIP_TESTS=ON
+              - -DSPIRV_SKIP_EXECUTABLES=ON
+              - -DENABLE_GLSLANG_BINARIES=OFF
+              - -DCMAKE_BUILD_TYPE=Release
+            cleanup:
+              - /bin
+              - /include
+              - /lib/*.a
+              - /lib/cmake
+              - /lib/pkgconfig
+            sources:
+              - type: git
+                url: https://github.com/google/shaderc.git
+                tag: v2024.2
+                commit: 3ac03b8ad85a8e328a6182cddee8d05810bd5a2c
+                x-checker-data:
+                  type: git
+                  tag-pattern: ^v([\d.]+)$
+              - type: git
+                url: https://github.com/KhronosGroup/SPIRV-Tools.git
+                tag: v2023.2
+                commit: 44d72a9b36702f093dd20815561a56778b2d181e
+                dest: third_party/spirv-tools
+              - type: git
+                url: https://github.com/KhronosGroup/SPIRV-Headers.git
+                tag: sdk-1.3.250.1
+                commit: 268a061764ee69f09a477a695bf6a11ffe311b8d
+                dest: third_party/spirv-headers
+              - type: git
+                url: https://github.com/KhronosGroup/glslang.git
+                tag: 14.3.0
+                commit: fa9c3deb49e035a8abcabe366f26aac010f6cbfb
+                dest: third_party/glslang
+                x-checker-data:
+                  type: git
+                  tag-pattern: ^([\d.]+)$
+
+  - name: zenity
+    buildsystem: meson
+    sources:
+      - type: git
+        url: https://gitlab.gnome.org/GNOME/zenity.git
+        tag: 4.0.3
+        commit: 7f7ac1840cfd914dfac69d947f0849dc50b0f695
+
+  - name: fladder
+    buildsystem: simple
+    build-commands:
+      - mkdir -p /app/bin
+      - cp -r build/linux/x64/release/bundle/* /app/bin/
+      - chmod +x /app/bin/Fladder
+      - mkdir -p /app/share/applications
+      - mkdir -p /app/share/icons/hicolor/scalable/apps
+      - install -Dm644 flatpak/Fladder.desktop /app/share/applications/${FLATPAK_ID}.desktop
+      - install -Dm644 icons/fladder_icon.svg /app/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg
+    sources:
+      - type: dir
+        path: ..
