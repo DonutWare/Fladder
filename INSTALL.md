@@ -13,8 +13,9 @@ Platform-specific installation instructions can be found in this document.
 - [Android](#android)
 	- [Play Store](#play-store)
 	- [Manual installation](#manual)
-- [iOS](#ios)
+- [iOS](#iosipados)
 	- [Sideloadly](#sideloadly)
+- [Docker](#docker)
 
 
 ## Windows
@@ -24,11 +25,19 @@ Download the latest `.zip` file from the [Releases](https://github.com/DonutWare
 Run `fladder.exe` to start the application.
 ## macOS
 
-Todo
+1. Download the latest `*.dmg` file from the [Releases](https://github.com/DonutWare/Fladder/releases) page.
+
+2. Open it and copy the Fladder application file into your `Applications` folder, or another place on your Mac.
+
+3. Right-click the application and click Open while holding `Control`. This will bypass the unidentified developer warning.
+
+> [!TIP]
+> Alternatively, to allow the app to run, open `System Settings > Privacy & Security > Scroll down to Security > Open Anyway`.
+
 ## Linux
 
 > [!NOTE]
-> Flatpak installation will be available soon (thanks to [this PR](https://github.com/DonutWare/Fladder/pull/125)).
+> You can install Fladder using Flatpak if you prefer an easier installation method. Download the latest `.flatpak` file from the [Releases](https://github.com/DonutWare/Fladder/releases) page to get started.
 
 ### Ubuntu/Debian
 
@@ -73,15 +82,12 @@ If your device can't access the Play Store, you can install Fladder manually.
 
 2. Open it to start the installation. You may need to allow unknown apps to be installed on your device, as this will be disallowed by default.
 
-## iOS
+## iOS/iPadOS
 
 ### Sideloadly
 
 > [!NOTE]
-> Installing using Sideloadly is the only method of using Fladder on iOS at this time. See [this issue](https://github.com/DonutWare/Fladder/issues/40) for more information.
-
-> [!IMPORTANT]
-> This guide assumes you are using an iPhone. iPadOS is not supported by Fladder at this time, however, contributions to add support are always appreciated.
+> Installing using Sideloadly is the only method of using Fladder on iOS or iPadOS at this time. See [this issue](https://github.com/DonutWare/Fladder/issues/40) for more information.
 
 > [!IMPORTANT]
 > If you are using Windows, you must install the web versions of iTunes and iCloud (**not the Microsoft Store versions**) before installing Sideloadly. You can download them [here](https://www.apple.com/itunes/download/win64) and [here](https://updates.cdn-apple.com/2020/windows/001-39935-20200911-1A70AA56-F448-11EA-8CC0-99D41950005E/iCloudSetup.exe).
@@ -90,19 +96,19 @@ If your device can't access the Play Store, you can install Fladder manually.
 
 2. Download the latest iOS IPA file from the [Releases](https://github.com/DonutWare/Fladder/releases) page and save it to your computer.
 
-3. Plug your phone into your computer and open iTunes.
+3. Plug your device into your computer and open iTunes.
 
 4. Click the device icon in the top left next to the navigation buttons.
 
-5. Ensure **Sync with this iPhone over Wi-Fi** is checked.
+5. Ensure **Sync with this device over Wi-Fi** is checked.
 
-6. Click Done, then close iTunes.
+6. Click Apply, then Done, then close iTunes.
 
 7. Open Sideloadly and click the Open IPA button in the top left. Select the IPA you downloaded earlier.
 
 8. Make sure your device is listed under **iDevice**. It will usually look like this: `<device name> (<iOS version>) <UDID> @USB`.
 
-9. Enter your Apple ID in the **Apple ID** box. We recommend creating a second Apple ID, but this is not required.
+9. Enter your Apple ID in the **Apple ID** box. Creating a second Apple ID is recommended, but not required.
 
 10. Click Start. You will be prompted to enter your Apple ID password. Enter it and allow any two-factor authentication, if required.
 
@@ -111,25 +117,14 @@ If your device can't access the Play Store, you can install Fladder manually.
 > [!NOTE]
 > Your password is only used for authentication to Apple's servers. It is not sent to any third parties.
 
-> [!NOTE]
+> [!IMPORTANT]
 > Once installed, Fladder will only be valid for 7 days. Enabling auto refresh will keep the app from expiring (this should already be enabled). Your computer needs to be on for this to occur.
 
 ## Docker
 
 You can install Fladder on your server to provide an alternate Jellyfin dashboard.
 
-Copy the contents of the `docker-compose.yml` file and save it to your server:
-```
-version: '3.4'
-
-services:
-  fladder:
-    image: ghcr.io/donutware/fladder:latest
-    ports:
-      - 80:80
-    environment:
-      - BASE_URL=https://server-url #OPTIONAL: Locks the Fladder front-end to a certain jellyfin server
-```
+Copy the contents of the [docker-compose.yml](https://raw.githubusercontent.com/DonutWare/Fladder/refs/heads/develop/docker-compose.yml) file and save it to your server.
 
 Run `docker-compose up -d` to start the container. It will be available on `http://<server-ip>`.
 
