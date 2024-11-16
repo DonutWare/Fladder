@@ -1072,7 +1072,7 @@
   "subtitleConfiguration": "Subtitle configuration",
   "off": "Off",
   "screenBrightness": "Screen brightness",
-  "scale":"Scale",
+  "scale": "Scale",
   "playBackSettings": "Playback Settings",
   "settingsAutoNextTitle": "Next-up preview",
   "settingsAutoNextDesc": "Displays a next-up preview near the end if another item is queued",
@@ -1091,13 +1091,13 @@
   "@removeFilterForLibrary": {
     "description": "removeFilterForLibrary",
     "placeholders": {
-      "filter":{
+      "filter": {
         "type": "String"
       }
     }
   },
   "deleteFilterConfirmation": "Are you sure you want to delete this filter?",
-  "libraryFiltersLimitReached" : "Filter limit reached (10) remove some filters",
+  "libraryFiltersLimitReached": "Filter limit reached (10) remove some filters",
   "libraryFiltersRemoveAll": "Remove all filters",
   "libraryFiltersRemoveAllConfirm": "This will delete all saved filters for every library",
   "playerSettingsOrientationTitle": "Player orientation",
@@ -1121,5 +1121,9 @@
   "libraryShuffleAndPlayItems": "Shuffle and play items",
   "libraryPlayItems": "Play items",
   "clientSettingsShowAllCollectionsTitle": "Show all collection types",
-  "clientSettingsShowAllCollectionsDesc": "When enabled, show all collection types, including those not supported by Fladder" 
+  "clientSettingsShowAllCollectionsDesc": "When enabled, show all collection types, including those not supported by Fladder",
+  "stop": "Stop",
+  "resumeVideo": "Resume video",
+  "closeVideo": "Close video",
+  "playNextVideo": "Play next video"
 }

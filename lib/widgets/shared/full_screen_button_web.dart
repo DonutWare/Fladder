@@ -6,6 +6,13 @@ import 'package:universal_html/html.dart' as html;
 
 import 'package:fladder/providers/video_player_provider.dart';
 
+Future<void> closeFullScreen() async {
+  if (html.document.fullscreenElement != null) {
+    html.document.exitFullscreen();
+    await Future.delayed(const Duration(milliseconds: 500));
+  }
+}
+
 Future<void> toggleFullScreen(WidgetRef ref) async {
   final isFullScreen = html.document.fullscreenElement != null;
 
@@ -30,7 +37,7 @@ class FullScreenButton extends ConsumerWidget {
     return IconButton(
       onPressed: () => toggleFullScreen(ref),
       icon: Icon(
-        fullScreen ? IconsaxOutline.close_square : IconsaxOutline.maximize_4,
+        fullScreen ? IconsaxOutline.screenmirroring : IconsaxOutline.maximize_4,
       ),
     );
   }

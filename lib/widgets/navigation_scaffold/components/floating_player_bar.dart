@@ -15,6 +15,7 @@ import 'package:fladder/screens/video_player/video_player.dart';
 import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/list_padding.dart';
+import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 
 const videoPlayerHeroTag = "HeroPlayer";
@@ -178,16 +179,16 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
                                           : IconsaxBold.volume_high,
                                     ),
                                   ),
-                                  Tooltip(
-                                    message: "Stop playback",
-                                    waitDuration: const Duration(milliseconds: 500),
-                                    child: IconButton(
-                                      onPressed: () async => stopPlayer(),
-                                      icon: const Icon(IconsaxBold.stop),
-                                    ),
-                                  ),
                                 },
-                              ].addInBetween(const SizedBox(width: 8)),
+                                Tooltip(
+                                  message: context.localized.stop,
+                                  waitDuration: const Duration(milliseconds: 500),
+                                  child: IconButton(
+                                    onPressed: () async => stopPlayer(),
+                                    icon: const Icon(IconsaxBold.stop),
+                                  ),
+                                ),
+                              ].addInBetween(const SizedBox(width: 6)),
                             ),
                           ),
                         ),
@@ -196,7 +197,7 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
                           backgroundColor: Colors.black.withOpacity(0.25),
                           color: Theme.of(context).colorScheme.primary,
                           value: progress.clamp(0, 1),
-                        )
+                        ),
                       ],
                     ),
                   ),

@@ -10,8 +10,6 @@ import 'package:collection/collection.dart';
 import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:screen_brightness/screen_brightness.dart';
-import 'package:universal_html/html.dart' as html;
-import 'package:window_manager/window_manager.dart';
 
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
@@ -19,7 +17,7 @@ import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
-import 'package:fladder/screens/shared/default_titlebar.dart';
+import 'package:fladder/screens/shared/default_title_bar.dart';
 import 'package:fladder/screens/video_player/components/video_playback_information.dart';
 import 'package:fladder/screens/video_player/components/video_player_controls_extras.dart';
 import 'package:fladder/screens/video_player/components/video_player_options_sheet.dart';
@@ -83,7 +81,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         return true;
       }
       if (value.logicalKey == LogicalKeyboardKey.escape) {
-        disableFullscreen();
+        disableFullScreen();
         return true;
       }
       if (value.logicalKey == LogicalKeyboardKey.space) {
@@ -262,12 +260,17 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                       ),
                     ),
                     const SizedBox(width: 16),
-                    Flexible(
+                    Expanded(
                       child: Text(
                         currentItem?.title ?? "",
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                     ),
+                    if (AdaptiveLayout.of(context).inputDevice == InputDevice.touch)
+                      Tooltip(
+                          message: context.localized.stop,
+                          child: IconButton(
+                              onPressed: () => closePlayer(), icon: const Icon(IconsaxOutline.close_square))),
                   ],
                 ),
               ),
@@ -375,11 +378,13 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Tooltip(
-                            message: "Stop",
-                            child: IconButton(onPressed: () => closePlayer(), icon: const Icon(IconsaxOutline.stop))),
+                        if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer)
+                          Tooltip(
+                              message: context.localized.stop,
+                              child: IconButton(
+                                  onPressed: () => closePlayer(), icon: const Icon(IconsaxOutline.close_square))),
                         const Spacer(),
-                        if ((AdaptiveLayout.of(context).isDesktop || kIsWeb) &&
+                        if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer &&
                             ref.read(videoPlayerProvider).player != null) ...{
                           // OpenQueueButton(x),
                           // ChapterButton(
@@ -644,7 +649,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     if (!(AdaptiveLayout.of(context).isDesktop || kIsWeb)) {
       ScreenBrightness().resetScreenBrightness();
     } else {
-      disableFullscreen();
+      disableFullScreen();
     }
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -654,18 +659,8 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     timer.cancel();
   }
 
-  Future<void> disableFullscreen() async {
+  Future<void> disableFullScreen() async {
     resetTimer();
-    if (kIsWeb) {
-      if (html.document.fullscreenElement != null) {
-        html.document.exitFullscreen();
-        await Future.delayed(const Duration(milliseconds: 500));
-      }
-    } else {
-      final isFullScreen = await windowManager.isFullScreen();
-      if (isFullScreen) {
-        await windowManager.setFullScreen(false);
-      }
-    }
+    closeFullScreen();
   }
 }

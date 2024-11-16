@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:fladder/screens/shared/default_titlebar.dart';
+import 'package:fladder/screens/shared/default_title_bar.dart';
 import 'package:fladder/util/adaptive_layout.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
