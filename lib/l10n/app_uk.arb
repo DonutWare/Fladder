@@ -1173,5 +1173,13 @@
   "clientSettingsShowAllCollectionsTitle": "Показати всі типи колекцій",
   "@clientSettingsShowAllCollectionsTitle": {},
   "clientSettingsShowAllCollectionsDesc": "Якщо увімкнено, показувати всі типи колекцій, включно з тими, що не підтримує Fladder",
-  "@clientSettingsShowAllCollectionsDesc": {}
+  "@clientSettingsShowAllCollectionsDesc": {},
+  "stop": "Зупинити",
+  "@stop": {},
+  "closeVideo": "Закрити відео",
+  "@closeVideo": {},
+  "resumeVideo": "Відновити відео",
+  "@resumeVideo": {},
+  "playNextVideo": "Відтворити наступне відео",
+  "@playNextVideo": {}
 }
