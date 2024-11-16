@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -73,7 +71,7 @@ class ViewModel {
       recentlyAdded: [],
       collectionType: CollectionType.values
               .firstWhereOrNull((element) => element.name.toLowerCase() == item.collectionType?.value?.toLowerCase()) ??
-          CollectionType.movies,
+          CollectionType.folders,
       playAccess: item.playAccess ?? PlayAccess.none,
       childCount: item.childCount ?? 0,
     );

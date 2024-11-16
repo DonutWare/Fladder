@@ -1,8 +1,10 @@
+import 'package:flutter/material.dart';
+
 import 'package:ficonsax/ficonsax.dart';
+
 import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
-import 'package:flutter/material.dart';
 
 extension CollectionTypeExtension on CollectionType {
   IconData get iconOutlined {
@@ -21,9 +23,6 @@ extension CollectionTypeExtension on CollectionType {
         return {FladderItemType.series};
       case CollectionType.homevideos:
         return {FladderItemType.photoAlbum, FladderItemType.folder, FladderItemType.photo, FladderItemType.video};
-      case CollectionType.boxsets:
-      case CollectionType.folders:
-      case CollectionType.books:
       default:
         return {};
     }
