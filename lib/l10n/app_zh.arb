@@ -1164,5 +1164,13 @@
   "clientSettingsShowAllCollectionsTitle": "显示所有收藏类型",
   "@clientSettingsShowAllCollectionsTitle": {},
   "clientSettingsShowAllCollectionsDesc": "启用后，显示所有收藏类型，包括 Fladder 不支持的收藏类型",
-  "@clientSettingsShowAllCollectionsDesc": {}
+  "@clientSettingsShowAllCollectionsDesc": {},
+  "resumeVideo": "恢复播放视频",
+  "@resumeVideo": {},
+  "playNextVideo": "播放下一个视频",
+  "@playNextVideo": {},
+  "closeVideo": "关闭视频",
+  "@closeVideo": {},
+  "stop": "停止",
+  "@stop": {}
 }
