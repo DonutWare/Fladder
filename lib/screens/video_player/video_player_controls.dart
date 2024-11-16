@@ -646,7 +646,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
 
   Future<void> clearOverlaySettings() async {
     toggleOverlay(value: true);
-    if (!(AdaptiveLayout.of(context).isDesktop || kIsWeb)) {
+    if (AdaptiveLayout.of(context).inputDevice != InputDevice.pointer) {
       ScreenBrightness().resetScreenBrightness();
     } else {
       disableFullScreen();

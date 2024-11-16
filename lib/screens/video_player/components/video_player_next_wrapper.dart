@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -130,7 +129,7 @@ class _VideoPlayerNextWrapperState extends ConsumerState<VideoPlayerNextWrapper>
   }
 
   Future<void> clearOverlaySettings() async {
-    if (!(AdaptiveLayout.of(context).isDesktop || kIsWeb)) {
+    if (AdaptiveLayout.of(context).inputDevice != InputDevice.pointer) {
       ScreenBrightness().resetScreenBrightness();
     } else {
       closeFullScreen();
