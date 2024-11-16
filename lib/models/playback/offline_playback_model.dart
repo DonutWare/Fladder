@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:media_kit/media_kit.dart';
 
@@ -66,22 +65,8 @@ class OfflinePlaybackModel implements PlaybackModel {
 
   @override
   Future<OfflinePlaybackModel> setSubtitle(SubStreamModel? model, MediaControlsWrapper player) async {
-    final wantedSubtitle =
-        model ?? subStreams.firstWhereOrNull((element) => element.index == mediaStreams?.defaultSubStreamIndex);
-    if (wantedSubtitle == null) return this;
-    if (wantedSubtitle.index == SubStreamModel.no().index) {
-      await player.setSubtitleTrack(SubtitleTrack.no());
-    } else {
-      final subTracks = player.subTracks.getRange(2, player.subTracks.length).toList();
-      final index = subStreams.sublist(1).indexWhere((element) => element.id == wantedSubtitle.id);
-      final subTrack = subTracks.elementAtOrNull(index);
-      if (wantedSubtitle.isExternal && wantedSubtitle.url != null && subTrack == null) {
-        await player.setSubtitleTrack(SubtitleTrack.uri(wantedSubtitle.url!));
-      } else if (subTrack != null) {
-        await player.setSubtitleTrack(subTrack);
-      }
-    }
-    return copyWith(mediaStreams: () => mediaStreams?.copyWith(defaultSubStreamIndex: wantedSubtitle.index));
+    final newIndex = await player.setSubtitleTrack(model, this);
+    return copyWith(mediaStreams: () => mediaStreams?.copyWith(defaultSubStreamIndex: newIndex));
   }
 
   @override
@@ -89,19 +74,8 @@ class OfflinePlaybackModel implements PlaybackModel {
 
   @override
   Future<OfflinePlaybackModel>? setAudio(AudioStreamModel? model, MediaControlsWrapper player) async {
-    final wantedAudioStream =
-        model ?? audioStreams.firstWhereOrNull((element) => element.index == mediaStreams?.defaultAudioStreamIndex);
-    if (wantedAudioStream == null) return this;
-    if (wantedAudioStream.index == AudioStreamModel.no().index) {
-      await player.setAudioTrack(AudioTrack.no());
-    } else {
-      final audioTracks = player.audioTracks.getRange(2, player.audioTracks.length).toList();
-      final audioTrack = audioTracks.elementAtOrNull(audioStreams.indexOf(wantedAudioStream) - 1);
-      if (audioTrack != null) {
-        await player.setAudioTrack(audioTrack);
-      }
-    }
-    return copyWith(mediaStreams: () => mediaStreams?.copyWith(defaultAudioStreamIndex: wantedAudioStream.index));
+    final newIndex = await player.setAudioTrack(model, this);
+    return copyWith(mediaStreams: () => mediaStreams?.copyWith(defaultAudioStreamIndex: newIndex));
   }
 
   @override

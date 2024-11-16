@@ -115,7 +115,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   @override
   Widget build(BuildContext context) {
     final mediaSegments = ref.watch(playBackModel.select((value) => value?.mediaSegments));
-    final player = ref.watch(videoPlayerProvider.select((value) => value.controller));
+    final player = ref.watch(videoPlayerProvider);
     return InputHandler(
       autoFocus: false,
       onKeyEvent: (node, event) => _onKey(event) ? KeyEventResult.handled : KeyEventResult.ignored,
@@ -135,12 +135,12 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
             onHover: AdaptiveLayout.of(context).isDesktop ? (event) => toggleOverlay(value: true) : null,
             child: Stack(
               children: [
-                if (player != null)
-                  VideoSubtitles(
-                    key: const Key('subtitles'),
-                    controller: player,
-                    overLayed: showOverlay,
-                  ),
+                // if (player != null)
+                //   VideoSubtitles(
+                //     key: const Key('subtitles'),
+                //     controller: player,
+                //     overLayed: showOverlay,
+                //   ),
                 if (AdaptiveLayout.of(context).isDesktop)
                   Consumer(builder: (context, ref, child) {
                     final playing = ref.watch(mediaPlaybackProvider.select((value) => value.playing));

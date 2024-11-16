@@ -447,13 +447,13 @@ class _SimpleControls extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final player = ref.watch(videoPlayerProvider.select((value) => value.controller?.player));
+    final player = ref.watch(videoPlayerProvider);
     final isPlaying = ref.watch(mediaPlaybackProvider.select((value) => value.playing));
     return Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           IconButton.filledTonal(
-            onPressed: () => player?.playOrPause(),
+            onPressed: () => player.playOrPause(),
             icon: Icon(isPlaying ? IconsaxBold.pause : IconsaxBold.play),
           ),
           if (skip != null)

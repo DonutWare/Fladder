@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:media_kit_video/media_kit_video.dart';
 
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
@@ -73,7 +72,7 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
     final videoFit = ref.watch(videoPlayerSettingsProvider.select((value) => value.videoFit));
     final padding = MediaQuery.of(context).padding;
 
-    final playerController = ref.watch(videoPlayerProvider.select((value) => value.controller));
+    final playerController = ref.watch(videoPlayerProvider.select((value) => value));
 
     ref.listen(
       videoPlayerSettingsProvider.select((value) => value.allowedOrientations),
@@ -103,24 +102,21 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
               lastScale = 0.0;
             },
             child: VideoPlayerNextWrapper(
-              video: playerController != null
-                  ? Padding(
-                      padding: fillScreen ? EdgeInsets.zero : EdgeInsets.only(left: padding.left, right: padding.right),
-                      child: OrientationBuilder(builder: (context, orientation) {
-                        return Video(
-                          key: Key(orientation.toString()),
-                          controller: playerController,
-                          fill: Colors.transparent,
-                          wakelock: true,
-                          fit: fillScreen
+              video: Padding(
+                padding: fillScreen ? EdgeInsets.zero : EdgeInsets.only(left: padding.left, right: padding.right),
+                child: OrientationBuilder(
+                  builder: (context, orientation) {
+                    return playerController.player?.videoWidget(
+                          context,
+                          Key(orientation.toString()),
+                          fillScreen
                               ? (MediaQuery.of(context).orientation == Orientation.portrait ? videoFit : BoxFit.cover)
                               : videoFit,
-                          subtitleViewConfiguration: const SubtitleViewConfiguration(visible: false),
-                          controls: NoVideoControls,
-                        );
-                      }),
-                    )
-                  : const SizedBox.shrink(),
+                        ) ??
+                        const SizedBox.shrink();
+                  },
+                ),
+              ),
               controls: const DesktopControls(),
               overlays: [
                 if (errorPlaying) const _VideoErrorWidget(),

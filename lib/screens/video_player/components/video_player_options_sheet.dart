@@ -459,7 +459,7 @@ Future<void> showPlaybackSpeed(BuildContext context) {
       return StatefulBuilder(builder: (context, setState) {
         return Consumer(
           builder: (context, ref, child) {
-            final player = ref.watch(videoPlayerProvider.select((value) => value.player));
+            final player = ref.watch(videoPlayerProvider);
             final lastSpeed = ref.watch(playbackRateProvider);
             return SimpleDialog(
               contentPadding: const EdgeInsets.only(top: 8, bottom: 24),
@@ -484,7 +484,7 @@ Future<void> showPlaybackSpeed(BuildContext context) {
                             divisions: 39,
                             onChanged: (value) {
                               ref.read(playbackRateProvider.notifier).state = value;
-                              player?.setRate(value);
+                              player.setSpeed(value);
                             },
                           ),
                         ),

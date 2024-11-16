@@ -6,69 +6,60 @@ import 'package:flutter/foundation.dart';
 import 'package:audio_service/audio_service.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:media_kit/media_kit.dart';
-import 'package:media_kit_video/media_kit_video.dart';
 import 'package:smtc_windows/smtc_windows.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/items/media_streams_model.dart';
+import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
-import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/wrappers/media_control_base.dart';
-import 'package:fladder/wrappers/media_wrapper_interface.dart';
+import 'package:fladder/wrappers/players/base_player.dart';
+import 'package:fladder/wrappers/players/libmpv.dart';
 
-class MediaControlsWrapper extends MediaPlayback implements MediaControlBase {
+class MediaControlsWrapper extends BaseAudioHandler implements MediaControlBase {
   MediaControlsWrapper({required this.ref});
+
+  BasePlayer? player;
 
   final Ref ref;
 
   List<StreamSubscription> subscriptions = [];
   SMTCWindows? smtc;
 
+  bool initMediaControls = false;
+
   @override
   Future<void> init() async {
-    await AudioService.init(
-      builder: () => this,
-      config: audioServiceConfig,
-    );
+    if (!initMediaControls && !kDebugMode) {
+      await AudioService.init(
+        builder: () => this,
+        config: audioServiceConfig,
+      );
+      initMediaControls = true;
+    }
+
+    setup(Libmpv());
   }
 
   @override
-  Player setup() => setPlayer(_initPlayer());
+  Future<void> setup(BasePlayer newPlayer) async {
+    player = newPlayer;
+    await newPlayer.init(ref);
+    _initPlayer();
+  }
 
-  Player _initPlayer() {
+  void _initPlayer() {
     for (var element in subscriptions) {
       element.cancel();
     }
-
     stop();
-
-    player?.dispose();
-
-    final newPlayer = Player(
-      configuration: PlayerConfiguration(
-        title: "nl.jknaapen.fladder",
-        bufferSize: 64 * 1024 * 1024,
-        libassAndroidFont: 'assets/fonts/mp-font.ttf',
-        libass: !kIsWeb &&
-            ref.read(
-              videoPlayerSettingsProvider.select((value) => value.useLibass),
-            ),
-      ),
-    );
-    setPlayer(newPlayer);
-    setController(VideoController(
-      newPlayer,
-      configuration: VideoControllerConfiguration(
-        enableHardwareAcceleration: ref.read(
-          videoPlayerSettingsProvider.select((value) => value.hardwareAccel),
-        ),
-      ),
-    ));
     _subscribePlayer();
-    return newPlayer;
   }
+
+  @override
+  Future<void> open(String url, bool play) async => player?.open(url, play);
 
   void _subscribePlayer() {
     if (Platform.isWindows) {
@@ -114,23 +105,23 @@ class MediaControlsWrapper extends MediaPlayback implements MediaControlBase {
     }
 
     subscriptions.addAll([
-      player?.stream.buffer.listen((buffer) {
+      player?.stream?.buffer.listen((buffer) {
         playbackState.add(playbackState.value.copyWith(
           bufferedPosition: buffer,
         ));
       }),
-      player?.stream.buffering.listen((buffering) {
+      player?.stream?.buffering.listen((buffering) {
         playbackState.add(playbackState.value.copyWith(
           processingState: buffering ? AudioProcessingState.buffering : AudioProcessingState.ready,
         ));
       }),
-      player?.stream.position.listen((position) {
+      player?.stream?.position.listen((position) {
         playbackState.add(playbackState.value.copyWith(
           updatePosition: position,
         ));
         smtc?.setPosition(position);
       }),
-      player?.stream.playing.listen((playing) {
+      player?.stream?.playing.listen((playing) {
         if (playing) {
           WakelockPlus.enable();
         } else {
@@ -147,7 +138,6 @@ class MediaControlsWrapper extends MediaPlayback implements MediaControlBase {
   @override
   Future<void> play() async {
     if (!ref.read(clientSettingsProvider).enableMediaKeys) {
-      await player?.play();
       return super.play();
     }
 
@@ -182,7 +172,6 @@ class MediaControlsWrapper extends MediaPlayback implements MediaControlBase {
       processingState: AudioProcessingState.ready,
     ));
 
-    await player?.play();
     return super.play();
   }
 
@@ -213,7 +202,9 @@ class MediaControlsWrapper extends MediaPlayback implements MediaControlBase {
     WakelockPlus.disable();
     final position = player?.state.position;
     final totalDuration = player?.state.duration;
-    await player?.stop();
+    super.stop();
+    player?.stop();
+
     ref.read(playBackModel)?.playbackStopped(position ?? Duration.zero, totalDuration, ref);
     ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(position: Duration.zero));
     smtc?.setPlaybackStatus(PlaybackStatus.Stopped);
@@ -230,7 +221,7 @@ class MediaControlsWrapper extends MediaPlayback implements MediaControlBase {
   }
 
   @override
-  void playOrPause() async {
+  Future<void> playOrPause() async {
     await player?.playOrPause();
     playbackState.add(playbackState.value.copyWith(
       playing: player?.state.playing ?? false,
@@ -240,5 +231,28 @@ class MediaControlsWrapper extends MediaPlayback implements MediaControlBase {
     if (playerState != null) {
       ref.read(playBackModel)?.updatePlaybackPosition(playerState.state.position, playerState.state.playing, ref);
     }
+  }
+
+  @override
+  Future<int> setAudioTrack(AudioStreamModel? model, PlaybackModel playbackModel) async =>
+      await player?.setAudioTrack(model, playbackModel) ?? -1;
+
+  @override
+  Future<int> setSubtitleTrack(SubStreamModel? model, PlaybackModel playbackModel) async =>
+      await player?.setSubtitleTrack(model, playbackModel) ?? -1;
+
+  @override
+  Future<void> setVolume(double speed) async => player?.setVolume(speed);
+
+  @override
+  Future<void> seek(Duration position) {
+    player?.seek(position);
+    return super.seek(position);
+  }
+
+  @override
+  Future<void> setSpeed(double speed) {
+    player?.setSpeed(speed);
+    return super.setSpeed(speed);
   }
 }

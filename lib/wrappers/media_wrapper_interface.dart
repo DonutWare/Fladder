@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import 'package:audio_service/audio_service.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
@@ -5,11 +7,9 @@ import 'package:media_kit_video/media_kit_video.dart';
 class MediaPlayback extends BaseAudioHandler {
   Player? _player;
   VideoController? _controller;
-  Player? get player => _player;
-  VideoController? get controller => _controller;
 
   Player setPlayer(Player player) => _player = player;
-  VideoController setController(VideoController player) => _controller = player;
+  VideoController setController(VideoController controller) => _controller = controller;
 
   Future<void> setVolume(double volume) async => _player?.setVolume(volume);
 
@@ -21,12 +21,29 @@ class MediaPlayback extends BaseAudioHandler {
   List<AudioTrack> get audioTracks => _player?.state.tracks.audio ?? [];
   AudioTrack get audioTrack => _player?.state.track.audio ?? AudioTrack.no();
 
+  Widget? widget(
+    BuildContext context,
+    Key key,
+    BoxFit fit,
+  ) =>
+      _controller == null
+          ? null
+          : Video(
+              key: key,
+              controller: _controller!,
+              wakelock: true,
+              fill: Colors.transparent,
+              fit: fit,
+              subtitleViewConfiguration: const SubtitleViewConfiguration(visible: false),
+              controls: NoVideoControls,
+            );
+
   @override
-  Future<void> seek(Duration position) async => player?.seek(position);
+  Future<void> seek(Duration position) async => _player?.seek(position);
 
   @override
   Future<void> play() async {
-    await player?.play();
+    await _player?.play();
     return super.play();
   }
 
@@ -34,28 +51,28 @@ class MediaPlayback extends BaseAudioHandler {
     Playable playable, {
     bool play = true,
   }) async {
-    return player?.open(playable, play: play);
+    return _player?.open(playable, play: play);
   }
 
   @override
   Future<void> fastForward() async {
-    if (player != null) {
-      await player!.seek(player!.state.position + const Duration(seconds: 30));
+    if (_player != null) {
+      await _player!.seek(_player!.state.position + const Duration(seconds: 30));
     }
     return super.fastForward();
   }
 
   @override
   Future<void> rewind() async {
-    if (player != null) {
-      await player?.seek(player!.state.position - const Duration(seconds: 10));
+    if (_player != null) {
+      await _player?.seek(_player!.state.position - const Duration(seconds: 10));
     }
     return super.rewind();
   }
 
   @override
   Future<void> setSpeed(double speed) async {
-    await player?.setRate(speed);
+    await _player?.setRate(speed);
     return super.setSpeed(speed);
   }
 
@@ -65,7 +82,17 @@ class MediaPlayback extends BaseAudioHandler {
       playing: false,
       controls: [MediaControl.play],
     ));
-    await player?.pause();
+    await _player?.pause();
     return super.pause();
   }
+
+  @override
+  Future<void> stop() {
+    _player?.stop();
+    return super.stop();
+  }
+
+  void dispose() => _player?.dispose();
+
+  PlayerStream? get stream => _player?.stream;
 }
