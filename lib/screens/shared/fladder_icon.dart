@@ -28,7 +28,7 @@ class FladderIcon extends StatelessWidget {
             );
           },
           child: SvgPicture.asset(
-            "icons/fladder_icon_grayscale.svg",
+            "icons/fladder_icon.svg",
             width: size,
             colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
           ),

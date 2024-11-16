@@ -21,7 +21,7 @@ class FladderLogo extends ConsumerWidget {
         spacing: 16,
         runSpacing: 8,
         children: [
-          Transform.translate(offset: const Offset(0, -8), child: const FladderIcon(size: 75)),
+          const FladderIcon(),
           Text(
             ref.read(applicationInfoProvider).name.capitalize(),
             style: context.textTheme.displayLarge,
