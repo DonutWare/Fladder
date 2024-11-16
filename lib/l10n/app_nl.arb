@@ -1166,5 +1166,13 @@
   "clientSettingsShowAllCollectionsTitle": "Toon alle soorten collecties",
   "@clientSettingsShowAllCollectionsTitle": {},
   "clientSettingsShowAllCollectionsDesc": "Als deze optie is ingeschakeld, worden alle bibliotheek types weergegeven, inclusief de types die niet door Fladder worden ondersteund",
-  "@clientSettingsShowAllCollectionsDesc": {}
+  "@clientSettingsShowAllCollectionsDesc": {},
+  "closeVideo": "Video sluiten",
+  "@closeVideo": {},
+  "playNextVideo": "Volgend video afspelen",
+  "@playNextVideo": {},
+  "resumeVideo": "Video hervatten",
+  "@resumeVideo": {},
+  "stop": "Stop",
+  "@stop": {}
 }
