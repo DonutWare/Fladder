@@ -1171,5 +1171,13 @@
   "clientSettingsShowAllCollectionsTitle": "Mostrar todos os tipos de coleção",
   "@clientSettingsShowAllCollectionsTitle": {},
   "clientSettingsShowAllCollectionsDesc": "Quando ativado, mostra todos os tipos de coleção, incluindo aqueles não suportados pelo Fladder",
-  "@clientSettingsShowAllCollectionsDesc": {}
+  "@clientSettingsShowAllCollectionsDesc": {},
+  "stop": "Parar",
+  "@stop": {},
+  "resumeVideo": "Retomar vídeo",
+  "@resumeVideo": {},
+  "closeVideo": "Fechar vídeo",
+  "@closeVideo": {},
+  "playNextVideo": "Reproduzir próximo vídeo",
+  "@playNextVideo": {}
 }
