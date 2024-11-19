@@ -460,7 +460,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     try {
       if (!skipDownload && currentTask.task == null) {
         final downloadTask = DownloadTask(
-          url: Uri.parse(downloadString).toString(),
+          url: downloadString,
           directory: syncItem.directory.path,
           filename: syncItem.videoFileName,
           updates: Updates.statusAndProgress,
