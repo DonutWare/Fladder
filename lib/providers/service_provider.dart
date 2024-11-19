@@ -906,10 +906,16 @@ class JellyService {
 
       if (server == null) return null;
 
-      final lines = response.bodyString.split('\n')..removeWhere((element) => element.startsWith('#'));
+      final sanitizedUrls = response.bodyString
+          .split('\n')
+          .where((line) => line.isNotEmpty && !line.startsWith('#'))
+          .map((line) => line.trim())
+          .map((line) => Uri.parse(line).toString())
+          .toList();
+
       return response.copyWith(
           body: trickPlayModel.copyWith(
-              images: lines
+              images: sanitizedUrls
                   .map(
                     (e) => joinAll([server, 'Videos/${item.id}/Trickplay/${trickPlayModel.width}', e]),
                   )

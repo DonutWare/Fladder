@@ -448,16 +448,19 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
 
     final currentTask = ref.read(downloadTasksProvider(syncItem.id));
 
-    final downloadString = path.joinAll([
-      "${ref.read(userProvider)?.server}",
-      "Items",
-      "${syncItem.id}/Download?api_key=${ref.read(userProvider)?.credentials.token}"
-    ]);
+    final downloadString = Uri(
+      scheme: ref.read(userProvider)?.server.startsWith('https') == true ? 'https' : 'http',
+      host: Uri.parse(ref.read(userProvider)?.server ?? '').host,
+      path: path.join("Items", "${syncItem.id}/Download"),
+      queryParameters: {
+        'api_key': ref.read(userProvider)?.credentials.token,
+      },
+    ).toString();
 
     try {
       if (!skipDownload && currentTask.task == null) {
         final downloadTask = DownloadTask(
-          url: downloadString,
+          url: Uri.parse(downloadString).toString(),
           directory: syncItem.directory.path,
           filename: syncItem.videoFileName,
           updates: Updates.statusAndProgress,
