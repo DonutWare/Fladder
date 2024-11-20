@@ -22,8 +22,8 @@ class TrickPlayModel with _$TrickPlayModel {
   int get imagesPerTile => tileWidth * tileHeight;
 
   String? getTile(Duration position) {
-    final int currentIndex = (position.inMilliseconds ~/ interval.inMilliseconds).clamp(0, thumbnailCount - 1);
-    final int indexOfTile = (currentIndex ~/ imagesPerTile).clamp(0, (images.length - 1));
+    final int currentIndex = (position.inMilliseconds ~/ interval.inMilliseconds).clamp(0, thumbnailCount);
+    final int indexOfTile = (currentIndex ~/ imagesPerTile).clamp(0, images.length);
     return images.elementAtOrNull(indexOfTile);
   }
 

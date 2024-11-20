@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 import 'package:audio_service/audio_service.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smtc_windows/smtc_windows.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
@@ -12,16 +12,33 @@ import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
+import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
+import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
-import 'package:fladder/wrappers/media_control_base.dart';
 import 'package:fladder/wrappers/players/base_player.dart';
-import 'package:fladder/wrappers/players/libmpv.dart';
+import 'package:fladder/wrappers/players/lib_mdk.dart';
+import 'package:fladder/wrappers/players/lib_mpv.dart';
+import 'package:fladder/wrappers/players/player_states.dart';
 
-class MediaControlsWrapper extends BaseAudioHandler implements MediaControlBase {
+class MediaControlsWrapper extends BaseAudioHandler {
   MediaControlsWrapper({required this.ref});
 
-  BasePlayer? player;
+  BasePlayer? _player;
+
+  bool get hasPlayer => _player != null;
+
+  PlayerOptions? get backend => switch (_player) {
+        LibMPV _ => PlayerOptions.libMPV,
+        LibMDK _ => PlayerOptions.libMDK,
+        _ => null,
+      };
+
+  Stream<PlayerState>? get stateStream => _player?.stateStream;
+  PlayerState? get lastState => _player?.lastState;
+
+  Widget? subtitleWidget(bool showOverlay) => _player?.subtitles(showOverlay);
+  Widget? videoWidget(Key key, BoxFit fit) => _player?.videoWidget(key, fit);
 
   final Ref ref;
 
@@ -30,22 +47,36 @@ class MediaControlsWrapper extends BaseAudioHandler implements MediaControlBase 
 
   bool initMediaControls = false;
 
-  @override
   Future<void> init() async {
     if (!initMediaControls && !kDebugMode) {
       await AudioService.init(
         builder: () => this,
-        config: audioServiceConfig,
+        config: const AudioServiceConfig(
+          androidNotificationChannelId: 'nl.jknaapen.fladder.channel.playback',
+          androidNotificationChannelName: 'Video playback',
+          androidNotificationOngoing: true,
+          androidStopForegroundOnPause: true,
+          rewindInterval: Duration(seconds: 10),
+          fastForwardInterval: Duration(seconds: 15),
+          androidNotificationChannelDescription: "Playback",
+          androidShowNotificationBadge: true,
+        ),
       );
       initMediaControls = true;
     }
 
-    setup(Libmpv());
+    final player = switch (ref.read(videoPlayerSettingsProvider.select((value) => value.wantedPlayer))) {
+      PlayerOptions.libMDK => LibMDK(),
+      PlayerOptions.libMPV => LibMPV(),
+    };
+
+    setup(player);
   }
 
-  @override
+  Future<void> dispose() async => _player?.dispose();
+
   Future<void> setup(BasePlayer newPlayer) async {
-    player = newPlayer;
+    _player = newPlayer;
     await newPlayer.init(ref);
     _initPlayer();
   }
@@ -58,11 +89,10 @@ class MediaControlsWrapper extends BaseAudioHandler implements MediaControlBase 
     _subscribePlayer();
   }
 
-  @override
-  Future<void> open(String url, bool play) async => player?.open(url, play);
+  Future<void> open(String url, bool play) async => _player?.open(url, play);
 
   void _subscribePlayer() {
-    if (Platform.isWindows) {
+    if (Platform.isWindows && !kIsWeb) {
       smtc = SMTCWindows(
         config: const SMTCConfig(
           fastForwardEnabled: true,
@@ -104,42 +134,33 @@ class MediaControlsWrapper extends BaseAudioHandler implements MediaControlBase 
       }
     }
 
-    subscriptions.addAll([
-      player?.stream?.buffer.listen((buffer) {
-        playbackState.add(playbackState.value.copyWith(
-          bufferedPosition: buffer,
-        ));
-      }),
-      player?.stream?.buffering.listen((buffering) {
-        playbackState.add(playbackState.value.copyWith(
-          processingState: buffering ? AudioProcessingState.buffering : AudioProcessingState.ready,
-        ));
-      }),
-      player?.stream?.position.listen((position) {
-        playbackState.add(playbackState.value.copyWith(
-          updatePosition: position,
-        ));
-        smtc?.setPosition(position);
-      }),
-      player?.stream?.playing.listen((playing) {
-        if (playing) {
-          WakelockPlus.enable();
-        } else {
-          WakelockPlus.disable();
-        }
-        playbackState.add(playbackState.value.copyWith(
-          playing: playing,
-        ));
-        smtc?.setPlaybackStatus(playing ? PlaybackStatus.Playing : PlaybackStatus.Paused);
-      }),
-    ].whereNotNull());
+    subscriptions.add(_player!.stateStream.listen((value) {
+      playbackState.add(playbackState.value.copyWith(
+        bufferedPosition: value.buffer,
+      ));
+      playbackState.add(playbackState.value.copyWith(
+        processingState: value.buffering ? AudioProcessingState.buffering : AudioProcessingState.ready,
+      ));
+      playbackState.add(playbackState.value.copyWith(
+        updatePosition: value.position,
+      ));
+      smtc?.setPosition(value.position);
+      if (value.playing) {
+        WakelockPlus.enable();
+      } else {
+        WakelockPlus.disable();
+      }
+      playbackState.add(playbackState.value.copyWith(
+        playing: value.playing,
+      ));
+      smtc?.setPlaybackStatus(value.playing ? PlaybackStatus.Playing : PlaybackStatus.Paused);
+    }));
   }
 
   @override
   Future<void> play() async {
-    if (!ref.read(clientSettingsProvider).enableMediaKeys) {
-      return super.play();
-    }
+    _player?.play();
+    if (!ref.read(clientSettingsProvider).enableMediaKeys) return;
 
     final playBackItem = ref.read(playBackModel.select((value) => value?.item));
     final currentPosition = await ref.read(playBackModel.select((value) => value?.startDuration()));
@@ -200,10 +221,10 @@ class MediaControlsWrapper extends BaseAudioHandler implements MediaControlBase 
   @override
   Future<void> stop() async {
     WakelockPlus.disable();
-    final position = player?.state.position;
-    final totalDuration = player?.state.duration;
+    final position = _player?.lastState.position;
+    final totalDuration = _player?.lastState.duration;
     super.stop();
-    player?.stop();
+    _player?.stop();
 
     ref.read(playBackModel)?.playbackStopped(position ?? Duration.zero, totalDuration, ref);
     ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(position: Duration.zero));
@@ -220,39 +241,38 @@ class MediaControlsWrapper extends BaseAudioHandler implements MediaControlBase 
     return super.stop();
   }
 
-  @override
   Future<void> playOrPause() async {
-    await player?.playOrPause();
+    await _player?.playOrPause();
     playbackState.add(playbackState.value.copyWith(
-      playing: player?.state.playing ?? false,
+      playing: _player?.lastState.playing ?? false,
       controls: [MediaControl.play],
     ));
-    final playerState = player;
+    final playerState = _player;
     if (playerState != null) {
-      ref.read(playBackModel)?.updatePlaybackPosition(playerState.state.position, playerState.state.playing, ref);
+      ref
+          .read(playBackModel)
+          ?.updatePlaybackPosition(playerState.lastState.position, playerState.lastState.playing, ref);
     }
   }
 
-  @override
-  Future<int> setAudioTrack(AudioStreamModel? model, PlaybackModel playbackModel) async =>
-      await player?.setAudioTrack(model, playbackModel) ?? -1;
+  Future<int> setAudioTrack(AudioStreamModel? model, PlaybackModel playbackModel) async {
+    return await _player?.setAudioTrack(model, playbackModel) ?? -1;
+  }
 
-  @override
   Future<int> setSubtitleTrack(SubStreamModel? model, PlaybackModel playbackModel) async =>
-      await player?.setSubtitleTrack(model, playbackModel) ?? -1;
+      await _player?.setSubtitleTrack(model, playbackModel) ?? -1;
 
-  @override
-  Future<void> setVolume(double speed) async => player?.setVolume(speed);
+  Future<void> setVolume(double speed) async => _player?.setVolume(speed);
 
   @override
   Future<void> seek(Duration position) {
-    player?.seek(position);
+    _player?.seek(position);
     return super.seek(position);
   }
 
   @override
   Future<void> setSpeed(double speed) {
-    player?.setSpeed(speed);
+    _player?.setSpeed(speed);
     return super.setSpeed(speed);
   }
 }

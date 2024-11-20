@@ -31,10 +31,7 @@ class SeasonDetailsNotifier extends StateNotifier<SeasonModel?> {
       season: newState?.season,
       fields: [ItemFields.overview],
     );
-    newState = newState?.copyWith(
-        episodes: EpisodeModel.episodesFromDto(episodes.body?.items, ref)
-            .where((element) => element.season == newState?.season)
-            .toList());
+    newState = newState?.copyWith(episodes: EpisodeModel.episodesFromDto(episodes.body?.items, ref).toList());
     state = newState;
     return season;
   }

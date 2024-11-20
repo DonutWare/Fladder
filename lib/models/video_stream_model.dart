@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:media_kit/media_kit.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/items/chapters_model.dart';
@@ -73,8 +72,6 @@ class VideoPlayback {
     ItemStreamModel? currentItem,
     SyncedItem? currentSyncedItem,
     VideoStream? currentStream,
-    Map<AudioStreamModel, AudioTrack>? audioMappings,
-    Map<SubStreamModel, SubtitleTrack>? subMappings,
   }) {
     return VideoPlayback(
       queue: queue ?? this.queue,

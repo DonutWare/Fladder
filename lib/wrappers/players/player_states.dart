@@ -8,18 +8,18 @@ class PlayerState {
   bool buffering;
   Duration buffer;
 
-  PlayerState(
-    this.playing,
-    this.completed,
-    this.position,
-    this.duration,
-    this.volume,
-    this.rate,
-    this.buffering,
-    this.buffer,
-  );
+  PlayerState({
+    this.playing = false,
+    this.completed = false,
+    this.position = Duration.zero,
+    this.duration = Duration.zero,
+    this.volume = 100,
+    this.rate = 1.0,
+    this.buffering = true,
+    this.buffer = Duration.zero,
+  });
 
-  void update({
+  PlayerState update({
     bool? playing,
     bool? buffering,
     Duration? position,
@@ -35,6 +35,7 @@ class PlayerState {
     if (volume != null) this.volume = volume;
     if (rate != null) this.rate = rate;
     if (buffer != null) this.buffer = buffer;
+    return this;
   }
 }
 

@@ -1,19 +1,22 @@
 import 'dart:async';
 
-import 'package:ficonsax/ficonsax.dart';
-import 'package:fladder/providers/settings/photo_view_settings_provider.dart';
-import 'package:fladder/util/fladder_image.dart';
-import 'package:fladder/widgets/shared/fladder_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:media_kit/media_kit.dart';
-import 'package:media_kit_video/media_kit_video.dart';
 
-import 'package:fladder/models/items/photos_model.dart';
-import 'package:fladder/providers/user_provider.dart';
-import 'package:fladder/util/duration_extensions.dart';
+import 'package:ficonsax/ficonsax.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:window_manager/window_manager.dart';
+
+import 'package:fladder/models/items/photos_model.dart';
+import 'package:fladder/models/settings/video_player_settings.dart';
+import 'package:fladder/providers/settings/photo_view_settings_provider.dart';
+import 'package:fladder/providers/settings/video_player_settings_provider.dart';
+import 'package:fladder/providers/user_provider.dart';
+import 'package:fladder/util/duration_extensions.dart';
+import 'package:fladder/util/fladder_image.dart';
+import 'package:fladder/widgets/shared/fladder_slider.dart';
+import 'package:fladder/wrappers/players/lib_mdk.dart';
+import 'package:fladder/wrappers/players/lib_mpv.dart';
 
 class SimpleVideoPlayer extends ConsumerStatefulWidget {
   final PhotoModel video;
@@ -26,10 +29,10 @@ class SimpleVideoPlayer extends ConsumerStatefulWidget {
 }
 
 class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with WindowListener, WidgetsBindingObserver {
-  final Player player = Player(
-    configuration: const PlayerConfiguration(title: "nl.jknaapen.fladder", libass: true),
-  );
-  late VideoController controller = VideoController(player);
+  late final player = switch (ref.read(videoPlayerSettingsProvider.select((value) => value.wantedPlayer))) {
+    PlayerOptions.libMDK => LibMDK(),
+    PlayerOptions.libMPV => LibMPV(),
+  };
   late String videoUrl = "";
 
   bool playing = false;
@@ -61,9 +64,9 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
     super.initState();
     windowManager.addListener(this);
     WidgetsBinding.instance.addObserver(this);
-    playing = player.state.playing;
-    position = player.state.position;
-    duration = player.state.duration;
+    playing = player.lastState.playing;
+    position = player.lastState.position;
+    duration = player.lastState.duration;
     Future.microtask(() async => {_init()});
   }
 
@@ -84,43 +87,21 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
 
     videoUrl = '${ref.read(userProvider)?.server ?? ""}/Videos/${widget.video.id}/stream?$params';
 
-    subscriptions.addAll(
-      [
-        player.stream.playing.listen((event) {
-          setState(() {
-            playing = event;
-          });
-          if (playing) {
-            WakelockPlus.enable();
-          } else {
-            WakelockPlus.disable();
-          }
-        }),
-        player.stream.position.listen((event) {
-          setState(() {
-            position = event;
-          });
-        }),
-        player.stream.completed.listen((event) {
-          if (event) {
-            _restartVideo();
-          }
-        }),
-        player.stream.duration.listen((event) {
-          setState(() {
-            duration = event;
-          });
-        }),
-      ],
-    );
+    subscriptions.add(player.stateStream.listen((event) {
+      setState(() {
+        playing = event.playing;
+        position = event.position;
+        duration = event.duration;
+      });
+      if (playing) {
+        WakelockPlus.enable();
+      } else {
+        WakelockPlus.disable();
+      }
+    }));
     await player.setVolume(ref.watch(photoViewSettingsProvider.select((value) => value.mute)) ? 0 : 100);
-    await player.open(Media(videoUrl), play: !ref.watch(photoViewSettingsProvider).autoPlay);
-  }
-
-  void _restartVideo() {
-    if (ref.read(photoViewSettingsProvider.select((value) => value.repeat))) {
-      player.play();
-    }
+    await player.open(videoUrl, !ref.watch(photoViewSettingsProvider).autoPlay);
+    await player.loop(ref.watch(photoViewSettingsProvider.select((value) => value.repeat)));
   }
 
   @override
@@ -142,6 +123,9 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
         .textTheme
         .titleMedium
         ?.copyWith(fontWeight: FontWeight.bold, shadows: [const Shadow(blurRadius: 2)]);
+    ref.listen(photoViewSettingsProvider.select((value) => value.repeat), (previous, next) {
+      player.loop(next);
+    });
     ref.listen(
       photoViewSettingsProvider.select((value) => value.mute),
       (previous, next) {
@@ -165,13 +149,17 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
           //Fixes small overlay problems with thumbnail
           Transform.scale(
             scaleY: 1.004,
-            child: Video(
-              fit: BoxFit.contain,
-              fill: const Color.fromARGB(0, 123, 62, 62),
-              controller: controller,
-              controls: NoVideoControls,
-              wakelock: false,
+            child: player.videoWidget(
+              UniqueKey(),
+              BoxFit.contain,
             ),
+            // child: Video(
+            //   fit: BoxFit.contain,
+            //   fill: const Color.fromARGB(0, 123, 62, 62),
+            //   controller: controller,
+            //   controls: NoVideoControls,
+            //   wakelock: false,
+            // ),
           ),
           IgnorePointer(
             ignoring: !widget.showOverlay,
@@ -211,7 +199,7 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
                                         }
                                       },
                                       onChangeStart: (value) {
-                                        wasPlaying = player.state.playing;
+                                        wasPlaying = player.lastState.playing;
                                         player.pause();
                                       },
                                       onChanged: (e) {
@@ -239,7 +227,7 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
                                 player.playOrPause();
                               },
                               icon: Icon(
-                                player.state.playing ? IconsaxBold.pause_circle : IconsaxBold.play_circle,
+                                player.lastState.playing ? IconsaxBold.pause_circle : IconsaxBold.play_circle,
                                 shadows: [
                                   BoxShadow(blurRadius: 16, spreadRadius: 2, color: Colors.black.withOpacity(0.15))
                                 ],

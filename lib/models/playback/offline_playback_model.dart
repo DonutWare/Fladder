@@ -1,5 +1,6 @@
+import 'package:flutter/widgets.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:media_kit/media_kit.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
@@ -12,9 +13,7 @@ import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/list_extensions.dart';
-import 'package:fladder/wrappers/media_control_wrapper.dart'
-    if (dart.library.html) 'package:fladder/wrappers/media_control_wrapper_web.dart';
-import 'package:flutter/widgets.dart';
+import 'package:fladder/wrappers/media_control_wrapper.dart';
 
 class OfflinePlaybackModel implements PlaybackModel {
   OfflinePlaybackModel({

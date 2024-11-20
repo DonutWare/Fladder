@@ -69,6 +69,8 @@ dependencies:
   media_kit_video: ^1.2.4 # For video rendering.
   media_kit_libs_video: ^1.0.4 # Native video dependencies.
   audio_service: ^0.18.12
+  fvp: ^0.28.0
+  video_player: ^2.9.2
 
   # UI Components
   dynamic_color: ^1.7.0
@@ -158,6 +160,8 @@ flutter:
     - icons/
     - assets/fonts/
     - config/
+    - assets/subfont.ttf
+    - assets/fonts/mp-font.ttf
 
   fonts:
     - family: Rubik

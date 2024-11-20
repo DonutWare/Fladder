@@ -83,6 +83,35 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
           const Divider(),
           SettingsLabelDivider(label: context.localized.advanced),
           SettingsListTile(
+            label: Text(context.localized.playerSettingsBackendTitle),
+            subLabel: Text(context.localized.playerSettingsBackendDesc),
+            trailing: Builder(builder: (context) {
+              final wantedPlayer = ref.watch(videoPlayerSettingsProvider.select((value) => value.wantedPlayer));
+              final currentPlayer = ref.watch(videoPlayerSettingsProvider.select((value) => value.playerOptions));
+              return EnumBox(
+                current: currentPlayer == null
+                    ? "${context.localized.defaultLabel} (${wantedPlayer.label(context)})"
+                    : wantedPlayer.label(context),
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    value: null,
+                    child: Text("${context.localized.defaultLabel} (${wantedPlayer.label(context)})"),
+                    onTap: () => ref.read(videoPlayerSettingsProvider.notifier).state =
+                        ref.read(videoPlayerSettingsProvider).copyWith(playerOptions: null),
+                  ),
+                  ...PlayerOptions.values.map(
+                    (entry) => PopupMenuItem(
+                      value: entry,
+                      child: Text(entry.label(context)),
+                      onTap: () => ref.read(videoPlayerSettingsProvider.notifier).state =
+                          ref.read(videoPlayerSettingsProvider).copyWith(playerOptions: entry),
+                    ),
+                  )
+                ],
+              );
+            }),
+          ),
+          SettingsListTile(
             label: Text(context.localized.settingsPlayerVideoHWAccelTitle),
             subLabel: Text(context.localized.settingsPlayerVideoHWAccelDesc),
             onTap: () => provider.setHardwareAccel(!videoSettings.hardwareAccel),

@@ -102,8 +102,7 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
                                             children: [
                                               Hero(
                                                 tag: videoPlayerHeroTag,
-                                                child: player.player?.videoWidget(
-                                                      context,
+                                                child: player.videoWidget(
                                                       UniqueKey(),
                                                       BoxFit.fitHeight,
                                                     ) ??
@@ -168,7 +167,7 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
                                 if (constraints.maxWidth > 500) ...{
                                   IconButton(
                                     onPressed: () {
-                                      final volume = player.player?.state.volume == 0 ? 100.0 : 0.0;
+                                      final volume = player.lastState?.volume == 0 ? 100.0 : 0.0;
                                       ref.read(videoPlayerSettingsProvider.notifier).setVolume(volume);
                                       player.setVolume(volume);
                                     },

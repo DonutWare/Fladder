@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,7 +22,6 @@ import 'package:fladder/screens/video_player/components/video_player_controls_ex
 import 'package:fladder/screens/video_player/components/video_player_options_sheet.dart';
 import 'package:fladder/screens/video_player/components/video_player_seek_indicator.dart';
 import 'package:fladder/screens/video_player/components/video_progress_bar.dart';
-import 'package:fladder/screens/video_player/components/video_subtitles.dart';
 import 'package:fladder/screens/video_player/components/video_volume_slider.dart';
 import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/duration_extensions.dart';
@@ -116,6 +114,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   Widget build(BuildContext context) {
     final mediaSegments = ref.watch(playBackModel.select((value) => value?.mediaSegments));
     final player = ref.watch(videoPlayerProvider);
+    final subtitleWidget = player.subtitleWidget(showOverlay);
     return InputHandler(
       autoFocus: false,
       onKeyEvent: (node, event) => _onKey(event) ? KeyEventResult.handled : KeyEventResult.ignored,
@@ -135,12 +134,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
             onHover: AdaptiveLayout.of(context).isDesktop ? (event) => toggleOverlay(value: true) : null,
             child: Stack(
               children: [
-                // if (player != null)
-                //   VideoSubtitles(
-                //     key: const Key('subtitles'),
-                //     controller: player,
-                //     overLayed: showOverlay,
-                //   ),
+                if (subtitleWidget != null) subtitleWidget,
                 if (AdaptiveLayout.of(context).isDesktop)
                   Consumer(builder: (context, ref, child) {
                     final playing = ref.watch(mediaPlaybackProvider.select((value) => value.playing));
@@ -385,7 +379,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                                   onPressed: () => closePlayer(), icon: const Icon(IconsaxOutline.close_square))),
                         const Spacer(),
                         if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer &&
-                            ref.read(videoPlayerProvider).player != null) ...{
+                            ref.read(videoPlayerProvider).hasPlayer) ...{
                           // OpenQueueButton(x),
                           // ChapterButton(
                           //   position: position,

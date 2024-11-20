@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:chopper/chopper.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:media_kit/media_kit.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
@@ -27,8 +26,15 @@ import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/util/duration_extensions.dart';
-import 'package:fladder/wrappers/media_control_wrapper.dart'
-    if (dart.library.html) 'package:fladder/wrappers/media_control_wrapper_web.dart';
+import 'package:fladder/wrappers/media_control_wrapper.dart';
+
+class Media {
+  final String url;
+
+  const Media({
+    required this.url,
+  });
+}
 
 extension PlaybackModelExtension on PlaybackModel? {
   String? get label => switch (this) {
@@ -119,7 +125,7 @@ class PlaybackModelHelper {
       syncedItem: syncedItem,
       trickPlay: syncedItem.trickPlayModel,
       mediaSegments: syncedItem.mediaSegments,
-      media: Media(syncedItem.videoFile.path),
+      media: Media(url: syncedItem.videoFile.path),
       queue: itemQueue.whereNotNull().toList(),
       syncedQueue: children,
       mediaStreams: item.streamModel ?? syncedItemModel.streamModel,
@@ -218,7 +224,7 @@ class PlaybackModelHelper {
           chapters: chapters,
           playbackInfo: playbackInfo,
           trickPlay: trickPlay,
-          media: Media('${ref.read(userProvider)?.server ?? ""}/Videos/${mediaSource.id}/stream?$params'),
+          media: Media(url: '${ref.read(userProvider)?.server ?? ""}/Videos/${mediaSource.id}/stream?$params'),
           mediaStreams: mediaStreamsWithUrls,
         );
       } else if ((mediaSource.supportsTranscoding ?? false) && mediaSource.transcodingUrl != null) {
@@ -229,7 +235,7 @@ class PlaybackModelHelper {
           chapters: chapters,
           trickPlay: trickPlay,
           playbackInfo: playbackInfo,
-          media: Media("${ref.read(userProvider)?.server ?? ""}${mediaSource.transcodingUrl ?? ""}"),
+          media: Media(url: "${ref.read(userProvider)?.server ?? ""}${mediaSource.transcodingUrl ?? ""}"),
           mediaStreams: mediaStreamsWithUrls,
         );
       }
@@ -347,7 +353,7 @@ class PlaybackModelHelper {
         chapters: playbackModel.chapters,
         playbackInfo: playbackInfo,
         trickPlay: playbackModel.trickPlay,
-        media: Media(directPlay),
+        media: Media(url: directPlay),
         mediaStreams: mediaStreamsWithUrls,
       );
     } else if ((mediaSource.supportsTranscoding ?? false) && mediaSource.transcodingUrl != null) {
@@ -358,7 +364,7 @@ class PlaybackModelHelper {
         chapters: playbackModel.chapters,
         playbackInfo: playbackInfo,
         trickPlay: playbackModel.trickPlay,
-        media: Media("${ref.read(userProvider)?.server ?? ""}${mediaSource.transcodingUrl ?? ""}"),
+        media: Media(url: "${ref.read(userProvider)?.server ?? ""}${mediaSource.transcodingUrl ?? ""}"),
         mediaStreams: mediaStreamsWithUrls,
       );
     }

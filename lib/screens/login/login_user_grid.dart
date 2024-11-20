@@ -8,7 +8,6 @@ import 'package:fladder/models/account_model.dart';
 import 'package:fladder/providers/auth_provider.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/screens/shared/user_icon.dart';
-import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/list_padding.dart';
 
 class LoginUserGrid extends ConsumerWidget {
@@ -37,79 +36,87 @@ class LoginUserGrid extends ConsumerWidget {
       itemCount: users.length,
       itemBuilder: (context, index) {
         final user = users[index];
-        return _CardHolder(
+        return FlatButton(
           key: Key(user.id),
-          content: Stack(
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Flexible(
-                    child: UserIcon(
-                      labelStyle: Theme.of(context).textTheme.headlineMedium,
-                      user: user,
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
+          onTap: () => editMode ? onLongPress?.call(user) : onPressed?.call(user),
+          onLongPress: () => onLongPress?.call(user),
+          child: _CardHolder(
+            content: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(
-                        user.authMethod.icon,
-                        size: 18,
-                      ),
-                      const SizedBox(width: 4),
                       Flexible(
-                          child: Text(
-                        user.name,
-                        maxLines: 2,
-                        softWrap: true,
-                      )),
-                    ],
-                  ),
-                  if (user.credentials.serverName.isNotEmpty)
-                    Opacity(
-                      opacity: 0.75,
-                      child: Row(
+                        child: UserIcon(
+                          labelStyle: Theme.of(context).textTheme.headlineMedium,
+                          user: user,
+                        ),
+                      ),
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          const Icon(
-                            IconsaxBold.driver_2,
-                            size: 14,
+                          Icon(
+                            user.authMethod.icon,
+                            size: 18,
                           ),
                           const SizedBox(width: 4),
                           Flexible(
-                            child: Text(
-                              user.credentials.serverName,
-                              maxLines: 2,
-                              softWrap: true,
-                            ),
-                          ),
+                              child: Text(
+                            user.name,
+                            maxLines: 2,
+                            softWrap: true,
+                          )),
                         ],
                       ),
-                    )
-                ].addInBetween(const SizedBox(width: 4, height: 4)),
-              ),
-              if (editMode)
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Card(
-                    color: Theme.of(context).colorScheme.errorContainer,
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Icon(
-                        IconsaxBold.edit_2,
-                        size: 14,
+                      if (user.credentials.serverName.isNotEmpty)
+                        Opacity(
+                          opacity: 0.75,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              const Icon(
+                                IconsaxBold.driver_2,
+                                size: 14,
+                              ),
+                              const SizedBox(width: 4),
+                              Flexible(
+                                child: Text(
+                                  user.credentials.serverName,
+                                  maxLines: 2,
+                                  softWrap: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                    ].addInBetween(const SizedBox(width: 4, height: 4)),
+                  ),
+                ),
+                if (editMode)
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Card(
+                        color: Theme.of(context).colorScheme.errorContainer,
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Icon(
+                            IconsaxBold.edit_2,
+                            size: 14,
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                )
-            ],
+              ],
+            ),
           ),
-          onTap: () => editMode ? onLongPress?.call(user) : onPressed?.call(user),
-          onLongPress: () => onLongPress?.call(user),
         );
       },
     );
@@ -118,13 +125,9 @@ class LoginUserGrid extends ConsumerWidget {
 
 class _CardHolder extends StatelessWidget {
   final Widget content;
-  final Function() onTap;
-  final Function() onLongPress;
 
   const _CardHolder({
     required this.content,
-    required this.onTap,
-    required this.onLongPress,
     super.key,
   });
 
@@ -137,14 +140,7 @@ class _CardHolder extends StatelessWidget {
       margin: EdgeInsets.zero,
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxHeight: 150, maxWidth: 150),
-        child: FlatButton(
-          onTap: onTap,
-          onLongPress: AdaptiveLayout.of(context).isDesktop ? onLongPress : null,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: content,
-          ),
-        ),
+        child: content,
       ),
     );
   }

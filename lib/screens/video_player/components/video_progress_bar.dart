@@ -122,7 +122,7 @@ class _ChapterProgressSliderState extends ConsumerState<VideoProgressBar> {
                         setState(() {
                           onHoverStart = true;
                         });
-                        widget.wasPlayingChanged.call(player.player?.state.playing ?? false);
+                        widget.wasPlayingChanged.call(player.lastState?.playing ?? false);
                         player.pause();
                       },
                       onChanged: (e) {

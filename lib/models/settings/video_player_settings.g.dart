@@ -15,6 +15,8 @@ _$VideoPlayerSettingsModelImpl _$$VideoPlayerSettingsModelImplFromJson(
       fillScreen: json['fillScreen'] as bool? ?? false,
       hardwareAccel: json['hardwareAccel'] as bool? ?? true,
       useLibass: json['useLibass'] as bool? ?? false,
+      playerOptions:
+          $enumDecodeNullable(_$PlayerOptionsEnumMap, json['playerOptions']),
       internalVolume: (json['internalVolume'] as num?)?.toDouble() ?? 100,
       allowedOrientations: (json['allowedOrientations'] as List<dynamic>?)
           ?.map((e) => $enumDecode(_$DeviceOrientationEnumMap, e))
@@ -33,6 +35,7 @@ Map<String, dynamic> _$$VideoPlayerSettingsModelImplToJson(
       'fillScreen': instance.fillScreen,
       'hardwareAccel': instance.hardwareAccel,
       'useLibass': instance.useLibass,
+      'playerOptions': _$PlayerOptionsEnumMap[instance.playerOptions],
       'internalVolume': instance.internalVolume,
       'allowedOrientations': instance.allowedOrientations
           ?.map((e) => _$DeviceOrientationEnumMap[e]!)
@@ -49,6 +52,11 @@ const _$BoxFitEnumMap = {
   BoxFit.fitHeight: 'fitHeight',
   BoxFit.none: 'none',
   BoxFit.scaleDown: 'scaleDown',
+};
+
+const _$PlayerOptionsEnumMap = {
+  PlayerOptions.libMDK: 'libMDK',
+  PlayerOptions.libMPV: 'libMPV',
 };
 
 const _$DeviceOrientationEnumMap = {

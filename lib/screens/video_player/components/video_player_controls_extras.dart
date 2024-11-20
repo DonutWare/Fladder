@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:media_kit/media_kit.dart';
 
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/video_player/components/video_player_chapters.dart';
@@ -9,8 +8,7 @@ import 'package:fladder/screens/video_player/components/video_player_queue.dart'
 
 class ChapterButton extends ConsumerWidget {
   final Duration position;
-  final Player player;
-  const ChapterButton({super.key, required this.position, required this.player});
+  const ChapterButton({super.key, required this.position});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -22,9 +20,9 @@ class ChapterButton extends ConsumerWidget {
             context,
             chapters: currentChapters,
             currentPosition: position,
-            onChapterTapped: (chapter) => player.seek(
-              chapter.startPosition,
-            ),
+            onChapterTapped: (chapter) => ref.read(videoPlayerProvider).seek(
+                  chapter.startPosition,
+                ),
           );
         },
         icon: const Icon(

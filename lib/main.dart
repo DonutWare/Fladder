@@ -13,7 +13,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'package:logging/logging.dart';
-import 'package:media_kit/media_kit.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
@@ -67,7 +66,6 @@ Future<Map<String, dynamic>> loadConfig() async {
 void main() async {
   _setupLogging();
   WidgetsFlutterBinding.ensureInitialized();
-  MediaKit.ensureInitialized();
 
   if (kIsWeb) {
     html.document.onContextMenu.listen((event) => event.preventDefault());

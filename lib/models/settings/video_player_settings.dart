@@ -20,6 +20,7 @@ class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     @Default(false) bool fillScreen,
     @Default(true) bool hardwareAccel,
     @Default(false) bool useLibass,
+    PlayerOptions? playerOptions,
     @Default(100) double internalVolume,
     Set<DeviceOrientation>? allowedOrientations,
     @Default(AutoNextType.smart) AutoNextType nextVideoType,
@@ -33,8 +34,10 @@ class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
 
   factory VideoPlayerSettingsModel.fromJson(Map<String, dynamic> json) => _$VideoPlayerSettingsModelFromJson(json);
 
+  PlayerOptions get wantedPlayer => playerOptions ?? PlayerOptions.platformDefaults;
+
   bool playerSame(VideoPlayerSettingsModel other) {
-    return other.hardwareAccel == hardwareAccel && other.useLibass == useLibass;
+    return other.hardwareAccel == hardwareAccel && other.useLibass == useLibass && other.wantedPlayer == wantedPlayer;
   }
 
   @override
@@ -48,6 +51,7 @@ class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
         other.hardwareAccel == hardwareAccel &&
         other.useLibass == useLibass &&
         other.internalVolume == internalVolume &&
+        other.playerOptions == playerOptions &&
         other.audioDevice == audioDevice;
   }
 
@@ -61,6 +65,23 @@ class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
         internalVolume.hashCode ^
         audioDevice.hashCode;
   }
+}
+
+enum PlayerOptions {
+  libMDK,
+  libMPV;
+
+  const PlayerOptions();
+
+  static PlayerOptions get platformDefaults => switch (defaultTargetPlatform) {
+        TargetPlatform.android || TargetPlatform.iOS || TargetPlatform.linux => PlayerOptions.libMDK,
+        _ => PlayerOptions.libMDK,
+      };
+
+  String label(BuildContext context) => switch (this) {
+        PlayerOptions.libMDK => "MDK - experimental",
+        PlayerOptions.libMPV => "MPV",
+      };
 }
 
 enum AutoNextType {

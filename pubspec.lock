@@ -746,6 +746,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.0"
+  fvp:
+    dependency: "direct main"
+    description:
+      name: fvp
+      sha256: "3dd245cac5dfba36311cbf5834d8f275ba1f3e49a5cdcb4a98e01cb41e9a21d8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.28.0"
   fwfh_cached_network_image:
     dependency: transitive
     description:
@@ -2016,7 +2024,7 @@ packages:
     source: hosted
     version: "2.1.4"
   video_player:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: video_player
       sha256: "4a8c3492d734f7c39c2588a3206707a05ee80cef52e8c7f3b2078d430c84bc17"

@@ -1125,5 +1125,11 @@
   "stop": "Stop",
   "resumeVideo": "Resume video",
   "closeVideo": "Close video",
-  "playNextVideo": "Play next video"
+  "playNextVideo": "Play next video",
+  "playerSettingsBackendTitle": "Video player Backend",
+  "playerSettingsBackendDesc": "Choose your preferred media player for optimal playback experience",
+  "defaultLabel": "Default",
+  "@defaultLabel": {
+    "description": "To indicate a default value, default video player backend"
+  }
 }
