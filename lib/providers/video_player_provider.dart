@@ -88,8 +88,8 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     PlaybackModel? newPlaybackModel = model;
 
     if (media != null) {
-      await state.setVolume(ref.read(videoPlayerSettingsProvider).volume);
       await state.open(media.url, false);
+      await state.setVolume(ref.read(videoPlayerSettingsProvider).volume);
       state.stateStream?.takeWhile((event) => event.buffering == true).listen(
         null,
         onDone: () async {

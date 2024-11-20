@@ -168,7 +168,6 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
                                   IconButton(
                                     onPressed: () {
                                       final volume = player.lastState?.volume == 0 ? 100.0 : 0.0;
-                                      ref.read(videoPlayerSettingsProvider.notifier).setVolume(volume);
                                       player.setVolume(volume);
                                     },
                                     icon: Icon(

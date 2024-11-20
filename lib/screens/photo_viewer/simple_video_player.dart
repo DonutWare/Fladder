@@ -99,9 +99,9 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
         WakelockPlus.disable();
       }
     }));
-    await player.setVolume(ref.watch(photoViewSettingsProvider.select((value) => value.mute)) ? 0 : 100);
     await player.open(videoUrl, !ref.watch(photoViewSettingsProvider).autoPlay);
     await player.loop(ref.watch(photoViewSettingsProvider.select((value) => value.repeat)));
+    await player.setVolume(ref.watch(photoViewSettingsProvider.select((value) => value.mute)) ? 0 : 100);
   }
 
   @override

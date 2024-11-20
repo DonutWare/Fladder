@@ -54,7 +54,7 @@ class LibMDK implements BasePlayer {
       completed: _controller?.value.isCompleted ?? false,
       position: _controller?.value.position ?? Duration.zero,
       duration: _controller?.value.duration ?? Duration.zero,
-      volume: _controller?.value.volume ?? 100,
+      volume: (_controller?.value.volume ?? 1.0) * 100,
       rate: _controller?.value.playbackSpeed ?? 1.0,
       buffering: _controller?.value.isBuffering ?? false,
       buffer: _controller?.value.buffered.last.end ?? Duration.zero,
