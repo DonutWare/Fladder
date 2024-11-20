@@ -90,12 +90,12 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
               final currentPlayer = ref.watch(videoPlayerSettingsProvider.select((value) => value.playerOptions));
               return EnumBox(
                 current: currentPlayer == null
-                    ? "${context.localized.defaultLabel} (${wantedPlayer.label(context)})"
+                    ? "${context.localized.defaultLabel} (${PlayerOptions.platformDefaults.label(context)})"
                     : wantedPlayer.label(context),
                 itemBuilder: (context) => [
                   PopupMenuItem(
                     value: null,
-                    child: Text("${context.localized.defaultLabel} (${wantedPlayer.label(context)})"),
+                    child: Text("${context.localized.defaultLabel} (${PlayerOptions.platformDefaults.label(context)})"),
                     onTap: () => ref.read(videoPlayerSettingsProvider.notifier).state =
                         ref.read(videoPlayerSettingsProvider).copyWith(playerOptions: null),
                   ),
@@ -159,7 +159,9 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                     ),
                   ],
                 ),
-              _ => SettingsMessageBox(messageType: MessageType.info, context.localized.noVideoPlayerOptions)
+              _ => SettingsMessageBox(
+                  messageType: MessageType.info,
+                  "${context.localized.noVideoPlayerOptions}\n${context.localized.mdkExperimental}")
             },
           ),
           SettingsListTile(

@@ -29,6 +29,9 @@ class LibMDK implements BasePlayer {
   Future<void> init(Ref ref) async {
     dispose();
     fvp.registerWith();
+    // fvp.registerWith(options: {
+    //   'subtitleFontFile': 'assets/mp-font.ttf',
+    // });
     updateState();
   }
 

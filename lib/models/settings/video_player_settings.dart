@@ -79,7 +79,7 @@ enum PlayerOptions {
       };
 
   String label(BuildContext context) => switch (this) {
-        PlayerOptions.libMDK => "MDK - experimental",
+        PlayerOptions.libMDK => "MDK",
         PlayerOptions.libMPV => "MPV",
       };
 }

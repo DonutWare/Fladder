@@ -160,8 +160,7 @@ flutter:
     - icons/
     - assets/fonts/
     - config/
-    - assets/subfont.ttf
-    - assets/fonts/mp-font.ttf
+    - assets/mp-font.ttf
 
   fonts:
     - family: Rubik
@@ -177,7 +176,3 @@ flutter:
           style: normal
         - asset: assets/fonts/opensans/OpenSans-Italic.ttf
           style: italic
-
-    - family: mp-font
-      fonts:
-        - asset: assets/fonts/mp-font.ttf

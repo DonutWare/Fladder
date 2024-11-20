@@ -1132,5 +1132,6 @@
   "@defaultLabel": {
     "description": "To indicate a default value, default video player backend"
   },
-  "noVideoPlayerOptions": "The selected backend has no options"
+  "noVideoPlayerOptions": "The selected backend has no options",
+  "mdkExperimental": "MDK is still in a experimental stage"
 }

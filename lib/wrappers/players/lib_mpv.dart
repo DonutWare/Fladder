@@ -37,8 +37,7 @@ class LibMPV implements BasePlayer {
     _player = mpv.Player(
       configuration: mpv.PlayerConfiguration(
         title: "nl.jknaapen.fladder",
-        bufferSize: 64 * 1024 * 1024,
-        libassAndroidFont: 'assets/fonts/mp-font.ttf',
+        libassAndroidFont: 'assets/mp-font.ttf',
         libass: !kIsWeb &&
             ref.read(
               videoPlayerSettingsProvider.select((value) => value.useLibass),
