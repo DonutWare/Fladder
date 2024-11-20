@@ -111,34 +111,57 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
               );
             }),
           ),
-          SettingsListTile(
-            label: Text(context.localized.settingsPlayerVideoHWAccelTitle),
-            subLabel: Text(context.localized.settingsPlayerVideoHWAccelDesc),
-            onTap: () => provider.setHardwareAccel(!videoSettings.hardwareAccel),
-            trailing: Switch(
-              value: videoSettings.hardwareAccel,
-              onChanged: (value) => provider.setHardwareAccel(value),
-            ),
+          AnimatedFadeSize(
+            child: switch (ref.read(videoPlayerSettingsProvider.select((value) => value.wantedPlayer))) {
+              PlayerOptions.libMPV => Column(
+                  children: [
+                    SettingsListTile(
+                      label: Text(context.localized.settingsPlayerVideoHWAccelTitle),
+                      subLabel: Text(context.localized.settingsPlayerVideoHWAccelDesc),
+                      onTap: () => provider.setHardwareAccel(!videoSettings.hardwareAccel),
+                      trailing: Switch(
+                        value: videoSettings.hardwareAccel,
+                        onChanged: (value) => provider.setHardwareAccel(value),
+                      ),
+                    ),
+                    if (!kIsWeb) ...[
+                      SettingsListTile(
+                        label: Text(context.localized.settingsPlayerNativeLibassAccelTitle),
+                        subLabel: Text(context.localized.settingsPlayerNativeLibassAccelDesc),
+                        onTap: () => provider.setUseLibass(!videoSettings.useLibass),
+                        trailing: Switch(
+                          value: videoSettings.useLibass,
+                          onChanged: (value) => provider.setUseLibass(value),
+                        ),
+                      ),
+                      AnimatedFadeSize(
+                        child: videoSettings.useLibass && videoSettings.hardwareAccel && Platform.isAndroid
+                            ? SettingsMessageBox(
+                                context.localized.settingsPlayerMobileWarning,
+                                messageType: MessageType.warning,
+                              )
+                            : Container(),
+                      ),
+                    ],
+                    SettingsListTile(
+                      label: Text(context.localized.settingsPlayerCustomSubtitlesTitle),
+                      subLabel: Text(context.localized.settingsPlayerCustomSubtitlesDesc),
+                      onTap: videoSettings.useLibass
+                          ? null
+                          : () {
+                              showDialog(
+                                context: context,
+                                barrierDismissible: false,
+                                useSafeArea: false,
+                                builder: (context) => const SubtitleEditor(),
+                              );
+                            },
+                    ),
+                  ],
+                ),
+              _ => SettingsMessageBox(messageType: MessageType.info, context.localized.noVideoPlayerOptions)
+            },
           ),
-          if (!kIsWeb) ...[
-            SettingsListTile(
-              label: Text(context.localized.settingsPlayerNativeLibassAccelTitle),
-              subLabel: Text(context.localized.settingsPlayerNativeLibassAccelDesc),
-              onTap: () => provider.setUseLibass(!videoSettings.useLibass),
-              trailing: Switch(
-                value: videoSettings.useLibass,
-                onChanged: (value) => provider.setUseLibass(value),
-              ),
-            ),
-            AnimatedFadeSize(
-              child: videoSettings.useLibass && videoSettings.hardwareAccel && Platform.isAndroid
-                  ? SettingsMessageBox(
-                      context.localized.settingsPlayerMobileWarning,
-                      messageType: MessageType.warning,
-                    )
-                  : Container(),
-            ),
-          ],
           SettingsListTile(
             label: Text(context.localized.settingsAutoNextTitle),
             subLabel: Text(context.localized.settingsAutoNextDesc),
@@ -166,20 +189,6 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
               AutoNextType.static => SettingsMessageBox(AutoNextType.static.desc(context)),
               _ => const SizedBox.shrink(),
             },
-          ),
-          SettingsListTile(
-            label: Text(context.localized.settingsPlayerCustomSubtitlesTitle),
-            subLabel: Text(context.localized.settingsPlayerCustomSubtitlesDesc),
-            onTap: videoSettings.useLibass
-                ? null
-                : () {
-                    showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      useSafeArea: false,
-                      builder: (context) => const SubtitleEditor(),
-                    );
-                  },
           ),
           if (!AdaptiveLayout.of(context).isDesktop && !kIsWeb)
             SettingsListTile(
