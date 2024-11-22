@@ -39,7 +39,7 @@
 * Intro/Credits skipping
 * Trickplay support (timeline scrubbing)
 * Dark/Light mode
-* Simple book reading support
+* Simple comic book format reading support (.cbz, .crb)
 * Sync supported on Mobile/Desktop
 * Platforms
   - Android
