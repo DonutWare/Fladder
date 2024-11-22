@@ -1174,5 +1174,17 @@
   "resumeVideo": "Video hervatten",
   "@resumeVideo": {},
   "stop": "Stop",
-  "@stop": {}
+  "@stop": {},
+  "playerSettingsBackendTitle": "Videospeler Backend",
+  "@playerSettingsBackendTitle": {},
+  "noVideoPlayerOptions": "De geselecteerde backend heeft geen instellingen",
+  "@noVideoPlayerOptions": {},
+  "playerSettingsBackendDesc": "Kies je mediaspeler backend voor een optimale afspeelervaring",
+  "@playerSettingsBackendDesc": {},
+  "defaultLabel": "Standaard",
+  "@defaultLabel": {
+    "description": "To indicate a default value, default video player backend"
+  },
+  "mdkExperimental": "MDK backend is nog experimenteel",
+  "@mdkExperimental": {}
 }
