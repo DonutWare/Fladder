@@ -10,6 +10,9 @@ on:
     paths:
       - pubspec.yaml
       - .github/workflows/build.yml
+    types:
+      - opened
+      - reopened
   workflow_dispatch:
 
 jobs:
