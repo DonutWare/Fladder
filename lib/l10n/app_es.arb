@@ -1174,5 +1174,17 @@
   "playNextVideo": "Reproducir el siguiente vídeo",
   "@playNextVideo": {},
   "stop": "Detener",
-  "@stop": {}
+  "@stop": {},
+  "playerSettingsBackendTitle": "Backend del reproductor de vídeo",
+  "@playerSettingsBackendTitle": {},
+  "playerSettingsBackendDesc": "Elija su reproductor multimedia preferido para una experiencia de reproducción óptima",
+  "@playerSettingsBackendDesc": {},
+  "mdkExperimental": "MDK todavía está en una etapa experimental",
+  "@mdkExperimental": {},
+  "defaultLabel": "Por defecto",
+  "@defaultLabel": {
+    "description": "To indicate a default value, default video player backend"
+  },
+  "noVideoPlayerOptions": "El backend seleccionado no tiene opciones",
+  "@noVideoPlayerOptions": {}
 }
