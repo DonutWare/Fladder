@@ -255,9 +255,8 @@ class MediaControlsWrapper extends BaseAudioHandler {
     }
   }
 
-  Future<int> setAudioTrack(AudioStreamModel? model, PlaybackModel playbackModel) async {
-    return await _player?.setAudioTrack(model, playbackModel) ?? -1;
-  }
+  Future<int> setAudioTrack(AudioStreamModel? model, PlaybackModel playbackModel) async =>
+      await _player?.setAudioTrack(model, playbackModel) ?? -1;
 
   Future<int> setSubtitleTrack(SubStreamModel? model, PlaybackModel playbackModel) async =>
       await _player?.setSubtitleTrack(model, playbackModel) ?? -1;

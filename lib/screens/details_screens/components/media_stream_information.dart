@@ -37,7 +37,7 @@ class MediaStreamInformation extends ConsumerWidget {
           _StreamOptionSelect(
             label: Text(context.localized.audio),
             current: mediaStream.currentAudioStream?.displayTitle ?? "",
-            itemBuilder: (context) => mediaStream.audioStreams
+            itemBuilder: (context) => [AudioStreamModel.no(), ...mediaStream.audioStreams]
                 .map(
                   (e) => PopupMenuItem(
                     value: e,

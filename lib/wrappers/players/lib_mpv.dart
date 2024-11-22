@@ -16,15 +16,13 @@ import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/wrappers/players/base_player.dart';
 import 'package:fladder/wrappers/players/player_states.dart';
 
-class LibMPV implements BasePlayer {
+class LibMPV extends BasePlayer {
   mpv.Player? _player;
   VideoController? _controller;
 
   final StreamController<PlayerState> _stateController = StreamController.broadcast();
   @override
   Stream<PlayerState> get stateStream => _stateController.stream;
-  @override
-  PlayerState lastState = PlayerState();
 
   StreamSubscription<bool>? _onCompleted;
 
@@ -37,7 +35,7 @@ class LibMPV implements BasePlayer {
     _player = mpv.Player(
       configuration: mpv.PlayerConfiguration(
         title: "nl.jknaapen.fladder",
-        libassAndroidFont: 'assets/mp-font.ttf',
+        libassAndroidFont: libassFallbackFont,
         libass: !kIsWeb &&
             ref.read(
               videoPlayerSettingsProvider.select((value) => value.useLibass),
@@ -87,7 +85,10 @@ class LibMPV implements BasePlayer {
   }
 
   @override
-  Future<void> open(String url, bool play) async => _player?.open(mpv.Media(url), play: play);
+  Future<void> open(String url, bool play) async {
+    await _player?.open(mpv.Media(url), play: play);
+    return setState(lastState.update(buffering: true));
+  }
 
   List<mpv.SubtitleTrack> get subTracks => _player?.state.tracks.subtitle ?? [];
   mpv.SubtitleTrack get subtitleTrack => _player?.state.track.subtitle ?? mpv.SubtitleTrack.no();
@@ -109,9 +110,7 @@ class LibMPV implements BasePlayer {
 
   @override
   Future<int> setAudioTrack(AudioStreamModel? model, PlaybackModel playbackModel) async {
-    final wantedAudioStream = model ??
-        playbackModel.audioStreams
-            ?.firstWhereOrNull((element) => element.index == playbackModel.mediaStreams?.defaultAudioStreamIndex);
+    final wantedAudioStream = model ?? playbackModel.defaultAudioStream;
     if (wantedAudioStream == null) return -1;
     if (wantedAudioStream.index == AudioStreamModel.no().index) {
       await _player?.setAudioTrack(mpv.AudioTrack.no());
@@ -132,9 +131,7 @@ class LibMPV implements BasePlayer {
   @override
   Future<int> setSubtitleTrack(SubStreamModel? model, PlaybackModel playbackModel) async {
     if (_player == null) return -1;
-    final wantedSubtitle = model ??
-        playbackModel.subStreams
-            ?.firstWhereOrNull((element) => element.index == playbackModel.mediaStreams?.defaultSubStreamIndex);
+    final wantedSubtitle = model ?? playbackModel.defaultSubStream;
     if (wantedSubtitle == null) return -1;
     if (wantedSubtitle.index == SubStreamModel.no().index) {
       await _player?.setSubtitleTrack(mpv.SubtitleTrack.no());

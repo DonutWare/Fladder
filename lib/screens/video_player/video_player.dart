@@ -104,16 +104,11 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
             child: VideoPlayerNextWrapper(
               video: Padding(
                 padding: fillScreen ? EdgeInsets.zero : EdgeInsets.only(left: padding.left, right: padding.right),
-                child: OrientationBuilder(
-                  builder: (context, orientation) {
-                    return playerController.videoWidget(
-                          Key("$orientation"),
-                          fillScreen
-                              ? (MediaQuery.of(context).orientation == Orientation.portrait ? videoFit : BoxFit.cover)
-                              : videoFit,
-                        ) ??
-                        const SizedBox.shrink();
-                  },
+                child: playerController.videoWidget(
+                  const Key("VideoPlayer"),
+                  fillScreen
+                      ? (MediaQuery.of(context).orientation == Orientation.portrait ? videoFit : BoxFit.cover)
+                      : videoFit,
                 ),
               ),
               controls: const DesktopControls(),

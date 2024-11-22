@@ -420,11 +420,11 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
 
     final playbackResponse = await api.itemsItemIdPlaybackInfoPost(
       itemId: syncItem.id,
-      body: const PlaybackInfoDto(
+      body: PlaybackInfoDto(
         enableDirectPlay: true,
         enableDirectStream: true,
         enableTranscoding: false,
-        deviceProfile: defaultProfile,
+        deviceProfile: ref.read(videoProfileProvider),
       ),
     );
 

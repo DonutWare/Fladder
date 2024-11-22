@@ -97,11 +97,15 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
           if (start != null) {
             await state.seek(start);
           }
-          ref.read(playBackModel.notifier).update((state) => newPlaybackModel);
+          await state.setAudioTrack(null, model);
+          await state.setSubtitleTrack(null, model);
           state.play();
+          ref.read(playBackModel.notifier).update((state) => newPlaybackModel);
         },
       );
+
       ref.read(playBackModel.notifier).update((state) => model);
+
       return true;
     }
 

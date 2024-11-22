@@ -199,7 +199,7 @@ extension ItemBaseModelExtensions on ItemBaseModel? {
       switch (this) {
         PhotoAlbumModel album => album.play(context, ref),
         BookModel book => book.play(context, ref),
-        _ => _default(context, this, ref, startPosition: startPosition),
+        _ => _default(context, this, ref, startPosition: startPosition, showPlaybackOption: showPlaybackOption),
       };
 
   Future<void> _default(

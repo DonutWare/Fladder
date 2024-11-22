@@ -74,8 +74,7 @@ enum PlayerOptions {
   const PlayerOptions();
 
   static PlayerOptions get platformDefaults => switch (defaultTargetPlatform) {
-        TargetPlatform.android || TargetPlatform.iOS || TargetPlatform.linux => PlayerOptions.libMDK,
-        _ => PlayerOptions.libMDK,
+        _ => PlayerOptions.libMPV,
       };
 
   String label(BuildContext context) => switch (this) {

@@ -161,6 +161,7 @@ flutter:
     - assets/fonts/
     - config/
     - assets/mp-font.ttf
+    # - assets/subfont.ttf
 
   fonts:
     - family: Rubik

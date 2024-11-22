@@ -21,6 +21,7 @@ class PlayerState {
 
   PlayerState update({
     bool? playing,
+    bool? completed,
     bool? buffering,
     Duration? position,
     Duration? duration,
@@ -29,6 +30,7 @@ class PlayerState {
     Duration? buffer,
   }) {
     if (playing != null) this.playing = playing;
+    if (completed != null) this.completed = completed;
     if (buffering != null) this.buffering = buffering;
     if (position != null) this.position = position;
     if (duration != null) this.duration = duration;

@@ -37,6 +37,12 @@ class Media {
 }
 
 extension PlaybackModelExtension on PlaybackModel? {
+  SubStreamModel? get defaultSubStream =>
+      this?.subStreams?.firstWhereOrNull((element) => element.index == this?.mediaStreams?.defaultSubStreamIndex);
+
+  AudioStreamModel? get defaultAudioStream =>
+      this?.audioStreams?.firstWhereOrNull((element) => element.index == this?.mediaStreams?.defaultAudioStreamIndex);
+
   String? get label => switch (this) {
         DirectPlaybackModel _ => PlaybackType.directStream.name,
         TranscodePlaybackModel _ => PlaybackType.transcode.name,
@@ -176,7 +182,7 @@ class PlaybackModelHelper {
           subtitleStreamIndex: streamModel?.defaultSubStreamIndex,
           enableTranscoding: true,
           autoOpenLiveStream: true,
-          deviceProfile: defaultProfile,
+          deviceProfile: ref.read(videoProfileProvider),
           userId: userId,
           mediaSourceId: firstItemToPlay.id,
         ),
@@ -306,7 +312,7 @@ class PlaybackModelHelper {
         subtitleStreamIndex: subIndex,
         enableTranscoding: true,
         autoOpenLiveStream: true,
-        deviceProfile: defaultProfile,
+        deviceProfile: ref.read(videoProfileProvider),
         userId: userId,
         mediaSourceId: item.id,
       ),

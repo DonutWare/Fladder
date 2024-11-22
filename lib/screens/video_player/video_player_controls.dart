@@ -29,8 +29,7 @@ import 'package:fladder/util/input_handler.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/string_extensions.dart';
-import 'package:fladder/widgets/shared/full_screen_button.dart'
-    if (dart.library.html) 'package:fladder/widgets/shared/full_screen_button_web.dart';
+import 'package:fladder/widgets/shared/full_screen_button.dart';
 
 class DesktopControls extends ConsumerStatefulWidget {
   const DesktopControls({super.key});
@@ -465,7 +464,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                       ),
                     ),
                   ),
-                }
+                },
               ].addPadding(const EdgeInsets.symmetric(horizontal: 4)),
             ),
             const SizedBox(height: 4),

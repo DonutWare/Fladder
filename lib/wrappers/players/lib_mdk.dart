@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 
@@ -12,27 +13,24 @@ import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/wrappers/players/base_player.dart';
 import 'package:fladder/wrappers/players/player_states.dart';
 
-class LibMDK implements BasePlayer {
+class LibMDK extends BasePlayer {
   VideoPlayerController? _controller;
   late final player = Player();
 
   bool externalSubEnabled = false;
 
   final StreamController<PlayerState> _stateController = StreamController.broadcast();
+
   @override
   Stream<PlayerState> get stateStream => _stateController.stream;
 
   @override
-  PlayerState lastState = PlayerState();
-
-  @override
   Future<void> init(Ref ref) async {
     dispose();
-    fvp.registerWith();
-    // fvp.registerWith(options: {
-    //   'subtitleFontFile': 'assets/mp-font.ttf',
-    // });
-    updateState();
+    fvp.registerWith(options: {
+      'global': {'log': 'off'},
+      'subtitleFontFile': libassFallbackFont,
+    });
   }
 
   @override
@@ -43,27 +41,40 @@ class LibMDK implements BasePlayer {
 
   @override
   Future<void> open(String url, bool play) async {
-    _controller = VideoPlayerController.networkUrl(Uri.parse(url));
-    _controller?.initialize();
-    _controller?.addListener(() => updateState());
-    if (play) {
-      _controller?.play();
+    final validUrl = isValidUrl(url);
+    if (validUrl != null) {
+      _controller = VideoPlayerController.networkUrl(validUrl);
+    } else {
+      _controller = VideoPlayerController.file(File(url));
     }
+    await _controller?.initialize();
+
+    _controller?.addListener(() => updateState());
+
+    if (play) {
+      await _controller?.play();
+    }
+    return setState(lastState.update(
+      buffering: true,
+    ));
+  }
+
+  void setState(PlayerState state) {
+    lastState = state;
+    _stateController.add(state);
   }
 
   void updateState() {
-    final newState = PlayerState(
+    setState(lastState.update(
       playing: _controller?.value.isPlaying ?? false,
       completed: _controller?.value.isCompleted ?? false,
       position: _controller?.value.position ?? Duration.zero,
       duration: _controller?.value.duration ?? Duration.zero,
       volume: (_controller?.value.volume ?? 1.0) * 100,
       rate: _controller?.value.playbackSpeed ?? 1.0,
-      buffering: _controller?.value.isBuffering ?? false,
+      buffering: _controller?.value.isBuffering ?? true,
       buffer: _controller?.value.buffered.last.end ?? Duration.zero,
-    );
-    _stateController.add(newState);
-    lastState = newState;
+    ));
   }
 
   @override
@@ -78,15 +89,16 @@ class LibMDK implements BasePlayer {
 
   @override
   Future<int> setAudioTrack(AudioStreamModel? model, PlaybackModel playbackModel) async {
-    if (model == AudioStreamModel.no() || model == null) {
+    final wantedAudioStream = model ?? playbackModel.defaultAudioStream;
+    if (wantedAudioStream == AudioStreamModel.no() || wantedAudioStream == null) {
       _controller?.setAudioTracks([-1]);
       return -1;
     } else {
-      final indexOf = playbackModel.audioStreams?.indexOf(model);
+      final indexOf = playbackModel.audioStreams?.indexOf(wantedAudioStream);
       if (indexOf != null) {
         _controller?.setAudioTracks([indexOf - 1]);
       }
-      return model.index;
+      return wantedAudioStream.index;
     }
   }
 
@@ -95,26 +107,27 @@ class LibMDK implements BasePlayer {
 
   @override
   Future<int> setSubtitleTrack(SubStreamModel? model, PlaybackModel playbackModel) async {
-    if (model == SubStreamModel.no()) {
+    final wantedSubtitle = model ?? playbackModel.defaultSubStream;
+    if (wantedSubtitle == SubStreamModel.no()) {
       externalSubEnabled = false;
       _controller?.setSubtitleTracks([-1]);
       return -1;
     }
-    if (model != null) {
-      if (model.isExternal && model.url != null) {
+    if (wantedSubtitle != null) {
+      if (wantedSubtitle.isExternal && wantedSubtitle.url != null) {
         externalSubEnabled = true;
-        _controller?.setExternalSubtitle(model.url!);
-        return model.index;
+        _controller?.setExternalSubtitle(wantedSubtitle.url!);
+        return wantedSubtitle.index;
       } else {
         if (externalSubEnabled) {
           externalSubEnabled = false;
           _controller?.setExternalSubtitle("");
         }
-        final indexOf = playbackModel.subStreams?.indexOf(model);
+        final indexOf = playbackModel.subStreams?.indexOf(wantedSubtitle);
         if (indexOf != null) {
           _controller?.setSubtitleTracks([indexOf - 1]);
         }
-        return model.index;
+        return wantedSubtitle.index;
       }
     }
     return -1;

@@ -8,9 +8,11 @@ import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/wrappers/players/player_states.dart';
 
+const libassFallbackFont = "assets/mp-font.ttf";
+
 abstract class BasePlayer {
   Stream<PlayerState> get stateStream;
-  late PlayerState lastState;
+  PlayerState lastState = PlayerState();
 
   Future<void> init(Ref ref);
   Widget? videoWidget(
@@ -32,4 +34,19 @@ abstract class BasePlayer {
   Future<void> loop(bool loop);
   Future<int> setSubtitleTrack(SubStreamModel? model, PlaybackModel playbackModel);
   Future<int> setAudioTrack(AudioStreamModel? model, PlaybackModel playbackModel);
+
+  Uri? isValidUrl(String input) {
+    try {
+      final uri = Uri.tryParse(input);
+      if (uri != null && uri.isAbsolute && (uri.scheme == 'http' || uri.scheme == 'https')) {
+        return uri;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
+  }
 }
+
+extension BasePlayerExtensions on BasePlayer {}
