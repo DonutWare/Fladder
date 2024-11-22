@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smtc_windows/smtc_windows.dart';
+import 'package:smtc_windows/smtc_windows.dart' if (dart.library.html) 'package:fladder/stubs/web/smtc_web.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
@@ -17,7 +17,8 @@ import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/wrappers/players/base_player.dart';
-import 'package:fladder/wrappers/players/lib_mdk.dart';
+import 'package:fladder/wrappers/players/lib_mdk.dart'
+    if (dart.library.html) 'package:fladder/stubs/web/lib_mdk_web.dart';
 import 'package:fladder/wrappers/players/lib_mpv.dart';
 import 'package:fladder/wrappers/players/player_states.dart';
 

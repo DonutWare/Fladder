@@ -15,7 +15,8 @@ import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/widgets/shared/fladder_slider.dart';
-import 'package:fladder/wrappers/players/lib_mdk.dart';
+import 'package:fladder/wrappers/players/lib_mdk.dart'
+    if (dart.library.html) 'package:fladder/stubs/web/lib_mdk_web.dart';
 import 'package:fladder/wrappers/players/lib_mpv.dart';
 
 class SimpleVideoPlayer extends ConsumerStatefulWidget {

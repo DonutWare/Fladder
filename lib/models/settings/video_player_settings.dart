@@ -73,9 +73,14 @@ enum PlayerOptions {
 
   const PlayerOptions();
 
-  static PlayerOptions get platformDefaults => switch (defaultTargetPlatform) {
-        _ => PlayerOptions.libMPV,
-      };
+  static Iterable<PlayerOptions> get available => kIsWeb ? {PlayerOptions.libMPV} : PlayerOptions.values;
+
+  static PlayerOptions get platformDefaults {
+    if (kIsWeb) return PlayerOptions.libMPV;
+    return switch (defaultTargetPlatform) {
+      _ => PlayerOptions.libMPV,
+    };
+  }
 
   String label(BuildContext context) => switch (this) {
         PlayerOptions.libMDK => "MDK",
