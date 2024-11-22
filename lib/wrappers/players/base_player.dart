@@ -48,5 +48,3 @@ abstract class BasePlayer {
     }
   }
 }
-
-extension BasePlayerExtensions on BasePlayer {}
