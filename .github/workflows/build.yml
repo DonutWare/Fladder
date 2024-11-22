@@ -9,6 +9,7 @@ on:
   pull_request:
     paths:
       - pubspec.yaml
+      - .github/workflows/build.yml
   workflow_dispatch:
 
 jobs:
@@ -231,6 +232,7 @@ jobs:
   build-linux-flatpak:
     name: "Flatpak"
     runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')       
     needs: [fetch-info, build-linux]
     container:
       image: bilelmoussaoui/flatpak-github-actions:gnome-46
