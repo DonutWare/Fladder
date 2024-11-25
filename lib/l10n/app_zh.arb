@@ -1172,5 +1172,17 @@
   "closeVideo": "关闭视频",
   "@closeVideo": {},
   "stop": "停止",
-  "@stop": {}
+  "@stop": {},
+  "defaultLabel": "默认",
+  "@defaultLabel": {
+    "description": "To indicate a default value, default video player backend"
+  },
+  "noVideoPlayerOptions": "所选的后端没有设置项",
+  "@noVideoPlayerOptions": {},
+  "mdkExperimental": "MDK 仍处于实验阶段",
+  "@mdkExperimental": {},
+  "playerSettingsBackendTitle": "视频播放器后端",
+  "@playerSettingsBackendTitle": {},
+  "playerSettingsBackendDesc": "选择您喜好的媒体播放器以获得最佳播放体验",
+  "@playerSettingsBackendDesc": {}
 }
