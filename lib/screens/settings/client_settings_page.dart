@@ -392,7 +392,7 @@ class _ClientSettingsPageState extends ConsumerState<ClientSettingsPage> {
               context,
               label: "${context.localized.theme} ${context.localized.mode}",
               items: ThemeMode.values,
-              itemBuilder: (type) => RadioListTile.adaptive(
+              itemBuilder: (type) => RadioListTile(
                 value: type,
                 title: Text(type?.label(context) ?? context.localized.other),
                 contentPadding: EdgeInsets.zero,
@@ -414,7 +414,7 @@ class _ClientSettingsPageState extends ConsumerState<ClientSettingsPage> {
                 builder: (context, ref, child) => ListTile(
                   title: Row(
                     children: [
-                      Checkbox.adaptive(
+                      Checkbox(
                         value: type == ref.watch(clientSettingsProvider.select((value) => value.themeColor)),
                         onChanged: (value) => ref.read(clientSettingsProvider.notifier).setThemeColor(type),
                       ),
@@ -463,7 +463,7 @@ class _ClientSettingsPageState extends ConsumerState<ClientSettingsPage> {
                 builder: (context, ref, child) => ListTile(
                   title: Row(
                     children: [
-                      Checkbox.adaptive(
+                      Checkbox(
                         value: type == ref.watch(clientSettingsProvider.select((value) => value.schemeVariant)),
                         onChanged: (value) => ref.read(clientSettingsProvider.notifier).setSchemeVariant(type),
                       ),

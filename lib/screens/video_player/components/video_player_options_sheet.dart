@@ -173,7 +173,7 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
                     child: Text(context.localized.videoScalingFill),
                   ),
                   const Spacer(),
-                  Switch.adaptive(
+                  Switch(
                     value: videoSettings.fillScreen,
                     onChanged: (value) => ref.read(videoPlayerSettingsProvider.notifier).setFillScreen(value),
                   )
@@ -524,7 +524,7 @@ Future<void> showOrientationOptions(BuildContext context, WidgetRef ref) async {
       return StatefulBuilder(builder: (context, state) {
         return SimpleDialog(
           contentPadding: const EdgeInsets.only(top: 8, bottom: 24),
-          title: Row(children: [Text(context.localized.playbackRate)]),
+          title: Row(children: [Text(context.localized.playerSettingsOrientationTitle)]),
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12).copyWith(top: 6),
@@ -535,7 +535,7 @@ Future<void> showOrientationOptions(BuildContext context, WidgetRef ref) async {
                 children: [
                   const Divider(),
                   ...DeviceOrientation.values.map(
-                    (orientation) => CheckboxListTile.adaptive(
+                    (orientation) => CheckboxListTile(
                       title: Text(orientation.label(context)),
                       value: orientations.contains(orientation),
                       onChanged: (value) {

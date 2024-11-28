@@ -67,7 +67,7 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
               context,
               label: context.localized.videoScalingFillScreenTitle,
               items: BoxFit.values,
-              itemBuilder: (type) => RadioListTile.adaptive(
+              itemBuilder: (type) => RadioListTile(
                 title: Text(type?.label(context) ?? ""),
                 value: type,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
