@@ -128,7 +128,6 @@ class _CardHolder extends StatelessWidget {
 
   const _CardHolder({
     required this.content,
-    super.key,
   });
 
   @override

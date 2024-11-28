@@ -15,6 +15,7 @@ import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/widgets/shared/fladder_slider.dart';
+import 'package:fladder/wrappers/players/base_player.dart';
 import 'package:fladder/wrappers/players/lib_mdk.dart'
     if (dart.library.html) 'package:fladder/stubs/web/lib_mdk_web.dart';
 import 'package:fladder/wrappers/players/lib_mpv.dart';
@@ -30,7 +31,7 @@ class SimpleVideoPlayer extends ConsumerStatefulWidget {
 }
 
 class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with WindowListener, WidgetsBindingObserver {
-  late final player = switch (ref.read(videoPlayerSettingsProvider.select((value) => value.wantedPlayer))) {
+  late final BasePlayer player = switch (ref.read(videoPlayerSettingsProvider.select((value) => value.wantedPlayer))) {
     PlayerOptions.libMDK => LibMDK(),
     PlayerOptions.libMPV => LibMPV(),
   };
@@ -68,7 +69,10 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
     playing = player.lastState.playing;
     position = player.lastState.position;
     duration = player.lastState.duration;
-    Future.microtask(() async => {_init()});
+    WidgetsBinding.instance.addPostFrameCallback((value) async {
+      await Future.delayed(const Duration(milliseconds: 500));
+      if (mounted) _init();
+    });
   }
 
   @override
@@ -86,6 +90,8 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
 
     final params = Uri(queryParameters: directOptions).query;
 
+    player.init(ref.read(videoPlayerSettingsProvider));
+
     videoUrl = '${ref.read(userProvider)?.server ?? ""}/Videos/${widget.video.id}/stream?$params';
 
     subscriptions.add(player.stateStream.listen((event) {
@@ -101,8 +107,8 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
       }
     }));
     await player.open(videoUrl, !ref.watch(photoViewSettingsProvider).autoPlay);
-    await player.loop(ref.watch(photoViewSettingsProvider.select((value) => value.repeat)));
     await player.setVolume(ref.watch(photoViewSettingsProvider.select((value) => value.mute)) ? 0 : 100);
+    await player.loop(ref.watch(photoViewSettingsProvider.select((value) => value.repeat)));
   }
 
   @override
@@ -124,16 +130,13 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
         .textTheme
         .titleMedium
         ?.copyWith(fontWeight: FontWeight.bold, shadows: [const Shadow(blurRadius: 2)]);
-    ref.listen(photoViewSettingsProvider.select((value) => value.repeat), (previous, next) {
-      player.loop(next);
-    });
+    ref.listen(
+      photoViewSettingsProvider.select((value) => value.repeat),
+      (previous, next) => player.loop(next),
+    );
     ref.listen(
       photoViewSettingsProvider.select((value) => value.mute),
-      (previous, next) {
-        if (previous != next) {
-          player.setVolume(next ? 0 : 100);
-        }
-      },
+      (previous, next) => player.setVolume(next ? 0 : 100),
     );
     return GestureDetector(
       onTap: widget.onTapped,
@@ -154,13 +157,6 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
               UniqueKey(),
               BoxFit.contain,
             ),
-            // child: Video(
-            //   fit: BoxFit.contain,
-            //   fill: const Color.fromARGB(0, 123, 62, 62),
-            //   controller: controller,
-            //   controls: NoVideoControls,
-            //   wakelock: false,
-            // ),
           ),
           IgnorePointer(
             ignoring: !widget.showOverlay,

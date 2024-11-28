@@ -9,7 +9,7 @@ import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/screens/video_player/components/video_subtitle_controls.dart';
 import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
-import 'package:fladder/widgets/navigation_scaffold/components/fladder_appbar.dart';
+import 'package:fladder/widgets/navigation_scaffold/components/fladder_app_bar.dart';
 
 class SubtitleEditor extends ConsumerStatefulWidget {
   const SubtitleEditor({super.key});
@@ -73,7 +73,7 @@ class _SubtitleEditorState extends ConsumerState<SubtitleEditor> {
                 padding: MediaQuery.paddingOf(context),
                 child: Column(
                   children: [
-                    if (AdaptiveLayout.of(context).isDesktop) const FladderAppbar(),
+                    if (AdaptiveLayout.of(context).isDesktop) const FladderAppBar(),
                     Row(
                       children: [
                         const BackButton(),

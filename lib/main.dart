@@ -8,7 +8,6 @@ import 'package:flutter/services.dart';
 
 import 'package:collection/collection.dart';
 import 'package:dynamic_color/dynamic_color.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
@@ -43,19 +42,6 @@ bool get _isDesktop {
     TargetPlatform.linux,
     TargetPlatform.macOS,
   ].contains(defaultTargetPlatform);
-}
-
-class CustomCacheManager {
-  static const key = 'customCacheKey';
-  static CacheManager instance = CacheManager(
-    Config(
-      key,
-      stalePeriod: const Duration(days: 3),
-      maxNrOfCacheObjects: 500,
-      repo: JsonCacheInfoRepository(databaseName: key),
-      fileService: HttpFileService(),
-    ),
-  );
 }
 
 Future<Map<String, dynamic>> loadConfig() async {
@@ -310,6 +296,7 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
               ),
               child: ScaffoldMessenger(child: child ?? Container()),
             ),
+            debugShowCheckedModeBanner: false,
             darkTheme: darkTheme.copyWith(
               scaffoldBackgroundColor: amoledOverwrite,
               cardColor: amoledOverwrite,

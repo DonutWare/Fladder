@@ -1,16 +1,16 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:ficonsax/ficonsax.dart';
-import 'package:fladder/main.dart';
-import 'package:fladder/theme.dart';
-import 'package:fladder/util/localization_helper.dart';
 import 'package:flutter/material.dart';
+
+import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:page_transition/page_transition.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/providers/library_search_provider.dart';
+import 'package:fladder/theme.dart';
 import 'package:fladder/util/debouncer.dart';
+import 'package:fladder/util/fladder_image.dart';
+import 'package:fladder/util/localization_helper.dart';
 
 class SuggestionSearchBar extends ConsumerStatefulWidget {
   final String? title;
@@ -141,9 +141,8 @@ class _SearchBarState extends ConsumerState<SuggestionSearchBar> {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                     child: AspectRatio(
                       aspectRatio: 0.8,
-                      child: CachedNetworkImage(
-                        cacheManager: CustomCacheManager.instance,
-                        imageUrl: suggestion.images?.primary?.path ?? "",
+                      child: FladderImage(
+                        image: suggestion.images?.primary,
                         fit: BoxFit.cover,
                       ),
                     ),

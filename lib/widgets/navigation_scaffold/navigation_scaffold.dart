@@ -8,7 +8,7 @@ import 'package:fladder/providers/views_provider.dart';
 import 'package:fladder/screens/shared/nested_bottom_appbar.dart';
 import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/destination_model.dart';
-import 'package:fladder/widgets/navigation_scaffold/components/fladder_appbar.dart';
+import 'package:fladder/widgets/navigation_scaffold/components/fladder_app_bar.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/floating_player_bar.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/navigation_body.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/navigation_drawer.dart';
@@ -60,7 +60,7 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
       },
       child: Scaffold(
         key: _key,
-        appBar: const FladderAppbar(),
+        appBar: const FladderAppBar(),
         extendBodyBehindAppBar: true,
         extendBody: true,
         floatingActionButtonLocation:

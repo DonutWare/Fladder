@@ -11,8 +11,8 @@ import 'package:media_kit_video/media_kit_video.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/settings/subtitle_settings_model.dart';
+import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/settings/subtitle_settings_provider.dart';
-import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/wrappers/players/base_player.dart';
 import 'package:fladder/wrappers/players/player_states.dart';
 
@@ -27,7 +27,7 @@ class LibMPV extends BasePlayer {
   StreamSubscription<bool>? _onCompleted;
 
   @override
-  Future<void> init(Ref ref) async {
+  Future<void> init(VideoPlayerSettingsModel settings) async {
     dispose();
 
     mpv.MediaKit.ensureInitialized();
@@ -36,10 +36,7 @@ class LibMPV extends BasePlayer {
       configuration: mpv.PlayerConfiguration(
         title: "nl.jknaapen.fladder",
         libassAndroidFont: libassFallbackFont,
-        libass: !kIsWeb &&
-            ref.read(
-              videoPlayerSettingsProvider.select((value) => value.useLibass),
-            ),
+        libass: !kIsWeb && settings.useLibass,
       ),
     );
 
@@ -47,9 +44,7 @@ class LibMPV extends BasePlayer {
       _controller = VideoController(
         _player!,
         configuration: VideoControllerConfiguration(
-          enableHardwareAcceleration: ref.read(
-            videoPlayerSettingsProvider.select((value) => value.hardwareAccel),
-          ),
+          enableHardwareAcceleration: settings.hardwareAccel,
         ),
       );
 

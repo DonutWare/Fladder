@@ -2,10 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
+import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/wrappers/players/player_states.dart';
 
 const libassFallbackFont = "assets/mp-font.ttf";
@@ -14,7 +13,7 @@ abstract class BasePlayer {
   Stream<PlayerState> get stateStream;
   PlayerState lastState = PlayerState();
 
-  Future<void> init(Ref ref);
+  Future<void> init(VideoPlayerSettingsModel settings);
   Widget? videoWidget(
     Key key,
     BoxFit fit,
