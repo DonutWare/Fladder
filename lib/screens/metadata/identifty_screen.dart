@@ -161,6 +161,7 @@ class _IdentifyScreenState extends ConsumerState<IdentifyScreen> with TickerProv
 
                                           final externalId = state.externalIds
                                               .firstWhereOrNull((element) => element.key == providerKey)
+                                              // ignore: deprecated_member_use_from_same_package
                                               ?.urlFormatString;
 
                                           final url = externalId?.replaceAll("{0}", providerValue?.toString() ?? "");
