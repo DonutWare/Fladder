@@ -109,7 +109,7 @@ dependencies:
   package_info_plus: ^8.0.0
   open_app_file: ^4.0.2
   wakelock_plus: ^1.1.4
-  screen_brightness: ^0.2.2+1
+  screen_brightness: ^1.0.1
   window_manager: ^0.3.9
   smtc_windows: ^0.1.1
   background_downloader: ^8.5.2
@@ -148,6 +148,21 @@ dev_dependencies:
   riverpod_generator: ^2.4.0
   dart_mappable_builder: ^4.2.3
   auto_route_generator: ^9.0.0
+
+dependency_overrides:
+  js: ^0.7.1
+  media_kit:
+    git:
+      url: https://github.com/DonutWare/media-kit
+      path: media_kit
+  media_kit_video:
+    git:
+      url: https://github.com/DonutWare/media-kit
+      path: media_kit_video
+  media_kit_libs_video:
+    git:
+      url: https://github.com/DonutWare/media-kit
+      path: libs/universal/media_kit_libs_video
 
 flutter:
   # The following line ensures that the Material Icons font is
