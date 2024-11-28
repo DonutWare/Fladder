@@ -4,6 +4,7 @@ import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
+import 'package:fladder/util/localization_helper.dart';
 
 part 'media_segments_model.freezed.dart';
 part 'media_segments_model.g.dart';
@@ -17,6 +18,8 @@ class MediaSegmentsModel with _$MediaSegmentsModel {
   }) = _MediaSegmentsModel;
 
   factory MediaSegmentsModel.fromJson(Map<String, dynamic> json) => _$MediaSegmentsModelFromJson(json);
+
+  MediaSegment? atPosition(Duration position) => segments.firstWhereOrNull((element) => element.inRange(position));
 
   MediaSegment? get intro => segments.firstWhereOrNull((element) => element.type == MediaSegmentType.intro);
   MediaSegment? get outro => segments.firstWhereOrNull((element) => element.type == MediaSegmentType.outro);
@@ -35,6 +38,8 @@ class MediaSegment with _$MediaSegment {
   factory MediaSegment.fromJson(Map<String, dynamic> json) => _$MediaSegmentFromJson(json);
 
   bool inRange(Duration position) => (position.compareTo(start) >= 0 && position.compareTo(end) <= 0);
+
+  bool forceShow(Duration position) => (position - start).inSeconds < (end - start).inSeconds * 0.20;
 }
 
 enum MediaSegmentType {
@@ -44,6 +49,17 @@ enum MediaSegmentType {
   recap,
   outro,
   intro;
+
+  String label(BuildContext context) {
+    return switch (this) {
+      MediaSegmentType.unknown => context.localized.mediaSegmentUnknown,
+      MediaSegmentType.commercial => context.localized.mediaSegmentCommercial,
+      MediaSegmentType.preview => context.localized.mediaSegmentPreview,
+      MediaSegmentType.recap => context.localized.mediaSegmentRecap,
+      MediaSegmentType.outro => context.localized.mediaSegmentOutro,
+      MediaSegmentType.intro => context.localized.mediaSegmentIntro,
+    };
+  }
 
   Color get color => switch (this) {
         MediaSegmentType.unknown => Colors.black,

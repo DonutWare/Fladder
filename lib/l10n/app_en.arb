@@ -1133,5 +1133,19 @@
     "description": "To indicate a default value, default video player backend"
   },
   "noVideoPlayerOptions": "The selected backend has no options",
-  "mdkExperimental": "MDK is still in a experimental stage"
+  "mdkExperimental": "MDK is still in a experimental stage",
+  "skipButtonLabel": "(S)kip {segment}",
+  "@skipButtonLabel": {
+    "placeholders": {
+      "segment": {
+        "type": "String"
+      }
+    }
+  },
+  "mediaSegmentUnknown": "Unknown",
+  "mediaSegmentCommercial": "Commercial",
+  "mediaSegmentPreview": "Preview",
+  "mediaSegmentRecap": "Recap",
+  "mediaSegmentOutro": "Outro",
+  "mediaSegmentIntro": "Intro"
 }

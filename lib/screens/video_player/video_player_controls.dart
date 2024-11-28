@@ -54,8 +54,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   bool _onKey(KeyEvent value) {
     final mediaSegments = ref.read(playBackModel.select((value) => value?.mediaSegments));
     final position = ref.read(mediaPlaybackProvider).position;
-    bool showIntroSkipButton = mediaSegments?.intro?.inRange(position) ?? false;
-    bool showOutroSkipButton = mediaSegments?.outro?.inRange(position) ?? false;
+    MediaSegment? segment = mediaSegments?.atPosition(position);
     if (value is KeyRepeatEvent) {
       if (value.logicalKey == LogicalKeyboardKey.arrowUp) {
         resetTimer();
@@ -70,10 +69,8 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     }
     if (value is KeyDownEvent) {
       if (value.logicalKey == LogicalKeyboardKey.keyS) {
-        if (showIntroSkipButton) {
-          skipIntro(mediaSegments);
-        } else if (showOutroSkipButton) {
-          skipOutro(mediaSegments);
+        if (segment != null) {
+          skipToSegmentEnd(segment);
         }
         return true;
       }
@@ -158,32 +155,22 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                 Consumer(
                   builder: (context, ref, child) {
                     final position = ref.watch(mediaPlaybackProvider.select((value) => value.position));
-                    bool showIntroSkipButton = mediaSegments?.intro?.inRange(position) ?? false;
-                    bool showOutroSkipButton = mediaSegments?.outro?.inRange(position) ?? false;
+                    MediaSegment? segment = mediaSegments?.atPosition(position);
+                    bool forceShow = segment?.forceShow(position) ?? false;
                     return Stack(
                       children: [
-                        if (showIntroSkipButton)
+                        if (segment != null)
                           Align(
                             alignment: Alignment.centerRight,
                             child: Padding(
                               padding: const EdgeInsets.all(32),
-                              child: IntroSkipButton(
-                                isOverlayVisible: showOverlay,
-                                skipIntro: () => skipIntro(mediaSegments),
+                              child: SkipSegmentButton(
+                                label: context.localized.skipButtonLabel(segment.type.label(context).toLowerCase()),
+                                isOverlayVisible: forceShow ? true : showOverlay,
+                                pressedSkip: () => skipToSegmentEnd(segment),
                               ),
                             ),
                           ),
-                        if (showOutroSkipButton)
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Padding(
-                              padding: const EdgeInsets.all(32),
-                              child: OutroSkipButton(
-                                isOverlayVisible: showOverlay,
-                                skipOutro: () => skipOutro(mediaSegments),
-                              ),
-                            ),
-                          )
                       ],
                     );
                   },
@@ -580,18 +567,10 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     );
   }
 
-  void skipIntro(MediaSegmentsModel? mediaSegments) {
-    resetTimer();
-    final end = mediaSegments?.intro?.end;
+  void skipToSegmentEnd(MediaSegment? mediaSegments) {
+    final end = mediaSegments?.end;
     if (end != null) {
-      ref.read(videoPlayerProvider).seek(end);
-    }
-  }
-
-  void skipOutro(MediaSegmentsModel? mediaSegments) {
-    resetTimer();
-    final end = mediaSegments?.outro?.end;
-    if (end != null) {
+      resetTimer();
       ref.read(videoPlayerProvider).seek(end);
     }
   }

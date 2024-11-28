@@ -60,47 +60,26 @@ class OpenQueueButton extends ConsumerWidget {
   }
 }
 
-class IntroSkipButton extends ConsumerWidget {
+class SkipSegmentButton extends ConsumerWidget {
+  final String label;
   final bool isOverlayVisible;
 
-  final Function()? skipIntro;
-  const IntroSkipButton({this.skipIntro, required this.isOverlayVisible, super.key});
+  final Function() pressedSkip;
+  const SkipSegmentButton({required this.label, required this.isOverlayVisible, required this.pressedSkip, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ElevatedButton(
-      onPressed: () => skipIntro?.call(),
-      style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
-      child: const Padding(
-        padding: EdgeInsets.all(8),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [Text("(S)kip Intro"), Icon(Icons.skip_next_rounded)],
-        ),
-      ),
-    );
-  }
-}
-
-class OutroSkipButton extends ConsumerWidget {
-  final bool isOverlayVisible;
-  final Function()? skipOutro;
-  const OutroSkipButton({this.skipOutro, required this.isOverlayVisible, super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // final semiHideSkip = skipCredits.
     return AnimatedOpacity(
-      opacity: 1,
-      duration: const Duration(milliseconds: 250),
+      opacity: isOverlayVisible ? 0.85 : 0,
+      duration: const Duration(milliseconds: 500),
       child: ElevatedButton(
-        onPressed: () => skipOutro?.call(),
+        onPressed: pressedSkip,
         style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
-        child: const Padding(
-          padding: EdgeInsets.all(8),
+        child: Padding(
+          padding: const EdgeInsets.all(8),
           child: Row(
             mainAxisSize: MainAxisSize.min,
-            children: [Text("(S)kip Credits"), Icon(Icons.skip_next_rounded)],
+            children: [Text(label), const Icon(Icons.skip_next_rounded)],
           ),
         ),
       ),
