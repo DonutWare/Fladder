@@ -26,7 +26,7 @@ import 'package:fladder/util/fladder_config.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/string_extensions.dart';
-import 'package:fladder/widgets/navigation_scaffold/components/fladder_appbar.dart';
+import 'package:fladder/widgets/navigation_scaffold/components/fladder_app_bar.dart';
 
 @RoutePage()
 class LoginScreen extends ConsumerStatefulWidget {
@@ -82,7 +82,7 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
     final loggedInUsers = ref.watch(authProvider.select((value) => value.accounts));
     final authLoading = ref.watch(authProvider.select((value) => value.loading));
     return Scaffold(
-      appBar: const FladderAppbar(),
+      appBar: const FladderAppBar(),
       floatingActionButton: !addingNewUser
           ? Row(
               mainAxisAlignment: MainAxisAlignment.end,

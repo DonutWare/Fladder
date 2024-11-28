@@ -1,7 +1,7 @@
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/screens/shared/media/item_detail_list_widget.dart';
 import 'package:fladder/util/widget_extensions.dart';
-import 'package:fladder/widgets/navigation_scaffold/components/fladder_appbar.dart';
+import 'package:fladder/widgets/navigation_scaffold/components/fladder_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -46,7 +46,7 @@ class _VideoPlayerQueueState extends ConsumerState<VideoPlayerQueue> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const FladderAppbar(
+      appBar: const FladderAppBar(
         label: "",
         automaticallyImplyLeading: true,
       ),

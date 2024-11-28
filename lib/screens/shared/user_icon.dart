@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:fladder/models/account_model.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/util/string_extensions.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class UserIcon extends ConsumerWidget {
   final AccountModel? user;

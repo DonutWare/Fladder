@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/routes/auto_router.dart';
+import 'package:fladder/util/debug_banner.dart';
 import 'package:fladder/util/poster_defaults.dart';
 
 enum LayoutState {
@@ -202,7 +203,7 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
           LayoutState.tablet => const PosterDefaults(size: 350, ratio: 0.55),
           LayoutState.desktop => const PosterDefaults(size: 400, ratio: 0.55),
         },
-        child: widget.child,
+        child: DebugBanner(child: widget.child),
       ),
     );
   }

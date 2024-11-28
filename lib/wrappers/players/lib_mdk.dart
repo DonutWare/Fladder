@@ -3,13 +3,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fvp/fvp.dart' as fvp;
 import 'package:fvp/mdk.dart';
 import 'package:video_player/video_player.dart';
 
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
+import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/wrappers/players/base_player.dart';
 import 'package:fladder/wrappers/players/player_states.dart';
 
@@ -25,7 +25,7 @@ class LibMDK extends BasePlayer {
   Stream<PlayerState> get stateStream => _stateController.stream;
 
   @override
-  Future<void> init(Ref ref) async {
+  Future<void> init(VideoPlayerSettingsModel settings) async {
     dispose();
     fvp.registerWith(options: {
       'global': {'log': 'off'},
@@ -41,19 +41,26 @@ class LibMDK extends BasePlayer {
 
   @override
   Future<void> open(String url, bool play) async {
+    if (_controller != null) {
+      _controller?.dispose();
+    }
     final validUrl = isValidUrl(url);
     if (validUrl != null) {
       _controller = VideoPlayerController.networkUrl(validUrl);
     } else {
       _controller = VideoPlayerController.file(File(url));
     }
-    await _controller?.initialize();
 
+    await _controller?.initialize();
     _controller?.addListener(() => updateState());
 
     if (play) {
       await _controller?.play();
     }
+    _controller?.setBufferRange(
+      min: const Duration(seconds: 15).inMilliseconds,
+      max: const Duration(seconds: 30).inMilliseconds,
+    );
     return setState(lastState.update(
       buffering: true,
     ));
@@ -73,8 +80,19 @@ class LibMDK extends BasePlayer {
       volume: (_controller?.value.volume ?? 1.0) * 100,
       rate: _controller?.value.playbackSpeed ?? 1.0,
       buffering: _controller?.value.isBuffering ?? true,
-      buffer: _controller?.value.buffered.last.end ?? Duration.zero,
+      buffer: calculateBufferedDuration(_controller?.value),
     ));
+  }
+
+  Duration calculateBufferedDuration(VideoPlayerValue? value) {
+    if (value == null) return Duration.zero;
+    if (value.buffered.isEmpty) {
+      return Duration.zero;
+    }
+
+    return value.buffered.fold(value.position, (total, range) {
+      return (total + (range.end - range.start));
+    });
   }
 
   @override

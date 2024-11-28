@@ -78,7 +78,7 @@ class MediaControlsWrapper extends BaseAudioHandler {
 
   Future<void> setup(BasePlayer newPlayer) async {
     _player = newPlayer;
-    await newPlayer.init(ref);
+    await newPlayer.init(ref.read(videoPlayerSettingsProvider));
     _initPlayer();
   }
 
