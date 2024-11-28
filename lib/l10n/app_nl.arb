@@ -1186,5 +1186,25 @@
     "description": "To indicate a default value, default video player backend"
   },
   "mdkExperimental": "MDK backend is nog experimenteel",
-  "@mdkExperimental": {}
+  "@mdkExperimental": {},
+  "skipButtonLabel": "(S)kip {segment}",
+  "@skipButtonLabel": {
+    "placeholders": {
+      "segment": {
+        "type": "String"
+      }
+    }
+  },
+  "mediaSegmentPreview": "Voorvertoning",
+  "@mediaSegmentPreview": {},
+  "mediaSegmentRecap": "Samenvatting",
+  "@mediaSegmentRecap": {},
+  "mediaSegmentUnknown": "Onbekend",
+  "@mediaSegmentUnknown": {},
+  "mediaSegmentOutro": "Uitro",
+  "@mediaSegmentOutro": {},
+  "mediaSegmentCommercial": "Reclame",
+  "@mediaSegmentCommercial": {},
+  "mediaSegmentIntro": "Inleiding",
+  "@mediaSegmentIntro": {}
 }
