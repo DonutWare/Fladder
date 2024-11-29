@@ -1184,5 +1184,25 @@
   "playerSettingsBackendTitle": "视频播放器后端",
   "@playerSettingsBackendTitle": {},
   "playerSettingsBackendDesc": "选择您喜好的媒体播放器以获得最佳播放体验",
-  "@playerSettingsBackendDesc": {}
+  "@playerSettingsBackendDesc": {},
+  "skipButtonLabel": "跳过{segment}",
+  "@skipButtonLabel": {
+    "placeholders": {
+      "segment": {
+        "type": "String"
+      }
+    }
+  },
+  "mediaSegmentPreview": "预告",
+  "@mediaSegmentPreview": {},
+  "mediaSegmentRecap": "回顾",
+  "@mediaSegmentRecap": {},
+  "mediaSegmentOutro": "片尾",
+  "@mediaSegmentOutro": {},
+  "mediaSegmentIntro": "片头",
+  "@mediaSegmentIntro": {},
+  "mediaSegmentUnknown": "未知",
+  "@mediaSegmentUnknown": {},
+  "mediaSegmentCommercial": "广告",
+  "@mediaSegmentCommercial": {}
 }
