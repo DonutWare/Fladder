@@ -121,61 +121,65 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
             closePlayer();
           }
         },
-        child: GestureDetector(
-          onTap: () => toggleOverlay(),
-          child: MouseRegion(
-            cursor: showOverlay ? SystemMouseCursors.basic : SystemMouseCursors.none,
-            onExit: (event) => toggleOverlay(value: false),
-            onEnter: (event) => toggleOverlay(value: true),
-            onHover: AdaptiveLayout.of(context).isDesktop ? (event) => toggleOverlay(value: true) : null,
-            child: Stack(
-              children: [
-                if (subtitleWidget != null) subtitleWidget,
-                if (AdaptiveLayout.of(context).isDesktop)
-                  Consumer(builder: (context, ref, child) {
-                    final playing = ref.watch(mediaPlaybackProvider.select((value) => value.playing));
-                    final buffering = ref.watch(mediaPlaybackProvider.select((value) => value.buffering));
-                    return playButton(playing, buffering);
-                  }),
-                IgnorePointer(
-                  ignoring: !showOverlay,
-                  child: AnimatedOpacity(
-                    duration: fadeDuration,
-                    opacity: showOverlay ? 1 : 0,
-                    child: Column(
-                      children: [
-                        topButtons(context),
-                        const Spacer(),
-                        bottomButtons(context),
-                      ],
-                    ),
+        child: MouseRegion(
+          cursor: showOverlay ? SystemMouseCursors.basic : SystemMouseCursors.none,
+          onExit: (event) => toggleOverlay(value: false),
+          onEnter: (event) => toggleOverlay(value: true),
+          onHover: AdaptiveLayout.of(context).isDesktop ? (event) => toggleOverlay(value: true) : null,
+          child: Stack(
+            children: [
+              GestureDetector(
+                onTap: AdaptiveLayout.of(context).inputDevice == InputDevice.pointer
+                    ? () => player.playOrPause()
+                    : () => toggleOverlay(),
+                onDoubleTap:
+                    AdaptiveLayout.of(context).inputDevice == InputDevice.pointer ? () => toggleFullScreen(ref) : null,
+              ),
+              if (subtitleWidget != null) subtitleWidget,
+              if (AdaptiveLayout.of(context).isDesktop)
+                Consumer(builder: (context, ref, child) {
+                  final playing = ref.watch(mediaPlaybackProvider.select((value) => value.playing));
+                  final buffering = ref.watch(mediaPlaybackProvider.select((value) => value.buffering));
+                  return playButton(playing, buffering);
+                }),
+              IgnorePointer(
+                ignoring: !showOverlay,
+                child: AnimatedOpacity(
+                  duration: fadeDuration,
+                  opacity: showOverlay ? 1 : 0,
+                  child: Column(
+                    children: [
+                      topButtons(context),
+                      const Spacer(),
+                      bottomButtons(context),
+                    ],
                   ),
                 ),
-                const VideoPlayerSeekIndicator(),
-                Consumer(
-                  builder: (context, ref, child) {
-                    final position = ref.watch(mediaPlaybackProvider.select((value) => value.position));
-                    MediaSegment? segment = mediaSegments?.atPosition(position);
-                    bool forceShow = segment?.forceShow(position) ?? false;
-                    return Stack(
-                      children: [
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Padding(
-                            padding: const EdgeInsets.all(32),
-                            child: SkipSegmentButton(
-                              segment: segment,
-                              isOverlayVisible: forceShow ? true : showOverlay,
-                              pressedSkip: () => skipToSegmentEnd(segment),
-                            ),
+              ),
+              const VideoPlayerSeekIndicator(),
+              Consumer(
+                builder: (context, ref, child) {
+                  final position = ref.watch(mediaPlaybackProvider.select((value) => value.position));
+                  MediaSegment? segment = mediaSegments?.atPosition(position);
+                  bool forceShow = segment?.forceShow(position) ?? false;
+                  return Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Padding(
+                          padding: const EdgeInsets.all(32),
+                          child: SkipSegmentButton(
+                            segment: segment,
+                            isOverlayVisible: forceShow ? true : showOverlay,
+                            pressedSkip: () => skipToSegmentEnd(segment),
                           ),
                         ),
-                      ],
-                    );
-                  },
-                ),
-              ],
-            ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ],
           ),
         ),
       ),
