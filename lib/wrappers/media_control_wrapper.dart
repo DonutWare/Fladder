@@ -146,11 +146,6 @@ class MediaControlsWrapper extends BaseAudioHandler {
         updatePosition: value.position,
       ));
       smtc?.setPosition(value.position);
-      if (value.playing) {
-        WakelockPlus.enable();
-      } else {
-        WakelockPlus.disable();
-      }
       playbackState.add(playbackState.value.copyWith(
         playing: value.playing,
       ));
@@ -160,6 +155,7 @@ class MediaControlsWrapper extends BaseAudioHandler {
 
   @override
   Future<void> play() async {
+    WakelockPlus.enable();
     _player?.play();
     if (!ref.read(clientSettingsProvider).enableMediaKeys) return;
 
@@ -248,6 +244,11 @@ class MediaControlsWrapper extends BaseAudioHandler {
       playing: _player?.lastState.playing ?? false,
       controls: [MediaControl.play],
     ));
+    if (playbackState.value.playing) {
+      WakelockPlus.enable();
+    } else {
+      WakelockPlus.disable();
+    }
     final playerState = _player;
     if (playerState != null) {
       ref
