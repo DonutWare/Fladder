@@ -1,0 +1,40 @@
+# appimage-builder recipe see https://appimage-builder.readthedocs.io for details
+version: 1
+script:
+  - rm -rf AppDir || true
+  - cp -r build/linux/x64/release/bundle AppDir
+  - mkdir -p AppDir/usr/share/icons/
+  - cp icons/production/fladder_icon_desktop.png AppDir/usr/share/icons/
+AppDir:
+  path: AppDir
+  app_info:
+    id: nl.jknaapen.fladder
+    name: Fladder
+    icon: fladder_icon_desktop
+    version: latest
+    exec: Fladder
+    exec_args: $@
+  files:
+    include:
+      - assets/fonts/rubik/Rubik-Italic-VariableFont_wght.ttf
+      - assets/fonts/rubik/Rubik-VariableFont_wght.ttf
+      - icons/production/fladder_icon_desktop.png
+  test:
+    fedora-30:
+      image: appimagecrafters/tests-env:fedora-30
+      command: ./AppRun
+    debian-stable:
+      image: appimagecrafters/tests-env:debian-stable
+      command: ./AppRun
+    archlinux-latest:
+      image: appimagecrafters/tests-env:archlinux-latest
+      command: ./AppRun
+    centos-7:
+      image: appimagecrafters/tests-env:centos-7
+      command: ./AppRun
+    ubuntu-xenial:
+      image: appimagecrafters/tests-env:ubuntu-xenial
+      command: ./AppRun
+AppImage:
+  arch: x86_64
+  update-information: guess
