@@ -128,12 +128,15 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
           onHover: AdaptiveLayout.of(context).isDesktop ? (event) => toggleOverlay(value: true) : null,
           child: Stack(
             children: [
-              GestureDetector(
-                onTap: AdaptiveLayout.of(context).inputDevice == InputDevice.pointer
-                    ? () => player.playOrPause()
-                    : () => toggleOverlay(),
-                onDoubleTap:
-                    AdaptiveLayout.of(context).inputDevice == InputDevice.pointer ? () => toggleFullScreen(ref) : null,
+              Positioned.fill(
+                child: GestureDetector(
+                  onTap: AdaptiveLayout.of(context).inputDevice == InputDevice.pointer
+                      ? () => player.playOrPause()
+                      : () => toggleOverlay(),
+                  onDoubleTap: AdaptiveLayout.of(context).inputDevice == InputDevice.pointer
+                      ? () => toggleFullScreen(ref)
+                      : null,
+                ),
               ),
               if (subtitleWidget != null) subtitleWidget,
               if (AdaptiveLayout.of(context).isDesktop)
