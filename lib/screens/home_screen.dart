@@ -69,8 +69,6 @@ class HomeScreen extends ConsumerWidget {
             );
           }
           return null;
-        default:
-          return null;
       }
     });
     return HeroControllerScope(
