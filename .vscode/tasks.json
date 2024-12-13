@@ -102,6 +102,18 @@
 			// "runOptions": {
 			// 	"runOn": "folderOpen"
 			// }
+		},
+		{
+			"label": "Build AppImage",
+			"type": "shell",
+			"command": "/usr/local/bin/appimage-builder",
+			"args": [
+				"--recipe",
+				"AppImageBuilder.yml"
+			],
+			"group": {
+				"kind": "build",
+			}
 		}
 	],
 }

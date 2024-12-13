@@ -273,6 +273,9 @@ jobs:
     # if: startsWith(github.ref, 'refs/tags/v')
     needs: [fetch-info, build-linux]
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.1.1
+
       - name: Download Artifacts Linux
         uses: actions/download-artifact@v4
         with:
@@ -282,7 +285,7 @@ jobs:
       - name: Build AppImage
         uses: AppImageCrafters/build-appimage@master
         with:
-          recipe: AppImageBuilder.yml
+          recipe: "./AppImageBuilder.yml"
 
       - name: Archive Linux AppImage
         uses: actions/upload-artifact@v4
