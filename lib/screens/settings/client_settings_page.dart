@@ -502,54 +502,56 @@ class _ClientSettingsPageState extends ConsumerState<ClientSettingsPage> {
               ),
             ),
           ],
-          const SizedBox(height: 64),
-          SettingsListTile(
-            label: Text(
-              context.localized.clearAllSettings,
-            ),
-            contentColor: Theme.of(context).colorScheme.error,
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) => Dialog(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          context.localized.clearAllSettingsQuestion,
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          context.localized.unableToReverseAction,
-                        ),
-                        const SizedBox(height: 16),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            FilledButton(
-                              onPressed: () => Navigator.of(context).pop(),
-                              child: Text(context.localized.cancel),
-                            ),
-                            const SizedBox(width: 8),
-                            ElevatedButton(
-                              onPressed: () async {
-                                await ref.read(sharedPreferencesProvider).clear();
-                                context.router.push(const LoginRoute());
-                              },
-                              child: Text(context.localized.clear),
-                            )
-                          ],
-                        ),
-                      ],
+          if (kDebugMode) ...[
+            const SizedBox(height: 64),
+            SettingsListTile(
+              label: Text(
+                context.localized.clearAllSettings,
+              ),
+              contentColor: Theme.of(context).colorScheme.error,
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => Dialog(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            context.localized.clearAllSettingsQuestion,
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            context.localized.unableToReverseAction,
+                          ),
+                          const SizedBox(height: 16),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              FilledButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: Text(context.localized.cancel),
+                              ),
+                              const SizedBox(width: 8),
+                              ElevatedButton(
+                                onPressed: () async {
+                                  await ref.read(sharedPreferencesProvider).clear();
+                                  context.router.push(const LoginRoute());
+                                },
+                                child: Text(context.localized.clear),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
-          ),
+                );
+              },
+            ),
+          ],
           const SizedBox(height: 16),
         ],
       ),

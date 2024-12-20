@@ -5,6 +5,7 @@ import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'package:fladder/screens/crash_screen/crash_screen.dart';
 import 'package:fladder/screens/settings/settings_scaffold.dart';
 import 'package:fladder/screens/shared/fladder_icon.dart';
 import 'package:fladder/screens/shared/fladder_logo.dart';
@@ -93,6 +94,18 @@ class AboutSettingsPage extends ConsumerWidget {
                   applicationLegalese: "DonutWare",
                 ),
                 child: Text(context.localized.aboutLicenses),
+              )
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FilledButton.tonal(
+                onPressed: () => showDialog(
+                  context: context,
+                  builder: (context) => const CrashScreen(),
+                ),
+                child: Text(context.localized.errorLogs),
               )
             ],
           ),

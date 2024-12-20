@@ -1147,5 +1147,6 @@
   "mediaSegmentPreview": "Preview",
   "mediaSegmentRecap": "Recap",
   "mediaSegmentOutro": "Outro",
-  "mediaSegmentIntro": "Intro"
+  "mediaSegmentIntro": "Intro",
+  "errorLogs": "Error logs"
 }
