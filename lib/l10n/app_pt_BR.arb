@@ -1211,5 +1211,7 @@
   "mediaSegmentIntro": "Introdução",
   "@mediaSegmentIntro": {},
   "playerSettingsBackendTitle": "Backend do player de vídeo",
-  "@playerSettingsBackendTitle": {}
+  "@playerSettingsBackendTitle": {},
+  "errorLogs": "Registros de erros",
+  "@errorLogs": {}
 }
