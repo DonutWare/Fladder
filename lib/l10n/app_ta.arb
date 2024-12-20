@@ -1,1 +1,1209 @@
-{}
+{
+  "amoledBlack": "அமோல்ட் பிளாக்",
+  "@amoledBlack": {},
+  "dateAdded": "தேதி சேர்க்கப்பட்டது",
+  "@dateAdded": {},
+  "groupBy": "குழு",
+  "@groupBy": {},
+  "home": "வீடு",
+  "@home": {},
+  "homeBannerCarousel": "கொணர்வி",
+  "@homeBannerCarousel": {},
+  "libraryPageSizeTitle": "நூலக பக்க அளவு",
+  "@libraryPageSizeTitle": {},
+  "logoutUserPopupTitle": "வெளியேறு {userName}?",
+  "@logoutUserPopupTitle": {
+    "description": "Pop-up for logging out the user",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "loop": "லூப்",
+  "@loop": {},
+  "markAsWatched": "பார்த்தபடி குறி",
+  "@markAsWatched": {},
+  "mediaTypeBook": "நூல்",
+  "@mediaTypeBook": {},
+  "noItemsSynced": "எந்த பொருட்களும் ஒத்திசைக்கப்படவில்லை",
+  "@noItemsSynced": {},
+  "noServersFound": "புதிய சேவையகங்கள் எதுவும் கிடைக்கவில்லை",
+  "@noServersFound": {},
+  "normal": "சாதாரண",
+  "@normal": {},
+  "notPartOfAlbum": "ஆல்பத்தின் ஒரு பகுதியாக இல்லை",
+  "@notPartOfAlbum": {},
+  "openParent": "திறந்த பெற்றோர்",
+  "@openParent": {},
+  "openShow": "திறந்த நிகழ்ச்சி",
+  "@openShow": {},
+  "outlineColor": "அவுட்லைன் நிறம்",
+  "@outlineColor": {},
+  "outlineSize": "அவுட்லைன் அளவு",
+  "@outlineSize": {},
+  "random": "சீரற்ற",
+  "@random": {},
+  "settingsContinue": "தொடரவும்",
+  "@settingsContinue": {},
+  "settingsHomeBannerTitle": "முகப்பு பேனர்",
+  "@settingsHomeBannerTitle": {},
+  "settingsPlayerTitle": "வீரர்",
+  "@settingsPlayerTitle": {},
+  "videoScalingFill": "நிரப்பவும்",
+  "@videoScalingFill": {},
+  "videoScalingFillScreenTitle": "திரை நிரப்பவும்",
+  "@videoScalingFillScreenTitle": {},
+  "addToNewCollection": "புதிய சேகரிப்பு",
+  "@addToNewCollection": {},
+  "addToNewPlaylist": "புதிய பிளேலிச்ட்",
+  "@addToNewPlaylist": {},
+  "syncStatusEnqueued": "Enqueuted",
+  "@syncStatusEnqueued": {},
+  "syncStatusRunning": "இயங்கும்",
+  "@syncStatusRunning": {},
+  "aboutLicenses": "உரிமங்கள்",
+  "@aboutLicenses": {},
+  "scale": "அளவு",
+  "@scale": {},
+  "autoNextOffStaticTitle": "நிலையான",
+  "@autoNextOffStaticTitle": {},
+  "speed": "வேகம்",
+  "@speed": {},
+  "clientSettingsShowAllCollectionsTitle": "அனைத்து சேகரிப்பு வகைகளையும் காட்டு",
+  "@clientSettingsShowAllCollectionsTitle": {},
+  "mediaSegmentRecap": "மறுபரிசீலனை செய்யுங்கள்",
+  "@mediaSegmentRecap": {},
+  "addAsFavorite": "பிடித்ததாகச் சேர்க்கவும்",
+  "@addAsFavorite": {},
+  "actor": "{எண்ணிக்கை, பன்மை, மற்ற {Actors} ஒன்று {Actor}}",
+  "@actor": {
+    "description": "actor",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "addToCollection": "சேகரிப்பில் சேர்க்கவும்",
+  "@addToCollection": {},
+  "addToPlaylist": "பிளேலிச்ட்டில் சேர்க்கவும்",
+  "@addToPlaylist": {},
+  "advanced": "மேம்பட்ட",
+  "@advanced": {},
+  "all": "அனைத்தும்",
+  "@all": {},
+  "appLockAutoLogin": "ஆட்டோ உள்நுழைவு",
+  "@appLockAutoLogin": {},
+  "appLockBiometrics": "பயோமெட்ரிக்ச்",
+  "@appLockBiometrics": {},
+  "appLockPasscode": "பாச்-கோட்",
+  "@appLockPasscode": {},
+  "appLockTitle": "{பயனர்பெயர் க்கு க்கான உள்நுழைவு முறையை அமைக்கவும்",
+  "@appLockTitle": {
+    "description": "Pop-up to pick a login method",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "ascending": "ஏறுதல்",
+  "@ascending": {},
+  "audio": "ஆடியோ",
+  "@audio": {},
+  "autoPlay": "தானாக விளையாடும்",
+  "@autoPlay": {},
+  "backgroundBlur": "பின்னணி மங்கலானது",
+  "@backgroundBlur": {},
+  "backgroundOpacity": "பின்னணி ஒளிபுகாநிலை",
+  "@backgroundOpacity": {},
+  "clearAllSettings": "எல்லா அமைப்புகளையும் அழிக்கவும்",
+  "@clearAllSettings": {},
+  "clearAllSettingsQuestion": "எல்லா அமைப்புகளையும் அழிக்கவா?",
+  "@clearAllSettingsQuestion": {},
+  "clearChanges": "மாற்றங்களை அழிக்கவும்",
+  "@clearChanges": {},
+  "biometricsFailedCheckAgain": "பயோமெட்ரிக்ச் தோல்வியடைந்தது. அமைப்புகளை சரிபார்த்து மீண்டும் முயற்சிக்கவும்.",
+  "@biometricsFailedCheckAgain": {},
+  "bold": "தடிமான",
+  "@bold": {},
+  "cancel": "ரத்துசெய்",
+  "@cancel": {},
+  "change": "மாற்றம்",
+  "@change": {},
+  "chapter": "{எண்ணிக்கை, பன்மை, பிற {Chapters} ஒன்று {Chapter}}",
+  "@chapter": {
+    "description": "chapter",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "clear": "தெளிவான",
+  "@clear": {},
+  "clearSelection": "தெளிவான தேர்வு",
+  "@clearSelection": {},
+  "close": "மூடு",
+  "@close": {},
+  "code": "குறியீடு",
+  "@code": {},
+  "collectionFolder": "சேகரிப்பு கோப்புறை",
+  "@collectionFolder": {},
+  "color": "நிறம்",
+  "@color": {},
+  "combined": "இணைக்கப்பட்டது",
+  "@combined": {},
+  "communityRating": "சமூக மதிப்பீடு",
+  "@communityRating": {},
+  "continuePage": "தொடரவும் - பக்கம் {page}",
+  "@continuePage": {
+    "description": "Continue - page 1",
+    "placeholders": {
+      "page": {
+        "type": "int"
+      }
+    }
+  },
+  "controls": "கட்டுப்பாடுகள்",
+  "@controls": {},
+  "dashboard": "முகப்புப்பெட்டி",
+  "@dashboard": {},
+  "dashboardContinue": "தொடரவும்",
+  "@dashboardContinue": {},
+  "dashboardContinueListening": "தொடர்ந்து கேட்பது",
+  "@dashboardContinueListening": {},
+  "dashboardContinueReading": "தொடர்ந்து படிக்கவும்",
+  "@dashboardContinueReading": {},
+  "dashboardContinueWatching": "தொடர்ந்து பார்த்துக் கொள்ளுங்கள்",
+  "@dashboardContinueWatching": {},
+  "nextUp": "அடுத்தது",
+  "@nextUp": {},
+  "dashboardRecentlyAdded": "அண்மைக் காலத்தில் {name} இல் சேர்க்கப்பட்டது",
+  "@dashboardRecentlyAdded": {
+    "description": "Recently added on home screen",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "dateLastContentAdded": "தேதி கடைசி உள்ளடக்கம் சேர்க்கப்பட்டது",
+  "@dateLastContentAdded": {},
+  "datePlayed": "விளையாடிய தேதி",
+  "@datePlayed": {},
+  "days": "நாட்கள்",
+  "@days": {},
+  "delete": "நீக்கு",
+  "@delete": {},
+  "deleteFileFromSystem": "இந்த உருப்படியை நீக்குவது {உருப்படி the கோப்பு முறைமை மற்றும் உங்கள் ஊடக நூலகம் இரண்டிலிருந்தும் அதை நீக்கிவிடும். நீங்கள் தொடர விரும்புகிறீர்களா?",
+  "@deleteFileFromSystem": {
+    "description": "Delete file from system",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteItem": "{item} நீக்கு?",
+  "@deleteItem": {
+    "description": "deleteItem",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "descending": "இறங்கு",
+  "@descending": {},
+  "director": "{எண்ணிக்கை, பன்மை, பிற {Director} இரண்டு {Directors}}",
+  "@director": {
+    "description": "director",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "disableFilters": "வடிப்பான்களை அணைக்கவும்",
+  "@disableFilters": {},
+  "disabled": "அணை",
+  "@disabled": {},
+  "discovered": "கண்டுபிடிக்கப்பட்டது",
+  "@discovered": {},
+  "displayLanguage": "மொழியைக் காண்பி",
+  "@displayLanguage": {},
+  "downloadsClearDesc": "ஒத்திசைக்கப்பட்ட அனைத்து தரவையும் அகற்றவும், ஒத்திசைக்கப்பட்ட ஒவ்வொரு பயனருக்கும் எல்லா தரவையும் அழிக்கவா?",
+  "@downloadsClearDesc": {},
+  "downloadsClearTitle": "ஒத்திசைக்கப்பட்ட தரவை அழிக்கவும்",
+  "@downloadsClearTitle": {},
+  "downloadsPath": "பாதை",
+  "@downloadsPath": {},
+  "downloadsSyncedData": "ஒத்திசைக்கப்பட்ட தரவு",
+  "@downloadsSyncedData": {},
+  "downloadsTitle": "பதிவிறக்கங்கள்",
+  "@downloadsTitle": {},
+  "dynamicText": "மாறும்",
+  "@dynamicText": {},
+  "editMetadata": "மெட்டாடேட்டாவைத் திருத்து",
+  "@editMetadata": {},
+  "empty": "காலி",
+  "@empty": {},
+  "enabled": "ஆன்",
+  "@enabled": {},
+  "endsAt": "{date} இல் முடிகிறது",
+  "@endsAt": {
+    "description": "endsAt",
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "jm"
+      }
+    }
+  },
+  "episode": "{எண்ணிக்கை, பன்மை, பிற {Episodes} ஒன்று {Episode}}",
+  "@episode": {
+    "description": "episode",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "error": "பிழை",
+  "@error": {},
+  "failedToLoadImage": "படத்தை ஏற்ற முடியவில்லை",
+  "@failedToLoadImage": {},
+  "favorite": "பிடித்த",
+  "@favorite": {},
+  "favorites": "பிடித்தவை",
+  "@favorites": {},
+  "homeBannerSlideshow": "ச்லைடுசோ",
+  "@homeBannerSlideshow": {},
+  "fetchingLibrary": "நூலக உருப்படிகளைப் பெறுதல்…",
+  "@fetchingLibrary": {},
+  "filter": "{எண்ணிக்கை, பன்மை, பிற {Filters} ஒன்று {Filter}}",
+  "@filter": {
+    "description": "filter",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "folders": "கோப்புறைகள்",
+  "@folders": {},
+  "fontColor": "எழுத்துரு நிறம்",
+  "@fontColor": {},
+  "fontSize": "எழுத்துரு அளவு",
+  "@fontSize": {},
+  "forceRefresh": "கட்டாய புதுப்பிப்பு",
+  "@forceRefresh": {},
+  "genre": "{எண்ணிக்கை, பன்மை, பிற {Genres} ஒன்று {Genre}}",
+  "@genre": {
+    "description": "genre",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "goTo": "செல்",
+  "@goTo": {},
+  "grid": "வலைவாய்",
+  "@grid": {},
+  "group": "குழு",
+  "@group": {},
+  "heightOffset": "உயரம் ஆஃப்செட்",
+  "@heightOffset": {},
+  "hide": "மறை",
+  "@hide": {},
+  "hideEmpty": "காலியாக மறைக்கவும்",
+  "@hideEmpty": {},
+  "identify": "அடையாளம் காணவும்",
+  "@identify": {},
+  "immediately": "உடனடியாக",
+  "@immediately": {},
+  "incorrectPinTryAgain": "தவறான முள். மீண்டும் முயற்சிக்கவும்.",
+  "@incorrectPinTryAgain": {},
+  "invalidUrlDesc": "முகவரி HTTP (கள்) உடன் தொடங்க வேண்டும்: //",
+  "@invalidUrlDesc": {},
+  "itemCount": "உருப்படி எண்ணிக்கை: {count}",
+  "@itemCount": {
+    "description": "Item count",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "info": "தகவல்",
+  "@info": {},
+  "invalidUrl": "தவறான முகவரி",
+  "@invalidUrl": {},
+  "label": "{எண்ணிக்கை, பன்மை, பிற {Labels} ஒன்று {Label}}",
+  "@label": {
+    "description": "label",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "library": "{எண்ணிக்கை, பன்மை, பிற {Libraries} ஒன்று {Library}}",
+  "@library": {
+    "description": "Plural",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "libraryFetchNoItemsFound": "உருப்படிகள் எதுவும் கிடைக்கவில்லை. வெவ்வேறு அமைப்புகளை முயற்சிக்கவும்.",
+  "@libraryFetchNoItemsFound": {},
+  "libraryPageSizeDesc": "ஒரு நேரத்தில் ஏற்ற அளவை அமைக்கவும். 0 பேசிங் அணைக்கப்படுகிறது.",
+  "@libraryPageSizeDesc": {},
+  "light": "ஒளி",
+  "@light": {},
+  "list": "பட்டியல்",
+  "@list": {},
+  "lockscreen": "பூட்டு திரை",
+  "@lockscreen": {},
+  "loggedIn": "உள்நுழைந்த",
+  "@loggedIn": {},
+  "login": "புகுபதிகை",
+  "@login": {},
+  "logout": "விடுபதிகை",
+  "@logout": {},
+  "logoutUserPopupContent": "இது {userName} வெளியேறி, பயன்பாட்டிலிருந்து பயனரை நீக்கும்.\n நீங்கள் {சேவையகத்தில் மீண்டும் உள்நுழைய வேண்டும்.",
+  "@logoutUserPopupContent": {
+    "description": "Pop-up for logging out the user description",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      },
+      "serverName": {
+        "type": "String"
+      }
+    }
+  },
+  "markAsUnwatched": "குறிக்கப்படாத எனக் குறிக்கவும்",
+  "@markAsUnwatched": {},
+  "masonry": "கொத்து",
+  "@masonry": {},
+  "mediaTypeBase": "தள வகை",
+  "@mediaTypeBase": {},
+  "mediaTypeBoxset": "பாக்ச் செட்",
+  "@mediaTypeBoxset": {},
+  "mediaTypeEpisode": "அத்தியாயம்",
+  "@mediaTypeEpisode": {},
+  "mediaTypeFolder": "கோப்புறை",
+  "@mediaTypeFolder": {},
+  "mediaTypeMovie": "படம்",
+  "@mediaTypeMovie": {},
+  "mediaTypePerson": "ஆள்",
+  "@mediaTypePerson": {},
+  "mediaTypePhoto": "புகைப்படம்",
+  "@mediaTypePhoto": {},
+  "mediaTypePhotoAlbum": "புகைப்பட ஆல்பம்",
+  "@mediaTypePhotoAlbum": {},
+  "mediaTypePlaylist": "பிளேலிச்ட்",
+  "@mediaTypePlaylist": {},
+  "mediaTypeSeason": "சீசன்",
+  "@mediaTypeSeason": {},
+  "mediaTypeSeries": "தொடர்",
+  "@mediaTypeSeries": {},
+  "metadataRefreshFull": "அனைத்து மெட்டாடேட்டாவையும் மாற்றவும்",
+  "@metadataRefreshFull": {},
+  "metaDataSavedFor": "மேனிலை தரவு {உருப்படி க்கு க்காக சேமிக்கப்பட்டது",
+  "@metaDataSavedFor": {
+    "description": "metaDataSavedFor",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "metadataRefreshDefault": "புதிய மற்றும் புதுப்பிக்கப்பட்ட கோப்புகளுக்கு ச்கேன் செய்யுங்கள்",
+  "@metadataRefreshDefault": {},
+  "metadataRefreshValidation": "காணாமல் போன மெட்டாடேட்டாவைத் தேடுங்கள்",
+  "@metadataRefreshValidation": {},
+  "minutes": "{எண்ணிக்கை, பன்மை, மற்ற {Minutes} ஒன்று {Minute}}",
+  "@minutes": {
+    "description": "minute",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "mode": "பயன்முறை",
+  "@mode": {},
+  "moreFrom": "{info} இலிருந்து மேலும்",
+  "@moreFrom": {
+    "description": "More from",
+    "placeholders": {
+      "info": {
+        "type": "String"
+      }
+    }
+  },
+  "moreOptions": "மேலும் விருப்பங்கள்",
+  "@moreOptions": {},
+  "musicAlbum": "ஆல்பம்",
+  "@musicAlbum": {},
+  "mouseDragSupport": "சுட்டியைப் பயன்படுத்தி இழுக்கவும்",
+  "@mouseDragSupport": {},
+  "name": "பெயர்",
+  "@name": {},
+  "navigation": "வானோடல்",
+  "@navigation": {},
+  "navigationDashboard": "முகப்புப்பெட்டி",
+  "@navigationDashboard": {},
+  "navigationFavorites": "பிடித்தவை",
+  "@navigationFavorites": {},
+  "navigationSync": "ஒத்திசைக்கப்பட்டது",
+  "@navigationSync": {},
+  "never": "ஒருபோதும்",
+  "@never": {},
+  "noItemsToShow": "காட்ட உருப்படிகள் இல்லை",
+  "@noItemsToShow": {},
+  "noRating": "மதிப்பீடு இல்லை",
+  "@noRating": {},
+  "noResults": "முடிவுகள் இல்லை",
+  "@noResults": {},
+  "noSuggestionsFound": "பரிந்துரைகள் எதுவும் கிடைக்கவில்லை",
+  "@noSuggestionsFound": {},
+  "none": "எதுவுமில்லை",
+  "@none": {},
+  "openWebLink": "வலை இணைப்பைத் திறக்கவும்",
+  "@openWebLink": {},
+  "options": "விருப்பங்கள்",
+  "@options": {},
+  "other": "மற்றொன்று",
+  "@other": {},
+  "overview": "கண்ணோட்டம்",
+  "@overview": {},
+  "page": "பக்கம் {index}",
+  "@page": {
+    "description": "page",
+    "placeholders": {
+      "index": {
+        "type": "int"
+      }
+    }
+  },
+  "parentalRating": "பெற்றோர் மதிப்பீடு",
+  "@parentalRating": {},
+  "password": "கடவுச்சொல்",
+  "@password": {},
+  "pathClearTitle": "பதிவிறக்கங்களின் பாதையை அழிக்கவும்",
+  "@pathClearTitle": {},
+  "pathEditSelect": "பதிவிறக்க இலக்கு என்பதைத் தேர்ந்தெடுக்கவும்",
+  "@pathEditSelect": {},
+  "pathEditDesc": "இந்த இடம் அனைத்து பயனர்களுக்கும் அமைக்கப்பட்டுள்ளது, ஒத்திசைக்கப்பட்ட தரவும் இனி அணுக முடியாது. இது உங்கள் சேமிப்பகத்தில் இருக்கும்.",
+  "@pathEditDesc": {},
+  "pathEditTitle": "இருப்பிடத்தை மாற்றவும்",
+  "@pathEditTitle": {},
+  "play": "Play {item}",
+  "@play": {
+    "description": "Play with",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "playFrom": "{பெயர் இருந்து இலிருந்து விளையாடுங்கள்",
+  "@playFrom": {
+    "description": "playFrom",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "playCount": "விளையாட்டு எண்ணிக்கை",
+  "@playCount": {},
+  "playFromStart": "தொடக்கத்திலிருந்தே {name} விளையாடுங்கள்",
+  "@playFromStart": {
+    "description": "speel vanaf het begin",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "playLabel": "விளையாடுங்கள்",
+  "@playLabel": {},
+  "playVideos": "வீடியோக்களை இயக்கவும்",
+  "@playVideos": {},
+  "played": "விளையாடியது",
+  "@played": {},
+  "quickConnectAction": "விரைவான இணைப்பு குறியீட்டை உள்ளிடவும்",
+  "@quickConnectAction": {},
+  "quickConnectInputACode": "ஒரு குறியீட்டை உள்ளிடவும்",
+  "@quickConnectInputACode": {},
+  "quickConnectTitle": "விரைவான இணைப்பு",
+  "@quickConnectTitle": {},
+  "quickConnectWrongCode": "தவறான குறியீடு",
+  "@quickConnectWrongCode": {},
+  "rating": "{எண்ணிக்கை, பன்மை, பிற {Ratings} ஒன்று {Rating}}",
+  "@rating": {
+    "description": "rating",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "reWatch": "மீண்டும் பார்க்க",
+  "@reWatch": {},
+  "read": "{item} படிக்கவும்",
+  "@read": {
+    "description": "read",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "readFromStart": "தொடக்கத்திலிருந்து {item} படிக்கவும்",
+  "@readFromStart": {
+    "description": "Read book from start",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "recursive": "சுழல்நிலை",
+  "@recursive": {},
+  "refresh": "புதுப்பிப்பு",
+  "@refresh": {},
+  "related": "தொடர்புடைய",
+  "@related": {},
+  "releaseDate": "வெளியீட்டு தேதி",
+  "@releaseDate": {},
+  "removeAsFavorite": "பிடித்ததாக அகற்று",
+  "@removeAsFavorite": {},
+  "removeFromCollection": "சேகரிப்பிலிருந்து அகற்று",
+  "@removeFromCollection": {},
+  "refreshMetadata": "மெட்டாடேட்டாவை புதுப்பிக்கவும்",
+  "@refreshMetadata": {},
+  "refreshPopup": "புதுப்பிக்கவும் - {name}",
+  "@refreshPopup": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "refreshPopupContentMetadata": "டாச்போர்டில் இயக்கப்பட்ட அமைப்புகள் மற்றும் இணைய சேவைகளின் அடிப்படையில் மேனிலை தரவு புதுப்பிக்கப்படுகிறது.",
+  "@refreshPopupContentMetadata": {},
+  "removeFromPlaylist": "பிளேலிச்ட்டிலிருந்து அகற்று",
+  "@removeFromPlaylist": {},
+  "replaceAllImages": "எல்லா படங்களையும் மாற்றவும்",
+  "@replaceAllImages": {},
+  "replaceExistingImages": "இருக்கும் படங்களை மாற்றவும்",
+  "@replaceExistingImages": {},
+  "restart": "மறுதொடக்கம்",
+  "@restart": {},
+  "result": "முடிவு",
+  "@result": {},
+  "resumable": "ரெனம்ப்லி",
+  "@resumable": {},
+  "resume": "{item} மீண்டும் தொடங்குங்கள்",
+  "@resume": {
+    "description": "resume",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "retrievePublicListOfUsers": "பயனர்களின் பொது பட்டியலை மீட்டெடுக்கவும்",
+  "@retrievePublicListOfUsers": {},
+  "retry": "மீண்டும் முயற்சிக்கவும்",
+  "@retry": {},
+  "runTime": "நேரம் ரன்",
+  "@runTime": {},
+  "save": "சேமி",
+  "@save": {},
+  "saved": "சேமிக்கப்பட்டது",
+  "@saved": {},
+  "scanBiometricHint": "அடையாளத்தை சரிபார்க்கவும்",
+  "@scanBiometricHint": {},
+  "scanLibrary": "ச்கேன் நூலகம்",
+  "@scanLibrary": {},
+  "scanYourFingerprintToAuthenticate": "{user}",
+  "@scanYourFingerprintToAuthenticate": {
+    "placeholders": {
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "scanningName": "ச்கேனிங் - {name}…",
+  "@scanningName": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "scrollToTop": "மேலே உருட்டவும்",
+  "@scrollToTop": {},
+  "search": "தேடல்",
+  "@search": {},
+  "season": "{எண்ணிக்கை, பன்மை, பிற {Seasons} ஒன்று {Season}}",
+  "@season": {
+    "description": "season",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "seconds": "{எண்ணிக்கை, பன்மை, மற்ற {Seconds} ஒன்று {Second}}",
+  "@seconds": {
+    "description": "second",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "selectAll": "அனைத்தையும் தெரிவுசெய்",
+  "@selectAll": {},
+  "selectTime": "நேரம் தேர்ந்தெடுக்கவும்",
+  "@selectTime": {},
+  "selectViewType": "பார்வை வகையைத் தேர்ந்தெடுக்கவும்",
+  "@selectViewType": {},
+  "selected": "தேர்ந்தெடுக்கப்பட்டது",
+  "@selected": {},
+  "selectedWith": "தேர்ந்தெடுக்கப்பட்ட {info}",
+  "@selectedWith": {
+    "description": "selected",
+    "placeholders": {
+      "info": {
+        "type": "String"
+      }
+    }
+  },
+  "separate": "தனி",
+  "@separate": {},
+  "server": "சேவையகம்",
+  "@server": {},
+  "set": "கணம்",
+  "@set": {
+    "description": "Use for setting a certain value",
+    "context": "Set 'time'"
+  },
+  "setIdentityTo": "அடையாளத்தை {பெயராக மாற்றவும்",
+  "@setIdentityTo": {
+    "description": "setIdentityTo",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "settingSecurityApplockTitle": "பயன்பாட்டு பூட்டு",
+  "@settingSecurityApplockTitle": {},
+  "settings": "அமைப்புகள்",
+  "@settings": {},
+  "settingsBlurEpisodesDesc": "வரவிருக்கும் அனைத்து அத்தியாயங்களையும் மழுங்கடிக்கவும்",
+  "@settingsBlurEpisodesDesc": {},
+  "settingsBlurredPlaceholderTitle": "மங்கலான ஒதுக்கிட",
+  "@settingsBlurredPlaceholderTitle": {},
+  "settingsBlurEpisodesTitle": "அடுத்த அத்தியாயங்களை மங்கச் செய்யுங்கள்",
+  "@settingsBlurEpisodesTitle": {},
+  "settingsBlurredPlaceholderDesc": "சுவரொட்டிகளை ஏற்றும்போது மங்கலான பின்னணியைக் காட்டு",
+  "@settingsBlurredPlaceholderDesc": {},
+  "settingsClientDesc": "பொது, நேரம்-அவுட், தளவமைப்பு, கருப்பொருள்",
+  "@settingsClientDesc": {},
+  "settingsClientTitle": "படபடப்பு",
+  "@settingsClientTitle": {},
+  "settingsHomeBannerDescription": "ச்லைடுசோ, கொணர்வி அல்லது பேனரை மறைக்க",
+  "@settingsHomeBannerDescription": {},
+  "settingsHomeBannerInformationDesc": "வீட்டு பேனரில் காண்பிக்க செய்தி",
+  "@settingsHomeBannerInformationDesc": {},
+  "settingsEnableOsMediaControls": "OS மீடியா கட்டுப்பாடுகளை இயக்கவும்",
+  "@settingsEnableOsMediaControls": {},
+  "settingsHomeBannerInformationTitle": "பேனர் செய்தி",
+  "@settingsHomeBannerInformationTitle": {},
+  "settingsPlayerCustomSubtitlesTitle": "வசன வரிகள் தனிப்பயனாக்கு",
+  "@settingsPlayerCustomSubtitlesTitle": {},
+  "settingsPlayerDesc": "அம்சம்-விகித, மேம்பட்டது",
+  "@settingsPlayerDesc": {},
+  "settingsPlayerMobileWarning": "ஆண்ட்ராய்டு இல் வன்பொருள் முடுக்கம் மற்றும் சொந்த லிபாச் வசன வரிகள் ஆகியவற்றை இயக்குவது சில வசன வரிகள் வழங்கக்கூடாது.",
+  "@settingsPlayerMobileWarning": {},
+  "settingsHomeNextUpDesc": "டாச்போர்டு திரையில் காட்டப்பட்டுள்ள சுவரொட்டிகளின் வகை",
+  "@settingsHomeNextUpDesc": {},
+  "settingsHomeNextUpTitle": "அடுத்த சுவரொட்டிகள்",
+  "@settingsHomeNextUpTitle": {},
+  "settingsNextUpCutoffDays": "அடுத்த வெட்டு நாட்கள்",
+  "@settingsNextUpCutoffDays": {},
+  "settingsPlayerCustomSubtitlesDesc": "அளவு, வண்ணம், நிலை, அவுட்லைன் ஆகியவற்றைத் தனிப்பயனாக்குங்கள்",
+  "@settingsPlayerCustomSubtitlesDesc": {},
+  "settingsPlayerVideoHWAccelDesc": "வீடியோ வழங்க சி.பீ.யைப் பயன்படுத்தவும் (பரிந்துரைக்கப்படுகிறது)",
+  "@settingsPlayerVideoHWAccelDesc": {},
+  "settingsPlayerNativeLibassAccelDesc": "வீடியோ பிளேயர் லிபாச் வசன ரெண்டரரைப் பயன்படுத்தவும்",
+  "@settingsPlayerNativeLibassAccelDesc": {},
+  "settingsPlayerNativeLibassAccelTitle": "சொந்த லிபாச் வசன வரிகள்",
+  "@settingsPlayerNativeLibassAccelTitle": {},
+  "settingsPlayerVideoHWAccelTitle": "வன்பொருள் முடுக்கம்",
+  "@settingsPlayerVideoHWAccelTitle": {},
+  "settingsPosterPinch": "சுவரொட்டிகளை அளவிட பிஞ்ச்-சூம்",
+  "@settingsPosterPinch": {},
+  "settingsPosterSize": "சுவரொட்டி அளவு",
+  "@settingsPosterSize": {},
+  "settingsPosterSlider": "அளவுகோல் ச்லைடர்",
+  "@settingsPosterSlider": {},
+  "settingsProfileDesc": "பூட்டு திரை",
+  "@settingsProfileDesc": {},
+  "settingsProfileTitle": "சுயவிவரம்",
+  "@settingsProfileTitle": {},
+  "settingsQuickConnectTitle": "விரைவான இணைப்பு",
+  "@settingsQuickConnectTitle": {},
+  "settingsSecurity": "பாதுகாப்பு",
+  "@settingsSecurity": {},
+  "settingsShowScaleSlider": "சுவரொட்டி அளவு ச்லைடைக் காட்டு",
+  "@settingsShowScaleSlider": {},
+  "settingsVisual": "காட்சி",
+  "@settingsVisual": {},
+  "shadow": "நிழல்",
+  "@shadow": {},
+  "showAlbum": "ஆல்பத்தைக் காட்டு",
+  "@showAlbum": {},
+  "showDetails": "விவரங்களைக் காட்டு",
+  "@showDetails": {},
+  "showEmpty": "காலியாகக் காட்டு",
+  "@showEmpty": {},
+  "shuffleGallery": "கலக்கு கேலரி",
+  "@shuffleGallery": {},
+  "shuffleVideos": "வீடியோக்களை மாற்றவும்",
+  "@shuffleVideos": {},
+  "somethingWentWrong": "ஏதோ தவறு நடந்தது",
+  "@somethingWentWrong": {},
+  "somethingWentWrongPasswordCheck": "ஏதோ தவறு நடந்தது. உங்கள் கடவுச்சொல்லை சரிபார்க்கவும்.",
+  "@somethingWentWrongPasswordCheck": {},
+  "sortBy": "வரிசைப்படுத்தவும்",
+  "@sortBy": {},
+  "sortName": "பெயர்",
+  "@sortName": {},
+  "sortOrder": "வரிசைப்படுத்தும் முறை",
+  "@sortOrder": {},
+  "start": "தொடங்கு",
+  "@start": {},
+  "studio": "{எண்ணிக்கை, பன்மை, மற்ற {Studios} ஒன்று {Studio}}",
+  "@studio": {
+    "description": "studio",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "subtitleConfigurator": "வசன வரிகள்",
+  "@subtitleConfigurator": {},
+  "subtitleConfiguratorPlaceHolder": "இது ஒதுக்கிட உரை, இங்கே பார்க்க எதுவும் இல்லை.",
+  "@subtitleConfiguratorPlaceHolder": {},
+  "subtitles": "வசன வரிகள்",
+  "@subtitles": {},
+  "switchUser": "பயனரை மாற்றவும்",
+  "@switchUser": {},
+  "sync": "ஒத்திசைவு",
+  "@sync": {},
+  "syncDeleteItemDesc": "{உருப்படி க்கு க்கான அனைத்து ஒத்திசைக்கப்பட்ட தரவையும் நீக்கவா?",
+  "@syncDeleteItemDesc": {
+    "description": "Sync delete item pop-up window",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "syncDeleteItemTitle": "ஒத்திசைக்கப்பட்ட உருப்படியை நீக்கு",
+  "@syncDeleteItemTitle": {},
+  "syncDeletePopupPermanent": "இந்த நடவடிக்கை நிரந்தரமானது மற்றும் உள்நாட்டில் ஒத்திசைக்கப்பட்ட அனைத்து கோப்புகளையும் அகற்றும்",
+  "@syncDeletePopupPermanent": {},
+  "syncDetails": "விவரங்களை ஒத்திசைக்கவும்",
+  "@syncDetails": {},
+  "syncOpenParent": "திறந்த பெற்றோர்",
+  "@syncOpenParent": {},
+  "syncRemoveDataDesc": "ஒத்திசைக்கப்பட்ட வீடியோ தரவை நீக்கவா? இது நிரந்தரமானது மற்றும் நீங்கள் கோப்புகளை மீண்டும் ஒத்திசைக்க வேண்டும்",
+  "@syncRemoveDataDesc": {},
+  "themeModeDark": "இருண்ட",
+  "@themeModeDark": {},
+  "syncRemoveDataTitle": "ஒத்திசைக்கப்பட்ட தரவை அகற்றவா?",
+  "@syncRemoveDataTitle": {},
+  "syncedItems": "ஒத்திசைக்கப்பட்ட உருப்படிகள்",
+  "@syncedItems": {},
+  "tag": "{எண்ணிக்கை, பன்மை, ஒன்று {Tag} மற்ற {Tags}}",
+  "@tag": {
+    "description": "tag",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "theme": "கருப்பொருள்",
+  "@theme": {},
+  "themeColor": "கருப்பொருள் நிறம்",
+  "@themeColor": {},
+  "themeModeLight": "ஒளி",
+  "@themeModeLight": {},
+  "themeModeSystem": "மண்டலம்",
+  "@themeModeSystem": {},
+  "timeAndAnnotation": "{minutes} மற்றும் {seconds}",
+  "@timeAndAnnotation": {
+    "description": "timeAndAnnotation",
+    "placeholders": {
+      "minutes": {
+        "type": "String"
+      },
+      "seconds": {
+        "type": "String"
+      }
+    }
+  },
+  "timeOut": "நேரம்-அவுட்",
+  "@timeOut": {},
+  "totalSize": "மொத்த அளவு: {size}",
+  "@totalSize": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "type": "{எண்ணிக்கை, பன்மை, பிற {Types} ஒன்று {Type}}",
+  "@type": {
+    "description": "type",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "unPlayed": "விளையாடப்படாதது",
+  "@unPlayed": {},
+  "unableToConnectHost": "ஓச்டுடன் இணைக்க முடியவில்லை",
+  "@unableToConnectHost": {},
+  "unableToReverseAction": "இந்த செயலை மாற்ற முடியாது. இது எல்லா அமைப்புகளையும் அகற்றும்.",
+  "@unableToReverseAction": {},
+  "unknown": "தெரியவில்லை",
+  "@unknown": {},
+  "userName": "பயனர்பெயர்",
+  "@userName": {},
+  "useDefaults": "இயல்புநிலைகளைப் பயன்படுத்தவும்",
+  "@useDefaults": {},
+  "video": "ஒளிதோற்றம்",
+  "@video": {},
+  "videoScaling": "வீடியோ அளவிடுதல்",
+  "@videoScaling": {},
+  "videoScalingContain": "கட்டுப்படுத்தவும்",
+  "@videoScalingContain": {},
+  "videoScalingCover": "கவர்",
+  "@videoScalingCover": {},
+  "videoScalingFillScreenDesc": "வழிசெலுத்தல் மற்றும் நிலை பட்டியை நிரப்பவும்",
+  "@videoScalingFillScreenDesc": {},
+  "videoScalingFillScreenNotif": "நிரப்பப்பட்ட-திரை கிடைமட்ட சுழற்சியில் வீடியோ பொருத்தத்தை மேலெழுதும்",
+  "@videoScalingFillScreenNotif": {},
+  "videoScalingFitHeight": "பொருத்தமான உயரத்திற்கு",
+  "@videoScalingFitHeight": {},
+  "videoScalingFitWidth": "பொருந்தக்கூடிய அகலம்",
+  "@videoScalingFitWidth": {},
+  "videoScalingScaleDown": "அளவிடுதல்",
+  "@videoScalingScaleDown": {},
+  "viewPhotos": "புகைப்படங்களைக் காண்க",
+  "@viewPhotos": {},
+  "watchOn": "பாருங்கள்",
+  "@watchOn": {},
+  "writer": "{எண்ணிக்கை, பன்மை, பிற {Writer} இரண்டு {Writers}}",
+  "@writer": {
+    "description": "writer",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "addItemsToCollection": "சேகரிப்பில் {itemLength} உருப்படி (களை) சேர்க்கவும்",
+  "@addItemsToCollection": {
+    "placeholders": {
+      "itemLength": {
+        "type": "int"
+      }
+    }
+  },
+  "year": "{எண்ணிக்கை, பன்மை, பிற {Years} ஒன்று {Year}}",
+  "@year": {
+    "description": "year",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "addedToCollection": "{collectionName} தொகுப்பில் சேர்க்கப்பட்டது",
+  "@addedToCollection": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "removedFromCollection": "{collectionName} தொகுப்பிலிருந்து அகற்றப்பட்டது",
+  "@removedFromCollection": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "addItemsToPlaylist": "பிளேலிச்ட்டில் {itemLength} உருப்படி (களை) சேர்க்கவும்",
+  "@addItemsToPlaylist": {
+    "placeholders": {
+      "itemLength": {
+        "type": "int"
+      }
+    }
+  },
+  "addedToPlaylist": "{playlistName} பிளேலிச்ட்டில் சேர்க்கப்பட்டது",
+  "@addedToPlaylist": {
+    "placeholders": {
+      "playlistName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncStatusComplete": "முழுமையானது",
+  "@syncStatusComplete": {},
+  "syncStatusNotFound": "கண்டுபிடிக்கப்படவில்லை",
+  "@syncStatusNotFound": {},
+  "syncStatusFailed": "தோல்வியுற்றது",
+  "@syncStatusFailed": {},
+  "syncStatusCanceled": "ரத்து செய்யப்பட்டது",
+  "@syncStatusCanceled": {},
+  "syncStatusWaitingToRetry": "மீண்டும் முயற்சிக்க காத்திருக்கிறது",
+  "@syncStatusWaitingToRetry": {},
+  "syncStatusPaused": "இடைநிறுத்தப்பட்டது",
+  "@syncStatusPaused": {},
+  "syncStatusPartially": "ஓரளவு",
+  "@syncStatusPartially": {},
+  "syncOverlayDeleting": "ஒத்திசைக்கப்பட்ட உருப்படியை நீக்குதல்",
+  "@syncOverlayDeleting": {},
+  "syncStatusSynced": "ஒத்திசைக்கப்பட்டது",
+  "@syncStatusSynced": {},
+  "syncOverlaySyncing": "உருப்படி விவரங்களை ஒத்திசைத்தல்",
+  "@syncOverlaySyncing": {},
+  "syncSelectDownloadsFolder": "பதிவிறக்கங்கள் கோப்புறையைத் தேர்ந்தெடுக்கவும்",
+  "@syncSelectDownloadsFolder": {},
+  "syncNoFolderSetup": "ஒத்திசைவு கோப்புறை அமைப்பு இல்லை",
+  "@syncNoFolderSetup": {},
+  "syncRemoveUnableToDeleteItem": "ஒத்திசைக்கப்பட்ட உருப்படியை அகற்ற முடியவில்லை, ஏதோ தவறு ஏற்பட்டது",
+  "@syncRemoveUnableToDeleteItem": {},
+  "syncAddItemForSyncing": "ஒத்திசைவதற்கு {உருப்படி கூட்டு சேர்க்கப்பட்டது",
+  "@syncAddItemForSyncing": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "startedSyncingItem": "ஒத்திசைக்கத் தொடங்கியது {item}",
+  "@startedSyncingItem": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "unableToSyncItem": "{item} ஐ ஒத்திசைக்க முடியவில்லை, ஏதோ தவறு ஏற்பட்டது",
+  "@unableToSyncItem": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutVersion": "பதிப்பு: {version}",
+  "@aboutVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutBuild": "உருவாக்க: {buildNumber}",
+  "@aboutBuild": {
+    "placeholders": {
+      "buildNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutCreatedBy": "டோனுட்வேர் உருவாக்கியது",
+  "@aboutCreatedBy": {},
+  "aboutSocials": "சமூகங்கள்",
+  "@aboutSocials": {},
+  "subtitle": "வசன வரிகள்",
+  "@subtitle": {},
+  "subtitleConfiguration": "வசன கட்டமைப்பு",
+  "@subtitleConfiguration": {},
+  "off": "அணை",
+  "@off": {},
+  "screenBrightness": "திரை ஒளி",
+  "@screenBrightness": {},
+  "playBackSettings": "பின்னணி அமைப்புகள்",
+  "@playBackSettings": {},
+  "settingsAutoNextTitle": "அடுத்த முன்னோட்டம்",
+  "@settingsAutoNextTitle": {},
+  "settingsAutoNextDesc": "மற்றொரு உருப்படி வரிசைப்படுத்தப்பட்டால், அடுத்த-அப் முன்னோட்டத்தைக் காட்டுகிறது",
+  "@settingsAutoNextDesc": {},
+  "autoNextOffSmartTitle": "அறிவாளி",
+  "@autoNextOffSmartTitle": {},
+  "autoNextOffSmartDesc": "வரவுகளுக்குப் பிறகு 10 வினாடிகள் இருக்கும் என்று வரவுகள் தொடங்கும் போது அடுத்த திரையை காண்பிக்கும். இல்லையெனில் இது 30 விநாடிகள் விளையாட்டு நேரத்துடன் அடுத்த திரையை காட்டுகிறது",
+  "@autoNextOffSmartDesc": {},
+  "autoNextOffStaticDesc": "30 விநாடிகள் விளையாட்டு நேரம் இருக்கும்போது அடுத்த திரையைக் காட்டு",
+  "@autoNextOffStaticDesc": {},
+  "playbackRate": "பின்னணி வீதம்",
+  "@playbackRate": {},
+  "unableToPlayMedia": "இணக்கமான ஊடக வகையைக் கண்டுபிடிப்பதில் பிழை ஏற்பட்டது",
+  "@unableToPlayMedia": {},
+  "errorOpeningMedia": "இந்த ஊடகத்தை விளையாட முயற்சிக்கும் ஏதோ தவறு நடந்தது",
+  "@errorOpeningMedia": {},
+  "unableToPlayBooksOnWeb": "இப்போது வலையில் புத்தகங்கள் ஆதரிக்கப்படவில்லை",
+  "@unableToPlayBooksOnWeb": {},
+  "defaultFilterForLibrary": "நூலகத்திற்கான இயல்புநிலை வடிகட்டி",
+  "@defaultFilterForLibrary": {},
+  "updateFilterForLibrary": "புதுப்பிப்பு வடிகட்டி",
+  "@updateFilterForLibrary": {},
+  "removeFilterForLibrary": "{filter} ஐ அகற்று?",
+  "@removeFilterForLibrary": {
+    "description": "removeFilterForLibrary",
+    "placeholders": {
+      "filter": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteFilterConfirmation": "இந்த வடிப்பானை நீக்க விரும்புகிறீர்களா?",
+  "@deleteFilterConfirmation": {},
+  "libraryFiltersLimitReached": "வடிகட்டி வரம்பு அடைந்தது (10) சில வடிப்பான்களை அகற்றவும்",
+  "@libraryFiltersLimitReached": {},
+  "libraryFiltersRemoveAll": "அனைத்து வடிப்பான்களையும் அகற்றவும்",
+  "@libraryFiltersRemoveAll": {},
+  "libraryFiltersRemoveAllConfirm": "இது ஒவ்வொரு நூலகத்திற்கும் சேமிக்கப்பட்ட அனைத்து வடிப்பான்களையும் நீக்கிவிடும்",
+  "@libraryFiltersRemoveAllConfirm": {},
+  "playerSettingsOrientationTitle": "பிளேயர் நோக்குநிலை",
+  "@playerSettingsOrientationTitle": {},
+  "playerSettingsOrientationDesc": "வீடியோ பிளேயரை சில நோக்குநிலைகளுக்கு கட்டாயப்படுத்தவும்",
+  "@playerSettingsOrientationDesc": {},
+  "deviceOrientationPortraitUp": "உருவப்படம்",
+  "@deviceOrientationPortraitUp": {},
+  "deviceOrientationPortraitDown": "உருவப்படம் கீழே",
+  "@deviceOrientationPortraitDown": {},
+  "deviceOrientationLandscapeLeft": "இயற்கை இடது",
+  "@deviceOrientationLandscapeLeft": {},
+  "deviceOrientationLandscapeRight": "இயற்கை சரியானது",
+  "@deviceOrientationLandscapeRight": {},
+  "clientSettingsSchemeVariantTitle": "திட்ட மாறுபாடு",
+  "@clientSettingsSchemeVariantTitle": {},
+  "schemeSettingsTonalSpot": "டோனல் ச்பாட்",
+  "@schemeSettingsTonalSpot": {},
+  "schemeSettingsFidelity": "மெய்நிலை",
+  "@schemeSettingsFidelity": {},
+  "schemeSettingsMonochrome": "ஒரே வண்ணமுடைய",
+  "@schemeSettingsMonochrome": {},
+  "schemeSettingsNeutral": "நடுநிலை",
+  "@schemeSettingsNeutral": {},
+  "schemeSettingsVibrant": "துடிப்பான",
+  "@schemeSettingsVibrant": {},
+  "schemeSettingsExpressive": "வெளிப்படையான",
+  "@schemeSettingsExpressive": {},
+  "schemeSettingsContent": "உள்ளடக்கம்",
+  "@schemeSettingsContent": {},
+  "schemeSettingsRainbow": "ரெயின்போ",
+  "@schemeSettingsRainbow": {},
+  "schemeSettingsFruitSalad": "பழ சாலட்",
+  "@schemeSettingsFruitSalad": {},
+  "clientSettingsRequireWifiTitle": "வைஃபை தேவை",
+  "@clientSettingsRequireWifiTitle": {},
+  "libraryShuffleAndPlayItems": "பொருட்களை மாற்றி விளையாடுங்கள்",
+  "@libraryShuffleAndPlayItems": {},
+  "libraryPlayItems": "உருப்படிகளை விளையாடுங்கள்",
+  "@libraryPlayItems": {},
+  "clientSettingsRequireWifiDesc": "வைஃபை நெட்வொர்க்குடன் இணைக்கப்படும்போது மட்டுமே பதிவிறக்கவும்",
+  "@clientSettingsRequireWifiDesc": {},
+  "clientSettingsShowAllCollectionsDesc": "இயக்கப்பட்டால், FLADDER ஆல் ஆதரிக்கப்படாதவை உட்பட அனைத்து சேகரிப்பு வகைகளையும் காட்டு",
+  "@clientSettingsShowAllCollectionsDesc": {},
+  "resumeVideo": "வீடியோவை மீண்டும் தொடங்குங்கள்",
+  "@resumeVideo": {},
+  "stop": "நிறுத்து",
+  "@stop": {},
+  "closeVideo": "வீடியோவை மூடு",
+  "@closeVideo": {},
+  "playNextVideo": "அடுத்த வீடியோவை இயக்கவும்",
+  "@playNextVideo": {},
+  "playerSettingsBackendTitle": "வீடியோ பிளேயர் பின்தளத்தில்",
+  "@playerSettingsBackendTitle": {},
+  "defaultLabel": "இயல்புநிலை",
+  "@defaultLabel": {
+    "description": "To indicate a default value, default video player backend"
+  },
+  "playerSettingsBackendDesc": "உகந்த பின்னணி அனுபவத்திற்கு உங்களுக்கு விருப்பமான மீடியா பிளேயரைத் தேர்வுசெய்க",
+  "@playerSettingsBackendDesc": {},
+  "noVideoPlayerOptions": "தேர்ந்தெடுக்கப்பட்ட பின்தளத்தில் விருப்பங்கள் இல்லை",
+  "@noVideoPlayerOptions": {},
+  "mdkExperimental": "எம்.டி.கே இன்னும் ஒரு சோதனை கட்டத்தில் உள்ளது",
+  "@mdkExperimental": {},
+  "skipButtonLabel": "(கள்) கிப் {segment}",
+  "@skipButtonLabel": {
+    "placeholders": {
+      "segment": {
+        "type": "String"
+      }
+    }
+  },
+  "mediaSegmentUnknown": "தெரியவில்லை",
+  "@mediaSegmentUnknown": {},
+  "mediaSegmentCommercial": "வணிக",
+  "@mediaSegmentCommercial": {},
+  "mediaSegmentPreview": "முன்னோட்டம்",
+  "@mediaSegmentPreview": {},
+  "mediaSegmentOutro": "மற்றொன்று",
+  "@mediaSegmentOutro": {},
+  "mediaSegmentIntro": "அறிமுகம்",
+  "@mediaSegmentIntro": {},
+  "nativeName": "ஆங்கிலம்",
+  "@nativeName": {},
+  "about": "பற்றி",
+  "@about": {},
+  "accept": "ஏற்றுக்கொள்",
+  "@accept": {},
+  "active": "செயலில்",
+  "@active": {}
+}
