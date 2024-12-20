@@ -99,7 +99,7 @@ class CrashLogNotifier extends StateNotifier<List<ErrorViewModel>> {
   void logFile(FlutterErrorDetails details) {
     logger.severe('Flutter error: ${details.exception}', details.exception, details.stack!);
 
-    if (details.stack != null) {
+    if (details.stack != null && kDebugMode) {
       print('${details.stack}');
     }
   }
