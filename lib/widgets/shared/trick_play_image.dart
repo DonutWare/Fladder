@@ -110,7 +110,7 @@ class _TrickPlayPainter extends CustomPainter {
       model.height.toDouble(),
     );
 
-    Paint paint = Paint()..filterQuality = FilterQuality.medium;
+    Paint paint = Paint()..filterQuality = FilterQuality.high;
     Rect dstRect = Rect.fromLTWH(0, 0, size.width, size.height);
     canvas.drawImageRect(image, srcRect, dstRect, paint);
   }
