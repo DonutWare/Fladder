@@ -103,19 +103,16 @@ class _TrickPlayPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    // Define the source rectangle from the image
     Rect srcRect = Rect.fromLTWH(
       offset.dx,
       offset.dy,
       model.width.toDouble(),
       model.height.toDouble(),
-    ); // Adjust these values to control the part of the image to display
+    );
 
-    // Define the destination rectangle on the canvas
+    Paint paint = Paint()..filterQuality = FilterQuality.medium;
     Rect dstRect = Rect.fromLTWH(0, 0, size.width, size.height);
-
-    // Draw the image part onto the canvas
-    canvas.drawImageRect(image, srcRect, dstRect, Paint());
+    canvas.drawImageRect(image, srcRect, dstRect, paint);
   }
 
   @override
