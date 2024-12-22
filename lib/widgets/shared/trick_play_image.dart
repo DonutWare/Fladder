@@ -76,9 +76,11 @@ class _TrickPlayImageState extends ConsumerState<TrickPlayImage> {
       final Uint8List bytes = response.bodyBytes;
       final ui.Codec codec = await ui.instantiateImageCodec(bytes);
       final ui.FrameInfo frameInfo = await codec.getNextFrame();
-      setState(() {
-        image = frameInfo.image;
-      });
+      if (context.mounted) {
+        setState(() {
+          image = frameInfo.image;
+        });
+      }
     } else {
       throw Exception('Failed to load network image');
     }
