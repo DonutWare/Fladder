@@ -82,6 +82,8 @@ class Genres extends StatelessWidget {
     return Wrap(
       runSpacing: 8,
       spacing: 8,
+      runAlignment: WrapAlignment.center,
+      alignment: WrapAlignment.center,
       children: genres
           .map(
             (genre) => ChipButton(

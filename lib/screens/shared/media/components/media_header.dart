@@ -1,50 +1,60 @@
-import 'package:fladder/models/items/images_models.dart';
-import 'package:fladder/util/adaptive_layout.dart';
-import 'package:fladder/util/fladder_image.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:fladder/models/items/images_models.dart';
+import 'package:fladder/screens/shared/flat_button.dart';
+import 'package:fladder/util/fladder_image.dart';
 
 class MediaHeader extends ConsumerWidget {
   final String name;
   final ImageData? logo;
+  final Function()? onTap;
   const MediaHeader({
     required this.name,
     required this.logo,
+    this.onTap,
     super.key,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final maxWidth =
-        switch (AdaptiveLayout.layoutOf(context)) { LayoutState.desktop || LayoutState.tablet => 0.55, _ => 1 };
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32),
-        child: Material(
-          elevation: 30,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(150)),
-          shadowColor: Colors.black.withOpacity(0.35),
-          color: Colors.transparent,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                maxHeight: MediaQuery.sizeOf(context).height * 0.2,
-                maxWidth: MediaQuery.sizeOf(context).width * maxWidth,
-              ),
-              child: FladderImage(
-                image: logo,
-                enableBlur: true,
-                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) => Container(
-                  color: Colors.red,
-                  width: 512,
-                  height: 512,
-                  child: child,
-                ),
-                placeHolder: const SizedBox(height: 0),
-                fit: BoxFit.contain,
-              ),
+    final maxSize = 700.0;
+    final textWidget = Container(
+      height: 512,
+      alignment: Alignment.center,
+      child: SelectableText(
+        name,
+        textAlign: TextAlign.center,
+        style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+              fontSize: 55,
             ),
+      ),
+    );
+
+    return Center(
+      child: Material(
+        elevation: 30,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(150)),
+        shadowColor: Colors.black.withOpacity(0.3),
+        color: Colors.transparent,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxHeight: (MediaQuery.sizeOf(context).height * 0.275).clamp(0, maxSize),
+            maxWidth: MediaQuery.sizeOf(context).width.clamp(0, maxSize),
+          ),
+          child: FlatButton(
+            onTap: onTap,
+            showFeedback: false,
+            child: logo != null
+                ? FladderImage(
+                    image: logo,
+                    enableBlur: true,
+                    imageErrorBuilder: (context, object, stack) => textWidget,
+                    placeHolder: const SizedBox(height: 0),
+                    fit: BoxFit.contain,
+                  )
+                : textWidget,
           ),
         ),
       ),

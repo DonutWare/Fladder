@@ -1148,5 +1148,6 @@
   "mediaSegmentRecap": "Recap",
   "mediaSegmentOutro": "Outro",
   "mediaSegmentIntro": "Intro",
-  "errorLogs": "Error logs"
+  "errorLogs": "Error logs",
+  "external": "External"
 }

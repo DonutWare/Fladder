@@ -88,7 +88,7 @@ class CrashLogNotifier extends StateNotifier<List<ErrorViewModel>> {
     if (kDebugMode) {
       print('${rec.level.name}: ${rec.time}: ${rec.message}');
     }
-    if (rec.level != Level.INFO) {
+    if (rec.level > Level.INFO) {
       state = [ErrorViewModel(rec: rec), ...state];
       if (state.length >= maxLength) {
         state = state.sublist(0, maxLength);

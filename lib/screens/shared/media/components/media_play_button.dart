@@ -1,8 +1,11 @@
+import 'package:flutter/material.dart';
+
 import 'package:ficonsax/ficonsax.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fladder/util/list_padding.dart';
 
 class MediaPlayButton extends ConsumerWidget {
   final ItemBaseModel? item;
@@ -33,8 +36,8 @@ class MediaPlayButton extends ConsumerWidget {
                 child: Text(
                   item?.playButtonLabel(context) ?? "",
                   maxLines: 2,
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
                         color: textColor,
                       ),
                 ),

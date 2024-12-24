@@ -10,6 +10,7 @@ import 'package:fladder/providers/settings/client_settings_provider.dart';
 class FladderImage extends ConsumerWidget {
   final ImageData? image;
   final Widget Function(BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded)? frameBuilder;
+  final Widget Function(BuildContext context, Object object, StackTrace? stack)? imageErrorBuilder;
   final Widget? placeHolder;
   final BoxFit fit;
   final bool enableBlur;
@@ -17,6 +18,7 @@ class FladderImage extends ConsumerWidget {
   const FladderImage({
     required this.image,
     this.frameBuilder,
+    this.imageErrorBuilder,
     this.placeHolder,
     this.fit = BoxFit.cover,
     this.enableBlur = false,
@@ -51,6 +53,7 @@ class FladderImage extends ConsumerWidget {
               placeholderFit: fit,
               excludeFromSemantics: true,
               filterQuality: FilterQuality.high,
+              imageErrorBuilder: imageErrorBuilder,
               placeholderFilterQuality: FilterQuality.low,
               image: newImage.imageProvider,
             )

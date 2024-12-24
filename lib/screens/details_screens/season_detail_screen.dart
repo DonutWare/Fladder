@@ -12,6 +12,7 @@ import 'package:fladder/screens/shared/detail_scaffold.dart';
 import 'package:fladder/screens/shared/media/components/media_header.dart';
 import 'package:fladder/screens/shared/media/episode_details_list.dart';
 import 'package:fladder/screens/shared/media/expanding_overview.dart';
+import 'package:fladder/screens/shared/media/external_urls.dart';
 import 'package:fladder/screens/shared/media/people_row.dart';
 import 'package:fladder/screens/shared/media/person_list_.dart';
 import 'package:fladder/util/fladder_image.dart';
@@ -39,6 +40,7 @@ class _SeasonDetailScreenState extends ConsumerState<SeasonDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final details = ref.watch(providerId);
+    final wrapAlignment = MediaQuery.sizeOf(context).width > 1000 ? WrapAlignment.start : WrapAlignment.center;
 
     return DetailScaffold(
       label: details?.localizedName(context) ?? "",
@@ -94,7 +96,6 @@ class _SeasonDetailScreenState extends ConsumerState<SeasonDetailScreen> {
                               officialRating: details.overview.parentalRating,
                               genres: details.overview.genreItems,
                               communityRating: details.overview.communityRating,
-                              externalUrls: details.overview.externalUrls,
                             ),
                           ],
                         ),
@@ -191,6 +192,13 @@ class _SeasonDetailScreenState extends ConsumerState<SeasonDetailScreen> {
                       people: details.overview.people,
                       contentPadding: padding,
                     ),
+                  if (details.overview.externalUrls?.isNotEmpty == true)
+                    Padding(
+                      padding: padding,
+                      child: ExternalUrlsRow(
+                        urls: details.overview.externalUrls,
+                      ),
+                    )
                 ].addPadding(const EdgeInsets.symmetric(vertical: 16)),
               )
             : null,
