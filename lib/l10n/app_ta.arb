@@ -3,7 +3,7 @@
   "@amoledBlack": {},
   "dateAdded": "தேதி சேர்க்கப்பட்டது",
   "@dateAdded": {},
-  "groupBy": "குழு",
+  "groupBy": "மூலம் குழு",
   "@groupBy": {},
   "home": "வீடு",
   "@home": {},
@@ -100,7 +100,7 @@
   "@appLockBiometrics": {},
   "appLockPasscode": "பாச்-கோட்",
   "@appLockPasscode": {},
-  "appLockTitle": "{பயனர்பெயர் க்கு க்கான உள்நுழைவு முறையை அமைக்கவும்",
+  "appLockTitle": "{userName} க்கான உள்நுழைவு முறையை அமை",
   "@appLockTitle": {
     "description": "Pop-up to pick a login method",
     "placeholders": {
@@ -133,7 +133,7 @@
   "@cancel": {},
   "change": "மாற்றம்",
   "@change": {},
-  "chapter": "{எண்ணிக்கை, பன்மை, பிற {Chapters} ஒன்று {Chapter}}",
+  "chapter": "{count, plural, other{அத்தியாயங்கள்} one{அத்தியாயம்}}",
   "@chapter": {
     "description": "chapter",
     "placeholders": {
@@ -199,7 +199,7 @@
   "@days": {},
   "delete": "நீக்கு",
   "@delete": {},
-  "deleteFileFromSystem": "இந்த உருப்படியை நீக்குவது {உருப்படி the கோப்பு முறைமை மற்றும் உங்கள் ஊடக நூலகம் இரண்டிலிருந்தும் அதை நீக்கிவிடும். நீங்கள் தொடர விரும்புகிறீர்களா?",
+  "deleteFileFromSystem": "இந்த உருப்படியை நீக்குவது {item} கோப்பு முறைமை மற்றும் உங்கள் ஊடக நூலகம் இரண்டிலிருந்தும் அதை நீக்கிவிடும். நீங்கள் தொடர விரும்புகிறீர்களா?",
   "@deleteFileFromSystem": {
     "description": "Delete file from system",
     "placeholders": {
@@ -219,7 +219,7 @@
   },
   "descending": "இறங்கு",
   "@descending": {},
-  "director": "{எண்ணிக்கை, பன்மை, பிற {Director} இரண்டு {Directors}}",
+  "director": "{count, plural, other{இயக்குனர்} two{இயக்குனர்கள்}}",
   "@director": {
     "description": "director",
     "placeholders": {
@@ -265,7 +265,7 @@
       }
     }
   },
-  "episode": "{எண்ணிக்கை, பன்மை, பிற {Episodes} ஒன்று {Episode}}",
+  "episode": "{count, plural, other{பாகங்கள்} one{பாகம்}}",
   "@episode": {
     "description": "episode",
     "placeholders": {
@@ -287,7 +287,7 @@
   "@homeBannerSlideshow": {},
   "fetchingLibrary": "நூலக உருப்படிகளைப் பெறுதல்…",
   "@fetchingLibrary": {},
-  "filter": "{எண்ணிக்கை, பன்மை, பிற {Filters} ஒன்று {Filter}}",
+  "filter": "{count, plural, other{வடிப்பான்கள்} one{வடிப்பான்}}",
   "@filter": {
     "description": "filter",
     "placeholders": {
@@ -305,7 +305,7 @@
   "@fontSize": {},
   "forceRefresh": "கட்டாய புதுப்பிப்பு",
   "@forceRefresh": {},
-  "genre": "{எண்ணிக்கை, பன்மை, பிற {Genres} ஒன்று {Genre}}",
+  "genre": "{count, plural, other{பாணிகள்} one{பாணி}}",
   "@genre": {
     "description": "genre",
     "placeholders": {
@@ -348,7 +348,7 @@
   "@info": {},
   "invalidUrl": "தவறான முகவரி",
   "@invalidUrl": {},
-  "label": "{எண்ணிக்கை, பன்மை, பிற {Labels} ஒன்று {Label}}",
+  "label": "{count, plural, other{சிட்டைகள்} one{சிட்டை}}",
   "@label": {
     "description": "label",
     "placeholders": {
@@ -358,7 +358,7 @@
       }
     }
   },
-  "library": "{எண்ணிக்கை, பன்மை, பிற {Libraries} ஒன்று {Library}}",
+  "library": "{count, plural, other{நூலகங்கள்} one{நூலகம்}}",
   "@library": {
     "description": "Plural",
     "placeholders": {
@@ -384,7 +384,7 @@
   "@login": {},
   "logout": "விடுபதிகை",
   "@logout": {},
-  "logoutUserPopupContent": "இது {userName} வெளியேறி, பயன்பாட்டிலிருந்து பயனரை நீக்கும்.\n நீங்கள் {சேவையகத்தில் மீண்டும் உள்நுழைய வேண்டும்.",
+  "logoutUserPopupContent": "இது {userName} வெளியேறி, பயன்பாட்டிலிருந்து பயனரை நீக்கும்.\n நீங்கள்{serverName}இல் மீண்டும் உள்நுழைய வேண்டும்.",
   "@logoutUserPopupContent": {
     "description": "Pop-up for logging out the user description",
     "placeholders": {
@@ -424,7 +424,7 @@
   "@mediaTypeSeries": {},
   "metadataRefreshFull": "அனைத்து மெட்டாடேட்டாவையும் மாற்றவும்",
   "@metadataRefreshFull": {},
-  "metaDataSavedFor": "மேனிலை தரவு {உருப்படி க்கு க்காக சேமிக்கப்பட்டது",
+  "metaDataSavedFor": "மேனிலை தரவு {item} க்காகச் சேமிக்கப்பட்டது",
   "@metaDataSavedFor": {
     "description": "metaDataSavedFor",
     "placeholders": {
@@ -437,7 +437,7 @@
   "@metadataRefreshDefault": {},
   "metadataRefreshValidation": "காணாமல் போன மெட்டாடேட்டாவைத் தேடுங்கள்",
   "@metadataRefreshValidation": {},
-  "minutes": "{எண்ணிக்கை, பன்மை, மற்ற {Minutes} ஒன்று {Minute}}",
+  "minutes": "{count, plural, other{நிமையங்கள்} one{நிமையம்} }",
   "@minutes": {
     "description": "minute",
     "placeholders": {
@@ -490,7 +490,7 @@
   "@openWebLink": {},
   "options": "விருப்பங்கள்",
   "@options": {},
-  "other": "மற்றொன்று",
+  "other": "மற்றது",
   "@other": {},
   "overview": "கண்ணோட்டம்",
   "@overview": {},
@@ -515,7 +515,7 @@
   "@pathEditDesc": {},
   "pathEditTitle": "இருப்பிடத்தை மாற்றவும்",
   "@pathEditTitle": {},
-  "play": "Play {item}",
+  "play": "இயக்கு {item}",
   "@play": {
     "description": "Play with",
     "placeholders": {
@@ -524,7 +524,7 @@
       }
     }
   },
-  "playFrom": "{பெயர் இருந்து இலிருந்து விளையாடுங்கள்",
+  "playFrom": "{name} இலிருந்து விளையாடுங்கள்",
   "@playFrom": {
     "description": "playFrom",
     "placeholders": {
@@ -558,7 +558,7 @@
   "@quickConnectTitle": {},
   "quickConnectWrongCode": "தவறான குறியீடு",
   "@quickConnectWrongCode": {},
-  "rating": "{எண்ணிக்கை, பன்மை, பிற {Ratings} ஒன்று {Rating}}",
+  "rating": "{count, plural, other{வீதப்பாடுகள்} one{வீதப்பாடு}}",
   "@rating": {
     "description": "rating",
     "placeholders": {
@@ -667,7 +667,7 @@
   "@scrollToTop": {},
   "search": "தேடல்",
   "@search": {},
-  "season": "{எண்ணிக்கை, பன்மை, பிற {Seasons} ஒன்று {Season}}",
+  "season": "{count, plural, other{பருவங்கள்} one{பருவம்} }",
   "@season": {
     "description": "season",
     "placeholders": {
@@ -677,7 +677,7 @@
       }
     }
   },
-  "seconds": "{எண்ணிக்கை, பன்மை, மற்ற {Seconds} ஒன்று {Second}}",
+  "seconds": "{count, plural, other{நொடிகள்} one{நொடி}}",
   "@seconds": {
     "description": "second",
     "placeholders": {
@@ -713,7 +713,7 @@
     "description": "Use for setting a certain value",
     "context": "Set 'time'"
   },
-  "setIdentityTo": "அடையாளத்தை {பெயராக மாற்றவும்",
+  "setIdentityTo": "அடையாளத்தை {name} மாற்று",
   "@setIdentityTo": {
     "description": "setIdentityTo",
     "placeholders": {
@@ -810,7 +810,7 @@
   "@sortOrder": {},
   "start": "தொடங்கு",
   "@start": {},
-  "studio": "{எண்ணிக்கை, பன்மை, மற்ற {Studios} ஒன்று {Studio}}",
+  "studio": "{count, plural, other{கலைக்கூடங்கள்} one{கலைக்கூடம்}}",
   "@studio": {
     "description": "studio",
     "placeholders": {
@@ -830,7 +830,7 @@
   "@switchUser": {},
   "sync": "ஒத்திசைவு",
   "@sync": {},
-  "syncDeleteItemDesc": "{உருப்படி க்கு க்கான அனைத்து ஒத்திசைக்கப்பட்ட தரவையும் நீக்கவா?",
+  "syncDeleteItemDesc": "{item} க்கான அனைத்து ஒத்திசைக்கப்பட்ட தரவையும் நீக்கவா?",
   "@syncDeleteItemDesc": {
     "description": "Sync delete item pop-up window",
     "placeholders": {
@@ -855,7 +855,7 @@
   "@syncRemoveDataTitle": {},
   "syncedItems": "ஒத்திசைக்கப்பட்ட உருப்படிகள்",
   "@syncedItems": {},
-  "tag": "{எண்ணிக்கை, பன்மை, ஒன்று {Tag} மற்ற {Tags}}",
+  "tag": "{count, plural, one{குறிச்சொல்} other{குறிச்சொற்கள்}}",
   "@tag": {
     "description": "tag",
     "placeholders": {
@@ -895,7 +895,7 @@
       }
     }
   },
-  "type": "{எண்ணிக்கை, பன்மை, பிற {Types} ஒன்று {Type}}",
+  "type": "{count, plural, other{வகைகள்} one{வகை}}",
   "@type": {
     "description": "type",
     "placeholders": {
@@ -939,7 +939,7 @@
   "@viewPhotos": {},
   "watchOn": "பாருங்கள்",
   "@watchOn": {},
-  "writer": "{எண்ணிக்கை, பன்மை, பிற {Writer} இரண்டு {Writers}}",
+  "writer": "{count, plural, other{எழுத்தாளர்} two{எழுத்தாளர்கள்}}",
   "@writer": {
     "description": "writer",
     "placeholders": {
@@ -957,7 +957,7 @@
       }
     }
   },
-  "year": "{எண்ணிக்கை, பன்மை, பிற {Years} ஒன்று {Year}}",
+  "year": "{count, plural, other{ஆண்டுகள்} one{ஆண்டு}}",
   "@year": {
     "description": "year",
     "placeholders": {
@@ -1025,7 +1025,7 @@
   "@syncNoFolderSetup": {},
   "syncRemoveUnableToDeleteItem": "ஒத்திசைக்கப்பட்ட உருப்படியை அகற்ற முடியவில்லை, ஏதோ தவறு ஏற்பட்டது",
   "@syncRemoveUnableToDeleteItem": {},
-  "syncAddItemForSyncing": "ஒத்திசைவதற்கு {உருப்படி கூட்டு சேர்க்கப்பட்டது",
+  "syncAddItemForSyncing": "ஒத்திசைவதற்கு {item} சேர்க்கப்பட்டது",
   "@syncAddItemForSyncing": {
     "placeholders": {
       "item": {
@@ -1205,5 +1205,7 @@
   "accept": "ஏற்றுக்கொள்",
   "@accept": {},
   "active": "செயலில்",
-  "@active": {}
+  "@active": {},
+  "errorLogs": "பிழை பதிவுகள்",
+  "@errorLogs": {}
 }
