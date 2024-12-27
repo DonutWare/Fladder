@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/items/images_models.dart';
-import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/util/fladder_image.dart';
 
 class MediaHeader extends ConsumerWidget {
@@ -43,19 +42,25 @@ class MediaHeader extends ConsumerWidget {
             maxHeight: (MediaQuery.sizeOf(context).height * 0.275).clamp(0, maxSize),
             maxWidth: MediaQuery.sizeOf(context).width.clamp(0, maxSize),
           ),
-          child: FlatButton(
-            onTap: onTap,
-            showFeedback: false,
-            child: logo != null
-                ? FladderImage(
-                    image: logo,
-                    enableBlur: true,
-                    alignment: Alignment.bottomCenter,
-                    imageErrorBuilder: (context, object, stack) => textWidget,
-                    placeHolder: const SizedBox(height: 0),
-                    fit: BoxFit.contain,
-                  )
-                : textWidget,
+          child: Stack(
+            children: [
+              logo != null
+                  ? FladderImage(
+                      image: logo,
+                      enableBlur: true,
+                      alignment: Alignment.bottomCenter,
+                      imageErrorBuilder: (context, object, stack) => textWidget,
+                      placeHolder: const SizedBox(height: 0),
+                      fit: BoxFit.contain,
+                    )
+                  : textWidget,
+              if (onTap != null)
+                Positioned.fill(
+                  child: GestureDetector(
+                    onTap: onTap,
+                  ),
+                ),
+            ],
           ),
         ),
       ),
