@@ -1208,5 +1208,7 @@
   "mediaSegmentIntro": "Inleiding",
   "@mediaSegmentIntro": {},
   "errorLogs": "Foutlogs",
-  "@errorLogs": {}
+  "@errorLogs": {},
+  "external": "Extern",
+  "@external": {}
 }
