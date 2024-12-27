@@ -16,6 +16,7 @@ import 'package:fladder/screens/shared/media/components/media_play_button.dart';
 import 'package:fladder/screens/shared/media/episode_posters.dart';
 import 'package:fladder/screens/shared/media/expanding_overview.dart';
 import 'package:fladder/screens/shared/media/external_urls.dart';
+import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/item_base_model/play_item_helpers.dart';
 import 'package:fladder/util/list_padding.dart';
@@ -41,7 +42,8 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
     final details = ref.watch(providerInstance);
     final seasonDetails = details.series;
     final episodeDetails = details.episode;
-    final wrapAlignment = MediaQuery.sizeOf(context).width > 1000 ? WrapAlignment.start : WrapAlignment.center;
+    final wrapAlignment =
+        AdaptiveLayout.of(context).layout != LayoutState.phone ? WrapAlignment.start : WrapAlignment.center;
 
     return DetailScaffold(
       label: widget.item.name,
@@ -85,7 +87,7 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                           )
                         : null,
                     padding: padding,
-                    subTitle: details.episode?.name,
+                    subTitle: details.episode?.detailedName(context),
                     originalTitle: details.series?.originalTitle,
                     onTitleClicked: () => details.series?.navigateTo(context),
                     productionYear: details.series?.overview.productionYear,

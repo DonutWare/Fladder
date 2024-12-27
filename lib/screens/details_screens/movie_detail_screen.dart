@@ -1,3 +1,4 @@
+import 'package:fladder/util/adaptive_layout.dart';
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
@@ -37,7 +38,8 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final details = ref.watch(providerInstance);
-    final wrapAlignment = MediaQuery.sizeOf(context).width > 1000 ? WrapAlignment.start : WrapAlignment.center;
+    final wrapAlignment =
+        AdaptiveLayout.of(context).layout != LayoutState.phone ? WrapAlignment.start : WrapAlignment.center;
 
     return DetailScaffold(
       label: widget.item.name,

@@ -18,6 +18,7 @@ import 'package:fladder/screens/shared/media/external_urls.dart';
 import 'package:fladder/screens/shared/media/people_row.dart';
 import 'package:fladder/screens/shared/media/poster_row.dart';
 import 'package:fladder/screens/shared/media/season_row.dart';
+import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/item_base_model/play_item_helpers.dart';
 import 'package:fladder/util/list_padding.dart';
@@ -41,7 +42,8 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final details = ref.watch(providerId);
-    final wrapAlignment = MediaQuery.sizeOf(context).width > 1000 ? WrapAlignment.start : WrapAlignment.center;
+    final wrapAlignment =
+        AdaptiveLayout.of(context).layout != LayoutState.phone ? WrapAlignment.start : WrapAlignment.center;
 
     return DetailScaffold(
       label: details?.name ?? "",

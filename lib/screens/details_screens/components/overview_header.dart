@@ -7,6 +7,7 @@ import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/screens/shared/media/components/chip_button.dart';
 import 'package:fladder/screens/shared/media/components/media_header.dart';
 import 'package:fladder/screens/shared/media/components/small_detail_widgets.dart';
+import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/humanize_duration.dart';
 import 'package:fladder/util/list_padding.dart';
 
@@ -54,7 +55,7 @@ class OverviewHeader extends ConsumerWidget {
         (MediaQuery.sizeOf(context).height - (MediaQuery.paddingOf(context).top + 150)).clamp(50, 1250).toDouble();
 
     final crossAlignment =
-        MediaQuery.sizeOf(context).width > 1000 ? CrossAxisAlignment.start : CrossAxisAlignment.center;
+        AdaptiveLayout.of(context).layout != LayoutState.phone ? CrossAxisAlignment.start : CrossAxisAlignment.center;
 
     return ConstrainedBox(
       constraints: BoxConstraints(
