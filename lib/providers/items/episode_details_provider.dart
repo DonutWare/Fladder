@@ -84,7 +84,7 @@ class EpisodeDetailsProvider extends StateNotifier<EpisodeDetailModel> {
         .whereType<EpisodeModel>()
         .toList();
     state = state.copyWith(
-      series: seriesModel.copyWith(),
+      series: seriesModel,
       episode: episodes.firstWhereOrNull((element) => element.id == item.id),
       episodes: episodes,
     );
