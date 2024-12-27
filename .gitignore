@@ -46,6 +46,11 @@ app.*.map.json
 # FVM Version Cache
 .fvm/
 
+# AppImage
+/AppDir/
+/AppDirassets/
+/AppDiricons/
+/appimage-build/
 
 # flatpak
 .flatpak-builder
