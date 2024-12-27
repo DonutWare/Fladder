@@ -1215,5 +1215,7 @@
   "mediaSegmentCommercial": "Реклама",
   "@mediaSegmentCommercial": {},
   "errorLogs": "Журнал помилок",
-  "@errorLogs": {}
+  "@errorLogs": {},
+  "external": "Зовнішній",
+  "@external": {}
 }
