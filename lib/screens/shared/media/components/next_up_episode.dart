@@ -1,3 +1,8 @@
+import 'package:flutter/material.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/screens/details_screens/components/media_stream_information.dart';
@@ -5,9 +10,7 @@ import 'package:fladder/screens/shared/media/episode_posters.dart';
 import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/sticky_header_text.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:fladder/util/string_extensions.dart';
 
 class NextUpEpisode extends ConsumerWidget {
   final EpisodeModel nextEpisode;
@@ -17,6 +20,7 @@ class NextUpEpisode extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final alreadyPlayed = nextEpisode.userData.played;
+    final episodeSummary = nextEpisode.overview.summary.maxLength(limitTo: 250);
     return Column(
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,7 +57,7 @@ class NextUpEpisode extends ConsumerWidget {
                   const SizedBox(height: 16),
                   if (nextEpisode.overview.summary.isNotEmpty)
                     HtmlWidget(
-                      nextEpisode.overview.summary,
+                      episodeSummary,
                       textStyle: Theme.of(context).textTheme.titleMedium,
                     ),
                 ],
@@ -88,7 +92,7 @@ class NextUpEpisode extends ConsumerWidget {
                               mediaStreams: nextEpisode.mediaStreams.copyWith(defaultSubStreamIndex: index))),
                         ),
                         if (nextEpisode.overview.summary.isNotEmpty)
-                          HtmlWidget(nextEpisode.overview.summary, textStyle: Theme.of(context).textTheme.titleMedium),
+                          HtmlWidget(episodeSummary, textStyle: Theme.of(context).textTheme.titleMedium),
                       ],
                     ),
                   ),
