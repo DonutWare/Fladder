@@ -9,13 +9,11 @@ import 'package:fladder/providers/items/season_details_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/details_screens/components/overview_header.dart';
 import 'package:fladder/screens/shared/detail_scaffold.dart';
-import 'package:fladder/screens/shared/media/components/media_header.dart';
 import 'package:fladder/screens/shared/media/episode_details_list.dart';
 import 'package:fladder/screens/shared/media/expanding_overview.dart';
 import 'package:fladder/screens/shared/media/external_urls.dart';
 import 'package:fladder/screens/shared/media/people_row.dart';
 import 'package:fladder/screens/shared/media/person_list_.dart';
-import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -40,7 +38,6 @@ class _SeasonDetailScreenState extends ConsumerState<SeasonDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final details = ref.watch(providerId);
-    final wrapAlignment = MediaQuery.sizeOf(context).width > 1000 ? WrapAlignment.start : WrapAlignment.center;
 
     return DetailScaffold(
       label: details?.localizedName(context) ?? "",
@@ -58,50 +55,20 @@ class _SeasonDetailScreenState extends ConsumerState<SeasonDetailScreen> {
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.25),
-                  Wrap(
-                    alignment: WrapAlignment.spaceAround,
-                    runAlignment: WrapAlignment.center,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 300),
-                        child: AspectRatio(
-                          aspectRatio: 0.67,
-                          child: Card(
-                            child: FladderImage(image: details.getPosters?.primary),
-                          ),
-                        ),
-                      ),
-                      ConstrainedBox(
-                        constraints: const BoxConstraints(
-                          maxWidth: 600,
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            MediaHeader(
-                              name: "${details.seriesName} - ${details.name}",
-                              logo: details.parentImages?.logo,
-                            ),
-                            OverviewHeader(
-                              name: details.seriesName,
-                              padding: padding,
-                              subTitle: details.localizedName(context),
-                              onTitleClicked: () => details.parentBaseModel.navigateTo(context),
-                              originalTitle: details.seriesName,
-                              productionYear: details.overview.productionYear,
-                              runTime: details.overview.runTime,
-                              studios: details.overview.studios,
-                              officialRating: details.overview.parentalRating,
-                              genres: details.overview.genreItems,
-                              communityRating: details.overview.communityRating,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ).padding(padding),
+                  OverviewHeader(
+                    name: details.seriesName,
+                    image: details.parentImages,
+                    padding: padding,
+                    subTitle: details.localizedName(context),
+                    onTitleClicked: () => details.parentBaseModel.navigateTo(context),
+                    originalTitle: details.seriesName,
+                    productionYear: details.overview.productionYear,
+                    runTime: details.overview.runTime,
+                    studios: details.overview.studios,
+                    officialRating: details.overview.parentalRating,
+                    genres: details.overview.genreItems,
+                    communityRating: details.overview.communityRating,
+                  ),
                   Row(
                     children: [
                       Expanded(

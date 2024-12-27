@@ -50,6 +50,7 @@ class MediaHeader extends ConsumerWidget {
                 ? FladderImage(
                     image: logo,
                     enableBlur: true,
+                    alignment: Alignment.bottomCenter,
                     imageErrorBuilder: (context, object, stack) => textWidget,
                     placeHolder: const SizedBox(height: 0),
                     fit: BoxFit.contain,

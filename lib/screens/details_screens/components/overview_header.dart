@@ -84,7 +84,7 @@ class OverviewHeader extends ConsumerWidget {
                       style: mainStyle,
                     ),
                   ),
-                if (name != originalTitle && originalTitle != null)
+                if (name.toLowerCase() != originalTitle?.toLowerCase() && originalTitle != null)
                   SelectableText(
                     originalTitle.toString(),
                     textAlign: TextAlign.center,

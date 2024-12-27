@@ -64,7 +64,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
     final padding = EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).width / 25);
     final backGroundColor = Theme.of(context).colorScheme.surface.withOpacity(0.8);
     final playerState = ref.watch(mediaPlaybackProvider.select((value) => value.state));
-    final minHeight = 700.0.clamp(0, MediaQuery.sizeOf(context).height).toDouble();
+    final minHeight = 450.0.clamp(0, MediaQuery.sizeOf(context).height).toDouble();
     final maxHeight = MediaQuery.sizeOf(context).height - 10;
     return PullToRefresh(
       onRefresh: () async {
@@ -96,12 +96,9 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                   SizedBox(
                     height: maxHeight,
                     width: MediaQuery.sizeOf(context).width,
-                    child: Opacity(
-                      opacity: 0.65,
-                      child: FladderImage(
-                        image: backgroundImage,
-                        blurOnly: true,
-                      ),
+                    child: FladderImage(
+                      image: backgroundImage,
+                      blurOnly: true,
                     ),
                   ),
                   if (backgroundImage != null)
