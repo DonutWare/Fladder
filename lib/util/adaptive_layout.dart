@@ -137,7 +137,7 @@ class AdaptiveLayoutBuilder extends ConsumerStatefulWidget {
 class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
   late LayoutState layout = widget.fallBack;
   late ScreenLayout size = ScreenLayout.single;
-  late AutoRouter router = AutoRouter(layout: size, ref: ref);
+  AutoRouter? router;
   late TargetPlatform currentPlatform = defaultTargetPlatform;
   late ScrollController controller = ScrollController();
 
@@ -177,10 +177,7 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
     } else {
       newSize = ScreenLayout.dual;
     }
-    if (size != newSize) {
-      size = newSize;
-      router = AutoRouter(layout: size, ref: ref);
-    }
+    size = newSize;
   }
 
   @override
@@ -197,7 +194,7 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
         inputDevice: (isDesktop || kIsWeb) ? InputDevice.pointer : InputDevice.touch,
         platform: currentPlatform,
         isDesktop: isDesktop,
-        router: router,
+        router: router ??= AutoRouter(layout: size, ref: ref),
         posterDefaults: switch (layout) {
           LayoutState.phone => const PosterDefaults(size: 300, ratio: 0.55),
           LayoutState.tablet => const PosterDefaults(size: 350, ratio: 0.55),
