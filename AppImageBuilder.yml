@@ -3,9 +3,7 @@ version: 1
 script:
   - rm -rf AppDir || true
   - mkdir -p AppDir
-  - ls build/linux/x64/release/bundle/
   - cp -r build/linux/x64/release/bundle/* AppDir
-  - ls AppDir
   - mkdir -p AppDir/usr/share/icons/
   - cp icons/production/fladder_icon_desktop.png AppDir/usr/share/icons/
 AppDir:
