@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:fladder/models/error_log_model.dart';
 import 'package:fladder/providers/crash_log_provider.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/util/list_padding.dart';

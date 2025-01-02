@@ -161,9 +161,10 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                   ),
                   Padding(
                     padding: EdgeInsets.only(
-                        bottom: 0,
-                        left: MediaQuery.of(context).padding.left,
-                        top: MediaQuery.of(context).padding.top + 50),
+                      bottom: 0,
+                      left: MediaQuery.of(context).padding.left,
+                      top: MediaQuery.of(context).padding.top,
+                    ),
                     child: ConstrainedBox(
                       constraints: BoxConstraints(
                         minHeight: MediaQuery.sizeOf(context).height,

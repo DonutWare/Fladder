@@ -50,8 +50,8 @@ Future<Map<String, dynamic>> loadConfig() async {
 }
 
 void main() async {
-  final crashProvider = CrashLogNotifier();
   WidgetsFlutterBinding.ensureInitialized();
+  final crashProvider = CrashLogNotifier();
 
   if (kIsWeb) {
     html.document.onContextMenu.listen((event) => event.preventDefault());
