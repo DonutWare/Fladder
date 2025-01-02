@@ -498,7 +498,9 @@ class _ClientSettingsPageState extends ConsumerState<ClientSettingsPage> {
                   .update((current) => current.copyWith(mouseDragSupport: !clientSettings.mouseDragSupport)),
               trailing: Switch(
                 value: clientSettings.mouseDragSupport,
-                onChanged: (value) => ref.read(clientSettingsProvider.notifier).setAmoledBlack(value),
+                onChanged: (value) => ref
+                  .read(clientSettingsProvider.notifier)
+                  .update((current) => current.copyWith(mouseDragSupport: !clientSettings.mouseDragSupport)),
               ),
             ),
           ],
