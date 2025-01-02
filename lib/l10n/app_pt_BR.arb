@@ -646,11 +646,11 @@
   "@settingsPlayerCustomSubtitlesTitle": {},
   "settingsPlayerDesc": "Proporção da tela, Avançado",
   "@settingsPlayerDesc": {},
-  "settingsPlayerNativeLibassAccelDesc": "Use o renderizador de legendas do reprodutor de vídeo libass",
+  "settingsPlayerNativeLibassAccelDesc": "Use o renderizador de legendas do player de vídeo libass",
   "@settingsPlayerNativeLibassAccelDesc": {},
   "settingsPlayerNativeLibassAccelTitle": "Legendas nativas libass",
   "@settingsPlayerNativeLibassAccelTitle": {},
-  "settingsPlayerTitle": "Reprodutor",
+  "settingsPlayerTitle": "Player",
   "@settingsPlayerTitle": {},
   "settingsPlayerVideoHWAccelTitle": "Aceleração de hardware",
   "@settingsPlayerVideoHWAccelTitle": {},
@@ -704,7 +704,7 @@
   "@libraryPageSizeDesc": {},
   "somethingWentWrongPasswordCheck": "Algo deu errado. Verifique sua senha.",
   "@somethingWentWrongPasswordCheck": {},
-  "settingsPlayerVideoHWAccelDesc": "Use a GPU para renderizar vídeo (recomendado)",
+  "settingsPlayerVideoHWAccelDesc": "Use a GPU para renderizar os vídeo (recomendado)",
   "@settingsPlayerVideoHWAccelDesc": {},
   "director": "{count, plural, other{Diretor} two{Diretores}}",
   "@director": {
@@ -1098,9 +1098,9 @@
   },
   "deleteFilterConfirmation": "Tem certeza de que deseja excluir este filtro?",
   "@deleteFilterConfirmation": {},
-  "playerSettingsOrientationTitle": "Orientação do reprodutor",
+  "playerSettingsOrientationTitle": "Orientação do player",
   "@playerSettingsOrientationTitle": {},
-  "playerSettingsOrientationDesc": "Forçar o reprodutor de vídeo em certas orientações",
+  "playerSettingsOrientationDesc": "Forçar o player de vídeo em certas orientações",
   "@playerSettingsOrientationDesc": {},
   "clientSettingsSchemeVariantTitle": "Variante de esquema",
   "@clientSettingsSchemeVariantTitle": {},
@@ -1179,5 +1179,39 @@
   "closeVideo": "Fechar vídeo",
   "@closeVideo": {},
   "playNextVideo": "Reproduzir próximo vídeo",
-  "@playNextVideo": {}
+  "@playNextVideo": {},
+  "skipButtonLabel": "Pular {segment}",
+  "@skipButtonLabel": {
+    "placeholders": {
+      "segment": {
+        "type": "String"
+      }
+    }
+  },
+  "mediaSegmentCommercial": "Comercial",
+  "@mediaSegmentCommercial": {},
+  "playerSettingsBackendDesc": "Escolha o seu player de mídia preferido para uma experiência de reprodução ideal",
+  "@playerSettingsBackendDesc": {},
+  "mediaSegmentUnknown": "Desconhecido",
+  "@mediaSegmentUnknown": {},
+  "defaultLabel": "Padrão",
+  "@defaultLabel": {
+    "description": "To indicate a default value, default video player backend"
+  },
+  "noVideoPlayerOptions": "O back-end selecionado não tem opções",
+  "@noVideoPlayerOptions": {},
+  "mdkExperimental": "MDK ainda está em fase experimental",
+  "@mdkExperimental": {},
+  "mediaSegmentPreview": "Prévia",
+  "@mediaSegmentPreview": {},
+  "mediaSegmentRecap": "Recapitular",
+  "@mediaSegmentRecap": {},
+  "mediaSegmentOutro": "Encerramento",
+  "@mediaSegmentOutro": {},
+  "mediaSegmentIntro": "Introdução",
+  "@mediaSegmentIntro": {},
+  "playerSettingsBackendTitle": "Backend do player de vídeo",
+  "@playerSettingsBackendTitle": {},
+  "errorLogs": "Registros de erros",
+  "@errorLogs": {}
 }

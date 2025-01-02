@@ -268,10 +268,10 @@ class _ChapterProgressSliderState extends ConsumerState<VideoProgressBar> {
     final chapter = (currentStream?.chapters ?? []).getChapterFromDuration(currentDuration);
     final trickPlay = currentStream?.trickPlay;
     final screenWidth = MediaQuery.of(context).size.width;
-    final calculatedPosition = _chapterPosition.clamp(-50, screenWidth - (chapterCardWidth + 45)).toDouble();
+    final calculatedPosition = _chapterPosition;
     final offsetDifference = _chapterPosition - calculatedPosition;
     return Positioned(
-      left: calculatedPosition,
+      left: calculatedPosition.clamp(-10, screenWidth - (chapterCardWidth + 45)),
       child: IgnorePointer(
         child: AnimatedOpacity(
           opacity: visible ? 1 : 0,

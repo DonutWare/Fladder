@@ -76,9 +76,11 @@ class _TrickPlayImageState extends ConsumerState<TrickPlayImage> {
       final Uint8List bytes = response.bodyBytes;
       final ui.Codec codec = await ui.instantiateImageCodec(bytes);
       final ui.FrameInfo frameInfo = await codec.getNextFrame();
-      setState(() {
-        image = frameInfo.image;
-      });
+      if (context.mounted) {
+        setState(() {
+          image = frameInfo.image;
+        });
+      }
     } else {
       throw Exception('Failed to load network image');
     }
@@ -103,19 +105,16 @@ class _TrickPlayPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    // Define the source rectangle from the image
     Rect srcRect = Rect.fromLTWH(
       offset.dx,
       offset.dy,
       model.width.toDouble(),
       model.height.toDouble(),
-    ); // Adjust these values to control the part of the image to display
+    );
 
-    // Define the destination rectangle on the canvas
+    Paint paint = Paint()..filterQuality = FilterQuality.high;
     Rect dstRect = Rect.fromLTWH(0, 0, size.width, size.height);
-
-    // Draw the image part onto the canvas
-    canvas.drawImageRect(image, srcRect, dstRect, Paint());
+    canvas.drawImageRect(image, srcRect, dstRect, paint);
   }
 
   @override

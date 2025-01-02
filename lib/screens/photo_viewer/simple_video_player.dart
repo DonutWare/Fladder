@@ -100,11 +100,6 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
         position = event.position;
         duration = event.duration;
       });
-      if (playing) {
-        WakelockPlus.enable();
-      } else {
-        WakelockPlus.disable();
-      }
     }));
     await player.open(videoUrl, !ref.watch(photoViewSettingsProvider).autoPlay);
     await player.setVolume(ref.watch(photoViewSettingsProvider.select((value) => value.mute)) ? 0 : 100);
@@ -220,8 +215,13 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
                             const SizedBox(width: 16),
                             IconButton(
                               color: Theme.of(context).colorScheme.onSurface,
-                              onPressed: () {
-                                player.playOrPause();
+                              onPressed: () async {
+                                await player.playOrPause();
+                                if (player.lastState.playing) {
+                                  WakelockPlus.enable();
+                                } else {
+                                  WakelockPlus.disable();
+                                }
                               },
                               icon: Icon(
                                 player.lastState.playing ? IconsaxBold.pause_circle : IconsaxBold.play_circle,

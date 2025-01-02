@@ -156,7 +156,7 @@ class LibMPV extends BasePlayer {
           : Video(
               key: key,
               controller: _controller!,
-              wakelock: true,
+              wakelock: false,
               fill: Colors.transparent,
               fit: fit,
               subtitleViewConfiguration: const SubtitleViewConfiguration(visible: false),

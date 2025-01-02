@@ -1,10 +1,14 @@
-import 'package:fladder/models/items/item_shared_models.dart';
-import 'package:fladder/util/adaptive_layout.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_custom_tabs/flutter_custom_tabs.dart' as customtab;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart' as urllauncher;
 import 'package:url_launcher/url_launcher_string.dart';
+
+import 'package:fladder/models/items/item_shared_models.dart';
+import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/util/sticky_header_text.dart';
 
 class ExternalUrlsRow extends ConsumerWidget {
   final List<ExternalUrls>? urls;
@@ -15,16 +19,28 @@ class ExternalUrlsRow extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Wrap(
-      children: urls
-              ?.map(
-                (url) => TextButton(
-                  onPressed: () => launchUrl(context, url.url),
-                  child: Text(url.name),
-                ),
-              )
-              .toList() ??
-          [],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        StickyHeaderText(
+          label: context.localized.external,
+        ),
+        Transform.translate(
+          offset: const Offset(-12, 0),
+          child: Wrap(
+            children: urls
+                    ?.map(
+                      (url) => TextButton(
+                        onPressed: () => launchUrl(context, url.url),
+                        child: Text(url.name),
+                      ),
+                    )
+                    .toList() ??
+                [],
+          ),
+        ),
+      ],
     );
   }
 }

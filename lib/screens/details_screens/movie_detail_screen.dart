@@ -1,3 +1,4 @@
+import 'package:fladder/util/adaptive_layout.dart';
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
@@ -11,9 +12,9 @@ import 'package:fladder/screens/details_screens/components/media_stream_informat
 import 'package:fladder/screens/details_screens/components/overview_header.dart';
 import 'package:fladder/screens/shared/detail_scaffold.dart';
 import 'package:fladder/screens/shared/media/chapter_row.dart';
-import 'package:fladder/screens/shared/media/components/media_header.dart';
 import 'package:fladder/screens/shared/media/components/media_play_button.dart';
 import 'package:fladder/screens/shared/media/expanding_overview.dart';
+import 'package:fladder/screens/shared/media/external_urls.dart';
 import 'package:fladder/screens/shared/media/people_row.dart';
 import 'package:fladder/screens/shared/media/poster_row.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
@@ -37,6 +38,8 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final details = ref.watch(providerInstance);
+    final wrapAlignment =
+        AdaptiveLayout.of(context).layout != LayoutState.phone ? WrapAlignment.start : WrapAlignment.center;
 
     return DetailScaffold(
       label: widget.item.name,
@@ -64,14 +67,28 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.25),
-                  MediaHeader(
-                    name: details.name,
-                    logo: details.images?.logo,
-                  ),
                   OverviewHeader(
                     name: details.name,
+                    image: details.images,
                     padding: padding,
+                    centerButtons: MediaPlayButton(
+                      item: details,
+                      onLongPressed: () async {
+                        await details.play(
+                          context,
+                          ref,
+                          showPlaybackOption: true,
+                        );
+                        ref.read(providerInstance.notifier).fetchDetails(widget.item);
+                      },
+                      onPressed: () async {
+                        await details.play(
+                          context,
+                          ref,
+                        );
+                        ref.read(providerInstance.notifier).fetchDetails(widget.item);
+                      },
+                    ),
                     originalTitle: details.originalTitle,
                     productionYear: details.overview.productionYear,
                     runTime: details.overview.runTime,
@@ -79,31 +96,13 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
                     studios: details.overview.studios,
                     officialRating: details.overview.parentalRating,
                     communityRating: details.overview.communityRating,
-                    externalUrls: details.overview.externalUrls,
                   ),
                   Wrap(
                     spacing: 8,
                     runSpacing: 8,
+                    alignment: wrapAlignment,
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
-                      MediaPlayButton(
-                        item: details,
-                        onLongPressed: () async {
-                          await details.play(
-                            context,
-                            ref,
-                            showPlaybackOption: true,
-                          );
-                          ref.read(providerInstance.notifier).fetchDetails(widget.item);
-                        },
-                        onPressed: () async {
-                          await details.play(
-                            context,
-                            ref,
-                          );
-                          ref.read(providerInstance.notifier).fetchDetails(widget.item);
-                        },
-                      ),
                       SelectableIconButton(
                         onPressed: () async {
                           await ref
@@ -157,6 +156,13 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
                     ),
                   if (details.related.isNotEmpty)
                     PosterRow(posters: details.related, contentPadding: padding, label: "Related"),
+                  if (details.overview.externalUrls?.isNotEmpty == true)
+                    Padding(
+                      padding: padding,
+                      child: ExternalUrlsRow(
+                        urls: details.overview.externalUrls,
+                      ),
+                    )
                 ].addPadding(const EdgeInsets.symmetric(vertical: 16)),
               ),
             )

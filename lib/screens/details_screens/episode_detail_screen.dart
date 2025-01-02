@@ -12,10 +12,11 @@ import 'package:fladder/screens/details_screens/components/overview_header.dart'
 import 'package:fladder/screens/shared/detail_scaffold.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/screens/shared/media/chapter_row.dart';
-import 'package:fladder/screens/shared/media/components/media_header.dart';
 import 'package:fladder/screens/shared/media/components/media_play_button.dart';
 import 'package:fladder/screens/shared/media/episode_posters.dart';
 import 'package:fladder/screens/shared/media/expanding_overview.dart';
+import 'package:fladder/screens/shared/media/external_urls.dart';
+import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/item_base_model/play_item_helpers.dart';
 import 'package:fladder/util/list_padding.dart';
@@ -41,6 +42,8 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
     final details = ref.watch(providerInstance);
     final seasonDetails = details.series;
     final episodeDetails = details.episode;
+    final wrapAlignment =
+        AdaptiveLayout.of(context).layout != LayoutState.phone ? WrapAlignment.start : WrapAlignment.center;
 
     return DetailScaffold(
       label: widget.item.name,
@@ -67,15 +70,24 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.35),
-                  MediaHeader(
-                    name: details.series?.name ?? "",
-                    logo: seasonDetails.images?.logo,
-                  ),
                   OverviewHeader(
                     name: details.series?.name ?? "",
+                    image: seasonDetails.images,
+                    centerButtons: episodeDetails.playAble
+                        ? MediaPlayButton(
+                            item: episodeDetails,
+                            onPressed: () async {
+                              await details.episode.play(context, ref);
+                              ref.read(providerInstance.notifier).fetchDetails(widget.item);
+                            },
+                            onLongPressed: () async {
+                              await details.episode.play(context, ref, showPlaybackOption: true);
+                              ref.read(providerInstance.notifier).fetchDetails(widget.item);
+                            },
+                          )
+                        : null,
                     padding: padding,
-                    subTitle: details.episode?.name,
+                    subTitle: details.episode?.detailedName(context),
                     originalTitle: details.series?.originalTitle,
                     onTitleClicked: () => details.series?.navigateTo(context),
                     productionYear: details.series?.overview.productionYear,
@@ -84,25 +96,13 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                     genres: details.series?.overview.genreItems ?? [],
                     officialRating: details.series?.overview.parentalRating,
                     communityRating: details.series?.overview.communityRating,
-                    externalUrls: details.series?.overview.externalUrls,
                   ),
                   Wrap(
                     spacing: 8,
                     runSpacing: 8,
+                    alignment: wrapAlignment,
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
-                      if (episodeDetails.playAble)
-                        MediaPlayButton(
-                          item: episodeDetails,
-                          onPressed: () async {
-                            await details.episode.play(context, ref);
-                            ref.read(providerInstance.notifier).fetchDetails(widget.item);
-                          },
-                          onLongPressed: () async {
-                            await details.episode.play(context, ref, showPlaybackOption: true);
-                            ref.read(providerInstance.notifier).fetchDetails(widget.item);
-                          },
-                        ),
                       SelectableIconButton(
                         onPressed: () async {
                           await ref
@@ -169,6 +169,13 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                       ),
                       episodes: details.episodes.where((element) => element.season == episodeDetails.season).toList(),
                     ),
+                  if (details.series?.overview.externalUrls?.isNotEmpty == true)
+                    Padding(
+                      padding: padding,
+                      child: ExternalUrlsRow(
+                        urls: details.series?.overview.externalUrls,
+                      ),
+                    )
                 ].addPadding(const EdgeInsets.symmetric(vertical: 16)),
               ),
             )

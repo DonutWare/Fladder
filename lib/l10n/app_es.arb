@@ -1198,5 +1198,13 @@
   "mediaSegmentPreview": "Vista previa",
   "@mediaSegmentPreview": {},
   "mediaSegmentOutro": "Otro",
-  "@mediaSegmentOutro": {}
+  "@mediaSegmentOutro": {},
+  "skipButtonLabel": "Omitir {segment}",
+  "@skipButtonLabel": {
+    "placeholders": {
+      "segment": {
+        "type": "String"
+      }
+    }
+  }
 }

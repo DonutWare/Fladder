@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:fladder/screens/shared/flat_button.dart';
 
 class ChipButton extends ConsumerWidget {
   final String label;
@@ -8,18 +11,19 @@ class ChipButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return TextButton(
-      onPressed: onPressed,
-      style: TextButton.styleFrom(
-        backgroundColor: Theme.of(context).colorScheme.surface.withOpacity(0.75),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-          side: BorderSide.none,
+    return Card(
+      color: Theme.of(context).colorScheme.onSurface.withOpacity(0.15),
+      shadowColor: Colors.transparent,
+      child: FlatButton(
+        onTap: onPressed,
+        // ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+          child: Text(
+            label,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
+          ),
         ),
-      ),
-      child: Text(
-        label,
-        style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
       ),
     );
   }

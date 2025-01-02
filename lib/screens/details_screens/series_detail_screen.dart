@@ -10,14 +10,15 @@ import 'package:fladder/providers/items/series_details_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/details_screens/components/overview_header.dart';
 import 'package:fladder/screens/shared/detail_scaffold.dart';
-import 'package:fladder/screens/shared/media/components/media_header.dart';
 import 'package:fladder/screens/shared/media/components/media_play_button.dart';
 import 'package:fladder/screens/shared/media/components/next_up_episode.dart';
 import 'package:fladder/screens/shared/media/episode_posters.dart';
 import 'package:fladder/screens/shared/media/expanding_overview.dart';
+import 'package:fladder/screens/shared/media/external_urls.dart';
 import 'package:fladder/screens/shared/media/people_row.dart';
 import 'package:fladder/screens/shared/media/poster_row.dart';
 import 'package:fladder/screens/shared/media/season_row.dart';
+import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/item_base_model/play_item_helpers.dart';
 import 'package:fladder/util/list_padding.dart';
@@ -41,6 +42,9 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final details = ref.watch(providerId);
+    final wrapAlignment =
+        AdaptiveLayout.of(context).layout != LayoutState.phone ? WrapAlignment.start : WrapAlignment.center;
+
     return DetailScaffold(
       label: details?.name ?? "",
       item: details,
@@ -67,13 +71,24 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.35),
-                  MediaHeader(
-                    name: details.name,
-                    logo: details.images?.logo,
-                  ),
                   OverviewHeader(
                     name: details.name,
+                    image: details.images,
+                    centerButtons: MediaPlayButton(
+                      item: details.nextUp,
+                      onPressed: details.nextUp != null
+                          ? () async {
+                              await details.nextUp.play(context, ref);
+                              ref.read(providerId.notifier).fetchDetails(widget.item);
+                            }
+                          : null,
+                      onLongPressed: details.nextUp != null
+                          ? () async {
+                              await details.nextUp.play(context, ref, showPlaybackOption: true);
+                              ref.read(providerId.notifier).fetchDetails(widget.item);
+                            }
+                          : null,
+                    ),
                     padding: padding,
                     originalTitle: details.originalTitle,
                     productionYear: details.overview.productionYear,
@@ -82,28 +97,13 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                     officialRating: details.overview.parentalRating,
                     genres: details.overview.genreItems,
                     communityRating: details.overview.communityRating,
-                    externalUrls: details.overview.externalUrls,
                   ),
                   Wrap(
                     spacing: 8,
                     runSpacing: 8,
+                    alignment: wrapAlignment,
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
-                      MediaPlayButton(
-                        item: details.nextUp,
-                        onPressed: details.nextUp != null
-                            ? () async {
-                                await details.nextUp.play(context, ref);
-                                ref.read(providerId.notifier).fetchDetails(widget.item);
-                              }
-                            : null,
-                        onLongPressed: details.nextUp != null
-                            ? () async {
-                                await details.nextUp.play(context, ref, showPlaybackOption: true);
-                                ref.read(providerId.notifier).fetchDetails(widget.item);
-                              }
-                            : null,
-                      ),
                       SelectableIconButton(
                         onPressed: () async {
                           await ref
@@ -159,6 +159,13 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                     ),
                   if (details.related.isNotEmpty)
                     PosterRow(posters: details.related, contentPadding: padding, label: context.localized.related),
+                  if (details.overview.externalUrls?.isNotEmpty == true)
+                    Padding(
+                      padding: padding,
+                      child: ExternalUrlsRow(
+                        urls: details.overview.externalUrls,
+                      ),
+                    )
                 ].addPadding(const EdgeInsets.symmetric(vertical: 16)),
               ),
             )

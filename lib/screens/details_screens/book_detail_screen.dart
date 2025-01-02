@@ -5,14 +5,15 @@ import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/book_model.dart';
+import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/providers/items/book_details_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/details_screens/components/overview_header.dart';
 import 'package:fladder/screens/shared/detail_scaffold.dart';
 import 'package:fladder/screens/shared/media/components/media_play_button.dart';
 import 'package:fladder/screens/shared/media/expanding_overview.dart';
+import 'package:fladder/screens/shared/media/external_urls.dart';
 import 'package:fladder/screens/shared/media/poster_list_item.dart';
-import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/item_base_model/play_item_helpers.dart';
 import 'package:fladder/util/list_padding.dart';
@@ -65,50 +66,34 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.2),
-                  if (MediaQuery.sizeOf(context).width < 500)
-                    Center(
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width * 0.75),
-                        child: AspectRatio(
-                          aspectRatio: 0.76,
-                          child: Card(
-                            child: FladderImage(image: details.cover?.primary),
-                          ),
-                        ),
-                      ).padding(padding),
-                    ),
                   Row(
                     children: [
-                      if (MediaQuery.sizeOf(context).width > 500) ...{
-                        ConstrainedBox(
-                          constraints: BoxConstraints(
-                              maxWidth: MediaQuery.sizeOf(context).width * 0.3,
-                              maxHeight: MediaQuery.sizeOf(context).height * 0.75),
-                          child: AspectRatio(
-                            aspectRatio: 0.76,
-                            child: Card(
-                              child: FladderImage(image: details.cover?.primary),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 32),
-                      },
                       Flexible(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             if (details.nextUp != null)
                               OverviewHeader(
-                                subTitle: details.book!.parentName ?? details.parentModel?.name,
-                                name: details.nextUp!.name,
+                                subTitle: details.book?.parentName ?? details.parentModel?.name,
+                                name: details.nextUp?.name ?? "",
+                                image: ImagesData(
+                                  logo: details.book?.getPosters?.primary,
+                                ),
+                                centerButtons: Builder(
+                                  builder: (context) {
+                                    //Wrapped so the correct context is used for refreshing the pages
+                                    return MediaPlayButton(
+                                      item: details.nextUp!,
+                                      onPressed: () async => details.nextUp.play(context, ref, provider: provider),
+                                    );
+                                  },
+                                ),
                                 productionYear: details.nextUp!.overview.productionYear,
                                 runTime: details.nextUp!.overview.runTime,
                                 genres: details.nextUp!.overview.genreItems,
                                 studios: details.nextUp!.overview.studios,
                                 officialRating: details.nextUp!.overview.parentalRating,
                                 communityRating: details.nextUp!.overview.communityRating,
-                                externalUrls: details.nextUp!.overview.externalUrls,
                               ),
                             const SizedBox(height: 16),
                             Wrap(
@@ -116,14 +101,6 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
                               runSpacing: 8,
                               crossAxisAlignment: WrapCrossAlignment.center,
                               children: [
-                                //Wrapped so the correct context is used for refreshing the pages
-                                Builder(
-                                  builder: (context) {
-                                    return MediaPlayButton(
-                                        item: details.nextUp!,
-                                        onPressed: () async => details.nextUp.play(context, ref, provider: provider));
-                                  },
-                                ),
                                 if (details.parentModel != null)
                                   SelectableIconButton(
                                     onPressed: () async => await details.parentModel?.navigateTo(context),
@@ -177,52 +154,61 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
                       text: details.nextUp!.overview.summary,
                     ).padding(padding),
                   if (details.chapters.length > 1)
-                    Builder(builder: (context) {
-                      final parentContext = context;
-                      return Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(context.localized.chapter(details.chapters.length),
-                              style: Theme.of(context).textTheme.titleLarge),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 16),
-                            child: Divider(),
-                          ),
-                          ...details.chapters.map(
-                            (e) {
-                              final current = e == details.nextUp;
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 2),
-                                child: Opacity(
-                                  opacity: e.userData.played ? 0.65 : 1,
-                                  child: Card(
-                                    color: current ? Theme.of(context).colorScheme.surfaceContainerHighest : null,
-                                    child: PosterListItem(
-                                      poster: e,
-                                      onPressed: (action, item) => showBottomSheetPill(
-                                        context: context,
-                                        item: item,
-                                        content: (context, scrollController) => ListView(
-                                          shrinkWrap: true,
-                                          controller: scrollController,
-                                          children: item
-                                              .generateActions(
-                                                parentContext,
-                                                ref,
-                                              )
-                                              .listTileItems(context, useIcons: true),
+                    Builder(
+                      builder: (context) {
+                        final parentContext = context;
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(context.localized.chapter(details.chapters.length),
+                                style: Theme.of(context).textTheme.titleLarge),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 16),
+                              child: Divider(),
+                            ),
+                            ...details.chapters.map(
+                              (e) {
+                                final current = e == details.nextUp;
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 2),
+                                  child: Opacity(
+                                    opacity: e.userData.played ? 0.65 : 1,
+                                    child: Card(
+                                      color: current ? Theme.of(context).colorScheme.surfaceContainerHighest : null,
+                                      child: PosterListItem(
+                                        poster: e,
+                                        onPressed: (action, item) => showBottomSheetPill(
+                                          context: context,
+                                          item: item,
+                                          content: (context, scrollController) => ListView(
+                                            shrinkWrap: true,
+                                            controller: scrollController,
+                                            children: item
+                                                .generateActions(
+                                                  parentContext,
+                                                  ref,
+                                                )
+                                                .listTileItems(context, useIcons: true),
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              );
-                            },
-                          )
-                        ],
-                      ).padding(padding);
-                    })
+                                );
+                              },
+                            )
+                          ],
+                        ).padding(padding);
+                      },
+                    ),
+                  if (details.nextUp?.overview.externalUrls?.isNotEmpty == true)
+                    Padding(
+                      padding: padding,
+                      child: ExternalUrlsRow(
+                        urls: details.nextUp?.overview.externalUrls,
+                      ),
+                    )
                 ].addPadding(const EdgeInsets.symmetric(vertical: 16)),
               ),
             )

@@ -1,14 +1,20 @@
+import 'package:flutter/material.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
+import 'package:fladder/screens/shared/media/components/chip_button.dart';
+import 'package:fladder/screens/shared/media/components/media_header.dart';
 import 'package:fladder/screens/shared/media/components/small_detail_widgets.dart';
-import 'package:fladder/screens/shared/media/external_urls.dart';
+import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/humanize_duration.dart';
 import 'package:fladder/util/list_padding.dart';
-import 'package:fladder/util/localization_helper.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class OverviewHeader extends ConsumerWidget {
   final String name;
+  final ImagesData? image;
+  final Widget? centerButtons;
   final EdgeInsets? padding;
   final String? subTitle;
   final String? originalTitle;
@@ -19,10 +25,10 @@ class OverviewHeader extends ConsumerWidget {
   final double? communityRating;
   final List<Studio> studios;
   final List<GenreItems> genres;
-  final List<ExternalUrls>? externalUrls;
-  final List<Widget> actions;
   const OverviewHeader({
     required this.name,
+    this.image,
+    this.centerButtons,
     this.padding,
     this.subTitle,
     this.originalTitle,
@@ -31,134 +37,118 @@ class OverviewHeader extends ConsumerWidget {
     this.runTime,
     this.officialRating,
     this.communityRating,
-    this.externalUrls,
     this.genres = const [],
     this.studios = const [],
-    this.actions = const [],
     super.key,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final mainStyle = Theme.of(context).textTheme.headlineMedium?.copyWith(
+    final mainStyle = Theme.of(context).textTheme.titleLarge?.copyWith(
           fontWeight: FontWeight.bold,
         );
-    final subStyle = Theme.of(context).textTheme.titleMedium?.copyWith(
-          fontSize: 20,
+    final subStyle = Theme.of(context).textTheme.bodyMedium?.copyWith(
+          fontSize: 18,
         );
 
-    return Padding(
-      padding: padding ?? EdgeInsets.zero,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const SizedBox(height: 32),
-          if (subTitle == null)
-            Flexible(
-              child: SelectableText(
-                name,
-                style: mainStyle,
-              ),
-            )
-          else ...{
-            Flexible(
-              child: SelectableText(
-                subTitle ?? "",
-                style: mainStyle,
-              ),
+    final fullHeight =
+        (MediaQuery.sizeOf(context).height - (MediaQuery.paddingOf(context).top + 150)).clamp(50, 1250).toDouble();
+
+    final crossAlignment =
+        AdaptiveLayout.of(context).layout != LayoutState.phone ? CrossAxisAlignment.start : CrossAxisAlignment.center;
+
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        minHeight: fullHeight,
+      ),
+      child: Padding(
+        padding: padding ?? EdgeInsets.zero,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: crossAlignment,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            MediaHeader(
+              name: name,
+              logo: image?.logo,
+              onTap: onTitleClicked,
             ),
-            Flexible(
-              child: Opacity(
-                opacity: 0.75,
-                child: Row(
-                  children: [
-                    Flexible(
-                      child: SelectableText(
-                        name,
-                        style: subStyle,
-                        onTap: onTitleClicked,
-                      ),
-                    ),
-                    if (onTitleClicked != null)
-                      IconButton(
-                          onPressed: onTitleClicked,
-                          icon: Transform.translate(offset: const Offset(0, 1.5), child: const Icon(Icons.read_more_rounded)))
-                  ],
-                ),
-              ),
-            ),
-          },
-          if (name != originalTitle && originalTitle != null)
-            SelectableText(
-              originalTitle.toString(),
-              style: subStyle,
-            ),
-          const SizedBox(height: 6),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            alignment: WrapAlignment.start,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            children: [
-              if (productionYear != null)
-                SelectableText(
-                  productionYear.toString(),
-                  style: subStyle,
-                ),
-              if (runTime != null && (runTime?.inSeconds ?? 0) > 1)
-                SelectableText(
-                  runTime.humanize.toString(),
-                  style: subStyle,
-                ),
-              if (officialRating != null)
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: crossAlignment,
+              children: [
+                if (subTitle != null)
+                  Flexible(
                     child: SelectableText(
-                      officialRating.toString(),
-                      style: subStyle,
+                      subTitle ?? "",
+                      textAlign: TextAlign.center,
+                      style: mainStyle,
                     ),
                   ),
-                ),
-              if (communityRating != null)
-                Row(
+                if (name.toLowerCase() != originalTitle?.toLowerCase() && originalTitle != null)
+                  SelectableText(
+                    originalTitle.toString(),
+                    textAlign: TextAlign.center,
+                    style: subStyle,
+                  ),
+              ].addInBetween(const SizedBox(height: 4)),
+            ),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: crossAlignment,
+              children: [
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  direction: Axis.horizontal,
+                  alignment: WrapAlignment.center,
+                  runAlignment: WrapAlignment.center,
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
-                    Icon(
-                      Icons.star_rate_rounded,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    Text(
-                      communityRating?.toStringAsFixed(1) ?? "",
-                      style: subStyle,
-                    ),
-                  ],
+                    if (officialRating != null)
+                      ChipButton(
+                        label: officialRating.toString(),
+                      ),
+                    if (productionYear != null)
+                      SelectableText(
+                        productionYear.toString(),
+                        textAlign: TextAlign.center,
+                        style: subStyle,
+                      ),
+                    if (runTime != null && (runTime?.inSeconds ?? 0) > 1)
+                      SelectableText(
+                        runTime.humanize.toString(),
+                        textAlign: TextAlign.center,
+                        style: subStyle,
+                      ),
+                    if (communityRating != null)
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.star_rate_rounded,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          Text(
+                            communityRating?.toStringAsFixed(1) ?? "",
+                            style: subStyle,
+                          ),
+                        ],
+                      ),
+                  ].addInBetween(CircleAvatar(
+                    radius: 3,
+                    backgroundColor: Theme.of(context).colorScheme.onSurface,
+                  )),
                 ),
-            ],
-          ),
-          const SizedBox(height: 6),
-          if (studios.isNotEmpty)
-            Text(
-              "${context.localized.watchOn} ${studios.map((e) => e.name).first}",
-              style: subStyle?.copyWith(fontSize: 16, color: Colors.grey),
+                if (genres.isNotEmpty)
+                  Genres(
+                    genres: genres.take(6).toList(),
+                  ),
+              ].addInBetween(const SizedBox(height: 10)),
             ),
-          const SizedBox(height: 6),
-          if (externalUrls?.isNotEmpty ?? false)
-            ExternalUrlsRow(
-              urls: externalUrls,
-            ),
-          const SizedBox(height: 6),
-          if (genres.isNotEmpty)
-            Genres(
-              genres: genres.take(10).toList(),
-            ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: actions.addPadding(
-              const EdgeInsets.symmetric(horizontal: 6),
-            ),
-          ),
-        ],
+            if (centerButtons != null) centerButtons!,
+          ].addInBetween(const SizedBox(height: 21)),
+        ),
       ),
     );
   }

@@ -14,6 +14,7 @@ extension StringExtensions on String {
   }
 
   String maxLength({int limitTo = 75}) {
+    if (isEmpty) return this;
     if (length > limitTo) {
       return "${substring(0, limitTo.clamp(0, length))}...";
     } else {

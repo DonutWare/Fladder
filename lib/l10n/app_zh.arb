@@ -1204,5 +1204,9 @@
   "mediaSegmentUnknown": "未知",
   "@mediaSegmentUnknown": {},
   "mediaSegmentCommercial": "广告",
-  "@mediaSegmentCommercial": {}
+  "@mediaSegmentCommercial": {},
+  "errorLogs": "错误日志",
+  "@errorLogs": {},
+  "external": "外部的",
+  "@external": {}
 }

@@ -1,13 +1,13 @@
 import 'package:chopper/chopper.dart';
 import 'package:collection/collection.dart';
-import 'package:fladder/providers/service_provider.dart';
-import 'package:fladder/providers/sync_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/items/series_model.dart';
 import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/providers/service_provider.dart';
+import 'package:fladder/providers/sync_provider.dart';
 
 class EpisodeDetailModel {
   final SeriesModel? series;
@@ -69,16 +69,19 @@ class EpisodeDetailsProvider extends StateNotifier<EpisodeDetailModel> {
 
   void _tryToCreateOfflineState(ItemBaseModel item) {
     final syncNotifier = ref.read(syncProvider.notifier);
-    final syncedItem = syncNotifier.getParentItem(item.id);
-    if (syncedItem == null) return;
-    final seriesModel = syncedItem.createItemModel(ref) as SeriesModel;
-    final episodes = ref
-        .read(syncProvider.notifier)
-        .getChildren(syncedItem)
+    final episodeModel = syncNotifier.getSyncedItem(item)?.createItemModel(ref) as EpisodeModel?;
+    if (episodeModel == null) return;
+    final seriesSyncedItem = syncNotifier.getSyncedItem(episodeModel.parentBaseModel);
+    if (seriesSyncedItem == null) return;
+    final seriesModel = seriesSyncedItem.createItemModel(ref) as SeriesModel?;
+    if (seriesModel == null) return;
+    final episodes = syncNotifier
+        .getNestedChildren(seriesSyncedItem)
         .map(
-          (e) => e.createItemModel(ref) as EpisodeModel,
+          (e) => e.createItemModel(ref),
         )
         .whereNotNull()
+        .whereType<EpisodeModel>()
         .toList();
     state = state.copyWith(
       series: seriesModel,

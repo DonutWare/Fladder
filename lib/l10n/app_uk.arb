@@ -1213,5 +1213,9 @@
   "mediaSegmentUnknown": "Невідомо",
   "@mediaSegmentUnknown": {},
   "mediaSegmentCommercial": "Реклама",
-  "@mediaSegmentCommercial": {}
+  "@mediaSegmentCommercial": {},
+  "errorLogs": "Журнал помилок",
+  "@errorLogs": {},
+  "external": "Зовнішній",
+  "@external": {}
 }

@@ -46,22 +46,25 @@ class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> with WindowLi
         TargetPlatform.windows || TargetPlatform.linux => Row(
             children: [
               Expanded(
-                child: DragToMoveArea(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.only(left: 16),
-                        child: DefaultTextStyle(
-                          style: TextStyle(
-                            color: iconColor,
-                            fontSize: 14,
+                child: Container(
+                  color: Colors.black.withOpacity(0),
+                  child: DragToMoveArea(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.only(left: 16),
+                          child: DefaultTextStyle(
+                            style: TextStyle(
+                              color: iconColor,
+                              fontSize: 14,
+                            ),
+                            child: Text(widget.label ?? ""),
                           ),
-                          child: Text(widget.label ?? ""),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),

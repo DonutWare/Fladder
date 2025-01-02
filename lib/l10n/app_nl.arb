@@ -1206,5 +1206,9 @@
   "mediaSegmentCommercial": "Reclame",
   "@mediaSegmentCommercial": {},
   "mediaSegmentIntro": "Inleiding",
-  "@mediaSegmentIntro": {}
+  "@mediaSegmentIntro": {},
+  "errorLogs": "Foutlogs",
+  "@errorLogs": {},
+  "external": "Extern",
+  "@external": {}
 }
