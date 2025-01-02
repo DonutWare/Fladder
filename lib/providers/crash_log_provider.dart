@@ -20,7 +20,7 @@ class CrashLogNotifier extends StateNotifier<List<ErrorLogModel>> {
   final maxLength = 50;
   String? logFilePath;
 
-  Future<void> init() async {
+  void init() async {
     logger = Logger.root;
     logger.level = Level.ALL;
     logger.onRecord.listen(logPrint);
