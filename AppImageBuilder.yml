@@ -2,12 +2,11 @@
 version: 1
 script:
   - rm -rf AppDir || true
-  - mkdir -p AppDir
-  - cp -r build/linux/x64/release/bundle/* AppDir
+  - cp -r build/linux/x64/release/bundle AppDir
   - mkdir -p AppDir/usr/share/icons/
   - cp icons/production/fladder_icon_desktop.png AppDir/usr/share/icons/
 AppDir:
-  path: AppDir
+  path: ./AppDir
   app_info:
     id: nl.jknaapen.fladder
     name: Fladder
