@@ -7,7 +7,7 @@
     "LTWH",
     "outro"
   ],
-  "dart.flutterSdkPath": ".fvm/versions/3.27.0",
+  "dart.flutterSdkPath": ".fvm/versions/3.27.1",
   "search.exclude": {
     "**/.fvm": true
   },
