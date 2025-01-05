@@ -14,8 +14,7 @@ part 'api_provider.g.dart';
 @riverpod
 class JellyApi extends _$JellyApi {
   @override
-  JellyService build() {
-    return JellyService(
+  JellyService build() => JellyService(
         ref,
         JellyfinOpenApi.create(
           interceptors: [
@@ -23,8 +22,8 @@ class JellyApi extends _$JellyApi {
             JellyResponse(ref),
             HttpLoggingInterceptor(level: Level.basic),
           ],
-        ));
-  }
+        ),
+      );
 }
 
 class JellyRequest implements Interceptor {
