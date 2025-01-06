@@ -209,6 +209,16 @@ class FakeJellyfinOpenApi extends JellyfinOpenApi {
         items: _baseItems
             .where((e) => {BaseItemKind.movie, BaseItemKind.episode}.contains(e.type))
             .where((e) => e.userData?.played != true && e.userData?.playedPercentage != 0)
+            .fold<Map<String?, BaseItemDto>>(
+              {},
+              (map, item) {
+                if (!map.containsKey(item.seriesId)) {
+                  map[item.seriesId] = item;
+                }
+                return map;
+              },
+            )
+            .values
             .toList(),
       ),
     );
