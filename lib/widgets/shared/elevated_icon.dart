@@ -20,9 +20,9 @@ IconData getBackIcon(BuildContext context) {
 }
 
 final _shadows = [
-  BoxShadow(blurRadius: 1, spreadRadius: 1, color: Colors.black.withOpacity(0.2)),
-  BoxShadow(blurRadius: 4, spreadRadius: 4, color: Colors.black.withOpacity(0.1)),
-  BoxShadow(blurRadius: 16, spreadRadius: 6, color: Colors.black.withOpacity(0.2)),
+  BoxShadow(blurRadius: 1, spreadRadius: 1, color: Colors.black.withValues(alpha: 0.2)),
+  BoxShadow(blurRadius: 4, spreadRadius: 4, color: Colors.black.withValues(alpha: 0.1)),
+  BoxShadow(blurRadius: 16, spreadRadius: 6, color: Colors.black.withValues(alpha: 0.2)),
 ];
 
 class ElevatedIconButton extends ConsumerWidget {
@@ -36,7 +36,7 @@ class ElevatedIconButton extends ConsumerWidget {
     return IconButton(
       onPressed: onPressed,
       style: IconButtonTheme.of(context).style?.copyWith(
-            backgroundColor: WidgetStatePropertyAll(color?.withOpacity(0.15)),
+            backgroundColor: WidgetStatePropertyAll(color?.withValues(alpha: 0.15)),
           ),
       color: color,
       icon: Icon(

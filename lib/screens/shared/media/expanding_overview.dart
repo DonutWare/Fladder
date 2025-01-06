@@ -44,11 +44,12 @@ class _ExpandingOverviewState extends ConsumerState<ExpandingOverview> {
               stops: const [0, 1],
               colors: [
                 color,
-                color.withOpacity(!canExpand
-                    ? 1
-                    : expanded
+                color.withValues(
+                    alpha: !canExpand
                         ? 1
-                        : 0),
+                        : expanded
+                            ? 1
+                            : 0),
               ],
             ).createShader(bounds),
             child: HtmlWidget(

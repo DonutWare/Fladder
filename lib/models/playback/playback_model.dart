@@ -132,7 +132,7 @@ class PlaybackModelHelper {
       trickPlay: syncedItem.trickPlayModel,
       mediaSegments: syncedItem.mediaSegments,
       media: Media(url: syncedItem.videoFile.path),
-      queue: itemQueue.whereNotNull().toList(),
+      queue: itemQueue.nonNulls.toList(),
       syncedQueue: children,
       mediaStreams: item.streamModel ?? syncedItemModel.streamModel,
     );

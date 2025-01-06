@@ -226,7 +226,8 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
                               icon: Icon(
                                 player.lastState.playing ? IconsaxBold.pause_circle : IconsaxBold.play_circle,
                                 shadows: [
-                                  BoxShadow(blurRadius: 16, spreadRadius: 2, color: Colors.black.withOpacity(0.15))
+                                  BoxShadow(
+                                      blurRadius: 16, spreadRadius: 2, color: Colors.black.withValues(alpha: 0.15))
                                 ],
                               ),
                             )

@@ -1,4 +1,9 @@
+import 'package:flutter/material.dart';
+
 import 'package:collection/collection.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
+
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/providers/items/person_details_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
@@ -11,9 +16,6 @@ import 'package:fladder/util/list_extensions.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/util/widget_extensions.dart';
 import 'package:fladder/widgets/shared/selectable_icon_button.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 class PersonDetailScreen extends ConsumerStatefulWidget {
   final Person person;
@@ -37,6 +39,7 @@ class _PersonDetailScreenState extends ConsumerState<PersonDetailScreen> {
       backDrops: [...?details?.movies, ...?details?.series].random().firstOrNull?.images,
       content: (padding) => Column(
         mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           SizedBox(height: MediaQuery.of(context).size.height / 6),
           Padding(
@@ -89,10 +92,6 @@ class _PersonDetailScreenState extends ConsumerState<PersonDetailScreen> {
                       Text("Birthday: ${DateFormat.yMEd().format(details?.dateOfBirth ?? DateTime.now()).toString()}"),
                     if (details?.age != null) Text("Age: ${details?.age}"),
                     if (details?.birthPlace.isEmpty == false) Text("Born in ${details?.birthPlace.join(",")}"),
-                    if (details?.overview.externalUrls?.isNotEmpty ?? false)
-                      ExternalUrlsRow(
-                        urls: details?.overview.externalUrls,
-                      ).padding(padding),
                   ],
                 ),
               ],
@@ -102,7 +101,11 @@ class _PersonDetailScreenState extends ConsumerState<PersonDetailScreen> {
           if (details?.movies.isNotEmpty ?? false)
             PosterRow(contentPadding: padding, posters: details?.movies ?? [], label: "Movies"),
           if (details?.series.isNotEmpty ?? false)
-            PosterRow(contentPadding: padding, posters: details?.series ?? [], label: "Series")
+            PosterRow(contentPadding: padding, posters: details?.series ?? [], label: "Series"),
+          if (details?.overview.externalUrls?.isNotEmpty ?? false)
+            ExternalUrlsRow(
+              urls: details?.overview.externalUrls,
+            ).padding(padding),
         ],
       ),
     );

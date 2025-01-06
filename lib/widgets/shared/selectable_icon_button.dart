@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/util/refresh_state.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SelectableIconButton extends ConsumerStatefulWidget {
   final FutureOr<dynamic> Function() onPressed;
@@ -36,6 +38,7 @@ class _SelectableIconButtonState extends ConsumerState<SelectableIconButton> {
       child: ElevatedButton(
         style: ButtonStyle(
           backgroundColor: widget.selected ? WidgetStatePropertyAll(Theme.of(context).colorScheme.primary) : null,
+          iconColor: widget.selected ? WidgetStatePropertyAll(Theme.of(context).colorScheme.onPrimary) : null,
           foregroundColor: widget.selected ? WidgetStatePropertyAll(Theme.of(context).colorScheme.onPrimary) : null,
           padding: const WidgetStatePropertyAll(EdgeInsets.zero),
         ),

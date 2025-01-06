@@ -13,7 +13,7 @@ class AbsorbEvents extends ConsumerWidget {
         onDoubleTap: () {},
         onTap: () {},
         onLongPress: () {},
-        child: Container(color: Colors.black.withOpacity(0), child: child),
+        child: Container(color: Colors.black.withValues(alpha: 0), child: child),
       );
     } else {
       return child;

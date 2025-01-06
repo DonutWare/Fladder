@@ -6,7 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:collection/collection.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -276,7 +275,7 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
               dragDevices: {
                 ...scrollBehaviour.dragDevices,
                 mouseDrag ? PointerDeviceKind.mouse : null,
-              }.whereNotNull().toSet(),
+              }.nonNulls.toSet(),
             ),
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,

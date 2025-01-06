@@ -21,6 +21,8 @@ final showSyncButtonProviderProvider = AutoDisposeProvider<bool>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef ShowSyncButtonProviderRef = AutoDisposeProviderRef<bool>;
 String _$userHash() => r'e83369c0d569d5a862aa1b92f3f0a45a9d1fe446';
 
@@ -37,4 +39,4 @@ final userProvider = NotifierProvider<User, AccountModel?>.internal(
 
 typedef _$User = Notifier<AccountModel?>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

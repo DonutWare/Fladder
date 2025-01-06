@@ -15,7 +15,7 @@ Future<void> showSubtitleControls({
 }) async {
   await showDialog(
     context: context,
-    barrierColor: Colors.black.withOpacity(0.1),
+    barrierColor: Colors.black.withValues(alpha: 0.1),
     builder: (context) => AlertDialog(
       backgroundColor: Colors.transparent,
       elevation: 0,
@@ -60,7 +60,7 @@ class _VideoSubtitleControlsState extends ConsumerState<VideoSubtitleControls> {
       duration: const Duration(milliseconds: 250),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        color: controlsHidden ? Theme.of(context).dialogBackgroundColor.withOpacity(0.75) : Colors.transparent,
+        color: controlsHidden ? Theme.of(context).dialogBackgroundColor.withValues(alpha: 0.75) : Colors.transparent,
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -220,8 +220,8 @@ class _VideoSubtitleControlsState extends ConsumerState<VideoSubtitleControls> {
                                   const Icon(Icons.border_color_rounded),
                                   ...[Colors.white, Colors.yellow, Colors.black, Colors.grey, Colors.transparent].map(
                                     (e) => FlatButton(
-                                      onTap: () =>
-                                          provider.setOutlineColor(e == Colors.transparent ? e : e.withOpacity(0.85)),
+                                      onTap: () => provider
+                                          .setOutlineColor(e == Colors.transparent ? e : e.withValues(alpha: 0.85)),
                                       borderRadiusGeometry: BorderRadius.circular(5),
                                       clipBehavior: Clip.antiAlias,
                                       child: Container(
@@ -284,7 +284,7 @@ class _VideoSubtitleControlsState extends ConsumerState<VideoSubtitleControls> {
                                       divisions: 20,
                                       onChangeStart: (value) => setOpacity(const Key('backGroundOpacity')),
                                       onChangeEnd: (value) => setOpacity(null),
-                                      value: subSettings.backGroundColor.opacity.clamp(0, 1),
+                                      value: subSettings.backGroundColor.a.clamp(0, 1),
                                       onChanged: (value) => provider.setBackGroundOpacity(value),
                                     ),
                                   ),
@@ -293,7 +293,7 @@ class _VideoSubtitleControlsState extends ConsumerState<VideoSubtitleControls> {
                                       minWidth: 35,
                                     ),
                                     child: Text(
-                                      subSettings.backGroundColor.opacity.toStringAsFixed(2),
+                                      subSettings.backGroundColor.a.toStringAsFixed(2),
                                       textAlign: TextAlign.center,
                                     ),
                                   ),

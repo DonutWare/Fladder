@@ -243,7 +243,7 @@ class AudioStreamModel extends StreamModel {
   }
 
   String get title =>
-      [name, language, codec, channelLayout].whereNotNull().where((element) => element.isNotEmpty).join(' - ');
+      [name, language, codec, channelLayout].nonNulls.where((element) => element.isNotEmpty).join(' - ');
 
   AudioStreamModel.no({
     super.name = 'Off',

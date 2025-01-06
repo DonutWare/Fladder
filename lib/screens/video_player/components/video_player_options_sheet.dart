@@ -393,7 +393,7 @@ Future<void> showSubSelection(BuildContext context) {
                 final selected = playbackModel.mediaStreams?.defaultSubStreamIndex == subModel.index;
                 return ListTile(
                   title: Text(subModel.label(context)),
-                  tileColor: selected ? Theme.of(context).colorScheme.primary.withOpacity(0.3) : null,
+                  tileColor: selected ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.3) : null,
                   subtitle: subModel.language.isNotEmpty
                       ? Opacity(opacity: 0.6, child: Text(subModel.language.capitalize()))
                       : null,
@@ -434,7 +434,7 @@ Future<void> showAudioSelection(BuildContext context) {
                 final selected = playbackModel.mediaStreams?.defaultAudioStreamIndex == audioStream.index;
                 return ListTile(
                     title: Text(audioStream.label(context)),
-                    tileColor: selected ? Theme.of(context).colorScheme.primary.withOpacity(0.3) : null,
+                    tileColor: selected ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.3) : null,
                     subtitle: audioStream.language.isNotEmpty
                         ? Opacity(opacity: 0.6, child: Text(audioStream.language.capitalize()))
                         : null,

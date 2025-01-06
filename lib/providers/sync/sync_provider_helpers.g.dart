@@ -157,6 +157,8 @@ class SyncChildrenProvider
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin SyncChildrenRef on AutoDisposeNotifierProviderRef<List<SyncedItem>> {
   /// The parameter `arg` of this provider.
   SyncedItem get arg;
@@ -302,6 +304,8 @@ class SyncDownloadStatusProvider extends AutoDisposeNotifierProviderImpl<
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin SyncDownloadStatusRef on AutoDisposeNotifierProviderRef<DownloadStream?> {
   /// The parameter `arg` of this provider.
   SyncedItem get arg;
@@ -446,6 +450,8 @@ class SyncStatusesProvider
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin SyncStatusesRef on AutoDisposeAsyncNotifierProviderRef<SyncStatus> {
   /// The parameter `arg` of this provider.
   SyncedItem get arg;
@@ -586,6 +592,8 @@ class SyncSizeProvider extends AutoDisposeNotifierProviderImpl<SyncSize, int?> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin SyncSizeRef on AutoDisposeNotifierProviderRef<int?> {
   /// The parameter `arg` of this provider.
   SyncedItem get arg;
@@ -600,4 +608,4 @@ class _SyncSizeProviderElement
   SyncedItem get arg => (origin as SyncSizeProvider).arg;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

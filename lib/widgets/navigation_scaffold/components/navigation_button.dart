@@ -1,6 +1,8 @@
-import 'package:fladder/util/widget_extensions.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:fladder/util/widget_extensions.dart';
 
 class NavigationButton extends ConsumerStatefulWidget {
   final String? label;
@@ -58,10 +60,16 @@ class _NavigationButtonState extends ConsumerState<NavigationButton> {
               elevation: const WidgetStatePropertyAll(0),
               padding: const WidgetStatePropertyAll(EdgeInsets.zero),
               backgroundColor: const WidgetStatePropertyAll(Colors.transparent),
+              iconSize: const WidgetStatePropertyAll(24),
+              iconColor: WidgetStateProperty.resolveWith((states) {
+                return widget.selected
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.45);
+              }),
               foregroundColor: WidgetStateProperty.resolveWith((states) {
                 return widget.selected
                     ? Theme.of(context).colorScheme.primary
-                    : Theme.of(context).colorScheme.onSurface.withOpacity(0.45);
+                    : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.45);
               })),
           onPressed: widget.onPressed,
           child: AnimatedContainer(
@@ -94,7 +102,7 @@ class _NavigationButtonState extends ConsumerState<NavigationButton> {
                     width: widget.selected ? 14 : 0,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      color: Theme.of(context).colorScheme.primary.withOpacity(widget.selected ? 1 : 0),
+                      color: Theme.of(context).colorScheme.primary.withValues(alpha: widget.selected ? 1 : 0),
                     ),
                   ),
                 ],

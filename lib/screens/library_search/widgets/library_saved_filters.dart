@@ -71,7 +71,9 @@ class LibrarySavedFiltersDialogue extends ConsumerWidget {
                                       tooltip: context.localized.defaultFilterForLibrary,
                                       style: ButtonStyle(
                                         backgroundColor: WidgetStatePropertyAll(
-                                          filter.isFavourite ? Colors.yellowAccent.shade700.withOpacity(0.5) : null,
+                                          filter.isFavourite
+                                              ? Colors.yellowAccent.shade700.withValues(alpha: 0.5)
+                                              : null,
                                         ),
                                       ),
                                       onPressed: () =>
@@ -107,6 +109,8 @@ class LibrarySavedFiltersDialogue extends ConsumerWidget {
                                       style: ButtonStyle(
                                         backgroundColor:
                                             WidgetStatePropertyAll(Theme.of(context).colorScheme.errorContainer),
+                                        iconColor:
+                                            WidgetStatePropertyAll(Theme.of(context).colorScheme.onErrorContainer),
                                         foregroundColor:
                                             WidgetStatePropertyAll(Theme.of(context).colorScheme.onErrorContainer),
                                       ),

@@ -6,6 +6,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart';
 
+import 'package:fladder/fake/fake_jellyfin_open_api.dart';
 import 'package:fladder/jellyfin/enum_models.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/account_model.dart';
@@ -13,24 +14,11 @@ import 'package:fladder/models/credentials_model.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
-import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/providers/auth_provider.dart';
 import 'package:fladder/providers/image_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/jellyfin_extension.dart';
-
-final jellyServiceProvider = StateProvider<JellyService>(
-  (ref) => JellyService(
-    ref,
-    JellyfinOpenApi.create(
-      interceptors: [
-        JellyRequest(ref),
-        JellyResponse(ref),
-        HttpLoggingInterceptor(level: Level.basic),
-      ],
-    ),
-  ),
-);
 
 class ServerQueryResult {
   final List<BaseItemDto> original;
@@ -77,9 +65,20 @@ class ServerQueryResult {
 }
 
 class JellyService {
-  JellyService(this.ref, this.api);
+  JellyService(this.ref, this._api);
 
-  final JellyfinOpenApi api;
+  final JellyfinOpenApi _api;
+
+  JellyfinOpenApi get api {
+    var authServer = ref.read(authProvider).tempCredentials.server;
+    var currentServer = ref.read(userProvider)?.credentials.server;
+    if ((authServer.isNotEmpty ? authServer : currentServer) == FakeHelper.fakeTestServerUrl) {
+      return FakeJellyfinOpenApi();
+    } else {
+      return _api;
+    }
+  }
+
   final Ref ref;
   AccountModel? get account => ref.read(userProvider);
 
@@ -294,10 +293,11 @@ class JellyService {
     );
     return response.copyWith(
       body: response.body?.items
-          ?.map(
-            (e) => ItemBaseModel.fromBaseDto(e, ref),
-          )
-          .toList(),
+              ?.map(
+                (e) => ItemBaseModel.fromBaseDto(e, ref),
+              )
+              .toList() ??
+          [],
     );
   }
 

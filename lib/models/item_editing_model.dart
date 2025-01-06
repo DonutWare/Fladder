@@ -1,14 +1,14 @@
 import 'dart:typed_data';
 
-import 'package:collection/collection.dart';
-import 'package:fladder/models/items/series_model.dart';
 import 'package:flutter/widgets.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as jelly;
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
+import 'package:fladder/models/items/series_model.dart';
 import 'package:fladder/providers/image_provider.dart';
 
 class EditItemsProvider {
@@ -118,7 +118,7 @@ class ItemEditingModel {
             "OfficialRating": {
               for (String element in (editorInfo?.parentalRatingOptions?.map((e) => e.name).toSet()
                         ?..add(json?["OfficialRating"] as String?))
-                      ?.whereNotNull()
+                      ?.nonNulls
                       .toList() ??
                   [])
                 element: (editedJson?["OfficialRating"] as String?) == element
@@ -126,7 +126,7 @@ class ItemEditingModel {
             "CustomRating": {
               for (String element in (editorInfo?.parentalRatingOptions?.map((e) => e.name).toSet()
                         ?..add(json?["CustomRating"] as String?))
-                      ?.whereNotNull()
+                      ?.nonNulls
                       .toList() ??
                   [])
                 element: (editedJson?["CustomRating"] as String?) == element

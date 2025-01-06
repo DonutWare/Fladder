@@ -80,6 +80,7 @@ class LoginEditUser extends ConsumerWidget {
               child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red,
+                  iconColor: Colors.white,
                   foregroundColor: Colors.white,
                 ),
                 onPressed: () async {

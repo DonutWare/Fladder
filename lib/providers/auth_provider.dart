@@ -50,9 +50,9 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
     state = state.copyWith(loading: true);
     clearAllProviders();
     var response = await api.usersAuthenticateByNamePost(userName: userName, password: password);
-    var serverResponse = await api.systemInfoPublicGet();
     CredentialsModel credentials = state.tempCredentials;
     if (response.isSuccessful && (response.body?.accessToken?.isNotEmpty ?? false)) {
+      var serverResponse = await api.systemInfoPublicGet();
       credentials = credentials.copyWith(
         token: response.body?.accessToken ?? "",
         serverId: response.body?.serverId,

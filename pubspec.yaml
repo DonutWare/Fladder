@@ -16,7 +16,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 0.5.2+1
+version: 0.5.3+1
 
 environment:
   sdk: ">=3.1.3 <4.0.0"
@@ -38,10 +38,9 @@ dependencies:
   # Icons
   cupertino_icons: ^1.0.2
   ficonsax: ^0.0.3
-  icons_launcher: ^3.0.0
 
   # Network and HTTP
-  chopper: ^7.0.4
+  chopper: ^8.0.3
   cached_network_image: ^3.2.3
   http: ^1.1.0
   flutter_cache_manager: ^3.3.0
@@ -69,49 +68,44 @@ dependencies:
   media_kit_video: ^1.2.4 # For video rendering.
   media_kit_libs_video: ^1.0.4 # Native video dependencies.
   audio_service: ^0.18.12
-  fvp: ^0.28.0
+  fvp: ^0.29.0
   video_player: ^2.9.2
 
   # UI Components
   dynamic_color: ^1.7.0
   flutter_svg: ^2.0.14
-  drop_shadow: ^0.1.0
   animations: ^2.0.7
   automatic_animated_list: ^1.1.0
   page_transition: ^2.0.9
   sticky_headers: ^0.3.0+2
   flutter_staggered_grid_view: ^0.7.0
-  flutter_staggered_animations: ^1.1.1
   scrollable_positioned_list: ^0.3.8
   sliver_tools: ^0.2.10
   square_progress_indicator: ^0.0.7
   flutter_blurhash: ^0.8.2
-  extended_image: ^8.1.1
-  flutter_widget_from_html: ^0.14.11
+  extended_image: ^9.1.0
+  flutter_widget_from_html: ^0.15.3
   font_awesome_flutter: ^10.7.0
 
   # Navigation
   auto_route: ^9.2.2
   url_launcher: ^6.3.1
-  flutter_custom_tabs: ^1.0.4
+  flutter_custom_tabs: ^2.1.0
 
   # Utility
   path: ^1.8.3
-  validators: ^3.0.0
-  file_picker: ^6.1.1
+  file_picker: ^8.1.7
   transparent_image: ^2.0.1
   universal_html: ^2.2.4
   collection: ^1.17.0
 
   # Device and System
   local_auth: ^2.1.6
-  permission_handler: ^11.3.0
   package_info_plus: ^8.0.0
-  open_app_file: ^4.0.2
   wakelock_plus: ^1.1.4
-  screen_brightness: ^1.0.1
-  window_manager: ^0.3.9
-  smtc_windows: ^0.1.1
+  screen_brightness: ^2.0.1
+  window_manager: ^0.4.3
+  smtc_windows: ^1.0.0
   background_downloader: ^8.5.2
 
   # Data
@@ -121,11 +115,11 @@ dependencies:
   # Other
   async: ^2.10.0
   xid: ^1.0.12
-  desktop_drop: 0.4.3
+  desktop_drop: ^0.5.0
   flexible_scrollbar: ^0.1.3
   flutter_typeahead: ^5.0.2
-  share_plus: ^7.1.0
-  archive: ^3.4.10
+  share_plus: ^10.1.3
+  archive: ^4.0.2
   dart_mappable: ^4.2.2
   reorderable_grid: ^1.0.10
 
@@ -138,16 +132,17 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^3.0.0
+  flutter_lints: ^5.0.0
   build_runner: ^2.4.11
-  chopper_generator: ^7.4.0
+  chopper_generator: ^8.0.3
   json_serializable: ^6.8.0
-  custom_lint: ^0.6.4
+  custom_lint: ^0.7.0
   freezed: ^2.5.2
-  swagger_dart_code_generator: ^2.15.2
+  swagger_dart_code_generator: ^3.0.1
   riverpod_generator: ^2.4.0
   dart_mappable_builder: ^4.2.3
   auto_route_generator: ^9.0.0
+  icons_launcher: ^3.0.0
 
 dependency_overrides:
   js: ^0.7.1

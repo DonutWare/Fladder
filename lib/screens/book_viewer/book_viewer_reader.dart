@@ -1,11 +1,13 @@
 import 'dart:io';
 import 'dart:math' as math;
 
+import 'package:flutter/material.dart';
+
 import 'package:extended_image/extended_image.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:fladder/providers/settings/book_viewer_settings_provider.dart';
 import 'package:fladder/screens/book_viewer/book_viewer_controls.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class BookViewerReader extends ConsumerWidget {
   final int index;
@@ -112,7 +114,6 @@ class BookViewerReader extends ConsumerWidget {
           );
         },
         File(pages[index - 1]),
-        enableMemoryCache: true,
       ),
     );
   }

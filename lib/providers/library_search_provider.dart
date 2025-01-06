@@ -120,10 +120,10 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
             newLastIndices[viewModel.id] = (lastIndices ?? 0) + libraryItems.items.length;
           }
           return libraryItems;
-        }).whereNotNull(),
+        }).nonNulls,
       );
 
-      List<ItemBaseModel> newPosters = results.whereNotNull().expand((element) => element.items).toList();
+      List<ItemBaseModel> newPosters = results.nonNulls.expand((element) => element.items).toList();
       if (state.views.included.length > 1) {
         if (state.sortingOption == SortingOptions.random) {
           newPosters = newPosters.random();
@@ -220,7 +220,7 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
     var tempState = state.copyWith();
     final genres = mappedList
         .expand((element) => element?.genres ?? <NameGuidPair>[])
-        .whereNotNull()
+        .nonNulls
         .sorted((a, b) => a.name!.toLowerCase().compareTo(b.name!.toLowerCase()));
     final tags = mappedList
         .expand((element) => element?.tags ?? <String>[])
@@ -437,7 +437,7 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
     final response = await api.collectionsCollectionIdItemsDelete(
         collectionId: state.nestedCurrentItem?.id, ids: state.selectedPosters.map((e) => e.id).toList());
     if (response.isSuccessful) {
-      removeFromPosters([state.nestedCurrentItem?.id].whereNotNull().toList());
+      removeFromPosters([state.nestedCurrentItem?.id].nonNulls.toList());
     }
     return response;
   }
@@ -445,9 +445,9 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
   Future<Response> removeSelectedFromPlaylist() async {
     final response = await api.playlistsPlaylistIdItemsDelete(
         playlistId: state.nestedCurrentItem?.id,
-        entryIds: state.selectedPosters.map((e) => e.playlistId).whereNotNull().toList());
+        entryIds: state.selectedPosters.map((e) => e.playlistId).nonNulls.toList());
     if (response.isSuccessful) {
-      removeFromPosters([state.nestedCurrentItem?.id].whereNotNull().toList());
+      removeFromPosters([state.nestedCurrentItem?.id].nonNulls.toList());
     }
     return response;
   }
@@ -463,7 +463,7 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
 
   Future<Response> removeFromPlaylist({required List<ItemBaseModel> items}) async {
     final response = await api.playlistsPlaylistIdItemsDelete(
-        playlistId: state.nestedCurrentItem?.id, entryIds: items.map((e) => e.playlistId).whereNotNull().toList());
+        playlistId: state.nestedCurrentItem?.id, entryIds: items.map((e) => e.playlistId).nonNulls.toList());
     if (response.isSuccessful) {
       removeFromPosters(items.map((e) => e.id).toList());
     }
@@ -489,7 +489,7 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
 
   void updateUserDataMain(UserData? userData) {
     state = state.copyWith(
-      folderOverwrite: [state.folderOverwrite.lastOrNull?.copyWith(userData: userData)].whereNotNull().toList(),
+      folderOverwrite: [state.folderOverwrite.lastOrNull?.copyWith(userData: userData)].nonNulls.toList(),
     );
   }
 
@@ -529,10 +529,10 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
             limit: limit,
           );
           return libraryItems;
-        }).whereNotNull(),
+        }).nonNulls,
       );
 
-      List<ItemBaseModel> newPosters = results.whereNotNull().expand((element) => element.items).toList();
+      List<ItemBaseModel> newPosters = results.nonNulls.expand((element) => element.items).toList();
       if (state.views.included.length > 1) {
         if (shuffle || state.sortingOption == SortingOptions.random) {
           newPosters = newPosters.random();

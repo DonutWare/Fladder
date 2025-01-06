@@ -61,7 +61,7 @@ class PosterListItem extends ConsumerWidget {
           height: 75 * ref.read(clientSettingsProvider.select((value) => value.posterSize)),
           child: Container(
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary.withOpacity(selected == true ? 0.25 : 0),
+              color: Theme.of(context).colorScheme.primary.withValues(alpha: selected == true ? 0.25 : 0),
               borderRadius: BorderRadius.circular(6),
             ),
             child: FlatButton(

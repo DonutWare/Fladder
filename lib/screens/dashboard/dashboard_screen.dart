@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
@@ -179,7 +178,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                               posters: view.recentlyAdded,
                             ),
                           )),
-                ].whereNotNull().toList().addInBetween(const SliverToBoxAdapter(child: SizedBox(height: 16))),
+                ].nonNulls.toList().addInBetween(const SliverToBoxAdapter(child: SizedBox(height: 16))),
                 const DefautlSliverBottomPadding(),
               ],
             ),

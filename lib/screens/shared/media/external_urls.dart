@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_custom_tabs/flutter_custom_tabs.dart' as customtab;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:url_launcher/url_launcher.dart' as urllauncher;
+import 'package:url_launcher/url_launcher.dart' as urilauncher;
 import 'package:url_launcher/url_launcher_string.dart';
 
 import 'package:fladder/models/items/item_shared_models.dart';
@@ -49,26 +49,22 @@ Future<void> launchUrl(BuildContext context, String link) async {
   final Uri url = Uri.parse(link);
 
   if (AdaptiveLayout.of(context).isDesktop) {
-    if (!await urllauncher.launchUrl(url, mode: LaunchMode.externalApplication)) {
+    if (!await urilauncher.launchUrl(url, mode: LaunchMode.externalApplication)) {
       throw Exception('Could not launch $url');
     }
   } else {
     try {
-      await customtab.launch(
-        link,
-        customTabsOption: customtab.CustomTabsOption(
-          toolbarColor: Theme.of(context).primaryColor,
-          enableDefaultShare: true,
-          enableUrlBarHiding: true,
-          showPageTitle: true,
-          extraCustomTabs: const <String>[
-            // ref. https://play.google.com/store/apps/details?id=org.mozilla.firefox
-            'org.mozilla.firefox',
-            // ref. https://play.google.com/store/apps/details?id=com.microsoft.emmx
-            'com.microsoft.emmx',
-          ],
+      await customtab.launchUrl(
+        Uri.parse(link),
+        customTabsOptions: customtab.CustomTabsOptions(
+          colorSchemes: customtab.CustomTabsColorSchemes.defaults(
+            toolbarColor: Theme.of(context).primaryColor,
+          ),
+          urlBarHidingEnabled: true,
+          shareState: customtab.CustomTabsShareState.browserDefault,
+          showTitle: true,
         ),
-        safariVCOption: customtab.SafariViewControllerOption(
+        safariVCOptions: customtab.SafariViewControllerOptions(
           preferredBarTintColor: Theme.of(context).primaryColor,
           preferredControlTintColor: Colors.white,
           barCollapsingEnabled: true,

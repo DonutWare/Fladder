@@ -43,7 +43,7 @@ class FladderAppBar extends StatelessWidget implements PreferredSize {
     } else {
       return AppBar(
         toolbarHeight: 0,
-        backgroundColor: Theme.of(context).colorScheme.surface.withOpacity(0),
+        backgroundColor: Theme.of(context).colorScheme.surface.withValues(alpha: 0),
         scrolledUnderElevation: 0,
         elevation: 0,
         systemOverlayStyle: const SystemUiOverlayStyle(),

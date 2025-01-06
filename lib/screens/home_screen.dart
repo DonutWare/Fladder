@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:collection/collection.dart';
 import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -76,7 +75,7 @@ class HomeScreen extends ConsumerWidget {
       child: AutoRouter(
         builder: (context, child) {
           return NavigationScaffold(
-            destinations: destinations.whereNotNull().toList(),
+            destinations: destinations.nonNulls.toList(),
             currentRouteName: context.router.current.name,
             nestedChild: child,
           );

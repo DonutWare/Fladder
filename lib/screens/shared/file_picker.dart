@@ -59,7 +59,7 @@ class _FilePickerBarState extends ConsumerState<FilePickerBar> {
   @override
   Widget build(BuildContext context) {
     final offColor = Theme.of(context).colorScheme.secondaryContainer;
-    final onColor = Theme.of(context).colorScheme.secondaryContainer.withOpacity(0.7);
+    final onColor = Theme.of(context).colorScheme.secondaryContainer.withValues(alpha: 0.7);
     final contentColor = Theme.of(context).colorScheme.onSecondaryContainer;
     return DropTarget(
       enable: !inputField,

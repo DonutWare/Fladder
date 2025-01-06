@@ -60,7 +60,7 @@ class SeasonPoster extends ConsumerWidget {
         padding: const EdgeInsets.all(4),
         child: Container(
           child: Card(
-            color: Theme.of(context).colorScheme.surface.withOpacity(0.65),
+            color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.65),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
               child: Text(
@@ -159,7 +159,7 @@ class SeasonPoster extends ConsumerWidget {
                             Icons.more_vert,
                             color: Colors.white,
                             shadows: [
-                              Shadow(color: Colors.black.withOpacity(0.45), blurRadius: 8.0),
+                              Shadow(color: Colors.black.withValues(alpha: 0.45), blurRadius: 8.0),
                               const Shadow(color: Colors.black, blurRadius: 16.0),
                               const Shadow(color: Colors.black, blurRadius: 32.0),
                               const Shadow(color: Colors.black, blurRadius: 64.0),

@@ -50,7 +50,7 @@ class EmptyItem extends ConsumerWidget {
                 shape: RoundedRectangleBorder(
                   side: BorderSide(
                     width: 1.0,
-                    color: Colors.white.withOpacity(0.10),
+                    color: Colors.white.withValues(alpha: 0.10),
                   ),
                   borderRadius: FladderTheme.defaultShape.borderRadius,
                 ),

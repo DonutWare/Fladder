@@ -95,7 +95,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 padding: const EdgeInsets.all(16.0),
                 child: IconButton.filledTonal(
                   style: IconButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.surface.withOpacity(0.8),
+                    backgroundColor: Theme.of(context).colorScheme.surface.withValues(alpha: 0.8),
                   ),
                   onPressed: () => context.router.popBack(),
                   icon: Padding(
@@ -188,6 +188,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                           ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom().copyWith(
+                              iconColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.onErrorContainer),
                               foregroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.onErrorContainer),
                               backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.errorContainer),
                             ),

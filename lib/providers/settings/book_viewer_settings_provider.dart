@@ -1,7 +1,8 @@
 import 'dart:convert';
 
-import 'package:collection/collection.dart';
 import 'package:flutter/widgets.dart';
+
+import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:screen_brightness/screen_brightness.dart';
 
@@ -124,15 +125,15 @@ class BookViewerSettingsNotifier extends StateNotifier<BookViewerSettingsModel> 
       screenBrightness: () => value,
     );
     if (state.screenBrightness != null) {
-      ScreenBrightness().setScreenBrightness(state.screenBrightness!);
+      ScreenBrightness().setApplicationScreenBrightness(state.screenBrightness!);
     } else {
-      ScreenBrightness().resetScreenBrightness();
+      ScreenBrightness().resetApplicationScreenBrightness();
     }
   }
 
   void setSavedBrightness() {
     if (state.screenBrightness != null) {
-      ScreenBrightness().setScreenBrightness(state.screenBrightness!);
+      ScreenBrightness().setApplicationScreenBrightness(state.screenBrightness!);
     }
   }
 

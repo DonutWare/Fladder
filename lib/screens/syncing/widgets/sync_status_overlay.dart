@@ -22,7 +22,7 @@ class SyncStatusOverlay extends ConsumerWidget {
             child: Card(
               elevation: 0,
               semanticContainer: false,
-              color: Colors.black.withOpacity(0.6),
+              color: Colors.black.withValues(alpha: 0.6),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -44,7 +44,7 @@ class SyncStatusOverlay extends ConsumerWidget {
               child: Card(
                 elevation: 0,
                 semanticContainer: false,
-                color: Colors.black.withOpacity(0.6),
+                color: Colors.black.withValues(alpha: 0.6),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,

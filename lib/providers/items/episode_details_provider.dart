@@ -80,7 +80,7 @@ class EpisodeDetailsProvider extends StateNotifier<EpisodeDetailModel> {
         .map(
           (e) => e.createItemModel(ref),
         )
-        .whereNotNull()
+        .nonNulls
         .whereType<EpisodeModel>()
         .toList();
     state = state.copyWith(

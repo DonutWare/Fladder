@@ -78,7 +78,7 @@ class CrashScreen extends ConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               Card(
-                                color: e.color.withOpacity(0.1),
+                                color: e.color.withValues(alpha: 0.1),
                                 margin: const EdgeInsets.symmetric(vertical: 12),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8),
@@ -90,7 +90,7 @@ class CrashScreen extends ConsumerWidget {
                                         children: [
                                           Expanded(
                                             child: Card(
-                                              color: e.color.withOpacity(0.2),
+                                              color: e.color.withValues(alpha: 0.2),
                                               child: Padding(
                                                 padding: const EdgeInsets.all(4.0),
                                                 child: Text(

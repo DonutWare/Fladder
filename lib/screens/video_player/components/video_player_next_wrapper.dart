@@ -130,7 +130,7 @@ class _VideoPlayerNextWrapperState extends ConsumerState<VideoPlayerNextWrapper>
 
   Future<void> clearOverlaySettings() async {
     if (AdaptiveLayout.of(context).inputDevice != InputDevice.pointer) {
-      ScreenBrightness().resetScreenBrightness();
+      ScreenBrightness().resetApplicationScreenBrightness();
     } else {
       closeFullScreen();
     }
@@ -161,7 +161,7 @@ class _VideoPlayerNextWrapperState extends ConsumerState<VideoPlayerNextWrapper>
       child: Stack(
         children: [
           Container(
-            color: Theme.of(context).colorScheme.surfaceContainerLowest.withOpacity(0.2),
+            color: Theme.of(context).colorScheme.surfaceContainerLowest.withValues(alpha: 0.2),
           ),
           if (nextUp != null)
             AnimatedAlign(

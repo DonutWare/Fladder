@@ -28,7 +28,7 @@ class FladderScrollbar extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(5),
                   color: info.isDragging
                       ? Theme.of(context).colorScheme.secondary
-                      : Theme.of(context).colorScheme.secondaryContainer.withOpacity(0.75),
+                      : Theme.of(context).colorScheme.secondaryContainer.withValues(alpha: 0.75),
                 ),
                 duration: const Duration(milliseconds: 250),
               );

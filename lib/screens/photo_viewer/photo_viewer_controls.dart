@@ -136,10 +136,10 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with
   @override
   Widget build(BuildContext context) {
     final gradient = [
-      Colors.black.withOpacity(0.6),
-      Colors.black.withOpacity(0.3),
-      Colors.black.withOpacity(0.1),
-      Colors.black.withOpacity(0.0),
+      Colors.black.withValues(alpha: 0.6),
+      Colors.black.withValues(alpha: 0.3),
+      Colors.black.withValues(alpha: 0.1),
+      Colors.black.withValues(alpha: 0.0),
     ];
 
     final padding = MediaQuery.of(context).padding;
@@ -188,9 +188,12 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with
                                       .textTheme
                                       .titleMedium
                                       ?.copyWith(fontWeight: FontWeight.bold, shadows: [
-                                    BoxShadow(blurRadius: 1, spreadRadius: 1, color: Colors.black.withOpacity(0.7)),
-                                    BoxShadow(blurRadius: 4, spreadRadius: 4, color: Colors.black.withOpacity(0.4)),
-                                    BoxShadow(blurRadius: 20, spreadRadius: 6, color: Colors.black.withOpacity(0.2)),
+                                    BoxShadow(
+                                        blurRadius: 1, spreadRadius: 1, color: Colors.black.withValues(alpha: 0.7)),
+                                    BoxShadow(
+                                        blurRadius: 4, spreadRadius: 4, color: Colors.black.withValues(alpha: 0.4)),
+                                    BoxShadow(
+                                        blurRadius: 20, spreadRadius: 6, color: Colors.black.withValues(alpha: 0.2)),
                                   ]),
                                 ),
                               ),

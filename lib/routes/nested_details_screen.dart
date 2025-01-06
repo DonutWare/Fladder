@@ -69,7 +69,7 @@ class _DetailsScreenState extends ConsumerState<DetailsScreen> {
           tag: widget.id,
           child: Container(
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surface.withOpacity(1.0),
+              color: Theme.of(context).colorScheme.surface.withValues(alpha: 1.0),
             ),
             //Small offset to match detailscaffold
             child: Transform.translate(

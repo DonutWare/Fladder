@@ -114,7 +114,7 @@ class FladderTheme {
       ),
       buttonTheme: ButtonThemeData(shape: defaultShape),
       chipTheme: ChipThemeData(
-        side: BorderSide(width: 1, color: scheme?.onSurface.withOpacity(0.05) ?? Colors.white),
+        side: BorderSide(width: 1, color: scheme?.onSurface.withValues(alpha: 0.05) ?? Colors.white),
         shape: defaultShape,
       ),
       popupMenuTheme: PopupMenuThemeData(

@@ -1,5 +1,6 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+
+import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
@@ -69,9 +70,12 @@ class _KeyedListViewState extends ConsumerState<KeyedListView> {
                     style: TextButton.styleFrom(
                       padding: EdgeInsets.zero,
                       textStyle: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+                      iconColor: atPosition
+                          ? Theme.of(context).colorScheme.onSecondary
+                          : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.35),
                       foregroundColor: atPosition
                           ? Theme.of(context).colorScheme.onSecondary
-                          : Theme.of(context).colorScheme.onSurface.withOpacity(0.35),
+                          : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.35),
                     ),
                     onPressed: () {
                       itemScrollController.scrollTo(

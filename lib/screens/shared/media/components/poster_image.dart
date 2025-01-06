@@ -99,7 +99,7 @@ class _PosterImageState extends ConsumerState<PosterImage> {
           shape: RoundedRectangleBorder(
             side: BorderSide(
               width: 1.0,
-              color: Colors.white.withOpacity(0.10),
+              color: Colors.white.withValues(alpha: 0.10),
             ),
             borderRadius: FladderTheme.defaultShape.borderRadius,
           ),
@@ -133,7 +133,7 @@ class _PosterImageState extends ConsumerState<PosterImage> {
               if (widget.selected == true)
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.15),
+                    color: Colors.black.withValues(alpha: 0.15),
                     border: Border.all(width: 3, color: Theme.of(context).colorScheme.primary),
                     borderRadius: FladderTheme.defaultShape.borderRadius,
                   ),
@@ -191,7 +191,7 @@ class _PosterImageState extends ConsumerState<PosterImage> {
                           shadowColor: Colors.transparent,
                           child: LinearProgressIndicator(
                             minHeight: 7.5,
-                            backgroundColor: Theme.of(context).colorScheme.onPrimary.withOpacity(0.5),
+                            backgroundColor: Theme.of(context).colorScheme.onPrimary.withValues(alpha: 0.5),
                             value: poster.userData.progress / 100,
                             borderRadius: BorderRadius.circular(2),
                           ),
@@ -213,7 +213,7 @@ class _PosterImageState extends ConsumerState<PosterImage> {
                       //Hover color overlay
                       Container(
                           decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.55),
+                        color: Colors.black.withValues(alpha: 0.55),
                         border: Border.all(width: 3, color: Theme.of(context).colorScheme.primary),
                         borderRadius: FladderTheme.defaultShape.borderRadius,
                       )),

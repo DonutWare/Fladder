@@ -33,15 +33,15 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
       screenBrightness: value,
     );
     if (state.screenBrightness != null) {
-      ScreenBrightness().setScreenBrightness(state.screenBrightness!);
+      ScreenBrightness().setApplicationScreenBrightness(state.screenBrightness!);
     } else {
-      ScreenBrightness().resetScreenBrightness();
+      ScreenBrightness().resetApplicationScreenBrightness();
     }
   }
 
   void setSavedBrightness() {
     if (state.screenBrightness != null) {
-      ScreenBrightness().setScreenBrightness(state.screenBrightness!);
+      ScreenBrightness().setApplicationScreenBrightness(state.screenBrightness!);
     }
   }
 

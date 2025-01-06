@@ -1,5 +1,4 @@
 import 'package:chopper/chopper.dart';
-import 'package:collection/collection.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
@@ -68,7 +67,7 @@ class SeriesDetailViewNotifier extends StateNotifier<SeriesModel?> {
         .map(
           (e) => e.createItemModel(ref),
         )
-        .whereNotNull()
+        .nonNulls
         .toList();
     state = seriesModel.copyWith(
       availableEpisodes: allChildren.whereType<EpisodeModel>().toList(),

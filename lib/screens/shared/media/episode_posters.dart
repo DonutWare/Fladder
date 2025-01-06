@@ -231,7 +231,7 @@ class EpisodePoster extends ConsumerWidget {
                       alignment: Alignment.bottomCenter,
                       child: LinearProgressIndicator(
                         minHeight: 6,
-                        backgroundColor: Colors.black.withOpacity(0.75),
+                        backgroundColor: Colors.black.withValues(alpha: 0.75),
                         value: episode.userData.progress / 100,
                       ),
                     ),
@@ -260,7 +260,7 @@ class EpisodePoster extends ConsumerWidget {
                             Icons.more_vert,
                             color: Colors.white,
                             shadows: [
-                              Shadow(color: Colors.black.withOpacity(0.45), blurRadius: 8.0),
+                              Shadow(color: Colors.black.withValues(alpha: 0.45), blurRadius: 8.0),
                               const Shadow(color: Colors.black, blurRadius: 16.0),
                               const Shadow(color: Colors.black, blurRadius: 32.0),
                               const Shadow(color: Colors.black, blurRadius: 64.0),

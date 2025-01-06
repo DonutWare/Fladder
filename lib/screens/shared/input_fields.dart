@@ -20,7 +20,7 @@ class IntInputField extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Card(
-      color: Theme.of(context).colorScheme.secondaryContainer.withOpacity(0.25),
+      color: Theme.of(context).colorScheme.secondaryContainer.withValues(alpha: 0.25),
       elevation: 0,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 6),

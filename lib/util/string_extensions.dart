@@ -1,5 +1,3 @@
-import 'package:collection/collection.dart';
-
 import 'package:fladder/models/items/item_shared_models.dart';
 
 extension StringExtensions on String {
@@ -64,6 +62,6 @@ extension GenreExtensions on List<GenreItems> {
 
 extension StringListExtension on List<String?> {
   String get detailsTitle {
-    return whereNotNull().join(" ● ");
+    return nonNulls.join(" ● ");
   }
 }

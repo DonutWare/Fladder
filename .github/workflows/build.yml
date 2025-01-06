@@ -20,6 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version_name: ${{ steps.fetch.outputs.version_name }}
+      flutter_version: ${{ steps.fetch.outputs.flutter_version }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4.1.1
@@ -27,8 +28,13 @@ jobs:
       - name: Fetch version name
         id: fetch
         run: |
+          # Extract version_name from pubspec.yaml
           VERSION_NAME=$(grep '^version:' pubspec.yaml | cut -d ':' -f2 | cut -d '+' -f1 | tr -d ' ')
           echo "version_name=${VERSION_NAME}" >> "$GITHUB_OUTPUT"
+
+          # Extract flutter_version from .fvmrc
+          FLUTTER_VERSION=$(jq -r '.flutter' .fvmrc)
+          echo "flutter_version=${FLUTTER_VERSION}" >> "$GITHUB_OUTPUT"
         shell: bash
 
   build-android:
@@ -67,7 +73,7 @@ jobs:
         uses: subosito/flutter-action@v2.16.0
         with:
           channel: ${{ vars.FLUTTER_CHANNEL }}
-          flutter-version: ${{ vars.FLUTTER_VERSION }}
+          flutter-version: ${{needs.fetch-info.outputs.flutter-version}}
           cache: true
           cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
           cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
@@ -104,7 +110,7 @@ jobs:
         uses: subosito/flutter-action@v2.16.0
         with:
           channel: ${{ vars.FLUTTER_CHANNEL }}
-          flutter-version: ${{ vars.FLUTTER_VERSION }}
+          flutter-version: ${{needs.fetch-info.outputs.flutter-version}}
           cache: true
           cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache
           cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
@@ -133,7 +139,7 @@ jobs:
         uses: subosito/flutter-action@v2.16.0
         with:
           channel: ${{ vars.FLUTTER_CHANNEL }}
-          flutter-version: ${{ vars.FLUTTER_VERSION }}
+          flutter-version: ${{needs.fetch-info.outputs.flutter-version}}
           cache: true
           cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to specify the cache path
           cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
@@ -169,7 +175,7 @@ jobs:
         uses: subosito/flutter-action@v2.16.0
         with:
           channel: ${{ vars.FLUTTER_CHANNEL }}
-          flutter-version: ${{ vars.FLUTTER_VERSION }}
+          flutter-version: ${{needs.fetch-info.outputs.flutter-version}}
           cache: true
           cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache
           cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
@@ -201,7 +207,7 @@ jobs:
         uses: subosito/flutter-action@v2.16.0
         with:
           channel: ${{ vars.FLUTTER_CHANNEL }}
-          flutter-version: ${{ vars.FLUTTER_VERSION }}
+          flutter-version: ${{needs.fetch-info.outputs.flutter-version}}
           cache: true
           cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache
           cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
@@ -274,7 +280,7 @@ jobs:
         uses: subosito/flutter-action@v2.16.0
         with:
           channel: ${{ vars.FLUTTER_CHANNEL }}
-          flutter-version: ${{ vars.FLUTTER_VERSION }}
+          flutter-version: ${{needs.fetch-info.outputs.flutter-version}}
           cache: true
           cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache
           cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path

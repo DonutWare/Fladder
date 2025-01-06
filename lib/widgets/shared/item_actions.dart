@@ -95,6 +95,7 @@ class ItemActionButton extends ItemAction {
         minimumSize: const WidgetStatePropertyAll(Size(50, 50)),
         elevation: const WidgetStatePropertyAll(0),
         foregroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.onSurface),
+        iconColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.onSurface),
       ),
       onPressed: () {
         if (shouldPop) {

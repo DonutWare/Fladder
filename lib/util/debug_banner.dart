@@ -29,7 +29,7 @@ class DebugBanner extends ConsumerWidget {
                   padding: const EdgeInsets.all(4.0),
                   child: Card(
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-                    color: Colors.purpleAccent.withOpacity(0.8),
+                    color: Colors.purpleAccent.withValues(alpha: 0.8),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                       child: Text(

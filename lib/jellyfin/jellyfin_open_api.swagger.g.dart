@@ -15,22 +15,15 @@ AccessSchedule _$AccessScheduleFromJson(Map<String, dynamic> json) =>
       endHour: (json['EndHour'] as num?)?.toDouble(),
     );
 
-Map<String, dynamic> _$AccessScheduleToJson(AccessSchedule instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Id', instance.id);
-  writeNotNull('UserId', instance.userId);
-  writeNotNull('DayOfWeek', dynamicDayOfWeekNullableToJson(instance.dayOfWeek));
-  writeNotNull('StartHour', instance.startHour);
-  writeNotNull('EndHour', instance.endHour);
-  return val;
-}
+Map<String, dynamic> _$AccessScheduleToJson(AccessSchedule instance) =>
+    <String, dynamic>{
+      if (instance.id case final value?) 'Id': value,
+      if (instance.userId case final value?) 'UserId': value,
+      if (dynamicDayOfWeekNullableToJson(instance.dayOfWeek) case final value?)
+        'DayOfWeek': value,
+      if (instance.startHour case final value?) 'StartHour': value,
+      if (instance.endHour case final value?) 'EndHour': value,
+    };
 
 ActivityLogEntry _$ActivityLogEntryFromJson(Map<String, dynamic> json) =>
     ActivityLogEntry(
@@ -47,27 +40,21 @@ ActivityLogEntry _$ActivityLogEntryFromJson(Map<String, dynamic> json) =>
       severity: logLevelNullableFromJson(json['Severity']),
     );
 
-Map<String, dynamic> _$ActivityLogEntryToJson(ActivityLogEntry instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Id', instance.id);
-  writeNotNull('Name', instance.name);
-  writeNotNull('Overview', instance.overview);
-  writeNotNull('ShortOverview', instance.shortOverview);
-  writeNotNull('Type', instance.type);
-  writeNotNull('ItemId', instance.itemId);
-  writeNotNull('Date', instance.date?.toIso8601String());
-  writeNotNull('UserId', instance.userId);
-  writeNotNull('UserPrimaryImageTag', instance.userPrimaryImageTag);
-  writeNotNull('Severity', logLevelNullableToJson(instance.severity));
-  return val;
-}
+Map<String, dynamic> _$ActivityLogEntryToJson(ActivityLogEntry instance) =>
+    <String, dynamic>{
+      if (instance.id case final value?) 'Id': value,
+      if (instance.name case final value?) 'Name': value,
+      if (instance.overview case final value?) 'Overview': value,
+      if (instance.shortOverview case final value?) 'ShortOverview': value,
+      if (instance.type case final value?) 'Type': value,
+      if (instance.itemId case final value?) 'ItemId': value,
+      if (instance.date?.toIso8601String() case final value?) 'Date': value,
+      if (instance.userId case final value?) 'UserId': value,
+      if (instance.userPrimaryImageTag case final value?)
+        'UserPrimaryImageTag': value,
+      if (logLevelNullableToJson(instance.severity) case final value?)
+        'Severity': value,
+    };
 
 ActivityLogEntryMessage _$ActivityLogEntryMessageFromJson(
         Map<String, dynamic> json) =>
@@ -83,21 +70,15 @@ ActivityLogEntryMessage _$ActivityLogEntryMessageFromJson(
     );
 
 Map<String, dynamic> _$ActivityLogEntryMessageToJson(
-    ActivityLogEntryMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Data', instance.data?.map((e) => e.toJson()).toList());
-  writeNotNull('MessageId', instance.messageId);
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+        ActivityLogEntryMessage instance) =>
+    <String, dynamic>{
+      if (instance.data?.map((e) => e.toJson()).toList() case final value?)
+        'Data': value,
+      if (instance.messageId case final value?) 'MessageId': value,
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 ActivityLogEntryQueryResult _$ActivityLogEntryQueryResultFromJson(
         Map<String, dynamic> json) =>
@@ -111,20 +92,14 @@ ActivityLogEntryQueryResult _$ActivityLogEntryQueryResultFromJson(
     );
 
 Map<String, dynamic> _$ActivityLogEntryQueryResultToJson(
-    ActivityLogEntryQueryResult instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Items', instance.items?.map((e) => e.toJson()).toList());
-  writeNotNull('TotalRecordCount', instance.totalRecordCount);
-  writeNotNull('StartIndex', instance.startIndex);
-  return val;
-}
+        ActivityLogEntryQueryResult instance) =>
+    <String, dynamic>{
+      if (instance.items?.map((e) => e.toJson()).toList() case final value?)
+        'Items': value,
+      if (instance.totalRecordCount case final value?)
+        'TotalRecordCount': value,
+      if (instance.startIndex case final value?) 'StartIndex': value,
+    };
 
 ActivityLogEntryStartMessage _$ActivityLogEntryStartMessageFromJson(
         Map<String, dynamic> json) =>
@@ -135,20 +110,13 @@ ActivityLogEntryStartMessage _$ActivityLogEntryStartMessageFromJson(
     );
 
 Map<String, dynamic> _$ActivityLogEntryStartMessageToJson(
-    ActivityLogEntryStartMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Data', instance.data);
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+        ActivityLogEntryStartMessage instance) =>
+    <String, dynamic>{
+      if (instance.data case final value?) 'Data': value,
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 ActivityLogEntryStopMessage _$ActivityLogEntryStopMessageFromJson(
         Map<String, dynamic> json) =>
@@ -158,19 +126,12 @@ ActivityLogEntryStopMessage _$ActivityLogEntryStopMessageFromJson(
     );
 
 Map<String, dynamic> _$ActivityLogEntryStopMessageToJson(
-    ActivityLogEntryStopMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+        ActivityLogEntryStopMessage instance) =>
+    <String, dynamic>{
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 AddVirtualFolderDto _$AddVirtualFolderDtoFromJson(Map<String, dynamic> json) =>
     AddVirtualFolderDto(
@@ -180,18 +141,12 @@ AddVirtualFolderDto _$AddVirtualFolderDtoFromJson(Map<String, dynamic> json) =>
               json['LibraryOptions'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$AddVirtualFolderDtoToJson(AddVirtualFolderDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('LibraryOptions', instance.libraryOptions?.toJson());
-  return val;
-}
+Map<String, dynamic> _$AddVirtualFolderDtoToJson(
+        AddVirtualFolderDto instance) =>
+    <String, dynamic>{
+      if (instance.libraryOptions?.toJson() case final value?)
+        'LibraryOptions': value,
+    };
 
 AlbumInfo _$AlbumInfoFromJson(Map<String, dynamic> json) => AlbumInfo(
       name: json['Name'] as String?,
@@ -218,32 +173,28 @@ AlbumInfo _$AlbumInfoFromJson(Map<String, dynamic> json) => AlbumInfo(
           [],
     );
 
-Map<String, dynamic> _$AlbumInfoToJson(AlbumInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('OriginalTitle', instance.originalTitle);
-  writeNotNull('Path', instance.path);
-  writeNotNull('MetadataLanguage', instance.metadataLanguage);
-  writeNotNull('MetadataCountryCode', instance.metadataCountryCode);
-  writeNotNull('ProviderIds', instance.providerIds);
-  writeNotNull('Year', instance.year);
-  writeNotNull('IndexNumber', instance.indexNumber);
-  writeNotNull('ParentIndexNumber', instance.parentIndexNumber);
-  writeNotNull('PremiereDate', instance.premiereDate?.toIso8601String());
-  writeNotNull('IsAutomated', instance.isAutomated);
-  writeNotNull('AlbumArtists', instance.albumArtists);
-  writeNotNull('ArtistProviderIds', instance.artistProviderIds);
-  writeNotNull(
-      'SongInfos', instance.songInfos?.map((e) => e.toJson()).toList());
-  return val;
-}
+Map<String, dynamic> _$AlbumInfoToJson(AlbumInfo instance) => <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.originalTitle case final value?) 'OriginalTitle': value,
+      if (instance.path case final value?) 'Path': value,
+      if (instance.metadataLanguage case final value?)
+        'MetadataLanguage': value,
+      if (instance.metadataCountryCode case final value?)
+        'MetadataCountryCode': value,
+      if (instance.providerIds case final value?) 'ProviderIds': value,
+      if (instance.year case final value?) 'Year': value,
+      if (instance.indexNumber case final value?) 'IndexNumber': value,
+      if (instance.parentIndexNumber case final value?)
+        'ParentIndexNumber': value,
+      if (instance.premiereDate?.toIso8601String() case final value?)
+        'PremiereDate': value,
+      if (instance.isAutomated case final value?) 'IsAutomated': value,
+      if (instance.albumArtists case final value?) 'AlbumArtists': value,
+      if (instance.artistProviderIds case final value?)
+        'ArtistProviderIds': value,
+      if (instance.songInfos?.map((e) => e.toJson()).toList() case final value?)
+        'SongInfos': value,
+    };
 
 AlbumInfoRemoteSearchQuery _$AlbumInfoRemoteSearchQueryFromJson(
         Map<String, dynamic> json) =>
@@ -257,21 +208,15 @@ AlbumInfoRemoteSearchQuery _$AlbumInfoRemoteSearchQueryFromJson(
     );
 
 Map<String, dynamic> _$AlbumInfoRemoteSearchQueryToJson(
-    AlbumInfoRemoteSearchQuery instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('SearchInfo', instance.searchInfo?.toJson());
-  writeNotNull('ItemId', instance.itemId);
-  writeNotNull('SearchProviderName', instance.searchProviderName);
-  writeNotNull('IncludeDisabledProviders', instance.includeDisabledProviders);
-  return val;
-}
+        AlbumInfoRemoteSearchQuery instance) =>
+    <String, dynamic>{
+      if (instance.searchInfo?.toJson() case final value?) 'SearchInfo': value,
+      if (instance.itemId case final value?) 'ItemId': value,
+      if (instance.searchProviderName case final value?)
+        'SearchProviderName': value,
+      if (instance.includeDisabledProviders case final value?)
+        'IncludeDisabledProviders': value,
+    };
 
 AllThemeMediaResult _$AllThemeMediaResultFromJson(Map<String, dynamic> json) =>
     AllThemeMediaResult(
@@ -289,21 +234,16 @@ AllThemeMediaResult _$AllThemeMediaResultFromJson(Map<String, dynamic> json) =>
               json['SoundtrackSongsResult'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$AllThemeMediaResultToJson(AllThemeMediaResult instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ThemeVideosResult', instance.themeVideosResult?.toJson());
-  writeNotNull('ThemeSongsResult', instance.themeSongsResult?.toJson());
-  writeNotNull(
-      'SoundtrackSongsResult', instance.soundtrackSongsResult?.toJson());
-  return val;
-}
+Map<String, dynamic> _$AllThemeMediaResultToJson(
+        AllThemeMediaResult instance) =>
+    <String, dynamic>{
+      if (instance.themeVideosResult?.toJson() case final value?)
+        'ThemeVideosResult': value,
+      if (instance.themeSongsResult?.toJson() case final value?)
+        'ThemeSongsResult': value,
+      if (instance.soundtrackSongsResult?.toJson() case final value?)
+        'SoundtrackSongsResult': value,
+    };
 
 ArtistInfo _$ArtistInfoFromJson(Map<String, dynamic> json) => ArtistInfo(
       name: json['Name'] as String?,
@@ -325,30 +265,26 @@ ArtistInfo _$ArtistInfoFromJson(Map<String, dynamic> json) => ArtistInfo(
           [],
     );
 
-Map<String, dynamic> _$ArtistInfoToJson(ArtistInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('OriginalTitle', instance.originalTitle);
-  writeNotNull('Path', instance.path);
-  writeNotNull('MetadataLanguage', instance.metadataLanguage);
-  writeNotNull('MetadataCountryCode', instance.metadataCountryCode);
-  writeNotNull('ProviderIds', instance.providerIds);
-  writeNotNull('Year', instance.year);
-  writeNotNull('IndexNumber', instance.indexNumber);
-  writeNotNull('ParentIndexNumber', instance.parentIndexNumber);
-  writeNotNull('PremiereDate', instance.premiereDate?.toIso8601String());
-  writeNotNull('IsAutomated', instance.isAutomated);
-  writeNotNull(
-      'SongInfos', instance.songInfos?.map((e) => e.toJson()).toList());
-  return val;
-}
+Map<String, dynamic> _$ArtistInfoToJson(ArtistInfo instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.originalTitle case final value?) 'OriginalTitle': value,
+      if (instance.path case final value?) 'Path': value,
+      if (instance.metadataLanguage case final value?)
+        'MetadataLanguage': value,
+      if (instance.metadataCountryCode case final value?)
+        'MetadataCountryCode': value,
+      if (instance.providerIds case final value?) 'ProviderIds': value,
+      if (instance.year case final value?) 'Year': value,
+      if (instance.indexNumber case final value?) 'IndexNumber': value,
+      if (instance.parentIndexNumber case final value?)
+        'ParentIndexNumber': value,
+      if (instance.premiereDate?.toIso8601String() case final value?)
+        'PremiereDate': value,
+      if (instance.isAutomated case final value?) 'IsAutomated': value,
+      if (instance.songInfos?.map((e) => e.toJson()).toList() case final value?)
+        'SongInfos': value,
+    };
 
 ArtistInfoRemoteSearchQuery _$ArtistInfoRemoteSearchQueryFromJson(
         Map<String, dynamic> json) =>
@@ -362,21 +298,15 @@ ArtistInfoRemoteSearchQuery _$ArtistInfoRemoteSearchQueryFromJson(
     );
 
 Map<String, dynamic> _$ArtistInfoRemoteSearchQueryToJson(
-    ArtistInfoRemoteSearchQuery instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('SearchInfo', instance.searchInfo?.toJson());
-  writeNotNull('ItemId', instance.itemId);
-  writeNotNull('SearchProviderName', instance.searchProviderName);
-  writeNotNull('IncludeDisabledProviders', instance.includeDisabledProviders);
-  return val;
-}
+        ArtistInfoRemoteSearchQuery instance) =>
+    <String, dynamic>{
+      if (instance.searchInfo?.toJson() case final value?) 'SearchInfo': value,
+      if (instance.itemId case final value?) 'ItemId': value,
+      if (instance.searchProviderName case final value?)
+        'SearchProviderName': value,
+      if (instance.includeDisabledProviders case final value?)
+        'IncludeDisabledProviders': value,
+    };
 
 AuthenticateUserByName _$AuthenticateUserByNameFromJson(
         Map<String, dynamic> json) =>
@@ -386,19 +316,11 @@ AuthenticateUserByName _$AuthenticateUserByNameFromJson(
     );
 
 Map<String, dynamic> _$AuthenticateUserByNameToJson(
-    AuthenticateUserByName instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Username', instance.username);
-  writeNotNull('Pw', instance.pw);
-  return val;
-}
+        AuthenticateUserByName instance) =>
+    <String, dynamic>{
+      if (instance.username case final value?) 'Username': value,
+      if (instance.pw case final value?) 'Pw': value,
+    };
 
 AuthenticationInfo _$AuthenticationInfoFromJson(Map<String, dynamic> json) =>
     AuthenticationInfo(
@@ -422,30 +344,24 @@ AuthenticationInfo _$AuthenticationInfoFromJson(Map<String, dynamic> json) =>
       userName: json['UserName'] as String?,
     );
 
-Map<String, dynamic> _$AuthenticationInfoToJson(AuthenticationInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Id', instance.id);
-  writeNotNull('AccessToken', instance.accessToken);
-  writeNotNull('DeviceId', instance.deviceId);
-  writeNotNull('AppName', instance.appName);
-  writeNotNull('AppVersion', instance.appVersion);
-  writeNotNull('DeviceName', instance.deviceName);
-  writeNotNull('UserId', instance.userId);
-  writeNotNull('IsActive', instance.isActive);
-  writeNotNull('DateCreated', instance.dateCreated?.toIso8601String());
-  writeNotNull('DateRevoked', instance.dateRevoked?.toIso8601String());
-  writeNotNull(
-      'DateLastActivity', instance.dateLastActivity?.toIso8601String());
-  writeNotNull('UserName', instance.userName);
-  return val;
-}
+Map<String, dynamic> _$AuthenticationInfoToJson(AuthenticationInfo instance) =>
+    <String, dynamic>{
+      if (instance.id case final value?) 'Id': value,
+      if (instance.accessToken case final value?) 'AccessToken': value,
+      if (instance.deviceId case final value?) 'DeviceId': value,
+      if (instance.appName case final value?) 'AppName': value,
+      if (instance.appVersion case final value?) 'AppVersion': value,
+      if (instance.deviceName case final value?) 'DeviceName': value,
+      if (instance.userId case final value?) 'UserId': value,
+      if (instance.isActive case final value?) 'IsActive': value,
+      if (instance.dateCreated?.toIso8601String() case final value?)
+        'DateCreated': value,
+      if (instance.dateRevoked?.toIso8601String() case final value?)
+        'DateRevoked': value,
+      if (instance.dateLastActivity?.toIso8601String() case final value?)
+        'DateLastActivity': value,
+      if (instance.userName case final value?) 'UserName': value,
+    };
 
 AuthenticationInfoQueryResult _$AuthenticationInfoQueryResultFromJson(
         Map<String, dynamic> json) =>
@@ -460,20 +376,14 @@ AuthenticationInfoQueryResult _$AuthenticationInfoQueryResultFromJson(
     );
 
 Map<String, dynamic> _$AuthenticationInfoQueryResultToJson(
-    AuthenticationInfoQueryResult instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Items', instance.items?.map((e) => e.toJson()).toList());
-  writeNotNull('TotalRecordCount', instance.totalRecordCount);
-  writeNotNull('StartIndex', instance.startIndex);
-  return val;
-}
+        AuthenticationInfoQueryResult instance) =>
+    <String, dynamic>{
+      if (instance.items?.map((e) => e.toJson()).toList() case final value?)
+        'Items': value,
+      if (instance.totalRecordCount case final value?)
+        'TotalRecordCount': value,
+      if (instance.startIndex case final value?) 'StartIndex': value,
+    };
 
 AuthenticationResult _$AuthenticationResultFromJson(
         Map<String, dynamic> json) =>
@@ -490,21 +400,14 @@ AuthenticationResult _$AuthenticationResultFromJson(
     );
 
 Map<String, dynamic> _$AuthenticationResultToJson(
-    AuthenticationResult instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('User', instance.user?.toJson());
-  writeNotNull('SessionInfo', instance.sessionInfo?.toJson());
-  writeNotNull('AccessToken', instance.accessToken);
-  writeNotNull('ServerId', instance.serverId);
-  return val;
-}
+        AuthenticationResult instance) =>
+    <String, dynamic>{
+      if (instance.user?.toJson() case final value?) 'User': value,
+      if (instance.sessionInfo?.toJson() case final value?)
+        'SessionInfo': value,
+      if (instance.accessToken case final value?) 'AccessToken': value,
+      if (instance.serverId case final value?) 'ServerId': value,
+    };
 
 BaseItemDto _$BaseItemDtoFromJson(Map<String, dynamic> json) => BaseItemDto(
       name: json['Name'] as String?,
@@ -738,183 +641,232 @@ BaseItemDto _$BaseItemDtoFromJson(Map<String, dynamic> json) => BaseItemDto(
               json['CurrentProgram'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$BaseItemDtoToJson(BaseItemDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('OriginalTitle', instance.originalTitle);
-  writeNotNull('ServerId', instance.serverId);
-  writeNotNull('Id', instance.id);
-  writeNotNull('Etag', instance.etag);
-  writeNotNull('SourceType', instance.sourceType);
-  writeNotNull('PlaylistItemId', instance.playlistItemId);
-  writeNotNull('DateCreated', instance.dateCreated?.toIso8601String());
-  writeNotNull(
-      'DateLastMediaAdded', instance.dateLastMediaAdded?.toIso8601String());
-  writeNotNull('ExtraType', extraTypeNullableToJson(instance.extraType));
-  writeNotNull('AirsBeforeSeasonNumber', instance.airsBeforeSeasonNumber);
-  writeNotNull('AirsAfterSeasonNumber', instance.airsAfterSeasonNumber);
-  writeNotNull('AirsBeforeEpisodeNumber', instance.airsBeforeEpisodeNumber);
-  writeNotNull('CanDelete', instance.canDelete);
-  writeNotNull('CanDownload', instance.canDownload);
-  writeNotNull('HasLyrics', instance.hasLyrics);
-  writeNotNull('HasSubtitles', instance.hasSubtitles);
-  writeNotNull('PreferredMetadataLanguage', instance.preferredMetadataLanguage);
-  writeNotNull(
-      'PreferredMetadataCountryCode', instance.preferredMetadataCountryCode);
-  writeNotNull('Container', instance.container);
-  writeNotNull('SortName', instance.sortName);
-  writeNotNull('ForcedSortName', instance.forcedSortName);
-  writeNotNull(
-      'Video3DFormat', video3DFormatNullableToJson(instance.video3DFormat));
-  writeNotNull('PremiereDate', instance.premiereDate?.toIso8601String());
-  writeNotNull(
-      'ExternalUrls', instance.externalUrls?.map((e) => e.toJson()).toList());
-  writeNotNull(
-      'MediaSources', instance.mediaSources?.map((e) => e.toJson()).toList());
-  writeNotNull('CriticRating', instance.criticRating);
-  writeNotNull('ProductionLocations', instance.productionLocations);
-  writeNotNull('Path', instance.path);
-  writeNotNull('EnableMediaSourceDisplay', instance.enableMediaSourceDisplay);
-  writeNotNull('OfficialRating', instance.officialRating);
-  writeNotNull('CustomRating', instance.customRating);
-  writeNotNull('ChannelId', instance.channelId);
-  writeNotNull('ChannelName', instance.channelName);
-  writeNotNull('Overview', instance.overview);
-  writeNotNull('Taglines', instance.taglines);
-  writeNotNull('Genres', instance.genres);
-  writeNotNull('CommunityRating', instance.communityRating);
-  writeNotNull('CumulativeRunTimeTicks', instance.cumulativeRunTimeTicks);
-  writeNotNull('RunTimeTicks', instance.runTimeTicks);
-  writeNotNull('PlayAccess', playAccessNullableToJson(instance.playAccess));
-  writeNotNull('AspectRatio', instance.aspectRatio);
-  writeNotNull('ProductionYear', instance.productionYear);
-  writeNotNull('IsPlaceHolder', instance.isPlaceHolder);
-  writeNotNull('Number', instance.number);
-  writeNotNull('ChannelNumber', instance.channelNumber);
-  writeNotNull('IndexNumber', instance.indexNumber);
-  writeNotNull('IndexNumberEnd', instance.indexNumberEnd);
-  writeNotNull('ParentIndexNumber', instance.parentIndexNumber);
-  writeNotNull('RemoteTrailers',
-      instance.remoteTrailers?.map((e) => e.toJson()).toList());
-  writeNotNull('ProviderIds', instance.providerIds);
-  writeNotNull('IsHD', instance.isHD);
-  writeNotNull('IsFolder', instance.isFolder);
-  writeNotNull('ParentId', instance.parentId);
-  writeNotNull('Type', baseItemKindNullableToJson(instance.type));
-  writeNotNull('People', instance.people?.map((e) => e.toJson()).toList());
-  writeNotNull('Studios', instance.studios?.map((e) => e.toJson()).toList());
-  writeNotNull(
-      'GenreItems', instance.genreItems?.map((e) => e.toJson()).toList());
-  writeNotNull('ParentLogoItemId', instance.parentLogoItemId);
-  writeNotNull('ParentBackdropItemId', instance.parentBackdropItemId);
-  writeNotNull('ParentBackdropImageTags', instance.parentBackdropImageTags);
-  writeNotNull('LocalTrailerCount', instance.localTrailerCount);
-  writeNotNull('UserData', instance.userData?.toJson());
-  writeNotNull('RecursiveItemCount', instance.recursiveItemCount);
-  writeNotNull('ChildCount', instance.childCount);
-  writeNotNull('SeriesName', instance.seriesName);
-  writeNotNull('SeriesId', instance.seriesId);
-  writeNotNull('SeasonId', instance.seasonId);
-  writeNotNull('SpecialFeatureCount', instance.specialFeatureCount);
-  writeNotNull('DisplayPreferencesId', instance.displayPreferencesId);
-  writeNotNull('Status', instance.status);
-  writeNotNull('AirTime', instance.airTime);
-  val['AirDays'] = dayOfWeekListToJson(instance.airDays);
-  writeNotNull('Tags', instance.tags);
-  writeNotNull('PrimaryImageAspectRatio', instance.primaryImageAspectRatio);
-  writeNotNull('Artists', instance.artists);
-  writeNotNull(
-      'ArtistItems', instance.artistItems?.map((e) => e.toJson()).toList());
-  writeNotNull('Album', instance.album);
-  writeNotNull(
-      'CollectionType', collectionTypeNullableToJson(instance.collectionType));
-  writeNotNull('DisplayOrder', instance.displayOrder);
-  writeNotNull('AlbumId', instance.albumId);
-  writeNotNull('AlbumPrimaryImageTag', instance.albumPrimaryImageTag);
-  writeNotNull('SeriesPrimaryImageTag', instance.seriesPrimaryImageTag);
-  writeNotNull('AlbumArtist', instance.albumArtist);
-  writeNotNull(
-      'AlbumArtists', instance.albumArtists?.map((e) => e.toJson()).toList());
-  writeNotNull('SeasonName', instance.seasonName);
-  writeNotNull(
-      'MediaStreams', instance.mediaStreams?.map((e) => e.toJson()).toList());
-  writeNotNull('VideoType', videoTypeNullableToJson(instance.videoType));
-  writeNotNull('PartCount', instance.partCount);
-  writeNotNull('MediaSourceCount', instance.mediaSourceCount);
-  writeNotNull('ImageTags', instance.imageTags);
-  writeNotNull('BackdropImageTags', instance.backdropImageTags);
-  writeNotNull('ScreenshotImageTags', instance.screenshotImageTags);
-  writeNotNull('ParentLogoImageTag', instance.parentLogoImageTag);
-  writeNotNull('ParentArtItemId', instance.parentArtItemId);
-  writeNotNull('ParentArtImageTag', instance.parentArtImageTag);
-  writeNotNull('SeriesThumbImageTag', instance.seriesThumbImageTag);
-  writeNotNull('ImageBlurHashes', instance.imageBlurHashes?.toJson());
-  writeNotNull('SeriesStudio', instance.seriesStudio);
-  writeNotNull('ParentThumbItemId', instance.parentThumbItemId);
-  writeNotNull('ParentThumbImageTag', instance.parentThumbImageTag);
-  writeNotNull('ParentPrimaryImageItemId', instance.parentPrimaryImageItemId);
-  writeNotNull('ParentPrimaryImageTag', instance.parentPrimaryImageTag);
-  writeNotNull('Chapters', instance.chapters?.map((e) => e.toJson()).toList());
-  writeNotNull('Trickplay', instance.trickplay);
-  writeNotNull(
-      'LocationType', locationTypeNullableToJson(instance.locationType));
-  writeNotNull('IsoType', isoTypeNullableToJson(instance.isoType));
-  writeNotNull('MediaType', mediaTypeNullableToJson(instance.mediaType));
-  writeNotNull('EndDate', instance.endDate?.toIso8601String());
-  val['LockedFields'] = metadataFieldListToJson(instance.lockedFields);
-  writeNotNull('TrailerCount', instance.trailerCount);
-  writeNotNull('MovieCount', instance.movieCount);
-  writeNotNull('SeriesCount', instance.seriesCount);
-  writeNotNull('ProgramCount', instance.programCount);
-  writeNotNull('EpisodeCount', instance.episodeCount);
-  writeNotNull('SongCount', instance.songCount);
-  writeNotNull('AlbumCount', instance.albumCount);
-  writeNotNull('ArtistCount', instance.artistCount);
-  writeNotNull('MusicVideoCount', instance.musicVideoCount);
-  writeNotNull('LockData', instance.lockData);
-  writeNotNull('Width', instance.width);
-  writeNotNull('Height', instance.height);
-  writeNotNull('CameraMake', instance.cameraMake);
-  writeNotNull('CameraModel', instance.cameraModel);
-  writeNotNull('Software', instance.software);
-  writeNotNull('ExposureTime', instance.exposureTime);
-  writeNotNull('FocalLength', instance.focalLength);
-  writeNotNull('ImageOrientation',
-      imageOrientationNullableToJson(instance.imageOrientation));
-  writeNotNull('Aperture', instance.aperture);
-  writeNotNull('ShutterSpeed', instance.shutterSpeed);
-  writeNotNull('Latitude', instance.latitude);
-  writeNotNull('Longitude', instance.longitude);
-  writeNotNull('Altitude', instance.altitude);
-  writeNotNull('IsoSpeedRating', instance.isoSpeedRating);
-  writeNotNull('SeriesTimerId', instance.seriesTimerId);
-  writeNotNull('ProgramId', instance.programId);
-  writeNotNull('ChannelPrimaryImageTag', instance.channelPrimaryImageTag);
-  writeNotNull('StartDate', instance.startDate?.toIso8601String());
-  writeNotNull('CompletionPercentage', instance.completionPercentage);
-  writeNotNull('IsRepeat', instance.isRepeat);
-  writeNotNull('EpisodeTitle', instance.episodeTitle);
-  writeNotNull('ChannelType', channelTypeNullableToJson(instance.channelType));
-  writeNotNull('Audio', programAudioNullableToJson(instance.audio));
-  writeNotNull('IsMovie', instance.isMovie);
-  writeNotNull('IsSports', instance.isSports);
-  writeNotNull('IsSeries', instance.isSeries);
-  writeNotNull('IsLive', instance.isLive);
-  writeNotNull('IsNews', instance.isNews);
-  writeNotNull('IsKids', instance.isKids);
-  writeNotNull('IsPremiere', instance.isPremiere);
-  writeNotNull('TimerId', instance.timerId);
-  writeNotNull('NormalizationGain', instance.normalizationGain);
-  writeNotNull('CurrentProgram', instance.currentProgram?.toJson());
-  return val;
-}
+Map<String, dynamic> _$BaseItemDtoToJson(BaseItemDto instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.originalTitle case final value?) 'OriginalTitle': value,
+      if (instance.serverId case final value?) 'ServerId': value,
+      if (instance.id case final value?) 'Id': value,
+      if (instance.etag case final value?) 'Etag': value,
+      if (instance.sourceType case final value?) 'SourceType': value,
+      if (instance.playlistItemId case final value?) 'PlaylistItemId': value,
+      if (instance.dateCreated?.toIso8601String() case final value?)
+        'DateCreated': value,
+      if (instance.dateLastMediaAdded?.toIso8601String() case final value?)
+        'DateLastMediaAdded': value,
+      if (extraTypeNullableToJson(instance.extraType) case final value?)
+        'ExtraType': value,
+      if (instance.airsBeforeSeasonNumber case final value?)
+        'AirsBeforeSeasonNumber': value,
+      if (instance.airsAfterSeasonNumber case final value?)
+        'AirsAfterSeasonNumber': value,
+      if (instance.airsBeforeEpisodeNumber case final value?)
+        'AirsBeforeEpisodeNumber': value,
+      if (instance.canDelete case final value?) 'CanDelete': value,
+      if (instance.canDownload case final value?) 'CanDownload': value,
+      if (instance.hasLyrics case final value?) 'HasLyrics': value,
+      if (instance.hasSubtitles case final value?) 'HasSubtitles': value,
+      if (instance.preferredMetadataLanguage case final value?)
+        'PreferredMetadataLanguage': value,
+      if (instance.preferredMetadataCountryCode case final value?)
+        'PreferredMetadataCountryCode': value,
+      if (instance.container case final value?) 'Container': value,
+      if (instance.sortName case final value?) 'SortName': value,
+      if (instance.forcedSortName case final value?) 'ForcedSortName': value,
+      if (video3DFormatNullableToJson(instance.video3DFormat) case final value?)
+        'Video3DFormat': value,
+      if (instance.premiereDate?.toIso8601String() case final value?)
+        'PremiereDate': value,
+      if (instance.externalUrls?.map((e) => e.toJson()).toList()
+          case final value?)
+        'ExternalUrls': value,
+      if (instance.mediaSources?.map((e) => e.toJson()).toList()
+          case final value?)
+        'MediaSources': value,
+      if (instance.criticRating case final value?) 'CriticRating': value,
+      if (instance.productionLocations case final value?)
+        'ProductionLocations': value,
+      if (instance.path case final value?) 'Path': value,
+      if (instance.enableMediaSourceDisplay case final value?)
+        'EnableMediaSourceDisplay': value,
+      if (instance.officialRating case final value?) 'OfficialRating': value,
+      if (instance.customRating case final value?) 'CustomRating': value,
+      if (instance.channelId case final value?) 'ChannelId': value,
+      if (instance.channelName case final value?) 'ChannelName': value,
+      if (instance.overview case final value?) 'Overview': value,
+      if (instance.taglines case final value?) 'Taglines': value,
+      if (instance.genres case final value?) 'Genres': value,
+      if (instance.communityRating case final value?) 'CommunityRating': value,
+      if (instance.cumulativeRunTimeTicks case final value?)
+        'CumulativeRunTimeTicks': value,
+      if (instance.runTimeTicks case final value?) 'RunTimeTicks': value,
+      if (playAccessNullableToJson(instance.playAccess) case final value?)
+        'PlayAccess': value,
+      if (instance.aspectRatio case final value?) 'AspectRatio': value,
+      if (instance.productionYear case final value?) 'ProductionYear': value,
+      if (instance.isPlaceHolder case final value?) 'IsPlaceHolder': value,
+      if (instance.number case final value?) 'Number': value,
+      if (instance.channelNumber case final value?) 'ChannelNumber': value,
+      if (instance.indexNumber case final value?) 'IndexNumber': value,
+      if (instance.indexNumberEnd case final value?) 'IndexNumberEnd': value,
+      if (instance.parentIndexNumber case final value?)
+        'ParentIndexNumber': value,
+      if (instance.remoteTrailers?.map((e) => e.toJson()).toList()
+          case final value?)
+        'RemoteTrailers': value,
+      if (instance.providerIds case final value?) 'ProviderIds': value,
+      if (instance.isHD case final value?) 'IsHD': value,
+      if (instance.isFolder case final value?) 'IsFolder': value,
+      if (instance.parentId case final value?) 'ParentId': value,
+      if (baseItemKindNullableToJson(instance.type) case final value?)
+        'Type': value,
+      if (instance.people?.map((e) => e.toJson()).toList() case final value?)
+        'People': value,
+      if (instance.studios?.map((e) => e.toJson()).toList() case final value?)
+        'Studios': value,
+      if (instance.genreItems?.map((e) => e.toJson()).toList()
+          case final value?)
+        'GenreItems': value,
+      if (instance.parentLogoItemId case final value?)
+        'ParentLogoItemId': value,
+      if (instance.parentBackdropItemId case final value?)
+        'ParentBackdropItemId': value,
+      if (instance.parentBackdropImageTags case final value?)
+        'ParentBackdropImageTags': value,
+      if (instance.localTrailerCount case final value?)
+        'LocalTrailerCount': value,
+      if (instance.userData?.toJson() case final value?) 'UserData': value,
+      if (instance.recursiveItemCount case final value?)
+        'RecursiveItemCount': value,
+      if (instance.childCount case final value?) 'ChildCount': value,
+      if (instance.seriesName case final value?) 'SeriesName': value,
+      if (instance.seriesId case final value?) 'SeriesId': value,
+      if (instance.seasonId case final value?) 'SeasonId': value,
+      if (instance.specialFeatureCount case final value?)
+        'SpecialFeatureCount': value,
+      if (instance.displayPreferencesId case final value?)
+        'DisplayPreferencesId': value,
+      if (instance.status case final value?) 'Status': value,
+      if (instance.airTime case final value?) 'AirTime': value,
+      'AirDays': dayOfWeekListToJson(instance.airDays),
+      if (instance.tags case final value?) 'Tags': value,
+      if (instance.primaryImageAspectRatio case final value?)
+        'PrimaryImageAspectRatio': value,
+      if (instance.artists case final value?) 'Artists': value,
+      if (instance.artistItems?.map((e) => e.toJson()).toList()
+          case final value?)
+        'ArtistItems': value,
+      if (instance.album case final value?) 'Album': value,
+      if (collectionTypeNullableToJson(instance.collectionType)
+          case final value?)
+        'CollectionType': value,
+      if (instance.displayOrder case final value?) 'DisplayOrder': value,
+      if (instance.albumId case final value?) 'AlbumId': value,
+      if (instance.albumPrimaryImageTag case final value?)
+        'AlbumPrimaryImageTag': value,
+      if (instance.seriesPrimaryImageTag case final value?)
+        'SeriesPrimaryImageTag': value,
+      if (instance.albumArtist case final value?) 'AlbumArtist': value,
+      if (instance.albumArtists?.map((e) => e.toJson()).toList()
+          case final value?)
+        'AlbumArtists': value,
+      if (instance.seasonName case final value?) 'SeasonName': value,
+      if (instance.mediaStreams?.map((e) => e.toJson()).toList()
+          case final value?)
+        'MediaStreams': value,
+      if (videoTypeNullableToJson(instance.videoType) case final value?)
+        'VideoType': value,
+      if (instance.partCount case final value?) 'PartCount': value,
+      if (instance.mediaSourceCount case final value?)
+        'MediaSourceCount': value,
+      if (instance.imageTags case final value?) 'ImageTags': value,
+      if (instance.backdropImageTags case final value?)
+        'BackdropImageTags': value,
+      if (instance.screenshotImageTags case final value?)
+        'ScreenshotImageTags': value,
+      if (instance.parentLogoImageTag case final value?)
+        'ParentLogoImageTag': value,
+      if (instance.parentArtItemId case final value?) 'ParentArtItemId': value,
+      if (instance.parentArtImageTag case final value?)
+        'ParentArtImageTag': value,
+      if (instance.seriesThumbImageTag case final value?)
+        'SeriesThumbImageTag': value,
+      if (instance.imageBlurHashes?.toJson() case final value?)
+        'ImageBlurHashes': value,
+      if (instance.seriesStudio case final value?) 'SeriesStudio': value,
+      if (instance.parentThumbItemId case final value?)
+        'ParentThumbItemId': value,
+      if (instance.parentThumbImageTag case final value?)
+        'ParentThumbImageTag': value,
+      if (instance.parentPrimaryImageItemId case final value?)
+        'ParentPrimaryImageItemId': value,
+      if (instance.parentPrimaryImageTag case final value?)
+        'ParentPrimaryImageTag': value,
+      if (instance.chapters?.map((e) => e.toJson()).toList() case final value?)
+        'Chapters': value,
+      if (instance.trickplay case final value?) 'Trickplay': value,
+      if (locationTypeNullableToJson(instance.locationType) case final value?)
+        'LocationType': value,
+      if (isoTypeNullableToJson(instance.isoType) case final value?)
+        'IsoType': value,
+      if (mediaTypeNullableToJson(instance.mediaType) case final value?)
+        'MediaType': value,
+      if (instance.endDate?.toIso8601String() case final value?)
+        'EndDate': value,
+      'LockedFields': metadataFieldListToJson(instance.lockedFields),
+      if (instance.trailerCount case final value?) 'TrailerCount': value,
+      if (instance.movieCount case final value?) 'MovieCount': value,
+      if (instance.seriesCount case final value?) 'SeriesCount': value,
+      if (instance.programCount case final value?) 'ProgramCount': value,
+      if (instance.episodeCount case final value?) 'EpisodeCount': value,
+      if (instance.songCount case final value?) 'SongCount': value,
+      if (instance.albumCount case final value?) 'AlbumCount': value,
+      if (instance.artistCount case final value?) 'ArtistCount': value,
+      if (instance.musicVideoCount case final value?) 'MusicVideoCount': value,
+      if (instance.lockData case final value?) 'LockData': value,
+      if (instance.width case final value?) 'Width': value,
+      if (instance.height case final value?) 'Height': value,
+      if (instance.cameraMake case final value?) 'CameraMake': value,
+      if (instance.cameraModel case final value?) 'CameraModel': value,
+      if (instance.software case final value?) 'Software': value,
+      if (instance.exposureTime case final value?) 'ExposureTime': value,
+      if (instance.focalLength case final value?) 'FocalLength': value,
+      if (imageOrientationNullableToJson(instance.imageOrientation)
+          case final value?)
+        'ImageOrientation': value,
+      if (instance.aperture case final value?) 'Aperture': value,
+      if (instance.shutterSpeed case final value?) 'ShutterSpeed': value,
+      if (instance.latitude case final value?) 'Latitude': value,
+      if (instance.longitude case final value?) 'Longitude': value,
+      if (instance.altitude case final value?) 'Altitude': value,
+      if (instance.isoSpeedRating case final value?) 'IsoSpeedRating': value,
+      if (instance.seriesTimerId case final value?) 'SeriesTimerId': value,
+      if (instance.programId case final value?) 'ProgramId': value,
+      if (instance.channelPrimaryImageTag case final value?)
+        'ChannelPrimaryImageTag': value,
+      if (instance.startDate?.toIso8601String() case final value?)
+        'StartDate': value,
+      if (instance.completionPercentage case final value?)
+        'CompletionPercentage': value,
+      if (instance.isRepeat case final value?) 'IsRepeat': value,
+      if (instance.episodeTitle case final value?) 'EpisodeTitle': value,
+      if (channelTypeNullableToJson(instance.channelType) case final value?)
+        'ChannelType': value,
+      if (programAudioNullableToJson(instance.audio) case final value?)
+        'Audio': value,
+      if (instance.isMovie case final value?) 'IsMovie': value,
+      if (instance.isSports case final value?) 'IsSports': value,
+      if (instance.isSeries case final value?) 'IsSeries': value,
+      if (instance.isLive case final value?) 'IsLive': value,
+      if (instance.isNews case final value?) 'IsNews': value,
+      if (instance.isKids case final value?) 'IsKids': value,
+      if (instance.isPremiere case final value?) 'IsPremiere': value,
+      if (instance.timerId case final value?) 'TimerId': value,
+      if (instance.normalizationGain case final value?)
+        'NormalizationGain': value,
+      if (instance.currentProgram?.toJson() case final value?)
+        'CurrentProgram': value,
+    };
 
 BaseItemDtoQueryResult _$BaseItemDtoQueryResultFromJson(
         Map<String, dynamic> json) =>
@@ -928,20 +880,14 @@ BaseItemDtoQueryResult _$BaseItemDtoQueryResultFromJson(
     );
 
 Map<String, dynamic> _$BaseItemDtoQueryResultToJson(
-    BaseItemDtoQueryResult instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Items', instance.items?.map((e) => e.toJson()).toList());
-  writeNotNull('TotalRecordCount', instance.totalRecordCount);
-  writeNotNull('StartIndex', instance.startIndex);
-  return val;
-}
+        BaseItemDtoQueryResult instance) =>
+    <String, dynamic>{
+      if (instance.items?.map((e) => e.toJson()).toList() case final value?)
+        'Items': value,
+      if (instance.totalRecordCount case final value?)
+        'TotalRecordCount': value,
+      if (instance.startIndex case final value?) 'StartIndex': value,
+    };
 
 BaseItemPerson _$BaseItemPersonFromJson(Map<String, dynamic> json) =>
     BaseItemPerson(
@@ -956,23 +902,17 @@ BaseItemPerson _$BaseItemPersonFromJson(Map<String, dynamic> json) =>
               json['ImageBlurHashes'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$BaseItemPersonToJson(BaseItemPerson instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('Id', instance.id);
-  writeNotNull('Role', instance.role);
-  writeNotNull('Type', personKindNullableToJson(instance.type));
-  writeNotNull('PrimaryImageTag', instance.primaryImageTag);
-  writeNotNull('ImageBlurHashes', instance.imageBlurHashes?.toJson());
-  return val;
-}
+Map<String, dynamic> _$BaseItemPersonToJson(BaseItemPerson instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.id case final value?) 'Id': value,
+      if (instance.role case final value?) 'Role': value,
+      if (personKindNullableToJson(instance.type) case final value?)
+        'Type': value,
+      if (instance.primaryImageTag case final value?) 'PrimaryImageTag': value,
+      if (instance.imageBlurHashes?.toJson() case final value?)
+        'ImageBlurHashes': value,
+    };
 
 BasePluginConfiguration _$BasePluginConfigurationFromJson(
         Map<String, dynamic> json) =>
@@ -999,29 +939,24 @@ BookInfo _$BookInfoFromJson(Map<String, dynamic> json) => BookInfo(
       seriesName: json['SeriesName'] as String?,
     );
 
-Map<String, dynamic> _$BookInfoToJson(BookInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('OriginalTitle', instance.originalTitle);
-  writeNotNull('Path', instance.path);
-  writeNotNull('MetadataLanguage', instance.metadataLanguage);
-  writeNotNull('MetadataCountryCode', instance.metadataCountryCode);
-  writeNotNull('ProviderIds', instance.providerIds);
-  writeNotNull('Year', instance.year);
-  writeNotNull('IndexNumber', instance.indexNumber);
-  writeNotNull('ParentIndexNumber', instance.parentIndexNumber);
-  writeNotNull('PremiereDate', instance.premiereDate?.toIso8601String());
-  writeNotNull('IsAutomated', instance.isAutomated);
-  writeNotNull('SeriesName', instance.seriesName);
-  return val;
-}
+Map<String, dynamic> _$BookInfoToJson(BookInfo instance) => <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.originalTitle case final value?) 'OriginalTitle': value,
+      if (instance.path case final value?) 'Path': value,
+      if (instance.metadataLanguage case final value?)
+        'MetadataLanguage': value,
+      if (instance.metadataCountryCode case final value?)
+        'MetadataCountryCode': value,
+      if (instance.providerIds case final value?) 'ProviderIds': value,
+      if (instance.year case final value?) 'Year': value,
+      if (instance.indexNumber case final value?) 'IndexNumber': value,
+      if (instance.parentIndexNumber case final value?)
+        'ParentIndexNumber': value,
+      if (instance.premiereDate?.toIso8601String() case final value?)
+        'PremiereDate': value,
+      if (instance.isAutomated case final value?) 'IsAutomated': value,
+      if (instance.seriesName case final value?) 'SeriesName': value,
+    };
 
 BookInfoRemoteSearchQuery _$BookInfoRemoteSearchQueryFromJson(
         Map<String, dynamic> json) =>
@@ -1035,21 +970,15 @@ BookInfoRemoteSearchQuery _$BookInfoRemoteSearchQueryFromJson(
     );
 
 Map<String, dynamic> _$BookInfoRemoteSearchQueryToJson(
-    BookInfoRemoteSearchQuery instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('SearchInfo', instance.searchInfo?.toJson());
-  writeNotNull('ItemId', instance.itemId);
-  writeNotNull('SearchProviderName', instance.searchProviderName);
-  writeNotNull('IncludeDisabledProviders', instance.includeDisabledProviders);
-  return val;
-}
+        BookInfoRemoteSearchQuery instance) =>
+    <String, dynamic>{
+      if (instance.searchInfo?.toJson() case final value?) 'SearchInfo': value,
+      if (instance.itemId case final value?) 'ItemId': value,
+      if (instance.searchProviderName case final value?)
+        'SearchProviderName': value,
+      if (instance.includeDisabledProviders case final value?)
+        'IncludeDisabledProviders': value,
+    };
 
 BoxSetInfo _$BoxSetInfoFromJson(Map<String, dynamic> json) => BoxSetInfo(
       name: json['Name'] as String?,
@@ -1067,28 +996,24 @@ BoxSetInfo _$BoxSetInfoFromJson(Map<String, dynamic> json) => BoxSetInfo(
       isAutomated: json['IsAutomated'] as bool?,
     );
 
-Map<String, dynamic> _$BoxSetInfoToJson(BoxSetInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('OriginalTitle', instance.originalTitle);
-  writeNotNull('Path', instance.path);
-  writeNotNull('MetadataLanguage', instance.metadataLanguage);
-  writeNotNull('MetadataCountryCode', instance.metadataCountryCode);
-  writeNotNull('ProviderIds', instance.providerIds);
-  writeNotNull('Year', instance.year);
-  writeNotNull('IndexNumber', instance.indexNumber);
-  writeNotNull('ParentIndexNumber', instance.parentIndexNumber);
-  writeNotNull('PremiereDate', instance.premiereDate?.toIso8601String());
-  writeNotNull('IsAutomated', instance.isAutomated);
-  return val;
-}
+Map<String, dynamic> _$BoxSetInfoToJson(BoxSetInfo instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.originalTitle case final value?) 'OriginalTitle': value,
+      if (instance.path case final value?) 'Path': value,
+      if (instance.metadataLanguage case final value?)
+        'MetadataLanguage': value,
+      if (instance.metadataCountryCode case final value?)
+        'MetadataCountryCode': value,
+      if (instance.providerIds case final value?) 'ProviderIds': value,
+      if (instance.year case final value?) 'Year': value,
+      if (instance.indexNumber case final value?) 'IndexNumber': value,
+      if (instance.parentIndexNumber case final value?)
+        'ParentIndexNumber': value,
+      if (instance.premiereDate?.toIso8601String() case final value?)
+        'PremiereDate': value,
+      if (instance.isAutomated case final value?) 'IsAutomated': value,
+    };
 
 BoxSetInfoRemoteSearchQuery _$BoxSetInfoRemoteSearchQueryFromJson(
         Map<String, dynamic> json) =>
@@ -1102,21 +1027,15 @@ BoxSetInfoRemoteSearchQuery _$BoxSetInfoRemoteSearchQueryFromJson(
     );
 
 Map<String, dynamic> _$BoxSetInfoRemoteSearchQueryToJson(
-    BoxSetInfoRemoteSearchQuery instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('SearchInfo', instance.searchInfo?.toJson());
-  writeNotNull('ItemId', instance.itemId);
-  writeNotNull('SearchProviderName', instance.searchProviderName);
-  writeNotNull('IncludeDisabledProviders', instance.includeDisabledProviders);
-  return val;
-}
+        BoxSetInfoRemoteSearchQuery instance) =>
+    <String, dynamic>{
+      if (instance.searchInfo?.toJson() case final value?) 'SearchInfo': value,
+      if (instance.itemId case final value?) 'ItemId': value,
+      if (instance.searchProviderName case final value?)
+        'SearchProviderName': value,
+      if (instance.includeDisabledProviders case final value?)
+        'IncludeDisabledProviders': value,
+    };
 
 BrandingOptions _$BrandingOptionsFromJson(Map<String, dynamic> json) =>
     BrandingOptions(
@@ -1125,20 +1044,13 @@ BrandingOptions _$BrandingOptionsFromJson(Map<String, dynamic> json) =>
       splashscreenEnabled: json['SplashscreenEnabled'] as bool?,
     );
 
-Map<String, dynamic> _$BrandingOptionsToJson(BrandingOptions instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('LoginDisclaimer', instance.loginDisclaimer);
-  writeNotNull('CustomCss', instance.customCss);
-  writeNotNull('SplashscreenEnabled', instance.splashscreenEnabled);
-  return val;
-}
+Map<String, dynamic> _$BrandingOptionsToJson(BrandingOptions instance) =>
+    <String, dynamic>{
+      if (instance.loginDisclaimer case final value?) 'LoginDisclaimer': value,
+      if (instance.customCss case final value?) 'CustomCss': value,
+      if (instance.splashscreenEnabled case final value?)
+        'SplashscreenEnabled': value,
+    };
 
 BufferRequestDto _$BufferRequestDtoFromJson(Map<String, dynamic> json) =>
     BufferRequestDto(
@@ -1149,21 +1061,13 @@ BufferRequestDto _$BufferRequestDtoFromJson(Map<String, dynamic> json) =>
       playlistItemId: json['PlaylistItemId'] as String?,
     );
 
-Map<String, dynamic> _$BufferRequestDtoToJson(BufferRequestDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('When', instance.when?.toIso8601String());
-  writeNotNull('PositionTicks', instance.positionTicks);
-  writeNotNull('IsPlaying', instance.isPlaying);
-  writeNotNull('PlaylistItemId', instance.playlistItemId);
-  return val;
-}
+Map<String, dynamic> _$BufferRequestDtoToJson(BufferRequestDto instance) =>
+    <String, dynamic>{
+      if (instance.when?.toIso8601String() case final value?) 'When': value,
+      if (instance.positionTicks case final value?) 'PositionTicks': value,
+      if (instance.isPlaying case final value?) 'IsPlaying': value,
+      if (instance.playlistItemId case final value?) 'PlaylistItemId': value,
+    };
 
 CastReceiverApplication _$CastReceiverApplicationFromJson(
         Map<String, dynamic> json) =>
@@ -1173,19 +1077,11 @@ CastReceiverApplication _$CastReceiverApplicationFromJson(
     );
 
 Map<String, dynamic> _$CastReceiverApplicationToJson(
-    CastReceiverApplication instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Id', instance.id);
-  writeNotNull('Name', instance.name);
-  return val;
-}
+        CastReceiverApplication instance) =>
+    <String, dynamic>{
+      if (instance.id case final value?) 'Id': value,
+      if (instance.name case final value?) 'Name': value,
+    };
 
 ChannelFeatures _$ChannelFeaturesFromJson(Map<String, dynamic> json) =>
     ChannelFeatures(
@@ -1205,32 +1101,26 @@ ChannelFeatures _$ChannelFeaturesFromJson(Map<String, dynamic> json) =>
       supportsContentDownloading: json['SupportsContentDownloading'] as bool?,
     );
 
-Map<String, dynamic> _$ChannelFeaturesToJson(ChannelFeatures instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('Id', instance.id);
-  writeNotNull('CanSearch', instance.canSearch);
-  val['MediaTypes'] = channelMediaTypeListToJson(instance.mediaTypes);
-  val['ContentTypes'] =
-      channelMediaContentTypeListToJson(instance.contentTypes);
-  writeNotNull('MaxPageSize', instance.maxPageSize);
-  writeNotNull('AutoRefreshLevels', instance.autoRefreshLevels);
-  val['DefaultSortFields'] =
-      channelItemSortFieldListToJson(instance.defaultSortFields);
-  writeNotNull('SupportsSortOrderToggle', instance.supportsSortOrderToggle);
-  writeNotNull('SupportsLatestMedia', instance.supportsLatestMedia);
-  writeNotNull('CanFilter', instance.canFilter);
-  writeNotNull(
-      'SupportsContentDownloading', instance.supportsContentDownloading);
-  return val;
-}
+Map<String, dynamic> _$ChannelFeaturesToJson(ChannelFeatures instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.id case final value?) 'Id': value,
+      if (instance.canSearch case final value?) 'CanSearch': value,
+      'MediaTypes': channelMediaTypeListToJson(instance.mediaTypes),
+      'ContentTypes': channelMediaContentTypeListToJson(instance.contentTypes),
+      if (instance.maxPageSize case final value?) 'MaxPageSize': value,
+      if (instance.autoRefreshLevels case final value?)
+        'AutoRefreshLevels': value,
+      'DefaultSortFields':
+          channelItemSortFieldListToJson(instance.defaultSortFields),
+      if (instance.supportsSortOrderToggle case final value?)
+        'SupportsSortOrderToggle': value,
+      if (instance.supportsLatestMedia case final value?)
+        'SupportsLatestMedia': value,
+      if (instance.canFilter case final value?) 'CanFilter': value,
+      if (instance.supportsContentDownloading case final value?)
+        'SupportsContentDownloading': value,
+    };
 
 ChannelMappingOptionsDto _$ChannelMappingOptionsDtoFromJson(
         Map<String, dynamic> json) =>
@@ -1252,23 +1142,18 @@ ChannelMappingOptionsDto _$ChannelMappingOptionsDtoFromJson(
     );
 
 Map<String, dynamic> _$ChannelMappingOptionsDtoToJson(
-    ChannelMappingOptionsDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'TunerChannels', instance.tunerChannels?.map((e) => e.toJson()).toList());
-  writeNotNull('ProviderChannels',
-      instance.providerChannels?.map((e) => e.toJson()).toList());
-  writeNotNull('Mappings', instance.mappings?.map((e) => e.toJson()).toList());
-  writeNotNull('ProviderName', instance.providerName);
-  return val;
-}
+        ChannelMappingOptionsDto instance) =>
+    <String, dynamic>{
+      if (instance.tunerChannels?.map((e) => e.toJson()).toList()
+          case final value?)
+        'TunerChannels': value,
+      if (instance.providerChannels?.map((e) => e.toJson()).toList()
+          case final value?)
+        'ProviderChannels': value,
+      if (instance.mappings?.map((e) => e.toJson()).toList() case final value?)
+        'Mappings': value,
+      if (instance.providerName case final value?) 'ProviderName': value,
+    };
 
 ChapterInfo _$ChapterInfoFromJson(Map<String, dynamic> json) => ChapterInfo(
       startPositionTicks: (json['StartPositionTicks'] as num?)?.toInt(),
@@ -1280,23 +1165,16 @@ ChapterInfo _$ChapterInfoFromJson(Map<String, dynamic> json) => ChapterInfo(
       imageTag: json['ImageTag'] as String?,
     );
 
-Map<String, dynamic> _$ChapterInfoToJson(ChapterInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('StartPositionTicks', instance.startPositionTicks);
-  writeNotNull('Name', instance.name);
-  writeNotNull('ImagePath', instance.imagePath);
-  writeNotNull(
-      'ImageDateModified', instance.imageDateModified?.toIso8601String());
-  writeNotNull('ImageTag', instance.imageTag);
-  return val;
-}
+Map<String, dynamic> _$ChapterInfoToJson(ChapterInfo instance) =>
+    <String, dynamic>{
+      if (instance.startPositionTicks case final value?)
+        'StartPositionTicks': value,
+      if (instance.name case final value?) 'Name': value,
+      if (instance.imagePath case final value?) 'ImagePath': value,
+      if (instance.imageDateModified?.toIso8601String() case final value?)
+        'ImageDateModified': value,
+      if (instance.imageTag case final value?) 'ImageTag': value,
+    };
 
 ClientCapabilitiesDto _$ClientCapabilitiesDtoFromJson(
         Map<String, dynamic> json) =>
@@ -1317,27 +1195,20 @@ ClientCapabilitiesDto _$ClientCapabilitiesDtoFromJson(
     );
 
 Map<String, dynamic> _$ClientCapabilitiesDtoToJson(
-    ClientCapabilitiesDto instance) {
-  final val = <String, dynamic>{
-    'PlayableMediaTypes': mediaTypeListToJson(instance.playableMediaTypes),
-    'SupportedCommands':
-        generalCommandTypeListToJson(instance.supportedCommands),
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('SupportsMediaControl', instance.supportsMediaControl);
-  writeNotNull(
-      'SupportsPersistentIdentifier', instance.supportsPersistentIdentifier);
-  writeNotNull('DeviceProfile', instance.deviceProfile?.toJson());
-  writeNotNull('AppStoreUrl', instance.appStoreUrl);
-  writeNotNull('IconUrl', instance.iconUrl);
-  return val;
-}
+        ClientCapabilitiesDto instance) =>
+    <String, dynamic>{
+      'PlayableMediaTypes': mediaTypeListToJson(instance.playableMediaTypes),
+      'SupportedCommands':
+          generalCommandTypeListToJson(instance.supportedCommands),
+      if (instance.supportsMediaControl case final value?)
+        'SupportsMediaControl': value,
+      if (instance.supportsPersistentIdentifier case final value?)
+        'SupportsPersistentIdentifier': value,
+      if (instance.deviceProfile?.toJson() case final value?)
+        'DeviceProfile': value,
+      if (instance.appStoreUrl case final value?) 'AppStoreUrl': value,
+      if (instance.iconUrl case final value?) 'IconUrl': value,
+    };
 
 ClientLogDocumentResponseDto _$ClientLogDocumentResponseDtoFromJson(
         Map<String, dynamic> json) =>
@@ -1346,18 +1217,10 @@ ClientLogDocumentResponseDto _$ClientLogDocumentResponseDtoFromJson(
     );
 
 Map<String, dynamic> _$ClientLogDocumentResponseDtoToJson(
-    ClientLogDocumentResponseDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('FileName', instance.fileName);
-  return val;
-}
+        ClientLogDocumentResponseDto instance) =>
+    <String, dynamic>{
+      if (instance.fileName case final value?) 'FileName': value,
+    };
 
 CodecProfile _$CodecProfileFromJson(Map<String, dynamic> json) => CodecProfile(
       type: codecTypeNullableFromJson(json['Type']),
@@ -1374,25 +1237,20 @@ CodecProfile _$CodecProfileFromJson(Map<String, dynamic> json) => CodecProfile(
       subContainer: json['SubContainer'] as String?,
     );
 
-Map<String, dynamic> _$CodecProfileToJson(CodecProfile instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Type', codecTypeNullableToJson(instance.type));
-  writeNotNull(
-      'Conditions', instance.conditions?.map((e) => e.toJson()).toList());
-  writeNotNull('ApplyConditions',
-      instance.applyConditions?.map((e) => e.toJson()).toList());
-  writeNotNull('Codec', instance.codec);
-  writeNotNull('Container', instance.container);
-  writeNotNull('SubContainer', instance.subContainer);
-  return val;
-}
+Map<String, dynamic> _$CodecProfileToJson(CodecProfile instance) =>
+    <String, dynamic>{
+      if (codecTypeNullableToJson(instance.type) case final value?)
+        'Type': value,
+      if (instance.conditions?.map((e) => e.toJson()).toList()
+          case final value?)
+        'Conditions': value,
+      if (instance.applyConditions?.map((e) => e.toJson()).toList()
+          case final value?)
+        'ApplyConditions': value,
+      if (instance.codec case final value?) 'Codec': value,
+      if (instance.container case final value?) 'Container': value,
+      if (instance.subContainer case final value?) 'SubContainer': value,
+    };
 
 CollectionCreationResult _$CollectionCreationResultFromJson(
         Map<String, dynamic> json) =>
@@ -1401,18 +1259,10 @@ CollectionCreationResult _$CollectionCreationResultFromJson(
     );
 
 Map<String, dynamic> _$CollectionCreationResultToJson(
-    CollectionCreationResult instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Id', instance.id);
-  return val;
-}
+        CollectionCreationResult instance) =>
+    <String, dynamic>{
+      if (instance.id case final value?) 'Id': value,
+    };
 
 ConfigImageTypes _$ConfigImageTypesFromJson(Map<String, dynamic> json) =>
     ConfigImageTypes(
@@ -1440,24 +1290,16 @@ ConfigImageTypes _$ConfigImageTypesFromJson(Map<String, dynamic> json) =>
           [],
     );
 
-Map<String, dynamic> _$ConfigImageTypesToJson(ConfigImageTypes instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('BackdropSizes', instance.backdropSizes);
-  writeNotNull('BaseUrl', instance.baseUrl);
-  writeNotNull('LogoSizes', instance.logoSizes);
-  writeNotNull('PosterSizes', instance.posterSizes);
-  writeNotNull('ProfileSizes', instance.profileSizes);
-  writeNotNull('SecureBaseUrl', instance.secureBaseUrl);
-  writeNotNull('StillSizes', instance.stillSizes);
-  return val;
-}
+Map<String, dynamic> _$ConfigImageTypesToJson(ConfigImageTypes instance) =>
+    <String, dynamic>{
+      if (instance.backdropSizes case final value?) 'BackdropSizes': value,
+      if (instance.baseUrl case final value?) 'BaseUrl': value,
+      if (instance.logoSizes case final value?) 'LogoSizes': value,
+      if (instance.posterSizes case final value?) 'PosterSizes': value,
+      if (instance.profileSizes case final value?) 'ProfileSizes': value,
+      if (instance.secureBaseUrl case final value?) 'SecureBaseUrl': value,
+      if (instance.stillSizes case final value?) 'StillSizes': value,
+    };
 
 ConfigurationPageInfo _$ConfigurationPageInfoFromJson(
         Map<String, dynamic> json) =>
@@ -1471,23 +1313,16 @@ ConfigurationPageInfo _$ConfigurationPageInfoFromJson(
     );
 
 Map<String, dynamic> _$ConfigurationPageInfoToJson(
-    ConfigurationPageInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('EnableInMainMenu', instance.enableInMainMenu);
-  writeNotNull('MenuSection', instance.menuSection);
-  writeNotNull('MenuIcon', instance.menuIcon);
-  writeNotNull('DisplayName', instance.displayName);
-  writeNotNull('PluginId', instance.pluginId);
-  return val;
-}
+        ConfigurationPageInfo instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.enableInMainMenu case final value?)
+        'EnableInMainMenu': value,
+      if (instance.menuSection case final value?) 'MenuSection': value,
+      if (instance.menuIcon case final value?) 'MenuIcon': value,
+      if (instance.displayName case final value?) 'DisplayName': value,
+      if (instance.pluginId case final value?) 'PluginId': value,
+    };
 
 ContainerProfile _$ContainerProfileFromJson(Map<String, dynamic> json) =>
     ContainerProfile(
@@ -1500,22 +1335,16 @@ ContainerProfile _$ContainerProfileFromJson(Map<String, dynamic> json) =>
       subContainer: json['SubContainer'] as String?,
     );
 
-Map<String, dynamic> _$ContainerProfileToJson(ContainerProfile instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Type', dlnaProfileTypeNullableToJson(instance.type));
-  writeNotNull(
-      'Conditions', instance.conditions?.map((e) => e.toJson()).toList());
-  writeNotNull('Container', instance.container);
-  writeNotNull('SubContainer', instance.subContainer);
-  return val;
-}
+Map<String, dynamic> _$ContainerProfileToJson(ContainerProfile instance) =>
+    <String, dynamic>{
+      if (dlnaProfileTypeNullableToJson(instance.type) case final value?)
+        'Type': value,
+      if (instance.conditions?.map((e) => e.toJson()).toList()
+          case final value?)
+        'Conditions': value,
+      if (instance.container case final value?) 'Container': value,
+      if (instance.subContainer case final value?) 'SubContainer': value,
+    };
 
 CountryInfo _$CountryInfoFromJson(Map<String, dynamic> json) => CountryInfo(
       name: json['Name'] as String?,
@@ -1524,21 +1353,15 @@ CountryInfo _$CountryInfoFromJson(Map<String, dynamic> json) => CountryInfo(
       threeLetterISORegionName: json['ThreeLetterISORegionName'] as String?,
     );
 
-Map<String, dynamic> _$CountryInfoToJson(CountryInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('DisplayName', instance.displayName);
-  writeNotNull('TwoLetterISORegionName', instance.twoLetterISORegionName);
-  writeNotNull('ThreeLetterISORegionName', instance.threeLetterISORegionName);
-  return val;
-}
+Map<String, dynamic> _$CountryInfoToJson(CountryInfo instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.displayName case final value?) 'DisplayName': value,
+      if (instance.twoLetterISORegionName case final value?)
+        'TwoLetterISORegionName': value,
+      if (instance.threeLetterISORegionName case final value?)
+        'ThreeLetterISORegionName': value,
+    };
 
 CreatePlaylistDto _$CreatePlaylistDtoFromJson(Map<String, dynamic> json) =>
     CreatePlaylistDto(
@@ -1555,23 +1378,17 @@ CreatePlaylistDto _$CreatePlaylistDtoFromJson(Map<String, dynamic> json) =>
       isPublic: json['IsPublic'] as bool?,
     );
 
-Map<String, dynamic> _$CreatePlaylistDtoToJson(CreatePlaylistDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('Ids', instance.ids);
-  writeNotNull('UserId', instance.userId);
-  writeNotNull('MediaType', mediaTypeNullableToJson(instance.mediaType));
-  writeNotNull('Users', instance.users?.map((e) => e.toJson()).toList());
-  writeNotNull('IsPublic', instance.isPublic);
-  return val;
-}
+Map<String, dynamic> _$CreatePlaylistDtoToJson(CreatePlaylistDto instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.ids case final value?) 'Ids': value,
+      if (instance.userId case final value?) 'UserId': value,
+      if (mediaTypeNullableToJson(instance.mediaType) case final value?)
+        'MediaType': value,
+      if (instance.users?.map((e) => e.toJson()).toList() case final value?)
+        'Users': value,
+      if (instance.isPublic case final value?) 'IsPublic': value,
+    };
 
 CreateUserByName _$CreateUserByNameFromJson(Map<String, dynamic> json) =>
     CreateUserByName(
@@ -1579,20 +1396,11 @@ CreateUserByName _$CreateUserByNameFromJson(Map<String, dynamic> json) =>
       password: json['Password'] as String?,
     );
 
-Map<String, dynamic> _$CreateUserByNameToJson(CreateUserByName instance) {
-  final val = <String, dynamic>{
-    'Name': instance.name,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Password', instance.password);
-  return val;
-}
+Map<String, dynamic> _$CreateUserByNameToJson(CreateUserByName instance) =>
+    <String, dynamic>{
+      'Name': instance.name,
+      if (instance.password case final value?) 'Password': value,
+    };
 
 CultureDto _$CultureDtoFromJson(Map<String, dynamic> json) => CultureDto(
       name: json['Name'] as String?,
@@ -1606,24 +1414,17 @@ CultureDto _$CultureDtoFromJson(Map<String, dynamic> json) => CultureDto(
               [],
     );
 
-Map<String, dynamic> _$CultureDtoToJson(CultureDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('DisplayName', instance.displayName);
-  writeNotNull('TwoLetterISOLanguageName', instance.twoLetterISOLanguageName);
-  writeNotNull(
-      'ThreeLetterISOLanguageName', instance.threeLetterISOLanguageName);
-  writeNotNull(
-      'ThreeLetterISOLanguageNames', instance.threeLetterISOLanguageNames);
-  return val;
-}
+Map<String, dynamic> _$CultureDtoToJson(CultureDto instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.displayName case final value?) 'DisplayName': value,
+      if (instance.twoLetterISOLanguageName case final value?)
+        'TwoLetterISOLanguageName': value,
+      if (instance.threeLetterISOLanguageName case final value?)
+        'ThreeLetterISOLanguageName': value,
+      if (instance.threeLetterISOLanguageNames case final value?)
+        'ThreeLetterISOLanguageNames': value,
+    };
 
 DefaultDirectoryBrowserInfoDto _$DefaultDirectoryBrowserInfoDtoFromJson(
         Map<String, dynamic> json) =>
@@ -1632,18 +1433,10 @@ DefaultDirectoryBrowserInfoDto _$DefaultDirectoryBrowserInfoDtoFromJson(
     );
 
 Map<String, dynamic> _$DefaultDirectoryBrowserInfoDtoToJson(
-    DefaultDirectoryBrowserInfoDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Path', instance.path);
-  return val;
-}
+        DefaultDirectoryBrowserInfoDto instance) =>
+    <String, dynamic>{
+      if (instance.path case final value?) 'Path': value,
+    };
 
 DeviceInfoDto _$DeviceInfoDtoFromJson(Map<String, dynamic> json) =>
     DeviceInfoDto(
@@ -1665,29 +1458,22 @@ DeviceInfoDto _$DeviceInfoDtoFromJson(Map<String, dynamic> json) =>
       iconUrl: json['IconUrl'] as String?,
     );
 
-Map<String, dynamic> _$DeviceInfoDtoToJson(DeviceInfoDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('CustomName', instance.customName);
-  writeNotNull('AccessToken', instance.accessToken);
-  writeNotNull('Id', instance.id);
-  writeNotNull('LastUserName', instance.lastUserName);
-  writeNotNull('AppName', instance.appName);
-  writeNotNull('AppVersion', instance.appVersion);
-  writeNotNull('LastUserId', instance.lastUserId);
-  writeNotNull(
-      'DateLastActivity', instance.dateLastActivity?.toIso8601String());
-  writeNotNull('Capabilities', instance.capabilities?.toJson());
-  writeNotNull('IconUrl', instance.iconUrl);
-  return val;
-}
+Map<String, dynamic> _$DeviceInfoDtoToJson(DeviceInfoDto instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.customName case final value?) 'CustomName': value,
+      if (instance.accessToken case final value?) 'AccessToken': value,
+      if (instance.id case final value?) 'Id': value,
+      if (instance.lastUserName case final value?) 'LastUserName': value,
+      if (instance.appName case final value?) 'AppName': value,
+      if (instance.appVersion case final value?) 'AppVersion': value,
+      if (instance.lastUserId case final value?) 'LastUserId': value,
+      if (instance.dateLastActivity?.toIso8601String() case final value?)
+        'DateLastActivity': value,
+      if (instance.capabilities?.toJson() case final value?)
+        'Capabilities': value,
+      if (instance.iconUrl case final value?) 'IconUrl': value,
+    };
 
 DeviceInfoDtoQueryResult _$DeviceInfoDtoQueryResultFromJson(
         Map<String, dynamic> json) =>
@@ -1701,20 +1487,14 @@ DeviceInfoDtoQueryResult _$DeviceInfoDtoQueryResultFromJson(
     );
 
 Map<String, dynamic> _$DeviceInfoDtoQueryResultToJson(
-    DeviceInfoDtoQueryResult instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Items', instance.items?.map((e) => e.toJson()).toList());
-  writeNotNull('TotalRecordCount', instance.totalRecordCount);
-  writeNotNull('StartIndex', instance.startIndex);
-  return val;
-}
+        DeviceInfoDtoQueryResult instance) =>
+    <String, dynamic>{
+      if (instance.items?.map((e) => e.toJson()).toList() case final value?)
+        'Items': value,
+      if (instance.totalRecordCount case final value?)
+        'TotalRecordCount': value,
+      if (instance.startIndex case final value?) 'StartIndex': value,
+    };
 
 DeviceOptionsDto _$DeviceOptionsDtoFromJson(Map<String, dynamic> json) =>
     DeviceOptionsDto(
@@ -1723,20 +1503,12 @@ DeviceOptionsDto _$DeviceOptionsDtoFromJson(Map<String, dynamic> json) =>
       customName: json['CustomName'] as String?,
     );
 
-Map<String, dynamic> _$DeviceOptionsDtoToJson(DeviceOptionsDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Id', instance.id);
-  writeNotNull('DeviceId', instance.deviceId);
-  writeNotNull('CustomName', instance.customName);
-  return val;
-}
+Map<String, dynamic> _$DeviceOptionsDtoToJson(DeviceOptionsDto instance) =>
+    <String, dynamic>{
+      if (instance.id case final value?) 'Id': value,
+      if (instance.deviceId case final value?) 'DeviceId': value,
+      if (instance.customName case final value?) 'CustomName': value,
+    };
 
 DeviceProfile _$DeviceProfileFromJson(Map<String, dynamic> json) =>
     DeviceProfile(
@@ -1771,34 +1543,34 @@ DeviceProfile _$DeviceProfileFromJson(Map<String, dynamic> json) =>
           [],
     );
 
-Map<String, dynamic> _$DeviceProfileToJson(DeviceProfile instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('Id', instance.id);
-  writeNotNull('MaxStreamingBitrate', instance.maxStreamingBitrate);
-  writeNotNull('MaxStaticBitrate', instance.maxStaticBitrate);
-  writeNotNull('MusicStreamingTranscodingBitrate',
-      instance.musicStreamingTranscodingBitrate);
-  writeNotNull('MaxStaticMusicBitrate', instance.maxStaticMusicBitrate);
-  writeNotNull('DirectPlayProfiles',
-      instance.directPlayProfiles?.map((e) => e.toJson()).toList());
-  writeNotNull('TranscodingProfiles',
-      instance.transcodingProfiles?.map((e) => e.toJson()).toList());
-  writeNotNull('ContainerProfiles',
-      instance.containerProfiles?.map((e) => e.toJson()).toList());
-  writeNotNull(
-      'CodecProfiles', instance.codecProfiles?.map((e) => e.toJson()).toList());
-  writeNotNull('SubtitleProfiles',
-      instance.subtitleProfiles?.map((e) => e.toJson()).toList());
-  return val;
-}
+Map<String, dynamic> _$DeviceProfileToJson(DeviceProfile instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.id case final value?) 'Id': value,
+      if (instance.maxStreamingBitrate case final value?)
+        'MaxStreamingBitrate': value,
+      if (instance.maxStaticBitrate case final value?)
+        'MaxStaticBitrate': value,
+      if (instance.musicStreamingTranscodingBitrate case final value?)
+        'MusicStreamingTranscodingBitrate': value,
+      if (instance.maxStaticMusicBitrate case final value?)
+        'MaxStaticMusicBitrate': value,
+      if (instance.directPlayProfiles?.map((e) => e.toJson()).toList()
+          case final value?)
+        'DirectPlayProfiles': value,
+      if (instance.transcodingProfiles?.map((e) => e.toJson()).toList()
+          case final value?)
+        'TranscodingProfiles': value,
+      if (instance.containerProfiles?.map((e) => e.toJson()).toList()
+          case final value?)
+        'ContainerProfiles': value,
+      if (instance.codecProfiles?.map((e) => e.toJson()).toList()
+          case final value?)
+        'CodecProfiles': value,
+      if (instance.subtitleProfiles?.map((e) => e.toJson()).toList()
+          case final value?)
+        'SubtitleProfiles': value,
+    };
 
 DirectPlayProfile _$DirectPlayProfileFromJson(Map<String, dynamic> json) =>
     DirectPlayProfile(
@@ -1808,21 +1580,14 @@ DirectPlayProfile _$DirectPlayProfileFromJson(Map<String, dynamic> json) =>
       type: dlnaProfileTypeNullableFromJson(json['Type']),
     );
 
-Map<String, dynamic> _$DirectPlayProfileToJson(DirectPlayProfile instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Container', instance.container);
-  writeNotNull('AudioCodec', instance.audioCodec);
-  writeNotNull('VideoCodec', instance.videoCodec);
-  writeNotNull('Type', dlnaProfileTypeNullableToJson(instance.type));
-  return val;
-}
+Map<String, dynamic> _$DirectPlayProfileToJson(DirectPlayProfile instance) =>
+    <String, dynamic>{
+      if (instance.container case final value?) 'Container': value,
+      if (instance.audioCodec case final value?) 'AudioCodec': value,
+      if (instance.videoCodec case final value?) 'VideoCodec': value,
+      if (dlnaProfileTypeNullableToJson(instance.type) case final value?)
+        'Type': value,
+    };
 
 DisplayPreferencesDto _$DisplayPreferencesDtoFromJson(
         Map<String, dynamic> json) =>
@@ -1844,32 +1609,29 @@ DisplayPreferencesDto _$DisplayPreferencesDtoFromJson(
     );
 
 Map<String, dynamic> _$DisplayPreferencesDtoToJson(
-    DisplayPreferencesDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Id', instance.id);
-  writeNotNull('ViewType', instance.viewType);
-  writeNotNull('SortBy', instance.sortBy);
-  writeNotNull('IndexBy', instance.indexBy);
-  writeNotNull('RememberIndexing', instance.rememberIndexing);
-  writeNotNull('PrimaryImageHeight', instance.primaryImageHeight);
-  writeNotNull('PrimaryImageWidth', instance.primaryImageWidth);
-  writeNotNull('CustomPrefs', instance.customPrefs);
-  writeNotNull('ScrollDirection',
-      scrollDirectionNullableToJson(instance.scrollDirection));
-  writeNotNull('ShowBackdrop', instance.showBackdrop);
-  writeNotNull('RememberSorting', instance.rememberSorting);
-  writeNotNull('SortOrder', sortOrderNullableToJson(instance.sortOrder));
-  writeNotNull('ShowSidebar', instance.showSidebar);
-  writeNotNull('Client', instance.$Client);
-  return val;
-}
+        DisplayPreferencesDto instance) =>
+    <String, dynamic>{
+      if (instance.id case final value?) 'Id': value,
+      if (instance.viewType case final value?) 'ViewType': value,
+      if (instance.sortBy case final value?) 'SortBy': value,
+      if (instance.indexBy case final value?) 'IndexBy': value,
+      if (instance.rememberIndexing case final value?)
+        'RememberIndexing': value,
+      if (instance.primaryImageHeight case final value?)
+        'PrimaryImageHeight': value,
+      if (instance.primaryImageWidth case final value?)
+        'PrimaryImageWidth': value,
+      if (instance.customPrefs case final value?) 'CustomPrefs': value,
+      if (scrollDirectionNullableToJson(instance.scrollDirection)
+          case final value?)
+        'ScrollDirection': value,
+      if (instance.showBackdrop case final value?) 'ShowBackdrop': value,
+      if (instance.rememberSorting case final value?) 'RememberSorting': value,
+      if (sortOrderNullableToJson(instance.sortOrder) case final value?)
+        'SortOrder': value,
+      if (instance.showSidebar case final value?) 'ShowSidebar': value,
+      if (instance.$Client case final value?) 'Client': value,
+    };
 
 EncodingOptions _$EncodingOptionsFromJson(Map<String, dynamic> json) =>
     EncodingOptions(
@@ -1944,102 +1706,115 @@ EncodingOptions _$EncodingOptionsFromJson(Map<String, dynamic> json) =>
               [],
     );
 
-Map<String, dynamic> _$EncodingOptionsToJson(EncodingOptions instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('EncodingThreadCount', instance.encodingThreadCount);
-  writeNotNull('TranscodingTempPath', instance.transcodingTempPath);
-  writeNotNull('FallbackFontPath', instance.fallbackFontPath);
-  writeNotNull('EnableFallbackFont', instance.enableFallbackFont);
-  writeNotNull('EnableAudioVbr', instance.enableAudioVbr);
-  writeNotNull('DownMixAudioBoost', instance.downMixAudioBoost);
-  writeNotNull('DownMixStereoAlgorithm',
-      downMixStereoAlgorithmsNullableToJson(instance.downMixStereoAlgorithm));
-  writeNotNull('MaxMuxingQueueSize', instance.maxMuxingQueueSize);
-  writeNotNull('EnableThrottling', instance.enableThrottling);
-  writeNotNull('ThrottleDelaySeconds', instance.throttleDelaySeconds);
-  writeNotNull('EnableSegmentDeletion', instance.enableSegmentDeletion);
-  writeNotNull('SegmentKeepSeconds', instance.segmentKeepSeconds);
-  writeNotNull(
-      'HardwareAccelerationType',
-      hardwareAccelerationTypeNullableToJson(
-          instance.hardwareAccelerationType));
-  writeNotNull('EncoderAppPath', instance.encoderAppPath);
-  writeNotNull('EncoderAppPathDisplay', instance.encoderAppPathDisplay);
-  writeNotNull('VaapiDevice', instance.vaapiDevice);
-  writeNotNull('QsvDevice', instance.qsvDevice);
-  writeNotNull('EnableTonemapping', instance.enableTonemapping);
-  writeNotNull('EnableVppTonemapping', instance.enableVppTonemapping);
-  writeNotNull(
-      'EnableVideoToolboxTonemapping', instance.enableVideoToolboxTonemapping);
-  writeNotNull('TonemappingAlgorithm',
-      tonemappingAlgorithmNullableToJson(instance.tonemappingAlgorithm));
-  writeNotNull('TonemappingMode',
-      tonemappingModeNullableToJson(instance.tonemappingMode));
-  writeNotNull('TonemappingRange',
-      tonemappingRangeNullableToJson(instance.tonemappingRange));
-  writeNotNull('TonemappingDesat', instance.tonemappingDesat);
-  writeNotNull('TonemappingPeak', instance.tonemappingPeak);
-  writeNotNull('TonemappingParam', instance.tonemappingParam);
-  writeNotNull('VppTonemappingBrightness', instance.vppTonemappingBrightness);
-  writeNotNull('VppTonemappingContrast', instance.vppTonemappingContrast);
-  writeNotNull('H264Crf', instance.h264Crf);
-  writeNotNull('H265Crf', instance.h265Crf);
-  writeNotNull(
-      'EncoderPreset', encoderPresetNullableToJson(instance.encoderPreset));
-  writeNotNull('DeinterlaceDoubleRate', instance.deinterlaceDoubleRate);
-  writeNotNull('DeinterlaceMethod',
-      deinterlaceMethodNullableToJson(instance.deinterlaceMethod));
-  writeNotNull('EnableDecodingColorDepth10Hevc',
-      instance.enableDecodingColorDepth10Hevc);
-  writeNotNull(
-      'EnableDecodingColorDepth10Vp9', instance.enableDecodingColorDepth10Vp9);
-  writeNotNull('EnableDecodingColorDepth10HevcRext',
-      instance.enableDecodingColorDepth10HevcRext);
-  writeNotNull('EnableDecodingColorDepth12HevcRext',
-      instance.enableDecodingColorDepth12HevcRext);
-  writeNotNull(
-      'EnableEnhancedNvdecDecoder', instance.enableEnhancedNvdecDecoder);
-  writeNotNull(
-      'PreferSystemNativeHwDecoder', instance.preferSystemNativeHwDecoder);
-  writeNotNull('EnableIntelLowPowerH264HwEncoder',
-      instance.enableIntelLowPowerH264HwEncoder);
-  writeNotNull('EnableIntelLowPowerHevcHwEncoder',
-      instance.enableIntelLowPowerHevcHwEncoder);
-  writeNotNull('EnableHardwareEncoding', instance.enableHardwareEncoding);
-  writeNotNull('AllowHevcEncoding', instance.allowHevcEncoding);
-  writeNotNull('AllowAv1Encoding', instance.allowAv1Encoding);
-  writeNotNull('EnableSubtitleExtraction', instance.enableSubtitleExtraction);
-  writeNotNull('HardwareDecodingCodecs', instance.hardwareDecodingCodecs);
-  writeNotNull('AllowOnDemandMetadataBasedKeyframeExtractionForExtensions',
-      instance.allowOnDemandMetadataBasedKeyframeExtractionForExtensions);
-  return val;
-}
+Map<String, dynamic> _$EncodingOptionsToJson(EncodingOptions instance) =>
+    <String, dynamic>{
+      if (instance.encodingThreadCount case final value?)
+        'EncodingThreadCount': value,
+      if (instance.transcodingTempPath case final value?)
+        'TranscodingTempPath': value,
+      if (instance.fallbackFontPath case final value?)
+        'FallbackFontPath': value,
+      if (instance.enableFallbackFont case final value?)
+        'EnableFallbackFont': value,
+      if (instance.enableAudioVbr case final value?) 'EnableAudioVbr': value,
+      if (instance.downMixAudioBoost case final value?)
+        'DownMixAudioBoost': value,
+      if (downMixStereoAlgorithmsNullableToJson(instance.downMixStereoAlgorithm)
+          case final value?)
+        'DownMixStereoAlgorithm': value,
+      if (instance.maxMuxingQueueSize case final value?)
+        'MaxMuxingQueueSize': value,
+      if (instance.enableThrottling case final value?)
+        'EnableThrottling': value,
+      if (instance.throttleDelaySeconds case final value?)
+        'ThrottleDelaySeconds': value,
+      if (instance.enableSegmentDeletion case final value?)
+        'EnableSegmentDeletion': value,
+      if (instance.segmentKeepSeconds case final value?)
+        'SegmentKeepSeconds': value,
+      if (hardwareAccelerationTypeNullableToJson(
+              instance.hardwareAccelerationType)
+          case final value?)
+        'HardwareAccelerationType': value,
+      if (instance.encoderAppPath case final value?) 'EncoderAppPath': value,
+      if (instance.encoderAppPathDisplay case final value?)
+        'EncoderAppPathDisplay': value,
+      if (instance.vaapiDevice case final value?) 'VaapiDevice': value,
+      if (instance.qsvDevice case final value?) 'QsvDevice': value,
+      if (instance.enableTonemapping case final value?)
+        'EnableTonemapping': value,
+      if (instance.enableVppTonemapping case final value?)
+        'EnableVppTonemapping': value,
+      if (instance.enableVideoToolboxTonemapping case final value?)
+        'EnableVideoToolboxTonemapping': value,
+      if (tonemappingAlgorithmNullableToJson(instance.tonemappingAlgorithm)
+          case final value?)
+        'TonemappingAlgorithm': value,
+      if (tonemappingModeNullableToJson(instance.tonemappingMode)
+          case final value?)
+        'TonemappingMode': value,
+      if (tonemappingRangeNullableToJson(instance.tonemappingRange)
+          case final value?)
+        'TonemappingRange': value,
+      if (instance.tonemappingDesat case final value?)
+        'TonemappingDesat': value,
+      if (instance.tonemappingPeak case final value?) 'TonemappingPeak': value,
+      if (instance.tonemappingParam case final value?)
+        'TonemappingParam': value,
+      if (instance.vppTonemappingBrightness case final value?)
+        'VppTonemappingBrightness': value,
+      if (instance.vppTonemappingContrast case final value?)
+        'VppTonemappingContrast': value,
+      if (instance.h264Crf case final value?) 'H264Crf': value,
+      if (instance.h265Crf case final value?) 'H265Crf': value,
+      if (encoderPresetNullableToJson(instance.encoderPreset) case final value?)
+        'EncoderPreset': value,
+      if (instance.deinterlaceDoubleRate case final value?)
+        'DeinterlaceDoubleRate': value,
+      if (deinterlaceMethodNullableToJson(instance.deinterlaceMethod)
+          case final value?)
+        'DeinterlaceMethod': value,
+      if (instance.enableDecodingColorDepth10Hevc case final value?)
+        'EnableDecodingColorDepth10Hevc': value,
+      if (instance.enableDecodingColorDepth10Vp9 case final value?)
+        'EnableDecodingColorDepth10Vp9': value,
+      if (instance.enableDecodingColorDepth10HevcRext case final value?)
+        'EnableDecodingColorDepth10HevcRext': value,
+      if (instance.enableDecodingColorDepth12HevcRext case final value?)
+        'EnableDecodingColorDepth12HevcRext': value,
+      if (instance.enableEnhancedNvdecDecoder case final value?)
+        'EnableEnhancedNvdecDecoder': value,
+      if (instance.preferSystemNativeHwDecoder case final value?)
+        'PreferSystemNativeHwDecoder': value,
+      if (instance.enableIntelLowPowerH264HwEncoder case final value?)
+        'EnableIntelLowPowerH264HwEncoder': value,
+      if (instance.enableIntelLowPowerHevcHwEncoder case final value?)
+        'EnableIntelLowPowerHevcHwEncoder': value,
+      if (instance.enableHardwareEncoding case final value?)
+        'EnableHardwareEncoding': value,
+      if (instance.allowHevcEncoding case final value?)
+        'AllowHevcEncoding': value,
+      if (instance.allowAv1Encoding case final value?)
+        'AllowAv1Encoding': value,
+      if (instance.enableSubtitleExtraction case final value?)
+        'EnableSubtitleExtraction': value,
+      if (instance.hardwareDecodingCodecs case final value?)
+        'HardwareDecodingCodecs': value,
+      if (instance.allowOnDemandMetadataBasedKeyframeExtractionForExtensions
+          case final value?)
+        'AllowOnDemandMetadataBasedKeyframeExtractionForExtensions': value,
+    };
 
 EndPointInfo _$EndPointInfoFromJson(Map<String, dynamic> json) => EndPointInfo(
       isLocal: json['IsLocal'] as bool?,
       isInNetwork: json['IsInNetwork'] as bool?,
     );
 
-Map<String, dynamic> _$EndPointInfoToJson(EndPointInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('IsLocal', instance.isLocal);
-  writeNotNull('IsInNetwork', instance.isInNetwork);
-  return val;
-}
+Map<String, dynamic> _$EndPointInfoToJson(EndPointInfo instance) =>
+    <String, dynamic>{
+      if (instance.isLocal case final value?) 'IsLocal': value,
+      if (instance.isInNetwork case final value?) 'IsInNetwork': value,
+    };
 
 ExternalIdInfo _$ExternalIdInfoFromJson(Map<String, dynamic> json) =>
     ExternalIdInfo(
@@ -2049,40 +1824,25 @@ ExternalIdInfo _$ExternalIdInfoFromJson(Map<String, dynamic> json) =>
       urlFormatString: json['UrlFormatString'] as String?,
     );
 
-Map<String, dynamic> _$ExternalIdInfoToJson(ExternalIdInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('Key', instance.key);
-  writeNotNull('Type', externalIdMediaTypeNullableToJson(instance.type));
-  writeNotNull('UrlFormatString', instance.urlFormatString);
-  return val;
-}
+Map<String, dynamic> _$ExternalIdInfoToJson(ExternalIdInfo instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.key case final value?) 'Key': value,
+      if (externalIdMediaTypeNullableToJson(instance.type) case final value?)
+        'Type': value,
+      if (instance.urlFormatString case final value?) 'UrlFormatString': value,
+    };
 
 ExternalUrl _$ExternalUrlFromJson(Map<String, dynamic> json) => ExternalUrl(
       name: json['Name'] as String?,
       url: json['Url'] as String?,
     );
 
-Map<String, dynamic> _$ExternalUrlToJson(ExternalUrl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('Url', instance.url);
-  return val;
-}
+Map<String, dynamic> _$ExternalUrlToJson(ExternalUrl instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.url case final value?) 'Url': value,
+    };
 
 FileSystemEntryInfo _$FileSystemEntryInfoFromJson(Map<String, dynamic> json) =>
     FileSystemEntryInfo(
@@ -2091,20 +1851,14 @@ FileSystemEntryInfo _$FileSystemEntryInfoFromJson(Map<String, dynamic> json) =>
       type: fileSystemEntryTypeNullableFromJson(json['Type']),
     );
 
-Map<String, dynamic> _$FileSystemEntryInfoToJson(FileSystemEntryInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('Path', instance.path);
-  writeNotNull('Type', fileSystemEntryTypeNullableToJson(instance.type));
-  return val;
-}
+Map<String, dynamic> _$FileSystemEntryInfoToJson(
+        FileSystemEntryInfo instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.path case final value?) 'Path': value,
+      if (fileSystemEntryTypeNullableToJson(instance.type) case final value?)
+        'Type': value,
+    };
 
 FontFile _$FontFileFromJson(Map<String, dynamic> json) => FontFile(
       name: json['Name'] as String?,
@@ -2117,21 +1871,14 @@ FontFile _$FontFileFromJson(Map<String, dynamic> json) => FontFile(
           : DateTime.parse(json['DateModified'] as String),
     );
 
-Map<String, dynamic> _$FontFileToJson(FontFile instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('Size', instance.size);
-  writeNotNull('DateCreated', instance.dateCreated?.toIso8601String());
-  writeNotNull('DateModified', instance.dateModified?.toIso8601String());
-  return val;
-}
+Map<String, dynamic> _$FontFileToJson(FontFile instance) => <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.size case final value?) 'Size': value,
+      if (instance.dateCreated?.toIso8601String() case final value?)
+        'DateCreated': value,
+      if (instance.dateModified?.toIso8601String() case final value?)
+        'DateModified': value,
+    };
 
 ForceKeepAliveMessage _$ForceKeepAliveMessageFromJson(
         Map<String, dynamic> json) =>
@@ -2144,21 +1891,14 @@ ForceKeepAliveMessage _$ForceKeepAliveMessageFromJson(
     );
 
 Map<String, dynamic> _$ForceKeepAliveMessageToJson(
-    ForceKeepAliveMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Data', instance.data);
-  writeNotNull('MessageId', instance.messageId);
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+        ForceKeepAliveMessage instance) =>
+    <String, dynamic>{
+      if (instance.data case final value?) 'Data': value,
+      if (instance.messageId case final value?) 'MessageId': value,
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 ForgotPasswordDto _$ForgotPasswordDtoFromJson(Map<String, dynamic> json) =>
     ForgotPasswordDto(
@@ -2193,21 +1933,14 @@ ForgotPasswordResult _$ForgotPasswordResultFromJson(
     );
 
 Map<String, dynamic> _$ForgotPasswordResultToJson(
-    ForgotPasswordResult instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Action', forgotPasswordActionNullableToJson(instance.action));
-  writeNotNull('PinFile', instance.pinFile);
-  writeNotNull(
-      'PinExpirationDate', instance.pinExpirationDate?.toIso8601String());
-  return val;
-}
+        ForgotPasswordResult instance) =>
+    <String, dynamic>{
+      if (forgotPasswordActionNullableToJson(instance.action) case final value?)
+        'Action': value,
+      if (instance.pinFile case final value?) 'PinFile': value,
+      if (instance.pinExpirationDate?.toIso8601String() case final value?)
+        'PinExpirationDate': value,
+    };
 
 GeneralCommand _$GeneralCommandFromJson(Map<String, dynamic> json) =>
     GeneralCommand(
@@ -2216,20 +1949,14 @@ GeneralCommand _$GeneralCommandFromJson(Map<String, dynamic> json) =>
       arguments: json['Arguments'] as Map<String, dynamic>?,
     );
 
-Map<String, dynamic> _$GeneralCommandToJson(GeneralCommand instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', generalCommandTypeNullableToJson(instance.name));
-  writeNotNull('ControllingUserId', instance.controllingUserId);
-  writeNotNull('Arguments', instance.arguments);
-  return val;
-}
+Map<String, dynamic> _$GeneralCommandToJson(GeneralCommand instance) =>
+    <String, dynamic>{
+      if (generalCommandTypeNullableToJson(instance.name) case final value?)
+        'Name': value,
+      if (instance.controllingUserId case final value?)
+        'ControllingUserId': value,
+      if (instance.arguments case final value?) 'Arguments': value,
+    };
 
 GeneralCommandMessage _$GeneralCommandMessageFromJson(
         Map<String, dynamic> json) =>
@@ -2244,21 +1971,14 @@ GeneralCommandMessage _$GeneralCommandMessageFromJson(
     );
 
 Map<String, dynamic> _$GeneralCommandMessageToJson(
-    GeneralCommandMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Data', instance.data?.toJson());
-  writeNotNull('MessageId', instance.messageId);
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+        GeneralCommandMessage instance) =>
+    <String, dynamic>{
+      if (instance.data?.toJson() case final value?) 'Data': value,
+      if (instance.messageId case final value?) 'MessageId': value,
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 GetProgramsDto _$GetProgramsDtoFromJson(Map<String, dynamic> json) =>
     GetProgramsDto(
@@ -2309,44 +2029,41 @@ GetProgramsDto _$GetProgramsDtoFromJson(Map<String, dynamic> json) =>
       fields: itemFieldsListFromJson(json['Fields'] as List?),
     );
 
-Map<String, dynamic> _$GetProgramsDtoToJson(GetProgramsDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ChannelIds', instance.channelIds);
-  writeNotNull('UserId', instance.userId);
-  writeNotNull('MinStartDate', instance.minStartDate?.toIso8601String());
-  writeNotNull('HasAired', instance.hasAired);
-  writeNotNull('IsAiring', instance.isAiring);
-  writeNotNull('MaxStartDate', instance.maxStartDate?.toIso8601String());
-  writeNotNull('MinEndDate', instance.minEndDate?.toIso8601String());
-  writeNotNull('MaxEndDate', instance.maxEndDate?.toIso8601String());
-  writeNotNull('IsMovie', instance.isMovie);
-  writeNotNull('IsSeries', instance.isSeries);
-  writeNotNull('IsNews', instance.isNews);
-  writeNotNull('IsKids', instance.isKids);
-  writeNotNull('IsSports', instance.isSports);
-  writeNotNull('StartIndex', instance.startIndex);
-  writeNotNull('Limit', instance.limit);
-  val['SortBy'] = itemSortByListToJson(instance.sortBy);
-  val['SortOrder'] = sortOrderListToJson(instance.sortOrder);
-  writeNotNull('Genres', instance.genres);
-  writeNotNull('GenreIds', instance.genreIds);
-  writeNotNull('EnableImages', instance.enableImages);
-  writeNotNull('EnableTotalRecordCount', instance.enableTotalRecordCount);
-  writeNotNull('ImageTypeLimit', instance.imageTypeLimit);
-  val['EnableImageTypes'] = imageTypeListToJson(instance.enableImageTypes);
-  writeNotNull('EnableUserData', instance.enableUserData);
-  writeNotNull('SeriesTimerId', instance.seriesTimerId);
-  writeNotNull('LibrarySeriesId', instance.librarySeriesId);
-  val['Fields'] = itemFieldsListToJson(instance.fields);
-  return val;
-}
+Map<String, dynamic> _$GetProgramsDtoToJson(GetProgramsDto instance) =>
+    <String, dynamic>{
+      if (instance.channelIds case final value?) 'ChannelIds': value,
+      if (instance.userId case final value?) 'UserId': value,
+      if (instance.minStartDate?.toIso8601String() case final value?)
+        'MinStartDate': value,
+      if (instance.hasAired case final value?) 'HasAired': value,
+      if (instance.isAiring case final value?) 'IsAiring': value,
+      if (instance.maxStartDate?.toIso8601String() case final value?)
+        'MaxStartDate': value,
+      if (instance.minEndDate?.toIso8601String() case final value?)
+        'MinEndDate': value,
+      if (instance.maxEndDate?.toIso8601String() case final value?)
+        'MaxEndDate': value,
+      if (instance.isMovie case final value?) 'IsMovie': value,
+      if (instance.isSeries case final value?) 'IsSeries': value,
+      if (instance.isNews case final value?) 'IsNews': value,
+      if (instance.isKids case final value?) 'IsKids': value,
+      if (instance.isSports case final value?) 'IsSports': value,
+      if (instance.startIndex case final value?) 'StartIndex': value,
+      if (instance.limit case final value?) 'Limit': value,
+      'SortBy': itemSortByListToJson(instance.sortBy),
+      'SortOrder': sortOrderListToJson(instance.sortOrder),
+      if (instance.genres case final value?) 'Genres': value,
+      if (instance.genreIds case final value?) 'GenreIds': value,
+      if (instance.enableImages case final value?) 'EnableImages': value,
+      if (instance.enableTotalRecordCount case final value?)
+        'EnableTotalRecordCount': value,
+      if (instance.imageTypeLimit case final value?) 'ImageTypeLimit': value,
+      'EnableImageTypes': imageTypeListToJson(instance.enableImageTypes),
+      if (instance.enableUserData case final value?) 'EnableUserData': value,
+      if (instance.seriesTimerId case final value?) 'SeriesTimerId': value,
+      if (instance.librarySeriesId case final value?) 'LibrarySeriesId': value,
+      'Fields': itemFieldsListToJson(instance.fields),
+    };
 
 GroupInfoDto _$GroupInfoDtoFromJson(Map<String, dynamic> json) => GroupInfoDto(
       groupId: json['GroupId'] as String?,
@@ -2361,22 +2078,16 @@ GroupInfoDto _$GroupInfoDtoFromJson(Map<String, dynamic> json) => GroupInfoDto(
           : DateTime.parse(json['LastUpdatedAt'] as String),
     );
 
-Map<String, dynamic> _$GroupInfoDtoToJson(GroupInfoDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('GroupId', instance.groupId);
-  writeNotNull('GroupName', instance.groupName);
-  writeNotNull('State', groupStateTypeNullableToJson(instance.state));
-  writeNotNull('Participants', instance.participants);
-  writeNotNull('LastUpdatedAt', instance.lastUpdatedAt?.toIso8601String());
-  return val;
-}
+Map<String, dynamic> _$GroupInfoDtoToJson(GroupInfoDto instance) =>
+    <String, dynamic>{
+      if (instance.groupId case final value?) 'GroupId': value,
+      if (instance.groupName case final value?) 'GroupName': value,
+      if (groupStateTypeNullableToJson(instance.state) case final value?)
+        'State': value,
+      if (instance.participants case final value?) 'Participants': value,
+      if (instance.lastUpdatedAt?.toIso8601String() case final value?)
+        'LastUpdatedAt': value,
+    };
 
 GroupInfoDtoGroupUpdate _$GroupInfoDtoGroupUpdateFromJson(
         Map<String, dynamic> json) =>
@@ -2389,20 +2100,13 @@ GroupInfoDtoGroupUpdate _$GroupInfoDtoGroupUpdateFromJson(
     );
 
 Map<String, dynamic> _$GroupInfoDtoGroupUpdateToJson(
-    GroupInfoDtoGroupUpdate instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('GroupId', instance.groupId);
-  writeNotNull('Type', groupUpdateTypeNullableToJson(instance.type));
-  writeNotNull('Data', instance.data?.toJson());
-  return val;
-}
+        GroupInfoDtoGroupUpdate instance) =>
+    <String, dynamic>{
+      if (instance.groupId case final value?) 'GroupId': value,
+      if (groupUpdateTypeNullableToJson(instance.type) case final value?)
+        'Type': value,
+      if (instance.data?.toJson() case final value?) 'Data': value,
+    };
 
 GroupStateUpdate _$GroupStateUpdateFromJson(Map<String, dynamic> json) =>
     GroupStateUpdate(
@@ -2410,19 +2114,13 @@ GroupStateUpdate _$GroupStateUpdateFromJson(Map<String, dynamic> json) =>
       reason: playbackRequestTypeNullableFromJson(json['Reason']),
     );
 
-Map<String, dynamic> _$GroupStateUpdateToJson(GroupStateUpdate instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('State', groupStateTypeNullableToJson(instance.state));
-  writeNotNull('Reason', playbackRequestTypeNullableToJson(instance.reason));
-  return val;
-}
+Map<String, dynamic> _$GroupStateUpdateToJson(GroupStateUpdate instance) =>
+    <String, dynamic>{
+      if (groupStateTypeNullableToJson(instance.state) case final value?)
+        'State': value,
+      if (playbackRequestTypeNullableToJson(instance.reason) case final value?)
+        'Reason': value,
+    };
 
 GroupStateUpdateGroupUpdate _$GroupStateUpdateGroupUpdateFromJson(
         Map<String, dynamic> json) =>
@@ -2435,39 +2133,25 @@ GroupStateUpdateGroupUpdate _$GroupStateUpdateGroupUpdateFromJson(
     );
 
 Map<String, dynamic> _$GroupStateUpdateGroupUpdateToJson(
-    GroupStateUpdateGroupUpdate instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('GroupId', instance.groupId);
-  writeNotNull('Type', groupUpdateTypeNullableToJson(instance.type));
-  writeNotNull('Data', instance.data?.toJson());
-  return val;
-}
+        GroupStateUpdateGroupUpdate instance) =>
+    <String, dynamic>{
+      if (instance.groupId case final value?) 'GroupId': value,
+      if (groupUpdateTypeNullableToJson(instance.type) case final value?)
+        'Type': value,
+      if (instance.data?.toJson() case final value?) 'Data': value,
+    };
 
 GroupUpdate _$GroupUpdateFromJson(Map<String, dynamic> json) => GroupUpdate(
       groupId: json['GroupId'] as String?,
       type: groupUpdateTypeNullableFromJson(json['Type']),
     );
 
-Map<String, dynamic> _$GroupUpdateToJson(GroupUpdate instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('GroupId', instance.groupId);
-  writeNotNull('Type', groupUpdateTypeNullableToJson(instance.type));
-  return val;
-}
+Map<String, dynamic> _$GroupUpdateToJson(GroupUpdate instance) =>
+    <String, dynamic>{
+      if (instance.groupId case final value?) 'GroupId': value,
+      if (groupUpdateTypeNullableToJson(instance.type) case final value?)
+        'Type': value,
+    };
 
 GuideInfo _$GuideInfoFromJson(Map<String, dynamic> json) => GuideInfo(
       startDate: json['StartDate'] == null
@@ -2478,19 +2162,12 @@ GuideInfo _$GuideInfoFromJson(Map<String, dynamic> json) => GuideInfo(
           : DateTime.parse(json['EndDate'] as String),
     );
 
-Map<String, dynamic> _$GuideInfoToJson(GuideInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('StartDate', instance.startDate?.toIso8601String());
-  writeNotNull('EndDate', instance.endDate?.toIso8601String());
-  return val;
-}
+Map<String, dynamic> _$GuideInfoToJson(GuideInfo instance) => <String, dynamic>{
+      if (instance.startDate?.toIso8601String() case final value?)
+        'StartDate': value,
+      if (instance.endDate?.toIso8601String() case final value?)
+        'EndDate': value,
+    };
 
 IgnoreWaitRequestDto _$IgnoreWaitRequestDtoFromJson(
         Map<String, dynamic> json) =>
@@ -2499,18 +2176,10 @@ IgnoreWaitRequestDto _$IgnoreWaitRequestDtoFromJson(
     );
 
 Map<String, dynamic> _$IgnoreWaitRequestDtoToJson(
-    IgnoreWaitRequestDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('IgnoreWait', instance.ignoreWait);
-  return val;
-}
+        IgnoreWaitRequestDto instance) =>
+    <String, dynamic>{
+      if (instance.ignoreWait case final value?) 'IgnoreWait': value,
+    };
 
 ImageInfo _$ImageInfoFromJson(Map<String, dynamic> json) => ImageInfo(
       imageType: imageTypeNullableFromJson(json['ImageType']),
@@ -2523,25 +2192,17 @@ ImageInfo _$ImageInfoFromJson(Map<String, dynamic> json) => ImageInfo(
       size: (json['Size'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$ImageInfoToJson(ImageInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ImageType', imageTypeNullableToJson(instance.imageType));
-  writeNotNull('ImageIndex', instance.imageIndex);
-  writeNotNull('ImageTag', instance.imageTag);
-  writeNotNull('Path', instance.path);
-  writeNotNull('BlurHash', instance.blurHash);
-  writeNotNull('Height', instance.height);
-  writeNotNull('Width', instance.width);
-  writeNotNull('Size', instance.size);
-  return val;
-}
+Map<String, dynamic> _$ImageInfoToJson(ImageInfo instance) => <String, dynamic>{
+      if (imageTypeNullableToJson(instance.imageType) case final value?)
+        'ImageType': value,
+      if (instance.imageIndex case final value?) 'ImageIndex': value,
+      if (instance.imageTag case final value?) 'ImageTag': value,
+      if (instance.path case final value?) 'Path': value,
+      if (instance.blurHash case final value?) 'BlurHash': value,
+      if (instance.height case final value?) 'Height': value,
+      if (instance.width case final value?) 'Width': value,
+      if (instance.size case final value?) 'Size': value,
+    };
 
 ImageOption _$ImageOptionFromJson(Map<String, dynamic> json) => ImageOption(
       type: imageTypeNullableFromJson(json['Type']),
@@ -2549,20 +2210,13 @@ ImageOption _$ImageOptionFromJson(Map<String, dynamic> json) => ImageOption(
       minWidth: (json['MinWidth'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$ImageOptionToJson(ImageOption instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Type', imageTypeNullableToJson(instance.type));
-  writeNotNull('Limit', instance.limit);
-  writeNotNull('MinWidth', instance.minWidth);
-  return val;
-}
+Map<String, dynamic> _$ImageOptionToJson(ImageOption instance) =>
+    <String, dynamic>{
+      if (imageTypeNullableToJson(instance.type) case final value?)
+        'Type': value,
+      if (instance.limit case final value?) 'Limit': value,
+      if (instance.minWidth case final value?) 'MinWidth': value,
+    };
 
 ImageProviderInfo _$ImageProviderInfoFromJson(Map<String, dynamic> json) =>
     ImageProviderInfo(
@@ -2570,19 +2224,11 @@ ImageProviderInfo _$ImageProviderInfoFromJson(Map<String, dynamic> json) =>
       supportedImages: imageTypeListFromJson(json['SupportedImages'] as List?),
     );
 
-Map<String, dynamic> _$ImageProviderInfoToJson(ImageProviderInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  val['SupportedImages'] = imageTypeListToJson(instance.supportedImages);
-  return val;
-}
+Map<String, dynamic> _$ImageProviderInfoToJson(ImageProviderInfo instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      'SupportedImages': imageTypeListToJson(instance.supportedImages),
+    };
 
 InboundKeepAliveMessage _$InboundKeepAliveMessageFromJson(
         Map<String, dynamic> json) =>
@@ -2593,19 +2239,12 @@ InboundKeepAliveMessage _$InboundKeepAliveMessageFromJson(
     );
 
 Map<String, dynamic> _$InboundKeepAliveMessageToJson(
-    InboundKeepAliveMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+        InboundKeepAliveMessage instance) =>
+    <String, dynamic>{
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 InboundWebSocketMessage _$InboundWebSocketMessageFromJson(
         Map<String, dynamic> json) =>
@@ -2628,24 +2267,17 @@ InstallationInfo _$InstallationInfoFromJson(Map<String, dynamic> json) =>
           : PackageInfo.fromJson(json['PackageInfo'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$InstallationInfoToJson(InstallationInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Guid', instance.guid);
-  writeNotNull('Name', instance.name);
-  writeNotNull('Version', instance.version);
-  writeNotNull('Changelog', instance.changelog);
-  writeNotNull('SourceUrl', instance.sourceUrl);
-  writeNotNull('Checksum', instance.checksum);
-  writeNotNull('PackageInfo', instance.packageInfo?.toJson());
-  return val;
-}
+Map<String, dynamic> _$InstallationInfoToJson(InstallationInfo instance) =>
+    <String, dynamic>{
+      if (instance.guid case final value?) 'Guid': value,
+      if (instance.name case final value?) 'Name': value,
+      if (instance.version case final value?) 'Version': value,
+      if (instance.changelog case final value?) 'Changelog': value,
+      if (instance.sourceUrl case final value?) 'SourceUrl': value,
+      if (instance.checksum case final value?) 'Checksum': value,
+      if (instance.packageInfo?.toJson() case final value?)
+        'PackageInfo': value,
+    };
 
 IPlugin _$IPluginFromJson(Map<String, dynamic> json) => IPlugin(
       name: json['Name'] as String?,
@@ -2657,24 +2289,16 @@ IPlugin _$IPluginFromJson(Map<String, dynamic> json) => IPlugin(
       dataFolderPath: json['DataFolderPath'] as String?,
     );
 
-Map<String, dynamic> _$IPluginToJson(IPlugin instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('Description', instance.description);
-  writeNotNull('Id', instance.id);
-  writeNotNull('Version', instance.version);
-  writeNotNull('AssemblyFilePath', instance.assemblyFilePath);
-  writeNotNull('CanUninstall', instance.canUninstall);
-  writeNotNull('DataFolderPath', instance.dataFolderPath);
-  return val;
-}
+Map<String, dynamic> _$IPluginToJson(IPlugin instance) => <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.description case final value?) 'Description': value,
+      if (instance.id case final value?) 'Id': value,
+      if (instance.version case final value?) 'Version': value,
+      if (instance.assemblyFilePath case final value?)
+        'AssemblyFilePath': value,
+      if (instance.canUninstall case final value?) 'CanUninstall': value,
+      if (instance.dataFolderPath case final value?) 'DataFolderPath': value,
+    };
 
 ItemCounts _$ItemCountsFromJson(Map<String, dynamic> json) => ItemCounts(
       movieCount: (json['MovieCount'] as num?)?.toInt(),
@@ -2691,47 +2315,32 @@ ItemCounts _$ItemCountsFromJson(Map<String, dynamic> json) => ItemCounts(
       itemCount: (json['ItemCount'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$ItemCountsToJson(ItemCounts instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('MovieCount', instance.movieCount);
-  writeNotNull('SeriesCount', instance.seriesCount);
-  writeNotNull('EpisodeCount', instance.episodeCount);
-  writeNotNull('ArtistCount', instance.artistCount);
-  writeNotNull('ProgramCount', instance.programCount);
-  writeNotNull('TrailerCount', instance.trailerCount);
-  writeNotNull('SongCount', instance.songCount);
-  writeNotNull('AlbumCount', instance.albumCount);
-  writeNotNull('MusicVideoCount', instance.musicVideoCount);
-  writeNotNull('BoxSetCount', instance.boxSetCount);
-  writeNotNull('BookCount', instance.bookCount);
-  writeNotNull('ItemCount', instance.itemCount);
-  return val;
-}
+Map<String, dynamic> _$ItemCountsToJson(ItemCounts instance) =>
+    <String, dynamic>{
+      if (instance.movieCount case final value?) 'MovieCount': value,
+      if (instance.seriesCount case final value?) 'SeriesCount': value,
+      if (instance.episodeCount case final value?) 'EpisodeCount': value,
+      if (instance.artistCount case final value?) 'ArtistCount': value,
+      if (instance.programCount case final value?) 'ProgramCount': value,
+      if (instance.trailerCount case final value?) 'TrailerCount': value,
+      if (instance.songCount case final value?) 'SongCount': value,
+      if (instance.albumCount case final value?) 'AlbumCount': value,
+      if (instance.musicVideoCount case final value?) 'MusicVideoCount': value,
+      if (instance.boxSetCount case final value?) 'BoxSetCount': value,
+      if (instance.bookCount case final value?) 'BookCount': value,
+      if (instance.itemCount case final value?) 'ItemCount': value,
+    };
 
 JoinGroupRequestDto _$JoinGroupRequestDtoFromJson(Map<String, dynamic> json) =>
     JoinGroupRequestDto(
       groupId: json['GroupId'] as String?,
     );
 
-Map<String, dynamic> _$JoinGroupRequestDtoToJson(JoinGroupRequestDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('GroupId', instance.groupId);
-  return val;
-}
+Map<String, dynamic> _$JoinGroupRequestDtoToJson(
+        JoinGroupRequestDto instance) =>
+    <String, dynamic>{
+      if (instance.groupId case final value?) 'GroupId': value,
+    };
 
 LibraryChangedMessage _$LibraryChangedMessageFromJson(
         Map<String, dynamic> json) =>
@@ -2746,21 +2355,14 @@ LibraryChangedMessage _$LibraryChangedMessageFromJson(
     );
 
 Map<String, dynamic> _$LibraryChangedMessageToJson(
-    LibraryChangedMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Data', instance.data?.toJson());
-  writeNotNull('MessageId', instance.messageId);
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+        LibraryChangedMessage instance) =>
+    <String, dynamic>{
+      if (instance.data?.toJson() case final value?) 'Data': value,
+      if (instance.messageId case final value?) 'MessageId': value,
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 LibraryOptionInfoDto _$LibraryOptionInfoDtoFromJson(
         Map<String, dynamic> json) =>
@@ -2770,19 +2372,11 @@ LibraryOptionInfoDto _$LibraryOptionInfoDtoFromJson(
     );
 
 Map<String, dynamic> _$LibraryOptionInfoDtoToJson(
-    LibraryOptionInfoDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('DefaultEnabled', instance.defaultEnabled);
-  return val;
-}
+        LibraryOptionInfoDto instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.defaultEnabled case final value?) 'DefaultEnabled': value,
+    };
 
 LibraryOptions _$LibraryOptionsFromJson(Map<String, dynamic> json) =>
     LibraryOptions(
@@ -2889,77 +2483,91 @@ LibraryOptions _$LibraryOptionsFromJson(Map<String, dynamic> json) =>
           [],
     );
 
-Map<String, dynamic> _$LibraryOptionsToJson(LibraryOptions instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Enabled', instance.enabled);
-  writeNotNull('EnablePhotos', instance.enablePhotos);
-  writeNotNull('EnableRealtimeMonitor', instance.enableRealtimeMonitor);
-  writeNotNull('EnableLUFSScan', instance.enableLUFSScan);
-  writeNotNull(
-      'EnableChapterImageExtraction', instance.enableChapterImageExtraction);
-  writeNotNull('ExtractChapterImagesDuringLibraryScan',
-      instance.extractChapterImagesDuringLibraryScan);
-  writeNotNull('EnableTrickplayImageExtraction',
-      instance.enableTrickplayImageExtraction);
-  writeNotNull('ExtractTrickplayImagesDuringLibraryScan',
-      instance.extractTrickplayImagesDuringLibraryScan);
-  writeNotNull(
-      'PathInfos', instance.pathInfos?.map((e) => e.toJson()).toList());
-  writeNotNull('SaveLocalMetadata', instance.saveLocalMetadata);
-  writeNotNull('EnableInternetProviders', instance.enableInternetProviders);
-  writeNotNull(
-      'EnableAutomaticSeriesGrouping', instance.enableAutomaticSeriesGrouping);
-  writeNotNull('EnableEmbeddedTitles', instance.enableEmbeddedTitles);
-  writeNotNull(
-      'EnableEmbeddedExtrasTitles', instance.enableEmbeddedExtrasTitles);
-  writeNotNull(
-      'EnableEmbeddedEpisodeInfos', instance.enableEmbeddedEpisodeInfos);
-  writeNotNull(
-      'AutomaticRefreshIntervalDays', instance.automaticRefreshIntervalDays);
-  writeNotNull('PreferredMetadataLanguage', instance.preferredMetadataLanguage);
-  writeNotNull('MetadataCountryCode', instance.metadataCountryCode);
-  writeNotNull('SeasonZeroDisplayName', instance.seasonZeroDisplayName);
-  writeNotNull('MetadataSavers', instance.metadataSavers);
-  writeNotNull(
-      'DisabledLocalMetadataReaders', instance.disabledLocalMetadataReaders);
-  writeNotNull('LocalMetadataReaderOrder', instance.localMetadataReaderOrder);
-  writeNotNull('DisabledSubtitleFetchers', instance.disabledSubtitleFetchers);
-  writeNotNull('SubtitleFetcherOrder', instance.subtitleFetcherOrder);
-  writeNotNull(
-      'DisabledMediaSegmentProviders', instance.disabledMediaSegmentProviders);
-  writeNotNull('MediaSegmentProvideOrder', instance.mediaSegmentProvideOrder);
-  writeNotNull('SkipSubtitlesIfEmbeddedSubtitlesPresent',
-      instance.skipSubtitlesIfEmbeddedSubtitlesPresent);
-  writeNotNull('SkipSubtitlesIfAudioTrackMatches',
-      instance.skipSubtitlesIfAudioTrackMatches);
-  writeNotNull('SubtitleDownloadLanguages', instance.subtitleDownloadLanguages);
-  writeNotNull(
-      'RequirePerfectSubtitleMatch', instance.requirePerfectSubtitleMatch);
-  writeNotNull('SaveSubtitlesWithMedia', instance.saveSubtitlesWithMedia);
-  writeNotNull('SaveLyricsWithMedia', instance.saveLyricsWithMedia);
-  writeNotNull('SaveTrickplayWithMedia', instance.saveTrickplayWithMedia);
-  writeNotNull('DisabledLyricFetchers', instance.disabledLyricFetchers);
-  writeNotNull('LyricFetcherOrder', instance.lyricFetcherOrder);
-  writeNotNull(
-      'PreferNonstandardArtistsTag', instance.preferNonstandardArtistsTag);
-  writeNotNull('UseCustomTagDelimiters', instance.useCustomTagDelimiters);
-  writeNotNull('CustomTagDelimiters', instance.customTagDelimiters);
-  writeNotNull('DelimiterWhitelist', instance.delimiterWhitelist);
-  writeNotNull(
-      'AutomaticallyAddToCollection', instance.automaticallyAddToCollection);
-  writeNotNull('AllowEmbeddedSubtitles',
-      embeddedSubtitleOptionsNullableToJson(instance.allowEmbeddedSubtitles));
-  writeNotNull(
-      'TypeOptions', instance.typeOptions?.map((e) => e.toJson()).toList());
-  return val;
-}
+Map<String, dynamic> _$LibraryOptionsToJson(LibraryOptions instance) =>
+    <String, dynamic>{
+      if (instance.enabled case final value?) 'Enabled': value,
+      if (instance.enablePhotos case final value?) 'EnablePhotos': value,
+      if (instance.enableRealtimeMonitor case final value?)
+        'EnableRealtimeMonitor': value,
+      if (instance.enableLUFSScan case final value?) 'EnableLUFSScan': value,
+      if (instance.enableChapterImageExtraction case final value?)
+        'EnableChapterImageExtraction': value,
+      if (instance.extractChapterImagesDuringLibraryScan case final value?)
+        'ExtractChapterImagesDuringLibraryScan': value,
+      if (instance.enableTrickplayImageExtraction case final value?)
+        'EnableTrickplayImageExtraction': value,
+      if (instance.extractTrickplayImagesDuringLibraryScan case final value?)
+        'ExtractTrickplayImagesDuringLibraryScan': value,
+      if (instance.pathInfos?.map((e) => e.toJson()).toList() case final value?)
+        'PathInfos': value,
+      if (instance.saveLocalMetadata case final value?)
+        'SaveLocalMetadata': value,
+      if (instance.enableInternetProviders case final value?)
+        'EnableInternetProviders': value,
+      if (instance.enableAutomaticSeriesGrouping case final value?)
+        'EnableAutomaticSeriesGrouping': value,
+      if (instance.enableEmbeddedTitles case final value?)
+        'EnableEmbeddedTitles': value,
+      if (instance.enableEmbeddedExtrasTitles case final value?)
+        'EnableEmbeddedExtrasTitles': value,
+      if (instance.enableEmbeddedEpisodeInfos case final value?)
+        'EnableEmbeddedEpisodeInfos': value,
+      if (instance.automaticRefreshIntervalDays case final value?)
+        'AutomaticRefreshIntervalDays': value,
+      if (instance.preferredMetadataLanguage case final value?)
+        'PreferredMetadataLanguage': value,
+      if (instance.metadataCountryCode case final value?)
+        'MetadataCountryCode': value,
+      if (instance.seasonZeroDisplayName case final value?)
+        'SeasonZeroDisplayName': value,
+      if (instance.metadataSavers case final value?) 'MetadataSavers': value,
+      if (instance.disabledLocalMetadataReaders case final value?)
+        'DisabledLocalMetadataReaders': value,
+      if (instance.localMetadataReaderOrder case final value?)
+        'LocalMetadataReaderOrder': value,
+      if (instance.disabledSubtitleFetchers case final value?)
+        'DisabledSubtitleFetchers': value,
+      if (instance.subtitleFetcherOrder case final value?)
+        'SubtitleFetcherOrder': value,
+      if (instance.disabledMediaSegmentProviders case final value?)
+        'DisabledMediaSegmentProviders': value,
+      if (instance.mediaSegmentProvideOrder case final value?)
+        'MediaSegmentProvideOrder': value,
+      if (instance.skipSubtitlesIfEmbeddedSubtitlesPresent case final value?)
+        'SkipSubtitlesIfEmbeddedSubtitlesPresent': value,
+      if (instance.skipSubtitlesIfAudioTrackMatches case final value?)
+        'SkipSubtitlesIfAudioTrackMatches': value,
+      if (instance.subtitleDownloadLanguages case final value?)
+        'SubtitleDownloadLanguages': value,
+      if (instance.requirePerfectSubtitleMatch case final value?)
+        'RequirePerfectSubtitleMatch': value,
+      if (instance.saveSubtitlesWithMedia case final value?)
+        'SaveSubtitlesWithMedia': value,
+      if (instance.saveLyricsWithMedia case final value?)
+        'SaveLyricsWithMedia': value,
+      if (instance.saveTrickplayWithMedia case final value?)
+        'SaveTrickplayWithMedia': value,
+      if (instance.disabledLyricFetchers case final value?)
+        'DisabledLyricFetchers': value,
+      if (instance.lyricFetcherOrder case final value?)
+        'LyricFetcherOrder': value,
+      if (instance.preferNonstandardArtistsTag case final value?)
+        'PreferNonstandardArtistsTag': value,
+      if (instance.useCustomTagDelimiters case final value?)
+        'UseCustomTagDelimiters': value,
+      if (instance.customTagDelimiters case final value?)
+        'CustomTagDelimiters': value,
+      if (instance.delimiterWhitelist case final value?)
+        'DelimiterWhitelist': value,
+      if (instance.automaticallyAddToCollection case final value?)
+        'AutomaticallyAddToCollection': value,
+      if (embeddedSubtitleOptionsNullableToJson(instance.allowEmbeddedSubtitles)
+          case final value?)
+        'AllowEmbeddedSubtitles': value,
+      if (instance.typeOptions?.map((e) => e.toJson()).toList()
+          case final value?)
+        'TypeOptions': value,
+    };
 
 LibraryOptionsResultDto _$LibraryOptionsResultDtoFromJson(
         Map<String, dynamic> json) =>
@@ -2992,27 +2600,24 @@ LibraryOptionsResultDto _$LibraryOptionsResultDtoFromJson(
     );
 
 Map<String, dynamic> _$LibraryOptionsResultDtoToJson(
-    LibraryOptionsResultDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('MetadataSavers',
-      instance.metadataSavers?.map((e) => e.toJson()).toList());
-  writeNotNull('MetadataReaders',
-      instance.metadataReaders?.map((e) => e.toJson()).toList());
-  writeNotNull('SubtitleFetchers',
-      instance.subtitleFetchers?.map((e) => e.toJson()).toList());
-  writeNotNull(
-      'LyricFetchers', instance.lyricFetchers?.map((e) => e.toJson()).toList());
-  writeNotNull(
-      'TypeOptions', instance.typeOptions?.map((e) => e.toJson()).toList());
-  return val;
-}
+        LibraryOptionsResultDto instance) =>
+    <String, dynamic>{
+      if (instance.metadataSavers?.map((e) => e.toJson()).toList()
+          case final value?)
+        'MetadataSavers': value,
+      if (instance.metadataReaders?.map((e) => e.toJson()).toList()
+          case final value?)
+        'MetadataReaders': value,
+      if (instance.subtitleFetchers?.map((e) => e.toJson()).toList()
+          case final value?)
+        'SubtitleFetchers': value,
+      if (instance.lyricFetchers?.map((e) => e.toJson()).toList()
+          case final value?)
+        'LyricFetchers': value,
+      if (instance.typeOptions?.map((e) => e.toJson()).toList()
+          case final value?)
+        'TypeOptions': value,
+    };
 
 LibraryTypeOptionsDto _$LibraryTypeOptionsDtoFromJson(
         Map<String, dynamic> json) =>
@@ -3037,26 +2642,20 @@ LibraryTypeOptionsDto _$LibraryTypeOptionsDtoFromJson(
     );
 
 Map<String, dynamic> _$LibraryTypeOptionsDtoToJson(
-    LibraryTypeOptionsDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Type', instance.type);
-  writeNotNull('MetadataFetchers',
-      instance.metadataFetchers?.map((e) => e.toJson()).toList());
-  writeNotNull(
-      'ImageFetchers', instance.imageFetchers?.map((e) => e.toJson()).toList());
-  val['SupportedImageTypes'] =
-      imageTypeListToJson(instance.supportedImageTypes);
-  writeNotNull('DefaultImageOptions',
-      instance.defaultImageOptions?.map((e) => e.toJson()).toList());
-  return val;
-}
+        LibraryTypeOptionsDto instance) =>
+    <String, dynamic>{
+      if (instance.type case final value?) 'Type': value,
+      if (instance.metadataFetchers?.map((e) => e.toJson()).toList()
+          case final value?)
+        'MetadataFetchers': value,
+      if (instance.imageFetchers?.map((e) => e.toJson()).toList()
+          case final value?)
+        'ImageFetchers': value,
+      'SupportedImageTypes': imageTypeListToJson(instance.supportedImageTypes),
+      if (instance.defaultImageOptions?.map((e) => e.toJson()).toList()
+          case final value?)
+        'DefaultImageOptions': value,
+    };
 
 LibraryUpdateInfo _$LibraryUpdateInfoFromJson(Map<String, dynamic> json) =>
     LibraryUpdateInfo(
@@ -3087,24 +2686,18 @@ LibraryUpdateInfo _$LibraryUpdateInfoFromJson(Map<String, dynamic> json) =>
       isEmpty: json['IsEmpty'] as bool?,
     );
 
-Map<String, dynamic> _$LibraryUpdateInfoToJson(LibraryUpdateInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('FoldersAddedTo', instance.foldersAddedTo);
-  writeNotNull('FoldersRemovedFrom', instance.foldersRemovedFrom);
-  writeNotNull('ItemsAdded', instance.itemsAdded);
-  writeNotNull('ItemsRemoved', instance.itemsRemoved);
-  writeNotNull('ItemsUpdated', instance.itemsUpdated);
-  writeNotNull('CollectionFolders', instance.collectionFolders);
-  writeNotNull('IsEmpty', instance.isEmpty);
-  return val;
-}
+Map<String, dynamic> _$LibraryUpdateInfoToJson(LibraryUpdateInfo instance) =>
+    <String, dynamic>{
+      if (instance.foldersAddedTo case final value?) 'FoldersAddedTo': value,
+      if (instance.foldersRemovedFrom case final value?)
+        'FoldersRemovedFrom': value,
+      if (instance.itemsAdded case final value?) 'ItemsAdded': value,
+      if (instance.itemsRemoved case final value?) 'ItemsRemoved': value,
+      if (instance.itemsUpdated case final value?) 'ItemsUpdated': value,
+      if (instance.collectionFolders case final value?)
+        'CollectionFolders': value,
+      if (instance.isEmpty case final value?) 'IsEmpty': value,
+    };
 
 ListingsProviderInfo _$ListingsProviderInfoFromJson(
         Map<String, dynamic> json) =>
@@ -3148,36 +2741,31 @@ ListingsProviderInfo _$ListingsProviderInfoFromJson(
     );
 
 Map<String, dynamic> _$ListingsProviderInfoToJson(
-    ListingsProviderInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Id', instance.id);
-  writeNotNull('Type', instance.type);
-  writeNotNull('Username', instance.username);
-  writeNotNull('Password', instance.password);
-  writeNotNull('ListingsId', instance.listingsId);
-  writeNotNull('ZipCode', instance.zipCode);
-  writeNotNull('Country', instance.country);
-  writeNotNull('Path', instance.path);
-  writeNotNull('EnabledTuners', instance.enabledTuners);
-  writeNotNull('EnableAllTuners', instance.enableAllTuners);
-  writeNotNull('NewsCategories', instance.newsCategories);
-  writeNotNull('SportsCategories', instance.sportsCategories);
-  writeNotNull('KidsCategories', instance.kidsCategories);
-  writeNotNull('MovieCategories', instance.movieCategories);
-  writeNotNull('ChannelMappings',
-      instance.channelMappings?.map((e) => e.toJson()).toList());
-  writeNotNull('MoviePrefix', instance.moviePrefix);
-  writeNotNull('PreferredLanguage', instance.preferredLanguage);
-  writeNotNull('UserAgent', instance.userAgent);
-  return val;
-}
+        ListingsProviderInfo instance) =>
+    <String, dynamic>{
+      if (instance.id case final value?) 'Id': value,
+      if (instance.type case final value?) 'Type': value,
+      if (instance.username case final value?) 'Username': value,
+      if (instance.password case final value?) 'Password': value,
+      if (instance.listingsId case final value?) 'ListingsId': value,
+      if (instance.zipCode case final value?) 'ZipCode': value,
+      if (instance.country case final value?) 'Country': value,
+      if (instance.path case final value?) 'Path': value,
+      if (instance.enabledTuners case final value?) 'EnabledTuners': value,
+      if (instance.enableAllTuners case final value?) 'EnableAllTuners': value,
+      if (instance.newsCategories case final value?) 'NewsCategories': value,
+      if (instance.sportsCategories case final value?)
+        'SportsCategories': value,
+      if (instance.kidsCategories case final value?) 'KidsCategories': value,
+      if (instance.movieCategories case final value?) 'MovieCategories': value,
+      if (instance.channelMappings?.map((e) => e.toJson()).toList()
+          case final value?)
+        'ChannelMappings': value,
+      if (instance.moviePrefix case final value?) 'MoviePrefix': value,
+      if (instance.preferredLanguage case final value?)
+        'PreferredLanguage': value,
+      if (instance.userAgent case final value?) 'UserAgent': value,
+    };
 
 LiveStreamResponse _$LiveStreamResponseFromJson(Map<String, dynamic> json) =>
     LiveStreamResponse(
@@ -3187,18 +2775,11 @@ LiveStreamResponse _$LiveStreamResponseFromJson(Map<String, dynamic> json) =>
               json['MediaSource'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$LiveStreamResponseToJson(LiveStreamResponse instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('MediaSource', instance.mediaSource?.toJson());
-  return val;
-}
+Map<String, dynamic> _$LiveStreamResponseToJson(LiveStreamResponse instance) =>
+    <String, dynamic>{
+      if (instance.mediaSource?.toJson() case final value?)
+        'MediaSource': value,
+    };
 
 LiveTvInfo _$LiveTvInfoFromJson(Map<String, dynamic> json) => LiveTvInfo(
       services: (json['Services'] as List<dynamic>?)
@@ -3213,20 +2794,13 @@ LiveTvInfo _$LiveTvInfoFromJson(Map<String, dynamic> json) => LiveTvInfo(
           [],
     );
 
-Map<String, dynamic> _$LiveTvInfoToJson(LiveTvInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Services', instance.services?.map((e) => e.toJson()).toList());
-  writeNotNull('IsEnabled', instance.isEnabled);
-  writeNotNull('EnabledUsers', instance.enabledUsers);
-  return val;
-}
+Map<String, dynamic> _$LiveTvInfoToJson(LiveTvInfo instance) =>
+    <String, dynamic>{
+      if (instance.services?.map((e) => e.toJson()).toList() case final value?)
+        'Services': value,
+      if (instance.isEnabled case final value?) 'IsEnabled': value,
+      if (instance.enabledUsers case final value?) 'EnabledUsers': value,
+    };
 
 LiveTvOptions _$LiveTvOptionsFromJson(Map<String, dynamic> json) =>
     LiveTvOptions(
@@ -3259,36 +2833,39 @@ LiveTvOptions _$LiveTvOptionsFromJson(Map<String, dynamic> json) =>
       saveRecordingImages: json['SaveRecordingImages'] as bool?,
     );
 
-Map<String, dynamic> _$LiveTvOptionsToJson(LiveTvOptions instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('GuideDays', instance.guideDays);
-  writeNotNull('RecordingPath', instance.recordingPath);
-  writeNotNull('MovieRecordingPath', instance.movieRecordingPath);
-  writeNotNull('SeriesRecordingPath', instance.seriesRecordingPath);
-  writeNotNull('EnableRecordingSubfolders', instance.enableRecordingSubfolders);
-  writeNotNull('EnableOriginalAudioWithEncodedRecordings',
-      instance.enableOriginalAudioWithEncodedRecordings);
-  writeNotNull(
-      'TunerHosts', instance.tunerHosts?.map((e) => e.toJson()).toList());
-  writeNotNull('ListingProviders',
-      instance.listingProviders?.map((e) => e.toJson()).toList());
-  writeNotNull('PrePaddingSeconds', instance.prePaddingSeconds);
-  writeNotNull('PostPaddingSeconds', instance.postPaddingSeconds);
-  writeNotNull('MediaLocationsCreated', instance.mediaLocationsCreated);
-  writeNotNull('RecordingPostProcessor', instance.recordingPostProcessor);
-  writeNotNull('RecordingPostProcessorArguments',
-      instance.recordingPostProcessorArguments);
-  writeNotNull('SaveRecordingNFO', instance.saveRecordingNFO);
-  writeNotNull('SaveRecordingImages', instance.saveRecordingImages);
-  return val;
-}
+Map<String, dynamic> _$LiveTvOptionsToJson(LiveTvOptions instance) =>
+    <String, dynamic>{
+      if (instance.guideDays case final value?) 'GuideDays': value,
+      if (instance.recordingPath case final value?) 'RecordingPath': value,
+      if (instance.movieRecordingPath case final value?)
+        'MovieRecordingPath': value,
+      if (instance.seriesRecordingPath case final value?)
+        'SeriesRecordingPath': value,
+      if (instance.enableRecordingSubfolders case final value?)
+        'EnableRecordingSubfolders': value,
+      if (instance.enableOriginalAudioWithEncodedRecordings case final value?)
+        'EnableOriginalAudioWithEncodedRecordings': value,
+      if (instance.tunerHosts?.map((e) => e.toJson()).toList()
+          case final value?)
+        'TunerHosts': value,
+      if (instance.listingProviders?.map((e) => e.toJson()).toList()
+          case final value?)
+        'ListingProviders': value,
+      if (instance.prePaddingSeconds case final value?)
+        'PrePaddingSeconds': value,
+      if (instance.postPaddingSeconds case final value?)
+        'PostPaddingSeconds': value,
+      if (instance.mediaLocationsCreated case final value?)
+        'MediaLocationsCreated': value,
+      if (instance.recordingPostProcessor case final value?)
+        'RecordingPostProcessor': value,
+      if (instance.recordingPostProcessorArguments case final value?)
+        'RecordingPostProcessorArguments': value,
+      if (instance.saveRecordingNFO case final value?)
+        'SaveRecordingNFO': value,
+      if (instance.saveRecordingImages case final value?)
+        'SaveRecordingImages': value,
+    };
 
 LiveTvServiceInfo _$LiveTvServiceInfoFromJson(Map<String, dynamic> json) =>
     LiveTvServiceInfo(
@@ -3305,25 +2882,19 @@ LiveTvServiceInfo _$LiveTvServiceInfoFromJson(Map<String, dynamic> json) =>
           [],
     );
 
-Map<String, dynamic> _$LiveTvServiceInfoToJson(LiveTvServiceInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('HomePageUrl', instance.homePageUrl);
-  writeNotNull('Status', liveTvServiceStatusNullableToJson(instance.status));
-  writeNotNull('StatusMessage', instance.statusMessage);
-  writeNotNull('Version', instance.version);
-  writeNotNull('HasUpdateAvailable', instance.hasUpdateAvailable);
-  writeNotNull('IsVisible', instance.isVisible);
-  writeNotNull('Tuners', instance.tuners);
-  return val;
-}
+Map<String, dynamic> _$LiveTvServiceInfoToJson(LiveTvServiceInfo instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.homePageUrl case final value?) 'HomePageUrl': value,
+      if (liveTvServiceStatusNullableToJson(instance.status) case final value?)
+        'Status': value,
+      if (instance.statusMessage case final value?) 'StatusMessage': value,
+      if (instance.version case final value?) 'Version': value,
+      if (instance.hasUpdateAvailable case final value?)
+        'HasUpdateAvailable': value,
+      if (instance.isVisible case final value?) 'IsVisible': value,
+      if (instance.tuners case final value?) 'Tuners': value,
+    };
 
 LocalizationOption _$LocalizationOptionFromJson(Map<String, dynamic> json) =>
     LocalizationOption(
@@ -3331,19 +2902,11 @@ LocalizationOption _$LocalizationOptionFromJson(Map<String, dynamic> json) =>
       $Value: json['Value'] as String?,
     );
 
-Map<String, dynamic> _$LocalizationOptionToJson(LocalizationOption instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('Value', instance.$Value);
-  return val;
-}
+Map<String, dynamic> _$LocalizationOptionToJson(LocalizationOption instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.$Value case final value?) 'Value': value,
+    };
 
 LogFile _$LogFileFromJson(Map<String, dynamic> json) => LogFile(
       dateCreated: json['DateCreated'] == null
@@ -3356,21 +2919,14 @@ LogFile _$LogFileFromJson(Map<String, dynamic> json) => LogFile(
       name: json['Name'] as String?,
     );
 
-Map<String, dynamic> _$LogFileToJson(LogFile instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('DateCreated', instance.dateCreated?.toIso8601String());
-  writeNotNull('DateModified', instance.dateModified?.toIso8601String());
-  writeNotNull('Size', instance.size);
-  writeNotNull('Name', instance.name);
-  return val;
-}
+Map<String, dynamic> _$LogFileToJson(LogFile instance) => <String, dynamic>{
+      if (instance.dateCreated?.toIso8601String() case final value?)
+        'DateCreated': value,
+      if (instance.dateModified?.toIso8601String() case final value?)
+        'DateModified': value,
+      if (instance.size case final value?) 'Size': value,
+      if (instance.name case final value?) 'Name': value,
+    };
 
 LyricDto _$LyricDtoFromJson(Map<String, dynamic> json) => LyricDto(
       metadata: json['Metadata'] == null
@@ -3382,38 +2938,21 @@ LyricDto _$LyricDtoFromJson(Map<String, dynamic> json) => LyricDto(
           [],
     );
 
-Map<String, dynamic> _$LyricDtoToJson(LyricDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Metadata', instance.metadata?.toJson());
-  writeNotNull('Lyrics', instance.lyrics?.map((e) => e.toJson()).toList());
-  return val;
-}
+Map<String, dynamic> _$LyricDtoToJson(LyricDto instance) => <String, dynamic>{
+      if (instance.metadata?.toJson() case final value?) 'Metadata': value,
+      if (instance.lyrics?.map((e) => e.toJson()).toList() case final value?)
+        'Lyrics': value,
+    };
 
 LyricLine _$LyricLineFromJson(Map<String, dynamic> json) => LyricLine(
       text: json['Text'] as String?,
       start: (json['Start'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$LyricLineToJson(LyricLine instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Text', instance.text);
-  writeNotNull('Start', instance.start);
-  return val;
-}
+Map<String, dynamic> _$LyricLineToJson(LyricLine instance) => <String, dynamic>{
+      if (instance.text case final value?) 'Text': value,
+      if (instance.start case final value?) 'Start': value,
+    };
 
 LyricMetadata _$LyricMetadataFromJson(Map<String, dynamic> json) =>
     LyricMetadata(
@@ -3429,27 +2968,19 @@ LyricMetadata _$LyricMetadataFromJson(Map<String, dynamic> json) =>
       isSynced: json['IsSynced'] as bool?,
     );
 
-Map<String, dynamic> _$LyricMetadataToJson(LyricMetadata instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Artist', instance.artist);
-  writeNotNull('Album', instance.album);
-  writeNotNull('Title', instance.title);
-  writeNotNull('Author', instance.author);
-  writeNotNull('Length', instance.length);
-  writeNotNull('By', instance.by);
-  writeNotNull('Offset', instance.offset);
-  writeNotNull('Creator', instance.creator);
-  writeNotNull('Version', instance.version);
-  writeNotNull('IsSynced', instance.isSynced);
-  return val;
-}
+Map<String, dynamic> _$LyricMetadataToJson(LyricMetadata instance) =>
+    <String, dynamic>{
+      if (instance.artist case final value?) 'Artist': value,
+      if (instance.album case final value?) 'Album': value,
+      if (instance.title case final value?) 'Title': value,
+      if (instance.author case final value?) 'Author': value,
+      if (instance.length case final value?) 'Length': value,
+      if (instance.by case final value?) 'By': value,
+      if (instance.offset case final value?) 'Offset': value,
+      if (instance.creator case final value?) 'Creator': value,
+      if (instance.version case final value?) 'Version': value,
+      if (instance.isSynced case final value?) 'IsSynced': value,
+    };
 
 MediaAttachment _$MediaAttachmentFromJson(Map<String, dynamic> json) =>
     MediaAttachment(
@@ -3462,24 +2993,16 @@ MediaAttachment _$MediaAttachmentFromJson(Map<String, dynamic> json) =>
       deliveryUrl: json['DeliveryUrl'] as String?,
     );
 
-Map<String, dynamic> _$MediaAttachmentToJson(MediaAttachment instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Codec', instance.codec);
-  writeNotNull('CodecTag', instance.codecTag);
-  writeNotNull('Comment', instance.comment);
-  writeNotNull('Index', instance.index);
-  writeNotNull('FileName', instance.fileName);
-  writeNotNull('MimeType', instance.mimeType);
-  writeNotNull('DeliveryUrl', instance.deliveryUrl);
-  return val;
-}
+Map<String, dynamic> _$MediaAttachmentToJson(MediaAttachment instance) =>
+    <String, dynamic>{
+      if (instance.codec case final value?) 'Codec': value,
+      if (instance.codecTag case final value?) 'CodecTag': value,
+      if (instance.comment case final value?) 'Comment': value,
+      if (instance.index case final value?) 'Index': value,
+      if (instance.fileName case final value?) 'FileName': value,
+      if (instance.mimeType case final value?) 'MimeType': value,
+      if (instance.deliveryUrl case final value?) 'DeliveryUrl': value,
+    };
 
 MediaPathDto _$MediaPathDtoFromJson(Map<String, dynamic> json) => MediaPathDto(
       name: json['Name'] as String,
@@ -3489,39 +3012,22 @@ MediaPathDto _$MediaPathDtoFromJson(Map<String, dynamic> json) => MediaPathDto(
           : MediaPathInfo.fromJson(json['PathInfo'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$MediaPathDtoToJson(MediaPathDto instance) {
-  final val = <String, dynamic>{
-    'Name': instance.name,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Path', instance.path);
-  writeNotNull('PathInfo', instance.pathInfo?.toJson());
-  return val;
-}
+Map<String, dynamic> _$MediaPathDtoToJson(MediaPathDto instance) =>
+    <String, dynamic>{
+      'Name': instance.name,
+      if (instance.path case final value?) 'Path': value,
+      if (instance.pathInfo?.toJson() case final value?) 'PathInfo': value,
+    };
 
 MediaPathInfo _$MediaPathInfoFromJson(Map<String, dynamic> json) =>
     MediaPathInfo(
       path: json['Path'] as String?,
     );
 
-Map<String, dynamic> _$MediaPathInfoToJson(MediaPathInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Path', instance.path);
-  return val;
-}
+Map<String, dynamic> _$MediaPathInfoToJson(MediaPathInfo instance) =>
+    <String, dynamic>{
+      if (instance.path case final value?) 'Path': value,
+    };
 
 MediaSegmentDto _$MediaSegmentDtoFromJson(Map<String, dynamic> json) =>
     MediaSegmentDto(
@@ -3532,22 +3038,15 @@ MediaSegmentDto _$MediaSegmentDtoFromJson(Map<String, dynamic> json) =>
       endTicks: (json['EndTicks'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$MediaSegmentDtoToJson(MediaSegmentDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Id', instance.id);
-  writeNotNull('ItemId', instance.itemId);
-  writeNotNull('Type', mediaSegmentTypeNullableToJson(instance.type));
-  writeNotNull('StartTicks', instance.startTicks);
-  writeNotNull('EndTicks', instance.endTicks);
-  return val;
-}
+Map<String, dynamic> _$MediaSegmentDtoToJson(MediaSegmentDto instance) =>
+    <String, dynamic>{
+      if (instance.id case final value?) 'Id': value,
+      if (instance.itemId case final value?) 'ItemId': value,
+      if (mediaSegmentTypeNullableToJson(instance.type) case final value?)
+        'Type': value,
+      if (instance.startTicks case final value?) 'StartTicks': value,
+      if (instance.endTicks case final value?) 'EndTicks': value,
+    };
 
 MediaSegmentDtoQueryResult _$MediaSegmentDtoQueryResultFromJson(
         Map<String, dynamic> json) =>
@@ -3561,20 +3060,14 @@ MediaSegmentDtoQueryResult _$MediaSegmentDtoQueryResultFromJson(
     );
 
 Map<String, dynamic> _$MediaSegmentDtoQueryResultToJson(
-    MediaSegmentDtoQueryResult instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Items', instance.items?.map((e) => e.toJson()).toList());
-  writeNotNull('TotalRecordCount', instance.totalRecordCount);
-  writeNotNull('StartIndex', instance.startIndex);
-  return val;
-}
+        MediaSegmentDtoQueryResult instance) =>
+    <String, dynamic>{
+      if (instance.items?.map((e) => e.toJson()).toList() case final value?)
+        'Items': value,
+      if (instance.totalRecordCount case final value?)
+        'TotalRecordCount': value,
+      if (instance.startIndex case final value?) 'StartIndex': value,
+    };
 
 MediaSourceInfo _$MediaSourceInfoFromJson(Map<String, dynamic> json) =>
     MediaSourceInfo(
@@ -3639,71 +3132,81 @@ MediaSourceInfo _$MediaSourceInfoFromJson(Map<String, dynamic> json) =>
       hasSegments: json['HasSegments'] as bool?,
     );
 
-Map<String, dynamic> _$MediaSourceInfoToJson(MediaSourceInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Protocol', mediaProtocolNullableToJson(instance.protocol));
-  writeNotNull('Id', instance.id);
-  writeNotNull('Path', instance.path);
-  writeNotNull('EncoderPath', instance.encoderPath);
-  writeNotNull(
-      'EncoderProtocol', mediaProtocolNullableToJson(instance.encoderProtocol));
-  writeNotNull('Type', mediaSourceTypeNullableToJson(instance.type));
-  writeNotNull('Container', instance.container);
-  writeNotNull('Size', instance.size);
-  writeNotNull('Name', instance.name);
-  writeNotNull('IsRemote', instance.isRemote);
-  writeNotNull('ETag', instance.eTag);
-  writeNotNull('RunTimeTicks', instance.runTimeTicks);
-  writeNotNull('ReadAtNativeFramerate', instance.readAtNativeFramerate);
-  writeNotNull('IgnoreDts', instance.ignoreDts);
-  writeNotNull('IgnoreIndex', instance.ignoreIndex);
-  writeNotNull('GenPtsInput', instance.genPtsInput);
-  writeNotNull('SupportsTranscoding', instance.supportsTranscoding);
-  writeNotNull('SupportsDirectStream', instance.supportsDirectStream);
-  writeNotNull('SupportsDirectPlay', instance.supportsDirectPlay);
-  writeNotNull('IsInfiniteStream', instance.isInfiniteStream);
-  writeNotNull('UseMostCompatibleTranscodingProfile',
-      instance.useMostCompatibleTranscodingProfile);
-  writeNotNull('RequiresOpening', instance.requiresOpening);
-  writeNotNull('OpenToken', instance.openToken);
-  writeNotNull('RequiresClosing', instance.requiresClosing);
-  writeNotNull('LiveStreamId', instance.liveStreamId);
-  writeNotNull('BufferMs', instance.bufferMs);
-  writeNotNull('RequiresLooping', instance.requiresLooping);
-  writeNotNull('SupportsProbing', instance.supportsProbing);
-  writeNotNull('VideoType', videoTypeNullableToJson(instance.videoType));
-  writeNotNull('IsoType', isoTypeNullableToJson(instance.isoType));
-  writeNotNull(
-      'Video3DFormat', video3DFormatNullableToJson(instance.video3DFormat));
-  writeNotNull(
-      'MediaStreams', instance.mediaStreams?.map((e) => e.toJson()).toList());
-  writeNotNull('MediaAttachments',
-      instance.mediaAttachments?.map((e) => e.toJson()).toList());
-  writeNotNull('Formats', instance.formats);
-  writeNotNull('Bitrate', instance.bitrate);
-  writeNotNull(
-      'FallbackMaxStreamingBitrate', instance.fallbackMaxStreamingBitrate);
-  writeNotNull(
-      'Timestamp', transportStreamTimestampNullableToJson(instance.timestamp));
-  writeNotNull('RequiredHttpHeaders', instance.requiredHttpHeaders);
-  writeNotNull('TranscodingUrl', instance.transcodingUrl);
-  writeNotNull('TranscodingSubProtocol',
-      mediaStreamProtocolNullableToJson(instance.transcodingSubProtocol));
-  writeNotNull('TranscodingContainer', instance.transcodingContainer);
-  writeNotNull('AnalyzeDurationMs', instance.analyzeDurationMs);
-  writeNotNull('DefaultAudioStreamIndex', instance.defaultAudioStreamIndex);
-  writeNotNull(
-      'DefaultSubtitleStreamIndex', instance.defaultSubtitleStreamIndex);
-  writeNotNull('HasSegments', instance.hasSegments);
-  return val;
-}
+Map<String, dynamic> _$MediaSourceInfoToJson(MediaSourceInfo instance) =>
+    <String, dynamic>{
+      if (mediaProtocolNullableToJson(instance.protocol) case final value?)
+        'Protocol': value,
+      if (instance.id case final value?) 'Id': value,
+      if (instance.path case final value?) 'Path': value,
+      if (instance.encoderPath case final value?) 'EncoderPath': value,
+      if (mediaProtocolNullableToJson(instance.encoderProtocol)
+          case final value?)
+        'EncoderProtocol': value,
+      if (mediaSourceTypeNullableToJson(instance.type) case final value?)
+        'Type': value,
+      if (instance.container case final value?) 'Container': value,
+      if (instance.size case final value?) 'Size': value,
+      if (instance.name case final value?) 'Name': value,
+      if (instance.isRemote case final value?) 'IsRemote': value,
+      if (instance.eTag case final value?) 'ETag': value,
+      if (instance.runTimeTicks case final value?) 'RunTimeTicks': value,
+      if (instance.readAtNativeFramerate case final value?)
+        'ReadAtNativeFramerate': value,
+      if (instance.ignoreDts case final value?) 'IgnoreDts': value,
+      if (instance.ignoreIndex case final value?) 'IgnoreIndex': value,
+      if (instance.genPtsInput case final value?) 'GenPtsInput': value,
+      if (instance.supportsTranscoding case final value?)
+        'SupportsTranscoding': value,
+      if (instance.supportsDirectStream case final value?)
+        'SupportsDirectStream': value,
+      if (instance.supportsDirectPlay case final value?)
+        'SupportsDirectPlay': value,
+      if (instance.isInfiniteStream case final value?)
+        'IsInfiniteStream': value,
+      if (instance.useMostCompatibleTranscodingProfile case final value?)
+        'UseMostCompatibleTranscodingProfile': value,
+      if (instance.requiresOpening case final value?) 'RequiresOpening': value,
+      if (instance.openToken case final value?) 'OpenToken': value,
+      if (instance.requiresClosing case final value?) 'RequiresClosing': value,
+      if (instance.liveStreamId case final value?) 'LiveStreamId': value,
+      if (instance.bufferMs case final value?) 'BufferMs': value,
+      if (instance.requiresLooping case final value?) 'RequiresLooping': value,
+      if (instance.supportsProbing case final value?) 'SupportsProbing': value,
+      if (videoTypeNullableToJson(instance.videoType) case final value?)
+        'VideoType': value,
+      if (isoTypeNullableToJson(instance.isoType) case final value?)
+        'IsoType': value,
+      if (video3DFormatNullableToJson(instance.video3DFormat) case final value?)
+        'Video3DFormat': value,
+      if (instance.mediaStreams?.map((e) => e.toJson()).toList()
+          case final value?)
+        'MediaStreams': value,
+      if (instance.mediaAttachments?.map((e) => e.toJson()).toList()
+          case final value?)
+        'MediaAttachments': value,
+      if (instance.formats case final value?) 'Formats': value,
+      if (instance.bitrate case final value?) 'Bitrate': value,
+      if (instance.fallbackMaxStreamingBitrate case final value?)
+        'FallbackMaxStreamingBitrate': value,
+      if (transportStreamTimestampNullableToJson(instance.timestamp)
+          case final value?)
+        'Timestamp': value,
+      if (instance.requiredHttpHeaders case final value?)
+        'RequiredHttpHeaders': value,
+      if (instance.transcodingUrl case final value?) 'TranscodingUrl': value,
+      if (mediaStreamProtocolNullableToJson(instance.transcodingSubProtocol)
+          case final value?)
+        'TranscodingSubProtocol': value,
+      if (instance.transcodingContainer case final value?)
+        'TranscodingContainer': value,
+      if (instance.analyzeDurationMs case final value?)
+        'AnalyzeDurationMs': value,
+      if (instance.defaultAudioStreamIndex case final value?)
+        'DefaultAudioStreamIndex': value,
+      if (instance.defaultSubtitleStreamIndex case final value?)
+        'DefaultSubtitleStreamIndex': value,
+      if (instance.hasSegments case final value?) 'HasSegments': value,
+    };
 
 MediaStream _$MediaStreamFromJson(Map<String, dynamic> json) => MediaStream(
       codec: json['Codec'] as String?,
@@ -3775,83 +3278,90 @@ MediaStream _$MediaStreamFromJson(Map<String, dynamic> json) => MediaStream(
       isAnamorphic: json['IsAnamorphic'] as bool?,
     );
 
-Map<String, dynamic> _$MediaStreamToJson(MediaStream instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Codec', instance.codec);
-  writeNotNull('CodecTag', instance.codecTag);
-  writeNotNull('Language', instance.language);
-  writeNotNull('ColorRange', instance.colorRange);
-  writeNotNull('ColorSpace', instance.colorSpace);
-  writeNotNull('ColorTransfer', instance.colorTransfer);
-  writeNotNull('ColorPrimaries', instance.colorPrimaries);
-  writeNotNull('DvVersionMajor', instance.dvVersionMajor);
-  writeNotNull('DvVersionMinor', instance.dvVersionMinor);
-  writeNotNull('DvProfile', instance.dvProfile);
-  writeNotNull('DvLevel', instance.dvLevel);
-  writeNotNull('RpuPresentFlag', instance.rpuPresentFlag);
-  writeNotNull('ElPresentFlag', instance.elPresentFlag);
-  writeNotNull('BlPresentFlag', instance.blPresentFlag);
-  writeNotNull('DvBlSignalCompatibilityId', instance.dvBlSignalCompatibilityId);
-  writeNotNull('Rotation', instance.rotation);
-  writeNotNull('Comment', instance.comment);
-  writeNotNull('TimeBase', instance.timeBase);
-  writeNotNull('CodecTimeBase', instance.codecTimeBase);
-  writeNotNull('Title', instance.title);
-  writeNotNull('VideoRange', videoRangeNullableToJson(instance.videoRange));
-  writeNotNull(
-      'VideoRangeType', videoRangeTypeNullableToJson(instance.videoRangeType));
-  writeNotNull('VideoDoViTitle', instance.videoDoViTitle);
-  writeNotNull('AudioSpatialFormat',
-      audioSpatialFormatNullableToJson(instance.audioSpatialFormat));
-  writeNotNull('LocalizedUndefined', instance.localizedUndefined);
-  writeNotNull('LocalizedDefault', instance.localizedDefault);
-  writeNotNull('LocalizedForced', instance.localizedForced);
-  writeNotNull('LocalizedExternal', instance.localizedExternal);
-  writeNotNull('LocalizedHearingImpaired', instance.localizedHearingImpaired);
-  writeNotNull('DisplayTitle', instance.displayTitle);
-  writeNotNull('NalLengthSize', instance.nalLengthSize);
-  writeNotNull('IsInterlaced', instance.isInterlaced);
-  writeNotNull('IsAVC', instance.isAVC);
-  writeNotNull('ChannelLayout', instance.channelLayout);
-  writeNotNull('BitRate', instance.bitRate);
-  writeNotNull('BitDepth', instance.bitDepth);
-  writeNotNull('RefFrames', instance.refFrames);
-  writeNotNull('PacketLength', instance.packetLength);
-  writeNotNull('Channels', instance.channels);
-  writeNotNull('SampleRate', instance.sampleRate);
-  writeNotNull('IsDefault', instance.isDefault);
-  writeNotNull('IsForced', instance.isForced);
-  writeNotNull('IsHearingImpaired', instance.isHearingImpaired);
-  writeNotNull('Height', instance.height);
-  writeNotNull('Width', instance.width);
-  writeNotNull('AverageFrameRate', instance.averageFrameRate);
-  writeNotNull('RealFrameRate', instance.realFrameRate);
-  writeNotNull('ReferenceFrameRate', instance.referenceFrameRate);
-  writeNotNull('Profile', instance.profile);
-  writeNotNull('Type', mediaStreamTypeNullableToJson(instance.type));
-  writeNotNull('AspectRatio', instance.aspectRatio);
-  writeNotNull('Index', instance.index);
-  writeNotNull('Score', instance.score);
-  writeNotNull('IsExternal', instance.isExternal);
-  writeNotNull('DeliveryMethod',
-      subtitleDeliveryMethodNullableToJson(instance.deliveryMethod));
-  writeNotNull('DeliveryUrl', instance.deliveryUrl);
-  writeNotNull('IsExternalUrl', instance.isExternalUrl);
-  writeNotNull('IsTextSubtitleStream', instance.isTextSubtitleStream);
-  writeNotNull('SupportsExternalStream', instance.supportsExternalStream);
-  writeNotNull('Path', instance.path);
-  writeNotNull('PixelFormat', instance.pixelFormat);
-  writeNotNull('Level', instance.level);
-  writeNotNull('IsAnamorphic', instance.isAnamorphic);
-  return val;
-}
+Map<String, dynamic> _$MediaStreamToJson(MediaStream instance) =>
+    <String, dynamic>{
+      if (instance.codec case final value?) 'Codec': value,
+      if (instance.codecTag case final value?) 'CodecTag': value,
+      if (instance.language case final value?) 'Language': value,
+      if (instance.colorRange case final value?) 'ColorRange': value,
+      if (instance.colorSpace case final value?) 'ColorSpace': value,
+      if (instance.colorTransfer case final value?) 'ColorTransfer': value,
+      if (instance.colorPrimaries case final value?) 'ColorPrimaries': value,
+      if (instance.dvVersionMajor case final value?) 'DvVersionMajor': value,
+      if (instance.dvVersionMinor case final value?) 'DvVersionMinor': value,
+      if (instance.dvProfile case final value?) 'DvProfile': value,
+      if (instance.dvLevel case final value?) 'DvLevel': value,
+      if (instance.rpuPresentFlag case final value?) 'RpuPresentFlag': value,
+      if (instance.elPresentFlag case final value?) 'ElPresentFlag': value,
+      if (instance.blPresentFlag case final value?) 'BlPresentFlag': value,
+      if (instance.dvBlSignalCompatibilityId case final value?)
+        'DvBlSignalCompatibilityId': value,
+      if (instance.rotation case final value?) 'Rotation': value,
+      if (instance.comment case final value?) 'Comment': value,
+      if (instance.timeBase case final value?) 'TimeBase': value,
+      if (instance.codecTimeBase case final value?) 'CodecTimeBase': value,
+      if (instance.title case final value?) 'Title': value,
+      if (videoRangeNullableToJson(instance.videoRange) case final value?)
+        'VideoRange': value,
+      if (videoRangeTypeNullableToJson(instance.videoRangeType)
+          case final value?)
+        'VideoRangeType': value,
+      if (instance.videoDoViTitle case final value?) 'VideoDoViTitle': value,
+      if (audioSpatialFormatNullableToJson(instance.audioSpatialFormat)
+          case final value?)
+        'AudioSpatialFormat': value,
+      if (instance.localizedUndefined case final value?)
+        'LocalizedUndefined': value,
+      if (instance.localizedDefault case final value?)
+        'LocalizedDefault': value,
+      if (instance.localizedForced case final value?) 'LocalizedForced': value,
+      if (instance.localizedExternal case final value?)
+        'LocalizedExternal': value,
+      if (instance.localizedHearingImpaired case final value?)
+        'LocalizedHearingImpaired': value,
+      if (instance.displayTitle case final value?) 'DisplayTitle': value,
+      if (instance.nalLengthSize case final value?) 'NalLengthSize': value,
+      if (instance.isInterlaced case final value?) 'IsInterlaced': value,
+      if (instance.isAVC case final value?) 'IsAVC': value,
+      if (instance.channelLayout case final value?) 'ChannelLayout': value,
+      if (instance.bitRate case final value?) 'BitRate': value,
+      if (instance.bitDepth case final value?) 'BitDepth': value,
+      if (instance.refFrames case final value?) 'RefFrames': value,
+      if (instance.packetLength case final value?) 'PacketLength': value,
+      if (instance.channels case final value?) 'Channels': value,
+      if (instance.sampleRate case final value?) 'SampleRate': value,
+      if (instance.isDefault case final value?) 'IsDefault': value,
+      if (instance.isForced case final value?) 'IsForced': value,
+      if (instance.isHearingImpaired case final value?)
+        'IsHearingImpaired': value,
+      if (instance.height case final value?) 'Height': value,
+      if (instance.width case final value?) 'Width': value,
+      if (instance.averageFrameRate case final value?)
+        'AverageFrameRate': value,
+      if (instance.realFrameRate case final value?) 'RealFrameRate': value,
+      if (instance.referenceFrameRate case final value?)
+        'ReferenceFrameRate': value,
+      if (instance.profile case final value?) 'Profile': value,
+      if (mediaStreamTypeNullableToJson(instance.type) case final value?)
+        'Type': value,
+      if (instance.aspectRatio case final value?) 'AspectRatio': value,
+      if (instance.index case final value?) 'Index': value,
+      if (instance.score case final value?) 'Score': value,
+      if (instance.isExternal case final value?) 'IsExternal': value,
+      if (subtitleDeliveryMethodNullableToJson(instance.deliveryMethod)
+          case final value?)
+        'DeliveryMethod': value,
+      if (instance.deliveryUrl case final value?) 'DeliveryUrl': value,
+      if (instance.isExternalUrl case final value?) 'IsExternalUrl': value,
+      if (instance.isTextSubtitleStream case final value?)
+        'IsTextSubtitleStream': value,
+      if (instance.supportsExternalStream case final value?)
+        'SupportsExternalStream': value,
+      if (instance.path case final value?) 'Path': value,
+      if (instance.pixelFormat case final value?) 'PixelFormat': value,
+      if (instance.level case final value?) 'Level': value,
+      if (instance.isAnamorphic case final value?) 'IsAnamorphic': value,
+    };
 
 MediaUpdateInfoDto _$MediaUpdateInfoDtoFromJson(Map<String, dynamic> json) =>
     MediaUpdateInfoDto(
@@ -3862,18 +3372,11 @@ MediaUpdateInfoDto _$MediaUpdateInfoDtoFromJson(Map<String, dynamic> json) =>
           [],
     );
 
-Map<String, dynamic> _$MediaUpdateInfoDtoToJson(MediaUpdateInfoDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Updates', instance.updates?.map((e) => e.toJson()).toList());
-  return val;
-}
+Map<String, dynamic> _$MediaUpdateInfoDtoToJson(MediaUpdateInfoDto instance) =>
+    <String, dynamic>{
+      if (instance.updates?.map((e) => e.toJson()).toList() case final value?)
+        'Updates': value,
+    };
 
 MediaUpdateInfoPathDto _$MediaUpdateInfoPathDtoFromJson(
         Map<String, dynamic> json) =>
@@ -3883,38 +3386,21 @@ MediaUpdateInfoPathDto _$MediaUpdateInfoPathDtoFromJson(
     );
 
 Map<String, dynamic> _$MediaUpdateInfoPathDtoToJson(
-    MediaUpdateInfoPathDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Path', instance.path);
-  writeNotNull('UpdateType', instance.updateType);
-  return val;
-}
+        MediaUpdateInfoPathDto instance) =>
+    <String, dynamic>{
+      if (instance.path case final value?) 'Path': value,
+      if (instance.updateType case final value?) 'UpdateType': value,
+    };
 
 MediaUrl _$MediaUrlFromJson(Map<String, dynamic> json) => MediaUrl(
       url: json['Url'] as String?,
       name: json['Name'] as String?,
     );
 
-Map<String, dynamic> _$MediaUrlToJson(MediaUrl instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Url', instance.url);
-  writeNotNull('Name', instance.name);
-  return val;
-}
+Map<String, dynamic> _$MediaUrlToJson(MediaUrl instance) => <String, dynamic>{
+      if (instance.url case final value?) 'Url': value,
+      if (instance.name case final value?) 'Name': value,
+    };
 
 MessageCommand _$MessageCommandFromJson(Map<String, dynamic> json) =>
     MessageCommand(
@@ -3923,20 +3409,12 @@ MessageCommand _$MessageCommandFromJson(Map<String, dynamic> json) =>
       timeoutMs: (json['TimeoutMs'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$MessageCommandToJson(MessageCommand instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Header', instance.header);
-  val['Text'] = instance.text;
-  writeNotNull('TimeoutMs', instance.timeoutMs);
-  return val;
-}
+Map<String, dynamic> _$MessageCommandToJson(MessageCommand instance) =>
+    <String, dynamic>{
+      if (instance.header case final value?) 'Header': value,
+      'Text': instance.text,
+      if (instance.timeoutMs case final value?) 'TimeoutMs': value,
+    };
 
 MetadataConfiguration _$MetadataConfigurationFromJson(
         Map<String, dynamic> json) =>
@@ -3946,19 +3424,11 @@ MetadataConfiguration _$MetadataConfigurationFromJson(
     );
 
 Map<String, dynamic> _$MetadataConfigurationToJson(
-    MetadataConfiguration instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('UseFileCreationTimeForDateAdded',
-      instance.useFileCreationTimeForDateAdded);
-  return val;
-}
+        MetadataConfiguration instance) =>
+    <String, dynamic>{
+      if (instance.useFileCreationTimeForDateAdded case final value?)
+        'UseFileCreationTimeForDateAdded': value,
+    };
 
 MetadataEditorInfo _$MetadataEditorInfoFromJson(Map<String, dynamic> json) =>
     MetadataEditorInfo(
@@ -3985,28 +3455,24 @@ MetadataEditorInfo _$MetadataEditorInfoFromJson(Map<String, dynamic> json) =>
           [],
     );
 
-Map<String, dynamic> _$MetadataEditorInfoToJson(MetadataEditorInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ParentalRatingOptions',
-      instance.parentalRatingOptions?.map((e) => e.toJson()).toList());
-  writeNotNull(
-      'Countries', instance.countries?.map((e) => e.toJson()).toList());
-  writeNotNull('Cultures', instance.cultures?.map((e) => e.toJson()).toList());
-  writeNotNull('ExternalIdInfos',
-      instance.externalIdInfos?.map((e) => e.toJson()).toList());
-  writeNotNull(
-      'ContentType', collectionTypeNullableToJson(instance.contentType));
-  writeNotNull('ContentTypeOptions',
-      instance.contentTypeOptions?.map((e) => e.toJson()).toList());
-  return val;
-}
+Map<String, dynamic> _$MetadataEditorInfoToJson(MetadataEditorInfo instance) =>
+    <String, dynamic>{
+      if (instance.parentalRatingOptions?.map((e) => e.toJson()).toList()
+          case final value?)
+        'ParentalRatingOptions': value,
+      if (instance.countries?.map((e) => e.toJson()).toList() case final value?)
+        'Countries': value,
+      if (instance.cultures?.map((e) => e.toJson()).toList() case final value?)
+        'Cultures': value,
+      if (instance.externalIdInfos?.map((e) => e.toJson()).toList()
+          case final value?)
+        'ExternalIdInfos': value,
+      if (collectionTypeNullableToJson(instance.contentType) case final value?)
+        'ContentType': value,
+      if (instance.contentTypeOptions?.map((e) => e.toJson()).toList()
+          case final value?)
+        'ContentTypeOptions': value,
+    };
 
 MetadataOptions _$MetadataOptionsFromJson(Map<String, dynamic> json) =>
     MetadataOptions(
@@ -4039,24 +3505,22 @@ MetadataOptions _$MetadataOptionsFromJson(Map<String, dynamic> json) =>
           [],
     );
 
-Map<String, dynamic> _$MetadataOptionsToJson(MetadataOptions instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ItemType', instance.itemType);
-  writeNotNull('DisabledMetadataSavers', instance.disabledMetadataSavers);
-  writeNotNull('LocalMetadataReaderOrder', instance.localMetadataReaderOrder);
-  writeNotNull('DisabledMetadataFetchers', instance.disabledMetadataFetchers);
-  writeNotNull('MetadataFetcherOrder', instance.metadataFetcherOrder);
-  writeNotNull('DisabledImageFetchers', instance.disabledImageFetchers);
-  writeNotNull('ImageFetcherOrder', instance.imageFetcherOrder);
-  return val;
-}
+Map<String, dynamic> _$MetadataOptionsToJson(MetadataOptions instance) =>
+    <String, dynamic>{
+      if (instance.itemType case final value?) 'ItemType': value,
+      if (instance.disabledMetadataSavers case final value?)
+        'DisabledMetadataSavers': value,
+      if (instance.localMetadataReaderOrder case final value?)
+        'LocalMetadataReaderOrder': value,
+      if (instance.disabledMetadataFetchers case final value?)
+        'DisabledMetadataFetchers': value,
+      if (instance.metadataFetcherOrder case final value?)
+        'MetadataFetcherOrder': value,
+      if (instance.disabledImageFetchers case final value?)
+        'DisabledImageFetchers': value,
+      if (instance.imageFetcherOrder case final value?)
+        'ImageFetcherOrder': value,
+    };
 
 MovePlaylistItemRequestDto _$MovePlaylistItemRequestDtoFromJson(
         Map<String, dynamic> json) =>
@@ -4066,19 +3530,11 @@ MovePlaylistItemRequestDto _$MovePlaylistItemRequestDtoFromJson(
     );
 
 Map<String, dynamic> _$MovePlaylistItemRequestDtoToJson(
-    MovePlaylistItemRequestDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('PlaylistItemId', instance.playlistItemId);
-  writeNotNull('NewIndex', instance.newIndex);
-  return val;
-}
+        MovePlaylistItemRequestDto instance) =>
+    <String, dynamic>{
+      if (instance.playlistItemId case final value?) 'PlaylistItemId': value,
+      if (instance.newIndex case final value?) 'NewIndex': value,
+    };
 
 MovieInfo _$MovieInfoFromJson(Map<String, dynamic> json) => MovieInfo(
       name: json['Name'] as String?,
@@ -4096,28 +3552,23 @@ MovieInfo _$MovieInfoFromJson(Map<String, dynamic> json) => MovieInfo(
       isAutomated: json['IsAutomated'] as bool?,
     );
 
-Map<String, dynamic> _$MovieInfoToJson(MovieInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('OriginalTitle', instance.originalTitle);
-  writeNotNull('Path', instance.path);
-  writeNotNull('MetadataLanguage', instance.metadataLanguage);
-  writeNotNull('MetadataCountryCode', instance.metadataCountryCode);
-  writeNotNull('ProviderIds', instance.providerIds);
-  writeNotNull('Year', instance.year);
-  writeNotNull('IndexNumber', instance.indexNumber);
-  writeNotNull('ParentIndexNumber', instance.parentIndexNumber);
-  writeNotNull('PremiereDate', instance.premiereDate?.toIso8601String());
-  writeNotNull('IsAutomated', instance.isAutomated);
-  return val;
-}
+Map<String, dynamic> _$MovieInfoToJson(MovieInfo instance) => <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.originalTitle case final value?) 'OriginalTitle': value,
+      if (instance.path case final value?) 'Path': value,
+      if (instance.metadataLanguage case final value?)
+        'MetadataLanguage': value,
+      if (instance.metadataCountryCode case final value?)
+        'MetadataCountryCode': value,
+      if (instance.providerIds case final value?) 'ProviderIds': value,
+      if (instance.year case final value?) 'Year': value,
+      if (instance.indexNumber case final value?) 'IndexNumber': value,
+      if (instance.parentIndexNumber case final value?)
+        'ParentIndexNumber': value,
+      if (instance.premiereDate?.toIso8601String() case final value?)
+        'PremiereDate': value,
+      if (instance.isAutomated case final value?) 'IsAutomated': value,
+    };
 
 MovieInfoRemoteSearchQuery _$MovieInfoRemoteSearchQueryFromJson(
         Map<String, dynamic> json) =>
@@ -4131,21 +3582,15 @@ MovieInfoRemoteSearchQuery _$MovieInfoRemoteSearchQueryFromJson(
     );
 
 Map<String, dynamic> _$MovieInfoRemoteSearchQueryToJson(
-    MovieInfoRemoteSearchQuery instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('SearchInfo', instance.searchInfo?.toJson());
-  writeNotNull('ItemId', instance.itemId);
-  writeNotNull('SearchProviderName', instance.searchProviderName);
-  writeNotNull('IncludeDisabledProviders', instance.includeDisabledProviders);
-  return val;
-}
+        MovieInfoRemoteSearchQuery instance) =>
+    <String, dynamic>{
+      if (instance.searchInfo?.toJson() case final value?) 'SearchInfo': value,
+      if (instance.itemId case final value?) 'ItemId': value,
+      if (instance.searchProviderName case final value?)
+        'SearchProviderName': value,
+      if (instance.includeDisabledProviders case final value?)
+        'IncludeDisabledProviders': value,
+    };
 
 MusicVideoInfo _$MusicVideoInfoFromJson(Map<String, dynamic> json) =>
     MusicVideoInfo(
@@ -4168,29 +3613,25 @@ MusicVideoInfo _$MusicVideoInfoFromJson(Map<String, dynamic> json) =>
           [],
     );
 
-Map<String, dynamic> _$MusicVideoInfoToJson(MusicVideoInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('OriginalTitle', instance.originalTitle);
-  writeNotNull('Path', instance.path);
-  writeNotNull('MetadataLanguage', instance.metadataLanguage);
-  writeNotNull('MetadataCountryCode', instance.metadataCountryCode);
-  writeNotNull('ProviderIds', instance.providerIds);
-  writeNotNull('Year', instance.year);
-  writeNotNull('IndexNumber', instance.indexNumber);
-  writeNotNull('ParentIndexNumber', instance.parentIndexNumber);
-  writeNotNull('PremiereDate', instance.premiereDate?.toIso8601String());
-  writeNotNull('IsAutomated', instance.isAutomated);
-  writeNotNull('Artists', instance.artists);
-  return val;
-}
+Map<String, dynamic> _$MusicVideoInfoToJson(MusicVideoInfo instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.originalTitle case final value?) 'OriginalTitle': value,
+      if (instance.path case final value?) 'Path': value,
+      if (instance.metadataLanguage case final value?)
+        'MetadataLanguage': value,
+      if (instance.metadataCountryCode case final value?)
+        'MetadataCountryCode': value,
+      if (instance.providerIds case final value?) 'ProviderIds': value,
+      if (instance.year case final value?) 'Year': value,
+      if (instance.indexNumber case final value?) 'IndexNumber': value,
+      if (instance.parentIndexNumber case final value?)
+        'ParentIndexNumber': value,
+      if (instance.premiereDate?.toIso8601String() case final value?)
+        'PremiereDate': value,
+      if (instance.isAutomated case final value?) 'IsAutomated': value,
+      if (instance.artists case final value?) 'Artists': value,
+    };
 
 MusicVideoInfoRemoteSearchQuery _$MusicVideoInfoRemoteSearchQueryFromJson(
         Map<String, dynamic> json) =>
@@ -4204,59 +3645,37 @@ MusicVideoInfoRemoteSearchQuery _$MusicVideoInfoRemoteSearchQueryFromJson(
     );
 
 Map<String, dynamic> _$MusicVideoInfoRemoteSearchQueryToJson(
-    MusicVideoInfoRemoteSearchQuery instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('SearchInfo', instance.searchInfo?.toJson());
-  writeNotNull('ItemId', instance.itemId);
-  writeNotNull('SearchProviderName', instance.searchProviderName);
-  writeNotNull('IncludeDisabledProviders', instance.includeDisabledProviders);
-  return val;
-}
+        MusicVideoInfoRemoteSearchQuery instance) =>
+    <String, dynamic>{
+      if (instance.searchInfo?.toJson() case final value?) 'SearchInfo': value,
+      if (instance.itemId case final value?) 'ItemId': value,
+      if (instance.searchProviderName case final value?)
+        'SearchProviderName': value,
+      if (instance.includeDisabledProviders case final value?)
+        'IncludeDisabledProviders': value,
+    };
 
 NameGuidPair _$NameGuidPairFromJson(Map<String, dynamic> json) => NameGuidPair(
       name: json['Name'] as String?,
       id: json['Id'] as String?,
     );
 
-Map<String, dynamic> _$NameGuidPairToJson(NameGuidPair instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('Id', instance.id);
-  return val;
-}
+Map<String, dynamic> _$NameGuidPairToJson(NameGuidPair instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.id case final value?) 'Id': value,
+    };
 
 NameIdPair _$NameIdPairFromJson(Map<String, dynamic> json) => NameIdPair(
       name: json['Name'] as String?,
       id: json['Id'] as String?,
     );
 
-Map<String, dynamic> _$NameIdPairToJson(NameIdPair instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('Id', instance.id);
-  return val;
-}
+Map<String, dynamic> _$NameIdPairToJson(NameIdPair instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.id case final value?) 'Id': value,
+    };
 
 NameValuePair _$NameValuePairFromJson(Map<String, dynamic> json) =>
     NameValuePair(
@@ -4264,19 +3683,11 @@ NameValuePair _$NameValuePairFromJson(Map<String, dynamic> json) =>
       $Value: json['Value'] as String?,
     );
 
-Map<String, dynamic> _$NameValuePairToJson(NameValuePair instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('Value', instance.$Value);
-  return val;
-}
+Map<String, dynamic> _$NameValuePairToJson(NameValuePair instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.$Value case final value?) 'Value': value,
+    };
 
 NetworkConfiguration _$NetworkConfigurationFromJson(
         Map<String, dynamic> json) =>
@@ -4327,78 +3738,63 @@ NetworkConfiguration _$NetworkConfigurationFromJson(
     );
 
 Map<String, dynamic> _$NetworkConfigurationToJson(
-    NetworkConfiguration instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('BaseUrl', instance.baseUrl);
-  writeNotNull('EnableHttps', instance.enableHttps);
-  writeNotNull('RequireHttps', instance.requireHttps);
-  writeNotNull('CertificatePath', instance.certificatePath);
-  writeNotNull('CertificatePassword', instance.certificatePassword);
-  writeNotNull('InternalHttpPort', instance.internalHttpPort);
-  writeNotNull('InternalHttpsPort', instance.internalHttpsPort);
-  writeNotNull('PublicHttpPort', instance.publicHttpPort);
-  writeNotNull('PublicHttpsPort', instance.publicHttpsPort);
-  writeNotNull('AutoDiscovery', instance.autoDiscovery);
-  writeNotNull('EnableUPnP', instance.enableUPnP);
-  writeNotNull('EnableIPv4', instance.enableIPv4);
-  writeNotNull('EnableIPv6', instance.enableIPv6);
-  writeNotNull('EnableRemoteAccess', instance.enableRemoteAccess);
-  writeNotNull('LocalNetworkSubnets', instance.localNetworkSubnets);
-  writeNotNull('LocalNetworkAddresses', instance.localNetworkAddresses);
-  writeNotNull('KnownProxies', instance.knownProxies);
-  writeNotNull('IgnoreVirtualInterfaces', instance.ignoreVirtualInterfaces);
-  writeNotNull('VirtualInterfaceNames', instance.virtualInterfaceNames);
-  writeNotNull('EnablePublishedServerUriByRequest',
-      instance.enablePublishedServerUriByRequest);
-  writeNotNull(
-      'PublishedServerUriBySubnet', instance.publishedServerUriBySubnet);
-  writeNotNull('RemoteIPFilter', instance.remoteIPFilter);
-  writeNotNull('IsRemoteIPFilterBlacklist', instance.isRemoteIPFilterBlacklist);
-  return val;
-}
+        NetworkConfiguration instance) =>
+    <String, dynamic>{
+      if (instance.baseUrl case final value?) 'BaseUrl': value,
+      if (instance.enableHttps case final value?) 'EnableHttps': value,
+      if (instance.requireHttps case final value?) 'RequireHttps': value,
+      if (instance.certificatePath case final value?) 'CertificatePath': value,
+      if (instance.certificatePassword case final value?)
+        'CertificatePassword': value,
+      if (instance.internalHttpPort case final value?)
+        'InternalHttpPort': value,
+      if (instance.internalHttpsPort case final value?)
+        'InternalHttpsPort': value,
+      if (instance.publicHttpPort case final value?) 'PublicHttpPort': value,
+      if (instance.publicHttpsPort case final value?) 'PublicHttpsPort': value,
+      if (instance.autoDiscovery case final value?) 'AutoDiscovery': value,
+      if (instance.enableUPnP case final value?) 'EnableUPnP': value,
+      if (instance.enableIPv4 case final value?) 'EnableIPv4': value,
+      if (instance.enableIPv6 case final value?) 'EnableIPv6': value,
+      if (instance.enableRemoteAccess case final value?)
+        'EnableRemoteAccess': value,
+      if (instance.localNetworkSubnets case final value?)
+        'LocalNetworkSubnets': value,
+      if (instance.localNetworkAddresses case final value?)
+        'LocalNetworkAddresses': value,
+      if (instance.knownProxies case final value?) 'KnownProxies': value,
+      if (instance.ignoreVirtualInterfaces case final value?)
+        'IgnoreVirtualInterfaces': value,
+      if (instance.virtualInterfaceNames case final value?)
+        'VirtualInterfaceNames': value,
+      if (instance.enablePublishedServerUriByRequest case final value?)
+        'EnablePublishedServerUriByRequest': value,
+      if (instance.publishedServerUriBySubnet case final value?)
+        'PublishedServerUriBySubnet': value,
+      if (instance.remoteIPFilter case final value?) 'RemoteIPFilter': value,
+      if (instance.isRemoteIPFilterBlacklist case final value?)
+        'IsRemoteIPFilterBlacklist': value,
+    };
 
 NewGroupRequestDto _$NewGroupRequestDtoFromJson(Map<String, dynamic> json) =>
     NewGroupRequestDto(
       groupName: json['GroupName'] as String?,
     );
 
-Map<String, dynamic> _$NewGroupRequestDtoToJson(NewGroupRequestDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('GroupName', instance.groupName);
-  return val;
-}
+Map<String, dynamic> _$NewGroupRequestDtoToJson(NewGroupRequestDto instance) =>
+    <String, dynamic>{
+      if (instance.groupName case final value?) 'GroupName': value,
+    };
 
 NextItemRequestDto _$NextItemRequestDtoFromJson(Map<String, dynamic> json) =>
     NextItemRequestDto(
       playlistItemId: json['PlaylistItemId'] as String?,
     );
 
-Map<String, dynamic> _$NextItemRequestDtoToJson(NextItemRequestDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('PlaylistItemId', instance.playlistItemId);
-  return val;
-}
+Map<String, dynamic> _$NextItemRequestDtoToJson(NextItemRequestDto instance) =>
+    <String, dynamic>{
+      if (instance.playlistItemId case final value?) 'PlaylistItemId': value,
+    };
 
 OpenLiveStreamDto _$OpenLiveStreamDtoFromJson(Map<String, dynamic> json) =>
     OpenLiveStreamDto(
@@ -4423,33 +3819,32 @@ OpenLiveStreamDto _$OpenLiveStreamDtoFromJson(Map<String, dynamic> json) =>
           mediaProtocolListFromJson(json['DirectPlayProtocols'] as List?),
     );
 
-Map<String, dynamic> _$OpenLiveStreamDtoToJson(OpenLiveStreamDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('OpenToken', instance.openToken);
-  writeNotNull('UserId', instance.userId);
-  writeNotNull('PlaySessionId', instance.playSessionId);
-  writeNotNull('MaxStreamingBitrate', instance.maxStreamingBitrate);
-  writeNotNull('StartTimeTicks', instance.startTimeTicks);
-  writeNotNull('AudioStreamIndex', instance.audioStreamIndex);
-  writeNotNull('SubtitleStreamIndex', instance.subtitleStreamIndex);
-  writeNotNull('MaxAudioChannels', instance.maxAudioChannels);
-  writeNotNull('ItemId', instance.itemId);
-  writeNotNull('EnableDirectPlay', instance.enableDirectPlay);
-  writeNotNull('EnableDirectStream', instance.enableDirectStream);
-  writeNotNull('AlwaysBurnInSubtitleWhenTranscoding',
-      instance.alwaysBurnInSubtitleWhenTranscoding);
-  writeNotNull('DeviceProfile', instance.deviceProfile?.toJson());
-  val['DirectPlayProtocols'] =
-      mediaProtocolListToJson(instance.directPlayProtocols);
-  return val;
-}
+Map<String, dynamic> _$OpenLiveStreamDtoToJson(OpenLiveStreamDto instance) =>
+    <String, dynamic>{
+      if (instance.openToken case final value?) 'OpenToken': value,
+      if (instance.userId case final value?) 'UserId': value,
+      if (instance.playSessionId case final value?) 'PlaySessionId': value,
+      if (instance.maxStreamingBitrate case final value?)
+        'MaxStreamingBitrate': value,
+      if (instance.startTimeTicks case final value?) 'StartTimeTicks': value,
+      if (instance.audioStreamIndex case final value?)
+        'AudioStreamIndex': value,
+      if (instance.subtitleStreamIndex case final value?)
+        'SubtitleStreamIndex': value,
+      if (instance.maxAudioChannels case final value?)
+        'MaxAudioChannels': value,
+      if (instance.itemId case final value?) 'ItemId': value,
+      if (instance.enableDirectPlay case final value?)
+        'EnableDirectPlay': value,
+      if (instance.enableDirectStream case final value?)
+        'EnableDirectStream': value,
+      if (instance.alwaysBurnInSubtitleWhenTranscoding case final value?)
+        'AlwaysBurnInSubtitleWhenTranscoding': value,
+      if (instance.deviceProfile?.toJson() case final value?)
+        'DeviceProfile': value,
+      'DirectPlayProtocols':
+          mediaProtocolListToJson(instance.directPlayProtocols),
+    };
 
 OutboundKeepAliveMessage _$OutboundKeepAliveMessageFromJson(
         Map<String, dynamic> json) =>
@@ -4460,20 +3855,13 @@ OutboundKeepAliveMessage _$OutboundKeepAliveMessageFromJson(
     );
 
 Map<String, dynamic> _$OutboundKeepAliveMessageToJson(
-    OutboundKeepAliveMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('MessageId', instance.messageId);
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+        OutboundKeepAliveMessage instance) =>
+    <String, dynamic>{
+      if (instance.messageId case final value?) 'MessageId': value,
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 OutboundWebSocketMessage _$OutboundWebSocketMessageFromJson(
         Map<String, dynamic> json) =>
@@ -4497,25 +3885,18 @@ PackageInfo _$PackageInfoFromJson(Map<String, dynamic> json) => PackageInfo(
       imageUrl: json['imageUrl'] as String?,
     );
 
-Map<String, dynamic> _$PackageInfoToJson(PackageInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('name', instance.name);
-  writeNotNull('description', instance.description);
-  writeNotNull('overview', instance.overview);
-  writeNotNull('owner', instance.owner);
-  writeNotNull('category', instance.category);
-  writeNotNull('guid', instance.guid);
-  writeNotNull('versions', instance.versions?.map((e) => e.toJson()).toList());
-  writeNotNull('imageUrl', instance.imageUrl);
-  return val;
-}
+Map<String, dynamic> _$PackageInfoToJson(PackageInfo instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'name': value,
+      if (instance.description case final value?) 'description': value,
+      if (instance.overview case final value?) 'overview': value,
+      if (instance.owner case final value?) 'owner': value,
+      if (instance.category case final value?) 'category': value,
+      if (instance.guid case final value?) 'guid': value,
+      if (instance.versions?.map((e) => e.toJson()).toList() case final value?)
+        'versions': value,
+      if (instance.imageUrl case final value?) 'imageUrl': value,
+    };
 
 ParentalRating _$ParentalRatingFromJson(Map<String, dynamic> json) =>
     ParentalRating(
@@ -4523,19 +3904,11 @@ ParentalRating _$ParentalRatingFromJson(Map<String, dynamic> json) =>
       $Value: (json['Value'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$ParentalRatingToJson(ParentalRating instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('Value', instance.$Value);
-  return val;
-}
+Map<String, dynamic> _$ParentalRatingToJson(ParentalRating instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.$Value case final value?) 'Value': value,
+    };
 
 PathSubstitution _$PathSubstitutionFromJson(Map<String, dynamic> json) =>
     PathSubstitution(
@@ -4543,19 +3916,11 @@ PathSubstitution _$PathSubstitutionFromJson(Map<String, dynamic> json) =>
       to: json['To'] as String?,
     );
 
-Map<String, dynamic> _$PathSubstitutionToJson(PathSubstitution instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('From', instance.from);
-  writeNotNull('To', instance.to);
-  return val;
-}
+Map<String, dynamic> _$PathSubstitutionToJson(PathSubstitution instance) =>
+    <String, dynamic>{
+      if (instance.from case final value?) 'From': value,
+      if (instance.to case final value?) 'To': value,
+    };
 
 PersonLookupInfo _$PersonLookupInfoFromJson(Map<String, dynamic> json) =>
     PersonLookupInfo(
@@ -4574,28 +3939,24 @@ PersonLookupInfo _$PersonLookupInfoFromJson(Map<String, dynamic> json) =>
       isAutomated: json['IsAutomated'] as bool?,
     );
 
-Map<String, dynamic> _$PersonLookupInfoToJson(PersonLookupInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('OriginalTitle', instance.originalTitle);
-  writeNotNull('Path', instance.path);
-  writeNotNull('MetadataLanguage', instance.metadataLanguage);
-  writeNotNull('MetadataCountryCode', instance.metadataCountryCode);
-  writeNotNull('ProviderIds', instance.providerIds);
-  writeNotNull('Year', instance.year);
-  writeNotNull('IndexNumber', instance.indexNumber);
-  writeNotNull('ParentIndexNumber', instance.parentIndexNumber);
-  writeNotNull('PremiereDate', instance.premiereDate?.toIso8601String());
-  writeNotNull('IsAutomated', instance.isAutomated);
-  return val;
-}
+Map<String, dynamic> _$PersonLookupInfoToJson(PersonLookupInfo instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.originalTitle case final value?) 'OriginalTitle': value,
+      if (instance.path case final value?) 'Path': value,
+      if (instance.metadataLanguage case final value?)
+        'MetadataLanguage': value,
+      if (instance.metadataCountryCode case final value?)
+        'MetadataCountryCode': value,
+      if (instance.providerIds case final value?) 'ProviderIds': value,
+      if (instance.year case final value?) 'Year': value,
+      if (instance.indexNumber case final value?) 'IndexNumber': value,
+      if (instance.parentIndexNumber case final value?)
+        'ParentIndexNumber': value,
+      if (instance.premiereDate?.toIso8601String() case final value?)
+        'PremiereDate': value,
+      if (instance.isAutomated case final value?) 'IsAutomated': value,
+    };
 
 PersonLookupInfoRemoteSearchQuery _$PersonLookupInfoRemoteSearchQueryFromJson(
         Map<String, dynamic> json) =>
@@ -4610,39 +3971,25 @@ PersonLookupInfoRemoteSearchQuery _$PersonLookupInfoRemoteSearchQueryFromJson(
     );
 
 Map<String, dynamic> _$PersonLookupInfoRemoteSearchQueryToJson(
-    PersonLookupInfoRemoteSearchQuery instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('SearchInfo', instance.searchInfo?.toJson());
-  writeNotNull('ItemId', instance.itemId);
-  writeNotNull('SearchProviderName', instance.searchProviderName);
-  writeNotNull('IncludeDisabledProviders', instance.includeDisabledProviders);
-  return val;
-}
+        PersonLookupInfoRemoteSearchQuery instance) =>
+    <String, dynamic>{
+      if (instance.searchInfo?.toJson() case final value?) 'SearchInfo': value,
+      if (instance.itemId case final value?) 'ItemId': value,
+      if (instance.searchProviderName case final value?)
+        'SearchProviderName': value,
+      if (instance.includeDisabledProviders case final value?)
+        'IncludeDisabledProviders': value,
+    };
 
 PingRequestDto _$PingRequestDtoFromJson(Map<String, dynamic> json) =>
     PingRequestDto(
       ping: (json['Ping'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$PingRequestDtoToJson(PingRequestDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Ping', instance.ping);
-  return val;
-}
+Map<String, dynamic> _$PingRequestDtoToJson(PingRequestDto instance) =>
+    <String, dynamic>{
+      if (instance.ping case final value?) 'Ping': value,
+    };
 
 PinRedeemResult _$PinRedeemResultFromJson(Map<String, dynamic> json) =>
     PinRedeemResult(
@@ -4653,19 +4000,11 @@ PinRedeemResult _$PinRedeemResultFromJson(Map<String, dynamic> json) =>
           [],
     );
 
-Map<String, dynamic> _$PinRedeemResultToJson(PinRedeemResult instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Success', instance.success);
-  writeNotNull('UsersReset', instance.usersReset);
-  return val;
-}
+Map<String, dynamic> _$PinRedeemResultToJson(PinRedeemResult instance) =>
+    <String, dynamic>{
+      if (instance.success case final value?) 'Success': value,
+      if (instance.usersReset case final value?) 'UsersReset': value,
+    };
 
 PlaybackInfoDto _$PlaybackInfoDtoFromJson(Map<String, dynamic> json) =>
     PlaybackInfoDto(
@@ -4691,34 +4030,37 @@ PlaybackInfoDto _$PlaybackInfoDtoFromJson(Map<String, dynamic> json) =>
           json['AlwaysBurnInSubtitleWhenTranscoding'] as bool?,
     );
 
-Map<String, dynamic> _$PlaybackInfoDtoToJson(PlaybackInfoDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('UserId', instance.userId);
-  writeNotNull('MaxStreamingBitrate', instance.maxStreamingBitrate);
-  writeNotNull('StartTimeTicks', instance.startTimeTicks);
-  writeNotNull('AudioStreamIndex', instance.audioStreamIndex);
-  writeNotNull('SubtitleStreamIndex', instance.subtitleStreamIndex);
-  writeNotNull('MaxAudioChannels', instance.maxAudioChannels);
-  writeNotNull('MediaSourceId', instance.mediaSourceId);
-  writeNotNull('LiveStreamId', instance.liveStreamId);
-  writeNotNull('DeviceProfile', instance.deviceProfile?.toJson());
-  writeNotNull('EnableDirectPlay', instance.enableDirectPlay);
-  writeNotNull('EnableDirectStream', instance.enableDirectStream);
-  writeNotNull('EnableTranscoding', instance.enableTranscoding);
-  writeNotNull('AllowVideoStreamCopy', instance.allowVideoStreamCopy);
-  writeNotNull('AllowAudioStreamCopy', instance.allowAudioStreamCopy);
-  writeNotNull('AutoOpenLiveStream', instance.autoOpenLiveStream);
-  writeNotNull('AlwaysBurnInSubtitleWhenTranscoding',
-      instance.alwaysBurnInSubtitleWhenTranscoding);
-  return val;
-}
+Map<String, dynamic> _$PlaybackInfoDtoToJson(PlaybackInfoDto instance) =>
+    <String, dynamic>{
+      if (instance.userId case final value?) 'UserId': value,
+      if (instance.maxStreamingBitrate case final value?)
+        'MaxStreamingBitrate': value,
+      if (instance.startTimeTicks case final value?) 'StartTimeTicks': value,
+      if (instance.audioStreamIndex case final value?)
+        'AudioStreamIndex': value,
+      if (instance.subtitleStreamIndex case final value?)
+        'SubtitleStreamIndex': value,
+      if (instance.maxAudioChannels case final value?)
+        'MaxAudioChannels': value,
+      if (instance.mediaSourceId case final value?) 'MediaSourceId': value,
+      if (instance.liveStreamId case final value?) 'LiveStreamId': value,
+      if (instance.deviceProfile?.toJson() case final value?)
+        'DeviceProfile': value,
+      if (instance.enableDirectPlay case final value?)
+        'EnableDirectPlay': value,
+      if (instance.enableDirectStream case final value?)
+        'EnableDirectStream': value,
+      if (instance.enableTranscoding case final value?)
+        'EnableTranscoding': value,
+      if (instance.allowVideoStreamCopy case final value?)
+        'AllowVideoStreamCopy': value,
+      if (instance.allowAudioStreamCopy case final value?)
+        'AllowAudioStreamCopy': value,
+      if (instance.autoOpenLiveStream case final value?)
+        'AutoOpenLiveStream': value,
+      if (instance.alwaysBurnInSubtitleWhenTranscoding case final value?)
+        'AlwaysBurnInSubtitleWhenTranscoding': value,
+    };
 
 PlaybackInfoResponse _$PlaybackInfoResponseFromJson(
         Map<String, dynamic> json) =>
@@ -4732,22 +4074,15 @@ PlaybackInfoResponse _$PlaybackInfoResponseFromJson(
     );
 
 Map<String, dynamic> _$PlaybackInfoResponseToJson(
-    PlaybackInfoResponse instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'MediaSources', instance.mediaSources?.map((e) => e.toJson()).toList());
-  writeNotNull('PlaySessionId', instance.playSessionId);
-  writeNotNull(
-      'ErrorCode', playbackErrorCodeNullableToJson(instance.errorCode));
-  return val;
-}
+        PlaybackInfoResponse instance) =>
+    <String, dynamic>{
+      if (instance.mediaSources?.map((e) => e.toJson()).toList()
+          case final value?)
+        'MediaSources': value,
+      if (instance.playSessionId case final value?) 'PlaySessionId': value,
+      if (playbackErrorCodeNullableToJson(instance.errorCode) case final value?)
+        'ErrorCode': value,
+    };
 
 PlaybackProgressInfo _$PlaybackProgressInfoFromJson(
         Map<String, dynamic> json) =>
@@ -4781,40 +4116,38 @@ PlaybackProgressInfo _$PlaybackProgressInfoFromJson(
     );
 
 Map<String, dynamic> _$PlaybackProgressInfoToJson(
-    PlaybackProgressInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('CanSeek', instance.canSeek);
-  writeNotNull('Item', instance.item?.toJson());
-  writeNotNull('ItemId', instance.itemId);
-  writeNotNull('SessionId', instance.sessionId);
-  writeNotNull('MediaSourceId', instance.mediaSourceId);
-  writeNotNull('AudioStreamIndex', instance.audioStreamIndex);
-  writeNotNull('SubtitleStreamIndex', instance.subtitleStreamIndex);
-  writeNotNull('IsPaused', instance.isPaused);
-  writeNotNull('IsMuted', instance.isMuted);
-  writeNotNull('PositionTicks', instance.positionTicks);
-  writeNotNull('PlaybackStartTimeTicks', instance.playbackStartTimeTicks);
-  writeNotNull('VolumeLevel', instance.volumeLevel);
-  writeNotNull('Brightness', instance.brightness);
-  writeNotNull('AspectRatio', instance.aspectRatio);
-  writeNotNull('PlayMethod', playMethodNullableToJson(instance.playMethod));
-  writeNotNull('LiveStreamId', instance.liveStreamId);
-  writeNotNull('PlaySessionId', instance.playSessionId);
-  writeNotNull('RepeatMode', repeatModeNullableToJson(instance.repeatMode));
-  writeNotNull(
-      'PlaybackOrder', playbackOrderNullableToJson(instance.playbackOrder));
-  writeNotNull('NowPlayingQueue',
-      instance.nowPlayingQueue?.map((e) => e.toJson()).toList());
-  writeNotNull('PlaylistItemId', instance.playlistItemId);
-  return val;
-}
+        PlaybackProgressInfo instance) =>
+    <String, dynamic>{
+      if (instance.canSeek case final value?) 'CanSeek': value,
+      if (instance.item?.toJson() case final value?) 'Item': value,
+      if (instance.itemId case final value?) 'ItemId': value,
+      if (instance.sessionId case final value?) 'SessionId': value,
+      if (instance.mediaSourceId case final value?) 'MediaSourceId': value,
+      if (instance.audioStreamIndex case final value?)
+        'AudioStreamIndex': value,
+      if (instance.subtitleStreamIndex case final value?)
+        'SubtitleStreamIndex': value,
+      if (instance.isPaused case final value?) 'IsPaused': value,
+      if (instance.isMuted case final value?) 'IsMuted': value,
+      if (instance.positionTicks case final value?) 'PositionTicks': value,
+      if (instance.playbackStartTimeTicks case final value?)
+        'PlaybackStartTimeTicks': value,
+      if (instance.volumeLevel case final value?) 'VolumeLevel': value,
+      if (instance.brightness case final value?) 'Brightness': value,
+      if (instance.aspectRatio case final value?) 'AspectRatio': value,
+      if (playMethodNullableToJson(instance.playMethod) case final value?)
+        'PlayMethod': value,
+      if (instance.liveStreamId case final value?) 'LiveStreamId': value,
+      if (instance.playSessionId case final value?) 'PlaySessionId': value,
+      if (repeatModeNullableToJson(instance.repeatMode) case final value?)
+        'RepeatMode': value,
+      if (playbackOrderNullableToJson(instance.playbackOrder) case final value?)
+        'PlaybackOrder': value,
+      if (instance.nowPlayingQueue?.map((e) => e.toJson()).toList()
+          case final value?)
+        'NowPlayingQueue': value,
+      if (instance.playlistItemId case final value?) 'PlaylistItemId': value,
+    };
 
 PlaybackStartInfo _$PlaybackStartInfoFromJson(Map<String, dynamic> json) =>
     PlaybackStartInfo(
@@ -4846,40 +4179,38 @@ PlaybackStartInfo _$PlaybackStartInfoFromJson(Map<String, dynamic> json) =>
       playlistItemId: json['PlaylistItemId'] as String?,
     );
 
-Map<String, dynamic> _$PlaybackStartInfoToJson(PlaybackStartInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('CanSeek', instance.canSeek);
-  writeNotNull('Item', instance.item?.toJson());
-  writeNotNull('ItemId', instance.itemId);
-  writeNotNull('SessionId', instance.sessionId);
-  writeNotNull('MediaSourceId', instance.mediaSourceId);
-  writeNotNull('AudioStreamIndex', instance.audioStreamIndex);
-  writeNotNull('SubtitleStreamIndex', instance.subtitleStreamIndex);
-  writeNotNull('IsPaused', instance.isPaused);
-  writeNotNull('IsMuted', instance.isMuted);
-  writeNotNull('PositionTicks', instance.positionTicks);
-  writeNotNull('PlaybackStartTimeTicks', instance.playbackStartTimeTicks);
-  writeNotNull('VolumeLevel', instance.volumeLevel);
-  writeNotNull('Brightness', instance.brightness);
-  writeNotNull('AspectRatio', instance.aspectRatio);
-  writeNotNull('PlayMethod', playMethodNullableToJson(instance.playMethod));
-  writeNotNull('LiveStreamId', instance.liveStreamId);
-  writeNotNull('PlaySessionId', instance.playSessionId);
-  writeNotNull('RepeatMode', repeatModeNullableToJson(instance.repeatMode));
-  writeNotNull(
-      'PlaybackOrder', playbackOrderNullableToJson(instance.playbackOrder));
-  writeNotNull('NowPlayingQueue',
-      instance.nowPlayingQueue?.map((e) => e.toJson()).toList());
-  writeNotNull('PlaylistItemId', instance.playlistItemId);
-  return val;
-}
+Map<String, dynamic> _$PlaybackStartInfoToJson(PlaybackStartInfo instance) =>
+    <String, dynamic>{
+      if (instance.canSeek case final value?) 'CanSeek': value,
+      if (instance.item?.toJson() case final value?) 'Item': value,
+      if (instance.itemId case final value?) 'ItemId': value,
+      if (instance.sessionId case final value?) 'SessionId': value,
+      if (instance.mediaSourceId case final value?) 'MediaSourceId': value,
+      if (instance.audioStreamIndex case final value?)
+        'AudioStreamIndex': value,
+      if (instance.subtitleStreamIndex case final value?)
+        'SubtitleStreamIndex': value,
+      if (instance.isPaused case final value?) 'IsPaused': value,
+      if (instance.isMuted case final value?) 'IsMuted': value,
+      if (instance.positionTicks case final value?) 'PositionTicks': value,
+      if (instance.playbackStartTimeTicks case final value?)
+        'PlaybackStartTimeTicks': value,
+      if (instance.volumeLevel case final value?) 'VolumeLevel': value,
+      if (instance.brightness case final value?) 'Brightness': value,
+      if (instance.aspectRatio case final value?) 'AspectRatio': value,
+      if (playMethodNullableToJson(instance.playMethod) case final value?)
+        'PlayMethod': value,
+      if (instance.liveStreamId case final value?) 'LiveStreamId': value,
+      if (instance.playSessionId case final value?) 'PlaySessionId': value,
+      if (repeatModeNullableToJson(instance.repeatMode) case final value?)
+        'RepeatMode': value,
+      if (playbackOrderNullableToJson(instance.playbackOrder) case final value?)
+        'PlaybackOrder': value,
+      if (instance.nowPlayingQueue?.map((e) => e.toJson()).toList()
+          case final value?)
+        'NowPlayingQueue': value,
+      if (instance.playlistItemId case final value?) 'PlaylistItemId': value,
+    };
 
 PlaybackStopInfo _$PlaybackStopInfoFromJson(Map<String, dynamic> json) =>
     PlaybackStopInfo(
@@ -4901,29 +4232,22 @@ PlaybackStopInfo _$PlaybackStopInfoFromJson(Map<String, dynamic> json) =>
           [],
     );
 
-Map<String, dynamic> _$PlaybackStopInfoToJson(PlaybackStopInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Item', instance.item?.toJson());
-  writeNotNull('ItemId', instance.itemId);
-  writeNotNull('SessionId', instance.sessionId);
-  writeNotNull('MediaSourceId', instance.mediaSourceId);
-  writeNotNull('PositionTicks', instance.positionTicks);
-  writeNotNull('LiveStreamId', instance.liveStreamId);
-  writeNotNull('PlaySessionId', instance.playSessionId);
-  writeNotNull('Failed', instance.failed);
-  writeNotNull('NextMediaType', instance.nextMediaType);
-  writeNotNull('PlaylistItemId', instance.playlistItemId);
-  writeNotNull('NowPlayingQueue',
-      instance.nowPlayingQueue?.map((e) => e.toJson()).toList());
-  return val;
-}
+Map<String, dynamic> _$PlaybackStopInfoToJson(PlaybackStopInfo instance) =>
+    <String, dynamic>{
+      if (instance.item?.toJson() case final value?) 'Item': value,
+      if (instance.itemId case final value?) 'ItemId': value,
+      if (instance.sessionId case final value?) 'SessionId': value,
+      if (instance.mediaSourceId case final value?) 'MediaSourceId': value,
+      if (instance.positionTicks case final value?) 'PositionTicks': value,
+      if (instance.liveStreamId case final value?) 'LiveStreamId': value,
+      if (instance.playSessionId case final value?) 'PlaySessionId': value,
+      if (instance.failed case final value?) 'Failed': value,
+      if (instance.nextMediaType case final value?) 'NextMediaType': value,
+      if (instance.playlistItemId case final value?) 'PlaylistItemId': value,
+      if (instance.nowPlayingQueue?.map((e) => e.toJson()).toList()
+          case final value?)
+        'NowPlayingQueue': value,
+    };
 
 PlayerStateInfo _$PlayerStateInfoFromJson(Map<String, dynamic> json) =>
     PlayerStateInfo(
@@ -4941,30 +4265,26 @@ PlayerStateInfo _$PlayerStateInfoFromJson(Map<String, dynamic> json) =>
       liveStreamId: json['LiveStreamId'] as String?,
     );
 
-Map<String, dynamic> _$PlayerStateInfoToJson(PlayerStateInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('PositionTicks', instance.positionTicks);
-  writeNotNull('CanSeek', instance.canSeek);
-  writeNotNull('IsPaused', instance.isPaused);
-  writeNotNull('IsMuted', instance.isMuted);
-  writeNotNull('VolumeLevel', instance.volumeLevel);
-  writeNotNull('AudioStreamIndex', instance.audioStreamIndex);
-  writeNotNull('SubtitleStreamIndex', instance.subtitleStreamIndex);
-  writeNotNull('MediaSourceId', instance.mediaSourceId);
-  writeNotNull('PlayMethod', playMethodNullableToJson(instance.playMethod));
-  writeNotNull('RepeatMode', repeatModeNullableToJson(instance.repeatMode));
-  writeNotNull(
-      'PlaybackOrder', playbackOrderNullableToJson(instance.playbackOrder));
-  writeNotNull('LiveStreamId', instance.liveStreamId);
-  return val;
-}
+Map<String, dynamic> _$PlayerStateInfoToJson(PlayerStateInfo instance) =>
+    <String, dynamic>{
+      if (instance.positionTicks case final value?) 'PositionTicks': value,
+      if (instance.canSeek case final value?) 'CanSeek': value,
+      if (instance.isPaused case final value?) 'IsPaused': value,
+      if (instance.isMuted case final value?) 'IsMuted': value,
+      if (instance.volumeLevel case final value?) 'VolumeLevel': value,
+      if (instance.audioStreamIndex case final value?)
+        'AudioStreamIndex': value,
+      if (instance.subtitleStreamIndex case final value?)
+        'SubtitleStreamIndex': value,
+      if (instance.mediaSourceId case final value?) 'MediaSourceId': value,
+      if (playMethodNullableToJson(instance.playMethod) case final value?)
+        'PlayMethod': value,
+      if (repeatModeNullableToJson(instance.repeatMode) case final value?)
+        'RepeatMode': value,
+      if (playbackOrderNullableToJson(instance.playbackOrder) case final value?)
+        'PlaybackOrder': value,
+      if (instance.liveStreamId case final value?) 'LiveStreamId': value,
+    };
 
 PlaylistCreationResult _$PlaylistCreationResultFromJson(
         Map<String, dynamic> json) =>
@@ -4973,18 +4293,10 @@ PlaylistCreationResult _$PlaylistCreationResultFromJson(
     );
 
 Map<String, dynamic> _$PlaylistCreationResultToJson(
-    PlaylistCreationResult instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Id', instance.id);
-  return val;
-}
+        PlaylistCreationResult instance) =>
+    <String, dynamic>{
+      if (instance.id case final value?) 'Id': value,
+    };
 
 PlaylistDto _$PlaylistDtoFromJson(Map<String, dynamic> json) => PlaylistDto(
       openAccess: json['OpenAccess'] as bool?,
@@ -4999,20 +4311,13 @@ PlaylistDto _$PlaylistDtoFromJson(Map<String, dynamic> json) => PlaylistDto(
           [],
     );
 
-Map<String, dynamic> _$PlaylistDtoToJson(PlaylistDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('OpenAccess', instance.openAccess);
-  writeNotNull('Shares', instance.shares?.map((e) => e.toJson()).toList());
-  writeNotNull('ItemIds', instance.itemIds);
-  return val;
-}
+Map<String, dynamic> _$PlaylistDtoToJson(PlaylistDto instance) =>
+    <String, dynamic>{
+      if (instance.openAccess case final value?) 'OpenAccess': value,
+      if (instance.shares?.map((e) => e.toJson()).toList() case final value?)
+        'Shares': value,
+      if (instance.itemIds case final value?) 'ItemIds': value,
+    };
 
 PlaylistUserPermissions _$PlaylistUserPermissionsFromJson(
         Map<String, dynamic> json) =>
@@ -5022,19 +4327,11 @@ PlaylistUserPermissions _$PlaylistUserPermissionsFromJson(
     );
 
 Map<String, dynamic> _$PlaylistUserPermissionsToJson(
-    PlaylistUserPermissions instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('UserId', instance.userId);
-  writeNotNull('CanEdit', instance.canEdit);
-  return val;
-}
+        PlaylistUserPermissions instance) =>
+    <String, dynamic>{
+      if (instance.userId case final value?) 'UserId': value,
+      if (instance.canEdit case final value?) 'CanEdit': value,
+    };
 
 PlayMessage _$PlayMessageFromJson(Map<String, dynamic> json) => PlayMessage(
       data: json['Data'] == null
@@ -5045,21 +4342,14 @@ PlayMessage _$PlayMessageFromJson(Map<String, dynamic> json) => PlayMessage(
           json['MessageType']),
     );
 
-Map<String, dynamic> _$PlayMessageToJson(PlayMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Data', instance.data?.toJson());
-  writeNotNull('MessageId', instance.messageId);
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+Map<String, dynamic> _$PlayMessageToJson(PlayMessage instance) =>
+    <String, dynamic>{
+      if (instance.data?.toJson() case final value?) 'Data': value,
+      if (instance.messageId case final value?) 'MessageId': value,
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 PlayQueueUpdate _$PlayQueueUpdateFromJson(Map<String, dynamic> json) =>
     PlayQueueUpdate(
@@ -5079,27 +4369,26 @@ PlayQueueUpdate _$PlayQueueUpdateFromJson(Map<String, dynamic> json) =>
       repeatMode: groupRepeatModeNullableFromJson(json['RepeatMode']),
     );
 
-Map<String, dynamic> _$PlayQueueUpdateToJson(PlayQueueUpdate instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Reason', playQueueUpdateReasonNullableToJson(instance.reason));
-  writeNotNull('LastUpdate', instance.lastUpdate?.toIso8601String());
-  writeNotNull('Playlist', instance.playlist?.map((e) => e.toJson()).toList());
-  writeNotNull('PlayingItemIndex', instance.playingItemIndex);
-  writeNotNull('StartPositionTicks', instance.startPositionTicks);
-  writeNotNull('IsPlaying', instance.isPlaying);
-  writeNotNull(
-      'ShuffleMode', groupShuffleModeNullableToJson(instance.shuffleMode));
-  writeNotNull(
-      'RepeatMode', groupRepeatModeNullableToJson(instance.repeatMode));
-  return val;
-}
+Map<String, dynamic> _$PlayQueueUpdateToJson(PlayQueueUpdate instance) =>
+    <String, dynamic>{
+      if (playQueueUpdateReasonNullableToJson(instance.reason)
+          case final value?)
+        'Reason': value,
+      if (instance.lastUpdate?.toIso8601String() case final value?)
+        'LastUpdate': value,
+      if (instance.playlist?.map((e) => e.toJson()).toList() case final value?)
+        'Playlist': value,
+      if (instance.playingItemIndex case final value?)
+        'PlayingItemIndex': value,
+      if (instance.startPositionTicks case final value?)
+        'StartPositionTicks': value,
+      if (instance.isPlaying case final value?) 'IsPlaying': value,
+      if (groupShuffleModeNullableToJson(instance.shuffleMode)
+          case final value?)
+        'ShuffleMode': value,
+      if (groupRepeatModeNullableToJson(instance.repeatMode) case final value?)
+        'RepeatMode': value,
+    };
 
 PlayQueueUpdateGroupUpdate _$PlayQueueUpdateGroupUpdateFromJson(
         Map<String, dynamic> json) =>
@@ -5112,20 +4401,13 @@ PlayQueueUpdateGroupUpdate _$PlayQueueUpdateGroupUpdateFromJson(
     );
 
 Map<String, dynamic> _$PlayQueueUpdateGroupUpdateToJson(
-    PlayQueueUpdateGroupUpdate instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('GroupId', instance.groupId);
-  writeNotNull('Type', groupUpdateTypeNullableToJson(instance.type));
-  writeNotNull('Data', instance.data?.toJson());
-  return val;
-}
+        PlayQueueUpdateGroupUpdate instance) =>
+    <String, dynamic>{
+      if (instance.groupId case final value?) 'GroupId': value,
+      if (groupUpdateTypeNullableToJson(instance.type) case final value?)
+        'Type': value,
+      if (instance.data?.toJson() case final value?) 'Data': value,
+    };
 
 PlayRequest _$PlayRequestFromJson(Map<String, dynamic> json) => PlayRequest(
       itemIds: (json['ItemIds'] as List<dynamic>?)
@@ -5141,25 +4423,22 @@ PlayRequest _$PlayRequestFromJson(Map<String, dynamic> json) => PlayRequest(
       startIndex: (json['StartIndex'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$PlayRequestToJson(PlayRequest instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ItemIds', instance.itemIds);
-  writeNotNull('StartPositionTicks', instance.startPositionTicks);
-  writeNotNull('PlayCommand', playCommandNullableToJson(instance.playCommand));
-  writeNotNull('ControllingUserId', instance.controllingUserId);
-  writeNotNull('SubtitleStreamIndex', instance.subtitleStreamIndex);
-  writeNotNull('AudioStreamIndex', instance.audioStreamIndex);
-  writeNotNull('MediaSourceId', instance.mediaSourceId);
-  writeNotNull('StartIndex', instance.startIndex);
-  return val;
-}
+Map<String, dynamic> _$PlayRequestToJson(PlayRequest instance) =>
+    <String, dynamic>{
+      if (instance.itemIds case final value?) 'ItemIds': value,
+      if (instance.startPositionTicks case final value?)
+        'StartPositionTicks': value,
+      if (playCommandNullableToJson(instance.playCommand) case final value?)
+        'PlayCommand': value,
+      if (instance.controllingUserId case final value?)
+        'ControllingUserId': value,
+      if (instance.subtitleStreamIndex case final value?)
+        'SubtitleStreamIndex': value,
+      if (instance.audioStreamIndex case final value?)
+        'AudioStreamIndex': value,
+      if (instance.mediaSourceId case final value?) 'MediaSourceId': value,
+      if (instance.startIndex case final value?) 'StartIndex': value,
+    };
 
 PlayRequestDto _$PlayRequestDtoFromJson(Map<String, dynamic> json) =>
     PlayRequestDto(
@@ -5171,20 +4450,14 @@ PlayRequestDto _$PlayRequestDtoFromJson(Map<String, dynamic> json) =>
       startPositionTicks: (json['StartPositionTicks'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$PlayRequestDtoToJson(PlayRequestDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('PlayingQueue', instance.playingQueue);
-  writeNotNull('PlayingItemPosition', instance.playingItemPosition);
-  writeNotNull('StartPositionTicks', instance.startPositionTicks);
-  return val;
-}
+Map<String, dynamic> _$PlayRequestDtoToJson(PlayRequestDto instance) =>
+    <String, dynamic>{
+      if (instance.playingQueue case final value?) 'PlayingQueue': value,
+      if (instance.playingItemPosition case final value?)
+        'PlayingItemPosition': value,
+      if (instance.startPositionTicks case final value?)
+        'StartPositionTicks': value,
+    };
 
 PlaystateMessage _$PlaystateMessageFromJson(Map<String, dynamic> json) =>
     PlaystateMessage(
@@ -5197,21 +4470,14 @@ PlaystateMessage _$PlaystateMessageFromJson(Map<String, dynamic> json) =>
               json['MessageType']),
     );
 
-Map<String, dynamic> _$PlaystateMessageToJson(PlaystateMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Data', instance.data?.toJson());
-  writeNotNull('MessageId', instance.messageId);
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+Map<String, dynamic> _$PlaystateMessageToJson(PlaystateMessage instance) =>
+    <String, dynamic>{
+      if (instance.data?.toJson() case final value?) 'Data': value,
+      if (instance.messageId case final value?) 'MessageId': value,
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 PlaystateRequest _$PlaystateRequestFromJson(Map<String, dynamic> json) =>
     PlaystateRequest(
@@ -5220,20 +4486,15 @@ PlaystateRequest _$PlaystateRequestFromJson(Map<String, dynamic> json) =>
       controllingUserId: json['ControllingUserId'] as String?,
     );
 
-Map<String, dynamic> _$PlaystateRequestToJson(PlaystateRequest instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Command', playstateCommandNullableToJson(instance.command));
-  writeNotNull('SeekPositionTicks', instance.seekPositionTicks);
-  writeNotNull('ControllingUserId', instance.controllingUserId);
-  return val;
-}
+Map<String, dynamic> _$PlaystateRequestToJson(PlaystateRequest instance) =>
+    <String, dynamic>{
+      if (playstateCommandNullableToJson(instance.command) case final value?)
+        'Command': value,
+      if (instance.seekPositionTicks case final value?)
+        'SeekPositionTicks': value,
+      if (instance.controllingUserId case final value?)
+        'ControllingUserId': value,
+    };
 
 PluginInfo _$PluginInfoFromJson(Map<String, dynamic> json) => PluginInfo(
       name: json['Name'] as String?,
@@ -5246,25 +4507,19 @@ PluginInfo _$PluginInfoFromJson(Map<String, dynamic> json) => PluginInfo(
       status: pluginStatusNullableFromJson(json['Status']),
     );
 
-Map<String, dynamic> _$PluginInfoToJson(PluginInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('Version', instance.version);
-  writeNotNull('ConfigurationFileName', instance.configurationFileName);
-  writeNotNull('Description', instance.description);
-  writeNotNull('Id', instance.id);
-  writeNotNull('CanUninstall', instance.canUninstall);
-  writeNotNull('HasImage', instance.hasImage);
-  writeNotNull('Status', pluginStatusNullableToJson(instance.status));
-  return val;
-}
+Map<String, dynamic> _$PluginInfoToJson(PluginInfo instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.version case final value?) 'Version': value,
+      if (instance.configurationFileName case final value?)
+        'ConfigurationFileName': value,
+      if (instance.description case final value?) 'Description': value,
+      if (instance.id case final value?) 'Id': value,
+      if (instance.canUninstall case final value?) 'CanUninstall': value,
+      if (instance.hasImage case final value?) 'HasImage': value,
+      if (pluginStatusNullableToJson(instance.status) case final value?)
+        'Status': value,
+    };
 
 PluginInstallationCancelledMessage _$PluginInstallationCancelledMessageFromJson(
         Map<String, dynamic> json) =>
@@ -5278,21 +4533,14 @@ PluginInstallationCancelledMessage _$PluginInstallationCancelledMessageFromJson(
     );
 
 Map<String, dynamic> _$PluginInstallationCancelledMessageToJson(
-    PluginInstallationCancelledMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Data', instance.data?.toJson());
-  writeNotNull('MessageId', instance.messageId);
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+        PluginInstallationCancelledMessage instance) =>
+    <String, dynamic>{
+      if (instance.data?.toJson() case final value?) 'Data': value,
+      if (instance.messageId case final value?) 'MessageId': value,
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 PluginInstallationCompletedMessage _$PluginInstallationCompletedMessageFromJson(
         Map<String, dynamic> json) =>
@@ -5306,21 +4554,14 @@ PluginInstallationCompletedMessage _$PluginInstallationCompletedMessageFromJson(
     );
 
 Map<String, dynamic> _$PluginInstallationCompletedMessageToJson(
-    PluginInstallationCompletedMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Data', instance.data?.toJson());
-  writeNotNull('MessageId', instance.messageId);
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+        PluginInstallationCompletedMessage instance) =>
+    <String, dynamic>{
+      if (instance.data?.toJson() case final value?) 'Data': value,
+      if (instance.messageId case final value?) 'MessageId': value,
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 PluginInstallationFailedMessage _$PluginInstallationFailedMessageFromJson(
         Map<String, dynamic> json) =>
@@ -5334,21 +4575,14 @@ PluginInstallationFailedMessage _$PluginInstallationFailedMessageFromJson(
     );
 
 Map<String, dynamic> _$PluginInstallationFailedMessageToJson(
-    PluginInstallationFailedMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Data', instance.data?.toJson());
-  writeNotNull('MessageId', instance.messageId);
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+        PluginInstallationFailedMessage instance) =>
+    <String, dynamic>{
+      if (instance.data?.toJson() case final value?) 'Data': value,
+      if (instance.messageId case final value?) 'MessageId': value,
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 PluginInstallingMessage _$PluginInstallingMessageFromJson(
         Map<String, dynamic> json) =>
@@ -5363,21 +4597,14 @@ PluginInstallingMessage _$PluginInstallingMessageFromJson(
     );
 
 Map<String, dynamic> _$PluginInstallingMessageToJson(
-    PluginInstallingMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Data', instance.data?.toJson());
-  writeNotNull('MessageId', instance.messageId);
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+        PluginInstallingMessage instance) =>
+    <String, dynamic>{
+      if (instance.data?.toJson() case final value?) 'Data': value,
+      if (instance.messageId case final value?) 'MessageId': value,
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 PluginUninstalledMessage _$PluginUninstalledMessageFromJson(
         Map<String, dynamic> json) =>
@@ -5391,21 +4618,14 @@ PluginUninstalledMessage _$PluginUninstalledMessageFromJson(
     );
 
 Map<String, dynamic> _$PluginUninstalledMessageToJson(
-    PluginUninstalledMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Data', instance.data?.toJson());
-  writeNotNull('MessageId', instance.messageId);
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+        PluginUninstalledMessage instance) =>
+    <String, dynamic>{
+      if (instance.data?.toJson() case final value?) 'Data': value,
+      if (instance.messageId case final value?) 'MessageId': value,
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 PreviousItemRequestDto _$PreviousItemRequestDtoFromJson(
         Map<String, dynamic> json) =>
@@ -5414,18 +4634,10 @@ PreviousItemRequestDto _$PreviousItemRequestDtoFromJson(
     );
 
 Map<String, dynamic> _$PreviousItemRequestDtoToJson(
-    PreviousItemRequestDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('PlaylistItemId', instance.playlistItemId);
-  return val;
-}
+        PreviousItemRequestDto instance) =>
+    <String, dynamic>{
+      if (instance.playlistItemId case final value?) 'PlaylistItemId': value,
+    };
 
 ProblemDetails _$ProblemDetailsFromJson(Map<String, dynamic> json) =>
     ProblemDetails(
@@ -5436,22 +4648,14 @@ ProblemDetails _$ProblemDetailsFromJson(Map<String, dynamic> json) =>
       instance: json['instance'] as String?,
     );
 
-Map<String, dynamic> _$ProblemDetailsToJson(ProblemDetails instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('type', instance.type);
-  writeNotNull('title', instance.title);
-  writeNotNull('status', instance.status);
-  writeNotNull('detail', instance.detail);
-  writeNotNull('instance', instance.instance);
-  return val;
-}
+Map<String, dynamic> _$ProblemDetailsToJson(ProblemDetails instance) =>
+    <String, dynamic>{
+      if (instance.type case final value?) 'type': value,
+      if (instance.title case final value?) 'title': value,
+      if (instance.status case final value?) 'status': value,
+      if (instance.detail case final value?) 'detail': value,
+      if (instance.instance case final value?) 'instance': value,
+    };
 
 ProfileCondition _$ProfileConditionFromJson(Map<String, dynamic> json) =>
     ProfileCondition(
@@ -5461,23 +4665,17 @@ ProfileCondition _$ProfileConditionFromJson(Map<String, dynamic> json) =>
       isRequired: json['IsRequired'] as bool?,
     );
 
-Map<String, dynamic> _$ProfileConditionToJson(ProfileCondition instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'Condition', profileConditionTypeNullableToJson(instance.condition));
-  writeNotNull(
-      'Property', profileConditionValueNullableToJson(instance.property));
-  writeNotNull('Value', instance.$Value);
-  writeNotNull('IsRequired', instance.isRequired);
-  return val;
-}
+Map<String, dynamic> _$ProfileConditionToJson(ProfileCondition instance) =>
+    <String, dynamic>{
+      if (profileConditionTypeNullableToJson(instance.condition)
+          case final value?)
+        'Condition': value,
+      if (profileConditionValueNullableToJson(instance.property)
+          case final value?)
+        'Property': value,
+      if (instance.$Value case final value?) 'Value': value,
+      if (instance.isRequired case final value?) 'IsRequired': value,
+    };
 
 PublicSystemInfo _$PublicSystemInfoFromJson(Map<String, dynamic> json) =>
     PublicSystemInfo(
@@ -5490,24 +4688,17 @@ PublicSystemInfo _$PublicSystemInfoFromJson(Map<String, dynamic> json) =>
       startupWizardCompleted: json['StartupWizardCompleted'] as bool?,
     );
 
-Map<String, dynamic> _$PublicSystemInfoToJson(PublicSystemInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('LocalAddress', instance.localAddress);
-  writeNotNull('ServerName', instance.serverName);
-  writeNotNull('Version', instance.version);
-  writeNotNull('ProductName', instance.productName);
-  writeNotNull('OperatingSystem', instance.operatingSystem);
-  writeNotNull('Id', instance.id);
-  writeNotNull('StartupWizardCompleted', instance.startupWizardCompleted);
-  return val;
-}
+Map<String, dynamic> _$PublicSystemInfoToJson(PublicSystemInfo instance) =>
+    <String, dynamic>{
+      if (instance.localAddress case final value?) 'LocalAddress': value,
+      if (instance.serverName case final value?) 'ServerName': value,
+      if (instance.version case final value?) 'Version': value,
+      if (instance.productName case final value?) 'ProductName': value,
+      if (instance.operatingSystem case final value?) 'OperatingSystem': value,
+      if (instance.id case final value?) 'Id': value,
+      if (instance.startupWizardCompleted case final value?)
+        'StartupWizardCompleted': value,
+    };
 
 QueryFilters _$QueryFiltersFromJson(Map<String, dynamic> json) => QueryFilters(
       genres: (json['Genres'] as List<dynamic>?)
@@ -5519,19 +4710,12 @@ QueryFilters _$QueryFiltersFromJson(Map<String, dynamic> json) => QueryFilters(
               [],
     );
 
-Map<String, dynamic> _$QueryFiltersToJson(QueryFilters instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Genres', instance.genres?.map((e) => e.toJson()).toList());
-  writeNotNull('Tags', instance.tags);
-  return val;
-}
+Map<String, dynamic> _$QueryFiltersToJson(QueryFilters instance) =>
+    <String, dynamic>{
+      if (instance.genres?.map((e) => e.toJson()).toList() case final value?)
+        'Genres': value,
+      if (instance.tags case final value?) 'Tags': value,
+    };
 
 QueryFiltersLegacy _$QueryFiltersLegacyFromJson(Map<String, dynamic> json) =>
     QueryFiltersLegacy(
@@ -5552,40 +4736,23 @@ QueryFiltersLegacy _$QueryFiltersLegacyFromJson(Map<String, dynamic> json) =>
           [],
     );
 
-Map<String, dynamic> _$QueryFiltersLegacyToJson(QueryFiltersLegacy instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Genres', instance.genres);
-  writeNotNull('Tags', instance.tags);
-  writeNotNull('OfficialRatings', instance.officialRatings);
-  writeNotNull('Years', instance.years);
-  return val;
-}
+Map<String, dynamic> _$QueryFiltersLegacyToJson(QueryFiltersLegacy instance) =>
+    <String, dynamic>{
+      if (instance.genres case final value?) 'Genres': value,
+      if (instance.tags case final value?) 'Tags': value,
+      if (instance.officialRatings case final value?) 'OfficialRatings': value,
+      if (instance.years case final value?) 'Years': value,
+    };
 
 QueueItem _$QueueItemFromJson(Map<String, dynamic> json) => QueueItem(
       id: json['Id'] as String?,
       playlistItemId: json['PlaylistItemId'] as String?,
     );
 
-Map<String, dynamic> _$QueueItemToJson(QueueItem instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Id', instance.id);
-  writeNotNull('PlaylistItemId', instance.playlistItemId);
-  return val;
-}
+Map<String, dynamic> _$QueueItemToJson(QueueItem instance) => <String, dynamic>{
+      if (instance.id case final value?) 'Id': value,
+      if (instance.playlistItemId case final value?) 'PlaylistItemId': value,
+    };
 
 QueueRequestDto _$QueueRequestDtoFromJson(Map<String, dynamic> json) =>
     QueueRequestDto(
@@ -5596,19 +4763,12 @@ QueueRequestDto _$QueueRequestDtoFromJson(Map<String, dynamic> json) =>
       mode: groupQueueModeNullableFromJson(json['Mode']),
     );
 
-Map<String, dynamic> _$QueueRequestDtoToJson(QueueRequestDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ItemIds', instance.itemIds);
-  writeNotNull('Mode', groupQueueModeNullableToJson(instance.mode));
-  return val;
-}
+Map<String, dynamic> _$QueueRequestDtoToJson(QueueRequestDto instance) =>
+    <String, dynamic>{
+      if (instance.itemIds case final value?) 'ItemIds': value,
+      if (groupQueueModeNullableToJson(instance.mode) case final value?)
+        'Mode': value,
+    };
 
 QuickConnectDto _$QuickConnectDtoFromJson(Map<String, dynamic> json) =>
     QuickConnectDto(
@@ -5634,25 +4794,18 @@ QuickConnectResult _$QuickConnectResultFromJson(Map<String, dynamic> json) =>
           : DateTime.parse(json['DateAdded'] as String),
     );
 
-Map<String, dynamic> _$QuickConnectResultToJson(QuickConnectResult instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Authenticated', instance.authenticated);
-  writeNotNull('Secret', instance.secret);
-  writeNotNull('Code', instance.code);
-  writeNotNull('DeviceId', instance.deviceId);
-  writeNotNull('DeviceName', instance.deviceName);
-  writeNotNull('AppName', instance.appName);
-  writeNotNull('AppVersion', instance.appVersion);
-  writeNotNull('DateAdded', instance.dateAdded?.toIso8601String());
-  return val;
-}
+Map<String, dynamic> _$QuickConnectResultToJson(QuickConnectResult instance) =>
+    <String, dynamic>{
+      if (instance.authenticated case final value?) 'Authenticated': value,
+      if (instance.secret case final value?) 'Secret': value,
+      if (instance.code case final value?) 'Code': value,
+      if (instance.deviceId case final value?) 'DeviceId': value,
+      if (instance.deviceName case final value?) 'DeviceName': value,
+      if (instance.appName case final value?) 'AppName': value,
+      if (instance.appVersion case final value?) 'AppVersion': value,
+      if (instance.dateAdded?.toIso8601String() case final value?)
+        'DateAdded': value,
+    };
 
 ReadyRequestDto _$ReadyRequestDtoFromJson(Map<String, dynamic> json) =>
     ReadyRequestDto(
@@ -5663,21 +4816,13 @@ ReadyRequestDto _$ReadyRequestDtoFromJson(Map<String, dynamic> json) =>
       playlistItemId: json['PlaylistItemId'] as String?,
     );
 
-Map<String, dynamic> _$ReadyRequestDtoToJson(ReadyRequestDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('When', instance.when?.toIso8601String());
-  writeNotNull('PositionTicks', instance.positionTicks);
-  writeNotNull('IsPlaying', instance.isPlaying);
-  writeNotNull('PlaylistItemId', instance.playlistItemId);
-  return val;
-}
+Map<String, dynamic> _$ReadyRequestDtoToJson(ReadyRequestDto instance) =>
+    <String, dynamic>{
+      if (instance.when?.toIso8601String() case final value?) 'When': value,
+      if (instance.positionTicks case final value?) 'PositionTicks': value,
+      if (instance.isPlaying case final value?) 'IsPlaying': value,
+      if (instance.playlistItemId case final value?) 'PlaylistItemId': value,
+    };
 
 RecommendationDto _$RecommendationDtoFromJson(Map<String, dynamic> json) =>
     RecommendationDto(
@@ -5691,22 +4836,17 @@ RecommendationDto _$RecommendationDtoFromJson(Map<String, dynamic> json) =>
       categoryId: json['CategoryId'] as String?,
     );
 
-Map<String, dynamic> _$RecommendationDtoToJson(RecommendationDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Items', instance.items?.map((e) => e.toJson()).toList());
-  writeNotNull('RecommendationType',
-      recommendationTypeNullableToJson(instance.recommendationType));
-  writeNotNull('BaselineItemName', instance.baselineItemName);
-  writeNotNull('CategoryId', instance.categoryId);
-  return val;
-}
+Map<String, dynamic> _$RecommendationDtoToJson(RecommendationDto instance) =>
+    <String, dynamic>{
+      if (instance.items?.map((e) => e.toJson()).toList() case final value?)
+        'Items': value,
+      if (recommendationTypeNullableToJson(instance.recommendationType)
+          case final value?)
+        'RecommendationType': value,
+      if (instance.baselineItemName case final value?)
+        'BaselineItemName': value,
+      if (instance.categoryId case final value?) 'CategoryId': value,
+    };
 
 RefreshProgressMessage _$RefreshProgressMessageFromJson(
         Map<String, dynamic> json) =>
@@ -5719,21 +4859,14 @@ RefreshProgressMessage _$RefreshProgressMessageFromJson(
     );
 
 Map<String, dynamic> _$RefreshProgressMessageToJson(
-    RefreshProgressMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Data', instance.data);
-  writeNotNull('MessageId', instance.messageId);
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+        RefreshProgressMessage instance) =>
+    <String, dynamic>{
+      if (instance.data case final value?) 'Data': value,
+      if (instance.messageId case final value?) 'MessageId': value,
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 RemoteImageInfo _$RemoteImageInfoFromJson(Map<String, dynamic> json) =>
     RemoteImageInfo(
@@ -5749,27 +4882,21 @@ RemoteImageInfo _$RemoteImageInfoFromJson(Map<String, dynamic> json) =>
       ratingType: ratingTypeNullableFromJson(json['RatingType']),
     );
 
-Map<String, dynamic> _$RemoteImageInfoToJson(RemoteImageInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ProviderName', instance.providerName);
-  writeNotNull('Url', instance.url);
-  writeNotNull('ThumbnailUrl', instance.thumbnailUrl);
-  writeNotNull('Height', instance.height);
-  writeNotNull('Width', instance.width);
-  writeNotNull('CommunityRating', instance.communityRating);
-  writeNotNull('VoteCount', instance.voteCount);
-  writeNotNull('Language', instance.language);
-  writeNotNull('Type', imageTypeNullableToJson(instance.type));
-  writeNotNull('RatingType', ratingTypeNullableToJson(instance.ratingType));
-  return val;
-}
+Map<String, dynamic> _$RemoteImageInfoToJson(RemoteImageInfo instance) =>
+    <String, dynamic>{
+      if (instance.providerName case final value?) 'ProviderName': value,
+      if (instance.url case final value?) 'Url': value,
+      if (instance.thumbnailUrl case final value?) 'ThumbnailUrl': value,
+      if (instance.height case final value?) 'Height': value,
+      if (instance.width case final value?) 'Width': value,
+      if (instance.communityRating case final value?) 'CommunityRating': value,
+      if (instance.voteCount case final value?) 'VoteCount': value,
+      if (instance.language case final value?) 'Language': value,
+      if (imageTypeNullableToJson(instance.type) case final value?)
+        'Type': value,
+      if (ratingTypeNullableToJson(instance.ratingType) case final value?)
+        'RatingType': value,
+    };
 
 RemoteImageResult _$RemoteImageResultFromJson(Map<String, dynamic> json) =>
     RemoteImageResult(
@@ -5784,20 +4911,14 @@ RemoteImageResult _$RemoteImageResultFromJson(Map<String, dynamic> json) =>
           [],
     );
 
-Map<String, dynamic> _$RemoteImageResultToJson(RemoteImageResult instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Images', instance.images?.map((e) => e.toJson()).toList());
-  writeNotNull('TotalRecordCount', instance.totalRecordCount);
-  writeNotNull('Providers', instance.providers);
-  return val;
-}
+Map<String, dynamic> _$RemoteImageResultToJson(RemoteImageResult instance) =>
+    <String, dynamic>{
+      if (instance.images?.map((e) => e.toJson()).toList() case final value?)
+        'Images': value,
+      if (instance.totalRecordCount case final value?)
+        'TotalRecordCount': value,
+      if (instance.providers case final value?) 'Providers': value,
+    };
 
 RemoteLyricInfoDto _$RemoteLyricInfoDtoFromJson(Map<String, dynamic> json) =>
     RemoteLyricInfoDto(
@@ -5808,20 +4929,12 @@ RemoteLyricInfoDto _$RemoteLyricInfoDtoFromJson(Map<String, dynamic> json) =>
           : LyricDto.fromJson(json['Lyrics'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$RemoteLyricInfoDtoToJson(RemoteLyricInfoDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Id', instance.id);
-  writeNotNull('ProviderName', instance.providerName);
-  writeNotNull('Lyrics', instance.lyrics?.toJson());
-  return val;
-}
+Map<String, dynamic> _$RemoteLyricInfoDtoToJson(RemoteLyricInfoDto instance) =>
+    <String, dynamic>{
+      if (instance.id case final value?) 'Id': value,
+      if (instance.providerName case final value?) 'ProviderName': value,
+      if (instance.lyrics?.toJson() case final value?) 'Lyrics': value,
+    };
 
 RemoteSearchResult _$RemoteSearchResultFromJson(Map<String, dynamic> json) =>
     RemoteSearchResult(
@@ -5848,29 +4961,26 @@ RemoteSearchResult _$RemoteSearchResultFromJson(Map<String, dynamic> json) =>
           [],
     );
 
-Map<String, dynamic> _$RemoteSearchResultToJson(RemoteSearchResult instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('ProviderIds', instance.providerIds);
-  writeNotNull('ProductionYear', instance.productionYear);
-  writeNotNull('IndexNumber', instance.indexNumber);
-  writeNotNull('IndexNumberEnd', instance.indexNumberEnd);
-  writeNotNull('ParentIndexNumber', instance.parentIndexNumber);
-  writeNotNull('PremiereDate', instance.premiereDate?.toIso8601String());
-  writeNotNull('ImageUrl', instance.imageUrl);
-  writeNotNull('SearchProviderName', instance.searchProviderName);
-  writeNotNull('Overview', instance.overview);
-  writeNotNull('AlbumArtist', instance.albumArtist?.toJson());
-  writeNotNull('Artists', instance.artists?.map((e) => e.toJson()).toList());
-  return val;
-}
+Map<String, dynamic> _$RemoteSearchResultToJson(RemoteSearchResult instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.providerIds case final value?) 'ProviderIds': value,
+      if (instance.productionYear case final value?) 'ProductionYear': value,
+      if (instance.indexNumber case final value?) 'IndexNumber': value,
+      if (instance.indexNumberEnd case final value?) 'IndexNumberEnd': value,
+      if (instance.parentIndexNumber case final value?)
+        'ParentIndexNumber': value,
+      if (instance.premiereDate?.toIso8601String() case final value?)
+        'PremiereDate': value,
+      if (instance.imageUrl case final value?) 'ImageUrl': value,
+      if (instance.searchProviderName case final value?)
+        'SearchProviderName': value,
+      if (instance.overview case final value?) 'Overview': value,
+      if (instance.albumArtist?.toJson() case final value?)
+        'AlbumArtist': value,
+      if (instance.artists?.map((e) => e.toJson()).toList() case final value?)
+        'Artists': value,
+    };
 
 RemoteSubtitleInfo _$RemoteSubtitleInfoFromJson(Map<String, dynamic> json) =>
     RemoteSubtitleInfo(
@@ -5894,34 +5004,28 @@ RemoteSubtitleInfo _$RemoteSubtitleInfoFromJson(Map<String, dynamic> json) =>
       hearingImpaired: json['HearingImpaired'] as bool?,
     );
 
-Map<String, dynamic> _$RemoteSubtitleInfoToJson(RemoteSubtitleInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'ThreeLetterISOLanguageName', instance.threeLetterISOLanguageName);
-  writeNotNull('Id', instance.id);
-  writeNotNull('ProviderName', instance.providerName);
-  writeNotNull('Name', instance.name);
-  writeNotNull('Format', instance.format);
-  writeNotNull('Author', instance.author);
-  writeNotNull('Comment', instance.comment);
-  writeNotNull('DateCreated', instance.dateCreated?.toIso8601String());
-  writeNotNull('CommunityRating', instance.communityRating);
-  writeNotNull('FrameRate', instance.frameRate);
-  writeNotNull('DownloadCount', instance.downloadCount);
-  writeNotNull('IsHashMatch', instance.isHashMatch);
-  writeNotNull('AiTranslated', instance.aiTranslated);
-  writeNotNull('MachineTranslated', instance.machineTranslated);
-  writeNotNull('Forced', instance.forced);
-  writeNotNull('HearingImpaired', instance.hearingImpaired);
-  return val;
-}
+Map<String, dynamic> _$RemoteSubtitleInfoToJson(RemoteSubtitleInfo instance) =>
+    <String, dynamic>{
+      if (instance.threeLetterISOLanguageName case final value?)
+        'ThreeLetterISOLanguageName': value,
+      if (instance.id case final value?) 'Id': value,
+      if (instance.providerName case final value?) 'ProviderName': value,
+      if (instance.name case final value?) 'Name': value,
+      if (instance.format case final value?) 'Format': value,
+      if (instance.author case final value?) 'Author': value,
+      if (instance.comment case final value?) 'Comment': value,
+      if (instance.dateCreated?.toIso8601String() case final value?)
+        'DateCreated': value,
+      if (instance.communityRating case final value?) 'CommunityRating': value,
+      if (instance.frameRate case final value?) 'FrameRate': value,
+      if (instance.downloadCount case final value?) 'DownloadCount': value,
+      if (instance.isHashMatch case final value?) 'IsHashMatch': value,
+      if (instance.aiTranslated case final value?) 'AiTranslated': value,
+      if (instance.machineTranslated case final value?)
+        'MachineTranslated': value,
+      if (instance.forced case final value?) 'Forced': value,
+      if (instance.hearingImpaired case final value?) 'HearingImpaired': value,
+    };
 
 RemoveFromPlaylistRequestDto _$RemoveFromPlaylistRequestDtoFromJson(
         Map<String, dynamic> json) =>
@@ -5935,20 +5039,13 @@ RemoveFromPlaylistRequestDto _$RemoveFromPlaylistRequestDtoFromJson(
     );
 
 Map<String, dynamic> _$RemoveFromPlaylistRequestDtoToJson(
-    RemoveFromPlaylistRequestDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('PlaylistItemIds', instance.playlistItemIds);
-  writeNotNull('ClearPlaylist', instance.clearPlaylist);
-  writeNotNull('ClearPlayingItem', instance.clearPlayingItem);
-  return val;
-}
+        RemoveFromPlaylistRequestDto instance) =>
+    <String, dynamic>{
+      if (instance.playlistItemIds case final value?) 'PlaylistItemIds': value,
+      if (instance.clearPlaylist case final value?) 'ClearPlaylist': value,
+      if (instance.clearPlayingItem case final value?)
+        'ClearPlayingItem': value,
+    };
 
 RepositoryInfo _$RepositoryInfoFromJson(Map<String, dynamic> json) =>
     RepositoryInfo(
@@ -5957,20 +5054,12 @@ RepositoryInfo _$RepositoryInfoFromJson(Map<String, dynamic> json) =>
       enabled: json['Enabled'] as bool?,
     );
 
-Map<String, dynamic> _$RepositoryInfoToJson(RepositoryInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('Url', instance.url);
-  writeNotNull('Enabled', instance.enabled);
-  return val;
-}
+Map<String, dynamic> _$RepositoryInfoToJson(RepositoryInfo instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.url case final value?) 'Url': value,
+      if (instance.enabled case final value?) 'Enabled': value,
+    };
 
 RestartRequiredMessage _$RestartRequiredMessageFromJson(
         Map<String, dynamic> json) =>
@@ -5982,20 +5071,13 @@ RestartRequiredMessage _$RestartRequiredMessageFromJson(
     );
 
 Map<String, dynamic> _$RestartRequiredMessageToJson(
-    RestartRequiredMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('MessageId', instance.messageId);
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+        RestartRequiredMessage instance) =>
+    <String, dynamic>{
+      if (instance.messageId case final value?) 'MessageId': value,
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 ScheduledTaskEndedMessage _$ScheduledTaskEndedMessageFromJson(
         Map<String, dynamic> json) =>
@@ -6009,21 +5091,14 @@ ScheduledTaskEndedMessage _$ScheduledTaskEndedMessageFromJson(
     );
 
 Map<String, dynamic> _$ScheduledTaskEndedMessageToJson(
-    ScheduledTaskEndedMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Data', instance.data?.toJson());
-  writeNotNull('MessageId', instance.messageId);
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+        ScheduledTaskEndedMessage instance) =>
+    <String, dynamic>{
+      if (instance.data?.toJson() case final value?) 'Data': value,
+      if (instance.messageId case final value?) 'MessageId': value,
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 ScheduledTasksInfoMessage _$ScheduledTasksInfoMessageFromJson(
         Map<String, dynamic> json) =>
@@ -6038,21 +5113,15 @@ ScheduledTasksInfoMessage _$ScheduledTasksInfoMessageFromJson(
     );
 
 Map<String, dynamic> _$ScheduledTasksInfoMessageToJson(
-    ScheduledTasksInfoMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Data', instance.data?.map((e) => e.toJson()).toList());
-  writeNotNull('MessageId', instance.messageId);
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+        ScheduledTasksInfoMessage instance) =>
+    <String, dynamic>{
+      if (instance.data?.map((e) => e.toJson()).toList() case final value?)
+        'Data': value,
+      if (instance.messageId case final value?) 'MessageId': value,
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 ScheduledTasksInfoStartMessage _$ScheduledTasksInfoStartMessageFromJson(
         Map<String, dynamic> json) =>
@@ -6063,20 +5132,13 @@ ScheduledTasksInfoStartMessage _$ScheduledTasksInfoStartMessageFromJson(
     );
 
 Map<String, dynamic> _$ScheduledTasksInfoStartMessageToJson(
-    ScheduledTasksInfoStartMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Data', instance.data);
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+        ScheduledTasksInfoStartMessage instance) =>
+    <String, dynamic>{
+      if (instance.data case final value?) 'Data': value,
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 ScheduledTasksInfoStopMessage _$ScheduledTasksInfoStopMessageFromJson(
         Map<String, dynamic> json) =>
@@ -6086,19 +5148,12 @@ ScheduledTasksInfoStopMessage _$ScheduledTasksInfoStopMessageFromJson(
     );
 
 Map<String, dynamic> _$ScheduledTasksInfoStopMessageToJson(
-    ScheduledTasksInfoStopMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+        ScheduledTasksInfoStopMessage instance) =>
+    <String, dynamic>{
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 SearchHint _$SearchHintFromJson(Map<String, dynamic> json) => SearchHint(
       itemId: json['ItemId'] as String?,
@@ -6140,46 +5195,47 @@ SearchHint _$SearchHintFromJson(Map<String, dynamic> json) => SearchHint(
           (json['PrimaryImageAspectRatio'] as num?)?.toDouble(),
     );
 
-Map<String, dynamic> _$SearchHintToJson(SearchHint instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ItemId', instance.itemId);
-  writeNotNull('Id', instance.id);
-  writeNotNull('Name', instance.name);
-  writeNotNull('MatchedTerm', instance.matchedTerm);
-  writeNotNull('IndexNumber', instance.indexNumber);
-  writeNotNull('ProductionYear', instance.productionYear);
-  writeNotNull('ParentIndexNumber', instance.parentIndexNumber);
-  writeNotNull('PrimaryImageTag', instance.primaryImageTag);
-  writeNotNull('ThumbImageTag', instance.thumbImageTag);
-  writeNotNull('ThumbImageItemId', instance.thumbImageItemId);
-  writeNotNull('BackdropImageTag', instance.backdropImageTag);
-  writeNotNull('BackdropImageItemId', instance.backdropImageItemId);
-  writeNotNull('Type', baseItemKindNullableToJson(instance.type));
-  writeNotNull('IsFolder', instance.isFolder);
-  writeNotNull('RunTimeTicks', instance.runTimeTicks);
-  writeNotNull('MediaType', mediaTypeNullableToJson(instance.mediaType));
-  writeNotNull('StartDate', instance.startDate?.toIso8601String());
-  writeNotNull('EndDate', instance.endDate?.toIso8601String());
-  writeNotNull('Series', instance.series);
-  writeNotNull('Status', instance.status);
-  writeNotNull('Album', instance.album);
-  writeNotNull('AlbumId', instance.albumId);
-  writeNotNull('AlbumArtist', instance.albumArtist);
-  writeNotNull('Artists', instance.artists);
-  writeNotNull('SongCount', instance.songCount);
-  writeNotNull('EpisodeCount', instance.episodeCount);
-  writeNotNull('ChannelId', instance.channelId);
-  writeNotNull('ChannelName', instance.channelName);
-  writeNotNull('PrimaryImageAspectRatio', instance.primaryImageAspectRatio);
-  return val;
-}
+Map<String, dynamic> _$SearchHintToJson(SearchHint instance) =>
+    <String, dynamic>{
+      if (instance.itemId case final value?) 'ItemId': value,
+      if (instance.id case final value?) 'Id': value,
+      if (instance.name case final value?) 'Name': value,
+      if (instance.matchedTerm case final value?) 'MatchedTerm': value,
+      if (instance.indexNumber case final value?) 'IndexNumber': value,
+      if (instance.productionYear case final value?) 'ProductionYear': value,
+      if (instance.parentIndexNumber case final value?)
+        'ParentIndexNumber': value,
+      if (instance.primaryImageTag case final value?) 'PrimaryImageTag': value,
+      if (instance.thumbImageTag case final value?) 'ThumbImageTag': value,
+      if (instance.thumbImageItemId case final value?)
+        'ThumbImageItemId': value,
+      if (instance.backdropImageTag case final value?)
+        'BackdropImageTag': value,
+      if (instance.backdropImageItemId case final value?)
+        'BackdropImageItemId': value,
+      if (baseItemKindNullableToJson(instance.type) case final value?)
+        'Type': value,
+      if (instance.isFolder case final value?) 'IsFolder': value,
+      if (instance.runTimeTicks case final value?) 'RunTimeTicks': value,
+      if (mediaTypeNullableToJson(instance.mediaType) case final value?)
+        'MediaType': value,
+      if (instance.startDate?.toIso8601String() case final value?)
+        'StartDate': value,
+      if (instance.endDate?.toIso8601String() case final value?)
+        'EndDate': value,
+      if (instance.series case final value?) 'Series': value,
+      if (instance.status case final value?) 'Status': value,
+      if (instance.album case final value?) 'Album': value,
+      if (instance.albumId case final value?) 'AlbumId': value,
+      if (instance.albumArtist case final value?) 'AlbumArtist': value,
+      if (instance.artists case final value?) 'Artists': value,
+      if (instance.songCount case final value?) 'SongCount': value,
+      if (instance.episodeCount case final value?) 'EpisodeCount': value,
+      if (instance.channelId case final value?) 'ChannelId': value,
+      if (instance.channelName case final value?) 'ChannelName': value,
+      if (instance.primaryImageAspectRatio case final value?)
+        'PrimaryImageAspectRatio': value,
+    };
 
 SearchHintResult _$SearchHintResultFromJson(Map<String, dynamic> json) =>
     SearchHintResult(
@@ -6190,38 +5246,24 @@ SearchHintResult _$SearchHintResultFromJson(Map<String, dynamic> json) =>
       totalRecordCount: (json['TotalRecordCount'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$SearchHintResultToJson(SearchHintResult instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'SearchHints', instance.searchHints?.map((e) => e.toJson()).toList());
-  writeNotNull('TotalRecordCount', instance.totalRecordCount);
-  return val;
-}
+Map<String, dynamic> _$SearchHintResultToJson(SearchHintResult instance) =>
+    <String, dynamic>{
+      if (instance.searchHints?.map((e) => e.toJson()).toList()
+          case final value?)
+        'SearchHints': value,
+      if (instance.totalRecordCount case final value?)
+        'TotalRecordCount': value,
+    };
 
 SeekRequestDto _$SeekRequestDtoFromJson(Map<String, dynamic> json) =>
     SeekRequestDto(
       positionTicks: (json['PositionTicks'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$SeekRequestDtoToJson(SeekRequestDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('PositionTicks', instance.positionTicks);
-  return val;
-}
+Map<String, dynamic> _$SeekRequestDtoToJson(SeekRequestDto instance) =>
+    <String, dynamic>{
+      if (instance.positionTicks case final value?) 'PositionTicks': value,
+    };
 
 SendCommand _$SendCommandFromJson(Map<String, dynamic> json) => SendCommand(
       groupId: json['GroupId'] as String?,
@@ -6235,23 +5277,17 @@ SendCommand _$SendCommandFromJson(Map<String, dynamic> json) => SendCommand(
           : DateTime.parse(json['EmittedAt'] as String),
     );
 
-Map<String, dynamic> _$SendCommandToJson(SendCommand instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('GroupId', instance.groupId);
-  writeNotNull('PlaylistItemId', instance.playlistItemId);
-  writeNotNull('When', instance.when?.toIso8601String());
-  writeNotNull('PositionTicks', instance.positionTicks);
-  writeNotNull('Command', sendCommandTypeNullableToJson(instance.command));
-  writeNotNull('EmittedAt', instance.emittedAt?.toIso8601String());
-  return val;
-}
+Map<String, dynamic> _$SendCommandToJson(SendCommand instance) =>
+    <String, dynamic>{
+      if (instance.groupId case final value?) 'GroupId': value,
+      if (instance.playlistItemId case final value?) 'PlaylistItemId': value,
+      if (instance.when?.toIso8601String() case final value?) 'When': value,
+      if (instance.positionTicks case final value?) 'PositionTicks': value,
+      if (sendCommandTypeNullableToJson(instance.command) case final value?)
+        'Command': value,
+      if (instance.emittedAt?.toIso8601String() case final value?)
+        'EmittedAt': value,
+    };
 
 SeriesInfo _$SeriesInfoFromJson(Map<String, dynamic> json) => SeriesInfo(
       name: json['Name'] as String?,
@@ -6269,28 +5305,24 @@ SeriesInfo _$SeriesInfoFromJson(Map<String, dynamic> json) => SeriesInfo(
       isAutomated: json['IsAutomated'] as bool?,
     );
 
-Map<String, dynamic> _$SeriesInfoToJson(SeriesInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('OriginalTitle', instance.originalTitle);
-  writeNotNull('Path', instance.path);
-  writeNotNull('MetadataLanguage', instance.metadataLanguage);
-  writeNotNull('MetadataCountryCode', instance.metadataCountryCode);
-  writeNotNull('ProviderIds', instance.providerIds);
-  writeNotNull('Year', instance.year);
-  writeNotNull('IndexNumber', instance.indexNumber);
-  writeNotNull('ParentIndexNumber', instance.parentIndexNumber);
-  writeNotNull('PremiereDate', instance.premiereDate?.toIso8601String());
-  writeNotNull('IsAutomated', instance.isAutomated);
-  return val;
-}
+Map<String, dynamic> _$SeriesInfoToJson(SeriesInfo instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.originalTitle case final value?) 'OriginalTitle': value,
+      if (instance.path case final value?) 'Path': value,
+      if (instance.metadataLanguage case final value?)
+        'MetadataLanguage': value,
+      if (instance.metadataCountryCode case final value?)
+        'MetadataCountryCode': value,
+      if (instance.providerIds case final value?) 'ProviderIds': value,
+      if (instance.year case final value?) 'Year': value,
+      if (instance.indexNumber case final value?) 'IndexNumber': value,
+      if (instance.parentIndexNumber case final value?)
+        'ParentIndexNumber': value,
+      if (instance.premiereDate?.toIso8601String() case final value?)
+        'PremiereDate': value,
+      if (instance.isAutomated case final value?) 'IsAutomated': value,
+    };
 
 SeriesInfoRemoteSearchQuery _$SeriesInfoRemoteSearchQueryFromJson(
         Map<String, dynamic> json) =>
@@ -6304,21 +5336,15 @@ SeriesInfoRemoteSearchQuery _$SeriesInfoRemoteSearchQueryFromJson(
     );
 
 Map<String, dynamic> _$SeriesInfoRemoteSearchQueryToJson(
-    SeriesInfoRemoteSearchQuery instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('SearchInfo', instance.searchInfo?.toJson());
-  writeNotNull('ItemId', instance.itemId);
-  writeNotNull('SearchProviderName', instance.searchProviderName);
-  writeNotNull('IncludeDisabledProviders', instance.includeDisabledProviders);
-  return val;
-}
+        SeriesInfoRemoteSearchQuery instance) =>
+    <String, dynamic>{
+      if (instance.searchInfo?.toJson() case final value?) 'SearchInfo': value,
+      if (instance.itemId case final value?) 'ItemId': value,
+      if (instance.searchProviderName case final value?)
+        'SearchProviderName': value,
+      if (instance.includeDisabledProviders case final value?)
+        'IncludeDisabledProviders': value,
+    };
 
 SeriesTimerCancelledMessage _$SeriesTimerCancelledMessageFromJson(
         Map<String, dynamic> json) =>
@@ -6332,21 +5358,14 @@ SeriesTimerCancelledMessage _$SeriesTimerCancelledMessageFromJson(
     );
 
 Map<String, dynamic> _$SeriesTimerCancelledMessageToJson(
-    SeriesTimerCancelledMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Data', instance.data?.toJson());
-  writeNotNull('MessageId', instance.messageId);
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+        SeriesTimerCancelledMessage instance) =>
+    <String, dynamic>{
+      if (instance.data?.toJson() case final value?) 'Data': value,
+      if (instance.messageId case final value?) 'MessageId': value,
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 SeriesTimerCreatedMessage _$SeriesTimerCreatedMessageFromJson(
         Map<String, dynamic> json) =>
@@ -6360,21 +5379,14 @@ SeriesTimerCreatedMessage _$SeriesTimerCreatedMessageFromJson(
     );
 
 Map<String, dynamic> _$SeriesTimerCreatedMessageToJson(
-    SeriesTimerCreatedMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Data', instance.data?.toJson());
-  writeNotNull('MessageId', instance.messageId);
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+        SeriesTimerCreatedMessage instance) =>
+    <String, dynamic>{
+      if (instance.data?.toJson() case final value?) 'Data': value,
+      if (instance.messageId case final value?) 'MessageId': value,
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 SeriesTimerInfoDto _$SeriesTimerInfoDtoFromJson(Map<String, dynamic> json) =>
     SeriesTimerInfoDto(
@@ -6423,52 +5435,63 @@ SeriesTimerInfoDto _$SeriesTimerInfoDtoFromJson(Map<String, dynamic> json) =>
       parentPrimaryImageTag: json['ParentPrimaryImageTag'] as String?,
     );
 
-Map<String, dynamic> _$SeriesTimerInfoDtoToJson(SeriesTimerInfoDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Id', instance.id);
-  writeNotNull('Type', instance.type);
-  writeNotNull('ServerId', instance.serverId);
-  writeNotNull('ExternalId', instance.externalId);
-  writeNotNull('ChannelId', instance.channelId);
-  writeNotNull('ExternalChannelId', instance.externalChannelId);
-  writeNotNull('ChannelName', instance.channelName);
-  writeNotNull('ChannelPrimaryImageTag', instance.channelPrimaryImageTag);
-  writeNotNull('ProgramId', instance.programId);
-  writeNotNull('ExternalProgramId', instance.externalProgramId);
-  writeNotNull('Name', instance.name);
-  writeNotNull('Overview', instance.overview);
-  writeNotNull('StartDate', instance.startDate?.toIso8601String());
-  writeNotNull('EndDate', instance.endDate?.toIso8601String());
-  writeNotNull('ServiceName', instance.serviceName);
-  writeNotNull('Priority', instance.priority);
-  writeNotNull('PrePaddingSeconds', instance.prePaddingSeconds);
-  writeNotNull('PostPaddingSeconds', instance.postPaddingSeconds);
-  writeNotNull('IsPrePaddingRequired', instance.isPrePaddingRequired);
-  writeNotNull('ParentBackdropItemId', instance.parentBackdropItemId);
-  writeNotNull('ParentBackdropImageTags', instance.parentBackdropImageTags);
-  writeNotNull('IsPostPaddingRequired', instance.isPostPaddingRequired);
-  writeNotNull('KeepUntil', keepUntilNullableToJson(instance.keepUntil));
-  writeNotNull('RecordAnyTime', instance.recordAnyTime);
-  writeNotNull('SkipEpisodesInLibrary', instance.skipEpisodesInLibrary);
-  writeNotNull('RecordAnyChannel', instance.recordAnyChannel);
-  writeNotNull('KeepUpTo', instance.keepUpTo);
-  writeNotNull('RecordNewOnly', instance.recordNewOnly);
-  val['Days'] = dayOfWeekListToJson(instance.days);
-  writeNotNull('DayPattern', dayPatternNullableToJson(instance.dayPattern));
-  writeNotNull('ImageTags', instance.imageTags);
-  writeNotNull('ParentThumbItemId', instance.parentThumbItemId);
-  writeNotNull('ParentThumbImageTag', instance.parentThumbImageTag);
-  writeNotNull('ParentPrimaryImageItemId', instance.parentPrimaryImageItemId);
-  writeNotNull('ParentPrimaryImageTag', instance.parentPrimaryImageTag);
-  return val;
-}
+Map<String, dynamic> _$SeriesTimerInfoDtoToJson(SeriesTimerInfoDto instance) =>
+    <String, dynamic>{
+      if (instance.id case final value?) 'Id': value,
+      if (instance.type case final value?) 'Type': value,
+      if (instance.serverId case final value?) 'ServerId': value,
+      if (instance.externalId case final value?) 'ExternalId': value,
+      if (instance.channelId case final value?) 'ChannelId': value,
+      if (instance.externalChannelId case final value?)
+        'ExternalChannelId': value,
+      if (instance.channelName case final value?) 'ChannelName': value,
+      if (instance.channelPrimaryImageTag case final value?)
+        'ChannelPrimaryImageTag': value,
+      if (instance.programId case final value?) 'ProgramId': value,
+      if (instance.externalProgramId case final value?)
+        'ExternalProgramId': value,
+      if (instance.name case final value?) 'Name': value,
+      if (instance.overview case final value?) 'Overview': value,
+      if (instance.startDate?.toIso8601String() case final value?)
+        'StartDate': value,
+      if (instance.endDate?.toIso8601String() case final value?)
+        'EndDate': value,
+      if (instance.serviceName case final value?) 'ServiceName': value,
+      if (instance.priority case final value?) 'Priority': value,
+      if (instance.prePaddingSeconds case final value?)
+        'PrePaddingSeconds': value,
+      if (instance.postPaddingSeconds case final value?)
+        'PostPaddingSeconds': value,
+      if (instance.isPrePaddingRequired case final value?)
+        'IsPrePaddingRequired': value,
+      if (instance.parentBackdropItemId case final value?)
+        'ParentBackdropItemId': value,
+      if (instance.parentBackdropImageTags case final value?)
+        'ParentBackdropImageTags': value,
+      if (instance.isPostPaddingRequired case final value?)
+        'IsPostPaddingRequired': value,
+      if (keepUntilNullableToJson(instance.keepUntil) case final value?)
+        'KeepUntil': value,
+      if (instance.recordAnyTime case final value?) 'RecordAnyTime': value,
+      if (instance.skipEpisodesInLibrary case final value?)
+        'SkipEpisodesInLibrary': value,
+      if (instance.recordAnyChannel case final value?)
+        'RecordAnyChannel': value,
+      if (instance.keepUpTo case final value?) 'KeepUpTo': value,
+      if (instance.recordNewOnly case final value?) 'RecordNewOnly': value,
+      'Days': dayOfWeekListToJson(instance.days),
+      if (dayPatternNullableToJson(instance.dayPattern) case final value?)
+        'DayPattern': value,
+      if (instance.imageTags case final value?) 'ImageTags': value,
+      if (instance.parentThumbItemId case final value?)
+        'ParentThumbItemId': value,
+      if (instance.parentThumbImageTag case final value?)
+        'ParentThumbImageTag': value,
+      if (instance.parentPrimaryImageItemId case final value?)
+        'ParentPrimaryImageItemId': value,
+      if (instance.parentPrimaryImageTag case final value?)
+        'ParentPrimaryImageTag': value,
+    };
 
 SeriesTimerInfoDtoQueryResult _$SeriesTimerInfoDtoQueryResultFromJson(
         Map<String, dynamic> json) =>
@@ -6483,20 +5506,14 @@ SeriesTimerInfoDtoQueryResult _$SeriesTimerInfoDtoQueryResultFromJson(
     );
 
 Map<String, dynamic> _$SeriesTimerInfoDtoQueryResultToJson(
-    SeriesTimerInfoDtoQueryResult instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Items', instance.items?.map((e) => e.toJson()).toList());
-  writeNotNull('TotalRecordCount', instance.totalRecordCount);
-  writeNotNull('StartIndex', instance.startIndex);
-  return val;
-}
+        SeriesTimerInfoDtoQueryResult instance) =>
+    <String, dynamic>{
+      if (instance.items?.map((e) => e.toJson()).toList() case final value?)
+        'Items': value,
+      if (instance.totalRecordCount case final value?)
+        'TotalRecordCount': value,
+      if (instance.startIndex case final value?) 'StartIndex': value,
+    };
 
 ServerConfiguration _$ServerConfigurationFromJson(Map<String, dynamic> json) =>
     ServerConfiguration(
@@ -6608,88 +5625,114 @@ ServerConfiguration _$ServerConfigurationFromJson(Map<String, dynamic> json) =>
               json['TrickplayOptions'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$ServerConfigurationToJson(ServerConfiguration instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('LogFileRetentionDays', instance.logFileRetentionDays);
-  writeNotNull('IsStartupWizardCompleted', instance.isStartupWizardCompleted);
-  writeNotNull('CachePath', instance.cachePath);
-  writeNotNull('PreviousVersion', instance.previousVersion);
-  writeNotNull('PreviousVersionStr', instance.previousVersionStr);
-  writeNotNull('EnableMetrics', instance.enableMetrics);
-  writeNotNull(
-      'EnableNormalizedItemByNameIds', instance.enableNormalizedItemByNameIds);
-  writeNotNull('IsPortAuthorized', instance.isPortAuthorized);
-  writeNotNull('QuickConnectAvailable', instance.quickConnectAvailable);
-  writeNotNull(
-      'EnableCaseSensitiveItemIds', instance.enableCaseSensitiveItemIds);
-  writeNotNull('DisableLiveTvChannelUserDataName',
-      instance.disableLiveTvChannelUserDataName);
-  writeNotNull('MetadataPath', instance.metadataPath);
-  writeNotNull('PreferredMetadataLanguage', instance.preferredMetadataLanguage);
-  writeNotNull('MetadataCountryCode', instance.metadataCountryCode);
-  writeNotNull('SortReplaceCharacters', instance.sortReplaceCharacters);
-  writeNotNull('SortRemoveCharacters', instance.sortRemoveCharacters);
-  writeNotNull('SortRemoveWords', instance.sortRemoveWords);
-  writeNotNull('MinResumePct', instance.minResumePct);
-  writeNotNull('MaxResumePct', instance.maxResumePct);
-  writeNotNull('MinResumeDurationSeconds', instance.minResumeDurationSeconds);
-  writeNotNull('MinAudiobookResume', instance.minAudiobookResume);
-  writeNotNull('MaxAudiobookResume', instance.maxAudiobookResume);
-  writeNotNull('InactiveSessionThreshold', instance.inactiveSessionThreshold);
-  writeNotNull('LibraryMonitorDelay', instance.libraryMonitorDelay);
-  writeNotNull('LibraryUpdateDuration', instance.libraryUpdateDuration);
-  writeNotNull('ImageSavingConvention',
-      imageSavingConventionNullableToJson(instance.imageSavingConvention));
-  writeNotNull('MetadataOptions',
-      instance.metadataOptions?.map((e) => e.toJson()).toList());
-  writeNotNull('SkipDeserializationForBasicTypes',
-      instance.skipDeserializationForBasicTypes);
-  writeNotNull('ServerName', instance.serverName);
-  writeNotNull('UICulture', instance.uICulture);
-  writeNotNull('SaveMetadataHidden', instance.saveMetadataHidden);
-  writeNotNull(
-      'ContentTypes', instance.contentTypes?.map((e) => e.toJson()).toList());
-  writeNotNull('RemoteClientBitrateLimit', instance.remoteClientBitrateLimit);
-  writeNotNull('EnableFolderView', instance.enableFolderView);
-  writeNotNull(
-      'EnableGroupingIntoCollections', instance.enableGroupingIntoCollections);
-  writeNotNull(
-      'DisplaySpecialsWithinSeasons', instance.displaySpecialsWithinSeasons);
-  writeNotNull('CodecsUsed', instance.codecsUsed);
-  writeNotNull('PluginRepositories',
-      instance.pluginRepositories?.map((e) => e.toJson()).toList());
-  writeNotNull('EnableExternalContentInSuggestions',
-      instance.enableExternalContentInSuggestions);
-  writeNotNull('ImageExtractionTimeoutMs', instance.imageExtractionTimeoutMs);
-  writeNotNull('PathSubstitutions',
-      instance.pathSubstitutions?.map((e) => e.toJson()).toList());
-  writeNotNull('EnableSlowResponseWarning', instance.enableSlowResponseWarning);
-  writeNotNull('SlowResponseThresholdMs', instance.slowResponseThresholdMs);
-  writeNotNull('CorsHosts', instance.corsHosts);
-  writeNotNull('ActivityLogRetentionDays', instance.activityLogRetentionDays);
-  writeNotNull(
-      'LibraryScanFanoutConcurrency', instance.libraryScanFanoutConcurrency);
-  writeNotNull('LibraryMetadataRefreshConcurrency',
-      instance.libraryMetadataRefreshConcurrency);
-  writeNotNull('RemoveOldPlugins', instance.removeOldPlugins);
-  writeNotNull('AllowClientLogUpload', instance.allowClientLogUpload);
-  writeNotNull('DummyChapterDuration', instance.dummyChapterDuration);
-  writeNotNull('ChapterImageResolution',
-      imageResolutionNullableToJson(instance.chapterImageResolution));
-  writeNotNull(
-      'ParallelImageEncodingLimit', instance.parallelImageEncodingLimit);
-  writeNotNull('CastReceiverApplications',
-      instance.castReceiverApplications?.map((e) => e.toJson()).toList());
-  writeNotNull('TrickplayOptions', instance.trickplayOptions?.toJson());
-  return val;
-}
+Map<String, dynamic> _$ServerConfigurationToJson(
+        ServerConfiguration instance) =>
+    <String, dynamic>{
+      if (instance.logFileRetentionDays case final value?)
+        'LogFileRetentionDays': value,
+      if (instance.isStartupWizardCompleted case final value?)
+        'IsStartupWizardCompleted': value,
+      if (instance.cachePath case final value?) 'CachePath': value,
+      if (instance.previousVersion case final value?) 'PreviousVersion': value,
+      if (instance.previousVersionStr case final value?)
+        'PreviousVersionStr': value,
+      if (instance.enableMetrics case final value?) 'EnableMetrics': value,
+      if (instance.enableNormalizedItemByNameIds case final value?)
+        'EnableNormalizedItemByNameIds': value,
+      if (instance.isPortAuthorized case final value?)
+        'IsPortAuthorized': value,
+      if (instance.quickConnectAvailable case final value?)
+        'QuickConnectAvailable': value,
+      if (instance.enableCaseSensitiveItemIds case final value?)
+        'EnableCaseSensitiveItemIds': value,
+      if (instance.disableLiveTvChannelUserDataName case final value?)
+        'DisableLiveTvChannelUserDataName': value,
+      if (instance.metadataPath case final value?) 'MetadataPath': value,
+      if (instance.preferredMetadataLanguage case final value?)
+        'PreferredMetadataLanguage': value,
+      if (instance.metadataCountryCode case final value?)
+        'MetadataCountryCode': value,
+      if (instance.sortReplaceCharacters case final value?)
+        'SortReplaceCharacters': value,
+      if (instance.sortRemoveCharacters case final value?)
+        'SortRemoveCharacters': value,
+      if (instance.sortRemoveWords case final value?) 'SortRemoveWords': value,
+      if (instance.minResumePct case final value?) 'MinResumePct': value,
+      if (instance.maxResumePct case final value?) 'MaxResumePct': value,
+      if (instance.minResumeDurationSeconds case final value?)
+        'MinResumeDurationSeconds': value,
+      if (instance.minAudiobookResume case final value?)
+        'MinAudiobookResume': value,
+      if (instance.maxAudiobookResume case final value?)
+        'MaxAudiobookResume': value,
+      if (instance.inactiveSessionThreshold case final value?)
+        'InactiveSessionThreshold': value,
+      if (instance.libraryMonitorDelay case final value?)
+        'LibraryMonitorDelay': value,
+      if (instance.libraryUpdateDuration case final value?)
+        'LibraryUpdateDuration': value,
+      if (imageSavingConventionNullableToJson(instance.imageSavingConvention)
+          case final value?)
+        'ImageSavingConvention': value,
+      if (instance.metadataOptions?.map((e) => e.toJson()).toList()
+          case final value?)
+        'MetadataOptions': value,
+      if (instance.skipDeserializationForBasicTypes case final value?)
+        'SkipDeserializationForBasicTypes': value,
+      if (instance.serverName case final value?) 'ServerName': value,
+      if (instance.uICulture case final value?) 'UICulture': value,
+      if (instance.saveMetadataHidden case final value?)
+        'SaveMetadataHidden': value,
+      if (instance.contentTypes?.map((e) => e.toJson()).toList()
+          case final value?)
+        'ContentTypes': value,
+      if (instance.remoteClientBitrateLimit case final value?)
+        'RemoteClientBitrateLimit': value,
+      if (instance.enableFolderView case final value?)
+        'EnableFolderView': value,
+      if (instance.enableGroupingIntoCollections case final value?)
+        'EnableGroupingIntoCollections': value,
+      if (instance.displaySpecialsWithinSeasons case final value?)
+        'DisplaySpecialsWithinSeasons': value,
+      if (instance.codecsUsed case final value?) 'CodecsUsed': value,
+      if (instance.pluginRepositories?.map((e) => e.toJson()).toList()
+          case final value?)
+        'PluginRepositories': value,
+      if (instance.enableExternalContentInSuggestions case final value?)
+        'EnableExternalContentInSuggestions': value,
+      if (instance.imageExtractionTimeoutMs case final value?)
+        'ImageExtractionTimeoutMs': value,
+      if (instance.pathSubstitutions?.map((e) => e.toJson()).toList()
+          case final value?)
+        'PathSubstitutions': value,
+      if (instance.enableSlowResponseWarning case final value?)
+        'EnableSlowResponseWarning': value,
+      if (instance.slowResponseThresholdMs case final value?)
+        'SlowResponseThresholdMs': value,
+      if (instance.corsHosts case final value?) 'CorsHosts': value,
+      if (instance.activityLogRetentionDays case final value?)
+        'ActivityLogRetentionDays': value,
+      if (instance.libraryScanFanoutConcurrency case final value?)
+        'LibraryScanFanoutConcurrency': value,
+      if (instance.libraryMetadataRefreshConcurrency case final value?)
+        'LibraryMetadataRefreshConcurrency': value,
+      if (instance.removeOldPlugins case final value?)
+        'RemoveOldPlugins': value,
+      if (instance.allowClientLogUpload case final value?)
+        'AllowClientLogUpload': value,
+      if (instance.dummyChapterDuration case final value?)
+        'DummyChapterDuration': value,
+      if (imageResolutionNullableToJson(instance.chapterImageResolution)
+          case final value?)
+        'ChapterImageResolution': value,
+      if (instance.parallelImageEncodingLimit case final value?)
+        'ParallelImageEncodingLimit': value,
+      if (instance.castReceiverApplications?.map((e) => e.toJson()).toList()
+          case final value?)
+        'CastReceiverApplications': value,
+      if (instance.trickplayOptions?.toJson() case final value?)
+        'TrickplayOptions': value,
+    };
 
 ServerDiscoveryInfo _$ServerDiscoveryInfoFromJson(Map<String, dynamic> json) =>
     ServerDiscoveryInfo(
@@ -6699,21 +5742,14 @@ ServerDiscoveryInfo _$ServerDiscoveryInfoFromJson(Map<String, dynamic> json) =>
       endpointAddress: json['EndpointAddress'] as String?,
     );
 
-Map<String, dynamic> _$ServerDiscoveryInfoToJson(ServerDiscoveryInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Address', instance.address);
-  writeNotNull('Id', instance.id);
-  writeNotNull('Name', instance.name);
-  writeNotNull('EndpointAddress', instance.endpointAddress);
-  return val;
-}
+Map<String, dynamic> _$ServerDiscoveryInfoToJson(
+        ServerDiscoveryInfo instance) =>
+    <String, dynamic>{
+      if (instance.address case final value?) 'Address': value,
+      if (instance.id case final value?) 'Id': value,
+      if (instance.name case final value?) 'Name': value,
+      if (instance.endpointAddress case final value?) 'EndpointAddress': value,
+    };
 
 ServerRestartingMessage _$ServerRestartingMessageFromJson(
         Map<String, dynamic> json) =>
@@ -6725,20 +5761,13 @@ ServerRestartingMessage _$ServerRestartingMessageFromJson(
     );
 
 Map<String, dynamic> _$ServerRestartingMessageToJson(
-    ServerRestartingMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('MessageId', instance.messageId);
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+        ServerRestartingMessage instance) =>
+    <String, dynamic>{
+      if (instance.messageId case final value?) 'MessageId': value,
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 ServerShuttingDownMessage _$ServerShuttingDownMessageFromJson(
         Map<String, dynamic> json) =>
@@ -6749,20 +5778,13 @@ ServerShuttingDownMessage _$ServerShuttingDownMessageFromJson(
     );
 
 Map<String, dynamic> _$ServerShuttingDownMessageToJson(
-    ServerShuttingDownMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('MessageId', instance.messageId);
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+        ServerShuttingDownMessage instance) =>
+    <String, dynamic>{
+      if (instance.messageId case final value?) 'MessageId': value,
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 SessionInfoDto _$SessionInfoDtoFromJson(Map<String, dynamic> json) =>
     SessionInfoDto(
@@ -6829,52 +5851,57 @@ SessionInfoDto _$SessionInfoDtoFromJson(Map<String, dynamic> json) =>
           generalCommandTypeListFromJson(json['SupportedCommands'] as List?),
     );
 
-Map<String, dynamic> _$SessionInfoDtoToJson(SessionInfoDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('PlayState', instance.playState?.toJson());
-  writeNotNull('AdditionalUsers',
-      instance.additionalUsers?.map((e) => e.toJson()).toList());
-  writeNotNull('Capabilities', instance.capabilities?.toJson());
-  writeNotNull('RemoteEndPoint', instance.remoteEndPoint);
-  val['PlayableMediaTypes'] = mediaTypeListToJson(instance.playableMediaTypes);
-  writeNotNull('Id', instance.id);
-  writeNotNull('UserId', instance.userId);
-  writeNotNull('UserName', instance.userName);
-  writeNotNull('Client', instance.$Client);
-  writeNotNull(
-      'LastActivityDate', instance.lastActivityDate?.toIso8601String());
-  writeNotNull(
-      'LastPlaybackCheckIn', instance.lastPlaybackCheckIn?.toIso8601String());
-  writeNotNull('LastPausedDate', instance.lastPausedDate?.toIso8601String());
-  writeNotNull('DeviceName', instance.deviceName);
-  writeNotNull('DeviceType', instance.deviceType);
-  writeNotNull('NowPlayingItem', instance.nowPlayingItem?.toJson());
-  writeNotNull('NowViewingItem', instance.nowViewingItem?.toJson());
-  writeNotNull('DeviceId', instance.deviceId);
-  writeNotNull('ApplicationVersion', instance.applicationVersion);
-  writeNotNull('TranscodingInfo', instance.transcodingInfo?.toJson());
-  writeNotNull('IsActive', instance.isActive);
-  writeNotNull('SupportsMediaControl', instance.supportsMediaControl);
-  writeNotNull('SupportsRemoteControl', instance.supportsRemoteControl);
-  writeNotNull('NowPlayingQueue',
-      instance.nowPlayingQueue?.map((e) => e.toJson()).toList());
-  writeNotNull('NowPlayingQueueFullItems',
-      instance.nowPlayingQueueFullItems?.map((e) => e.toJson()).toList());
-  writeNotNull('HasCustomDeviceName', instance.hasCustomDeviceName);
-  writeNotNull('PlaylistItemId', instance.playlistItemId);
-  writeNotNull('ServerId', instance.serverId);
-  writeNotNull('UserPrimaryImageTag', instance.userPrimaryImageTag);
-  val['SupportedCommands'] =
-      generalCommandTypeListToJson(instance.supportedCommands);
-  return val;
-}
+Map<String, dynamic> _$SessionInfoDtoToJson(SessionInfoDto instance) =>
+    <String, dynamic>{
+      if (instance.playState?.toJson() case final value?) 'PlayState': value,
+      if (instance.additionalUsers?.map((e) => e.toJson()).toList()
+          case final value?)
+        'AdditionalUsers': value,
+      if (instance.capabilities?.toJson() case final value?)
+        'Capabilities': value,
+      if (instance.remoteEndPoint case final value?) 'RemoteEndPoint': value,
+      'PlayableMediaTypes': mediaTypeListToJson(instance.playableMediaTypes),
+      if (instance.id case final value?) 'Id': value,
+      if (instance.userId case final value?) 'UserId': value,
+      if (instance.userName case final value?) 'UserName': value,
+      if (instance.$Client case final value?) 'Client': value,
+      if (instance.lastActivityDate?.toIso8601String() case final value?)
+        'LastActivityDate': value,
+      if (instance.lastPlaybackCheckIn?.toIso8601String() case final value?)
+        'LastPlaybackCheckIn': value,
+      if (instance.lastPausedDate?.toIso8601String() case final value?)
+        'LastPausedDate': value,
+      if (instance.deviceName case final value?) 'DeviceName': value,
+      if (instance.deviceType case final value?) 'DeviceType': value,
+      if (instance.nowPlayingItem?.toJson() case final value?)
+        'NowPlayingItem': value,
+      if (instance.nowViewingItem?.toJson() case final value?)
+        'NowViewingItem': value,
+      if (instance.deviceId case final value?) 'DeviceId': value,
+      if (instance.applicationVersion case final value?)
+        'ApplicationVersion': value,
+      if (instance.transcodingInfo?.toJson() case final value?)
+        'TranscodingInfo': value,
+      if (instance.isActive case final value?) 'IsActive': value,
+      if (instance.supportsMediaControl case final value?)
+        'SupportsMediaControl': value,
+      if (instance.supportsRemoteControl case final value?)
+        'SupportsRemoteControl': value,
+      if (instance.nowPlayingQueue?.map((e) => e.toJson()).toList()
+          case final value?)
+        'NowPlayingQueue': value,
+      if (instance.nowPlayingQueueFullItems?.map((e) => e.toJson()).toList()
+          case final value?)
+        'NowPlayingQueueFullItems': value,
+      if (instance.hasCustomDeviceName case final value?)
+        'HasCustomDeviceName': value,
+      if (instance.playlistItemId case final value?) 'PlaylistItemId': value,
+      if (instance.serverId case final value?) 'ServerId': value,
+      if (instance.userPrimaryImageTag case final value?)
+        'UserPrimaryImageTag': value,
+      'SupportedCommands':
+          generalCommandTypeListToJson(instance.supportedCommands),
+    };
 
 SessionsMessage _$SessionsMessageFromJson(Map<String, dynamic> json) =>
     SessionsMessage(
@@ -6888,21 +5915,15 @@ SessionsMessage _$SessionsMessageFromJson(Map<String, dynamic> json) =>
               json['MessageType']),
     );
 
-Map<String, dynamic> _$SessionsMessageToJson(SessionsMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Data', instance.data?.map((e) => e.toJson()).toList());
-  writeNotNull('MessageId', instance.messageId);
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+Map<String, dynamic> _$SessionsMessageToJson(SessionsMessage instance) =>
+    <String, dynamic>{
+      if (instance.data?.map((e) => e.toJson()).toList() case final value?)
+        'Data': value,
+      if (instance.messageId case final value?) 'MessageId': value,
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 SessionsStartMessage _$SessionsStartMessageFromJson(
         Map<String, dynamic> json) =>
@@ -6914,20 +5935,13 @@ SessionsStartMessage _$SessionsStartMessageFromJson(
     );
 
 Map<String, dynamic> _$SessionsStartMessageToJson(
-    SessionsStartMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Data', instance.data);
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+        SessionsStartMessage instance) =>
+    <String, dynamic>{
+      if (instance.data case final value?) 'Data': value,
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 SessionsStopMessage _$SessionsStopMessageFromJson(Map<String, dynamic> json) =>
     SessionsStopMessage(
@@ -6936,19 +5950,13 @@ SessionsStopMessage _$SessionsStopMessageFromJson(Map<String, dynamic> json) =>
               json['MessageType']),
     );
 
-Map<String, dynamic> _$SessionsStopMessageToJson(SessionsStopMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+Map<String, dynamic> _$SessionsStopMessageToJson(
+        SessionsStopMessage instance) =>
+    <String, dynamic>{
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 SessionUserInfo _$SessionUserInfoFromJson(Map<String, dynamic> json) =>
     SessionUserInfo(
@@ -6956,19 +5964,11 @@ SessionUserInfo _$SessionUserInfoFromJson(Map<String, dynamic> json) =>
       userName: json['UserName'] as String?,
     );
 
-Map<String, dynamic> _$SessionUserInfoToJson(SessionUserInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('UserId', instance.userId);
-  writeNotNull('UserName', instance.userName);
-  return val;
-}
+Map<String, dynamic> _$SessionUserInfoToJson(SessionUserInfo instance) =>
+    <String, dynamic>{
+      if (instance.userId case final value?) 'UserId': value,
+      if (instance.userName case final value?) 'UserName': value,
+    };
 
 SetChannelMappingDto _$SetChannelMappingDtoFromJson(
         Map<String, dynamic> json) =>
@@ -6993,18 +5993,10 @@ SetPlaylistItemRequestDto _$SetPlaylistItemRequestDtoFromJson(
     );
 
 Map<String, dynamic> _$SetPlaylistItemRequestDtoToJson(
-    SetPlaylistItemRequestDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('PlaylistItemId', instance.playlistItemId);
-  return val;
-}
+        SetPlaylistItemRequestDto instance) =>
+    <String, dynamic>{
+      if (instance.playlistItemId case final value?) 'PlaylistItemId': value,
+    };
 
 SetRepeatModeRequestDto _$SetRepeatModeRequestDtoFromJson(
         Map<String, dynamic> json) =>
@@ -7013,18 +6005,11 @@ SetRepeatModeRequestDto _$SetRepeatModeRequestDtoFromJson(
     );
 
 Map<String, dynamic> _$SetRepeatModeRequestDtoToJson(
-    SetRepeatModeRequestDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Mode', groupRepeatModeNullableToJson(instance.mode));
-  return val;
-}
+        SetRepeatModeRequestDto instance) =>
+    <String, dynamic>{
+      if (groupRepeatModeNullableToJson(instance.mode) case final value?)
+        'Mode': value,
+    };
 
 SetShuffleModeRequestDto _$SetShuffleModeRequestDtoFromJson(
         Map<String, dynamic> json) =>
@@ -7033,18 +6018,11 @@ SetShuffleModeRequestDto _$SetShuffleModeRequestDtoFromJson(
     );
 
 Map<String, dynamic> _$SetShuffleModeRequestDtoToJson(
-    SetShuffleModeRequestDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Mode', groupShuffleModeNullableToJson(instance.mode));
-  return val;
-}
+        SetShuffleModeRequestDto instance) =>
+    <String, dynamic>{
+      if (groupShuffleModeNullableToJson(instance.mode) case final value?)
+        'Mode': value,
+    };
 
 SongInfo _$SongInfoFromJson(Map<String, dynamic> json) => SongInfo(
       name: json['Name'] as String?,
@@ -7071,31 +6049,26 @@ SongInfo _$SongInfoFromJson(Map<String, dynamic> json) => SongInfo(
           [],
     );
 
-Map<String, dynamic> _$SongInfoToJson(SongInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('OriginalTitle', instance.originalTitle);
-  writeNotNull('Path', instance.path);
-  writeNotNull('MetadataLanguage', instance.metadataLanguage);
-  writeNotNull('MetadataCountryCode', instance.metadataCountryCode);
-  writeNotNull('ProviderIds', instance.providerIds);
-  writeNotNull('Year', instance.year);
-  writeNotNull('IndexNumber', instance.indexNumber);
-  writeNotNull('ParentIndexNumber', instance.parentIndexNumber);
-  writeNotNull('PremiereDate', instance.premiereDate?.toIso8601String());
-  writeNotNull('IsAutomated', instance.isAutomated);
-  writeNotNull('AlbumArtists', instance.albumArtists);
-  writeNotNull('Album', instance.album);
-  writeNotNull('Artists', instance.artists);
-  return val;
-}
+Map<String, dynamic> _$SongInfoToJson(SongInfo instance) => <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.originalTitle case final value?) 'OriginalTitle': value,
+      if (instance.path case final value?) 'Path': value,
+      if (instance.metadataLanguage case final value?)
+        'MetadataLanguage': value,
+      if (instance.metadataCountryCode case final value?)
+        'MetadataCountryCode': value,
+      if (instance.providerIds case final value?) 'ProviderIds': value,
+      if (instance.year case final value?) 'Year': value,
+      if (instance.indexNumber case final value?) 'IndexNumber': value,
+      if (instance.parentIndexNumber case final value?)
+        'ParentIndexNumber': value,
+      if (instance.premiereDate?.toIso8601String() case final value?)
+        'PremiereDate': value,
+      if (instance.isAutomated case final value?) 'IsAutomated': value,
+      if (instance.albumArtists case final value?) 'AlbumArtists': value,
+      if (instance.album case final value?) 'Album': value,
+      if (instance.artists case final value?) 'Artists': value,
+    };
 
 SpecialViewOptionDto _$SpecialViewOptionDtoFromJson(
         Map<String, dynamic> json) =>
@@ -7105,19 +6078,11 @@ SpecialViewOptionDto _$SpecialViewOptionDtoFromJson(
     );
 
 Map<String, dynamic> _$SpecialViewOptionDtoToJson(
-    SpecialViewOptionDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('Id', instance.id);
-  return val;
-}
+        SpecialViewOptionDto instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.id case final value?) 'Id': value,
+    };
 
 StartupConfigurationDto _$StartupConfigurationDtoFromJson(
         Map<String, dynamic> json) =>
@@ -7128,20 +6093,14 @@ StartupConfigurationDto _$StartupConfigurationDtoFromJson(
     );
 
 Map<String, dynamic> _$StartupConfigurationDtoToJson(
-    StartupConfigurationDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('UICulture', instance.uICulture);
-  writeNotNull('MetadataCountryCode', instance.metadataCountryCode);
-  writeNotNull('PreferredMetadataLanguage', instance.preferredMetadataLanguage);
-  return val;
-}
+        StartupConfigurationDto instance) =>
+    <String, dynamic>{
+      if (instance.uICulture case final value?) 'UICulture': value,
+      if (instance.metadataCountryCode case final value?)
+        'MetadataCountryCode': value,
+      if (instance.preferredMetadataLanguage case final value?)
+        'PreferredMetadataLanguage': value,
+    };
 
 StartupRemoteAccessDto _$StartupRemoteAccessDtoFromJson(
         Map<String, dynamic> json) =>
@@ -7163,19 +6122,11 @@ StartupUserDto _$StartupUserDtoFromJson(Map<String, dynamic> json) =>
       password: json['Password'] as String?,
     );
 
-Map<String, dynamic> _$StartupUserDtoToJson(StartupUserDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('Password', instance.password);
-  return val;
-}
+Map<String, dynamic> _$StartupUserDtoToJson(StartupUserDto instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.password case final value?) 'Password': value,
+    };
 
 StringGroupUpdate _$StringGroupUpdateFromJson(Map<String, dynamic> json) =>
     StringGroupUpdate(
@@ -7184,20 +6135,13 @@ StringGroupUpdate _$StringGroupUpdateFromJson(Map<String, dynamic> json) =>
       data: json['Data'] as String?,
     );
 
-Map<String, dynamic> _$StringGroupUpdateToJson(StringGroupUpdate instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('GroupId', instance.groupId);
-  writeNotNull('Type', groupUpdateTypeNullableToJson(instance.type));
-  writeNotNull('Data', instance.data);
-  return val;
-}
+Map<String, dynamic> _$StringGroupUpdateToJson(StringGroupUpdate instance) =>
+    <String, dynamic>{
+      if (instance.groupId case final value?) 'GroupId': value,
+      if (groupUpdateTypeNullableToJson(instance.type) case final value?)
+        'Type': value,
+      if (instance.data case final value?) 'Data': value,
+    };
 
 SubtitleOptions _$SubtitleOptionsFromJson(Map<String, dynamic> json) =>
     SubtitleOptions(
@@ -7216,27 +6160,27 @@ SubtitleOptions _$SubtitleOptionsFromJson(Map<String, dynamic> json) =>
       requirePerfectMatch: json['RequirePerfectMatch'] as bool?,
     );
 
-Map<String, dynamic> _$SubtitleOptionsToJson(SubtitleOptions instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('SkipIfEmbeddedSubtitlesPresent',
-      instance.skipIfEmbeddedSubtitlesPresent);
-  writeNotNull('SkipIfAudioTrackMatches', instance.skipIfAudioTrackMatches);
-  writeNotNull('DownloadLanguages', instance.downloadLanguages);
-  writeNotNull('DownloadMovieSubtitles', instance.downloadMovieSubtitles);
-  writeNotNull('DownloadEpisodeSubtitles', instance.downloadEpisodeSubtitles);
-  writeNotNull('OpenSubtitlesUsername', instance.openSubtitlesUsername);
-  writeNotNull('OpenSubtitlesPasswordHash', instance.openSubtitlesPasswordHash);
-  writeNotNull('IsOpenSubtitleVipAccount', instance.isOpenSubtitleVipAccount);
-  writeNotNull('RequirePerfectMatch', instance.requirePerfectMatch);
-  return val;
-}
+Map<String, dynamic> _$SubtitleOptionsToJson(SubtitleOptions instance) =>
+    <String, dynamic>{
+      if (instance.skipIfEmbeddedSubtitlesPresent case final value?)
+        'SkipIfEmbeddedSubtitlesPresent': value,
+      if (instance.skipIfAudioTrackMatches case final value?)
+        'SkipIfAudioTrackMatches': value,
+      if (instance.downloadLanguages case final value?)
+        'DownloadLanguages': value,
+      if (instance.downloadMovieSubtitles case final value?)
+        'DownloadMovieSubtitles': value,
+      if (instance.downloadEpisodeSubtitles case final value?)
+        'DownloadEpisodeSubtitles': value,
+      if (instance.openSubtitlesUsername case final value?)
+        'OpenSubtitlesUsername': value,
+      if (instance.openSubtitlesPasswordHash case final value?)
+        'OpenSubtitlesPasswordHash': value,
+      if (instance.isOpenSubtitleVipAccount case final value?)
+        'IsOpenSubtitleVipAccount': value,
+      if (instance.requirePerfectMatch case final value?)
+        'RequirePerfectMatch': value,
+    };
 
 SubtitleProfile _$SubtitleProfileFromJson(Map<String, dynamic> json) =>
     SubtitleProfile(
@@ -7247,22 +6191,16 @@ SubtitleProfile _$SubtitleProfileFromJson(Map<String, dynamic> json) =>
       container: json['Container'] as String?,
     );
 
-Map<String, dynamic> _$SubtitleProfileToJson(SubtitleProfile instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Format', instance.format);
-  writeNotNull('Method', subtitleDeliveryMethodNullableToJson(instance.method));
-  writeNotNull('DidlMode', instance.didlMode);
-  writeNotNull('Language', instance.language);
-  writeNotNull('Container', instance.container);
-  return val;
-}
+Map<String, dynamic> _$SubtitleProfileToJson(SubtitleProfile instance) =>
+    <String, dynamic>{
+      if (instance.format case final value?) 'Format': value,
+      if (subtitleDeliveryMethodNullableToJson(instance.method)
+          case final value?)
+        'Method': value,
+      if (instance.didlMode case final value?) 'DidlMode': value,
+      if (instance.language case final value?) 'Language': value,
+      if (instance.container case final value?) 'Container': value,
+    };
 
 SyncPlayCommandMessage _$SyncPlayCommandMessageFromJson(
         Map<String, dynamic> json) =>
@@ -7277,21 +6215,14 @@ SyncPlayCommandMessage _$SyncPlayCommandMessageFromJson(
     );
 
 Map<String, dynamic> _$SyncPlayCommandMessageToJson(
-    SyncPlayCommandMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Data', instance.data?.toJson());
-  writeNotNull('MessageId', instance.messageId);
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+        SyncPlayCommandMessage instance) =>
+    <String, dynamic>{
+      if (instance.data?.toJson() case final value?) 'Data': value,
+      if (instance.messageId case final value?) 'MessageId': value,
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 SyncPlayGroupUpdateCommandMessage _$SyncPlayGroupUpdateCommandMessageFromJson(
         Map<String, dynamic> json) =>
@@ -7305,21 +6236,14 @@ SyncPlayGroupUpdateCommandMessage _$SyncPlayGroupUpdateCommandMessageFromJson(
     );
 
 Map<String, dynamic> _$SyncPlayGroupUpdateCommandMessageToJson(
-    SyncPlayGroupUpdateCommandMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Data', instance.data?.toJson());
-  writeNotNull('MessageId', instance.messageId);
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+        SyncPlayGroupUpdateCommandMessage instance) =>
+    <String, dynamic>{
+      if (instance.data?.toJson() case final value?) 'Data': value,
+      if (instance.messageId case final value?) 'MessageId': value,
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 SyncPlayQueueItem _$SyncPlayQueueItemFromJson(Map<String, dynamic> json) =>
     SyncPlayQueueItem(
@@ -7327,19 +6251,11 @@ SyncPlayQueueItem _$SyncPlayQueueItemFromJson(Map<String, dynamic> json) =>
       playlistItemId: json['PlaylistItemId'] as String?,
     );
 
-Map<String, dynamic> _$SyncPlayQueueItemToJson(SyncPlayQueueItem instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ItemId', instance.itemId);
-  writeNotNull('PlaylistItemId', instance.playlistItemId);
-  return val;
-}
+Map<String, dynamic> _$SyncPlayQueueItemToJson(SyncPlayQueueItem instance) =>
+    <String, dynamic>{
+      if (instance.itemId case final value?) 'ItemId': value,
+      if (instance.playlistItemId case final value?) 'PlaylistItemId': value,
+    };
 
 SystemInfo _$SystemInfoFromJson(Map<String, dynamic> json) => SystemInfo(
       localAddress: json['LocalAddress'] as String?,
@@ -7379,47 +6295,50 @@ SystemInfo _$SystemInfoFromJson(Map<String, dynamic> json) => SystemInfo(
       systemArchitecture: json['SystemArchitecture'] as String?,
     );
 
-Map<String, dynamic> _$SystemInfoToJson(SystemInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('LocalAddress', instance.localAddress);
-  writeNotNull('ServerName', instance.serverName);
-  writeNotNull('Version', instance.version);
-  writeNotNull('ProductName', instance.productName);
-  writeNotNull('OperatingSystem', instance.operatingSystem);
-  writeNotNull('Id', instance.id);
-  writeNotNull('StartupWizardCompleted', instance.startupWizardCompleted);
-  writeNotNull(
-      'OperatingSystemDisplayName', instance.operatingSystemDisplayName);
-  writeNotNull('PackageName', instance.packageName);
-  writeNotNull('HasPendingRestart', instance.hasPendingRestart);
-  writeNotNull('IsShuttingDown', instance.isShuttingDown);
-  writeNotNull('SupportsLibraryMonitor', instance.supportsLibraryMonitor);
-  writeNotNull('WebSocketPortNumber', instance.webSocketPortNumber);
-  writeNotNull('CompletedInstallations',
-      instance.completedInstallations?.map((e) => e.toJson()).toList());
-  writeNotNull('CanSelfRestart', instance.canSelfRestart);
-  writeNotNull('CanLaunchWebBrowser', instance.canLaunchWebBrowser);
-  writeNotNull('ProgramDataPath', instance.programDataPath);
-  writeNotNull('WebPath', instance.webPath);
-  writeNotNull('ItemsByNamePath', instance.itemsByNamePath);
-  writeNotNull('CachePath', instance.cachePath);
-  writeNotNull('LogPath', instance.logPath);
-  writeNotNull('InternalMetadataPath', instance.internalMetadataPath);
-  writeNotNull('TranscodingTempPath', instance.transcodingTempPath);
-  writeNotNull('CastReceiverApplications',
-      instance.castReceiverApplications?.map((e) => e.toJson()).toList());
-  writeNotNull('HasUpdateAvailable', instance.hasUpdateAvailable);
-  writeNotNull('EncoderLocation', instance.encoderLocation);
-  writeNotNull('SystemArchitecture', instance.systemArchitecture);
-  return val;
-}
+Map<String, dynamic> _$SystemInfoToJson(SystemInfo instance) =>
+    <String, dynamic>{
+      if (instance.localAddress case final value?) 'LocalAddress': value,
+      if (instance.serverName case final value?) 'ServerName': value,
+      if (instance.version case final value?) 'Version': value,
+      if (instance.productName case final value?) 'ProductName': value,
+      if (instance.operatingSystem case final value?) 'OperatingSystem': value,
+      if (instance.id case final value?) 'Id': value,
+      if (instance.startupWizardCompleted case final value?)
+        'StartupWizardCompleted': value,
+      if (instance.operatingSystemDisplayName case final value?)
+        'OperatingSystemDisplayName': value,
+      if (instance.packageName case final value?) 'PackageName': value,
+      if (instance.hasPendingRestart case final value?)
+        'HasPendingRestart': value,
+      if (instance.isShuttingDown case final value?) 'IsShuttingDown': value,
+      if (instance.supportsLibraryMonitor case final value?)
+        'SupportsLibraryMonitor': value,
+      if (instance.webSocketPortNumber case final value?)
+        'WebSocketPortNumber': value,
+      if (instance.completedInstallations?.map((e) => e.toJson()).toList()
+          case final value?)
+        'CompletedInstallations': value,
+      if (instance.canSelfRestart case final value?) 'CanSelfRestart': value,
+      if (instance.canLaunchWebBrowser case final value?)
+        'CanLaunchWebBrowser': value,
+      if (instance.programDataPath case final value?) 'ProgramDataPath': value,
+      if (instance.webPath case final value?) 'WebPath': value,
+      if (instance.itemsByNamePath case final value?) 'ItemsByNamePath': value,
+      if (instance.cachePath case final value?) 'CachePath': value,
+      if (instance.logPath case final value?) 'LogPath': value,
+      if (instance.internalMetadataPath case final value?)
+        'InternalMetadataPath': value,
+      if (instance.transcodingTempPath case final value?)
+        'TranscodingTempPath': value,
+      if (instance.castReceiverApplications?.map((e) => e.toJson()).toList()
+          case final value?)
+        'CastReceiverApplications': value,
+      if (instance.hasUpdateAvailable case final value?)
+        'HasUpdateAvailable': value,
+      if (instance.encoderLocation case final value?) 'EncoderLocation': value,
+      if (instance.systemArchitecture case final value?)
+        'SystemArchitecture': value,
+    };
 
 TaskInfo _$TaskInfoFromJson(Map<String, dynamic> json) => TaskInfo(
       name: json['Name'] as String?,
@@ -7441,27 +6360,22 @@ TaskInfo _$TaskInfoFromJson(Map<String, dynamic> json) => TaskInfo(
       key: json['Key'] as String?,
     );
 
-Map<String, dynamic> _$TaskInfoToJson(TaskInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('State', taskStateNullableToJson(instance.state));
-  writeNotNull('CurrentProgressPercentage', instance.currentProgressPercentage);
-  writeNotNull('Id', instance.id);
-  writeNotNull('LastExecutionResult', instance.lastExecutionResult?.toJson());
-  writeNotNull('Triggers', instance.triggers?.map((e) => e.toJson()).toList());
-  writeNotNull('Description', instance.description);
-  writeNotNull('Category', instance.category);
-  writeNotNull('IsHidden', instance.isHidden);
-  writeNotNull('Key', instance.key);
-  return val;
-}
+Map<String, dynamic> _$TaskInfoToJson(TaskInfo instance) => <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (taskStateNullableToJson(instance.state) case final value?)
+        'State': value,
+      if (instance.currentProgressPercentage case final value?)
+        'CurrentProgressPercentage': value,
+      if (instance.id case final value?) 'Id': value,
+      if (instance.lastExecutionResult?.toJson() case final value?)
+        'LastExecutionResult': value,
+      if (instance.triggers?.map((e) => e.toJson()).toList() case final value?)
+        'Triggers': value,
+      if (instance.description case final value?) 'Description': value,
+      if (instance.category case final value?) 'Category': value,
+      if (instance.isHidden case final value?) 'IsHidden': value,
+      if (instance.key case final value?) 'Key': value,
+    };
 
 TaskResult _$TaskResultFromJson(Map<String, dynamic> json) => TaskResult(
       startTimeUtc: json['StartTimeUtc'] == null
@@ -7478,25 +6392,21 @@ TaskResult _$TaskResultFromJson(Map<String, dynamic> json) => TaskResult(
       longErrorMessage: json['LongErrorMessage'] as String?,
     );
 
-Map<String, dynamic> _$TaskResultToJson(TaskResult instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('StartTimeUtc', instance.startTimeUtc?.toIso8601String());
-  writeNotNull('EndTimeUtc', instance.endTimeUtc?.toIso8601String());
-  writeNotNull('Status', taskCompletionStatusNullableToJson(instance.status));
-  writeNotNull('Name', instance.name);
-  writeNotNull('Key', instance.key);
-  writeNotNull('Id', instance.id);
-  writeNotNull('ErrorMessage', instance.errorMessage);
-  writeNotNull('LongErrorMessage', instance.longErrorMessage);
-  return val;
-}
+Map<String, dynamic> _$TaskResultToJson(TaskResult instance) =>
+    <String, dynamic>{
+      if (instance.startTimeUtc?.toIso8601String() case final value?)
+        'StartTimeUtc': value,
+      if (instance.endTimeUtc?.toIso8601String() case final value?)
+        'EndTimeUtc': value,
+      if (taskCompletionStatusNullableToJson(instance.status) case final value?)
+        'Status': value,
+      if (instance.name case final value?) 'Name': value,
+      if (instance.key case final value?) 'Key': value,
+      if (instance.id case final value?) 'Id': value,
+      if (instance.errorMessage case final value?) 'ErrorMessage': value,
+      if (instance.longErrorMessage case final value?)
+        'LongErrorMessage': value,
+    };
 
 TaskTriggerInfo _$TaskTriggerInfoFromJson(Map<String, dynamic> json) =>
     TaskTriggerInfo(
@@ -7507,22 +6417,15 @@ TaskTriggerInfo _$TaskTriggerInfoFromJson(Map<String, dynamic> json) =>
       maxRuntimeTicks: (json['MaxRuntimeTicks'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$TaskTriggerInfoToJson(TaskTriggerInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Type', instance.type);
-  writeNotNull('TimeOfDayTicks', instance.timeOfDayTicks);
-  writeNotNull('IntervalTicks', instance.intervalTicks);
-  writeNotNull('DayOfWeek', dayOfWeekNullableToJson(instance.dayOfWeek));
-  writeNotNull('MaxRuntimeTicks', instance.maxRuntimeTicks);
-  return val;
-}
+Map<String, dynamic> _$TaskTriggerInfoToJson(TaskTriggerInfo instance) =>
+    <String, dynamic>{
+      if (instance.type case final value?) 'Type': value,
+      if (instance.timeOfDayTicks case final value?) 'TimeOfDayTicks': value,
+      if (instance.intervalTicks case final value?) 'IntervalTicks': value,
+      if (dayOfWeekNullableToJson(instance.dayOfWeek) case final value?)
+        'DayOfWeek': value,
+      if (instance.maxRuntimeTicks case final value?) 'MaxRuntimeTicks': value,
+    };
 
 ThemeMediaResult _$ThemeMediaResultFromJson(Map<String, dynamic> json) =>
     ThemeMediaResult(
@@ -7535,21 +6438,15 @@ ThemeMediaResult _$ThemeMediaResultFromJson(Map<String, dynamic> json) =>
       ownerId: json['OwnerId'] as String?,
     );
 
-Map<String, dynamic> _$ThemeMediaResultToJson(ThemeMediaResult instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Items', instance.items?.map((e) => e.toJson()).toList());
-  writeNotNull('TotalRecordCount', instance.totalRecordCount);
-  writeNotNull('StartIndex', instance.startIndex);
-  writeNotNull('OwnerId', instance.ownerId);
-  return val;
-}
+Map<String, dynamic> _$ThemeMediaResultToJson(ThemeMediaResult instance) =>
+    <String, dynamic>{
+      if (instance.items?.map((e) => e.toJson()).toList() case final value?)
+        'Items': value,
+      if (instance.totalRecordCount case final value?)
+        'TotalRecordCount': value,
+      if (instance.startIndex case final value?) 'StartIndex': value,
+      if (instance.ownerId case final value?) 'OwnerId': value,
+    };
 
 TimerCancelledMessage _$TimerCancelledMessageFromJson(
         Map<String, dynamic> json) =>
@@ -7564,21 +6461,14 @@ TimerCancelledMessage _$TimerCancelledMessageFromJson(
     );
 
 Map<String, dynamic> _$TimerCancelledMessageToJson(
-    TimerCancelledMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Data', instance.data?.toJson());
-  writeNotNull('MessageId', instance.messageId);
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+        TimerCancelledMessage instance) =>
+    <String, dynamic>{
+      if (instance.data?.toJson() case final value?) 'Data': value,
+      if (instance.messageId case final value?) 'MessageId': value,
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 TimerCreatedMessage _$TimerCreatedMessageFromJson(Map<String, dynamic> json) =>
     TimerCreatedMessage(
@@ -7591,21 +6481,15 @@ TimerCreatedMessage _$TimerCreatedMessageFromJson(Map<String, dynamic> json) =>
               json['MessageType']),
     );
 
-Map<String, dynamic> _$TimerCreatedMessageToJson(TimerCreatedMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Data', instance.data?.toJson());
-  writeNotNull('MessageId', instance.messageId);
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+Map<String, dynamic> _$TimerCreatedMessageToJson(
+        TimerCreatedMessage instance) =>
+    <String, dynamic>{
+      if (instance.data?.toJson() case final value?) 'Data': value,
+      if (instance.messageId case final value?) 'MessageId': value,
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 TimerEventInfo _$TimerEventInfoFromJson(Map<String, dynamic> json) =>
     TimerEventInfo(
@@ -7613,19 +6497,11 @@ TimerEventInfo _$TimerEventInfoFromJson(Map<String, dynamic> json) =>
       programId: json['ProgramId'] as String?,
     );
 
-Map<String, dynamic> _$TimerEventInfoToJson(TimerEventInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Id', instance.id);
-  writeNotNull('ProgramId', instance.programId);
-  return val;
-}
+Map<String, dynamic> _$TimerEventInfoToJson(TimerEventInfo instance) =>
+    <String, dynamic>{
+      if (instance.id case final value?) 'Id': value,
+      if (instance.programId case final value?) 'ProgramId': value,
+    };
 
 TimerInfoDto _$TimerInfoDtoFromJson(Map<String, dynamic> json) => TimerInfoDto(
       id: json['Id'] as String?,
@@ -7668,45 +6544,52 @@ TimerInfoDto _$TimerInfoDtoFromJson(Map<String, dynamic> json) => TimerInfoDto(
           : BaseItemDto.fromJson(json['ProgramInfo'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$TimerInfoDtoToJson(TimerInfoDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Id', instance.id);
-  writeNotNull('Type', instance.type);
-  writeNotNull('ServerId', instance.serverId);
-  writeNotNull('ExternalId', instance.externalId);
-  writeNotNull('ChannelId', instance.channelId);
-  writeNotNull('ExternalChannelId', instance.externalChannelId);
-  writeNotNull('ChannelName', instance.channelName);
-  writeNotNull('ChannelPrimaryImageTag', instance.channelPrimaryImageTag);
-  writeNotNull('ProgramId', instance.programId);
-  writeNotNull('ExternalProgramId', instance.externalProgramId);
-  writeNotNull('Name', instance.name);
-  writeNotNull('Overview', instance.overview);
-  writeNotNull('StartDate', instance.startDate?.toIso8601String());
-  writeNotNull('EndDate', instance.endDate?.toIso8601String());
-  writeNotNull('ServiceName', instance.serviceName);
-  writeNotNull('Priority', instance.priority);
-  writeNotNull('PrePaddingSeconds', instance.prePaddingSeconds);
-  writeNotNull('PostPaddingSeconds', instance.postPaddingSeconds);
-  writeNotNull('IsPrePaddingRequired', instance.isPrePaddingRequired);
-  writeNotNull('ParentBackdropItemId', instance.parentBackdropItemId);
-  writeNotNull('ParentBackdropImageTags', instance.parentBackdropImageTags);
-  writeNotNull('IsPostPaddingRequired', instance.isPostPaddingRequired);
-  writeNotNull('KeepUntil', keepUntilNullableToJson(instance.keepUntil));
-  writeNotNull('Status', recordingStatusNullableToJson(instance.status));
-  writeNotNull('SeriesTimerId', instance.seriesTimerId);
-  writeNotNull('ExternalSeriesTimerId', instance.externalSeriesTimerId);
-  writeNotNull('RunTimeTicks', instance.runTimeTicks);
-  writeNotNull('ProgramInfo', instance.programInfo?.toJson());
-  return val;
-}
+Map<String, dynamic> _$TimerInfoDtoToJson(TimerInfoDto instance) =>
+    <String, dynamic>{
+      if (instance.id case final value?) 'Id': value,
+      if (instance.type case final value?) 'Type': value,
+      if (instance.serverId case final value?) 'ServerId': value,
+      if (instance.externalId case final value?) 'ExternalId': value,
+      if (instance.channelId case final value?) 'ChannelId': value,
+      if (instance.externalChannelId case final value?)
+        'ExternalChannelId': value,
+      if (instance.channelName case final value?) 'ChannelName': value,
+      if (instance.channelPrimaryImageTag case final value?)
+        'ChannelPrimaryImageTag': value,
+      if (instance.programId case final value?) 'ProgramId': value,
+      if (instance.externalProgramId case final value?)
+        'ExternalProgramId': value,
+      if (instance.name case final value?) 'Name': value,
+      if (instance.overview case final value?) 'Overview': value,
+      if (instance.startDate?.toIso8601String() case final value?)
+        'StartDate': value,
+      if (instance.endDate?.toIso8601String() case final value?)
+        'EndDate': value,
+      if (instance.serviceName case final value?) 'ServiceName': value,
+      if (instance.priority case final value?) 'Priority': value,
+      if (instance.prePaddingSeconds case final value?)
+        'PrePaddingSeconds': value,
+      if (instance.postPaddingSeconds case final value?)
+        'PostPaddingSeconds': value,
+      if (instance.isPrePaddingRequired case final value?)
+        'IsPrePaddingRequired': value,
+      if (instance.parentBackdropItemId case final value?)
+        'ParentBackdropItemId': value,
+      if (instance.parentBackdropImageTags case final value?)
+        'ParentBackdropImageTags': value,
+      if (instance.isPostPaddingRequired case final value?)
+        'IsPostPaddingRequired': value,
+      if (keepUntilNullableToJson(instance.keepUntil) case final value?)
+        'KeepUntil': value,
+      if (recordingStatusNullableToJson(instance.status) case final value?)
+        'Status': value,
+      if (instance.seriesTimerId case final value?) 'SeriesTimerId': value,
+      if (instance.externalSeriesTimerId case final value?)
+        'ExternalSeriesTimerId': value,
+      if (instance.runTimeTicks case final value?) 'RunTimeTicks': value,
+      if (instance.programInfo?.toJson() case final value?)
+        'ProgramInfo': value,
+    };
 
 TimerInfoDtoQueryResult _$TimerInfoDtoQueryResultFromJson(
         Map<String, dynamic> json) =>
@@ -7720,20 +6603,14 @@ TimerInfoDtoQueryResult _$TimerInfoDtoQueryResultFromJson(
     );
 
 Map<String, dynamic> _$TimerInfoDtoQueryResultToJson(
-    TimerInfoDtoQueryResult instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Items', instance.items?.map((e) => e.toJson()).toList());
-  writeNotNull('TotalRecordCount', instance.totalRecordCount);
-  writeNotNull('StartIndex', instance.startIndex);
-  return val;
-}
+        TimerInfoDtoQueryResult instance) =>
+    <String, dynamic>{
+      if (instance.items?.map((e) => e.toJson()).toList() case final value?)
+        'Items': value,
+      if (instance.totalRecordCount case final value?)
+        'TotalRecordCount': value,
+      if (instance.startIndex case final value?) 'StartIndex': value,
+    };
 
 TrailerInfo _$TrailerInfoFromJson(Map<String, dynamic> json) => TrailerInfo(
       name: json['Name'] as String?,
@@ -7751,28 +6628,24 @@ TrailerInfo _$TrailerInfoFromJson(Map<String, dynamic> json) => TrailerInfo(
       isAutomated: json['IsAutomated'] as bool?,
     );
 
-Map<String, dynamic> _$TrailerInfoToJson(TrailerInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('OriginalTitle', instance.originalTitle);
-  writeNotNull('Path', instance.path);
-  writeNotNull('MetadataLanguage', instance.metadataLanguage);
-  writeNotNull('MetadataCountryCode', instance.metadataCountryCode);
-  writeNotNull('ProviderIds', instance.providerIds);
-  writeNotNull('Year', instance.year);
-  writeNotNull('IndexNumber', instance.indexNumber);
-  writeNotNull('ParentIndexNumber', instance.parentIndexNumber);
-  writeNotNull('PremiereDate', instance.premiereDate?.toIso8601String());
-  writeNotNull('IsAutomated', instance.isAutomated);
-  return val;
-}
+Map<String, dynamic> _$TrailerInfoToJson(TrailerInfo instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.originalTitle case final value?) 'OriginalTitle': value,
+      if (instance.path case final value?) 'Path': value,
+      if (instance.metadataLanguage case final value?)
+        'MetadataLanguage': value,
+      if (instance.metadataCountryCode case final value?)
+        'MetadataCountryCode': value,
+      if (instance.providerIds case final value?) 'ProviderIds': value,
+      if (instance.year case final value?) 'Year': value,
+      if (instance.indexNumber case final value?) 'IndexNumber': value,
+      if (instance.parentIndexNumber case final value?)
+        'ParentIndexNumber': value,
+      if (instance.premiereDate?.toIso8601String() case final value?)
+        'PremiereDate': value,
+      if (instance.isAutomated case final value?) 'IsAutomated': value,
+    };
 
 TrailerInfoRemoteSearchQuery _$TrailerInfoRemoteSearchQueryFromJson(
         Map<String, dynamic> json) =>
@@ -7786,21 +6659,15 @@ TrailerInfoRemoteSearchQuery _$TrailerInfoRemoteSearchQueryFromJson(
     );
 
 Map<String, dynamic> _$TrailerInfoRemoteSearchQueryToJson(
-    TrailerInfoRemoteSearchQuery instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('SearchInfo', instance.searchInfo?.toJson());
-  writeNotNull('ItemId', instance.itemId);
-  writeNotNull('SearchProviderName', instance.searchProviderName);
-  writeNotNull('IncludeDisabledProviders', instance.includeDisabledProviders);
-  return val;
-}
+        TrailerInfoRemoteSearchQuery instance) =>
+    <String, dynamic>{
+      if (instance.searchInfo?.toJson() case final value?) 'SearchInfo': value,
+      if (instance.itemId case final value?) 'ItemId': value,
+      if (instance.searchProviderName case final value?)
+        'SearchProviderName': value,
+      if (instance.includeDisabledProviders case final value?)
+        'IncludeDisabledProviders': value,
+    };
 
 TranscodingInfo _$TranscodingInfoFromJson(Map<String, dynamic> json) =>
     TranscodingInfo(
@@ -7821,34 +6688,26 @@ TranscodingInfo _$TranscodingInfoFromJson(Map<String, dynamic> json) =>
           transcodeReasonListFromJson(json['TranscodeReasons'] as List?),
     );
 
-Map<String, dynamic> _$TranscodingInfoToJson(TranscodingInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('AudioCodec', instance.audioCodec);
-  writeNotNull('VideoCodec', instance.videoCodec);
-  writeNotNull('Container', instance.container);
-  writeNotNull('IsVideoDirect', instance.isVideoDirect);
-  writeNotNull('IsAudioDirect', instance.isAudioDirect);
-  writeNotNull('Bitrate', instance.bitrate);
-  writeNotNull('Framerate', instance.framerate);
-  writeNotNull('CompletionPercentage', instance.completionPercentage);
-  writeNotNull('Width', instance.width);
-  writeNotNull('Height', instance.height);
-  writeNotNull('AudioChannels', instance.audioChannels);
-  writeNotNull(
-      'HardwareAccelerationType',
-      hardwareAccelerationTypeNullableToJson(
-          instance.hardwareAccelerationType));
-  val['TranscodeReasons'] =
-      transcodeReasonListToJson(instance.transcodeReasons);
-  return val;
-}
+Map<String, dynamic> _$TranscodingInfoToJson(TranscodingInfo instance) =>
+    <String, dynamic>{
+      if (instance.audioCodec case final value?) 'AudioCodec': value,
+      if (instance.videoCodec case final value?) 'VideoCodec': value,
+      if (instance.container case final value?) 'Container': value,
+      if (instance.isVideoDirect case final value?) 'IsVideoDirect': value,
+      if (instance.isAudioDirect case final value?) 'IsAudioDirect': value,
+      if (instance.bitrate case final value?) 'Bitrate': value,
+      if (instance.framerate case final value?) 'Framerate': value,
+      if (instance.completionPercentage case final value?)
+        'CompletionPercentage': value,
+      if (instance.width case final value?) 'Width': value,
+      if (instance.height case final value?) 'Height': value,
+      if (instance.audioChannels case final value?) 'AudioChannels': value,
+      if (hardwareAccelerationTypeNullableToJson(
+              instance.hardwareAccelerationType)
+          case final value?)
+        'HardwareAccelerationType': value,
+      'TranscodeReasons': transcodeReasonListToJson(instance.transcodeReasons),
+    };
 
 TranscodingProfile _$TranscodingProfileFromJson(Map<String, dynamic> json) =>
     TranscodingProfile(
@@ -7878,37 +6737,40 @@ TranscodingProfile _$TranscodingProfileFromJson(Map<String, dynamic> json) =>
       enableAudioVbrEncoding: json['EnableAudioVbrEncoding'] as bool? ?? true,
     );
 
-Map<String, dynamic> _$TranscodingProfileToJson(TranscodingProfile instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Container', instance.container);
-  writeNotNull('Type', dlnaProfileTypeNullableToJson(instance.type));
-  writeNotNull('VideoCodec', instance.videoCodec);
-  writeNotNull('AudioCodec', instance.audioCodec);
-  writeNotNull(
-      'Protocol', mediaStreamProtocolNullableToJson(instance.protocol));
-  writeNotNull('EstimateContentLength', instance.estimateContentLength);
-  writeNotNull('EnableMpegtsM2TsMode', instance.enableMpegtsM2TsMode);
-  writeNotNull('TranscodeSeekInfo',
-      transcodeSeekInfoNullableToJson(instance.transcodeSeekInfo));
-  writeNotNull('CopyTimestamps', instance.copyTimestamps);
-  writeNotNull('Context', encodingContextNullableToJson(instance.context));
-  writeNotNull('EnableSubtitlesInManifest', instance.enableSubtitlesInManifest);
-  writeNotNull('MaxAudioChannels', instance.maxAudioChannels);
-  writeNotNull('MinSegments', instance.minSegments);
-  writeNotNull('SegmentLength', instance.segmentLength);
-  writeNotNull('BreakOnNonKeyFrames', instance.breakOnNonKeyFrames);
-  writeNotNull(
-      'Conditions', instance.conditions?.map((e) => e.toJson()).toList());
-  writeNotNull('EnableAudioVbrEncoding', instance.enableAudioVbrEncoding);
-  return val;
-}
+Map<String, dynamic> _$TranscodingProfileToJson(TranscodingProfile instance) =>
+    <String, dynamic>{
+      if (instance.container case final value?) 'Container': value,
+      if (dlnaProfileTypeNullableToJson(instance.type) case final value?)
+        'Type': value,
+      if (instance.videoCodec case final value?) 'VideoCodec': value,
+      if (instance.audioCodec case final value?) 'AudioCodec': value,
+      if (mediaStreamProtocolNullableToJson(instance.protocol)
+          case final value?)
+        'Protocol': value,
+      if (instance.estimateContentLength case final value?)
+        'EstimateContentLength': value,
+      if (instance.enableMpegtsM2TsMode case final value?)
+        'EnableMpegtsM2TsMode': value,
+      if (transcodeSeekInfoNullableToJson(instance.transcodeSeekInfo)
+          case final value?)
+        'TranscodeSeekInfo': value,
+      if (instance.copyTimestamps case final value?) 'CopyTimestamps': value,
+      if (encodingContextNullableToJson(instance.context) case final value?)
+        'Context': value,
+      if (instance.enableSubtitlesInManifest case final value?)
+        'EnableSubtitlesInManifest': value,
+      if (instance.maxAudioChannels case final value?)
+        'MaxAudioChannels': value,
+      if (instance.minSegments case final value?) 'MinSegments': value,
+      if (instance.segmentLength case final value?) 'SegmentLength': value,
+      if (instance.breakOnNonKeyFrames case final value?)
+        'BreakOnNonKeyFrames': value,
+      if (instance.conditions?.map((e) => e.toJson()).toList()
+          case final value?)
+        'Conditions': value,
+      if (instance.enableAudioVbrEncoding case final value?)
+        'EnableAudioVbrEncoding': value,
+    };
 
 TrickplayInfo _$TrickplayInfoFromJson(Map<String, dynamic> json) =>
     TrickplayInfo(
@@ -7921,24 +6783,16 @@ TrickplayInfo _$TrickplayInfoFromJson(Map<String, dynamic> json) =>
       bandwidth: (json['Bandwidth'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$TrickplayInfoToJson(TrickplayInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Width', instance.width);
-  writeNotNull('Height', instance.height);
-  writeNotNull('TileWidth', instance.tileWidth);
-  writeNotNull('TileHeight', instance.tileHeight);
-  writeNotNull('ThumbnailCount', instance.thumbnailCount);
-  writeNotNull('Interval', instance.interval);
-  writeNotNull('Bandwidth', instance.bandwidth);
-  return val;
-}
+Map<String, dynamic> _$TrickplayInfoToJson(TrickplayInfo instance) =>
+    <String, dynamic>{
+      if (instance.width case final value?) 'Width': value,
+      if (instance.height case final value?) 'Height': value,
+      if (instance.tileWidth case final value?) 'TileWidth': value,
+      if (instance.tileHeight case final value?) 'TileHeight': value,
+      if (instance.thumbnailCount case final value?) 'ThumbnailCount': value,
+      if (instance.interval case final value?) 'Interval': value,
+      if (instance.bandwidth case final value?) 'Bandwidth': value,
+    };
 
 TrickplayOptions _$TrickplayOptionsFromJson(Map<String, dynamic> json) =>
     TrickplayOptions(
@@ -7961,32 +6815,29 @@ TrickplayOptions _$TrickplayOptionsFromJson(Map<String, dynamic> json) =>
       processThreads: (json['ProcessThreads'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$TrickplayOptionsToJson(TrickplayOptions instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('EnableHwAcceleration', instance.enableHwAcceleration);
-  writeNotNull('EnableHwEncoding', instance.enableHwEncoding);
-  writeNotNull(
-      'EnableKeyFrameOnlyExtraction', instance.enableKeyFrameOnlyExtraction);
-  writeNotNull('ScanBehavior',
-      trickplayScanBehaviorNullableToJson(instance.scanBehavior));
-  writeNotNull('ProcessPriority',
-      processPriorityClassNullableToJson(instance.processPriority));
-  writeNotNull('Interval', instance.interval);
-  writeNotNull('WidthResolutions', instance.widthResolutions);
-  writeNotNull('TileWidth', instance.tileWidth);
-  writeNotNull('TileHeight', instance.tileHeight);
-  writeNotNull('Qscale', instance.qscale);
-  writeNotNull('JpegQuality', instance.jpegQuality);
-  writeNotNull('ProcessThreads', instance.processThreads);
-  return val;
-}
+Map<String, dynamic> _$TrickplayOptionsToJson(TrickplayOptions instance) =>
+    <String, dynamic>{
+      if (instance.enableHwAcceleration case final value?)
+        'EnableHwAcceleration': value,
+      if (instance.enableHwEncoding case final value?)
+        'EnableHwEncoding': value,
+      if (instance.enableKeyFrameOnlyExtraction case final value?)
+        'EnableKeyFrameOnlyExtraction': value,
+      if (trickplayScanBehaviorNullableToJson(instance.scanBehavior)
+          case final value?)
+        'ScanBehavior': value,
+      if (processPriorityClassNullableToJson(instance.processPriority)
+          case final value?)
+        'ProcessPriority': value,
+      if (instance.interval case final value?) 'Interval': value,
+      if (instance.widthResolutions case final value?)
+        'WidthResolutions': value,
+      if (instance.tileWidth case final value?) 'TileWidth': value,
+      if (instance.tileHeight case final value?) 'TileHeight': value,
+      if (instance.qscale case final value?) 'Qscale': value,
+      if (instance.jpegQuality case final value?) 'JpegQuality': value,
+      if (instance.processThreads case final value?) 'ProcessThreads': value,
+    };
 
 TunerChannelMapping _$TunerChannelMappingFromJson(Map<String, dynamic> json) =>
     TunerChannelMapping(
@@ -7996,21 +6847,16 @@ TunerChannelMapping _$TunerChannelMappingFromJson(Map<String, dynamic> json) =>
       id: json['Id'] as String?,
     );
 
-Map<String, dynamic> _$TunerChannelMappingToJson(TunerChannelMapping instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('ProviderChannelName', instance.providerChannelName);
-  writeNotNull('ProviderChannelId', instance.providerChannelId);
-  writeNotNull('Id', instance.id);
-  return val;
-}
+Map<String, dynamic> _$TunerChannelMappingToJson(
+        TunerChannelMapping instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.providerChannelName case final value?)
+        'ProviderChannelName': value,
+      if (instance.providerChannelId case final value?)
+        'ProviderChannelId': value,
+      if (instance.id case final value?) 'Id': value,
+    };
 
 TunerHostInfo _$TunerHostInfoFromJson(Map<String, dynamic> json) =>
     TunerHostInfo(
@@ -8033,34 +6879,30 @@ TunerHostInfo _$TunerHostInfoFromJson(Map<String, dynamic> json) =>
       ignoreDts: json['IgnoreDts'] as bool?,
     );
 
-Map<String, dynamic> _$TunerHostInfoToJson(TunerHostInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Id', instance.id);
-  writeNotNull('Url', instance.url);
-  writeNotNull('Type', instance.type);
-  writeNotNull('DeviceId', instance.deviceId);
-  writeNotNull('FriendlyName', instance.friendlyName);
-  writeNotNull('ImportFavoritesOnly', instance.importFavoritesOnly);
-  writeNotNull('AllowHWTranscoding', instance.allowHWTranscoding);
-  writeNotNull(
-      'AllowFmp4TranscodingContainer', instance.allowFmp4TranscodingContainer);
-  writeNotNull('AllowStreamSharing', instance.allowStreamSharing);
-  writeNotNull(
-      'FallbackMaxStreamingBitrate', instance.fallbackMaxStreamingBitrate);
-  writeNotNull('EnableStreamLooping', instance.enableStreamLooping);
-  writeNotNull('Source', instance.source);
-  writeNotNull('TunerCount', instance.tunerCount);
-  writeNotNull('UserAgent', instance.userAgent);
-  writeNotNull('IgnoreDts', instance.ignoreDts);
-  return val;
-}
+Map<String, dynamic> _$TunerHostInfoToJson(TunerHostInfo instance) =>
+    <String, dynamic>{
+      if (instance.id case final value?) 'Id': value,
+      if (instance.url case final value?) 'Url': value,
+      if (instance.type case final value?) 'Type': value,
+      if (instance.deviceId case final value?) 'DeviceId': value,
+      if (instance.friendlyName case final value?) 'FriendlyName': value,
+      if (instance.importFavoritesOnly case final value?)
+        'ImportFavoritesOnly': value,
+      if (instance.allowHWTranscoding case final value?)
+        'AllowHWTranscoding': value,
+      if (instance.allowFmp4TranscodingContainer case final value?)
+        'AllowFmp4TranscodingContainer': value,
+      if (instance.allowStreamSharing case final value?)
+        'AllowStreamSharing': value,
+      if (instance.fallbackMaxStreamingBitrate case final value?)
+        'FallbackMaxStreamingBitrate': value,
+      if (instance.enableStreamLooping case final value?)
+        'EnableStreamLooping': value,
+      if (instance.source case final value?) 'Source': value,
+      if (instance.tunerCount case final value?) 'TunerCount': value,
+      if (instance.userAgent case final value?) 'UserAgent': value,
+      if (instance.ignoreDts case final value?) 'IgnoreDts': value,
+    };
 
 TypeOptions _$TypeOptionsFromJson(Map<String, dynamic> json) => TypeOptions(
       type: json['Type'] as String?,
@@ -8086,24 +6928,20 @@ TypeOptions _$TypeOptionsFromJson(Map<String, dynamic> json) => TypeOptions(
           [],
     );
 
-Map<String, dynamic> _$TypeOptionsToJson(TypeOptions instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Type', instance.type);
-  writeNotNull('MetadataFetchers', instance.metadataFetchers);
-  writeNotNull('MetadataFetcherOrder', instance.metadataFetcherOrder);
-  writeNotNull('ImageFetchers', instance.imageFetchers);
-  writeNotNull('ImageFetcherOrder', instance.imageFetcherOrder);
-  writeNotNull(
-      'ImageOptions', instance.imageOptions?.map((e) => e.toJson()).toList());
-  return val;
-}
+Map<String, dynamic> _$TypeOptionsToJson(TypeOptions instance) =>
+    <String, dynamic>{
+      if (instance.type case final value?) 'Type': value,
+      if (instance.metadataFetchers case final value?)
+        'MetadataFetchers': value,
+      if (instance.metadataFetcherOrder case final value?)
+        'MetadataFetcherOrder': value,
+      if (instance.imageFetchers case final value?) 'ImageFetchers': value,
+      if (instance.imageFetcherOrder case final value?)
+        'ImageFetcherOrder': value,
+      if (instance.imageOptions?.map((e) => e.toJson()).toList()
+          case final value?)
+        'ImageOptions': value,
+    };
 
 UpdateLibraryOptionsDto _$UpdateLibraryOptionsDtoFromJson(
         Map<String, dynamic> json) =>
@@ -8116,19 +6954,12 @@ UpdateLibraryOptionsDto _$UpdateLibraryOptionsDtoFromJson(
     );
 
 Map<String, dynamic> _$UpdateLibraryOptionsDtoToJson(
-    UpdateLibraryOptionsDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Id', instance.id);
-  writeNotNull('LibraryOptions', instance.libraryOptions?.toJson());
-  return val;
-}
+        UpdateLibraryOptionsDto instance) =>
+    <String, dynamic>{
+      if (instance.id case final value?) 'Id': value,
+      if (instance.libraryOptions?.toJson() case final value?)
+        'LibraryOptions': value,
+    };
 
 UpdateMediaPathRequestDto _$UpdateMediaPathRequestDtoFromJson(
         Map<String, dynamic> json) =>
@@ -8158,21 +6989,14 @@ UpdatePlaylistDto _$UpdatePlaylistDtoFromJson(Map<String, dynamic> json) =>
       isPublic: json['IsPublic'] as bool?,
     );
 
-Map<String, dynamic> _$UpdatePlaylistDtoToJson(UpdatePlaylistDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('Ids', instance.ids);
-  writeNotNull('Users', instance.users?.map((e) => e.toJson()).toList());
-  writeNotNull('IsPublic', instance.isPublic);
-  return val;
-}
+Map<String, dynamic> _$UpdatePlaylistDtoToJson(UpdatePlaylistDto instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.ids case final value?) 'Ids': value,
+      if (instance.users?.map((e) => e.toJson()).toList() case final value?)
+        'Users': value,
+      if (instance.isPublic case final value?) 'IsPublic': value,
+    };
 
 UpdatePlaylistUserDto _$UpdatePlaylistUserDtoFromJson(
         Map<String, dynamic> json) =>
@@ -8181,18 +7005,10 @@ UpdatePlaylistUserDto _$UpdatePlaylistUserDtoFromJson(
     );
 
 Map<String, dynamic> _$UpdatePlaylistUserDtoToJson(
-    UpdatePlaylistUserDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('CanEdit', instance.canEdit);
-  return val;
-}
+        UpdatePlaylistUserDto instance) =>
+    <String, dynamic>{
+      if (instance.canEdit case final value?) 'CanEdit': value,
+    };
 
 UpdateUserItemDataDto _$UpdateUserItemDataDtoFromJson(
         Map<String, dynamic> json) =>
@@ -8213,28 +7029,24 @@ UpdateUserItemDataDto _$UpdateUserItemDataDtoFromJson(
     );
 
 Map<String, dynamic> _$UpdateUserItemDataDtoToJson(
-    UpdateUserItemDataDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Rating', instance.rating);
-  writeNotNull('PlayedPercentage', instance.playedPercentage);
-  writeNotNull('UnplayedItemCount', instance.unplayedItemCount);
-  writeNotNull('PlaybackPositionTicks', instance.playbackPositionTicks);
-  writeNotNull('PlayCount', instance.playCount);
-  writeNotNull('IsFavorite', instance.isFavorite);
-  writeNotNull('Likes', instance.likes);
-  writeNotNull('LastPlayedDate', instance.lastPlayedDate?.toIso8601String());
-  writeNotNull('Played', instance.played);
-  writeNotNull('Key', instance.key);
-  writeNotNull('ItemId', instance.itemId);
-  return val;
-}
+        UpdateUserItemDataDto instance) =>
+    <String, dynamic>{
+      if (instance.rating case final value?) 'Rating': value,
+      if (instance.playedPercentage case final value?)
+        'PlayedPercentage': value,
+      if (instance.unplayedItemCount case final value?)
+        'UnplayedItemCount': value,
+      if (instance.playbackPositionTicks case final value?)
+        'PlaybackPositionTicks': value,
+      if (instance.playCount case final value?) 'PlayCount': value,
+      if (instance.isFavorite case final value?) 'IsFavorite': value,
+      if (instance.likes case final value?) 'Likes': value,
+      if (instance.lastPlayedDate?.toIso8601String() case final value?)
+        'LastPlayedDate': value,
+      if (instance.played case final value?) 'Played': value,
+      if (instance.key case final value?) 'Key': value,
+      if (instance.itemId case final value?) 'ItemId': value,
+    };
 
 UpdateUserPassword _$UpdateUserPasswordFromJson(Map<String, dynamic> json) =>
     UpdateUserPassword(
@@ -8244,21 +7056,13 @@ UpdateUserPassword _$UpdateUserPasswordFromJson(Map<String, dynamic> json) =>
       resetPassword: json['ResetPassword'] as bool?,
     );
 
-Map<String, dynamic> _$UpdateUserPasswordToJson(UpdateUserPassword instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('CurrentPassword', instance.currentPassword);
-  writeNotNull('CurrentPw', instance.currentPw);
-  writeNotNull('NewPw', instance.newPw);
-  writeNotNull('ResetPassword', instance.resetPassword);
-  return val;
-}
+Map<String, dynamic> _$UpdateUserPasswordToJson(UpdateUserPassword instance) =>
+    <String, dynamic>{
+      if (instance.currentPassword case final value?) 'CurrentPassword': value,
+      if (instance.currentPw case final value?) 'CurrentPw': value,
+      if (instance.newPw case final value?) 'NewPw': value,
+      if (instance.resetPassword case final value?) 'ResetPassword': value,
+    };
 
 UploadSubtitleDto _$UploadSubtitleDtoFromJson(Map<String, dynamic> json) =>
     UploadSubtitleDto(
@@ -8310,36 +7114,38 @@ UserConfiguration _$UserConfigurationFromJson(Map<String, dynamic> json) =>
       castReceiverId: json['CastReceiverId'] as String?,
     );
 
-Map<String, dynamic> _$UserConfigurationToJson(UserConfiguration instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('AudioLanguagePreference', instance.audioLanguagePreference);
-  writeNotNull('PlayDefaultAudioTrack', instance.playDefaultAudioTrack);
-  writeNotNull(
-      'SubtitleLanguagePreference', instance.subtitleLanguagePreference);
-  writeNotNull('DisplayMissingEpisodes', instance.displayMissingEpisodes);
-  writeNotNull('GroupedFolders', instance.groupedFolders);
-  writeNotNull('SubtitleMode',
-      subtitlePlaybackModeNullableToJson(instance.subtitleMode));
-  writeNotNull('DisplayCollectionsView', instance.displayCollectionsView);
-  writeNotNull('EnableLocalPassword', instance.enableLocalPassword);
-  writeNotNull('OrderedViews', instance.orderedViews);
-  writeNotNull('LatestItemsExcludes', instance.latestItemsExcludes);
-  writeNotNull('MyMediaExcludes', instance.myMediaExcludes);
-  writeNotNull('HidePlayedInLatest', instance.hidePlayedInLatest);
-  writeNotNull('RememberAudioSelections', instance.rememberAudioSelections);
-  writeNotNull(
-      'RememberSubtitleSelections', instance.rememberSubtitleSelections);
-  writeNotNull('EnableNextEpisodeAutoPlay', instance.enableNextEpisodeAutoPlay);
-  writeNotNull('CastReceiverId', instance.castReceiverId);
-  return val;
-}
+Map<String, dynamic> _$UserConfigurationToJson(UserConfiguration instance) =>
+    <String, dynamic>{
+      if (instance.audioLanguagePreference case final value?)
+        'AudioLanguagePreference': value,
+      if (instance.playDefaultAudioTrack case final value?)
+        'PlayDefaultAudioTrack': value,
+      if (instance.subtitleLanguagePreference case final value?)
+        'SubtitleLanguagePreference': value,
+      if (instance.displayMissingEpisodes case final value?)
+        'DisplayMissingEpisodes': value,
+      if (instance.groupedFolders case final value?) 'GroupedFolders': value,
+      if (subtitlePlaybackModeNullableToJson(instance.subtitleMode)
+          case final value?)
+        'SubtitleMode': value,
+      if (instance.displayCollectionsView case final value?)
+        'DisplayCollectionsView': value,
+      if (instance.enableLocalPassword case final value?)
+        'EnableLocalPassword': value,
+      if (instance.orderedViews case final value?) 'OrderedViews': value,
+      if (instance.latestItemsExcludes case final value?)
+        'LatestItemsExcludes': value,
+      if (instance.myMediaExcludes case final value?) 'MyMediaExcludes': value,
+      if (instance.hidePlayedInLatest case final value?)
+        'HidePlayedInLatest': value,
+      if (instance.rememberAudioSelections case final value?)
+        'RememberAudioSelections': value,
+      if (instance.rememberSubtitleSelections case final value?)
+        'RememberSubtitleSelections': value,
+      if (instance.enableNextEpisodeAutoPlay case final value?)
+        'EnableNextEpisodeAutoPlay': value,
+      if (instance.castReceiverId case final value?) 'CastReceiverId': value,
+    };
 
 UserDataChangedMessage _$UserDataChangedMessageFromJson(
         Map<String, dynamic> json) =>
@@ -8354,21 +7160,14 @@ UserDataChangedMessage _$UserDataChangedMessageFromJson(
     );
 
 Map<String, dynamic> _$UserDataChangedMessageToJson(
-    UserDataChangedMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Data', instance.data?.toJson());
-  writeNotNull('MessageId', instance.messageId);
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+        UserDataChangedMessage instance) =>
+    <String, dynamic>{
+      if (instance.data?.toJson() case final value?) 'Data': value,
+      if (instance.messageId case final value?) 'MessageId': value,
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 UserDataChangeInfo _$UserDataChangeInfoFromJson(Map<String, dynamic> json) =>
     UserDataChangeInfo(
@@ -8379,20 +7178,13 @@ UserDataChangeInfo _$UserDataChangeInfoFromJson(Map<String, dynamic> json) =>
           [],
     );
 
-Map<String, dynamic> _$UserDataChangeInfoToJson(UserDataChangeInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('UserId', instance.userId);
-  writeNotNull(
-      'UserDataList', instance.userDataList?.map((e) => e.toJson()).toList());
-  return val;
-}
+Map<String, dynamic> _$UserDataChangeInfoToJson(UserDataChangeInfo instance) =>
+    <String, dynamic>{
+      if (instance.userId case final value?) 'UserId': value,
+      if (instance.userDataList?.map((e) => e.toJson()).toList()
+          case final value?)
+        'UserDataList': value,
+    };
 
 UserDeletedMessage _$UserDeletedMessageFromJson(Map<String, dynamic> json) =>
     UserDeletedMessage(
@@ -8403,21 +7195,14 @@ UserDeletedMessage _$UserDeletedMessageFromJson(Map<String, dynamic> json) =>
               json['MessageType']),
     );
 
-Map<String, dynamic> _$UserDeletedMessageToJson(UserDeletedMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Data', instance.data);
-  writeNotNull('MessageId', instance.messageId);
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+Map<String, dynamic> _$UserDeletedMessageToJson(UserDeletedMessage instance) =>
+    <String, dynamic>{
+      if (instance.data case final value?) 'Data': value,
+      if (instance.messageId case final value?) 'MessageId': value,
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 UserDto _$UserDtoFromJson(Map<String, dynamic> json) => UserDto(
       name: json['Name'] as String?,
@@ -8446,32 +7231,28 @@ UserDto _$UserDtoFromJson(Map<String, dynamic> json) => UserDto(
           (json['PrimaryImageAspectRatio'] as num?)?.toDouble(),
     );
 
-Map<String, dynamic> _$UserDtoToJson(UserDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('ServerId', instance.serverId);
-  writeNotNull('ServerName', instance.serverName);
-  writeNotNull('Id', instance.id);
-  writeNotNull('PrimaryImageTag', instance.primaryImageTag);
-  writeNotNull('HasPassword', instance.hasPassword);
-  writeNotNull('HasConfiguredPassword', instance.hasConfiguredPassword);
-  writeNotNull('HasConfiguredEasyPassword', instance.hasConfiguredEasyPassword);
-  writeNotNull('EnableAutoLogin', instance.enableAutoLogin);
-  writeNotNull('LastLoginDate', instance.lastLoginDate?.toIso8601String());
-  writeNotNull(
-      'LastActivityDate', instance.lastActivityDate?.toIso8601String());
-  writeNotNull('Configuration', instance.configuration?.toJson());
-  writeNotNull('Policy', instance.policy?.toJson());
-  writeNotNull('PrimaryImageAspectRatio', instance.primaryImageAspectRatio);
-  return val;
-}
+Map<String, dynamic> _$UserDtoToJson(UserDto instance) => <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.serverId case final value?) 'ServerId': value,
+      if (instance.serverName case final value?) 'ServerName': value,
+      if (instance.id case final value?) 'Id': value,
+      if (instance.primaryImageTag case final value?) 'PrimaryImageTag': value,
+      if (instance.hasPassword case final value?) 'HasPassword': value,
+      if (instance.hasConfiguredPassword case final value?)
+        'HasConfiguredPassword': value,
+      if (instance.hasConfiguredEasyPassword case final value?)
+        'HasConfiguredEasyPassword': value,
+      if (instance.enableAutoLogin case final value?) 'EnableAutoLogin': value,
+      if (instance.lastLoginDate?.toIso8601String() case final value?)
+        'LastLoginDate': value,
+      if (instance.lastActivityDate?.toIso8601String() case final value?)
+        'LastActivityDate': value,
+      if (instance.configuration?.toJson() case final value?)
+        'Configuration': value,
+      if (instance.policy?.toJson() case final value?) 'Policy': value,
+      if (instance.primaryImageAspectRatio case final value?)
+        'PrimaryImageAspectRatio': value,
+    };
 
 UserItemDataDto _$UserItemDataDtoFromJson(Map<String, dynamic> json) =>
     UserItemDataDto(
@@ -8490,28 +7271,24 @@ UserItemDataDto _$UserItemDataDtoFromJson(Map<String, dynamic> json) =>
       itemId: json['ItemId'] as String?,
     );
 
-Map<String, dynamic> _$UserItemDataDtoToJson(UserItemDataDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Rating', instance.rating);
-  writeNotNull('PlayedPercentage', instance.playedPercentage);
-  writeNotNull('UnplayedItemCount', instance.unplayedItemCount);
-  writeNotNull('PlaybackPositionTicks', instance.playbackPositionTicks);
-  writeNotNull('PlayCount', instance.playCount);
-  writeNotNull('IsFavorite', instance.isFavorite);
-  writeNotNull('Likes', instance.likes);
-  writeNotNull('LastPlayedDate', instance.lastPlayedDate?.toIso8601String());
-  writeNotNull('Played', instance.played);
-  writeNotNull('Key', instance.key);
-  writeNotNull('ItemId', instance.itemId);
-  return val;
-}
+Map<String, dynamic> _$UserItemDataDtoToJson(UserItemDataDto instance) =>
+    <String, dynamic>{
+      if (instance.rating case final value?) 'Rating': value,
+      if (instance.playedPercentage case final value?)
+        'PlayedPercentage': value,
+      if (instance.unplayedItemCount case final value?)
+        'UnplayedItemCount': value,
+      if (instance.playbackPositionTicks case final value?)
+        'PlaybackPositionTicks': value,
+      if (instance.playCount case final value?) 'PlayCount': value,
+      if (instance.isFavorite case final value?) 'IsFavorite': value,
+      if (instance.likes case final value?) 'Likes': value,
+      if (instance.lastPlayedDate?.toIso8601String() case final value?)
+        'LastPlayedDate': value,
+      if (instance.played case final value?) 'Played': value,
+      if (instance.key case final value?) 'Key': value,
+      if (instance.itemId case final value?) 'ItemId': value,
+    };
 
 UserPolicy _$UserPolicyFromJson(Map<String, dynamic> json) => UserPolicy(
       isAdministrator: json['IsAdministrator'] as bool?,
@@ -8598,70 +7375,85 @@ UserPolicy _$UserPolicyFromJson(Map<String, dynamic> json) => UserPolicy(
           syncPlayUserAccessTypeNullableFromJson(json['SyncPlayAccess']),
     );
 
-Map<String, dynamic> _$UserPolicyToJson(UserPolicy instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('IsAdministrator', instance.isAdministrator);
-  writeNotNull('IsHidden', instance.isHidden);
-  writeNotNull(
-      'EnableCollectionManagement', instance.enableCollectionManagement);
-  writeNotNull('EnableSubtitleManagement', instance.enableSubtitleManagement);
-  writeNotNull('EnableLyricManagement', instance.enableLyricManagement);
-  writeNotNull('IsDisabled', instance.isDisabled);
-  writeNotNull('MaxParentalRating', instance.maxParentalRating);
-  writeNotNull('BlockedTags', instance.blockedTags);
-  writeNotNull('AllowedTags', instance.allowedTags);
-  writeNotNull(
-      'EnableUserPreferenceAccess', instance.enableUserPreferenceAccess);
-  writeNotNull('AccessSchedules',
-      instance.accessSchedules?.map((e) => e.toJson()).toList());
-  val['BlockUnratedItems'] = unratedItemListToJson(instance.blockUnratedItems);
-  writeNotNull('EnableRemoteControlOfOtherUsers',
-      instance.enableRemoteControlOfOtherUsers);
-  writeNotNull('EnableSharedDeviceControl', instance.enableSharedDeviceControl);
-  writeNotNull('EnableRemoteAccess', instance.enableRemoteAccess);
-  writeNotNull('EnableLiveTvManagement', instance.enableLiveTvManagement);
-  writeNotNull('EnableLiveTvAccess', instance.enableLiveTvAccess);
-  writeNotNull('EnableMediaPlayback', instance.enableMediaPlayback);
-  writeNotNull('EnableAudioPlaybackTranscoding',
-      instance.enableAudioPlaybackTranscoding);
-  writeNotNull('EnableVideoPlaybackTranscoding',
-      instance.enableVideoPlaybackTranscoding);
-  writeNotNull('EnablePlaybackRemuxing', instance.enablePlaybackRemuxing);
-  writeNotNull(
-      'ForceRemoteSourceTranscoding', instance.forceRemoteSourceTranscoding);
-  writeNotNull('EnableContentDeletion', instance.enableContentDeletion);
-  writeNotNull('EnableContentDeletionFromFolders',
-      instance.enableContentDeletionFromFolders);
-  writeNotNull('EnableContentDownloading', instance.enableContentDownloading);
-  writeNotNull('EnableSyncTranscoding', instance.enableSyncTranscoding);
-  writeNotNull('EnableMediaConversion', instance.enableMediaConversion);
-  writeNotNull('EnabledDevices', instance.enabledDevices);
-  writeNotNull('EnableAllDevices', instance.enableAllDevices);
-  writeNotNull('EnabledChannels', instance.enabledChannels);
-  writeNotNull('EnableAllChannels', instance.enableAllChannels);
-  writeNotNull('EnabledFolders', instance.enabledFolders);
-  writeNotNull('EnableAllFolders', instance.enableAllFolders);
-  writeNotNull('InvalidLoginAttemptCount', instance.invalidLoginAttemptCount);
-  writeNotNull(
-      'LoginAttemptsBeforeLockout', instance.loginAttemptsBeforeLockout);
-  writeNotNull('MaxActiveSessions', instance.maxActiveSessions);
-  writeNotNull('EnablePublicSharing', instance.enablePublicSharing);
-  writeNotNull('BlockedMediaFolders', instance.blockedMediaFolders);
-  writeNotNull('BlockedChannels', instance.blockedChannels);
-  writeNotNull('RemoteClientBitrateLimit', instance.remoteClientBitrateLimit);
-  val['AuthenticationProviderId'] = instance.authenticationProviderId;
-  val['PasswordResetProviderId'] = instance.passwordResetProviderId;
-  writeNotNull('SyncPlayAccess',
-      syncPlayUserAccessTypeNullableToJson(instance.syncPlayAccess));
-  return val;
-}
+Map<String, dynamic> _$UserPolicyToJson(UserPolicy instance) =>
+    <String, dynamic>{
+      if (instance.isAdministrator case final value?) 'IsAdministrator': value,
+      if (instance.isHidden case final value?) 'IsHidden': value,
+      if (instance.enableCollectionManagement case final value?)
+        'EnableCollectionManagement': value,
+      if (instance.enableSubtitleManagement case final value?)
+        'EnableSubtitleManagement': value,
+      if (instance.enableLyricManagement case final value?)
+        'EnableLyricManagement': value,
+      if (instance.isDisabled case final value?) 'IsDisabled': value,
+      if (instance.maxParentalRating case final value?)
+        'MaxParentalRating': value,
+      if (instance.blockedTags case final value?) 'BlockedTags': value,
+      if (instance.allowedTags case final value?) 'AllowedTags': value,
+      if (instance.enableUserPreferenceAccess case final value?)
+        'EnableUserPreferenceAccess': value,
+      if (instance.accessSchedules?.map((e) => e.toJson()).toList()
+          case final value?)
+        'AccessSchedules': value,
+      'BlockUnratedItems': unratedItemListToJson(instance.blockUnratedItems),
+      if (instance.enableRemoteControlOfOtherUsers case final value?)
+        'EnableRemoteControlOfOtherUsers': value,
+      if (instance.enableSharedDeviceControl case final value?)
+        'EnableSharedDeviceControl': value,
+      if (instance.enableRemoteAccess case final value?)
+        'EnableRemoteAccess': value,
+      if (instance.enableLiveTvManagement case final value?)
+        'EnableLiveTvManagement': value,
+      if (instance.enableLiveTvAccess case final value?)
+        'EnableLiveTvAccess': value,
+      if (instance.enableMediaPlayback case final value?)
+        'EnableMediaPlayback': value,
+      if (instance.enableAudioPlaybackTranscoding case final value?)
+        'EnableAudioPlaybackTranscoding': value,
+      if (instance.enableVideoPlaybackTranscoding case final value?)
+        'EnableVideoPlaybackTranscoding': value,
+      if (instance.enablePlaybackRemuxing case final value?)
+        'EnablePlaybackRemuxing': value,
+      if (instance.forceRemoteSourceTranscoding case final value?)
+        'ForceRemoteSourceTranscoding': value,
+      if (instance.enableContentDeletion case final value?)
+        'EnableContentDeletion': value,
+      if (instance.enableContentDeletionFromFolders case final value?)
+        'EnableContentDeletionFromFolders': value,
+      if (instance.enableContentDownloading case final value?)
+        'EnableContentDownloading': value,
+      if (instance.enableSyncTranscoding case final value?)
+        'EnableSyncTranscoding': value,
+      if (instance.enableMediaConversion case final value?)
+        'EnableMediaConversion': value,
+      if (instance.enabledDevices case final value?) 'EnabledDevices': value,
+      if (instance.enableAllDevices case final value?)
+        'EnableAllDevices': value,
+      if (instance.enabledChannels case final value?) 'EnabledChannels': value,
+      if (instance.enableAllChannels case final value?)
+        'EnableAllChannels': value,
+      if (instance.enabledFolders case final value?) 'EnabledFolders': value,
+      if (instance.enableAllFolders case final value?)
+        'EnableAllFolders': value,
+      if (instance.invalidLoginAttemptCount case final value?)
+        'InvalidLoginAttemptCount': value,
+      if (instance.loginAttemptsBeforeLockout case final value?)
+        'LoginAttemptsBeforeLockout': value,
+      if (instance.maxActiveSessions case final value?)
+        'MaxActiveSessions': value,
+      if (instance.enablePublicSharing case final value?)
+        'EnablePublicSharing': value,
+      if (instance.blockedMediaFolders case final value?)
+        'BlockedMediaFolders': value,
+      if (instance.blockedChannels case final value?) 'BlockedChannels': value,
+      if (instance.remoteClientBitrateLimit case final value?)
+        'RemoteClientBitrateLimit': value,
+      'AuthenticationProviderId': instance.authenticationProviderId,
+      'PasswordResetProviderId': instance.passwordResetProviderId,
+      if (syncPlayUserAccessTypeNullableToJson(instance.syncPlayAccess)
+          case final value?)
+        'SyncPlayAccess': value,
+    };
 
 UserUpdatedMessage _$UserUpdatedMessageFromJson(Map<String, dynamic> json) =>
     UserUpdatedMessage(
@@ -8674,21 +7466,14 @@ UserUpdatedMessage _$UserUpdatedMessageFromJson(Map<String, dynamic> json) =>
               json['MessageType']),
     );
 
-Map<String, dynamic> _$UserUpdatedMessageToJson(UserUpdatedMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Data', instance.data?.toJson());
-  writeNotNull('MessageId', instance.messageId);
-  writeNotNull(
-      'MessageType', sessionMessageTypeNullableToJson(instance.messageType));
-  return val;
-}
+Map<String, dynamic> _$UserUpdatedMessageToJson(UserUpdatedMessage instance) =>
+    <String, dynamic>{
+      if (instance.data?.toJson() case final value?) 'Data': value,
+      if (instance.messageId case final value?) 'MessageId': value,
+      if (sessionMessageTypeNullableToJson(instance.messageType)
+          case final value?)
+        'MessageType': value,
+    };
 
 UtcTimeResponse _$UtcTimeResponseFromJson(Map<String, dynamic> json) =>
     UtcTimeResponse(
@@ -8700,21 +7485,14 @@ UtcTimeResponse _$UtcTimeResponseFromJson(Map<String, dynamic> json) =>
           : DateTime.parse(json['ResponseTransmissionTime'] as String),
     );
 
-Map<String, dynamic> _$UtcTimeResponseToJson(UtcTimeResponse instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'RequestReceptionTime', instance.requestReceptionTime?.toIso8601String());
-  writeNotNull('ResponseTransmissionTime',
-      instance.responseTransmissionTime?.toIso8601String());
-  return val;
-}
+Map<String, dynamic> _$UtcTimeResponseToJson(UtcTimeResponse instance) =>
+    <String, dynamic>{
+      if (instance.requestReceptionTime?.toIso8601String() case final value?)
+        'RequestReceptionTime': value,
+      if (instance.responseTransmissionTime?.toIso8601String()
+          case final value?)
+        'ResponseTransmissionTime': value,
+    };
 
 ValidatePathDto _$ValidatePathDtoFromJson(Map<String, dynamic> json) =>
     ValidatePathDto(
@@ -8723,20 +7501,13 @@ ValidatePathDto _$ValidatePathDtoFromJson(Map<String, dynamic> json) =>
       isFile: json['IsFile'] as bool?,
     );
 
-Map<String, dynamic> _$ValidatePathDtoToJson(ValidatePathDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ValidateWritable', instance.validateWritable);
-  writeNotNull('Path', instance.path);
-  writeNotNull('IsFile', instance.isFile);
-  return val;
-}
+Map<String, dynamic> _$ValidatePathDtoToJson(ValidatePathDto instance) =>
+    <String, dynamic>{
+      if (instance.validateWritable case final value?)
+        'ValidateWritable': value,
+      if (instance.path case final value?) 'Path': value,
+      if (instance.isFile case final value?) 'IsFile': value,
+    };
 
 VersionInfo _$VersionInfoFromJson(Map<String, dynamic> json) => VersionInfo(
       version: json['version'] as String?,
@@ -8750,26 +7521,18 @@ VersionInfo _$VersionInfoFromJson(Map<String, dynamic> json) => VersionInfo(
       repositoryUrl: json['repositoryUrl'] as String?,
     );
 
-Map<String, dynamic> _$VersionInfoToJson(VersionInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('version', instance.version);
-  writeNotNull('VersionNumber', instance.versionNumber);
-  writeNotNull('changelog', instance.changelog);
-  writeNotNull('targetAbi', instance.targetAbi);
-  writeNotNull('sourceUrl', instance.sourceUrl);
-  writeNotNull('checksum', instance.checksum);
-  writeNotNull('timestamp', instance.timestamp);
-  writeNotNull('repositoryName', instance.repositoryName);
-  writeNotNull('repositoryUrl', instance.repositoryUrl);
-  return val;
-}
+Map<String, dynamic> _$VersionInfoToJson(VersionInfo instance) =>
+    <String, dynamic>{
+      if (instance.version case final value?) 'version': value,
+      if (instance.versionNumber case final value?) 'VersionNumber': value,
+      if (instance.changelog case final value?) 'changelog': value,
+      if (instance.targetAbi case final value?) 'targetAbi': value,
+      if (instance.sourceUrl case final value?) 'sourceUrl': value,
+      if (instance.checksum case final value?) 'checksum': value,
+      if (instance.timestamp case final value?) 'timestamp': value,
+      if (instance.repositoryName case final value?) 'repositoryName': value,
+      if (instance.repositoryUrl case final value?) 'repositoryUrl': value,
+    };
 
 VirtualFolderInfo _$VirtualFolderInfoFromJson(Map<String, dynamic> json) =>
     VirtualFolderInfo(
@@ -8790,26 +7553,21 @@ VirtualFolderInfo _$VirtualFolderInfoFromJson(Map<String, dynamic> json) =>
       refreshStatus: json['RefreshStatus'] as String?,
     );
 
-Map<String, dynamic> _$VirtualFolderInfoToJson(VirtualFolderInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('Locations', instance.locations);
-  writeNotNull('CollectionType',
-      collectionTypeOptionsNullableToJson(instance.collectionType));
-  writeNotNull('LibraryOptions', instance.libraryOptions?.toJson());
-  writeNotNull('ItemId', instance.itemId);
-  writeNotNull('PrimaryImageItemId', instance.primaryImageItemId);
-  writeNotNull('RefreshProgress', instance.refreshProgress);
-  writeNotNull('RefreshStatus', instance.refreshStatus);
-  return val;
-}
+Map<String, dynamic> _$VirtualFolderInfoToJson(VirtualFolderInfo instance) =>
+    <String, dynamic>{
+      if (instance.name case final value?) 'Name': value,
+      if (instance.locations case final value?) 'Locations': value,
+      if (collectionTypeOptionsNullableToJson(instance.collectionType)
+          case final value?)
+        'CollectionType': value,
+      if (instance.libraryOptions?.toJson() case final value?)
+        'LibraryOptions': value,
+      if (instance.itemId case final value?) 'ItemId': value,
+      if (instance.primaryImageItemId case final value?)
+        'PrimaryImageItemId': value,
+      if (instance.refreshProgress case final value?) 'RefreshProgress': value,
+      if (instance.refreshStatus case final value?) 'RefreshStatus': value,
+    };
 
 WakeOnLanInfo _$WakeOnLanInfoFromJson(Map<String, dynamic> json) =>
     WakeOnLanInfo(
@@ -8817,19 +7575,11 @@ WakeOnLanInfo _$WakeOnLanInfoFromJson(Map<String, dynamic> json) =>
       port: (json['Port'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$WakeOnLanInfoToJson(WakeOnLanInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('MacAddress', instance.macAddress);
-  writeNotNull('Port', instance.port);
-  return val;
-}
+Map<String, dynamic> _$WakeOnLanInfoToJson(WakeOnLanInfo instance) =>
+    <String, dynamic>{
+      if (instance.macAddress case final value?) 'MacAddress': value,
+      if (instance.port case final value?) 'Port': value,
+    };
 
 WebSocketMessage _$WebSocketMessageFromJson(Map<String, dynamic> json) =>
     WebSocketMessage();
@@ -8847,23 +7597,19 @@ XbmcMetadataOptions _$XbmcMetadataOptionsFromJson(Map<String, dynamic> json) =>
           json['EnableExtraThumbsDuplication'] as bool?,
     );
 
-Map<String, dynamic> _$XbmcMetadataOptionsToJson(XbmcMetadataOptions instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('UserId', instance.userId);
-  writeNotNull('ReleaseDateFormat', instance.releaseDateFormat);
-  writeNotNull('SaveImagePathsInNfo', instance.saveImagePathsInNfo);
-  writeNotNull('EnablePathSubstitution', instance.enablePathSubstitution);
-  writeNotNull(
-      'EnableExtraThumbsDuplication', instance.enableExtraThumbsDuplication);
-  return val;
-}
+Map<String, dynamic> _$XbmcMetadataOptionsToJson(
+        XbmcMetadataOptions instance) =>
+    <String, dynamic>{
+      if (instance.userId case final value?) 'UserId': value,
+      if (instance.releaseDateFormat case final value?)
+        'ReleaseDateFormat': value,
+      if (instance.saveImagePathsInNfo case final value?)
+        'SaveImagePathsInNfo': value,
+      if (instance.enablePathSubstitution case final value?)
+        'EnablePathSubstitution': value,
+      if (instance.enableExtraThumbsDuplication case final value?)
+        'EnableExtraThumbsDuplication': value,
+    };
 
 BaseItemDto$ImageBlurHashes _$BaseItemDto$ImageBlurHashesFromJson(
         Map<String, dynamic> json) =>
@@ -8884,30 +7630,22 @@ BaseItemDto$ImageBlurHashes _$BaseItemDto$ImageBlurHashesFromJson(
     );
 
 Map<String, dynamic> _$BaseItemDto$ImageBlurHashesToJson(
-    BaseItemDto$ImageBlurHashes instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Primary', instance.primary);
-  writeNotNull('Art', instance.art);
-  writeNotNull('Backdrop', instance.backdrop);
-  writeNotNull('Banner', instance.banner);
-  writeNotNull('Logo', instance.logo);
-  writeNotNull('Thumb', instance.thumb);
-  writeNotNull('Disc', instance.disc);
-  writeNotNull('Box', instance.box);
-  writeNotNull('Screenshot', instance.screenshot);
-  writeNotNull('Menu', instance.menu);
-  writeNotNull('Chapter', instance.chapter);
-  writeNotNull('BoxRear', instance.boxRear);
-  writeNotNull('Profile', instance.profile);
-  return val;
-}
+        BaseItemDto$ImageBlurHashes instance) =>
+    <String, dynamic>{
+      if (instance.primary case final value?) 'Primary': value,
+      if (instance.art case final value?) 'Art': value,
+      if (instance.backdrop case final value?) 'Backdrop': value,
+      if (instance.banner case final value?) 'Banner': value,
+      if (instance.logo case final value?) 'Logo': value,
+      if (instance.thumb case final value?) 'Thumb': value,
+      if (instance.disc case final value?) 'Disc': value,
+      if (instance.box case final value?) 'Box': value,
+      if (instance.screenshot case final value?) 'Screenshot': value,
+      if (instance.menu case final value?) 'Menu': value,
+      if (instance.chapter case final value?) 'Chapter': value,
+      if (instance.boxRear case final value?) 'BoxRear': value,
+      if (instance.profile case final value?) 'Profile': value,
+    };
 
 BaseItemPerson$ImageBlurHashes _$BaseItemPerson$ImageBlurHashesFromJson(
         Map<String, dynamic> json) =>
@@ -8928,27 +7666,19 @@ BaseItemPerson$ImageBlurHashes _$BaseItemPerson$ImageBlurHashesFromJson(
     );
 
 Map<String, dynamic> _$BaseItemPerson$ImageBlurHashesToJson(
-    BaseItemPerson$ImageBlurHashes instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Primary', instance.primary);
-  writeNotNull('Art', instance.art);
-  writeNotNull('Backdrop', instance.backdrop);
-  writeNotNull('Banner', instance.banner);
-  writeNotNull('Logo', instance.logo);
-  writeNotNull('Thumb', instance.thumb);
-  writeNotNull('Disc', instance.disc);
-  writeNotNull('Box', instance.box);
-  writeNotNull('Screenshot', instance.screenshot);
-  writeNotNull('Menu', instance.menu);
-  writeNotNull('Chapter', instance.chapter);
-  writeNotNull('BoxRear', instance.boxRear);
-  writeNotNull('Profile', instance.profile);
-  return val;
-}
+        BaseItemPerson$ImageBlurHashes instance) =>
+    <String, dynamic>{
+      if (instance.primary case final value?) 'Primary': value,
+      if (instance.art case final value?) 'Art': value,
+      if (instance.backdrop case final value?) 'Backdrop': value,
+      if (instance.banner case final value?) 'Banner': value,
+      if (instance.logo case final value?) 'Logo': value,
+      if (instance.thumb case final value?) 'Thumb': value,
+      if (instance.disc case final value?) 'Disc': value,
+      if (instance.box case final value?) 'Box': value,
+      if (instance.screenshot case final value?) 'Screenshot': value,
+      if (instance.menu case final value?) 'Menu': value,
+      if (instance.chapter case final value?) 'Chapter': value,
+      if (instance.boxRear case final value?) 'BoxRear': value,
+      if (instance.profile case final value?) 'Profile': value,
+    };

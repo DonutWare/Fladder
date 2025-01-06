@@ -63,7 +63,7 @@ class _OutlinedTextFieldState extends ConsumerState<OutlinedTextField> {
 
   Color getColor() {
     if (widget.errorText != null) return Theme.of(context).colorScheme.errorContainer;
-    return Theme.of(context).colorScheme.secondaryContainer.withOpacity(0.25);
+    return Theme.of(context).colorScheme.secondaryContainer.withValues(alpha: 0.25);
   }
 
   @override
@@ -112,31 +112,31 @@ class _OutlinedTextFieldState extends ConsumerState<OutlinedTextField> {
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary.withOpacity(0),
+                      color: Theme.of(context).colorScheme.primary.withValues(alpha: 0),
                       width: widget.borderWidth,
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary.withOpacity(0),
+                      color: Theme.of(context).colorScheme.primary.withValues(alpha: 0),
                       width: widget.borderWidth,
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary.withOpacity(0),
+                      color: Theme.of(context).colorScheme.primary.withValues(alpha: 0),
                       width: widget.borderWidth,
                     ),
                   ),
                   errorBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary.withOpacity(0),
+                      color: Theme.of(context).colorScheme.primary.withValues(alpha: 0),
                       width: widget.borderWidth,
                     ),
                   ),
                   focusedErrorBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary.withOpacity(0),
+                      color: Theme.of(context).colorScheme.primary.withValues(alpha: 0),
                       width: widget.borderWidth,
                     ),
                   ),

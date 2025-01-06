@@ -153,7 +153,7 @@ class _SyncItemDetailsState extends ConsumerState<SyncItemDetails> {
                                         CircularProgressIndicator(
                                           value: combinedStream.progress,
                                           strokeWidth: 8,
-                                          backgroundColor: Theme.of(context).colorScheme.surface.withOpacity(0.5),
+                                          backgroundColor: Theme.of(context).colorScheme.surface.withValues(alpha: 0.5),
                                           strokeCap: StrokeCap.round,
                                           color: combinedStream.status.color(context),
                                         ),
@@ -212,6 +212,7 @@ class _SyncItemDetailsState extends ConsumerState<SyncItemDetails> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).colorScheme.errorContainer,
                   foregroundColor: Theme.of(context).colorScheme.onErrorContainer,
+                  iconColor: Theme.of(context).colorScheme.onErrorContainer,
                 ),
                 onPressed: () {
                   showDefaultAlertDialog(

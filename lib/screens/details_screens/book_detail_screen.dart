@@ -56,7 +56,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
           }
         },
       ),
-      backgroundColor: Theme.of(context).colorScheme.surface.withOpacity(0.8),
+      backgroundColor: Theme.of(context).colorScheme.surface.withValues(alpha: 0.8),
       onRefresh: () async => await ref.read(provider.notifier).fetchDetails(widget.item),
       backDrops: details.cover,
       content: (padding) => details.book != null

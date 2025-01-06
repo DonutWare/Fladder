@@ -1,19 +1,19 @@
 {
-	"cSpell.words": [
-		"ficonsax",
-		"jellyfin",
-		"Jellyfin",
-		"LTRB",
-		"LTWH",
-		"outro"
-	],
-	"dart.flutterSdkPath": ".fvm/versions/3.24.3",
-	"search.exclude": {
-		"**/.fvm": true
-	},
-	"files.watcherExclude": {
-		"**/.fvm": true
-	},
-	"editor.detectIndentation": true,
-	"dart.lineLength": 120
+  "cSpell.words": [
+    "ficonsax",
+    "jellyfin",
+    "Jellyfin",
+    "LTRB",
+    "LTWH",
+    "outro"
+  ],
+  "dart.flutterSdkPath": ".fvm/versions/3.27.1",
+  "search.exclude": {
+    "**/.fvm": true
+  },
+  "files.watcherExclude": {
+    "**/.fvm": true
+  },
+  "editor.detectIndentation": true,
+  "dart.lineLength": 120
 }

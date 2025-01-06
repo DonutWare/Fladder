@@ -116,7 +116,7 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
                                                     opacity: showExpandButton ? 1 : 0,
                                                     duration: const Duration(milliseconds: 125),
                                                     child: Container(
-                                                      color: Colors.black.withOpacity(0.6),
+                                                      color: Colors.black.withValues(alpha: 0.6),
                                                       child: FlatButton(
                                                         onTap: () async => openFullScreenPlayer(),
                                                         child: const Icon(Icons.keyboard_arrow_up_rounded),
@@ -191,7 +191,7 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
                         ),
                         LinearProgressIndicator(
                           minHeight: 6,
-                          backgroundColor: Colors.black.withOpacity(0.25),
+                          backgroundColor: Colors.black.withValues(alpha: 0.25),
                           color: Theme.of(context).colorScheme.primary,
                           value: progress.clamp(0, 1),
                         ),

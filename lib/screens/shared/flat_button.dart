@@ -47,7 +47,7 @@ class FlatButton extends ConsumerWidget {
               onDoubleTap: onDoubleTap,
               onSecondaryTapDown: onSecondaryTapDown,
               borderRadius: borderRadiusGeometry ?? BorderRadius.circular(10),
-              splashColor: splashColor ?? Theme.of(context).colorScheme.primary.withOpacity(0.5),
+              splashColor: splashColor ?? Theme.of(context).colorScheme.primary.withValues(alpha: 0.5),
               hoverColor: showFeedback ? null : Colors.transparent,
               splashFactory: InkSparkle.splashFactory,
             ),

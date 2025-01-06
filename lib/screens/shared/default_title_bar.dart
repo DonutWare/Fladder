@@ -33,12 +33,13 @@ class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> with WindowLi
     final brightness = widget.brightness ?? Theme.of(context).brightness;
     final shadows = brightness == Brightness.dark
         ? [
-            BoxShadow(blurRadius: 1, spreadRadius: 1, color: Theme.of(context).colorScheme.surface.withOpacity(1)),
-            BoxShadow(blurRadius: 8, spreadRadius: 2, color: Colors.black.withOpacity(0.2)),
-            BoxShadow(blurRadius: 3, spreadRadius: 2, color: Colors.black.withOpacity(0.3)),
+            BoxShadow(
+                blurRadius: 1, spreadRadius: 1, color: Theme.of(context).colorScheme.surface.withValues(alpha: 1)),
+            BoxShadow(blurRadius: 8, spreadRadius: 2, color: Colors.black.withValues(alpha: 0.2)),
+            BoxShadow(blurRadius: 3, spreadRadius: 2, color: Colors.black.withValues(alpha: 0.3)),
           ]
         : <BoxShadow>[];
-    final iconColor = Theme.of(context).colorScheme.onSurface.withOpacity(0.65);
+    final iconColor = Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.65);
     return SizedBox(
       height: widget.height,
       child: switch (AdaptiveLayout.of(context).platform) {
@@ -47,7 +48,7 @@ class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> with WindowLi
             children: [
               Expanded(
                 child: Container(
-                  color: Colors.black.withOpacity(0),
+                  color: Colors.black.withValues(alpha: 0),
                   child: DragToMoveArea(
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -77,8 +78,8 @@ class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> with WindowLi
                         return IconButton(
                           style: IconButton.styleFrom(
                               hoverColor: brightness == Brightness.light
-                                  ? Colors.black.withOpacity(0.1)
-                                  : Colors.white.withOpacity(0.2),
+                                  ? Colors.black.withValues(alpha: 0.1)
+                                  : Colors.white.withValues(alpha: 0.2),
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2))),
                           onPressed: () async {
                             if (isMinimized) {
@@ -110,8 +111,8 @@ class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> with WindowLi
                       return IconButton(
                         style: IconButton.styleFrom(
                           hoverColor: brightness == Brightness.light
-                              ? Colors.black.withOpacity(0.1)
-                              : Colors.white.withOpacity(0.2),
+                              ? Colors.black.withValues(alpha: 0.1)
+                              : Colors.white.withValues(alpha: 0.2),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
                         ),
                         onPressed: () async {

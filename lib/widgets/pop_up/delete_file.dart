@@ -1,10 +1,12 @@
+import 'package:flutter/material.dart';
+
 import 'package:chopper/chopper.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/filled_button_await.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 Future<Response<dynamic>?> showDeleteDialog(BuildContext context, ItemBaseModel item, WidgetRef ref) async {
   Response<dynamic>? response;
@@ -23,6 +25,7 @@ Future<Response<dynamic>?> showDeleteDialog(BuildContext context, ItemBaseModel 
           style: FilledButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.errorContainer,
             foregroundColor: Theme.of(context).colorScheme.onErrorContainer,
+            iconColor: Theme.of(context).colorScheme.onErrorContainer,
           ),
           onPressed: () async {
             response = await ref.read(jellyApiProvider).deleteItem(item.id);

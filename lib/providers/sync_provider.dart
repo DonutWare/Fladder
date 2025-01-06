@@ -359,7 +359,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     return data.copyWith(
       primary: () => primary,
       logo: () => logo,
-      backDrop: () => backdrops.whereNotNull().toList(),
+      backDrop: () => backdrops.nonNulls.toList(),
     );
   }
 
@@ -381,7 +381,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
         imageUrl: path.joinAll(["Chapters", fileName]),
       );
     }).toList();
-    return saveChapters.whereNotNull().toList();
+    return saveChapters.nonNulls.toList();
   }
 
   Future<ImageData?> urlDataToFileData(ImageData? data, Directory directory, String fileName) async {

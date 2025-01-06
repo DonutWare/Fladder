@@ -62,7 +62,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
   @override
   Widget build(BuildContext context) {
     final padding = EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).width / 25);
-    final backGroundColor = Theme.of(context).colorScheme.surface.withOpacity(0.8);
+    final backGroundColor = Theme.of(context).colorScheme.surface.withValues(alpha: 0.8);
     final playerState = ref.watch(mediaPlaybackProvider.select((value) => value.state));
     final minHeight = 450.0.clamp(0, MediaQuery.sizeOf(context).height).toDouble();
     final maxHeight = MediaQuery.sizeOf(context).height - 10;
@@ -114,7 +114,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                             Colors.white,
                             Colors.white,
                             Colors.white,
-                            Colors.white.withOpacity(0),
+                            Colors.white.withValues(alpha: 0),
                           ],
                         ).createShader(bounds),
                         child: ConstrainedBox(
@@ -145,10 +145,10 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          Theme.of(context).colorScheme.surface.withOpacity(0),
-                          Theme.of(context).colorScheme.surface.withOpacity(0.10),
-                          Theme.of(context).colorScheme.surface.withOpacity(0.35),
-                          Theme.of(context).colorScheme.surface.withOpacity(0.85),
+                          Theme.of(context).colorScheme.surface.withValues(alpha: 0),
+                          Theme.of(context).colorScheme.surface.withValues(alpha: 0.10),
+                          Theme.of(context).colorScheme.surface.withValues(alpha: 0.35),
+                          Theme.of(context).colorScheme.surface.withValues(alpha: 0.85),
                           Theme.of(context).colorScheme.surface,
                         ],
                       ),

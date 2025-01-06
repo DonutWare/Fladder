@@ -24,7 +24,7 @@ class SyncLabel extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       decoration: BoxDecoration(
-        color: status.color.withOpacity(0.15),
+        color: status.color.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Padding(
@@ -109,7 +109,8 @@ class SyncSubtitle extends ConsumerWidget {
     final children = syncItem.nestedChildren(ref);
     final syncStatus = ref.watch(syncStatusesProvider(syncItem)).value ?? SyncStatus.partially;
     return Container(
-      decoration: BoxDecoration(color: syncStatus.color.withOpacity(0.15), borderRadius: BorderRadius.circular(10)),
+      decoration:
+          BoxDecoration(color: syncStatus.color.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(10)),
       child: Material(
         color: const Color.fromARGB(0, 208, 130, 130),
         textStyle:

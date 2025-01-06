@@ -67,6 +67,7 @@ class MediaPlayButton extends ConsumerWidget {
                         ButtonStyle(
                           backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.primary),
                           foregroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.onPrimary),
+                          iconColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.onPrimary),
                         ),
                         Theme.of(context).colorScheme.onPrimary,
                       ),

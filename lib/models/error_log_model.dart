@@ -62,7 +62,7 @@ class ErrorLogModel {
         "\n",
         "\n",
         stackTrace,
-      ].whereNotNull().join();
+      ].nonNulls.join();
 
   String get clipBoard => [_label, content].toString();
 

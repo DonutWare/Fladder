@@ -515,7 +515,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
             ),
             if (librarySearchResults.fetchingItems) ...[
               Container(
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black.withValues(alpha: 0.1),
               ),
               Center(
                 child: Container(

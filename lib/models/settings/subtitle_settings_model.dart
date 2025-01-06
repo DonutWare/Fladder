@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 import 'dart:math' as math;
 
@@ -9,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/providers/settings/subtitle_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
+import 'package:fladder/util/color_extensions.dart';
 
 class SubtitleSettingsModel {
   final double fontSize;
@@ -58,11 +58,11 @@ class SubtitleSettingsModel {
           ? [
               Shadow(
                 blurRadius: 16,
-                color: Colors.black.withOpacity(shadow),
+                color: Colors.black.withValues(alpha: shadow),
               ),
               Shadow(
                 blurRadius: 8,
-                color: Colors.black.withOpacity(shadow),
+                color: Colors.black.withValues(alpha: shadow),
               ),
             ]
           : null,
@@ -92,10 +92,10 @@ class SubtitleSettingsModel {
       'fontSize': fontSize,
       'fontWeight': fontWeight.value,
       'verticalOffset': verticalOffset,
-      'color': color.value,
-      'outlineColor': outlineColor.value,
+      'color': color.toMap,
+      'outlineColor': outlineColor.toMap,
       'outlineSize': outlineSize,
-      'backGroundColor': backGroundColor.value,
+      'backGroundColor': backGroundColor.toMap,
       'shadow': shadow,
     };
   }
@@ -109,10 +109,10 @@ class SubtitleSettingsModel {
       fontSize: map['fontSize'] as double?,
       fontWeight: FontWeight.values.firstWhereOrNull((element) => element.index == map['fontWeight'] as int?),
       verticalOffset: map['verticalOffset'] as double?,
-      color: map['color'] != null ? Color(map['color'] as int) : null,
-      outlineColor: map['outlineColor'] != null ? Color(map['outlineColor'] as int) : null,
+      color: colorFromJson(map['color']),
+      outlineColor: colorFromJson(map['outlineColor']),
       outlineSize: map['outlineSize'] as double?,
-      backGroundColor: map['backGroundColor'] != null ? Color(map['backGroundColor'] as int) : null,
+      backGroundColor: colorFromJson(map['backGroundColor']),
       shadow: map['shadow'] as double?,
     );
   }

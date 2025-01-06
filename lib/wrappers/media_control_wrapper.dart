@@ -149,7 +149,7 @@ class MediaControlsWrapper extends BaseAudioHandler {
       playbackState.add(playbackState.value.copyWith(
         playing: value.playing,
       ));
-      smtc?.setPlaybackStatus(value.playing ? PlaybackStatus.Playing : PlaybackStatus.Paused);
+      smtc?.setPlaybackStatus(value.playing ? PlaybackStatus.playing : PlaybackStatus.paused);
     }));
   }
 
@@ -212,7 +212,7 @@ class MediaControlsWrapper extends BaseAudioHandler {
     );
 
     smtc?.enableSmtc();
-    smtc?.setPlaybackStatus(PlaybackStatus.Playing);
+    smtc?.setPlaybackStatus(PlaybackStatus.playing);
   }
 
   @override
@@ -225,7 +225,7 @@ class MediaControlsWrapper extends BaseAudioHandler {
 
     ref.read(playBackModel)?.playbackStopped(position ?? Duration.zero, totalDuration, ref);
     ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(position: Duration.zero));
-    smtc?.setPlaybackStatus(PlaybackStatus.Stopped);
+    smtc?.setPlaybackStatus(PlaybackStatus.stopped);
     smtc?.clearMetadata();
     smtc?.disableSmtc();
     playbackState.add(

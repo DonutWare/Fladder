@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:async/async.dart';
-import 'package:collection/collection.dart';
 import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:screen_brightness/screen_brightness.dart';
@@ -219,8 +218,8 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          Colors.black.withOpacity(0.8),
-          Colors.black.withOpacity(0),
+          Colors.black.withValues(alpha: 0.8),
+          Colors.black.withValues(alpha: 0),
         ],
       )),
       child: Padding(
@@ -276,8 +275,8 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
           begin: Alignment.bottomCenter,
           end: Alignment.topCenter,
           colors: [
-            Colors.black.withOpacity(0.8),
-            Colors.black.withOpacity(0),
+            Colors.black.withValues(alpha: 0.8),
+            Colors.black.withValues(alpha: 0),
           ],
         )),
         child: Padding(
@@ -425,7 +424,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
               children: [
                 Expanded(
                   child: Text(
-                    details.whereNotNull().join(' - '),
+                    details.nonNulls.join(' - '),
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       shadows: [
@@ -506,7 +505,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
           textAlign: TextAlign.center,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            color: Theme.of(context).colorScheme.surface.withOpacity(0.95),
+            color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.95),
           ),
           textStyle: Theme.of(context).textTheme.labelLarge,
           child: IconButton(
@@ -533,7 +532,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
           textAlign: TextAlign.center,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            color: Theme.of(context).colorScheme.surface.withOpacity(0.95),
+            color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.95),
           ),
           textStyle: Theme.of(context).textTheme.labelLarge,
           child: IconButton(
@@ -625,7 +624,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   Future<void> clearOverlaySettings() async {
     toggleOverlay(value: true);
     if (AdaptiveLayout.of(context).inputDevice != InputDevice.pointer) {
-      ScreenBrightness().resetScreenBrightness();
+      ScreenBrightness().resetApplicationScreenBrightness();
     } else {
       disableFullScreen();
     }

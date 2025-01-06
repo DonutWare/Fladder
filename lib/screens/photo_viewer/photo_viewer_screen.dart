@@ -384,8 +384,8 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Colors.black.withOpacity(0.5),
-                      Colors.black.withOpacity(0),
+                      Colors.black.withValues(alpha: 0.5),
+                      Colors.black.withValues(alpha: 0),
                     ],
                   ),
                 ),

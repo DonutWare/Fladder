@@ -35,7 +35,7 @@ class SyncListItemState extends ConsumerState<SyncListItem> {
         syncedItem: syncedItem,
         child: Card(
           elevation: 1,
-          color: Theme.of(context).colorScheme.secondaryContainer.withOpacity(0.2),
+          color: Theme.of(context).colorScheme.secondaryContainer.withValues(alpha: 0.2),
           shadowColor: Colors.transparent,
           child: Dismissible(
             background: Container(

@@ -12,7 +12,7 @@ class ChipButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Card(
-      color: Theme.of(context).colorScheme.onSurface.withOpacity(0.15),
+      color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.15),
       shadowColor: Colors.transparent,
       child: FlatButton(
         onTap: onPressed,

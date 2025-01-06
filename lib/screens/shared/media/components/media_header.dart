@@ -35,7 +35,7 @@ class MediaHeader extends ConsumerWidget {
       child: Material(
         elevation: 30,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(150)),
-        shadowColor: Colors.black.withOpacity(0.3),
+        shadowColor: Colors.black.withValues(alpha: 0.3),
         color: Colors.transparent,
         child: ConstrainedBox(
           constraints: BoxConstraints(

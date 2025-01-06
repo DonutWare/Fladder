@@ -52,7 +52,7 @@ class ChapterRow extends ConsumerWidget {
                     child: Card(
                       elevation: 0,
                       shadowColor: Colors.transparent,
-                      color: Theme.of(context).cardColor.withOpacity(0.4),
+                      color: Theme.of(context).cardColor.withValues(alpha: 0.4),
                       child: Padding(
                         padding: const EdgeInsets.all(5),
                         child: Text(

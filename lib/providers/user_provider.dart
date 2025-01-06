@@ -1,5 +1,6 @@
 import 'package:chopper/chopper.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:fladder/jellyfin/enum_models.dart';
@@ -14,7 +15,7 @@ import 'package:fladder/providers/sync_provider.dart';
 part 'user_provider.g.dart';
 
 @riverpod
-bool showSyncButtonProvider(ShowSyncButtonProviderRef ref) {
+bool showSyncButtonProvider(Ref ref) {
   final userCanSync = ref.watch(userProvider.select((value) => value?.canDownload ?? false));
   final hasSyncedItems = ref.watch(syncProvider.select((value) => value.items.isNotEmpty));
   return userCanSync || hasSyncedItems;

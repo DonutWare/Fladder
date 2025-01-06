@@ -26,7 +26,7 @@ class BookProviderModel {
   ImagesData? get cover => parentModel?.getPosters ?? book?.getPosters;
 
   List<BookModel> get allBooks {
-    if (chapters.isEmpty) return [book].whereNotNull().toList();
+    if (chapters.isEmpty) return [book].nonNulls.toList();
     return chapters;
   }
 
@@ -141,7 +141,7 @@ class BookDetailsProviderNotifier extends StateNotifier<BookProviderModel> {
 
     state = state.copyWith(
       parentModel: !parentIsView ? () => parentResponse.bodyOrThrow : null,
-      chapters: (siblingsResponse?.body?.items ?? [openedBook]).whereType<BookModel>().whereNotNull().toList(),
+      chapters: (siblingsResponse?.body?.items ?? [openedBook]).whereType<BookModel>().nonNulls.toList(),
     );
 
     return response;

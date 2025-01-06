@@ -81,7 +81,7 @@ class _BookViewerControlsState extends ConsumerState<BookViewerControls> {
   @override
   void dispose() {
     WakelockPlus.disable();
-    ScreenBrightness().resetScreenBrightness();
+    ScreenBrightness().resetApplicationScreenBrightness();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge, overlays: []);
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -150,9 +150,9 @@ class _BookViewerControlsState extends ConsumerState<BookViewerControls> {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            overlayColor.withOpacity(1),
-                            overlayColor.withOpacity(0.65),
-                            overlayColor.withOpacity(0),
+                            overlayColor.withValues(alpha: 1),
+                            overlayColor.withValues(alpha: 0.65),
+                            overlayColor.withValues(alpha: 0),
                           ],
                         ),
                       ),
@@ -198,9 +198,9 @@ class _BookViewerControlsState extends ConsumerState<BookViewerControls> {
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
                                 colors: [
-                                  overlayColor.withOpacity(0),
-                                  overlayColor.withOpacity(0.65),
-                                  overlayColor.withOpacity(1),
+                                  overlayColor.withValues(alpha: 0),
+                                  overlayColor.withValues(alpha: 0.65),
+                                  overlayColor.withValues(alpha: 1),
                                 ],
                               ),
                             ),
@@ -236,7 +236,7 @@ class _BookViewerControlsState extends ConsumerState<BookViewerControls> {
                                       Flexible(
                                         child: Container(
                                           decoration: BoxDecoration(
-                                            color: Colors.black.withOpacity(0.7),
+                                            color: Colors.black.withValues(alpha: 0.7),
                                             borderRadius: BorderRadius.circular(60),
                                           ),
                                           child: Padding(

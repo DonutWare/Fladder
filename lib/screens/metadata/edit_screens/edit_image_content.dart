@@ -1,4 +1,8 @@
+import 'package:flutter/material.dart';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
 import 'package:fladder/models/item_editing_model.dart';
 import 'package:fladder/providers/edit_item_provider.dart';
@@ -6,8 +10,6 @@ import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/shared/file_picker.dart';
 import 'package:fladder/util/adaptive_layout.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class EditImageContent extends ConsumerStatefulWidget {
   final ImageType type;
@@ -39,7 +41,8 @@ class _EditImageContentState extends ConsumerState<EditImageContent> {
   @override
   Widget build(BuildContext context) {
     final posterSize = MediaQuery.sizeOf(context).width /
-        (AdaptiveLayout.poster(context).gridRatio * ref.watch(clientSettingsProvider.select((value) => value.posterSize)));
+        (AdaptiveLayout.poster(context).gridRatio *
+            ref.watch(clientSettingsProvider.select((value) => value.posterSize)));
     final decimal = posterSize - posterSize.toInt();
     final includeAllImages = ref.watch(editItemProvider.select((value) => value.includeAllImages));
     final images = ref.watch(editItemProvider.select((value) => switch (widget.type) {
@@ -85,7 +88,8 @@ class _EditImageContentState extends ConsumerState<EditImageContent> {
                     decoration: BoxDecoration(
                       color: selected ? Theme.of(context).colorScheme.primary : Colors.transparent,
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.transparent, width: 4, strokeAlign: BorderSide.strokeAlignInside),
+                      border:
+                          Border.all(color: Colors.transparent, width: 4, strokeAlign: BorderSide.strokeAlignInside),
                     ),
                     child: Card(
                       color: selected ? Theme.of(context).colorScheme.onPrimary : null,
@@ -108,6 +112,7 @@ class _EditImageContentState extends ConsumerState<EditImageContent> {
                     style: FilledButton.styleFrom(
                       backgroundColor: Theme.of(context).colorScheme.error,
                       foregroundColor: Theme.of(context).colorScheme.onError,
+                      iconColor: Theme.of(context).colorScheme.onError,
                     ),
                     onPressed: () async {
                       await showDialog(
@@ -121,6 +126,7 @@ class _EditImageContentState extends ConsumerState<EditImageContent> {
                               style: FilledButton.styleFrom(
                                 backgroundColor: Theme.of(context).colorScheme.error,
                                 foregroundColor: Theme.of(context).colorScheme.onError,
+                                iconColor: Theme.of(context).colorScheme.onError,
                               ),
                               onPressed: () async {
                                 await ref.read(editItemProvider.notifier).deleteImage(widget.type, image);
@@ -230,7 +236,8 @@ class _EditImageContentState extends ConsumerState<EditImageContent> {
                 children: [...serverImageCards, ...imageCards],
               ),
               if (loading) const Center(child: CircularProgressIndicator.adaptive(strokeCap: StrokeCap.round)),
-              if (!loading && [...serverImageCards, ...imageCards].isEmpty) Center(child: Text("No ${widget.type.value}s found"))
+              if (!loading && [...serverImageCards, ...imageCards].isEmpty)
+                Center(child: Text("No ${widget.type.value}s found"))
             ],
           ),
         ),

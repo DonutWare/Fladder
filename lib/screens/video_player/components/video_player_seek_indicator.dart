@@ -84,7 +84,7 @@ class _VideoPlayerSeekIndicatorState extends ConsumerState<VideoPlayerSeekIndica
           child: Center(
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.85),
+                color: Colors.black.withValues(alpha: 0.85),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Padding(

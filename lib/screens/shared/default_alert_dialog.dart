@@ -27,6 +27,7 @@ Future<void> showDefaultAlertDialog(
             style: ElevatedButton.styleFrom(
               backgroundColor: Theme.of(context).colorScheme.errorContainer,
               foregroundColor: Theme.of(context).colorScheme.onErrorContainer,
+              iconColor: Theme.of(context).colorScheme.onErrorContainer,
             ),
             onPressed: () => accept.call(context),
             child: Text(acceptTitle ?? "Accept"),
@@ -61,6 +62,7 @@ Future<void> showDefaultActionDialog(
             style: ElevatedButton.styleFrom(
               backgroundColor: Theme.of(context).colorScheme.primaryContainer,
               foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+              iconColor: Theme.of(context).colorScheme.onPrimaryContainer,
             ),
             onPressed: () => accept.call(context),
             child: Text(acceptTitle ?? "Accept"),

@@ -24,7 +24,7 @@ class _MouseParkingState extends ConsumerState<MouseParking> {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.only(topLeft: Radius.circular(20)),
-            color: parked ? Theme.of(context).colorScheme.primary.withOpacity(0.5) : Colors.black12,
+            color: parked ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.5) : Colors.black12,
           ),
           child: const Row(
             mainAxisAlignment: MainAxisAlignment.center,

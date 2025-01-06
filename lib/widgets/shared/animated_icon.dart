@@ -72,7 +72,7 @@ class AnimatedVisibilityIconState extends State<AnimatedVisibilityIcon> {
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 300),
             decoration: BoxDecoration(
-              color: (_currentFilledState ? widget.filledColor : widget.outlinedColor)?.withOpacity(0.2),
+              color: (_currentFilledState ? widget.filledColor : widget.outlinedColor)?.withValues(alpha: 0.2),
               shape: BoxShape.circle,
             ),
             child: Padding(

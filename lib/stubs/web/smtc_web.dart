@@ -90,11 +90,12 @@ class MusicMetadata {
 }
 
 enum PlaybackStatus {
-  Closed,
-  Changing,
-  Stopped,
-  Playing,
-  Paused,
+  closed,
+  changing,
+  stopped,
+  playing,
+  paused,
+  ;
 }
 
 enum PressedButton {

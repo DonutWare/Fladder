@@ -47,7 +47,7 @@ class SettingsListTile extends StatelessWidget {
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 125),
                     decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primaryContainer.withOpacity(selected ? 1 : 0),
+                      color: Theme.of(context).colorScheme.primaryContainer.withValues(alpha: selected ? 1 : 0),
                       borderRadius: BorderRadius.circular(selected ? 5 : 20),
                     ),
                     child: Padding(
