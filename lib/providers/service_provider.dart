@@ -293,10 +293,11 @@ class JellyService {
     );
     return response.copyWith(
       body: response.body?.items
-          ?.map(
-            (e) => ItemBaseModel.fromBaseDto(e, ref),
-          )
-          .toList(),
+              ?.map(
+                (e) => ItemBaseModel.fromBaseDto(e, ref),
+              )
+              .toList() ??
+          [],
     );
   }
 
