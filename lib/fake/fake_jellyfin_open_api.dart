@@ -644,12 +644,12 @@ class FakeJellyfinOpenApi extends JellyfinOpenApi {
 }
 
 class FakeHelper {
-  static http.BaseResponse fakeCorrectResponse = http.Response('You did it reviewer', 200);
+  static http.BaseResponse fakeCorrectResponse = http.Response('', 200);
 
-  static String fakeTestServerUrl = "http://test.fladder.nl";
+  static String fakeTestServerUrl = "http://22b469df.fladder.nl";
 
-  static UserDto fakeCorrectUser = const UserDto(id: '1', name: 'Fake Employee', configuration: UserConfiguration());
-  static String fakeCorrectPassword = "test1234password";
+  static UserDto fakeCorrectUser = const UserDto(id: '1', name: 'User 1', configuration: UserConfiguration());
+  static String fakeCorrectPassword = "Txnw6RWYb8yEtD";
 
   static ServerConfiguration fakeServerConfig = const ServerConfiguration(
     isStartupWizardCompleted: true,
@@ -692,7 +692,7 @@ class FakeHelper {
 
   static List<UserDto> fakeUsers = [
     fakeCorrectUser,
-    const UserDto(id: '2', name: 'Fake 2'),
+    const UserDto(id: '2', name: 'User 2'),
   ];
 
   static AuthenticationResult fakeAuthResult = AuthenticationResult(
