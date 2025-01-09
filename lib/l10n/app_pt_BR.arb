@@ -1213,5 +1213,7 @@
   "playerSettingsBackendTitle": "Backend do player de vídeo",
   "@playerSettingsBackendTitle": {},
   "errorLogs": "Registros de erros",
-  "@errorLogs": {}
+  "@errorLogs": {},
+  "external": "Externo",
+  "@external": {}
 }
