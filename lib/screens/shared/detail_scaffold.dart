@@ -130,7 +130,6 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                             alignment: Alignment.topCenter,
                             placeholderFit: BoxFit.cover,
                             excludeFromSemantics: true,
-                            filterQuality: FilterQuality.high,
                             placeholderFilterQuality: FilterQuality.low,
                             image: backgroundImage!.imageProvider,
                           ),

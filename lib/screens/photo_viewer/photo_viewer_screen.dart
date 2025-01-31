@@ -182,7 +182,6 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
                   child: SizedBox.expand(
                     child: Image(
                       fit: BoxFit.cover,
-                      filterQuality: FilterQuality.high,
                       image: BlurHashImage(imageHash),
                     ),
                   ),
