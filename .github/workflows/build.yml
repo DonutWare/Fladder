@@ -10,6 +10,7 @@ on:
     paths:
       - pubspec.yaml
       - .github/workflows/build.yml
+      - .fvmrc
     types:
       - opened
       - reopened
