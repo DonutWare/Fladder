@@ -49,7 +49,7 @@ class MediaControlsWrapper extends BaseAudioHandler {
   bool initMediaControls = false;
 
   Future<void> init() async {
-    if (!initMediaControls && !kDebugMode) {
+    if (!initMediaControls) {
       await AudioService.init(
         builder: () => this,
         config: const AudioServiceConfig(
@@ -154,6 +154,20 @@ class MediaControlsWrapper extends BaseAudioHandler {
   }
 
   @override
+  Future<void> pause() async {
+    await _player?.pause();
+    playbackState.add(playbackState.value.copyWith(
+      playing: false,
+      controls: [MediaControl.play],
+    ));
+    WakelockPlus.disable();
+    final playerState = _player;
+    if (playerState != null) {
+      ref.read(playBackModel)?.updatePlaybackPosition(playerState.lastState.position, false, ref);
+    }
+  }
+
+  @override
   Future<void> play() async {
     WakelockPlus.enable();
     _player?.play();
@@ -240,15 +254,18 @@ class MediaControlsWrapper extends BaseAudioHandler {
 
   Future<void> playOrPause() async {
     await _player?.playOrPause();
+    final playing = _player?.lastState.playing ?? false;
     playbackState.add(playbackState.value.copyWith(
-      playing: _player?.lastState.playing ?? false,
-      controls: [MediaControl.play],
+      playing: playing,
+      controls: [playing ? MediaControl.pause : MediaControl.play],
     ));
-    if (playbackState.value.playing) {
+
+    if (playing) {
       WakelockPlus.enable();
     } else {
       WakelockPlus.disable();
     }
+
     final playerState = _player;
     if (playerState != null) {
       ref
