@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,6 +21,7 @@ import 'package:fladder/screens/playlists/add_to_playlists.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/screens/syncing/sync_button.dart';
 import 'package:fladder/screens/syncing/sync_item_details.dart';
+import 'package:fladder/util/file_downloader.dart';
 import 'package:fladder/util/item_base_model/play_item_helpers.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
@@ -197,19 +200,39 @@ extension ItemBaseModelExtensions on ItemBaseModel {
           },
           label: Text(context.localized.refreshMetadata),
         ),
-      if (!exclude.contains(ItemActions.download) && downloadEnabled)
-        if (syncedItem == null)
+      if (!exclude.contains(ItemActions.download) && downloadEnabled) ...[
+        if (!kIsWeb)
+          if (syncedItem == null)
+            ItemActionButton(
+              icon: const Icon(IconsaxOutline.arrow_down_2),
+              label: Text(context.localized.sync),
+              action: () => ref.read(syncProvider.notifier).addSyncItem(context, this),
+            )
+          else
+            ItemActionButton(
+              icon: IgnorePointer(child: SyncButton(item: this, syncedItem: syncedItem)),
+              action: () => showSyncItemDetails(context, syncedItem, ref),
+              label: Text(context.localized.syncDetails),
+            )
+        else if (ref.read(userProvider.notifier).createDownloadUrl(this) != null) ...[
           ItemActionButton(
-            icon: const Icon(IconsaxOutline.arrow_down_2),
-            label: Text(context.localized.sync),
-            action: () => ref.read(syncProvider.notifier).addSyncItem(context, this),
-          )
-        else
-          ItemActionButton(
-            icon: IgnorePointer(child: SyncButton(item: this, syncedItem: syncedItem)),
-            action: () => showSyncItemDetails(context, syncedItem, ref),
-            label: Text(context.localized.syncDetails),
+            icon: const Icon(IconsaxOutline.document_download),
+            action: () => downloadFile(ref.read(userProvider.notifier).createDownloadUrl(this) ?? "Null"),
+            label: Text(context.localized.downloadFile(type.label(context).toLowerCase())),
           ),
+          ItemActionButton(
+            icon: const Icon(IconsaxOutline.link_21),
+            action: () async {
+              final url = ref.read(userProvider.notifier).createDownloadUrl(this) ?? "";
+              await Clipboard.setData(ClipboardData(text: url));
+              if (context.mounted) {
+                fladderSnackbar(context, title: "Copied URL to clipboard");
+              }
+            },
+            label: Text(context.localized.copyStreamUrl),
+          )
+        ],
+      ],
       if (canDelete == true)
         ItemActionButton(
           icon: Container(

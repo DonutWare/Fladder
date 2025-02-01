@@ -5,6 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:fladder/jellyfin/enum_models.dart';
 import 'package:fladder/models/account_model.dart';
+import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/library_filters_model.dart';
 import 'package:fladder/providers/api_provider.dart';
@@ -172,4 +173,7 @@ class User extends _$User {
   }
 
   void deleteAllFilters() => state = state?.copyWith(savedFilters: []);
+
+  String? createDownloadUrl(ItemBaseModel item) =>
+      "${state?.server}/Items/${item.id}/Download?api_key=${state?.credentials.token}";
 }

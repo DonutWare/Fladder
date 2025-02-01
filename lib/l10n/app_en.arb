@@ -1149,5 +1149,14 @@
   "mediaSegmentOutro": "Outro",
   "mediaSegmentIntro": "Intro",
   "errorLogs": "Error logs",
-  "external": "External"
+  "external": "External",
+  "downloadFile": "Download {type}",
+  "@downloadFile": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "copyStreamUrl": "Copy stream url"
 }
