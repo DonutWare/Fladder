@@ -79,6 +79,7 @@ extension ItemBaseModelExtensions on ItemBaseModel {
         syncAble &&
         (canDownload ?? false);
     final syncedItem = ref.read(syncProvider.notifier).getSyncedItem(this);
+    final downloadUrl = ref.read(userProvider.notifier).createDownloadUrl(this);
     return [
       if (!exclude.contains(ItemActions.play))
         if (playAble)
@@ -214,17 +215,16 @@ extension ItemBaseModelExtensions on ItemBaseModel {
               action: () => showSyncItemDetails(context, syncedItem, ref),
               label: Text(context.localized.syncDetails),
             )
-        else if (ref.read(userProvider.notifier).createDownloadUrl(this) != null) ...[
+        else if (downloadUrl != null) ...[
           ItemActionButton(
             icon: const Icon(IconsaxOutline.document_download),
-            action: () => downloadFile(ref.read(userProvider.notifier).createDownloadUrl(this) ?? "Null"),
+            action: () => downloadFile(downloadUrl),
             label: Text(context.localized.downloadFile(type.label(context).toLowerCase())),
           ),
           ItemActionButton(
             icon: const Icon(IconsaxOutline.link_21),
             action: () async {
-              final url = ref.read(userProvider.notifier).createDownloadUrl(this) ?? "";
-              await Clipboard.setData(ClipboardData(text: url));
+              await Clipboard.setData(ClipboardData(text: downloadUrl));
               if (context.mounted) {
                 fladderSnackbar(context, title: "Copied URL to clipboard");
               }

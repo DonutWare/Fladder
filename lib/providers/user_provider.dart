@@ -175,5 +175,5 @@ class User extends _$User {
   void deleteAllFilters() => state = state?.copyWith(savedFilters: []);
 
   String? createDownloadUrl(ItemBaseModel item) =>
-      "${state?.server}/Items/${item.id}/Download?api_key=${state?.credentials.token}";
+      Uri.encodeFull("${state?.server}/Items/${item.id}/Download?api_key=${state?.credentials.token}");
 }
