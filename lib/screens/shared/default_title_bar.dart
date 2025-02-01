@@ -116,15 +116,18 @@ class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> with WindowLi
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
                         ),
                         onPressed: () async {
-                          if (fullScreen == true && maximized == true) {
+                          if (fullScreen && maximized) {
                             await windowManager.setFullScreen(false);
                             await windowManager.unmaximize();
                             return;
                           }
-                          if (fullScreen == true) {
-                            windowManager.setFullScreen(false);
+
+                          if (fullScreen) {
+                            await windowManager.setFullScreen(false);
+                          } else if (!maximized) {
+                            await windowManager.maximize();
                           } else {
-                            maximized == false ? windowManager.maximize() : windowManager.unmaximize();
+                            await windowManager.unmaximize();
                           }
                         },
                         icon: Transform.translate(
