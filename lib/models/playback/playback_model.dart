@@ -204,6 +204,8 @@ class PlaybackModelHelper {
       final trickPlay = (await api.getTrickPlay(item: fullItem.body, ref: ref))?.body;
       final chapters = fullItem.body?.overview.chapters ?? [];
 
+      final mediaPath = isValidVideoUrl(mediaSource?.path ?? "");
+
       if (mediaSource == null) return null;
 
       if ((mediaSource.supportsDirectStream ?? false) || (mediaSource.supportsDirectPlay ?? false)) {
@@ -230,7 +232,9 @@ class PlaybackModelHelper {
           chapters: chapters,
           playbackInfo: playbackInfo,
           trickPlay: trickPlay,
-          media: Media(url: '${ref.read(userProvider)?.server ?? ""}/Videos/${mediaSource.id}/stream?$params'),
+          media: Media(
+            url: mediaPath ?? '${ref.read(userProvider)?.server ?? ""}/Videos/${mediaSource.id}/stream?$params',
+          ),
           mediaStreams: mediaStreamsWithUrls,
         );
       } else if ((mediaSource.supportsTranscoding ?? false) && mediaSource.transcodingUrl != null) {
@@ -250,6 +254,11 @@ class PlaybackModelHelper {
       log(e.toString());
       return null;
     }
+  }
+
+  String? isValidVideoUrl(String path) {
+    Uri? uri = Uri.tryParse(path);
+    return (uri != null && uri.hasScheme && uri.hasAuthority) ? path : null;
   }
 
   Future<List<ItemBaseModel>> collectQueue(ItemBaseModel model) async {
