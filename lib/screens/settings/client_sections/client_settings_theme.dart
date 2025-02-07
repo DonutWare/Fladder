@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,65 +18,62 @@ List<Widget> buildClientSettingsTheme(BuildContext context, WidgetRef ref) {
     SettingsListTile(
       label: Text(context.localized.mode),
       subLabel: Text(clientSettings.themeMode.label(context)),
-      onTap: () => openOptionDialogue(
+      onTap: () => openMultiSelectOptions<ThemeMode>(
         context,
         label: "${context.localized.theme} ${context.localized.mode}",
         items: ThemeMode.values,
-        itemBuilder: (type) => RadioListTile(
+        selected: [ref.read(clientSettingsProvider.select((value) => value.themeMode))],
+        onChanged: (values) => ref.read(clientSettingsProvider.notifier).setThemeMode(values.first),
+        itemBuilder: (type, selected, tap) => RadioListTile(
           value: type,
-          title: Text(type?.label(context) ?? context.localized.other),
+          title: Text(type.label(context)),
           contentPadding: EdgeInsets.zero,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           groupValue: ref.read(clientSettingsProvider.select((value) => value.themeMode)),
-          onChanged: (value) => ref.read(clientSettingsProvider.notifier).setThemeMode(value),
+          onChanged: (value) => tap(),
         ),
       ),
     ),
     SettingsListTile(
       label: Text(context.localized.color),
       subLabel: Text(clientSettings.themeColor?.name ?? context.localized.dynamicText),
-      onTap: () => openOptionDialogue<ColorThemes>(
+      onTap: () => openMultiSelectOptions<ColorThemes?>(
         context,
-        isNullable: !kIsWeb,
-        label: context.localized.themeColor,
-        items: ColorThemes.values,
-        itemBuilder: (type) => Consumer(
-          builder: (context, ref, child) => ListTile(
-            title: Row(
-              children: [
-                Checkbox(
-                  value: type == ref.watch(clientSettingsProvider.select((value) => value.themeColor)),
-                  onChanged: (value) => ref.read(clientSettingsProvider.notifier).setThemeColor(type),
+        label: context.localized.settingsLayoutModesTitle,
+        items: [null, ...ColorThemes.values],
+        selected: [(ref.read(clientSettingsProvider.select((value) => value.themeColor)))],
+        onChanged: (values) => ref.read(clientSettingsProvider.notifier).setThemeColor(values.first),
+        itemBuilder: (type, selected, tap) => RadioListTile<ColorThemes?>(
+          groupValue: ref.read(clientSettingsProvider.select((value) => value.themeColor)),
+          contentPadding: EdgeInsets.zero,
+          value: type,
+          onChanged: (value) => tap(),
+          title: Row(
+            children: [
+              Container(
+                height: 24,
+                width: 24,
+                decoration: BoxDecoration(
+                  gradient: type == null
+                      ? const SweepGradient(
+                          center: FractionalOffset.center,
+                          colors: <Color>[
+                            Color(0xFF4285F4), // blue
+                            Color(0xFF34A853), // green
+                            Color(0xFFFBBC05), // yellow
+                            Color(0xFFEA4335), // red
+                            Color(0xFF4285F4), // blue again to seamlessly transition to the start
+                          ],
+                          stops: <double>[0.0, 0.25, 0.5, 0.75, 1.0],
+                        )
+                      : null,
+                  color: type?.color,
+                  borderRadius: BorderRadius.circular(4),
                 ),
-                const SizedBox(width: 4),
-                Container(
-                  height: 24,
-                  width: 24,
-                  decoration: BoxDecoration(
-                    gradient: type == null
-                        ? const SweepGradient(
-                            center: FractionalOffset.center,
-                            colors: <Color>[
-                              Color(0xFF4285F4), // blue
-                              Color(0xFF34A853), // green
-                              Color(0xFFFBBC05), // yellow
-                              Color(0xFFEA4335), // red
-                              Color(0xFF4285F4), // blue again to seamlessly transition to the start
-                            ],
-                            stops: <double>[0.0, 0.25, 0.5, 0.75, 1.0],
-                          )
-                        : null,
-                    color: type?.color,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Text(type?.name ?? context.localized.dynamicText),
-              ],
-            ),
-            contentPadding: EdgeInsets.zero,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-            onTap: () => ref.read(clientSettingsProvider.notifier).setThemeColor(type),
+              ),
+              const SizedBox(width: 8),
+              Text(type?.name ?? context.localized.dynamicText),
+            ],
           ),
         ),
       ),
@@ -85,29 +81,22 @@ List<Widget> buildClientSettingsTheme(BuildContext context, WidgetRef ref) {
     SettingsListTile(
       label: Text(context.localized.clientSettingsSchemeVariantTitle),
       subLabel: Text(clientSettings.schemeVariant.label(context)),
-      onTap: () => openOptionDialogue<DynamicSchemeVariant>(
-        context,
-        isNullable: false,
-        label: context.localized.themeColor,
-        items: DynamicSchemeVariant.values,
-        itemBuilder: (type) => Consumer(
-          builder: (context, ref, child) => ListTile(
-            title: Row(
-              children: [
-                Checkbox(
-                  value: type == ref.watch(clientSettingsProvider.select((value) => value.schemeVariant)),
-                  onChanged: (value) => ref.read(clientSettingsProvider.notifier).setSchemeVariant(type),
-                ),
-                const SizedBox(width: 8),
-                Text(type?.label(context) ?? ""),
-              ],
-            ),
+      onTap: () async {
+        await openMultiSelectOptions<DynamicSchemeVariant>(
+          context,
+          label: context.localized.settingsLayoutModesTitle,
+          items: DynamicSchemeVariant.values,
+          selected: [(ref.read(clientSettingsProvider.select((value) => value.schemeVariant)))],
+          onChanged: (values) => ref.read(clientSettingsProvider.notifier).setSchemeVariant(values.first),
+          itemBuilder: (type, selected, tap) => RadioListTile<DynamicSchemeVariant>(
+            groupValue: selected ? type : null,
             contentPadding: EdgeInsets.zero,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-            onTap: () => ref.read(clientSettingsProvider.notifier).setSchemeVariant(type),
+            value: type,
+            onChanged: (value) => tap(),
+            title: Text(type.label(context)),
           ),
-        ),
-      ),
+        );
+      },
     ),
     SettingsListTile(
       label: Text(context.localized.amoledBlack),

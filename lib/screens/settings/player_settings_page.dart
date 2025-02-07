@@ -64,20 +64,19 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
           SettingsListTile(
             label: Text(context.localized.videoScalingFillScreenTitle),
             subLabel: Text(videoSettings.videoFit.label(context)),
-            onTap: () => openOptionDialogue(
+            onTap: () => openMultiSelectOptions(
               context,
               label: context.localized.videoScalingFillScreenTitle,
               items: BoxFit.values,
-              itemBuilder: (type) => RadioListTile(
-                title: Text(type?.label(context) ?? ""),
+              selected: [ref.read(videoPlayerSettingsProvider.select((value) => value.videoFit))],
+              onChanged: (values) => ref.read(videoPlayerSettingsProvider.notifier).setFitType(values.first),
+              itemBuilder: (type, selected, tap) => RadioListTile(
+                groupValue: ref.read(videoPlayerSettingsProvider.select((value) => value.videoFit)),
+                title: Text(type.label(context)),
                 value: type,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                 contentPadding: EdgeInsets.zero,
-                groupValue: ref.read(videoPlayerSettingsProvider.select((value) => value.videoFit)),
-                onChanged: (value) {
-                  provider.setFitType(value);
-                  Navigator.pop(context);
-                },
+                onChanged: (value) => tap(),
               ),
             ),
           ),

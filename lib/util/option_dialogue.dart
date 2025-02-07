@@ -1,35 +1,5 @@
 import 'package:flutter/material.dart';
 
-Future<void> openOptionDialogue<T>(
-  BuildContext context, {
-  required String label,
-  required List<T> items,
-  bool isNullable = false,
-  required Widget Function(T? type) itemBuilder,
-}) {
-  return showDialog(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        title: Text(label),
-        content: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.65,
-          child: ListView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            shrinkWrap: true,
-            children: [
-              if (isNullable) itemBuilder(null),
-              ...items.map(
-                (e) => itemBuilder(e),
-              )
-            ],
-          ),
-        ),
-      );
-    },
-  );
-}
-
 Future<List<T>> openMultiSelectOptions<T>(
   BuildContext context, {
   required String label,
@@ -37,6 +7,7 @@ Future<List<T>> openMultiSelectOptions<T>(
   bool forceAtleastOne = true,
   required List<T> selected,
   required List<T> items,
+  Function(List<T> values)? onChanged,
   required Widget Function(T type, bool selected, Function onTap) itemBuilder,
 }) async {
   Set<T> currentSelection = selected.toSet();
@@ -52,7 +23,6 @@ Future<List<T>> openMultiSelectOptions<T>(
             shrinkWrap: true,
             children: items.map((item) {
               bool isSelected = currentSelection.contains(item);
-
               return itemBuilder(
                 item,
                 isSelected,
@@ -70,6 +40,7 @@ Future<List<T>> openMultiSelectOptions<T>(
                       currentSelection = {item};
                     }
                   });
+                  onChanged?.call(currentSelection.toList());
                 },
               );
             }).toList(),
