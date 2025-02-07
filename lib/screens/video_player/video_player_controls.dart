@@ -12,6 +12,7 @@ import 'package:screen_brightness/screen_brightness.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
+import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
@@ -300,7 +301,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                         IconButton(
                             onPressed: () => showVideoPlayerOptions(context, () => minimizePlayer(context)),
                             icon: const Icon(IconsaxOutline.more)),
-                        if (AdaptiveLayout.layoutOf(context) == LayoutState.tablet) ...[
+                        if (AdaptiveLayout.layoutOf(context) == ViewSize.tablet) ...[
                           IconButton(
                             onPressed: () => showSubSelection(context),
                             icon: const Icon(IconsaxOutline.subtitle),
@@ -310,7 +311,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                             icon: const Icon(IconsaxOutline.audio_square),
                           ),
                         ],
-                        if (AdaptiveLayout.layoutOf(context) == LayoutState.desktop) ...[
+                        if (AdaptiveLayout.layoutOf(context) == ViewSize.desktop) ...[
                           Flexible(
                             child: ElevatedButton.icon(
                               onPressed: () => showSubSelection(context),

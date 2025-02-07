@@ -1,10 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/auth_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
@@ -28,7 +28,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   final scrollController = ScrollController();
   final minVerticalPadding = 20.0;
 
-  late ScreenLayout lastAdaptiveLayout = AdaptiveLayout.of(context).size;
+  late LayoutMode lastAdaptiveLayout = AdaptiveLayout.layoutModeOf(context);
 
   @override
   Widget build(BuildContext context) {
@@ -36,13 +36,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       builder: (context, content) {
         checkForNullIndex(context);
         return PopScope(
-          canPop: context.tabsRouter.activeIndex == 0 || AdaptiveLayout.of(context).size == ScreenLayout.dual,
+          canPop: context.tabsRouter.activeIndex == 0 || AdaptiveLayout.layoutModeOf(context) == LayoutMode.dual,
           onPopInvokedWithResult: (didPop, result) {
             if (!didPop) {
               context.tabsRouter.setActiveIndex(0);
             }
           },
-          child: AdaptiveLayout.of(context).size == ScreenLayout.single
+          child: AdaptiveLayout.layoutModeOf(context) == LayoutMode.single
               ? Card(
                   elevation: 0,
                   child: Stack(
@@ -69,7 +69,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   void checkForNullIndex(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final currentIndex = context.tabsRouter.activeIndex;
-      if (AdaptiveLayout.of(context).size == ScreenLayout.dual && currentIndex == 0) {
+      if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.dual && currentIndex == 0) {
         context.tabsRouter.setActiveIndex(1);
       }
     });
@@ -79,12 +79,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     if (AdaptiveLayout.of(context).isDesktop) {
       return IconsaxOutline.monitor;
     }
-    switch (AdaptiveLayout.of(context).layout) {
-      case LayoutState.phone:
+    switch (AdaptiveLayout.viewSizeOf(context)) {
+      case ViewSize.phone:
         return IconsaxOutline.mobile;
-      case LayoutState.tablet:
+      case ViewSize.tablet:
         return IconsaxOutline.monitor;
-      case LayoutState.desktop:
+      case ViewSize.desktop:
         return IconsaxOutline.monitor;
     }
   }
@@ -93,7 +93,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     void navigateTo(PageRouteInfo route) => context.tabsRouter.navigate(route);
 
     bool containsRoute(PageRouteInfo route) =>
-        AdaptiveLayout.of(context).size == ScreenLayout.dual && context.tabsRouter.current.name == route.routeName;
+        AdaptiveLayout.layoutModeOf(context) == LayoutMode.dual && context.tabsRouter.current.name == route.routeName;
 
     final quickConnectAvailable =
         ref.watch(userProvider.select((value) => value?.serverConfiguration?.quickConnectAvailable ?? false));

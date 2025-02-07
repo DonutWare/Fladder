@@ -1,4 +1,5 @@
 import 'package:fladder/models/items/photos_model.dart';
+import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/models/view_model.dart';
 import 'package:fladder/providers/library_provider.dart';
 import 'package:fladder/screens/photo_viewer/photo_viewer_screen.dart';
@@ -27,7 +28,7 @@ class TimelineTab extends ConsumerStatefulWidget {
 class _TimelineTabState extends ConsumerState<TimelineTab> with AutomaticKeepAliveClientMixin {
   final itemScrollController = ItemScrollController();
   double get posterCount {
-    if (AdaptiveLayout.of(context).layout == LayoutState.desktop) {
+    if (AdaptiveLayout.viewSizeOf(context) == ViewSize.desktop) {
       return 200;
     }
     return 125;

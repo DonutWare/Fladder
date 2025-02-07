@@ -19,4 +19,8 @@ class HomeSettingsNotifier extends StateNotifier<HomeSettingsModel> {
   }
 
   HomeSettingsModel update(HomeSettingsModel Function(HomeSettingsModel currentState) value) => state = value(state);
+
+  void setLayoutModes(Set<LayoutMode> set) => state = state.copyWith(screenLayouts: set);
+
+  void setViewSize(Set<ViewSize> set) => state = state.copyWith(layoutStates: set);
 }

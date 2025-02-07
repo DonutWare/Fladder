@@ -9,6 +9,14 @@ part of 'home_settings_model.dart';
 _$HomeSettingsModelImpl _$$HomeSettingsModelImplFromJson(
         Map<String, dynamic> json) =>
     _$HomeSettingsModelImpl(
+      screenLayouts: (json['screenLayouts'] as List<dynamic>?)
+              ?.map((e) => $enumDecode(_$LayoutModeEnumMap, e))
+              .toSet() ??
+          const {...LayoutMode.values},
+      layoutStates: (json['layoutStates'] as List<dynamic>?)
+              ?.map((e) => $enumDecode(_$ViewSizeEnumMap, e))
+              .toSet() ??
+          const {...ViewSize.values},
       homeBanner:
           $enumDecodeNullable(_$HomeBannerEnumMap, json['homeBanner']) ??
               HomeBanner.carousel,
@@ -22,11 +30,26 @@ _$HomeSettingsModelImpl _$$HomeSettingsModelImplFromJson(
 Map<String, dynamic> _$$HomeSettingsModelImplToJson(
         _$HomeSettingsModelImpl instance) =>
     <String, dynamic>{
+      'screenLayouts':
+          instance.screenLayouts.map((e) => _$LayoutModeEnumMap[e]!).toList(),
+      'layoutStates':
+          instance.layoutStates.map((e) => _$ViewSizeEnumMap[e]!).toList(),
       'homeBanner': _$HomeBannerEnumMap[instance.homeBanner]!,
       'carouselSettings':
           _$HomeCarouselSettingsEnumMap[instance.carouselSettings]!,
       'nextUp': _$HomeNextUpEnumMap[instance.nextUp]!,
     };
+
+const _$LayoutModeEnumMap = {
+  LayoutMode.single: 'single',
+  LayoutMode.dual: 'dual',
+};
+
+const _$ViewSizeEnumMap = {
+  ViewSize.phone: 'phone',
+  ViewSize.tablet: 'tablet',
+  ViewSize.desktop: 'desktop',
+};
 
 const _$HomeBannerEnumMap = {
   HomeBanner.hide: 'hide',

@@ -10,12 +10,56 @@ part 'home_settings_model.g.dart';
 @freezed
 class HomeSettingsModel with _$HomeSettingsModel {
   factory HomeSettingsModel({
+    @Default({...LayoutMode.values}) Set<LayoutMode> screenLayouts,
+    @Default({...ViewSize.values}) Set<ViewSize> layoutStates,
     @Default(HomeBanner.carousel) HomeBanner homeBanner,
     @Default(HomeCarouselSettings.combined) HomeCarouselSettings carouselSettings,
     @Default(HomeNextUp.separate) HomeNextUp nextUp,
   }) = _HomeSettingsModel;
 
   factory HomeSettingsModel.fromJson(Map<String, dynamic> json) => _$HomeSettingsModelFromJson(json);
+}
+
+T selectAvailableOrSmaller<T>(T value, Set<T> availableOptions, List<T> allOptions) {
+  if (availableOptions.contains(value)) {
+    return value;
+  }
+
+  int index = allOptions.indexOf(value);
+
+  for (int i = index - 1; i >= 0; i--) {
+    if (availableOptions.contains(allOptions[i])) {
+      return allOptions[i];
+    }
+  }
+
+  return availableOptions.first;
+}
+
+enum ViewSize {
+  phone,
+  tablet,
+  desktop;
+
+  const ViewSize();
+
+  String label(BuildContext context) => switch (this) {
+        ViewSize.phone => context.localized.phone,
+        ViewSize.tablet => context.localized.tablet,
+        ViewSize.desktop => context.localized.desktop,
+      };
+}
+
+enum LayoutMode {
+  single,
+  dual;
+
+  const LayoutMode();
+
+  String label(BuildContext context) => switch (this) {
+        LayoutMode.single => context.localized.layoutModeSingle,
+        LayoutMode.dual => context.localized.layoutModeDual,
+      };
 }
 
 enum HomeBanner {

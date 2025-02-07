@@ -94,7 +94,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               controller: AdaptiveLayout.scrollOf(context),
               physics: const AlwaysScrollableScrollPhysics(),
               slivers: [
-                if (AdaptiveLayout.of(context).layout == LayoutState.phone)
+                if (AdaptiveLayout.viewSizeOf(context) == ViewSize.phone)
                   NestedSliverAppBar(
                     route: LibrarySearchRoute(),
                     parent: context,
@@ -102,7 +102,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 if (homeBanner && homeCarouselItems.isNotEmpty) ...{
                   SliverToBoxAdapter(
                     child: Transform.translate(
-                      offset: Offset(0, AdaptiveLayout.layoutOf(context) == LayoutState.phone ? -14 : 0),
+                      offset: Offset(0, AdaptiveLayout.layoutOf(context) == ViewSize.phone ? -14 : 0),
                       child: HomeBannerWidget(posters: homeCarouselItems),
                     ),
                   ),

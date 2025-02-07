@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/shared/user_icon.dart';
 import 'package:fladder/util/adaptive_layout.dart';
@@ -31,9 +32,9 @@ class SettingsScaffold extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final padding = MediaQuery.of(context).padding;
-    final singleLayout = AdaptiveLayout.of(context).size == ScreenLayout.single;
+    final singleLayout = AdaptiveLayout.layoutModeOf(context) == LayoutMode.single;
     return Scaffold(
-      backgroundColor: AdaptiveLayout.of(context).size == ScreenLayout.dual ? Colors.transparent : null,
+      backgroundColor: AdaptiveLayout.layoutModeOf(context) == LayoutMode.dual ? Colors.transparent : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: floatingActionButton,
       body: Column(
@@ -114,7 +115,7 @@ class SettingsScaffold extends ConsumerWidget {
 
   void backAction(BuildContext context) {
     if (kIsWeb) {
-      if (AdaptiveLayout.of(context).size == ScreenLayout.single && context.tabsRouter.activeIndex != 0) {
+      if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.single && context.tabsRouter.activeIndex != 0) {
         context.tabsRouter.setActiveIndex(0);
       } else {
         context.router.popForced();

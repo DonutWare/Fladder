@@ -6,6 +6,7 @@ import 'package:collection/collection.dart';
 import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/views_provider.dart';
 import 'package:fladder/routes/auto_router.dart';
@@ -52,7 +53,7 @@ class _NavigationBodyState extends ConsumerState<NavigationBody> {
   @override
   Widget build(BuildContext context) {
     final views = ref.watch(viewsProvider.select((value) => value.views));
-    final hasOverlay = AdaptiveLayout.of(context).size == ScreenLayout.dual ||
+    final hasOverlay = AdaptiveLayout.layoutModeOf(context) == LayoutMode.dual ||
         homeRoutes.any((element) => element.name.contains(context.router.current.name));
     ref.listen(
       clientSettingsProvider,
@@ -66,11 +67,11 @@ class _NavigationBodyState extends ConsumerState<NavigationBody> {
     );
 
     return switch (AdaptiveLayout.layoutOf(context)) {
-      LayoutState.phone => MediaQuery.removePadding(
+      ViewSize.phone => MediaQuery.removePadding(
           context: widget.parentContext,
           child: widget.child,
         ),
-      LayoutState.tablet => Row(
+      ViewSize.tablet => Row(
           children: [
             AnimatedFadeSize(
               duration: const Duration(milliseconds: 250),
@@ -84,27 +85,29 @@ class _NavigationBodyState extends ConsumerState<NavigationBody> {
             )
           ],
         ),
-      LayoutState.desktop => Row(
+      ViewSize.desktop => Row(
           children: [
             AnimatedFadeSize(
               duration: const Duration(milliseconds: 125),
-              child: expandedSideBar
-                  ? MediaQuery.removePadding(
-                      context: widget.parentContext,
-                      child: NestedNavigationDrawer(
-                        isExpanded: expandedSideBar,
-                        actionButton: actionButton(),
-                        toggleExpanded: (value) {
-                          setState(() {
-                            expandedSideBar = value;
-                          });
-                        },
-                        views: views,
-                        destinations: widget.destinations,
-                        currentLocation: widget.currentLocation,
-                      ),
-                    )
-                  : navigationRail(context),
+              child: hasOverlay
+                  ? expandedSideBar
+                      ? MediaQuery.removePadding(
+                          context: widget.parentContext,
+                          child: NestedNavigationDrawer(
+                            isExpanded: expandedSideBar,
+                            actionButton: actionButton(),
+                            toggleExpanded: (value) {
+                              setState(() {
+                                expandedSideBar = value;
+                              });
+                            },
+                            views: views,
+                            destinations: widget.destinations,
+                            currentLocation: widget.currentLocation,
+                          ),
+                        )
+                      : navigationRail(context)
+                  : const SizedBox(),
             ),
             Flexible(
               child: widget.child,
@@ -148,7 +151,7 @@ class _NavigationBodyState extends ConsumerState<NavigationBody> {
               children: [
                 IconButton(
                   onPressed: () {
-                    if (AdaptiveLayout.layoutOf(context) != LayoutState.desktop) {
+                    if (AdaptiveLayout.layoutOf(context) != ViewSize.desktop) {
                       widget.drawerKey.currentState?.openDrawer();
                     } else {
                       setState(() {
@@ -158,7 +161,7 @@ class _NavigationBodyState extends ConsumerState<NavigationBody> {
                   },
                   icon: const Icon(IconsaxBold.menu),
                 ),
-                if (AdaptiveLayout.of(context).size == ScreenLayout.dual) ...[
+                if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.dual) ...[
                   const SizedBox(height: 8),
                   AnimatedFadeSize(
                     child: AnimatedSwitcher(

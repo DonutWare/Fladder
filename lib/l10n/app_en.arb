@@ -1158,5 +1158,14 @@
       }
     }
   },
-  "copyStreamUrl": "Copy stream url"
+  "copyStreamUrl": "Copy stream url",
+  "settingsLayoutSizesTitle": "Layout Sizes",
+  "settingsLayoutSizesDesc": "Choose which layout sizes the app can use based on window size",
+  "settingsLayoutModesTitle": "Layout Modes",
+  "settingsLayoutModesDesc": "Control whether the app can use single or dual-panel layouts",
+  "phone": "Phone",
+  "tablet": "Tablet",
+  "desktop": "Desktop",
+  "layoutModeSingle": "Single",
+  "layoutModeDual": "Dual"
 }

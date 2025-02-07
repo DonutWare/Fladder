@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
@@ -34,8 +35,8 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
   Widget build(BuildContext context) {
     final videoSettings = ref.watch(videoPlayerSettingsProvider);
     final provider = ref.read(videoPlayerSettingsProvider.notifier);
-    final showBackground = AdaptiveLayout.of(context).layout != LayoutState.phone &&
-        AdaptiveLayout.of(context).size != ScreenLayout.single;
+    final showBackground = AdaptiveLayout.viewSizeOf(context) != ViewSize.phone &&
+        AdaptiveLayout.layoutModeOf(context) != LayoutMode.single;
     return Card(
       elevation: showBackground ? 2 : 0,
       child: SettingsScaffold(

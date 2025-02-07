@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
 
@@ -23,7 +24,7 @@ Future<void> showBottomSheetPill({
     showDragHandle: true,
     enableDrag: true,
     context: context,
-    constraints: AdaptiveLayout.of(context).layout == LayoutState.phone
+    constraints: AdaptiveLayout.viewSizeOf(context) == ViewSize.phone
         ? BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.9)
         : BoxConstraints(
             maxWidth: MediaQuery.of(context).size.width * 0.75, maxHeight: MediaQuery.of(context).size.height * 0.85),

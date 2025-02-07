@@ -18,6 +18,7 @@ import 'package:universal_html/html.dart' as html;
 import 'package:window_manager/window_manager.dart';
 
 import 'package:fladder/models/account_model.dart';
+import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/models/syncing/i_synced_item.dart';
 import 'package:fladder/providers/crash_log_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
@@ -101,11 +102,11 @@ void main() async {
             ))
       ],
       child: AdaptiveLayoutBuilder(
-        fallBack: LayoutState.tablet,
+        fallBack: ViewSize.tablet,
         layoutPoints: [
-          LayoutPoints(start: 0, end: 599, type: LayoutState.phone),
-          LayoutPoints(start: 600, end: 1919, type: LayoutState.tablet),
-          LayoutPoints(start: 1920, end: 3180, type: LayoutState.desktop),
+          LayoutPoints(start: 0, end: 599, type: ViewSize.phone),
+          LayoutPoints(start: 600, end: 1919, type: ViewSize.tablet),
+          LayoutPoints(start: 1920, end: 3180, type: ViewSize.desktop),
         ],
         child: const Main(),
       ),

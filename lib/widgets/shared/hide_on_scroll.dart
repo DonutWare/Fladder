@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/util/adaptive_layout.dart';
 
 class HideOnScroll extends ConsumerStatefulWidget {
@@ -67,7 +68,7 @@ class _HideOnScrollState extends ConsumerState<HideOnScroll> {
   Widget build(BuildContext context) {
     if (widget.visibleBuilder != null) return widget.visibleBuilder!(isVisible)!;
     if (widget.child == null) return const SizedBox();
-    if (AdaptiveLayout.of(context).layout == LayoutState.desktop) {
+    if (AdaptiveLayout.viewSizeOf(context) == ViewSize.desktop) {
       return widget.child!;
     } else {
       return AnimatedAlign(
