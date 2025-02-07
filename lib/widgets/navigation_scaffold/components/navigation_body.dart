@@ -110,7 +110,10 @@ class _NavigationBodyState extends ConsumerState<NavigationBody> {
                   : const SizedBox(),
             ),
             Flexible(
-              child: widget.child,
+              child: MediaQuery(
+                data: semiNestedPadding(context, hasOverlay),
+                child: widget.child,
+              ),
             ),
           ],
         )
