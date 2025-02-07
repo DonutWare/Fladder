@@ -51,7 +51,9 @@ class _ClientSettingsPageState extends ConsumerState<ClientSettingsPage> {
                 initialValue: clientSettings.timeOut ?? const Duration(),
               );
 
-              ref.read(clientSettingsProvider.notifier).setTimeOut(timePicker != null
+              if (timePicker == null) return;
+
+              ref.read(clientSettingsProvider.notifier).setTimeOut(timePicker != Duration.zero
                   ? Duration(minutes: timePicker.inMinutes, seconds: timePicker.inSeconds % 60)
                   : null);
             },
