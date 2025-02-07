@@ -26,6 +26,7 @@ import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/routes/auto_router.dart';
+import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/login/lock_screen.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout.dart';
@@ -159,9 +160,9 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
       // Stop playback if the user was still watching a video
       await ref.read(videoPlayerProvider).pause();
 
-      // if (context.mounted) {
-      //   AdaptiveLayout.of(context).router.push(const LockRoute());
-      // }
+      if (context.mounted) {
+        autoRouter.push(const LockRoute());
+      }
     }
   }
 
