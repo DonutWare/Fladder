@@ -52,6 +52,8 @@ class _NavigationBodyState extends ConsumerState<NavigationBody> {
   @override
   Widget build(BuildContext context) {
     final views = ref.watch(viewsProvider.select((value) => value.views));
+    final hasOverlay = AdaptiveLayout.of(context).size == ScreenLayout.dual ||
+        homeRoutes.any((element) => element.name.contains(context.router.current.name));
     ref.listen(
       clientSettingsProvider,
       (previous, next) {
@@ -70,11 +72,15 @@ class _NavigationBodyState extends ConsumerState<NavigationBody> {
         ),
       LayoutState.tablet => Row(
           children: [
-            if (AdaptiveLayout.of(context).size == ScreenLayout.dual ||
-                homeRoutes.any((element) => element.name.contains(context.router.current.name)))
-              navigationRail(context),
+            AnimatedFadeSize(
+              duration: const Duration(milliseconds: 250),
+              child: hasOverlay ? navigationRail(context) : const SizedBox(),
+            ),
             Flexible(
-              child: widget.child,
+              child: MediaQuery(
+                data: semiNestedPadding(context, hasOverlay),
+                child: widget.child,
+              ),
             )
           ],
         ),
@@ -106,6 +112,13 @@ class _NavigationBodyState extends ConsumerState<NavigationBody> {
           ],
         )
     };
+  }
+
+  MediaQueryData semiNestedPadding(BuildContext context, bool hasOverlay) {
+    final paddingOf = MediaQuery.paddingOf(context);
+    return MediaQuery.of(context).copyWith(
+      padding: paddingOf.copyWith(left: hasOverlay ? 0 : paddingOf.left),
+    );
   }
 
   AdaptiveFab? actionButton() {
