@@ -27,7 +27,6 @@ class SettingsScreen extends ConsumerStatefulWidget {
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   final scrollController = ScrollController();
   final minVerticalPadding = 20.0;
-
   late LayoutMode lastAdaptiveLayout = AdaptiveLayout.layoutModeOf(context);
 
   @override

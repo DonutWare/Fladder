@@ -9,7 +9,7 @@ import 'package:fladder/screens/settings/widgets/settings_label_divider.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/option_dialogue.dart';
 
-List<Widget> buildClientSettingsAdavanced(BuildContext context, WidgetRef ref) {
+List<Widget> buildClientSettingsAdvanced(BuildContext context, WidgetRef ref) {
   return [
     SettingsLabelDivider(label: context.localized.advanced),
     SettingsListTile(

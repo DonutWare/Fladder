@@ -12,16 +12,14 @@ import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/enum_selection.dart';
 import 'package:fladder/widgets/shared/fladder_slider.dart';
 
-List<Widget> buildClientSettingsVisual(BuildContext context, WidgetRef ref) {
-  late final nextUpDaysEditor = TextEditingController(
-      text: ref.read(clientSettingsProvider.select((value) => value.nextUpDateCutoff?.inDays ?? 14)).toString());
-
-  late final libraryPageSizeController = TextEditingController(
-      text: ref.read(clientSettingsProvider.select((value) => value.libraryPageSize))?.toString() ?? "");
-
+List<Widget> buildClientSettingsVisual(
+  BuildContext context,
+  WidgetRef ref,
+  TextEditingController nextUpDaysEditor,
+  TextEditingController libraryPageSizeController,
+) {
   final clientSettings = ref.watch(clientSettingsProvider);
   Locale currentLocale = WidgetsBinding.instance.platformDispatcher.locale;
-
   return [
     SettingsLabelDivider(label: context.localized.settingsVisual),
     SettingsListTile(

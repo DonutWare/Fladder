@@ -29,6 +29,12 @@ class ClientSettingsPage extends ConsumerStatefulWidget {
 }
 
 class _ClientSettingsPageState extends ConsumerState<ClientSettingsPage> {
+  late final nextUpDaysEditor = TextEditingController(
+      text: ref.read(clientSettingsProvider.select((value) => value.nextUpDateCutoff?.inDays ?? 14)).toString());
+
+  late final libraryPageSizeController = TextEditingController(
+      text: ref.read(clientSettingsProvider.select((value) => value.libraryPageSize))?.toString() ?? "");
+
   @override
   Widget build(BuildContext context) {
     final clientSettings = ref.watch(clientSettingsProvider);
@@ -60,7 +66,7 @@ class _ClientSettingsPageState extends ConsumerState<ClientSettingsPage> {
           ),
           const Divider(),
           ...buildClientSettingsDashboard(context, ref),
-          ...buildClientSettingsVisual(context, ref),
+          ...buildClientSettingsVisual(context, ref, nextUpDaysEditor, libraryPageSizeController),
           ...buildClientSettingsTheme(context, ref),
           if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer) ...[
             SettingsLabelDivider(label: context.localized.controls),
@@ -79,7 +85,7 @@ class _ClientSettingsPageState extends ConsumerState<ClientSettingsPage> {
             ),
           ],
           const Divider(),
-          ...buildClientSettingsAdavanced(context, ref),
+          ...buildClientSettingsAdvanced(context, ref),
           if (kDebugMode) ...[
             const SizedBox(height: 64),
             SettingsListTile(
