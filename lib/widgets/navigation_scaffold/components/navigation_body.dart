@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/views_provider.dart';
+import 'package:fladder/routes/auto_router.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/util/adaptive_layout.dart';
@@ -68,7 +70,9 @@ class _NavigationBodyState extends ConsumerState<NavigationBody> {
         ),
       LayoutState.tablet => Row(
           children: [
-            navigationRail(context),
+            if (AdaptiveLayout.of(context).size == ScreenLayout.dual ||
+                homeRoutes.any((element) => element.name.contains(context.router.current.name)))
+              navigationRail(context),
             Flexible(
               child: widget.child,
             )
@@ -120,7 +124,8 @@ class _NavigationBodyState extends ConsumerState<NavigationBody> {
             style: Theme.of(context).textTheme.titleSmall,
           ),
         },
-        if (AdaptiveLayout.of(context).platform == TargetPlatform.macOS) SizedBox(height: MediaQuery.of(context).padding.top),
+        if (AdaptiveLayout.of(context).platform == TargetPlatform.macOS)
+          SizedBox(height: MediaQuery.of(context).padding.top),
         Flexible(
           child: Padding(
             key: const Key('navigation_rail'),

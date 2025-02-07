@@ -419,7 +419,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                                       ),
                                     );
                                   }),
-                                  if (AdaptiveLayout.of(context).layout == LayoutState.phone) ...[
+                                  if (AdaptiveLayout.of(context).size == ScreenLayout.single) ...[
                                     const SizedBox(width: 6),
                                     const SizedBox.square(dimension: 46, child: SettingsUserIcon()),
                                   ],

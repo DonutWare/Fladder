@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
@@ -10,24 +11,27 @@ import 'package:fladder/util/router_extension.dart';
 
 class SettingsScaffold extends ConsumerWidget {
   final String label;
-  final bool showUserIcon;
   final ScrollController? scrollController;
   final List<Widget> items;
   final List<Widget> bottomActions;
+  final bool showUserIcon;
+  final bool showBackButtonNested;
   final Widget? floatingActionButton;
   const SettingsScaffold({
     required this.label,
-    this.showUserIcon = false,
     this.scrollController,
     required this.items,
     this.bottomActions = const [],
     this.floatingActionButton,
+    this.showUserIcon = false,
+    this.showBackButtonNested = false,
     super.key,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final padding = MediaQuery.of(context).padding;
+    final singleLayout = AdaptiveLayout.of(context).size == ScreenLayout.single;
     return Scaffold(
       backgroundColor: AdaptiveLayout.of(context).size == ScreenLayout.dual ? Colors.transparent : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -38,10 +42,11 @@ class SettingsScaffold extends ConsumerWidget {
             child: CustomScrollView(
               controller: scrollController,
               slivers: [
-                if (AdaptiveLayout.of(context).size == ScreenLayout.single)
+                if (singleLayout)
                   SliverAppBar.large(
-                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                    leading: context.router.backButton(),
+                    leading: BackButton(
+                      onPressed: () => backAction(context),
+                    ),
                     flexibleSpace: FlexibleSpaceBar(
                       titlePadding: const EdgeInsets.symmetric(horizontal: 16)
                           .add(EdgeInsets.only(left: padding.left, right: padding.right, bottom: 4)),
@@ -51,11 +56,12 @@ class SettingsScaffold extends ConsumerWidget {
                           const Spacer(),
                           if (showUserIcon)
                             SizedBox.fromSize(
-                                size: const Size.fromRadius(14),
-                                child: UserIcon(
-                                  user: ref.watch(userProvider),
-                                  cornerRadius: 200,
-                                ))
+                              size: const Size.fromRadius(14),
+                              child: UserIcon(
+                                user: ref.watch(userProvider),
+                                cornerRadius: 200,
+                              ),
+                            )
                         ],
                       ),
                       expandedTitleScale: 1.2,
@@ -68,9 +74,15 @@ class SettingsScaffold extends ConsumerWidget {
                 else
                   SliverToBoxAdapter(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 32),
-                      child: Text(AdaptiveLayout.of(context).size == ScreenLayout.single ? label : "",
-                          style: Theme.of(context).textTheme.headlineLarge),
+                      padding: MediaQuery.paddingOf(context),
+                      child: Row(
+                        children: [
+                          if (showBackButtonNested)
+                            BackButton(
+                              onPressed: () => backAction(context),
+                            )
+                        ],
+                      ),
                     ),
                   ),
                 SliverPadding(
@@ -98,5 +110,17 @@ class SettingsScaffold extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  void backAction(BuildContext context) {
+    if (kIsWeb) {
+      if (AdaptiveLayout.of(context).size == ScreenLayout.single && context.tabsRouter.activeIndex != 0) {
+        context.tabsRouter.setActiveIndex(0);
+      } else {
+        context.router.popForced();
+      }
+    } else {
+      context.router.popBack();
+    }
   }
 }

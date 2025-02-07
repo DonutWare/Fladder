@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:fladder/routes/auto_router.dart';
 import 'package:fladder/util/debug_banner.dart';
 import 'package:fladder/util/poster_defaults.dart';
 
@@ -65,7 +64,6 @@ class AdaptiveLayout extends InheritedWidget {
   final InputDevice inputDevice;
   final TargetPlatform platform;
   final bool isDesktop;
-  final AutoRouter router;
   final PosterDefaults posterDefaults;
   final ScrollController controller;
 
@@ -76,7 +74,6 @@ class AdaptiveLayout extends InheritedWidget {
     required this.inputDevice,
     required this.platform,
     required this.isDesktop,
-    required this.router,
     required this.posterDefaults,
     required this.controller,
     required super.child,
@@ -96,11 +93,6 @@ class AdaptiveLayout extends InheritedWidget {
     return result!.posterDefaults;
   }
 
-  static AutoRouter routerOf(BuildContext context) {
-    final AdaptiveLayout? result = maybeOf(context);
-    return result!.router;
-  }
-
   static AdaptiveLayout of(BuildContext context) {
     final AdaptiveLayout? result = maybeOf(context);
     return result!;
@@ -117,8 +109,7 @@ class AdaptiveLayout extends InheritedWidget {
         size != oldWidget.size ||
         platform != oldWidget.platform ||
         inputDevice != oldWidget.inputDevice ||
-        isDesktop != oldWidget.isDesktop ||
-        router != oldWidget.router;
+        isDesktop != oldWidget.isDesktop;
   }
 }
 
@@ -137,7 +128,6 @@ class AdaptiveLayoutBuilder extends ConsumerStatefulWidget {
 class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
   late LayoutState layout = widget.fallBack;
   late ScreenLayout size = ScreenLayout.single;
-  AutoRouter? router;
   late TargetPlatform currentPlatform = defaultTargetPlatform;
   late ScrollController controller = ScrollController();
 
@@ -164,15 +154,12 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
         newType = element.type;
       }
     }
-    if (newType == LayoutState.phone && isDesktop) {
-      newType = LayoutState.tablet;
-    }
     layout = newType ?? widget.fallBack;
   }
 
   void calculateSize() {
     ScreenLayout newSize;
-    if (MediaQuery.of(context).size.width > 0 && MediaQuery.of(context).size.width < 960 && !isDesktop) {
+    if (MediaQuery.of(context).size.width > 0 && MediaQuery.of(context).size.width < 960) {
       newSize = ScreenLayout.single;
     } else {
       newSize = ScreenLayout.dual;
@@ -194,7 +181,6 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
         inputDevice: (isDesktop || kIsWeb) ? InputDevice.pointer : InputDevice.touch,
         platform: currentPlatform,
         isDesktop: isDesktop,
-        router: router ??= AutoRouter(layout: size, ref: ref),
         posterDefaults: switch (layout) {
           LayoutState.phone => const PosterDefaults(size: 300, ratio: 0.55),
           LayoutState.tablet => const PosterDefaults(size: 350, ratio: 0.55),

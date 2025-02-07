@@ -1,7 +1,9 @@
-import 'package:fladder/util/adaptive_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:fladder/util/adaptive_layout.dart';
 
 class HideOnScroll extends ConsumerStatefulWidget {
   final Widget? child;
@@ -9,12 +11,14 @@ class HideOnScroll extends ConsumerStatefulWidget {
   final double height;
   final Widget? Function(bool visible)? visibleBuilder;
   final Duration duration;
+  final bool forceHide;
   const HideOnScroll({
     this.child,
     this.controller,
     this.height = kBottomNavigationBarHeight,
     this.visibleBuilder,
     this.duration = const Duration(milliseconds: 200),
+    this.forceHide = false,
     super.key,
   }) : assert(child != null || visibleBuilder != null);
 
@@ -68,7 +72,11 @@ class _HideOnScrollState extends ConsumerState<HideOnScroll> {
     } else {
       return AnimatedAlign(
         alignment: const Alignment(0, -1),
-        heightFactor: isVisible ? 1.0 : 0,
+        heightFactor: widget.forceHide
+            ? 0
+            : isVisible
+                ? 1.0
+                : 0,
         duration: widget.duration,
         child: Wrap(children: [widget.child!]),
       );

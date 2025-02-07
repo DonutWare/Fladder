@@ -25,7 +25,7 @@ import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
-import 'package:fladder/routes/auto_router.gr.dart';
+import 'package:fladder/routes/auto_router.dart';
 import 'package:fladder/screens/login/lock_screen.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout.dart';
@@ -122,6 +122,7 @@ class Main extends ConsumerStatefulWidget with WindowListener {
 class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBindingObserver {
   DateTime dateTime = DateTime.now();
   bool hidden = false;
+  late final autoRouter = AutoRouter(ref: ref);
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
@@ -158,9 +159,9 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
       // Stop playback if the user was still watching a video
       await ref.read(videoPlayerProvider).pause();
 
-      if (context.mounted) {
-        AdaptiveLayout.of(context).router.push(const LockRoute());
-      }
+      // if (context.mounted) {
+      //   AdaptiveLayout.of(context).router.push(const LockRoute());
+      // }
     }
   }
 
@@ -298,7 +299,8 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
               ),
             ),
             themeMode: themeMode,
-            routerConfig: AdaptiveLayout.routerOf(context).config(),
+            routerConfig: autoRouter.config(),
+            // routerConfig: AdaptiveLayout.routerOf(context).config(),
           ),
         );
       }),
