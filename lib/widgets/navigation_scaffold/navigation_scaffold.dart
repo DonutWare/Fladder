@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/media_playback_model.dart';
@@ -53,6 +54,8 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
     final playerState = ref.watch(mediaPlaybackProvider.select((value) => value.state));
     final views = ref.watch(viewsProvider.select((value) => value.views));
 
+    final isHomeRoutes = homeRoutes.any((element) => element.name.contains(context.router.current.name));
+
     return PopScope(
       canPop: currentIndex == 0,
       onPopInvokedWithResult: (didPop, result) {
@@ -65,9 +68,13 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
         appBar: const FladderAppBar(),
         extendBodyBehindAppBar: true,
         extendBody: true,
+        floatingActionButtonAnimator:
+            playerState == VideoPlayerState.minimized ? FloatingActionButtonAnimator.noAnimation : null,
         floatingActionButtonLocation:
             playerState == VideoPlayerState.minimized ? FloatingActionButtonLocation.centerFloat : null,
-        floatingActionButton: AdaptiveLayout.layoutModeOf(context) == LayoutMode.single
+        floatingActionButton: AdaptiveLayout.layoutModeOf(context) == LayoutMode.single &&
+                AdaptiveLayout.viewSizeOf(context) == ViewSize.phone &&
+                isHomeRoutes
             ? switch (playerState) {
                 VideoPlayerState.minimized => const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 8),

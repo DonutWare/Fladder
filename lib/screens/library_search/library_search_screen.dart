@@ -160,6 +160,8 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
       child: Scaffold(
         extendBody: true,
         extendBodyBehindAppBar: true,
+        floatingActionButtonAnimator:
+            playerState == VideoPlayerState.minimized ? FloatingActionButtonAnimator.noAnimation : null,
         floatingActionButtonLocation:
             playerState == VideoPlayerState.minimized ? FloatingActionButtonLocation.centerFloat : null,
         floatingActionButton: switch (playerState) {

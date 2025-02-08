@@ -78,6 +78,8 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
       },
       refreshOnStart: true,
       child: Scaffold(
+        floatingActionButtonAnimator:
+            playerState == VideoPlayerState.minimized ? FloatingActionButtonAnimator.noAnimation : null,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: switch (playerState) {
           VideoPlayerState.minimized => const Padding(

@@ -19,6 +19,8 @@ class NestedScaffold extends ConsumerWidget {
     return Card(
       child: Scaffold(
         backgroundColor: Colors.transparent,
+        floatingActionButtonAnimator:
+            playerState == VideoPlayerState.minimized ? FloatingActionButtonAnimator.noAnimation : null,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: switch (AdaptiveLayout.layoutOf(context)) {
           ViewSize.phone => null,
