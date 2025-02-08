@@ -101,9 +101,16 @@ jobs:
 
   build-windows:
     runs-on: windows-latest
+
+    env:
+      FLADDER_VERSION: ${{needs.fetch-info.outputs.version_name}}
+    
     needs: [fetch-info]
 
     steps:
+      - name: Test app version
+        run: echo "App version = $env:FLADDER_VERSION"
+
       - name: Checkout repository
         uses: actions/checkout@v4.1.1
 
@@ -121,7 +128,7 @@ jobs:
 
       - name: Build Windows EXE
         run: flutter build windows --build-number=${{ github.run_number }}
-
+        
       - name: Archive Windows artifact
         uses: actions/upload-artifact@v4.0.0
         with:
