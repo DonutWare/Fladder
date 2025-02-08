@@ -101,16 +101,11 @@ jobs:
 
   build-windows:
     runs-on: windows-latest
-
     env:
       FLADDER_VERSION: ${{needs.fetch-info.outputs.version_name}}
-    
     needs: [fetch-info]
 
     steps:
-      - name: Test app version
-        run: echo "App version = $env:FLADDER_VERSION"
-
       - name: Checkout repository
         uses: actions/checkout@v4.1.1
 
@@ -128,12 +123,24 @@ jobs:
 
       - name: Build Windows EXE
         run: flutter build windows --build-number=${{ github.run_number }}
-        
+      
+      - name: Compile Inno Setup installer
+        uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
+        with:
+          path: windows/windows_setup.iss
+          options: /O+
+
       - name: Archive Windows artifact
         uses: actions/upload-artifact@v4.0.0
         with:
-          name: fladder-windows
+          name: fladder-windows-portable
           path: build\windows\x64\runner\Release\
+
+      - name: Archive Windows artifact
+        uses: actions/upload-artifact@v4.0.0
+        with:
+          name: fladder-windows-installer
+          path: windows\Output\fladder_setup.exe
 
   build-ios:
     runs-on: macos-latest
@@ -354,15 +361,26 @@ jobs:
           mv fladder-android/release-signed.apk Fladder-Android-${{needs.fetch-info.outputs.version_name}}.apk
           mv fladder-android/release-signed.aab Fladder-Android-${{needs.fetch-info.outputs.version_name}}.aab
 
-      - name: Download Artifacts Windows
+      - name: Download Windows portable artifact
         uses: actions/download-artifact@v4
         with:
-          name: fladder-windows
-          path: fladder-windows
+          name: fladder-windows-portable
+          path: fladder-windows-portable
+
+      - name: Download Windows installer artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: fladder-windows-installer
+          path: fladder-windows-installer
+      
+      - name: Rename Windows installer
+        run: |
+          cd fladder-windows-installer
+          rename fladder_setup.exe Fladder-Windows-${{needs.fetch-info.outputs.version_name}}-Setup.exe
 
       - name: Compress Windows
         run: |
-          cd fladder-windows
+          cd fladder-windows-portable
           zip -r ../Fladder-Windows-${{needs.fetch-info.outputs.version_name}}.zip .
 
       - name: Download Artifacts iOS
@@ -422,9 +440,11 @@ jobs:
           generate_release_notes: true
           files: |
             Fladder-Android-${{needs.fetch-info.outputs.version_name}}.apk
+            Fladder-Windows-${{needs.fetch-info.outputs.version_name}}-Setup.exe
             Fladder-Windows-${{needs.fetch-info.outputs.version_name}}.zip
             Fladder-iOS-${{needs.fetch-info.outputs.version_name}}.ipa
             Fladder-macOS-${{needs.fetch-info.outputs.version_name}}.dmg
             Fladder-Web-${{needs.fetch-info.outputs.version_name}}.zip
             Fladder-Linux-${{needs.fetch-info.outputs.version_name}}.zip
             Fladder-Linux-${{needs.fetch-info.outputs.version_name}}.flatpak
+            
