@@ -3,7 +3,7 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{768C5CDE-8FC8-4AB3-9AED-BE126745FF90}
 AppName="Fladder"
-AppVersion="1.5"
+AppVersion={%FLADDER_VERSION|latest}
 ;AppVerName=Fladder {#MyAppVersion}
 AppPublisher="DonutWare"
 AppPublisherURL="https://github.com/DonutWare/Fladder"
