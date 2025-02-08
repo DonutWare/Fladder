@@ -34,25 +34,25 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "D:\bazzadazza72\Fladder\build\windows\x64\runner\Release\fladder.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\bazzadazza72\Fladder\build\windows\x64\runner\Release\desktop_drop_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\bazzadazza72\Fladder\build\windows\x64\runner\Release\dynamic_color_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\bazzadazza72\Fladder\build\windows\x64\runner\Release\ffmpeg-7.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\bazzadazza72\Fladder\build\windows\x64\runner\Release\flutter_windows.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\bazzadazza72\Fladder\build\windows\x64\runner\Release\fvp_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\bazzadazza72\Fladder\build\windows\x64\runner\Release\isar.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\bazzadazza72\Fladder\build\windows\x64\runner\Release\isar_flutter_libs_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\bazzadazza72\Fladder\build\windows\x64\runner\Release\libass.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\bazzadazza72\Fladder\build\windows\x64\runner\Release\local_auth_windows_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\bazzadazza72\Fladder\build\windows\x64\runner\Release\mdk.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\bazzadazza72\Fladder\build\windows\x64\runner\Release\media_kit_video_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\bazzadazza72\Fladder\build\windows\x64\runner\Release\screen_brightness_windows_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\bazzadazza72\Fladder\build\windows\x64\runner\Release\screen_retriever_windows_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\bazzadazza72\Fladder\build\windows\x64\runner\Release\share_plus_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\bazzadazza72\Fladder\build\windows\x64\runner\Release\smtc_windows.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\bazzadazza72\Fladder\build\windows\x64\runner\Release\url_launcher_windows_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\bazzadazza72\Fladder\build\windows\x64\runner\Release\window_manager_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\bazzadazza72\Fladder\build\windows\x64\runner\Release\data\*"; DestDir: "{app}\data"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "D:\Fladder\Fladder\build\windows\x64\runner\Release\fladder.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Fladder\Fladder\build\windows\x64\runner\Release\desktop_drop_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Fladder\Fladder\build\windows\x64\runner\Release\dynamic_color_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Fladder\Fladder\build\windows\x64\runner\Release\ffmpeg-7.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Fladder\Fladder\build\windows\x64\runner\Release\flutter_windows.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Fladder\Fladder\build\windows\x64\runner\Release\fvp_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Fladder\Fladder\build\windows\x64\runner\Release\isar.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Fladder\Fladder\build\windows\x64\runner\Release\isar_flutter_libs_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Fladder\Fladder\build\windows\x64\runner\Release\libass.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Fladder\Fladder\build\windows\x64\runner\Release\local_auth_windows_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Fladder\Fladder\build\windows\x64\runner\Release\mdk.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Fladder\Fladder\build\windows\x64\runner\Release\media_kit_video_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Fladder\Fladder\build\windows\x64\runner\Release\screen_brightness_windows_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Fladder\Fladder\build\windows\x64\runner\Release\screen_retriever_windows_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Fladder\Fladder\build\windows\x64\runner\Release\share_plus_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Fladder\Fladder\build\windows\x64\runner\Release\smtc_windows.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Fladder\Fladder\build\windows\x64\runner\Release\url_launcher_windows_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Fladder\Fladder\build\windows\x64\runner\Release\window_manager_plugin.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Fladder\Fladder\build\windows\x64\runner\Release\data\*"; DestDir: "{app}\data"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
