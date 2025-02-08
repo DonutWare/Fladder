@@ -1,10 +1,14 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
+import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/providers/session_info_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
+import 'package:fladder/util/clipboard_helper.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 
@@ -42,6 +46,30 @@ class _VideoPlaybackInformation extends ConsumerWidget {
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [const Text('backend: '), Text(backend?.label(context) ?? context.localized.unknown)],
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Text('url: '),
+                          const SizedBox(width: 8),
+                          Flexible(
+                            child: ImageFiltered(
+                              imageFilter: ImageFilter.blur(
+                                sigmaX: 3.0,
+                                sigmaY: 3.0,
+                              ),
+                              child: Text(
+                                playbackModel?.media?.url ?? "No url",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ),
+                          IconButton.filled(
+                            onPressed: () => context.copyToClipboard(playbackModel?.media?.url ?? "No url"),
+                            icon: const Icon(IconsaxOutline.copy),
+                          )
+                        ],
                       )
                     ].addPadding(const EdgeInsets.symmetric(vertical: 3)),
                   ),

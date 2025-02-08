@@ -1167,5 +1167,6 @@
   "tablet": "Tablet",
   "desktop": "Desktop",
   "layoutModeSingle": "Single",
-  "layoutModeDual": "Dual"
+  "layoutModeDual": "Dual",
+  "copiedToClipboard": "Copied to clipboard"
 }

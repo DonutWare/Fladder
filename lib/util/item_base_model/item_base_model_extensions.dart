@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,6 +20,7 @@ import 'package:fladder/screens/playlists/add_to_playlists.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/screens/syncing/sync_button.dart';
 import 'package:fladder/screens/syncing/sync_item_details.dart';
+import 'package:fladder/util/clipboard_helper.dart';
 import 'package:fladder/util/file_downloader.dart';
 import 'package:fladder/util/item_base_model/play_item_helpers.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -223,12 +223,7 @@ extension ItemBaseModelExtensions on ItemBaseModel {
           ),
           ItemActionButton(
             icon: const Icon(IconsaxOutline.link_21),
-            action: () async {
-              await Clipboard.setData(ClipboardData(text: downloadUrl));
-              if (context.mounted) {
-                fladderSnackbar(context, title: "Copied URL to clipboard");
-              }
-            },
+            action: () => context.copyToClipboard(downloadUrl),
             label: Text(context.localized.copyStreamUrl),
           )
         ],
