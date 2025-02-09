@@ -17,6 +17,7 @@ Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
 
+UninstallDisplayIcon="D:\a\Fladder\Fladder\icons\production\fladder_icon.ico"
 SetupIconFile="D:\a\Fladder\Fladder\icons\production\fladder_icon.ico"
 LicenseFile="D:\a\Fladder\Fladder\LICENSE"
 WizardImageFile=D:\a\Fladder\Fladder\assets\windows-installer\fladder-installer-100.bmp,D:\a\Fladder\Fladder\assets\windows-installer\fladder-installer-125.bmp,D:\a\Fladder\Fladder\assets\windows-installer\fladder-installer-150.bmp
@@ -124,3 +125,6 @@ Filename: "{app}\fladder.exe"; Description: "{cm:LaunchProgram,Fladder}"; Flags:
 
 [UninstallDelete]
 Type: filesandordirs; Name: {localappdata}\DonutWare
+
+[Messages]
+ConfirmUninstall=Uninstalling %1 will delete all user data, including your synced items. Are you sure you want to continue?
