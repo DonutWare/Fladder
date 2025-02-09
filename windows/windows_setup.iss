@@ -17,11 +17,11 @@ Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
 
-SetupIconFile=""
+SetupIconFile="D:\a\Fladder\Fladder\icons\production\fladder_icon.ico"
 LicenseFile="D:\a\Fladder\Fladder\LICENSE"
+WizardImageFile="D:\a\Fladder\Fladder\assets\windows-installer\fladder-installer-100.bmp","D:\a\Fladder\Fladder\assets\windows-installer\fladder-installer-125.bmp","D:\a\Fladder\Fladder\assets\windows-installer\fladder-installer-150.bmp"
 
 [Languages]
-
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Tasks]
@@ -122,3 +122,5 @@ Name: "{autodesktop}\Fladder"; Filename: "{app}\fladder.exe"; Tasks: desktopicon
 [Run]
 Filename: "{app}\fladder.exe"; Description: "{cm:LaunchProgram,Fladder}"; Flags: nowait postinstall skipifsilent
 
+[UninstallDelete]
+Type: filesandordirs; Name: {localappdata}\DonutWare
