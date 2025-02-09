@@ -50,9 +50,11 @@ jobs:
           if [[ "${{ startsWith(github.ref, 'refs/tags/v') }}" == "true" ]]; then
             echo "BUILD_MODE=release" >> $GITHUB_ENV
             echo "ARTIFACT_SUFFIX=release-signed" >> $GITHUB_ENV
+            echo "AAB_PATH=productionRelease" >> $GITHUB_ENV
           else
-            echo "BUILD_MODE=profile" >> $GITHUB_ENV  # Use profile instead of debug if you want optimizations
+            echo "BUILD_MODE=profile" >> $GITHUB_ENV 
             echo "ARTIFACT_SUFFIX=production" >> $GITHUB_ENV
+            echo "AAB_PATH=productionProfile" >> $GITHUB_ENV
           fi
 
       - name: Decode Keystore for release
@@ -102,7 +104,7 @@ jobs:
         run: |
           mkdir -p build/app/outputs/android_artifacts
           mv build/app/outputs/flutter-apk/app-production-${{ env.BUILD_MODE }}.apk "build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}.apk"
-          mv build/app/outputs/bundle/productionRelease/app-production-${{ env.BUILD_MODE }}.aab "build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}.aab"
+          mv build/app/outputs/bundle/${{ env.AAB_PATH }}/app-production-${{ env.BUILD_MODE }}.aab "build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}.aab"
 
       - name: Archive Android artifacts
         uses: actions/upload-artifact@v4.0.0
