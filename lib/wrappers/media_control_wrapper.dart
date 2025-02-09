@@ -204,6 +204,8 @@ class MediaControlsWrapper extends BaseAudioHandler {
       processingState: AudioProcessingState.ready,
     ));
 
+    ref.read(playBackModel)?.playbackStarted(currentPosition ?? Duration.zero, ref);
+
     return super.play();
   }
 
@@ -232,16 +234,22 @@ class MediaControlsWrapper extends BaseAudioHandler {
   @override
   Future<void> stop() async {
     WakelockPlus.disable();
-    final position = _player?.lastState.position;
-    final totalDuration = _player?.lastState.duration;
     super.stop();
     _player?.stop();
 
+    final position = _player?.lastState.position;
+    final totalDuration = _player?.lastState.duration;
+
+    //Small delay so we don't post right after playback/progress update
+    await Future.delayed(const Duration(seconds: 1));
+
     ref.read(playBackModel)?.playbackStopped(position ?? Duration.zero, totalDuration, ref);
     ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(position: Duration.zero));
+
     smtc?.setPlaybackStatus(PlaybackStatus.stopped);
     smtc?.clearMetadata();
     smtc?.disableSmtc();
+
     playbackState.add(
       playbackState.value.copyWith(
         playing: false,

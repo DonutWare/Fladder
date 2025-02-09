@@ -106,8 +106,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                       child: HomeBannerWidget(posters: homeCarouselItems),
                     ),
                   ),
-                } else if (AdaptiveLayout.of(context).isDesktop)
-                  const DefaultSliverTopBadding(),
+                },
+                const DefaultSliverTopBadding(),
                 if (AdaptiveLayout.of(context).isDesktop)
                   const SliverToBoxAdapter(
                     child: Row(
