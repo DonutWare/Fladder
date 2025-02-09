@@ -19,7 +19,7 @@ WizardStyle=modern
 
 SetupIconFile="D:\a\Fladder\Fladder\icons\production\fladder_icon.ico"
 LicenseFile="D:\a\Fladder\Fladder\LICENSE"
-WizardImageFile="D:\a\Fladder\Fladder\assets\windows-installer\fladder-installer-100.bmp","D:\a\Fladder\Fladder\assets\windows-installer\fladder-installer-125.bmp","D:\a\Fladder\Fladder\assets\windows-installer\fladder-installer-150.bmp"
+WizardImageFile=D:\a\Fladder\Fladder\assets\windows-installer\fladder-installer-100.bmp,D:\a\Fladder\Fladder\assets\windows-installer\fladder-installer-125.bmp,D:\a\Fladder\Fladder\assets\windows-installer\fladder-installer-150.bmp
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
