@@ -130,13 +130,13 @@ jobs:
           path: windows/windows_setup.iss
           options: /O+
 
-      - name: Archive Windows artifact
+      - name: Archive Windows portable artifact
         uses: actions/upload-artifact@v4.0.0
         with:
           name: fladder-windows-portable
           path: build\windows\x64\runner\Release\
 
-      - name: Archive Windows artifact
+      - name: Archive Windows installer artifact
         uses: actions/upload-artifact@v4.0.0
         with:
           name: fladder-windows-installer
