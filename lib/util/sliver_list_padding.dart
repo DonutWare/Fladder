@@ -19,8 +19,8 @@ class DefaultSliverTopBadding extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return (AdaptiveLayout.viewSizeOf(context) != ViewSize.phone)
-        ? const SliverPadding(padding: EdgeInsets.only(top: 35))
+    return (AdaptiveLayout.viewSizeOf(context) == ViewSize.phone)
+        ? const SliverToBoxAdapter()
         : SliverPadding(padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top));
   }
 }

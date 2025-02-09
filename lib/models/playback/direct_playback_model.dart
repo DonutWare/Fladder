@@ -110,9 +110,7 @@ class DirectPlaybackModel implements PlaybackModel {
             mediaSourceId: item.id,
             playSessionId: playbackInfo.playSessionId,
             positionTicks: position.toRuntimeTicks,
-            failed: false,
           ),
-          totalDuration: totalDuration,
         );
 
     return null;
