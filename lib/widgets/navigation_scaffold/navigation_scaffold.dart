@@ -72,14 +72,14 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
             playerState == VideoPlayerState.minimized ? FloatingActionButtonAnimator.noAnimation : null,
         floatingActionButtonLocation:
             playerState == VideoPlayerState.minimized ? FloatingActionButtonLocation.centerFloat : null,
-        floatingActionButton: AdaptiveLayout.layoutModeOf(context) == LayoutMode.single &&
-                AdaptiveLayout.viewSizeOf(context) == ViewSize.phone &&
-                isHomeRoutes
+        floatingActionButton: AdaptiveLayout.layoutModeOf(context) == LayoutMode.single && isHomeRoutes
             ? switch (playerState) {
-                VideoPlayerState.minimized => const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8),
-                    child: FloatingPlayerBar(),
-                  ),
+                VideoPlayerState.minimized => AdaptiveLayout.viewSizeOf(context) == ViewSize.phone
+                    ? const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        child: FloatingPlayerBar(),
+                      )
+                    : null,
                 _ => currentIndex != -1
                     ? widget.destinations.elementAtOrNull(currentIndex)?.floatingActionButton?.normal
                     : null,
