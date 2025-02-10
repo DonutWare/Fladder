@@ -117,11 +117,6 @@ jobs:
     needs: [fetch-info]
 
     steps:
-      - name: Prepare for installer compilation
-        run: |
-          echo "FLADDER_VERSION=${{needs.fetch-info.outputs.version_name}}" >> $Env:FLADDER_VERSION
-          echo $FLADDER_VERSION
-          
       - name: Checkout repository
         uses: actions/checkout@v4.1.1
 
