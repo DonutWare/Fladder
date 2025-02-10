@@ -114,11 +114,12 @@ jobs:
 
   build-windows:
     runs-on: windows-latest
-    env:
-      FLADDER_VERSION: ${{needs.fetch-info.outputs.version_name}}
     needs: [fetch-info]
 
     steps:
+      - name: Prepare for installer compilation
+        run: [Environment]::SetEnvironmentVariable("FLADDER_VERSION", ${{needs.fetch-info.outputs.version_name}}, "Machine")
+        
       - name: Checkout repository
         uses: actions/checkout@v4.1.1
 
@@ -130,13 +131,13 @@ jobs:
           cache: true
           cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache
           cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
-
+      
       - name: Get dependencies
         run: flutter pub get
 
       - name: Build Windows EXE
         run: flutter build windows --build-number=${{ github.run_number }}
-      
+
       - name: Compile Inno Setup installer
         uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
         with:
