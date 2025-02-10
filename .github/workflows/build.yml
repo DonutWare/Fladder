@@ -119,8 +119,9 @@ jobs:
     steps:
       - name: Prepare for installer compilation
         run: |
-          echo "FLADDER_VERSION=${{needs.fetch-info.outputs.version_name}}" >> $Env:GITHUB_ENV
+          echo "FLADDER_VERSION=${{needs.fetch-info.outputs.version_name}}" >> $Env:FLADDER_VERSION
           echo $FLADDER_VERSION
+          
       - name: Checkout repository
         uses: actions/checkout@v4.1.1
 
@@ -144,6 +145,8 @@ jobs:
         with:
           path: windows/windows_setup.iss
           options: /O+
+        env:
+          FLADDER_VERSION: ${{needs.fetch-info.outputs.version_name}}
 
       - name: Archive Windows portable artifact
         uses: actions/upload-artifact@v4.0.0
