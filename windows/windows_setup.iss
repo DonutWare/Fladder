@@ -17,6 +17,7 @@ Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
 
+UninstallDisplayName="Fladder"
 UninstallDisplayIcon={app}\fladder.exe
 SetupIconFile="D:\a\Fladder\Fladder\icons\production\fladder_icon.ico"
 LicenseFile="D:\a\Fladder\Fladder\LICENSE"
