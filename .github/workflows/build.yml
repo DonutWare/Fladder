@@ -118,8 +118,8 @@ jobs:
 
     steps:
       - name: Prepare for installer compilation
-        run: [Environment]::SetEnvironmentVariable("FLADDER_VERSION", ${{needs.fetch-info.outputs.version_name}}, "Machine")
-        
+        run: "[Environment]::SetEnvironmentVariable("FLADDER_VERSION", ${{needs.fetch-info.outputs.version_name}}, "Machine")"
+
       - name: Checkout repository
         uses: actions/checkout@v4.1.1
 
