@@ -124,8 +124,16 @@ Name: "{autodesktop}\Fladder"; Filename: "{app}\fladder.exe"; Tasks: desktopicon
 [Run]
 Filename: "{app}\fladder.exe"; Description: "{cm:LaunchProgram,Fladder}"; Flags: nowait postinstall skipifsilent
 
-[UninstallDelete]
-Type: filesandordirs; Name: {localappdata}\DonutWare
-
-[Messages]
-ConfirmUninstall=Uninstalling %1 will delete all user data, including your synced items. Are you sure you want to continue?
+[Code]
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+begin
+  case CurUninstallStep of
+    usUninstall:
+      begin
+        if MsgBox('Would you like to delete your synced items? This action can't be undone.', mbConfirmation, MB_YESNO) = IDYES then
+        begin
+            DelTree(ExpandConstant('{localappdata}\DonutWare'), True, True, True);
+        end;
+      end;
+  end;
+end;
