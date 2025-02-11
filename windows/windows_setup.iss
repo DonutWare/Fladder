@@ -17,6 +17,8 @@ Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
 
+SetupLogging=yes
+UninstallLogging=yes
 UninstallDisplayName="Fladder"
 UninstallDisplayIcon={app}\fladder.exe
 SetupIconFile="D:\a\Fladder\Fladder\icons\production\fladder_icon.ico"
@@ -130,11 +132,12 @@ begin
   case CurUninstallStep of
     usUninstall:
       begin
-        if MsgBox('Would you like to delete your synced items? This action can't be undone.', mbConfirmation, MB_YESNO) = IDYES then
+        if MsgBox('Would you like to delete your synced items? This action cannot be undone.', mbConfirmation, MB_YESNO) = IDYES then
         begin
-            if DelTree(ExpandConstant('{localappdata}\DonutWare'), True, True, True) != True then
+            if DelTree(ExpandConstant('{localappdata}\DonutWare'), True, True, True) = False then
             begin
-                Log(ExpandConstant('{localappdata}\DonutWare') + " was unable to be deleted. Skipping...")
+                Log(ExpandConstant('{localappdata}\DonutWare was unable to be deleted. Skipping...'));
+            end;
         end;
       end;
   end;
