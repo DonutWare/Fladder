@@ -132,7 +132,9 @@ begin
       begin
         if MsgBox('Would you like to delete your synced items? This action can't be undone.', mbConfirmation, MB_YESNO) = IDYES then
         begin
-            DelTree(ExpandConstant('{localappdata}\DonutWare'), True, True, True);
+            if DelTree(ExpandConstant('{localappdata}\DonutWare'), True, True, True) != True then
+            begin
+                Log(ExpandConstant('{localappdata}\DonutWare') + " was unable to be deleted. Skipping...")
         end;
       end;
   end;
