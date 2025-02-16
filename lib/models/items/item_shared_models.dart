@@ -187,7 +187,7 @@ class Person {
     return Person(
       id: item.id ?? "",
       name: item.name ?? "",
-      image: ImagesData.fromBaseItem(item, ref).primary,
+      image: ImagesData.fromBaseItem(item, ref)?.primary,
     );
   }
 
@@ -274,107 +274,3 @@ class Studio {
   @override
   int get hashCode => id.hashCode ^ name.hashCode;
 }
-
-// class UserData {
-//   final bool isFavourite;
-//   final int playCount;
-//   final int? unPlayedItemCount;
-//   final int playbackPositionTicks;
-//   final double progress;
-//   final bool played;
-//   UserData({
-//     this.isFavourite = false,
-//     this.playCount = 0,
-//     this.unPlayedItemCount,
-//     this.playbackPositionTicks = 0,
-//     this.progress = 0,
-//     this.played = false,
-//   });
-
-//   factory UserData.fromDto(dto.UserItemDataDto? dto) {
-//     if (dto == null) {
-//       return UserData();
-//     }
-//     return UserData(
-//       isFavourite: dto.isFavorite ?? false,
-//       playCount: dto.playCount ?? 0,
-//       playbackPositionTicks: dto.playbackPositionTicks ?? 0,
-//       played: dto.played ?? false,
-//       unPlayedItemCount: dto.unplayedItemCount ?? 0,
-//       progress: dto.playedPercentage ?? 0,
-//     );
-//   }
-
-//   Duration get playBackPosition => Duration(milliseconds: playbackPositionTicks ~/ 10000);
-
-//   @override
-//   String toString() {
-//     return 'UserData(isFavourite: $isFavourite, playCount: $playCount, unPlayedItemCount: $unPlayedItemCount, playbackPositionTicks: $playbackPositionTicks, progress: $progress, played: $played)';
-//   }
-
-//   UserData copyWith({
-//     bool? isFavourite,
-//     int? playCount,
-//     int? unPlayedItemCount,
-//     int? playbackPositionTicks,
-//     double? progress,
-//     bool? played,
-//   }) {
-//     return UserData(
-//       isFavourite: isFavourite ?? this.isFavourite,
-//       playCount: playCount ?? this.playCount,
-//       unPlayedItemCount: unPlayedItemCount ?? this.unPlayedItemCount,
-//       playbackPositionTicks: playbackPositionTicks ?? this.playbackPositionTicks,
-//       progress: progress ?? this.progress,
-//       played: played ?? this.played,
-//     );
-//   }
-
-//   Map<String, dynamic> toMap() {
-//     return <String, dynamic>{
-//       'isFavourite': isFavourite,
-//       'playCount': playCount,
-//       'unPlayedItemCount': unPlayedItemCount,
-//       'playbackPositionTicks': playbackPositionTicks,
-//       'progress': progress,
-//       'played': played,
-//     };
-//   }
-
-//   factory UserData.fromMap(Map<String, dynamic> map) {
-//     return UserData(
-//       isFavourite: (map['isFavourite'] ?? false) as bool,
-//       playCount: (map['playCount'] ?? 0) as int,
-//       unPlayedItemCount: (map['unPlayedItemCount'] ?? 0) as int,
-//       playbackPositionTicks: (map['playbackPositionTicks'] ?? 0) as int,
-//       progress: (map['progress'] ?? 0.0) as double,
-//       played: (map['played'] ?? false) as bool,
-//     );
-//   }
-
-//   String toJson() => json.encode(toMap());
-
-//   factory UserData.fromJson(String source) => UserData.fromMap(json.decode(source) as Map<String, dynamic>);
-
-//   @override
-//   bool operator ==(covariant UserData other) {
-//     if (identical(this, other)) return true;
-
-//     return other.isFavourite == isFavourite &&
-//         other.playCount == playCount &&
-//         other.unPlayedItemCount == unPlayedItemCount &&
-//         other.playbackPositionTicks == playbackPositionTicks &&
-//         other.progress == progress &&
-//         other.played == played;
-//   }
-
-//   @override
-//   int get hashCode {
-//     return isFavourite.hashCode ^
-//         playCount.hashCode ^
-//         unPlayedItemCount.hashCode ^
-//         playbackPositionTicks.hashCode ^
-//         progress.hashCode ^
-//         played.hashCode;
-//   }
-// }
