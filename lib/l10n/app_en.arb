@@ -1168,5 +1168,8 @@
   "desktop": "Desktop",
   "layoutModeSingle": "Single",
   "layoutModeDual": "Dual",
-  "copiedToClipboard": "Copied to clipboard"
+  "copiedToClipboard": "Copied to clipboard",
+  "episodeAvailable": "Available",
+  "episodeUnaired": "Unaired",
+  "episodeMissing": "Missing"
 }
