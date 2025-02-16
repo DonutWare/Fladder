@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -38,7 +37,7 @@ class MediaStreamsModel {
   }
 
   AudioStreamModel? get currentAudioStream {
-    if (defaultAudioStreamIndex == -1) {
+    if (defaultAudioStreamIndex == -1 || defaultAudioStreamIndex == null) {
       return AudioStreamModel.no();
     }
     return audioStreams.firstWhereOrNull((element) => element.index == defaultAudioStreamIndex) ??
@@ -46,7 +45,7 @@ class MediaStreamsModel {
   }
 
   SubStreamModel? get currentSubStream {
-    if (defaultSubStreamIndex == -1) {
+    if (defaultSubStreamIndex == -1 || defaultSubStreamIndex == null) {
       return SubStreamModel.no();
     }
     return subStreams.firstWhereOrNull((element) => element.index == defaultSubStreamIndex) ?? subStreams.firstOrNull;
