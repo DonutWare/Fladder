@@ -269,6 +269,12 @@ jobs:
       - name: Archive Linux artifact
         uses: actions/upload-artifact@v4
         with:
+          name: fladder-linux-appimage
+          path: Fladder-latest-x86_64.AppImage
+
+      - name: Archive Linux artifact
+        uses: actions/upload-artifact@v4
+        with:
           name: fladder-linux
           path: build/linux/x64/release/bundle
 
