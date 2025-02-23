@@ -389,7 +389,7 @@ jobs:
       - name: Rename Windows installer
         run: |
           cd fladder-windows-installer
-          ren fladder_setup.exe Fladder-Windows-${{needs.fetch-info.outputs.version_name}}-Setup.exe
+          mv fladder_setup.exe Fladder-Windows-${{needs.fetch-info.outputs.version_name}}-Setup.exe
 
       - name: Compress Windows
         run: |
