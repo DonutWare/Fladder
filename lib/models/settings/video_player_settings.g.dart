@@ -24,7 +24,19 @@ _$VideoPlayerSettingsModelImpl _$$VideoPlayerSettingsModelImplFromJson(
       nextVideoType:
           $enumDecodeNullable(_$AutoNextTypeEnumMap, json['nextVideoType']) ??
               AutoNextType.smart,
+      maxHomeBitrate:
+          $enumDecodeNullable(_$BitrateEnumMap, json['maxHomeBitrate']) ??
+              Bitrate.original,
+      maxInternetBitrate:
+          $enumDecodeNullable(_$BitrateEnumMap, json['maxInternetBitrate']) ??
+              Bitrate.original,
       audioDevice: json['audioDevice'] as String?,
+      segmentSkipSettings:
+          (json['segmentSkipSettings'] as Map<String, dynamic>?)?.map(
+                (k, e) => MapEntry($enumDecode(_$MediaSegmentTypeEnumMap, k),
+                    $enumDecode(_$SegmentSkipEnumMap, e)),
+              ) ??
+              defaultSegmentSkipValues,
     );
 
 Map<String, dynamic> _$$VideoPlayerSettingsModelImplToJson(
@@ -41,7 +53,11 @@ Map<String, dynamic> _$$VideoPlayerSettingsModelImplToJson(
           ?.map((e) => _$DeviceOrientationEnumMap[e]!)
           .toList(),
       'nextVideoType': _$AutoNextTypeEnumMap[instance.nextVideoType]!,
+      'maxHomeBitrate': _$BitrateEnumMap[instance.maxHomeBitrate]!,
+      'maxInternetBitrate': _$BitrateEnumMap[instance.maxInternetBitrate]!,
       'audioDevice': instance.audioDevice,
+      'segmentSkipSettings': instance.segmentSkipSettings.map((k, e) =>
+          MapEntry(_$MediaSegmentTypeEnumMap[k]!, _$SegmentSkipEnumMap[e]!)),
     };
 
 const _$BoxFitEnumMap = {
@@ -70,4 +86,38 @@ const _$AutoNextTypeEnumMap = {
   AutoNextType.off: 'off',
   AutoNextType.smart: 'smart',
   AutoNextType.static: 'static',
+};
+
+const _$BitrateEnumMap = {
+  Bitrate.original: 'original',
+  Bitrate.auto: 'auto',
+  Bitrate.b120Mbps: 'b120Mbps',
+  Bitrate.b80Mbps: 'b80Mbps',
+  Bitrate.b60Mbps: 'b60Mbps',
+  Bitrate.b40Mbps: 'b40Mbps',
+  Bitrate.b20Mbps: 'b20Mbps',
+  Bitrate.b15Mbps: 'b15Mbps',
+  Bitrate.b10Mbps: 'b10Mbps',
+  Bitrate.b8Mbps: 'b8Mbps',
+  Bitrate.b6Mbps: 'b6Mbps',
+  Bitrate.b4Mbps: 'b4Mbps',
+  Bitrate.b3Mbps: 'b3Mbps',
+  Bitrate.b1_5Mbps: 'b1_5Mbps',
+  Bitrate.b720Kbps: 'b720Kbps',
+  Bitrate.b420Kbps: 'b420Kbps',
+};
+
+const _$SegmentSkipEnumMap = {
+  SegmentSkip.none: 'none',
+  SegmentSkip.askToSkip: 'askToSkip',
+  SegmentSkip.skip: 'skip',
+};
+
+const _$MediaSegmentTypeEnumMap = {
+  MediaSegmentType.unknown: 'unknown',
+  MediaSegmentType.commercial: 'commercial',
+  MediaSegmentType.preview: 'preview',
+  MediaSegmentType.recap: 'recap',
+  MediaSegmentType.outro: 'outro',
+  MediaSegmentType.intro: 'intro',
 };

@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/media_playback_model.dart';
+import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/theme.dart';
@@ -77,6 +78,8 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
       },
       refreshOnStart: true,
       child: Scaffold(
+        floatingActionButtonAnimator:
+            playerState == VideoPlayerState.minimized ? FloatingActionButtonAnimator.noAnimation : null,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: switch (playerState) {
           VideoPlayerState.minimized => const Padding(
@@ -130,7 +133,6 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                             alignment: Alignment.topCenter,
                             placeholderFit: BoxFit.cover,
                             excludeFromSemantics: true,
-                            filterQuality: FilterQuality.high,
                             placeholderFilterQuality: FilterQuality.low,
                             image: backgroundImage!.imageProvider,
                           ),
@@ -243,7 +245,8 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                                   ),
                                 ),
                               ),
-                            if (AdaptiveLayout.of(context).size == ScreenLayout.single)
+                            if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.single ||
+                                AdaptiveLayout.viewSizeOf(context) == ViewSize.phone)
                               Container(
                                 margin: const EdgeInsets.symmetric(horizontal: 6),
                                 child: const SizedBox(

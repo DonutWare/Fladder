@@ -21,8 +21,7 @@ class LibraryFiltersModel with _$LibraryFiltersModel {
   factory LibraryFiltersModel._internal({
     required String id,
     required String name,
-    // ignore: unused_element
-    @Default(false) isFavourite,
+    required bool isFavourite,
     required List<String> ids,
     required Map<String, bool> genres,
     required Map<ItemFilter, bool> filters,
@@ -45,6 +44,7 @@ class LibraryFiltersModel with _$LibraryFiltersModel {
     return LibraryFiltersModel._internal(
       id: Xid().toString(),
       name: name,
+      isFavourite: false,
       ids: searchModel.views.included.map((e) => e.id).toList(),
       genres: searchModel.genres,
       filters: searchModel.filters,

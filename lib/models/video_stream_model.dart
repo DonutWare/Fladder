@@ -104,7 +104,7 @@ class VideoStream {
   final MediaStreamsModel? mediaStreamsModel;
 
   AudioStreamModel? get currentAudioStream {
-    if (audioStreamIndex == -1) {
+    if (audioStreamIndex == -1 || audioStreamIndex == null) {
       return null;
     }
     return mediaStreamsModel?.audioStreams.firstWhereOrNull(
@@ -112,7 +112,7 @@ class VideoStream {
   }
 
   SubStreamModel? get currentSubStream {
-    if (subtitleStreamIndex == -1) {
+    if (subtitleStreamIndex == -1 || subtitleStreamIndex == null) {
       return null;
     }
     return mediaStreamsModel?.subStreams.firstWhereOrNull(
@@ -199,8 +199,7 @@ class VideoStream {
       playbackUrl: playbackUrl,
       playbackType: playType,
       playSessionId: info.playSessionId ?? "",
-      mediaStreamsModel: MediaStreamsModel.fromMediaStreamsList(
-          info.mediaSources?.firstOrNull, info.mediaSources?.firstOrNull?.mediaStreams ?? [], ref),
+      mediaStreamsModel: MediaStreamsModel.fromMediaStreamsList(info.mediaSources, ref),
     );
   }
 }

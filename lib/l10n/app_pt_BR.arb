@@ -1213,5 +1213,37 @@
   "playerSettingsBackendTitle": "Backend do player de vídeo",
   "@playerSettingsBackendTitle": {},
   "errorLogs": "Registros de erros",
-  "@errorLogs": {}
+  "@errorLogs": {},
+  "external": "Externo",
+  "@external": {},
+  "downloadFile": "Download {type}",
+  "@downloadFile": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "copyStreamUrl": "Copiar URL do stream",
+  "@copyStreamUrl": {},
+  "settingsLayoutSizesTitle": "Tamanhos de layout",
+  "@settingsLayoutSizesTitle": {},
+  "settingsLayoutSizesDesc": "Escolha quais tamanhos de layout o aplicativo pode usar com base no tamanho da janela",
+  "@settingsLayoutSizesDesc": {},
+  "settingsLayoutModesTitle": "Modos de layout",
+  "@settingsLayoutModesTitle": {},
+  "settingsLayoutModesDesc": "Controle se o aplicativo pode usar layouts de painel único ou duplo",
+  "@settingsLayoutModesDesc": {},
+  "phone": "Telefone",
+  "@phone": {},
+  "tablet": "Tablet",
+  "@tablet": {},
+  "desktop": "Desktop",
+  "@desktop": {},
+  "layoutModeSingle": "Único",
+  "@layoutModeSingle": {},
+  "layoutModeDual": "Duplo",
+  "@layoutModeDual": {},
+  "copiedToClipboard": "Copiado para a área de transferência",
+  "@copiedToClipboard": {}
 }

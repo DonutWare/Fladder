@@ -1149,5 +1149,40 @@
   "mediaSegmentOutro": "Outro",
   "mediaSegmentIntro": "Intro",
   "errorLogs": "Error logs",
-  "external": "External"
+  "external": "External",
+  "downloadFile": "Download {type}",
+  "@downloadFile": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "copyStreamUrl": "Copy stream url",
+  "settingsLayoutSizesTitle": "Layout Sizes",
+  "settingsLayoutSizesDesc": "Choose which layout sizes the app can use based on window size",
+  "settingsLayoutModesTitle": "Layout Modes",
+  "settingsLayoutModesDesc": "Control whether the app can use single or dual-panel layouts",
+  "phone": "Phone",
+  "tablet": "Tablet",
+  "desktop": "Desktop",
+  "layoutModeSingle": "Single",
+  "layoutModeDual": "Dual",
+  "copiedToClipboard": "Copied to clipboard",
+  "episodeAvailable": "Available",
+  "episodeUnaired": "Unaired",
+  "episodeMissing": "Missing",
+  "internetStreamingQualityTitle": "Internet quality",
+  "internetStreamingQualityDesc": "Maximum streaming quality over the internet (mobile)",
+  "homeStreamingQualityTitle": "Home quality",
+  "homeStreamingQualityDesc": "Maximum streaming quality when connected to home network",
+  "qualityOptionsTitle": "Quality options",
+  "qualityOptionsOriginal": "Original",
+  "qualityOptionsAuto": "Auto",
+  "version": "Version",
+  "mediaSegmentActions": "Media segment actions",
+  "segmentActionNone": "None",
+  "segmentActionAskToSkip": "Ask to skip",
+  "segmentActionSkip": "Skip",
+  "loading": "Loading"
 }

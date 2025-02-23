@@ -55,9 +55,7 @@ class FladderImage extends ConsumerWidget {
               placeholderFit: fit,
               excludeFromSemantics: true,
               alignment: alignment ?? Alignment.center,
-              filterQuality: FilterQuality.high,
               imageErrorBuilder: imageErrorBuilder,
-              placeholderFilterQuality: FilterQuality.low,
               image: newImage.imageProvider,
             )
         ],

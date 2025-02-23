@@ -13,6 +13,7 @@ import 'package:fladder/models/library_search/library_search_model.dart';
 import 'package:fladder/models/library_search/library_search_options.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playlist_model.dart';
+import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/library_search_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
@@ -159,6 +160,8 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
       child: Scaffold(
         extendBody: true,
         extendBodyBehindAppBar: true,
+        floatingActionButtonAnimator:
+            playerState == VideoPlayerState.minimized ? FloatingActionButtonAnimator.noAnimation : null,
         floatingActionButtonLocation:
             playerState == VideoPlayerState.minimized ? FloatingActionButtonLocation.centerFloat : null,
         floatingActionButton: switch (playerState) {
@@ -227,7 +230,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                   child: MediaQuery.removeViewInsets(
                     context: context,
                     child: ClipRRect(
-                      borderRadius: AdaptiveLayout.of(context).layout == LayoutState.desktop
+                      borderRadius: AdaptiveLayout.viewSizeOf(context) == ViewSize.desktop
                           ? BorderRadius.circular(15)
                           : BorderRadius.circular(0),
                       child: FladderScrollbar(
@@ -419,7 +422,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                                       ),
                                     );
                                   }),
-                                  if (AdaptiveLayout.of(context).layout == LayoutState.phone) ...[
+                                  if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.single) ...[
                                     const SizedBox(width: 6),
                                     const SizedBox.square(dimension: 46, child: SettingsUserIcon()),
                                   ],

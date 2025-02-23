@@ -1,0 +1,967 @@
+{
+  "nativeName": "الإنجليزية",
+  "@nativeName": {},
+  "about": "حول",
+  "@about": {},
+  "accept": "قبول",
+  "@accept": {},
+  "active": "نشط",
+  "@active": {},
+  "addAsFavorite": "إضافة إلى المفضلة",
+  "@addAsFavorite": {},
+  "addToCollection": "إضافة إلى المجموعة",
+  "@addToCollection": {},
+  "addToPlaylist": "إضافة إلى قائمة التشغيل",
+  "@addToPlaylist": {},
+  "advanced": "متقدم",
+  "@advanced": {},
+  "all": "الكل",
+  "@all": {},
+  "amoledBlack": "اللون الأسود العميق",
+  "@amoledBlack": {},
+  "appLockAutoLogin": "تسجيل الدخول التلقائي",
+  "@appLockAutoLogin": {},
+  "appLockPasscode": "رمز المرور",
+  "@appLockPasscode": {},
+  "ascending": "تصاعدي",
+  "@ascending": {},
+  "audio": "الصوت",
+  "@audio": {},
+  "autoPlay": "تشغيل تلقائي",
+  "@autoPlay": {},
+  "backgroundBlur": "تمويه الخلفية",
+  "@backgroundBlur": {},
+  "backgroundOpacity": "شفافية الخلفية",
+  "@backgroundOpacity": {},
+  "appLockBiometrics": "المصادقة الحيوية",
+  "@appLockBiometrics": {},
+  "bold": "عريض",
+  "@bold": {},
+  "appLockTitle": "ضبط طريقة تسجيل الدخول ل {userName}",
+  "@appLockTitle": {
+    "description": "Pop-up to pick a login method",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "cancel": "إلغاء",
+  "@cancel": {},
+  "change": "تغيير",
+  "@change": {},
+  "clear": "مسح",
+  "@clear": {},
+  "clearAllSettings": "مسح جميع الإعدادات",
+  "@clearAllSettings": {},
+  "clearAllSettingsQuestion": "هل تريد مسح جميع الإعدادات؟",
+  "@clearAllSettingsQuestion": {},
+  "clearChanges": "مسح التغييرات",
+  "@clearChanges": {},
+  "clearSelection": "مسح التحديد",
+  "@clearSelection": {},
+  "close": "إغلاق",
+  "@close": {},
+  "code": "رمز",
+  "@code": {},
+  "collectionFolder": "مجلد المجموعة",
+  "@collectionFolder": {},
+  "color": "لون",
+  "@color": {},
+  "combined": "مُدمج",
+  "@combined": {},
+  "communityRating": "تقييم المجتمع",
+  "@communityRating": {},
+  "continuePage": "متابعة - صفحة {page}",
+  "@continuePage": {
+    "description": "Continue - page 1",
+    "placeholders": {
+      "page": {
+        "type": "int"
+      }
+    }
+  },
+  "controls": "عناصر التحكم",
+  "@controls": {},
+  "dashboard": "لوحة التحكم",
+  "@dashboard": {},
+  "dashboardContinue": "متابعة",
+  "@dashboardContinue": {},
+  "dashboardContinueListening": "متابعة الاستماع",
+  "@dashboardContinueListening": {},
+  "dashboardContinueReading": "متابعة القراءة",
+  "@dashboardContinueReading": {},
+  "dashboardContinueWatching": "متابعة المشاهدة",
+  "@dashboardContinueWatching": {},
+  "nextUp": "التالي",
+  "@nextUp": {},
+  "dateLastContentAdded": "تاريخ آخر إضافة محتوى",
+  "@dateLastContentAdded": {},
+  "datePlayed": "تاريخ التشغيل",
+  "@datePlayed": {},
+  "days": "أيام",
+  "@days": {},
+  "delete": "حذف",
+  "@delete": {},
+  "deleteFileFromSystem": "سيؤدي حذف هذا العنصر {item} إلى حذفه من كل من نظام الملفات ومكتبة الوسائط الخاصة بك. هل أنت متأكد من رغبتك في المتابعة؟",
+  "@deleteFileFromSystem": {
+    "description": "Delete file from system",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteItem": "هل تريد حذف {item}؟",
+  "@deleteItem": {
+    "description": "deleteItem",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "descending": "تنازلياً",
+  "@descending": {},
+  "disableFilters": "إيقاف تشغيل الفلاتر",
+  "@disableFilters": {},
+  "disabled": "إيقاف",
+  "@disabled": {},
+  "discovered": "تم اكتشافه",
+  "@discovered": {},
+  "displayLanguage": "عرض اللغة",
+  "@displayLanguage": {},
+  "downloadsClearDesc": "هل تريد إزالة جميع البيانات التي تمت مزامنتها، ومسح جميع البيانات لكل مستخدم تمت مزامنته؟",
+  "@downloadsClearDesc": {},
+  "downloadsClearTitle": "مسح البيانات التي تمت مزامنتها",
+  "@downloadsClearTitle": {},
+  "downloadsSyncedData": "البيانات التي تمت مزامنتها",
+  "@downloadsSyncedData": {},
+  "downloadsTitle": "التنزيلات",
+  "@downloadsTitle": {},
+  "dynamicText": "ديناميكي",
+  "@dynamicText": {},
+  "editMetadata": "تعديل البيانات الوصفية",
+  "@editMetadata": {},
+  "empty": "فارغ",
+  "@empty": {},
+  "enabled": "على",
+  "@enabled": {},
+  "endsAt": "ينتهي في {date}",
+  "@endsAt": {
+    "description": "endsAt",
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "jm"
+      }
+    }
+  },
+  "error": "خطأ",
+  "@error": {},
+  "failedToLoadImage": "لم يتم تحميل الصورة",
+  "@failedToLoadImage": {},
+  "favorite": "مفضل",
+  "@favorite": {},
+  "favorites": "المفضلة",
+  "@favorites": {},
+  "fetchingLibrary": "جلب عناصر المكتبة…",
+  "@fetchingLibrary": {},
+  "folders": "مجلدات",
+  "@folders": {},
+  "fontColor": "لون الخط",
+  "@fontColor": {},
+  "fontSize": "حجم الخط",
+  "@fontSize": {},
+  "forceRefresh": "تحديث إجباري",
+  "@forceRefresh": {},
+  "goTo": "الذهاب إلى",
+  "@goTo": {},
+  "grid": "شبكة",
+  "@grid": {},
+  "group": "مجموعة",
+  "@group": {},
+  "groupBy": "تجميع حسب",
+  "@groupBy": {},
+  "heightOffset": "إزاحة الارتفاع",
+  "@heightOffset": {},
+  "hide": "إخفاء",
+  "@hide": {},
+  "hideEmpty": "إخفاء الفارغ",
+  "@hideEmpty": {},
+  "home": "الصفحة الرئيسية",
+  "@home": {},
+  "homeBannerSlideshow": "عرض الشرائح",
+  "@homeBannerSlideshow": {},
+  "homeBannerCarousel": "كاروسيل",
+  "@homeBannerCarousel": {},
+  "immediately": "فوراً",
+  "@immediately": {},
+  "identify": "تحديد",
+  "@identify": {},
+  "info": "معلومات",
+  "@info": {},
+  "invalidUrl": "عنوان URL غير صالح",
+  "@invalidUrl": {},
+  "itemCount": "عدد العناصر: {count}",
+  "@itemCount": {
+    "description": "Item count",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "libraryPageSizeTitle": "حجم صفحة المكتبة",
+  "@libraryPageSizeTitle": {},
+  "light": "فاتح",
+  "@light": {},
+  "list": "قائمة",
+  "@list": {},
+  "loggedIn": "تسجيل الدخول",
+  "@loggedIn": {},
+  "login": "تسجيل دخول",
+  "@login": {},
+  "logout": "تسجيل خروج",
+  "@logout": {},
+  "logoutUserPopupContent": "سيؤدي هذا إلى تسجيل خروج {userName} وحذف المستخدم من التطبيق.\nسيتعين عليك تسجيل الدخول مرة أخرى على {serverName}.",
+  "@logoutUserPopupContent": {
+    "description": "Pop-up for logging out the user description",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      },
+      "serverName": {
+        "type": "String"
+      }
+    }
+  },
+  "logoutUserPopupTitle": "تسجيل خروج {userName}؟",
+  "@logoutUserPopupTitle": {
+    "description": "Pop-up for logging out the user",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "loop": "تكرار",
+  "@loop": {},
+  "markAsUnwatched": "وضع علامة كغير مشاهد",
+  "@markAsUnwatched": {},
+  "markAsWatched": "وضع علامة كمشاهد",
+  "@markAsWatched": {},
+  "mediaTypeBase": "النوع الأساسي",
+  "@mediaTypeBase": {},
+  "mediaTypeBook": "كتاب",
+  "@mediaTypeBook": {},
+  "mediaTypeEpisode": "حلقة",
+  "@mediaTypeEpisode": {},
+  "mediaTypeFolder": "مجلد",
+  "@mediaTypeFolder": {},
+  "mediaTypeMovie": "فيلم",
+  "@mediaTypeMovie": {},
+  "mediaTypePerson": "شخص",
+  "@mediaTypePerson": {},
+  "metadataRefreshFull": "استبدال جميع البيانات الوصفية",
+  "@metadataRefreshFull": {},
+  "metadataRefreshValidation": "البحث عن البيانات الوصفية المفقودة",
+  "@metadataRefreshValidation": {},
+  "mode": "الوضع",
+  "@mode": {},
+  "moreFrom": "المزيد من {info}",
+  "@moreFrom": {
+    "description": "More from",
+    "placeholders": {
+      "info": {
+        "type": "String"
+      }
+    }
+  },
+  "moreOptions": "المزيد من الخيارات",
+  "@moreOptions": {},
+  "mouseDragSupport": "السحب باستخدام الماوس",
+  "@mouseDragSupport": {},
+  "musicAlbum": "ألبوم",
+  "@musicAlbum": {},
+  "name": "الاسم",
+  "@name": {},
+  "navigation": "التنقل",
+  "@navigation": {},
+  "navigationDashboard": "لوحة التحكم",
+  "@navigationDashboard": {},
+  "navigationFavorites": "المفضلة",
+  "@navigationFavorites": {},
+  "navigationSync": "تمت المزامنة",
+  "@navigationSync": {},
+  "never": "أبداً",
+  "@never": {},
+  "noItemsSynced": "لا توجد عناصر تمت مزامنتها",
+  "@noItemsSynced": {},
+  "noItemsToShow": "لا توجد عناصر لعرضها",
+  "@noItemsToShow": {},
+  "noRating": "لا يوجد تقييم",
+  "@noRating": {},
+  "noResults": "لا توجد نتائج",
+  "@noResults": {},
+  "noServersFound": "لم يتم العثور على خوادم جديدة",
+  "@noServersFound": {},
+  "notPartOfAlbum": "ليس جزءاً من ألبوم",
+  "@notPartOfAlbum": {},
+  "openParent": "فتح الأصل",
+  "@openParent": {},
+  "openShow": "فتح العرض",
+  "@openShow": {},
+  "openWebLink": "فتح رابط الويب",
+  "@openWebLink": {},
+  "options": "خيارات",
+  "@options": {},
+  "other": "أخرى",
+  "@other": {},
+  "outlineColor": "اللون الخارجي",
+  "@outlineColor": {},
+  "outlineSize": "حجم اللون الخارجي",
+  "@outlineSize": {},
+  "overview": "نظرة عامة",
+  "@overview": {},
+  "page": "صفحة {index}",
+  "@page": {
+    "description": "page",
+    "placeholders": {
+      "index": {
+        "type": "int"
+      }
+    }
+  },
+  "parentalRating": "تصنيف الرقابة الأبوية",
+  "@parentalRating": {},
+  "password": "كلمة المرور",
+  "@password": {},
+  "pathClearTitle": "مسح مسار التنزيلات",
+  "@pathClearTitle": {},
+  "pathEditSelect": "تحديد وجهة التنزيلات",
+  "@pathEditSelect": {},
+  "pathEditTitle": "تغيير الموقع",
+  "@pathEditTitle": {},
+  "play": "تشغيل {item}",
+  "@play": {
+    "description": "Play with",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "playCount": "عدد مرات التشغيل",
+  "@playCount": {},
+  "playFrom": "تشغيل من {name}",
+  "@playFrom": {
+    "description": "playFrom",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "playLabel": "تشغيل",
+  "@playLabel": {},
+  "played": "تم التشغيل",
+  "@played": {},
+  "quickConnectAction": "أدخل رمز الاتصال السريع",
+  "@quickConnectAction": {},
+  "quickConnectTitle": "الاتصال السريع",
+  "@quickConnectTitle": {},
+  "playFromStart": "تشغيل {name} من البداية",
+  "@playFromStart": {
+    "description": "speel vanaf het begin",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "playVideos": "تشغيل الفيديوهات",
+  "@playVideos": {},
+  "quickConnectInputACode": "إدخال الرمز",
+  "@quickConnectInputACode": {},
+  "reWatch": "إعادة مشاهدة",
+  "@reWatch": {},
+  "readFromStart": "اقرأ {item} من البداية",
+  "@readFromStart": {
+    "description": "Read book from start",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "refresh": "تحديث",
+  "@refresh": {},
+  "refreshPopup": "تحديث - {name}",
+  "@refreshPopup": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "refreshPopupContentMetadata": "يتم تحديث البيانات الوصفية بناءً على الإعدادات وخدمات الإنترنت المُشغّلة في لوحة التحكم.",
+  "@refreshPopupContentMetadata": {},
+  "releaseDate": "تاريخ الإصدار",
+  "@releaseDate": {},
+  "removeAsFavorite": "إزالة من المفضلة",
+  "@removeAsFavorite": {},
+  "removeFromCollection": "إزالة من المجموعة",
+  "@removeFromCollection": {},
+  "removeFromPlaylist": "إزالة من قائمة التشغيل",
+  "@removeFromPlaylist": {},
+  "replaceAllImages": "استبدال جميع الصور",
+  "@replaceAllImages": {},
+  "saved": "تم الحفظ",
+  "@saved": {},
+  "scanBiometricHint": "التحقق من الهوية",
+  "@scanBiometricHint": {},
+  "scanLibrary": "مسح المكتبة",
+  "@scanLibrary": {},
+  "scanningName": "جارٍ المسح - {name}…",
+  "@scanningName": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "scrollToTop": "التمرير إلى الأعلى",
+  "@scrollToTop": {},
+  "search": "البحث",
+  "@search": {},
+  "selectAll": "تحديد الكل",
+  "@selectAll": {},
+  "read": "اقرأ {item}",
+  "@read": {
+    "description": "read",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "scanYourFingerprintToAuthenticate": "مسح بصمتك للتحقق من هوية {user}",
+  "@scanYourFingerprintToAuthenticate": {
+    "placeholders": {
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "selectTime": "تحديد الوقت",
+  "@selectTime": {},
+  "selectViewType": "تحديد نوع العرض",
+  "@selectViewType": {},
+  "selected": "المحدد",
+  "@selected": {},
+  "selectedWith": "المحدد {info}",
+  "@selectedWith": {
+    "description": "selected",
+    "placeholders": {
+      "info": {
+        "type": "String"
+      }
+    }
+  },
+  "server": "الخادم",
+  "@server": {},
+  "set": "تعيين",
+  "@set": {
+    "description": "Use for setting a certain value",
+    "context": "Set 'time'"
+  },
+  "separate": "منفصل",
+  "@separate": {},
+  "setIdentityTo": "تغيير الهوية إلى {name}",
+  "@setIdentityTo": {
+    "description": "setIdentityTo",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "settingSecurityApplockTitle": "قفل التطبيق",
+  "@settingSecurityApplockTitle": {},
+  "settingsBlurEpisodesDesc": "تمويه جميع الحلقات القادمة",
+  "@settingsBlurEpisodesDesc": {},
+  "settingsBlurEpisodesTitle": "تمويه الحلقات التالية",
+  "@settingsBlurEpisodesTitle": {},
+  "settingsClientTitle": "فلادر",
+  "@settingsClientTitle": {},
+  "settingsContinue": "متابعة",
+  "@settingsContinue": {},
+  "settingsEnableOsMediaControls": "تمكين عناصر تحكم الوسائط في نظام التشغيل",
+  "@settingsEnableOsMediaControls": {},
+  "settingsBlurredPlaceholderDesc": "عرض خلفية ضبابية عند تحميل البوسترات",
+  "@settingsBlurredPlaceholderDesc": {},
+  "settingsHomeBannerDescription": "العرض كعرض شرائح، كاروسيل، أو إخفاء البانر",
+  "@settingsHomeBannerDescription": {},
+  "settingsHomeBannerTitle": "البانر الرئيسي",
+  "@settingsHomeBannerTitle": {},
+  "settingsBlurredPlaceholderTitle": "تمويه النص البديل",
+  "@settingsBlurredPlaceholderTitle": {},
+  "settingsPlayerCustomSubtitlesTitle": "تخصيص الترجمة",
+  "@settingsPlayerCustomSubtitlesTitle": {},
+  "settingsPlayerDesc": "نسبة العرض إلى الارتفاع، متقدم",
+  "@settingsPlayerDesc": {},
+  "settingsHomeNextUpDesc": "نوع البوسترات المعروضة في شاشة لوحة التحكم",
+  "@settingsHomeNextUpDesc": {},
+  "settingsHomeNextUpTitle": "البوسترات التالية",
+  "@settingsHomeNextUpTitle": {},
+  "settingsPlayerTitle": "المشغل",
+  "@settingsPlayerTitle": {},
+  "shadow": "الظل",
+  "@shadow": {},
+  "showAlbum": "عرض الألبوم",
+  "@showAlbum": {},
+  "showDetails": "عرض التفاصيل",
+  "@showDetails": {},
+  "showEmpty": "عرض فارغ",
+  "@showEmpty": {},
+  "shuffleGallery": "خلط المعرض",
+  "@shuffleGallery": {},
+  "shuffleVideos": "خلط مقاطع الفيديو",
+  "@shuffleVideos": {},
+  "somethingWentWrong": "حدث خطأ ما",
+  "@somethingWentWrong": {},
+  "somethingWentWrongPasswordCheck": "حدث خطأ ما. تحقق من كلمة المرور الخاصة بك.",
+  "@somethingWentWrongPasswordCheck": {},
+  "sortBy": "فرز حسب",
+  "@sortBy": {},
+  "sortName": "الاسم",
+  "@sortName": {},
+  "sortOrder": "ترتيب الفرز",
+  "@sortOrder": {},
+  "start": "ابدأ",
+  "@start": {},
+  "subtitleConfigurator": "مُكوّن الترجمة",
+  "@subtitleConfigurator": {},
+  "subtitleConfiguratorPlaceHolder": "هذا نص بديل، لا يوجد شيء هنا.",
+  "@subtitleConfiguratorPlaceHolder": {},
+  "subtitles": "الترجمات",
+  "@subtitles": {},
+  "switchUser": "تبديل المستخدم",
+  "@switchUser": {},
+  "sync": "مزامنة",
+  "@sync": {},
+  "syncDeleteItemTitle": "حذف العنصر الذي تمت مزامنته",
+  "@syncDeleteItemTitle": {},
+  "syncDetails": "تفاصيل المزامنة",
+  "@syncDetails": {},
+  "syncRemoveDataDesc": "حذف بيانات الفيديو التي تمت مزامنتها؟ هذا الإجراء دائم وستحتاج إلى إعادة مزامنة الملفات",
+  "@syncRemoveDataDesc": {},
+  "syncRemoveDataTitle": "إزالة البيانات التي تمت مزامنتها؟",
+  "@syncRemoveDataTitle": {},
+  "theme": "المظهر",
+  "@theme": {},
+  "themeColor": "لون المظهر",
+  "@themeColor": {},
+  "themeModeDark": "داكن",
+  "@themeModeDark": {},
+  "themeModeLight": "فاتح",
+  "@themeModeLight": {},
+  "themeModeSystem": "النظام",
+  "@themeModeSystem": {},
+  "timeAndAnnotation": "{minutes} و {seconds}",
+  "@timeAndAnnotation": {
+    "description": "timeAndAnnotation",
+    "placeholders": {
+      "minutes": {
+        "type": "String"
+      },
+      "seconds": {
+        "type": "String"
+      }
+    }
+  },
+  "videoScalingFillScreenDesc": "ملء شريط التنقل وشريط الحالة",
+  "@videoScalingFillScreenDesc": {},
+  "videoScalingFillScreenNotif": "ملء الشاشة يتجاوز ملاءمة الفيديو، في الوضع الأفقي",
+  "@videoScalingFillScreenNotif": {},
+  "videoScalingFillScreenTitle": "ملء الشاشة",
+  "@videoScalingFillScreenTitle": {},
+  "videoScalingFill": "ملء",
+  "@videoScalingFill": {},
+  "videoScalingFitHeight": "ملاءمة الارتفاع",
+  "@videoScalingFitHeight": {},
+  "videoScalingFitWidth": "ملاءمة العرض",
+  "@videoScalingFitWidth": {},
+  "videoScalingScaleDown": "تصغير",
+  "@videoScalingScaleDown": {},
+  "viewPhotos": "عرض الصور",
+  "@viewPhotos": {},
+  "watchOn": "مشاهدة على",
+  "@watchOn": {},
+  "addedToPlaylist": "تمت الإضافة إلى قائمة تشغيل {playlistName}",
+  "@addedToPlaylist": {
+    "placeholders": {
+      "playlistName": {
+        "type": "String"
+      }
+    }
+  },
+  "addItemsToPlaylist": "إضافة {itemLength} من العناصر إلى قائمة التشغيل.",
+  "@addItemsToPlaylist": {
+    "placeholders": {
+      "itemLength": {
+        "type": "int"
+      }
+    }
+  },
+  "syncStatusEnqueued": "في قائمة الانتظار",
+  "@syncStatusEnqueued": {},
+  "syncStatusNotFound": "غير موجود",
+  "@syncStatusNotFound": {},
+  "syncStatusFailed": "فشل",
+  "@syncStatusFailed": {},
+  "syncStatusCanceled": "تم الإلغاء",
+  "@syncStatusCanceled": {},
+  "syncStatusWaitingToRetry": "في انتظار إعادة المحاولة",
+  "@syncStatusWaitingToRetry": {},
+  "syncStatusPaused": "متوقف مؤقتاً",
+  "@syncStatusPaused": {},
+  "syncStatusSynced": "تمت المزامنة",
+  "@syncStatusSynced": {},
+  "syncStatusPartially": "جزئياً",
+  "@syncStatusPartially": {},
+  "syncOverlayDeleting": "إزالة العنصر الذي تمت مزامنته",
+  "@syncOverlayDeleting": {},
+  "syncOverlaySyncing": "مزامنة تفاصيل العنصر",
+  "@syncOverlaySyncing": {},
+  "syncSelectDownloadsFolder": "تحديد مجلد التنزيلات",
+  "@syncSelectDownloadsFolder": {},
+  "syncNoFolderSetup": "لم يتم إعداد مجلد مزامنة",
+  "@syncNoFolderSetup": {},
+  "syncRemoveUnableToDeleteItem": "تعذر إزالة العنصر الذي تمت مزامنته، حدث خطأ ما",
+  "@syncRemoveUnableToDeleteItem": {},
+  "syncAddItemForSyncing": "تمت إضافة {item} للمزامنة",
+  "@syncAddItemForSyncing": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "startedSyncingItem": "بدأت مزامنة {item}",
+  "@startedSyncingItem": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutBuild": "رقم البناء: {buildNumber}",
+  "@aboutBuild": {
+    "placeholders": {
+      "buildNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutCreatedBy": "تم إنشاؤه بواسطة DonutWare",
+  "@aboutCreatedBy": {},
+  "aboutSocials": "وسائل التواصل الاجتماعي",
+  "@aboutSocials": {},
+  "aboutLicenses": "التراخيص",
+  "@aboutLicenses": {},
+  "unableToSyncItem": "تعذر مزامنة {item}، حدث خطأ ما",
+  "@unableToSyncItem": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutVersion": "الإصدار: {version}",
+  "@aboutVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "subtitle": "الترجمة",
+  "@subtitle": {},
+  "subtitleConfiguration": "إعدادات الترجمة",
+  "@subtitleConfiguration": {},
+  "off": "إيقاف",
+  "@off": {},
+  "screenBrightness": "سطوع الشاشة",
+  "@screenBrightness": {},
+  "scale": "تحجيم",
+  "@scale": {},
+  "playBackSettings": "إعدادات التشغيل",
+  "@playBackSettings": {},
+  "settingsAutoNextTitle": "معاينة التالي",
+  "@settingsAutoNextTitle": {},
+  "autoNextOffSmartTitle": "ذكي",
+  "@autoNextOffSmartTitle": {},
+  "autoNextOffStaticTitle": "ثابت",
+  "@autoNextOffStaticTitle": {},
+  "autoNextOffStaticDesc": "عرض شاشة العنصر التالي عندما يتبقى 30 ثانية من وقت التشغيل.",
+  "@autoNextOffStaticDesc": {},
+  "playbackRate": "معدل التشغيل",
+  "@playbackRate": {},
+  "speed": "السرعة",
+  "@speed": {},
+  "autoNextOffSmartDesc": "تظهِر شاشة 'التالي' عندما تبدأ الاعتمادات إذا لم يتبق أكثر من 10 ثوانٍ بعد الاعتمادات. وإلا فإنه يُظهِر شاشة 'التالي' مع 30 ثانية متبقية من وقت التشغيل.",
+  "@autoNextOffSmartDesc": {},
+  "settingsAutoNextDesc": "يعرض معاينة للعرض التالي قرب النهاية إذا كان هناك عرض آخر في قائمة التشغيل.",
+  "@settingsAutoNextDesc": {},
+  "mediaSegmentOutro": "خاتمة",
+  "@mediaSegmentOutro": {},
+  "mediaSegmentIntro": "مقدمة",
+  "@mediaSegmentIntro": {},
+  "biometricsFailedCheckAgain": "فشلت المصادقة الحيوية. تحقق من الإعدادات وحاول مرة أخرى.",
+  "@biometricsFailedCheckAgain": {},
+  "dateAdded": "تاريخ الإضافة",
+  "@dateAdded": {},
+  "dashboardRecentlyAdded": "تمت إضافته مؤخراً في {name}",
+  "@dashboardRecentlyAdded": {
+    "description": "Recently added on home screen",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadsPath": "المسار",
+  "@downloadsPath": {},
+  "incorrectPinTryAgain": "رقم PIN غير صحيح. حاول مرة أخرى.",
+  "@incorrectPinTryAgain": {},
+  "invalidUrlDesc": "يجب أن يبدأ عنوان URL بـ http(s)://",
+  "@invalidUrlDesc": {},
+  "addToNewPlaylist": "قائمة تشغيل جديدة",
+  "@addToNewPlaylist": {},
+  "addedToCollection": "تمت الإضافة إلى مجموعة {collectionName}",
+  "@addedToCollection": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncStatusRunning": "قيد التشغيل",
+  "@syncStatusRunning": {},
+  "addToNewCollection": "مجموعة جديدة",
+  "@addToNewCollection": {},
+  "addItemsToCollection": "إضافة {itemLength} من العناصر إلى المجموعة",
+  "@addItemsToCollection": {
+    "placeholders": {
+      "itemLength": {
+        "type": "int"
+      }
+    }
+  },
+  "removedFromCollection": "تمت الإزالة من مجموعة {collectionName}",
+  "@removedFromCollection": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncStatusComplete": "مكتمل",
+  "@syncStatusComplete": {},
+  "libraryFetchNoItemsFound": "لم يتم العثور على عناصر. حاول استخدام إعدادات مختلفة.",
+  "@libraryFetchNoItemsFound": {},
+  "mediaTypePhoto": "صورة",
+  "@mediaTypePhoto": {},
+  "mediaTypeSeries": "مسلسل",
+  "@mediaTypeSeries": {},
+  "retry": "إعادة المحاولة",
+  "@retry": {},
+  "lockscreen": "شاشة القفل",
+  "@lockscreen": {},
+  "metadataRefreshDefault": "مسح بحثاً عن الملفات الجديدة والمحدثة",
+  "@metadataRefreshDefault": {},
+  "noSuggestionsFound": "لم يتم العثور على اقتراحات",
+  "@noSuggestionsFound": {},
+  "libraryPageSizeDesc": "حدد المقدار المراد تحميله في المرة الواحدة. القيمة 0 تُوقف تقسيم الصفحات.",
+  "@libraryPageSizeDesc": {},
+  "mediaTypePhotoAlbum": "ألبوم صور",
+  "@mediaTypePhotoAlbum": {},
+  "mediaTypePlaylist": "قائمة تشغيل",
+  "@mediaTypePlaylist": {},
+  "retrievePublicListOfUsers": "استرجاع قائمة المستخدمين العامة",
+  "@retrievePublicListOfUsers": {},
+  "pathEditDesc": "تم تعيين هذا الموقع لجميع المستخدمين، ولن تكون أي بيانات تمت مزامنتها قابلة للوصول إليها بعد الآن. ستبقى على جهاز التخزين الخاص بك.",
+  "@pathEditDesc": {},
+  "resume": "استئناف {item}",
+  "@resume": {
+    "description": "resume",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "quickConnectWrongCode": "رمز خاطئ",
+  "@quickConnectWrongCode": {},
+  "settings": "الإعدادات",
+  "@settings": {},
+  "mediaTypeSeason": "موسم",
+  "@mediaTypeSeason": {},
+  "normal": "عادي",
+  "@normal": {},
+  "save": "حفظ",
+  "@save": {},
+  "none": "لا شيء",
+  "@none": {},
+  "random": "عشوائي",
+  "@random": {},
+  "result": "النتيجة",
+  "@result": {},
+  "resumable": "قابل للاستئناف",
+  "@resumable": {},
+  "runTime": "وقت التشغيل",
+  "@runTime": {},
+  "refreshMetadata": "تحديث البيانات الوصفية",
+  "@refreshMetadata": {},
+  "replaceExistingImages": "استبدال الصور الموجودة",
+  "@replaceExistingImages": {},
+  "related": "ذات صلة",
+  "@related": {},
+  "restart": "إعادة تشغيل",
+  "@restart": {},
+  "settingsHomeBannerInformationDesc": "المعلومات المراد عرضها في البانر الرئيسي",
+  "@settingsHomeBannerInformationDesc": {},
+  "settingsHomeBannerInformationTitle": "معلومات البانر",
+  "@settingsHomeBannerInformationTitle": {},
+  "settingsPosterSize": "حجم البوستر",
+  "@settingsPosterSize": {},
+  "metaDataSavedFor": "تم حفظ البيانات الوصفية ل {item}",
+  "@metaDataSavedFor": {
+    "description": "metaDataSavedFor",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "syncDeletePopupPermanent": "هذا الإجراء دائم وسيزيل جميع الملفات التي تمت مزامنتها محلياً",
+  "@syncDeletePopupPermanent": {},
+  "syncDeleteItemDesc": "حذف جميع البيانات التي تمت مزامنتها ل {item}؟",
+  "@syncDeleteItemDesc": {
+    "description": "Sync delete item pop-up window",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "syncedItems": "العناصر التي تمت مزامنتها",
+  "@syncedItems": {},
+  "settingsPlayerMobileWarning": "قد يؤدي تشغيل تسريع الأجهزة وترجمة libass الأصلية على نظام Android إلى عدم عرض بعض الترجمات.",
+  "@settingsPlayerMobileWarning": {},
+  "settingsPlayerNativeLibassAccelTitle": "",
+  "@settingsPlayerNativeLibassAccelTitle": {},
+  "settingsProfileDesc": "شاشة القفل",
+  "@settingsProfileDesc": {},
+  "settingsProfileTitle": "ملف التعريف",
+  "@settingsProfileTitle": {},
+  "settingsQuickConnectTitle": "اتصال سريع",
+  "@settingsQuickConnectTitle": {},
+  "settingsSecurity": "الأمان",
+  "@settingsSecurity": {},
+  "settingsShowScaleSlider": "عرض شريط تمرير حجم الملصق",
+  "@settingsShowScaleSlider": {},
+  "settingsPosterSlider": "عرض مقياس الشريحة",
+  "@settingsPosterSlider": {},
+  "timeOut": "انتهاء المهلة",
+  "@timeOut": {},
+  "totalSize": "الحجم الكلي: {size}",
+  "@totalSize": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "unPlayed": "لم تُشغَل",
+  "@unPlayed": {},
+  "unableToConnectHost": "غير قادر على الاتصال بالمضيف",
+  "@unableToConnectHost": {},
+  "unableToReverseAction": "لا يمكن التراجع عن هذا الإجراء. سيؤدي إلى إزالة جميع الإعدادات.",
+  "@unableToReverseAction": {},
+  "useDefaults": "الاعدادات الافتراضية",
+  "@useDefaults": {},
+  "userName": "اسم المستخدم",
+  "@userName": {},
+  "video": "فيديو",
+  "@video": {},
+  "videoScaling": "تحجيم الفيديو",
+  "@videoScaling": {},
+  "videoScalingContain": "احتواء",
+  "@videoScalingContain": {},
+  "videoScalingCover": "تغطية",
+  "@videoScalingCover": {},
+  "unableToPlayMedia": "حدث خطأ في العثور على نوع وسائط متوافق",
+  "@unableToPlayMedia": {},
+  "defaultFilterForLibrary": "اعدادات الفلتر الافتراضي للمكتبة",
+  "@defaultFilterForLibrary": {},
+  "updateFilterForLibrary": "تحديث الفلتر",
+  "@updateFilterForLibrary": {},
+  "libraryFiltersLimitReached": "تم الوصول إلى حد الفلاتر (10) قم بإزالة بعض الفلتره",
+  "@libraryFiltersLimitReached": {},
+  "libraryFiltersRemoveAll": "إزالة جميع الفلاتر",
+  "@libraryFiltersRemoveAll": {},
+  "playerSettingsOrientationTitle": "اتجاه المُشغِّل",
+  "@playerSettingsOrientationTitle": {},
+  "playerSettingsOrientationDesc": "فرض مُشغِّل الفيديو على اتجاهات مُحددة",
+  "@playerSettingsOrientationDesc": {},
+  "deviceOrientationPortraitUp": "عمودي لأعلى",
+  "@deviceOrientationPortraitUp": {},
+  "deviceOrientationPortraitDown": "عمودي لأسفل",
+  "@deviceOrientationPortraitDown": {},
+  "deviceOrientationLandscapeLeft": "أفقي لليسار",
+  "@deviceOrientationLandscapeLeft": {},
+  "schemeSettingsMonochrome": "أحادي اللون",
+  "@schemeSettingsMonochrome": {},
+  "schemeSettingsNeutral": "مُحايد",
+  "@schemeSettingsNeutral": {},
+  "schemeSettingsVibrant": "نابض بالحياة",
+  "@schemeSettingsVibrant": {},
+  "schemeSettingsRainbow": "قوس قزح",
+  "@schemeSettingsRainbow": {},
+  "clientSettingsRequireWifiDesc": "التنزيل فقط عند الاتصال بشبكة Wi-Fi",
+  "@clientSettingsRequireWifiDesc": {},
+  "libraryShuffleAndPlayItems": "تشغيل العناصر عشوائياً",
+  "@libraryShuffleAndPlayItems": {},
+  "clientSettingsRequireWifiTitle": "يتطلب اتصال Wi-Fi",
+  "@clientSettingsRequireWifiTitle": {},
+  "unknown": "مجهول",
+  "@unknown": {},
+  "libraryFiltersRemoveAllConfirm": "سيؤدي ذلك إلى حذف جميع الفلاتر المحفوظة لكل مكتبة",
+  "@libraryFiltersRemoveAllConfirm": {},
+  "deleteFilterConfirmation": "هل أنت متأكد من أنك تريد حذف هذا الفلتر؟",
+  "@deleteFilterConfirmation": {},
+  "unableToPlayBooksOnWeb": "الكتب غير مدعومة على الويب في الوقت الحالي",
+  "@unableToPlayBooksOnWeb": {},
+  "removeFilterForLibrary": "إزالة {filter}؟",
+  "@removeFilterForLibrary": {
+    "description": "removeFilterForLibrary",
+    "placeholders": {
+      "filter": {
+        "type": "String"
+      }
+    }
+  },
+  "errorOpeningMedia": "حدث خطأ ما أثناء محاولة تشغيل هذه الوسائط",
+  "@errorOpeningMedia": {},
+  "schemeSettingsExpressive": "مُعبر",
+  "@schemeSettingsExpressive": {},
+  "schemeSettingsContent": "محتوى",
+  "@schemeSettingsContent": {},
+  "deviceOrientationLandscapeRight": "أفقي لليمين",
+  "@deviceOrientationLandscapeRight": {},
+  "schemeSettingsFruitSalad": "سلطة فواكه",
+  "@schemeSettingsFruitSalad": {}
+}

@@ -38,13 +38,9 @@ class AccountModel with _$AccountModel {
 
   factory AccountModel.fromJson(Map<String, dynamic> json) => _$AccountModelFromJson(json);
 
-  String get server {
-    return credentials.server;
-  }
+  String get server => credentials.server;
 
-  bool get canDownload {
-    return (policy?.enableContentDownloading ?? false) && !kIsWeb;
-  }
+  bool get canDownload => (policy?.enableContentDownloading ?? false);
 
   //Check if it's the same account on the same server
   bool sameIdentity(AccountModel other) {

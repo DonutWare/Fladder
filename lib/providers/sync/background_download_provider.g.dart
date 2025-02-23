@@ -7,7 +7,7 @@ part of 'background_download_provider.dart';
 // **************************************************************************
 
 String _$backgroundDownloaderHash() =>
-    r'9a9f91504ae4532ab37290ee9372d2e7a18380a9';
+    r'997d9f4ba79dd0d9d30d5f283b36d5280d10dfaa';
 
 /// See also [backgroundDownloader].
 @ProviderFor(backgroundDownloader)

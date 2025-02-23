@@ -19,12 +19,14 @@ import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/collections/add_to_collection.dart';
 import 'package:fladder/screens/metadata/info_screen.dart';
 import 'package:fladder/screens/playlists/add_to_playlists.dart';
+import 'package:fladder/screens/video_player/components/video_player_quality_controls.dart';
 import 'package:fladder/screens/video_player/components/video_player_queue.dart';
 import 'package:fladder/screens/video_player/components/video_subtitle_controls.dart';
 import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/device_orientation_extension.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/util/map_bool_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/widgets/shared/enum_selection.dart';
@@ -63,6 +65,7 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
     final currentItem = ref.watch(playBackModel.select((value) => value?.item));
     final videoSettings = ref.watch(videoPlayerSettingsProvider);
     final currentMediaStreams = ref.watch(playBackModel.select((value) => value?.mediaStreams));
+    final bitRateOptions = ref.watch(playBackModel.select((value) => value?.bitRateOptions));
 
     Widget mainPage() {
       return ListView(
@@ -202,6 +205,24 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
               ],
             ),
           ),
+          if (bitRateOptions?.isNotEmpty == true)
+            ListTile(
+              title: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: Text(context.localized.qualityOptionsTitle),
+                  ),
+                  const Spacer(),
+                  Text(bitRateOptions?.enabledFirst.keys.firstOrNull?.label(context) ?? "")
+                ],
+              ),
+              onTap: () {
+                Navigator.of(context).pop();
+                openQualityOptions(context);
+              },
+            )
         ],
       );
     }

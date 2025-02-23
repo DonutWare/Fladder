@@ -31,7 +31,11 @@ mixin _$VideoPlayerSettingsModel {
   Set<DeviceOrientation>? get allowedOrientations =>
       throw _privateConstructorUsedError;
   AutoNextType get nextVideoType => throw _privateConstructorUsedError;
+  Bitrate get maxHomeBitrate => throw _privateConstructorUsedError;
+  Bitrate get maxInternetBitrate => throw _privateConstructorUsedError;
   String? get audioDevice => throw _privateConstructorUsedError;
+  Map<MediaSegmentType, SegmentSkip> get segmentSkipSettings =>
+      throw _privateConstructorUsedError;
 
   /// Serializes this VideoPlayerSettingsModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -59,7 +63,10 @@ abstract class $VideoPlayerSettingsModelCopyWith<$Res> {
       double internalVolume,
       Set<DeviceOrientation>? allowedOrientations,
       AutoNextType nextVideoType,
-      String? audioDevice});
+      Bitrate maxHomeBitrate,
+      Bitrate maxInternetBitrate,
+      String? audioDevice,
+      Map<MediaSegmentType, SegmentSkip> segmentSkipSettings});
 }
 
 /// @nodoc
@@ -87,7 +94,10 @@ class _$VideoPlayerSettingsModelCopyWithImpl<$Res,
     Object? internalVolume = null,
     Object? allowedOrientations = freezed,
     Object? nextVideoType = null,
+    Object? maxHomeBitrate = null,
+    Object? maxInternetBitrate = null,
     Object? audioDevice = freezed,
+    Object? segmentSkipSettings = null,
   }) {
     return _then(_value.copyWith(
       screenBrightness: freezed == screenBrightness
@@ -126,10 +136,22 @@ class _$VideoPlayerSettingsModelCopyWithImpl<$Res,
           ? _value.nextVideoType
           : nextVideoType // ignore: cast_nullable_to_non_nullable
               as AutoNextType,
+      maxHomeBitrate: null == maxHomeBitrate
+          ? _value.maxHomeBitrate
+          : maxHomeBitrate // ignore: cast_nullable_to_non_nullable
+              as Bitrate,
+      maxInternetBitrate: null == maxInternetBitrate
+          ? _value.maxInternetBitrate
+          : maxInternetBitrate // ignore: cast_nullable_to_non_nullable
+              as Bitrate,
       audioDevice: freezed == audioDevice
           ? _value.audioDevice
           : audioDevice // ignore: cast_nullable_to_non_nullable
               as String?,
+      segmentSkipSettings: null == segmentSkipSettings
+          ? _value.segmentSkipSettings
+          : segmentSkipSettings // ignore: cast_nullable_to_non_nullable
+              as Map<MediaSegmentType, SegmentSkip>,
     ) as $Val);
   }
 }
@@ -153,7 +175,10 @@ abstract class _$$VideoPlayerSettingsModelImplCopyWith<$Res>
       double internalVolume,
       Set<DeviceOrientation>? allowedOrientations,
       AutoNextType nextVideoType,
-      String? audioDevice});
+      Bitrate maxHomeBitrate,
+      Bitrate maxInternetBitrate,
+      String? audioDevice,
+      Map<MediaSegmentType, SegmentSkip> segmentSkipSettings});
 }
 
 /// @nodoc
@@ -180,7 +205,10 @@ class __$$VideoPlayerSettingsModelImplCopyWithImpl<$Res>
     Object? internalVolume = null,
     Object? allowedOrientations = freezed,
     Object? nextVideoType = null,
+    Object? maxHomeBitrate = null,
+    Object? maxInternetBitrate = null,
     Object? audioDevice = freezed,
+    Object? segmentSkipSettings = null,
   }) {
     return _then(_$VideoPlayerSettingsModelImpl(
       screenBrightness: freezed == screenBrightness
@@ -219,10 +247,22 @@ class __$$VideoPlayerSettingsModelImplCopyWithImpl<$Res>
           ? _value.nextVideoType
           : nextVideoType // ignore: cast_nullable_to_non_nullable
               as AutoNextType,
+      maxHomeBitrate: null == maxHomeBitrate
+          ? _value.maxHomeBitrate
+          : maxHomeBitrate // ignore: cast_nullable_to_non_nullable
+              as Bitrate,
+      maxInternetBitrate: null == maxInternetBitrate
+          ? _value.maxInternetBitrate
+          : maxInternetBitrate // ignore: cast_nullable_to_non_nullable
+              as Bitrate,
       audioDevice: freezed == audioDevice
           ? _value.audioDevice
           : audioDevice // ignore: cast_nullable_to_non_nullable
               as String?,
+      segmentSkipSettings: null == segmentSkipSettings
+          ? _value._segmentSkipSettings
+          : segmentSkipSettings // ignore: cast_nullable_to_non_nullable
+              as Map<MediaSegmentType, SegmentSkip>,
     ));
   }
 }
@@ -241,8 +281,13 @@ class _$VideoPlayerSettingsModelImpl extends _VideoPlayerSettingsModel
       this.internalVolume = 100,
       final Set<DeviceOrientation>? allowedOrientations,
       this.nextVideoType = AutoNextType.smart,
-      this.audioDevice})
+      this.maxHomeBitrate = Bitrate.original,
+      this.maxInternetBitrate = Bitrate.original,
+      this.audioDevice,
+      final Map<MediaSegmentType, SegmentSkip> segmentSkipSettings =
+          defaultSegmentSkipValues})
       : _allowedOrientations = allowedOrientations,
+        _segmentSkipSettings = segmentSkipSettings,
         super._();
 
   factory _$VideoPlayerSettingsModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -282,11 +327,26 @@ class _$VideoPlayerSettingsModelImpl extends _VideoPlayerSettingsModel
   @JsonKey()
   final AutoNextType nextVideoType;
   @override
+  @JsonKey()
+  final Bitrate maxHomeBitrate;
+  @override
+  @JsonKey()
+  final Bitrate maxInternetBitrate;
+  @override
   final String? audioDevice;
+  final Map<MediaSegmentType, SegmentSkip> _segmentSkipSettings;
+  @override
+  @JsonKey()
+  Map<MediaSegmentType, SegmentSkip> get segmentSkipSettings {
+    if (_segmentSkipSettings is EqualUnmodifiableMapView)
+      return _segmentSkipSettings;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_segmentSkipSettings);
+  }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, audioDevice: $audioDevice)';
+    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings)';
   }
 
   @override
@@ -303,7 +363,10 @@ class _$VideoPlayerSettingsModelImpl extends _VideoPlayerSettingsModel
       ..add(DiagnosticsProperty('internalVolume', internalVolume))
       ..add(DiagnosticsProperty('allowedOrientations', allowedOrientations))
       ..add(DiagnosticsProperty('nextVideoType', nextVideoType))
-      ..add(DiagnosticsProperty('audioDevice', audioDevice));
+      ..add(DiagnosticsProperty('maxHomeBitrate', maxHomeBitrate))
+      ..add(DiagnosticsProperty('maxInternetBitrate', maxInternetBitrate))
+      ..add(DiagnosticsProperty('audioDevice', audioDevice))
+      ..add(DiagnosticsProperty('segmentSkipSettings', segmentSkipSettings));
   }
 
   /// Create a copy of VideoPlayerSettingsModel
@@ -325,16 +388,20 @@ class _$VideoPlayerSettingsModelImpl extends _VideoPlayerSettingsModel
 
 abstract class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel {
   factory _VideoPlayerSettingsModel(
-      {final double? screenBrightness,
-      final BoxFit videoFit,
-      final bool fillScreen,
-      final bool hardwareAccel,
-      final bool useLibass,
-      final PlayerOptions? playerOptions,
-      final double internalVolume,
-      final Set<DeviceOrientation>? allowedOrientations,
-      final AutoNextType nextVideoType,
-      final String? audioDevice}) = _$VideoPlayerSettingsModelImpl;
+          {final double? screenBrightness,
+          final BoxFit videoFit,
+          final bool fillScreen,
+          final bool hardwareAccel,
+          final bool useLibass,
+          final PlayerOptions? playerOptions,
+          final double internalVolume,
+          final Set<DeviceOrientation>? allowedOrientations,
+          final AutoNextType nextVideoType,
+          final Bitrate maxHomeBitrate,
+          final Bitrate maxInternetBitrate,
+          final String? audioDevice,
+          final Map<MediaSegmentType, SegmentSkip> segmentSkipSettings}) =
+      _$VideoPlayerSettingsModelImpl;
   _VideoPlayerSettingsModel._() : super._();
 
   factory _VideoPlayerSettingsModel.fromJson(Map<String, dynamic> json) =
@@ -359,7 +426,13 @@ abstract class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel {
   @override
   AutoNextType get nextVideoType;
   @override
+  Bitrate get maxHomeBitrate;
+  @override
+  Bitrate get maxInternetBitrate;
+  @override
   String? get audioDevice;
+  @override
+  Map<MediaSegmentType, SegmentSkip> get segmentSkipSettings;
 
   /// Create a copy of VideoPlayerSettingsModel
   /// with the given fields replaced by the non-null parameter values.

@@ -3,20 +3,10 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:fladder/routes/auto_router.dart';
+import 'package:fladder/models/settings/home_settings_model.dart';
+import 'package:fladder/providers/settings/home_settings_provider.dart';
 import 'package:fladder/util/debug_banner.dart';
 import 'package:fladder/util/poster_defaults.dart';
-
-enum LayoutState {
-  phone,
-  tablet,
-  desktop,
-}
-
-enum ScreenLayout {
-  single,
-  dual,
-}
 
 enum InputDevice {
   touch,
@@ -26,7 +16,7 @@ enum InputDevice {
 class LayoutPoints {
   final double start;
   final double end;
-  final LayoutState type;
+  final ViewSize type;
   LayoutPoints({
     required this.start,
     required this.end,
@@ -36,7 +26,7 @@ class LayoutPoints {
   LayoutPoints copyWith({
     double? start,
     double? end,
-    LayoutState? type,
+    ViewSize? type,
   }) {
     return LayoutPoints(
       start: start ?? this.start,
@@ -60,23 +50,21 @@ class LayoutPoints {
 }
 
 class AdaptiveLayout extends InheritedWidget {
-  final LayoutState layout;
-  final ScreenLayout size;
+  final ViewSize viewSize;
+  final LayoutMode layoutMode;
   final InputDevice inputDevice;
   final TargetPlatform platform;
   final bool isDesktop;
-  final AutoRouter router;
   final PosterDefaults posterDefaults;
   final ScrollController controller;
 
   const AdaptiveLayout({
     super.key,
-    required this.layout,
-    required this.size,
+    required this.viewSize,
+    required this.layoutMode,
     required this.inputDevice,
     required this.platform,
     required this.isDesktop,
-    required this.router,
     required this.posterDefaults,
     required this.controller,
     required super.child,
@@ -86,19 +74,14 @@ class AdaptiveLayout extends InheritedWidget {
     return context.dependOnInheritedWidgetOfExactType<AdaptiveLayout>();
   }
 
-  static LayoutState layoutOf(BuildContext context) {
+  static ViewSize layoutOf(BuildContext context) {
     final AdaptiveLayout? result = maybeOf(context);
-    return result!.layout;
+    return result!.viewSize;
   }
 
   static PosterDefaults poster(BuildContext context) {
     final AdaptiveLayout? result = maybeOf(context);
     return result!.posterDefaults;
-  }
-
-  static AutoRouter routerOf(BuildContext context) {
-    final AdaptiveLayout? result = maybeOf(context);
-    return result!.router;
   }
 
   static AdaptiveLayout of(BuildContext context) {
@@ -111,14 +94,18 @@ class AdaptiveLayout extends InheritedWidget {
     return result!.controller;
   }
 
+  static LayoutMode layoutModeOf(BuildContext context) => maybeOf(context)!.layoutMode;
+  static ViewSize viewSizeOf(BuildContext context) => maybeOf(context)!.viewSize;
+
+  static InputDevice inputDeviceOf(BuildContext context) => maybeOf(context)!.inputDevice;
+
   @override
   bool updateShouldNotify(AdaptiveLayout oldWidget) {
-    return layout != oldWidget.layout ||
-        size != oldWidget.size ||
+    return viewSize != oldWidget.viewSize ||
+        layoutMode != oldWidget.layoutMode ||
         platform != oldWidget.platform ||
         inputDevice != oldWidget.inputDevice ||
-        isDesktop != oldWidget.isDesktop ||
-        router != oldWidget.router;
+        isDesktop != oldWidget.isDesktop;
   }
 }
 
@@ -126,7 +113,7 @@ const defaultTitleBarHeight = 35.0;
 
 class AdaptiveLayoutBuilder extends ConsumerStatefulWidget {
   final List<LayoutPoints> layoutPoints;
-  final LayoutState fallBack;
+  final ViewSize fallBack;
   final Widget child;
   const AdaptiveLayoutBuilder({required this.layoutPoints, required this.child, required this.fallBack, super.key});
 
@@ -135,9 +122,8 @@ class AdaptiveLayoutBuilder extends ConsumerStatefulWidget {
 }
 
 class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
-  late LayoutState layout = widget.fallBack;
-  late ScreenLayout size = ScreenLayout.single;
-  AutoRouter? router;
+  late ViewSize viewSize = widget.fallBack;
+  late LayoutMode layoutMode = LayoutMode.single;
   late TargetPlatform currentPlatform = defaultTargetPlatform;
   late ScrollController controller = ScrollController();
 
@@ -158,47 +144,45 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
   }
 
   void calculateLayout() {
-    LayoutState? newType;
+    ViewSize? newType;
     for (var element in widget.layoutPoints) {
       if (MediaQuery.of(context).size.width > element.start && MediaQuery.of(context).size.width < element.end) {
         newType = element.type;
       }
     }
-    if (newType == LayoutState.phone && isDesktop) {
-      newType = LayoutState.tablet;
-    }
-    layout = newType ?? widget.fallBack;
+    viewSize = newType ?? widget.fallBack;
   }
 
   void calculateSize() {
-    ScreenLayout newSize;
-    if (MediaQuery.of(context).size.width > 0 && MediaQuery.of(context).size.width < 960 && !isDesktop) {
-      newSize = ScreenLayout.single;
+    LayoutMode newSize;
+    if (MediaQuery.of(context).size.width > 0 && MediaQuery.of(context).size.width < 960) {
+      newSize = LayoutMode.single;
     } else {
-      newSize = ScreenLayout.dual;
+      newSize = LayoutMode.dual;
     }
-    size = newSize;
+    layoutMode = newSize;
   }
 
   @override
   Widget build(BuildContext context) {
+    final acceptedLayouts = ref.watch(homeSettingsProvider.select((value) => value.screenLayouts));
+    final acceptedViewSizes = ref.watch(homeSettingsProvider.select((value) => value.layoutStates));
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(
         padding: isDesktop || kIsWeb ? const EdgeInsets.only(top: defaultTitleBarHeight, bottom: 16) : null,
         viewPadding: isDesktop || kIsWeb ? const EdgeInsets.only(top: defaultTitleBarHeight, bottom: 16) : null,
       ),
       child: AdaptiveLayout(
-        layout: layout,
+        viewSize: selectAvailableOrSmaller<ViewSize>(viewSize, acceptedViewSizes, ViewSize.values),
         controller: controller,
-        size: size,
+        layoutMode: selectAvailableOrSmaller<LayoutMode>(layoutMode, acceptedLayouts, LayoutMode.values),
         inputDevice: (isDesktop || kIsWeb) ? InputDevice.pointer : InputDevice.touch,
         platform: currentPlatform,
         isDesktop: isDesktop,
-        router: router ??= AutoRouter(layout: size, ref: ref),
-        posterDefaults: switch (layout) {
-          LayoutState.phone => const PosterDefaults(size: 300, ratio: 0.55),
-          LayoutState.tablet => const PosterDefaults(size: 350, ratio: 0.55),
-          LayoutState.desktop => const PosterDefaults(size: 400, ratio: 0.55),
+        posterDefaults: switch (viewSize) {
+          ViewSize.phone => const PosterDefaults(size: 300, ratio: 0.55),
+          ViewSize.tablet => const PosterDefaults(size: 350, ratio: 0.55),
+          ViewSize.desktop => const PosterDefaults(size: 400, ratio: 0.55),
         },
         child: DebugBanner(child: widget.child),
       ),

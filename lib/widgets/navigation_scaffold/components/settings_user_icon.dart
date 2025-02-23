@@ -1,10 +1,14 @@
+import 'package:flutter/material.dart';
+
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/shared/user_icon.dart';
+import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SettingsUserIcon extends ConsumerWidget {
   const SettingsUserIcon({super.key});
@@ -19,7 +23,13 @@ class SettingsUserIcon extends ConsumerWidget {
         user: users,
         cornerRadius: 200,
         onLongPress: () => context.router.push(const LockRoute()),
-        onTap: () => context.router.navigate(const SettingsRoute()),
+        onTap: () {
+          if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.single) {
+            context.router.push(const SettingsRoute());
+          } else {
+            context.router.push(const ClientSettingsRoute());
+          }
+        },
       ),
     );
   }

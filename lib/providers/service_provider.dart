@@ -17,7 +17,6 @@ import 'package:fladder/models/items/trick_play_model.dart';
 import 'package:fladder/providers/auth_provider.dart';
 import 'package:fladder/providers/image_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
-import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/jellyfin_extension.dart';
 
 class ServerQueryResult {
@@ -492,59 +491,29 @@ class JellyService {
 
   Future<Response> sessionsPlayingStoppedPost({
     required PlaybackStopInfo? body,
-    Duration? totalDuration,
-  }) async {
-    final position = body?.positionTicks;
-    final totalTime = totalDuration?.toRuntimeTicks;
-    final maxTime = ref.read(userProvider.select((value) => value?.serverConfiguration?.maxResumePct ?? 90));
-
-    final response = await api.sessionsPlayingStoppedPost(
-      body: body?.copyWith(
-        failed: false,
-      ),
-    );
-
-    //This is a temporary fix
-    if (totalTime != null && position != null && position > (totalTime * (maxTime / 100))) {
-      await usersUserIdPlayedItemsItemIdPost(itemId: body?.itemId, datePlayed: DateTime.now());
-    }
-
-    return response;
-  }
+  }) =>
+      api.sessionsPlayingStoppedPost(body: body);
 
   Future<Response> sessionsPlayingProgressPost({required PlaybackProgressInfo? body}) async =>
       api.sessionsPlayingProgressPost(body: body);
 
   Future<Response<PlaybackInfoResponse>> itemsItemIdPlaybackInfoPost({
     required String? itemId,
-    int? maxStreamingBitrate,
-    int? startTimeTicks,
-    int? audioStreamIndex,
-    int? subtitleStreamIndex,
-    int? maxAudioChannels,
-    String? mediaSourceId,
-    String? liveStreamId,
-    bool? autoOpenLiveStream,
-    bool? enableDirectPlay,
-    bool? enableDirectStream,
-    bool? enableTranscoding,
-    bool? allowVideoStreamCopy,
-    bool? allowAudioStreamCopy,
     required PlaybackInfoDto? body,
   }) async =>
       api.itemsItemIdPlaybackInfoPost(
         itemId: itemId,
         userId: account?.id,
-        enableDirectPlay: enableDirectPlay,
-        enableDirectStream: enableDirectStream,
-        enableTranscoding: enableTranscoding,
-        autoOpenLiveStream: autoOpenLiveStream,
-        maxStreamingBitrate: maxStreamingBitrate,
-        liveStreamId: liveStreamId,
-        startTimeTicks: startTimeTicks,
-        mediaSourceId: mediaSourceId,
-        audioStreamIndex: audioStreamIndex,
-        subtitleStreamIndex: subtitleStreamIndex,
+        enableDirectPlay: body?.enableDirectPlay,
+        enableDirectStream: body?.enableDirectStream,
+        enableTranscoding: body?.enableTranscoding,
+        autoOpenLiveStream: body?.autoOpenLiveStream,
+        maxStreamingBitrate: body?.maxStreamingBitrate,
+        liveStreamId: body?.liveStreamId,
+        startTimeTicks: body?.startTimeTicks,
+        mediaSourceId: body?.mediaSourceId,
+        audioStreamIndex: body?.audioStreamIndex,
+        subtitleStreamIndex: body?.subtitleStreamIndex,
         body: body,
       );
 

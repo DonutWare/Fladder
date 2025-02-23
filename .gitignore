@@ -53,3 +53,6 @@ app.*.map.json
 # Affinity lock
 *.afdesign~lock~
 *.afphoto~lock~
+
+# Inno Setup builds
+Output

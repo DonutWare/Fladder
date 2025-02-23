@@ -20,6 +20,8 @@ HomeSettingsModel _$HomeSettingsModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$HomeSettingsModel {
+  Set<LayoutMode> get screenLayouts => throw _privateConstructorUsedError;
+  Set<ViewSize> get layoutStates => throw _privateConstructorUsedError;
   HomeBanner get homeBanner => throw _privateConstructorUsedError;
   HomeCarouselSettings get carouselSettings =>
       throw _privateConstructorUsedError;
@@ -42,7 +44,9 @@ abstract class $HomeSettingsModelCopyWith<$Res> {
       _$HomeSettingsModelCopyWithImpl<$Res, HomeSettingsModel>;
   @useResult
   $Res call(
-      {HomeBanner homeBanner,
+      {Set<LayoutMode> screenLayouts,
+      Set<ViewSize> layoutStates,
+      HomeBanner homeBanner,
       HomeCarouselSettings carouselSettings,
       HomeNextUp nextUp});
 }
@@ -62,11 +66,21 @@ class _$HomeSettingsModelCopyWithImpl<$Res, $Val extends HomeSettingsModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? screenLayouts = null,
+    Object? layoutStates = null,
     Object? homeBanner = null,
     Object? carouselSettings = null,
     Object? nextUp = null,
   }) {
     return _then(_value.copyWith(
+      screenLayouts: null == screenLayouts
+          ? _value.screenLayouts
+          : screenLayouts // ignore: cast_nullable_to_non_nullable
+              as Set<LayoutMode>,
+      layoutStates: null == layoutStates
+          ? _value.layoutStates
+          : layoutStates // ignore: cast_nullable_to_non_nullable
+              as Set<ViewSize>,
       homeBanner: null == homeBanner
           ? _value.homeBanner
           : homeBanner // ignore: cast_nullable_to_non_nullable
@@ -92,7 +106,9 @@ abstract class _$$HomeSettingsModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {HomeBanner homeBanner,
+      {Set<LayoutMode> screenLayouts,
+      Set<ViewSize> layoutStates,
+      HomeBanner homeBanner,
       HomeCarouselSettings carouselSettings,
       HomeNextUp nextUp});
 }
@@ -110,11 +126,21 @@ class __$$HomeSettingsModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? screenLayouts = null,
+    Object? layoutStates = null,
     Object? homeBanner = null,
     Object? carouselSettings = null,
     Object? nextUp = null,
   }) {
     return _then(_$HomeSettingsModelImpl(
+      screenLayouts: null == screenLayouts
+          ? _value._screenLayouts
+          : screenLayouts // ignore: cast_nullable_to_non_nullable
+              as Set<LayoutMode>,
+      layoutStates: null == layoutStates
+          ? _value._layoutStates
+          : layoutStates // ignore: cast_nullable_to_non_nullable
+              as Set<ViewSize>,
       homeBanner: null == homeBanner
           ? _value.homeBanner
           : homeBanner // ignore: cast_nullable_to_non_nullable
@@ -135,12 +161,34 @@ class __$$HomeSettingsModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$HomeSettingsModelImpl implements _HomeSettingsModel {
   _$HomeSettingsModelImpl(
-      {this.homeBanner = HomeBanner.carousel,
+      {final Set<LayoutMode> screenLayouts = const {...LayoutMode.values},
+      final Set<ViewSize> layoutStates = const {...ViewSize.values},
+      this.homeBanner = HomeBanner.carousel,
       this.carouselSettings = HomeCarouselSettings.combined,
-      this.nextUp = HomeNextUp.separate});
+      this.nextUp = HomeNextUp.separate})
+      : _screenLayouts = screenLayouts,
+        _layoutStates = layoutStates;
 
   factory _$HomeSettingsModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$HomeSettingsModelImplFromJson(json);
+
+  final Set<LayoutMode> _screenLayouts;
+  @override
+  @JsonKey()
+  Set<LayoutMode> get screenLayouts {
+    if (_screenLayouts is EqualUnmodifiableSetView) return _screenLayouts;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableSetView(_screenLayouts);
+  }
+
+  final Set<ViewSize> _layoutStates;
+  @override
+  @JsonKey()
+  Set<ViewSize> get layoutStates {
+    if (_layoutStates is EqualUnmodifiableSetView) return _layoutStates;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableSetView(_layoutStates);
+  }
 
   @override
   @JsonKey()
@@ -154,7 +202,7 @@ class _$HomeSettingsModelImpl implements _HomeSettingsModel {
 
   @override
   String toString() {
-    return 'HomeSettingsModel(homeBanner: $homeBanner, carouselSettings: $carouselSettings, nextUp: $nextUp)';
+    return 'HomeSettingsModel(screenLayouts: $screenLayouts, layoutStates: $layoutStates, homeBanner: $homeBanner, carouselSettings: $carouselSettings, nextUp: $nextUp)';
   }
 
   @override
@@ -162,6 +210,10 @@ class _$HomeSettingsModelImpl implements _HomeSettingsModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$HomeSettingsModelImpl &&
+            const DeepCollectionEquality()
+                .equals(other._screenLayouts, _screenLayouts) &&
+            const DeepCollectionEquality()
+                .equals(other._layoutStates, _layoutStates) &&
             (identical(other.homeBanner, homeBanner) ||
                 other.homeBanner == homeBanner) &&
             (identical(other.carouselSettings, carouselSettings) ||
@@ -171,8 +223,13 @@ class _$HomeSettingsModelImpl implements _HomeSettingsModel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, homeBanner, carouselSettings, nextUp);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_screenLayouts),
+      const DeepCollectionEquality().hash(_layoutStates),
+      homeBanner,
+      carouselSettings,
+      nextUp);
 
   /// Create a copy of HomeSettingsModel
   /// with the given fields replaced by the non-null parameter values.
@@ -193,13 +250,19 @@ class _$HomeSettingsModelImpl implements _HomeSettingsModel {
 
 abstract class _HomeSettingsModel implements HomeSettingsModel {
   factory _HomeSettingsModel(
-      {final HomeBanner homeBanner,
+      {final Set<LayoutMode> screenLayouts,
+      final Set<ViewSize> layoutStates,
+      final HomeBanner homeBanner,
       final HomeCarouselSettings carouselSettings,
       final HomeNextUp nextUp}) = _$HomeSettingsModelImpl;
 
   factory _HomeSettingsModel.fromJson(Map<String, dynamic> json) =
       _$HomeSettingsModelImpl.fromJson;
 
+  @override
+  Set<LayoutMode> get screenLayouts;
+  @override
+  Set<ViewSize> get layoutStates;
   @override
   HomeBanner get homeBanner;
   @override

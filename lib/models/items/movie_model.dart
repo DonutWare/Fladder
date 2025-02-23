@@ -96,8 +96,7 @@ class MovieModel extends ItemStreamModel with MovieModelMappable {
       parentImages: ImagesData.fromBaseItemParent(item, ref),
       canDelete: item.canDelete,
       canDownload: item.canDownload,
-      mediaStreams:
-          MediaStreamsModel.fromMediaStreamsList(item.mediaSources?.firstOrNull, item.mediaStreams ?? [], ref),
+      mediaStreams: MediaStreamsModel.fromMediaStreamsList(item.mediaSources, ref),
     );
   }
 }

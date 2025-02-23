@@ -12,6 +12,7 @@ import 'package:screen_brightness/screen_brightness.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
+import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
@@ -19,6 +20,7 @@ import 'package:fladder/screens/shared/default_title_bar.dart';
 import 'package:fladder/screens/video_player/components/video_playback_information.dart';
 import 'package:fladder/screens/video_player/components/video_player_controls_extras.dart';
 import 'package:fladder/screens/video_player/components/video_player_options_sheet.dart';
+import 'package:fladder/screens/video_player/components/video_player_quality_controls.dart';
 import 'package:fladder/screens/video_player/components/video_player_seek_indicator.dart';
 import 'package:fladder/screens/video_player/components/video_progress_bar.dart';
 import 'package:fladder/screens/video_player/components/video_volume_slider.dart';
@@ -164,6 +166,13 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                   final position = ref.watch(mediaPlaybackProvider.select((value) => value.position));
                   MediaSegment? segment = mediaSegments?.atPosition(position);
                   bool forceShow = segment?.forceShow(position) ?? false;
+                  final segmentSkipType = ref
+                      .watch(videoPlayerSettingsProvider.select((value) => value.segmentSkipSettings[segment?.type]));
+                  final autoSkip =
+                      forceShow == true && segmentSkipType == SegmentSkip.skip && player.lastState?.buffering == false;
+                  if (autoSkip) {
+                    skipToSegmentEnd(segment);
+                  }
                   return Stack(
                     children: [
                       Align(
@@ -172,6 +181,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                           padding: const EdgeInsets.all(32),
                           child: SkipSegmentButton(
                             segment: segment,
+                            skipType: segmentSkipType,
                             isOverlayVisible: forceShow ? true : showOverlay,
                             pressedSkip: () => skipToSegmentEnd(segment),
                           ),
@@ -269,6 +279,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   Widget bottomButtons(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
       final mediaPlayback = ref.watch(mediaPlaybackProvider);
+      final bitRateOptions = ref.watch(playBackModel.select((value) => value?.bitRateOptions));
       return Container(
         decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -300,7 +311,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                         IconButton(
                             onPressed: () => showVideoPlayerOptions(context, () => minimizePlayer(context)),
                             icon: const Icon(IconsaxOutline.more)),
-                        if (AdaptiveLayout.layoutOf(context) == LayoutState.tablet) ...[
+                        if (AdaptiveLayout.layoutOf(context) == ViewSize.tablet) ...[
                           IconButton(
                             onPressed: () => showSubSelection(context),
                             icon: const Icon(IconsaxOutline.subtitle),
@@ -310,7 +321,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                             icon: const Icon(IconsaxOutline.audio_square),
                           ),
                         ],
-                        if (AdaptiveLayout.layoutOf(context) == LayoutState.desktop) ...[
+                        if (AdaptiveLayout.layoutOf(context) == ViewSize.desktop) ...[
                           Flexible(
                             child: ElevatedButton.icon(
                               onPressed: () => showSubSelection(context),
@@ -369,13 +380,16 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                               child: IconButton(
                                   onPressed: () => closePlayer(), icon: const Icon(IconsaxOutline.close_square))),
                         const Spacer(),
-                        if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer &&
+                        if (AdaptiveLayout.viewSizeOf(context) >= ViewSize.desktop &&
                             ref.read(videoPlayerProvider).hasPlayer) ...{
-                          // OpenQueueButton(x),
-                          // ChapterButton(
-                          //   position: position,
-                          //   player: ref.read(videoPlayerProvider).player!,
-                          // ),
+                          if (bitRateOptions?.isNotEmpty == true)
+                            Tooltip(
+                              message: context.localized.qualityOptionsTitle,
+                              child: IconButton(
+                                onPressed: () => openQualityOptions(context),
+                                icon: const Icon(IconsaxOutline.speedometer),
+                              ),
+                            ),
                           Listener(
                             onPointerSignal: (event) {
                               if (event is PointerScrollEvent) {

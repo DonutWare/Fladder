@@ -42,6 +42,28 @@ class MediaSegment with _$MediaSegment {
   bool forceShow(Duration position) => (position - start).inSeconds < (end - start).inSeconds * 0.20;
 }
 
+const Map<MediaSegmentType, SegmentSkip> defaultSegmentSkipValues = {
+  MediaSegmentType.commercial: SegmentSkip.askToSkip,
+  MediaSegmentType.preview: SegmentSkip.askToSkip,
+  MediaSegmentType.recap: SegmentSkip.askToSkip,
+  MediaSegmentType.outro: SegmentSkip.askToSkip,
+  MediaSegmentType.intro: SegmentSkip.askToSkip,
+};
+
+enum SegmentSkip {
+  none,
+  askToSkip,
+  skip;
+
+  const SegmentSkip();
+
+  String label(BuildContext context) => switch (this) {
+        SegmentSkip.none => context.localized.segmentActionNone,
+        SegmentSkip.askToSkip => context.localized.segmentActionAskToSkip,
+        SegmentSkip.skip => context.localized.segmentActionSkip,
+      };
+}
+
 enum MediaSegmentType {
   unknown,
   commercial,
