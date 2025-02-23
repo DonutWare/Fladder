@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
+import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/settings/settings_scaffold.dart';
@@ -17,6 +18,7 @@ import 'package:fladder/screens/settings/widgets/subtitle_editor.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/screens/video_player/components/video_player_options_sheet.dart';
 import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/bitrate_helper.dart';
 import 'package:fladder/util/box_fit_extension.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/option_dialogue.dart';
@@ -37,6 +39,9 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
     final provider = ref.read(videoPlayerSettingsProvider.notifier);
     final showBackground = AdaptiveLayout.viewSizeOf(context) != ViewSize.phone &&
         AdaptiveLayout.layoutModeOf(context) != LayoutMode.single;
+
+    final connectionState = ref.watch(connectivityStatusProvider);
+
     return Card(
       elevation: showBackground ? 2 : 0,
       child: SettingsScaffold(
@@ -78,6 +83,50 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                 contentPadding: EdgeInsets.zero,
                 onChanged: (value) => tap(),
               ),
+            ),
+          ),
+          SettingsListTile(
+            label: _StatusIndicator(
+              homeInternet: connectionState.homeInternet,
+              label: Text(context.localized.homeStreamingQualityTitle),
+            ),
+            subLabel: Text(context.localized.homeStreamingQualityDesc),
+            trailing: EnumBox(
+              current: ref.watch(
+                videoPlayerSettingsProvider.select((value) => value.maxHomeBitrate.label(context)),
+              ),
+              itemBuilder: (context) => Bitrate.values
+                  .map(
+                    (entry) => PopupMenuItem(
+                      value: entry,
+                      child: Text(entry.label(context)),
+                      onTap: () => ref.read(videoPlayerSettingsProvider.notifier).state =
+                          ref.read(videoPlayerSettingsProvider).copyWith(maxHomeBitrate: entry),
+                    ),
+                  )
+                  .toList(),
+            ),
+          ),
+          SettingsListTile(
+            label: _StatusIndicator(
+              homeInternet: !connectionState.homeInternet,
+              label: Text(context.localized.internetStreamingQualityTitle),
+            ),
+            subLabel: Text(context.localized.internetStreamingQualityDesc),
+            trailing: EnumBox(
+              current: ref.watch(
+                videoPlayerSettingsProvider.select((value) => value.maxInternetBitrate.label(context)),
+              ),
+              itemBuilder: (context) => Bitrate.values
+                  .map(
+                    (entry) => PopupMenuItem(
+                      value: entry,
+                      child: Text(entry.label(context)),
+                      onTap: () => ref.read(videoPlayerSettingsProvider.notifier).state =
+                          ref.read(videoPlayerSettingsProvider).copyWith(maxInternetBitrate: entry),
+                    ),
+                  )
+                  .toList(),
             ),
           ),
           const Divider(),
@@ -202,6 +251,33 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
             ),
         ],
       ),
+    );
+  }
+}
+
+class _StatusIndicator extends StatelessWidget {
+  final bool homeInternet;
+  final Widget label;
+  const _StatusIndicator({required this.homeInternet, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        if (homeInternet) ...[
+          Container(
+            width: 8,
+            height: 8,
+            decoration: const BoxDecoration(
+              color: Colors.greenAccent,
+              shape: BoxShape.circle,
+            ),
+          ),
+          const SizedBox(width: 6),
+        ],
+        label,
+      ],
     );
   }
 }

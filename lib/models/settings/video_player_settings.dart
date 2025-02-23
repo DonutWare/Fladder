@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'package:fladder/util/bitrate_helper.dart';
 import 'package:fladder/util/localization_helper.dart';
 
 part 'video_player_settings.freezed.dart';
@@ -24,6 +25,8 @@ class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     @Default(100) double internalVolume,
     Set<DeviceOrientation>? allowedOrientations,
     @Default(AutoNextType.smart) AutoNextType nextVideoType,
+    @Default(Bitrate.original) Bitrate maxHomeBitrate,
+    @Default(Bitrate.original) Bitrate maxInternetBitrate,
     String? audioDevice,
   }) = _VideoPlayerSettingsModel;
 

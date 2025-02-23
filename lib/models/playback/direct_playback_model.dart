@@ -12,51 +12,22 @@ import 'package:fladder/models/items/trick_play_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
+import 'package:fladder/util/bitrate_helper.dart';
 import 'package:fladder/util/duration_extensions.dart';
-import 'package:fladder/util/list_extensions.dart';
 import 'package:fladder/wrappers/media_control_wrapper.dart';
 
-class DirectPlaybackModel implements PlaybackModel {
+class DirectPlaybackModel extends PlaybackModel {
   DirectPlaybackModel({
-    required this.item,
-    required this.media,
-    required this.playbackInfo,
-    this.mediaStreams,
-    this.mediaSegments,
-    this.chapters,
-    this.trickPlay,
-    this.queue = const [],
+    required super.item,
+    required super.media,
+    super.playbackInfo,
+    super.mediaStreams,
+    super.mediaSegments,
+    super.chapters,
+    super.trickPlay,
+    super.queue,
+    super.bitRateOptions,
   });
-
-  @override
-  final ItemBaseModel item;
-
-  @override
-  final Media? media;
-
-  @override
-  final PlaybackInfoResponse playbackInfo;
-
-  @override
-  final MediaStreamsModel? mediaStreams;
-
-  @override
-  final MediaSegmentsModel? mediaSegments;
-
-  @override
-  final List<Chapter>? chapters;
-
-  @override
-  final TrickPlayModel? trickPlay;
-
-  @override
-  ItemBaseModel? get nextVideo => queue.nextOrNull(item);
-
-  @override
-  ItemBaseModel? get previousVideo => queue.previousOrNull(item);
-
-  @override
-  Future<Duration>? startDuration() async => item.userData.playBackPosition;
 
   @override
   List<SubStreamModel> get subStreams => [SubStreamModel.no(), ...mediaStreams?.subStreams ?? []];
@@ -80,13 +51,18 @@ class DirectPlaybackModel implements PlaybackModel {
   }
 
   @override
+  Future<DirectPlaybackModel>? setQualityOption(Map<Bitrate, bool> map) async {
+    return copyWith(bitRateOptions: map);
+  }
+
+  @override
   Future<PlaybackModel?> playbackStarted(Duration position, Ref ref) async {
     await ref.read(jellyApiProvider).sessionsPlayingPost(
           body: PlaybackStartInfo(
             canSeek: true,
             itemId: item.id,
             mediaSourceId: item.id,
-            playSessionId: playbackInfo.playSessionId,
+            playSessionId: playbackInfo?.playSessionId,
             subtitleStreamIndex: item.streamModel?.defaultSubStreamIndex,
             audioStreamIndex: item.streamModel?.defaultAudioStreamIndex,
             volumeLevel: 100,
@@ -108,7 +84,7 @@ class DirectPlaybackModel implements PlaybackModel {
           body: PlaybackStopInfo(
             itemId: item.id,
             mediaSourceId: item.id,
-            playSessionId: playbackInfo.playSessionId,
+            playSessionId: playbackInfo?.playSessionId,
             positionTicks: position.toRuntimeTicks,
           ),
         );
@@ -124,7 +100,7 @@ class DirectPlaybackModel implements PlaybackModel {
         canSeek: true,
         itemId: item.id,
         mediaSourceId: item.id,
-        playSessionId: playbackInfo.playSessionId,
+        playSessionId: playbackInfo?.playSessionId,
         subtitleStreamIndex: item.streamModel?.defaultSubStreamIndex,
         audioStreamIndex: item.streamModel?.defaultAudioStreamIndex,
         volumeLevel: 100,
@@ -143,9 +119,6 @@ class DirectPlaybackModel implements PlaybackModel {
   String toString() => 'DirectPlaybackModel(item: $item, playbackInfo: $playbackInfo)';
 
   @override
-  final List<ItemBaseModel> queue;
-
-  @override
   DirectPlaybackModel copyWith({
     ItemBaseModel? item,
     ValueGetter<Media?>? media,
@@ -156,6 +129,7 @@ class DirectPlaybackModel implements PlaybackModel {
     ValueGetter<List<Chapter>?>? chapters,
     ValueGetter<TrickPlayModel?>? trickPlay,
     List<ItemBaseModel>? queue,
+    Map<Bitrate, bool>? bitRateOptions,
   }) {
     return DirectPlaybackModel(
       item: item ?? this.item,
@@ -166,6 +140,7 @@ class DirectPlaybackModel implements PlaybackModel {
       chapters: chapters != null ? chapters() : this.chapters,
       trickPlay: trickPlay != null ? trickPlay() : this.trickPlay,
       queue: queue ?? this.queue,
+      bitRateOptions: bitRateOptions ?? this.bitRateOptions,
     );
   }
 }

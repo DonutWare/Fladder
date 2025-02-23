@@ -157,6 +157,7 @@ class StreamModel {
 class VideoStreamModel extends StreamModel {
   final int width;
   final int height;
+  final int? bitRate;
   final double frameRate;
   final String? videoDoViTitle;
   final VideoRangeType? videoRangeType;
@@ -168,6 +169,7 @@ class VideoStreamModel extends StreamModel {
     required super.index,
     required this.videoDoViTitle,
     required this.videoRangeType,
+    required this.bitRate,
     required this.width,
     required this.height,
     required this.frameRate,
@@ -179,6 +181,7 @@ class VideoStreamModel extends StreamModel {
       isDefault: stream.isDefault ?? false,
       codec: stream.codec ?? "",
       videoDoViTitle: stream.videoDoViTitle,
+      bitRate: stream.bitRate,
       videoRangeType: stream.videoRangeType,
       width: stream.width ?? 0,
       height: stream.height ?? 0,

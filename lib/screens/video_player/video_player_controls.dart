@@ -20,6 +20,7 @@ import 'package:fladder/screens/shared/default_title_bar.dart';
 import 'package:fladder/screens/video_player/components/video_playback_information.dart';
 import 'package:fladder/screens/video_player/components/video_player_controls_extras.dart';
 import 'package:fladder/screens/video_player/components/video_player_options_sheet.dart';
+import 'package:fladder/screens/video_player/components/video_player_quality_controls.dart';
 import 'package:fladder/screens/video_player/components/video_player_seek_indicator.dart';
 import 'package:fladder/screens/video_player/components/video_progress_bar.dart';
 import 'package:fladder/screens/video_player/components/video_volume_slider.dart';
@@ -270,6 +271,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   Widget bottomButtons(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
       final mediaPlayback = ref.watch(mediaPlaybackProvider);
+      final bitRateOptions = ref.watch(playBackModel.select((value) => value?.bitRateOptions));
       return Container(
         decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -370,13 +372,16 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                               child: IconButton(
                                   onPressed: () => closePlayer(), icon: const Icon(IconsaxOutline.close_square))),
                         const Spacer(),
-                        if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer &&
+                        if (AdaptiveLayout.viewSizeOf(context) >= ViewSize.desktop &&
                             ref.read(videoPlayerProvider).hasPlayer) ...{
-                          // OpenQueueButton(x),
-                          // ChapterButton(
-                          //   position: position,
-                          //   player: ref.read(videoPlayerProvider).player!,
-                          // ),
+                          if (bitRateOptions?.isNotEmpty == true)
+                            Tooltip(
+                              message: context.localized.qualityOptionsTitle,
+                              child: IconButton(
+                                onPressed: () => openQualityOptions(context),
+                                icon: const Icon(IconsaxOutline.speedometer),
+                              ),
+                            ),
                           Listener(
                             onPointerSignal: (event) {
                               if (event is PointerScrollEvent) {

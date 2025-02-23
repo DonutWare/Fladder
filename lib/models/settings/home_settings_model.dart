@@ -48,6 +48,11 @@ enum ViewSize {
         ViewSize.tablet => context.localized.tablet,
         ViewSize.desktop => context.localized.desktop,
       };
+
+  bool operator >(ViewSize other) => index > other.index;
+  bool operator >=(ViewSize other) => index >= other.index;
+  bool operator <(ViewSize other) => index < other.index;
+  bool operator <=(ViewSize other) => index <= other.index;
 }
 
 enum LayoutMode {
@@ -60,6 +65,11 @@ enum LayoutMode {
         LayoutMode.single => context.localized.layoutModeSingle,
         LayoutMode.dual => context.localized.layoutModeDual,
       };
+
+  bool operator >(ViewSize other) => index > other.index;
+  bool operator >=(ViewSize other) => index >= other.index;
+  bool operator <(ViewSize other) => index < other.index;
+  bool operator <=(ViewSize other) => index <= other.index;
 }
 
 enum HomeBanner {

@@ -1171,5 +1171,12 @@
   "copiedToClipboard": "Copied to clipboard",
   "episodeAvailable": "Available",
   "episodeUnaired": "Unaired",
-  "episodeMissing": "Missing"
+  "episodeMissing": "Missing",
+  "internetStreamingQualityTitle": "Internet quality",
+  "internetStreamingQualityDesc": "Maximum streaming quality over the internet (mobile)",
+  "homeStreamingQualityTitle": "Home quality",
+  "homeStreamingQualityDesc": "Maximum streaming quality when connected to home network",
+  "qualityOptionsTitle": "Quality options",
+  "qualityOptionsOriginal": "Original",
+  "qualityOptionsAuto": "Auto"
 }
