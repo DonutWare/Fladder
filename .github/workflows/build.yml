@@ -326,28 +326,15 @@ jobs:
           name: fladder-web
           path: build/web
 
-      - name: Deploy to ghcr.io
-        if: startsWith(github.ref, 'refs/tags/v')
-        uses: mr-smithers-excellent/docker-build-push@v6
-        with:
-          image: fladder
-          addLatest: true
-          multiPlatform: true
-          platform: linux/amd64,linux/arm64,linux/arm/v7
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Build Github pages web
         if: startsWith(github.ref, 'refs/tags/v')
         run: flutter build web --base-href /${{ github.event.repository.name }}/ --release --build-number=$GITHUB_RUN_NUMBER
 
-      - name: Deploy to GitHub Pages
-        if: startsWith(github.ref, 'refs/tags/v')
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Archive web pages artifact
+        uses: actions/upload-artifact@v4.0.0
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }} # Automatically provided by GitHub Actions
-          publish_dir: ./build/web
+          name: fladder-web-pages
+          path: build/web
 
   create_release:
     name: Create Release
@@ -380,6 +367,11 @@ jobs:
           name: fladder-windows-portable
           path: fladder-windows-portable
 
+      - name: Compress Windows
+        run: |
+          cd fladder-windows-portable
+          zip -r ../Fladder-Windows-${{needs.fetch-info.outputs.version_name}}.zip .
+
       - name: Download Windows installer artifact
         uses: actions/download-artifact@v4
         with:
@@ -387,14 +379,7 @@ jobs:
           path: fladder-windows-installer
 
       - name: Rename Windows installer
-        run: |
-          cd fladder-windows-installer
-          mv fladder_setup.exe Fladder-Windows-${{needs.fetch-info.outputs.version_name}}-Setup.exe
-
-      - name: Compress Windows
-        run: |
-          cd fladder-windows-portable
-          zip -r ../Fladder-Windows-${{needs.fetch-info.outputs.version_name}}.zip .
+        run: mv fladder-windows-installer/fladder_setup.exe Fladder-Windows-${{needs.fetch-info.outputs.version_name}}-Setup.exe
 
       - name: Download Artifacts iOS
         uses: actions/download-artifact@v4
@@ -460,3 +445,43 @@ jobs:
             Fladder-Web-${{needs.fetch-info.outputs.version_name}}.zip
             Fladder-Linux-${{needs.fetch-info.outputs.version_name}}.zip
             Fladder-Linux-${{needs.fetch-info.outputs.version_name}}.flatpak
+
+  release_web:
+    needs:
+      - fetch-info
+      - build-web
+      - create_release
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - name: Download Artifacts Web
+        uses: actions/download-artifact@v4
+        with:
+          name: fladder-web
+          path: build/web
+
+      - name: Deploy to ghcr.io
+        uses: mr-smithers-excellent/docker-build-push@v6
+        with:
+          image: fladder
+          addLatest: true
+          multiPlatform: true
+          platform: linux/amd64,linux/arm64,linux/arm/v7
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Clean builds folder
+        run: rm -rf build/web
+
+      - name: Download Artifacts Web
+        uses: actions/download-artifact@v4
+        with:
+          name: fladder-web-pages
+          path: build/web
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }} # Automatically provided by GitHub Actions
+          publish_dir: ./build/web
