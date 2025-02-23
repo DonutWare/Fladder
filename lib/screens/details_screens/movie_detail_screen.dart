@@ -1,5 +1,3 @@
-import 'package:fladder/models/settings/home_settings_model.dart';
-import 'package:fladder/util/adaptive_layout.dart';
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
@@ -7,6 +5,7 @@ import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/items/movies_details_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/details_screens/components/media_stream_information.dart';
@@ -18,6 +17,7 @@ import 'package:fladder/screens/shared/media/expanding_overview.dart';
 import 'package:fladder/screens/shared/media/external_urls.dart';
 import 'package:fladder/screens/shared/media/people_row.dart';
 import 'package:fladder/screens/shared/media/poster_row.dart';
+import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/item_base_model/play_item_helpers.dart';
 import 'package:fladder/util/list_padding.dart';
@@ -126,6 +126,9 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
                   ).padding(padding),
                   if (details.mediaStreams.isNotEmpty)
                     MediaStreamInformation(
+                      onVersionIndexChanged: (index) {
+                        ref.read(providerInstance.notifier).setVersionIndex(index);
+                      },
                       onSubIndexChanged: (index) {
                         ref.read(providerInstance.notifier).setSubIndex(index);
                       },

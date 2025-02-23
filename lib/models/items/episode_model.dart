@@ -173,8 +173,7 @@ class EpisodeModel extends ItemStreamModel with EpisodeModelMappable {
         parentImages: ImagesData.fromBaseItemParent(item, ref),
         canDelete: item.canDelete,
         canDownload: item.canDownload,
-        mediaStreams:
-            MediaStreamsModel.fromMediaStreamsList(item.mediaSources?.firstOrNull, item.mediaStreams ?? [], ref),
+        mediaStreams: MediaStreamsModel.fromMediaStreamsList(item.mediaSources, ref),
         jellyType: item.type,
       );
 

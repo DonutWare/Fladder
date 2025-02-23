@@ -1178,5 +1178,6 @@
   "homeStreamingQualityDesc": "Maximum streaming quality when connected to home network",
   "qualityOptionsTitle": "Quality options",
   "qualityOptionsOriginal": "Original",
-  "qualityOptionsAuto": "Auto"
+  "qualityOptionsAuto": "Auto",
+  "version": "Version"
 }

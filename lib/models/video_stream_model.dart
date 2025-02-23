@@ -199,8 +199,7 @@ class VideoStream {
       playbackUrl: playbackUrl,
       playbackType: playType,
       playSessionId: info.playSessionId ?? "",
-      mediaStreamsModel: MediaStreamsModel.fromMediaStreamsList(
-          info.mediaSources?.firstOrNull, info.mediaSources?.firstOrNull?.mediaStreams ?? [], ref),
+      mediaStreamsModel: MediaStreamsModel.fromMediaStreamsList(info.mediaSources, ref),
     );
   }
 }

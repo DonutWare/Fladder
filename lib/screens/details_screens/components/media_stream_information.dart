@@ -8,10 +8,16 @@ import 'package:fladder/util/localization_helper.dart';
 
 class MediaStreamInformation extends ConsumerWidget {
   final MediaStreamsModel mediaStream;
+  final Function(int index)? onVersionIndexChanged;
   final Function(int index)? onAudioIndexChanged;
   final Function(int index)? onSubIndexChanged;
-  const MediaStreamInformation(
-      {required this.mediaStream, this.onAudioIndexChanged, this.onSubIndexChanged, super.key});
+  const MediaStreamInformation({
+    required this.mediaStream,
+    required this.onVersionIndexChanged,
+    this.onAudioIndexChanged,
+    this.onSubIndexChanged,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,6 +25,23 @@ class MediaStreamInformation extends ConsumerWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        if (mediaStream.versionStreams.isNotEmpty && mediaStream.versionStreams.length > 1)
+          _StreamOptionSelect(
+            label: Text(context.localized.version),
+            current: mediaStream.currentVersionStream?.name ?? "",
+            itemBuilder: (context) => mediaStream.versionStreams
+                .map((e) => PopupMenuItem(
+                      value: e,
+                      padding: EdgeInsets.zero,
+                      child: textWidget(
+                        context,
+                        selected: mediaStream.currentVersionStream == e,
+                        label: e.name,
+                      ),
+                      onTap: () => onVersionIndexChanged?.call(e.index),
+                    ))
+                .toList(),
+          ),
         if (mediaStream.videoStreams.isNotEmpty)
           _StreamOptionSelect(
             label: Text(context.localized.video),
@@ -112,6 +135,7 @@ class _StreamOptionSelect<T> extends StatelessWidget {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           enabled: itemList.length > 1,
           itemBuilder: itemBuilder,
+          enableFeedback: false,
           menuPadding: const EdgeInsets.symmetric(vertical: 16),
           padding: padding,
           child: Padding(

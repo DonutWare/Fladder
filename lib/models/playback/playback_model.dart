@@ -210,7 +210,7 @@ class PlaybackModelHelper {
           enableDirectPlay: type != PlaybackType.transcode,
           enableDirectStream: type != PlaybackType.transcode,
           maxStreamingBitrate: qualityOptions.enabledFirst.keys.firstOrNull?.bitRate,
-          mediaSourceId: firstItemToPlay.id,
+          mediaSourceId: streamModel?.currentVersionStream?.id,
         ),
       );
 
@@ -219,9 +219,7 @@ class PlaybackModelHelper {
 
       final mediaSource = playbackInfo.mediaSources?.first;
 
-      final mediaStreamsWithUrls = MediaStreamsModel.fromMediaStreamsList(
-              playbackInfo.mediaSources?.firstOrNull, playbackInfo.mediaSources?.firstOrNull?.mediaStreams ?? [], ref)
-          .copyWith(
+      final mediaStreamsWithUrls = MediaStreamsModel.fromMediaStreamsList(playbackInfo.mediaSources, ref).copyWith(
         defaultAudioStreamIndex: streamModel?.defaultAudioStreamIndex,
         defaultSubStreamIndex: streamModel?.defaultSubStreamIndex,
       );
@@ -352,9 +350,7 @@ class PlaybackModelHelper {
 
     final mediaSource = playbackInfo.mediaSources?.first;
 
-    final mediaStreamsWithUrls = MediaStreamsModel.fromMediaStreamsList(
-            playbackInfo.mediaSources?.firstOrNull, playbackInfo.mediaSources?.firstOrNull?.mediaStreams ?? [], ref)
-        .copyWith(
+    final mediaStreamsWithUrls = MediaStreamsModel.fromMediaStreamsList(playbackInfo.mediaSources, ref).copyWith(
       defaultAudioStreamIndex: audioIndex,
       defaultSubStreamIndex: subIndex,
     );

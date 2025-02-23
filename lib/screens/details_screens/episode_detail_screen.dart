@@ -131,6 +131,9 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                       padding: padding,
                       child: MediaStreamInformation(
                         mediaStream: details.episode!.mediaStreams,
+                        onVersionIndexChanged: (index) {
+                          ref.read(providerInstance.notifier).setVersionIndex(index);
+                        },
                         onSubIndexChanged: (index) {
                           ref.read(providerInstance.notifier).setSubIndex(index);
                         },

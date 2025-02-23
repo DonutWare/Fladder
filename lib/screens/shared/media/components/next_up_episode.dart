@@ -86,6 +86,9 @@ class NextUpEpisode extends ConsumerWidget {
                       children: [
                         MediaStreamInformation(
                           mediaStream: nextEpisode.mediaStreams,
+                          onVersionIndexChanged: (index) => onChanged?.call(nextEpisode.copyWith(
+                            mediaStreams: nextEpisode.mediaStreams.copyWith(versionStreamIndex: index),
+                          )),
                           onAudioIndexChanged: (index) => onChanged?.call(nextEpisode.copyWith(
                               mediaStreams: nextEpisode.mediaStreams.copyWith(defaultAudioStreamIndex: index))),
                           onSubIndexChanged: (index) => onChanged?.call(nextEpisode.copyWith(
