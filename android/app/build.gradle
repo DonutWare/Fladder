@@ -1,6 +1,7 @@
 plugins {
     id "com.android.application"
     id "kotlin-android"
+    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id "dev.flutter.flutter-gradle-plugin"
 }
 
@@ -29,32 +30,25 @@ if (flutterVersionName == null) {
 }
 
 android {
-    compileSdkVersion flutter.compileSdkVersion
-    ndkVersion flutter.ndkVersion
+    namespace = "nl.jknaapen.fladder"
+    compileSdk = flutter.compileSdkVersion
+    ndkVersion = flutter.ndkVersion
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = JavaVersion.VERSION_1_8
     }
-
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-    }
-
-	configurations.all {
-    	resolutionStrategy { force 'androidx.browser:browser:1.6.0' }
-	}
 
     defaultConfig {
-        applicationId "nl.jknaapen.fladder"
-        minSdkVersion 26
-        targetSdkVersion flutter.targetSdkVersion
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        applicationId = "nl.jknaapen.fladder"
+        minSdk = 23
+        targetSdk = flutter.targetSdkVersion
+        versionCode = flutter.versionCode
+        versionName = flutter.versionName
     }
 
 	signingConfigs {
@@ -65,7 +59,6 @@ android {
 			storePassword keystoreProperties['storePassword']
         }
    }
-
     buildTypes {
 		release {
             minifyEnabled true
@@ -89,5 +82,5 @@ android {
 }
 
 flutter {
-    source '../..'
+    source = "../.."
 }

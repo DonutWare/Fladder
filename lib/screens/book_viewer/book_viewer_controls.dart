@@ -17,6 +17,7 @@ import 'package:fladder/screens/shared/default_title_bar.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/input_handler.dart';
+import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/throttler.dart';
 import 'package:fladder/widgets/shared/fladder_slider.dart';
 
@@ -131,235 +132,243 @@ class _BookViewerControlsState extends ConsumerState<BookViewerControls> {
     final previousChapter = details.previousChapter(bookViewerDetails.book);
     final nextChapter = details.nextChapter(bookViewerDetails.book);
 
-    return MediaQuery.removePadding(
-      context: context,
-      child: InputHandler(
-        onKeyEvent: (node, event) => _onKey(event) ? KeyEventResult.handled : KeyEventResult.ignored,
-        child: Stack(
-          children: [
-            IgnorePointer(
-              ignoring: !showControls,
-              child: AnimatedOpacity(
-                duration: const Duration(milliseconds: 500),
-                opacity: showControls ? 1 : 0,
-                child: Stack(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            overlayColor.withValues(alpha: 1),
-                            overlayColor.withValues(alpha: 0.65),
-                            overlayColor.withValues(alpha: 0),
-                          ],
-                        ),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.only(top: topPadding).copyWith(bottom: 8),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            if (AdaptiveLayout.of(context).isDesktop)
-                              const Flexible(
-                                child: DefaultTitleBar(
-                                  height: 50,
-                                  brightness: Brightness.dark,
-                                ),
-                              ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                const BackButton(),
-                                const SizedBox(
-                                  width: 16,
-                                ),
-                                Flexible(
-                                  child: Text(
-                                    bookViewerDetails.book?.name ?? "None",
-                                    style: Theme.of(context).textTheme.titleLarge,
-                                  ),
-                                )
-                              ],
-                            ),
-                            const SizedBox(height: 16),
-                          ],
-                        ),
+    final double leftPadding = MediaQuery.of(context).viewPadding.left;
+    final double rightPadding = MediaQuery.of(context).viewPadding.right;
+
+    return InputHandler(
+      onKeyEvent: (node, event) => _onKey(event) ? KeyEventResult.handled : KeyEventResult.ignored,
+      child: Stack(
+        children: [
+          IgnorePointer(
+            ignoring: !showControls,
+            child: AnimatedOpacity(
+              duration: const Duration(milliseconds: 500),
+              opacity: showControls ? 1 : 0,
+              child: Stack(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          overlayColor.withValues(alpha: 1),
+                          overlayColor.withValues(alpha: 0.65),
+                          overlayColor.withValues(alpha: 0),
+                        ],
                       ),
                     ),
-                    if (!bookViewerDetails.loading) ...{
-                      if (bookViewerDetails.book != null && bookViewerDetails.pages.isNotEmpty) ...{
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  overlayColor.withValues(alpha: 0),
-                                  overlayColor.withValues(alpha: 0.65),
-                                  overlayColor.withValues(alpha: 1),
-                                ],
+                    child: Padding(
+                      padding:
+                          EdgeInsets.only(top: topPadding, left: leftPadding, right: rightPadding).copyWith(bottom: 8),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (AdaptiveLayout.of(context).isDesktop)
+                            const Flexible(
+                              child: DefaultTitleBar(
+                                height: 50,
+                                brightness: Brightness.dark,
                               ),
                             ),
-                            child: Padding(
-                              padding: EdgeInsets.only(bottom: bottomPadding).copyWith(top: 16, bottom: 16),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const SizedBox(height: 30),
-                                  Row(
-                                    children: [
-                                      const SizedBox(width: 8),
-                                      Tooltip(
-                                        message: bookViewerSettings.readDirection == ReadDirection.leftToRight
-                                            ? previousChapter?.name != null
-                                                ? "Load ${previousChapter?.name}"
-                                                : ""
-                                            : nextChapter?.name != null
-                                                ? "Load ${nextChapter?.name}"
-                                                : "",
-                                        child: IconButton.filled(
-                                          onPressed: bookViewerSettings.readDirection == ReadDirection.leftToRight
-                                              ? previousChapter != null
-                                                  ? () async => await loadNextBook(previousChapter)
-                                                  : null
-                                              : nextChapter != null
-                                                  ? () async => await loadNextBook(nextChapter)
-                                                  : null,
-                                          icon: const Icon(IconsaxOutline.backward),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Flexible(
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.black.withValues(alpha: 0.7),
-                                            borderRadius: BorderRadius.circular(60),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 24),
-                                            child: Row(
-                                              children: [
-                                                if (bookViewerSettings.readDirection == ReadDirection.leftToRight)
-                                                  ...controls(currentPage, bookViewerSettings, bookViewerDetails)
-                                                else
-                                                  ...controls(currentPage, bookViewerSettings, bookViewerDetails)
-                                                      .reversed,
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Tooltip(
-                                        message: bookViewerSettings.readDirection == ReadDirection.leftToRight
-                                            ? nextChapter?.name != null
-                                                ? "Load ${nextChapter?.name}"
-                                                : ""
-                                            : previousChapter?.name != null
-                                                ? "Load ${previousChapter?.name}"
-                                                : "",
-                                        child: IconButton.filled(
-                                          onPressed: bookViewerSettings.readDirection == ReadDirection.leftToRight
-                                              ? nextChapter != null
-                                                  ? () async => await loadNextBook(nextChapter)
-                                                  : null
-                                              : previousChapter != null
-                                                  ? () async => await loadNextBook(previousChapter)
-                                                  : null,
-                                          icon: const Icon(IconsaxOutline.forward),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 16),
-                                  Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Transform.flip(
-                                        flipX: bookViewerSettings.readDirection == ReadDirection.rightToLeft,
-                                        child: IconButton(
-                                            onPressed: () => widget.controller
-                                                .animateToPage(1, duration: pageAnimDuration, curve: pageAnimCurve),
-                                            icon: const Icon(IconsaxOutline.backward)),
-                                      ),
-                                      IconButton(
-                                        onPressed: () {
-                                          showBookViewerSettings(context);
-                                        },
-                                        icon: const Icon(IconsaxOutline.setting_2),
-                                      ),
-                                      IconButton(
-                                        onPressed: chapters.length > 1
-                                            ? () {
-                                                showBookViewerChapters(
-                                                  context,
-                                                  widget.provider,
-                                                  onPressed: (book) async {
-                                                    Navigator.of(context).pop();
-                                                    loadNextBook(book);
-                                                  },
-                                                );
-                                              }
-                                            : () => fladderSnackbar(context, title: "No other chapters"),
-                                        icon: const Icon(IconsaxOutline.bookmark_2),
-                                      )
-                                    ],
-                                  ),
-                                ],
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const BackButton(),
+                              const SizedBox(
+                                width: 16,
                               ),
-                            ),
+                              Flexible(
+                                child: Text(
+                                  bookViewerDetails.book?.name ?? "None",
+                                  style: Theme.of(context).textTheme.titleLarge,
+                                ),
+                              )
+                            ],
                           ),
-                        ),
-                      } else
-                        const Center(
-                          child: Card(
-                            child: Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(Icons.menu_book_rounded),
-                                  SizedBox(width: 8),
-                                  Text("Unable to load book"),
-                                ],
-                              ),
-                            ),
-                          ),
-                        )
-                    },
-                  ],
-                ),
-              ),
-            ),
-            if (bookViewerDetails.loading)
-              Center(
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        if (bookViewerDetails.book != null) ...{
-                          Flexible(
-                            child: Text("Loading ${bookViewerDetails.book?.name}",
-                                style: Theme.of(context).textTheme.titleMedium),
-                          ),
-                          const SizedBox(width: 16),
-                        },
-                        const CircularProgressIndicator.adaptive(strokeCap: StrokeCap.round),
-                      ],
+                          const SizedBox(height: 16),
+                        ],
+                      ),
                     ),
                   ),
+                  if (!bookViewerDetails.loading) ...{
+                    if (bookViewerDetails.book != null && bookViewerDetails.pages.isNotEmpty) ...{
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                overlayColor.withValues(alpha: 0),
+                                overlayColor.withValues(alpha: 0.65),
+                                overlayColor.withValues(alpha: 1),
+                              ],
+                            ),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                              bottom: bottomPadding,
+                              left: leftPadding,
+                              right: rightPadding,
+                            ).copyWith(
+                              top: 16,
+                              bottom: 16,
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const SizedBox(height: 30),
+                                Row(
+                                  children: [
+                                    const SizedBox(width: 8),
+                                    Tooltip(
+                                      message: bookViewerSettings.readDirection == ReadDirection.leftToRight
+                                          ? previousChapter?.name != null
+                                              ? "Load ${previousChapter?.name}"
+                                              : ""
+                                          : nextChapter?.name != null
+                                              ? "Load ${nextChapter?.name}"
+                                              : "",
+                                      child: IconButton.filled(
+                                        onPressed: bookViewerSettings.readDirection == ReadDirection.leftToRight
+                                            ? previousChapter != null
+                                                ? () async => await loadNextBook(previousChapter)
+                                                : null
+                                            : nextChapter != null
+                                                ? () async => await loadNextBook(nextChapter)
+                                                : null,
+                                        icon: const Icon(IconsaxOutline.backward),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Flexible(
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.black.withValues(alpha: 0.7),
+                                          borderRadius: BorderRadius.circular(60),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                                          child: Row(
+                                            children: [
+                                              if (bookViewerSettings.readDirection == ReadDirection.leftToRight)
+                                                ...controls(currentPage, bookViewerSettings, bookViewerDetails)
+                                              else
+                                                ...controls(currentPage, bookViewerSettings, bookViewerDetails)
+                                                    .reversed,
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Tooltip(
+                                      message: bookViewerSettings.readDirection == ReadDirection.leftToRight
+                                          ? nextChapter?.name != null
+                                              ? "Load ${nextChapter?.name}"
+                                              : ""
+                                          : previousChapter?.name != null
+                                              ? "Load ${previousChapter?.name}"
+                                              : "",
+                                      child: IconButton.filled(
+                                        onPressed: bookViewerSettings.readDirection == ReadDirection.leftToRight
+                                            ? nextChapter != null
+                                                ? () async => await loadNextBook(nextChapter)
+                                                : null
+                                            : previousChapter != null
+                                                ? () async => await loadNextBook(previousChapter)
+                                                : null,
+                                        icon: const Icon(IconsaxOutline.forward),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                  ],
+                                ),
+                                const SizedBox(height: 16),
+                                Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Transform.flip(
+                                      flipX: bookViewerSettings.readDirection == ReadDirection.rightToLeft,
+                                      child: IconButton(
+                                          onPressed: () => widget.controller
+                                              .animateToPage(1, duration: pageAnimDuration, curve: pageAnimCurve),
+                                          icon: const Icon(IconsaxOutline.backward)),
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        showBookViewerSettings(context);
+                                      },
+                                      icon: const Icon(IconsaxOutline.setting_2),
+                                    ),
+                                    IconButton(
+                                      onPressed: chapters.length > 1
+                                          ? () {
+                                              showBookViewerChapters(
+                                                context,
+                                                widget.provider,
+                                                onPressed: (book) async {
+                                                  Navigator.of(context).pop();
+                                                  loadNextBook(book);
+                                                },
+                                              );
+                                            }
+                                          : () => fladderSnackbar(context, title: "No other chapters"),
+                                      icon: const Icon(IconsaxOutline.bookmark_2),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    } else
+                      const Center(
+                        child: Card(
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(Icons.menu_book_rounded),
+                                SizedBox(width: 8),
+                                Text("Unable to load book"),
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                  },
+                ],
+              ),
+            ),
+          ),
+          if (bookViewerDetails.loading)
+            Center(
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (bookViewerDetails.book != null) ...{
+                        Flexible(
+                          child: Text("${context.localized.loading} ${bookViewerDetails.book?.name}",
+                              style: Theme.of(context).textTheme.titleMedium),
+                        ),
+                        const SizedBox(width: 16),
+                      },
+                      const CircularProgressIndicator.adaptive(strokeCap: StrokeCap.round),
+                    ],
+                  ),
                 ),
-              )
-          ],
-        ),
+              ),
+            )
+        ],
       ),
     );
   }

@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -13,18 +12,22 @@ import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/video_properties.dart';
 
 class MediaStreamsModel {
+  final int? versionStreamIndex;
   final int? defaultAudioStreamIndex;
   final int? defaultSubStreamIndex;
-  final List<VideoStreamModel> videoStreams;
-  final List<AudioStreamModel> audioStreams;
-  final List<SubStreamModel> subStreams;
+  final List<VersionStreamModel> versionStreams;
   MediaStreamsModel({
+    this.versionStreamIndex,
     this.defaultAudioStreamIndex,
     this.defaultSubStreamIndex,
-    required this.videoStreams,
-    required this.audioStreams,
-    required this.subStreams,
+    required this.versionStreams,
   });
+
+  VersionStreamModel? get currentVersionStream => versionStreams.elementAtOrNull(versionStreamIndex ?? 0);
+
+  List<VideoStreamModel> get videoStreams => currentVersionStream?.videoStreams ?? [];
+  List<AudioStreamModel> get audioStreams => currentVersionStream?.audioStreams ?? [];
+  List<SubStreamModel> get subStreams => currentVersionStream?.subStreams ?? [];
 
   bool get isNull {
     return defaultAudioStreamIndex == null ||
@@ -38,7 +41,7 @@ class MediaStreamsModel {
   }
 
   AudioStreamModel? get currentAudioStream {
-    if (defaultAudioStreamIndex == -1) {
+    if (defaultAudioStreamIndex == -1 || defaultAudioStreamIndex == null) {
       return AudioStreamModel.no();
     }
     return audioStreams.firstWhereOrNull((element) => element.index == defaultAudioStreamIndex) ??
@@ -46,7 +49,7 @@ class MediaStreamsModel {
   }
 
   SubStreamModel? get currentSubStream {
-    if (defaultSubStreamIndex == -1) {
+    if (defaultSubStreamIndex == -1 || defaultSubStreamIndex == null) {
       return SubStreamModel.no();
     }
     return subStreams.firstWhereOrNull((element) => element.index == defaultSubStreamIndex) ?? subStreams.firstOrNull;
@@ -93,44 +96,61 @@ class MediaStreamsModel {
   }
 
   static MediaStreamsModel fromMediaStreamsList(
-      dto.MediaSourceInfo? mediaSource, List<dto.MediaStream> streams, Ref ref) {
+    List<dto.MediaSourceInfo>? mediaSource,
+    Ref ref,
+  ) {
     return MediaStreamsModel(
-      defaultAudioStreamIndex: mediaSource?.defaultAudioStreamIndex,
-      defaultSubStreamIndex: mediaSource?.defaultSubtitleStreamIndex,
-      videoStreams: streams
-          .where((element) => element.type == dto.MediaStreamType.video)
-          .map(
-            (e) => VideoStreamModel.fromMediaStream(e),
-          )
-          .sortByExternal(),
-      audioStreams: streams
-          .where((element) => element.type == dto.MediaStreamType.audio)
-          .map(
-            (e) => AudioStreamModel.fromMediaStream(e),
-          )
-          .sortByExternal(),
-      subStreams: streams
-          .where((element) => element.type == dto.MediaStreamType.subtitle)
-          .map(
-            (sub) => SubStreamModel.fromMediaStream(sub, ref),
-          )
-          .sortByExternal(),
-    );
+        defaultAudioStreamIndex: mediaSource?.firstOrNull?.defaultAudioStreamIndex,
+        defaultSubStreamIndex: mediaSource?.firstOrNull?.defaultSubtitleStreamIndex,
+        versionStreams: mediaSource?.mapIndexed(
+              (index, element) {
+                final streams = element.mediaStreams ?? [];
+                return VersionStreamModel(
+                    name: element.name ?? "",
+                    index: index,
+                    id: element.id,
+                    defaultAudioStreamIndex: element.defaultAudioStreamIndex,
+                    defaultSubStreamIndex: element.defaultSubtitleStreamIndex,
+                    videoStreams: streams
+                        .where((element) => element.type == dto.MediaStreamType.video)
+                        .map(
+                          (e) => VideoStreamModel.fromMediaStream(e),
+                        )
+                        .sortByExternal(),
+                    audioStreams: streams
+                        .where((element) => element.type == dto.MediaStreamType.audio)
+                        .map(
+                          (e) => AudioStreamModel.fromMediaStream(e),
+                        )
+                        .sortByExternal(),
+                    subStreams: streams
+                        .where((element) => element.type == dto.MediaStreamType.subtitle)
+                        .map(
+                          (sub) => SubStreamModel.fromMediaStream(sub, ref),
+                        )
+                        .sortByExternal());
+              },
+            ).toList() ??
+            []);
   }
 
   MediaStreamsModel copyWith({
+    int? versionStreamIndex,
     int? defaultAudioStreamIndex,
     int? defaultSubStreamIndex,
-    List<VideoStreamModel>? videoStreams,
-    List<AudioStreamModel>? audioStreams,
-    List<SubStreamModel>? subStreams,
+    List<VersionStreamModel>? versionStreams,
   }) {
+    final streamIndexChanged = versionStreamIndex != this.versionStreamIndex && versionStreamIndex != null;
+    final currentVersionStreams = versionStreams ?? this.versionStreams;
     return MediaStreamsModel(
-      defaultAudioStreamIndex: defaultAudioStreamIndex ?? this.defaultAudioStreamIndex,
-      defaultSubStreamIndex: defaultSubStreamIndex ?? this.defaultSubStreamIndex,
-      videoStreams: videoStreams ?? this.videoStreams,
-      audioStreams: audioStreams ?? this.audioStreams,
-      subStreams: subStreams ?? this.subStreams,
+      versionStreamIndex: versionStreamIndex ?? this.versionStreamIndex,
+      defaultAudioStreamIndex: streamIndexChanged
+          ? currentVersionStreams.elementAtOrNull(versionStreamIndex)?.defaultAudioStreamIndex
+          : defaultAudioStreamIndex ?? this.defaultAudioStreamIndex,
+      defaultSubStreamIndex: streamIndexChanged
+          ? currentVersionStreams.elementAtOrNull(versionStreamIndex)?.defaultSubStreamIndex
+          : defaultSubStreamIndex ?? this.defaultSubStreamIndex,
+      versionStreams: versionStreams ?? this.versionStreams,
     );
   }
 
@@ -155,9 +175,32 @@ class StreamModel {
   });
 }
 
+class VersionStreamModel {
+  final String name;
+  final int index;
+  final String? id;
+  final int? defaultAudioStreamIndex;
+  final int? defaultSubStreamIndex;
+  final List<VideoStreamModel> videoStreams;
+  final List<AudioStreamModel> audioStreams;
+  final List<SubStreamModel> subStreams;
+
+  VersionStreamModel({
+    required this.name,
+    required this.index,
+    this.id,
+    required this.defaultAudioStreamIndex,
+    required this.defaultSubStreamIndex,
+    required this.videoStreams,
+    required this.audioStreams,
+    required this.subStreams,
+  });
+}
+
 class VideoStreamModel extends StreamModel {
   final int width;
   final int height;
+  final int? bitRate;
   final double frameRate;
   final String? videoDoViTitle;
   final VideoRangeType? videoRangeType;
@@ -169,6 +212,7 @@ class VideoStreamModel extends StreamModel {
     required super.index,
     required this.videoDoViTitle,
     required this.videoRangeType,
+    required this.bitRate,
     required this.width,
     required this.height,
     required this.frameRate,
@@ -180,6 +224,7 @@ class VideoStreamModel extends StreamModel {
       isDefault: stream.isDefault ?? false,
       codec: stream.codec ?? "",
       videoDoViTitle: stream.videoDoViTitle,
+      bitRate: stream.bitRate,
       videoRangeType: stream.videoRangeType,
       width: stream.width ?? 0,
       height: stream.height ?? 0,

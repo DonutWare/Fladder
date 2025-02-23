@@ -51,7 +51,7 @@ class LoadIndicator extends StatelessWidget {
             const CircularProgressIndicator(strokeCap: StrokeCap.round),
             const SizedBox(width: 70),
             Text(
-              "Loading",
+              context.localized.loading,
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(width: 20),

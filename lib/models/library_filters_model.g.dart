@@ -11,7 +11,7 @@ _$LibraryFiltersModelImpl _$$LibraryFiltersModelImplFromJson(
     _$LibraryFiltersModelImpl(
       id: json['id'] as String,
       name: json['name'] as String,
-      isFavourite: json['isFavourite'] ?? false,
+      isFavourite: json['isFavourite'] as bool,
       ids: (json['ids'] as List<dynamic>).map((e) => e as String).toList(),
       genres: Map<String, bool>.from(json['genres'] as Map),
       filters: (json['filters'] as Map<String, dynamic>).map(

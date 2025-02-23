@@ -21,7 +21,7 @@
 
 <div align="center">
   
-  [![Build](https://github.com/DonutWare/Fladder/actions/workflows/build.yml/badge.svg?branch=develop)](https://github.com/DonutWare/Fladder/actions/workflows/build.yml)
+  [![Build](https://github.com/DonutWare/Fladder/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/DonutWare/Fladder/actions/workflows/build.yml)
   [![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/DonutWare/fladder/total)](https://github.com/DonutWare/Fladder/releases/latest)
   [![GitHub Release](https://img.shields.io/github/v/release/DonutWare/fladder?display_name=tag)](https://github.com/DonutWare/Fladder/releases/latest)
   [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)

@@ -20,9 +20,16 @@ Platform-specific installation instructions can be found in this document.
 
 ## Windows
 
+### Installer
+
+Download the latest `.exe` installer from the [Releases](https://github.com/DonutWare/Fladder/releases) page and open it. Follow the on-screen instructions.
+
+### Portable
+
 Download the latest `.zip` file from the [Releases](https://github.com/DonutWare/Fladder/releases) page and extract it somewhere on your PC.
 
 Run `fladder.exe` to start the application.
+
 ## macOS
 
 1. Download the latest `*.dmg` file from the [Releases](https://github.com/DonutWare/Fladder/releases) page.
@@ -47,6 +54,7 @@ Run `fladder.exe` to start the application.
 Download the latest Linux `.zip` file from the [Releases](https://github.com/DonutWare/Fladder/releases) page and extract it somewhere on your computer.
 
 Open a terminal and `cd` to the directory where you extracted Fladder to. Run `./Fladder` to open the application.
+
 ### Arch
 
 An AUR package is available for download (thanks to @tam1m).
@@ -74,6 +82,7 @@ Open a terminal and `cd` to the directory where you extracted Fladder to. Run `.
 This is the recommended way to install Fladder on Android.
 
 <a href='https://play.google.com/store/apps/details?id=nl.jknaapen.fladder&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width=250/></a>
+
 ### Manual
 
 If your device can't access the Play Store, you can install Fladder manually.

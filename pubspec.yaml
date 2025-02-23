@@ -16,7 +16,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 0.5.3+1
+version: 0.6.0+1
 
 environment:
   sdk: ">=3.1.3 <4.0.0"
@@ -36,91 +36,92 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   # Icons
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.8
   ficonsax: ^0.0.3
 
   # Network and HTTP
-  chopper: ^8.0.3
-  cached_network_image: ^3.2.3
-  http: ^1.1.0
-  flutter_cache_manager: ^3.3.0
+  chopper: ^8.0.4
+  cached_network_image: ^3.4.1
+  http: ^1.3.0
+  flutter_cache_manager: ^3.4.1
+  connectivity_plus: ^6.1.3
 
   # State Management
-  flutter_riverpod: ^2.5.1
-  riverpod_annotation: ^2.3.5
+  flutter_riverpod: ^2.6.1
+  riverpod_annotation: ^2.6.1
 
   # JSON and Serialization
   json_annotation: ^4.9.0
-  freezed_annotation: ^2.4.1
+  freezed_annotation: ^2.4.4
 
   # Logging
-  logging: ^1.1.0
+  logging: ^1.3.0
 
   # Internationalization
   intl: ^0.19.0
 
   # Local Storage
-  shared_preferences: ^2.1.0
-  path_provider: ^2.1.3
+  shared_preferences: ^2.5.1
+  path_provider: ^2.1.5
 
   # Media
-  media_kit: ^1.1.10 # Primary package.
-  media_kit_video: ^1.2.4 # For video rendering.
-  media_kit_libs_video: ^1.0.4 # Native video dependencies.
-  audio_service: ^0.18.12
+  media_kit: ^1.1.11 # Primary package.
+  media_kit_video: ^1.2.5 # For video rendering.
+  media_kit_libs_video: ^1.0.5 # Native video dependencies.
+  audio_service: ^0.18.16
   fvp: ^0.29.0
   video_player: ^2.9.2
 
   # UI Components
   dynamic_color: ^1.7.0
-  flutter_svg: ^2.0.14
-  animations: ^2.0.7
+  flutter_svg: ^2.0.17
+  animations: ^2.0.11
   automatic_animated_list: ^1.1.0
-  page_transition: ^2.0.9
+  page_transition: ^2.2.1
   sticky_headers: ^0.3.0+2
   flutter_staggered_grid_view: ^0.7.0
   scrollable_positioned_list: ^0.3.8
-  sliver_tools: ^0.2.10
+  sliver_tools: ^0.2.12
   square_progress_indicator: ^0.0.7
   flutter_blurhash: ^0.8.2
   extended_image: ^9.1.0
   flutter_widget_from_html: ^0.15.3
-  font_awesome_flutter: ^10.7.0
+  font_awesome_flutter: ^10.8.0
 
   # Navigation
-  auto_route: ^9.2.2
+  auto_route: ^9.3.0+1
   url_launcher: ^6.3.1
   flutter_custom_tabs: ^2.1.0
 
   # Utility
-  path: ^1.8.3
-  file_picker: ^8.1.7
+  path: ^1.9.0
+  file_picker: ^8.3.1
   transparent_image: ^2.0.1
   universal_html: ^2.2.4
-  collection: ^1.17.0
+  collection: ^1.19.0
 
   # Device and System
-  local_auth: ^2.1.6
-  package_info_plus: ^8.0.0
-  wakelock_plus: ^1.1.4
-  screen_brightness: ^2.0.1
+  local_auth: ^2.3.0
+  package_info_plus: ^8.1.4
+  wakelock_plus: ^1.2.10
+  screen_brightness: ^2.1.1
   window_manager: ^0.4.3
   smtc_windows: ^1.0.0
-  background_downloader: ^8.5.2
+  background_downloader: ^8.9.4
 
   # Data
   isar: ^4.0.0-dev.14
   isar_flutter_libs: ^4.0.0-dev.14 # contains Isar Core
 
   # Other
-  async: ^2.10.0
-  xid: ^1.0.12
+  async: ^2.11.0
+  xid: ^1.2.1
   desktop_drop: ^0.5.0
   flexible_scrollbar: ^0.1.3
-  flutter_typeahead: ^5.0.2
-  share_plus: ^10.1.3
+  flutter_typeahead: ^5.2.0
+  share_plus: ^10.1.4
   archive: ^4.0.2
-  dart_mappable: ^4.2.2
+  dart_mappable: ^4.3.0
   reorderable_grid: ^1.0.10
 
 dev_dependencies:
@@ -133,23 +134,19 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
-  build_runner: ^2.4.11
-  chopper_generator: ^8.0.3
-  json_serializable: ^6.8.0
+  build_runner: ^2.4.14
+  chopper_generator: ^8.0.4
+  json_serializable: ^6.9.0
   custom_lint: ^0.7.0
-  freezed: ^2.5.2
+  freezed: ^2.5.7
   swagger_dart_code_generator: ^3.0.1
-  riverpod_generator: ^2.4.0
-  dart_mappable_builder: ^4.2.3
+  riverpod_generator: ^2.6.3
+  dart_mappable_builder: ^4.3.0
   auto_route_generator: ^9.0.0
   icons_launcher: ^3.0.0
 
 dependency_overrides:
   js: ^0.7.1
-  cached_network_image:
-    git:
-      url: https://github.com/Neotech-iHoops/flutter_cached_network_image.git
-      path: cached_network_image
   media_kit:
     git:
       url: https://github.com/DonutWare/media-kit

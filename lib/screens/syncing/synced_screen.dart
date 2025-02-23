@@ -1,19 +1,21 @@
+import 'package:flutter/material.dart';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:ficonsax/ficonsax.dart';
-import 'package:fladder/providers/sync_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
+import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/shared/nested_scaffold.dart';
 import 'package:fladder/screens/shared/nested_sliver_appbar.dart';
 import 'package:fladder/screens/syncing/sync_list_item.dart';
 import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/util/sliver_list_padding.dart';
 import 'package:fladder/widgets/shared/pinch_poster_zoom.dart';
 import 'package:fladder/widgets/shared/pull_to_refresh.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:fladder/util/sliver_list_padding.dart';
 
 @RoutePage()
 class SyncedScreen extends ConsumerStatefulWidget {
@@ -40,7 +42,7 @@ class _SyncedScreenState extends ConsumerState<SyncedScreen> {
                   physics: const AlwaysScrollableScrollPhysics(),
                   controller: widget.navigationScrollController,
                   slivers: [
-                    if (AdaptiveLayout.of(context).layout == LayoutState.phone)
+                    if (AdaptiveLayout.viewSizeOf(context) == ViewSize.phone)
                       NestedSliverAppBar(
                         searchTitle: "${context.localized.search} ...",
                         parent: context,

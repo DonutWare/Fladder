@@ -12,51 +12,22 @@ import 'package:fladder/models/items/trick_play_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
+import 'package:fladder/util/bitrate_helper.dart';
 import 'package:fladder/util/duration_extensions.dart';
-import 'package:fladder/util/list_extensions.dart';
 import 'package:fladder/wrappers/media_control_wrapper.dart';
 
-class TranscodePlaybackModel implements PlaybackModel {
+class TranscodePlaybackModel extends PlaybackModel {
   TranscodePlaybackModel({
-    required this.item,
-    required this.media,
-    required this.playbackInfo,
-    this.mediaStreams,
-    this.mediaSegments,
-    this.chapters,
-    this.trickPlay,
-    this.queue = const [],
+    required super.item,
+    required super.media,
+    required super.playbackInfo,
+    super.mediaStreams,
+    super.mediaSegments,
+    super.chapters,
+    super.trickPlay,
+    super.queue = const [],
+    super.bitRateOptions,
   });
-
-  @override
-  final ItemBaseModel item;
-
-  @override
-  final Media? media;
-
-  @override
-  final PlaybackInfoResponse playbackInfo;
-
-  @override
-  final MediaStreamsModel? mediaStreams;
-
-  @override
-  final MediaSegmentsModel? mediaSegments;
-
-  @override
-  final List<Chapter>? chapters;
-
-  @override
-  final TrickPlayModel? trickPlay;
-
-  @override
-  ItemBaseModel? get nextVideo => queue.nextOrNull(item);
-
-  @override
-  ItemBaseModel? get previousVideo => queue.previousOrNull(item);
-
-  @override
-  Future<Duration>? startDuration() async => item.userData.playBackPosition;
 
   @override
   List<SubStreamModel> get subStreams => [SubStreamModel.no(), ...mediaStreams?.subStreams ?? []];
@@ -80,14 +51,17 @@ class TranscodePlaybackModel implements PlaybackModel {
   }
 
   @override
+  Future<TranscodePlaybackModel>? setQualityOption(Map<Bitrate, bool> map) async =>  copyWith(bitRateOptions: map);
+
+  @override
   Future<PlaybackModel?> playbackStarted(Duration position, Ref ref) async {
     await ref.read(jellyApiProvider).sessionsPlayingPost(
           body: PlaybackStartInfo(
             canSeek: true,
             itemId: item.id,
             mediaSourceId: item.id,
-            playSessionId: playbackInfo.playSessionId,
-            sessionId: playbackInfo.playSessionId,
+            playSessionId: playbackInfo?.playSessionId,
+            sessionId: playbackInfo?.playSessionId,
             subtitleStreamIndex: item.streamModel?.defaultSubStreamIndex,
             audioStreamIndex: item.streamModel?.defaultAudioStreamIndex,
             volumeLevel: 100,
@@ -109,11 +83,9 @@ class TranscodePlaybackModel implements PlaybackModel {
           body: PlaybackStopInfo(
             itemId: item.id,
             mediaSourceId: item.id,
-            playSessionId: playbackInfo.playSessionId,
+            playSessionId: playbackInfo?.playSessionId,
             positionTicks: position.toRuntimeTicks,
-            failed: false,
           ),
-          totalDuration: totalDuration,
         );
 
     return null;
@@ -127,8 +99,8 @@ class TranscodePlaybackModel implements PlaybackModel {
         canSeek: true,
         itemId: item.id,
         mediaSourceId: item.id,
-        playSessionId: playbackInfo.playSessionId,
-        sessionId: playbackInfo.playSessionId,
+        playSessionId: playbackInfo?.playSessionId,
+        sessionId: playbackInfo?.playSessionId,
         subtitleStreamIndex: item.streamModel?.defaultSubStreamIndex,
         audioStreamIndex: item.streamModel?.defaultAudioStreamIndex,
         volumeLevel: 100,
@@ -146,9 +118,6 @@ class TranscodePlaybackModel implements PlaybackModel {
   String toString() => 'TranscodePlaybackModel(item: $item, playbackInfo: $playbackInfo)';
 
   @override
-  final List<ItemBaseModel> queue;
-
-  @override
   TranscodePlaybackModel copyWith({
     ItemBaseModel? item,
     ValueGetter<Media?>? media,
@@ -159,6 +128,7 @@ class TranscodePlaybackModel implements PlaybackModel {
     ValueGetter<List<Chapter>?>? chapters,
     ValueGetter<TrickPlayModel?>? trickPlay,
     List<ItemBaseModel>? queue,
+    Map<Bitrate, bool>? bitRateOptions,
   }) {
     return TranscodePlaybackModel(
       item: item ?? this.item,
@@ -169,6 +139,7 @@ class TranscodePlaybackModel implements PlaybackModel {
       chapters: chapters != null ? chapters() : this.chapters,
       trickPlay: trickPlay != null ? trickPlay() : this.trickPlay,
       queue: queue ?? this.queue,
+      bitRateOptions: bitRateOptions ?? this.bitRateOptions,
     );
   }
 }

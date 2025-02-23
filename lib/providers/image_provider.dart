@@ -1,8 +1,8 @@
-import 'package:fladder/providers/auth_provider.dart';
-import 'package:fladder/providers/user_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
+import 'package:fladder/providers/auth_provider.dart';
+import 'package:fladder/providers/user_provider.dart';
 
 const _defaultHeight = 576;
 const _defaultWidth = 384;
@@ -26,12 +26,14 @@ class ImageNotifier {
     return Uri.decodeFull("$currentServerUrl/Users/$id/Images/${ImageType.primary.value}");
   }
 
-  String getItemsImageUrl(String itemId,
+  String getItemsImageUrl(String? itemId,
       {ImageType type = ImageType.primary,
       int maxHeight = _defaultHeight,
       int maxWidth = _defaultWidth,
       int quality = _defaultQuality}) {
     try {
+      if (itemId == null) return "";
+
       return Uri.decodeFull(
           "$currentServerUrl/Items/$itemId/Images/${type.value}?fillHeight=$maxHeight&fillWidth=$maxWidth&quality=$quality");
     } catch (e) {
@@ -39,8 +41,9 @@ class ImageNotifier {
     }
   }
 
-  String getItemsOrigImageUrl(String itemId, {ImageType type = ImageType.primary}) {
+  String getItemsOrigImageUrl(String? itemId, {ImageType type = ImageType.primary}) {
     try {
+      if (itemId == null) return "";
       return Uri.decodeFull("$currentServerUrl/Items/$itemId/Images/${type.value}");
     } catch (e) {
       return "";

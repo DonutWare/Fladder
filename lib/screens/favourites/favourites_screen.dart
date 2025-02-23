@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/shared/nested_scaffold.dart';
@@ -32,7 +33,7 @@ class FavouritesScreen extends ConsumerWidget {
             physics: const AlwaysScrollableScrollPhysics(),
             controller: AdaptiveLayout.scrollOf(context),
             slivers: [
-              if (AdaptiveLayout.of(context).layout == LayoutState.phone)
+              if (AdaptiveLayout.viewSizeOf(context) == ViewSize.phone)
                 NestedSliverAppBar(
                   searchTitle: "${context.localized.search} ${context.localized.favorites.toLowerCase()}...",
                   parent: context,

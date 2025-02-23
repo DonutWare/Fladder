@@ -1,3 +1,6 @@
+import 'package:dart_mappable/dart_mappable.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
 import 'package:fladder/models/item_base_model.dart';
@@ -7,9 +10,6 @@ import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/movie_model.dart';
 import 'package:fladder/models/items/overview_model.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:dart_mappable/dart_mappable.dart';
 
 part 'item_stream_model.mapper.dart';
 
@@ -55,8 +55,7 @@ class ItemStreamModel extends ItemBaseModel with ItemStreamModelMappable {
       parentImages: ImagesData.fromBaseItemParent(item, ref),
       canDelete: item.canDelete,
       canDownload: item.canDownload,
-      mediaStreams:
-          MediaStreamsModel.fromMediaStreamsList(item.mediaSources?.firstOrNull, item.mediaStreams ?? [], ref),
+      mediaStreams: MediaStreamsModel.fromMediaStreamsList(item.mediaSources, ref),
     );
   }
 

@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/auth_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
@@ -13,7 +14,6 @@ import 'package:fladder/screens/settings/settings_scaffold.dart';
 import 'package:fladder/screens/shared/fladder_icon.dart';
 import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
-import 'package:fladder/util/router_extension.dart';
 import 'package:fladder/util/theme_extensions.dart';
 
 @RoutePage()
@@ -27,84 +27,84 @@ class SettingsScreen extends ConsumerStatefulWidget {
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   final scrollController = ScrollController();
   final minVerticalPadding = 20.0;
+  late LayoutMode lastAdaptiveLayout = AdaptiveLayout.layoutModeOf(context);
 
   @override
   Widget build(BuildContext context) {
-    if (AdaptiveLayout.of(context).size == ScreenLayout.single) {
-      return Card(
-        elevation: 0,
-        child: _leftPane(context),
-      );
-    } else {
-      return AutoRouter(
-        builder: (context, content) {
-          return Row(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(flex: 1, child: _leftPane(context)),
-              Expanded(
-                flex: 2,
-                child: content,
-              ),
-            ],
-          );
-        },
-      );
-    }
+    return AutoTabsRouter(
+      builder: (context, content) {
+        checkForNullIndex(context);
+        return PopScope(
+          canPop: context.tabsRouter.activeIndex == 0 || AdaptiveLayout.layoutModeOf(context) == LayoutMode.dual,
+          onPopInvokedWithResult: (didPop, result) {
+            if (!didPop) {
+              context.tabsRouter.setActiveIndex(0);
+            }
+          },
+          child: AdaptiveLayout.layoutModeOf(context) == LayoutMode.single
+              ? Card(
+                  elevation: 0,
+                  child: Stack(
+                    children: [_leftPane(context), content],
+                  ),
+                )
+              : Row(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(flex: 1, child: _leftPane(context)),
+                    Expanded(
+                      flex: 2,
+                      child: content,
+                    ),
+                  ],
+                ),
+        );
+      },
+    );
+  }
+
+  //We have to navigate to the first screen after switching layouts && index == 0 otherwise the dual-layout is empty
+  void checkForNullIndex(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final currentIndex = context.tabsRouter.activeIndex;
+      if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.dual && currentIndex == 0) {
+        context.tabsRouter.setActiveIndex(1);
+      }
+    });
   }
 
   IconData get deviceIcon {
     if (AdaptiveLayout.of(context).isDesktop) {
       return IconsaxOutline.monitor;
     }
-    switch (AdaptiveLayout.of(context).layout) {
-      case LayoutState.phone:
+    switch (AdaptiveLayout.viewSizeOf(context)) {
+      case ViewSize.phone:
         return IconsaxOutline.mobile;
-      case LayoutState.tablet:
+      case ViewSize.tablet:
         return IconsaxOutline.monitor;
-      case LayoutState.desktop:
+      case ViewSize.desktop:
         return IconsaxOutline.monitor;
     }
   }
 
   Widget _leftPane(BuildContext context) {
-    void navigateTo(PageRouteInfo route) {
-      AdaptiveLayout.of(context).size == ScreenLayout.single
-          ? context.router.navigate(route)
-          : context.router.replace(route);
-    }
+    void navigateTo(PageRouteInfo route) => context.tabsRouter.navigate(route);
 
-    bool containsRoute(PageRouteInfo route) {
-      return context.router.current.name == route.routeName;
-    }
+    bool containsRoute(PageRouteInfo route) =>
+        AdaptiveLayout.layoutModeOf(context) == LayoutMode.dual && context.tabsRouter.current.name == route.routeName;
 
     final quickConnectAvailable =
         ref.watch(userProvider.select((value) => value?.serverConfiguration?.quickConnectAvailable ?? false));
+
     return Container(
       color: context.colors.surface,
       child: SettingsScaffold(
         label: context.localized.settings,
         scrollController: scrollController,
+        showBackButtonNested: true,
         showUserIcon: true,
         items: [
-          if (context.router.canNavigateBack && AdaptiveLayout.of(context).size == ScreenLayout.dual)
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: IconButton.filledTonal(
-                  style: IconButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.surface.withValues(alpha: 0.8),
-                  ),
-                  onPressed: () => context.router.popBack(),
-                  icon: Padding(
-                    padding: EdgeInsets.all(AdaptiveLayout.of(context).inputDevice == InputDevice.pointer ? 0 : 4),
-                    child: const Icon(IconsaxOutline.arrow_left_2),
-                  ),
-                ),
-              ),
-            ),
           SettingsListTile(
             label: Text(context.localized.settingsClientTitle),
             subLabel: Text(context.localized.settingsClientDesc),

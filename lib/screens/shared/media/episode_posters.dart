@@ -1,3 +1,7 @@
+import 'package:flutter/material.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
@@ -16,8 +20,6 @@ import 'package:fladder/widgets/shared/horizontal_list.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 import 'package:fladder/widgets/shared/status_card.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class EpisodePosters extends ConsumerStatefulWidget {
   final List<EpisodeModel> episodes;
@@ -168,13 +170,13 @@ class EpisodePoster extends ConsumerWidget {
                 fit: StackFit.expand,
                 children: [
                   FladderImage(
-                    image: switch (episode.status) {
-                      EpisodeStatus.unaired || EpisodeStatus.missing => episode.parentImages?.primary,
-                      _ => episode.images?.primary
-                    },
+                    image: !episodeAvailable ? episode.parentImages?.primary : episode.images?.primary,
                     placeHolder: placeHolder,
-                    blurOnly:
-                        ref.watch(clientSettingsProvider.select((value) => value.blurUpcomingEpisodes)) ? blur : false,
+                    blurOnly: !episodeAvailable
+                        ? true
+                        : ref.watch(clientSettingsProvider.select((value) => value.blurUpcomingEpisodes))
+                            ? blur
+                            : false,
                   ),
                   if (!episodeAvailable)
                     Align(
@@ -182,14 +184,15 @@ class EpisodePoster extends ConsumerWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(8),
                         child: Card(
-                          color: Theme.of(context).colorScheme.errorContainer,
+                          color: episode.status.color,
                           elevation: 3,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              episode.status.name,
+                              episode.status.label(context),
                               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: Theme.of(context).colorScheme.onErrorContainer, fontWeight: FontWeight.bold),
+                                    fontWeight: FontWeight.bold,
+                                  ),
                             ),
                           ),
                         ),

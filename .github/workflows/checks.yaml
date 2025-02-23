@@ -24,7 +24,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2.16.0
         with:
-          channel: ${{ vars.FLUTTER_CHANNEL }}
+          channel: "stable"
           flutter-version: ${{ env.FLUTTER_VERSION }}
           cache: true
           cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"

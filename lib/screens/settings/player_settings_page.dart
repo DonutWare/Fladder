@@ -4,9 +4,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:fladder/models/items/media_segments_model.dart';
+import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
+import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/settings/settings_scaffold.dart';
@@ -16,6 +20,7 @@ import 'package:fladder/screens/settings/widgets/subtitle_editor.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/screens/video_player/components/video_player_options_sheet.dart';
 import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/bitrate_helper.dart';
 import 'package:fladder/util/box_fit_extension.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/option_dialogue.dart';
@@ -34,8 +39,11 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
   Widget build(BuildContext context) {
     final videoSettings = ref.watch(videoPlayerSettingsProvider);
     final provider = ref.read(videoPlayerSettingsProvider.notifier);
-    final showBackground = AdaptiveLayout.of(context).layout != LayoutState.phone &&
-        AdaptiveLayout.of(context).size != ScreenLayout.single;
+    final showBackground = AdaptiveLayout.viewSizeOf(context) != ViewSize.phone &&
+        AdaptiveLayout.layoutModeOf(context) != LayoutMode.single;
+
+    final connectionState = ref.watch(connectivityStatusProvider);
+
     return Card(
       elevation: showBackground ? 2 : 0,
       child: SettingsScaffold(
@@ -63,23 +71,100 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
           SettingsListTile(
             label: Text(context.localized.videoScalingFillScreenTitle),
             subLabel: Text(videoSettings.videoFit.label(context)),
-            onTap: () => openOptionDialogue(
+            onTap: () => openMultiSelectOptions(
               context,
               label: context.localized.videoScalingFillScreenTitle,
               items: BoxFit.values,
-              itemBuilder: (type) => RadioListTile(
-                title: Text(type?.label(context) ?? ""),
+              selected: [ref.read(videoPlayerSettingsProvider.select((value) => value.videoFit))],
+              onChanged: (values) => ref.read(videoPlayerSettingsProvider.notifier).setFitType(values.first),
+              itemBuilder: (type, selected, tap) => RadioListTile(
+                groupValue: ref.read(videoPlayerSettingsProvider.select((value) => value.videoFit)),
+                title: Text(type.label(context)),
                 value: type,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                 contentPadding: EdgeInsets.zero,
-                groupValue: ref.read(videoPlayerSettingsProvider.select((value) => value.videoFit)),
-                onChanged: (value) {
-                  provider.setFitType(value);
-                  Navigator.pop(context);
-                },
+                onChanged: (value) => tap(),
               ),
             ),
           ),
+          SettingsListTile(
+            label: _StatusIndicator(
+              homeInternet: connectionState.homeInternet,
+              label: Text(context.localized.homeStreamingQualityTitle),
+            ),
+            subLabel: Text(context.localized.homeStreamingQualityDesc),
+            trailing: EnumBox(
+              current: ref.watch(
+                videoPlayerSettingsProvider.select((value) => value.maxHomeBitrate.label(context)),
+              ),
+              itemBuilder: (context) => Bitrate.values
+                  .map(
+                    (entry) => PopupMenuItem(
+                      value: entry,
+                      child: Text(entry.label(context)),
+                      onTap: () => ref.read(videoPlayerSettingsProvider.notifier).state =
+                          ref.read(videoPlayerSettingsProvider).copyWith(maxHomeBitrate: entry),
+                    ),
+                  )
+                  .toList(),
+            ),
+          ),
+          SettingsListTile(
+            label: _StatusIndicator(
+              homeInternet: !connectionState.homeInternet,
+              label: Text(context.localized.internetStreamingQualityTitle),
+            ),
+            subLabel: Text(context.localized.internetStreamingQualityDesc),
+            trailing: EnumBox(
+              current: ref.watch(
+                videoPlayerSettingsProvider.select((value) => value.maxInternetBitrate.label(context)),
+              ),
+              itemBuilder: (context) => Bitrate.values
+                  .map(
+                    (entry) => PopupMenuItem(
+                      value: entry,
+                      child: Text(entry.label(context)),
+                      onTap: () => ref.read(videoPlayerSettingsProvider.notifier).state =
+                          ref.read(videoPlayerSettingsProvider).copyWith(maxInternetBitrate: entry),
+                    ),
+                  )
+                  .toList(),
+            ),
+          ),
+          const Divider(),
+          SettingsLabelDivider(label: context.localized.mediaSegmentActions),
+          ...videoSettings.segmentSkipSettings.entries.sorted((a, b) => b.key.index.compareTo(a.key.index)).map(
+                (entry) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          entry.key.label(context),
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                      ),
+                      EnumBox(
+                        current: entry.value.label(context),
+                        itemBuilder: (context) => SegmentSkip.values
+                            .map(
+                              (value) => PopupMenuItem(
+                                value: value,
+                                child: Text(value.label(context)),
+                                onTap: () {
+                                  final newEntries = videoSettings.segmentSkipSettings.map(
+                                      (key, currentValue) => MapEntry(key, key == entry.key ? value : currentValue));
+                                  ref.read(videoPlayerSettingsProvider.notifier).state =
+                                      ref.read(videoPlayerSettingsProvider).copyWith(segmentSkipSettings: newEntries);
+                                },
+                              ),
+                            )
+                            .toList(),
+                      )
+                    ],
+                  ),
+                ),
+              ),
           const Divider(),
           SettingsLabelDivider(label: context.localized.advanced),
           if (PlayerOptions.available.length != 1)
@@ -202,6 +287,33 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
             ),
         ],
       ),
+    );
+  }
+}
+
+class _StatusIndicator extends StatelessWidget {
+  final bool homeInternet;
+  final Widget label;
+  const _StatusIndicator({required this.homeInternet, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        if (homeInternet) ...[
+          Container(
+            width: 8,
+            height: 8,
+            decoration: const BoxDecoration(
+              color: Colors.greenAccent,
+              shape: BoxShape.circle,
+            ),
+          ),
+          const SizedBox(width: 6),
+        ],
+        label,
+      ],
     );
   }
 }

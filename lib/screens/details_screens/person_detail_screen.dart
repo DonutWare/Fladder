@@ -1,3 +1,4 @@
+import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:flutter/material.dart';
 
 import 'package:collection/collection.dart';
@@ -56,7 +57,7 @@ class _PersonDetailScreenState extends ConsumerState<PersonDetailScreen> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  width: AdaptiveLayout.of(context).layout == LayoutState.phone
+                  width: AdaptiveLayout.viewSizeOf(context) == ViewSize.phone
                       ? MediaQuery.of(context).size.width
                       : MediaQuery.of(context).size.width / 3.5,
                   child: AspectRatio(

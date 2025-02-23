@@ -65,16 +65,22 @@ class OpenQueueButton extends ConsumerWidget {
 
 class SkipSegmentButton extends ConsumerWidget {
   final MediaSegment? segment;
+  final SegmentSkip? skipType;
   final bool isOverlayVisible;
 
   final Function() pressedSkip;
-  const SkipSegmentButton(
-      {required this.segment, required this.isOverlayVisible, required this.pressedSkip, super.key});
+  const SkipSegmentButton({
+    required this.segment,
+    this.skipType,
+    required this.isOverlayVisible,
+    required this.pressedSkip,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AnimatedFadeSize(
-      child: segment != null
+      child: segment != null && skipType != SegmentSkip.none
           ? AnimatedOpacity(
               opacity: isOverlayVisible ? 1 : 0.15,
               duration: const Duration(milliseconds: 500),

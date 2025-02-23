@@ -106,4 +106,12 @@ class EpisodeDetailsProvider extends StateNotifier<EpisodeDetailModel> {
       defaultAudioStreamIndex: index,
     )));
   }
+
+  void setVersionIndex(int index) {
+    state = state.copyWith(
+        episode: state.episode?.copyWith(
+            mediaStreams: state.episode?.mediaStreams.copyWith(
+      versionStreamIndex: index,
+    )));
+  }
 }

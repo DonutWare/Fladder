@@ -149,7 +149,7 @@ class SimpleDurationPicker extends ConsumerWidget {
           children: [
             if (showNever) ...{
               TextButton(
-                onPressed: () => onChanged(null),
+                onPressed: () => onChanged(Duration.zero),
                 child: Text(context.localized.never),
               ),
               const Spacer(),

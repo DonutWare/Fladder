@@ -25,51 +25,54 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final canDownload = ref.watch(showSyncButtonProviderProvider);
-    final destinations = HomeTabs.values.map((e) {
-      switch (e) {
-        case HomeTabs.dashboard:
-          return DestinationModel(
-            label: context.localized.navigationDashboard,
-            icon: const Icon(IconsaxOutline.home),
-            selectedIcon: const Icon(IconsaxBold.home),
-            route: const DashboardRoute(),
-            action: () => context.router.navigate(const DashboardRoute()),
-            floatingActionButton: AdaptiveFab(
-              context: context,
-              title: context.localized.search,
-              key: Key(e.name.capitalize()),
-              onPressed: () => context.router.navigate(LibrarySearchRoute()),
-              child: const Icon(IconsaxOutline.search_normal_1),
-            ),
-          );
-        case HomeTabs.favorites:
-          return DestinationModel(
-            label: context.localized.navigationFavorites,
-            icon: const Icon(IconsaxOutline.heart),
-            selectedIcon: const Icon(IconsaxBold.heart),
-            route: const FavouritesRoute(),
-            floatingActionButton: AdaptiveFab(
-              context: context,
-              title: context.localized.filter(0),
-              key: Key(e.name.capitalize()),
-              onPressed: () => context.router.navigate(LibrarySearchRoute(favourites: true)),
-              child: const Icon(IconsaxOutline.heart_search),
-            ),
-            action: () => context.router.navigate(const FavouritesRoute()),
-          );
-        case HomeTabs.sync:
-          if (canDownload) {
-            return DestinationModel(
-              label: context.localized.navigationSync,
-              icon: const Icon(IconsaxOutline.cloud),
-              selectedIcon: const Icon(IconsaxBold.cloud),
-              route: SyncedRoute(),
-              action: () => context.router.navigate(SyncedRoute()),
-            );
+    final destinations = HomeTabs.values
+        .map((e) {
+          switch (e) {
+            case HomeTabs.dashboard:
+              return DestinationModel(
+                label: context.localized.navigationDashboard,
+                icon: const Icon(IconsaxOutline.home),
+                selectedIcon: const Icon(IconsaxBold.home),
+                route: const DashboardRoute(),
+                action: () => context.router.navigate(const DashboardRoute()),
+                floatingActionButton: AdaptiveFab(
+                  context: context,
+                  title: context.localized.search,
+                  key: Key(e.name.capitalize()),
+                  onPressed: () => context.router.navigate(LibrarySearchRoute()),
+                  child: const Icon(IconsaxOutline.search_normal_1),
+                ),
+              );
+            case HomeTabs.favorites:
+              return DestinationModel(
+                label: context.localized.navigationFavorites,
+                icon: const Icon(IconsaxOutline.heart),
+                selectedIcon: const Icon(IconsaxBold.heart),
+                route: const FavouritesRoute(),
+                floatingActionButton: AdaptiveFab(
+                  context: context,
+                  title: context.localized.filter(0),
+                  key: Key(e.name.capitalize()),
+                  onPressed: () => context.router.navigate(LibrarySearchRoute(favourites: true)),
+                  child: const Icon(IconsaxOutline.heart_search),
+                ),
+                action: () => context.router.navigate(const FavouritesRoute()),
+              );
+            case HomeTabs.sync:
+              if (canDownload) {
+                return DestinationModel(
+                  label: context.localized.navigationSync,
+                  icon: const Icon(IconsaxOutline.cloud),
+                  selectedIcon: const Icon(IconsaxBold.cloud),
+                  route: SyncedRoute(),
+                  action: () => context.router.navigate(SyncedRoute()),
+                );
+              }
+              return null;
           }
-          return null;
-      }
-    });
+        })
+        .nonNulls
+        .toList();
     return HeroControllerScope(
       controller: HeroController(),
       child: AutoRouter(

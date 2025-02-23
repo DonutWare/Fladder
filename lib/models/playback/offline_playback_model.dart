@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/chapters_model.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
@@ -15,41 +14,23 @@ import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/list_extensions.dart';
 import 'package:fladder/wrappers/media_control_wrapper.dart';
 
-class OfflinePlaybackModel implements PlaybackModel {
+class OfflinePlaybackModel extends PlaybackModel {
   OfflinePlaybackModel({
-    required this.item,
-    required this.media,
     required this.syncedItem,
-    this.mediaStreams,
-    this.playbackInfo,
-    this.mediaSegments,
-    this.trickPlay,
-    this.queue = const [],
+    super.mediaStreams,
+    super.playbackInfo,
+    required super.item,
+    required super.media,
+    super.mediaSegments,
+    super.trickPlay,
+    super.queue = const [],
     this.syncedQueue = const [],
   });
-
-  @override
-  final ItemBaseModel item;
-
-  @override
-  final PlaybackInfoResponse? playbackInfo;
-
-  @override
-  final Media? media;
 
   final SyncedItem syncedItem;
 
   @override
-  final MediaStreamsModel? mediaStreams;
-
-  @override
-  final MediaSegmentsModel? mediaSegments;
-
-  @override
   List<Chapter>? get chapters => syncedItem.chapters;
-
-  @override
-  final TrickPlayModel? trickPlay;
 
   @override
   Future<Duration>? startDuration() async => item.userData.playBackPosition;
@@ -117,9 +98,6 @@ class OfflinePlaybackModel implements PlaybackModel {
 
   @override
   String toString() => 'OfflinePlaybackModel(item: $item, syncedItem: $syncedItem)';
-
-  @override
-  final List<ItemBaseModel> queue;
 
   final List<SyncedItem> syncedQueue;
 
