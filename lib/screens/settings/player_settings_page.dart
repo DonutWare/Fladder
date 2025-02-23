@@ -4,8 +4,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/connectivity_provider.dart';
@@ -129,6 +131,40 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                   .toList(),
             ),
           ),
+          const Divider(),
+          SettingsLabelDivider(label: context.localized.mediaSegmentActions),
+          ...videoSettings.segmentSkipSettings.entries.sorted((a, b) => b.key.index.compareTo(a.key.index)).map(
+                (entry) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          entry.key.label(context),
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                      ),
+                      EnumBox(
+                        current: entry.value.label(context),
+                        itemBuilder: (context) => SegmentSkip.values
+                            .map(
+                              (value) => PopupMenuItem(
+                                value: value,
+                                child: Text(value.label(context)),
+                                onTap: () {
+                                  final newEntries = videoSettings.segmentSkipSettings.map(
+                                      (key, currentValue) => MapEntry(key, key == entry.key ? value : currentValue));
+                                  ref.read(videoPlayerSettingsProvider.notifier).state =
+                                      ref.read(videoPlayerSettingsProvider).copyWith(segmentSkipSettings: newEntries);
+                                },
+                              ),
+                            )
+                            .toList(),
+                      )
+                    ],
+                  ),
+                ),
+              ),
           const Divider(),
           SettingsLabelDivider(label: context.localized.advanced),
           if (PlayerOptions.available.length != 1)

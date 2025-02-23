@@ -166,6 +166,13 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                   final position = ref.watch(mediaPlaybackProvider.select((value) => value.position));
                   MediaSegment? segment = mediaSegments?.atPosition(position);
                   bool forceShow = segment?.forceShow(position) ?? false;
+                  final segmentSkipType = ref
+                      .watch(videoPlayerSettingsProvider.select((value) => value.segmentSkipSettings[segment?.type]));
+                  final autoSkip =
+                      forceShow == true && segmentSkipType == SegmentSkip.skip && player.lastState?.buffering == false;
+                  if (autoSkip) {
+                    skipToSegmentEnd(segment);
+                  }
                   return Stack(
                     children: [
                       Align(
@@ -174,6 +181,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                           padding: const EdgeInsets.all(32),
                           child: SkipSegmentButton(
                             segment: segment,
+                            skipType: segmentSkipType,
                             isOverlayVisible: forceShow ? true : showOverlay,
                             pressedSkip: () => skipToSegmentEnd(segment),
                           ),

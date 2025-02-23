@@ -1179,5 +1179,9 @@
   "qualityOptionsTitle": "Quality options",
   "qualityOptionsOriginal": "Original",
   "qualityOptionsAuto": "Auto",
-  "version": "Version"
+  "version": "Version",
+  "mediaSegmentActions": "Media segment actions",
+  "segmentActionNone": "None",
+  "segmentActionAskToSkip": "Ask to skip",
+  "segmentActionSkip": "Skip"
 }

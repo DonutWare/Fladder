@@ -31,6 +31,12 @@ _$VideoPlayerSettingsModelImpl _$$VideoPlayerSettingsModelImplFromJson(
           $enumDecodeNullable(_$BitrateEnumMap, json['maxInternetBitrate']) ??
               Bitrate.original,
       audioDevice: json['audioDevice'] as String?,
+      segmentSkipSettings:
+          (json['segmentSkipSettings'] as Map<String, dynamic>?)?.map(
+                (k, e) => MapEntry($enumDecode(_$MediaSegmentTypeEnumMap, k),
+                    $enumDecode(_$SegmentSkipEnumMap, e)),
+              ) ??
+              defaultSegmentSkipValues,
     );
 
 Map<String, dynamic> _$$VideoPlayerSettingsModelImplToJson(
@@ -50,6 +56,8 @@ Map<String, dynamic> _$$VideoPlayerSettingsModelImplToJson(
       'maxHomeBitrate': _$BitrateEnumMap[instance.maxHomeBitrate]!,
       'maxInternetBitrate': _$BitrateEnumMap[instance.maxInternetBitrate]!,
       'audioDevice': instance.audioDevice,
+      'segmentSkipSettings': instance.segmentSkipSettings.map((k, e) =>
+          MapEntry(_$MediaSegmentTypeEnumMap[k]!, _$SegmentSkipEnumMap[e]!)),
     };
 
 const _$BoxFitEnumMap = {
@@ -95,6 +103,21 @@ const _$BitrateEnumMap = {
   Bitrate.b4Mbps: 'b4Mbps',
   Bitrate.b3Mbps: 'b3Mbps',
   Bitrate.b1_5Mbps: 'b1_5Mbps',
-  Bitrate.b420Kbps: 'b420Kbps',
   Bitrate.b720Kbps: 'b720Kbps',
+  Bitrate.b420Kbps: 'b420Kbps',
+};
+
+const _$SegmentSkipEnumMap = {
+  SegmentSkip.none: 'none',
+  SegmentSkip.askToSkip: 'askToSkip',
+  SegmentSkip.skip: 'skip',
+};
+
+const _$MediaSegmentTypeEnumMap = {
+  MediaSegmentType.unknown: 'unknown',
+  MediaSegmentType.commercial: 'commercial',
+  MediaSegmentType.preview: 'preview',
+  MediaSegmentType.recap: 'recap',
+  MediaSegmentType.outro: 'outro',
+  MediaSegmentType.intro: 'intro',
 };
