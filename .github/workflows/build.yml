@@ -447,13 +447,15 @@ jobs:
             Fladder-Linux-${{needs.fetch-info.outputs.version_name}}.flatpak
 
   release_web:
+    name: Release Web
     needs:
-      - fetch-info
-      - build-web
       - create_release
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.1.1
+
       - name: Download Artifacts Web
         uses: actions/download-artifact@v4
         with:
