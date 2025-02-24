@@ -27,4 +27,5 @@ AppDir:
       - icons/production/fladder_icon_desktop.png
 AppImage:
   arch: x86_64
-  update-information: guess
+  update-information: gh-releases-zsync|DonutWare|Fladder|latest|Fladder-Linux-*.AppImage.zsync
+  file_name: Fladder_x86_64.AppImage
