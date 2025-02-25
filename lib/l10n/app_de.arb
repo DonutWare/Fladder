@@ -866,5 +866,19 @@
         "example": "1"
       }
     }
-  }
+  },
+  "homeBannerSlideshow": "Diashow",
+  "@homeBannerSlideshow": {},
+  "homeBannerCarousel": "Karussell",
+  "@homeBannerCarousel": {},
+  "settingsHomeBannerDescription": "Als Diashow oder Karussell anzeigen oder das Banner ausblenden",
+  "@settingsHomeBannerDescription": {},
+  "settingsHomeBannerInformationDesc": "Informationen zur Anzeige im Home-Banner",
+  "@settingsHomeBannerInformationDesc": {},
+  "settingsHomeBannerInformationTitle": "Banner Information",
+  "@settingsHomeBannerInformationTitle": {},
+  "settingsHomeBannerTitle": "Home-Banner",
+  "@settingsHomeBannerTitle": {},
+  "settingsHomeNextUpDesc": "Art der im Dashboard-Bildschirm angezeigten Poster",
+  "@settingsHomeNextUpDesc": {}
 }
