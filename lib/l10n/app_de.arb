@@ -218,7 +218,7 @@
   "@days": {},
   "delete": "Löschen",
   "@delete": {},
-  "deleteFileFromSystem": "Das Element {item} wird sowohl vom Dateisystem als auch aus der Bibliothek entfernt. \nFortfahren?",
+  "deleteFileFromSystem": "Das Element {item} wird sowohl vom Dateisystem als auch aus der Bibliothek entfernt.\nFortfahren?",
   "@deleteFileFromSystem": {
     "description": "Delete file from system",
     "placeholders": {
@@ -245,13 +245,13 @@
   "@discovered": {},
   "displayLanguage": "Anzeigesprache",
   "@displayLanguage": {},
-  "downloadsClearDesc": "Alle syncronisierten Daten,\n für jeden syncronisierten Benutzer entfernen?",
+  "downloadsClearDesc": "Alle synchronisierten Daten für jeden synchronisierten Benutzer entfernen?",
   "@downloadsClearDesc": {},
-  "downloadsClearTitle": "Syncronisierte Daten löschen",
+  "downloadsClearTitle": "Synchronisierte Daten löschen",
   "@downloadsClearTitle": {},
   "downloadsPath": "Pfad",
   "@downloadsPath": {},
-  "downloadsSyncedData": "Syncronisierte Daten",
+  "downloadsSyncedData": "Synchronisierte Daten",
   "@downloadsSyncedData": {},
   "dynamicText": "Dynamisch",
   "@dynamicText": {},
@@ -866,5 +866,19 @@
         "example": "1"
       }
     }
-  }
+  },
+  "homeBannerSlideshow": "Diashow",
+  "@homeBannerSlideshow": {},
+  "homeBannerCarousel": "Karussell",
+  "@homeBannerCarousel": {},
+  "settingsHomeBannerDescription": "Als Diashow oder Karussell anzeigen oder das Banner ausblenden",
+  "@settingsHomeBannerDescription": {},
+  "settingsHomeBannerInformationDesc": "Informationen zur Anzeige im Home-Banner",
+  "@settingsHomeBannerInformationDesc": {},
+  "settingsHomeBannerInformationTitle": "Banner Information",
+  "@settingsHomeBannerInformationTitle": {},
+  "settingsHomeBannerTitle": "Home-Banner",
+  "@settingsHomeBannerTitle": {},
+  "settingsHomeNextUpDesc": "Art der im Dashboard-Bildschirm angezeigten Poster",
+  "@settingsHomeNextUpDesc": {}
 }

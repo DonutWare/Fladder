@@ -1,5 +1,5 @@
 {
-  "nativeName": "الإنجليزية",
+  "nativeName": "العربية",
   "@nativeName": {},
   "about": "حول",
   "@about": {},
@@ -125,7 +125,7 @@
   "@descending": {},
   "disableFilters": "إيقاف تشغيل الفلاتر",
   "@disableFilters": {},
-  "disabled": "إيقاف",
+  "disabled": "معطل",
   "@disabled": {},
   "discovered": "تم اكتشافه",
   "@discovered": {},
@@ -320,7 +320,7 @@
   "@other": {},
   "outlineColor": "اللون الخارجي",
   "@outlineColor": {},
-  "outlineSize": "حجم اللون الخارجي",
+  "outlineSize": "حجم الحدود",
   "@outlineSize": {},
   "overview": "نظرة عامة",
   "@overview": {},
@@ -476,7 +476,7 @@
     "description": "Use for setting a certain value",
     "context": "Set 'time'"
   },
-  "separate": "منفصل",
+  "separate": "فصل",
   "@separate": {},
   "setIdentityTo": "تغيير الهوية إلى {name}",
   "@setIdentityTo": {
@@ -499,21 +499,21 @@
   "@settingsContinue": {},
   "settingsEnableOsMediaControls": "تمكين عناصر تحكم الوسائط في نظام التشغيل",
   "@settingsEnableOsMediaControls": {},
-  "settingsBlurredPlaceholderDesc": "عرض خلفية ضبابية عند تحميل البوسترات",
+  "settingsBlurredPlaceholderDesc": "عرض خلفية ضبابية عند تحميل الملصقات",
   "@settingsBlurredPlaceholderDesc": {},
   "settingsHomeBannerDescription": "العرض كعرض شرائح، كاروسيل، أو إخفاء البانر",
   "@settingsHomeBannerDescription": {},
   "settingsHomeBannerTitle": "البانر الرئيسي",
   "@settingsHomeBannerTitle": {},
-  "settingsBlurredPlaceholderTitle": "تمويه النص البديل",
+  "settingsBlurredPlaceholderTitle": "عنصر نائب ضبابي",
   "@settingsBlurredPlaceholderTitle": {},
   "settingsPlayerCustomSubtitlesTitle": "تخصيص الترجمة",
   "@settingsPlayerCustomSubtitlesTitle": {},
   "settingsPlayerDesc": "نسبة العرض إلى الارتفاع، متقدم",
   "@settingsPlayerDesc": {},
-  "settingsHomeNextUpDesc": "نوع البوسترات المعروضة في شاشة لوحة التحكم",
+  "settingsHomeNextUpDesc": "نوع الملصقات المعروضة في شاشة لوحة التحكم",
   "@settingsHomeNextUpDesc": {},
-  "settingsHomeNextUpTitle": "البوسترات التالية",
+  "settingsHomeNextUpTitle": "الملصقات التالية",
   "@settingsHomeNextUpTitle": {},
   "settingsPlayerTitle": "المشغل",
   "@settingsPlayerTitle": {},
@@ -607,7 +607,7 @@
       }
     }
   },
-  "addItemsToPlaylist": "إضافة {itemLength} من العناصر إلى قائمة التشغيل.",
+  "addItemsToPlaylist": "إضافة {itemLength} من العناصر إلى قائمة التشغيل",
   "@addItemsToPlaylist": {
     "placeholders": {
       "itemLength": {
@@ -705,15 +705,15 @@
   "@autoNextOffSmartTitle": {},
   "autoNextOffStaticTitle": "ثابت",
   "@autoNextOffStaticTitle": {},
-  "autoNextOffStaticDesc": "عرض شاشة العنصر التالي عندما يتبقى 30 ثانية من وقت التشغيل.",
+  "autoNextOffStaticDesc": "عرض شاشة العنصر التالي عندما يتبقى 30 ثانية من وقت التشغيل",
   "@autoNextOffStaticDesc": {},
   "playbackRate": "معدل التشغيل",
   "@playbackRate": {},
   "speed": "السرعة",
   "@speed": {},
-  "autoNextOffSmartDesc": "تظهِر شاشة 'التالي' عندما تبدأ الاعتمادات إذا لم يتبق أكثر من 10 ثوانٍ بعد الاعتمادات. وإلا فإنه يُظهِر شاشة 'التالي' مع 30 ثانية متبقية من وقت التشغيل.",
+  "autoNextOffSmartDesc": "تظهِر شاشة 'التالي' عندما تبدأ الاعتمادات إذا لم يتبق أكثر من 10 ثوانٍ بعد الاعتمادات. وإلا فإنه يُظهِر شاشة 'التالي' مع 30 ثانية متبقية من وقت التشغيل",
   "@autoNextOffSmartDesc": {},
-  "settingsAutoNextDesc": "يعرض معاينة للعرض التالي قرب النهاية إذا كان هناك عرض آخر في قائمة التشغيل.",
+  "settingsAutoNextDesc": "يعرض معاينة للعرض التالي قرب النهاية إذا كان هناك عرض آخر في قائمة التشغيل",
   "@settingsAutoNextDesc": {},
   "mediaSegmentOutro": "خاتمة",
   "@mediaSegmentOutro": {},
@@ -835,7 +835,7 @@
   "@settingsHomeBannerInformationDesc": {},
   "settingsHomeBannerInformationTitle": "معلومات البانر",
   "@settingsHomeBannerInformationTitle": {},
-  "settingsPosterSize": "حجم البوستر",
+  "settingsPosterSize": "حجم الملصق",
   "@settingsPosterSize": {},
   "metaDataSavedFor": "تم حفظ البيانات الوصفية ل {item}",
   "@metaDataSavedFor": {
@@ -859,9 +859,9 @@
   },
   "syncedItems": "العناصر التي تمت مزامنتها",
   "@syncedItems": {},
-  "settingsPlayerMobileWarning": "قد يؤدي تشغيل تسريع الأجهزة وترجمة libass الأصلية على نظام Android إلى عدم عرض بعض الترجمات.",
+  "settingsPlayerMobileWarning": "قد يؤدي تشغيل تسريع الأجهزة والترجمة الأصلية libass على أندرويد إلى عدم عرض بعض الترجمات.",
   "@settingsPlayerMobileWarning": {},
-  "settingsPlayerNativeLibassAccelTitle": "",
+  "settingsPlayerNativeLibassAccelTitle": "ترجمات libass الأصلية",
   "@settingsPlayerNativeLibassAccelTitle": {},
   "settingsProfileDesc": "شاشة القفل",
   "@settingsProfileDesc": {},
@@ -963,5 +963,313 @@
   "deviceOrientationLandscapeRight": "أفقي لليمين",
   "@deviceOrientationLandscapeRight": {},
   "schemeSettingsFruitSalad": "سلطة فواكه",
-  "@schemeSettingsFruitSalad": {}
+  "@schemeSettingsFruitSalad": {},
+  "syncOpenParent": "فتح المجلد الأصلي",
+  "@syncOpenParent": {},
+  "clientSettingsSchemeVariantTitle": "النسق",
+  "@clientSettingsSchemeVariantTitle": {},
+  "schemeSettingsFidelity": "دقة",
+  "@schemeSettingsFidelity": {},
+  "libraryPlayItems": "تشغيل العناصر",
+  "@libraryPlayItems": {},
+  "clientSettingsShowAllCollectionsTitle": "عرض جميع أنواع المجموعات",
+  "@clientSettingsShowAllCollectionsTitle": {},
+  "resumeVideo": "استئناف الفيديو",
+  "@resumeVideo": {},
+  "closeVideo": "إغلاق الفيديو",
+  "@closeVideo": {},
+  "playNextVideo": "تشغيل الفيديو التالي",
+  "@playNextVideo": {},
+  "playerSettingsBackendDesc": "اختر مشغل الوسائط المفضل لديك لتجربة تشغيل مثالية",
+  "@playerSettingsBackendDesc": {},
+  "defaultLabel": "افتراضي",
+  "@defaultLabel": {
+    "description": "To indicate a default value, default video player backend"
+  },
+  "mdkExperimental": "MDK لا يزال في مرحلة تجريبية",
+  "@mdkExperimental": {},
+  "noVideoPlayerOptions": "الواجهة الخلفية المختارة ليس لديها خيارات",
+  "@noVideoPlayerOptions": {},
+  "playerSettingsBackendTitle": "الواجهة الخلفية لمُشغِّل الفيديو",
+  "@playerSettingsBackendTitle": {},
+  "skipButtonLabel": "تخطي {segment}",
+  "@skipButtonLabel": {
+    "placeholders": {
+      "segment": {
+        "type": "String"
+      }
+    }
+  },
+  "mediaSegmentUnknown": "مجهول",
+  "@mediaSegmentUnknown": {},
+  "mediaSegmentCommercial": "إعلان تجاري",
+  "@mediaSegmentCommercial": {},
+  "mediaSegmentPreview": "معاينة",
+  "@mediaSegmentPreview": {},
+  "mediaSegmentRecap": "ملخص",
+  "@mediaSegmentRecap": {},
+  "errorLogs": "سجلات الأخطاء",
+  "@errorLogs": {},
+  "external": "خارجي",
+  "@external": {},
+  "desktop": "سطح المكتب",
+  "@desktop": {},
+  "layoutModeDual": "مزدوج",
+  "@layoutModeDual": {},
+  "layoutModeSingle": "فردي",
+  "@layoutModeSingle": {},
+  "copiedToClipboard": "تم النسخ إلى الحافظة",
+  "@copiedToClipboard": {},
+  "downloadFile": "تنزيل {type}",
+  "@downloadFile": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "copyStreamUrl": "نسخ رابط البث",
+  "@copyStreamUrl": {},
+  "settingsLayoutSizesDesc": "اختر أحجام التخطيط التي يمكن للتطبيق استخدامها بناءً على حجم النافذة",
+  "@settingsLayoutSizesDesc": {},
+  "settingsLayoutModesDesc": "تحكم فيما إذا كان التطبيق يمكنه استخدام تخطيطات اللوحة المفردة أو المزدوجة",
+  "@settingsLayoutModesDesc": {},
+  "phone": "الهاتف",
+  "@phone": {},
+  "settingsLayoutSizesTitle": "أحجام التخطيط",
+  "@settingsLayoutSizesTitle": {},
+  "settingsLayoutModesTitle": "أوضاع التخطيط",
+  "@settingsLayoutModesTitle": {},
+  "internetStreamingQualityTitle": "جودة الإنترنت",
+  "@internetStreamingQualityTitle": {},
+  "internetStreamingQualityDesc": "أقصى جودة بث عبر الإنترنت (الجوال)",
+  "@internetStreamingQualityDesc": {},
+  "homeStreamingQualityTitle": "جودة المنزل",
+  "@homeStreamingQualityTitle": {},
+  "homeStreamingQualityDesc": "أقصى جودة بث عند الاتصال بشبكة المنزل",
+  "@homeStreamingQualityDesc": {},
+  "qualityOptionsTitle": "خيارات الجودة",
+  "@qualityOptionsTitle": {},
+  "qualityOptionsOriginal": "الأصلي",
+  "@qualityOptionsOriginal": {},
+  "qualityOptionsAuto": "تلقائي",
+  "@qualityOptionsAuto": {},
+  "version": "إصدار",
+  "@version": {},
+  "mediaSegmentActions": "إجراءات مقاطع الوسائط",
+  "@mediaSegmentActions": {},
+  "segmentActionNone": "لا شيء",
+  "@segmentActionNone": {},
+  "loading": "جارٍ التحميل",
+  "@loading": {},
+  "segmentActionAskToSkip": "طلب التخطي",
+  "@segmentActionAskToSkip": {},
+  "clientSettingsShowAllCollectionsDesc": "عند التمكين، يتم عرض جميع أنواع المجموعات، بما في ذلك تلك غير المدعومة بواسطة Fladder",
+  "@clientSettingsShowAllCollectionsDesc": {},
+  "settingsVisual": "مرئي",
+  "@settingsVisual": {},
+  "stop": "توقف",
+  "@stop": {},
+  "segmentActionSkip": "تخطي",
+  "@segmentActionSkip": {},
+  "tablet": "الجهاز اللوحي",
+  "@tablet": {},
+  "settingsPosterPinch": "التصغير/التكبير لتغيير حجم الملصقات",
+  "@settingsPosterPinch": {},
+  "settingsPlayerVideoHWAccelTitle": "تسريع الأجهزة",
+  "@settingsPlayerVideoHWAccelTitle": {},
+  "schemeSettingsTonalSpot": "بقعة لونية",
+  "@schemeSettingsTonalSpot": {},
+  "episodeAvailable": "متاح",
+  "@episodeAvailable": {},
+  "episodeUnaired": "لم يُبث",
+  "@episodeUnaired": {},
+  "episodeMissing": "مفقود",
+  "@episodeMissing": {},
+  "actor": "{count, plural, other{ممثلون} one{ممثل}}",
+  "@actor": {
+    "description": "actor",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "chapter": "{count, plural, other{فصول} one{فصل}}",
+  "@chapter": {
+    "description": "chapter",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "genre": "{count, plural, other{أنواع} one{نوع}}",
+  "@genre": {
+    "description": "genre",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "seconds": "{count, plural, other{ثوانٍ} one{ثانية}}",
+  "@seconds": {
+    "description": "second",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "settingsClientDesc": "عام، مهلة، تخطيط، سمة",
+  "@settingsClientDesc": {},
+  "settingsNextUpCutoffDays": "أيام الفاصل الزمني للتشغيل التالي",
+  "@settingsNextUpCutoffDays": {},
+  "settingsPlayerCustomSubtitlesDesc": "تخصيص الحجم، اللون، الموضع، الحدود",
+  "@settingsPlayerCustomSubtitlesDesc": {},
+  "settingsPlayerNativeLibassAccelDesc": "استخدام محرك عرض الترجمة libass في مشغل الفيديو",
+  "@settingsPlayerNativeLibassAccelDesc": {},
+  "studio": "{count, plural, other{استوديوهات} one{استوديو}}",
+  "@studio": {
+    "description": "studio",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "tag": "{count, plural, one{وسم} other{وسوم}}",
+  "@tag": {
+    "description": "tag",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "type": "{count, plural, one{نوع} other{أنواع}}",
+  "@type": {
+    "description": "type",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "mediaTypeBoxset": "مجموعة صندوقية",
+  "@mediaTypeBoxset": {},
+  "minutes": "{count, plural, other{دقائق} one{دقيقة}}",
+  "@minutes": {
+    "description": "minute",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "settingsPlayerVideoHWAccelDesc": "استخدام وحدة معالجة الرسومات لعرض الفيديو (موصى به)",
+  "@settingsPlayerVideoHWAccelDesc": {},
+  "recursive": "تكراري",
+  "@recursive": {},
+  "episode": "{count, plural, other{حلقات} one{حلقة}}",
+  "@episode": {
+    "description": "episode",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "year": "{count, plural, other{سنوات} one{سنة}}",
+  "@year": {
+    "description": "year",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "writer": "{count, plural, other{كتاب} two{كاتبان} one{كاتب}}",
+  "@writer": {
+    "description": "writer",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "director": "{count, plural, other{مخرجون} one{مخرج}}",
+  "@director": {
+    "description": "director",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "filter": "{count, plural, other{مرشحات} one{مرشح}}",
+  "@filter": {
+    "description": "filter",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "label": "{count, plural, other{تصنيفات} one{تصنيف}}",
+  "@label": {
+    "description": "label",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "library": "{count, plural, other{مكتبات} one{مكتبة}}",
+  "@library": {
+    "description": "Plural",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "rating": "{count, plural, other{تقييمات} one{تقييم}}",
+  "@rating": {
+    "description": "rating",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "season": "{count, plural, other{مواسم} one{موسم}}",
+  "@season": {
+    "description": "season",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "masonry": "تصميم شبكي",
+  "@masonry": {}
 }
