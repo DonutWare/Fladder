@@ -190,8 +190,8 @@ class PlaybackModelHelper {
       Map<Bitrate, bool> qualityOptions = getVideoQualityOptions(
         VideoQualitySettings(
           maxBitRate: ref.read(videoPlayerSettingsProvider.select((value) => value.maxHomeBitrate)),
-          videoBitRate: firstItemToPlay.streamModel?.videoStreams.first.bitRate ?? 0,
-          videoCodec: firstItemToPlay.streamModel?.videoStreams.first.codec,
+          videoBitRate: firstItemToPlay.streamModel?.videoStreams.firstOrNull?.bitRate ?? 0,
+          videoCodec: firstItemToPlay.streamModel?.videoStreams.firstOrNull?.codec,
         ),
       );
 
@@ -215,9 +215,12 @@ class PlaybackModelHelper {
       );
 
       PlaybackInfoResponse? playbackInfo = response.body;
+
       if (playbackInfo == null) return null;
 
-      final mediaSource = playbackInfo.mediaSources?.first;
+      final mediaSource = playbackInfo.mediaSources?[streamModel?.versionStreamIndex ?? 0];
+
+      if (mediaSource == null) return null;
 
       final mediaStreamsWithUrls = MediaStreamsModel.fromMediaStreamsList(playbackInfo.mediaSources, ref).copyWith(
         defaultAudioStreamIndex: streamModel?.defaultAudioStreamIndex,
@@ -228,9 +231,7 @@ class PlaybackModelHelper {
       final trickPlay = (await api.getTrickPlay(item: fullItem.body, ref: ref))?.body;
       final chapters = fullItem.body?.overview.chapters ?? [];
 
-      final mediaPath = isValidVideoUrl(mediaSource?.path ?? "");
-
-      if (mediaSource == null) return null;
+      final mediaPath = isValidVideoUrl(mediaSource.path ?? "");
 
       if ((mediaSource.supportsDirectStream ?? false) || (mediaSource.supportsDirectPlay ?? false)) {
         final Map<String, String?> directOptions = {
@@ -271,6 +272,7 @@ class PlaybackModelHelper {
           playbackInfo: playbackInfo,
           media: Media(url: "${ref.read(userProvider)?.server ?? ""}${mediaSource.transcodingUrl ?? ""}"),
           mediaStreams: mediaStreamsWithUrls,
+          bitRateOptions: qualityOptions,
         );
       }
       return null;

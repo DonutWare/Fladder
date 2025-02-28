@@ -142,7 +142,7 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
           Positioned.fill(
             child: FladderImage(
               image: widget.video.thumbnail?.primary,
-              enableBlur: true,
+              disableBlur: true,
               fit: BoxFit.contain,
             ),
           ),

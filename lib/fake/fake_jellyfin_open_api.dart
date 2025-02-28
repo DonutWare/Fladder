@@ -641,6 +641,44 @@ class FakeJellyfinOpenApi extends JellyfinOpenApi {
       const BaseItemDtoQueryResult(),
     );
   }
+
+  @override
+  Future<chopper.Response<PlaybackInfoResponse>> itemsItemIdPlaybackInfoPost({
+    required String? itemId,
+    String? userId,
+    int? maxStreamingBitrate,
+    int? startTimeTicks,
+    int? audioStreamIndex,
+    int? subtitleStreamIndex,
+    int? maxAudioChannels,
+    String? mediaSourceId,
+    String? liveStreamId,
+    bool? autoOpenLiveStream,
+    bool? enableDirectPlay,
+    bool? enableDirectStream,
+    bool? enableTranscoding,
+    bool? allowVideoStreamCopy,
+    bool? allowAudioStreamCopy,
+    required PlaybackInfoDto? body,
+  }) async {
+    return chopper.Response(
+      FakeHelper.fakeCorrectResponse,
+      FakeHelper.bigBuckBunny,
+    );
+  }
+
+  @override
+  Future<chopper.Response<MediaSegmentDtoQueryResult>> mediaSegmentsItemIdGet({
+    required String? itemId,
+    List<enums.MediaSegmentType>? includeSegmentTypes,
+  }) async {
+    return chopper.Response(
+      FakeHelper.fakeCorrectResponse,
+      const MediaSegmentDtoQueryResult(
+        items: [],
+      ),
+    );
+  }
 }
 
 class FakeHelper {
@@ -700,4 +738,30 @@ class FakeHelper {
     accessToken: 'A_TOTALLY_REAL_TOKEN',
     serverId: "1",
   );
+
+  static PlaybackInfoResponse bigBuckBunny = PlaybackInfoResponse.fromJson({
+    "MediaSources": [
+      {
+        "Protocol": "File",
+        "Id": "234sdfsdf234",
+        "Path": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+        "Type": "Default",
+        "Container": "mkv",
+        "Size": 513949601,
+        "Name": "Big Buck Bunny",
+        "IsRemote": false,
+        "ETag": "sdfsdfsd",
+        "RunTimeTicks": 26540060000,
+        "SupportsTranscoding": false,
+        "SupportsDirectStream": true,
+        "SupportsDirectPlay": true,
+        "VideoType": "VideoFile",
+        "MediaAttachments": [],
+        "Formats": [],
+        "Bitrate": 1741204,
+        "HasSegments": true
+      }
+    ],
+    "PlaySessionId": "asdf234qwafsdfsdf"
+  });
 }
