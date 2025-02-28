@@ -17,6 +17,7 @@ import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/shared/default_title_bar.dart';
+import 'package:fladder/screens/shared/media/components/item_logo.dart';
 import 'package:fladder/screens/video_player/components/video_playback_information.dart';
 import 'package:fladder/screens/video_player/components/video_player_controls_extras.dart';
 import 'package:fladder/screens/video_player/components/video_player_options_sheet.dart';
@@ -245,7 +246,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     IconButton(
                       onPressed: () => minimizePlayer(context),
@@ -255,12 +256,20 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                       ),
                     ),
                     const SizedBox(width: 16),
-                    Expanded(
-                      child: Text(
-                        currentItem?.title ?? "",
-                        style: Theme.of(context).textTheme.titleLarge,
+                    if (currentItem != null)
+                      Flexible(
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(
+                            maxHeight: 300,
+                          ),
+                          child: ItemLogo(
+                            item: currentItem,
+                            imageAlignment: Alignment.topLeft,
+                            textStyle: Theme.of(context).textTheme.headlineLarge,
+                          ),
+                        ),
                       ),
-                    ),
+                    const SizedBox(width: 16),
                     if (AdaptiveLayout.of(context).inputDevice == InputDevice.touch)
                       Tooltip(
                           message: context.localized.stop,
@@ -380,7 +389,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                               child: IconButton(
                                   onPressed: () => closePlayer(), icon: const Icon(IconsaxOutline.close_square))),
                         const Spacer(),
-                        if (AdaptiveLayout.viewSizeOf(context) >= ViewSize.desktop &&
+                        if (AdaptiveLayout.viewSizeOf(context) >= ViewSize.tablet &&
                             ref.read(videoPlayerProvider).hasPlayer) ...{
                           if (bitRateOptions?.isNotEmpty == true)
                             Tooltip(
@@ -390,6 +399,9 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                                 icon: const Icon(IconsaxOutline.speedometer),
                               ),
                             ),
+                        },
+                        if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer &&
+                            AdaptiveLayout.viewSizeOf(context) > ViewSize.phone) ...[
                           Listener(
                             onPointerSignal: (event) {
                               if (event is PointerScrollEvent) {
@@ -405,7 +417,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                             ),
                           ),
                           const FullScreenButton(),
-                        }
+                        ]
                       ].addInBetween(const SizedBox(width: 8)),
                     ),
                   ),
