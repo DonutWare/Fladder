@@ -246,6 +246,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: Row(
+                  mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     IconButton(
@@ -257,10 +258,10 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                     ),
                     const SizedBox(width: 16),
                     if (currentItem != null)
-                      Flexible(
+                      Expanded(
                         child: ConstrainedBox(
-                          constraints: const BoxConstraints(
-                            maxHeight: 300,
+                          constraints: BoxConstraints(
+                            maxHeight: 150.clamp(50, MediaQuery.sizeOf(context).height * 0.25).toDouble(),
                           ),
                           child: ItemLogo(
                             item: currentItem,
