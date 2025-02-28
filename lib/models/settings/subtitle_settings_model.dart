@@ -209,8 +209,8 @@ class SubtitleText extends ConsumerWidget {
           // Ensure the text doesn't go off-screen
           position = position.clamp(0, availableHeight - textHeight);
 
-          return Opacity(
-            opacity: text.isEmpty ? 0 : 1,
+          return Visibility(
+            visible: text.isEmpty ? false : true,
             child: IgnorePointer(
               child: Stack(
                 alignment: Alignment.bottomCenter,
