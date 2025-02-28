@@ -1,0 +1,31 @@
+# appimage-builder recipe see https://appimage-builder.readthedocs.io for details
+# appimage-builder --recipe AppImageBuilder.yml
+# wget -O appimage-builder-x86_64.AppImage https://github.com/AppImageCrafters/appimage-builder/releases/download/v1.1.0/appimage-builder-1.1.0-x86_64.AppImage
+# chmod +x appimage-builder-x86_64.AppImage
+
+# # install (optional)
+# sudo mv appimage-builder-x86_64.AppImage /usr/local/bin/appimage-builder
+version: 1
+script:
+  - rm -rf AppDir || true
+  - cp -r build/linux/x64/release/bundle AppDir
+  - mkdir -p AppDir/usr/share/icons/
+  - cp icons/production/fladder_icon_desktop.png AppDir/usr/share/icons/
+AppDir:
+  path: ./AppDir
+  app_info:
+    id: nl.jknaapen.fladder
+    name: Fladder
+    icon: fladder_icon_desktop
+    version: latest
+    exec: Fladder
+    exec_args: $@
+  files:
+    include:
+      - assets/fonts/rubik/Rubik-Italic-VariableFont_wght.ttf
+      - assets/fonts/rubik/Rubik-VariableFont_wght.ttf
+      - icons/production/fladder_icon_desktop.png
+AppImage:
+  arch: x86_64
+  update-information: gh-releases-zsync|DonutWare|Fladder|latest|Fladder-Linux-*.AppImage.zsync
+  file_name: Fladder_x86_64.AppImage

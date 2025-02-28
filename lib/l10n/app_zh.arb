@@ -247,7 +247,7 @@
   "@goTo": {},
   "grid": "网格",
   "@grid": {},
-  "group": "组",
+  "group": "分组",
   "@group": {},
   "groupBy": "分组依据",
   "@groupBy": {},
@@ -1260,5 +1260,15 @@
   "qualityOptionsAuto": "自动",
   "@qualityOptionsAuto": {},
   "version": "版本",
-  "@version": {}
+  "@version": {},
+  "segmentActionSkip": "跳过",
+  "@segmentActionSkip": {},
+  "segmentActionNone": "无",
+  "@segmentActionNone": {},
+  "mediaSegmentActions": "媒体片段操作",
+  "@mediaSegmentActions": {},
+  "segmentActionAskToSkip": "询问",
+  "@segmentActionAskToSkip": {},
+  "loading": "加载中",
+  "@loading": {}
 }

@@ -14,7 +14,7 @@ class FladderImage extends ConsumerWidget {
   final Widget? placeHolder;
   final BoxFit fit;
   final AlignmentGeometry? alignment;
-  final bool enableBlur;
+  final bool disableBlur;
   final bool blurOnly;
   const FladderImage({
     required this.image,
@@ -23,7 +23,7 @@ class FladderImage extends ConsumerWidget {
     this.placeHolder,
     this.fit = BoxFit.cover,
     this.alignment,
-    this.enableBlur = false,
+    this.disableBlur = false,
     this.blurOnly = false,
     super.key,
   });
@@ -39,7 +39,7 @@ class FladderImage extends ConsumerWidget {
         key: Key(newImage.key),
         fit: StackFit.expand,
         children: [
-          if (useBluredPlaceHolder && !enableBlur && newImage.hash.isNotEmpty && !enableBlur)
+          if (!disableBlur && useBluredPlaceHolder && newImage.hash.isNotEmpty)
             Image(
               fit: fit,
               excludeFromSemantics: true,

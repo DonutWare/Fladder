@@ -24,7 +24,7 @@ class MediaHeader extends ConsumerWidget {
       alignment: Alignment.center,
       child: SelectableText(
         name,
-        textAlign: TextAlign.center,
+        textAlign: TextAlign.start,
         style: Theme.of(context).textTheme.headlineLarge?.copyWith(
               fontSize: 55,
             ),
@@ -47,7 +47,7 @@ class MediaHeader extends ConsumerWidget {
               logo != null
                   ? FladderImage(
                       image: logo,
-                      enableBlur: true,
+                      disableBlur: true,
                       alignment: Alignment.bottomCenter,
                       imageErrorBuilder: (context, object, stack) => textWidget,
                       placeHolder: const SizedBox(height: 0),

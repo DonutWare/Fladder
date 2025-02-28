@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/widgets.dart';
 
 import 'package:collection/collection.dart';
@@ -49,42 +51,47 @@ class VideoQualitySettings {
 }
 
 Map<Bitrate, bool> getVideoQualityOptions(VideoQualitySettings options) {
-  final maxStreamingBitrate = options.maxBitRate;
-  final videoBitRate = options.videoBitRate;
-  final videoCodec = options.videoCodec;
-  double referenceBitRate = videoBitRate.toDouble();
+  try {
+    final maxStreamingBitrate = options.maxBitRate;
+    final videoBitRate = options.videoBitRate;
+    final videoCodec = options.videoCodec;
+    double referenceBitRate = videoBitRate.toDouble();
 
-  final bitRateValues = Bitrate.values.where((value) => value.calculatedBitRate > 0).toSet();
+    final bitRateValues = Bitrate.values.where((value) => value.calculatedBitRate > 0).toSet();
 
-  final qualityOptions = <Bitrate>{Bitrate.original, Bitrate.auto};
+    final qualityOptions = <Bitrate>{Bitrate.original, Bitrate.auto};
 
-  if (videoBitRate > 0 && videoBitRate < bitRateValues.first.calculatedBitRate) {
-    if (videoCodec != null && ['hevc', 'av1', 'vp9'].contains(videoCodec) && referenceBitRate <= 20000000) {
-      referenceBitRate *= 1.5;
+    if (videoBitRate > 0 && videoBitRate < bitRateValues.first.calculatedBitRate) {
+      if (videoCodec != null && ['hevc', 'av1', 'vp9'].contains(videoCodec) && referenceBitRate <= 20000000) {
+        referenceBitRate *= 1.5;
+      }
+
+      final sourceOption = bitRateValues.where((value) => value.calculatedBitRate > referenceBitRate).lastOrNull;
+
+      if (sourceOption != null) {
+        qualityOptions.add(sourceOption);
+      }
     }
 
-    final sourceOption = bitRateValues.where((value) => value.calculatedBitRate > referenceBitRate).lastOrNull;
+    qualityOptions
+        .addAll(bitRateValues.where((value) => videoBitRate <= 0 || value.calculatedBitRate <= referenceBitRate));
 
-    if (sourceOption != null) {
-      qualityOptions.add(sourceOption);
+    Bitrate? selectedQualityOption;
+    if (maxStreamingBitrate != null && maxStreamingBitrate != Bitrate.original) {
+      selectedQualityOption = qualityOptions
+          .where((value) =>
+              value.calculatedBitRate > 0 && value.calculatedBitRate <= maxStreamingBitrate.calculatedBitRate)
+          .firstOrNull;
     }
+
+    return qualityOptions.toList().asMap().map(
+          (_, bitrate) => MapEntry(
+            bitrate,
+            bitrate == maxStreamingBitrate || bitrate == selectedQualityOption,
+          ),
+        );
+  } catch (e) {
+    log(e.toString());
+    return {};
   }
-
-  qualityOptions
-      .addAll(bitRateValues.where((value) => videoBitRate <= 0 || value.calculatedBitRate <= referenceBitRate));
-
-  Bitrate? selectedQualityOption;
-  if (maxStreamingBitrate != null && maxStreamingBitrate != Bitrate.original) {
-    selectedQualityOption = qualityOptions
-        .where(
-            (value) => value.calculatedBitRate > 0 && value.calculatedBitRate <= maxStreamingBitrate.calculatedBitRate)
-        .firstOrNull;
-  }
-
-  return qualityOptions.toList().asMap().map(
-        (_, bitrate) => MapEntry(
-          bitrate,
-          bitrate == maxStreamingBitrate || bitrate == selectedQualityOption,
-        ),
-      );
 }
