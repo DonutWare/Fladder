@@ -444,13 +444,10 @@ jobs:
           name: fladder-linux-appimage
           path: fladder-linux-appimage
 
-      - name: Archive Linux artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: fladder-linux-appimage
-          path: |
-            mv fladder-linux-appimage/Fladder_x86_64.AppImage Fladder-Linux-${{needs.fetch-info.outputs.version_name}}.AppImage
-            mv fladder-linux-appimage/Fladder_x86_64.AppImage.zsync Fladder-Linux-${{needs.fetch-info.outputs.version_name}}.AppImage.zsync
+      - name: Move linux AppImages
+        run: |
+          mv fladder-linux-appimage/Fladder_x86_64.AppImage Fladder-Linux-${{needs.fetch-info.outputs.version_name}}.AppImage
+          mv fladder-linux-appimage/Fladder_x86_64.AppImage.zsync Fladder-Linux-${{needs.fetch-info.outputs.version_name}}.AppImage.zsync
 
       - name: Download Artifacts Web
         uses: actions/download-artifact@v4
