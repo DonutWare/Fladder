@@ -209,43 +209,46 @@ class SubtitleText extends ConsumerWidget {
           // Ensure the text doesn't go off-screen
           position = position.clamp(0, availableHeight - textHeight);
 
-          return IgnorePointer(
-            child: Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                Positioned(
-                  bottom: position,
-                  child: Container(
-                    constraints: BoxConstraints(maxWidth: constraints.maxWidth, maxHeight: constraints.maxHeight),
-                    decoration: BoxDecoration(
-                      color: subModel.backGroundColor,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Text(
-                        text,
-                        style: subModel.backGroundStyle.copyWith(fontSize: textScale),
-                        textAlign: TextAlign.center,
+          return Opacity(
+            opacity: text.isEmpty ? 0 : 1,
+            child: IgnorePointer(
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  Positioned(
+                    bottom: position,
+                    child: Container(
+                      constraints: BoxConstraints(maxWidth: constraints.maxWidth, maxHeight: constraints.maxHeight),
+                      decoration: BoxDecoration(
+                        color: subModel.backGroundColor,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(
+                          text,
+                          style: subModel.backGroundStyle.copyWith(fontSize: textScale),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Positioned(
-                  bottom: position,
-                  child: Container(
-                    constraints: BoxConstraints(maxWidth: constraints.maxWidth, maxHeight: constraints.maxHeight),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Text(
-                        text,
-                        style: subModel.style.copyWith(fontSize: textScale),
-                        textAlign: TextAlign.center,
+                  Positioned(
+                    bottom: position,
+                    child: Container(
+                      constraints: BoxConstraints(maxWidth: constraints.maxWidth, maxHeight: constraints.maxHeight),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(
+                          text,
+                          style: subModel.style.copyWith(fontSize: textScale),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           );
         },
