@@ -929,5 +929,7 @@
   "unknown": "Unbekannt",
   "@unknown": {},
   "useDefaults": "Standardeinstellungen verwenden",
-  "@useDefaults": {}
+  "@useDefaults": {},
+  "videoScalingFitHeight": "An Höhe anpassen",
+  "@videoScalingFitHeight": {}
 }
