@@ -1020,6 +1020,6 @@
   "@videoScalingFitWidth": {},
   "syncStatusSynced": "Synchronisiert",
   "@syncStatusSynced": {},
-  "syncNoFolderSetup": "Kein Synchronisationsordner eingerichtet",
+  "syncNoFolderSetup": "Kein Sync-Ordner-Setup",
   "@syncNoFolderSetup": {}
 }
