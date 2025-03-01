@@ -880,5 +880,28 @@
   "settingsHomeBannerTitle": "Home-Banner",
   "@settingsHomeBannerTitle": {},
   "settingsHomeNextUpDesc": "Art der im Dashboard-Bildschirm angezeigten Poster",
-  "@settingsHomeNextUpDesc": {}
+  "@settingsHomeNextUpDesc": {},
+  "settingsPlayerNativeLibassAccelDesc": "Nutze den libass-Untertitel-Renderer im Videoplayer",
+  "@settingsPlayerNativeLibassAccelDesc": {},
+  "settingsPlayerNativeLibassAccelTitle": "Native libass-Untertitel",
+  "@settingsPlayerNativeLibassAccelTitle": {},
+  "settingsPosterPinch": "Mit Zwei-Finger-Zoom Poster skalieren",
+  "@settingsPosterPinch": {},
+  "settingsShowScaleSlider": "Postergrößen-Slide anzeigen",
+  "@settingsShowScaleSlider": {},
+  "videoScalingFillScreenNotif": "Vollbild überschreibt Videoanpassung bei horizontaler Drehung",
+  "@videoScalingFillScreenNotif": {},
+  "syncDeleteItemDesc": "Alle für {item} synchronisierten Daten löschen?",
+  "@syncDeleteItemDesc": {
+    "description": "Sync delete item pop-up window",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsNextUpCutoffDays": "Nächste Folge wird nicht mehr vorgeschlagen ab",
+  "@settingsNextUpCutoffDays": {},
+  "settingsPosterSize": "Postergröße",
+  "@settingsPosterSize": {}
 }
