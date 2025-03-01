@@ -903,5 +903,31 @@
   "settingsNextUpCutoffDays": "Nächste Folge wird nicht mehr vorgeschlagen ab",
   "@settingsNextUpCutoffDays": {},
   "settingsPosterSize": "Postergröße",
-  "@settingsPosterSize": {}
+  "@settingsPosterSize": {},
+  "syncRemoveDataDesc": "Gelöschte Videodaten löschen? Dies ist permanent und Sie müssen die Dateien neu synchronisieren",
+  "@syncRemoveDataDesc": {},
+  "timeAndAnnotation": "{minutes} und {seconds}",
+  "@timeAndAnnotation": {
+    "description": "timeAndAnnotation",
+    "placeholders": {
+      "minutes": {
+        "type": "String"
+      },
+      "seconds": {
+        "type": "String"
+      }
+    }
+  },
+  "totalSize": "Gesamtgröße: {size}",
+  "@totalSize": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "unknown": "Unbekannt",
+  "@unknown": {},
+  "useDefaults": "Standardeinstellungen verwenden",
+  "@useDefaults": {}
 }
