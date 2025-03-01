@@ -889,7 +889,7 @@
   "@settingsPosterPinch": {},
   "settingsShowScaleSlider": "Postergrößen-Slide anzeigen",
   "@settingsShowScaleSlider": {},
-  "videoScalingFillScreenNotif": "Vollbild überschreibt Videoanpassung bei horizontaler Drehung",
+  "videoScalingFillScreenNotif": "Fill-Screen überschreibt Video fit, in horizontaler Rotation",
   "@videoScalingFillScreenNotif": {},
   "syncDeleteItemDesc": "Alle für {item} synchronisierten Daten löschen?",
   "@syncDeleteItemDesc": {
