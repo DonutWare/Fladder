@@ -1002,7 +1002,7 @@
   "@syncStatusNotFound": {},
   "syncStatusPartially": "Teilweise",
   "@syncStatusPartially": {},
-  "syncSelectDownloadsFolder": "Wählen Sie Downloads-Ordner",
+  "syncSelectDownloadsFolder": "Wählen Sie den Downloads-Ordner",
   "@syncSelectDownloadsFolder": {},
   "writer": "{count, plural, other{Writer}",
   "@writer": {
@@ -1015,5 +1015,11 @@
     }
   },
   "viewPhotos": "Fotos ansehen",
-  "@viewPhotos": {}
+  "@viewPhotos": {},
+  "videoScalingFitWidth": "An Breite anpassen",
+  "@videoScalingFitWidth": {},
+  "syncStatusSynced": "Synchronisiert",
+  "@syncStatusSynced": {},
+  "syncNoFolderSetup": "Kein Synchronisationsordner eingerichtet",
+  "@syncNoFolderSetup": {}
 }
