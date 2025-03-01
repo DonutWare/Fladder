@@ -930,7 +930,7 @@
   "@unknown": {},
   "useDefaults": "Standardeinstellungen verwenden",
   "@useDefaults": {},
-  "videoScalingFitHeight": "An Höhe anpassen",
+  "videoScalingFitHeight": "Passende Größe",
   "@videoScalingFitHeight": {},
   "syncStatusWaitingToRetry": "Warte auf erneuten Versuch",
   "@syncStatusWaitingToRetry": {},
@@ -957,5 +957,63 @@
   "syncStatusPaused": "Pausiert",
   "@syncStatusPaused": {},
   "syncOverlayDeleting": "Synchronisiertes Element wird entfernt",
-  "@syncOverlayDeleting": {}
+  "@syncOverlayDeleting": {},
+  "syncStatusCanceled": "Abgebrochen",
+  "@syncStatusCanceled": {},
+  "videoScalingScaleDown": "Skalierung",
+  "@videoScalingScaleDown": {},
+  "addToNewCollection": "Neue Kollektion",
+  "@addToNewCollection": {},
+  "addItemsToCollection": "{itemLength} Artikel zur Sammlung hinzufügen",
+  "@addItemsToCollection": {
+    "placeholders": {
+      "itemLength": {
+        "type": "int"
+      }
+    }
+  },
+  "addedToCollection": "Hinzugefügt zu {collectionName} Sammlung",
+  "@addedToCollection": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "removedFromCollection": "Von {collectionName} Sammlung entfernt",
+  "@removedFromCollection": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "addToNewPlaylist": "Neue Playlist",
+  "@addToNewPlaylist": {},
+  "addItemsToPlaylist": "{itemLength} Artikel zur Wiedergabeliste hinzufügen",
+  "@addItemsToPlaylist": {
+    "placeholders": {
+      "itemLength": {
+        "type": "int"
+      }
+    }
+  },
+  "syncStatusNotFound": "Nicht gefunden",
+  "@syncStatusNotFound": {},
+  "syncStatusPartially": "Teilweise",
+  "@syncStatusPartially": {},
+  "syncSelectDownloadsFolder": "Wählen Sie Downloads-Ordner",
+  "@syncSelectDownloadsFolder": {},
+  "writer": "{count, plural, other{Writer}",
+  "@writer": {
+    "description": "writer",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "viewPhotos": "Fotos ansehen",
+  "@viewPhotos": {}
 }
