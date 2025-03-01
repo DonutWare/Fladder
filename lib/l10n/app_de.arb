@@ -1020,7 +1020,7 @@
   "@videoScalingFitWidth": {},
   "syncStatusSynced": "Synchronisiert",
   "@syncStatusSynced": {},
-  "syncNoFolderSetup": "Kein Sync-Ordner-Setup",
+  "syncNoFolderSetup": "Kein Synchronisationsordner eingerichtet",
   "@syncNoFolderSetup": {},
   "defaultFilterForLibrary": "Standardfilter für Bibliothek",
   "@defaultFilterForLibrary": {},
@@ -1045,5 +1045,76 @@
   "playbackRate": "Wiedergaberate",
   "@playbackRate": {},
   "unableToPlayMedia": "Es gab einen Fehler, einen kompatiblen Medientyp zu finden",
-  "@unableToPlayMedia": {}
+  "@unableToPlayMedia": {},
+  "updateFilterForLibrary": "Filter aktualisieren",
+  "@updateFilterForLibrary": {},
+  "aboutSocials": "Socials",
+  "@aboutSocials": {},
+  "unableToSyncItem": "{item} kann nicht synchronisiert werden, es ist ein Fehler aufgetreten.",
+  "@unableToSyncItem": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "syncRemoveUnableToDeleteItem": "Synchronisiertes Element kann nicht entfernt werden, es ist ein Fehler aufgetreten.",
+  "@syncRemoveUnableToDeleteItem": {},
+  "syncAddItemForSyncing": "{item} zur Synchronisation hinzugefügt",
+  "@syncAddItemForSyncing": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "startedSyncingItem": "Synchronisation von {item} gestartet",
+  "@startedSyncingItem": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutVersion": "Version: {version}",
+  "@aboutVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutBuild": "Build: {buildNumber}",
+  "@aboutBuild": {
+    "placeholders": {
+      "buildNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "scale": "Skalierung",
+  "@scale": {},
+  "subtitleConfiguration": "Konfiguration der Untertitel",
+  "@subtitleConfiguration": {},
+  "removeFilterForLibrary": "{filter} entfernen?",
+  "@removeFilterForLibrary": {
+    "description": "removeFilterForLibrary",
+    "placeholders": {
+      "filter": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsAutoNextDesc": "Zeigt eine Vorschau des nächsten Elements gegen Ende an, wenn ein weiteres Element in der Warteschlange ist.",
+  "@settingsAutoNextDesc": {},
+  "autoNextOffSmartDesc": "Zeigt den Als Nächstes-Bildschirm, wenn der Abspann beginnt, sofern danach nicht mehr als 10 Sekunden verbleiben. Andernfalls wird der Als Nächstes-Bildschirm 30 Sekunden vor dem Ende der Wiedergabe angezeigt.",
+  "@autoNextOffSmartDesc": {},
+  "autoNextOffStaticTitle": "Statisch",
+  "@autoNextOffStaticTitle": {},
+  "autoNextOffStaticDesc": "Zeige den Als Nächstes-Bildschirm, wenn noch 30 Sekunden Wiedergabezeit verbleiben.",
+  "@autoNextOffStaticDesc": {},
+  "errorOpeningMedia": "Beim Abspielen dieses Mediums ist ein Fehler aufgetreten.",
+  "@errorOpeningMedia": {},
+  "unableToPlayBooksOnWeb": "Bücher werden derzeit im Web nicht unterstützt.",
+  "@unableToPlayBooksOnWeb": {}
 }
