@@ -931,5 +931,31 @@
   "useDefaults": "Standardeinstellungen verwenden",
   "@useDefaults": {},
   "videoScalingFitHeight": "An Höhe anpassen",
-  "@videoScalingFitHeight": {}
+  "@videoScalingFitHeight": {},
+  "syncStatusWaitingToRetry": "Warte auf erneuten Versuch",
+  "@syncStatusWaitingToRetry": {},
+  "syncOverlaySyncing": "Elementdetails werden synchronisiert",
+  "@syncOverlaySyncing": {},
+  "videoScalingFillScreenTitle": "Bildschirm ausfüllen",
+  "@videoScalingFillScreenTitle": {},
+  "addedToPlaylist": "Zu Playlist {playlistName} hinzugefügt",
+  "@addedToPlaylist": {
+    "placeholders": {
+      "playlistName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncStatusEnqueued": "Zur Warteschlange hinzugefügt",
+  "@syncStatusEnqueued": {},
+  "syncStatusRunning": "Läuft",
+  "@syncStatusRunning": {},
+  "syncStatusComplete": "Abgeschlossen",
+  "@syncStatusComplete": {},
+  "syncStatusFailed": "Fehlgeschlagen",
+  "@syncStatusFailed": {},
+  "syncStatusPaused": "Pausiert",
+  "@syncStatusPaused": {},
+  "syncOverlayDeleting": "Synchronisiertes Element wird entfernt",
+  "@syncOverlayDeleting": {}
 }
