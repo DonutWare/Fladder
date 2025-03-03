@@ -1004,7 +1004,7 @@
   "@syncStatusPartially": {},
   "syncSelectDownloadsFolder": "Wählen Sie den Downloads-Ordner",
   "@syncSelectDownloadsFolder": {},
-  "writer": "{count, plural, other{Writer}",
+  "writer": "{count, plural, other{Writer}}",
   "@writer": {
     "description": "writer",
     "placeholders": {
