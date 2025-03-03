@@ -733,7 +733,7 @@
   "@settingsBlurEpisodesTitle": {},
   "mediaTypeBase": "Basistyp",
   "@mediaTypeBase": {},
-  "pathEditDesc": "Der gesezte Pfad wird für alle Benutzer festgesetzt, wodurch die syncronisierten Daten nicht mehr verfügbar sein werden. \nDiese bleiben auf dem Speicher gespeichert.",
+  "pathEditDesc": "Dieser Speicherort ist für alle Benutzer festgelegt. Alle synchronisierten Daten sind dann nicht mehr zugänglich, verbleiben jedoch auf deinem Speicher.",
   "@pathEditDesc": {},
   "resume": "Wiedergabe von {item} fortsetzen",
   "@resume": {
@@ -799,7 +799,7 @@
   },
   "sortOrder": "Sortierungsreihenfolge",
   "@sortOrder": {},
-  "subtitleConfiguratorPlaceHolder": "Dieser Text ist ein Platzhalter, \nnichts weiteres",
+  "subtitleConfiguratorPlaceHolder": "Dies ist Platzhaltertext, hier gibt es nichts zu sehen.",
   "@subtitleConfiguratorPlaceHolder": {},
   "syncDeleteItemTitle": "Syncronisiertes Element löschen",
   "@syncDeleteItemTitle": {},
@@ -853,7 +853,7 @@
   },
   "syncDetails": "Details zur Synronsierung",
   "@syncDetails": {},
-  "syncDeletePopupPermanent": "Alle lokal syncronisierten Dateien werden gelöscht, diese Aktion ist unumkehrbar",
+  "syncDeletePopupPermanent": "Diese Aktion ist dauerhaft und entfernt alle lokal synchronisierten Dateien.",
   "@syncDeletePopupPermanent": {},
   "unableToConnectHost": "Verbindung zum Host nicht möglich",
   "@unableToConnectHost": {},
@@ -880,5 +880,403 @@
   "settingsHomeBannerTitle": "Home-Banner",
   "@settingsHomeBannerTitle": {},
   "settingsHomeNextUpDesc": "Art der im Dashboard-Bildschirm angezeigten Poster",
-  "@settingsHomeNextUpDesc": {}
+  "@settingsHomeNextUpDesc": {},
+  "settingsPlayerNativeLibassAccelDesc": "Nutze den libass-Untertitel-Renderer im Videoplayer",
+  "@settingsPlayerNativeLibassAccelDesc": {},
+  "settingsPlayerNativeLibassAccelTitle": "Native libass-Untertitel",
+  "@settingsPlayerNativeLibassAccelTitle": {},
+  "settingsPosterPinch": "Mit Zwei-Finger-Zoom Poster skalieren",
+  "@settingsPosterPinch": {},
+  "settingsShowScaleSlider": "Postergrößen-Slide anzeigen",
+  "@settingsShowScaleSlider": {},
+  "videoScalingFillScreenNotif": "Fill-Screen überschreibt Video fit, in horizontaler Rotation",
+  "@videoScalingFillScreenNotif": {},
+  "syncDeleteItemDesc": "Alle für {item} synchronisierten Daten löschen?",
+  "@syncDeleteItemDesc": {
+    "description": "Sync delete item pop-up window",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsNextUpCutoffDays": "Nächste Folge wird nicht mehr vorgeschlagen ab",
+  "@settingsNextUpCutoffDays": {},
+  "settingsPosterSize": "Postergröße",
+  "@settingsPosterSize": {},
+  "syncRemoveDataDesc": "Gelöschte Videodaten löschen? Dies ist permanent und Sie müssen die Dateien neu synchronisieren",
+  "@syncRemoveDataDesc": {},
+  "timeAndAnnotation": "{minutes} und {seconds}",
+  "@timeAndAnnotation": {
+    "description": "timeAndAnnotation",
+    "placeholders": {
+      "minutes": {
+        "type": "String"
+      },
+      "seconds": {
+        "type": "String"
+      }
+    }
+  },
+  "totalSize": "Gesamtgröße: {size}",
+  "@totalSize": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "unknown": "Unbekannt",
+  "@unknown": {},
+  "useDefaults": "Standardeinstellungen verwenden",
+  "@useDefaults": {},
+  "videoScalingFitHeight": "Passende Größe",
+  "@videoScalingFitHeight": {},
+  "syncStatusWaitingToRetry": "Warte auf erneuten Versuch",
+  "@syncStatusWaitingToRetry": {},
+  "syncOverlaySyncing": "Elementdetails werden synchronisiert",
+  "@syncOverlaySyncing": {},
+  "videoScalingFillScreenTitle": "Bildschirm ausfüllen",
+  "@videoScalingFillScreenTitle": {},
+  "addedToPlaylist": "Zu Playlist {playlistName} hinzugefügt",
+  "@addedToPlaylist": {
+    "placeholders": {
+      "playlistName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncStatusEnqueued": "Zur Warteschlange hinzugefügt",
+  "@syncStatusEnqueued": {},
+  "syncStatusRunning": "Läuft",
+  "@syncStatusRunning": {},
+  "syncStatusComplete": "Abgeschlossen",
+  "@syncStatusComplete": {},
+  "syncStatusFailed": "Fehlgeschlagen",
+  "@syncStatusFailed": {},
+  "syncStatusPaused": "Pausiert",
+  "@syncStatusPaused": {},
+  "syncOverlayDeleting": "Synchronisiertes Element wird entfernt",
+  "@syncOverlayDeleting": {},
+  "syncStatusCanceled": "Abgebrochen",
+  "@syncStatusCanceled": {},
+  "videoScalingScaleDown": "Skalierung",
+  "@videoScalingScaleDown": {},
+  "addToNewCollection": "Neue Kollektion",
+  "@addToNewCollection": {},
+  "addItemsToCollection": "{itemLength} Artikel zur Sammlung hinzufügen",
+  "@addItemsToCollection": {
+    "placeholders": {
+      "itemLength": {
+        "type": "int"
+      }
+    }
+  },
+  "addedToCollection": "Hinzugefügt zu {collectionName} Sammlung",
+  "@addedToCollection": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "removedFromCollection": "Von {collectionName} Sammlung entfernt",
+  "@removedFromCollection": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "addToNewPlaylist": "Neue Playlist",
+  "@addToNewPlaylist": {},
+  "addItemsToPlaylist": "{itemLength} Artikel zur Wiedergabeliste hinzufügen",
+  "@addItemsToPlaylist": {
+    "placeholders": {
+      "itemLength": {
+        "type": "int"
+      }
+    }
+  },
+  "syncStatusNotFound": "Nicht gefunden",
+  "@syncStatusNotFound": {},
+  "syncStatusPartially": "Teilweise",
+  "@syncStatusPartially": {},
+  "syncSelectDownloadsFolder": "Wählen Sie den Downloads-Ordner",
+  "@syncSelectDownloadsFolder": {},
+  "writer": "{count, plural, other{Writer}}",
+  "@writer": {
+    "description": "writer",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "viewPhotos": "Fotos ansehen",
+  "@viewPhotos": {},
+  "videoScalingFitWidth": "An Breite anpassen",
+  "@videoScalingFitWidth": {},
+  "syncStatusSynced": "Synchronisiert",
+  "@syncStatusSynced": {},
+  "syncNoFolderSetup": "Kein Synchronisationsordner eingerichtet",
+  "@syncNoFolderSetup": {},
+  "defaultFilterForLibrary": "Standardfilter für Bibliothek",
+  "@defaultFilterForLibrary": {},
+  "libraryFiltersLimitReached": "Filterlimit erreicht (10). Entferne einige Filter.",
+  "@libraryFiltersLimitReached": {},
+  "aboutCreatedBy": "Erstellt von DonutWare",
+  "@aboutCreatedBy": {},
+  "aboutLicenses": "Lizenzen",
+  "@aboutLicenses": {},
+  "subtitle": "Untertitel",
+  "@subtitle": {},
+  "off": "Aus",
+  "@off": {},
+  "screenBrightness": "Bildschirmhelligkeit",
+  "@screenBrightness": {},
+  "playBackSettings": "Playback-Einstellungen",
+  "@playBackSettings": {},
+  "speed": "Geschwindigkeit",
+  "@speed": {},
+  "deleteFilterConfirmation": "Sind Sie sicher, dass Sie diesen Filter löschen möchten?",
+  "@deleteFilterConfirmation": {},
+  "playbackRate": "Wiedergaberate",
+  "@playbackRate": {},
+  "unableToPlayMedia": "Es gab einen Fehler, einen kompatiblen Medientyp zu finden",
+  "@unableToPlayMedia": {},
+  "updateFilterForLibrary": "Filter aktualisieren",
+  "@updateFilterForLibrary": {},
+  "aboutSocials": "Socials",
+  "@aboutSocials": {},
+  "unableToSyncItem": "{item} kann nicht synchronisiert werden, es ist ein Fehler aufgetreten.",
+  "@unableToSyncItem": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "syncRemoveUnableToDeleteItem": "Synchronisiertes Element kann nicht entfernt werden, es ist ein Fehler aufgetreten.",
+  "@syncRemoveUnableToDeleteItem": {},
+  "syncAddItemForSyncing": "{item} zur Synchronisation hinzugefügt",
+  "@syncAddItemForSyncing": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "startedSyncingItem": "Synchronisation von {item} gestartet",
+  "@startedSyncingItem": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutVersion": "Version: {version}",
+  "@aboutVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutBuild": "Build: {buildNumber}",
+  "@aboutBuild": {
+    "placeholders": {
+      "buildNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "scale": "Skalierung",
+  "@scale": {},
+  "subtitleConfiguration": "Konfiguration der Untertitel",
+  "@subtitleConfiguration": {},
+  "removeFilterForLibrary": "{filter} entfernen?",
+  "@removeFilterForLibrary": {
+    "description": "removeFilterForLibrary",
+    "placeholders": {
+      "filter": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsAutoNextDesc": "Zeigt eine Vorschau des nächsten Elements gegen Ende an, wenn ein weiteres Element in der Warteschlange ist.",
+  "@settingsAutoNextDesc": {},
+  "autoNextOffSmartDesc": "Zeigt den Als Nächstes-Bildschirm, wenn der Abspann beginnt, sofern danach nicht mehr als 10 Sekunden verbleiben. Andernfalls wird der Als Nächstes-Bildschirm 30 Sekunden vor dem Ende der Wiedergabe angezeigt.",
+  "@autoNextOffSmartDesc": {},
+  "autoNextOffStaticTitle": "Statisch",
+  "@autoNextOffStaticTitle": {},
+  "autoNextOffStaticDesc": "Zeige den Als Nächstes-Bildschirm, wenn noch 30 Sekunden Wiedergabezeit verbleiben.",
+  "@autoNextOffStaticDesc": {},
+  "errorOpeningMedia": "Beim Abspielen dieses Mediums ist ein Fehler aufgetreten.",
+  "@errorOpeningMedia": {},
+  "unableToPlayBooksOnWeb": "Bücher werden derzeit im Web nicht unterstützt.",
+  "@unableToPlayBooksOnWeb": {},
+  "clientSettingsShowAllCollectionsTitle": "Alle Kollektionstypen anzeigen",
+  "@clientSettingsShowAllCollectionsTitle": {},
+  "skipButtonLabel": "(S) kip {segment}",
+  "@skipButtonLabel": {
+    "placeholders": {
+      "segment": {
+        "type": "String"
+      }
+    }
+  },
+  "mediaSegmentUnknown": "Unbekannt",
+  "@mediaSegmentUnknown": {},
+  "mediaSegmentIntro": "Intro",
+  "@mediaSegmentIntro": {},
+  "noVideoPlayerOptions": "Das ausgewählte Backend hat keine Optionen",
+  "@noVideoPlayerOptions": {},
+  "settingsLayoutSizesTitle": "Layout Größen",
+  "@settingsLayoutSizesTitle": {},
+  "settingsLayoutModesTitle": "Layout-Modi",
+  "@settingsLayoutModesTitle": {},
+  "phone": "Telefon",
+  "@phone": {},
+  "settingsLayoutSizesDesc": "Wählen Sie, welche Layoutgrößen die App basierend auf der Fenstergröße verwenden kann",
+  "@settingsLayoutSizesDesc": {},
+  "episodeAvailable": "Verfügbar",
+  "@episodeAvailable": {},
+  "libraryFiltersRemoveAllConfirm": "Dies wird alle gespeicherten Filter für jede Bibliothek löschen",
+  "@libraryFiltersRemoveAllConfirm": {},
+  "libraryFiltersRemoveAll": "Alle Filter entfernen",
+  "@libraryFiltersRemoveAll": {},
+  "errorLogs": "Fehlerprotokolle",
+  "@errorLogs": {},
+  "clientSettingsSchemeVariantTitle": "Schemavariante",
+  "@clientSettingsSchemeVariantTitle": {},
+  "schemeSettingsMonochrome": "Monochrom",
+  "@schemeSettingsMonochrome": {},
+  "schemeSettingsNeutral": "Neutral",
+  "@schemeSettingsNeutral": {},
+  "schemeSettingsRainbow": "Regenbogen",
+  "@schemeSettingsRainbow": {},
+  "schemeSettingsFruitSalad": "Fruchtsalat",
+  "@schemeSettingsFruitSalad": {},
+  "playerSettingsBackendDesc": "Wählen Sie Ihren bevorzugten Mediaplayer für optimale Wiedergabeerfahrung",
+  "@playerSettingsBackendDesc": {},
+  "mdkExperimental": "MDK ist noch in einer experimentellen Phase",
+  "@mdkExperimental": {},
+  "internetStreamingQualityTitle": "Internet-Qualität",
+  "@internetStreamingQualityTitle": {},
+  "internetStreamingQualityDesc": "Maximale Streaming-Qualität über das Internet (mobile)",
+  "@internetStreamingQualityDesc": {},
+  "homeStreamingQualityDesc": "Maximale Streaming-Qualität, wenn mit Heimnetz verbunden",
+  "@homeStreamingQualityDesc": {},
+  "qualityOptionsTitle": "Qualitätsoptionen",
+  "@qualityOptionsTitle": {},
+  "qualityOptionsOriginal": "Original",
+  "@qualityOptionsOriginal": {},
+  "qualityOptionsAuto": "Auto",
+  "@qualityOptionsAuto": {},
+  "version": "Version",
+  "@version": {},
+  "mediaSegmentActions": "Mediensegment Aktionen",
+  "@mediaSegmentActions": {},
+  "segmentActionNone": "Keine",
+  "@segmentActionNone": {},
+  "closeVideo": "Video schließen",
+  "@closeVideo": {},
+  "autoNextOffSmartTitle": "Smart",
+  "@autoNextOffSmartTitle": {},
+  "clientSettingsRequireWifiDesc": "Nur herunterladen, wenn Sie mit einem WLAN-Netzwerk verbunden sind",
+  "@clientSettingsRequireWifiDesc": {},
+  "clientSettingsShowAllCollectionsDesc": "Wenn aktiviert, werden alle Sammlungstypen angezeigt, einschließlich derjenigen, die von Fladder nicht unterstützt werden.",
+  "@clientSettingsShowAllCollectionsDesc": {},
+  "downloadFile": "{type} herunterladen",
+  "@downloadFile": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "copyStreamUrl": "Stream-URL kopieren",
+  "@copyStreamUrl": {},
+  "mediaSegmentCommercial": "Werbung",
+  "@mediaSegmentCommercial": {},
+  "mediaSegmentPreview": "Vorschau",
+  "@mediaSegmentPreview": {},
+  "mediaSegmentRecap": "Rückblick",
+  "@mediaSegmentRecap": {},
+  "mediaSegmentOutro": "Outro",
+  "@mediaSegmentOutro": {},
+  "masonry": "Masonry",
+  "@masonry": {},
+  "settingsLayoutModesDesc": "Steuere, ob die App ein Einzelfenster- oder Zweifenster-Layout verwenden kann.",
+  "@settingsLayoutModesDesc": {},
+  "tablet": "Tablet",
+  "@tablet": {},
+  "desktop": "Desktop",
+  "@desktop": {},
+  "layoutModeSingle": "Einzeln",
+  "@layoutModeSingle": {},
+  "layoutModeDual": "Doppelt",
+  "@layoutModeDual": {},
+  "playerSettingsOrientationTitle": "Player-Ausrichtung",
+  "@playerSettingsOrientationTitle": {},
+  "playerSettingsOrientationDesc": "Den Videoplayer auf bestimmte Ausrichtungen festlegen",
+  "@playerSettingsOrientationDesc": {},
+  "deviceOrientationPortraitUp": "Hochformat (oben)",
+  "@deviceOrientationPortraitUp": {},
+  "deviceOrientationPortraitDown": "Hochformat (unten)",
+  "@deviceOrientationPortraitDown": {},
+  "deviceOrientationLandscapeLeft": "Querformat (links)",
+  "@deviceOrientationLandscapeLeft": {},
+  "deviceOrientationLandscapeRight": "Querformat (rechts)",
+  "@deviceOrientationLandscapeRight": {},
+  "mediaTypeBoxset": "Boxset",
+  "@mediaTypeBoxset": {},
+  "defaultLabel": "Standard",
+  "@defaultLabel": {
+    "description": "To indicate a default value, default video player backend"
+  },
+  "schemeSettingsTonalSpot": "Tonaler Akzent",
+  "@schemeSettingsTonalSpot": {},
+  "schemeSettingsFidelity": "Detailtreue",
+  "@schemeSettingsFidelity": {},
+  "schemeSettingsContent": "Inhaltsbezogen",
+  "@schemeSettingsContent": {},
+  "schemeSettingsVibrant": "Lebendig",
+  "@schemeSettingsVibrant": {},
+  "schemeSettingsExpressive": "Ausdrucksstark",
+  "@schemeSettingsExpressive": {},
+  "playerSettingsBackendTitle": "Videoplayer-Backend",
+  "@playerSettingsBackendTitle": {},
+  "copiedToClipboard": "In die Zwischenablage kopiert",
+  "@copiedToClipboard": {},
+  "libraryShuffleAndPlayItems": "Elemente mischen und abspielen",
+  "@libraryShuffleAndPlayItems": {},
+  "libraryPlayItems": "Elemente abspielen",
+  "@libraryPlayItems": {},
+  "homeStreamingQualityTitle": "Qualität für Zuhause",
+  "@homeStreamingQualityTitle": {},
+  "segmentActionAskToSkip": "Fragen, ob übersprungen werden soll",
+  "@segmentActionAskToSkip": {},
+  "segmentActionSkip": "Überspringen",
+  "@segmentActionSkip": {},
+  "loading": "Wird geladen",
+  "@loading": {},
+  "stop": "Beenden",
+  "@stop": {},
+  "resumeVideo": "Wiedergabe fortsetzen",
+  "@resumeVideo": {},
+  "playNextVideo": "Nächstes Video abspielen",
+  "@playNextVideo": {},
+  "external": "Extern",
+  "@external": {},
+  "settingsAutoNextTitle": "Vorschau auf das Nächste",
+  "@settingsAutoNextTitle": {},
+  "clientSettingsRequireWifiTitle": "WLAN erforderlich",
+  "@clientSettingsRequireWifiTitle": {},
+  "episodeUnaired": "Unveröffentlicht",
+  "@episodeUnaired": {},
+  "episodeMissing": "Fehlend",
+  "@episodeMissing": {}
 }
