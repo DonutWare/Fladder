@@ -87,6 +87,7 @@ dependencies:
   extended_image: ^9.1.0
   flutter_widget_from_html: ^0.15.3
   font_awesome_flutter: ^10.8.0
+  reorderable_grid: ^1.0.10
 
   # Navigation
   auto_route: ^9.3.0+1
@@ -108,6 +109,7 @@ dependencies:
   window_manager: ^0.4.3
   smtc_windows: ^1.0.0
   background_downloader: ^8.9.4
+  screen_retriever: ^0.2.0
 
   # Data
   isar: ^4.0.0-dev.14
@@ -122,7 +124,6 @@ dependencies:
   share_plus: ^10.1.4
   archive: ^4.0.2
   dart_mappable: ^4.3.0
-  reorderable_grid: ^1.0.10
 
 dev_dependencies:
   flutter_test:

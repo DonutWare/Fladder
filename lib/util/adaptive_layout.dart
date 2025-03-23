@@ -7,6 +7,7 @@ import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/settings/home_settings_provider.dart';
 import 'package:fladder/util/debug_banner.dart';
 import 'package:fladder/util/poster_defaults.dart';
+import 'package:fladder/util/resolution_checker.dart';
 
 enum InputDevice {
   touch,
@@ -184,7 +185,16 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
           ViewSize.tablet => const PosterDefaults(size: 350, ratio: 0.55),
           ViewSize.desktop => const PosterDefaults(size: 400, ratio: 0.55),
         },
-        child: DebugBanner(child: widget.child),
+        child: Builder(
+          builder: (context) {
+            return ResolutionChecker(
+              isDesktop: isDesktop,
+              child: DebugBanner(
+                child: widget.child,
+              ),
+            );
+          },
+        ),
       ),
     );
   }

@@ -6,7 +6,7 @@ class SettingsListTile extends StatelessWidget {
   final Widget? trailing;
   final bool selected;
   final IconData? icon;
-  final Widget? suffix;
+  final Widget? leading;
   final Color? contentColor;
   final Function()? onTap;
   const SettingsListTile({
@@ -14,7 +14,7 @@ class SettingsListTile extends StatelessWidget {
     this.subLabel,
     this.trailing,
     this.selected = false,
-    this.suffix,
+    this.leading,
     this.icon,
     this.contentColor,
     this.onTap,
@@ -41,7 +41,7 @@ class SettingsListTile extends StatelessWidget {
           horizontalTitleGap: 0,
           titleAlignment: ListTileTitleAlignment.center,
           contentPadding: const EdgeInsets.only(right: 12, left: 2),
-          leading: (suffix ?? iconWidget) != null
+          leading: (leading ?? iconWidget) != null
               ? Padding(
                   padding: const EdgeInsets.only(left: 8.0, right: 16.0),
                   child: AnimatedContainer(
@@ -52,11 +52,11 @@ class SettingsListTile extends StatelessWidget {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12),
-                      child: (suffix ?? iconWidget),
+                      child: (leading ?? iconWidget),
                     ),
                   ),
                 )
-              : suffix ?? const SizedBox(),
+              : leading ?? const SizedBox(),
           title: label,
           titleTextStyle: Theme.of(context).textTheme.titleLarge,
           trailing: Padding(

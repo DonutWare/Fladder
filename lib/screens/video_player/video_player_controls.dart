@@ -31,8 +31,7 @@ import 'package:fladder/util/input_handler.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/string_extensions.dart';
-import 'package:fladder/widgets/shared/full_screen_button.dart'
-    if (dart.library.html) 'package:fladder/widgets/shared/full_screen_button_web.dart';
+import 'package:fladder/widgets/full_screen_helpers.dart/full_screen_wrapper.dart';
 
 class DesktopControls extends ConsumerStatefulWidget {
   const DesktopControls({super.key});
@@ -86,7 +85,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         return true;
       }
       if (value.logicalKey == LogicalKeyboardKey.keyF) {
-        toggleFullScreen(ref);
+        fullScreenHelper.toggleFullScreen(ref);
         return true;
       }
       if (value.logicalKey == LogicalKeyboardKey.arrowUp) {
@@ -137,7 +136,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                       ? () => player.playOrPause()
                       : () => toggleOverlay(),
                   onDoubleTap: AdaptiveLayout.of(context).inputDevice == InputDevice.pointer
-                      ? () => toggleFullScreen(ref)
+                      ? () => fullScreenHelper.toggleFullScreen(ref)
                       : null,
                 ),
               ),
@@ -666,6 +665,6 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
 
   Future<void> disableFullScreen() async {
     resetTimer();
-    closeFullScreen();
+    fullScreenHelper.closeFullScreen(ref);
   }
 }

@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:window_manager/window_manager.dart';
 
 import 'package:fladder/models/settings/home_settings_model.dart';
+import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/providers/auth_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
@@ -12,6 +14,7 @@ import 'package:fladder/screens/settings/quick_connect_window.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/settings/settings_scaffold.dart';
 import 'package:fladder/screens/shared/fladder_icon.dart';
+import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/theme_extensions.dart';
@@ -136,15 +139,26 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             label: Text(context.localized.about),
             subLabel: const Text("Fladder"),
             selected: containsRoute(const AboutSettingsRoute()),
-            suffix: Opacity(
-              opacity: 1,
-              child: FladderIconOutlined(
-                size: 24,
-                color: context.colors.onSurfaceVariant,
-              ),
+            leading: FladderIconOutlined(
+              size: 24,
+              color: context.colors.onSurfaceVariant,
             ),
             onTap: () => navigateTo(const AboutSettingsRoute()),
           ),
+          if (ref.watch(argumentsStateProvider.select((value) => value.htpcMode))) ...[
+            SettingsListTile(
+              label: Text(context.localized.exitFladderTitle),
+              icon: IconsaxOutline.close_square,
+              onTap: () async {
+                final manager = WindowManager.instance;
+                if (await manager.isClosable()) {
+                  manager.close();
+                } else {
+                  fladderSnackbar(context, title: context.localized.somethingWentWrong);
+                }
+              },
+            ),
+          ],
         ],
         floatingActionButton: Padding(
           padding: EdgeInsets.symmetric(horizontal: MediaQuery.paddingOf(context).horizontal),

@@ -18,8 +18,10 @@ import 'package:universal_html/html.dart' as html;
 import 'package:window_manager/window_manager.dart';
 
 import 'package:fladder/models/account_model.dart';
+import 'package:fladder/models/settings/arguments_model.dart';
 import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/models/syncing/i_synced_item.dart';
+import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/providers/crash_log_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/shared_provider.dart';
@@ -50,7 +52,7 @@ Future<Map<String, dynamic>> loadConfig() async {
   return jsonDecode(configString);
 }
 
-void main() async {
+void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   final crashProvider = CrashLogNotifier();
 
@@ -90,6 +92,7 @@ void main() async {
         sharedPreferencesProvider.overrideWith((ref) => sharedPreferences),
         applicationInfoProvider.overrideWith((ref) => applicationInfo),
         crashLogProvider.overrideWith((ref) => crashProvider),
+        argumentsStateProvider.overrideWith((ref) => ArgumentsModel.fromArguments(args)),
         syncProvider.overrideWith((ref) => SyncNotifier(
               ref,
               !kIsWeb
@@ -235,6 +238,10 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
       windowManager.waitUntilReadyToShow(windowOptions, () async {
         await windowManager.show();
         await windowManager.focus();
+        final startupArguments = ref.read(argumentsStateProvider);
+        if (startupArguments.htpcMode && !(await windowManager.isFullScreen())) {
+          await windowManager.setFullScreen(true);
+        }
       });
     } else {
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge, overlays: []);

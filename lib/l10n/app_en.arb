@@ -1184,5 +1184,6 @@
   "segmentActionNone": "None",
   "segmentActionAskToSkip": "Ask to skip",
   "segmentActionSkip": "Skip",
-  "loading": "Loading"
+  "loading": "Loading",
+  "exitFladderTitle": "Exit Fladder"
 }
