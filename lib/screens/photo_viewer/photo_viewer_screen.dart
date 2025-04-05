@@ -423,14 +423,15 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
       showBottomSheetPill(
         context: context,
         content: (context, scrollController) {
-          return Column(
+          return ListView(
+            shrinkWrap: true,
+            controller: scrollController,
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Consumer(builder: (context, ref, child) {
-                    final photoViewerSettings = ref.watch(photoViewSettingsProvider);
                     return Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -439,28 +440,36 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
                           onPressed: () => ref
                               .read(photoViewSettingsProvider.notifier)
                               .update((state) => state.copyWith(repeat: !state.repeat)),
-                          icon: photoViewerSettings.repeat ? IconsaxOutline.repeat : IconsaxOutline.repeate_one,
+                          icon: ref.watch(photoViewSettingsProvider.select((value) => value.repeat))
+                              ? IconsaxOutline.repeat
+                              : IconsaxOutline.repeate_one,
                         ),
                         ElevatedIconButtonLabel(
                           label: context.localized.audio,
                           onPressed: () => ref
                               .read(photoViewSettingsProvider.notifier)
                               .update((state) => state.copyWith(mute: !state.mute)),
-                          icon: photoViewerSettings.mute ? IconsaxOutline.volume_slash : IconsaxOutline.volume_high,
+                          icon: ref.watch(photoViewSettingsProvider.select((value) => value.mute))
+                              ? IconsaxOutline.volume_slash
+                              : IconsaxOutline.volume_high,
                         ),
                         ElevatedIconButtonLabel(
                           label: context.localized.autoPlay,
                           onPressed: () => ref
                               .read(photoViewSettingsProvider.notifier)
                               .update((state) => state.copyWith(autoPlay: !state.autoPlay)),
-                          icon: photoViewerSettings.autoPlay ? IconsaxOutline.play_remove : IconsaxOutline.play,
+                          icon: ref.watch(photoViewSettingsProvider.select((value) => value.autoPlay))
+                              ? IconsaxOutline.play_remove
+                              : IconsaxOutline.play,
                         ),
                         ElevatedIconButtonLabel(
                           label: context.localized.backgroundBlur,
                           onPressed: () => ref
                               .read(photoViewSettingsProvider.notifier)
                               .update((state) => state.copyWith(theaterMode: !state.theaterMode)),
-                          icon: photoViewerSettings.theaterMode ? IconsaxOutline.filter_remove : IconsaxOutline.filter,
+                          icon: ref.watch(photoViewSettingsProvider.select((value) => value.theaterMode))
+                              ? IconsaxOutline.filter_remove
+                              : IconsaxOutline.filter,
                         ),
                       ].addInBetween(const SizedBox(width: 16)),
                     );
@@ -468,24 +477,18 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
                 ),
               ),
               const Divider(),
-              ListView(
-                shrinkWrap: true,
-                controller: scrollController,
-                children: [
-                  ...currentPhoto
-                      .generateActions(
-                        context,
-                        ref,
-                        exclude: {
-                          ItemActions.details,
-                          ItemActions.markPlayed,
-                          ItemActions.markUnplayed,
-                        },
-                        onDeleteSuccesFully: onRemove,
-                      )
-                      .listTileItems(context, useIcons: true),
-                ],
-              ),
+              ...currentPhoto
+                  .generateActions(
+                    context,
+                    ref,
+                    exclude: {
+                      ItemActions.details,
+                      ItemActions.markPlayed,
+                      ItemActions.markUnplayed,
+                    },
+                    onDeleteSuccesFully: onRemove,
+                  )
+                  .listTileItems(context, useIcons: true),
             ],
           );
         },
