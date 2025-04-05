@@ -14,6 +14,8 @@ class SMTCWindows {
     bool? enabled,
   });
 
+  static Future<void> initialize() async {}
+
   late final Stream<PressedButton> buttonPressStream;
 
   Future<void> updateConfig(SMTCConfig config) async {}

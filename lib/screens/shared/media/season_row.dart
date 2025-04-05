@@ -156,10 +156,7 @@ class SeasonPoster extends ConsumerWidget {
                         alignment: Alignment.bottomRight,
                         child: PopupMenuButton(
                           tooltip: context.localized.options,
-                          icon: Icon(
-                            Icons.more_vert,
-                            color: Colors.white,
-                          ),
+                          icon: const Icon(Icons.more_vert, color: Colors.white),
                           itemBuilder: (context) => season.generateActions(context, ref).popupMenuItems(useIcons: true),
                         ),
                       ),
