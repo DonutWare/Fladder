@@ -341,13 +341,8 @@ class _PosterImageState extends ConsumerState<PosterImage> {
                       padding: const EdgeInsets.all(8),
                       child: Text(
                         widget.poster.title.maxLength(limitTo: 25),
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelLarge
-                            ?.copyWith(fontSize: 20, fontWeight: FontWeight.bold, shadows: [
-                          const BoxShadow(blurRadius: 8, spreadRadius: 16),
-                          const BoxShadow(blurRadius: 2, spreadRadius: 16),
-                        ]),
+                        style:
+                            Theme.of(context).textTheme.labelLarge?.copyWith(fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),

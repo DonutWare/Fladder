@@ -132,7 +132,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
           child: Stack(
             children: [
               Positioned.fill(
-                child: GestureDetector(
+                child: InkWell(
                   onTap: AdaptiveLayout.of(context).inputDevice == InputDevice.pointer
                       ? () => player.playOrPause()
                       : () => toggleOverlay(),
@@ -453,12 +453,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                 Expanded(
                   child: Text(
                     details.nonNulls.join(' - '),
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      shadows: [
-                        const Shadow(blurRadius: 16),
-                      ],
-                    ),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
                     maxLines: 2,
                   ),
                 ),

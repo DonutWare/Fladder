@@ -184,17 +184,7 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with
                                 child: Text(
                                   widget.photo.name,
                                   maxLines: 2,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium
-                                      ?.copyWith(fontWeight: FontWeight.bold, shadows: [
-                                    BoxShadow(
-                                        blurRadius: 1, spreadRadius: 1, color: Colors.black.withValues(alpha: 0.7)),
-                                    BoxShadow(
-                                        blurRadius: 4, spreadRadius: 4, color: Colors.black.withValues(alpha: 0.4)),
-                                    BoxShadow(
-                                        blurRadius: 20, spreadRadius: 6, color: Colors.black.withValues(alpha: 0.2)),
-                                  ]),
+                                  style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ),

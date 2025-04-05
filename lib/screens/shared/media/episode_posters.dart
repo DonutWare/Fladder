@@ -259,15 +259,9 @@ class EpisodePoster extends ConsumerWidget {
                         alignment: Alignment.bottomRight,
                         child: PopupMenuButton(
                           tooltip: "Options",
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.more_vert,
                             color: Colors.white,
-                            shadows: [
-                              Shadow(color: Colors.black.withValues(alpha: 0.45), blurRadius: 8.0),
-                              const Shadow(color: Colors.black, blurRadius: 16.0),
-                              const Shadow(color: Colors.black, blurRadius: 32.0),
-                              const Shadow(color: Colors.black, blurRadius: 64.0),
-                            ],
                           ),
                           itemBuilder: (context) => actions.popupMenuItems(useIcons: true),
                         ),

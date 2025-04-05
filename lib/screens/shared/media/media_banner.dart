@@ -83,9 +83,6 @@ class _MediaBannerState extends ConsumerState<MediaBanner> {
   @override
   Widget build(BuildContext context) {
     final overlayColor = ThemesData.of(context).dark.colorScheme.primaryContainer;
-    final shadows = [
-      BoxShadow(blurRadius: 12, spreadRadius: 8, color: overlayColor),
-    ];
     final currentItem = widget.items[currentPage.clamp(0, widget.items.length - 1)];
     final double dragOpacity = (1 - dragOffset.abs()).clamp(0, 1);
 
@@ -224,7 +221,6 @@ class _MediaBannerState extends ConsumerState<MediaBanner> {
                                             currentItem.title,
                                             maxLines: 2,
                                             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                                                  shadows: shadows,
                                                   color: Colors.white,
                                                 ),
                                           ),
@@ -235,7 +231,6 @@ class _MediaBannerState extends ConsumerState<MediaBanner> {
                                               currentItem.label(context) ?? currentItem.subText ?? "",
                                               maxLines: 2,
                                               style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                                    shadows: shadows,
                                                     color: Colors.white.withValues(alpha: 0.75),
                                                   ),
                                             ),

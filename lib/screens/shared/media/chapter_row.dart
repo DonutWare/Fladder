@@ -58,11 +58,7 @@ class ChapterRow extends ConsumerWidget {
                         child: Text(
                           "${chapter.name} \n${chapter.startPosition.humanize ?? context.localized.start}",
                           textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              shadows: [
-                                BoxShadow(color: Theme.of(context).cardColor, blurRadius: 6, spreadRadius: 2.0)
-                              ]),
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
