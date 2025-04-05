@@ -17,6 +17,7 @@ import 'package:fladder/screens/shared/media/person_list_.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/util/people_extension.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/util/theme_extensions.dart';
 import 'package:fladder/util/widget_extensions.dart';
@@ -154,9 +155,14 @@ class _SeasonDetailScreenState extends ConsumerState<SeasonDetailScreen> {
                       episodes: details.episodes,
                       padding: padding,
                     ),
-                  if (details.overview.people.isNotEmpty)
+                  if (details.overview.people.mainCast.isNotEmpty)
                     PeopleRow(
-                      people: details.overview.people,
+                      people: details.overview.people.mainCast,
+                      contentPadding: padding,
+                    ),
+                  if (details.overview.people.guestActors.isNotEmpty)
+                    PeopleRow(
+                      people: details.overview.people.guestActors,
                       contentPadding: padding,
                     ),
                   if (details.overview.externalUrls?.isNotEmpty == true)

@@ -1,4 +1,9 @@
+import 'package:flutter/material.dart';
+
 import 'package:animations/animations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/screens/details_screens/person_detail_screen.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
@@ -8,8 +13,6 @@ import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/widgets/shared/clickable_text.dart';
 import 'package:fladder/widgets/shared/horizontal_list.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PeopleRow extends ConsumerWidget {
   final List<Person> people;
@@ -36,7 +39,9 @@ class PeopleRow extends ConsumerWidget {
     }
 
     return HorizontalList(
-      label: context.localized.actor(people.length),
+      label: people.any((e) => e.type != PersonKind.gueststar)
+          ? context.localized.castAndCrew
+          : context.localized.guestActor(people.length),
       height: AdaptiveLayout.poster(context).size * 0.9,
       contentPadding: contentPadding,
       items: people,
