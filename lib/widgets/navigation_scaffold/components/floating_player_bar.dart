@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -173,8 +173,8 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
                                     },
                                     icon: Icon(
                                       ref.watch(videoPlayerSettingsProvider.select((value) => value.volume)) <= 0
-                                          ? IconsaxBold.volume_cross
-                                          : IconsaxBold.volume_high,
+                                          ? IconsaxPlusBold.volume_cross
+                                          : IconsaxPlusBold.volume_high,
                                     ),
                                   ),
                                 },
@@ -183,7 +183,7 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
                                   waitDuration: const Duration(milliseconds: 500),
                                   child: IconButton(
                                     onPressed: () async => stopPlayer(),
-                                    icon: const Icon(IconsaxBold.stop),
+                                    icon: const Icon(IconsaxPlusBold.stop),
                                   ),
                                 ),
                               ].addInBetween(const SizedBox(width: 6)),

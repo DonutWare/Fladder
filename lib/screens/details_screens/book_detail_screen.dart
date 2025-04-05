@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/book_model.dart';
@@ -105,16 +105,16 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
                                   SelectableIconButton(
                                     onPressed: () async => await details.parentModel?.navigateTo(context),
                                     selected: false,
-                                    selectedIcon: IconsaxBold.book,
-                                    icon: IconsaxOutline.book,
+                                    selectedIcon: IconsaxPlusBold.book,
+                                    icon: IconsaxPlusLinear.book,
                                   ),
                                 if (details.parentModel != null)
                                   SelectableIconButton(
                                     onPressed: () async => await ref.read(userProvider.notifier).setAsFavorite(
                                         !details.parentModel!.userData.isFavourite, details.parentModel!.id),
                                     selected: details.parentModel!.userData.isFavourite,
-                                    selectedIcon: IconsaxBold.heart,
-                                    icon: IconsaxOutline.heart,
+                                    selectedIcon: IconsaxPlusBold.heart,
+                                    icon: IconsaxPlusLinear.heart,
                                   )
                                 else
                                   SelectableIconButton(
@@ -122,8 +122,8 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
                                         .read(userProvider.notifier)
                                         .setAsFavorite(!details.book!.userData.isFavourite, details.book!.id),
                                     selected: details.book!.userData.isFavourite,
-                                    selectedIcon: IconsaxBold.heart,
-                                    icon: IconsaxOutline.heart,
+                                    selectedIcon: IconsaxPlusBold.heart,
+                                    icon: IconsaxPlusLinear.heart,
                                   ),
 
                                 //This one toggles all books in a collection

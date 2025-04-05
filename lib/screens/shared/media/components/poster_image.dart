@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/book_model.dart';
@@ -171,7 +171,7 @@ class _PosterImageState extends ConsumerState<PosterImage> {
                           StatusCard(
                             color: Colors.red,
                             child: Icon(
-                              IconsaxBold.heart,
+                              IconsaxPlusBold.heart,
                               size: 21,
                               color: Colors.red,
                             ),
@@ -252,7 +252,7 @@ class _PosterImageState extends ConsumerState<PosterImage> {
                             child: IconButton.filledTonal(
                               onPressed: () => widget.playVideo?.call(false),
                               icon: const Icon(
-                                IconsaxBold.play,
+                                IconsaxPlusBold.play,
                                 size: 32,
                               ),
                             ),

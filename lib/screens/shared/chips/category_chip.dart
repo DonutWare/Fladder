@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:collection/collection.dart';
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/util/adaptive_layout.dart';
@@ -96,7 +96,7 @@ class CategoryChip<T> extends StatelessWidget {
                 newEntry = null;
                 onClear!();
               },
-              icon: const Icon(IconsaxOutline.back_square),
+              icon: const Icon(IconsaxPlusLinear.back_square),
               label: Text(context.localized.clear),
             )
         ].addInBetween(const SizedBox(width: 6));
@@ -123,7 +123,7 @@ class CategoryChip<T> extends StatelessWidget {
                   newEntry = null;
                   onClear!();
                 },
-                icon: const Icon(IconsaxOutline.back_square),
+                icon: const Icon(IconsaxPlusLinear.back_square),
                 label: Text(context.localized.clear),
               )
           ].addInBetween(const SizedBox(width: 6)),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/item_base_model.dart';
@@ -115,8 +115,8 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                               .setAsFavorite(!(episodeDetails.userData.isFavourite), episodeDetails.id);
                         },
                         selected: episodeDetails.userData.isFavourite,
-                        selectedIcon: IconsaxBold.heart,
-                        icon: IconsaxOutline.heart,
+                        selectedIcon: IconsaxPlusBold.heart,
+                        icon: IconsaxPlusLinear.heart,
                       ),
                       SelectableIconButton(
                         onPressed: () async {
@@ -125,8 +125,8 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                               .markAsPlayed(!(episodeDetails.userData.played), episodeDetails.id);
                         },
                         selected: episodeDetails.userData.played,
-                        selectedIcon: IconsaxBold.tick_circle,
-                        icon: IconsaxOutline.tick_circle,
+                        selectedIcon: IconsaxPlusBold.tick_circle,
+                        icon: IconsaxPlusLinear.tick_circle,
                       ),
                     ].addPadding(const EdgeInsets.symmetric(horizontal: 6)),
                   ).padding(padding),

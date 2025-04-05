@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
@@ -125,7 +125,7 @@ List<Widget> libraryFilterChips(
     FilterChip(
       label: Text(context.localized.favorites),
       avatar: Icon(
-        librarySearchResults.favourites ? IconsaxBold.heart : IconsaxOutline.heart,
+        librarySearchResults.favourites ? IconsaxPlusBold.heart : IconsaxPlusLinear.heart,
         color: Theme.of(context).colorScheme.onSurface,
       ),
       selected: librarySearchResults.favourites,
@@ -146,7 +146,7 @@ List<Widget> libraryFilterChips(
     if (librarySearchResults.genres.isNotEmpty)
       CategoryChip<String>(
         label: Text(context.localized.genre(librarySearchResults.genres.length)),
-        activeIcon: IconsaxBold.hierarchy_2,
+        activeIcon: IconsaxPlusBold.hierarchy_2,
         items: librarySearchResults.genres,
         labelBuilder: (item) => Text(item),
         onSave: (value) => libraryProvider.setGenres(value),
@@ -156,7 +156,7 @@ List<Widget> libraryFilterChips(
     if (librarySearchResults.studios.isNotEmpty)
       CategoryChip<Studio>(
         label: Text(context.localized.studio(librarySearchResults.studios.length)),
-        activeIcon: IconsaxBold.airdrop,
+        activeIcon: IconsaxPlusBold.airdrop,
         items: librarySearchResults.studios,
         labelBuilder: (item) => Text(item.name),
         onSave: (value) => libraryProvider.setStudios(value),

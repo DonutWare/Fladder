@@ -37,7 +37,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   # Icons
   cupertino_icons: ^1.0.8
-  ficonsax: ^0.0.3
+  iconsax_plus: ^1.0.0
 
   # Network and HTTP
   chopper: ^8.0.4

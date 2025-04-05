@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:extended_image/extended_image.dart';
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:screen_brightness/screen_brightness.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
@@ -239,7 +239,7 @@ class _BookViewerControlsState extends ConsumerState<BookViewerControls> {
                                             : nextChapter != null
                                                 ? () async => await loadNextBook(nextChapter)
                                                 : null,
-                                        icon: const Icon(IconsaxOutline.backward),
+                                        icon: const Icon(IconsaxPlusLinear.backward),
                                       ),
                                     ),
                                     const SizedBox(width: 8),
@@ -280,7 +280,7 @@ class _BookViewerControlsState extends ConsumerState<BookViewerControls> {
                                             : previousChapter != null
                                                 ? () async => await loadNextBook(previousChapter)
                                                 : null,
-                                        icon: const Icon(IconsaxOutline.forward),
+                                        icon: const Icon(IconsaxPlusLinear.forward),
                                       ),
                                     ),
                                     const SizedBox(width: 8),
@@ -296,13 +296,13 @@ class _BookViewerControlsState extends ConsumerState<BookViewerControls> {
                                       child: IconButton(
                                           onPressed: () => widget.controller
                                               .animateToPage(1, duration: pageAnimDuration, curve: pageAnimCurve),
-                                          icon: const Icon(IconsaxOutline.backward)),
+                                          icon: const Icon(IconsaxPlusLinear.backward)),
                                     ),
                                     IconButton(
                                       onPressed: () {
                                         showBookViewerSettings(context);
                                       },
-                                      icon: const Icon(IconsaxOutline.setting_2),
+                                      icon: const Icon(IconsaxPlusLinear.setting_2),
                                     ),
                                     IconButton(
                                       onPressed: chapters.length > 1
@@ -317,7 +317,7 @@ class _BookViewerControlsState extends ConsumerState<BookViewerControls> {
                                               );
                                             }
                                           : () => fladderSnackbar(context, title: "No other chapters"),
-                                      icon: const Icon(IconsaxOutline.bookmark_2),
+                                      icon: const Icon(IconsaxPlusLinear.bookmark_2),
                                     )
                                   ],
                                 ),

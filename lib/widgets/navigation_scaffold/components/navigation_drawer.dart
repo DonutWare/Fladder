@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/collection_types.dart';
@@ -54,7 +54,7 @@ class NestedNavigationDrawer extends ConsumerWidget {
               ),
               IconButton(
                 onPressed: () => toggleExpanded(false),
-                icon: const Icon(IconsaxOutline.menu),
+                icon: const Icon(IconsaxPlusLinear.menu),
               ),
             ],
           ),
@@ -96,7 +96,7 @@ class NestedNavigationDrawer extends ConsumerWidget {
               actions: [
                 ItemActionButton(
                   label: Text(context.localized.scanLibrary),
-                  icon: const Icon(IconsaxOutline.refresh),
+                  icon: const Icon(IconsaxPlusLinear.refresh),
                   action: () => showRefreshPopup(context, library.id, library.name),
                 ),
               ],
@@ -113,7 +113,7 @@ class NestedNavigationDrawer extends ConsumerWidget {
             offset: const Offset(-8, 0),
             child: DrawerListButton(
               label: context.localized.settings,
-              selectedIcon: const Icon(IconsaxBold.setting_3),
+              selectedIcon: const Icon(IconsaxPlusBold.setting_3),
               selected: currentLocation.contains(const SettingsRoute().routeName),
               icon: const SizedBox(width: 35, height: 35, child: SettingsUserIcon()),
               onPressed: () {
@@ -132,8 +132,8 @@ class NestedNavigationDrawer extends ConsumerWidget {
         else
           DrawerListButton(
             label: context.localized.settings,
-            selectedIcon: const Icon(IconsaxBold.setting_2),
-            icon: const Icon(IconsaxOutline.setting_2),
+            selectedIcon: const Icon(IconsaxPlusBold.setting_2),
+            icon: const Icon(IconsaxPlusLinear.setting_2),
             selected: currentLocation.contains(const SettingsRoute().routeName),
             onPressed: () {
               switch (AdaptiveLayout.layoutModeOf(context)) {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/util/list_padding.dart';
@@ -41,9 +41,9 @@ class SettingsMessageBox extends ConsumerWidget {
               children: [
                 Icon(
                   switch (messageType) {
-                    MessageType.info => IconsaxOutline.information,
-                    MessageType.warning => IconsaxOutline.warning_2,
-                    MessageType.error => IconsaxOutline.danger,
+                    MessageType.info => IconsaxPlusLinear.information,
+                    MessageType.warning => IconsaxPlusLinear.warning_2,
+                    MessageType.error => IconsaxPlusLinear.danger,
                   },
                 ),
                 Flexible(

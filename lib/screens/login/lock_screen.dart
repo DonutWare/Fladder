@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/account_model.dart';
@@ -107,7 +107,7 @@ class _LockScreenState extends ConsumerState<LockScreen> with WidgetsBindingObse
             ref.read(lockScreenActiveProvider.notifier).update((state) => false);
             context.router.push(const LoginRoute());
           },
-          child: const Icon(IconsaxOutline.arrow_swap_horizontal),
+          child: const Icon(IconsaxPlusLinear.arrow_swap_horizontal),
         ),
         body: Center(
           child: Wrap(
@@ -117,7 +117,7 @@ class _LockScreenState extends ConsumerState<LockScreen> with WidgetsBindingObse
             direction: Axis.vertical,
             children: [
               const Icon(
-                IconsaxOutline.lock_1,
+                IconsaxPlusLinear.lock_1,
                 size: 38,
               ),
               if (user != null)

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
@@ -222,7 +222,7 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
                                 }
                               },
                               icon: Icon(
-                                player.lastState.playing ? IconsaxBold.pause_circle : IconsaxBold.play_circle,
+                                player.lastState.playing ? IconsaxPlusBold.pause_circle : IconsaxPlusBold.play_circle,
                               ),
                             )
                           ],

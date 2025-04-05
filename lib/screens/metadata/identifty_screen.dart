@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:collection/collection.dart';
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/item_base_model.dart';
@@ -67,7 +67,7 @@ class _IdentifyScreenState extends ConsumerState<IdentifyScreen> with TickerProv
                 const Spacer(),
                 IconButton(
                     onPressed: () async => await ref.read(provider.notifier).fetchInformation(),
-                    icon: const Icon(IconsaxOutline.refresh)),
+                    icon: const Icon(IconsaxPlusLinear.refresh)),
               ],
             ),
             TabBar(

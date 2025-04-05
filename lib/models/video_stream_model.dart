@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:collection/collection.dart';
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
@@ -19,9 +19,9 @@ enum PlaybackType {
   transcode;
 
   IconData get icon => switch (this) {
-        PlaybackType.offline => IconsaxOutline.cloud,
-        PlaybackType.directStream => IconsaxOutline.arrow_right_1,
-        PlaybackType.transcode => IconsaxOutline.convert,
+        PlaybackType.offline => IconsaxPlusLinear.cloud,
+        PlaybackType.directStream => IconsaxPlusLinear.arrow_right_1,
+        PlaybackType.transcode => IconsaxPlusLinear.convert,
       };
 
   String get name {

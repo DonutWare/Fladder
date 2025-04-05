@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/syncing/sync_item.dart';
@@ -43,7 +43,7 @@ class SyncListItemState extends ConsumerState<SyncListItem> {
               child: const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Row(
-                  children: [Icon(IconsaxBold.trash)],
+                  children: [Icon(IconsaxPlusBold.trash)],
                 ),
               ),
             ),
@@ -132,7 +132,7 @@ class SyncListItemState extends ConsumerState<SyncListItem> {
                                 )),
                             IconButton(
                               onPressed: () => showSyncItemDetails(context, syncedItem, ref),
-                              icon: const Icon(IconsaxOutline.more_square),
+                              icon: const Icon(IconsaxPlusLinear.more_square),
                             ),
                           ],
                         ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -31,7 +31,7 @@ const socials = [
   _Socials(
     'Weblate',
     'https://hosted.weblate.org/projects/fladder/',
-    IconsaxOutline.global,
+    IconsaxPlusLinear.global,
   ),
 ];
 

@@ -1,4 +1,4 @@
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/disable_keypad_focus.dart';
@@ -124,7 +124,7 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
                                       curve: Curves.easeInOut);
                                 },
                                 icon: const Icon(
-                                  IconsaxOutline.arrow_left_2,
+                                  IconsaxPlusLinear.arrow_left_2,
                                   size: 20,
                                 )),
                           ),
@@ -155,7 +155,7 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
                                       curve: Curves.easeInOut);
                                 },
                                 icon: const Icon(
-                                  IconsaxOutline.arrow_right_3,
+                                  IconsaxPlusLinear.arrow_right_3,
                                   size: 20,
                                 )),
                           ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
@@ -70,10 +70,10 @@ class _VideoVolumeSliderState extends ConsumerState<VideoVolumeSlider> {
 
 IconData volumeIcon(double value) {
   if (value <= 0) {
-    return IconsaxOutline.volume_mute;
+    return IconsaxPlusLinear.volume_mute;
   }
   if (value < 50) {
-    return IconsaxOutline.volume_low;
+    return IconsaxPlusLinear.volume_low;
   }
-  return IconsaxOutline.volume_high;
+  return IconsaxPlusLinear.volume_high;
 }

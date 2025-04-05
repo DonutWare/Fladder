@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/boxset_model.dart';
@@ -201,7 +201,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                         );
                       },
                       label: Text(context.localized.playLabel),
-                      icon: const Icon(IconsaxBold.play),
+                      icon: const Icon(IconsaxPlusBold.play),
                     ),
                 ].addInBetween(const SizedBox(height: 10)),
               ),
@@ -293,17 +293,17 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                                         [];
                                     final itemCountWidget = ItemActionButton(
                                       label: Text(context.localized.itemCount(librarySearchResults.totalItemCount)),
-                                      icon: const Icon(IconsaxBold.document_1),
+                                      icon: const Icon(IconsaxPlusBold.document_1),
                                     );
                                     final refreshAction = ItemActionButton(
                                       label: Text(context.localized.forceRefresh),
                                       action: () => refreshKey.currentState?.show(),
-                                      icon: const Icon(IconsaxOutline.refresh),
+                                      icon: const Icon(IconsaxPlusLinear.refresh),
                                     );
                                     final showSavedFiltersDialogue = ItemActionButton(
                                       label: Text(context.localized.filter(2)),
                                       action: () => showSavedFilters(context, librarySearchResults, libraryProvider),
-                                      icon: const Icon(IconsaxOutline.refresh),
+                                      icon: const Icon(IconsaxPlusLinear.refresh),
                                     );
                                     final itemViewAction = ItemActionButton(
                                         label: Text(context.localized.selectViewType),
@@ -414,7 +414,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                                               isFavorite
                                                   ? librarySearchResults.nestedCurrentItem?.type.selectedicon
                                                   : librarySearchResults.nestedCurrentItem?.type.icon ??
-                                                      IconsaxOutline.document,
+                                                      IconsaxPlusLinear.document,
                                               color: isFavorite ? Theme.of(context).colorScheme.primary : null,
                                             ),
                                           ),
@@ -535,7 +535,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                         Text(context.localized.fetchingLibrary, style: Theme.of(context).textTheme.titleMedium),
                         IconButton(
                           onPressed: () => libraryProvider.cancelFetch(),
-                          icon: const Icon(IconsaxOutline.close_square),
+                          icon: const Icon(IconsaxPlusLinear.close_square),
                         )
                       ].addInBetween(const SizedBox(width: 16)),
                     ),
@@ -593,7 +593,7 @@ class _LibrarySearchBottomBar extends ConsumerWidget {
           if (context.mounted) context.refreshData();
         },
         label: Text(context.localized.addAsFavorite),
-        icon: const Icon(IconsaxOutline.heart_add),
+        icon: const Icon(IconsaxPlusLinear.heart_add),
       ),
       ItemActionButton(
         action: () async {
@@ -601,7 +601,7 @@ class _LibrarySearchBottomBar extends ConsumerWidget {
           if (context.mounted) context.refreshData();
         },
         label: Text(context.localized.removeAsFavorite),
-        icon: const Icon(IconsaxOutline.heart_remove),
+        icon: const Icon(IconsaxPlusLinear.heart_remove),
       ),
       ItemActionButton(
         action: () async {
@@ -609,7 +609,7 @@ class _LibrarySearchBottomBar extends ConsumerWidget {
           if (context.mounted) context.refreshData();
         },
         label: Text(context.localized.markAsWatched),
-        icon: const Icon(IconsaxOutline.eye),
+        icon: const Icon(IconsaxPlusLinear.eye),
       ),
       ItemActionButton(
         action: () async {
@@ -617,7 +617,7 @@ class _LibrarySearchBottomBar extends ConsumerWidget {
           if (context.mounted) context.refreshData();
         },
         label: Text(context.localized.markAsUnwatched),
-        icon: const Icon(IconsaxOutline.eye_slash),
+        icon: const Icon(IconsaxPlusLinear.eye_slash),
       ),
       if (librarySearchResults.nestedCurrentItem is BoxSetModel)
         ItemActionButton(
@@ -631,7 +631,7 @@ class _LibrarySearchBottomBar extends ConsumerWidget {
                   BoxDecoration(color: Theme.of(context).colorScheme.onPrimary, borderRadius: BorderRadius.circular(6)),
               child: const Padding(
                 padding: EdgeInsets.all(3.0),
-                child: Icon(IconsaxOutline.save_remove, size: 20),
+                child: Icon(IconsaxPlusLinear.save_remove, size: 20),
               ),
             )),
       if (librarySearchResults.nestedCurrentItem is PlaylistModel)
@@ -641,7 +641,7 @@ class _LibrarySearchBottomBar extends ConsumerWidget {
             if (context.mounted) context.refreshData();
           },
           label: Text(context.localized.removeFromPlaylist),
-          icon: const Icon(IconsaxOutline.save_remove),
+          icon: const Icon(IconsaxPlusLinear.save_remove),
         ),
       ItemActionButton(
         action: () async {
@@ -650,7 +650,7 @@ class _LibrarySearchBottomBar extends ConsumerWidget {
         },
         label: Text(context.localized.addToCollection),
         icon: const Icon(
-          IconsaxOutline.save_add,
+          IconsaxPlusLinear.save_add,
           size: 20,
         ),
       ),
@@ -660,7 +660,7 @@ class _LibrarySearchBottomBar extends ConsumerWidget {
           if (context.mounted) context.refreshData();
         },
         label: Text(context.localized.addToPlaylist),
-        icon: const Icon(IconsaxOutline.save_add),
+        icon: const Icon(IconsaxPlusLinear.save_add),
       ),
     ];
     return NestedBottomAppBar(
@@ -688,7 +688,7 @@ class _LibrarySearchBottomBar extends ConsumerWidget {
                               ),
                               padding: const EdgeInsets.all(6),
                               child: Icon(
-                                IconsaxOutline.arrow_up_3,
+                                IconsaxPlusLinear.arrow_up_3,
                                 color: Theme.of(context).colorScheme.onPrimaryContainer,
                               ),
                             ),
@@ -718,14 +718,14 @@ class _LibrarySearchBottomBar extends ConsumerWidget {
                       }
                     }
                   },
-                  icon: const Icon(IconsaxOutline.sort),
+                  icon: const Icon(IconsaxPlusLinear.sort),
                 ),
                 if (librarySearchResults.hasActiveFilters) ...{
                   const SizedBox(width: 6),
                   IconButton(
                     tooltip: context.localized.disableFilters,
                     onPressed: disableFilters(librarySearchResults, libraryProvider),
-                    icon: const Icon(IconsaxOutline.filter_remove),
+                    icon: const Icon(IconsaxPlusLinear.filter_remove),
                   ),
                 },
               },
@@ -733,7 +733,7 @@ class _LibrarySearchBottomBar extends ConsumerWidget {
               IconButton(
                 onPressed: () => libraryProvider.toggleSelectMode(),
                 color: librarySearchResults.selecteMode ? Theme.of(context).colorScheme.primary : null,
-                icon: const Icon(IconsaxOutline.category_2),
+                icon: const Icon(IconsaxPlusLinear.category_2),
               ),
               const SizedBox(width: 6),
               AnimatedFadeSize(
@@ -748,7 +748,7 @@ class _LibrarySearchBottomBar extends ConsumerWidget {
                               message: context.localized.selectAll,
                               child: IconButton(
                                 onPressed: () => libraryProvider.selectAll(true),
-                                icon: const Icon(IconsaxOutline.box_add),
+                                icon: const Icon(IconsaxPlusLinear.box_add),
                               ),
                             ),
                             const SizedBox(width: 6),
@@ -756,7 +756,7 @@ class _LibrarySearchBottomBar extends ConsumerWidget {
                               message: context.localized.clearSelection,
                               child: IconButton(
                                 onPressed: () => libraryProvider.selectAll(false),
-                                icon: const Icon(IconsaxOutline.box_remove),
+                                icon: const Icon(IconsaxPlusLinear.box_remove),
                               ),
                             ),
                             const SizedBox(width: 6),
@@ -777,7 +777,7 @@ class _LibrarySearchBottomBar extends ConsumerWidget {
                                         ),
                                       );
                                     },
-                                    icon: const Icon(IconsaxOutline.more))
+                                    icon: const Icon(IconsaxPlusLinear.more))
                             },
                           ],
                         ),
@@ -794,7 +794,7 @@ class _LibrarySearchBottomBar extends ConsumerWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(2.0),
                       child: Icon(
-                        IconsaxBold.arrow_up_1,
+                        IconsaxPlusBold.arrow_up_1,
                         color: Theme.of(context).colorScheme.onSecondary,
                       ),
                     ),
@@ -823,7 +823,7 @@ class _LibrarySearchBottomBar extends ConsumerWidget {
                           : null,
                     );
                   },
-                  icon: const Icon(IconsaxOutline.shuffle),
+                  icon: const Icon(IconsaxPlusLinear.shuffle),
                 ),
             ],
           ),

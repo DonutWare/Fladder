@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:async/async.dart';
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/item_base_model.dart';
@@ -253,7 +253,7 @@ class _MediaBannerState extends ConsumerState<MediaBanner> {
                               children: [
                                 IconButton.filledTonal(
                                   onPressed: () => nextSlide(),
-                                  icon: const Icon(IconsaxOutline.arrow_right_3),
+                                  icon: const Icon(IconsaxPlusLinear.arrow_right_3),
                                 )
                               ],
                             ),

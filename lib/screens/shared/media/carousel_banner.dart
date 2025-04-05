@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:collection/collection.dart';
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/item_base_model.dart';
@@ -194,7 +194,7 @@ class _CarouselBannerState extends ConsumerState<CarouselBanner> {
                                     carouselController.animateTo(currentPos.pixels - itemExtent,
                                         curve: Curves.easeInOutCubic, duration: const Duration(milliseconds: 250));
                                   },
-                                  icon: const Icon(IconsaxOutline.arrow_left_2),
+                                  icon: const Icon(IconsaxPlusLinear.arrow_left_2),
                                 ),
                                 IconButton.filledTonal(
                                   onPressed: () {
@@ -202,7 +202,7 @@ class _CarouselBannerState extends ConsumerState<CarouselBanner> {
                                     carouselController.animateTo(currentPos.pixels + itemExtent,
                                         curve: Curves.easeInOutCubic, duration: const Duration(milliseconds: 250));
                                   },
-                                  icon: const Icon(IconsaxOutline.arrow_right_3),
+                                  icon: const Icon(IconsaxPlusLinear.arrow_right_3),
                                 ),
                               ],
                             ),

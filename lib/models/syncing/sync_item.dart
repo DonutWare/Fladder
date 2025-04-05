@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:background_downloader/background_downloader.dart';
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:path/path.dart';
@@ -159,11 +159,11 @@ class SyncedItem with _$SyncedItem {
 enum SyncStatus {
   complete(
     Color.fromARGB(255, 141, 214, 58),
-    IconsaxOutline.tick_circle,
+    IconsaxPlusLinear.tick_circle,
   ),
   partially(
     Color.fromARGB(255, 221, 135, 23),
-    IconsaxOutline.more_circle,
+    IconsaxPlusLinear.more_circle,
   ),
   ;
 

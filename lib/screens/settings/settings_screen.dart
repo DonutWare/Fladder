@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/settings/home_settings_model.dart';
@@ -76,15 +76,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
   IconData get deviceIcon {
     if (AdaptiveLayout.of(context).isDesktop) {
-      return IconsaxOutline.monitor;
+      return IconsaxPlusLinear.monitor;
     }
     switch (AdaptiveLayout.viewSizeOf(context)) {
       case ViewSize.phone:
-        return IconsaxOutline.mobile;
+        return IconsaxPlusLinear.mobile;
       case ViewSize.tablet:
-        return IconsaxOutline.monitor;
+        return IconsaxPlusLinear.monitor;
       case ViewSize.desktop:
-        return IconsaxOutline.monitor;
+        return IconsaxPlusLinear.monitor;
     }
   }
 
@@ -115,21 +115,21 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           if (quickConnectAvailable)
             SettingsListTile(
               label: Text(context.localized.settingsQuickConnectTitle),
-              icon: IconsaxOutline.password_check,
+              icon: IconsaxPlusLinear.password_check,
               onTap: () => openQuickConnectDialog(context),
             ),
           SettingsListTile(
             label: Text(context.localized.settingsProfileTitle),
             subLabel: Text(context.localized.settingsProfileDesc),
             selected: containsRoute(const SecuritySettingsRoute()),
-            icon: IconsaxOutline.security_user,
+            icon: IconsaxPlusLinear.security_user,
             onTap: () => navigateTo(const SecuritySettingsRoute()),
           ),
           SettingsListTile(
             label: Text(context.localized.settingsPlayerTitle),
             subLabel: Text(context.localized.settingsPlayerDesc),
             selected: containsRoute(const PlayerSettingsRoute()),
-            icon: IconsaxOutline.video_play,
+            icon: IconsaxPlusLinear.video_play,
             onTap: () => navigateTo(const PlayerSettingsRoute()),
           ),
           SettingsListTile(
@@ -162,7 +162,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     context.router.replaceAll([const LoginRoute()]);
                   },
                   child: const Icon(
-                    IconsaxOutline.arrow_swap_horizontal,
+                    IconsaxPlusLinear.arrow_swap_horizontal,
                   ),
                 ),
                 const SizedBox(width: 16),
@@ -205,7 +205,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     );
                   },
                   child: Icon(
-                    IconsaxOutline.logout,
+                    IconsaxPlusLinear.logout,
                     color: Theme.of(context).colorScheme.onErrorContainer,
                   ),
                 ),

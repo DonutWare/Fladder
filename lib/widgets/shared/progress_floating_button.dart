@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:async/async.dart';
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:square_progress_indicator/square_progress_indicator.dart';
 
@@ -160,7 +160,7 @@ class _ProgressFloatingButtonState extends ConsumerState<ProgressFloatingButton>
               strokeWidth: 4,
               value: timeLeft.inMilliseconds / timer._duration.inMilliseconds,
             ),
-            Icon(isActive ? IconsaxBold.pause : IconsaxBold.play)
+            Icon(isActive ? IconsaxPlusBold.pause : IconsaxPlusBold.play)
           ],
         ),
       ),

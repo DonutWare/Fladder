@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -74,7 +74,7 @@ List<Widget> buildClientSettingsDownload(BuildContext context, WidgetRef ref, Fu
                       ],
                     ),
                   ),
-                  icon: const Icon(IconsaxOutline.folder_minus),
+                  icon: const Icon(IconsaxPlusLinear.folder_minus),
                 )
               : null,
         ),
