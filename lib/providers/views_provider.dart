@@ -47,7 +47,6 @@ class ViewsNotifier extends StateNotifier<ViewsModel> {
     if (createdViews != null) {
       newList = await Future.wait(createdViews.map((e) async {
         if (ref.read(userProvider)?.latestItemsExcludes.contains(e.id) == true) return e;
-        if ([CollectionType.boxsets, CollectionType.folders].contains(e.collectionType)) return e;
         final recents = await api.usersUserIdItemsLatestGet(
           parentId: e.id,
           imageTypeLimit: 1,
@@ -75,7 +74,6 @@ class ViewsNotifier extends StateNotifier<ViewsModel> {
         views: newList,
         dashboardViews: newList
             .where((element) => !(ref.read(userProvider)?.latestItemsExcludes.contains(element.id) ?? true))
-            .where((element) => ![CollectionType.boxsets, CollectionType.folders].contains(element.collectionType))
             .toList(),
         loading: false);
   }
