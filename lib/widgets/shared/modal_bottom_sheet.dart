@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,7 +19,6 @@ Future<void> showBottomSheetPill({
   ) content,
 }) async {
   final screenSize = MediaQuery.sizeOf(context);
-  log(screenSize.height.toString());
   await showModalBottomSheet(
     isScrollControlled: true,
     useRootNavigator: true,
