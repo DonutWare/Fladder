@@ -51,22 +51,20 @@ class EnumBox<T> extends StatelessWidget {
       shadowColor: Colors.transparent,
       elevation: 0,
       child: useBottomSheet
-          ? Builder(builder: (context) {
-              return FlatButton(
-                child: labelWidget,
-                onTap: () => showBottomSheetPill(
-                  context: context,
-                  content: (context, scrollController) => ListView(
-                    shrinkWrap: true,
-                    controller: scrollController,
-                    children: [
-                      const SizedBox(height: 6),
-                      ...itemBuilder(context),
-                    ],
-                  ),
+          ? FlatButton(
+              child: labelWidget,
+              onTap: () => showBottomSheetPill(
+                context: context,
+                content: (context, scrollController) => ListView(
+                  shrinkWrap: true,
+                  controller: scrollController,
+                  children: [
+                    const SizedBox(height: 6),
+                    ...itemBuilder(context),
+                  ],
                 ),
-              );
-            })
+              ),
+            )
           : PopupMenuButton(
               tooltip: '',
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
