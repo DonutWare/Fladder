@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/boxset_model.dart';
 import 'package:fladder/models/item_base_model.dart';
@@ -685,10 +685,11 @@ class _LibrarySearchBottomBar extends ConsumerWidget {
                             child: Container(
                               decoration: BoxDecoration(
                                 color: Theme.of(context).colorScheme.primaryContainer,
+                                borderRadius: BorderRadius.circular(8),
                               ),
                               padding: const EdgeInsets.all(6),
                               child: Icon(
-                                IconsaxPlusLinear.arrow_up_3,
+                                IconsaxPlusLinear.arrow_up,
                                 color: Theme.of(context).colorScheme.onPrimaryContainer,
                               ),
                             ),

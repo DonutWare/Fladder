@@ -28,9 +28,7 @@ List<Widget> buildClientSettingsVisual(
       label: Text(context.localized.displayLanguage),
       trailing: Localizations.override(
         context: context,
-        locale: ref.watch(
-          clientSettingsProvider.select((value) => (value.selectedLocale ?? currentLocale)),
-        ),
+        locale: ref.watch(clientSettingsProvider.select((value) => (value.selectedLocale ?? currentLocale))),
         child: Builder(builder: (context) {
           String language = "Unknown";
           try {
@@ -49,9 +47,7 @@ List<Widget> buildClientSettingsVisual(
                       context: context,
                       locale: entry,
                       child: Builder(builder: (context) {
-                        return Text(
-                          context.localized.nativeName,
-                        );
+                        return Text("${context.localized.nativeName} (${entry.languageCode.toUpperCase()})");
                       }),
                     ),
                     onTap: () => ref

@@ -67,6 +67,7 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
         key: _key,
         appBar: const FladderAppBar(),
         extendBodyBehindAppBar: true,
+        resizeToAvoidBottomInset: false,
         extendBody: true,
         floatingActionButtonAnimator:
             playerState == VideoPlayerState.minimized ? FloatingActionButtonAnimator.noAnimation : null,

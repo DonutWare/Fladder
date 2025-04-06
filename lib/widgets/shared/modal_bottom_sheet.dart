@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,6 +20,8 @@ Future<void> showBottomSheetPill({
     ScrollController scrollController,
   ) content,
 }) async {
+  final screenSize = MediaQuery.sizeOf(context);
+  log(screenSize.height.toString());
   await showModalBottomSheet(
     isScrollControlled: true,
     useRootNavigator: true,
@@ -25,9 +29,8 @@ Future<void> showBottomSheetPill({
     enableDrag: true,
     context: context,
     constraints: AdaptiveLayout.viewSizeOf(context) == ViewSize.phone
-        ? BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.9)
-        : BoxConstraints(
-            maxWidth: MediaQuery.of(context).size.width * 0.75, maxHeight: MediaQuery.of(context).size.height * 0.85),
+        ? BoxConstraints(maxHeight: screenSize.height * 0.9)
+        : BoxConstraints(maxWidth: screenSize.width * 0.75, maxHeight: screenSize.height * 0.85),
     builder: (context) {
       final controller = ScrollController();
       return ListView(
