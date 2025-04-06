@@ -1,12 +1,13 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:async/async.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:screen_brightness/screen_brightness.dart';
 
 import 'package:fladder/models/items/media_segments_model.dart';
@@ -128,11 +129,11 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
           cursor: showOverlay ? SystemMouseCursors.basic : SystemMouseCursors.none,
           onExit: (event) => toggleOverlay(value: false),
           onEnter: (event) => toggleOverlay(value: true),
-          onHover: AdaptiveLayout.of(context).isDesktop ? (event) => toggleOverlay(value: true) : null,
+          onHover: AdaptiveLayout.of(context).isDesktop || kIsWeb ? (event) => toggleOverlay(value: true) : null,
           child: Stack(
             children: [
               Positioned.fill(
-                child: InkWell(
+                child: GestureDetector(
                   onTap: AdaptiveLayout.of(context).inputDevice == InputDevice.pointer
                       ? () => player.playOrPause()
                       : () => toggleOverlay(),
