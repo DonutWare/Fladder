@@ -1272,7 +1272,7 @@
   },
   "masonry": "تصميم شبكي",
   "@masonry": {},
-  "castAndCrew": "الممثلون وطاقم العمل",
+  "castAndCrew": "Cast \" Crew",
   "@castAndCrew": {},
   "guestActor": "{count, plural, one{ممثل ضيف} other{ممثلون ضيوف}}",
   "@guestActor": {
