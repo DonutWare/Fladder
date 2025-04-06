@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:extended_image/extended_image.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:square_progress_indicator/square_progress_indicator.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
@@ -21,6 +21,8 @@ import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/throttler.dart';
 import 'package:fladder/widgets/shared/elevated_icon.dart';
+import 'package:fladder/widgets/shared/full_screen_button.dart'
+    if (dart.library.html) 'package:fladder/widgets/shared/full_screen_button_web.dart';
 import 'package:fladder/widgets/shared/progress_floating_button.dart';
 
 class PhotoViewerControls extends ConsumerStatefulWidget {
@@ -129,6 +131,7 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with
   @override
   void dispose() {
     timerController.dispose();
+    closeFullScreen();
     windowManager.removeListener(this);
     super.dispose();
   }
@@ -269,6 +272,10 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with
                                 )
                               ],
                             ),
+                            if (AdaptiveLayout.of(context).isDesktop) ...[
+                              const SizedBox(width: 8),
+                              const FullScreenButton(),
+                            ],
                             const SizedBox(width: 12),
                           ],
                         ),

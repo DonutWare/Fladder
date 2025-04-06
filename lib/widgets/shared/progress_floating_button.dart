@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:async/async.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:square_progress_indicator/square_progress_indicator.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 import 'package:fladder/util/simple_duration_picker.dart';
 
@@ -46,6 +47,7 @@ class RestartableTimerController {
   }
 
   RestartableTimer _startTimer() {
+    WakelockPlus.enable();
     return RestartableTimer(
       _steps,
       () {
@@ -71,6 +73,9 @@ class RestartableTimerController {
       };
 
   void cancel() {
+    if (_timer?.isActive == true) {
+      WakelockPlus.disable();
+    }
     _timer?.cancel();
     _timer = null;
     _isActiveController.add(false);
@@ -81,7 +86,12 @@ class RestartableTimerController {
     _timer?.reset();
   }
 
-  void dispose() => _timer?.cancel();
+  void dispose() {
+    if (_timer?.isActive == true) {
+      WakelockPlus.disable();
+    }
+    _timer?.cancel();
+  }
 }
 
 class ProgressFloatingButton extends ConsumerStatefulWidget {

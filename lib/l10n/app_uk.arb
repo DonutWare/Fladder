@@ -1279,5 +1279,17 @@
   "segmentActionSkip": "Пропустити",
   "@segmentActionSkip": {},
   "loading": "Завантаження",
-  "@loading": {}
+  "@loading": {},
+  "castAndCrew": "Актори та знімальна група",
+  "@castAndCrew": {},
+  "guestActor": "{count, plural, other{Запрошені актори} one{Запрошений актор}}",
+  "@guestActor": {
+    "description": "Guest actors",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  }
 }

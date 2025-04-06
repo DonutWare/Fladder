@@ -255,11 +255,11 @@
   "@heightOffset": {},
   "hide": "隐藏",
   "@hide": {},
-  "hideEmpty": "隐藏空",
+  "hideEmpty": "隐藏空项",
   "@hideEmpty": {},
   "home": "主页",
   "@home": {},
-  "identify": "识别",
+  "identify": "刮削",
   "@identify": {},
   "immediately": "立即",
   "@immediately": {},
@@ -369,7 +369,7 @@
   "@mediaTypePlaylist": {},
   "mediaTypeSeason": "季",
   "@mediaTypeSeason": {},
-  "mediaTypeSeries": "系列",
+  "mediaTypeSeries": "节目",
   "@mediaTypeSeries": {},
   "metaDataSavedFor": "{item} 的元数据已保存",
   "@metaDataSavedFor": {
@@ -1270,5 +1270,17 @@
   "segmentActionAskToSkip": "询问",
   "@segmentActionAskToSkip": {},
   "loading": "加载中",
-  "@loading": {}
+  "@loading": {},
+  "castAndCrew": "演职人员",
+  "@castAndCrew": {},
+  "guestActor": "{count, plural, other{客串演员} one{客串演员}}",
+  "@guestActor": {
+    "description": "Guest actors",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  }
 }

@@ -29,8 +29,13 @@ class FlatButton extends ConsumerWidget {
     super.key,
   });
 
+  bool get _hasInteraction => onTap != null || onLongPress != null || onDoubleTap != null;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    if (!_hasInteraction) {
+      return child ?? Container();
+    }
     return Stack(
       fit: StackFit.passthrough,
       children: [
