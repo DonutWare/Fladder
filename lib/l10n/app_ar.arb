@@ -1271,5 +1271,17 @@
     }
   },
   "masonry": "تصميم شبكي",
-  "@masonry": {}
+  "@masonry": {},
+  "castAndCrew": "الممثلون وطاقم العمل",
+  "@castAndCrew": {},
+  "guestActor": "{count, plural, one{ممثل ضيف} other{ممثلون ضيوف}}",
+  "@guestActor": {
+    "description": "Guest actors",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  }
 }
