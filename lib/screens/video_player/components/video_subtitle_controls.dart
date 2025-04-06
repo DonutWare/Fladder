@@ -60,7 +60,7 @@ class _VideoSubtitleControlsState extends ConsumerState<VideoSubtitleControls> {
       duration: const Duration(milliseconds: 250),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        color: controlsHidden ? Theme.of(context).dialogBackgroundColor.withValues(alpha: 0.75) : Colors.transparent,
+        color: controlsHidden ? DialogTheme.of(context).backgroundColor?.withValues(alpha: 0.75) : Colors.transparent,
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),

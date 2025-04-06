@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:background_downloader/background_downloader.dart';
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/items/episode_model.dart';
@@ -75,17 +75,17 @@ class SyncProgressBar extends ConsumerWidget {
               if (downloadStatus != TaskStatus.paused)
                 IconButton(
                   onPressed: () => ref.read(backgroundDownloaderProvider).pause(downloadTask),
-                  icon: const Icon(IconsaxBold.pause),
+                  icon: const Icon(IconsaxPlusBold.pause),
                 )
             },
             if (downloadStatus == TaskStatus.paused && downloadTask != null) ...[
               IconButton(
                 onPressed: () => ref.read(backgroundDownloaderProvider).resume(downloadTask),
-                icon: const Icon(IconsaxBold.play),
+                icon: const Icon(IconsaxPlusBold.play),
               ),
               IconButton(
                 onPressed: () => ref.read(syncProvider.notifier).deleteFullSyncFiles(item, downloadTask),
-                icon: const Icon(IconsaxBold.stop),
+                icon: const Icon(IconsaxPlusBold.stop),
               )
             ],
           ].addInBetween(const SizedBox(width: 8)),

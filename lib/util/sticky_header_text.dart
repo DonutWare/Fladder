@@ -1,4 +1,4 @@
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -36,7 +36,7 @@ class StickyHeaderTextState extends ConsumerState<StickyHeaderText> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8).copyWith(bottom: 4),
                 child: Icon(
-                  IconsaxOutline.arrow_right_3,
+                  IconsaxPlusLinear.arrow_right_3,
                   size: 18,
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),

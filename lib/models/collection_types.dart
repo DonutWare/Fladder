@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
@@ -31,18 +31,21 @@ extension CollectionTypeExtension on CollectionType {
   IconData getIconType(bool outlined) {
     switch (this) {
       case CollectionType.movies:
-        return outlined ? IconsaxOutline.video_horizontal : IconsaxBold.video_horizontal;
+        return outlined ? IconsaxPlusLinear.video_horizontal : IconsaxPlusBold.video_horizontal;
       case CollectionType.tvshows:
-        return outlined ? IconsaxOutline.video_vertical : IconsaxBold.video_vertical;
+        return outlined ? IconsaxPlusLinear.video_vertical : IconsaxPlusBold.video_vertical;
       case CollectionType.boxsets:
+        return outlined ? IconsaxPlusLinear.box : IconsaxPlusBold.box;
       case CollectionType.folders:
-        return outlined ? IconsaxOutline.folder : IconsaxBold.folder;
+        return outlined ? IconsaxPlusLinear.folder_2 : IconsaxPlusBold.folder_2;
       case CollectionType.homevideos:
-        return outlined ? IconsaxOutline.gallery : IconsaxBold.gallery;
+        return outlined ? IconsaxPlusLinear.gallery : IconsaxPlusBold.gallery;
       case CollectionType.books:
-        return outlined ? IconsaxOutline.book : Icons.book_rounded;
+        return outlined ? IconsaxPlusLinear.book : IconsaxPlusBold.book;
+      case CollectionType.playlists:
+        return outlined ? IconsaxPlusLinear.archive : IconsaxPlusBold.archive;
       default:
-        return IconsaxOutline.info_circle;
+        return IconsaxPlusLinear.information;
     }
   }
 }

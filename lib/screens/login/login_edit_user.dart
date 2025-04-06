@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
@@ -59,7 +59,7 @@ class LoginEditUser extends ConsumerWidget {
           ),
           Row(
             children: [
-              const Icon(IconsaxBold.clock),
+              const Icon(IconsaxPlusBold.clock),
               const SizedBox(width: 8),
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,

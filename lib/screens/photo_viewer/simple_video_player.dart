@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
@@ -122,10 +122,7 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
 
   @override
   Widget build(BuildContext context) {
-    final textStyle = Theme.of(context)
-        .textTheme
-        .titleMedium
-        ?.copyWith(fontWeight: FontWeight.bold, shadows: [const Shadow(blurRadius: 2)]);
+    final textStyle = Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold);
     ref.listen(
       photoViewSettingsProvider.select((value) => value.repeat),
       (previous, next) => player.loop(next),
@@ -225,11 +222,7 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
                                 }
                               },
                               icon: Icon(
-                                player.lastState.playing ? IconsaxBold.pause_circle : IconsaxBold.play_circle,
-                                shadows: [
-                                  BoxShadow(
-                                      blurRadius: 16, spreadRadius: 2, color: Colors.black.withValues(alpha: 0.15))
-                                ],
+                                player.lastState.playing ? IconsaxPlusBold.pause_circle : IconsaxPlusBold.play_circle,
                               ),
                             )
                           ],

@@ -14,6 +14,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smtc_windows/smtc_windows.dart' if (dart.library.html) 'package:fladder/stubs/web/smtc_web.dart';
 import 'package:universal_html/html.dart' as html;
 import 'package:window_manager/window_manager.dart';
 
@@ -33,6 +34,7 @@ import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/application_info.dart';
 import 'package:fladder/util/fladder_config.dart';
+import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/util/themes_data.dart';
 
@@ -53,6 +55,10 @@ Future<Map<String, dynamic>> loadConfig() async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final crashProvider = CrashLogNotifier();
+
+  if (defaultTargetPlatform == TargetPlatform.windows) {
+    await SMTCWindows.initialize();
+  }
 
   if (kIsWeb) {
     html.document.onContextMenu.listen((event) => event.preventDefault());
@@ -288,7 +294,7 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
                 (element) => element.languageCode == language.languageCode,
                 orElse: () => const Locale('en', "GB"),
               ),
-              child: ScaffoldMessenger(child: child ?? Container()),
+              child: LocalizationContextWrapper(child: ScaffoldMessenger(child: child ?? Container())),
             ),
             debugShowCheckedModeBanner: false,
             darkTheme: darkTheme.copyWith(
@@ -302,7 +308,6 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
             ),
             themeMode: themeMode,
             routerConfig: autoRouter.config(),
-            // routerConfig: AdaptiveLayout.routerOf(context).config(),
           ),
         );
       }),
@@ -310,6 +315,4 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
   }
 }
 
-final currentTitleProvider = StateProvider<String>((ref) {
-  return "Fladder";
-});
+final currentTitleProvider = StateProvider<String>((ref) => "Fladder");

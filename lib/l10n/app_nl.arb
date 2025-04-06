@@ -1272,5 +1272,17 @@
   "internetStreamingQualityDesc": "Maximale streamingkwaliteit via internet (mobiel)",
   "@internetStreamingQualityDesc": {},
   "homeStreamingQualityDesc": "Maximale streamingkwaliteit bij verbinding met het thuisnetwerk",
-  "@homeStreamingQualityDesc": {}
+  "@homeStreamingQualityDesc": {},
+  "guestActor": "{count, plural, other{Gastacteurs} one{Gastacteur}}",
+  "@guestActor": {
+    "description": "Guest actors",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "castAndCrew": "Cast en crew",
+  "@castAndCrew": {}
 }

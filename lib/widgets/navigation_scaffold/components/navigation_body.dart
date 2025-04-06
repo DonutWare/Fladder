@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/settings/home_settings_model.dart';
@@ -162,7 +162,7 @@ class _NavigationBodyState extends ConsumerState<NavigationBody> {
                       });
                     }
                   },
-                  icon: const Icon(IconsaxBold.menu),
+                  icon: const Icon(IconsaxPlusBold.menu),
                 ),
                 if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.dual) ...[
                   const SizedBox(height: 8),
@@ -198,7 +198,7 @@ class _NavigationBodyState extends ConsumerState<NavigationBody> {
                               color: Theme.of(context).colorScheme.primaryContainer,
                               child: const Padding(
                                 padding: EdgeInsets.all(10),
-                                child: Icon(IconsaxBold.setting_3),
+                                child: Icon(IconsaxPlusBold.setting_3),
                               ),
                             )
                           : const SettingsUserIcon()),

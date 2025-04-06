@@ -1,0 +1,457 @@
+{
+  "dashboard": "대시보드",
+  "@dashboard": {},
+  "accept": "동의",
+  "@accept": {},
+  "name": "이름",
+  "@name": {},
+  "navigationFavorites": "즐겨찾기",
+  "@navigationFavorites": {},
+  "noServersFound": "다른 서버를 찾지 못하였습니다",
+  "@noServersFound": {},
+  "invalidUrl": "올바르지 않은 URL",
+  "@invalidUrl": {},
+  "logoutUserPopupContent": "계속하시면, {userName}이 로그아웃되고 앱에서 사용자가 제거됩니다.\n{serverName}에서 다시 로그인하셔야 합니다.",
+  "@logoutUserPopupContent": {
+    "description": "Pop-up for logging out the user description",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      },
+      "serverName": {
+        "type": "String"
+      }
+    }
+  },
+  "logoutUserPopupTitle": "사용자 {userName}을 로그아웃 하시겠습니까?",
+  "@logoutUserPopupTitle": {
+    "description": "Pop-up for logging out the user",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "advanced": "고급",
+  "@advanced": {},
+  "director": "{count, plural, other{감독} two{감독}}",
+  "@director": {
+    "description": "director",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "deleteFileFromSystem": "이 아이템 {item}이 파일 시스템과 미디어 라이브러리 모두에서 삭제될 것입니다. 계속하시겠습니까?",
+  "@deleteFileFromSystem": {
+    "description": "Delete file from system",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "nativeName": "한국어",
+  "@nativeName": {},
+  "mediaTypePlaylist": "플레이리스트",
+  "@mediaTypePlaylist": {},
+  "chapter": "{count, plural, other{챕터} one{챕터}}",
+  "@chapter": {
+    "description": "chapter",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "controls": "컨트롤",
+  "@controls": {},
+  "cancel": "취소",
+  "@cancel": {},
+  "about": "정보",
+  "@about": {},
+  "active": "활성화",
+  "@active": {},
+  "addAsFavorite": "즐겨찾기에 추가",
+  "@addAsFavorite": {},
+  "addToCollection": "컬렉션에 추가",
+  "@addToCollection": {},
+  "addToPlaylist": "플레이리스트에 추가",
+  "@addToPlaylist": {},
+  "all": "전체",
+  "@all": {},
+  "amoledBlack": "OLDE 블랙",
+  "@amoledBlack": {},
+  "appLockAutoLogin": "자동로그인",
+  "@appLockAutoLogin": {},
+  "appLockBiometrics": "생체인증",
+  "@appLockBiometrics": {},
+  "appLockPasscode": "암호",
+  "@appLockPasscode": {},
+  "appLockTitle": "{userName}의 로그인 방식 선택",
+  "@appLockTitle": {
+    "description": "Pop-up to pick a login method",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "ascending": "오름차순",
+  "@ascending": {},
+  "autoPlay": "자동 재생",
+  "@autoPlay": {},
+  "backgroundBlur": "배경 블러",
+  "@backgroundBlur": {},
+  "backgroundOpacity": "배경 투명도",
+  "@backgroundOpacity": {},
+  "biometricsFailedCheckAgain": "생체인증에 실패했습니다. 설정을 확인한 뒤 다시 시도해주세요.",
+  "@biometricsFailedCheckAgain": {},
+  "bold": "볼드",
+  "@bold": {},
+  "actor": "{count, plural, other{배우} one{배우}}",
+  "@actor": {
+    "description": "actor",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "clear": "초기화",
+  "@clear": {},
+  "clearAllSettings": "모든 설정 초기화",
+  "@clearAllSettings": {},
+  "clearAllSettingsQuestion": "모든 설정을 초기화 하시겠습니까?",
+  "@clearAllSettingsQuestion": {},
+  "clearChanges": "변경사항 초기화",
+  "@clearChanges": {},
+  "clearSelection": "선택 초기화",
+  "@clearSelection": {},
+  "close": "닫기",
+  "@close": {},
+  "code": "코드",
+  "@code": {},
+  "collectionFolder": "컬렉션 폴더",
+  "@collectionFolder": {},
+  "color": "색",
+  "@color": {},
+  "communityRating": "커뮤니티 평가",
+  "@communityRating": {},
+  "continuePage": "계속 - 페이지 {page}",
+  "@continuePage": {
+    "description": "Continue - page 1",
+    "placeholders": {
+      "page": {
+        "type": "int"
+      }
+    }
+  },
+  "dashboardContinue": "계속",
+  "@dashboardContinue": {},
+  "dashboardContinueListening": "계속 듣기",
+  "@dashboardContinueListening": {},
+  "dashboardContinueReading": "계속 읽기",
+  "@dashboardContinueReading": {},
+  "nextUp": "다음",
+  "@nextUp": {},
+  "dashboardRecentlyAdded": "최근 {name}에 추가된 작품",
+  "@dashboardRecentlyAdded": {
+    "description": "Recently added on home screen",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "dateAdded": "추가된 날짜",
+  "@dateAdded": {},
+  "dateLastContentAdded": "마지막으로 콘텐츠가 추가된 날짜",
+  "@dateLastContentAdded": {},
+  "datePlayed": "재생된 날짜",
+  "@datePlayed": {},
+  "days": "日",
+  "@days": {},
+  "disabled": "꺼짐",
+  "@disabled": {},
+  "discovered": "발견됨",
+  "@discovered": {},
+  "displayLanguage": "표시 언어",
+  "@displayLanguage": {},
+  "downloadsClearDesc": "동기화된 모든 데이터를 제거하여 동기화된 모든 사용자의 데이터를 지우시겠습니까?",
+  "@downloadsClearDesc": {},
+  "downloadsClearTitle": "동기화된 데이터 삭제",
+  "@downloadsClearTitle": {},
+  "downloadsPath": "경로",
+  "@downloadsPath": {},
+  "downloadsSyncedData": "동기화된 데이터",
+  "@downloadsSyncedData": {},
+  "downloadsTitle": "다운로드",
+  "@downloadsTitle": {},
+  "dynamicText": "동적",
+  "@dynamicText": {},
+  "editMetadata": "메타데이터 수정",
+  "@editMetadata": {},
+  "empty": "비었음",
+  "@empty": {},
+  "enabled": "켜짐",
+  "@enabled": {},
+  "endsAt": "{date}에 끝",
+  "@endsAt": {
+    "description": "endsAt",
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "jm"
+      }
+    }
+  },
+  "episode": "{count, plural, other{에피소드} one{에피소드}}",
+  "@episode": {
+    "description": "episode",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "error": "오류",
+  "@error": {},
+  "failedToLoadImage": "이미지를 불러올 수 없습니다",
+  "@failedToLoadImage": {},
+  "favorite": "즐겨찾기",
+  "@favorite": {},
+  "filter": "{count, plural, other{필터} one{필터}}",
+  "@filter": {
+    "description": "filter",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "folders": "폴더",
+  "@folders": {},
+  "fontColor": "폰트 색",
+  "@fontColor": {},
+  "fontSize": "폰트 크기",
+  "@fontSize": {},
+  "forceRefresh": "폰트 새로고침",
+  "@forceRefresh": {},
+  "genre": "{count, plural, other{장르} one{장르}}",
+  "@genre": {
+    "description": "genre",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "goTo": "이동",
+  "@goTo": {},
+  "group": "그룹",
+  "@group": {},
+  "groupBy": "그룹화",
+  "@groupBy": {},
+  "heightOffset": "높이 오프셋",
+  "@heightOffset": {},
+  "hide": "숨기기",
+  "@hide": {},
+  "home": "홈",
+  "@home": {},
+  "identify": "식별",
+  "@identify": {},
+  "immediately": "즉시",
+  "@immediately": {},
+  "incorrectPinTryAgain": "PIN코드가 올바르지 않습니다. 다시 시도해주세요.",
+  "@incorrectPinTryAgain": {},
+  "info": "정보",
+  "@info": {},
+  "invalidUrlDesc": "URL은 http(s)://로 시작되어야 합니다",
+  "@invalidUrlDesc": {},
+  "itemCount": "아이템 개수: {count}",
+  "@itemCount": {
+    "description": "Item count",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "label": "{count, plural, other{라벨} one{라벨}}",
+  "@label": {
+    "description": "label",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "library": "{count, plural, other{라이브러리} one{라이브러리}}",
+  "@library": {
+    "description": "Plural",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "libraryFetchNoItemsFound": "아이템을 찾지 못했습니다. 설정을 바꿔보세요.",
+  "@libraryFetchNoItemsFound": {},
+  "libraryPageSizeTitle": "라이브러리 페이지의 크기",
+  "@libraryPageSizeTitle": {},
+  "light": "라이트",
+  "@light": {},
+  "list": "리스트",
+  "@list": {},
+  "lockscreen": "잠금화면",
+  "@lockscreen": {},
+  "loggedIn": "로그인 됨",
+  "@loggedIn": {},
+  "login": "로그인",
+  "@login": {},
+  "loop": "반복",
+  "@loop": {},
+  "markAsUnwatched": "시청하지 않음으로 표시",
+  "@markAsUnwatched": {},
+  "markAsWatched": "시청함으로 표시",
+  "@markAsWatched": {},
+  "mediaTypeBase": "자료 유형",
+  "@mediaTypeBase": {},
+  "mediaTypeBook": "책",
+  "@mediaTypeBook": {},
+  "mediaTypeBoxset": "박스세트",
+  "@mediaTypeBoxset": {},
+  "mediaTypeMovie": "영화",
+  "@mediaTypeMovie": {},
+  "mediaTypePerson": "인물",
+  "@mediaTypePerson": {},
+  "mediaTypePhoto": "사진",
+  "@mediaTypePhoto": {},
+  "mediaTypePhotoAlbum": "사진 앨범",
+  "@mediaTypePhotoAlbum": {},
+  "mediaTypeSeason": "시즌",
+  "@mediaTypeSeason": {},
+  "mediaTypeSeries": "시리즈",
+  "@mediaTypeSeries": {},
+  "metaDataSavedFor": "{item}의 메타데이터가 저장되었습니다",
+  "@metaDataSavedFor": {
+    "description": "metaDataSavedFor",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "metadataRefreshDefault": "새 파일 및 업데이트된 파일 스캔",
+  "@metadataRefreshDefault": {},
+  "metadataRefreshFull": "모든 메타데이터 대체",
+  "@metadataRefreshFull": {},
+  "metadataRefreshValidation": "누락된 메타데이터 검색",
+  "@metadataRefreshValidation": {},
+  "minutes": "{count, plural, other{분} one{분} }",
+  "@minutes": {
+    "description": "minute",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "moreFrom": "{info}에서 더보기",
+  "@moreFrom": {
+    "description": "More from",
+    "placeholders": {
+      "info": {
+        "type": "String"
+      }
+    }
+  },
+  "moreOptions": "추가 옵션",
+  "@moreOptions": {},
+  "mouseDragSupport": "마우스로 드래그",
+  "@mouseDragSupport": {},
+  "musicAlbum": "앨범",
+  "@musicAlbum": {},
+  "navigation": "탐색",
+  "@navigation": {},
+  "navigationDashboard": "대시보드",
+  "@navigationDashboard": {},
+  "navigationSync": "동기화됨",
+  "@navigationSync": {},
+  "never": "없음",
+  "@never": {},
+  "noItemsSynced": "동기화된 항목이 없습니다",
+  "@noItemsSynced": {},
+  "noItemsToShow": "표시할 항목이 없습니다",
+  "@noItemsToShow": {},
+  "noRating": "평가가 없습니다",
+  "@noRating": {},
+  "noResults": "결과가 없습니다",
+  "@noResults": {},
+  "noSuggestionsFound": "제안이 없습니다",
+  "@noSuggestionsFound": {},
+  "none": "없음",
+  "@none": {},
+  "fetchingLibrary": "라이브러리의 아이템을 가져오고 있습니다…",
+  "@fetchingLibrary": {},
+  "audio": "오디오",
+  "@audio": {},
+  "change": "변경",
+  "@change": {},
+  "descending": "내림차순",
+  "@descending": {},
+  "disableFilters": "필터 끄기",
+  "@disableFilters": {},
+  "deleteItem": "{item}을 삭제하시겠습니까?",
+  "@deleteItem": {
+    "description": "deleteItem",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "dashboardContinueWatching": "계속 보기",
+  "@dashboardContinueWatching": {},
+  "delete": "삭제",
+  "@delete": {},
+  "favorites": "즐겨찾기",
+  "@favorites": {},
+  "homeBannerSlideshow": "슬라이드쇼",
+  "@homeBannerSlideshow": {},
+  "grid": "그리드",
+  "@grid": {},
+  "mediaTypeFolder": "폴더",
+  "@mediaTypeFolder": {},
+  "libraryPageSizeDesc": "한 번에 로드할 양을 설정합니다. 0은 페이징을 비활성화합니다.",
+  "@libraryPageSizeDesc": {},
+  "mode": "모드",
+  "@mode": {},
+  "mediaTypeEpisode": "에피소드",
+  "@mediaTypeEpisode": {},
+  "logout": "로그아웃",
+  "@logout": {},
+  "openParent": "상위 폴더 열기",
+  "@openParent": {},
+  "openShow": "쇼 열기",
+  "@openShow": {},
+  "openWebLink": "웹 링크 열기",
+  "@openWebLink": {},
+  "options": "옵션",
+  "@options": {},
+  "outlineColor": "윤곽선 색",
+  "@outlineColor": {},
+  "outlineSize": "윤곽선 크기",
+  "@outlineSize": {}
+}

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/item_base_model.dart';
@@ -17,11 +17,13 @@ import 'package:fladder/screens/shared/media/components/media_play_button.dart';
 import 'package:fladder/screens/shared/media/episode_posters.dart';
 import 'package:fladder/screens/shared/media/expanding_overview.dart';
 import 'package:fladder/screens/shared/media/external_urls.dart';
+import 'package:fladder/screens/shared/media/people_row.dart';
 import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/item_base_model/play_item_helpers.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/util/people_extension.dart';
 import 'package:fladder/util/router_extension.dart';
 import 'package:fladder/util/widget_extensions.dart';
 import 'package:fladder/widgets/shared/selectable_icon_button.dart';
@@ -45,6 +47,8 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
     final episodeDetails = details.episode;
     final wrapAlignment =
         AdaptiveLayout.viewSizeOf(context) != ViewSize.phone ? WrapAlignment.start : WrapAlignment.center;
+
+    final actors = details.episode?.overview.people ?? [];
 
     return DetailScaffold(
       label: widget.item.name,
@@ -111,8 +115,8 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                               .setAsFavorite(!(episodeDetails.userData.isFavourite), episodeDetails.id);
                         },
                         selected: episodeDetails.userData.isFavourite,
-                        selectedIcon: IconsaxBold.heart,
-                        icon: IconsaxOutline.heart,
+                        selectedIcon: IconsaxPlusBold.heart,
+                        icon: IconsaxPlusLinear.heart,
                       ),
                       SelectableIconButton(
                         onPressed: () async {
@@ -121,8 +125,8 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                               .markAsPlayed(!(episodeDetails.userData.played), episodeDetails.id);
                         },
                         selected: episodeDetails.userData.played,
-                        selectedIcon: IconsaxBold.tick_circle,
-                        icon: IconsaxOutline.tick_circle,
+                        selectedIcon: IconsaxPlusBold.tick_circle,
+                        icon: IconsaxPlusLinear.tick_circle,
                       ),
                     ].addPadding(const EdgeInsets.symmetric(horizontal: 6)),
                   ).padding(padding),
@@ -154,6 +158,16 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                         await details.episode?.play(context, ref, startPosition: chapter.startPosition);
                         ref.read(providerInstance.notifier).fetchDetails(widget.item);
                       },
+                    ),
+                  if (actors.mainCast.isNotEmpty == true)
+                    PeopleRow(
+                      people: actors.mainCast,
+                      contentPadding: padding,
+                    ),
+                  if (actors.guestActors.isNotEmpty == true)
+                    PeopleRow(
+                      people: actors.guestActors,
+                      contentPadding: padding,
                     ),
                   if (details.episodes.length > 1)
                     EpisodePosters(

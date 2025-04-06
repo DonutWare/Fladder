@@ -16,6 +16,7 @@ import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
+import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/wrappers/players/base_player.dart';
 import 'package:fladder/wrappers/players/lib_mdk.dart'
     if (dart.library.html) 'package:fladder/stubs/web/lib_mdk_web.dart';
@@ -211,10 +212,12 @@ class MediaControlsWrapper extends BaseAudioHandler {
 
   Future<void> windowSMTCSetup(ItemBaseModel playBackItem, Duration currentPosition) async {
     final poster = playBackItem.images?.firstOrNull;
+    final mainContext = ref.read(localizationContextProvider);
 
     //Windows setup
     smtc?.updateMetadata(MusicMetadata(
       title: playBackItem.title,
+      artist: mainContext != null ? playBackItem.label(mainContext) : null,
       thumbnail: poster?.path,
     ));
     smtc?.updateTimeline(

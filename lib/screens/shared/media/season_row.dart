@@ -1,18 +1,19 @@
+import 'package:flutter/material.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:fladder/models/items/season_model.dart';
+import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/disable_keypad_focus.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/widgets/shared/clickable_text.dart';
+import 'package:fladder/widgets/shared/horizontal_list.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 import 'package:fladder/widgets/shared/status_card.dart';
-import 'package:flutter/material.dart';
-
-import 'package:fladder/models/items/season_model.dart';
-import 'package:fladder/screens/shared/flat_button.dart';
-import 'package:fladder/widgets/shared/clickable_text.dart';
-import 'package:fladder/widgets/shared/horizontal_list.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SeasonsRow extends ConsumerWidget {
   final EdgeInsets contentPadding;
@@ -155,16 +156,7 @@ class SeasonPoster extends ConsumerWidget {
                         alignment: Alignment.bottomRight,
                         child: PopupMenuButton(
                           tooltip: context.localized.options,
-                          icon: Icon(
-                            Icons.more_vert,
-                            color: Colors.white,
-                            shadows: [
-                              Shadow(color: Colors.black.withValues(alpha: 0.45), blurRadius: 8.0),
-                              const Shadow(color: Colors.black, blurRadius: 16.0),
-                              const Shadow(color: Colors.black, blurRadius: 32.0),
-                              const Shadow(color: Colors.black, blurRadius: 64.0),
-                            ],
-                          ),
+                          icon: const Icon(Icons.more_vert, color: Colors.white),
                           itemBuilder: (context) => season.generateActions(context, ref).popupMenuItems(useIcons: true),
                         ),
                       ),

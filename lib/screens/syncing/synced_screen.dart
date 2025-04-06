@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/settings/home_settings_model.dart';
@@ -83,7 +83,7 @@ class _SyncedScreenState extends ConsumerState<SyncedScreen> {
                       ),
                       const SizedBox(width: 16),
                       const Icon(
-                        IconsaxOutline.cloud_cross,
+                        IconsaxPlusLinear.cloud_cross,
                       )
                     ],
                   ),

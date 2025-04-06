@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:collection/collection.dart';
@@ -170,18 +171,18 @@ class SubtitleText extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final fillScreen = ref.watch(videoPlayerSettingsProvider.select((value) => value.fillScreen));
+    final fontSize = ref.read(subtitleSettingsProvider.select((value) => value.fontSize));
     return Padding(
       padding: (fillScreen ? EdgeInsets.zero : EdgeInsets.only(left: padding.left, right: padding.right))
           .add(const EdgeInsets.all(16)),
       child: LayoutBuilder(
         builder: (context, constraints) {
-          final textScale = MediaQuery.textScalerOf(context)
-              .scale((ref.read(subtitleSettingsProvider.select((value) => value.fontSize)) *
-                  math.sqrt(
-                    ((constraints.maxWidth * constraints.maxHeight) /
-                            (kTextScaleFactorReferenceWidth * kTextScaleFactorReferenceHeight))
-                        .clamp(0.0, 1.0),
-                  )));
+          final textScale = MediaQuery.textScalerOf(context).scale((fontSize *
+              math.sqrt(
+                ((constraints.maxWidth * constraints.maxHeight) /
+                        (kTextScaleFactorReferenceWidth * kTextScaleFactorReferenceHeight))
+                    .clamp(0.0, 1.0),
+              )));
 
           // Function to calculate the height of the text
           double getTextHeight(BuildContext context, String text, TextStyle style) {
@@ -221,7 +222,7 @@ class SubtitleText extends ConsumerWidget {
                       constraints: BoxConstraints(maxWidth: constraints.maxWidth, maxHeight: constraints.maxHeight),
                       decoration: BoxDecoration(
                         color: subModel.backGroundColor,
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(clampDouble(textScale / 10, 2, 12)),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),

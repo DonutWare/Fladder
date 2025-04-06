@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/item_base_model.dart';
@@ -194,7 +194,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                       onPressed: () => context.router.popBack(),
                       icon: Padding(
                         padding: EdgeInsets.all(AdaptiveLayout.of(context).inputDevice == InputDevice.pointer ? 0 : 4),
-                        child: const Icon(IconsaxOutline.arrow_left_2),
+                        child: const Icon(IconsaxPlusLinear.arrow_left_2),
                       ),
                     ),
                     const Spacer(),
@@ -241,7 +241,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                                   message: context.localized.refresh,
                                   child: IconButton(
                                     onPressed: () => context.refreshData(),
-                                    icon: const Icon(IconsaxOutline.refresh),
+                                    icon: const Icon(IconsaxPlusLinear.refresh),
                                   ),
                                 ),
                               ),
@@ -259,7 +259,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                               message: context.localized.home,
                               child: IconButton(
                                 onPressed: () => context.router.navigate(const DashboardRoute()),
-                                icon: const Icon(IconsaxOutline.home),
+                                icon: const Icon(IconsaxPlusLinear.home),
                               ),
                             ),
                           ],

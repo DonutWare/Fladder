@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:page_transition/page_transition.dart';
@@ -98,7 +98,7 @@ class _SearchBarState extends ConsumerState<SuggestionSearchBar> {
           },
           decoration: InputDecoration(
             hintText: widget.title ?? "${context.localized.search}...",
-            prefixIcon: const Icon(IconsaxOutline.search_normal),
+            prefixIcon: const Icon(IconsaxPlusLinear.search_normal),
             contentPadding: const EdgeInsets.only(top: 13),
             suffixIcon: controller.text.isNotEmpty
                 ? IconButton(

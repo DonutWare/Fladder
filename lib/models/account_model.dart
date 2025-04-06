@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
@@ -85,13 +85,13 @@ enum Authentication {
   IconData get icon {
     switch (this) {
       case Authentication.none:
-        return IconsaxBold.arrow_bottom;
+        return IconsaxPlusBold.arrow_bottom;
       case Authentication.autoLogin:
-        return IconsaxOutline.login_1;
+        return IconsaxPlusLinear.login_1;
       case Authentication.biometrics:
-        return IconsaxOutline.finger_scan;
+        return IconsaxPlusLinear.finger_scan;
       case Authentication.passcode:
-        return IconsaxOutline.password_check;
+        return IconsaxPlusLinear.password_check;
     }
   }
 

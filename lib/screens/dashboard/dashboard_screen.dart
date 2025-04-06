@@ -94,6 +94,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               controller: AdaptiveLayout.scrollOf(context),
               physics: const AlwaysScrollableScrollPhysics(),
               slivers: [
+                const DefaultSliverTopBadding(),
                 if (AdaptiveLayout.viewSizeOf(context) == ViewSize.phone)
                   NestedSliverAppBar(
                     route: LibrarySearchRoute(),
@@ -107,7 +108,6 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     ),
                   ),
                 },
-                const DefaultSliverTopBadding(),
                 if (AdaptiveLayout.of(context).isDesktop)
                   const SliverToBoxAdapter(
                     child: Row(

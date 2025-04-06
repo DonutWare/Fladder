@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/item_base_model.dart';
@@ -55,7 +55,7 @@ class _AddToPlaylistState extends ConsumerState<AddToPlaylist> {
                 ),
               IconButton(
                 onPressed: () => ref.read(provider.notifier).setItems(widget.items),
-                icon: const Icon(IconsaxOutline.refresh),
+                icon: const Icon(IconsaxPlusLinear.refresh),
               )
             ],
           ),

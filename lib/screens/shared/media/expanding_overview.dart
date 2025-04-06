@@ -1,4 +1,4 @@
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/sticky_header_text.dart';
 import 'package:flutter/material.dart';
@@ -68,11 +68,11 @@ class _ExpandingOverviewState extends ConsumerState<ExpandingOverview> {
                   child: expanded
                       ? IconButton.filledTonal(
                           onPressed: toggleState,
-                          icon: const Icon(IconsaxOutline.arrow_up_2),
+                          icon: const Icon(IconsaxPlusLinear.arrow_up_2),
                         )
                       : IconButton.filledTonal(
                           onPressed: toggleState,
-                          icon: const Icon(IconsaxOutline.arrow_down_1),
+                          icon: const Icon(IconsaxPlusLinear.arrow_down_1),
                         ),
                 ),
               ),

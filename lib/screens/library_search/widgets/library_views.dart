@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:collection/collection.dart';
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/models/boxset_model.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/photos_model.dart';
@@ -32,9 +32,9 @@ final libraryViewTypeProvider = StateProvider<LibraryViewTypes>((ref) {
 });
 
 enum LibraryViewTypes {
-  grid(icon: IconsaxOutline.grid_2),
-  list(icon: IconsaxOutline.grid_6),
-  masonry(icon: IconsaxOutline.grid_3);
+  grid(icon: IconsaxPlusLinear.grid_2),
+  list(icon: IconsaxPlusLinear.grid_6),
+  masonry(icon: IconsaxPlusLinear.grid_3);
 
   const LibraryViewTypes({required this.icon});
 
@@ -81,7 +81,7 @@ class LibraryViews extends ConsumerWidget {
         if (ref.watch(librarySearchProvider(key!).select((value) => value.nestedCurrentItem is BoxSetModel))) ...{
           ItemActionButton(
             label: Text(context.localized.removeFromCollection),
-            icon: const Icon(IconsaxOutline.archive_slash),
+            icon: const Icon(IconsaxPlusLinear.archive_slash),
             action: () async {
               await libraryProvider.removeFromCollection(items: [item]);
               if (context.mounted) {
@@ -93,7 +93,7 @@ class LibraryViews extends ConsumerWidget {
         if (ref.watch(librarySearchProvider(key!).select((value) => value.nestedCurrentItem is PlaylistModel))) ...{
           ItemActionButton(
             label: Text(context.localized.removeFromPlaylist),
-            icon: const Icon(IconsaxOutline.archive_minus),
+            icon: const Icon(IconsaxPlusLinear.archive_minus),
             action: () async {
               await libraryProvider.removeFromPlaylist(items: [item]);
               if (context.mounted) {

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 IconData getBackIcon(BuildContext context) {
@@ -19,12 +20,6 @@ IconData getBackIcon(BuildContext context) {
   }
 }
 
-final _shadows = [
-  BoxShadow(blurRadius: 1, spreadRadius: 1, color: Colors.black.withValues(alpha: 0.2)),
-  BoxShadow(blurRadius: 4, spreadRadius: 4, color: Colors.black.withValues(alpha: 0.1)),
-  BoxShadow(blurRadius: 16, spreadRadius: 6, color: Colors.black.withValues(alpha: 0.2)),
-];
-
 class ElevatedIconButton extends ConsumerWidget {
   final Function() onPressed;
   final IconData icon;
@@ -39,10 +34,7 @@ class ElevatedIconButton extends ConsumerWidget {
             backgroundColor: WidgetStatePropertyAll(color?.withValues(alpha: 0.15)),
           ),
       color: color,
-      icon: Icon(
-        icon,
-        shadows: _shadows,
-      ),
+      icon: Icon(icon),
     );
   }
 }

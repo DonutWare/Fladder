@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:extended_image/extended_image.dart';
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -334,7 +334,7 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
                           IconButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
                       onPressed: () =>
                           controller.nextPage(duration: const Duration(milliseconds: 125), curve: Curves.easeInOut),
-                      icon: const Icon(IconsaxBold.arrow_right_1),
+                      icon: const Icon(IconsaxPlusBold.arrow_right_1),
                     ),
                   ),
                 ),
@@ -358,7 +358,7 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
                           IconButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
                       onPressed: () =>
                           controller.previousPage(duration: const Duration(milliseconds: 125), curve: Curves.easeInOut),
-                      icon: const Icon(IconsaxBold.arrow_left),
+                      icon: const Icon(IconsaxPlusBold.arrow_left),
                     ),
                   ),
                 ),
@@ -410,8 +410,8 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
             child: AnimatedVisibilityIcon(
               key: Key(currentPhoto.id),
               isFilled: currentPhoto.userData.isFavourite,
-              filledIcon: IconsaxBold.heart,
-              outlinedIcon: IconsaxOutline.heart,
+              filledIcon: IconsaxPlusBold.heart,
+              outlinedIcon: IconsaxPlusLinear.heart,
             ),
           ),
         )
@@ -441,8 +441,8 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
                               .read(photoViewSettingsProvider.notifier)
                               .update((state) => state.copyWith(repeat: !state.repeat)),
                           icon: ref.watch(photoViewSettingsProvider.select((value) => value.repeat))
-                              ? IconsaxOutline.repeat
-                              : IconsaxOutline.repeate_one,
+                              ? IconsaxPlusLinear.repeat
+                              : IconsaxPlusLinear.repeate_one,
                         ),
                         ElevatedIconButtonLabel(
                           label: context.localized.audio,
@@ -450,8 +450,8 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
                               .read(photoViewSettingsProvider.notifier)
                               .update((state) => state.copyWith(mute: !state.mute)),
                           icon: ref.watch(photoViewSettingsProvider.select((value) => value.mute))
-                              ? IconsaxOutline.volume_slash
-                              : IconsaxOutline.volume_high,
+                              ? IconsaxPlusLinear.volume_slash
+                              : IconsaxPlusLinear.volume_high,
                         ),
                         ElevatedIconButtonLabel(
                           label: context.localized.autoPlay,
@@ -459,8 +459,8 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
                               .read(photoViewSettingsProvider.notifier)
                               .update((state) => state.copyWith(autoPlay: !state.autoPlay)),
                           icon: ref.watch(photoViewSettingsProvider.select((value) => value.autoPlay))
-                              ? IconsaxOutline.play_remove
-                              : IconsaxOutline.play,
+                              ? IconsaxPlusLinear.play_remove
+                              : IconsaxPlusLinear.play,
                         ),
                         ElevatedIconButtonLabel(
                           label: context.localized.backgroundBlur,
@@ -468,10 +468,10 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
                               .read(photoViewSettingsProvider.notifier)
                               .update((state) => state.copyWith(theaterMode: !state.theaterMode)),
                           icon: ref.watch(photoViewSettingsProvider.select((value) => value.theaterMode))
-                              ? IconsaxOutline.filter_remove
-                              : IconsaxOutline.filter,
+                              ? IconsaxPlusLinear.filter_remove
+                              : IconsaxPlusLinear.filter,
                         ),
-                      ].addInBetween(const SizedBox(width: 18)),
+                      ].addInBetween(const SizedBox(width: 16)),
                     );
                   }),
                 ),

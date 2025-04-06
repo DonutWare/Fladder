@@ -1,4 +1,4 @@
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/models/book_model.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
@@ -181,7 +181,7 @@ class PosterListItem extends ConsumerWidget {
                         ),
                     if (poster.userData.isFavourite)
                       const Icon(
-                        IconsaxBold.heart,
+                        IconsaxPlusBold.heart,
                         color: Colors.red,
                       ),
                     if (AdaptiveLayout.of(context).isDesktop)

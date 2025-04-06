@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/playback/playback_model.dart';
@@ -70,7 +70,7 @@ class _VideoPlaybackInformation extends ConsumerWidget {
                           ),
                           IconButton.filled(
                             onPressed: () => context.copyToClipboard(playbackModel?.media?.url ?? "No url"),
-                            icon: const Icon(IconsaxOutline.copy),
+                            icon: const Icon(IconsaxPlusLinear.copy),
                           )
                         ],
                       )

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reorderable_grid/reorderable_grid.dart';
 
@@ -80,7 +80,7 @@ class LoginUserGrid extends ConsumerWidget {
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               const Icon(
-                                IconsaxBold.driver_2,
+                                IconsaxPlusBold.driver_2,
                                 size: 14,
                               ),
                               const SizedBox(width: 4),
@@ -107,7 +107,7 @@ class LoginUserGrid extends ConsumerWidget {
                         child: const Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Icon(
-                            IconsaxBold.edit_2,
+                            IconsaxPlusBold.edit_2,
                             size: 14,
                           ),
                         ),

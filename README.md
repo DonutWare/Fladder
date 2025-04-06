@@ -75,9 +75,9 @@ Web/Desktop [try out the web build!](https://DonutWare.github.io/Fladder)
 
 ## Planned Features
 
-* Music playback
-* Android TV support
+* Music playback* 
 * Server management
+* [~~??Android TV support??~~](https://github.com/DonutWare/Fladder/discussions/265)
 * And more???
 
 ## Download

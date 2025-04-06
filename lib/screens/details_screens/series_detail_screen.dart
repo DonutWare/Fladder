@@ -1,12 +1,12 @@
-import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/series_model.dart';
+import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/items/series_details_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/details_screens/components/overview_header.dart';
@@ -112,16 +112,16 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                               .setAsFavorite(!details.userData.isFavourite, details.id);
                         },
                         selected: details.userData.isFavourite,
-                        selectedIcon: IconsaxBold.heart,
-                        icon: IconsaxOutline.heart,
+                        selectedIcon: IconsaxPlusBold.heart,
+                        icon: IconsaxPlusLinear.heart,
                       ),
                       SelectableIconButton(
                         onPressed: () async {
                           await ref.read(userProvider.notifier).markAsPlayed(!details.userData.played, details.id);
                         },
                         selected: details.userData.played,
-                        selectedIcon: IconsaxBold.tick_circle,
-                        icon: IconsaxOutline.tick_circle,
+                        selectedIcon: IconsaxPlusBold.tick_circle,
+                        icon: IconsaxPlusLinear.tick_circle,
                       ),
                     ],
                   ).padding(padding),

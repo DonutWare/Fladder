@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/providers/user_provider.dart';
@@ -31,8 +31,8 @@ class HomeScreen extends ConsumerWidget {
             case HomeTabs.dashboard:
               return DestinationModel(
                 label: context.localized.navigationDashboard,
-                icon: const Icon(IconsaxOutline.home),
-                selectedIcon: const Icon(IconsaxBold.home),
+                icon: const Icon(IconsaxPlusLinear.home),
+                selectedIcon: const Icon(IconsaxPlusBold.home),
                 route: const DashboardRoute(),
                 action: () => context.router.navigate(const DashboardRoute()),
                 floatingActionButton: AdaptiveFab(
@@ -40,21 +40,21 @@ class HomeScreen extends ConsumerWidget {
                   title: context.localized.search,
                   key: Key(e.name.capitalize()),
                   onPressed: () => context.router.navigate(LibrarySearchRoute()),
-                  child: const Icon(IconsaxOutline.search_normal_1),
+                  child: const Icon(IconsaxPlusLinear.search_normal_1),
                 ),
               );
             case HomeTabs.favorites:
               return DestinationModel(
                 label: context.localized.navigationFavorites,
-                icon: const Icon(IconsaxOutline.heart),
-                selectedIcon: const Icon(IconsaxBold.heart),
+                icon: const Icon(IconsaxPlusLinear.heart),
+                selectedIcon: const Icon(IconsaxPlusBold.heart),
                 route: const FavouritesRoute(),
                 floatingActionButton: AdaptiveFab(
                   context: context,
                   title: context.localized.filter(0),
                   key: Key(e.name.capitalize()),
                   onPressed: () => context.router.navigate(LibrarySearchRoute(favourites: true)),
-                  child: const Icon(IconsaxOutline.heart_search),
+                  child: const Icon(IconsaxPlusLinear.heart_search),
                 ),
                 action: () => context.router.navigate(const FavouritesRoute()),
               );
@@ -62,8 +62,8 @@ class HomeScreen extends ConsumerWidget {
               if (canDownload) {
                 return DestinationModel(
                   label: context.localized.navigationSync,
-                  icon: const Icon(IconsaxOutline.cloud),
-                  selectedIcon: const Icon(IconsaxBold.cloud),
+                  icon: const Icon(IconsaxPlusLinear.cloud),
+                  selectedIcon: const Icon(IconsaxPlusBold.cloud),
                   route: SyncedRoute(),
                   action: () => context.router.navigate(SyncedRoute()),
                 );

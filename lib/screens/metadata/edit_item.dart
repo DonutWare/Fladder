@@ -1,4 +1,4 @@
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/providers/edit_item_provider.dart';
@@ -103,7 +103,7 @@ class _EditDialogSwitcherState extends ConsumerState<EditDialogSwitcher> with Ti
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ),
-                  IconButton(onPressed: () => refreshEditor(), icon: const Icon(IconsaxOutline.refresh))
+                  IconButton(onPressed: () => refreshEditor(), icon: const Icon(IconsaxPlusLinear.refresh))
                 ],
               ),
             ),

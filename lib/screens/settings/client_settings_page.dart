@@ -83,8 +83,8 @@ class _ClientSettingsPageState extends ConsumerState<ClientSettingsPage> {
                     .update((current) => current.copyWith(mouseDragSupport: !clientSettings.mouseDragSupport)),
               ),
             ),
+            const Divider(),
           ],
-          const Divider(),
           ...buildClientSettingsAdvanced(context, ref),
           if (kDebugMode) ...[
             const SizedBox(height: 64),

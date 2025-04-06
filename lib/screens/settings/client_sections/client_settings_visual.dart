@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -26,14 +28,16 @@ List<Widget> buildClientSettingsVisual(
       label: Text(context.localized.displayLanguage),
       trailing: Localizations.override(
         context: context,
-        locale: ref.watch(
-          clientSettingsProvider.select(
-            (value) => (value.selectedLocale ?? currentLocale),
-          ),
-        ),
+        locale: ref.watch(clientSettingsProvider.select((value) => (value.selectedLocale ?? currentLocale))),
         child: Builder(builder: (context) {
+          String language = "Unknown";
+          try {
+            language = context.localized.nativeName;
+          } catch (e) {
+            log(e.toString());
+          }
           return EnumBox(
-            current: context.localized.nativeName,
+            current: language,
             itemBuilder: (context) {
               return [
                 ...AppLocalizations.supportedLocales.map(
@@ -43,9 +47,7 @@ List<Widget> buildClientSettingsVisual(
                       context: context,
                       locale: entry,
                       child: Builder(builder: (context) {
-                        return Text(
-                          context.localized.nativeName,
-                        );
+                        return Text("${context.localized.nativeName} (${entry.languageCode.toUpperCase()})");
                       }),
                     ),
                     onTap: () => ref

@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/settings_user_icon.dart';
@@ -36,7 +36,7 @@ class NestedSliverAppBar extends ConsumerWidget {
                 ),
                 onPressed: () => Scaffold.of(parent).openDrawer(),
                 icon: const Icon(
-                  IconsaxBold.menu,
+                  IconsaxPlusBold.menu,
                   size: 28,
                 ),
               ),
@@ -59,7 +59,7 @@ class NestedSliverAppBar extends ConsumerWidget {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              const Icon(IconsaxOutline.search_normal),
+                              const Icon(IconsaxPlusLinear.search_normal),
                               const SizedBox(width: 16),
                               Transform.translate(
                                   offset: const Offset(0, 2.5),
