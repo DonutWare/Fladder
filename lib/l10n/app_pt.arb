@@ -1271,7 +1271,7 @@
   "@unableToPlayBooksOnWeb": {},
   "clientSettingsRequireWifiTitle": "Requer Wi-Fi",
   "@clientSettingsRequireWifiTitle": {},
-  "clientSettingsRequireWifiDesc": "Descarregar disponível apenas quando conectado a uma rede Wi-Fi",
+  "clientSettingsRequireWifiDesc": "Descarregar apenas quando conectado a uma rede Wi-Fi",
   "@clientSettingsRequireWifiDesc": {},
   "episodeAvailable": "Disponível",
   "@episodeAvailable": {},
