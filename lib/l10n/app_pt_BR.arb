@@ -1166,7 +1166,7 @@
   "@unableToPlayBooksOnWeb": {},
   "clientSettingsRequireWifiTitle": "Requer Wi-Fi",
   "@clientSettingsRequireWifiTitle": {},
-  "clientSettingsRequireWifiDesc": "Download disponível apenas quando conectado a uma rede Wi-Fi",
+  "clientSettingsRequireWifiDesc": "Baixar apenas quando conectado a uma rede Wi-Fi",
   "@clientSettingsRequireWifiDesc": {},
   "clientSettingsShowAllCollectionsTitle": "Mostrar todos os tipos de coleção",
   "@clientSettingsShowAllCollectionsTitle": {},
@@ -1277,5 +1277,17 @@
   "episodeMissing": "Faltando",
   "@episodeMissing": {},
   "episodeAvailable": "Disponível",
-  "@episodeAvailable": {}
+  "@episodeAvailable": {},
+  "castAndCrew": "Elenco & Equipe",
+  "@castAndCrew": {},
+  "guestActor": "{count, plural, other{Atores Convidados} one{Ator Convidado}}",
+  "@guestActor": {
+    "description": "Guest actors",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  }
 }
