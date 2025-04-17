@@ -241,8 +241,7 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                           controller: TextEditingController(text: videoSettings.bufferSize.toString()),
                           onSubmitted: (value) {
                             if (value != null) {
-                              ref.read(videoPlayerSettingsProvider.notifier).state =
-                                  ref.read(videoPlayerSettingsProvider).copyWith(bufferSize: value);
+                              provider.setBufferSize(value);
                             }
                           },
                         )),

@@ -43,7 +43,7 @@ class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
   PlayerOptions get wantedPlayer => playerOptions ?? PlayerOptions.platformDefaults;
 
   bool playerSame(VideoPlayerSettingsModel other) {
-    return other.hardwareAccel == hardwareAccel && other.useLibass == useLibass && other.wantedPlayer == wantedPlayer;
+    return other.hardwareAccel == hardwareAccel && other.useLibass == useLibass && other.bufferSize == bufferSize && other.wantedPlayer == wantedPlayer;
   }
 
   @override
@@ -56,6 +56,7 @@ class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
         other.fillScreen == fillScreen &&
         other.hardwareAccel == hardwareAccel &&
         other.useLibass == useLibass &&
+        other.bufferSize == bufferSize &&
         other.internalVolume == internalVolume &&
         other.playerOptions == playerOptions &&
         other.audioDevice == audioDevice;
@@ -68,6 +69,7 @@ class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
         fillScreen.hashCode ^
         hardwareAccel.hashCode ^
         useLibass.hashCode ^
+        bufferSize.hashCode ^
         internalVolume.hashCode ^
         audioDevice.hashCode;
   }
