@@ -18,6 +18,7 @@ import 'package:fladder/screens/settings/widgets/settings_label_divider.dart';
 import 'package:fladder/screens/settings/widgets/settings_message_box.dart';
 import 'package:fladder/screens/settings/widgets/subtitle_editor.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
+import 'package:fladder/screens/shared/input_fields.dart';
 import 'package:fladder/screens/video_player/components/video_player_options_sheet.dart';
 import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/bitrate_helper.dart';
@@ -230,6 +231,22 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                             : Container(),
                       ),
                     ],
+                    SettingsListTile(
+                      label: Text(context.localized.settingsPlayerBufferSizeTitle),
+                      subLabel: Text(context.localized.settingsPlayerBufferSizeDesc),
+                      trailing: SizedBox(
+                        width: 70,
+                        child: IntInputField(
+                          suffix: 'MB',
+                          controller: TextEditingController(text: videoSettings.bufferSize.toString()),
+                          onSubmitted: (value) {
+                            if (value != null) {
+                              ref.read(videoPlayerSettingsProvider.notifier).state =
+                                  ref.read(videoPlayerSettingsProvider).copyWith(bufferSize: value);
+                            }
+                          },
+                        )),
+                    ),
                     SettingsListTile(
                       label: Text(context.localized.settingsPlayerCustomSubtitlesTitle),
                       subLabel: Text(context.localized.settingsPlayerCustomSubtitlesDesc),

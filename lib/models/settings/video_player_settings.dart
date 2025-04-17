@@ -22,6 +22,7 @@ class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     @Default(false) bool fillScreen,
     @Default(true) bool hardwareAccel,
     @Default(false) bool useLibass,
+    @Default(32) int bufferSize,
     PlayerOptions? playerOptions,
     @Default(100) double internalVolume,
     Set<DeviceOrientation>? allowedOrientations,
