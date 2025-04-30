@@ -510,7 +510,7 @@ jobs:
         uses: mr-smithers-excellent/docker-build-push@v6
         with:
           dockerfile: Dockerfile-rootless
-          image: fladder
+          image: fladder-rootless
           addLatest: true
           multiPlatform: true
           platform: linux/amd64,linux/arm64,linux/arm/v7
