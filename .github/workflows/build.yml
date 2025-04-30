@@ -506,6 +506,18 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Deploy rootless-image to ghcr.io
+        uses: mr-smithers-excellent/docker-build-push@v6
+        with:
+          dockerfile: Dockerfile-rootless
+          image: fladder
+          addLatest: true
+          multiPlatform: true
+          platform: linux/amd64,linux/arm64,linux/arm/v7
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Clean builds folder
         run: rm -rf build/web
 
