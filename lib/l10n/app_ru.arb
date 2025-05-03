@@ -98,5 +98,14 @@
     }
   },
   "ascending": "Восходящий",
-  "@ascending": {}
+  "@ascending": {},
+  "dashboardRecentlyAdded": "Недавно добавлен в {name}",
+  "@dashboardRecentlyAdded": {
+    "description": "Recently added on home screen",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  }
 }
