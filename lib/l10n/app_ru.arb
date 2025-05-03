@@ -107,5 +107,23 @@
         "type": "String"
       }
     }
-  }
+  },
+  "nextUp": "Следующий шаг",
+  "@nextUp": {},
+  "actor": "{count, plural, other{Actors} one{Actor}}",
+  "@actor": {
+    "description": "actor",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "clearChanges": "Очистить изменения",
+  "@clearChanges": {},
+  "clearSelection": "Очистить выделение",
+  "@clearSelection": {},
+  "dashboardContinueWatching": "Продолжить просмотр",
+  "@dashboardContinueWatching": {}
 }
