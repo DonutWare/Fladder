@@ -136,5 +136,22 @@
     }
   },
   "datePlayed": "Дата воспроизведения",
-  "@datePlayed": {}
+  "@datePlayed": {},
+  "delete": "Удалить",
+  "@delete": {},
+  "dateAdded": "Добавлено",
+  "@dateAdded": {},
+  "dateLastContentAdded": "Дата добавления",
+  "@dateLastContentAdded": {},
+  "days": "Дни",
+  "@days": {},
+  "deleteItem": "Исключить {item}?",
+  "@deleteItem": {
+    "description": "deleteItem",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  }
 }
