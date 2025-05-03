@@ -99,7 +99,7 @@
   },
   "ascending": "Восходящий",
   "@ascending": {},
-  "dashboardRecentlyAdded": "Недавно добавлен в {name}",
+  "dashboardRecentlyAdded": "Недавно добавлено в {name}",
   "@dashboardRecentlyAdded": {
     "description": "Recently added on home screen",
     "placeholders": {
@@ -125,5 +125,16 @@
   "clearSelection": "Очистить выделение",
   "@clearSelection": {},
   "dashboardContinueWatching": "Продолжить просмотр",
-  "@dashboardContinueWatching": {}
+  "@dashboardContinueWatching": {},
+  "deleteFileFromSystem": "Элемент «{item}» будет удалён из файловой системы и медиатеки. Продолжить?",
+  "@deleteFileFromSystem": {
+    "description": "Delete file from system",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "datePlayed": "Дата воспроизведения",
+  "@datePlayed": {}
 }
