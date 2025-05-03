@@ -145,7 +145,7 @@
   "@dateLastContentAdded": {},
   "days": "Дни",
   "@days": {},
-  "deleteItem": "Исключить {item}?",
+  "deleteItem": "Удалить {item}?",
   "@deleteItem": {
     "description": "deleteItem",
     "placeholders": {
