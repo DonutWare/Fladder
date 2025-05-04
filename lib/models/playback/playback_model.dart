@@ -201,8 +201,8 @@ class PlaybackModelHelper {
         itemId: firstItemToPlay.id,
         body: PlaybackInfoDto(
           startTimeTicks: startPosition?.toRuntimeTicks,
-          audioStreamIndex: streamModel?.defaultAudioStreamIndex,
-          subtitleStreamIndex: streamModel?.defaultSubStreamIndex,
+          audioStreamIndex: oldModel?.mediaStreams?.currentAudioStream?.index ?? streamModel?.defaultAudioStreamIndex,
+          subtitleStreamIndex: oldModel?.mediaStreams?.currentSubStream?.index ?? streamModel?.defaultSubStreamIndex,
           enableTranscoding: true,
           autoOpenLiveStream: true,
           deviceProfile: ref.read(videoProfileProvider),
@@ -223,8 +223,8 @@ class PlaybackModelHelper {
       if (mediaSource == null) return null;
 
       final mediaStreamsWithUrls = MediaStreamsModel.fromMediaStreamsList(playbackInfo.mediaSources, ref).copyWith(
-        defaultAudioStreamIndex: streamModel?.defaultAudioStreamIndex,
-        defaultSubStreamIndex: streamModel?.defaultSubStreamIndex,
+        defaultAudioStreamIndex: oldModel?.mediaStreams?.currentAudioStream?.index ?? streamModel?.defaultAudioStreamIndex,
+        defaultSubStreamIndex: oldModel?.mediaStreams?.currentSubStream?.index ?? streamModel?.defaultSubStreamIndex,
       );
 
       final mediaSegments = await api.mediaSegmentsGet(id: item.id);
@@ -328,8 +328,8 @@ class PlaybackModelHelper {
 
     final currentPosition = ref.read(mediaPlaybackProvider.select((value) => value.position));
 
-    final audioIndex = playbackModel.mediaStreams?.defaultAudioStreamIndex;
-    final subIndex = playbackModel.mediaStreams?.defaultSubStreamIndex;
+    final audioIndex = playbackModel.mediaStreams?.currentAudioStream?.index ?? playbackModel.mediaStreams?.defaultAudioStreamIndex;
+    final subIndex = playbackModel.mediaStreams?.currentSubStream?.index ?? playbackModel.mediaStreams?.defaultSubStreamIndex;
 
     Response<PlaybackInfoResponse> response = await api.itemsItemIdPlaybackInfoPost(
       itemId: item.id,
