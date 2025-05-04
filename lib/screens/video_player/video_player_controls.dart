@@ -441,7 +441,10 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         final List<String?> details = [
           if (AdaptiveLayout.of(context).isDesktop) item?.label(context),
           mediaPlayback.duration.inMinutes > 1
-              ? context.localized.endsAt(DateTime.now().add(mediaPlayback.duration - mediaPlayback.position))
+                ? context.localized.endsAt(DateTime.now().add(
+                  Duration(milliseconds: 
+                    (mediaPlayback.duration.inMilliseconds - mediaPlayback.position.inMilliseconds) ~/ ref.read(playbackRateProvider)))
+                  )
               : null
         ];
         return Column(
