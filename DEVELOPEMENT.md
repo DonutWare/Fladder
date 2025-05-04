@@ -57,5 +57,5 @@ flutter pub run build_runner watch
 ```
 
 ## 🌐 Using a demo Server
-You can use a fake server from jellyfin 
+You can use a fake server from Jellyfin.
 https://demo.jellyfin.org/stable/web/
