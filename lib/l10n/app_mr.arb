@@ -1,1 +1,581 @@
-{}
+{
+  "about": "याबद्दल",
+  "@about": {},
+  "accept": "स्वीकार करा",
+  "@accept": {},
+  "addToCollection": "संग्रहात जोडा",
+  "@addToCollection": {},
+  "advanced": "प्रगत",
+  "@advanced": {},
+  "all": "सर्व",
+  "@all": {},
+  "amoledBlack": "AMOLED काळा",
+  "@amoledBlack": {},
+  "appLockBiometrics": "बायोमेट्रिक्स",
+  "@appLockBiometrics": {},
+  "appLockPasscode": "पास-कोड",
+  "@appLockPasscode": {},
+  "autoPlay": "आपोआप-प्ले",
+  "@autoPlay": {},
+  "bold": "ठळक",
+  "@bold": {},
+  "change": "बदला",
+  "@change": {},
+  "clearAllSettings": "सर्व सेटिंग साफ करा",
+  "@clearAllSettings": {},
+  "clearAllSettingsQuestion": "सर्व सेटिंग साफ करायचे का?",
+  "@clearAllSettingsQuestion": {},
+  "clearChanges": "बदल साफ करा",
+  "@clearChanges": {},
+  "color": "रंग",
+  "@color": {},
+  "combined": "मिळून",
+  "@combined": {},
+  "controls": "कंट्रोल",
+  "@controls": {},
+  "dashboardContinueReading": "वाचणे चालू ठेवा",
+  "@dashboardContinueReading": {},
+  "nextUp": "यापुढे",
+  "@nextUp": {},
+  "dateAdded": "जोडण्याचा दिनांक",
+  "@dateAdded": {},
+  "days": "दिवस",
+  "@days": {},
+  "disabled": "बंद",
+  "@disabled": {},
+  "downloadsClearTitle": "सिंक केलेला डेटा साफ करून टाका",
+  "@downloadsClearTitle": {},
+  "downloadsSyncedData": "सिंक केलेला डेटा",
+  "@downloadsSyncedData": {},
+  "empty": "रिकामा",
+  "@empty": {},
+  "enabled": "चालू",
+  "@enabled": {},
+  "error": "त्रुटी",
+  "@error": {},
+  "failedToLoadImage": "चित्र लोड करता आले नाही",
+  "@failedToLoadImage": {},
+  "folders": "फोल्डर",
+  "@folders": {},
+  "forceRefresh": "जबरदस्ती रिफ्रेश करा",
+  "@forceRefresh": {},
+  "goTo": "येथे जा",
+  "@goTo": {},
+  "grid": "ग्रिड",
+  "@grid": {},
+  "group": "गट",
+  "@group": {},
+  "hide": "लपवा",
+  "@hide": {},
+  "hideEmpty": "रिकाम्या लपवा",
+  "@hideEmpty": {},
+  "immediately": "ताबडतोब",
+  "@immediately": {},
+  "info": "माहिती",
+  "@info": {},
+  "libraryFetchNoItemsFound": "कोणत्याही वस्तू सापडल्या नाहीत. सेटिंग बदलून पाहा.",
+  "@libraryFetchNoItemsFound": {},
+  "lockscreen": "लॉकस्क्रीन",
+  "@lockscreen": {},
+  "login": "लॉगइन",
+  "@login": {},
+  "logout": "लॉगआउट",
+  "@logout": {},
+  "markAsUnwatched": "न पाहिलेले असे चिन्हित करा",
+  "@markAsUnwatched": {},
+  "mediaTypeBook": "पुस्तक",
+  "@mediaTypeBook": {},
+  "mediaTypeEpisode": "एपिसोड",
+  "@mediaTypeEpisode": {},
+  "mediaTypeMovie": "चित्रपट",
+  "@mediaTypeMovie": {},
+  "mediaTypePerson": "व्यक्ती",
+  "@mediaTypePerson": {},
+  "mediaTypePhotoAlbum": "फोटो अल्बम",
+  "@mediaTypePhotoAlbum": {},
+  "mediaTypeSeason": "सीझन",
+  "@mediaTypeSeason": {},
+  "mediaTypeSeries": "मालिका",
+  "@mediaTypeSeries": {},
+  "mode": "मोड",
+  "@mode": {},
+  "musicAlbum": "अल्बम",
+  "@musicAlbum": {},
+  "name": "नाव",
+  "@name": {},
+  "noResults": "निकाल नाहीत",
+  "@noResults": {},
+  "noServersFound": "कोणतेही नवीन सर्व्हर सापडले नाहीत",
+  "@noServersFound": {},
+  "none": "कोणतेही नाही",
+  "@none": {},
+  "notPartOfAlbum": "अल्बमचा भाग नाही",
+  "@notPartOfAlbum": {},
+  "openWebLink": "वेब लिंक उघडा",
+  "@openWebLink": {},
+  "password": "पासवर्ड",
+  "@password": {},
+  "pathEditTitle": "स्थान बदला",
+  "@pathEditTitle": {},
+  "playCount": "प्ले केलेल्याची मोजणी",
+  "@playCount": {},
+  "playFromStart": "{name} सुरुवातीपासून प्ले करा",
+  "@playFromStart": {
+    "description": "speel vanaf het begin",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "playVideos": "व्हिडिओ प्ले करा",
+  "@playVideos": {},
+  "quickConnectInputACode": "कोड प्रविष्ट करा",
+  "@quickConnectInputACode": {},
+  "quickConnectTitle": "जलद-कनेक्ट",
+  "@quickConnectTitle": {},
+  "quickConnectAction": "यासाठी जलद-कनेक्ट कोड प्रविष्ट करा",
+  "@quickConnectAction": {},
+  "read": "{item} वाचा",
+  "@read": {
+    "description": "read",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "refresh": "रिफ्रेश",
+  "@refresh": {},
+  "related": "यासंबंधी",
+  "@related": {},
+  "removeAsFavorite": "आवडीच्यांमधून काढून टाका",
+  "@removeAsFavorite": {},
+  "restart": "रिस्टार्ट करा",
+  "@restart": {},
+  "result": "निकाल",
+  "@result": {},
+  "resumable": "चालू ठेवता येण्यासारखे",
+  "@resumable": {},
+  "save": "सेव्ह करा",
+  "@save": {},
+  "saved": "सेव्ह केले",
+  "@saved": {},
+  "search": "शोध घ्या",
+  "@search": {},
+  "selectAll": "सर्व निवडा",
+  "@selectAll": {},
+  "selectViewType": "दृश्य प्रकार निवडा",
+  "@selectViewType": {},
+  "separate": "विभाजित",
+  "@separate": {},
+  "settingsClientTitle": "फ्लॅडर",
+  "@settingsClientTitle": {},
+  "settingsContinue": "चालू ठेवा",
+  "@settingsContinue": {},
+  "showAlbum": "अल्बम दाखवा",
+  "@showAlbum": {},
+  "showEmpty": "रिकामे दाखवा",
+  "@showEmpty": {},
+  "sortName": "नाव",
+  "@sortName": {},
+  "start": "सुरू करा",
+  "@start": {},
+  "themeModeDark": "गडद",
+  "@themeModeDark": {},
+  "unPlayed": "प्ले न केलेले",
+  "@unPlayed": {},
+  "totalSize": "एकूण आकार: {size}",
+  "@totalSize": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "unknown": "अज्ञात",
+  "@unknown": {},
+  "useDefaults": "डिफॉल्ट वापरा",
+  "@useDefaults": {},
+  "userName": "प्रयोक्ता नाव",
+  "@userName": {},
+  "videoScalingFill": "भरा",
+  "@videoScalingFill": {},
+  "videoScalingFillScreenTitle": "पडदा भरा",
+  "@videoScalingFillScreenTitle": {},
+  "videoScalingFitHeight": "उंची भरा",
+  "@videoScalingFitHeight": {},
+  "videoScalingFitWidth": "रुंदी भरा",
+  "@videoScalingFitWidth": {},
+  "addItemsToCollection": "{itemLength} वस्तू संग्रहात जोडा",
+  "@addItemsToCollection": {
+    "placeholders": {
+      "itemLength": {
+        "type": "int"
+      }
+    }
+  },
+  "addedToPlaylist": "{playlistName} प्लेलिस्टमध्ये जोडले गेले",
+  "@addedToPlaylist": {
+    "placeholders": {
+      "playlistName": {
+        "type": "String"
+      }
+    }
+  },
+  "removedFromCollection": "{collectionName} संग्रहातून काढून टाकले गेले",
+  "@removedFromCollection": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncStatusNotFound": "सापडले नाही",
+  "@syncStatusNotFound": {},
+  "syncOverlayDeleting": "सिंक केलेली वस्तू काढून टाकत आहे",
+  "@syncOverlayDeleting": {},
+  "mediaSegmentUnknown": "अज्ञात",
+  "@mediaSegmentUnknown": {},
+  "mediaSegmentCommercial": "जाहिरात",
+  "@mediaSegmentCommercial": {},
+  "mediaSegmentOutro": "आउट्रो",
+  "@mediaSegmentOutro": {},
+  "mediaSegmentIntro": "इनट्रो",
+  "@mediaSegmentIntro": {},
+  "ascending": "चढत्या क्रमात",
+  "@ascending": {},
+  "clearSelection": "निवड साफ करा",
+  "@clearSelection": {},
+  "dashboardContinue": "चालू ठेवा",
+  "@dashboardContinue": {},
+  "continuePage": "पुढे - पान {page}",
+  "@continuePage": {
+    "description": "Continue - page 1",
+    "placeholders": {
+      "page": {
+        "type": "int"
+      }
+    }
+  },
+  "mouseDragSupport": "माउसने खेचा",
+  "@mouseDragSupport": {},
+  "playLabel": "प्ले करा",
+  "@playLabel": {},
+  "themeModeSystem": "सिस्टम",
+  "@themeModeSystem": {},
+  "dashboard": "मुख्य पान",
+  "@dashboard": {},
+  "dashboardContinueListening": "ऐकणे चालू ठेवा",
+  "@dashboardContinueListening": {},
+  "removeFromCollection": "संग्रहातून काढून टाका",
+  "@removeFromCollection": {},
+  "datePlayed": "प्ले केलेल्याचा दिनांक",
+  "@datePlayed": {},
+  "displayLanguage": "दर्शनाची भाषा",
+  "@displayLanguage": {},
+  "favorites": "आवडीचे",
+  "@favorites": {},
+  "fontSize": "फाँटचा आकार",
+  "@fontSize": {},
+  "home": "घर",
+  "@home": {},
+  "selected": "निवडलेले",
+  "@selected": {},
+  "mediaTypeFolder": "फोल्डर",
+  "@mediaTypeFolder": {},
+  "navigationSync": "सिंक केले",
+  "@navigationSync": {},
+  "refreshPopup": "रिफ्रेश करा - {name}",
+  "@refreshPopup": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidUrlDesc": "URL ची सुरुवात http(s):// अशी झाली पाहिजे",
+  "@invalidUrlDesc": {},
+  "list": "यादी",
+  "@list": {},
+  "syncStatusComplete": "पूर्ण",
+  "@syncStatusComplete": {},
+  "metaDataSavedFor": "{item} यासाठी मेटाडेटा सेव्ह केला गेला",
+  "@metaDataSavedFor": {
+    "description": "metaDataSavedFor",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "noRating": "रेटिंग नाही",
+  "@noRating": {},
+  "readFromStart": "{item} सुरुवातीपासून वाचा",
+  "@readFromStart": {
+    "description": "Read book from start",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "options": "पर्याय",
+  "@options": {},
+  "playFrom": "{name} पासून प्ले करा",
+  "@playFrom": {
+    "description": "playFrom",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "removeFromPlaylist": "प्लेलिस्टमधून काढून टाका",
+  "@removeFromPlaylist": {},
+  "themeModeLight": "हलका",
+  "@themeModeLight": {},
+  "resume": "{item} चालू ठेवा",
+  "@resume": {
+    "description": "resume",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsProfileDesc": "लॉकस्क्रीन",
+  "@settingsProfileDesc": {},
+  "addToNewCollection": "नवीन संग्रह",
+  "@addToNewCollection": {},
+  "selectedWith": "{info} निवडलेले",
+  "@selectedWith": {
+    "description": "selected",
+    "placeholders": {
+      "info": {
+        "type": "String"
+      }
+    }
+  },
+  "settings": "सेटिंग",
+  "@settings": {},
+  "settingsProfileTitle": "प्रोफाइल",
+  "@settingsProfileTitle": {},
+  "settingsQuickConnectTitle": "जलद-कनेक्ट",
+  "@settingsQuickConnectTitle": {},
+  "switchUser": "प्रयोक्ता बदला",
+  "@switchUser": {},
+  "sync": "सिंक करा",
+  "@sync": {},
+  "theme": "थीम",
+  "@theme": {},
+  "addItemsToPlaylist": "{itemLength} वस्तू प्लेसिस्टमध्ये जोडा",
+  "@addItemsToPlaylist": {
+    "placeholders": {
+      "itemLength": {
+        "type": "int"
+      }
+    }
+  },
+  "syncStatusFailed": "अपयशी",
+  "@syncStatusFailed": {},
+  "timeAndAnnotation": "{minutes} आणि {seconds}",
+  "@timeAndAnnotation": {
+    "description": "timeAndAnnotation",
+    "placeholders": {
+      "minutes": {
+        "type": "String"
+      },
+      "seconds": {
+        "type": "String"
+      }
+    }
+  },
+  "viewPhotos": "फोटो पाहा",
+  "@viewPhotos": {},
+  "watchOn": "यावर पाहा",
+  "@watchOn": {},
+  "syncStatusPaused": "पॉझ केले",
+  "@syncStatusPaused": {},
+  "syncOverlaySyncing": "वस्तू तपशील सिंक करत आहे",
+  "@syncOverlaySyncing": {},
+  "syncSelectDownloadsFolder": "डाउनलोड फोल्डर निवडा",
+  "@syncSelectDownloadsFolder": {},
+  "active": "सक्रिय",
+  "@active": {},
+  "nativeName": "इंग्रजी",
+  "@nativeName": {},
+  "mediaTypePlaylist": "प्लेलिस्ट",
+  "@mediaTypePlaylist": {},
+  "retry": "पुन्हा प्रयत्न करा",
+  "@retry": {},
+  "syncStatusCanceled": "रद्द केले गेले",
+  "@syncStatusCanceled": {},
+  "cancel": "रद्द करा",
+  "@cancel": {},
+  "code": "कोड",
+  "@code": {},
+  "downloadsTitle": "डाउनलोड",
+  "@downloadsTitle": {},
+  "endsAt": "{date} ला समाप्त",
+  "@endsAt": {
+    "description": "endsAt",
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "jm"
+      }
+    }
+  },
+  "fontColor": "फाँटचा रंग",
+  "@fontColor": {},
+  "homeBannerSlideshow": "स्लाइडशो",
+  "@homeBannerSlideshow": {},
+  "reWatch": "पुन्हा-पाहणे",
+  "@reWatch": {},
+  "shadow": "सावली",
+  "@shadow": {},
+  "showDetails": "तपशील दाखवा",
+  "@showDetails": {},
+  "themeColor": "थीमचा रंग",
+  "@themeColor": {},
+  "video": "व्हिडिओ",
+  "@video": {},
+  "addedToCollection": "{collectionName} या संग्रहात जोडले गेले",
+  "@addedToCollection": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncStatusSynced": "सिंक केले",
+  "@syncStatusSynced": {},
+  "noItemsSynced": "कोणत्याही वस्तू सिंक केल्या नाहीत",
+  "@noItemsSynced": {},
+  "noItemsToShow": "दाखवण्यास कोणत्याही वस्तू नाहीत",
+  "@noItemsToShow": {},
+  "other": "इतर",
+  "@other": {},
+  "play": "{item} प्ले करा",
+  "@play": {
+    "description": "Play with",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "selectTime": "वेळ निवडा",
+  "@selectTime": {},
+  "addToNewPlaylist": "नवीन प्लेलिस्ट",
+  "@addToNewPlaylist": {},
+  "scanningName": "स्कॅन करत आहे - {name}…",
+  "@scanningName": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "descending": "उतरत्या क्रमात",
+  "@descending": {},
+  "mediaTypePhoto": "फोटो",
+  "@mediaTypePhoto": {},
+  "delete": "डिलीट करा",
+  "@delete": {},
+  "invalidUrl": "अवैध URL",
+  "@invalidUrl": {},
+  "itemCount": "वस्तूंची मोजणी: {count}",
+  "@itemCount": {
+    "description": "Item count",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "loggedIn": "लॉगइन झालेले",
+  "@loggedIn": {},
+  "openShow": "मालिका उघडा",
+  "@openShow": {},
+  "server": "सर्व्हर",
+  "@server": {},
+  "audio": "ऑडिओ",
+  "@audio": {},
+  "clear": "साफ करा",
+  "@clear": {},
+  "editMetadata": "मेटाडेटा संपादित करा",
+  "@editMetadata": {},
+  "incorrectPinTryAgain": "चुकीचा पीन. पुन्हा प्रयत्न करा.",
+  "@incorrectPinTryAgain": {},
+  "markAsWatched": "पाहिलेले असे चिन्हित करा",
+  "@markAsWatched": {},
+  "masonry": "भिंतीसारखे",
+  "@masonry": {},
+  "navigationFavorites": "आवडीचे",
+  "@navigationFavorites": {},
+  "played": "प्ले केलेले",
+  "@played": {},
+  "collectionFolder": "संग्रह फोल्डर",
+  "@collectionFolder": {},
+  "downloadsPath": "पाथ",
+  "@downloadsPath": {},
+  "favorite": "आवडीचा",
+  "@favorite": {},
+  "moreOptions": "अधिक पर्याय",
+  "@moreOptions": {},
+  "addAsFavorite": "आवडीचे म्हणून जोडा",
+  "@addAsFavorite": {},
+  "addToPlaylist": "प्लेलिस्टमध्ये जोडा",
+  "@addToPlaylist": {},
+  "appLockAutoLogin": "आपोआप लॉगइन करा",
+  "@appLockAutoLogin": {},
+  "close": "बंद करा",
+  "@close": {},
+  "deleteItem": "{item} डिलीट करायचे का?",
+  "@deleteItem": {
+    "description": "deleteItem",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "disableFilters": "गाळण्या बंद करा",
+  "@disableFilters": {},
+  "groupBy": "असा गट बनवा",
+  "@groupBy": {},
+  "homeBannerCarousel": "कॅरूझेल",
+  "@homeBannerCarousel": {},
+  "navigationDashboard": "मुख्य पान",
+  "@navigationDashboard": {},
+  "never": "कधीच नाही",
+  "@never": {},
+  "page": "पान {index}",
+  "@page": {
+    "description": "page",
+    "placeholders": {
+      "index": {
+        "type": "int"
+      }
+    }
+  },
+  "quickConnectWrongCode": "चुकीचा कोड",
+  "@quickConnectWrongCode": {},
+  "dashboardContinueWatching": "पाहणे चालू ठेवा",
+  "@dashboardContinueWatching": {},
+  "logoutUserPopupTitle": "{userName} यांना लॉगआउट करायचे का?",
+  "@logoutUserPopupTitle": {
+    "description": "Pop-up for logging out the user",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "refreshMetadata": "मेटाडेटा रिफ्रेश करा",
+  "@refreshMetadata": {},
+  "settingsPosterSize": "पोस्टरचा आकार",
+  "@settingsPosterSize": {}
+}
