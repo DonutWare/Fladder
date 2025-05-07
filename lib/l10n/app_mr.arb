@@ -577,5 +577,152 @@
   "refreshMetadata": "मेटाडेटा रिफ्रेश करा",
   "@refreshMetadata": {},
   "settingsPosterSize": "पोस्टरचा आकार",
-  "@settingsPosterSize": {}
+  "@settingsPosterSize": {},
+  "syncStatusRunning": "चालू",
+  "@syncStatusRunning": {},
+  "aboutSocials": "सोशल मीडियावर",
+  "@aboutSocials": {},
+  "playBackSettings": "प्लेबॅक सेटिंग",
+  "@playBackSettings": {},
+  "unableToPlayBooksOnWeb": "पुस्तके सध्या वेब आवृत्तीत समर्थित नाहीत",
+  "@unableToPlayBooksOnWeb": {},
+  "libraryFiltersRemoveAll": "सर्व गाळण्या काढून टाका",
+  "@libraryFiltersRemoveAll": {},
+  "schemeSettingsRainbow": "इंद्रधनुष्य",
+  "@schemeSettingsRainbow": {},
+  "schemeSettingsFruitSalad": "फ्रुट सॅलड",
+  "@schemeSettingsFruitSalad": {},
+  "clientSettingsShowAllCollectionsTitle": "सर्व संग्रह प्रकार दाखवा",
+  "@clientSettingsShowAllCollectionsTitle": {},
+  "stop": "थांबवा",
+  "@stop": {},
+  "playNextVideo": "पुढचा व्हिडिओ प्ले करा",
+  "@playNextVideo": {},
+  "external": "बाह्य",
+  "@external": {},
+  "errorLogs": "त्रुटी नोंदवही",
+  "@errorLogs": {},
+  "tablet": "टॅबलेट",
+  "@tablet": {},
+  "desktop": "डेस्कटॉप",
+  "@desktop": {},
+  "internetStreamingQualityTitle": "इंटरनेट गुणवत्ता",
+  "@internetStreamingQualityTitle": {},
+  "qualityOptionsTitle": "गुणवत्ता पर्याय",
+  "@qualityOptionsTitle": {},
+  "segmentActionAskToSkip": "स्किप करण्यास विचारा",
+  "@segmentActionAskToSkip": {},
+  "libraryPlayItems": "वस्तू प्ले करा",
+  "@libraryPlayItems": {},
+  "closeVideo": "व्हिडिओ बंद करा",
+  "@closeVideo": {},
+  "layoutModeDual": "दुहेरी",
+  "@layoutModeDual": {},
+  "phone": "फोन",
+  "@phone": {},
+  "segmentActionSkip": "स्किप करा",
+  "@segmentActionSkip": {},
+  "playbackRate": "प्लेबॅक दर",
+  "@playbackRate": {},
+  "defaultLabel": "डिफॉल्ट",
+  "@defaultLabel": {
+    "description": "To indicate a default value, default video player backend"
+  },
+  "episodeAvailable": "उपलब्ध",
+  "@episodeAvailable": {},
+  "updateFilterForLibrary": "गाळणी अपडेट करा",
+  "@updateFilterForLibrary": {},
+  "playerSettingsBackendTitle": "व्हिडिओ प्लेयर बॅकएंड",
+  "@playerSettingsBackendTitle": {},
+  "layoutModeSingle": "एकेरी",
+  "@layoutModeSingle": {},
+  "clientSettingsRequireWifiTitle": "वाय-फाय आवश्यक",
+  "@clientSettingsRequireWifiTitle": {},
+  "aboutCreatedBy": "DonutWare द्वारा निर्मित",
+  "@aboutCreatedBy": {},
+  "copiedToClipboard": "क्लिपबोर्डवर कॉपी केले",
+  "@copiedToClipboard": {},
+  "version": "आवृत्ती",
+  "@version": {},
+  "homeStreamingQualityTitle": "घरातील गुणवत्ता",
+  "@homeStreamingQualityTitle": {},
+  "resumeVideo": "व्हिडिओ चालू ठेवा",
+  "@resumeVideo": {},
+  "noVideoPlayerOptions": "निवडलेल्या बॅकएंडमध्ये कोणतेही पर्याय नाहीत",
+  "@noVideoPlayerOptions": {},
+  "qualityOptionsOriginal": "मूळ",
+  "@qualityOptionsOriginal": {},
+  "loading": "लोड करत आहे",
+  "@loading": {},
+  "removeFilterForLibrary": "{filter} काढून टाकायचे का?",
+  "@removeFilterForLibrary": {
+    "description": "removeFilterForLibrary",
+    "placeholders": {
+      "filter": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadFile": "{type} डाउनलोड करा",
+  "@downloadFile": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "qualityOptionsAuto": "आपोआप",
+  "@qualityOptionsAuto": {},
+  "segmentActionNone": "कोणतेही नाही",
+  "@segmentActionNone": {},
+  "unableToSyncItem": "{item} सिंक करता आले नाही, काहीतरी गडबड झाली",
+  "@unableToSyncItem": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteFilterConfirmation": "तुम्हाला ही गाळणी नक्की डिलीट करायची आहे का?",
+  "@deleteFilterConfirmation": {},
+  "aboutVersion": "आवृत्ती: {version}",
+  "@aboutVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "speed": "गती",
+  "@speed": {},
+  "off": "बंद",
+  "@off": {},
+  "screenBrightness": "पडद्याचा तेजस्वीपणा",
+  "@screenBrightness": {},
+  "subtitle": "सबटायटल",
+  "@subtitle": {},
+  "aboutBuild": "बिल्ड: {buildNumber}",
+  "@aboutBuild": {
+    "placeholders": {
+      "buildNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "startedSyncingItem": "{item} सिंक करणे सुरू केले",
+  "@startedSyncingItem": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "syncAddItemForSyncing": "सिंक करण्यास {item} जोडले गेले",
+  "@syncAddItemForSyncing": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  }
 }
