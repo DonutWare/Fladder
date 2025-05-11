@@ -1153,5 +1153,7 @@
   "episodeUnaired": "Niewyemitowany",
   "@episodeUnaired": {},
   "episodeMissing": "Brakujący",
-  "@episodeMissing": {}
+  "@episodeMissing": {},
+  "settingsPlayerBufferSizeDesc": "Konfiguruje rozmiar bufora dla odtwarzania wideo, określając jak wiele danych jest załadowanych w pamięci cache.",
+  "@settingsPlayerBufferSizeDesc": {}
 }
