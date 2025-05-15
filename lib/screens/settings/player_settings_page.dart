@@ -168,10 +168,10 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                 ),
               ),
           SettingsLabelDivider(label: context.localized.playbackTrackSelection),
-          // # Missin on tap
           SettingsListTile(
             label: Text(context.localized.rememberAudioSelections),
             subLabel: Text(context.localized.rememberAudioSelectionsDesc),
+            onTap: () => ref.read(userProvider.notifier).setRememberAudioSelections(),
             trailing: Switch(
               value: ref.watch(userProvider.select(
                 (value) => value?.userConfiguration?.rememberAudioSelections ?? true,
@@ -182,6 +182,7 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
           SettingsListTile(
             label: Text(context.localized.rememberSubtitleSelections),
             subLabel: Text(context.localized.rememberSubtitleSelectionsDesc),
+            onTap: () => ref.read(userProvider.notifier).setRememberSubtileSelections(),
             trailing: Switch(
               value: ref.watch(userProvider.select(
                 (value) => value?.userConfiguration?.rememberSubtitleSelections ?? true,
@@ -258,16 +259,16 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                       label: Text(context.localized.settingsPlayerBufferSizeTitle),
                       subLabel: Text(context.localized.settingsPlayerBufferSizeDesc),
                       trailing: SizedBox(
-                        width: 70,
-                        child: IntInputField(
-                          suffix: 'MB',
-                          controller: TextEditingController(text: videoSettings.bufferSize.toString()),
-                          onSubmitted: (value) {
-                            if (value != null) {
-                              provider.setBufferSize(value);
-                            }
-                          },
-                        )),
+                          width: 70,
+                          child: IntInputField(
+                            suffix: 'MB',
+                            controller: TextEditingController(text: videoSettings.bufferSize.toString()),
+                            onSubmitted: (value) {
+                              if (value != null) {
+                                provider.setBufferSize(value);
+                              }
+                            },
+                          )),
                     ),
                     SettingsListTile(
                       label: Text(context.localized.settingsPlayerCustomSubtitlesTitle),
