@@ -201,8 +201,16 @@ class PlaybackModelHelper {
         itemId: firstItemToPlay.id,
         body: PlaybackInfoDto(
           startTimeTicks: startPosition?.toRuntimeTicks,
-          audioStreamIndex: oldModel?.mediaStreams?.currentAudioStream?.index ?? streamModel?.defaultAudioStreamIndex,
-          subtitleStreamIndex: oldModel?.mediaStreams?.currentSubStream?.index ?? streamModel?.defaultSubStreamIndex,
+          audioStreamIndex: selectAudioStream(
+              oldModel?.mediaStreams?.currentAudioStream,
+              streamModel?.audioStreams,
+              streamModel?.defaultAudioStreamIndex
+          ),
+          subtitleStreamIndex: selectSubStream(
+              oldModel?.mediaStreams?.currentSubStream,
+              streamModel?.subStreams,
+              streamModel?.defaultSubStreamIndex
+          ),
           enableTranscoding: true,
           autoOpenLiveStream: true,
           deviceProfile: ref.read(videoProfileProvider),
@@ -223,8 +231,16 @@ class PlaybackModelHelper {
       if (mediaSource == null) return null;
 
       final mediaStreamsWithUrls = MediaStreamsModel.fromMediaStreamsList(playbackInfo.mediaSources, ref).copyWith(
-        defaultAudioStreamIndex: oldModel?.mediaStreams?.currentAudioStream?.index ?? streamModel?.defaultAudioStreamIndex,
-        defaultSubStreamIndex: oldModel?.mediaStreams?.currentSubStream?.index ?? streamModel?.defaultSubStreamIndex,
+        defaultAudioStreamIndex: selectAudioStream(
+            oldModel?.mediaStreams?.currentAudioStream,
+            streamModel?.audioStreams,
+            streamModel?.defaultAudioStreamIndex
+        ),
+        defaultSubStreamIndex: selectSubStream(
+            oldModel?.mediaStreams?.currentSubStream,
+            streamModel?.subStreams,
+            streamModel?.defaultSubStreamIndex
+        ),
       );
 
       final mediaSegments = await api.mediaSegmentsGet(id: item.id);
@@ -328,8 +344,16 @@ class PlaybackModelHelper {
 
     final currentPosition = ref.read(mediaPlaybackProvider.select((value) => value.position));
 
-    final audioIndex = playbackModel.mediaStreams?.currentAudioStream?.index ?? playbackModel.mediaStreams?.defaultAudioStreamIndex;
-    final subIndex = playbackModel.mediaStreams?.currentSubStream?.index ?? playbackModel.mediaStreams?.defaultSubStreamIndex;
+    final audioIndex = selectAudioStream(
+        playbackModel.mediaStreams?.currentAudioStream,
+        playbackModel.audioStreams,
+        playbackModel.mediaStreams?.defaultAudioStreamIndex
+    );
+    final subIndex = selectSubStream(
+        playbackModel.mediaStreams?.currentSubStream,
+        playbackModel.subStreams,
+        playbackModel.mediaStreams?.defaultSubStreamIndex
+    );
 
     Response<PlaybackInfoResponse> response = await api.itemsItemIdPlaybackInfoPost(
       itemId: item.id,
@@ -410,5 +434,58 @@ class PlaybackModelHelper {
     if (newModel.runtimeType != playbackModel.runtimeType || newModel is TranscodePlaybackModel) {
       ref.read(videoPlayerProvider.notifier).loadPlaybackItem(newModel, startPosition: currentPosition);
     }
+  }
+
+  int? selectAudioStream(AudioAndSubStreamModel? previousStream, List<AudioAndSubStreamModel>? currentStream, int? defaultStream) {
+    if (!ref.read(userProvider.select((value) => value?.userConfiguration?.rememberAudioSelections ?? true))){
+      return defaultStream;
+    }
+    return selectStream(previousStream, currentStream, defaultStream);
+  }
+
+  int? selectSubStream(AudioAndSubStreamModel? previousStream, List<AudioAndSubStreamModel>? currentStream, int? defaultStream) {
+    if (!ref.read(userProvider.select((value) => value?.userConfiguration?.rememberSubtitleSelections ?? true))){
+      return defaultStream;
+    }
+    return selectStream(previousStream, currentStream, defaultStream);
+  }
+
+  int? selectStream(AudioAndSubStreamModel? previousStream, List<AudioAndSubStreamModel>? currentStream, int? defaultStream) {
+    if (currentStream == null || previousStream == null){
+      return defaultStream;
+    }
+
+    int? bestStreamIndex;
+    int bestStreamScore = 0;
+
+    // Find the relative index of the previous stream
+    int prevRelIndex = 0;
+    for (var stream in currentStream) {
+      if (stream.index == previousStream.index) break;
+      prevRelIndex += 1;
+    }
+
+    int newRelIndex = 0;
+    for (var stream in currentStream) {
+      int score = 0;
+
+      if (previousStream.codec == stream.codec) score += 1;
+      if (prevRelIndex == newRelIndex) score += 1;
+      if (previousStream.displayTitle == stream.displayTitle) {
+        score += 2;
+      }
+      if (previousStream.language != 'und' &&
+          previousStream.language == stream.language) {
+        score += 2;
+      }
+
+      if (score > bestStreamScore && score >= 3) {
+        bestStreamScore = score;
+        bestStreamIndex = stream.index;
+      }
+
+      newRelIndex += 1;
+    }
+    return bestStreamIndex ?? defaultStream;
   }
 }
