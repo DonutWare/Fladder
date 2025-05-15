@@ -903,23 +903,37 @@ class JellyService {
 
   Future<Response<dynamic>> deleteItem(String itemId) => api.itemsItemIdDelete(itemId: itemId);
 
-  Future<UserConfiguration?> updateRememberAudioSelections() async {
-    final newUserConfiguration = account?.userConfiguration?.copyWith(rememberAudioSelections: !(account?.userConfiguration?.rememberAudioSelections ?? false));
+Future<UserConfiguration?> _updateUserConfiguration(UserConfiguration newUserConfiguration) async {
+  if (account?.id == null) return null;
 
-    var response = await api.usersConfigurationPost(userId: account?.id, body: newUserConfiguration);
-    if (response.isSuccessful && response.statusCode == 200) {
-      return Future.value(newUserConfiguration);
-    }
-    return null;
+  final response = await api.usersConfigurationPost(
+    userId: account!.id,
+    body: newUserConfiguration,
+  );
+
+  if (response.isSuccessful) {
+    return newUserConfiguration;
   }
+  return null;
+}
 
-  Future<UserConfiguration?> updateRememberSubtitleSelections() async {
-    final newUserConfiguration = account?.userConfiguration?.copyWith(rememberSubtitleSelections: !(account?.userConfiguration?.rememberSubtitleSelections ?? false));
+Future<UserConfiguration?> updateRememberAudioSelections() {
+  final currentUserConfiguration = account?.userConfiguration;
+  if (currentUserConfiguration == null) return Future.value(null);
 
-    var response = await api.usersConfigurationPost(userId: account?.id, body: newUserConfiguration);
-    if (response.isSuccessful && response.statusCode == 200) {
-      return Future.value(newUserConfiguration);
-    }
-    return null;
-  }
+  final updated = currentUserConfiguration.copyWith(
+    rememberAudioSelections: !(currentUserConfiguration.rememberAudioSelections ?? false),
+  );
+  return _updateUserConfiguration(updated);
+}
+
+Future<UserConfiguration?> updateRememberSubtitleSelections() {
+  final current = account?.userConfiguration;
+  if (current == null) return Future.value(null);
+
+  final updated = current.copyWith(
+    rememberSubtitleSelections: !(current.rememberSubtitleSelections ?? false),
+  );
+  return _updateUserConfiguration(updated);
+}
 }
