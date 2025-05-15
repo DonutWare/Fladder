@@ -902,4 +902,24 @@ class JellyService {
   Future<Response<bool>> quickConnectEnabled() async => api.quickConnectEnabledGet();
 
   Future<Response<dynamic>> deleteItem(String itemId) => api.itemsItemIdDelete(itemId: itemId);
+
+  Future<UserConfiguration?> updateRememberAudioSelections() async {
+    final newUserConfiguration = account?.userConfiguration?.copyWith(rememberAudioSelections: !(account?.userConfiguration?.rememberAudioSelections ?? false));
+
+    var response = await api.usersConfigurationPost(userId: account?.id, body: newUserConfiguration);
+    if (response.isSuccessful && response.statusCode == 200) {
+      return Future.value(newUserConfiguration);
+    }
+    return null;
+  }
+
+  Future<UserConfiguration?> updateRememberSubtitleSelections() async {
+    final newUserConfiguration = account?.userConfiguration?.copyWith(rememberSubtitleSelections: !(account?.userConfiguration?.rememberSubtitleSelections ?? false));
+
+    var response = await api.usersConfigurationPost(userId: account?.id, body: newUserConfiguration);
+    if (response.isSuccessful && response.statusCode == 200) {
+      return Future.value(newUserConfiguration);
+    }
+    return null;
+  }
 }
