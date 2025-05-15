@@ -182,12 +182,12 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
           SettingsListTile(
             label: Text(context.localized.rememberSubtitleSelections),
             subLabel: Text(context.localized.rememberSubtitleSelectionsDesc),
-            onTap: () => ref.read(userProvider.notifier).setRememberSubtileSelections(),
+            onTap: () => ref.read(userProvider.notifier).setRememberSubtitleSelections(),
             trailing: Switch(
               value: ref.watch(userProvider.select(
                 (value) => value?.userConfiguration?.rememberSubtitleSelections ?? true,
               )),
-              onChanged: (_) => ref.read(userProvider.notifier).setRememberSubtileSelections(),
+              onChanged: (_) => ref.read(userProvider.notifier).setRememberSubtitleSelections(),
             ),
           ),
           const Divider(),

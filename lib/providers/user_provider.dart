@@ -53,7 +53,7 @@ class User extends _$User {
     }
     return null;
   }
-    
+
   void setRememberAudioSelections() async {
     final newUserConfiguration = await api.updateRememberAudioSelections();
     if (newUserConfiguration != null) {
@@ -61,7 +61,7 @@ class User extends _$User {
     }
   }
 
-  void setRememberSubtileSelections() async {
+  void setRememberSubtitleSelections() async {
     final newUserConfiguration = await api.updateRememberSubtitleSelections();
     if (newUserConfiguration != null) {
       userState = state?.copyWith(userConfiguration: newUserConfiguration);
