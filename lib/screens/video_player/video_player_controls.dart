@@ -168,11 +168,13 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                 builder: (context, ref, child) {
                   final position = ref.watch(mediaPlaybackProvider.select((value) => value.position));
                   MediaSegment? segment = mediaSegments?.atPosition(position);
-                  bool forceShow = segment?.forceShow(position) ?? false;
+                  SegmentVisibility forceShow =
+                      segment?.visibility(position, force: showOverlay) ?? SegmentVisibility.hidden;
                   final segmentSkipType = ref
                       .watch(videoPlayerSettingsProvider.select((value) => value.segmentSkipSettings[segment?.type]));
-                  final autoSkip =
-                      forceShow == true && segmentSkipType == SegmentSkip.skip && player.lastState?.buffering == false;
+                  final autoSkip = forceShow != SegmentVisibility.hidden &&
+                      segmentSkipType == SegmentSkip.skip &&
+                      player.lastState?.buffering == false;
                   if (autoSkip) {
                     skipToSegmentEnd(segment);
                   }
@@ -185,7 +187,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                           child: SkipSegmentButton(
                             segment: segment,
                             skipType: segmentSkipType,
-                            isOverlayVisible: forceShow ? true : showOverlay,
+                            visibility: forceShow,
                             pressedSkip: () => skipToSegmentEnd(segment),
                           ),
                         ),
@@ -441,10 +443,9 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         final List<String?> details = [
           if (AdaptiveLayout.of(context).isDesktop) item?.label(context),
           mediaPlayback.duration.inMinutes > 1
-                ? context.localized.endsAt(DateTime.now().add(
-                  Duration(milliseconds: 
-                    (mediaPlayback.duration.inMilliseconds - mediaPlayback.position.inMilliseconds) ~/ ref.read(playbackRateProvider)))
-                  )
+              ? context.localized.endsAt(DateTime.now().add(Duration(
+                  milliseconds: (mediaPlayback.duration.inMilliseconds - mediaPlayback.position.inMilliseconds) ~/
+                      ref.read(playbackRateProvider))))
               : null
         ];
         return Column(

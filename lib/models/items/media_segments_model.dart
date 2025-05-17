@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:media_kit_video/media_kit_video_controls/src/controls/extensions/duration.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
 import 'package:fladder/util/localization_helper.dart';
@@ -39,7 +40,19 @@ class MediaSegment with _$MediaSegment {
 
   bool inRange(Duration position) => (position.compareTo(start) >= 0 && position.compareTo(end) <= 0);
 
-  bool forceShow(Duration position) => (position - start).inSeconds < (end - start).inSeconds * 0.20;
+  SegmentVisibility visibility(Duration position, {bool force = false}) {
+    if (force) return SegmentVisibility.visible;
+    var difference = (position - start);
+    if (difference > const Duration(minutes: 1, seconds: 30)) return SegmentVisibility.hidden;
+    Duration clamp = ((end - start) * 0.20).clamp(Duration.zero, const Duration(minutes: 1));
+    return difference < clamp ? SegmentVisibility.visible : SegmentVisibility.partially;
+  }
+}
+
+enum SegmentVisibility {
+  hidden,
+  partially,
+  visible;
 }
 
 const Map<MediaSegmentType, SegmentSkip> defaultSegmentSkipValues = {
