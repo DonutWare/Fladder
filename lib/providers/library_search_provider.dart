@@ -574,8 +574,11 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
 
     state = state.copyWith(fetchingItems: false);
 
+    //Only try to load video items
+    itemsToPlay = itemsToPlay.where((element) => FladderItemType.playable.contains(element.type)).toList();
+
     if (itemsToPlay.isNotEmpty) {
-      await itemsToPlay.playLibraryItems(context, ref);
+      await itemsToPlay.playLibraryItems(context, ref, shuffle: shuffle);
     } else {
       fladderSnackbar(context, title: context.localized.libraryFetchNoItemsFound);
     }
@@ -648,11 +651,12 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
     if (allItems.isNotEmpty) {
       if (state.fetchingItems == true) {
         state = state.copyWith(fetchingItems: false);
+        final newItemList = shuffle ? allItems.shuffled() : allItems;
         await Navigator.of(context, rootNavigator: true).push(
           PageTransition(
               child: PhotoViewerScreen(
-                items: allItems,
-                indexOfSelected: selected != null ? allItems.indexOf(selected) : 0,
+                items: newItemList,
+                indexOfSelected: selected != null ? newItemList.indexOf(selected) : 0,
               ),
               type: PageTransitionType.fade),
         );
