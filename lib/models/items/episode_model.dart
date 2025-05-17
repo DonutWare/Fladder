@@ -199,15 +199,18 @@ extension EpisodeListExtensions on List<EpisodeModel> {
   }
 
   EpisodeModel? get nextUp {
-    final lastProgress =
-        lastIndexWhere((element) => element.userData.progress != 0 && element.status == EpisodeStatus.available);
+    final episodes = whereNot((element) => element.season <= 0).toList();
+
+    final lastProgress = episodes
+        .lastIndexWhere((element) => element.userData.progress != 0 && element.status == EpisodeStatus.available);
     final lastPlayed =
-        lastIndexWhere((element) => element.userData.played && element.status == EpisodeStatus.available);
+        episodes.lastIndexWhere((element) => element.userData.played && element.status == EpisodeStatus.available);
 
     if (lastProgress == -1 && lastPlayed == -1) {
-      return firstWhereOrNull((element) => element.status == EpisodeStatus.available);
+      return episodes.firstWhereOrNull((element) => element.status == EpisodeStatus.available);
     } else {
-      return getRange(lastProgress > lastPlayed ? lastProgress : lastPlayed + 1, length)
+      return episodes
+          .getRange(lastProgress > lastPlayed ? lastProgress : lastPlayed + 1, episodes.length)
           .firstWhereOrNull((element) => element.status == EpisodeStatus.available);
     }
   }
