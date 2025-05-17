@@ -651,11 +651,12 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
     if (allItems.isNotEmpty) {
       if (state.fetchingItems == true) {
         state = state.copyWith(fetchingItems: false);
+        final newItemList = shuffle ? allItems.shuffled() : allItems;
         await Navigator.of(context, rootNavigator: true).push(
           PageTransition(
               child: PhotoViewerScreen(
-                items: shuffle ? allItems.shuffled() : allItems,
-                indexOfSelected: selected != null ? allItems.indexOf(selected) : 0,
+                items: newItemList,
+                indexOfSelected: selected != null ? newItemList.indexOf(selected) : 0,
               ),
               type: PageTransitionType.fade),
         );
