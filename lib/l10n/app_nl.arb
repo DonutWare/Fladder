@@ -1284,5 +1284,9 @@
     }
   },
   "castAndCrew": "Cast en crew",
-  "@castAndCrew": {}
+  "@castAndCrew": {},
+  "settingsPlayerBufferSizeTitle": "Video buffer grootte",
+  "@settingsPlayerBufferSizeTitle": {},
+  "settingsPlayerBufferSizeDesc": "Configureer de buffergrootte voor het afspelen van video's en bepaal de hoeveelheid vooraf geladen data.",
+  "@settingsPlayerBufferSizeDesc": {}
 }
