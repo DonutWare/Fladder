@@ -12,19 +12,7 @@ class BackgroundDownloader extends _$BackgroundDownloader {
     final maxDownloads = ref.read(clientSettingsProvider.select((value) => value.maxConcurrentDownloads));
     return FileDownloader()
       ..configure(
-        globalConfig: maxDownloads == 0
-            ? ("", "")
-            : (
-                Config.holdingQueue,
-                (
-                  //maxConcurrent
-                  maxDownloads,
-                  //maxConcurrentByHost
-                  maxDownloads,
-                  //maxConcurrentByGroup
-                  maxDownloads,
-                ),
-              ),
+        globalConfig: globalConfig(maxDownloads),
       )
       ..trackTasks()
       ..configureNotification(
@@ -37,19 +25,21 @@ class BackgroundDownloader extends _$BackgroundDownloader {
 
   void setMaxConcurrent(int value) {
     state.configure(
-      globalConfig: value == 0
-          ? ("", "")
-          : (
-              Config.holdingQueue,
-              (
-                //maxConcurrent
-                value,
-                //maxConcurrentByHost
-                value,
-                //maxConcurrentByGroup
-                value,
-              ),
-            ),
+      globalConfig: globalConfig(value),
     );
   }
+
+  (String, dynamic) globalConfig(int value) => value == 0
+      ? ("", "")
+      : (
+          Config.holdingQueue,
+          (
+            //maxConcurrent
+            value,
+            //maxConcurrentByHost
+            value,
+            //maxConcurrentByGroup
+            value,
+          ),
+        );
 }
