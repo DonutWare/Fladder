@@ -1286,5 +1286,9 @@
   "settingsPlayerBufferSizeDesc": "配置视频播放的缓冲区大小，确定加载到缓存中的数据量。",
   "@settingsPlayerBufferSizeDesc": {},
   "settingsPlayerBufferSizeTitle": "视频缓冲区大小",
-  "@settingsPlayerBufferSizeTitle": {}
+  "@settingsPlayerBufferSizeTitle": {},
+  "maxConcurrentDownloadsTitle": "最大并发下载",
+  "@maxConcurrentDownloadsTitle": {},
+  "maxConcurrentDownloadsDesc": "设置可同时运行的最大下载数量。设置为 0 则禁用限制。",
+  "@maxConcurrentDownloadsDesc": {}
 }
