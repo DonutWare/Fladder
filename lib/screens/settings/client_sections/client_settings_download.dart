@@ -1,16 +1,18 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/providers/settings/client_settings_provider.dart';
+import 'package:fladder/providers/sync/background_download_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/settings/widgets/settings_label_divider.dart';
 import 'package:fladder/screens/shared/default_alert_dialog.dart';
+import 'package:fladder/screens/shared/input_fields.dart';
 import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/size_formatting.dart';
@@ -115,6 +117,26 @@ List<Widget> buildClientSettingsDownload(BuildContext context, WidgetRef ref, Fu
           value: clientSettings.requireWifi,
           onChanged: (value) => ref.read(clientSettingsProvider.notifier).setRequireWifi(value),
         ),
+      ),
+      SettingsListTile(
+        label: Text(context.localized.maxConcurrentDownloadsTitle),
+        subLabel: Text(context.localized.maxConcurrentDownloadsDesc),
+        trailing: SizedBox(
+            width: 100,
+            child: IntInputField(
+              controller: TextEditingController(text: clientSettings.maxConcurrentDownloads.toString()),
+              onSubmitted: (value) {
+                if (value != null) {
+                  ref.read(clientSettingsProvider.notifier).update(
+                        (current) => current.copyWith(
+                          maxConcurrentDownloads: value,
+                        ),
+                      );
+
+                  ref.read(backgroundDownloaderProvider.notifier).setMaxConcurrent(value);
+                }
+              },
+            )),
       ),
       const Divider(),
     ],

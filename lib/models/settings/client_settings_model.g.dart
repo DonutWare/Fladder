@@ -36,6 +36,8 @@ _$ClientSettingsModelImpl _$$ClientSettingsModelImplFromJson(
       mouseDragSupport: json['mouseDragSupport'] as bool? ?? false,
       requireWifi: json['requireWifi'] as bool? ?? true,
       showAllCollectionTypes: json['showAllCollectionTypes'] as bool? ?? false,
+      maxConcurrentDownloads:
+          (json['maxConcurrentDownloads'] as num?)?.toInt() ?? 2,
       schemeVariant: $enumDecodeNullable(
               _$DynamicSchemeVariantEnumMap, json['schemeVariant']) ??
           DynamicSchemeVariant.tonalSpot,
@@ -62,6 +64,7 @@ Map<String, dynamic> _$$ClientSettingsModelImplToJson(
       'mouseDragSupport': instance.mouseDragSupport,
       'requireWifi': instance.requireWifi,
       'showAllCollectionTypes': instance.showAllCollectionTypes,
+      'maxConcurrentDownloads': instance.maxConcurrentDownloads,
       'schemeVariant': _$DynamicSchemeVariantEnumMap[instance.schemeVariant]!,
       'libraryPageSize': instance.libraryPageSize,
     };

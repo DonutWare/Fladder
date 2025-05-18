@@ -38,6 +38,7 @@ mixin _$ClientSettingsModel {
   bool get mouseDragSupport => throw _privateConstructorUsedError;
   bool get requireWifi => throw _privateConstructorUsedError;
   bool get showAllCollectionTypes => throw _privateConstructorUsedError;
+  int get maxConcurrentDownloads => throw _privateConstructorUsedError;
   DynamicSchemeVariant get schemeVariant => throw _privateConstructorUsedError;
   int? get libraryPageSize => throw _privateConstructorUsedError;
 
@@ -75,6 +76,7 @@ abstract class $ClientSettingsModelCopyWith<$Res> {
       bool mouseDragSupport,
       bool requireWifi,
       bool showAllCollectionTypes,
+      int maxConcurrentDownloads,
       DynamicSchemeVariant schemeVariant,
       int? libraryPageSize});
 }
@@ -111,6 +113,7 @@ class _$ClientSettingsModelCopyWithImpl<$Res, $Val extends ClientSettingsModel>
     Object? mouseDragSupport = null,
     Object? requireWifi = null,
     Object? showAllCollectionTypes = null,
+    Object? maxConcurrentDownloads = null,
     Object? schemeVariant = null,
     Object? libraryPageSize = freezed,
   }) {
@@ -183,6 +186,10 @@ class _$ClientSettingsModelCopyWithImpl<$Res, $Val extends ClientSettingsModel>
           ? _value.showAllCollectionTypes
           : showAllCollectionTypes // ignore: cast_nullable_to_non_nullable
               as bool,
+      maxConcurrentDownloads: null == maxConcurrentDownloads
+          ? _value.maxConcurrentDownloads
+          : maxConcurrentDownloads // ignore: cast_nullable_to_non_nullable
+              as int,
       schemeVariant: null == schemeVariant
           ? _value.schemeVariant
           : schemeVariant // ignore: cast_nullable_to_non_nullable
@@ -221,6 +228,7 @@ abstract class _$$ClientSettingsModelImplCopyWith<$Res>
       bool mouseDragSupport,
       bool requireWifi,
       bool showAllCollectionTypes,
+      int maxConcurrentDownloads,
       DynamicSchemeVariant schemeVariant,
       int? libraryPageSize});
 }
@@ -255,6 +263,7 @@ class __$$ClientSettingsModelImplCopyWithImpl<$Res>
     Object? mouseDragSupport = null,
     Object? requireWifi = null,
     Object? showAllCollectionTypes = null,
+    Object? maxConcurrentDownloads = null,
     Object? schemeVariant = null,
     Object? libraryPageSize = freezed,
   }) {
@@ -327,6 +336,10 @@ class __$$ClientSettingsModelImplCopyWithImpl<$Res>
           ? _value.showAllCollectionTypes
           : showAllCollectionTypes // ignore: cast_nullable_to_non_nullable
               as bool,
+      maxConcurrentDownloads: null == maxConcurrentDownloads
+          ? _value.maxConcurrentDownloads
+          : maxConcurrentDownloads // ignore: cast_nullable_to_non_nullable
+              as int,
       schemeVariant: null == schemeVariant
           ? _value.schemeVariant
           : schemeVariant // ignore: cast_nullable_to_non_nullable
@@ -361,6 +374,7 @@ class _$ClientSettingsModelImpl extends _ClientSettingsModel
       this.mouseDragSupport = false,
       this.requireWifi = true,
       this.showAllCollectionTypes = false,
+      this.maxConcurrentDownloads = 2,
       this.schemeVariant = DynamicSchemeVariant.tonalSpot,
       this.libraryPageSize})
       : super._();
@@ -418,13 +432,16 @@ class _$ClientSettingsModelImpl extends _ClientSettingsModel
   final bool showAllCollectionTypes;
   @override
   @JsonKey()
+  final int maxConcurrentDownloads;
+  @override
+  @JsonKey()
   final DynamicSchemeVariant schemeVariant;
   @override
   final int? libraryPageSize;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ClientSettingsModel(syncPath: $syncPath, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, themeMode: $themeMode, themeColor: $themeColor, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, showAllCollectionTypes: $showAllCollectionTypes, schemeVariant: $schemeVariant, libraryPageSize: $libraryPageSize)';
+    return 'ClientSettingsModel(syncPath: $syncPath, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, themeMode: $themeMode, themeColor: $themeColor, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, libraryPageSize: $libraryPageSize)';
   }
 
   @override
@@ -450,6 +467,8 @@ class _$ClientSettingsModelImpl extends _ClientSettingsModel
       ..add(DiagnosticsProperty('requireWifi', requireWifi))
       ..add(
           DiagnosticsProperty('showAllCollectionTypes', showAllCollectionTypes))
+      ..add(
+          DiagnosticsProperty('maxConcurrentDownloads', maxConcurrentDownloads))
       ..add(DiagnosticsProperty('schemeVariant', schemeVariant))
       ..add(DiagnosticsProperty('libraryPageSize', libraryPageSize));
   }
@@ -491,6 +510,8 @@ class _$ClientSettingsModelImpl extends _ClientSettingsModel
                 other.requireWifi == requireWifi) &&
             (identical(other.showAllCollectionTypes, showAllCollectionTypes) ||
                 other.showAllCollectionTypes == showAllCollectionTypes) &&
+            (identical(other.maxConcurrentDownloads, maxConcurrentDownloads) ||
+                other.maxConcurrentDownloads == maxConcurrentDownloads) &&
             (identical(other.schemeVariant, schemeVariant) ||
                 other.schemeVariant == schemeVariant) &&
             (identical(other.libraryPageSize, libraryPageSize) ||
@@ -518,6 +539,7 @@ class _$ClientSettingsModelImpl extends _ClientSettingsModel
         mouseDragSupport,
         requireWifi,
         showAllCollectionTypes,
+        maxConcurrentDownloads,
         schemeVariant,
         libraryPageSize
       ]);
@@ -558,6 +580,7 @@ abstract class _ClientSettingsModel extends ClientSettingsModel {
       final bool mouseDragSupport,
       final bool requireWifi,
       final bool showAllCollectionTypes,
+      final int maxConcurrentDownloads,
       final DynamicSchemeVariant schemeVariant,
       final int? libraryPageSize}) = _$ClientSettingsModelImpl;
   _ClientSettingsModel._() : super._();
@@ -600,6 +623,8 @@ abstract class _ClientSettingsModel extends ClientSettingsModel {
   bool get requireWifi;
   @override
   bool get showAllCollectionTypes;
+  @override
+  int get maxConcurrentDownloads;
   @override
   DynamicSchemeVariant get schemeVariant;
   @override

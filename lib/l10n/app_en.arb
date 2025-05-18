@@ -1199,5 +1199,7 @@
         "example": "1"
       }
     }
-  }
+  },
+  "maxConcurrentDownloadsTitle": "Max concurrent downloads",
+  "maxConcurrentDownloadsDesc": "Sets the maximum number of downloads that can run at the same time. Set to 0 to disable the limit."
 }
