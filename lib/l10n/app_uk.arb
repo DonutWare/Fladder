@@ -1295,5 +1295,9 @@
   "settingsPlayerBufferSizeTitle": "Розмір буфера відео",
   "@settingsPlayerBufferSizeTitle": {},
   "settingsPlayerBufferSizeDesc": "Налаштуйте розмір буфера для відтворення відео, визначивши, скільки даних буде завантажено в кеш.",
-  "@settingsPlayerBufferSizeDesc": {}
+  "@settingsPlayerBufferSizeDesc": {},
+  "maxConcurrentDownloadsTitle": "Максимум одночасних завантажень",
+  "@maxConcurrentDownloadsTitle": {},
+  "maxConcurrentDownloadsDesc": "Встановлює максимальну кількість завантажень, які можуть виконуватися одночасно. Встановіть значення 0, щоб вимкнути обмеження.",
+  "@maxConcurrentDownloadsDesc": {}
 }
