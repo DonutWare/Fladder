@@ -215,7 +215,7 @@ jobs:
         run: flutter build macos --flavor production --build-number=${{ github.run_number }}
 
       - name: Create DMG file
-        run: hdiutil create -format UDZO -srcfolder build/macos/Build/Products/Release-production/fladder.app build/macos/Build/Products/Release-production/macOS.dmg
+        run: hdiutil create -format UDZO -srcfolder build/macos/Build/Products/Release-production/Fladder.app build/macos/Build/Products/Release-production/macOS.dmg
 
       - name: Archive macOS artifact
         uses: actions/upload-artifact@v4.0.0
