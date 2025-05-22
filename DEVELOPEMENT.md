@@ -55,6 +55,10 @@ flutter pub run build_runner build
 ```bash
 flutter pub run build_runner watch
 ```
+Update localization definitions:
+```bash
+flutter gen-l10n
+```
 
 ## 🌐 Using a demo Server
 You can use a fake server from Jellyfin.

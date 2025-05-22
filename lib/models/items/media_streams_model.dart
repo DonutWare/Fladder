@@ -175,6 +175,20 @@ class StreamModel {
   });
 }
 
+class AudioAndSubStreamModel extends StreamModel {
+  final String language;
+  final String displayTitle;
+  AudioAndSubStreamModel({
+    required this.displayTitle,
+    required super.name,
+    required super.codec,
+    required super.isDefault,
+    required super.isExternal,
+    required super.index,
+    required this.language,
+  });
+}
+
 class VersionStreamModel {
   final String name;
   final int index;
@@ -250,19 +264,17 @@ extension SortByExternalExtension<T extends StreamModel> on Iterable<T> {
   }
 }
 
-class AudioStreamModel extends StreamModel {
-  final String displayTitle;
-  final String language;
+class AudioStreamModel extends AudioAndSubStreamModel {
   final String channelLayout;
 
   AudioStreamModel({
-    required this.displayTitle,
+    required super.displayTitle,
     required super.name,
     required super.codec,
     required super.isDefault,
     required super.isExternal,
     required super.index,
-    required this.language,
+    required super.language,
     required this.channelLayout,
   });
 
@@ -292,8 +304,8 @@ class AudioStreamModel extends StreamModel {
 
   AudioStreamModel.no({
     super.name = 'Off',
-    this.displayTitle = 'Off',
-    this.language = '',
+    super.displayTitle = 'Off',
+    super.language = '',
     super.codec = '',
     this.channelLayout = '',
     super.isDefault = false,
@@ -302,19 +314,17 @@ class AudioStreamModel extends StreamModel {
   });
 }
 
-class SubStreamModel extends StreamModel {
+class SubStreamModel extends AudioAndSubStreamModel {
   String id;
   String title;
-  String displayTitle;
-  String language;
   String? url;
   bool supportsExternalStream;
   SubStreamModel({
     required super.name,
     required this.id,
     required this.title,
-    required this.displayTitle,
-    required this.language,
+    required super.displayTitle,
+    required super.language,
     this.url,
     required super.codec,
     required super.isDefault,
@@ -327,8 +337,8 @@ class SubStreamModel extends StreamModel {
     super.name = 'Off',
     this.id = 'Off',
     this.title = 'Off',
-    this.displayTitle = 'Off',
-    this.language = '',
+    super.displayTitle = 'Off',
+    super.language = '',
     this.url = '',
     super.codec = '',
     super.isDefault = false,

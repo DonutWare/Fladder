@@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
+import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
@@ -166,6 +167,29 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                   ),
                 ),
               ),
+          SettingsLabelDivider(label: context.localized.playbackTrackSelection),
+          SettingsListTile(
+            label: Text(context.localized.rememberAudioSelections),
+            subLabel: Text(context.localized.rememberAudioSelectionsDesc),
+            onTap: () => ref.read(userProvider.notifier).setRememberAudioSelections(),
+            trailing: Switch(
+              value: ref.watch(userProvider.select(
+                (value) => value?.userConfiguration?.rememberAudioSelections ?? true,
+              )),
+              onChanged: (_) => ref.read(userProvider.notifier).setRememberAudioSelections(),
+            ),
+          ),
+          SettingsListTile(
+            label: Text(context.localized.rememberSubtitleSelections),
+            subLabel: Text(context.localized.rememberSubtitleSelectionsDesc),
+            onTap: () => ref.read(userProvider.notifier).setRememberSubtitleSelections(),
+            trailing: Switch(
+              value: ref.watch(userProvider.select(
+                (value) => value?.userConfiguration?.rememberSubtitleSelections ?? true,
+              )),
+              onChanged: (_) => ref.read(userProvider.notifier).setRememberSubtitleSelections(),
+            ),
+          ),
           const Divider(),
           SettingsLabelDivider(label: context.localized.advanced),
           if (PlayerOptions.available.length != 1)
@@ -235,16 +259,16 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                       label: Text(context.localized.settingsPlayerBufferSizeTitle),
                       subLabel: Text(context.localized.settingsPlayerBufferSizeDesc),
                       trailing: SizedBox(
-                        width: 70,
-                        child: IntInputField(
-                          suffix: 'MB',
-                          controller: TextEditingController(text: videoSettings.bufferSize.toString()),
-                          onSubmitted: (value) {
-                            if (value != null) {
-                              provider.setBufferSize(value);
-                            }
-                          },
-                        )),
+                          width: 70,
+                          child: IntInputField(
+                            suffix: 'MB',
+                            controller: TextEditingController(text: videoSettings.bufferSize.toString()),
+                            onSubmitted: (value) {
+                              if (value != null) {
+                                provider.setBufferSize(value);
+                              }
+                            },
+                          )),
                     ),
                     SettingsListTile(
                       label: Text(context.localized.settingsPlayerCustomSubtitlesTitle),

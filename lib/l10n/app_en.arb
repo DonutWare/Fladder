@@ -1201,5 +1201,15 @@
     }
   },
   "maxConcurrentDownloadsTitle": "Max concurrent downloads",
-  "maxConcurrentDownloadsDesc": "Sets the maximum number of downloads that can run at the same time. Set to 0 to disable the limit."
+  "maxConcurrentDownloadsDesc": "Sets the maximum number of downloads that can run at the same time. Set to 0 to disable the limit.",
+  "playbackTrackSelection": "Playback track selection",
+  "@playbackTrackSelection": {},
+  "rememberSubtitleSelections": "Set subtitle track based on previous item",
+  "@rememberSubtitleSelections": {},
+  "rememberAudioSelections": "Set audio track based on previous item",
+  "@rememberAudioSelections": {},
+  "rememberSubtitleSelectionsDesc": "Try to set the subtitle track to the closest match to the last video.",
+  "@rememberSubtitleSelectionsDesc": {},
+  "rememberAudioSelectionsDesc": "Try to set the audio track to the closest match to the last video.",
+  "@rememberAudioSelectionsDesc": {}
 }
