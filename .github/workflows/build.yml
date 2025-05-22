@@ -214,6 +214,14 @@ jobs:
       - name: Build macOS app
         run: flutter build macos --flavor production --build-number=${{ github.run_number }}
 
+      - name: Ensure correct app name casing
+        run: |
+          APP_DIR="build/macos/Build/Products/Release-production"
+          # Check if the app exists with potentially wrong casing
+          if [ -d "$APP_DIR/fladder.app" ] && [ ! -d "$APP_DIR/Fladder.app" ]; then
+            mv "$APP_DIR/fladder.app" "$APP_DIR/Fladder.app"
+          fi
+
       - name: Create DMG file
         run: hdiutil create -format UDZO -srcfolder build/macos/Build/Products/Release-production/Fladder.app build/macos/Build/Products/Release-production/macOS.dmg
 
