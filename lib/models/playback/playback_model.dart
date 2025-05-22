@@ -31,6 +31,7 @@ import 'package:fladder/util/bitrate_helper.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/list_extensions.dart';
 import 'package:fladder/util/map_bool_helper.dart';
+import 'package:fladder/util/streams_selection.dart';
 import 'package:fladder/wrappers/media_control_wrapper.dart';
 
 class Media {
@@ -196,13 +197,25 @@ class PlaybackModelHelper {
       );
 
       final streamModel = firstItemToPlay.streamModel;
+      final audioStreamIndex = selectAudioStream(
+        ref.read(userProvider.select((value) => value?.userConfiguration?.rememberAudioSelections ?? true)),
+        oldModel?.mediaStreams?.currentAudioStream,
+        streamModel?.audioStreams,
+        streamModel?.defaultAudioStreamIndex
+      );
+      final subStreamIndex = selectSubStream(
+        ref.read(userProvider.select((value) => value?.userConfiguration?.rememberSubtitleSelections ?? true)),
+        oldModel?.mediaStreams?.currentSubStream,
+        streamModel?.subStreams,
+        streamModel?.defaultSubStreamIndex
+      );
 
       final Response<PlaybackInfoResponse> response = await api.itemsItemIdPlaybackInfoPost(
         itemId: firstItemToPlay.id,
         body: PlaybackInfoDto(
           startTimeTicks: startPosition?.toRuntimeTicks,
-          audioStreamIndex: streamModel?.defaultAudioStreamIndex,
-          subtitleStreamIndex: streamModel?.defaultSubStreamIndex,
+          audioStreamIndex: audioStreamIndex,
+          subtitleStreamIndex: subStreamIndex,
           enableTranscoding: true,
           autoOpenLiveStream: true,
           deviceProfile: ref.read(videoProfileProvider),
@@ -223,8 +236,8 @@ class PlaybackModelHelper {
       if (mediaSource == null) return null;
 
       final mediaStreamsWithUrls = MediaStreamsModel.fromMediaStreamsList(playbackInfo.mediaSources, ref).copyWith(
-        defaultAudioStreamIndex: streamModel?.defaultAudioStreamIndex,
-        defaultSubStreamIndex: streamModel?.defaultSubStreamIndex,
+        defaultAudioStreamIndex: audioStreamIndex,
+        defaultSubStreamIndex: subStreamIndex,
       );
 
       final mediaSegments = await api.mediaSegmentsGet(id: item.id);
@@ -328,8 +341,18 @@ class PlaybackModelHelper {
 
     final currentPosition = ref.read(mediaPlaybackProvider.select((value) => value.position));
 
-    final audioIndex = playbackModel.mediaStreams?.defaultAudioStreamIndex;
-    final subIndex = playbackModel.mediaStreams?.defaultSubStreamIndex;
+    final audioIndex = selectAudioStream(
+        ref.read(userProvider.select((value) => value?.userConfiguration?.rememberAudioSelections ?? true)),
+        playbackModel.mediaStreams?.currentAudioStream,
+        playbackModel.audioStreams,
+        playbackModel.mediaStreams?.defaultAudioStreamIndex
+    );
+    final subIndex = selectSubStream(
+        ref.read(userProvider.select((value) => value?.userConfiguration?.rememberSubtitleSelections ?? true)),
+        playbackModel.mediaStreams?.currentSubStream,
+        playbackModel.subStreams,
+        playbackModel.mediaStreams?.defaultSubStreamIndex
+    );
 
     Response<PlaybackInfoResponse> response = await api.itemsItemIdPlaybackInfoPost(
       itemId: item.id,

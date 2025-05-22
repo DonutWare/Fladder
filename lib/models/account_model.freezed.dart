@@ -37,6 +37,9 @@ mixin _$AccountModel {
   @JsonKey(includeFromJson: false, includeToJson: false)
   ServerConfiguration? get serverConfiguration =>
       throw _privateConstructorUsedError;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  UserConfiguration? get userConfiguration =>
+      throw _privateConstructorUsedError;
 
   /// Serializes this AccountModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -68,7 +71,9 @@ abstract class $AccountModelCopyWith<$Res> {
       List<LibraryFiltersModel> savedFilters,
       @JsonKey(includeFromJson: false, includeToJson: false) UserPolicy? policy,
       @JsonKey(includeFromJson: false, includeToJson: false)
-      ServerConfiguration? serverConfiguration});
+      ServerConfiguration? serverConfiguration,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      UserConfiguration? userConfiguration});
 }
 
 /// @nodoc
@@ -99,6 +104,7 @@ class _$AccountModelCopyWithImpl<$Res, $Val extends AccountModel>
     Object? savedFilters = null,
     Object? policy = freezed,
     Object? serverConfiguration = freezed,
+    Object? userConfiguration = freezed,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -153,6 +159,10 @@ class _$AccountModelCopyWithImpl<$Res, $Val extends AccountModel>
           ? _value.serverConfiguration
           : serverConfiguration // ignore: cast_nullable_to_non_nullable
               as ServerConfiguration?,
+      userConfiguration: freezed == userConfiguration
+          ? _value.userConfiguration
+          : userConfiguration // ignore: cast_nullable_to_non_nullable
+              as UserConfiguration?,
     ) as $Val);
   }
 }
@@ -179,7 +189,9 @@ abstract class _$$AccountModelImplCopyWith<$Res>
       List<LibraryFiltersModel> savedFilters,
       @JsonKey(includeFromJson: false, includeToJson: false) UserPolicy? policy,
       @JsonKey(includeFromJson: false, includeToJson: false)
-      ServerConfiguration? serverConfiguration});
+      ServerConfiguration? serverConfiguration,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      UserConfiguration? userConfiguration});
 }
 
 /// @nodoc
@@ -208,6 +220,7 @@ class __$$AccountModelImplCopyWithImpl<$Res>
     Object? savedFilters = null,
     Object? policy = freezed,
     Object? serverConfiguration = freezed,
+    Object? userConfiguration = freezed,
   }) {
     return _then(_$AccountModelImpl(
       name: null == name
@@ -262,6 +275,10 @@ class __$$AccountModelImplCopyWithImpl<$Res>
           ? _value.serverConfiguration
           : serverConfiguration // ignore: cast_nullable_to_non_nullable
               as ServerConfiguration?,
+      userConfiguration: freezed == userConfiguration
+          ? _value.userConfiguration
+          : userConfiguration // ignore: cast_nullable_to_non_nullable
+              as UserConfiguration?,
     ));
   }
 }
@@ -283,7 +300,9 @@ class _$AccountModelImpl extends _AccountModel with DiagnosticableTreeMixin {
       final List<LibraryFiltersModel> savedFilters = const [],
       @JsonKey(includeFromJson: false, includeToJson: false) this.policy,
       @JsonKey(includeFromJson: false, includeToJson: false)
-      this.serverConfiguration})
+      this.serverConfiguration,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      this.userConfiguration})
       : _latestItemsExcludes = latestItemsExcludes,
         _searchQueryHistory = searchQueryHistory,
         _savedFilters = savedFilters,
@@ -346,10 +365,13 @@ class _$AccountModelImpl extends _AccountModel with DiagnosticableTreeMixin {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   final ServerConfiguration? serverConfiguration;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final UserConfiguration? userConfiguration;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, localPin: $localPin, credentials: $credentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, savedFilters: $savedFilters, policy: $policy, serverConfiguration: $serverConfiguration)';
+    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, localPin: $localPin, credentials: $credentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, savedFilters: $savedFilters, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration)';
   }
 
   @override
@@ -369,7 +391,8 @@ class _$AccountModelImpl extends _AccountModel with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('quickConnectState', quickConnectState))
       ..add(DiagnosticsProperty('savedFilters', savedFilters))
       ..add(DiagnosticsProperty('policy', policy))
-      ..add(DiagnosticsProperty('serverConfiguration', serverConfiguration));
+      ..add(DiagnosticsProperty('serverConfiguration', serverConfiguration))
+      ..add(DiagnosticsProperty('userConfiguration', userConfiguration));
   }
 
   @override
@@ -398,7 +421,9 @@ class _$AccountModelImpl extends _AccountModel with DiagnosticableTreeMixin {
                 .equals(other._savedFilters, _savedFilters) &&
             (identical(other.policy, policy) || other.policy == policy) &&
             (identical(other.serverConfiguration, serverConfiguration) ||
-                other.serverConfiguration == serverConfiguration));
+                other.serverConfiguration == serverConfiguration) &&
+            (identical(other.userConfiguration, userConfiguration) ||
+                other.userConfiguration == userConfiguration));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -417,7 +442,8 @@ class _$AccountModelImpl extends _AccountModel with DiagnosticableTreeMixin {
       quickConnectState,
       const DeepCollectionEquality().hash(_savedFilters),
       policy,
-      serverConfiguration);
+      serverConfiguration,
+      userConfiguration);
 
   /// Create a copy of AccountModel
   /// with the given fields replaced by the non-null parameter values.
@@ -451,7 +477,9 @@ abstract class _AccountModel extends AccountModel {
       @JsonKey(includeFromJson: false, includeToJson: false)
       final UserPolicy? policy,
       @JsonKey(includeFromJson: false, includeToJson: false)
-      final ServerConfiguration? serverConfiguration}) = _$AccountModelImpl;
+      final ServerConfiguration? serverConfiguration,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      final UserConfiguration? userConfiguration}) = _$AccountModelImpl;
   const _AccountModel._() : super._();
 
   factory _AccountModel.fromJson(Map<String, dynamic> json) =
@@ -485,6 +513,9 @@ abstract class _AccountModel extends AccountModel {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   ServerConfiguration? get serverConfiguration;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  UserConfiguration? get userConfiguration;
 
   /// Create a copy of AccountModel
   /// with the given fields replaced by the non-null parameter values.

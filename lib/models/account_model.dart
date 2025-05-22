@@ -34,6 +34,7 @@ class AccountModel with _$AccountModel {
     @Default([]) List<LibraryFiltersModel> savedFilters,
     @JsonKey(includeFromJson: false, includeToJson: false) UserPolicy? policy,
     @JsonKey(includeFromJson: false, includeToJson: false) ServerConfiguration? serverConfiguration,
+    @JsonKey(includeFromJson: false, includeToJson: false) UserConfiguration? userConfiguration,
   }) = _AccountModel;
 
   factory AccountModel.fromJson(Map<String, dynamic> json) => _$AccountModelFromJson(json);
