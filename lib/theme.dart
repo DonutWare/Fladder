@@ -30,9 +30,9 @@ ColorScheme _insertAdditionalColours(ColorScheme scheme) => scheme.copyWith(
     );
 
 class FladderTheme {
-  static RoundedRectangleBorder get smallShape => RoundedRectangleBorder(borderRadius: BorderRadius.circular(4));
-  static RoundedRectangleBorder get defaultShape => RoundedRectangleBorder(borderRadius: BorderRadius.circular(8));
-  static RoundedRectangleBorder get largeShape => RoundedRectangleBorder(borderRadius: BorderRadius.circular(16));
+  static RoundedRectangleBorder get smallShape => RoundedRectangleBorder(borderRadius: BorderRadius.circular(12));
+  static RoundedRectangleBorder get defaultShape => RoundedRectangleBorder(borderRadius: BorderRadius.circular(16));
+  static RoundedRectangleBorder get largeShape => RoundedRectangleBorder(borderRadius: BorderRadius.circular(32));
 
   static Color get darkBackgroundColor => const Color.fromARGB(255, 10, 10, 10);
   static Color get lightBackgroundColor => const Color.fromARGB(237, 255, 255, 255);
@@ -54,7 +54,7 @@ class FladderTheme {
         elevation: 3,
         clipBehavior: Clip.antiAlias,
         margin: EdgeInsets.zero,
-        shape: defaultShape,
+        shape: smallShape,
       ),
       progressIndicatorTheme: const ProgressIndicatorThemeData(),
       floatingActionButtonTheme: FloatingActionButtonThemeData(

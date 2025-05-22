@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
@@ -13,6 +13,7 @@ import 'package:fladder/routes/auto_router.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/adaptive_fab.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/destination_model.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/navigation_drawer.dart';
@@ -134,6 +135,7 @@ class _NavigationBodyState extends ConsumerState<NavigationBody> {
   }
 
   Widget navigationRail(BuildContext context) {
+    final views = ref.watch(viewsProvider.select((value) => value.views));
     return Column(
       children: [
         if (AdaptiveLayout.of(context).isDesktop && AdaptiveLayout.of(context).platform != TargetPlatform.macOS) ...{
@@ -186,6 +188,18 @@ class _NavigationBodyState extends ConsumerState<NavigationBody> {
                         (index, destination) => destination.toNavigationButton(widget.currentIndex == index, false),
                       )
                     ],
+                  ),
+                ),
+                const Divider(),
+                ...views.map(
+                  (view) => IconButton(
+                    onPressed: () => context.pushRoute(LibrarySearchRoute(viewModelId: view.id)),
+                    icon: Card(
+                      child: SizedBox.square(
+                        dimension: 35,
+                        child: FladderImage(image: view.imageData?.primary),
+                      ),
+                    ),
                   ),
                 ),
                 const Spacer(),

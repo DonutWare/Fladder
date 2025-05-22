@@ -28,6 +28,7 @@ import 'package:fladder/screens/playlists/add_to_playlists.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/screens/shared/nested_bottom_appbar.dart';
+import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout.dart';
 import 'package:fladder/util/debouncer.dart';
 import 'package:fladder/util/fab_extended_anim.dart';
@@ -166,7 +167,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
             playerState == VideoPlayerState.minimized ? FloatingActionButtonLocation.centerFloat : null,
         floatingActionButton: switch (playerState) {
           VideoPlayerState.minimized => const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
+              padding: EdgeInsets.symmetric(horizontal: 12),
               child: FloatingPlayerBar(),
             ),
           _ => HideOnScroll(
@@ -664,172 +665,156 @@ class _LibrarySearchBottomBar extends ConsumerWidget {
       ),
     ];
     return NestedBottomAppBar(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            children: [
-              ScrollStatePosition(
-                controller: scrollController,
-                positionBuilder: (state) => AnimatedFadeSize(
-                  child: state != ScrollState.top
-                      ? Tooltip(
-                          message: context.localized.scrollToTop,
-                          child: FlatButton(
-                            clipBehavior: Clip.antiAlias,
-                            elevation: 0,
-                            borderRadiusGeometry: BorderRadius.circular(6),
-                            onTap: () => scrollController.animateTo(0,
-                                duration: const Duration(milliseconds: 500), curve: Curves.easeInOutCubic),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.primaryContainer,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              padding: const EdgeInsets.all(6),
-                              child: Icon(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                ScrollStatePosition(
+                  controller: scrollController,
+                  positionBuilder: (state) => AnimatedFadeSize(
+                    child: state != ScrollState.top
+                        ? Tooltip(
+                            message: context.localized.scrollToTop,
+                            child: IconButton.filled(
+                              onPressed: () => scrollController.animateTo(0,
+                                  duration: const Duration(milliseconds: 500), curve: Curves.easeInOutCubic),
+                              icon: const Icon(
                                 IconsaxPlusLinear.arrow_up,
-                                color: Theme.of(context).colorScheme.onPrimaryContainer,
                               ),
                             ),
+                          )
+                        : const SizedBox(),
+                  ),
+                ),
+                const SizedBox(width: 6),
+                if (!librarySearchResults.selecteMode) ...{
+                  const SizedBox(width: 6),
+                  IconButton(
+                    tooltip: context.localized.sortBy,
+                    onPressed: () async {
+                      final newOptions = await openSortByDialogue(
+                        context,
+                        libraryProvider: libraryProvider,
+                        uniqueKey: uniqueKey,
+                        options: (librarySearchResults.sortingOption, librarySearchResults.sortOrder),
+                      );
+                      if (newOptions != null) {
+                        if (newOptions.$1 != null) {
+                          libraryProvider.setSortBy(newOptions.$1!);
+                        }
+                        if (newOptions.$2 != null) {
+                          libraryProvider.setSortOrder(newOptions.$2!);
+                        }
+                      }
+                    },
+                    icon: const Icon(IconsaxPlusLinear.sort),
+                  ),
+                  if (librarySearchResults.hasActiveFilters) ...{
+                    const SizedBox(width: 6),
+                    IconButton(
+                      tooltip: context.localized.disableFilters,
+                      onPressed: disableFilters(librarySearchResults, libraryProvider),
+                      icon: const Icon(IconsaxPlusLinear.filter_remove),
+                    ),
+                  },
+                },
+                const SizedBox(width: 6),
+                IconButton(
+                  onPressed: () => libraryProvider.toggleSelectMode(),
+                  color: librarySearchResults.selecteMode ? Theme.of(context).colorScheme.primary : null,
+                  icon: const Icon(IconsaxPlusLinear.category_2),
+                ),
+                const SizedBox(width: 6),
+                AnimatedFadeSize(
+                  child: librarySearchResults.selecteMode
+                      ? Container(
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.primaryContainer,
+                              borderRadius: BorderRadius.circular(16)),
+                          child: Row(
+                            children: [
+                              Tooltip(
+                                message: context.localized.selectAll,
+                                child: IconButton(
+                                  onPressed: () => libraryProvider.selectAll(true),
+                                  icon: const Icon(IconsaxPlusLinear.box_add),
+                                ),
+                              ),
+                              const SizedBox(width: 6),
+                              Tooltip(
+                                message: context.localized.clearSelection,
+                                child: IconButton(
+                                  onPressed: () => libraryProvider.selectAll(false),
+                                  icon: const Icon(IconsaxPlusLinear.box_remove),
+                                ),
+                              ),
+                              const SizedBox(width: 6),
+                              if (librarySearchResults.selectedPosters.isNotEmpty) ...{
+                                if (AdaptiveLayout.of(context).isDesktop)
+                                  PopupMenuButton(
+                                    itemBuilder: (context) => actions.popupMenuItems(useIcons: true),
+                                  )
+                                else
+                                  IconButton(
+                                      onPressed: () {
+                                        showBottomSheetPill(
+                                          context: context,
+                                          content: (context, scrollController) => ListView(
+                                            shrinkWrap: true,
+                                            controller: scrollController,
+                                            children: actions.listTileItems(context, useIcons: true),
+                                          ),
+                                        );
+                                      },
+                                      icon: const Icon(IconsaxPlusLinear.more))
+                              },
+                            ],
                           ),
                         )
                       : const SizedBox(),
                 ),
-              ),
-              const SizedBox(width: 6),
-              if (!librarySearchResults.selecteMode) ...{
-                const SizedBox(width: 6),
-                IconButton(
-                  tooltip: context.localized.sortBy,
-                  onPressed: () async {
-                    final newOptions = await openSortByDialogue(
-                      context,
-                      libraryProvider: libraryProvider,
-                      uniqueKey: uniqueKey,
-                      options: (librarySearchResults.sortingOption, librarySearchResults.sortOrder),
-                    );
-                    if (newOptions != null) {
-                      if (newOptions.$1 != null) {
-                        libraryProvider.setSortBy(newOptions.$1!);
-                      }
-                      if (newOptions.$2 != null) {
-                        libraryProvider.setSortOrder(newOptions.$2!);
-                      }
-                    }
-                  },
-                  icon: const Icon(IconsaxPlusLinear.sort),
-                ),
-                if (librarySearchResults.hasActiveFilters) ...{
-                  const SizedBox(width: 6),
-                  IconButton(
-                    tooltip: context.localized.disableFilters,
-                    onPressed: disableFilters(librarySearchResults, libraryProvider),
-                    icon: const Icon(IconsaxPlusLinear.filter_remove),
-                  ),
-                },
-              },
-              const SizedBox(width: 6),
-              IconButton(
-                onPressed: () => libraryProvider.toggleSelectMode(),
-                color: librarySearchResults.selecteMode ? Theme.of(context).colorScheme.primary : null,
-                icon: const Icon(IconsaxPlusLinear.category_2),
-              ),
-              const SizedBox(width: 6),
-              AnimatedFadeSize(
-                child: librarySearchResults.selecteMode
-                    ? Container(
-                        decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.primaryContainer,
-                            borderRadius: BorderRadius.circular(16)),
-                        child: Row(
-                          children: [
-                            Tooltip(
-                              message: context.localized.selectAll,
-                              child: IconButton(
-                                onPressed: () => libraryProvider.selectAll(true),
-                                icon: const Icon(IconsaxPlusLinear.box_add),
-                              ),
-                            ),
-                            const SizedBox(width: 6),
-                            Tooltip(
-                              message: context.localized.clearSelection,
-                              child: IconButton(
-                                onPressed: () => libraryProvider.selectAll(false),
-                                icon: const Icon(IconsaxPlusLinear.box_remove),
-                              ),
-                            ),
-                            const SizedBox(width: 6),
-                            if (librarySearchResults.selectedPosters.isNotEmpty) ...{
-                              if (AdaptiveLayout.of(context).isDesktop)
-                                PopupMenuButton(
-                                  itemBuilder: (context) => actions.popupMenuItems(useIcons: true),
-                                )
-                              else
-                                IconButton(
-                                    onPressed: () {
-                                      showBottomSheetPill(
-                                        context: context,
-                                        content: (context, scrollController) => ListView(
-                                          shrinkWrap: true,
-                                          controller: scrollController,
-                                          children: actions.listTileItems(context, useIcons: true),
-                                        ),
-                                      );
-                                    },
-                                    icon: const Icon(IconsaxPlusLinear.more))
-                            },
-                          ],
-                        ),
-                      )
-                    : const SizedBox(),
-              ),
-              const Spacer(),
-              if (librarySearchResults.activePosters.isNotEmpty)
-                IconButton(
-                  tooltip: context.localized.random,
-                  onPressed: () => libraryProvider.openRandom(context),
-                  icon: Card(
-                    color: Theme.of(context).colorScheme.secondary,
-                    child: Padding(
-                      padding: const EdgeInsets.all(2.0),
-                      child: Icon(
-                        IconsaxPlusBold.arrow_up_1,
-                        color: Theme.of(context).colorScheme.onSecondary,
-                      ),
+                const Spacer(),
+                if (librarySearchResults.activePosters.isNotEmpty)
+                  IconButton.filledTonal(
+                    tooltip: context.localized.random,
+                    onPressed: () => libraryProvider.openRandom(context),
+                    icon: const Icon(
+                      IconsaxPlusBold.arrow_up_1,
                     ),
                   ),
-                ),
-              if (librarySearchResults.activePosters.isNotEmpty)
-                IconButton(
-                  tooltip: context.localized.shuffleVideos,
-                  onPressed: () async {
-                    if (librarySearchResults.showGalleryButtons && !librarySearchResults.showPlayButtons) {
-                      libraryProvider.viewGallery(context, shuffle: true);
-                      return;
-                    } else if (!librarySearchResults.showGalleryButtons && librarySearchResults.showPlayButtons) {
-                      libraryProvider.playLibraryItems(context, ref, shuffle: true);
-                      return;
-                    }
+                if (librarySearchResults.activePosters.isNotEmpty)
+                  IconButton(
+                    tooltip: context.localized.shuffleVideos,
+                    onPressed: () async {
+                      if (librarySearchResults.showGalleryButtons && !librarySearchResults.showPlayButtons) {
+                        libraryProvider.viewGallery(context, shuffle: true);
+                        return;
+                      } else if (!librarySearchResults.showGalleryButtons && librarySearchResults.showPlayButtons) {
+                        libraryProvider.playLibraryItems(context, ref, shuffle: true);
+                        return;
+                      }
 
-                    await showLibraryPlayOptions(
-                      context,
-                      context.localized.libraryShuffleAndPlayItems,
-                      playVideos: librarySearchResults.showPlayButtons
-                          ? () => libraryProvider.playLibraryItems(context, ref, shuffle: true)
-                          : null,
-                      viewGallery: librarySearchResults.showGalleryButtons
-                          ? () => libraryProvider.viewGallery(context, shuffle: true)
-                          : null,
-                    );
-                  },
-                  icon: const Icon(IconsaxPlusLinear.shuffle),
-                ),
-            ],
-          ),
-          if (AdaptiveLayout.of(context).isDesktop) const SizedBox(height: 8),
-        ],
+                      await showLibraryPlayOptions(
+                        context,
+                        context.localized.libraryShuffleAndPlayItems,
+                        playVideos: librarySearchResults.showPlayButtons
+                            ? () => libraryProvider.playLibraryItems(context, ref, shuffle: true)
+                            : null,
+                        viewGallery: librarySearchResults.showGalleryButtons
+                            ? () => libraryProvider.viewGallery(context, shuffle: true)
+                            : null,
+                      );
+                    },
+                    icon: const Icon(IconsaxPlusLinear.shuffle),
+                  ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

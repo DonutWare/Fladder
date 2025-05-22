@@ -53,7 +53,7 @@ class _PersonDetailScreenState extends ConsumerState<PersonDetailScreen> {
               spacing: 32,
               children: [
                 Container(
-                  clipBehavior: Clip.antiAlias,
+                  clipBehavior: Clip.hardEdge,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
                   ),

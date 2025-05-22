@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/book_model.dart';
 import 'package:fladder/models/item_base_model.dart';
@@ -137,7 +137,7 @@ class _PosterImageState extends ConsumerState<PosterImage> {
                     border: Border.all(width: 3, color: Theme.of(context).colorScheme.primary),
                     borderRadius: FladderTheme.defaultShape.borderRadius,
                   ),
-                  clipBehavior: Clip.antiAlias,
+                  clipBehavior: Clip.hardEdge,
                   child: Stack(
                     alignment: Alignment.topCenter,
                     children: [

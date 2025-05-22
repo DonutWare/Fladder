@@ -70,7 +70,7 @@ class _TimelineTabState extends ConsumerState<TimelineTab> with AutomaticKeepAli
                           child: Card(
                             margin: const EdgeInsets.all(4),
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                            clipBehavior: Clip.antiAlias,
+                            clipBehavior: Clip.hardEdge,
                             child: Stack(
                               children: [
                                 FladderImage(image: e.thumbnail?.primary),

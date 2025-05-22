@@ -1,11 +1,13 @@
+import 'package:flutter/material.dart';
+
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
+
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/settings_user_icon.dart';
 import 'package:fladder/widgets/shared/shapes.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class NestedSliverAppBar extends ConsumerWidget {
   final BuildContext parent;
@@ -30,16 +32,6 @@ class NestedSliverAppBar extends ConsumerWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              IconButton.filledTonal(
-                style: ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.surface),
-                ),
-                onPressed: () => Scaffold.of(parent).openDrawer(),
-                icon: const Icon(
-                  IconsaxPlusBold.menu,
-                  size: 28,
-                ),
-              ),
               Expanded(
                 child: Hero(
                   tag: "PrimarySearch",

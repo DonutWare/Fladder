@@ -98,8 +98,8 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
                 controller: AdaptiveLayout.scrollOf(context),
                 forceHide: !homeRoutes.any((element) => element.name.contains(currentLocation)),
                 child: NestedBottomAppBar(
-                  child: Transform.translate(
-                    offset: const Offset(0, 8),
+                  child: SizedBox(
+                    height: 65,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.stretch,

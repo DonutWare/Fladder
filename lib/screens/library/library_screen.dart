@@ -1,14 +1,19 @@
-import 'package:fladder/models/view_model.dart';
-import 'package:fladder/providers/library_provider.dart';
-import 'package:fladder/screens/library/components/library_tabs.dart';
-import 'package:fladder/util/adaptive_layout.dart';
 import 'package:flutter/material.dart';
+
+import 'package:auto_route/auto_route.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
+import 'package:fladder/providers/views_provider.dart';
+import 'package:fladder/routes/auto_router.gr.dart';
+import 'package:fladder/screens/shared/flat_button.dart';
+import 'package:fladder/util/fladder_image.dart';
+import 'package:fladder/widgets/shared/pull_to_refresh.dart';
+
+@RoutePage()
 class LibraryScreen extends ConsumerStatefulWidget {
-  final ViewModel viewModel;
   const LibraryScreen({
-    required this.viewModel,
     super.key,
   });
 
@@ -17,71 +22,81 @@ class LibraryScreen extends ConsumerStatefulWidget {
 }
 
 class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTickerProviderStateMixin {
-  late final List<LibraryTabs> tabs = LibraryTabs.getLibraryForType(widget.viewModel, widget.viewModel.collectionType);
-  late final TabController tabController = TabController(length: tabs.length, vsync: this);
-
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(() {
-      ref.read(libraryProvider(widget.viewModel.id).notifier).setupLibrary(widget.viewModel);
-    });
-
-    tabController.addListener(() {
-      if (tabController.previousIndex != tabController.index) {
-        setState(() {});
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    final PreferredSizeWidget tabBar = TabBar(
-      isScrollable: AdaptiveLayout.of(context).isDesktop ? true : false,
-      indicatorWeight: 3,
-      controller: tabController,
-      tabs: tabs
-          .map((e) => Tab(
-                text: e.name,
-                icon: e.icon,
-              ))
-          .toList(),
-    );
+    final viewsState = ref.read(viewsProvider);
+    final views = viewsState.views.whereNot((e) => e.collectionType == CollectionType.folders).toList();
+    final spacing = 16.0;
 
-    return Padding(
-      padding: AdaptiveLayout.of(context).isDesktop
-          ? EdgeInsets.only(top: MediaQuery.of(context).padding.top)
-          : EdgeInsets.zero,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(AdaptiveLayout.of(context).isDesktop ? 15 : 0),
-        child: Card(
-          margin: AdaptiveLayout.of(context).isDesktop ? null : EdgeInsets.zero,
-          elevation: 2,
-          child: Scaffold(
-            backgroundColor: AdaptiveLayout.of(context).isDesktop ? Colors.transparent : null,
-            floatingActionButton: tabs[tabController.index].floatingActionButton,
-            floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
-            appBar: AppBar(
-              centerTitle: true,
-              backgroundColor: AdaptiveLayout.of(context).isDesktop ? Colors.transparent : null,
-              title: tabs.length > 1 ? (!AdaptiveLayout.of(context).isDesktop ? null : tabBar) : null,
-              toolbarHeight: AdaptiveLayout.of(context).isDesktop ? 75 : 40,
-              bottom: tabs.length > 1 ? (AdaptiveLayout.of(context).isDesktop ? null : tabBar) : null,
-            ),
-            extendBody: true,
-            body: Padding(
-              padding: !AdaptiveLayout.of(context).isDesktop
-                  ? EdgeInsets.only(
-                      left: MediaQuery.of(context).padding.left, right: MediaQuery.of(context).padding.right)
-                  : EdgeInsets.zero,
-              child: TabBarView(
-                controller: tabController,
-                children: tabs
-                    .map((e) => Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: e.page,
-                        ))
-                    .toList(),
+    return Card(
+      child: PullToRefresh(
+        refreshOnStart: true,
+        onRefresh: () => ref.read(viewsProvider.notifier).fetchViews(),
+        child: SizedBox.expand(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: GridView.builder(
+                shrinkWrap: true,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: (MediaQuery.sizeOf(context).width ~/ 350).clamp(1, 5),
+                  mainAxisSpacing: spacing / 2,
+                  crossAxisSpacing: spacing,
+                  childAspectRatio: 1.5,
+                ),
+                itemCount: views.length,
+                itemBuilder: (context, index) {
+                  final view = views[index];
+                  return Card(
+                    elevation: 5,
+                    color: Theme.of(context).colorScheme.surfaceContainer,
+                    margin: const EdgeInsets.symmetric(vertical: 8),
+                    child: FlatButton(
+                      onTap: () => context.router.push(LibrarySearchRoute(viewModelId: view.id)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: Column(
+                          spacing: 8,
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Flexible(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: FladderImage(
+                                  image: view.imageData?.primary,
+                                  fit: BoxFit.fitHeight,
+                                  blurFit: BoxFit.cover,
+                                  placeHolder: Center(
+                                    child: Text(
+                                      view.name,
+                                      style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                if (view.imageData?.primary != null)
+                                  Text(view.name,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge
+                                          ?.copyWith(fontWeight: FontWeight.bold)),
+                              ],
+                            ),
+                            const SizedBox(height: 0),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
           ),

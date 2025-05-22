@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
@@ -14,8 +14,10 @@ import 'package:fladder/widgets/navigation_scaffold/navigation_scaffold.dart';
 
 enum HomeTabs {
   dashboard,
+  library,
   favorites,
-  sync;
+  sync,
+  ;
 }
 
 @RoutePage()
@@ -31,8 +33,8 @@ class HomeScreen extends ConsumerWidget {
             case HomeTabs.dashboard:
               return DestinationModel(
                 label: context.localized.navigationDashboard,
-                icon: const Icon(IconsaxPlusLinear.home),
-                selectedIcon: const Icon(IconsaxPlusBold.home),
+                icon: const Icon(IconsaxPlusLinear.home_1),
+                selectedIcon: const Icon(IconsaxPlusBold.home_1),
                 route: const DashboardRoute(),
                 action: () => context.router.navigate(const DashboardRoute()),
                 floatingActionButton: AdaptiveFab(
@@ -68,7 +70,14 @@ class HomeScreen extends ConsumerWidget {
                   action: () => context.router.navigate(SyncedRoute()),
                 );
               }
-              return null;
+            case HomeTabs.library:
+              return DestinationModel(
+                label: context.localized.library(0),
+                icon: const Icon(IconsaxPlusLinear.book),
+                selectedIcon: const Icon(IconsaxPlusBold.book),
+                route: const LibraryRoute(),
+                action: () => context.router.navigate(const LibraryRoute()),
+              );
           }
         })
         .nonNulls

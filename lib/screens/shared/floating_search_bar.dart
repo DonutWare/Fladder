@@ -47,7 +47,7 @@ class _FloatingSearchBarState extends ConsumerState<FloatingSearchBar> {
           closedColor: Colors.transparent,
           closedElevation: 0,
           closedBuilder: (context, openAction) => Card(
-            clipBehavior: Clip.antiAlias,
+            clipBehavior: Clip.hardEdge,
             shadowColor: Colors.transparent,
             elevation: 5,
             margin: EdgeInsets.zero,
