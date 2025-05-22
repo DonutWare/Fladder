@@ -1290,5 +1290,15 @@
   "maxConcurrentDownloadsTitle": "最大并发下载",
   "@maxConcurrentDownloadsTitle": {},
   "maxConcurrentDownloadsDesc": "设置可同时运行的最大下载数量。设置为 0 则禁用限制。",
-  "@maxConcurrentDownloadsDesc": {}
+  "@maxConcurrentDownloadsDesc": {},
+  "playbackTrackSelection": "播放轨道选择",
+  "@playbackTrackSelection": {},
+  "rememberAudioSelections": "根据上一项设置音轨",
+  "@rememberAudioSelections": {},
+  "rememberAudioSelectionsDesc": "尝试将音轨设置为与上一个视频最接近的匹配。",
+  "@rememberAudioSelectionsDesc": {},
+  "rememberSubtitleSelections": "根据上一项设置字幕轨",
+  "@rememberSubtitleSelections": {},
+  "rememberSubtitleSelectionsDesc": "尝试将字幕轨设置为与上一个视频最接近的匹配。",
+  "@rememberSubtitleSelectionsDesc": {}
 }
