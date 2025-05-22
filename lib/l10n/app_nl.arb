@@ -1288,5 +1288,19 @@
   "settingsPlayerBufferSizeTitle": "Video buffer grootte",
   "@settingsPlayerBufferSizeTitle": {},
   "settingsPlayerBufferSizeDesc": "Configureer de buffergrootte voor het afspelen van video's en bepaal de hoeveelheid vooraf geladen data.",
-  "@settingsPlayerBufferSizeDesc": {}
+  "@settingsPlayerBufferSizeDesc": {},
+  "maxConcurrentDownloadsTitle": "Maximum gelijktijdige downloads",
+  "@maxConcurrentDownloadsTitle": {},
+  "maxConcurrentDownloadsDesc": "Stelt het maximumaantal downloads in dat tegelijkertijd kan worden uitgevoerd. Stel in op 0 om de limiet uit te schakelen.",
+  "@maxConcurrentDownloadsDesc": {},
+  "rememberSubtitleSelections": "Ondertitelspoor instellen op basis van vorig item",
+  "@rememberSubtitleSelections": {},
+  "rememberSubtitleSelectionsDesc": "Probeer het ondertitelspoor in te stellen op de best overeenkomende optie van de vorige video.",
+  "@rememberSubtitleSelectionsDesc": {},
+  "playbackTrackSelection": "Selectie van afspeeltrack",
+  "@playbackTrackSelection": {},
+  "rememberAudioSelections": "Audiotrack instellen op basis van vorig item",
+  "@rememberAudioSelections": {},
+  "rememberAudioSelectionsDesc": "Probeer de audiotrack in te stellen op de best overeenkomende optie van de vorige video.",
+  "@rememberAudioSelectionsDesc": {}
 }
