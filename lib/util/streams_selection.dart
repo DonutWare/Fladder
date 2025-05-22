@@ -1,22 +1,35 @@
-
 import 'package:fladder/models/items/media_streams_model.dart';
 
-int? selectAudioStream(bool rememberAudioSelection, AudioAndSubStreamModel? previousStream, List<AudioAndSubStreamModel>? currentStream, int? defaultStream) {
-  if (!rememberAudioSelection){
+int? selectAudioStream(
+  bool rememberAudioSelection,
+  AudioAndSubStreamModel? previousStream,
+  List<AudioAndSubStreamModel>? currentStream,
+  int? defaultStream,
+) {
+  if (!rememberAudioSelection) {
     return defaultStream;
   }
   return _selectStream(previousStream, currentStream, defaultStream);
 }
 
-int? selectSubStream(bool rememberSubSelection, AudioAndSubStreamModel? previousStream, List<AudioAndSubStreamModel>? currentStream, int? defaultStream) {
-  if (!rememberSubSelection){
+int? selectSubStream(
+  bool rememberSubSelection,
+  AudioAndSubStreamModel? previousStream,
+  List<AudioAndSubStreamModel>? currentStream,
+  int? defaultStream,
+) {
+  if (!rememberSubSelection) {
     return defaultStream;
   }
   return _selectStream(previousStream, currentStream, defaultStream);
 }
 
-int? _selectStream(AudioAndSubStreamModel? previousStream, List<AudioAndSubStreamModel>? currentStream, int? defaultStream) {
-  if (currentStream == null || previousStream == null){
+int? _selectStream(
+  AudioAndSubStreamModel? previousStream,
+  List<AudioAndSubStreamModel>? currentStream,
+  int? defaultStream,
+) {
+  if (currentStream == null || previousStream == null) {
     return defaultStream;
   }
 
@@ -39,8 +52,7 @@ int? _selectStream(AudioAndSubStreamModel? previousStream, List<AudioAndSubStrea
     if (previousStream.displayTitle == stream.displayTitle) {
       score += 2;
     }
-    if (previousStream.language != 'und' &&
-        previousStream.language == stream.language) {
+    if (previousStream.language != 'und' && previousStream.language == stream.language) {
       score += 2;
     }
 
@@ -53,4 +65,3 @@ int? _selectStream(AudioAndSubStreamModel? previousStream, List<AudioAndSubStrea
   }
   return bestStreamIndex ?? defaultStream;
 }
-
