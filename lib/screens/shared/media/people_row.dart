@@ -7,7 +7,7 @@ import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/screens/details_screens/person_detail_screen.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/string_extensions.dart';
@@ -22,12 +22,14 @@ class PeopleRow extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     Widget placeHolder(String name) {
-      return Card(
-        child: FractionallySizedBox(
-          widthFactor: 0.4,
+      return Center(
+        child: SizedBox(
+          height: 75,
+          width: 75,
           child: Card(
             elevation: 5,
-            shape: const CircleBorder(),
+            shadowColor: Colors.transparent,
+            color: Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.50),
             child: Center(
                 child: Text(
               name.getInitials(),

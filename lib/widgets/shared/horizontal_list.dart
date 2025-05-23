@@ -5,7 +5,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import 'package:fladder/providers/settings/client_settings_provider.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/disable_keypad_focus.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/sticky_header_text.dart';
@@ -97,11 +97,13 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
                           ),
                         ),
                       if (widget.subtext != null)
-                        Opacity(
-                          opacity: 0.5,
-                          child: Text(
-                            widget.subtext!,
-                            style: Theme.of(context).textTheme.titleMedium,
+                        Flexible(
+                          child: Opacity(
+                            opacity: 0.5,
+                            child: Text(
+                              widget.subtext!,
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
                           ),
                         ),
                       ...widget.titleActions

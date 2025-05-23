@@ -13,7 +13,7 @@ import 'package:fladder/screens/photo_viewer/photo_viewer_screen.dart';
 import 'package:fladder/screens/shared/media/poster_grid.dart';
 import 'package:fladder/screens/shared/media/poster_list_item.dart';
 import 'package:fladder/screens/shared/media/poster_widget.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';

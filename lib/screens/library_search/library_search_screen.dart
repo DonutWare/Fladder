@@ -11,12 +11,10 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/photos_model.dart';
 import 'package:fladder/models/library_search/library_search_model.dart';
 import 'package:fladder/models/library_search/library_search_options.dart';
-import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playlist_model.dart';
 import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/library_search_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
-import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/collections/add_to_collection.dart';
 import 'package:fladder/screens/library_search/widgets/library_filter_chips.dart';
 import 'package:fladder/screens/library_search/widgets/library_play_options_.dart';
@@ -26,10 +24,9 @@ import 'package:fladder/screens/library_search/widgets/library_views.dart';
 import 'package:fladder/screens/library_search/widgets/suggestion_search_bar.dart';
 import 'package:fladder/screens/playlists/add_to_playlists.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
-import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/screens/shared/nested_bottom_appbar.dart';
-import 'package:fladder/theme.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/screens/shared/nested_scaffold.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/debouncer.dart';
 import 'package:fladder/util/fab_extended_anim.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
@@ -39,7 +36,6 @@ import 'package:fladder/util/map_bool_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/util/router_extension.dart';
 import 'package:fladder/util/sliver_list_padding.dart';
-import 'package:fladder/widgets/navigation_scaffold/components/floating_player_bar.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/settings_user_icon.dart';
 import 'package:fladder/widgets/shared/fladder_scrollbar.dart';
 import 'package:fladder/widgets/shared/hide_on_scroll.dart';
@@ -137,7 +133,6 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
     final isEmptySearchScreen = widget.viewModelId == null && widget.favourites == null && widget.folderId == null;
     final librarySearchResults = ref.watch(providerKey);
     final postersList = librarySearchResults.posters.hideEmptyChildren(librarySearchResults.hideEmptyShows);
-    final playerState = ref.watch(mediaPlaybackProvider.select((value) => value.state));
     final libraryViewType = ref.watch(libraryViewTypeProvider);
 
     ref.listen(
@@ -158,78 +153,67 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
           libraryProvider.toggleSelectMode();
         }
       },
-      child: Scaffold(
-        extendBody: true,
-        extendBodyBehindAppBar: true,
-        floatingActionButtonAnimator:
-            playerState == VideoPlayerState.minimized ? FloatingActionButtonAnimator.noAnimation : null,
-        floatingActionButtonLocation:
-            playerState == VideoPlayerState.minimized ? FloatingActionButtonLocation.centerFloat : null,
-        floatingActionButton: switch (playerState) {
-          VideoPlayerState.minimized => const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12),
-              child: FloatingPlayerBar(),
-            ),
-          _ => HideOnScroll(
-              controller: scrollController,
-              visibleBuilder: (visible) => Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (librarySearchResults.activePosters.isNotEmpty)
-                    FloatingActionButtonAnimated(
-                      key: Key(context.localized.playLabel),
-                      isExtended: visible,
-                      tooltip: context.localized.playVideos,
-                      onPressed: () async {
-                        if (librarySearchResults.showGalleryButtons && !librarySearchResults.showPlayButtons) {
-                          libraryProvider.viewGallery(context);
-                          return;
-                        } else if (!librarySearchResults.showGalleryButtons && librarySearchResults.showPlayButtons) {
-                          libraryProvider.playLibraryItems(context, ref);
-                          return;
-                        }
+      child: NestedScaffold(
+        body: Scaffold(
+          extendBody: true,
+          extendBodyBehindAppBar: true,
+          floatingActionButton: HideOnScroll(
+            controller: scrollController,
+            visibleBuilder: (visible) => Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (librarySearchResults.activePosters.isNotEmpty)
+                  FloatingActionButtonAnimated(
+                    key: Key(context.localized.playLabel),
+                    isExtended: visible,
+                    tooltip: context.localized.playVideos,
+                    onPressed: () async {
+                      if (librarySearchResults.showGalleryButtons && !librarySearchResults.showPlayButtons) {
+                        libraryProvider.viewGallery(context);
+                        return;
+                      } else if (!librarySearchResults.showGalleryButtons && librarySearchResults.showPlayButtons) {
+                        libraryProvider.playLibraryItems(context, ref);
+                        return;
+                      }
 
-                        await showLibraryPlayOptions(
-                          context,
-                          context.localized.libraryPlayItems,
-                          playVideos: librarySearchResults.showPlayButtons
-                              ? () => libraryProvider.playLibraryItems(context, ref)
-                              : null,
-                          viewGallery: librarySearchResults.showGalleryButtons
-                              ? () => libraryProvider.viewGallery(context)
-                              : null,
-                        );
-                      },
-                      label: Text(context.localized.playLabel),
-                      icon: const Icon(IconsaxPlusBold.play),
-                    ),
-                ].addInBetween(const SizedBox(height: 10)),
-              ),
-            ),
-        },
-        bottomNavigationBar: HideOnScroll(
-          controller: AdaptiveLayout.of(context).isDesktop ? null : scrollController,
-          child: IgnorePointer(
-            ignoring: librarySearchResults.fetchingItems,
-            child: _LibrarySearchBottomBar(
-              uniqueKey: uniqueKey,
-              refreshKey: refreshKey,
-              scrollController: scrollController,
-              libraryProvider: libraryProvider,
-              postersList: postersList,
+                      await showLibraryPlayOptions(
+                        context,
+                        context.localized.libraryPlayItems,
+                        playVideos: librarySearchResults.showPlayButtons
+                            ? () => libraryProvider.playLibraryItems(context, ref)
+                            : null,
+                        viewGallery:
+                            librarySearchResults.showGalleryButtons ? () => libraryProvider.viewGallery(context) : null,
+                      );
+                    },
+                    label: Text(context.localized.playLabel),
+                    icon: const Icon(IconsaxPlusBold.play),
+                  ),
+              ].addInBetween(const SizedBox(height: 10)),
             ),
           ),
-        ),
-        body: Stack(
-          children: [
-            Positioned.fill(
-              child: Card(
-                elevation: 1,
-                child: PinchPosterZoom(
-                  scaleDifference: (difference) => ref.read(clientSettingsProvider.notifier).addPosterSize(difference),
-                  child: MediaQuery.removeViewInsets(
-                    context: context,
+          bottomNavigationBar: HideOnScroll(
+            controller: AdaptiveLayout.of(context).isDesktop ? null : scrollController,
+            child: IgnorePointer(
+              ignoring: librarySearchResults.fetchingItems,
+              child: _LibrarySearchBottomBar(
+                uniqueKey: uniqueKey,
+                refreshKey: refreshKey,
+                scrollController: scrollController,
+                libraryProvider: libraryProvider,
+                postersList: postersList,
+              ),
+            ),
+          ),
+          body: Stack(
+            children: [
+              Positioned.fill(
+                child: Card(
+                  elevation: 1,
+                  child: PinchPosterZoom(
+                    scaleDifference: (difference) =>
+                        ref.read(clientSettingsProvider.notifier).addPosterSize(difference),
                     child: ClipRRect(
                       borderRadius: AdaptiveLayout.viewSizeOf(context) == ViewSize.desktop
                           ? BorderRadius.circular(15)
@@ -516,35 +500,35 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                   ),
                 ),
               ),
-            ),
-            if (librarySearchResults.fetchingItems) ...[
-              Container(
-                color: Colors.black.withValues(alpha: 0.1),
-              ),
-              Center(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primaryContainer,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const CircularProgressIndicator.adaptive(),
-                        Text(context.localized.fetchingLibrary, style: Theme.of(context).textTheme.titleMedium),
-                        IconButton(
-                          onPressed: () => libraryProvider.cancelFetch(),
-                          icon: const Icon(IconsaxPlusLinear.close_square),
-                        )
-                      ].addInBetween(const SizedBox(width: 16)),
+              if (librarySearchResults.fetchingItems) ...[
+                Container(
+                  color: Colors.black.withValues(alpha: 0.1),
+                ),
+                Center(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primaryContainer,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const CircularProgressIndicator.adaptive(),
+                          Text(context.localized.fetchingLibrary, style: Theme.of(context).textTheme.titleMedium),
+                          IconButton(
+                            onPressed: () => libraryProvider.cancelFetch(),
+                            icon: const Icon(IconsaxPlusLinear.close_square),
+                          )
+                        ].addInBetween(const SizedBox(width: 16)),
+                      ),
                     ),
                   ),
-                ),
-              )
+                )
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );
@@ -664,156 +648,154 @@ class _LibrarySearchBottomBar extends ConsumerWidget {
         icon: const Icon(IconsaxPlusLinear.save_add),
       ),
     ];
-    return NestedBottomAppBar(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              children: [
-                ScrollStatePosition(
-                  controller: scrollController,
-                  positionBuilder: (state) => AnimatedFadeSize(
-                    child: state != ScrollState.top
-                        ? Tooltip(
-                            message: context.localized.scrollToTop,
-                            child: IconButton.filled(
-                              onPressed: () => scrollController.animateTo(0,
-                                  duration: const Duration(milliseconds: 500), curve: Curves.easeInOutCubic),
-                              icon: const Icon(
-                                IconsaxPlusLinear.arrow_up,
+    return Padding(
+      padding: EdgeInsets.only(left: MediaQuery.paddingOf(context).left),
+      child: NestedBottomAppBar(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                spacing: 6,
+                children: [
+                  ScrollStatePosition(
+                    controller: scrollController,
+                    positionBuilder: (state) => AnimatedFadeSize(
+                      child: state != ScrollState.top
+                          ? Tooltip(
+                              message: context.localized.scrollToTop,
+                              child: IconButton.filled(
+                                onPressed: () => scrollController.animateTo(0,
+                                    duration: const Duration(milliseconds: 500), curve: Curves.easeInOutCubic),
+                                icon: const Icon(
+                                  IconsaxPlusLinear.arrow_up,
+                                ),
                               ),
+                            )
+                          : const SizedBox(),
+                    ),
+                  ),
+                  if (!librarySearchResults.selecteMode) ...{
+                    IconButton(
+                      tooltip: context.localized.sortBy,
+                      onPressed: () async {
+                        final newOptions = await openSortByDialogue(
+                          context,
+                          libraryProvider: libraryProvider,
+                          uniqueKey: uniqueKey,
+                          options: (librarySearchResults.sortingOption, librarySearchResults.sortOrder),
+                        );
+                        if (newOptions != null) {
+                          if (newOptions.$1 != null) {
+                            libraryProvider.setSortBy(newOptions.$1!);
+                          }
+                          if (newOptions.$2 != null) {
+                            libraryProvider.setSortOrder(newOptions.$2!);
+                          }
+                        }
+                      },
+                      icon: const Icon(IconsaxPlusLinear.sort),
+                    ),
+                    if (librarySearchResults.hasActiveFilters) ...{
+                      IconButton(
+                        tooltip: context.localized.disableFilters,
+                        onPressed: disableFilters(librarySearchResults, libraryProvider),
+                        icon: const Icon(IconsaxPlusLinear.filter_remove),
+                      ),
+                    },
+                  },
+                  IconButton(
+                    onPressed: () => libraryProvider.toggleSelectMode(),
+                    color: librarySearchResults.selecteMode ? Theme.of(context).colorScheme.primary : null,
+                    icon: const Icon(IconsaxPlusLinear.category_2),
+                  ),
+                  AnimatedFadeSize(
+                    child: librarySearchResults.selecteMode
+                        ? Container(
+                            decoration: BoxDecoration(
+                                color: Theme.of(context).colorScheme.primaryContainer,
+                                borderRadius: BorderRadius.circular(16)),
+                            child: Row(
+                              spacing: 6,
+                              children: [
+                                Tooltip(
+                                  message: context.localized.selectAll,
+                                  child: IconButton(
+                                    onPressed: () => libraryProvider.selectAll(true),
+                                    icon: const Icon(IconsaxPlusLinear.box_add),
+                                  ),
+                                ),
+                                Tooltip(
+                                  message: context.localized.clearSelection,
+                                  child: IconButton(
+                                    onPressed: () => libraryProvider.selectAll(false),
+                                    icon: const Icon(IconsaxPlusLinear.box_remove),
+                                  ),
+                                ),
+                                if (librarySearchResults.selectedPosters.isNotEmpty) ...{
+                                  if (AdaptiveLayout.of(context).isDesktop)
+                                    PopupMenuButton(
+                                      itemBuilder: (context) => actions.popupMenuItems(useIcons: true),
+                                    )
+                                  else
+                                    IconButton(
+                                        onPressed: () {
+                                          showBottomSheetPill(
+                                            context: context,
+                                            content: (context, scrollController) => ListView(
+                                              shrinkWrap: true,
+                                              controller: scrollController,
+                                              children: actions.listTileItems(context, useIcons: true),
+                                            ),
+                                          );
+                                        },
+                                        icon: const Icon(IconsaxPlusLinear.more))
+                                },
+                              ],
                             ),
                           )
                         : const SizedBox(),
                   ),
-                ),
-                const SizedBox(width: 6),
-                if (!librarySearchResults.selecteMode) ...{
-                  const SizedBox(width: 6),
-                  IconButton(
-                    tooltip: context.localized.sortBy,
-                    onPressed: () async {
-                      final newOptions = await openSortByDialogue(
-                        context,
-                        libraryProvider: libraryProvider,
-                        uniqueKey: uniqueKey,
-                        options: (librarySearchResults.sortingOption, librarySearchResults.sortOrder),
-                      );
-                      if (newOptions != null) {
-                        if (newOptions.$1 != null) {
-                          libraryProvider.setSortBy(newOptions.$1!);
-                        }
-                        if (newOptions.$2 != null) {
-                          libraryProvider.setSortOrder(newOptions.$2!);
-                        }
-                      }
-                    },
-                    icon: const Icon(IconsaxPlusLinear.sort),
-                  ),
-                  if (librarySearchResults.hasActiveFilters) ...{
-                    const SizedBox(width: 6),
+                  const Spacer(),
+                  if (librarySearchResults.activePosters.isNotEmpty)
+                    IconButton.filledTonal(
+                      tooltip: context.localized.random,
+                      onPressed: () => libraryProvider.openRandom(context),
+                      icon: const Icon(
+                        IconsaxPlusBold.arrow_up_1,
+                      ),
+                    ),
+                  if (librarySearchResults.activePosters.isNotEmpty)
                     IconButton(
-                      tooltip: context.localized.disableFilters,
-                      onPressed: disableFilters(librarySearchResults, libraryProvider),
-                      icon: const Icon(IconsaxPlusLinear.filter_remove),
-                    ),
-                  },
-                },
-                const SizedBox(width: 6),
-                IconButton(
-                  onPressed: () => libraryProvider.toggleSelectMode(),
-                  color: librarySearchResults.selecteMode ? Theme.of(context).colorScheme.primary : null,
-                  icon: const Icon(IconsaxPlusLinear.category_2),
-                ),
-                const SizedBox(width: 6),
-                AnimatedFadeSize(
-                  child: librarySearchResults.selecteMode
-                      ? Container(
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.primaryContainer,
-                              borderRadius: BorderRadius.circular(16)),
-                          child: Row(
-                            children: [
-                              Tooltip(
-                                message: context.localized.selectAll,
-                                child: IconButton(
-                                  onPressed: () => libraryProvider.selectAll(true),
-                                  icon: const Icon(IconsaxPlusLinear.box_add),
-                                ),
-                              ),
-                              const SizedBox(width: 6),
-                              Tooltip(
-                                message: context.localized.clearSelection,
-                                child: IconButton(
-                                  onPressed: () => libraryProvider.selectAll(false),
-                                  icon: const Icon(IconsaxPlusLinear.box_remove),
-                                ),
-                              ),
-                              const SizedBox(width: 6),
-                              if (librarySearchResults.selectedPosters.isNotEmpty) ...{
-                                if (AdaptiveLayout.of(context).isDesktop)
-                                  PopupMenuButton(
-                                    itemBuilder: (context) => actions.popupMenuItems(useIcons: true),
-                                  )
-                                else
-                                  IconButton(
-                                      onPressed: () {
-                                        showBottomSheetPill(
-                                          context: context,
-                                          content: (context, scrollController) => ListView(
-                                            shrinkWrap: true,
-                                            controller: scrollController,
-                                            children: actions.listTileItems(context, useIcons: true),
-                                          ),
-                                        );
-                                      },
-                                      icon: const Icon(IconsaxPlusLinear.more))
-                              },
-                            ],
-                          ),
-                        )
-                      : const SizedBox(),
-                ),
-                const Spacer(),
-                if (librarySearchResults.activePosters.isNotEmpty)
-                  IconButton.filledTonal(
-                    tooltip: context.localized.random,
-                    onPressed: () => libraryProvider.openRandom(context),
-                    icon: const Icon(
-                      IconsaxPlusBold.arrow_up_1,
-                    ),
-                  ),
-                if (librarySearchResults.activePosters.isNotEmpty)
-                  IconButton(
-                    tooltip: context.localized.shuffleVideos,
-                    onPressed: () async {
-                      if (librarySearchResults.showGalleryButtons && !librarySearchResults.showPlayButtons) {
-                        libraryProvider.viewGallery(context, shuffle: true);
-                        return;
-                      } else if (!librarySearchResults.showGalleryButtons && librarySearchResults.showPlayButtons) {
-                        libraryProvider.playLibraryItems(context, ref, shuffle: true);
-                        return;
-                      }
+                      tooltip: context.localized.shuffleVideos,
+                      onPressed: () async {
+                        if (librarySearchResults.showGalleryButtons && !librarySearchResults.showPlayButtons) {
+                          libraryProvider.viewGallery(context, shuffle: true);
+                          return;
+                        } else if (!librarySearchResults.showGalleryButtons && librarySearchResults.showPlayButtons) {
+                          libraryProvider.playLibraryItems(context, ref, shuffle: true);
+                          return;
+                        }
 
-                      await showLibraryPlayOptions(
-                        context,
-                        context.localized.libraryShuffleAndPlayItems,
-                        playVideos: librarySearchResults.showPlayButtons
-                            ? () => libraryProvider.playLibraryItems(context, ref, shuffle: true)
-                            : null,
-                        viewGallery: librarySearchResults.showGalleryButtons
-                            ? () => libraryProvider.viewGallery(context, shuffle: true)
-                            : null,
-                      );
-                    },
-                    icon: const Icon(IconsaxPlusLinear.shuffle),
-                  ),
-              ],
-            ),
-          ],
+                        await showLibraryPlayOptions(
+                          context,
+                          context.localized.libraryShuffleAndPlayItems,
+                          playVideos: librarySearchResults.showPlayButtons
+                              ? () => libraryProvider.playLibraryItems(context, ref, shuffle: true)
+                              : null,
+                          viewGallery: librarySearchResults.showGalleryButtons
+                              ? () => libraryProvider.viewGallery(context, shuffle: true)
+                              : null,
+                        );
+                      },
+                      icon: const Icon(IconsaxPlusLinear.shuffle),
+                    ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

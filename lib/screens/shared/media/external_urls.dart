@@ -6,7 +6,7 @@ import 'package:url_launcher/url_launcher.dart' as urilauncher;
 import 'package:url_launcher/url_launcher_string.dart';
 
 import 'package:fladder/models/items/item_shared_models.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/sticky_header_text.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 
 Future<void> showDialogAdaptive(
     {required BuildContext context, required Widget Function(BuildContext context) builder}) {

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -9,7 +7,7 @@ import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/settings/widgets/settings_label_divider.dart';
 import 'package:fladder/screens/shared/input_fields.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/enum_selection.dart';
 import 'package:fladder/widgets/shared/fladder_slider.dart';
@@ -33,9 +31,7 @@ List<Widget> buildClientSettingsVisual(
           String language = "Unknown";
           try {
             language = context.localized.nativeName;
-          } catch (e) {
-            log(e.toString());
-          }
+          } catch (_) {}
           return EnumBox(
             current: language,
             itemBuilder: (context) {

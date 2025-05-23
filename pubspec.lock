@@ -1194,6 +1194,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
+  overflow_view:
+    dependency: "direct main"
+    description:
+      name: overflow_view
+      sha256: e75e834cd93f7abe9d4edc371a17ee92373147b9e973fdc05373ec3d3f163075
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.0"
   package_config:
     dependency: transitive
     description:
@@ -1967,6 +1975,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.5.1"
+  value_layout_builder:
+    dependency: transitive
+    description:
+      name: value_layout_builder
+      sha256: c02511ea91ca5c643b514a33a38fa52536f74aa939ec367d02938b5ede6807fa
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.0"
   vector_graphics:
     dependency: transitive
     description:

@@ -1,10 +1,17 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
+import 'package:fladder/models/collection_types.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/images_models.dart';
+import 'package:fladder/widgets/navigation_scaffold/components/navigation_button.dart';
+import 'package:fladder/widgets/shared/item_actions.dart';
 
 class ViewModel {
   final String name;
@@ -97,6 +104,20 @@ class ViewModel {
   @override
   int get hashCode {
     return id.hashCode ^ serverId.hashCode;
+  }
+
+  NavigationButton toNavigationButton(bool selected, bool horizontal, bool expanded, FutureOr Function() action,
+      {List<ItemAction>? trailing}) {
+    return NavigationButton(
+      label: name,
+      selected: selected,
+      onPressed: action,
+      horizontal: horizontal,
+      expanded: expanded,
+      trailing: trailing ?? [],
+      selectedIcon: Icon(collectionType.icon),
+      icon: Icon(collectionType.iconOutlined),
+    );
   }
 
   @override

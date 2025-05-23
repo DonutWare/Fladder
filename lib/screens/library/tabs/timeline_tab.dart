@@ -4,7 +4,7 @@ import 'package:fladder/models/view_model.dart';
 import 'package:fladder/providers/library_provider.dart';
 import 'package:fladder/screens/photo_viewer/photo_viewer_screen.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/sticky_header_text.dart';
 import 'package:fladder/widgets/shared/pull_to_refresh.dart';

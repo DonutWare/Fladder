@@ -18,6 +18,29 @@ enum HomeTabs {
   favorites,
   sync,
   ;
+
+  const HomeTabs();
+
+  IconData get icon => switch (this) {
+        HomeTabs.dashboard => IconsaxPlusLinear.home_1,
+        HomeTabs.library => IconsaxPlusLinear.book,
+        HomeTabs.favorites => IconsaxPlusLinear.heart,
+        HomeTabs.sync => IconsaxPlusLinear.cloud,
+      };
+
+  IconData get selectedIcon => switch (this) {
+        HomeTabs.dashboard => IconsaxPlusBold.home_1,
+        HomeTabs.library => IconsaxPlusBold.book,
+        HomeTabs.favorites => IconsaxPlusBold.heart,
+        HomeTabs.sync => IconsaxPlusBold.cloud,
+      };
+
+  Future navigate(BuildContext context) => switch (this) {
+        HomeTabs.dashboard => context.router.navigate(const DashboardRoute()),
+        HomeTabs.library => context.router.navigate(const LibraryRoute()),
+        HomeTabs.favorites => context.router.navigate(const FavouritesRoute()),
+        HomeTabs.sync => context.router.navigate(SyncedRoute()),
+      };
 }
 
 @RoutePage()
@@ -33,10 +56,10 @@ class HomeScreen extends ConsumerWidget {
             case HomeTabs.dashboard:
               return DestinationModel(
                 label: context.localized.navigationDashboard,
-                icon: const Icon(IconsaxPlusLinear.home_1),
-                selectedIcon: const Icon(IconsaxPlusBold.home_1),
+                icon: Icon(e.icon),
+                selectedIcon: Icon(e.selectedIcon),
                 route: const DashboardRoute(),
-                action: () => context.router.navigate(const DashboardRoute()),
+                action: () => e.navigate(context),
                 floatingActionButton: AdaptiveFab(
                   context: context,
                   title: context.localized.search,
@@ -48,8 +71,8 @@ class HomeScreen extends ConsumerWidget {
             case HomeTabs.favorites:
               return DestinationModel(
                 label: context.localized.navigationFavorites,
-                icon: const Icon(IconsaxPlusLinear.heart),
-                selectedIcon: const Icon(IconsaxPlusBold.heart),
+                icon: Icon(e.icon),
+                selectedIcon: Icon(e.selectedIcon),
                 route: const FavouritesRoute(),
                 floatingActionButton: AdaptiveFab(
                   context: context,
@@ -58,25 +81,25 @@ class HomeScreen extends ConsumerWidget {
                   onPressed: () => context.router.navigate(LibrarySearchRoute(favourites: true)),
                   child: const Icon(IconsaxPlusLinear.heart_search),
                 ),
-                action: () => context.router.navigate(const FavouritesRoute()),
+                action: () => e.navigate(context),
               );
             case HomeTabs.sync:
               if (canDownload) {
                 return DestinationModel(
                   label: context.localized.navigationSync,
-                  icon: const Icon(IconsaxPlusLinear.cloud),
-                  selectedIcon: const Icon(IconsaxPlusBold.cloud),
+                  icon: Icon(e.icon),
+                  selectedIcon: Icon(e.selectedIcon),
                   route: SyncedRoute(),
-                  action: () => context.router.navigate(SyncedRoute()),
+                  action: () => e.navigate(context),
                 );
               }
             case HomeTabs.library:
               return DestinationModel(
                 label: context.localized.library(0),
-                icon: const Icon(IconsaxPlusLinear.book),
-                selectedIcon: const Icon(IconsaxPlusBold.book),
+                icon: Icon(e.icon),
+                selectedIcon: Icon(e.selectedIcon),
                 route: const LibraryRoute(),
-                action: () => context.router.navigate(const LibraryRoute()),
+                action: () => e.navigate(context),
               );
           }
         })

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:fladder/theme.dart';
+
 Future<void> showModalSideSheet(
   BuildContext context, {
   required Widget content,
@@ -30,13 +32,18 @@ Future<void> showModalSideSheet(
     pageBuilder: (context, animation1, animation2) {
       return Align(
         alignment: Alignment.centerRight,
-        child: Sheet(
-          header: header,
-          backButton: backButton,
-          closeButton: closeButton,
-          actions: actions,
-          content: content,
-          addDivider: addDivider,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0).copyWith(
+            top: MediaQuery.paddingOf(context).top,
+          ),
+          child: Sheet(
+            header: header,
+            backButton: backButton,
+            closeButton: closeButton,
+            actions: actions,
+            content: content,
+            addDivider: addDivider,
+          ),
         ),
       );
     },
@@ -67,14 +74,15 @@ class Sheet extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final padding = MediaQuery.paddingOf(context).copyWith(left: 0, top: 0);
 
     return Material(
       elevation: 1,
       color: colorScheme.surface,
       surfaceTintColor: colorScheme.onSurface,
-      borderRadius: const BorderRadius.horizontal(left: Radius.circular(20)),
+      borderRadius: FladderTheme.largeShape.borderRadius,
       child: Padding(
-        padding: MediaQuery.of(context).padding,
+        padding: padding,
         child: Container(
           constraints: BoxConstraints(
             minWidth: 256,

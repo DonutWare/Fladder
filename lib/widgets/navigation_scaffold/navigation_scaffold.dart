@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/settings/home_settings_model.dart';
-import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/providers/views_provider.dart';
 import 'package:fladder/routes/auto_router.dart';
 import 'package:fladder/screens/shared/nested_bottom_appbar.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/destination_model.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/fladder_app_bar.dart';
-import 'package:fladder/widgets/navigation_scaffold/components/floating_player_bar.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/navigation_body.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/navigation_drawer.dart';
 import 'package:fladder/widgets/shared/hide_on_scroll.dart';
@@ -51,10 +47,7 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
 
   @override
   Widget build(BuildContext context) {
-    final playerState = ref.watch(mediaPlaybackProvider.select((value) => value.state));
     final views = ref.watch(viewsProvider.select((value) => value.views));
-
-    final isHomeRoutes = homeRoutes.any((element) => element.name.contains(context.router.current.name));
 
     return PopScope(
       canPop: currentIndex == 0,
@@ -69,23 +62,6 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: false,
         extendBody: true,
-        floatingActionButtonAnimator:
-            playerState == VideoPlayerState.minimized ? FloatingActionButtonAnimator.noAnimation : null,
-        floatingActionButtonLocation:
-            playerState == VideoPlayerState.minimized ? FloatingActionButtonLocation.centerFloat : null,
-        floatingActionButton: AdaptiveLayout.layoutModeOf(context) == LayoutMode.single && isHomeRoutes
-            ? switch (playerState) {
-                VideoPlayerState.minimized => AdaptiveLayout.viewSizeOf(context) == ViewSize.phone
-                    ? const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8),
-                        child: FloatingPlayerBar(),
-                      )
-                    : null,
-                _ => currentIndex != -1
-                    ? widget.destinations.elementAtOrNull(currentIndex)?.floatingActionButton?.normal
-                    : null,
-              }
-            : null,
         drawer: NestedNavigationDrawer(
           actionButton: null,
           toggleExpanded: (value) => _key.currentState?.closeDrawer(),
@@ -106,7 +82,7 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
                       children: widget.destinations
                           .map(
                             (destination) => destination.toNavigationButton(
-                                widget.currentRouteName == destination.route?.routeName, false),
+                                widget.currentRouteName == destination.route?.routeName, false, false),
                           )
                           .toList(),
                     ),

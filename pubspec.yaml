@@ -123,6 +123,7 @@ dependencies:
   archive: ^4.0.2
   dart_mappable: ^4.3.0
   reorderable_grid: ^1.0.10
+  overflow_view: ^0.4.0
 
 dev_dependencies:
   flutter_test:

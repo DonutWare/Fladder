@@ -26,7 +26,7 @@ Future<void> showBottomSheetPill({
     builder: (context) {
       final controller = ScrollController();
       return Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 8).add(MediaQuery.paddingOf(context)),
         child: Card(
           shape: RoundedRectangleBorder(
             borderRadius: FladderTheme.largeShape.borderRadius,

@@ -123,7 +123,9 @@ class FladderTheme {
         iconColor: scheme?.onSecondaryContainer,
         surfaceTintColor: scheme?.onSecondaryContainer,
       ),
-      listTileTheme: ListTileThemeData(shape: defaultShape),
+      listTileTheme: ListTileThemeData(
+        shape: defaultShape,
+      ),
       elevatedButtonTheme: ElevatedButtonThemeData(style: ButtonStyle(shape: WidgetStatePropertyAll(defaultShape))),
       filledButtonTheme: FilledButtonThemeData(style: ButtonStyle(shape: WidgetStatePropertyAll(defaultShape))),
       outlinedButtonTheme: OutlinedButtonThemeData(style: ButtonStyle(shape: WidgetStatePropertyAll(defaultShape))),

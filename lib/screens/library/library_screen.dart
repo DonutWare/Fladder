@@ -8,6 +8,7 @@ import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
 import 'package:fladder/providers/views_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
+import 'package:fladder/screens/shared/nested_scaffold.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/widgets/shared/pull_to_refresh.dart';
 
@@ -28,8 +29,8 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
     final views = viewsState.views.whereNot((e) => e.collectionType == CollectionType.folders).toList();
     final spacing = 16.0;
 
-    return Card(
-      child: PullToRefresh(
+    return NestedScaffold(
+      body: PullToRefresh(
         refreshOnStart: true,
         onRefresh: () => ref.read(viewsProvider.notifier).fetchViews(),
         child: SizedBox.expand(
@@ -39,6 +40,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
               physics: const AlwaysScrollableScrollPhysics(),
               child: GridView.builder(
                 shrinkWrap: true,
+                physics: const AlwaysScrollableScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: (MediaQuery.sizeOf(context).width ~/ 350).clamp(1, 5),
                   mainAxisSpacing: spacing / 2,

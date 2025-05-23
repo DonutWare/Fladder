@@ -31,7 +31,7 @@ import 'package:fladder/routes/auto_router.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/login/lock_screen.dart';
 import 'package:fladder/theme.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/application_info.dart';
 import 'package:fladder/util/fladder_config.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -108,13 +108,7 @@ void main() async {
             ))
       ],
       child: AdaptiveLayoutBuilder(
-        fallBack: ViewSize.tablet,
-        layoutPoints: [
-          LayoutPoints(start: 0, end: 599, type: ViewSize.phone),
-          LayoutPoints(start: 600, end: 1919, type: ViewSize.tablet),
-          LayoutPoints(start: 1920, end: 3180, type: ViewSize.desktop),
-        ],
-        child: const Main(),
+        child: (context) => const Main(),
       ),
     ),
   );

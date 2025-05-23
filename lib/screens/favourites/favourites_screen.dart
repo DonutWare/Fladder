@@ -1,19 +1,21 @@
-import 'package:auto_route/auto_route.dart';
-import 'package:fladder/models/settings/home_settings_model.dart';
-import 'package:fladder/providers/settings/client_settings_provider.dart';
-import 'package:fladder/routes/auto_router.gr.dart';
-import 'package:fladder/screens/shared/nested_scaffold.dart';
-import 'package:fladder/screens/shared/nested_sliver_appbar.dart';
-import 'package:fladder/util/adaptive_layout.dart';
-import 'package:fladder/util/localization_helper.dart';
-import 'package:fladder/widgets/shared/pinch_poster_zoom.dart';
-import 'package:fladder/widgets/shared/poster_size_slider.dart';
 import 'package:flutter/material.dart';
+
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/favourites_provider.dart';
+import 'package:fladder/providers/settings/client_settings_provider.dart';
+import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/shared/media/poster_grid.dart';
+import 'package:fladder/screens/shared/media/poster_row.dart';
+import 'package:fladder/screens/shared/nested_scaffold.dart';
+import 'package:fladder/screens/shared/nested_sliver_appbar.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
+import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/sliver_list_padding.dart';
+import 'package:fladder/widgets/shared/pinch_poster_zoom.dart';
+import 'package:fladder/widgets/shared/poster_size_slider.dart';
 import 'package:fladder/widgets/shared/pull_to_refresh.dart';
 
 @RoutePage()
@@ -54,9 +56,8 @@ class FavouritesScreen extends ConsumerWidget {
                     (e) => SliverToBoxAdapter(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: PosterGrid(
-                          stickyHeader: true,
-                          name: e.key.label(context),
+                        child: PosterRow(
+                          label: e.key.label(context),
                           posters: e.value,
                         ),
                       ),
@@ -66,9 +67,8 @@ class FavouritesScreen extends ConsumerWidget {
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: PosterGrid(
-                      stickyHeader: true,
-                      name: "People",
+                    child: PosterRow(
+                      label: "People",
                       posters: favourites.people,
                     ),
                   ),

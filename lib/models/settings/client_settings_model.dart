@@ -33,7 +33,7 @@ class ClientSettingsModel with _$ClientSettingsModel {
     @Default(true) bool requireWifi,
     @Default(false) bool showAllCollectionTypes,
     @Default(2) int maxConcurrentDownloads,
-    @Default(DynamicSchemeVariant.tonalSpot) DynamicSchemeVariant schemeVariant,
+    @Default(DynamicSchemeVariant.rainbow) DynamicSchemeVariant schemeVariant,
     int? libraryPageSize,
   }) = _ClientSettingsModel;
 
