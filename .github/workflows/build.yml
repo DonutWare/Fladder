@@ -36,6 +36,9 @@ jobs:
           # Extract flutter_version from .fvmrc
           FLUTTER_VERSION=$(jq -r '.flutter' .fvmrc)
           echo "flutter_version=${FLUTTER_VERSION}" >> "$GITHUB_OUTPUT"
+
+          # Print flutter version for logging
+          echo "Flutter version: $FLUTTER_VERSION"
         shell: bash
 
   build-android:
@@ -84,10 +87,10 @@ jobs:
           check-latest: true
 
       - name: Set up Flutter
-        uses: subosito/flutter-action@v2.16.0
+        uses: subosito/flutter-action@v2.19.0
         with:
           channel: "stable"
-          flutter-version: ${{needs.fetch-info.outputs.flutter-version}}
+          flutter-version: ${{needs.fetch-info.outputs.flutter_version}}
           cache: true
           cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
           cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
@@ -121,10 +124,10 @@ jobs:
         uses: actions/checkout@v4.1.1
 
       - name: Set up Flutter
-        uses: subosito/flutter-action@v2.16.0
+        uses: subosito/flutter-action@v2.19.0
         with:
           channel: "stable"
-          flutter-version: ${{needs.fetch-info.outputs.flutter-version}}
+          flutter-version: ${{needs.fetch-info.outputs.flutter_version}}
           cache: true
           cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
           cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
@@ -164,10 +167,10 @@ jobs:
         uses: actions/checkout@v4.1.1
 
       - name: Set up Flutter
-        uses: subosito/flutter-action@v2.16.0
+        uses: subosito/flutter-action@v2.19.0
         with:
           channel: "stable"
-          flutter-version: ${{needs.fetch-info.outputs.flutter-version}}
+          flutter-version: ${{needs.fetch-info.outputs.flutter_version}}
           cache: true
           cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
           cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
@@ -200,10 +203,10 @@ jobs:
         uses: actions/checkout@v4.1.1
 
       - name: Set up Flutter
-        uses: subosito/flutter-action@v2.16.0
+        uses: subosito/flutter-action@v2.19.0
         with:
           channel: "stable"
-          flutter-version: ${{needs.fetch-info.outputs.flutter-version}}
+          flutter-version: ${{needs.fetch-info.outputs.flutter_version}}
           cache: true
           cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
           cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
@@ -237,10 +240,10 @@ jobs:
         uses: actions/checkout@v4.1.1
 
       - name: Set up Flutter
-        uses: subosito/flutter-action@v2.16.0
+        uses: subosito/flutter-action@v2.19.0
         with:
           channel: "stable"
-          flutter-version: ${{needs.fetch-info.outputs.flutter-version}}
+          flutter-version: ${{needs.fetch-info.outputs.flutter_version}}
           cache: true
           cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
           cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
@@ -330,10 +333,10 @@ jobs:
         uses: actions/checkout@v4.1.1
 
       - name: Set up Flutter
-        uses: subosito/flutter-action@v2.16.0
+        uses: subosito/flutter-action@v2.19.0
         with:
           channel: "stable"
-          flutter-version: ${{needs.fetch-info.outputs.flutter-version}}
+          flutter-version: ${{needs.fetch-info.outputs.flutter_version}}
           cache: true
           cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
           cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
