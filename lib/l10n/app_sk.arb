@@ -1,1 +1,36 @@
-{}
+{
+  "active": "Aktívne",
+  "@active": {},
+  "amoledBlack": "Amoled čierna",
+  "@amoledBlack": {},
+  "actor": "{count, plural, other{Herci} one{Herec/Herečka}}",
+  "@actor": {
+    "description": "actor",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "addAsFavorite": "Pridať ako obľúbené",
+  "@addAsFavorite": {},
+  "addToCollection": "Pridať do kolekcie",
+  "@addToCollection": {},
+  "addToPlaylist": "Pridať do playlistu",
+  "@addToPlaylist": {},
+  "advanced": "Pokročilé",
+  "@advanced": {},
+  "all": "Všetko",
+  "@all": {},
+  "appLockAutoLogin": "Automatické prihlásenie",
+  "@appLockAutoLogin": {},
+  "appLockBiometrics": "Biometrika",
+  "@appLockBiometrics": {},
+  "appLockPasscode": "Prístupový kód",
+  "@appLockPasscode": {},
+  "accept": "Prijať",
+  "@accept": {},
+  "about": "O appke",
+  "@about": {}
+}
