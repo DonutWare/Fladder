@@ -1284,8 +1284,22 @@
       }
     }
   },
-  "settingsPlayerBufferSizeTitle": "حجم ذاكرة التخزين المؤقت للفيديو",
+  "settingsPlayerBufferSizeTitle": "حجم التخزين المؤقت للفيديو",
   "@settingsPlayerBufferSizeTitle": {},
   "settingsPlayerBufferSizeDesc": "قم بتهيئة حجم ذاكرة التخزين المؤقت لتشغيل الفيديو، مما يحدد كمية البيانات التي يتم تحميلها في الذاكرة المؤقتة.",
-  "@settingsPlayerBufferSizeDesc": {}
+  "@settingsPlayerBufferSizeDesc": {},
+  "maxConcurrentDownloadsTitle": "الحد الأقصى للتنزيلات المتزامنة",
+  "@maxConcurrentDownloadsTitle": {},
+  "maxConcurrentDownloadsDesc": "يحدد العدد الأقصى للتنزيلات التي يمكن أن تتم في نفس الوقت. اضبطه على 0 لتعطيل الحد.",
+  "@maxConcurrentDownloadsDesc": {},
+  "playbackTrackSelection": "اختيار مسار التشغيل",
+  "@playbackTrackSelection": {},
+  "rememberSubtitleSelections": "تذكر اختيارات الترجمة بناءً على العنصر السابق",
+  "@rememberSubtitleSelections": {},
+  "rememberAudioSelections": "تذكر اختيارات الصوت بناءً على العنصر السابق",
+  "@rememberAudioSelections": {},
+  "rememberAudioSelectionsDesc": "حاول ضبط مسار الصوت ليكون الأقرب تطابقاً مع الفيديو الأخير.",
+  "@rememberAudioSelectionsDesc": {},
+  "rememberSubtitleSelectionsDesc": "حاول ضبط مسار الترجمة ليكون الأقرب تطابقاً مع الفيديو الأخير.",
+  "@rememberSubtitleSelectionsDesc": {}
 }
