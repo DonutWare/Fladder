@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 
 class DefautlSliverBottomPadding extends StatelessWidget {

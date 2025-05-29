@@ -13,7 +13,6 @@ import 'package:screen_brightness/screen_brightness.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
-import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';

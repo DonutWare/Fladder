@@ -6,7 +6,6 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/images_models.dart';
-import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/screens/home_screen.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';

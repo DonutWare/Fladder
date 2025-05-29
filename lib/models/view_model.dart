@@ -106,8 +106,13 @@ class ViewModel {
     return id.hashCode ^ serverId.hashCode;
   }
 
-  NavigationButton toNavigationButton(bool selected, bool horizontal, bool expanded, FutureOr Function() action,
-      {List<ItemAction>? trailing}) {
+  NavigationButton toNavigationButton(
+    bool selected,
+    bool horizontal,
+    bool expanded,
+    FutureOr Function() action, {
+    List<ItemAction>? trailing,
+  }) {
     return NavigationButton(
       label: name,
       selected: selected,

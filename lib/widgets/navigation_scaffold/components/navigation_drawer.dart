@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/collection_types.dart';
-import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/models/view_model.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/metadata/refresh_metadata.dart';

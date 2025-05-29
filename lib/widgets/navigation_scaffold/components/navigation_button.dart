@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/widget_extensions.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 
@@ -61,11 +62,9 @@ class _NavigationButtonState extends ConsumerState<NavigationButton> {
         onPressed: widget.onPressed,
         child: widget.horizontal
             ? Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: widget.expanded ? 40 : 0,
-                  ),
+                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                child: SizedBox(
+                  height: 35,
                   child: Row(
                     spacing: 8,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -107,8 +106,9 @@ class _NavigationButtonState extends ConsumerState<NavigationButton> {
                             duration: const Duration(milliseconds: 125),
                             opacity: showPopupButton ? 1 : 0,
                             child: PopupMenuButton(
-                              tooltip: "Options",
+                              tooltip: context.localized.options,
                               iconColor: foreGroundColor,
+                              iconSize: 18,
                               itemBuilder: (context) => widget.trailing.popupMenuItems(useIcons: true),
                             ),
                           )

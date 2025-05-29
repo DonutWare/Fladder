@@ -12,7 +12,6 @@ import 'package:fladder/models/items/photos_model.dart';
 import 'package:fladder/models/library_search/library_search_model.dart';
 import 'package:fladder/models/library_search/library_search_options.dart';
 import 'package:fladder/models/playlist_model.dart';
-import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/library_search_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/screens/collections/add_to_collection.dart';

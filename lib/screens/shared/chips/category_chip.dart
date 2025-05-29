@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
-import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/views_provider.dart';
 import 'package:fladder/routes/auto_router.dart';
 import 'package:fladder/screens/shared/nested_bottom_appbar.dart';

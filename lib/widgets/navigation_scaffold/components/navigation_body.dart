@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -7,7 +5,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/media_playback_model.dart';
-import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/providers/views_provider.dart';
@@ -50,14 +47,6 @@ class _NavigationBodyState extends ConsumerState<NavigationBody> {
     });
   }
 
-  void setWidth(double value) {
-    // if (currentSideBarWidth != value) {
-    //   setState(() {
-    //     currentSideBarWidth = value;
-    //   });
-    // }
-  }
-
   @override
   Widget build(BuildContext context) {
     final hasOverlay = AdaptiveLayout.layoutModeOf(context) == LayoutMode.dual ||
@@ -83,7 +72,21 @@ class _NavigationBodyState extends ConsumerState<NavigationBody> {
               context: widget.parentContext,
               child: widget.child,
             ),
-          ViewSize.tablet || ViewSize.desktop => SideNavigationBar(
+          ViewSize.tablet => hasOverlay
+              ? SideNavigationBar(
+                  currentIndex: widget.currentIndex,
+                  destinations: widget.destinations,
+                  currentLocation: widget.currentLocation,
+                  child: MediaQuery(
+                    data: semiNestedPadding(context, hasOverlay),
+                    child: widget.child,
+                  ),
+                )
+              : MediaQuery(
+                  data: semiNestedPadding(context, hasOverlay),
+                  child: widget.child,
+                ),
+          ViewSize.desktop => SideNavigationBar(
               currentIndex: widget.currentIndex,
               destinations: widget.destinations,
               currentLocation: widget.currentLocation,

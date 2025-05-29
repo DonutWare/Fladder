@@ -81,4 +81,13 @@ class AdaptiveLayoutModel {
       sideBarWidth: sideBarWidth ?? this.sideBarWidth,
     );
   }
+
+  @override
+  bool operator ==(covariant AdaptiveLayoutModel other) {
+    if (identical(this, other)) return true;
+    return other.viewSize == viewSize && other.layoutMode == layoutMode && other.sideBarWidth == sideBarWidth;
+  }
+
+  @override
+  int get hashCode => viewSize.hashCode ^ layoutMode.hashCode ^ sideBarWidth.hashCode;
 }

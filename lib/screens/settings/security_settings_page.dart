@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/settings/settings_scaffold.dart';

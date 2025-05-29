@@ -81,152 +81,146 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
           alignment: Alignment.topLeft,
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 250),
+            color: Theme.of(context).colorScheme.surface.withValues(alpha: shouldExpand ? 0.95 : 0.75),
             width: shouldExpand ? expandedWidth : collapsedWidth,
             child: MouseRegion(
               onEnter: (value) => startTimer(),
               onExit: (event) => stopTimer(),
               child: Padding(
                 padding: EdgeInsets.only(left: MediaQuery.paddingOf(context).left),
-                child: Container(
-                  color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.90),
-                  child: IntrinsicWidth(
-                    stepWidth: 12,
-                    child: Column(
-                      children: [
-                        if (AdaptiveLayout.of(context).isDesktop &&
-                            AdaptiveLayout.of(context).platform != TargetPlatform.macOS) ...{
-                          const SizedBox(height: 4),
-                          Text(
-                            "Fladder",
-                            style: Theme.of(context).textTheme.titleSmall,
-                          ),
-                        },
-                        if (AdaptiveLayout.of(context).platform == TargetPlatform.macOS)
-                          SizedBox(height: MediaQuery.of(context).padding.top),
-                        Expanded(
-                          child: Padding(
-                            key: const Key('navigation_rail'),
-                            padding: MediaQuery.paddingOf(context)
-                                .copyWith(right: 0, top: AdaptiveLayout.of(context).isDesktop ? 8 : null),
-                            child: Column(
-                              children: [
-                                IconButton(
-                                  onPressed: () => setState(() {
-                                    expandedSideBar = !expandedSideBar;
-                                    if (!expandedSideBar) {
-                                      showOnHover = false;
-                                    }
-                                  }),
-                                  icon: const Icon(IconsaxPlusBold.menu),
+                child: IntrinsicWidth(
+                  stepWidth: 12,
+                  child: Column(
+                    children: [
+                      if (AdaptiveLayout.of(context).isDesktop &&
+                          AdaptiveLayout.of(context).platform != TargetPlatform.macOS) ...{
+                        const SizedBox(height: 4),
+                        Text(
+                          "Fladder",
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
+                      },
+                      if (AdaptiveLayout.of(context).platform == TargetPlatform.macOS)
+                        SizedBox(height: MediaQuery.of(context).padding.top),
+                      Expanded(
+                        child: Padding(
+                          key: const Key('navigation_rail'),
+                          padding: MediaQuery.paddingOf(context)
+                              .copyWith(right: 0, top: AdaptiveLayout.of(context).isDesktop ? 8 : null),
+                          child: Column(
+                            spacing: 2,
+                            children: [
+                              IconButton(
+                                onPressed: () => setState(() {
+                                  expandedSideBar = !expandedSideBar;
+                                  if (!expandedSideBar) {
+                                    showOnHover = false;
+                                  }
+                                }),
+                                icon: const Icon(IconsaxPlusBold.menu),
+                              ),
+                              const SizedBox(height: 8),
+                              AnimatedFadeSize(
+                                child: AnimatedSwitcher(
+                                  duration: const Duration(milliseconds: 250),
+                                  transitionBuilder: (Widget child, Animation<double> animation) {
+                                    return ScaleTransition(scale: animation, child: child);
+                                  },
+                                  child: shouldExpand ? actionButton(context).extended : actionButton(context).normal,
                                 ),
-                                const SizedBox(height: 8),
-                                AnimatedFadeSize(
-                                  child: AnimatedSwitcher(
-                                    duration: const Duration(milliseconds: 250),
-                                    transitionBuilder: (Widget child, Animation<double> animation) {
-                                      return ScaleTransition(scale: animation, child: child);
-                                    },
-                                    child: shouldExpand ? actionButton(context).extended : actionButton(context).normal,
-                                  ),
-                                ),
-                                if (AdaptiveLayout.viewSizeOf(context) > ViewSize.tablet)
-                                  const Divider(
-                                    indent: 16,
-                                    endIndent: 16,
-                                  ),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      ...widget.destinations.mapIndexed(
-                                        (index, destination) => destination.toNavigationButton(
-                                            widget.currentIndex == index, true, shouldExpand),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  spacing: 2,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    ...widget.destinations.mapIndexed(
+                                      (index, destination) => destination.toNavigationButton(
+                                          widget.currentIndex == index, true, shouldExpand),
+                                    ),
+                                    if (views.isNotEmpty) ...[
+                                      const Divider(
+                                        indent: 16,
+                                        endIndent: 16,
                                       ),
-                                      if (views.isNotEmpty && AdaptiveLayout.viewSizeOf(context) > ViewSize.tablet) ...[
-                                        const Divider(
-                                          indent: 16,
-                                          endIndent: 16,
-                                        ),
-                                        Expanded(
-                                          child: OverflowView.flexible(
-                                            direction: Axis.vertical,
-                                            spacing: 4,
-                                            children: views
-                                                .map(
-                                                  (view) => view.toNavigationButton(
-                                                    context.router.currentUrl.contains(view.id),
-                                                    true,
-                                                    shouldExpand,
-                                                    () => context.pushRoute(LibrarySearchRoute(viewModelId: view.id)),
-                                                    trailing: [
-                                                      ItemActionButton(
-                                                        label: Text(context.localized.scanLibrary),
-                                                        icon: const Icon(IconsaxPlusLinear.refresh),
-                                                        action: () => showRefreshPopup(context, view.id, view.name),
-                                                      )
-                                                    ],
-                                                  ),
-                                                )
-                                                .toList(),
-                                            builder: (context, remaining) {
-                                              return PopupMenuButton(
-                                                iconColor:
-                                                    Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.45),
-                                                padding: EdgeInsets.zero,
-                                                icon: NavigationButton(
-                                                  label: context.localized.other,
-                                                  selectedIcon: const Icon(IconsaxPlusLinear.arrow_square_down),
-                                                  icon: const Icon(IconsaxPlusLinear.arrow_square_down),
-                                                  expanded: shouldExpand,
-                                                  horizontal: true,
-                                                ),
-                                                itemBuilder: (context) => views
-                                                    .sublist(views.length - remaining)
-                                                    .map(
-                                                      (e) => PopupMenuItem(
-                                                        onTap: () =>
-                                                            context.pushRoute(LibrarySearchRoute(viewModelId: e.id)),
-                                                        child: Row(
-                                                          spacing: 8,
-                                                          children: [
-                                                            Icon(e.collectionType.iconOutlined),
-                                                            Text(e.name),
-                                                          ],
-                                                        ),
-                                                      ),
+                                      Flexible(
+                                        child: OverflowView.flexible(
+                                          direction: Axis.vertical,
+                                          spacing: 4,
+                                          children: views
+                                              .map(
+                                                (view) => view.toNavigationButton(
+                                                  context.router.currentUrl.contains(view.id),
+                                                  true,
+                                                  shouldExpand,
+                                                  () => context.pushRoute(LibrarySearchRoute(viewModelId: view.id)),
+                                                  trailing: [
+                                                    ItemActionButton(
+                                                      label: Text(context.localized.scanLibrary),
+                                                      icon: const Icon(IconsaxPlusLinear.refresh),
+                                                      action: () => showRefreshPopup(context, view.id, view.name),
                                                     )
-                                                    .toList(),
-                                              );
-                                            },
-                                          ),
+                                                  ],
+                                                ),
+                                              )
+                                              .toList(),
+                                          builder: (context, remaining) {
+                                            return PopupMenuButton(
+                                              iconColor:
+                                                  Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.45),
+                                              padding: EdgeInsets.zero,
+                                              icon: NavigationButton(
+                                                label: context.localized.other,
+                                                selectedIcon: const Icon(IconsaxPlusLinear.arrow_square_down),
+                                                icon: const Icon(IconsaxPlusLinear.arrow_square_down),
+                                                expanded: shouldExpand,
+                                                horizontal: true,
+                                              ),
+                                              itemBuilder: (context) => views
+                                                  .sublist(views.length - remaining)
+                                                  .map(
+                                                    (e) => PopupMenuItem(
+                                                      onTap: () =>
+                                                          context.pushRoute(LibrarySearchRoute(viewModelId: e.id)),
+                                                      child: Row(
+                                                        spacing: 8,
+                                                        children: [
+                                                          Icon(e.collectionType.iconOutlined),
+                                                          Text(e.name),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  )
+                                                  .toList(),
+                                            );
+                                          },
                                         ),
-                                      ],
+                                      ),
                                     ],
-                                  ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                              NavigationButton(
+                                label: "Settings",
+                                selected: widget.currentLocation.contains(const SettingsRoute().routeName),
+                                selectedIcon: const Icon(IconsaxPlusBold.setting_3),
+                                horizontal: true,
+                                expanded: shouldExpand,
+                                icon: const SizedBox(height: 32, child: SettingsUserIcon()),
+                                onPressed: () {
+                                  if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.single) {
+                                    context.router.push(const SettingsRoute());
+                                  } else {
+                                    context.router.push(const ClientSettingsRoute());
+                                  }
+                                },
+                              ),
+                            ],
                           ),
                         ),
-                        SizedBox(
-                          height: 48,
-                          child: AnimatedSwitcher(
-                              duration: const Duration(milliseconds: 250),
-                              child: widget.currentLocation.contains(const SettingsRoute().routeName)
-                                  ? Card(
-                                      color: Theme.of(context).colorScheme.primaryContainer,
-                                      child: const Padding(
-                                        padding: EdgeInsets.all(10),
-                                        child: Icon(IconsaxPlusBold.setting_3),
-                                      ),
-                                    )
-                                  : SettingsUserIcon(
-                                      expanded: shouldExpand,
-                                    )),
-                        ),
-                        if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer) const SizedBox(height: 16),
-                      ],
-                    ),
+                      ),
+                      if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer) const SizedBox(height: 16),
+                    ],
                   ),
                 ),
               ),

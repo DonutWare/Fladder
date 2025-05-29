@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/series_model.dart';
-import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/items/series_details_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/details_screens/components/overview_header.dart';

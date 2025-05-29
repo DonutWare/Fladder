@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/shared/user_icon.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
@@ -33,87 +32,82 @@ class SettingsScaffold extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final padding = MediaQuery.of(context).padding;
     final singleLayout = AdaptiveLayout.layoutModeOf(context) == LayoutMode.single;
-    return Padding(
-      padding: EdgeInsets.only(
-        left: AdaptiveLayout.layoutModeOf(context) == LayoutMode.dual ? 0 : AdaptiveLayout.of(context).sideBarWidth,
-      ),
-      child: Scaffold(
-        backgroundColor: AdaptiveLayout.layoutModeOf(context) == LayoutMode.dual ? Colors.transparent : null,
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: floatingActionButton,
-        body: Column(
-          children: [
-            Flexible(
-              child: CustomScrollView(
-                controller: scrollController,
-                slivers: [
-                  if (singleLayout)
-                    SliverAppBar.large(
-                      leading: BackButton(
-                        onPressed: () => backAction(context),
-                      ),
-                      flexibleSpace: FlexibleSpaceBar(
-                        titlePadding: const EdgeInsets.symmetric(horizontal: 16)
-                            .add(EdgeInsets.only(left: padding.left, right: padding.right, bottom: 4)),
-                        title: Row(
-                          children: [
-                            Text(label, style: Theme.of(context).textTheme.headlineLarge),
-                            const Spacer(),
-                            if (showUserIcon)
-                              SizedBox.fromSize(
-                                size: const Size.fromRadius(14),
-                                child: UserIcon(
-                                  user: ref.watch(userProvider),
-                                  cornerRadius: 200,
-                                ),
-                              )
-                          ],
-                        ),
-                        expandedTitleScale: 1.2,
-                      ),
-                      expandedHeight: 100,
-                      collapsedHeight: 80,
-                      pinned: false,
-                      floating: true,
-                    )
-                  else
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: MediaQuery.paddingOf(context),
-                        child: Row(
-                          children: [
-                            if (showBackButtonNested)
-                              BackButton(
-                                onPressed: () => backAction(context),
-                              )
-                          ],
-                        ),
-                      ),
+    return Scaffold(
+      backgroundColor: AdaptiveLayout.layoutModeOf(context) == LayoutMode.dual ? Colors.transparent : null,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: floatingActionButton,
+      body: Column(
+        children: [
+          Flexible(
+            child: CustomScrollView(
+              controller: scrollController,
+              slivers: [
+                if (singleLayout)
+                  SliverAppBar.large(
+                    leading: BackButton(
+                      onPressed: () => backAction(context),
                     ),
-                  SliverPadding(
-                    padding: MediaQuery.paddingOf(context).copyWith(top: AdaptiveLayout.of(context).isDesktop ? 0 : 8),
-                    sliver: SliverList(
-                      delegate: SliverChildListDelegate(items),
+                    flexibleSpace: FlexibleSpaceBar(
+                      titlePadding: const EdgeInsets.symmetric(horizontal: 16)
+                          .add(EdgeInsets.only(left: padding.left, right: padding.right, bottom: 4)),
+                      title: Row(
+                        children: [
+                          Text(label, style: Theme.of(context).textTheme.headlineLarge),
+                          const Spacer(),
+                          if (showUserIcon)
+                            SizedBox.fromSize(
+                              size: const Size.fromRadius(14),
+                              child: UserIcon(
+                                user: ref.watch(userProvider),
+                                cornerRadius: 200,
+                              ),
+                            )
+                        ],
+                      ),
+                      expandedTitleScale: 1.2,
+                    ),
+                    expandedHeight: 100,
+                    collapsedHeight: 80,
+                    pinned: false,
+                    floating: true,
+                  )
+                else
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: MediaQuery.paddingOf(context),
+                      child: Row(
+                        children: [
+                          if (showBackButtonNested)
+                            BackButton(
+                              onPressed: () => backAction(context),
+                            )
+                        ],
+                      ),
                     ),
                   ),
-                  if (bottomActions.isEmpty)
-                    const SliverToBoxAdapter(child: SizedBox(height: kBottomNavigationBarHeight + 40)),
-                ],
+                SliverPadding(
+                  padding: MediaQuery.paddingOf(context).copyWith(top: AdaptiveLayout.of(context).isDesktop ? 0 : 8),
+                  sliver: SliverList(
+                    delegate: SliverChildListDelegate(items),
+                  ),
+                ),
+                if (bottomActions.isEmpty)
+                  const SliverToBoxAdapter(child: SizedBox(height: kBottomNavigationBarHeight + 40)),
+              ],
+            ),
+          ),
+          if (bottomActions.isNotEmpty) ...{
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32)
+                  .add(EdgeInsets.only(left: padding.left, right: padding.right)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: bottomActions,
               ),
             ),
-            if (bottomActions.isNotEmpty) ...{
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32)
-                    .add(EdgeInsets.only(left: padding.left, right: padding.right)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: bottomActions,
-                ),
-              ),
-              const SizedBox(height: kBottomNavigationBarHeight + 40),
-            },
-          ],
-        ),
+            const SizedBox(height: kBottomNavigationBarHeight + 40),
+          },
+        ],
       ),
     );
   }

@@ -1,5 +1,4 @@
 import 'package:fladder/models/items/photos_model.dart';
-import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/models/view_model.dart';
 import 'package:fladder/providers/library_provider.dart';
 import 'package:fladder/screens/photo_viewer/photo_viewer_screen.dart';

@@ -64,26 +64,26 @@ final AutoRoute _dashboardRoute = CustomRoute(
   page: DashboardRoute.page,
   transitionsBuilder: TransitionsBuilders.fadeIn,
   initial: true,
-  maintainState: true,
+  maintainState: false,
   path: 'dashboard',
 );
 final AutoRoute _favouritesRoute = CustomRoute(
   page: FavouritesRoute.page,
   transitionsBuilder: TransitionsBuilders.fadeIn,
-  maintainState: true,
+  maintainState: false,
   path: 'favourites',
 );
 final AutoRoute _syncedRoute = CustomRoute(
   page: SyncedRoute.page,
   transitionsBuilder: TransitionsBuilders.fadeIn,
-  maintainState: true,
+  maintainState: false,
   path: 'synced',
 );
 
 final AutoRoute _librariesRoute = CustomRoute(
   page: LibraryRoute.page,
   transitionsBuilder: TransitionsBuilders.fadeIn,
-  maintainState: true,
+  maintainState: false,
   path: 'libraries',
 );
 

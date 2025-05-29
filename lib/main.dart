@@ -19,7 +19,6 @@ import 'package:universal_html/html.dart' as html;
 import 'package:window_manager/window_manager.dart';
 
 import 'package:fladder/models/account_model.dart';
-import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/models/syncing/i_synced_item.dart';
 import 'package:fladder/providers/crash_log_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';

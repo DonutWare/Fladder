@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';

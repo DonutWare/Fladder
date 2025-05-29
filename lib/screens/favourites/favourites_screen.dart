@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/favourites_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
-import 'package:fladder/screens/shared/media/poster_grid.dart';
 import 'package:fladder/screens/shared/media/poster_row.dart';
 import 'package:fladder/screens/shared/nested_scaffold.dart';
 import 'package:fladder/screens/shared/nested_sliver_appbar.dart';
