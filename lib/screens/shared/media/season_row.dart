@@ -124,11 +124,11 @@ class SeasonPoster extends ConsumerWidget {
                   LayoutBuilder(
                     builder: (context, constraints) {
                       return FlatButton(
-                        onSecondaryTapDown: (details) {
+                        onSecondaryTapDown: (details) async {
                           Offset localPosition = details.globalPosition;
                           RelativeRect position = RelativeRect.fromLTRB(
-                              localPosition.dx - 260, localPosition.dy, localPosition.dx, localPosition.dy);
-                          showMenu(
+                              localPosition.dx, localPosition.dy, localPosition.dx, localPosition.dy);
+                          await showMenu(
                               context: context,
                               position: position,
                               items: season.generateActions(context, ref).popupMenuItems(useIcons: true));

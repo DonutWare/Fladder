@@ -357,7 +357,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                                           onTapUp: (details) async {
                                             if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer) {
                                               double left = details.globalPosition.dx;
-                                              double top = details.globalPosition.dy + 20;
+                                              double top = details.globalPosition.dy;
                                               await showMenu(
                                                 context: context,
                                                 position: RelativeRect.fromLTRB(left, top, 40, 100),
@@ -459,7 +459,6 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                                               ),
                                             ),
                                           ),
-                                          const Row(),
                                         ],
                                       ),
                                     ),
@@ -487,7 +486,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                                   ),
                                 )
                               else
-                                SliverToBoxAdapter(
+                                SliverFillRemaining(
                                   child: Center(
                                     child: Text(context.localized.noItemsToShow),
                                   ),
@@ -650,6 +649,7 @@ class _LibrarySearchBottomBar extends ConsumerWidget {
         icon: const Icon(IconsaxPlusLinear.save_add),
       ),
     ];
+
     return Padding(
       padding: EdgeInsets.only(left: MediaQuery.paddingOf(context).left),
       child: NestedBottomAppBar(

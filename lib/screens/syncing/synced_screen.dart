@@ -73,23 +73,20 @@ class _SyncedScreenState extends ConsumerState<SyncedScreen> {
                   ),
                 ),
               ] else ...[
-                SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: MediaQuery.sizeOf(context).height / 1.3,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          context.localized.noItemsSynced,
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                        const SizedBox(width: 16),
-                        const Icon(
-                          IconsaxPlusLinear.cloud_cross,
-                        )
-                      ],
-                    ),
+                SliverFillRemaining(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        context.localized.noItemsSynced,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(width: 16),
+                      const Icon(
+                        IconsaxPlusLinear.cloud_cross,
+                      )
+                    ],
                   ),
                 )
               ],

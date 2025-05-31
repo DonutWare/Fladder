@@ -241,12 +241,13 @@ class EpisodePoster extends ConsumerWidget {
                   LayoutBuilder(
                     builder: (context, constraints) {
                       return FlatButton(
-                        onSecondaryTapDown: (details) {
+                        onSecondaryTapDown: (details) async {
                           Offset localPosition = details.globalPosition;
                           RelativeRect position = RelativeRect.fromLTRB(
-                              localPosition.dx - 260, localPosition.dy, localPosition.dx, localPosition.dy);
+                              localPosition.dx, localPosition.dy, localPosition.dx, localPosition.dy);
 
-                          showMenu(context: context, position: position, items: actions.popupMenuItems(useIcons: true));
+                          await showMenu(
+                              context: context, position: position, items: actions.popupMenuItems(useIcons: true));
                         },
                         onTap: onTap,
                         onLongPress: onLongPress,

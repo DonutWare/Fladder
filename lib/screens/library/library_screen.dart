@@ -23,7 +23,6 @@ import 'package:fladder/widgets/navigation_scaffold/components/background_image.
 import 'package:fladder/widgets/shared/button_group.dart';
 import 'package:fladder/widgets/shared/horizontal_list.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
-import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 import 'package:fladder/widgets/shared/pull_to_refresh.dart';
 
 @RoutePage()
@@ -93,13 +92,10 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
                         children: [
-                          Hero(
-                            tag: "PrimarySearch",
-                            child: FilledButton.tonalIcon(
-                              onPressed: () => context.pushRoute(LibrarySearchRoute(viewModelId: selectedView.id)),
-                              label: Text("${context.localized.search} ${selectedView.name}..."),
-                              icon: const Icon(IconsaxPlusLinear.search_normal),
-                            ),
+                          FilledButton.tonalIcon(
+                            onPressed: () => context.pushRoute(LibrarySearchRoute(viewModelId: selectedView.id)),
+                            label: Text("${context.localized.search} ${selectedView.name}..."),
+                            icon: const Icon(IconsaxPlusLinear.search_normal),
                           ),
                           const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 4.0),
@@ -136,7 +132,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
                   ),
                 ),
               if (viewTypes.isEmpty)
-                SliverToBoxAdapter(
+                SliverFillRemaining(
                   child: Center(child: Text(context.localized.noResults)),
                 ),
               if (viewTypes.contains(LibraryViewType.recommended)) ...[
@@ -233,14 +229,7 @@ class LibraryRow extends ConsumerWidget {
         ];
         return FlatButton(
           onTap: isSelected ? null : () => onSelected?.call(view),
-          onLongPress: () => showBottomSheetPill(
-            context: context,
-            content: (context, scrollController) => ListView(
-              shrinkWrap: true,
-              controller: scrollController,
-              children: viewActions.listTileItems(context, useIcons: true),
-            ),
-          ),
+          onLongPress: () => context.pushRoute(LibrarySearchRoute(viewModelId: view.id)),
           onSecondaryTapDown: (details) async {
             Offset localPosition = details.globalPosition;
             RelativeRect position =

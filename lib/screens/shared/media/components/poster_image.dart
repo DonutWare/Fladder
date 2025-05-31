@@ -225,7 +225,7 @@ class _PosterImageState extends ConsumerState<PosterImage> {
                           onSecondaryTapDown: (details) async {
                             Offset localPosition = details.globalPosition;
                             RelativeRect position = RelativeRect.fromLTRB(
-                                localPosition.dx - 320, localPosition.dy, localPosition.dx, localPosition.dy);
+                                localPosition.dx, localPosition.dy, localPosition.dx, localPosition.dy);
                             await showMenu(
                               context: context,
                               position: position,

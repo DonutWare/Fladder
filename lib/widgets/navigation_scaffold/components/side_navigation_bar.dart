@@ -72,173 +72,169 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
     final padding = MediaQuery.paddingOf(context);
 
     final collapsedWidth = 90.0 + padding.left;
-    return LayoutBuilder(builder: (context, constraints) {
-      final largeBar = constraints.maxHeight > 650;
-      final fullyExpanded = largeBar ? expandedSideBar : false;
-      final shouldExpand = showOnHover || fullyExpanded;
-
-      return Stack(
-        children: [
-          AdaptiveLayoutBuilder(
-            adaptiveLayout: AdaptiveLayout.of(context).copyWith(
-              sideBarWidth: fullyExpanded ? expandedWidth : collapsedWidth,
-            ),
-            child: (context) => widget.child,
+    final largeBar = AdaptiveLayout.layoutModeOf(context) != LayoutMode.single;
+    final fullyExpanded = largeBar ? expandedSideBar : false;
+    final shouldExpand = showOnHover || fullyExpanded;
+    return Stack(
+      children: [
+        AdaptiveLayoutBuilder(
+          adaptiveLayout: AdaptiveLayout.of(context).copyWith(
+            sideBarWidth: fullyExpanded ? expandedWidth : collapsedWidth,
           ),
-          AnimatedFadeSize(
-            alignment: Alignment.topLeft,
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 250),
-              color: Theme.of(context).colorScheme.surface.withValues(alpha: shouldExpand ? 0.95 : 0.85),
-              width: shouldExpand ? expandedWidth : collapsedWidth,
-              child: MouseRegion(
-                onEnter: (value) => startTimer(),
-                onExit: (event) => stopTimer(),
-                child: Column(
-                  children: [
-                    if (AdaptiveLayout.of(context).isDesktop &&
-                        AdaptiveLayout.of(context).platform != TargetPlatform.macOS) ...{
-                      const SizedBox(height: 4),
-                      Text(
-                        "Fladder",
-                        style: Theme.of(context).textTheme.titleSmall,
-                      ),
-                    },
-                    if (AdaptiveLayout.of(context).platform == TargetPlatform.macOS) SizedBox(height: padding.top),
-                    Expanded(
-                      child: Padding(
-                        key: const Key('navigation_rail'),
-                        padding: padding.copyWith(right: 0, top: AdaptiveLayout.of(context).isDesktop ? 8 : null),
-                        child: Column(
-                          spacing: 2,
-                          children: [
-                            Builder(builder: (context) {
-                              return IconButton(
-                                onPressed: !largeBar
-                                    ? () => widget.scaffoldKey.currentState?.openDrawer()
-                                    : () => setState(() {
-                                          expandedSideBar = !expandedSideBar;
-                                          if (!expandedSideBar) {
-                                            showOnHover = false;
-                                          }
-                                        }),
-                                icon: const Icon(IconsaxPlusBold.menu),
-                              );
-                            }),
-                            const SizedBox(height: 8),
-                            if (AdaptiveLayout.viewSizeOf(context) > ViewSize.phone) ...[
-                              AnimatedFadeSize(
-                                duration: const Duration(milliseconds: 250),
-                                child: shouldExpand ? actionButton(context).extended : actionButton(context).normal,
-                              ),
-                            ],
-                            Expanded(
-                              child: Column(
-                                spacing: 2,
-                                mainAxisAlignment: !largeBar ? MainAxisAlignment.center : MainAxisAlignment.start,
-                                children: [
-                                  ...widget.destinations.mapIndexed(
-                                    (index, destination) => destination.toNavigationButton(
-                                        widget.currentIndex == index, true, shouldExpand),
-                                  ),
-                                  if (views.isNotEmpty && largeBar) ...[
-                                    const Divider(
-                                      indent: 32,
-                                      endIndent: 32,
-                                    ),
-                                    Flexible(
-                                      child: OverflowView.flexible(
-                                        direction: Axis.vertical,
-                                        spacing: 4,
-                                        children: views.map(
-                                          (view) {
-                                            final actions = [
-                                              ItemActionButton(
-                                                label: Text(context.localized.scanLibrary),
-                                                icon: const Icon(IconsaxPlusLinear.refresh),
-                                                action: () => showRefreshPopup(context, view.id, view.name),
-                                              )
-                                            ];
-                                            return view.toNavigationButton(
-                                              context.router.currentUrl.contains(view.id),
-                                              true,
-                                              shouldExpand,
-                                              () => context.pushRoute(LibrarySearchRoute(viewModelId: view.id)),
-                                              onLongPress: () => showBottomSheetPill(
-                                                context: context,
-                                                content: (context, scrollController) => ListView(
-                                                  shrinkWrap: true,
-                                                  controller: scrollController,
-                                                  children: actions.listTileItems(context, useIcons: true),
-                                                ),
-                                              ),
-                                              trailing: actions,
-                                            );
-                                          },
-                                        ).toList(),
-                                        builder: (context, remaining) {
-                                          return PopupMenuButton(
-                                            iconColor: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.45),
-                                            padding: EdgeInsets.zero,
-                                            icon: NavigationButton(
-                                              label: context.localized.other,
-                                              selectedIcon: const Icon(IconsaxPlusLinear.arrow_square_down),
-                                              icon: const Icon(IconsaxPlusLinear.arrow_square_down),
-                                              expanded: shouldExpand,
-                                              horizontal: true,
-                                            ),
-                                            itemBuilder: (context) => views
-                                                .sublist(views.length - remaining)
-                                                .map(
-                                                  (e) => PopupMenuItem(
-                                                    onTap: () =>
-                                                        context.pushRoute(LibrarySearchRoute(viewModelId: e.id)),
-                                                    child: Row(
-                                                      spacing: 8,
-                                                      children: [
-                                                        Icon(e.collectionType.iconOutlined),
-                                                        Text(e.name),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                )
-                                                .toList(),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ],
-                              ),
-                            ),
-                            NavigationButton(
-                              label: context.localized.settings,
-                              selected: widget.currentLocation.contains(const SettingsRoute().routeName),
-                              selectedIcon: const Icon(IconsaxPlusBold.setting_3),
-                              horizontal: true,
-                              expanded: shouldExpand,
-                              icon: const SizedBox(height: 32, child: SettingsUserIcon()),
-                              onPressed: () {
-                                if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.single) {
-                                  context.router.push(const SettingsRoute());
-                                } else {
-                                  context.router.push(const ClientSettingsRoute());
-                                }
-                              },
+          child: (context) => widget.child,
+        ),
+        AnimatedFadeSize(
+          alignment: Alignment.topLeft,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 250),
+            color: Theme.of(context).colorScheme.surface.withValues(alpha: shouldExpand ? 0.95 : 0.85),
+            width: shouldExpand ? expandedWidth : collapsedWidth,
+            child: MouseRegion(
+              onEnter: (value) => startTimer(),
+              onExit: (event) => stopTimer(),
+              child: Column(
+                children: [
+                  if (AdaptiveLayout.of(context).isDesktop &&
+                      AdaptiveLayout.of(context).platform != TargetPlatform.macOS) ...{
+                    const SizedBox(height: 4),
+                    Text(
+                      "Fladder",
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                  },
+                  if (AdaptiveLayout.of(context).platform == TargetPlatform.macOS) SizedBox(height: padding.top),
+                  Expanded(
+                    child: Padding(
+                      key: const Key('navigation_rail'),
+                      padding: padding.copyWith(right: 0, top: AdaptiveLayout.of(context).isDesktop ? 8 : null),
+                      child: Column(
+                        spacing: 2,
+                        children: [
+                          Builder(builder: (context) {
+                            return IconButton(
+                              onPressed: !largeBar
+                                  ? () => widget.scaffoldKey.currentState?.openDrawer()
+                                  : () => setState(() {
+                                        expandedSideBar = !expandedSideBar;
+                                        if (!expandedSideBar) {
+                                          showOnHover = false;
+                                        }
+                                      }),
+                              icon: const Icon(IconsaxPlusBold.menu),
+                            );
+                          }),
+                          const SizedBox(height: 8),
+                          if (largeBar) ...[
+                            AnimatedFadeSize(
+                              duration: const Duration(milliseconds: 250),
+                              child: shouldExpand ? actionButton(context).extended : actionButton(context).normal,
                             ),
                           ],
-                        ),
+                          Expanded(
+                            child: Column(
+                              spacing: 2,
+                              mainAxisAlignment: !largeBar ? MainAxisAlignment.center : MainAxisAlignment.start,
+                              children: [
+                                ...widget.destinations.mapIndexed(
+                                  (index, destination) =>
+                                      destination.toNavigationButton(widget.currentIndex == index, true, shouldExpand),
+                                ),
+                                if (views.isNotEmpty && largeBar) ...[
+                                  const Divider(
+                                    indent: 32,
+                                    endIndent: 32,
+                                  ),
+                                  Flexible(
+                                    child: OverflowView.flexible(
+                                      direction: Axis.vertical,
+                                      spacing: 4,
+                                      children: views.map(
+                                        (view) {
+                                          final actions = [
+                                            ItemActionButton(
+                                              label: Text(context.localized.scanLibrary),
+                                              icon: const Icon(IconsaxPlusLinear.refresh),
+                                              action: () => showRefreshPopup(context, view.id, view.name),
+                                            )
+                                          ];
+                                          return view.toNavigationButton(
+                                            context.router.currentUrl.contains(view.id),
+                                            true,
+                                            shouldExpand,
+                                            () => context.pushRoute(LibrarySearchRoute(viewModelId: view.id)),
+                                            onLongPress: () => showBottomSheetPill(
+                                              context: context,
+                                              content: (context, scrollController) => ListView(
+                                                shrinkWrap: true,
+                                                controller: scrollController,
+                                                children: actions.listTileItems(context, useIcons: true),
+                                              ),
+                                            ),
+                                            trailing: actions,
+                                          );
+                                        },
+                                      ).toList(),
+                                      builder: (context, remaining) {
+                                        return PopupMenuButton(
+                                          iconColor: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.45),
+                                          padding: EdgeInsets.zero,
+                                          icon: NavigationButton(
+                                            label: context.localized.other,
+                                            selectedIcon: const Icon(IconsaxPlusLinear.arrow_square_down),
+                                            icon: const Icon(IconsaxPlusLinear.arrow_square_down),
+                                            expanded: shouldExpand,
+                                            horizontal: true,
+                                          ),
+                                          itemBuilder: (context) => views
+                                              .sublist(views.length - remaining)
+                                              .map(
+                                                (e) => PopupMenuItem(
+                                                  onTap: () => context.pushRoute(LibrarySearchRoute(viewModelId: e.id)),
+                                                  child: Row(
+                                                    spacing: 8,
+                                                    children: [
+                                                      Icon(e.collectionType.iconOutlined),
+                                                      Text(e.name),
+                                                    ],
+                                                  ),
+                                                ),
+                                              )
+                                              .toList(),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ],
+                            ),
+                          ),
+                          NavigationButton(
+                            label: context.localized.settings,
+                            selected: widget.currentLocation.contains(const SettingsRoute().routeName),
+                            selectedIcon: const Icon(IconsaxPlusBold.setting_3),
+                            horizontal: true,
+                            expanded: shouldExpand,
+                            icon: const SizedBox(height: 32, child: SettingsUserIcon()),
+                            onPressed: () {
+                              if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.single) {
+                                context.router.push(const SettingsRoute());
+                              } else {
+                                context.router.push(const ClientSettingsRoute());
+                              }
+                            },
+                          ),
+                        ],
                       ),
                     ),
-                    if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer) const SizedBox(height: 16),
-                  ],
-                ),
+                  ),
+                  if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer) const SizedBox(height: 16),
+                ],
               ),
             ),
           ),
-        ],
-      );
-    });
+        ),
+      ],
+    );
   }
 
   AdaptiveFab actionButton(BuildContext context) {

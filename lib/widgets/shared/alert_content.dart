@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:fladder/util/list_padding.dart';
-
 class ActionContent extends StatelessWidget {
   final Widget? title;
   final Widget child;
@@ -23,6 +21,7 @@ class ActionContent extends StatelessWidget {
       padding: padding ?? MediaQuery.paddingOf(context).add(const EdgeInsets.symmetric(horizontal: 16)),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        spacing: 16,
         children: [
           if (title != null) ...[
             title!,
@@ -42,7 +41,7 @@ class ActionContent extends StatelessWidget {
               children: actions,
             )
           ],
-        ].addInBetween(const SizedBox(height: 16)),
+        ],
       ),
     );
   }

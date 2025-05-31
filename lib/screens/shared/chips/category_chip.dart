@@ -99,33 +99,37 @@ class CategoryChip<T> extends StatelessWidget {
               label: Text(context.localized.clear),
             )
         ].addInBetween(const SizedBox(width: 6));
-    Widget header() => Row(
+    Widget header(BuildContext context) => Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Material(
               color: Colors.transparent,
               textStyle: Theme.of(context).textTheme.titleLarge,
               child: dialogueTitle ?? label,
             ),
-            const Spacer(),
-            FilledButton.tonal(
-              onPressed: () {
-                Navigator.of(context).pop();
-                newEntry = null;
-                onCancel?.call();
-              },
-              child: Text(context.localized.cancel),
+            Row(
+              children: [
+                FilledButton.tonal(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    newEntry = null;
+                    onCancel?.call();
+                  },
+                  child: Text(context.localized.cancel),
+                ),
+                if (onClear != null)
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      newEntry = null;
+                      onClear!();
+                    },
+                    icon: const Icon(IconsaxPlusLinear.back_square),
+                    label: Text(context.localized.clear),
+                  )
+              ].addInBetween(const SizedBox(width: 6)),
             ),
-            if (onClear != null)
-              ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  newEntry = null;
-                  onClear!();
-                },
-                icon: const Icon(IconsaxPlusLinear.back_square),
-                label: Text(context.localized.clear),
-              )
-          ].addInBetween(const SizedBox(width: 6)),
+          ],
         );
 
     if (AdaptiveLayout.viewSizeOf(context) != ViewSize.phone) {
@@ -155,7 +159,7 @@ class CategoryChip<T> extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: header(),
+              child: header(context),
             ),
             const Divider(),
             CategoryChipEditor(

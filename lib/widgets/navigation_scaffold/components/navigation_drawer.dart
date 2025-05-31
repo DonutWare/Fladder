@@ -53,7 +53,7 @@ class NestedNavigationDrawer extends ConsumerWidget {
               ),
               IconButton(
                 onPressed: () => toggleExpanded(false),
-                icon: const Icon(IconsaxPlusLinear.menu_1),
+                icon: const Icon(IconsaxPlusLinear.sidebar_left),
               ),
             ],
           ),

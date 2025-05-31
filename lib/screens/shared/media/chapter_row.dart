@@ -67,8 +67,8 @@ class ChapterRow extends ConsumerWidget {
                 FlatButton(
                   onSecondaryTapDown: (details) async {
                     Offset localPosition = details.globalPosition;
-                    RelativeRect position = RelativeRect.fromLTRB(
-                        localPosition.dx - 80, localPosition.dy, localPosition.dx, localPosition.dy);
+                    RelativeRect position =
+                        RelativeRect.fromLTRB(localPosition.dx, localPosition.dy, localPosition.dx, localPosition.dy);
                     await showMenu(
                       context: context,
                       position: position,

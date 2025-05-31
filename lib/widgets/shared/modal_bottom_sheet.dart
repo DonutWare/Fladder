@@ -25,43 +25,48 @@ Future<void> showBottomSheetPill({
     context: context,
     builder: (context) {
       final controller = ScrollController();
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8).add(MediaQuery.paddingOf(context)),
-        child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: FladderTheme.largeShape.borderRadius,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: Container(
-                  height: 8,
-                  width: 35,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.onSurface,
-                    borderRadius: FladderTheme.largeShape.borderRadius,
+      return ConstrainedBox(
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.sizeOf(context).height * 0.85,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8).add(MediaQuery.paddingOf(context)),
+          child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: FladderTheme.largeShape.borderRadius,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: Container(
+                    height: 8,
+                    width: 35,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.onSurface,
+                      borderRadius: FladderTheme.largeShape.borderRadius,
+                    ),
                   ),
                 ),
-              ),
-              Flexible(
-                child: ListView(
-                  shrinkWrap: true,
-                  controller: controller,
-                  children: [
-                    if (item != null) ...{
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        child: ItemBottomSheetPreview(item: item),
-                      ),
-                      const Divider(),
-                    },
-                    content(context, ScrollController()),
-                  ],
+                Flexible(
+                  child: ListView(
+                    shrinkWrap: true,
+                    controller: controller,
+                    children: [
+                      if (item != null) ...{
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: ItemBottomSheetPreview(item: item),
+                        ),
+                        const Divider(),
+                      },
+                      content(context, ScrollController()),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );

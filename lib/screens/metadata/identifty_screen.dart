@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:collection/collection.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/providers/items/identify_provider.dart';
@@ -51,11 +51,10 @@ class _IdentifyScreenState extends ConsumerState<IdentifyScreen> with TickerProv
     final state = ref.watch(provider);
     final posters = state.results;
     final processing = state.processing;
-    return ActionContent(
-      showDividers: false,
-      title: Container(
-        color: Theme.of(context).colorScheme.surface,
-        child: Column(
+    return Card(
+      child: ActionContent(
+        showDividers: false,
+        title: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Row(
@@ -89,137 +88,137 @@ class _IdentifyScreenState extends ConsumerState<IdentifyScreen> with TickerProv
             )
           ],
         ),
-      ),
-      child: TabBarView(
-        controller: tabController,
-        children: [
-          inputFields(state),
-          if (posters.isEmpty)
-            Center(
-              child: processing
-                  ? const CircularProgressIndicator.adaptive(strokeCap: StrokeCap.round)
-                  : Text(context.localized.noResults),
-            )
-          else
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(context.localized.replaceAllImages),
-                    const SizedBox(width: 16),
-                    Switch.adaptive(
-                      value: state.replaceAllImages,
-                      onChanged: (value) {
-                        ref.read(provider.notifier).update((state) => state.copyWith(replaceAllImages: value));
-                      },
-                    ),
-                  ],
-                ),
-                Flexible(
-                  child: ListView(
-                    shrinkWrap: true,
-                    children: posters
-                        .map((result) => ListTile(
-                              title: Row(
-                                children: [
-                                  SizedBox(
-                                    width: 75,
-                                    child: Card(
-                                      child: CachedNetworkImage(
-                                        imageUrl: result.imageUrl ?? "",
-                                        errorWidget: (context, url, error) => SizedBox(
-                                          height: 75,
-                                          child: Card(
-                                            child: Center(
-                                              child: Text(result.name?.getInitials() ?? ""),
+        child: TabBarView(
+          controller: tabController,
+          children: [
+            inputFields(state),
+            if (posters.isEmpty)
+              Center(
+                child: processing
+                    ? const CircularProgressIndicator.adaptive(strokeCap: StrokeCap.round)
+                    : Text(context.localized.noResults),
+              )
+            else
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(context.localized.replaceAllImages),
+                      const SizedBox(width: 16),
+                      Switch.adaptive(
+                        value: state.replaceAllImages,
+                        onChanged: (value) {
+                          ref.read(provider.notifier).update((state) => state.copyWith(replaceAllImages: value));
+                        },
+                      ),
+                    ],
+                  ),
+                  Flexible(
+                    child: ListView(
+                      shrinkWrap: true,
+                      children: posters
+                          .map((result) => ListTile(
+                                title: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 75,
+                                      child: Card(
+                                        child: CachedNetworkImage(
+                                          imageUrl: result.imageUrl ?? "",
+                                          errorWidget: (context, url, error) => SizedBox(
+                                            height: 75,
+                                            child: Card(
+                                              child: Center(
+                                                child: Text(result.name?.getInitials() ?? ""),
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  const SizedBox(width: 16),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                            "${result.name ?? ""}${result.productionYear != null ? "(${result.productionYear})" : ""}"),
-                                        Opacity(opacity: 0.65, child: Text(result.providerIds?.keys.join(',') ?? ""))
-                                      ],
+                                    const SizedBox(width: 16),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                              "${result.name ?? ""}${result.productionYear != null ? "(${result.productionYear})" : ""}"),
+                                          Opacity(opacity: 0.65, child: Text(result.providerIds?.keys.join(',') ?? ""))
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  Tooltip(
-                                    message: context.localized.openWebLink,
-                                    child: IconButton(
-                                        onPressed: () {
-                                          final providerKeyEntry = result.providerIds?.entries.first;
-                                          final providerKey = providerKeyEntry?.key;
-                                          final providerValue = providerKeyEntry?.value;
+                                    Tooltip(
+                                      message: context.localized.openWebLink,
+                                      child: IconButton(
+                                          onPressed: () {
+                                            final providerKeyEntry = result.providerIds?.entries.first;
+                                            final providerKey = providerKeyEntry?.key;
+                                            final providerValue = providerKeyEntry?.value;
 
-                                          final externalId = state.externalIds
-                                              .firstWhereOrNull((element) => element.key == providerKey)
-                                              // ignore: deprecated_member_use_from_same_package
-                                              ?.urlFormatString;
+                                            final externalId = state.externalIds
+                                                .firstWhereOrNull((element) => element.key == providerKey)
+                                                // ignore: deprecated_member_use_from_same_package
+                                                ?.urlFormatString;
 
-                                          final url = externalId?.replaceAll("{0}", providerValue?.toString() ?? "");
+                                            final url = externalId?.replaceAll("{0}", providerValue?.toString() ?? "");
 
-                                          launchUrl(context, url ?? "");
-                                        },
-                                        icon: const Icon(Icons.launch_rounded)),
-                                  ),
-                                  Tooltip(
-                                    message: "Select result",
-                                    child: IconButton(
-                                      onPressed: !processing
-                                          ? () async {
-                                              final response = await ref.read(provider.notifier).setIdentity(result);
-                                              if (response?.isSuccessful == true) {
-                                                fladderSnackbar(context,
-                                                    title: context.localized.setIdentityTo(result.name ?? ""));
-                                              } else {
-                                                fladderSnackbarResponse(context, response,
-                                                    altTitle: context.localized.somethingWentWrong);
+                                            launchUrl(context, url ?? "");
+                                          },
+                                          icon: const Icon(Icons.launch_rounded)),
+                                    ),
+                                    Tooltip(
+                                      message: "Select result",
+                                      child: IconButton(
+                                        onPressed: !processing
+                                            ? () async {
+                                                final response = await ref.read(provider.notifier).setIdentity(result);
+                                                if (response?.isSuccessful == true) {
+                                                  fladderSnackbar(context,
+                                                      title: context.localized.setIdentityTo(result.name ?? ""));
+                                                } else {
+                                                  fladderSnackbarResponse(context, response,
+                                                      altTitle: context.localized.somethingWentWrong);
+                                                }
+
+                                                Navigator.of(context).pop();
                                               }
-
-                                              Navigator.of(context).pop();
-                                            }
-                                          : null,
-                                      icon: const Icon(Icons.save_alt_rounded),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ))
-                        .toList(),
+                                            : null,
+                                        icon: const Icon(Icons.save_alt_rounded),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ))
+                          .toList(),
+                    ),
                   ),
-                ),
-              ],
-            )
+                ],
+              )
+          ],
+        ),
+        actions: [
+          ElevatedButton(onPressed: () => Navigator.of(context).pop(), child: Text(context.localized.cancel)),
+          const SizedBox(width: 16),
+          FilledButton(
+            onPressed: !processing
+                ? () async {
+                    await ref.read(provider.notifier).remoteSearch();
+                    tabController.animateTo(1);
+                  }
+                : null,
+            child: processing
+                ? SizedBox(
+                    width: 21,
+                    height: 21,
+                    child: CircularProgressIndicator.adaptive(
+                        backgroundColor: Theme.of(context).colorScheme.onPrimary, strokeCap: StrokeCap.round),
+                  )
+                : Text(context.localized.search),
+          ),
         ],
       ),
-      actions: [
-        ElevatedButton(onPressed: () => Navigator.of(context).pop(), child: Text(context.localized.cancel)),
-        const SizedBox(width: 16),
-        FilledButton(
-          onPressed: !processing
-              ? () async {
-                  await ref.read(provider.notifier).remoteSearch();
-                  tabController.animateTo(1);
-                }
-              : null,
-          child: processing
-              ? SizedBox(
-                  width: 21,
-                  height: 21,
-                  child: CircularProgressIndicator.adaptive(
-                      backgroundColor: Theme.of(context).colorScheme.onPrimary, strokeCap: StrokeCap.round),
-                )
-              : Text(context.localized.search),
-        ),
-      ],
     );
   }
 

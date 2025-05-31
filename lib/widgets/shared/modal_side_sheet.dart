@@ -71,33 +71,40 @@ class Sheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    final mediaQuery = MediaQuery.of(context);
+    final size = mediaQuery.size;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final padding = MediaQuery.paddingOf(context).copyWith(left: 0, top: 0);
+    final padding = mediaQuery.padding.copyWith(left: 0, top: 0);
 
-    return Material(
-      elevation: 1,
-      color: colorScheme.surface,
-      surfaceTintColor: colorScheme.onSurface,
-      borderRadius: FladderTheme.largeShape.borderRadius,
-      child: Padding(
-        padding: padding,
-        child: Container(
-          constraints: BoxConstraints(
-            minWidth: 256,
-            maxWidth: size.width <= 600 ? size.width : 400,
-            minHeight: size.height,
-            maxHeight: size.height,
-          ),
-          child: Column(
-            children: [
-              _buildHeader(context),
-              Expanded(
-                child: content,
-              ),
-              if (actions?.isNotEmpty ?? false) _buildFooter(context)
-            ],
+    return MediaQuery(
+      data: mediaQuery.copyWith(
+          padding: mediaQuery.padding.copyWith(
+        left: 0,
+      )),
+      child: Material(
+        elevation: 1,
+        color: colorScheme.surface,
+        surfaceTintColor: colorScheme.onSurface,
+        borderRadius: FladderTheme.largeShape.borderRadius,
+        child: Padding(
+          padding: padding,
+          child: Container(
+            constraints: BoxConstraints(
+              minWidth: 256,
+              maxWidth: size.width <= 600 ? size.width : 400,
+              minHeight: size.height,
+              maxHeight: size.height,
+            ),
+            child: Column(
+              children: [
+                _buildHeader(context),
+                Expanded(
+                  child: content,
+                ),
+                if (actions?.isNotEmpty ?? false) _buildFooter(context)
+              ],
+            ),
           ),
         ),
       ),

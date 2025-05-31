@@ -124,6 +124,7 @@ dependencies:
   archive: ^4.0.2
   dart_mappable: ^4.3.0
   super_sliver_list: ^0.4.1
+  flutter_sticky_header: ^0.7.0
 
 dev_dependencies:
   flutter_test:

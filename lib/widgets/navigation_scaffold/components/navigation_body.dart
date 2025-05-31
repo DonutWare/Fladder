@@ -4,15 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
-import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/providers/views_provider.dart';
 import 'package:fladder/routes/auto_router.dart';
-import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/destination_model.dart';
-import 'package:fladder/widgets/navigation_scaffold/components/floating_player_bar.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/side_navigation_bar.dart';
 
 class NavigationBody extends ConsumerStatefulWidget {
@@ -51,7 +47,6 @@ class _NavigationBodyState extends ConsumerState<NavigationBody> {
   Widget build(BuildContext context) {
     final hasOverlay = AdaptiveLayout.layoutModeOf(context) == LayoutMode.dual ||
         homeRoutes.any((element) => element.name.contains(context.router.current.name));
-    final playerState = ref.watch(mediaPlaybackProvider.select((value) => value.state));
 
     ref.listen(
       clientSettingsProvider,
@@ -64,49 +59,30 @@ class _NavigationBodyState extends ConsumerState<NavigationBody> {
       },
     );
 
-    return Stack(
-      alignment: Alignment.bottomCenter,
-      children: [
-        switch (AdaptiveLayout.layoutOf(context)) {
-          ViewSize.phone => MediaQuery.removePadding(
-              context: widget.parentContext,
-              child: widget.child,
-            ),
-          ViewSize.tablet => hasOverlay
-              ? SideNavigationBar(
-                  currentIndex: widget.currentIndex,
-                  destinations: widget.destinations,
-                  currentLocation: widget.currentLocation,
-                  child: MediaQuery(
-                    data: semiNestedPadding(context, hasOverlay),
-                    child: widget.child,
-                  ),
-                  scaffoldKey: widget.drawerKey,
-                )
-              : MediaQuery(
-                  data: semiNestedPadding(context, hasOverlay),
-                  child: widget.child,
-                ),
-          ViewSize.desktop => SideNavigationBar(
+    Widget paddedChild() => MediaQuery(
+          data: semiNestedPadding(widget.parentContext, hasOverlay),
+          child: widget.child,
+        );
+
+    return switch (AdaptiveLayout.layoutOf(context)) {
+      ViewSize.phone => paddedChild(),
+      ViewSize.tablet => hasOverlay
+          ? SideNavigationBar(
               currentIndex: widget.currentIndex,
               destinations: widget.destinations,
               currentLocation: widget.currentLocation,
-              child: MediaQuery(
-                data: semiNestedPadding(context, hasOverlay),
-                child: widget.child,
-              ),
+              child: paddedChild(),
               scaffoldKey: widget.drawerKey,
             )
-        },
-        AnimatedFadeSize(
-          duration: const Duration(milliseconds: 125),
-          child: switch (playerState) {
-            VideoPlayerState.minimized => const FloatingPlayerBar(),
-            _ => const SizedBox.shrink(),
-          },
+          : paddedChild(),
+      ViewSize.desktop => SideNavigationBar(
+          currentIndex: widget.currentIndex,
+          destinations: widget.destinations,
+          currentLocation: widget.currentLocation,
+          child: paddedChild(),
+          scaffoldKey: widget.drawerKey,
         )
-      ],
-    );
+    };
   }
 
   MediaQueryData semiNestedPadding(BuildContext context, bool hasOverlay) {

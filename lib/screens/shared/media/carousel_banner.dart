@@ -144,8 +144,8 @@ class _CarouselBannerState extends ConsumerState<CarouselBanner> {
                                     ? null
                                     : (details) async {
                                         Offset localPosition = details.globalPosition;
-                                        RelativeRect position = RelativeRect.fromLTRB(localPosition.dx - 320,
-                                            localPosition.dy, localPosition.dx, localPosition.dy);
+                                        RelativeRect position = RelativeRect.fromLTRB(
+                                            localPosition.dx, localPosition.dy, localPosition.dx, localPosition.dy);
                                         final poster = widget.items[index];
 
                                         await showMenu(
