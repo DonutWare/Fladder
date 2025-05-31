@@ -6,7 +6,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/images_models.dart';
-import 'package:fladder/screens/home_screen.dart';
+import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
@@ -246,25 +246,11 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                               ),
                             if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.single)
                               Tooltip(
-                                message: context.localized.home,
-                                child: PopupMenuButton(
-                                  icon: const Icon(IconsaxPlusLinear.home),
-                                  itemBuilder: (context) => HomeTabs.values
-                                      .map(
-                                        (value) => PopupMenuItem(
-                                          onTap: () => value.navigate(context),
-                                          child: Row(
-                                            spacing: 6,
-                                            children: [
-                                              Icon(value.icon),
-                                              Text(value.name),
-                                            ],
-                                          ),
-                                        ),
-                                      )
-                                      .toList(),
-                                ),
-                              ),
+                                  message: context.localized.home,
+                                  child: IconButton(
+                                    onPressed: () => context.navigateTo(const DashboardRoute()),
+                                    icon: const Icon(IconsaxPlusLinear.home),
+                                  )),
                           ],
                         ),
                       ),

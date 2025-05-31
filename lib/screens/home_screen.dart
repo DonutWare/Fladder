@@ -41,6 +41,13 @@ enum HomeTabs {
         HomeTabs.favorites => context.router.navigate(const FavouritesRoute()),
         HomeTabs.sync => context.router.navigate(SyncedRoute()),
       };
+
+  String label(BuildContext context) => switch (this) {
+        HomeTabs.dashboard => context.localized.dashboard,
+        HomeTabs.library => context.localized.library(0),
+        HomeTabs.favorites => context.localized.favorites,
+        HomeTabs.sync => context.localized.sync,
+      };
 }
 
 @RoutePage()
