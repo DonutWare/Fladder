@@ -1,5 +1,3 @@
-import 'dart:math' show max;
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +17,8 @@ import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 
 const videoPlayerHeroTag = "HeroPlayer";
+
+const floatingPlayerHeight = 70.0;
 
 class FloatingPlayerBar extends ConsumerStatefulWidget {
   const FloatingPlayerBar({super.key});
@@ -60,31 +60,30 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
     final player = ref.watch(videoPlayerProvider);
     final playbackModel = ref.watch(playBackModel.select((value) => value?.item));
     final progress = playbackInfo.position.inMilliseconds / playbackInfo.duration.inMilliseconds;
-    final paddingOf = MediaQuery.paddingOf(context);
-    return Padding(
-      padding: paddingOf.copyWith(top: 0, bottom: max(paddingOf.bottom, 0)),
-      child: Dismissible(
-        key: const Key("CurrentlyPlayingBar"),
-        confirmDismiss: (direction) async {
-          if (direction == DismissDirection.up) {
-            await openFullScreenPlayer();
-          } else {
-            await stopPlayer();
-          }
-          return false;
-        },
-        direction: DismissDirection.vertical,
-        child: InkWell(
-          onLongPress: () => fladderSnackbar(context, title: "Swipe up/down to open/close the player"),
-          child: Card(
-            elevation: 5,
-            color: Theme.of(context).colorScheme.primaryContainer,
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(minHeight: 50, maxHeight: 70),
-              child: LayoutBuilder(builder: (context, constraints) {
-                return Row(
-                  children: [
-                    Flexible(
+    return Dismissible(
+      key: const Key("CurrentlyPlayingBar"),
+      confirmDismiss: (direction) async {
+        if (direction == DismissDirection.up) {
+          await openFullScreenPlayer();
+        } else {
+          await stopPlayer();
+        }
+        return false;
+      },
+      direction: DismissDirection.vertical,
+      child: InkWell(
+        onLongPress: () => fladderSnackbar(context, title: "Swipe up/down to open/close the player"),
+        child: Card(
+          elevation: 5,
+          color: Theme.of(context).colorScheme.primaryContainer,
+          child: SizedBox(
+            height: floatingPlayerHeight,
+            child: LayoutBuilder(builder: (context, constraints) {
+              return Row(
+                children: [
+                  Flexible(
+                    child: Padding(
+                      padding: MediaQuery.paddingOf(context).copyWith(top: 0, bottom: 0),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -204,10 +203,10 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
                         ],
                       ),
                     ),
-                  ],
-                );
-              }),
-            ),
+                  ),
+                ],
+              );
+            }),
           ),
         ),
       ),

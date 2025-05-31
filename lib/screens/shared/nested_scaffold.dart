@@ -14,6 +14,7 @@ class NestedScaffold extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Stack(
+      alignment: Alignment.bottomCenter,
       children: [
         if (background != null) background!,
         Container(

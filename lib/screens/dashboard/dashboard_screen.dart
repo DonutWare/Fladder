@@ -109,7 +109,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     child: Transform.translate(
                       offset: Offset(0, AdaptiveLayout.layoutOf(context) == ViewSize.phone ? -14 : 0),
                       child: Padding(
-                        padding: padding,
+                        padding: AdaptiveLayout.adaptivePadding(
+                          context,
+                          horizontalPadding: 0,
+                        ),
                         child: HomeBannerWidget(posters: homeCarouselItems),
                       ),
                     ),

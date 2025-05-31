@@ -1,13 +1,19 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:fladder/models/media_playback_model.dart';
+import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/providers/views_provider.dart';
 import 'package:fladder/routes/auto_router.dart';
+import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/screens/shared/nested_bottom_appbar.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
+import 'package:fladder/util/theme_extensions.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/destination_model.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/fladder_app_bar.dart';
+import 'package:fladder/widgets/navigation_scaffold/components/floating_player_bar.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/navigation_body.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/navigation_drawer.dart';
 import 'package:fladder/widgets/shared/hide_on_scroll.dart';
@@ -47,6 +53,12 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
   @override
   Widget build(BuildContext context) {
     final views = ref.watch(viewsProvider.select((value) => value.views));
+    final playerState = ref.watch(mediaPlaybackProvider.select((value) => value.state));
+    final showPlayerBar = playerState == VideoPlayerState.minimized;
+
+    final isDesktop = AdaptiveLayout.of(context).isDesktop;
+
+    final bottomPadding = isDesktop || kIsWeb ? 0.0 : MediaQuery.paddingOf(context).bottom;
 
     return PopScope(
       canPop: currentIndex == 0,
@@ -55,55 +67,86 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
           widget.destinations.first.action!();
         }
       },
-      child: Scaffold(
-        key: _key,
-        appBar: const FladderAppBar(),
-        extendBodyBehindAppBar: true,
-        resizeToAvoidBottomInset: false,
-        extendBody: true,
-        floatingActionButton: AdaptiveLayout.layoutModeOf(context) == LayoutMode.single && currentIndex != -1
-            ? widget.destinations.elementAtOrNull(currentIndex)?.floatingActionButton?.normal
-            : null,
-        drawer: homeRoutes.any((element) => element.name.contains(currentLocation))
-            ? NestedNavigationDrawer(
-                actionButton: null,
-                toggleExpanded: (value) => _key.currentState?.closeDrawer(),
-                views: views,
-                destinations: widget.destinations,
-                currentLocation: currentLocation,
-              )
-            : null,
-        bottomNavigationBar: AdaptiveLayout.viewSizeOf(context) == ViewSize.phone
-            ? HideOnScroll(
-                controller: AdaptiveLayout.scrollOf(context),
-                forceHide: !homeRoutes.any((element) => element.name.contains(currentLocation)),
-                child: NestedBottomAppBar(
-                  child: SizedBox(
-                    height: 65,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: widget.destinations
-                          .map(
-                            (destination) => destination.toNavigationButton(
-                                widget.currentRouteName == destination.route?.routeName, false, false),
-                          )
-                          .toList(),
-                    ),
+      child: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          Positioned.fill(
+            child: Padding(
+              padding: EdgeInsets.only(bottom: showPlayerBar ? floatingPlayerHeight - 12 + bottomPadding : 0),
+              child: Scaffold(
+                key: _key,
+                appBar: const FladderAppBar(),
+                extendBodyBehindAppBar: true,
+                resizeToAvoidBottomInset: false,
+                extendBody: true,
+                floatingActionButton: AdaptiveLayout.layoutModeOf(context) == LayoutMode.single && currentIndex != -1
+                    ? widget.destinations.elementAtOrNull(currentIndex)?.floatingActionButton?.normal
+                    : null,
+                drawer: homeRoutes.any((element) => element.name.contains(currentLocation))
+                    ? NestedNavigationDrawer(
+                        actionButton: null,
+                        toggleExpanded: (value) => _key.currentState?.closeDrawer(),
+                        views: views,
+                        destinations: widget.destinations,
+                        currentLocation: currentLocation,
+                      )
+                    : null,
+                bottomNavigationBar: AdaptiveLayout.viewSizeOf(context) == ViewSize.phone
+                    ? HideOnScroll(
+                        controller: AdaptiveLayout.scrollOf(context),
+                        forceHide: !homeRoutes.any((element) => element.name.contains(currentLocation)),
+                        child: NestedBottomAppBar(
+                          child: SizedBox(
+                            height: 65,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: widget.destinations
+                                  .map(
+                                    (destination) => destination.toNavigationButton(
+                                        widget.currentRouteName == destination.route?.routeName, false, false),
+                                  )
+                                  .toList(),
+                            ),
+                          ),
+                        ),
+                      )
+                    : null,
+                body: widget.nestedChild != null
+                    ? NavigationBody(
+                        child: widget.nestedChild!,
+                        parentContext: context,
+                        currentIndex: currentIndex,
+                        destinations: widget.destinations,
+                        currentLocation: currentLocation,
+                        drawerKey: _key,
+                      )
+                    : null,
+              ),
+            ),
+          ),
+          Material(
+            color: Colors.transparent,
+            child: AnimatedFadeSize(
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: context.colors.surface,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(12),
+                    topRight: Radius.circular(12),
                   ),
                 ),
-              )
-            : null,
-        body: widget.nestedChild != null
-            ? NavigationBody(
-                child: widget.nestedChild!,
-                parentContext: context,
-                currentIndex: currentIndex,
-                destinations: widget.destinations,
-                currentLocation: currentLocation,
-                drawerKey: _key,
-              )
-            : null,
+                child: showPlayerBar
+                    ? Padding(
+                        padding: EdgeInsets.only(bottom: bottomPadding),
+                        child: const FloatingPlayerBar(),
+                      )
+                    : const SizedBox.shrink(),
+              ),
+            ),
+          )
+        ],
       ),
     );
   }

@@ -27,9 +27,12 @@ class HomeBannerWidget extends ConsumerWidget {
             const SizedBox(height: 24)
           ],
         ),
-      HomeBanner.banner => MediaBanner(
-          items: posters,
-          maxHeight: maxHeight,
+      HomeBanner.banner => Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 6),
+          child: MediaBanner(
+            items: posters,
+            maxHeight: maxHeight,
+          ),
         ),
       _ => const SizedBox.shrink(),
     };

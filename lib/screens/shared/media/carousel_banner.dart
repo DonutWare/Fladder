@@ -58,6 +58,7 @@ class _CarouselBannerState extends ConsumerState<CarouselBanner> {
                     elevation: 3,
                     shrinkExtent: 0,
                     controller: carouselController,
+                    padding: const EdgeInsets.symmetric(horizontal: 6),
                     shape: RoundedRectangleBorder(borderRadius: border),
                     enableSplash: false,
                     itemExtent: itemExtent,
