@@ -80,7 +80,6 @@ dependencies:
   page_transition: ^2.2.1
   sticky_headers: ^0.3.0+2
   flutter_staggered_grid_view: ^0.7.0
-  scrollable_positioned_list: ^0.3.8
   sliver_tools: ^0.2.12
   square_progress_indicator: ^0.0.7
   flutter_blurhash: ^0.8.2
@@ -124,6 +123,7 @@ dependencies:
   share_plus: ^10.1.4
   archive: ^4.0.2
   dart_mappable: ^4.3.0
+  super_sliver_list: ^0.4.1
 
 dev_dependencies:
   flutter_test:
