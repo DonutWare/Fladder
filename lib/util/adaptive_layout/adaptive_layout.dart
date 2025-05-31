@@ -85,6 +85,17 @@ class AdaptiveLayout extends InheritedWidget {
     return result!.data.controller;
   }
 
+  static EdgeInsets adaptivePadding(BuildContext context, {double horizontalPadding = 16}) {
+    final viewPadding = MediaQuery.paddingOf(context);
+    final padding = viewPadding.copyWith(
+      left: AdaptiveLayout.of(context).sideBarWidth + horizontalPadding + viewPadding.left,
+      top: 0,
+      bottom: 0,
+      right: viewPadding.left + horizontalPadding,
+    );
+    return padding;
+  }
+
   static LayoutMode layoutModeOf(BuildContext context) => maybeOf(context)!.data.layoutMode;
   static ViewSize viewSizeOf(BuildContext context) => maybeOf(context)!.data.viewSize;
 

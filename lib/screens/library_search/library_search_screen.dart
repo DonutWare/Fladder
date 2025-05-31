@@ -35,6 +35,7 @@ import 'package:fladder/util/map_bool_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/util/router_extension.dart';
 import 'package:fladder/util/sliver_list_padding.dart';
+import 'package:fladder/widgets/navigation_scaffold/components/background_image.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/settings_user_icon.dart';
 import 'package:fladder/widgets/shared/fladder_scrollbar.dart';
 import 'package:fladder/widgets/shared/hide_on_scroll.dart';
@@ -153,63 +154,65 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
         }
       },
       child: NestedScaffold(
-        body: Scaffold(
-          extendBody: true,
-          extendBodyBehindAppBar: true,
-          floatingActionButton: HideOnScroll(
-            controller: scrollController,
-            visibleBuilder: (visible) => Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (librarySearchResults.activePosters.isNotEmpty)
-                  FloatingActionButtonAnimated(
-                    key: Key(context.localized.playLabel),
-                    isExtended: visible,
-                    tooltip: context.localized.playVideos,
-                    onPressed: () async {
-                      if (librarySearchResults.showGalleryButtons && !librarySearchResults.showPlayButtons) {
-                        libraryProvider.viewGallery(context);
-                        return;
-                      } else if (!librarySearchResults.showGalleryButtons && librarySearchResults.showPlayButtons) {
-                        libraryProvider.playLibraryItems(context, ref);
-                        return;
-                      }
+        background: BackgroundImage(items: librarySearchResults.activePosters),
+        body: Padding(
+          padding: EdgeInsets.only(left: AdaptiveLayout.of(context).sideBarWidth),
+          child: Scaffold(
+            extendBody: true,
+            extendBodyBehindAppBar: true,
+            floatingActionButton: HideOnScroll(
+              controller: scrollController,
+              visibleBuilder: (visible) => Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (librarySearchResults.activePosters.isNotEmpty)
+                    FloatingActionButtonAnimated(
+                      key: Key(context.localized.playLabel),
+                      isExtended: visible,
+                      tooltip: context.localized.playVideos,
+                      onPressed: () async {
+                        if (librarySearchResults.showGalleryButtons && !librarySearchResults.showPlayButtons) {
+                          libraryProvider.viewGallery(context);
+                          return;
+                        } else if (!librarySearchResults.showGalleryButtons && librarySearchResults.showPlayButtons) {
+                          libraryProvider.playLibraryItems(context, ref);
+                          return;
+                        }
 
-                      await showLibraryPlayOptions(
-                        context,
-                        context.localized.libraryPlayItems,
-                        playVideos: librarySearchResults.showPlayButtons
-                            ? () => libraryProvider.playLibraryItems(context, ref)
-                            : null,
-                        viewGallery:
-                            librarySearchResults.showGalleryButtons ? () => libraryProvider.viewGallery(context) : null,
-                      );
-                    },
-                    label: Text(context.localized.playLabel),
-                    icon: const Icon(IconsaxPlusBold.play),
-                  ),
-              ].addInBetween(const SizedBox(height: 10)),
-            ),
-          ),
-          bottomNavigationBar: HideOnScroll(
-            controller: AdaptiveLayout.of(context).isDesktop ? null : scrollController,
-            child: IgnorePointer(
-              ignoring: librarySearchResults.fetchingItems,
-              child: _LibrarySearchBottomBar(
-                uniqueKey: uniqueKey,
-                refreshKey: refreshKey,
-                scrollController: scrollController,
-                libraryProvider: libraryProvider,
-                postersList: postersList,
+                        await showLibraryPlayOptions(
+                          context,
+                          context.localized.libraryPlayItems,
+                          playVideos: librarySearchResults.showPlayButtons
+                              ? () => libraryProvider.playLibraryItems(context, ref)
+                              : null,
+                          viewGallery: librarySearchResults.showGalleryButtons
+                              ? () => libraryProvider.viewGallery(context)
+                              : null,
+                        );
+                      },
+                      label: Text(context.localized.playLabel),
+                      icon: const Icon(IconsaxPlusBold.play),
+                    ),
+                ].addInBetween(const SizedBox(height: 10)),
               ),
             ),
-          ),
-          body: Stack(
-            children: [
-              Positioned.fill(
-                child: Card(
-                  elevation: 1,
+            bottomNavigationBar: HideOnScroll(
+              controller: AdaptiveLayout.of(context).isDesktop ? null : scrollController,
+              child: IgnorePointer(
+                ignoring: librarySearchResults.fetchingItems,
+                child: _LibrarySearchBottomBar(
+                  uniqueKey: uniqueKey,
+                  refreshKey: refreshKey,
+                  scrollController: scrollController,
+                  libraryProvider: libraryProvider,
+                  postersList: postersList,
+                ),
+              ),
+            ),
+            body: Stack(
+              children: [
+                Positioned.fill(
                   child: PinchPosterZoom(
                     scaleDifference: (difference) =>
                         ref.read(clientSettingsProvider.notifier).addPosterSize(difference),
@@ -498,35 +501,35 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                     ),
                   ),
                 ),
-              ),
-              if (librarySearchResults.fetchingItems) ...[
-                Container(
-                  color: Colors.black.withValues(alpha: 0.1),
-                ),
-                Center(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primaryContainer,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const CircularProgressIndicator.adaptive(),
-                          Text(context.localized.fetchingLibrary, style: Theme.of(context).textTheme.titleMedium),
-                          IconButton(
-                            onPressed: () => libraryProvider.cancelFetch(),
-                            icon: const Icon(IconsaxPlusLinear.close_square),
-                          )
-                        ].addInBetween(const SizedBox(width: 16)),
+                if (librarySearchResults.fetchingItems) ...[
+                  Container(
+                    color: Colors.black.withValues(alpha: 0.1),
+                  ),
+                  Center(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primaryContainer,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const CircularProgressIndicator.adaptive(),
+                            Text(context.localized.fetchingLibrary, style: Theme.of(context).textTheme.titleMedium),
+                            IconButton(
+                              onPressed: () => libraryProvider.cancelFetch(),
+                              icon: const Icon(IconsaxPlusLinear.close_square),
+                            )
+                          ].addInBetween(const SizedBox(width: 16)),
+                        ),
                       ),
                     ),
-                  ),
-                )
+                  )
+                ],
               ],
-            ],
+            ),
           ),
         ),
       ),

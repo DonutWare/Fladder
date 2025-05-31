@@ -61,13 +61,18 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: false,
         extendBody: true,
-        drawer: NestedNavigationDrawer(
-          actionButton: null,
-          toggleExpanded: (value) => _key.currentState?.closeDrawer(),
-          views: views,
-          destinations: widget.destinations,
-          currentLocation: currentLocation,
-        ),
+        floatingActionButton: AdaptiveLayout.layoutModeOf(context) == LayoutMode.single && currentIndex != -1
+            ? widget.destinations.elementAtOrNull(currentIndex)?.floatingActionButton?.normal
+            : null,
+        drawer: homeRoutes.any((element) => element.name.contains(currentLocation))
+            ? NestedNavigationDrawer(
+                actionButton: null,
+                toggleExpanded: (value) => _key.currentState?.closeDrawer(),
+                views: views,
+                destinations: widget.destinations,
+                currentLocation: currentLocation,
+              )
+            : null,
         bottomNavigationBar: AdaptiveLayout.viewSizeOf(context) == ViewSize.phone
             ? HideOnScroll(
                 controller: AdaptiveLayout.scrollOf(context),

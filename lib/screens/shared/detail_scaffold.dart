@@ -158,7 +158,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                         maxWidth: MediaQuery.sizeOf(context).width,
                       ),
                       child: widget.content(padding.copyWith(
-                        left: sideBarPadding + 25,
+                        left: sideBarPadding + 25 + MediaQuery.paddingOf(context).left,
                       )),
                     ),
                   ),
@@ -169,7 +169,9 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
             IconTheme(
               data: IconThemeData(color: Theme.of(context).colorScheme.onSurface),
               child: Padding(
-                padding: MediaQuery.paddingOf(context).copyWith(left: sideBarPadding).add(
+                padding: MediaQuery.paddingOf(context)
+                    .copyWith(left: sideBarPadding + MediaQuery.paddingOf(context).left)
+                    .add(
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                     ),
                 child: Row(

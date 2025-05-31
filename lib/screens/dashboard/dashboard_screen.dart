@@ -23,6 +23,7 @@ import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/sliver_list_padding.dart';
+import 'package:fladder/widgets/navigation_scaffold/components/background_image.dart';
 import 'package:fladder/widgets/shared/pinch_poster_zoom.dart';
 import 'package:fladder/widgets/shared/poster_size_slider.dart';
 import 'package:fladder/widgets/shared/pull_to_refresh.dart';
@@ -65,6 +66,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final padding = AdaptiveLayout.adaptivePadding(context);
+
     final dashboardData = ref.watch(dashboardProvider);
     final views = ref.watch(viewsProvider);
     final homeSettings = ref.watch(homeSettingsProvider);
@@ -84,6 +87,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     return MediaQuery.removeViewInsets(
       context: context,
       child: NestedScaffold(
+        background: BackgroundImage(items: [...dashboardData.nextUp, ...allResume]),
         body: PullToRefresh(
           refreshKey: _refreshIndicatorKey,
           displacement: 80 + MediaQuery.of(context).viewPadding.top,
@@ -104,7 +108,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   SliverToBoxAdapter(
                     child: Transform.translate(
                       offset: Offset(0, AdaptiveLayout.layoutOf(context) == ViewSize.phone ? -14 : 0),
-                      child: HomeBannerWidget(posters: homeCarouselItems),
+                      child: Padding(
+                        padding: padding,
+                        child: HomeBannerWidget(posters: homeCarouselItems),
+                      ),
                     ),
                   ),
                 },
@@ -122,6 +129,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                       (homeSettings.nextUp == HomeNextUp.cont || homeSettings.nextUp == HomeNextUp.separate))
                     SliverToBoxAdapter(
                       child: PosterRow(
+                        contentPadding: padding,
                         label: context.localized.dashboardContinueWatching,
                         posters: resumeVideo,
                       ),
@@ -130,6 +138,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                       (homeSettings.nextUp == HomeNextUp.cont || homeSettings.nextUp == HomeNextUp.separate))
                     SliverToBoxAdapter(
                       child: PosterRow(
+                        contentPadding: padding,
                         label: context.localized.dashboardContinueListening,
                         posters: resumeAudio,
                       ),
@@ -138,6 +147,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                       (homeSettings.nextUp == HomeNextUp.cont || homeSettings.nextUp == HomeNextUp.separate))
                     SliverToBoxAdapter(
                       child: PosterRow(
+                        contentPadding: padding,
                         label: context.localized.dashboardContinueReading,
                         posters: resumeBooks,
                       ),
@@ -146,6 +156,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                       (homeSettings.nextUp == HomeNextUp.nextUp || homeSettings.nextUp == HomeNextUp.separate))
                     SliverToBoxAdapter(
                       child: PosterRow(
+                        contentPadding: padding,
                         label: context.localized.nextUp,
                         posters: dashboardData.nextUp,
                       ),
@@ -153,6 +164,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   if ([...allResume, ...dashboardData.nextUp].isNotEmpty && homeSettings.nextUp == HomeNextUp.combined)
                     SliverToBoxAdapter(
                       child: PosterRow(
+                        contentPadding: padding,
                         label: context.localized.dashboardContinue,
                         posters: [...allResume, ...dashboardData.nextUp],
                       ),
@@ -161,6 +173,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                       .where((element) => element.recentlyAdded.isNotEmpty)
                       .map((view) => SliverToBoxAdapter(
                             child: PosterRow(
+                              contentPadding: padding,
                               label: context.localized.dashboardRecentlyAdded(view.name),
                               onLabelClick: () => context.router.push(LibrarySearchRoute(
                                 viewModelId: view.id,

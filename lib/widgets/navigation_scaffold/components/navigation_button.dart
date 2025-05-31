@@ -13,6 +13,7 @@ class NavigationButton extends ConsumerStatefulWidget {
   final bool horizontal;
   final bool expanded;
   final Function()? onPressed;
+  final Function()? onLongPress;
   final List<ItemAction> trailing;
   final bool selected;
   final Duration duration;
@@ -23,6 +24,7 @@ class NavigationButton extends ConsumerStatefulWidget {
     this.horizontal = false,
     this.expanded = false,
     this.onPressed,
+    this.onLongPress,
     this.selected = false,
     this.trailing = const [],
     this.duration = const Duration(milliseconds: 125),
@@ -60,19 +62,21 @@ class _NavigationButtonState extends ConsumerState<NavigationButton> {
               return foreGroundColor;
             })),
         onPressed: widget.onPressed,
+        onLongPress: widget.onLongPress,
         child: widget.horizontal
             ? Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                 child: SizedBox(
                   height: 35,
                   child: Row(
-                    spacing: 8,
+                    spacing: 4,
                     mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       AnimatedContainer(
                         duration: const Duration(milliseconds: 250),
-                        margin: EdgeInsets.only(top: widget.selected ? 4 : 0),
-                        height: widget.selected ? 14 : 0,
+                        height: widget.selected ? 16 : 0,
+                        margin: const EdgeInsets.only(top: 1.5),
                         width: 6,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
@@ -84,9 +88,7 @@ class _NavigationButtonState extends ConsumerState<NavigationButton> {
                       ),
                       AnimatedSwitcher(
                         duration: widget.duration,
-                        child: widget.selected
-                            ? widget.selectedIcon.setKey(Key("${widget.label}+selected"))
-                            : widget.icon.setKey(Key("${widget.label}+normal")),
+                        child: widget.selected ? widget.selectedIcon : widget.icon,
                       ),
                       const SizedBox(width: 6),
                       if (widget.horizontal && widget.expanded) ...[

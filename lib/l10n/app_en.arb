@@ -1211,5 +1211,14 @@
   "rememberSubtitleSelectionsDesc": "Try to set the subtitle track to the closest match to the last video.",
   "@rememberSubtitleSelectionsDesc": {},
   "rememberAudioSelectionsDesc": "Try to set the audio track to the closest match to the last video.",
-  "@rememberAudioSelectionsDesc": {}
+  "@rememberAudioSelectionsDesc": {},
+  "similarToRecentlyPlayed": "Similar to recently played",
+  "similarToLikedItem": "Similar to liked item",
+  "hasDirectorFromRecentlyPlayed": "Has director from recently played",
+  "hasActorFromRecentlyPlayed": "Has actor from recently played",
+  "hasLikedDirector": "Has liked director",
+  "hasLikedActor": "Has liked actor",
+  "latest": "Latest",
+  "recommended": "Recommended"
+  
 }

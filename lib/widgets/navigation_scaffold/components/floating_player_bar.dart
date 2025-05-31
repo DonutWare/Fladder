@@ -62,8 +62,7 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
     final progress = playbackInfo.position.inMilliseconds / playbackInfo.duration.inMilliseconds;
     final paddingOf = MediaQuery.paddingOf(context);
     return Padding(
-      padding:
-          paddingOf.copyWith(top: 0, bottom: max(paddingOf.bottom, 20)).add(const EdgeInsets.symmetric(horizontal: 12)),
+      padding: paddingOf.copyWith(top: 0, bottom: max(paddingOf.bottom, 0)),
       child: Dismissible(
         key: const Key("CurrentlyPlayingBar"),
         confirmDismiss: (direction) async {

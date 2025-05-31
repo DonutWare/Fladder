@@ -1,8 +1,10 @@
+import 'package:flutter/material.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/screens/shared/media/poster_widget.dart';
 import 'package:fladder/widgets/shared/horizontal_list.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PosterRow extends ConsumerStatefulWidget {
   final List<ItemBaseModel> posters;

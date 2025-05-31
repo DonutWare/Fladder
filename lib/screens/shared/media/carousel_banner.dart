@@ -51,8 +51,7 @@ class _CarouselBannerState extends ConsumerState<CarouselBanner> {
             final itemExtent = widget.items.length == 1 ? MediaQuery.sizeOf(context).width : maxExtent;
 
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4)
-                  .copyWith(top: AdaptiveLayout.of(context).isDesktop ? 6 : 10),
+              padding: EdgeInsets.only(top: AdaptiveLayout.of(context).isDesktop ? 6 : 10),
               child: Stack(
                 children: [
                   CarouselView(
@@ -60,7 +59,6 @@ class _CarouselBannerState extends ConsumerState<CarouselBanner> {
                     shrinkExtent: 0,
                     controller: carouselController,
                     shape: RoundedRectangleBorder(borderRadius: border),
-                    padding: const EdgeInsets.symmetric(horizontal: 6),
                     enableSplash: false,
                     itemExtent: itemExtent,
                     children: [

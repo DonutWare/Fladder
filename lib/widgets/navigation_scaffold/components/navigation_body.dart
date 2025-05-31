@@ -81,6 +81,7 @@ class _NavigationBodyState extends ConsumerState<NavigationBody> {
                     data: semiNestedPadding(context, hasOverlay),
                     child: widget.child,
                   ),
+                  scaffoldKey: widget.drawerKey,
                 )
               : MediaQuery(
                   data: semiNestedPadding(context, hasOverlay),
@@ -94,6 +95,7 @@ class _NavigationBodyState extends ConsumerState<NavigationBody> {
                 data: semiNestedPadding(context, hasOverlay),
                 child: widget.child,
               ),
+              scaffoldKey: widget.drawerKey,
             )
         },
         AnimatedFadeSize(

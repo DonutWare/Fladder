@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
-
 class NestedScaffold extends ConsumerWidget {
   final Widget body;
   final Widget? background;
@@ -19,15 +17,19 @@ class NestedScaffold extends ConsumerWidget {
       children: [
         if (background != null) background!,
         Container(
-          color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.75),
-          child: Padding(
-            padding: EdgeInsets.only(
-              left: AdaptiveLayout.of(context).sideBarWidth,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Theme.of(context).colorScheme.surface.withValues(alpha: 0.98),
+                Theme.of(context).colorScheme.surface.withValues(alpha: 0.8),
+              ],
             ),
-            child: Scaffold(
-              backgroundColor: Colors.transparent,
-              body: body,
-            ),
+          ),
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: body,
           ),
         ),
       ],

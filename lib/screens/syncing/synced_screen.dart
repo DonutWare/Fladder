@@ -13,6 +13,7 @@ import 'package:fladder/screens/syncing/sync_list_item.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/sliver_list_padding.dart';
+import 'package:fladder/widgets/navigation_scaffold/components/background_image.dart';
 import 'package:fladder/widgets/shared/pinch_poster_zoom.dart';
 import 'package:fladder/widgets/shared/pull_to_refresh.dart';
 
@@ -30,11 +31,13 @@ class _SyncedScreenState extends ConsumerState<SyncedScreen> {
   @override
   Widget build(BuildContext context) {
     final items = ref.watch(syncProvider.select((value) => value.items));
+    final padding = AdaptiveLayout.adaptivePadding(context);
 
     return PullToRefresh(
       refreshOnStart: true,
       onRefresh: () => ref.read(syncProvider.notifier).refresh(),
       child: NestedScaffold(
+        background: BackgroundImage(images: items.map((value) => value.images).nonNulls.toList()),
         body: PinchPosterZoom(
           scaleDifference: (difference) => ref.read(clientSettingsProvider.notifier).addPosterSize(difference / 2),
           child: CustomScrollView(
@@ -52,7 +55,7 @@ class _SyncedScreenState extends ConsumerState<SyncedScreen> {
               if (items.isNotEmpty) ...[
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    padding: padding,
                     child: Text(
                       context.localized.syncedItems,
                       style: Theme.of(context).textTheme.titleLarge,
@@ -60,7 +63,7 @@ class _SyncedScreenState extends ConsumerState<SyncedScreen> {
                   ),
                 ),
                 SliverPadding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: padding,
                   sliver: SliverList.builder(
                     itemBuilder: (context, index) {
                       final item = items[index];

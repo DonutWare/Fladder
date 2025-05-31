@@ -4,7 +4,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
-import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/settings_user_icon.dart';
 import 'package:fladder/widgets/shared/shapes.dart';
@@ -31,7 +30,13 @@ class NestedSliverAppBar extends ConsumerWidget {
           padding: const EdgeInsets.only(bottom: 24),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
+            spacing: 16,
             children: [
+              IconButton(
+                onPressed: () => Scaffold.of(parent).openDrawer(),
+                icon: const Icon(IconsaxPlusLinear.menu),
+                padding: EdgeInsets.zero,
+              ),
               Expanded(
                 child: Hero(
                   tag: "PrimarySearch",
@@ -54,8 +59,9 @@ class NestedSliverAppBar extends ConsumerWidget {
                               const Icon(IconsaxPlusLinear.search_normal),
                               const SizedBox(width: 16),
                               Transform.translate(
-                                  offset: const Offset(0, 2.5),
-                                  child: Text(searchTitle ?? "${context.localized.search}...")),
+                                offset: const Offset(0, 1.5),
+                                child: Text(searchTitle ?? "${context.localized.search}..."),
+                              ),
                             ],
                           ),
                         ),
@@ -65,7 +71,7 @@ class NestedSliverAppBar extends ConsumerWidget {
                 ),
               ),
               const SettingsUserIcon()
-            ].addInBetween(const SizedBox(width: 16)),
+            ],
           ),
         ),
       ),

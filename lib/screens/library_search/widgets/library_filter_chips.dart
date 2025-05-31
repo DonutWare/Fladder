@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
@@ -11,7 +11,6 @@ import 'package:fladder/models/library_search/library_search_options.dart';
 import 'package:fladder/providers/library_search_provider.dart';
 import 'package:fladder/screens/library_search/widgets/library_views.dart';
 import 'package:fladder/screens/shared/chips/category_chip.dart';
-import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/map_bool_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
@@ -40,6 +39,7 @@ class LibraryFilterChips extends ConsumerWidget {
       controller: controller,
       positionBuilder: (state) {
         return Row(
+          spacing: 8,
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -51,7 +51,7 @@ class LibraryFilterChips extends ConsumerWidget {
             libraryProvider: libraryProvider,
             postersList: postersList,
             libraryViewType: libraryViewType,
-          ).addPadding(const EdgeInsets.symmetric(horizontal: 8)),
+          ),
         );
       },
     );

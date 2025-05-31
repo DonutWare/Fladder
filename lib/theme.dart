@@ -126,6 +126,23 @@ class FladderTheme {
       listTileTheme: ListTileThemeData(
         shape: defaultShape,
       ),
+      dividerTheme: const DividerThemeData(
+        indent: 6,
+        endIndent: 6,
+      ),
+      segmentedButtonTheme: SegmentedButtonThemeData(
+        style: ButtonStyle(
+          backgroundColor: WidgetStateProperty.resolveWith((state) {
+            if (state.contains(WidgetState.selected)) {
+              return scheme?.primaryContainer;
+            }
+            return scheme?.surfaceContainer;
+          }),
+          padding: const WidgetStatePropertyAll(EdgeInsets.symmetric(vertical: 8, horizontal: 12)),
+          elevation: const WidgetStatePropertyAll(5),
+          side: const WidgetStatePropertyAll(BorderSide.none),
+        ),
+      ),
       elevatedButtonTheme: ElevatedButtonThemeData(style: ButtonStyle(shape: WidgetStatePropertyAll(defaultShape))),
       filledButtonTheme: FilledButtonThemeData(style: ButtonStyle(shape: WidgetStatePropertyAll(defaultShape))),
       outlinedButtonTheme: OutlinedButtonThemeData(style: ButtonStyle(shape: WidgetStatePropertyAll(defaultShape))),
