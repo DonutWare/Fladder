@@ -60,6 +60,7 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
 
     final bottomPadding = isDesktop || kIsWeb ? 0.0 : MediaQuery.paddingOf(context).bottom;
 
+    final isHomeScreen = currentIndex != -1;
     return PopScope(
       canPop: currentIndex == 0,
       onPopInvokedWithResult: (didPop, result) {
@@ -79,7 +80,7 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
                 extendBodyBehindAppBar: true,
                 resizeToAvoidBottomInset: false,
                 extendBody: true,
-                floatingActionButton: AdaptiveLayout.layoutModeOf(context) == LayoutMode.single && currentIndex != -1
+                floatingActionButton: AdaptiveLayout.layoutModeOf(context) == LayoutMode.single && isHomeScreen
                     ? widget.destinations.elementAtOrNull(currentIndex)?.floatingActionButton?.normal
                     : null,
                 drawer: homeRoutes.any((element) => element.name.contains(currentLocation))
@@ -91,7 +92,7 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
                         currentLocation: currentLocation,
                       )
                     : null,
-                bottomNavigationBar: AdaptiveLayout.viewSizeOf(context) == ViewSize.phone
+                bottomNavigationBar: isHomeScreen && AdaptiveLayout.viewSizeOf(context) == ViewSize.phone
                     ? HideOnScroll(
                         controller: AdaptiveLayout.scrollOf(context),
                         forceHide: !homeRoutes.any((element) => element.name.contains(currentLocation)),

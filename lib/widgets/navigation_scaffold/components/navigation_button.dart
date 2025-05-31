@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/util/localization_helper.dart';
-import 'package:fladder/util/widget_extensions.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 
 class NavigationButton extends ConsumerStatefulWidget {
@@ -129,9 +128,7 @@ class _NavigationButtonState extends ConsumerState<NavigationButton> {
                       children: [
                         AnimatedSwitcher(
                           duration: widget.duration,
-                          child: widget.selected
-                              ? widget.selectedIcon.setKey(Key("${widget.label}+selected"))
-                              : widget.icon.setKey(Key("${widget.label}+normal")),
+                          child: widget.selected ? widget.selectedIcon : widget.icon,
                         ),
                         if (widget.label != null && widget.horizontal && widget.expanded)
                           Flexible(child: Text(widget.label!))

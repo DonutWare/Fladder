@@ -34,7 +34,6 @@ import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/map_bool_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/util/router_extension.dart';
-import 'package:fladder/util/sliver_list_padding.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/background_image.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/settings_user_icon.dart';
 import 'package:fladder/widgets/shared/fladder_scrollbar.dart';
@@ -211,6 +210,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
               ),
             ),
             body: Stack(
+              fit: StackFit.expand,
               children: [
                 Positioned.fill(
                   child: PinchPosterZoom(
@@ -450,12 +450,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                                               padding: const EdgeInsets.all(8),
                                               scrollDirection: Axis.horizontal,
                                               child: LibraryFilterChips(
-                                                controller: scrollController,
-                                                libraryProvider: libraryProvider,
-                                                librarySearchResults: librarySearchResults,
-                                                uniqueKey: uniqueKey,
-                                                postersList: postersList,
-                                                libraryViewType: libraryViewType,
+                                                key: uniqueKey,
                                               ),
                                             ),
                                           ),
@@ -491,8 +486,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                                     child: Text(context.localized.noItemsToShow),
                                   ),
                                 ),
-                              const DefautlSliverBottomPadding(),
-                              const SliverPadding(padding: EdgeInsets.only(bottom: 80))
+                              SliverPadding(padding: EdgeInsets.only(bottom: MediaQuery.sizeOf(context).height * 0.20))
                             ],
                           ),
                         ),

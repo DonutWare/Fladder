@@ -6,66 +6,30 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
-import 'package:fladder/models/library_search/library_search_model.dart';
 import 'package:fladder/models/library_search/library_search_options.dart';
 import 'package:fladder/providers/library_search_provider.dart';
-import 'package:fladder/screens/library_search/widgets/library_views.dart';
 import 'package:fladder/screens/shared/chips/category_chip.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/map_bool_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 
-class LibraryFilterChips extends StatelessWidget {
-  final Key uniqueKey;
-  final ScrollController controller;
-  final LibrarySearchModel librarySearchResults;
-  final LibrarySearchNotifier libraryProvider;
-  final List<ItemBaseModel> postersList;
-  final LibraryViewTypes libraryViewType;
-
-  const LibraryFilterChips({
-    required this.uniqueKey,
-    required this.controller,
-    required this.librarySearchResults,
-    required this.libraryProvider,
-    required this.postersList,
-    required this.libraryViewType,
-    super.key,
-  });
+class LibraryFilterChips extends ConsumerStatefulWidget {
+  const LibraryFilterChips({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return _LibraryChipsRow(
-      uniqueKey: uniqueKey,
-      librarySearchResults: librarySearchResults,
-      libraryProvider: libraryProvider,
-      postersList: postersList,
-      libraryViewType: libraryViewType,
-    );
-  }
+  ConsumerState<ConsumerStatefulWidget> createState() => _LibraryFilterChipsState();
 }
 
-class _LibraryChipsRow extends ConsumerWidget {
-  final Key uniqueKey;
-  final LibrarySearchModel librarySearchResults;
-  final LibrarySearchNotifier libraryProvider;
-  final List<ItemBaseModel> postersList;
-  final LibraryViewTypes libraryViewType;
-
-  const _LibraryChipsRow({
-    required this.uniqueKey,
-    required this.librarySearchResults,
-    required this.libraryProvider,
-    required this.postersList,
-    required this.libraryViewType,
-  });
-
+class _LibraryFilterChipsState extends ConsumerState<LibraryFilterChips> {
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
+    final uniqueKey = widget.key ?? UniqueKey();
+    final libraryProvider = ref.watch(librarySearchProvider(uniqueKey).notifier);
     final groupBy = ref.watch(librarySearchProvider(uniqueKey).select((v) => v.groupBy));
     final favourites = ref.watch(librarySearchProvider(uniqueKey).select((v) => v.favourites));
     final recursive = ref.watch(librarySearchProvider(uniqueKey).select((v) => v.recursive));
     final hideEmpty = ref.watch(librarySearchProvider(uniqueKey).select((v) => v.hideEmptyShows));
+    final librarySearchResults = ref.watch(librarySearchProvider(uniqueKey));
 
     return Row(
       spacing: 8,

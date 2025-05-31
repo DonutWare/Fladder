@@ -33,7 +33,6 @@ class SettingsScaffold extends ConsumerWidget {
     final padding = MediaQuery.of(context).padding;
     final singleLayout = AdaptiveLayout.layoutModeOf(context) == LayoutMode.single;
     return Scaffold(
-      backgroundColor: AdaptiveLayout.layoutModeOf(context) == LayoutMode.dual ? Colors.transparent : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: floatingActionButton,
       body: Column(
@@ -86,9 +85,10 @@ class SettingsScaffold extends ConsumerWidget {
                     ),
                   ),
                 SliverPadding(
-                  padding: MediaQuery.paddingOf(context).copyWith(top: AdaptiveLayout.of(context).isDesktop ? 0 : 8),
-                  sliver: SliverList(
-                    delegate: SliverChildListDelegate(items),
+                  padding: MediaQuery.paddingOf(context).copyWith(top: 0),
+                  sliver: SliverList.builder(
+                    itemBuilder: (context, index) => items[index],
+                    itemCount: items.length,
                   ),
                 ),
                 if (bottomActions.isEmpty)
