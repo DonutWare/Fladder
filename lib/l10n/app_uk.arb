@@ -1327,5 +1327,11 @@
   "hasDirectorFromRecentlyPlayed": "Чи нещодавно грав режисер",
   "@hasDirectorFromRecentlyPlayed": {},
   "exitFladderTitle": "Вихід із Flutter",
-  "@exitFladderTitle": {}
+  "@exitFladderTitle": {},
+  "playbackTypeDirect": "Головна",
+  "@playbackTypeDirect": {},
+  "playbackType": "Тип відтворення",
+  "@playbackType": {},
+  "playbackTypeTranscode": "Перекод",
+  "@playbackTypeTranscode": {}
 }
