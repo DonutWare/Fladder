@@ -6,9 +6,8 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/util/localization_helper.dart';
 
 enum SortingOptions {
-  name([ItemSortBy.name]),
+  sortName([ItemSortBy.sortname]),
   communityRating([ItemSortBy.communityrating]),
-  // criticsRating([ItemSortBy.criticrating]),
   parentalRating([ItemSortBy.officialrating]),
   dateAdded([ItemSortBy.datecreated]),
   dateLastContentAdded([ItemSortBy.datelastcontentadded]),
@@ -23,10 +22,10 @@ enum SortingOptions {
   const SortingOptions(this.value);
   final List<ItemSortBy> value;
 
-  List<ItemSortBy> get toSortBy => [...value, ItemSortBy.name];
+  List<ItemSortBy> get toSortBy => [...value, ItemSortBy.sortname];
 
   String label(BuildContext context) => switch (this) {
-        name => context.localized.name,
+        sortName => context.localized.name,
         communityRating => context.localized.communityRating,
         parentalRating => context.localized.parentalRating,
         dateAdded => context.localized.dateAdded,
