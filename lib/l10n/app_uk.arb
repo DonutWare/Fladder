@@ -1325,5 +1325,7 @@
   "recommended": "Рекомендовано",
   "@recommended": {},
   "hasDirectorFromRecentlyPlayed": "Чи нещодавно грав режисер",
-  "@hasDirectorFromRecentlyPlayed": {}
+  "@hasDirectorFromRecentlyPlayed": {},
+  "exitFladderTitle": "Вихід із Flutter",
+  "@exitFladderTitle": {}
 }
