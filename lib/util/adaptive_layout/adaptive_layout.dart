@@ -91,7 +91,7 @@ class AdaptiveLayout extends InheritedWidget {
       left: AdaptiveLayout.of(context).sideBarWidth + horizontalPadding + viewPadding.left,
       top: 0,
       bottom: 0,
-      right: viewPadding.left + horizontalPadding,
+      right: viewPadding.right + horizontalPadding,
     );
     return padding;
   }
