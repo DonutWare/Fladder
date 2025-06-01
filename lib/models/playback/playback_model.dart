@@ -238,7 +238,7 @@ class PlaybackModelHelper {
         defaultSubStreamIndex: subStreamIndex,
       );
 
-      final mediaSegments = await api.mediaSegmentsGet(id: item.id);
+      final mediaSegments = await api.mediaSegmentsGet(id: firstItemToPlay.id);
       final trickPlay = (await api.getTrickPlay(item: fullItem.body, ref: ref))?.body;
       final chapters = fullItem.body?.overview.chapters ?? [];
 
