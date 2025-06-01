@@ -1309,5 +1309,21 @@
   "rememberAudioSelectionsDesc": "Спробуйте встановити аудіодоріжку так, щоб вона максимально відповідала останньому відео.",
   "@rememberAudioSelectionsDesc": {},
   "rememberSubtitleSelections": "Встановити доріжку субтитрів на основі попереднього елемента",
-  "@rememberSubtitleSelections": {}
+  "@rememberSubtitleSelections": {},
+  "similarToRecentlyPlayed": "Схоже на нещодавно зіграні",
+  "@similarToRecentlyPlayed": {},
+  "similarToLikedItem": "Схоже на сподобався товар",
+  "@similarToLikedItem": {},
+  "hasActorFromRecentlyPlayed": "Нещодавно грав актор",
+  "@hasActorFromRecentlyPlayed": {},
+  "latest": "Найновіші",
+  "@latest": {},
+  "hasLikedDirector": "Сподобався режисер",
+  "@hasLikedDirector": {},
+  "hasLikedActor": "Сподобався актор",
+  "@hasLikedActor": {},
+  "recommended": "Рекомендовано",
+  "@recommended": {},
+  "hasDirectorFromRecentlyPlayed": "Чи нещодавно грав режисер",
+  "@hasDirectorFromRecentlyPlayed": {}
 }
