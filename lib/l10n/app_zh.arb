@@ -1326,5 +1326,19 @@
   "playbackTypeTranscode": "转码",
   "@playbackTypeTranscode": {},
   "playbackTypeOffline": "离线",
-  "@playbackTypeOffline": {}
+  "@playbackTypeOffline": {},
+  "latestReleases": "最新版本",
+  "@latestReleases": {},
+  "autoCheckForUpdates": "定期检查更新",
+  "@autoCheckForUpdates": {},
+  "newReleaseFoundTitle": "更新 {newRelease} 可用！",
+  "@newReleaseFoundTitle": {
+    "placeholders": {
+      "newRelease": {
+        "type": "String"
+      }
+    }
+  },
+  "newUpdateFoundOnGithub": "在 Github 上发现新的更新",
+  "@newUpdateFoundOnGithub": {}
 }
