@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
+
 import 'package:chopper/chopper.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -49,10 +51,10 @@ extension PlaybackModelExtension on PlaybackModel? {
   AudioStreamModel? get defaultAudioStream =>
       this?.audioStreams?.firstWhereOrNull((element) => element.index == this?.mediaStreams?.defaultAudioStreamIndex);
 
-  String? get label => switch (this) {
-        DirectPlaybackModel _ => PlaybackType.directStream.name,
-        TranscodePlaybackModel _ => PlaybackType.transcode.name,
-        OfflinePlaybackModel _ => PlaybackType.offline.name,
+  String? label(BuildContext context) => switch (this) {
+        DirectPlaybackModel _ => PlaybackType.directStream.name(context),
+        TranscodePlaybackModel _ => PlaybackType.transcode.name(context),
+        OfflinePlaybackModel _ => PlaybackType.offline.name(context),
         _ => null
       };
 }

@@ -461,14 +461,14 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                   ),
                 ),
                 const Spacer(),
-                if (playbackModel.label != null)
+                if (playbackModel != null)
                   InkWell(
                     onTap: () => showVideoPlaybackInformation(context),
                     child: Card(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                         child: Text(
-                          playbackModel?.label ?? "",
+                          playbackModel.label(context) ?? "",
                         ),
                       ),
                     ),

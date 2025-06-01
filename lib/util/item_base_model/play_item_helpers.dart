@@ -220,7 +220,7 @@ extension ItemBaseModelExtensions on ItemBaseModel? {
 
     PlaybackModel? model;
 
-    if (showPlaybackOption) {
+    if (showPlaybackOption || syncedItem != null) {
       final playbackType = await _showPlaybackTypeSelection(
         context: context,
         options: options,
@@ -317,13 +317,13 @@ class PlaybackDialogue extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16).add(const EdgeInsets.only(top: 16, bottom: 8)),
           child: Text(
-            "Playback type",
+            context.localized.playbackType,
             style: Theme.of(context).textTheme.titleLarge,
           ),
         ),
         const Divider(),
         ...options.map((type) => ListTile(
-              title: Text(type.name),
+              title: Text(type.name(context)),
               leading: Icon(type.icon),
               onTap: () {
                 onClose(type);
