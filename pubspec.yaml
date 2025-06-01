@@ -125,6 +125,7 @@ dependencies:
   share_plus: ^10.1.4
   archive: ^4.0.2
   dart_mappable: ^4.3.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

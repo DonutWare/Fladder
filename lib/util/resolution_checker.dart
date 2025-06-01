@@ -9,9 +9,8 @@ import 'package:window_manager/window_manager.dart';
 import 'package:fladder/providers/arguments_provider.dart';
 
 class ResolutionChecker extends ConsumerStatefulWidget {
-  final bool isDesktop;
   final Widget child;
-  const ResolutionChecker({required this.isDesktop, required this.child, super.key});
+  const ResolutionChecker({required this.child, super.key});
 
   @override
   ConsumerState<ResolutionChecker> createState() => _ResolutionCheckerState();
@@ -24,12 +23,16 @@ class _ResolutionCheckerState extends ConsumerState<ResolutionChecker> {
   @override
   void initState() {
     super.initState();
-    if (widget.isDesktop) {
-      _timer = Timer.periodic(const Duration(seconds: 2), (timer) => checkResolution());
-    }
+    WidgetsBinding.instance.addPostFrameCallback((value) async {
+      if (ref.read(argumentsStateProvider).htpcMode) {
+        lastResolution = (await screenRetriever.getPrimaryDisplay()).size;
+        _timer = Timer.periodic(const Duration(seconds: 2), (timer) => checkResolution());
+      }
+    });
   }
 
   Future<void> checkResolution() async {
+    if (!mounted) return;
     final newResolution = (await screenRetriever.getPrimaryDisplay()).size;
     if (lastResolution != newResolution) {
       lastResolution = newResolution;
@@ -38,8 +41,7 @@ class _ResolutionCheckerState extends ConsumerState<ResolutionChecker> {
   }
 
   Future<void> shouldSetResolution() async {
-    final arguments = ref.read(argumentsStateProvider);
-    if (arguments.htpcMode && lastResolution != null) {
+    if (lastResolution != null) {
       final isFullScreen = await windowManager.isFullScreen();
       if (isFullScreen) {
         await windowManager.setFullScreen(false);

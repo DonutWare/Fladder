@@ -25,7 +25,6 @@ import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/bitrate_helper.dart';
 import 'package:fladder/util/box_fit_extension.dart';
 import 'package:fladder/util/localization_helper.dart';
-import 'package:fladder/util/option_dialogue.dart';
 import 'package:fladder/widgets/shared/enum_selection.dart';
 
 @RoutePage()
@@ -74,22 +73,18 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                 ],
               ),
             SettingsListTile(
-              label: Text(context.localized.videoScalingFillScreenTitle),
-              subLabel: Text(videoSettings.videoFit.label(context)),
-              onTap: () => openMultiSelectOptions(
-                context,
-                label: context.localized.videoScalingFillScreenTitle,
-                items: BoxFit.values,
-                selected: [ref.read(videoPlayerSettingsProvider.select((value) => value.videoFit))],
-                onChanged: (values) => ref.read(videoPlayerSettingsProvider.notifier).setFitType(values.first),
-                itemBuilder: (type, selected, tap) => RadioListTile(
-                  groupValue: ref.read(videoPlayerSettingsProvider.select((value) => value.videoFit)),
-                  title: Text(type.label(context)),
-                  value: type,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                  contentPadding: EdgeInsets.zero,
-                  onChanged: (value) => tap(),
-                ),
+              label: Text(context.localized.videoScaling),
+              trailing: EnumBox(
+                current: videoSettings.videoFit.label(context),
+                itemBuilder: (context) => BoxFit.values
+                    .map(
+                      (entry) => PopupMenuItem(
+                        value: entry,
+                        child: Text(entry.label(context)),
+                        onTap: () => ref.read(videoPlayerSettingsProvider.notifier).setFitType(entry),
+                      ),
+                    )
+                    .toList(),
               ),
             ),
             SettingsListTile(
@@ -363,7 +358,7 @@ class _StatusIndicator extends StatelessWidget {
           ),
           const SizedBox(width: 6),
         ],
-        label,
+        Flexible(child: label),
       ],
     );
   }

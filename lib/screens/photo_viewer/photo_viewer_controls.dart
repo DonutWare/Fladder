@@ -20,9 +20,8 @@ import 'package:fladder/util/input_handler.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/throttler.dart';
+import 'package:fladder/widgets/full_screen_helpers.dart/full_screen_wrapper.dart';
 import 'package:fladder/widgets/shared/elevated_icon.dart';
-import 'package:fladder/widgets/shared/full_screen_button.dart'
-    if (dart.library.html) 'package:fladder/widgets/shared/full_screen_button_web.dart';
 import 'package:fladder/widgets/shared/progress_floating_button.dart';
 
 class PhotoViewerControls extends ConsumerStatefulWidget {
@@ -131,7 +130,7 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with
   @override
   void dispose() {
     timerController.dispose();
-    closeFullScreen();
+    fullScreenHelper.closeFullScreen(ref);
     windowManager.removeListener(this);
     super.dispose();
   }
