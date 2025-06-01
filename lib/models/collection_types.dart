@@ -52,4 +52,16 @@ extension CollectionTypeExtension on CollectionType {
         return IconsaxPlusLinear.information;
     }
   }
+
+  double? get aspectRatio => switch (this) {
+        CollectionType.music ||
+        CollectionType.homevideos ||
+        CollectionType.boxsets ||
+        CollectionType.photos ||
+        CollectionType.livetv ||
+        CollectionType.playlists =>
+          0.8,
+        CollectionType.folders => 1.3,
+        _ => null,
+      };
 }

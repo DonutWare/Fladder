@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
@@ -304,6 +304,15 @@ enum FladderItemType {
 
   const FladderItemType({required this.icon, required this.selectedicon});
 
+  double get aspectRatio => switch (this) {
+        FladderItemType.video => 0.8,
+        FladderItemType.photo => 0.8,
+        FladderItemType.photoAlbum => 0.8,
+        FladderItemType.musicAlbum => 0.8,
+        FladderItemType.baseType => 0.8,
+        _ => 0.55,
+      };
+
   static Set<FladderItemType> get playable => {
         FladderItemType.series,
         FladderItemType.episode,
@@ -317,27 +326,25 @@ enum FladderItemType {
         FladderItemType.video,
       };
 
-  String label(BuildContext context) {
-    return switch (this) {
-      FladderItemType.baseType => context.localized.mediaTypeBase,
-      FladderItemType.audio => context.localized.audio,
-      FladderItemType.collectionFolder => context.localized.collectionFolder,
-      FladderItemType.musicAlbum => context.localized.musicAlbum,
-      FladderItemType.musicVideo => context.localized.video,
-      FladderItemType.video => context.localized.video,
-      FladderItemType.movie => context.localized.mediaTypeMovie,
-      FladderItemType.series => context.localized.mediaTypeSeries,
-      FladderItemType.season => context.localized.mediaTypeSeason,
-      FladderItemType.episode => context.localized.mediaTypeEpisode,
-      FladderItemType.photo => context.localized.mediaTypePhoto,
-      FladderItemType.person => context.localized.mediaTypePerson,
-      FladderItemType.photoAlbum => context.localized.mediaTypePhotoAlbum,
-      FladderItemType.folder => context.localized.mediaTypeFolder,
-      FladderItemType.boxset => context.localized.mediaTypeBoxset,
-      FladderItemType.playlist => context.localized.mediaTypePlaylist,
-      FladderItemType.book => context.localized.mediaTypeBook,
-    };
-  }
+  String label(BuildContext context) => switch (this) {
+        FladderItemType.baseType => context.localized.mediaTypeBase,
+        FladderItemType.audio => context.localized.audio,
+        FladderItemType.collectionFolder => context.localized.collectionFolder,
+        FladderItemType.musicAlbum => context.localized.musicAlbum,
+        FladderItemType.musicVideo => context.localized.video,
+        FladderItemType.video => context.localized.video,
+        FladderItemType.movie => context.localized.mediaTypeMovie,
+        FladderItemType.series => context.localized.mediaTypeSeries,
+        FladderItemType.season => context.localized.mediaTypeSeason,
+        FladderItemType.episode => context.localized.mediaTypeEpisode,
+        FladderItemType.photo => context.localized.mediaTypePhoto,
+        FladderItemType.person => context.localized.mediaTypePerson,
+        FladderItemType.photoAlbum => context.localized.mediaTypePhotoAlbum,
+        FladderItemType.folder => context.localized.mediaTypeFolder,
+        FladderItemType.boxset => context.localized.mediaTypeBoxset,
+        FladderItemType.playlist => context.localized.mediaTypePlaylist,
+        FladderItemType.book => context.localized.mediaTypeBook,
+      };
 
   BaseItemKind get dtoKind => switch (this) {
         FladderItemType.baseType => BaseItemKind.userrootfolder,

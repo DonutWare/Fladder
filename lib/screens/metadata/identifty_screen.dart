@@ -247,7 +247,7 @@ class _IdentifyScreenState extends ConsumerState<IdentifyScreen> with TickerProv
             final controller =
                 currentKey == "Name" ? currentController : TextEditingController(text: state.searchString);
             return FocusedOutlinedTextField(
-              label: context.localized.userName,
+              label: context.localized.name,
               controller: controller,
               onChanged: (value) {
                 currentController = controller;

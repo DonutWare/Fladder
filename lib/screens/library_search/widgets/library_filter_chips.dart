@@ -163,7 +163,7 @@ class _LibraryFilterChipsState extends ConsumerState<LibraryFilterChips> {
   ) {
     showDialog(
       context: context,
-      builder: (_) {
+      builder: (context) {
         final groupBy = ref.watch(librarySearchProvider(uniqueKey).select((v) => v.groupBy));
         return AlertDialog(
           content: SizedBox(

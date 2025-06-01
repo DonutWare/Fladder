@@ -75,6 +75,7 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
     final largeBar = AdaptiveLayout.layoutModeOf(context) != LayoutMode.single;
     final fullyExpanded = largeBar ? expandedSideBar : false;
     final shouldExpand = showOnHover || fullyExpanded;
+    final isDesktop = AdaptiveLayout.of(context).isDesktop;
     return Stack(
       children: [
         AdaptiveLayoutBuilder(
@@ -94,8 +95,7 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
               onExit: (event) => stopTimer(),
               child: Column(
                 children: [
-                  if (AdaptiveLayout.of(context).isDesktop &&
-                      AdaptiveLayout.of(context).platform != TargetPlatform.macOS) ...{
+                  if (isDesktop && AdaptiveLayout.of(context).platform != TargetPlatform.macOS) ...{
                     const SizedBox(height: 4),
                     Text(
                       "Fladder",
@@ -106,23 +106,29 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                   Expanded(
                     child: Padding(
                       key: const Key('navigation_rail'),
-                      padding: padding.copyWith(right: 0, top: AdaptiveLayout.of(context).isDesktop ? 8 : null),
+                      padding: padding.copyWith(right: 0, top: isDesktop ? 8 : null),
                       child: Column(
                         spacing: 2,
                         children: [
-                          Builder(builder: (context) {
-                            return IconButton(
-                              onPressed: !largeBar
-                                  ? () => widget.scaffoldKey.currentState?.openDrawer()
-                                  : () => setState(() {
-                                        expandedSideBar = !expandedSideBar;
-                                        if (!expandedSideBar) {
-                                          showOnHover = false;
-                                        }
-                                      }),
-                              icon: const Icon(IconsaxPlusBold.menu),
-                            );
-                          }),
+                          Align(
+                            alignment: largeBar && expandedSideBar ? Alignment.centerRight : Alignment.center,
+                            child: Opacity(
+                              opacity: largeBar && expandedSideBar ? 0.65 : 1.0,
+                              child: IconButton(
+                                onPressed: !largeBar
+                                    ? () => widget.scaffoldKey.currentState?.openDrawer()
+                                    : () => setState(() {
+                                          expandedSideBar = !expandedSideBar;
+                                          if (!expandedSideBar) {
+                                            showOnHover = false;
+                                          }
+                                        }),
+                                icon: Icon(
+                                  largeBar && expandedSideBar ? IconsaxPlusLinear.sidebar_left : IconsaxPlusLinear.menu,
+                                ),
+                              ),
+                            ),
+                          ),
                           const SizedBox(height: 8),
                           if (largeBar) ...[
                             AnimatedFadeSize(

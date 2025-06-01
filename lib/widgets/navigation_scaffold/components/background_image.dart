@@ -46,7 +46,8 @@ class _BackgroundImageState extends ConsumerState<BackgroundImage> {
       if (widget.items.isEmpty) return;
       final itemId = switch (randomItem?.type) {
             FladderItemType.folder => randomItem?.id,
-            _ => randomItem?.parentId ?? randomItem?.id,
+            FladderItemType.series => randomItem?.parentId ?? randomItem?.id,
+            _ => randomItem?.id,
           } ??
           randomItem?.id;
       if (itemId == null) return;
@@ -54,8 +55,8 @@ class _BackgroundImageState extends ConsumerState<BackgroundImage> {
             itemId: itemId,
           );
       setState(() {
-        backgroundImage = apiProvider.body?.parentBaseModel.getPosters?.backDrop?.shuffled().firstOrNull ??
-            apiProvider.body?.parentBaseModel.getPosters?.primary;
+        backgroundImage = apiProvider.body?.parentBaseModel.getPosters?.randomBackDrop ??
+            apiProvider.body?.getPosters?.randomBackDrop;
       });
     });
   }

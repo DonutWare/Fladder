@@ -38,112 +38,106 @@ class _ClientSettingsPageState extends ConsumerState<ClientSettingsPage> {
   @override
   Widget build(BuildContext context) {
     final clientSettings = ref.watch(clientSettingsProvider);
-    final showBackground = AdaptiveLayout.viewSizeOf(context) != ViewSize.phone &&
-        AdaptiveLayout.layoutModeOf(context) != LayoutMode.single;
 
-    return Card(
-      elevation: showBackground ? 2 : 0,
-      child: SettingsScaffold(
-        label: "Fladder",
-        items: [
-          ...buildClientSettingsDownload(context, ref, setState),
-          ...settingsListGroup(context, SettingsLabelDivider(label: context.localized.lockscreen), [
+    return SettingsScaffold(
+      label: "Fladder",
+      items: [
+        ...buildClientSettingsDownload(context, ref, setState),
+        ...settingsListGroup(context, SettingsLabelDivider(label: context.localized.lockscreen), [
+          SettingsListTile(
+            label: Text(context.localized.timeOut),
+            subLabel: Text(timePickerString(context, clientSettings.timeOut)),
+            onTap: () async {
+              final timePicker = await showSimpleDurationPicker(
+                context: context,
+                initialValue: clientSettings.timeOut ?? const Duration(),
+              );
+
+              if (timePicker == null) return;
+
+              ref.read(clientSettingsProvider.notifier).setTimeOut(timePicker != Duration.zero
+                  ? Duration(minutes: timePicker.inMinutes, seconds: timePicker.inSeconds % 60)
+                  : null);
+            },
+          ),
+        ]),
+        const SizedBox(height: 12),
+        ...buildClientSettingsDashboard(context, ref),
+        const SizedBox(height: 12),
+        ...buildClientSettingsVisual(context, ref, nextUpDaysEditor, libraryPageSizeController),
+        const SizedBox(height: 12),
+        ...buildClientSettingsTheme(context, ref),
+        const SizedBox(height: 12),
+        if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer) ...[
+          ...settingsListGroup(context, SettingsLabelDivider(label: context.localized.controls), [
             SettingsListTile(
-              label: Text(context.localized.timeOut),
-              subLabel: Text(timePickerString(context, clientSettings.timeOut)),
-              onTap: () async {
-                final timePicker = await showSimpleDurationPicker(
-                  context: context,
-                  initialValue: clientSettings.timeOut ?? const Duration(),
-                );
-
-                if (timePicker == null) return;
-
-                ref.read(clientSettingsProvider.notifier).setTimeOut(timePicker != Duration.zero
-                    ? Duration(minutes: timePicker.inMinutes, seconds: timePicker.inSeconds % 60)
-                    : null);
-              },
+              label: Text(context.localized.mouseDragSupport),
+              subLabel: Text(clientSettings.mouseDragSupport ? context.localized.enabled : context.localized.disabled),
+              onTap: () => ref
+                  .read(clientSettingsProvider.notifier)
+                  .update((current) => current.copyWith(mouseDragSupport: !clientSettings.mouseDragSupport)),
+              trailing: Switch(
+                value: clientSettings.mouseDragSupport,
+                onChanged: (value) => ref
+                    .read(clientSettingsProvider.notifier)
+                    .update((current) => current.copyWith(mouseDragSupport: !clientSettings.mouseDragSupport)),
+              ),
             ),
           ]),
           const SizedBox(height: 12),
-          ...buildClientSettingsDashboard(context, ref),
-          const SizedBox(height: 12),
-          ...buildClientSettingsVisual(context, ref, nextUpDaysEditor, libraryPageSizeController),
-          const SizedBox(height: 12),
-          ...buildClientSettingsTheme(context, ref),
-          const SizedBox(height: 12),
-          if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer) ...[
-            ...settingsListGroup(context, SettingsLabelDivider(label: context.localized.controls), [
-              SettingsListTile(
-                label: Text(context.localized.mouseDragSupport),
-                subLabel:
-                    Text(clientSettings.mouseDragSupport ? context.localized.enabled : context.localized.disabled),
-                onTap: () => ref
-                    .read(clientSettingsProvider.notifier)
-                    .update((current) => current.copyWith(mouseDragSupport: !clientSettings.mouseDragSupport)),
-                trailing: Switch(
-                  value: clientSettings.mouseDragSupport,
-                  onChanged: (value) => ref
-                      .read(clientSettingsProvider.notifier)
-                      .update((current) => current.copyWith(mouseDragSupport: !clientSettings.mouseDragSupport)),
-                ),
-              ),
-            ]),
-            const SizedBox(height: 12),
-          ],
-          ...buildClientSettingsAdvanced(context, ref),
-          if (kDebugMode) ...[
-            const SizedBox(height: 64),
-            SettingsListTile(
-              label: Text(
-                context.localized.clearAllSettings,
-              ),
-              contentColor: Theme.of(context).colorScheme.error,
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => Dialog(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            context.localized.clearAllSettingsQuestion,
-                            style: Theme.of(context).textTheme.titleLarge,
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            context.localized.unableToReverseAction,
-                          ),
-                          const SizedBox(height: 16),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              FilledButton(
-                                onPressed: () => Navigator.of(context).pop(),
-                                child: Text(context.localized.cancel),
-                              ),
-                              const SizedBox(width: 8),
-                              ElevatedButton(
-                                onPressed: () async {
-                                  await ref.read(sharedPreferencesProvider).clear();
-                                  context.router.push(const LoginRoute());
-                                },
-                                child: Text(context.localized.clear),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
+        ],
+        ...buildClientSettingsAdvanced(context, ref),
+        if (kDebugMode) ...[
+          const SizedBox(height: 64),
+          SettingsListTile(
+            label: Text(
+              context.localized.clearAllSettings,
+            ),
+            contentColor: Theme.of(context).colorScheme.error,
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) => Dialog(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          context.localized.clearAllSettingsQuestion,
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          context.localized.unableToReverseAction,
+                        ),
+                        const SizedBox(height: 16),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            FilledButton(
+                              onPressed: () => Navigator.of(context).pop(),
+                              child: Text(context.localized.cancel),
+                            ),
+                            const SizedBox(width: 8),
+                            ElevatedButton(
+                              onPressed: () async {
+                                await ref.read(sharedPreferencesProvider).clear();
+                                context.router.push(const LoginRoute());
+                              },
+                              child: Text(context.localized.clear),
+                            )
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                );
-              },
-            ),
-          ],
+                ),
+              );
+            },
+          ),
         ],
-      ),
+      ],
     );
   }
 }

@@ -9,12 +9,12 @@ import 'package:fladder/util/disable_keypad_focus.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/sticky_header_text.dart';
 
-class HorizontalList extends ConsumerStatefulWidget {
+class HorizontalList<T> extends ConsumerStatefulWidget {
   final String? label;
   final List<Widget> titleActions;
   final Function()? onLabelClick;
   final String? subtext;
-  final List items;
+  final List<T> items;
   final int? startIndex;
   final Widget Function(BuildContext context, int index) itemBuilder;
   final bool scrollToEnd;
@@ -43,7 +43,7 @@ class HorizontalList extends ConsumerStatefulWidget {
 class _HorizontalListState extends ConsumerState<HorizontalList> {
   final GlobalKey _firstItemKey = GlobalKey();
   final ScrollController _scrollController = ScrollController();
-  final contentPadding = 16.0;
+  final contentPadding = 8.0;
   double? contentWidth;
   double? _firstItemWidth;
 
@@ -201,9 +201,9 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
         ),
         const SizedBox(height: 8),
         SizedBox(
-          height: widget.height ??
+          height: (widget.height ??
               AdaptiveLayout.poster(context).size *
-                  ref.watch(clientSettingsProvider.select((value) => value.posterSize)),
+                  ref.watch(clientSettingsProvider.select((value) => value.posterSize))),
           child: ListView.separated(
             controller: _scrollController,
             scrollDirection: Axis.horizontal,

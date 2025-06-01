@@ -297,6 +297,7 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
               colorScheme: darkTheme.colorScheme.copyWith(
                 surface: amoledOverwrite,
                 surfaceContainerHighest: amoledOverwrite,
+                surfaceContainerLow: amoledOverwrite,
               ),
             ),
             themeMode: themeMode,

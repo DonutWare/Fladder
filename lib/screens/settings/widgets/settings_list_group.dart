@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'package:dynamic_color/dynamic_color.dart';
+
 List<Widget> settingsListGroup(BuildContext context, Widget label, List<Widget> children) {
   final radius = BorderRadius.circular(24);
   final radiusSmall = const Radius.circular(6);
-  final color = Theme.of(context).colorScheme.surfaceContainer;
+  final color = Theme.of(context).colorScheme.surfaceContainerLow.harmonizeWith(Colors.red);
   return [
     Card(
       elevation: 0,

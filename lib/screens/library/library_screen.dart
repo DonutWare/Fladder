@@ -242,6 +242,7 @@ class LibraryRow extends ConsumerWidget {
           },
           child: Card(
             color: isSelected ? Theme.of(context).colorScheme.primaryContainer : null,
+            shadowColor: Colors.transparent,
             child: Padding(
               padding: const EdgeInsets.all(4.0),
               child: Column(

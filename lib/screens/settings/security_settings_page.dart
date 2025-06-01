@@ -9,7 +9,6 @@ import 'package:fladder/screens/settings/settings_scaffold.dart';
 import 'package:fladder/screens/settings/widgets/settings_label_divider.dart';
 import 'package:fladder/screens/settings/widgets/settings_list_group.dart';
 import 'package:fladder/screens/shared/authenticate_button_options.dart';
-import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 
 @RoutePage()
@@ -24,24 +23,19 @@ class _UserSettingsPageState extends ConsumerState<SecuritySettingsPage> {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
-    final showBackground = AdaptiveLayout.viewSizeOf(context) != ViewSize.phone &&
-        AdaptiveLayout.layoutModeOf(context) != LayoutMode.single;
-    return Card(
-      elevation: showBackground ? 2 : 0,
-      child: SettingsScaffold(
-        label: context.localized.settingsProfileTitle,
-        items: [
-          ...settingsListGroup(context, SettingsLabelDivider(label: context.localized.settingSecurityApplockTitle), [
-            SettingsListTile(
-              label: Text(context.localized.settingSecurityApplockTitle),
-              subLabel: Text(user?.authMethod.name(context) ?? ""),
-              onTap: () => showAuthOptionsDialogue(context, user!, (newUser) {
-                ref.read(userProvider.notifier).updateUser(newUser);
-              }),
-            ),
-          ]),
-        ],
-      ),
+    return SettingsScaffold(
+      label: context.localized.settingsProfileTitle,
+      items: [
+        ...settingsListGroup(context, SettingsLabelDivider(label: context.localized.settingSecurityApplockTitle), [
+          SettingsListTile(
+            label: Text(context.localized.settingSecurityApplockTitle),
+            subLabel: Text(user?.authMethod.name(context) ?? ""),
+            onTap: () => showAuthOptionsDialogue(context, user!, (newUser) {
+              ref.read(userProvider.notifier).updateUser(newUser);
+            }),
+          ),
+        ]),
+      ],
     );
   }
 }

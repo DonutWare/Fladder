@@ -115,7 +115,7 @@ class LibraryViews extends ConsumerWidget {
               crossAxisCount: posterSize.toInt(),
               mainAxisSpacing: (8 * decimal) + 8,
               crossAxisSpacing: (8 * decimal) + 8,
-              childAspectRatio: AdaptiveLayout.poster(context).ratio,
+              childAspectRatio: items.getMostCommonType.aspectRatio,
             ),
             itemCount: items.length,
             itemBuilder: (context, index) {
@@ -278,13 +278,23 @@ class LibraryViews extends ConsumerWidget {
   }) {
     return SliverStickyHeader(
       header: Container(
-        decoration: BoxDecoration(
-          color: context.colors.surface,
-        ),
         height: 50,
         alignment: Alignment.centerLeft,
-        child: Text(
-          header,
+        child: Transform.translate(
+          offset: const Offset(-20, 0),
+          child: Container(
+            decoration: BoxDecoration(
+              color: context.colors.surface.withValues(alpha: 0.9),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Text(
+                header,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
         ),
       ),
       sliver: sliver,

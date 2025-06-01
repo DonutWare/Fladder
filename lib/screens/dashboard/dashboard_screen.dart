@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
+import 'package:fladder/models/collection_types.dart';
 import 'package:fladder/models/library_search/library_search_options.dart';
 import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/dashboard_provider.dart';
@@ -87,7 +88,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     return MediaQuery.removeViewInsets(
       context: context,
       child: NestedScaffold(
-        background: BackgroundImage(items: [...dashboardData.nextUp, ...allResume]),
+        background: BackgroundImage(items: [...homeCarouselItems, ...dashboardData.nextUp, ...allResume]),
         body: PullToRefresh(
           refreshKey: _refreshIndicatorKey,
           displacement: 80 + MediaQuery.of(context).viewPadding.top,
@@ -178,6 +179,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                             child: PosterRow(
                               contentPadding: padding,
                               label: context.localized.dashboardRecentlyAdded(view.name),
+                              collectionAspectRatio: view.collectionType.aspectRatio,
                               onLabelClick: () => context.router.push(LibrarySearchRoute(
                                 viewModelId: view.id,
                                 sortingOptions: switch (view.collectionType) {

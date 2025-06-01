@@ -64,6 +64,7 @@ class ViewsNotifier extends StateNotifier<ViewsModel> {
             ItemFields.mediasources,
             ItemFields.candelete,
             ItemFields.candownload,
+            ItemFields.primaryimageaspectratio,
           ],
         );
         return e.copyWith(recentlyAdded: recents.body?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList());
