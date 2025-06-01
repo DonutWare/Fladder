@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:window_manager/window_manager.dart';
 
 import 'package:fladder/models/book_model.dart';
 import 'package:fladder/models/item_base_model.dart';
@@ -26,6 +25,7 @@ import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/list_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
+import 'package:fladder/widgets/full_screen_helpers/full_screen_wrapper.dart';
 
 Future<void> _showLoadingIndicator(BuildContext context) async {
   return showDialog(
@@ -103,10 +103,7 @@ Future<void> _playVideo(
       ),
     );
     if (AdaptiveLayout.of(context).isDesktop) {
-      final fullScreen = await windowManager.isFullScreen();
-      if (fullScreen) {
-        await windowManager.setFullScreen(false);
-      }
+      fullScreenHelper.closeFullScreen(ref);
     }
     if (context.mounted) {
       context.refreshData();

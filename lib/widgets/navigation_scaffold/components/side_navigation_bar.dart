@@ -58,7 +58,7 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
 
   void stopTimer() {
     timer?.cancel();
-    timer = Timer(const Duration(milliseconds: 350), () {
+    timer = Timer(const Duration(milliseconds: 125), () {
       setState(() {
         showOnHover = false;
       });
@@ -93,6 +93,7 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
             child: MouseRegion(
               onEnter: (value) => startTimer(),
               onExit: (event) => stopTimer(),
+              onHover: (value) => startTimer(),
               child: Column(
                 children: [
                   if (isDesktop && AdaptiveLayout.of(context).platform != TargetPlatform.macOS) ...{

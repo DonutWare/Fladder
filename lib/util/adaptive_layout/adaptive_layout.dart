@@ -9,6 +9,7 @@ import 'package:fladder/util/adaptive_layout/adaptive_layout_model.dart';
 import 'package:fladder/util/debug_banner.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/poster_defaults.dart';
+import 'package:fladder/util/resolution_checker.dart';
 
 enum InputDevice {
   touch,
@@ -209,7 +210,11 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
           controller: controller,
           posterDefaults: posterDefaults,
         ),
-        child: widget.adaptiveLayout == null ? DebugBanner(child: widget.child(context)) : widget.child(context),
+        child: Builder(
+          builder: (context) => ResolutionChecker(
+            child: widget.adaptiveLayout == null ? DebugBanner(child: widget.child(context)) : widget.child(context),
+          ),
+        ),
       ),
     );
   }

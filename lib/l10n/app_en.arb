@@ -1189,6 +1189,7 @@
   "segmentActionAskToSkip": "Ask to skip",
   "segmentActionSkip": "Skip",
   "loading": "Loading",
+  "exitFladderTitle": "Exit Fladder",
   "castAndCrew": "Cast & Crew",
   "guestActor": "{count, plural, other{Guest Actors} one{Guest Actor}}",
   "@guestActor": {
@@ -1220,5 +1221,4 @@
   "hasLikedActor": "Has liked actor",
   "latest": "Latest",
   "recommended": "Recommended"
-  
 }
