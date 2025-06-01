@@ -198,17 +198,15 @@ class PlaybackModelHelper {
 
       final streamModel = firstItemToPlay.streamModel;
       final audioStreamIndex = selectAudioStream(
-        ref.read(userProvider.select((value) => value?.userConfiguration?.rememberAudioSelections ?? true)),
-        oldModel?.mediaStreams?.currentAudioStream,
-        streamModel?.audioStreams,
-        streamModel?.defaultAudioStreamIndex
-      );
+          ref.read(userProvider.select((value) => value?.userConfiguration?.rememberAudioSelections ?? true)),
+          oldModel?.mediaStreams?.currentAudioStream,
+          streamModel?.audioStreams,
+          streamModel?.defaultAudioStreamIndex);
       final subStreamIndex = selectSubStream(
-        ref.read(userProvider.select((value) => value?.userConfiguration?.rememberSubtitleSelections ?? true)),
-        oldModel?.mediaStreams?.currentSubStream,
-        streamModel?.subStreams,
-        streamModel?.defaultSubStreamIndex
-      );
+          ref.read(userProvider.select((value) => value?.userConfiguration?.rememberSubtitleSelections ?? true)),
+          oldModel?.mediaStreams?.currentSubStream,
+          streamModel?.subStreams,
+          streamModel?.defaultSubStreamIndex);
 
       final Response<PlaybackInfoResponse> response = await api.itemsItemIdPlaybackInfoPost(
         itemId: firstItemToPlay.id,
@@ -345,14 +343,12 @@ class PlaybackModelHelper {
         ref.read(userProvider.select((value) => value?.userConfiguration?.rememberAudioSelections ?? true)),
         playbackModel.mediaStreams?.currentAudioStream,
         playbackModel.audioStreams,
-        playbackModel.mediaStreams?.defaultAudioStreamIndex
-    );
+        playbackModel.mediaStreams?.defaultAudioStreamIndex);
     final subIndex = selectSubStream(
         ref.read(userProvider.select((value) => value?.userConfiguration?.rememberSubtitleSelections ?? true)),
         playbackModel.mediaStreams?.currentSubStream,
         playbackModel.subStreams,
-        playbackModel.mediaStreams?.defaultSubStreamIndex
-    );
+        playbackModel.mediaStreams?.defaultSubStreamIndex);
 
     Response<PlaybackInfoResponse> response = await api.itemsItemIdPlaybackInfoPost(
       itemId: item.id,

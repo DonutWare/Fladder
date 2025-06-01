@@ -2,20 +2,19 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import 'package:fladder/providers/settings/client_settings_provider.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/disable_keypad_focus.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/sticky_header_text.dart';
 
-class HorizontalList extends ConsumerStatefulWidget {
+class HorizontalList<T> extends ConsumerStatefulWidget {
   final String? label;
   final List<Widget> titleActions;
   final Function()? onLabelClick;
   final String? subtext;
-  final List items;
+  final List<T> items;
   final int? startIndex;
   final Widget Function(BuildContext context, int index) itemBuilder;
   final bool scrollToEnd;
@@ -42,19 +41,16 @@ class HorizontalList extends ConsumerStatefulWidget {
 }
 
 class _HorizontalListState extends ConsumerState<HorizontalList> {
-  final itemScrollController = ItemScrollController();
-  late final scrollOffsetController = ScrollOffsetController();
+  final GlobalKey _firstItemKey = GlobalKey();
+  final ScrollController _scrollController = ScrollController();
+  final contentPadding = 8.0;
+  double? contentWidth;
+  double? _firstItemWidth;
 
   @override
   void initState() {
     super.initState();
-    Future.microtask(() async {
-      if (widget.startIndex != null) {
-        itemScrollController.jumpTo(index: widget.startIndex!);
-        scrollOffsetController.animateScroll(
-            offset: -widget.contentPadding.left, duration: const Duration(milliseconds: 125));
-      }
-    });
+    _measureFirstItem(scrollTo: true);
   }
 
   @override
@@ -62,19 +58,56 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
     super.dispose();
   }
 
+  void _measureFirstItem({bool scrollTo = false}) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (widget.startIndex != null) {
+        final context = _firstItemKey.currentContext;
+        if (context != null) {
+          final box = context.findRenderObject() as RenderBox;
+          _firstItemWidth = box.size.width;
+          if (scrollTo) {
+            _scrollToPosition(widget.startIndex!);
+          }
+        }
+      }
+    });
+  }
+
+  void _scrollToPosition(int index) {
+    final offset = index * _firstItemWidth! + index * contentPadding;
+    _scrollController.animateTo(
+      offset,
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.easeInOut,
+    );
+  }
+
   void _scrollToStart() {
-    itemScrollController.scrollTo(index: 0, duration: const Duration(milliseconds: 250), curve: Curves.easeInOut);
+    _scrollController.animateTo(
+      0,
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.easeInOut,
+    );
   }
 
   void _scrollToEnd() {
-    itemScrollController.scrollTo(
-        index: widget.items.length, duration: const Duration(milliseconds: 250), curve: Curves.easeInOut);
+    _scrollController.animateTo(
+      (_firstItemWidth ?? 200) * widget.items.length + 200,
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  int getFirstVisibleIndex() {
+    if (widget.startIndex == null) return 0;
+    if (!_scrollController.hasClients || _firstItemWidth == null) return 0;
+    return (_scrollController.offset / _firstItemWidth!).floor().clamp(0, widget.items.length - 1);
   }
 
   @override
   Widget build(BuildContext context) {
     final hasPointer = AdaptiveLayout.of(context).inputDevice == InputDevice.pointer;
-    return Column(
+    final content = Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -97,11 +130,13 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
                           ),
                         ),
                       if (widget.subtext != null)
-                        Opacity(
-                          opacity: 0.5,
-                          child: Text(
-                            widget.subtext!,
-                            style: Theme.of(context).textTheme.titleMedium,
+                        Flexible(
+                          child: Opacity(
+                            opacity: 0.5,
+                            child: Text(
+                              widget.subtext!,
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
                           ),
                         ),
                       ...widget.titleActions
@@ -120,8 +155,8 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
                             onLongPress: () => _scrollToStart(),
                             child: IconButton(
                                 onPressed: () {
-                                  scrollOffsetController.animateScroll(
-                                      offset: -(MediaQuery.of(context).size.width / 1.75),
+                                  _scrollController.animateTo(
+                                      _scrollController.offset + -(MediaQuery.of(context).size.width / 1.75),
                                       duration: const Duration(milliseconds: 250),
                                       curve: Curves.easeInOut);
                                 },
@@ -134,12 +169,8 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
                           IconButton(
                               tooltip: "Scroll to current",
                               onPressed: () {
-                                if (widget.startIndex != null) {
-                                  itemScrollController.jumpTo(index: widget.startIndex!);
-                                  scrollOffsetController.animateScroll(
-                                      offset: -widget.contentPadding.left,
-                                      duration: const Duration(milliseconds: 250),
-                                      curve: Curves.easeInOutQuad);
+                                if (_firstItemWidth != null && widget.startIndex != null) {
+                                  _scrollToPosition(widget.startIndex!);
                                 }
                               },
                               icon: const Icon(
@@ -151,8 +182,8 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
                             onLongPress: () => _scrollToEnd(),
                             child: IconButton(
                                 onPressed: () {
-                                  scrollOffsetController.animateScroll(
-                                      offset: (MediaQuery.of(context).size.width / 1.75),
+                                  _scrollController.animateTo(
+                                      _scrollController.offset + (MediaQuery.of(context).size.width / 1.75),
                                       duration: const Duration(milliseconds: 250),
                                       curve: Curves.easeInOut);
                                 },
@@ -170,23 +201,30 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
         ),
         const SizedBox(height: 8),
         SizedBox(
-          height: widget.height ??
+          height: (widget.height ??
               AdaptiveLayout.poster(context).size *
-                  ref.watch(clientSettingsProvider.select((value) => value.posterSize)),
-          child: ScrollablePositionedList.separated(
-            shrinkWrap: widget.shrinkWrap,
-            itemScrollController: itemScrollController,
-            scrollOffsetController: scrollOffsetController,
-            padding: widget.contentPadding,
-            itemCount: widget.items.length,
+                  ref.watch(clientSettingsProvider.select((value) => value.posterSize))),
+          child: ListView.separated(
+            controller: _scrollController,
             scrollDirection: Axis.horizontal,
-            separatorBuilder: (context, index) => const SizedBox(
-              width: 16,
-            ),
-            itemBuilder: widget.itemBuilder,
+            padding: widget.contentPadding,
+            itemBuilder: (context, index) => index == getFirstVisibleIndex()
+                ? Container(
+                    key: _firstItemKey,
+                    child: widget.itemBuilder(context, index),
+                  )
+                : widget.itemBuilder(context, index),
+            separatorBuilder: (context, index) => SizedBox(width: contentPadding),
+            itemCount: widget.items.length,
           ),
         ),
       ],
     );
+    return widget.startIndex == null
+        ? content
+        : LayoutBuilder(builder: (context, constraints) {
+            _measureFirstItem();
+            return content;
+          });
   }
 }

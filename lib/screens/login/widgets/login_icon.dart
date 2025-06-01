@@ -24,7 +24,7 @@ class LoginIcon extends ConsumerWidget {
       aspectRatio: 1.0,
       child: Card(
         elevation: 1,
-        clipBehavior: Clip.antiAlias,
+        clipBehavior: Clip.hardEdge,
         margin: EdgeInsets.zero,
         child: Stack(
           children: [

@@ -90,7 +90,7 @@ class SettingsListTile extends StatelessWidget {
                         ),
                         if (subLabel != null)
                           Opacity(
-                            opacity: 0.75,
+                            opacity: 0.65,
                             child: Material(
                               color: Colors.transparent,
                               textStyle: Theme.of(context).textTheme.labelLarge,

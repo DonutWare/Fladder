@@ -218,16 +218,16 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
         .toSet()
         .toList();
     var tempState = state.copyWith();
-    final genres = mappedList
-        .expand((element) => element?.genres ?? <NameGuidPair>[])
-        .nonNulls
-        .sorted((a, b) => a.name!.toLowerCase().compareTo(b.name!.toLowerCase()));
+    final genres = (await Future.wait(state.views.included.map((viewModel) => _loadGenres(viewModel))))
+        .expand((element) => element)
+        .toSet()
+        .toList();
     final tags = mappedList
         .expand((element) => element?.tags ?? <String>[])
         .sorted((a, b) => a.toLowerCase().compareTo(b.toLowerCase()));
     tempState = tempState.copyWith(
       types: state.types.setAll(false).setKeys(enabledCollections, true),
-      genres: {for (var element in genres) element.name!: false}.replaceMap(tempState.genres),
+      genres: {for (var element in genres) element.name: false}.replaceMap(tempState.genres),
       studios: {for (var element in studios) element: false}.replaceMap(tempState.studios),
       tags: {for (var element in tags) element: false}.replaceMap(tempState.tags),
     );
@@ -242,6 +242,11 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
   Future<List<Studio>> _loadStudios(ViewModel viewModel) async {
     final response = await api.studiosGet(parentId: viewModel.id);
     return response.body?.items?.map((e) => Studio(id: e.id ?? "", name: e.name ?? "")).toList() ?? [];
+  }
+
+  Future<List<GenreItems>> _loadGenres(ViewModel viewModel) async {
+    final response = await api.genresGet(parentId: viewModel.id);
+    return response.body?.items?.map((e) => GenreItems(id: e.id ?? "", name: e.name ?? "")).toList() ?? [];
   }
 
   Future<ServerQueryResult?> _loadLibrary(

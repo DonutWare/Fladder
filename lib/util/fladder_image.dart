@@ -13,6 +13,7 @@ class FladderImage extends ConsumerWidget {
   final Widget Function(BuildContext context, Object object, StackTrace? stack)? imageErrorBuilder;
   final Widget? placeHolder;
   final BoxFit fit;
+  final BoxFit? blurFit;
   final AlignmentGeometry? alignment;
   final bool disableBlur;
   final bool blurOnly;
@@ -22,6 +23,7 @@ class FladderImage extends ConsumerWidget {
     this.imageErrorBuilder,
     this.placeHolder,
     this.fit = BoxFit.cover,
+    this.blurFit,
     this.alignment,
     this.disableBlur = false,
     this.blurOnly = false,
@@ -41,7 +43,7 @@ class FladderImage extends ConsumerWidget {
         children: [
           if (!disableBlur && useBluredPlaceHolder && newImage.hash.isNotEmpty)
             Image(
-              fit: fit,
+              fit: blurFit ?? fit,
               excludeFromSemantics: true,
               filterQuality: FilterQuality.low,
               image: BlurHashImage(

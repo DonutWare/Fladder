@@ -32,8 +32,8 @@ class ViewsNotifier extends StateNotifier<ViewsModel> {
 
   late final JellyService api = ref.read(jellyApiProvider);
 
-  Future<void> fetchViews() async {
-    if (state.loading) return;
+  Future<ViewsModel?> fetchViews() async {
+    if (state.loading) return null;
     final showAllCollections = ref.read(clientSettingsProvider.select((value) => value.showAllCollectionTypes));
     final response = await api.usersUserIdViewsGet(
       includeExternalContent: showAllCollections,
@@ -64,6 +64,7 @@ class ViewsNotifier extends StateNotifier<ViewsModel> {
             ItemFields.mediasources,
             ItemFields.candelete,
             ItemFields.candownload,
+            ItemFields.primaryimageaspectratio,
           ],
         );
         return e.copyWith(recentlyAdded: recents.body?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList());
@@ -76,6 +77,7 @@ class ViewsNotifier extends StateNotifier<ViewsModel> {
             .where((element) => !(ref.read(userProvider)?.latestItemsExcludes.contains(element.id) ?? true))
             .toList(),
         loading: false);
+    return state;
   }
 
   void clear() {

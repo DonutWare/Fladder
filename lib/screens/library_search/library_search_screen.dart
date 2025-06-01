@@ -11,12 +11,9 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/photos_model.dart';
 import 'package:fladder/models/library_search/library_search_model.dart';
 import 'package:fladder/models/library_search/library_search_options.dart';
-import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playlist_model.dart';
-import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/library_search_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
-import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/collections/add_to_collection.dart';
 import 'package:fladder/screens/library_search/widgets/library_filter_chips.dart';
 import 'package:fladder/screens/library_search/widgets/library_play_options_.dart';
@@ -26,9 +23,9 @@ import 'package:fladder/screens/library_search/widgets/library_views.dart';
 import 'package:fladder/screens/library_search/widgets/suggestion_search_bar.dart';
 import 'package:fladder/screens/playlists/add_to_playlists.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
-import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/screens/shared/nested_bottom_appbar.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/screens/shared/nested_scaffold.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/debouncer.dart';
 import 'package:fladder/util/fab_extended_anim.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
@@ -37,8 +34,7 @@ import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/map_bool_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/util/router_extension.dart';
-import 'package:fladder/util/sliver_list_padding.dart';
-import 'package:fladder/widgets/navigation_scaffold/components/floating_player_bar.dart';
+import 'package:fladder/widgets/navigation_scaffold/components/background_image.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/settings_user_icon.dart';
 import 'package:fladder/widgets/shared/fladder_scrollbar.dart';
 import 'package:fladder/widgets/shared/hide_on_scroll.dart';
@@ -136,7 +132,6 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
     final isEmptySearchScreen = widget.viewModelId == null && widget.favourites == null && widget.folderId == null;
     final librarySearchResults = ref.watch(providerKey);
     final postersList = librarySearchResults.posters.hideEmptyChildren(librarySearchResults.hideEmptyShows);
-    final playerState = ref.watch(mediaPlaybackProvider.select((value) => value.state));
     final libraryViewType = ref.watch(libraryViewTypeProvider);
 
     ref.listen(
@@ -157,19 +152,14 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
           libraryProvider.toggleSelectMode();
         }
       },
-      child: Scaffold(
-        extendBody: true,
-        extendBodyBehindAppBar: true,
-        floatingActionButtonAnimator:
-            playerState == VideoPlayerState.minimized ? FloatingActionButtonAnimator.noAnimation : null,
-        floatingActionButtonLocation:
-            playerState == VideoPlayerState.minimized ? FloatingActionButtonLocation.centerFloat : null,
-        floatingActionButton: switch (playerState) {
-          VideoPlayerState.minimized => const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: FloatingPlayerBar(),
-            ),
-          _ => HideOnScroll(
+      child: NestedScaffold(
+        background: BackgroundImage(items: librarySearchResults.activePosters),
+        body: Padding(
+          padding: EdgeInsets.only(left: AdaptiveLayout.of(context).sideBarWidth),
+          child: Scaffold(
+            extendBody: true,
+            extendBodyBehindAppBar: true,
+            floatingActionButton: HideOnScroll(
               controller: scrollController,
               visibleBuilder: (visible) => Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -206,29 +196,26 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                 ].addInBetween(const SizedBox(height: 10)),
               ),
             ),
-        },
-        bottomNavigationBar: HideOnScroll(
-          controller: AdaptiveLayout.of(context).isDesktop ? null : scrollController,
-          child: IgnorePointer(
-            ignoring: librarySearchResults.fetchingItems,
-            child: _LibrarySearchBottomBar(
-              uniqueKey: uniqueKey,
-              refreshKey: refreshKey,
-              scrollController: scrollController,
-              libraryProvider: libraryProvider,
-              postersList: postersList,
+            bottomNavigationBar: HideOnScroll(
+              controller: AdaptiveLayout.of(context).isDesktop ? null : scrollController,
+              child: IgnorePointer(
+                ignoring: librarySearchResults.fetchingItems,
+                child: _LibrarySearchBottomBar(
+                  uniqueKey: uniqueKey,
+                  refreshKey: refreshKey,
+                  scrollController: scrollController,
+                  libraryProvider: libraryProvider,
+                  postersList: postersList,
+                ),
+              ),
             ),
-          ),
-        ),
-        body: Stack(
-          children: [
-            Positioned.fill(
-              child: Card(
-                elevation: 1,
-                child: PinchPosterZoom(
-                  scaleDifference: (difference) => ref.read(clientSettingsProvider.notifier).addPosterSize(difference),
-                  child: MediaQuery.removeViewInsets(
-                    context: context,
+            body: Stack(
+              fit: StackFit.expand,
+              children: [
+                Positioned.fill(
+                  child: PinchPosterZoom(
+                    scaleDifference: (difference) =>
+                        ref.read(clientSettingsProvider.notifier).addPosterSize(difference),
                     child: ClipRRect(
                       borderRadius: AdaptiveLayout.viewSizeOf(context) == ViewSize.desktop
                           ? BorderRadius.circular(15)
@@ -370,7 +357,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                                           onTapUp: (details) async {
                                             if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer) {
                                               double left = details.globalPosition.dx;
-                                              double top = details.globalPosition.dy + 20;
+                                              double top = details.globalPosition.dy;
                                               await showMenu(
                                                 context: context,
                                                 position: RelativeRect.fromLTRB(left, top, 40, 100),
@@ -463,16 +450,10 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                                               padding: const EdgeInsets.all(8),
                                               scrollDirection: Axis.horizontal,
                                               child: LibraryFilterChips(
-                                                controller: scrollController,
-                                                libraryProvider: libraryProvider,
-                                                librarySearchResults: librarySearchResults,
-                                                uniqueKey: uniqueKey,
-                                                postersList: postersList,
-                                                libraryViewType: libraryViewType,
+                                                key: uniqueKey,
                                               ),
                                             ),
                                           ),
-                                          const Row(),
                                         ],
                                       ),
                                     ),
@@ -500,13 +481,12 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                                   ),
                                 )
                               else
-                                SliverToBoxAdapter(
+                                SliverFillRemaining(
                                   child: Center(
                                     child: Text(context.localized.noItemsToShow),
                                   ),
                                 ),
-                              const DefautlSliverBottomPadding(),
-                              const SliverPadding(padding: EdgeInsets.only(bottom: 80))
+                              SliverPadding(padding: EdgeInsets.only(bottom: MediaQuery.sizeOf(context).height * 0.20))
                             ],
                           ),
                         ),
@@ -514,36 +494,36 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                     ),
                   ),
                 ),
-              ),
-            ),
-            if (librarySearchResults.fetchingItems) ...[
-              Container(
-                color: Colors.black.withValues(alpha: 0.1),
-              ),
-              Center(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primaryContainer,
-                    borderRadius: BorderRadius.circular(16),
+                if (librarySearchResults.fetchingItems) ...[
+                  Container(
+                    color: Colors.black.withValues(alpha: 0.1),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const CircularProgressIndicator.adaptive(),
-                        Text(context.localized.fetchingLibrary, style: Theme.of(context).textTheme.titleMedium),
-                        IconButton(
-                          onPressed: () => libraryProvider.cancelFetch(),
-                          icon: const Icon(IconsaxPlusLinear.close_square),
-                        )
-                      ].addInBetween(const SizedBox(width: 16)),
+                  Center(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primaryContainer,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const CircularProgressIndicator.adaptive(),
+                            Text(context.localized.fetchingLibrary, style: Theme.of(context).textTheme.titleMedium),
+                            IconButton(
+                              onPressed: () => libraryProvider.cancelFetch(),
+                              icon: const Icon(IconsaxPlusLinear.close_square),
+                            )
+                          ].addInBetween(const SizedBox(width: 16)),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              )
-            ],
-          ],
+                  )
+                ],
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -663,173 +643,156 @@ class _LibrarySearchBottomBar extends ConsumerWidget {
         icon: const Icon(IconsaxPlusLinear.save_add),
       ),
     ];
-    return NestedBottomAppBar(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
+
+    return Padding(
+      padding: EdgeInsets.only(left: MediaQuery.paddingOf(context).left),
+      child: NestedBottomAppBar(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              ScrollStatePosition(
-                controller: scrollController,
-                positionBuilder: (state) => AnimatedFadeSize(
-                  child: state != ScrollState.top
-                      ? Tooltip(
-                          message: context.localized.scrollToTop,
-                          child: FlatButton(
-                            clipBehavior: Clip.antiAlias,
-                            elevation: 0,
-                            borderRadiusGeometry: BorderRadius.circular(6),
-                            onTap: () => scrollController.animateTo(0,
-                                duration: const Duration(milliseconds: 500), curve: Curves.easeInOutCubic),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.primaryContainer,
-                                borderRadius: BorderRadius.circular(8),
+              Row(
+                spacing: 6,
+                children: [
+                  ScrollStatePosition(
+                    controller: scrollController,
+                    positionBuilder: (state) => AnimatedFadeSize(
+                      child: state != ScrollState.top
+                          ? Tooltip(
+                              message: context.localized.scrollToTop,
+                              child: IconButton.filled(
+                                onPressed: () => scrollController.animateTo(0,
+                                    duration: const Duration(milliseconds: 500), curve: Curves.easeInOutCubic),
+                                icon: const Icon(
+                                  IconsaxPlusLinear.arrow_up,
+                                ),
                               ),
-                              padding: const EdgeInsets.all(6),
-                              child: Icon(
-                                IconsaxPlusLinear.arrow_up,
-                                color: Theme.of(context).colorScheme.onPrimaryContainer,
-                              ),
-                            ),
-                          ),
-                        )
-                      : const SizedBox(),
-                ),
-              ),
-              const SizedBox(width: 6),
-              if (!librarySearchResults.selecteMode) ...{
-                const SizedBox(width: 6),
-                IconButton(
-                  tooltip: context.localized.sortBy,
-                  onPressed: () async {
-                    final newOptions = await openSortByDialogue(
-                      context,
-                      libraryProvider: libraryProvider,
-                      uniqueKey: uniqueKey,
-                      options: (librarySearchResults.sortingOption, librarySearchResults.sortOrder),
-                    );
-                    if (newOptions != null) {
-                      if (newOptions.$1 != null) {
-                        libraryProvider.setSortBy(newOptions.$1!);
-                      }
-                      if (newOptions.$2 != null) {
-                        libraryProvider.setSortOrder(newOptions.$2!);
-                      }
-                    }
-                  },
-                  icon: const Icon(IconsaxPlusLinear.sort),
-                ),
-                if (librarySearchResults.hasActiveFilters) ...{
-                  const SizedBox(width: 6),
-                  IconButton(
-                    tooltip: context.localized.disableFilters,
-                    onPressed: disableFilters(librarySearchResults, libraryProvider),
-                    icon: const Icon(IconsaxPlusLinear.filter_remove),
-                  ),
-                },
-              },
-              const SizedBox(width: 6),
-              IconButton(
-                onPressed: () => libraryProvider.toggleSelectMode(),
-                color: librarySearchResults.selecteMode ? Theme.of(context).colorScheme.primary : null,
-                icon: const Icon(IconsaxPlusLinear.category_2),
-              ),
-              const SizedBox(width: 6),
-              AnimatedFadeSize(
-                child: librarySearchResults.selecteMode
-                    ? Container(
-                        decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.primaryContainer,
-                            borderRadius: BorderRadius.circular(16)),
-                        child: Row(
-                          children: [
-                            Tooltip(
-                              message: context.localized.selectAll,
-                              child: IconButton(
-                                onPressed: () => libraryProvider.selectAll(true),
-                                icon: const Icon(IconsaxPlusLinear.box_add),
-                              ),
-                            ),
-                            const SizedBox(width: 6),
-                            Tooltip(
-                              message: context.localized.clearSelection,
-                              child: IconButton(
-                                onPressed: () => libraryProvider.selectAll(false),
-                                icon: const Icon(IconsaxPlusLinear.box_remove),
-                              ),
-                            ),
-                            const SizedBox(width: 6),
-                            if (librarySearchResults.selectedPosters.isNotEmpty) ...{
-                              if (AdaptiveLayout.of(context).isDesktop)
-                                PopupMenuButton(
-                                  itemBuilder: (context) => actions.popupMenuItems(useIcons: true),
-                                )
-                              else
-                                IconButton(
-                                    onPressed: () {
-                                      showBottomSheetPill(
-                                        context: context,
-                                        content: (context, scrollController) => ListView(
-                                          shrinkWrap: true,
-                                          controller: scrollController,
-                                          children: actions.listTileItems(context, useIcons: true),
-                                        ),
-                                      );
-                                    },
-                                    icon: const Icon(IconsaxPlusLinear.more))
-                            },
-                          ],
-                        ),
-                      )
-                    : const SizedBox(),
-              ),
-              const Spacer(),
-              if (librarySearchResults.activePosters.isNotEmpty)
-                IconButton(
-                  tooltip: context.localized.random,
-                  onPressed: () => libraryProvider.openRandom(context),
-                  icon: Card(
-                    color: Theme.of(context).colorScheme.secondary,
-                    child: Padding(
-                      padding: const EdgeInsets.all(2.0),
-                      child: Icon(
-                        IconsaxPlusBold.arrow_up_1,
-                        color: Theme.of(context).colorScheme.onSecondary,
-                      ),
+                            )
+                          : const SizedBox(),
                     ),
                   ),
-                ),
-              if (librarySearchResults.activePosters.isNotEmpty)
-                IconButton(
-                  tooltip: context.localized.shuffleVideos,
-                  onPressed: () async {
-                    if (librarySearchResults.showGalleryButtons && !librarySearchResults.showPlayButtons) {
-                      libraryProvider.viewGallery(context, shuffle: true);
-                      return;
-                    } else if (!librarySearchResults.showGalleryButtons && librarySearchResults.showPlayButtons) {
-                      libraryProvider.playLibraryItems(context, ref, shuffle: true);
-                      return;
-                    }
-
-                    await showLibraryPlayOptions(
-                      context,
-                      context.localized.libraryShuffleAndPlayItems,
-                      playVideos: librarySearchResults.showPlayButtons
-                          ? () => libraryProvider.playLibraryItems(context, ref, shuffle: true)
-                          : null,
-                      viewGallery: librarySearchResults.showGalleryButtons
-                          ? () => libraryProvider.viewGallery(context, shuffle: true)
-                          : null,
-                    );
+                  if (!librarySearchResults.selecteMode) ...{
+                    IconButton(
+                      tooltip: context.localized.sortBy,
+                      onPressed: () async {
+                        final newOptions = await openSortByDialogue(
+                          context,
+                          libraryProvider: libraryProvider,
+                          uniqueKey: uniqueKey,
+                          options: (librarySearchResults.sortingOption, librarySearchResults.sortOrder),
+                        );
+                        if (newOptions != null) {
+                          if (newOptions.$1 != null) {
+                            libraryProvider.setSortBy(newOptions.$1!);
+                          }
+                          if (newOptions.$2 != null) {
+                            libraryProvider.setSortOrder(newOptions.$2!);
+                          }
+                        }
+                      },
+                      icon: const Icon(IconsaxPlusLinear.sort),
+                    ),
+                    if (librarySearchResults.hasActiveFilters) ...{
+                      IconButton(
+                        tooltip: context.localized.disableFilters,
+                        onPressed: disableFilters(librarySearchResults, libraryProvider),
+                        icon: const Icon(IconsaxPlusLinear.filter_remove),
+                      ),
+                    },
                   },
-                  icon: const Icon(IconsaxPlusLinear.shuffle),
-                ),
+                  IconButton(
+                    onPressed: () => libraryProvider.toggleSelectMode(),
+                    color: librarySearchResults.selecteMode ? Theme.of(context).colorScheme.primary : null,
+                    icon: const Icon(IconsaxPlusLinear.category_2),
+                  ),
+                  AnimatedFadeSize(
+                    child: librarySearchResults.selecteMode
+                        ? Container(
+                            decoration: BoxDecoration(
+                                color: Theme.of(context).colorScheme.primaryContainer,
+                                borderRadius: BorderRadius.circular(16)),
+                            child: Row(
+                              spacing: 6,
+                              children: [
+                                Tooltip(
+                                  message: context.localized.selectAll,
+                                  child: IconButton(
+                                    onPressed: () => libraryProvider.selectAll(true),
+                                    icon: const Icon(IconsaxPlusLinear.box_add),
+                                  ),
+                                ),
+                                Tooltip(
+                                  message: context.localized.clearSelection,
+                                  child: IconButton(
+                                    onPressed: () => libraryProvider.selectAll(false),
+                                    icon: const Icon(IconsaxPlusLinear.box_remove),
+                                  ),
+                                ),
+                                if (librarySearchResults.selectedPosters.isNotEmpty) ...{
+                                  if (AdaptiveLayout.of(context).isDesktop)
+                                    PopupMenuButton(
+                                      itemBuilder: (context) => actions.popupMenuItems(useIcons: true),
+                                    )
+                                  else
+                                    IconButton(
+                                        onPressed: () {
+                                          showBottomSheetPill(
+                                            context: context,
+                                            content: (context, scrollController) => ListView(
+                                              shrinkWrap: true,
+                                              controller: scrollController,
+                                              children: actions.listTileItems(context, useIcons: true),
+                                            ),
+                                          );
+                                        },
+                                        icon: const Icon(IconsaxPlusLinear.more))
+                                },
+                              ],
+                            ),
+                          )
+                        : const SizedBox(),
+                  ),
+                  const Spacer(),
+                  if (librarySearchResults.activePosters.isNotEmpty)
+                    IconButton.filledTonal(
+                      tooltip: context.localized.random,
+                      onPressed: () => libraryProvider.openRandom(context),
+                      icon: const Icon(
+                        IconsaxPlusBold.arrow_up_1,
+                      ),
+                    ),
+                  if (librarySearchResults.activePosters.isNotEmpty)
+                    IconButton(
+                      tooltip: context.localized.shuffleVideos,
+                      onPressed: () async {
+                        if (librarySearchResults.showGalleryButtons && !librarySearchResults.showPlayButtons) {
+                          libraryProvider.viewGallery(context, shuffle: true);
+                          return;
+                        } else if (!librarySearchResults.showGalleryButtons && librarySearchResults.showPlayButtons) {
+                          libraryProvider.playLibraryItems(context, ref, shuffle: true);
+                          return;
+                        }
+
+                        await showLibraryPlayOptions(
+                          context,
+                          context.localized.libraryShuffleAndPlayItems,
+                          playVideos: librarySearchResults.showPlayButtons
+                              ? () => libraryProvider.playLibraryItems(context, ref, shuffle: true)
+                              : null,
+                          viewGallery: librarySearchResults.showGalleryButtons
+                              ? () => libraryProvider.viewGallery(context, shuffle: true)
+                              : null,
+                        );
+                      },
+                      icon: const Icon(IconsaxPlusLinear.shuffle),
+                    ),
+                ],
+              ),
             ],
           ),
-          if (AdaptiveLayout.of(context).isDesktop) const SizedBox(height: 8),
-        ],
+        ),
       ),
     );
   }

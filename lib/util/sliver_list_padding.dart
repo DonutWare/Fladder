@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:fladder/models/settings/home_settings_model.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 
 class DefautlSliverBottomPadding extends StatelessWidget {
   const DefautlSliverBottomPadding({super.key});
@@ -9,8 +8,8 @@ class DefautlSliverBottomPadding extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return (AdaptiveLayout.viewSizeOf(context) != ViewSize.phone)
-        ? SliverPadding(padding: EdgeInsets.only(bottom: 35 + MediaQuery.of(context).padding.bottom))
-        : SliverPadding(padding: EdgeInsets.only(bottom: 85 + MediaQuery.of(context).padding.bottom));
+        ? SliverPadding(padding: EdgeInsets.only(bottom: 60 + MediaQuery.of(context).padding.bottom))
+        : SliverPadding(padding: EdgeInsets.only(bottom: 100 + MediaQuery.of(context).padding.bottom));
   }
 }
 

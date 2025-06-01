@@ -40,7 +40,7 @@ _$ClientSettingsModelImpl _$$ClientSettingsModelImplFromJson(
           (json['maxConcurrentDownloads'] as num?)?.toInt() ?? 2,
       schemeVariant: $enumDecodeNullable(
               _$DynamicSchemeVariantEnumMap, json['schemeVariant']) ??
-          DynamicSchemeVariant.tonalSpot,
+          DynamicSchemeVariant.rainbow,
       libraryPageSize: (json['libraryPageSize'] as num?)?.toInt(),
     );
 

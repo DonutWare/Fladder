@@ -37,36 +37,42 @@ class EmptyItem extends ConsumerWidget {
           }
         },
       ),
-      content: (padding) => Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ConstrainedBox(
-            constraints: const BoxConstraints(maxHeight: 350),
-            child: AspectRatio(
-              aspectRatio: 0.67,
-              child: Card(
-                elevation: 6,
-                color: Theme.of(context).colorScheme.secondaryContainer,
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    width: 1.0,
-                    color: Colors.white.withValues(alpha: 0.10),
+      content: (padding) => Center(
+        child: Padding(
+          padding: padding,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxHeight: 350),
+                child: AspectRatio(
+                  aspectRatio: 0.67,
+                  child: Card(
+                    elevation: 6,
+                    color: Theme.of(context).colorScheme.secondaryContainer,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        width: 1.0,
+                        color: Colors.white.withValues(alpha: 0.10),
+                      ),
+                      borderRadius: FladderTheme.defaultShape.borderRadius,
+                    ),
+                    child: FladderImage(
+                      image: item.getPosters?.primary ?? item.getPosters?.backDrop?.lastOrNull,
+                      placeHolder: PosterPlaceholder(item: item),
+                    ),
                   ),
-                  borderRadius: FladderTheme.defaultShape.borderRadius,
-                ),
-                child: FladderImage(
-                  image: item.getPosters?.primary ?? item.getPosters?.backDrop?.lastOrNull,
-                  placeHolder: PosterPlaceholder(item: item),
                 ),
               ),
-            ),
+              Text(
+                item.title,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              Text("Type of (Jelly.${item.jellyType?.name.capitalize()}) has not been implemented yet."),
+            ].addInBetween(const SizedBox(height: 32)),
           ),
-          Text(
-            item.title,
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          Text("Type of (Jelly.${item.jellyType?.name.capitalize()}) has not been implemented yet."),
-        ].addInBetween(const SizedBox(height: 32)),
+        ),
       ),
     );
   }

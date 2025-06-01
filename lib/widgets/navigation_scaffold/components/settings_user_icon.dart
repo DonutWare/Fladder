@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
+import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/screens/shared/user_icon.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 
 class SettingsUserIcon extends ConsumerWidget {
@@ -15,13 +15,11 @@ class SettingsUserIcon extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final users = ref.watch(userProvider);
+    final user = ref.watch(userProvider);
     return Tooltip(
       message: context.localized.settings,
       waitDuration: const Duration(seconds: 1),
-      child: UserIcon(
-        user: users,
-        cornerRadius: 200,
+      child: FlatButton(
         onLongPress: () => context.router.push(const LockRoute()),
         onTap: () {
           if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.single) {
@@ -30,6 +28,10 @@ class SettingsUserIcon extends ConsumerWidget {
             context.router.push(const ClientSettingsRoute());
           }
         },
+        child: UserIcon(
+          user: user,
+          cornerRadius: 200,
+        ),
       ),
     );
   }

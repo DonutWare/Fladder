@@ -375,7 +375,7 @@ class _$ClientSettingsModelImpl extends _ClientSettingsModel
       this.requireWifi = true,
       this.showAllCollectionTypes = false,
       this.maxConcurrentDownloads = 2,
-      this.schemeVariant = DynamicSchemeVariant.tonalSpot,
+      this.schemeVariant = DynamicSchemeVariant.rainbow,
       this.libraryPageSize})
       : super._();
 

@@ -1,5 +1,6 @@
-import 'package:fladder/screens/details_screens/series_detail_screen.dart';
 import 'package:flutter/widgets.dart';
+
+import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
@@ -9,8 +10,7 @@ import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/overview_model.dart';
 import 'package:fladder/models/items/season_model.dart';
-
-import 'package:dart_mappable/dart_mappable.dart';
+import 'package:fladder/screens/details_screens/series_detail_screen.dart';
 
 part 'series_model.mapper.dart';
 
