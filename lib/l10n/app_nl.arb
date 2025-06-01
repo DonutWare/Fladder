@@ -1318,5 +1318,7 @@
   "similarToRecentlyPlayed": "Vergelijkbaar met recent afgespeeld",
   "@similarToRecentlyPlayed": {},
   "latest": "Laatste",
-  "@latest": {}
+  "@latest": {},
+  "exitFladderTitle": "Fladder sluiten",
+  "@exitFladderTitle": {}
 }
