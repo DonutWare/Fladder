@@ -221,7 +221,7 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                             selectedIcon: const Icon(IconsaxPlusBold.setting_3),
                             horizontal: true,
                             expanded: shouldExpand,
-                            icon: const SizedBox(height: 32, child: SettingsUserIcon()),
+                            icon: const SettingsUserIcon(),
                             onPressed: () {
                               if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.single) {
                                 context.router.push(const SettingsRoute());

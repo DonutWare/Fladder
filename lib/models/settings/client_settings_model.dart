@@ -34,6 +34,8 @@ class ClientSettingsModel with _$ClientSettingsModel {
     @Default(false) bool showAllCollectionTypes,
     @Default(2) int maxConcurrentDownloads,
     @Default(DynamicSchemeVariant.rainbow) DynamicSchemeVariant schemeVariant,
+    @Default(true) bool checkForUpdates,
+    String? lastViewedUpdate,
     int? libraryPageSize,
   }) = _ClientSettingsModel;
 

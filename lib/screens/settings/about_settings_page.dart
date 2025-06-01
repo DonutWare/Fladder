@@ -7,6 +7,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/screens/crash_screen/crash_screen.dart';
 import 'package:fladder/screens/settings/settings_scaffold.dart';
+import 'package:fladder/screens/settings/widgets/settings_update_information.dart';
 import 'package:fladder/screens/shared/fladder_icon.dart';
 import 'package:fladder/screens/shared/fladder_logo.dart';
 import 'package:fladder/screens/shared/media/external_urls.dart';
@@ -42,6 +43,7 @@ class AboutSettingsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final applicationInfo = ref.watch(applicationInfoProvider);
+
     return SettingsScaffold(
       label: "",
       items: [
@@ -114,6 +116,7 @@ class AboutSettingsPage extends ConsumerWidget {
             )
           ],
         ),
+        const SettingsUpdateInformation(),
       ].addInBetween(const SizedBox(height: 16)),
     );
   }
