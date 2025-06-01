@@ -25,11 +25,12 @@ class _SettingsUpdateInformationState extends ConsumerState<SettingsUpdateInform
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((value) {
       final latestRelease = ref.read(updateProvider.select((value) => value.latestRelease));
+      if (latestRelease == null) return;
       final lastViewedUpdate = ref.read(clientSettingsProvider.select((value) => value.lastViewedUpdate));
-      if (lastViewedUpdate != latestRelease?.version) {
+      if (lastViewedUpdate != latestRelease.version) {
         ref
             .read(clientSettingsProvider.notifier)
-            .update((value) => value.copyWith(lastViewedUpdate: latestRelease?.version));
+            .update((value) => value.copyWith(lastViewedUpdate: latestRelease.version));
       }
     });
   }

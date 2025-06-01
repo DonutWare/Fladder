@@ -97,7 +97,7 @@ class __$$UpdatesModelImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$UpdatesModelImpl extends _UpdatesModel {
+class _$UpdatesModelImpl extends _UpdatesModel with DiagnosticableTreeMixin {
   _$UpdatesModelImpl({final List<ReleaseInfo> lastRelease = const []})
       : _lastRelease = lastRelease,
         super._();
@@ -112,8 +112,16 @@ class _$UpdatesModelImpl extends _UpdatesModel {
   }
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'UpdatesModel(lastRelease: $lastRelease)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'UpdatesModel'))
+      ..add(DiagnosticsProperty('lastRelease', lastRelease));
   }
 
   @override

@@ -20,7 +20,7 @@ Set<TargetPlatform> get _directUpdatePlatforms => {
 
 final hasNewUpdateProvider = Provider<bool>((ref) {
   //Disable update notification for platforms that are updated outside of Github.
-  if (!_directUpdatePlatforms.contains(defaultTargetPlatform)) {
+  if (!_directUpdatePlatforms.contains(defaultTargetPlatform) || kIsWeb) {
     return false;
   }
   return ref.watch(clientSettingsProvider.select((value) => value.lastViewedUpdate)) !=

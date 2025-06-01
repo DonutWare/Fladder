@@ -114,7 +114,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           showBackButtonNested: true,
           showUserIcon: true,
           items: [
-            if (hasNewUpdate && newRelease != null)
+            if (hasNewUpdate && newRelease != null) ...[
               Card(
                 color: context.colors.secondaryContainer,
                 child: SettingsListTile(
@@ -124,6 +124,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   onTap: () => navigateTo(const AboutSettingsRoute()),
                 ),
               ),
+              const SizedBox(height: 8),
+            ],
             SettingsListTile(
               label: Text(context.localized.settingsClientTitle),
               subLabel: Text(context.localized.settingsClientDesc),
