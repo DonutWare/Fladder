@@ -1,18 +1,18 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:async/async.dart';
-import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:screen_brightness/screen_brightness.dart';
 
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
-import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
@@ -25,7 +25,7 @@ import 'package:fladder/screens/video_player/components/video_player_quality_con
 import 'package:fladder/screens/video_player/components/video_player_seek_indicator.dart';
 import 'package:fladder/screens/video_player/components/video_progress_bar.dart';
 import 'package:fladder/screens/video_player/components/video_volume_slider.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/input_handler.dart';
 import 'package:fladder/util/list_padding.dart';
@@ -127,7 +127,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
           cursor: showOverlay ? SystemMouseCursors.basic : SystemMouseCursors.none,
           onExit: (event) => toggleOverlay(value: false),
           onEnter: (event) => toggleOverlay(value: true),
-          onHover: AdaptiveLayout.of(context).isDesktop ? (event) => toggleOverlay(value: true) : null,
+          onHover: AdaptiveLayout.of(context).isDesktop || kIsWeb ? (event) => toggleOverlay(value: true) : null,
           child: Stack(
             children: [
               Positioned.fill(
@@ -166,11 +166,13 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                 builder: (context, ref, child) {
                   final position = ref.watch(mediaPlaybackProvider.select((value) => value.position));
                   MediaSegment? segment = mediaSegments?.atPosition(position);
-                  bool forceShow = segment?.forceShow(position) ?? false;
+                  SegmentVisibility forceShow =
+                      segment?.visibility(position, force: showOverlay) ?? SegmentVisibility.hidden;
                   final segmentSkipType = ref
                       .watch(videoPlayerSettingsProvider.select((value) => value.segmentSkipSettings[segment?.type]));
-                  final autoSkip =
-                      forceShow == true && segmentSkipType == SegmentSkip.skip && player.lastState?.buffering == false;
+                  final autoSkip = forceShow != SegmentVisibility.hidden &&
+                      segmentSkipType == SegmentSkip.skip &&
+                      player.lastState?.buffering == false;
                   if (autoSkip) {
                     skipToSegmentEnd(segment);
                   }
@@ -183,7 +185,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                           child: SkipSegmentButton(
                             segment: segment,
                             skipType: segmentSkipType,
-                            isOverlayVisible: forceShow ? true : showOverlay,
+                            visibility: forceShow,
                             pressedSkip: () => skipToSegmentEnd(segment),
                           ),
                         ),
@@ -215,7 +217,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
           isSelected: true,
           iconSize: 65,
           tooltip: "Resume video",
-          icon: const Icon(IconsaxBold.play),
+          icon: const Icon(IconsaxPlusBold.play),
         ),
       ),
     );
@@ -252,7 +254,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                     IconButton(
                       onPressed: () => minimizePlayer(context),
                       icon: const Icon(
-                        IconsaxOutline.arrow_down_1,
+                        IconsaxPlusLinear.arrow_down_1,
                         size: 24,
                       ),
                     ),
@@ -275,7 +277,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                       Tooltip(
                           message: context.localized.stop,
                           child: IconButton(
-                              onPressed: () => closePlayer(), icon: const Icon(IconsaxOutline.close_square))),
+                              onPressed: () => closePlayer(), icon: const Icon(IconsaxPlusLinear.close_square))),
                   ],
                 ),
               ),
@@ -320,22 +322,22 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                       children: <Widget>[
                         IconButton(
                             onPressed: () => showVideoPlayerOptions(context, () => minimizePlayer(context)),
-                            icon: const Icon(IconsaxOutline.more)),
+                            icon: const Icon(IconsaxPlusLinear.more)),
                         if (AdaptiveLayout.layoutOf(context) == ViewSize.tablet) ...[
                           IconButton(
                             onPressed: () => showSubSelection(context),
-                            icon: const Icon(IconsaxOutline.subtitle),
+                            icon: const Icon(IconsaxPlusLinear.subtitle),
                           ),
                           IconButton(
                             onPressed: () => showAudioSelection(context),
-                            icon: const Icon(IconsaxOutline.audio_square),
+                            icon: const Icon(IconsaxPlusLinear.audio_square),
                           ),
                         ],
                         if (AdaptiveLayout.layoutOf(context) == ViewSize.desktop) ...[
                           Flexible(
                             child: ElevatedButton.icon(
                               onPressed: () => showSubSelection(context),
-                              icon: const Icon(IconsaxOutline.subtitle),
+                              icon: const Icon(IconsaxPlusLinear.subtitle),
                               label: Text(
                                 ref.watch(playBackModel.select((value) {
                                       final language = value?.mediaStreams?.currentSubStream?.language;
@@ -349,7 +351,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                           Flexible(
                             child: ElevatedButton.icon(
                               onPressed: () => showAudioSelection(context),
-                              icon: const Icon(IconsaxOutline.audio_square),
+                              icon: const Icon(IconsaxPlusLinear.audio_square),
                               label: Text(
                                 ref.watch(playBackModel.select((value) {
                                       final language = value?.mediaStreams?.currentAudioStream?.language;
@@ -374,7 +376,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                       ref.read(videoPlayerProvider).playOrPause();
                     },
                     icon: Icon(
-                      mediaPlayback.playing ? IconsaxBold.pause : IconsaxBold.play,
+                      mediaPlayback.playing ? IconsaxPlusBold.pause : IconsaxPlusBold.play,
                     ),
                   ),
                   seekForwardButton(ref),
@@ -388,7 +390,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                           Tooltip(
                               message: context.localized.stop,
                               child: IconButton(
-                                  onPressed: () => closePlayer(), icon: const Icon(IconsaxOutline.close_square))),
+                                  onPressed: () => closePlayer(), icon: const Icon(IconsaxPlusLinear.close_square))),
                         const Spacer(),
                         if (AdaptiveLayout.viewSizeOf(context) >= ViewSize.tablet &&
                             ref.read(videoPlayerProvider).hasPlayer) ...{
@@ -397,7 +399,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                               message: context.localized.qualityOptionsTitle,
                               child: IconButton(
                                 onPressed: () => openQualityOptions(context),
-                                icon: const Icon(IconsaxOutline.speedometer),
+                                icon: const Icon(IconsaxPlusLinear.speedometer),
                               ),
                             ),
                         },
@@ -439,7 +441,9 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         final List<String?> details = [
           if (AdaptiveLayout.of(context).isDesktop) item?.label(context),
           mediaPlayback.duration.inMinutes > 1
-              ? context.localized.endsAt(DateTime.now().add(mediaPlayback.duration - mediaPlayback.position))
+              ? context.localized.endsAt(DateTime.now().add(Duration(
+                  milliseconds: (mediaPlayback.duration.inMilliseconds - mediaPlayback.position.inMilliseconds) ~/
+                      ref.read(playbackRateProvider))))
               : null
         ];
         return Column(
@@ -452,12 +456,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                 Expanded(
                   child: Text(
                     details.nonNulls.join(' - '),
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      shadows: [
-                        const Shadow(blurRadius: 16),
-                      ],
-                    ),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
                     maxLines: 2,
                   ),
                 ),
@@ -541,7 +540,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                 : null,
             iconSize: 30,
             icon: const Icon(
-              IconsaxOutline.backward,
+              IconsaxPlusLinear.backward,
             ),
           ),
         );
@@ -567,7 +566,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                 nextVideo != null && !buffering ? () => ref.read(playbackModelHelper).loadNewVideo(nextVideo) : null,
             iconSize: 30,
             icon: const Icon(
-              IconsaxOutline.forward,
+              IconsaxPlusLinear.forward,
             ),
           ),
         );
@@ -581,7 +580,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
       tooltip: "-10",
       iconSize: 40,
       icon: const Icon(
-        IconsaxOutline.backward_10_seconds,
+        IconsaxPlusLinear.backward_10_seconds,
       ),
     );
   }
@@ -593,7 +592,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
       iconSize: 40,
       icon: const Stack(
         children: [
-          Icon(IconsaxOutline.forward_15_seconds),
+          Icon(IconsaxPlusLinear.forward_15_seconds),
         ],
       ),
     );

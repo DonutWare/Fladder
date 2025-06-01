@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/credentials_model.dart';
@@ -46,7 +46,7 @@ class DiscoverServersWidget extends ConsumerWidget {
                 style: context.textTheme.bodyLarge,
               ),
               const Spacer(),
-              const Opacity(opacity: 0.65, child: Icon(IconsaxOutline.bookmark, size: 16)),
+              const Opacity(opacity: 0.65, child: Icon(IconsaxPlusLinear.bookmark, size: 16)),
             ],
           ),
           const SizedBox(height: 4),
@@ -69,7 +69,7 @@ class DiscoverServersWidget extends ConsumerWidget {
                 style: context.textTheme.bodyLarge,
               ),
               const Spacer(),
-              const Opacity(opacity: 0.65, child: Icon(IconsaxBold.airdrop, size: 16)),
+              const Opacity(opacity: 0.65, child: Icon(IconsaxPlusBold.airdrop, size: 16)),
             ],
           ),
           const SizedBox(height: 4),
@@ -135,7 +135,7 @@ class _ServerInfoCard extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Icon(
-                    IconsaxBold.driver,
+                    IconsaxPlusBold.driver,
                     color: Theme.of(context).colorScheme.onPrimaryContainer,
                   ),
                 ),
@@ -158,7 +158,7 @@ class _ServerInfoCard extends StatelessWidget {
                   ],
                 ),
               ),
-              const Icon(IconsaxOutline.edit_2, size: 16)
+              const Icon(IconsaxPlusLinear.edit_2, size: 16)
             ].addInBetween(const SizedBox(width: 12)),
           ),
         ),

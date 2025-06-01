@@ -1,8 +1,7 @@
-import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/item_base_model.dart';
@@ -19,7 +18,7 @@ import 'package:fladder/screens/shared/media/external_urls.dart';
 import 'package:fladder/screens/shared/media/people_row.dart';
 import 'package:fladder/screens/shared/media/poster_row.dart';
 import 'package:fladder/screens/shared/media/season_row.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/item_base_model/play_item_helpers.dart';
 import 'package:fladder/util/list_padding.dart';
@@ -112,16 +111,16 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                               .setAsFavorite(!details.userData.isFavourite, details.id);
                         },
                         selected: details.userData.isFavourite,
-                        selectedIcon: IconsaxBold.heart,
-                        icon: IconsaxOutline.heart,
+                        selectedIcon: IconsaxPlusBold.heart,
+                        icon: IconsaxPlusLinear.heart,
                       ),
                       SelectableIconButton(
                         onPressed: () async {
                           await ref.read(userProvider.notifier).markAsPlayed(!details.userData.played, details.id);
                         },
                         selected: details.userData.played,
-                        selectedIcon: IconsaxBold.tick_circle,
-                        icon: IconsaxOutline.tick_circle,
+                        selectedIcon: IconsaxPlusBold.tick_circle,
+                        icon: IconsaxPlusLinear.tick_circle,
                       ),
                     ],
                   ).padding(padding),

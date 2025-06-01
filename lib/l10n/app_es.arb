@@ -1197,7 +1197,7 @@
   "@mediaSegmentCommercial": {},
   "mediaSegmentPreview": "Vista previa",
   "@mediaSegmentPreview": {},
-  "mediaSegmentOutro": "Otro",
+  "mediaSegmentOutro": "Créditos",
   "@mediaSegmentOutro": {},
   "skipButtonLabel": "Omitir {segment}",
   "@skipButtonLabel": {
@@ -1206,5 +1206,65 @@
         "type": "String"
       }
     }
-  }
+  },
+  "downloadFile": "Descargar {type}",
+  "@downloadFile": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "copyStreamUrl": "Copiar url de la transmisión",
+  "@copyStreamUrl": {},
+  "settingsLayoutSizesTitle": "Tamaños de interfaz",
+  "@settingsLayoutSizesTitle": {},
+  "settingsLayoutSizesDesc": "Selecciona los diseños que la app puede utilizar según el tamaño de la ventana",
+  "@settingsLayoutSizesDesc": {},
+  "errorLogs": "Registro de errores",
+  "@errorLogs": {},
+  "mediaSegmentActions": "Acciones para los segmentos de vídeo",
+  "@mediaSegmentActions": {},
+  "external": "Externo",
+  "@external": {},
+  "qualityOptionsOriginal": "Original",
+  "@qualityOptionsOriginal": {},
+  "version": "Versión",
+  "@version": {},
+  "qualityOptionsTitle": "Opciones de calidad",
+  "@qualityOptionsTitle": {},
+  "qualityOptionsAuto": "Auto",
+  "@qualityOptionsAuto": {},
+  "episodeAvailable": "Disponible",
+  "@episodeAvailable": {},
+  "internetStreamingQualityDesc": "Calidad máxima por Internet (móvil)",
+  "@internetStreamingQualityDesc": {},
+  "settingsLayoutModesTitle": "Modos de disposición",
+  "@settingsLayoutModesTitle": {},
+  "settingsLayoutModesDesc": "Controlar que la aplicación use disposición de panel único o doble",
+  "@settingsLayoutModesDesc": {},
+  "phone": "Móvil",
+  "@phone": {},
+  "tablet": "Tablet",
+  "@tablet": {},
+  "desktop": "Escritorio",
+  "@desktop": {},
+  "layoutModeSingle": "Único",
+  "@layoutModeSingle": {},
+  "layoutModeDual": "Doble",
+  "@layoutModeDual": {},
+  "copiedToClipboard": "Copiado al portapapeles",
+  "@copiedToClipboard": {},
+  "internetStreamingQualityTitle": "Calidad por Internet",
+  "@internetStreamingQualityTitle": {},
+  "homeStreamingQualityTitle": "Calidad en casa",
+  "@homeStreamingQualityTitle": {},
+  "homeStreamingQualityDesc": "Calidad máxima al estar conectado a la red de casa",
+  "@homeStreamingQualityDesc": {},
+  "episodeUnaired": "No emitido",
+  "@episodeUnaired": {},
+  "episodeMissing": "Faltante",
+  "@episodeMissing": {},
+  "segmentActionNone": "Ninguno",
+  "@segmentActionNone": {}
 }

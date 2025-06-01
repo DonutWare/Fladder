@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/syncing/sync_item.dart';
@@ -33,7 +33,7 @@ class SyncStatusOverlay extends ConsumerWidget {
                     valueColor: AlwaysStoppedAnimation(Theme.of(context).colorScheme.error),
                   ),
                   Text(context.localized.syncOverlayDeleting),
-                  const Icon(IconsaxOutline.trash)
+                  const Icon(IconsaxPlusLinear.trash)
                 ].addPadding(const EdgeInsets.symmetric(horizontal: 16)),
               ),
             ),
@@ -55,7 +55,7 @@ class SyncStatusOverlay extends ConsumerWidget {
                       valueColor: AlwaysStoppedAnimation(Theme.of(context).colorScheme.error),
                     ),
                     Text(context.localized.syncOverlaySyncing),
-                    const Icon(IconsaxOutline.cloud_notif)
+                    const Icon(IconsaxPlusLinear.cloud_notif)
                   ].addPadding(const EdgeInsets.symmetric(horizontal: 16)),
                 ),
               ),

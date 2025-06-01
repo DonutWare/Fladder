@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/item_base_model.dart';
@@ -17,6 +17,7 @@ import 'package:fladder/screens/shared/media/person_list_.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/util/people_extension.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/util/theme_extensions.dart';
 import 'package:fladder/util/widget_extensions.dart';
@@ -82,16 +83,16 @@ class _SeasonDetailScreenState extends ConsumerState<SeasonDetailScreen> {
                                   .read(userProvider.notifier)
                                   .setAsFavorite(!details.userData.isFavourite, details.id),
                               selected: details.userData.isFavourite,
-                              selectedIcon: IconsaxBold.heart,
-                              icon: IconsaxOutline.heart,
+                              selectedIcon: IconsaxPlusBold.heart,
+                              icon: IconsaxPlusLinear.heart,
                             ),
                             SelectableIconButton(
                               onPressed: () async => await ref
                                   .read(userProvider.notifier)
                                   .markAsPlayed(!details.userData.played, details.id),
                               selected: details.userData.played,
-                              selectedIcon: IconsaxBold.tick_circle,
-                              icon: IconsaxOutline.tick_circle,
+                              selectedIcon: IconsaxPlusBold.tick_circle,
+                              icon: IconsaxPlusLinear.tick_circle,
                             ),
                           ],
                         ),
@@ -154,9 +155,14 @@ class _SeasonDetailScreenState extends ConsumerState<SeasonDetailScreen> {
                       episodes: details.episodes,
                       padding: padding,
                     ),
-                  if (details.overview.people.isNotEmpty)
+                  if (details.overview.people.mainCast.isNotEmpty)
                     PeopleRow(
-                      people: details.overview.people,
+                      people: details.overview.people.mainCast,
+                      contentPadding: padding,
+                    ),
+                  if (details.overview.people.guestActors.isNotEmpty)
+                    PeopleRow(
+                      people: details.overview.people.guestActors,
                       contentPadding: padding,
                     ),
                   if (details.overview.externalUrls?.isNotEmpty == true)

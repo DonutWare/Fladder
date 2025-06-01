@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'package:fladder/models/media_playback_model.dart';
@@ -11,13 +11,14 @@ import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/screens/video_player/video_player.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/duration_extensions.dart';
-import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 
 const videoPlayerHeroTag = "HeroPlayer";
+
+const floatingPlayerHeight = 70.0;
 
 class FloatingPlayerBar extends ConsumerStatefulWidget {
   const FloatingPlayerBar({super.key});
@@ -71,29 +72,29 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
       },
       direction: DismissDirection.vertical,
       child: InkWell(
-        onLongPress: () {
-          fladderSnackbar(context, title: "Swipe up/down to open/close the player");
-        },
+        onLongPress: () => fladderSnackbar(context, title: "Swipe up/down to open/close the player"),
         child: Card(
           elevation: 5,
           color: Theme.of(context).colorScheme.primaryContainer,
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: 50, maxHeight: 85),
+          child: SizedBox(
+            height: floatingPlayerHeight,
             child: LayoutBuilder(builder: (context, constraints) {
               return Row(
                 children: [
                   Flexible(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: Row(
-                              children: [
-                                if (playbackInfo.state == VideoPlayerState.minimized)
-                                  Card(
-                                    child: SizedBox(
+                    child: Padding(
+                      padding: MediaQuery.paddingOf(context).copyWith(top: 0, bottom: 0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(6),
+                              child: Row(
+                                spacing: 7,
+                                children: [
+                                  if (playbackInfo.state == VideoPlayerState.minimized)
+                                    Card(
                                       child: AspectRatio(
                                         aspectRatio: 1.67,
                                         child: MouseRegion(
@@ -131,72 +132,76 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
                                         ),
                                       ),
                                     ),
-                                  ),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Flexible(
-                                        child: Text(
-                                          playbackModel?.title ?? "",
-                                          style: Theme.of(context).textTheme.titleLarge,
-                                        ),
-                                      ),
-                                      if (playbackModel?.detailedName(context)?.isNotEmpty == true)
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
                                         Flexible(
                                           child: Text(
-                                            playbackModel?.detailedName(context) ?? "",
+                                            playbackModel?.title ?? "",
                                             style: Theme.of(context).textTheme.titleMedium,
                                           ),
                                         ),
-                                    ],
-                                  ),
-                                ),
-                                if (!progress.isNaN && constraints.maxWidth > 500)
-                                  Text(
-                                      "${playbackInfo.position.readAbleDuration} / ${playbackInfo.duration.readAbleDuration}"),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                                  child: IconButton.filledTonal(
-                                    onPressed: () => ref.read(videoPlayerProvider).playOrPause(),
-                                    icon: playbackInfo.playing
-                                        ? const Icon(Icons.pause_rounded)
-                                        : const Icon(Icons.play_arrow_rounded),
-                                  ),
-                                ),
-                                if (constraints.maxWidth > 500) ...{
-                                  IconButton(
-                                    onPressed: () {
-                                      final volume = player.lastState?.volume == 0 ? 100.0 : 0.0;
-                                      player.setVolume(volume);
-                                    },
-                                    icon: Icon(
-                                      ref.watch(videoPlayerSettingsProvider.select((value) => value.volume)) <= 0
-                                          ? IconsaxBold.volume_cross
-                                          : IconsaxBold.volume_high,
+                                        if (playbackModel?.detailedName(context)?.isNotEmpty == true)
+                                          Flexible(
+                                            child: Text(
+                                              playbackModel?.detailedName(context) ?? "",
+                                              overflow: TextOverflow.ellipsis,
+                                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                                    color:
+                                                        Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.65),
+                                                  ),
+                                            ),
+                                          ),
+                                      ],
                                     ),
                                   ),
-                                },
-                                Tooltip(
-                                  message: context.localized.stop,
-                                  waitDuration: const Duration(milliseconds: 500),
-                                  child: IconButton(
-                                    onPressed: () async => stopPlayer(),
-                                    icon: const Icon(IconsaxBold.stop),
+                                  if (!progress.isNaN && constraints.maxWidth > 500)
+                                    Text(
+                                        "${playbackInfo.position.readAbleDuration} / ${playbackInfo.duration.readAbleDuration}"),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                                    child: IconButton.filledTonal(
+                                      onPressed: () => ref.read(videoPlayerProvider).playOrPause(),
+                                      icon: playbackInfo.playing
+                                          ? const Icon(Icons.pause_rounded)
+                                          : const Icon(Icons.play_arrow_rounded),
+                                    ),
                                   ),
-                                ),
-                              ].addInBetween(const SizedBox(width: 6)),
+                                  if (constraints.maxWidth > 500) ...[
+                                    IconButton(
+                                      onPressed: () {
+                                        final volume = player.lastState?.volume == 0 ? 100.0 : 0.0;
+                                        player.setVolume(volume);
+                                      },
+                                      icon: Icon(
+                                        ref.watch(videoPlayerSettingsProvider.select((value) => value.volume)) <= 0
+                                            ? IconsaxPlusBold.volume_cross
+                                            : IconsaxPlusBold.volume_high,
+                                      ),
+                                    ),
+                                    Tooltip(
+                                      message: context.localized.stop,
+                                      waitDuration: const Duration(milliseconds: 500),
+                                      child: IconButton(
+                                        onPressed: () async => stopPlayer(),
+                                        icon: const Icon(IconsaxPlusBold.stop),
+                                      ),
+                                    ),
+                                  ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        LinearProgressIndicator(
-                          minHeight: 6,
-                          backgroundColor: Colors.black.withValues(alpha: 0.25),
-                          color: Theme.of(context).colorScheme.primary,
-                          value: progress.clamp(0, 1),
-                        ),
-                      ],
+                          LinearProgressIndicator(
+                            minHeight: 6,
+                            backgroundColor: Colors.black.withValues(alpha: 0.25),
+                            color: Theme.of(context).colorScheme.primary,
+                            value: progress.clamp(0, 1),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

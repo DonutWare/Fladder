@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
@@ -72,7 +72,7 @@ class ItemBaseModel with ItemBaseModelMappable {
             ? Row(
                 children: [
                   const Icon(
-                    IconsaxBold.star_1,
+                    IconsaxPlusBold.star_1,
                     size: 14,
                     color: Colors.yellowAccent,
                   ),
@@ -85,7 +85,7 @@ class ItemBaseModel with ItemBaseModelMappable {
             ? Row(
                 children: [
                   const Icon(
-                    IconsaxBold.star_1,
+                    IconsaxPlusBold.star_1,
                     size: 14,
                     color: Colors.yellowAccent,
                   ),
@@ -234,75 +234,84 @@ class ItemBaseModel with ItemBaseModelMappable {
 // Currently supported types
 enum FladderItemType {
   baseType(
-    icon: IconsaxOutline.folder_2,
-    selectedicon: IconsaxBold.folder_2,
+    icon: IconsaxPlusLinear.folder_2,
+    selectedicon: IconsaxPlusBold.folder_2,
   ),
   audio(
-    icon: IconsaxOutline.music,
-    selectedicon: IconsaxBold.music,
+    icon: IconsaxPlusLinear.music,
+    selectedicon: IconsaxPlusBold.music,
   ),
   musicAlbum(
-    icon: IconsaxOutline.music,
-    selectedicon: IconsaxBold.music,
+    icon: IconsaxPlusLinear.music,
+    selectedicon: IconsaxPlusBold.music,
   ),
   musicVideo(
-    icon: IconsaxOutline.music,
-    selectedicon: IconsaxBold.music,
+    icon: IconsaxPlusLinear.music,
+    selectedicon: IconsaxPlusBold.music,
   ),
   collectionFolder(
-    icon: IconsaxOutline.music,
-    selectedicon: IconsaxBold.music,
+    icon: IconsaxPlusLinear.music,
+    selectedicon: IconsaxPlusBold.music,
   ),
   video(
-    icon: IconsaxOutline.video,
-    selectedicon: IconsaxBold.video,
+    icon: IconsaxPlusLinear.video,
+    selectedicon: IconsaxPlusBold.video,
   ),
   movie(
-    icon: IconsaxOutline.video_horizontal,
-    selectedicon: IconsaxBold.video_horizontal,
+    icon: IconsaxPlusLinear.video_horizontal,
+    selectedicon: IconsaxPlusBold.video_horizontal,
   ),
   series(
-    icon: IconsaxOutline.video_vertical,
-    selectedicon: IconsaxBold.video_vertical,
+    icon: IconsaxPlusLinear.video_vertical,
+    selectedicon: IconsaxPlusBold.video_vertical,
   ),
   season(
-    icon: IconsaxOutline.video_vertical,
-    selectedicon: IconsaxBold.video_vertical,
+    icon: IconsaxPlusLinear.video_vertical,
+    selectedicon: IconsaxPlusBold.video_vertical,
   ),
   episode(
-    icon: IconsaxOutline.video_vertical,
-    selectedicon: IconsaxBold.video_vertical,
+    icon: IconsaxPlusLinear.video_vertical,
+    selectedicon: IconsaxPlusBold.video_vertical,
   ),
   photo(
-    icon: IconsaxOutline.picture_frame,
-    selectedicon: IconsaxBold.picture_frame,
+    icon: IconsaxPlusLinear.picture_frame,
+    selectedicon: IconsaxPlusBold.picture_frame,
   ),
   person(
-    icon: IconsaxOutline.user,
-    selectedicon: IconsaxBold.user,
+    icon: IconsaxPlusLinear.user,
+    selectedicon: IconsaxPlusBold.user,
   ),
   photoAlbum(
-    icon: IconsaxOutline.gallery,
-    selectedicon: IconsaxBold.gallery,
+    icon: IconsaxPlusLinear.gallery,
+    selectedicon: IconsaxPlusBold.gallery,
   ),
   folder(
-    icon: IconsaxOutline.folder,
-    selectedicon: IconsaxBold.folder,
+    icon: IconsaxPlusLinear.folder,
+    selectedicon: IconsaxPlusBold.folder,
   ),
   boxset(
-    icon: IconsaxOutline.bookmark,
-    selectedicon: IconsaxBold.bookmark,
+    icon: IconsaxPlusLinear.bookmark,
+    selectedicon: IconsaxPlusBold.bookmark,
   ),
   playlist(
-    icon: IconsaxOutline.archive_book,
-    selectedicon: IconsaxBold.archive_book,
+    icon: IconsaxPlusLinear.archive_book,
+    selectedicon: IconsaxPlusBold.archive_book,
   ),
   book(
-    icon: IconsaxOutline.book,
-    selectedicon: IconsaxBold.book,
+    icon: IconsaxPlusLinear.book,
+    selectedicon: IconsaxPlusBold.book,
   );
 
   const FladderItemType({required this.icon, required this.selectedicon});
+
+  double get aspectRatio => switch (this) {
+        FladderItemType.video => 0.8,
+        FladderItemType.photo => 0.8,
+        FladderItemType.photoAlbum => 0.8,
+        FladderItemType.musicAlbum => 0.8,
+        FladderItemType.baseType => 0.8,
+        _ => 0.55,
+      };
 
   static Set<FladderItemType> get playable => {
         FladderItemType.series,
@@ -317,27 +326,25 @@ enum FladderItemType {
         FladderItemType.video,
       };
 
-  String label(BuildContext context) {
-    return switch (this) {
-      FladderItemType.baseType => context.localized.mediaTypeBase,
-      FladderItemType.audio => context.localized.audio,
-      FladderItemType.collectionFolder => context.localized.collectionFolder,
-      FladderItemType.musicAlbum => context.localized.musicAlbum,
-      FladderItemType.musicVideo => context.localized.video,
-      FladderItemType.video => context.localized.video,
-      FladderItemType.movie => context.localized.mediaTypeMovie,
-      FladderItemType.series => context.localized.mediaTypeSeries,
-      FladderItemType.season => context.localized.mediaTypeSeason,
-      FladderItemType.episode => context.localized.mediaTypeEpisode,
-      FladderItemType.photo => context.localized.mediaTypePhoto,
-      FladderItemType.person => context.localized.mediaTypePerson,
-      FladderItemType.photoAlbum => context.localized.mediaTypePhotoAlbum,
-      FladderItemType.folder => context.localized.mediaTypeFolder,
-      FladderItemType.boxset => context.localized.mediaTypeBoxset,
-      FladderItemType.playlist => context.localized.mediaTypePlaylist,
-      FladderItemType.book => context.localized.mediaTypeBook,
-    };
-  }
+  String label(BuildContext context) => switch (this) {
+        FladderItemType.baseType => context.localized.mediaTypeBase,
+        FladderItemType.audio => context.localized.audio,
+        FladderItemType.collectionFolder => context.localized.collectionFolder,
+        FladderItemType.musicAlbum => context.localized.musicAlbum,
+        FladderItemType.musicVideo => context.localized.video,
+        FladderItemType.video => context.localized.video,
+        FladderItemType.movie => context.localized.mediaTypeMovie,
+        FladderItemType.series => context.localized.mediaTypeSeries,
+        FladderItemType.season => context.localized.mediaTypeSeason,
+        FladderItemType.episode => context.localized.mediaTypeEpisode,
+        FladderItemType.photo => context.localized.mediaTypePhoto,
+        FladderItemType.person => context.localized.mediaTypePerson,
+        FladderItemType.photoAlbum => context.localized.mediaTypePhotoAlbum,
+        FladderItemType.folder => context.localized.mediaTypeFolder,
+        FladderItemType.boxset => context.localized.mediaTypeBoxset,
+        FladderItemType.playlist => context.localized.mediaTypePlaylist,
+        FladderItemType.book => context.localized.mediaTypeBook,
+      };
 
   BaseItemKind get dtoKind => switch (this) {
         FladderItemType.baseType => BaseItemKind.userrootfolder,

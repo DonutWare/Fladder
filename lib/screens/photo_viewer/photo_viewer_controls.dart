@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:extended_image/extended_image.dart';
-import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:square_progress_indicator/square_progress_indicator.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
@@ -15,12 +15,14 @@ import 'package:fladder/providers/settings/photo_view_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/screens/shared/input_fields.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/input_handler.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/throttler.dart';
 import 'package:fladder/widgets/shared/elevated_icon.dart';
+import 'package:fladder/widgets/shared/full_screen_button.dart'
+    if (dart.library.html) 'package:fladder/widgets/shared/full_screen_button_web.dart';
 import 'package:fladder/widgets/shared/progress_floating_button.dart';
 
 class PhotoViewerControls extends ConsumerStatefulWidget {
@@ -129,6 +131,7 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with
   @override
   void dispose() {
     timerController.dispose();
+    closeFullScreen();
     windowManager.removeListener(this);
     super.dispose();
   }
@@ -184,17 +187,7 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with
                                 child: Text(
                                   widget.photo.name,
                                   maxLines: 2,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium
-                                      ?.copyWith(fontWeight: FontWeight.bold, shadows: [
-                                    BoxShadow(
-                                        blurRadius: 1, spreadRadius: 1, color: Colors.black.withValues(alpha: 0.7)),
-                                    BoxShadow(
-                                        blurRadius: 4, spreadRadius: 4, color: Colors.black.withValues(alpha: 0.4)),
-                                    BoxShadow(
-                                        blurRadius: 20, spreadRadius: 6, color: Colors.black.withValues(alpha: 0.2)),
-                                  ]),
+                                  style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ),
@@ -279,6 +272,10 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with
                                 )
                               ],
                             ),
+                            if (AdaptiveLayout.of(context).isDesktop) ...[
+                              const SizedBox(width: 8),
+                              const FullScreenButton(),
+                            ],
                             const SizedBox(width: 12),
                           ],
                         ),
@@ -311,13 +308,13 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with
                           children: [
                             ElevatedIconButton(
                               onPressed: widget.openOptions,
-                              icon: IconsaxOutline.more_2,
+                              icon: IconsaxPlusLinear.more_2,
                             ),
                             const Spacer(),
                             ElevatedIconButton(
                               onPressed: markAsFavourite,
                               color: widget.photo.userData.isFavourite ? Colors.red : null,
-                              icon: widget.photo.userData.isFavourite ? IconsaxBold.heart : IconsaxOutline.heart,
+                              icon: widget.photo.userData.isFavourite ? IconsaxPlusBold.heart : IconsaxPlusLinear.heart,
                             ),
                             ProgressFloatingButton(
                               controller: timerController,

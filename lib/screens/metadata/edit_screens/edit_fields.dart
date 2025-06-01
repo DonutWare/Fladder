@@ -1,5 +1,5 @@
 import 'package:collection/collection.dart';
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/providers/edit_item_provider.dart';
@@ -557,7 +557,7 @@ class _EditGeneralState extends ConsumerState<EditFields> {
                                         .read(editItemProvider.notifier)
                                         .updateField(MapEntry(e.key, newDate.toIso8601String()));
                                   },
-                                  icon: const Icon(IconsaxOutline.calendar_2))
+                                  icon: const Icon(IconsaxPlusLinear.calendar_2))
                             ],
                           ),
                         DisplayOrder _ => Builder(builder: (context) {

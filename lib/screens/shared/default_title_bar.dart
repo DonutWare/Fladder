@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'package:fladder/providers/arguments_provider.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/widgets/full_screen_helpers.dart/full_screen_wrapper.dart';
 
 class DefaultTitleBar extends ConsumerStatefulWidget {
@@ -37,14 +37,6 @@ class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> with WindowLi
   Widget build(BuildContext context) {
     if (ref.watch(argumentsStateProvider.select((value) => value.htpcMode))) return const SizedBox.shrink();
     final brightness = widget.brightness ?? Theme.of(context).brightness;
-    final shadows = brightness == Brightness.dark
-        ? [
-            BoxShadow(
-                blurRadius: 1, spreadRadius: 1, color: Theme.of(context).colorScheme.surface.withValues(alpha: 1)),
-            BoxShadow(blurRadius: 8, spreadRadius: 2, color: Colors.black.withValues(alpha: 0.2)),
-            BoxShadow(blurRadius: 3, spreadRadius: 2, color: Colors.black.withValues(alpha: 0.3)),
-          ]
-        : <BoxShadow>[];
     final iconColor = Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.65);
     return MouseRegion(
       onEnter: (event) => setState(() => hovering = true),
@@ -111,7 +103,6 @@ class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> with WindowLi
                                   Icons.minimize_rounded,
                                   color: iconColor,
                                   size: 20,
-                                  shadows: shadows,
                                 ),
                               ),
                             );
@@ -148,7 +139,6 @@ class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> with WindowLi
                                     maximized ? Icons.maximize_rounded : Icons.crop_square_rounded,
                                     color: iconColor,
                                     size: 19,
-                                    shadows: shadows,
                                   ),
                                 ),
                               );
@@ -170,7 +160,6 @@ class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> with WindowLi
                                 Icons.close_rounded,
                                 color: iconColor,
                                 size: 23,
-                                shadows: shadows,
                               ),
                             ),
                           ),

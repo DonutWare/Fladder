@@ -1,7 +1,7 @@
 import 'package:desktop_drop/desktop_drop.dart';
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/screens/shared/outlined_text_field.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:flutter/foundation.dart';
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as p;
@@ -131,7 +131,7 @@ class _FilePickerBarState extends ConsumerState<FilePickerBar> {
                           ),
                           const SizedBox(width: 12),
                           Icon(
-                            IconsaxBold.folder_add,
+                            IconsaxPlusBold.folder_add,
                             color: contentColor,
                           )
                         ],

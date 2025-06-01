@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum ScrollState {
@@ -22,45 +23,41 @@ class ScrollStatePosition extends ConsumerStatefulWidget {
 }
 
 class _ScrollStatePositionState extends ConsumerState<ScrollStatePosition> {
-  late final scrollController = widget.controller ?? ScrollController();
-  ScrollState scrollState = ScrollState.top;
+  late final ScrollController _scrollController = widget.controller ?? ScrollController();
+  ScrollState _scrollState = ScrollState.top;
 
   @override
   void initState() {
     super.initState();
-    scrollController.addListener(listen);
+    _scrollController.addListener(_onScroll);
   }
 
   @override
   void dispose() {
-    scrollController.removeListener(listen);
+    _scrollController.removeListener(_onScroll);
+    if (widget.controller == null) {
+      _scrollController.dispose();
+    }
     super.dispose();
   }
 
-  void listen() {
-    if (scrollController.offset < scrollController.position.maxScrollExtent) {
-      if (scrollController.position.atEdge) {
-        bool isTop = scrollController.position.pixels == 0;
-        if (isTop) {
-          setState(() {
-            scrollState = ScrollState.top;
-          });
-          print('At the top');
-        } else {
-          setState(() {
-            scrollState = ScrollState.bottom;
-          });
-        }
-      } else {
-        setState(() {
-          scrollState = ScrollState.middle;
-        });
-      }
+  void _onScroll() {
+    final position = _scrollController.position;
+    final newState = () {
+      if (position.pixels == 0) return ScrollState.top;
+      if (position.pixels >= position.maxScrollExtent) return ScrollState.bottom;
+      return ScrollState.middle;
+    }();
+
+    if (newState != _scrollState) {
+      setState(() {
+        _scrollState = newState;
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return widget.positionBuilder(scrollState);
+    return widget.positionBuilder(_scrollState);
   }
 }

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 import 'package:async/async.dart';
-import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/screens/shared/media/banner_play_button.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/list_padding.dart';
@@ -83,14 +83,11 @@ class _MediaBannerState extends ConsumerState<MediaBanner> {
   @override
   Widget build(BuildContext context) {
     final overlayColor = ThemesData.of(context).dark.colorScheme.primaryContainer;
-    final shadows = [
-      BoxShadow(blurRadius: 12, spreadRadius: 8, color: overlayColor),
-    ];
     final currentItem = widget.items[currentPage.clamp(0, widget.items.length - 1)];
     final double dragOpacity = (1 - dragOffset.abs()).clamp(0, 1);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      padding: const EdgeInsets.symmetric(vertical: 6),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -224,7 +221,6 @@ class _MediaBannerState extends ConsumerState<MediaBanner> {
                                             currentItem.title,
                                             maxLines: 2,
                                             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                                                  shadows: shadows,
                                                   color: Colors.white,
                                                 ),
                                           ),
@@ -235,7 +231,6 @@ class _MediaBannerState extends ConsumerState<MediaBanner> {
                                               currentItem.label(context) ?? currentItem.subText ?? "",
                                               maxLines: 2,
                                               style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                                    shadows: shadows,
                                                     color: Colors.white.withValues(alpha: 0.75),
                                                   ),
                                             ),
@@ -258,7 +253,7 @@ class _MediaBannerState extends ConsumerState<MediaBanner> {
                               children: [
                                 IconButton.filledTonal(
                                   onPressed: () => nextSlide(),
-                                  icon: const Icon(IconsaxOutline.arrow_right_3),
+                                  icon: const Icon(IconsaxPlusLinear.arrow_right_3),
                                 )
                               ],
                             ),

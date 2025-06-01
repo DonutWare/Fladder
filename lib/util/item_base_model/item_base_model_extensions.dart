@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/book_model.dart';
 import 'package:fladder/models/item_base_model.dart';
@@ -40,6 +40,37 @@ extension ItemBaseModelsBooleans on List<ItemBaseModel> {
       }
     }
     return groupedItems;
+  }
+
+  FladderItemType get getMostCommonType {
+    final Map<FladderItemType, int> counts = {};
+
+    for (final item in this) {
+      final type = item.type;
+      counts[type] = (counts[type] ?? 0) + 1;
+    }
+
+    return counts.entries.reduce((a, b) => a.value >= b.value ? a : b).key;
+  }
+
+  double? getMostCommonAspectRatio({double tolerance = 0.01}) {
+    final Map<int, List<double>> buckets = {};
+
+    for (final item in this) {
+      final aspectRatio = item.primaryRatio;
+      if (aspectRatio == null) continue;
+
+      final bucketKey = (aspectRatio / tolerance).round();
+
+      buckets.putIfAbsent(bucketKey, () => []).add(aspectRatio);
+    }
+
+    if (buckets.isEmpty) return null;
+
+    final mostCommonBucket = buckets.entries.reduce((a, b) => a.value.length >= b.value.length ? a : b);
+
+    final average = mostCommonBucket.value.reduce((a, b) => a + b) / mostCommonBucket.value.length;
+    return average;
   }
 }
 
@@ -85,7 +116,7 @@ extension ItemBaseModelExtensions on ItemBaseModel {
         if (playAble)
           ItemActionButton(
             action: () => play(context, ref),
-            icon: const Icon(IconsaxOutline.play),
+            icon: const Icon(IconsaxPlusLinear.play),
             label: Text(playButtonLabel(context)),
           ),
       if (parentId?.isNotEmpty == true) ...[
@@ -105,7 +136,7 @@ extension ItemBaseModelExtensions on ItemBaseModel {
       if (!galleryItem && !exclude.contains(ItemActions.details))
         ItemActionButton(
           action: () async => await navigateTo(context),
-          icon: const Icon(IconsaxOutline.main_component),
+          icon: const Icon(IconsaxPlusLinear.main_component),
           label: Text(context.localized.showDetails),
         )
       else if (!exclude.contains(ItemActions.showAlbum) && galleryItem)
@@ -117,7 +148,7 @@ extension ItemBaseModelExtensions on ItemBaseModel {
       if (!exclude.contains(ItemActions.playFromStart))
         if ((userData.progress) > 0)
           ItemActionButton(
-            icon: const Icon(IconsaxOutline.refresh),
+            icon: const Icon(IconsaxPlusLinear.refresh),
             action: (this is BookModel)
                 ? () => ((this as BookModel).play(context, ref, currentPage: 0))
                 : () => play(context, ref, startPosition: Duration.zero),
@@ -129,7 +160,7 @@ extension ItemBaseModelExtensions on ItemBaseModel {
       if (!exclude.contains(ItemActions.addCollection) && isAdmin)
         if (type != FladderItemType.boxset)
           ItemActionButton(
-            icon: const Icon(IconsaxOutline.archive_add),
+            icon: const Icon(IconsaxPlusLinear.archive_add),
             action: () async {
               await addItemToCollection(context, [this]);
               if (context.mounted) {
@@ -141,7 +172,7 @@ extension ItemBaseModelExtensions on ItemBaseModel {
       if (!exclude.contains(ItemActions.addPlaylist))
         if (type != FladderItemType.playlist)
           ItemActionButton(
-            icon: const Icon(IconsaxOutline.archive_add),
+            icon: const Icon(IconsaxPlusLinear.archive_add),
             action: () async {
               await addItemToPlaylist(context, [this]);
               if (context.mounted) {
@@ -152,7 +183,7 @@ extension ItemBaseModelExtensions on ItemBaseModel {
           ),
       if (!exclude.contains(ItemActions.markPlayed))
         ItemActionButton(
-          icon: const Icon(IconsaxOutline.eye),
+          icon: const Icon(IconsaxPlusLinear.eye),
           action: () async {
             final userData = await ref.read(userProvider.notifier).markAsPlayed(true, id);
             onUserDataChanged?.call(userData?.bodyOrThrow);
@@ -162,7 +193,7 @@ extension ItemBaseModelExtensions on ItemBaseModel {
         ),
       if (!exclude.contains(ItemActions.markUnplayed))
         ItemActionButton(
-          icon: const Icon(IconsaxOutline.eye_slash),
+          icon: const Icon(IconsaxPlusLinear.eye_slash),
           label: Text(context.localized.markAsUnwatched),
           action: () async {
             final userData = await ref.read(userProvider.notifier).markAsPlayed(false, id);
@@ -172,7 +203,7 @@ extension ItemBaseModelExtensions on ItemBaseModel {
         ),
       if (!exclude.contains(ItemActions.setFavorite))
         ItemActionButton(
-          icon: Icon(userData.isFavourite ? IconsaxOutline.heart_remove : IconsaxOutline.heart_add),
+          icon: Icon(userData.isFavourite ? IconsaxPlusLinear.heart_remove : IconsaxPlusLinear.heart_add),
           action: () async {
             final newData = await ref.read(userProvider.notifier).setAsFavorite(!userData.isFavourite, id);
             onUserDataChanged?.call(newData?.bodyOrThrow);
@@ -184,7 +215,7 @@ extension ItemBaseModelExtensions on ItemBaseModel {
       ItemActionDivider(),
       if (!exclude.contains(ItemActions.editMetaData) && isAdmin)
         ItemActionButton(
-          icon: const Icon(IconsaxOutline.edit),
+          icon: const Icon(IconsaxPlusLinear.edit),
           action: () async {
             final newItem = await showEditItemPopup(context, id);
             if (newItem != null) {
@@ -195,7 +226,7 @@ extension ItemBaseModelExtensions on ItemBaseModel {
         ),
       if (!exclude.contains(ItemActions.refreshMetaData) && isAdmin)
         ItemActionButton(
-          icon: const Icon(IconsaxOutline.global_refresh),
+          icon: const Icon(IconsaxPlusLinear.global_refresh),
           action: () async {
             showRefreshPopup(context, id, detailedName(context) ?? name);
           },
@@ -205,7 +236,7 @@ extension ItemBaseModelExtensions on ItemBaseModel {
         if (!kIsWeb)
           if (syncedItem == null)
             ItemActionButton(
-              icon: const Icon(IconsaxOutline.arrow_down_2),
+              icon: const Icon(IconsaxPlusLinear.arrow_down_2),
               label: Text(context.localized.sync),
               action: () => ref.read(syncProvider.notifier).addSyncItem(context, this),
             )
@@ -217,12 +248,12 @@ extension ItemBaseModelExtensions on ItemBaseModel {
             )
         else if (downloadUrl != null) ...[
           ItemActionButton(
-            icon: const Icon(IconsaxOutline.document_download),
+            icon: const Icon(IconsaxPlusLinear.document_download),
             action: () => downloadFile(downloadUrl),
             label: Text(context.localized.downloadFile(type.label(context).toLowerCase())),
           ),
           ItemActionButton(
-            icon: const Icon(IconsaxOutline.link_21),
+            icon: const Icon(IconsaxPlusLinear.link_21),
             action: () => context.copyToClipboard(downloadUrl),
             label: Text(context.localized.copyStreamUrl),
           )
@@ -232,7 +263,7 @@ extension ItemBaseModelExtensions on ItemBaseModel {
         ItemActionButton(
           icon: Container(
             child: const Icon(
-              IconsaxOutline.trash,
+              IconsaxPlusLinear.trash,
             ),
           ),
           action: () async {
@@ -250,7 +281,7 @@ extension ItemBaseModelExtensions on ItemBaseModel {
         ),
       if (!exclude.contains(ItemActions.identify) && identifiable && isAdmin)
         ItemActionButton(
-          icon: const Icon(IconsaxOutline.search_normal),
+          icon: const Icon(IconsaxPlusLinear.search_normal),
           action: () async {
             showIdentifyScreen(context, this);
           },
@@ -258,7 +289,7 @@ extension ItemBaseModelExtensions on ItemBaseModel {
         ),
       if (!exclude.contains(ItemActions.mediaInfo))
         ItemActionButton(
-          icon: const Icon(IconsaxOutline.info_circle),
+          icon: const Icon(IconsaxPlusLinear.info_circle),
           action: () async {
             showInfoScreen(context, this);
           },

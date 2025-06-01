@@ -6,7 +6,7 @@
   "@about": {},
   "accept": "接受",
   "@accept": {},
-  "active": "活跃",
+  "active": "活动",
   "@active": {},
   "actor": "{count, plural, other{演员} one{演员}}",
   "@actor": {
@@ -20,7 +20,7 @@
   },
   "addAsFavorite": "添加为收藏",
   "@addAsFavorite": {},
-  "addToCollection": "添加到收藏夹",
+  "addToCollection": "添加到合集",
   "@addToCollection": {},
   "addToPlaylist": "添加到播放列表",
   "@addToPlaylist": {},
@@ -87,7 +87,7 @@
   "@close": {},
   "code": "代码",
   "@code": {},
-  "collectionFolder": "收藏夹",
+  "collectionFolder": "合集文件夹",
   "@collectionFolder": {},
   "color": "颜色",
   "@color": {},
@@ -106,7 +106,7 @@
   },
   "controls": "控制",
   "@controls": {},
-  "dashboard": "仪表板",
+  "dashboard": "控制台",
   "@dashboard": {},
   "dashboardContinue": "继续",
   "@dashboardContinue": {},
@@ -167,7 +167,7 @@
       }
     }
   },
-  "disableFilters": "禁用过滤器",
+  "disableFilters": "禁用筛选器",
   "@disableFilters": {},
   "disabled": "禁用",
   "@disabled": {},
@@ -215,7 +215,7 @@
   "@favorites": {},
   "fetchingLibrary": "正在获取媒体库项目…",
   "@fetchingLibrary": {},
-  "filter": "{count, plural, other{过滤器} one{过滤器}}",
+  "filter": "{count, plural, other{筛选器} one{筛选器}}",
   "@filter": {
     "description": "过滤器",
     "placeholders": {
@@ -255,11 +255,11 @@
   "@heightOffset": {},
   "hide": "隐藏",
   "@hide": {},
-  "hideEmpty": "隐藏空",
+  "hideEmpty": "隐藏空项",
   "@hideEmpty": {},
   "home": "主页",
   "@home": {},
-  "identify": "识别",
+  "identify": "刮削",
   "@identify": {},
   "immediately": "立即",
   "@immediately": {},
@@ -369,7 +369,7 @@
   "@mediaTypePlaylist": {},
   "mediaTypeSeason": "季",
   "@mediaTypeSeason": {},
-  "mediaTypeSeries": "系列",
+  "mediaTypeSeries": "节目",
   "@mediaTypeSeries": {},
   "metaDataSavedFor": "{item} 的元数据已保存",
   "@metaDataSavedFor": {
@@ -417,7 +417,7 @@
   "@name": {},
   "navigation": "导航",
   "@navigation": {},
-  "navigationDashboard": "仪表板",
+  "navigationDashboard": "控制台",
   "@navigationDashboard": {},
   "navigationFavorites": "收藏夹",
   "@navigationFavorites": {},
@@ -571,7 +571,7 @@
       }
     }
   },
-  "refreshPopupContentMetadata": "根据仪表板中启用的设置和互联网服务刷新元数据。",
+  "refreshPopupContentMetadata": "根据控制台中启用的设置和互联网服务刷新元数据。",
   "@refreshPopupContentMetadata": {},
   "related": "相关",
   "@related": {},
@@ -579,7 +579,7 @@
   "@releaseDate": {},
   "removeAsFavorite": "取消收藏",
   "@removeAsFavorite": {},
-  "removeFromCollection": "从收藏中删除",
+  "removeFromCollection": "从合集中删除",
   "@removeFromCollection": {},
   "removeFromPlaylist": "从播放列表中删除",
   "@removeFromPlaylist": {},
@@ -715,7 +715,7 @@
   "@settingsHomeCarouselDesc": {},
   "settingsHomeCarouselTitle": "仪表板轮播",
   "@settingsHomeCarouselTitle": {},
-  "settingsHomeNextUpDesc": "仪表板屏幕上显示的海报类型",
+  "settingsHomeNextUpDesc": "控制台屏幕上显示的海报类型",
   "@settingsHomeNextUpDesc": {},
   "settingsHomeNextUpTitle": "下一个海报",
   "@settingsHomeNextUpTitle": {},
@@ -938,7 +938,7 @@
   "@homeBannerSlideshow": {},
   "aboutLicenses": "许可证",
   "@aboutLicenses": {},
-  "addItemsToCollection": "将 {itemLength} 个项目添加到收藏夹",
+  "addItemsToCollection": "将 {itemLength} 个项目添加到合集",
   "@addItemsToCollection": {
     "placeholders": {
       "itemLength": {
@@ -1012,9 +1012,9 @@
       }
     }
   },
-  "addToNewCollection": "新建收藏夹",
+  "addToNewCollection": "新建合集",
   "@addToNewCollection": {},
-  "removedFromCollection": "已从 {collectionName} 收藏夹中移除",
+  "removedFromCollection": "已从 {collectionName} 合集中移除",
   "@removedFromCollection": {
     "placeholders": {
       "collectionName": {
@@ -1066,7 +1066,7 @@
   "@screenBrightness": {},
   "playBackSettings": "播放设置",
   "@playBackSettings": {},
-  "addedToCollection": "已添加到 {collectionName} 收藏夹",
+  "addedToCollection": "已添加到 {collectionName} 合集",
   "@addedToCollection": {
     "placeholders": {
       "collectionName": {
@@ -1100,15 +1100,15 @@
   "@errorOpeningMedia": {},
   "unableToPlayBooksOnWeb": "目前书籍在网页上不受支持",
   "@unableToPlayBooksOnWeb": {},
-  "updateFilterForLibrary": "更新过滤器",
+  "updateFilterForLibrary": "更新筛选器",
   "@updateFilterForLibrary": {},
-  "deleteFilterConfirmation": "您确实要删除该过滤器吗？",
+  "deleteFilterConfirmation": "您确实要删除该筛选器吗？",
   "@deleteFilterConfirmation": {},
-  "libraryFiltersLimitReached": "已达到过滤器限制 (10) 删除一些过滤器",
+  "libraryFiltersLimitReached": "已达到筛选器限制 (10) 删除一些筛选器",
   "@libraryFiltersLimitReached": {},
-  "libraryFiltersRemoveAll": "删除所有过滤器",
+  "libraryFiltersRemoveAll": "删除所有筛选器",
   "@libraryFiltersRemoveAll": {},
-  "libraryFiltersRemoveAllConfirm": "这将删除每个媒体库的所有已保存的过滤器",
+  "libraryFiltersRemoveAllConfirm": "这将删除每个媒体库的所有已保存的筛选器",
   "@libraryFiltersRemoveAllConfirm": {},
   "playerSettingsOrientationDesc": "设置视频播放器为特定方向",
   "@playerSettingsOrientationDesc": {},
@@ -1116,7 +1116,7 @@
   "@deviceOrientationLandscapeLeft": {},
   "deviceOrientationLandscapeRight": "水平向右",
   "@deviceOrientationLandscapeRight": {},
-  "defaultFilterForLibrary": "媒体库的默认过滤器",
+  "defaultFilterForLibrary": "媒体库的默认筛选器",
   "@defaultFilterForLibrary": {},
   "removeFilterForLibrary": "删除 {filter}？",
   "@removeFilterForLibrary": {
@@ -1161,9 +1161,9 @@
   "@clientSettingsRequireWifiTitle": {},
   "clientSettingsRequireWifiDesc": "仅在连接到 Wi-Fi 网络时下载",
   "@clientSettingsRequireWifiDesc": {},
-  "clientSettingsShowAllCollectionsTitle": "显示所有收藏类型",
+  "clientSettingsShowAllCollectionsTitle": "显示所有合集类型",
   "@clientSettingsShowAllCollectionsTitle": {},
-  "clientSettingsShowAllCollectionsDesc": "启用后，显示所有收藏类型，包括 Fladder 不支持的收藏类型",
+  "clientSettingsShowAllCollectionsDesc": "启用后，显示所有合集类型，包括 Fladder 不支持的合集类型",
   "@clientSettingsShowAllCollectionsDesc": {},
   "resumeVideo": "恢复播放视频",
   "@resumeVideo": {},
@@ -1270,5 +1270,21 @@
   "segmentActionAskToSkip": "询问",
   "@segmentActionAskToSkip": {},
   "loading": "加载中",
-  "@loading": {}
+  "@loading": {},
+  "castAndCrew": "演职人员",
+  "@castAndCrew": {},
+  "guestActor": "{count, plural, other{客串演员} one{客串演员}}",
+  "@guestActor": {
+    "description": "Guest actors",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "settingsPlayerBufferSizeDesc": "配置视频播放的缓冲区大小，确定加载到缓存中的数据量。",
+  "@settingsPlayerBufferSizeDesc": {},
+  "settingsPlayerBufferSizeTitle": "视频缓冲区大小",
+  "@settingsPlayerBufferSizeTitle": {}
 }

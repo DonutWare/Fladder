@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/items/episode_model.dart';
@@ -97,7 +97,7 @@ class _SyncedEpisodeItemState extends ConsumerState<SyncedEpisodeItem> {
         if (!hasFile && !downloadTask.hasDownload)
           IconButtonAwait(
             onPressed: () async => await ref.read(syncProvider.notifier).syncVideoFile(syncedItem, false),
-            icon: const Icon(IconsaxOutline.cloud_change),
+            icon: const Icon(IconsaxPlusLinear.cloud_change),
           )
         else if (hasFile)
           IconButtonAwait(
@@ -116,7 +116,7 @@ class _SyncedEpisodeItemState extends ConsumerState<SyncedEpisodeItem> {
                 context.localized.cancel,
               );
             },
-            icon: const Icon(IconsaxOutline.trash),
+            icon: const Icon(IconsaxPlusLinear.trash),
           )
       ].addInBetween(const SizedBox(width: 16)),
     );

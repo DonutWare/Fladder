@@ -4,13 +4,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/credentials_model.dart';
 import 'package:fladder/models/library_filters_model.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 
 part 'account_model.freezed.dart';
@@ -34,6 +34,7 @@ class AccountModel with _$AccountModel {
     @Default([]) List<LibraryFiltersModel> savedFilters,
     @JsonKey(includeFromJson: false, includeToJson: false) UserPolicy? policy,
     @JsonKey(includeFromJson: false, includeToJson: false) ServerConfiguration? serverConfiguration,
+    @JsonKey(includeFromJson: false, includeToJson: false) UserConfiguration? userConfiguration,
   }) = _AccountModel;
 
   factory AccountModel.fromJson(Map<String, dynamic> json) => _$AccountModelFromJson(json);
@@ -85,13 +86,13 @@ enum Authentication {
   IconData get icon {
     switch (this) {
       case Authentication.none:
-        return IconsaxBold.arrow_bottom;
+        return IconsaxPlusBold.arrow_bottom;
       case Authentication.autoLogin:
-        return IconsaxOutline.login_1;
+        return IconsaxPlusLinear.login_1;
       case Authentication.biometrics:
-        return IconsaxOutline.finger_scan;
+        return IconsaxPlusLinear.finger_scan;
       case Authentication.passcode:
-        return IconsaxOutline.password_check;
+        return IconsaxPlusLinear.password_check;
     }
   }
 

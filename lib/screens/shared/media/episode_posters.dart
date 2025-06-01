@@ -9,7 +9,7 @@ import 'package:fladder/providers/sync/sync_provider_helpers.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/screens/syncing/sync_button.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/disable_keypad_focus.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
@@ -241,12 +241,13 @@ class EpisodePoster extends ConsumerWidget {
                   LayoutBuilder(
                     builder: (context, constraints) {
                       return FlatButton(
-                        onSecondaryTapDown: (details) {
+                        onSecondaryTapDown: (details) async {
                           Offset localPosition = details.globalPosition;
                           RelativeRect position = RelativeRect.fromLTRB(
-                              localPosition.dx - 260, localPosition.dy, localPosition.dx, localPosition.dy);
+                              localPosition.dx, localPosition.dy, localPosition.dx, localPosition.dy);
 
-                          showMenu(context: context, position: position, items: actions.popupMenuItems(useIcons: true));
+                          await showMenu(
+                              context: context, position: position, items: actions.popupMenuItems(useIcons: true));
                         },
                         onTap: onTap,
                         onLongPress: onLongPress,
@@ -259,15 +260,9 @@ class EpisodePoster extends ConsumerWidget {
                         alignment: Alignment.bottomRight,
                         child: PopupMenuButton(
                           tooltip: "Options",
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.more_vert,
                             color: Colors.white,
-                            shadows: [
-                              Shadow(color: Colors.black.withValues(alpha: 0.45), blurRadius: 8.0),
-                              const Shadow(color: Colors.black, blurRadius: 16.0),
-                              const Shadow(color: Colors.black, blurRadius: 32.0),
-                              const Shadow(color: Colors.black, blurRadius: 64.0),
-                            ],
                           ),
                           itemBuilder: (context) => actions.popupMenuItems(useIcons: true),
                         ),

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
+import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/series_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
@@ -13,21 +14,25 @@ class EpisodeDetailModel {
   final SeriesModel? series;
   final List<EpisodeModel> episodes;
   final EpisodeModel? episode;
+  final List<Person> guestActors;
   EpisodeDetailModel({
     this.series,
     this.episodes = const [],
     this.episode,
+    this.guestActors = const [],
   });
 
   EpisodeDetailModel copyWith({
     SeriesModel? series,
     List<EpisodeModel>? episodes,
     EpisodeModel? episode,
+    List<Person>? guestActors,
   }) {
     return EpisodeDetailModel(
       series: series ?? this.series,
       episodes: episodes ?? this.episodes,
       episode: episode ?? this.episode,
+      guestActors: guestActors ?? this.guestActors,
     );
   }
 }

@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/images_models.dart';
-import 'package:fladder/models/media_playback_model.dart';
-import 'package:fladder/models/settings/home_settings_model.dart';
-import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/theme.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/util/router_extension.dart';
-import 'package:fladder/widgets/navigation_scaffold/components/floating_player_bar.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/settings_user_icon.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
@@ -64,9 +60,9 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
   Widget build(BuildContext context) {
     final padding = EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).width / 25);
     final backGroundColor = Theme.of(context).colorScheme.surface.withValues(alpha: 0.8);
-    final playerState = ref.watch(mediaPlaybackProvider.select((value) => value.state));
     final minHeight = 450.0.clamp(0, MediaQuery.sizeOf(context).height).toDouble();
     final maxHeight = MediaQuery.sizeOf(context).height - 10;
+    final sideBarPadding = AdaptiveLayout.of(context).sideBarWidth;
     return PullToRefresh(
       onRefresh: () async {
         await widget.onRefresh?.call();
@@ -78,16 +74,6 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
       },
       refreshOnStart: true,
       child: Scaffold(
-        floatingActionButtonAnimator:
-            playerState == VideoPlayerState.minimized ? FloatingActionButtonAnimator.noAnimation : null,
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: switch (playerState) {
-          VideoPlayerState.minimized => const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: FloatingPlayerBar(),
-            ),
-          _ => null,
-        },
         backgroundColor: Theme.of(context).colorScheme.surface,
         extendBodyBehindAppBar: true,
         body: Stack(
@@ -164,7 +150,6 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                   Padding(
                     padding: EdgeInsets.only(
                       bottom: 0,
-                      left: MediaQuery.of(context).padding.left,
                       top: MediaQuery.of(context).padding.top,
                     ),
                     child: ConstrainedBox(
@@ -172,7 +157,9 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                         minHeight: MediaQuery.sizeOf(context).height,
                         maxWidth: MediaQuery.sizeOf(context).width,
                       ),
-                      child: widget.content(padding),
+                      child: widget.content(padding.copyWith(
+                        left: sideBarPadding + 25 + MediaQuery.paddingOf(context).left,
+                      )),
                     ),
                   ),
                 ],
@@ -182,9 +169,11 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
             IconTheme(
               data: IconThemeData(color: Theme.of(context).colorScheme.onSurface),
               child: Padding(
-                padding: MediaQuery.paddingOf(context).add(
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                ),
+                padding: MediaQuery.paddingOf(context)
+                    .copyWith(left: sideBarPadding + MediaQuery.paddingOf(context).left)
+                    .add(
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    ),
                 child: Row(
                   children: [
                     IconButton.filledTonal(
@@ -194,7 +183,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                       onPressed: () => context.router.popBack(),
                       icon: Padding(
                         padding: EdgeInsets.all(AdaptiveLayout.of(context).inputDevice == InputDevice.pointer ? 0 : 4),
-                        child: const Icon(IconsaxOutline.arrow_left_2),
+                        child: const Icon(IconsaxPlusLinear.arrow_left_2),
                       ),
                     ),
                     const Spacer(),
@@ -241,7 +230,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                                   message: context.localized.refresh,
                                   child: IconButton(
                                     onPressed: () => context.refreshData(),
-                                    icon: const Icon(IconsaxOutline.refresh),
+                                    icon: const Icon(IconsaxPlusLinear.refresh),
                                   ),
                                 ),
                               ),
@@ -255,13 +244,13 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                                   child: SettingsUserIcon(),
                                 ),
                               ),
-                            Tooltip(
-                              message: context.localized.home,
-                              child: IconButton(
-                                onPressed: () => context.router.navigate(const DashboardRoute()),
-                                icon: const Icon(IconsaxOutline.home),
-                              ),
-                            ),
+                            if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.single)
+                              Tooltip(
+                                  message: context.localized.home,
+                                  child: IconButton(
+                                    onPressed: () => context.navigateTo(const DashboardRoute()),
+                                    icon: const Icon(IconsaxPlusLinear.home),
+                                  )),
                           ],
                         ),
                       ),

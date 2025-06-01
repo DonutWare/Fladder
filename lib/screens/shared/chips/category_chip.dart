@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:collection/collection.dart';
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
-import 'package:fladder/models/settings/home_settings_model.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/map_bool_helper.dart';
@@ -96,37 +95,41 @@ class CategoryChip<T> extends StatelessWidget {
                 newEntry = null;
                 onClear!();
               },
-              icon: const Icon(IconsaxOutline.back_square),
+              icon: const Icon(IconsaxPlusLinear.back_square),
               label: Text(context.localized.clear),
             )
         ].addInBetween(const SizedBox(width: 6));
-    Widget header() => Row(
+    Widget header(BuildContext context) => Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Material(
               color: Colors.transparent,
               textStyle: Theme.of(context).textTheme.titleLarge,
               child: dialogueTitle ?? label,
             ),
-            const Spacer(),
-            FilledButton.tonal(
-              onPressed: () {
-                Navigator.of(context).pop();
-                newEntry = null;
-                onCancel?.call();
-              },
-              child: Text(context.localized.cancel),
+            Row(
+              children: [
+                FilledButton.tonal(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    newEntry = null;
+                    onCancel?.call();
+                  },
+                  child: Text(context.localized.cancel),
+                ),
+                if (onClear != null)
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      newEntry = null;
+                      onClear!();
+                    },
+                    icon: const Icon(IconsaxPlusLinear.back_square),
+                    label: Text(context.localized.clear),
+                  )
+              ].addInBetween(const SizedBox(width: 6)),
             ),
-            if (onClear != null)
-              ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  newEntry = null;
-                  onClear!();
-                },
-                icon: const Icon(IconsaxOutline.back_square),
-                label: Text(context.localized.clear),
-              )
-          ].addInBetween(const SizedBox(width: 6)),
+          ],
         );
 
     if (AdaptiveLayout.viewSizeOf(context) != ViewSize.phone) {
@@ -156,7 +159,7 @@ class CategoryChip<T> extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: header(),
+              child: header(context),
             ),
             const Divider(),
             CategoryChipEditor(

@@ -1,4 +1,4 @@
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/models/account_model.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/screens/shared/passcode_input.dart';
@@ -16,7 +16,7 @@ void showAuthOptionsDialogue(
     context: context,
     builder: (context) => AlertDialog(
       scrollable: true,
-      icon: const Icon(IconsaxBold.lock_1),
+      icon: const Icon(IconsaxPlusBold.lock_1),
       title: Text(context.localized.appLockTitle(currentUser.name)),
       actionsOverflowDirection: VerticalDirection.down,
       actions: Authentication.values

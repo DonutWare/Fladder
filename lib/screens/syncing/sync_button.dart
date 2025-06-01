@@ -1,4 +1,4 @@
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/providers/sync/sync_provider_helpers.dart';
@@ -45,10 +45,10 @@ class _SyncButtonState extends ConsumerState<SyncButton> {
             syncedItem != null
                 ? status == SyncStatus.partially
                     ? (progress?.progress ?? 0) > 0
-                        ? IconsaxOutline.arrow_down
-                        : IconsaxOutline.more_circle
-                    : IconsaxOutline.tick_circle
-                : IconsaxOutline.arrow_down_2,
+                        ? IconsaxPlusLinear.arrow_down
+                        : IconsaxPlusLinear.more_circle
+                    : IconsaxPlusLinear.tick_circle
+                : IconsaxPlusLinear.arrow_down_2,
             color: status?.color,
             size: (progress?.progress ?? 0) > 0 ? 16 : null,
           ),

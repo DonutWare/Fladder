@@ -1,11 +1,11 @@
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/providers/edit_item_provider.dart';
 import 'package:fladder/screens/metadata/edit_screens/edit_fields.dart';
 import 'package:fladder/screens/metadata/edit_screens/edit_image_content.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:flutter/material.dart';
@@ -103,7 +103,7 @@ class _EditDialogSwitcherState extends ConsumerState<EditDialogSwitcher> with Ti
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ),
-                  IconButton(onPressed: () => refreshEditor(), icon: const Icon(IconsaxOutline.refresh))
+                  IconButton(onPressed: () => refreshEditor(), icon: const Icon(IconsaxPlusLinear.refresh))
                 ],
               ),
             ),

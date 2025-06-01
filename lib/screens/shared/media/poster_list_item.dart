@@ -1,10 +1,13 @@
-import 'package:ficonsax/ficonsax.dart';
+import 'package:flutter/material.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
+
 import 'package:fladder/models/book_model.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
-import 'package:fladder/screens/shared/flat_button.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/list_padding.dart';
@@ -12,8 +15,6 @@ import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/clickable_text.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PosterListItem extends ConsumerWidget {
   final ItemBaseModel poster;
@@ -64,12 +65,12 @@ class PosterListItem extends ConsumerWidget {
               color: Theme.of(context).colorScheme.primary.withValues(alpha: selected == true ? 0.25 : 0),
               borderRadius: BorderRadius.circular(6),
             ),
-            child: FlatButton(
+            child: InkWell(
               onTap: () => pressedWidget(context),
               onSecondaryTapDown: (details) async {
                 Offset localPosition = details.globalPosition;
                 RelativeRect position =
-                    RelativeRect.fromLTRB(localPosition.dx - 320, localPosition.dy, localPosition.dx, localPosition.dy);
+                    RelativeRect.fromLTRB(localPosition.dx, localPosition.dy, localPosition.dx, localPosition.dy);
                 await showMenu(
                   context: context,
                   position: position,
@@ -181,7 +182,7 @@ class PosterListItem extends ConsumerWidget {
                         ),
                     if (poster.userData.isFavourite)
                       const Icon(
-                        IconsaxBold.heart,
+                        IconsaxPlusBold.heart,
                         color: Colors.red,
                       ),
                     if (AdaptiveLayout.of(context).isDesktop)

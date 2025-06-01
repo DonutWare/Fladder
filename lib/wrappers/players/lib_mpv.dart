@@ -31,12 +31,13 @@ class LibMPV extends BasePlayer {
     dispose();
 
     mpv.MediaKit.ensureInitialized();
-
+    
     _player = mpv.Player(
       configuration: mpv.PlayerConfiguration(
         title: "nl.jknaapen.fladder",
         libassAndroidFont: libassFallbackFont,
         libass: !kIsWeb && settings.useLibass,
+        bufferSize: settings.bufferSize * 1024 * 1024, // MPV uses buffer size in bytes
       ),
     );
 

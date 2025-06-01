@@ -32,7 +32,8 @@ class ClientSettingsModel with _$ClientSettingsModel {
     @Default(false) bool mouseDragSupport,
     @Default(true) bool requireWifi,
     @Default(false) bool showAllCollectionTypes,
-    @Default(DynamicSchemeVariant.tonalSpot) DynamicSchemeVariant schemeVariant,
+    @Default(2) int maxConcurrentDownloads,
+    @Default(DynamicSchemeVariant.rainbow) DynamicSchemeVariant schemeVariant,
     int? libraryPageSize,
   }) = _ClientSettingsModel;
 

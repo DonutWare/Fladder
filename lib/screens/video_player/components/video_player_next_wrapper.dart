@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:screen_brightness/screen_brightness.dart';
 
@@ -16,7 +16,7 @@ import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/screens/shared/default_title_bar.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -275,13 +275,13 @@ class _VideoPlayerNextWrapperState extends ConsumerState<VideoPlayerNextWrapper>
                                     IconButton.filledTonal(
                                       onPressed: () => hideNextUp(),
                                       tooltip: context.localized.resumeVideo,
-                                      icon: const Icon(IconsaxBold.maximize_4),
+                                      icon: const Icon(IconsaxPlusBold.maximize_4),
                                     ),
                                     const SizedBox(width: 8),
                                     IconButton.filledTonal(
                                       onPressed: () => closePlayer(),
                                       tooltip: context.localized.closeVideo,
-                                      icon: const Icon(IconsaxBold.close_square),
+                                      icon: const Icon(IconsaxPlusBold.close_square),
                                     ),
                                   ],
                                 ),
@@ -453,13 +453,13 @@ class _SimpleControls extends ConsumerWidget {
         children: [
           IconButton.filledTonal(
             onPressed: () => player.playOrPause(),
-            icon: Icon(isPlaying ? IconsaxBold.pause : IconsaxBold.play),
+            icon: Icon(isPlaying ? IconsaxPlusBold.pause : IconsaxPlusBold.play),
           ),
           if (skip != null)
             IconButton.filledTonal(
               onPressed: skip,
               tooltip: context.localized.playNextVideo,
-              icon: const Icon(IconsaxBold.next),
+              icon: const Icon(IconsaxPlusBold.next),
             )
         ].addInBetween(const SizedBox(width: 4)));
   }

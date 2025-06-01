@@ -16,7 +16,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 0.6.1+1
+version: 0.6.2+1
 
 environment:
   sdk: ">=3.1.3 <4.0.0"
@@ -37,7 +37,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   # Icons
   cupertino_icons: ^1.0.8
-  ficonsax: ^0.0.3
+  iconsax_plus: ^1.0.0
 
   # Network and HTTP
   chopper: ^8.0.4
@@ -65,11 +65,11 @@ dependencies:
   path_provider: ^2.1.5
 
   # Media
-  media_kit: ^1.1.11 # Primary package.
+  media_kit: ^1.2.0 # Primary package.
   media_kit_video: ^1.2.5 # For video rendering.
   media_kit_libs_video: ^1.0.5 # Native video dependencies.
   audio_service: ^0.18.16
-  fvp: ^0.29.0
+  fvp: ^0.31.0
   video_player: ^2.9.2
 
   # UI Components
@@ -80,7 +80,6 @@ dependencies:
   page_transition: ^2.2.1
   sticky_headers: ^0.3.0+2
   flutter_staggered_grid_view: ^0.7.0
-  scrollable_positioned_list: ^0.3.8
   sliver_tools: ^0.2.12
   square_progress_indicator: ^0.0.7
   flutter_blurhash: ^0.8.2
@@ -88,6 +87,8 @@ dependencies:
   flutter_widget_from_html: ^0.15.3
   font_awesome_flutter: ^10.8.0
   reorderable_grid: ^1.0.10
+  overflow_view: ^0.4.0
+  flutter_sticky_header: ^0.7.0
 
   # Navigation
   auto_route: ^9.3.0+1
@@ -124,7 +125,6 @@ dependencies:
   share_plus: ^10.1.4
   archive: ^4.0.2
   dart_mappable: ^4.3.0
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -145,21 +145,6 @@ dev_dependencies:
   dart_mappable_builder: ^4.3.0
   auto_route_generator: ^9.0.0
   icons_launcher: ^3.0.0
-
-dependency_overrides:
-  js: ^0.7.1
-  media_kit:
-    git:
-      url: https://github.com/DonutWare/media-kit
-      path: media_kit
-  media_kit_video:
-    git:
-      url: https://github.com/DonutWare/media-kit
-      path: media_kit_video
-  media_kit_libs_video:
-    git:
-      url: https://github.com/DonutWare/media-kit
-      path: libs/universal/media_kit_libs_video
 
 flutter:
   # The following line ensures that the Material Icons font is

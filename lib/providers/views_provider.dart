@@ -32,8 +32,8 @@ class ViewsNotifier extends StateNotifier<ViewsModel> {
 
   late final JellyService api = ref.read(jellyApiProvider);
 
-  Future<void> fetchViews() async {
-    if (state.loading) return;
+  Future<ViewsModel?> fetchViews() async {
+    if (state.loading) return null;
     final showAllCollections = ref.read(clientSettingsProvider.select((value) => value.showAllCollectionTypes));
     final response = await api.usersUserIdViewsGet(
       includeExternalContent: showAllCollections,
@@ -47,7 +47,6 @@ class ViewsNotifier extends StateNotifier<ViewsModel> {
     if (createdViews != null) {
       newList = await Future.wait(createdViews.map((e) async {
         if (ref.read(userProvider)?.latestItemsExcludes.contains(e.id) == true) return e;
-        if ([CollectionType.boxsets, CollectionType.folders].contains(e.collectionType)) return e;
         final recents = await api.usersUserIdItemsLatestGet(
           parentId: e.id,
           imageTypeLimit: 1,
@@ -65,6 +64,7 @@ class ViewsNotifier extends StateNotifier<ViewsModel> {
             ItemFields.mediasources,
             ItemFields.candelete,
             ItemFields.candownload,
+            ItemFields.primaryimageaspectratio,
           ],
         );
         return e.copyWith(recentlyAdded: recents.body?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList());
@@ -75,9 +75,9 @@ class ViewsNotifier extends StateNotifier<ViewsModel> {
         views: newList,
         dashboardViews: newList
             .where((element) => !(ref.read(userProvider)?.latestItemsExcludes.contains(element.id) ?? true))
-            .where((element) => ![CollectionType.boxsets, CollectionType.folders].contains(element.collectionType))
             .toList(),
         loading: false);
+    return state;
   }
 
   void clear() {

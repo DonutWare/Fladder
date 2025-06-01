@@ -2,16 +2,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/collection_types.dart';
-import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/models/view_model.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/metadata/refresh_metadata.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/adaptive_fab.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/destination_model.dart';
@@ -54,7 +53,7 @@ class NestedNavigationDrawer extends ConsumerWidget {
               ),
               IconButton(
                 onPressed: () => toggleExpanded(false),
-                icon: const Icon(IconsaxOutline.menu),
+                icon: const Icon(IconsaxPlusLinear.sidebar_left),
               ),
             ],
           ),
@@ -71,16 +70,18 @@ class NestedNavigationDrawer extends ConsumerWidget {
             ),
           ),
         ),
-        ...destinations.map((destination) => DrawerListButton(
-              label: destination.label,
-              selected: context.router.current.name == destination.route?.routeName,
-              selectedIcon: destination.selectedIcon!,
-              icon: destination.icon!,
-              onPressed: () {
-                destination.action!();
-                Scaffold.of(context).closeDrawer();
-              },
-            )),
+        ...destinations.map(
+          (destination) => DrawerListButton(
+            label: destination.label,
+            selected: context.router.current.name == destination.route?.routeName,
+            selectedIcon: destination.selectedIcon!,
+            icon: destination.icon!,
+            onPressed: () {
+              destination.action!();
+              Scaffold.of(context).closeDrawer();
+            },
+          ),
+        ),
         if (views.isNotEmpty) ...{
           const Divider(indent: 28, endIndent: 28),
           Padding(
@@ -96,7 +97,7 @@ class NestedNavigationDrawer extends ConsumerWidget {
               actions: [
                 ItemActionButton(
                   label: Text(context.localized.scanLibrary),
-                  icon: const Icon(IconsaxOutline.refresh),
+                  icon: const Icon(IconsaxPlusLinear.refresh),
                   action: () => showRefreshPopup(context, library.id, library.name),
                 ),
               ],
@@ -113,7 +114,7 @@ class NestedNavigationDrawer extends ConsumerWidget {
             offset: const Offset(-8, 0),
             child: DrawerListButton(
               label: context.localized.settings,
-              selectedIcon: const Icon(IconsaxBold.setting_3),
+              selectedIcon: const Icon(IconsaxPlusBold.setting_3),
               selected: currentLocation.contains(const SettingsRoute().routeName),
               icon: const SizedBox(width: 35, height: 35, child: SettingsUserIcon()),
               onPressed: () {
@@ -132,8 +133,8 @@ class NestedNavigationDrawer extends ConsumerWidget {
         else
           DrawerListButton(
             label: context.localized.settings,
-            selectedIcon: const Icon(IconsaxBold.setting_2),
-            icon: const Icon(IconsaxOutline.setting_2),
+            selectedIcon: const Icon(IconsaxPlusBold.setting_2),
+            icon: const Icon(IconsaxPlusLinear.setting_2),
             selected: currentLocation.contains(const SettingsRoute().routeName),
             onPressed: () {
               switch (AdaptiveLayout.layoutModeOf(context)) {

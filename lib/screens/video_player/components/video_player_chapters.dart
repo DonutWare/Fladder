@@ -50,7 +50,7 @@ class VideoPlayerChapters extends ConsumerWidget {
             final isCurrent = chapter == currentChapter;
             return Card(
               color: Colors.black,
-              clipBehavior: Clip.antiAlias,
+              clipBehavior: Clip.hardEdge,
               child: Stack(
                 children: [
                   Center(

@@ -22,6 +22,7 @@ class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     @Default(false) bool fillScreen,
     @Default(true) bool hardwareAccel,
     @Default(false) bool useLibass,
+    @Default(32) int bufferSize,
     PlayerOptions? playerOptions,
     @Default(100) double internalVolume,
     Set<DeviceOrientation>? allowedOrientations,
@@ -42,7 +43,7 @@ class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
   PlayerOptions get wantedPlayer => playerOptions ?? PlayerOptions.platformDefaults;
 
   bool playerSame(VideoPlayerSettingsModel other) {
-    return other.hardwareAccel == hardwareAccel && other.useLibass == useLibass && other.wantedPlayer == wantedPlayer;
+    return other.hardwareAccel == hardwareAccel && other.useLibass == useLibass && other.bufferSize == bufferSize && other.wantedPlayer == wantedPlayer;
   }
 
   @override
@@ -55,6 +56,7 @@ class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
         other.fillScreen == fillScreen &&
         other.hardwareAccel == hardwareAccel &&
         other.useLibass == useLibass &&
+        other.bufferSize == bufferSize &&
         other.internalVolume == internalVolume &&
         other.playerOptions == playerOptions &&
         other.audioDevice == audioDevice;
@@ -67,6 +69,7 @@ class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
         fillScreen.hashCode ^
         hardwareAccel.hashCode ^
         useLibass.hashCode ^
+        bufferSize.hashCode ^
         internalVolume.hashCode ^
         audioDevice.hashCode;
   }

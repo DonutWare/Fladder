@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/account_model.dart';
@@ -20,7 +20,7 @@ import 'package:fladder/screens/shared/fladder_logo.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/screens/shared/outlined_text_field.dart';
 import 'package:fladder/screens/shared/passcode_input.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/auth_service.dart';
 import 'package:fladder/util/fladder_config.dart';
 import 'package:fladder/util/list_padding.dart';
@@ -90,12 +90,12 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
                 if (!AdaptiveLayout.of(context).isDesktop)
                   FloatingActionButton(
                     key: const Key("edit_button"),
-                    child: const Icon(IconsaxOutline.edit_2),
+                    child: const Icon(IconsaxPlusLinear.edit_2),
                     onPressed: () => setState(() => editingUsers = !editingUsers),
                   ),
                 FloatingActionButton(
                   key: const Key("new_button"),
-                  child: const Icon(IconsaxOutline.add_square),
+                  child: const Icon(IconsaxPlusLinear.add_square),
                   onPressed: startAddingNewUser,
                 ),
               ].addInBetween(const SizedBox(width: 16)),
@@ -287,7 +287,7 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
                     ref.read(authProvider.notifier).setServer("");
                   },
                   icon: const Icon(
-                    IconsaxOutline.arrow_left_2,
+                    IconsaxPlusLinear.arrow_left_2,
                   ),
                 ),
               ),
@@ -315,7 +315,7 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
                   child: IconButton.filled(
                     onPressed: () => retrieveListOfUsers(),
                     icon: const Icon(
-                      IconsaxOutline.refresh,
+                      IconsaxPlusLinear.refresh,
                     ),
                   ),
                 ),
@@ -381,7 +381,7 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
                                     children: [
                                       Text(context.localized.login),
                                       const SizedBox(width: 8),
-                                      const Icon(IconsaxBold.send_1),
+                                      const Icon(IconsaxPlusBold.send_1),
                                     ],
                                   ),
                           ),

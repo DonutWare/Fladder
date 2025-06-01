@@ -2,8 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/providers/session_info_provider.dart';
@@ -33,112 +33,117 @@ class _VideoPlaybackInformation extends ConsumerWidget {
     return Dialog(
       child: Padding(
         padding: const EdgeInsets.all(12.0),
-        child: IntrinsicWidth(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Player info", style: Theme.of(context).textTheme.titleMedium),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4).copyWith(top: 4),
-                child: Opacity(
-                  opacity: 0.80,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [const Text('backend: '), Text(backend?.label(context) ?? context.localized.unknown)],
-                      ),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Text('url: '),
-                          const SizedBox(width: 8),
-                          Flexible(
-                            child: ImageFiltered(
-                              imageFilter: ImageFilter.blur(
-                                sigmaX: 3.0,
-                                sigmaY: 3.0,
-                              ),
-                              child: Text(
-                                playbackModel?.media?.url ?? "No url",
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
+        child: SingleChildScrollView(
+          child: IntrinsicWidth(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Player info", style: Theme.of(context).textTheme.titleMedium),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4).copyWith(top: 4),
+                  child: Opacity(
+                    opacity: 0.80,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Text('backend: '),
+                            Text(backend?.label(context) ?? context.localized.unknown)
+                          ],
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Text('url: '),
+                            const SizedBox(width: 8),
+                            Flexible(
+                              child: ImageFiltered(
+                                imageFilter: ImageFilter.blur(
+                                  sigmaX: 3.0,
+                                  sigmaY: 3.0,
+                                ),
+                                child: Text(
+                                  playbackModel?.media?.url ?? "No url",
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                             ),
-                          ),
-                          IconButton.filled(
-                            onPressed: () => context.copyToClipboard(playbackModel?.media?.url ?? "No url"),
-                            icon: const Icon(IconsaxOutline.copy),
-                          )
-                        ],
-                      )
-                    ].addPadding(const EdgeInsets.symmetric(vertical: 3)),
+                            IconButton.filled(
+                              onPressed: () => context.copyToClipboard(playbackModel?.media?.url ?? "No url"),
+                              icon: const Icon(IconsaxPlusLinear.copy),
+                            )
+                          ],
+                        )
+                      ].addPadding(const EdgeInsets.symmetric(vertical: 3)),
+                    ),
                   ),
                 ),
-              ),
-              const Divider(),
-              if (playbackState != null) _PlayerInformation(state: playbackState),
-              Text("Playback information", style: Theme.of(context).textTheme.titleMedium),
-              const SizedBox(height: 4),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4).copyWith(top: 4),
-                child: Opacity(
-                  opacity: 0.8,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [const Text('type: '), Text(playbackModel.label ?? "")],
-                      ),
-                      if (sessionInfo.transCodeInfo != null) ...[
-                        Text("Transcoding", style: Theme.of(context).textTheme.titleMedium),
-                        if (sessionInfo.transCodeInfo?.transcodeReasons?.isNotEmpty == true)
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Text('reason: '),
-                              Text(sessionInfo.transCodeInfo?.transcodeReasons.toString() ?? "")
-                            ],
-                          ),
-                        if (sessionInfo.transCodeInfo?.completionPercentage != null)
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Text('transcode progress: '),
-                              Text("${sessionInfo.transCodeInfo?.completionPercentage?.toStringAsFixed(2)} %")
-                            ],
-                          ),
-                        if (sessionInfo.transCodeInfo?.container != null)
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Text('container: '),
-                              Text(sessionInfo.transCodeInfo!.container.toString())
-                            ],
-                          ),
-                      ],
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Text('resolution: '),
-                          Text(playbackModel?.item.streamModel?.resolutionText ?? "")
+                const Divider(),
+                if (playbackState != null) _PlayerInformation(state: playbackState),
+                Text("Playback information", style: Theme.of(context).textTheme.titleMedium),
+                const SizedBox(height: 4),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4).copyWith(top: 4),
+                  child: Opacity(
+                    opacity: 0.8,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [const Text('type: '), Text(playbackModel.label ?? "")],
+                        ),
+                        if (sessionInfo.transCodeInfo != null) ...[
+                          Text("Transcoding", style: Theme.of(context).textTheme.titleMedium),
+                          if (sessionInfo.transCodeInfo?.transcodeReasons?.isNotEmpty == true)
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Text('reason: '),
+                                Text(sessionInfo.transCodeInfo?.transcodeReasons.toString() ?? "")
+                              ],
+                            ),
+                          if (sessionInfo.transCodeInfo?.completionPercentage != null)
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Text('transcode progress: '),
+                                Text("${sessionInfo.transCodeInfo?.completionPercentage?.toStringAsFixed(2)} %")
+                              ],
+                            ),
+                          if (sessionInfo.transCodeInfo?.container != null)
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Text('container: '),
+                                Text(sessionInfo.transCodeInfo!.container.toString())
+                              ],
+                            ),
                         ],
-                      ),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Text('container: '),
-                          Text(playbackModel?.playbackInfo?.mediaSources?.firstOrNull?.container ?? "")
-                        ],
-                      )
-                    ].addPadding(const EdgeInsets.symmetric(vertical: 3)),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Text('resolution: '),
+                            Text(playbackModel?.item.streamModel?.resolutionText ?? "")
+                          ],
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Text('container: '),
+                            Text(playbackModel?.playbackInfo?.mediaSources?.firstOrNull?.container ?? "")
+                          ],
+                        )
+                      ].addPadding(const EdgeInsets.symmetric(vertical: 3)),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

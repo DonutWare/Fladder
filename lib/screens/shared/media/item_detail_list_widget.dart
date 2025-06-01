@@ -25,7 +25,7 @@ class _ItemDetailListWidgetState extends ConsumerState<ItemDetailListWidget> {
     return Card(
       elevation: widget.elevation,
       margin: EdgeInsets.zero,
-      clipBehavior: Clip.antiAlias,
+      clipBehavior: Clip.hardEdge,
       child: Stack(
         children: [
           FlatButton(

@@ -1,8 +1,8 @@
-import 'package:ficonsax/ficonsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/screens/shared/media/episode_posters.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -13,8 +13,8 @@ import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/util/humanize_duration.dart';
 
 enum EpisodeDetailsViewType {
-  list(icon: IconsaxBold.grid_6),
-  grid(icon: IconsaxBold.grid_2);
+  list(icon: IconsaxPlusBold.grid_6),
+  grid(icon: IconsaxPlusBold.grid_2);
 
   const EpisodeDetailsViewType({required this.icon});
 

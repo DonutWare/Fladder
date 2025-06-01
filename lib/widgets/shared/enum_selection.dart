@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
+import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 
 class EnumBox<T> extends StatelessWidget {
   final String current;
@@ -52,10 +52,11 @@ class EnumBox<T> extends StatelessWidget {
       child: useBottomSheet
           ? FlatButton(
               child: labelWidget,
-              onTap: () => showModalBottomSheet(
+              onTap: () => showBottomSheetPill(
                 context: context,
-                builder: (context) => ListView(
+                content: (context, scrollController) => ListView(
                   shrinkWrap: true,
+                  controller: scrollController,
                   children: [
                     const SizedBox(height: 6),
                     ...itemBuilder(context),

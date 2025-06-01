@@ -37,11 +37,11 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     }
 
     final subscription = state.stateStream?.listen((value) {
-      mediaState.update((state) => state.copyWith(buffering: value.buffering));
-      mediaState.update((state) => state.copyWith(buffer: value.buffer));
+      updateBuffering(value.buffering);
+      updateBuffer(value.buffer);
       updatePlaying(value.playing);
       updatePosition(value.position);
-      mediaState.update((state) => state.copyWith(duration: value.duration));
+      updateDuration(value.duration);
     });
 
     if (subscription != null) {
@@ -49,32 +49,58 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     }
   }
 
+  Future<void> updateBuffering(bool event) async =>
+      mediaState.update((state) => state.buffering == event ? state : state.copyWith(buffering: event));
+
+  Future<void> updateBuffer(Duration buffer) async {
+    mediaState.update(
+      (state) => (state.buffer - buffer).inSeconds.abs() < 1
+          ? state
+          : state.copyWith(
+              buffer: buffer,
+            ),
+    );
+  }
+
+  Future<void> updateDuration(Duration duration) async {
+    mediaState.update((state) {
+      return (state.duration - duration).inSeconds.abs() < 1
+          ? state
+          : state.copyWith(
+              duration: duration,
+            );
+    });
+  }
+
   Future<void> updatePlaying(bool event) async {
     if (!state.hasPlayer) return;
-    mediaState.update((state) => state.copyWith(playing: event));
+    mediaState.update(
+      (state) => state.playing == event ? state : state.copyWith(playing: event),
+    );
   }
 
   Future<void> updatePosition(Duration event) async {
     if (!state.hasPlayer) return;
     if (playbackState.playing == false) return;
+    final currentState = playbackState;
+    final currentPosition = currentState.position;
+
+    if ((currentPosition - event).inSeconds.abs() < 1) return;
 
     final position = event;
-    final lastPosition = ref.read(mediaPlaybackProvider.select((value) => value.lastPosition));
+
+    final lastPosition = currentState.lastPosition;
     final diff = (position.inMilliseconds - lastPosition.inMilliseconds).abs();
 
     if (diff > const Duration(seconds: 10).inMilliseconds) {
       mediaState.update((value) => value.copyWith(
             position: event,
-            playing: playbackState.playing,
-            duration: playbackState.duration,
             lastPosition: position,
           ));
       ref.read(playBackModel)?.updatePlaybackPosition(position, playbackState.playing, ref);
     } else {
       mediaState.update((value) => value.copyWith(
             position: event,
-            playing: playbackState.playing,
-            duration: playbackState.duration,
           ));
     }
   }

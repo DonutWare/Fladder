@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:ficonsax/ficonsax.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/providers/sync/sync_provider_helpers.dart';
@@ -35,7 +35,7 @@ class SyncListItemState extends ConsumerState<SyncListItem> {
         syncedItem: syncedItem,
         child: Card(
           elevation: 1,
-          color: Theme.of(context).colorScheme.secondaryContainer.withValues(alpha: 0.2),
+          color: Theme.of(context).colorScheme.surfaceDim,
           shadowColor: Colors.transparent,
           child: Dismissible(
             background: Container(
@@ -43,7 +43,7 @@ class SyncListItemState extends ConsumerState<SyncListItem> {
               child: const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Row(
-                  children: [Icon(IconsaxBold.trash)],
+                  children: [Icon(IconsaxPlusBold.trash)],
                 ),
               ),
             ),
@@ -132,7 +132,7 @@ class SyncListItemState extends ConsumerState<SyncListItem> {
                                 )),
                             IconButton(
                               onPressed: () => showSyncItemDetails(context, syncedItem, ref),
-                              icon: const Icon(IconsaxOutline.more_square),
+                              icon: const Icon(IconsaxPlusLinear.more_square),
                             ),
                           ],
                         ),
