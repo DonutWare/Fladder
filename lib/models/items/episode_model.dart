@@ -202,14 +202,28 @@ extension EpisodeListExtensions on List<EpisodeModel> {
     final episodes = where((e) => e.season > 0 && e.status == EpisodeStatus.available).toList();
     if (episodes.isEmpty) return null;
 
-    final lastWatchedIndex = [
-      episodes.lastIndexWhere((e) => e.userData.progress != 0),
-      episodes.lastIndexWhere((e) => e.userData.played),
-    ].reduce((a, b) => a > b ? a : b);
+    final lastProgressIndex = episodes.lastIndexWhere((e) => e.userData.progress != 0);
+    final lastPlayedIndex = episodes.lastIndexWhere((e) => e.userData.played);
+    final lastWatchedIndex = [lastProgressIndex, lastPlayedIndex].reduce((a, b) => a > b ? a : b);
 
-    if (lastWatchedIndex >= 0 && lastWatchedIndex + 1 < episodes.length) {
-      final next = episodes.sublist(lastWatchedIndex + 1).firstWhereOrNull((e) => e.status == EpisodeStatus.available);
-      if (next != null) return next;
+    if (lastWatchedIndex >= 0) {
+      final current = episodes[lastWatchedIndex];
+      if (!current.userData.played && current.userData.progress != 0) {
+        return current;
+      }
+
+      final nextIndex = lastWatchedIndex + 1;
+      if (nextIndex < episodes.length) {
+        final next = episodes[nextIndex];
+        if (!next.userData.played && next.userData.progress != 0) {
+          return next;
+        }
+
+        final nextUnplayed = episodes.sublist(nextIndex).firstWhereOrNull(
+              (e) => e.status == EpisodeStatus.available && !e.userData.played,
+            );
+        if (nextUnplayed != null) return nextUnplayed;
+      }
     }
 
     return episodes.firstOrNull;

@@ -9,16 +9,12 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/photos_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
-import 'package:fladder/models/syncing/sync_item.dart';
-import 'package:fladder/models/video_stream_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/book_viewer_provider.dart';
 import 'package:fladder/providers/items/book_details_provider.dart';
-import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/book_viewer/book_viewer_screen.dart';
 import 'package:fladder/screens/photo_viewer/photo_viewer_screen.dart';
-import 'package:fladder/screens/shared/adaptive_dialog.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/screens/video_player/video_player.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
@@ -210,33 +206,12 @@ extension ItemBaseModelExtensions on ItemBaseModel? {
 
     _showLoadingIndicator(context);
 
-    SyncedItem? syncedItem = ref.read(syncProvider.notifier).getSyncedItem(this);
-
-    final options = {
-      PlaybackType.directStream,
-      PlaybackType.transcode,
-      if (syncedItem != null && syncedItem.status == SyncStatus.complete) PlaybackType.offline,
-    };
-
-    PlaybackModel? model;
-
-    if (showPlaybackOption || syncedItem != null) {
-      final playbackType = await _showPlaybackTypeSelection(
-        context: context,
-        options: options,
-      );
-
-      model = switch (playbackType) {
-        PlaybackType.directStream || PlaybackType.transcode => await ref
-            .read(playbackModelHelper)
-            .createServerPlaybackModel(itemModel, playbackType, startPosition: startPosition),
-        PlaybackType.offline => await ref.read(playbackModelHelper).createOfflinePlaybackModel(itemModel, syncedItem),
-        null => null
-      };
-    } else {
-      model = (await ref.read(playbackModelHelper).createServerPlaybackModel(itemModel, PlaybackType.directStream)) ??
-          await ref.read(playbackModelHelper).createOfflinePlaybackModel(itemModel, syncedItem);
-    }
+    PlaybackModel? model = await ref.read(playbackModelHelper).createPlaybackModel(
+          context,
+          itemModel,
+          showPlaybackOptions: showPlaybackOption,
+          startPosition: startPosition,
+        );
 
     await _playVideo(context, startPosition: startPosition, current: model, ref: ref);
   }
@@ -267,69 +242,17 @@ extension ItemBaseModelsBooleans on List<ItemBaseModel> {
       expandedList.shuffle();
     }
 
-    PlaybackModel? model = await ref.read(playbackModelHelper).createServerPlaybackModel(
+    PlaybackModel? model = await ref.read(playbackModelHelper).createPlaybackModel(
+          context,
           expandedList.firstOrNull,
-          PlaybackType.directStream,
           libraryQueue: expandedList,
         );
 
     if (context.mounted) {
       await _playVideo(context, ref: ref, queue: expandedList, current: model);
       if (context.mounted) {
-        RefreshState.of(context).refresh();
+        RefreshState.maybeOf(context)?.refresh();
       }
     }
-  }
-}
-
-Future<PlaybackType?> _showPlaybackTypeSelection({
-  required BuildContext context,
-  required Set<PlaybackType> options,
-}) async {
-  PlaybackType? playbackType;
-
-  await showDialogAdaptive(
-    context: context,
-    builder: (context) {
-      return PlaybackDialogue(
-        options: options,
-        onClose: (type) {
-          playbackType = type;
-          Navigator.of(context).pop();
-        },
-      );
-    },
-  );
-  return playbackType;
-}
-
-class PlaybackDialogue extends StatelessWidget {
-  final Set<PlaybackType> options;
-  final Function(PlaybackType type) onClose;
-  const PlaybackDialogue({required this.options, required this.onClose, super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16).add(const EdgeInsets.only(top: 16, bottom: 8)),
-          child: Text(
-            context.localized.playbackType,
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-        ),
-        const Divider(),
-        ...options.map((type) => ListTile(
-              title: Text(type.name(context)),
-              leading: Icon(type.icon),
-              onTap: () {
-                onClose(type);
-              },
-            ))
-      ],
-    );
   }
 }
