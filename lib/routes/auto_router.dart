@@ -21,7 +21,14 @@ class AutoRouter extends RootStackRouter {
   List<AutoRouteGuard> get guards => [...super.guards, AuthGuard(ref: ref)];
 
   @override
-  RouteType get defaultRouteType => kIsWeb ? const RouteType.material() : const RouteType.adaptive();
+  RouteType get defaultRouteType => kIsWeb ||
+          {
+            TargetPlatform.windows,
+            TargetPlatform.linux,
+            TargetPlatform.macOS,
+          }.contains(defaultTargetPlatform)
+      ? const RouteType.cupertino()
+      : const RouteType.adaptive();
 
   @override
   List<AutoRoute> get routes => [
