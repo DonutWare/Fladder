@@ -31,7 +31,7 @@ import 'package:fladder/util/input_handler.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/string_extensions.dart';
-import 'package:fladder/widgets/full_screen_helpers.dart/full_screen_wrapper.dart';
+import 'package:fladder/widgets/full_screen_helpers/full_screen_wrapper.dart';
 
 class DesktopControls extends ConsumerStatefulWidget {
   const DesktopControls({super.key});

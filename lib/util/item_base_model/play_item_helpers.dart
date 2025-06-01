@@ -25,7 +25,7 @@ import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/list_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
-import 'package:fladder/widgets/full_screen_helpers.dart/full_screen_wrapper.dart';
+import 'package:fladder/widgets/full_screen_helpers/full_screen_wrapper.dart';
 
 Future<void> _showLoadingIndicator(BuildContext context) async {
   return showDialog(

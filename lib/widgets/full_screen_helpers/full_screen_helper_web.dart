@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:universal_html/html.dart' as html;
 
 import 'package:fladder/providers/video_player_provider.dart';
-import 'package:fladder/widgets/full_screen_helpers.dart/full_screen_wrapper.dart';
+import 'package:fladder/widgets/full_screen_helpers/full_screen_wrapper.dart';
 
 class FullScreenHelper implements FullScreenWrapper {
   const FullScreenHelper._();

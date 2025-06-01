@@ -3,7 +3,7 @@ import 'package:window_manager/window_manager.dart';
 
 import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
-import 'package:fladder/widgets/full_screen_helpers.dart/full_screen_wrapper.dart';
+import 'package:fladder/widgets/full_screen_helpers/full_screen_wrapper.dart';
 
 class FullScreenHelper implements FullScreenWrapper {
   const FullScreenHelper._();

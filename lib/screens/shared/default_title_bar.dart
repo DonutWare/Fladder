@@ -6,7 +6,7 @@ import 'package:window_manager/window_manager.dart';
 
 import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
-import 'package:fladder/widgets/full_screen_helpers.dart/full_screen_wrapper.dart';
+import 'package:fladder/widgets/full_screen_helpers/full_screen_wrapper.dart';
 
 class DefaultTitleBar extends ConsumerStatefulWidget {
   final String? label;
