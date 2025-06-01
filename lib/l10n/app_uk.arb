@@ -1332,6 +1332,8 @@
   "@playbackTypeDirect": {},
   "playbackType": "Тип відтворення",
   "@playbackType": {},
-  "playbackTypeTranscode": "Перекод",
-  "@playbackTypeTranscode": {}
+  "playbackTypeTranscode": "Перекодування",
+  "@playbackTypeTranscode": {},
+  "playbackTypeOffline": "Офлайн",
+  "@playbackTypeOffline": {}
 }
