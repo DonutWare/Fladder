@@ -1220,5 +1220,9 @@
   "hasLikedDirector": "Has liked director",
   "hasLikedActor": "Has liked actor",
   "latest": "Latest",
-  "recommended": "Recommended"
+  "recommended": "Recommended",
+  "playbackType": "Playback type",
+  "playbackTypeDirect": "Direct",
+  "playbackTypeTranscode": "Transcode",
+  "playbackTypeOffline": "Offline"
 }
