@@ -117,7 +117,7 @@ class BookDetailsProviderNotifier extends StateNotifier<BookProviderModel> {
       siblingsResponse = await api.itemsGet(
         parentId: parentModel.id,
         recursive: true,
-        sortBy: SortingOptions.name.toSortBy,
+        sortBy: SortingOptions.sortName.toSortBy,
         fields: [
           ItemFields.genres,
           ItemFields.parentid,
