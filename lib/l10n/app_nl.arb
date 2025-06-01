@@ -1328,5 +1328,19 @@
   "playbackType": "Afspeel type",
   "@playbackType": {},
   "playbackTypeTranscode": "Transcoderen",
-  "@playbackTypeTranscode": {}
+  "@playbackTypeTranscode": {},
+  "newUpdateFoundOnGithub": "Nieuwe update gevonden op Github",
+  "@newUpdateFoundOnGithub": {},
+  "autoCheckForUpdates": "Regelmatig controleren op updates",
+  "@autoCheckForUpdates": {},
+  "newReleaseFoundTitle": "Update {newRelease} beschikbaar!",
+  "@newReleaseFoundTitle": {
+    "placeholders": {
+      "newRelease": {
+        "type": "String"
+      }
+    }
+  },
+  "latestReleases": "Nieuwste releases",
+  "@latestReleases": {}
 }
