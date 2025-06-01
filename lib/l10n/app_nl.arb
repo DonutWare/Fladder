@@ -1320,5 +1320,13 @@
   "latest": "Laatste",
   "@latest": {},
   "exitFladderTitle": "Fladder sluiten",
-  "@exitFladderTitle": {}
+  "@exitFladderTitle": {},
+  "playbackTypeDirect": "Direct",
+  "@playbackTypeDirect": {},
+  "playbackTypeOffline": "Offline",
+  "@playbackTypeOffline": {},
+  "playbackType": "Afspeel type",
+  "@playbackType": {},
+  "playbackTypeTranscode": "Transcoderen",
+  "@playbackTypeTranscode": {}
 }
