@@ -7,6 +7,7 @@ import 'package:window_manager/window_manager.dart';
 
 import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/providers/auth_provider.dart';
+import 'package:fladder/providers/update_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/settings/quick_connect_window.dart';
@@ -99,6 +100,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final quickConnectAvailable =
         ref.watch(userProvider.select((value) => value?.serverConfiguration?.quickConnectAvailable ?? false));
 
+    final newRelease = ref.watch(updateProvider.select((value) => value.latestRelease));
+
+    final hasNewUpdate = ref.watch(hasNewUpdateProvider);
+
     return Padding(
       padding: EdgeInsets.only(left: AdaptiveLayout.of(context).sideBarWidth),
       child: Container(
@@ -109,6 +114,16 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           showBackButtonNested: true,
           showUserIcon: true,
           items: [
+            if (hasNewUpdate && newRelease != null)
+              Card(
+                color: context.colors.secondaryContainer,
+                child: SettingsListTile(
+                  label: Text(context.localized.newReleaseFoundTitle(newRelease.version)),
+                  subLabel: Text(context.localized.newUpdateFoundOnGithub),
+                  icon: IconsaxPlusLinear.information,
+                  onTap: () => navigateTo(const AboutSettingsRoute()),
+                ),
+              ),
             SettingsListTile(
               label: Text(context.localized.settingsClientTitle),
               subLabel: Text(context.localized.settingsClientDesc),
@@ -138,7 +153,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             ),
             SettingsListTile(
               label: Text(context.localized.about),
-              subLabel: const Text("Fladder"),
+              subLabel: Text("Fladder, ${context.localized.latestReleases}"),
               selected: containsRoute(const AboutSettingsRoute()),
               leading: Opacity(
                 opacity: 1,

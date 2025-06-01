@@ -1224,5 +1224,16 @@
   "playbackType": "Playback type",
   "playbackTypeDirect": "Direct",
   "playbackTypeTranscode": "Transcode",
-  "playbackTypeOffline": "Offline"
+  "playbackTypeOffline": "Offline",
+  "latestReleases": "Latest releases",
+  "autoCheckForUpdates": "Periodically check for updates",
+  "newReleaseFoundTitle": "Update {newRelease} available!",
+  "@newReleaseFoundTitle": {
+    "placeholders": {
+      "newRelease": {
+        "type": "String"
+      }
+    }
+  },
+  "newUpdateFoundOnGithub": "Found a new update on Github"
 }
