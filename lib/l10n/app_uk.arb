@@ -1338,9 +1338,9 @@
   "@playbackTypeOffline": {},
   "latestReleases": "Останні релізи",
   "@latestReleases": {},
-  "autoCheckForUpdates": "Періодично перевіряйте наявність оновлень",
+  "autoCheckForUpdates": "Періодично перевіряти наявність оновлень",
   "@autoCheckForUpdates": {},
-  "newReleaseFoundTitle": "Оновлення {newRelease} доступне!",
+  "newReleaseFoundTitle": "Доступне оновлення {newRelease}!",
   "@newReleaseFoundTitle": {
     "placeholders": {
       "newRelease": {
