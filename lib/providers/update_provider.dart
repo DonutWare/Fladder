@@ -35,12 +35,15 @@ class Update extends _$Update {
 
   @override
   UpdatesModel build() {
-    final checkForUpdates = ref.watch(clientSettingsProvider.select((value) => value.checkForUpdates));
+    ref.listen(
+        clientSettingsProvider.select((value) => value.checkForUpdates), (previous, next) => toggleUpdateChecker(next));
+    final checkForUpdates = ref.read(clientSettingsProvider.select((value) => value.checkForUpdates));
 
     if (!checkForUpdates) {
       _timer?.cancel();
       return UpdatesModel();
     }
+
     ref.onDispose(() {
       _timer?.cancel();
     });
@@ -54,6 +57,16 @@ class Update extends _$Update {
     _fetchLatest();
 
     return UpdatesModel();
+  }
+
+  void toggleUpdateChecker(bool checkForUpdates) {
+    _timer?.cancel();
+    if (checkForUpdates) {
+      _timer = Timer.periodic(const Duration(minutes: 30), (timer) {
+        _fetchLatest();
+      });
+      _fetchLatest();
+    }
   }
 
   Future<List<ReleaseInfo>> _fetchLatest() async {

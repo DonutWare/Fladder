@@ -44,8 +44,9 @@ class _SettingsUpdateInformationState extends ConsumerState<SettingsUpdateInform
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: Column(
-        spacing: 8,
+      child: ListView(
+        // spacing: 8,
+        shrinkWrap: true,
         children: [
           const Divider(),
           SettingsListTile(
@@ -61,16 +62,14 @@ class _SettingsUpdateInformationState extends ConsumerState<SettingsUpdateInform
                   .update((value) => value.copyWith(checkForUpdates: !checkForUpdate)),
             ),
           ),
-          if (checkForUpdate) ...[
-            if (latestRelease != null)
-              UpdateInformation(
-                releaseInfo: latestRelease,
-                expanded: true,
+          if (latestRelease != null)
+            UpdateInformation(
+              releaseInfo: latestRelease,
+              expanded: true,
+            ),
+          ...otherReleases.where((element) => element != latestRelease).map(
+                (value) => UpdateInformation(releaseInfo: value),
               ),
-            ...otherReleases.where((element) => element != latestRelease).map(
-                  (value) => UpdateInformation(releaseInfo: value),
-                ),
-          ]
         ],
       ),
     );
