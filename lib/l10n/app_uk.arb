@@ -1335,5 +1335,19 @@
   "playbackTypeTranscode": "Перекодування",
   "@playbackTypeTranscode": {},
   "playbackTypeOffline": "Офлайн",
-  "@playbackTypeOffline": {}
+  "@playbackTypeOffline": {},
+  "latestReleases": "Найновіші релізи",
+  "@latestReleases": {},
+  "autoCheckForUpdates": "Періодично перевіряйте наявність оновлень",
+  "@autoCheckForUpdates": {},
+  "newReleaseFoundTitle": "Оновлення {newRelease} доступне!",
+  "@newReleaseFoundTitle": {
+    "placeholders": {
+      "newRelease": {
+        "type": "String"
+      }
+    }
+  },
+  "newUpdateFoundOnGithub": "Знайшов нове оновлення на Github",
+  "@newUpdateFoundOnGithub": {}
 }
