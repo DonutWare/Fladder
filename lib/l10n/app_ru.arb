@@ -1,0 +1,157 @@
+{
+  "dashboardContinueReading": "Читать далее",
+  "@dashboardContinueReading": {},
+  "dashboardContinueListening": "Продолжить слушать",
+  "@dashboardContinueListening": {},
+  "clearAllSettings": "Очистите все настройки",
+  "@clearAllSettings": {},
+  "backgroundBlur": "Размытие фона",
+  "@backgroundBlur": {},
+  "color": "Цвет",
+  "@color": {},
+  "biometricsFailedCheckAgain": "Сбой биометрии. Проверьте настройки и повторите попытку.",
+  "@biometricsFailedCheckAgain": {},
+  "clearAllSettingsQuestion": "Очистить все настройки?",
+  "@clearAllSettingsQuestion": {},
+  "appLockTitle": "Установите метод входа в систему для {userName}",
+  "@appLockTitle": {
+    "description": "Pop-up to pick a login method",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "nativeName": "Английский",
+  "@nativeName": {},
+  "about": "О",
+  "@about": {},
+  "accept": "Принять",
+  "@accept": {},
+  "active": "Активно",
+  "@active": {},
+  "addAsFavorite": "Добавить в избранное",
+  "@addAsFavorite": {},
+  "addToCollection": "Добавить в коллекцию",
+  "@addToCollection": {},
+  "addToPlaylist": "Добавить в плейлист",
+  "@addToPlaylist": {},
+  "advanced": "Дополнительно",
+  "@advanced": {},
+  "all": "Все",
+  "@all": {},
+  "amoledBlack": "Матовый черный",
+  "@amoledBlack": {},
+  "appLockAutoLogin": "Автоматический вход в систему",
+  "@appLockAutoLogin": {},
+  "appLockBiometrics": "Биометрия",
+  "@appLockBiometrics": {},
+  "appLockPasscode": "Пароль",
+  "@appLockPasscode": {},
+  "audio": "Аудио",
+  "@audio": {},
+  "autoPlay": "Автоматическое воспроизведение",
+  "@autoPlay": {},
+  "backgroundOpacity": "Непрозрачность фона",
+  "@backgroundOpacity": {},
+  "bold": "Жирный",
+  "@bold": {},
+  "cancel": "Отмена",
+  "@cancel": {},
+  "change": "Изменить",
+  "@change": {},
+  "chapter": "{count, plural, other{Chapters} one{Chapter}}",
+  "@chapter": {
+    "description": "chapter",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "clear": "Очистить",
+  "@clear": {},
+  "close": "Закрыть",
+  "@close": {},
+  "code": "Код",
+  "@code": {},
+  "collectionFolder": "Папка для сбора данных",
+  "@collectionFolder": {},
+  "combined": "Комбинированный",
+  "@combined": {},
+  "controls": "Управление",
+  "@controls": {},
+  "dashboard": "Панель",
+  "@dashboard": {},
+  "dashboardContinue": "Продолжить",
+  "@dashboardContinue": {},
+  "communityRating": "Рейтинг сообщества",
+  "@communityRating": {},
+  "continuePage": "Следующая - страница {page}",
+  "@continuePage": {
+    "description": "Continue - page 1",
+    "placeholders": {
+      "page": {
+        "type": "int"
+      }
+    }
+  },
+  "ascending": "Восходящий",
+  "@ascending": {},
+  "dashboardRecentlyAdded": "Недавно добавлено в {name}",
+  "@dashboardRecentlyAdded": {
+    "description": "Recently added on home screen",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "nextUp": "Следующий шаг",
+  "@nextUp": {},
+  "actor": "{count, plural, other{Actors} one{Actor}}",
+  "@actor": {
+    "description": "actor",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "clearChanges": "Очистить изменения",
+  "@clearChanges": {},
+  "clearSelection": "Очистить выделение",
+  "@clearSelection": {},
+  "dashboardContinueWatching": "Продолжить просмотр",
+  "@dashboardContinueWatching": {},
+  "deleteFileFromSystem": "Элемент «{item}» будет удалён из файловой системы и медиатеки. Продолжить?",
+  "@deleteFileFromSystem": {
+    "description": "Delete file from system",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "datePlayed": "Дата воспроизведения",
+  "@datePlayed": {},
+  "delete": "Удалить",
+  "@delete": {},
+  "dateAdded": "Добавлено",
+  "@dateAdded": {},
+  "dateLastContentAdded": "Дата добавления",
+  "@dateLastContentAdded": {},
+  "days": "Дни",
+  "@days": {},
+  "deleteItem": "Удалить {item}?",
+  "@deleteItem": {
+    "description": "deleteItem",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  }
+}
