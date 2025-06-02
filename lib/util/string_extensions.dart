@@ -25,6 +25,7 @@ extension StringExtensions on String {
     var buffer = StringBuffer();
     var split = this.split(' ');
     for (var i = 0; i < (limitTo.clamp(0, split.length)); i++) {
+      if (split[i].isEmpty) continue;
       buffer.write(split[i][0]);
     }
 

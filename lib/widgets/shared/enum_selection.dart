@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 
 class EnumBox<T> extends StatelessWidget {

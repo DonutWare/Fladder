@@ -21,7 +21,14 @@ class AutoRouter extends RootStackRouter {
   List<AutoRouteGuard> get guards => [...super.guards, AuthGuard(ref: ref)];
 
   @override
-  RouteType get defaultRouteType => kIsWeb ? const RouteType.material() : const RouteType.adaptive();
+  RouteType get defaultRouteType => kIsWeb ||
+          {
+            TargetPlatform.windows,
+            TargetPlatform.linux,
+            TargetPlatform.macOS,
+          }.contains(defaultTargetPlatform)
+      ? const RouteType.cupertino()
+      : const RouteType.adaptive();
 
   @override
   List<AutoRoute> get routes => [
@@ -51,6 +58,7 @@ final List<AutoRoute> homeRoutes = [
   _dashboardRoute,
   _favouritesRoute,
   _syncedRoute,
+  _librariesRoute,
 ];
 
 final List<AutoRoute> _defaultRoutes = [
@@ -77,6 +85,13 @@ final AutoRoute _syncedRoute = CustomRoute(
   transitionsBuilder: TransitionsBuilders.fadeIn,
   maintainState: false,
   path: 'synced',
+);
+
+final AutoRoute _librariesRoute = CustomRoute(
+  page: LibraryRoute.page,
+  transitionsBuilder: TransitionsBuilders.fadeIn,
+  maintainState: false,
+  path: 'libraries',
 );
 
 final List<AutoRoute> _settingsChildren = [

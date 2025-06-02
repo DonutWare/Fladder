@@ -15,6 +15,7 @@ _$VideoPlayerSettingsModelImpl _$$VideoPlayerSettingsModelImplFromJson(
       fillScreen: json['fillScreen'] as bool? ?? false,
       hardwareAccel: json['hardwareAccel'] as bool? ?? true,
       useLibass: json['useLibass'] as bool? ?? false,
+      bufferSize: (json['bufferSize'] as num?)?.toInt() ?? 32,
       playerOptions:
           $enumDecodeNullable(_$PlayerOptionsEnumMap, json['playerOptions']),
       internalVolume: (json['internalVolume'] as num?)?.toDouble() ?? 100,
@@ -47,6 +48,7 @@ Map<String, dynamic> _$$VideoPlayerSettingsModelImplToJson(
       'fillScreen': instance.fillScreen,
       'hardwareAccel': instance.hardwareAccel,
       'useLibass': instance.useLibass,
+      'bufferSize': instance.bufferSize,
       'playerOptions': _$PlayerOptionsEnumMap[instance.playerOptions],
       'internalVolume': instance.internalVolume,
       'allowedOrientations': instance.allowedOrientations

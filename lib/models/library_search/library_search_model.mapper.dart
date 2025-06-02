@@ -94,7 +94,7 @@ class LibrarySearchModelMapper extends ClassMapperBase<LibrarySearchModel> {
       v.sortingOption;
   static const Field<LibrarySearchModel, SortingOptions> _f$sortingOption =
       Field('sortingOption', _$sortingOption,
-          opt: true, def: SortingOptions.name);
+          opt: true, def: SortingOptions.sortName);
   static SortingOrder _$sortOrder(LibrarySearchModel v) => v.sortOrder;
   static const Field<LibrarySearchModel, SortingOrder> _f$sortOrder =
       Field('sortOrder', _$sortOrder, opt: true, def: SortingOrder.ascending);

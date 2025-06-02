@@ -49,7 +49,7 @@ class UserIcon extends ConsumerWidget {
           elevation: 0,
           surfaceTintColor: Colors.transparent,
           color: Colors.transparent,
-          clipBehavior: Clip.antiAlias,
+          clipBehavior: Clip.hardEdge,
           child: SizedBox.fromSize(
             size: size,
             child: Stack(

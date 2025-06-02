@@ -8,7 +8,7 @@ class SettingsListTile extends StatelessWidget {
   final Widget? trailing;
   final bool selected;
   final IconData? icon;
-  final Widget? suffix;
+  final Widget? leading;
   final Color? contentColor;
   final Function()? onTap;
   const SettingsListTile({
@@ -16,7 +16,7 @@ class SettingsListTile extends StatelessWidget {
     this.subLabel,
     this.trailing,
     this.selected = false,
-    this.suffix,
+    this.leading,
     this.icon,
     this.contentColor,
     this.onTap,
@@ -27,7 +27,7 @@ class SettingsListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final iconWidget = icon != null ? Icon(icon) : null;
 
-    final leadingWidget = (suffix ?? iconWidget) != null
+    final leadingWidget = (leading ?? iconWidget) != null
         ? Padding(
             padding: const EdgeInsets.only(left: 8, right: 16.0),
             child: AnimatedContainer(
@@ -38,11 +38,11 @@ class SettingsListTile extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12),
-                child: (suffix ?? iconWidget),
+                child: (leading ?? iconWidget),
               ),
             ),
           )
-        : suffix ?? const SizedBox();
+        : leading ?? const SizedBox();
     return Card(
       elevation: selected ? 2 : 0,
       color: selected ? Theme.of(context).colorScheme.surfaceContainerLow : Colors.transparent,
@@ -57,7 +57,7 @@ class SettingsListTile extends StatelessWidget {
             horizontal: 16,
             vertical: 12,
           ).copyWith(
-            left: (suffix ?? iconWidget) != null ? 0 : null,
+            left: (leading ?? iconWidget) != null ? 0 : null,
           ),
           child: ConstrainedBox(
             constraints: const BoxConstraints(
@@ -90,7 +90,7 @@ class SettingsListTile extends StatelessWidget {
                         ),
                         if (subLabel != null)
                           Opacity(
-                            opacity: 0.75,
+                            opacity: 0.65,
                             child: Material(
                               color: Colors.transparent,
                               textStyle: Theme.of(context).textTheme.labelLarge,

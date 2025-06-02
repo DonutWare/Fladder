@@ -17,6 +17,8 @@ extension CollectionTypeExtension on CollectionType {
 
   Set<FladderItemType> get itemKinds {
     switch (this) {
+      case CollectionType.music:
+        return {FladderItemType.musicAlbum};
       case CollectionType.movies:
         return {FladderItemType.movie};
       case CollectionType.tvshows:
@@ -30,6 +32,8 @@ extension CollectionTypeExtension on CollectionType {
 
   IconData getIconType(bool outlined) {
     switch (this) {
+      case CollectionType.music:
+        return outlined ? IconsaxPlusLinear.music_square : IconsaxPlusBold.music_square;
       case CollectionType.movies:
         return outlined ? IconsaxPlusLinear.video_horizontal : IconsaxPlusBold.video_horizontal;
       case CollectionType.tvshows:
@@ -48,4 +52,16 @@ extension CollectionTypeExtension on CollectionType {
         return IconsaxPlusLinear.information;
     }
   }
+
+  double? get aspectRatio => switch (this) {
+        CollectionType.music ||
+        CollectionType.homevideos ||
+        CollectionType.boxsets ||
+        CollectionType.photos ||
+        CollectionType.livetv ||
+        CollectionType.playlists =>
+          0.8,
+        CollectionType.folders => 1.3,
+        _ => null,
+      };
 }

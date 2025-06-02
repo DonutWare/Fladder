@@ -22,16 +22,16 @@ class DiscoveryInfoMapper extends ClassMapperBase<DiscoveryInfo> {
 
   static String _$id(DiscoveryInfo v) => v.id;
   static const Field<DiscoveryInfo, String> _f$id =
-      Field('id', _$id, key: 'Id');
+      Field('id', _$id, key: r'Id');
   static String _$name(DiscoveryInfo v) => v.name;
   static const Field<DiscoveryInfo, String> _f$name =
-      Field('name', _$name, key: 'Name');
+      Field('name', _$name, key: r'Name');
   static String _$address(DiscoveryInfo v) => v.address;
   static const Field<DiscoveryInfo, String> _f$address =
-      Field('address', _$address, key: 'Address');
+      Field('address', _$address, key: r'Address');
   static String? _$endPointAddress(DiscoveryInfo v) => v.endPointAddress;
   static const Field<DiscoveryInfo, String> _f$endPointAddress =
-      Field('endPointAddress', _$endPointAddress, key: 'EndpointAddress');
+      Field('endPointAddress', _$endPointAddress, key: r'EndpointAddress');
 
   @override
   final MappableFields<DiscoveryInfo> fields = const {

@@ -1,9 +1,17 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
+import 'package:fladder/models/collection_types.dart';
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/items/images_models.dart';
+import 'package:fladder/widgets/navigation_scaffold/components/navigation_button.dart';
+import 'package:fladder/widgets/shared/item_actions.dart';
 
 class ViewModel {
   final String name;
@@ -16,7 +24,9 @@ class ViewModel {
   final CollectionType collectionType;
   final dto.PlayAccess playAccess;
   final List<ItemBaseModel> recentlyAdded;
+  final ImagesData? imageData;
   final int childCount;
+  final String? path;
   ViewModel({
     required this.name,
     required this.id,
@@ -28,7 +38,9 @@ class ViewModel {
     required this.collectionType,
     required this.playAccess,
     required this.recentlyAdded,
+    required this.imageData,
     required this.childCount,
+    required this.path,
   });
 
   ViewModel copyWith({
@@ -42,7 +54,9 @@ class ViewModel {
     CollectionType? collectionType,
     dto.PlayAccess? playAccess,
     List<ItemBaseModel>? recentlyAdded,
+    ImagesData? imageData,
     int? childCount,
+    String? path,
   }) {
     return ViewModel(
       name: name ?? this.name,
@@ -55,7 +69,9 @@ class ViewModel {
       collectionType: collectionType ?? this.collectionType,
       playAccess: playAccess ?? this.playAccess,
       recentlyAdded: recentlyAdded ?? this.recentlyAdded,
+      imageData: imageData ?? this.imageData,
       childCount: childCount ?? this.childCount,
+      path: path ?? this.path,
     );
   }
 
@@ -69,11 +85,13 @@ class ViewModel {
       canDownload: item.canDownload ?? false,
       parentId: item.parentId ?? "",
       recentlyAdded: [],
+      imageData: ImagesData.fromBaseItem(item, ref),
       collectionType: CollectionType.values
               .firstWhereOrNull((element) => element.name.toLowerCase() == item.collectionType?.value?.toLowerCase()) ??
           CollectionType.folders,
       playAccess: item.playAccess ?? PlayAccess.none,
       childCount: item.childCount ?? 0,
+      path: "",
     );
   }
 
@@ -86,6 +104,27 @@ class ViewModel {
   @override
   int get hashCode {
     return id.hashCode ^ serverId.hashCode;
+  }
+
+  NavigationButton toNavigationButton(
+    bool selected,
+    bool horizontal,
+    bool expanded,
+    FutureOr Function() action, {
+    FutureOr Function()? onLongPress,
+    List<ItemAction>? trailing,
+  }) {
+    return NavigationButton(
+      label: name,
+      selected: selected,
+      onPressed: action,
+      onLongPress: onLongPress,
+      horizontal: horizontal,
+      expanded: expanded,
+      trailing: trailing ?? [],
+      selectedIcon: Icon(collectionType.icon),
+      icon: Icon(collectionType.iconOutlined),
+    );
   }
 
   @override

@@ -17,7 +17,7 @@ import 'package:fladder/screens/syncing/sync_child_item.dart';
 import 'package:fladder/screens/syncing/sync_widgets.dart';
 import 'package:fladder/screens/syncing/widgets/sync_progress_builder.dart';
 import 'package:fladder/screens/syncing/widgets/sync_status_overlay.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/size_formatting.dart';

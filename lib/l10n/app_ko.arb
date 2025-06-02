@@ -151,11 +151,11 @@
       }
     }
   },
-  "dashboardContinue": "계속",
+  "dashboardContinue": "이어서 보기",
   "@dashboardContinue": {},
-  "dashboardContinueListening": "계속 듣기",
+  "dashboardContinueListening": "이어서 듣기",
   "@dashboardContinueListening": {},
-  "dashboardContinueReading": "계속 읽기",
+  "dashboardContinueReading": "이어서 읽기",
   "@dashboardContinueReading": {},
   "nextUp": "다음",
   "@nextUp": {},
@@ -174,7 +174,7 @@
   "@dateLastContentAdded": {},
   "datePlayed": "재생된 날짜",
   "@datePlayed": {},
-  "days": "日",
+  "days": "일",
   "@days": {},
   "disabled": "꺼짐",
   "@disabled": {},
@@ -192,15 +192,15 @@
   "@downloadsSyncedData": {},
   "downloadsTitle": "다운로드",
   "@downloadsTitle": {},
-  "dynamicText": "동적",
+  "dynamicText": "자동",
   "@dynamicText": {},
   "editMetadata": "메타데이터 수정",
   "@editMetadata": {},
-  "empty": "비었음",
+  "empty": "비어있음",
   "@empty": {},
   "enabled": "켜짐",
   "@enabled": {},
-  "endsAt": "{date}에 끝",
+  "endsAt": "{date}에 끝남",
   "@endsAt": {
     "description": "endsAt",
     "placeholders": {
@@ -329,7 +329,7 @@
   "@mediaTypeBase": {},
   "mediaTypeBook": "책",
   "@mediaTypeBook": {},
-  "mediaTypeBoxset": "박스세트",
+  "mediaTypeBoxset": "박스 세트",
   "@mediaTypeBoxset": {},
   "mediaTypeMovie": "영화",
   "@mediaTypeMovie": {},
@@ -368,7 +368,7 @@
       }
     }
   },
-  "moreFrom": "{info}에서 더보기",
+  "moreFrom": "{info}의 다른 작품",
   "@moreFrom": {
     "description": "More from",
     "placeholders": {
@@ -422,7 +422,7 @@
       }
     }
   },
-  "dashboardContinueWatching": "계속 보기",
+  "dashboardContinueWatching": "이어서 보기",
   "@dashboardContinueWatching": {},
   "delete": "삭제",
   "@delete": {},
@@ -453,5 +453,178 @@
   "outlineColor": "윤곽선 색",
   "@outlineColor": {},
   "outlineSize": "윤곽선 크기",
-  "@outlineSize": {}
+  "@outlineSize": {},
+  "replaceAllImages": "모든 이미지 교체",
+  "@replaceAllImages": {},
+  "hideEmpty": "빈 항목 숨기기",
+  "@hideEmpty": {},
+  "homeBannerCarousel": "카드",
+  "@homeBannerCarousel": {},
+  "masonry": "카드",
+  "@masonry": {},
+  "normal": "보통",
+  "@normal": {},
+  "notPartOfAlbum": "앨범의 부분이 아닙니다",
+  "@notPartOfAlbum": {},
+  "other": "기타",
+  "@other": {},
+  "overview": "개요",
+  "@overview": {},
+  "page": "{index} 페이지",
+  "@page": {
+    "description": "page",
+    "placeholders": {
+      "index": {
+        "type": "int"
+      }
+    }
+  },
+  "password": "암호",
+  "@password": {},
+  "pathClearTitle": "다운로드 경로 제거",
+  "@pathClearTitle": {},
+  "pathEditDesc": "이 위치는 모든 사용자에게 설정되어 있으며, 동기화된 데이터에는 더 이상 접근할 수 없습니다. 저장소에 그대로 유지됩니다.",
+  "@pathEditDesc": {},
+  "pathEditSelect": "다운로드 경로선택",
+  "@pathEditSelect": {},
+  "pathEditTitle": "다운로드 경로 변경",
+  "@pathEditTitle": {},
+  "play": "{item}을 재생",
+  "@play": {
+    "description": "Play with",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "playCount": "조회수",
+  "@playCount": {},
+  "playFrom": "{name}에서 재생",
+  "@playFrom": {
+    "description": "playFrom",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "playFromStart": "{name}을 처음부터 재생",
+  "@playFromStart": {
+    "description": "speel vanaf het begin",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "playLabel": "재생",
+  "@playLabel": {},
+  "playVideos": "영상을 재생",
+  "@playVideos": {},
+  "played": "시청 완료",
+  "@played": {},
+  "quickConnectAction": "Quick Connect 코드 입력",
+  "@quickConnectAction": {},
+  "quickConnectInputACode": "코드를 입력",
+  "@quickConnectInputACode": {},
+  "quickConnectTitle": "Quick Connect",
+  "@quickConnectTitle": {},
+  "quickConnectWrongCode": "코드가 잘못되었습니다",
+  "@quickConnectWrongCode": {},
+  "random": "랜덤",
+  "@random": {},
+  "rating": "{count, plural, other{평가} one{평가}}",
+  "@rating": {
+    "description": "rating",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "reWatch": "다시 보기",
+  "@reWatch": {},
+  "read": "{item} 읽기",
+  "@read": {
+    "description": "read",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "readFromStart": "{item} 처음부터 읽기",
+  "@readFromStart": {
+    "description": "Read book from start",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "recursive": "재귀적으로",
+  "@recursive": {},
+  "refresh": "새로고침",
+  "@refresh": {},
+  "refreshMetadata": "메타데이터 새로고침",
+  "@refreshMetadata": {},
+  "refreshPopupContentMetadata": "메타데이터는 대시보드에서 사용하도록 설정된 설정과 인터넷 서비스를 기반으로 업데이트됩니다.",
+  "@refreshPopupContentMetadata": {},
+  "related": "관련",
+  "@related": {},
+  "removeAsFavorite": "즐겨찾기에서 삭제",
+  "@removeAsFavorite": {},
+  "removeFromCollection": "컬렉션에서 삭제",
+  "@removeFromCollection": {},
+  "removeFromPlaylist": "플레이리스트에서 삭제",
+  "@removeFromPlaylist": {},
+  "replaceExistingImages": "기존 이미지 교체",
+  "@replaceExistingImages": {},
+  "restart": "재시작",
+  "@restart": {},
+  "result": "결과",
+  "@result": {},
+  "releaseDate": "릴리즈 날짜",
+  "@releaseDate": {},
+  "resume": "{item}을 이어보기",
+  "@resume": {
+    "description": "resume",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "retrievePublicListOfUsers": "공개 사용자 목록 가져오기",
+  "@retrievePublicListOfUsers": {},
+  "retry": "재시도",
+  "@retry": {},
+  "runTime": "재생 시간",
+  "@runTime": {},
+  "save": "저장",
+  "@save": {},
+  "saved": "저장됨",
+  "@saved": {},
+  "scanBiometricHint": "인증",
+  "@scanBiometricHint": {},
+  "scanLibrary": "라이브러리 스캔",
+  "@scanLibrary": {},
+  "scanYourFingerprintToAuthenticate": "지문으로  {user} 인증",
+  "@scanYourFingerprintToAuthenticate": {
+    "placeholders": {
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "refreshPopup": "새로 고침 - {name}",
+  "@refreshPopup": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  }
 }

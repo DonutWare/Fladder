@@ -5,7 +5,7 @@ import 'package:fladder/providers/edit_item_provider.dart';
 import 'package:fladder/screens/metadata/edit_screens/edit_fields.dart';
 import 'package:fladder/screens/metadata/edit_screens/edit_image_content.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:flutter/material.dart';

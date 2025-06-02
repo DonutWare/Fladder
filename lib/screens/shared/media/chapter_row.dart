@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/items/chapters_model.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/disable_keypad_focus.dart';
 import 'package:fladder/util/humanize_duration.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -67,8 +67,8 @@ class ChapterRow extends ConsumerWidget {
                 FlatButton(
                   onSecondaryTapDown: (details) async {
                     Offset localPosition = details.globalPosition;
-                    RelativeRect position = RelativeRect.fromLTRB(
-                        localPosition.dx - 80, localPosition.dy, localPosition.dx, localPosition.dy);
+                    RelativeRect position =
+                        RelativeRect.fromLTRB(localPosition.dx, localPosition.dy, localPosition.dx, localPosition.dy);
                     await showMenu(
                       context: context,
                       position: position,

@@ -26,6 +26,7 @@ mixin _$VideoPlayerSettingsModel {
   bool get fillScreen => throw _privateConstructorUsedError;
   bool get hardwareAccel => throw _privateConstructorUsedError;
   bool get useLibass => throw _privateConstructorUsedError;
+  int get bufferSize => throw _privateConstructorUsedError;
   PlayerOptions? get playerOptions => throw _privateConstructorUsedError;
   double get internalVolume => throw _privateConstructorUsedError;
   Set<DeviceOrientation>? get allowedOrientations =>
@@ -59,6 +60,7 @@ abstract class $VideoPlayerSettingsModelCopyWith<$Res> {
       bool fillScreen,
       bool hardwareAccel,
       bool useLibass,
+      int bufferSize,
       PlayerOptions? playerOptions,
       double internalVolume,
       Set<DeviceOrientation>? allowedOrientations,
@@ -90,6 +92,7 @@ class _$VideoPlayerSettingsModelCopyWithImpl<$Res,
     Object? fillScreen = null,
     Object? hardwareAccel = null,
     Object? useLibass = null,
+    Object? bufferSize = null,
     Object? playerOptions = freezed,
     Object? internalVolume = null,
     Object? allowedOrientations = freezed,
@@ -120,6 +123,10 @@ class _$VideoPlayerSettingsModelCopyWithImpl<$Res,
           ? _value.useLibass
           : useLibass // ignore: cast_nullable_to_non_nullable
               as bool,
+      bufferSize: null == bufferSize
+          ? _value.bufferSize
+          : bufferSize // ignore: cast_nullable_to_non_nullable
+              as int,
       playerOptions: freezed == playerOptions
           ? _value.playerOptions
           : playerOptions // ignore: cast_nullable_to_non_nullable
@@ -171,6 +178,7 @@ abstract class _$$VideoPlayerSettingsModelImplCopyWith<$Res>
       bool fillScreen,
       bool hardwareAccel,
       bool useLibass,
+      int bufferSize,
       PlayerOptions? playerOptions,
       double internalVolume,
       Set<DeviceOrientation>? allowedOrientations,
@@ -201,6 +209,7 @@ class __$$VideoPlayerSettingsModelImplCopyWithImpl<$Res>
     Object? fillScreen = null,
     Object? hardwareAccel = null,
     Object? useLibass = null,
+    Object? bufferSize = null,
     Object? playerOptions = freezed,
     Object? internalVolume = null,
     Object? allowedOrientations = freezed,
@@ -231,6 +240,10 @@ class __$$VideoPlayerSettingsModelImplCopyWithImpl<$Res>
           ? _value.useLibass
           : useLibass // ignore: cast_nullable_to_non_nullable
               as bool,
+      bufferSize: null == bufferSize
+          ? _value.bufferSize
+          : bufferSize // ignore: cast_nullable_to_non_nullable
+              as int,
       playerOptions: freezed == playerOptions
           ? _value.playerOptions
           : playerOptions // ignore: cast_nullable_to_non_nullable
@@ -277,6 +290,7 @@ class _$VideoPlayerSettingsModelImpl extends _VideoPlayerSettingsModel
       this.fillScreen = false,
       this.hardwareAccel = true,
       this.useLibass = false,
+      this.bufferSize = 32,
       this.playerOptions,
       this.internalVolume = 100,
       final Set<DeviceOrientation>? allowedOrientations,
@@ -307,6 +321,9 @@ class _$VideoPlayerSettingsModelImpl extends _VideoPlayerSettingsModel
   @override
   @JsonKey()
   final bool useLibass;
+  @override
+  @JsonKey()
+  final int bufferSize;
   @override
   final PlayerOptions? playerOptions;
   @override
@@ -346,7 +363,7 @@ class _$VideoPlayerSettingsModelImpl extends _VideoPlayerSettingsModel
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings)';
+    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings)';
   }
 
   @override
@@ -359,6 +376,7 @@ class _$VideoPlayerSettingsModelImpl extends _VideoPlayerSettingsModel
       ..add(DiagnosticsProperty('fillScreen', fillScreen))
       ..add(DiagnosticsProperty('hardwareAccel', hardwareAccel))
       ..add(DiagnosticsProperty('useLibass', useLibass))
+      ..add(DiagnosticsProperty('bufferSize', bufferSize))
       ..add(DiagnosticsProperty('playerOptions', playerOptions))
       ..add(DiagnosticsProperty('internalVolume', internalVolume))
       ..add(DiagnosticsProperty('allowedOrientations', allowedOrientations))
@@ -393,6 +411,7 @@ abstract class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel {
           final bool fillScreen,
           final bool hardwareAccel,
           final bool useLibass,
+          final int bufferSize,
           final PlayerOptions? playerOptions,
           final double internalVolume,
           final Set<DeviceOrientation>? allowedOrientations,
@@ -417,6 +436,8 @@ abstract class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel {
   bool get hardwareAccel;
   @override
   bool get useLibass;
+  @override
+  int get bufferSize;
   @override
   PlayerOptions? get playerOptions;
   @override

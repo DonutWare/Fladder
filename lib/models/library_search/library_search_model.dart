@@ -77,7 +77,7 @@ class LibrarySearchModel with LibrarySearchModelMappable {
       FladderItemType.video: true,
     },
     this.favourites = false,
-    this.sortingOption = SortingOptions.name,
+    this.sortingOption = SortingOptions.sortName,
     this.sortOrder = SortingOrder.ascending,
     this.hideEmptyShows = true,
     this.recursive = false,

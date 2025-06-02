@@ -10,7 +10,18 @@
 			"type": "dart",
 			"args": [
 				"--flavor",
-				"development"
+				"development",
+			]
+		},
+		{
+			"name": "Fladder Development HTPC (debug)",
+			"request": "launch",
+			"type": "dart",
+			"args": [
+				"--flavor",
+				"development",
+				"-a",
+				"--htpc",
 			]
 		},
 		{

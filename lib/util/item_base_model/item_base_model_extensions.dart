@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/book_model.dart';
 import 'package:fladder/models/item_base_model.dart';
@@ -40,6 +40,37 @@ extension ItemBaseModelsBooleans on List<ItemBaseModel> {
       }
     }
     return groupedItems;
+  }
+
+  FladderItemType get getMostCommonType {
+    final Map<FladderItemType, int> counts = {};
+
+    for (final item in this) {
+      final type = item.type;
+      counts[type] = (counts[type] ?? 0) + 1;
+    }
+
+    return counts.entries.reduce((a, b) => a.value >= b.value ? a : b).key;
+  }
+
+  double? getMostCommonAspectRatio({double tolerance = 0.01}) {
+    final Map<int, List<double>> buckets = {};
+
+    for (final item in this) {
+      final aspectRatio = item.primaryRatio;
+      if (aspectRatio == null) continue;
+
+      final bucketKey = (aspectRatio / tolerance).round();
+
+      buckets.putIfAbsent(bucketKey, () => []).add(aspectRatio);
+    }
+
+    if (buckets.isEmpty) return null;
+
+    final mostCommonBucket = buckets.entries.reduce((a, b) => a.value.length >= b.value.length ? a : b);
+
+    final average = mostCommonBucket.value.reduce((a, b) => a + b) / mostCommonBucket.value.length;
+    return average;
   }
 }
 

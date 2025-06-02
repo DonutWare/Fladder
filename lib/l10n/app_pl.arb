@@ -1153,5 +1153,37 @@
   "episodeUnaired": "Niewyemitowany",
   "@episodeUnaired": {},
   "episodeMissing": "Brakujący",
-  "@episodeMissing": {}
+  "@episodeMissing": {},
+  "settingsPlayerBufferSizeDesc": "Konfiguruje rozmiar bufora dla odtwarzania wideo, określając jak wiele danych jest załadowanych w pamięci cache.",
+  "@settingsPlayerBufferSizeDesc": {},
+  "settingsPlayerBufferSizeTitle": "Wielkość bufora wideo",
+  "@settingsPlayerBufferSizeTitle": {},
+  "refreshPopupContentMetadata": "Metadane są odświeżane na podstawie ustawień i usług internetowych włączonych w panelu administracyjnym.",
+  "@refreshPopupContentMetadata": {},
+  "libraryPageSizeDesc": "Ustawia ilość elementów do załadowania na stronie. 0 wyłącza stronicowanie.",
+  "@libraryPageSizeDesc": {},
+  "rating": "{count, plural, other{Ocen} many{Ocen} few{Oceny} one{Ocena}}",
+  "@rating": {
+    "description": "rating",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "pathEditDesc": "Ta lokalizacja jest ustawiana dla wszystkich użytkowników, żadne dane zsynchronizowane dotychczas nie będą już dostępne, ale pozostaną na urządzeniu.",
+  "@pathEditDesc": {},
+  "syncRemoveDataDesc": "Usunąć zsynchronizowane dane? Ta operacja jest nieodwracalna w związku z czym konieczna będzie ponowna synchronizacja.",
+  "@syncRemoveDataDesc": {},
+  "writer": "{count, plural, other{Scenarzytów} one{Scenarzysta}}",
+  "@writer": {
+    "description": "writer",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  }
 }

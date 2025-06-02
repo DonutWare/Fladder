@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/library_search/library_search_model.dart';
 import 'package:fladder/providers/library_search_provider.dart';
 import 'package:fladder/screens/shared/default_alert_dialog.dart';
-import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/screens/shared/outlined_text_field.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -43,6 +42,7 @@ class LibrarySavedFiltersDialogue extends ConsumerWidget {
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
+          spacing: 4,
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
@@ -60,7 +60,7 @@ class LibrarySavedFiltersDialogue extends ConsumerWidget {
                         return Container(
                           margin: const EdgeInsets.symmetric(vertical: 4),
                           child: Card(
-                            child: FlatButton(
+                            child: InkWell(
                               onTap: () => provider.loadModel(filter),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -130,22 +130,29 @@ class LibrarySavedFiltersDialogue extends ConsumerWidget {
               const Divider(),
             ],
             if (filters.length < 10)
-              Row(
-                children: [
-                  Flexible(
-                    child: OutlinedTextField(
-                      controller: controller,
-                      label: context.localized.name,
-                      onSubmitted: (value) => provider.saveFiltersNew(value),
+              StatefulBuilder(builder: (context, setState) {
+                return Row(
+                  children: [
+                    Flexible(
+                      child: OutlinedTextField(
+                        controller: controller,
+                        label: context.localized.name,
+                        onChanged: (value) => setState(() {}),
+                        onSubmitted: (value) => provider.saveFiltersNew(value),
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 6),
-                  FilledButton.tonal(
-                    onPressed: () => provider.saveFiltersNew(controller.text),
-                    child: const Icon(IconsaxPlusLinear.save_2),
-                  ),
-                ],
-              )
+                    const SizedBox(width: 6),
+                    FilledButton.tonal(
+                      onPressed: controller.text.isEmpty
+                          ? null
+                          : () {
+                              provider.saveFiltersNew(controller.text);
+                            },
+                      child: const Icon(IconsaxPlusLinear.save_2),
+                    ),
+                  ],
+                );
+              })
             else
               Text(context.localized.libraryFiltersLimitReached),
             ElevatedButton(

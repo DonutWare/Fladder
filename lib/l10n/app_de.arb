@@ -1278,5 +1278,17 @@
   "episodeUnaired": "Unveröffentlicht",
   "@episodeUnaired": {},
   "episodeMissing": "Fehlend",
-  "@episodeMissing": {}
+  "@episodeMissing": {},
+  "castAndCrew": "Besetzung & Crew",
+  "@castAndCrew": {},
+  "guestActor": "{count, plural, other{Gastschauspieler} one{Gastschauspieler}}",
+  "@guestActor": {
+    "description": "Guest actors",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  }
 }

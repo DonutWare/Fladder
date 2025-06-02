@@ -135,7 +135,7 @@ class _CardHolder extends StatelessWidget {
     return Card(
       elevation: 1,
       shadowColor: Colors.transparent,
-      clipBehavior: Clip.antiAlias,
+      clipBehavior: Clip.hardEdge,
       margin: EdgeInsets.zero,
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxHeight: 150, maxWidth: 150),

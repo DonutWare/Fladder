@@ -93,7 +93,7 @@ const _$FladderItemTypeEnumMap = {
 };
 
 const _$SortingOptionsEnumMap = {
-  SortingOptions.name: 'name',
+  SortingOptions.sortName: 'sortName',
   SortingOptions.communityRating: 'communityRating',
   SortingOptions.parentalRating: 'parentalRating',
   SortingOptions.dateAdded: 'dateAdded',

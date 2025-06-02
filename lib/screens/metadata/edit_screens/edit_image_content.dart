@@ -9,7 +9,7 @@ import 'package:fladder/providers/edit_item_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/shared/file_picker.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 
 class EditImageContent extends ConsumerStatefulWidget {
   final ImageType type;

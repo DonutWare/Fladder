@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 
 part 'home_settings_model.freezed.dart';
@@ -34,42 +35,6 @@ T selectAvailableOrSmaller<T>(T value, Set<T> availableOptions, List<T> allOptio
   }
 
   return availableOptions.first;
-}
-
-enum ViewSize {
-  phone,
-  tablet,
-  desktop;
-
-  const ViewSize();
-
-  String label(BuildContext context) => switch (this) {
-        ViewSize.phone => context.localized.phone,
-        ViewSize.tablet => context.localized.tablet,
-        ViewSize.desktop => context.localized.desktop,
-      };
-
-  bool operator >(ViewSize other) => index > other.index;
-  bool operator >=(ViewSize other) => index >= other.index;
-  bool operator <(ViewSize other) => index < other.index;
-  bool operator <=(ViewSize other) => index <= other.index;
-}
-
-enum LayoutMode {
-  single,
-  dual;
-
-  const LayoutMode();
-
-  String label(BuildContext context) => switch (this) {
-        LayoutMode.single => context.localized.layoutModeSingle,
-        LayoutMode.dual => context.localized.layoutModeDual,
-      };
-
-  bool operator >(ViewSize other) => index > other.index;
-  bool operator >=(ViewSize other) => index >= other.index;
-  bool operator <(ViewSize other) => index < other.index;
-  bool operator <=(ViewSize other) => index <= other.index;
 }
 
 enum HomeBanner {

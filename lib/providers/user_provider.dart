@@ -45,12 +45,27 @@ class User extends _$User {
         name: response.body?.name ?? state?.name ?? "",
         policy: response.body?.policy,
         serverConfiguration: systemConfiguration.body,
+        userConfiguration: response.body?.configuration,
         quickConnectState: quickConnectStatus.body ?? false,
         latestItemsExcludes: response.body?.configuration?.latestItemsExcludes ?? [],
       );
       return response.copyWith(body: state);
     }
     return null;
+  }
+
+  void setRememberAudioSelections() async {
+    final newUserConfiguration = await api.updateRememberAudioSelections();
+    if (newUserConfiguration != null) {
+      userState = state?.copyWith(userConfiguration: newUserConfiguration);
+    }
+  }
+
+  void setRememberSubtitleSelections() async {
+    final newUserConfiguration = await api.updateRememberSubtitleSelections();
+    if (newUserConfiguration != null) {
+      userState = state?.copyWith(userConfiguration: newUserConfiguration);
+    }
   }
 
   Future<Response> refreshMetaData(
