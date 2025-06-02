@@ -1336,7 +1336,7 @@
   "@playbackTypeTranscode": {},
   "playbackTypeOffline": "Офлайн",
   "@playbackTypeOffline": {},
-  "latestReleases": "Найновіші релізи",
+  "latestReleases": "Останні релізи",
   "@latestReleases": {},
   "autoCheckForUpdates": "Періодично перевіряйте наявність оновлень",
   "@autoCheckForUpdates": {},
@@ -1348,6 +1348,6 @@
       }
     }
   },
-  "newUpdateFoundOnGithub": "Знайшов нове оновлення на Github",
+  "newUpdateFoundOnGithub": "Знайдено нове оновлення на Github",
   "@newUpdateFoundOnGithub": {}
 }
