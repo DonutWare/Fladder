@@ -644,8 +644,9 @@ class _LibrarySearchBottomBar extends ConsumerWidget {
       ),
     ];
 
+    final paddingOf = MediaQuery.paddingOf(context);
     return Padding(
-      padding: EdgeInsets.only(left: MediaQuery.paddingOf(context).left),
+      padding: EdgeInsets.only(left: paddingOf.left, right: paddingOf.right),
       child: NestedBottomAppBar(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
