@@ -12,20 +12,9 @@ import 'package:fladder/util/update_checker.dart';
 part 'update_provider.freezed.dart';
 part 'update_provider.g.dart';
 
-Set<TargetPlatform> get _directUpdatePlatforms => {
-      TargetPlatform.linux,
-      TargetPlatform.macOS,
-      TargetPlatform.windows,
-    };
-
-final hasNewUpdateProvider = Provider<bool>((ref) {
-  //Disable update notification for platforms that are updated outside of Github.
-  if (!_directUpdatePlatforms.contains(defaultTargetPlatform) || kIsWeb) {
-    return false;
-  }
-  return ref.watch(clientSettingsProvider.select((value) => value.lastViewedUpdate)) !=
-      ref.watch(updateProvider.select((value) => value.latestRelease?.version));
-});
+final hasNewUpdateProvider = Provider<bool>((ref) =>
+    ref.watch(clientSettingsProvider.select((value) => value.lastViewedUpdate)) !=
+    ref.watch(updateProvider.select((value) => value.latestRelease?.version)));
 
 @Riverpod(keepAlive: true)
 class Update extends _$Update {
