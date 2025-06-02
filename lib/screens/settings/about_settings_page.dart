@@ -99,6 +99,7 @@ class AboutSettingsPage extends ConsumerWidget {
                 applicationIcon: const FladderIcon(size: 55),
                 applicationVersion: applicationInfo.versionPlatformBuild,
                 applicationLegalese: "DonutWare",
+                useRootNavigator: true,
               ),
               child: Text(context.localized.aboutLicenses),
             )

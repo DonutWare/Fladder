@@ -45,7 +45,6 @@ class _SettingsUpdateInformationState extends ConsumerState<SettingsUpdateInform
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: ListView(
-        // spacing: 8,
         shrinkWrap: true,
         children: [
           const Divider(),
