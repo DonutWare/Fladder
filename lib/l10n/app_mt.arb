@@ -1,1 +1,590 @@
-{}
+{
+  "code": "Kodiċi",
+  "@code": {},
+  "loggedIn": "Illoggjat",
+  "@loggedIn": {},
+  "clear": "Neħħi",
+  "@clear": {},
+  "communityRating": "Klassifikazzjoni Komunitarja",
+  "@communityRating": {},
+  "accept": "Aċċetta",
+  "@accept": {},
+  "appLockAutoLogin": "Login awtomatiku",
+  "@appLockAutoLogin": {},
+  "clearChanges": "Neħħi l-bidliet",
+  "@clearChanges": {},
+  "identify": "Identifika",
+  "@identify": {},
+  "mediaTypePhoto": "Ritratt",
+  "@mediaTypePhoto": {},
+  "metaDataSavedFor": "Metadejta ssejvjata għal {item}",
+  "@metaDataSavedFor": {
+    "description": "metaDataSavedFor",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "director": "{count, plural, other{Direttur} two{Diretturi}}",
+  "@director": {
+    "description": "director",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "deleteFileFromSystem": "It-tħassir ta’ dan l-item {item} se jħassru kemm mis-sistema tal-fajls kif ukoll mil-librerija tal-midja tiegħek. Żgur li tixtieq tkompli?",
+  "@deleteFileFromSystem": {
+    "description": "Delete file from system",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "libraryPageSizeDesc": "Issettja l-ammont biex tgħabbi kull darba. 0 titfi l-ippejġjar.",
+  "@libraryPageSizeDesc": {},
+  "homeBannerCarousel": "Karużell",
+  "@homeBannerCarousel": {},
+  "metadataRefreshFull": "Ibdel il-metadejta kollha",
+  "@metadataRefreshFull": {},
+  "parentalRating": "Klassifikazzjoni tal-Ġenituri",
+  "@parentalRating": {},
+  "quickConnectAction": "Daħħal kodiċi tal-konnessjoni veloċi għal",
+  "@quickConnectAction": {},
+  "other": "Oħrajn",
+  "@other": {},
+  "markAsWatched": "Immarka li rajtu",
+  "@markAsWatched": {},
+  "noSuggestionsFound": "Ma nstab l-ebda suġġeriment",
+  "@noSuggestionsFound": {},
+  "notPartOfAlbum": "Mhux parti minn album",
+  "@notPartOfAlbum": {},
+  "pathEditDesc": "Dan il-post huwa ssettjat għall-utenti kollha, kwalunkwe dejta ssinkronizzata mhux se tibqa’ aċċessibbli. Se jibqa’ fuq l-istorage tiegħek.",
+  "@pathEditDesc": {},
+  "quickConnectWrongCode": "Kodiċi ħażin",
+  "@quickConnectWrongCode": {},
+  "rating": "{count, plural, other{Klassifikazzjonijiet} one{Klassifikazzjoni}}",
+  "@rating": {
+    "description": "rating",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "refreshMetadata": "Aġġorna l-metadejta",
+  "@refreshMetadata": {},
+  "removeAsFavorite": "Neħħi mil-favorit",
+  "@removeAsFavorite": {},
+  "metadataRefreshDefault": "Skennja għal fajls ġodda u aġġornati",
+  "@metadataRefreshDefault": {},
+  "noResults": "Ebda riżultat",
+  "@noResults": {},
+  "downloadsClearTitle": "Neħħi d-dejta sinkronizzata",
+  "@downloadsClearTitle": {},
+  "clearAllSettings": "Neħħi l-issettjar kollu",
+  "@clearAllSettings": {},
+  "logoutUserPopupContent": "Dan joħroġ {userName} u jħassar l-utent mill-applikazzjoni.\nIkollok terġa’ tidħol fuq {serverName}.",
+  "@logoutUserPopupContent": {
+    "description": "Pop-up for logging out the user description",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      },
+      "serverName": {
+        "type": "String"
+      }
+    }
+  },
+  "fontSize": "Daqs tal-font",
+  "@fontSize": {},
+  "navigationSync": "Sinkronizzat",
+  "@navigationSync": {},
+  "hideEmpty": "Aħbi l-vojt",
+  "@hideEmpty": {},
+  "library": "{count, plural, other{Libreriji} one{Librerija}}",
+  "@library": {
+    "description": "Plural",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "mediaTypeBook": "Ktieb",
+  "@mediaTypeBook": {},
+  "noItemsSynced": "Ebda item issinkronizzat",
+  "@noItemsSynced": {},
+  "outlineColor": "Kulur tal-kontorn",
+  "@outlineColor": {},
+  "playFromStart": "Ibda {name} mill-bidu",
+  "@playFromStart": {
+    "description": "speel vanaf het begin",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "restart": "Irristartja",
+  "@restart": {},
+  "actor": "{count, plural, other{Atturi} one{Attur}}",
+  "@actor": {
+    "description": "actor",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "endsAt": "jintemm fi {date}",
+  "@endsAt": {
+    "description": "endsAt",
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "jm"
+      }
+    }
+  },
+  "navigationDashboard": "Daxxbord",
+  "@navigationDashboard": {},
+  "clearSelection": "Neħħi l-għażla",
+  "@clearSelection": {},
+  "mediaTypePhotoAlbum": "Album tar-Ritratti",
+  "@mediaTypePhotoAlbum": {},
+  "nativeName": "Ingliż",
+  "@nativeName": {},
+  "about": "Dwar",
+  "@about": {},
+  "addAsFavorite": "Żid bħala favorit",
+  "@addAsFavorite": {},
+  "addToCollection": "Żid mal-kollezzjoni",
+  "@addToCollection": {},
+  "addToPlaylist": "Żid mal-playlist",
+  "@addToPlaylist": {},
+  "advanced": "Avvanzat",
+  "@advanced": {},
+  "all": "Kollha",
+  "@all": {},
+  "amoledBlack": "Amoled iswed",
+  "@amoledBlack": {},
+  "appLockBiometrics": "Bijometrika",
+  "@appLockBiometrics": {},
+  "appLockTitle": "Issettja l-metodu log-in għal {userName}",
+  "@appLockTitle": {
+    "description": "Pop-up to pick a login method",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "ascending": "Telgħin",
+  "@ascending": {},
+  "audio": "Awdjo",
+  "@audio": {},
+  "biometricsFailedCheckAgain": "Il-bijometrika ma rnexxietx. Iċċekkja l-issettjar u erġa ’pprova.",
+  "@biometricsFailedCheckAgain": {},
+  "bold": "Grassett",
+  "@bold": {},
+  "cancel": "Ikkanċella",
+  "@cancel": {},
+  "change": "Ibdel",
+  "@change": {},
+  "chapter": "{count, plural, other{Kapitli} one{Kapitlu}}",
+  "@chapter": {
+    "description": "chapter",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "continuePage": "Kompli - paġna {page}",
+  "@continuePage": {
+    "description": "Continue - page 1",
+    "placeholders": {
+      "page": {
+        "type": "int"
+      }
+    }
+  },
+  "controls": "Kontrolli",
+  "@controls": {},
+  "dashboard": "Daxxbord",
+  "@dashboard": {},
+  "dashboardContinue": "Kompli",
+  "@dashboardContinue": {},
+  "dashboardContinueListening": "Kompli Isma’",
+  "@dashboardContinueListening": {},
+  "dashboardContinueReading": "Kompli Aqra",
+  "@dashboardContinueReading": {},
+  "dashboardContinueWatching": "Kompli Ara",
+  "@dashboardContinueWatching": {},
+  "nextUp": "Li jmiss",
+  "@nextUp": {},
+  "dashboardRecentlyAdded": "Riċentement miżjud f ’{name}",
+  "@dashboardRecentlyAdded": {
+    "description": "Recently added on home screen",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "dateAdded": "Data miżjuda",
+  "@dateAdded": {},
+  "dateLastContentAdded": "Data tal-aħħar kontenut miżjud",
+  "@dateLastContentAdded": {},
+  "datePlayed": "Id-data li ndaqqet",
+  "@datePlayed": {},
+  "days": "Jiem",
+  "@days": {},
+  "delete": "Ħassar",
+  "@delete": {},
+  "deleteItem": "Ħassar {item}?",
+  "@deleteItem": {
+    "description": "deleteItem",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "descending": "Neżlin",
+  "@descending": {},
+  "disableFilters": "Itfi l-filtri",
+  "@disableFilters": {},
+  "disabled": "Mitfi",
+  "@disabled": {},
+  "discovered": "Skoperti",
+  "@discovered": {},
+  "displayLanguage": "Lingwa tal-wiri",
+  "@displayLanguage": {},
+  "downloadsSyncedData": "Dejta ssinkronizzata",
+  "@downloadsSyncedData": {},
+  "dynamicText": "Dinamika",
+  "@dynamicText": {},
+  "editMetadata": "Editja l-metadejta",
+  "@editMetadata": {},
+  "empty": "Vojta",
+  "@empty": {},
+  "enabled": "Mixgħul",
+  "@enabled": {},
+  "failedToLoadImage": "Ma setax jġib l-istampa",
+  "@failedToLoadImage": {},
+  "favorites": "Favoriti",
+  "@favorites": {},
+  "filter": "{count, plural, other{Filtri} one{Filtra}}",
+  "@filter": {
+    "description": "filter",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "folders": "Fowlders",
+  "@folders": {},
+  "fontColor": "Kulur tal-font",
+  "@fontColor": {},
+  "forceRefresh": "Sfurza l-aġġornar",
+  "@forceRefresh": {},
+  "genre": "{count, plural, other{Ġeneri} one{Ġeneru}}",
+  "@genre": {
+    "description": "genre",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "groupBy": "Grupp skont",
+  "@groupBy": {},
+  "heightOffset": "Offset tal-għoli",
+  "@heightOffset": {},
+  "home": "Id-dar",
+  "@home": {},
+  "info": "Informazzjoni",
+  "@info": {},
+  "invalidUrlDesc": "Il-URL jeħtieġ li jibda bil-http(s)://",
+  "@invalidUrlDesc": {},
+  "itemCount": "Għadd tal-item: {count}",
+  "@itemCount": {
+    "description": "Item count",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "libraryFetchNoItemsFound": "Ma nstabu ebda items. Ipprova settings differenti.",
+  "@libraryFetchNoItemsFound": {},
+  "light": "Ċar",
+  "@light": {},
+  "list": "Lista",
+  "@list": {},
+  "logoutUserPopupTitle": "Oħroġ {userName}?",
+  "@logoutUserPopupTitle": {
+    "description": "Pop-up for logging out the user",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "logout": "Oħroġ",
+  "@logout": {},
+  "loop": "Ingassa",
+  "@loop": {},
+  "mediaTypeMovie": "Film",
+  "@mediaTypeMovie": {},
+  "metadataRefreshValidation": "Fittex għal metadejta nieqsa",
+  "@metadataRefreshValidation": {},
+  "minutes": "{count, plural, other{Minuti} one{Minuta} }",
+  "@minutes": {
+    "description": "minute",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "mode": "Mod",
+  "@mode": {},
+  "moreFrom": "Aktar minn {info}",
+  "@moreFrom": {
+    "description": "More from",
+    "placeholders": {
+      "info": {
+        "type": "String"
+      }
+    }
+  },
+  "moreOptions": "Aktar għażliet",
+  "@moreOptions": {},
+  "pathEditTitle": "Ibdel il-post",
+  "@pathEditTitle": {},
+  "play": "Ibda {item}",
+  "@play": {
+    "description": "Play with",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "playCount": "Għadd tal-logħob",
+  "@playCount": {},
+  "playFrom": "Ibda min {name}",
+  "@playFrom": {
+    "description": "playFrom",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "playVideos": "Ibda l-vidjos",
+  "@playVideos": {},
+  "played": "Lestejt",
+  "@played": {},
+  "related": "Relatati",
+  "@related": {},
+  "removeFromCollection": "Neħħi mill-kollezzjoni",
+  "@removeFromCollection": {},
+  "removeFromPlaylist": "Neħħi mil-playlist",
+  "@removeFromPlaylist": {},
+  "retrievePublicListOfUsers": "Irkupra l-lista pubblika tal-utenti",
+  "@retrievePublicListOfUsers": {},
+  "retry": "Erġa ’pprova",
+  "@retry": {},
+  "runTime": "Ħin użat",
+  "@runTime": {},
+  "active": "Attiva",
+  "@active": {},
+  "login": "Illoggja",
+  "@login": {},
+  "collectionFolder": "Fowlder tal-ġbir",
+  "@collectionFolder": {},
+  "goTo": "Mur",
+  "@goTo": {},
+  "color": "Kulur",
+  "@color": {},
+  "combined": "Ikkombinati",
+  "@combined": {},
+  "homeBannerSlideshow": "Preżentazzjoni bis-slajds",
+  "@homeBannerSlideshow": {},
+  "mediaTypeBase": "Tip tal-bażi",
+  "@mediaTypeBase": {},
+  "mediaTypeSeason": "Staġun",
+  "@mediaTypeSeason": {},
+  "mediaTypeSeries": "Serje",
+  "@mediaTypeSeries": {},
+  "name": "Isem",
+  "@name": {},
+  "noItemsToShow": "Ebda item x’ juri",
+  "@noItemsToShow": {},
+  "overview": "Ħarsa ġenerali",
+  "@overview": {},
+  "quickConnectInputACode": "Daħħal kodiċi",
+  "@quickConnectInputACode": {},
+  "refresh": "Aġġorna",
+  "@refresh": {},
+  "result": "Riżultat",
+  "@result": {},
+  "downloadsClearDesc": "Neħħi d-dejta sinkronizzata kollha, tneħħi d-dejta kollha għal kull utent sinkronizzat?",
+  "@downloadsClearDesc": {},
+  "libraryPageSizeTitle": "Daqs tal-paġna tal-librerija",
+  "@libraryPageSizeTitle": {},
+  "read": "Aqra {item}",
+  "@read": {
+    "description": "read",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "close": "Agħlaq",
+  "@close": {},
+  "navigation": "Navigazzjoni",
+  "@navigation": {},
+  "mediaTypeEpisode": "Episodju",
+  "@mediaTypeEpisode": {},
+  "mediaTypeFolder": "Fowlder",
+  "@mediaTypeFolder": {},
+  "recursive": "Rikorrenti",
+  "@recursive": {},
+  "replaceExistingImages": "Ibdel ir-ritratti eżistenti",
+  "@replaceExistingImages": {},
+  "episode": "{count, plural, other{Episodji} one{Episodju} }",
+  "@episode": {
+    "description": "episode",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "immediately": "Immedjatament",
+  "@immediately": {},
+  "options": "Għażliet",
+  "@options": {},
+  "outlineSize": "Daqs tal-kontorn",
+  "@outlineSize": {},
+  "pathEditSelect": "Agħżel il-post tat-tniżżil",
+  "@pathEditSelect": {},
+  "random": "Każwali",
+  "@random": {},
+  "favorite": "Favorit",
+  "@favorite": {},
+  "noRating": "Ebda klassifikazzjoni",
+  "@noRating": {},
+  "page": "Paġna {index}",
+  "@page": {
+    "description": "page",
+    "placeholders": {
+      "index": {
+        "type": "int"
+      }
+    }
+  },
+  "never": "Qatt",
+  "@never": {},
+  "fetchingLibrary": "Il-ksib ta’ oġġetti mil-librerija…",
+  "@fetchingLibrary": {},
+  "group": "Grupp",
+  "@group": {},
+  "hide": "Aħbi",
+  "@hide": {},
+  "invalidUrl": "URL Invalidu",
+  "@invalidUrl": {},
+  "markAsUnwatched": "Immarka li ma rajtux",
+  "@markAsUnwatched": {},
+  "mouseDragSupport": "Iddreggja billi tuża l-maws",
+  "@mouseDragSupport": {},
+  "navigationFavorites": "Favoriti",
+  "@navigationFavorites": {},
+  "normal": "Normali",
+  "@normal": {},
+  "openShow": "Iftaħ l-ispettaklu",
+  "@openShow": {},
+  "playLabel": "Ibda",
+  "@playLabel": {},
+  "reWatch": "Erġa ara",
+  "@reWatch": {},
+  "incorrectPinTryAgain": "PIN żbaljat. Erġa ’pprova.",
+  "@incorrectPinTryAgain": {},
+  "readFromStart": "Aqra {item} mill-bidu",
+  "@readFromStart": {
+    "description": "Read book from start",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "resume": "Kompli {item}",
+  "@resume": {
+    "description": "resume",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "resumable": "Kompli",
+  "@resumable": {},
+  "label": "{count, plural, other{Tikketti} one{Tikketta}}",
+  "@label": {
+    "description": "label",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "mediaTypePerson": "Persuna",
+  "@mediaTypePerson": {},
+  "noServersFound": "Ma nstab ebda server ġdid",
+  "@noServersFound": {},
+  "none": "Xejn",
+  "@none": {},
+  "openWebLink": "Iftaħ il-link tal-web",
+  "@openWebLink": {},
+  "quickConnectTitle": "Konnesjoni veloċi",
+  "@quickConnectTitle": {},
+  "refreshPopup": "Aġġorna - {name}",
+  "@refreshPopup": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "refreshPopupContentMetadata": "Il-metadejta tiġi aġġornata abbażi tas-settings u s-servizzi tal-Internet mixgħula fid-daxxbord.",
+  "@refreshPopupContentMetadata": {},
+  "releaseDate": "Data tar-rilaxx",
+  "@releaseDate": {},
+  "replaceAllImages": "Neħħi ir-ritratti kollha",
+  "@replaceAllImages": {},
+  "openParent": "Iftaħ il-ġenitur",
+  "@openParent": {},
+  "clearAllSettingsQuestion": "Neħħi l-issettjar kollu?",
+  "@clearAllSettingsQuestion": {}
+}
