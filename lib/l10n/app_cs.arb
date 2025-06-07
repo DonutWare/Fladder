@@ -1,9 +1,9 @@
 {
   "active": "Aktivní",
   "@active": {},
-  "nativeName": "Angličtina",
+  "nativeName": "Čeština",
   "@nativeName": {},
-  "about": "O",
+  "about": "O nás",
   "@about": {},
   "accept": "Přijmout",
   "@accept": {},
@@ -458,5 +458,23 @@
     }
   },
   "none": "Žádný",
-  "@none": {}
+  "@none": {},
+  "other": "Ostatní",
+  "@other": {},
+  "outlineColor": "Vnější barva",
+  "@outlineColor": {},
+  "outlineSize": "Vnější velikost",
+  "@outlineSize": {},
+  "options": "Možnosti",
+  "@options": {},
+  "notPartOfAlbum": "Není součástí alba",
+  "@notPartOfAlbum": {},
+  "openParent": "Otevřené rodiče",
+  "@openParent": {},
+  "overview": "Přehled",
+  "@overview": {},
+  "normal": "Čeština",
+  "@normal": {},
+  "openShow": "Otevřít show",
+  "@openShow": {}
 }
