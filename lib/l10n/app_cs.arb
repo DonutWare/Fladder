@@ -18,5 +18,11 @@
     }
   },
   "addAsFavorite": "Přidat do oblíbených",
-  "@addAsFavorite": {}
+  "@addAsFavorite": {},
+  "addToCollection": "Přidat do kolekce",
+  "@addToCollection": {},
+  "addToPlaylist": "Přidat do playlistu",
+  "@addToPlaylist": {},
+  "advanced": "Pokročilí",
+  "@advanced": {}
 }
