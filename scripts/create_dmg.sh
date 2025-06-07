@@ -43,9 +43,9 @@ create-dmg \
     --window-pos 200 120 \
     --window-size 800 500 \
     --icon-size 80 \
-    --icon "$APP_NAME.app" 200 250 \
+    --icon "$APP_NAME.app" 210 250 \
     --hide-extension "$APP_NAME.app" \
-    --app-drop-link 600 250 \
+    --app-drop-link 603 250 \
     --format UDZO \
     --hdiutil-quiet \
     "$DMG_PATH" \
