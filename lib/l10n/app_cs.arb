@@ -484,5 +484,7 @@
   "password": "Heslo",
   "@password": {},
   "pathEditDesc": "Toto umístění je nastaveno pro všechny uživatele, synchronizovaná data již nebudou přístupná. Zůstanou ve vašem úložišti.",
-  "@pathEditDesc": {}
+  "@pathEditDesc": {},
+  "pathEditSelect": "Vyberte cíl stahování",
+  "@pathEditSelect": {}
 }
