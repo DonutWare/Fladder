@@ -141,34 +141,11 @@ class EpisodeModelMapper extends SubClassMapperBase<EpisodeModel> {
 
   @override
   final Function instantiate = _instantiate;
-
-  static EpisodeModel fromMap(Map<String, dynamic> map) {
-    return ensureInitialized().decodeMap<EpisodeModel>(map);
-  }
-
-  static EpisodeModel fromJson(String json) {
-    return ensureInitialized().decodeJson<EpisodeModel>(json);
-  }
 }
 
 mixin EpisodeModelMappable {
-  String toJson() {
-    return EpisodeModelMapper.ensureInitialized()
-        .encodeJson<EpisodeModel>(this as EpisodeModel);
-  }
-
-  Map<String, dynamic> toMap() {
-    return EpisodeModelMapper.ensureInitialized()
-        .encodeMap<EpisodeModel>(this as EpisodeModel);
-  }
-
   EpisodeModelCopyWith<EpisodeModel, EpisodeModel, EpisodeModel> get copyWith =>
       _EpisodeModelCopyWithImpl(this as EpisodeModel, $identity, $identity);
-  @override
-  String toString() {
-    return EpisodeModelMapper.ensureInitialized()
-        .stringifyValue(this as EpisodeModel);
-  }
 }
 
 extension EpisodeModelValueCopy<$R, $Out>

@@ -395,56 +395,6 @@ class _$AccountModelImpl extends _AccountModel with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('userConfiguration', userConfiguration));
   }
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$AccountModelImpl &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.avatar, avatar) || other.avatar == avatar) &&
-            (identical(other.lastUsed, lastUsed) ||
-                other.lastUsed == lastUsed) &&
-            (identical(other.authMethod, authMethod) ||
-                other.authMethod == authMethod) &&
-            (identical(other.localPin, localPin) ||
-                other.localPin == localPin) &&
-            (identical(other.credentials, credentials) ||
-                other.credentials == credentials) &&
-            const DeepCollectionEquality()
-                .equals(other._latestItemsExcludes, _latestItemsExcludes) &&
-            const DeepCollectionEquality()
-                .equals(other._searchQueryHistory, _searchQueryHistory) &&
-            (identical(other.quickConnectState, quickConnectState) ||
-                other.quickConnectState == quickConnectState) &&
-            const DeepCollectionEquality()
-                .equals(other._savedFilters, _savedFilters) &&
-            (identical(other.policy, policy) || other.policy == policy) &&
-            (identical(other.serverConfiguration, serverConfiguration) ||
-                other.serverConfiguration == serverConfiguration) &&
-            (identical(other.userConfiguration, userConfiguration) ||
-                other.userConfiguration == userConfiguration));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      name,
-      id,
-      avatar,
-      lastUsed,
-      authMethod,
-      localPin,
-      credentials,
-      const DeepCollectionEquality().hash(_latestItemsExcludes),
-      const DeepCollectionEquality().hash(_searchQueryHistory),
-      quickConnectState,
-      const DeepCollectionEquality().hash(_savedFilters),
-      policy,
-      serverConfiguration,
-      userConfiguration);
-
   /// Create a copy of AccountModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)

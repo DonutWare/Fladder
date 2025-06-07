@@ -18,7 +18,10 @@
   "dart.lineLength": 120,
   "dart.analysisExcludedFolders": [
     "build",
-    "lib/jellyfin/**",
+    ".dart_tool",
+    ".fvm",
     "packages",
+    "lib/jellyfin",
+    "lib/l10n"
   ]
 }

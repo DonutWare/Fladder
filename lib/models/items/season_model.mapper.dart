@@ -137,34 +137,11 @@ class SeasonModelMapper extends SubClassMapperBase<SeasonModel> {
 
   @override
   final Function instantiate = _instantiate;
-
-  static SeasonModel fromMap(Map<String, dynamic> map) {
-    return ensureInitialized().decodeMap<SeasonModel>(map);
-  }
-
-  static SeasonModel fromJson(String json) {
-    return ensureInitialized().decodeJson<SeasonModel>(json);
-  }
 }
 
 mixin SeasonModelMappable {
-  String toJson() {
-    return SeasonModelMapper.ensureInitialized()
-        .encodeJson<SeasonModel>(this as SeasonModel);
-  }
-
-  Map<String, dynamic> toMap() {
-    return SeasonModelMapper.ensureInitialized()
-        .encodeMap<SeasonModel>(this as SeasonModel);
-  }
-
   SeasonModelCopyWith<SeasonModel, SeasonModel, SeasonModel> get copyWith =>
       _SeasonModelCopyWithImpl(this as SeasonModel, $identity, $identity);
-  @override
-  String toString() {
-    return SeasonModelMapper.ensureInitialized()
-        .stringifyValue(this as SeasonModel);
-  }
 }
 
 extension SeasonModelValueCopy<$R, $Out>

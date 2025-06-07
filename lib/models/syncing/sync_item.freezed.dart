@@ -63,7 +63,6 @@ abstract class $SyncedItemCopyWith<$Res> {
       List<SubStreamModel> subtitles,
       @UserDataJsonSerializer() UserData? userData});
 
-  $MediaSegmentsModelCopyWith<$Res>? get mediaSegments;
   $TrickPlayModelCopyWith<$Res>? get fTrickPlayModel;
 }
 
@@ -166,20 +165,6 @@ class _$SyncedItemCopyWithImpl<$Res, $Val extends SyncedItem>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $MediaSegmentsModelCopyWith<$Res>? get mediaSegments {
-    if (_value.mediaSegments == null) {
-      return null;
-    }
-
-    return $MediaSegmentsModelCopyWith<$Res>(_value.mediaSegments!, (value) {
-      return _then(_value.copyWith(mediaSegments: value) as $Val);
-    });
-  }
-
-  /// Create a copy of SyncedItem
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
   $TrickPlayModelCopyWith<$Res>? get fTrickPlayModel {
     if (_value.fTrickPlayModel == null) {
       return null;
@@ -216,8 +201,6 @@ abstract class _$$SyncItemImplCopyWith<$Res>
       List<SubStreamModel> subtitles,
       @UserDataJsonSerializer() UserData? userData});
 
-  @override
-  $MediaSegmentsModelCopyWith<$Res>? get mediaSegments;
   @override
   $TrickPlayModelCopyWith<$Res>? get fTrickPlayModel;
 }
@@ -391,57 +374,6 @@ class _$SyncItemImpl extends _SyncItem {
   String toString() {
     return 'SyncedItem(id: $id, syncing: $syncing, parentId: $parentId, userId: $userId, path: $path, markedForDelete: $markedForDelete, sortName: $sortName, fileSize: $fileSize, videoFileName: $videoFileName, mediaSegments: $mediaSegments, fTrickPlayModel: $fTrickPlayModel, fImages: $fImages, fChapters: $fChapters, subtitles: $subtitles, userData: $userData)';
   }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$SyncItemImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.syncing, syncing) || other.syncing == syncing) &&
-            (identical(other.parentId, parentId) ||
-                other.parentId == parentId) &&
-            (identical(other.userId, userId) || other.userId == userId) &&
-            (identical(other.path, path) || other.path == path) &&
-            (identical(other.markedForDelete, markedForDelete) ||
-                other.markedForDelete == markedForDelete) &&
-            (identical(other.sortName, sortName) ||
-                other.sortName == sortName) &&
-            (identical(other.fileSize, fileSize) ||
-                other.fileSize == fileSize) &&
-            (identical(other.videoFileName, videoFileName) ||
-                other.videoFileName == videoFileName) &&
-            (identical(other.mediaSegments, mediaSegments) ||
-                other.mediaSegments == mediaSegments) &&
-            (identical(other.fTrickPlayModel, fTrickPlayModel) ||
-                other.fTrickPlayModel == fTrickPlayModel) &&
-            (identical(other.fImages, fImages) || other.fImages == fImages) &&
-            const DeepCollectionEquality()
-                .equals(other._fChapters, _fChapters) &&
-            const DeepCollectionEquality()
-                .equals(other._subtitles, _subtitles) &&
-            (identical(other.userData, userData) ||
-                other.userData == userData));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      syncing,
-      parentId,
-      userId,
-      path,
-      markedForDelete,
-      sortName,
-      fileSize,
-      videoFileName,
-      mediaSegments,
-      fTrickPlayModel,
-      fImages,
-      const DeepCollectionEquality().hash(_fChapters),
-      const DeepCollectionEquality().hash(_subtitles),
-      userData);
 
   /// Create a copy of SyncedItem
   /// with the given fields replaced by the non-null parameter values.

@@ -124,34 +124,11 @@ class PersonModelMapper extends SubClassMapperBase<PersonModel> {
 
   @override
   final Function instantiate = _instantiate;
-
-  static PersonModel fromMap(Map<String, dynamic> map) {
-    return ensureInitialized().decodeMap<PersonModel>(map);
-  }
-
-  static PersonModel fromJson(String json) {
-    return ensureInitialized().decodeJson<PersonModel>(json);
-  }
 }
 
 mixin PersonModelMappable {
-  String toJson() {
-    return PersonModelMapper.ensureInitialized()
-        .encodeJson<PersonModel>(this as PersonModel);
-  }
-
-  Map<String, dynamic> toMap() {
-    return PersonModelMapper.ensureInitialized()
-        .encodeMap<PersonModel>(this as PersonModel);
-  }
-
   PersonModelCopyWith<PersonModel, PersonModel, PersonModel> get copyWith =>
       _PersonModelCopyWithImpl(this as PersonModel, $identity, $identity);
-  @override
-  String toString() {
-    return PersonModelMapper.ensureInitialized()
-        .stringifyValue(this as PersonModel);
-  }
 }
 
 extension PersonModelValueCopy<$R, $Out>

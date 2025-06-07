@@ -225,36 +225,6 @@ class _$TrickPlayModelImpl extends _TrickPlayModel {
     return 'TrickPlayModel(width: $width, height: $height, tileWidth: $tileWidth, tileHeight: $tileHeight, thumbnailCount: $thumbnailCount, interval: $interval, images: $images)';
   }
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TrickPlayModelImpl &&
-            (identical(other.width, width) || other.width == width) &&
-            (identical(other.height, height) || other.height == height) &&
-            (identical(other.tileWidth, tileWidth) ||
-                other.tileWidth == tileWidth) &&
-            (identical(other.tileHeight, tileHeight) ||
-                other.tileHeight == tileHeight) &&
-            (identical(other.thumbnailCount, thumbnailCount) ||
-                other.thumbnailCount == thumbnailCount) &&
-            (identical(other.interval, interval) ||
-                other.interval == interval) &&
-            const DeepCollectionEquality().equals(other._images, _images));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      width,
-      height,
-      tileWidth,
-      tileHeight,
-      thumbnailCount,
-      interval,
-      const DeepCollectionEquality().hash(_images));
-
   /// Create a copy of TrickPlayModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)

@@ -69,7 +69,7 @@ class Update extends _$Update {
 
   Future<List<ReleaseInfo>> _fetchLatest() async {
     final latest = await updateChecker.fetchRecentReleases();
-    state = state.copyWith(
+    state = UpdatesModel(
       lastRelease: latest,
     );
     return latest;

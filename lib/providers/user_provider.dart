@@ -178,7 +178,9 @@ class User extends _$User {
           if (e.id == model.id) {
             return model;
           } else {
-            return e.copyWith(isFavourite: model.isFavourite && model.containsSameIds(e.ids) ? false : e.isFavourite);
+            return e.copyWith(
+              isFavourite: model.isFavourite && model.containsSameIds(e.ids) ? false : e.isFavourite,
+            );
           }
         },
       ).toList());

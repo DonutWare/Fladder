@@ -11,7 +11,7 @@ import 'package:fladder/util/custom_color_themes.dart';
 part 'client_settings_model.freezed.dart';
 part 'client_settings_model.g.dart';
 
-@freezed
+@Freezed(copyWith: true)
 class ClientSettingsModel with _$ClientSettingsModel {
   const ClientSettingsModel._();
   factory ClientSettingsModel({

@@ -135,34 +135,11 @@ class SeriesModelMapper extends SubClassMapperBase<SeriesModel> {
 
   @override
   final Function instantiate = _instantiate;
-
-  static SeriesModel fromMap(Map<String, dynamic> map) {
-    return ensureInitialized().decodeMap<SeriesModel>(map);
-  }
-
-  static SeriesModel fromJson(String json) {
-    return ensureInitialized().decodeJson<SeriesModel>(json);
-  }
 }
 
 mixin SeriesModelMappable {
-  String toJson() {
-    return SeriesModelMapper.ensureInitialized()
-        .encodeJson<SeriesModel>(this as SeriesModel);
-  }
-
-  Map<String, dynamic> toMap() {
-    return SeriesModelMapper.ensureInitialized()
-        .encodeMap<SeriesModel>(this as SeriesModel);
-  }
-
   SeriesModelCopyWith<SeriesModel, SeriesModel, SeriesModel> get copyWith =>
       _SeriesModelCopyWithImpl(this as SeriesModel, $identity, $identity);
-  @override
-  String toString() {
-    return SeriesModelMapper.ensureInitialized()
-        .stringifyValue(this as SeriesModel);
-  }
 }
 
 extension SeriesModelValueCopy<$R, $Out>
