@@ -1290,5 +1290,63 @@
         "example": "1"
       }
     }
-  }
+  },
+  "settingsPlayerBufferSizeTitle": "Videopuffergröße",
+  "@settingsPlayerBufferSizeTitle": {},
+  "settingsPlayerBufferSizeDesc": "Konfigurieren Sie die Puffergröße für die Videowiedergabe und legen Sie fest, wie viele Daten in den Cache geladen werden.",
+  "@settingsPlayerBufferSizeDesc": {},
+  "exitFladderTitle": "Fladder Beenden",
+  "@exitFladderTitle": {},
+  "maxConcurrentDownloadsTitle": "Maximale Anzahl gleichzeitiger Downloads",
+  "@maxConcurrentDownloadsTitle": {},
+  "maxConcurrentDownloadsDesc": "Legt die maximale Anzahl gleichzeitig laufender Downloads fest. Setzen Sie den Wert auf 0, um die Begrenzung zu deaktivieren.",
+  "@maxConcurrentDownloadsDesc": {},
+  "rememberSubtitleSelections": "Untertitelspur basierend auf vorherigem Element einstellen",
+  "@rememberSubtitleSelections": {},
+  "rememberAudioSelections": "Audiospur basierend auf vorherigem Element einstellen",
+  "@rememberAudioSelections": {},
+  "similarToRecentlyPlayed": "Ähnlich wie kürzlich gespielt",
+  "@similarToRecentlyPlayed": {},
+  "similarToLikedItem": "Ähnlich wie der gewünschte Artikel",
+  "@similarToLikedItem": {},
+  "hasActorFromRecentlyPlayed": "Hat Schauspieler aus vor kurzem gespielt",
+  "@hasActorFromRecentlyPlayed": {},
+  "hasLikedActor": "Hat Schauspieler gemocht",
+  "@hasLikedActor": {},
+  "latest": "Letzte",
+  "@latest": {},
+  "recommended": "Empfohlen",
+  "@recommended": {},
+  "hasLikedDirector": "Hat Regisseur gemocht",
+  "@hasLikedDirector": {},
+  "hasDirectorFromRecentlyPlayed": "Hat Regisseur von vor kurzem gespielt",
+  "@hasDirectorFromRecentlyPlayed": {},
+  "playbackType": "Wiedergabetyp",
+  "@playbackType": {},
+  "playbackTypeDirect": "Direkt",
+  "@playbackTypeDirect": {},
+  "playbackTypeTranscode": "Transkodieren",
+  "@playbackTypeTranscode": {},
+  "playbackTypeOffline": "Offline",
+  "@playbackTypeOffline": {},
+  "latestReleases": "Aktuelle Veröffentlichungen",
+  "@latestReleases": {},
+  "newReleaseFoundTitle": "Update {newRelease} verfügbar!",
+  "@newReleaseFoundTitle": {
+    "placeholders": {
+      "newRelease": {
+        "type": "String"
+      }
+    }
+  },
+  "autoCheckForUpdates": "Regelmäßig nach Updates suchen",
+  "@autoCheckForUpdates": {},
+  "newUpdateFoundOnGithub": "Habe ein neues Update auf Github gefunden",
+  "@newUpdateFoundOnGithub": {},
+  "rememberSubtitleSelectionsDesc": "Versuchen Sie, die Untertitelspur so einzustellen, dass sie dem letzten Video am nächsten kommt.",
+  "@rememberSubtitleSelectionsDesc": {},
+  "rememberAudioSelectionsDesc": "Versuchen Sie, die Audiospur so einzustellen, dass sie dem letzten Video am nächsten kommt.",
+  "@rememberAudioSelectionsDesc": {},
+  "playbackTrackSelection": "Auswahl der Wiedergabespur",
+  "@playbackTrackSelection": {}
 }
