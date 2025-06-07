@@ -988,5 +988,92 @@
   "watchOn": "Ara fuq",
   "@watchOn": {},
   "syncStatusCanceled": "Ikkanċellati",
-  "@syncStatusCanceled": {}
+  "@syncStatusCanceled": {},
+  "aboutVersion": "Verżjoni: {version}",
+  "@aboutVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutSocials": "Socjali",
+  "@aboutSocials": {},
+  "off": "Mitfi",
+  "@off": {},
+  "screenBrightness": "Dawl tal-iskrin",
+  "@screenBrightness": {},
+  "scale": "Skala",
+  "@scale": {},
+  "playBackSettings": "Issettjar tal-Playback",
+  "@playBackSettings": {},
+  "settingsAutoNextTitle": "Previżjoni ta' li jmiss",
+  "@settingsAutoNextTitle": {},
+  "settingsAutoNextDesc": "Juri previżjoni li jmiss qrib it-tmiem jekk item ieħor ikun fil-kju",
+  "@settingsAutoNextDesc": {},
+  "autoNextOffStaticTitle": "Statiku",
+  "@autoNextOffStaticTitle": {},
+  "autoNextOffStaticDesc": "Uri l-iskrin li jmiss meta jifdal 30 sekonda ta’ ħin tal-logħob",
+  "@autoNextOffStaticDesc": {},
+  "speed": "Ħeffa",
+  "@speed": {},
+  "unableToPlayMedia": "Kien hemm żball biex jinstab tip ta’ midja kompatibbli",
+  "@unableToPlayMedia": {},
+  "unableToPlayBooksOnWeb": "Il-kotba mhumiex disponibli fuq il-web għalissa",
+  "@unableToPlayBooksOnWeb": {},
+  "defaultFilterForLibrary": "Filtru default għal-librerija",
+  "@defaultFilterForLibrary": {},
+  "removeFilterForLibrary": "Neħħi {filter}?",
+  "@removeFilterForLibrary": {
+    "description": "removeFilterForLibrary",
+    "placeholders": {
+      "filter": {
+        "type": "String"
+      }
+    }
+  },
+  "libraryFiltersRemoveAll": "Neħħi l-filtri kollha",
+  "@libraryFiltersRemoveAll": {},
+  "libraryFiltersRemoveAllConfirm": "Dan se jħassar il-filtri kollha ssejvjati għal kull librerija",
+  "@libraryFiltersRemoveAllConfirm": {},
+  "playerSettingsOrientationTitle": "Orjentazzjoni tal-plejer",
+  "@playerSettingsOrientationTitle": {},
+  "playerSettingsOrientationDesc": "Ġiegħel lill-video player f ’ċerti orjentazzjonijiet",
+  "@playerSettingsOrientationDesc": {},
+  "deviceOrientationPortraitUp": "Stampa ’l fuq",
+  "@deviceOrientationPortraitUp": {},
+  "deviceOrientationPortraitDown": "Stampa ’l isfel",
+  "@deviceOrientationPortraitDown": {},
+  "errorOpeningMedia": "Ġrat xi ħaġa ħażina waqt li kien qed jipprova jdoqq din il-midja",
+  "@errorOpeningMedia": {},
+  "subtitle": "Sottotitolu",
+  "@subtitle": {},
+  "deviceOrientationLandscapeRight": "Stampa Lemin",
+  "@deviceOrientationLandscapeRight": {},
+  "aboutLicenses": "Liċenzji",
+  "@aboutLicenses": {},
+  "subtitleConfiguration": "Konfigurazzjoni tas-sottotitlu",
+  "@subtitleConfiguration": {},
+  "playbackRate": "Rata tal-playback",
+  "@playbackRate": {},
+  "autoNextOffSmartDesc": "Juri l-iskrin li jmiss meta jibdew il-krediti jekk ma jibqax aktar minn 10 sekondi wara l-krediti. Inkella juri l-iskrin li jmiss bi 30 sekonda ta’ ħin tal-logħob li jifdal",
+  "@autoNextOffSmartDesc": {},
+  "deviceOrientationLandscapeLeft": "Stampa Xellug",
+  "@deviceOrientationLandscapeLeft": {},
+  "deleteFilterConfirmation": "Żgur tixtieq tħassar dan il-filtru?",
+  "@deleteFilterConfirmation": {},
+  "libraryFiltersLimitReached": "Il-limitu tal-filtru milħuq (10) neħħi xi filtri",
+  "@libraryFiltersLimitReached": {},
+  "unableToSyncItem": "Ma jistax jissinkronizza {item}, ġrat xi ħaġa ħażina",
+  "@unableToSyncItem": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "updateFilterForLibrary": "Aġġorna l-filtru",
+  "@updateFilterForLibrary": {},
+  "aboutCreatedBy": "Maħluqa minn DonutWare",
+  "@aboutCreatedBy": {}
 }
