@@ -479,8 +479,10 @@
   "@openShow": {},
   "parentalRating": "Rodičovské hodnocení",
   "@parentalRating": {},
-  "pathClearTitle": "Jasná cesta ke stažení",
+  "pathClearTitle": "Vymazat cestu ke stažení",
   "@pathClearTitle": {},
   "password": "Heslo",
-  "@password": {}
+  "@password": {},
+  "pathEditDesc": "Toto umístění je nastaveno pro všechny uživatele, synchronizovaná data již nebudou přístupná. Zůstanou ve vašem úložišti.",
+  "@pathEditDesc": {}
 }
