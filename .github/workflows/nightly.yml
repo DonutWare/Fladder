@@ -11,6 +11,10 @@ on:
       - closed
   workflow_dispatch:
 
+concurrency:
+  group: nightly-release
+  cancel-in-progress: true
+
 env:
   NIGHTLY_TAG: nightly
 
@@ -115,12 +119,12 @@ jobs:
           mkdir -p build/app/outputs/android_artifacts
           mv build/app/outputs/flutter-apk/app-production-${{ env.BUILD_MODE }}.apk "build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}.apk"
           mv build/app/outputs/bundle/${{ env.AAB_PATH }}/app-production-${{ env.BUILD_MODE }}.aab "build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}.aab"
-
       - name: Archive Android artifacts
         uses: actions/upload-artifact@v4.0.0
         with:
           name: fladder-android
           path: build/app/outputs/android_artifacts/
+          retention-days: 7
 
   build-windows:
     runs-on: windows-latest
@@ -151,19 +155,20 @@ jobs:
           path: windows/windows_setup.iss
           options: /O+
         env:
-          FLADDER_VERSION: ${{needs.fetch-info.outputs.nightly_version}}
-
+          FLADDER_VERSION: ${{needs.fetch-info.outputs.nightly_version}}      
       - name: Archive Windows portable artifact
         uses: actions/upload-artifact@v4.0.0
         with:
           name: fladder-windows-portable
           path: build\windows\x64\runner\Release\
+          retention-days: 7
 
       - name: Archive Windows installer artifact
         uses: actions/upload-artifact@v4.0.0
         with:
           name: fladder-windows-installer
           path: windows\Output\fladder_setup.exe
+          retention-days: 7
 
   build-ios:
     runs-on: macos-latest
@@ -194,12 +199,12 @@ jobs:
           mkdir Payload
           mv Runner.app Payload/
           zip -r iOS.ipa Payload
-
       - name: Archive iOS IPA artifact
         uses: actions/upload-artifact@v4.0.0
         with:
           name: fladder-iOS
           path: build/ios/archive/Runner.xcarchive/Products/Applications/iOS.ipa
+          retention-days: 7
 
   build-macos:
     runs-on: macos-latest
@@ -228,7 +233,6 @@ jobs:
         run: |
           APP_DIR="build/macos/Build/Products/Release-production"
           mv "$APP_DIR/fladder.app" "$APP_DIR/Fladder.app"
-
       - name: Install create-dmg
         run: brew install create-dmg
 
@@ -240,6 +244,7 @@ jobs:
         with:
           name: fladder-macOS
           path: build/macos/Build/Products/Release-production/macOS.dmg
+          retention-days: 7
 
   build-linux:
     runs-on: ubuntu-latest
@@ -271,8 +276,7 @@ jobs:
           sudo apt-get install -y ninja-build libgtk-3-dev libmpv-dev patchelf cmake clang libfuse2
 
       - name: Build Linux app
-        run: flutter build linux --release --build-number=${{ github.run_number }}
-
+        run: flutter build linux --release --build-number=${{ github.run_number }}      
       - name: Fix RPATH
         run: |
           for lib in "build/linux/x64/release/bundle/lib"/*.so; do
@@ -286,6 +290,7 @@ jobs:
         with:
           name: fladder-linux
           path: build/linux/x64/release/bundle
+          retention-days: 7
 
       - name: Build AppImage
         run: |
@@ -302,6 +307,7 @@ jobs:
           path: |
             Fladder_x86_64.AppImage
             Fladder_x86_64.AppImage.zsync
+          retention-days: 7
 
   build-web:
     runs-on: ubuntu-latest
@@ -325,13 +331,13 @@ jobs:
 
       - name: Build web app
         run: |
-          flutter build web --release --build-number=${{github.run_number}}
-
+          flutter build web --release --build-number=${{github.run_number}}      
       - name: Archive web artifact
         uses: actions/upload-artifact@v4.0.0
         with:
           name: fladder-web
           path: build/web
+          retention-days: 7
 
   create_nightly_release:
     name: Create Nightly Release
@@ -386,9 +392,8 @@ jobs:
           if [ -z "$CHANGELOG" ]; then
             CHANGELOG="- No changes since last release"
           fi
-          
-          # Create changelog with proper formatting
-          cat > changelog.md << EOF
+            # Create changelog with proper formatting
+          cat > changelog.md <<-EOF
           # 🌙 Nightly Build - $(date -u "+%Y-%m-%d %H:%M:%S UTC")
           
           This is an automated nightly build containing the latest changes from the develop branch.
