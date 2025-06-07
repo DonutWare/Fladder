@@ -478,5 +478,9 @@
   "openShow": "Otevřít show",
   "@openShow": {},
   "parentalRating": "Rodičovské hodnocení",
-  "@parentalRating": {}
+  "@parentalRating": {},
+  "pathClearTitle": "Jasná cesta ke stažení",
+  "@pathClearTitle": {},
+  "password": "Heslo",
+  "@password": {}
 }
