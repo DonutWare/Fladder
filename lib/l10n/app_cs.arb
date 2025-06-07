@@ -1038,5 +1038,25 @@
   "shuffleGallery": "Náhodné přehrávání galerie",
   "@shuffleGallery": {},
   "syncRemoveDataDesc": "Smazat synchronizovaná video data? Toto je trvalé a budete muset soubory znovu synchronizovat.",
-  "@syncRemoveDataDesc": {}
+  "@syncRemoveDataDesc": {},
+  "pathEditTitle": "Změnit umístění",
+  "@pathEditTitle": {},
+  "aboutVersion": "Verze: {version}",
+  "@aboutVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutBuild": "Build: {buildNumber}",
+  "@aboutBuild": {
+    "placeholders": {
+      "buildNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutCreatedBy": "Vytvořil(a) DonutWare",
+  "@aboutCreatedBy": {}
 }
