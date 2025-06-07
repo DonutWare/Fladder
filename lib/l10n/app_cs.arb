@@ -1,1 +1,22 @@
-{}
+{
+  "active": "Aktivní",
+  "@active": {},
+  "nativeName": "Angličtina",
+  "@nativeName": {},
+  "about": "O",
+  "@about": {},
+  "accept": "Přijmout",
+  "@accept": {},
+  "actor": "{count, plural, other{Herci} one{Herec/Herečka}}",
+  "@actor": {
+    "description": "actor",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "addAsFavorite": "Přidat do oblíbených",
+  "@addAsFavorite": {}
+}
