@@ -473,8 +473,10 @@
   "@openParent": {},
   "overview": "Přehled",
   "@overview": {},
-  "normal": "Čeština",
+  "normal": "Normální",
   "@normal": {},
   "openShow": "Otevřít show",
-  "@openShow": {}
+  "@openShow": {},
+  "parentalRating": "Rodičovské hodnocení",
+  "@parentalRating": {}
 }
