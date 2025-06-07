@@ -1075,5 +1075,9 @@
   "updateFilterForLibrary": "Aġġorna l-filtru",
   "@updateFilterForLibrary": {},
   "aboutCreatedBy": "Maħluqa minn DonutWare",
-  "@aboutCreatedBy": {}
+  "@aboutCreatedBy": {},
+  "clientSettingsSchemeVariantTitle": "Varjant tal-iskema",
+  "@clientSettingsSchemeVariantTitle": {},
+  "schemeSettingsFidelity": "Fidelta’",
+  "@schemeSettingsFidelity": {}
 }
