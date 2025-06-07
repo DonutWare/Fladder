@@ -12,7 +12,7 @@ import 'package:fladder/util/localization_helper.dart';
 part 'video_player_settings.freezed.dart';
 part 'video_player_settings.g.dart';
 
-@freezed
+@Freezed(copyWith: true)
 class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
   const VideoPlayerSettingsModel._();
 
@@ -43,7 +43,10 @@ class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
   PlayerOptions get wantedPlayer => playerOptions ?? PlayerOptions.platformDefaults;
 
   bool playerSame(VideoPlayerSettingsModel other) {
-    return other.hardwareAccel == hardwareAccel && other.useLibass == useLibass && other.bufferSize == bufferSize && other.wantedPlayer == wantedPlayer;
+    return other.hardwareAccel == hardwareAccel &&
+        other.useLibass == useLibass &&
+        other.bufferSize == bufferSize &&
+        other.wantedPlayer == wantedPlayer;
   }
 
   @override

@@ -205,32 +205,6 @@ class _$HomeSettingsModelImpl implements _HomeSettingsModel {
     return 'HomeSettingsModel(screenLayouts: $screenLayouts, layoutStates: $layoutStates, homeBanner: $homeBanner, carouselSettings: $carouselSettings, nextUp: $nextUp)';
   }
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$HomeSettingsModelImpl &&
-            const DeepCollectionEquality()
-                .equals(other._screenLayouts, _screenLayouts) &&
-            const DeepCollectionEquality()
-                .equals(other._layoutStates, _layoutStates) &&
-            (identical(other.homeBanner, homeBanner) ||
-                other.homeBanner == homeBanner) &&
-            (identical(other.carouselSettings, carouselSettings) ||
-                other.carouselSettings == carouselSettings) &&
-            (identical(other.nextUp, nextUp) || other.nextUp == nextUp));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_screenLayouts),
-      const DeepCollectionEquality().hash(_layoutStates),
-      homeBanner,
-      carouselSettings,
-      nextUp);
-
   /// Create a copy of HomeSettingsModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)

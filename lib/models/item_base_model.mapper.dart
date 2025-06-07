@@ -93,35 +93,12 @@ class ItemBaseModelMapper extends ClassMapperBase<ItemBaseModel> {
 
   @override
   final Function instantiate = _instantiate;
-
-  static ItemBaseModel fromMap(Map<String, dynamic> map) {
-    return ensureInitialized().decodeMap<ItemBaseModel>(map);
-  }
-
-  static ItemBaseModel fromJson(String json) {
-    return ensureInitialized().decodeJson<ItemBaseModel>(json);
-  }
 }
 
 mixin ItemBaseModelMappable {
-  String toJson() {
-    return ItemBaseModelMapper.ensureInitialized()
-        .encodeJson<ItemBaseModel>(this as ItemBaseModel);
-  }
-
-  Map<String, dynamic> toMap() {
-    return ItemBaseModelMapper.ensureInitialized()
-        .encodeMap<ItemBaseModel>(this as ItemBaseModel);
-  }
-
   ItemBaseModelCopyWith<ItemBaseModel, ItemBaseModel, ItemBaseModel>
       get copyWith => _ItemBaseModelCopyWithImpl(
           this as ItemBaseModel, $identity, $identity);
-  @override
-  String toString() {
-    return ItemBaseModelMapper.ensureInitialized()
-        .stringifyValue(this as ItemBaseModel);
-  }
 }
 
 extension ItemBaseModelValueCopy<$R, $Out>

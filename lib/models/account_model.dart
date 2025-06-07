@@ -4,8 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/credentials_model.dart';
@@ -16,7 +16,7 @@ import 'package:fladder/util/localization_helper.dart';
 part 'account_model.freezed.dart';
 part 'account_model.g.dart';
 
-@freezed
+@Freezed(copyWith: true)
 class AccountModel with _$AccountModel {
   const AccountModel._();
 

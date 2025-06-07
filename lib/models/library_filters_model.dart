@@ -14,7 +14,7 @@ import 'package:fladder/util/map_bool_helper.dart';
 part 'library_filters_model.freezed.dart';
 part 'library_filters_model.g.dart';
 
-@freezed
+@Freezed(copyWith: true)
 class LibraryFiltersModel with _$LibraryFiltersModel {
   const LibraryFiltersModel._();
 
@@ -40,11 +40,16 @@ class LibraryFiltersModel with _$LibraryFiltersModel {
 
   factory LibraryFiltersModel.fromJson(Map<String, dynamic> json) => _$LibraryFiltersModelFromJson(json);
 
-  factory LibraryFiltersModel.fromLibrarySearch(String name, LibrarySearchModel searchModel) {
+  factory LibraryFiltersModel.fromLibrarySearch(
+    String name,
+    LibrarySearchModel searchModel, {
+    bool? isFavourite,
+    String? id,
+  }) {
     return LibraryFiltersModel._internal(
-      id: Xid().toString(),
+      id: id ?? Xid().toString(),
       name: name,
-      isFavourite: false,
+      isFavourite: isFavourite ?? false,
       ids: searchModel.views.included.map((e) => e.id).toList(),
       genres: searchModel.genres,
       filters: searchModel.filters,

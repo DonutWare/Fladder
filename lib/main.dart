@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:dynamic_color/dynamic_color.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -18,6 +17,7 @@ import 'package:smtc_windows/smtc_windows.dart' if (dart.library.html) 'package:
 import 'package:universal_html/html.dart' as html;
 import 'package:window_manager/window_manager.dart';
 
+import 'package:fladder/l10n/generated/app_localizations.dart';
 import 'package:fladder/models/account_model.dart';
 import 'package:fladder/models/settings/arguments_model.dart';
 import 'package:fladder/models/syncing/i_synced_item.dart';

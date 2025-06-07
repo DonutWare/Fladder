@@ -14,7 +14,7 @@ import 'package:fladder/models/items/images_models.dart';
 
 part 'item_shared_models.mapper.dart';
 
-@MappableClass()
+@MappableClass(generateMethods: GenerateMethods.encode | GenerateMethods.decode | GenerateMethods.copy)
 class UserData with UserDataMappable {
   final bool isFavourite;
   final int playCount;

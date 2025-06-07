@@ -709,10 +709,14 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
       ref.read(filterProvider.notifier).saveFilter(LibraryFiltersModel.fromLibrarySearch(newName, state));
 
   void updateFilter(LibraryFiltersModel model) {
-    ref.read(filterProvider.notifier).saveFilter(LibraryFiltersModel.fromLibrarySearch(model.name, state).copyWith(
-          isFavourite: model.isFavourite,
-          id: model.id,
-        ));
+    ref.read(filterProvider.notifier).saveFilter(
+          LibraryFiltersModel.fromLibrarySearch(
+            model.name,
+            state,
+            isFavourite: model.isFavourite,
+            id: model.id,
+          ),
+        );
   }
 }
 

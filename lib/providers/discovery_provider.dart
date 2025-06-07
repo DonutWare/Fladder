@@ -4,9 +4,10 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/providers/service_provider.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'discovery_provider.g.dart';
 part 'discovery_provider.mapper.dart';
@@ -81,7 +82,7 @@ class ServerDiscovery extends _$ServerDiscovery {
   }
 }
 
-@MappableClass()
+@MappableClass(generateMethods: GenerateMethods.encode | GenerateMethods.decode)
 class DiscoveryInfo with DiscoveryInfoMappable {
   @MappableField(key: 'Id')
   final String id;

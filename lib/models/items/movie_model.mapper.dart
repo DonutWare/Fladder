@@ -147,34 +147,11 @@ class MovieModelMapper extends SubClassMapperBase<MovieModel> {
 
   @override
   final Function instantiate = _instantiate;
-
-  static MovieModel fromMap(Map<String, dynamic> map) {
-    return ensureInitialized().decodeMap<MovieModel>(map);
-  }
-
-  static MovieModel fromJson(String json) {
-    return ensureInitialized().decodeJson<MovieModel>(json);
-  }
 }
 
 mixin MovieModelMappable {
-  String toJson() {
-    return MovieModelMapper.ensureInitialized()
-        .encodeJson<MovieModel>(this as MovieModel);
-  }
-
-  Map<String, dynamic> toMap() {
-    return MovieModelMapper.ensureInitialized()
-        .encodeMap<MovieModel>(this as MovieModel);
-  }
-
   MovieModelCopyWith<MovieModel, MovieModel, MovieModel> get copyWith =>
       _MovieModelCopyWithImpl(this as MovieModel, $identity, $identity);
-  @override
-  String toString() {
-    return MovieModelMapper.ensureInitialized()
-        .stringifyValue(this as MovieModel);
-  }
 }
 
 extension MovieModelValueCopy<$R, $Out>
