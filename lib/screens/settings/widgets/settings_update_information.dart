@@ -46,6 +46,7 @@ class _SettingsUpdateInformationState extends ConsumerState<SettingsUpdateInform
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: ListView(
         shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
         children: [
           const Divider(),
           SettingsListTile(
@@ -116,6 +117,7 @@ class UpdateInformation extends StatelessWidget {
             );
           },
         ),
+        const Divider(),
         ...releaseInfo.otherDownloads.entries.map(
           (entry) {
             return ElevatedButton(

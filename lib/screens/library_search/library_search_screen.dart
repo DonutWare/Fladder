@@ -240,8 +240,8 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                           },
                           refreshOnStart: false,
                           child: CustomScrollView(
-                            physics: const AlwaysScrollableNoImplicitScrollPhysics(),
                             controller: scrollController,
+                            physics: const AlwaysScrollableScrollPhysics(),
                             slivers: [
                               SliverAppBar(
                                 floating: !AdaptiveLayout.of(context).isDesktop,
@@ -528,25 +528,6 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
       ),
     );
   }
-}
-
-class AlwaysScrollableNoImplicitScrollPhysics extends ScrollPhysics {
-  /// Creates scroll physics that always lets the user scroll.
-  const AlwaysScrollableNoImplicitScrollPhysics({super.parent});
-
-  @override
-  AlwaysScrollableNoImplicitScrollPhysics applyTo(ScrollPhysics? ancestor) {
-    return AlwaysScrollableNoImplicitScrollPhysics(parent: buildParent(ancestor));
-  }
-
-  @override
-  bool get allowImplicitScrolling => false;
-
-  @override
-  bool shouldAcceptUserOffset(ScrollMetrics position) => true;
-
-  @override
-  bool recommendDeferredLoading(double velocity, ScrollMetrics metrics, BuildContext context) => false;
 }
 
 class _LibrarySearchBottomBar extends ConsumerWidget {

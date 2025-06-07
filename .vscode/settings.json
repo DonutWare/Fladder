@@ -7,7 +7,7 @@
     "LTWH",
     "outro"
   ],
-  "dart.flutterSdkPath": ".fvm/versions/3.29.2",
+  "dart.flutterSdkPath": ".fvm/versions/3.32.1",
   "search.exclude": {
     "**/.fvm": true
   },
@@ -15,5 +15,10 @@
     "**/.fvm": true
   },
   "editor.detectIndentation": true,
-  "dart.lineLength": 120
+  "dart.lineLength": 120,
+  "dart.analysisExcludedFolders": [
+    "build",
+    "lib/jellyfin/**",
+    "packages",
+  ]
 }

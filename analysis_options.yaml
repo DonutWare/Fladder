@@ -9,6 +9,7 @@ analyzer:
     - lib/**/**.mapped.dart
     - packages/**
     - pubspec.yaml
+    - .fvm/**
   strong-mode:
     implicit-casts: false
     implicit-dynamic: false

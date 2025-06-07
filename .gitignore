@@ -73,3 +73,6 @@ local.properties
 
 # Inno Setup builds
 Output
+
+# Generated localizations
+lib/l10n/generated

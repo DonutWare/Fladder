@@ -41,14 +41,12 @@ class FladderImage extends ConsumerWidget {
         key: Key(newImage.key),
         fit: StackFit.expand,
         children: [
-          if (!disableBlur && useBluredPlaceHolder && newImage.hash.isNotEmpty)
-            Image(
-              fit: blurFit ?? fit,
-              excludeFromSemantics: true,
-              filterQuality: FilterQuality.low,
-              image: BlurHashImage(
-                newImage.hash,
-              ),
+          if (!(disableBlur && useBluredPlaceHolder) && useBluredPlaceHolder && newImage.hash.isNotEmpty)
+            BlurHash(
+              hash: newImage.hash,
+              optimizationMode: BlurHashOptimizationMode.approximation,
+              color: Colors.transparent,
+              imageFit: blurFit ?? fit,
             ),
           if (!blurOnly)
             FadeInImage(

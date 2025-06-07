@@ -50,7 +50,7 @@ class FladderTheme {
         trackHeight: 8,
         thumbColor: colorScheme?.onSurface,
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         elevation: 3,
         clipBehavior: Clip.antiAlias,
         margin: EdgeInsets.zero,
@@ -95,7 +95,7 @@ class FladderTheme {
         ),
       ),
       navigationBarTheme: const NavigationBarThemeData(),
-      dialogTheme: DialogTheme(shape: defaultShape),
+      dialogTheme: DialogThemeData(shape: defaultShape),
       scrollbarTheme: ScrollbarThemeData(
           radius: const Radius.circular(16),
           thumbColor: WidgetStateProperty.resolveWith((states) {

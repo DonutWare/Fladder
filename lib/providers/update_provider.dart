@@ -12,9 +12,18 @@ import 'package:fladder/util/update_checker.dart';
 part 'update_provider.freezed.dart';
 part 'update_provider.g.dart';
 
-final hasNewUpdateProvider = Provider<bool>((ref) =>
-    ref.watch(clientSettingsProvider.select((value) => value.lastViewedUpdate)) !=
-    ref.watch(updateProvider.select((value) => value.latestRelease?.version)));
+final hasNewUpdateProvider = Provider<bool>((ref) {
+  final latestRelease = ref.watch(updateProvider).latestRelease;
+  final lastViewedVersion = ref.watch(clientSettingsProvider.select((value) => value.lastViewedUpdate));
+
+  final latestVersion = latestRelease?.version;
+
+  if (latestVersion == null || lastViewedVersion == null) {
+    return false;
+  }
+
+  return latestVersion != lastViewedVersion;
+});
 
 @Riverpod(keepAlive: true)
 class Update extends _$Update {

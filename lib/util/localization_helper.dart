@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:fladder/l10n/generated/app_localizations.dart';
 
 ///Only use for base translations, under normal circumstances ALWAYS use the widgets provided context
 final localizationContextProvider = StateProvider<BuildContext?>((ref) => null);
