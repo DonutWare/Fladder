@@ -6,27 +6,104 @@ on:
       - "v*"
     branches:
       - master
+      - develop
   pull_request:
     paths:
       - pubspec.yaml
       - .github/workflows/build.yml
       - .fvmrc
+    branches:
+      - develop
     types:
       - opened
       - reopened
+      - closed
+  schedule:
+    # Run nightly at midnight UTC, but only if there were changes to develop
+    - cron: '0 0 * * *'
   workflow_dispatch:
+    inputs:
+      build_type:
+        description: 'Build type (release, nightly, or auto)'
+        required: false
+        default: 'auto'
+        type: choice
+        options:
+          - auto
+          - release
+          - nightly
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NIGHTLY_TAG: nightly
 
 jobs:
+  # Check if workflow should run based on trigger conditions
+  check-trigger:
+    runs-on: ubuntu-latest
+    outputs:
+      should_run: ${{ steps.check.outputs.should_run }}
+      build_type: ${{ steps.check.outputs.build_type }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.1.1
+        with:
+          fetch-depth: 0
+
+      - name: Check if should run and determine build type
+        id: check
+        run: |
+          # Determine build type based on trigger and input
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ github.event.inputs.build_type }}" != "auto" ]]; then
+            BUILD_TYPE="${{ github.event.inputs.build_type }}"
+          elif [[ "${{ startsWith(github.ref, 'refs/tags/v') }}" == "true" ]]; then
+            BUILD_TYPE="release"
+          elif [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == "refs/heads/develop" ]]; then
+            BUILD_TYPE="nightly"
+          elif [[ "${{ github.event_name }}" == "pull_request" && "${{ github.event.pull_request.merged }}" == "true" && "${{ github.base_ref }}" == "develop" ]]; then
+            BUILD_TYPE="nightly"
+          elif [[ "${{ github.event_name }}" == "schedule" ]]; then
+            # Check if there were commits to develop in the last 24 hours
+            git checkout develop
+            COMMITS_LAST_24H=$(git log --since="24 hours ago" --oneline | wc -l)
+            if [[ $COMMITS_LAST_24H -gt 0 ]]; then
+              BUILD_TYPE="nightly"
+            else
+              echo "No commits to develop in the last 24 hours, skipping nightly build"
+              echo "should_run=false" >> $GITHUB_OUTPUT
+              exit 0
+            fi
+          elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            BUILD_TYPE="nightly"
+          else
+            # For PRs and other events, build but don't release
+            BUILD_TYPE="development"
+          fi
+          
+          echo "build_type=${BUILD_TYPE}" >> $GITHUB_OUTPUT
+          echo "should_run=true" >> $GITHUB_OUTPUT
+          echo "Build type determined: ${BUILD_TYPE}"
+
   fetch-info:
+    needs: [check-trigger]
+    if: needs.check-trigger.outputs.should_run == 'true'
     runs-on: ubuntu-latest
     outputs:
       version_name: ${{ steps.fetch.outputs.version_name }}
       flutter_version: ${{ steps.fetch.outputs.flutter_version }}
+      nightly_version: ${{ steps.fetch.outputs.nightly_version }}
+      release_date: ${{ steps.fetch.outputs.release_date }}
+      build_type: ${{ needs.check-trigger.outputs.build_type }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4.1.1
+        with:
+          fetch-depth: 0
 
-      - name: Fetch version name
+      - name: Fetch version name and create nightly version
         id: fetch
         run: |
           # Extract version_name from pubspec.yaml
@@ -37,7 +114,17 @@ jobs:
           FLUTTER_VERSION=$(jq -r '.flutter' .fvmrc)
           echo "flutter_version=${FLUTTER_VERSION}" >> "$GITHUB_OUTPUT"
 
-          # Print flutter version for logging
+          # Create nightly version with date and time if needed
+          if [[ "${{ needs.check-trigger.outputs.build_type }}" == "nightly" ]]; then
+            RELEASE_DATE=$(date -u "+%Y%m%d-%H%M%S")
+            NIGHTLY_VERSION="${VERSION_NAME}-nightly-${RELEASE_DATE}"
+            echo "nightly_version=${NIGHTLY_VERSION}" >> "$GITHUB_OUTPUT"
+            echo "release_date=${RELEASE_DATE}" >> "$GITHUB_OUTPUT"
+            echo "Nightly version: $NIGHTLY_VERSION"
+          fi
+
+          # Print versions for logging
+          echo "Base version: $VERSION_NAME"
           echo "Flutter version: $FLUTTER_VERSION"
         shell: bash
 
@@ -50,10 +137,14 @@ jobs:
 
       - name: Determine Build Type
         run: |
-          if [[ "${{ startsWith(github.ref, 'refs/tags/v') }}" == "true" ]]; then
+          if [[ "${{ needs.fetch-info.outputs.build_type }}" == "release" ]]; then
             echo "BUILD_MODE=release" >> $GITHUB_ENV
             echo "ARTIFACT_SUFFIX=release-signed" >> $GITHUB_ENV
             echo "AAB_PATH=productionRelease" >> $GITHUB_ENV
+          elif [[ "${{ needs.fetch-info.outputs.build_type }}" == "nightly" ]]; then
+            echo "BUILD_MODE=profile" >> $GITHUB_ENV
+            echo "ARTIFACT_SUFFIX=nightly" >> $GITHUB_ENV
+            echo "AAB_PATH=productionProfile" >> $GITHUB_ENV
           else
             echo "BUILD_MODE=profile" >> $GITHUB_ENV
             echo "ARTIFACT_SUFFIX=production" >> $GITHUB_ENV
@@ -61,7 +152,7 @@ jobs:
           fi
 
       - name: Decode Keystore for release
-        if: startsWith(github.ref, 'refs/tags/v')
+        if: needs.fetch-info.outputs.build_type == 'release'
         env:
           ENCODED_STRING: ${{ secrets.KEYSTORE_BASE_64 }}
           RELEASE_KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
@@ -114,6 +205,7 @@ jobs:
         with:
           name: fladder-android
           path: build/app/outputs/android_artifacts/
+          retention-days: ${{ needs.fetch-info.outputs.build_type == 'nightly' && 7 || 90 }}
 
   build-windows:
     runs-on: windows-latest
@@ -144,19 +236,21 @@ jobs:
           path: windows/windows_setup.iss
           options: /O+
         env:
-          FLADDER_VERSION: ${{needs.fetch-info.outputs.version_name}}
+          FLADDER_VERSION: ${{ needs.fetch-info.outputs.build_type == 'nightly' && needs.fetch-info.outputs.nightly_version || needs.fetch-info.outputs.version_name }}
 
       - name: Archive Windows portable artifact
         uses: actions/upload-artifact@v4.0.0
         with:
           name: fladder-windows-portable
           path: build\windows\x64\runner\Release\
+          retention-days: ${{ needs.fetch-info.outputs.build_type == 'nightly' && 7 || 90 }}
 
       - name: Archive Windows installer artifact
         uses: actions/upload-artifact@v4.0.0
         with:
           name: fladder-windows-installer
           path: windows\Output\fladder_setup.exe
+          retention-days: ${{ needs.fetch-info.outputs.build_type == 'nightly' && 7 || 90 }}
 
   build-ios:
     runs-on: macos-latest
@@ -193,6 +287,7 @@ jobs:
         with:
           name: fladder-iOS
           path: build/ios/archive/Runner.xcarchive/Products/Applications/iOS.ipa
+          retention-days: ${{ needs.fetch-info.outputs.build_type == 'nightly' && 7 || 90 }}
 
   build-macos:
     runs-on: macos-latest
@@ -233,6 +328,7 @@ jobs:
         with:
           name: fladder-macOS
           path: build/macos/Build/Products/Release-production/macOS.dmg
+          retention-days: ${{ needs.fetch-info.outputs.build_type == 'nightly' && 7 || 90 }}
 
   build-linux:
     runs-on: ubuntu-latest
@@ -279,10 +375,12 @@ jobs:
         with:
           name: fladder-linux
           path: build/linux/x64/release/bundle
+          retention-days: ${{ needs.fetch-info.outputs.build_type == 'nightly' && 7 || 90 }}
 
       - name: Build AppImage
         run: |
-          sed -i -E 's/(version:\s*)latest/\1${{needs.fetch-info.outputs.version_name}}/' AppImageBuilder.yml
+          VERSION_TO_USE="${{ needs.fetch-info.outputs.build_type == 'nightly' && needs.fetch-info.outputs.nightly_version || needs.fetch-info.outputs.version_name }}"
+          sed -i -E "s/(version:\\s*)latest/\\1${VERSION_TO_USE}/" AppImageBuilder.yml
           wget -O appimage-builder-x86_64.AppImage https://github.com/AppImageCrafters/appimage-builder/releases/download/v1.1.0/appimage-builder-1.1.0-x86_64.AppImage
           chmod +x appimage-builder-x86_64.AppImage
           sudo mv appimage-builder-x86_64.AppImage /usr/local/bin/appimage-builder
@@ -295,11 +393,12 @@ jobs:
           path: |
             Fladder_x86_64.AppImage
             Fladder_x86_64.AppImage.zsync
+          retention-days: ${{ needs.fetch-info.outputs.build_type == 'nightly' && 7 || 90 }}
 
   build-linux-flatpak:
     name: "Flatpak"
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: needs.fetch-info.outputs.build_type == 'release'
     needs: [fetch-info, build-linux]
     container:
       image: bilelmoussaoui/flatpak-github-actions:gnome-46
@@ -356,12 +455,14 @@ jobs:
         with:
           name: fladder-web
           path: build/web
+          retention-days: ${{ needs.fetch-info.outputs.build_type == 'nightly' && 7 || 90 }}
 
       - name: Build Github pages web
-        if: startsWith(github.ref, 'refs/tags/v')
+        if: needs.fetch-info.outputs.build_type == 'release'
         run: flutter build web --base-href /${{ github.event.repository.name }}/ --release --build-number=$GITHUB_RUN_NUMBER
 
       - name: Archive web pages artifact
+        if: needs.fetch-info.outputs.build_type == 'release'
         uses: actions/upload-artifact@v4.0.0
         with:
           name: fladder-web-pages
@@ -379,7 +480,7 @@ jobs:
       - build-linux-flatpak
       - build-web
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: needs.fetch-info.outputs.build_type == 'release'
     steps:
       - name: Download Artifacts Android
         uses: actions/download-artifact@v4
@@ -490,12 +591,206 @@ jobs:
             Fladder-Linux-${{needs.fetch-info.outputs.version_name}}.AppImage
             Fladder-Linux-${{needs.fetch-info.outputs.version_name}}.AppImage.zsync
 
+  create_nightly_release:
+    name: Create Nightly Release
+    needs:
+      - fetch-info
+      - build-android
+      - build-windows
+      - build-ios
+      - build-macos
+      - build-linux
+      - build-web    
+    runs-on: ubuntu-latest
+    if: needs.fetch-info.outputs.build_type == 'nightly'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.1.1
+        with:
+          fetch-depth: 0
+
+      - name: Delete existing nightly release
+        run: |
+          # Delete existing nightly release and tag with better error handling
+          echo "Checking for existing nightly release..."
+          if gh release view ${{ env.NIGHTLY_TAG }} >/dev/null 2>&1; then
+            echo "Deleting existing nightly release..."
+            gh release delete ${{ env.NIGHTLY_TAG }} --yes --cleanup-tag
+          else
+            echo "No existing nightly release found."
+          fi
+          
+          # Clean up any orphaned tags
+          if git tag -l | grep -q "^${{ env.NIGHTLY_TAG }}$"; then
+            echo "Deleting orphaned nightly tag..."
+            git push origin --delete ${{ env.NIGHTLY_TAG }} || true
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          # Get the latest release tag
+          LATEST_RELEASE=$(gh release list --limit 1 --exclude-drafts --json tagName --jq '.[0].tagName' || echo "")
+          
+          if [ -z "$LATEST_RELEASE" ]; then
+            echo "No previous releases found, generating changelog from initial commit"
+            CHANGELOG=$(git log --pretty=format:"- %s (%h)" --no-merges)
+          else
+            echo "Generating changelog from $LATEST_RELEASE to HEAD"
+            CHANGELOG=$(git log ${LATEST_RELEASE}..HEAD --pretty=format:"- %s (%h)" --no-merges)
+          fi
+          
+          if [ -z "$CHANGELOG" ]; then
+            CHANGELOG="- No changes since last release"
+          fi
+            # Create changelog with proper formatting
+          cat > changelog.md <<-EOF
+          # 🌙 Nightly Build - $(date -u "+%Y-%m-%d %H:%M:%S UTC")
+          
+          This is an automated nightly build containing the latest changes from the develop branch.
+          
+          **⚠️ Warning:** This is a development build and may contain bugs or incomplete features.
+          
+          ## 📋 Changes since last release:
+          
+          $CHANGELOG
+          
+          ---
+          
+          📅 **Build Date:** $(date -u "+%Y-%m-%d %H:%M:%S UTC")  
+          🔧 **Build Number:** ${{ github.run_number }}  
+          📝 **Commit:** ${{ github.sha }}  
+          🌿 **Branch:** develop
+          EOF
+          
+          echo "changelog_file=changelog.md" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download Artifacts Android
+        uses: actions/download-artifact@v4
+        with:
+          name: fladder-android
+          path: fladder-android
+
+      - name: Move Android
+        run: |
+          mv fladder-android/nightly.apk Fladder-Android-${{needs.fetch-info.outputs.nightly_version}}.apk
+          mv fladder-android/nightly.aab Fladder-Android-${{needs.fetch-info.outputs.nightly_version}}.aab
+
+      - name: Download Windows portable artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: fladder-windows-portable
+          path: fladder-windows-portable
+
+      - name: Compress Windows
+        run: |
+          cd fladder-windows-portable
+          zip -r ../Fladder-Windows-${{needs.fetch-info.outputs.nightly_version}}.zip .
+
+      - name: Download Windows installer artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: fladder-windows-installer
+          path: fladder-windows-installer
+
+      - name: Rename Windows installer
+        run: mv fladder-windows-installer/fladder_setup.exe Fladder-Windows-${{needs.fetch-info.outputs.nightly_version}}-Setup.exe
+
+      - name: Download Artifacts iOS
+        uses: actions/download-artifact@v4
+        with:
+          name: fladder-iOS
+          path: fladder-iOS
+
+      - name: Move iOS
+        run: mv fladder-iOS/iOS.ipa Fladder-iOS-${{needs.fetch-info.outputs.nightly_version}}.ipa
+
+      - name: Download Artifacts macOS
+        uses: actions/download-artifact@v4
+        with:
+          name: fladder-macOS
+          path: fladder-macOS
+
+      - name: Move macOS
+        run: mv fladder-macOS/macOS.dmg Fladder-macOS-${{needs.fetch-info.outputs.nightly_version}}.dmg
+
+      - name: Download Artifacts Linux
+        uses: actions/download-artifact@v4
+        with:
+          name: fladder-linux
+          path: fladder-linux
+
+      - name: Compress Linux
+        run: |
+          cd fladder-linux
+          zip -r ../Fladder-Linux-${{needs.fetch-info.outputs.nightly_version}}.zip .
+
+      - name: Download Artifacts Linux AppImage
+        uses: actions/download-artifact@v4
+        with:
+          name: fladder-linux-appimage
+          path: fladder-linux-appimage
+
+      - name: Move Linux AppImages
+        run: |
+          mv fladder-linux-appimage/Fladder_x86_64.AppImage Fladder-Linux-${{needs.fetch-info.outputs.nightly_version}}.AppImage
+          mv fladder-linux-appimage/Fladder_x86_64.AppImage.zsync Fladder-Linux-${{needs.fetch-info.outputs.nightly_version}}.AppImage.zsync
+
+      - name: Download Artifacts Web
+        uses: actions/download-artifact@v4
+        with:
+          name: fladder-web
+          path: fladder-web
+
+      - name: Compress Web
+        run: |
+          cd fladder-web
+          zip -r ../Fladder-Web-${{needs.fetch-info.outputs.nightly_version}}.zip .
+
+      - name: Create Nightly Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.NIGHTLY_TAG }}
+          name: "🌙 Nightly Build - ${{needs.fetch-info.outputs.release_date}}"
+          body_path: changelog.md
+          prerelease: true
+          make_latest: false
+          fail_on_unmatched_files: true
+          files: |
+            Fladder-Android-${{needs.fetch-info.outputs.nightly_version}}.apk
+            Fladder-Android-${{needs.fetch-info.outputs.nightly_version}}.aab
+            Fladder-Windows-${{needs.fetch-info.outputs.nightly_version}}-Setup.exe
+            Fladder-Windows-${{needs.fetch-info.outputs.nightly_version}}.zip
+            Fladder-iOS-${{needs.fetch-info.outputs.nightly_version}}.ipa
+            Fladder-macOS-${{needs.fetch-info.outputs.nightly_version}}.dmg
+            Fladder-Web-${{needs.fetch-info.outputs.nightly_version}}.zip
+            Fladder-Linux-${{needs.fetch-info.outputs.nightly_version}}.zip
+            Fladder-Linux-${{needs.fetch-info.outputs.nightly_version}}.AppImage
+            Fladder-Linux-${{needs.fetch-info.outputs.nightly_version}}.AppImage.zsync
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Clean up old workflow artifacts
+        run: |
+          # Clean up artifacts older than 7 days to save storage space
+          echo "Cleaning up old workflow artifacts..."
+          gh api repos/${{ github.repository }}/actions/artifacts \
+            --jq '.artifacts[] | select(.created_at < (now - (7 * 24 * 3600))) | .id' \
+            | xargs -I {} gh api repos/${{ github.repository }}/actions/artifacts/{} -X DELETE || true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   release_web:
     name: Release Web
     needs:
+      - fetch-info
       - create_release
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: needs.fetch-info.outputs.build_type == 'release'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4.1.1
