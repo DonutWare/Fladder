@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:dio/dio.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +38,17 @@ import 'package:fladder/providers/sync/background_download_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/util/localization_helper.dart';
+
+
+final apiBaseUrlProvider = Provider<String>((ref) {
+  final user = ref.watch(userProvider);
+  return user?.server ?? '';
+});
+
+final apiKeyProvider = Provider<String>((ref) {
+  final user = ref.watch(userProvider);
+  return user?.credentials.token ?? '';
+});
 
 final syncProvider = StateNotifierProvider<SyncNotifier, SyncSettingsModel>((ref) => throw UnimplementedError());
 
@@ -427,6 +439,40 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
         deviceProfile: ref.read(videoProfileProvider),
       ),
     );
+
+    // 📥 Android Download
+    final baseUrl = ref.read(apiBaseUrlProvider); // z.B. "https://mein-jellyfin-server.de"
+    final apiKey = ref.read(apiKeyProvider);
+
+    final downloadUrl = '$baseUrl/Items/${syncItem.id}/Download?api_key=$apiKey';
+
+
+    final savePath = syncItem.videoFile.path;
+
+    final dio = Dio();
+
+    try {
+      await dio.download(
+        downloadUrl,
+        savePath,
+        options: Options(
+          headers: {
+            'X-Emby-Token': apiKey, // ✅ dynamisch from User
+          },
+        ),
+        onReceiveProgress: (received, total) {
+          if (total != -1) {
+            final progress = (received / total * 100).toStringAsFixed(0);
+            print('Download Fortschritt: $progress%');
+          }
+        },
+      );
+
+      print("Download abgeschlossen: $savePath");
+    } catch (e) {
+      print("Download fehlgeschlagen: $e");
+      return null; 
+    }
 
     final item = syncItem.createItemModel(ref);
 
