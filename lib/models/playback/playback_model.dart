@@ -128,6 +128,7 @@ class PlaybackModelHelper {
         )) ??
         await _createOfflinePlaybackModel(
           newItem,
+          null,
           ref.read(syncProvider.notifier).getSyncedItem(newItem),
           oldModel: currentModel,
         );
@@ -138,6 +139,7 @@ class PlaybackModelHelper {
 
   Future<OfflinePlaybackModel?> _createOfflinePlaybackModel(
     ItemBaseModel item,
+    MediaStreamsModel? streamModel,
     SyncedItem? syncedItem, {
     PlaybackModel? oldModel,
   }) async {
@@ -206,28 +208,39 @@ class PlaybackModelHelper {
       return switch (playbackType) {
         PlaybackType.directStream || PlaybackType.transcode => await _createServerPlaybackModel(
             fullItem,
+            item.streamModel,
             playbackType,
             oldModel: oldModel,
             libraryQueue: queue,
             startPosition: startPosition,
           ),
-        PlaybackType.offline => await _createOfflinePlaybackModel(fullItem, syncedItem),
+        PlaybackType.offline => await _createOfflinePlaybackModel(
+            fullItem,
+            item.streamModel,
+            syncedItem,
+          ),
         null => null
       };
     } else {
       return (await _createServerPlaybackModel(
             fullItem,
+            item.streamModel,
             PlaybackType.directStream,
             startPosition: startPosition,
             oldModel: oldModel,
             libraryQueue: queue,
           )) ??
-          await _createOfflinePlaybackModel(fullItem, syncedItem);
+          await _createOfflinePlaybackModel(
+            fullItem,
+            item.streamModel,
+            syncedItem,
+          );
     }
   }
 
   Future<PlaybackModel?> _createServerPlaybackModel(
     ItemBaseModel item,
+    MediaStreamsModel? streamModel,
     PlaybackType? type, {
     PlaybackModel? oldModel,
     required List<ItemBaseModel> libraryQueue,
@@ -237,25 +250,26 @@ class PlaybackModelHelper {
       final userId = ref.read(userProvider)?.id;
       if (userId?.isEmpty == true) return null;
 
+      final newStreamModel = streamModel ?? item.streamModel;
+
       Map<Bitrate, bool> qualityOptions = getVideoQualityOptions(
         VideoQualitySettings(
           maxBitRate: ref.read(videoPlayerSettingsProvider.select((value) => value.maxHomeBitrate)),
-          videoBitRate: item.streamModel?.videoStreams.firstOrNull?.bitRate ?? 0,
-          videoCodec: item.streamModel?.videoStreams.firstOrNull?.codec,
+          videoBitRate: newStreamModel?.videoStreams.firstOrNull?.bitRate ?? 0,
+          videoCodec: newStreamModel?.videoStreams.firstOrNull?.codec,
         ),
       );
 
-      final streamModel = item.streamModel;
       final audioStreamIndex = selectAudioStream(
           ref.read(userProvider.select((value) => value?.userConfiguration?.rememberAudioSelections ?? true)),
           oldModel?.mediaStreams?.currentAudioStream,
-          streamModel?.audioStreams,
-          streamModel?.defaultAudioStreamIndex);
+          newStreamModel?.audioStreams,
+          newStreamModel?.defaultAudioStreamIndex);
       final subStreamIndex = selectSubStream(
           ref.read(userProvider.select((value) => value?.userConfiguration?.rememberSubtitleSelections ?? true)),
           oldModel?.mediaStreams?.currentSubStream,
-          streamModel?.subStreams,
-          streamModel?.defaultSubStreamIndex);
+          newStreamModel?.subStreams,
+          newStreamModel?.defaultSubStreamIndex);
 
       final Response<PlaybackInfoResponse> response = await api.itemsItemIdPlaybackInfoPost(
         itemId: item.id,
@@ -270,7 +284,7 @@ class PlaybackModelHelper {
           enableDirectPlay: type != PlaybackType.transcode,
           enableDirectStream: type != PlaybackType.transcode,
           maxStreamingBitrate: qualityOptions.enabledFirst.keys.firstOrNull?.bitRate,
-          mediaSourceId: streamModel?.currentVersionStream?.id,
+          mediaSourceId: newStreamModel?.currentVersionStream?.id,
         ),
       );
 
@@ -278,7 +292,7 @@ class PlaybackModelHelper {
 
       if (playbackInfo == null) return null;
 
-      final mediaSource = playbackInfo.mediaSources?[streamModel?.versionStreamIndex ?? 0];
+      final mediaSource = playbackInfo.mediaSources?[newStreamModel?.versionStreamIndex ?? 0];
 
       if (mediaSource == null) return null;
 

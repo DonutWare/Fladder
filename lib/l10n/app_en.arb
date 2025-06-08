@@ -721,6 +721,7 @@
   "@settingsContinue": {},
   "settingsEnableOsMediaControls": "Enable OS media controls",
   "@settingsEnableOsMediaControls": {},
+  "settingsEnableOsMediaControlsDesc": "Allow for playback control using media-keys and show current playing media in OS",
   "settingsHomeBannerDescription": "Display as a slideshow, carousel, or hide the banner",
   "@settingsHomeBannerDescription": {},
   "settingsHomeBannerTitle": "Home banner",
@@ -1235,5 +1236,7 @@
       }
     }
   },
-  "newUpdateFoundOnGithub": "Found a new update on Github"
+  "newUpdateFoundOnGithub": "Found a new update on Github",
+  "enableBackgroundPostersTitle": "Enable background posters",
+  "enableBackgroundPostersDesc": "Show random posters in applicable screens"
 }

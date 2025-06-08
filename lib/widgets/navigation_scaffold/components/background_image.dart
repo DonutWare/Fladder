@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/util/fladder_image.dart';
 
 class BackgroundImage extends ConsumerStatefulWidget {
@@ -35,38 +36,45 @@ class _BackgroundImageState extends ConsumerState<BackgroundImage> {
   }
 
   void updateItems() {
+    final enabled = ref.read(clientSettingsProvider.select((value) => value.backgroundPosters));
+
     WidgetsBinding.instance.addPostFrameCallback((value) async {
+      if (!enabled && mounted) return;
+
       if (widget.images.isNotEmpty) {
-        setState(() {
-          backgroundImage = widget.images.shuffled().firstOrNull?.primary;
-        });
+        final image = widget.images.shuffled().firstOrNull?.primary;
+        if (mounted) setState(() => backgroundImage = image);
         return;
       }
-      final randomItem = widget.items.shuffled().firstOrNull;
+
       if (widget.items.isEmpty) return;
+
+      final randomItem = widget.items.shuffled().firstOrNull;
       final itemId = switch (randomItem?.type) {
-            FladderItemType.folder => randomItem?.id,
-            FladderItemType.series => randomItem?.parentId ?? randomItem?.id,
-            _ => randomItem?.id,
-          } ??
-          randomItem?.id;
+        FladderItemType.folder => randomItem?.id,
+        FladderItemType.series => randomItem?.parentId ?? randomItem?.id,
+        _ => randomItem?.id,
+      };
+
       if (itemId == null) return;
-      final apiProvider = await ref.read(jellyApiProvider).usersUserIdItemsItemIdGet(
-            itemId: itemId,
-          );
-      setState(() {
-        backgroundImage = apiProvider.body?.parentBaseModel.getPosters?.randomBackDrop ??
-            apiProvider.body?.getPosters?.randomBackDrop;
-      });
+
+      final apiResponse = await ref.read(jellyApiProvider).usersUserIdItemsItemIdGet(itemId: itemId);
+      final image =
+          apiResponse.body?.parentBaseModel.getPosters?.randomBackDrop ?? apiResponse.body?.getPosters?.randomBackDrop;
+
+      if (mounted) setState(() => backgroundImage = image);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return FladderImage(
-      image: backgroundImage,
-      fit: BoxFit.cover,
-      blurOnly: false,
-    );
+    final enabled = ref.watch(clientSettingsProvider.select((value) => value.backgroundPosters));
+    return enabled
+        ? FladderImage(
+            image: backgroundImage,
+            fit: BoxFit.cover,
+            blurOnly: false,
+          )
+        : const SizedBox.shrink();
   }
 }
