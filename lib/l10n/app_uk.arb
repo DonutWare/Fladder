@@ -1349,5 +1349,11 @@
     }
   },
   "newUpdateFoundOnGithub": "Знайдено нове оновлення на Github",
-  "@newUpdateFoundOnGithub": {}
+  "@newUpdateFoundOnGithub": {},
+  "enableBackgroundPostersTitle": "Увімкнути фонові постери",
+  "@enableBackgroundPostersTitle": {},
+  "settingsEnableOsMediaControlsDesc": "Дозволяє керувати відтворенням за допомогою медіа-клавіш та показувати поточний відтворюваний медіафайл в ОС",
+  "@settingsEnableOsMediaControlsDesc": {},
+  "enableBackgroundPostersDesc": "Показувати випадкові постери на відповідних екранах",
+  "@enableBackgroundPostersDesc": {}
 }
