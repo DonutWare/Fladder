@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final dioProvider = Provider<Dio>((ref) {
   final dio = Dio();
-  final apiKey = ref.read(apiKeyProvider);
+  final apiKey = ref.watch(apiKeyProvider);
   dio.interceptors.add(
     InterceptorsWrapper(
       onRequest: (options, handler) {
