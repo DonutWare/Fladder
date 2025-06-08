@@ -41,6 +41,7 @@ _$ClientSettingsModelImpl _$$ClientSettingsModelImplFromJson(
       schemeVariant: $enumDecodeNullable(
               _$DynamicSchemeVariantEnumMap, json['schemeVariant']) ??
           DynamicSchemeVariant.rainbow,
+      backgroundPosters: json['backgroundPosters'] as bool? ?? true,
       checkForUpdates: json['checkForUpdates'] as bool? ?? true,
       lastViewedUpdate: json['lastViewedUpdate'] as String?,
       libraryPageSize: (json['libraryPageSize'] as num?)?.toInt(),
@@ -68,6 +69,7 @@ Map<String, dynamic> _$$ClientSettingsModelImplToJson(
       'showAllCollectionTypes': instance.showAllCollectionTypes,
       'maxConcurrentDownloads': instance.maxConcurrentDownloads,
       'schemeVariant': _$DynamicSchemeVariantEnumMap[instance.schemeVariant]!,
+      'backgroundPosters': instance.backgroundPosters,
       'checkForUpdates': instance.checkForUpdates,
       'lastViewedUpdate': instance.lastViewedUpdate,
       'libraryPageSize': instance.libraryPageSize,
