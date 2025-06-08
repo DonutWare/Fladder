@@ -3,6 +3,9 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -37,6 +40,20 @@ import 'package:fladder/providers/sync/background_download_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/util/localization_helper.dart';
+
+import 'dio_provider.dart';
+import 'download_progress_provider.dart';
+
+
+final apiBaseUrlProvider = Provider<String>((ref) {
+  final user = ref.watch(userProvider);
+  return user?.server ?? '';
+});
+
+final apiKeyProvider = Provider<String>((ref) {
+  final user = ref.watch(userProvider);
+  return user?.credentials.token ?? '';
+});
 
 final syncProvider = StateNotifierProvider<SyncNotifier, SyncSettingsModel>((ref) => throw UnimplementedError());
 
@@ -427,6 +444,49 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
         deviceProfile: ref.read(videoProfileProvider),
       ),
     );
+
+    // 📥 Android Download
+    final baseUrl = ref.read(apiBaseUrlProvider);
+    final apiKey = ref.read(apiKeyProvider);
+
+    final baseUri = Uri.parse(baseUrl);
+    final downloadUri = baseUri.replace(
+      path: baseUri.path.endsWith('/')
+          ? '${baseUri.path}Items/${syncItem.id}/Download'
+          : '${baseUri.path}/Items/${syncItem.id}/Download',
+      queryParameters: {'api_key': apiKey},
+    );
+    final downloadUrl = downloadUri.toString();
+
+
+
+    final savePath = syncItem.videoFile.path;
+
+    final dio = ref.read(dioProvider);
+
+    try {
+      await dio.download(
+        downloadUrl,
+        savePath,
+        options: Options(
+          headers: {
+            'X-Emby-Token': apiKey, // ✅ dynamisch vom aktuell eingeloggten Benutzer
+          },
+        ),
+        onReceiveProgress: (received, total) {
+          if (total != -1) {
+            final progress = (received / total * 100).toInt();
+            ref.read(downloadProgressProvider.notifier).state = progress;
+          }
+        },
+      );
+
+      print("Download abgeschlossen: $savePath");
+    } on DioError catch (e) {
+      print("Download fehlgeschlagen: $e");
+      return null;
+    }
+
 
     final item = syncItem.createItemModel(ref);
 
