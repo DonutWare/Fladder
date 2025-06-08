@@ -1301,5 +1301,45 @@
   "rememberAudioSelectionsDesc": "حاول ضبط مسار الصوت ليكون الأقرب تطابقاً مع الفيديو الأخير.",
   "@rememberAudioSelectionsDesc": {},
   "rememberSubtitleSelectionsDesc": "حاول ضبط مسار الترجمة ليكون الأقرب تطابقاً مع الفيديو الأخير.",
-  "@rememberSubtitleSelectionsDesc": {}
+  "@rememberSubtitleSelectionsDesc": {},
+  "exitFladderTitle": "خروج فلادر",
+  "@exitFladderTitle": {},
+  "similarToLikedItem": "مشابه للعنصر المفضل",
+  "@similarToLikedItem": {},
+  "hasActorFromRecentlyPlayed": "يحتوي على ممثل من الأفلام المشغولة مؤخراً",
+  "@hasActorFromRecentlyPlayed": {},
+  "hasLikedActor": "يحتوي على ممثل مفضل",
+  "@hasLikedActor": {},
+  "hasDirectorFromRecentlyPlayed": "يحتوي على مخرج من الأفلام المشغولة مؤخراً",
+  "@hasDirectorFromRecentlyPlayed": {},
+  "hasLikedDirector": "يحتوي على مخرج مفضل",
+  "@hasLikedDirector": {},
+  "playbackTypeDirect": "مباشر",
+  "@playbackTypeDirect": {},
+  "latestReleases": "أحدث الإصدارات",
+  "@latestReleases": {},
+  "autoCheckForUpdates": "التحقق التلقائي من التحديثات",
+  "@autoCheckForUpdates": {},
+  "newUpdateFoundOnGithub": "تم اكتشاف تحديث جديد على Github",
+  "@newUpdateFoundOnGithub": {},
+  "similarToRecentlyPlayed": "مشابه لما تم تشغيله مؤخراً",
+  "@similarToRecentlyPlayed": {},
+  "playbackTypeOffline": "في وضع عدم الاتصال",
+  "@playbackTypeOffline": {},
+  "latest": "الأحدث",
+  "@latest": {},
+  "playbackTypeTranscode": "تحويل الصيغة",
+  "@playbackTypeTranscode": {},
+  "newReleaseFoundTitle": "تحديث {newRelease} متاح الآن!",
+  "@newReleaseFoundTitle": {
+    "placeholders": {
+      "newRelease": {
+        "type": "String"
+      }
+    }
+  },
+  "recommended": "الموصى به",
+  "@recommended": {},
+  "playbackType": "نوع التشغيل",
+  "@playbackType": {}
 }
