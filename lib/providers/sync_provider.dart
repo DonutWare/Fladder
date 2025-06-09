@@ -22,6 +22,7 @@ import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/movie_model.dart';
+import 'package:fladder/models/items/season_model.dart';
 import 'package:fladder/models/items/series_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
 import 'package:fladder/models/syncing/download_stream.dart';
@@ -238,6 +239,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     fladderSnackbar(context, title: context.localized.syncAddItemForSyncing(item.detailedName(context) ?? "Unknown"));
     final newSync = switch (item) {
       EpisodeModel episode => await syncSeries(item.parentBaseModel, episode: episode),
+      SeasonModel season => await syncSeries(item.parentBaseModel, season: season),
       SeriesModel series => await syncSeries(series),
       MovieModel movie => await syncMovie(movie),
       _ => null
@@ -367,7 +369,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     if (data == null) return data;
     if (!itemPath.existsSync()) return data;
     if (data.isEmpty) return data;
-    final saveDirectory = Directory(path.joinAll([itemPath.path, "Chapters"]));
+    final saveDirectory = Directory(path.joinAll([itemPath.path, SyncedItem.chaptersPath]));
 
     await saveDirectory.create(recursive: true);
 
@@ -378,7 +380,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
       if (response.bodyBytes.isEmpty) return null;
       file.writeAsBytesSync(response.bodyBytes);
       return event.copyWith(
-        imageUrl: path.joinAll(["Chapters", fileName]),
+        imageUrl: path.joinAll([SyncedItem.chaptersPath, fileName]),
       );
     }).toList();
     return saveChapters.nonNulls.toList();
@@ -415,7 +417,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     return syncedItem;
   }
 
-  Future<DownloadStream?> syncVideoFile(SyncedItem syncItem, bool skipDownload) async {
+  Future<DownloadStream?> syncFile(SyncedItem syncItem, bool skipDownload) async {
     cleanupTemporaryFiles();
 
     final playbackResponse = await api.itemsItemIdPlaybackInfoPost(
@@ -439,6 +441,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     final mediaSegments = (await api.mediaSegmentsGet(id: syncItem.id))?.body;
 
     syncItem = syncItem.copyWith(
+      fChapters: await saveChapterImages(item?.overview.chapters, directory) ?? [],
       subtitles: subtitles,
       fTrickPlayModel: trickPlayFile,
       mediaSegments: mediaSegments,
@@ -447,23 +450,24 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     await updateItem(syncItem);
 
     final currentTask = ref.read(downloadTasksProvider(syncItem.id));
+    final user = ref.read(userProvider);
 
-    final downloadString = path.joinAll([
-      "${ref.read(userProvider)?.server}",
-      "Items",
-      "${syncItem.id}/Download?api_key=${ref.read(userProvider)?.credentials.token}"
-    ]);
+    if (user == null) return null;
+
+    final downloadUrl = path.joinAll([user.server, "Items", syncItem.id, "Download"]);
 
     try {
       if (!skipDownload && currentTask.task == null) {
         final downloadTask = DownloadTask(
-          url: Uri.parse(downloadString).toString(),
+          url: Uri.parse(downloadUrl).toString(),
           directory: syncItem.directory.path,
           filename: syncItem.videoFileName,
           updates: Updates.statusAndProgress,
           baseDirectory: BaseDirectory.root,
+          urlQueryParameters: {"api_key": user.credentials.token},
+          headers: user.credentials.header(ref),
           requiresWiFi: ref.read(clientSettingsProvider.select((value) => value.requireWifi)),
-          retries: 5,
+          retries: 3,
           allowPause: true,
         );
 
@@ -490,7 +494,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
                   (state) => state.copyWith(status: status),
                 );
 
-            if (status == TaskStatus.complete) {
+            if (status == TaskStatus.complete || status == TaskStatus.canceled) {
               ref.read(downloadTasksProvider(syncItem.id).notifier).update((state) => DownloadStream.empty());
             }
           },
@@ -522,6 +526,10 @@ extension SyncNotifierHelpers on SyncNotifier {
   Future<SyncedItem> createSyncItem(BaseItemDto response, {SyncedItem? parent}) async {
     final ItemBaseModel item = ItemBaseModel.fromBaseDto(response, ref);
 
+    final existingSyncedItem = getSyncedItem(item);
+
+    if (existingSyncedItem != null) return existingSyncedItem;
+
     final Directory? parentDirectory = parent?.directory;
 
     final directory = Directory(path.joinAll([(parentDirectory ?? saveDirectory)?.path ?? "", item.id]));
@@ -543,29 +551,15 @@ extension SyncNotifierHelpers on SyncNotifier {
       userData: item.userData,
     );
 
-    //Save item if parent so the user is aware.
     if (parent == null) {
       isar?.write((isar) => syncedItems?.put(ISyncedItem.fromSynced(syncItem, syncPath)));
     }
 
-    final origChapters = Chapter.chaptersFromInfo(item.id, response.chapters ?? [], ref);
-
     return syncItem.copyWith(
-      fChapters: await saveChapterImages(origChapters, directory) ?? [],
       fileSize: response.mediaSources?.firstOrNull?.size ?? 0,
       syncing: false,
       videoFileName: response.path?.split('/').lastOrNull ?? "",
     );
-  }
-
-  // Need to move the file after downloading on Android
-  Future<void> moveFile(DownloadTask downloadTask, SyncedItem syncItem) async {
-    final currentLocation = File(await downloadTask.filePath());
-    final wantedLocation = syncItem.videoFile;
-    if (currentLocation.path != wantedLocation.path) {
-      await currentLocation.copy(wantedLocation.path);
-      await currentLocation.delete();
-    }
   }
 
   Future<SyncedItem?> syncMovie(ItemBaseModel item, {bool skipDownload = false}) async {
@@ -580,21 +574,21 @@ extension SyncNotifierHelpers on SyncNotifier {
 
     if (!syncItem.directory.existsSync()) return null;
 
-    await syncVideoFile(syncItem, skipDownload);
+    await syncFile(syncItem, skipDownload);
 
     isar?.write((isar) => syncedItems?.put(ISyncedItem.fromSynced(syncItem, syncPath)));
 
     return syncItem;
   }
 
-  Future<SyncedItem?> syncSeries(SeriesModel item, {EpisodeModel? episode}) async {
+  Future<SyncedItem?> syncSeries(SeriesModel item, {SeasonModel? season, EpisodeModel? episode}) async {
     final response = await api.usersUserIdItemsItemIdGetBaseItem(
       itemId: item.id,
     );
 
     List<SyncedItem> newItems = [];
 
-    SyncedItem? itemToDownload;
+    List<SyncedItem>? itemsToDownload = [];
 
     SyncedItem seriesItem = await createSyncItem(response.bodyOrThrow);
     newItems.add(seriesItem);
@@ -627,8 +621,8 @@ extension SyncNotifierHelpers on SyncNotifier {
     final seasons = seasonsResponse.body?.items ?? [];
 
     for (var i = 0; i < seasons.length; i++) {
-      final season = seasons[i];
-      final syncedSeason = await createSyncItem(season, parent: seriesItem);
+      final newSeason = seasons[i];
+      final syncedSeason = await createSyncItem(newSeason, parent: seriesItem);
       newItems.add(syncedSeason);
       final episodesResponse = await api.showsSeriesIdEpisodesGet(
         isMissing: false,
@@ -651,16 +645,23 @@ extension SyncNotifierHelpers on SyncNotifier {
           ItemFields.chapters,
           ItemFields.trickplay,
         ],
-        seasonId: season.id,
+        seasonId: newSeason.id,
         seriesId: seriesItem.id,
       );
+
       final episodes = episodesResponse.body?.items ?? [];
-      for (var i = 0; i < episodes.length; i++) {
-        final item = episodes[i];
-        final newEpisode = await createSyncItem(item, parent: syncedSeason);
+
+      final episodeResults = await Future.wait(
+        episodes.map((ep) async {
+          final newEpisode = await createSyncItem(ep, parent: syncedSeason);
+          return (ep, newEpisode);
+        }),
+      );
+
+      for (final (ep, newEpisode) in episodeResults) {
         newItems.add(newEpisode);
-        if (episode?.id == item.id) {
-          itemToDownload = newEpisode;
+        if (episode?.id == ep.id || newSeason.id == season?.id) {
+          itemsToDownload.add(newEpisode);
         }
       }
     }
@@ -673,8 +674,9 @@ extension SyncNotifierHelpers on SyncNotifier {
           .toList()),
     );
 
-    if (itemToDownload != null) {
-      await syncVideoFile(itemToDownload, false);
+    for (var i = 0; i < itemsToDownload.length; i++) {
+      final item = itemsToDownload[i];
+      await syncFile(item, false);
     }
 
     return seriesItem;

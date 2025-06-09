@@ -9,6 +9,7 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/photos_model.dart';
+import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/collections/add_to_collection.dart';
@@ -243,8 +244,12 @@ extension ItemBaseModelExtensions on ItemBaseModel {
           else
             ItemActionButton(
               icon: IgnorePointer(child: SyncButton(item: this, syncedItem: syncedItem)),
-              action: () => showSyncItemDetails(context, syncedItem, ref),
-              label: Text(context.localized.syncDetails),
+              action: () => syncedItem.status == SyncStatus.complete
+                  ? ref.read(syncProvider.notifier).deleteFullSyncFiles(syncedItem, null)
+                  : ref.read(syncProvider.notifier).syncFile(syncedItem, false),
+              label: Text(
+                syncedItem.status == SyncStatus.complete ? context.localized.delete : context.localized.sync,
+              ),
             )
         else if (downloadUrl != null) ...[
           ItemActionButton(

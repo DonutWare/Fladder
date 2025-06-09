@@ -1,11 +1,12 @@
-import 'package:fladder/models/items/season_model.dart';
-import 'package:fladder/models/syncing/sync_item.dart';
-import 'package:fladder/screens/syncing/widgets/synced_season_poster.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/items/episode_model.dart';
+import 'package:fladder/models/items/season_model.dart';
+import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/providers/sync_provider.dart';
+import 'package:fladder/screens/syncing/widgets/synced_season_poster.dart';
 
 import 'widgets/synced_episode_item.dart';
 
@@ -33,31 +34,25 @@ class _ChildSyncWidgetState extends ConsumerState<ChildSyncWidget> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Card(
-        child: InkWell(
-          onTap: () {
-            Navigator.of(context).pop();
-            baseItem.navigateTo(context);
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Flexible(
-                  child: switch (baseItem) {
-                    SeasonModel season => SyncedSeasonPoster(
-                        syncedItem: syncedItem,
-                        season: season,
-                      ),
-                    EpisodeModel episode => SyncedEpisodeItem(
-                        episode: episode,
-                        syncedItem: syncedItem,
-                        hasFile: hasFile,
-                      ),
-                    _ => Container(),
-                  },
-                ),
-              ],
-            ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Flexible(
+                child: switch (baseItem) {
+                  SeasonModel season => SyncedSeasonPoster(
+                      syncedItem: syncedItem,
+                      season: season,
+                    ),
+                  EpisodeModel episode => SyncedEpisodeItem(
+                      episode: episode,
+                      syncedItem: syncedItem,
+                      hasFile: hasFile,
+                    ),
+                  _ => Container(),
+                },
+              ),
+            ],
           ),
         ),
       ),

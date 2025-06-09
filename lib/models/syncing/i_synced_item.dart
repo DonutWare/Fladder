@@ -30,6 +30,7 @@ class ISyncedItem {
   String id;
   bool syncing;
   String? sortName;
+  @Index()
   String? parentId;
   String? path;
   int? fileSize;

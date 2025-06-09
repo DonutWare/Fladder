@@ -29,6 +29,7 @@ class SyncListItemState extends ConsumerState<SyncListItem> {
   Widget build(BuildContext context) {
     final syncedItem = widget.syncedItem;
     final baseItem = ref.read(syncProvider.notifier).getItem(syncedItem);
+    final children = ref.watch(syncChildrenProvider(syncedItem));
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: SyncStatusOverlay(
@@ -89,6 +90,7 @@ class SyncListItemState extends ConsumerState<SyncListItem> {
                         Expanded(
                           child: SyncProgressBuilder(
                             item: syncedItem,
+                            children: children,
                             builder: (context, combinedStream) {
                               return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,13 +105,17 @@ class SyncListItemState extends ConsumerState<SyncListItem> {
                                     ),
                                   ),
                                   Flexible(
-                                    child: SyncSubtitle(syncItem: syncedItem),
+                                    child: SyncSubtitle(
+                                      syncItem: syncedItem,
+                                      children: children,
+                                    ),
                                   ),
                                   Flexible(
                                     child: SyncLabel(
-                                      label: context.localized
-                                          .totalSize(ref.watch(syncSizeProvider(syncedItem)).byteFormat ?? '--'),
-                                      status: ref.watch(syncStatusesProvider(syncedItem)).value ?? SyncStatus.partially,
+                                      label: context.localized.totalSize(
+                                          ref.watch(syncSizeProvider(syncedItem, children)).byteFormat ?? '--'),
+                                      status: ref.watch(syncStatusesProvider(syncedItem, children)).value ??
+                                          SyncStatus.partially,
                                     ),
                                   ),
                                   if (combinedStream != null && combinedStream.hasDownload == true)

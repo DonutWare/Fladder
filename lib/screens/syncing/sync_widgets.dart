@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:background_downloader/background_downloader.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/items/season_model.dart';
@@ -14,6 +14,13 @@ import 'package:fladder/providers/sync/sync_provider_helpers.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
+
+const _cancellableStatuses = {
+  TaskStatus.canceled,
+  TaskStatus.failed,
+  TaskStatus.enqueued,
+  TaskStatus.waitingToRetry,
+};
 
 class SyncLabel extends ConsumerWidget {
   final String? label;
@@ -76,18 +83,24 @@ class SyncProgressBar extends ConsumerWidget {
                 IconButton(
                   onPressed: () => ref.read(backgroundDownloaderProvider).pause(downloadTask),
                   icon: const Icon(IconsaxPlusBold.pause),
+                ),
+              if (downloadStatus == TaskStatus.paused) ...[
+                IconButton(
+                  onPressed: () => ref.read(backgroundDownloaderProvider).resume(downloadTask),
+                  icon: const Icon(IconsaxPlusBold.play),
+                ),
+                IconButton(
+                  onPressed: () => ref.read(syncProvider.notifier).deleteFullSyncFiles(item, downloadTask),
+                  icon: const Icon(IconsaxPlusBold.stop),
                 )
+              ],
+              if (_cancellableStatuses.contains(downloadStatus)) ...[
+                IconButton(
+                  onPressed: () => ref.read(syncProvider.notifier).deleteFullSyncFiles(item, downloadTask),
+                  icon: const Icon(IconsaxPlusBold.stop),
+                ),
+              ],
             },
-            if (downloadStatus == TaskStatus.paused && downloadTask != null) ...[
-              IconButton(
-                onPressed: () => ref.read(backgroundDownloaderProvider).resume(downloadTask),
-                icon: const Icon(IconsaxPlusBold.play),
-              ),
-              IconButton(
-                onPressed: () => ref.read(syncProvider.notifier).deleteFullSyncFiles(item, downloadTask),
-                icon: const Icon(IconsaxPlusBold.stop),
-              )
-            ],
           ].addInBetween(const SizedBox(width: 8)),
         ),
         const SizedBox(width: 6),
@@ -98,16 +111,17 @@ class SyncProgressBar extends ConsumerWidget {
 
 class SyncSubtitle extends ConsumerWidget {
   final SyncedItem syncItem;
+  final List<SyncedItem> children;
   const SyncSubtitle({
     required this.syncItem,
+    this.children = const [],
     super.key,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final baseItem = ref.read(syncProvider.notifier).getItem(syncItem);
-    final children = syncItem.nestedChildren(ref);
-    final syncStatus = ref.watch(syncStatusesProvider(syncItem)).value ?? SyncStatus.partially;
+    final syncStatus = ref.watch(syncStatusesProvider(syncItem, children)).value ?? SyncStatus.partially;
     return Container(
       decoration:
           BoxDecoration(color: syncStatus.color.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(10)),

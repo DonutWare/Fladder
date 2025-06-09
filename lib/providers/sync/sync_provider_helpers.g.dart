@@ -6,7 +6,7 @@ part of 'sync_provider_helpers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$syncChildrenHash() => r'f6fdb1aa36d6655976baa5fbe0d8a6b812d7e95b';
+String _$syncChildrenHash() => r'c5a90d630d49f59ad4fbaacb5154f1205799f5ab';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -31,10 +31,10 @@ class _SystemHash {
 
 abstract class _$SyncChildren
     extends BuildlessAutoDisposeNotifier<List<SyncedItem>> {
-  late final SyncedItem arg;
+  late final SyncedItem root;
 
   List<SyncedItem> build(
-    SyncedItem arg,
+    SyncedItem root,
   );
 }
 
@@ -49,10 +49,10 @@ class SyncChildrenFamily extends Family<List<SyncedItem>> {
 
   /// See also [SyncChildren].
   SyncChildrenProvider call(
-    SyncedItem arg,
+    SyncedItem root,
   ) {
     return SyncChildrenProvider(
-      arg,
+      root,
     );
   }
 
@@ -61,7 +61,7 @@ class SyncChildrenFamily extends Family<List<SyncedItem>> {
     covariant SyncChildrenProvider provider,
   ) {
     return call(
-      provider.arg,
+      provider.root,
     );
   }
 
@@ -85,9 +85,9 @@ class SyncChildrenProvider
     extends AutoDisposeNotifierProviderImpl<SyncChildren, List<SyncedItem>> {
   /// See also [SyncChildren].
   SyncChildrenProvider(
-    SyncedItem arg,
+    SyncedItem root,
   ) : this._internal(
-          () => SyncChildren()..arg = arg,
+          () => SyncChildren()..root = root,
           from: syncChildrenProvider,
           name: r'syncChildrenProvider',
           debugGetCreateSourceHash:
@@ -97,7 +97,7 @@ class SyncChildrenProvider
           dependencies: SyncChildrenFamily._dependencies,
           allTransitiveDependencies:
               SyncChildrenFamily._allTransitiveDependencies,
-          arg: arg,
+          root: root,
         );
 
   SyncChildrenProvider._internal(
@@ -107,17 +107,17 @@ class SyncChildrenProvider
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.arg,
+    required this.root,
   }) : super.internal();
 
-  final SyncedItem arg;
+  final SyncedItem root;
 
   @override
   List<SyncedItem> runNotifierBuild(
     covariant SyncChildren notifier,
   ) {
     return notifier.build(
-      arg,
+      root,
     );
   }
 
@@ -126,13 +126,13 @@ class SyncChildrenProvider
     return ProviderOverride(
       origin: this,
       override: SyncChildrenProvider._internal(
-        () => create()..arg = arg,
+        () => create()..root = root,
         from: from,
         name: null,
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        arg: arg,
+        root: root,
       ),
     );
   }
@@ -145,13 +145,13 @@ class SyncChildrenProvider
 
   @override
   bool operator ==(Object other) {
-    return other is SyncChildrenProvider && other.arg == arg;
+    return other is SyncChildrenProvider && other.root == root;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, arg.hashCode);
+    hash = _SystemHash.combine(hash, root.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -160,8 +160,8 @@ class SyncChildrenProvider
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 mixin SyncChildrenRef on AutoDisposeNotifierProviderRef<List<SyncedItem>> {
-  /// The parameter `arg` of this provider.
-  SyncedItem get arg;
+  /// The parameter `root` of this provider.
+  SyncedItem get root;
 }
 
 class _SyncChildrenProviderElement
@@ -170,18 +170,20 @@ class _SyncChildrenProviderElement
   _SyncChildrenProviderElement(super.provider);
 
   @override
-  SyncedItem get arg => (origin as SyncChildrenProvider).arg;
+  SyncedItem get root => (origin as SyncChildrenProvider).root;
 }
 
 String _$syncDownloadStatusHash() =>
-    r'5a0f8537a977c52e6083bd84265631ea5d160637';
+    r'1036352200e1138b4ef70e524c0baf13bb9cd452';
 
 abstract class _$SyncDownloadStatus
     extends BuildlessAutoDisposeNotifier<DownloadStream?> {
   late final SyncedItem arg;
+  late final List<SyncedItem> children;
 
   DownloadStream? build(
     SyncedItem arg,
+    List<SyncedItem> children,
   );
 }
 
@@ -197,9 +199,11 @@ class SyncDownloadStatusFamily extends Family<DownloadStream?> {
   /// See also [SyncDownloadStatus].
   SyncDownloadStatusProvider call(
     SyncedItem arg,
+    List<SyncedItem> children,
   ) {
     return SyncDownloadStatusProvider(
       arg,
+      children,
     );
   }
 
@@ -209,6 +213,7 @@ class SyncDownloadStatusFamily extends Family<DownloadStream?> {
   ) {
     return call(
       provider.arg,
+      provider.children,
     );
   }
 
@@ -233,8 +238,11 @@ class SyncDownloadStatusProvider extends AutoDisposeNotifierProviderImpl<
   /// See also [SyncDownloadStatus].
   SyncDownloadStatusProvider(
     SyncedItem arg,
+    List<SyncedItem> children,
   ) : this._internal(
-          () => SyncDownloadStatus()..arg = arg,
+          () => SyncDownloadStatus()
+            ..arg = arg
+            ..children = children,
           from: syncDownloadStatusProvider,
           name: r'syncDownloadStatusProvider',
           debugGetCreateSourceHash:
@@ -245,6 +253,7 @@ class SyncDownloadStatusProvider extends AutoDisposeNotifierProviderImpl<
           allTransitiveDependencies:
               SyncDownloadStatusFamily._allTransitiveDependencies,
           arg: arg,
+          children: children,
         );
 
   SyncDownloadStatusProvider._internal(
@@ -255,9 +264,11 @@ class SyncDownloadStatusProvider extends AutoDisposeNotifierProviderImpl<
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.arg,
+    required this.children,
   }) : super.internal();
 
   final SyncedItem arg;
+  final List<SyncedItem> children;
 
   @override
   DownloadStream? runNotifierBuild(
@@ -265,6 +276,7 @@ class SyncDownloadStatusProvider extends AutoDisposeNotifierProviderImpl<
   ) {
     return notifier.build(
       arg,
+      children,
     );
   }
 
@@ -273,13 +285,16 @@ class SyncDownloadStatusProvider extends AutoDisposeNotifierProviderImpl<
     return ProviderOverride(
       origin: this,
       override: SyncDownloadStatusProvider._internal(
-        () => create()..arg = arg,
+        () => create()
+          ..arg = arg
+          ..children = children,
         from: from,
         name: null,
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         arg: arg,
+        children: children,
       ),
     );
   }
@@ -292,13 +307,16 @@ class SyncDownloadStatusProvider extends AutoDisposeNotifierProviderImpl<
 
   @override
   bool operator ==(Object other) {
-    return other is SyncDownloadStatusProvider && other.arg == arg;
+    return other is SyncDownloadStatusProvider &&
+        other.arg == arg &&
+        other.children == children;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, arg.hashCode);
+    hash = _SystemHash.combine(hash, children.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -309,6 +327,9 @@ class SyncDownloadStatusProvider extends AutoDisposeNotifierProviderImpl<
 mixin SyncDownloadStatusRef on AutoDisposeNotifierProviderRef<DownloadStream?> {
   /// The parameter `arg` of this provider.
   SyncedItem get arg;
+
+  /// The parameter `children` of this provider.
+  List<SyncedItem> get children;
 }
 
 class _SyncDownloadStatusProviderElement
@@ -318,16 +339,21 @@ class _SyncDownloadStatusProviderElement
 
   @override
   SyncedItem get arg => (origin as SyncDownloadStatusProvider).arg;
+  @override
+  List<SyncedItem> get children =>
+      (origin as SyncDownloadStatusProvider).children;
 }
 
-String _$syncStatusesHash() => r'f05ee53368d1de130714bba09132e08aba15bc44';
+String _$syncStatusesHash() => r'64a3499fc7b7bbdbd6594b1eec76cf42a119a041';
 
 abstract class _$SyncStatuses
     extends BuildlessAutoDisposeAsyncNotifier<SyncStatus> {
   late final SyncedItem arg;
+  late final List<SyncedItem>? children;
 
   FutureOr<SyncStatus> build(
     SyncedItem arg,
+    List<SyncedItem>? children,
   );
 }
 
@@ -343,9 +369,11 @@ class SyncStatusesFamily extends Family<AsyncValue<SyncStatus>> {
   /// See also [SyncStatuses].
   SyncStatusesProvider call(
     SyncedItem arg,
+    List<SyncedItem>? children,
   ) {
     return SyncStatusesProvider(
       arg,
+      children,
     );
   }
 
@@ -355,6 +383,7 @@ class SyncStatusesFamily extends Family<AsyncValue<SyncStatus>> {
   ) {
     return call(
       provider.arg,
+      provider.children,
     );
   }
 
@@ -379,8 +408,11 @@ class SyncStatusesProvider
   /// See also [SyncStatuses].
   SyncStatusesProvider(
     SyncedItem arg,
+    List<SyncedItem>? children,
   ) : this._internal(
-          () => SyncStatuses()..arg = arg,
+          () => SyncStatuses()
+            ..arg = arg
+            ..children = children,
           from: syncStatusesProvider,
           name: r'syncStatusesProvider',
           debugGetCreateSourceHash:
@@ -391,6 +423,7 @@ class SyncStatusesProvider
           allTransitiveDependencies:
               SyncStatusesFamily._allTransitiveDependencies,
           arg: arg,
+          children: children,
         );
 
   SyncStatusesProvider._internal(
@@ -401,9 +434,11 @@ class SyncStatusesProvider
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.arg,
+    required this.children,
   }) : super.internal();
 
   final SyncedItem arg;
+  final List<SyncedItem>? children;
 
   @override
   FutureOr<SyncStatus> runNotifierBuild(
@@ -411,6 +446,7 @@ class SyncStatusesProvider
   ) {
     return notifier.build(
       arg,
+      children,
     );
   }
 
@@ -419,13 +455,16 @@ class SyncStatusesProvider
     return ProviderOverride(
       origin: this,
       override: SyncStatusesProvider._internal(
-        () => create()..arg = arg,
+        () => create()
+          ..arg = arg
+          ..children = children,
         from: from,
         name: null,
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         arg: arg,
+        children: children,
       ),
     );
   }
@@ -438,13 +477,16 @@ class SyncStatusesProvider
 
   @override
   bool operator ==(Object other) {
-    return other is SyncStatusesProvider && other.arg == arg;
+    return other is SyncStatusesProvider &&
+        other.arg == arg &&
+        other.children == children;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, arg.hashCode);
+    hash = _SystemHash.combine(hash, children.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -455,6 +497,9 @@ class SyncStatusesProvider
 mixin SyncStatusesRef on AutoDisposeAsyncNotifierProviderRef<SyncStatus> {
   /// The parameter `arg` of this provider.
   SyncedItem get arg;
+
+  /// The parameter `children` of this provider.
+  List<SyncedItem>? get children;
 }
 
 class _SyncStatusesProviderElement
@@ -464,15 +509,19 @@ class _SyncStatusesProviderElement
 
   @override
   SyncedItem get arg => (origin as SyncStatusesProvider).arg;
+  @override
+  List<SyncedItem>? get children => (origin as SyncStatusesProvider).children;
 }
 
-String _$syncSizeHash() => r'138702f2dd69ab28d142bab67ab4a497bb24f252';
+String _$syncSizeHash() => r'81797ecc4a6f600691b6f1fe0c16bae0228ec920';
 
 abstract class _$SyncSize extends BuildlessAutoDisposeNotifier<int?> {
   late final SyncedItem arg;
+  late final List<SyncedItem>? children;
 
   int? build(
     SyncedItem arg,
+    List<SyncedItem>? children,
   );
 }
 
@@ -488,9 +537,11 @@ class SyncSizeFamily extends Family<int?> {
   /// See also [SyncSize].
   SyncSizeProvider call(
     SyncedItem arg,
+    List<SyncedItem>? children,
   ) {
     return SyncSizeProvider(
       arg,
+      children,
     );
   }
 
@@ -500,6 +551,7 @@ class SyncSizeFamily extends Family<int?> {
   ) {
     return call(
       provider.arg,
+      provider.children,
     );
   }
 
@@ -523,8 +575,11 @@ class SyncSizeProvider extends AutoDisposeNotifierProviderImpl<SyncSize, int?> {
   /// See also [SyncSize].
   SyncSizeProvider(
     SyncedItem arg,
+    List<SyncedItem>? children,
   ) : this._internal(
-          () => SyncSize()..arg = arg,
+          () => SyncSize()
+            ..arg = arg
+            ..children = children,
           from: syncSizeProvider,
           name: r'syncSizeProvider',
           debugGetCreateSourceHash:
@@ -534,6 +589,7 @@ class SyncSizeProvider extends AutoDisposeNotifierProviderImpl<SyncSize, int?> {
           dependencies: SyncSizeFamily._dependencies,
           allTransitiveDependencies: SyncSizeFamily._allTransitiveDependencies,
           arg: arg,
+          children: children,
         );
 
   SyncSizeProvider._internal(
@@ -544,9 +600,11 @@ class SyncSizeProvider extends AutoDisposeNotifierProviderImpl<SyncSize, int?> {
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.arg,
+    required this.children,
   }) : super.internal();
 
   final SyncedItem arg;
+  final List<SyncedItem>? children;
 
   @override
   int? runNotifierBuild(
@@ -554,6 +612,7 @@ class SyncSizeProvider extends AutoDisposeNotifierProviderImpl<SyncSize, int?> {
   ) {
     return notifier.build(
       arg,
+      children,
     );
   }
 
@@ -562,13 +621,16 @@ class SyncSizeProvider extends AutoDisposeNotifierProviderImpl<SyncSize, int?> {
     return ProviderOverride(
       origin: this,
       override: SyncSizeProvider._internal(
-        () => create()..arg = arg,
+        () => create()
+          ..arg = arg
+          ..children = children,
         from: from,
         name: null,
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         arg: arg,
+        children: children,
       ),
     );
   }
@@ -580,13 +642,16 @@ class SyncSizeProvider extends AutoDisposeNotifierProviderImpl<SyncSize, int?> {
 
   @override
   bool operator ==(Object other) {
-    return other is SyncSizeProvider && other.arg == arg;
+    return other is SyncSizeProvider &&
+        other.arg == arg &&
+        other.children == children;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, arg.hashCode);
+    hash = _SystemHash.combine(hash, children.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -597,6 +662,9 @@ class SyncSizeProvider extends AutoDisposeNotifierProviderImpl<SyncSize, int?> {
 mixin SyncSizeRef on AutoDisposeNotifierProviderRef<int?> {
   /// The parameter `arg` of this provider.
   SyncedItem get arg;
+
+  /// The parameter `children` of this provider.
+  List<SyncedItem>? get children;
 }
 
 class _SyncSizeProviderElement
@@ -606,6 +674,8 @@ class _SyncSizeProviderElement
 
   @override
   SyncedItem get arg => (origin as SyncSizeProvider).arg;
+  @override
+  List<SyncedItem>? get children => (origin as SyncSizeProvider).children;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

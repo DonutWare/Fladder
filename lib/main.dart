@@ -297,6 +297,7 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
             },
             builder: (context, child) => LocalizationContextWrapper(
               child: ScaffoldMessenger(child: child ?? Container()),
+              currentLocale: language,
             ),
             debugShowCheckedModeBanner: false,
             darkTheme: darkTheme.copyWith(

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
-import 'package:iconsax_plus/iconsax_plus.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/providers/sync/sync_provider_helpers.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/screens/shared/default_alert_dialog.dart';
+import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/screens/shared/media/episode_posters.dart';
 import 'package:fladder/screens/syncing/sync_widgets.dart';
 import 'package:fladder/util/list_padding.dart';
@@ -40,11 +42,15 @@ class _SyncedEpisodeItemState extends ConsumerState<SyncedEpisodeItem> {
 
     return Row(
       children: [
-        IgnorePointer(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.3),
+        ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.3),
+          child: FlatButton(
+            onTap: () {
+              widget.episode.navigateTo(context);
+              return context.maybePop();
+            },
             child: SizedBox(
-              width: 250,
+              width: 175,
               child: EpisodePoster(
                 episode: widget.episode,
                 syncedItem: syncedItem,
@@ -87,8 +93,8 @@ class _SyncedEpisodeItemState extends ConsumerState<SyncedEpisodeItem> {
               else
                 Flexible(
                   child: SyncLabel(
-                    label: context.localized.totalSize(ref.watch(syncSizeProvider(syncedItem)).byteFormat ?? '--'),
-                    status: ref.watch(syncStatusesProvider(syncedItem)).value ?? SyncStatus.partially,
+                    label: context.localized.totalSize(ref.watch(syncSizeProvider(syncedItem, [])).byteFormat ?? '--'),
+                    status: ref.watch(syncStatusesProvider(syncedItem, [])).value ?? SyncStatus.partially,
                   ),
                 )
             ],
@@ -96,7 +102,7 @@ class _SyncedEpisodeItemState extends ConsumerState<SyncedEpisodeItem> {
         ),
         if (!hasFile && !downloadTask.hasDownload)
           IconButtonAwait(
-            onPressed: () async => await ref.read(syncProvider.notifier).syncVideoFile(syncedItem, false),
+            onPressed: () async => await ref.read(syncProvider.notifier).syncFile(syncedItem, false),
             icon: const Icon(IconsaxPlusLinear.cloud_change),
           )
         else if (hasFile)

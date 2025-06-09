@@ -126,9 +126,10 @@ class FladderTheme {
       listTileTheme: ListTileThemeData(
         shape: defaultShape,
       ),
-      dividerTheme: const DividerThemeData(
+      dividerTheme: DividerThemeData(
         indent: 6,
         endIndent: 6,
+        color: scheme?.onSurface.withAlpha(125),
       ),
       segmentedButtonTheme: SegmentedButtonThemeData(
         style: ButtonStyle(

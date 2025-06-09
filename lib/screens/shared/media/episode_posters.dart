@@ -206,7 +206,7 @@ class EpisodePoster extends ConsumerWidget {
                         if (iSyncedItem != null)
                           Consumer(builder: (context, ref, child) {
                             final SyncStatus syncStatus =
-                                ref.watch(syncStatusesProvider(iSyncedItem)).value ?? SyncStatus.partially;
+                                ref.watch(syncStatusesProvider(iSyncedItem, null)).value ?? SyncStatus.partially;
                             return StatusCard(
                               color: syncStatus.color,
                               child: SyncButton(item: episode, syncedItem: syncedItem),

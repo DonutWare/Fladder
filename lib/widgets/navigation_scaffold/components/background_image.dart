@@ -59,8 +59,9 @@ class _BackgroundImageState extends ConsumerState<BackgroundImage> {
       if (itemId == null) return;
 
       final apiResponse = await ref.read(jellyApiProvider).usersUserIdItemsItemIdGet(itemId: itemId);
-      final image =
-          apiResponse.body?.parentBaseModel.getPosters?.randomBackDrop ?? apiResponse.body?.getPosters?.randomBackDrop;
+      final image = apiResponse.body?.parentBaseModel.getPosters?.randomBackDrop ??
+          apiResponse.body?.getPosters?.randomBackDrop ??
+          apiResponse.body?.getPosters?.primary;
 
       if (mounted) setState(() => backgroundImage = image);
     });
