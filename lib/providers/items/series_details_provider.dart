@@ -32,20 +32,29 @@ class SeriesDetailViewNotifier extends StateNotifier<SeriesModel?> {
       final response = await api.usersUserIdItemsItemIdGet(itemId: seriesModel.id);
       if (response.body == null) return null;
       newState = response.bodyOrThrow as SeriesModel;
-      final seasons = await api.showsSeriesIdSeasonsGet(seriesId: seriesModel.id);
-      newState = newState.copyWith(seasons: SeasonModel.seasonsFromDto(seasons.body?.items, ref));
 
       final episodes = await api.showsSeriesIdEpisodesGet(seriesId: seriesModel.id, fields: [
         ItemFields.mediastreams,
         ItemFields.mediasources,
         ItemFields.overview,
+        ItemFields.candownload,
       ]);
 
+      final newEpisodes = EpisodeModel.episodesFromDto(
+        episodes.body?.items,
+        ref,
+      );
+      final episodesCanDownload = newEpisodes.any((episode) => episode.canDownload == true);
+      final seasons = await api.showsSeriesIdSeasonsGet(seriesId: seriesModel.id);
       newState = newState.copyWith(
-        availableEpisodes: EpisodeModel.episodesFromDto(
-          episodes.body?.items,
-          ref,
-        ),
+        seasons: SeasonModel.seasonsFromDto(seasons.body?.items, ref)
+            .map((element) => element.copyWith(canDownload: true))
+            .toList(),
+      );
+
+      newState = newState.copyWith(
+        canDownload: episodesCanDownload,
+        availableEpisodes: newEpisodes,
       );
 
       final related = await ref.read(relatedUtilityProvider).relatedContent(seriesModel.id);

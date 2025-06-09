@@ -1238,5 +1238,9 @@
   },
   "newUpdateFoundOnGithub": "Found a new update on Github",
   "enableBackgroundPostersTitle": "Enable background posters",
-  "enableBackgroundPostersDesc": "Show random posters in applicable screens"
+  "enableBackgroundPostersDesc": "Show random posters in applicable screens",
+  "notificationDownloadingDownloading": "Downloading",
+  "notificationDownloadingPaused": "Download paused",
+  "notificationDownloadingFinished": "Download finished",
+  "notificationDownloadingError": "Download error"
 }

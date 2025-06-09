@@ -294,7 +294,10 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
                 (element) => element.languageCode == language.languageCode,
                 orElse: () => const Locale('en', "GB"),
               ),
-              child: LocalizationContextWrapper(child: ScaffoldMessenger(child: child ?? Container())),
+              child: LocalizationContextWrapper(
+                child: ScaffoldMessenger(child: child ?? Container()),
+                currentLocale: language,
+              ),
             ),
             debugShowCheckedModeBanner: false,
             darkTheme: darkTheme.copyWith(

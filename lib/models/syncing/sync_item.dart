@@ -47,6 +47,7 @@ class SyncedItem with _$SyncedItem {
   }) = _SyncItem;
 
   static String trickPlayPath = "TrickPlay";
+  static String chaptersPath = "Chapters";
 
   List<Chapter> get chapters => fChapters.map((e) => e.copyWith(imageUrl: joinAll({"$path", e.imageUrl}))).toList();
 
@@ -94,6 +95,7 @@ class SyncedItem with _$SyncedItem {
     try {
       await videoFile.delete();
       await Directory(joinAll([directory.path, trickPlayPath])).delete(recursive: true);
+      await Directory(joinAll([directory.path, chaptersPath])).delete(recursive: true);
     } catch (e) {
       return false;
     }

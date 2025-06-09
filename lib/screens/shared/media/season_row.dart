@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/items/season_model.dart';
+import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
+import 'package:fladder/screens/syncing/sync_button.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/disable_keypad_focus.dart';
 import 'package:fladder/util/fladder_image.dart';
@@ -56,6 +58,7 @@ class SeasonPoster extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final syncedItem = ref.watch(syncProvider.notifier).getSyncedItem(season);
     Padding placeHolder(String title) {
       return Padding(
         padding: const EdgeInsets.all(4),
@@ -100,15 +103,27 @@ class SeasonPoster extends ConsumerWidget {
                   if (season.userData.unPlayedItemCount != 0)
                     Align(
                       alignment: Alignment.topRight,
-                      child: StatusCard(
-                        color: Theme.of(context).colorScheme.primary,
-                        useFittedBox: true,
-                        child: Center(
-                          child: Text(
-                            season.userData.unPlayedItemCount.toString(),
-                            style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          if (syncedItem != null)
+                            StatusCard(
+                              child: SyncButton(
+                                item: season,
+                                syncedItem: syncedItem,
+                              ),
+                            ),
+                          StatusCard(
+                            color: Theme.of(context).colorScheme.primary,
+                            useFittedBox: true,
+                            child: Center(
+                              child: Text(
+                                season.userData.unPlayedItemCount.toString(),
+                                style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                     )
                   else

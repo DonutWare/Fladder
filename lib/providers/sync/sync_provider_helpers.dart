@@ -13,20 +13,9 @@ class SyncChildren extends _$SyncChildren {
   @override
   List<SyncedItem> build(SyncedItem arg) {
     final syncedItemIsar = ref.watch(syncProvider.notifier).isar;
-    final allChildren = <SyncedItem>[];
-    List<SyncedItem> toProcess = [arg];
-    while (toProcess.isNotEmpty) {
-      final currentLevel = toProcess.map(
-        (parent) {
-          final children = syncedItemIsar?.iSyncedItems.where().parentIdEqualTo(parent.id).sortBySortName().findAll();
-          return children?.map((e) => SyncedItem.fromIsar(e, ref.read(syncProvider.notifier).syncPath ?? "")) ??
-              <SyncedItem>[];
-        },
-      );
-      allChildren.addAll(currentLevel.expand((list) => list));
-      toProcess = currentLevel.expand((list) => list).toList();
-    }
-    return allChildren;
+    final children = syncedItemIsar?.iSyncedItems.where().parentIdEqualTo(arg.id).sortBySortName().findAll();
+    return children?.map((e) => SyncedItem.fromIsar(e, ref.read(syncProvider.notifier).syncPath ?? "")).toList() ??
+        <SyncedItem>[];
   }
 }
 

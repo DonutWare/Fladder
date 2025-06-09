@@ -1,7 +1,10 @@
+import 'package:flutter/widgets.dart';
+
 import 'package:background_downloader/background_downloader.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:fladder/providers/settings/client_settings_provider.dart';
+import 'package:fladder/util/localization_helper.dart';
 
 part 'background_download_provider.g.dart';
 
@@ -14,18 +17,22 @@ class BackgroundDownloader extends _$BackgroundDownloader {
       ..configure(
         globalConfig: globalConfig(maxDownloads),
       )
-      ..trackTasks()
-      ..configureNotification(
-        running: const TaskNotification('Downloading', 'file: {filename}'),
-        complete: const TaskNotification('Download finished', 'file: {filename}'),
-        paused: const TaskNotification('Download paused', 'file: {filename}'),
-        progressBar: true,
-      );
+      ..trackTasks();
   }
 
   void setMaxConcurrent(int value) {
     state.configure(
       globalConfig: globalConfig(value),
+    );
+  }
+
+  void updateTranslations(BuildContext context) async {
+    state.configureNotification(
+      running: TaskNotification(context.localized.notificationDownloadingDownloading, '{filename}\n{networkSpeed}'),
+      complete: TaskNotification(context.localized.notificationDownloadingFinished, '{filename}'),
+      paused: TaskNotification(context.localized.notificationDownloadingPaused, '{filename}'),
+      error: TaskNotification(context.localized.notificationDownloadingError, '{filename}'),
+      progressBar: true,
     );
   }
 

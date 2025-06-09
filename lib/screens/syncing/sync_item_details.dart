@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:background_downloader/background_downloader.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
-import 'package:fladder/providers/sync/background_download_provider.dart';
 import 'package:fladder/providers/sync/sync_provider_helpers.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/screens/shared/adaptive_dialog.dart';
@@ -118,48 +116,12 @@ class _SyncItemDetailsState extends ConsumerState<SyncItemDetails> {
                                           .totalSize(ref.watch(syncSizeProvider(syncedItem)).byteFormat ?? '--'),
                                       status: ref.watch(syncStatusesProvider(syncedItem)).value ?? SyncStatus.partially,
                                     ),
+                                    if (combinedStream?.task != null && combinedStream != null) ...{
+                                      SyncProgressBar(item: syncedItem, task: combinedStream)
+                                    },
                                   ].addInBetween(const SizedBox(height: 8)),
                                 ),
                               ),
-                              if (combinedStream?.task != null) ...{
-                                if (combinedStream?.status != TaskStatus.paused)
-                                  IconButton(
-                                    onPressed: () =>
-                                        ref.read(backgroundDownloaderProvider).pause(combinedStream!.task!),
-                                    icon: const Icon(IconsaxPlusBold.pause),
-                                  ),
-                                if (combinedStream?.status == TaskStatus.paused) ...[
-                                  IconButton(
-                                    onPressed: () =>
-                                        ref.read(backgroundDownloaderProvider).resume(combinedStream!.task!),
-                                    icon: const Icon(IconsaxPlusBold.play),
-                                  ),
-                                  IconButton(
-                                    onPressed: () => ref
-                                        .read(syncProvider.notifier)
-                                        .deleteFullSyncFiles(syncedItem, combinedStream?.task),
-                                    icon: const Icon(IconsaxPlusBold.stop),
-                                  ),
-                                ],
-                                const SizedBox(width: 16)
-                              },
-                              if (combinedStream != null && combinedStream.hasDownload)
-                                SizedBox.fromSize(
-                                    size: const Size.fromRadius(35),
-                                    child: Stack(
-                                      fit: StackFit.expand,
-                                      alignment: Alignment.center,
-                                      children: [
-                                        CircularProgressIndicator(
-                                          value: combinedStream.progress,
-                                          strokeWidth: 8,
-                                          backgroundColor: Theme.of(context).colorScheme.surface.withValues(alpha: 0.5),
-                                          strokeCap: StrokeCap.round,
-                                          color: combinedStream.status.color(context),
-                                        ),
-                                        Center(child: Text("${((combinedStream.progress) * 100).toStringAsFixed(0)}%"))
-                                      ],
-                                    )),
                             ],
                           );
                         },
@@ -167,7 +129,7 @@ class _SyncItemDetailsState extends ConsumerState<SyncItemDetails> {
                     ),
                     if (!hasFile && !downloadTask.hasDownload && syncedItem.hasVideoFile)
                       IconButtonAwait(
-                        onPressed: () async => await ref.read(syncProvider.notifier).syncVideoFile(syncedItem, false),
+                        onPressed: () async => await ref.read(syncProvider.notifier).syncFile(syncedItem, false),
                         icon: const Icon(IconsaxPlusLinear.cloud_change),
                       )
                     else if (hasFile)
