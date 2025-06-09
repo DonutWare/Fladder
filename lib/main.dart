@@ -291,8 +291,11 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
             builder: (context, child) => Localizations.override(
               context: context,
               locale: AppLocalizations.supportedLocales.firstWhere(
-                (element) => element.languageCode == language.languageCode,
-                orElse: () => const Locale('en', "GB"),
+                (element) => element.languageCode == language.languageCode && element.countryCode == language.countryCode,
+                orElse: () => AppLocalizations.supportedLocales.firstWhere(
+                  (element) => element.languageCode == language.languageCode,
+                  orElse: () => const Locale('en', "GB"),
+                ),
               ),
               child: LocalizationContextWrapper(child: ScaffoldMessenger(child: child ?? Container())),
             ),
