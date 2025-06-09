@@ -84,20 +84,7 @@ class UpdateChecker {
     }
 
     final List<dynamic> releases = jsonDecode(response.body);
-    
-    // Filter out pre-releases (nightly builds) and only process stable releases
-    // This prevents nightly builds from triggering update notifications
-    final stableReleases = releases.where((release) {
-      final isPrerelease = release['prerelease'] as bool? ?? false;
-      final tagName = release['tag_name'] as String? ?? '';
-      final isDraft = release['draft'] as bool? ?? false;
-      
-      // Exclude pre-releases, drafts, and any release with "nightly" in the tag
-      // This ensures users only get notified about stable releases
-      return !isPrerelease && !isDraft && !tagName.toLowerCase().contains('nightly');
-    }).toList();
-    
-    return stableReleases.map((json) {
+    return releases.map((json) {
       final tag = (json['tag_name'] as String?)?.replaceFirst(RegExp(r'^v'), '');
       final changelog = json['body'] as String? ?? '';
       final htmlUrl = json['html_url'] as String? ?? '';
@@ -150,36 +137,14 @@ class UpdateChecker {
   }
 
   static int _compareVersions(String a, String b) {
-    // Remove any "v" prefix and split by major.minor.patch
-    final cleanA = a.replaceFirst(RegExp(r'^v'), '');
-    final cleanB = b.replaceFirst(RegExp(r'^v'), '');
-    
-    // Split on both '.' and '-' to separate version parts from pre-release identifiers
-    final aParts = cleanA.split(RegExp(r'[.-]'));
-    final bParts = cleanB.split(RegExp(r'[.-]'));
-    
-    // Get the main version numbers (first 3 parts: major.minor.patch)
-    final aVersionParts = aParts.take(3).map(int.tryParse).toList();
-    final bVersionParts = bParts.take(3).map(int.tryParse).toList();
-    
-    // Compare main version numbers first
-    for (var i = 0; i < 3; i++) {
-      final aVal = i < aVersionParts.length ? (aVersionParts[i] ?? 0) : 0;
-      final bVal = i < bVersionParts.length ? (bVersionParts[i] ?? 0) : 0;
+    final aParts = a.split('.').map(int.tryParse).toList();
+    final bParts = b.split('.').map(int.tryParse).toList();
+
+    for (var i = 0; i < aParts.length || i < bParts.length; i++) {
+      final aVal = i < aParts.length ? (aParts[i] ?? 0) : 0;
+      final bVal = i < bParts.length ? (bParts[i] ?? 0) : 0;
       if (aVal != bVal) return aVal.compareTo(bVal);
     }
-    
-    // If main versions are equal, check for pre-release identifiers
-    final aHasPrerelease = aParts.length > 3 && aParts.any((part) => 
-        part.contains('nightly') || part.contains('alpha') || part.contains('beta') || part.contains('rc'));
-    final bHasPrerelease = bParts.length > 3 && bParts.any((part) => 
-        part.contains('nightly') || part.contains('alpha') || part.contains('beta') || part.contains('rc'));
-    
-    // If one has pre-release and the other doesn't, the stable version is newer
-    if (aHasPrerelease && !bHasPrerelease) return -1;
-    if (!aHasPrerelease && bHasPrerelease) return 1;
-    
-    // Both are the same type (stable or pre-release), so they're equal
     return 0;
   }
 }
