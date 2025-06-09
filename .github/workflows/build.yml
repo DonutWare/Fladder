@@ -194,7 +194,6 @@ jobs:
         with:
           name: fladder-android
           path: build/app/outputs/android_artifacts/
-          retention-days: ${{ needs.fetch-info.outputs.build_type == 'nightly' && 7 || 90 }}
 
   build-windows:
     runs-on: windows-latest
@@ -232,14 +231,12 @@ jobs:
         with:
           name: fladder-windows-portable
           path: build\windows\x64\runner\Release\
-          retention-days: ${{ needs.fetch-info.outputs.build_type == 'nightly' && 7 || 90 }}
 
       - name: Archive Windows installer artifact
         uses: actions/upload-artifact@v4.0.0
         with:
           name: fladder-windows-installer
           path: windows\Output\fladder_setup.exe
-          retention-days: ${{ needs.fetch-info.outputs.build_type == 'nightly' && 7 || 90 }}
 
   build-ios:
     runs-on: macos-latest
@@ -270,13 +267,11 @@ jobs:
           mkdir Payload
           mv Runner.app Payload/
           zip -r iOS.ipa Payload
-
       - name: Archive iOS IPA artifact
         uses: actions/upload-artifact@v4.0.0
         with:
           name: fladder-iOS
           path: build/ios/archive/Runner.xcarchive/Products/Applications/iOS.ipa
-          retention-days: ${{ needs.fetch-info.outputs.build_type == 'nightly' && 7 || 90 }}
 
   build-macos:
     runs-on: macos-latest
@@ -317,7 +312,6 @@ jobs:
         with:
           name: fladder-macOS
           path: build/macos/Build/Products/Release-production/macOS.dmg
-          retention-days: ${{ needs.fetch-info.outputs.build_type == 'nightly' && 7 || 90 }}
 
   build-linux:
     runs-on: ubuntu-latest
@@ -364,7 +358,6 @@ jobs:
         with:
           name: fladder-linux
           path: build/linux/x64/release/bundle
-          retention-days: ${{ needs.fetch-info.outputs.build_type == 'nightly' && 7 || 90 }}
 
       - name: Build AppImage
         run: |
@@ -382,7 +375,6 @@ jobs:
           path: |
             Fladder_x86_64.AppImage
             Fladder_x86_64.AppImage.zsync
-          retention-days: ${{ needs.fetch-info.outputs.build_type == 'nightly' && 7 || 90 }}
 
   build-linux-flatpak:
     name: "Flatpak"
@@ -444,7 +436,6 @@ jobs:
         with:
           name: fladder-web
           path: build/web
-          retention-days: ${{ needs.fetch-info.outputs.build_type == 'nightly' && 7 || 90 }}
 
       - name: Build Github pages web
         if: needs.fetch-info.outputs.build_type == 'release'
@@ -469,136 +460,27 @@ jobs:
       - build-linux-flatpak
       - build-web
     runs-on: ubuntu-latest
-    if: needs.fetch-info.outputs.build_type == 'release'
-    steps:
-      - name: Download Artifacts Android
-        uses: actions/download-artifact@v4
-        with:
-          name: fladder-android
-          path: fladder-android
-
-      - name: Move Android
-        run: |
-          mv fladder-android/release-signed.apk Fladder-Android-${{needs.fetch-info.outputs.version_name}}.apk
-          mv fladder-android/release-signed.aab Fladder-Android-${{needs.fetch-info.outputs.version_name}}.aab
-
-      - name: Download Windows portable artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: fladder-windows-portable
-          path: fladder-windows-portable
-
-      - name: Compress Windows
-        run: |
-          cd fladder-windows-portable
-          zip -r ../Fladder-Windows-${{needs.fetch-info.outputs.version_name}}.zip .
-
-      - name: Download Windows installer artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: fladder-windows-installer
-          path: fladder-windows-installer
-
-      - name: Rename Windows installer
-        run: mv fladder-windows-installer/fladder_setup.exe Fladder-Windows-${{needs.fetch-info.outputs.version_name}}-Setup.exe
-
-      - name: Download Artifacts iOS
-        uses: actions/download-artifact@v4
-        with:
-          name: fladder-iOS
-          path: fladder-iOS
-
-      - name: Move iOS
-        run: mv fladder-iOS/iOS.ipa Fladder-iOS-${{needs.fetch-info.outputs.version_name}}.ipa
-
-      - name: Download Artifacts macOS
-        uses: actions/download-artifact@v4
-        with:
-          name: fladder-macOS
-          path: fladder-macOS
-
-      - name: Move macOS
-        run: mv fladder-macOS/macOS.dmg Fladder-macOS-${{needs.fetch-info.outputs.version_name}}.dmg
-
-      - name: Download Artifacts Linux
-        uses: actions/download-artifact@v4
-        with:
-          name: fladder-linux
-          path: fladder-linux
-
-      - name: Compress Linux
-        run: |
-          cd fladder-linux
-          zip -r ../Fladder-Linux-${{needs.fetch-info.outputs.version_name}}.zip .
-
-      - name: Download Artifacts Linux Flatpak
-        uses: actions/download-artifact@v4
-        with:
-          name: fladder-linux-flatpak
-          path: fladder-linux-flatpak
-
-      - name: Move Linux Flatpak
-        run: mv fladder-linux-flatpak/Fladder-Linux.flatpak Fladder-Linux-${{needs.fetch-info.outputs.version_name}}.flatpak
-
-      - name: Download Artifacts Linux AppImage
-        uses: actions/download-artifact@v4
-        with:
-          name: fladder-linux-appimage
-          path: fladder-linux-appimage
-
-      - name: Move linux AppImages
-        run: |
-          mv fladder-linux-appimage/Fladder_x86_64.AppImage Fladder-Linux-${{needs.fetch-info.outputs.version_name}}.AppImage
-          mv fladder-linux-appimage/Fladder_x86_64.AppImage.zsync Fladder-Linux-${{needs.fetch-info.outputs.version_name}}.AppImage.zsync
-
-      - name: Download Artifacts Web
-        uses: actions/download-artifact@v4
-        with:
-          name: fladder-web
-          path: fladder-web
-
-      - name: Compress Web
-        run: |
-          cd fladder-web
-          zip -r ../Fladder-Web-${{needs.fetch-info.outputs.version_name}}.zip .
-
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        with:
-          draft: true
-          fail_on_unmatched_files: true
-          generate_release_notes: true
-          files: |
-            Fladder-Android-${{needs.fetch-info.outputs.version_name}}.apk
-            Fladder-Windows-${{needs.fetch-info.outputs.version_name}}-Setup.exe
-            Fladder-Windows-${{needs.fetch-info.outputs.version_name}}.zip
-            Fladder-iOS-${{needs.fetch-info.outputs.version_name}}.ipa
-            Fladder-macOS-${{needs.fetch-info.outputs.version_name}}.dmg
-            Fladder-Web-${{needs.fetch-info.outputs.version_name}}.zip
-            Fladder-Linux-${{needs.fetch-info.outputs.version_name}}.zip
-            Fladder-Linux-${{needs.fetch-info.outputs.version_name}}.flatpak
-            Fladder-Linux-${{needs.fetch-info.outputs.version_name}}.AppImage
-            Fladder-Linux-${{needs.fetch-info.outputs.version_name}}.AppImage.zsync
-
-  create_nightly_release:
-    name: Create Nightly Release
-    needs:
-      - fetch-info
-      - build-android
-      - build-windows
-      - build-ios
-      - build-macos
-      - build-linux
-      - build-web    
-    runs-on: ubuntu-latest
-    if: needs.fetch-info.outputs.build_type == 'nightly'
+    if: needs.fetch-info.outputs.build_type == 'release' || needs.fetch-info.outputs.build_type == 'nightly'
     steps:
       - name: Checkout repository
+        if: needs.fetch-info.outputs.build_type == 'nightly'
         uses: actions/checkout@v4.1.1
         with:
           fetch-depth: 0
 
+      - name: Set version variables
+        id: version
+        run: |
+          if [[ "${{ needs.fetch-info.outputs.build_type }}" == "nightly" ]]; then
+            echo "version=${{ needs.fetch-info.outputs.nightly_version }}" >> $GITHUB_OUTPUT
+            echo "artifact_pattern=nightly" >> $GITHUB_OUTPUT
+          else
+            echo "version=${{ needs.fetch-info.outputs.version_name }}" >> $GITHUB_OUTPUT
+            echo "artifact_pattern=release-signed" >> $GITHUB_OUTPUT
+          fi
+
       - name: Delete existing nightly release
+        if: needs.fetch-info.outputs.build_type == 'nightly'
         run: |
           # Delete existing nightly release and tag with better error handling
           echo "Checking for existing nightly release..."
@@ -618,6 +500,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate changelog
+        if: needs.fetch-info.outputs.build_type == 'nightly'
         id: changelog
         run: |
           # Get the latest release tag
@@ -666,8 +549,8 @@ jobs:
 
       - name: Move Android
         run: |
-          mv fladder-android/nightly.apk Fladder-Android-${{needs.fetch-info.outputs.nightly_version}}.apk
-          mv fladder-android/nightly.aab Fladder-Android-${{needs.fetch-info.outputs.nightly_version}}.aab
+          mv fladder-android/${{ steps.version.outputs.artifact_pattern }}.apk Fladder-Android-${{ steps.version.outputs.version }}.apk
+          mv fladder-android/${{ steps.version.outputs.artifact_pattern }}.aab Fladder-Android-${{ steps.version.outputs.version }}.aab
 
       - name: Download Windows portable artifact
         uses: actions/download-artifact@v4
@@ -678,7 +561,7 @@ jobs:
       - name: Compress Windows
         run: |
           cd fladder-windows-portable
-          zip -r ../Fladder-Windows-${{needs.fetch-info.outputs.nightly_version}}.zip .
+          zip -r ../Fladder-Windows-${{ steps.version.outputs.version }}.zip .
 
       - name: Download Windows installer artifact
         uses: actions/download-artifact@v4
@@ -687,7 +570,7 @@ jobs:
           path: fladder-windows-installer
 
       - name: Rename Windows installer
-        run: mv fladder-windows-installer/fladder_setup.exe Fladder-Windows-${{needs.fetch-info.outputs.nightly_version}}-Setup.exe
+        run: mv fladder-windows-installer/fladder_setup.exe Fladder-Windows-${{ steps.version.outputs.version }}-Setup.exe
 
       - name: Download Artifacts iOS
         uses: actions/download-artifact@v4
@@ -696,7 +579,7 @@ jobs:
           path: fladder-iOS
 
       - name: Move iOS
-        run: mv fladder-iOS/iOS.ipa Fladder-iOS-${{needs.fetch-info.outputs.nightly_version}}.ipa
+        run: mv fladder-iOS/iOS.ipa Fladder-iOS-${{ steps.version.outputs.version }}.ipa
 
       - name: Download Artifacts macOS
         uses: actions/download-artifact@v4
@@ -705,7 +588,7 @@ jobs:
           path: fladder-macOS
 
       - name: Move macOS
-        run: mv fladder-macOS/macOS.dmg Fladder-macOS-${{needs.fetch-info.outputs.nightly_version}}.dmg
+        run: mv fladder-macOS/macOS.dmg Fladder-macOS-${{ steps.version.outputs.version }}.dmg
 
       - name: Download Artifacts Linux
         uses: actions/download-artifact@v4
@@ -716,7 +599,18 @@ jobs:
       - name: Compress Linux
         run: |
           cd fladder-linux
-          zip -r ../Fladder-Linux-${{needs.fetch-info.outputs.nightly_version}}.zip .
+          zip -r ../Fladder-Linux-${{ steps.version.outputs.version }}.zip .
+
+      - name: Download Artifacts Linux Flatpak
+        if: needs.fetch-info.outputs.build_type == 'release'
+        uses: actions/download-artifact@v4
+        with:
+          name: fladder-linux-flatpak
+          path: fladder-linux-flatpak
+
+      - name: Move Linux Flatpak
+        if: needs.fetch-info.outputs.build_type == 'release'
+        run: mv fladder-linux-flatpak/Fladder-Linux.flatpak Fladder-Linux-${{ steps.version.outputs.version }}.flatpak
 
       - name: Download Artifacts Linux AppImage
         uses: actions/download-artifact@v4
@@ -726,9 +620,8 @@ jobs:
 
       - name: Move Linux AppImages
         run: |
-          mv fladder-linux-appimage/Fladder_x86_64.AppImage Fladder-Linux-${{needs.fetch-info.outputs.nightly_version}}.AppImage
-          mv fladder-linux-appimage/Fladder_x86_64.AppImage.zsync Fladder-Linux-${{needs.fetch-info.outputs.nightly_version}}.AppImage.zsync
-
+          mv fladder-linux-appimage/Fladder_x86_64.AppImage Fladder-Linux-${{ steps.version.outputs.version }}.AppImage
+          mv fladder-linux-appimage/Fladder_x86_64.AppImage.zsync Fladder-Linux-${{ steps.version.outputs.version }}.AppImage.zsync      
       - name: Download Artifacts Web
         uses: actions/download-artifact@v4
         with:
@@ -738,38 +631,40 @@ jobs:
       - name: Compress Web
         run: |
           cd fladder-web
-          zip -r ../Fladder-Web-${{needs.fetch-info.outputs.nightly_version}}.zip .
+          zip -r ../Fladder-Web-${{ steps.version.outputs.version }}.zip .
 
-      - name: Create Nightly Release
+      - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ env.NIGHTLY_TAG }}
-          name: "🌙 Nightly Build - ${{needs.fetch-info.outputs.nightly_version}}"
-          body_path: changelog.md
-          prerelease: true
-          make_latest: false
+          tag_name: ${{ needs.fetch-info.outputs.build_type == 'nightly' && env.NIGHTLY_TAG || github.ref_name }}
+          name: ${{ needs.fetch-info.outputs.build_type == 'nightly' && format('🌙 Nightly Build - {0}', steps.version.outputs.version) || '' }}
+          body_path: ${{ needs.fetch-info.outputs.build_type == 'nightly' && 'changelog.md' || '' }}
+          draft: ${{ needs.fetch-info.outputs.build_type == 'release' }}
+          prerelease: ${{ needs.fetch-info.outputs.build_type == 'nightly' }}
+          make_latest: ${{ needs.fetch-info.outputs.build_type == 'release' }}
+          generate_release_notes: ${{ needs.fetch-info.outputs.build_type == 'release' }}
           fail_on_unmatched_files: true
           files: |
-            Fladder-Android-${{needs.fetch-info.outputs.nightly_version}}.apk
-            Fladder-Android-${{needs.fetch-info.outputs.nightly_version}}.aab
-            Fladder-Windows-${{needs.fetch-info.outputs.nightly_version}}-Setup.exe
-            Fladder-Windows-${{needs.fetch-info.outputs.nightly_version}}.zip
-            Fladder-iOS-${{needs.fetch-info.outputs.nightly_version}}.ipa
-            Fladder-macOS-${{needs.fetch-info.outputs.nightly_version}}.dmg
-            Fladder-Web-${{needs.fetch-info.outputs.nightly_version}}.zip
-            Fladder-Linux-${{needs.fetch-info.outputs.nightly_version}}.zip
-            Fladder-Linux-${{needs.fetch-info.outputs.nightly_version}}.AppImage
-            Fladder-Linux-${{needs.fetch-info.outputs.nightly_version}}.AppImage.zsync
+            Fladder-Android-${{ steps.version.outputs.version }}.apk
+            Fladder-Android-${{ steps.version.outputs.version }}.aab
+            Fladder-Windows-${{ steps.version.outputs.version }}-Setup.exe
+            Fladder-Windows-${{ steps.version.outputs.version }}.zip
+            Fladder-iOS-${{ steps.version.outputs.version }}.ipa
+            Fladder-macOS-${{ steps.version.outputs.version }}.dmg
+            Fladder-Web-${{ steps.version.outputs.version }}.zip
+            Fladder-Linux-${{ steps.version.outputs.version }}.zip
+            Fladder-Linux-${{ steps.version.outputs.version }}.AppImage
+            Fladder-Linux-${{ steps.version.outputs.version }}.AppImage.zsync
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Clean up old workflow artifacts
-        run: |
-          # Clean up artifacts older than 7 days to save storage space
-          echo "Cleaning up old workflow artifacts..."
-          gh api repos/${{ github.repository }}/actions/artifacts \
-            --jq '.artifacts[] | select(.created_at < (now - (7 * 24 * 3600))) | .id' \
-            | xargs -I {} gh api repos/${{ github.repository }}/actions/artifacts/{} -X DELETE || true
+      - name: Add Flatpak to release
+        if: needs.fetch-info.outputs.build_type == 'release'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          files: |
+            Fladder-Linux-${{ steps.version.outputs.version }}.flatpak
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
