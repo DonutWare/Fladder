@@ -16,13 +16,13 @@ on:
       - reopened
   schedule:
     # Run nightly at midnight UTC, but only if there were changes to develop
-    - cron: '0 0 * * *'
+    - cron: "0 0 * * *"
   workflow_dispatch:
     inputs:
       build_type:
-        description: 'Build type (release, nightly, or auto)'
+        description: "Build type (release, nightly, or auto)"
         required: false
-        default: 'auto'
+        default: "auto"
         type: choice
         options:
           - auto
@@ -74,7 +74,7 @@ jobs:
             # For PRs and other events, build but don't release
             BUILD_TYPE="development"
           fi
-          
+
           echo "build_type=${BUILD_TYPE}" >> $GITHUB_OUTPUT
           echo "should_run=true" >> $GITHUB_OUTPUT
           echo "Build type determined: ${BUILD_TYPE}"
@@ -382,7 +382,7 @@ jobs:
   build-linux-flatpak:
     name: "Flatpak"
     runs-on: ubuntu-latest
-    if: needs.fetch-info.outputs.build_type == 'release'
+    if: needs.fetch-info.outputs.build_type == 'release' || needs.fetch-info.outputs.build_type == 'nightly'
     needs: [fetch-info, build-linux]
     container:
       image: bilelmoussaoui/flatpak-github-actions:gnome-46
@@ -491,7 +491,7 @@ jobs:
           else
             echo "No existing nightly release found."
           fi
-          
+
           # Clean up any orphaned tags
           if git tag -l | grep -q "^${{ env.NIGHTLY_TAG }}$"; then
             echo "Deleting orphaned nightly tag..."
@@ -506,7 +506,7 @@ jobs:
         run: |
           # Get the latest release tag
           LATEST_RELEASE=$(gh release list --limit 1 --exclude-drafts --json tagName --jq '.[0].tagName' || echo "")
-          
+
           if [ -z "$LATEST_RELEASE" ]; then
             echo "No previous releases found, generating changelog from initial commit"
             CHANGELOG=$(git log --pretty=format:"- %s (%h)" --no-merges)
@@ -514,30 +514,30 @@ jobs:
             echo "Generating changelog from $LATEST_RELEASE to HEAD"
             CHANGELOG=$(git log ${LATEST_RELEASE}..HEAD --pretty=format:"- %s (%h)" --no-merges)
           fi
-          
+
           if [ -z "$CHANGELOG" ]; then
             CHANGELOG="- No changes since last release"
           fi
             # Create changelog with proper formatting
           cat > changelog.md <<-EOF
           # 🌙 Nightly Build - $(date -u "+%Y-%m-%d %H:%M:%S UTC")
-          
+
           This is an automated nightly build containing the latest changes from the develop branch.
-          
+
           **⚠️ Warning:** This is a development build and may contain bugs or incomplete features.
-          
+
           ## 📋 Changes since last release:
-          
+
           $CHANGELOG
-          
+
           ---
-          
+
           📅 **Build Date:** $(date -u "+%Y-%m-%d %H:%M:%S UTC")  
           🔧 **Build Number:** ${{ github.run_number }}  
           📝 **Commit:** ${{ github.sha }}  
           🌿 **Branch:** develop
           EOF
-          
+
           echo "changelog_file=changelog.md" >> $GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -622,7 +622,7 @@ jobs:
       - name: Move Linux AppImages
         run: |
           mv fladder-linux-appimage/Fladder_x86_64.AppImage Fladder-Linux-${{ steps.version.outputs.version }}.AppImage
-          mv fladder-linux-appimage/Fladder_x86_64.AppImage.zsync Fladder-Linux-${{ steps.version.outputs.version }}.AppImage.zsync      
+          mv fladder-linux-appimage/Fladder_x86_64.AppImage.zsync Fladder-Linux-${{ steps.version.outputs.version }}.AppImage.zsync
       - name: Download Artifacts Web
         uses: actions/download-artifact@v4
         with:
