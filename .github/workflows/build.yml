@@ -120,6 +120,8 @@ jobs:
   build-android:
     needs: [fetch-info]
     runs-on: ubuntu-latest
+    outputs:
+      artifact_suffix: ${{ env.ARTIFACT_SUFFIX }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4.1.1
@@ -139,6 +141,7 @@ jobs:
             echo "ARTIFACT_SUFFIX=production" >> $GITHUB_ENV
             echo "AAB_PATH=productionProfile" >> $GITHUB_ENV
           fi
+          echo "ARTIFACT_SUFFIX=${ARTIFACT_SUFFIX}" >> $GITHUB_OUTPUT
 
       - name: Decode Keystore for release
         if: needs.fetch-info.outputs.build_type == 'release'
@@ -473,10 +476,8 @@ jobs:
         run: |
           if [[ "${{ needs.fetch-info.outputs.build_type }}" == "nightly" ]]; then
             echo "version=${{ needs.fetch-info.outputs.nightly_version }}" >> $GITHUB_OUTPUT
-            echo "artifact_pattern=nightly" >> $GITHUB_OUTPUT
           else
             echo "version=${{ needs.fetch-info.outputs.version_name }}" >> $GITHUB_OUTPUT
-            echo "artifact_pattern=release-signed" >> $GITHUB_OUTPUT
           fi
 
       - name: Delete existing nightly release
@@ -549,8 +550,8 @@ jobs:
 
       - name: Move Android
         run: |
-          mv fladder-android/${{ steps.version.outputs.artifact_pattern }}.apk Fladder-Android-${{ steps.version.outputs.version }}.apk
-          mv fladder-android/${{ steps.version.outputs.artifact_pattern }}.aab Fladder-Android-${{ steps.version.outputs.version }}.aab
+          mv fladder-android/${{ needs.build-android.outputs.artifact_suffix }}.apk Fladder-Android-${{ steps.version.outputs.version }}.apk
+          mv fladder-android/${{ needs.build-android.outputs.artifact_suffix }}.aab Fladder-Android-${{ steps.version.outputs.version }}.aab
 
       - name: Download Windows portable artifact
         uses: actions/download-artifact@v4
