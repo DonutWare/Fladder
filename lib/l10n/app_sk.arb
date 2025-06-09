@@ -32,5 +32,106 @@
   "accept": "Prijať",
   "@accept": {},
   "about": "O appke",
-  "@about": {}
+  "@about": {},
+  "appLockTitle": "Nastavenie metódy prihlásenia pre {userName}",
+  "@appLockTitle": {
+    "description": "Pop-up to pick a login method",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "ascending": "Vzostupne",
+  "@ascending": {},
+  "audio": "Zvuk",
+  "@audio": {},
+  "autoPlay": "Automatické prehrávanie",
+  "@autoPlay": {},
+  "backgroundBlur": "Rozmazanie pozadia",
+  "@backgroundBlur": {},
+  "backgroundOpacity": "Priehľadnosť pozadia",
+  "@backgroundOpacity": {},
+  "biometricsFailedCheckAgain": "Biometria zlyhala. Skontrolujte nastavenia a skúste to znova.",
+  "@biometricsFailedCheckAgain": {},
+  "bold": "Hrubý",
+  "@bold": {},
+  "cancel": "Zrušiť",
+  "@cancel": {},
+  "change": "Zmeniť",
+  "@change": {},
+  "clearAllSettings": "Vyčistiť všetky nastavenia",
+  "@clearAllSettings": {},
+  "clearAllSettingsQuestion": "Vynulovať všetky nastavenia?",
+  "@clearAllSettingsQuestion": {},
+  "clearChanges": "Vynulovanie zmien",
+  "@clearChanges": {},
+  "clearSelection": "Vynulovať výber",
+  "@clearSelection": {},
+  "close": "Zatvoriť",
+  "@close": {},
+  "code": "Kód",
+  "@code": {},
+  "collectionFolder": "Zložka kolekcie",
+  "@collectionFolder": {},
+  "color": "Farba",
+  "@color": {},
+  "combined": "Kombinované",
+  "@combined": {},
+  "communityRating": "Hodnotenie komunity",
+  "@communityRating": {},
+  "continuePage": "Pokračovať - strana {page}",
+  "@continuePage": {
+    "description": "Continue - page 1",
+    "placeholders": {
+      "page": {
+        "type": "int"
+      }
+    }
+  },
+  "controls": "Ovládanie",
+  "@controls": {},
+  "dashboard": "Ovládací panel",
+  "@dashboard": {},
+  "dashboardContinue": "Pokračovať",
+  "@dashboardContinue": {},
+  "dashboardContinueListening": "Pokračovať v počúvaní",
+  "@dashboardContinueListening": {},
+  "dashboardContinueReading": "Pokračovať v čítaní",
+  "@dashboardContinueReading": {},
+  "dashboardContinueWatching": "Pokračovať v sledovaní",
+  "@dashboardContinueWatching": {},
+  "nextUp": "Ďalej",
+  "@nextUp": {},
+  "dashboardRecentlyAdded": "Nedávno pridané v {name}",
+  "@dashboardRecentlyAdded": {
+    "description": "Recently added on home screen",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "dateAdded": "Dátum pridania",
+  "@dateAdded": {},
+  "dateLastContentAdded": "Dátum posledného pridania obsahu",
+  "@dateLastContentAdded": {},
+  "datePlayed": "Dátum prehrania",
+  "@datePlayed": {},
+  "days": "Dni",
+  "@days": {},
+  "delete": "Odstrániť",
+  "@delete": {},
+  "clear": "Vyčistiť",
+  "@clear": {},
+  "chapter": "{count, plural, other{Chapters} one{Chapter}}",
+  "@chapter": {
+    "description": "chapter",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  }
 }
