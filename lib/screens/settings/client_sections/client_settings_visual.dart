@@ -46,7 +46,7 @@ List<Widget> buildClientSettingsVisual(
                         context: context,
                         locale: entry,
                         child: Builder(builder: (context) {
-                          return Text("${context.localized.nativeName} (${entry.languageCode.toUpperCase()})");
+                          return Text("${context.localized.nativeName} (${entry.languageCode.toUpperCase()}${entry.countryCode != null ? '-${entry.countryCode!.toUpperCase()}' : ''})");
                         }),
                       ),
                       onTap: () => ref
