@@ -463,6 +463,8 @@ jobs:
       - build-web
     runs-on: ubuntu-latest
     if: needs.fetch-info.outputs.build_type == 'release' || needs.fetch-info.outputs.build_type == 'nightly'
+    permissions:
+      contents: write
     steps:
       - name: Checkout repository
         if: needs.fetch-info.outputs.build_type == 'nightly'
