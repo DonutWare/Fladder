@@ -1351,5 +1351,7 @@
   "settingsEnableOsMediaControlsDesc": "Permitir o controle da reprodução usando as teclas de mídia e mostrar a mídia atual em reprodução no OS",
   "@settingsEnableOsMediaControlsDesc": {},
   "settingsPlayerBufferSizeTitle": "Tamanho do buffer de vídeo",
-  "@settingsPlayerBufferSizeTitle": {}
+  "@settingsPlayerBufferSizeTitle": {},
+  "playbackTypeTranscode": "Transcodificação",
+  "@playbackTypeTranscode": {}
 }
