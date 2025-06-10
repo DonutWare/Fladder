@@ -1348,5 +1348,11 @@
   "rememberAudioSelectionsDesc": "Versuchen Sie, die Audiospur so einzustellen, dass sie dem letzten Video am nächsten kommt.",
   "@rememberAudioSelectionsDesc": {},
   "playbackTrackSelection": "Auswahl der Wiedergabespur",
-  "@playbackTrackSelection": {}
+  "@playbackTrackSelection": {},
+  "enableBackgroundPostersDesc": "Zeigen Sie zufällige Poster in den entsprechenden Bildschirmen",
+  "@enableBackgroundPostersDesc": {},
+  "settingsEnableOsMediaControlsDesc": "Ermöglicht die Wiedergabesteuerung mithilfe von Medientasten und zeigt die aktuell wiedergegebenen Medien im Betriebssystem an",
+  "@settingsEnableOsMediaControlsDesc": {},
+  "enableBackgroundPostersTitle": "Hintergrundbilder aktivieren",
+  "@enableBackgroundPostersTitle": {}
 }

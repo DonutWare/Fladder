@@ -1341,5 +1341,11 @@
         "type": "String"
       }
     }
-  }
+  },
+  "enableBackgroundPostersTitle": "Включить фоновые постеры",
+  "@enableBackgroundPostersTitle": {},
+  "enableBackgroundPostersDesc": "Показывать случайные постеры на соответствующих экранах",
+  "@enableBackgroundPostersDesc": {},
+  "settingsEnableOsMediaControlsDesc": "Позволяет управлять воспроизведением с помощью медиа-клавиш и показывать текущее воспроизводимое медиа в ОС",
+  "@settingsEnableOsMediaControlsDesc": {}
 }
