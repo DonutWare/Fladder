@@ -636,7 +636,7 @@ jobs:
           zip -r ../Fladder-Web-${{ steps.version.outputs.version }}.zip .
 
       - name: Create Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v2.3.0
         with:
           tag_name: ${{ needs.fetch-info.outputs.build_type == 'nightly' && env.NIGHTLY_TAG || github.ref_name }}
           name: ${{ needs.fetch-info.outputs.build_type == 'nightly' && format('🌙 Nightly Build - {0}', steps.version.outputs.version) || '' }}
