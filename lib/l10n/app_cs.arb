@@ -1341,5 +1341,11 @@
   "hasDirectorFromRecentlyPlayed": "Stejný/á režisér/ka jako nedávno shlédnutá položka",
   "@hasDirectorFromRecentlyPlayed": {},
   "internetStreamingQualityDesc": "Maximální kvalita streamování přes internet (mobilní zařízení)",
-  "@internetStreamingQualityDesc": {}
+  "@internetStreamingQualityDesc": {},
+  "enableBackgroundPostersTitle": "Povolit plakáty na pozadí",
+  "@enableBackgroundPostersTitle": {},
+  "settingsEnableOsMediaControlsDesc": "Povolit ovládání přehrávání pomocí mediálních kláves a ukázat aktuální přehrávané v systému",
+  "@settingsEnableOsMediaControlsDesc": {},
+  "enableBackgroundPostersDesc": "Zobrazit náhodné plakáty na použitelných obrazovkách",
+  "@enableBackgroundPostersDesc": {}
 }
