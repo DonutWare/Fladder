@@ -25,7 +25,7 @@ UninstallDisplayName="Fladder"
 UninstallDisplayIcon={app}\fladder.exe
 SetupIconFile="{#SourcePath}\icons\production\fladder_icon.ico"
 LicenseFile="{#SourcePath}\LICENSE"
-WizardImageFile="{#SourcePath}\assets\windows-installer\fladder-installer-100.bmp","{#SourcePath}\assets\windows-installer\fladder-installer-125.bmp","{#SourcePath}\assets\windows-installer\fladder-installer-150.bmp"
+WizardImageFile={#SourcePath}\assets\windows-installer\fladder-installer-100.bmp,{#SourcePath}\assets\windows-installer\fladder-installer-125.bmp,{#SourcePath}\assets\windows-installer\fladder-installer-150.bmp
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
