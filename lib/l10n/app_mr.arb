@@ -1084,5 +1084,91 @@
   "settingsPlayerVideoHWAccelTitle": "हार्डवेअर अ‍ॅक्सेलेरेशन",
   "@settingsPlayerVideoHWAccelTitle": {},
   "autoCheckForUpdates": "वेळोवेळी अपडेट असल्याचे तपासा",
-  "@autoCheckForUpdates": {}
+  "@autoCheckForUpdates": {},
+  "dateLastContentAdded": "शेवटची सामग्री जोडण्याचा दिनांक",
+  "@dateLastContentAdded": {},
+  "downloadsClearDesc": "प्रत्येक सिंक केलेल्या प्रयोक्याचा डेटा साफ करून सर्व सिंक केलेला डेटा काढून टाकायचा का?",
+  "@downloadsClearDesc": {},
+  "dynamicText": "गतिक",
+  "@dynamicText": {},
+  "heightOffset": "उंची ऑफसेट",
+  "@heightOffset": {},
+  "loop": "लूप",
+  "@loop": {},
+  "mediaTypeBase": "मूळ प्रकार",
+  "@mediaTypeBase": {},
+  "navigation": "नॅव्हिगेशन",
+  "@navigation": {},
+  "noSuggestionsFound": "कोणत्याही सूचना सापडल्या नाहीत",
+  "@noSuggestionsFound": {},
+  "parentalRating": "पालक रेटिंग",
+  "@parentalRating": {},
+  "pathEditDesc": "हे स्थान सर्व प्रयोक्त्यांसाठी सेट केले जाईल, आणि सिंक केलेला डेटा यानंतर उपलब्ध राहणार नाही. तो तुमच्या स्टोरेजमध्ये राहील.",
+  "@pathEditDesc": {},
+  "pathEditSelect": "डाउनलोड गंतव्यस्थान निवडा",
+  "@pathEditSelect": {},
+  "scanBiometricHint": "ओळख पडताळा",
+  "@scanBiometricHint": {},
+  "settingsBlurEpisodesDesc": "पुढील येणारे सर्व भाग अस्पष्ट करा",
+  "@settingsBlurEpisodesDesc": {},
+  "settingsBlurEpisodesTitle": "पुढचे भाग अस्पष्ट करा",
+  "@settingsBlurEpisodesTitle": {},
+  "settingsBlurredPlaceholderDesc": "पोस्टर लोड करताना अस्पष्ट केलेली पार्श्वभूमी दाखवा",
+  "@settingsBlurredPlaceholderDesc": {},
+  "settingsClientDesc": "साधारण, टाइम-आउट, मांडणी, थीम",
+  "@settingsClientDesc": {},
+  "settingsHomeBannerDescription": "स्लाइडशो किंवा कॅरूझेल म्हणून दाखवा, किंवा बॅनर लपवा",
+  "@settingsHomeBannerDescription": {},
+  "settingsHomeNextUpDesc": "मुख्य पानाच्या पडद्यावर दाखवायच्या पोस्टरांचा प्रकार",
+  "@settingsHomeNextUpDesc": {},
+  "settingsHomeNextUpTitle": "पुढील येणार्‍यांचे पोस्टर",
+  "@settingsHomeNextUpTitle": {},
+  "syncDeleteItemTitle": "सिंक केलेली वस्तू डिलीट करा",
+  "@syncDeleteItemTitle": {},
+  "timeOut": "टाइम-आउट",
+  "@timeOut": {},
+  "discovered": "सापडले",
+  "@discovered": {},
+  "settingsPlayerDesc": "अ‍ॅस्पेक्ट रेशो, प्रगत पर्याय",
+  "@settingsPlayerDesc": {},
+  "settingsPlayerBufferSizeTitle": "व्हिडियो बफर आकार",
+  "@settingsPlayerBufferSizeTitle": {},
+  "settingsPlayerVideoHWAccelDesc": "व्हिडयो रेंडर करण्यासाठी GPU चा वापर करा (सुचवलेले)",
+  "@settingsPlayerVideoHWAccelDesc": {},
+  "logoutUserPopupContent": "याने {userName} यांना लॉग आउट केले जाईल व अ‍ॅपवरून या प्रयोक्त्याला डिलीट करून टाकले जाईल.\nतुम्हाला {serverName} वर पुन्हा लॉग इन करावे लागेल.",
+  "@logoutUserPopupContent": {
+    "description": "Pop-up for logging out the user description",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      },
+      "serverName": {
+        "type": "String"
+      }
+    }
+  },
+  "setIdentityTo": "ओळख बदलून {name} असे करा",
+  "@setIdentityTo": {
+    "description": "setIdentityTo",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsPlayerBufferSizeDesc": "व्हिडियो प्लेबॅकसाठी बफर आकार ठरवा. याने कॅशमध्ये किती डेटा लोड केली जाते हे निर्धारित होते.",
+  "@settingsPlayerBufferSizeDesc": {},
+  "appLockTitle": "{userName} यांच्यासाठी लॉग-इन पद्धत सेट करा",
+  "@appLockTitle": {
+    "description": "Pop-up to pick a login method",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncDetails": "तपशील सिंक करा",
+  "@syncDetails": {},
+  "light": "हलका",
+  "@light": {}
 }
