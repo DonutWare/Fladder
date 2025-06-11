@@ -288,13 +288,15 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
             ),
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
-            builder: (context, child) => Localizations.override(
-              context: context,
-              locale: AppLocalizations.supportedLocales.firstWhere(
-                (element) => element.languageCode == language.languageCode,
-                orElse: () => const Locale('en', "GB"),
-              ),
-              child: LocalizationContextWrapper(child: ScaffoldMessenger(child: child ?? Container())),
+            locale: language,
+            localeResolutionCallback: (locale, supportedLocales) {
+              if (locale == null || !supportedLocales.contains(locale)) {
+                return const Locale('en');
+              }
+              return locale;
+            },
+            builder: (context, child) => LocalizationContextWrapper(
+              child: ScaffoldMessenger(child: child ?? Container()),
             ),
             debugShowCheckedModeBanner: false,
             darkTheme: darkTheme.copyWith(
