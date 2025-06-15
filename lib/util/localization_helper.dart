@@ -31,3 +31,11 @@ class _LocalizationContextWrapperState extends ConsumerState<LocalizationContext
   @override
   Widget build(BuildContext context) => widget.child;
 }
+
+extension LocaleDisplayCodeExtension on Locale {
+  String toDisplayCode() {
+    return countryCode != null && countryCode!.isNotEmpty
+        ? "${languageCode.toUpperCase()}-${countryCode!.toUpperCase()}"
+        : languageCode.toUpperCase();
+  }
+}

@@ -31,7 +31,7 @@ List<Widget> buildClientSettingsVisual(
           context: context,
           locale: ref.watch(clientSettingsProvider.select((value) => (value.selectedLocale ?? currentLocale))),
           child: Builder(builder: (context) {
-            String language = "Unknown";
+            String language = "English";
             try {
               language = context.localized.nativeName;
             } catch (_) {}
@@ -46,7 +46,7 @@ List<Widget> buildClientSettingsVisual(
                         context: context,
                         locale: entry,
                         child: Builder(builder: (context) {
-                          return Text("${context.localized.nativeName} (${entry.languageCode.toUpperCase()})");
+                          return Text("${context.localized.nativeName} (${entry.toDisplayCode()})");
                         }),
                       ),
                       onTap: () => ref

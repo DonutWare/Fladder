@@ -1340,5 +1340,11 @@
     }
   },
   "newUpdateFoundOnGithub": "在 Github 上发现新的更新",
-  "@newUpdateFoundOnGithub": {}
+  "@newUpdateFoundOnGithub": {},
+  "settingsEnableOsMediaControlsDesc": "允许使用媒体键控制播放并在操作系统中显示当前正在播放的媒体",
+  "@settingsEnableOsMediaControlsDesc": {},
+  "enableBackgroundPostersTitle": "启用背景海报",
+  "@enableBackgroundPostersTitle": {},
+  "enableBackgroundPostersDesc": "在适用的屏幕上显示随机海报",
+  "@enableBackgroundPostersDesc": {}
 }
