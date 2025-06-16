@@ -505,21 +505,43 @@ jobs:
         if: needs.fetch-info.outputs.build_type == 'nightly'
         id: changelog
         run: |
-          # Get the latest release tag
-          LATEST_RELEASE=$(gh release list --limit 1 --exclude-drafts --json tagName --jq '.[0].tagName' || echo "")
+          # Get the previous nightly release body if it exists
+          PREVIOUS_NIGHTLY_BODY=""
+          if gh release view ${{ env.NIGHTLY_TAG }} >/dev/null 2>&1; then
+            echo "Found existing nightly release, extracting previous changelog..."
+            PREVIOUS_NIGHTLY_BODY=$(gh release view ${{ env.NIGHTLY_TAG }} --json body --jq '.body' || echo "")
+          fi
 
-          if [ -z "$LATEST_RELEASE" ]; then
-            echo "No previous releases found, generating changelog from initial commit"
-            CHANGELOG=$(git log --pretty=format:"- %s (%h)" --no-merges)
+          # Get the latest stable release tag for comparison
+          LATEST_STABLE_RELEASE=$(gh release list --limit 50 --exclude-drafts --json tagName,isPrerelease --jq '.[] | select(.isPrerelease == false) | .tagName' | head -1 || echo "")
+
+          # Generate new changes since last nightly or stable release
+          if [ -n "$LATEST_STABLE_RELEASE" ]; then
+            echo "Generating new changes from $LATEST_STABLE_RELEASE to HEAD"
+            NEW_CHANGES=$(git log ${LATEST_STABLE_RELEASE}..HEAD --pretty=format:"- %s (%h)" --no-merges --since="24 hours ago")
           else
-            echo "Generating changelog from $LATEST_RELEASE to HEAD"
-            CHANGELOG=$(git log ${LATEST_RELEASE}..HEAD --pretty=format:"- %s (%h)" --no-merges)
+            echo "No previous stable releases found, generating changes from last 24 hours"
+            NEW_CHANGES=$(git log --pretty=format:"- %s (%h)" --no-merges --since="24 hours ago")
           fi
 
-          if [ -z "$CHANGELOG" ]; then
-            CHANGELOG="- No changes since last release"
+          if [ -z "$NEW_CHANGES" ]; then
+            NEW_CHANGES="- No new changes in the last 24 hours"
           fi
-            # Create changelog with proper formatting
+
+          # Extract previous updates section from existing nightly if it exists
+          PREVIOUS_UPDATES=""
+          if [ -n "$PREVIOUS_NIGHTLY_BODY" ]; then
+            # Extract content between "## 📋 Changes since last release:" and any subsequent section or end
+            PREVIOUS_UPDATES=$(echo "$PREVIOUS_NIGHTLY_BODY" | sed -n '/## 📋 Changes since last release:/,/^## /p' | sed '$d' | tail -n +2)
+            # If there was no subsequent section, get everything after the header
+            if [ -z "$PREVIOUS_UPDATES" ]; then
+              PREVIOUS_UPDATES=$(echo "$PREVIOUS_NIGHTLY_BODY" | sed -n '/## 📋 Changes since last release:/,$p' | tail -n +2 | sed '/^---$/,$d')
+            fi
+            # Clean up any trailing whitespace and build metadata
+            PREVIOUS_UPDATES=$(echo "$PREVIOUS_UPDATES" | sed '/^📅 \*\*Build Date:\*\*/,$d' | sed '/^🔧 \*\*Build Number:\*\*/,$d' | sed '/^📝 \*\*Commit:\*\*/,$d' | sed '/^🌿 \*\*Branch:\*\*/,$d' | sed 's/[[:space:]]*$//')
+          fi
+
+          # Create new changelog with proper formatting
           cat > changelog.md <<-EOF
           # 🌙 Nightly Build - $(date -u "+%Y-%m-%d %H:%M:%S UTC")
 
@@ -527,9 +549,23 @@ jobs:
 
           **⚠️ Warning:** This is a development build and may contain bugs or incomplete features.
 
-          ## 📋 Changes since last release:
+          ## 🆕 New Changes (Last 24 Hours):
 
-          $CHANGELOG
+          $NEW_CHANGES
+          EOF
+
+          # Add previous updates section if it exists and has content
+          if [ -n "$PREVIOUS_UPDATES" ] && [ "$(echo "$PREVIOUS_UPDATES" | tr -d '[:space:]')" != "" ]; then
+            cat >> changelog.md <<-EOF
+
+          ## 📋 Previous Updates in this Nightly:
+
+          $PREVIOUS_UPDATES
+          EOF
+          fi
+
+          # Add build metadata
+          cat >> changelog.md <<-EOF
 
           ---
 
