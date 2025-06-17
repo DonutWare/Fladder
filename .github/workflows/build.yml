@@ -528,7 +528,7 @@ jobs:
 
           # Create new changelog with proper formatting
           cat > changelog.md <<-EOF
-          # 🌙 Nightly Build - $(date -u "+%Y-%m-%d %H:%M:%S UTC")
+          # $(date -u "+%Y-%m-%d %H:%M:%S UTC")
 
           This is an automated nightly build containing the latest changes from the develop branch.
 
