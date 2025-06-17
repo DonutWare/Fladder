@@ -16,6 +16,7 @@ Platform-specific installation instructions can be found in this document.
 - [iOS](#iosipados)
 	- [Sideloadly](#sideloadly)
 - [Docker](#docker)
+- [Web](#web)
 
 
 ## Windows
@@ -139,4 +140,11 @@ Run `docker-compose up -d` to start the container. It will be available on `http
 
 > [!TIP]
 > We recommend changing the `BASE_URL` environment variable to the URL you use to access Jellyfin, as this will skip entering it when you load the web UI.
+
+## Web
+
+You can also manually copy the web .zip build to any static file server such as Nginx, Caddy, or Apache
+
+> [!TIP]
+> You can preconfigure Fladder by placing a config file in [assets/config/config.json](https://github.com/DonutWare/Fladder/blob/develop/config/config.json)
 
