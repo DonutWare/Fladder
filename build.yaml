@@ -27,6 +27,9 @@ targets:
             - "**/**_page.dart"
       freezed|freezed:
         options:
+          copy_with: false
+          equal: false
+          tostring:
           generate_for:
             - "**/**.f.dart"
             - "**/**.g.dart"
@@ -34,7 +37,7 @@ targets:
         options:
           ignoreNull: true
           discriminatorKey: type
-          generateMethods: [decode, encode, copy, stringify]
+          generateMethods: [copy]
       chopper_generator:
         options:
           header: "//Generated jellyfin api code"

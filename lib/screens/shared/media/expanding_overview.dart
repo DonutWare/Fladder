@@ -1,9 +1,11 @@
-import 'package:iconsax_plus/iconsax_plus.dart';
-import 'package:fladder/util/localization_helper.dart';
-import 'package:fladder/util/sticky_header_text.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
+
+import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/util/sticky_header_text.dart';
 
 class ExpandingOverview extends ConsumerStatefulWidget {
   final String text;
@@ -68,11 +70,11 @@ class _ExpandingOverviewState extends ConsumerState<ExpandingOverview> {
                   child: expanded
                       ? IconButton.filledTonal(
                           onPressed: toggleState,
-                          icon: const Icon(IconsaxPlusLinear.arrow_up_2),
+                          icon: const Icon(IconsaxPlusLinear.arrow_up_1),
                         )
                       : IconButton.filledTonal(
                           onPressed: toggleState,
-                          icon: const Icon(IconsaxPlusLinear.arrow_down_1),
+                          icon: const Icon(IconsaxPlusLinear.arrow_down),
                         ),
                 ),
               ),

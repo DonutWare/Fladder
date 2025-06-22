@@ -1,11 +1,12 @@
+import 'package:flutter/material.dart';
+
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
-import 'package:fladder/util/list_padding.dart';
+
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/settings_user_icon.dart';
 import 'package:fladder/widgets/shared/shapes.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class NestedSliverAppBar extends ConsumerWidget {
   final BuildContext parent;
@@ -29,15 +30,14 @@ class NestedSliverAppBar extends ConsumerWidget {
           padding: const EdgeInsets.only(bottom: 24),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
+            spacing: 10,
             children: [
-              IconButton.filledTonal(
-                style: ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.surface),
-                ),
-                onPressed: () => Scaffold.of(parent).openDrawer(),
-                icon: const Icon(
-                  IconsaxPlusBold.menu,
-                  size: 28,
+              SizedBox(
+                width: 30,
+                child: IconButton(
+                  onPressed: () => Scaffold.of(parent).openDrawer(),
+                  icon: const Icon(IconsaxPlusLinear.menu),
+                  padding: EdgeInsets.zero,
                 ),
               ),
               Expanded(
@@ -62,8 +62,9 @@ class NestedSliverAppBar extends ConsumerWidget {
                               const Icon(IconsaxPlusLinear.search_normal),
                               const SizedBox(width: 16),
                               Transform.translate(
-                                  offset: const Offset(0, 2.5),
-                                  child: Text(searchTitle ?? "${context.localized.search}...")),
+                                offset: const Offset(0, 1.5),
+                                child: Text(searchTitle ?? "${context.localized.search}..."),
+                              ),
                             ],
                           ),
                         ),
@@ -73,7 +74,7 @@ class NestedSliverAppBar extends ConsumerWidget {
                 ),
               ),
               const SettingsUserIcon()
-            ].addInBetween(const SizedBox(width: 16)),
+            ],
           ),
         ),
       ),

@@ -1,3 +1,4 @@
+import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
@@ -5,8 +6,6 @@ import 'package:fladder/models/items/chapters_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
 import 'package:fladder/util/duration_extensions.dart';
-
-import 'package:dart_mappable/dart_mappable.dart';
 
 part 'overview_model.mapper.dart';
 
@@ -76,7 +75,4 @@ class OverviewModel with OverviewModelMappable {
       people: Person.peopleFromDto(item.people ?? [], ref),
     );
   }
-
-  factory OverviewModel.fromMap(Map<String, dynamic> map) => OverviewModelMapper.fromMap(map);
-  factory OverviewModel.fromJson(String json) => OverviewModelMapper.fromJson(json);
 }

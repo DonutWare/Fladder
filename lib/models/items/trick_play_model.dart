@@ -5,7 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'trick_play_model.freezed.dart';
 part 'trick_play_model.g.dart';
 
-@freezed
+@Freezed(copyWith: true)
 class TrickPlayModel with _$TrickPlayModel {
   factory TrickPlayModel({
     required int width,

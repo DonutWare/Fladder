@@ -108,35 +108,12 @@ class PhotoAlbumModelMapper extends SubClassMapperBase<PhotoAlbumModel> {
 
   @override
   final Function instantiate = _instantiate;
-
-  static PhotoAlbumModel fromMap(Map<String, dynamic> map) {
-    return ensureInitialized().decodeMap<PhotoAlbumModel>(map);
-  }
-
-  static PhotoAlbumModel fromJson(String json) {
-    return ensureInitialized().decodeJson<PhotoAlbumModel>(json);
-  }
 }
 
 mixin PhotoAlbumModelMappable {
-  String toJson() {
-    return PhotoAlbumModelMapper.ensureInitialized()
-        .encodeJson<PhotoAlbumModel>(this as PhotoAlbumModel);
-  }
-
-  Map<String, dynamic> toMap() {
-    return PhotoAlbumModelMapper.ensureInitialized()
-        .encodeMap<PhotoAlbumModel>(this as PhotoAlbumModel);
-  }
-
   PhotoAlbumModelCopyWith<PhotoAlbumModel, PhotoAlbumModel, PhotoAlbumModel>
       get copyWith => _PhotoAlbumModelCopyWithImpl(
           this as PhotoAlbumModel, $identity, $identity);
-  @override
-  String toString() {
-    return PhotoAlbumModelMapper.ensureInitialized()
-        .stringifyValue(this as PhotoAlbumModel);
-  }
 }
 
 extension PhotoAlbumModelValueCopy<$R, $Out>
@@ -359,34 +336,11 @@ class PhotoModelMapper extends SubClassMapperBase<PhotoModel> {
 
   @override
   final Function instantiate = _instantiate;
-
-  static PhotoModel fromMap(Map<String, dynamic> map) {
-    return ensureInitialized().decodeMap<PhotoModel>(map);
-  }
-
-  static PhotoModel fromJson(String json) {
-    return ensureInitialized().decodeJson<PhotoModel>(json);
-  }
 }
 
 mixin PhotoModelMappable {
-  String toJson() {
-    return PhotoModelMapper.ensureInitialized()
-        .encodeJson<PhotoModel>(this as PhotoModel);
-  }
-
-  Map<String, dynamic> toMap() {
-    return PhotoModelMapper.ensureInitialized()
-        .encodeMap<PhotoModel>(this as PhotoModel);
-  }
-
   PhotoModelCopyWith<PhotoModel, PhotoModel, PhotoModel> get copyWith =>
       _PhotoModelCopyWithImpl(this as PhotoModel, $identity, $identity);
-  @override
-  String toString() {
-    return PhotoModelMapper.ensureInitialized()
-        .stringifyValue(this as PhotoModel);
-  }
 }
 
 extension PhotoModelValueCopy<$R, $Out>

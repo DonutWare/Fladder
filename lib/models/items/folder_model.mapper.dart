@@ -108,34 +108,11 @@ class FolderModelMapper extends SubClassMapperBase<FolderModel> {
 
   @override
   final Function instantiate = _instantiate;
-
-  static FolderModel fromMap(Map<String, dynamic> map) {
-    return ensureInitialized().decodeMap<FolderModel>(map);
-  }
-
-  static FolderModel fromJson(String json) {
-    return ensureInitialized().decodeJson<FolderModel>(json);
-  }
 }
 
 mixin FolderModelMappable {
-  String toJson() {
-    return FolderModelMapper.ensureInitialized()
-        .encodeJson<FolderModel>(this as FolderModel);
-  }
-
-  Map<String, dynamic> toMap() {
-    return FolderModelMapper.ensureInitialized()
-        .encodeMap<FolderModel>(this as FolderModel);
-  }
-
   FolderModelCopyWith<FolderModel, FolderModel, FolderModel> get copyWith =>
       _FolderModelCopyWithImpl(this as FolderModel, $identity, $identity);
-  @override
-  String toString() {
-    return FolderModelMapper.ensureInitialized()
-        .stringifyValue(this as FolderModel);
-  }
 }
 
 extension FolderModelValueCopy<$R, $Out>

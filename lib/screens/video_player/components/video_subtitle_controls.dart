@@ -199,7 +199,7 @@ class _VideoSubtitleControlsState extends ConsumerState<VideoSubtitleControls> {
                                     (e) => FlatButton(
                                       onTap: () => provider.setSubColor(e),
                                       borderRadiusGeometry: BorderRadius.circular(5),
-                                      clipBehavior: Clip.antiAlias,
+                                      clipBehavior: Clip.hardEdge,
                                       child: Container(
                                         height: 25,
                                         width: 25,
@@ -223,7 +223,7 @@ class _VideoSubtitleControlsState extends ConsumerState<VideoSubtitleControls> {
                                       onTap: () => provider
                                           .setOutlineColor(e == Colors.transparent ? e : e.withValues(alpha: 0.85)),
                                       borderRadiusGeometry: BorderRadius.circular(5),
-                                      clipBehavior: Clip.antiAlias,
+                                      clipBehavior: Clip.hardEdge,
                                       child: Container(
                                         height: 25,
                                         width: 25,

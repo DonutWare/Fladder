@@ -94,7 +94,7 @@ class LibrarySearchModelMapper extends ClassMapperBase<LibrarySearchModel> {
       v.sortingOption;
   static const Field<LibrarySearchModel, SortingOptions> _f$sortingOption =
       Field('sortingOption', _$sortingOption,
-          opt: true, def: SortingOptions.name);
+          opt: true, def: SortingOptions.sortName);
   static SortingOrder _$sortOrder(LibrarySearchModel v) => v.sortOrder;
   static const Field<LibrarySearchModel, SortingOrder> _f$sortOrder =
       Field('sortOrder', _$sortOrder, opt: true, def: SortingOrder.ascending);
@@ -177,36 +177,13 @@ class LibrarySearchModelMapper extends ClassMapperBase<LibrarySearchModel> {
 
   @override
   final Function instantiate = _instantiate;
-
-  static LibrarySearchModel fromMap(Map<String, dynamic> map) {
-    return ensureInitialized().decodeMap<LibrarySearchModel>(map);
-  }
-
-  static LibrarySearchModel fromJson(String json) {
-    return ensureInitialized().decodeJson<LibrarySearchModel>(json);
-  }
 }
 
 mixin LibrarySearchModelMappable {
-  String toJson() {
-    return LibrarySearchModelMapper.ensureInitialized()
-        .encodeJson<LibrarySearchModel>(this as LibrarySearchModel);
-  }
-
-  Map<String, dynamic> toMap() {
-    return LibrarySearchModelMapper.ensureInitialized()
-        .encodeMap<LibrarySearchModel>(this as LibrarySearchModel);
-  }
-
   LibrarySearchModelCopyWith<LibrarySearchModel, LibrarySearchModel,
           LibrarySearchModel>
       get copyWith => _LibrarySearchModelCopyWithImpl(
           this as LibrarySearchModel, $identity, $identity);
-  @override
-  String toString() {
-    return LibrarySearchModelMapper.ensureInitialized()
-        .stringifyValue(this as LibrarySearchModel);
-  }
 }
 
 extension LibrarySearchModelValueCopy<$R, $Out>

@@ -30,9 +30,9 @@ ColorScheme _insertAdditionalColours(ColorScheme scheme) => scheme.copyWith(
     );
 
 class FladderTheme {
-  static RoundedRectangleBorder get smallShape => RoundedRectangleBorder(borderRadius: BorderRadius.circular(4));
-  static RoundedRectangleBorder get defaultShape => RoundedRectangleBorder(borderRadius: BorderRadius.circular(8));
-  static RoundedRectangleBorder get largeShape => RoundedRectangleBorder(borderRadius: BorderRadius.circular(16));
+  static RoundedRectangleBorder get smallShape => RoundedRectangleBorder(borderRadius: BorderRadius.circular(12));
+  static RoundedRectangleBorder get defaultShape => RoundedRectangleBorder(borderRadius: BorderRadius.circular(16));
+  static RoundedRectangleBorder get largeShape => RoundedRectangleBorder(borderRadius: BorderRadius.circular(32));
 
   static Color get darkBackgroundColor => const Color.fromARGB(255, 10, 10, 10);
   static Color get lightBackgroundColor => const Color.fromARGB(237, 255, 255, 255);
@@ -50,11 +50,11 @@ class FladderTheme {
         trackHeight: 8,
         thumbColor: colorScheme?.onSurface,
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         elevation: 3,
         clipBehavior: Clip.antiAlias,
         margin: EdgeInsets.zero,
-        shape: defaultShape,
+        shape: smallShape,
       ),
       progressIndicatorTheme: const ProgressIndicatorThemeData(),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
@@ -95,7 +95,7 @@ class FladderTheme {
         ),
       ),
       navigationBarTheme: const NavigationBarThemeData(),
-      dialogTheme: DialogTheme(shape: defaultShape),
+      dialogTheme: DialogThemeData(shape: defaultShape),
       scrollbarTheme: ScrollbarThemeData(
           radius: const Radius.circular(16),
           thumbColor: WidgetStateProperty.resolveWith((states) {
@@ -123,7 +123,26 @@ class FladderTheme {
         iconColor: scheme?.onSecondaryContainer,
         surfaceTintColor: scheme?.onSecondaryContainer,
       ),
-      listTileTheme: ListTileThemeData(shape: defaultShape),
+      listTileTheme: ListTileThemeData(
+        shape: defaultShape,
+      ),
+      dividerTheme: const DividerThemeData(
+        indent: 6,
+        endIndent: 6,
+      ),
+      segmentedButtonTheme: SegmentedButtonThemeData(
+        style: ButtonStyle(
+          backgroundColor: WidgetStateProperty.resolveWith((state) {
+            if (state.contains(WidgetState.selected)) {
+              return scheme?.primaryContainer;
+            }
+            return scheme?.surfaceContainer;
+          }),
+          padding: const WidgetStatePropertyAll(EdgeInsets.symmetric(vertical: 8, horizontal: 12)),
+          elevation: const WidgetStatePropertyAll(5),
+          side: const WidgetStatePropertyAll(BorderSide.none),
+        ),
+      ),
       elevatedButtonTheme: ElevatedButtonThemeData(style: ButtonStyle(shape: WidgetStatePropertyAll(defaultShape))),
       filledButtonTheme: FilledButtonThemeData(style: ButtonStyle(shape: WidgetStatePropertyAll(defaultShape))),
       outlinedButtonTheme: OutlinedButtonThemeData(style: ButtonStyle(shape: WidgetStatePropertyAll(defaultShape))),

@@ -1,7 +1,16 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
+
 import 'package:collection/collection.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
+import 'package:intl/intl.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:sliver_tools/sliver_tools.dart';
+
 import 'package:fladder/models/boxset_model.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/photos_model.dart';
@@ -10,22 +19,15 @@ import 'package:fladder/models/playlist_model.dart';
 import 'package:fladder/providers/library_search_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/screens/photo_viewer/photo_viewer_screen.dart';
-import 'package:fladder/screens/shared/media/poster_grid.dart';
 import 'package:fladder/screens/shared/media/poster_list_item.dart';
 import 'package:fladder/screens/shared/media/poster_widget.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/util/string_extensions.dart';
+import 'package:fladder/util/theme_extensions.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:intl/intl.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:sliver_tools/sliver_tools.dart';
-import 'package:sticky_headers/sticky_headers/widget.dart';
 
 final libraryViewTypeProvider = StateProvider<LibraryViewTypes>((ref) {
   return LibraryViewTypes.grid;
@@ -107,179 +109,139 @@ class LibraryViews extends ConsumerWidget {
 
     switch (ref.watch(libraryViewTypeProvider)) {
       case LibraryViewTypes.grid:
-        if (groupByType != GroupBy.none) {
-          final groupedItems = groupItemsBy(context, items, groupByType);
-          return SliverList.builder(
-            itemCount: groupedItems.length,
+        Widget createGrid(List<ItemBaseModel> items) {
+          return SliverGrid.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: posterSize.toInt(),
+              mainAxisSpacing: (8 * decimal) + 8,
+              crossAxisSpacing: (8 * decimal) + 8,
+              childAspectRatio: items.getMostCommonType.aspectRatio,
+            ),
+            itemCount: items.length,
             itemBuilder: (context, index) {
-              final name = groupedItems.keys.elementAt(index);
-              final group = groupedItems[name];
-              if (group?.isEmpty ?? false || group == null) {
-                return Text(context.localized.empty);
-              }
-              return PosterGrid(
-                posters: group!,
-                name: name,
-                itemBuilder: (context, index) {
-                  final item = group[index];
-                  return PosterWidget(
-                    key: Key(item.id),
-                    poster: group[index],
-                    maxLines: 2,
-                    heroTag: true,
-                    subTitle: item.subTitle(sortingOptions),
-                    excludeActions: excludeActions,
-                    otherActions: otherActions(item),
-                    selected: selected.contains(item),
-                    onUserDataChanged: (id, newData) => libraryProvider.updateUserData(id, newData),
-                    onItemRemoved: (oldItem) => libraryProvider.removeFromPosters([oldItem.id]),
-                    onItemUpdated: (newItem) => libraryProvider.updateItem(newItem),
-                    onPressed: (action, item) async => onItemPressed(action, key, item, ref, context),
-                  );
-                },
+              final item = items[index];
+              return PosterWidget(
+                key: Key(item.id),
+                poster: item,
+                maxLines: 2,
+                heroTag: true,
+                subTitle: item.subTitle(sortingOptions),
+                excludeActions: excludeActions,
+                otherActions: otherActions(item),
+                selected: selected.contains(item),
+                onUserDataChanged: (id, newData) => libraryProvider.updateUserData(id, newData),
+                onItemRemoved: (oldItem) => libraryProvider.removeFromPosters([oldItem.id]),
+                onItemUpdated: (newItem) => libraryProvider.updateItem(newItem),
                 onPressed: (action, item) async => onItemPressed(action, key, item, ref, context),
               );
             },
           );
+        }
+
+        if (groupByType != GroupBy.none) {
+          final groupedItems = groupItemsBy(context, items, groupByType);
+          return MultiSliver(
+              children: groupedItems.entries.map(
+            (element) {
+              final name = element.key;
+              final group = element.value;
+              return stickyHeaderBuilder(
+                context,
+                header: name,
+                sliver: createGrid(group),
+              );
+            },
+          ).toList());
         } else {
           return SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
-            sliver: SliverGrid.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: posterSize.toInt(),
-                mainAxisSpacing: (8 * decimal) + 8,
-                crossAxisSpacing: (8 * decimal) + 8,
-                childAspectRatio: AdaptiveLayout.poster(context).ratio,
-              ),
-              itemCount: items.length,
-              itemBuilder: (context, index) {
-                final item = items[index];
-                return PosterWidget(
-                  key: Key(item.id),
-                  poster: item,
-                  maxLines: 2,
-                  heroTag: true,
-                  subTitle: item.subTitle(sortingOptions),
-                  excludeActions: excludeActions,
-                  otherActions: otherActions(item),
-                  selected: selected.contains(item),
-                  onUserDataChanged: (id, newData) => libraryProvider.updateUserData(id, newData),
-                  onItemRemoved: (oldItem) => libraryProvider.removeFromPosters([oldItem.id]),
-                  onItemUpdated: (newItem) => libraryProvider.updateItem(newItem),
-                  onPressed: (action, item) async => onItemPressed(action, key, item, ref, context),
-                );
-              },
-            ),
+            sliver: createGrid(items),
           );
         }
       case LibraryViewTypes.list:
-        if (groupByType != GroupBy.none) {
-          final groupedItems = groupItemsBy(context, items, groupByType);
+        Widget listBuilder(List<ItemBaseModel> items) {
           return SliverList.builder(
-            itemCount: groupedItems.length,
+            itemCount: items.length,
             itemBuilder: (context, index) {
-              final name = groupedItems.keys.elementAt(index);
-              final group = groupedItems[name];
-              if (group?.isEmpty ?? false) {
-                return Text(context.localized.empty);
-              }
-              return StickyHeader(
-                header: Text(name, style: Theme.of(context).textTheme.headlineSmall),
-                content: ListView.builder(
-                  shrinkWrap: true,
-                  padding: EdgeInsets.zero,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: group?.length,
-                  itemBuilder: (context, index) {
-                    final poster = group![index];
-                    return PosterListItem(
-                      key: Key(poster.id),
-                      poster: poster,
-                      subTitle: poster.subTitle(sortingOptions),
-                      excludeActions: excludeActions,
-                      otherActions: otherActions(poster),
-                      selected: selected.contains(poster),
-                      onUserDataChanged: (id, newData) => libraryProvider.updateUserData(id, newData),
-                      onItemRemoved: (oldItem) => libraryProvider.removeFromPosters([oldItem.id]),
-                      onItemUpdated: (newItem) => libraryProvider.updateItem(newItem),
-                      onPressed: (action, item) async => onItemPressed(action, key, item, ref, context),
-                    );
-                  },
-                ),
+              final poster = items[index];
+              return PosterListItem(
+                poster: poster,
+                selected: selected.contains(poster),
+                excludeActions: excludeActions,
+                otherActions: otherActions(poster),
+                subTitle: poster.subTitle(sortingOptions),
+                onUserDataChanged: (id, newData) => libraryProvider.updateUserData(id, newData),
+                onItemRemoved: (oldItem) => libraryProvider.removeFromPosters([oldItem.id]),
+                onItemUpdated: (newItem) => libraryProvider.updateItem(newItem),
+                onPressed: (action, item) async => onItemPressed(action, key, item, ref, context),
               );
             },
           );
         }
-        return SliverList.builder(
-          itemCount: items.length,
-          itemBuilder: (context, index) {
-            final poster = items[index];
-            return PosterListItem(
-              poster: poster,
-              selected: selected.contains(poster),
-              excludeActions: excludeActions,
-              otherActions: otherActions(poster),
-              subTitle: poster.subTitle(sortingOptions),
-              onUserDataChanged: (id, newData) => libraryProvider.updateUserData(id, newData),
-              onItemRemoved: (oldItem) => libraryProvider.removeFromPosters([oldItem.id]),
-              onItemUpdated: (newItem) => libraryProvider.updateItem(newItem),
-              onPressed: (action, item) async => onItemPressed(action, key, item, ref, context),
-            );
-          },
-        );
+        if (groupByType != GroupBy.none) {
+          final groupedItems = groupItemsBy(context, items, groupByType);
+          return MultiSliver(
+              children: groupedItems.entries.map(
+            (element) {
+              final name = element.key;
+              final group = element.value;
+              return stickyHeaderBuilder(
+                context,
+                header: name,
+                sliver: listBuilder(group),
+              );
+            },
+          ).toList());
+        }
+        return listBuilder(items);
       case LibraryViewTypes.masonry:
         if (groupByType != GroupBy.none) {
           final groupedItems = groupItemsBy(context, items, groupByType);
-          return SliverList.builder(
-            itemCount: groupedItems.length,
-            itemBuilder: (context, index) {
-              final name = groupedItems.keys.elementAt(index);
-              final group = groupedItems[name];
-              if (group?.isEmpty ?? false) {
-                return Text(context.localized.empty);
-              }
-              return Padding(
-                padding: EdgeInsets.only(top: index == 0 ? 0 : 64.0),
-                child: StickyHeader(
-                    header: Text(name, style: Theme.of(context).textTheme.headlineMedium),
-                    overlapHeaders: true,
-                    content: Padding(
-                      padding: const EdgeInsets.only(top: 16.0),
-                      child: MasonryGridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        mainAxisSpacing: (8 * decimal) + 8,
-                        crossAxisSpacing: (8 * decimal) + 8,
-                        gridDelegate: SliverSimpleGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent:
-                              (MediaQuery.sizeOf(context).width ~/ (lerpDouble(250, 75, posterSizeMultiplier) ?? 1.0))
-                                      .toDouble() *
-                                  20,
-                        ),
-                        itemCount: group!.length,
-                        itemBuilder: (context, index) {
-                          final item = group[index];
-                          return PosterWidget(
-                            key: Key(item.id),
-                            poster: item,
-                            aspectRatio: item.primaryRatio,
-                            selected: selected.contains(item),
-                            inlineTitle: true,
-                            heroTag: true,
-                            subTitle: item.subTitle(sortingOptions),
-                            excludeActions: excludeActions,
-                            otherActions: otherActions(group[index]),
-                            onUserDataChanged: (id, newData) => libraryProvider.updateUserData(id, newData),
-                            onItemRemoved: (oldItem) => libraryProvider.removeFromPosters([oldItem.id]),
-                            onItemUpdated: (newItem) => libraryProvider.updateItem(newItem),
-                            onPressed: (action, item) async => onItemPressed(action, key, item, ref, context),
-                          );
-                        },
-                      ),
-                    )),
+          return MultiSliver(
+              children: groupedItems.entries.map(
+            (element) {
+              final name = element.key;
+              final group = element.value;
+              return stickyHeaderBuilder(
+                context,
+                header: name,
+                //MasonryGridView because SliverMasonryGrid breaks scrolling
+                sliver: SliverToBoxAdapter(
+                  child: MasonryGridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    mainAxisSpacing: (8 * decimal) + 8,
+                    crossAxisSpacing: (8 * decimal) + 8,
+                    gridDelegate: SliverSimpleGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent:
+                          (MediaQuery.sizeOf(context).width ~/ (lerpDouble(250, 75, posterSizeMultiplier) ?? 1.0))
+                                  .toDouble() *
+                              12,
+                    ),
+                    itemCount: group.length,
+                    itemBuilder: (context, index) {
+                      final item = group[index];
+                      return PosterWidget(
+                        key: Key(item.id),
+                        poster: item,
+                        aspectRatio: item.primaryRatio,
+                        selected: selected.contains(item),
+                        inlineTitle: true,
+                        heroTag: true,
+                        subTitle: item.subTitle(sortingOptions),
+                        excludeActions: excludeActions,
+                        otherActions: otherActions(group[index]),
+                        onUserDataChanged: (id, newData) => libraryProvider.updateUserData(id, newData),
+                        onItemRemoved: (oldItem) => libraryProvider.removeFromPosters([oldItem.id]),
+                        onItemUpdated: (newItem) => libraryProvider.updateItem(newItem),
+                        onPressed: (action, item) async => onItemPressed(action, key, item, ref, context),
+                      );
+                    },
+                  ),
+                ),
               );
             },
-          );
+          ).toList());
         } else {
           return SliverMasonryGrid.count(
             mainAxisSpacing: (8 * decimal) + 8,
@@ -307,6 +269,36 @@ class LibraryViews extends ConsumerWidget {
           );
         }
     }
+  }
+
+  SliverStickyHeader stickyHeaderBuilder(
+    BuildContext context, {
+    required String header,
+    Widget? sliver,
+  }) {
+    return SliverStickyHeader(
+      header: Container(
+        height: 50,
+        alignment: Alignment.centerLeft,
+        child: Transform.translate(
+          offset: const Offset(-20, 0),
+          child: Container(
+            decoration: BoxDecoration(
+              color: context.colors.surface.withValues(alpha: 0.9),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Text(
+                header,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+        ),
+      ),
+      sliver: sliver,
+    );
   }
 
   Map<String, List<ItemBaseModel>> groupItemsBy(BuildContext context, List<ItemBaseModel> list, GroupBy groupOption) {

@@ -7,7 +7,7 @@ import 'package:fladder/models/settings/subtitle_settings_model.dart';
 import 'package:fladder/providers/settings/subtitle_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/screens/video_player/components/video_subtitle_controls.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/fladder_app_bar.dart';
 

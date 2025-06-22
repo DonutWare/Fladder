@@ -721,6 +721,7 @@
   "@settingsContinue": {},
   "settingsEnableOsMediaControls": "Enable OS media controls",
   "@settingsEnableOsMediaControls": {},
+  "settingsEnableOsMediaControlsDesc": "Allow for playback control using media-keys and show current playing media in OS",
   "settingsHomeBannerDescription": "Display as a slideshow, carousel, or hide the banner",
   "@settingsHomeBannerDescription": {},
   "settingsHomeBannerTitle": "Home banner",
@@ -1189,6 +1190,7 @@
   "segmentActionAskToSkip": "Ask to skip",
   "segmentActionSkip": "Skip",
   "loading": "Loading",
+  "exitFladderTitle": "Exit Fladder",
   "castAndCrew": "Cast & Crew",
   "guestActor": "{count, plural, other{Guest Actors} one{Guest Actor}}",
   "@guestActor": {
@@ -1199,5 +1201,42 @@
         "example": "1"
       }
     }
-  }
+  },
+  "maxConcurrentDownloadsTitle": "Max concurrent downloads",
+  "maxConcurrentDownloadsDesc": "Sets the maximum number of downloads that can run at the same time. Set to 0 to disable the limit.",
+  "playbackTrackSelection": "Playback track selection",
+  "@playbackTrackSelection": {},
+  "rememberSubtitleSelections": "Set subtitle track based on previous item",
+  "@rememberSubtitleSelections": {},
+  "rememberAudioSelections": "Set audio track based on previous item",
+  "@rememberAudioSelections": {},
+  "rememberSubtitleSelectionsDesc": "Try to set the subtitle track to the closest match to the last video.",
+  "@rememberSubtitleSelectionsDesc": {},
+  "rememberAudioSelectionsDesc": "Try to set the audio track to the closest match to the last video.",
+  "@rememberAudioSelectionsDesc": {},
+  "similarToRecentlyPlayed": "Similar to recently played",
+  "similarToLikedItem": "Similar to liked item",
+  "hasDirectorFromRecentlyPlayed": "Has director from recently played",
+  "hasActorFromRecentlyPlayed": "Has actor from recently played",
+  "hasLikedDirector": "Has liked director",
+  "hasLikedActor": "Has liked actor",
+  "latest": "Latest",
+  "recommended": "Recommended",
+  "playbackType": "Playback type",
+  "playbackTypeDirect": "Direct",
+  "playbackTypeTranscode": "Transcode",
+  "playbackTypeOffline": "Offline",
+  "latestReleases": "Latest releases",
+  "autoCheckForUpdates": "Periodically check for updates",
+  "newReleaseFoundTitle": "Update {newRelease} available!",
+  "@newReleaseFoundTitle": {
+    "placeholders": {
+      "newRelease": {
+        "type": "String"
+      }
+    }
+  },
+  "newUpdateFoundOnGithub": "Found a new update on Github",
+  "enableBackgroundPostersTitle": "Enable background posters",
+  "enableBackgroundPostersDesc": "Show random posters in applicable screens"
 }

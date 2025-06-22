@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
+import 'package:window_manager/window_manager.dart';
 
-import 'package:fladder/models/settings/home_settings_model.dart';
+import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/providers/auth_provider.dart';
+import 'package:fladder/providers/update_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/settings/quick_connect_window.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/settings/settings_scaffold.dart';
 import 'package:fladder/screens/shared/fladder_icon.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/theme_extensions.dart';
 
@@ -97,119 +100,152 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final quickConnectAvailable =
         ref.watch(userProvider.select((value) => value?.serverConfiguration?.quickConnectAvailable ?? false));
 
-    return Container(
-      color: context.colors.surface,
-      child: SettingsScaffold(
-        label: context.localized.settings,
-        scrollController: scrollController,
-        showBackButtonNested: true,
-        showUserIcon: true,
-        items: [
-          SettingsListTile(
-            label: Text(context.localized.settingsClientTitle),
-            subLabel: Text(context.localized.settingsClientDesc),
-            selected: containsRoute(const ClientSettingsRoute()),
-            icon: deviceIcon,
-            onTap: () => navigateTo(const ClientSettingsRoute()),
-          ),
-          if (quickConnectAvailable)
-            SettingsListTile(
-              label: Text(context.localized.settingsQuickConnectTitle),
-              icon: IconsaxPlusLinear.password_check,
-              onTap: () => openQuickConnectDialog(context),
-            ),
-          SettingsListTile(
-            label: Text(context.localized.settingsProfileTitle),
-            subLabel: Text(context.localized.settingsProfileDesc),
-            selected: containsRoute(const SecuritySettingsRoute()),
-            icon: IconsaxPlusLinear.security_user,
-            onTap: () => navigateTo(const SecuritySettingsRoute()),
-          ),
-          SettingsListTile(
-            label: Text(context.localized.settingsPlayerTitle),
-            subLabel: Text(context.localized.settingsPlayerDesc),
-            selected: containsRoute(const PlayerSettingsRoute()),
-            icon: IconsaxPlusLinear.video_play,
-            onTap: () => navigateTo(const PlayerSettingsRoute()),
-          ),
-          SettingsListTile(
-            label: Text(context.localized.about),
-            subLabel: const Text("Fladder"),
-            selected: containsRoute(const AboutSettingsRoute()),
-            suffix: Opacity(
-              opacity: 1,
-              child: FladderIconOutlined(
-                size: 24,
-                color: context.colors.onSurfaceVariant,
+    final newRelease = ref.watch(updateProvider.select((value) => value.latestRelease));
+
+    final hasNewUpdate = ref.watch(hasNewUpdateProvider);
+
+    return Padding(
+      padding: EdgeInsets.only(left: AdaptiveLayout.of(context).sideBarWidth),
+      child: Container(
+        color: context.colors.surface,
+        child: SettingsScaffold(
+          label: context.localized.settings,
+          scrollController: scrollController,
+          showBackButtonNested: true,
+          showUserIcon: true,
+          items: [
+            if (hasNewUpdate && newRelease != null) ...[
+              Card(
+                color: context.colors.secondaryContainer,
+                child: SettingsListTile(
+                  label: Text(context.localized.newReleaseFoundTitle(newRelease.version)),
+                  subLabel: Text(context.localized.newUpdateFoundOnGithub),
+                  icon: IconsaxPlusLinear.information,
+                  onTap: () => navigateTo(const AboutSettingsRoute()),
+                ),
               ),
+              const SizedBox(height: 8),
+            ],
+            SettingsListTile(
+              label: Text(context.localized.settingsClientTitle),
+              subLabel: Text(context.localized.settingsClientDesc),
+              selected: containsRoute(const ClientSettingsRoute()),
+              icon: deviceIcon,
+              onTap: () => navigateTo(const ClientSettingsRoute()),
             ),
-            onTap: () => navigateTo(const AboutSettingsRoute()),
-          ),
-        ],
-        floatingActionButton: Padding(
-          padding: EdgeInsets.symmetric(horizontal: MediaQuery.paddingOf(context).horizontal),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                const Spacer(),
-                FloatingActionButton(
-                  key: Key(context.localized.switchUser),
-                  tooltip: context.localized.switchUser,
-                  onPressed: () async {
-                    await ref.read(userProvider.notifier).logoutUser();
-                    context.router.replaceAll([const LoginRoute()]);
-                  },
-                  child: const Icon(
-                    IconsaxPlusLinear.arrow_swap_horizontal,
-                  ),
+            if (quickConnectAvailable)
+              SettingsListTile(
+                label: Text(context.localized.settingsQuickConnectTitle),
+                icon: IconsaxPlusLinear.password_check,
+                onTap: () => openQuickConnectDialog(context),
+              ),
+            SettingsListTile(
+              label: Text(context.localized.settingsProfileTitle),
+              subLabel: Text(context.localized.settingsProfileDesc),
+              selected: containsRoute(const SecuritySettingsRoute()),
+              icon: IconsaxPlusLinear.security_user,
+              onTap: () => navigateTo(const SecuritySettingsRoute()),
+            ),
+            SettingsListTile(
+              label: Text(context.localized.settingsPlayerTitle),
+              subLabel: Text(context.localized.settingsPlayerDesc),
+              selected: containsRoute(const PlayerSettingsRoute()),
+              icon: IconsaxPlusLinear.video_play,
+              onTap: () => navigateTo(const PlayerSettingsRoute()),
+            ),
+            SettingsListTile(
+              label: Text(context.localized.about),
+              subLabel: Text("Fladder, ${context.localized.latestReleases}"),
+              selected: containsRoute(const AboutSettingsRoute()),
+              leading: Opacity(
+                opacity: 1,
+                child: FladderIconOutlined(
+                  size: 24,
+                  color: context.colors.onSurfaceVariant,
                 ),
-                const SizedBox(width: 16),
-                FloatingActionButton(
-                  heroTag: context.localized.logout,
-                  key: Key(context.localized.logout),
-                  tooltip: context.localized.logout,
-                  backgroundColor: Theme.of(context).colorScheme.errorContainer,
-                  onPressed: () {
-                    final user = ref.read(userProvider);
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: Text(context.localized.logoutUserPopupTitle(user?.name ?? "")),
-                        scrollable: true,
-                        content: Text(
-                          context.localized.logoutUserPopupContent(user?.name ?? "", user?.server ?? ""),
-                        ),
-                        actions: [
-                          ElevatedButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: Text(context.localized.cancel),
+              ),
+              onTap: () => navigateTo(const AboutSettingsRoute()),
+            ),
+            if (ref.watch(argumentsStateProvider.select((value) => value.htpcMode))) ...[
+              SettingsListTile(
+                label: Text(context.localized.exitFladderTitle),
+                icon: IconsaxPlusLinear.close_square,
+                onTap: () async {
+                  final manager = WindowManager.instance;
+                  if (await manager.isClosable()) {
+                    manager.close();
+                  } else {
+                    fladderSnackbar(context, title: context.localized.somethingWentWrong);
+                  }
+                },
+              ),
+            ],
+          ],
+          floatingActionButton: Padding(
+            padding: EdgeInsets.symmetric(horizontal: MediaQuery.paddingOf(context).horizontal),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  const Spacer(),
+                  FloatingActionButton(
+                    key: Key(context.localized.switchUser),
+                    tooltip: context.localized.switchUser,
+                    onPressed: () async {
+                      await ref.read(userProvider.notifier).logoutUser();
+                      context.router.replaceAll([const LoginRoute()]);
+                    },
+                    child: const Icon(
+                      IconsaxPlusLinear.arrow_swap_horizontal,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  FloatingActionButton(
+                    heroTag: context.localized.logout,
+                    key: Key(context.localized.logout),
+                    tooltip: context.localized.logout,
+                    backgroundColor: Theme.of(context).colorScheme.errorContainer,
+                    onPressed: () {
+                      final user = ref.read(userProvider);
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text(context.localized.logoutUserPopupTitle(user?.name ?? "")),
+                          scrollable: true,
+                          content: Text(
+                            context.localized.logoutUserPopupContent(user?.name ?? "", user?.server ?? ""),
                           ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom().copyWith(
-                              iconColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.onErrorContainer),
-                              foregroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.onErrorContainer),
-                              backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.errorContainer),
+                          actions: [
+                            ElevatedButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: Text(context.localized.cancel),
                             ),
-                            onPressed: () async {
-                              await ref.read(authProvider.notifier).logOutUser();
-                              if (context.mounted) {
-                                context.router.replaceAll([const LoginRoute()]);
-                              }
-                            },
-                            child: Text(context.localized.logout),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  child: Icon(
-                    IconsaxPlusLinear.logout,
-                    color: Theme.of(context).colorScheme.onErrorContainer,
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom().copyWith(
+                                iconColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.onErrorContainer),
+                                foregroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.onErrorContainer),
+                                backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.errorContainer),
+                              ),
+                              onPressed: () async {
+                                await ref.read(authProvider.notifier).logOutUser();
+                                if (context.mounted) {
+                                  context.router.replaceAll([const LoginRoute()]);
+                                }
+                              },
+                              child: Text(context.localized.logout),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    child: Icon(
+                      IconsaxPlusLinear.logout,
+                      color: Theme.of(context).colorScheme.onErrorContainer,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

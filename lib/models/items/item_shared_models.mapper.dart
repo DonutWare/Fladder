@@ -92,10 +92,6 @@ mixin UserDataMappable {
 
   UserDataCopyWith<UserData, UserData, UserData> get copyWith =>
       _UserDataCopyWithImpl(this as UserData, $identity, $identity);
-  @override
-  String toString() {
-    return UserDataMapper.ensureInitialized().stringifyValue(this as UserData);
-  }
 }
 
 extension UserDataValueCopy<$R, $Out> on ObjectCopyWith<$R, UserData, $Out> {

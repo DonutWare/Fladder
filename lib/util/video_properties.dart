@@ -1,10 +1,12 @@
+import 'package:flutter/material.dart';
+
+import 'package:collection/collection.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
-import 'package:flutter/material.dart';
-import 'package:collection/collection.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum Resolution {
   sd("SD"),
@@ -47,8 +49,10 @@ enum DisplayProfile {
   sdr("SDR"),
   hdr("HDR"),
   hdr10("HDR10"),
+  hdr10Plus("HDR10+"),
   dolbyVision("Dolby Vision"),
   dolbyVisionHdr10("DoVi/HDR10"),
+  dolbyVisionHlg("DoVi/Hlg"),
   hlg("HLG");
 
   const DisplayProfile(this.value);
@@ -80,15 +84,16 @@ enum DisplayProfile {
   }
 
   static DisplayProfile fromVideoStream(VideoStreamModel stream) {
-    switch (stream.videoRangeType) {
-      case null:
-      case dto.VideoRangeType.hlg:
-        return DisplayProfile.hlg;
-      case dto.VideoRangeType.hdr10:
-        return DisplayProfile.hdr10;
-      default:
-        return DisplayProfile.sdr;
-    }
+    return switch (stream.videoRangeType) {
+      dto.VideoRangeType.doviwithsdr => DisplayProfile.dolbyVisionHlg,
+      dto.VideoRangeType.doviwithhdr10 => DisplayProfile.dolbyVisionHdr10,
+      dto.VideoRangeType.dovi => DisplayProfile.dolbyVision,
+      dto.VideoRangeType.hlg => DisplayProfile.hlg,
+      dto.VideoRangeType.hdr10 => DisplayProfile.hdr10,
+      dto.VideoRangeType.doviwithhlg => DisplayProfile.dolbyVisionHlg,
+      dto.VideoRangeType.hdr10plus => DisplayProfile.hdr10Plus,
+      _ => DisplayProfile.sdr
+    };
   }
 }
 

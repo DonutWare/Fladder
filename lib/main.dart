@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:dynamic_color/dynamic_color.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -18,9 +17,11 @@ import 'package:smtc_windows/smtc_windows.dart' if (dart.library.html) 'package:
 import 'package:universal_html/html.dart' as html;
 import 'package:window_manager/window_manager.dart';
 
+import 'package:fladder/l10n/generated/app_localizations.dart';
 import 'package:fladder/models/account_model.dart';
-import 'package:fladder/models/settings/home_settings_model.dart';
+import 'package:fladder/models/settings/arguments_model.dart';
 import 'package:fladder/models/syncing/i_synced_item.dart';
+import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/providers/crash_log_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/shared_provider.dart';
@@ -31,7 +32,7 @@ import 'package:fladder/routes/auto_router.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/login/lock_screen.dart';
 import 'package:fladder/theme.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/application_info.dart';
 import 'package:fladder/util/fladder_config.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -52,7 +53,7 @@ Future<Map<String, dynamic>> loadConfig() async {
   return jsonDecode(configString);
 }
 
-void main() async {
+void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   final crashProvider = CrashLogNotifier();
 
@@ -96,6 +97,7 @@ void main() async {
         sharedPreferencesProvider.overrideWith((ref) => sharedPreferences),
         applicationInfoProvider.overrideWith((ref) => applicationInfo),
         crashLogProvider.overrideWith((ref) => crashProvider),
+        argumentsStateProvider.overrideWith((ref) => ArgumentsModel.fromArguments(args)),
         syncProvider.overrideWith((ref) => SyncNotifier(
               ref,
               !kIsWeb
@@ -108,13 +110,7 @@ void main() async {
             ))
       ],
       child: AdaptiveLayoutBuilder(
-        fallBack: ViewSize.tablet,
-        layoutPoints: [
-          LayoutPoints(start: 0, end: 599, type: ViewSize.phone),
-          LayoutPoints(start: 600, end: 1919, type: ViewSize.tablet),
-          LayoutPoints(start: 1920, end: 3180, type: ViewSize.desktop),
-        ],
-        child: const Main(),
+        child: (context) => const Main(),
       ),
     ),
   );
@@ -241,6 +237,10 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
       windowManager.waitUntilReadyToShow(windowOptions, () async {
         await windowManager.show();
         await windowManager.focus();
+        final startupArguments = ref.read(argumentsStateProvider);
+        if (startupArguments.htpcMode && !(await windowManager.isFullScreen())) {
+          await windowManager.setFullScreen(true);
+        }
       });
     } else {
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge, overlays: []);
@@ -288,13 +288,15 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
             ),
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
-            builder: (context, child) => Localizations.override(
-              context: context,
-              locale: AppLocalizations.supportedLocales.firstWhere(
-                (element) => element.languageCode == language.languageCode,
-                orElse: () => const Locale('en', "GB"),
-              ),
-              child: LocalizationContextWrapper(child: ScaffoldMessenger(child: child ?? Container())),
+            locale: language,
+            localeResolutionCallback: (locale, supportedLocales) {
+              if (locale == null || !supportedLocales.contains(locale)) {
+                return const Locale('en');
+              }
+              return locale;
+            },
+            builder: (context, child) => LocalizationContextWrapper(
+              child: ScaffoldMessenger(child: child ?? Container()),
             ),
             debugShowCheckedModeBanner: false,
             darkTheme: darkTheme.copyWith(
@@ -304,6 +306,7 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
               colorScheme: darkTheme.colorScheme.copyWith(
                 surface: amoledOverwrite,
                 surfaceContainerHighest: amoledOverwrite,
+                surfaceContainerLow: amoledOverwrite,
               ),
             ),
             themeMode: themeMode,

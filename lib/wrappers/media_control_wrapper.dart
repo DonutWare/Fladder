@@ -296,6 +296,9 @@ class MediaControlsWrapper extends BaseAudioHandler {
   @override
   Future<void> seek(Duration position) {
     _player?.seek(position);
+    if (_player?.lastState.playing == false) {
+      ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(position: position));
+    }
     return super.seek(position);
   }
 

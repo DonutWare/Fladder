@@ -24,82 +24,6 @@ mixin _$MediaSegmentsModel {
 
   /// Serializes this MediaSegmentsModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of MediaSegmentsModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $MediaSegmentsModelCopyWith<MediaSegmentsModel> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $MediaSegmentsModelCopyWith<$Res> {
-  factory $MediaSegmentsModelCopyWith(
-          MediaSegmentsModel value, $Res Function(MediaSegmentsModel) then) =
-      _$MediaSegmentsModelCopyWithImpl<$Res, MediaSegmentsModel>;
-  @useResult
-  $Res call({List<MediaSegment> segments});
-}
-
-/// @nodoc
-class _$MediaSegmentsModelCopyWithImpl<$Res, $Val extends MediaSegmentsModel>
-    implements $MediaSegmentsModelCopyWith<$Res> {
-  _$MediaSegmentsModelCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of MediaSegmentsModel
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? segments = null,
-  }) {
-    return _then(_value.copyWith(
-      segments: null == segments
-          ? _value.segments
-          : segments // ignore: cast_nullable_to_non_nullable
-              as List<MediaSegment>,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$MediaSegmentsModelImplCopyWith<$Res>
-    implements $MediaSegmentsModelCopyWith<$Res> {
-  factory _$$MediaSegmentsModelImplCopyWith(_$MediaSegmentsModelImpl value,
-          $Res Function(_$MediaSegmentsModelImpl) then) =
-      __$$MediaSegmentsModelImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({List<MediaSegment> segments});
-}
-
-/// @nodoc
-class __$$MediaSegmentsModelImplCopyWithImpl<$Res>
-    extends _$MediaSegmentsModelCopyWithImpl<$Res, _$MediaSegmentsModelImpl>
-    implements _$$MediaSegmentsModelImplCopyWith<$Res> {
-  __$$MediaSegmentsModelImplCopyWithImpl(_$MediaSegmentsModelImpl _value,
-      $Res Function(_$MediaSegmentsModelImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of MediaSegmentsModel
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? segments = null,
-  }) {
-    return _then(_$MediaSegmentsModelImpl(
-      segments: null == segments
-          ? _value._segments
-          : segments // ignore: cast_nullable_to_non_nullable
-              as List<MediaSegment>,
-    ));
-  }
 }
 
 /// @nodoc
@@ -127,28 +51,6 @@ class _$MediaSegmentsModelImpl extends _MediaSegmentsModel {
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$MediaSegmentsModelImpl &&
-            const DeepCollectionEquality().equals(other._segments, _segments));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_segments));
-
-  /// Create a copy of MediaSegmentsModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$MediaSegmentsModelImplCopyWith<_$MediaSegmentsModelImpl> get copyWith =>
-      __$$MediaSegmentsModelImplCopyWithImpl<_$MediaSegmentsModelImpl>(
-          this, _$identity);
-
-  @override
   Map<String, dynamic> toJson() {
     return _$$MediaSegmentsModelImplToJson(
       this,
@@ -166,13 +68,6 @@ abstract class _MediaSegmentsModel extends MediaSegmentsModel {
 
   @override
   List<MediaSegment> get segments;
-
-  /// Create a copy of MediaSegmentsModel
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$MediaSegmentsModelImplCopyWith<_$MediaSegmentsModelImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 MediaSegment _$MediaSegmentFromJson(Map<String, dynamic> json) {
@@ -187,102 +82,6 @@ mixin _$MediaSegment {
 
   /// Serializes this MediaSegment to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of MediaSegment
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $MediaSegmentCopyWith<MediaSegment> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $MediaSegmentCopyWith<$Res> {
-  factory $MediaSegmentCopyWith(
-          MediaSegment value, $Res Function(MediaSegment) then) =
-      _$MediaSegmentCopyWithImpl<$Res, MediaSegment>;
-  @useResult
-  $Res call({MediaSegmentType type, Duration start, Duration end});
-}
-
-/// @nodoc
-class _$MediaSegmentCopyWithImpl<$Res, $Val extends MediaSegment>
-    implements $MediaSegmentCopyWith<$Res> {
-  _$MediaSegmentCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of MediaSegment
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? type = null,
-    Object? start = null,
-    Object? end = null,
-  }) {
-    return _then(_value.copyWith(
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as MediaSegmentType,
-      start: null == start
-          ? _value.start
-          : start // ignore: cast_nullable_to_non_nullable
-              as Duration,
-      end: null == end
-          ? _value.end
-          : end // ignore: cast_nullable_to_non_nullable
-              as Duration,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$MediaSegmentImplCopyWith<$Res>
-    implements $MediaSegmentCopyWith<$Res> {
-  factory _$$MediaSegmentImplCopyWith(
-          _$MediaSegmentImpl value, $Res Function(_$MediaSegmentImpl) then) =
-      __$$MediaSegmentImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({MediaSegmentType type, Duration start, Duration end});
-}
-
-/// @nodoc
-class __$$MediaSegmentImplCopyWithImpl<$Res>
-    extends _$MediaSegmentCopyWithImpl<$Res, _$MediaSegmentImpl>
-    implements _$$MediaSegmentImplCopyWith<$Res> {
-  __$$MediaSegmentImplCopyWithImpl(
-      _$MediaSegmentImpl _value, $Res Function(_$MediaSegmentImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of MediaSegment
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? type = null,
-    Object? start = null,
-    Object? end = null,
-  }) {
-    return _then(_$MediaSegmentImpl(
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as MediaSegmentType,
-      start: null == start
-          ? _value.start
-          : start // ignore: cast_nullable_to_non_nullable
-              as Duration,
-      end: null == end
-          ? _value.end
-          : end // ignore: cast_nullable_to_non_nullable
-              as Duration,
-    ));
-  }
 }
 
 /// @nodoc
@@ -308,28 +107,6 @@ class _$MediaSegmentImpl extends _MediaSegment {
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$MediaSegmentImpl &&
-            (identical(other.type, type) || other.type == type) &&
-            (identical(other.start, start) || other.start == start) &&
-            (identical(other.end, end) || other.end == end));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, type, start, end);
-
-  /// Create a copy of MediaSegment
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$MediaSegmentImplCopyWith<_$MediaSegmentImpl> get copyWith =>
-      __$$MediaSegmentImplCopyWithImpl<_$MediaSegmentImpl>(this, _$identity);
-
-  @override
   Map<String, dynamic> toJson() {
     return _$$MediaSegmentImplToJson(
       this,
@@ -353,11 +130,4 @@ abstract class _MediaSegment extends MediaSegment {
   Duration get start;
   @override
   Duration get end;
-
-  /// Create a copy of MediaSegment
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$MediaSegmentImplCopyWith<_$MediaSegmentImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }

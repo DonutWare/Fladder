@@ -20,7 +20,7 @@ import 'package:fladder/screens/shared/fladder_logo.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/screens/shared/outlined_text_field.dart';
 import 'package:fladder/screens/shared/passcode_input.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/auth_service.dart';
 import 'package:fladder/util/fladder_config.dart';
 import 'package:fladder/util/list_padding.dart';

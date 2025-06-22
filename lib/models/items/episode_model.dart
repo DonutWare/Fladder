@@ -199,17 +199,34 @@ extension EpisodeListExtensions on List<EpisodeModel> {
   }
 
   EpisodeModel? get nextUp {
-    final lastProgress =
-        lastIndexWhere((element) => element.userData.progress != 0 && element.status == EpisodeStatus.available);
-    final lastPlayed =
-        lastIndexWhere((element) => element.userData.played && element.status == EpisodeStatus.available);
+    final episodes = where((e) => e.season > 0 && e.status == EpisodeStatus.available).toList();
+    if (episodes.isEmpty) return null;
 
-    if (lastProgress == -1 && lastPlayed == -1) {
-      return firstWhereOrNull((element) => element.status == EpisodeStatus.available);
-    } else {
-      return getRange(lastProgress > lastPlayed ? lastProgress : lastPlayed + 1, length)
-          .firstWhereOrNull((element) => element.status == EpisodeStatus.available);
+    final lastProgressIndex = episodes.lastIndexWhere((e) => e.userData.progress != 0);
+    final lastPlayedIndex = episodes.lastIndexWhere((e) => e.userData.played);
+    final lastWatchedIndex = [lastProgressIndex, lastPlayedIndex].reduce((a, b) => a > b ? a : b);
+
+    if (lastWatchedIndex >= 0) {
+      final current = episodes[lastWatchedIndex];
+      if (!current.userData.played && current.userData.progress != 0) {
+        return current;
+      }
+
+      final nextIndex = lastWatchedIndex + 1;
+      if (nextIndex < episodes.length) {
+        final next = episodes[nextIndex];
+        if (!next.userData.played && next.userData.progress != 0) {
+          return next;
+        }
+
+        final nextUnplayed = episodes.sublist(nextIndex).firstWhereOrNull(
+              (e) => e.status == EpisodeStatus.available && !e.userData.played,
+            );
+        if (nextUnplayed != null) return nextUnplayed;
+      }
     }
+
+    return episodes.firstOrNull;
   }
 
   bool get allPlayed {

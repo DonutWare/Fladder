@@ -13,7 +13,6 @@ import 'package:screen_brightness/screen_brightness.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
-import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
@@ -26,14 +25,13 @@ import 'package:fladder/screens/video_player/components/video_player_quality_con
 import 'package:fladder/screens/video_player/components/video_player_seek_indicator.dart';
 import 'package:fladder/screens/video_player/components/video_progress_bar.dart';
 import 'package:fladder/screens/video_player/components/video_volume_slider.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/input_handler.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/string_extensions.dart';
-import 'package:fladder/widgets/shared/full_screen_button.dart'
-    if (dart.library.html) 'package:fladder/widgets/shared/full_screen_button_web.dart';
+import 'package:fladder/widgets/full_screen_helpers/full_screen_wrapper.dart';
 
 class DesktopControls extends ConsumerStatefulWidget {
   const DesktopControls({super.key});
@@ -87,7 +85,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         return true;
       }
       if (value.logicalKey == LogicalKeyboardKey.keyF) {
-        toggleFullScreen(ref);
+        fullScreenHelper.toggleFullScreen(ref);
         return true;
       }
       if (value.logicalKey == LogicalKeyboardKey.arrowUp) {
@@ -138,7 +136,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                       ? () => player.playOrPause()
                       : () => toggleOverlay(),
                   onDoubleTap: AdaptiveLayout.of(context).inputDevice == InputDevice.pointer
-                      ? () => toggleFullScreen(ref)
+                      ? () => fullScreenHelper.toggleFullScreen(ref)
                       : null,
                 ),
               ),
@@ -168,11 +166,13 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                 builder: (context, ref, child) {
                   final position = ref.watch(mediaPlaybackProvider.select((value) => value.position));
                   MediaSegment? segment = mediaSegments?.atPosition(position);
-                  bool forceShow = segment?.forceShow(position) ?? false;
+                  SegmentVisibility forceShow =
+                      segment?.visibility(position, force: showOverlay) ?? SegmentVisibility.hidden;
                   final segmentSkipType = ref
                       .watch(videoPlayerSettingsProvider.select((value) => value.segmentSkipSettings[segment?.type]));
-                  final autoSkip =
-                      forceShow == true && segmentSkipType == SegmentSkip.skip && player.lastState?.buffering == false;
+                  final autoSkip = forceShow != SegmentVisibility.hidden &&
+                      segmentSkipType == SegmentSkip.skip &&
+                      player.lastState?.buffering == false;
                   if (autoSkip) {
                     skipToSegmentEnd(segment);
                   }
@@ -185,7 +185,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                           child: SkipSegmentButton(
                             segment: segment,
                             skipType: segmentSkipType,
-                            isOverlayVisible: forceShow ? true : showOverlay,
+                            visibility: forceShow,
                             pressedSkip: () => skipToSegmentEnd(segment),
                           ),
                         ),
@@ -441,7 +441,9 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         final List<String?> details = [
           if (AdaptiveLayout.of(context).isDesktop) item?.label(context),
           mediaPlayback.duration.inMinutes > 1
-              ? context.localized.endsAt(DateTime.now().add(mediaPlayback.duration - mediaPlayback.position))
+              ? context.localized.endsAt(DateTime.now().add(Duration(
+                  milliseconds: (mediaPlayback.duration.inMilliseconds - mediaPlayback.position.inMilliseconds) ~/
+                      ref.read(playbackRateProvider))))
               : null
         ];
         return Column(
@@ -459,14 +461,14 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                   ),
                 ),
                 const Spacer(),
-                if (playbackModel.label != null)
+                if (playbackModel != null)
                   InkWell(
                     onTap: () => showVideoPlaybackInformation(context),
                     child: Card(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                         child: Text(
-                          playbackModel?.label ?? "",
+                          playbackModel.label(context) ?? "",
                         ),
                       ),
                     ),
@@ -662,6 +664,6 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
 
   Future<void> disableFullScreen() async {
     resetTimer();
-    closeFullScreen();
+    fullScreenHelper.closeFullScreen(ref);
   }
 }

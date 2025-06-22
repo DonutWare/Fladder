@@ -218,16 +218,16 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
         .toSet()
         .toList();
     var tempState = state.copyWith();
-    final genres = mappedList
-        .expand((element) => element?.genres ?? <NameGuidPair>[])
-        .nonNulls
-        .sorted((a, b) => a.name!.toLowerCase().compareTo(b.name!.toLowerCase()));
+    final genres = (await Future.wait(state.views.included.map((viewModel) => _loadGenres(viewModel))))
+        .expand((element) => element)
+        .toSet()
+        .toList();
     final tags = mappedList
         .expand((element) => element?.tags ?? <String>[])
         .sorted((a, b) => a.toLowerCase().compareTo(b.toLowerCase()));
     tempState = tempState.copyWith(
       types: state.types.setAll(false).setKeys(enabledCollections, true),
-      genres: {for (var element in genres) element.name!: false}.replaceMap(tempState.genres),
+      genres: {for (var element in genres) element.name: false}.replaceMap(tempState.genres),
       studios: {for (var element in studios) element: false}.replaceMap(tempState.studios),
       tags: {for (var element in tags) element: false}.replaceMap(tempState.tags),
     );
@@ -242,6 +242,11 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
   Future<List<Studio>> _loadStudios(ViewModel viewModel) async {
     final response = await api.studiosGet(parentId: viewModel.id);
     return response.body?.items?.map((e) => Studio(id: e.id ?? "", name: e.name ?? "")).toList() ?? [];
+  }
+
+  Future<List<GenreItems>> _loadGenres(ViewModel viewModel) async {
+    final response = await api.genresGet(parentId: viewModel.id);
+    return response.body?.items?.map((e) => GenreItems(id: e.id ?? "", name: e.name ?? "")).toList() ?? [];
   }
 
   Future<ServerQueryResult?> _loadLibrary(
@@ -574,8 +579,11 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
 
     state = state.copyWith(fetchingItems: false);
 
+    //Only try to load video items
+    itemsToPlay = itemsToPlay.where((element) => FladderItemType.playable.contains(element.type)).toList();
+
     if (itemsToPlay.isNotEmpty) {
-      await itemsToPlay.playLibraryItems(context, ref);
+      await itemsToPlay.playLibraryItems(context, ref, shuffle: shuffle);
     } else {
       fladderSnackbar(context, title: context.localized.libraryFetchNoItemsFound);
     }
@@ -648,11 +656,12 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
     if (allItems.isNotEmpty) {
       if (state.fetchingItems == true) {
         state = state.copyWith(fetchingItems: false);
+        final newItemList = shuffle ? allItems.shuffled() : allItems;
         await Navigator.of(context, rootNavigator: true).push(
           PageTransition(
               child: PhotoViewerScreen(
-                items: allItems,
-                indexOfSelected: selected != null ? allItems.indexOf(selected) : 0,
+                items: newItemList,
+                indexOfSelected: selected != null ? newItemList.indexOf(selected) : 0,
               ),
               type: PageTransitionType.fade),
         );
@@ -700,10 +709,14 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
       ref.read(filterProvider.notifier).saveFilter(LibraryFiltersModel.fromLibrarySearch(newName, state));
 
   void updateFilter(LibraryFiltersModel model) {
-    ref.read(filterProvider.notifier).saveFilter(LibraryFiltersModel.fromLibrarySearch(model.name, state).copyWith(
-          isFavourite: model.isFavourite,
-          id: model.id,
-        ));
+    ref.read(filterProvider.notifier).saveFilter(
+          LibraryFiltersModel.fromLibrarySearch(
+            model.name,
+            state,
+            isFavourite: model.isFavourite,
+            id: model.id,
+          ),
+        );
   }
 }
 

@@ -16,13 +16,12 @@ import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/screens/shared/default_title_bar.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/widgets/full_screen_helpers/full_screen_wrapper.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/floating_player_bar.dart';
-import 'package:fladder/widgets/shared/full_screen_button.dart'
-    if (dart.library.html) 'package:fladder/widgets/shared/full_screen_button_web.dart';
 import 'package:fladder/widgets/shared/progress_floating_button.dart';
 
 class VideoPlayerNextWrapper extends ConsumerStatefulWidget {
@@ -132,7 +131,7 @@ class _VideoPlayerNextWrapperState extends ConsumerState<VideoPlayerNextWrapper>
     if (AdaptiveLayout.of(context).inputDevice != InputDevice.pointer) {
       ScreenBrightness().resetApplicationScreenBrightness();
     } else {
-      closeFullScreen();
+      fullScreenHelper.closeFullScreen(ref);
     }
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(

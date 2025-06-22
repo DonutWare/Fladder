@@ -6,12 +6,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/collection_types.dart';
-import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/models/view_model.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/metadata/refresh_metadata.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/adaptive_fab.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/destination_model.dart';
@@ -54,7 +53,7 @@ class NestedNavigationDrawer extends ConsumerWidget {
               ),
               IconButton(
                 onPressed: () => toggleExpanded(false),
-                icon: const Icon(IconsaxPlusLinear.menu_1),
+                icon: const Icon(IconsaxPlusLinear.sidebar_left),
               ),
             ],
           ),
@@ -71,16 +70,18 @@ class NestedNavigationDrawer extends ConsumerWidget {
             ),
           ),
         ),
-        ...destinations.map((destination) => DrawerListButton(
-              label: destination.label,
-              selected: context.router.current.name == destination.route?.routeName,
-              selectedIcon: destination.selectedIcon!,
-              icon: destination.icon!,
-              onPressed: () {
-                destination.action!();
-                Scaffold.of(context).closeDrawer();
-              },
-            )),
+        ...destinations.map(
+          (destination) => DrawerListButton(
+            label: destination.label,
+            selected: context.router.current.name == destination.route?.routeName,
+            selectedIcon: destination.selectedIcon!,
+            icon: destination.icon!,
+            onPressed: () {
+              destination.action!();
+              Scaffold.of(context).closeDrawer();
+            },
+          ),
+        ),
         if (views.isNotEmpty) ...{
           const Divider(indent: 28, endIndent: 28),
           Padding(

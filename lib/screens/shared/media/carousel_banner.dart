@@ -7,7 +7,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/screens/shared/media/banner_play_button.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/list_padding.dart';
@@ -51,16 +51,15 @@ class _CarouselBannerState extends ConsumerState<CarouselBanner> {
             final itemExtent = widget.items.length == 1 ? MediaQuery.sizeOf(context).width : maxExtent;
 
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4)
-                  .copyWith(top: AdaptiveLayout.of(context).isDesktop ? 6 : 10),
+              padding: EdgeInsets.only(top: AdaptiveLayout.of(context).isDesktop ? 6 : 10),
               child: Stack(
                 children: [
                   CarouselView(
                     elevation: 3,
                     shrinkExtent: 0,
                     controller: carouselController,
-                    shape: RoundedRectangleBorder(borderRadius: border),
                     padding: const EdgeInsets.symmetric(horizontal: 6),
+                    shape: RoundedRectangleBorder(borderRadius: border),
                     enableSplash: false,
                     itemExtent: itemExtent,
                     children: [
@@ -146,8 +145,8 @@ class _CarouselBannerState extends ConsumerState<CarouselBanner> {
                                     ? null
                                     : (details) async {
                                         Offset localPosition = details.globalPosition;
-                                        RelativeRect position = RelativeRect.fromLTRB(localPosition.dx - 320,
-                                            localPosition.dy, localPosition.dx, localPosition.dy);
+                                        RelativeRect position = RelativeRect.fromLTRB(
+                                            localPosition.dx, localPosition.dy, localPosition.dx, localPosition.dy);
                                         final poster = widget.items[index];
 
                                         await showMenu(

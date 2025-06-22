@@ -11,7 +11,7 @@ import 'package:fladder/util/custom_color_themes.dart';
 part 'client_settings_model.freezed.dart';
 part 'client_settings_model.g.dart';
 
-@freezed
+@Freezed(copyWith: true)
 class ClientSettingsModel with _$ClientSettingsModel {
   const ClientSettingsModel._();
   factory ClientSettingsModel({
@@ -32,7 +32,11 @@ class ClientSettingsModel with _$ClientSettingsModel {
     @Default(false) bool mouseDragSupport,
     @Default(true) bool requireWifi,
     @Default(false) bool showAllCollectionTypes,
-    @Default(DynamicSchemeVariant.tonalSpot) DynamicSchemeVariant schemeVariant,
+    @Default(2) int maxConcurrentDownloads,
+    @Default(DynamicSchemeVariant.rainbow) DynamicSchemeVariant schemeVariant,
+    @Default(true) bool backgroundPosters,
+    @Default(true) bool checkForUpdates,
+    String? lastViewedUpdate,
     int? libraryPageSize,
   }) = _ClientSettingsModel;
 

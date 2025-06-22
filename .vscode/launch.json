@@ -10,7 +10,18 @@
 			"type": "dart",
 			"args": [
 				"--flavor",
-				"development"
+				"development",
+			]
+		},
+		{
+			"name": "Fladder Development HTPC (debug)",
+			"request": "launch",
+			"type": "dart",
+			"args": [
+				"--flavor",
+				"development",
+				"-a",
+				"--htpc",
 			]
 		},
 		{
@@ -69,7 +80,8 @@
 			"deviceId": "chrome",
 			"args": [
 				"--web-port",
-				"9090"
+				"9090",
+				"--web-experimental-hot-reload"
 			],
 		},
 		{
@@ -80,7 +92,8 @@
 			"flutterMode": "release",
 			"args": [
 				"--web-port",
-				"9090"
+				"9090",
+				"--web-experimental-hot-reload"
 			],
 		},
 	],

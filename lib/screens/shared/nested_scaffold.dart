@@ -2,38 +2,38 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:fladder/models/media_playback_model.dart';
-import 'package:fladder/models/settings/home_settings_model.dart';
-import 'package:fladder/providers/video_player_provider.dart';
-import 'package:fladder/util/adaptive_layout.dart';
-import 'package:fladder/widgets/navigation_scaffold/components/floating_player_bar.dart';
-
 class NestedScaffold extends ConsumerWidget {
   final Widget body;
-  const NestedScaffold({required this.body, super.key});
+  final Widget? background;
+  const NestedScaffold({
+    required this.body,
+    this.background,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final playerState = ref.watch(mediaPlaybackProvider.select((value) => value.state));
-
-    return Card(
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        floatingActionButtonAnimator:
-            playerState == VideoPlayerState.minimized ? FloatingActionButtonAnimator.noAnimation : null,
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: switch (AdaptiveLayout.layoutOf(context)) {
-          ViewSize.phone => null,
-          _ => switch (playerState) {
-              VideoPlayerState.minimized => const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8),
-                  child: FloatingPlayerBar(),
-                ),
-              _ => null,
-            },
-        },
-        body: body,
-      ),
+    return Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+        if (background != null) background!,
+        Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Theme.of(context).colorScheme.surface.withValues(alpha: 0.98),
+                Theme.of(context).colorScheme.surface.withValues(alpha: 0.8),
+              ],
+            ),
+          ),
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: body,
+          ),
+        ),
+      ],
     );
   }
 }

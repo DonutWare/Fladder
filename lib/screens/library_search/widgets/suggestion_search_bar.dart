@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:page_transition/page_transition.dart';
 
 import 'package:fladder/models/item_base_model.dart';
@@ -65,6 +65,9 @@ class _SearchBarState extends ConsumerState<SuggestionSearchBar> {
     });
     return Card(
       elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: FladderTheme.largeShape.borderRadius,
+      ),
       shadowColor: Colors.transparent,
       child: TypeAheadField<ItemBaseModel>(
         focusNode: focusNode,
@@ -80,7 +83,7 @@ class _SearchBarState extends ConsumerState<SuggestionSearchBar> {
         decorationBuilder: (context, child) => DecoratedBox(
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.secondaryContainer,
-            borderRadius: FladderTheme.defaultShape.borderRadius,
+            borderRadius: FladderTheme.largeShape.borderRadius,
           ),
           child: child,
         ),
@@ -133,39 +136,45 @@ class _SearchBarState extends ConsumerState<SuggestionSearchBar> {
               }
             },
             contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-            title: SizedBox(
-              height: 50,
-              child: Row(
-                children: [
-                  Card(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                    child: AspectRatio(
-                      aspectRatio: 0.8,
-                      child: FladderImage(
-                        image: suggestion.images?.primary,
-                        fit: BoxFit.cover,
+            title: ConstrainedBox(
+              constraints: const BoxConstraints(
+                minHeight: 50,
+                maxHeight: 65,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Card(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                      child: AspectRatio(
+                        aspectRatio: 0.8,
+                        child: FladderImage(
+                          image: suggestion.images?.primary,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 8),
-                  Flexible(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Flexible(
-                            child: Text(
-                          suggestion.name,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        )),
-                        if (suggestion.overview.yearAired.toString().isNotEmpty)
+                    const SizedBox(width: 8),
+                    Flexible(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
                           Flexible(
-                              child:
-                                  Opacity(opacity: 0.45, child: Text(suggestion.overview.yearAired?.toString() ?? ""))),
-                      ],
+                              child: Text(
+                            suggestion.name,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          )),
+                          if (suggestion.overview.yearAired.toString().isNotEmpty)
+                            Flexible(
+                                child: Opacity(
+                                    opacity: 0.45, child: Text(suggestion.overview.yearAired?.toString() ?? ""))),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           );

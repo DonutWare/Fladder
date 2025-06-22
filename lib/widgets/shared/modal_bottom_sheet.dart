@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/item_base_model.dart';
-import 'package:fladder/models/settings/home_settings_model.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/theme.dart';
 import 'package:fladder/util/fladder_image.dart';
 
 Future<void> showBottomSheetPill({
@@ -18,31 +17,58 @@ Future<void> showBottomSheetPill({
     ScrollController scrollController,
   ) content,
 }) async {
-  final screenSize = MediaQuery.sizeOf(context);
   await showModalBottomSheet(
     isScrollControlled: true,
+    backgroundColor: Colors.transparent,
     useRootNavigator: true,
-    showDragHandle: true,
     enableDrag: true,
     context: context,
-    constraints: AdaptiveLayout.viewSizeOf(context) == ViewSize.phone
-        ? BoxConstraints(maxHeight: screenSize.height * 0.9)
-        : BoxConstraints(maxWidth: screenSize.width * 0.75, maxHeight: screenSize.height * 0.85),
     builder: (context) {
       final controller = ScrollController();
-      return ListView(
-        shrinkWrap: true,
-        controller: controller,
-        children: [
-          if (item != null) ...{
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: ItemBottomSheetPreview(item: item),
+      return ConstrainedBox(
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.sizeOf(context).height * 0.85,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8).add(MediaQuery.paddingOf(context)),
+          child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: FladderTheme.largeShape.borderRadius,
             ),
-            const Divider(),
-          },
-          content(context, controller),
-        ],
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: Container(
+                    height: 8,
+                    width: 35,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.onSurface,
+                      borderRadius: FladderTheme.largeShape.borderRadius,
+                    ),
+                  ),
+                ),
+                Flexible(
+                  child: ListView(
+                    shrinkWrap: true,
+                    controller: controller,
+                    children: [
+                      if (item != null) ...{
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: ItemBottomSheetPreview(item: item),
+                        ),
+                        const Divider(),
+                      },
+                      content(context, ScrollController()),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       );
     },
   );

@@ -1,0 +1,129 @@
+{
+  "code": "Cod",
+  "@code": {},
+  "chapter": "{count, plural, other{Capitole} one{Capitol}}",
+  "@chapter": {
+    "description": "chapter",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "continuePage": "Continuă - pagina {page}",
+  "@continuePage": {
+    "description": "Continue - page 1",
+    "placeholders": {
+      "page": {
+        "type": "int"
+      }
+    }
+  },
+  "nativeName": "Română",
+  "@nativeName": {},
+  "accept": "Acceptă",
+  "@accept": {},
+  "addAsFavorite": "Adaugă la favorite",
+  "@addAsFavorite": {},
+  "addToPlaylist": "Adaugă în lista de redare",
+  "@addToPlaylist": {},
+  "advanced": "Avansat",
+  "@advanced": {},
+  "all": "Toate",
+  "@all": {},
+  "amoledBlack": "Negru Amoled",
+  "@amoledBlack": {},
+  "appLockAutoLogin": "Conectare automată",
+  "@appLockAutoLogin": {},
+  "appLockPasscode": "Pinul de acces",
+  "@appLockPasscode": {},
+  "backgroundOpacity": "Opacitatea fundalului",
+  "@backgroundOpacity": {},
+  "bold": "Îngroșat",
+  "@bold": {},
+  "cancel": "Anulați",
+  "@cancel": {},
+  "change": "Schimbă",
+  "@change": {},
+  "clear": "",
+  "@clear": {},
+  "combined": "Combinat",
+  "@combined": {},
+  "controls": "Controale",
+  "@controls": {},
+  "dashboardContinueListening": "Continua Ascultarea",
+  "@dashboardContinueListening": {},
+  "dashboardContinueWatching": "Continua Vizionare",
+  "@dashboardContinueWatching": {},
+  "dashboardRecentlyAdded": "Adăugat recent în {name}",
+  "@dashboardRecentlyAdded": {
+    "description": "Recently added on home screen",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "dateAdded": "Data adăugării",
+  "@dateAdded": {},
+  "datePlayed": "Data redării",
+  "@datePlayed": {},
+  "days": "Zile",
+  "@days": {},
+  "about": "Despre",
+  "@about": {},
+  "close": "Închide",
+  "@close": {},
+  "dashboardContinueReading": "Continua Cititul",
+  "@dashboardContinueReading": {},
+  "autoPlay": "Redare automată",
+  "@autoPlay": {},
+  "active": "Activ",
+  "@active": {},
+  "appLockBiometrics": "Biometrice",
+  "@appLockBiometrics": {},
+  "actor": "{count, plural, other{Actori} one{Actor}}",
+  "@actor": {
+    "description": "actor",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "appLockTitle": "Selectează modul de conectare pentru {userName}",
+  "@appLockTitle": {
+    "description": "Pop-up to pick a login method",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "dateLastContentAdded": "Data ultimului conținut adăugat",
+  "@dateLastContentAdded": {},
+  "biometricsFailedCheckAgain": "Biometrice eșuate. Verificați setările și încercați din nou.",
+  "@biometricsFailedCheckAgain": {},
+  "communityRating": "Evaluarea comunității",
+  "@communityRating": {},
+  "dashboardContinue": "Continua",
+  "@dashboardContinue": {},
+  "dashboard": "Bord",
+  "@dashboard": {},
+  "delete": "Șterge",
+  "@delete": {},
+  "color": "Culoare",
+  "@color": {},
+  "addToCollection": "Adaugă la colecție",
+  "@addToCollection": {},
+  "audio": "Audio",
+  "@audio": {},
+  "backgroundBlur": "Blur de fundal",
+  "@backgroundBlur": {},
+  "collectionFolder": "Dosar de colectare",
+  "@collectionFolder": {},
+  "nextUp": "Următorul",
+  "@nextUp": {}
+}

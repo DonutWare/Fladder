@@ -1,3 +1,5 @@
+#define SourcePath ".."
+
 [Setup]
 AppId={{D573EDD5-117A-47AD-88AC-62C8EBD11DC7}
 AppName="Fladder"
@@ -21,9 +23,9 @@ SetupLogging=yes
 UninstallLogging=yes
 UninstallDisplayName="Fladder"
 UninstallDisplayIcon={app}\fladder.exe
-SetupIconFile="D:\a\Fladder\Fladder\icons\production\fladder_icon.ico"
-LicenseFile="D:\a\Fladder\Fladder\LICENSE"
-WizardImageFile=D:\a\Fladder\Fladder\assets\windows-installer\fladder-installer-100.bmp,D:\a\Fladder\Fladder\assets\windows-installer\fladder-installer-125.bmp,D:\a\Fladder\Fladder\assets\windows-installer\fladder-installer-150.bmp
+SetupIconFile="{#SourcePath}\icons\production\fladder_icon.ico"
+LicenseFile="{#SourcePath}\LICENSE"
+WizardImageFile={#SourcePath}\assets\windows-installer\fladder-installer-100.bmp,{#SourcePath}\assets\windows-installer\fladder-installer-125.bmp,{#SourcePath}\assets\windows-installer\fladder-installer-150.bmp
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -32,7 +34,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "D:\a\Fladder\Fladder\build\windows\x64\runner\Release\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "{#SourcePath}\build\windows\x64\runner\Release\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{autoprograms}\Fladder"; Filename: "{app}\fladder.exe"

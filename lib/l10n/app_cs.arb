@@ -1,0 +1,1345 @@
+{
+  "active": "Aktivní",
+  "@active": {},
+  "nativeName": "Čeština",
+  "@nativeName": {},
+  "about": "O nás",
+  "@about": {},
+  "accept": "Přijmout",
+  "@accept": {},
+  "actor": "{count, plural, one{Herec/Herečka} two{Herci} few{Herců} many{Herců} other{Herců}}",
+  "@actor": {
+    "description": "actor",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "addAsFavorite": "Přidat do oblíbených",
+  "@addAsFavorite": {},
+  "addToCollection": "Přidat do kolekce",
+  "@addToCollection": {},
+  "addToPlaylist": "Přidat do seznamu skladeb",
+  "@addToPlaylist": {},
+  "advanced": "Pokročilé",
+  "@advanced": {},
+  "director": "{count, plural, other{Režisérů} two{Režiséři} one{Režisér}}",
+  "@director": {
+    "description": "director",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "appLockBiometrics": "Biometrika",
+  "@appLockBiometrics": {},
+  "backgroundBlur": "Rozmazání pozadí",
+  "@backgroundBlur": {},
+  "appLockPasscode": "Přístupový kód",
+  "@appLockPasscode": {},
+  "communityRating": "Hodnocení komunity",
+  "@communityRating": {},
+  "dashboardContinueListening": "Pokračovat v poslechu",
+  "@dashboardContinueListening": {},
+  "filter": "{count, plural, other{Filtrů} one{Filtr} few{Filtry}}",
+  "@filter": {
+    "description": "filter",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "amoledBlack": "Amoled černá",
+  "@amoledBlack": {},
+  "appLockAutoLogin": "Automatické přihlášení",
+  "@appLockAutoLogin": {},
+  "audio": "Zvuk",
+  "@audio": {},
+  "autoPlay": "Automatické přehrávání",
+  "@autoPlay": {},
+  "backgroundOpacity": "Průhlednost pozadí",
+  "@backgroundOpacity": {},
+  "biometricsFailedCheckAgain": "Biometrické údaje selhaly. Zkontrolujte nastavení a zkuste to znovu.",
+  "@biometricsFailedCheckAgain": {},
+  "bold": "Tučné písmo",
+  "@bold": {},
+  "cancel": "Zrušit",
+  "@cancel": {},
+  "change": "Změna",
+  "@change": {},
+  "clearAllSettings": "Vymazat všechna nastavení",
+  "@clearAllSettings": {},
+  "clear": "Vymazat",
+  "@clear": {},
+  "clearAllSettingsQuestion": "Vymazat všechna nastavení?",
+  "@clearAllSettingsQuestion": {},
+  "code": "Kód",
+  "@code": {},
+  "collectionFolder": "Složka kolekcí",
+  "@collectionFolder": {},
+  "color": "Barva",
+  "@color": {},
+  "combined": "Kombinovaný",
+  "@combined": {},
+  "dashboardContinue": "Pokračovat",
+  "@dashboardContinue": {},
+  "dashboardContinueReading": "Pokračovat ve čtení",
+  "@dashboardContinueReading": {},
+  "dashboardRecentlyAdded": "Nedávno přidáno do {name}",
+  "@dashboardRecentlyAdded": {
+    "description": "Recently added on home screen",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "days": "Dny",
+  "@days": {},
+  "delete": "Smazat",
+  "@delete": {},
+  "deleteItem": "Smazat {item}?",
+  "@deleteItem": {
+    "description": "deleteItem",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "disabled": "Vypnuto",
+  "@disabled": {},
+  "discovered": "Objeven",
+  "@discovered": {},
+  "displayLanguage": "Jazyk zobrazení",
+  "@displayLanguage": {},
+  "downloadsClearDesc": "Odstranit všechna synchronizovaná data a vymazat všechna data pro každého synchronizovaného uživatele?",
+  "@downloadsClearDesc": {},
+  "downloadsPath": "Cesta",
+  "@downloadsPath": {},
+  "downloadsSyncedData": "Synchronizovaná data",
+  "@downloadsSyncedData": {},
+  "downloadsTitle": "Stažené",
+  "@downloadsTitle": {},
+  "dynamicText": "Dynamický",
+  "@dynamicText": {},
+  "editMetadata": "Upravit metadata",
+  "@editMetadata": {},
+  "empty": "Prazdné",
+  "@empty": {},
+  "enabled": "Zapnuto",
+  "@enabled": {},
+  "endsAt": "končí v {date}",
+  "@endsAt": {
+    "description": "endsAt",
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "jm"
+      }
+    }
+  },
+  "episode": "{count, plural, other{Epizod} one{Epizoda} few{Epizody}}",
+  "@episode": {
+    "description": "episode",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "error": "Chyba",
+  "@error": {},
+  "folders": "Složky",
+  "@folders": {},
+  "forceRefresh": "Vynutit obnovení",
+  "@forceRefresh": {},
+  "groupBy": "Skupina od",
+  "@groupBy": {},
+  "home": "Domů",
+  "@home": {},
+  "homeBannerSlideshow": "Prezentace",
+  "@homeBannerSlideshow": {},
+  "immediately": "Ihned",
+  "@immediately": {},
+  "incorrectPinTryAgain": "Nesprávný PIN. Zkuste to znovu.",
+  "@incorrectPinTryAgain": {},
+  "info": "Info",
+  "@info": {},
+  "invalidUrlDesc": "URL adresa musí začínat http(s)://",
+  "@invalidUrlDesc": {},
+  "itemCount": "Počet položek: {count}",
+  "@itemCount": {
+    "description": "Item count",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "label": "{count, plural, other{Označení} one{Označení}}",
+  "@label": {
+    "description": "label",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "libraryPageSizeTitle": "Velikost stránky knihovny",
+  "@libraryPageSizeTitle": {},
+  "light": "Světlý",
+  "@light": {},
+  "list": "List",
+  "@list": {},
+  "markAsWatched": "Označit jako zhlédnuté",
+  "@markAsWatched": {},
+  "mediaTypeBase": "Typ základny",
+  "@mediaTypeBase": {},
+  "mediaTypeBoxset": "Média",
+  "@mediaTypeBoxset": {},
+  "mediaTypePerson": "Osoba",
+  "@mediaTypePerson": {},
+  "mediaTypePhoto": "Fotka",
+  "@mediaTypePhoto": {},
+  "mediaTypePlaylist": "Seznam skladeb",
+  "@mediaTypePlaylist": {},
+  "mediaTypeSeason": "Sezóna",
+  "@mediaTypeSeason": {},
+  "metadataRefreshDefault": "Vyhledat nové a aktualizované soubory",
+  "@metadataRefreshDefault": {},
+  "metadataRefreshFull": "Nahradit všechna metadata",
+  "@metadataRefreshFull": {},
+  "metadataRefreshValidation": "Vyhledat chybějící metadata",
+  "@metadataRefreshValidation": {},
+  "name": "Název",
+  "@name": {},
+  "navigation": "Navigace",
+  "@navigation": {},
+  "navigationFavorites": "Oblíbené",
+  "@navigationFavorites": {},
+  "navigationSync": "Synchronizováno",
+  "@navigationSync": {},
+  "noItemsSynced": "Žádné synchronizované položky",
+  "@noItemsSynced": {},
+  "noItemsToShow": "Žádné položky k zobrazení",
+  "@noItemsToShow": {},
+  "noRating": "Žádné hodnocení",
+  "@noRating": {},
+  "noResults": "Žádné výsledky",
+  "@noResults": {},
+  "noServersFound": "Nenalezeny žádné nové servery",
+  "@noServersFound": {},
+  "noSuggestionsFound": "Nenalezeny žádné návrhy",
+  "@noSuggestionsFound": {},
+  "favorite": "Oblíbené",
+  "@favorite": {},
+  "mediaTypeSeries": "Série",
+  "@mediaTypeSeries": {},
+  "all": "Všechny",
+  "@all": {},
+  "dateLastContentAdded": "Datum posledního přidání obsahu",
+  "@dateLastContentAdded": {},
+  "disableFilters": "Vypnout filtry",
+  "@disableFilters": {},
+  "dateAdded": "Datum přidání",
+  "@dateAdded": {},
+  "ascending": "Vzestupně",
+  "@ascending": {},
+  "controls": "Ovládání",
+  "@controls": {},
+  "appLockTitle": "Nastavte způsob přihlášení pro {userName}",
+  "@appLockTitle": {
+    "description": "Pop-up to pick a login method",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "chapter": "{count, plural, other{Kapitol} one{Kapitola}}",
+  "@chapter": {
+    "description": "chapter",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "clearChanges": "Vymazat změny",
+  "@clearChanges": {},
+  "dashboard": "Řídící panel",
+  "@dashboard": {},
+  "clearSelection": "Vymazat výběr",
+  "@clearSelection": {},
+  "datePlayed": "Datum přehrání",
+  "@datePlayed": {},
+  "mediaTypePhotoAlbum": "Foto album",
+  "@mediaTypePhotoAlbum": {},
+  "metaDataSavedFor": "Metadata uložena pro {item}",
+  "@metaDataSavedFor": {
+    "description": "metaDataSavedFor",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "dashboardContinueWatching": "Pokračovat ve sledování",
+  "@dashboardContinueWatching": {},
+  "loop": "Smyčka",
+  "@loop": {},
+  "heightOffset": "Výškový posun",
+  "@heightOffset": {},
+  "genre": "{count, plural, other{Žánrů} one{Žánr} few{Žánry}}",
+  "@genre": {
+    "description": "genre",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "hide": "Skrýt",
+  "@hide": {},
+  "mediaTypeEpisode": "Epizoda",
+  "@mediaTypeEpisode": {},
+  "lockscreen": "Zamykací obrazovka",
+  "@lockscreen": {},
+  "login": "Přihlásit se",
+  "@login": {},
+  "mouseDragSupport": "Táhněte pomocí myši",
+  "@mouseDragSupport": {},
+  "musicAlbum": "Album",
+  "@musicAlbum": {},
+  "fontColor": "Barva písma",
+  "@fontColor": {},
+  "logout": "Odhlásit se",
+  "@logout": {},
+  "mediaTypeBook": "Kniha",
+  "@mediaTypeBook": {},
+  "moreFrom": "Více od {info}",
+  "@moreFrom": {
+    "description": "More from",
+    "placeholders": {
+      "info": {
+        "type": "String"
+      }
+    }
+  },
+  "hideEmpty": "Skrýt prázdné",
+  "@hideEmpty": {},
+  "mediaTypeMovie": "Film",
+  "@mediaTypeMovie": {},
+  "libraryFetchNoItemsFound": "Nenalezeny žádné položky. Zkuste jiná nastavení.",
+  "@libraryFetchNoItemsFound": {},
+  "libraryPageSizeDesc": "Nastavte množství, které se má načíst najednou. Hodnota 0 vypne stránkování.",
+  "@libraryPageSizeDesc": {},
+  "loggedIn": "Přihlášen/a",
+  "@loggedIn": {},
+  "logoutUserPopupContent": "Tímto odhlásíte uživatele {userName} a uživatel se smaže z aplikace.\nBudete se muset znovu přihlásit na server {serverName}.",
+  "@logoutUserPopupContent": {
+    "description": "Pop-up for logging out the user description",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      },
+      "serverName": {
+        "type": "String"
+      }
+    }
+  },
+  "moreOptions": "Více možností",
+  "@moreOptions": {},
+  "never": "Nikdy",
+  "@never": {},
+  "openWebLink": "Otevřít webový odkaz",
+  "@openWebLink": {},
+  "close": "Zavřít",
+  "@close": {},
+  "nextUp": "Nadcházející",
+  "@nextUp": {},
+  "logoutUserPopupTitle": "Odhlásit uživatele {userName}?",
+  "@logoutUserPopupTitle": {
+    "description": "Pop-up for logging out the user",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteFileFromSystem": "Smazáním této položky {item} ji smažete ze souborového systému i z knihovny médií. Opravdu chcete pokračovat?",
+  "@deleteFileFromSystem": {
+    "description": "Delete file from system",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "descending": "Sestupně",
+  "@descending": {},
+  "downloadsClearTitle": "Vymazat synchronizovaná data",
+  "@downloadsClearTitle": {},
+  "group": "Skupina",
+  "@group": {},
+  "fetchingLibrary": "Načítání položek z knihovny…",
+  "@fetchingLibrary": {},
+  "goTo": "Přejít na",
+  "@goTo": {},
+  "mode": "Mód",
+  "@mode": {},
+  "navigationDashboard": "Řídící panel",
+  "@navigationDashboard": {},
+  "page": "Strana {index}",
+  "@page": {
+    "description": "page",
+    "placeholders": {
+      "index": {
+        "type": "int"
+      }
+    }
+  },
+  "continuePage": "Pokračovat - strana {page}",
+  "@continuePage": {
+    "description": "Continue - page 1",
+    "placeholders": {
+      "page": {
+        "type": "int"
+      }
+    }
+  },
+  "fontSize": "Velikost písma",
+  "@fontSize": {},
+  "grid": "Mřížka",
+  "@grid": {},
+  "invalidUrl": "Neplatná adresa URL",
+  "@invalidUrl": {},
+  "mediaTypeFolder": "Složka",
+  "@mediaTypeFolder": {},
+  "failedToLoadImage": "Nepodařilo se načíst obrázek",
+  "@failedToLoadImage": {},
+  "favorites": "Oblíbené",
+  "@favorites": {},
+  "homeBannerCarousel": "Kolotoč",
+  "@homeBannerCarousel": {},
+  "identify": "Identifikovat",
+  "@identify": {},
+  "library": "{count, plural, other{knihoven} few{knihovny} one{knihovna}}",
+  "@library": {
+    "description": "Plural",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "markAsUnwatched": "Označit jako nezhlédnuté",
+  "@markAsUnwatched": {},
+  "minutes": "{count, plural, other {Minut} few{Minuty} one{Minuta} }",
+  "@minutes": {
+    "description": "minute",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "none": "Žádný",
+  "@none": {},
+  "other": "Ostatní",
+  "@other": {},
+  "outlineColor": "Vnější barva",
+  "@outlineColor": {},
+  "outlineSize": "Vnější velikost",
+  "@outlineSize": {},
+  "options": "Možnosti",
+  "@options": {},
+  "notPartOfAlbum": "Není součástí alba",
+  "@notPartOfAlbum": {},
+  "openParent": "Otevřené rodiče",
+  "@openParent": {},
+  "overview": "Přehled",
+  "@overview": {},
+  "normal": "Normální",
+  "@normal": {},
+  "openShow": "Otevřít show",
+  "@openShow": {},
+  "parentalRating": "Rodičovské hodnocení",
+  "@parentalRating": {},
+  "pathClearTitle": "Vymazat cestu ke stažení",
+  "@pathClearTitle": {},
+  "password": "Heslo",
+  "@password": {},
+  "pathEditDesc": "Toto umístění je nastaveno pro všechny uživatele, synchronizovaná data již nebudou přístupná. Zůstanou ve vašem úložišti.",
+  "@pathEditDesc": {},
+  "pathEditSelect": "Vyberte cíl pro stahování",
+  "@pathEditSelect": {},
+  "videoScaling": "Škálování videa",
+  "@videoScaling": {},
+  "unableToReverseAction": "Tuto akci nelze vrátit zpět. Odstraní všechna nastavení.",
+  "@unableToReverseAction": {},
+  "video": "Video",
+  "@video": {},
+  "removedFromCollection": "Odstraněno z kolekce {collectionName}",
+  "@removedFromCollection": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncStatusNotFound": "Nenalezeno",
+  "@syncStatusNotFound": {},
+  "syncStatusRunning": "Synchronizování",
+  "@syncStatusRunning": {},
+  "subtitleConfiguratorPlaceHolder": "Toto je zástupný text, zde není nic k vidění.",
+  "@subtitleConfiguratorPlaceHolder": {},
+  "subtitles": "Titulky",
+  "@subtitles": {},
+  "themeModeDark": "Tmavé",
+  "@themeModeDark": {},
+  "userName": "Uživatelské jméno",
+  "@userName": {},
+  "sync": "Synchronizace",
+  "@sync": {},
+  "type": "{count, plural, other{Typů} one{Typ} few{Typy}}",
+  "@type": {
+    "description": "type",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "syncedItems": "Synchronizované položky",
+  "@syncedItems": {},
+  "syncStatusWaitingToRetry": "Čekání na opakování",
+  "@syncStatusWaitingToRetry": {},
+  "themeColor": "Barva téma",
+  "@themeColor": {},
+  "themeModeLight": "Světlé",
+  "@themeModeLight": {},
+  "guestActor": "{count, plural, other{Hostující herci} one{Hostující herec/herečka}}",
+  "@guestActor": {
+    "description": "Guest actors",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "addedToCollection": "Přidáno do kolekce {collectionName}",
+  "@addedToCollection": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "unableToConnectHost": "Nelze se připojit k hostiteli",
+  "@unableToConnectHost": {},
+  "syncStatusFailed": "Neúspěšné",
+  "@syncStatusFailed": {},
+  "play": "Přehrát {item}",
+  "@play": {
+    "description": "Play with",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "playCount": "Počet přehrání",
+  "@playCount": {},
+  "playFrom": "Přehrát z {name}",
+  "@playFrom": {
+    "description": "playFrom",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "playFromStart": "Přehrát {name} od začátku",
+  "@playFromStart": {
+    "description": "speel vanaf het begin",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "playLabel": "Přehrát",
+  "@playLabel": {},
+  "playVideos": "Přehrát videa",
+  "@playVideos": {},
+  "played": "Přehráno",
+  "@played": {},
+  "quickConnectAction": "Zadejte kód pro rychlé připojení",
+  "@quickConnectAction": {},
+  "quickConnectInputACode": "Zadejte kód",
+  "@quickConnectInputACode": {},
+  "quickConnectTitle": "Rychlé připojení",
+  "@quickConnectTitle": {},
+  "quickConnectWrongCode": "Špatný kód",
+  "@quickConnectWrongCode": {},
+  "random": "Náhodně",
+  "@random": {},
+  "rating": "{count, plural, other{Hodnocení} one{Hodnocení}}",
+  "@rating": {
+    "description": "rating",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "reWatch": "Znovu se podívat",
+  "@reWatch": {},
+  "read": "Přečíst {item}",
+  "@read": {
+    "description": "read",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "readFromStart": "Přečíst {item} od začátku",
+  "@readFromStart": {
+    "description": "Read book from start",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "recursive": "Rekurze",
+  "@recursive": {},
+  "refresh": "Obnovit",
+  "@refresh": {},
+  "refreshMetadata": "Obnovit metadata",
+  "@refreshMetadata": {},
+  "refreshPopup": "Obnovit - {name}",
+  "@refreshPopup": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "refreshPopupContentMetadata": "Metadata se aktualizovala na základě nastavení a internetových služeb zapnutých v řídicím panelu.",
+  "@refreshPopupContentMetadata": {},
+  "related": "Související",
+  "@related": {},
+  "releaseDate": "Datum vydání",
+  "@releaseDate": {},
+  "removeAsFavorite": "Odebrat z oblíbených",
+  "@removeAsFavorite": {},
+  "removeFromCollection": "Odebrat z kolekce",
+  "@removeFromCollection": {},
+  "removeFromPlaylist": "Odebrat ze seznamu skladeb",
+  "@removeFromPlaylist": {},
+  "replaceAllImages": "Nahradit všechny obrázky",
+  "@replaceAllImages": {},
+  "replaceExistingImages": "Nahradit existující obrázky",
+  "@replaceExistingImages": {},
+  "result": "Výsledek",
+  "@result": {},
+  "resumable": "Obnovitelné",
+  "@resumable": {},
+  "resume": "Obnovit {item}",
+  "@resume": {
+    "description": "resume",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "retry": "Zkusit znovu",
+  "@retry": {},
+  "runTime": "Trvání",
+  "@runTime": {},
+  "save": "Uložit",
+  "@save": {},
+  "saved": "Uloženo",
+  "@saved": {},
+  "scanBiometricHint": "Ověření totožnosti",
+  "@scanBiometricHint": {},
+  "scanLibrary": "Skenovat knihovnu",
+  "@scanLibrary": {},
+  "scanningName": "Skenování - {name}…",
+  "@scanningName": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "search": "Vyhledat",
+  "@search": {},
+  "seconds": "{count, plural, other{Sekund} few{Sekundy} one{Sekunda} }",
+  "@seconds": {
+    "description": "second",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "selectAll": "Označit vše",
+  "@selectAll": {},
+  "selectTime": "Vyberte čas",
+  "@selectTime": {},
+  "selectViewType": "Vyberte typ zobrazení",
+  "@selectViewType": {},
+  "selected": "Označeno",
+  "@selected": {},
+  "selectedWith": "Označeno {info}",
+  "@selectedWith": {
+    "description": "selected",
+    "placeholders": {
+      "info": {
+        "type": "String"
+      }
+    }
+  },
+  "separate": "Oddělený",
+  "@separate": {},
+  "server": "Server",
+  "@server": {},
+  "settingSecurityApplockTitle": "Zámek aplikace",
+  "@settingSecurityApplockTitle": {},
+  "settings": "Nastavení",
+  "@settings": {},
+  "settingsBlurEpisodesDesc": "Rozmazat všechny nadcházející epizody",
+  "@settingsBlurEpisodesDesc": {},
+  "settingsBlurEpisodesTitle": "Rozmazat nadcházející epizody",
+  "@settingsBlurEpisodesTitle": {},
+  "settingsBlurredPlaceholderDesc": "Zobrazit rozmazané pozadí při načítání plakátů",
+  "@settingsBlurredPlaceholderDesc": {},
+  "settingsBlurredPlaceholderTitle": "Rozmazané placeholdery",
+  "@settingsBlurredPlaceholderTitle": {},
+  "settingsClientDesc": "Obecné, Časový limit, Rozvržení, Téma",
+  "@settingsClientDesc": {},
+  "settingsClientTitle": "Fladder",
+  "@settingsClientTitle": {},
+  "settingsContinue": "Pokračovat",
+  "@settingsContinue": {},
+  "settingsHomeBannerDescription": "Zobrazit jako prezentaci, kolotoč nebo skrýt banner",
+  "@settingsHomeBannerDescription": {},
+  "settingsHomeBannerTitle": "Domovský banner",
+  "@settingsHomeBannerTitle": {},
+  "settingsHomeBannerInformationDesc": "Informace, které se mají zobrazit na domovském banneru",
+  "@settingsHomeBannerInformationDesc": {},
+  "settingsHomeBannerInformationTitle": "Informace na banneru",
+  "@settingsHomeBannerInformationTitle": {},
+  "settingsHomeNextUpTitle": "Nadcházející plakáty",
+  "@settingsHomeNextUpTitle": {},
+  "settingsPlayerCustomSubtitlesDesc": "Přizpůsobit velikost, barvu, polohu, obrys",
+  "@settingsPlayerCustomSubtitlesDesc": {},
+  "settingsPlayerDesc": "Poměr stran, Pokročilý",
+  "@settingsPlayerDesc": {},
+  "settingsPlayerNativeLibassAccelDesc": "Použít vykreslování titulků libass z video přehrávače",
+  "@settingsPlayerNativeLibassAccelDesc": {},
+  "settingsPlayerNativeLibassAccelTitle": "Nativní libass titulky",
+  "@settingsPlayerNativeLibassAccelTitle": {},
+  "settingsPlayerBufferSizeTitle": "Velikost vyrovnávací paměti videa",
+  "@settingsPlayerBufferSizeTitle": {},
+  "settingsPlayerBufferSizeDesc": "Nakonfigurovat velikost vyrovnávací paměti pro přehrávání videa a určit, kolik dat se načte do mezipaměti.",
+  "@settingsPlayerBufferSizeDesc": {},
+  "settingsPlayerTitle": "Přehrávač",
+  "@settingsPlayerTitle": {},
+  "settingsPlayerVideoHWAccelDesc": "Použít GPU na vykreslení videa (doporučeno)",
+  "@settingsPlayerVideoHWAccelDesc": {},
+  "settingsPlayerVideoHWAccelTitle": "Hardwarová akcelerace",
+  "@settingsPlayerVideoHWAccelTitle": {},
+  "settingsPosterSize": "Velikost plakátu",
+  "@settingsPosterSize": {},
+  "settingsPosterSlider": "Zobrazit posuvník měřítka",
+  "@settingsPosterSlider": {},
+  "settingsProfileDesc": "Zamykací obrazovka",
+  "@settingsProfileDesc": {},
+  "settingsProfileTitle": "Profil",
+  "@settingsProfileTitle": {},
+  "settingsQuickConnectTitle": "Rychlé připojení",
+  "@settingsQuickConnectTitle": {},
+  "settingsSecurity": "Zabezpečení",
+  "@settingsSecurity": {},
+  "settingsShowScaleSlider": "Zobrazit posuvník pro změnu velikosti plakátu",
+  "@settingsShowScaleSlider": {},
+  "settingsVisual": "Vizuál",
+  "@settingsVisual": {},
+  "shadow": "Stín",
+  "@shadow": {},
+  "showEmpty": "Zobrazit prázdné",
+  "@showEmpty": {},
+  "showDetails": "Zobrazit detaily",
+  "@showDetails": {},
+  "shuffleVideos": "Náhodné přehrávání videa",
+  "@shuffleVideos": {},
+  "somethingWentWrong": "Něco se pokazilo",
+  "@somethingWentWrong": {},
+  "somethingWentWrongPasswordCheck": "Něco se pokazilo. Zkontrolujte si heslo.",
+  "@somethingWentWrongPasswordCheck": {},
+  "sortBy": "Seřadit podle",
+  "@sortBy": {},
+  "sortName": "Název",
+  "@sortName": {},
+  "sortOrder": "Pořadí řazení",
+  "@sortOrder": {},
+  "start": "Start",
+  "@start": {},
+  "studio": "{count, plural, other{Studia} one{Studio}}",
+  "@studio": {
+    "description": "studio",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "subtitleConfigurator": "Konfigurátor titulků",
+  "@subtitleConfigurator": {},
+  "switchUser": "Přepnout uživatele",
+  "@switchUser": {},
+  "syncDetails": "Podrobnosti synchronizace",
+  "@syncDetails": {},
+  "syncOpenParent": "Otevřít nadřazený element",
+  "@syncOpenParent": {},
+  "theme": "Téma",
+  "@theme": {},
+  "themeModeSystem": "Systémové",
+  "@themeModeSystem": {},
+  "timeOut": "Časový limit",
+  "@timeOut": {},
+  "totalSize": "Celková velikost: {size}",
+  "@totalSize": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "unPlayed": "Nepřehrané",
+  "@unPlayed": {},
+  "useDefaults": "Použít výchozí nastavení",
+  "@useDefaults": {},
+  "videoScalingContain": "Přizpůsobit",
+  "@videoScalingContain": {},
+  "videoScalingCover": "Vyplnit",
+  "@videoScalingCover": {},
+  "viewPhotos": "Zobrazit fotografie",
+  "@viewPhotos": {},
+  "watchOn": "Sledovat na",
+  "@watchOn": {},
+  "addToNewCollection": "Nová kolekce",
+  "@addToNewCollection": {},
+  "addItemsToCollection": "Přidat {itemLength} položku/položek do kolekce",
+  "@addItemsToCollection": {
+    "placeholders": {
+      "itemLength": {
+        "type": "int"
+      }
+    }
+  },
+  "addToNewPlaylist": "Nový seznam skladeb",
+  "@addToNewPlaylist": {},
+  "addItemsToPlaylist": "Přidat {itemLength} položku/položek do seznamu skladeb",
+  "@addItemsToPlaylist": {
+    "placeholders": {
+      "itemLength": {
+        "type": "int"
+      }
+    }
+  },
+  "addedToPlaylist": "Přidáno do seznamu skladeb {playlistName}",
+  "@addedToPlaylist": {
+    "placeholders": {
+      "playlistName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncStatusEnqueued": "Zařazeno do fronty",
+  "@syncStatusEnqueued": {},
+  "syncStatusComplete": "Dokončeno",
+  "@syncStatusComplete": {},
+  "syncStatusCanceled": "Zrušeno",
+  "@syncStatusCanceled": {},
+  "syncStatusPaused": "Pozastaveno",
+  "@syncStatusPaused": {},
+  "syncStatusSynced": "Synchronizováno",
+  "@syncStatusSynced": {},
+  "syncStatusPartially": "Částečně",
+  "@syncStatusPartially": {},
+  "syncOverlaySyncing": "Synchronizace podrobností o položce",
+  "@syncOverlaySyncing": {},
+  "syncSelectDownloadsFolder": "Vyberte složku pro stahování",
+  "@syncSelectDownloadsFolder": {},
+  "syncNoFolderSetup": "Žádné nastavení synchronizační složky",
+  "@syncNoFolderSetup": {},
+  "syncRemoveUnableToDeleteItem": "Nepodařilo se odstranit synchronizovanou položku, něco se pokazilo",
+  "@syncRemoveUnableToDeleteItem": {},
+  "syncAddItemForSyncing": "Přidána položka {item} pro synchronizaci",
+  "@syncAddItemForSyncing": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "startedSyncingItem": "Zahájena synchronizace položky {item}",
+  "@startedSyncingItem": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "unableToSyncItem": "Nelze synchronizovat {item}, něco se pokazilo",
+  "@unableToSyncItem": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "season": "{count, plural, other{Sezón} few{Sezóny} one{Sezóna­­} }",
+  "@season": {
+    "description": "season",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "restart": "Restartovat",
+  "@restart": {},
+  "retrievePublicListOfUsers": "Načíst veřejný seznam uživatelů",
+  "@retrievePublicListOfUsers": {},
+  "scanYourFingerprintToAuthenticate": "Naskenujte svůj otisk prstu pro ověření uživatele {user}",
+  "@scanYourFingerprintToAuthenticate": {
+    "placeholders": {
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "scrollToTop": "Přejít nahoru",
+  "@scrollToTop": {},
+  "settingsEnableOsMediaControls": "Povolit systémové ovládání médií",
+  "@settingsEnableOsMediaControls": {},
+  "settingsHomeNextUpDesc": "Typ plakátů zobrazených na řídicím panelu",
+  "@settingsHomeNextUpDesc": {},
+  "syncDeletePopupPermanent": "Tato akce je trvalá a odstraní všechny lokálně synchronizované soubory",
+  "@syncDeletePopupPermanent": {},
+  "set": "Nastavit",
+  "@set": {
+    "description": "Use for setting a certain value",
+    "context": "Set 'time'"
+  },
+  "settingsPlayerCustomSubtitlesTitle": "Přizpůsobení titulků",
+  "@settingsPlayerCustomSubtitlesTitle": {},
+  "settingsPlayerMobileWarning": "Zapnutí hardwarové akcelerace a nativních titulků libass v systému Android může způsobit, že se některé titulky nebudou vykreslovat.",
+  "@settingsPlayerMobileWarning": {},
+  "settingsPosterPinch": "Zvětšení plakátů pomocí přiblížení a sevření prstů",
+  "@settingsPosterPinch": {},
+  "showAlbum": "Zobrazit album",
+  "@showAlbum": {},
+  "year": "{count, plural, other{Let} one{Rok} few{Roky}}",
+  "@year": {
+    "description": "year",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "timeAndAnnotation": "{minutes} a {seconds}",
+  "@timeAndAnnotation": {
+    "description": "timeAndAnnotation",
+    "placeholders": {
+      "minutes": {
+        "type": "String"
+      },
+      "seconds": {
+        "type": "String"
+      }
+    }
+  },
+  "syncOverlayDeleting": "Odebírání synchronizované položky",
+  "@syncOverlayDeleting": {},
+  "syncDeleteItemDesc": "Smazat všechna synchronizovaná data pro {item}?",
+  "@syncDeleteItemDesc": {
+    "description": "Sync delete item pop-up window",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "unknown": "Neznámý",
+  "@unknown": {},
+  "syncRemoveDataTitle": "Odstranit synchronizovaná data?",
+  "@syncRemoveDataTitle": {},
+  "syncDeleteItemTitle": "Smazat synchronizovanou položku",
+  "@syncDeleteItemTitle": {},
+  "writer": "{count, plural, other{Spisovatelů} few{Spisovatelé} one{Spisovatel}}",
+  "@writer": {
+    "description": "writer",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "tag": "{count, plural, one{Štítek} few{Štítky} many{Štítků} other{Štítků}}",
+  "@tag": {
+    "description": "tag",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "setIdentityTo": "Změnit identitu na {name}",
+  "@setIdentityTo": {
+    "description": "setIdentityTo",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "shuffleGallery": "Náhodné přehrávání galerie",
+  "@shuffleGallery": {},
+  "syncRemoveDataDesc": "Smazat synchronizovaná video data? Toto je trvalé a budete muset soubory znovu synchronizovat",
+  "@syncRemoveDataDesc": {},
+  "pathEditTitle": "Změnit umístění",
+  "@pathEditTitle": {},
+  "aboutVersion": "Verze: {version}",
+  "@aboutVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutBuild": "Verze sestavení: {buildNumber}",
+  "@aboutBuild": {
+    "placeholders": {
+      "buildNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutCreatedBy": "Vytvořil DonutWare",
+  "@aboutCreatedBy": {},
+  "autoNextOffStaticDesc": "Zobrazit nadcházející obrazovku, když zbývá 30 sekund přehrávání",
+  "@autoNextOffStaticDesc": {},
+  "phone": "Telefon",
+  "@phone": {},
+  "mediaSegmentPreview": "Náhled",
+  "@mediaSegmentPreview": {},
+  "rememberAudioSelections": "Nastavit zvukovou stopu na základě předchozí položky",
+  "@rememberAudioSelections": {},
+  "settingsAutoNextDesc": "Zobrazí náhled nadcházející položky ke konci, pokud je ve frontě jiná položka",
+  "@settingsAutoNextDesc": {},
+  "autoNextOffSmartDesc": "Zobrazí nadcházející obrazovku na začátku titulků, pokud po nich nezbývá více než 10 sekund. Jinak zobrazí další obrazovku s 30 sekundami zbývajícího času přehrávání",
+  "@autoNextOffSmartDesc": {},
+  "playerSettingsBackendDesc": "Vyberte si preferovaný přehrávač médií pro optimální zážitek z přehrávání",
+  "@playerSettingsBackendDesc": {},
+  "autoNextOffStaticTitle": "Statický",
+  "@autoNextOffStaticTitle": {},
+  "unableToPlayMedia": "Při hledání kompatibilního typu média došlo k chybě",
+  "@unableToPlayMedia": {},
+  "removeFilterForLibrary": "Odebrat {filter}?",
+  "@removeFilterForLibrary": {
+    "description": "removeFilterForLibrary",
+    "placeholders": {
+      "filter": {
+        "type": "String"
+      }
+    }
+  },
+  "deviceOrientationLandscapeLeft": "Horizontálně vlevo",
+  "@deviceOrientationLandscapeLeft": {},
+  "noVideoPlayerOptions": "Vybraný backend nemá žádné možnosti",
+  "@noVideoPlayerOptions": {},
+  "clientSettingsShowAllCollectionsDesc": "Pokud je povoleno, zobrazit všechny typy kolekcí, včetně těch, které Fladder nepodporuje",
+  "@clientSettingsShowAllCollectionsDesc": {},
+  "skipButtonLabel": "(S) Přeskočit {segment}",
+  "@skipButtonLabel": {
+    "placeholders": {
+      "segment": {
+        "type": "String"
+      }
+    }
+  },
+  "mediaSegmentUnknown": "Neznámý",
+  "@mediaSegmentUnknown": {},
+  "rememberSubtitleSelectionsDesc": "Zkusit nastavit titulkovou stopu tak, aby se co nejvíce shodovala s posledním videem.",
+  "@rememberSubtitleSelectionsDesc": {},
+  "copyStreamUrl": "Kopírovat URL streamu",
+  "@copyStreamUrl": {},
+  "mediaSegmentRecap": "Shrnutí",
+  "@mediaSegmentRecap": {},
+  "mdkExperimental": "MDK je stále v experimentální fázi",
+  "@mdkExperimental": {},
+  "mediaSegmentOutro": "Konec",
+  "@mediaSegmentOutro": {},
+  "layoutModeSingle": "Jeden",
+  "@layoutModeSingle": {},
+  "copiedToClipboard": "Zkopírováno do schránky",
+  "@copiedToClipboard": {},
+  "defaultLabel": "Výchozí",
+  "@defaultLabel": {
+    "description": "To indicate a default value, default video player backend"
+  },
+  "external": "Externí",
+  "@external": {},
+  "settingsLayoutSizesDesc": "Vyberte, které velikosti rozvržení může aplikace použít na základě velikosti okna",
+  "@settingsLayoutSizesDesc": {},
+  "episodeUnaired": "Nevysílána",
+  "@episodeUnaired": {},
+  "episodeMissing": "Chybí",
+  "@episodeMissing": {},
+  "rememberSubtitleSelections": "Nastavení titulkové stopy na základě předchozí položky",
+  "@rememberSubtitleSelections": {},
+  "autoCheckForUpdates": "Pravidelně kontrolovat aktualizace",
+  "@autoCheckForUpdates": {},
+  "castAndCrew": "Obsazení a štáb",
+  "@castAndCrew": {},
+  "segmentActionSkip": "Přeskočit",
+  "@segmentActionSkip": {},
+  "rememberAudioSelectionsDesc": "Zkuste nastavit zvukovou stopu tak, aby se co nejvíce shodovala s posledním videem.",
+  "@rememberAudioSelectionsDesc": {},
+  "mediaSegmentCommercial": "Reklama",
+  "@mediaSegmentCommercial": {},
+  "off": "Vypnuto",
+  "@off": {},
+  "qualityOptionsAuto": "Auto",
+  "@qualityOptionsAuto": {},
+  "subtitle": "Titulek",
+  "@subtitle": {},
+  "deleteFilterConfirmation": "Opravdu chcete tento filtr smazat?",
+  "@deleteFilterConfirmation": {},
+  "episodeAvailable": "Dostupná",
+  "@episodeAvailable": {},
+  "similarToLikedItem": "Podobné položce, která se vám líbila",
+  "@similarToLikedItem": {},
+  "homeStreamingQualityDesc": "Maximální kvalita streamování při připojení k domácí síti",
+  "@homeStreamingQualityDesc": {},
+  "homeStreamingQualityTitle": "Kvalita v domácí síti",
+  "@homeStreamingQualityTitle": {},
+  "playbackTrackSelection": "Výběr skladby pro přehrávání",
+  "@playbackTrackSelection": {},
+  "masonry": "Dlaždice",
+  "@masonry": {},
+  "settingsNextUpCutoffDays": "Počet dní pro nadcházející epizodu",
+  "@settingsNextUpCutoffDays": {},
+  "videoScalingFill": "Roztáhnout",
+  "@videoScalingFill": {},
+  "videoScalingFillScreenDesc": "Vyplnit i oblast navigace a stavového řádku",
+  "@videoScalingFillScreenDesc": {},
+  "videoScalingFillScreenNotif": "Režim na celou obrazovku přepíše přizpůsobení videa při otočení na šířku",
+  "@videoScalingFillScreenNotif": {},
+  "videoScalingFillScreenTitle": "Celá obrazovka",
+  "@videoScalingFillScreenTitle": {},
+  "videoScalingFitHeight": "Přizpůsobit výšce",
+  "@videoScalingFitHeight": {},
+  "videoScalingFitWidth": "Přizpůsobit šířce",
+  "@videoScalingFitWidth": {},
+  "videoScalingScaleDown": "Zmenšit aby se vešlo",
+  "@videoScalingScaleDown": {},
+  "aboutSocials": "Sociální sítě",
+  "@aboutSocials": {},
+  "aboutLicenses": "Licence",
+  "@aboutLicenses": {},
+  "subtitleConfiguration": "Konfigurace titulků",
+  "@subtitleConfiguration": {},
+  "screenBrightness": "Jas obrazovky",
+  "@screenBrightness": {},
+  "scale": "Škála",
+  "@scale": {},
+  "playBackSettings": "Nastavení přehrávání",
+  "@playBackSettings": {},
+  "settingsAutoNextTitle": "Nadcházející náhled",
+  "@settingsAutoNextTitle": {},
+  "autoNextOffSmartTitle": "Chytrý",
+  "@autoNextOffSmartTitle": {},
+  "playbackRate": "Rychlost přehrávání",
+  "@playbackRate": {},
+  "speed": "Rychlost",
+  "@speed": {},
+  "errorOpeningMedia": "Při přehrávání tohoto média se něco pokazilo",
+  "@errorOpeningMedia": {},
+  "unableToPlayBooksOnWeb": "Knihy momentálně nejsou na webu podporovány",
+  "@unableToPlayBooksOnWeb": {},
+  "defaultFilterForLibrary": "Výchozí filtr pro knihovnu",
+  "@defaultFilterForLibrary": {},
+  "updateFilterForLibrary": "Aktualizovat filtr",
+  "@updateFilterForLibrary": {},
+  "libraryFiltersLimitReached": "Dosažen limit filtrů (10), odstraňte některé filtry",
+  "@libraryFiltersLimitReached": {},
+  "libraryFiltersRemoveAll": "Odebrat všechny filtry",
+  "@libraryFiltersRemoveAll": {},
+  "libraryFiltersRemoveAllConfirm": "Toto smaže všechny uložené filtry pro každou knihovnu",
+  "@libraryFiltersRemoveAllConfirm": {},
+  "playerSettingsOrientationTitle": "Orientace přehrávače",
+  "@playerSettingsOrientationTitle": {},
+  "playerSettingsOrientationDesc": "Vynucení určité orientace přehrávače videa",
+  "@playerSettingsOrientationDesc": {},
+  "deviceOrientationPortraitUp": "Vertikálně nahoru",
+  "@deviceOrientationPortraitUp": {},
+  "deviceOrientationPortraitDown": "Vertikálně dolů",
+  "@deviceOrientationPortraitDown": {},
+  "deviceOrientationLandscapeRight": "Horizontálně vpravo",
+  "@deviceOrientationLandscapeRight": {},
+  "clientSettingsSchemeVariantTitle": "Varianta schématu",
+  "@clientSettingsSchemeVariantTitle": {},
+  "schemeSettingsTonalSpot": "Tónová skvrna",
+  "@schemeSettingsTonalSpot": {},
+  "schemeSettingsFidelity": "Věrnost",
+  "@schemeSettingsFidelity": {},
+  "schemeSettingsMonochrome": "Monochromatický",
+  "@schemeSettingsMonochrome": {},
+  "schemeSettingsNeutral": "Neutrální",
+  "@schemeSettingsNeutral": {},
+  "schemeSettingsVibrant": "Živé",
+  "@schemeSettingsVibrant": {},
+  "schemeSettingsExpressive": "Expresivní",
+  "@schemeSettingsExpressive": {},
+  "schemeSettingsContent": "Content",
+  "@schemeSettingsContent": {},
+  "schemeSettingsRainbow": "Duha",
+  "@schemeSettingsRainbow": {},
+  "schemeSettingsFruitSalad": "Ovocný salát",
+  "@schemeSettingsFruitSalad": {},
+  "clientSettingsRequireWifiTitle": "Vyžadovat Wi-Fi",
+  "@clientSettingsRequireWifiTitle": {},
+  "clientSettingsRequireWifiDesc": "Stahovat pouze při připojení k síti Wi-Fi",
+  "@clientSettingsRequireWifiDesc": {},
+  "libraryShuffleAndPlayItems": "Zamíchat a přehrát položky",
+  "@libraryShuffleAndPlayItems": {},
+  "libraryPlayItems": "Přehrát položky",
+  "@libraryPlayItems": {},
+  "clientSettingsShowAllCollectionsTitle": "Zobrazit všechny typy kolekcí",
+  "@clientSettingsShowAllCollectionsTitle": {},
+  "stop": "Zastavit",
+  "@stop": {},
+  "resumeVideo": "Obnovit video",
+  "@resumeVideo": {},
+  "closeVideo": "Zavřít video",
+  "@closeVideo": {},
+  "playNextVideo": "Přehrát další video",
+  "@playNextVideo": {},
+  "playerSettingsBackendTitle": "Backend přehrávače videa",
+  "@playerSettingsBackendTitle": {},
+  "mediaSegmentIntro": "Začátek",
+  "@mediaSegmentIntro": {},
+  "errorLogs": "Protokoly chyb",
+  "@errorLogs": {},
+  "settingsLayoutSizesTitle": "Velikosti rozvržení",
+  "@settingsLayoutSizesTitle": {},
+  "settingsLayoutModesTitle": "Režimy rozvržení",
+  "@settingsLayoutModesTitle": {},
+  "settingsLayoutModesDesc": "Určete, zda aplikace může používat rozvržení s jedním nebo dvěma panely",
+  "@settingsLayoutModesDesc": {},
+  "tablet": "Tablet",
+  "@tablet": {},
+  "desktop": "Počítač",
+  "@desktop": {},
+  "layoutModeDual": "Dvojitý",
+  "@layoutModeDual": {},
+  "internetStreamingQualityTitle": "Kvalita přes internet",
+  "@internetStreamingQualityTitle": {},
+  "qualityOptionsOriginal": "Originál",
+  "@qualityOptionsOriginal": {},
+  "mediaSegmentActions": "Akce segmentu médií",
+  "@mediaSegmentActions": {},
+  "segmentActionNone": "Žádný",
+  "@segmentActionNone": {},
+  "loading": "Načítání",
+  "@loading": {},
+  "exitFladderTitle": "Ukončit Fladder",
+  "@exitFladderTitle": {},
+  "maxConcurrentDownloadsTitle": "Maximální počet souběžných stahování",
+  "@maxConcurrentDownloadsTitle": {},
+  "maxConcurrentDownloadsDesc": "Nastavuje maximální počet stahování, která mohou být spuštěna současně. Nastavením na 0 limit deaktivujete.",
+  "@maxConcurrentDownloadsDesc": {},
+  "similarToRecentlyPlayed": "Podobné položce, kterou jste nedávno viděli",
+  "@similarToRecentlyPlayed": {},
+  "hasActorFromRecentlyPlayed": "Stejný/á herec/herečka jako nedávno shlédnutá položka",
+  "@hasActorFromRecentlyPlayed": {},
+  "hasLikedDirector": "Oblíbený/á režisér/ka",
+  "@hasLikedDirector": {},
+  "hasLikedActor": "Oblíbený/á herec/herečka",
+  "@hasLikedActor": {},
+  "recommended": "Doporučeno",
+  "@recommended": {},
+  "latest": "Nejnovější",
+  "@latest": {},
+  "playbackType": "Typ přehrávání",
+  "@playbackType": {},
+  "playbackTypeDirect": "Přímý",
+  "@playbackTypeDirect": {},
+  "playbackTypeTranscode": "Překódovaný",
+  "@playbackTypeTranscode": {},
+  "playbackTypeOffline": "Offline",
+  "@playbackTypeOffline": {},
+  "latestReleases": "Nejnovější vydání",
+  "@latestReleases": {},
+  "newReleaseFoundTitle": "Aktualizace {newRelease} je k dispozici!",
+  "@newReleaseFoundTitle": {
+    "placeholders": {
+      "newRelease": {
+        "type": "String"
+      }
+    }
+  },
+  "newUpdateFoundOnGithub": "Na Githubu je nová aktualizaci",
+  "@newUpdateFoundOnGithub": {},
+  "downloadFile": "Stáhnout {type}",
+  "@downloadFile": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "qualityOptionsTitle": "Možnosti kvality",
+  "@qualityOptionsTitle": {},
+  "version": "Verze",
+  "@version": {},
+  "segmentActionAskToSkip": "Zeptat se na přeskočení",
+  "@segmentActionAskToSkip": {},
+  "hasDirectorFromRecentlyPlayed": "Stejný/á režisér/ka jako nedávno shlédnutá položka",
+  "@hasDirectorFromRecentlyPlayed": {},
+  "internetStreamingQualityDesc": "Maximální kvalita streamování přes internet (mobilní zařízení)",
+  "@internetStreamingQualityDesc": {}
+}

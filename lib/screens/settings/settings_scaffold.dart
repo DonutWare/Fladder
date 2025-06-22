@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/shared/user_icon.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/router_extension.dart';
 
 class SettingsScaffold extends ConsumerWidget {
@@ -34,7 +33,6 @@ class SettingsScaffold extends ConsumerWidget {
     final padding = MediaQuery.of(context).padding;
     final singleLayout = AdaptiveLayout.layoutModeOf(context) == LayoutMode.single;
     return Scaffold(
-      backgroundColor: AdaptiveLayout.layoutModeOf(context) == LayoutMode.dual ? Colors.transparent : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: floatingActionButton,
       body: Column(
@@ -87,9 +85,10 @@ class SettingsScaffold extends ConsumerWidget {
                     ),
                   ),
                 SliverPadding(
-                  padding: MediaQuery.paddingOf(context).copyWith(top: AdaptiveLayout.of(context).isDesktop ? 0 : 8),
-                  sliver: SliverList(
-                    delegate: SliverChildListDelegate(items),
+                  padding: MediaQuery.paddingOf(context).copyWith(top: 0),
+                  sliver: SliverList.builder(
+                    itemBuilder: (context, index) => items[index],
+                    itemCount: items.length,
                   ),
                 ),
                 if (bottomActions.isEmpty)

@@ -3,8 +3,7 @@ import 'package:flutter/rendering.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:fladder/models/settings/home_settings_model.dart';
-import 'package:fladder/util/adaptive_layout.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 
 class HideOnScroll extends ConsumerStatefulWidget {
   final Widget? child;
@@ -28,59 +27,64 @@ class HideOnScroll extends ConsumerStatefulWidget {
 }
 
 class _HideOnScrollState extends ConsumerState<HideOnScroll> {
-  late final scrollController = widget.controller ?? ScrollController();
+  late final ScrollController scrollController = widget.controller ?? ScrollController();
   bool isVisible = true;
-  bool atEdge = false;
 
   @override
   void initState() {
     super.initState();
-    scrollController.addListener(listen);
+    scrollController.addListener(_onScroll);
   }
 
   @override
   void dispose() {
-    scrollController.removeListener(listen);
+    scrollController.removeListener(_onScroll);
+    if (widget.controller == null) {
+      scrollController.dispose();
+    }
     super.dispose();
   }
 
-  void listen() {
-    final direction = scrollController.position.userScrollDirection;
+  void _onScroll() {
+    final position = scrollController.position;
+    final direction = position.userScrollDirection;
 
-    if (scrollController.offset < scrollController.position.maxScrollExtent) {
-      if (direction == ScrollDirection.forward) {
-        if (!isVisible) {
-          setState(() => isVisible = true);
-        }
-      } else if (direction == ScrollDirection.reverse) {
-        if (isVisible) {
-          setState(() => isVisible = false);
-        }
-      }
+    bool newVisible;
+    if (position.atEdge && position.pixels >= position.maxScrollExtent) {
+      // Always show when scrolled to bottom
+      newVisible = true;
     } else {
-      setState(() {
-        isVisible = true;
-      });
+      newVisible = direction == ScrollDirection.forward;
+    }
+
+    if (newVisible != isVisible) {
+      setState(() => isVisible = newVisible);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.visibleBuilder != null) return widget.visibleBuilder!(isVisible)!;
+    if (widget.visibleBuilder != null) {
+      return widget.visibleBuilder!(isVisible) ?? const SizedBox();
+    }
+
     if (widget.child == null) return const SizedBox();
+
     if (AdaptiveLayout.viewSizeOf(context) == ViewSize.desktop) {
       return widget.child!;
-    } else {
-      return AnimatedAlign(
-        alignment: const Alignment(0, -1),
-        heightFactor: widget.forceHide
-            ? 0
-            : isVisible
-                ? 1.0
-                : 0,
-        duration: widget.duration,
-        child: Wrap(children: [widget.child!]),
-      );
     }
+
+    return AnimatedAlign(
+      alignment: const Alignment(0, -1),
+      heightFactor: widget.forceHide
+          ? 0
+          : isVisible
+              ? 1.0
+              : 0,
+      duration: widget.duration,
+      child: Wrap(
+        children: [widget.child!],
+      ),
+    );
   }
 }

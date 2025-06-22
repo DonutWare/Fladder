@@ -112,35 +112,12 @@ class ItemStreamModelMapper extends SubClassMapperBase<ItemStreamModel> {
 
   @override
   final Function instantiate = _instantiate;
-
-  static ItemStreamModel fromMap(Map<String, dynamic> map) {
-    return ensureInitialized().decodeMap<ItemStreamModel>(map);
-  }
-
-  static ItemStreamModel fromJson(String json) {
-    return ensureInitialized().decodeJson<ItemStreamModel>(json);
-  }
 }
 
 mixin ItemStreamModelMappable {
-  String toJson() {
-    return ItemStreamModelMapper.ensureInitialized()
-        .encodeJson<ItemStreamModel>(this as ItemStreamModel);
-  }
-
-  Map<String, dynamic> toMap() {
-    return ItemStreamModelMapper.ensureInitialized()
-        .encodeMap<ItemStreamModel>(this as ItemStreamModel);
-  }
-
   ItemStreamModelCopyWith<ItemStreamModel, ItemStreamModel, ItemStreamModel>
       get copyWith => _ItemStreamModelCopyWithImpl(
           this as ItemStreamModel, $identity, $identity);
-  @override
-  String toString() {
-    return ItemStreamModelMapper.ensureInitialized()
-        .stringifyValue(this as ItemStreamModel);
-  }
 }
 
 extension ItemStreamModelValueCopy<$R, $Out>

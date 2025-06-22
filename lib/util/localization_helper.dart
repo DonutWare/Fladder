@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:fladder/l10n/generated/app_localizations.dart';
 
 ///Only use for base translations, under normal circumstances ALWAYS use the widgets provided context
 final localizationContextProvider = StateProvider<BuildContext?>((ref) => null);
@@ -29,4 +30,12 @@ class _LocalizationContextWrapperState extends ConsumerState<LocalizationContext
 
   @override
   Widget build(BuildContext context) => widget.child;
+}
+
+extension LocaleDisplayCodeExtension on Locale {
+  String toDisplayCode() {
+    return countryCode != null && countryCode!.isNotEmpty
+        ? "${languageCode.toUpperCase()}-${countryCode!.toUpperCase()}"
+        : languageCode.toUpperCase();
+  }
 }
