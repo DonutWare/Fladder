@@ -85,7 +85,7 @@
   "@all": {},
   "amoledBlack": "OLDE 블랙",
   "@amoledBlack": {},
-  "appLockAutoLogin": "자동로그인",
+  "appLockAutoLogin": "자동 로그인",
   "@appLockAutoLogin": {},
   "appLockBiometrics": "생체인증",
   "@appLockBiometrics": {},
@@ -564,7 +564,7 @@
       }
     }
   },
-  "recursive": "재귀적으로",
+  "recursive": "결과 내 검색",
   "@recursive": {},
   "refresh": "새로고침",
   "@refresh": {},
@@ -611,7 +611,7 @@
   "@scanBiometricHint": {},
   "scanLibrary": "라이브러리 스캔",
   "@scanLibrary": {},
-  "scanYourFingerprintToAuthenticate": "지문으로  {user} 인증",
+  "scanYourFingerprintToAuthenticate": "지문으로 {user} 인증",
   "@scanYourFingerprintToAuthenticate": {
     "placeholders": {
       "user": {
@@ -626,5 +626,89 @@
         "type": "String"
       }
     }
-  }
+  },
+  "combined": "모두",
+  "@combined": {},
+  "parentalRating": "이용가",
+  "@parentalRating": {},
+  "scanningName": "{name} 스캔 중…",
+  "@scanningName": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "scrollToTop": "맨 위로",
+  "@scrollToTop": {},
+  "search": "검색",
+  "@search": {},
+  "season": "{count, plural, other{시즌} one{시즌}}",
+  "@season": {
+    "description": "season",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "seconds": "{count, plural, other{초} one{초}}",
+  "@seconds": {
+    "description": "second",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "selectAll": "모두 선택",
+  "@selectAll": {},
+  "selectTime": "시간 선택",
+  "@selectTime": {},
+  "selectViewType": "뷰 유형 선택",
+  "@selectViewType": {},
+  "selected": "선택됨",
+  "@selected": {},
+  "selectedWith": "{info} 선택됨",
+  "@selectedWith": {
+    "description": "selected",
+    "placeholders": {
+      "info": {
+        "type": "String"
+      }
+    }
+  },
+  "separate": "분리",
+  "@separate": {},
+  "server": "서버",
+  "@server": {},
+  "set": "설정",
+  "@set": {
+    "description": "Use for setting a certain value",
+    "context": "Set 'time'"
+  },
+  "resumable": "시청중",
+  "@resumable": {},
+  "settingSecurityApplockTitle": "앱 잠금",
+  "@settingSecurityApplockTitle": {},
+  "settings": "설정",
+  "@settings": {},
+  "settingsBlurEpisodesDesc": "다음 에피소드를 모두 흐리게 합니다",
+  "@settingsBlurEpisodesDesc": {},
+  "settingsBlurEpisodesTitle": "다음 에피소드 블러 처리",
+  "@settingsBlurEpisodesTitle": {},
+  "settingsBlurredPlaceholderDesc": "포스터를 로딩할 때 블러된 배경을 표시합니다",
+  "@settingsBlurredPlaceholderDesc": {},
+  "settingsClientDesc": "일반, 타임아웃, 레이아웃, 테마",
+  "@settingsClientDesc": {},
+  "settingsClientTitle": "Fladder",
+  "@settingsClientTitle": {},
+  "settingsContinue": "계속",
+  "@settingsContinue": {},
+  "settingsEnableOsMediaControls": "시스템 미디어 컨트롤 사용",
+  "@settingsEnableOsMediaControls": {},
+  "settingsEnableOsMediaControlsDesc": "미디어 키를 사용하여 재생 제어를 허용하고 시스템에서 현재 재생 중인 미디어를 표시합니다",
+  "@settingsEnableOsMediaControlsDesc": {}
 }
