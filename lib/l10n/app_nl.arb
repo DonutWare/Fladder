@@ -1342,5 +1342,11 @@
     }
   },
   "latestReleases": "Nieuwste releases",
-  "@latestReleases": {}
+  "@latestReleases": {},
+  "enableBackgroundPostersTitle": "Achtergrondposters inschakelen",
+  "@enableBackgroundPostersTitle": {},
+  "settingsEnableOsMediaControlsDesc": "Afspeelbediening via mediatoetsen en toon de huidige afspeelmedia in het besturingssysteem",
+  "@settingsEnableOsMediaControlsDesc": {},
+  "enableBackgroundPostersDesc": "Toon willekeurige posters in toepasselijke schermen",
+  "@enableBackgroundPostersDesc": {}
 }
