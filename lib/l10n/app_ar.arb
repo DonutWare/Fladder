@@ -1341,5 +1341,11 @@
   "recommended": "الموصى به",
   "@recommended": {},
   "playbackType": "نوع التشغيل",
-  "@playbackType": {}
+  "@playbackType": {},
+  "enableBackgroundPostersDesc": "عرض ملصقات عشوائية في الشاشات المناسبة",
+  "@enableBackgroundPostersDesc": {},
+  "enableBackgroundPostersTitle": "تفعيل الملصقات الخلفية",
+  "@enableBackgroundPostersTitle": {},
+  "settingsEnableOsMediaControlsDesc": "يرجى السماح بالتحكم في التشغيل باستخدام مفاتيح الوسائط وعرض الوسائط المشغلة حالياً في نظام التشغيل",
+  "@settingsEnableOsMediaControlsDesc": {}
 }
