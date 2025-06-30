@@ -1,6 +1,6 @@
 name: "🐛 Bug Report"
 description: Create a new ticket for a bug.
-title: "🐛 <title>"
+title: "🐛 "
 labels: ["bug"]
 type: "Bug"
 body:
@@ -30,9 +30,7 @@ body:
     attributes:
       label: "Screenshots"
       description: If applicable, add screenshots to help explain your problem.
-      value: |
-        ![DESCRIPTION](LINK.png)
-      render: bash
+      placeholder: "Drag and drop screenshots here, or paste image URLs using ![description](image-url)"
     validations:
       required: false
   - type: textarea
