@@ -133,5 +133,7 @@
         "example": "1"
       }
     }
-  }
+  },
+  "nativeName": "Slovenčina",
+  "@nativeName": {}
 }
