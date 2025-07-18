@@ -1279,6 +1279,16 @@
   "@maxConcurrentDownloadsDesc": {},
   "rememberAudioSelections": "Définir la piste audio en fonction de l'élément précédent",
   "@rememberAudioSelections": {},
-  "rememberSubtitleSelectionsDesc": "Essayez de définir la piste de sous-titres au match le plus proche de la dernière vidéo.",
-  "@rememberSubtitleSelectionsDesc": {}
+  "rememberSubtitleSelectionsDesc": "Essayez de définir la piste de sous-titres pour matcher ou plus proche de la dernière vidéo.",
+  "@rememberSubtitleSelectionsDesc": {},
+  "exitFladderTitle": "Quitter Fladder",
+  "@exitFladderTitle": {},
+  "recommended": "Recommandation",
+  "@recommended": {},
+  "playbackTypeOffline": "Déconnecter",
+  "@playbackTypeOffline": {},
+  "latestReleases": "Dernières versions",
+  "@latestReleases": {},
+  "newUpdateFoundOnGithub": "Une nouvelle mise à jour a été trouvée sur Github",
+  "@newUpdateFoundOnGithub": {}
 }
