@@ -1290,5 +1290,21 @@
   "latestReleases": "Dernières versions",
   "@latestReleases": {},
   "newUpdateFoundOnGithub": "Une nouvelle mise à jour a été trouvée sur Github",
-  "@newUpdateFoundOnGithub": {}
+  "@newUpdateFoundOnGithub": {},
+  "rememberAudioSelectionsDesc": "Essayez de définir la piste audio à la correspondance la plus proche de la dernière vidéo.",
+  "@rememberAudioSelectionsDesc": {},
+  "playbackTypeDirect": "Direct",
+  "@playbackTypeDirect": {},
+  "playbackTypeTranscode": "Transcode",
+  "@playbackTypeTranscode": {},
+  "autoCheckForUpdates": "Contrôler périodiquement les mises à jour",
+  "@autoCheckForUpdates": {},
+  "newReleaseFoundTitle": "Mise à jour {newRelease} disponible!",
+  "@newReleaseFoundTitle": {
+    "placeholders": {
+      "newRelease": {
+        "type": "String"
+      }
+    }
+  }
 }
