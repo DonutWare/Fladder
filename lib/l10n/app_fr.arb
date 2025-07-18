@@ -1272,5 +1272,13 @@
   "segmentActionNone": "Aucun",
   "@segmentActionNone": {},
   "segmentActionSkip": "Sauter",
-  "@segmentActionSkip": {}
+  "@segmentActionSkip": {},
+  "mediaSegmentActions": "Actions pour les médias",
+  "@mediaSegmentActions": {},
+  "maxConcurrentDownloadsDesc": "Définit le nombre maximum de téléchargements qui peuvent fonctionner en même temps. Réglez à 0 pour désactiver la limite.",
+  "@maxConcurrentDownloadsDesc": {},
+  "rememberAudioSelections": "Définir la piste audio en fonction de l'élément précédent",
+  "@rememberAudioSelections": {},
+  "rememberSubtitleSelectionsDesc": "Essayez de définir la piste de sous-titres au match le plus proche de la dernière vidéo.",
+  "@rememberSubtitleSelectionsDesc": {}
 }
