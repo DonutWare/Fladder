@@ -17,7 +17,7 @@ import 'package:fladder/models/syncing/sync_item.dart';
 Future<void> isarMigration(Ref ref, AppDatabase db, String savePath) async {
   if (kIsWeb) return;
 
-  //Return if the database is already migrated
+  //Return if the database is already migrated or not empty
   final isNotEmtpy = await db.select(db.databaseItems).get().then((value) => value.isNotEmpty);
   if (isNotEmtpy) {
     log('Isar database is not empty, skipping migration');
@@ -71,10 +71,12 @@ Future<void> isarMigration(Ref ref, AppDatabase db, String savePath) async {
     );
   });
 
+  isar.close(deleteFromDisk: true);
+
   //Delete database file
-  final baseFolder = Directory(path.join(applicationDirectory.path, 'Fladder'));
-  if (await baseFolder.exists()) {
-    log('Deleting old Fladder base folder: ${baseFolder.path}');
-    // await baseFolder.delete(recursive: true);
+  await Future.delayed(const Duration(seconds: 1));
+  if (await isarPath.exists()) {
+    log('Deleting old Fladder base folder: ${isarPath.path}');
+    await isarPath.delete(recursive: true);
   }
 }
