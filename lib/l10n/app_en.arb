@@ -1284,5 +1284,10 @@
         "type": "int"
       }
     }
-  }
+  },
+  "syncPauseAll": "Pause all",
+  "syncResumeAll": "Resume all",
+  "syncStopAll": "Stop all",
+  "syncDeleteAll": "Delete all files",
+  "syncAllFiles": "Sync all files"
 }

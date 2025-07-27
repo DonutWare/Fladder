@@ -9,7 +9,6 @@ import 'package:flutter/services.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smtc_windows/smtc_windows.dart' if (dart.library.html) 'package:fladder/stubs/web/smtc_web.dart';
@@ -69,13 +68,10 @@ void main(List<String> args) async {
 
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
-  Directory isarPath = Directory("");
   Directory applicationDirectory = Directory("");
 
   if (!kIsWeb) {
     applicationDirectory = await getApplicationDocumentsDirectory();
-    isarPath = Directory(path.joinAll([applicationDirectory.path, 'Fladder', 'Database']));
-    await isarPath.create(recursive: true);
   }
 
   if (_isDesktop) {
@@ -96,10 +92,7 @@ void main(List<String> args) async {
         applicationInfoProvider.overrideWith((ref) => applicationInfo),
         crashLogProvider.overrideWith((ref) => crashProvider),
         argumentsStateProvider.overrideWith((ref) => ArgumentsModel.fromArguments(args)),
-        syncProvider.overrideWith((ref) => SyncNotifier(
-              ref,
-              applicationDirectory,
-            ))
+        syncProvider.overrideWith((ref) => SyncNotifier(ref, applicationDirectory))
       ],
       child: AdaptiveLayoutBuilder(
         child: (context) => const Main(),

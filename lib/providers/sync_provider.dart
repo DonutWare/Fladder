@@ -669,6 +669,7 @@ extension SyncNotifierHelpers on SyncNotifier {
 
     for (var i = 0; i < itemsToDownload.length; i++) {
       final item = itemsToDownload[i];
+      //No need to await file sync happens in the background
       syncFile(item, false);
     }
 

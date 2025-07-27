@@ -35,7 +35,7 @@ class DatabaseItems extends Table {
   TextColumn get userData => text().nullable()();
 
   @override
-  Set<Column<Object>> get primaryKey => {id};
+  Set<Column<Object>> get primaryKey => {id, userId};
 }
 
 @DriftDatabase(tables: [DatabaseItems])

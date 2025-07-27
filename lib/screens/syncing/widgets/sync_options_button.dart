@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/syncing/sync_item.dart';
+import 'package:fladder/providers/sync/background_download_provider.dart';
 import 'package:fladder/providers/sync/sync_provider_helpers.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -33,7 +34,23 @@ class SyncOptionsButton extends ConsumerWidget {
 
         final syncedChildren =
             children.where((element) => element.hasVideoFile && element.videoFile.existsSync()).toList();
-        return [
+
+        final syncTasks = children
+            .map((element) {
+              final task = ref.read(syncDownloadStatusProvider(element, []));
+              if (task?.status != TaskStatus.notFound) {
+                return task;
+              } else {
+                return null;
+              }
+            })
+            .nonNulls
+            .toList();
+
+        final runningTasks = syncTasks.where((element) => element.status == TaskStatus.running).toList();
+        final enqueuedTasks = syncTasks.where((element) => element.status == TaskStatus.enqueued).toList();
+        final pausedTasks = syncTasks.where((element) => element.status == TaskStatus.paused).toList();
+        return <PopupMenuEntry>[
           PopupMenuItem(
             child: Row(
               spacing: 12,
@@ -45,13 +62,14 @@ class SyncOptionsButton extends ConsumerWidget {
             onTap: () => context.refreshData(),
           ),
           if (children.isNotEmpty) ...[
+            const PopupMenuDivider(),
             PopupMenuItem(
               enabled: unSyncedChildren.isNotEmpty,
               child: Row(
                 spacing: 12,
                 children: [
                   const Icon(IconsaxPlusLinear.cloud_add),
-                  Text(context.localized.sync),
+                  Text(context.localized.syncAllFiles),
                 ],
               ),
               onTap: () async => _syncRemainingItems(context, syncedItem, unSyncedChildren, ref),
@@ -62,11 +80,54 @@ class SyncOptionsButton extends ConsumerWidget {
                 spacing: 12,
                 children: [
                   const Icon(IconsaxPlusLinear.trash),
-                  Text(context.localized.delete),
+                  Text(context.localized.syncDeleteAll),
                 ],
               ),
               onTap: () async => _deleteSyncedItems(context, syncedItem, syncedChildren, ref),
-            )
+            ),
+            const PopupMenuDivider(),
+            PopupMenuItem(
+              enabled: pausedTasks.isNotEmpty,
+              child: Row(
+                spacing: 12,
+                children: [
+                  const Icon(IconsaxPlusLinear.play),
+                  Text(context.localized.syncResumeAll),
+                ],
+              ),
+              onTap: () => ref
+                  .read(backgroundDownloaderProvider)
+                  .resumeAll(tasks: pausedTasks.map((e) => e.task).nonNulls.toList()),
+            ),
+            PopupMenuItem(
+              enabled: runningTasks.isNotEmpty,
+              child: Row(
+                spacing: 12,
+                children: [
+                  const Icon(IconsaxPlusLinear.pause),
+                  Text(context.localized.syncPauseAll),
+                ],
+              ),
+              onTap: () {
+                ref
+                    .read(backgroundDownloaderProvider)
+                    .pauseAll(tasks: runningTasks.map((e) => e.task).nonNulls.toList());
+              },
+            ),
+            PopupMenuItem(
+              enabled: [...runningTasks, ...pausedTasks, ...enqueuedTasks].isNotEmpty,
+              child: Row(
+                spacing: 12,
+                children: [
+                  const Icon(IconsaxPlusLinear.stop),
+                  Text(context.localized.syncStopAll),
+                ],
+              ),
+              onTap: () {
+                ref.read(backgroundDownloaderProvider).cancelAll(
+                    tasks: [...runningTasks, ...pausedTasks, ...enqueuedTasks].map((e) => e.task).nonNulls.toList());
+              },
+            ),
           ]
         ];
       },

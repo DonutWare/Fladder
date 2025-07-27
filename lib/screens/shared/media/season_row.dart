@@ -154,7 +154,7 @@ class SeasonPoster extends ConsumerWidget {
                               items: season.generateActions(context, ref).popupMenuItems(useIcons: true));
                         },
                         onTap: () => onSeasonPressed?.call(season),
-                        onLongPress: AdaptiveLayout.of(context).inputDevice != InputDevice.touch
+                        onLongPress: AdaptiveLayout.of(context).inputDevice == InputDevice.touch
                             ? () {
                                 showBottomSheetPill(
                                   context: context,

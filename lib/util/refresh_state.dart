@@ -35,6 +35,8 @@ extension RefreshContextExtension on BuildContext {
   Future<void> refreshData() async {
     //Small delay to fix server not updating response based on successful query
     await Future.delayed(const Duration(milliseconds: 250));
-    await RefreshState.maybeOf(this)?.refresh();
+    if (mounted) {
+      await RefreshState.maybeOf(this)?.refresh();
+    }
   }
 }
