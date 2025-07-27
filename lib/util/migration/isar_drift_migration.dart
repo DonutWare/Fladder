@@ -71,12 +71,12 @@ Future<void> isarMigration(Ref ref, AppDatabase db, String savePath) async {
     );
   });
 
-  isar.close(deleteFromDisk: true);
+  isar.close();
 
-  //Delete database file
-  await Future.delayed(const Duration(seconds: 1));
-  if (await isarPath.exists()) {
-    log('Deleting old Fladder base folder: ${isarPath.path}');
-    await isarPath.delete(recursive: true);
-  }
+  //Delete isar database after a few versions?
+  // await Future.delayed(const Duration(seconds: 1));
+  // if (await isarPath.exists()) {
+  //   log('Deleting old Fladder base folder: ${isarPath.path}');
+  //   await isarPath.delete(recursive: true);
+  // }
 }
