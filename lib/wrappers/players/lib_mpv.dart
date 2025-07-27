@@ -260,13 +260,8 @@ class _VideoSubtitlesState extends ConsumerState<_VideoSubtitles> {
     // Process subtitle text
     final text = subtitle.where((line) => line.trim().isNotEmpty).map((line) => line.trim()).join('\n');
 
-    // Return empty widget if libass is enabled (native subtitle rendering)
-    if (widget.controller.player.platform?.configuration.libass ?? false) {
-      return const SizedBox.shrink();
-    }
-
-    // Return empty widget if no subtitle text
-    if (text.isEmpty) {
+    // Early return for cases where subtitles shouldn't be rendered
+    if ((widget.controller.player.platform?.configuration.libass ?? false) || text.isEmpty) {
       return const SizedBox.shrink();
     }
 

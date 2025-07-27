@@ -289,7 +289,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   }
 
   Widget bottomButtons(BuildContext context) {
-    return Container(child: Consumer(builder: (context, ref, child) {
+    return Consumer(builder: (context, ref, child) {
       final mediaPlayback = ref.watch(mediaPlaybackProvider);
       final bitRateOptions = ref.watch(playBackModel.select((value) => value?.bitRateOptions));
       return Container(
@@ -430,7 +430,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
           ),
         ),
       );
-    }));
+    });
   }
 
   Widget progressBar(MediaPlaybackModel mediaPlayback) {
