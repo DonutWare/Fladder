@@ -219,13 +219,6 @@ class _VideoSubtitlesState extends ConsumerState<_VideoSubtitles> {
   void initState() {
     super.initState(); // Move to very start as per best practices
     subscription = widget.controller.player.stream.subtitle.listen((value) {
-
-  @override
-  void dispose() {
-    subscription?.cancel();
-    subscription = null;
-    super.dispose();
-  }
       if (mounted) {
         setState(() {
           subtitle = value;
