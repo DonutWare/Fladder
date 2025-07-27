@@ -130,6 +130,10 @@ dependencies:
   share_plus: ^11.0.0
   archive: ^4.0.7
   dart_mappable: ^4.5.0
+  drift: ^2.26.1
+  drift_flutter: ^0.2.5
+  drift_sync: ^0.13.0
+  drift_db_viewer: ^2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -140,8 +144,9 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
+  drift_dev: ^2.26.0
   flutter_lints: ^6.0.0
-  build_runner: ^2.4.15
+  build_runner: ^2.5.4
   chopper_generator: ^8.1.0
   json_serializable: ^6.9.0
   custom_lint: ^0.7.0

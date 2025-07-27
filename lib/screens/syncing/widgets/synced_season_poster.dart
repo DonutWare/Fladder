@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:background_downloader/background_downloader.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/items/season_model.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
-import 'package:fladder/providers/sync_provider.dart';
+import 'package:fladder/providers/sync/sync_provider_helpers.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
+import 'package:fladder/screens/syncing/sync_widgets.dart';
+import 'package:fladder/screens/syncing/widgets/sync_options_button.dart';
+import 'package:fladder/screens/syncing/widgets/sync_progress_builder.dart';
 import 'package:fladder/screens/syncing/widgets/synced_episode_item.dart';
 import 'package:fladder/util/fladder_image.dart';
-import 'package:fladder/widgets/shared/icon_button_await.dart';
+import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/util/size_formatting.dart';
 
 class SyncedSeasonPoster extends ConsumerStatefulWidget {
   const SyncedSeasonPoster({
@@ -32,72 +36,96 @@ class _SyncedSeasonPosterState extends ConsumerState<SyncedSeasonPoster> {
   @override
   Widget build(BuildContext context) {
     final season = widget.season;
-    final children = ref.read(syncProvider.notifier).getChildren(widget.syncedItem);
-    final unSyncedChildren = children.where((child) => child.status == SyncStatus.partially).toList();
-    return ExpansionTile(
-      tilePadding: EdgeInsets.zero,
-      title: Row(
-        spacing: 6,
-        children: [
-          SizedBox(
-            width: 75,
-            child: AspectRatio(
-              aspectRatio: 0.65,
-              child: FlatButton(
-                onTap: () {
-                  season.navigateTo(context);
-                  return context.maybePop();
-                },
-                child: Card(
-                  child: FladderImage(
-                    image: season.getPosters?.primary ??
-                        season.parentImages?.backDrop?.firstOrNull ??
-                        season.parentImages?.primary,
+    final nestedChildren = ref.watch(syncedNestedChildrenProvider(widget.syncedItem));
+    return nestedChildren.when(
+      data: (children) => Builder(
+        builder: (context) {
+          final syncedItem = widget.syncedItem;
+          return ExpansionTile(
+            tilePadding: EdgeInsets.zero,
+            shape: const Border(),
+            title: Row(
+              spacing: 12,
+              children: [
+                SizedBox(
+                  width: 75,
+                  child: AspectRatio(
+                    aspectRatio: 0.65,
+                    child: FlatButton(
+                      onTap: () {
+                        season.navigateTo(context);
+                        return context.maybePop();
+                      },
+                      child: Card(
+                        child: FladderImage(
+                          image: season.getPosters?.primary ??
+                              season.parentImages?.backDrop?.firstOrNull ??
+                              season.parentImages?.primary,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
+                Flexible(
+                  child: SyncProgressBuilder(
+                    item: syncedItem,
+                    children: children,
+                    builder: (context, combinedStream) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        spacing: 4,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              season.name,
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                          ),
+                          Flexible(
+                            child: SyncSubtitle(
+                              syncItem: syncedItem,
+                              children: children,
+                            ),
+                          ),
+                          Flexible(
+                            child: Consumer(
+                              builder: (context, ref, child) => SyncLabel(
+                                label: context.localized
+                                    .totalSize(ref.watch(syncSizeProvider(syncedItem, children))?.byteFormat ?? '--'),
+                                status: combinedStream?.status ?? TaskStatus.notFound,
+                              ),
+                            ),
+                          ),
+                          if (combinedStream != null && combinedStream.hasDownload == true)
+                            SyncProgressBar(item: syncedItem, task: combinedStream)
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
-          ),
-          Column(
-            children: [
-              Text(
-                season.name,
-                style: Theme.of(context).textTheme.titleMedium,
-              )
-            ],
-          ),
-        ],
-      ),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (unSyncedChildren.isNotEmpty)
-            IconButtonAwait(
-              onPressed: () async {
-                for (var i = 0; i < unSyncedChildren.length; i++) {
-                  final childSyncedItem = unSyncedChildren[i];
-                  await ref.read(syncProvider.notifier).syncFile(childSyncedItem, false);
-                }
+            trailing: SyncOptionsButton(syncedItem: syncedItem, children: children),
+            children: children.map(
+              (item) {
+                final baseItem = item.itemModel;
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: SyncedEpisodeItem(
+                    episode: baseItem as EpisodeModel,
+                    syncedItem: item,
+                  ),
+                );
               },
-              icon: const Icon(IconsaxPlusLinear.cloud_change),
-            ),
-        ],
-      ),
-      children: children.map(
-        (item) {
-          final baseItem = ref.read(syncProvider.notifier).getItem(item);
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: IntrinsicHeight(
-              child: SyncedEpisodeItem(
-                episode: baseItem as EpisodeModel,
-                syncedItem: item,
-                hasFile: item.videoFile.existsSync(),
-              ),
-            ),
+            ).toList(),
           );
         },
-      ).toList(),
+      ),
+      error: (error, stackTrace) => const SizedBox.shrink(),
+      loading: () => const SizedBox.shrink(),
     );
   }
 }

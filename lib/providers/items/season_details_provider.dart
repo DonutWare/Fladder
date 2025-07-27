@@ -29,7 +29,12 @@ class SeasonDetailsNotifier extends StateNotifier<SeasonModel?> {
       seriesId: newState?.seriesId ?? "",
       seasonId: newState?.id,
       season: newState?.season,
-      fields: [ItemFields.overview],
+      fields: [
+        ItemFields.overview,
+        ItemFields.candelete,
+        ItemFields.candownload,
+        ItemFields.parentid,
+      ],
     );
     newState = newState?.copyWith(episodes: EpisodeModel.episodesFromDto(episodes.body?.items, ref).toList());
     state = newState;

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/items/season_model.dart';
-import 'package:fladder/providers/sync_provider.dart';
+import 'package:fladder/providers/sync/sync_provider_helpers.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/screens/syncing/sync_button.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
@@ -58,7 +58,6 @@ class SeasonPoster extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final syncedItem = ref.watch(syncProvider.notifier).getSyncedItem(season);
     Padding placeHolder(String title) {
       return Padding(
         padding: const EdgeInsets.all(4),
@@ -100,19 +99,25 @@ class SeasonPoster extends ConsumerWidget {
                       alignment: Alignment.topLeft,
                       child: placeHolder(season.name),
                     ),
-                  if (season.userData.unPlayedItemCount != 0)
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          if (syncedItem != null)
-                            StatusCard(
-                              child: SyncButton(
-                                item: season,
-                                syncedItem: syncedItem,
-                              ),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ref.watch(syncedItemProvider(season)).when(
+                              error: (error, stackTrace) => const SizedBox.shrink(),
+                              data: (syncedItem) {
+                                if (syncedItem == null) {
+                                  return const SizedBox.shrink();
+                                }
+                                return StatusCard(
+                                  child: SyncButton(item: season, syncedItem: syncedItem),
+                                );
+                              },
+                              loading: () => const SizedBox.shrink(),
                             ),
+                        if (season.userData.unPlayedItemCount != 0)
                           StatusCard(
                             color: Theme.of(context).colorScheme.primary,
                             useFittedBox: true,
@@ -122,20 +127,20 @@ class SeasonPoster extends ConsumerWidget {
                                 style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
                               ),
                             ),
+                          )
+                        else
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: StatusCard(
+                              color: Theme.of(context).colorScheme.primary,
+                              child: const Icon(
+                                Icons.check_rounded,
+                              ),
+                            ),
                           ),
-                        ],
-                      ),
-                    )
-                  else
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: StatusCard(
-                        color: Theme.of(context).colorScheme.primary,
-                        child: const Icon(
-                          Icons.check_rounded,
-                        ),
-                      ),
+                      ],
                     ),
+                  ),
                   LayoutBuilder(
                     builder: (context, constraints) {
                       return FlatButton(

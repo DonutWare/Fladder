@@ -75,7 +75,7 @@ class SeasonModel extends ItemBaseModel with SeasonModelMappable {
   }
 
   @override
-  bool get syncAble => true;
+  bool get syncAble => episodes.isNotEmpty && episodes.any((element) => element.syncAble);
 
   @override
   ImagesData? get getPosters => images ?? parentImages;

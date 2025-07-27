@@ -30,7 +30,7 @@ class ActionContent extends StatelessWidget {
                 height: 4,
               ),
           ],
-          Expanded(child: child),
+          Flexible(child: child),
           if (actions.isNotEmpty) ...[
             if (showDividers)
               const Divider(

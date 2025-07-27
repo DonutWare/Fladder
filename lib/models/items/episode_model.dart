@@ -45,6 +45,7 @@ class EpisodeModel extends ItemStreamModel with EpisodeModelMappable {
   final String? seriesName;
   final int season;
   final int episode;
+  final int? episodeEnd;
   final List<Chapter> chapters;
   final ItemLocation? location;
   final DateTime? dateAired;
@@ -52,6 +53,7 @@ class EpisodeModel extends ItemStreamModel with EpisodeModelMappable {
     required this.seriesName,
     required this.season,
     required this.episode,
+    required this.episodeEnd,
     this.chapters = const [],
     this.location,
     this.dateAired,
@@ -134,12 +136,26 @@ class EpisodeModel extends ItemStreamModel with EpisodeModelMappable {
   String seasonAnnotation(BuildContext context) => context.localized.season(1)[0];
   String episodeAnnotation(BuildContext context) => context.localized.episode(1)[0];
 
+  int get episodeCount {
+    if (episodeEnd != null && episodeEnd! > episode) {
+      return episodeEnd! - episode + 1;
+    }
+    return 1;
+  }
+
+  String get episodeRange {
+    if (episodeEnd != null && episodeEnd! > episode) {
+      return "$episode-${episodeEnd!}";
+    }
+    return episode.toString();
+  }
+
   String seasonEpisodeLabel(BuildContext context) {
-    return "${seasonAnnotation(context)}$season - ${episodeAnnotation(context)}$episode";
+    return "${seasonAnnotation(context)}$season - ${episodeAnnotation(context)}$episodeRange";
   }
 
   String seasonEpisodeLabelFull(BuildContext context) {
-    return "${context.localized.season(1)} $season - ${context.localized.episode(1)} $episode";
+    return "${context.localized.season(1)} $season - ${context.localized.episode(episodeCount)} $episodeRange";
   }
 
   String episodeLabel(BuildContext context) {
@@ -147,7 +163,7 @@ class EpisodeModel extends ItemStreamModel with EpisodeModelMappable {
   }
 
   String get fullName {
-    return "$episode. $subText";
+    return "$episodeRange. $subText";
   }
 
   @override
@@ -169,6 +185,7 @@ class EpisodeModel extends ItemStreamModel with EpisodeModelMappable {
         primaryRatio: item.primaryImageAspectRatio,
         season: item.parentIndexNumber ?? 0,
         episode: item.indexNumber ?? 0,
+        episodeEnd: item.indexNumberEnd,
         location: ItemLocation.fromDto(item.locationType),
         parentImages: ImagesData.fromBaseItemParent(item, ref),
         canDelete: item.canDelete,

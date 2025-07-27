@@ -1242,5 +1242,47 @@
   "notificationDownloadingDownloading": "Downloading",
   "notificationDownloadingPaused": "Download paused",
   "notificationDownloadingFinished": "Download finished",
-  "notificationDownloadingError": "Download error"
+  "notificationDownloadingError": "Download error",
+  "syncAllItemsTitle": "Sync all items from {itemName}?",
+  "@syncAllItemsTitle": {
+    "description": "syncAllItemsFrom",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncAllItemsDesc": "This will sync ({itemCount}) items from '{itemName}' to your device.\nThis can take a while depending on the amount of items.",
+  "@syncAllItemsDesc": {
+    "description": "syncAllitemsFromDesc",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      },
+      "itemCount": {
+        "type": "int"
+      }
+    }
+  },
+  "syncDeleteAllItemsTitle": "Delete all synced items from {itemName}?",
+  "@syncDeleteAllItemsTitle": {
+    "description": "syncDeleteAllitemsFrom",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncDeleteAllItemsDesc": "This will delete all synced items from '{itemName}'.\nThis is permanent and you will need to re-sync ({itemCount}) files.",
+  "@syncDeleteAllItemsDesc": {
+    "description": "syncDeleteAllitemsFromDesc",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      },
+      "itemCount": {
+        "type": "int"
+      }
+    }
+  }
 }

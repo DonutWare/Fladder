@@ -34,10 +34,11 @@ class IconButtonAwaitState extends State<IconButtonAwait> {
                 } catch (e) {
                   log(e.toString());
                 } finally {
-                  setState(() {
-                    if (!mounted) return;
-                    loading = false;
-                  });
+                  if (mounted) {
+                    setState(() {
+                      loading = false;
+                    });
+                  }
                 }
               },
         icon: AnimatedFadeSize(

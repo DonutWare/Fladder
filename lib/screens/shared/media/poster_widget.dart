@@ -19,6 +19,7 @@ class PosterWidget extends ConsumerWidget {
   final int maxLines;
   final double? aspectRatio;
   final bool inlineTitle;
+  final bool underTitle;
   final Set<ItemActions> excludeActions;
   final List<ItemAction> otherActions;
   final Function(String id, UserData? newData)? onUserDataChanged;
@@ -33,6 +34,7 @@ class PosterWidget extends ConsumerWidget {
       this.heroTag,
       this.aspectRatio,
       this.inlineTitle = false,
+      this.underTitle = true,
       this.excludeActions = const {},
       this.otherActions = const [],
       this.onUserDataChanged,
@@ -64,7 +66,7 @@ class PosterWidget extends ConsumerWidget {
               onPressed: onPressed,
             ),
           ),
-          if (!inlineTitle)
+          if (!inlineTitle && underTitle)
             Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,

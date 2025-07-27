@@ -50,6 +50,21 @@ class UserData with UserDataMappable {
 
   Duration get playBackPosition => Duration(milliseconds: playbackPositionTicks ~/ 10000);
 
+  static UserData? determineLastUserData(List<UserData?> data) {
+    return data.where((data) => data != null).reduce((a, b) {
+      final aDate = a?.lastPlayed;
+      final bDate = b?.lastPlayed;
+
+      if (aDate != null && bDate != null) {
+        return aDate.isAfter(bDate) ? a : b;
+      } else if (aDate != null) {
+        return a;
+      } else {
+        return b;
+      }
+    });
+  }
+
   factory UserData.fromMap(Map<String, dynamic> map) => UserDataMapper.fromMap(map);
   factory UserData.fromJson(String json) => UserDataMapper.fromJson(json);
 }

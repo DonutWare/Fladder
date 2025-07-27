@@ -9,7 +9,6 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/photos_model.dart';
-import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/collections/add_to_collection.dart';
@@ -110,8 +109,8 @@ extension ItemBaseModelExtensions on ItemBaseModel {
         )) &&
         syncAble &&
         (canDownload ?? false);
-    final syncedItem = ref.read(syncProvider.notifier).getSyncedItem(this);
     final downloadUrl = ref.read(userProvider.notifier).createDownloadUrl(this);
+    final syncedItemFuture = ref.read(syncProvider.notifier).getSyncedItem(this);
     return [
       if (!exclude.contains(ItemActions.play))
         if (playAble)
@@ -235,22 +234,39 @@ extension ItemBaseModelExtensions on ItemBaseModel {
         ),
       if (!exclude.contains(ItemActions.download) && downloadEnabled) ...[
         if (!kIsWeb)
-          if (syncedItem == null)
-            ItemActionButton(
-              icon: const Icon(IconsaxPlusLinear.arrow_down_2),
-              label: Text(context.localized.sync),
-              action: () => ref.read(syncProvider.notifier).addSyncItem(context, this),
-            )
-          else
-            ItemActionButton(
-              icon: IgnorePointer(child: SyncButton(item: this, syncedItem: syncedItem)),
-              action: () => syncedItem.status == SyncStatus.complete
-                  ? ref.read(syncProvider.notifier).deleteFullSyncFiles(syncedItem, null)
-                  : ref.read(syncProvider.notifier).syncFile(syncedItem, false),
-              label: Text(
-                syncedItem.status == SyncStatus.complete ? context.localized.delete : context.localized.sync,
-              ),
-            )
+          ItemActionButton(
+            icon: FutureBuilder(
+              future: syncedItemFuture,
+              builder: (context, snapshot) {
+                final syncedItem = snapshot.data;
+                if (syncedItem != null) {
+                  return IgnorePointer(child: SyncButton(item: this, syncedItem: syncedItem));
+                }
+                return const Icon(IconsaxPlusLinear.arrow_down_2);
+              },
+            ),
+            label: FutureBuilder(
+              future: syncedItemFuture,
+              builder: (context, snapshot) {
+                final syncedItem = snapshot.data;
+                if (syncedItem != null) {
+                  return Text(
+                    context.localized.syncDetails,
+                  );
+                }
+                return Text(context.localized.sync);
+              },
+            ),
+            action: () async {
+              final syncedItem = await syncedItemFuture;
+              if (syncedItem != null) {
+                await showSyncItemDetails(context, syncedItem, ref);
+              } else {
+                await ref.read(syncProvider.notifier).addSyncItem(context, this);
+              }
+              context.refreshData();
+            },
+          )
         else if (downloadUrl != null) ...[
           ItemActionButton(
             icon: const Icon(IconsaxPlusLinear.document_download),

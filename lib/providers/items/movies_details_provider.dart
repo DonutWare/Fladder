@@ -35,11 +35,11 @@ class MovieDetails extends _$MovieDetails {
     }
   }
 
-  void _tryToCreateOfflineState(ItemBaseModel item) {
+  void _tryToCreateOfflineState(ItemBaseModel item) async {
     final syncNotifier = ref.read(syncProvider.notifier);
-    final syncedItem = syncNotifier.getParentItem(item.id);
+    final syncedItem = await syncNotifier.getParentItem(item.id);
     if (syncedItem == null) return;
-    final movieModel = syncedItem.createItemModel(ref) as MovieModel;
+    final movieModel = syncedItem.itemModel as MovieModel?;
     state = movieModel;
   }
 

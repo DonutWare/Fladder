@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:background_downloader/background_downloader.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
@@ -22,12 +23,10 @@ class SyncedEpisodeItem extends ConsumerStatefulWidget {
     super.key,
     required this.episode,
     required this.syncedItem,
-    required this.hasFile,
   });
 
   final EpisodeModel episode;
   final SyncedItem syncedItem;
-  final bool hasFile;
 
   @override
   ConsumerState<SyncedEpisodeItem> createState() => _SyncedEpisodeItemState();
@@ -40,91 +39,94 @@ class _SyncedEpisodeItemState extends ConsumerState<SyncedEpisodeItem> {
     final downloadTask = ref.watch(downloadTasksProvider(syncedItem.id));
     final hasFile = widget.syncedItem.videoFile.existsSync();
 
-    return Row(
-      children: [
-        ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.3),
-          child: FlatButton(
-            onTap: () {
-              widget.episode.navigateTo(context);
-              return context.maybePop();
-            },
-            child: SizedBox(
-              width: 175,
-              child: EpisodePoster(
-                episode: widget.episode,
-                syncedItem: syncedItem,
-                actions: [],
-                showLabel: false,
-                isCurrentEpisode: false,
+    return IntrinsicHeight(
+      child: Row(
+        children: [
+          ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.3),
+            child: FlatButton(
+              onTap: () {
+                widget.episode.navigateTo(context);
+                return context.maybePop();
+              },
+              child: SizedBox(
+                width: 175,
+                child: EpisodePoster(
+                  episode: widget.episode,
+                  actions: [],
+                  showLabel: false,
+                  isCurrentEpisode: false,
+                ),
               ),
             ),
           ),
-        ),
-        Expanded(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.episode.name,
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    Opacity(
-                      opacity: 0.75,
-                      child: Text(
-                        widget.episode.seasonEpisodeLabel(context),
-                        style: Theme.of(context).textTheme.bodyLarge,
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.episode.name,
+                        style: Theme.of(context).textTheme.titleMedium,
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              if (!widget.hasFile && downloadTask.hasDownload)
-                Flexible(
-                  child: SyncProgressBar(item: syncedItem, task: downloadTask),
-                )
-              else
-                Flexible(
-                  child: SyncLabel(
-                    label: context.localized.totalSize(ref.watch(syncSizeProvider(syncedItem, [])).byteFormat ?? '--'),
-                    status: ref.watch(syncStatusesProvider(syncedItem, [])).value ?? SyncStatus.partially,
+                      Opacity(
+                        opacity: 0.75,
+                        child: Text(
+                          widget.episode.seasonEpisodeLabel(context),
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                      ),
+                    ],
                   ),
-                )
-            ],
+                ),
+                if (!hasFile && downloadTask.hasDownload)
+                  Flexible(
+                    child: SyncProgressBar(item: syncedItem, task: downloadTask),
+                  )
+                else
+                  Flexible(
+                    child: SyncLabel(
+                      label:
+                          context.localized.totalSize(ref.watch(syncSizeProvider(syncedItem, [])).byteFormat ?? '--'),
+                      status: ref.watch(syncDownloadStatusProvider(syncedItem, [])
+                          .select((value) => value?.status ?? TaskStatus.notFound)),
+                    ),
+                  )
+              ],
+            ),
           ),
-        ),
-        if (!hasFile && !downloadTask.hasDownload)
-          IconButtonAwait(
-            onPressed: () async => await ref.read(syncProvider.notifier).syncFile(syncedItem, false),
-            icon: const Icon(IconsaxPlusLinear.cloud_change),
-          )
-        else if (hasFile)
-          IconButtonAwait(
-            color: Theme.of(context).colorScheme.error,
-            onPressed: () async {
-              await showDefaultAlertDialog(
-                context,
-                context.localized.syncRemoveDataTitle,
-                context.localized.syncRemoveDataDesc,
-                (context) async {
-                  await ref.read(syncProvider.notifier).deleteFullSyncFiles(syncedItem, downloadTask.task);
-                  Navigator.pop(context);
-                },
-                context.localized.delete,
-                (context) => Navigator.pop(context),
-                context.localized.cancel,
-              );
-            },
-            icon: const Icon(IconsaxPlusLinear.trash),
-          )
-      ].addInBetween(const SizedBox(width: 16)),
+          if (!hasFile && !downloadTask.hasDownload)
+            IconButtonAwait(
+              onPressed: () async => await ref.read(syncProvider.notifier).syncFile(syncedItem, false),
+              icon: const Icon(IconsaxPlusLinear.cloud_change),
+            )
+          else if (hasFile)
+            IconButtonAwait(
+              color: Theme.of(context).colorScheme.error,
+              onPressed: () async {
+                await showDefaultAlertDialog(
+                  context,
+                  context.localized.syncRemoveDataTitle,
+                  context.localized.syncRemoveDataDesc,
+                  (context) async {
+                    await ref.read(syncProvider.notifier).deleteFullSyncFiles(syncedItem, downloadTask.task);
+                    Navigator.pop(context);
+                  },
+                  context.localized.delete,
+                  (context) => Navigator.pop(context),
+                  context.localized.cancel,
+                );
+              },
+              icon: const Icon(IconsaxPlusLinear.trash),
+            )
+        ].addInBetween(const SizedBox(width: 16)),
+      ),
     );
   }
 }

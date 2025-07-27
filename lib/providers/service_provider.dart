@@ -536,7 +536,10 @@ class JellyService {
     return api.showsSeriesIdEpisodesGet(
       seriesId: seriesId,
       userId: account?.id,
-      fields: fields,
+      fields: [
+        ...?fields,
+        ItemFields.parentid,
+      ],
       isMissing: isMissing,
       limit: limit,
       sortBy: sortBy,
@@ -694,7 +697,10 @@ class JellyService {
         seriesId: seriesId,
         isMissing: isMissing,
         enableUserData: enableUserData,
-        fields: fields,
+        fields: [
+          ...?fields,
+          ItemFields.parentid,
+        ],
       );
 
   Future<Response<QueryFilters>> itemsFilters2Get({
@@ -903,37 +909,37 @@ class JellyService {
 
   Future<Response<dynamic>> deleteItem(String itemId) => api.itemsItemIdDelete(itemId: itemId);
 
-Future<UserConfiguration?> _updateUserConfiguration(UserConfiguration newUserConfiguration) async {
-  if (account?.id == null) return null;
+  Future<UserConfiguration?> _updateUserConfiguration(UserConfiguration newUserConfiguration) async {
+    if (account?.id == null) return null;
 
-  final response = await api.usersConfigurationPost(
-    userId: account!.id,
-    body: newUserConfiguration,
-  );
+    final response = await api.usersConfigurationPost(
+      userId: account!.id,
+      body: newUserConfiguration,
+    );
 
-  if (response.isSuccessful) {
-    return newUserConfiguration;
+    if (response.isSuccessful) {
+      return newUserConfiguration;
+    }
+    return null;
   }
-  return null;
-}
 
-Future<UserConfiguration?> updateRememberAudioSelections() {
-  final currentUserConfiguration = account?.userConfiguration;
-  if (currentUserConfiguration == null) return Future.value(null);
+  Future<UserConfiguration?> updateRememberAudioSelections() {
+    final currentUserConfiguration = account?.userConfiguration;
+    if (currentUserConfiguration == null) return Future.value(null);
 
-  final updated = currentUserConfiguration.copyWith(
-    rememberAudioSelections: !(currentUserConfiguration.rememberAudioSelections ?? false),
-  );
-  return _updateUserConfiguration(updated);
-}
+    final updated = currentUserConfiguration.copyWith(
+      rememberAudioSelections: !(currentUserConfiguration.rememberAudioSelections ?? false),
+    );
+    return _updateUserConfiguration(updated);
+  }
 
-Future<UserConfiguration?> updateRememberSubtitleSelections() {
-  final current = account?.userConfiguration;
-  if (current == null) return Future.value(null);
+  Future<UserConfiguration?> updateRememberSubtitleSelections() {
+    final current = account?.userConfiguration;
+    if (current == null) return Future.value(null);
 
-  final updated = current.copyWith(
-    rememberSubtitleSelections: !(current.rememberSubtitleSelections ?? false),
-  );
-  return _updateUserConfiguration(updated);
-}
+    final updated = current.copyWith(
+      rememberSubtitleSelections: !(current.rememberSubtitleSelections ?? false),
+    );
+    return _updateUserConfiguration(updated);
+  }
 }
