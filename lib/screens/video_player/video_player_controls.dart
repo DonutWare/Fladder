@@ -288,160 +288,149 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     );
   }
 
-  final GlobalKey _bottomControlsKey = GlobalKey();
-
   Widget bottomButtons(BuildContext context) {
-    return Container(
-        key: _bottomControlsKey,
-        child: Consumer(builder: (context, ref, child) {
-          final mediaPlayback = ref.watch(mediaPlaybackProvider);
-          final bitRateOptions = ref.watch(playBackModel.select((value) => value?.bitRateOptions));
-          return Container(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
-              colors: [
-                Colors.black.withValues(alpha: 0.8),
-                Colors.black.withValues(alpha: 0),
-              ],
-            )),
-            child: Padding(
-              padding: MediaQuery.paddingOf(context).add(
-                const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 12),
+    return Container(child: Consumer(builder: (context, ref, child) {
+      final mediaPlayback = ref.watch(mediaPlaybackProvider);
+      final bitRateOptions = ref.watch(playBackModel.select((value) => value?.bitRateOptions));
+      return Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+          begin: Alignment.bottomCenter,
+          end: Alignment.topCenter,
+          colors: [
+            Colors.black.withValues(alpha: 0.8),
+            Colors.black.withValues(alpha: 0),
+          ],
+        )),
+        child: Padding(
+          padding: MediaQuery.paddingOf(context).add(
+            const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 12),
+          ),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: progressBar(mediaPlayback),
               ),
-              child: Column(
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: progressBar(mediaPlayback),
+                  Flexible(
+                    flex: 2,
+                    child: Row(
+                      children: <Widget>[
+                        IconButton(
+                            onPressed: () => showVideoPlayerOptions(context, () => minimizePlayer(context)),
+                            icon: const Icon(IconsaxPlusLinear.more)),
+                        if (AdaptiveLayout.layoutOf(context) == ViewSize.tablet) ...[
+                          IconButton(
+                            onPressed: () => showSubSelection(context),
+                            icon: const Icon(IconsaxPlusLinear.subtitle),
+                          ),
+                          IconButton(
+                            onPressed: () => showAudioSelection(context),
+                            icon: const Icon(IconsaxPlusLinear.audio_square),
+                          ),
+                        ],
+                        if (AdaptiveLayout.layoutOf(context) == ViewSize.desktop) ...[
+                          Flexible(
+                            child: ElevatedButton.icon(
+                              onPressed: () => showSubSelection(context),
+                              icon: const Icon(IconsaxPlusLinear.subtitle),
+                              label: Text(
+                                ref.watch(playBackModel.select((value) {
+                                      final language = value?.mediaStreams?.currentSubStream?.language;
+                                      return language?.isEmpty == true ? context.localized.off : language;
+                                    }))?.capitalize() ??
+                                    "",
+                                maxLines: 1,
+                              ),
+                            ),
+                          ),
+                          Flexible(
+                            child: ElevatedButton.icon(
+                              onPressed: () => showAudioSelection(context),
+                              icon: const Icon(IconsaxPlusLinear.audio_square),
+                              label: Text(
+                                ref.watch(playBackModel.select((value) {
+                                      final language = value?.mediaStreams?.currentAudioStream?.language;
+                                      return language?.isEmpty == true ? context.localized.off : language;
+                                    }))?.capitalize() ??
+                                    "",
+                                maxLines: 1,
+                              ),
+                            ),
+                          )
+                        ],
+                      ].addInBetween(const SizedBox(
+                        width: 4,
+                      )),
+                    ),
                   ),
-                  const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Flexible(
-                        flex: 2,
-                        child: Row(
-                          children: <Widget>[
-                            IconButton(
-                                onPressed: () => showVideoPlayerOptions(context, () => minimizePlayer(context)),
-                                icon: const Icon(IconsaxPlusLinear.more)),
-                            if (AdaptiveLayout.layoutOf(context) == ViewSize.tablet) ...[
-                              IconButton(
-                                onPressed: () => showSubSelection(context),
-                                icon: const Icon(IconsaxPlusLinear.subtitle),
+                  previousButton,
+                  seekBackwardButton(ref),
+                  IconButton.filledTonal(
+                    iconSize: 38,
+                    onPressed: () {
+                      ref.read(videoPlayerProvider).playOrPause();
+                    },
+                    icon: Icon(
+                      mediaPlayback.playing ? IconsaxPlusBold.pause : IconsaxPlusBold.play,
+                    ),
+                  ),
+                  seekForwardButton(ref),
+                  nextVideoButton,
+                  Flexible(
+                    flex: 2,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer)
+                          Tooltip(
+                              message: context.localized.stop,
+                              child: IconButton(
+                                  onPressed: () => closePlayer(), icon: const Icon(IconsaxPlusLinear.close_square))),
+                        const Spacer(),
+                        if (AdaptiveLayout.viewSizeOf(context) >= ViewSize.tablet &&
+                            ref.read(videoPlayerProvider).hasPlayer) ...{
+                          if (bitRateOptions?.isNotEmpty == true)
+                            Tooltip(
+                              message: context.localized.qualityOptionsTitle,
+                              child: IconButton(
+                                onPressed: () => openQualityOptions(context),
+                                icon: const Icon(IconsaxPlusLinear.speedometer),
                               ),
-                              IconButton(
-                                onPressed: () => showAudioSelection(context),
-                                icon: const Icon(IconsaxPlusLinear.audio_square),
-                              ),
-                            ],
-                            if (AdaptiveLayout.layoutOf(context) == ViewSize.desktop) ...[
-                              Flexible(
-                                child: ElevatedButton.icon(
-                                  onPressed: () => showSubSelection(context),
-                                  icon: const Icon(IconsaxPlusLinear.subtitle),
-                                  label: Text(
-                                    ref.watch(playBackModel.select((value) {
-                                          final language = value?.mediaStreams?.currentSubStream?.language;
-                                          return language?.isEmpty == true ? context.localized.off : language;
-                                        }))?.capitalize() ??
-                                        "",
-                                    maxLines: 1,
-                                  ),
-                                ),
-                              ),
-                              Flexible(
-                                child: ElevatedButton.icon(
-                                  onPressed: () => showAudioSelection(context),
-                                  icon: const Icon(IconsaxPlusLinear.audio_square),
-                                  label: Text(
-                                    ref.watch(playBackModel.select((value) {
-                                          final language = value?.mediaStreams?.currentAudioStream?.language;
-                                          return language?.isEmpty == true ? context.localized.off : language;
-                                        }))?.capitalize() ??
-                                        "",
-                                    maxLines: 1,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ].addInBetween(const SizedBox(
-                            width: 4,
-                          )),
-                        ),
-                      ),
-                      previousButton,
-                      seekBackwardButton(ref),
-                      IconButton.filledTonal(
-                        iconSize: 38,
-                        onPressed: () {
-                          ref.read(videoPlayerProvider).playOrPause();
+                            ),
                         },
-                        icon: Icon(
-                          mediaPlayback.playing ? IconsaxPlusBold.pause : IconsaxPlusBold.play,
-                        ),
-                      ),
-                      seekForwardButton(ref),
-                      nextVideoButton,
-                      Flexible(
-                        flex: 2,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer)
-                              Tooltip(
-                                  message: context.localized.stop,
-                                  child: IconButton(
-                                      onPressed: () => closePlayer(),
-                                      icon: const Icon(IconsaxPlusLinear.close_square))),
-                            const Spacer(),
-                            if (AdaptiveLayout.viewSizeOf(context) >= ViewSize.tablet &&
-                                ref.read(videoPlayerProvider).hasPlayer) ...{
-                              if (bitRateOptions?.isNotEmpty == true)
-                                Tooltip(
-                                  message: context.localized.qualityOptionsTitle,
-                                  child: IconButton(
-                                    onPressed: () => openQualityOptions(context),
-                                    icon: const Icon(IconsaxPlusLinear.speedometer),
-                                  ),
-                                ),
+                        if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer &&
+                            AdaptiveLayout.viewSizeOf(context) > ViewSize.phone) ...[
+                          Listener(
+                            onPointerSignal: (event) {
+                              if (event is PointerScrollEvent) {
+                                if (event.scrollDelta.dy > 0) {
+                                  ref.read(videoPlayerSettingsProvider.notifier).steppedVolume(-5);
+                                } else {
+                                  ref.read(videoPlayerSettingsProvider.notifier).steppedVolume(5);
+                                }
+                              }
                             },
-                            if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer &&
-                                AdaptiveLayout.viewSizeOf(context) > ViewSize.phone) ...[
-                              Listener(
-                                onPointerSignal: (event) {
-                                  if (event is PointerScrollEvent) {
-                                    if (event.scrollDelta.dy > 0) {
-                                      ref.read(videoPlayerSettingsProvider.notifier).steppedVolume(-5);
-                                    } else {
-                                      ref.read(videoPlayerSettingsProvider.notifier).steppedVolume(5);
-                                    }
-                                  }
-                                },
-                                child: VideoVolumeSlider(
-                                  onChanged: () => resetTimer(),
-                                ),
-                              ),
-                              const FullScreenButton(),
-                            ]
-                          ].addInBetween(const SizedBox(width: 8)),
-                        ),
-                      ),
-                    ].addInBetween(const SizedBox(width: 6)),
+                            child: VideoVolumeSlider(
+                              onChanged: () => resetTimer(),
+                            ),
+                          ),
+                          const FullScreenButton(),
+                        ]
+                      ].addInBetween(const SizedBox(width: 8)),
+                    ),
                   ),
-                ],
+                ].addInBetween(const SizedBox(width: 6)),
               ),
-            ),
-          );
-        }));
-  }
-
-  // Method to get height
-  double? getMenuHeight() {
-    final RenderBox? renderBox = _bottomControlsKey.currentContext?.findRenderObject() as RenderBox?;
-    return renderBox?.size.height;
+            ],
+          ),
+        ),
+      );
+    }));
   }
 
   Widget progressBar(MediaPlaybackModel mediaPlayback) {

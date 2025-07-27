@@ -207,12 +207,17 @@ class _VideoSubtitles extends ConsumerStatefulWidget {
 }
 
 class _VideoSubtitlesState extends ConsumerState<_VideoSubtitles> {
+  // Promote constants to static for better readability and flexibility
+  static const double _menuAreaThreshold = 0.15; // Bottom 15% typically contains controls
+  static const double _menuAvoidanceOffset = 0.1; // Move up by 10% when needed
+  static const double _maxSubtitleOffset = 0.85; // Max 85% up from bottom
+
   late List<String> subtitle = widget.controller.player.state.subtitle;
   StreamSubscription<List<String>>? subscription;
 
   @override
   void initState() {
-    super.initState();
+    super.initState(); // Move to very start as per best practices
     subscription = widget.controller.player.stream.subtitle.listen((value) {
       if (mounted) {
         setState(() {
@@ -234,21 +239,17 @@ class _VideoSubtitlesState extends ConsumerState<_VideoSubtitles> {
       return settings.verticalOffset;
     }
 
-    // Estimate the menu area (bottom ~15% of screen typically contains controls)
-    const menuAreaThreshold = 0.15;
-
     // If subtitles are already positioned above the menu area, leave them alone
-    if (settings.verticalOffset >= menuAreaThreshold) {
+    if (settings.verticalOffset >= _menuAreaThreshold) {
       return settings.verticalOffset;
     }
 
     // When menu is visible and subtitles are in the menu area,
     // move them up slightly to avoid overlap
-    const menuAvoidanceOffset = 0.1;
-    final adjustedOffset = settings.verticalOffset + menuAvoidanceOffset;
+    final adjustedOffset = settings.verticalOffset + _menuAvoidanceOffset;
 
     // Clamp to reasonable bounds (don't go too high or too low)
-    return math.min(adjustedOffset, 0.85); // Max 85% up from bottom
+    return math.max(0.0, math.min(adjustedOffset, _maxSubtitleOffset));
   }
 
   @override
@@ -261,12 +262,12 @@ class _VideoSubtitlesState extends ConsumerState<_VideoSubtitles> {
 
     // Return empty widget if libass is enabled (native subtitle rendering)
     if (widget.controller.player.platform?.configuration.libass ?? false) {
-      return const IgnorePointer(child: SizedBox.shrink());
+      return const SizedBox.shrink();
     }
 
     // Return empty widget if no subtitle text
     if (text.isEmpty) {
-      return const IgnorePointer(child: SizedBox.shrink());
+      return const SizedBox.shrink();
     }
 
     return SubtitleText(
