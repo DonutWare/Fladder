@@ -77,7 +77,16 @@ const ISyncedItemSchema = IsarGeneratedSchema(
         type: IsarType.string,
       ),
     ],
-    indexes: [],
+    indexes: [
+      IsarIndexSchema(
+        name: 'parentId',
+        properties: [
+          "parentId",
+        ],
+        unique: false,
+        hash: false,
+      ),
+    ],
   ),
   converter: IsarObjectConverter<String, ISyncedItem>(
     serialize: serializeISyncedItem,

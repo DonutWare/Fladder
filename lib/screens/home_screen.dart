@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
@@ -91,7 +92,7 @@ class HomeScreen extends ConsumerWidget {
                 action: () => e.navigate(context),
               );
             case HomeTabs.sync:
-              if (canDownload) {
+              if (canDownload && !kIsWeb) {
                 return DestinationModel(
                   label: context.localized.navigationSync,
                   icon: Icon(e.icon),

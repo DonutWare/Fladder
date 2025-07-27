@@ -26,7 +26,6 @@ class CredentialsModel {
   Map<String, String> header(Ref ref) {
     final application = ref.read(applicationInfoProvider);
     final headers = {
-      'content-type': 'application/json',
       'authorization':
           'MediaBrowser Token="$token", Client="${application.name}", Device="${application.os}", DeviceId="$deviceId", Version="${application.version}"'
     };

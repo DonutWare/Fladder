@@ -10,6 +10,7 @@ void fladderSnackbar(
   bool showCloseButton = false,
   Duration duration = const Duration(seconds: 3),
 }) {
+  if (!context.mounted) return;
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     content: Text(
       title,

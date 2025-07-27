@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:flutter/material.dart';
+
+import 'package:fladder/screens/shared/animated_fade_size.dart';
 
 class IconButtonAwait extends StatefulWidget {
   final FutureOr<dynamic> Function() onPressed;
@@ -33,7 +34,11 @@ class IconButtonAwaitState extends State<IconButtonAwait> {
                 } catch (e) {
                   log(e.toString());
                 } finally {
-                  setState(() => loading = false);
+                  if (mounted) {
+                    setState(() {
+                      loading = false;
+                    });
+                  }
                 }
               },
         icon: AnimatedFadeSize(

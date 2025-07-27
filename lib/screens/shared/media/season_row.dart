@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/items/season_model.dart';
+import 'package:fladder/providers/sync/sync_provider_helpers.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
+import 'package:fladder/screens/syncing/sync_button.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/disable_keypad_focus.dart';
 import 'package:fladder/util/fladder_image.dart';
@@ -97,30 +99,48 @@ class SeasonPoster extends ConsumerWidget {
                       alignment: Alignment.topLeft,
                       child: placeHolder(season.name),
                     ),
-                  if (season.userData.unPlayedItemCount != 0)
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: StatusCard(
-                        color: Theme.of(context).colorScheme.primary,
-                        useFittedBox: true,
-                        child: Center(
-                          child: Text(
-                            season.userData.unPlayedItemCount.toString(),
-                            style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ref.watch(syncedItemProvider(season)).when(
+                              error: (error, stackTrace) => const SizedBox.shrink(),
+                              data: (syncedItem) {
+                                if (syncedItem == null) {
+                                  return const SizedBox.shrink();
+                                }
+                                return StatusCard(
+                                  child: SyncButton(item: season, syncedItem: syncedItem),
+                                );
+                              },
+                              loading: () => const SizedBox.shrink(),
+                            ),
+                        if (season.userData.unPlayedItemCount != 0)
+                          StatusCard(
+                            color: Theme.of(context).colorScheme.primary,
+                            useFittedBox: true,
+                            child: Center(
+                              child: Text(
+                                season.userData.unPlayedItemCount.toString(),
+                                style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
+                              ),
+                            ),
+                          )
+                        else
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: StatusCard(
+                              color: Theme.of(context).colorScheme.primary,
+                              child: const Icon(
+                                Icons.check_rounded,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    )
-                  else
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: StatusCard(
-                        color: Theme.of(context).colorScheme.primary,
-                        child: const Icon(
-                          Icons.check_rounded,
-                        ),
-                      ),
+                      ],
                     ),
+                  ),
                   LayoutBuilder(
                     builder: (context, constraints) {
                       return FlatButton(
@@ -134,7 +154,7 @@ class SeasonPoster extends ConsumerWidget {
                               items: season.generateActions(context, ref).popupMenuItems(useIcons: true));
                         },
                         onTap: () => onSeasonPressed?.call(season),
-                        onLongPress: AdaptiveLayout.of(context).inputDevice != InputDevice.touch
+                        onLongPress: AdaptiveLayout.of(context).inputDevice == InputDevice.touch
                             ? () {
                                 showBottomSheetPill(
                                   context: context,

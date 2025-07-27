@@ -12,7 +12,7 @@ class StatusCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
-      padding: const EdgeInsets.all(5),
+      padding: const EdgeInsets.all(2),
       child: SizedBox.square(
         dimension: 33,
         child: Card(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:background_downloader/background_downloader.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
@@ -12,7 +13,6 @@ import 'package:fladder/screens/syncing/sync_widgets.dart';
 import 'package:fladder/screens/syncing/widgets/sync_progress_builder.dart';
 import 'package:fladder/screens/syncing/widgets/sync_status_overlay.dart';
 import 'package:fladder/util/fladder_image.dart';
-import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/size_formatting.dart';
 
@@ -28,7 +28,7 @@ class SyncListItemState extends ConsumerState<SyncListItem> {
   @override
   Widget build(BuildContext context) {
     final syncedItem = widget.syncedItem;
-    final baseItem = ref.read(syncProvider.notifier).getItem(syncedItem);
+    final baseItem = syncedItem.itemModel;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: SyncStatusOverlay(
@@ -66,82 +66,99 @@ class SyncListItemState extends ConsumerState<SyncListItem> {
                   context.localized.cancel);
               return false;
             },
-            child: LayoutBuilder(builder: (context, constraints) {
-              return IntrinsicHeight(
-                child: InkWell(
-                  onTap: () => baseItem?.navigateTo(context),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ConstrainedBox(
-                          constraints: BoxConstraints(maxHeight: 125, maxWidth: constraints.maxWidth * 0.2),
-                          child: Card(
-                            child: AspectRatio(
-                                aspectRatio: baseItem?.primaryRatio ?? 1.0,
-                                child: FladderImage(
-                                  image: baseItem?.getPosters?.primary,
-                                  fit: BoxFit.cover,
-                                )),
-                          ),
-                        ),
-                        Expanded(
-                          child: SyncProgressBuilder(
-                            item: syncedItem,
-                            builder: (context, combinedStream) {
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Flexible(
-                                    child: Text(
-                                      baseItem?.detailedName(context) ?? "",
-                                      maxLines: 3,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: Theme.of(context).textTheme.titleMedium,
-                                    ),
-                                  ),
-                                  Flexible(
-                                    child: SyncSubtitle(syncItem: syncedItem),
-                                  ),
-                                  Flexible(
-                                    child: SyncLabel(
-                                      label: context.localized
-                                          .totalSize(ref.watch(syncSizeProvider(syncedItem)).byteFormat ?? '--'),
-                                      status: ref.watch(syncStatusesProvider(syncedItem)).value ?? SyncStatus.partially,
-                                    ),
-                                  ),
-                                  if (combinedStream != null && combinedStream.hasDownload == true)
-                                    SyncProgressBar(item: syncedItem, task: combinedStream)
-                                ].addInBetween(const SizedBox(height: 4)),
-                              );
-                            },
-                          ),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Card(
-                                elevation: 0,
-                                shadowColor: Colors.transparent,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-                                  child: Text(baseItem != null ? baseItem.type.label(context) : ""),
-                                )),
-                            IconButton(
-                              onPressed: () => showSyncItemDetails(context, syncedItem, ref),
-                              icon: const Icon(IconsaxPlusLinear.more_square),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return IntrinsicHeight(
+                  child: InkWell(
+                    onTap: () => baseItem?.navigateTo(context),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        spacing: 16,
+                        children: [
+                          ConstrainedBox(
+                            constraints: BoxConstraints(maxHeight: 125, maxWidth: constraints.maxWidth * 0.2),
+                            child: Card(
+                              child: AspectRatio(
+                                  aspectRatio: baseItem?.primaryRatio ?? 1.0,
+                                  child: FladderImage(
+                                    image: baseItem?.getPosters?.primary,
+                                    fit: BoxFit.cover,
+                                  )),
                             ),
-                          ],
-                        ),
-                      ].addInBetween(const SizedBox(width: 16)),
+                          ),
+                          Expanded(
+                            child: FutureBuilder(
+                              future: ref.read(syncProvider.notifier).getNestedChildren(syncedItem),
+                              builder: (context, asyncSnapshot) {
+                                final nestedChildren = asyncSnapshot.data ?? [];
+                                return SyncProgressBuilder(
+                                  item: syncedItem,
+                                  children: nestedChildren,
+                                  builder: (context, combinedStream) {
+                                    return Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      spacing: 4,
+                                      children: [
+                                        Flexible(
+                                          child: Text(
+                                            baseItem?.detailedName(context) ?? "",
+                                            maxLines: 3,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: Theme.of(context).textTheme.titleMedium,
+                                          ),
+                                        ),
+                                        Flexible(
+                                          child: SyncSubtitle(
+                                            syncItem: syncedItem,
+                                            children: nestedChildren,
+                                          ),
+                                        ),
+                                        Flexible(
+                                          child: Consumer(
+                                            builder: (context, ref, child) => SyncLabel(
+                                              label: context.localized.totalSize(
+                                                  ref.watch(syncSizeProvider(syncedItem, nestedChildren)).byteFormat ??
+                                                      '--'),
+                                              status: combinedStream?.status ?? TaskStatus.notFound,
+                                            ),
+                                          ),
+                                        ),
+                                        if (combinedStream != null && combinedStream.hasDownload == true)
+                                          SyncProgressBar(item: syncedItem, task: combinedStream)
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Card(
+                                  elevation: 0,
+                                  shadowColor: Colors.transparent,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                                    child: Text(baseItem != null ? baseItem.type.label(context) : ""),
+                                  )),
+                              IconButton(
+                                onPressed: () => showSyncItemDetails(context, syncedItem, ref),
+                                icon: const Icon(IconsaxPlusLinear.more_square),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              );
-            }),
+                );
+              },
+            ),
           ),
         ),
       ),

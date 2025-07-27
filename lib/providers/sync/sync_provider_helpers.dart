@@ -1,40 +1,41 @@
-import 'package:isar/isar.dart';
+import 'package:background_downloader/background_downloader.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/syncing/download_stream.dart';
-import 'package:fladder/models/syncing/i_synced_item.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/providers/sync_provider.dart';
 
 part 'sync_provider_helpers.g.dart';
 
 @riverpod
-class SyncChildren extends _$SyncChildren {
-  @override
-  List<SyncedItem> build(SyncedItem arg) {
-    final syncedItemIsar = ref.watch(syncProvider.notifier).isar;
-    final allChildren = <SyncedItem>[];
-    List<SyncedItem> toProcess = [arg];
-    while (toProcess.isNotEmpty) {
-      final currentLevel = toProcess.map(
-        (parent) {
-          final children = syncedItemIsar?.iSyncedItems.where().parentIdEqualTo(parent.id).sortBySortName().findAll();
-          return children?.map((e) => SyncedItem.fromIsar(e, ref.read(syncProvider.notifier).syncPath ?? "")) ??
-              <SyncedItem>[];
-        },
-      );
-      allChildren.addAll(currentLevel.expand((list) => list));
-      toProcess = currentLevel.expand((list) => list).toList();
-    }
-    return allChildren;
+Stream<SyncedItem?> syncedItem(Ref ref, ItemBaseModel? item) {
+  final id = item?.id;
+  if (id == null || id.isEmpty) {
+    return Stream.value(null);
   }
+
+  return ref.watch(syncProvider.notifier).db.getItem(id).watchSingleOrNull();
+}
+
+@riverpod
+class SyncedChildren extends _$SyncedChildren {
+  @override
+  FutureOr<List<SyncedItem>> build(SyncedItem item) => ref.read(syncProvider.notifier).getChildren(item);
+}
+
+@riverpod
+class SyncedNestedChildren extends _$SyncedNestedChildren {
+  @override
+  FutureOr<List<SyncedItem>> build(SyncedItem item) => ref.read(syncProvider.notifier).getNestedChildren(item);
 }
 
 @riverpod
 class SyncDownloadStatus extends _$SyncDownloadStatus {
   @override
-  DownloadStream? build(SyncedItem arg) {
-    final nestedChildren = ref.watch(syncChildrenProvider(arg));
+  DownloadStream? build(SyncedItem arg, List<SyncedItem> children) {
+    final nestedChildren = children;
 
     ref.watch(downloadTasksProvider(arg.id));
     for (var element in nestedChildren) {
@@ -45,60 +46,53 @@ class SyncDownloadStatus extends _$SyncDownloadStatus {
     int downloadCount = 0;
     double fullProgress = mainStream.hasDownload ? mainStream.progress : 0.0;
 
+    int fullySyncedChildren = 0;
+
     for (var i = 0; i < nestedChildren.length; i++) {
       final childItem = nestedChildren[i];
       final downloadStream = ref.read(downloadTasksProvider(childItem.id));
+      if (childItem.videoFile.existsSync()) {
+        fullySyncedChildren++;
+      }
       if (downloadStream.hasDownload) {
         downloadCount++;
         fullProgress += downloadStream.progress;
-        mainStream = mainStream.copyWith(status: downloadStream.status);
+        mainStream = mainStream.copyWith(
+          status: mainStream.status != TaskStatus.running ? downloadStream.status : mainStream.status,
+        );
       }
     }
 
+    int syncAbleChildren = nestedChildren.where((element) => element.hasVideoFile).length;
+
+    var fullySynced = nestedChildren.isNotEmpty ? fullySyncedChildren == syncAbleChildren : arg.videoFile.existsSync();
     return mainStream.copyWith(
+      status: fullySynced ? TaskStatus.complete : mainStream.status,
       progress: fullProgress / downloadCount.clamp(1, double.infinity).toInt(),
     );
   }
 }
 
 @riverpod
-class SyncStatuses extends _$SyncStatuses {
-  @override
-  FutureOr<SyncStatus> build(SyncedItem arg) async {
-    final nestedChildren = ref.watch(syncChildrenProvider(arg));
-
-    ref.watch(downloadTasksProvider(arg.id));
-    for (var element in nestedChildren) {
-      ref.watch(downloadTasksProvider(element.id));
-    }
-
-    for (var i = 0; i < nestedChildren.length; i++) {
-      final item = nestedChildren[i];
-      if (item.hasVideoFile && !await item.videoFile.exists()) {
-        return SyncStatus.partially;
-      }
-    }
-    if (arg.hasVideoFile && !await arg.videoFile.exists()) {
-      return SyncStatus.partially;
-    }
-    return SyncStatus.complete;
-  }
-}
-
-@riverpod
 class SyncSize extends _$SyncSize {
   @override
-  int? build(SyncedItem arg) {
-    final nestedChildren = ref.watch(syncChildrenProvider(arg));
+  int? build(SyncedItem arg, List<SyncedItem>? children) {
+    final nestedChildren = children;
 
     ref.watch(downloadTasksProvider(arg.id));
-    for (var element in nestedChildren) {
-      ref.watch(downloadTasksProvider(element.id));
-    }
     int size = arg.fileSize ?? 0;
-    for (var element in nestedChildren) {
-      size += element.fileSize ?? 0;
+
+    if (nestedChildren != null) {
+      for (var element in nestedChildren) {
+        ref.watch(downloadTasksProvider(element.id));
+      }
+      for (var element in nestedChildren) {
+        if (element.videoFile.existsSync()) {
+          size += element.fileSize ?? 0;
+        }
+      }
     }
+
     return size;
   }
 }

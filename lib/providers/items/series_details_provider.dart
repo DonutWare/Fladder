@@ -32,20 +32,39 @@ class SeriesDetailViewNotifier extends StateNotifier<SeriesModel?> {
       final response = await api.usersUserIdItemsItemIdGet(itemId: seriesModel.id);
       if (response.body == null) return null;
       newState = response.bodyOrThrow as SeriesModel;
-      final seasons = await api.showsSeriesIdSeasonsGet(seriesId: seriesModel.id);
-      newState = newState.copyWith(seasons: SeasonModel.seasonsFromDto(seasons.body?.items, ref));
 
       final episodes = await api.showsSeriesIdEpisodesGet(seriesId: seriesModel.id, fields: [
         ItemFields.mediastreams,
         ItemFields.mediasources,
         ItemFields.overview,
+        ItemFields.candownload,
+        ItemFields.childcount,
       ]);
 
+      final newEpisodes = EpisodeModel.episodesFromDto(
+        episodes.body?.items,
+        ref,
+      );
+      final episodesCanDownload = newEpisodes.any((episode) => episode.canDownload == true);
+      final seasons = await api.showsSeriesIdSeasonsGet(seriesId: seriesModel.id, fields: [
+        ItemFields.mediastreams,
+        ItemFields.mediasources,
+        ItemFields.overview,
+        ItemFields.candownload,
+        ItemFields.childcount,
+      ]);
       newState = newState.copyWith(
-        availableEpisodes: EpisodeModel.episodesFromDto(
-          episodes.body?.items,
-          ref,
-        ),
+        seasons: SeasonModel.seasonsFromDto(seasons.body?.items, ref)
+            .map((element) => element.copyWith(
+                  canDownload: true,
+                  episodes: newEpisodes.where((episode) => episode.season == element.season).toList(),
+                ))
+            .toList(),
+      );
+
+      newState = newState.copyWith(
+        canDownload: episodesCanDownload,
+        availableEpisodes: newEpisodes,
       );
 
       final related = await ref.read(relatedUtilityProvider).relatedContent(seriesModel.id);
@@ -59,20 +78,16 @@ class SeriesDetailViewNotifier extends StateNotifier<SeriesModel?> {
 
   Future<void> _tryToCreateOfflineState(ItemBaseModel series) async {
     final syncNotifier = ref.read(syncProvider.notifier);
-    final syncedItem = syncNotifier.getSyncedItem(series);
+    final syncedItem = await syncNotifier.getSyncedItem(series);
     if (syncedItem == null) return;
-    final seriesModel = syncedItem.createItemModel(ref) as SeriesModel;
-    final allChildren = syncedItem
-        .getNestedChildren(ref)
-        .map(
-          (e) => e.createItemModel(ref),
-        )
-        .nonNulls
-        .toList();
-    state = seriesModel.copyWith(
-      availableEpisodes: allChildren.whereType<EpisodeModel>().toList(),
-      seasons: allChildren.whereType<SeasonModel>().toList(),
-    );
+    final seriesModel = syncedItem.itemModel as SeriesModel;
+    final allChildren = (await syncedItem.getNestedChildren(ref)).map((e) => e.itemModel).toList();
+    if (mounted) {
+      state = seriesModel.copyWith(
+        availableEpisodes: allChildren.whereType<EpisodeModel>().toList(),
+        seasons: allChildren.whereType<SeasonModel>().toList(),
+      );
+    }
     return;
   }
 

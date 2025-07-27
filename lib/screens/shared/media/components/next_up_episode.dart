@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 import 'package:fladder/models/items/episode_model.dart';
-import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/screens/details_screens/components/media_stream_information.dart';
 import 'package:fladder/screens/shared/media/episode_posters.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
@@ -31,7 +30,7 @@ class NextUpEpisode extends ConsumerWidget {
         Opacity(
           opacity: 0.75,
           child: SelectableText(
-            "${context.localized.season(1)} ${nextEpisode.season} - ${context.localized.episode(1)} ${nextEpisode.episode}",
+            nextEpisode.seasonEpisodeLabelFull(context),
             style: Theme.of(context).textTheme.titleMedium,
           ),
         ),
@@ -42,13 +41,11 @@ class NextUpEpisode extends ConsumerWidget {
         const SizedBox(height: 16),
         LayoutBuilder(
           builder: (context, constraints) {
-            final syncedItem = ref.read(syncProvider.notifier).getSyncedItem(nextEpisode);
             if (constraints.maxWidth < 550) {
               return Column(
                 children: [
                   EpisodePoster(
                     episode: nextEpisode,
-                    syncedItem: syncedItem,
                     showLabel: false,
                     onTap: () => nextEpisode.navigateTo(context),
                     actions: const [],
@@ -71,7 +68,6 @@ class NextUpEpisode extends ConsumerWidget {
                         maxWidth: MediaQuery.of(context).size.width / 2),
                     child: EpisodePoster(
                       episode: nextEpisode,
-                      syncedItem: syncedItem,
                       showLabel: false,
                       onTap: () => nextEpisode.navigateTo(context),
                       actions: const [],

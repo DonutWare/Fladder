@@ -464,7 +464,7 @@ class SplashRouteArgs {
 class SyncedRoute extends _i17.PageRouteInfo<SyncedRouteArgs> {
   SyncedRoute({
     _i22.ScrollController? navigationScrollController,
-    _i22.Key? key,
+    _i19.Key? key,
     List<_i17.PageRouteInfo>? children,
   }) : super(
           SyncedRoute.name,
@@ -498,7 +498,7 @@ class SyncedRouteArgs {
 
   final _i22.ScrollController? navigationScrollController;
 
-  final _i22.Key? key;
+  final _i19.Key? key;
 
   @override
   String toString() {

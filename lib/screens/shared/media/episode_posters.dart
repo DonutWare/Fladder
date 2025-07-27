@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/items/episode_model.dart';
-import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/sync/sync_provider_helpers.dart';
-import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/screens/syncing/sync_button.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
@@ -88,11 +86,9 @@ class _EpisodePosterState extends ConsumerState<EpisodePosters> {
       itemBuilder: (context, index) {
         final episode = episodes[index];
         final isCurrentEpisode = index == indexOfCurrent;
-        final syncedItem = ref.watch(syncProvider.notifier).getSyncedItem(episode);
         return EpisodePoster(
           episode: episode,
           blur: allPlayed ? false : indexOfCurrent < index,
-          syncedItem: syncedItem,
           onTap: widget.onEpisodeTap != null
               ? () {
                   widget.onEpisodeTap?.call(
@@ -130,7 +126,6 @@ class _EpisodePosterState extends ConsumerState<EpisodePosters> {
 
 class EpisodePoster extends ConsumerWidget {
   final EpisodeModel episode;
-  final SyncedItem? syncedItem;
   final bool showLabel;
   final Function()? onTap;
   final Function()? onLongPress;
@@ -141,7 +136,6 @@ class EpisodePoster extends ConsumerWidget {
   const EpisodePoster({
     super.key,
     required this.episode,
-    this.syncedItem,
     this.showLabel = true,
     this.onTap,
     this.onLongPress,
@@ -156,7 +150,6 @@ class EpisodePoster extends ConsumerWidget {
       color: Theme.of(context).colorScheme.surfaceContainerHighest,
       child: const Icon(Icons.local_movies_outlined),
     );
-    final SyncedItem? iSyncedItem = syncedItem;
     bool episodeAvailable = episode.status == EpisodeStatus.available;
     return AspectRatio(
       aspectRatio: 1.76,
@@ -203,15 +196,18 @@ class EpisodePoster extends ConsumerWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        if (iSyncedItem != null)
-                          Consumer(builder: (context, ref, child) {
-                            final SyncStatus syncStatus =
-                                ref.watch(syncStatusesProvider(iSyncedItem)).value ?? SyncStatus.partially;
-                            return StatusCard(
-                              color: syncStatus.color,
-                              child: SyncButton(item: episode, syncedItem: syncedItem),
-                            );
-                          }),
+                        ref.watch(syncedItemProvider(episode)).when(
+                              error: (error, stackTrace) => const SizedBox.shrink(),
+                              data: (syncedItem) {
+                                if (syncedItem == null) {
+                                  return const SizedBox.shrink();
+                                }
+                                return StatusCard(
+                                  child: SyncButton(item: episode, syncedItem: syncedItem),
+                                );
+                              },
+                              loading: () => const SizedBox.shrink(),
+                            ),
                         if (episode.userData.isFavourite)
                           const StatusCard(
                             color: Colors.red,
@@ -259,7 +255,7 @@ class EpisodePoster extends ConsumerWidget {
                       child: Align(
                         alignment: Alignment.bottomRight,
                         child: PopupMenuButton(
-                          tooltip: "Options",
+                          tooltip: context.localized.options,
                           icon: const Icon(
                             Icons.more_vert,
                             color: Colors.white,
