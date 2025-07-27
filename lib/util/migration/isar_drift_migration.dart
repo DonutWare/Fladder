@@ -20,7 +20,7 @@ Future<void> isarMigration(Ref ref, AppDatabase db, String savePath) async {
   //Return if the database is already migrated or not empty
   final isNotEmtpy = await db.select(db.databaseItems).get().then((value) => value.isNotEmpty);
   if (isNotEmtpy) {
-    log('Isar database is not empty, skipping migration');
+    log('Drift database is not empty, skipping migration');
     return;
   }
 
