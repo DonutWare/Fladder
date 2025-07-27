@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ class LibMPV extends BasePlayer {
     dispose();
 
     mpv.MediaKit.ensureInitialized();
-    
+
     _player = mpv.Player(
       configuration: mpv.PlayerConfiguration(
         title: "nl.jknaapen.fladder",
@@ -239,7 +240,7 @@ class _VideoSubtitlesState extends ConsumerState<_VideoSubtitles> {
       return SubtitleText(
         subModel: settings,
         padding: padding,
-        offset: (widget.showOverlay ? 0.5 : settings.verticalOffset),
+        offset: settings.verticalOffset, // Always use user's preferred position
         text: text,
       );
     }
