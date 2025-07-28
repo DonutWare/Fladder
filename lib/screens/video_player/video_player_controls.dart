@@ -112,6 +112,12 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     timer.reset();
   }
 
+  // Height measurement logic remains here for architectural reasons:
+  // 1. The video controls widget owns and renders the bottom menu UI elements
+  // 2. Only this widget has direct access to the menu's RenderBox for accurate measurement  
+  // 3. Subtitle widgets are separate components that shouldn't know about control UI structure
+  // 4. Different players (LibMPV, MDK) can receive the same measurement without duplicating logic
+  // 5. Clean separation: controls handle UI measurement, players handle subtitle positioning
   // Use PostFrameCallback to measure height after layout
   void _measureMenuHeight() {
     WidgetsBinding.instance.addPostFrameCallback((_) {

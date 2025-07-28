@@ -168,13 +168,13 @@ class LibMPV extends BasePlayer {
   @override
   Widget? subtitles(
     bool showOverlay, {
-    double? menuHeight,
+    double? menuHeight, // Passed from video_player_controls.dart which owns the menu UI
   }) =>
       _controller != null
           ? _VideoSubtitles(
               controller: _controller!,
               showOverlay: showOverlay,
-              menuHeight: menuHeight,
+              menuHeight: menuHeight, // Forward the measured height for accurate positioning
             )
           : null;
 
@@ -198,12 +198,12 @@ class LibMPV extends BasePlayer {
 class _VideoSubtitles extends ConsumerStatefulWidget {
   final VideoController controller;
   final bool showOverlay;
-  final double? menuHeight;
+  final double? menuHeight; // Accurate measurement from controls, null triggers fallback positioning
 
   const _VideoSubtitles({
     required this.controller,
     this.showOverlay = false,
-    this.menuHeight,
+    this.menuHeight, // Receives pre-measured height rather than measuring internally
   });
 
   @override
@@ -257,7 +257,7 @@ class _VideoSubtitlesState extends ConsumerState<_VideoSubtitles> {
       return const SizedBox.shrink();
     }
 
-    // Use the utility for offset calculation
+    // Use the utility for offset calculation with passed menuHeight
     final offset = SubtitlePositionCalculator.calculateOffset(
       settings: settings,
       showOverlay: widget.showOverlay,
