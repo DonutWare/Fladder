@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +13,7 @@ import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/settings/subtitle_settings_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/settings/subtitle_settings_provider.dart';
+import 'package:fladder/util/subtitle_position_calculator.dart';
 import 'package:fladder/wrappers/players/base_player.dart';
 import 'package:fladder/wrappers/players/player_states.dart';
 
@@ -207,25 +207,25 @@ class _VideoSubtitles extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _VideoSubtitlesState();
+  _VideoSubtitlesState createState() => _VideoSubtitlesState();
 }
 
 class _VideoSubtitlesState extends ConsumerState<_VideoSubtitles> {
-  // Keep fallback constants for when dynamic height isn't available
-  static const double _fallbackMenuHeightPercentage = 0.15; // 15% fallback
-  static const double _subtitlePadding = 0.005; // 0.5% padding above menu
-  static const double _maxSubtitleOffset = 0.85; // Max 85% up from bottom
-
-  late List<String> subtitle = widget.controller.player.state.subtitle;
+  late List<String> subtitle;
+  String _cachedSubtitleText = '';
+  List<String>? _lastSubtitleList;
   StreamSubscription<List<String>>? subscription;
 
   @override
   void initState() {
     super.initState(); // Move to very start as per best practices
+    subtitle = widget.controller.player.state.subtitle;
     subscription = widget.controller.player.stream.subtitle.listen((value) {
       if (mounted) {
         setState(() {
           subtitle = value;
+          // Invalidate cache when subtitle changes
+          _lastSubtitleList = null;
         });
       }
     });
@@ -237,53 +237,38 @@ class _VideoSubtitlesState extends ConsumerState<_VideoSubtitles> {
     super.dispose();
   }
 
-  /// Calculate subtitle offset using actual menu height when available
-  double _calculateSubtitleOffset(SubtitleSettingsModel settings) {
-    if (!widget.showOverlay) {
-      return settings.verticalOffset;
-    }
-
-    final screenHeight = MediaQuery.of(context).size.height;
-    double menuHeightPercentage;
-
-    if (widget.menuHeight != null && screenHeight > 0) {
-      // Convert menu height to percentage (without extra padding here)
-      menuHeightPercentage = widget.menuHeight! / screenHeight;
-    } else {
-      // Fallback to static percentage
-      menuHeightPercentage = _fallbackMenuHeightPercentage;
-    }
-
-    // Calculate the minimum safe position (menu height + small padding)
-    final minSafeOffset = menuHeightPercentage + _subtitlePadding;
-
-    // If subtitles are already positioned above the safe area, leave them alone
-    if (settings.verticalOffset >= minSafeOffset) {
-      return settings.verticalOffset;
-    }
-
-    // Instead of replacing user offset, use the minimum safe position
-    // This ensures subtitles are just above the menu, not way up high
-    return math.max(minSafeOffset, math.min(settings.verticalOffset, _maxSubtitleOffset));
-  }
-
   @override
   Widget build(BuildContext context) {
     final settings = ref.watch(subtitleSettingsProvider);
     final padding = MediaQuery.of(context).padding;
 
-    // Process subtitle text
-    final text = subtitle.where((line) => line.trim().isNotEmpty).map((line) => line.trim()).join('\n');
+    // Cache processed subtitle text to avoid unnecessary computation
+    if (!const ListEquality().equals(subtitle, _lastSubtitleList)) {
+      _cachedSubtitleText = subtitle.where((line) => line.trim().isNotEmpty).map((line) => line.trim()).join('\n');
+      _lastSubtitleList = List<String>.from(subtitle);
+    }
+    final text = _cachedSubtitleText;
+
+    // Extract libass enabled check for clarity
+    final bool isLibassEnabled = widget.controller.player.platform?.configuration.libass ?? false;
 
     // Early return for cases where subtitles shouldn't be rendered
-    if ((widget.controller.player.platform?.configuration.libass ?? false) || text.isEmpty) {
+    if (isLibassEnabled || text.isEmpty) {
       return const SizedBox.shrink();
     }
+
+    // Use the utility for offset calculation
+    final offset = SubtitlePositionCalculator.calculateOffset(
+      settings: settings,
+      showOverlay: widget.showOverlay,
+      screenHeight: MediaQuery.of(context).size.height,
+      menuHeight: widget.menuHeight,
+    );
 
     return SubtitleText(
       subModel: settings,
       padding: padding,
-      offset: _calculateSubtitleOffset(settings),
+      offset: offset,
       text: text,
     );
   }

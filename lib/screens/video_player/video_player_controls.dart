@@ -43,6 +43,7 @@ class DesktopControls extends ConsumerStatefulWidget {
 class _DesktopControlsState extends ConsumerState<DesktopControls> {
   // Add GlobalKey to measure bottom controls height
   final GlobalKey _bottomControlsKey = GlobalKey();
+  double? _cachedMenuHeight;
 
   late RestartableTimer timer = RestartableTimer(
     const Duration(seconds: 5),
@@ -111,14 +112,32 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     timer.reset();
   }
 
+  // Use PostFrameCallback to measure height after layout
+  void _measureMenuHeight() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+
+      final RenderBox? renderBox = _bottomControlsKey.currentContext?.findRenderObject() as RenderBox?;
+      final newHeight = renderBox?.size.height;
+
+      if (newHeight != _cachedMenuHeight && newHeight != null) {
+        setState(() {
+          _cachedMenuHeight = newHeight;
+        });
+      }
+    });
+  }
+
   // Method to get actual menu height
   double? getBottomControlsHeight() {
-    final RenderBox? renderBox = _bottomControlsKey.currentContext?.findRenderObject() as RenderBox?;
-    return renderBox?.size.height;
+    return _cachedMenuHeight;
   }
 
   @override
   Widget build(BuildContext context) {
+    // Trigger measurement after each build to ensure accurate height
+    _measureMenuHeight();
+
     final mediaSegments = ref.watch(playBackModel.select((value) => value?.mediaSegments));
     final player = ref.watch(videoPlayerProvider);
     final subtitleWidget = player.subtitleWidget(showOverlay, menuHeight: getBottomControlsHeight());
