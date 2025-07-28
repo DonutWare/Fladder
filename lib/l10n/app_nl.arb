@@ -1348,5 +1348,65 @@
   "settingsEnableOsMediaControlsDesc": "Afspeelbediening via mediatoetsen en toon de huidige afspeelmedia in het besturingssysteem",
   "@settingsEnableOsMediaControlsDesc": {},
   "enableBackgroundPostersDesc": "Toon willekeurige posters in toepasselijke schermen",
-  "@enableBackgroundPostersDesc": {}
+  "@enableBackgroundPostersDesc": {},
+  "notificationDownloadingDownloading": "Downloads",
+  "@notificationDownloadingDownloading": {},
+  "notificationDownloadingPaused": "Download gepauzeerd",
+  "@notificationDownloadingPaused": {},
+  "notificationDownloadingFinished": "Download klaar",
+  "@notificationDownloadingFinished": {},
+  "notificationDownloadingError": "Download fout",
+  "@notificationDownloadingError": {},
+  "syncAllItemsTitle": "Synchroniseer alle items van {itemName}?",
+  "@syncAllItemsTitle": {
+    "description": "syncAllItemsFrom",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncAllItemsDesc": "Hiermee worden ({itemCount}) items van '{itemName}' gesynchroniseerd naar uw apparaat.\nDit kan even duren, afhankelijk van de hoeveelheid items.",
+  "@syncAllItemsDesc": {
+    "description": "syncAllitemsFromDesc",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      },
+      "itemCount": {
+        "type": "int"
+      }
+    }
+  },
+  "syncDeleteAllItemsTitle": "Alle gesynchroniseerde items verwijderen uit {itemName}?",
+  "@syncDeleteAllItemsTitle": {
+    "description": "syncDeleteAllitemsFrom",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncDeleteAllItemsDesc": "Hiermee worden alle gesynchroniseerde items van '{itemName}' verwijderd.\nDit is permanent en u moet ({itemCount}) bestanden opnieuw synchroniseren.",
+  "@syncDeleteAllItemsDesc": {
+    "description": "syncDeleteAllitemsFromDesc",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      },
+      "itemCount": {
+        "type": "int"
+      }
+    }
+  },
+  "syncPauseAll": "Alles pauzeren",
+  "@syncPauseAll": {},
+  "syncResumeAll": "Alles hervatten",
+  "@syncResumeAll": {},
+  "syncStopAll": "Alles stoppen",
+  "@syncStopAll": {},
+  "syncDeleteAll": "Alle bestanden verwijderen",
+  "@syncDeleteAll": {},
+  "syncAllFiles": "All bestanden synchronizeren",
+  "@syncAllFiles": {}
 }
