@@ -41,6 +41,9 @@ class DesktopControls extends ConsumerStatefulWidget {
 }
 
 class _DesktopControlsState extends ConsumerState<DesktopControls> {
+  // Add GlobalKey to measure bottom controls height
+  final GlobalKey _bottomControlsKey = GlobalKey();
+
   late RestartableTimer timer = RestartableTimer(
     const Duration(seconds: 5),
     () => mounted ? toggleOverlay(value: false) : null,
@@ -108,11 +111,17 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     timer.reset();
   }
 
+  // Method to get actual menu height
+  double? getBottomControlsHeight() {
+    final RenderBox? renderBox = _bottomControlsKey.currentContext?.findRenderObject() as RenderBox?;
+    return renderBox?.size.height;
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaSegments = ref.watch(playBackModel.select((value) => value?.mediaSegments));
     final player = ref.watch(videoPlayerProvider);
-    final subtitleWidget = player.subtitleWidget(showOverlay);
+    final subtitleWidget = player.subtitleWidget(showOverlay, menuHeight: getBottomControlsHeight());
     return InputHandler(
       autoFocus: false,
       onKeyEvent: (node, event) => _onKey(event) ? KeyEventResult.handled : KeyEventResult.ignored,
@@ -293,6 +302,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
       final mediaPlayback = ref.watch(mediaPlaybackProvider);
       final bitRateOptions = ref.watch(playBackModel.select((value) => value?.bitRateOptions));
       return Container(
+        key: _bottomControlsKey, // Add key to measure height
         decoration: BoxDecoration(
             gradient: LinearGradient(
           begin: Alignment.bottomCenter,

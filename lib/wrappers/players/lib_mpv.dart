@@ -167,12 +167,14 @@ class LibMPV extends BasePlayer {
 
   @override
   Widget? subtitles(
-    bool showOverlay,
-  ) =>
+    bool showOverlay, {
+    double? menuHeight,
+  }) =>
       _controller != null
           ? _VideoSubtitles(
               controller: _controller!,
               showOverlay: showOverlay,
+              menuHeight: menuHeight,
             )
           : null;
 
@@ -196,10 +198,12 @@ class LibMPV extends BasePlayer {
 class _VideoSubtitles extends ConsumerStatefulWidget {
   final VideoController controller;
   final bool showOverlay;
+  final double? menuHeight;
 
   const _VideoSubtitles({
     required this.controller,
     this.showOverlay = false,
+    this.menuHeight,
   });
 
   @override
@@ -207,9 +211,9 @@ class _VideoSubtitles extends ConsumerStatefulWidget {
 }
 
 class _VideoSubtitlesState extends ConsumerState<_VideoSubtitles> {
-  // Promote constants to static for better readability and flexibility
-  static const double _menuAreaThreshold = 0.15; // Bottom 15% typically contains controls
-  static const double _menuAvoidanceOffset = 0.1; // Move up by 10% when needed
+  // Keep fallback constants for when dynamic height isn't available
+  static const double _fallbackMenuHeightPercentage = 0.15; // 15% fallback
+  static const double _subtitlePadding = 0.005; // 0.5% padding above menu
   static const double _maxSubtitleOffset = 0.85; // Max 85% up from bottom
 
   late List<String> subtitle = widget.controller.player.state.subtitle;
@@ -233,23 +237,34 @@ class _VideoSubtitlesState extends ConsumerState<_VideoSubtitles> {
     super.dispose();
   }
 
-  /// Calculate subtitle offset based on menu visibility
+  /// Calculate subtitle offset using actual menu height when available
   double _calculateSubtitleOffset(SubtitleSettingsModel settings) {
     if (!widget.showOverlay) {
       return settings.verticalOffset;
     }
 
-    // If subtitles are already positioned above the menu area, leave them alone
-    if (settings.verticalOffset >= _menuAreaThreshold) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    double menuHeightPercentage;
+
+    if (widget.menuHeight != null && screenHeight > 0) {
+      // Convert menu height to percentage (without extra padding here)
+      menuHeightPercentage = widget.menuHeight! / screenHeight;
+    } else {
+      // Fallback to static percentage
+      menuHeightPercentage = _fallbackMenuHeightPercentage;
+    }
+
+    // Calculate the minimum safe position (menu height + small padding)
+    final minSafeOffset = menuHeightPercentage + _subtitlePadding;
+
+    // If subtitles are already positioned above the safe area, leave them alone
+    if (settings.verticalOffset >= minSafeOffset) {
       return settings.verticalOffset;
     }
 
-    // When menu is visible and subtitles are in the menu area,
-    // move them up slightly to avoid overlap
-    final adjustedOffset = settings.verticalOffset + _menuAvoidanceOffset;
-
-    // Clamp to reasonable bounds (don't go too high or too low)
-    return math.max(0.0, math.min(adjustedOffset, _maxSubtitleOffset));
+    // Instead of replacing user offset, use the minimum safe position
+    // This ensures subtitles are just above the menu, not way up high
+    return math.max(minSafeOffset, math.min(settings.verticalOffset, _maxSubtitleOffset));
   }
 
   @override

@@ -19,8 +19,9 @@ abstract class BasePlayer {
     BoxFit fit,
   );
   Widget? subtitles(
-    bool showOverlay,
-  );
+    bool showOverlay, {
+    double? menuHeight,
+  });
   Future<void> dispose();
   Future<void> open(String url, bool play);
   Future<void> seek(Duration position);
