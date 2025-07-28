@@ -20,7 +20,7 @@ abstract class BasePlayer {
   );
   Widget? subtitles(
     bool showOverlay, {
-    GlobalKey? menuKey,
+    GlobalKey? controlsKey,
   });
   Future<void> dispose();
   Future<void> open(String url, bool play);

@@ -168,13 +168,13 @@ class LibMPV extends BasePlayer {
   @override
   Widget? subtitles(
     bool showOverlay, {
-    GlobalKey? menuKey,
+    GlobalKey? controlsKey,
   }) =>
       _controller != null
           ? _VideoSubtitles(
               controller: _controller!,
               showOverlay: showOverlay,
-              menuKey: menuKey,
+              controlsKey: controlsKey,
             )
           : null;
 
@@ -198,12 +198,12 @@ class LibMPV extends BasePlayer {
 class _VideoSubtitles extends ConsumerStatefulWidget {
   final VideoController controller;
   final bool showOverlay;
-  final GlobalKey? menuKey;
+  final GlobalKey? controlsKey;
 
   const _VideoSubtitles({
     required this.controller,
     this.showOverlay = false,
-    this.menuKey,
+    this.controlsKey,
   });
 
   @override
@@ -275,9 +275,9 @@ class _VideoSubtitlesState extends ConsumerState<_VideoSubtitles> {
 
   void _measureMenuHeight() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted || widget.menuKey == null) return;
+      if (!mounted || widget.controlsKey == null) return;
 
-      final RenderBox? renderBox = widget.menuKey?.currentContext?.findRenderObject() as RenderBox?;
+      final RenderBox? renderBox = widget.controlsKey?.currentContext?.findRenderObject() as RenderBox?;
       final newHeight = renderBox?.size.height;
 
       if (newHeight != _cachedMenuHeight && newHeight != null) {
