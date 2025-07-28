@@ -16,6 +16,7 @@ import 'package:universal_html/html.dart' as html;
 import 'package:window_manager/window_manager.dart';
 
 import 'package:fladder/l10n/generated/app_localizations.dart';
+import 'package:fladder/localization_delegates.dart';
 import 'package:fladder/models/account_model.dart';
 import 'package:fladder/models/settings/arguments_model.dart';
 import 'package:fladder/providers/arguments_provider.dart';
@@ -271,7 +272,7 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
                 mouseDrag ? PointerDeviceKind.mouse : null,
               }.nonNulls.toSet(),
             ),
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            localizationsDelegates: FladderLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             locale: language,
             localeResolutionCallback: (locale, supportedLocales) {
