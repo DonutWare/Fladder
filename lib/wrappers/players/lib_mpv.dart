@@ -168,13 +168,13 @@ class LibMPV extends BasePlayer {
   @override
   Widget? subtitles(
     bool showOverlay, {
-    double? menuHeight, // Passed from video_player_controls.dart which owns the menu UI
+    GlobalKey? menuKey,
   }) =>
       _controller != null
           ? _VideoSubtitles(
               controller: _controller!,
               showOverlay: showOverlay,
-              menuHeight: menuHeight, // Forward the measured height for accurate positioning
+              menuKey: menuKey,
             )
           : null;
 
@@ -198,12 +198,12 @@ class LibMPV extends BasePlayer {
 class _VideoSubtitles extends ConsumerStatefulWidget {
   final VideoController controller;
   final bool showOverlay;
-  final double? menuHeight; // Accurate measurement from controls, null triggers fallback positioning
+  final GlobalKey? menuKey;
 
   const _VideoSubtitles({
     required this.controller,
     this.showOverlay = false,
-    this.menuHeight, // Receives pre-measured height rather than measuring internally
+    this.menuKey,
   });
 
   @override
@@ -216,15 +216,16 @@ class _VideoSubtitlesState extends ConsumerState<_VideoSubtitles> {
   List<String>? _lastSubtitleList;
   StreamSubscription<List<String>>? subscription;
 
+  double? _cachedMenuHeight;
+
   @override
   void initState() {
-    super.initState(); // Move to very start as per best practices
+    super.initState();
     subtitle = widget.controller.player.state.subtitle;
     subscription = widget.controller.player.stream.subtitle.listen((value) {
       if (mounted) {
         setState(() {
           subtitle = value;
-          // Invalidate cache when subtitle changes
           _lastSubtitleList = null;
         });
       }
@@ -239,30 +240,29 @@ class _VideoSubtitlesState extends ConsumerState<_VideoSubtitles> {
 
   @override
   Widget build(BuildContext context) {
-    final settings = ref.watch(subtitleSettingsProvider);
-    final padding = MediaQuery.of(context).padding;
+    _measureMenuHeight();
 
-    // Cache processed subtitle text to avoid unnecessary computation
+    final settings = ref.watch(subtitleSettingsProvider);
+    final padding = MediaQuery.paddingOf(context);
+
     if (!const ListEquality().equals(subtitle, _lastSubtitleList)) {
-      _cachedSubtitleText = subtitle.where((line) => line.trim().isNotEmpty).map((line) => line.trim()).join('\n');
       _lastSubtitleList = List<String>.from(subtitle);
+      _cachedSubtitleText = subtitle.where((line) => line.trim().isNotEmpty).map((line) => line.trim()).join('\n');
     }
+
     final text = _cachedSubtitleText;
 
-    // Extract libass enabled check for clarity
     final bool isLibassEnabled = widget.controller.player.platform?.configuration.libass ?? false;
 
-    // Early return for cases where subtitles shouldn't be rendered
     if (isLibassEnabled || text.isEmpty) {
       return const SizedBox.shrink();
     }
 
-    // Use the utility for offset calculation with passed menuHeight
     final offset = SubtitlePositionCalculator.calculateOffset(
       settings: settings,
       showOverlay: widget.showOverlay,
-      screenHeight: MediaQuery.of(context).size.height,
-      menuHeight: widget.menuHeight,
+      screenHeight: MediaQuery.sizeOf(context).height,
+      menuHeight: _cachedMenuHeight,
     );
 
     return SubtitleText(
@@ -271,5 +271,20 @@ class _VideoSubtitlesState extends ConsumerState<_VideoSubtitles> {
       offset: offset,
       text: text,
     );
+  }
+
+  void _measureMenuHeight() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || widget.menuKey == null) return;
+
+      final RenderBox? renderBox = widget.menuKey?.currentContext?.findRenderObject() as RenderBox?;
+      final newHeight = renderBox?.size.height;
+
+      if (newHeight != _cachedMenuHeight && newHeight != null) {
+        setState(() {
+          _cachedMenuHeight = newHeight;
+        });
+      }
+    });
   }
 }

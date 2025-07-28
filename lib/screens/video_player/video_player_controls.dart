@@ -41,9 +41,7 @@ class DesktopControls extends ConsumerStatefulWidget {
 }
 
 class _DesktopControlsState extends ConsumerState<DesktopControls> {
-  // Add GlobalKey to measure bottom controls height
   final GlobalKey _bottomControlsKey = GlobalKey();
-  double? _cachedMenuHeight;
 
   late RestartableTimer timer = RestartableTimer(
     const Duration(seconds: 5),
@@ -112,41 +110,11 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     timer.reset();
   }
 
-  // Height measurement logic remains here for architectural reasons:
-  // 1. The video controls widget owns and renders the bottom menu UI elements
-  // 2. Only this widget has direct access to the menu's RenderBox for accurate measurement  
-  // 3. Subtitle widgets are separate components that shouldn't know about control UI structure
-  // 4. Different players (LibMPV, MDK) can receive the same measurement without duplicating logic
-  // 5. Clean separation: controls handle UI measurement, players handle subtitle positioning
-  // Use PostFrameCallback to measure height after layout
-  void _measureMenuHeight() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
-
-      final RenderBox? renderBox = _bottomControlsKey.currentContext?.findRenderObject() as RenderBox?;
-      final newHeight = renderBox?.size.height;
-
-      if (newHeight != _cachedMenuHeight && newHeight != null) {
-        setState(() {
-          _cachedMenuHeight = newHeight;
-        });
-      }
-    });
-  }
-
-  // Method to get actual menu height
-  double? getBottomControlsHeight() {
-    return _cachedMenuHeight;
-  }
-
   @override
   Widget build(BuildContext context) {
-    // Trigger measurement after each build to ensure accurate height
-    _measureMenuHeight();
-
     final mediaSegments = ref.watch(playBackModel.select((value) => value?.mediaSegments));
     final player = ref.watch(videoPlayerProvider);
-    final subtitleWidget = player.subtitleWidget(showOverlay, menuHeight: getBottomControlsHeight());
+    final subtitleWidget = player.subtitleWidget(showOverlay, controlsKey: _bottomControlsKey);
     return InputHandler(
       autoFocus: false,
       onKeyEvent: (node, event) => _onKey(event) ? KeyEventResult.handled : KeyEventResult.ignored,
