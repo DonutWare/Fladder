@@ -41,6 +41,8 @@ class DesktopControls extends ConsumerStatefulWidget {
 }
 
 class _DesktopControlsState extends ConsumerState<DesktopControls> {
+  final GlobalKey _bottomControlsKey = GlobalKey();
+
   late RestartableTimer timer = RestartableTimer(
     const Duration(seconds: 5),
     () => mounted ? toggleOverlay(value: false) : null,
@@ -112,7 +114,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   Widget build(BuildContext context) {
     final mediaSegments = ref.watch(playBackModel.select((value) => value?.mediaSegments));
     final player = ref.watch(videoPlayerProvider);
-    final subtitleWidget = player.subtitleWidget(showOverlay);
+    final subtitleWidget = player.subtitleWidget(showOverlay, controlsKey: _bottomControlsKey);
     return InputHandler(
       autoFocus: false,
       onKeyEvent: (node, event) => _onKey(event) ? KeyEventResult.handled : KeyEventResult.ignored,
@@ -293,6 +295,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
       final mediaPlayback = ref.watch(mediaPlaybackProvider);
       final bitRateOptions = ref.watch(playBackModel.select((value) => value?.bitRateOptions));
       return Container(
+        key: _bottomControlsKey, // Add key to measure height
         decoration: BoxDecoration(
             gradient: LinearGradient(
           begin: Alignment.bottomCenter,

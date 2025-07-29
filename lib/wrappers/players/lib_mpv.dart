@@ -13,6 +13,7 @@ import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/settings/subtitle_settings_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/settings/subtitle_settings_provider.dart';
+import 'package:fladder/util/subtitle_position_calculator.dart';
 import 'package:fladder/wrappers/players/base_player.dart';
 import 'package:fladder/wrappers/players/player_states.dart';
 
@@ -31,7 +32,7 @@ class LibMPV extends BasePlayer {
     dispose();
 
     mpv.MediaKit.ensureInitialized();
-    
+
     _player = mpv.Player(
       configuration: mpv.PlayerConfiguration(
         title: "nl.jknaapen.fladder",
@@ -166,12 +167,14 @@ class LibMPV extends BasePlayer {
 
   @override
   Widget? subtitles(
-    bool showOverlay,
-  ) =>
+    bool showOverlay, {
+    GlobalKey? controlsKey,
+  }) =>
       _controller != null
           ? _VideoSubtitles(
               controller: _controller!,
               showOverlay: showOverlay,
+              controlsKey: controlsKey,
             )
           : null;
 
@@ -195,27 +198,38 @@ class LibMPV extends BasePlayer {
 class _VideoSubtitles extends ConsumerStatefulWidget {
   final VideoController controller;
   final bool showOverlay;
+  final GlobalKey? controlsKey;
+
   const _VideoSubtitles({
     required this.controller,
     this.showOverlay = false,
+    this.controlsKey,
   });
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _VideoSubtitlesState();
+  _VideoSubtitlesState createState() => _VideoSubtitlesState();
 }
 
 class _VideoSubtitlesState extends ConsumerState<_VideoSubtitles> {
-  late List<String> subtitle = widget.controller.player.state.subtitle;
+  late List<String> subtitle;
+  String _cachedSubtitleText = '';
+  List<String>? _lastSubtitleList;
   StreamSubscription<List<String>>? subscription;
+
+  double? _cachedMenuHeight;
 
   @override
   void initState() {
-    subscription = widget.controller.player.stream.subtitle.listen((value) {
-      setState(() {
-        subtitle = value;
-      });
-    });
     super.initState();
+    subtitle = widget.controller.player.state.subtitle;
+    subscription = widget.controller.player.stream.subtitle.listen((value) {
+      if (mounted) {
+        setState(() {
+          subtitle = value;
+          _lastSubtitleList = null;
+        });
+      }
+    });
   }
 
   @override
@@ -226,22 +240,51 @@ class _VideoSubtitlesState extends ConsumerState<_VideoSubtitles> {
 
   @override
   Widget build(BuildContext context) {
-    final settings = ref.watch(subtitleSettingsProvider);
-    final padding = MediaQuery.of(context).padding;
-    final text = [
-      for (final line in subtitle)
-        if (line.trim().isNotEmpty) line.trim(),
-    ].join('\n');
+    _measureMenuHeight();
 
-    if (widget.controller.player.platform?.configuration.libass ?? false) {
-      return const IgnorePointer(child: SizedBox.shrink());
-    } else {
-      return SubtitleText(
-        subModel: settings,
-        padding: padding,
-        offset: (widget.showOverlay ? 0.5 : settings.verticalOffset),
-        text: text,
-      );
+    final settings = ref.watch(subtitleSettingsProvider);
+    final padding = MediaQuery.paddingOf(context);
+
+    if (!const ListEquality().equals(subtitle, _lastSubtitleList)) {
+      _lastSubtitleList = List<String>.from(subtitle);
+      _cachedSubtitleText = subtitle.where((line) => line.trim().isNotEmpty).map((line) => line.trim()).join('\n');
     }
+
+    final text = _cachedSubtitleText;
+
+    final bool isLibassEnabled = widget.controller.player.platform?.configuration.libass ?? false;
+
+    if (isLibassEnabled || text.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    final offset = SubtitlePositionCalculator.calculateOffset(
+      settings: settings,
+      showOverlay: widget.showOverlay,
+      screenHeight: MediaQuery.sizeOf(context).height,
+      menuHeight: _cachedMenuHeight,
+    );
+
+    return SubtitleText(
+      subModel: settings,
+      padding: padding,
+      offset: offset,
+      text: text,
+    );
+  }
+
+  void _measureMenuHeight() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || widget.controlsKey == null) return;
+
+      final RenderBox? renderBox = widget.controlsKey?.currentContext?.findRenderObject() as RenderBox?;
+      final newHeight = renderBox?.size.height;
+
+      if (newHeight != _cachedMenuHeight && newHeight != null) {
+        setState(() {
+          _cachedMenuHeight = newHeight;
+        });
+      }
+    });
   }
 }

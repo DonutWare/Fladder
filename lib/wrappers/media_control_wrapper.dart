@@ -39,7 +39,8 @@ class MediaControlsWrapper extends BaseAudioHandler {
   Stream<PlayerState>? get stateStream => _player?.stateStream;
   PlayerState? get lastState => _player?.lastState;
 
-  Widget? subtitleWidget(bool showOverlay) => _player?.subtitles(showOverlay);
+  Widget? subtitleWidget(bool showOverlay, {GlobalKey? controlsKey}) =>
+      _player?.subtitles(showOverlay, controlsKey: controlsKey);
   Widget? videoWidget(Key key, BoxFit fit) => _player?.videoWidget(key, fit);
 
   final Ref ref;

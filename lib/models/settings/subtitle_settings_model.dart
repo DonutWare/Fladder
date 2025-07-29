@@ -216,7 +216,8 @@ class SubtitleText extends ConsumerWidget {
               child: Stack(
                 alignment: Alignment.bottomCenter,
                 children: [
-                  Positioned(
+                  AnimatedPositioned(
+                    duration: const Duration(milliseconds: 125),
                     bottom: position,
                     child: Container(
                       constraints: BoxConstraints(maxWidth: constraints.maxWidth, maxHeight: constraints.maxHeight),
@@ -234,7 +235,8 @@ class SubtitleText extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  Positioned(
+                  AnimatedPositioned(
+                    duration: const Duration(milliseconds: 125),
                     bottom: position,
                     child: Container(
                       constraints: BoxConstraints(maxWidth: constraints.maxWidth, maxHeight: constraints.maxHeight),
