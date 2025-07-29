@@ -172,6 +172,7 @@ class SubtitleText extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final fillScreen = ref.watch(videoPlayerSettingsProvider.select((value) => value.fillScreen));
     final fontSize = ref.read(subtitleSettingsProvider.select((value) => value.fontSize));
+
     return Padding(
       padding: (fillScreen ? EdgeInsets.zero : EdgeInsets.only(left: padding.left, right: padding.right))
           .add(const EdgeInsets.all(16)),
@@ -216,8 +217,7 @@ class SubtitleText extends ConsumerWidget {
               child: Stack(
                 alignment: Alignment.bottomCenter,
                 children: [
-                  AnimatedPositioned(
-                    duration: const Duration(milliseconds: 125),
+                  Positioned(
                     bottom: position,
                     child: Container(
                       constraints: BoxConstraints(maxWidth: constraints.maxWidth, maxHeight: constraints.maxHeight),
@@ -235,8 +235,7 @@ class SubtitleText extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  AnimatedPositioned(
-                    duration: const Duration(milliseconds: 125),
+                  Positioned(
                     bottom: position,
                     child: Container(
                       constraints: BoxConstraints(maxWidth: constraints.maxWidth, maxHeight: constraints.maxHeight),
