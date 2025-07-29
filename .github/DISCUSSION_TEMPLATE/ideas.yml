@@ -34,9 +34,7 @@ body:
     validations:
       required: false
   - type: checkboxes
-    id: implement
     attributes:
-      label: "Would you like to implement this feature?"
-      description: Check this box if you are interested in implementing the feature yourself.
-    validations:
-      required: true
+      label: Implementation
+      options:
+        - label: I would like to implement this
