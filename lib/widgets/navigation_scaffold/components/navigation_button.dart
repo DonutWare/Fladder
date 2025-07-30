@@ -68,7 +68,7 @@ class _NavigationButtonState extends ConsumerState<NavigationButton> {
             ? Padding(
                 padding: widget.customIcon != null
                     ? EdgeInsetsGeometry.zero
-                    : const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                    : const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
                 child: SizedBox(
                   height: widget.customIcon != null ? 60 : 35,
                   child: Row(

@@ -44,7 +44,15 @@ class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> with WindowLi
       onExit: (event) => setState(() => hovering = false),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 250),
-        color: surfaceColor.withValues(alpha: hovering ? 0.15 : 0),
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+          colors: [
+            surfaceColor.withValues(alpha: 0.7),
+            surfaceColor.withValues(alpha: hovering ? 0.7 : 0),
+          ],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        )),
         height: widget.height,
         child: kIsWeb
             ? const SizedBox.shrink()

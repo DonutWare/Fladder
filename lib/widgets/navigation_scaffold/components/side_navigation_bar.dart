@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
@@ -22,6 +20,7 @@ import 'package:fladder/widgets/navigation_scaffold/components/adaptive_fab.dart
 import 'package:fladder/widgets/navigation_scaffold/components/destination_model.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/navigation_button.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/settings_user_icon.dart';
+import 'package:fladder/widgets/shared/custom_tooltip.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 
@@ -46,26 +45,6 @@ class SideNavigationBar extends ConsumerStatefulWidget {
 
 class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
   bool expandedSideBar = false;
-  bool showOnHover = false;
-  Timer? timer;
-
-  void startTimer() {
-    timer?.cancel();
-    timer = Timer(const Duration(milliseconds: 650), () {
-      setState(() {
-        showOnHover = true;
-      });
-    });
-  }
-
-  void stopTimer() {
-    timer?.cancel();
-    timer = Timer(const Duration(milliseconds: 125), () {
-      setState(() {
-        showOnHover = false;
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +57,7 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
     final collapsedWidth = 90 + padding.left;
     final largeBar = AdaptiveLayout.layoutModeOf(context) != LayoutMode.single;
     final fullyExpanded = largeBar ? expandedSideBar : false;
-    final shouldExpand = showOnHover || fullyExpanded;
+    final shouldExpand = fullyExpanded;
     final isDesktop = AdaptiveLayout.of(context).isDesktop;
 
     return Stack(
@@ -93,9 +72,6 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
           color: Theme.of(context).colorScheme.surface.withValues(alpha: shouldExpand ? 0.95 : 0.85),
           width: shouldExpand ? expandedWidth : collapsedWidth,
           child: MouseRegion(
-            onEnter: (value) => startTimer(),
-            onExit: (event) => stopTimer(),
-            onHover: (value) => startTimer(),
             child: Column(
               children: [
                 SizedBox(height: padding.top),
@@ -119,12 +95,7 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                                 child: IconButton(
                                   onPressed: !largeBar
                                       ? () => widget.scaffoldKey.currentState?.openDrawer()
-                                      : () => setState(() {
-                                            expandedSideBar = !expandedSideBar;
-                                            if (!expandedSideBar) {
-                                              showOnHover = false;
-                                            }
-                                          }),
+                                      : () => setState(() => expandedSideBar = !expandedSideBar),
                                   icon: Icon(
                                     largeBar && expandedSideBar
                                         ? IconsaxPlusLinear.sidebar_left
@@ -147,9 +118,27 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                             spacing: 2,
                             mainAxisAlignment: !largeBar ? MainAxisAlignment.center : MainAxisAlignment.start,
                             children: [
+                              const SizedBox(height: 8),
                               ...widget.destinations.mapIndexed(
-                                (index, destination) =>
-                                    destination.toNavigationButton(widget.currentIndex == index, true, shouldExpand),
+                                (index, destination) => CustomTooltip(
+                                  tooltipContent: expandedSideBar
+                                      ? null
+                                      : Card(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(12),
+                                            child: Text(
+                                              destination.label,
+                                              style: Theme.of(context).textTheme.titleMedium,
+                                            ),
+                                          ),
+                                        ),
+                                  position: TooltipPosition.right,
+                                  child: destination.toNavigationButton(
+                                    widget.currentIndex == index,
+                                    true,
+                                    shouldExpand,
+                                  ),
+                                ),
                               ),
                               if (views.isNotEmpty && largeBar) ...[
                                 const Divider(
@@ -170,38 +159,52 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                                             action: () => showRefreshPopup(context, view.id, view.name),
                                           )
                                         ];
-                                        return view.toNavigationButton(
-                                          selected,
-                                          true,
-                                          shouldExpand,
-                                          () => context.pushRoute(LibrarySearchRoute(viewModelId: view.id)),
-                                          onLongPress: () => showBottomSheetPill(
-                                            context: context,
-                                            content: (context, scrollController) => ListView(
-                                              shrinkWrap: true,
-                                              controller: scrollController,
-                                              children: actions.listTileItems(context, useIcons: true),
+                                        return CustomTooltip(
+                                          tooltipContent: expandedSideBar
+                                              ? null
+                                              : Card(
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.all(12),
+                                                    child: Text(
+                                                      view.name,
+                                                      style: Theme.of(context).textTheme.titleMedium,
+                                                    ),
+                                                  ),
+                                                ),
+                                          position: TooltipPosition.right,
+                                          child: view.toNavigationButton(
+                                            selected,
+                                            true,
+                                            shouldExpand,
+                                            () => context.pushRoute(LibrarySearchRoute(viewModelId: view.id)),
+                                            onLongPress: () => showBottomSheetPill(
+                                              context: context,
+                                              content: (context, scrollController) => ListView(
+                                                shrinkWrap: true,
+                                                controller: scrollController,
+                                                children: actions.listTileItems(context, useIcons: true),
+                                              ),
                                             ),
-                                          ),
-                                          customIcon: usePostersForLibrary
-                                              ? ClipRRect(
-                                                  borderRadius: FladderTheme.smallShape.borderRadius,
-                                                  child: SizedBox.square(
-                                                    dimension: 50,
-                                                    child: FladderImage(
-                                                      image: view.imageData?.primary,
-                                                      placeHolder: Card(
-                                                        child: Icon(
-                                                          selected
-                                                              ? view.collectionType.icon
-                                                              : view.collectionType.iconOutlined,
+                                            customIcon: usePostersForLibrary
+                                                ? ClipRRect(
+                                                    borderRadius: FladderTheme.smallShape.borderRadius,
+                                                    child: SizedBox.square(
+                                                      dimension: 50,
+                                                      child: FladderImage(
+                                                        image: view.imageData?.primary,
+                                                        placeHolder: Card(
+                                                          child: Icon(
+                                                            selected
+                                                                ? view.collectionType.icon
+                                                                : view.collectionType.iconOutlined,
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
-                                                  ),
-                                                )
-                                              : null,
-                                          trailing: actions,
+                                                  )
+                                                : null,
+                                            trailing: actions,
+                                          ),
                                         );
                                       },
                                     ).toList(),
