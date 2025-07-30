@@ -42,6 +42,7 @@ mixin _$ClientSettingsModel {
   DynamicSchemeVariant get schemeVariant => throw _privateConstructorUsedError;
   bool get backgroundPosters => throw _privateConstructorUsedError;
   bool get checkForUpdates => throw _privateConstructorUsedError;
+  bool get usePosterForLibrary => throw _privateConstructorUsedError;
   String? get lastViewedUpdate => throw _privateConstructorUsedError;
   int? get libraryPageSize => throw _privateConstructorUsedError;
 
@@ -83,6 +84,7 @@ abstract class $ClientSettingsModelCopyWith<$Res> {
       DynamicSchemeVariant schemeVariant,
       bool backgroundPosters,
       bool checkForUpdates,
+      bool usePosterForLibrary,
       String? lastViewedUpdate,
       int? libraryPageSize});
 }
@@ -123,6 +125,7 @@ class _$ClientSettingsModelCopyWithImpl<$Res, $Val extends ClientSettingsModel>
     Object? schemeVariant = null,
     Object? backgroundPosters = null,
     Object? checkForUpdates = null,
+    Object? usePosterForLibrary = null,
     Object? lastViewedUpdate = freezed,
     Object? libraryPageSize = freezed,
   }) {
@@ -211,6 +214,10 @@ class _$ClientSettingsModelCopyWithImpl<$Res, $Val extends ClientSettingsModel>
           ? _value.checkForUpdates
           : checkForUpdates // ignore: cast_nullable_to_non_nullable
               as bool,
+      usePosterForLibrary: null == usePosterForLibrary
+          ? _value.usePosterForLibrary
+          : usePosterForLibrary // ignore: cast_nullable_to_non_nullable
+              as bool,
       lastViewedUpdate: freezed == lastViewedUpdate
           ? _value.lastViewedUpdate
           : lastViewedUpdate // ignore: cast_nullable_to_non_nullable
@@ -253,6 +260,7 @@ abstract class _$$ClientSettingsModelImplCopyWith<$Res>
       DynamicSchemeVariant schemeVariant,
       bool backgroundPosters,
       bool checkForUpdates,
+      bool usePosterForLibrary,
       String? lastViewedUpdate,
       int? libraryPageSize});
 }
@@ -291,6 +299,7 @@ class __$$ClientSettingsModelImplCopyWithImpl<$Res>
     Object? schemeVariant = null,
     Object? backgroundPosters = null,
     Object? checkForUpdates = null,
+    Object? usePosterForLibrary = null,
     Object? lastViewedUpdate = freezed,
     Object? libraryPageSize = freezed,
   }) {
@@ -379,6 +388,10 @@ class __$$ClientSettingsModelImplCopyWithImpl<$Res>
           ? _value.checkForUpdates
           : checkForUpdates // ignore: cast_nullable_to_non_nullable
               as bool,
+      usePosterForLibrary: null == usePosterForLibrary
+          ? _value.usePosterForLibrary
+          : usePosterForLibrary // ignore: cast_nullable_to_non_nullable
+              as bool,
       lastViewedUpdate: freezed == lastViewedUpdate
           ? _value.lastViewedUpdate
           : lastViewedUpdate // ignore: cast_nullable_to_non_nullable
@@ -417,6 +430,7 @@ class _$ClientSettingsModelImpl extends _ClientSettingsModel
       this.schemeVariant = DynamicSchemeVariant.rainbow,
       this.backgroundPosters = true,
       this.checkForUpdates = true,
+      this.usePosterForLibrary = false,
       this.lastViewedUpdate,
       this.libraryPageSize})
       : super._();
@@ -485,13 +499,16 @@ class _$ClientSettingsModelImpl extends _ClientSettingsModel
   @JsonKey()
   final bool checkForUpdates;
   @override
+  @JsonKey()
+  final bool usePosterForLibrary;
+  @override
   final String? lastViewedUpdate;
   @override
   final int? libraryPageSize;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ClientSettingsModel(syncPath: $syncPath, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, themeMode: $themeMode, themeColor: $themeColor, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundPosters: $backgroundPosters, checkForUpdates: $checkForUpdates, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize)';
+    return 'ClientSettingsModel(syncPath: $syncPath, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, themeMode: $themeMode, themeColor: $themeColor, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundPosters: $backgroundPosters, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize)';
   }
 
   @override
@@ -522,6 +539,7 @@ class _$ClientSettingsModelImpl extends _ClientSettingsModel
       ..add(DiagnosticsProperty('schemeVariant', schemeVariant))
       ..add(DiagnosticsProperty('backgroundPosters', backgroundPosters))
       ..add(DiagnosticsProperty('checkForUpdates', checkForUpdates))
+      ..add(DiagnosticsProperty('usePosterForLibrary', usePosterForLibrary))
       ..add(DiagnosticsProperty('lastViewedUpdate', lastViewedUpdate))
       ..add(DiagnosticsProperty('libraryPageSize', libraryPageSize));
   }
@@ -566,6 +584,7 @@ abstract class _ClientSettingsModel extends ClientSettingsModel {
       final DynamicSchemeVariant schemeVariant,
       final bool backgroundPosters,
       final bool checkForUpdates,
+      final bool usePosterForLibrary,
       final String? lastViewedUpdate,
       final int? libraryPageSize}) = _$ClientSettingsModelImpl;
   _ClientSettingsModel._() : super._();
@@ -616,6 +635,8 @@ abstract class _ClientSettingsModel extends ClientSettingsModel {
   bool get backgroundPosters;
   @override
   bool get checkForUpdates;
+  @override
+  bool get usePosterForLibrary;
   @override
   String? get lastViewedUpdate;
   @override

@@ -9,11 +9,14 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:overflow_view/overflow_view.dart';
 
 import 'package:fladder/models/collection_types.dart';
+import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/views_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/metadata/refresh_metadata.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
+import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
+import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/adaptive_fab.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/destination_model.dart';
@@ -68,14 +71,17 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
   @override
   Widget build(BuildContext context) {
     final views = ref.watch(viewsProvider.select((value) => value.views));
+    final usePostersForLibrary = ref.watch(clientSettingsProvider.select((value) => value.usePosterForLibrary));
+
     final expandedWidth = 250.0;
     final padding = MediaQuery.paddingOf(context);
 
-    final collapsedWidth = 90.0 + padding.left;
+    final collapsedWidth = 90 + padding.left;
     final largeBar = AdaptiveLayout.layoutModeOf(context) != LayoutMode.single;
     final fullyExpanded = largeBar ? expandedSideBar : false;
     final shouldExpand = showOnHover || fullyExpanded;
     final isDesktop = AdaptiveLayout.of(context).isDesktop;
+
     return Stack(
       children: [
         AdaptiveLayoutBuilder(
@@ -85,11 +91,7 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
           child: (context) => widget.child,
         ),
         Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12)
-                .copyWith(topLeft: const Radius.circular(0), bottomLeft: const Radius.circular(0)),
-            color: Theme.of(context).colorScheme.surface.withValues(alpha: shouldExpand ? 0.95 : 0.85),
-          ),
+          color: Theme.of(context).colorScheme.surface.withValues(alpha: shouldExpand ? 0.95 : 0.85),
           width: shouldExpand ? expandedWidth : collapsedWidth,
           child: MouseRegion(
             onEnter: (value) => startTimer(),
@@ -158,6 +160,7 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                                     spacing: 4,
                                     children: views.map(
                                       (view) {
+                                        final selected = context.router.currentUrl.contains(view.id);
                                         final actions = [
                                           ItemActionButton(
                                             label: Text(context.localized.scanLibrary),
@@ -166,7 +169,7 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                                           )
                                         ];
                                         return view.toNavigationButton(
-                                          context.router.currentUrl.contains(view.id),
+                                          selected,
                                           true,
                                           shouldExpand,
                                           () => context.pushRoute(LibrarySearchRoute(viewModelId: view.id)),
@@ -178,6 +181,24 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                                               children: actions.listTileItems(context, useIcons: true),
                                             ),
                                           ),
+                                          customIcon: usePostersForLibrary
+                                              ? ClipRRect(
+                                                  borderRadius: FladderTheme.smallShape.borderRadius,
+                                                  child: SizedBox.square(
+                                                    dimension: 50,
+                                                    child: FladderImage(
+                                                      image: view.imageData?.primary,
+                                                      placeHolder: Card(
+                                                        child: Icon(
+                                                          selected
+                                                              ? view.collectionType.icon
+                                                              : view.collectionType.iconOutlined,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              : null,
                                           trailing: actions,
                                         );
                                       },
@@ -191,6 +212,17 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                                           selectedIcon: const Icon(IconsaxPlusLinear.arrow_square_down),
                                           icon: const Icon(IconsaxPlusLinear.arrow_square_down),
                                           expanded: shouldExpand,
+                                          customIcon: usePostersForLibrary
+                                              ? ClipRRect(
+                                                  borderRadius: FladderTheme.smallShape.borderRadius,
+                                                  child: const SizedBox.square(
+                                                    dimension: 50,
+                                                    child: Card(
+                                                      child: Icon(IconsaxPlusLinear.arrow_square_down),
+                                                    ),
+                                                  ),
+                                                )
+                                              : null,
                                           horizontal: true,
                                         ),
                                         itemBuilder: (context) => views
@@ -201,7 +233,25 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                                                 child: Row(
                                                   spacing: 8,
                                                   children: [
-                                                    Icon(e.collectionType.iconOutlined),
+                                                    usePostersForLibrary
+                                                        ? Padding(
+                                                            padding: const EdgeInsets.symmetric(vertical: 4),
+                                                            child: ClipRRect(
+                                                              borderRadius: FladderTheme.smallShape.borderRadius,
+                                                              child: SizedBox.square(
+                                                                dimension: 45,
+                                                                child: FladderImage(
+                                                                  image: e.imageData?.primary,
+                                                                  placeHolder: Card(
+                                                                    child: Icon(
+                                                                      e.collectionType.iconOutlined,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          )
+                                                        : Icon(e.collectionType.iconOutlined),
                                                     Text(e.name),
                                                   ],
                                                 ),

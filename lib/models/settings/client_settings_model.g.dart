@@ -43,6 +43,7 @@ _$ClientSettingsModelImpl _$$ClientSettingsModelImplFromJson(
           DynamicSchemeVariant.rainbow,
       backgroundPosters: json['backgroundPosters'] as bool? ?? true,
       checkForUpdates: json['checkForUpdates'] as bool? ?? true,
+      usePosterForLibrary: json['usePosterForLibrary'] as bool? ?? false,
       lastViewedUpdate: json['lastViewedUpdate'] as String?,
       libraryPageSize: (json['libraryPageSize'] as num?)?.toInt(),
     );
@@ -71,6 +72,7 @@ Map<String, dynamic> _$$ClientSettingsModelImplToJson(
       'schemeVariant': _$DynamicSchemeVariantEnumMap[instance.schemeVariant]!,
       'backgroundPosters': instance.backgroundPosters,
       'checkForUpdates': instance.checkForUpdates,
+      'usePosterForLibrary': instance.usePosterForLibrary,
       'lastViewedUpdate': instance.lastViewedUpdate,
       'libraryPageSize': instance.libraryPageSize,
     };

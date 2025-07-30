@@ -7,10 +7,13 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/collection_types.dart';
 import 'package:fladder/models/view_model.dart';
+import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/metadata/refresh_metadata.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
+import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
+import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/adaptive_fab.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/destination_model.dart';
@@ -36,6 +39,7 @@ class NestedNavigationDrawer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final useLibraryPosters = ref.watch(clientSettingsProvider.select((value) => value.usePosterForLibrary));
     return NavigationDrawer(
       key: const Key('navigation_drawer'),
       backgroundColor: isExpanded ? Colors.transparent : null,
@@ -91,22 +95,41 @@ class NestedNavigationDrawer extends ConsumerWidget {
               style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
-          ...views.map((library) => DrawerListButton(
-              label: library.name,
-              selected: context.router.currentUrl.contains(library.id),
-              actions: [
-                ItemActionButton(
-                  label: Text(context.localized.scanLibrary),
-                  icon: const Icon(IconsaxPlusLinear.refresh),
-                  action: () => showRefreshPopup(context, library.id, library.name),
-                ),
-              ],
-              onPressed: () {
-                context.router.push(LibrarySearchRoute(viewModelId: library.id));
-                Scaffold.of(context).closeDrawer();
-              },
-              selectedIcon: Icon(library.collectionType.icon),
-              icon: Icon(library.collectionType.iconOutlined))),
+          ...views.map((library) {
+            var selected = context.router.currentUrl.contains(library.id);
+            final Widget? posterIcon = useLibraryPosters
+                ? ClipRRect(
+                    borderRadius: FladderTheme.smallShape.borderRadius,
+                    child: AspectRatio(
+                      aspectRatio: 1.0,
+                      child: FladderImage(
+                        image: library.imageData?.primary,
+                        placeHolder: Card(
+                          child: Icon(
+                            selected ? library.collectionType.icon : library.collectionType.iconOutlined,
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                : null;
+            return DrawerListButton(
+                label: library.name,
+                selected: selected,
+                actions: [
+                  ItemActionButton(
+                    label: Text(context.localized.scanLibrary),
+                    icon: const Icon(IconsaxPlusLinear.refresh),
+                    action: () => showRefreshPopup(context, library.id, library.name),
+                  ),
+                ],
+                onPressed: () {
+                  context.router.push(LibrarySearchRoute(viewModelId: library.id));
+                  Scaffold.of(context).closeDrawer();
+                },
+                selectedIcon: posterIcon ?? Icon(library.collectionType.icon),
+                icon: posterIcon ?? Icon(library.collectionType.iconOutlined));
+          }),
         },
         const Divider(indent: 28, endIndent: 28),
         if (isExpanded)

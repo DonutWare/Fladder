@@ -36,6 +36,7 @@ class ClientSettingsModel with _$ClientSettingsModel {
     @Default(DynamicSchemeVariant.rainbow) DynamicSchemeVariant schemeVariant,
     @Default(true) bool backgroundPosters,
     @Default(true) bool checkForUpdates,
+    @Default(false) bool usePosterForLibrary,
     String? lastViewedUpdate,
     int? libraryPageSize,
   }) = _ClientSettingsModel;

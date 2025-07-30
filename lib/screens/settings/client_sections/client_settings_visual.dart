@@ -100,6 +100,18 @@ List<Widget> buildClientSettingsVisual(
         ),
       ),
       SettingsListTile(
+        label: Text(context.localized.usePostersForLibraryIconsTitle),
+        subLabel: Text(context.localized.usePostersForLibraryIconsDesc),
+        onTap: () => ref
+            .read(clientSettingsProvider.notifier)
+            .update((cb) => cb.copyWith(usePosterForLibrary: !clientSettings.usePosterForLibrary)),
+        trailing: Switch(
+          value: clientSettings.usePosterForLibrary,
+          onChanged: (value) =>
+              ref.read(clientSettingsProvider.notifier).update((cb) => cb.copyWith(usePosterForLibrary: value)),
+        ),
+      ),
+      SettingsListTile(
         label: Text(context.localized.settingsNextUpCutoffDays),
         trailing: SizedBox(
             width: 100,
