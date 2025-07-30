@@ -93,12 +93,15 @@ class PosterWidget extends ConsumerWidget {
                     ],
                     if (poster.subText?.isNotEmpty ?? false)
                       Flexible(
-                        child: ClickableText(
-                          opacity: opacity,
-                          text: poster.subText ?? "",
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+                        child: Align(
+                          alignment: subTitle == null ? Alignment.centerLeft : Alignment.centerRight,
+                          child: ClickableText(
+                            opacity: opacity,
+                            text: poster.subText ?? "",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+                          ),
                         ),
                       )
                     else

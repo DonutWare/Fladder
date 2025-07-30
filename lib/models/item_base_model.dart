@@ -90,7 +90,7 @@ class ItemBaseModel with ItemBaseModelMappable {
                     color: Colors.yellowAccent,
                   ),
                   const SizedBox(width: 6),
-                  Text((overview.communityRating ?? 0.0).toString())
+                  Text((overview.communityRating ?? 0.0).toStringAsFixed(2))
                 ],
               )
             : null,
