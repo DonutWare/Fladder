@@ -38,7 +38,6 @@ class FavouritesScreen extends ConsumerWidget {
             slivers: [
               if (AdaptiveLayout.viewSizeOf(context) == ViewSize.phone)
                 NestedSliverAppBar(
-                  searchTitle: "${context.localized.search} ${context.localized.favorites.toLowerCase()}...",
                   parent: context,
                   route: LibrarySearchRoute(favourites: true),
                 )

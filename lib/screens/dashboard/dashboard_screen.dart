@@ -107,15 +107,12 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   ),
                 if (homeBanner && homeCarouselItems.isNotEmpty) ...{
                   SliverToBoxAdapter(
-                    child: Transform.translate(
-                      offset: Offset(0, AdaptiveLayout.layoutOf(context) == ViewSize.phone ? -14 : 0),
-                      child: Padding(
-                        padding: AdaptiveLayout.adaptivePadding(
-                          context,
-                          horizontalPadding: 0,
-                        ),
-                        child: HomeBannerWidget(posters: homeCarouselItems),
+                    child: Padding(
+                      padding: AdaptiveLayout.adaptivePadding(
+                        context,
+                        horizontalPadding: 0,
                       ),
+                      child: HomeBannerWidget(posters: homeCarouselItems),
                     ),
                   ),
                 },

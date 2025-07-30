@@ -85,7 +85,11 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
           child: (context) => widget.child,
         ),
         Container(
-          color: Theme.of(context).colorScheme.surface.withValues(alpha: shouldExpand ? 0.95 : 0.85),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12)
+                .copyWith(topLeft: const Radius.circular(0), bottomLeft: const Radius.circular(0)),
+            color: Theme.of(context).colorScheme.surface.withValues(alpha: shouldExpand ? 0.95 : 0.85),
+          ),
           width: shouldExpand ? expandedWidth : collapsedWidth,
           child: MouseRegion(
             onEnter: (value) => startTimer(),

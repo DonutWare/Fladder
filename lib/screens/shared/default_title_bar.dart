@@ -38,14 +38,13 @@ class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> with WindowLi
     if (ref.watch(argumentsStateProvider.select((value) => value.htpcMode))) return const SizedBox.shrink();
     final brightness = widget.brightness ?? Theme.of(context).brightness;
     final iconColor = Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.65);
+    final surfaceColor = Theme.of(context).colorScheme.surface;
     return MouseRegion(
       onEnter: (event) => setState(() => hovering = true),
       onExit: (event) => setState(() => hovering = false),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 250),
-        decoration: BoxDecoration(
-          color: hovering ? Colors.black.withValues(alpha: 0.15) : Colors.transparent,
-        ),
+        color: surfaceColor.withValues(alpha: hovering ? 0.15 : 0),
         height: widget.height,
         child: kIsWeb
             ? const SizedBox.shrink()
