@@ -48,7 +48,6 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
   bool expandedSideBar = false;
   bool showOnHover = false;
   Timer? timer;
-  double currentWidth = 80;
 
   void startTimer() {
     timer?.cancel();
@@ -99,14 +98,7 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
             onHover: (value) => startTimer(),
             child: Column(
               children: [
-                if (isDesktop && AdaptiveLayout.of(context).platform != TargetPlatform.macOS) ...{
-                  const SizedBox(height: 4),
-                  Text(
-                    "Fladder",
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
-                },
-                if (AdaptiveLayout.of(context).platform == TargetPlatform.macOS) SizedBox(height: padding.top),
+                SizedBox(height: padding.top),
                 Expanded(
                   child: Padding(
                     key: const Key('navigation_rail'),
@@ -114,23 +106,33 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                     child: Column(
                       spacing: 2,
                       children: [
-                        Align(
-                          alignment: largeBar && expandedSideBar ? Alignment.centerRight : Alignment.center,
-                          child: Opacity(
-                            opacity: largeBar && expandedSideBar ? 0.65 : 1.0,
-                            child: IconButton(
-                              onPressed: !largeBar
-                                  ? () => widget.scaffoldKey.currentState?.openDrawer()
-                                  : () => setState(() {
-                                        expandedSideBar = !expandedSideBar;
-                                        if (!expandedSideBar) {
-                                          showOnHover = false;
-                                        }
-                                      }),
-                              icon: Icon(
-                                largeBar && expandedSideBar ? IconsaxPlusLinear.sidebar_left : IconsaxPlusLinear.menu,
-                              ),
-                            ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 14),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              if (expandedSideBar) ...[
+                                Expanded(child: Text(context.localized.navigation)),
+                              ],
+                              Opacity(
+                                opacity: largeBar && expandedSideBar ? 0.65 : 1.0,
+                                child: IconButton(
+                                  onPressed: !largeBar
+                                      ? () => widget.scaffoldKey.currentState?.openDrawer()
+                                      : () => setState(() {
+                                            expandedSideBar = !expandedSideBar;
+                                            if (!expandedSideBar) {
+                                              showOnHover = false;
+                                            }
+                                          }),
+                                  icon: Icon(
+                                    largeBar && expandedSideBar
+                                        ? IconsaxPlusLinear.sidebar_left
+                                        : IconsaxPlusLinear.menu,
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
                         ),
                         const SizedBox(height: 8),
