@@ -1415,5 +1415,9 @@
   "syncDeleteAll": "Видалити всі файли",
   "@syncDeleteAll": {},
   "syncAllFiles": "Синхронізувати всі файли",
-  "@syncAllFiles": {}
+  "@syncAllFiles": {},
+  "usePostersForLibraryIconsTitle": "Показати постери для іконок бібліотеки",
+  "@usePostersForLibraryIconsTitle": {},
+  "usePostersForLibraryIconsDesc": "Показувати постери замість іконок для бібліотек",
+  "@usePostersForLibraryIconsDesc": {}
 }
