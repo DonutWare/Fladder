@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -13,8 +14,8 @@ import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/book_viewer_provider.dart';
 import 'package:fladder/providers/items/book_details_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
+import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/book_viewer/book_viewer_screen.dart';
-import 'package:fladder/screens/photo_viewer/photo_viewer_screen.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/screens/video_player/video_player.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
@@ -170,13 +171,10 @@ extension PhotoAlbumExtension on PhotoAlbumModel? {
       return;
     }
 
-    await Navigator.of(context, rootNavigator: true).push(
-      MaterialPageRoute(
-        builder: (context) => PhotoViewerScreen(
-          items: photos.toList(),
-        ),
-      ),
-    );
+    await context.navigateTo(PhotoViewerRoute(
+      items: photos.toList(),
+    ));
+
     if (context.mounted) {
       await context.refreshData();
     }
