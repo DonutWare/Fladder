@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/chapters_model.dart';
+import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
@@ -51,7 +52,7 @@ class TranscodePlaybackModel extends PlaybackModel {
   }
 
   @override
-  Future<TranscodePlaybackModel>? setQualityOption(Map<Bitrate, bool> map) async =>  copyWith(bitRateOptions: map);
+  Future<TranscodePlaybackModel>? setQualityOption(Map<Bitrate, bool> map) async => copyWith(bitRateOptions: map);
 
   @override
   Future<PlaybackModel?> playbackStarted(Duration position, Ref ref) async {
@@ -112,6 +113,15 @@ class TranscodePlaybackModel extends PlaybackModel {
       ),
     );
     return this;
+  }
+
+  @override
+  TranscodePlaybackModel? updateUserData(UserData userData) {
+    return copyWith(
+      item: item.copyWith(
+        userData: userData,
+      ),
+    );
   }
 
   @override

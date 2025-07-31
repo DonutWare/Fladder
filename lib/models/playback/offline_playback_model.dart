@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/chapters_model.dart';
+import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
@@ -94,6 +95,15 @@ class OfflinePlaybackModel extends PlaybackModel {
     }
 
     return false;
+  }
+
+  @override
+  OfflinePlaybackModel? updateUserData(UserData userData) {
+    return copyWith(
+      item: item.copyWith(
+        userData: userData,
+      ),
+    );
   }
 
   @override

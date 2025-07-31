@@ -74,13 +74,11 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
           child: MouseRegion(
             child: Column(
               children: [
-                SizedBox(height: padding.top),
                 Expanded(
                   child: Padding(
                     key: const Key('navigation_rail'),
-                    padding: padding.copyWith(right: 0, top: isDesktop ? 8 : null),
+                    padding: padding.copyWith(right: 0, top: isDesktop ? padding.top : null),
                     child: Column(
-                      spacing: 2,
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 14),
@@ -106,7 +104,6 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                             ],
                           ),
                         ),
-                        const SizedBox(height: 8),
                         if (largeBar) ...[
                           AnimatedFadeSize(
                             duration: const Duration(milliseconds: 250),
@@ -290,7 +287,6 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                     ),
                   ),
                 ),
-                if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer) const SizedBox(height: 16),
               ],
             ),
           ),

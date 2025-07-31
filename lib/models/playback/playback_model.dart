@@ -12,6 +12,7 @@ import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/chapters_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
+import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/season_model.dart';
@@ -83,6 +84,8 @@ class PlaybackModel {
   List<AudioStreamModel>? get audioStreams => throw UnimplementedError();
 
   Future<Duration>? startDuration() async => item.userData.playBackPosition;
+
+  PlaybackModel? updateUserData(UserData userData) => throw UnimplementedError();
 
   Future<PlaybackModel>? setSubtitle(SubStreamModel? model, MediaControlsWrapper player) => throw UnimplementedError();
   Future<PlaybackModel>? setAudio(AudioStreamModel? model, MediaControlsWrapper player) => throw UnimplementedError();
