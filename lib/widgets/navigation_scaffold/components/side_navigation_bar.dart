@@ -125,7 +125,7 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                                             padding: const EdgeInsets.all(12),
                                             child: Text(
                                               destination.label,
-                                              style: Theme.of(context).textTheme.titleMedium,
+                                              style: Theme.of(context).textTheme.titleSmall,
                                             ),
                                           ),
                                         ),
@@ -164,7 +164,7 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                                                     padding: const EdgeInsets.all(12),
                                                     child: Text(
                                                       view.name,
-                                                      style: Theme.of(context).textTheme.titleMedium,
+                                                      style: Theme.of(context).textTheme.titleSmall,
                                                     ),
                                                   ),
                                                 ),
@@ -206,60 +206,75 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                                       },
                                     ).toList(),
                                     builder: (context, remaining) {
-                                      return PopupMenuButton(
-                                        iconColor: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.45),
-                                        padding: EdgeInsets.zero,
-                                        icon: NavigationButton(
-                                          label: context.localized.other,
-                                          selectedIcon: const Icon(IconsaxPlusLinear.arrow_square_down),
-                                          icon: const Icon(IconsaxPlusLinear.arrow_square_down),
-                                          expanded: shouldExpand,
-                                          customIcon: usePostersForLibrary
-                                              ? ClipRRect(
-                                                  borderRadius: FladderTheme.smallShape.borderRadius,
-                                                  child: const SizedBox.square(
-                                                    dimension: 50,
-                                                    child: Card(
-                                                      child: Icon(IconsaxPlusLinear.arrow_square_down),
-                                                    ),
+                                      return CustomTooltip(
+                                        tooltipContent: expandedSideBar
+                                            ? null
+                                            : Card(
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(12),
+                                                  child: Text(
+                                                    context.localized.moreOptions,
+                                                    style: Theme.of(context).textTheme.titleSmall,
                                                   ),
-                                                )
-                                              : null,
-                                          horizontal: true,
-                                        ),
-                                        itemBuilder: (context) => views
-                                            .sublist(views.length - remaining)
-                                            .map(
-                                              (e) => PopupMenuItem(
-                                                onTap: () => context.pushRoute(LibrarySearchRoute(viewModelId: e.id)),
-                                                child: Row(
-                                                  spacing: 8,
-                                                  children: [
-                                                    usePostersForLibrary
-                                                        ? Padding(
-                                                            padding: const EdgeInsets.symmetric(vertical: 4),
-                                                            child: ClipRRect(
-                                                              borderRadius: FladderTheme.smallShape.borderRadius,
-                                                              child: SizedBox.square(
-                                                                dimension: 45,
-                                                                child: FladderImage(
-                                                                  image: e.imageData?.primary,
-                                                                  placeHolder: Card(
-                                                                    child: Icon(
-                                                                      e.collectionType.iconOutlined,
+                                                ),
+                                              ),
+                                        position: TooltipPosition.right,
+                                        child: PopupMenuButton(
+                                          iconColor: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.45),
+                                          padding: EdgeInsets.zero,
+                                          tooltip: "",
+                                          icon: NavigationButton(
+                                            label: context.localized.other,
+                                            selectedIcon: const Icon(IconsaxPlusLinear.arrow_square_down),
+                                            icon: const Icon(IconsaxPlusLinear.arrow_square_down),
+                                            expanded: shouldExpand,
+                                            customIcon: usePostersForLibrary
+                                                ? ClipRRect(
+                                                    borderRadius: FladderTheme.smallShape.borderRadius,
+                                                    child: const SizedBox.square(
+                                                      dimension: 50,
+                                                      child: Card(
+                                                        child: Icon(IconsaxPlusLinear.arrow_square_down),
+                                                      ),
+                                                    ),
+                                                  )
+                                                : null,
+                                            horizontal: true,
+                                          ),
+                                          itemBuilder: (context) => views
+                                              .sublist(views.length - remaining)
+                                              .map(
+                                                (e) => PopupMenuItem(
+                                                  onTap: () => context.pushRoute(LibrarySearchRoute(viewModelId: e.id)),
+                                                  child: Row(
+                                                    spacing: 8,
+                                                    children: [
+                                                      usePostersForLibrary
+                                                          ? Padding(
+                                                              padding: const EdgeInsets.symmetric(vertical: 4),
+                                                              child: ClipRRect(
+                                                                borderRadius: FladderTheme.smallShape.borderRadius,
+                                                                child: SizedBox.square(
+                                                                  dimension: 45,
+                                                                  child: FladderImage(
+                                                                    image: e.imageData?.primary,
+                                                                    placeHolder: Card(
+                                                                      child: Icon(
+                                                                        e.collectionType.iconOutlined,
+                                                                      ),
                                                                     ),
                                                                   ),
                                                                 ),
                                                               ),
-                                                            ),
-                                                          )
-                                                        : Icon(e.collectionType.iconOutlined),
-                                                    Text(e.name),
-                                                  ],
+                                                            )
+                                                          : Icon(e.collectionType.iconOutlined),
+                                                      Text(e.name),
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                            )
-                                            .toList(),
+                                              )
+                                              .toList(),
+                                        ),
                                       );
                                     },
                                   ),
@@ -287,6 +302,7 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                     ),
                   ),
                 ),
+                if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer) const SizedBox(height: 16),
               ],
             ),
           ),

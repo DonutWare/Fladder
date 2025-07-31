@@ -29,15 +29,31 @@ class CustomTooltipState extends State<CustomTooltip> {
   Timer? _timer;
   final GlobalKey _tooltipKey = GlobalKey();
 
+  Timer? _timeOut;
+
+  void _resetTimer() {
+    _timeOut?.cancel();
+    _timeOut = Timer(const Duration(seconds: 2), () {
+      _hideTooltip();
+      _timeOut = null;
+    });
+  }
+
   void _showTooltip() {
     _timer = Timer(widget.showDelay, () {
       _overlayEntry = _createOverlayEntry();
       Overlay.of(context).insert(_overlayEntry!);
     });
+
+    _timeOut = Timer(const Duration(seconds: 2), () {
+      _hideTooltip();
+      _timeOut = null;
+    });
   }
 
   void _hideTooltip() {
     _timer?.cancel();
+    _timeOut?.cancel();
     _overlayEntry?.remove();
     _overlayEntry = null;
   }
@@ -106,6 +122,7 @@ class CustomTooltipState extends State<CustomTooltip> {
     return MouseRegion(
       onEnter: (_) => _showTooltip(),
       onExit: (_) => _hideTooltip(),
+      onHover: (_) => _resetTimer(),
       child: Stack(
         children: [
           widget.child,
