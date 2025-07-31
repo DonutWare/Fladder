@@ -11,9 +11,13 @@ class $DatabaseItemsTable extends DatabaseItems
   $DatabaseItemsTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _userIdMeta = const VerificationMeta('userId');
   @override
-  late final GeneratedColumn<String> userId = GeneratedColumn<String>(
-      'user_id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+  late final GeneratedColumn<String> userId =
+      GeneratedColumn<String>('user_id', aliasedName, false,
+          additionalChecks: GeneratedColumn.checkTextLength(
+            minTextLength: 1,
+          ),
+          type: DriftSqlType.string,
+          requiredDuringInsert: true);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<String> id =
@@ -194,7 +198,7 @@ class $DatabaseItemsTable extends DatabaseItems
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id, userId};
+  Set<GeneratedColumn> get $primaryKey => {userId, id};
   @override
   DatabaseItem map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
@@ -704,8 +708,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $DatabaseItemsTable databaseItems = $DatabaseItemsTable(this);
-  late final Index databaseId =
-      Index('database_id', 'CREATE INDEX database_id ON database_items (id)');
+  late final Index databaseId = Index('database_id',
+      'CREATE INDEX database_id ON database_items (user_id, id)');
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();

@@ -17,9 +17,9 @@ import 'package:fladder/providers/user_provider.dart';
 
 part 'database_item.g.dart';
 
-@TableIndex(name: 'database_id', columns: {#id})
+@TableIndex(name: 'database_id', columns: {#userId, #id})
 class DatabaseItems extends Table {
-  TextColumn get userId => text()();
+  TextColumn get userId => text().withLength(min: 1)();
   TextColumn get id => text().withLength(min: 1)();
   BoolColumn get syncing => boolean()();
   TextColumn get sortName => text().nullable()();
@@ -35,7 +35,7 @@ class DatabaseItems extends Table {
   TextColumn get userData => text().nullable()();
 
   @override
-  Set<Column<Object>> get primaryKey => {id, userId};
+  Set<Column<Object>> get primaryKey => {userId, id};
 }
 
 @DriftDatabase(tables: [DatabaseItems])
@@ -47,7 +47,7 @@ class AppDatabase extends _$AppDatabase {
   String get userId => ref.read(userProvider.select((value) => value?.id ?? ""));
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   Future<void> clearDatabase() {
     return transaction(() async {
@@ -129,9 +129,11 @@ class AppDatabase extends _$AppDatabase {
     });
   }
 
-  Future<void> deleteAllItems(List<SyncedItem> items) async => await batch((batch) {
-        batch.deleteWhere(databaseItems, (tbl) => tbl.id.isIn(items.map((e) => e.id)));
-      });
+  Future<void> deleteAllItems(List<SyncedItem> items) async {
+    await batch((batch) {
+      batch.deleteWhere(databaseItems, (tbl) => tbl.id.isIn(items.map((e) => e.id)) & tbl.userId.equals(userId));
+    });
+  }
 
   DatabaseItemsCompanion toDataBaseItem(SyncedItem item) {
     return DatabaseItemsCompanion(
@@ -188,6 +190,29 @@ class AppDatabase extends _$AppDatabase {
         databaseDirectory: getApplicationSupportDirectory,
       ),
       // If you need web support, see https://drift.simonbinder.eu/platforms/web/
+    );
+  }
+
+  @override
+  MigrationStrategy get migration {
+    return MigrationStrategy(
+      onCreate: (Migrator m) {
+        return m.createAll();
+      },
+      onUpgrade: (Migrator m, int from, int to) async {
+        if (from == 1) {
+          final allItems = await select(databaseItems).get();
+          m.deleteTable(databaseItems.actualTableName);
+          m.createAll();
+          await batch((batch) {
+            batch.insertAll(
+              databaseItems,
+              allItems,
+              mode: InsertMode.insertOrReplace,
+            );
+          });
+        }
+      },
     );
   }
 }
