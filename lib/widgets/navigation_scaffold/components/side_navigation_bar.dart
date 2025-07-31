@@ -72,238 +72,229 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
           color: Theme.of(context).colorScheme.surface.withValues(alpha: shouldExpand ? 0.95 : 0.85),
           width: shouldExpand ? expandedWidth : collapsedWidth,
           child: MouseRegion(
-            child: Column(
-              children: [
-                Expanded(
-                  child: Padding(
-                    key: const Key('navigation_rail'),
-                    padding: padding.copyWith(right: 0, top: isDesktop ? padding.top : null),
-                    child: Column(
+            child: Padding(
+              key: const Key('navigation_rail'),
+              padding: padding.copyWith(right: 0, top: isDesktop ? padding.top : null),
+              child: Column(
+                spacing: 2,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 14),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 14),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              if (expandedSideBar) ...[
-                                Expanded(child: Text(context.localized.navigation)),
-                              ],
-                              Opacity(
-                                opacity: largeBar && expandedSideBar ? 0.65 : 1.0,
-                                child: IconButton(
-                                  onPressed: !largeBar
-                                      ? () => widget.scaffoldKey.currentState?.openDrawer()
-                                      : () => setState(() => expandedSideBar = !expandedSideBar),
-                                  icon: Icon(
-                                    largeBar && expandedSideBar
-                                        ? IconsaxPlusLinear.sidebar_left
-                                        : IconsaxPlusLinear.menu,
+                        if (expandedSideBar) ...[
+                          Expanded(child: Text(context.localized.navigation)),
+                        ],
+                        Opacity(
+                          opacity: largeBar && expandedSideBar ? 0.65 : 1.0,
+                          child: IconButton(
+                            onPressed: !largeBar
+                                ? () => widget.scaffoldKey.currentState?.openDrawer()
+                                : () => setState(() => expandedSideBar = !expandedSideBar),
+                            icon: Icon(
+                              largeBar && expandedSideBar ? IconsaxPlusLinear.sidebar_left : IconsaxPlusLinear.menu,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  if (largeBar) ...[
+                    AnimatedFadeSize(
+                      duration: const Duration(milliseconds: 250),
+                      child: shouldExpand ? actionButton(context).extended : actionButton(context).normal,
+                    ),
+                  ],
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: !largeBar ? MainAxisAlignment.center : MainAxisAlignment.start,
+                      children: [
+                        ...widget.destinations.mapIndexed(
+                          (index, destination) => CustomTooltip(
+                            tooltipContent: expandedSideBar
+                                ? null
+                                : Card(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12),
+                                      child: Text(
+                                        destination.label,
+                                        style: Theme.of(context).textTheme.titleSmall,
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              )
-                            ],
+                            position: TooltipPosition.right,
+                            child: destination.toNavigationButton(
+                              widget.currentIndex == index,
+                              true,
+                              shouldExpand,
+                            ),
                           ),
                         ),
-                        if (largeBar) ...[
-                          AnimatedFadeSize(
-                            duration: const Duration(milliseconds: 250),
-                            child: shouldExpand ? actionButton(context).extended : actionButton(context).normal,
+                        if (views.isNotEmpty && largeBar) ...[
+                          const Divider(
+                            indent: 32,
+                            endIndent: 32,
                           ),
-                        ],
-                        Expanded(
-                          child: Column(
-                            spacing: 2,
-                            mainAxisAlignment: !largeBar ? MainAxisAlignment.center : MainAxisAlignment.start,
-                            children: [
-                              const SizedBox(height: 8),
-                              ...widget.destinations.mapIndexed(
-                                (index, destination) => CustomTooltip(
+                          Flexible(
+                            child: OverflowView.flexible(
+                              direction: Axis.vertical,
+                              spacing: 4,
+                              children: views.map(
+                                (view) {
+                                  final selected = context.router.currentUrl.contains(view.id);
+                                  final actions = [
+                                    ItemActionButton(
+                                      label: Text(context.localized.scanLibrary),
+                                      icon: const Icon(IconsaxPlusLinear.refresh),
+                                      action: () => showRefreshPopup(context, view.id, view.name),
+                                    )
+                                  ];
+                                  return CustomTooltip(
+                                    tooltipContent: expandedSideBar
+                                        ? null
+                                        : Card(
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(12),
+                                              child: Text(
+                                                view.name,
+                                                style: Theme.of(context).textTheme.titleSmall,
+                                              ),
+                                            ),
+                                          ),
+                                    position: TooltipPosition.right,
+                                    child: view.toNavigationButton(
+                                      selected,
+                                      true,
+                                      shouldExpand,
+                                      () => context.pushRoute(LibrarySearchRoute(viewModelId: view.id)),
+                                      onLongPress: () => showBottomSheetPill(
+                                        context: context,
+                                        content: (context, scrollController) => ListView(
+                                          shrinkWrap: true,
+                                          controller: scrollController,
+                                          children: actions.listTileItems(context, useIcons: true),
+                                        ),
+                                      ),
+                                      customIcon: usePostersForLibrary
+                                          ? ClipRRect(
+                                              borderRadius: FladderTheme.smallShape.borderRadius,
+                                              child: SizedBox.square(
+                                                dimension: 50,
+                                                child: FladderImage(
+                                                  image: view.imageData?.primary,
+                                                  placeHolder: Card(
+                                                    child: Icon(
+                                                      selected
+                                                          ? view.collectionType.icon
+                                                          : view.collectionType.iconOutlined,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          : null,
+                                      trailing: actions,
+                                    ),
+                                  );
+                                },
+                              ).toList(),
+                              builder: (context, remaining) {
+                                return CustomTooltip(
                                   tooltipContent: expandedSideBar
                                       ? null
                                       : Card(
                                           child: Padding(
                                             padding: const EdgeInsets.all(12),
                                             child: Text(
-                                              destination.label,
+                                              context.localized.moreOptions,
                                               style: Theme.of(context).textTheme.titleSmall,
                                             ),
                                           ),
                                         ),
                                   position: TooltipPosition.right,
-                                  child: destination.toNavigationButton(
-                                    widget.currentIndex == index,
-                                    true,
-                                    shouldExpand,
-                                  ),
-                                ),
-                              ),
-                              if (views.isNotEmpty && largeBar) ...[
-                                const Divider(
-                                  indent: 32,
-                                  endIndent: 32,
-                                ),
-                                Flexible(
-                                  child: OverflowView.flexible(
-                                    direction: Axis.vertical,
-                                    spacing: 4,
-                                    children: views.map(
-                                      (view) {
-                                        final selected = context.router.currentUrl.contains(view.id);
-                                        final actions = [
-                                          ItemActionButton(
-                                            label: Text(context.localized.scanLibrary),
-                                            icon: const Icon(IconsaxPlusLinear.refresh),
-                                            action: () => showRefreshPopup(context, view.id, view.name),
-                                          )
-                                        ];
-                                        return CustomTooltip(
-                                          tooltipContent: expandedSideBar
-                                              ? null
-                                              : Card(
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.all(12),
-                                                    child: Text(
-                                                      view.name,
-                                                      style: Theme.of(context).textTheme.titleSmall,
-                                                    ),
-                                                  ),
-                                                ),
-                                          position: TooltipPosition.right,
-                                          child: view.toNavigationButton(
-                                            selected,
-                                            true,
-                                            shouldExpand,
-                                            () => context.pushRoute(LibrarySearchRoute(viewModelId: view.id)),
-                                            onLongPress: () => showBottomSheetPill(
-                                              context: context,
-                                              content: (context, scrollController) => ListView(
-                                                shrinkWrap: true,
-                                                controller: scrollController,
-                                                children: actions.listTileItems(context, useIcons: true),
-                                              ),
-                                            ),
-                                            customIcon: usePostersForLibrary
-                                                ? ClipRRect(
-                                                    borderRadius: FladderTheme.smallShape.borderRadius,
-                                                    child: SizedBox.square(
-                                                      dimension: 50,
-                                                      child: FladderImage(
-                                                        image: view.imageData?.primary,
-                                                        placeHolder: Card(
-                                                          child: Icon(
-                                                            selected
-                                                                ? view.collectionType.icon
-                                                                : view.collectionType.iconOutlined,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )
-                                                : null,
-                                            trailing: actions,
-                                          ),
-                                        );
-                                      },
-                                    ).toList(),
-                                    builder: (context, remaining) {
-                                      return CustomTooltip(
-                                        tooltipContent: expandedSideBar
-                                            ? null
-                                            : Card(
-                                                child: Padding(
-                                                  padding: const EdgeInsets.all(12),
-                                                  child: Text(
-                                                    context.localized.moreOptions,
-                                                    style: Theme.of(context).textTheme.titleSmall,
-                                                  ),
+                                  child: PopupMenuButton(
+                                    iconColor: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.45),
+                                    padding: EdgeInsets.zero,
+                                    tooltip: "",
+                                    icon: NavigationButton(
+                                      label: context.localized.other,
+                                      selectedIcon: const Icon(IconsaxPlusLinear.arrow_square_down),
+                                      icon: const Icon(IconsaxPlusLinear.arrow_square_down),
+                                      expanded: shouldExpand,
+                                      customIcon: usePostersForLibrary
+                                          ? ClipRRect(
+                                              borderRadius: FladderTheme.smallShape.borderRadius,
+                                              child: const SizedBox.square(
+                                                dimension: 50,
+                                                child: Card(
+                                                  child: Icon(IconsaxPlusLinear.arrow_square_down),
                                                 ),
                                               ),
-                                        position: TooltipPosition.right,
-                                        child: PopupMenuButton(
-                                          iconColor: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.45),
-                                          padding: EdgeInsets.zero,
-                                          tooltip: "",
-                                          icon: NavigationButton(
-                                            label: context.localized.other,
-                                            selectedIcon: const Icon(IconsaxPlusLinear.arrow_square_down),
-                                            icon: const Icon(IconsaxPlusLinear.arrow_square_down),
-                                            expanded: shouldExpand,
-                                            customIcon: usePostersForLibrary
-                                                ? ClipRRect(
-                                                    borderRadius: FladderTheme.smallShape.borderRadius,
-                                                    child: const SizedBox.square(
-                                                      dimension: 50,
-                                                      child: Card(
-                                                        child: Icon(IconsaxPlusLinear.arrow_square_down),
-                                                      ),
-                                                    ),
-                                                  )
-                                                : null,
-                                            horizontal: true,
-                                          ),
-                                          itemBuilder: (context) => views
-                                              .sublist(views.length - remaining)
-                                              .map(
-                                                (e) => PopupMenuItem(
-                                                  onTap: () => context.pushRoute(LibrarySearchRoute(viewModelId: e.id)),
-                                                  child: Row(
-                                                    spacing: 8,
-                                                    children: [
-                                                      usePostersForLibrary
-                                                          ? Padding(
-                                                              padding: const EdgeInsets.symmetric(vertical: 4),
-                                                              child: ClipRRect(
-                                                                borderRadius: FladderTheme.smallShape.borderRadius,
-                                                                child: SizedBox.square(
-                                                                  dimension: 45,
-                                                                  child: FladderImage(
-                                                                    image: e.imageData?.primary,
-                                                                    placeHolder: Card(
-                                                                      child: Icon(
-                                                                        e.collectionType.iconOutlined,
-                                                                      ),
-                                                                    ),
-                                                                  ),
+                                            )
+                                          : null,
+                                      horizontal: true,
+                                    ),
+                                    itemBuilder: (context) => views
+                                        .sublist(views.length - remaining)
+                                        .map(
+                                          (e) => PopupMenuItem(
+                                            onTap: () => context.pushRoute(LibrarySearchRoute(viewModelId: e.id)),
+                                            child: Row(
+                                              spacing: 8,
+                                              children: [
+                                                usePostersForLibrary
+                                                    ? Padding(
+                                                        padding: const EdgeInsets.symmetric(vertical: 4),
+                                                        child: ClipRRect(
+                                                          borderRadius: FladderTheme.smallShape.borderRadius,
+                                                          child: SizedBox.square(
+                                                            dimension: 45,
+                                                            child: FladderImage(
+                                                              image: e.imageData?.primary,
+                                                              placeHolder: Card(
+                                                                child: Icon(
+                                                                  e.collectionType.iconOutlined,
                                                                 ),
                                                               ),
-                                                            )
-                                                          : Icon(e.collectionType.iconOutlined),
-                                                      Text(e.name),
-                                                    ],
-                                                  ),
-                                                ),
-                                              )
-                                              .toList(),
-                                        ),
-                                      );
-                                    },
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      )
+                                                    : Icon(e.collectionType.iconOutlined),
+                                                Text(e.name),
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                        .toList(),
                                   ),
-                                ),
-                              ],
-                            ],
+                                );
+                              },
+                            ),
                           ),
-                        ),
-                        NavigationButton(
-                          label: context.localized.settings,
-                          selected: widget.currentLocation.contains(const SettingsRoute().routeName),
-                          selectedIcon: const Icon(IconsaxPlusBold.setting_3),
-                          horizontal: true,
-                          expanded: shouldExpand,
-                          icon: const SettingsUserIcon(),
-                          onPressed: () {
-                            if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.single) {
-                              context.router.push(const SettingsRoute());
-                            } else {
-                              context.router.push(const ClientSettingsRoute());
-                            }
-                          },
-                        ),
+                        ],
                       ],
                     ),
                   ),
-                ),
-                if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer) const SizedBox(height: 16),
-              ],
+                  NavigationButton(
+                    label: context.localized.settings,
+                    selected: widget.currentLocation.contains(const SettingsRoute().routeName),
+                    selectedIcon: const Icon(IconsaxPlusBold.setting_3),
+                    horizontal: true,
+                    expanded: shouldExpand,
+                    icon: const SettingsUserIcon(),
+                    onPressed: () {
+                      if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.single) {
+                        context.router.push(const SettingsRoute());
+                      } else {
+                        context.router.push(const ClientSettingsRoute());
+                      }
+                    },
+                  ),
+                  if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer) const SizedBox(height: 16),
+                ],
+              ),
             ),
           ),
         ),
