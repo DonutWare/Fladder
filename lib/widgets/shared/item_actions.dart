@@ -10,6 +10,7 @@ abstract class ItemAction {
   PopupMenuEntry toPopupMenuItem({bool useIcons = false});
   Widget toLabel();
   Widget toListItem(BuildContext context, {bool useIcons = false, bool shouldPop = true});
+  Widget toButton();
 }
 
 class ItemActionDivider extends ItemAction {
@@ -26,6 +27,9 @@ class ItemActionDivider extends ItemAction {
 
   @override
   Widget toListItem(BuildContext context, {bool useIcons = false, bool shouldPop = true}) => const Divider();
+
+  @override
+  Widget toButton() => Container();
 }
 
 class ItemActionButton extends ItemAction {
@@ -51,9 +55,10 @@ class ItemActionButton extends ItemAction {
   }
 
   @override
-  MenuItemButton toMenuItemButton() {
-    return MenuItemButton(leadingIcon: icon, onPressed: action, child: label);
-  }
+  MenuItemButton toMenuItemButton() => MenuItemButton(leadingIcon: icon, onPressed: action, child: label);
+
+  @override
+  Widget toButton() => IconButton(onPressed: action, icon: icon ?? const SizedBox.shrink());
 
   @override
   PopupMenuItem toPopupMenuItem({bool useIcons = false}) {

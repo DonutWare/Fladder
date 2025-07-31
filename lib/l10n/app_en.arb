@@ -1289,5 +1289,7 @@
   "syncResumeAll": "Resume all",
   "syncStopAll": "Stop all",
   "syncDeleteAll": "Delete all files",
-  "syncAllFiles": "Sync all files"
+  "syncAllFiles": "Sync all files",
+  "usePostersForLibraryIconsTitle": "Show posters for library icons",
+  "usePostersForLibraryIconsDesc": "Show posters instead of icons for libraries"
 }

@@ -250,8 +250,9 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: Row(
+                  spacing: 16,
                   mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     IconButton(
                       onPressed: () => minimizePlayer(context),
@@ -260,26 +261,26 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                         size: 24,
                       ),
                     ),
-                    const SizedBox(width: 16),
                     if (currentItem != null)
-                      Expanded(
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                            maxHeight: 150.clamp(50, MediaQuery.sizeOf(context).height * 0.25).toDouble(),
-                          ),
-                          child: ItemLogo(
-                            item: currentItem,
-                            imageAlignment: Alignment.topLeft,
-                            textStyle: Theme.of(context).textTheme.headlineLarge,
-                          ),
+                      ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxHeight: 150.clamp(50, MediaQuery.sizeOf(context).height * 0.25).toDouble(),
+                        ),
+                        child: ItemLogo(
+                          item: currentItem,
+                          imageAlignment: Alignment.topLeft,
+                          textStyle: Theme.of(context).textTheme.headlineLarge,
                         ),
                       ),
-                    const SizedBox(width: 16),
+                    const Spacer(),
                     if (AdaptiveLayout.of(context).inputDevice == InputDevice.touch)
-                      Tooltip(
-                          message: context.localized.stop,
-                          child: IconButton(
-                              onPressed: () => closePlayer(), icon: const Icon(IconsaxPlusLinear.close_square))),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Tooltip(
+                            message: context.localized.stop,
+                            child: IconButton(
+                                onPressed: () => closePlayer(), icon: const Icon(IconsaxPlusLinear.close_square))),
+                      ),
                   ],
                 ),
               ),

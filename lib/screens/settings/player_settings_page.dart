@@ -249,6 +249,21 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                           onChanged: (value) => provider.setUseLibass(value),
                         ),
                       ),
+                    if (!videoSettings.useLibass)
+                      SettingsListTile(
+                        label: Text(context.localized.settingsPlayerCustomSubtitlesTitle),
+                        subLabel: Text(context.localized.settingsPlayerCustomSubtitlesDesc),
+                        onTap: videoSettings.useLibass
+                            ? null
+                            : () {
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: true,
+                                  useSafeArea: false,
+                                  builder: (context) => const SubtitleEditor(),
+                                );
+                              },
+                      ),
                     AnimatedFadeSize(
                       child: videoSettings.useLibass && videoSettings.hardwareAccel && Platform.isAndroid
                           ? SettingsMessageBox(
@@ -271,20 +286,6 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                               }
                             },
                           )),
-                    ),
-                    SettingsListTile(
-                      label: Text(context.localized.settingsPlayerCustomSubtitlesTitle),
-                      subLabel: Text(context.localized.settingsPlayerCustomSubtitlesDesc),
-                      onTap: videoSettings.useLibass
-                          ? null
-                          : () {
-                              showDialog(
-                                context: context,
-                                barrierDismissible: false,
-                                useSafeArea: false,
-                                builder: (context) => const SubtitleEditor(),
-                              );
-                            },
                     ),
                   ],
                 ),

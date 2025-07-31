@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/chapters_model.dart';
+import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
@@ -113,6 +114,15 @@ class DirectPlaybackModel extends PlaybackModel {
     );
 
     return null;
+  }
+
+  @override
+  DirectPlaybackModel? updateUserData(UserData userData) {
+    return copyWith(
+      item: item.copyWith(
+        userData: userData,
+      ),
+    );
   }
 
   @override

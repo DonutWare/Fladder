@@ -125,6 +125,10 @@ class AuthGuard extends AutoRouteGuard {
 
   @override
   Future<void> onNavigation(NavigationResolver resolver, StackRouter router) async {
+    if (resolver.route == router.current.route) {
+      return;
+    }
+
     if (ref.read(userProvider) != null ||
         resolver.routeName == const LoginRoute().routeName ||
         resolver.routeName == SplashRoute().routeName) {

@@ -181,7 +181,6 @@ class FladderCupertinoLocalizationsDelegate extends LocalizationsDelegate<Cupert
         dayFormat = intl.DateFormat.d(correctedLocale);
         weekdayFormat = intl.DateFormat.E(correctedLocale);
         mediumDateFormat = intl.DateFormat.MMMEd(correctedLocale);
-        // TODO(xster): fix when https://github.com/dart-lang/intl/issues/207 is resolved.
         singleDigitHourFormat = intl.DateFormat('HH', correctedLocale);
         singleDigitMinuteFormat = intl.DateFormat.m(correctedLocale);
         doubleDigitMinuteFormat = intl.DateFormat('mm', correctedLocale);

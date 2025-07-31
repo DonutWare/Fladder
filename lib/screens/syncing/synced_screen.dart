@@ -47,7 +47,6 @@ class _SyncedScreenState extends ConsumerState<SyncedScreen> {
             slivers: [
               if (AdaptiveLayout.viewSizeOf(context) == ViewSize.phone)
                 NestedSliverAppBar(
-                  searchTitle: "${context.localized.search} ...",
                   parent: context,
                   route: LibrarySearchRoute(),
                 )

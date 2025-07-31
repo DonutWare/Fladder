@@ -14,6 +14,7 @@ class NavigationButton extends ConsumerStatefulWidget {
   final Function()? onPressed;
   final Function()? onLongPress;
   final List<ItemAction> trailing;
+  final Widget? customIcon;
   final bool selected;
   final Duration duration;
   const NavigationButton({
@@ -24,6 +25,7 @@ class NavigationButton extends ConsumerStatefulWidget {
     this.expanded = false,
     this.onPressed,
     this.onLongPress,
+    this.customIcon,
     this.selected = false,
     this.trailing = const [],
     this.duration = const Duration(milliseconds: 125),
@@ -64,9 +66,11 @@ class _NavigationButtonState extends ConsumerState<NavigationButton> {
         onLongPress: widget.onLongPress,
         child: widget.horizontal
             ? Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                padding: widget.customIcon != null
+                    ? EdgeInsetsGeometry.zero
+                    : const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
                 child: SizedBox(
-                  height: 35,
+                  height: widget.customIcon != null ? 60 : 35,
                   child: Row(
                     spacing: 4,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -85,10 +89,11 @@ class _NavigationButtonState extends ConsumerState<NavigationButton> {
                               .withValues(alpha: widget.selected && !widget.expanded ? 1 : 0),
                         ),
                       ),
-                      AnimatedSwitcher(
-                        duration: widget.duration,
-                        child: widget.selected ? widget.selectedIcon : widget.icon,
-                      ),
+                      widget.customIcon ??
+                          AnimatedSwitcher(
+                            duration: widget.duration,
+                            child: widget.selected ? widget.selectedIcon : widget.icon,
+                          ),
                       const SizedBox(width: 6),
                       if (widget.horizontal && widget.expanded) ...[
                         if (widget.label != null)
@@ -119,17 +124,18 @@ class _NavigationButtonState extends ConsumerState<NavigationButton> {
                 ),
               )
             : Padding(
-                padding: const EdgeInsets.all(8),
+                padding: widget.customIcon != null ? EdgeInsetsGeometry.zero : const EdgeInsets.all(8),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Row(
                       spacing: 8,
                       children: [
-                        AnimatedSwitcher(
-                          duration: widget.duration,
-                          child: widget.selected ? widget.selectedIcon : widget.icon,
-                        ),
+                        widget.customIcon ??
+                            AnimatedSwitcher(
+                              duration: widget.duration,
+                              child: widget.selected ? widget.selectedIcon : widget.icon,
+                            ),
                         if (widget.label != null && widget.horizontal && widget.expanded)
                           Flexible(child: Text(widget.label!))
                       ],

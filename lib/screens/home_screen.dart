@@ -108,6 +108,13 @@ class HomeScreen extends ConsumerWidget {
                 selectedIcon: Icon(e.selectedIcon),
                 route: const LibraryRoute(),
                 action: () => e.navigate(context),
+                floatingActionButton: AdaptiveFab(
+                  context: context,
+                  title: context.localized.search,
+                  key: Key(e.name.capitalize()),
+                  onPressed: () => context.router.navigate(LibrarySearchRoute()),
+                  child: const Icon(IconsaxPlusLinear.search_status),
+                ),
               );
           }
         })

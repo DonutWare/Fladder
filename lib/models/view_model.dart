@@ -113,6 +113,7 @@ class ViewModel {
     FutureOr Function() action, {
     FutureOr Function()? onLongPress,
     List<ItemAction>? trailing,
+    Widget? customIcon,
   }) {
     return NavigationButton(
       label: name,
@@ -121,6 +122,7 @@ class ViewModel {
       onLongPress: onLongPress,
       horizontal: horizontal,
       expanded: expanded,
+      customIcon: customIcon,
       trailing: trailing ?? [],
       selectedIcon: Icon(collectionType.icon),
       icon: Icon(collectionType.iconOutlined),
