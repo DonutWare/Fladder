@@ -17,8 +17,10 @@ class ItemLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final logo = item.getPosters?.logo;
+    final size = MediaQuery.sizeOf(context);
+    final maxHeight = size.height * 0.45;
     final textWidget = Container(
-      height: 512,
+      height: maxHeight,
       alignment: imageAlignment,
       child: Text(
         item.parentBaseModel.name,
@@ -33,13 +35,14 @@ class ItemLogo extends StatelessWidget {
     );
     return logo != null
         ? ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 500, maxHeight: 500),
+            constraints: BoxConstraints(maxWidth: size.width * 0.35, maxHeight: maxHeight),
             child: FladderImage(
               image: logo,
               disableBlur: true,
-              alignment: imageAlignment,
+              stackFit: StackFit.passthrough,
+              alignment: Alignment.bottomLeft,
               imageErrorBuilder: (context, object, stack) => textWidget,
-              placeHolder: const SizedBox(height: 0),
+              placeHolder: textWidget,
               fit: BoxFit.contain,
             ),
           )
