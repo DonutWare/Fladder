@@ -26,39 +26,23 @@ enum TooltipPosition { top, bottom, left, right }
 
 class CustomTooltipState extends State<CustomTooltip> {
   OverlayEntry? _overlayEntry;
-  Timer? _timer;
+  Timer? _tooltipTimer;
   final GlobalKey _tooltipKey = GlobalKey();
 
-  Timer? _timeOut;
-
-  void _resetTimer() {
-    _timeOut?.cancel();
-    _timeOut = Timer(const Duration(seconds: 2), () {
-      _hideTooltip();
-      _timeOut = null;
-    });
-  }
-
   void _showTooltip() {
-    _timer = Timer(widget.showDelay, () {
-      _overlayEntry ??= _createOverlayEntry();
-      if (_overlayEntry != null) {
+    _tooltipTimer?.cancel();
+
+    _tooltipTimer = Timer(widget.showDelay, () {
+      if (_overlayEntry == null) {
+        _overlayEntry = _createOverlayEntry();
         Overlay.of(context).insert(_overlayEntry!);
       }
-    });
-
-    _timeOut = Timer(const Duration(seconds: 2), () {
-      _hideTooltip();
-      _timeOut = null;
     });
   }
 
   void _hideTooltip() {
-    _timer?.cancel();
-    _timeOut?.cancel();
-    if (_overlayEntry?.mounted == true) {
-      _overlayEntry?.remove();
-    }
+    _tooltipTimer?.cancel();
+    _overlayEntry?.remove();
     _overlayEntry = null;
   }
 
@@ -67,58 +51,51 @@ class CustomTooltipState extends State<CustomTooltip> {
     Offset targetPosition = renderBox.localToGlobal(Offset.zero);
     Size targetSize = renderBox.size;
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final tooltipRenderBox = _tooltipKey.currentContext?.findRenderObject() as RenderBox?;
-      if (tooltipRenderBox != null) {
-        Size tooltipSize = tooltipRenderBox.size;
+    return OverlayEntry(
+      builder: (context) {
+        final tooltipRenderBox = _tooltipKey.currentContext?.findRenderObject() as RenderBox?;
+        if (tooltipRenderBox != null) {
+          Size tooltipSize = tooltipRenderBox.size;
 
-        Offset tooltipPosition;
-        switch (widget.position) {
-          case TooltipPosition.top:
-            tooltipPosition = Offset(
-              targetPosition.dx + (targetSize.width - tooltipSize.width) / 2,
-              targetPosition.dy - tooltipSize.height - widget.offset,
-            );
-            break;
-          case TooltipPosition.bottom:
-            tooltipPosition = Offset(
-              targetPosition.dx + (targetSize.width - tooltipSize.width) / 2,
-              targetPosition.dy + targetSize.height + widget.offset,
-            );
-            break;
-          case TooltipPosition.left:
-            tooltipPosition = Offset(
-              targetPosition.dx - tooltipSize.width - widget.offset,
-              targetPosition.dy + (targetSize.height - tooltipSize.height) / 2,
-            );
-            break;
-          case TooltipPosition.right:
-            tooltipPosition = Offset(
-              targetPosition.dx + targetSize.width + widget.offset,
-              targetPosition.dy + (targetSize.height - tooltipSize.height) / 2,
-            );
-            break;
-        }
+          Offset tooltipPosition;
+          switch (widget.position) {
+            case TooltipPosition.top:
+              tooltipPosition = Offset(
+                targetPosition.dx + (targetSize.width - tooltipSize.width) / 2,
+                targetPosition.dy - tooltipSize.height - widget.offset,
+              );
+              break;
+            case TooltipPosition.bottom:
+              tooltipPosition = Offset(
+                targetPosition.dx + (targetSize.width - tooltipSize.width) / 2,
+                targetPosition.dy + targetSize.height + widget.offset,
+              );
+              break;
+            case TooltipPosition.left:
+              tooltipPosition = Offset(
+                targetPosition.dx - tooltipSize.width - widget.offset,
+                targetPosition.dy + (targetSize.height - tooltipSize.height) / 2,
+              );
+              break;
+            case TooltipPosition.right:
+              tooltipPosition = Offset(
+                targetPosition.dx + targetSize.width + widget.offset,
+                targetPosition.dy + (targetSize.height - tooltipSize.height) / 2,
+              );
+              break;
+          }
 
-        _overlayEntry = OverlayEntry(
-          builder: (context) => Positioned(
+          return Positioned(
             left: tooltipPosition.dx,
             top: tooltipPosition.dy,
             child: Material(
               color: Colors.transparent,
               child: widget.tooltipContent,
             ),
-          ),
-        );
-
-        if (_overlayEntry != null) {
-          Overlay.of(context).insert(_overlayEntry!);
+          );
         }
-      }
-    });
-
-    return OverlayEntry(
-      builder: (context) => const SizedBox.shrink(),
+        return const SizedBox.shrink();
+      },
     );
   }
 
@@ -128,7 +105,6 @@ class CustomTooltipState extends State<CustomTooltip> {
     return MouseRegion(
       onEnter: (_) => _showTooltip(),
       onExit: (_) => _hideTooltip(),
-      onHover: (_) => _resetTimer(),
       child: Stack(
         children: [
           widget.child,
@@ -147,8 +123,8 @@ class CustomTooltipState extends State<CustomTooltip> {
 
   @override
   void dispose() {
-    _timer?.cancel();
-    _overlayEntry?.remove();
+    _tooltipTimer?.cancel();
+    _hideTooltip(); // Ensure the tooltip is hidden on dispose
     super.dispose();
   }
 }
