@@ -1347,5 +1347,65 @@
   "enableBackgroundPostersDesc": "Показывать случайные постеры на соответствующих экранах",
   "@enableBackgroundPostersDesc": {},
   "settingsEnableOsMediaControlsDesc": "Позволяет управлять воспроизведением с помощью медиа-клавиш и показывать текущее воспроизводимое медиа в ОС",
-  "@settingsEnableOsMediaControlsDesc": {}
+  "@settingsEnableOsMediaControlsDesc": {},
+  "notificationDownloadingDownloading": "Загрузка",
+  "@notificationDownloadingDownloading": {},
+  "notificationDownloadingPaused": "Загрузка приостановлена",
+  "@notificationDownloadingPaused": {},
+  "notificationDownloadingFinished": "Загрузка завершена",
+  "@notificationDownloadingFinished": {},
+  "notificationDownloadingError": "Ошибка загрузки",
+  "@notificationDownloadingError": {},
+  "syncAllItemsTitle": "Синхронизировать все элементы из {itemName}?",
+  "@syncAllItemsTitle": {
+    "description": "syncAllItemsFrom",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncAllItemsDesc": "Это позволит синхронизировать ({itemCount}) элементов из '{itemName}' на ваше устройство.\nЭто может занять некоторое время в зависимости от количества элементов.",
+  "@syncAllItemsDesc": {
+    "description": "syncAllitemsFromDesc",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      },
+      "itemCount": {
+        "type": "int"
+      }
+    }
+  },
+  "syncDeleteAllItemsTitle": "Удалить все синхронизированные элементы из {itemName}?",
+  "@syncDeleteAllItemsTitle": {
+    "description": "syncDeleteAllitemsFrom",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncDeleteAllItemsDesc": "Это приведет к удалению всех синхронизированных элементов из '{itemName}'.\nЭто произойдет навсегда, и вам придется повторно синхронизировать ({itemCount}) файлов.",
+  "@syncDeleteAllItemsDesc": {
+    "description": "syncDeleteAllitemsFromDesc",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      },
+      "itemCount": {
+        "type": "int"
+      }
+    }
+  },
+  "syncPauseAll": "Приостановить все",
+  "@syncPauseAll": {},
+  "syncResumeAll": "Продолжить всё",
+  "@syncResumeAll": {},
+  "syncStopAll": "Оставить всё",
+  "@syncStopAll": {},
+  "syncDeleteAll": "Удалить все файлы",
+  "@syncDeleteAll": {},
+  "syncAllFiles": "Синхронизировать все файлы",
+  "@syncAllFiles": {}
 }
