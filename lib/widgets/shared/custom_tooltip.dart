@@ -41,8 +41,10 @@ class CustomTooltipState extends State<CustomTooltip> {
 
   void _showTooltip() {
     _timer = Timer(widget.showDelay, () {
-      _overlayEntry = _createOverlayEntry();
-      Overlay.of(context).insert(_overlayEntry!);
+      _overlayEntry ??= _createOverlayEntry();
+      if (_overlayEntry != null) {
+        Overlay.of(context).insert(_overlayEntry!);
+      }
     });
 
     _timeOut = Timer(const Duration(seconds: 2), () {
@@ -54,7 +56,9 @@ class CustomTooltipState extends State<CustomTooltip> {
   void _hideTooltip() {
     _timer?.cancel();
     _timeOut?.cancel();
-    _overlayEntry?.remove();
+    if (_overlayEntry?.mounted == true) {
+      _overlayEntry?.remove();
+    }
     _overlayEntry = null;
   }
 
@@ -107,7 +111,9 @@ class CustomTooltipState extends State<CustomTooltip> {
           ),
         );
 
-        Overlay.of(context).insert(_overlayEntry!);
+        if (_overlayEntry != null) {
+          Overlay.of(context).insert(_overlayEntry!);
+        }
       }
     });
 
