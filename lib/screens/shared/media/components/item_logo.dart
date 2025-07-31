@@ -18,10 +18,9 @@ class ItemLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     final logo = item.getPosters?.logo;
     final size = MediaQuery.sizeOf(context);
-    final maxHeight = size.height * 0.45;
-    final textWidget = Container(
-      height: maxHeight,
-      alignment: imageAlignment,
+    final maxHeight = size.height * 0.25;
+    final textWidget = ConstrainedBox(
+      constraints: BoxConstraints(maxHeight: maxHeight),
       child: Text(
         item.parentBaseModel.name,
         textAlign: TextAlign.start,
@@ -35,7 +34,7 @@ class ItemLogo extends StatelessWidget {
     );
     return logo != null
         ? ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: size.width * 0.35, maxHeight: maxHeight),
+            constraints: BoxConstraints(maxWidth: size.width * 0.25, maxHeight: maxHeight),
             child: FladderImage(
               image: logo,
               disableBlur: true,

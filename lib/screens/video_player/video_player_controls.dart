@@ -262,17 +262,24 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                       ),
                     ),
                     if (currentItem != null)
-                      ConstrainedBox(
-                        constraints: BoxConstraints(
-                          maxHeight: 150.clamp(50, MediaQuery.sizeOf(context).height * 0.25).toDouble(),
-                        ),
-                        child: ItemLogo(
-                          item: currentItem,
-                          imageAlignment: Alignment.topLeft,
-                          textStyle: Theme.of(context).textTheme.headlineLarge,
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Flexible(
+                              child: ConstrainedBox(
+                                constraints: BoxConstraints(
+                                  maxHeight: 150.clamp(50, MediaQuery.sizeOf(context).height * 0.25).toDouble(),
+                                ),
+                                child: ItemLogo(
+                                  item: currentItem,
+                                  imageAlignment: Alignment.topLeft,
+                                  textStyle: Theme.of(context).textTheme.headlineLarge,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    const Spacer(),
                     if (AdaptiveLayout.of(context).inputDevice == InputDevice.touch)
                       Align(
                         alignment: Alignment.centerRight,
