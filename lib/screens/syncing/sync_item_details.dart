@@ -92,8 +92,7 @@ class _SyncItemDetailsState extends ConsumerState<SyncItemDetails> {
                 children: [
                   if (baseItem != null) ...{
                     Row(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
                       spacing: 16,
                       children: [
                         SizedBox(
@@ -193,7 +192,10 @@ class _SyncItemDetailsState extends ConsumerState<SyncItemDetails> {
                     ),
                   },
                   if (children?.isNotEmpty == true) ...[
-                    const Divider(),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 16),
+                      child: Divider(),
+                    ),
                     ...children!.map(
                       (e) => ChildSyncWidget(syncedChild: e),
                     ),

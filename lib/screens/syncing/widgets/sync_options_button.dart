@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:background_downloader/background_downloader.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
@@ -51,6 +52,19 @@ class SyncOptionsButton extends ConsumerWidget {
         final enqueuedTasks = syncTasks.where((element) => element.status == TaskStatus.enqueued).toList();
         final pausedTasks = syncTasks.where((element) => element.status == TaskStatus.paused).toList();
         return <PopupMenuEntry>[
+          PopupMenuItem(
+            child: Row(
+              spacing: 12,
+              children: [
+                const Icon(IconsaxPlusLinear.arrow_right),
+                Text(context.localized.showDetails),
+              ],
+            ),
+            onTap: () {
+              syncedItem.itemModel?.navigateTo(context);
+              context.maybePop();
+            },
+          ),
           PopupMenuItem(
             child: Row(
               spacing: 12,
