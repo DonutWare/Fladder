@@ -50,6 +50,25 @@ class UserData with UserDataMappable {
 
   Duration get playBackPosition => Duration(milliseconds: playbackPositionTicks ~/ 10000);
 
+  // Returns null if unplayed with no progress
+  static bool? isPlayed(Duration position, Duration totalDuration) {
+    Duration startBuffer = totalDuration * 0.05;
+    Duration endBuffer = totalDuration * 0.90;
+
+    Duration validStart = startBuffer;
+    Duration validEnd = endBuffer;
+
+    if (position <= validStart) {
+      return null;
+    }
+
+    if (position <= validEnd) {
+      return false;
+    }
+
+    return true;
+  }
+
   static UserData? determineLastUserData(List<UserData?> data) {
     return data.where((data) => data != null).reduce((a, b) {
       final aDate = a?.lastPlayed;

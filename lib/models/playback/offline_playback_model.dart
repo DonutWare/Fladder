@@ -66,35 +66,23 @@ class OfflinePlaybackModel extends PlaybackModel {
 
   @override
   Future<PlaybackModel?> playbackStopped(Duration position, Duration? totalDuration, Ref ref) async {
-    return null;
-  }
-
-  @override
-  Future<PlaybackModel?> updatePlaybackPosition(Duration position, bool isPlaying, Ref ref) async {
     final progress = position.inMilliseconds / (item.overview.runTime?.inMilliseconds ?? 0) * 100;
+    final isPlayed = UserData.isPlayed(position, item.overview.runTime ?? Duration.zero);
     final newItem = syncedItem.copyWith(
       userData: syncedItem.userData?.copyWith(
-        playbackPositionTicks: position.toRuntimeTicks,
-        progress: progress,
-        played: isPlayed(position, item.overview.runTime ?? Duration.zero),
+        playbackPositionTicks: isPlayed != false ? 0 : position.toRuntimeTicks,
+        progress: isPlayed != false ? 0.0 : progress,
+        played: isPlayed,
+        lastPlayed: DateTime.now().toUtc(),
       ),
     );
     await ref.read(syncProvider.notifier).updateItem(newItem);
     return this;
   }
 
-  bool isPlayed(Duration position, Duration totalDuration) {
-    Duration startBuffer = totalDuration * 0.05;
-    Duration endBuffer = totalDuration * 0.90;
-
-    Duration validStart = startBuffer;
-    Duration validEnd = endBuffer;
-
-    if (position >= validStart && position <= validEnd) {
-      return true;
-    }
-
-    return false;
+  @override
+  Future<PlaybackModel?> updatePlaybackPosition(Duration position, bool isPlaying, Ref ref) async {
+    return null;
   }
 
   @override

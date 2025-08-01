@@ -37,7 +37,7 @@ class MovieDetails extends _$MovieDetails {
 
   void _tryToCreateOfflineState(ItemBaseModel item) async {
     final syncNotifier = ref.read(syncProvider.notifier);
-    final syncedItem = await syncNotifier.getParentItem(item.id);
+    final syncedItem = await syncNotifier.getSyncedItem(item);
     if (syncedItem == null) return;
     final movieModel = syncedItem.itemModel as MovieModel?;
     state = movieModel;

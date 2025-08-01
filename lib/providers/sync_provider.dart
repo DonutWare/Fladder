@@ -38,6 +38,7 @@ import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/sync/background_download_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/migration/isar_drift_migration.dart';
 
@@ -72,9 +73,6 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
         }
       },
     );
-
-    _initializeQueryStream();
-
     migrateFromIsar();
   }
 
@@ -163,9 +161,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     super.dispose();
   }
 
-  Future<void> refresh() async {
-    state = state.copyWith(items: (await db.getParentItems.get()));
-  }
+  Future<void> refresh() async => state = state.copyWith(items: (await db.getParentItems.get()));
 
   Future<List<SyncedItem>> getNestedChildren(SyncedItem item) async => db.getNestedChildren(item);
 
@@ -395,7 +391,10 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     return data?.copyWith(path: fileName);
   }
 
-  Future<void> updateItem(SyncedItem syncedItem) async => db.insertItem(syncedItem);
+  Future<int> updateItem(SyncedItem syncedItem) async {
+    await ref.read(jellyApiProvider).userItemsItemIdUserDataPost(itemId: syncedItem.id, body: syncedItem.userData);
+    return db.insertItem(syncedItem);
+  }
 
   Future<SyncedItem> deleteFullSyncFiles(SyncedItem syncedItem, DownloadTask? task) async {
     await syncedItem.deleteDatFiles(ref);
@@ -513,6 +512,58 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
   Future<void> setup() async {
     state = state.copyWith(items: []);
     _init();
+  }
+
+  Future<void> updatePlaybackPosition({String? itemId, required Duration position}) async {
+    if (itemId == null) return;
+
+    final syncedItem = await db.getItem(itemId).getSingleOrNull();
+    if (syncedItem == null) return;
+
+    final item = syncedItem.itemModel;
+    if (item == null) return;
+
+    final progress = position.inMilliseconds / (item.overview.runTime?.inMilliseconds ?? 0) * 100;
+
+    final updatedItem = syncedItem.copyWith(
+      userData: syncedItem.userData?.copyWith(
+        playbackPositionTicks: position.toRuntimeTicks,
+        progress: progress,
+        played: UserData.isPlayed(position, item.overview.runTime ?? Duration.zero),
+      ),
+    );
+    db.insertItem(updatedItem);
+  }
+
+  Future<void> updatePlayedItem(String? itemId, {DateTime? datePlayed, required bool played}) async {
+    if (itemId == null) return;
+
+    final syncedItem = db.getItem(itemId).getSingleOrNull();
+    syncedItem.then((item) async {
+      if (item == null) return;
+      final updatedUserData = item.userData?.copyWith(
+        played: played,
+        playbackPositionTicks: 0,
+        progress: 0.0,
+        lastPlayed: datePlayed ?? DateTime.now().toUtc(),
+      );
+      final updatedItem = item.copyWith(userData: updatedUserData);
+      await db.insertItem(updatedItem);
+    });
+    refresh();
+  }
+
+  Future<void> updateFavoriteItem(String? itemId, {required bool isFavorite}) async {
+    if (itemId == null) return;
+
+    final syncedItem = db.getItem(itemId).getSingleOrNull();
+    syncedItem.then((item) async {
+      if (item == null) return;
+      final updatedUserData = item.userData?.copyWith(isFavourite: isFavorite);
+      final updatedItem = item.copyWith(userData: updatedUserData);
+      await db.insertItem(updatedItem);
+    });
+    refresh();
   }
 }
 
