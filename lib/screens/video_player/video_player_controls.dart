@@ -227,6 +227,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
 
   Widget topButtons(BuildContext context) {
     final currentItem = ref.watch(playBackModel.select((value) => value?.item));
+    final maxHeight = 150.clamp(50, (MediaQuery.sizeOf(context).height * 0.25).clamp(51, double.maxFinite)).toDouble();
     return Container(
       decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -268,7 +269,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                             Flexible(
                               child: ConstrainedBox(
                                 constraints: BoxConstraints(
-                                  maxHeight: 150.clamp(50, MediaQuery.sizeOf(context).height * 0.25).toDouble(),
+                                  maxHeight: maxHeight,
                                 ),
                                 child: ItemLogo(
                                   item: currentItem,
