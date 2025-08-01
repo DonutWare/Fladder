@@ -56,9 +56,10 @@ class _SyncedScreenState extends ConsumerState<SyncedScreen> {
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: padding,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child: Wrap(
+                      alignment: WrapAlignment.center,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      runAlignment: WrapAlignment.center,
                       spacing: 12,
                       children: [
                         ElevatedButton(

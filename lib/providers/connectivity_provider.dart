@@ -22,7 +22,8 @@ class ConnectivityStatus extends _$ConnectivityStatus {
   @override
   ConnectionState build() {
     Connectivity().onConnectivityChanged.listen(onStateChange);
-    return ConnectionState.offline;
+    checkConnectivity();
+    return ConnectionState.mobile;
   }
 
   void onStateChange(List<ConnectivityResult> connectivityResult) {

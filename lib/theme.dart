@@ -34,9 +34,6 @@ class FladderTheme {
   static RoundedRectangleBorder get defaultShape => RoundedRectangleBorder(borderRadius: BorderRadius.circular(16));
   static RoundedRectangleBorder get largeShape => RoundedRectangleBorder(borderRadius: BorderRadius.circular(32));
 
-  static Color get darkBackgroundColor => const Color.fromARGB(255, 10, 10, 10);
-  static Color get lightBackgroundColor => const Color.fromARGB(237, 255, 255, 255);
-
   static ThemeData theme(ColorScheme? colorScheme, DynamicSchemeVariant dynamicSchemeVariant) {
     final ColorScheme? scheme = generateDynamicColourSchemes(colorScheme, dynamicSchemeVariant);
 
