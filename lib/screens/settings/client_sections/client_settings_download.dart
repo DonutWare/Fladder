@@ -96,7 +96,7 @@ List<Widget> buildClientSettingsDownload(BuildContext context, WidgetRef ref, Fu
                     context.localized.downloadsClearTitle,
                     context.localized.downloadsClearDesc,
                     (context) async {
-                      await ref.read(syncProvider.notifier).clear();
+                      await ref.read(syncProvider.notifier).removeAllSyncedData();
                       setState(() {});
                       Navigator.of(context).pop();
                     },

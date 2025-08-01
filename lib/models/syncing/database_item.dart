@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 import 'package:fladder/models/item_base_model.dart';
@@ -16,6 +18,8 @@ import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/providers/user_provider.dart';
 
 part 'database_item.g.dart';
+
+const _databseName = 'syncedDatabase';
 
 @TableIndex(name: 'database_id', columns: {#userId, #id})
 class DatabaseItems extends Table {
@@ -50,12 +54,13 @@ class AppDatabase extends _$AppDatabase {
   @override
   int get schemaVersion => 1;
 
-  Future<void> clearDatabase() {
-    return transaction(() async {
-      for (final table in allTables) {
-        await delete(table).go();
-      }
-    });
+  Future<void> clearDatabase() async {
+    final dbPath = await getApplicationSupportDirectory();
+    final dbFile = File(p.join(dbPath.path, '$_databseName.sqlite'));
+
+    if (await dbFile.exists()) {
+      await dbFile.delete(recursive: true);
+    }
   }
 
   Selectable<SyncedItem> getItem(String id) =>
@@ -190,7 +195,7 @@ class AppDatabase extends _$AppDatabase {
 
   static QueryExecutor _openConnection() {
     return driftDatabase(
-      name: 'syncedDatabase',
+      name: _databseName,
       native: const DriftNativeOptions(
         databaseDirectory: getApplicationSupportDirectory,
       ),

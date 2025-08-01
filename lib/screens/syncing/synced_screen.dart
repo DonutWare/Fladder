@@ -66,7 +66,7 @@ class _SyncedScreenState extends ConsumerState<SyncedScreen> {
                           child: const Text("View Database"),
                         ),
                         ElevatedButton(
-                          onPressed: () => ref.read(syncProvider.notifier).db.clearDatabase(),
+                          onPressed: () => ref.read(syncProvider.notifier).removeAllSyncedData(),
                           child: const Text("Clear drift database"),
                         ),
                         ElevatedButton(

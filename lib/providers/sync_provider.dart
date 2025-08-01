@@ -53,7 +53,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
   }
 
   final Ref ref;
-  late final db = AppDatabase(ref);
+  late AppDatabase db = AppDatabase(ref);
   final Directory mobileDirectory;
   final String subPath = "Synced";
 
@@ -546,9 +546,13 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     return null;
   }
 
-  Future<void> clear() async {
-    await mainDirectory.delete(recursive: true);
+  Future<void> removeAllSyncedData() async {
+    if (await mainDirectory.exists()) {
+      await mainDirectory.delete(recursive: true);
+    }
+    await db.close();
     await db.clearDatabase();
+    db = AppDatabase(ref);
     state = state.copyWith(items: []);
   }
 
