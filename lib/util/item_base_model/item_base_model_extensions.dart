@@ -110,7 +110,7 @@ extension ItemBaseModelExtensions on ItemBaseModel {
         syncAble &&
         (canDownload ?? false);
     final downloadUrl = ref.read(userProvider.notifier).createDownloadUrl(this);
-    final syncedItemFuture = ref.read(syncProvider.notifier).getSyncedItem(this);
+    final syncedItemFuture = ref.read(syncProvider.notifier).getSyncedItem(id);
     return [
       if (!exclude.contains(ItemActions.play))
         if (playAble)

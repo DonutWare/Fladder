@@ -21,7 +21,7 @@ part 'database_item.g.dart';
 class DatabaseItems extends Table {
   TextColumn get userId => text().withLength(min: 1)();
   TextColumn get id => text().withLength(min: 1)();
-  BoolColumn get syncing => boolean()();
+  BoolColumn get syncing => boolean().withDefault(const Constant(false))();
   TextColumn get sortName => text().nullable()();
   TextColumn get parentId => text().nullable()();
   TextColumn get path => text().nullable()();
@@ -32,6 +32,7 @@ class DatabaseItems extends Table {
   TextColumn get images => text().nullable()();
   TextColumn get chapters => text().nullable()();
   TextColumn get subtitles => text().nullable()();
+  BoolColumn get unSyncedData => boolean().withDefault(const Constant(false))();
   TextColumn get userData => text().nullable()();
 
   @override
@@ -47,7 +48,7 @@ class AppDatabase extends _$AppDatabase {
   String get userId => ref.read(userProvider.select((value) => value?.id ?? ""));
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 1;
 
   Future<void> clearDatabase() {
     return transaction(() async {
@@ -68,6 +69,10 @@ class AppDatabase extends _$AppDatabase {
       ((select(databaseItems)..where((tbl) => (tbl.parentId.isNull() & tbl.userId.equals(userId))))
             ..orderBy([(t) => OrderingTerm(expression: t.sortName)]))
           .map(databaseConverter);
+
+  Selectable<SyncedItem> get getAllItems => ((select(databaseItems)..where((tbl) => tbl.userId.equals(userId)))
+        ..orderBy([(t) => OrderingTerm(expression: t.sortName)]))
+      .map(databaseConverter);
 
   Selectable<SyncedItem> getChildren(String parentId) =>
       ((select(databaseItems)..where((tbl) => (tbl.parentId.equals(parentId) & tbl.userId.equals(userId))))
@@ -90,11 +95,9 @@ class AppDatabase extends _$AppDatabase {
     if (itemType == null) return [];
 
     final int maxDepth = switch (itemType) {
-      FladderItemType.episode => 0,
-      FladderItemType.movie => 0,
       FladderItemType.season => 1,
       FladderItemType.series => 2,
-      _ => 1,
+      _ => 0,
     };
 
     final all = <SyncedItem>[];
@@ -151,6 +154,7 @@ class AppDatabase extends _$AppDatabase {
       chapters: Value(jsonEncode(item.fChapters.map((e) => e.toJson()).toList())),
       subtitles: Value(jsonEncode(item.subtitles.map((e) => e.toJson()).toList())),
       userData: Value(item.userData != null ? jsonEncode(item.userData?.toJson()) : null),
+      unSyncedData: Value(item.unSyncedData),
     );
   }
 
@@ -176,6 +180,7 @@ class AppDatabase extends _$AppDatabase {
           ? (jsonDecode(dataItem.subtitles!) as List).map((e) => SubStreamModel.fromJson(e)).toList()
           : [],
       userData: dataItem.userData != null ? UserData.fromJson(jsonDecode(dataItem.userData!)) : null,
+      unSyncedData: dataItem.unSyncedData,
     );
 
     return syncedItem.copyWith(
@@ -190,29 +195,6 @@ class AppDatabase extends _$AppDatabase {
         databaseDirectory: getApplicationSupportDirectory,
       ),
       // If you need web support, see https://drift.simonbinder.eu/platforms/web/
-    );
-  }
-
-  @override
-  MigrationStrategy get migration {
-    return MigrationStrategy(
-      onCreate: (Migrator m) {
-        return m.createAll();
-      },
-      onUpgrade: (Migrator m, int from, int to) async {
-        if (from == 1) {
-          final allItems = await select(databaseItems).get();
-          m.deleteTable(databaseItems.actualTableName);
-          m.createAll();
-          await batch((batch) {
-            batch.insertAll(
-              databaseItems,
-              allItems,
-              mode: InsertMode.insertOrReplace,
-            );
-          });
-        }
-      },
     );
   }
 }

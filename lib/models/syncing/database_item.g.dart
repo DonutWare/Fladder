@@ -33,9 +33,10 @@ class $DatabaseItemsTable extends DatabaseItems
   late final GeneratedColumn<bool> syncing = GeneratedColumn<bool>(
       'syncing', aliasedName, false,
       type: DriftSqlType.bool,
-      requiredDuringInsert: true,
+      requiredDuringInsert: false,
       defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("syncing" IN (0, 1))'));
+          GeneratedColumn.constraintIsAlways('CHECK ("syncing" IN (0, 1))'),
+      defaultValue: const Constant(false));
   static const VerificationMeta _sortNameMeta =
       const VerificationMeta('sortName');
   @override
@@ -94,6 +95,16 @@ class $DatabaseItemsTable extends DatabaseItems
   late final GeneratedColumn<String> subtitles = GeneratedColumn<String>(
       'subtitles', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _unSyncedDataMeta =
+      const VerificationMeta('unSyncedData');
+  @override
+  late final GeneratedColumn<bool> unSyncedData = GeneratedColumn<bool>(
+      'un_synced_data', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("un_synced_data" IN (0, 1))'),
+      defaultValue: const Constant(false));
   static const VerificationMeta _userDataMeta =
       const VerificationMeta('userData');
   @override
@@ -115,6 +126,7 @@ class $DatabaseItemsTable extends DatabaseItems
         images,
         chapters,
         subtitles,
+        unSyncedData,
         userData
       ];
   @override
@@ -141,8 +153,6 @@ class $DatabaseItemsTable extends DatabaseItems
     if (data.containsKey('syncing')) {
       context.handle(_syncingMeta,
           syncing.isAcceptableOrUnknown(data['syncing']!, _syncingMeta));
-    } else if (isInserting) {
-      context.missing(_syncingMeta);
     }
     if (data.containsKey('sort_name')) {
       context.handle(_sortNameMeta,
@@ -190,6 +200,12 @@ class $DatabaseItemsTable extends DatabaseItems
       context.handle(_subtitlesMeta,
           subtitles.isAcceptableOrUnknown(data['subtitles']!, _subtitlesMeta));
     }
+    if (data.containsKey('un_synced_data')) {
+      context.handle(
+          _unSyncedDataMeta,
+          unSyncedData.isAcceptableOrUnknown(
+              data['un_synced_data']!, _unSyncedDataMeta));
+    }
     if (data.containsKey('user_data')) {
       context.handle(_userDataMeta,
           userData.isAcceptableOrUnknown(data['user_data']!, _userDataMeta));
@@ -229,6 +245,8 @@ class $DatabaseItemsTable extends DatabaseItems
           .read(DriftSqlType.string, data['${effectivePrefix}chapters']),
       subtitles: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}subtitles']),
+      unSyncedData: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}un_synced_data'])!,
       userData: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}user_data']),
     );
@@ -254,6 +272,7 @@ class DatabaseItem extends DataClass implements Insertable<DatabaseItem> {
   final String? images;
   final String? chapters;
   final String? subtitles;
+  final bool unSyncedData;
   final String? userData;
   const DatabaseItem(
       {required this.userId,
@@ -269,6 +288,7 @@ class DatabaseItem extends DataClass implements Insertable<DatabaseItem> {
       this.images,
       this.chapters,
       this.subtitles,
+      required this.unSyncedData,
       this.userData});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -306,6 +326,7 @@ class DatabaseItem extends DataClass implements Insertable<DatabaseItem> {
     if (!nullToAbsent || subtitles != null) {
       map['subtitles'] = Variable<String>(subtitles);
     }
+    map['un_synced_data'] = Variable<bool>(unSyncedData);
     if (!nullToAbsent || userData != null) {
       map['user_data'] = Variable<String>(userData);
     }
@@ -344,6 +365,7 @@ class DatabaseItem extends DataClass implements Insertable<DatabaseItem> {
       subtitles: subtitles == null && nullToAbsent
           ? const Value.absent()
           : Value(subtitles),
+      unSyncedData: Value(unSyncedData),
       userData: userData == null && nullToAbsent
           ? const Value.absent()
           : Value(userData),
@@ -367,6 +389,7 @@ class DatabaseItem extends DataClass implements Insertable<DatabaseItem> {
       images: serializer.fromJson<String?>(json['images']),
       chapters: serializer.fromJson<String?>(json['chapters']),
       subtitles: serializer.fromJson<String?>(json['subtitles']),
+      unSyncedData: serializer.fromJson<bool>(json['unSyncedData']),
       userData: serializer.fromJson<String?>(json['userData']),
     );
   }
@@ -387,6 +410,7 @@ class DatabaseItem extends DataClass implements Insertable<DatabaseItem> {
       'images': serializer.toJson<String?>(images),
       'chapters': serializer.toJson<String?>(chapters),
       'subtitles': serializer.toJson<String?>(subtitles),
+      'unSyncedData': serializer.toJson<bool>(unSyncedData),
       'userData': serializer.toJson<String?>(userData),
     };
   }
@@ -405,6 +429,7 @@ class DatabaseItem extends DataClass implements Insertable<DatabaseItem> {
           Value<String?> images = const Value.absent(),
           Value<String?> chapters = const Value.absent(),
           Value<String?> subtitles = const Value.absent(),
+          bool? unSyncedData,
           Value<String?> userData = const Value.absent()}) =>
       DatabaseItem(
         userId: userId ?? this.userId,
@@ -423,6 +448,7 @@ class DatabaseItem extends DataClass implements Insertable<DatabaseItem> {
         images: images.present ? images.value : this.images,
         chapters: chapters.present ? chapters.value : this.chapters,
         subtitles: subtitles.present ? subtitles.value : this.subtitles,
+        unSyncedData: unSyncedData ?? this.unSyncedData,
         userData: userData.present ? userData.value : this.userData,
       );
   DatabaseItem copyWithCompanion(DatabaseItemsCompanion data) {
@@ -446,6 +472,9 @@ class DatabaseItem extends DataClass implements Insertable<DatabaseItem> {
       images: data.images.present ? data.images.value : this.images,
       chapters: data.chapters.present ? data.chapters.value : this.chapters,
       subtitles: data.subtitles.present ? data.subtitles.value : this.subtitles,
+      unSyncedData: data.unSyncedData.present
+          ? data.unSyncedData.value
+          : this.unSyncedData,
       userData: data.userData.present ? data.userData.value : this.userData,
     );
   }
@@ -466,6 +495,7 @@ class DatabaseItem extends DataClass implements Insertable<DatabaseItem> {
           ..write('images: $images, ')
           ..write('chapters: $chapters, ')
           ..write('subtitles: $subtitles, ')
+          ..write('unSyncedData: $unSyncedData, ')
           ..write('userData: $userData')
           ..write(')'))
         .toString();
@@ -486,6 +516,7 @@ class DatabaseItem extends DataClass implements Insertable<DatabaseItem> {
       images,
       chapters,
       subtitles,
+      unSyncedData,
       userData);
   @override
   bool operator ==(Object other) =>
@@ -504,6 +535,7 @@ class DatabaseItem extends DataClass implements Insertable<DatabaseItem> {
           other.images == this.images &&
           other.chapters == this.chapters &&
           other.subtitles == this.subtitles &&
+          other.unSyncedData == this.unSyncedData &&
           other.userData == this.userData);
 }
 
@@ -521,6 +553,7 @@ class DatabaseItemsCompanion extends UpdateCompanion<DatabaseItem> {
   final Value<String?> images;
   final Value<String?> chapters;
   final Value<String?> subtitles;
+  final Value<bool> unSyncedData;
   final Value<String?> userData;
   final Value<int> rowid;
   const DatabaseItemsCompanion({
@@ -537,13 +570,14 @@ class DatabaseItemsCompanion extends UpdateCompanion<DatabaseItem> {
     this.images = const Value.absent(),
     this.chapters = const Value.absent(),
     this.subtitles = const Value.absent(),
+    this.unSyncedData = const Value.absent(),
     this.userData = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   DatabaseItemsCompanion.insert({
     required String userId,
     required String id,
-    required bool syncing,
+    this.syncing = const Value.absent(),
     this.sortName = const Value.absent(),
     this.parentId = const Value.absent(),
     this.path = const Value.absent(),
@@ -554,11 +588,11 @@ class DatabaseItemsCompanion extends UpdateCompanion<DatabaseItem> {
     this.images = const Value.absent(),
     this.chapters = const Value.absent(),
     this.subtitles = const Value.absent(),
+    this.unSyncedData = const Value.absent(),
     this.userData = const Value.absent(),
     this.rowid = const Value.absent(),
   })  : userId = Value(userId),
-        id = Value(id),
-        syncing = Value(syncing);
+        id = Value(id);
   static Insertable<DatabaseItem> custom({
     Expression<String>? userId,
     Expression<String>? id,
@@ -573,6 +607,7 @@ class DatabaseItemsCompanion extends UpdateCompanion<DatabaseItem> {
     Expression<String>? images,
     Expression<String>? chapters,
     Expression<String>? subtitles,
+    Expression<bool>? unSyncedData,
     Expression<String>? userData,
     Expression<int>? rowid,
   }) {
@@ -590,6 +625,7 @@ class DatabaseItemsCompanion extends UpdateCompanion<DatabaseItem> {
       if (images != null) 'images': images,
       if (chapters != null) 'chapters': chapters,
       if (subtitles != null) 'subtitles': subtitles,
+      if (unSyncedData != null) 'un_synced_data': unSyncedData,
       if (userData != null) 'user_data': userData,
       if (rowid != null) 'rowid': rowid,
     });
@@ -609,6 +645,7 @@ class DatabaseItemsCompanion extends UpdateCompanion<DatabaseItem> {
       Value<String?>? images,
       Value<String?>? chapters,
       Value<String?>? subtitles,
+      Value<bool>? unSyncedData,
       Value<String?>? userData,
       Value<int>? rowid}) {
     return DatabaseItemsCompanion(
@@ -625,6 +662,7 @@ class DatabaseItemsCompanion extends UpdateCompanion<DatabaseItem> {
       images: images ?? this.images,
       chapters: chapters ?? this.chapters,
       subtitles: subtitles ?? this.subtitles,
+      unSyncedData: unSyncedData ?? this.unSyncedData,
       userData: userData ?? this.userData,
       rowid: rowid ?? this.rowid,
     );
@@ -672,6 +710,9 @@ class DatabaseItemsCompanion extends UpdateCompanion<DatabaseItem> {
     if (subtitles.present) {
       map['subtitles'] = Variable<String>(subtitles.value);
     }
+    if (unSyncedData.present) {
+      map['un_synced_data'] = Variable<bool>(unSyncedData.value);
+    }
     if (userData.present) {
       map['user_data'] = Variable<String>(userData.value);
     }
@@ -697,6 +738,7 @@ class DatabaseItemsCompanion extends UpdateCompanion<DatabaseItem> {
           ..write('images: $images, ')
           ..write('chapters: $chapters, ')
           ..write('subtitles: $subtitles, ')
+          ..write('unSyncedData: $unSyncedData, ')
           ..write('userData: $userData, ')
           ..write('rowid: $rowid')
           ..write(')'))
@@ -722,7 +764,7 @@ typedef $$DatabaseItemsTableCreateCompanionBuilder = DatabaseItemsCompanion
     Function({
   required String userId,
   required String id,
-  required bool syncing,
+  Value<bool> syncing,
   Value<String?> sortName,
   Value<String?> parentId,
   Value<String?> path,
@@ -733,6 +775,7 @@ typedef $$DatabaseItemsTableCreateCompanionBuilder = DatabaseItemsCompanion
   Value<String?> images,
   Value<String?> chapters,
   Value<String?> subtitles,
+  Value<bool> unSyncedData,
   Value<String?> userData,
   Value<int> rowid,
 });
@@ -751,6 +794,7 @@ typedef $$DatabaseItemsTableUpdateCompanionBuilder = DatabaseItemsCompanion
   Value<String?> images,
   Value<String?> chapters,
   Value<String?> subtitles,
+  Value<bool> unSyncedData,
   Value<String?> userData,
   Value<int> rowid,
 });
@@ -803,6 +847,9 @@ class $$DatabaseItemsTableFilterComposer
 
   ColumnFilters<String> get subtitles => $composableBuilder(
       column: $table.subtitles, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get unSyncedData => $composableBuilder(
+      column: $table.unSyncedData, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get userData => $composableBuilder(
       column: $table.userData, builder: (column) => ColumnFilters(column));
@@ -859,6 +906,10 @@ class $$DatabaseItemsTableOrderingComposer
   ColumnOrderings<String> get subtitles => $composableBuilder(
       column: $table.subtitles, builder: (column) => ColumnOrderings(column));
 
+  ColumnOrderings<bool> get unSyncedData => $composableBuilder(
+      column: $table.unSyncedData,
+      builder: (column) => ColumnOrderings(column));
+
   ColumnOrderings<String> get userData => $composableBuilder(
       column: $table.userData, builder: (column) => ColumnOrderings(column));
 }
@@ -911,6 +962,9 @@ class $$DatabaseItemsTableAnnotationComposer
   GeneratedColumn<String> get subtitles =>
       $composableBuilder(column: $table.subtitles, builder: (column) => column);
 
+  GeneratedColumn<bool> get unSyncedData => $composableBuilder(
+      column: $table.unSyncedData, builder: (column) => column);
+
   GeneratedColumn<String> get userData =>
       $composableBuilder(column: $table.userData, builder: (column) => column);
 }
@@ -954,6 +1008,7 @@ class $$DatabaseItemsTableTableManager extends RootTableManager<
             Value<String?> images = const Value.absent(),
             Value<String?> chapters = const Value.absent(),
             Value<String?> subtitles = const Value.absent(),
+            Value<bool> unSyncedData = const Value.absent(),
             Value<String?> userData = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
@@ -971,13 +1026,14 @@ class $$DatabaseItemsTableTableManager extends RootTableManager<
             images: images,
             chapters: chapters,
             subtitles: subtitles,
+            unSyncedData: unSyncedData,
             userData: userData,
             rowid: rowid,
           ),
           createCompanionCallback: ({
             required String userId,
             required String id,
-            required bool syncing,
+            Value<bool> syncing = const Value.absent(),
             Value<String?> sortName = const Value.absent(),
             Value<String?> parentId = const Value.absent(),
             Value<String?> path = const Value.absent(),
@@ -988,6 +1044,7 @@ class $$DatabaseItemsTableTableManager extends RootTableManager<
             Value<String?> images = const Value.absent(),
             Value<String?> chapters = const Value.absent(),
             Value<String?> subtitles = const Value.absent(),
+            Value<bool> unSyncedData = const Value.absent(),
             Value<String?> userData = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
@@ -1005,6 +1062,7 @@ class $$DatabaseItemsTableTableManager extends RootTableManager<
             images: images,
             chapters: chapters,
             subtitles: subtitles,
+            unSyncedData: unSyncedData,
             userData: userData,
             rowid: rowid,
           ),

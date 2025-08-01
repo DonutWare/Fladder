@@ -36,4 +36,9 @@ class ConnectivityStatus extends _$ConnectivityStatus {
       state = ConnectionState.offline;
     }
   }
+
+  void checkConnectivity() async {
+    final connectivityResult = await Connectivity().checkConnectivity();
+    onStateChange(connectivityResult);
+  }
 }

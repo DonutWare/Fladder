@@ -1,11 +1,13 @@
 import 'dart:developer';
 
 import 'package:chopper/chopper.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/providers/auth_provider.dart';
+import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 
@@ -33,21 +35,27 @@ class JellyRequest implements Interceptor {
 
   @override
   FutureOr<Response<BodyType>> intercept<BodyType>(Chain<BodyType> chain) async {
-    final serverUrl = Uri.parse(ref.read(userProvider)?.server ?? ref.read(authProvider).tempCredentials.server);
+    final connectivityNotifier = ref.read(connectivityStatusProvider.notifier);
+    try {
+      final serverUrl = Uri.parse(ref.read(userProvider)?.server ?? ref.read(authProvider).tempCredentials.server);
 
-    //Use current logged in user otherwise use the authprovider
-    var loginModel = ref.read(userProvider)?.credentials ?? ref.read(authProvider).tempCredentials;
-    var headers = loginModel.header(ref);
+      //Use current logged in user otherwise use the authprovider
+      var loginModel = ref.read(userProvider)?.credentials ?? ref.read(authProvider).tempCredentials;
+      var headers = loginModel.header(ref);
+      final Response<BodyType> response = await chain.proceed(
+        applyHeaders(
+            chain.request.copyWith(
+              baseUri: serverUrl,
+            ),
+            headers),
+      );
 
-    final Response<BodyType> response = await chain.proceed(
-      applyHeaders(
-          chain.request.copyWith(
-            baseUri: serverUrl,
-          ),
-          headers),
-    );
-
-    return response;
+      connectivityNotifier.checkConnectivity();
+      return response;
+    } catch (e) {
+      connectivityNotifier.onStateChange([ConnectivityResult.none]);
+      throw Exception('Failed to make request: $e');
+    }
   }
 }
 

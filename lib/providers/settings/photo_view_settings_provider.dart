@@ -63,10 +63,6 @@ final photoViewSettingsProvider = StateNotifierProvider<PhotoViewSettingsNotifie
   return PhotoViewSettingsNotifier(ref);
 });
 
-final testProviderProvider = StateProvider<int>((ref) {
-  return 0;
-});
-
 class PhotoViewSettingsNotifier extends StateNotifier<PhotoViewSettingsModel> {
   PhotoViewSettingsNotifier(this.ref) : super(PhotoViewSettingsModel());
 

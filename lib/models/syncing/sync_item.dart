@@ -42,6 +42,7 @@ class SyncedItem with _$SyncedItem {
     ImagesData? fImages,
     @Default([]) List<Chapter> fChapters,
     @Default([]) List<SubStreamModel> subtitles,
+    @Default(false) bool unSyncedData,
     @UserDataJsonSerializer() UserData? userData,
     // ignore: invalid_annotation_target
     @JsonKey(includeFromJson: false, includeToJson: false) ItemBaseModel? itemModel,
@@ -67,6 +68,12 @@ class SyncedItem with _$SyncedItem {
           []);
 
   File get dataFile => File(joinAll(["$path", "data.json"]));
+  BaseItemDto? get data {
+    return dataFile.existsSync()
+        ? BaseItemDto.fromJson(jsonDecode(dataFile.readAsStringSync())).copyWith(userData: UserData.toDto(userData))
+        : null;
+  }
+
   Directory get trickPlayDirectory => Directory(joinAll(["$path", trickPlayPath]));
   File get videoFile => File(joinAll(["$path", "$videoFileName"]));
   Directory get directory => Directory(path ?? "");

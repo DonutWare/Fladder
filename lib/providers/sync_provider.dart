@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide ConnectionState;
 
 import 'package:background_downloader/background_downloader.dart';
 import 'package:collection/collection.dart';
@@ -33,6 +33,7 @@ import 'package:fladder/models/syncing/sync_settings_model.dart';
 import 'package:fladder/models/video_stream_model.dart';
 import 'package:fladder/profiles/default_profile.dart';
 import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/sync/background_download_provider.dart';
@@ -56,9 +57,40 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
   final Directory mobileDirectory;
   final String subPath = "Synced";
 
+  bool updatingSyncStatus = false;
+
+  @override
+  set state(SyncSettingsModel value) {
+    super.state = value;
+    updateSyncStates();
+  }
+
   void migrateFromIsar() async {
     await isarMigration(ref, db, mainDirectory.path);
     _initializeQueryStream();
+  }
+
+  Future<void> updateSyncStates() async {
+    final lastState = (await db.getAllItems.get()).where((item) => item.unSyncedData && item.userData != null).toList();
+    if (updatingSyncStatus || lastState.isEmpty) return;
+    updatingSyncStatus = true;
+    try {
+      for (final item in lastState) {
+        if (item.userData == null) continue;
+        final updatedItem =
+            await ref.read(jellyApiProvider).userItemsItemIdUserDataPost(itemId: item.id, body: item.userData);
+        if (updatedItem?.isSuccessful == true) {
+          final syncedItem = item.copyWith(unSyncedData: false);
+          await db.insertItem(syncedItem);
+        } else {
+          break;
+        }
+      }
+    } catch (e) {
+      log('Error updating sync states: $e');
+    } finally {
+      updatingSyncStatus = false;
+    }
   }
 
   void _init() {
@@ -73,6 +105,12 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
         }
       },
     );
+
+    ref.listen(connectivityStatusProvider, (_, next) {
+      if (next != ConnectionState.offline) {
+        updateSyncStates();
+      }
+    });
     migrateFromIsar();
   }
 
@@ -167,8 +205,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
 
   Future<List<SyncedItem>> getChildren(SyncedItem root) async => await db.getChildren(root.id).get();
 
-  Future<SyncedItem?> getSyncedItem(ItemBaseModel? item) async {
-    final id = item?.id;
+  Future<SyncedItem?> getSyncedItem(String? id) async {
     if (id == null) return null;
     return await db.getItem(id).getSingleOrNull();
   }
@@ -391,8 +428,14 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     return data?.copyWith(path: fileName);
   }
 
-  Future<int> updateItem(SyncedItem syncedItem) async {
-    await ref.read(jellyApiProvider).userItemsItemIdUserDataPost(itemId: syncedItem.id, body: syncedItem.userData);
+  Future<int> updateItem(SyncedItem item) async {
+    SyncedItem syncedItem = item;
+    try {
+      await ref.read(jellyApiProvider).userItemsItemIdUserDataPost(itemId: syncedItem.id, body: syncedItem.userData);
+    } catch (e) {
+      log('Error updating item: ${syncedItem.id}');
+      syncedItem = syncedItem.copyWith(unSyncedData: true);
+    }
     return db.insertItem(syncedItem);
   }
 
@@ -532,10 +575,11 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
         played: UserData.isPlayed(position, item.overview.runTime ?? Duration.zero),
       ),
     );
-    db.insertItem(updatedItem);
+    await db.insertItem(updatedItem);
   }
 
-  Future<void> updatePlayedItem(String? itemId, {DateTime? datePlayed, required bool played}) async {
+  Future<void> updatePlayedItem(String? itemId,
+      {DateTime? datePlayed, required bool played, bool responseSuccessful = false}) async {
     if (itemId == null) return;
 
     final syncedItem = db.getItem(itemId).getSingleOrNull();
@@ -547,23 +591,23 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
         progress: 0.0,
         lastPlayed: datePlayed ?? DateTime.now().toUtc(),
       );
-      final updatedItem = item.copyWith(userData: updatedUserData);
+      SyncedItem updatedItem = item.copyWith(userData: updatedUserData, unSyncedData: !responseSuccessful);
       await db.insertItem(updatedItem);
+      log("Has unsynced data: ${updatedItem.unSyncedData}");
     });
-    refresh();
   }
 
-  Future<void> updateFavoriteItem(String? itemId, {required bool isFavorite}) async {
+  Future<void> updateFavoriteItem(String? itemId, {required bool isFavorite, bool responseSuccessful = false}) async {
     if (itemId == null) return;
 
     final syncedItem = db.getItem(itemId).getSingleOrNull();
     syncedItem.then((item) async {
       if (item == null) return;
       final updatedUserData = item.userData?.copyWith(isFavourite: isFavorite);
-      final updatedItem = item.copyWith(userData: updatedUserData);
+      final updatedItem = item.copyWith(userData: updatedUserData, unSyncedData: !responseSuccessful);
       await db.insertItem(updatedItem);
+      log("Has unsynced data: ${updatedItem.unSyncedData}");
     });
-    refresh();
   }
 }
 
@@ -571,7 +615,7 @@ extension SyncNotifierHelpers on SyncNotifier {
   Future<SyncedItem> createSyncItem(BaseItemDto response, {SyncedItem? parent}) async {
     final ItemBaseModel item = ItemBaseModel.fromBaseDto(response, ref);
 
-    final existingSyncedItem = await getSyncedItem(item);
+    final existingSyncedItem = await getSyncedItem(item.id);
 
     if (existingSyncedItem != null) return existingSyncedItem;
 

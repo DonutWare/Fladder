@@ -48,6 +48,21 @@ class UserData with UserDataMappable {
     );
   }
 
+  static dto.UserItemDataDto toDto(UserData? data) {
+    if (data == null) {
+      return const dto.UserItemDataDto();
+    }
+    return dto.UserItemDataDto(
+      isFavorite: data.isFavourite,
+      playCount: data.playCount,
+      playbackPositionTicks: data.playbackPositionTicks,
+      played: data.played,
+      unplayedItemCount: data.unPlayedItemCount,
+      lastPlayedDate: data.lastPlayed,
+      playedPercentage: data.progress,
+    );
+  }
+
   Duration get playBackPosition => Duration(milliseconds: playbackPositionTicks ~/ 10000);
 
   // Returns null if unplayed with no progress

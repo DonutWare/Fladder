@@ -30,6 +30,7 @@ mixin _$SyncedItem {
   ImagesData? get fImages => throw _privateConstructorUsedError;
   List<Chapter> get fChapters => throw _privateConstructorUsedError;
   List<SubStreamModel> get subtitles => throw _privateConstructorUsedError;
+  bool get unSyncedData => throw _privateConstructorUsedError;
   @UserDataJsonSerializer()
   UserData? get userData =>
       throw _privateConstructorUsedError; // ignore: invalid_annotation_target
@@ -64,6 +65,7 @@ abstract class $SyncedItemCopyWith<$Res> {
       ImagesData? fImages,
       List<Chapter> fChapters,
       List<SubStreamModel> subtitles,
+      bool unSyncedData,
       @UserDataJsonSerializer() UserData? userData,
       @JsonKey(includeFromJson: false, includeToJson: false)
       ItemBaseModel? itemModel});
@@ -100,6 +102,7 @@ class _$SyncedItemCopyWithImpl<$Res, $Val extends SyncedItem>
     Object? fImages = freezed,
     Object? fChapters = null,
     Object? subtitles = null,
+    Object? unSyncedData = null,
     Object? userData = freezed,
     Object? itemModel = freezed,
   }) {
@@ -160,6 +163,10 @@ class _$SyncedItemCopyWithImpl<$Res, $Val extends SyncedItem>
           ? _value.subtitles
           : subtitles // ignore: cast_nullable_to_non_nullable
               as List<SubStreamModel>,
+      unSyncedData: null == unSyncedData
+          ? _value.unSyncedData
+          : unSyncedData // ignore: cast_nullable_to_non_nullable
+              as bool,
       userData: freezed == userData
           ? _value.userData
           : userData // ignore: cast_nullable_to_non_nullable
@@ -209,6 +216,7 @@ abstract class _$$SyncItemImplCopyWith<$Res>
       ImagesData? fImages,
       List<Chapter> fChapters,
       List<SubStreamModel> subtitles,
+      bool unSyncedData,
       @UserDataJsonSerializer() UserData? userData,
       @JsonKey(includeFromJson: false, includeToJson: false)
       ItemBaseModel? itemModel});
@@ -244,6 +252,7 @@ class __$$SyncItemImplCopyWithImpl<$Res>
     Object? fImages = freezed,
     Object? fChapters = null,
     Object? subtitles = null,
+    Object? unSyncedData = null,
     Object? userData = freezed,
     Object? itemModel = freezed,
   }) {
@@ -304,6 +313,10 @@ class __$$SyncItemImplCopyWithImpl<$Res>
           ? _value._subtitles
           : subtitles // ignore: cast_nullable_to_non_nullable
               as List<SubStreamModel>,
+      unSyncedData: null == unSyncedData
+          ? _value.unSyncedData
+          : unSyncedData // ignore: cast_nullable_to_non_nullable
+              as bool,
       userData: freezed == userData
           ? _value.userData
           : userData // ignore: cast_nullable_to_non_nullable
@@ -334,6 +347,7 @@ class _$SyncItemImpl extends _SyncItem {
       this.fImages,
       final List<Chapter> fChapters = const [],
       final List<SubStreamModel> subtitles = const [],
+      this.unSyncedData = false,
       @UserDataJsonSerializer() this.userData,
       @JsonKey(includeFromJson: false, includeToJson: false) this.itemModel})
       : _fChapters = fChapters,
@@ -385,6 +399,9 @@ class _$SyncItemImpl extends _SyncItem {
   }
 
   @override
+  @JsonKey()
+  final bool unSyncedData;
+  @override
   @UserDataJsonSerializer()
   final UserData? userData;
 // ignore: invalid_annotation_target
@@ -394,7 +411,7 @@ class _$SyncItemImpl extends _SyncItem {
 
   @override
   String toString() {
-    return 'SyncedItem(id: $id, syncing: $syncing, parentId: $parentId, userId: $userId, path: $path, markedForDelete: $markedForDelete, sortName: $sortName, fileSize: $fileSize, videoFileName: $videoFileName, mediaSegments: $mediaSegments, fTrickPlayModel: $fTrickPlayModel, fImages: $fImages, fChapters: $fChapters, subtitles: $subtitles, userData: $userData, itemModel: $itemModel)';
+    return 'SyncedItem(id: $id, syncing: $syncing, parentId: $parentId, userId: $userId, path: $path, markedForDelete: $markedForDelete, sortName: $sortName, fileSize: $fileSize, videoFileName: $videoFileName, mediaSegments: $mediaSegments, fTrickPlayModel: $fTrickPlayModel, fImages: $fImages, fChapters: $fChapters, subtitles: $subtitles, unSyncedData: $unSyncedData, userData: $userData, itemModel: $itemModel)';
   }
 
   /// Create a copy of SyncedItem
@@ -422,6 +439,7 @@ abstract class _SyncItem extends SyncedItem {
       final ImagesData? fImages,
       final List<Chapter> fChapters,
       final List<SubStreamModel> subtitles,
+      final bool unSyncedData,
       @UserDataJsonSerializer() final UserData? userData,
       @JsonKey(includeFromJson: false, includeToJson: false)
       final ItemBaseModel? itemModel}) = _$SyncItemImpl;
@@ -455,6 +473,8 @@ abstract class _SyncItem extends SyncedItem {
   List<Chapter> get fChapters;
   @override
   List<SubStreamModel> get subtitles;
+  @override
+  bool get unSyncedData;
   @override
   @UserDataJsonSerializer()
   UserData? get userData; // ignore: invalid_annotation_target

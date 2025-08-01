@@ -230,7 +230,8 @@ class _SyncItemDetailsState extends ConsumerState<SyncItemDetails> {
                 else if (baseItem?.parentBaseModel != null)
                   ElevatedButton(
                     onPressed: () async {
-                      final parentItem = await ref.read(syncProvider.notifier).getSyncedItem(baseItem!.parentBaseModel);
+                      final parentItem =
+                          await ref.read(syncProvider.notifier).getSyncedItem(baseItem!.parentBaseModel.id);
                       setState(() {
                         if (parentItem != null) {
                           syncedItem = parentItem;

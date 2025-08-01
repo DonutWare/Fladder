@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide ConnectionState;
 
 import 'package:background_downloader/background_downloader.dart';
 import 'package:chopper/chopper.dart';
@@ -26,6 +26,7 @@ import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/models/video_stream_model.dart';
 import 'package:fladder/profiles/default_profile.dart';
 import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
@@ -132,7 +133,7 @@ class PlaybackModelHelper {
         await _createOfflinePlaybackModel(
           newItem,
           null,
-          await ref.read(syncProvider.notifier).getSyncedItem(newItem),
+          await ref.read(syncProvider.notifier).getSyncedItem(newItem.id),
           oldModel: currentModel,
         );
     if (newModel == null) return null;
@@ -177,81 +178,69 @@ class PlaybackModelHelper {
     final userId = ref.read(userProvider)?.id;
     if (userId?.isEmpty == true) return null;
 
-    try {
-      final queue = oldModel?.queue ?? libraryQueue ?? await collectQueue(item);
+    final queue = oldModel?.queue ?? libraryQueue ?? await collectQueue(item);
 
-      final firstItemToPlay = switch (item) {
-        SeriesModel _ || SeasonModel _ => (queue.whereType<EpisodeModel>().toList().nextUp),
-        _ => item,
+    final firstItemToPlay = switch (item) {
+      SeriesModel _ || SeasonModel _ => (queue.whereType<EpisodeModel>().toList().nextUp),
+      _ => item,
+    };
+
+    if (firstItemToPlay == null) return null;
+
+    final fullItem = (await api.usersUserIdItemsItemIdGet(itemId: firstItemToPlay.id)).body;
+
+    if (fullItem == null) return null;
+
+    SyncedItem? syncedItem = await ref.read(syncProvider.notifier).getSyncedItem(fullItem.id);
+
+    final firstItemIsSynced = syncedItem != null && syncedItem.status == TaskStatus.complete;
+
+    final options = {
+      PlaybackType.directStream,
+      PlaybackType.transcode,
+      if (firstItemIsSynced) PlaybackType.offline,
+    };
+
+    final isOffline = ref.read(connectivityStatusProvider.select((value) => value == ConnectionState.offline));
+
+    if (((showPlaybackOptions || firstItemIsSynced) && !isOffline) && context != null) {
+      final playbackType = await showPlaybackTypeSelection(
+        context: context,
+        options: options,
+      );
+
+      if (!context.mounted) return null;
+
+      return switch (playbackType) {
+        PlaybackType.directStream || PlaybackType.transcode => await _createServerPlaybackModel(
+            fullItem,
+            item.streamModel,
+            playbackType,
+            oldModel: oldModel,
+            libraryQueue: queue,
+            startPosition: startPosition,
+          ),
+        PlaybackType.offline => await _createOfflinePlaybackModel(
+            fullItem,
+            item.streamModel,
+            syncedItem,
+          ),
+        null => null
       };
-
-      if (firstItemToPlay == null) return null;
-
-      final fullItem = (await api.usersUserIdItemsItemIdGet(itemId: firstItemToPlay.id)).body;
-
-      if (fullItem == null) return null;
-
-      SyncedItem? syncedItem = await ref.read(syncProvider.notifier).getSyncedItem(fullItem);
-
-      final firstItemIsSynced = syncedItem != null && syncedItem.status == TaskStatus.complete;
-
-      final options = {
-        PlaybackType.directStream,
-        PlaybackType.transcode,
-        if (firstItemIsSynced) PlaybackType.offline,
-      };
-
-      if ((showPlaybackOptions || firstItemIsSynced) && context != null) {
-        final playbackType = await showPlaybackTypeSelection(
-          context: context,
-          options: options,
-        );
-
-        if (!context.mounted) return null;
-
-        return switch (playbackType) {
-          PlaybackType.directStream || PlaybackType.transcode => await _createServerPlaybackModel(
-              fullItem,
-              item.streamModel,
-              playbackType,
-              oldModel: oldModel,
-              libraryQueue: queue,
-              startPosition: startPosition,
-            ),
-          PlaybackType.offline => await _createOfflinePlaybackModel(
-              fullItem,
-              item.streamModel,
-              syncedItem,
-            ),
-          null => null
-        };
-      } else {
-        return (await _createServerPlaybackModel(
-              fullItem,
-              item.streamModel,
-              PlaybackType.directStream,
-              startPosition: startPosition,
-              oldModel: oldModel,
-              libraryQueue: queue,
-            )) ??
-            await _createOfflinePlaybackModel(
-              fullItem,
-              item.streamModel,
-              syncedItem,
-            );
-      }
-    } catch (e) {
-      log(e.toString());
-      SyncedItem? syncedItem = await ref.read(syncProvider.notifier).getSyncedItem(item);
-      if (syncedItem != null) {
-        return await _createOfflinePlaybackModel(
-          item,
-          item.streamModel,
-          syncedItem,
-          oldModel: oldModel,
-        );
-      }
-      return null;
+    } else {
+      return (await _createServerPlaybackModel(
+            fullItem,
+            item.streamModel,
+            PlaybackType.directStream,
+            startPosition: startPosition,
+            oldModel: oldModel,
+            libraryQueue: queue,
+          )) ??
+          await _createOfflinePlaybackModel(
+            fullItem,
+            item.streamModel,
+            syncedItem,
+          );
     }
   }
 
