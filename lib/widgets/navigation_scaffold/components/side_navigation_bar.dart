@@ -292,7 +292,6 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                       }
                     },
                   ),
-                  if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer) const SizedBox(height: 16),
                 ],
               ),
             ),

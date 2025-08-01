@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,13 +27,17 @@ class CrashScreen extends ConsumerWidget {
         child: Column(
           children: [
             Row(
+              spacing: 8,
               children: [
-                const CloseButton(),
                 Text(
                   "Error logs",
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const Spacer(),
+                ElevatedButton(
+                  onPressed: provider.clearLogs,
+                  child: Text(context.localized.clear),
+                ),
                 EnumBox(
                   current: selectedType == null ? context.localized.all : selectedType.name.capitalize(),
                   itemBuilder: (context) => [
@@ -51,19 +54,11 @@ class CrashScreen extends ConsumerWidget {
                       ),
                     )
                   ],
-                )
+                ),
+                const CloseButton(),
               ],
             ),
             const Divider(),
-            if (kDebugMode)
-              Row(
-                children: [
-                  ElevatedButton(
-                    onPressed: provider.clearLogs,
-                    child: const Text("Clear"),
-                  ),
-                ],
-              ),
             if (crashLogs.isNotEmpty)
               Flexible(
                 child: Card(

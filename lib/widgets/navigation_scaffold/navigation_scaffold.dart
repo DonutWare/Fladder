@@ -62,8 +62,8 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
     final paddingOf = mediaQuery.padding;
     final viewPaddingOf = mediaQuery.viewPadding;
 
-    final bottomPadding = isDesktop || kIsWeb ? 0.0 : paddingOf.bottom;
-    final bottomViewPadding = isDesktop || kIsWeb ? 0.0 : viewPaddingOf.bottom;
+    final bottomPadding = isDesktop || kIsWeb ? 12.0 : paddingOf.bottom;
+    final bottomViewPadding = isDesktop || kIsWeb ? 12.0 : viewPaddingOf.bottom;
     final isHomeScreen = currentIndex != -1;
 
     return PopScope(
