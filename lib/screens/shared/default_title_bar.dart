@@ -47,8 +47,8 @@ class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> with WindowLi
         decoration: BoxDecoration(
             gradient: LinearGradient(
           colors: [
-            surfaceColor.withValues(alpha: 0.7),
             surfaceColor.withValues(alpha: hovering ? 0.7 : 0),
+            surfaceColor.withValues(alpha: 0),
           ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -83,94 +83,104 @@ class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> with WindowLi
                           ),
                         ),
                       ),
-                      Row(
-                        children: [
-                          FutureBuilder<List<bool>>(future: Future.microtask(() async {
-                            final isMinimized = await windowManager.isMinimized();
-                            return [isMinimized];
-                          }), builder: (context, snapshot) {
-                            final isMinimized = snapshot.data?.firstOrNull ?? false;
-                            return IconButton(
+                      Container(
+                        decoration: BoxDecoration(boxShadow: [
+                          BoxShadow(
+                            color: surfaceColor.withValues(alpha: 0.15),
+                            blurRadius: 32,
+                            spreadRadius: 10,
+                            offset: const Offset(8, -6),
+                          ),
+                        ]),
+                        child: Row(
+                          children: [
+                            FutureBuilder<List<bool>>(future: Future.microtask(() async {
+                              final isMinimized = await windowManager.isMinimized();
+                              return [isMinimized];
+                            }), builder: (context, snapshot) {
+                              final isMinimized = snapshot.data?.firstOrNull ?? false;
+                              return IconButton(
+                                style: IconButton.styleFrom(
+                                    hoverColor: brightness == Brightness.light
+                                        ? Colors.black.withValues(alpha: 0.1)
+                                        : Colors.white.withValues(alpha: 0.2),
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2))),
+                                onPressed: () async {
+                                  fullScreenHelper.closeFullScreen(ref);
+                                  if (isMinimized) {
+                                    windowManager.restore();
+                                  } else {
+                                    windowManager.minimize();
+                                  }
+                                },
+                                icon: Transform.translate(
+                                  offset: const Offset(0, -2),
+                                  child: Icon(
+                                    Icons.minimize_rounded,
+                                    color: iconColor,
+                                    size: 20,
+                                  ),
+                                ),
+                              );
+                            }),
+                            FutureBuilder<List<bool>>(
+                              future: Future.microtask(() async {
+                                final isMaximized = await windowManager.isMaximized();
+                                return [isMaximized];
+                              }),
+                              builder: (BuildContext context, AsyncSnapshot<List<bool>> snapshot) {
+                                final maximized = snapshot.data?.firstOrNull ?? false;
+                                return IconButton(
+                                  style: IconButton.styleFrom(
+                                    hoverColor: brightness == Brightness.light
+                                        ? Colors.black.withValues(alpha: 0.1)
+                                        : Colors.white.withValues(alpha: 0.2),
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
+                                  ),
+                                  onPressed: () async {
+                                    fullScreenHelper.closeFullScreen(ref);
+                                    if (maximized) {
+                                      await windowManager.unmaximize();
+                                      return;
+                                    }
+                                    if (!maximized) {
+                                      await windowManager.maximize();
+                                    } else {
+                                      await windowManager.unmaximize();
+                                    }
+                                  },
+                                  icon: Transform.translate(
+                                    offset: const Offset(0, 0),
+                                    child: Icon(
+                                      maximized ? Icons.maximize_rounded : Icons.crop_square_rounded,
+                                      color: iconColor,
+                                      size: 19,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                            IconButton(
                               style: IconButton.styleFrom(
-                                  hoverColor: brightness == Brightness.light
-                                      ? Colors.black.withValues(alpha: 0.1)
-                                      : Colors.white.withValues(alpha: 0.2),
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2))),
+                                hoverColor: Colors.red,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(2),
+                                ),
+                              ),
                               onPressed: () async {
-                                fullScreenHelper.closeFullScreen(ref);
-                                if (isMinimized) {
-                                  windowManager.restore();
-                                } else {
-                                  windowManager.minimize();
-                                }
+                                windowManager.close();
                               },
                               icon: Transform.translate(
                                 offset: const Offset(0, -2),
                                 child: Icon(
-                                  Icons.minimize_rounded,
+                                  Icons.close_rounded,
                                   color: iconColor,
-                                  size: 20,
+                                  size: 23,
                                 ),
-                              ),
-                            );
-                          }),
-                          FutureBuilder<List<bool>>(
-                            future: Future.microtask(() async {
-                              final isMaximized = await windowManager.isMaximized();
-                              return [isMaximized];
-                            }),
-                            builder: (BuildContext context, AsyncSnapshot<List<bool>> snapshot) {
-                              final maximized = snapshot.data?.firstOrNull ?? false;
-                              return IconButton(
-                                style: IconButton.styleFrom(
-                                  hoverColor: brightness == Brightness.light
-                                      ? Colors.black.withValues(alpha: 0.1)
-                                      : Colors.white.withValues(alpha: 0.2),
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
-                                ),
-                                onPressed: () async {
-                                  fullScreenHelper.closeFullScreen(ref);
-                                  if (maximized) {
-                                    await windowManager.unmaximize();
-                                    return;
-                                  }
-                                  if (!maximized) {
-                                    await windowManager.maximize();
-                                  } else {
-                                    await windowManager.unmaximize();
-                                  }
-                                },
-                                icon: Transform.translate(
-                                  offset: const Offset(0, 0),
-                                  child: Icon(
-                                    maximized ? Icons.maximize_rounded : Icons.crop_square_rounded,
-                                    color: iconColor,
-                                    size: 19,
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                          IconButton(
-                            style: IconButton.styleFrom(
-                              hoverColor: Colors.red,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(2),
                               ),
                             ),
-                            onPressed: () async {
-                              windowManager.close();
-                            },
-                            icon: Transform.translate(
-                              offset: const Offset(0, -2),
-                              child: Icon(
-                                Icons.close_rounded,
-                                color: iconColor,
-                                size: 23,
-                              ),
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ],
                   ),
