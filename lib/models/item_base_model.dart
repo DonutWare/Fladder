@@ -87,11 +87,7 @@ class ItemBaseModel with ItemBaseModelMappable {
                 color: Colors.yellowAccent,
               ),
               const SizedBox(width: 6),
-<<<<<<< HEAD
               Text(overview.communityRating?.toStringAsFixed(2) ?? "--"),
-=======
-              Text(overview.communityRating?.toStringAsFixed(2) ?? "0.0"),
->>>>>>> 9088937 (implement feedback)
             ],
           ),
         _ => null,
