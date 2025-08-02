@@ -1406,5 +1406,9 @@
   "syncDeleteAll": "删除所有文件",
   "@syncDeleteAll": {},
   "syncAllFiles": "同步所有文件",
-  "@syncAllFiles": {}
+  "@syncAllFiles": {},
+  "usePostersForLibraryIconsTitle": "显示媒体库图标的海报",
+  "@usePostersForLibraryIconsTitle": {},
+  "usePostersForLibraryIconsDesc": "显示媒体库海报而不是图标",
+  "@usePostersForLibraryIconsDesc": {}
 }
