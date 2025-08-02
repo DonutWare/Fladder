@@ -130,7 +130,7 @@ class OverviewHeader extends ConsumerWidget {
                             color: Theme.of(context).colorScheme.primary,
                           ),
                           Text(
-                            communityRating?.toStringAsFixed(1) ?? "",
+                            communityRating?.toStringAsFixed(2) ?? "",
                             style: subStyle,
                           ),
                         ],

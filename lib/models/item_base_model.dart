@@ -68,32 +68,28 @@ class ItemBaseModel with ItemBaseModelMappable {
   }
 
   Widget? subTitle(SortingOptions options) => switch (options) {
-        SortingOptions.parentalRating => overview.parentalRating != null
-            ? Row(
-                children: [
-                  const Icon(
-                    IconsaxPlusBold.star_1,
-                    size: 14,
-                    color: Colors.yellowAccent,
-                  ),
-                  const SizedBox(width: 6),
-                  Text((overview.parentalRating ?? 0.0).toString())
-                ],
-              )
-            : null,
-        SortingOptions.communityRating => overview.communityRating != null
-            ? Row(
-                children: [
-                  const Icon(
-                    IconsaxPlusBold.star_1,
-                    size: 14,
-                    color: Colors.yellowAccent,
-                  ),
-                  const SizedBox(width: 6),
-                  Text((overview.communityRating ?? 0.0).toString())
-                ],
-              )
-            : null,
+        SortingOptions.parentalRating => Row(
+            children: [
+              const Icon(
+                IconsaxPlusBold.star_1,
+                size: 14,
+                color: Colors.yellowAccent,
+              ),
+              const SizedBox(width: 6),
+              Text(overview.parentalRating?.toString() ?? "--"),
+            ],
+          ),
+        SortingOptions.communityRating => Row(
+            children: [
+              const Icon(
+                IconsaxPlusBold.star_1,
+                size: 14,
+                color: Colors.yellowAccent,
+              ),
+              const SizedBox(width: 6),
+              Text(overview.communityRating?.toStringAsFixed(2) ?? "--"),
+            ],
+          ),
         _ => null,
       };
 

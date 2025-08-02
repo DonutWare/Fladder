@@ -83,13 +83,15 @@ class PosterWidget extends ConsumerWidget {
                   ),
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     if (subTitle != null) ...[
-                      Opacity(
-                        opacity: opacity,
-                        child: subTitle!,
+                      Flexible(
+                        child: Opacity(
+                          opacity: opacity,
+                          child: subTitle!,
+                        ),
                       ),
-                      const Spacer()
                     ],
                     if (poster.subText?.isNotEmpty ?? false)
                       Flexible(
