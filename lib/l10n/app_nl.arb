@@ -1408,5 +1408,11 @@
   "syncDeleteAll": "Alle bestanden verwijderen",
   "@syncDeleteAll": {},
   "syncAllFiles": "All bestanden synchronizeren",
-  "@syncAllFiles": {}
+  "@syncAllFiles": {},
+  "usePostersForLibraryIconsTitle": "Toon posters voor bibliotheekpictogrammen",
+  "@usePostersForLibraryIconsTitle": {},
+  "usePostersForLibraryIconsDesc": "Toon posters in plaats van pictogrammen voor bibliotheken",
+  "@usePostersForLibraryIconsDesc": {},
+  "offline": "Offline",
+  "@offline": {}
 }
