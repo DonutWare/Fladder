@@ -1419,5 +1419,7 @@
   "usePostersForLibraryIconsTitle": "Показати постери для іконок бібліотеки",
   "@usePostersForLibraryIconsTitle": {},
   "usePostersForLibraryIconsDesc": "Показувати постери замість іконок для бібліотек",
-  "@usePostersForLibraryIconsDesc": {}
+  "@usePostersForLibraryIconsDesc": {},
+  "offline": "Офлайн",
+  "@offline": {}
 }
