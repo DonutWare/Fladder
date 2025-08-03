@@ -61,6 +61,6 @@ body:
     attributes:
       label: App Version
       description: What version of Fladder are you using?
-      placeholder: e.g. v0.2.1 (25) or just v0.2.1
+      placeholder: e.g. v0.7.0 (267)
     validations:
       required: true
