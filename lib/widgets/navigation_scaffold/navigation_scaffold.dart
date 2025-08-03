@@ -74,6 +74,9 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
 
     final offlineMessageHeight = isOffline && !isDesktop ? 12 : 0;
 
+    final calculatedBottomViewPadding =
+        showPlayerBar ? floatingPlayerHeight(context) + bottomViewPadding : bottomViewPadding;
+
     return PopScope(
       canPop: currentIndex == 0,
       onPopInvokedWithResult: (didPop, result) {
@@ -93,7 +96,7 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
                 ),
                 viewPadding: viewPaddingOf.copyWith(
                   top: mediaQuery.viewPadding.top,
-                  bottom: showPlayerBar ? floatingPlayerHeight(context) + bottomViewPadding : bottomViewPadding,
+                  bottom: calculatedBottomViewPadding,
                 ),
               ),
               //Builder to correctly apply new padding
@@ -118,6 +121,7 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
                       : null,
                   bottomNavigationBar: AnimatedVisibility(
                     visible: (isHomeScreen && AdaptiveLayout.viewSizeOf(context) == ViewSize.phone),
+                    hiddenHeight: calculatedBottomViewPadding,
                     duration: const Duration(milliseconds: 250),
                     child: HideOnScroll(
                       controller: AdaptiveLayout.scrollOf(context),
