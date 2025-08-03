@@ -1346,5 +1346,69 @@
   "enableBackgroundPostersTitle": "启用背景海报",
   "@enableBackgroundPostersTitle": {},
   "enableBackgroundPostersDesc": "在适用的屏幕上显示随机海报",
-  "@enableBackgroundPostersDesc": {}
+  "@enableBackgroundPostersDesc": {},
+  "notificationDownloadingDownloading": "下载",
+  "@notificationDownloadingDownloading": {},
+  "notificationDownloadingPaused": "下载已暂停",
+  "@notificationDownloadingPaused": {},
+  "notificationDownloadingFinished": "下载完成",
+  "@notificationDownloadingFinished": {},
+  "notificationDownloadingError": "下载错误",
+  "@notificationDownloadingError": {},
+  "syncAllItemsTitle": "同步来自 {itemName} 的所有项目吗？",
+  "@syncAllItemsTitle": {
+    "description": "syncAllItemsFrom",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncAllItemsDesc": "这会将 '{itemName}' 中的 ({itemCount}) 个项目同步到您的设备。\n这可能需要一段时间，具体取决于项目数量。",
+  "@syncAllItemsDesc": {
+    "description": "syncAllitemsFromDesc",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      },
+      "itemCount": {
+        "type": "int"
+      }
+    }
+  },
+  "syncDeleteAllItemsTitle": "要删除 {itemName} 中所有已同步的项目吗？",
+  "@syncDeleteAllItemsTitle": {
+    "description": "syncDeleteAllitemsFrom",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncDeleteAllItemsDesc": "这将删除 '{itemName}' 中所有已同步的项目。\n此操作是永久性的，您需要重新同步 ({itemCount}) 个文件。",
+  "@syncDeleteAllItemsDesc": {
+    "description": "syncDeleteAllitemsFromDesc",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      },
+      "itemCount": {
+        "type": "int"
+      }
+    }
+  },
+  "syncPauseAll": "全部暂停",
+  "@syncPauseAll": {},
+  "syncResumeAll": "全部恢复",
+  "@syncResumeAll": {},
+  "syncStopAll": "全部停止",
+  "@syncStopAll": {},
+  "syncDeleteAll": "删除所有文件",
+  "@syncDeleteAll": {},
+  "syncAllFiles": "同步所有文件",
+  "@syncAllFiles": {},
+  "usePostersForLibraryIconsTitle": "显示媒体库图标的海报",
+  "@usePostersForLibraryIconsTitle": {},
+  "usePostersForLibraryIconsDesc": "显示媒体库海报而不是图标",
+  "@usePostersForLibraryIconsDesc": {}
 }

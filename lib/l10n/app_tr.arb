@@ -1347,5 +1347,65 @@
         "example": "1"
       }
     }
-  }
+  },
+  "notificationDownloadingDownloading": "İndiriliyor",
+  "@notificationDownloadingDownloading": {},
+  "notificationDownloadingPaused": "İndirme duraklatıldı",
+  "@notificationDownloadingPaused": {},
+  "notificationDownloadingFinished": "İndirme tamamlandı",
+  "@notificationDownloadingFinished": {},
+  "notificationDownloadingError": "İndirme hatası",
+  "@notificationDownloadingError": {},
+  "syncAllItemsTitle": "{itemName} içindeki tüm öğeler eşitlensin mi?",
+  "@syncAllItemsTitle": {
+    "description": "syncAllItemsFrom",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncAllItemsDesc": "Bu işlem, '{itemName}' konumundaki ({itemCount}) öğeyi cihazınızla eşitleyecektir..\nÖğe sayısına bağlı olarak bu işlem biraz zaman alabilir.",
+  "@syncAllItemsDesc": {
+    "description": "syncAllitemsFromDesc",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      },
+      "itemCount": {
+        "type": "int"
+      }
+    }
+  },
+  "syncDeleteAllItemsTitle": "{itemName} konumundaki eşitlenmiş tüm öğeler silinsin mi?",
+  "@syncDeleteAllItemsTitle": {
+    "description": "syncDeleteAllitemsFrom",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncDeleteAllItemsDesc": "Bu işlem, '{itemName}' konumundaki eşitlenmiş tüm öğeleri siler.\nBu işlem kalıcıdır ve ({itemCount}) dosyayı yeniden eşitlemeniz gerekir.",
+  "@syncDeleteAllItemsDesc": {
+    "description": "syncDeleteAllitemsFromDesc",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      },
+      "itemCount": {
+        "type": "int"
+      }
+    }
+  },
+  "syncPauseAll": "Tümünü duraklat",
+  "@syncPauseAll": {},
+  "syncResumeAll": "Tümünü devam ettir",
+  "@syncResumeAll": {},
+  "syncStopAll": "Tümünü durdur",
+  "@syncStopAll": {},
+  "syncDeleteAll": "Tüm dosyaları sil",
+  "@syncDeleteAll": {},
+  "syncAllFiles": "Tüm dosyaları eşitle",
+  "@syncAllFiles": {}
 }
