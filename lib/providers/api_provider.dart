@@ -54,7 +54,7 @@ class JellyRequest implements Interceptor {
       return response;
     } catch (e) {
       connectivityNotifier.onStateChange([ConnectivityResult.none]);
-      throw Exception('Failed to make request: $e');
+      throw Exception('Failed to make request\n$e');
     }
   }
 }
@@ -73,10 +73,6 @@ class JellyResponse implements Interceptor {
     }
     if (response.statusCode == 404) {
       chopperLogger.severe('404 NOT FOUND');
-    }
-
-    if (response.statusCode == 401) {
-      // ref.read(sharedUtilityProvider).removeAccount(ref.read(userProvider));
     }
 
     return response;

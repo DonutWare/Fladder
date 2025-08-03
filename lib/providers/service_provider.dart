@@ -661,11 +661,11 @@ class JellyService {
     int? limit,
   }) async {
     try {
-      return await api.itemsItemIdSimilarGet(
-        userId: account?.id,
-        itemId: itemId,
-        limit: limit,
-      );
+      return await api.itemsItemIdSimilarGet(userId: account?.id, itemId: itemId, limit: limit, fields: [
+        ItemFields.parentid,
+        ItemFields.candelete,
+        ItemFields.candownload,
+      ]);
     } catch (e) {
       return Response<BaseItemDtoQueryResult>(
         http.Response("", 400),
@@ -812,7 +812,7 @@ class JellyService {
     } catch (e) {
       final seriesItem = await ref.read(syncProvider.notifier).getSyncedItem(seriesId);
       if (seriesItem != null) {
-        final seasons = await ref.read(syncProvider.notifier).getChildren(seriesItem);
+        final seasons = await ref.read(syncProvider.notifier).getChildren(seriesItem.id);
         return Response<BaseItemDtoQueryResult>(
           http.Response("", 200),
           BaseItemDtoQueryResult(

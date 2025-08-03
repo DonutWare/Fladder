@@ -68,20 +68,33 @@ class OfflinePlaybackModel extends PlaybackModel {
   Future<PlaybackModel?> playbackStopped(Duration position, Duration? totalDuration, Ref ref) async {
     final progress = position.inMilliseconds / (item.overview.runTime?.inMilliseconds ?? 0) * 100;
     final isPlayed = UserData.isPlayed(position, item.overview.runTime ?? Duration.zero);
+    final userData = syncedItem.userData?.copyWith(
+      playbackPositionTicks: isPlayed != false ? 0 : position.toRuntimeTicks,
+      progress: isPlayed != false ? 0.0 : progress,
+      played: isPlayed,
+      lastPlayed: DateTime.now().toUtc(),
+    );
     final newItem = syncedItem.copyWith(
-      userData: syncedItem.userData?.copyWith(
-        playbackPositionTicks: isPlayed != false ? 0 : position.toRuntimeTicks,
-        progress: isPlayed != false ? 0.0 : progress,
-        played: isPlayed,
-        lastPlayed: DateTime.now().toUtc(),
-      ),
+      userData: userData,
     );
     await ref.read(syncProvider.notifier).updateItem(newItem);
-    return this;
+    return null;
   }
 
   @override
   Future<PlaybackModel?> updatePlaybackPosition(Duration position, bool isPlaying, Ref ref) async {
+    final progress = position.inMilliseconds / (item.overview.runTime?.inMilliseconds ?? 0) * 100;
+    final isPlayed = UserData.isPlayed(position, item.overview.runTime ?? Duration.zero);
+    final userData = syncedItem.userData?.copyWith(
+      playbackPositionTicks: isPlayed != false ? 0 : position.toRuntimeTicks,
+      progress: isPlayed != false ? 0.0 : progress,
+      played: isPlayed,
+      lastPlayed: DateTime.now().toUtc(),
+    );
+    final newItem = syncedItem.copyWith(
+      userData: userData,
+    );
+    await ref.read(syncProvider.notifier).updateItem(newItem);
     return null;
   }
 

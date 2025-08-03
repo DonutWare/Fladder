@@ -54,7 +54,7 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
       }
     }
     if (context.mounted) {
-      context.refreshData();
+      await context.refreshData();
     }
   }
 
