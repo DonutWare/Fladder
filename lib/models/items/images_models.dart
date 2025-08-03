@@ -61,7 +61,7 @@ class ImagesData {
                       maxWidth: primary.width.toInt(),
                       quality: quality,
                     ),
-              key: item.imageTags?['Primary'],
+              key: "${itemid}_primary_${item.imageTags?['Primary']}",
               hash: item.imageBlurHashes?.primary?[item.imageTags?['Primary']] ?? "",
             )
           : null,
@@ -79,7 +79,7 @@ class ImagesData {
                       maxWidth: logo.width.toInt(),
                       quality: quality,
                     ),
-              key: item.imageTags?['Logo'],
+              key: "${itemid}_logo_${item.imageTags?['Logo']}",
               hash: item.imageBlurHashes?.logo?[item.imageTags?['Logo']] ?? "")
           : null,
       backDrop: (item.backdropImageTags ?? [])
@@ -100,7 +100,7 @@ class ImagesData {
                         maxWidth: backDrop.width.toInt(),
                         quality: quality,
                       ),
-                key: backdrop,
+                key: "${itemid}_backdrop_${index}_$backdrop",
                 hash: item.imageBlurHashes?.backdrop?[backdrop] ?? "",
               );
               return image;
@@ -134,7 +134,7 @@ class ImagesData {
                 maxWidth: primary.width.toInt(),
                 quality: quality,
               ),
-              key: item.seriesPrimaryImageTag ?? "",
+              key: "${item.seriesId}_primary_${item.seriesPrimaryImageTag ?? ""}",
               hash: item.imageBlurHashes?.primary?[item.seriesPrimaryImageTag] ?? "")
           : null,
       logo: (item.parentLogoImageTag != null)
@@ -146,7 +146,7 @@ class ImagesData {
                 maxWidth: logo.width.toInt(),
                 quality: quality,
               ),
-              key: item.parentLogoImageTag ?? "",
+              key: "${item.seriesId}_logo_${item.parentLogoImageTag ?? ""}",
               hash: item.imageBlurHashes?.logo?[item.parentLogoImageTag] ?? "")
           : null,
       backDrop: (item.backdropImageTags ?? [])
@@ -163,7 +163,7 @@ class ImagesData {
                   maxWidth: backDrop.width.toInt(),
                   quality: quality,
                 ),
-                key: backdrop,
+                key: "${itemId}_backdrop_${index}_$backdrop",
                 hash: item.imageBlurHashes?.backdrop?[backdrop] ?? "",
               );
               return image;
@@ -193,7 +193,7 @@ class ImagesData {
                     maxWidth: primary.width.toInt(),
                     quality: quality,
                   ),
-              key: item.primaryImageTag ?? "",
+              key: "${item.id ?? ""}_primary_${item.primaryImageTag ?? ''}",
               hash: item.imageBlurHashes?.primary?[item.primaryImageTag] ?? '')
           : null,
       logo: null,
