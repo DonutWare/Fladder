@@ -1407,5 +1407,11 @@
   "syncDeleteAll": "حذف جميع الملفات",
   "@syncDeleteAll": {},
   "syncAllFiles": "مزامنة جميع الملفات",
-  "@syncAllFiles": {}
+  "@syncAllFiles": {},
+  "usePostersForLibraryIconsTitle": "عرض الملصقات لأيقونات المكتبة",
+  "@usePostersForLibraryIconsTitle": {},
+  "usePostersForLibraryIconsDesc": "عرض الملصقات بدلاً من الأيقونات للمكتبات",
+  "@usePostersForLibraryIconsDesc": {},
+  "offline": "غير متصل",
+  "@offline": {}
 }
