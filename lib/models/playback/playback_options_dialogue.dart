@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:fladder/models/video_stream_model.dart';
-import 'package:fladder/screens/shared/adaptive_dialog.dart';
 import 'package:fladder/util/localization_helper.dart';
 
 Future<PlaybackType?> showPlaybackTypeSelection({
@@ -10,17 +9,18 @@ Future<PlaybackType?> showPlaybackTypeSelection({
 }) async {
   PlaybackType? playbackType;
 
-  await showDialogAdaptive(
+  await showDialog(
     context: context,
-    builder: (context) {
-      return PlaybackDialogue(
+    useSafeArea: false,
+    builder: (context) => Dialog(
+      child: PlaybackDialogue(
         options: options,
         onClose: (type) {
           playbackType = type;
           Navigator.of(context).pop();
         },
-      );
-    },
+      ),
+    ),
   );
   return playbackType;
 }

@@ -16,36 +16,36 @@ class SyncButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final nested = ref.watch(syncedNestedChildrenProvider(syncedItem));
-    return nested.when(
-      loading: () => const SizedBox.shrink(),
-      error: (err, stack) => const SizedBox.shrink(),
-      data: (children) {
-        final download = ref.watch(syncDownloadStatusProvider(syncedItem, children));
-        final status = download?.status ?? TaskStatus.notFound;
-        final progress = download?.progress ?? 0.0;
+    return switch (nested) {
+      AsyncValue<List<SyncedItem>>(:final value) => Builder(
+          builder: (context) {
+            final download = ref.watch(syncDownloadStatusProvider(syncedItem, value ?? []));
+            final status = download?.status ?? TaskStatus.notFound;
+            final progress = download?.progress ?? 0.0;
 
-        return Stack(
-          alignment: Alignment.center,
-          children: [
-            Icon(
-              status == TaskStatus.notFound
-                  ? (progress > 0 ? IconsaxPlusLinear.arrow_down_1 : IconsaxPlusLinear.more_circle)
-                  : status.icon,
-              color: status.color(context),
-              size: status == TaskStatus.running && progress > 0 ? 16 : null,
-            ),
-            SizedBox.fromSize(
-              size: const Size.fromRadius(10),
-              child: CircularProgressIndicator(
-                strokeCap: StrokeCap.round,
-                strokeWidth: 1.5,
-                color: status.color(context),
-                value: status == TaskStatus.running ? progress.clamp(0.0, 1.0) : 0,
-              ),
-            ),
-          ],
-        );
-      },
-    );
+            return Stack(
+              alignment: Alignment.center,
+              children: [
+                Icon(
+                  status == TaskStatus.notFound
+                      ? (progress > 0 ? IconsaxPlusLinear.arrow_down_1 : IconsaxPlusLinear.more_circle)
+                      : status.icon,
+                  color: status.color(context),
+                  size: status == TaskStatus.running && progress > 0 ? 16 : null,
+                ),
+                SizedBox.fromSize(
+                  size: const Size.fromRadius(10),
+                  child: CircularProgressIndicator(
+                    strokeCap: StrokeCap.round,
+                    strokeWidth: 1.5,
+                    color: status.color(context),
+                    value: status == TaskStatus.running ? progress.clamp(0.0, 1.0) : 0,
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+    };
   }
 }

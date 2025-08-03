@@ -48,7 +48,41 @@ class UserData with UserDataMappable {
     );
   }
 
+  static dto.UserItemDataDto toDto(UserData? data) {
+    if (data == null) {
+      return const dto.UserItemDataDto();
+    }
+    return dto.UserItemDataDto(
+      isFavorite: data.isFavourite,
+      playCount: data.playCount,
+      playbackPositionTicks: data.playbackPositionTicks,
+      played: data.played,
+      unplayedItemCount: data.unPlayedItemCount,
+      lastPlayedDate: data.lastPlayed,
+      playedPercentage: data.progress,
+    );
+  }
+
   Duration get playBackPosition => Duration(milliseconds: playbackPositionTicks ~/ 10000);
+
+  // Returns null if unplayed with no progress
+  static bool? isPlayed(Duration position, Duration totalDuration) {
+    Duration startBuffer = totalDuration * 0.05;
+    Duration endBuffer = totalDuration * 0.90;
+
+    Duration validStart = startBuffer;
+    Duration validEnd = endBuffer;
+
+    if (position <= validStart) {
+      return null;
+    }
+
+    if (position <= validEnd) {
+      return false;
+    }
+
+    return true;
+  }
 
   static UserData? determineLastUserData(List<UserData?> data) {
     return data.where((data) => data != null).reduce((a, b) {

@@ -63,24 +63,19 @@ class ItemInfoScreenState extends ConsumerState<ItemInfoScreen> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Text(
-                        widget.item.name,
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                    ),
-                    const Opacity(opacity: 0.3, child: Divider()),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
+                        spacing: 6,
                         children: [
+                          Text(
+                            widget.item.name,
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
                           const Spacer(),
-                          const SizedBox(width: 6),
                           IconButton(
                               onPressed: () => context.copyToClipboard(info.model.toString()),
                               icon: const Icon(Icons.copy_all_rounded)),
-                          const SizedBox(width: 6),
                           IconButton(
                             onPressed: () => ref.read(provider.notifier).getItemInformation(widget.item),
                             icon: const Icon(IconsaxPlusLinear.refresh),
@@ -88,6 +83,7 @@ class ItemInfoScreenState extends ConsumerState<ItemInfoScreen> {
                         ],
                       ),
                     ),
+                    const Opacity(opacity: 0.3, child: Divider()),
                   ],
                 ),
               ),

@@ -1291,5 +1291,6 @@
   "syncDeleteAll": "Delete all files",
   "syncAllFiles": "Sync all files",
   "usePostersForLibraryIconsTitle": "Show posters for library icons",
-  "usePostersForLibraryIconsDesc": "Show posters instead of icons for libraries"
+  "usePostersForLibraryIconsDesc": "Show posters instead of icons for libraries",
+  "offline": "Offline"
 }

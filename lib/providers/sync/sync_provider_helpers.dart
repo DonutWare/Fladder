@@ -16,13 +16,13 @@ Stream<SyncedItem?> syncedItem(Ref ref, ItemBaseModel? item) {
     return Stream.value(null);
   }
 
-  return ref.watch(syncProvider.notifier).db.getItem(id).watchSingleOrNull();
+  return ref.watch(syncProvider.notifier).watchItem(id);
 }
 
 @riverpod
 class SyncedChildren extends _$SyncedChildren {
   @override
-  FutureOr<List<SyncedItem>> build(SyncedItem item) => ref.read(syncProvider.notifier).getChildren(item);
+  FutureOr<List<SyncedItem>> build(SyncedItem item) => ref.read(syncProvider.notifier).getChildren(item.id);
 }
 
 @riverpod

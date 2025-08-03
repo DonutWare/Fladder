@@ -101,9 +101,11 @@ Future<void> _playVideo(
     if (AdaptiveLayout.of(context).isDesktop) {
       fullScreenHelper.closeFullScreen(ref);
     }
+
     if (context.mounted) {
-      context.refreshData();
+      await context.refreshData();
     }
+
     onPlayerExit?.call();
   }
 }
@@ -138,7 +140,7 @@ extension BookBaseModelExtension on BookModel? {
     );
     parentContext?.refreshData();
     if (context.mounted) {
-      context.refreshData();
+      await context.refreshData();
     }
   }
 }
@@ -176,7 +178,7 @@ extension PhotoAlbumExtension on PhotoAlbumModel? {
       ),
     );
     if (context.mounted) {
-      context.refreshData();
+      await context.refreshData();
     }
     return;
   }

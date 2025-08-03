@@ -18,7 +18,6 @@ import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
 import 'package:fladder/models/syncing/i_synced_item.dart';
-import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/util/localization_helper.dart';
 
 part 'sync_item.freezed.dart';
@@ -42,6 +41,7 @@ class SyncedItem with _$SyncedItem {
     ImagesData? fImages,
     @Default([]) List<Chapter> fChapters,
     @Default([]) List<SubStreamModel> subtitles,
+    @Default(false) bool unSyncedData,
     @UserDataJsonSerializer() UserData? userData,
     // ignore: invalid_annotation_target
     @JsonKey(includeFromJson: false, includeToJson: false) ItemBaseModel? itemModel,
@@ -67,6 +67,13 @@ class SyncedItem with _$SyncedItem {
           []);
 
   File get dataFile => File(joinAll(["$path", "data.json"]));
+  BaseItemDto? get data {
+    return dataFile.existsSync()
+        ? BaseItemDto.fromJson(jsonDecode(dataFile.readAsStringSync()))
+            .copyWith(userData: UserData.toDto(userData), path: videoFile.existsSync() ? videoFile.path : '')
+        : null;
+  }
+
   Directory get trickPlayDirectory => Directory(joinAll(["$path", trickPlayPath]));
   File get videoFile => File(joinAll(["$path", "$videoFileName"]));
   Directory get directory => Directory(path ?? "");
@@ -103,10 +110,6 @@ class SyncedItem with _$SyncedItem {
 
     return true;
   }
-
-  Future<List<SyncedItem>> getChildren(Ref ref) async => await ref.read(syncProvider.notifier).getChildren(this);
-  Future<List<SyncedItem>> getNestedChildren(Ref ref) async =>
-      await ref.read(syncProvider.notifier).getNestedChildren(this);
 
   Future<int> get getDirSize async {
     var files = await directory.list(recursive: true).toList();

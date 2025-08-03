@@ -110,7 +110,7 @@ extension ItemBaseModelExtensions on ItemBaseModel {
         syncAble &&
         (canDownload ?? false);
     final downloadUrl = ref.read(userProvider.notifier).createDownloadUrl(this);
-    final syncedItemFuture = ref.read(syncProvider.notifier).getSyncedItem(this);
+    final syncedItemFuture = ref.read(syncProvider.notifier).getSyncedItem(id);
     return [
       if (!exclude.contains(ItemActions.play))
         if (playAble)
@@ -185,9 +185,12 @@ extension ItemBaseModelExtensions on ItemBaseModel {
         ItemActionButton(
           icon: const Icon(IconsaxPlusLinear.eye),
           action: () async {
-            final userData = await ref.read(userProvider.notifier).markAsPlayed(true, id);
-            onUserDataChanged?.call(userData?.bodyOrThrow);
-            context.refreshData();
+            try {
+              final userData = await ref.read(userProvider.notifier).markAsPlayed(true, id);
+              onUserDataChanged?.call(userData?.bodyOrThrow);
+            } finally {
+              context.refreshData();
+            }
           },
           label: Text(context.localized.markAsWatched),
         ),
@@ -196,18 +199,24 @@ extension ItemBaseModelExtensions on ItemBaseModel {
           icon: const Icon(IconsaxPlusLinear.eye_slash),
           label: Text(context.localized.markAsUnwatched),
           action: () async {
-            final userData = await ref.read(userProvider.notifier).markAsPlayed(false, id);
-            onUserDataChanged?.call(userData?.bodyOrThrow);
-            context.refreshData();
+            try {
+              final userData = await ref.read(userProvider.notifier).markAsPlayed(false, id);
+              onUserDataChanged?.call(userData?.bodyOrThrow);
+            } finally {
+              context.refreshData();
+            }
           },
         ),
       if (!exclude.contains(ItemActions.setFavorite))
         ItemActionButton(
           icon: Icon(userData.isFavourite ? IconsaxPlusLinear.heart_remove : IconsaxPlusLinear.heart_add),
           action: () async {
-            final newData = await ref.read(userProvider.notifier).setAsFavorite(!userData.isFavourite, id);
-            onUserDataChanged?.call(newData?.bodyOrThrow);
-            context.refreshData();
+            try {
+              final newData = await ref.read(userProvider.notifier).setAsFavorite(!userData.isFavourite, id);
+              onUserDataChanged?.call(newData?.bodyOrThrow);
+            } finally {
+              context.refreshData();
+            }
           },
           label: Text(userData.isFavourite ? context.localized.removeAsFavorite : context.localized.addAsFavorite),
         ),

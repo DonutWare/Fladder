@@ -22,7 +22,8 @@ class ConnectivityStatus extends _$ConnectivityStatus {
   @override
   ConnectionState build() {
     Connectivity().onConnectivityChanged.listen(onStateChange);
-    return ConnectionState.offline;
+    checkConnectivity();
+    return ConnectionState.mobile;
   }
 
   void onStateChange(List<ConnectivityResult> connectivityResult) {
@@ -35,5 +36,10 @@ class ConnectivityStatus extends _$ConnectivityStatus {
     } else if (connectivityResult.contains(ConnectivityResult.none)) {
       state = ConnectionState.offline;
     }
+  }
+
+  void checkConnectivity() async {
+    final connectivityResult = await Connectivity().checkConnectivity();
+    onStateChange(connectivityResult);
   }
 }

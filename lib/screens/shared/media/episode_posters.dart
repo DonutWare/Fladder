@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/items/episode_model.dart';
+import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/sync/sync_provider_helpers.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
@@ -151,6 +152,7 @@ class EpisodePoster extends ConsumerWidget {
       child: const Icon(Icons.local_movies_outlined),
     );
     bool episodeAvailable = episode.status == EpisodeStatus.available;
+    final syncedDetails = ref.watch(syncedItemProvider(episode));
     return AspectRatio(
       aspectRatio: 1.76,
       child: Column(
@@ -196,18 +198,18 @@ class EpisodePoster extends ConsumerWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        ref.watch(syncedItemProvider(episode)).when(
-                              error: (error, stackTrace) => const SizedBox.shrink(),
-                              data: (syncedItem) {
-                                if (syncedItem == null) {
+                        switch (syncedDetails) {
+                          AsyncValue<SyncedItem?>(:final value) => Builder(
+                              builder: (context) {
+                                if (value == null) {
                                   return const SizedBox.shrink();
                                 }
                                 return StatusCard(
-                                  child: SyncButton(item: episode, syncedItem: syncedItem),
+                                  child: SyncButton(item: episode, syncedItem: value),
                                 );
                               },
-                              loading: () => const SizedBox.shrink(),
                             ),
+                        },
                         if (episode.userData.isFavourite)
                           const StatusCard(
                             color: Colors.red,

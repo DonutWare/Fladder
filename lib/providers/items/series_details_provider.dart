@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:chopper/chopper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -9,7 +11,6 @@ import 'package:fladder/models/items/series_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/related_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
-import 'package:fladder/providers/sync_provider.dart';
 
 final seriesDetailsProvider =
     StateNotifierProvider.autoDispose.family<SeriesDetailViewNotifier, SeriesModel?, String>((ref, id) {
@@ -33,6 +34,14 @@ class SeriesDetailViewNotifier extends StateNotifier<SeriesModel?> {
       if (response.body == null) return null;
       newState = response.bodyOrThrow as SeriesModel;
 
+      final seasons = await api.showsSeriesIdSeasonsGet(seriesId: seriesModel.id, fields: [
+        ItemFields.mediastreams,
+        ItemFields.mediasources,
+        ItemFields.overview,
+        ItemFields.candownload,
+        ItemFields.childcount,
+      ]);
+
       final episodes = await api.showsSeriesIdEpisodesGet(seriesId: seriesModel.id, fields: [
         ItemFields.mediastreams,
         ItemFields.mediasources,
@@ -45,14 +54,9 @@ class SeriesDetailViewNotifier extends StateNotifier<SeriesModel?> {
         episodes.body?.items,
         ref,
       );
+
       final episodesCanDownload = newEpisodes.any((episode) => episode.canDownload == true);
-      final seasons = await api.showsSeriesIdSeasonsGet(seriesId: seriesModel.id, fields: [
-        ItemFields.mediastreams,
-        ItemFields.mediasources,
-        ItemFields.overview,
-        ItemFields.candownload,
-        ItemFields.childcount,
-      ]);
+
       newState = newState.copyWith(
         seasons: SeasonModel.seasonsFromDto(seasons.body?.items, ref)
             .map((element) => element.copyWith(
@@ -71,24 +75,9 @@ class SeriesDetailViewNotifier extends StateNotifier<SeriesModel?> {
       state = newState.copyWith(related: related.body);
       return response;
     } catch (e) {
-      _tryToCreateOfflineState(seriesModel);
+      log("Error fetching series details: $e");
       return null;
     }
-  }
-
-  Future<void> _tryToCreateOfflineState(ItemBaseModel series) async {
-    final syncNotifier = ref.read(syncProvider.notifier);
-    final syncedItem = await syncNotifier.getSyncedItem(series);
-    if (syncedItem == null) return;
-    final seriesModel = syncedItem.itemModel as SeriesModel;
-    final allChildren = (await syncedItem.getNestedChildren(ref)).map((e) => e.itemModel).toList();
-    if (mounted) {
-      state = seriesModel.copyWith(
-        availableEpisodes: allChildren.whereType<EpisodeModel>().toList(),
-        seasons: allChildren.whereType<SeasonModel>().toList(),
-      );
-    }
-    return;
   }
 
   void updateEpisodeInfo(EpisodeModel episode) {

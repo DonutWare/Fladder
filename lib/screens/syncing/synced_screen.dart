@@ -56,8 +56,10 @@ class _SyncedScreenState extends ConsumerState<SyncedScreen> {
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: padding,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                    child: Wrap(
+                      alignment: WrapAlignment.center,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      runAlignment: WrapAlignment.center,
                       spacing: 12,
                       children: [
                         ElevatedButton(
@@ -65,7 +67,7 @@ class _SyncedScreenState extends ConsumerState<SyncedScreen> {
                           child: const Text("View Database"),
                         ),
                         ElevatedButton(
-                          onPressed: () => ref.read(syncProvider.notifier).db.clearDatabase(),
+                          onPressed: () => ref.read(syncProvider.notifier).removeAllSyncedData(),
                           child: const Text("Clear drift database"),
                         ),
                         ElevatedButton(

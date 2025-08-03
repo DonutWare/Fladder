@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide ConnectionState;
 
 import 'package:background_downloader/background_downloader.dart';
 import 'package:chopper/chopper.dart';
@@ -26,6 +26,7 @@ import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/models/video_stream_model.dart';
 import 'package:fladder/profiles/default_profile.dart';
 import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
@@ -132,7 +133,7 @@ class PlaybackModelHelper {
         await _createOfflinePlaybackModel(
           newItem,
           null,
-          await ref.read(syncProvider.notifier).getSyncedItem(newItem),
+          await ref.read(syncProvider.notifier).getSyncedItem(newItem.id),
           oldModel: currentModel,
         );
     if (newModel == null) return null;
@@ -147,11 +148,12 @@ class PlaybackModelHelper {
     PlaybackModel? oldModel,
   }) async {
     final ItemBaseModel? syncedItemModel = syncedItem?.itemModel;
-    if (syncedItemModel == null || syncedItem == null || !syncedItem.dataFile.existsSync()) return null;
+    if (syncedItemModel == null || syncedItem == null || !await syncedItem.videoFile.exists()) return null;
 
-    final children = await ref.read(syncProvider.notifier).getChildren(syncedItem);
-    final syncedItems = children.where((element) => element.videoFile.existsSync()).toList();
-    final itemQueue = syncedItems.map((e) => e.createItemModel(ref));
+    final children = await ref.read(syncProvider.notifier).getSiblings(syncedItem);
+    final syncedItems =
+        children.where((element) => element.videoFile.existsSync() && element.id != syncedItem.id).toList();
+    final itemQueue = syncedItems.map((e) => e.itemModel).nonNulls;
 
     return OfflinePlaybackModel(
       item: syncedItemModel,
@@ -173,11 +175,11 @@ class PlaybackModelHelper {
     bool showPlaybackOptions = false,
     Duration? startPosition,
   }) async {
-    if (item == null) return null;
-    final userId = ref.read(userProvider)?.id;
-    if (userId?.isEmpty == true) return null;
-
     try {
+      if (item == null) return null;
+      final userId = ref.read(userProvider)?.id;
+      if (userId?.isEmpty == true) return null;
+
       final queue = oldModel?.queue ?? libraryQueue ?? await collectQueue(item);
 
       final firstItemToPlay = switch (item) {
@@ -191,7 +193,7 @@ class PlaybackModelHelper {
 
       if (fullItem == null) return null;
 
-      SyncedItem? syncedItem = await ref.read(syncProvider.notifier).getSyncedItem(fullItem);
+      SyncedItem? syncedItem = await ref.read(syncProvider.notifier).getSyncedItem(fullItem.id);
 
       final firstItemIsSynced = syncedItem != null && syncedItem.status == TaskStatus.complete;
 
@@ -201,7 +203,9 @@ class PlaybackModelHelper {
         if (firstItemIsSynced) PlaybackType.offline,
       };
 
-      if ((showPlaybackOptions || firstItemIsSynced) && context != null) {
+      final isOffline = ref.read(connectivityStatusProvider.select((value) => value == ConnectionState.offline));
+
+      if (((showPlaybackOptions || firstItemIsSynced) && !isOffline) && context != null) {
         final playbackType = await showPlaybackTypeSelection(
           context: context,
           options: options,
@@ -241,16 +245,7 @@ class PlaybackModelHelper {
             );
       }
     } catch (e) {
-      log(e.toString());
-      SyncedItem? syncedItem = await ref.read(syncProvider.notifier).getSyncedItem(item);
-      if (syncedItem != null) {
-        return await _createOfflinePlaybackModel(
-          item,
-          item.streamModel,
-          syncedItem,
-          oldModel: oldModel,
-        );
-      }
+      log("Error creating playback model: ${e.toString()}");
       return null;
     }
   }

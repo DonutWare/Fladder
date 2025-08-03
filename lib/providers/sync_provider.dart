@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide ConnectionState;
 
 import 'package:background_downloader/background_downloader.dart';
 import 'package:collection/collection.dart';
@@ -33,11 +33,13 @@ import 'package:fladder/models/syncing/sync_settings_model.dart';
 import 'package:fladder/models/video_stream_model.dart';
 import 'package:fladder/profiles/default_profile.dart';
 import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/sync/background_download_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/migration/isar_drift_migration.dart';
 
@@ -51,13 +53,47 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
   }
 
   final Ref ref;
-  late final db = AppDatabase(ref);
+  late AppDatabase _db = AppDatabase(ref);
   final Directory mobileDirectory;
   final String subPath = "Synced";
 
+  bool updatingSyncStatus = false;
+
+  StreamSubscription<List<SyncedItem>>? _subscription;
+
+  @override
+  set state(SyncSettingsModel value) {
+    super.state = value;
+    updateSyncStates();
+  }
+
   void migrateFromIsar() async {
-    await isarMigration(ref, db, mainDirectory.path);
+    await isarMigration(ref, _db, mainDirectory.path);
     _initializeQueryStream();
+  }
+
+  Future<void> updateSyncStates() async {
+    final lastState =
+        (await _db.getAllItems.get()).where((item) => item.unSyncedData && item.userData != null).toList();
+    if (updatingSyncStatus || lastState.isEmpty) return;
+    updatingSyncStatus = true;
+    try {
+      for (final item in lastState) {
+        if (item.userData == null) continue;
+        final updatedItem =
+            await ref.read(jellyApiProvider).userItemsItemIdUserDataPost(itemId: item.id, body: item.userData);
+        if (updatedItem?.isSuccessful == true) {
+          final syncedItem = item.copyWith(unSyncedData: false);
+          await _db.insertItem(syncedItem);
+        } else {
+          break;
+        }
+      }
+    } catch (e) {
+      // log('Error updating sync states: $e');
+    } finally {
+      updatingSyncStatus = false;
+    }
   }
 
   void _init() {
@@ -67,25 +103,29 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
       (previous, next) {
         if (previous?.id != next?.id) {
           if (next?.id != null) {
-            _initializeQueryStream();
+            _initializeQueryStream(id: next!.id);
           }
         }
       },
     );
 
-    _initializeQueryStream();
-
+    ref.listen(connectivityStatusProvider, (_, next) {
+      if (next != ConnectionState.offline) {
+        updateSyncStates();
+      }
+    });
     migrateFromIsar();
   }
 
-  void _initializeQueryStream() async {
-    final userId = ref.read(userProvider)?.id;
-    if (userId == null) return;
+  void _initializeQueryStream({String? id}) async {
+    final userId = id ?? ref.read(userProvider)?.id;
     _subscription?.cancel();
+    state = state.copyWith(items: []);
 
-    final queryStream = db.getParentItems.watch();
+    if (userId == null) return;
 
-    final initItems = await db.getParentItems.get();
+    final queryStream = _db.getParentItems.watch().distinct();
+    final initItems = await _db.getParentItems.get();
 
     state = state.copyWith(items: initItems);
 
@@ -122,8 +162,6 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
       }
     }
   }
-
-  StreamSubscription<List<SyncedItem>>? _subscription;
 
   late final JellyService api = ref.read(jellyApiProvider);
 
@@ -163,21 +201,25 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     super.dispose();
   }
 
-  Future<void> refresh() async {
-    state = state.copyWith(items: (await db.getParentItems.get()));
+  Future<void> refresh() async => state = state.copyWith(items: (await _db.getParentItems.get()));
+
+  Future<List<SyncedItem>> getNestedChildren(SyncedItem item) async => _db.getNestedChildren(item);
+
+  Future<List<SyncedItem>> getChildren(String parentId) async => await _db.getChildren(parentId).get();
+
+  Future<List<SyncedItem>> getSiblings(SyncedItem syncedItem) async {
+    if (syncedItem.parentId == null) return [];
+    return getChildren(syncedItem.parentId!);
   }
 
-  Future<List<SyncedItem>> getNestedChildren(SyncedItem item) async => db.getNestedChildren(item);
-
-  Future<List<SyncedItem>> getChildren(SyncedItem root) async => await db.getChildren(root.id).get();
-
-  Future<SyncedItem?> getSyncedItem(ItemBaseModel? item) async {
-    final id = item?.id;
+  Future<SyncedItem?> getSyncedItem(String? id) async {
     if (id == null) return null;
-    return await db.getItem(id).getSingleOrNull();
+    return await _db.getItem(id).getSingleOrNull();
   }
 
-  Future<SyncedItem?> getParentItem(String id) async => await db.getParent(id).getSingleOrNull();
+  Stream<SyncedItem?> watchItem(String id) => _db.getItem(id).watchSingleOrNull();
+
+  Future<SyncedItem?> getParentItem(String id) async => await _db.getParent(id).getSingleOrNull();
 
   Future<SyncedItem> refreshSyncItem(SyncedItem item) async {
     List<SyncedItem> itemsToSync = await getNestedChildren(item);
@@ -196,7 +238,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
 
       final itemModel = ItemBaseModel.fromBaseDto(itemResponse.bodyOrThrow, ref);
 
-      final syncedParent = await db.getItem(itemToSync.parentId ?? "").getSingleOrNull();
+      final syncedParent = await _db.getItem(itemToSync.parentId ?? "").getSingleOrNull();
 
       SyncedItem newSyncedItem = await _syncItemData(syncedParent, itemModel, itemResponse.bodyOrThrow);
 
@@ -217,7 +259,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
       }
     }
 
-    await db.insertMultipleEntries(newItems);
+    await _db.insertMultipleEntries(newItems);
 
     return parentItem;
   }
@@ -235,7 +277,9 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
       ref.read(clientSettingsProvider.notifier).setSyncPath(selectedDirectory);
     }
 
-    fladderSnackbar(context, title: context.localized.syncAddItemForSyncing(item.detailedName(context) ?? "Unknown"));
+    if (context.mounted) {
+      fladderSnackbar(context, title: context.localized.syncAddItemForSyncing(item.detailedName(context) ?? "Unknown"));
+    }
     final newSync = switch (item) {
       EpisodeModel episode => await syncSeries(item.parentBaseModel, episode: episode),
       SeasonModel season => await syncSeries(item.parentBaseModel, season: season),
@@ -254,7 +298,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
   }
 
   void viewDatabase(BuildContext context) =>
-      Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(builder: (context) => DriftDbViewer(db)));
+      Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(builder: (context) => DriftDbViewer(_db)));
 
   Future<bool> removeSync(BuildContext context, SyncedItem? item) async {
     try {
@@ -273,7 +317,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
         await ref.read(backgroundDownloaderProvider).cancelTaskWithId(item.taskId!);
       }
 
-      await db.deleteAllItems([...nestedChildren, item]);
+      await _db.deleteAllItems([...nestedChildren, item]);
 
       for (var i = 0; i < nestedChildren.length; i++) {
         final element = nestedChildren[i];
@@ -291,8 +335,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
 
       return true;
     } catch (e) {
-      log('Error deleting synced item');
-      log(e.toString());
+      log('Error deleting synced item ${e.toString()}');
       state = state.copyWith(items: state.items.map((e) => e.copyWith(markedForDelete: false)).toList());
       fladderSnackbar(context, title: context.localized.syncRemoveUnableToDeleteItem);
       return false;
@@ -395,7 +438,16 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     return data?.copyWith(path: fileName);
   }
 
-  Future<void> updateItem(SyncedItem syncedItem) async => db.insertItem(syncedItem);
+  Future<int> updateItem(SyncedItem item) async {
+    SyncedItem syncedItem = item;
+    try {
+      await ref.read(jellyApiProvider).userItemsItemIdUserDataPost(itemId: syncedItem.id, body: syncedItem.userData);
+    } catch (e) {
+      log('Error updating item: ${syncedItem.id}');
+      syncedItem = syncedItem.copyWith(unSyncedData: true);
+    }
+    return _db.insertItem(syncedItem);
+  }
 
   Future<SyncedItem> deleteFullSyncFiles(SyncedItem syncedItem, DownloadTask? task) async {
     await syncedItem.deleteDatFiles(ref);
@@ -504,15 +556,81 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     return null;
   }
 
-  Future<void> clear() async {
-    await mainDirectory.delete(recursive: true);
-    await db.clearDatabase();
+  Future<void> removeAllSyncedData() async {
+    if (await mainDirectory.exists()) {
+      await mainDirectory.delete(recursive: true);
+    }
+    await _db.close();
+    await _db.clearDatabase();
+    _db = AppDatabase(ref);
     state = state.copyWith(items: []);
   }
 
-  Future<void> setup() async {
-    state = state.copyWith(items: []);
-    _init();
+  Future<void> updatePlaybackPosition({String? itemId, required Duration position}) async {
+    if (itemId == null) return;
+
+    final syncedItem = await _db.getItem(itemId).getSingleOrNull();
+    if (syncedItem == null) return;
+
+    final item = syncedItem.itemModel;
+    if (item == null) return;
+
+    final progress = position.inMilliseconds / (item.overview.runTime?.inMilliseconds ?? 0) * 100;
+
+    final updatedItem = syncedItem.copyWith(
+      userData: syncedItem.userData?.copyWith(
+        playbackPositionTicks: position.toRuntimeTicks,
+        progress: progress,
+        played: UserData.isPlayed(position, item.overview.runTime ?? Duration.zero),
+      ),
+    );
+    await _db.insertItem(updatedItem);
+  }
+
+  Future<void> updatePlayedItem(String? itemId,
+      {DateTime? datePlayed, required bool played, bool responseSuccessful = false}) async {
+    if (itemId == null) return;
+
+    final syncedItem = _db.getItem(itemId).getSingleOrNull();
+    syncedItem.then((item) async {
+      if (item == null) return;
+      final updatedUserData = item.userData?.copyWith(
+        played: played,
+        playbackPositionTicks: 0,
+        progress: 0.0,
+        lastPlayed: datePlayed ?? DateTime.now().toUtc(),
+      );
+      SyncedItem updatedItem = item.copyWith(userData: updatedUserData, unSyncedData: !responseSuccessful);
+
+      List<SyncedItem> children = [];
+      final shouldUpdateChildren = {FladderItemType.series, FladderItemType.season}.contains(item.itemModel?.type);
+      if (shouldUpdateChildren) {
+        // Update child items with the same played status, jellyfin server does this was well
+        // when marking a series or season as played
+        children = (await getNestedChildren(item))
+            .map((e) => e.copyWith(
+                  userData: e.userData?.copyWith(
+                    played: played,
+                    playbackPositionTicks: 0,
+                    progress: 0.0,
+                  ),
+                ))
+            .toList();
+      }
+      await _db.insertMultipleEntries([updatedItem, ...children]);
+    });
+  }
+
+  Future<void> updateFavoriteItem(String? itemId, {required bool isFavorite, bool responseSuccessful = false}) async {
+    if (itemId == null) return;
+
+    final syncedItem = _db.getItem(itemId).getSingleOrNull();
+    syncedItem.then((item) async {
+      if (item == null) return;
+      final updatedUserData = item.userData?.copyWith(isFavourite: isFavorite);
+      final updatedItem = item.copyWith(userData: updatedUserData, unSyncedData: !responseSuccessful);
+      await _db.insertItem(updatedItem);
+    });
   }
 }
 
@@ -520,14 +638,14 @@ extension SyncNotifierHelpers on SyncNotifier {
   Future<SyncedItem> createSyncItem(BaseItemDto response, {SyncedItem? parent}) async {
     final ItemBaseModel item = ItemBaseModel.fromBaseDto(response, ref);
 
-    final existingSyncedItem = await getSyncedItem(item);
+    final existingSyncedItem = await getSyncedItem(item.id);
 
     if (existingSyncedItem != null) return existingSyncedItem;
 
     SyncedItem syncItem = await _syncItemData(parent, item, response);
 
     if (parent == null) {
-      await db.insertItem(syncItem);
+      await _db.insertItem(syncItem);
     }
 
     return syncItem.copyWith(
@@ -573,7 +691,7 @@ extension SyncNotifierHelpers on SyncNotifier {
 
     if (!syncItem.directory.existsSync()) return null;
 
-    await db.insertItem(syncItem);
+    await _db.insertItem(syncItem);
 
     await syncFile(syncItem, skipDownload);
 
@@ -665,7 +783,7 @@ extension SyncNotifierHelpers on SyncNotifier {
       }
     }
 
-    await db.insertMultipleEntries(newItems);
+    await _db.insertMultipleEntries(newItems);
 
     for (var i = 0; i < itemsToDownload.length; i++) {
       final item = itemsToDownload[i];
