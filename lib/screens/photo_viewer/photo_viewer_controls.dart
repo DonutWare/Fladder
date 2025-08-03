@@ -130,7 +130,9 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with
   @override
   void dispose() {
     timerController.dispose();
-    fullScreenHelper.closeFullScreen(ref);
+    if (context.mounted) {
+      fullScreenHelper.closeFullScreen(ref);
+    }
     windowManager.removeListener(this);
     super.dispose();
   }

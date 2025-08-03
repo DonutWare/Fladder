@@ -51,6 +51,7 @@ class AutoRouter extends RootStackRouter {
       ],
     ),
     AutoRoute(page: LockRoute.page, path: '/locked'),
+    AutoRoute(page: PhotoViewerRoute.page, path: "/album"),
   ];
 }
 

@@ -3,11 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'package:auto_route/annotations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:extended_image/extended_image.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/photos_model.dart';
@@ -29,13 +30,14 @@ import 'package:fladder/widgets/shared/hover_widget.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 
+@RoutePage()
 class PhotoViewerScreen extends ConsumerStatefulWidget {
   final List<PhotoModel>? items;
-  final int indexOfSelected;
+  final String? selected;
   final Future<List<PhotoModel>>? loadingItems;
   const PhotoViewerScreen({
     this.items,
-    this.indexOfSelected = 0,
+    @QueryParam("selectedId") this.selected,
     this.loadingItems,
     super.key,
   });
@@ -46,9 +48,9 @@ class PhotoViewerScreen extends ConsumerStatefulWidget {
 
 class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with WidgetsBindingObserver {
   late List<PhotoModel> photos = widget.items ?? [];
-  late final ExtendedPageController controller = ExtendedPageController(initialPage: widget.indexOfSelected);
+  late int currentPage = photos.indexWhere((value) => value.id == widget.selected).clamp(0, photos.length - 1);
+  late final ExtendedPageController controller = ExtendedPageController(initialPage: currentPage);
   double currentScale = 1.0;
-  late int currentPage = widget.indexOfSelected.clamp(0, photos.length - 1);
   bool showInterface = true;
   bool toolbarHover = false;
 
@@ -78,7 +80,7 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
     WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) async {
-        cacheNeighbors(widget.indexOfSelected, 2);
+        cacheNeighbors(currentPage, 2);
         if (widget.loadingItems != null) {
           setState(() {
             loadingItems = true;
