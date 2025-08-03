@@ -1410,5 +1410,7 @@
   "usePostersForLibraryIconsTitle": "显示媒体库图标的海报",
   "@usePostersForLibraryIconsTitle": {},
   "usePostersForLibraryIconsDesc": "显示媒体库海报而不是图标",
-  "@usePostersForLibraryIconsDesc": {}
+  "@usePostersForLibraryIconsDesc": {},
+  "offline": "离线",
+  "@offline": {}
 }
