@@ -265,36 +265,44 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
   }
 
   Future<void> addSyncItem(BuildContext? context, ItemBaseModel item) async {
-    if (context == null) return;
+    try {
+      if (context == null) return;
 
-    if (saveDirectory == null) {
-      String? selectedDirectory =
-          await FilePicker.platform.getDirectoryPath(dialogTitle: context.localized.syncSelectDownloadsFolder);
-      if (selectedDirectory?.isEmpty == true && context.mounted) {
-        fladderSnackbar(context, title: context.localized.syncNoFolderSetup);
-        return;
+      if (saveDirectory == null) {
+        String? selectedDirectory =
+            await FilePicker.platform.getDirectoryPath(dialogTitle: context.localized.syncSelectDownloadsFolder);
+        if (selectedDirectory?.isEmpty == true && context.mounted) {
+          fladderSnackbar(context, title: context.localized.syncNoFolderSetup);
+          return;
+        }
+        ref.read(clientSettingsProvider.notifier).setSyncPath(selectedDirectory);
       }
-      ref.read(clientSettingsProvider.notifier).setSyncPath(selectedDirectory);
-    }
 
-    if (context.mounted) {
-      fladderSnackbar(context, title: context.localized.syncAddItemForSyncing(item.detailedName(context) ?? "Unknown"));
-    }
-    final newSync = switch (item) {
-      EpisodeModel episode => await syncSeries(item.parentBaseModel, episode: episode),
-      SeasonModel season => await syncSeries(item.parentBaseModel, season: season),
-      SeriesModel series => await syncSeries(series),
-      MovieModel movie => await syncMovie(movie),
-      _ => null
-    };
-    if (context.mounted) {
-      fladderSnackbar(context,
-          title: newSync != null
-              ? context.localized.startedSyncingItem(item.detailedName(context) ?? "Unknown")
-              : context.localized.unableToSyncItem(item.detailedName(context) ?? "Unknown"));
-    }
+      if (context.mounted) {
+        fladderSnackbar(context,
+            title: context.localized.syncAddItemForSyncing(item.detailedName(context) ?? "Unknown"));
+      }
+      final newSync = switch (item) {
+        EpisodeModel episode => await syncSeries(item.parentBaseModel, episode: episode),
+        SeasonModel season => await syncSeries(item.parentBaseModel, season: season),
+        SeriesModel series => await syncSeries(series),
+        MovieModel movie => await syncMovie(movie),
+        _ => null
+      };
+      if (context.mounted) {
+        fladderSnackbar(context,
+            title: newSync != null
+                ? context.localized.startedSyncingItem(item.detailedName(context) ?? "Unknown")
+                : context.localized.unableToSyncItem(item.detailedName(context) ?? "Unknown"));
+      }
 
-    return;
+      return;
+    } catch (e) {
+      log('Error adding sync item: ${e.toString()}');
+      if (context?.mounted == true) {
+        fladderSnackbar(context!, title: context.localized.somethingWentWrong);
+      }
+    }
   }
 
   void viewDatabase(BuildContext context) =>
