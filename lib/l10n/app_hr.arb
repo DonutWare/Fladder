@@ -3,7 +3,7 @@
   "@accept": {},
   "active": "Aktivno",
   "@active": {},
-  "actor": "{broj, množina, ostali{Actors} jedan{Actor}}",
+  "actor": "{count, plural, other{ostali} one{jedan}}",
   "@actor": {
     "description": "actor",
     "placeholders": {
@@ -56,7 +56,7 @@
   "@cancel": {},
   "change": "Promijeni",
   "@change": {},
-  "chapter": "{broj, množina, ostala{Chapters} jedno{Chapter}}",
+  "chapter": "{count, plural, other{ostala} one{jedno}}",
   "@chapter": {
     "description": "chapter",
     "placeholders": {
