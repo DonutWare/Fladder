@@ -1407,5 +1407,7 @@
   "syncDeleteAll": "Tüm dosyaları sil",
   "@syncDeleteAll": {},
   "syncAllFiles": "Tüm dosyaları eşitle",
-  "@syncAllFiles": {}
+  "@syncAllFiles": {},
+  "offline": "Çevrimdışı",
+  "@offline": {}
 }
