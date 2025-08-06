@@ -82,7 +82,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         disableFullScreen();
         return true;
       }
-      if (value.logicalKey == LogicalKeyboardKey.space) {
+      if (value.logicalKey == LogicalKeyboardKey.space || value.logicalKey == LogicalKeyboardKey.keyK) {
         ref.read(videoPlayerProvider).playOrPause();
         return true;
       }
@@ -98,6 +98,11 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
       if (value.logicalKey == LogicalKeyboardKey.arrowDown) {
         resetTimer();
         ref.read(videoPlayerSettingsProvider.notifier).steppedVolume(-5);
+        return true;
+      }
+      if (value.logicalKey == LogicalKeyboardKey.keyM) {
+        resetTimer();
+        ref.read(videoPlayerSettingsProvider.notifier).setVolume(0);
         return true;
       }
     }

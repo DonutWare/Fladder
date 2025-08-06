@@ -50,21 +50,21 @@ class _VideoPlayerSeekIndicatorState extends ConsumerState<VideoPlayerSeekIndica
 
   bool _onKey(KeyEvent value) {
     if (value is KeyRepeatEvent) {
-      if (value.logicalKey == LogicalKeyboardKey.arrowLeft) {
+      if (value.logicalKey == LogicalKeyboardKey.arrowLeft || value.logicalKey == LogicalKeyboardKey.keyJ) {
         seekBack();
         return true;
       }
-      if (value.logicalKey == LogicalKeyboardKey.arrowRight) {
+      if (value.logicalKey == LogicalKeyboardKey.arrowRight || value.logicalKey == LogicalKeyboardKey.keyL) {
         seekForward();
         return true;
       }
     }
     if (value is KeyDownEvent) {
-      if (value.logicalKey == LogicalKeyboardKey.arrowLeft) {
+      if (value.logicalKey == LogicalKeyboardKey.arrowLeft || value.logicalKey == LogicalKeyboardKey.keyJ) {
         seekBack();
         return true;
       }
-      if (value.logicalKey == LogicalKeyboardKey.arrowRight) {
+      if (value.logicalKey == LogicalKeyboardKey.arrowRight || value.logicalKey == LogicalKeyboardKey.keyL) {
         seekForward();
         return true;
       }
