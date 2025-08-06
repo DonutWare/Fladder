@@ -3,7 +3,7 @@
   "@accept": {},
   "active": "Aktivno",
   "@active": {},
-  "actor": "{count, plural, other{ostali} one{jedan}}",
+  "actor": "{count, plural, other{Glumci} one{Glumac}}",
   "@actor": {
     "description": "actor",
     "placeholders": {
@@ -56,7 +56,7 @@
   "@cancel": {},
   "change": "Promijeni",
   "@change": {},
-  "chapter": "{count, plural, other{ostala} one{jedno}}",
+  "chapter": "{count, plural, other{Poglavlja} one{Poglavlje}}",
   "@chapter": {
     "description": "chapter",
     "placeholders": {
@@ -194,7 +194,7 @@
   "@info": {},
   "invalidUrl": "Pogrešan URL",
   "@invalidUrl": {},
-  "light": "Svijetlo",
+  "light": "Svijetla",
   "@light": {},
   "list": "Lista",
   "@list": {},
@@ -325,5 +325,463 @@
     }
   },
   "speed": "Brzina",
-  "@speed": {}
+  "@speed": {},
+  "deleteItem": "Izbriši {item}?",
+  "@deleteItem": {
+    "description": "deleteItem",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadsSyncedData": "Sinkronizirani podaci",
+  "@downloadsSyncedData": {},
+  "folders": "Direktoriji",
+  "@folders": {},
+  "failedToLoadImage": "Ne mogu učitati sliku",
+  "@failedToLoadImage": {},
+  "downloadsClearTitle": "Očisti sinkronizirane podatke",
+  "@downloadsClearTitle": {},
+  "director": "{count, plural, other{Redatelj} two{Redatelji}}",
+  "@director": {
+    "description": "director",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "episode": "{count, plural, other{Epizode} one{Epizoda} }",
+  "@episode": {
+    "description": "episode",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "filter": "{count, plural, other{Filteri} one{Filter}}",
+  "@filter": {
+    "description": "filter",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "genre": "{count, plural, other{Žanrovi} one{Žanr}}",
+  "@genre": {
+    "description": "genre",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "identify": "Identificiraj",
+  "@identify": {},
+  "itemCount": "Broj stavki: {count}",
+  "@itemCount": {
+    "description": "Item count",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "invalidUrlDesc": "URL treba početi sa http(s)://",
+  "@invalidUrlDesc": {},
+  "label": "{count, plural, other{Oznake} one{Oznaka}}",
+  "@label": {
+    "description": "label",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "library": "{count, plural, other{Zbirke} one{Zbirka}}",
+  "@library": {
+    "description": "Plural",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "libraryFetchNoItemsFound": "Nema pronađenih stavki. Probaj drugačije postavke.",
+  "@libraryFetchNoItemsFound": {},
+  "login": "Prijava",
+  "@login": {},
+  "logout": "Odjava",
+  "@logout": {},
+  "logoutUserPopupTitle": "Odjavi {userName}?",
+  "@logoutUserPopupTitle": {
+    "description": "Pop-up for logging out the user",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "mediaTypePhotoAlbum": "Foto album",
+  "@mediaTypePhotoAlbum": {},
+  "mediaTypePlaylist": "Lista izvođenja",
+  "@mediaTypePlaylist": {},
+  "mediaTypeFolder": "Mapa",
+  "@mediaTypeFolder": {},
+  "minutes": "{count, plural, other{Minute} one{Minuta} }",
+  "@minutes": {
+    "description": "minute",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "mode": "Mod",
+  "@mode": {},
+  "moreOptions": "Više opcija",
+  "@moreOptions": {},
+  "pathEditSelect": "Odaberi lokaciju za preuzimanje",
+  "@pathEditSelect": {},
+  "removeAsFavorite": "Ukloni iz omiljenih",
+  "@removeAsFavorite": {},
+  "removeFromCollection": "Ukloni iz kolekcije",
+  "@removeFromCollection": {},
+  "removeFromPlaylist": "Ukloni iz liste izvođenja",
+  "@removeFromPlaylist": {},
+  "replaceAllImages": "Zamijeni sve slike",
+  "@replaceAllImages": {},
+  "replaceExistingImages": "Zamijeni postojeće slike",
+  "@replaceExistingImages": {},
+  "scanLibrary": "Skeniraj zbirku",
+  "@scanLibrary": {},
+  "search": "Traži",
+  "@search": {},
+  "selected": "Odabrano",
+  "@selected": {},
+  "settingsContinue": "Nastavi",
+  "@settingsContinue": {},
+  "settings": "Postavke",
+  "@settings": {},
+  "set": "Postavi",
+  "@set": {
+    "description": "Use for setting a certain value",
+    "context": "Set 'time'"
+  },
+  "shadow": "Sjena",
+  "@shadow": {},
+  "settingsPosterSize": "Veličina postera",
+  "@settingsPosterSize": {},
+  "settingsSecurity": "Sigurnost",
+  "@settingsSecurity": {},
+  "showDetails": "Prikaži detalje",
+  "@showDetails": {},
+  "showEmpty": "Prikaži prazno",
+  "@showEmpty": {},
+  "studio": "{count, plural, other{Studiji} one{Studio}}",
+  "@studio": {
+    "description": "studio",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "subtitleConfigurator": "Konfigurator titlova",
+  "@subtitleConfigurator": {},
+  "syncedItems": "Sinkronizirane stavke",
+  "@syncedItems": {},
+  "timeAndAnnotation": "{minutes} i {seconds}",
+  "@timeAndAnnotation": {
+    "description": "timeAndAnnotation",
+    "placeholders": {
+      "minutes": {
+        "type": "String"
+      },
+      "seconds": {
+        "type": "String"
+      }
+    }
+  },
+  "totalSize": "Ukupna veličina: {size}",
+  "@totalSize": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "type": "{count, plural, other{Tipovi} one{Tip}}",
+  "@type": {
+    "description": "type",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "unPlayed": "Nereproducirano",
+  "@unPlayed": {},
+  "unknown": "Nepoznato",
+  "@unknown": {},
+  "userName": "Korisničko ime",
+  "@userName": {},
+  "writer": "{count, plural, other{Pisac} two{Pisci}}",
+  "@writer": {
+    "description": "writer",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "year": "{count, plural, other{Godine} one{Godina}}",
+  "@year": {
+    "description": "year",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "addToNewCollection": "Nova kolekcija",
+  "@addToNewCollection": {},
+  "syncStatusComplete": "Završeno",
+  "@syncStatusComplete": {},
+  "syncStatusNotFound": "Nije pronađeno",
+  "@syncStatusNotFound": {},
+  "nativeName": "Hrvatski",
+  "@nativeName": {},
+  "biometricsFailedCheckAgain": "Biometrija neuspješna. Provjeri postavke i pokušaj ponovno.",
+  "@biometricsFailedCheckAgain": {},
+  "deleteFileFromSystem": "Brisanje ove stavke {item} će ju obrisati i sa datotečnog sustava i iz vaše medijske zbirke. Da li ste sigurni da želite nastaviti?",
+  "@deleteFileFromSystem": {
+    "description": "Delete file from system",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadsClearDesc": "Obriši sve sinkronizirane podatke, brisanjem svih podataka za sve sinkronizirane korisnike?",
+  "@downloadsClearDesc": {},
+  "fetchingLibrary": "Dohvaćanje stavki zbirke…",
+  "@fetchingLibrary": {},
+  "homeBannerSlideshow": "Prikaz slajdova",
+  "@homeBannerSlideshow": {},
+  "homeBannerCarousel": "Vrtuljak",
+  "@homeBannerCarousel": {},
+  "loggedIn": "Prijavljen",
+  "@loggedIn": {},
+  "metaDataSavedFor": "Meta podaci spremljeni za {item}",
+  "@metaDataSavedFor": {
+    "description": "metaDataSavedFor",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "metadataRefreshDefault": "Traži nove i izmijenjene datoteke",
+  "@metadataRefreshDefault": {},
+  "metadataRefreshFull": "Zamijeni sve meta podatke",
+  "@metadataRefreshFull": {},
+  "metadataRefreshValidation": "Potraži nedostajuće meta podatke",
+  "@metadataRefreshValidation": {},
+  "moreFrom": "Više za {info}",
+  "@moreFrom": {
+    "description": "More from",
+    "placeholders": {
+      "info": {
+        "type": "String"
+      }
+    }
+  },
+  "mouseDragSupport": "Vuci korištenjem miša",
+  "@mouseDragSupport": {},
+  "navigationDashboard": "Nadzorna ploča",
+  "@navigationDashboard": {},
+  "noItemsSynced": "Nema sinkroniziranih stavki",
+  "@noItemsSynced": {},
+  "noItemsToShow": "Nema stavki za prikaz",
+  "@noItemsToShow": {},
+  "none": "Ništa",
+  "@none": {},
+  "notPartOfAlbum": "Nije dio albuma",
+  "@notPartOfAlbum": {},
+  "openParent": "Otvori glavni",
+  "@openParent": {},
+  "openShow": "Otvori seriju",
+  "@openShow": {},
+  "openWebLink": "Otvori web link",
+  "@openWebLink": {},
+  "page": "Stranica {index}",
+  "@page": {
+    "description": "page",
+    "placeholders": {
+      "index": {
+        "type": "int"
+      }
+    }
+  },
+  "play": "Reproduciraj {item}",
+  "@play": {
+    "description": "Play with",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "playCount": "Broj reprodukcija",
+  "@playCount": {},
+  "quickConnectTitle": "Brzo povezivanje",
+  "@quickConnectTitle": {},
+  "random": "Nasumično",
+  "@random": {},
+  "rating": "{count, plural, other{Rejtinzi} one{Rejting}}",
+  "@rating": {
+    "description": "rating",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "read": "Čitaj {item}",
+  "@read": {
+    "description": "read",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "readFromStart": "Čitaj {item} od početka",
+  "@readFromStart": {
+    "description": "Read book from start",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "recursive": "Rekurzivan",
+  "@recursive": {},
+  "refreshMetadata": "Osvježi meta podatke",
+  "@refreshMetadata": {},
+  "refreshPopup": "Osvježi - {name}",
+  "@refreshPopup": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "releaseDate": "Datum izdavanja",
+  "@releaseDate": {},
+  "resumable": "Moguće nastaviti",
+  "@resumable": {},
+  "resume": "Nastavi {item}",
+  "@resume": {
+    "description": "resume",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "retry": "Pokušaj ponovno",
+  "@retry": {},
+  "runTime": "Vrijeme izvođenja",
+  "@runTime": {},
+  "scanBiometricHint": "Potvrdi identitet",
+  "@scanBiometricHint": {},
+  "scanningName": "Skeniranje - {name}…",
+  "@scanningName": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "season": "{count, plural, other{Sezone} one{Sezona} }",
+  "@season": {
+    "description": "season",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "seconds": "{count, plural, other{Sekunde} one{Sekunda}}",
+  "@seconds": {
+    "description": "second",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "selectTime": "Odaberi vrijeme",
+  "@selectTime": {},
+  "selectedWith": "Odabrana {info}",
+  "@selectedWith": {
+    "description": "selected",
+    "placeholders": {
+      "info": {
+        "type": "String"
+      }
+    }
+  },
+  "separate": "Odvojeno",
+  "@separate": {},
+  "settingSecurityApplockTitle": "Zaključavanje aplikacije",
+  "@settingSecurityApplockTitle": {},
+  "playFrom": "Reproduciraj od {name}",
+  "@playFrom": {
+    "description": "playFrom",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "playFromStart": "Reproduciraj {name} od početka",
+  "@playFromStart": {
+    "description": "speel vanaf het begin",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "quickConnectAction": "Unesi kod za brzo povezivanje za",
+  "@quickConnectAction": {},
+  "setIdentityTo": "Promijeni identitet u {name}",
+  "@setIdentityTo": {
+    "description": "setIdentityTo",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  }
 }
