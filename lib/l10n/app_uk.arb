@@ -1421,5 +1421,45 @@
   "usePostersForLibraryIconsDesc": "Показувати постери замість іконок для бібліотек",
   "@usePostersForLibraryIconsDesc": {},
   "offline": "Офлайн",
-  "@offline": {}
+  "@offline": {},
+  "shortCuts": "Скорочення",
+  "@shortCuts": {},
+  "skipForwardLength": "Перехід уперед",
+  "@skipForwardLength": {},
+  "skipBackLength": "Пропустити довжину назад",
+  "@skipBackLength": {},
+  "playPause": "Відтворення/Пауза",
+  "@playPause": {},
+  "seekForward": "Перемотування вперед",
+  "@seekForward": {},
+  "seekBack": "Перемотати назад",
+  "@seekBack": {},
+  "mute": "Вимкнути звук",
+  "@mute": {},
+  "volumeUp": "Збільшення гучності",
+  "@volumeUp": {},
+  "volumeDown": "Зменшення гучності",
+  "@volumeDown": {},
+  "nextVideo": "Наступне відео",
+  "@nextVideo": {},
+  "prevVideo": "Попереднє відео",
+  "@prevVideo": {},
+  "nextChapter": "Наступний розділ",
+  "@nextChapter": {},
+  "prevChapter": "Попередній розділ",
+  "@prevChapter": {},
+  "fullScreen": "Повний екран",
+  "@fullScreen": {},
+  "skipMediaSegment": "Пропустити медіа-сегмент",
+  "@skipMediaSegment": {},
+  "exit": "Вихід",
+  "@exit": {},
+  "shortCutAlreadyAssigned": "Комбінацію клавіш '{hotKey}' уже призначено",
+  "@shortCutAlreadyAssigned": {
+    "placeholders": {
+      "hotKey": {
+        "type": "String"
+      }
+    }
+  }
 }
