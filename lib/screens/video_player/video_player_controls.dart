@@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:screen_brightness/screen_brightness.dart';
 
+import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
@@ -49,6 +50,8 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     const Duration(seconds: 5),
     () => mounted ? toggleOverlay(value: false) : null,
   );
+
+  double? previousVolume;
 
   final fadeDuration = const Duration(milliseconds: 350);
   bool showOverlay = true;
@@ -490,8 +493,6 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     return Consumer(
       builder: (context, ref, child) {
         final previousVideo = ref.watch(playBackModel.select((value) => value?.previousVideo));
-        final buffering = ref.watch(mediaPlaybackProvider.select((value) => value.buffering));
-
         return Tooltip(
           message: previousVideo?.detailedName(context) ?? "",
           textAlign: TextAlign.center,
@@ -501,9 +502,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
           ),
           textStyle: Theme.of(context).textTheme.labelLarge,
           child: IconButton(
-            onPressed: previousVideo != null && !buffering
-                ? () => ref.read(playbackModelHelper).loadNewVideo(previousVideo)
-                : null,
+            onPressed: loadPreviousVideo(ref, video: previousVideo),
             iconSize: 30,
             icon: const Icon(
               IconsaxPlusLinear.backward,
@@ -514,11 +513,16 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     );
   }
 
+  Function()? loadPreviousVideo(WidgetRef ref, {ItemBaseModel? video}) {
+    final previousVideo = video ?? ref.read(playBackModel.select((value) => value?.previousVideo));
+    final buffering = ref.read(mediaPlaybackProvider.select((value) => value.buffering));
+    return previousVideo != null && !buffering ? () => ref.read(playbackModelHelper).loadNewVideo(previousVideo) : null;
+  }
+
   Widget get nextVideoButton {
     return Consumer(
       builder: (context, ref, child) {
         final nextVideo = ref.watch(playBackModel.select((value) => value?.nextVideo));
-        final buffering = ref.watch(mediaPlaybackProvider.select((value) => value.buffering));
         return Tooltip(
           message: nextVideo?.detailedName(context) ?? "",
           textAlign: TextAlign.center,
@@ -528,8 +532,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
           ),
           textStyle: Theme.of(context).textTheme.labelLarge,
           child: IconButton(
-            onPressed:
-                nextVideo != null && !buffering ? () => ref.read(playbackModelHelper).loadNewVideo(nextVideo) : null,
+            onPressed: loadNextVideo(ref, video: nextVideo),
             iconSize: 30,
             icon: const Icon(
               IconsaxPlusLinear.forward,
@@ -538,6 +541,12 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         );
       },
     );
+  }
+
+  Function()? loadNextVideo(WidgetRef ref, {ItemBaseModel? video}) {
+    final nextVideo = video ?? ref.read(playBackModel.select((value) => value?.nextVideo));
+    final buffering = ref.read(mediaPlaybackProvider.select((value) => value.buffering));
+    return nextVideo != null && !buffering ? () => ref.read(playbackModelHelper).loadNewVideo(nextVideo) : null;
   }
 
   Widget seekBackwardButton(WidgetRef ref) {
@@ -670,6 +679,8 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
 
     MediaSegment? segment = mediaSegments?.atPosition(position);
 
+    final volume = ref.read(videoPlayerSettingsProvider.select((value) => value.volume));
+
     switch (value) {
       case VideoHotKeys.playPause:
         ref.read(videoPlayerProvider).playOrPause();
@@ -685,8 +696,6 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
       case VideoHotKeys.fullScreen:
         fullScreenHelper.toggleFullScreen(ref);
         return true;
-      case VideoHotKeys.nextVideo:
-        return true;
       case VideoHotKeys.skipMediaSegment:
         if (segment != null) {
           skipToSegmentEnd(segment);
@@ -694,6 +703,24 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         return true;
       case VideoHotKeys.exit:
         disableFullScreen();
+        return true;
+      case VideoHotKeys.mute:
+        if (volume != 0) {
+          previousVolume = volume;
+        }
+        ref.read(videoPlayerSettingsProvider.notifier).setVolume(volume == 0 ? (previousVolume ?? 100) : 0);
+        return true;
+      case VideoHotKeys.nextVideo:
+        loadNextVideo(ref)?.call();
+        return true;
+      case VideoHotKeys.prevVideo:
+        loadPreviousVideo(ref)?.call();
+        return true;
+      case VideoHotKeys.nextChapter:
+        ref.read(videoPlayerSettingsProvider.notifier).nextChapter();
+        return true;
+      case VideoHotKeys.prevChapter:
+        ref.read(videoPlayerSettingsProvider.notifier).prevChapter();
         return true;
       default:
         return false;
