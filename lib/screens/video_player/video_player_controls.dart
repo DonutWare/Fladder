@@ -13,6 +13,7 @@ import 'package:screen_brightness/screen_brightness.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
+import 'package:fladder/models/settings/hotkeys_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
@@ -54,55 +55,6 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
 
   late final double topPadding = MediaQuery.of(context).viewPadding.top;
   late final double bottomPadding = MediaQuery.of(context).viewPadding.bottom;
-
-  bool _onKey(KeyEvent value) {
-    final mediaSegments = ref.read(playBackModel.select((value) => value?.mediaSegments));
-    final position = ref.read(mediaPlaybackProvider).position;
-    MediaSegment? segment = mediaSegments?.atPosition(position);
-    if (value is KeyRepeatEvent) {
-      if (value.logicalKey == LogicalKeyboardKey.arrowUp) {
-        resetTimer();
-        ref.read(videoPlayerSettingsProvider.notifier).steppedVolume(5);
-        return true;
-      }
-      if (value.logicalKey == LogicalKeyboardKey.arrowDown) {
-        resetTimer();
-        ref.read(videoPlayerSettingsProvider.notifier).steppedVolume(-5);
-        return true;
-      }
-    }
-    if (value is KeyDownEvent) {
-      if (value.logicalKey == LogicalKeyboardKey.keyS) {
-        if (segment != null) {
-          skipToSegmentEnd(segment);
-        }
-        return true;
-      }
-      if (value.logicalKey == LogicalKeyboardKey.escape) {
-        disableFullScreen();
-        return true;
-      }
-      if (value.logicalKey == LogicalKeyboardKey.space) {
-        ref.read(videoPlayerProvider).playOrPause();
-        return true;
-      }
-      if (value.logicalKey == LogicalKeyboardKey.keyF) {
-        fullScreenHelper.toggleFullScreen(ref);
-        return true;
-      }
-      if (value.logicalKey == LogicalKeyboardKey.arrowUp) {
-        resetTimer();
-        ref.read(videoPlayerSettingsProvider.notifier).steppedVolume(5);
-        return true;
-      }
-      if (value.logicalKey == LogicalKeyboardKey.arrowDown) {
-        resetTimer();
-        ref.read(videoPlayerSettingsProvider.notifier).steppedVolume(-5);
-        return true;
-      }
-    }
-    return false;
-  }
 
   @override
   void initState() {
@@ -677,5 +629,56 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   Future<void> disableFullScreen() async {
     resetTimer();
     fullScreenHelper.closeFullScreen(ref);
+  }
+
+  bool _onKey(KeyEvent value) {
+    final mediaSegments = ref.read(playBackModel.select((value) => value?.mediaSegments));
+    final position = ref.read(mediaPlaybackProvider).position;
+    final hotkeys = ref.read(videoPlayerSettingsProvider.select((value) => value.hotKeys.currentShortcuts));
+
+    MediaSegment? segment = mediaSegments?.atPosition(position);
+
+    if (value is KeyDownEvent || value is KeyRepeatEvent) {
+      if (value.logicalKey == LogicalKeyboardKey.escape) {
+        disableFullScreen();
+        return true;
+      }
+      for (var entry in hotkeys.entries) {
+        final hotKey = entry.key;
+        final keyCombination = entry.value;
+
+        bool isMainKeyPressed = value.logicalKey == keyCombination.key;
+        bool isModifierKeyPressed = keyCombination.modifier == null || value.logicalKey == keyCombination.modifier;
+
+        if (isMainKeyPressed && isModifierKeyPressed) {
+          switch (hotKey) {
+            case HotKeys.playPause:
+              ref.read(videoPlayerProvider).playOrPause();
+              return true;
+            case HotKeys.volumeUp:
+              resetTimer();
+              ref.read(videoPlayerSettingsProvider.notifier).steppedVolume(5);
+              return true;
+            case HotKeys.volumeDown:
+              resetTimer();
+              ref.read(videoPlayerSettingsProvider.notifier).steppedVolume(-5);
+              return true;
+            case HotKeys.fullScreen:
+              fullScreenHelper.toggleFullScreen(ref);
+              return true;
+            case HotKeys.nextVideo:
+              return true;
+            case HotKeys.skipMediaSegment:
+              if (segment != null) {
+                skipToSegmentEnd(segment);
+              }
+              return true;
+            default:
+              break;
+          }
+        }
+      }
+    }
+    return false;
   }
 }

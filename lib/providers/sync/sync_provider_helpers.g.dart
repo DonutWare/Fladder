@@ -6,7 +6,7 @@ part of 'sync_provider_helpers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$syncedItemHash() => r'7b1178ba78529ebf65425aa4cb8b239a28c7914b';
+String _$syncedItemHash() => r'8342c557accf52fd0a8561274ecf9b77b5cf7acd';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -157,7 +157,7 @@ class _SyncedItemProviderElement
   ItemBaseModel? get item => (origin as SyncedItemProvider).item;
 }
 
-String _$syncedChildrenHash() => r'2b6ce1611750785060df6317ce0ea25e2dc0aeb4';
+String _$syncedChildrenHash() => r'75e25432f33e0fe31708618b7ba744430523a4d3';
 
 abstract class _$SyncedChildren
     extends BuildlessAutoDisposeAsyncNotifier<List<SyncedItem>> {

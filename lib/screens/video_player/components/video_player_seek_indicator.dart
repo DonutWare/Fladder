@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:async/async.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:fladder/models/settings/hotkeys_model.dart';
+import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/util/input_handler.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -48,30 +50,6 @@ class _VideoPlayerSeekIndicatorState extends ConsumerState<VideoPlayerSeekIndica
     });
   }
 
-  bool _onKey(KeyEvent value) {
-    if (value is KeyRepeatEvent) {
-      if (value.logicalKey == LogicalKeyboardKey.arrowLeft) {
-        seekBack();
-        return true;
-      }
-      if (value.logicalKey == LogicalKeyboardKey.arrowRight) {
-        seekForward();
-        return true;
-      }
-    }
-    if (value is KeyDownEvent) {
-      if (value.logicalKey == LogicalKeyboardKey.arrowLeft) {
-        seekBack();
-        return true;
-      }
-      if (value.logicalKey == LogicalKeyboardKey.arrowRight) {
-        seekForward();
-        return true;
-      }
-    }
-    return false;
-  }
-
   @override
   Widget build(BuildContext context) {
     return InputHandler(
@@ -108,6 +86,40 @@ class _VideoPlayerSeekIndicatorState extends ConsumerState<VideoPlayerSeekIndica
     );
   }
 
-  void seekBack({int seconds = -10}) => onSeekStart(seconds);
-  void seekForward({int seconds = 30}) => onSeekStart(seconds);
+  bool _onKey(KeyEvent value) {
+    final hotkeys = ref.read(videoPlayerSettingsProvider.select((value) => value.hotKeys.currentShortcuts));
+    if (value is KeyDownEvent || value is KeyRepeatEvent) {
+      for (var entry in hotkeys.entries) {
+        final hotKey = entry.key;
+        final keyCombination = entry.value;
+
+        bool isMainKeyPressed = value.logicalKey == keyCombination.key;
+        bool isModifierKeyPressed = keyCombination.modifier == null || value.logicalKey == keyCombination.modifier;
+
+        if (isMainKeyPressed && isModifierKeyPressed) {
+          switch (hotKey) {
+            case HotKeys.seekForward:
+              seekForward();
+              return true;
+            case HotKeys.seekBack:
+              seekBack();
+              return true;
+            default:
+              break;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+  void seekBack() {
+    final seconds = -ref.read(videoPlayerSettingsProvider.select((value) => value.hotKeys.backwardStep.inSeconds));
+    onSeekStart(seconds);
+  }
+
+  void seekForward() {
+    final seconds = ref.read(videoPlayerSettingsProvider.select((value) => value.hotKeys.forwardStep.inSeconds));
+    onSeekStart(seconds);
+  }
 }

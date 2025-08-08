@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:fladder/models/items/media_segments_model.dart';
+import 'package:fladder/models/settings/hotkeys_model.dart';
 import 'package:fladder/util/bitrate_helper.dart';
 import 'package:fladder/util/localization_helper.dart';
 
@@ -31,6 +32,7 @@ class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     @Default(Bitrate.original) Bitrate maxInternetBitrate,
     String? audioDevice,
     @Default(defaultSegmentSkipValues) Map<MediaSegmentType, SegmentSkip> segmentSkipSettings,
+    required HotKeysModel hotKeys,
   }) = _VideoPlayerSettingsModel;
 
   double get volume => switch (defaultTargetPlatform) {

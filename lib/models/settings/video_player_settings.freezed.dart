@@ -37,6 +37,7 @@ mixin _$VideoPlayerSettingsModel {
   String? get audioDevice => throw _privateConstructorUsedError;
   Map<MediaSegmentType, SegmentSkip> get segmentSkipSettings =>
       throw _privateConstructorUsedError;
+  HotKeysModel get hotKeys => throw _privateConstructorUsedError;
 
   /// Serializes this VideoPlayerSettingsModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -68,7 +69,10 @@ abstract class $VideoPlayerSettingsModelCopyWith<$Res> {
       Bitrate maxHomeBitrate,
       Bitrate maxInternetBitrate,
       String? audioDevice,
-      Map<MediaSegmentType, SegmentSkip> segmentSkipSettings});
+      Map<MediaSegmentType, SegmentSkip> segmentSkipSettings,
+      HotKeysModel hotKeys});
+
+  $HotKeysModelCopyWith<$Res> get hotKeys;
 }
 
 /// @nodoc
@@ -101,6 +105,7 @@ class _$VideoPlayerSettingsModelCopyWithImpl<$Res,
     Object? maxInternetBitrate = null,
     Object? audioDevice = freezed,
     Object? segmentSkipSettings = null,
+    Object? hotKeys = null,
   }) {
     return _then(_value.copyWith(
       screenBrightness: freezed == screenBrightness
@@ -159,7 +164,21 @@ class _$VideoPlayerSettingsModelCopyWithImpl<$Res,
           ? _value.segmentSkipSettings
           : segmentSkipSettings // ignore: cast_nullable_to_non_nullable
               as Map<MediaSegmentType, SegmentSkip>,
+      hotKeys: null == hotKeys
+          ? _value.hotKeys
+          : hotKeys // ignore: cast_nullable_to_non_nullable
+              as HotKeysModel,
     ) as $Val);
+  }
+
+  /// Create a copy of VideoPlayerSettingsModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $HotKeysModelCopyWith<$Res> get hotKeys {
+    return $HotKeysModelCopyWith<$Res>(_value.hotKeys, (value) {
+      return _then(_value.copyWith(hotKeys: value) as $Val);
+    });
   }
 }
 
@@ -186,7 +205,11 @@ abstract class _$$VideoPlayerSettingsModelImplCopyWith<$Res>
       Bitrate maxHomeBitrate,
       Bitrate maxInternetBitrate,
       String? audioDevice,
-      Map<MediaSegmentType, SegmentSkip> segmentSkipSettings});
+      Map<MediaSegmentType, SegmentSkip> segmentSkipSettings,
+      HotKeysModel hotKeys});
+
+  @override
+  $HotKeysModelCopyWith<$Res> get hotKeys;
 }
 
 /// @nodoc
@@ -218,6 +241,7 @@ class __$$VideoPlayerSettingsModelImplCopyWithImpl<$Res>
     Object? maxInternetBitrate = null,
     Object? audioDevice = freezed,
     Object? segmentSkipSettings = null,
+    Object? hotKeys = null,
   }) {
     return _then(_$VideoPlayerSettingsModelImpl(
       screenBrightness: freezed == screenBrightness
@@ -276,6 +300,10 @@ class __$$VideoPlayerSettingsModelImplCopyWithImpl<$Res>
           ? _value._segmentSkipSettings
           : segmentSkipSettings // ignore: cast_nullable_to_non_nullable
               as Map<MediaSegmentType, SegmentSkip>,
+      hotKeys: null == hotKeys
+          ? _value.hotKeys
+          : hotKeys // ignore: cast_nullable_to_non_nullable
+              as HotKeysModel,
     ));
   }
 }
@@ -299,7 +327,8 @@ class _$VideoPlayerSettingsModelImpl extends _VideoPlayerSettingsModel
       this.maxInternetBitrate = Bitrate.original,
       this.audioDevice,
       final Map<MediaSegmentType, SegmentSkip> segmentSkipSettings =
-          defaultSegmentSkipValues})
+          defaultSegmentSkipValues,
+      required this.hotKeys})
       : _allowedOrientations = allowedOrientations,
         _segmentSkipSettings = segmentSkipSettings,
         super._();
@@ -362,8 +391,11 @@ class _$VideoPlayerSettingsModelImpl extends _VideoPlayerSettingsModel
   }
 
   @override
+  final HotKeysModel hotKeys;
+
+  @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings)';
+    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys)';
   }
 
   @override
@@ -384,7 +416,8 @@ class _$VideoPlayerSettingsModelImpl extends _VideoPlayerSettingsModel
       ..add(DiagnosticsProperty('maxHomeBitrate', maxHomeBitrate))
       ..add(DiagnosticsProperty('maxInternetBitrate', maxInternetBitrate))
       ..add(DiagnosticsProperty('audioDevice', audioDevice))
-      ..add(DiagnosticsProperty('segmentSkipSettings', segmentSkipSettings));
+      ..add(DiagnosticsProperty('segmentSkipSettings', segmentSkipSettings))
+      ..add(DiagnosticsProperty('hotKeys', hotKeys));
   }
 
   /// Create a copy of VideoPlayerSettingsModel
@@ -406,21 +439,21 @@ class _$VideoPlayerSettingsModelImpl extends _VideoPlayerSettingsModel
 
 abstract class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel {
   factory _VideoPlayerSettingsModel(
-          {final double? screenBrightness,
-          final BoxFit videoFit,
-          final bool fillScreen,
-          final bool hardwareAccel,
-          final bool useLibass,
-          final int bufferSize,
-          final PlayerOptions? playerOptions,
-          final double internalVolume,
-          final Set<DeviceOrientation>? allowedOrientations,
-          final AutoNextType nextVideoType,
-          final Bitrate maxHomeBitrate,
-          final Bitrate maxInternetBitrate,
-          final String? audioDevice,
-          final Map<MediaSegmentType, SegmentSkip> segmentSkipSettings}) =
-      _$VideoPlayerSettingsModelImpl;
+      {final double? screenBrightness,
+      final BoxFit videoFit,
+      final bool fillScreen,
+      final bool hardwareAccel,
+      final bool useLibass,
+      final int bufferSize,
+      final PlayerOptions? playerOptions,
+      final double internalVolume,
+      final Set<DeviceOrientation>? allowedOrientations,
+      final AutoNextType nextVideoType,
+      final Bitrate maxHomeBitrate,
+      final Bitrate maxInternetBitrate,
+      final String? audioDevice,
+      final Map<MediaSegmentType, SegmentSkip> segmentSkipSettings,
+      required final HotKeysModel hotKeys}) = _$VideoPlayerSettingsModelImpl;
   _VideoPlayerSettingsModel._() : super._();
 
   factory _VideoPlayerSettingsModel.fromJson(Map<String, dynamic> json) =
@@ -454,6 +487,8 @@ abstract class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel {
   String? get audioDevice;
   @override
   Map<MediaSegmentType, SegmentSkip> get segmentSkipSettings;
+  @override
+  HotKeysModel get hotKeys;
 
   /// Create a copy of VideoPlayerSettingsModel
   /// with the given fields replaced by the non-null parameter values.

@@ -38,6 +38,7 @@ _$VideoPlayerSettingsModelImpl _$$VideoPlayerSettingsModelImplFromJson(
                     $enumDecode(_$SegmentSkipEnumMap, e)),
               ) ??
               defaultSegmentSkipValues,
+      hotKeys: HotKeysModel.fromJson(json['hotKeys'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$VideoPlayerSettingsModelImplToJson(
@@ -60,6 +61,7 @@ Map<String, dynamic> _$$VideoPlayerSettingsModelImplToJson(
       'audioDevice': instance.audioDevice,
       'segmentSkipSettings': instance.segmentSkipSettings.map((k, e) =>
           MapEntry(_$MediaSegmentTypeEnumMap[k]!, _$SegmentSkipEnumMap[e]!)),
+      'hotKeys': instance.hotKeys,
     };
 
 const _$BoxFitEnumMap = {

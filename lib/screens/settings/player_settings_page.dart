@@ -8,12 +8,14 @@ import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/items/media_segments_model.dart';
+import 'package:fladder/models/settings/hotkeys_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/settings/settings_scaffold.dart';
+import 'package:fladder/screens/settings/widgets/key_listener.dart';
 import 'package:fladder/screens/settings/widgets/settings_label_divider.dart';
 import 'package:fladder/screens/settings/widgets/settings_list_group.dart';
 import 'package:fladder/screens/settings/widgets/settings_message_box.dart';
@@ -25,6 +27,7 @@ import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/bitrate_helper.dart';
 import 'package:fladder/util/box_fit_extension.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/widgets/shared/enum_selection.dart';
 
 @RoutePage()
@@ -168,6 +171,40 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                 ),
               ),
         ]),
+        const SizedBox(height: 12),
+        ...settingsListGroup(
+          context,
+          SettingsLabelDivider(label: context.localized.shortCuts),
+          [
+            ...HotKeys.values.map(
+              (entry) {
+                final currentEntry = videoSettings.hotKeys.shortCuts[entry];
+                final defaultEntry = defaultHotKeys[entry]!;
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          entry.name.toUpperCaseSplit(),
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                      ),
+                      Flexible(
+                        child: KeyCombinationWidget(
+                          currentKey: currentEntry,
+                          defaultKey: defaultEntry,
+                          onChanged: (value) =>
+                              ref.read(videoPlayerSettingsProvider.notifier).setShortcuts(MapEntry(entry, value)),
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              },
+            )
+          ],
+        ),
         const SizedBox(height: 12),
         ...settingsListGroup(context, SettingsLabelDivider(label: context.localized.playbackTrackSelection), [
           SettingsListTile(

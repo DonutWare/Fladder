@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fladder/models/account_model.dart';
 import 'package:fladder/models/settings/client_settings_model.dart';
 import 'package:fladder/models/settings/home_settings_model.dart';
+import 'package:fladder/models/settings/hotkeys_model.dart';
 import 'package:fladder/models/settings/subtitle_settings_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/api_provider.dart';
@@ -177,7 +178,7 @@ class SharedUtility {
       return VideoPlayerSettingsModel.fromJson(jsonDecode(sharedPreferences.getString(_videoPlayerSettingsKey) ?? ""));
     } catch (e) {
       log(e.toString());
-      return VideoPlayerSettingsModel();
+      return VideoPlayerSettingsModel(hotKeys: HotKeysModel());
     }
   }
 
