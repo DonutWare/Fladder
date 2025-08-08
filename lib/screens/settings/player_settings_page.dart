@@ -206,7 +206,7 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                     },
                   )),
             ),
-            if (AdaptiveLayout.of(context).isDesktop || kIsWeb)
+            if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer)
               ...VideoHotKeys.values.map(
                 (entry) {
                   final currentEntry = videoSettings.hotKeys[entry];

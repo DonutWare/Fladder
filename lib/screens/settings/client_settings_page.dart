@@ -62,8 +62,10 @@ class _ClientSettingsPageState extends ConsumerState<ClientSettingsPage> {
             },
           ),
         ]),
-        const SizedBox(height: 12),
-        ...buildClientSettingsShortCuts(context, ref),
+        if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer) ...[
+          const SizedBox(height: 12),
+          ...buildClientSettingsShortCuts(context, ref),
+        ],
         const SizedBox(height: 12),
         ...buildClientSettingsDashboard(context, ref),
         const SizedBox(height: 12),
