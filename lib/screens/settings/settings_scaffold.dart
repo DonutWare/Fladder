@@ -73,7 +73,7 @@ class SettingsScaffold extends ConsumerWidget {
                 else
                   SliverToBoxAdapter(
                     child: Padding(
-                      padding: MediaQuery.paddingOf(context),
+                      padding: MediaQuery.paddingOf(context).copyWith(bottom: 0),
                       child: Row(
                         children: [
                           if (showBackButtonNested)
