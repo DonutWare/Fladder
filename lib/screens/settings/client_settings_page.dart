@@ -10,6 +10,7 @@ import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/settings/client_sections/client_settings_advanced.dart';
 import 'package:fladder/screens/settings/client_sections/client_settings_dashboard.dart';
 import 'package:fladder/screens/settings/client_sections/client_settings_download.dart';
+import 'package:fladder/screens/settings/client_sections/client_settings_shortcuts.dart';
 import 'package:fladder/screens/settings/client_sections/client_settings_theme.dart';
 import 'package:fladder/screens/settings/client_sections/client_settings_visual.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
@@ -61,6 +62,8 @@ class _ClientSettingsPageState extends ConsumerState<ClientSettingsPage> {
             },
           ),
         ]),
+        const SizedBox(height: 12),
+        ...buildClientSettingsShortCuts(context, ref),
         const SizedBox(height: 12),
         ...buildClientSettingsDashboard(context, ref),
         const SizedBox(height: 12),

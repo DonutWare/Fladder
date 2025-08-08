@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -51,8 +52,10 @@ class ClientSettingsModel with _$ClientSettingsModel {
 
   factory ClientSettingsModel.fromJson(Map<String, dynamic> json) => _$ClientSettingsModelFromJson(json);
 
-  // Map<GlobalHotKeys, KeyCombination> get currentShortcuts =>
-  //     defaultVideoHotKeys.map((key, value) => MapEntry(key, hotKeys.shortCuts[key] ?? value));
+  Map<GlobalHotKeys, KeyCombination> get currentShortcuts =>
+      _defaultGlobalHotKeys.map((key, value) => MapEntry(key, shortcuts[key] ?? value));
+
+  Map<GlobalHotKeys, KeyCombination> get defaultShortCuts => _defaultGlobalHotKeys;
 
   Brightness statusBarBrightness(BuildContext context) {
     return switch (themeMode) {
@@ -143,3 +146,12 @@ class Vector2 {
 
   static Vector2 fromPosition(Offset windowPosition) => Vector2(x: windowPosition.dx, y: windowPosition.dy);
 }
+
+Map<GlobalHotKeys, KeyCombination> get _defaultGlobalHotKeys => {
+      for (var hotKey in GlobalHotKeys.values)
+        hotKey: switch (hotKey) {
+          GlobalHotKeys.search =>
+            KeyCombination(key: LogicalKeyboardKey.keyK, modifier: LogicalKeyboardKey.controlLeft),
+          GlobalHotKeys.exit => KeyCombination(key: LogicalKeyboardKey.keyQ, modifier: LogicalKeyboardKey.controlLeft),
+        },
+    };

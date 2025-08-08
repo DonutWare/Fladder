@@ -26,6 +26,7 @@ enum VideoHotKeys {
   prevChapter,
   fullScreen,
   skipMediaSegment,
+  exit,
 }
 
 @Freezed(copyWith: true)
@@ -156,5 +157,6 @@ Map<VideoHotKeys, KeyCombination> get _defaultVideoHotKeys => {
           VideoHotKeys.prevChapter => KeyCombination(key: LogicalKeyboardKey.pageDown),
           VideoHotKeys.fullScreen => KeyCombination(key: LogicalKeyboardKey.keyF),
           VideoHotKeys.skipMediaSegment => KeyCombination(key: LogicalKeyboardKey.keyS),
+          VideoHotKeys.exit => KeyCombination(key: LogicalKeyboardKey.escape),
         },
     };

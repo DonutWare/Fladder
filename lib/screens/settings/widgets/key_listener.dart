@@ -5,32 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/settings/key_combinations.dart';
+import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
-
-final shiftKeys = {
-  LogicalKeyboardKey.shift,
-  LogicalKeyboardKey.shiftLeft,
-  LogicalKeyboardKey.shiftRight,
-};
-
-final altKeys = {
-  LogicalKeyboardKey.alt,
-  LogicalKeyboardKey.altRight,
-  LogicalKeyboardKey.altLeft,
-};
-
-final ctrlKeys = {
-  LogicalKeyboardKey.control,
-  LogicalKeyboardKey.controlLeft,
-  LogicalKeyboardKey.controlRight,
-};
-
-final modifierKeys = {
-  ...shiftKeys,
-  ...altKeys,
-  ...ctrlKeys,
-};
 
 class KeyCombinationWidget extends ConsumerStatefulWidget {
   final KeyCombination? currentKey;
@@ -80,7 +57,8 @@ class KeyCombinationWidgetState extends ConsumerState<KeyCombinationWidget> {
 
   void _handleKeyEvent(KeyEvent event) {
     final videoHotKeys = ref.read(videoPlayerSettingsProvider.select((value) => value.currentShortcuts)).values;
-    final activeHotKeys = [...videoHotKeys].toList();
+    final clientHotKeys = ref.read(clientSettingsProvider.select((value) => value.currentShortcuts)).values;
+    final activeHotKeys = [...videoHotKeys, ...clientHotKeys].toList();
 
     if (event.logicalKey == LogicalKeyboardKey.escape) {
       _stopListening();
@@ -90,7 +68,7 @@ class KeyCombinationWidgetState extends ConsumerState<KeyCombinationWidget> {
       focusNode.requestFocus();
       setState(() {
         if (event is KeyDownEvent) {
-          if (modifierKeys.contains(event.logicalKey)) {
+          if (KeyCombination.modifierKeys.contains(event.logicalKey)) {
             _pressedModifier = event.logicalKey;
           } else {
             final currentHotKey = KeyCombination(key: event.logicalKey, modifier: _pressedModifier);
@@ -109,7 +87,7 @@ class KeyCombinationWidgetState extends ConsumerState<KeyCombinationWidget> {
             }
           }
         } else if (event is KeyUpEvent && resetOnRelease) {
-          if (modifierKeys.contains(event.logicalKey) && _pressedModifier == event.logicalKey) {
+          if (KeyCombination.modifierKeys.contains(event.logicalKey) && _pressedModifier == event.logicalKey) {
             _pressedModifier = null;
           } else if (_pressedKey == event.logicalKey) {
             _pressedKey = null;

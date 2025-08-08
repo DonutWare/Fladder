@@ -29,6 +29,30 @@ class KeyCombination with _$KeyCombination {
   int get hashCode => key.hashCode ^ modifier.hashCode;
 
   String get label => [modifier?.label, key.label].nonNulls.join(" + ");
+
+  static final Set<LogicalKeyboardKey> shiftKeys = {
+    LogicalKeyboardKey.shift,
+    LogicalKeyboardKey.shiftLeft,
+    LogicalKeyboardKey.shiftRight,
+  };
+
+  static final altKeys = {
+    LogicalKeyboardKey.alt,
+    LogicalKeyboardKey.altRight,
+    LogicalKeyboardKey.altLeft,
+  };
+
+  static final ctrlKeys = {
+    LogicalKeyboardKey.control,
+    LogicalKeyboardKey.controlLeft,
+    LogicalKeyboardKey.controlRight,
+  };
+
+  static final modifierKeys = {
+    ...shiftKeys,
+    ...altKeys,
+    ...ctrlKeys,
+  };
 }
 
 class LogicalKeyboardSerializer extends JsonConverter<LogicalKeyboardKey, String> {

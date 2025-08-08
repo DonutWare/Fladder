@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'package:async/async.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -55,7 +54,8 @@ class _VideoPlayerSeekIndicatorState extends ConsumerState<VideoPlayerSeekIndica
   Widget build(BuildContext context) {
     return InputHandler(
       autoFocus: true,
-      onKeyEvent: (node, event) => _onKey(event) ? KeyEventResult.handled : KeyEventResult.ignored,
+      keyMap: ref.watch(videoPlayerSettingsProvider.select((value) => value.currentShortcuts)),
+      keyMapResult: (result) => _onKey(result),
       child: IgnorePointer(
         child: AnimatedOpacity(
           duration: const Duration(milliseconds: 500),
@@ -87,29 +87,16 @@ class _VideoPlayerSeekIndicatorState extends ConsumerState<VideoPlayerSeekIndica
     );
   }
 
-  bool _onKey(KeyEvent value) {
-    final hotkeys = ref.read(videoPlayerSettingsProvider.select((value) => value.currentShortcuts));
-    if (value is KeyDownEvent || value is KeyRepeatEvent) {
-      for (var entry in hotkeys.entries) {
-        final hotKey = entry.key;
-        final keyCombination = entry.value;
-
-        bool isMainKeyPressed = value.logicalKey == keyCombination.key;
-        bool isModifierKeyPressed = keyCombination.modifier == null || value.logicalKey == keyCombination.modifier;
-
-        if (isMainKeyPressed && isModifierKeyPressed) {
-          switch (hotKey) {
-            case VideoHotKeys.seekForward:
-              seekForward();
-              return true;
-            case VideoHotKeys.seekBack:
-              seekBack();
-              return true;
-            default:
-              break;
-          }
-        }
-      }
+  bool _onKey(VideoHotKeys value) {
+    switch (value) {
+      case VideoHotKeys.seekForward:
+        seekForward();
+        return true;
+      case VideoHotKeys.seekBack:
+        seekBack();
+        return true;
+      default:
+        break;
     }
     return false;
   }

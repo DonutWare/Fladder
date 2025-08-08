@@ -69,8 +69,9 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     final player = ref.watch(videoPlayerProvider);
     final subtitleWidget = player.subtitleWidget(showOverlay, controlsKey: _bottomControlsKey);
     return InputHandler(
-      autoFocus: false,
-      onKeyEvent: (node, event) => _onKey(event) ? KeyEventResult.handled : KeyEventResult.ignored,
+      autoFocus: true,
+      keyMap: ref.watch(videoPlayerSettingsProvider.select((value) => value.currentShortcuts)),
+      keyMapResult: (result) => _onKey(result),
       child: PopScope(
         canPop: false,
         onPopInvokedWithResult: (didPop, result) {
@@ -663,54 +664,39 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     fullScreenHelper.closeFullScreen(ref);
   }
 
-  bool _onKey(KeyEvent value) {
+  bool _onKey(VideoHotKeys value) {
     final mediaSegments = ref.read(playBackModel.select((value) => value?.mediaSegments));
     final position = ref.read(mediaPlaybackProvider).position;
-    final hotkeys = ref.read(videoPlayerSettingsProvider.select((value) => value.currentShortcuts));
 
     MediaSegment? segment = mediaSegments?.atPosition(position);
 
-    if (value is KeyDownEvent || value is KeyRepeatEvent) {
-      if (value.logicalKey == LogicalKeyboardKey.escape) {
+    switch (value) {
+      case VideoHotKeys.playPause:
+        ref.read(videoPlayerProvider).playOrPause();
+        return true;
+      case VideoHotKeys.volumeUp:
+        resetTimer();
+        ref.read(videoPlayerSettingsProvider.notifier).steppedVolume(5);
+        return true;
+      case VideoHotKeys.volumeDown:
+        resetTimer();
+        ref.read(videoPlayerSettingsProvider.notifier).steppedVolume(-5);
+        return true;
+      case VideoHotKeys.fullScreen:
+        fullScreenHelper.toggleFullScreen(ref);
+        return true;
+      case VideoHotKeys.nextVideo:
+        return true;
+      case VideoHotKeys.skipMediaSegment:
+        if (segment != null) {
+          skipToSegmentEnd(segment);
+        }
+        return true;
+      case VideoHotKeys.exit:
         disableFullScreen();
         return true;
-      }
-      for (var entry in hotkeys.entries) {
-        final hotKey = entry.key;
-        final keyCombination = entry.value;
-
-        bool isMainKeyPressed = value.logicalKey == keyCombination.key;
-        bool isModifierKeyPressed = keyCombination.modifier == null || value.logicalKey == keyCombination.modifier;
-
-        if (isMainKeyPressed && isModifierKeyPressed) {
-          switch (hotKey) {
-            case VideoHotKeys.playPause:
-              ref.read(videoPlayerProvider).playOrPause();
-              return true;
-            case VideoHotKeys.volumeUp:
-              resetTimer();
-              ref.read(videoPlayerSettingsProvider.notifier).steppedVolume(5);
-              return true;
-            case VideoHotKeys.volumeDown:
-              resetTimer();
-              ref.read(videoPlayerSettingsProvider.notifier).steppedVolume(-5);
-              return true;
-            case VideoHotKeys.fullScreen:
-              fullScreenHelper.toggleFullScreen(ref);
-              return true;
-            case VideoHotKeys.nextVideo:
-              return true;
-            case VideoHotKeys.skipMediaSegment:
-              if (segment != null) {
-                skipToSegmentEnd(segment);
-              }
-              return true;
-            default:
-              break;
-          }
-        }
-      }
+      default:
+        return false;
     }
-    return false;
   }
 }
