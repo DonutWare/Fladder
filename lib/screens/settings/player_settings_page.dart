@@ -106,7 +106,7 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                         value: entry,
                         child: Text(entry.label(context)),
                         onTap: () => ref.read(videoPlayerSettingsProvider.notifier).state =
-                            ref.read(videoPlayerSettingsProvider).copyWith(maxHomeBitrate: entry),
+                            videoSettings.copyWith(maxHomeBitrate: entry),
                       ),
                     )
                     .toList(),
@@ -128,7 +128,7 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                         value: entry,
                         child: Text(entry.label(context)),
                         onTap: () => ref.read(videoPlayerSettingsProvider.notifier).state =
-                            ref.read(videoPlayerSettingsProvider).copyWith(maxInternetBitrate: entry),
+                            videoSettings.copyWith(maxInternetBitrate: entry),
                       ),
                     )
                     .toList(),
@@ -160,7 +160,7 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                                   final newEntries = videoSettings.segmentSkipSettings.map(
                                       (key, currentValue) => MapEntry(key, key == entry.key ? value : currentValue));
                                   ref.read(videoPlayerSettingsProvider.notifier).state =
-                                      ref.read(videoPlayerSettingsProvider).copyWith(segmentSkipSettings: newEntries);
+                                      videoSettings.copyWith(segmentSkipSettings: newEntries);
                                 },
                               ),
                             )
@@ -267,8 +267,8 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
               label: Text(context.localized.playerSettingsBackendTitle),
               subLabel: Text(context.localized.playerSettingsBackendDesc),
               trailing: Builder(builder: (context) {
-                final wantedPlayer = ref.watch(videoPlayerSettingsProvider.select((value) => value.wantedPlayer));
-                final currentPlayer = ref.watch(videoPlayerSettingsProvider.select((value) => value.playerOptions));
+                final wantedPlayer = videoSettings.wantedPlayer;
+                final currentPlayer = videoSettings.playerOptions;
                 return EnumBox(
                   current: currentPlayer == null
                       ? "${context.localized.defaultLabel} (${PlayerOptions.platformDefaults.label(context)})"
@@ -279,14 +279,14 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                       child:
                           Text("${context.localized.defaultLabel} (${PlayerOptions.platformDefaults.label(context)})"),
                       onTap: () => ref.read(videoPlayerSettingsProvider.notifier).state =
-                          ref.read(videoPlayerSettingsProvider).copyWith(playerOptions: null),
+                          videoSettings.copyWith(playerOptions: null),
                     ),
                     ...PlayerOptions.available.map(
                       (entry) => PopupMenuItem(
                         value: entry,
                         child: Text(entry.label(context)),
                         onTap: () => ref.read(videoPlayerSettingsProvider.notifier).state =
-                            ref.read(videoPlayerSettingsProvider).copyWith(playerOptions: entry),
+                            videoSettings.copyWith(playerOptions: entry),
                       ),
                     )
                   ],
@@ -294,7 +294,7 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
               }),
             ),
           AnimatedFadeSize(
-            child: switch (ref.read(videoPlayerSettingsProvider.select((value) => value.wantedPlayer))) {
+            child: switch (videoSettings.wantedPlayer) {
               PlayerOptions.libMPV => Column(
                   children: [
                     SettingsListTile(
@@ -378,7 +378,7 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                           value: entry,
                           child: Text(entry.label(context)),
                           onTap: () => ref.read(videoPlayerSettingsProvider.notifier).state =
-                              ref.read(videoPlayerSettingsProvider).copyWith(nextVideoType: entry),
+                              videoSettings.copyWith(nextVideoType: entry),
                         ),
                       )
                       .toList(),
