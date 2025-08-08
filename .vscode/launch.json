@@ -81,6 +81,7 @@
 			"args": [
 				"--web-port",
 				"9090",
+				"--web-experimental-hot-reload",
 			],
 		},
 		{
