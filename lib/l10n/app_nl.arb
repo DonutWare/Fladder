@@ -1187,7 +1187,7 @@
   },
   "mdkExperimental": "MDK backend is nog experimenteel",
   "@mdkExperimental": {},
-  "skipButtonLabel": "(S)kip {segment}",
+  "skipButtonLabel": "Skip {segment}",
   "@skipButtonLabel": {
     "placeholders": {
       "segment": {
@@ -1414,5 +1414,45 @@
   "usePostersForLibraryIconsDesc": "Toon posters in plaats van pictogrammen voor bibliotheken",
   "@usePostersForLibraryIconsDesc": {},
   "offline": "Offline",
-  "@offline": {}
+  "@offline": {},
+  "shortCuts": "Sneltoetsen",
+  "@shortCuts": {},
+  "skipForwardLength": "Duur van vooruit spoelen",
+  "@skipForwardLength": {},
+  "skipBackLength": "Duur van terugspoelen",
+  "@skipBackLength": {},
+  "playPause": "Afspelen/Pauzeren",
+  "@playPause": {},
+  "seekForward": "Vooruit zoeken",
+  "@seekForward": {},
+  "seekBack": "Terugspoelen",
+  "@seekBack": {},
+  "mute": "Dempen",
+  "@mute": {},
+  "volumeUp": "Volume omhoog",
+  "@volumeUp": {},
+  "volumeDown": "Volume omlaag",
+  "@volumeDown": {},
+  "nextVideo": "Volgende video",
+  "@nextVideo": {},
+  "prevVideo": "Vorige video",
+  "@prevVideo": {},
+  "nextChapter": "Volgende hoofdstuk",
+  "@nextChapter": {},
+  "prevChapter": "Vorige hoofdstuk",
+  "@prevChapter": {},
+  "fullScreen": "Volledig scherm",
+  "@fullScreen": {},
+  "skipMediaSegment": "Media segment overslaan",
+  "@skipMediaSegment": {},
+  "exit": "Sluiten",
+  "@exit": {},
+  "shortCutAlreadyAssigned": "Sneltoets '{hotKey}\" al toegewezen",
+  "@shortCutAlreadyAssigned": {
+    "placeholders": {
+      "hotKey": {
+        "type": "String"
+      }
+    }
+  }
 }
