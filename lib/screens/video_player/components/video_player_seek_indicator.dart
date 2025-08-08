@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/settings/hotkeys_model.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
+import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/util/input_handler.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -114,12 +115,12 @@ class _VideoPlayerSeekIndicatorState extends ConsumerState<VideoPlayerSeekIndica
   }
 
   void seekBack() {
-    final seconds = -ref.read(videoPlayerSettingsProvider.select((value) => value.hotKeys.backwardStep.inSeconds));
+    final seconds = -ref.read(userProvider.select((value) => value?.userSettings?.skipBackDuration.inSeconds ?? 30));
     onSeekStart(seconds);
   }
 
   void seekForward() {
-    final seconds = ref.read(videoPlayerSettingsProvider.select((value) => value.hotKeys.forwardStep.inSeconds));
+    final seconds = ref.read(userProvider.select((value) => value?.userSettings?.skipForwardDuration.inSeconds ?? 30));
     onSeekStart(seconds);
   }
 }

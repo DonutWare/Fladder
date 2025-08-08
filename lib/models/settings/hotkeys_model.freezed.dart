@@ -84,8 +84,6 @@ HotKeysModel _$HotKeysModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$HotKeysModel {
-  Duration get forwardStep => throw _privateConstructorUsedError;
-  Duration get backwardStep => throw _privateConstructorUsedError;
   Map<HotKeys, KeyCombination?> get shortCuts =>
       throw _privateConstructorUsedError;
 
@@ -105,10 +103,7 @@ abstract class $HotKeysModelCopyWith<$Res> {
           HotKeysModel value, $Res Function(HotKeysModel) then) =
       _$HotKeysModelCopyWithImpl<$Res, HotKeysModel>;
   @useResult
-  $Res call(
-      {Duration forwardStep,
-      Duration backwardStep,
-      Map<HotKeys, KeyCombination?> shortCuts});
+  $Res call({Map<HotKeys, KeyCombination?> shortCuts});
 }
 
 /// @nodoc
@@ -126,19 +121,9 @@ class _$HotKeysModelCopyWithImpl<$Res, $Val extends HotKeysModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? forwardStep = null,
-    Object? backwardStep = null,
     Object? shortCuts = null,
   }) {
     return _then(_value.copyWith(
-      forwardStep: null == forwardStep
-          ? _value.forwardStep
-          : forwardStep // ignore: cast_nullable_to_non_nullable
-              as Duration,
-      backwardStep: null == backwardStep
-          ? _value.backwardStep
-          : backwardStep // ignore: cast_nullable_to_non_nullable
-              as Duration,
       shortCuts: null == shortCuts
           ? _value.shortCuts
           : shortCuts // ignore: cast_nullable_to_non_nullable
@@ -155,10 +140,7 @@ abstract class _$$HotKeysModelImplCopyWith<$Res>
       __$$HotKeysModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {Duration forwardStep,
-      Duration backwardStep,
-      Map<HotKeys, KeyCombination?> shortCuts});
+  $Res call({Map<HotKeys, KeyCombination?> shortCuts});
 }
 
 /// @nodoc
@@ -174,19 +156,9 @@ class __$$HotKeysModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? forwardStep = null,
-    Object? backwardStep = null,
     Object? shortCuts = null,
   }) {
     return _then(_$HotKeysModelImpl(
-      forwardStep: null == forwardStep
-          ? _value.forwardStep
-          : forwardStep // ignore: cast_nullable_to_non_nullable
-              as Duration,
-      backwardStep: null == backwardStep
-          ? _value.backwardStep
-          : backwardStep // ignore: cast_nullable_to_non_nullable
-              as Duration,
       shortCuts: null == shortCuts
           ? _value._shortCuts
           : shortCuts // ignore: cast_nullable_to_non_nullable
@@ -198,22 +170,13 @@ class __$$HotKeysModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$HotKeysModelImpl extends _HotKeysModel {
-  _$HotKeysModelImpl(
-      {this.forwardStep = const Duration(seconds: 30),
-      this.backwardStep = const Duration(seconds: 30),
-      final Map<HotKeys, KeyCombination?> shortCuts = const {}})
+  _$HotKeysModelImpl({final Map<HotKeys, KeyCombination?> shortCuts = const {}})
       : _shortCuts = shortCuts,
         super._();
 
   factory _$HotKeysModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$HotKeysModelImplFromJson(json);
 
-  @override
-  @JsonKey()
-  final Duration forwardStep;
-  @override
-  @JsonKey()
-  final Duration backwardStep;
   final Map<HotKeys, KeyCombination?> _shortCuts;
   @override
   @JsonKey()
@@ -225,7 +188,7 @@ class _$HotKeysModelImpl extends _HotKeysModel {
 
   @override
   String toString() {
-    return 'HotKeysModel(forwardStep: $forwardStep, backwardStep: $backwardStep, shortCuts: $shortCuts)';
+    return 'HotKeysModel(shortCuts: $shortCuts)';
   }
 
   /// Create a copy of HotKeysModel
@@ -245,19 +208,13 @@ class _$HotKeysModelImpl extends _HotKeysModel {
 }
 
 abstract class _HotKeysModel extends HotKeysModel {
-  factory _HotKeysModel(
-      {final Duration forwardStep,
-      final Duration backwardStep,
-      final Map<HotKeys, KeyCombination?> shortCuts}) = _$HotKeysModelImpl;
+  factory _HotKeysModel({final Map<HotKeys, KeyCombination?> shortCuts}) =
+      _$HotKeysModelImpl;
   _HotKeysModel._() : super._();
 
   factory _HotKeysModel.fromJson(Map<String, dynamic> json) =
       _$HotKeysModelImpl.fromJson;
 
-  @override
-  Duration get forwardStep;
-  @override
-  Duration get backwardStep;
   @override
   Map<HotKeys, KeyCombination?> get shortCuts;
 

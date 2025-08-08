@@ -35,12 +35,6 @@ Json? _$JsonConverterToJson<Json, Value>(
 
 _$HotKeysModelImpl _$$HotKeysModelImplFromJson(Map<String, dynamic> json) =>
     _$HotKeysModelImpl(
-      forwardStep: json['forwardStep'] == null
-          ? const Duration(seconds: 30)
-          : Duration(microseconds: (json['forwardStep'] as num).toInt()),
-      backwardStep: json['backwardStep'] == null
-          ? const Duration(seconds: 30)
-          : Duration(microseconds: (json['backwardStep'] as num).toInt()),
       shortCuts: (json['shortCuts'] as Map<String, dynamic>?)?.map(
             (k, e) => MapEntry(
                 $enumDecode(_$HotKeysEnumMap, k),
@@ -53,8 +47,6 @@ _$HotKeysModelImpl _$$HotKeysModelImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$HotKeysModelImplToJson(_$HotKeysModelImpl instance) =>
     <String, dynamic>{
-      'forwardStep': instance.forwardStep.inMicroseconds,
-      'backwardStep': instance.backwardStep.inMicroseconds,
       'shortCuts':
           instance.shortCuts.map((k, e) => MapEntry(_$HotKeysEnumMap[k]!, e)),
     };
@@ -64,6 +56,8 @@ const _$HotKeysEnumMap = {
   HotKeys.seekForward: 'seekForward',
   HotKeys.seekBack: 'seekBack',
   HotKeys.mute: 'mute',
+  HotKeys.volumeUp: 'volumeUp',
+  HotKeys.volumeDown: 'volumeDown',
   HotKeys.nextVideo: 'nextVideo',
   HotKeys.prevVideo: 'prevVideo',
   HotKeys.nextChapter: 'nextChapter',

@@ -65,8 +65,6 @@ class HotKeysModel with _$HotKeysModel {
   const HotKeysModel._();
 
   factory HotKeysModel({
-    @Default(Duration(seconds: 15)) Duration forwardStep,
-    @Default(Duration(seconds: 30)) Duration backwardStep,
     @Default({}) Map<HotKeys, KeyCombination?> shortCuts,
   }) = _HotKeysModel;
 

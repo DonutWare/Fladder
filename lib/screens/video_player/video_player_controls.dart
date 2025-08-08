@@ -16,6 +16,7 @@ import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/settings/hotkeys_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
+import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/shared/default_title_bar.dart';
 import 'package:fladder/screens/shared/media/components/item_logo.dart';
@@ -539,7 +540,8 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   }
 
   Widget seekBackwardButton(WidgetRef ref) {
-    final backwardSpeed = ref.read(videoPlayerSettingsProvider.select((value) => value.hotKeys.backwardStep)).inSeconds;
+    final backwardSpeed =
+        ref.read(userProvider.select((value) => value?.userSettings?.skipForwardDuration.inSeconds ?? 30));
     return IconButton(
       onPressed: () => seekBack(ref, seconds: backwardSpeed),
       tooltip: "-$backwardSpeed",
@@ -564,7 +566,8 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   }
 
   Widget seekForwardButton(WidgetRef ref) {
-    final forwardSpeed = ref.read(videoPlayerSettingsProvider.select((value) => value.hotKeys.forwardStep)).inSeconds;
+    final forwardSpeed =
+        ref.read(userProvider.select((value) => value?.userSettings?.skipBackDuration.inSeconds ?? 30));
     return IconButton(
       onPressed: () => seekForward(ref, seconds: forwardSpeed),
       tooltip: forwardSpeed.toString(),

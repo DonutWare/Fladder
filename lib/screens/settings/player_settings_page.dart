@@ -46,6 +46,8 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
 
     final connectionState = ref.watch(connectivityStatusProvider);
 
+    final userSettings = ref.watch(userProvider.select((value) => value?.userSettings));
+
     return SettingsScaffold(
       label: context.localized.settingsPlayerTitle,
       items: [
@@ -176,30 +178,31 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
           context,
           SettingsLabelDivider(label: context.localized.shortCuts),
           [
-            SettingsListTile(
-              label: Text(context.localized.skipBackLength),
-              trailing: SizedBox(
-                  width: 125,
-                  child: IntInputField(
-                    suffix: context.localized.seconds(10),
-                    controller: TextEditingController(text: videoSettings.hotKeys.backwardStep.inSeconds.toString()),
-                    onSubmitted: (value) {
-                      if (value != null) {
-                        provider.setBackwardSpeed(value);
-                      }
-                    },
-                  )),
-            ),
+            if (userSettings != null)
+              SettingsListTile(
+                label: Text(context.localized.skipBackLength),
+                trailing: SizedBox(
+                    width: 125,
+                    child: IntInputField(
+                      suffix: context.localized.seconds(10),
+                      controller: TextEditingController(text: userSettings.skipBackDuration.inSeconds.toString()),
+                      onSubmitted: (value) {
+                        if (value != null) {
+                          ref.read(userProvider.notifier).setBackwardSpeed(value);
+                        }
+                      },
+                    )),
+              ),
             SettingsListTile(
               label: Text(context.localized.skipForwardLength),
               trailing: SizedBox(
                   width: 125,
                   child: IntInputField(
                     suffix: context.localized.seconds(10),
-                    controller: TextEditingController(text: videoSettings.hotKeys.forwardStep.inSeconds.toString()),
+                    controller: TextEditingController(text: userSettings!.skipForwardDuration.inSeconds.toString()),
                     onSubmitted: (value) {
                       if (value != null) {
-                        provider.setForwardSpeed(value);
+                        ref.read(userProvider.notifier).setForwardSpeed(value);
                       }
                     },
                   )),
