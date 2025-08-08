@@ -45,6 +45,8 @@ mixin _$ClientSettingsModel {
   bool get usePosterForLibrary => throw _privateConstructorUsedError;
   String? get lastViewedUpdate => throw _privateConstructorUsedError;
   int? get libraryPageSize => throw _privateConstructorUsedError;
+  Map<GlobalHotKeys, KeyCombination?> get shortcuts =>
+      throw _privateConstructorUsedError;
 
   /// Serializes this ClientSettingsModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -86,7 +88,8 @@ abstract class $ClientSettingsModelCopyWith<$Res> {
       bool checkForUpdates,
       bool usePosterForLibrary,
       String? lastViewedUpdate,
-      int? libraryPageSize});
+      int? libraryPageSize,
+      Map<GlobalHotKeys, KeyCombination?> shortcuts});
 }
 
 /// @nodoc
@@ -128,6 +131,7 @@ class _$ClientSettingsModelCopyWithImpl<$Res, $Val extends ClientSettingsModel>
     Object? usePosterForLibrary = null,
     Object? lastViewedUpdate = freezed,
     Object? libraryPageSize = freezed,
+    Object? shortcuts = null,
   }) {
     return _then(_value.copyWith(
       syncPath: freezed == syncPath
@@ -226,6 +230,10 @@ class _$ClientSettingsModelCopyWithImpl<$Res, $Val extends ClientSettingsModel>
           ? _value.libraryPageSize
           : libraryPageSize // ignore: cast_nullable_to_non_nullable
               as int?,
+      shortcuts: null == shortcuts
+          ? _value.shortcuts
+          : shortcuts // ignore: cast_nullable_to_non_nullable
+              as Map<GlobalHotKeys, KeyCombination?>,
     ) as $Val);
   }
 }
@@ -262,7 +270,8 @@ abstract class _$$ClientSettingsModelImplCopyWith<$Res>
       bool checkForUpdates,
       bool usePosterForLibrary,
       String? lastViewedUpdate,
-      int? libraryPageSize});
+      int? libraryPageSize,
+      Map<GlobalHotKeys, KeyCombination?> shortcuts});
 }
 
 /// @nodoc
@@ -302,6 +311,7 @@ class __$$ClientSettingsModelImplCopyWithImpl<$Res>
     Object? usePosterForLibrary = null,
     Object? lastViewedUpdate = freezed,
     Object? libraryPageSize = freezed,
+    Object? shortcuts = null,
   }) {
     return _then(_$ClientSettingsModelImpl(
       syncPath: freezed == syncPath
@@ -400,6 +410,10 @@ class __$$ClientSettingsModelImplCopyWithImpl<$Res>
           ? _value.libraryPageSize
           : libraryPageSize // ignore: cast_nullable_to_non_nullable
               as int?,
+      shortcuts: null == shortcuts
+          ? _value._shortcuts
+          : shortcuts // ignore: cast_nullable_to_non_nullable
+              as Map<GlobalHotKeys, KeyCombination?>,
     ));
   }
 }
@@ -432,8 +446,10 @@ class _$ClientSettingsModelImpl extends _ClientSettingsModel
       this.checkForUpdates = true,
       this.usePosterForLibrary = false,
       this.lastViewedUpdate,
-      this.libraryPageSize})
-      : super._();
+      this.libraryPageSize,
+      final Map<GlobalHotKeys, KeyCombination?> shortcuts = const {}})
+      : _shortcuts = shortcuts,
+        super._();
 
   factory _$ClientSettingsModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ClientSettingsModelImplFromJson(json);
@@ -505,10 +521,18 @@ class _$ClientSettingsModelImpl extends _ClientSettingsModel
   final String? lastViewedUpdate;
   @override
   final int? libraryPageSize;
+  final Map<GlobalHotKeys, KeyCombination?> _shortcuts;
+  @override
+  @JsonKey()
+  Map<GlobalHotKeys, KeyCombination?> get shortcuts {
+    if (_shortcuts is EqualUnmodifiableMapView) return _shortcuts;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_shortcuts);
+  }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ClientSettingsModel(syncPath: $syncPath, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, themeMode: $themeMode, themeColor: $themeColor, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundPosters: $backgroundPosters, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize)';
+    return 'ClientSettingsModel(syncPath: $syncPath, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, themeMode: $themeMode, themeColor: $themeColor, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundPosters: $backgroundPosters, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
   }
 
   @override
@@ -541,7 +565,8 @@ class _$ClientSettingsModelImpl extends _ClientSettingsModel
       ..add(DiagnosticsProperty('checkForUpdates', checkForUpdates))
       ..add(DiagnosticsProperty('usePosterForLibrary', usePosterForLibrary))
       ..add(DiagnosticsProperty('lastViewedUpdate', lastViewedUpdate))
-      ..add(DiagnosticsProperty('libraryPageSize', libraryPageSize));
+      ..add(DiagnosticsProperty('libraryPageSize', libraryPageSize))
+      ..add(DiagnosticsProperty('shortcuts', shortcuts));
   }
 
   /// Create a copy of ClientSettingsModel
@@ -563,30 +588,32 @@ class _$ClientSettingsModelImpl extends _ClientSettingsModel
 
 abstract class _ClientSettingsModel extends ClientSettingsModel {
   factory _ClientSettingsModel(
-      {final String? syncPath,
-      final Vector2 position,
-      final Vector2 size,
-      final Duration? timeOut,
-      final Duration? nextUpDateCutoff,
-      final ThemeMode themeMode,
-      final ColorThemes? themeColor,
-      final bool amoledBlack,
-      final bool blurPlaceHolders,
-      final bool blurUpcomingEpisodes,
-      @LocaleConvert() final Locale? selectedLocale,
-      final bool enableMediaKeys,
-      final double posterSize,
-      final bool pinchPosterZoom,
-      final bool mouseDragSupport,
-      final bool requireWifi,
-      final bool showAllCollectionTypes,
-      final int maxConcurrentDownloads,
-      final DynamicSchemeVariant schemeVariant,
-      final bool backgroundPosters,
-      final bool checkForUpdates,
-      final bool usePosterForLibrary,
-      final String? lastViewedUpdate,
-      final int? libraryPageSize}) = _$ClientSettingsModelImpl;
+          {final String? syncPath,
+          final Vector2 position,
+          final Vector2 size,
+          final Duration? timeOut,
+          final Duration? nextUpDateCutoff,
+          final ThemeMode themeMode,
+          final ColorThemes? themeColor,
+          final bool amoledBlack,
+          final bool blurPlaceHolders,
+          final bool blurUpcomingEpisodes,
+          @LocaleConvert() final Locale? selectedLocale,
+          final bool enableMediaKeys,
+          final double posterSize,
+          final bool pinchPosterZoom,
+          final bool mouseDragSupport,
+          final bool requireWifi,
+          final bool showAllCollectionTypes,
+          final int maxConcurrentDownloads,
+          final DynamicSchemeVariant schemeVariant,
+          final bool backgroundPosters,
+          final bool checkForUpdates,
+          final bool usePosterForLibrary,
+          final String? lastViewedUpdate,
+          final int? libraryPageSize,
+          final Map<GlobalHotKeys, KeyCombination?> shortcuts}) =
+      _$ClientSettingsModelImpl;
   _ClientSettingsModel._() : super._();
 
   factory _ClientSettingsModel.fromJson(Map<String, dynamic> json) =
@@ -641,6 +668,8 @@ abstract class _ClientSettingsModel extends ClientSettingsModel {
   String? get lastViewedUpdate;
   @override
   int? get libraryPageSize;
+  @override
+  Map<GlobalHotKeys, KeyCombination?> get shortcuts;
 
   /// Create a copy of ClientSettingsModel
   /// with the given fields replaced by the non-null parameter values.

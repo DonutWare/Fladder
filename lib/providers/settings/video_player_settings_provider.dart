@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:screen_brightness/screen_brightness.dart';
 
-import 'package:fladder/models/settings/hotkeys_model.dart';
+import 'package:fladder/models/settings/key_combinations.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
@@ -15,7 +15,7 @@ final videoPlayerSettingsProvider =
 });
 
 class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSettingsModel> {
-  VideoPlayerSettingsProviderNotifier(this.ref) : super(VideoPlayerSettingsModel(hotKeys: HotKeysModel()));
+  VideoPlayerSettingsProviderNotifier(this.ref) : super(VideoPlayerSettingsModel());
 
   final Ref ref;
 
@@ -69,12 +69,13 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
   void toggleOrientation(Set<DeviceOrientation>? orientation) =>
       state = state.copyWith(allowedOrientations: orientation);
 
-  void setShortcuts(MapEntry<HotKeys, KeyCombination?> newEntry) {
-    final currentShortcuts = Map.fromEntries(state.hotKeys.shortCuts.entries);
+  void setShortcuts(MapEntry<VideoHotKeys, KeyCombination?> newEntry) {
+    final currentShortcuts = Map.fromEntries(state.hotKeys.entries);
     currentShortcuts.update(
       newEntry.key,
       (value) => newEntry.value,
+      ifAbsent: () => newEntry.value,
     );
-    state = state.copyWith(hotKeys: state.hotKeys.copyWith(shortCuts: currentShortcuts));
+    state = state.copyWith(hotKeys: currentShortcuts);
   }
 }

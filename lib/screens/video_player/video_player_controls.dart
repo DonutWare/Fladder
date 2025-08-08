@@ -13,7 +13,7 @@ import 'package:screen_brightness/screen_brightness.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
-import 'package:fladder/models/settings/hotkeys_model.dart';
+import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
@@ -684,23 +684,23 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
 
         if (isMainKeyPressed && isModifierKeyPressed) {
           switch (hotKey) {
-            case HotKeys.playPause:
+            case VideoHotKeys.playPause:
               ref.read(videoPlayerProvider).playOrPause();
               return true;
-            case HotKeys.volumeUp:
+            case VideoHotKeys.volumeUp:
               resetTimer();
               ref.read(videoPlayerSettingsProvider.notifier).steppedVolume(5);
               return true;
-            case HotKeys.volumeDown:
+            case VideoHotKeys.volumeDown:
               resetTimer();
               ref.read(videoPlayerSettingsProvider.notifier).steppedVolume(-5);
               return true;
-            case HotKeys.fullScreen:
+            case VideoHotKeys.fullScreen:
               fullScreenHelper.toggleFullScreen(ref);
               return true;
-            case HotKeys.nextVideo:
+            case VideoHotKeys.nextVideo:
               return true;
-            case HotKeys.skipMediaSegment:
+            case VideoHotKeys.skipMediaSegment:
               if (segment != null) {
                 skipToSegmentEnd(segment);
               }

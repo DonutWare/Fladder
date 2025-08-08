@@ -38,7 +38,14 @@ _$VideoPlayerSettingsModelImpl _$$VideoPlayerSettingsModelImplFromJson(
                     $enumDecode(_$SegmentSkipEnumMap, e)),
               ) ??
               defaultSegmentSkipValues,
-      hotKeys: HotKeysModel.fromJson(json['hotKeys'] as Map<String, dynamic>),
+      hotKeys: (json['hotKeys'] as Map<String, dynamic>?)?.map(
+            (k, e) => MapEntry(
+                $enumDecode(_$VideoHotKeysEnumMap, k),
+                e == null
+                    ? null
+                    : KeyCombination.fromJson(e as Map<String, dynamic>)),
+          ) ??
+          const {},
     );
 
 Map<String, dynamic> _$$VideoPlayerSettingsModelImplToJson(
@@ -61,7 +68,8 @@ Map<String, dynamic> _$$VideoPlayerSettingsModelImplToJson(
       'audioDevice': instance.audioDevice,
       'segmentSkipSettings': instance.segmentSkipSettings.map((k, e) =>
           MapEntry(_$MediaSegmentTypeEnumMap[k]!, _$SegmentSkipEnumMap[e]!)),
-      'hotKeys': instance.hotKeys,
+      'hotKeys': instance.hotKeys
+          .map((k, e) => MapEntry(_$VideoHotKeysEnumMap[k]!, e)),
     };
 
 const _$BoxFitEnumMap = {
@@ -124,4 +132,19 @@ const _$MediaSegmentTypeEnumMap = {
   MediaSegmentType.recap: 'recap',
   MediaSegmentType.outro: 'outro',
   MediaSegmentType.intro: 'intro',
+};
+
+const _$VideoHotKeysEnumMap = {
+  VideoHotKeys.playPause: 'playPause',
+  VideoHotKeys.seekForward: 'seekForward',
+  VideoHotKeys.seekBack: 'seekBack',
+  VideoHotKeys.mute: 'mute',
+  VideoHotKeys.volumeUp: 'volumeUp',
+  VideoHotKeys.volumeDown: 'volumeDown',
+  VideoHotKeys.nextVideo: 'nextVideo',
+  VideoHotKeys.prevVideo: 'prevVideo',
+  VideoHotKeys.nextChapter: 'nextChapter',
+  VideoHotKeys.prevChapter: 'prevChapter',
+  VideoHotKeys.fullScreen: 'fullScreen',
+  VideoHotKeys.skipMediaSegment: 'skipMediaSegment',
 };

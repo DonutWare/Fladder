@@ -6,23 +6,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:fladder/screens/settings/widgets/key_listener.dart';
 
-part 'hotkeys_model.freezed.dart';
-part 'hotkeys_model.g.dart';
-
-enum HotKeys {
-  playPause,
-  seekForward,
-  seekBack,
-  mute,
-  volumeUp,
-  volumeDown,
-  nextVideo,
-  prevVideo,
-  nextChapter,
-  prevChapter,
-  fullScreen,
-  skipMediaSegment,
-}
+part 'key_combinations.freezed.dart';
+part 'key_combinations.g.dart';
 
 @Freezed(toJson: true, fromJson: true)
 class KeyCombination with _$KeyCombination {
@@ -58,15 +43,4 @@ class LogicalKeyboardSerializer extends JsonConverter<LogicalKeyboardKey, String
   String toJson(LogicalKeyboardKey object) {
     return jsonEncode(object.keyId.toString());
   }
-}
-
-@Freezed(toJson: true, fromJson: true, copyWith: true)
-class HotKeysModel with _$HotKeysModel {
-  const HotKeysModel._();
-
-  factory HotKeysModel({
-    @Default({}) Map<HotKeys, KeyCombination?> shortCuts,
-  }) = _HotKeysModel;
-
-  factory HotKeysModel.fromJson(Map<String, dynamic> json) => _$HotKeysModelFromJson(json);
 }

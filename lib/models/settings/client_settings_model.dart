@@ -6,14 +6,21 @@ import 'package:flutter/material.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'package:fladder/models/settings/key_combinations.dart';
 import 'package:fladder/util/custom_color_themes.dart';
 
 part 'client_settings_model.freezed.dart';
 part 'client_settings_model.g.dart';
 
+enum GlobalHotKeys {
+  search,
+  exit,
+}
+
 @Freezed(copyWith: true)
 class ClientSettingsModel with _$ClientSettingsModel {
   const ClientSettingsModel._();
+
   factory ClientSettingsModel({
     String? syncPath,
     @Default(Vector2(x: 0, y: 0)) Vector2 position,
@@ -39,9 +46,13 @@ class ClientSettingsModel with _$ClientSettingsModel {
     @Default(false) bool usePosterForLibrary,
     String? lastViewedUpdate,
     int? libraryPageSize,
+    @Default({}) Map<GlobalHotKeys, KeyCombination?> shortcuts,
   }) = _ClientSettingsModel;
 
   factory ClientSettingsModel.fromJson(Map<String, dynamic> json) => _$ClientSettingsModelFromJson(json);
+
+  // Map<GlobalHotKeys, KeyCombination> get currentShortcuts =>
+  //     defaultVideoHotKeys.map((key, value) => MapEntry(key, hotKeys.shortCuts[key] ?? value));
 
   Brightness statusBarBrightness(BuildContext context) {
     return switch (themeMode) {

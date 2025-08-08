@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'hotkeys_model.dart';
+part of 'key_combinations.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
@@ -32,36 +32,3 @@ Json? _$JsonConverterToJson<Json, Value>(
   Json? Function(Value value) toJson,
 ) =>
     value == null ? null : toJson(value);
-
-_$HotKeysModelImpl _$$HotKeysModelImplFromJson(Map<String, dynamic> json) =>
-    _$HotKeysModelImpl(
-      shortCuts: (json['shortCuts'] as Map<String, dynamic>?)?.map(
-            (k, e) => MapEntry(
-                $enumDecode(_$HotKeysEnumMap, k),
-                e == null
-                    ? null
-                    : KeyCombination.fromJson(e as Map<String, dynamic>)),
-          ) ??
-          const {},
-    );
-
-Map<String, dynamic> _$$HotKeysModelImplToJson(_$HotKeysModelImpl instance) =>
-    <String, dynamic>{
-      'shortCuts':
-          instance.shortCuts.map((k, e) => MapEntry(_$HotKeysEnumMap[k]!, e)),
-    };
-
-const _$HotKeysEnumMap = {
-  HotKeys.playPause: 'playPause',
-  HotKeys.seekForward: 'seekForward',
-  HotKeys.seekBack: 'seekBack',
-  HotKeys.mute: 'mute',
-  HotKeys.volumeUp: 'volumeUp',
-  HotKeys.volumeDown: 'volumeDown',
-  HotKeys.nextVideo: 'nextVideo',
-  HotKeys.prevVideo: 'prevVideo',
-  HotKeys.nextChapter: 'nextChapter',
-  HotKeys.prevChapter: 'prevChapter',
-  HotKeys.fullScreen: 'fullScreen',
-  HotKeys.skipMediaSegment: 'skipMediaSegment',
-};

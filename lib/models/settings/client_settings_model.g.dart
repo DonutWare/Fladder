@@ -46,6 +46,14 @@ _$ClientSettingsModelImpl _$$ClientSettingsModelImplFromJson(
       usePosterForLibrary: json['usePosterForLibrary'] as bool? ?? false,
       lastViewedUpdate: json['lastViewedUpdate'] as String?,
       libraryPageSize: (json['libraryPageSize'] as num?)?.toInt(),
+      shortcuts: (json['shortcuts'] as Map<String, dynamic>?)?.map(
+            (k, e) => MapEntry(
+                $enumDecode(_$GlobalHotKeysEnumMap, k),
+                e == null
+                    ? null
+                    : KeyCombination.fromJson(e as Map<String, dynamic>)),
+          ) ??
+          const {},
     );
 
 Map<String, dynamic> _$$ClientSettingsModelImplToJson(
@@ -75,6 +83,8 @@ Map<String, dynamic> _$$ClientSettingsModelImplToJson(
       'usePosterForLibrary': instance.usePosterForLibrary,
       'lastViewedUpdate': instance.lastViewedUpdate,
       'libraryPageSize': instance.libraryPageSize,
+      'shortcuts': instance.shortcuts
+          .map((k, e) => MapEntry(_$GlobalHotKeysEnumMap[k]!, e)),
     };
 
 const _$ThemeModeEnumMap = {
@@ -111,4 +121,9 @@ const _$DynamicSchemeVariantEnumMap = {
   DynamicSchemeVariant.content: 'content',
   DynamicSchemeVariant.rainbow: 'rainbow',
   DynamicSchemeVariant.fruitSalad: 'fruitSalad',
+};
+
+const _$GlobalHotKeysEnumMap = {
+  GlobalHotKeys.search: 'search',
+  GlobalHotKeys.exit: 'exit',
 };

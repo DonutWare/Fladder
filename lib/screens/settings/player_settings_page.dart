@@ -8,7 +8,6 @@ import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/items/media_segments_model.dart';
-import 'package:fladder/models/settings/hotkeys_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
@@ -208,10 +207,10 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                   )),
             ),
             if (AdaptiveLayout.of(context).isDesktop || kIsWeb)
-              ...HotKeys.values.map(
+              ...VideoHotKeys.values.map(
                 (entry) {
-                  final currentEntry = videoSettings.hotKeys.shortCuts[entry];
-                  final defaultEntry = defaultVideoHotKeys[entry]!;
+                  final currentEntry = videoSettings.hotKeys[entry];
+                  final defaultEntry = videoSettings.defaultShortCuts[entry]!;
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: Row(
