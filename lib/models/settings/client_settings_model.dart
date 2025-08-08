@@ -9,13 +9,23 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:fladder/models/settings/key_combinations.dart';
 import 'package:fladder/util/custom_color_themes.dart';
+import 'package:fladder/util/localization_helper.dart';
 
 part 'client_settings_model.freezed.dart';
 part 'client_settings_model.g.dart';
 
 enum GlobalHotKeys {
   search,
-  exit,
+  exit;
+
+  const GlobalHotKeys();
+
+  String label(BuildContext context) {
+    return switch (this) {
+      GlobalHotKeys.search => context.localized.search,
+      GlobalHotKeys.exit => context.localized.exitFladderTitle,
+    };
+  }
 }
 
 @Freezed(copyWith: true)

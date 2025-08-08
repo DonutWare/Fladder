@@ -26,7 +26,27 @@ enum VideoHotKeys {
   prevChapter,
   fullScreen,
   skipMediaSegment,
-  exit,
+  exit;
+
+  const VideoHotKeys();
+
+  String label(BuildContext context) {
+    return switch (this) {
+      VideoHotKeys.playPause => context.localized.playPause,
+      VideoHotKeys.seekForward => context.localized.seekForward,
+      VideoHotKeys.seekBack => context.localized.seekBack,
+      VideoHotKeys.mute => context.localized.mute,
+      VideoHotKeys.volumeUp => context.localized.volumeUp,
+      VideoHotKeys.volumeDown => context.localized.volumeDown,
+      VideoHotKeys.nextVideo => context.localized.nextVideo,
+      VideoHotKeys.prevVideo => context.localized.prevVideo,
+      VideoHotKeys.nextChapter => context.localized.nextChapter,
+      VideoHotKeys.prevChapter => context.localized.prevChapter,
+      VideoHotKeys.fullScreen => context.localized.fullScreen,
+      VideoHotKeys.skipMediaSegment => context.localized.skipMediaSegment,
+      VideoHotKeys.exit => context.localized.exit,
+    };
+  }
 }
 
 @Freezed(copyWith: true)

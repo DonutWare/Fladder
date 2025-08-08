@@ -1295,5 +1295,18 @@
   "offline": "Offline",
   "shortCuts": "Shortcuts",
   "skipForwardLength": "Skip forward length",
-  "skipBackLength": "Skip back length"
+  "skipBackLength": "Skip back length",
+  "playPause": "Play/Pause",
+  "seekForward": "Seek Forward",
+  "seekBack": "Seek Back",
+  "mute": "Mute",
+  "volumeUp": "Volume Up",
+  "volumeDown": "Volume Down",
+  "nextVideo": "Next Video",
+  "prevVideo": "Previous Video",
+  "nextChapter": "Next Chapter",
+  "prevChapter": "Previous Chapter",
+  "fullScreen": "Full Screen",
+  "skipMediaSegment": "Skip Media Segment",
+  "exit": "Exit"
 }

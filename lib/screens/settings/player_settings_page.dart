@@ -26,7 +26,6 @@ import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/bitrate_helper.dart';
 import 'package:fladder/util/box_fit_extension.dart';
 import 'package:fladder/util/localization_helper.dart';
-import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/widgets/shared/enum_selection.dart';
 
 @RoutePage()
@@ -217,7 +216,7 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                       children: [
                         Expanded(
                           child: Text(
-                            entry.name.toUpperCaseSplit(),
+                            entry.label(context),
                             style: Theme.of(context).textTheme.titleLarge,
                           ),
                         ),

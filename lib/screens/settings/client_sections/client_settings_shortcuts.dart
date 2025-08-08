@@ -8,7 +8,6 @@ import 'package:fladder/screens/settings/widgets/key_listener.dart';
 import 'package:fladder/screens/settings/widgets/settings_label_divider.dart';
 import 'package:fladder/screens/settings/widgets/settings_list_group.dart';
 import 'package:fladder/util/localization_helper.dart';
-import 'package:fladder/util/string_extensions.dart';
 
 List<Widget> buildClientSettingsShortCuts(
   BuildContext context,
@@ -29,7 +28,7 @@ List<Widget> buildClientSettingsShortCuts(
               children: [
                 Expanded(
                   child: Text(
-                    entry.name.toUpperCaseSplit(),
+                    entry.label(context),
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),
