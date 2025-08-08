@@ -1139,7 +1139,7 @@
   },
   "noVideoPlayerOptions": "The selected backend has no options",
   "mdkExperimental": "MDK is still in a experimental stage",
-  "skipButtonLabel": "(S)kip {segment}",
+  "skipButtonLabel": "Skip {segment}",
   "@skipButtonLabel": {
     "placeholders": {
       "segment": {
@@ -1293,5 +1293,7 @@
   "usePostersForLibraryIconsTitle": "Show posters for library icons",
   "usePostersForLibraryIconsDesc": "Show posters instead of icons for libraries",
   "offline": "Offline",
-  "shortCuts": "Shortcuts"
+  "shortCuts": "Shortcuts",
+  "skipForwardLength": "Skip forward length",
+  "skipBackLength": "Skip back length"
 }

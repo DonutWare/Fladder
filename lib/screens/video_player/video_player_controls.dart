@@ -539,24 +539,53 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   }
 
   Widget seekBackwardButton(WidgetRef ref) {
+    final backwardSpeed = ref.read(videoPlayerSettingsProvider.select((value) => value.hotKeys.backwardStep)).inSeconds;
     return IconButton(
-      onPressed: () => seekBack(ref),
-      tooltip: "-10",
+      onPressed: () => seekBack(ref, seconds: backwardSpeed),
+      tooltip: "-$backwardSpeed",
       iconSize: 40,
-      icon: const Icon(
-        IconsaxPlusLinear.backward_10_seconds,
+      icon: Stack(
+        alignment: Alignment.center,
+        children: [
+          const Icon(
+            IconsaxPlusBroken.refresh,
+            size: 45,
+          ),
+          Transform.translate(
+            offset: const Offset(0, 1),
+            child: Text(
+              "-$backwardSpeed",
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+          ),
+        ],
       ),
     );
   }
 
   Widget seekForwardButton(WidgetRef ref) {
+    final forwardSpeed = ref.read(videoPlayerSettingsProvider.select((value) => value.hotKeys.forwardStep)).inSeconds;
     return IconButton(
-      onPressed: () => seekForward(ref),
-      tooltip: "15",
+      onPressed: () => seekForward(ref, seconds: forwardSpeed),
+      tooltip: forwardSpeed.toString(),
       iconSize: 40,
-      icon: const Stack(
+      icon: Stack(
+        alignment: Alignment.center,
         children: [
-          Icon(IconsaxPlusLinear.forward_15_seconds),
+          Transform.flip(
+            flipX: true,
+            child: const Icon(
+              IconsaxPlusBroken.refresh,
+              size: 45,
+            ),
+          ),
+          Transform.translate(
+            offset: const Offset(0, 1),
+            child: Text(
+              forwardSpeed.toString(),
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+          ),
         ],
       ),
     );

@@ -176,33 +176,62 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
           context,
           SettingsLabelDivider(label: context.localized.shortCuts),
           [
-            ...HotKeys.values.map(
-              (entry) {
-                final currentEntry = videoSettings.hotKeys.shortCuts[entry];
-                final defaultEntry = defaultHotKeys[entry]!;
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          entry.name.toUpperCaseSplit(),
-                          style: Theme.of(context).textTheme.titleLarge,
+            SettingsListTile(
+              label: Text(context.localized.skipBackLength),
+              trailing: SizedBox(
+                  width: 125,
+                  child: IntInputField(
+                    suffix: context.localized.seconds(10),
+                    controller: TextEditingController(text: videoSettings.hotKeys.backwardStep.inSeconds.toString()),
+                    onSubmitted: (value) {
+                      if (value != null) {
+                        provider.setBackwardSpeed(value);
+                      }
+                    },
+                  )),
+            ),
+            SettingsListTile(
+              label: Text(context.localized.skipForwardLength),
+              trailing: SizedBox(
+                  width: 125,
+                  child: IntInputField(
+                    suffix: context.localized.seconds(10),
+                    controller: TextEditingController(text: videoSettings.hotKeys.forwardStep.inSeconds.toString()),
+                    onSubmitted: (value) {
+                      if (value != null) {
+                        provider.setForwardSpeed(value);
+                      }
+                    },
+                  )),
+            ),
+            if (AdaptiveLayout.of(context).isDesktop || kIsWeb)
+              ...HotKeys.values.map(
+                (entry) {
+                  final currentEntry = videoSettings.hotKeys.shortCuts[entry];
+                  final defaultEntry = defaultHotKeys[entry]!;
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            entry.name.toUpperCaseSplit(),
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
                         ),
-                      ),
-                      Flexible(
-                        child: KeyCombinationWidget(
-                          currentKey: currentEntry,
-                          defaultKey: defaultEntry,
-                          onChanged: (value) =>
-                              ref.read(videoPlayerSettingsProvider.notifier).setShortcuts(MapEntry(entry, value)),
-                        ),
-                      )
-                    ],
-                  ),
-                );
-              },
-            )
+                        Flexible(
+                          child: KeyCombinationWidget(
+                            currentKey: currentEntry,
+                            defaultKey: defaultEntry,
+                            onChanged: (value) =>
+                                ref.read(videoPlayerSettingsProvider.notifier).setShortcuts(MapEntry(entry, value)),
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                },
+              )
           ],
         ),
         const SizedBox(height: 12),

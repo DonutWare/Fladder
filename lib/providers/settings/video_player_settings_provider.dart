@@ -55,6 +55,17 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
   void setBufferSize(int? value) => state = state.copyWith(bufferSize: value ?? 32);
   void setFitType(BoxFit? value) => state = state.copyWith(videoFit: value ?? BoxFit.contain);
 
+  void setForwardSpeed(int? value) {
+    state = state.copyWith(
+        hotKeys: state.hotKeys.copyWith(forwardStep: Duration(seconds: value ?? HotKeysModel().forwardStep.inSeconds)));
+  }
+
+  void setBackwardSpeed(int? value) {
+    state = state.copyWith(
+        hotKeys:
+            state.hotKeys.copyWith(backwardStep: Duration(seconds: value ?? HotKeysModel().backwardStep.inSeconds)));
+  }
+
   void setVolume(double value) {
     state = state.copyWith(internalVolume: value);
     ref.read(videoPlayerProvider).setVolume(value);
