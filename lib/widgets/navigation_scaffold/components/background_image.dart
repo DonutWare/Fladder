@@ -74,7 +74,7 @@ class _BackgroundImageState extends ConsumerState<BackgroundImage> {
         ? FladderImage(
             image: backgroundImage,
             fit: BoxFit.cover,
-            blurOnly: true,
+            blurOnly: false,
           )
         : const SizedBox.shrink();
   }

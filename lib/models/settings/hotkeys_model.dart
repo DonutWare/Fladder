@@ -69,25 +69,4 @@ class HotKeysModel with _$HotKeysModel {
   }) = _HotKeysModel;
 
   factory HotKeysModel.fromJson(Map<String, dynamic> json) => _$HotKeysModelFromJson(json);
-
-  Map<HotKeys, KeyCombination> get currentShortcuts =>
-      defaultHotKeys.map((key, value) => MapEntry(key, shortCuts[key] ?? value));
 }
-
-Map<HotKeys, KeyCombination> get defaultHotKeys => {
-      for (var hotKey in HotKeys.values)
-        hotKey: switch (hotKey) {
-          HotKeys.playPause => KeyCombination(key: LogicalKeyboardKey.space),
-          HotKeys.seekForward => KeyCombination(key: LogicalKeyboardKey.arrowRight),
-          HotKeys.seekBack => KeyCombination(key: LogicalKeyboardKey.arrowLeft),
-          HotKeys.mute => KeyCombination(key: LogicalKeyboardKey.keyM),
-          HotKeys.volumeUp => KeyCombination(key: LogicalKeyboardKey.arrowUp),
-          HotKeys.volumeDown => KeyCombination(key: LogicalKeyboardKey.arrowDown),
-          HotKeys.prevVideo => KeyCombination(key: LogicalKeyboardKey.keyP, modifier: LogicalKeyboardKey.shift),
-          HotKeys.nextVideo => KeyCombination(key: LogicalKeyboardKey.keyN, modifier: LogicalKeyboardKey.shift),
-          HotKeys.nextChapter => KeyCombination(key: LogicalKeyboardKey.pageUp),
-          HotKeys.prevChapter => KeyCombination(key: LogicalKeyboardKey.pageDown),
-          HotKeys.fullScreen => KeyCombination(key: LogicalKeyboardKey.keyF),
-          HotKeys.skipMediaSegment => KeyCombination(key: LogicalKeyboardKey.keyS),
-        },
-    };

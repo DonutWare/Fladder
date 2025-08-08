@@ -88,7 +88,7 @@ class _VideoPlayerSeekIndicatorState extends ConsumerState<VideoPlayerSeekIndica
   }
 
   bool _onKey(KeyEvent value) {
-    final hotkeys = ref.read(videoPlayerSettingsProvider.select((value) => value.hotKeys.currentShortcuts));
+    final hotkeys = ref.read(videoPlayerSettingsProvider.select((value) => value.currentShortcuts));
     if (value is KeyDownEvent || value is KeyRepeatEvent) {
       for (var entry in hotkeys.entries) {
         final hotKey = entry.key;

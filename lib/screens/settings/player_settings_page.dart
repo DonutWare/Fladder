@@ -211,7 +211,7 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
               ...HotKeys.values.map(
                 (entry) {
                   final currentEntry = videoSettings.hotKeys.shortCuts[entry];
-                  final defaultEntry = defaultHotKeys[entry]!;
+                  final defaultEntry = defaultVideoHotKeys[entry]!;
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: Row(

@@ -79,7 +79,7 @@ class KeyCombinationWidgetState extends ConsumerState<KeyCombinationWidget> {
   }
 
   void _handleKeyEvent(KeyEvent event) {
-    final videoHotKeys = ref.read(videoPlayerSettingsProvider.select((value) => value.hotKeys.currentShortcuts)).values;
+    final videoHotKeys = ref.read(videoPlayerSettingsProvider.select((value) => value.currentShortcuts)).values;
     final activeHotKeys = [...videoHotKeys].toList();
 
     if (event.logicalKey == LogicalKeyboardKey.escape) {

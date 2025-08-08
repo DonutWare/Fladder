@@ -44,6 +44,9 @@ class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
 
   PlayerOptions get wantedPlayer => playerOptions ?? PlayerOptions.platformDefaults;
 
+  Map<HotKeys, KeyCombination> get currentShortcuts =>
+      defaultVideoHotKeys.map((key, value) => MapEntry(key, hotKeys.shortCuts[key] ?? value));
+
   bool playerSame(VideoPlayerSettingsModel other) {
     return other.hardwareAccel == hardwareAccel &&
         other.useLibass == useLibass &&
@@ -120,3 +123,21 @@ enum AutoNextType {
         AutoNextType.static => context.localized.autoNextOffStaticDesc,
       };
 }
+
+Map<HotKeys, KeyCombination> get defaultVideoHotKeys => {
+      for (var hotKey in HotKeys.values)
+        hotKey: switch (hotKey) {
+          HotKeys.playPause => KeyCombination(key: LogicalKeyboardKey.space),
+          HotKeys.seekForward => KeyCombination(key: LogicalKeyboardKey.arrowRight),
+          HotKeys.seekBack => KeyCombination(key: LogicalKeyboardKey.arrowLeft),
+          HotKeys.mute => KeyCombination(key: LogicalKeyboardKey.keyM),
+          HotKeys.volumeUp => KeyCombination(key: LogicalKeyboardKey.arrowUp),
+          HotKeys.volumeDown => KeyCombination(key: LogicalKeyboardKey.arrowDown),
+          HotKeys.prevVideo => KeyCombination(key: LogicalKeyboardKey.keyP, modifier: LogicalKeyboardKey.shift),
+          HotKeys.nextVideo => KeyCombination(key: LogicalKeyboardKey.keyN, modifier: LogicalKeyboardKey.shift),
+          HotKeys.nextChapter => KeyCombination(key: LogicalKeyboardKey.pageUp),
+          HotKeys.prevChapter => KeyCombination(key: LogicalKeyboardKey.pageDown),
+          HotKeys.fullScreen => KeyCombination(key: LogicalKeyboardKey.keyF),
+          HotKeys.skipMediaSegment => KeyCombination(key: LogicalKeyboardKey.keyS),
+        },
+    };

@@ -666,7 +666,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   bool _onKey(KeyEvent value) {
     final mediaSegments = ref.read(playBackModel.select((value) => value?.mediaSegments));
     final position = ref.read(mediaPlaybackProvider).position;
-    final hotkeys = ref.read(videoPlayerSettingsProvider.select((value) => value.hotKeys.currentShortcuts));
+    final hotkeys = ref.read(videoPlayerSettingsProvider.select((value) => value.currentShortcuts));
 
     MediaSegment? segment = mediaSegments?.atPosition(position);
 
