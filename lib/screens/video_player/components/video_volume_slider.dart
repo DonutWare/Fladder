@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/util/list_padding.dart';
@@ -19,6 +19,8 @@ class VideoVolumeSlider extends ConsumerStatefulWidget {
 class _VideoVolumeSliderState extends ConsumerState<VideoVolumeSlider> {
   bool sliderActive = false;
 
+  double? previousVolume;
+
   @override
   Widget build(BuildContext context) {
     final volume = ref.watch(videoPlayerSettingsProvider.select((value) => value.volume));
@@ -27,7 +29,12 @@ class _VideoVolumeSliderState extends ConsumerState<VideoVolumeSlider> {
       children: [
         IconButton(
           icon: Icon(volumeIcon(volume)),
-          onPressed: () => ref.read(videoPlayerSettingsProvider.notifier).setVolume(0),
+          onPressed: () {
+            if (volume != 0) {
+              previousVolume = volume;
+            }
+            ref.read(videoPlayerSettingsProvider.notifier).setVolume(volume == 0 ? (previousVolume ?? 100) : 0);
+          },
         ),
         AnimatedSize(
           duration: const Duration(milliseconds: 250),

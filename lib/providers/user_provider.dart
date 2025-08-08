@@ -40,6 +40,9 @@ class User extends _$User {
     var response = await api.usersMeGet();
     var quickConnectStatus = await api.quickConnectEnabled();
     var systemConfiguration = await api.systemConfigurationGet();
+
+    final customConfig = await api.getCustomConfig();
+
     if (response.isSuccessful && response.body != null) {
       userState = state?.copyWith(
         name: response.body?.name ?? state?.name ?? "",
@@ -48,6 +51,7 @@ class User extends _$User {
         userConfiguration: response.body?.configuration,
         quickConnectState: quickConnectStatus.body ?? false,
         latestItemsExcludes: response.body?.configuration?.latestItemsExcludes ?? [],
+        userSettings: customConfig.body,
       );
       return response.copyWith(body: state);
     }
@@ -66,6 +70,25 @@ class User extends _$User {
     if (newUserConfiguration != null) {
       userState = state?.copyWith(userConfiguration: newUserConfiguration);
     }
+  }
+
+  void setBackwardSpeed(int value) {
+    final userSettings = state?.userSettings?.copyWith(skipBackDuration: Duration(seconds: value));
+    if (userSettings != null) {
+      updateCustomConfig(userSettings);
+    }
+  }
+
+  void setForwardSpeed(int value) {
+    final userSettings = state?.userSettings?.copyWith(skipForwardDuration: Duration(seconds: value));
+    if (userSettings != null) {
+      updateCustomConfig(userSettings);
+    }
+  }
+
+  Future<Response<dynamic>> updateCustomConfig(UserSettings settings) async {
+    state = state?.copyWith(userSettings: settings);
+    return api.setCustomConfig(settings);
   }
 
   Future<Response> refreshMetaData(

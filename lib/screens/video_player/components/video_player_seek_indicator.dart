@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'package:async/async.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:fladder/models/account_model.dart';
+import 'package:fladder/models/settings/video_player_settings.dart';
+import 'package:fladder/providers/settings/video_player_settings_provider.dart';
+import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/util/input_handler.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -48,35 +51,12 @@ class _VideoPlayerSeekIndicatorState extends ConsumerState<VideoPlayerSeekIndica
     });
   }
 
-  bool _onKey(KeyEvent value) {
-    if (value is KeyRepeatEvent) {
-      if (value.logicalKey == LogicalKeyboardKey.arrowLeft) {
-        seekBack();
-        return true;
-      }
-      if (value.logicalKey == LogicalKeyboardKey.arrowRight) {
-        seekForward();
-        return true;
-      }
-    }
-    if (value is KeyDownEvent) {
-      if (value.logicalKey == LogicalKeyboardKey.arrowLeft) {
-        seekBack();
-        return true;
-      }
-      if (value.logicalKey == LogicalKeyboardKey.arrowRight) {
-        seekForward();
-        return true;
-      }
-    }
-    return false;
-  }
-
   @override
   Widget build(BuildContext context) {
     return InputHandler(
       autoFocus: true,
-      onKeyEvent: (node, event) => _onKey(event) ? KeyEventResult.handled : KeyEventResult.ignored,
+      keyMap: ref.watch(videoPlayerSettingsProvider.select((value) => value.currentShortcuts)),
+      keyMapResult: (result) => _onKey(result),
       child: IgnorePointer(
         child: AnimatedOpacity(
           duration: const Duration(milliseconds: 500),
@@ -108,6 +88,29 @@ class _VideoPlayerSeekIndicatorState extends ConsumerState<VideoPlayerSeekIndica
     );
   }
 
-  void seekBack({int seconds = -10}) => onSeekStart(seconds);
-  void seekForward({int seconds = 30}) => onSeekStart(seconds);
+  bool _onKey(VideoHotKeys value) {
+    switch (value) {
+      case VideoHotKeys.seekForward:
+        seekForward();
+        return true;
+      case VideoHotKeys.seekBack:
+        seekBack();
+        return true;
+      default:
+        break;
+    }
+    return false;
+  }
+
+  void seekBack() {
+    final seconds = -ref.read(userProvider
+        .select((value) => (value?.userSettings?.skipBackDuration ?? UserSettings().skipBackDuration).inSeconds));
+    onSeekStart(seconds);
+  }
+
+  void seekForward() {
+    final seconds = ref.read(userProvider
+        .select((value) => (value?.userSettings?.skipForwardDuration ?? UserSettings().skipForwardDuration).inSeconds));
+    onSeekStart(seconds);
+  }
 }

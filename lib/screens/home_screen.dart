@@ -4,9 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
+import 'package:window_manager/window_manager.dart';
 
+import 'package:fladder/models/settings/client_settings_model.dart';
+import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
+import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/util/input_handler.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/adaptive_fab.dart';
@@ -17,8 +22,7 @@ enum HomeTabs {
   dashboard,
   library,
   favorites,
-  sync,
-  ;
+  sync;
 
   const HomeTabs();
 
@@ -120,16 +124,37 @@ class HomeScreen extends ConsumerWidget {
         })
         .nonNulls
         .toList();
-    return HeroControllerScope(
-      controller: HeroController(),
-      child: AutoRouter(
-        builder: (context, child) {
-          return NavigationScaffold(
-            destinations: destinations.nonNulls.toList(),
-            currentRouteName: context.router.current.name,
-            nestedChild: child,
-          );
-        },
+    return InputHandler<GlobalHotKeys>(
+      autoFocus: false,
+      keyMapResult: (result) {
+        switch (result) {
+          case GlobalHotKeys.search:
+            context.navigateTo(LibrarySearchRoute());
+            return true;
+          case GlobalHotKeys.exit:
+            Future.microtask(() async {
+              final manager = WindowManager.instance;
+              if (await manager.isClosable()) {
+                manager.close();
+              } else {
+                fladderSnackbar(context, title: context.localized.somethingWentWrong);
+              }
+            });
+            return true;
+        }
+      },
+      keyMap: ref.watch(clientSettingsProvider.select((value) => value.currentShortcuts)),
+      child: HeroControllerScope(
+        controller: HeroController(),
+        child: AutoRouter(
+          builder: (context, child) {
+            return NavigationScaffold(
+              destinations: destinations.nonNulls.toList(),
+              currentRouteName: context.router.current.name,
+              nestedChild: child,
+            );
+          },
+        ),
       ),
     );
   }

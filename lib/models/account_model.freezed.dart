@@ -40,6 +40,7 @@ mixin _$AccountModel {
   @JsonKey(includeFromJson: false, includeToJson: false)
   UserConfiguration? get userConfiguration =>
       throw _privateConstructorUsedError;
+  UserSettings? get userSettings => throw _privateConstructorUsedError;
 
   /// Serializes this AccountModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -73,7 +74,10 @@ abstract class $AccountModelCopyWith<$Res> {
       @JsonKey(includeFromJson: false, includeToJson: false)
       ServerConfiguration? serverConfiguration,
       @JsonKey(includeFromJson: false, includeToJson: false)
-      UserConfiguration? userConfiguration});
+      UserConfiguration? userConfiguration,
+      UserSettings? userSettings});
+
+  $UserSettingsCopyWith<$Res>? get userSettings;
 }
 
 /// @nodoc
@@ -105,6 +109,7 @@ class _$AccountModelCopyWithImpl<$Res, $Val extends AccountModel>
     Object? policy = freezed,
     Object? serverConfiguration = freezed,
     Object? userConfiguration = freezed,
+    Object? userSettings = freezed,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -163,7 +168,25 @@ class _$AccountModelCopyWithImpl<$Res, $Val extends AccountModel>
           ? _value.userConfiguration
           : userConfiguration // ignore: cast_nullable_to_non_nullable
               as UserConfiguration?,
+      userSettings: freezed == userSettings
+          ? _value.userSettings
+          : userSettings // ignore: cast_nullable_to_non_nullable
+              as UserSettings?,
     ) as $Val);
+  }
+
+  /// Create a copy of AccountModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $UserSettingsCopyWith<$Res>? get userSettings {
+    if (_value.userSettings == null) {
+      return null;
+    }
+
+    return $UserSettingsCopyWith<$Res>(_value.userSettings!, (value) {
+      return _then(_value.copyWith(userSettings: value) as $Val);
+    });
   }
 }
 
@@ -191,7 +214,11 @@ abstract class _$$AccountModelImplCopyWith<$Res>
       @JsonKey(includeFromJson: false, includeToJson: false)
       ServerConfiguration? serverConfiguration,
       @JsonKey(includeFromJson: false, includeToJson: false)
-      UserConfiguration? userConfiguration});
+      UserConfiguration? userConfiguration,
+      UserSettings? userSettings});
+
+  @override
+  $UserSettingsCopyWith<$Res>? get userSettings;
 }
 
 /// @nodoc
@@ -221,6 +248,7 @@ class __$$AccountModelImplCopyWithImpl<$Res>
     Object? policy = freezed,
     Object? serverConfiguration = freezed,
     Object? userConfiguration = freezed,
+    Object? userSettings = freezed,
   }) {
     return _then(_$AccountModelImpl(
       name: null == name
@@ -279,6 +307,10 @@ class __$$AccountModelImplCopyWithImpl<$Res>
           ? _value.userConfiguration
           : userConfiguration // ignore: cast_nullable_to_non_nullable
               as UserConfiguration?,
+      userSettings: freezed == userSettings
+          ? _value.userSettings
+          : userSettings // ignore: cast_nullable_to_non_nullable
+              as UserSettings?,
     ));
   }
 }
@@ -302,7 +334,8 @@ class _$AccountModelImpl extends _AccountModel with DiagnosticableTreeMixin {
       @JsonKey(includeFromJson: false, includeToJson: false)
       this.serverConfiguration,
       @JsonKey(includeFromJson: false, includeToJson: false)
-      this.userConfiguration})
+      this.userConfiguration,
+      this.userSettings})
       : _latestItemsExcludes = latestItemsExcludes,
         _searchQueryHistory = searchQueryHistory,
         _savedFilters = savedFilters,
@@ -368,10 +401,12 @@ class _$AccountModelImpl extends _AccountModel with DiagnosticableTreeMixin {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   final UserConfiguration? userConfiguration;
+  @override
+  final UserSettings? userSettings;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, localPin: $localPin, credentials: $credentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, savedFilters: $savedFilters, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration)';
+    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, localPin: $localPin, credentials: $credentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, savedFilters: $savedFilters, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration, userSettings: $userSettings)';
   }
 
   @override
@@ -392,7 +427,8 @@ class _$AccountModelImpl extends _AccountModel with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('savedFilters', savedFilters))
       ..add(DiagnosticsProperty('policy', policy))
       ..add(DiagnosticsProperty('serverConfiguration', serverConfiguration))
-      ..add(DiagnosticsProperty('userConfiguration', userConfiguration));
+      ..add(DiagnosticsProperty('userConfiguration', userConfiguration))
+      ..add(DiagnosticsProperty('userSettings', userSettings));
   }
 
   /// Create a copy of AccountModel
@@ -429,7 +465,8 @@ abstract class _AccountModel extends AccountModel {
       @JsonKey(includeFromJson: false, includeToJson: false)
       final ServerConfiguration? serverConfiguration,
       @JsonKey(includeFromJson: false, includeToJson: false)
-      final UserConfiguration? userConfiguration}) = _$AccountModelImpl;
+      final UserConfiguration? userConfiguration,
+      final UserSettings? userSettings}) = _$AccountModelImpl;
   const _AccountModel._() : super._();
 
   factory _AccountModel.fromJson(Map<String, dynamic> json) =
@@ -466,11 +503,180 @@ abstract class _AccountModel extends AccountModel {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   UserConfiguration? get userConfiguration;
+  @override
+  UserSettings? get userSettings;
 
   /// Create a copy of AccountModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AccountModelImplCopyWith<_$AccountModelImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+UserSettings _$UserSettingsFromJson(Map<String, dynamic> json) {
+  return _UserSettings.fromJson(json);
+}
+
+/// @nodoc
+mixin _$UserSettings {
+  Duration get skipForwardDuration => throw _privateConstructorUsedError;
+  Duration get skipBackDuration => throw _privateConstructorUsedError;
+
+  /// Serializes this UserSettings to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of UserSettings
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $UserSettingsCopyWith<UserSettings> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $UserSettingsCopyWith<$Res> {
+  factory $UserSettingsCopyWith(
+          UserSettings value, $Res Function(UserSettings) then) =
+      _$UserSettingsCopyWithImpl<$Res, UserSettings>;
+  @useResult
+  $Res call({Duration skipForwardDuration, Duration skipBackDuration});
+}
+
+/// @nodoc
+class _$UserSettingsCopyWithImpl<$Res, $Val extends UserSettings>
+    implements $UserSettingsCopyWith<$Res> {
+  _$UserSettingsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of UserSettings
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? skipForwardDuration = null,
+    Object? skipBackDuration = null,
+  }) {
+    return _then(_value.copyWith(
+      skipForwardDuration: null == skipForwardDuration
+          ? _value.skipForwardDuration
+          : skipForwardDuration // ignore: cast_nullable_to_non_nullable
+              as Duration,
+      skipBackDuration: null == skipBackDuration
+          ? _value.skipBackDuration
+          : skipBackDuration // ignore: cast_nullable_to_non_nullable
+              as Duration,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$UserSettingsImplCopyWith<$Res>
+    implements $UserSettingsCopyWith<$Res> {
+  factory _$$UserSettingsImplCopyWith(
+          _$UserSettingsImpl value, $Res Function(_$UserSettingsImpl) then) =
+      __$$UserSettingsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({Duration skipForwardDuration, Duration skipBackDuration});
+}
+
+/// @nodoc
+class __$$UserSettingsImplCopyWithImpl<$Res>
+    extends _$UserSettingsCopyWithImpl<$Res, _$UserSettingsImpl>
+    implements _$$UserSettingsImplCopyWith<$Res> {
+  __$$UserSettingsImplCopyWithImpl(
+      _$UserSettingsImpl _value, $Res Function(_$UserSettingsImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of UserSettings
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? skipForwardDuration = null,
+    Object? skipBackDuration = null,
+  }) {
+    return _then(_$UserSettingsImpl(
+      skipForwardDuration: null == skipForwardDuration
+          ? _value.skipForwardDuration
+          : skipForwardDuration // ignore: cast_nullable_to_non_nullable
+              as Duration,
+      skipBackDuration: null == skipBackDuration
+          ? _value.skipBackDuration
+          : skipBackDuration // ignore: cast_nullable_to_non_nullable
+              as Duration,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$UserSettingsImpl with DiagnosticableTreeMixin implements _UserSettings {
+  _$UserSettingsImpl(
+      {this.skipForwardDuration = const Duration(seconds: 30),
+      this.skipBackDuration = const Duration(seconds: 10)});
+
+  factory _$UserSettingsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UserSettingsImplFromJson(json);
+
+  @override
+  @JsonKey()
+  final Duration skipForwardDuration;
+  @override
+  @JsonKey()
+  final Duration skipBackDuration;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'UserSettings(skipForwardDuration: $skipForwardDuration, skipBackDuration: $skipBackDuration)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'UserSettings'))
+      ..add(DiagnosticsProperty('skipForwardDuration', skipForwardDuration))
+      ..add(DiagnosticsProperty('skipBackDuration', skipBackDuration));
+  }
+
+  /// Create a copy of UserSettings
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UserSettingsImplCopyWith<_$UserSettingsImpl> get copyWith =>
+      __$$UserSettingsImplCopyWithImpl<_$UserSettingsImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$UserSettingsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _UserSettings implements UserSettings {
+  factory _UserSettings(
+      {final Duration skipForwardDuration,
+      final Duration skipBackDuration}) = _$UserSettingsImpl;
+
+  factory _UserSettings.fromJson(Map<String, dynamic> json) =
+      _$UserSettingsImpl.fromJson;
+
+  @override
+  Duration get skipForwardDuration;
+  @override
+  Duration get skipBackDuration;
+
+  /// Create a copy of UserSettings
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$UserSettingsImplCopyWith<_$UserSettingsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

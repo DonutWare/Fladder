@@ -23,6 +23,9 @@ import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/util/jellyfin_extension.dart';
 
+const _userSettings = "usersettings";
+const _client = "fladder";
+
 class ServerQueryResult {
   final List<BaseItemDto> original;
   final List<ItemBaseModel> items;
@@ -745,6 +748,34 @@ class JellyService {
   Future<Response<ServerConfiguration>> systemConfigurationGet() => api.systemConfigurationGet();
   Future<Response<PublicSystemInfo>> systemInfoPublicGet() => api.systemInfoPublicGet();
 
+  Future<Response<UserSettings>> getCustomConfig() async {
+    final response = await api.displayPreferencesDisplayPreferencesIdGet(
+      displayPreferencesId: _userSettings,
+      userId: account?.id ?? "",
+      $client: _client,
+    );
+    final customPrefs = response.body?.customPrefs?.parseValues();
+    final userPrefs = customPrefs != null ? UserSettings.fromJson(customPrefs) : UserSettings();
+    return response.copyWith(
+      body: userPrefs,
+    );
+  }
+
+  Future<Response<dynamic>> setCustomConfig(UserSettings currentSettings) async {
+    final currentDisplayPreferences = await api.displayPreferencesDisplayPreferencesIdGet(
+      displayPreferencesId: _userSettings,
+      $client: _client,
+    );
+    return api.displayPreferencesDisplayPreferencesIdPost(
+      displayPreferencesId: 'usersettings',
+      userId: account?.id ?? "",
+      $client: _client,
+      body: currentDisplayPreferences.body?.copyWith(
+        customPrefs: currentSettings.toJson(),
+      ),
+    );
+  }
+
   Future<Response> sessionsLogoutPost() => api.sessionsLogoutPost();
 
   Future<Response<String>> itemsItemIdDownloadGet({
@@ -1114,5 +1145,33 @@ class JellyService {
       rememberSubtitleSelections: !(current.rememberSubtitleSelections ?? false),
     );
     return _updateUserConfiguration(updated);
+  }
+}
+
+extension ParsedMap on Map<String, dynamic> {
+  Map<String, dynamic> parseValues() {
+    Map<String, dynamic> parsedMap = {};
+
+    for (var entry in entries) {
+      String key = entry.key;
+      dynamic value = entry.value;
+
+      if (value is String) {
+        // Try to parse the string to a number or boolean
+        if (int.tryParse(value) != null) {
+          parsedMap[key] = int.tryParse(value);
+        } else if (double.tryParse(value) != null) {
+          parsedMap[key] = double.tryParse(value);
+        } else if (value.toLowerCase() == 'true' || value.toLowerCase() == 'false') {
+          parsedMap[key] = value.toLowerCase() == 'true';
+        } else {
+          parsedMap[key] = value;
+        }
+      } else {
+        parsedMap[key] = value;
+      }
+    }
+
+    return parsedMap;
   }
 }

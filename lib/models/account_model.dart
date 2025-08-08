@@ -35,6 +35,7 @@ class AccountModel with _$AccountModel {
     @JsonKey(includeFromJson: false, includeToJson: false) UserPolicy? policy,
     @JsonKey(includeFromJson: false, includeToJson: false) ServerConfiguration? serverConfiguration,
     @JsonKey(includeFromJson: false, includeToJson: false) UserConfiguration? userConfiguration,
+    UserSettings? userSettings,
   }) = _AccountModel;
 
   factory AccountModel.fromJson(Map<String, dynamic> json) => _$AccountModelFromJson(json);
@@ -48,6 +49,16 @@ class AccountModel with _$AccountModel {
     if (identical(this, other)) return true;
     return other.id == id && other.credentials.serverId == credentials.serverId;
   }
+}
+
+@Freezed(copyWith: true)
+class UserSettings with _$UserSettings {
+  factory UserSettings({
+    @Default(Duration(seconds: 30)) Duration skipForwardDuration,
+    @Default(Duration(seconds: 10)) Duration skipBackDuration,
+  }) = _UserSettings;
+
+  factory UserSettings.fromJson(Map<String, dynamic> json) => _$UserSettingsFromJson(json);
 }
 
 enum Authentication {

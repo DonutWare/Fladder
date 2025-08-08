@@ -3,17 +3,35 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'package:fladder/models/settings/key_combinations.dart';
 import 'package:fladder/util/custom_color_themes.dart';
+import 'package:fladder/util/localization_helper.dart';
 
 part 'client_settings_model.freezed.dart';
 part 'client_settings_model.g.dart';
 
+enum GlobalHotKeys {
+  search,
+  exit;
+
+  const GlobalHotKeys();
+
+  String label(BuildContext context) {
+    return switch (this) {
+      GlobalHotKeys.search => context.localized.search,
+      GlobalHotKeys.exit => context.localized.exitFladderTitle,
+    };
+  }
+}
+
 @Freezed(copyWith: true)
 class ClientSettingsModel with _$ClientSettingsModel {
   const ClientSettingsModel._();
+
   factory ClientSettingsModel({
     String? syncPath,
     @Default(Vector2(x: 0, y: 0)) Vector2 position,
@@ -39,9 +57,15 @@ class ClientSettingsModel with _$ClientSettingsModel {
     @Default(false) bool usePosterForLibrary,
     String? lastViewedUpdate,
     int? libraryPageSize,
+    @Default({}) Map<GlobalHotKeys, KeyCombination?> shortcuts,
   }) = _ClientSettingsModel;
 
   factory ClientSettingsModel.fromJson(Map<String, dynamic> json) => _$ClientSettingsModelFromJson(json);
+
+  Map<GlobalHotKeys, KeyCombination> get currentShortcuts =>
+      _defaultGlobalHotKeys.map((key, value) => MapEntry(key, shortcuts[key] ?? value));
+
+  Map<GlobalHotKeys, KeyCombination> get defaultShortCuts => _defaultGlobalHotKeys;
 
   Brightness statusBarBrightness(BuildContext context) {
     return switch (themeMode) {
@@ -132,3 +156,12 @@ class Vector2 {
 
   static Vector2 fromPosition(Offset windowPosition) => Vector2(x: windowPosition.dx, y: windowPosition.dy);
 }
+
+Map<GlobalHotKeys, KeyCombination> get _defaultGlobalHotKeys => {
+      for (var hotKey in GlobalHotKeys.values)
+        hotKey: switch (hotKey) {
+          GlobalHotKeys.search =>
+            KeyCombination(key: LogicalKeyboardKey.keyK, modifier: LogicalKeyboardKey.controlLeft),
+          GlobalHotKeys.exit => KeyCombination(key: LogicalKeyboardKey.keyQ, modifier: LogicalKeyboardKey.controlLeft),
+        },
+    };
