@@ -551,7 +551,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
 
   Widget seekBackwardButton(WidgetRef ref) {
     final backwardSpeed =
-        ref.read(userProvider.select((value) => value?.userSettings?.skipForwardDuration.inSeconds ?? 30));
+        ref.read(userProvider.select((value) => value?.userSettings?.skipBackDuration.inSeconds ?? 30));
     return IconButton(
       onPressed: () => seekBack(ref, seconds: backwardSpeed),
       tooltip: "-$backwardSpeed",
@@ -577,7 +577,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
 
   Widget seekForwardButton(WidgetRef ref) {
     final forwardSpeed =
-        ref.read(userProvider.select((value) => value?.userSettings?.skipBackDuration.inSeconds ?? 30));
+        ref.read(userProvider.select((value) => value?.userSettings?.skipForwardDuration.inSeconds ?? 30));
     return IconButton(
       onPressed: () => seekForward(ref, seconds: forwardSpeed),
       tooltip: forwardSpeed.toString(),

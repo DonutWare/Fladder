@@ -62,7 +62,12 @@ class ClientSettingsNotifier extends StateNotifier<ClientSettingsModel> {
 
   void setShortcuts(MapEntry<GlobalHotKeys, KeyCombination?> mapEntry) {
     final newShortCuts = Map.fromEntries(state.shortcuts.entries);
-    newShortCuts.update(mapEntry.key, (value) => mapEntry.value, ifAbsent: () => mapEntry.value);
+    newShortCuts.update(
+      mapEntry.key,
+      (value) => mapEntry.value,
+      ifAbsent: () => mapEntry.value,
+    );
+    newShortCuts.removeWhere((key, value) => value == null);
     state = state.copyWith(shortcuts: newShortCuts);
   }
 }

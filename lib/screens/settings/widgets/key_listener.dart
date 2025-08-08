@@ -8,6 +8,7 @@ import 'package:fladder/models/settings/key_combinations.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/util/localization_helper.dart';
 
 class KeyCombinationWidget extends ConsumerStatefulWidget {
   final KeyCombination? currentKey;
@@ -23,7 +24,6 @@ class KeyCombinationWidget extends ConsumerStatefulWidget {
 class KeyCombinationWidgetState extends ConsumerState<KeyCombinationWidget> {
   final focusNode = FocusNode();
   bool _isListening = false;
-  bool resetOnRelease = false;
   LogicalKeyboardKey? _pressedKey;
   LogicalKeyboardKey? _pressedModifier;
 
@@ -45,10 +45,15 @@ class KeyCombinationWidgetState extends ConsumerState<KeyCombinationWidget> {
     setState(() {
       _isListening = false;
       if (_pressedKey != null) {
-        widget.onChanged(KeyCombination(
+        final newKeyComb = KeyCombination(
           key: _pressedKey!,
           modifier: _pressedModifier,
-        ));
+        );
+        if (newKeyComb == widget.defaultKey) {
+          widget.onChanged(null);
+        } else {
+          widget.onChanged(newKeyComb);
+        }
       }
       _pressedKey = null;
       _pressedModifier = null;
@@ -60,10 +65,6 @@ class KeyCombinationWidgetState extends ConsumerState<KeyCombinationWidget> {
     final clientHotKeys = ref.read(clientSettingsProvider.select((value) => value.currentShortcuts)).values;
     final activeHotKeys = [...videoHotKeys, ...clientHotKeys].toList();
 
-    if (event.logicalKey == LogicalKeyboardKey.escape) {
-      _stopListening();
-      return;
-    }
     if (_isListening) {
       focusNode.requestFocus();
       setState(() {
@@ -73,7 +74,7 @@ class KeyCombinationWidgetState extends ConsumerState<KeyCombinationWidget> {
           } else {
             final currentHotKey = KeyCombination(key: event.logicalKey, modifier: _pressedModifier);
             bool isExistingHotkey = activeHotKeys.any((element) {
-              return element == currentHotKey;
+              return element == currentHotKey && currentHotKey != (widget.currentKey ?? widget.defaultKey);
             });
 
             if (!isExistingHotkey) {
@@ -81,12 +82,12 @@ class KeyCombinationWidgetState extends ConsumerState<KeyCombinationWidget> {
               _stopListening();
             } else {
               if (context.mounted) {
-                fladderSnackbar(context, title: "Shortcut '${currentHotKey.label}' already assigned");
-                _stopListening();
+                fladderSnackbar(context, title: context.localized.shortCutAlreadyAssigned(currentHotKey.label));
               }
+              _stopListening();
             }
           }
-        } else if (event is KeyUpEvent && resetOnRelease) {
+        } else if (event is KeyUpEvent) {
           if (KeyCombination.modifierKeys.contains(event.logicalKey) && _pressedModifier == event.logicalKey) {
             _pressedModifier = null;
           } else if (_pressedKey == event.logicalKey) {

@@ -77,6 +77,7 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
       (value) => newEntry.value,
       ifAbsent: () => newEntry.value,
     );
+    currentShortcuts.removeWhere((key, value) => value == null);
     state = state.copyWith(hotKeys: currentShortcuts);
   }
 

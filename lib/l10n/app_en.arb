@@ -1308,5 +1308,13 @@
   "prevChapter": "Previous Chapter",
   "fullScreen": "Full Screen",
   "skipMediaSegment": "Skip Media Segment",
-  "exit": "Exit"
+  "exit": "Exit",
+  "shortCutAlreadyAssigned": "Shortcut '{hotKey}' already assigned",
+  "@shortCutAlreadyAssigned": {
+    "placeholders": {
+      "hotKey": {
+        "type": "String"
+      }
+    }
+  }
 }

@@ -147,4 +147,5 @@ const _$VideoHotKeysEnumMap = {
   VideoHotKeys.prevChapter: 'prevChapter',
   VideoHotKeys.fullScreen: 'fullScreen',
   VideoHotKeys.skipMediaSegment: 'skipMediaSegment',
+  VideoHotKeys.exit: 'exit',
 };
