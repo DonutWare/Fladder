@@ -1452,5 +1452,15 @@
         "type": "String"
       }
     }
+  },
+  "blurred": "模糊",
+  "@blurred": {},
+  "volumeIndicator": "音量：{volume}",
+  "@volumeIndicator": {
+    "placeholders": {
+      "volume": {
+        "type": "int"
+      }
+    }
   }
 }
