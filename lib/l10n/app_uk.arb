@@ -1463,5 +1463,13 @@
     }
   },
   "blurred": "Розмитий",
-  "@blurred": {}
+  "@blurred": {},
+  "volumeIndicator": "Звук: {volume}",
+  "@volumeIndicator": {
+    "placeholders": {
+      "volume": {
+        "type": "int"
+      }
+    }
+  }
 }
