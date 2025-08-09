@@ -209,7 +209,10 @@ class KeyListenerWidgetState extends ConsumerState<KeyListenerWidget> {
                     child: Row(
                       spacing: 8,
                       children: [
-                        Text(currentHotKey?.label ?? "+"),
+                        Text(
+                          currentHotKey?.label ?? "+",
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+                        ),
                         if (_showClearButton && currentHotKey != null)
                           GestureDetector(
                             onTap: () {
