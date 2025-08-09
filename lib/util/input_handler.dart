@@ -44,7 +44,7 @@ class _InputHandlerState<T> extends State<InputHandler<T>> {
           focusNode.requestFocus();
         }
       },
-      onKeyEvent: (node, event) => _onKey(event),
+      onKeyEvent: widget.onKeyEvent ?? (node, event) => _onKey(event),
       child: widget.child,
     );
   }

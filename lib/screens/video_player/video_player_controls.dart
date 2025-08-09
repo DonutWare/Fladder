@@ -26,6 +26,7 @@ import 'package:fladder/screens/video_player/components/video_player_controls_ex
 import 'package:fladder/screens/video_player/components/video_player_options_sheet.dart';
 import 'package:fladder/screens/video_player/components/video_player_quality_controls.dart';
 import 'package:fladder/screens/video_player/components/video_player_seek_indicator.dart';
+import 'package:fladder/screens/video_player/components/video_player_volume_indicator.dart';
 import 'package:fladder/screens/video_player/components/video_progress_bar.dart';
 import 'package:fladder/screens/video_player/components/video_volume_slider.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
@@ -71,89 +72,93 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     final mediaSegments = ref.watch(playBackModel.select((value) => value?.mediaSegments));
     final player = ref.watch(videoPlayerProvider);
     final subtitleWidget = player.subtitleWidget(showOverlay, controlsKey: _bottomControlsKey);
-    return InputHandler(
-      autoFocus: true,
-      keyMap: ref.watch(videoPlayerSettingsProvider.select((value) => value.currentShortcuts)),
-      keyMapResult: (result) => _onKey(result),
-      child: PopScope(
-        canPop: false,
-        onPopInvokedWithResult: (didPop, result) {
-          if (!didPop) {
-            closePlayer();
-          }
-        },
-        child: MouseRegion(
-          cursor: showOverlay ? SystemMouseCursors.basic : SystemMouseCursors.none,
-          onExit: (event) => toggleOverlay(value: false),
-          onEnter: (event) => toggleOverlay(value: true),
-          onHover: AdaptiveLayout.of(context).isDesktop || kIsWeb ? (event) => toggleOverlay(value: true) : null,
-          child: Stack(
-            children: [
-              Positioned.fill(
-                child: GestureDetector(
-                  onTap: AdaptiveLayout.of(context).inputDevice == InputDevice.pointer
-                      ? () => player.playOrPause()
-                      : () => toggleOverlay(),
-                  onDoubleTap: AdaptiveLayout.of(context).inputDevice == InputDevice.pointer
-                      ? () => fullScreenHelper.toggleFullScreen(ref)
-                      : null,
-                ),
-              ),
-              if (subtitleWidget != null) subtitleWidget,
-              if (AdaptiveLayout.of(context).isDesktop)
-                Consumer(builder: (context, ref, child) {
-                  final playing = ref.watch(mediaPlaybackProvider.select((value) => value.playing));
-                  final buffering = ref.watch(mediaPlaybackProvider.select((value) => value.buffering));
-                  return playButton(playing, buffering);
-                }),
-              IgnorePointer(
-                ignoring: !showOverlay,
-                child: AnimatedOpacity(
-                  duration: fadeDuration,
-                  opacity: showOverlay ? 1 : 0,
-                  child: Column(
-                    children: [
-                      topButtons(context),
-                      const Spacer(),
-                      bottomButtons(context),
-                    ],
+    return Listener(
+      onPointerSignal: setVolume,
+      child: InputHandler(
+        autoFocus: true,
+        keyMap: ref.watch(videoPlayerSettingsProvider.select((value) => value.currentShortcuts)),
+        keyMapResult: (result) => _onKey(result),
+        child: PopScope(
+          canPop: false,
+          onPopInvokedWithResult: (didPop, result) {
+            if (!didPop) {
+              closePlayer();
+            }
+          },
+          child: MouseRegion(
+            cursor: showOverlay ? SystemMouseCursors.basic : SystemMouseCursors.none,
+            onExit: (event) => toggleOverlay(value: false),
+            onEnter: (event) => toggleOverlay(value: true),
+            onHover: AdaptiveLayout.of(context).isDesktop || kIsWeb ? (event) => toggleOverlay(value: true) : null,
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  child: GestureDetector(
+                    onTap: AdaptiveLayout.of(context).inputDevice == InputDevice.pointer
+                        ? () => player.playOrPause()
+                        : () => toggleOverlay(),
+                    onDoubleTap: AdaptiveLayout.of(context).inputDevice == InputDevice.pointer
+                        ? () => fullScreenHelper.toggleFullScreen(ref)
+                        : null,
                   ),
                 ),
-              ),
-              const VideoPlayerSeekIndicator(),
-              Consumer(
-                builder: (context, ref, child) {
-                  final position = ref.watch(mediaPlaybackProvider.select((value) => value.position));
-                  MediaSegment? segment = mediaSegments?.atPosition(position);
-                  SegmentVisibility forceShow =
-                      segment?.visibility(position, force: showOverlay) ?? SegmentVisibility.hidden;
-                  final segmentSkipType = ref
-                      .watch(videoPlayerSettingsProvider.select((value) => value.segmentSkipSettings[segment?.type]));
-                  final autoSkip = forceShow != SegmentVisibility.hidden &&
-                      segmentSkipType == SegmentSkip.skip &&
-                      player.lastState?.buffering == false;
-                  if (autoSkip) {
-                    skipToSegmentEnd(segment);
-                  }
-                  return Stack(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Padding(
-                          padding: const EdgeInsets.all(32),
-                          child: SkipSegmentButton(
-                            segment: segment,
-                            skipType: segmentSkipType,
-                            visibility: forceShow,
-                            pressedSkip: () => skipToSegmentEnd(segment),
+                if (subtitleWidget != null) subtitleWidget,
+                if (AdaptiveLayout.of(context).isDesktop)
+                  Consumer(builder: (context, ref, child) {
+                    final playing = ref.watch(mediaPlaybackProvider.select((value) => value.playing));
+                    final buffering = ref.watch(mediaPlaybackProvider.select((value) => value.buffering));
+                    return playButton(playing, buffering);
+                  }),
+                IgnorePointer(
+                  ignoring: !showOverlay,
+                  child: AnimatedOpacity(
+                    duration: fadeDuration,
+                    opacity: showOverlay ? 1 : 0,
+                    child: Column(
+                      children: [
+                        topButtons(context),
+                        const Spacer(),
+                        bottomButtons(context),
+                      ],
+                    ),
+                  ),
+                ),
+                const VideoPlayerSeekIndicator(),
+                const VideoPlayerVolumeIndicator(),
+                Consumer(
+                  builder: (context, ref, child) {
+                    final position = ref.watch(mediaPlaybackProvider.select((value) => value.position));
+                    MediaSegment? segment = mediaSegments?.atPosition(position);
+                    SegmentVisibility forceShow =
+                        segment?.visibility(position, force: showOverlay) ?? SegmentVisibility.hidden;
+                    final segmentSkipType = ref
+                        .watch(videoPlayerSettingsProvider.select((value) => value.segmentSkipSettings[segment?.type]));
+                    final autoSkip = forceShow != SegmentVisibility.hidden &&
+                        segmentSkipType == SegmentSkip.skip &&
+                        player.lastState?.buffering == false;
+                    if (autoSkip) {
+                      skipToSegmentEnd(segment);
+                    }
+                    return Stack(
+                      children: [
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Padding(
+                            padding: const EdgeInsets.all(32),
+                            child: SkipSegmentButton(
+                              segment: segment,
+                              skipType: segmentSkipType,
+                              visibility: forceShow,
+                              pressedSkip: () => skipToSegmentEnd(segment),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ],
+                      ],
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -374,19 +379,8 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                         },
                         if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer &&
                             AdaptiveLayout.viewSizeOf(context) > ViewSize.phone) ...[
-                          Listener(
-                            onPointerSignal: (event) {
-                              if (event is PointerScrollEvent) {
-                                if (event.scrollDelta.dy > 0) {
-                                  ref.read(videoPlayerSettingsProvider.notifier).steppedVolume(-5);
-                                } else {
-                                  ref.read(videoPlayerSettingsProvider.notifier).steppedVolume(5);
-                                }
-                              }
-                            },
-                            child: VideoVolumeSlider(
-                              onChanged: () => resetTimer(),
-                            ),
+                          VideoVolumeSlider(
+                            onChanged: () => resetTimer(),
                           ),
                           const FullScreenButton(),
                         ]
@@ -671,6 +665,16 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   Future<void> disableFullScreen() async {
     resetTimer();
     fullScreenHelper.closeFullScreen(ref);
+  }
+
+  void setVolume(PointerEvent event) {
+    if (event is PointerScrollEvent) {
+      if (event.scrollDelta.dy > 0) {
+        ref.read(videoPlayerSettingsProvider.notifier).steppedVolume(-5);
+      } else {
+        ref.read(videoPlayerSettingsProvider.notifier).steppedVolume(5);
+      }
+    }
   }
 
   bool _onKey(VideoHotKeys value) {
