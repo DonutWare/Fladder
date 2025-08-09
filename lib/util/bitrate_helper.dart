@@ -34,7 +34,7 @@ enum Bitrate {
   String label(BuildContext context) => switch (this) {
         Bitrate.original => context.localized.qualityOptionsOriginal,
         Bitrate.auto => context.localized.qualityOptionsAuto,
-        _ => name.toString().replaceAll('b', '').replaceAll('_', '.').toUpperCaseSplit()
+        _ => name.toString().replaceFirst('b', '').replaceAll('_', '.').toUpperCaseSplit()
       };
 }
 
