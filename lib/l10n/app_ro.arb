@@ -34,7 +34,7 @@
   "@all": {},
   "amoledBlack": "Negru Amoled",
   "@amoledBlack": {},
-  "appLockAutoLogin": "Conectare automată",
+  "appLockAutoLogin": "Autentificare automată",
   "@appLockAutoLogin": {},
   "appLockPasscode": "Pinul de acces",
   "@appLockPasscode": {},
@@ -46,7 +46,7 @@
   "@cancel": {},
   "change": "Schimbă",
   "@change": {},
-  "clear": "",
+  "clear": "Ștergeți",
   "@clear": {},
   "combined": "Combinat",
   "@combined": {},
@@ -54,7 +54,7 @@
   "@controls": {},
   "dashboardContinueListening": "Continua Ascultarea",
   "@dashboardContinueListening": {},
-  "dashboardContinueWatching": "Continua Vizionare",
+  "dashboardContinueWatching": "Continuă Vizionarea",
   "@dashboardContinueWatching": {},
   "dashboardRecentlyAdded": "Adăugat recent în {name}",
   "@dashboardRecentlyAdded": {
@@ -73,7 +73,7 @@
   "@days": {},
   "about": "Despre",
   "@about": {},
-  "close": "Închide",
+  "close": "Închideți",
   "@close": {},
   "dashboardContinueReading": "Continua Cititul",
   "@dashboardContinueReading": {},
@@ -93,7 +93,7 @@
       }
     }
   },
-  "appLockTitle": "Selectează modul de conectare pentru {userName}",
+  "appLockTitle": "Setați modalitatea de autentificare pentru {userName}",
   "@appLockTitle": {
     "description": "Pop-up to pick a login method",
     "placeholders": {
@@ -125,5 +125,587 @@
   "collectionFolder": "Dosar de colectare",
   "@collectionFolder": {},
   "nextUp": "Următorul",
-  "@nextUp": {}
+  "@nextUp": {},
+  "ascending": "Ascendent",
+  "@ascending": {},
+  "clearAllSettings": "Ștergeți toate setările",
+  "@clearAllSettings": {},
+  "clearAllSettingsQuestion": "Ștergeți toate setările?",
+  "@clearAllSettingsQuestion": {},
+  "clearChanges": "Ștergeți schimbările",
+  "@clearChanges": {},
+  "clearSelection": "Ștergeți selecția",
+  "@clearSelection": {},
+  "descending": "Descendent",
+  "@descending": {},
+  "deleteItem": "Ștergeți {item}?",
+  "@deleteItem": {
+    "description": "deleteItem",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "error": "Eroare",
+  "@error": {},
+  "failedToLoadImage": "Imaginea nu a putut fi încărcată",
+  "@failedToLoadImage": {},
+  "favorite": "Favorit",
+  "@favorite": {},
+  "favorites": "Favorite",
+  "@favorites": {},
+  "deleteFileFromSystem": "Ștergând acest articol {item} îl va șterge din sistemul de fișiere și din biblioteca media. Sunteți sigur că vreți să continuați?",
+  "@deleteFileFromSystem": {
+    "description": "Delete file from system",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "director": "{count, plural, other{Directoare} one{Director}}",
+  "@director": {
+    "description": "director",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "disableFilters": "Ștergeți filtrele",
+  "@disableFilters": {},
+  "disabled": "Oprit",
+  "@disabled": {},
+  "discovered": "Descoperit",
+  "@discovered": {},
+  "displayLanguage": "Limba de afișare",
+  "@displayLanguage": {},
+  "downloadsClearDesc": "Eliminați toate datele sincronizate, ștergând toate datele pentru toți utilizatorii sincronizați?",
+  "@downloadsClearDesc": {},
+  "downloadsClearTitle": "Ștergeți datele sincronizate",
+  "@downloadsClearTitle": {},
+  "downloadsPath": "Cale",
+  "@downloadsPath": {},
+  "downloadsSyncedData": "Date sincronizate",
+  "@downloadsSyncedData": {},
+  "downloadsTitle": "Descărcări",
+  "@downloadsTitle": {},
+  "dynamicText": "Dinamic",
+  "@dynamicText": {},
+  "editMetadata": "Editați metadata",
+  "@editMetadata": {},
+  "empty": "Gol",
+  "@empty": {},
+  "enabled": "Pornit",
+  "@enabled": {},
+  "endsAt": "se termină la {date}",
+  "@endsAt": {
+    "description": "endsAt",
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "jm"
+      }
+    }
+  },
+  "episode": "{count, plural, other{Episoade} one{Episod} }",
+  "@episode": {
+    "description": "episode",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "fetchingLibrary": "Se preiau articolele din bibliotecă…",
+  "@fetchingLibrary": {},
+  "filter": "{count, plural, other{Filtre} one{Filtru}}",
+  "@filter": {
+    "description": "filter",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "folders": "Dosare",
+  "@folders": {},
+  "fontColor": "Culoarea fontului",
+  "@fontColor": {},
+  "fontSize": "Mărimea fontului",
+  "@fontSize": {},
+  "forceRefresh": "Refresh forțat",
+  "@forceRefresh": {},
+  "genre": "{count, plural, other{Genuri} one{Gen}}",
+  "@genre": {
+    "description": "genre",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "goTo": "Mergeți La",
+  "@goTo": {},
+  "grid": "Grilă",
+  "@grid": {},
+  "group": "Grup",
+  "@group": {},
+  "groupBy": "Grupați după",
+  "@groupBy": {},
+  "heightOffset": "Ofsetul înălțimii",
+  "@heightOffset": {},
+  "hide": "Ascundeți",
+  "@hide": {},
+  "hideEmpty": "Ascundeți articolele goale",
+  "@hideEmpty": {},
+  "home": "Acasă",
+  "@home": {},
+  "homeBannerSlideshow": "Prezentare",
+  "@homeBannerSlideshow": {},
+  "homeBannerCarousel": "Carusel",
+  "@homeBannerCarousel": {},
+  "identify": "Identificați",
+  "@identify": {},
+  "immediately": "Imediat",
+  "@immediately": {},
+  "incorrectPinTryAgain": "PIN greșit. Încercați din nou.",
+  "@incorrectPinTryAgain": {},
+  "info": "Informații",
+  "@info": {},
+  "invalidUrl": "URL invalid",
+  "@invalidUrl": {},
+  "invalidUrlDesc": "URL-ul trebuie să înceapă cu http(s)://",
+  "@invalidUrlDesc": {},
+  "itemCount": "Numărul articolelor: {count}",
+  "@itemCount": {
+    "description": "Item count",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "label": "{count, plural, other{Etichete} one{Etichetă}}",
+  "@label": {
+    "description": "label",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "library": "{count, plural, other{Biblioteci} one{Bibliotecă}}",
+  "@library": {
+    "description": "Plural",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "libraryFetchNoItemsFound": "Nu au fost găsite articole. Încercați alte setări.",
+  "@libraryFetchNoItemsFound": {},
+  "libraryPageSizeTitle": "Mărimea paginilor bibliotecii",
+  "@libraryPageSizeTitle": {},
+  "light": "Luminos",
+  "@light": {},
+  "list": "Listă",
+  "@list": {},
+  "lockscreen": "Ecran de blocare",
+  "@lockscreen": {},
+  "loggedIn": "Autentificat",
+  "@loggedIn": {},
+  "login": "Autentificați-vă",
+  "@login": {},
+  "logout": "Deconectați-vă",
+  "@logout": {},
+  "logoutUserPopupContent": "Această acțiune va autentifica utilizatorul {userName} și îl va șterge din aplicație.\nVa trebui să vă reautentificați pe {serverName}.",
+  "@logoutUserPopupContent": {
+    "description": "Pop-up for logging out the user description",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      },
+      "serverName": {
+        "type": "String"
+      }
+    }
+  },
+  "logoutUserPopupTitle": "Deconectați utilizatorul {userName}?",
+  "@logoutUserPopupTitle": {
+    "description": "Pop-up for logging out the user",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "loop": "Buclă",
+  "@loop": {},
+  "markAsUnwatched": "Marcați ca nevizionat",
+  "@markAsUnwatched": {},
+  "markAsWatched": "Marcați ca vizionat",
+  "@markAsWatched": {},
+  "masonry": "Zidărie",
+  "@masonry": {},
+  "mediaTypeBase": "Tip de bază",
+  "@mediaTypeBase": {},
+  "mediaTypeBook": "Carte",
+  "@mediaTypeBook": {},
+  "mediaTypeBoxset": "Set de cutie",
+  "@mediaTypeBoxset": {},
+  "mediaTypeEpisode": "Episod",
+  "@mediaTypeEpisode": {},
+  "mediaTypeFolder": "Dosar",
+  "@mediaTypeFolder": {},
+  "mediaTypeMovie": "Film",
+  "@mediaTypeMovie": {},
+  "mediaTypePerson": "Persoană",
+  "@mediaTypePerson": {},
+  "mediaTypePhoto": "Fotografie",
+  "@mediaTypePhoto": {},
+  "mediaTypePhotoAlbum": "Album de Fotografii",
+  "@mediaTypePhotoAlbum": {},
+  "mediaTypePlaylist": "Listă de redare",
+  "@mediaTypePlaylist": {},
+  "mediaTypeSeason": "Sezon",
+  "@mediaTypeSeason": {},
+  "mediaTypeSeries": "Serial",
+  "@mediaTypeSeries": {},
+  "metaDataSavedFor": "Metadata salvată pentru {item}",
+  "@metaDataSavedFor": {
+    "description": "metaDataSavedFor",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "metadataRefreshDefault": "Scanați pentru fișiere noi și actualizate",
+  "@metadataRefreshDefault": {},
+  "metadataRefreshFull": "Înlocuiți toată metadata",
+  "@metadataRefreshFull": {},
+  "metadataRefreshValidation": "Căutați pentru metadata lipsă",
+  "@metadataRefreshValidation": {},
+  "minutes": "{count, plural, other{Minute} one{Minut}}",
+  "@minutes": {
+    "description": "minute",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "mode": "Mod",
+  "@mode": {},
+  "moreFrom": "Mai multe de la {info}",
+  "@moreFrom": {
+    "description": "More from",
+    "placeholders": {
+      "info": {
+        "type": "String"
+      }
+    }
+  },
+  "moreOptions": "Mai multe opțiuni",
+  "@moreOptions": {},
+  "mouseDragSupport": "Trageți utilizând mouse-ul",
+  "@mouseDragSupport": {},
+  "musicAlbum": "Album",
+  "@musicAlbum": {},
+  "name": "Nume",
+  "@name": {},
+  "navigation": "Navigare",
+  "@navigation": {},
+  "navigationDashboard": "Tablou de bord",
+  "@navigationDashboard": {},
+  "navigationFavorites": "Favorite",
+  "@navigationFavorites": {},
+  "navigationSync": "Sincronizat",
+  "@navigationSync": {},
+  "never": "Niciodată",
+  "@never": {},
+  "noItemsSynced": "Niciun articol sincronizat",
+  "@noItemsSynced": {},
+  "noItemsToShow": "Niciun articol de afișat",
+  "@noItemsToShow": {},
+  "noRating": "Fără evaluare",
+  "@noRating": {},
+  "noResults": "Niciun rezultat",
+  "@noResults": {},
+  "noServersFound": "Nu a fost găsit niciun server nou",
+  "@noServersFound": {},
+  "noSuggestionsFound": "Nu a fost găsită nicio sugestie",
+  "@noSuggestionsFound": {},
+  "none": "Niciunul",
+  "@none": {},
+  "normal": "Normal",
+  "@normal": {},
+  "notPartOfAlbum": "Nu face parte dintr-un album",
+  "@notPartOfAlbum": {},
+  "openParent": "Deschideți părintele",
+  "@openParent": {},
+  "openShow": "Deschideți serialul",
+  "@openShow": {},
+  "openWebLink": "Deschideți link-ul web",
+  "@openWebLink": {},
+  "options": "Opțiuni",
+  "@options": {},
+  "other": "Altele",
+  "@other": {},
+  "outlineColor": "Culoarea conturului",
+  "@outlineColor": {},
+  "outlineSize": "Mărimea conturului",
+  "@outlineSize": {},
+  "overview": "Prezentare generală",
+  "@overview": {},
+  "page": "Pagina {index}",
+  "@page": {
+    "description": "page",
+    "placeholders": {
+      "index": {
+        "type": "int"
+      }
+    }
+  },
+  "libraryPageSizeDesc": "Selectați numărul care să fie încărcat o dată. 0 oprește paginarea.",
+  "@libraryPageSizeDesc": {},
+  "parentalRating": "Clasificare Parentală",
+  "@parentalRating": {},
+  "password": "Parolă",
+  "@password": {},
+  "pathClearTitle": "Ștergeți calea descărcărilor",
+  "@pathClearTitle": {},
+  "pathEditDesc": "Această locație este stabilită pentru toți utilizatori, datele sincronizate nu vor mai fi accesibile. Vor rămâne pe unitatea de stocare.",
+  "@pathEditDesc": {},
+  "pathEditSelect": "Selectați destinația descărcărilor",
+  "@pathEditSelect": {},
+  "pathEditTitle": "Schimbați locația",
+  "@pathEditTitle": {},
+  "play": "Redați {item}",
+  "@play": {
+    "description": "Play with",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "playCount": "Numărul redărilor",
+  "@playCount": {},
+  "playFrom": "Redați din {name}",
+  "@playFrom": {
+    "description": "playFrom",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "playFromStart": "Redați {name} de la început",
+  "@playFromStart": {
+    "description": "speel vanaf het begin",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "playLabel": "Redați",
+  "@playLabel": {},
+  "playVideos": "Redați videoclipurile",
+  "@playVideos": {},
+  "played": "Redat",
+  "@played": {},
+  "quickConnectAction": "Introduceți codul de conectare rapidă pentru",
+  "@quickConnectAction": {},
+  "quickConnectInputACode": "Introduceți un cod",
+  "@quickConnectInputACode": {},
+  "quickConnectTitle": "Conectare rapidă",
+  "@quickConnectTitle": {},
+  "quickConnectWrongCode": "Codul greșit",
+  "@quickConnectWrongCode": {},
+  "random": "Aleatoriu",
+  "@random": {},
+  "rating": "{count, plural, other{Evaluări} one{Evaluare}}",
+  "@rating": {
+    "description": "rating",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "reWatch": "Revizionați",
+  "@reWatch": {},
+  "read": "Citiți {item}",
+  "@read": {
+    "description": "read",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "readFromStart": "Citiți {item} de la început",
+  "@readFromStart": {
+    "description": "Read book from start",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "recursive": "Recursiv",
+  "@recursive": {},
+  "refresh": "Reîmprospătați",
+  "@refresh": {},
+  "refreshMetadata": "Reîmprospătați metadata",
+  "@refreshMetadata": {},
+  "refreshPopup": "Reîmprospătați - {name}",
+  "@refreshPopup": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "refreshPopupContentMetadata": "Metadata este reîmprospătată pe baza setărilor și serviciilor de Internet pornite în tabloul de bord.",
+  "@refreshPopupContentMetadata": {},
+  "related": "Asociat",
+  "@related": {},
+  "releaseDate": "Data de lansare",
+  "@releaseDate": {},
+  "removeAsFavorite": "Ștergeți ca favorit",
+  "@removeAsFavorite": {},
+  "removeFromCollection": "Ștergeți din colecție",
+  "@removeFromCollection": {},
+  "removeFromPlaylist": "Ștergeți din lista de redare",
+  "@removeFromPlaylist": {},
+  "replaceAllImages": "Înlocuiți toate imaginile",
+  "@replaceAllImages": {},
+  "replaceExistingImages": "Înlocuiți imaginile existente",
+  "@replaceExistingImages": {},
+  "restart": "Reporniți",
+  "@restart": {},
+  "result": "Rezultat",
+  "@result": {},
+  "resumable": "Reluabil",
+  "@resumable": {},
+  "resume": "Reluați {item}",
+  "@resume": {
+    "description": "resume",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "retrievePublicListOfUsers": "Preluați lista publică de utilizatori",
+  "@retrievePublicListOfUsers": {},
+  "retry": "Reîncercați",
+  "@retry": {},
+  "runTime": "Timp de redare",
+  "@runTime": {},
+  "save": "Salvați",
+  "@save": {},
+  "saved": "Salvat",
+  "@saved": {},
+  "scanBiometricHint": "Verificați identitatea",
+  "@scanBiometricHint": {},
+  "scanLibrary": "Scanați biblioteca",
+  "@scanLibrary": {},
+  "scanYourFingerprintToAuthenticate": "Scanați-vă amprenta pentru a autentifica utilizatorul {user}",
+  "@scanYourFingerprintToAuthenticate": {
+    "placeholders": {
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "scanningName": "Scanând - {name}…",
+  "@scanningName": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "scrollToTop": "Derulați până sus",
+  "@scrollToTop": {},
+  "search": "Căutați",
+  "@search": {},
+  "season": "{count, plural, other{Sezoane} one{Sezon}}",
+  "@season": {
+    "description": "season",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "seconds": "{count, plural, other{Secunde} one{Secundă}}",
+  "@seconds": {
+    "description": "second",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "selectAll": "Selectați toate",
+  "@selectAll": {},
+  "selectTime": "Selectați timpul",
+  "@selectTime": {},
+  "selectViewType": "Selectați tipul de vizionare",
+  "@selectViewType": {},
+  "selected": "Selectat",
+  "@selected": {},
+  "selectedWith": "Selectat {info}",
+  "@selectedWith": {
+    "description": "selected",
+    "placeholders": {
+      "info": {
+        "type": "String"
+      }
+    }
+  },
+  "separate": "Separați",
+  "@separate": {},
+  "server": "Server",
+  "@server": {},
+  "set": "Setați",
+  "@set": {
+    "description": "Use for setting a certain value",
+    "context": "Set 'time'"
+  },
+  "setIdentityTo": "Schimbați identitatea în {name}",
+  "@setIdentityTo": {
+    "description": "setIdentityTo",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "settingSecurityApplockTitle": "Blocarea aplicației",
+  "@settingSecurityApplockTitle": {},
+  "settings": "Setări",
+  "@settings": {},
+  "settingsBlurEpisodesDesc": "Estompați toate episoadele ce urmează",
+  "@settingsBlurEpisodesDesc": {},
+  "settingsBlurEpisodesTitle": "Blurați episoadele următoare",
+  "@settingsBlurEpisodesTitle": {}
 }
