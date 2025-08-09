@@ -1317,5 +1317,13 @@
       }
     }
   },
-  "blurred": "Blurred"
+  "blurred": "Blurred",
+  "volumeIndicator": "Volume: {volume}",
+  "@volumeIndicator": {
+    "placeholders": {
+      "volume": {
+        "type": "int"
+      }
+    }
+  }
 }

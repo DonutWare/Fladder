@@ -80,7 +80,7 @@ IconData volumeIcon(double value) {
     return IconsaxPlusLinear.volume_mute;
   }
   if (value < 50) {
-    return IconsaxPlusLinear.volume_low;
+    return IconsaxPlusLinear.volume_low_1;
   }
   return IconsaxPlusLinear.volume_high;
 }
