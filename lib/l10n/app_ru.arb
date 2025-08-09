@@ -1407,5 +1407,51 @@
   "syncDeleteAll": "Удалить все файлы",
   "@syncDeleteAll": {},
   "syncAllFiles": "Синхронизировать все файлы",
-  "@syncAllFiles": {}
+  "@syncAllFiles": {},
+  "usePostersForLibraryIconsTitle": "Показывайте постеры с библиотечными иконами",
+  "@usePostersForLibraryIconsTitle": {},
+  "usePostersForLibraryIconsDesc": "Показывать постеры вместо иконок для библиотек",
+  "@usePostersForLibraryIconsDesc": {},
+  "offline": "Офлайн",
+  "@offline": {},
+  "shortCuts": "Ярлыки",
+  "@shortCuts": {},
+  "skipForwardLength": "Длительность перемотки вперёд",
+  "@skipForwardLength": {},
+  "skipBackLength": "Длительность перемотки назад",
+  "@skipBackLength": {},
+  "playPause": "Воспроизведение/пауза",
+  "@playPause": {},
+  "seekForward": "Перемотка вперёд",
+  "@seekForward": {},
+  "seekBack": "Перемотка назад",
+  "@seekBack": {},
+  "mute": "Выключить звук",
+  "@mute": {},
+  "volumeUp": "Увеличить громкость",
+  "@volumeUp": {},
+  "volumeDown": "Уменьшить громкость",
+  "@volumeDown": {},
+  "nextVideo": "Следующее видео",
+  "@nextVideo": {},
+  "prevVideo": "Предыдущее видео",
+  "@prevVideo": {},
+  "nextChapter": "Следующая глава",
+  "@nextChapter": {},
+  "prevChapter": "Предыдущая глава",
+  "@prevChapter": {},
+  "fullScreen": "Полный экран",
+  "@fullScreen": {},
+  "skipMediaSegment": "Пропустить фрагмент",
+  "@skipMediaSegment": {},
+  "exit": "Выход",
+  "@exit": {},
+  "shortCutAlreadyAssigned": "Сочетание клавиш '{hotKey}' уже назначено",
+  "@shortCutAlreadyAssigned": {
+    "placeholders": {
+      "hotKey": {
+        "type": "String"
+      }
+    }
+  }
 }
