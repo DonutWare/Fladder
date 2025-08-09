@@ -49,11 +49,8 @@ _$ClientSettingsModelImpl _$$ClientSettingsModelImplFromJson(
       lastViewedUpdate: json['lastViewedUpdate'] as String?,
       libraryPageSize: (json['libraryPageSize'] as num?)?.toInt(),
       shortcuts: (json['shortcuts'] as Map<String, dynamic>?)?.map(
-            (k, e) => MapEntry(
-                $enumDecode(_$GlobalHotKeysEnumMap, k),
-                e == null
-                    ? null
-                    : KeyCombination.fromJson(e as Map<String, dynamic>)),
+            (k, e) => MapEntry($enumDecode(_$GlobalHotKeysEnumMap, k),
+                KeyCombination.fromJson(e as Map<String, dynamic>)),
           ) ??
           const {},
     );

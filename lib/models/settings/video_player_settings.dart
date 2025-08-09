@@ -68,7 +68,7 @@ class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     @Default(Bitrate.original) Bitrate maxInternetBitrate,
     String? audioDevice,
     @Default(defaultSegmentSkipValues) Map<MediaSegmentType, SegmentSkip> segmentSkipSettings,
-    @Default({}) Map<VideoHotKeys, KeyCombination?> hotKeys,
+    @Default({}) Map<VideoHotKeys, KeyCombination> hotKeys,
   }) = _VideoPlayerSettingsModel;
 
   double get volume => switch (defaultTargetPlatform) {
@@ -165,14 +165,25 @@ enum AutoNextType {
 Map<VideoHotKeys, KeyCombination> get _defaultVideoHotKeys => {
       for (var hotKey in VideoHotKeys.values)
         hotKey: switch (hotKey) {
-          VideoHotKeys.playPause => KeyCombination(key: LogicalKeyboardKey.space),
-          VideoHotKeys.seekForward => KeyCombination(key: LogicalKeyboardKey.arrowRight),
-          VideoHotKeys.seekBack => KeyCombination(key: LogicalKeyboardKey.arrowLeft),
+          VideoHotKeys.playPause => KeyCombination(
+              key: LogicalKeyboardKey.space,
+              altKey: LogicalKeyboardKey.keyK,
+            ),
+          VideoHotKeys.seekForward => KeyCombination(
+              key: LogicalKeyboardKey.arrowRight,
+              altKey: LogicalKeyboardKey.keyL,
+            ),
+          VideoHotKeys.seekBack => KeyCombination(
+              key: LogicalKeyboardKey.arrowLeft,
+              altKey: LogicalKeyboardKey.keyJ,
+            ),
           VideoHotKeys.mute => KeyCombination(key: LogicalKeyboardKey.keyM),
           VideoHotKeys.volumeUp => KeyCombination(key: LogicalKeyboardKey.arrowUp),
           VideoHotKeys.volumeDown => KeyCombination(key: LogicalKeyboardKey.arrowDown),
-          VideoHotKeys.prevVideo => KeyCombination(key: LogicalKeyboardKey.keyP, modifier: LogicalKeyboardKey.shift),
-          VideoHotKeys.nextVideo => KeyCombination(key: LogicalKeyboardKey.keyN, modifier: LogicalKeyboardKey.shift),
+          VideoHotKeys.prevVideo =>
+            KeyCombination(key: LogicalKeyboardKey.keyP, modifier: LogicalKeyboardKey.shiftLeft),
+          VideoHotKeys.nextVideo =>
+            KeyCombination(key: LogicalKeyboardKey.keyN, modifier: LogicalKeyboardKey.shiftLeft),
           VideoHotKeys.nextChapter => KeyCombination(key: LogicalKeyboardKey.pageUp),
           VideoHotKeys.prevChapter => KeyCombination(key: LogicalKeyboardKey.pageDown),
           VideoHotKeys.fullScreen => KeyCombination(key: LogicalKeyboardKey.keyF),

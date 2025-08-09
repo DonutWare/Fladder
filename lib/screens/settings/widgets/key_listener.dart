@@ -8,27 +8,100 @@ import 'package:fladder/models/settings/key_combinations.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/theme.dart';
 import 'package:fladder/util/localization_helper.dart';
 
-class KeyCombinationWidget extends ConsumerStatefulWidget {
+// Only use for actively checking if a shortcut is being changed
+bool changingShortCut = false;
+
+class KeyCombinationWidget extends StatelessWidget {
   final KeyCombination? currentKey;
   final KeyCombination defaultKey;
-  final Function(KeyCombination? value) onChanged;
+  final Function(KeyCombination value) onChanged;
 
-  KeyCombinationWidget({required this.currentKey, required this.defaultKey, required this.onChanged, super.key});
+  const KeyCombinationWidget({
+    required this.currentKey,
+    required this.defaultKey,
+    required this.onChanged,
+    super.key,
+  });
 
   @override
-  KeyCombinationWidgetState createState() => KeyCombinationWidgetState();
+  Widget build(BuildContext context) {
+    final comboKey = currentKey ?? defaultKey;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        ConstrainedBox(
+          constraints: const BoxConstraints(minWidth: 50),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            spacing: 6,
+            children: [
+              KeyListenerWidget(
+                currentKey: comboKey,
+                onChanged: (value) => onChanged(comboKey.setKeys(
+                  value?.key,
+                  modifier: value?.modifier,
+                )),
+              ),
+              if (comboKey.key != null) ...[
+                const Opacity(opacity: 0.25, child: Text("alt")),
+                KeyListenerWidget(
+                  currentKey: comboKey.altSet,
+                  onChanged: (value) => onChanged(comboKey.setKeys(
+                    value?.key,
+                    modifier: value?.modifier,
+                    alt: true,
+                  )),
+                ),
+              ],
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 250),
+                child: IconButton(
+                  onPressed: currentKey == defaultKey || currentKey == null ? null : () => onChanged(defaultKey),
+                  iconSize: 24,
+                  icon: const Icon(IconsaxPlusBold.broom),
+                ),
+              )
+            ],
+          ),
+        ),
+      ],
+    );
+  }
 }
 
-class KeyCombinationWidgetState extends ConsumerState<KeyCombinationWidget> {
+class KeyListenerWidget extends ConsumerStatefulWidget {
+  final KeyCombination? currentKey;
+  final Function(KeyCombination? value) onChanged;
+
+  KeyListenerWidget({
+    required this.currentKey,
+    required this.onChanged,
+    super.key,
+  });
+
+  @override
+  KeyListenerWidgetState createState() => KeyListenerWidgetState();
+}
+
+class KeyListenerWidgetState extends ConsumerState<KeyListenerWidget> {
   final focusNode = FocusNode();
   bool _isListening = false;
+  bool _showClearButton = false;
   LogicalKeyboardKey? _pressedKey;
   LogicalKeyboardKey? _pressedModifier;
 
+  void setIsListening(bool value) {
+    changingShortCut = value;
+    _isListening = value;
+  }
+
   @override
   void dispose() {
+    changingShortCut = false;
     _isListening = false;
     _pressedKey = null;
     _pressedModifier = null;
@@ -36,8 +109,9 @@ class KeyCombinationWidgetState extends ConsumerState<KeyCombinationWidget> {
   }
 
   void _startListening() {
+    if (changingShortCut) return;
     setState(() {
-      _isListening = true;
+      setIsListening(true);
       _pressedKey = null;
       _pressedModifier = null;
     });
@@ -45,17 +119,13 @@ class KeyCombinationWidgetState extends ConsumerState<KeyCombinationWidget> {
 
   void _stopListening() {
     setState(() {
-      _isListening = false;
+      setIsListening(false);
       if (_pressedKey != null) {
         final newKeyComb = KeyCombination(
           key: _pressedKey!,
           modifier: _pressedModifier,
         );
-        if (newKeyComb == widget.defaultKey) {
-          widget.onChanged(null);
-        } else {
-          widget.onChanged(newKeyComb);
-        }
+        widget.onChanged(newKeyComb);
       }
       _pressedKey = null;
       _pressedModifier = null;
@@ -76,7 +146,7 @@ class KeyCombinationWidgetState extends ConsumerState<KeyCombinationWidget> {
           } else {
             final currentHotKey = KeyCombination(key: event.logicalKey, modifier: _pressedModifier);
             bool isExistingHotkey = activeHotKeys.any((element) {
-              return element == currentHotKey && currentHotKey != (widget.currentKey ?? widget.defaultKey);
+              return element.containsSameSet(currentHotKey) && currentHotKey != widget.currentKey;
             });
 
             if (!isExistingHotkey) {
@@ -103,72 +173,78 @@ class KeyCombinationWidgetState extends ConsumerState<KeyCombinationWidget> {
     }
   }
 
+  void showClearButton(bool value) {
+    setState(() {
+      _showClearButton = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final currentModifier =
-        _pressedModifier ?? (widget.currentKey != null ? widget.currentKey?.modifier : widget.defaultKey.modifier);
-    final currentKey = _pressedKey ?? (widget.currentKey?.key ?? widget.defaultKey.key);
-    final currentHotKey = KeyCombination(key: currentKey, modifier: currentModifier);
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        ConstrainedBox(
-          constraints: const BoxConstraints(minWidth: 50),
-          child: InkWell(
-            onTap: _isListening ? null : _startListening,
-            child: Card(
-              color: Theme.of(context).colorScheme.primaryContainer,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 12),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  mainAxisSize: MainAxisSize.min,
-                  spacing: 6,
-                  children: [
-                    Text(currentHotKey.label),
-                    AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 250),
-                      child: _isListening
-                          ? KeyboardListener(
-                              focusNode: focusNode,
-                              autofocus: true,
-                              onKeyEvent: _handleKeyEvent,
-                              child: const Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: SizedBox(
-                                  height: 24,
-                                  width: 24,
-                                  child: Center(
-                                    child: CircularProgressIndicator(),
-                                  ),
-                                ),
-                              ),
-                            )
-                          : IconButton(
-                              onPressed: widget.currentKey == null
-                                  ? null
-                                  : () {
-                                      _pressedKey = null;
-                                      _pressedModifier = null;
-                                      widget.onChanged(null);
-                                    },
-                              iconSize: 24,
-                              icon: const Icon(IconsaxPlusBold.broom),
+    final currentModifier = _pressedModifier ?? (widget.currentKey?.modifier);
+    final currentKey = _pressedKey ?? widget.currentKey?.key;
+    final currentHotKey = currentKey == null ? null : KeyCombination(key: currentKey, modifier: currentModifier);
+    return MouseRegion(
+      onEnter: (event) => showClearButton(true),
+      onExit: (event) => showClearButton(false),
+      child: ClipRRect(
+        borderRadius: FladderTheme.smallShape.borderRadius,
+        child: InkWell(
+          onTap: _isListening ? _stopListening : _startListening,
+          onSecondaryTap: () {
+            setState(() {
+              setIsListening(false);
+              widget.onChanged(null);
+            });
+          },
+          child: Container(
+            color: Theme.of(context).colorScheme.primaryContainer,
+            child: AnimatedSize(
+              duration: const Duration(milliseconds: 125),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    child: Row(
+                      spacing: 8,
+                      children: [
+                        if (_showClearButton && currentHotKey != null)
+                          GestureDetector(
+                            onTap: () {
+                              setIsListening(false);
+                              widget.onChanged(null);
+                            },
+                            child: const Icon(
+                              IconsaxPlusLinear.trash,
+                              size: 17,
                             ),
-                    )
-                  ],
-                ),
+                          ),
+                        Text(
+                          currentHotKey?.label ?? "+",
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
+                  if (_isListening)
+                    Positioned.fill(
+                      child: KeyboardListener(
+                        focusNode: focusNode,
+                        autofocus: true,
+                        onKeyEvent: _handleKeyEvent,
+                        child: const Opacity(
+                          opacity: 0.25,
+                          child: LinearProgressIndicator(),
+                        ),
+                      ),
+                    ),
+                ],
               ),
             ),
           ),
         ),
-      ],
+      ),
     );
-  }
-}
-
-extension LogicalKeyExtension on LogicalKeyboardKey {
-  String get label {
-    return switch (this) { LogicalKeyboardKey.space => "Space", _ => keyLabel };
   }
 }
