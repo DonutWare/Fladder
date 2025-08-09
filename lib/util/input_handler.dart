@@ -53,7 +53,7 @@ class _InputHandlerState<T> extends ConsumerState<InputHandler<T>> {
   }
 
   KeyEventResult _onKey(KeyEvent value) {
-    if (ref.read(keyListeningProvider)) return KeyEventResult.ignored;
+    if (changingShortCut) return KeyEventResult.ignored;
 
     final keyMap = widget.keyMap?.entries.nonNulls.toList() ?? [];
     if (value is KeyDownEvent || value is KeyRepeatEvent) {

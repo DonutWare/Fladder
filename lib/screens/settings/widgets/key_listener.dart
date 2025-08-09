@@ -11,9 +11,8 @@ import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/localization_helper.dart';
 
-final keyListeningProvider = StateProvider<bool>((ref) {
-  return false;
-});
+// Only use for actively checking if a shortcut is being changed
+bool changingShortCut = false;
 
 class KeyCombinationWidget extends StatelessWidget {
   final KeyCombination? currentKey;
@@ -96,12 +95,13 @@ class KeyListenerWidgetState extends ConsumerState<KeyListenerWidget> {
   LogicalKeyboardKey? _pressedModifier;
 
   void setIsListening(bool value) {
-    ref.read(keyListeningProvider.notifier).state = value;
+    changingShortCut = value;
     _isListening = value;
   }
 
   @override
   void dispose() {
+    changingShortCut = false;
     _isListening = false;
     _pressedKey = null;
     _pressedModifier = null;
@@ -109,7 +109,7 @@ class KeyListenerWidgetState extends ConsumerState<KeyListenerWidget> {
   }
 
   void _startListening() {
-    if (ref.read(keyListeningProvider)) return;
+    if (changingShortCut) return;
     setState(() {
       setIsListening(true);
       _pressedKey = null;

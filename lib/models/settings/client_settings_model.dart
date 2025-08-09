@@ -79,7 +79,7 @@ class ClientSettingsModel with _$ClientSettingsModel {
     @Default(false) bool usePosterForLibrary,
     String? lastViewedUpdate,
     int? libraryPageSize,
-    @Default({}) Map<GlobalHotKeys, KeyCombination?> shortcuts,
+    @Default({}) Map<GlobalHotKeys, KeyCombination> shortcuts,
   }) = _ClientSettingsModel;
 
   factory ClientSettingsModel.fromJson(Map<String, dynamic> json) => _$ClientSettingsModelFromJson(json);

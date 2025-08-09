@@ -45,7 +45,7 @@ mixin _$ClientSettingsModel {
   bool get usePosterForLibrary => throw _privateConstructorUsedError;
   String? get lastViewedUpdate => throw _privateConstructorUsedError;
   int? get libraryPageSize => throw _privateConstructorUsedError;
-  Map<GlobalHotKeys, KeyCombination?> get shortcuts =>
+  Map<GlobalHotKeys, KeyCombination> get shortcuts =>
       throw _privateConstructorUsedError;
 
   /// Serializes this ClientSettingsModel to a JSON map.
@@ -89,7 +89,7 @@ abstract class $ClientSettingsModelCopyWith<$Res> {
       bool usePosterForLibrary,
       String? lastViewedUpdate,
       int? libraryPageSize,
-      Map<GlobalHotKeys, KeyCombination?> shortcuts});
+      Map<GlobalHotKeys, KeyCombination> shortcuts});
 }
 
 /// @nodoc
@@ -233,7 +233,7 @@ class _$ClientSettingsModelCopyWithImpl<$Res, $Val extends ClientSettingsModel>
       shortcuts: null == shortcuts
           ? _value.shortcuts
           : shortcuts // ignore: cast_nullable_to_non_nullable
-              as Map<GlobalHotKeys, KeyCombination?>,
+              as Map<GlobalHotKeys, KeyCombination>,
     ) as $Val);
   }
 }
@@ -271,7 +271,7 @@ abstract class _$$ClientSettingsModelImplCopyWith<$Res>
       bool usePosterForLibrary,
       String? lastViewedUpdate,
       int? libraryPageSize,
-      Map<GlobalHotKeys, KeyCombination?> shortcuts});
+      Map<GlobalHotKeys, KeyCombination> shortcuts});
 }
 
 /// @nodoc
@@ -413,7 +413,7 @@ class __$$ClientSettingsModelImplCopyWithImpl<$Res>
       shortcuts: null == shortcuts
           ? _value._shortcuts
           : shortcuts // ignore: cast_nullable_to_non_nullable
-              as Map<GlobalHotKeys, KeyCombination?>,
+              as Map<GlobalHotKeys, KeyCombination>,
     ));
   }
 }
@@ -447,7 +447,7 @@ class _$ClientSettingsModelImpl extends _ClientSettingsModel
       this.usePosterForLibrary = false,
       this.lastViewedUpdate,
       this.libraryPageSize,
-      final Map<GlobalHotKeys, KeyCombination?> shortcuts = const {}})
+      final Map<GlobalHotKeys, KeyCombination> shortcuts = const {}})
       : _shortcuts = shortcuts,
         super._();
 
@@ -521,10 +521,10 @@ class _$ClientSettingsModelImpl extends _ClientSettingsModel
   final String? lastViewedUpdate;
   @override
   final int? libraryPageSize;
-  final Map<GlobalHotKeys, KeyCombination?> _shortcuts;
+  final Map<GlobalHotKeys, KeyCombination> _shortcuts;
   @override
   @JsonKey()
-  Map<GlobalHotKeys, KeyCombination?> get shortcuts {
+  Map<GlobalHotKeys, KeyCombination> get shortcuts {
     if (_shortcuts is EqualUnmodifiableMapView) return _shortcuts;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_shortcuts);
@@ -612,7 +612,7 @@ abstract class _ClientSettingsModel extends ClientSettingsModel {
           final bool usePosterForLibrary,
           final String? lastViewedUpdate,
           final int? libraryPageSize,
-          final Map<GlobalHotKeys, KeyCombination?> shortcuts}) =
+          final Map<GlobalHotKeys, KeyCombination> shortcuts}) =
       _$ClientSettingsModelImpl;
   _ClientSettingsModel._() : super._();
 
@@ -669,7 +669,7 @@ abstract class _ClientSettingsModel extends ClientSettingsModel {
   @override
   int? get libraryPageSize;
   @override
-  Map<GlobalHotKeys, KeyCombination?> get shortcuts;
+  Map<GlobalHotKeys, KeyCombination> get shortcuts;
 
   /// Create a copy of ClientSettingsModel
   /// with the given fields replaced by the non-null parameter values.

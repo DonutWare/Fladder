@@ -108,3 +108,20 @@ extension LogicalKeyExtension on LogicalKeyboardKey {
     return switch (this) { LogicalKeyboardKey.space => "Space", _ => keyLabel };
   }
 }
+
+extension KeyMapExtension<T> on Map<T, KeyCombination> {
+  Map<T, KeyCombination> setOrRemove(MapEntry<T, KeyCombination> newEntry, Map<T, KeyCombination> defaultShortCuts) {
+    if (newEntry.value == defaultShortCuts[newEntry.key]) {
+      final currentShortcuts = Map.fromEntries(entries);
+      return (currentShortcuts..remove(newEntry.key));
+    } else {
+      final currentShortcuts = Map.fromEntries(entries);
+      currentShortcuts.update(
+        newEntry.key,
+        (value) => newEntry.value,
+        ifAbsent: () => newEntry.value,
+      );
+      return currentShortcuts;
+    }
+  }
+}
