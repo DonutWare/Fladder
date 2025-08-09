@@ -52,7 +52,7 @@ jobs:
         id: check
         run: |
           # Determine build type based on trigger and input
-          if [[ "${{ github.event_name }}" == "workflow_dispatch"; then
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
             BUILD_TYPE="${{ github.event.inputs.build_type }}"
           elif [[ "${{ startsWith(github.ref, 'refs/tags/v') }}" == "true" ]]; then
             BUILD_TYPE="release"
