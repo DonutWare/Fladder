@@ -1316,5 +1316,6 @@
         "type": "String"
       }
     }
-  }
+  },
+  "blurred": "Blurred"
 }

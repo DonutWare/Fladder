@@ -41,7 +41,9 @@ _$ClientSettingsModelImpl _$$ClientSettingsModelImplFromJson(
       schemeVariant: $enumDecodeNullable(
               _$DynamicSchemeVariantEnumMap, json['schemeVariant']) ??
           DynamicSchemeVariant.rainbow,
-      backgroundPosters: json['backgroundPosters'] as bool? ?? true,
+      backgroundImage: $enumDecodeNullable(
+              _$BackgroundTypeEnumMap, json['backgroundImage']) ??
+          BackgroundType.blurred,
       checkForUpdates: json['checkForUpdates'] as bool? ?? true,
       usePosterForLibrary: json['usePosterForLibrary'] as bool? ?? false,
       lastViewedUpdate: json['lastViewedUpdate'] as String?,
@@ -78,7 +80,7 @@ Map<String, dynamic> _$$ClientSettingsModelImplToJson(
       'showAllCollectionTypes': instance.showAllCollectionTypes,
       'maxConcurrentDownloads': instance.maxConcurrentDownloads,
       'schemeVariant': _$DynamicSchemeVariantEnumMap[instance.schemeVariant]!,
-      'backgroundPosters': instance.backgroundPosters,
+      'backgroundImage': _$BackgroundTypeEnumMap[instance.backgroundImage]!,
       'checkForUpdates': instance.checkForUpdates,
       'usePosterForLibrary': instance.usePosterForLibrary,
       'lastViewedUpdate': instance.lastViewedUpdate,
@@ -121,6 +123,12 @@ const _$DynamicSchemeVariantEnumMap = {
   DynamicSchemeVariant.content: 'content',
   DynamicSchemeVariant.rainbow: 'rainbow',
   DynamicSchemeVariant.fruitSalad: 'fruitSalad',
+};
+
+const _$BackgroundTypeEnumMap = {
+  BackgroundType.disabled: 'disabled',
+  BackgroundType.enabled: 'enabled',
+  BackgroundType.blurred: 'blurred',
 };
 
 const _$GlobalHotKeysEnumMap = {

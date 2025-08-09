@@ -96,34 +96,37 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                   if (backgroundImage != null)
                     Align(
                       alignment: Alignment.topCenter,
-                      child: ShaderMask(
-                        shaderCallback: (bounds) => LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Colors.white,
-                            Colors.white,
-                            Colors.white,
-                            Colors.white,
-                            Colors.white,
-                            Colors.white.withValues(alpha: 0),
-                          ],
-                        ).createShader(bounds),
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                            minWidth: double.infinity,
-                            minHeight: minHeight - 20,
-                            maxHeight: maxHeight.clamp(minHeight, 2500) - 20,
-                          ),
-                          child: FadeInImage(
-                            placeholder: backgroundImage!.imageProvider,
-                            placeholderColor: Colors.transparent,
-                            fit: BoxFit.cover,
-                            alignment: Alignment.topCenter,
-                            placeholderFit: BoxFit.cover,
-                            excludeFromSemantics: true,
-                            placeholderFilterQuality: FilterQuality.low,
-                            image: backgroundImage!.imageProvider,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: sideBarPadding),
+                        child: ShaderMask(
+                          shaderCallback: (bounds) => LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.white,
+                              Colors.white,
+                              Colors.white,
+                              Colors.white,
+                              Colors.white,
+                              Colors.white.withValues(alpha: 0),
+                            ],
+                          ).createShader(bounds),
+                          child: ConstrainedBox(
+                            constraints: BoxConstraints(
+                              minWidth: double.infinity,
+                              minHeight: minHeight - 20,
+                              maxHeight: maxHeight.clamp(minHeight, 2500) - 20,
+                            ),
+                            child: FadeInImage(
+                              placeholder: backgroundImage!.imageProvider,
+                              placeholderColor: Colors.transparent,
+                              fit: BoxFit.cover,
+                              alignment: Alignment.topCenter,
+                              placeholderFit: BoxFit.cover,
+                              excludeFromSemantics: true,
+                              placeholderFilterQuality: FilterQuality.low,
+                              image: backgroundImage!.imageProvider,
+                            ),
                           ),
                         ),
                       ),

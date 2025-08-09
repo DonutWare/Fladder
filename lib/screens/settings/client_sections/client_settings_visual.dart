@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/l10n/generated/app_localizations.dart';
+import 'package:fladder/models/settings/client_settings_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/settings/widgets/settings_label_divider.dart';
@@ -90,13 +91,18 @@ List<Widget> buildClientSettingsVisual(
       SettingsListTile(
         label: Text(context.localized.enableBackgroundPostersTitle),
         subLabel: Text(context.localized.enableBackgroundPostersDesc),
-        onTap: () => ref
-            .read(clientSettingsProvider.notifier)
-            .update((cb) => cb.copyWith(backgroundPosters: !clientSettings.backgroundPosters)),
-        trailing: Switch(
-          value: clientSettings.backgroundPosters,
-          onChanged: (value) =>
-              ref.read(clientSettingsProvider.notifier).update((cb) => cb.copyWith(backgroundPosters: value)),
+        trailing: EnumBox(
+          current: clientSettings.backgroundImage.label(context),
+          itemBuilder: (context) => BackgroundType.values
+              .map(
+                (e) => PopupMenuItem(
+                  value: e,
+                  child: Text(e.label(context)),
+                  onTap: () =>
+                      ref.read(clientSettingsProvider.notifier).update((cb) => cb.copyWith(backgroundImage: e)),
+                ),
+              )
+              .toList(),
         ),
       ),
       SettingsListTile(
