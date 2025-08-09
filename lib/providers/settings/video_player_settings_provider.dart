@@ -70,15 +70,19 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
   void toggleOrientation(Set<DeviceOrientation>? orientation) =>
       state = state.copyWith(allowedOrientations: orientation);
 
-  void setShortcuts(MapEntry<VideoHotKeys, KeyCombination?> newEntry) {
-    final currentShortcuts = Map.fromEntries(state.hotKeys.entries);
-    currentShortcuts.update(
-      newEntry.key,
-      (value) => newEntry.value,
-      ifAbsent: () => newEntry.value,
-    );
-    currentShortcuts.removeWhere((key, value) => value == null);
-    state = state.copyWith(hotKeys: currentShortcuts);
+  void setShortcuts(MapEntry<VideoHotKeys, KeyCombination> newEntry) {
+    if (newEntry.value == state.defaultShortCuts[newEntry.key]) {
+      final currentShortcuts = Map.fromEntries(state.hotKeys.entries);
+      state = state.copyWith(hotKeys: (currentShortcuts..remove(newEntry.key)));
+    } else {
+      final currentShortcuts = Map.fromEntries(state.hotKeys.entries);
+      currentShortcuts.update(
+        newEntry.key,
+        (value) => newEntry.value,
+        ifAbsent: () => newEntry.value,
+      );
+      state = state.copyWith(hotKeys: currentShortcuts);
+    }
   }
 
   void nextChapter() {

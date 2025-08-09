@@ -19,31 +19,26 @@ List<Widget> buildClientSettingsShortCuts(
     SettingsLabelDivider(label: context.localized.shortCuts),
     [
       ...GlobalHotKeys.values.map(
-        (entry) {
-          final currentEntry = clientSettings.shortcuts[entry];
-          final defaultEntry = clientSettings.defaultShortCuts[entry]!;
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    entry.label(context),
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
+        (entry) => Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  entry.label(context),
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
-                Flexible(
-                  child: KeyCombinationWidget(
-                    currentKey: currentEntry,
-                    defaultKey: defaultEntry,
-                    onChanged: (value) =>
-                        ref.read(clientSettingsProvider.notifier).setShortcuts(MapEntry(entry, value)),
-                  ),
-                )
-              ],
-            ),
-          );
-        },
+              ),
+              Flexible(
+                child: KeyCombinationWidget(
+                  currentKey: clientSettings.shortcuts[entry],
+                  defaultKey: clientSettings.defaultShortCuts[entry]!,
+                  onChanged: (value) => ref.read(clientSettingsProvider.notifier).setShortcuts(MapEntry(entry, value)),
+                ),
+              )
+            ],
+          ),
+        ),
       )
     ],
   );

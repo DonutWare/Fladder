@@ -60,14 +60,18 @@ class ClientSettingsNotifier extends StateNotifier<ClientSettingsModel> {
 
   void setRequireWifi(bool value) => state = state.copyWith(requireWifi: value);
 
-  void setShortcuts(MapEntry<GlobalHotKeys, KeyCombination?> mapEntry) {
-    final newShortCuts = Map.fromEntries(state.shortcuts.entries);
-    newShortCuts.update(
-      mapEntry.key,
-      (value) => mapEntry.value,
-      ifAbsent: () => mapEntry.value,
-    );
-    newShortCuts.removeWhere((key, value) => value == null);
-    state = state.copyWith(shortcuts: newShortCuts);
+  void setShortcuts(MapEntry<GlobalHotKeys, KeyCombination> newEntry) {
+    if (newEntry.value == state.defaultShortCuts[newEntry.key]) {
+      final currentShortcuts = Map.fromEntries(state.shortcuts.entries);
+      state = state.copyWith(shortcuts: (currentShortcuts..remove(newEntry.key)));
+    } else {
+      final currentShortcuts = Map.fromEntries(state.shortcuts.entries);
+      currentShortcuts.update(
+        newEntry.key,
+        (value) => newEntry.value,
+        ifAbsent: () => newEntry.value,
+      );
+      state = state.copyWith(shortcuts: currentShortcuts);
+    }
   }
 }

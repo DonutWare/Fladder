@@ -207,31 +207,27 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
             ),
             if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer)
               ...VideoHotKeys.values.map(
-                (entry) {
-                  final currentEntry = videoSettings.hotKeys[entry];
-                  final defaultEntry = videoSettings.defaultShortCuts[entry]!;
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            entry.label(context),
-                            style: Theme.of(context).textTheme.titleLarge,
-                          ),
+                (entry) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          entry.label(context),
+                          style: Theme.of(context).textTheme.titleLarge,
                         ),
-                        Flexible(
-                          child: KeyCombinationWidget(
-                            currentKey: currentEntry,
-                            defaultKey: defaultEntry,
-                            onChanged: (value) =>
-                                ref.read(videoPlayerSettingsProvider.notifier).setShortcuts(MapEntry(entry, value)),
-                          ),
-                        )
-                      ],
-                    ),
-                  );
-                },
+                      ),
+                      Flexible(
+                        child: KeyCombinationWidget(
+                          currentKey: videoSettings.hotKeys[entry],
+                          defaultKey: videoSettings.defaultShortCuts[entry]!,
+                          onChanged: (value) =>
+                              ref.read(videoPlayerSettingsProvider.notifier).setShortcuts(MapEntry(entry, value)),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
               )
           ],
         ),

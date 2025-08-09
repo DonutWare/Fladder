@@ -39,11 +39,8 @@ _$VideoPlayerSettingsModelImpl _$$VideoPlayerSettingsModelImplFromJson(
               ) ??
               defaultSegmentSkipValues,
       hotKeys: (json['hotKeys'] as Map<String, dynamic>?)?.map(
-            (k, e) => MapEntry(
-                $enumDecode(_$VideoHotKeysEnumMap, k),
-                e == null
-                    ? null
-                    : KeyCombination.fromJson(e as Map<String, dynamic>)),
+            (k, e) => MapEntry($enumDecode(_$VideoHotKeysEnumMap, k),
+                KeyCombination.fromJson(e as Map<String, dynamic>)),
           ) ??
           const {},
     );

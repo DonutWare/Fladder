@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:fladder/models/settings/key_combinations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class InputHandler<T> extends StatefulWidget {
+import 'package:fladder/models/settings/key_combinations.dart';
+import 'package:fladder/screens/settings/widgets/key_listener.dart';
+
+class InputHandler<T> extends ConsumerStatefulWidget {
   final bool autoFocus;
   final KeyEventResult Function(FocusNode node, KeyEvent event)? onKeyEvent;
   final bool Function(T result)? keyMapResult;
@@ -19,10 +22,10 @@ class InputHandler<T> extends StatefulWidget {
   });
 
   @override
-  State<InputHandler> createState() => _InputHandlerState<T>();
+  ConsumerState<InputHandler> createState() => _InputHandlerState<T>();
 }
 
-class _InputHandlerState<T> extends State<InputHandler<T>> {
+class _InputHandlerState<T> extends ConsumerState<InputHandler<T>> {
   final focusNode = FocusNode();
 
   LogicalKeyboardKey? pressedModifier;
@@ -50,6 +53,8 @@ class _InputHandlerState<T> extends State<InputHandler<T>> {
   }
 
   KeyEventResult _onKey(KeyEvent value) {
+    if (ref.read(keyListeningProvider)) return KeyEventResult.ignored;
+
     final keyMap = widget.keyMap?.entries.nonNulls.toList() ?? [];
     if (value is KeyDownEvent || value is KeyRepeatEvent) {
       if (KeyCombination.modifierKeys.contains(value.logicalKey)) {
@@ -63,7 +68,11 @@ class _InputHandlerState<T> extends State<InputHandler<T>> {
         bool isMainKeyPressed = value.logicalKey == keyCombination.key;
         bool isModifierKeyPressed = pressedModifier == keyCombination.modifier;
 
-        if (isMainKeyPressed && isModifierKeyPressed) {
+        bool isAltKeyPressed = value.logicalKey == keyCombination.altKey;
+
+        bool isAltModifierKeyPressed = pressedModifier == keyCombination.altModifier;
+
+        if ((isMainKeyPressed && isModifierKeyPressed) || isAltKeyPressed && isAltModifierKeyPressed) {
           if (widget.keyMapResult?.call(hotKey) ?? false) {
             return KeyEventResult.handled;
           } else {
