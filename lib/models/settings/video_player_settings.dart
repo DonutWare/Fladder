@@ -169,8 +169,14 @@ Map<VideoHotKeys, KeyCombination> get _defaultVideoHotKeys => {
               key: LogicalKeyboardKey.space,
               altKey: LogicalKeyboardKey.keyK,
             ),
-          VideoHotKeys.seekForward => KeyCombination(key: LogicalKeyboardKey.arrowRight),
-          VideoHotKeys.seekBack => KeyCombination(key: LogicalKeyboardKey.arrowLeft),
+          VideoHotKeys.seekForward => KeyCombination(
+              key: LogicalKeyboardKey.arrowRight,
+              altKey: LogicalKeyboardKey.keyL,
+            ),
+          VideoHotKeys.seekBack => KeyCombination(
+              key: LogicalKeyboardKey.arrowLeft,
+              altKey: LogicalKeyboardKey.keyJ,
+            ),
           VideoHotKeys.mute => KeyCombination(key: LogicalKeyboardKey.keyM),
           VideoHotKeys.volumeUp => KeyCombination(key: LogicalKeyboardKey.arrowUp),
           VideoHotKeys.volumeDown => KeyCombination(key: LogicalKeyboardKey.arrowDown),
