@@ -1454,5 +1454,15 @@
         "type": "String"
       }
     }
+  },
+  "blurred": "Vervaagd",
+  "@blurred": {},
+  "volumeIndicator": "Volume: {volume}",
+  "@volumeIndicator": {
+    "placeholders": {
+      "volume": {
+        "type": "int"
+      }
+    }
   }
 }
