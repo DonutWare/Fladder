@@ -1461,5 +1461,7 @@
         "type": "String"
       }
     }
-  }
+  },
+  "blurred": "Розмитий",
+  "@blurred": {}
 }
