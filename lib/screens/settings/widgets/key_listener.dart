@@ -209,10 +209,6 @@ class KeyListenerWidgetState extends ConsumerState<KeyListenerWidget> {
                     child: Row(
                       spacing: 8,
                       children: [
-                        Text(
-                          currentHotKey?.label ?? "+",
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
-                        ),
                         if (_showClearButton && currentHotKey != null)
                           GestureDetector(
                             onTap: () {
@@ -223,7 +219,11 @@ class KeyListenerWidgetState extends ConsumerState<KeyListenerWidget> {
                               IconsaxPlusLinear.trash,
                               size: 17,
                             ),
-                          )
+                          ),
+                        Text(
+                          currentHotKey?.label ?? "+",
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+                        ),
                       ],
                     ),
                   ),
