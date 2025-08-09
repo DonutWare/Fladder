@@ -29,7 +29,9 @@ class KeyCombinationWidgetState extends ConsumerState<KeyCombinationWidget> {
 
   @override
   void dispose() {
-    _stopListening();
+    _isListening = false;
+    _pressedKey = null;
+    _pressedModifier = null;
     super.dispose();
   }
 
