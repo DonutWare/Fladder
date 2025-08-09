@@ -28,6 +28,28 @@ enum GlobalHotKeys {
   }
 }
 
+enum BackgroundType {
+  disabled,
+  enabled,
+  blurred;
+
+  const BackgroundType();
+
+  double get opacityValues => switch (this) {
+        BackgroundType.disabled => 1.0,
+        BackgroundType.enabled => 0.7,
+        BackgroundType.blurred => 0.5,
+      };
+
+  String label(BuildContext context) {
+    return switch (this) {
+      BackgroundType.disabled => context.localized.off,
+      BackgroundType.enabled => context.localized.enabled,
+      BackgroundType.blurred => context.localized.blurred,
+    };
+  }
+}
+
 @Freezed(copyWith: true)
 class ClientSettingsModel with _$ClientSettingsModel {
   const ClientSettingsModel._();
@@ -52,7 +74,7 @@ class ClientSettingsModel with _$ClientSettingsModel {
     @Default(false) bool showAllCollectionTypes,
     @Default(2) int maxConcurrentDownloads,
     @Default(DynamicSchemeVariant.rainbow) DynamicSchemeVariant schemeVariant,
-    @Default(true) bool backgroundPosters,
+    @Default(BackgroundType.blurred) BackgroundType backgroundImage,
     @Default(true) bool checkForUpdates,
     @Default(false) bool usePosterForLibrary,
     String? lastViewedUpdate,

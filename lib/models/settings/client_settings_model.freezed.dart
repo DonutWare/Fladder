@@ -40,7 +40,7 @@ mixin _$ClientSettingsModel {
   bool get showAllCollectionTypes => throw _privateConstructorUsedError;
   int get maxConcurrentDownloads => throw _privateConstructorUsedError;
   DynamicSchemeVariant get schemeVariant => throw _privateConstructorUsedError;
-  bool get backgroundPosters => throw _privateConstructorUsedError;
+  BackgroundType get backgroundImage => throw _privateConstructorUsedError;
   bool get checkForUpdates => throw _privateConstructorUsedError;
   bool get usePosterForLibrary => throw _privateConstructorUsedError;
   String? get lastViewedUpdate => throw _privateConstructorUsedError;
@@ -84,7 +84,7 @@ abstract class $ClientSettingsModelCopyWith<$Res> {
       bool showAllCollectionTypes,
       int maxConcurrentDownloads,
       DynamicSchemeVariant schemeVariant,
-      bool backgroundPosters,
+      BackgroundType backgroundImage,
       bool checkForUpdates,
       bool usePosterForLibrary,
       String? lastViewedUpdate,
@@ -126,7 +126,7 @@ class _$ClientSettingsModelCopyWithImpl<$Res, $Val extends ClientSettingsModel>
     Object? showAllCollectionTypes = null,
     Object? maxConcurrentDownloads = null,
     Object? schemeVariant = null,
-    Object? backgroundPosters = null,
+    Object? backgroundImage = null,
     Object? checkForUpdates = null,
     Object? usePosterForLibrary = null,
     Object? lastViewedUpdate = freezed,
@@ -210,10 +210,10 @@ class _$ClientSettingsModelCopyWithImpl<$Res, $Val extends ClientSettingsModel>
           ? _value.schemeVariant
           : schemeVariant // ignore: cast_nullable_to_non_nullable
               as DynamicSchemeVariant,
-      backgroundPosters: null == backgroundPosters
-          ? _value.backgroundPosters
-          : backgroundPosters // ignore: cast_nullable_to_non_nullable
-              as bool,
+      backgroundImage: null == backgroundImage
+          ? _value.backgroundImage
+          : backgroundImage // ignore: cast_nullable_to_non_nullable
+              as BackgroundType,
       checkForUpdates: null == checkForUpdates
           ? _value.checkForUpdates
           : checkForUpdates // ignore: cast_nullable_to_non_nullable
@@ -266,7 +266,7 @@ abstract class _$$ClientSettingsModelImplCopyWith<$Res>
       bool showAllCollectionTypes,
       int maxConcurrentDownloads,
       DynamicSchemeVariant schemeVariant,
-      bool backgroundPosters,
+      BackgroundType backgroundImage,
       bool checkForUpdates,
       bool usePosterForLibrary,
       String? lastViewedUpdate,
@@ -306,7 +306,7 @@ class __$$ClientSettingsModelImplCopyWithImpl<$Res>
     Object? showAllCollectionTypes = null,
     Object? maxConcurrentDownloads = null,
     Object? schemeVariant = null,
-    Object? backgroundPosters = null,
+    Object? backgroundImage = null,
     Object? checkForUpdates = null,
     Object? usePosterForLibrary = null,
     Object? lastViewedUpdate = freezed,
@@ -390,10 +390,10 @@ class __$$ClientSettingsModelImplCopyWithImpl<$Res>
           ? _value.schemeVariant
           : schemeVariant // ignore: cast_nullable_to_non_nullable
               as DynamicSchemeVariant,
-      backgroundPosters: null == backgroundPosters
-          ? _value.backgroundPosters
-          : backgroundPosters // ignore: cast_nullable_to_non_nullable
-              as bool,
+      backgroundImage: null == backgroundImage
+          ? _value.backgroundImage
+          : backgroundImage // ignore: cast_nullable_to_non_nullable
+              as BackgroundType,
       checkForUpdates: null == checkForUpdates
           ? _value.checkForUpdates
           : checkForUpdates // ignore: cast_nullable_to_non_nullable
@@ -442,7 +442,7 @@ class _$ClientSettingsModelImpl extends _ClientSettingsModel
       this.showAllCollectionTypes = false,
       this.maxConcurrentDownloads = 2,
       this.schemeVariant = DynamicSchemeVariant.rainbow,
-      this.backgroundPosters = true,
+      this.backgroundImage = BackgroundType.blurred,
       this.checkForUpdates = true,
       this.usePosterForLibrary = false,
       this.lastViewedUpdate,
@@ -510,7 +510,7 @@ class _$ClientSettingsModelImpl extends _ClientSettingsModel
   final DynamicSchemeVariant schemeVariant;
   @override
   @JsonKey()
-  final bool backgroundPosters;
+  final BackgroundType backgroundImage;
   @override
   @JsonKey()
   final bool checkForUpdates;
@@ -532,7 +532,7 @@ class _$ClientSettingsModelImpl extends _ClientSettingsModel
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ClientSettingsModel(syncPath: $syncPath, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, themeMode: $themeMode, themeColor: $themeColor, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundPosters: $backgroundPosters, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
+    return 'ClientSettingsModel(syncPath: $syncPath, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, themeMode: $themeMode, themeColor: $themeColor, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundImage: $backgroundImage, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
   }
 
   @override
@@ -561,7 +561,7 @@ class _$ClientSettingsModelImpl extends _ClientSettingsModel
       ..add(
           DiagnosticsProperty('maxConcurrentDownloads', maxConcurrentDownloads))
       ..add(DiagnosticsProperty('schemeVariant', schemeVariant))
-      ..add(DiagnosticsProperty('backgroundPosters', backgroundPosters))
+      ..add(DiagnosticsProperty('backgroundImage', backgroundImage))
       ..add(DiagnosticsProperty('checkForUpdates', checkForUpdates))
       ..add(DiagnosticsProperty('usePosterForLibrary', usePosterForLibrary))
       ..add(DiagnosticsProperty('lastViewedUpdate', lastViewedUpdate))
@@ -607,7 +607,7 @@ abstract class _ClientSettingsModel extends ClientSettingsModel {
           final bool showAllCollectionTypes,
           final int maxConcurrentDownloads,
           final DynamicSchemeVariant schemeVariant,
-          final bool backgroundPosters,
+          final BackgroundType backgroundImage,
           final bool checkForUpdates,
           final bool usePosterForLibrary,
           final String? lastViewedUpdate,
@@ -659,7 +659,7 @@ abstract class _ClientSettingsModel extends ClientSettingsModel {
   @override
   DynamicSchemeVariant get schemeVariant;
   @override
-  bool get backgroundPosters;
+  BackgroundType get backgroundImage;
   @override
   bool get checkForUpdates;
   @override
