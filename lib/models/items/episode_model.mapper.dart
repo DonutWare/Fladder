@@ -150,13 +150,14 @@ class EpisodeModelMapper extends SubClassMapperBase<EpisodeModel> {
 
 mixin EpisodeModelMappable {
   EpisodeModelCopyWith<EpisodeModel, EpisodeModel, EpisodeModel> get copyWith =>
-      _EpisodeModelCopyWithImpl(this as EpisodeModel, $identity, $identity);
+      _EpisodeModelCopyWithImpl<EpisodeModel, EpisodeModel>(
+          this as EpisodeModel, $identity, $identity);
 }
 
 extension EpisodeModelValueCopy<$R, $Out>
     on ObjectCopyWith<$R, EpisodeModel, $Out> {
   EpisodeModelCopyWith<$R, EpisodeModel, $Out> get $asEpisodeModel =>
-      $base.as((v, t, t2) => _EpisodeModelCopyWithImpl(v, t, t2));
+      $base.as((v, t, t2) => _EpisodeModelCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
 abstract class EpisodeModelCopyWith<$R, $In extends EpisodeModel, $Out>
@@ -283,5 +284,5 @@ class _EpisodeModelCopyWithImpl<$R, $Out>
   @override
   EpisodeModelCopyWith<$R2, EpisodeModel, $Out2> $chain<$R2, $Out2>(
           Then<$Out2, $R2> t) =>
-      _EpisodeModelCopyWithImpl($value, $cast, t);
+      _EpisodeModelCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

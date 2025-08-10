@@ -112,13 +112,14 @@ class BoxSetModelMapper extends SubClassMapperBase<BoxSetModel> {
 
 mixin BoxSetModelMappable {
   BoxSetModelCopyWith<BoxSetModel, BoxSetModel, BoxSetModel> get copyWith =>
-      _BoxSetModelCopyWithImpl(this as BoxSetModel, $identity, $identity);
+      _BoxSetModelCopyWithImpl<BoxSetModel, BoxSetModel>(
+          this as BoxSetModel, $identity, $identity);
 }
 
 extension BoxSetModelValueCopy<$R, $Out>
     on ObjectCopyWith<$R, BoxSetModel, $Out> {
   BoxSetModelCopyWith<$R, BoxSetModel, $Out> get $asBoxSetModel =>
-      $base.as((v, t, t2) => _BoxSetModelCopyWithImpl(v, t, t2));
+      $base.as((v, t, t2) => _BoxSetModelCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
 abstract class BoxSetModelCopyWith<$R, $In extends BoxSetModel, $Out>
@@ -215,5 +216,5 @@ class _BoxSetModelCopyWithImpl<$R, $Out>
   @override
   BoxSetModelCopyWith<$R2, BoxSetModel, $Out2> $chain<$R2, $Out2>(
           Then<$Out2, $R2> t) =>
-      _BoxSetModelCopyWithImpl($value, $cast, t);
+      _BoxSetModelCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

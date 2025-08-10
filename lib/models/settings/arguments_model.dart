@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'arguments_model.freezed.dart';
 
 @freezed
-class ArgumentsModel with _$ArgumentsModel {
+abstract class ArgumentsModel with _$ArgumentsModel {
   const ArgumentsModel._();
 
   factory ArgumentsModel({

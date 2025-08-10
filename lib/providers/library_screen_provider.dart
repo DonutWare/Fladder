@@ -46,7 +46,7 @@ enum LibraryViewType {
 }
 
 @Freezed(fromJson: false, toJson: false, copyWith: true)
-class LibraryScreenModel with _$LibraryScreenModel {
+abstract class LibraryScreenModel with _$LibraryScreenModel {
   factory LibraryScreenModel({
     @Default([]) List<ViewModel> views,
     ViewModel? selectedViewModel,

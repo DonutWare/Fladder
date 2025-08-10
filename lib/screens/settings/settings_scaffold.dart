@@ -117,7 +117,7 @@ class SettingsScaffold extends ConsumerWidget {
       if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.single && context.tabsRouter.activeIndex != 0) {
         context.tabsRouter.setActiveIndex(0);
       } else {
-        context.router.popForced();
+        context.router.pop();
       }
     } else {
       context.router.popBack();

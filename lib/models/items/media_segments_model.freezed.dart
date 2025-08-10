@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,32 +9,187 @@ part of 'media_segments_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-MediaSegmentsModel _$MediaSegmentsModelFromJson(Map<String, dynamic> json) {
-  return _MediaSegmentsModel.fromJson(json);
-}
 
 /// @nodoc
 mixin _$MediaSegmentsModel {
-  List<MediaSegment> get segments => throw _privateConstructorUsedError;
+  List<MediaSegment> get segments;
 
   /// Serializes this MediaSegmentsModel to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson();
+
+  @override
+  String toString() {
+    return 'MediaSegmentsModel(segments: $segments)';
+  }
+}
+
+/// Adds pattern-matching-related methods to [MediaSegmentsModel].
+extension MediaSegmentsModelPatterns on MediaSegmentsModel {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_MediaSegmentsModel value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _MediaSegmentsModel() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_MediaSegmentsModel value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _MediaSegmentsModel():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_MediaSegmentsModel value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _MediaSegmentsModel() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(List<MediaSegment> segments)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _MediaSegmentsModel() when $default != null:
+        return $default(_that.segments);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(List<MediaSegment> segments) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _MediaSegmentsModel():
+        return $default(_that.segments);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(List<MediaSegment> segments)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _MediaSegmentsModel() when $default != null:
+        return $default(_that.segments);
+      case _:
+        return null;
+    }
+  }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$MediaSegmentsModelImpl extends _MediaSegmentsModel {
-  _$MediaSegmentsModelImpl({final List<MediaSegment> segments = const []})
+class _MediaSegmentsModel extends MediaSegmentsModel {
+  _MediaSegmentsModel({final List<MediaSegment> segments = const []})
       : _segments = segments,
         super._();
-
-  factory _$MediaSegmentsModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$MediaSegmentsModelImplFromJson(json);
+  factory _MediaSegmentsModel.fromJson(Map<String, dynamic> json) =>
+      _$MediaSegmentsModelFromJson(json);
 
   final List<MediaSegment> _segments;
   @override
@@ -46,53 +201,200 @@ class _$MediaSegmentsModelImpl extends _MediaSegmentsModel {
   }
 
   @override
-  String toString() {
-    return 'MediaSegmentsModel(segments: $segments)';
-  }
-
-  @override
   Map<String, dynamic> toJson() {
-    return _$$MediaSegmentsModelImplToJson(
+    return _$MediaSegmentsModelToJson(
       this,
     );
   }
-}
-
-abstract class _MediaSegmentsModel extends MediaSegmentsModel {
-  factory _MediaSegmentsModel({final List<MediaSegment> segments}) =
-      _$MediaSegmentsModelImpl;
-  _MediaSegmentsModel._() : super._();
-
-  factory _MediaSegmentsModel.fromJson(Map<String, dynamic> json) =
-      _$MediaSegmentsModelImpl.fromJson;
 
   @override
-  List<MediaSegment> get segments;
-}
-
-MediaSegment _$MediaSegmentFromJson(Map<String, dynamic> json) {
-  return _MediaSegment.fromJson(json);
+  String toString() {
+    return 'MediaSegmentsModel(segments: $segments)';
+  }
 }
 
 /// @nodoc
 mixin _$MediaSegment {
-  MediaSegmentType get type => throw _privateConstructorUsedError;
-  Duration get start => throw _privateConstructorUsedError;
-  Duration get end => throw _privateConstructorUsedError;
+  MediaSegmentType get type;
+  Duration get start;
+  Duration get end;
 
   /// Serializes this MediaSegment to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson();
+
+  @override
+  String toString() {
+    return 'MediaSegment(type: $type, start: $start, end: $end)';
+  }
+}
+
+/// Adds pattern-matching-related methods to [MediaSegment].
+extension MediaSegmentPatterns on MediaSegment {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_MediaSegment value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _MediaSegment() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_MediaSegment value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _MediaSegment():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_MediaSegment value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _MediaSegment() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(MediaSegmentType type, Duration start, Duration end)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _MediaSegment() when $default != null:
+        return $default(_that.type, _that.start, _that.end);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(MediaSegmentType type, Duration start, Duration end)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _MediaSegment():
+        return $default(_that.type, _that.start, _that.end);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(MediaSegmentType type, Duration start, Duration end)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _MediaSegment() when $default != null:
+        return $default(_that.type, _that.start, _that.end);
+      case _:
+        return null;
+    }
+  }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$MediaSegmentImpl extends _MediaSegment {
-  _$MediaSegmentImpl(
-      {required this.type, required this.start, required this.end})
+class _MediaSegment extends MediaSegment {
+  _MediaSegment({required this.type, required this.start, required this.end})
       : super._();
-
-  factory _$MediaSegmentImpl.fromJson(Map<String, dynamic> json) =>
-      _$$MediaSegmentImplFromJson(json);
+  factory _MediaSegment.fromJson(Map<String, dynamic> json) =>
+      _$MediaSegmentFromJson(json);
 
   @override
   final MediaSegmentType type;
@@ -102,32 +404,16 @@ class _$MediaSegmentImpl extends _MediaSegment {
   final Duration end;
 
   @override
-  String toString() {
-    return 'MediaSegment(type: $type, start: $start, end: $end)';
-  }
-
-  @override
   Map<String, dynamic> toJson() {
-    return _$$MediaSegmentImplToJson(
+    return _$MediaSegmentToJson(
       this,
     );
   }
+
+  @override
+  String toString() {
+    return 'MediaSegment(type: $type, start: $start, end: $end)';
+  }
 }
 
-abstract class _MediaSegment extends MediaSegment {
-  factory _MediaSegment(
-      {required final MediaSegmentType type,
-      required final Duration start,
-      required final Duration end}) = _$MediaSegmentImpl;
-  _MediaSegment._() : super._();
-
-  factory _MediaSegment.fromJson(Map<String, dynamic> json) =
-      _$MediaSegmentImpl.fromJson;
-
-  @override
-  MediaSegmentType get type;
-  @override
-  Duration get start;
-  @override
-  Duration get end;
-}
+// dart format on

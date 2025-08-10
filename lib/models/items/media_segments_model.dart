@@ -11,7 +11,7 @@ part 'media_segments_model.freezed.dart';
 part 'media_segments_model.g.dart';
 
 @freezed
-class MediaSegmentsModel with _$MediaSegmentsModel {
+abstract class MediaSegmentsModel with _$MediaSegmentsModel {
   const MediaSegmentsModel._();
 
   factory MediaSegmentsModel({
@@ -27,7 +27,7 @@ class MediaSegmentsModel with _$MediaSegmentsModel {
 }
 
 @freezed
-class MediaSegment with _$MediaSegment {
+abstract class MediaSegment with _$MediaSegment {
   const MediaSegment._();
 
   factory MediaSegment({

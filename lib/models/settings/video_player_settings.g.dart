@@ -6,9 +6,9 @@ part of 'video_player_settings.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$VideoPlayerSettingsModelImpl _$$VideoPlayerSettingsModelImplFromJson(
+_VideoPlayerSettingsModel _$VideoPlayerSettingsModelFromJson(
         Map<String, dynamic> json) =>
-    _$VideoPlayerSettingsModelImpl(
+    _VideoPlayerSettingsModel(
       screenBrightness: (json['screenBrightness'] as num?)?.toDouble(),
       videoFit: $enumDecodeNullable(_$BoxFitEnumMap, json['videoFit']) ??
           BoxFit.contain,
@@ -45,8 +45,8 @@ _$VideoPlayerSettingsModelImpl _$$VideoPlayerSettingsModelImplFromJson(
           const {},
     );
 
-Map<String, dynamic> _$$VideoPlayerSettingsModelImplToJson(
-        _$VideoPlayerSettingsModelImpl instance) =>
+Map<String, dynamic> _$VideoPlayerSettingsModelToJson(
+        _VideoPlayerSettingsModel instance) =>
     <String, dynamic>{
       'screenBrightness': instance.screenBrightness,
       'videoFit': _$BoxFitEnumMap[instance.videoFit]!,

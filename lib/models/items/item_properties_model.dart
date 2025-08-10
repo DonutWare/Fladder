@@ -1,10 +1,11 @@
-import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
 
 part 'item_properties_model.freezed.dart';
 
 @Freezed(fromJson: false, toJson: false)
-class ItemPropertiesModel with _$ItemPropertiesModel {
+abstract class ItemPropertiesModel with _$ItemPropertiesModel {
   const ItemPropertiesModel._();
 
   factory ItemPropertiesModel._internal({

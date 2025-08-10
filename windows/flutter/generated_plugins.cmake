@@ -7,7 +7,6 @@ list(APPEND FLUTTER_PLUGIN_LIST
   desktop_drop
   dynamic_color
   fvp
-  isar_flutter_libs
   local_auth_windows
   media_kit_libs_windows_video
   media_kit_video

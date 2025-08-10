@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,176 +9,70 @@ part of 'video_player_settings.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
 
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-VideoPlayerSettingsModel _$VideoPlayerSettingsModelFromJson(
-    Map<String, dynamic> json) {
-  return _VideoPlayerSettingsModel.fromJson(json);
-}
-
 /// @nodoc
-mixin _$VideoPlayerSettingsModel {
-  double? get screenBrightness => throw _privateConstructorUsedError;
-  BoxFit get videoFit => throw _privateConstructorUsedError;
-  bool get fillScreen => throw _privateConstructorUsedError;
-  bool get hardwareAccel => throw _privateConstructorUsedError;
-  bool get useLibass => throw _privateConstructorUsedError;
-  int get bufferSize => throw _privateConstructorUsedError;
-  PlayerOptions? get playerOptions => throw _privateConstructorUsedError;
-  double get internalVolume => throw _privateConstructorUsedError;
-  Set<DeviceOrientation>? get allowedOrientations =>
-      throw _privateConstructorUsedError;
-  AutoNextType get nextVideoType => throw _privateConstructorUsedError;
-  Bitrate get maxHomeBitrate => throw _privateConstructorUsedError;
-  Bitrate get maxInternetBitrate => throw _privateConstructorUsedError;
-  String? get audioDevice => throw _privateConstructorUsedError;
-  Map<MediaSegmentType, SegmentSkip> get segmentSkipSettings =>
-      throw _privateConstructorUsedError;
-  Map<VideoHotKeys, KeyCombination> get hotKeys =>
-      throw _privateConstructorUsedError;
-
-  /// Serializes this VideoPlayerSettingsModel to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+mixin _$VideoPlayerSettingsModel implements DiagnosticableTreeMixin {
+  double? get screenBrightness;
+  BoxFit get videoFit;
+  bool get fillScreen;
+  bool get hardwareAccel;
+  bool get useLibass;
+  int get bufferSize;
+  PlayerOptions? get playerOptions;
+  double get internalVolume;
+  Set<DeviceOrientation>? get allowedOrientations;
+  AutoNextType get nextVideoType;
+  Bitrate get maxHomeBitrate;
+  Bitrate get maxInternetBitrate;
+  String? get audioDevice;
+  Map<MediaSegmentType, SegmentSkip> get segmentSkipSettings;
+  Map<VideoHotKeys, KeyCombination> get hotKeys;
 
   /// Create a copy of VideoPlayerSettingsModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $VideoPlayerSettingsModelCopyWith<VideoPlayerSettingsModel> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $VideoPlayerSettingsModelCopyWith<$Res> {
-  factory $VideoPlayerSettingsModelCopyWith(VideoPlayerSettingsModel value,
-          $Res Function(VideoPlayerSettingsModel) then) =
-      _$VideoPlayerSettingsModelCopyWithImpl<$Res, VideoPlayerSettingsModel>;
-  @useResult
-  $Res call(
-      {double? screenBrightness,
-      BoxFit videoFit,
-      bool fillScreen,
-      bool hardwareAccel,
-      bool useLibass,
-      int bufferSize,
-      PlayerOptions? playerOptions,
-      double internalVolume,
-      Set<DeviceOrientation>? allowedOrientations,
-      AutoNextType nextVideoType,
-      Bitrate maxHomeBitrate,
-      Bitrate maxInternetBitrate,
-      String? audioDevice,
-      Map<MediaSegmentType, SegmentSkip> segmentSkipSettings,
-      Map<VideoHotKeys, KeyCombination> hotKeys});
-}
-
-/// @nodoc
-class _$VideoPlayerSettingsModelCopyWithImpl<$Res,
-        $Val extends VideoPlayerSettingsModel>
-    implements $VideoPlayerSettingsModelCopyWith<$Res> {
-  _$VideoPlayerSettingsModelCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of VideoPlayerSettingsModel
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $VideoPlayerSettingsModelCopyWith<VideoPlayerSettingsModel> get copyWith =>
+      _$VideoPlayerSettingsModelCopyWithImpl<VideoPlayerSettingsModel>(
+          this as VideoPlayerSettingsModel, _$identity);
+
+  /// Serializes this VideoPlayerSettingsModel to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? screenBrightness = freezed,
-    Object? videoFit = null,
-    Object? fillScreen = null,
-    Object? hardwareAccel = null,
-    Object? useLibass = null,
-    Object? bufferSize = null,
-    Object? playerOptions = freezed,
-    Object? internalVolume = null,
-    Object? allowedOrientations = freezed,
-    Object? nextVideoType = null,
-    Object? maxHomeBitrate = null,
-    Object? maxInternetBitrate = null,
-    Object? audioDevice = freezed,
-    Object? segmentSkipSettings = null,
-    Object? hotKeys = null,
-  }) {
-    return _then(_value.copyWith(
-      screenBrightness: freezed == screenBrightness
-          ? _value.screenBrightness
-          : screenBrightness // ignore: cast_nullable_to_non_nullable
-              as double?,
-      videoFit: null == videoFit
-          ? _value.videoFit
-          : videoFit // ignore: cast_nullable_to_non_nullable
-              as BoxFit,
-      fillScreen: null == fillScreen
-          ? _value.fillScreen
-          : fillScreen // ignore: cast_nullable_to_non_nullable
-              as bool,
-      hardwareAccel: null == hardwareAccel
-          ? _value.hardwareAccel
-          : hardwareAccel // ignore: cast_nullable_to_non_nullable
-              as bool,
-      useLibass: null == useLibass
-          ? _value.useLibass
-          : useLibass // ignore: cast_nullable_to_non_nullable
-              as bool,
-      bufferSize: null == bufferSize
-          ? _value.bufferSize
-          : bufferSize // ignore: cast_nullable_to_non_nullable
-              as int,
-      playerOptions: freezed == playerOptions
-          ? _value.playerOptions
-          : playerOptions // ignore: cast_nullable_to_non_nullable
-              as PlayerOptions?,
-      internalVolume: null == internalVolume
-          ? _value.internalVolume
-          : internalVolume // ignore: cast_nullable_to_non_nullable
-              as double,
-      allowedOrientations: freezed == allowedOrientations
-          ? _value.allowedOrientations
-          : allowedOrientations // ignore: cast_nullable_to_non_nullable
-              as Set<DeviceOrientation>?,
-      nextVideoType: null == nextVideoType
-          ? _value.nextVideoType
-          : nextVideoType // ignore: cast_nullable_to_non_nullable
-              as AutoNextType,
-      maxHomeBitrate: null == maxHomeBitrate
-          ? _value.maxHomeBitrate
-          : maxHomeBitrate // ignore: cast_nullable_to_non_nullable
-              as Bitrate,
-      maxInternetBitrate: null == maxInternetBitrate
-          ? _value.maxInternetBitrate
-          : maxInternetBitrate // ignore: cast_nullable_to_non_nullable
-              as Bitrate,
-      audioDevice: freezed == audioDevice
-          ? _value.audioDevice
-          : audioDevice // ignore: cast_nullable_to_non_nullable
-              as String?,
-      segmentSkipSettings: null == segmentSkipSettings
-          ? _value.segmentSkipSettings
-          : segmentSkipSettings // ignore: cast_nullable_to_non_nullable
-              as Map<MediaSegmentType, SegmentSkip>,
-      hotKeys: null == hotKeys
-          ? _value.hotKeys
-          : hotKeys // ignore: cast_nullable_to_non_nullable
-              as Map<VideoHotKeys, KeyCombination>,
-    ) as $Val);
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'VideoPlayerSettingsModel'))
+      ..add(DiagnosticsProperty('screenBrightness', screenBrightness))
+      ..add(DiagnosticsProperty('videoFit', videoFit))
+      ..add(DiagnosticsProperty('fillScreen', fillScreen))
+      ..add(DiagnosticsProperty('hardwareAccel', hardwareAccel))
+      ..add(DiagnosticsProperty('useLibass', useLibass))
+      ..add(DiagnosticsProperty('bufferSize', bufferSize))
+      ..add(DiagnosticsProperty('playerOptions', playerOptions))
+      ..add(DiagnosticsProperty('internalVolume', internalVolume))
+      ..add(DiagnosticsProperty('allowedOrientations', allowedOrientations))
+      ..add(DiagnosticsProperty('nextVideoType', nextVideoType))
+      ..add(DiagnosticsProperty('maxHomeBitrate', maxHomeBitrate))
+      ..add(DiagnosticsProperty('maxInternetBitrate', maxInternetBitrate))
+      ..add(DiagnosticsProperty('audioDevice', audioDevice))
+      ..add(DiagnosticsProperty('segmentSkipSettings', segmentSkipSettings))
+      ..add(DiagnosticsProperty('hotKeys', hotKeys));
+  }
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys)';
   }
 }
 
 /// @nodoc
-abstract class _$$VideoPlayerSettingsModelImplCopyWith<$Res>
-    implements $VideoPlayerSettingsModelCopyWith<$Res> {
-  factory _$$VideoPlayerSettingsModelImplCopyWith(
-          _$VideoPlayerSettingsModelImpl value,
-          $Res Function(_$VideoPlayerSettingsModelImpl) then) =
-      __$$VideoPlayerSettingsModelImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $VideoPlayerSettingsModelCopyWith<$Res> {
+  factory $VideoPlayerSettingsModelCopyWith(VideoPlayerSettingsModel value,
+          $Res Function(VideoPlayerSettingsModel) _then) =
+      _$VideoPlayerSettingsModelCopyWithImpl;
   @useResult
   $Res call(
       {double? screenBrightness,
@@ -199,14 +93,12 @@ abstract class _$$VideoPlayerSettingsModelImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$VideoPlayerSettingsModelImplCopyWithImpl<$Res>
-    extends _$VideoPlayerSettingsModelCopyWithImpl<$Res,
-        _$VideoPlayerSettingsModelImpl>
-    implements _$$VideoPlayerSettingsModelImplCopyWith<$Res> {
-  __$$VideoPlayerSettingsModelImplCopyWithImpl(
-      _$VideoPlayerSettingsModelImpl _value,
-      $Res Function(_$VideoPlayerSettingsModelImpl) _then)
-      : super(_value, _then);
+class _$VideoPlayerSettingsModelCopyWithImpl<$Res>
+    implements $VideoPlayerSettingsModelCopyWith<$Res> {
+  _$VideoPlayerSettingsModelCopyWithImpl(this._self, this._then);
+
+  final VideoPlayerSettingsModel _self;
+  final $Res Function(VideoPlayerSettingsModel) _then;
 
   /// Create a copy of VideoPlayerSettingsModel
   /// with the given fields replaced by the non-null parameter values.
@@ -229,76 +121,326 @@ class __$$VideoPlayerSettingsModelImplCopyWithImpl<$Res>
     Object? segmentSkipSettings = null,
     Object? hotKeys = null,
   }) {
-    return _then(_$VideoPlayerSettingsModelImpl(
+    return _then(_self.copyWith(
       screenBrightness: freezed == screenBrightness
-          ? _value.screenBrightness
+          ? _self.screenBrightness
           : screenBrightness // ignore: cast_nullable_to_non_nullable
               as double?,
       videoFit: null == videoFit
-          ? _value.videoFit
+          ? _self.videoFit
           : videoFit // ignore: cast_nullable_to_non_nullable
               as BoxFit,
       fillScreen: null == fillScreen
-          ? _value.fillScreen
+          ? _self.fillScreen
           : fillScreen // ignore: cast_nullable_to_non_nullable
               as bool,
       hardwareAccel: null == hardwareAccel
-          ? _value.hardwareAccel
+          ? _self.hardwareAccel
           : hardwareAccel // ignore: cast_nullable_to_non_nullable
               as bool,
       useLibass: null == useLibass
-          ? _value.useLibass
+          ? _self.useLibass
           : useLibass // ignore: cast_nullable_to_non_nullable
               as bool,
       bufferSize: null == bufferSize
-          ? _value.bufferSize
+          ? _self.bufferSize
           : bufferSize // ignore: cast_nullable_to_non_nullable
               as int,
       playerOptions: freezed == playerOptions
-          ? _value.playerOptions
+          ? _self.playerOptions
           : playerOptions // ignore: cast_nullable_to_non_nullable
               as PlayerOptions?,
       internalVolume: null == internalVolume
-          ? _value.internalVolume
+          ? _self.internalVolume
           : internalVolume // ignore: cast_nullable_to_non_nullable
               as double,
       allowedOrientations: freezed == allowedOrientations
-          ? _value._allowedOrientations
+          ? _self.allowedOrientations
           : allowedOrientations // ignore: cast_nullable_to_non_nullable
               as Set<DeviceOrientation>?,
       nextVideoType: null == nextVideoType
-          ? _value.nextVideoType
+          ? _self.nextVideoType
           : nextVideoType // ignore: cast_nullable_to_non_nullable
               as AutoNextType,
       maxHomeBitrate: null == maxHomeBitrate
-          ? _value.maxHomeBitrate
+          ? _self.maxHomeBitrate
           : maxHomeBitrate // ignore: cast_nullable_to_non_nullable
               as Bitrate,
       maxInternetBitrate: null == maxInternetBitrate
-          ? _value.maxInternetBitrate
+          ? _self.maxInternetBitrate
           : maxInternetBitrate // ignore: cast_nullable_to_non_nullable
               as Bitrate,
       audioDevice: freezed == audioDevice
-          ? _value.audioDevice
+          ? _self.audioDevice
           : audioDevice // ignore: cast_nullable_to_non_nullable
               as String?,
       segmentSkipSettings: null == segmentSkipSettings
-          ? _value._segmentSkipSettings
+          ? _self.segmentSkipSettings
           : segmentSkipSettings // ignore: cast_nullable_to_non_nullable
               as Map<MediaSegmentType, SegmentSkip>,
       hotKeys: null == hotKeys
-          ? _value._hotKeys
+          ? _self.hotKeys
           : hotKeys // ignore: cast_nullable_to_non_nullable
               as Map<VideoHotKeys, KeyCombination>,
     ));
   }
 }
 
+/// Adds pattern-matching-related methods to [VideoPlayerSettingsModel].
+extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_VideoPlayerSettingsModel value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _VideoPlayerSettingsModel() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_VideoPlayerSettingsModel value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _VideoPlayerSettingsModel():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_VideoPlayerSettingsModel value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _VideoPlayerSettingsModel() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            double? screenBrightness,
+            BoxFit videoFit,
+            bool fillScreen,
+            bool hardwareAccel,
+            bool useLibass,
+            int bufferSize,
+            PlayerOptions? playerOptions,
+            double internalVolume,
+            Set<DeviceOrientation>? allowedOrientations,
+            AutoNextType nextVideoType,
+            Bitrate maxHomeBitrate,
+            Bitrate maxInternetBitrate,
+            String? audioDevice,
+            Map<MediaSegmentType, SegmentSkip> segmentSkipSettings,
+            Map<VideoHotKeys, KeyCombination> hotKeys)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _VideoPlayerSettingsModel() when $default != null:
+        return $default(
+            _that.screenBrightness,
+            _that.videoFit,
+            _that.fillScreen,
+            _that.hardwareAccel,
+            _that.useLibass,
+            _that.bufferSize,
+            _that.playerOptions,
+            _that.internalVolume,
+            _that.allowedOrientations,
+            _that.nextVideoType,
+            _that.maxHomeBitrate,
+            _that.maxInternetBitrate,
+            _that.audioDevice,
+            _that.segmentSkipSettings,
+            _that.hotKeys);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            double? screenBrightness,
+            BoxFit videoFit,
+            bool fillScreen,
+            bool hardwareAccel,
+            bool useLibass,
+            int bufferSize,
+            PlayerOptions? playerOptions,
+            double internalVolume,
+            Set<DeviceOrientation>? allowedOrientations,
+            AutoNextType nextVideoType,
+            Bitrate maxHomeBitrate,
+            Bitrate maxInternetBitrate,
+            String? audioDevice,
+            Map<MediaSegmentType, SegmentSkip> segmentSkipSettings,
+            Map<VideoHotKeys, KeyCombination> hotKeys)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _VideoPlayerSettingsModel():
+        return $default(
+            _that.screenBrightness,
+            _that.videoFit,
+            _that.fillScreen,
+            _that.hardwareAccel,
+            _that.useLibass,
+            _that.bufferSize,
+            _that.playerOptions,
+            _that.internalVolume,
+            _that.allowedOrientations,
+            _that.nextVideoType,
+            _that.maxHomeBitrate,
+            _that.maxInternetBitrate,
+            _that.audioDevice,
+            _that.segmentSkipSettings,
+            _that.hotKeys);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            double? screenBrightness,
+            BoxFit videoFit,
+            bool fillScreen,
+            bool hardwareAccel,
+            bool useLibass,
+            int bufferSize,
+            PlayerOptions? playerOptions,
+            double internalVolume,
+            Set<DeviceOrientation>? allowedOrientations,
+            AutoNextType nextVideoType,
+            Bitrate maxHomeBitrate,
+            Bitrate maxInternetBitrate,
+            String? audioDevice,
+            Map<MediaSegmentType, SegmentSkip> segmentSkipSettings,
+            Map<VideoHotKeys, KeyCombination> hotKeys)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _VideoPlayerSettingsModel() when $default != null:
+        return $default(
+            _that.screenBrightness,
+            _that.videoFit,
+            _that.fillScreen,
+            _that.hardwareAccel,
+            _that.useLibass,
+            _that.bufferSize,
+            _that.playerOptions,
+            _that.internalVolume,
+            _that.allowedOrientations,
+            _that.nextVideoType,
+            _that.maxHomeBitrate,
+            _that.maxInternetBitrate,
+            _that.audioDevice,
+            _that.segmentSkipSettings,
+            _that.hotKeys);
+      case _:
+        return null;
+    }
+  }
+}
+
 /// @nodoc
 @JsonSerializable()
-class _$VideoPlayerSettingsModelImpl extends _VideoPlayerSettingsModel
+class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
     with DiagnosticableTreeMixin {
-  _$VideoPlayerSettingsModelImpl(
+  _VideoPlayerSettingsModel(
       {this.screenBrightness,
       this.videoFit = BoxFit.contain,
       this.fillScreen = false,
@@ -319,9 +461,8 @@ class _$VideoPlayerSettingsModelImpl extends _VideoPlayerSettingsModel
         _segmentSkipSettings = segmentSkipSettings,
         _hotKeys = hotKeys,
         super._();
-
-  factory _$VideoPlayerSettingsModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$VideoPlayerSettingsModelImplFromJson(json);
+  factory _VideoPlayerSettingsModel.fromJson(Map<String, dynamic> json) =>
+      _$VideoPlayerSettingsModelFromJson(json);
 
   @override
   final double? screenBrightness;
@@ -386,14 +527,24 @@ class _$VideoPlayerSettingsModelImpl extends _VideoPlayerSettingsModel
     return EqualUnmodifiableMapView(_hotKeys);
   }
 
+  /// Create a copy of VideoPlayerSettingsModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$VideoPlayerSettingsModelCopyWith<_VideoPlayerSettingsModel> get copyWith =>
+      __$VideoPlayerSettingsModelCopyWithImpl<_VideoPlayerSettingsModel>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$VideoPlayerSettingsModelToJson(
+      this,
+    );
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'VideoPlayerSettingsModel'))
       ..add(DiagnosticsProperty('screenBrightness', screenBrightness))
@@ -413,81 +564,130 @@ class _$VideoPlayerSettingsModelImpl extends _VideoPlayerSettingsModel
       ..add(DiagnosticsProperty('hotKeys', hotKeys));
   }
 
-  /// Create a copy of VideoPlayerSettingsModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$VideoPlayerSettingsModelImplCopyWith<_$VideoPlayerSettingsModelImpl>
-      get copyWith => __$$VideoPlayerSettingsModelImplCopyWithImpl<
-          _$VideoPlayerSettingsModelImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$VideoPlayerSettingsModelImplToJson(
-      this,
-    );
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys)';
   }
 }
 
-abstract class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel {
-  factory _VideoPlayerSettingsModel(
-          {final double? screenBrightness,
-          final BoxFit videoFit,
-          final bool fillScreen,
-          final bool hardwareAccel,
-          final bool useLibass,
-          final int bufferSize,
-          final PlayerOptions? playerOptions,
-          final double internalVolume,
-          final Set<DeviceOrientation>? allowedOrientations,
-          final AutoNextType nextVideoType,
-          final Bitrate maxHomeBitrate,
-          final Bitrate maxInternetBitrate,
-          final String? audioDevice,
-          final Map<MediaSegmentType, SegmentSkip> segmentSkipSettings,
-          final Map<VideoHotKeys, KeyCombination> hotKeys}) =
-      _$VideoPlayerSettingsModelImpl;
-  _VideoPlayerSettingsModel._() : super._();
+/// @nodoc
+abstract mixin class _$VideoPlayerSettingsModelCopyWith<$Res>
+    implements $VideoPlayerSettingsModelCopyWith<$Res> {
+  factory _$VideoPlayerSettingsModelCopyWith(_VideoPlayerSettingsModel value,
+          $Res Function(_VideoPlayerSettingsModel) _then) =
+      __$VideoPlayerSettingsModelCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {double? screenBrightness,
+      BoxFit videoFit,
+      bool fillScreen,
+      bool hardwareAccel,
+      bool useLibass,
+      int bufferSize,
+      PlayerOptions? playerOptions,
+      double internalVolume,
+      Set<DeviceOrientation>? allowedOrientations,
+      AutoNextType nextVideoType,
+      Bitrate maxHomeBitrate,
+      Bitrate maxInternetBitrate,
+      String? audioDevice,
+      Map<MediaSegmentType, SegmentSkip> segmentSkipSettings,
+      Map<VideoHotKeys, KeyCombination> hotKeys});
+}
 
-  factory _VideoPlayerSettingsModel.fromJson(Map<String, dynamic> json) =
-      _$VideoPlayerSettingsModelImpl.fromJson;
+/// @nodoc
+class __$VideoPlayerSettingsModelCopyWithImpl<$Res>
+    implements _$VideoPlayerSettingsModelCopyWith<$Res> {
+  __$VideoPlayerSettingsModelCopyWithImpl(this._self, this._then);
 
-  @override
-  double? get screenBrightness;
-  @override
-  BoxFit get videoFit;
-  @override
-  bool get fillScreen;
-  @override
-  bool get hardwareAccel;
-  @override
-  bool get useLibass;
-  @override
-  int get bufferSize;
-  @override
-  PlayerOptions? get playerOptions;
-  @override
-  double get internalVolume;
-  @override
-  Set<DeviceOrientation>? get allowedOrientations;
-  @override
-  AutoNextType get nextVideoType;
-  @override
-  Bitrate get maxHomeBitrate;
-  @override
-  Bitrate get maxInternetBitrate;
-  @override
-  String? get audioDevice;
-  @override
-  Map<MediaSegmentType, SegmentSkip> get segmentSkipSettings;
-  @override
-  Map<VideoHotKeys, KeyCombination> get hotKeys;
+  final _VideoPlayerSettingsModel _self;
+  final $Res Function(_VideoPlayerSettingsModel) _then;
 
   /// Create a copy of VideoPlayerSettingsModel
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$VideoPlayerSettingsModelImplCopyWith<_$VideoPlayerSettingsModelImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? screenBrightness = freezed,
+    Object? videoFit = null,
+    Object? fillScreen = null,
+    Object? hardwareAccel = null,
+    Object? useLibass = null,
+    Object? bufferSize = null,
+    Object? playerOptions = freezed,
+    Object? internalVolume = null,
+    Object? allowedOrientations = freezed,
+    Object? nextVideoType = null,
+    Object? maxHomeBitrate = null,
+    Object? maxInternetBitrate = null,
+    Object? audioDevice = freezed,
+    Object? segmentSkipSettings = null,
+    Object? hotKeys = null,
+  }) {
+    return _then(_VideoPlayerSettingsModel(
+      screenBrightness: freezed == screenBrightness
+          ? _self.screenBrightness
+          : screenBrightness // ignore: cast_nullable_to_non_nullable
+              as double?,
+      videoFit: null == videoFit
+          ? _self.videoFit
+          : videoFit // ignore: cast_nullable_to_non_nullable
+              as BoxFit,
+      fillScreen: null == fillScreen
+          ? _self.fillScreen
+          : fillScreen // ignore: cast_nullable_to_non_nullable
+              as bool,
+      hardwareAccel: null == hardwareAccel
+          ? _self.hardwareAccel
+          : hardwareAccel // ignore: cast_nullable_to_non_nullable
+              as bool,
+      useLibass: null == useLibass
+          ? _self.useLibass
+          : useLibass // ignore: cast_nullable_to_non_nullable
+              as bool,
+      bufferSize: null == bufferSize
+          ? _self.bufferSize
+          : bufferSize // ignore: cast_nullable_to_non_nullable
+              as int,
+      playerOptions: freezed == playerOptions
+          ? _self.playerOptions
+          : playerOptions // ignore: cast_nullable_to_non_nullable
+              as PlayerOptions?,
+      internalVolume: null == internalVolume
+          ? _self.internalVolume
+          : internalVolume // ignore: cast_nullable_to_non_nullable
+              as double,
+      allowedOrientations: freezed == allowedOrientations
+          ? _self._allowedOrientations
+          : allowedOrientations // ignore: cast_nullable_to_non_nullable
+              as Set<DeviceOrientation>?,
+      nextVideoType: null == nextVideoType
+          ? _self.nextVideoType
+          : nextVideoType // ignore: cast_nullable_to_non_nullable
+              as AutoNextType,
+      maxHomeBitrate: null == maxHomeBitrate
+          ? _self.maxHomeBitrate
+          : maxHomeBitrate // ignore: cast_nullable_to_non_nullable
+              as Bitrate,
+      maxInternetBitrate: null == maxInternetBitrate
+          ? _self.maxInternetBitrate
+          : maxInternetBitrate // ignore: cast_nullable_to_non_nullable
+              as Bitrate,
+      audioDevice: freezed == audioDevice
+          ? _self.audioDevice
+          : audioDevice // ignore: cast_nullable_to_non_nullable
+              as String?,
+      segmentSkipSettings: null == segmentSkipSettings
+          ? _self._segmentSkipSettings
+          : segmentSkipSettings // ignore: cast_nullable_to_non_nullable
+              as Map<MediaSegmentType, SegmentSkip>,
+      hotKeys: null == hotKeys
+          ? _self._hotKeys
+          : hotKeys // ignore: cast_nullable_to_non_nullable
+              as Map<VideoHotKeys, KeyCombination>,
+    ));
+  }
 }
+
+// dart format on

@@ -97,14 +97,14 @@ class ItemBaseModelMapper extends ClassMapperBase<ItemBaseModel> {
 
 mixin ItemBaseModelMappable {
   ItemBaseModelCopyWith<ItemBaseModel, ItemBaseModel, ItemBaseModel>
-      get copyWith => _ItemBaseModelCopyWithImpl(
+      get copyWith => _ItemBaseModelCopyWithImpl<ItemBaseModel, ItemBaseModel>(
           this as ItemBaseModel, $identity, $identity);
 }
 
 extension ItemBaseModelValueCopy<$R, $Out>
     on ObjectCopyWith<$R, ItemBaseModel, $Out> {
   ItemBaseModelCopyWith<$R, ItemBaseModel, $Out> get $asItemBaseModel =>
-      $base.as((v, t, t2) => _ItemBaseModelCopyWithImpl(v, t, t2));
+      $base.as((v, t, t2) => _ItemBaseModelCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
 abstract class ItemBaseModelCopyWith<$R, $In extends ItemBaseModel, $Out>
@@ -187,5 +187,5 @@ class _ItemBaseModelCopyWithImpl<$R, $Out>
   @override
   ItemBaseModelCopyWith<$R2, ItemBaseModel, $Out2> $chain<$R2, $Out2>(
           Then<$Out2, $R2> t) =>
-      _ItemBaseModelCopyWithImpl($value, $cast, t);
+      _ItemBaseModelCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

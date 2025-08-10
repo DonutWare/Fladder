@@ -91,12 +91,13 @@ mixin UserDataMappable {
   }
 
   UserDataCopyWith<UserData, UserData, UserData> get copyWith =>
-      _UserDataCopyWithImpl(this as UserData, $identity, $identity);
+      _UserDataCopyWithImpl<UserData, UserData>(
+          this as UserData, $identity, $identity);
 }
 
 extension UserDataValueCopy<$R, $Out> on ObjectCopyWith<$R, UserData, $Out> {
   UserDataCopyWith<$R, UserData, $Out> get $asUserData =>
-      $base.as((v, t, t2) => _UserDataCopyWithImpl(v, t, t2));
+      $base.as((v, t, t2) => _UserDataCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
 abstract class UserDataCopyWith<$R, $In extends UserData, $Out>
@@ -154,5 +155,5 @@ class _UserDataCopyWithImpl<$R, $Out>
   @override
   UserDataCopyWith<$R2, UserData, $Out2> $chain<$R2, $Out2>(
           Then<$Out2, $R2> t) =>
-      _UserDataCopyWithImpl($value, $cast, t);
+      _UserDataCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

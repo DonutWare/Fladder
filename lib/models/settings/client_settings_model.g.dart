@@ -6,9 +6,8 @@ part of 'client_settings_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ClientSettingsModelImpl _$$ClientSettingsModelImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ClientSettingsModelImpl(
+_ClientSettingsModel _$ClientSettingsModelFromJson(Map<String, dynamic> json) =>
+    _ClientSettingsModel(
       syncPath: json['syncPath'] as String?,
       position: json['position'] == null
           ? const Vector2(x: 0, y: 0)
@@ -55,8 +54,8 @@ _$ClientSettingsModelImpl _$$ClientSettingsModelImplFromJson(
           const {},
     );
 
-Map<String, dynamic> _$$ClientSettingsModelImplToJson(
-        _$ClientSettingsModelImpl instance) =>
+Map<String, dynamic> _$ClientSettingsModelToJson(
+        _ClientSettingsModel instance) =>
     <String, dynamic>{
       'syncPath': instance.syncPath,
       'position': instance.position,

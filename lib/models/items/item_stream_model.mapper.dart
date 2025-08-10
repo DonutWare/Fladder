@@ -116,14 +116,15 @@ class ItemStreamModelMapper extends SubClassMapperBase<ItemStreamModel> {
 
 mixin ItemStreamModelMappable {
   ItemStreamModelCopyWith<ItemStreamModel, ItemStreamModel, ItemStreamModel>
-      get copyWith => _ItemStreamModelCopyWithImpl(
-          this as ItemStreamModel, $identity, $identity);
+      get copyWith =>
+          _ItemStreamModelCopyWithImpl<ItemStreamModel, ItemStreamModel>(
+              this as ItemStreamModel, $identity, $identity);
 }
 
 extension ItemStreamModelValueCopy<$R, $Out>
     on ObjectCopyWith<$R, ItemStreamModel, $Out> {
   ItemStreamModelCopyWith<$R, ItemStreamModel, $Out> get $asItemStreamModel =>
-      $base.as((v, t, t2) => _ItemStreamModelCopyWithImpl(v, t, t2));
+      $base.as((v, t, t2) => _ItemStreamModelCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
 abstract class ItemStreamModelCopyWith<$R, $In extends ItemStreamModel, $Out>
@@ -218,5 +219,5 @@ class _ItemStreamModelCopyWithImpl<$R, $Out>
   @override
   ItemStreamModelCopyWith<$R2, ItemStreamModel, $Out2> $chain<$R2, $Out2>(
           Then<$Out2, $R2> t) =>
-      _ItemStreamModelCopyWithImpl($value, $cast, t);
+      _ItemStreamModelCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

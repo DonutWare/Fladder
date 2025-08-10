@@ -9,7 +9,7 @@ part 'home_settings_model.freezed.dart';
 part 'home_settings_model.g.dart';
 
 @Freezed(copyWith: true)
-class HomeSettingsModel with _$HomeSettingsModel {
+abstract class HomeSettingsModel with _$HomeSettingsModel {
   factory HomeSettingsModel({
     @Default({...LayoutMode.values}) Set<LayoutMode> screenLayouts,
     @Default({...ViewSize.values}) Set<ViewSize> layoutStates,

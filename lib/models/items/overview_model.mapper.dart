@@ -118,14 +118,14 @@ class OverviewModelMapper extends ClassMapperBase<OverviewModel> {
 
 mixin OverviewModelMappable {
   OverviewModelCopyWith<OverviewModel, OverviewModel, OverviewModel>
-      get copyWith => _OverviewModelCopyWithImpl(
+      get copyWith => _OverviewModelCopyWithImpl<OverviewModel, OverviewModel>(
           this as OverviewModel, $identity, $identity);
 }
 
 extension OverviewModelValueCopy<$R, $Out>
     on ObjectCopyWith<$R, OverviewModel, $Out> {
   OverviewModelCopyWith<$R, OverviewModel, $Out> get $asOverviewModel =>
-      $base.as((v, t, t2) => _OverviewModelCopyWithImpl(v, t, t2));
+      $base.as((v, t, t2) => _OverviewModelCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
 abstract class OverviewModelCopyWith<$R, $In extends OverviewModel, $Out>
@@ -275,5 +275,5 @@ class _OverviewModelCopyWithImpl<$R, $Out>
   @override
   OverviewModelCopyWith<$R2, OverviewModel, $Out2> $chain<$R2, $Out2>(
           Then<$Out2, $R2> t) =>
-      _OverviewModelCopyWithImpl($value, $cast, t);
+      _OverviewModelCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

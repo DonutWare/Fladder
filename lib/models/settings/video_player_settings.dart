@@ -50,7 +50,7 @@ enum VideoHotKeys {
 }
 
 @Freezed(copyWith: true)
-class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
+abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
   const VideoPlayerSettingsModel._();
 
   factory VideoPlayerSettingsModel({

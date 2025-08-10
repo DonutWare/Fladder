@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,54 +9,73 @@ part of 'account_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
 
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-AccountModel _$AccountModelFromJson(Map<String, dynamic> json) {
-  return _AccountModel.fromJson(json);
-}
-
 /// @nodoc
-mixin _$AccountModel {
-  String get name => throw _privateConstructorUsedError;
-  String get id => throw _privateConstructorUsedError;
-  String get avatar => throw _privateConstructorUsedError;
-  DateTime get lastUsed => throw _privateConstructorUsedError;
-  Authentication get authMethod => throw _privateConstructorUsedError;
-  String get localPin => throw _privateConstructorUsedError;
-  CredentialsModel get credentials => throw _privateConstructorUsedError;
-  List<String> get latestItemsExcludes => throw _privateConstructorUsedError;
-  List<String> get searchQueryHistory => throw _privateConstructorUsedError;
-  bool get quickConnectState => throw _privateConstructorUsedError;
-  List<LibraryFiltersModel> get savedFilters =>
-      throw _privateConstructorUsedError;
+mixin _$AccountModel implements DiagnosticableTreeMixin {
+  String get name;
+  String get id;
+  String get avatar;
+  DateTime get lastUsed;
+  Authentication get authMethod;
+  String get localPin;
+  CredentialsModel get credentials;
+  List<String> get latestItemsExcludes;
+  List<String> get searchQueryHistory;
+  bool get quickConnectState;
+  List<LibraryFiltersModel> get savedFilters;
   @JsonKey(includeFromJson: false, includeToJson: false)
-  UserPolicy? get policy => throw _privateConstructorUsedError;
+  UserPolicy? get policy;
   @JsonKey(includeFromJson: false, includeToJson: false)
-  ServerConfiguration? get serverConfiguration =>
-      throw _privateConstructorUsedError;
+  ServerConfiguration? get serverConfiguration;
   @JsonKey(includeFromJson: false, includeToJson: false)
-  UserConfiguration? get userConfiguration =>
-      throw _privateConstructorUsedError;
-  UserSettings? get userSettings => throw _privateConstructorUsedError;
-
-  /// Serializes this AccountModel to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  UserConfiguration? get userConfiguration;
+  UserSettings? get userSettings;
 
   /// Create a copy of AccountModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $AccountModelCopyWith<AccountModel> get copyWith =>
-      throw _privateConstructorUsedError;
+      _$AccountModelCopyWithImpl<AccountModel>(
+          this as AccountModel, _$identity);
+
+  /// Serializes this AccountModel to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'AccountModel'))
+      ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('avatar', avatar))
+      ..add(DiagnosticsProperty('lastUsed', lastUsed))
+      ..add(DiagnosticsProperty('authMethod', authMethod))
+      ..add(DiagnosticsProperty('localPin', localPin))
+      ..add(DiagnosticsProperty('credentials', credentials))
+      ..add(DiagnosticsProperty('latestItemsExcludes', latestItemsExcludes))
+      ..add(DiagnosticsProperty('searchQueryHistory', searchQueryHistory))
+      ..add(DiagnosticsProperty('quickConnectState', quickConnectState))
+      ..add(DiagnosticsProperty('savedFilters', savedFilters))
+      ..add(DiagnosticsProperty('policy', policy))
+      ..add(DiagnosticsProperty('serverConfiguration', serverConfiguration))
+      ..add(DiagnosticsProperty('userConfiguration', userConfiguration))
+      ..add(DiagnosticsProperty('userSettings', userSettings));
+  }
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, localPin: $localPin, credentials: $credentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, savedFilters: $savedFilters, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration, userSettings: $userSettings)';
+  }
 }
 
 /// @nodoc
-abstract class $AccountModelCopyWith<$Res> {
+abstract mixin class $AccountModelCopyWith<$Res> {
   factory $AccountModelCopyWith(
-          AccountModel value, $Res Function(AccountModel) then) =
-      _$AccountModelCopyWithImpl<$Res, AccountModel>;
+          AccountModel value, $Res Function(AccountModel) _then) =
+      _$AccountModelCopyWithImpl;
   @useResult
   $Res call(
       {String name,
@@ -81,14 +100,11 @@ abstract class $AccountModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$AccountModelCopyWithImpl<$Res, $Val extends AccountModel>
-    implements $AccountModelCopyWith<$Res> {
-  _$AccountModelCopyWithImpl(this._value, this._then);
+class _$AccountModelCopyWithImpl<$Res> implements $AccountModelCopyWith<$Res> {
+  _$AccountModelCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final AccountModel _self;
+  final $Res Function(AccountModel) _then;
 
   /// Create a copy of AccountModel
   /// with the given fields replaced by the non-null parameter values.
@@ -111,68 +127,68 @@ class _$AccountModelCopyWithImpl<$Res, $Val extends AccountModel>
     Object? userConfiguration = freezed,
     Object? userSettings = freezed,
   }) {
-    return _then(_value.copyWith(
+    return _then(_self.copyWith(
       name: null == name
-          ? _value.name
+          ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
       id: null == id
-          ? _value.id
+          ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
       avatar: null == avatar
-          ? _value.avatar
+          ? _self.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
               as String,
       lastUsed: null == lastUsed
-          ? _value.lastUsed
+          ? _self.lastUsed
           : lastUsed // ignore: cast_nullable_to_non_nullable
               as DateTime,
       authMethod: null == authMethod
-          ? _value.authMethod
+          ? _self.authMethod
           : authMethod // ignore: cast_nullable_to_non_nullable
               as Authentication,
       localPin: null == localPin
-          ? _value.localPin
+          ? _self.localPin
           : localPin // ignore: cast_nullable_to_non_nullable
               as String,
       credentials: null == credentials
-          ? _value.credentials
+          ? _self.credentials
           : credentials // ignore: cast_nullable_to_non_nullable
               as CredentialsModel,
       latestItemsExcludes: null == latestItemsExcludes
-          ? _value.latestItemsExcludes
+          ? _self.latestItemsExcludes
           : latestItemsExcludes // ignore: cast_nullable_to_non_nullable
               as List<String>,
       searchQueryHistory: null == searchQueryHistory
-          ? _value.searchQueryHistory
+          ? _self.searchQueryHistory
           : searchQueryHistory // ignore: cast_nullable_to_non_nullable
               as List<String>,
       quickConnectState: null == quickConnectState
-          ? _value.quickConnectState
+          ? _self.quickConnectState
           : quickConnectState // ignore: cast_nullable_to_non_nullable
               as bool,
       savedFilters: null == savedFilters
-          ? _value.savedFilters
+          ? _self.savedFilters
           : savedFilters // ignore: cast_nullable_to_non_nullable
               as List<LibraryFiltersModel>,
       policy: freezed == policy
-          ? _value.policy
+          ? _self.policy
           : policy // ignore: cast_nullable_to_non_nullable
               as UserPolicy?,
       serverConfiguration: freezed == serverConfiguration
-          ? _value.serverConfiguration
+          ? _self.serverConfiguration
           : serverConfiguration // ignore: cast_nullable_to_non_nullable
               as ServerConfiguration?,
       userConfiguration: freezed == userConfiguration
-          ? _value.userConfiguration
+          ? _self.userConfiguration
           : userConfiguration // ignore: cast_nullable_to_non_nullable
               as UserConfiguration?,
       userSettings: freezed == userSettings
-          ? _value.userSettings
+          ? _self.userSettings
           : userSettings // ignore: cast_nullable_to_non_nullable
               as UserSettings?,
-    ) as $Val);
+    ));
   }
 
   /// Create a copy of AccountModel
@@ -180,145 +196,279 @@ class _$AccountModelCopyWithImpl<$Res, $Val extends AccountModel>
   @override
   @pragma('vm:prefer-inline')
   $UserSettingsCopyWith<$Res>? get userSettings {
-    if (_value.userSettings == null) {
+    if (_self.userSettings == null) {
       return null;
     }
 
-    return $UserSettingsCopyWith<$Res>(_value.userSettings!, (value) {
-      return _then(_value.copyWith(userSettings: value) as $Val);
+    return $UserSettingsCopyWith<$Res>(_self.userSettings!, (value) {
+      return _then(_self.copyWith(userSettings: value));
     });
   }
 }
 
-/// @nodoc
-abstract class _$$AccountModelImplCopyWith<$Res>
-    implements $AccountModelCopyWith<$Res> {
-  factory _$$AccountModelImplCopyWith(
-          _$AccountModelImpl value, $Res Function(_$AccountModelImpl) then) =
-      __$$AccountModelImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {String name,
-      String id,
-      String avatar,
-      DateTime lastUsed,
-      Authentication authMethod,
-      String localPin,
-      CredentialsModel credentials,
-      List<String> latestItemsExcludes,
-      List<String> searchQueryHistory,
-      bool quickConnectState,
-      List<LibraryFiltersModel> savedFilters,
-      @JsonKey(includeFromJson: false, includeToJson: false) UserPolicy? policy,
-      @JsonKey(includeFromJson: false, includeToJson: false)
-      ServerConfiguration? serverConfiguration,
-      @JsonKey(includeFromJson: false, includeToJson: false)
-      UserConfiguration? userConfiguration,
-      UserSettings? userSettings});
+/// Adds pattern-matching-related methods to [AccountModel].
+extension AccountModelPatterns on AccountModel {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
 
-  @override
-  $UserSettingsCopyWith<$Res>? get userSettings;
-}
-
-/// @nodoc
-class __$$AccountModelImplCopyWithImpl<$Res>
-    extends _$AccountModelCopyWithImpl<$Res, _$AccountModelImpl>
-    implements _$$AccountModelImplCopyWith<$Res> {
-  __$$AccountModelImplCopyWithImpl(
-      _$AccountModelImpl _value, $Res Function(_$AccountModelImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of AccountModel
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? name = null,
-    Object? id = null,
-    Object? avatar = null,
-    Object? lastUsed = null,
-    Object? authMethod = null,
-    Object? localPin = null,
-    Object? credentials = null,
-    Object? latestItemsExcludes = null,
-    Object? searchQueryHistory = null,
-    Object? quickConnectState = null,
-    Object? savedFilters = null,
-    Object? policy = freezed,
-    Object? serverConfiguration = freezed,
-    Object? userConfiguration = freezed,
-    Object? userSettings = freezed,
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_AccountModel value)? $default, {
+    required TResult orElse(),
   }) {
-    return _then(_$AccountModelImpl(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      avatar: null == avatar
-          ? _value.avatar
-          : avatar // ignore: cast_nullable_to_non_nullable
-              as String,
-      lastUsed: null == lastUsed
-          ? _value.lastUsed
-          : lastUsed // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      authMethod: null == authMethod
-          ? _value.authMethod
-          : authMethod // ignore: cast_nullable_to_non_nullable
-              as Authentication,
-      localPin: null == localPin
-          ? _value.localPin
-          : localPin // ignore: cast_nullable_to_non_nullable
-              as String,
-      credentials: null == credentials
-          ? _value.credentials
-          : credentials // ignore: cast_nullable_to_non_nullable
-              as CredentialsModel,
-      latestItemsExcludes: null == latestItemsExcludes
-          ? _value._latestItemsExcludes
-          : latestItemsExcludes // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      searchQueryHistory: null == searchQueryHistory
-          ? _value._searchQueryHistory
-          : searchQueryHistory // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      quickConnectState: null == quickConnectState
-          ? _value.quickConnectState
-          : quickConnectState // ignore: cast_nullable_to_non_nullable
-              as bool,
-      savedFilters: null == savedFilters
-          ? _value._savedFilters
-          : savedFilters // ignore: cast_nullable_to_non_nullable
-              as List<LibraryFiltersModel>,
-      policy: freezed == policy
-          ? _value.policy
-          : policy // ignore: cast_nullable_to_non_nullable
-              as UserPolicy?,
-      serverConfiguration: freezed == serverConfiguration
-          ? _value.serverConfiguration
-          : serverConfiguration // ignore: cast_nullable_to_non_nullable
-              as ServerConfiguration?,
-      userConfiguration: freezed == userConfiguration
-          ? _value.userConfiguration
-          : userConfiguration // ignore: cast_nullable_to_non_nullable
-              as UserConfiguration?,
-      userSettings: freezed == userSettings
-          ? _value.userSettings
-          : userSettings // ignore: cast_nullable_to_non_nullable
-              as UserSettings?,
-    ));
+    final _that = this;
+    switch (_that) {
+      case _AccountModel() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_AccountModel value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _AccountModel():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_AccountModel value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _AccountModel() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            String name,
+            String id,
+            String avatar,
+            DateTime lastUsed,
+            Authentication authMethod,
+            String localPin,
+            CredentialsModel credentials,
+            List<String> latestItemsExcludes,
+            List<String> searchQueryHistory,
+            bool quickConnectState,
+            List<LibraryFiltersModel> savedFilters,
+            @JsonKey(includeFromJson: false, includeToJson: false)
+            UserPolicy? policy,
+            @JsonKey(includeFromJson: false, includeToJson: false)
+            ServerConfiguration? serverConfiguration,
+            @JsonKey(includeFromJson: false, includeToJson: false)
+            UserConfiguration? userConfiguration,
+            UserSettings? userSettings)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _AccountModel() when $default != null:
+        return $default(
+            _that.name,
+            _that.id,
+            _that.avatar,
+            _that.lastUsed,
+            _that.authMethod,
+            _that.localPin,
+            _that.credentials,
+            _that.latestItemsExcludes,
+            _that.searchQueryHistory,
+            _that.quickConnectState,
+            _that.savedFilters,
+            _that.policy,
+            _that.serverConfiguration,
+            _that.userConfiguration,
+            _that.userSettings);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            String name,
+            String id,
+            String avatar,
+            DateTime lastUsed,
+            Authentication authMethod,
+            String localPin,
+            CredentialsModel credentials,
+            List<String> latestItemsExcludes,
+            List<String> searchQueryHistory,
+            bool quickConnectState,
+            List<LibraryFiltersModel> savedFilters,
+            @JsonKey(includeFromJson: false, includeToJson: false)
+            UserPolicy? policy,
+            @JsonKey(includeFromJson: false, includeToJson: false)
+            ServerConfiguration? serverConfiguration,
+            @JsonKey(includeFromJson: false, includeToJson: false)
+            UserConfiguration? userConfiguration,
+            UserSettings? userSettings)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _AccountModel():
+        return $default(
+            _that.name,
+            _that.id,
+            _that.avatar,
+            _that.lastUsed,
+            _that.authMethod,
+            _that.localPin,
+            _that.credentials,
+            _that.latestItemsExcludes,
+            _that.searchQueryHistory,
+            _that.quickConnectState,
+            _that.savedFilters,
+            _that.policy,
+            _that.serverConfiguration,
+            _that.userConfiguration,
+            _that.userSettings);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            String name,
+            String id,
+            String avatar,
+            DateTime lastUsed,
+            Authentication authMethod,
+            String localPin,
+            CredentialsModel credentials,
+            List<String> latestItemsExcludes,
+            List<String> searchQueryHistory,
+            bool quickConnectState,
+            List<LibraryFiltersModel> savedFilters,
+            @JsonKey(includeFromJson: false, includeToJson: false)
+            UserPolicy? policy,
+            @JsonKey(includeFromJson: false, includeToJson: false)
+            ServerConfiguration? serverConfiguration,
+            @JsonKey(includeFromJson: false, includeToJson: false)
+            UserConfiguration? userConfiguration,
+            UserSettings? userSettings)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _AccountModel() when $default != null:
+        return $default(
+            _that.name,
+            _that.id,
+            _that.avatar,
+            _that.lastUsed,
+            _that.authMethod,
+            _that.localPin,
+            _that.credentials,
+            _that.latestItemsExcludes,
+            _that.searchQueryHistory,
+            _that.quickConnectState,
+            _that.savedFilters,
+            _that.policy,
+            _that.serverConfiguration,
+            _that.userConfiguration,
+            _that.userSettings);
+      case _:
+        return null;
+    }
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$AccountModelImpl extends _AccountModel with DiagnosticableTreeMixin {
-  const _$AccountModelImpl(
+class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
+  const _AccountModel(
       {required this.name,
       required this.id,
       required this.avatar,
@@ -340,9 +490,8 @@ class _$AccountModelImpl extends _AccountModel with DiagnosticableTreeMixin {
         _searchQueryHistory = searchQueryHistory,
         _savedFilters = savedFilters,
         super._();
-
-  factory _$AccountModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$AccountModelImplFromJson(json);
+  factory _AccountModel.fromJson(Map<String, dynamic> json) =>
+      _$AccountModelFromJson(json);
 
   @override
   final String name;
@@ -404,14 +553,23 @@ class _$AccountModelImpl extends _AccountModel with DiagnosticableTreeMixin {
   @override
   final UserSettings? userSettings;
 
+  /// Create a copy of AccountModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, localPin: $localPin, credentials: $credentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, savedFilters: $savedFilters, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration, userSettings: $userSettings)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$AccountModelCopyWith<_AccountModel> get copyWith =>
+      __$AccountModelCopyWithImpl<_AccountModel>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$AccountModelToJson(
+      this,
+    );
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'AccountModel'))
       ..add(DiagnosticsProperty('name', name))
@@ -431,166 +589,196 @@ class _$AccountModelImpl extends _AccountModel with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('userSettings', userSettings));
   }
 
-  /// Create a copy of AccountModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$AccountModelImplCopyWith<_$AccountModelImpl> get copyWith =>
-      __$$AccountModelImplCopyWithImpl<_$AccountModelImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$AccountModelImplToJson(
-      this,
-    );
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, localPin: $localPin, credentials: $credentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, savedFilters: $savedFilters, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration, userSettings: $userSettings)';
   }
 }
 
-abstract class _AccountModel extends AccountModel {
-  const factory _AccountModel(
-      {required final String name,
-      required final String id,
-      required final String avatar,
-      required final DateTime lastUsed,
-      final Authentication authMethod,
-      final String localPin,
-      required final CredentialsModel credentials,
-      final List<String> latestItemsExcludes,
-      final List<String> searchQueryHistory,
-      final bool quickConnectState,
-      final List<LibraryFiltersModel> savedFilters,
+/// @nodoc
+abstract mixin class _$AccountModelCopyWith<$Res>
+    implements $AccountModelCopyWith<$Res> {
+  factory _$AccountModelCopyWith(
+          _AccountModel value, $Res Function(_AccountModel) _then) =
+      __$AccountModelCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {String name,
+      String id,
+      String avatar,
+      DateTime lastUsed,
+      Authentication authMethod,
+      String localPin,
+      CredentialsModel credentials,
+      List<String> latestItemsExcludes,
+      List<String> searchQueryHistory,
+      bool quickConnectState,
+      List<LibraryFiltersModel> savedFilters,
+      @JsonKey(includeFromJson: false, includeToJson: false) UserPolicy? policy,
       @JsonKey(includeFromJson: false, includeToJson: false)
-      final UserPolicy? policy,
+      ServerConfiguration? serverConfiguration,
       @JsonKey(includeFromJson: false, includeToJson: false)
-      final ServerConfiguration? serverConfiguration,
-      @JsonKey(includeFromJson: false, includeToJson: false)
-      final UserConfiguration? userConfiguration,
-      final UserSettings? userSettings}) = _$AccountModelImpl;
-  const _AccountModel._() : super._();
+      UserConfiguration? userConfiguration,
+      UserSettings? userSettings});
 
-  factory _AccountModel.fromJson(Map<String, dynamic> json) =
-      _$AccountModelImpl.fromJson;
+  @override
+  $UserSettingsCopyWith<$Res>? get userSettings;
+}
 
-  @override
-  String get name;
-  @override
-  String get id;
-  @override
-  String get avatar;
-  @override
-  DateTime get lastUsed;
-  @override
-  Authentication get authMethod;
-  @override
-  String get localPin;
-  @override
-  CredentialsModel get credentials;
-  @override
-  List<String> get latestItemsExcludes;
-  @override
-  List<String> get searchQueryHistory;
-  @override
-  bool get quickConnectState;
-  @override
-  List<LibraryFiltersModel> get savedFilters;
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  UserPolicy? get policy;
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  ServerConfiguration? get serverConfiguration;
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  UserConfiguration? get userConfiguration;
-  @override
-  UserSettings? get userSettings;
+/// @nodoc
+class __$AccountModelCopyWithImpl<$Res>
+    implements _$AccountModelCopyWith<$Res> {
+  __$AccountModelCopyWithImpl(this._self, this._then);
+
+  final _AccountModel _self;
+  final $Res Function(_AccountModel) _then;
 
   /// Create a copy of AccountModel
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AccountModelImplCopyWith<_$AccountModelImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? name = null,
+    Object? id = null,
+    Object? avatar = null,
+    Object? lastUsed = null,
+    Object? authMethod = null,
+    Object? localPin = null,
+    Object? credentials = null,
+    Object? latestItemsExcludes = null,
+    Object? searchQueryHistory = null,
+    Object? quickConnectState = null,
+    Object? savedFilters = null,
+    Object? policy = freezed,
+    Object? serverConfiguration = freezed,
+    Object? userConfiguration = freezed,
+    Object? userSettings = freezed,
+  }) {
+    return _then(_AccountModel(
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      avatar: null == avatar
+          ? _self.avatar
+          : avatar // ignore: cast_nullable_to_non_nullable
+              as String,
+      lastUsed: null == lastUsed
+          ? _self.lastUsed
+          : lastUsed // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      authMethod: null == authMethod
+          ? _self.authMethod
+          : authMethod // ignore: cast_nullable_to_non_nullable
+              as Authentication,
+      localPin: null == localPin
+          ? _self.localPin
+          : localPin // ignore: cast_nullable_to_non_nullable
+              as String,
+      credentials: null == credentials
+          ? _self.credentials
+          : credentials // ignore: cast_nullable_to_non_nullable
+              as CredentialsModel,
+      latestItemsExcludes: null == latestItemsExcludes
+          ? _self._latestItemsExcludes
+          : latestItemsExcludes // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      searchQueryHistory: null == searchQueryHistory
+          ? _self._searchQueryHistory
+          : searchQueryHistory // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      quickConnectState: null == quickConnectState
+          ? _self.quickConnectState
+          : quickConnectState // ignore: cast_nullable_to_non_nullable
+              as bool,
+      savedFilters: null == savedFilters
+          ? _self._savedFilters
+          : savedFilters // ignore: cast_nullable_to_non_nullable
+              as List<LibraryFiltersModel>,
+      policy: freezed == policy
+          ? _self.policy
+          : policy // ignore: cast_nullable_to_non_nullable
+              as UserPolicy?,
+      serverConfiguration: freezed == serverConfiguration
+          ? _self.serverConfiguration
+          : serverConfiguration // ignore: cast_nullable_to_non_nullable
+              as ServerConfiguration?,
+      userConfiguration: freezed == userConfiguration
+          ? _self.userConfiguration
+          : userConfiguration // ignore: cast_nullable_to_non_nullable
+              as UserConfiguration?,
+      userSettings: freezed == userSettings
+          ? _self.userSettings
+          : userSettings // ignore: cast_nullable_to_non_nullable
+              as UserSettings?,
+    ));
+  }
 
-UserSettings _$UserSettingsFromJson(Map<String, dynamic> json) {
-  return _UserSettings.fromJson(json);
+  /// Create a copy of AccountModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $UserSettingsCopyWith<$Res>? get userSettings {
+    if (_self.userSettings == null) {
+      return null;
+    }
+
+    return $UserSettingsCopyWith<$Res>(_self.userSettings!, (value) {
+      return _then(_self.copyWith(userSettings: value));
+    });
+  }
 }
 
 /// @nodoc
-mixin _$UserSettings {
-  Duration get skipForwardDuration => throw _privateConstructorUsedError;
-  Duration get skipBackDuration => throw _privateConstructorUsedError;
+mixin _$UserSettings implements DiagnosticableTreeMixin {
+  Duration get skipForwardDuration;
+  Duration get skipBackDuration;
+
+  /// Create a copy of UserSettings
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $UserSettingsCopyWith<UserSettings> get copyWith =>
+      _$UserSettingsCopyWithImpl<UserSettings>(
+          this as UserSettings, _$identity);
 
   /// Serializes this UserSettings to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson();
 
-  /// Create a copy of UserSettings
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $UserSettingsCopyWith<UserSettings> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $UserSettingsCopyWith<$Res> {
-  factory $UserSettingsCopyWith(
-          UserSettings value, $Res Function(UserSettings) then) =
-      _$UserSettingsCopyWithImpl<$Res, UserSettings>;
-  @useResult
-  $Res call({Duration skipForwardDuration, Duration skipBackDuration});
-}
-
-/// @nodoc
-class _$UserSettingsCopyWithImpl<$Res, $Val extends UserSettings>
-    implements $UserSettingsCopyWith<$Res> {
-  _$UserSettingsCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of UserSettings
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? skipForwardDuration = null,
-    Object? skipBackDuration = null,
-  }) {
-    return _then(_value.copyWith(
-      skipForwardDuration: null == skipForwardDuration
-          ? _value.skipForwardDuration
-          : skipForwardDuration // ignore: cast_nullable_to_non_nullable
-              as Duration,
-      skipBackDuration: null == skipBackDuration
-          ? _value.skipBackDuration
-          : skipBackDuration // ignore: cast_nullable_to_non_nullable
-              as Duration,
-    ) as $Val);
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'UserSettings'))
+      ..add(DiagnosticsProperty('skipForwardDuration', skipForwardDuration))
+      ..add(DiagnosticsProperty('skipBackDuration', skipBackDuration));
+  }
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'UserSettings(skipForwardDuration: $skipForwardDuration, skipBackDuration: $skipBackDuration)';
   }
 }
 
 /// @nodoc
-abstract class _$$UserSettingsImplCopyWith<$Res>
-    implements $UserSettingsCopyWith<$Res> {
-  factory _$$UserSettingsImplCopyWith(
-          _$UserSettingsImpl value, $Res Function(_$UserSettingsImpl) then) =
-      __$$UserSettingsImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $UserSettingsCopyWith<$Res> {
+  factory $UserSettingsCopyWith(
+          UserSettings value, $Res Function(UserSettings) _then) =
+      _$UserSettingsCopyWithImpl;
   @useResult
   $Res call({Duration skipForwardDuration, Duration skipBackDuration});
 }
 
 /// @nodoc
-class __$$UserSettingsImplCopyWithImpl<$Res>
-    extends _$UserSettingsCopyWithImpl<$Res, _$UserSettingsImpl>
-    implements _$$UserSettingsImplCopyWith<$Res> {
-  __$$UserSettingsImplCopyWithImpl(
-      _$UserSettingsImpl _value, $Res Function(_$UserSettingsImpl) _then)
-      : super(_value, _then);
+class _$UserSettingsCopyWithImpl<$Res> implements $UserSettingsCopyWith<$Res> {
+  _$UserSettingsCopyWithImpl(this._self, this._then);
+
+  final UserSettings _self;
+  final $Res Function(UserSettings) _then;
 
   /// Create a copy of UserSettings
   /// with the given fields replaced by the non-null parameter values.
@@ -600,28 +788,187 @@ class __$$UserSettingsImplCopyWithImpl<$Res>
     Object? skipForwardDuration = null,
     Object? skipBackDuration = null,
   }) {
-    return _then(_$UserSettingsImpl(
+    return _then(_self.copyWith(
       skipForwardDuration: null == skipForwardDuration
-          ? _value.skipForwardDuration
+          ? _self.skipForwardDuration
           : skipForwardDuration // ignore: cast_nullable_to_non_nullable
               as Duration,
       skipBackDuration: null == skipBackDuration
-          ? _value.skipBackDuration
+          ? _self.skipBackDuration
           : skipBackDuration // ignore: cast_nullable_to_non_nullable
               as Duration,
     ));
   }
 }
 
+/// Adds pattern-matching-related methods to [UserSettings].
+extension UserSettingsPatterns on UserSettings {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_UserSettings value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _UserSettings() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_UserSettings value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _UserSettings():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_UserSettings value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _UserSettings() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(Duration skipForwardDuration, Duration skipBackDuration)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _UserSettings() when $default != null:
+        return $default(_that.skipForwardDuration, _that.skipBackDuration);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(Duration skipForwardDuration, Duration skipBackDuration)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _UserSettings():
+        return $default(_that.skipForwardDuration, _that.skipBackDuration);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(Duration skipForwardDuration, Duration skipBackDuration)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _UserSettings() when $default != null:
+        return $default(_that.skipForwardDuration, _that.skipBackDuration);
+      case _:
+        return null;
+    }
+  }
+}
+
 /// @nodoc
 @JsonSerializable()
-class _$UserSettingsImpl with DiagnosticableTreeMixin implements _UserSettings {
-  _$UserSettingsImpl(
+class _UserSettings with DiagnosticableTreeMixin implements UserSettings {
+  _UserSettings(
       {this.skipForwardDuration = const Duration(seconds: 30),
       this.skipBackDuration = const Duration(seconds: 10)});
-
-  factory _$UserSettingsImpl.fromJson(Map<String, dynamic> json) =>
-      _$$UserSettingsImplFromJson(json);
+  factory _UserSettings.fromJson(Map<String, dynamic> json) =>
+      _$UserSettingsFromJson(json);
 
   @override
   @JsonKey()
@@ -630,53 +977,73 @@ class _$UserSettingsImpl with DiagnosticableTreeMixin implements _UserSettings {
   @JsonKey()
   final Duration skipBackDuration;
 
+  /// Create a copy of UserSettings
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserSettings(skipForwardDuration: $skipForwardDuration, skipBackDuration: $skipBackDuration)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$UserSettingsCopyWith<_UserSettings> get copyWith =>
+      __$UserSettingsCopyWithImpl<_UserSettings>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$UserSettingsToJson(
+      this,
+    );
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'UserSettings'))
       ..add(DiagnosticsProperty('skipForwardDuration', skipForwardDuration))
       ..add(DiagnosticsProperty('skipBackDuration', skipBackDuration));
   }
 
-  /// Create a copy of UserSettings
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$UserSettingsImplCopyWith<_$UserSettingsImpl> get copyWith =>
-      __$$UserSettingsImplCopyWithImpl<_$UserSettingsImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$UserSettingsImplToJson(
-      this,
-    );
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'UserSettings(skipForwardDuration: $skipForwardDuration, skipBackDuration: $skipBackDuration)';
   }
 }
 
-abstract class _UserSettings implements UserSettings {
-  factory _UserSettings(
-      {final Duration skipForwardDuration,
-      final Duration skipBackDuration}) = _$UserSettingsImpl;
-
-  factory _UserSettings.fromJson(Map<String, dynamic> json) =
-      _$UserSettingsImpl.fromJson;
-
+/// @nodoc
+abstract mixin class _$UserSettingsCopyWith<$Res>
+    implements $UserSettingsCopyWith<$Res> {
+  factory _$UserSettingsCopyWith(
+          _UserSettings value, $Res Function(_UserSettings) _then) =
+      __$UserSettingsCopyWithImpl;
   @override
-  Duration get skipForwardDuration;
-  @override
-  Duration get skipBackDuration;
+  @useResult
+  $Res call({Duration skipForwardDuration, Duration skipBackDuration});
+}
+
+/// @nodoc
+class __$UserSettingsCopyWithImpl<$Res>
+    implements _$UserSettingsCopyWith<$Res> {
+  __$UserSettingsCopyWithImpl(this._self, this._then);
+
+  final _UserSettings _self;
+  final $Res Function(_UserSettings) _then;
 
   /// Create a copy of UserSettings
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$UserSettingsImplCopyWith<_$UserSettingsImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? skipForwardDuration = null,
+    Object? skipBackDuration = null,
+  }) {
+    return _then(_UserSettings(
+      skipForwardDuration: null == skipForwardDuration
+          ? _self.skipForwardDuration
+          : skipForwardDuration // ignore: cast_nullable_to_non_nullable
+              as Duration,
+      skipBackDuration: null == skipBackDuration
+          ? _self.skipBackDuration
+          : skipBackDuration // ignore: cast_nullable_to_non_nullable
+              as Duration,
+    ));
+  }
 }
+
+// dart format on

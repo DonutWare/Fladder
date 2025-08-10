@@ -139,13 +139,14 @@ class SeriesModelMapper extends SubClassMapperBase<SeriesModel> {
 
 mixin SeriesModelMappable {
   SeriesModelCopyWith<SeriesModel, SeriesModel, SeriesModel> get copyWith =>
-      _SeriesModelCopyWithImpl(this as SeriesModel, $identity, $identity);
+      _SeriesModelCopyWithImpl<SeriesModel, SeriesModel>(
+          this as SeriesModel, $identity, $identity);
 }
 
 extension SeriesModelValueCopy<$R, $Out>
     on ObjectCopyWith<$R, SeriesModel, $Out> {
   SeriesModelCopyWith<$R, SeriesModel, $Out> get $asSeriesModel =>
-      $base.as((v, t, t2) => _SeriesModelCopyWithImpl(v, t, t2));
+      $base.as((v, t, t2) => _SeriesModelCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
 abstract class SeriesModelCopyWith<$R, $In extends SeriesModel, $Out>
@@ -282,5 +283,5 @@ class _SeriesModelCopyWithImpl<$R, $Out>
   @override
   SeriesModelCopyWith<$R2, SeriesModel, $Out2> $chain<$R2, $Out2>(
           Then<$Out2, $R2> t) =>
-      _SeriesModelCopyWithImpl($value, $cast, t);
+      _SeriesModelCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

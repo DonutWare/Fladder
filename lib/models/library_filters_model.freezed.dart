@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,185 +9,52 @@ part of 'library_filters_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-LibraryFiltersModel _$LibraryFiltersModelFromJson(Map<String, dynamic> json) {
-  return _LibraryFiltersModel.fromJson(json);
-}
 
 /// @nodoc
 mixin _$LibraryFiltersModel {
-  String get id => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
-  bool get isFavourite => throw _privateConstructorUsedError;
-  List<String> get ids => throw _privateConstructorUsedError;
-  Map<String, bool> get genres => throw _privateConstructorUsedError;
-  Map<ItemFilter, bool> get filters => throw _privateConstructorUsedError;
+  String get id;
+  String get name;
+  bool get isFavourite;
+  List<String> get ids;
+  Map<String, bool> get genres;
+  Map<ItemFilter, bool> get filters;
   @StudioEncoder()
-  Map<Studio, bool> get studios => throw _privateConstructorUsedError;
-  Map<String, bool> get tags => throw _privateConstructorUsedError;
-  Map<int, bool> get years => throw _privateConstructorUsedError;
-  Map<String, bool> get officialRatings => throw _privateConstructorUsedError;
-  Map<FladderItemType, bool> get types => throw _privateConstructorUsedError;
-  SortingOptions get sortingOption => throw _privateConstructorUsedError;
-  SortingOrder get sortOrder => throw _privateConstructorUsedError;
-  bool get favourites => throw _privateConstructorUsedError;
-  bool get hideEmptyShows => throw _privateConstructorUsedError;
-  bool get recursive => throw _privateConstructorUsedError;
-  GroupBy get groupBy => throw _privateConstructorUsedError;
-
-  /// Serializes this LibraryFiltersModel to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Map<Studio, bool> get studios;
+  Map<String, bool> get tags;
+  Map<int, bool> get years;
+  Map<String, bool> get officialRatings;
+  Map<FladderItemType, bool> get types;
+  SortingOptions get sortingOption;
+  SortingOrder get sortOrder;
+  bool get favourites;
+  bool get hideEmptyShows;
+  bool get recursive;
+  GroupBy get groupBy;
 
   /// Create a copy of LibraryFiltersModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $LibraryFiltersModelCopyWith<LibraryFiltersModel> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $LibraryFiltersModelCopyWith<$Res> {
-  factory $LibraryFiltersModelCopyWith(
-          LibraryFiltersModel value, $Res Function(LibraryFiltersModel) then) =
-      _$LibraryFiltersModelCopyWithImpl<$Res, LibraryFiltersModel>;
-  @useResult
-  $Res call(
-      {String id,
-      String name,
-      bool isFavourite,
-      List<String> ids,
-      Map<String, bool> genres,
-      Map<ItemFilter, bool> filters,
-      @StudioEncoder() Map<Studio, bool> studios,
-      Map<String, bool> tags,
-      Map<int, bool> years,
-      Map<String, bool> officialRatings,
-      Map<FladderItemType, bool> types,
-      SortingOptions sortingOption,
-      SortingOrder sortOrder,
-      bool favourites,
-      bool hideEmptyShows,
-      bool recursive,
-      GroupBy groupBy});
-}
-
-/// @nodoc
-class _$LibraryFiltersModelCopyWithImpl<$Res, $Val extends LibraryFiltersModel>
-    implements $LibraryFiltersModelCopyWith<$Res> {
-  _$LibraryFiltersModelCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of LibraryFiltersModel
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $LibraryFiltersModelCopyWith<LibraryFiltersModel> get copyWith =>
+      _$LibraryFiltersModelCopyWithImpl<LibraryFiltersModel>(
+          this as LibraryFiltersModel, _$identity);
+
+  /// Serializes this LibraryFiltersModel to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? id = null,
-    Object? name = null,
-    Object? isFavourite = null,
-    Object? ids = null,
-    Object? genres = null,
-    Object? filters = null,
-    Object? studios = null,
-    Object? tags = null,
-    Object? years = null,
-    Object? officialRatings = null,
-    Object? types = null,
-    Object? sortingOption = null,
-    Object? sortOrder = null,
-    Object? favourites = null,
-    Object? hideEmptyShows = null,
-    Object? recursive = null,
-    Object? groupBy = null,
-  }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      isFavourite: null == isFavourite
-          ? _value.isFavourite
-          : isFavourite // ignore: cast_nullable_to_non_nullable
-              as bool,
-      ids: null == ids
-          ? _value.ids
-          : ids // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      genres: null == genres
-          ? _value.genres
-          : genres // ignore: cast_nullable_to_non_nullable
-              as Map<String, bool>,
-      filters: null == filters
-          ? _value.filters
-          : filters // ignore: cast_nullable_to_non_nullable
-              as Map<ItemFilter, bool>,
-      studios: null == studios
-          ? _value.studios
-          : studios // ignore: cast_nullable_to_non_nullable
-              as Map<Studio, bool>,
-      tags: null == tags
-          ? _value.tags
-          : tags // ignore: cast_nullable_to_non_nullable
-              as Map<String, bool>,
-      years: null == years
-          ? _value.years
-          : years // ignore: cast_nullable_to_non_nullable
-              as Map<int, bool>,
-      officialRatings: null == officialRatings
-          ? _value.officialRatings
-          : officialRatings // ignore: cast_nullable_to_non_nullable
-              as Map<String, bool>,
-      types: null == types
-          ? _value.types
-          : types // ignore: cast_nullable_to_non_nullable
-              as Map<FladderItemType, bool>,
-      sortingOption: null == sortingOption
-          ? _value.sortingOption
-          : sortingOption // ignore: cast_nullable_to_non_nullable
-              as SortingOptions,
-      sortOrder: null == sortOrder
-          ? _value.sortOrder
-          : sortOrder // ignore: cast_nullable_to_non_nullable
-              as SortingOrder,
-      favourites: null == favourites
-          ? _value.favourites
-          : favourites // ignore: cast_nullable_to_non_nullable
-              as bool,
-      hideEmptyShows: null == hideEmptyShows
-          ? _value.hideEmptyShows
-          : hideEmptyShows // ignore: cast_nullable_to_non_nullable
-              as bool,
-      recursive: null == recursive
-          ? _value.recursive
-          : recursive // ignore: cast_nullable_to_non_nullable
-              as bool,
-      groupBy: null == groupBy
-          ? _value.groupBy
-          : groupBy // ignore: cast_nullable_to_non_nullable
-              as GroupBy,
-    ) as $Val);
+  String toString() {
+    return 'LibraryFiltersModel(id: $id, name: $name, isFavourite: $isFavourite, ids: $ids, genres: $genres, filters: $filters, studios: $studios, tags: $tags, years: $years, officialRatings: $officialRatings, types: $types, sortingOption: $sortingOption, sortOrder: $sortOrder, favourites: $favourites, hideEmptyShows: $hideEmptyShows, recursive: $recursive, groupBy: $groupBy)';
   }
 }
 
 /// @nodoc
-abstract class _$$LibraryFiltersModelImplCopyWith<$Res>
-    implements $LibraryFiltersModelCopyWith<$Res> {
-  factory _$$LibraryFiltersModelImplCopyWith(_$LibraryFiltersModelImpl value,
-          $Res Function(_$LibraryFiltersModelImpl) then) =
-      __$$LibraryFiltersModelImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $LibraryFiltersModelCopyWith<$Res> {
+  factory $LibraryFiltersModelCopyWith(
+          LibraryFiltersModel value, $Res Function(LibraryFiltersModel) _then) =
+      _$LibraryFiltersModelCopyWithImpl;
   @useResult
   $Res call(
       {String id,
@@ -210,12 +77,12 @@ abstract class _$$LibraryFiltersModelImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$LibraryFiltersModelImplCopyWithImpl<$Res>
-    extends _$LibraryFiltersModelCopyWithImpl<$Res, _$LibraryFiltersModelImpl>
-    implements _$$LibraryFiltersModelImplCopyWith<$Res> {
-  __$$LibraryFiltersModelImplCopyWithImpl(_$LibraryFiltersModelImpl _value,
-      $Res Function(_$LibraryFiltersModelImpl) _then)
-      : super(_value, _then);
+class _$LibraryFiltersModelCopyWithImpl<$Res>
+    implements $LibraryFiltersModelCopyWith<$Res> {
+  _$LibraryFiltersModelCopyWithImpl(this._self, this._then);
+
+  final LibraryFiltersModel _self;
+  final $Res Function(LibraryFiltersModel) _then;
 
   /// Create a copy of LibraryFiltersModel
   /// with the given fields replaced by the non-null parameter values.
@@ -240,83 +107,345 @@ class __$$LibraryFiltersModelImplCopyWithImpl<$Res>
     Object? recursive = null,
     Object? groupBy = null,
   }) {
-    return _then(_$LibraryFiltersModelImpl(
+    return _then(_self.copyWith(
       id: null == id
-          ? _value.id
+          ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
       name: null == name
-          ? _value.name
+          ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
       isFavourite: null == isFavourite
-          ? _value.isFavourite
+          ? _self.isFavourite
           : isFavourite // ignore: cast_nullable_to_non_nullable
               as bool,
       ids: null == ids
-          ? _value._ids
+          ? _self.ids
           : ids // ignore: cast_nullable_to_non_nullable
               as List<String>,
       genres: null == genres
-          ? _value._genres
+          ? _self.genres
           : genres // ignore: cast_nullable_to_non_nullable
               as Map<String, bool>,
       filters: null == filters
-          ? _value._filters
+          ? _self.filters
           : filters // ignore: cast_nullable_to_non_nullable
               as Map<ItemFilter, bool>,
       studios: null == studios
-          ? _value._studios
+          ? _self.studios
           : studios // ignore: cast_nullable_to_non_nullable
               as Map<Studio, bool>,
       tags: null == tags
-          ? _value._tags
+          ? _self.tags
           : tags // ignore: cast_nullable_to_non_nullable
               as Map<String, bool>,
       years: null == years
-          ? _value._years
+          ? _self.years
           : years // ignore: cast_nullable_to_non_nullable
               as Map<int, bool>,
       officialRatings: null == officialRatings
-          ? _value._officialRatings
+          ? _self.officialRatings
           : officialRatings // ignore: cast_nullable_to_non_nullable
               as Map<String, bool>,
       types: null == types
-          ? _value._types
+          ? _self.types
           : types // ignore: cast_nullable_to_non_nullable
               as Map<FladderItemType, bool>,
       sortingOption: null == sortingOption
-          ? _value.sortingOption
+          ? _self.sortingOption
           : sortingOption // ignore: cast_nullable_to_non_nullable
               as SortingOptions,
       sortOrder: null == sortOrder
-          ? _value.sortOrder
+          ? _self.sortOrder
           : sortOrder // ignore: cast_nullable_to_non_nullable
               as SortingOrder,
       favourites: null == favourites
-          ? _value.favourites
+          ? _self.favourites
           : favourites // ignore: cast_nullable_to_non_nullable
               as bool,
       hideEmptyShows: null == hideEmptyShows
-          ? _value.hideEmptyShows
+          ? _self.hideEmptyShows
           : hideEmptyShows // ignore: cast_nullable_to_non_nullable
               as bool,
       recursive: null == recursive
-          ? _value.recursive
+          ? _self.recursive
           : recursive // ignore: cast_nullable_to_non_nullable
               as bool,
       groupBy: null == groupBy
-          ? _value.groupBy
+          ? _self.groupBy
           : groupBy // ignore: cast_nullable_to_non_nullable
               as GroupBy,
     ));
   }
 }
 
+/// Adds pattern-matching-related methods to [LibraryFiltersModel].
+extension LibraryFiltersModelPatterns on LibraryFiltersModel {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_LibraryFiltersModel value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _LibraryFiltersModel() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_LibraryFiltersModel value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _LibraryFiltersModel():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_LibraryFiltersModel value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _LibraryFiltersModel() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            String id,
+            String name,
+            bool isFavourite,
+            List<String> ids,
+            Map<String, bool> genres,
+            Map<ItemFilter, bool> filters,
+            @StudioEncoder() Map<Studio, bool> studios,
+            Map<String, bool> tags,
+            Map<int, bool> years,
+            Map<String, bool> officialRatings,
+            Map<FladderItemType, bool> types,
+            SortingOptions sortingOption,
+            SortingOrder sortOrder,
+            bool favourites,
+            bool hideEmptyShows,
+            bool recursive,
+            GroupBy groupBy)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _LibraryFiltersModel() when $default != null:
+        return $default(
+            _that.id,
+            _that.name,
+            _that.isFavourite,
+            _that.ids,
+            _that.genres,
+            _that.filters,
+            _that.studios,
+            _that.tags,
+            _that.years,
+            _that.officialRatings,
+            _that.types,
+            _that.sortingOption,
+            _that.sortOrder,
+            _that.favourites,
+            _that.hideEmptyShows,
+            _that.recursive,
+            _that.groupBy);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            String id,
+            String name,
+            bool isFavourite,
+            List<String> ids,
+            Map<String, bool> genres,
+            Map<ItemFilter, bool> filters,
+            @StudioEncoder() Map<Studio, bool> studios,
+            Map<String, bool> tags,
+            Map<int, bool> years,
+            Map<String, bool> officialRatings,
+            Map<FladderItemType, bool> types,
+            SortingOptions sortingOption,
+            SortingOrder sortOrder,
+            bool favourites,
+            bool hideEmptyShows,
+            bool recursive,
+            GroupBy groupBy)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _LibraryFiltersModel():
+        return $default(
+            _that.id,
+            _that.name,
+            _that.isFavourite,
+            _that.ids,
+            _that.genres,
+            _that.filters,
+            _that.studios,
+            _that.tags,
+            _that.years,
+            _that.officialRatings,
+            _that.types,
+            _that.sortingOption,
+            _that.sortOrder,
+            _that.favourites,
+            _that.hideEmptyShows,
+            _that.recursive,
+            _that.groupBy);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            String id,
+            String name,
+            bool isFavourite,
+            List<String> ids,
+            Map<String, bool> genres,
+            Map<ItemFilter, bool> filters,
+            @StudioEncoder() Map<Studio, bool> studios,
+            Map<String, bool> tags,
+            Map<int, bool> years,
+            Map<String, bool> officialRatings,
+            Map<FladderItemType, bool> types,
+            SortingOptions sortingOption,
+            SortingOrder sortOrder,
+            bool favourites,
+            bool hideEmptyShows,
+            bool recursive,
+            GroupBy groupBy)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _LibraryFiltersModel() when $default != null:
+        return $default(
+            _that.id,
+            _that.name,
+            _that.isFavourite,
+            _that.ids,
+            _that.genres,
+            _that.filters,
+            _that.studios,
+            _that.tags,
+            _that.years,
+            _that.officialRatings,
+            _that.types,
+            _that.sortingOption,
+            _that.sortOrder,
+            _that.favourites,
+            _that.hideEmptyShows,
+            _that.recursive,
+            _that.groupBy);
+      case _:
+        return null;
+    }
+  }
+}
+
 /// @nodoc
 @JsonSerializable()
-class _$LibraryFiltersModelImpl extends _LibraryFiltersModel {
-  _$LibraryFiltersModelImpl(
+class _LibraryFiltersModel extends LibraryFiltersModel {
+  _LibraryFiltersModel(
       {required this.id,
       required this.name,
       required this.isFavourite,
@@ -343,9 +472,8 @@ class _$LibraryFiltersModelImpl extends _LibraryFiltersModel {
         _officialRatings = officialRatings,
         _types = types,
         super._();
-
-  factory _$LibraryFiltersModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$LibraryFiltersModelImplFromJson(json);
+  factory _LibraryFiltersModel.fromJson(Map<String, dynamic> json) =>
+      _$LibraryFiltersModelFromJson(json);
 
   @override
   final String id;
@@ -431,92 +559,158 @@ class _$LibraryFiltersModelImpl extends _LibraryFiltersModel {
   @override
   final GroupBy groupBy;
 
-  @override
-  String toString() {
-    return 'LibraryFiltersModel._internal(id: $id, name: $name, isFavourite: $isFavourite, ids: $ids, genres: $genres, filters: $filters, studios: $studios, tags: $tags, years: $years, officialRatings: $officialRatings, types: $types, sortingOption: $sortingOption, sortOrder: $sortOrder, favourites: $favourites, hideEmptyShows: $hideEmptyShows, recursive: $recursive, groupBy: $groupBy)';
-  }
-
   /// Create a copy of LibraryFiltersModel
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$$LibraryFiltersModelImplCopyWith<_$LibraryFiltersModelImpl> get copyWith =>
-      __$$LibraryFiltersModelImplCopyWithImpl<_$LibraryFiltersModelImpl>(
+  _$LibraryFiltersModelCopyWith<_LibraryFiltersModel> get copyWith =>
+      __$LibraryFiltersModelCopyWithImpl<_LibraryFiltersModel>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$LibraryFiltersModelImplToJson(
+    return _$LibraryFiltersModelToJson(
       this,
     );
   }
+
+  @override
+  String toString() {
+    return 'LibraryFiltersModel(id: $id, name: $name, isFavourite: $isFavourite, ids: $ids, genres: $genres, filters: $filters, studios: $studios, tags: $tags, years: $years, officialRatings: $officialRatings, types: $types, sortingOption: $sortingOption, sortOrder: $sortOrder, favourites: $favourites, hideEmptyShows: $hideEmptyShows, recursive: $recursive, groupBy: $groupBy)';
+  }
 }
 
-abstract class _LibraryFiltersModel extends LibraryFiltersModel {
-  factory _LibraryFiltersModel(
-      {required final String id,
-      required final String name,
-      required final bool isFavourite,
-      required final List<String> ids,
-      required final Map<String, bool> genres,
-      required final Map<ItemFilter, bool> filters,
-      @StudioEncoder() required final Map<Studio, bool> studios,
-      required final Map<String, bool> tags,
-      required final Map<int, bool> years,
-      required final Map<String, bool> officialRatings,
-      required final Map<FladderItemType, bool> types,
-      required final SortingOptions sortingOption,
-      required final SortingOrder sortOrder,
-      required final bool favourites,
-      required final bool hideEmptyShows,
-      required final bool recursive,
-      required final GroupBy groupBy}) = _$LibraryFiltersModelImpl;
-  _LibraryFiltersModel._() : super._();
+/// @nodoc
+abstract mixin class _$LibraryFiltersModelCopyWith<$Res>
+    implements $LibraryFiltersModelCopyWith<$Res> {
+  factory _$LibraryFiltersModelCopyWith(_LibraryFiltersModel value,
+          $Res Function(_LibraryFiltersModel) _then) =
+      __$LibraryFiltersModelCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {String id,
+      String name,
+      bool isFavourite,
+      List<String> ids,
+      Map<String, bool> genres,
+      Map<ItemFilter, bool> filters,
+      @StudioEncoder() Map<Studio, bool> studios,
+      Map<String, bool> tags,
+      Map<int, bool> years,
+      Map<String, bool> officialRatings,
+      Map<FladderItemType, bool> types,
+      SortingOptions sortingOption,
+      SortingOrder sortOrder,
+      bool favourites,
+      bool hideEmptyShows,
+      bool recursive,
+      GroupBy groupBy});
+}
 
-  factory _LibraryFiltersModel.fromJson(Map<String, dynamic> json) =
-      _$LibraryFiltersModelImpl.fromJson;
+/// @nodoc
+class __$LibraryFiltersModelCopyWithImpl<$Res>
+    implements _$LibraryFiltersModelCopyWith<$Res> {
+  __$LibraryFiltersModelCopyWithImpl(this._self, this._then);
 
-  @override
-  String get id;
-  @override
-  String get name;
-  @override
-  bool get isFavourite;
-  @override
-  List<String> get ids;
-  @override
-  Map<String, bool> get genres;
-  @override
-  Map<ItemFilter, bool> get filters;
-  @override
-  @StudioEncoder()
-  Map<Studio, bool> get studios;
-  @override
-  Map<String, bool> get tags;
-  @override
-  Map<int, bool> get years;
-  @override
-  Map<String, bool> get officialRatings;
-  @override
-  Map<FladderItemType, bool> get types;
-  @override
-  SortingOptions get sortingOption;
-  @override
-  SortingOrder get sortOrder;
-  @override
-  bool get favourites;
-  @override
-  bool get hideEmptyShows;
-  @override
-  bool get recursive;
-  @override
-  GroupBy get groupBy;
+  final _LibraryFiltersModel _self;
+  final $Res Function(_LibraryFiltersModel) _then;
 
   /// Create a copy of LibraryFiltersModel
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$LibraryFiltersModelImplCopyWith<_$LibraryFiltersModelImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? isFavourite = null,
+    Object? ids = null,
+    Object? genres = null,
+    Object? filters = null,
+    Object? studios = null,
+    Object? tags = null,
+    Object? years = null,
+    Object? officialRatings = null,
+    Object? types = null,
+    Object? sortingOption = null,
+    Object? sortOrder = null,
+    Object? favourites = null,
+    Object? hideEmptyShows = null,
+    Object? recursive = null,
+    Object? groupBy = null,
+  }) {
+    return _then(_LibraryFiltersModel(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      isFavourite: null == isFavourite
+          ? _self.isFavourite
+          : isFavourite // ignore: cast_nullable_to_non_nullable
+              as bool,
+      ids: null == ids
+          ? _self._ids
+          : ids // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      genres: null == genres
+          ? _self._genres
+          : genres // ignore: cast_nullable_to_non_nullable
+              as Map<String, bool>,
+      filters: null == filters
+          ? _self._filters
+          : filters // ignore: cast_nullable_to_non_nullable
+              as Map<ItemFilter, bool>,
+      studios: null == studios
+          ? _self._studios
+          : studios // ignore: cast_nullable_to_non_nullable
+              as Map<Studio, bool>,
+      tags: null == tags
+          ? _self._tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as Map<String, bool>,
+      years: null == years
+          ? _self._years
+          : years // ignore: cast_nullable_to_non_nullable
+              as Map<int, bool>,
+      officialRatings: null == officialRatings
+          ? _self._officialRatings
+          : officialRatings // ignore: cast_nullable_to_non_nullable
+              as Map<String, bool>,
+      types: null == types
+          ? _self._types
+          : types // ignore: cast_nullable_to_non_nullable
+              as Map<FladderItemType, bool>,
+      sortingOption: null == sortingOption
+          ? _self.sortingOption
+          : sortingOption // ignore: cast_nullable_to_non_nullable
+              as SortingOptions,
+      sortOrder: null == sortOrder
+          ? _self.sortOrder
+          : sortOrder // ignore: cast_nullable_to_non_nullable
+              as SortingOrder,
+      favourites: null == favourites
+          ? _self.favourites
+          : favourites // ignore: cast_nullable_to_non_nullable
+              as bool,
+      hideEmptyShows: null == hideEmptyShows
+          ? _self.hideEmptyShows
+          : hideEmptyShows // ignore: cast_nullable_to_non_nullable
+              as bool,
+      recursive: null == recursive
+          ? _self.recursive
+          : recursive // ignore: cast_nullable_to_non_nullable
+              as bool,
+      groupBy: null == groupBy
+          ? _self.groupBy
+          : groupBy // ignore: cast_nullable_to_non_nullable
+              as GroupBy,
+    ));
+  }
 }
+
+// dart format on

@@ -77,7 +77,7 @@ class Update extends _$Update {
 }
 
 @Freezed(toJson: false, fromJson: false)
-class UpdatesModel with _$UpdatesModel {
+abstract class UpdatesModel with _$UpdatesModel {
   const UpdatesModel._();
 
   factory UpdatesModel({

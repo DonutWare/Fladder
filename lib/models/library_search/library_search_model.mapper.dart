@@ -182,15 +182,15 @@ class LibrarySearchModelMapper extends ClassMapperBase<LibrarySearchModel> {
 mixin LibrarySearchModelMappable {
   LibrarySearchModelCopyWith<LibrarySearchModel, LibrarySearchModel,
           LibrarySearchModel>
-      get copyWith => _LibrarySearchModelCopyWithImpl(
-          this as LibrarySearchModel, $identity, $identity);
+      get copyWith => _LibrarySearchModelCopyWithImpl<LibrarySearchModel,
+          LibrarySearchModel>(this as LibrarySearchModel, $identity, $identity);
 }
 
 extension LibrarySearchModelValueCopy<$R, $Out>
     on ObjectCopyWith<$R, LibrarySearchModel, $Out> {
   LibrarySearchModelCopyWith<$R, LibrarySearchModel, $Out>
-      get $asLibrarySearchModel =>
-          $base.as((v, t, t2) => _LibrarySearchModelCopyWithImpl(v, t, t2));
+      get $asLibrarySearchModel => $base.as(
+          (v, t, t2) => _LibrarySearchModelCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
 abstract class LibrarySearchModelCopyWith<$R, $In extends LibrarySearchModel,
@@ -391,5 +391,5 @@ class _LibrarySearchModelCopyWithImpl<$R, $Out>
   @override
   LibrarySearchModelCopyWith<$R2, LibrarySearchModel, $Out2> $chain<$R2, $Out2>(
           Then<$Out2, $R2> t) =>
-      _LibrarySearchModelCopyWithImpl($value, $cast, t);
+      _LibrarySearchModelCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }
