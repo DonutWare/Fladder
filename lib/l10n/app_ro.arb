@@ -24,9 +24,9 @@
   "@nativeName": {},
   "accept": "Acceptă",
   "@accept": {},
-  "addAsFavorite": "Adaugă la favorite",
+  "addAsFavorite": "Adăugați la favorite",
   "@addAsFavorite": {},
-  "addToPlaylist": "Adaugă în lista de redare",
+  "addToPlaylist": "Adăugați în lista de redare",
   "@addToPlaylist": {},
   "advanced": "Avansat",
   "@advanced": {},
@@ -36,7 +36,7 @@
   "@amoledBlack": {},
   "appLockAutoLogin": "Autentificare automată",
   "@appLockAutoLogin": {},
-  "appLockPasscode": "Pinul de acces",
+  "appLockPasscode": "PIN-ul de acces",
   "@appLockPasscode": {},
   "backgroundOpacity": "Opacitatea fundalului",
   "@backgroundOpacity": {},
@@ -116,7 +116,7 @@
   "@delete": {},
   "color": "Culoare",
   "@color": {},
-  "addToCollection": "Adaugă la colecție",
+  "addToCollection": "Adăugați la colecție",
   "@addToCollection": {},
   "audio": "Audio",
   "@audio": {},
@@ -327,7 +327,7 @@
   "@login": {},
   "logout": "Deconectați-vă",
   "@logout": {},
-  "logoutUserPopupContent": "Această acțiune va autentifica utilizatorul {userName} și îl va șterge din aplicație.\nVa trebui să vă reautentificați pe {serverName}.",
+  "logoutUserPopupContent": "Această acțiune va deconecta utilizatorul {userName} și îl va șterge din aplicație.\nVa trebui să vă reautentificați pe {serverName}.",
   "@logoutUserPopupContent": {
     "description": "Pop-up for logging out the user description",
     "placeholders": {
@@ -586,11 +586,11 @@
   "@related": {},
   "releaseDate": "Data de lansare",
   "@releaseDate": {},
-  "removeAsFavorite": "Ștergeți ca favorit",
+  "removeAsFavorite": "Eliminați ca favorit",
   "@removeAsFavorite": {},
-  "removeFromCollection": "Ștergeți din colecție",
+  "removeFromCollection": "Eliminați din colecție",
   "@removeFromCollection": {},
-  "removeFromPlaylist": "Ștergeți din lista de redare",
+  "removeFromPlaylist": "Eliminați din lista de redare",
   "@removeFromPlaylist": {},
   "replaceAllImages": "Înlocuiți toate imaginile",
   "@replaceAllImages": {},
@@ -704,8 +704,450 @@
   "@settingSecurityApplockTitle": {},
   "settings": "Setări",
   "@settings": {},
-  "settingsBlurEpisodesDesc": "Estompați toate episoadele ce urmează",
+  "settingsBlurEpisodesDesc": "Blurați toate episoadele ce urmează",
   "@settingsBlurEpisodesDesc": {},
   "settingsBlurEpisodesTitle": "Blurați episoadele următoare",
-  "@settingsBlurEpisodesTitle": {}
+  "@settingsBlurEpisodesTitle": {},
+  "syncDeletePopupPermanent": "Această acțiune e permanentă și va elimina toate fișierele sincronizate local",
+  "@syncDeletePopupPermanent": {},
+  "settingsBlurredPlaceholderDesc": "Arată fundalul blurat când posterele se incarcă",
+  "@settingsBlurredPlaceholderDesc": {},
+  "settingsBlurredPlaceholderTitle": "Substituent blurat",
+  "@settingsBlurredPlaceholderTitle": {},
+  "settingsClientDesc": "General, Time-out, Afișaj, Temă",
+  "@settingsClientDesc": {},
+  "settingsClientTitle": "Fladder",
+  "@settingsClientTitle": {},
+  "settingsContinue": "Continuați",
+  "@settingsContinue": {},
+  "settingsEnableOsMediaControls": "Activați controalele media ale sistemului de operare",
+  "@settingsEnableOsMediaControls": {},
+  "settingsEnableOsMediaControlsDesc": "Permiteți controlul redării utilizând taste media și arătați media în derulare în sistemul de operare",
+  "@settingsEnableOsMediaControlsDesc": {},
+  "settingsHomeBannerDescription": "Afișați ca și o prezentare, carusel sau ascundeți banner-ul",
+  "@settingsHomeBannerDescription": {},
+  "settingsHomeBannerTitle": "Banner-ul acasă",
+  "@settingsHomeBannerTitle": {},
+  "settingsHomeBannerInformationDesc": "Informații de afișat în banner-ul acasă",
+  "@settingsHomeBannerInformationDesc": {},
+  "settingsHomeBannerInformationTitle": "Informațiile banner-ului",
+  "@settingsHomeBannerInformationTitle": {},
+  "settingsHomeNextUpDesc": "Tipul de postere afișate în ecranul de bord",
+  "@settingsHomeNextUpDesc": {},
+  "settingsHomeNextUpTitle": "Postere următoare",
+  "@settingsHomeNextUpTitle": {},
+  "settingsNextUpCutoffDays": "Zile limită următoare",
+  "@settingsNextUpCutoffDays": {},
+  "settingsPlayerCustomSubtitlesDesc": "Personalizați Mărimea, Culoarea, Poziția, Conturul",
+  "@settingsPlayerCustomSubtitlesDesc": {},
+  "settingsPlayerCustomSubtitlesTitle": "Personalizați subtitrările",
+  "@settingsPlayerCustomSubtitlesTitle": {},
+  "settingsPlayerDesc": "Aspect-ratio, Avansat",
+  "@settingsPlayerDesc": {},
+  "settingsPlayerMobileWarning": "Pornind accelerarea hardware și subtitrările native libass pe Android pot cauza unele subtitrări să nu fie redate.",
+  "@settingsPlayerMobileWarning": {},
+  "settingsPlayerNativeLibassAccelDesc": "Utilizați redarea subtitrărilor libass în player-ul video",
+  "@settingsPlayerNativeLibassAccelDesc": {},
+  "settingsPlayerNativeLibassAccelTitle": "Subtitrări native libass",
+  "@settingsPlayerNativeLibassAccelTitle": {},
+  "settingsPlayerBufferSizeTitle": "Mărimea buffer-ului video",
+  "@settingsPlayerBufferSizeTitle": {},
+  "settingsPlayerBufferSizeDesc": "Configurați mărimea buffer-ului pentru redarea video, determinând câte date sunt încărcate în cache.",
+  "@settingsPlayerBufferSizeDesc": {},
+  "settingsPlayerTitle": "Player",
+  "@settingsPlayerTitle": {},
+  "settingsPlayerVideoHWAccelDesc": "Utilizați GPU-ul pentru redarea video (recomandat)",
+  "@settingsPlayerVideoHWAccelDesc": {},
+  "settingsPlayerVideoHWAccelTitle": "Accelerare hardware",
+  "@settingsPlayerVideoHWAccelTitle": {},
+  "settingsPosterPinch": "Dați Zoom prin ciupire pentru a scala posterele",
+  "@settingsPosterPinch": {},
+  "settingsPosterSize": "Mărimea posterelor",
+  "@settingsPosterSize": {},
+  "settingsPosterSlider": "Afișați slider-ul pentru scalare",
+  "@settingsPosterSlider": {},
+  "settingsProfileDesc": "Ecran de blocare",
+  "@settingsProfileDesc": {},
+  "settingsProfileTitle": "Profil",
+  "@settingsProfileTitle": {},
+  "settingsQuickConnectTitle": "Conectare-rapidă",
+  "@settingsQuickConnectTitle": {},
+  "settingsSecurity": "Securitate",
+  "@settingsSecurity": {},
+  "settingsShowScaleSlider": "Afișați slider-ul de mărime al posterelor",
+  "@settingsShowScaleSlider": {},
+  "settingsVisual": "Vizual",
+  "@settingsVisual": {},
+  "shadow": "Umbră",
+  "@shadow": {},
+  "showAlbum": "Afișați albumul",
+  "@showAlbum": {},
+  "showDetails": "Afișați detaliile",
+  "@showDetails": {},
+  "showEmpty": "Afișați articolele goale",
+  "@showEmpty": {},
+  "shuffleGallery": "Amestecați galeria",
+  "@shuffleGallery": {},
+  "shuffleVideos": "Amestecați videoclipurile",
+  "@shuffleVideos": {},
+  "somethingWentWrong": "Ceva nu a funcționat",
+  "@somethingWentWrong": {},
+  "somethingWentWrongPasswordCheck": "Ceva nu a funcționat. Verificați-vă parola.",
+  "@somethingWentWrongPasswordCheck": {},
+  "sortBy": "Sortați după",
+  "@sortBy": {},
+  "sortName": "Nume",
+  "@sortName": {},
+  "sortOrder": "Ordine de sortare",
+  "@sortOrder": {},
+  "start": "Porniți",
+  "@start": {},
+  "studio": "{count, plural, other{Studiouri} one{Studio}}",
+  "@studio": {
+    "description": "studio",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "subtitleConfigurator": "Configurator de subtitrări",
+  "@subtitleConfigurator": {},
+  "subtitleConfiguratorPlaceHolder": "Acesta este un text substituent, nimic de văzut aici.",
+  "@subtitleConfiguratorPlaceHolder": {},
+  "subtitles": "Subtitrări",
+  "@subtitles": {},
+  "switchUser": "Schimbați utilizatorul",
+  "@switchUser": {},
+  "sync": "Sincronizați",
+  "@sync": {},
+  "syncDeleteItemDesc": "Ștergeți toate datele sincronizate pentru {item}?",
+  "@syncDeleteItemDesc": {
+    "description": "Sync delete item pop-up window",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "syncDeleteItemTitle": "Ștergeți articolul sincronizat",
+  "@syncDeleteItemTitle": {},
+  "syncDetails": "Sincronizați detaliile",
+  "@syncDetails": {},
+  "syncOpenParent": "Deschideți părintele",
+  "@syncOpenParent": {},
+  "syncRemoveDataDesc": "Ștergeți datele videoclipurilor sincronizate? Această acțiune este permanentă și va trebui să resincronizați fișierele",
+  "@syncRemoveDataDesc": {},
+  "syncRemoveDataTitle": "Eliminați datele sincronizate?",
+  "@syncRemoveDataTitle": {},
+  "syncedItems": "Articole sincronizate",
+  "@syncedItems": {},
+  "tag": "{count, plural, one{Etichetă} other{Etichete}}",
+  "@tag": {
+    "description": "tag",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "theme": "Temă",
+  "@theme": {},
+  "themeColor": "Culoarea temei",
+  "@themeColor": {},
+  "themeModeDark": "Întunecat",
+  "@themeModeDark": {},
+  "themeModeLight": "Luminos",
+  "@themeModeLight": {},
+  "themeModeSystem": "Sistem",
+  "@themeModeSystem": {},
+  "timeAndAnnotation": "{minutes}și{seconds}",
+  "@timeAndAnnotation": {
+    "description": "timeAndAnnotation",
+    "placeholders": {
+      "minutes": {
+        "type": "String"
+      },
+      "seconds": {
+        "type": "String"
+      }
+    }
+  },
+  "timeOut": "Time-out",
+  "@timeOut": {},
+  "totalSize": "Mărime totală:{size}",
+  "@totalSize": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "type": "{count, plural, other{Tipuri} one{Tip}}",
+  "@type": {
+    "description": "type",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "unPlayed": "Neredat",
+  "@unPlayed": {},
+  "unableToConnectHost": "Nu s-a putut conecta la gazdă",
+  "@unableToConnectHost": {},
+  "unableToReverseAction": "Această acțiune nu poate fi inversată. Va elimina toate setările.",
+  "@unableToReverseAction": {},
+  "unknown": "Necunoscut",
+  "@unknown": {},
+  "useDefaults": "Utilizați setările implicite",
+  "@useDefaults": {},
+  "userName": "Nume de utilizator",
+  "@userName": {},
+  "video": "Videoclip",
+  "@video": {},
+  "videoScaling": "Scalare video",
+  "@videoScaling": {},
+  "videoScalingContain": "Include",
+  "@videoScalingContain": {},
+  "videoScalingCover": "Acoperă",
+  "@videoScalingCover": {},
+  "videoScalingFill": "Umple",
+  "@videoScalingFill": {},
+  "videoScalingFillScreenDesc": "Umple bara de navigare și bara de status",
+  "@videoScalingFillScreenDesc": {},
+  "videoScalingFillScreenNotif": "Umplerea ecranului suprascrie potrivirea video, în rotație orizontală",
+  "@videoScalingFillScreenNotif": {},
+  "videoScalingFillScreenTitle": "Umple ecranul",
+  "@videoScalingFillScreenTitle": {},
+  "videoScalingFitHeight": "Potrivește Înălțimea",
+  "@videoScalingFitHeight": {},
+  "videoScalingFitWidth": "Potrivește Lățimea",
+  "@videoScalingFitWidth": {},
+  "videoScalingScaleDown": "Redu scala",
+  "@videoScalingScaleDown": {},
+  "viewPhotos": "Vizionează fotografii",
+  "@viewPhotos": {},
+  "watchOn": "Redă pe",
+  "@watchOn": {},
+  "writer": "{count, plural, other{Scriitori} one{Scriitor}}",
+  "@writer": {
+    "description": "writer",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "year": "{count, plural, other{Ani} one{An}}",
+  "@year": {
+    "description": "year",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "addToNewCollection": "Colecție nouă",
+  "@addToNewCollection": {},
+  "addItemsToCollection": "Adăugați {itemLength} articol(e) la colecție",
+  "@addItemsToCollection": {
+    "placeholders": {
+      "itemLength": {
+        "type": "int"
+      }
+    }
+  },
+  "addedToCollection": "Adăugat la colecția {collectionName}",
+  "@addedToCollection": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "removedFromCollection": "Eliminat din colecția {collectionName}",
+  "@removedFromCollection": {
+    "placeholders": {
+      "collectionName": {
+        "type": "String"
+      }
+    }
+  },
+  "addToNewPlaylist": "Listă de redare nouă",
+  "@addToNewPlaylist": {},
+  "addItemsToPlaylist": "Adăugați {itemLength} articol(e) la lista de redare",
+  "@addItemsToPlaylist": {
+    "placeholders": {
+      "itemLength": {
+        "type": "int"
+      }
+    }
+  },
+  "addedToPlaylist": "Adăugat în lista de redare {playlistName}",
+  "@addedToPlaylist": {
+    "placeholders": {
+      "playlistName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncStatusEnqueued": "Adăugat în coadă",
+  "@syncStatusEnqueued": {},
+  "syncStatusRunning": "Rulează",
+  "@syncStatusRunning": {},
+  "syncStatusComplete": "Completat",
+  "@syncStatusComplete": {},
+  "syncStatusNotFound": "Nu a fost găsit",
+  "@syncStatusNotFound": {},
+  "syncStatusFailed": "Eșuat",
+  "@syncStatusFailed": {},
+  "syncStatusCanceled": "Anulat",
+  "@syncStatusCanceled": {},
+  "syncStatusWaitingToRetry": "Așteptând reîncercarea",
+  "@syncStatusWaitingToRetry": {},
+  "syncStatusPaused": "Întrerupt",
+  "@syncStatusPaused": {},
+  "syncStatusSynced": "Sincronizat",
+  "@syncStatusSynced": {},
+  "syncStatusPartially": "Parțial",
+  "@syncStatusPartially": {},
+  "syncOverlayDeleting": "Eliminând articolul sincronizat",
+  "@syncOverlayDeleting": {},
+  "syncOverlaySyncing": "Sincronizând detaliile articolului",
+  "@syncOverlaySyncing": {},
+  "syncSelectDownloadsFolder": "Selectați folder-ul de desărcare",
+  "@syncSelectDownloadsFolder": {},
+  "syncNoFolderSetup": "Nu este configurat niciun folder de sincronizare",
+  "@syncNoFolderSetup": {},
+  "syncRemoveUnableToDeleteItem": "Nu se poate elimina elementul sincronizat, ceva nu a funcționat",
+  "@syncRemoveUnableToDeleteItem": {},
+  "syncAddItemForSyncing": "Articolul {item} a fost adăugat la sincronizare",
+  "@syncAddItemForSyncing": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "startedSyncingItem": "A început sincronizarea articolului {item}",
+  "@startedSyncingItem": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "unableToSyncItem": "Nu s-a putut sincroniza articolul {item}, ceva nu a funcționat",
+  "@unableToSyncItem": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutVersion": "Versiune: {version}",
+  "@aboutVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutBuild": "Build: {buildNumber}",
+  "@aboutBuild": {
+    "placeholders": {
+      "buildNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutCreatedBy": "Creat de DonutWare",
+  "@aboutCreatedBy": {},
+  "aboutSocials": "Rețele sociale",
+  "@aboutSocials": {},
+  "aboutLicenses": "Licențe",
+  "@aboutLicenses": {},
+  "subtitle": "Subtitrare",
+  "@subtitle": {},
+  "subtitleConfiguration": "Configurarea subtitrărilor",
+  "@subtitleConfiguration": {},
+  "off": "Oprit",
+  "@off": {},
+  "screenBrightness": "Luminozitatea ecranului",
+  "@screenBrightness": {},
+  "scale": "Scară",
+  "@scale": {},
+  "playBackSettings": "Setări de redare",
+  "@playBackSettings": {},
+  "settingsAutoNextTitle": "Previzualizarea următorului articol",
+  "@settingsAutoNextTitle": {},
+  "settingsAutoNextDesc": "Afișează o previzualizare a următorului articol aproape de final dacă un alt articol este în listă",
+  "@settingsAutoNextDesc": {},
+  "autoNextOffSmartTitle": "Inteligent",
+  "@autoNextOffSmartTitle": {},
+  "autoNextOffSmartDesc": "Afișează ecranul pentru următorul articol când încep creditele dacă rămân mai puțin de 10 secunde după derularea creditelor. Altfel arată ecranul pentru următorul articol când mai rămân 30 de secunde de redare",
+  "@autoNextOffSmartDesc": {},
+  "autoNextOffStaticTitle": "Static",
+  "@autoNextOffStaticTitle": {},
+  "autoNextOffStaticDesc": "Afișează ecranul pentru următorul articol când mai rămân 30 de secunde de redare",
+  "@autoNextOffStaticDesc": {},
+  "playbackRate": "Rata de redare",
+  "@playbackRate": {},
+  "speed": "Viteză",
+  "@speed": {},
+  "unableToPlayMedia": "A apărut o eroare în găsirea unui tip media compatibil",
+  "@unableToPlayMedia": {},
+  "errorOpeningMedia": "Ceva nu a funcționat în încercarea de a reda acest articol media",
+  "@errorOpeningMedia": {},
+  "unableToPlayBooksOnWeb": "Cărțile nu sunt acceptate pe web momentan",
+  "@unableToPlayBooksOnWeb": {},
+  "defaultFilterForLibrary": "Filtrul implicit pentru bibliotecă",
+  "@defaultFilterForLibrary": {},
+  "updateFilterForLibrary": "Actualizați filtrul",
+  "@updateFilterForLibrary": {},
+  "removeFilterForLibrary": "Eliminați {filter}?",
+  "@removeFilterForLibrary": {
+    "description": "removeFilterForLibrary",
+    "placeholders": {
+      "filter": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteFilterConfirmation": "Sunteți sigur că vreți să ștergeți acest filtru?",
+  "@deleteFilterConfirmation": {},
+  "libraryFiltersLimitReached": "Limita de filtre a fost atinsă (10) eliminați filtre",
+  "@libraryFiltersLimitReached": {},
+  "libraryFiltersRemoveAll": "Eliminați toate filtrele",
+  "@libraryFiltersRemoveAll": {},
+  "libraryFiltersRemoveAllConfirm": "Această acțiune va șterge toate filtrele salvate pentru toate bibliotecile",
+  "@libraryFiltersRemoveAllConfirm": {},
+  "playerSettingsOrientationTitle": "Orientarea player-ului",
+  "@playerSettingsOrientationTitle": {},
+  "playerSettingsOrientationDesc": "Forțați player-ul video în orientări anume",
+  "@playerSettingsOrientationDesc": {},
+  "deviceOrientationPortraitUp": "Portret în Sus",
+  "@deviceOrientationPortraitUp": {},
+  "deviceOrientationPortraitDown": "Portret în Jos",
+  "@deviceOrientationPortraitDown": {},
+  "deviceOrientationLandscapeLeft": "Tablou Stânga",
+  "@deviceOrientationLandscapeLeft": {},
+  "deviceOrientationLandscapeRight": "Tablou Dreapta",
+  "@deviceOrientationLandscapeRight": {},
+  "clientSettingsSchemeVariantTitle": "Varianta planului",
+  "@clientSettingsSchemeVariantTitle": {},
+  "schemeSettingsTonalSpot": "Pată tonală",
+  "@schemeSettingsTonalSpot": {},
+  "schemeSettingsFidelity": "Fidelitate",
+  "@schemeSettingsFidelity": {},
+  "schemeSettingsMonochrome": "Monocrom",
+  "@schemeSettingsMonochrome": {},
+  "schemeSettingsNeutral": "Neutru",
+  "@schemeSettingsNeutral": {}
 }
