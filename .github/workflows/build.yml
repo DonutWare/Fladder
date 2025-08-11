@@ -721,7 +721,6 @@ jobs:
   winget-package-submit:
     runs-on: ubuntu-latest
     needs: [check-trigger, create_release]
-    if: needs.check-trigger.outputs.build_type == 'release' || needs.check-trigger.outputs.build_type == 'nightly'
     strategy:
       matrix:
         include:
