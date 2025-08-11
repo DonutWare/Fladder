@@ -1456,5 +1456,11 @@
         "type": "int"
       }
     }
-  }
+  },
+  "nextVideo": "Vidéo suivante",
+  "@nextVideo": {},
+  "nextChapter": "Chapitre suivant",
+  "@nextChapter": {},
+  "prevChapter": "Chapitre précédent",
+  "@prevChapter": {}
 }
