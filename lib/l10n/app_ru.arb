@@ -1453,5 +1453,15 @@
         "type": "String"
       }
     }
+  },
+  "blurred": "Размытый",
+  "@blurred": {},
+  "volumeIndicator": "Громкость: {volume}",
+  "@volumeIndicator": {
+    "placeholders": {
+      "volume": {
+        "type": "int"
+      }
+    }
   }
 }
