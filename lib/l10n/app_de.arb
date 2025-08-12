@@ -1362,5 +1362,17 @@
   "usePostersForLibraryIconsTitle": "Poster für Bibliothekssymbole anzeigen",
   "@usePostersForLibraryIconsTitle": {},
   "usePostersForLibraryIconsDesc": "Poster anstelle von Icons für Bibliotheken anzeigen",
-  "@usePostersForLibraryIconsDesc": {}
+  "@usePostersForLibraryIconsDesc": {},
+  "offline": "Offline",
+  "@offline": {},
+  "nextVideo": "Nächstes Video",
+  "@nextVideo": {},
+  "prevVideo": "Vorheriges Video",
+  "@prevVideo": {},
+  "nextChapter": "Nächstes Kapitel",
+  "@nextChapter": {},
+  "prevChapter": "Vorheriges Kapitel",
+  "@prevChapter": {},
+  "fullScreen": "Vollbildschirm",
+  "@fullScreen": {}
 }
