@@ -1354,5 +1354,13 @@
   "settingsEnableOsMediaControlsDesc": "Ermöglicht die Wiedergabesteuerung mithilfe von Medientasten und zeigt die aktuell wiedergegebenen Medien im Betriebssystem an",
   "@settingsEnableOsMediaControlsDesc": {},
   "enableBackgroundPostersTitle": "Hintergrundbilder aktivieren",
-  "@enableBackgroundPostersTitle": {}
+  "@enableBackgroundPostersTitle": {},
+  "syncDeleteAll": "Alle Dateien löschen",
+  "@syncDeleteAll": {},
+  "syncAllFiles": "Alle Dateien synchronisieren",
+  "@syncAllFiles": {},
+  "usePostersForLibraryIconsTitle": "Poster für Bibliothekssymbole anzeigen",
+  "@usePostersForLibraryIconsTitle": {},
+  "usePostersForLibraryIconsDesc": "Poster anstelle von Icons für Bibliotheken anzeigen",
+  "@usePostersForLibraryIconsDesc": {}
 }
