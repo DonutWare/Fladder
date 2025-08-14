@@ -12,6 +12,7 @@ import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
+import 'package:fladder/providers/video_player_provider.dart';
 
 part 'user_provider.g.dart';
 
@@ -171,6 +172,7 @@ class User extends _$User {
   }
 
   Future<void> logoutUser() async {
+    await ref.read(videoPlayerProvider).stop();
     if (state == null) return;
     userState = null;
   }

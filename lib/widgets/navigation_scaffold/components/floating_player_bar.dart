@@ -58,10 +58,7 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
     }
   }
 
-  Future<void> stopPlayer() async {
-    ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(state: VideoPlayerState.disposed));
-    return ref.read(videoPlayerProvider).stop();
-  }
+  Future<void> stopPlayer() async => ref.read(videoPlayerProvider).stop();
 
   @override
   Widget build(BuildContext context) {
