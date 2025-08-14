@@ -662,6 +662,28 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  release_play_console:
+    name: Upload AAB to Google Play Console
+    needs:
+      - fetch-info
+      - create_release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Android Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: fladder-android
+          path: fladder-android
+
+      - name: Upload AAB to Google Play Console
+        uses: r0adkll/upload-google-play@v1.1.3
+        with:
+          serviceAccountJsonPlainText: ${{ SERVICE_ACCOUNT_JSON }}
+          packageName: "nl.jknaapen.fladder"
+          releaseFiles: "fladder-android/${{ needs.build-android.outputs.artifact_suffix }}.aab"
+          track: ${{ needs.fetch-info.outputs.build_type == 'nightly' && 'qa' || 'production' }}
+          status: ${{ needs.fetch-info.outputs.build_type == 'nightly' && 'completed' || 'draft' }}
+
   release_web:
     name: Release Web
     needs:
