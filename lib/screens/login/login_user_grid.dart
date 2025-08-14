@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:reorderable_grid/reorderable_grid.dart';
 
 import 'package:fladder/models/account_model.dart';
 import 'package:fladder/providers/auth_provider.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/screens/shared/user_icon.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/list_padding.dart';
 
 class LoginUserGrid extends ConsumerWidget {
@@ -39,7 +40,8 @@ class LoginUserGrid extends ConsumerWidget {
         return FlatButton(
           key: Key(user.id),
           onTap: () => editMode ? onLongPress?.call(user) : onPressed?.call(user),
-          onLongPress: () => onLongPress?.call(user),
+          onLongPress:
+              AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer ? () => onLongPress?.call(user) : null,
           child: _CardHolder(
             content: Stack(
               children: [

@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/account_model.dart';
 import 'package:fladder/providers/auth_provider.dart';
@@ -90,11 +90,13 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
                 if (!AdaptiveLayout.of(context).isDesktop)
                   FloatingActionButton(
                     key: const Key("edit_button"),
+                    heroTag: "edit_button",
                     child: const Icon(IconsaxPlusLinear.edit_2),
                     onPressed: () => setState(() => editingUsers = !editingUsers),
                   ),
                 FloatingActionButton(
                   key: const Key("new_button"),
+                  heroTag: "new_button",
                   child: const Icon(IconsaxPlusLinear.add_square),
                   onPressed: startAddingNewUser,
                 ),
