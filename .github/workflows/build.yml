@@ -667,9 +667,10 @@ jobs:
     needs:
       - fetch-info
       - create_release
+      - build-android
     runs-on: ubuntu-latest
     steps:
-      - name: Download Android Artifact
+      - name: Download Artifacts Android
         uses: actions/download-artifact@v4
         with:
           name: fladder-android
@@ -688,7 +689,6 @@ jobs:
     name: Release Web
     needs:
       - fetch-info
-      - build-android
       - create_release
     runs-on: ubuntu-latest
     if: needs.fetch-info.outputs.build_type == 'release'
