@@ -1413,5 +1413,55 @@
   "usePostersForLibraryIconsDesc": "عرض الملصقات بدلاً من الأيقونات للمكتبات",
   "@usePostersForLibraryIconsDesc": {},
   "offline": "غير متصل",
-  "@offline": {}
+  "@offline": {},
+  "shortCuts": "الاختصارات",
+  "@shortCuts": {},
+  "skipForwardLength": "مدة التقديم",
+  "@skipForwardLength": {},
+  "skipBackLength": "مدة الإرجاع",
+  "@skipBackLength": {},
+  "playPause": "تشغيل/إيقاف مؤقت",
+  "@playPause": {},
+  "seekForward": "تقديم",
+  "@seekForward": {},
+  "seekBack": "إرجاع",
+  "@seekBack": {},
+  "mute": "كتم الصوت",
+  "@mute": {},
+  "volumeUp": "رفع الصوت",
+  "@volumeUp": {},
+  "volumeDown": "خفض الصوت",
+  "@volumeDown": {},
+  "nextVideo": "الفيديو التالي",
+  "@nextVideo": {},
+  "prevVideo": "الفيديو السابق",
+  "@prevVideo": {},
+  "nextChapter": "الفصل التالي",
+  "@nextChapter": {},
+  "prevChapter": "الفصل السابق",
+  "@prevChapter": {},
+  "fullScreen": "ملئ الشاشة",
+  "@fullScreen": {},
+  "skipMediaSegment": "تخطي مقطع الوسائط",
+  "@skipMediaSegment": {},
+  "exit": "خروج",
+  "@exit": {},
+  "shortCutAlreadyAssigned": "تم تعيين الاختصار '{hotKey}' بالفعل",
+  "@shortCutAlreadyAssigned": {
+    "placeholders": {
+      "hotKey": {
+        "type": "String"
+      }
+    }
+  },
+  "blurred": "ضبابي",
+  "@blurred": {},
+  "volumeIndicator": "مستوى الصوت: {volume}",
+  "@volumeIndicator": {
+    "placeholders": {
+      "volume": {
+        "type": "int"
+      }
+    }
+  }
 }
