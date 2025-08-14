@@ -1185,7 +1185,7 @@
   "@playerSettingsBackendTitle": {},
   "playerSettingsBackendDesc": "选择您喜好的媒体播放器以获得最佳播放体验",
   "@playerSettingsBackendDesc": {},
-  "skipButtonLabel": "跳过{segment}",
+  "skipButtonLabel": "跳过 {segment}",
   "@skipButtonLabel": {
     "placeholders": {
       "segment": {
@@ -1410,5 +1410,57 @@
   "usePostersForLibraryIconsTitle": "显示媒体库图标的海报",
   "@usePostersForLibraryIconsTitle": {},
   "usePostersForLibraryIconsDesc": "显示媒体库海报而不是图标",
-  "@usePostersForLibraryIconsDesc": {}
+  "@usePostersForLibraryIconsDesc": {},
+  "offline": "离线",
+  "@offline": {},
+  "shortCuts": "快捷键",
+  "@shortCuts": {},
+  "skipForwardLength": "跳过向前的长度",
+  "@skipForwardLength": {},
+  "skipBackLength": "跳过向后的长度",
+  "@skipBackLength": {},
+  "playPause": "播放/暂停",
+  "@playPause": {},
+  "seekBack": "回退",
+  "@seekBack": {},
+  "mute": "静音",
+  "@mute": {},
+  "seekForward": "快进",
+  "@seekForward": {},
+  "volumeUp": "音量增大",
+  "@volumeUp": {},
+  "volumeDown": "音量降低",
+  "@volumeDown": {},
+  "nextVideo": "下一个视频",
+  "@nextVideo": {},
+  "prevVideo": "上一个视频",
+  "@prevVideo": {},
+  "nextChapter": "下一章",
+  "@nextChapter": {},
+  "prevChapter": "上一章",
+  "@prevChapter": {},
+  "fullScreen": "全屏",
+  "@fullScreen": {},
+  "skipMediaSegment": "跳过媒体片段",
+  "@skipMediaSegment": {},
+  "exit": "退出",
+  "@exit": {},
+  "shortCutAlreadyAssigned": "快捷键 '{hotKey}' 已经分配了",
+  "@shortCutAlreadyAssigned": {
+    "placeholders": {
+      "hotKey": {
+        "type": "String"
+      }
+    }
+  },
+  "blurred": "模糊",
+  "@blurred": {},
+  "volumeIndicator": "音量：{volume}",
+  "@volumeIndicator": {
+    "placeholders": {
+      "volume": {
+        "type": "int"
+      }
+    }
+  }
 }

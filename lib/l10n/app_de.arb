@@ -1119,7 +1119,7 @@
   "@unableToPlayBooksOnWeb": {},
   "clientSettingsShowAllCollectionsTitle": "Alle Kollektionstypen anzeigen",
   "@clientSettingsShowAllCollectionsTitle": {},
-  "skipButtonLabel": "(S) kip {segment}",
+  "skipButtonLabel": "{segment} überspringen",
   "@skipButtonLabel": {
     "placeholders": {
       "segment": {
@@ -1263,9 +1263,9 @@
   "@segmentActionSkip": {},
   "loading": "Wird geladen",
   "@loading": {},
-  "stop": "Beenden",
+  "stop": "Stopp",
   "@stop": {},
-  "resumeVideo": "Wiedergabe fortsetzen",
+  "resumeVideo": "Video fortsetzen",
   "@resumeVideo": {},
   "playNextVideo": "Nächstes Video abspielen",
   "@playNextVideo": {},
@@ -1331,7 +1331,7 @@
   "@playbackTypeOffline": {},
   "latestReleases": "Aktuelle Veröffentlichungen",
   "@latestReleases": {},
-  "newReleaseFoundTitle": "Update {newRelease} verfügbar!",
+  "newReleaseFoundTitle": "Aktualisierung {newRelease} verfügbar!",
   "@newReleaseFoundTitle": {
     "placeholders": {
       "newRelease": {
@@ -1339,9 +1339,9 @@
       }
     }
   },
-  "autoCheckForUpdates": "Regelmäßig nach Updates suchen",
+  "autoCheckForUpdates": "Regelmäßig auf Aktualisierungen prüfen",
   "@autoCheckForUpdates": {},
-  "newUpdateFoundOnGithub": "Habe ein neues Update auf Github gefunden",
+  "newUpdateFoundOnGithub": "Neue Aktualisierung auf Github gefunden",
   "@newUpdateFoundOnGithub": {},
   "rememberSubtitleSelectionsDesc": "Versuchen Sie, die Untertitelspur so einzustellen, dass sie dem letzten Video am nächsten kommt.",
   "@rememberSubtitleSelectionsDesc": {},
@@ -1349,10 +1349,75 @@
   "@rememberAudioSelectionsDesc": {},
   "playbackTrackSelection": "Auswahl der Wiedergabespur",
   "@playbackTrackSelection": {},
-  "enableBackgroundPostersDesc": "Zeigen Sie zufällige Poster in den entsprechenden Bildschirmen",
+  "enableBackgroundPostersDesc": "Zufällige Poster in den entsprechenden Bildschirmen anzeigen",
   "@enableBackgroundPostersDesc": {},
   "settingsEnableOsMediaControlsDesc": "Ermöglicht die Wiedergabesteuerung mithilfe von Medientasten und zeigt die aktuell wiedergegebenen Medien im Betriebssystem an",
   "@settingsEnableOsMediaControlsDesc": {},
-  "enableBackgroundPostersTitle": "Hintergrundbilder aktivieren",
-  "@enableBackgroundPostersTitle": {}
+  "enableBackgroundPostersTitle": "Hintergrundposter aktivieren",
+  "@enableBackgroundPostersTitle": {},
+  "syncDeleteAll": "Alle Dateien löschen",
+  "@syncDeleteAll": {},
+  "syncAllFiles": "Alle Dateien synchronisieren",
+  "@syncAllFiles": {},
+  "usePostersForLibraryIconsTitle": "Poster für Bibliothekssymbole anzeigen",
+  "@usePostersForLibraryIconsTitle": {},
+  "usePostersForLibraryIconsDesc": "Poster anstelle von Symbolen für Bibliotheken anzeigen",
+  "@usePostersForLibraryIconsDesc": {},
+  "offline": "Offline",
+  "@offline": {},
+  "nextVideo": "Nächstes Video",
+  "@nextVideo": {},
+  "prevVideo": "Vorheriges Video",
+  "@prevVideo": {},
+  "nextChapter": "Nächstes Kapitel",
+  "@nextChapter": {},
+  "prevChapter": "Vorheriges Kapitel",
+  "@prevChapter": {},
+  "fullScreen": "Vollbild",
+  "@fullScreen": {},
+  "blurred": "Unscharf",
+  "@blurred": {},
+  "volumeIndicator": "Lautstärke: {volume}",
+  "@volumeIndicator": {
+    "placeholders": {
+      "volume": {
+        "type": "int"
+      }
+    }
+  },
+  "notificationDownloadingDownloading": "Wird heruntergeladen",
+  "@notificationDownloadingDownloading": {},
+  "notificationDownloadingPaused": "Herunterladen pausiert",
+  "@notificationDownloadingPaused": {},
+  "notificationDownloadingFinished": "Herunterladen abgeschlossen",
+  "@notificationDownloadingFinished": {},
+  "notificationDownloadingError": "Fehler beim Herunterladen",
+  "@notificationDownloadingError": {},
+  "syncAllItemsTitle": "Alle Elemente aus {itemName} synchronisieren?",
+  "@syncAllItemsTitle": {
+    "description": "syncAllItemsFrom",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncPauseAll": "Alles pausieren",
+  "@syncPauseAll": {},
+  "syncResumeAll": "Alles fortsetzen",
+  "@syncResumeAll": {},
+  "syncStopAll": "Alles stoppen",
+  "@syncStopAll": {},
+  "playPause": "Wiedergabe/Pause",
+  "@playPause": {},
+  "mute": "Stummschalten",
+  "@mute": {},
+  "volumeUp": "Lautstärke erhöhen",
+  "@volumeUp": {},
+  "volumeDown": "Lautstärke verringern",
+  "@volumeDown": {},
+  "skipMediaSegment": "Medienbereich überspringen",
+  "@skipMediaSegment": {},
+  "exit": "Beenden",
+  "@exit": {}
 }

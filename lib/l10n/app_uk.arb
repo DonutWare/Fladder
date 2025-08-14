@@ -1421,5 +1421,55 @@
   "usePostersForLibraryIconsDesc": "Показувати постери замість іконок для бібліотек",
   "@usePostersForLibraryIconsDesc": {},
   "offline": "Офлайн",
-  "@offline": {}
+  "@offline": {},
+  "shortCuts": "Комбінації клавіш",
+  "@shortCuts": {},
+  "skipForwardLength": "Крок перемотування вперед",
+  "@skipForwardLength": {},
+  "skipBackLength": "Крок перемотування назад",
+  "@skipBackLength": {},
+  "playPause": "Відтворення/Пауза",
+  "@playPause": {},
+  "seekForward": "Перемотати вперед",
+  "@seekForward": {},
+  "seekBack": "Перемотати назад",
+  "@seekBack": {},
+  "mute": "Вимкнути звук",
+  "@mute": {},
+  "volumeUp": "Збільшити гучність",
+  "@volumeUp": {},
+  "volumeDown": "Зменшити гучність",
+  "@volumeDown": {},
+  "nextVideo": "Наступне відео",
+  "@nextVideo": {},
+  "prevVideo": "Попереднє відео",
+  "@prevVideo": {},
+  "nextChapter": "Наступний розділ",
+  "@nextChapter": {},
+  "prevChapter": "Попередній розділ",
+  "@prevChapter": {},
+  "fullScreen": "Повноекранний режим",
+  "@fullScreen": {},
+  "skipMediaSegment": "Пропустити медіа-сегмент",
+  "@skipMediaSegment": {},
+  "exit": "Вихід",
+  "@exit": {},
+  "shortCutAlreadyAssigned": "Комбінацію клавіш '{hotKey}' уже призначено",
+  "@shortCutAlreadyAssigned": {
+    "placeholders": {
+      "hotKey": {
+        "type": "String"
+      }
+    }
+  },
+  "blurred": "Розмитий",
+  "@blurred": {},
+  "volumeIndicator": "Гучність: {volume}",
+  "@volumeIndicator": {
+    "placeholders": {
+      "volume": {
+        "type": "int"
+      }
+    }
+  }
 }

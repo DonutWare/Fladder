@@ -902,7 +902,7 @@
   "@noVideoPlayerOptions": {},
   "mdkExperimental": "MDK hala deneysel bir aşamadadır",
   "@mdkExperimental": {},
-  "skipButtonLabel": "{segment} Atla (S)",
+  "skipButtonLabel": "{segment} Atla",
   "@skipButtonLabel": {
     "placeholders": {
       "segment": {
@@ -1407,5 +1407,61 @@
   "syncDeleteAll": "Tüm dosyaları sil",
   "@syncDeleteAll": {},
   "syncAllFiles": "Tüm dosyaları eşitle",
-  "@syncAllFiles": {}
+  "@syncAllFiles": {},
+  "offline": "Çevrimdışı",
+  "@offline": {},
+  "usePostersForLibraryIconsTitle": "Arşiv simgeleri için afişleri göster",
+  "@usePostersForLibraryIconsTitle": {},
+  "usePostersForLibraryIconsDesc": "Arşivler için simge yerine afiş göster",
+  "@usePostersForLibraryIconsDesc": {},
+  "shortCuts": "Kısayollar",
+  "@shortCuts": {},
+  "skipForwardLength": "İleri sarma uzunluğu",
+  "@skipForwardLength": {},
+  "skipBackLength": "Geri sarma uzunluğu",
+  "@skipBackLength": {},
+  "playPause": "Oynat/Duraklat",
+  "@playPause": {},
+  "seekForward": "İleri Sar",
+  "@seekForward": {},
+  "seekBack": "Geri Sar",
+  "@seekBack": {},
+  "mute": "Sessize Al",
+  "@mute": {},
+  "volumeUp": "Sesi Yükselt",
+  "@volumeUp": {},
+  "volumeDown": "Sesi Alçalt",
+  "@volumeDown": {},
+  "nextVideo": "Sonraki Video",
+  "@nextVideo": {},
+  "prevVideo": "Önceki Video",
+  "@prevVideo": {},
+  "nextChapter": "Sonraki Bölüm",
+  "@nextChapter": {},
+  "prevChapter": "Önceki Bölüm",
+  "@prevChapter": {},
+  "fullScreen": "Tam Ekran",
+  "@fullScreen": {},
+  "skipMediaSegment": "Medya Bölümünü Atla",
+  "@skipMediaSegment": {},
+  "exit": "Çıkış",
+  "@exit": {},
+  "shortCutAlreadyAssigned": "'{hotKey}' kısayolu zaten atanmış",
+  "@shortCutAlreadyAssigned": {
+    "placeholders": {
+      "hotKey": {
+        "type": "String"
+      }
+    }
+  },
+  "blurred": "Bulanık",
+  "@blurred": {},
+  "volumeIndicator": "Ses: {volume}",
+  "@volumeIndicator": {
+    "placeholders": {
+      "volume": {
+        "type": "int"
+      }
+    }
+  }
 }
