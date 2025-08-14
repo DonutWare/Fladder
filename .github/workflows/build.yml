@@ -688,6 +688,7 @@ jobs:
     name: Release Web
     needs:
       - fetch-info
+      - build-android
       - create_release
     runs-on: ubuntu-latest
     if: needs.fetch-info.outputs.build_type == 'release'
