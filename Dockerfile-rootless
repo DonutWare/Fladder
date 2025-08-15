@@ -4,8 +4,13 @@ EXPOSE 8080
 
 ENV BASE_URL=""
 
+USER root
 COPY build/web /usr/share/nginx/html
+RUN chown -R nginx:nginx /usr/share/nginx/html
 
-RUN echo '{"baseUrl": "${BASE_URL}"}' > /usr/share/nginx/html/assets/config/config.json
+USER nginx
+RUN mkdir -p /usr/share/nginx/html/assets/config && \
+    echo '{"baseUrl": "${BASE_URL}"}' > /usr/share/nginx/html/assets/config/config.json
 
+USER root
 CMD /bin/sh -c 'sed -i "s|\${BASE_URL}|${BASE_URL}|g" /usr/share/nginx/html/assets/config/config.json && nginx -g "daemon off;"'
