@@ -344,6 +344,7 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
                                   usernameController.text = value.name;
                                   passwordController.text = "";
                                   focusNode.requestFocus();
+                                  setState(() {});
                                 },
                               ),
                       ),
