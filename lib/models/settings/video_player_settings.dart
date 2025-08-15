@@ -6,13 +6,50 @@ import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:fladder/models/items/media_segments_model.dart';
+import 'package:fladder/models/settings/key_combinations.dart';
 import 'package:fladder/util/bitrate_helper.dart';
 import 'package:fladder/util/localization_helper.dart';
 
 part 'video_player_settings.freezed.dart';
 part 'video_player_settings.g.dart';
 
-@freezed
+enum VideoHotKeys {
+  playPause,
+  seekForward,
+  seekBack,
+  mute,
+  volumeUp,
+  volumeDown,
+  nextVideo,
+  prevVideo,
+  nextChapter,
+  prevChapter,
+  fullScreen,
+  skipMediaSegment,
+  exit;
+
+  const VideoHotKeys();
+
+  String label(BuildContext context) {
+    return switch (this) {
+      VideoHotKeys.playPause => context.localized.playPause,
+      VideoHotKeys.seekForward => context.localized.seekForward,
+      VideoHotKeys.seekBack => context.localized.seekBack,
+      VideoHotKeys.mute => context.localized.mute,
+      VideoHotKeys.volumeUp => context.localized.volumeUp,
+      VideoHotKeys.volumeDown => context.localized.volumeDown,
+      VideoHotKeys.nextVideo => context.localized.nextVideo,
+      VideoHotKeys.prevVideo => context.localized.prevVideo,
+      VideoHotKeys.nextChapter => context.localized.nextChapter,
+      VideoHotKeys.prevChapter => context.localized.prevChapter,
+      VideoHotKeys.fullScreen => context.localized.fullScreen,
+      VideoHotKeys.skipMediaSegment => context.localized.skipMediaSegment,
+      VideoHotKeys.exit => context.localized.exit,
+    };
+  }
+}
+
+@Freezed(copyWith: true)
 class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
   const VideoPlayerSettingsModel._();
 
@@ -31,6 +68,7 @@ class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     @Default(Bitrate.original) Bitrate maxInternetBitrate,
     String? audioDevice,
     @Default(defaultSegmentSkipValues) Map<MediaSegmentType, SegmentSkip> segmentSkipSettings,
+    @Default({}) Map<VideoHotKeys, KeyCombination> hotKeys,
   }) = _VideoPlayerSettingsModel;
 
   double get volume => switch (defaultTargetPlatform) {
@@ -42,8 +80,16 @@ class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
 
   PlayerOptions get wantedPlayer => playerOptions ?? PlayerOptions.platformDefaults;
 
+  Map<VideoHotKeys, KeyCombination> get currentShortcuts =>
+      _defaultVideoHotKeys.map((key, value) => MapEntry(key, hotKeys[key] ?? value));
+
+  Map<VideoHotKeys, KeyCombination> get defaultShortCuts => _defaultVideoHotKeys;
+
   bool playerSame(VideoPlayerSettingsModel other) {
-    return other.hardwareAccel == hardwareAccel && other.useLibass == useLibass && other.bufferSize == bufferSize && other.wantedPlayer == wantedPlayer;
+    return other.hardwareAccel == hardwareAccel &&
+        other.useLibass == useLibass &&
+        other.bufferSize == bufferSize &&
+        other.wantedPlayer == wantedPlayer;
   }
 
   @override
@@ -115,3 +161,33 @@ enum AutoNextType {
         AutoNextType.static => context.localized.autoNextOffStaticDesc,
       };
 }
+
+Map<VideoHotKeys, KeyCombination> get _defaultVideoHotKeys => {
+      for (var hotKey in VideoHotKeys.values)
+        hotKey: switch (hotKey) {
+          VideoHotKeys.playPause => KeyCombination(
+              key: LogicalKeyboardKey.space,
+              altKey: LogicalKeyboardKey.keyK,
+            ),
+          VideoHotKeys.seekForward => KeyCombination(
+              key: LogicalKeyboardKey.arrowRight,
+              altKey: LogicalKeyboardKey.keyL,
+            ),
+          VideoHotKeys.seekBack => KeyCombination(
+              key: LogicalKeyboardKey.arrowLeft,
+              altKey: LogicalKeyboardKey.keyJ,
+            ),
+          VideoHotKeys.mute => KeyCombination(key: LogicalKeyboardKey.keyM),
+          VideoHotKeys.volumeUp => KeyCombination(key: LogicalKeyboardKey.arrowUp),
+          VideoHotKeys.volumeDown => KeyCombination(key: LogicalKeyboardKey.arrowDown),
+          VideoHotKeys.prevVideo =>
+            KeyCombination(key: LogicalKeyboardKey.keyP, modifier: LogicalKeyboardKey.shiftLeft),
+          VideoHotKeys.nextVideo =>
+            KeyCombination(key: LogicalKeyboardKey.keyN, modifier: LogicalKeyboardKey.shiftLeft),
+          VideoHotKeys.nextChapter => KeyCombination(key: LogicalKeyboardKey.pageUp),
+          VideoHotKeys.prevChapter => KeyCombination(key: LogicalKeyboardKey.pageDown),
+          VideoHotKeys.fullScreen => KeyCombination(key: LogicalKeyboardKey.keyF),
+          VideoHotKeys.skipMediaSegment => KeyCombination(key: LogicalKeyboardKey.keyS),
+          VideoHotKeys.exit => KeyCombination(key: LogicalKeyboardKey.escape),
+        },
+    };

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
@@ -46,12 +47,37 @@ class _SyncedScreenState extends ConsumerState<SyncedScreen> {
             slivers: [
               if (AdaptiveLayout.viewSizeOf(context) == ViewSize.phone)
                 NestedSliverAppBar(
-                  searchTitle: "${context.localized.search} ...",
                   parent: context,
                   route: LibrarySearchRoute(),
                 )
               else
                 const DefaultSliverTopBadding(),
+              if (kDebugMode)
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: padding,
+                    child: Wrap(
+                      alignment: WrapAlignment.center,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      runAlignment: WrapAlignment.center,
+                      spacing: 12,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () => ref.read(syncProvider.notifier).viewDatabase(context),
+                          child: const Text("View Database"),
+                        ),
+                        ElevatedButton(
+                          onPressed: () => ref.read(syncProvider.notifier).removeAllSyncedData(),
+                          child: const Text("Clear drift database"),
+                        ),
+                        ElevatedButton(
+                          onPressed: () => ref.read(syncProvider.notifier).migrateFromIsar(),
+                          child: const Text("Migrate Isar to Drift"),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               if (items.isNotEmpty) ...[
                 SliverToBoxAdapter(
                   child: Padding(

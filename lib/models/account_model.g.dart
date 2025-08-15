@@ -31,6 +31,9 @@ _$AccountModelImpl _$$AccountModelImplFromJson(Map<String, dynamic> json) =>
                   LibraryFiltersModel.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      userSettings: json['userSettings'] == null
+          ? null
+          : UserSettings.fromJson(json['userSettings'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$AccountModelImplToJson(_$AccountModelImpl instance) =>
@@ -46,6 +49,7 @@ Map<String, dynamic> _$$AccountModelImplToJson(_$AccountModelImpl instance) =>
       'searchQueryHistory': instance.searchQueryHistory,
       'quickConnectState': instance.quickConnectState,
       'savedFilters': instance.savedFilters,
+      'userSettings': instance.userSettings,
     };
 
 const _$AuthenticationEnumMap = {
@@ -54,3 +58,20 @@ const _$AuthenticationEnumMap = {
   Authentication.passcode: 'passcode',
   Authentication.none: 'none',
 };
+
+_$UserSettingsImpl _$$UserSettingsImplFromJson(Map<String, dynamic> json) =>
+    _$UserSettingsImpl(
+      skipForwardDuration: json['skipForwardDuration'] == null
+          ? const Duration(seconds: 30)
+          : Duration(
+              microseconds: (json['skipForwardDuration'] as num).toInt()),
+      skipBackDuration: json['skipBackDuration'] == null
+          ? const Duration(seconds: 10)
+          : Duration(microseconds: (json['skipBackDuration'] as num).toInt()),
+    );
+
+Map<String, dynamic> _$$UserSettingsImplToJson(_$UserSettingsImpl instance) =>
+    <String, dynamic>{
+      'skipForwardDuration': instance.skipForwardDuration.inMicroseconds,
+      'skipBackDuration': instance.skipBackDuration.inMicroseconds,
+    };

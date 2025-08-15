@@ -6,7 +6,6 @@ import 'package:fladder/models/items/movie_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/related_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
-import 'package:fladder/providers/sync_provider.dart';
 
 part 'movies_details_provider.g.dart';
 
@@ -30,17 +29,8 @@ class MovieDetails extends _$MovieDetails {
       state = newState.copyWith(related: related.body);
       return null;
     } catch (e) {
-      _tryToCreateOfflineState(item);
       return null;
     }
-  }
-
-  void _tryToCreateOfflineState(ItemBaseModel item) {
-    final syncNotifier = ref.read(syncProvider.notifier);
-    final syncedItem = syncNotifier.getParentItem(item.id);
-    if (syncedItem == null) return;
-    final movieModel = syncedItem.createItemModel(ref) as MovieModel;
-    state = movieModel;
   }
 
   void setSubIndex(int index) {

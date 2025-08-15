@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:fladder/l10n/generated/app_localizations.dart';
+import 'package:fladder/models/settings/client_settings_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/settings/widgets/settings_label_divider.dart';
@@ -31,7 +32,7 @@ List<Widget> buildClientSettingsVisual(
           context: context,
           locale: ref.watch(clientSettingsProvider.select((value) => (value.selectedLocale ?? currentLocale))),
           child: Builder(builder: (context) {
-            String language = "Unknown";
+            String language = "English";
             try {
               language = context.localized.nativeName;
             } catch (_) {}
@@ -46,7 +47,7 @@ List<Widget> buildClientSettingsVisual(
                         context: context,
                         locale: entry,
                         child: Builder(builder: (context) {
-                          return Text("${context.localized.nativeName} (${entry.languageCode.toUpperCase()})");
+                          return Text("${context.localized.nativeName} (${entry.toDisplayCode()})");
                         }),
                       ),
                       onTap: () => ref
@@ -80,10 +81,40 @@ List<Widget> buildClientSettingsVisual(
       ),
       SettingsListTile(
         label: Text(context.localized.settingsEnableOsMediaControls),
+        subLabel: Text(context.localized.settingsEnableOsMediaControlsDesc),
         onTap: () => ref.read(clientSettingsProvider.notifier).setMediaKeys(!clientSettings.enableMediaKeys),
         trailing: Switch(
           value: clientSettings.enableMediaKeys,
           onChanged: (value) => ref.read(clientSettingsProvider.notifier).setMediaKeys(value),
+        ),
+      ),
+      SettingsListTile(
+        label: Text(context.localized.enableBackgroundPostersTitle),
+        subLabel: Text(context.localized.enableBackgroundPostersDesc),
+        trailing: EnumBox(
+          current: clientSettings.backgroundImage.label(context),
+          itemBuilder: (context) => BackgroundType.values
+              .map(
+                (e) => PopupMenuItem(
+                  value: e,
+                  child: Text(e.label(context)),
+                  onTap: () =>
+                      ref.read(clientSettingsProvider.notifier).update((cb) => cb.copyWith(backgroundImage: e)),
+                ),
+              )
+              .toList(),
+        ),
+      ),
+      SettingsListTile(
+        label: Text(context.localized.usePostersForLibraryIconsTitle),
+        subLabel: Text(context.localized.usePostersForLibraryIconsDesc),
+        onTap: () => ref
+            .read(clientSettingsProvider.notifier)
+            .update((cb) => cb.copyWith(usePosterForLibrary: !clientSettings.usePosterForLibrary)),
+        trailing: Switch(
+          value: clientSettings.usePosterForLibrary,
+          onChanged: (value) =>
+              ref.read(clientSettingsProvider.notifier).update((cb) => cb.copyWith(usePosterForLibrary: value)),
         ),
       ),
       SettingsListTile(

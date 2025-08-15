@@ -234,32 +234,6 @@ class _$LibraryScreenModelImpl implements _LibraryScreenModel {
     return 'LibraryScreenModel(views: $views, selectedViewModel: $selectedViewModel, viewType: $viewType, recommendations: $recommendations, genres: $genres, favourites: $favourites)';
   }
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$LibraryScreenModelImpl &&
-            const DeepCollectionEquality().equals(other._views, _views) &&
-            (identical(other.selectedViewModel, selectedViewModel) ||
-                other.selectedViewModel == selectedViewModel) &&
-            const DeepCollectionEquality().equals(other._viewType, _viewType) &&
-            const DeepCollectionEquality()
-                .equals(other._recommendations, _recommendations) &&
-            const DeepCollectionEquality().equals(other._genres, _genres) &&
-            const DeepCollectionEquality()
-                .equals(other._favourites, _favourites));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_views),
-      selectedViewModel,
-      const DeepCollectionEquality().hash(_viewType),
-      const DeepCollectionEquality().hash(_recommendations),
-      const DeepCollectionEquality().hash(_genres),
-      const DeepCollectionEquality().hash(_favourites));
-
   /// Create a copy of LibraryScreenModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)

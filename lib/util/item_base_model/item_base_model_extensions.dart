@@ -109,8 +109,8 @@ extension ItemBaseModelExtensions on ItemBaseModel {
         )) &&
         syncAble &&
         (canDownload ?? false);
-    final syncedItem = ref.read(syncProvider.notifier).getSyncedItem(this);
     final downloadUrl = ref.read(userProvider.notifier).createDownloadUrl(this);
+    final syncedItemFuture = ref.read(syncProvider.notifier).getSyncedItem(id);
     return [
       if (!exclude.contains(ItemActions.play))
         if (playAble)
@@ -185,9 +185,12 @@ extension ItemBaseModelExtensions on ItemBaseModel {
         ItemActionButton(
           icon: const Icon(IconsaxPlusLinear.eye),
           action: () async {
-            final userData = await ref.read(userProvider.notifier).markAsPlayed(true, id);
-            onUserDataChanged?.call(userData?.bodyOrThrow);
-            context.refreshData();
+            try {
+              final userData = await ref.read(userProvider.notifier).markAsPlayed(true, id);
+              onUserDataChanged?.call(userData?.bodyOrThrow);
+            } finally {
+              context.refreshData();
+            }
           },
           label: Text(context.localized.markAsWatched),
         ),
@@ -196,18 +199,24 @@ extension ItemBaseModelExtensions on ItemBaseModel {
           icon: const Icon(IconsaxPlusLinear.eye_slash),
           label: Text(context.localized.markAsUnwatched),
           action: () async {
-            final userData = await ref.read(userProvider.notifier).markAsPlayed(false, id);
-            onUserDataChanged?.call(userData?.bodyOrThrow);
-            context.refreshData();
+            try {
+              final userData = await ref.read(userProvider.notifier).markAsPlayed(false, id);
+              onUserDataChanged?.call(userData?.bodyOrThrow);
+            } finally {
+              context.refreshData();
+            }
           },
         ),
       if (!exclude.contains(ItemActions.setFavorite))
         ItemActionButton(
           icon: Icon(userData.isFavourite ? IconsaxPlusLinear.heart_remove : IconsaxPlusLinear.heart_add),
           action: () async {
-            final newData = await ref.read(userProvider.notifier).setAsFavorite(!userData.isFavourite, id);
-            onUserDataChanged?.call(newData?.bodyOrThrow);
-            context.refreshData();
+            try {
+              final newData = await ref.read(userProvider.notifier).setAsFavorite(!userData.isFavourite, id);
+              onUserDataChanged?.call(newData?.bodyOrThrow);
+            } finally {
+              context.refreshData();
+            }
           },
           label: Text(userData.isFavourite ? context.localized.removeAsFavorite : context.localized.addAsFavorite),
         ),
@@ -234,18 +243,39 @@ extension ItemBaseModelExtensions on ItemBaseModel {
         ),
       if (!exclude.contains(ItemActions.download) && downloadEnabled) ...[
         if (!kIsWeb)
-          if (syncedItem == null)
-            ItemActionButton(
-              icon: const Icon(IconsaxPlusLinear.arrow_down_2),
-              label: Text(context.localized.sync),
-              action: () => ref.read(syncProvider.notifier).addSyncItem(context, this),
-            )
-          else
-            ItemActionButton(
-              icon: IgnorePointer(child: SyncButton(item: this, syncedItem: syncedItem)),
-              action: () => showSyncItemDetails(context, syncedItem, ref),
-              label: Text(context.localized.syncDetails),
-            )
+          ItemActionButton(
+            icon: FutureBuilder(
+              future: syncedItemFuture,
+              builder: (context, snapshot) {
+                final syncedItem = snapshot.data;
+                if (syncedItem != null) {
+                  return IgnorePointer(child: SyncButton(item: this, syncedItem: syncedItem));
+                }
+                return const Icon(IconsaxPlusLinear.arrow_down_2);
+              },
+            ),
+            label: FutureBuilder(
+              future: syncedItemFuture,
+              builder: (context, snapshot) {
+                final syncedItem = snapshot.data;
+                if (syncedItem != null) {
+                  return Text(
+                    context.localized.syncDetails,
+                  );
+                }
+                return Text(context.localized.sync);
+              },
+            ),
+            action: () async {
+              final syncedItem = await syncedItemFuture;
+              if (syncedItem != null) {
+                await showSyncItemDetails(context, syncedItem, ref);
+              } else {
+                await ref.read(syncProvider.notifier).addSyncItem(context, this);
+              }
+              context.refreshData();
+            },
+          )
         else if (downloadUrl != null) ...[
           ItemActionButton(
             icon: const Icon(IconsaxPlusLinear.document_download),

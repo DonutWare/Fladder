@@ -41,9 +41,18 @@ _$ClientSettingsModelImpl _$$ClientSettingsModelImplFromJson(
       schemeVariant: $enumDecodeNullable(
               _$DynamicSchemeVariantEnumMap, json['schemeVariant']) ??
           DynamicSchemeVariant.rainbow,
+      backgroundImage: $enumDecodeNullable(
+              _$BackgroundTypeEnumMap, json['backgroundImage']) ??
+          BackgroundType.blurred,
       checkForUpdates: json['checkForUpdates'] as bool? ?? true,
+      usePosterForLibrary: json['usePosterForLibrary'] as bool? ?? false,
       lastViewedUpdate: json['lastViewedUpdate'] as String?,
       libraryPageSize: (json['libraryPageSize'] as num?)?.toInt(),
+      shortcuts: (json['shortcuts'] as Map<String, dynamic>?)?.map(
+            (k, e) => MapEntry($enumDecode(_$GlobalHotKeysEnumMap, k),
+                KeyCombination.fromJson(e as Map<String, dynamic>)),
+          ) ??
+          const {},
     );
 
 Map<String, dynamic> _$$ClientSettingsModelImplToJson(
@@ -68,9 +77,13 @@ Map<String, dynamic> _$$ClientSettingsModelImplToJson(
       'showAllCollectionTypes': instance.showAllCollectionTypes,
       'maxConcurrentDownloads': instance.maxConcurrentDownloads,
       'schemeVariant': _$DynamicSchemeVariantEnumMap[instance.schemeVariant]!,
+      'backgroundImage': _$BackgroundTypeEnumMap[instance.backgroundImage]!,
       'checkForUpdates': instance.checkForUpdates,
+      'usePosterForLibrary': instance.usePosterForLibrary,
       'lastViewedUpdate': instance.lastViewedUpdate,
       'libraryPageSize': instance.libraryPageSize,
+      'shortcuts': instance.shortcuts
+          .map((k, e) => MapEntry(_$GlobalHotKeysEnumMap[k]!, e)),
     };
 
 const _$ThemeModeEnumMap = {
@@ -107,4 +120,15 @@ const _$DynamicSchemeVariantEnumMap = {
   DynamicSchemeVariant.content: 'content',
   DynamicSchemeVariant.rainbow: 'rainbow',
   DynamicSchemeVariant.fruitSalad: 'fruitSalad',
+};
+
+const _$BackgroundTypeEnumMap = {
+  BackgroundType.disabled: 'disabled',
+  BackgroundType.enabled: 'enabled',
+  BackgroundType.blurred: 'blurred',
+};
+
+const _$GlobalHotKeysEnumMap = {
+  GlobalHotKeys.search: 'search',
+  GlobalHotKeys.exit: 'exit',
 };

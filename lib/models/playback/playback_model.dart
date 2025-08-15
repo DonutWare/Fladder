@@ -1,7 +1,8 @@
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide ConnectionState;
 
+import 'package:background_downloader/background_downloader.dart';
 import 'package:chopper/chopper.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,6 +12,7 @@ import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/chapters_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
+import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/season_model.dart';
@@ -24,9 +26,9 @@ import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/models/video_stream_model.dart';
 import 'package:fladder/profiles/default_profile.dart';
 import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
-import 'package:fladder/providers/sync/sync_provider_helpers.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
@@ -84,6 +86,8 @@ class PlaybackModel {
 
   Future<Duration>? startDuration() async => item.userData.playBackPosition;
 
+  PlaybackModel? updateUserData(UserData userData) => throw UnimplementedError();
+
   Future<PlaybackModel>? setSubtitle(SubStreamModel? model, MediaControlsWrapper player) => throw UnimplementedError();
   Future<PlaybackModel>? setAudio(AudioStreamModel? model, MediaControlsWrapper player) => throw UnimplementedError();
   Future<PlaybackModel>? setQualityOption(Map<Bitrate, bool> map) => throw UnimplementedError();
@@ -128,7 +132,8 @@ class PlaybackModelHelper {
         )) ??
         await _createOfflinePlaybackModel(
           newItem,
-          ref.read(syncProvider.notifier).getSyncedItem(newItem),
+          null,
+          await ref.read(syncProvider.notifier).getSyncedItem(newItem.id),
           oldModel: currentModel,
         );
     if (newModel == null) return null;
@@ -138,15 +143,17 @@ class PlaybackModelHelper {
 
   Future<OfflinePlaybackModel?> _createOfflinePlaybackModel(
     ItemBaseModel item,
+    MediaStreamsModel? streamModel,
     SyncedItem? syncedItem, {
     PlaybackModel? oldModel,
   }) async {
-    final ItemBaseModel? syncedItemModel = ref.read(syncProvider.notifier).getItem(syncedItem);
-    if (syncedItemModel == null || syncedItem == null || !syncedItem.dataFile.existsSync()) return null;
+    final ItemBaseModel? syncedItemModel = syncedItem?.itemModel;
+    if (syncedItemModel == null || syncedItem == null || !await syncedItem.videoFile.exists()) return null;
 
-    final children = ref.read(syncChildrenProvider(syncedItem));
-    final syncedItems = children.where((element) => element.videoFile.existsSync()).toList();
-    final itemQueue = syncedItems.map((e) => e.createItemModel(ref));
+    final children = await ref.read(syncProvider.notifier).getSiblings(syncedItem);
+    final syncedItems =
+        children.where((element) => element.videoFile.existsSync() && element.id != syncedItem.id).toList();
+    final itemQueue = syncedItems.map((e) => e.itemModel).nonNulls;
 
     return OfflinePlaybackModel(
       item: syncedItemModel,
@@ -168,66 +175,84 @@ class PlaybackModelHelper {
     bool showPlaybackOptions = false,
     Duration? startPosition,
   }) async {
-    if (item == null) return null;
-    final userId = ref.read(userProvider)?.id;
-    if (userId?.isEmpty == true) return null;
+    try {
+      if (item == null) return null;
+      final userId = ref.read(userProvider)?.id;
+      if (userId?.isEmpty == true) return null;
 
-    final queue = oldModel?.queue ?? libraryQueue ?? await collectQueue(item);
+      final queue = oldModel?.queue ?? libraryQueue ?? await collectQueue(item);
 
-    final firstItemToPlay = switch (item) {
-      SeriesModel _ || SeasonModel _ => (queue.whereType<EpisodeModel>().toList().nextUp),
-      _ => item,
-    };
-
-    if (firstItemToPlay == null) return null;
-
-    final fullItem = (await api.usersUserIdItemsItemIdGet(itemId: firstItemToPlay.id)).body;
-
-    if (fullItem == null) return null;
-
-    SyncedItem? syncedItem = ref.read(syncProvider.notifier).getSyncedItem(fullItem);
-
-    final firstItemIsSynced = syncedItem != null && syncedItem.status == SyncStatus.complete;
-
-    final options = {
-      PlaybackType.directStream,
-      PlaybackType.transcode,
-      if (firstItemIsSynced) PlaybackType.offline,
-    };
-
-    if ((showPlaybackOptions || firstItemIsSynced) && context != null) {
-      final playbackType = await showPlaybackTypeSelection(
-        context: context,
-        options: options,
-      );
-
-      if (!context.mounted) return null;
-
-      return switch (playbackType) {
-        PlaybackType.directStream || PlaybackType.transcode => await _createServerPlaybackModel(
-            fullItem,
-            playbackType,
-            oldModel: oldModel,
-            libraryQueue: queue,
-            startPosition: startPosition,
-          ),
-        PlaybackType.offline => await _createOfflinePlaybackModel(fullItem, syncedItem),
-        null => null
+      final firstItemToPlay = switch (item) {
+        SeriesModel _ || SeasonModel _ => (queue.whereType<EpisodeModel>().toList().nextUp),
+        _ => item,
       };
-    } else {
-      return (await _createServerPlaybackModel(
-            fullItem,
-            PlaybackType.directStream,
-            startPosition: startPosition,
-            oldModel: oldModel,
-            libraryQueue: queue,
-          )) ??
-          await _createOfflinePlaybackModel(fullItem, syncedItem);
+
+      if (firstItemToPlay == null) return null;
+
+      final fullItem = (await api.usersUserIdItemsItemIdGet(itemId: firstItemToPlay.id)).body;
+
+      if (fullItem == null) return null;
+
+      SyncedItem? syncedItem = await ref.read(syncProvider.notifier).getSyncedItem(fullItem.id);
+
+      final firstItemIsSynced = syncedItem != null && syncedItem.status == TaskStatus.complete;
+
+      final options = {
+        PlaybackType.directStream,
+        PlaybackType.transcode,
+        if (firstItemIsSynced) PlaybackType.offline,
+      };
+
+      final isOffline = ref.read(connectivityStatusProvider.select((value) => value == ConnectionState.offline));
+
+      if (((showPlaybackOptions || firstItemIsSynced) && !isOffline) && context != null) {
+        final playbackType = await showPlaybackTypeSelection(
+          context: context,
+          options: options,
+        );
+
+        if (!context.mounted) return null;
+
+        return switch (playbackType) {
+          PlaybackType.directStream || PlaybackType.transcode => await _createServerPlaybackModel(
+              fullItem,
+              item.streamModel,
+              playbackType,
+              oldModel: oldModel,
+              libraryQueue: queue,
+              startPosition: startPosition,
+            ),
+          PlaybackType.offline => await _createOfflinePlaybackModel(
+              fullItem,
+              item.streamModel,
+              syncedItem,
+            ),
+          null => null
+        };
+      } else {
+        return (await _createServerPlaybackModel(
+              fullItem,
+              item.streamModel,
+              PlaybackType.directStream,
+              startPosition: startPosition,
+              oldModel: oldModel,
+              libraryQueue: queue,
+            )) ??
+            await _createOfflinePlaybackModel(
+              fullItem,
+              item.streamModel,
+              syncedItem,
+            );
+      }
+    } catch (e) {
+      log("Error creating playback model: ${e.toString()}");
+      return null;
     }
   }
 
   Future<PlaybackModel?> _createServerPlaybackModel(
     ItemBaseModel item,
+    MediaStreamsModel? streamModel,
     PlaybackType? type, {
     PlaybackModel? oldModel,
     required List<ItemBaseModel> libraryQueue,
@@ -237,25 +262,26 @@ class PlaybackModelHelper {
       final userId = ref.read(userProvider)?.id;
       if (userId?.isEmpty == true) return null;
 
+      final newStreamModel = streamModel ?? item.streamModel;
+
       Map<Bitrate, bool> qualityOptions = getVideoQualityOptions(
         VideoQualitySettings(
           maxBitRate: ref.read(videoPlayerSettingsProvider.select((value) => value.maxHomeBitrate)),
-          videoBitRate: item.streamModel?.videoStreams.firstOrNull?.bitRate ?? 0,
-          videoCodec: item.streamModel?.videoStreams.firstOrNull?.codec,
+          videoBitRate: newStreamModel?.videoStreams.firstOrNull?.bitRate ?? 0,
+          videoCodec: newStreamModel?.videoStreams.firstOrNull?.codec,
         ),
       );
 
-      final streamModel = item.streamModel;
       final audioStreamIndex = selectAudioStream(
           ref.read(userProvider.select((value) => value?.userConfiguration?.rememberAudioSelections ?? true)),
           oldModel?.mediaStreams?.currentAudioStream,
-          streamModel?.audioStreams,
-          streamModel?.defaultAudioStreamIndex);
+          newStreamModel?.audioStreams,
+          newStreamModel?.defaultAudioStreamIndex);
       final subStreamIndex = selectSubStream(
           ref.read(userProvider.select((value) => value?.userConfiguration?.rememberSubtitleSelections ?? true)),
           oldModel?.mediaStreams?.currentSubStream,
-          streamModel?.subStreams,
-          streamModel?.defaultSubStreamIndex);
+          newStreamModel?.subStreams,
+          newStreamModel?.defaultSubStreamIndex);
 
       final Response<PlaybackInfoResponse> response = await api.itemsItemIdPlaybackInfoPost(
         itemId: item.id,
@@ -270,7 +296,7 @@ class PlaybackModelHelper {
           enableDirectPlay: type != PlaybackType.transcode,
           enableDirectStream: type != PlaybackType.transcode,
           maxStreamingBitrate: qualityOptions.enabledFirst.keys.firstOrNull?.bitRate,
-          mediaSourceId: streamModel?.currentVersionStream?.id,
+          mediaSourceId: newStreamModel?.currentVersionStream?.id,
         ),
       );
 
@@ -278,7 +304,7 @@ class PlaybackModelHelper {
 
       if (playbackInfo == null) return null;
 
-      final mediaSource = playbackInfo.mediaSources?[streamModel?.versionStreamIndex ?? 0];
+      final mediaSource = playbackInfo.mediaSources?[newStreamModel?.versionStreamIndex ?? 0];
 
       if (mediaSource == null) return null;
 

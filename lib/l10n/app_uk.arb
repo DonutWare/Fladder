@@ -1349,5 +1349,127 @@
     }
   },
   "newUpdateFoundOnGithub": "Знайдено нове оновлення на Github",
-  "@newUpdateFoundOnGithub": {}
+  "@newUpdateFoundOnGithub": {},
+  "enableBackgroundPostersTitle": "Увімкнути фонові постери",
+  "@enableBackgroundPostersTitle": {},
+  "settingsEnableOsMediaControlsDesc": "Дозволяє керувати відтворенням за допомогою медіа-клавіш та показувати поточний відтворюваний медіафайл в ОС",
+  "@settingsEnableOsMediaControlsDesc": {},
+  "enableBackgroundPostersDesc": "Показувати випадкові постери на відповідних екранах",
+  "@enableBackgroundPostersDesc": {},
+  "notificationDownloadingDownloading": "Завантаження",
+  "@notificationDownloadingDownloading": {},
+  "notificationDownloadingPaused": "Завантаження призупинено",
+  "@notificationDownloadingPaused": {},
+  "notificationDownloadingFinished": "Завантаження завершено",
+  "@notificationDownloadingFinished": {},
+  "notificationDownloadingError": "Помилка завантаження",
+  "@notificationDownloadingError": {},
+  "syncAllItemsTitle": "Синхронізувати всі елементи з {itemName}?",
+  "@syncAllItemsTitle": {
+    "description": "syncAllItemsFrom",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncAllItemsDesc": "Це синхронізує ({itemCount}) елементів з '{itemName}' на ваш пристрій.\nЦе може зайняти деякий час, залежно від кількості елементів.",
+  "@syncAllItemsDesc": {
+    "description": "syncAllitemsFromDesc",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      },
+      "itemCount": {
+        "type": "int"
+      }
+    }
+  },
+  "syncDeleteAllItemsTitle": "Видалити всі синхронізовані елементи з {itemName}?",
+  "@syncDeleteAllItemsTitle": {
+    "description": "syncDeleteAllitemsFrom",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncDeleteAllItemsDesc": "Це видалить усі синхронізовані елементи з '{itemName}'.\nЦе остаточне рішення, і вам доведеться повторно синхронізувати ({itemCount}) файлів.",
+  "@syncDeleteAllItemsDesc": {
+    "description": "syncDeleteAllitemsFromDesc",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      },
+      "itemCount": {
+        "type": "int"
+      }
+    }
+  },
+  "syncPauseAll": "Призупинити все",
+  "@syncPauseAll": {},
+  "syncResumeAll": "Відновити все",
+  "@syncResumeAll": {},
+  "syncStopAll": "Зупинити все",
+  "@syncStopAll": {},
+  "syncDeleteAll": "Видалити всі файли",
+  "@syncDeleteAll": {},
+  "syncAllFiles": "Синхронізувати всі файли",
+  "@syncAllFiles": {},
+  "usePostersForLibraryIconsTitle": "Показати постери для іконок бібліотеки",
+  "@usePostersForLibraryIconsTitle": {},
+  "usePostersForLibraryIconsDesc": "Показувати постери замість іконок для бібліотек",
+  "@usePostersForLibraryIconsDesc": {},
+  "offline": "Офлайн",
+  "@offline": {},
+  "shortCuts": "Комбінації клавіш",
+  "@shortCuts": {},
+  "skipForwardLength": "Крок перемотування вперед",
+  "@skipForwardLength": {},
+  "skipBackLength": "Крок перемотування назад",
+  "@skipBackLength": {},
+  "playPause": "Відтворення/Пауза",
+  "@playPause": {},
+  "seekForward": "Перемотати вперед",
+  "@seekForward": {},
+  "seekBack": "Перемотати назад",
+  "@seekBack": {},
+  "mute": "Вимкнути звук",
+  "@mute": {},
+  "volumeUp": "Збільшити гучність",
+  "@volumeUp": {},
+  "volumeDown": "Зменшити гучність",
+  "@volumeDown": {},
+  "nextVideo": "Наступне відео",
+  "@nextVideo": {},
+  "prevVideo": "Попереднє відео",
+  "@prevVideo": {},
+  "nextChapter": "Наступний розділ",
+  "@nextChapter": {},
+  "prevChapter": "Попередній розділ",
+  "@prevChapter": {},
+  "fullScreen": "Повноекранний режим",
+  "@fullScreen": {},
+  "skipMediaSegment": "Пропустити медіа-сегмент",
+  "@skipMediaSegment": {},
+  "exit": "Вихід",
+  "@exit": {},
+  "shortCutAlreadyAssigned": "Комбінацію клавіш '{hotKey}' уже призначено",
+  "@shortCutAlreadyAssigned": {
+    "placeholders": {
+      "hotKey": {
+        "type": "String"
+      }
+    }
+  },
+  "blurred": "Розмитий",
+  "@blurred": {},
+  "volumeIndicator": "Гучність: {volume}",
+  "@volumeIndicator": {
+    "placeholders": {
+      "volume": {
+        "type": "int"
+      }
+    }
+  }
 }

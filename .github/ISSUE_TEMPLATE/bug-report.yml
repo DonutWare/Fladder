@@ -1,6 +1,6 @@
 name: "🐛 Bug Report"
 description: Create a new ticket for a bug.
-title: "🐛 <title>"
+title: "🐛 "
 labels: ["bug"]
 type: "Bug"
 body:
@@ -16,7 +16,7 @@ body:
     id: reprod
     attributes:
       label: "Reproduction steps"
-      description: Please enter an explicit description of your issue
+      description: Please provide clear steps to reproduce the bug
       value: |
         1. Go to '...'
         2. Click on '....'
@@ -30,9 +30,7 @@ body:
     attributes:
       label: "Screenshots"
       description: If applicable, add screenshots to help explain your problem.
-      value: |
-        ![DESCRIPTION](LINK.png)
-      render: bash
+      placeholder: "Drag and drop screenshots here, or paste image URLs using ![description](image-url)"
     validations:
       required: false
   - type: textarea
@@ -54,12 +52,15 @@ body:
         - iOS
         - Linux
         - Windows
-        - Macos
+        - macOS
         - Web
     validations:
       required: true
   - type: input
+    id: version
     attributes:
       label: App Version
       description: What version of Fladder are you using?
-      placeholder: e.g. v0.2.1 (25) or just v0.2.1
+      placeholder: e.g. v0.7.0 (267)
+    validations:
+      required: true

@@ -4,14 +4,14 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide ConnectionState;
 
 import 'package:background_downloader/background_downloader.dart';
 import 'package:collection/collection.dart';
+import 'package:drift_db_viewer/drift_db_viewer.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
-import 'package:isar/isar.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 
@@ -20,31 +20,80 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/chapters_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/items/images_models.dart';
+import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/movie_model.dart';
+import 'package:fladder/models/items/season_model.dart';
 import 'package:fladder/models/items/series_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
+import 'package:fladder/models/syncing/database_item.dart';
 import 'package:fladder/models/syncing/download_stream.dart';
-import 'package:fladder/models/syncing/i_synced_item.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/models/syncing/sync_settings_model.dart';
 import 'package:fladder/models/video_stream_model.dart';
 import 'package:fladder/profiles/default_profile.dart';
 import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/sync/background_download_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/util/migration/isar_drift_migration.dart';
 
 final syncProvider = StateNotifierProvider<SyncNotifier, SyncSettingsModel>((ref) => throw UnimplementedError());
 
 final downloadTasksProvider = StateProvider.family<DownloadStream, String>((ref, id) => DownloadStream.empty());
 
 class SyncNotifier extends StateNotifier<SyncSettingsModel> {
-  SyncNotifier(this.ref, this.isar, this.mobileDirectory) : super(SyncSettingsModel()) {
+  SyncNotifier(this.ref, this.mobileDirectory) : super(SyncSettingsModel()) {
     _init();
+  }
+
+  final Ref ref;
+  late AppDatabase _db = AppDatabase(ref);
+  final Directory mobileDirectory;
+  final String subPath = "Synced";
+
+  bool updatingSyncStatus = false;
+
+  StreamSubscription<List<SyncedItem>>? _subscription;
+
+  @override
+  set state(SyncSettingsModel value) {
+    super.state = value;
+    updateSyncStates();
+  }
+
+  void migrateFromIsar() async {
+    await isarMigration(ref, _db, mainDirectory.path);
+    _initializeQueryStream();
+  }
+
+  Future<void> updateSyncStates() async {
+    final lastState =
+        (await _db.getAllItems.get()).where((item) => item.unSyncedData && item.userData != null).toList();
+    if (updatingSyncStatus || lastState.isEmpty) return;
+    updatingSyncStatus = true;
+    try {
+      for (final item in lastState) {
+        if (item.userData == null) continue;
+        final updatedItem =
+            await ref.read(jellyApiProvider).userItemsItemIdUserDataPost(itemId: item.id, body: item.userData);
+        if (updatedItem?.isSuccessful == true) {
+          final syncedItem = item.copyWith(unSyncedData: false);
+          await _db.insertItem(syncedItem);
+        } else {
+          break;
+        }
+      }
+    } catch (e) {
+      // log('Error updating sync states: $e');
+    } finally {
+      updatingSyncStatus = false;
+    }
   }
 
   void _init() {
@@ -54,35 +103,33 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
       (previous, next) {
         if (previous?.id != next?.id) {
           if (next?.id != null) {
-            _initializeQueryStream(next?.id ?? "");
+            _initializeQueryStream(id: next!.id);
           }
         }
       },
     );
 
-    final userId = ref.read(userProvider)?.id;
-    if (userId != null) {
-      _initializeQueryStream(userId);
-    }
+    ref.listen(connectivityStatusProvider, (_, next) {
+      if (next != ConnectionState.offline) {
+        updateSyncStates();
+      }
+    });
+    migrateFromIsar();
   }
 
-  void _initializeQueryStream(String userId) {
+  void _initializeQueryStream({String? id}) async {
+    final userId = id ?? ref.read(userProvider)?.id;
     _subscription?.cancel();
+    state = state.copyWith(items: []);
 
-    final queryStream = getParentSyncItems
-        ?.userIdEqualTo(userId)
-        .watch()
-        .asyncMap((event) => event.map((e) => SyncedItem.fromIsar(e, syncPath ?? "")).toList());
+    if (userId == null) return;
 
-    final initItems = getParentSyncItems
-        ?.userIdEqualTo(userId)
-        .findAll()
-        .mapIndexed((index, element) => SyncedItem.fromIsar(element, syncPath ?? ""))
-        .toList();
+    final queryStream = _db.getParentItems.watch().distinct();
+    final initItems = await _db.getParentItems.get();
 
-    state = state.copyWith(items: initItems ?? []);
+    state = state.copyWith(items: initItems);
 
-    _subscription = queryStream?.listen((items) {
+    _subscription = queryStream.listen((items) {
       state = state.copyWith(items: items);
     });
   }
@@ -116,15 +163,6 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     }
   }
 
-  final Ref ref;
-  final Isar? isar;
-  final Directory mobileDirectory;
-  final String subPath = "Synced";
-
-  StreamSubscription<List<SyncedItem>>? _subscription;
-
-  IsarCollection<String, ISyncedItem>? get syncedItems => isar?.iSyncedItems;
-
   late final JellyService api = ref.read(jellyApiProvider);
 
   String? get _savePath => !kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)
@@ -150,9 +188,6 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
 
   String? get syncPath => saveDirectory?.path;
 
-  QueryBuilder<ISyncedItem, ISyncedItem, QAfterFilterCondition>? get getParentSyncItems =>
-      syncedItems?.where().parentIdIsNull();
-
   Future<int> get directorySize async {
     if (saveDirectory == null) return 0;
     var files = await saveDirectory!.list(recursive: true).toList();
@@ -166,94 +201,118 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     super.dispose();
   }
 
-  Future<void> refresh() async {
-    state = state.copyWith(
-        items: (await getParentSyncItems?.userIdEqualTo(ref.read(userProvider)?.id).findAllAsync())
-                ?.map((e) => SyncedItem.fromIsar(e, syncPath ?? ""))
-                .toList() ??
-            []);
+  Future<void> refresh() async => state = state.copyWith(items: (await _db.getParentItems.get()));
+
+  Future<List<SyncedItem>> getNestedChildren(SyncedItem item) async => _db.getNestedChildren(item);
+
+  Future<List<SyncedItem>> getChildren(String parentId) async => await _db.getChildren(parentId).get();
+
+  Future<List<SyncedItem>> getSiblings(SyncedItem syncedItem) async {
+    if (syncedItem.parentId == null) return [];
+    return getChildren(syncedItem.parentId!);
   }
 
-  List<SyncedItem> getNestedChildren(SyncedItem item) {
-    final allChildren = <SyncedItem>[];
-    List<SyncedItem> toProcess = [item];
-    while (toProcess.isNotEmpty) {
-      final currentLevel = toProcess.map(
-        (parent) {
-          final children = syncedItems?.where().parentIdEqualTo(parent.id).sortBySortName().findAll();
-          return children?.map((e) => SyncedItem.fromIsar(e, ref.read(syncProvider.notifier).syncPath ?? "")) ??
-              <SyncedItem>[];
-        },
-      );
-      allChildren.addAll(currentLevel.expand((list) => list));
-      toProcess = currentLevel.expand((list) => list).toList();
-    }
-    return allChildren;
-  }
-
-  List<SyncedItem> getChildren(SyncedItem item) {
-    return (syncedItems?.where().parentIdEqualTo(item.id).sortBySortName().findAll())
-            ?.map(
-              (e) => SyncedItem.fromIsar(e, syncPath ?? ""),
-            )
-            .toList() ??
-        [];
-  }
-
-  SyncedItem? getSyncedItem(ItemBaseModel? item) {
-    final id = item?.id;
+  Future<SyncedItem?> getSyncedItem(String? id) async {
     if (id == null) return null;
-    final newItem = syncedItems?.get(id);
-    if (newItem == null) return null;
-    return SyncedItem.fromIsar(newItem, syncPath ?? "");
+    return await _db.getItem(id).getSingleOrNull();
   }
 
-  SyncedItem? getParentItem(String id) {
-    ISyncedItem? newItem = syncedItems?.get(id);
-    while (newItem?.parentId != null) {
-      newItem = syncedItems?.get(newItem!.parentId!);
+  Stream<SyncedItem?> watchItem(String id) => _db.getItem(id).watchSingleOrNull();
+
+  Future<SyncedItem?> getParentItem(String id) async => await _db.getParent(id).getSingleOrNull();
+
+  Future<SyncedItem> refreshSyncItem(SyncedItem item) async {
+    List<SyncedItem> itemsToSync = await getNestedChildren(item);
+
+    itemsToSync = [item, ...itemsToSync];
+
+    SyncedItem parentItem = item;
+
+    List<SyncedItem> newItems = [];
+
+    for (var i = 0; i < itemsToSync.length; i++) {
+      final itemToSync = itemsToSync[i];
+      final itemResponse = await api.usersUserIdItemsItemIdGetBaseItem(
+        itemId: itemToSync.id,
+      );
+
+      final itemModel = ItemBaseModel.fromBaseDto(itemResponse.bodyOrThrow, ref);
+
+      final syncedParent = await _db.getItem(itemToSync.parentId ?? "").getSingleOrNull();
+
+      SyncedItem newSyncedItem = await _syncItemData(syncedParent, itemModel, itemResponse.bodyOrThrow);
+
+      final updatedItem = itemToSync.copyWith(
+        itemModel: newSyncedItem.createItemModel(ref),
+        sortName: newSyncedItem.sortName,
+        syncing: false,
+        fImages: newSyncedItem.fImages,
+        fTrickPlayModel: newSyncedItem.fTrickPlayModel,
+        subtitles: newSyncedItem.subtitles,
+        userData: UserData.determineLastUserData([item.userData, newSyncedItem.userData]),
+      );
+
+      newItems.add(updatedItem);
+
+      if (itemToSync.id == parentItem.id) {
+        parentItem = updatedItem;
+      }
     }
-    if (newItem == null) return null;
-    return SyncedItem.fromIsar(newItem, syncPath ?? "");
-  }
 
-  ItemBaseModel? getItem(SyncedItem? syncedItem) {
-    if (syncedItem == null) return null;
-    return syncedItem.createItemModel(ref);
+    await _db.insertMultipleEntries(newItems);
+
+    return parentItem;
   }
 
   Future<void> addSyncItem(BuildContext? context, ItemBaseModel item) async {
-    if (context == null) return;
+    try {
+      if (context == null) return;
 
-    if (saveDirectory == null) {
-      String? selectedDirectory =
-          await FilePicker.platform.getDirectoryPath(dialogTitle: context.localized.syncSelectDownloadsFolder);
-      if (selectedDirectory?.isEmpty == true) {
-        fladderSnackbar(context, title: context.localized.syncNoFolderSetup);
-        return;
+      if (saveDirectory == null) {
+        String? selectedDirectory =
+            await FilePicker.platform.getDirectoryPath(dialogTitle: context.localized.syncSelectDownloadsFolder);
+        if (selectedDirectory?.isEmpty == true && context.mounted) {
+          fladderSnackbar(context, title: context.localized.syncNoFolderSetup);
+          return;
+        }
+        ref.read(clientSettingsProvider.notifier).setSyncPath(selectedDirectory);
       }
-      ref.read(clientSettingsProvider.notifier).setSyncPath(selectedDirectory);
-    }
 
-    fladderSnackbar(context, title: context.localized.syncAddItemForSyncing(item.detailedName(context) ?? "Unknown"));
-    final newSync = switch (item) {
-      EpisodeModel episode => await syncSeries(item.parentBaseModel, episode: episode),
-      SeriesModel series => await syncSeries(series),
-      MovieModel movie => await syncMovie(movie),
-      _ => null
-    };
-    fladderSnackbar(context,
-        title: newSync != null
-            ? context.localized.startedSyncingItem(item.detailedName(context) ?? "Unknown")
-            : context.localized.unableToSyncItem(item.detailedName(context) ?? "Unknown"));
-    return;
+      if (context.mounted) {
+        fladderSnackbar(context,
+            title: context.localized.syncAddItemForSyncing(item.detailedName(context) ?? "Unknown"));
+      }
+      final newSync = switch (item) {
+        EpisodeModel episode => await syncSeries(item.parentBaseModel, episode: episode),
+        SeasonModel season => await syncSeries(item.parentBaseModel, season: season),
+        SeriesModel series => await syncSeries(series),
+        MovieModel movie => await syncMovie(movie),
+        _ => null
+      };
+      if (context.mounted) {
+        fladderSnackbar(context,
+            title: newSync != null
+                ? context.localized.startedSyncingItem(item.detailedName(context) ?? "Unknown")
+                : context.localized.unableToSyncItem(item.detailedName(context) ?? "Unknown"));
+      }
+
+      return;
+    } catch (e) {
+      log('Error adding sync item: ${e.toString()}');
+      if (context?.mounted == true) {
+        fladderSnackbar(context!, title: context.localized.somethingWentWrong);
+      }
+    }
   }
+
+  void viewDatabase(BuildContext context) =>
+      Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(builder: (context) => DriftDbViewer(_db)));
 
   Future<bool> removeSync(BuildContext context, SyncedItem? item) async {
     try {
       if (item == null) return false;
 
-      final nestedChildren = getNestedChildren(item);
+      final nestedChildren = await getNestedChildren(item);
 
       state = state.copyWith(
           items: state.items
@@ -266,13 +325,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
         await ref.read(backgroundDownloaderProvider).cancelTaskWithId(item.taskId!);
       }
 
-      final deleteFromDatabase = isar?.write((isar) => syncedItems?.deleteAll([...nestedChildren, item]
-          .map(
-            (e) => e.id,
-          )
-          .toList()));
-
-      if (deleteFromDatabase == 0) return false;
+      await _db.deleteAllItems([...nestedChildren, item]);
 
       for (var i = 0; i < nestedChildren.length; i++) {
         final element = nestedChildren[i];
@@ -290,8 +343,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
 
       return true;
     } catch (e) {
-      log('Error deleting synced item');
-      log(e.toString());
+      log('Error deleting synced item ${e.toString()}');
       state = state.copyWith(items: state.items.map((e) => e.copyWith(markedForDelete: false)).toList());
       fladderSnackbar(context, title: context.localized.syncRemoveUnableToDeleteItem);
       return false;
@@ -367,7 +419,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     if (data == null) return data;
     if (!itemPath.existsSync()) return data;
     if (data.isEmpty) return data;
-    final saveDirectory = Directory(path.joinAll([itemPath.path, "Chapters"]));
+    final saveDirectory = Directory(path.joinAll([itemPath.path, SyncedItem.chaptersPath]));
 
     await saveDirectory.create(recursive: true);
 
@@ -378,7 +430,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
       if (response.bodyBytes.isEmpty) return null;
       file.writeAsBytesSync(response.bodyBytes);
       return event.copyWith(
-        imageUrl: path.joinAll(["Chapters", fileName]),
+        imageUrl: path.joinAll([SyncedItem.chaptersPath, fileName]),
       );
     }).toList();
     return saveChapters.nonNulls.toList();
@@ -394,11 +446,15 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     return data?.copyWith(path: fileName);
   }
 
-  void updateItemSync(SyncedItem syncedItem) =>
-      isar?.write((isar) => syncedItems?.put(ISyncedItem.fromSynced(syncedItem, syncPath ?? "")));
-
-  Future<void> updateItem(SyncedItem syncedItem) async {
-    isar?.write((isar) => syncedItems?.put(ISyncedItem.fromSynced(syncedItem, syncPath ?? "")));
+  Future<int> updateItem(SyncedItem item) async {
+    SyncedItem syncedItem = item;
+    try {
+      await ref.read(jellyApiProvider).userItemsItemIdUserDataPost(itemId: syncedItem.id, body: syncedItem.userData);
+    } catch (e) {
+      log('Error updating item: ${syncedItem.id}');
+      syncedItem = syncedItem.copyWith(unSyncedData: true);
+    }
+    return _db.insertItem(syncedItem);
   }
 
   Future<SyncedItem> deleteFullSyncFiles(SyncedItem syncedItem, DownloadTask? task) async {
@@ -415,7 +471,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     return syncedItem;
   }
 
-  Future<DownloadStream?> syncVideoFile(SyncedItem syncItem, bool skipDownload) async {
+  Future<DownloadStream?> syncFile(SyncedItem syncItem, bool skipDownload) async {
     cleanupTemporaryFiles();
 
     final playbackResponse = await api.itemsItemIdPlaybackInfoPost(
@@ -439,6 +495,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     final mediaSegments = (await api.mediaSegmentsGet(id: syncItem.id))?.body;
 
     syncItem = syncItem.copyWith(
+      fChapters: await saveChapterImages(item?.overview.chapters, directory) ?? [],
       subtitles: subtitles,
       fTrickPlayModel: trickPlayFile,
       mediaSegments: mediaSegments,
@@ -447,23 +504,24 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     await updateItem(syncItem);
 
     final currentTask = ref.read(downloadTasksProvider(syncItem.id));
+    final user = ref.read(userProvider);
 
-    final downloadString = path.joinAll([
-      "${ref.read(userProvider)?.server}",
-      "Items",
-      "${syncItem.id}/Download?api_key=${ref.read(userProvider)?.credentials.token}"
-    ]);
+    if (user == null) return null;
+
+    final downloadUrl = path.joinAll([user.server, "Items", syncItem.id, "Download"]);
 
     try {
       if (!skipDownload && currentTask.task == null) {
         final downloadTask = DownloadTask(
-          url: Uri.parse(downloadString).toString(),
+          url: Uri.parse(downloadUrl).toString(),
           directory: syncItem.directory.path,
           filename: syncItem.videoFileName,
           updates: Updates.statusAndProgress,
           baseDirectory: BaseDirectory.root,
+          urlQueryParameters: {"api_key": user.credentials.token},
+          headers: user.credentials.header(ref),
           requiresWiFi: ref.read(clientSettingsProvider.select((value) => value.requireWifi)),
-          retries: 5,
+          retries: 3,
           allowPause: true,
         );
 
@@ -490,7 +548,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
                   (state) => state.copyWith(status: status),
                 );
 
-            if (status == TaskStatus.complete) {
+            if (status == TaskStatus.complete || status == TaskStatus.canceled) {
               ref.read(downloadTasksProvider(syncItem.id).notifier).update((state) => DownloadStream.empty());
             }
           },
@@ -506,15 +564,81 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     return null;
   }
 
-  Future<void> clear() async {
-    await mainDirectory.delete(recursive: true);
-    isar?.write((isar) => syncedItems?.clear());
+  Future<void> removeAllSyncedData() async {
+    if (await mainDirectory.exists()) {
+      await mainDirectory.delete(recursive: true);
+    }
+    await _db.close();
+    await _db.clearDatabase();
+    _db = AppDatabase(ref);
     state = state.copyWith(items: []);
   }
 
-  Future<void> setup() async {
-    state = state.copyWith(items: []);
-    _init();
+  Future<void> updatePlaybackPosition({String? itemId, required Duration position}) async {
+    if (itemId == null) return;
+
+    final syncedItem = await _db.getItem(itemId).getSingleOrNull();
+    if (syncedItem == null) return;
+
+    final item = syncedItem.itemModel;
+    if (item == null) return;
+
+    final progress = position.inMilliseconds / (item.overview.runTime?.inMilliseconds ?? 0) * 100;
+
+    final updatedItem = syncedItem.copyWith(
+      userData: syncedItem.userData?.copyWith(
+        playbackPositionTicks: position.toRuntimeTicks,
+        progress: progress,
+        played: UserData.isPlayed(position, item.overview.runTime ?? Duration.zero),
+      ),
+    );
+    await _db.insertItem(updatedItem);
+  }
+
+  Future<void> updatePlayedItem(String? itemId,
+      {DateTime? datePlayed, required bool played, bool responseSuccessful = false}) async {
+    if (itemId == null) return;
+
+    final syncedItem = _db.getItem(itemId).getSingleOrNull();
+    syncedItem.then((item) async {
+      if (item == null) return;
+      final updatedUserData = item.userData?.copyWith(
+        played: played,
+        playbackPositionTicks: 0,
+        progress: 0.0,
+        lastPlayed: datePlayed ?? DateTime.now().toUtc(),
+      );
+      SyncedItem updatedItem = item.copyWith(userData: updatedUserData, unSyncedData: !responseSuccessful);
+
+      List<SyncedItem> children = [];
+      final shouldUpdateChildren = {FladderItemType.series, FladderItemType.season}.contains(item.itemModel?.type);
+      if (shouldUpdateChildren) {
+        // Update child items with the same played status, jellyfin server does this was well
+        // when marking a series or season as played
+        children = (await getNestedChildren(item))
+            .map((e) => e.copyWith(
+                  userData: e.userData?.copyWith(
+                    played: played,
+                    playbackPositionTicks: 0,
+                    progress: 0.0,
+                  ),
+                ))
+            .toList();
+      }
+      await _db.insertMultipleEntries([updatedItem, ...children]);
+    });
+  }
+
+  Future<void> updateFavoriteItem(String? itemId, {required bool isFavorite, bool responseSuccessful = false}) async {
+    if (itemId == null) return;
+
+    final syncedItem = _db.getItem(itemId).getSingleOrNull();
+    syncedItem.then((item) async {
+      if (item == null) return;
+      final updatedUserData = item.userData?.copyWith(isFavourite: isFavorite);
+      final updatedItem = item.copyWith(userData: updatedUserData, unSyncedData: !responseSuccessful);
+      await _db.insertItem(updatedItem);
+    });
   }
 }
 
@@ -522,6 +646,24 @@ extension SyncNotifierHelpers on SyncNotifier {
   Future<SyncedItem> createSyncItem(BaseItemDto response, {SyncedItem? parent}) async {
     final ItemBaseModel item = ItemBaseModel.fromBaseDto(response, ref);
 
+    final existingSyncedItem = await getSyncedItem(item.id);
+
+    if (existingSyncedItem != null) return existingSyncedItem;
+
+    SyncedItem syncItem = await _syncItemData(parent, item, response);
+
+    if (parent == null) {
+      await _db.insertItem(syncItem);
+    }
+
+    return syncItem.copyWith(
+      fileSize: response.mediaSources?.firstOrNull?.size ?? 0,
+      syncing: false,
+      videoFileName: response.path?.split('/').lastOrNull ?? "",
+    );
+  }
+
+  Future<SyncedItem> _syncItemData(SyncedItem? parent, ItemBaseModel item, BaseItemDto response) async {
     final Directory? parentDirectory = parent?.directory;
 
     final directory = Directory(path.joinAll([(parentDirectory ?? saveDirectory)?.path ?? "", item.id]));
@@ -542,30 +684,7 @@ extension SyncNotifierHelpers on SyncNotifier {
       path: directory.path,
       userData: item.userData,
     );
-
-    //Save item if parent so the user is aware.
-    if (parent == null) {
-      isar?.write((isar) => syncedItems?.put(ISyncedItem.fromSynced(syncItem, syncPath)));
-    }
-
-    final origChapters = Chapter.chaptersFromInfo(item.id, response.chapters ?? [], ref);
-
-    return syncItem.copyWith(
-      fChapters: await saveChapterImages(origChapters, directory) ?? [],
-      fileSize: response.mediaSources?.firstOrNull?.size ?? 0,
-      syncing: false,
-      videoFileName: response.path?.split('/').lastOrNull ?? "",
-    );
-  }
-
-  // Need to move the file after downloading on Android
-  Future<void> moveFile(DownloadTask downloadTask, SyncedItem syncItem) async {
-    final currentLocation = File(await downloadTask.filePath());
-    final wantedLocation = syncItem.videoFile;
-    if (currentLocation.path != wantedLocation.path) {
-      await currentLocation.copy(wantedLocation.path);
-      await currentLocation.delete();
-    }
+    return syncItem;
   }
 
   Future<SyncedItem?> syncMovie(ItemBaseModel item, {bool skipDownload = false}) async {
@@ -580,27 +699,28 @@ extension SyncNotifierHelpers on SyncNotifier {
 
     if (!syncItem.directory.existsSync()) return null;
 
-    await syncVideoFile(syncItem, skipDownload);
+    await _db.insertItem(syncItem);
 
-    isar?.write((isar) => syncedItems?.put(ISyncedItem.fromSynced(syncItem, syncPath)));
+    await syncFile(syncItem, skipDownload);
 
     return syncItem;
   }
 
-  Future<SyncedItem?> syncSeries(SeriesModel item, {EpisodeModel? episode}) async {
+  Future<SyncedItem?> syncSeries(SeriesModel item, {SeasonModel? season, EpisodeModel? episode}) async {
     final response = await api.usersUserIdItemsItemIdGetBaseItem(
       itemId: item.id,
     );
 
     List<SyncedItem> newItems = [];
 
-    SyncedItem? itemToDownload;
+    List<SyncedItem>? itemsToDownload = [];
 
     SyncedItem seriesItem = await createSyncItem(response.bodyOrThrow);
     newItems.add(seriesItem);
     if (!seriesItem.directory.existsSync()) return null;
 
     final seasonsResponse = await api.showsSeriesIdSeasonsGet(
+      seriesId: item.id,
       isMissing: false,
       enableUserData: true,
       fields: [
@@ -621,14 +741,13 @@ extension SyncNotifierHelpers on SyncNotifier {
         ItemFields.chapters,
         ItemFields.trickplay,
       ],
-      seriesId: item.id,
     );
 
     final seasons = seasonsResponse.body?.items ?? [];
 
     for (var i = 0; i < seasons.length; i++) {
-      final season = seasons[i];
-      final syncedSeason = await createSyncItem(season, parent: seriesItem);
+      final newSeason = seasons[i];
+      final syncedSeason = await createSyncItem(newSeason, parent: seriesItem);
       newItems.add(syncedSeason);
       final episodesResponse = await api.showsSeriesIdEpisodesGet(
         isMissing: false,
@@ -651,30 +770,33 @@ extension SyncNotifierHelpers on SyncNotifier {
           ItemFields.chapters,
           ItemFields.trickplay,
         ],
-        seasonId: season.id,
+        seasonId: newSeason.id,
         seriesId: seriesItem.id,
       );
+
       final episodes = episodesResponse.body?.items ?? [];
-      for (var i = 0; i < episodes.length; i++) {
-        final item = episodes[i];
-        final newEpisode = await createSyncItem(item, parent: syncedSeason);
+
+      final episodeResults = await Future.wait(
+        episodes.map((ep) async {
+          final newEpisode = await createSyncItem(ep, parent: syncedSeason);
+          return (ep, newEpisode);
+        }),
+      );
+
+      for (final (ep, newEpisode) in episodeResults) {
         newItems.add(newEpisode);
-        if (episode?.id == item.id) {
-          itemToDownload = newEpisode;
+        if (episode?.id == ep.id || newSeason.id == season?.id && !await newEpisode.videoFile.exists()) {
+          itemsToDownload.add(newEpisode);
         }
       }
     }
 
-    isar?.write(
-      (isar) => syncedItems?.putAll(newItems
-          .map(
-            (e) => ISyncedItem.fromSynced(e, syncPath ?? ""),
-          )
-          .toList()),
-    );
+    await _db.insertMultipleEntries(newItems);
 
-    if (itemToDownload != null) {
-      await syncVideoFile(itemToDownload, false);
+    for (var i = 0; i < itemsToDownload.length; i++) {
+      final item = itemsToDownload[i];
+      //No need to await file sync happens in the background
+      syncFile(item, false);
     }
 
     return seriesItem;

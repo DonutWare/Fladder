@@ -64,7 +64,7 @@ class LibMDK extends BasePlayer {
       null;
 
   @override
-  Widget? subtitles(bool showOverlay) => null;
+  Widget? subtitles(bool showOverlay, {GlobalKey? controlsKey}) => null;
 
   @override
   Future<void> setVolume(double volume) async {}

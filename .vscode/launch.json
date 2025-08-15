@@ -80,7 +80,8 @@
 			"deviceId": "chrome",
 			"args": [
 				"--web-port",
-				"9090"
+				"9090",
+				"--web-experimental-hot-reload",
 			],
 		},
 		{
@@ -91,7 +92,7 @@
 			"flutterMode": "release",
 			"args": [
 				"--web-port",
-				"9090"
+				"9090",
 			],
 		},
 	],

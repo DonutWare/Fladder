@@ -11,6 +11,7 @@ import 'package:wakelock_plus/wakelock_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
+import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
@@ -39,7 +40,8 @@ class MediaControlsWrapper extends BaseAudioHandler {
   Stream<PlayerState>? get stateStream => _player?.stateStream;
   PlayerState? get lastState => _player?.lastState;
 
-  Widget? subtitleWidget(bool showOverlay) => _player?.subtitles(showOverlay);
+  Widget? subtitleWidget(bool showOverlay, {GlobalKey? controlsKey}) =>
+      _player?.subtitles(showOverlay, controlsKey: controlsKey);
   Widget? videoWidget(Key key, BoxFit fit) => _player?.videoWidget(key, fit);
 
   final Ref ref;
@@ -236,6 +238,10 @@ class MediaControlsWrapper extends BaseAudioHandler {
 
   @override
   Future<void> stop() async {
+    final playbackModel = ref.read(playBackModel);
+    if (playbackModel == null) return;
+
+    ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(state: VideoPlayerState.disposed));
     WakelockPlus.disable();
     super.stop();
     _player?.stop();
@@ -243,10 +249,10 @@ class MediaControlsWrapper extends BaseAudioHandler {
     final position = _player?.lastState.position;
     final totalDuration = _player?.lastState.duration;
 
-    //Small delay so we don't post right after playback/progress update
+    // //Small delay so we don't post right after playback/progress update
     await Future.delayed(const Duration(seconds: 1));
 
-    ref.read(playBackModel)?.playbackStopped(position ?? Duration.zero, totalDuration, ref);
+    await playbackModel.playbackStopped(position ?? Duration.zero, totalDuration, ref);
     ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(position: Duration.zero));
 
     smtc?.setPlaybackStatus(PlaybackStatus.stopped);

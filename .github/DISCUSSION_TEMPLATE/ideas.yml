@@ -33,3 +33,8 @@ body:
       placeholder: Identify any unresolved issues.
     validations:
       required: false
+  - type: checkboxes
+    attributes:
+      label: Implementation
+      options:
+        - label: I would like to implement this myself!

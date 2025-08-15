@@ -72,20 +72,16 @@ class EpisodeDetailsProvider extends StateNotifier<EpisodeDetailModel> {
     }
   }
 
-  void _tryToCreateOfflineState(ItemBaseModel item) {
+  Future<void> _tryToCreateOfflineState(ItemBaseModel item) async {
     final syncNotifier = ref.read(syncProvider.notifier);
-    final episodeModel = syncNotifier.getSyncedItem(item)?.createItemModel(ref) as EpisodeModel?;
+    final episodeModel = (await syncNotifier.getSyncedItem(item.id))?.itemModel as EpisodeModel?;
     if (episodeModel == null) return;
-    final seriesSyncedItem = syncNotifier.getSyncedItem(episodeModel.parentBaseModel);
+    final seriesSyncedItem = await syncNotifier.getSyncedItem(episodeModel.parentBaseModel.id);
     if (seriesSyncedItem == null) return;
-    final seriesModel = seriesSyncedItem.createItemModel(ref) as SeriesModel?;
+    final seriesModel = seriesSyncedItem.itemModel as SeriesModel?;
     if (seriesModel == null) return;
-    final episodes = syncNotifier
-        .getNestedChildren(seriesSyncedItem)
-        .map(
-          (e) => e.createItemModel(ref),
-        )
-        .nonNulls
+    final episodes = (await syncNotifier.getNestedChildren(seriesSyncedItem))
+        .map((e) => e.itemModel)
         .whereType<EpisodeModel>()
         .toList();
     state = state.copyWith(

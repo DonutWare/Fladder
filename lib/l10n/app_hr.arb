@@ -1,0 +1,787 @@
+{
+  "accept": "Prihvati",
+  "@accept": {},
+  "active": "Aktivno",
+  "@active": {},
+  "actor": "{count, plural, other{Glumci} one{Glumac}}",
+  "@actor": {
+    "description": "actor",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "addAsFavorite": "Dodaj kao favorita",
+  "@addAsFavorite": {},
+  "addToCollection": "Dodaj u kolekciju",
+  "@addToCollection": {},
+  "addToPlaylist": "Dodaj na listu",
+  "@addToPlaylist": {},
+  "advanced": "Napredno",
+  "@advanced": {},
+  "all": "Sve",
+  "@all": {},
+  "amoledBlack": "Amoled crna",
+  "@amoledBlack": {},
+  "appLockAutoLogin": "Automatska prijava",
+  "@appLockAutoLogin": {},
+  "appLockBiometrics": "Biometrika",
+  "@appLockBiometrics": {},
+  "appLockPasscode": "Šifra",
+  "@appLockPasscode": {},
+  "appLockTitle": "Postavi metodu prijave za {userName}",
+  "@appLockTitle": {
+    "description": "Pop-up to pick a login method",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "ascending": "Uzlazno",
+  "@ascending": {},
+  "audio": "Zvuk",
+  "@audio": {},
+  "autoPlay": "Automatska reprodukcija",
+  "@autoPlay": {},
+  "backgroundBlur": "Zamućenje pozadine",
+  "@backgroundBlur": {},
+  "backgroundOpacity": "Zamućenost pozadine",
+  "@backgroundOpacity": {},
+  "bold": "Podebljano",
+  "@bold": {},
+  "cancel": "Odustani",
+  "@cancel": {},
+  "change": "Promijeni",
+  "@change": {},
+  "chapter": "{count, plural, other{Poglavlja} one{Poglavlje}}",
+  "@chapter": {
+    "description": "chapter",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "clear": "Očisti",
+  "@clear": {},
+  "clearAllSettings": "Očisti sve postavke",
+  "@clearAllSettings": {},
+  "clearAllSettingsQuestion": "Očisti sve postavke?",
+  "@clearAllSettingsQuestion": {},
+  "clearChanges": "Pobriši izmjene",
+  "@clearChanges": {},
+  "clearSelection": "Pobriši odabir",
+  "@clearSelection": {},
+  "close": "Zatvori",
+  "@close": {},
+  "code": "Kod",
+  "@code": {},
+  "collectionFolder": "Kolekcija",
+  "@collectionFolder": {},
+  "color": "Boja",
+  "@color": {},
+  "combined": "Kombinirano",
+  "@combined": {},
+  "communityRating": "Rating zajednice",
+  "@communityRating": {},
+  "continuePage": "Nastavi - stranica {page}",
+  "@continuePage": {
+    "description": "Continue - page 1",
+    "placeholders": {
+      "page": {
+        "type": "int"
+      }
+    }
+  },
+  "about": "O",
+  "@about": {},
+  "controls": "Kontrole",
+  "@controls": {},
+  "dashboard": "Nadzorna ploča",
+  "@dashboard": {},
+  "dashboardContinue": "Nastavi",
+  "@dashboardContinue": {},
+  "dashboardContinueListening": "Nastavi slušati",
+  "@dashboardContinueListening": {},
+  "dashboardContinueReading": "Nastavi čitati",
+  "@dashboardContinueReading": {},
+  "dashboardContinueWatching": "Nastavi gledati",
+  "@dashboardContinueWatching": {},
+  "nextUp": "Slijedi",
+  "@nextUp": {},
+  "dashboardRecentlyAdded": "Nedavno dodano u {name}",
+  "@dashboardRecentlyAdded": {
+    "description": "Recently added on home screen",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "dateAdded": "Datum dodavanja",
+  "@dateAdded": {},
+  "dateLastContentAdded": "Datum kada je dodan zadnji sadržaj",
+  "@dateLastContentAdded": {},
+  "datePlayed": "Datum reprodukcije",
+  "@datePlayed": {},
+  "days": "Dani",
+  "@days": {},
+  "delete": "Izbriši",
+  "@delete": {},
+  "descending": "Padajuće",
+  "@descending": {},
+  "disableFilters": "Isključi filtere",
+  "@disableFilters": {},
+  "disabled": "Isključeno",
+  "@disabled": {},
+  "discovered": "Otkriveno",
+  "@discovered": {},
+  "displayLanguage": "Jezik prikaza",
+  "@displayLanguage": {},
+  "downloadsPath": "Putanja",
+  "@downloadsPath": {},
+  "downloadsTitle": "Preuzimanja",
+  "@downloadsTitle": {},
+  "dynamicText": "Dinamički",
+  "@dynamicText": {},
+  "editMetadata": "Izmijeni meta podatke",
+  "@editMetadata": {},
+  "empty": "Prazno",
+  "@empty": {},
+  "enabled": "Upaljeno",
+  "@enabled": {},
+  "endsAt": "završava u {date}",
+  "@endsAt": {
+    "description": "endsAt",
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "jm"
+      }
+    }
+  },
+  "error": "Greška",
+  "@error": {},
+  "favorite": "Favorit",
+  "@favorite": {},
+  "favorites": "Favoriti",
+  "@favorites": {},
+  "fontColor": "Boja fonta",
+  "@fontColor": {},
+  "fontSize": "Veličina fonta",
+  "@fontSize": {},
+  "goTo": "Idi na",
+  "@goTo": {},
+  "group": "Grupiraj",
+  "@group": {},
+  "groupBy": "Grupiraj po",
+  "@groupBy": {},
+  "hide": "Sakrij",
+  "@hide": {},
+  "hideEmpty": "Sakrij prazno",
+  "@hideEmpty": {},
+  "home": "Početna",
+  "@home": {},
+  "immediately": "Odmah",
+  "@immediately": {},
+  "incorrectPinTryAgain": "Pogrešan PIN. Pokušajte ponovno.",
+  "@incorrectPinTryAgain": {},
+  "info": "Info",
+  "@info": {},
+  "invalidUrl": "Pogrešan URL",
+  "@invalidUrl": {},
+  "light": "Svijetla",
+  "@light": {},
+  "list": "Lista",
+  "@list": {},
+  "lockscreen": "Zaključani ekran",
+  "@lockscreen": {},
+  "loop": "Petlja",
+  "@loop": {},
+  "markAsUnwatched": "Označi kao nepogledano",
+  "@markAsUnwatched": {},
+  "markAsWatched": "Označi kao pogledano",
+  "@markAsWatched": {},
+  "mediaTypeBook": "Knjiga",
+  "@mediaTypeBook": {},
+  "mediaTypeEpisode": "Epizoda",
+  "@mediaTypeEpisode": {},
+  "mediaTypeMovie": "Film",
+  "@mediaTypeMovie": {},
+  "mediaTypePerson": "Osoba",
+  "@mediaTypePerson": {},
+  "mediaTypePhoto": "Fotografija",
+  "@mediaTypePhoto": {},
+  "mediaTypeSeason": "Sezona",
+  "@mediaTypeSeason": {},
+  "mediaTypeSeries": "Serija",
+  "@mediaTypeSeries": {},
+  "musicAlbum": "Album",
+  "@musicAlbum": {},
+  "name": "Naziv",
+  "@name": {},
+  "navigation": "Navigacija",
+  "@navigation": {},
+  "navigationFavorites": "Favoriti",
+  "@navigationFavorites": {},
+  "navigationSync": "Sinkronizirano",
+  "@navigationSync": {},
+  "never": "Nikada",
+  "@never": {},
+  "noRating": "Nema ratinga",
+  "@noRating": {},
+  "noResults": "Nema rezultata",
+  "@noResults": {},
+  "noServersFound": "Nema pronađenih servera",
+  "@noServersFound": {},
+  "noSuggestionsFound": "Nema pronađenih prijedloga",
+  "@noSuggestionsFound": {},
+  "normal": "Normalno",
+  "@normal": {},
+  "options": "Opcije",
+  "@options": {},
+  "other": "Ostalo",
+  "@other": {},
+  "overview": "Pregled",
+  "@overview": {},
+  "password": "Lozinka",
+  "@password": {},
+  "pathEditTitle": "Promijeni lokaciju",
+  "@pathEditTitle": {},
+  "playLabel": "Reproduciraj",
+  "@playLabel": {},
+  "playVideos": "Reproduciraj video",
+  "@playVideos": {},
+  "quickConnectInputACode": "Unesi kod",
+  "@quickConnectInputACode": {},
+  "quickConnectWrongCode": "Pogrešan kod",
+  "@quickConnectWrongCode": {},
+  "refresh": "Osvježi",
+  "@refresh": {},
+  "related": "Povezano",
+  "@related": {},
+  "restart": "Restartaj",
+  "@restart": {},
+  "result": "Rezultat",
+  "@result": {},
+  "save": "Spremi",
+  "@save": {},
+  "saved": "Spremljeno",
+  "@saved": {},
+  "selectAll": "Odaberi sve",
+  "@selectAll": {},
+  "forceRefresh": "Prisilno osvježi",
+  "@forceRefresh": {},
+  "grid": "Mreža",
+  "@grid": {},
+  "reWatch": "Ponovno gledaj",
+  "@reWatch": {},
+  "played": "Reproducirano",
+  "@played": {},
+  "server": "Server",
+  "@server": {},
+  "settingsClientTitle": "Fladder",
+  "@settingsClientTitle": {},
+  "settingsProfileTitle": "Profil",
+  "@settingsProfileTitle": {},
+  "sortBy": "Sortiraj po",
+  "@sortBy": {},
+  "sortName": "Naziv",
+  "@sortName": {},
+  "sortOrder": "Redoslijed sortiranja",
+  "@sortOrder": {},
+  "start": "Start",
+  "@start": {},
+  "subtitles": "Titlovi",
+  "@subtitles": {},
+  "switchUser": "Promijeni korisnika",
+  "@switchUser": {},
+  "sync": "Sinkroniziraj",
+  "@sync": {},
+  "theme": "Tema",
+  "@theme": {},
+  "themeColor": "Boja teme",
+  "@themeColor": {},
+  "themeModeDark": "Tamna",
+  "@themeModeDark": {},
+  "themeModeLight": "Svijetla",
+  "@themeModeLight": {},
+  "themeModeSystem": "Sustav",
+  "@themeModeSystem": {},
+  "video": "Video",
+  "@video": {},
+  "watchOn": "Gledaj na",
+  "@watchOn": {},
+  "aboutVersion": "Verzija: {version}",
+  "@aboutVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "speed": "Brzina",
+  "@speed": {},
+  "deleteItem": "Izbriši {item}?",
+  "@deleteItem": {
+    "description": "deleteItem",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadsSyncedData": "Sinkronizirani podaci",
+  "@downloadsSyncedData": {},
+  "folders": "Direktoriji",
+  "@folders": {},
+  "failedToLoadImage": "Ne mogu učitati sliku",
+  "@failedToLoadImage": {},
+  "downloadsClearTitle": "Očisti sinkronizirane podatke",
+  "@downloadsClearTitle": {},
+  "director": "{count, plural, other{Redatelj} two{Redatelji}}",
+  "@director": {
+    "description": "director",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "episode": "{count, plural, other{Epizode} one{Epizoda} }",
+  "@episode": {
+    "description": "episode",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "filter": "{count, plural, other{Filteri} one{Filter}}",
+  "@filter": {
+    "description": "filter",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "genre": "{count, plural, other{Žanrovi} one{Žanr}}",
+  "@genre": {
+    "description": "genre",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "identify": "Identificiraj",
+  "@identify": {},
+  "itemCount": "Broj stavki: {count}",
+  "@itemCount": {
+    "description": "Item count",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "invalidUrlDesc": "URL treba početi sa http(s)://",
+  "@invalidUrlDesc": {},
+  "label": "{count, plural, other{Oznake} one{Oznaka}}",
+  "@label": {
+    "description": "label",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "library": "{count, plural, other{Zbirke} one{Zbirka}}",
+  "@library": {
+    "description": "Plural",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "libraryFetchNoItemsFound": "Nema pronađenih stavki. Probaj drugačije postavke.",
+  "@libraryFetchNoItemsFound": {},
+  "login": "Prijava",
+  "@login": {},
+  "logout": "Odjava",
+  "@logout": {},
+  "logoutUserPopupTitle": "Odjavi {userName}?",
+  "@logoutUserPopupTitle": {
+    "description": "Pop-up for logging out the user",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "mediaTypePhotoAlbum": "Foto album",
+  "@mediaTypePhotoAlbum": {},
+  "mediaTypePlaylist": "Lista izvođenja",
+  "@mediaTypePlaylist": {},
+  "mediaTypeFolder": "Mapa",
+  "@mediaTypeFolder": {},
+  "minutes": "{count, plural, other{Minute} one{Minuta} }",
+  "@minutes": {
+    "description": "minute",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "mode": "Mod",
+  "@mode": {},
+  "moreOptions": "Više opcija",
+  "@moreOptions": {},
+  "pathEditSelect": "Odaberi lokaciju za preuzimanje",
+  "@pathEditSelect": {},
+  "removeAsFavorite": "Ukloni iz omiljenih",
+  "@removeAsFavorite": {},
+  "removeFromCollection": "Ukloni iz kolekcije",
+  "@removeFromCollection": {},
+  "removeFromPlaylist": "Ukloni iz liste izvođenja",
+  "@removeFromPlaylist": {},
+  "replaceAllImages": "Zamijeni sve slike",
+  "@replaceAllImages": {},
+  "replaceExistingImages": "Zamijeni postojeće slike",
+  "@replaceExistingImages": {},
+  "scanLibrary": "Skeniraj zbirku",
+  "@scanLibrary": {},
+  "search": "Traži",
+  "@search": {},
+  "selected": "Odabrano",
+  "@selected": {},
+  "settingsContinue": "Nastavi",
+  "@settingsContinue": {},
+  "settings": "Postavke",
+  "@settings": {},
+  "set": "Postavi",
+  "@set": {
+    "description": "Use for setting a certain value",
+    "context": "Set 'time'"
+  },
+  "shadow": "Sjena",
+  "@shadow": {},
+  "settingsPosterSize": "Veličina postera",
+  "@settingsPosterSize": {},
+  "settingsSecurity": "Sigurnost",
+  "@settingsSecurity": {},
+  "showDetails": "Prikaži detalje",
+  "@showDetails": {},
+  "showEmpty": "Prikaži prazno",
+  "@showEmpty": {},
+  "studio": "{count, plural, other{Studiji} one{Studio}}",
+  "@studio": {
+    "description": "studio",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "subtitleConfigurator": "Konfigurator titlova",
+  "@subtitleConfigurator": {},
+  "syncedItems": "Sinkronizirane stavke",
+  "@syncedItems": {},
+  "timeAndAnnotation": "{minutes} i {seconds}",
+  "@timeAndAnnotation": {
+    "description": "timeAndAnnotation",
+    "placeholders": {
+      "minutes": {
+        "type": "String"
+      },
+      "seconds": {
+        "type": "String"
+      }
+    }
+  },
+  "totalSize": "Ukupna veličina: {size}",
+  "@totalSize": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "type": "{count, plural, other{Tipovi} one{Tip}}",
+  "@type": {
+    "description": "type",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "unPlayed": "Nereproducirano",
+  "@unPlayed": {},
+  "unknown": "Nepoznato",
+  "@unknown": {},
+  "userName": "Korisničko ime",
+  "@userName": {},
+  "writer": "{count, plural, other{Pisac} two{Pisci}}",
+  "@writer": {
+    "description": "writer",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "year": "{count, plural, other{Godine} one{Godina}}",
+  "@year": {
+    "description": "year",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "addToNewCollection": "Nova kolekcija",
+  "@addToNewCollection": {},
+  "syncStatusComplete": "Završeno",
+  "@syncStatusComplete": {},
+  "syncStatusNotFound": "Nije pronađeno",
+  "@syncStatusNotFound": {},
+  "nativeName": "Hrvatski",
+  "@nativeName": {},
+  "biometricsFailedCheckAgain": "Biometrija neuspješna. Provjeri postavke i pokušaj ponovno.",
+  "@biometricsFailedCheckAgain": {},
+  "deleteFileFromSystem": "Brisanje ove stavke {item} će ju obrisati i sa datotečnog sustava i iz vaše medijske zbirke. Da li ste sigurni da želite nastaviti?",
+  "@deleteFileFromSystem": {
+    "description": "Delete file from system",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadsClearDesc": "Obriši sve sinkronizirane podatke, brisanjem svih podataka za sve sinkronizirane korisnike?",
+  "@downloadsClearDesc": {},
+  "fetchingLibrary": "Dohvaćanje stavki zbirke…",
+  "@fetchingLibrary": {},
+  "homeBannerSlideshow": "Prikaz slajdova",
+  "@homeBannerSlideshow": {},
+  "homeBannerCarousel": "Vrtuljak",
+  "@homeBannerCarousel": {},
+  "loggedIn": "Prijavljen",
+  "@loggedIn": {},
+  "metaDataSavedFor": "Meta podaci spremljeni za {item}",
+  "@metaDataSavedFor": {
+    "description": "metaDataSavedFor",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "metadataRefreshDefault": "Traži nove i izmijenjene datoteke",
+  "@metadataRefreshDefault": {},
+  "metadataRefreshFull": "Zamijeni sve meta podatke",
+  "@metadataRefreshFull": {},
+  "metadataRefreshValidation": "Potraži nedostajuće meta podatke",
+  "@metadataRefreshValidation": {},
+  "moreFrom": "Više za {info}",
+  "@moreFrom": {
+    "description": "More from",
+    "placeholders": {
+      "info": {
+        "type": "String"
+      }
+    }
+  },
+  "mouseDragSupport": "Vuci korištenjem miša",
+  "@mouseDragSupport": {},
+  "navigationDashboard": "Nadzorna ploča",
+  "@navigationDashboard": {},
+  "noItemsSynced": "Nema sinkroniziranih stavki",
+  "@noItemsSynced": {},
+  "noItemsToShow": "Nema stavki za prikaz",
+  "@noItemsToShow": {},
+  "none": "Ništa",
+  "@none": {},
+  "notPartOfAlbum": "Nije dio albuma",
+  "@notPartOfAlbum": {},
+  "openParent": "Otvori glavni",
+  "@openParent": {},
+  "openShow": "Otvori seriju",
+  "@openShow": {},
+  "openWebLink": "Otvori web link",
+  "@openWebLink": {},
+  "page": "Stranica {index}",
+  "@page": {
+    "description": "page",
+    "placeholders": {
+      "index": {
+        "type": "int"
+      }
+    }
+  },
+  "play": "Reproduciraj {item}",
+  "@play": {
+    "description": "Play with",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "playCount": "Broj reprodukcija",
+  "@playCount": {},
+  "quickConnectTitle": "Brzo povezivanje",
+  "@quickConnectTitle": {},
+  "random": "Nasumično",
+  "@random": {},
+  "rating": "{count, plural, other{Rejtinzi} one{Rejting}}",
+  "@rating": {
+    "description": "rating",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "read": "Čitaj {item}",
+  "@read": {
+    "description": "read",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "readFromStart": "Čitaj {item} od početka",
+  "@readFromStart": {
+    "description": "Read book from start",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "recursive": "Rekurzivan",
+  "@recursive": {},
+  "refreshMetadata": "Osvježi meta podatke",
+  "@refreshMetadata": {},
+  "refreshPopup": "Osvježi - {name}",
+  "@refreshPopup": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "releaseDate": "Datum izdavanja",
+  "@releaseDate": {},
+  "resumable": "Moguće nastaviti",
+  "@resumable": {},
+  "resume": "Nastavi {item}",
+  "@resume": {
+    "description": "resume",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "retry": "Pokušaj ponovno",
+  "@retry": {},
+  "runTime": "Vrijeme izvođenja",
+  "@runTime": {},
+  "scanBiometricHint": "Potvrdi identitet",
+  "@scanBiometricHint": {},
+  "scanningName": "Skeniranje - {name}…",
+  "@scanningName": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "season": "{count, plural, other{Sezone} one{Sezona} }",
+  "@season": {
+    "description": "season",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "seconds": "{count, plural, other{Sekunde} one{Sekunda}}",
+  "@seconds": {
+    "description": "second",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "selectTime": "Odaberi vrijeme",
+  "@selectTime": {},
+  "selectedWith": "Odabrana {info}",
+  "@selectedWith": {
+    "description": "selected",
+    "placeholders": {
+      "info": {
+        "type": "String"
+      }
+    }
+  },
+  "separate": "Odvojeno",
+  "@separate": {},
+  "settingSecurityApplockTitle": "Zaključavanje aplikacije",
+  "@settingSecurityApplockTitle": {},
+  "playFrom": "Reproduciraj od {name}",
+  "@playFrom": {
+    "description": "playFrom",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "playFromStart": "Reproduciraj {name} od početka",
+  "@playFromStart": {
+    "description": "speel vanaf het begin",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "quickConnectAction": "Unesi kod za brzo povezivanje za",
+  "@quickConnectAction": {},
+  "setIdentityTo": "Promijeni identitet u {name}",
+  "@setIdentityTo": {
+    "description": "setIdentityTo",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  }
+}

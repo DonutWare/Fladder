@@ -1,16 +1,16 @@
+import 'package:flutter/material.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
+
+import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
-import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/screens/shared/media/episode_posters.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
+import 'package:fladder/util/humanize_duration.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:fladder/models/items/episode_model.dart';
-import 'package:fladder/util/humanize_duration.dart';
 
 enum EpisodeDetailsViewType {
   list(icon: IconsaxPlusBold.grid_6),
@@ -48,14 +48,12 @@ class EpisodeDetailsList extends ConsumerWidget {
             itemCount: episodes.length,
             itemBuilder: (context, index) {
               final episode = episodes[index];
-              final syncedItem = ref.watch(syncProvider.notifier).getSyncedItem(episode);
               List<Widget> children = [
                 Flexible(
                   flex: 1,
                   child: EpisodePoster(
                     episode: episode,
                     showLabel: false,
-                    syncedItem: syncedItem,
                     actions: episode.generateActions(context, ref),
                     onTap: () => episode.navigateTo(context),
                     isCurrentEpisode: false,

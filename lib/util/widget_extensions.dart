@@ -24,6 +24,6 @@ extension WidgetExtensions on Widget {
   }
 
   Widget addVisiblity(bool visible) {
-    return AnimatedOpacity(duration: const Duration(milliseconds: 250), opacity: visible ? 1 : 0, child: this);
+    return AnimatedOpacity(duration: const Duration(milliseconds: 250), opacity: visible ? 1 : 0.10, child: this);
   }
 }

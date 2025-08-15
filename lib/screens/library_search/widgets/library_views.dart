@@ -2,13 +2,13 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:intl/intl.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 import 'package:fladder/models/boxset_model.dart';
@@ -18,7 +18,7 @@ import 'package:fladder/models/library_search/library_search_options.dart';
 import 'package:fladder/models/playlist_model.dart';
 import 'package:fladder/providers/library_search_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
-import 'package:fladder/screens/photo_viewer/photo_viewer_screen.dart';
+import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/shared/media/poster_list_item.dart';
 import 'package:fladder/screens/shared/media/poster_widget.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
@@ -336,15 +336,11 @@ class LibraryViews extends ConsumerWidget {
       case PhotoModel _:
         final photoList = items.whereType<PhotoModel>().toList();
         if (context.mounted) {
-          await Navigator.of(context, rootNavigator: true).push(
-            PageTransition(
-                child: PhotoViewerScreen(
-                  items: photoList,
-                  loadingItems: ref.read(librarySearchProvider(key).notifier).fetchGallery(),
-                  indexOfSelected: photoList.indexWhere((element) => element.id == item.id),
-                ),
-                type: PageTransitionType.fade),
-          );
+          await context.router.push(PhotoViewerRoute(
+            items: photoList,
+            loadingItems: ref.read(librarySearchProvider(key).notifier).fetchGallery(),
+            selected: item.id,
+          ));
         }
         if (context.mounted) context.refreshData();
         break;

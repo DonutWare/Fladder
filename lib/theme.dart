@@ -34,9 +34,6 @@ class FladderTheme {
   static RoundedRectangleBorder get defaultShape => RoundedRectangleBorder(borderRadius: BorderRadius.circular(16));
   static RoundedRectangleBorder get largeShape => RoundedRectangleBorder(borderRadius: BorderRadius.circular(32));
 
-  static Color get darkBackgroundColor => const Color.fromARGB(255, 10, 10, 10);
-  static Color get lightBackgroundColor => const Color.fromARGB(237, 255, 255, 255);
-
   static ThemeData theme(ColorScheme? colorScheme, DynamicSchemeVariant dynamicSchemeVariant) {
     final ColorScheme? scheme = generateDynamicColourSchemes(colorScheme, dynamicSchemeVariant);
 
@@ -50,7 +47,7 @@ class FladderTheme {
         trackHeight: 8,
         thumbColor: colorScheme?.onSurface,
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         elevation: 3,
         clipBehavior: Clip.antiAlias,
         margin: EdgeInsets.zero,
@@ -95,7 +92,7 @@ class FladderTheme {
         ),
       ),
       navigationBarTheme: const NavigationBarThemeData(),
-      dialogTheme: DialogTheme(shape: defaultShape),
+      dialogTheme: DialogThemeData(shape: defaultShape),
       scrollbarTheme: ScrollbarThemeData(
           radius: const Radius.circular(16),
           thumbColor: WidgetStateProperty.resolveWith((states) {
@@ -126,9 +123,10 @@ class FladderTheme {
       listTileTheme: ListTileThemeData(
         shape: defaultShape,
       ),
-      dividerTheme: const DividerThemeData(
+      dividerTheme: DividerThemeData(
         indent: 6,
         endIndent: 6,
+        color: scheme?.onSurface.withAlpha(125),
       ),
       segmentedButtonTheme: SegmentedButtonThemeData(
         style: ButtonStyle(

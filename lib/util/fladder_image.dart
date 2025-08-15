@@ -12,6 +12,7 @@ class FladderImage extends ConsumerWidget {
   final Widget Function(BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded)? frameBuilder;
   final Widget Function(BuildContext context, Object object, StackTrace? stack)? imageErrorBuilder;
   final Widget? placeHolder;
+  final StackFit stackFit;
   final BoxFit fit;
   final BoxFit? blurFit;
   final AlignmentGeometry? alignment;
@@ -22,6 +23,7 @@ class FladderImage extends ConsumerWidget {
     this.frameBuilder,
     this.imageErrorBuilder,
     this.placeHolder,
+    this.stackFit = StackFit.expand,
     this.fit = BoxFit.cover,
     this.blurFit,
     this.alignment,
@@ -39,16 +41,14 @@ class FladderImage extends ConsumerWidget {
     } else {
       return Stack(
         key: Key(newImage.key),
-        fit: StackFit.expand,
+        fit: stackFit,
         children: [
-          if (!disableBlur && useBluredPlaceHolder && newImage.hash.isNotEmpty)
-            Image(
-              fit: blurFit ?? fit,
-              excludeFromSemantics: true,
-              filterQuality: FilterQuality.low,
-              image: BlurHashImage(
-                newImage.hash,
-              ),
+          if (!disableBlur && useBluredPlaceHolder && newImage.hash.isNotEmpty || blurOnly)
+            BlurHash(
+              hash: newImage.hash,
+              optimizationMode: BlurHashOptimizationMode.approximation,
+              color: Colors.transparent,
+              imageFit: blurFit ?? fit,
             ),
           if (!blurOnly)
             FadeInImage(

@@ -3,12 +3,15 @@ include: package:lints/recommended.yaml
 analyzer:
   exclude:
     - build/**
+    - .dart_tool/**
+    - .fvm/**
+    - pubspec.yaml
+    - packages/**
     - lib/jellyfin/**
     - lib/**/**.g.dart
     - lib/**/**.freezed.dart
     - lib/**/**.mapped.dart
-    - packages/**
-    - pubspec.yaml
+    - lib/l10n/**
   strong-mode:
     implicit-casts: false
     implicit-dynamic: false

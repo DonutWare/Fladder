@@ -31,6 +31,9 @@ class EpisodeModelMapper extends SubClassMapperBase<EpisodeModel> {
   static int _$episode(EpisodeModel v) => v.episode;
   static const Field<EpisodeModel, int> _f$episode =
       Field('episode', _$episode);
+  static int? _$episodeEnd(EpisodeModel v) => v.episodeEnd;
+  static const Field<EpisodeModel, int> _f$episodeEnd =
+      Field('episodeEnd', _$episodeEnd);
   static List<Chapter> _$chapters(EpisodeModel v) => v.chapters;
   static const Field<EpisodeModel, List<Chapter>> _f$chapters =
       Field('chapters', _$chapters, opt: true, def: const []);
@@ -86,6 +89,7 @@ class EpisodeModelMapper extends SubClassMapperBase<EpisodeModel> {
     #seriesName: _f$seriesName,
     #season: _f$season,
     #episode: _f$episode,
+    #episodeEnd: _f$episodeEnd,
     #chapters: _f$chapters,
     #location: _f$location,
     #dateAired: _f$dateAired,
@@ -120,6 +124,7 @@ class EpisodeModelMapper extends SubClassMapperBase<EpisodeModel> {
         seriesName: data.dec(_f$seriesName),
         season: data.dec(_f$season),
         episode: data.dec(_f$episode),
+        episodeEnd: data.dec(_f$episodeEnd),
         chapters: data.dec(_f$chapters),
         location: data.dec(_f$location),
         dateAired: data.dec(_f$dateAired),
@@ -141,34 +146,11 @@ class EpisodeModelMapper extends SubClassMapperBase<EpisodeModel> {
 
   @override
   final Function instantiate = _instantiate;
-
-  static EpisodeModel fromMap(Map<String, dynamic> map) {
-    return ensureInitialized().decodeMap<EpisodeModel>(map);
-  }
-
-  static EpisodeModel fromJson(String json) {
-    return ensureInitialized().decodeJson<EpisodeModel>(json);
-  }
 }
 
 mixin EpisodeModelMappable {
-  String toJson() {
-    return EpisodeModelMapper.ensureInitialized()
-        .encodeJson<EpisodeModel>(this as EpisodeModel);
-  }
-
-  Map<String, dynamic> toMap() {
-    return EpisodeModelMapper.ensureInitialized()
-        .encodeMap<EpisodeModel>(this as EpisodeModel);
-  }
-
   EpisodeModelCopyWith<EpisodeModel, EpisodeModel, EpisodeModel> get copyWith =>
       _EpisodeModelCopyWithImpl(this as EpisodeModel, $identity, $identity);
-  @override
-  String toString() {
-    return EpisodeModelMapper.ensureInitialized()
-        .stringifyValue(this as EpisodeModel);
-  }
 }
 
 extension EpisodeModelValueCopy<$R, $Out>
@@ -189,6 +171,7 @@ abstract class EpisodeModelCopyWith<$R, $In extends EpisodeModel, $Out>
       {String? seriesName,
       int? season,
       int? episode,
+      int? episodeEnd,
       List<Chapter>? chapters,
       ItemLocation? location,
       DateTime? dateAired,
@@ -232,6 +215,7 @@ class _EpisodeModelCopyWithImpl<$R, $Out>
           {Object? seriesName = $none,
           int? season,
           int? episode,
+          Object? episodeEnd = $none,
           List<Chapter>? chapters,
           Object? location = $none,
           Object? dateAired = $none,
@@ -253,6 +237,7 @@ class _EpisodeModelCopyWithImpl<$R, $Out>
         if (seriesName != $none) #seriesName: seriesName,
         if (season != null) #season: season,
         if (episode != null) #episode: episode,
+        if (episodeEnd != $none) #episodeEnd: episodeEnd,
         if (chapters != null) #chapters: chapters,
         if (location != $none) #location: location,
         if (dateAired != $none) #dateAired: dateAired,
@@ -276,6 +261,7 @@ class _EpisodeModelCopyWithImpl<$R, $Out>
       seriesName: data.get(#seriesName, or: $value.seriesName),
       season: data.get(#season, or: $value.season),
       episode: data.get(#episode, or: $value.episode),
+      episodeEnd: data.get(#episodeEnd, or: $value.episodeEnd),
       chapters: data.get(#chapters, or: $value.chapters),
       location: data.get(#location, or: $value.location),
       dateAired: data.get(#dateAired, or: $value.dateAired),

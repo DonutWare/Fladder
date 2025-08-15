@@ -1266,5 +1266,15 @@
   "episodeMissing": "Faltante",
   "@episodeMissing": {},
   "segmentActionNone": "Ninguno",
-  "@segmentActionNone": {}
+  "@segmentActionNone": {},
+  "syncAllFiles": "Sincronizar todos los ficheros",
+  "@syncAllFiles": {},
+  "settingsEnableOsMediaControlsDesc": "Permitir el control de la reproducción mediante teclas multimedia y mostrar el contenido multimedia que se está reproduciendo actualmente en el sistema operativo",
+  "@settingsEnableOsMediaControlsDesc": {},
+  "settingsPlayerBufferSizeTitle": "Tamaño del búfer de vídeo",
+  "@settingsPlayerBufferSizeTitle": {},
+  "settingsPlayerBufferSizeDesc": "Configurar el tamaño del búfer para la reproducción de vídeo, determinando la cantidad de datos que se cargan en la caché.",
+  "@settingsPlayerBufferSizeDesc": {},
+  "segmentActionAskToSkip": "Botón de omitir",
+  "@segmentActionAskToSkip": {}
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/settings/client_settings_model.dart';
+import 'package:fladder/models/settings/key_combinations.dart';
 import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/util/custom_color_themes.dart';
 import 'package:fladder/util/debouncer.dart';
@@ -58,4 +59,7 @@ class ClientSettingsNotifier extends StateNotifier<ClientSettingsModel> {
       state = state.copyWith(schemeVariant: type ?? state.schemeVariant);
 
   void setRequireWifi(bool value) => state = state.copyWith(requireWifi: value);
+
+  void setShortcuts(MapEntry<GlobalHotKeys, KeyCombination> newEntry) =>
+      state = state.copyWith(shortcuts: state.shortcuts.setOrRemove(newEntry, state.defaultShortCuts));
 }

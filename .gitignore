@@ -5,6 +5,8 @@
 *.swp
 .DS_Store
 .atom/
+.build/
+.dmg_temp/
 .buildlog/
 .history
 .svn/
@@ -73,3 +75,6 @@ local.properties
 
 # Inno Setup builds
 Output
+
+# Generated localizations
+lib/l10n/generated

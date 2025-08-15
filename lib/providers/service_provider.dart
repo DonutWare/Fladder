@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:chopper/chopper.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 
 import 'package:fladder/fake/fake_jellyfin_open_api.dart';
@@ -12,12 +13,18 @@ import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/account_model.dart';
 import 'package:fladder/models/credentials_model.dart';
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/items/episode_model.dart';
+import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
 import 'package:fladder/providers/auth_provider.dart';
 import 'package:fladder/providers/image_provider.dart';
+import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/util/jellyfin_extension.dart';
+
+const _userSettings = "usersettings";
+const _client = "fladder";
 
 class ServerQueryResult {
   final List<BaseItemDto> original;
@@ -84,21 +91,78 @@ class JellyService {
   Future<Response<ItemBaseModel>> usersUserIdItemsItemIdGet({
     String? itemId,
   }) async {
-    final response = await api.itemsItemIdGet(
-      userId: account?.id,
-      itemId: itemId,
-    );
-    return response.copyWith(body: ItemBaseModel.fromBaseDto(response.bodyOrThrow, ref));
+    try {
+      final response = await api.itemsItemIdGet(
+        userId: account?.id,
+        itemId: itemId,
+      );
+      return response.copyWith(body: ItemBaseModel.fromBaseDto(response.bodyOrThrow, ref));
+    } catch (e) {
+      final item = (await ref.read(syncProvider.notifier).getSyncedItem(itemId))?.itemModel;
+      return Response<ItemBaseModel>(
+        http.Response("", 202),
+        item,
+      );
+    }
   }
 
   Future<Response<BaseItemDto>> usersUserIdItemsItemIdGetBaseItem({
     String? itemId,
   }) async {
-    final response = await api.itemsItemIdGet(
+    try {
+      return await api.itemsItemIdGet(
+        userId: account?.id,
+        itemId: itemId,
+      );
+    } catch (e) {
+      return ref.read(syncProvider.notifier).getSyncedItem(itemId).then(
+            (value) => value?.data != null
+                ? Response<BaseItemDto>(
+                    http.Response("", 202),
+                    value?.data,
+                  )
+                : Response<BaseItemDto>(
+                    http.Response("", 404),
+                    null,
+                  ),
+          );
+    }
+  }
+
+  Future<Response<UserData>> userItemsItemIdUserDataGet({
+    String? itemId,
+  }) async {
+    final response = await api.userItemsItemIdUserDataGet(
       userId: account?.id,
       itemId: itemId,
     );
-    return response;
+    return response.copyWith(
+      body: UserData.fromDto(response.bodyOrThrow),
+    );
+  }
+
+  Future<Response<UserData>?> userItemsItemIdUserDataPost({
+    String? itemId,
+    required UserData? body,
+  }) async {
+    if (body == null) {
+      return null;
+    }
+    final response = await api.userItemsItemIdUserDataPost(
+      userId: account?.id,
+      itemId: itemId,
+      body: UpdateUserItemDataDto(
+        playCount: body.playCount,
+        playbackPositionTicks: body.playbackPositionTicks,
+        isFavorite: body.isFavourite,
+        played: body.played,
+        lastPlayedDate: body.lastPlayed,
+        itemId: itemId,
+      ),
+    );
+    return response.copyWith(
+      body: UserData.fromDto(response.bodyOrThrow),
+    );
   }
 
   Future<Response<ServerQueryResult>> itemsGet({
@@ -491,8 +555,15 @@ class JellyService {
 
   Future<Response> sessionsPlayingStoppedPost({
     required PlaybackStopInfo? body,
-  }) =>
-      api.sessionsPlayingStoppedPost(body: body);
+  }) {
+    final positionTicks = body?.positionTicks;
+    if (positionTicks != null) {
+      ref
+          .read(syncProvider.notifier)
+          .updatePlaybackPosition(itemId: body?.itemId, position: Duration(milliseconds: positionTicks ~/ 10000));
+    }
+    return api.sessionsPlayingStoppedPost(body: body);
+  }
 
   Future<Response> sessionsPlayingProgressPost({required PlaybackProgressInfo? body}) async =>
       api.sessionsPlayingProgressPost(body: body);
@@ -533,22 +604,51 @@ class JellyService {
     bool? enableUserData,
     ShowsSeriesIdEpisodesGetSortBy? sortBy,
   }) async {
-    return api.showsSeriesIdEpisodesGet(
-      seriesId: seriesId,
-      userId: account?.id,
-      fields: fields,
-      isMissing: isMissing,
-      limit: limit,
-      sortBy: sortBy,
-      enableUserData: enableUserData,
-      startIndex: startIndex,
-      adjacentTo: adjacentTo,
-      startItemId: startItemId,
-      season: season,
-      seasonId: seasonId,
-      enableImages: enableImages,
-      enableImageTypes: enableImageTypes,
-    );
+    try {
+      var response = await api.showsSeriesIdEpisodesGet(
+        seriesId: seriesId,
+        userId: account?.id,
+        fields: [
+          ...?fields,
+          ItemFields.parentid,
+        ],
+        isMissing: isMissing,
+        limit: limit,
+        sortBy: sortBy,
+        enableUserData: enableUserData,
+        startIndex: startIndex,
+        adjacentTo: adjacentTo,
+        startItemId: startItemId,
+        season: season,
+        seasonId: seasonId,
+        enableImages: enableImages,
+        enableImageTypes: enableImageTypes,
+      );
+      return response;
+    } catch (e) {
+      final seriesItem = await ref.read(syncProvider.notifier).getSyncedItem(seriesId);
+      if (seriesItem != null) {
+        final episodes = await ref.read(syncProvider.notifier).getNestedChildren(seriesItem)
+          ..where((e) => e.itemModel is EpisodeModel);
+        return Response<BaseItemDtoQueryResult>(
+          http.Response("", 200),
+          BaseItemDtoQueryResult(
+            items: episodes.map((e) => e.data).nonNulls.toList(),
+            totalRecordCount: episodes.length,
+            startIndex: 0,
+          ),
+        );
+      } else {
+        return Response<BaseItemDtoQueryResult>(
+          http.Response("", 400),
+          const BaseItemDtoQueryResult(
+            items: [],
+            totalRecordCount: 0,
+            startIndex: 0,
+          ),
+        );
+      }
+    }
   }
 
   Future<List<ItemBaseModel>> fetchEpisodeFromShow({
@@ -563,11 +663,22 @@ class JellyService {
     String? itemId,
     int? limit,
   }) async {
-    return api.itemsItemIdSimilarGet(
-      userId: account?.id,
-      itemId: itemId,
-      limit: limit,
-    );
+    try {
+      return await api.itemsItemIdSimilarGet(userId: account?.id, itemId: itemId, limit: limit, fields: [
+        ItemFields.parentid,
+        ItemFields.candelete,
+        ItemFields.candownload,
+      ]);
+    } catch (e) {
+      return Response<BaseItemDtoQueryResult>(
+        http.Response("", 400),
+        const BaseItemDtoQueryResult(
+          items: [],
+          totalRecordCount: 0,
+          startIndex: 0,
+        ),
+      );
+    }
   }
 
   Future<Response<BaseItemDtoQueryResult>> usersUserIdItemsGet({
@@ -637,6 +748,34 @@ class JellyService {
   Future<Response<ServerConfiguration>> systemConfigurationGet() => api.systemConfigurationGet();
   Future<Response<PublicSystemInfo>> systemInfoPublicGet() => api.systemInfoPublicGet();
 
+  Future<Response<UserSettings>> getCustomConfig() async {
+    final response = await api.displayPreferencesDisplayPreferencesIdGet(
+      displayPreferencesId: _userSettings,
+      userId: account?.id ?? "",
+      $client: _client,
+    );
+    final customPrefs = response.body?.customPrefs?.parseValues();
+    final userPrefs = customPrefs != null ? UserSettings.fromJson(customPrefs) : UserSettings();
+    return response.copyWith(
+      body: userPrefs,
+    );
+  }
+
+  Future<Response<dynamic>> setCustomConfig(UserSettings currentSettings) async {
+    final currentDisplayPreferences = await api.displayPreferencesDisplayPreferencesIdGet(
+      displayPreferencesId: _userSettings,
+      $client: _client,
+    );
+    return api.displayPreferencesDisplayPreferencesIdPost(
+      displayPreferencesId: 'usersettings',
+      userId: account?.id ?? "",
+      $client: _client,
+      body: currentDisplayPreferences.body?.copyWith(
+        customPrefs: currentSettings.toJson(),
+      ),
+    );
+  }
+
   Future<Response> sessionsLogoutPost() => api.sessionsLogoutPost();
 
   Future<Response<String>> itemsItemIdDownloadGet({
@@ -689,13 +828,42 @@ class JellyService {
     bool? enableUserData,
     bool? isMissing,
     List<ItemFields>? fields,
-  }) =>
-      api.showsSeriesIdSeasonsGet(
+  }) async {
+    try {
+      final response = await api.showsSeriesIdSeasonsGet(
         seriesId: seriesId,
         isMissing: isMissing,
         enableUserData: enableUserData,
-        fields: fields,
+        fields: [
+          ...?fields,
+          ItemFields.parentid,
+        ],
       );
+      return response;
+    } catch (e) {
+      final seriesItem = await ref.read(syncProvider.notifier).getSyncedItem(seriesId);
+      if (seriesItem != null) {
+        final seasons = await ref.read(syncProvider.notifier).getChildren(seriesItem.id);
+        return Response<BaseItemDtoQueryResult>(
+          http.Response("", 200),
+          BaseItemDtoQueryResult(
+            items: seasons.map((e) => e.data).nonNulls.toList(),
+            totalRecordCount: seasons.length,
+            startIndex: 0,
+          ),
+        );
+      } else {
+        return Response<BaseItemDtoQueryResult>(
+          http.Response("", 400),
+          const BaseItemDtoQueryResult(
+            items: [],
+            totalRecordCount: 0,
+            startIndex: 0,
+          ),
+        );
+      }
+    }
+  }
 
   Future<Response<QueryFilters>> itemsFilters2Get({
     String? parentId,
@@ -811,33 +979,75 @@ class JellyService {
 
   Future<Response<UserItemDataDto>> usersUserIdFavoriteItemsItemIdPost({
     required String? itemId,
-  }) =>
-      api.userFavoriteItemsItemIdPost(
+  }) async {
+    Response<UserItemDataDto>? response;
+    try {
+      response = await api.userFavoriteItemsItemIdPost(
         itemId: itemId,
         userId: account?.id,
       );
+    } finally {
+      await ref
+          .read(syncProvider.notifier)
+          .updateFavoriteItem(itemId, isFavorite: true, responseSuccessful: response?.isSuccessful ?? false);
+    }
+    return response;
+  }
 
   Future<Response<UserItemDataDto>> usersUserIdFavoriteItemsItemIdDelete({
     required String? itemId,
-  }) =>
-      api.userFavoriteItemsItemIdDelete(
+  }) async {
+    Response<UserItemDataDto>? response;
+    try {
+      response = await api.userFavoriteItemsItemIdDelete(
         itemId: itemId,
         userId: account?.id,
       );
+    } finally {
+      await ref
+          .read(syncProvider.notifier)
+          .updateFavoriteItem(itemId, isFavorite: false, responseSuccessful: response?.isSuccessful ?? false);
+    }
+    return response;
+  }
 
   Future<Response<UserItemDataDto>> usersUserIdPlayedItemsItemIdPost({
     required String? itemId,
     DateTime? datePlayed,
-  }) =>
-      api.userPlayedItemsItemIdPost(itemId: itemId, userId: account?.id, datePlayed: datePlayed);
+  }) async {
+    Response<UserItemDataDto>? response;
+    try {
+      response = await api.userPlayedItemsItemIdPost(itemId: itemId, userId: account?.id, datePlayed: datePlayed);
+    } finally {
+      await ref.read(syncProvider.notifier).updatePlayedItem(
+            itemId,
+            datePlayed: datePlayed,
+            played: true,
+            responseSuccessful: response?.isSuccessful ?? false,
+          );
+    }
+    return response;
+  }
 
   Future<Response<UserItemDataDto>> usersUserIdPlayedItemsItemIdDelete({
     required String? itemId,
-  }) =>
-      api.userPlayedItemsItemIdDelete(
+  }) async {
+    Response<UserItemDataDto>? response;
+    try {
+      response = await api.userPlayedItemsItemIdDelete(
         itemId: itemId,
         userId: account?.id,
       );
+    } finally {
+      await ref.read(syncProvider.notifier).updatePlayedItem(
+            itemId,
+            played: false,
+            responseSuccessful: response?.isSuccessful ?? false,
+          );
+    }
+
+    return response;
+  }
 
   Future<Response<MediaSegmentsModel>?> mediaSegmentsGet({
     required String id,
@@ -903,37 +1113,65 @@ class JellyService {
 
   Future<Response<dynamic>> deleteItem(String itemId) => api.itemsItemIdDelete(itemId: itemId);
 
-Future<UserConfiguration?> _updateUserConfiguration(UserConfiguration newUserConfiguration) async {
-  if (account?.id == null) return null;
+  Future<UserConfiguration?> _updateUserConfiguration(UserConfiguration newUserConfiguration) async {
+    if (account?.id == null) return null;
 
-  final response = await api.usersConfigurationPost(
-    userId: account!.id,
-    body: newUserConfiguration,
-  );
+    final response = await api.usersConfigurationPost(
+      userId: account!.id,
+      body: newUserConfiguration,
+    );
 
-  if (response.isSuccessful) {
-    return newUserConfiguration;
+    if (response.isSuccessful) {
+      return newUserConfiguration;
+    }
+    return null;
   }
-  return null;
+
+  Future<UserConfiguration?> updateRememberAudioSelections() {
+    final currentUserConfiguration = account?.userConfiguration;
+    if (currentUserConfiguration == null) return Future.value(null);
+
+    final updated = currentUserConfiguration.copyWith(
+      rememberAudioSelections: !(currentUserConfiguration.rememberAudioSelections ?? false),
+    );
+    return _updateUserConfiguration(updated);
+  }
+
+  Future<UserConfiguration?> updateRememberSubtitleSelections() {
+    final current = account?.userConfiguration;
+    if (current == null) return Future.value(null);
+
+    final updated = current.copyWith(
+      rememberSubtitleSelections: !(current.rememberSubtitleSelections ?? false),
+    );
+    return _updateUserConfiguration(updated);
+  }
 }
 
-Future<UserConfiguration?> updateRememberAudioSelections() {
-  final currentUserConfiguration = account?.userConfiguration;
-  if (currentUserConfiguration == null) return Future.value(null);
+extension ParsedMap on Map<String, dynamic> {
+  Map<String, dynamic> parseValues() {
+    Map<String, dynamic> parsedMap = {};
 
-  final updated = currentUserConfiguration.copyWith(
-    rememberAudioSelections: !(currentUserConfiguration.rememberAudioSelections ?? false),
-  );
-  return _updateUserConfiguration(updated);
-}
+    for (var entry in entries) {
+      String key = entry.key;
+      dynamic value = entry.value;
 
-Future<UserConfiguration?> updateRememberSubtitleSelections() {
-  final current = account?.userConfiguration;
-  if (current == null) return Future.value(null);
+      if (value is String) {
+        // Try to parse the string to a number or boolean
+        if (int.tryParse(value) != null) {
+          parsedMap[key] = int.tryParse(value);
+        } else if (double.tryParse(value) != null) {
+          parsedMap[key] = double.tryParse(value);
+        } else if (value.toLowerCase() == 'true' || value.toLowerCase() == 'false') {
+          parsedMap[key] = value.toLowerCase() == 'true';
+        } else {
+          parsedMap[key] = value;
+        }
+      } else {
+        parsedMap[key] = value;
+      }
+    }
 
-  final updated = current.copyWith(
-    rememberSubtitleSelections: !(current.rememberSubtitleSelections ?? false),
-  );
-  return _updateUserConfiguration(updated);
-}
+    return parsedMap;
+  }
 }

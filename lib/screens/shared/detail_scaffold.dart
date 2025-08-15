@@ -6,7 +6,10 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/images_models.dart';
+import 'package:fladder/providers/sync/sync_provider_helpers.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
+import 'package:fladder/screens/syncing/sync_button.dart';
+import 'package:fladder/screens/syncing/sync_item_details.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
@@ -93,34 +96,37 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                   if (backgroundImage != null)
                     Align(
                       alignment: Alignment.topCenter,
-                      child: ShaderMask(
-                        shaderCallback: (bounds) => LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Colors.white,
-                            Colors.white,
-                            Colors.white,
-                            Colors.white,
-                            Colors.white,
-                            Colors.white.withValues(alpha: 0),
-                          ],
-                        ).createShader(bounds),
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                            minWidth: double.infinity,
-                            minHeight: minHeight - 20,
-                            maxHeight: maxHeight.clamp(minHeight, 2500) - 20,
-                          ),
-                          child: FadeInImage(
-                            placeholder: backgroundImage!.imageProvider,
-                            placeholderColor: Colors.transparent,
-                            fit: BoxFit.cover,
-                            alignment: Alignment.topCenter,
-                            placeholderFit: BoxFit.cover,
-                            excludeFromSemantics: true,
-                            placeholderFilterQuality: FilterQuality.low,
-                            image: backgroundImage!.imageProvider,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: sideBarPadding),
+                        child: ShaderMask(
+                          shaderCallback: (bounds) => LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.white,
+                              Colors.white,
+                              Colors.white,
+                              Colors.white,
+                              Colors.white,
+                              Colors.white.withValues(alpha: 0),
+                            ],
+                          ).createShader(bounds),
+                          child: ConstrainedBox(
+                            constraints: BoxConstraints(
+                              minWidth: double.infinity,
+                              minHeight: minHeight - 20,
+                              maxHeight: maxHeight.clamp(minHeight, 2500) - 20,
+                            ),
+                            child: FadeInImage(
+                              placeholder: backgroundImage!.imageProvider,
+                              placeholderColor: Colors.transparent,
+                              fit: BoxFit.cover,
+                              alignment: Alignment.topCenter,
+                              placeholderFit: BoxFit.cover,
+                              excludeFromSemantics: true,
+                              placeholderFilterQuality: FilterQuality.low,
+                              image: backgroundImage!.imageProvider,
+                            ),
                           ),
                         ),
                       ),
@@ -196,6 +202,19 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             if (widget.item != null) ...[
+                              ref.watch(syncedItemProvider(widget.item)).when(
+                                    error: (error, stackTrace) => const SizedBox.shrink(),
+                                    data: (syncedItem) {
+                                      if (syncedItem == null) {
+                                        return const SizedBox.shrink();
+                                      }
+                                      return IconButton(
+                                        onPressed: () => showSyncItemDetails(context, syncedItem, ref),
+                                        icon: SyncButton(item: widget.item!, syncedItem: syncedItem),
+                                      );
+                                    },
+                                    loading: () => const SizedBox.shrink(),
+                                  ),
                               Builder(
                                 builder: (context) {
                                   final newActions = widget.actions?.call(context);

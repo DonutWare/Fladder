@@ -54,21 +54,41 @@ Future<void> launchUrl(BuildContext context, String link) async {
     }
   } else {
     try {
+      final mediaQuery = MediaQuery.of(context);
+      final theme = Theme.of(context);
       await customtab.launchUrl(
         Uri.parse(link),
-        customTabsOptions: customtab.CustomTabsOptions(
-          colorSchemes: customtab.CustomTabsColorSchemes.defaults(
-            toolbarColor: Theme.of(context).primaryColor,
+        customTabsOptions: customtab.CustomTabsOptions.partial(
+          configuration: customtab.PartialCustomTabsConfiguration.adaptiveSheet(
+            initialHeight: mediaQuery.size.height * 0.7,
+            initialWidth: mediaQuery.size.width * 0.4,
+            activitySideSheetMaximizationEnabled: true,
+            activitySideSheetDecorationType: customtab.CustomTabsActivitySideSheetDecorationType.shadow,
+            activitySideSheetRoundedCornersPosition: customtab.CustomTabsActivitySideSheetRoundedCornersPosition.top,
+            cornerRadius: 16,
           ),
-          urlBarHidingEnabled: true,
+          colorSchemes: customtab.CustomTabsColorSchemes.defaults(
+            toolbarColor: Theme.of(context).colorScheme.primary,
+            navigationBarColor: Theme.of(context).colorScheme.primary,
+          ),
           shareState: customtab.CustomTabsShareState.browserDefault,
           showTitle: true,
+          browser: const customtab.CustomTabsBrowserConfiguration(
+            prefersDefaultBrowser: true,
+          ),
         ),
-        safariVCOptions: customtab.SafariViewControllerOptions(
-          preferredBarTintColor: Theme.of(context).primaryColor,
-          preferredControlTintColor: Colors.white,
-          barCollapsingEnabled: true,
-          entersReaderIfAvailable: false,
+        safariVCOptions: customtab.SafariViewControllerOptions.pageSheet(
+          configuration: const customtab.SheetPresentationControllerConfiguration(
+            detents: {
+              customtab.SheetPresentationControllerDetent.large,
+              customtab.SheetPresentationControllerDetent.medium,
+            },
+            prefersScrollingExpandsWhenScrolledToEdge: true,
+            prefersGrabberVisible: true,
+            prefersEdgeAttachedInCompactHeight: true,
+          ),
+          preferredBarTintColor: theme.colorScheme.surface,
+          preferredControlTintColor: theme.colorScheme.onSurface,
           dismissButtonStyle: customtab.SafariViewControllerDismissButtonStyle.close,
         ),
       );

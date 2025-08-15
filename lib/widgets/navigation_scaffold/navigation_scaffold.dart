@@ -1,22 +1,24 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide ConnectionState;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/media_playback_model.dart';
+import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/providers/views_provider.dart';
 import 'package:fladder/routes/auto_router.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/screens/shared/nested_bottom_appbar.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
-import 'package:fladder/util/theme_extensions.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/destination_model.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/fladder_app_bar.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/floating_player_bar.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/navigation_body.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/navigation_drawer.dart';
+import 'package:fladder/widgets/shared/animated_visibility.dart';
 import 'package:fladder/widgets/shared/hide_on_scroll.dart';
+import 'package:fladder/widgets/shared/offline_banner.dart';
 
 class NavigationScaffold extends ConsumerStatefulWidget {
   final String? currentRouteName;
@@ -56,11 +58,25 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
     final playerState = ref.watch(mediaPlaybackProvider.select((value) => value.state));
     final showPlayerBar = playerState == VideoPlayerState.minimized;
 
-    final isDesktop = AdaptiveLayout.of(context).isDesktop;
+    final isDesktop = AdaptiveLayout.of(context).isDesktop || kIsWeb;
 
-    final bottomPadding = isDesktop || kIsWeb ? 0.0 : MediaQuery.paddingOf(context).bottom;
+    final mediaQuery = MediaQuery.of(context);
+    final theme = Theme.of(context);
 
+    final paddingOf = mediaQuery.padding;
+    final viewPaddingOf = mediaQuery.viewPadding;
+
+    final bottomPadding = isDesktop ? 12.0 : paddingOf.bottom;
+    final bottomViewPadding = isDesktop ? 12.0 : viewPaddingOf.bottom;
     final isHomeScreen = currentIndex != -1;
+
+    final isOffline = ref.watch(connectivityStatusProvider.select((value) => value == ConnectionState.offline));
+
+    final offlineMessageHeight = isOffline && !isDesktop ? 12 : 0;
+
+    final calculatedBottomViewPadding =
+        showPlayerBar ? floatingPlayerHeight(context) + bottomViewPadding : bottomViewPadding;
+
     return PopScope(
       canPop: currentIndex == 0,
       onPopInvokedWithResult: (didPop, result) {
@@ -72,58 +88,73 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
         alignment: Alignment.bottomCenter,
         children: [
           Positioned.fill(
-            child: Padding(
-              padding: EdgeInsets.only(bottom: showPlayerBar ? floatingPlayerHeight - 12 + bottomPadding : 0),
-              child: Scaffold(
-                key: _key,
-                appBar: const FladderAppBar(),
-                extendBodyBehindAppBar: true,
-                resizeToAvoidBottomInset: false,
-                extendBody: true,
-                floatingActionButton: AdaptiveLayout.layoutModeOf(context) == LayoutMode.single && isHomeScreen
-                    ? widget.destinations.elementAtOrNull(currentIndex)?.floatingActionButton?.normal
-                    : null,
-                drawer: homeRoutes.any((element) => element.name.contains(currentLocation))
-                    ? NestedNavigationDrawer(
-                        actionButton: null,
-                        toggleExpanded: (value) => _key.currentState?.closeDrawer(),
-                        views: views,
-                        destinations: widget.destinations,
-                        currentLocation: currentLocation,
-                      )
-                    : null,
-                bottomNavigationBar: isHomeScreen && AdaptiveLayout.viewSizeOf(context) == ViewSize.phone
-                    ? HideOnScroll(
-                        controller: AdaptiveLayout.scrollOf(context),
-                        forceHide: !homeRoutes.any((element) => element.name.contains(currentLocation)),
-                        child: NestedBottomAppBar(
-                          child: SizedBox(
-                            height: 65,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: widget.destinations
-                                  .map(
-                                    (destination) => destination.toNavigationButton(
-                                        widget.currentRouteName == destination.route?.routeName, false, false),
-                                  )
-                                  .toList(),
-                            ),
+            child: MediaQuery(
+              data: mediaQuery.copyWith(
+                padding: paddingOf.copyWith(
+                  top: mediaQuery.padding.top + offlineMessageHeight,
+                  bottom: showPlayerBar ? floatingPlayerHeight(context) + 12 + bottomPadding : bottomPadding,
+                ),
+                viewPadding: viewPaddingOf.copyWith(
+                  top: mediaQuery.viewPadding.top,
+                  bottom: calculatedBottomViewPadding,
+                ),
+              ),
+              //Builder to correctly apply new padding
+              child: Builder(builder: (context) {
+                return Scaffold(
+                  key: _key,
+                  appBar: const FladderAppBar(),
+                  extendBodyBehindAppBar: true,
+                  resizeToAvoidBottomInset: false,
+                  extendBody: true,
+                  floatingActionButton: AdaptiveLayout.layoutModeOf(context) == LayoutMode.single && isHomeScreen
+                      ? widget.destinations.elementAtOrNull(currentIndex)?.floatingActionButton?.normal
+                      : null,
+                  drawer: homeRoutes.any((element) => element.name.contains(currentLocation))
+                      ? NestedNavigationDrawer(
+                          actionButton: null,
+                          toggleExpanded: (value) => _key.currentState?.closeDrawer(),
+                          views: views,
+                          destinations: widget.destinations,
+                          currentLocation: currentLocation,
+                        )
+                      : null,
+                  bottomNavigationBar: AnimatedVisibility(
+                    visible: (isHomeScreen && AdaptiveLayout.viewSizeOf(context) == ViewSize.phone),
+                    hiddenHeight: calculatedBottomViewPadding,
+                    duration: const Duration(milliseconds: 250),
+                    child: HideOnScroll(
+                      controller: AdaptiveLayout.scrollOf(context),
+                      forceHide: !homeRoutes.any((element) => element.name.contains(currentLocation)),
+                      child: NestedBottomAppBar(
+                        child: SizedBox(
+                          height: 65,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: widget.destinations
+                                .map(
+                                  (destination) => destination.toNavigationButton(
+                                      widget.currentRouteName == destination.route?.routeName, false, false),
+                                )
+                                .toList(),
                           ),
                         ),
-                      )
-                    : null,
-                body: widget.nestedChild != null
-                    ? NavigationBody(
-                        child: widget.nestedChild!,
-                        parentContext: context,
-                        currentIndex: currentIndex,
-                        destinations: widget.destinations,
-                        currentLocation: currentLocation,
-                        drawerKey: _key,
-                      )
-                    : null,
-              ),
+                      ),
+                    ),
+                  ),
+                  body: widget.nestedChild != null
+                      ? NavigationBody(
+                          child: widget.nestedChild!,
+                          parentContext: context,
+                          currentIndex: currentIndex,
+                          destinations: widget.destinations,
+                          currentLocation: currentLocation,
+                          drawerKey: _key,
+                        )
+                      : null,
+                );
+              }),
             ),
           ),
           Material(
@@ -131,22 +162,35 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
             child: AnimatedFadeSize(
               child: Container(
                 width: double.infinity,
-                decoration: BoxDecoration(
-                  color: context.colors.surface,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(12),
-                    topRight: Radius.circular(12),
-                  ),
-                ),
-                child: showPlayerBar
-                    ? Padding(
-                        padding: EdgeInsets.only(bottom: bottomPadding),
-                        child: const FloatingPlayerBar(),
-                      )
-                    : const SizedBox.shrink(),
+                child: showPlayerBar ? const FloatingPlayerBar() : const SizedBox.shrink(),
               ),
             ),
-          )
+          ),
+          if (!AdaptiveLayout.of(context).isDesktop)
+            Align(
+              alignment: Alignment.topCenter,
+              child: AnimatedOpacity(
+                duration: const Duration(milliseconds: 250),
+                opacity: isOffline ? 1 : 0,
+                child: Container(
+                  height: kToolbarHeight + offlineMessageHeight,
+                  alignment: Alignment.bottomCenter,
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                    colors: [
+                      theme.colorScheme.errorContainer.withValues(alpha: 0.8),
+                      theme.colorScheme.errorContainer.withValues(alpha: 0.25),
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  )),
+                  child: const Padding(
+                    padding: EdgeInsets.only(bottom: 8),
+                    child: OfflineBanner(),
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );

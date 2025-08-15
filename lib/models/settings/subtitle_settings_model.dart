@@ -172,6 +172,7 @@ class SubtitleText extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final fillScreen = ref.watch(videoPlayerSettingsProvider.select((value) => value.fillScreen));
     final fontSize = ref.read(subtitleSettingsProvider.select((value) => value.fontSize));
+
     return Padding(
       padding: (fillScreen ? EdgeInsets.zero : EdgeInsets.only(left: padding.left, right: padding.right))
           .add(const EdgeInsets.all(16)),

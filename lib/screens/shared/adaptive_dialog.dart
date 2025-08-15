@@ -16,11 +16,8 @@ Future<void> showDialogAdaptive(
     return showDialog(
       context: context,
       useSafeArea: false,
-      builder: (context) => Padding(
-        padding: MediaQuery.paddingOf(context),
-        child: Dialog.fullscreen(
-          child: builder(context),
-        ),
+      builder: (context) => Dialog.fullscreen(
+        child: builder(context),
       ),
     );
   }

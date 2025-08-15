@@ -1301,5 +1301,167 @@
   "rememberAudioSelectionsDesc": "حاول ضبط مسار الصوت ليكون الأقرب تطابقاً مع الفيديو الأخير.",
   "@rememberAudioSelectionsDesc": {},
   "rememberSubtitleSelectionsDesc": "حاول ضبط مسار الترجمة ليكون الأقرب تطابقاً مع الفيديو الأخير.",
-  "@rememberSubtitleSelectionsDesc": {}
+  "@rememberSubtitleSelectionsDesc": {},
+  "exitFladderTitle": "خروج فلادر",
+  "@exitFladderTitle": {},
+  "similarToLikedItem": "مشابه للعنصر المفضل",
+  "@similarToLikedItem": {},
+  "hasActorFromRecentlyPlayed": "يحتوي على ممثل من الأفلام المشغلة مؤخراً",
+  "@hasActorFromRecentlyPlayed": {},
+  "hasLikedActor": "يحتوي على ممثل مفضل",
+  "@hasLikedActor": {},
+  "hasDirectorFromRecentlyPlayed": "يحتوي على مخرج من الأفلام المشغلة مؤخراً",
+  "@hasDirectorFromRecentlyPlayed": {},
+  "hasLikedDirector": "يحتوي على مخرج مفضل",
+  "@hasLikedDirector": {},
+  "playbackTypeDirect": "مباشر",
+  "@playbackTypeDirect": {},
+  "latestReleases": "أحدث الإصدارات",
+  "@latestReleases": {},
+  "autoCheckForUpdates": "التحقق التلقائي من التحديثات",
+  "@autoCheckForUpdates": {},
+  "newUpdateFoundOnGithub": "تم اكتشاف تحديث جديد على Github",
+  "@newUpdateFoundOnGithub": {},
+  "similarToRecentlyPlayed": "مشابه لما تم تشغيله مؤخراً",
+  "@similarToRecentlyPlayed": {},
+  "playbackTypeOffline": "في وضع عدم الاتصال",
+  "@playbackTypeOffline": {},
+  "latest": "الأحدث",
+  "@latest": {},
+  "playbackTypeTranscode": "تحويل الصيغة",
+  "@playbackTypeTranscode": {},
+  "newReleaseFoundTitle": "تحديث {newRelease} متاح الآن!",
+  "@newReleaseFoundTitle": {
+    "placeholders": {
+      "newRelease": {
+        "type": "String"
+      }
+    }
+  },
+  "recommended": "الموصى به",
+  "@recommended": {},
+  "playbackType": "نوع التشغيل",
+  "@playbackType": {},
+  "enableBackgroundPostersDesc": "عرض ملصقات عشوائية في الشاشات المناسبة",
+  "@enableBackgroundPostersDesc": {},
+  "enableBackgroundPostersTitle": "تفعيل الملصقات الخلفية",
+  "@enableBackgroundPostersTitle": {},
+  "settingsEnableOsMediaControlsDesc": "يرجى السماح بالتحكم في التشغيل باستخدام مفاتيح الوسائط وعرض الوسائط المشغلة حالياً في نظام التشغيل",
+  "@settingsEnableOsMediaControlsDesc": {},
+  "notificationDownloadingDownloading": "جار التنزيل",
+  "@notificationDownloadingDownloading": {},
+  "notificationDownloadingPaused": "تم إيقاف التنزيل مؤقتاً",
+  "@notificationDownloadingPaused": {},
+  "notificationDownloadingFinished": "اكتمل التنزيل",
+  "@notificationDownloadingFinished": {},
+  "notificationDownloadingError": "خطأ في التنزيل",
+  "@notificationDownloadingError": {},
+  "syncAllItemsTitle": "هل ترغب في مزامنة جميع العناصر من {itemName}؟",
+  "@syncAllItemsTitle": {
+    "description": "syncAllItemsFrom",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncAllItemsDesc": "سيتم مزامنة ({itemCount}) عنصراً من '{itemName}' إلى جهازك.\nقد يستغرق ذلك بعض الوقت حسب عدد العناصر.",
+  "@syncAllItemsDesc": {
+    "description": "syncAllitemsFromDesc",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      },
+      "itemCount": {
+        "type": "int"
+      }
+    }
+  },
+  "syncDeleteAllItemsTitle": "هل تريد حذف جميع العناصر المُزامنة من {itemName}؟",
+  "@syncDeleteAllItemsTitle": {
+    "description": "syncDeleteAllitemsFrom",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncDeleteAllItemsDesc": "سيتم حذف جميع العناصر المُزامنة من '{itemName}'.\nهذه العملية دائمة، وستحتاج لإعادة مزامنة ({itemCount}) ملفاً لاحقاً.",
+  "@syncDeleteAllItemsDesc": {
+    "description": "syncDeleteAllitemsFromDesc",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      },
+      "itemCount": {
+        "type": "int"
+      }
+    }
+  },
+  "syncPauseAll": "إيقاف الكل مؤقتاً",
+  "@syncPauseAll": {},
+  "syncResumeAll": "استئناف الكل",
+  "@syncResumeAll": {},
+  "syncStopAll": "إيقاف الكل",
+  "@syncStopAll": {},
+  "syncDeleteAll": "حذف جميع الملفات",
+  "@syncDeleteAll": {},
+  "syncAllFiles": "مزامنة جميع الملفات",
+  "@syncAllFiles": {},
+  "usePostersForLibraryIconsTitle": "عرض الملصقات لأيقونات المكتبة",
+  "@usePostersForLibraryIconsTitle": {},
+  "usePostersForLibraryIconsDesc": "عرض الملصقات بدلاً من الأيقونات للمكتبات",
+  "@usePostersForLibraryIconsDesc": {},
+  "offline": "غير متصل",
+  "@offline": {},
+  "shortCuts": "الاختصارات",
+  "@shortCuts": {},
+  "skipForwardLength": "مدة التقديم",
+  "@skipForwardLength": {},
+  "skipBackLength": "مدة الإرجاع",
+  "@skipBackLength": {},
+  "playPause": "تشغيل/إيقاف مؤقت",
+  "@playPause": {},
+  "seekForward": "تقديم",
+  "@seekForward": {},
+  "seekBack": "إرجاع",
+  "@seekBack": {},
+  "mute": "كتم الصوت",
+  "@mute": {},
+  "volumeUp": "رفع الصوت",
+  "@volumeUp": {},
+  "volumeDown": "خفض الصوت",
+  "@volumeDown": {},
+  "nextVideo": "الفيديو التالي",
+  "@nextVideo": {},
+  "prevVideo": "الفيديو السابق",
+  "@prevVideo": {},
+  "nextChapter": "الفصل التالي",
+  "@nextChapter": {},
+  "prevChapter": "الفصل السابق",
+  "@prevChapter": {},
+  "fullScreen": "ملئ الشاشة",
+  "@fullScreen": {},
+  "skipMediaSegment": "تخطي مقطع الوسائط",
+  "@skipMediaSegment": {},
+  "exit": "خروج",
+  "@exit": {},
+  "shortCutAlreadyAssigned": "تم تعيين الاختصار '{hotKey}' بالفعل",
+  "@shortCutAlreadyAssigned": {
+    "placeholders": {
+      "hotKey": {
+        "type": "String"
+      }
+    }
+  },
+  "blurred": "ضبابي",
+  "@blurred": {},
+  "volumeIndicator": "مستوى الصوت: {volume}",
+  "@volumeIndicator": {
+    "placeholders": {
+      "volume": {
+        "type": "int"
+      }
+    }
+  }
 }

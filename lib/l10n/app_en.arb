@@ -721,6 +721,7 @@
   "@settingsContinue": {},
   "settingsEnableOsMediaControls": "Enable OS media controls",
   "@settingsEnableOsMediaControls": {},
+  "settingsEnableOsMediaControlsDesc": "Allow for playback control using media-keys and show current playing media in OS",
   "settingsHomeBannerDescription": "Display as a slideshow, carousel, or hide the banner",
   "@settingsHomeBannerDescription": {},
   "settingsHomeBannerTitle": "Home banner",
@@ -1138,7 +1139,7 @@
   },
   "noVideoPlayerOptions": "The selected backend has no options",
   "mdkExperimental": "MDK is still in a experimental stage",
-  "skipButtonLabel": "(S)kip {segment}",
+  "skipButtonLabel": "Skip {segment}",
   "@skipButtonLabel": {
     "placeholders": {
       "segment": {
@@ -1235,5 +1236,94 @@
       }
     }
   },
-  "newUpdateFoundOnGithub": "Found a new update on Github"
+  "newUpdateFoundOnGithub": "Found a new update on Github",
+  "enableBackgroundPostersTitle": "Enable background posters",
+  "enableBackgroundPostersDesc": "Show random posters in applicable screens",
+  "notificationDownloadingDownloading": "Downloading",
+  "notificationDownloadingPaused": "Download paused",
+  "notificationDownloadingFinished": "Download finished",
+  "notificationDownloadingError": "Download error",
+  "syncAllItemsTitle": "Sync all items from {itemName}?",
+  "@syncAllItemsTitle": {
+    "description": "syncAllItemsFrom",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncAllItemsDesc": "This will sync ({itemCount}) items from '{itemName}' to your device.\nThis can take a while depending on the amount of items.",
+  "@syncAllItemsDesc": {
+    "description": "syncAllitemsFromDesc",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      },
+      "itemCount": {
+        "type": "int"
+      }
+    }
+  },
+  "syncDeleteAllItemsTitle": "Delete all synced items from {itemName}?",
+  "@syncDeleteAllItemsTitle": {
+    "description": "syncDeleteAllitemsFrom",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncDeleteAllItemsDesc": "This will delete all synced items from '{itemName}'.\nThis is permanent and you will need to re-sync ({itemCount}) files.",
+  "@syncDeleteAllItemsDesc": {
+    "description": "syncDeleteAllitemsFromDesc",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      },
+      "itemCount": {
+        "type": "int"
+      }
+    }
+  },
+  "syncPauseAll": "Pause all",
+  "syncResumeAll": "Resume all",
+  "syncStopAll": "Stop all",
+  "syncDeleteAll": "Delete all files",
+  "syncAllFiles": "Sync all files",
+  "usePostersForLibraryIconsTitle": "Show posters for library icons",
+  "usePostersForLibraryIconsDesc": "Show posters instead of icons for libraries",
+  "offline": "Offline",
+  "shortCuts": "Shortcuts",
+  "skipForwardLength": "Skip forward length",
+  "skipBackLength": "Skip back length",
+  "playPause": "Play/Pause",
+  "seekForward": "Seek Forward",
+  "seekBack": "Seek Back",
+  "mute": "Mute",
+  "volumeUp": "Volume Up",
+  "volumeDown": "Volume Down",
+  "nextVideo": "Next Video",
+  "prevVideo": "Previous Video",
+  "nextChapter": "Next Chapter",
+  "prevChapter": "Previous Chapter",
+  "fullScreen": "Full Screen",
+  "skipMediaSegment": "Skip Media Segment",
+  "exit": "Exit",
+  "shortCutAlreadyAssigned": "Shortcut '{hotKey}' already assigned",
+  "@shortCutAlreadyAssigned": {
+    "placeholders": {
+      "hotKey": {
+        "type": "String"
+      }
+    }
+  },
+  "blurred": "Blurred",
+  "volumeIndicator": "Volume: {volume}",
+  "@volumeIndicator": {
+    "placeholders": {
+      "volume": {
+        "type": "int"
+      }
+    }
+  }
 }

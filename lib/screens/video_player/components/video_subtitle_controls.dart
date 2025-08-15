@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/providers/settings/subtitle_settings_provider.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
@@ -60,7 +62,8 @@ class _VideoSubtitleControlsState extends ConsumerState<VideoSubtitleControls> {
       duration: const Duration(milliseconds: 250),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        color: controlsHidden ? DialogTheme.of(context).backgroundColor?.withValues(alpha: 0.75) : Colors.transparent,
+        color:
+            controlsHidden ? Theme.of(context).colorScheme.surfaceContainer.withValues(alpha: 0.8) : Colors.transparent,
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -68,10 +71,19 @@ class _VideoSubtitleControlsState extends ConsumerState<VideoSubtitleControls> {
           mainAxisSize: MainAxisSize.min,
           children: [
             if (widget.label?.isNotEmpty == true)
-              Text(
-                widget.label!,
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    widget.label!,
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                  IconButton(
+                    onPressed: () => context.maybePop(),
+                    icon: const Icon(IconsaxPlusBold.close_circle),
+                  )
+                ],
+              ).addVisiblity(activeKey == null ? controlsHidden : activeKey == const Key('title')),
             IconButton.filledTonal(
               isSelected: !hideControls,
               onPressed: () => setState(() => hideControls = !hideControls),

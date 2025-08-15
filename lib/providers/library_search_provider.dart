@@ -2,10 +2,10 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:chopper/chopper.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:page_transition/page_transition.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/collection_types.dart';
@@ -23,7 +23,7 @@ import 'package:fladder/providers/library_filters_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
-import 'package:fladder/screens/photo_viewer/photo_viewer_screen.dart';
+import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/util/item_base_model/play_item_helpers.dart';
 import 'package:fladder/util/list_extensions.dart';
@@ -657,14 +657,10 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
       if (state.fetchingItems == true) {
         state = state.copyWith(fetchingItems: false);
         final newItemList = shuffle ? allItems.shuffled() : allItems;
-        await Navigator.of(context, rootNavigator: true).push(
-          PageTransition(
-              child: PhotoViewerScreen(
-                items: newItemList,
-                indexOfSelected: selected != null ? newItemList.indexOf(selected) : 0,
-              ),
-              type: PageTransitionType.fade),
-        );
+        await context.navigateTo(PhotoViewerRoute(
+          items: newItemList,
+          selected: selected?.id,
+        ));
       }
     } else {
       fladderSnackbar(context, title: context.localized.libraryFetchNoItemsFound);
@@ -709,10 +705,14 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
       ref.read(filterProvider.notifier).saveFilter(LibraryFiltersModel.fromLibrarySearch(newName, state));
 
   void updateFilter(LibraryFiltersModel model) {
-    ref.read(filterProvider.notifier).saveFilter(LibraryFiltersModel.fromLibrarySearch(model.name, state).copyWith(
-          isFavourite: model.isFavourite,
-          id: model.id,
-        ));
+    ref.read(filterProvider.notifier).saveFilter(
+          LibraryFiltersModel.fromLibrarySearch(
+            model.name,
+            state,
+            isFavourite: model.isFavourite,
+            id: model.id,
+          ),
+        );
   }
 }
 

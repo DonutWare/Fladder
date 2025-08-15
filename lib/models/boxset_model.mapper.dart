@@ -108,34 +108,11 @@ class BoxSetModelMapper extends SubClassMapperBase<BoxSetModel> {
 
   @override
   final Function instantiate = _instantiate;
-
-  static BoxSetModel fromMap(Map<String, dynamic> map) {
-    return ensureInitialized().decodeMap<BoxSetModel>(map);
-  }
-
-  static BoxSetModel fromJson(String json) {
-    return ensureInitialized().decodeJson<BoxSetModel>(json);
-  }
 }
 
 mixin BoxSetModelMappable {
-  String toJson() {
-    return BoxSetModelMapper.ensureInitialized()
-        .encodeJson<BoxSetModel>(this as BoxSetModel);
-  }
-
-  Map<String, dynamic> toMap() {
-    return BoxSetModelMapper.ensureInitialized()
-        .encodeMap<BoxSetModel>(this as BoxSetModel);
-  }
-
   BoxSetModelCopyWith<BoxSetModel, BoxSetModel, BoxSetModel> get copyWith =>
       _BoxSetModelCopyWithImpl(this as BoxSetModel, $identity, $identity);
-  @override
-  String toString() {
-    return BoxSetModelMapper.ensureInitialized()
-        .stringifyValue(this as BoxSetModel);
-  }
 }
 
 extension BoxSetModelValueCopy<$R, $Out>

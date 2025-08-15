@@ -436,59 +436,6 @@ class _$LibraryFiltersModelImpl extends _LibraryFiltersModel {
     return 'LibraryFiltersModel._internal(id: $id, name: $name, isFavourite: $isFavourite, ids: $ids, genres: $genres, filters: $filters, studios: $studios, tags: $tags, years: $years, officialRatings: $officialRatings, types: $types, sortingOption: $sortingOption, sortOrder: $sortOrder, favourites: $favourites, hideEmptyShows: $hideEmptyShows, recursive: $recursive, groupBy: $groupBy)';
   }
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$LibraryFiltersModelImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.isFavourite, isFavourite) ||
-                other.isFavourite == isFavourite) &&
-            const DeepCollectionEquality().equals(other._ids, _ids) &&
-            const DeepCollectionEquality().equals(other._genres, _genres) &&
-            const DeepCollectionEquality().equals(other._filters, _filters) &&
-            const DeepCollectionEquality().equals(other._studios, _studios) &&
-            const DeepCollectionEquality().equals(other._tags, _tags) &&
-            const DeepCollectionEquality().equals(other._years, _years) &&
-            const DeepCollectionEquality()
-                .equals(other._officialRatings, _officialRatings) &&
-            const DeepCollectionEquality().equals(other._types, _types) &&
-            (identical(other.sortingOption, sortingOption) ||
-                other.sortingOption == sortingOption) &&
-            (identical(other.sortOrder, sortOrder) ||
-                other.sortOrder == sortOrder) &&
-            (identical(other.favourites, favourites) ||
-                other.favourites == favourites) &&
-            (identical(other.hideEmptyShows, hideEmptyShows) ||
-                other.hideEmptyShows == hideEmptyShows) &&
-            (identical(other.recursive, recursive) ||
-                other.recursive == recursive) &&
-            (identical(other.groupBy, groupBy) || other.groupBy == groupBy));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      name,
-      isFavourite,
-      const DeepCollectionEquality().hash(_ids),
-      const DeepCollectionEquality().hash(_genres),
-      const DeepCollectionEquality().hash(_filters),
-      const DeepCollectionEquality().hash(_studios),
-      const DeepCollectionEquality().hash(_tags),
-      const DeepCollectionEquality().hash(_years),
-      const DeepCollectionEquality().hash(_officialRatings),
-      const DeepCollectionEquality().hash(_types),
-      sortingOption,
-      sortOrder,
-      favourites,
-      hideEmptyShows,
-      recursive,
-      groupBy);
-
   /// Create a copy of LibraryFiltersModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)

@@ -130,7 +130,9 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with
   @override
   void dispose() {
     timerController.dispose();
-    fullScreenHelper.closeFullScreen(ref);
+    if (context.mounted) {
+      fullScreenHelper.closeFullScreen(ref);
+    }
     windowManager.removeListener(this);
     super.dispose();
   }
@@ -348,11 +350,11 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with
 
   Future<void> sharePhoto() async {
     final file = await DefaultCacheManager().getSingleFile(widget.photo.downloadPath(ref));
-    await Share.shareXFiles([
+    await SharePlus.instance.share(ShareParams(files: [
       XFile(
         file.path,
       ),
-    ]);
+    ]));
     await file.delete();
   }
 }

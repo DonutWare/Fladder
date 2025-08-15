@@ -75,6 +75,9 @@ class SeasonModel extends ItemBaseModel with SeasonModelMappable {
   }
 
   @override
+  bool get syncAble => episodes.isNotEmpty && episodes.any((element) => element.syncAble);
+
+  @override
   ImagesData? get getPosters => images ?? parentImages;
 
   String localizedName(BuildContext context) => name.replaceFirst("Season", context.localized.season(1));

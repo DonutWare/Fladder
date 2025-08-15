@@ -30,8 +30,12 @@ mixin _$SyncedItem {
   ImagesData? get fImages => throw _privateConstructorUsedError;
   List<Chapter> get fChapters => throw _privateConstructorUsedError;
   List<SubStreamModel> get subtitles => throw _privateConstructorUsedError;
+  bool get unSyncedData => throw _privateConstructorUsedError;
   @UserDataJsonSerializer()
-  UserData? get userData => throw _privateConstructorUsedError;
+  UserData? get userData =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  ItemBaseModel? get itemModel => throw _privateConstructorUsedError;
 
   /// Create a copy of SyncedItem
   /// with the given fields replaced by the non-null parameter values.
@@ -61,9 +65,11 @@ abstract class $SyncedItemCopyWith<$Res> {
       ImagesData? fImages,
       List<Chapter> fChapters,
       List<SubStreamModel> subtitles,
-      @UserDataJsonSerializer() UserData? userData});
+      bool unSyncedData,
+      @UserDataJsonSerializer() UserData? userData,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      ItemBaseModel? itemModel});
 
-  $MediaSegmentsModelCopyWith<$Res>? get mediaSegments;
   $TrickPlayModelCopyWith<$Res>? get fTrickPlayModel;
 }
 
@@ -96,7 +102,9 @@ class _$SyncedItemCopyWithImpl<$Res, $Val extends SyncedItem>
     Object? fImages = freezed,
     Object? fChapters = null,
     Object? subtitles = null,
+    Object? unSyncedData = null,
     Object? userData = freezed,
+    Object? itemModel = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -155,25 +163,19 @@ class _$SyncedItemCopyWithImpl<$Res, $Val extends SyncedItem>
           ? _value.subtitles
           : subtitles // ignore: cast_nullable_to_non_nullable
               as List<SubStreamModel>,
+      unSyncedData: null == unSyncedData
+          ? _value.unSyncedData
+          : unSyncedData // ignore: cast_nullable_to_non_nullable
+              as bool,
       userData: freezed == userData
           ? _value.userData
           : userData // ignore: cast_nullable_to_non_nullable
               as UserData?,
+      itemModel: freezed == itemModel
+          ? _value.itemModel
+          : itemModel // ignore: cast_nullable_to_non_nullable
+              as ItemBaseModel?,
     ) as $Val);
-  }
-
-  /// Create a copy of SyncedItem
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $MediaSegmentsModelCopyWith<$Res>? get mediaSegments {
-    if (_value.mediaSegments == null) {
-      return null;
-    }
-
-    return $MediaSegmentsModelCopyWith<$Res>(_value.mediaSegments!, (value) {
-      return _then(_value.copyWith(mediaSegments: value) as $Val);
-    });
   }
 
   /// Create a copy of SyncedItem
@@ -214,10 +216,11 @@ abstract class _$$SyncItemImplCopyWith<$Res>
       ImagesData? fImages,
       List<Chapter> fChapters,
       List<SubStreamModel> subtitles,
-      @UserDataJsonSerializer() UserData? userData});
+      bool unSyncedData,
+      @UserDataJsonSerializer() UserData? userData,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      ItemBaseModel? itemModel});
 
-  @override
-  $MediaSegmentsModelCopyWith<$Res>? get mediaSegments;
   @override
   $TrickPlayModelCopyWith<$Res>? get fTrickPlayModel;
 }
@@ -249,7 +252,9 @@ class __$$SyncItemImplCopyWithImpl<$Res>
     Object? fImages = freezed,
     Object? fChapters = null,
     Object? subtitles = null,
+    Object? unSyncedData = null,
     Object? userData = freezed,
+    Object? itemModel = freezed,
   }) {
     return _then(_$SyncItemImpl(
       id: null == id
@@ -308,10 +313,18 @@ class __$$SyncItemImplCopyWithImpl<$Res>
           ? _value._subtitles
           : subtitles // ignore: cast_nullable_to_non_nullable
               as List<SubStreamModel>,
+      unSyncedData: null == unSyncedData
+          ? _value.unSyncedData
+          : unSyncedData // ignore: cast_nullable_to_non_nullable
+              as bool,
       userData: freezed == userData
           ? _value.userData
           : userData // ignore: cast_nullable_to_non_nullable
               as UserData?,
+      itemModel: freezed == itemModel
+          ? _value.itemModel
+          : itemModel // ignore: cast_nullable_to_non_nullable
+              as ItemBaseModel?,
     ));
   }
 }
@@ -334,7 +347,9 @@ class _$SyncItemImpl extends _SyncItem {
       this.fImages,
       final List<Chapter> fChapters = const [],
       final List<SubStreamModel> subtitles = const [],
-      @UserDataJsonSerializer() this.userData})
+      this.unSyncedData = false,
+      @UserDataJsonSerializer() this.userData,
+      @JsonKey(includeFromJson: false, includeToJson: false) this.itemModel})
       : _fChapters = fChapters,
         _subtitles = subtitles,
         super._();
@@ -384,64 +399,20 @@ class _$SyncItemImpl extends _SyncItem {
   }
 
   @override
+  @JsonKey()
+  final bool unSyncedData;
+  @override
   @UserDataJsonSerializer()
   final UserData? userData;
+// ignore: invalid_annotation_target
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final ItemBaseModel? itemModel;
 
   @override
   String toString() {
-    return 'SyncedItem(id: $id, syncing: $syncing, parentId: $parentId, userId: $userId, path: $path, markedForDelete: $markedForDelete, sortName: $sortName, fileSize: $fileSize, videoFileName: $videoFileName, mediaSegments: $mediaSegments, fTrickPlayModel: $fTrickPlayModel, fImages: $fImages, fChapters: $fChapters, subtitles: $subtitles, userData: $userData)';
+    return 'SyncedItem(id: $id, syncing: $syncing, parentId: $parentId, userId: $userId, path: $path, markedForDelete: $markedForDelete, sortName: $sortName, fileSize: $fileSize, videoFileName: $videoFileName, mediaSegments: $mediaSegments, fTrickPlayModel: $fTrickPlayModel, fImages: $fImages, fChapters: $fChapters, subtitles: $subtitles, unSyncedData: $unSyncedData, userData: $userData, itemModel: $itemModel)';
   }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$SyncItemImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.syncing, syncing) || other.syncing == syncing) &&
-            (identical(other.parentId, parentId) ||
-                other.parentId == parentId) &&
-            (identical(other.userId, userId) || other.userId == userId) &&
-            (identical(other.path, path) || other.path == path) &&
-            (identical(other.markedForDelete, markedForDelete) ||
-                other.markedForDelete == markedForDelete) &&
-            (identical(other.sortName, sortName) ||
-                other.sortName == sortName) &&
-            (identical(other.fileSize, fileSize) ||
-                other.fileSize == fileSize) &&
-            (identical(other.videoFileName, videoFileName) ||
-                other.videoFileName == videoFileName) &&
-            (identical(other.mediaSegments, mediaSegments) ||
-                other.mediaSegments == mediaSegments) &&
-            (identical(other.fTrickPlayModel, fTrickPlayModel) ||
-                other.fTrickPlayModel == fTrickPlayModel) &&
-            (identical(other.fImages, fImages) || other.fImages == fImages) &&
-            const DeepCollectionEquality()
-                .equals(other._fChapters, _fChapters) &&
-            const DeepCollectionEquality()
-                .equals(other._subtitles, _subtitles) &&
-            (identical(other.userData, userData) ||
-                other.userData == userData));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      syncing,
-      parentId,
-      userId,
-      path,
-      markedForDelete,
-      sortName,
-      fileSize,
-      videoFileName,
-      mediaSegments,
-      fTrickPlayModel,
-      fImages,
-      const DeepCollectionEquality().hash(_fChapters),
-      const DeepCollectionEquality().hash(_subtitles),
-      userData);
 
   /// Create a copy of SyncedItem
   /// with the given fields replaced by the non-null parameter values.
@@ -468,7 +439,10 @@ abstract class _SyncItem extends SyncedItem {
       final ImagesData? fImages,
       final List<Chapter> fChapters,
       final List<SubStreamModel> subtitles,
-      @UserDataJsonSerializer() final UserData? userData}) = _$SyncItemImpl;
+      final bool unSyncedData,
+      @UserDataJsonSerializer() final UserData? userData,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      final ItemBaseModel? itemModel}) = _$SyncItemImpl;
   _SyncItem._() : super._();
 
   @override
@@ -500,8 +474,13 @@ abstract class _SyncItem extends SyncedItem {
   @override
   List<SubStreamModel> get subtitles;
   @override
+  bool get unSyncedData;
+  @override
   @UserDataJsonSerializer()
-  UserData? get userData;
+  UserData? get userData; // ignore: invalid_annotation_target
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  ItemBaseModel? get itemModel;
 
   /// Create a copy of SyncedItem
   /// with the given fields replaced by the non-null parameter values.
