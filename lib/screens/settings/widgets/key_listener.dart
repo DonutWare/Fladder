@@ -97,6 +97,9 @@ class KeyListenerWidgetState extends ConsumerState<KeyListenerWidget> {
   void setIsListening(bool value) {
     changingShortCut = value;
     _isListening = value;
+    if (value) {
+      focusNode.requestFocus();
+    }
   }
 
   @override
@@ -132,13 +135,13 @@ class KeyListenerWidgetState extends ConsumerState<KeyListenerWidget> {
     });
   }
 
-  void _handleKeyEvent(KeyEvent event) {
+  KeyEventResult _handleKeyEvent(FocusNode node, KeyEvent event) {
     final videoHotKeys = ref.read(videoPlayerSettingsProvider.select((value) => value.currentShortcuts)).values;
     final clientHotKeys = ref.read(clientSettingsProvider.select((value) => value.currentShortcuts)).values;
     final activeHotKeys = [...videoHotKeys, ...clientHotKeys].toList();
 
     if (_isListening) {
-      focusNode.requestFocus();
+      node.requestFocus();
       setState(() {
         if (event is KeyDownEvent) {
           if (KeyCombination.modifierKeys.contains(event.logicalKey)) {
@@ -167,9 +170,11 @@ class KeyListenerWidgetState extends ConsumerState<KeyListenerWidget> {
           }
         }
       });
+      return KeyEventResult.handled;
     } else {
       _pressedKey = null;
       _pressedModifier = null;
+      return KeyEventResult.ignored;
     }
   }
 
@@ -184,62 +189,62 @@ class KeyListenerWidgetState extends ConsumerState<KeyListenerWidget> {
     final currentModifier = _pressedModifier ?? (widget.currentKey?.modifier);
     final currentKey = _pressedKey ?? widget.currentKey?.key;
     final currentHotKey = currentKey == null ? null : KeyCombination(key: currentKey, modifier: currentModifier);
-    return MouseRegion(
-      onEnter: (event) => showClearButton(true),
-      onExit: (event) => showClearButton(false),
-      child: ClipRRect(
-        borderRadius: FladderTheme.smallShape.borderRadius,
-        child: InkWell(
-          onTap: _isListening ? _stopListening : _startListening,
-          onSecondaryTap: () {
-            setState(() {
-              setIsListening(false);
-              widget.onChanged(null);
-            });
-          },
-          child: Container(
-            color: Theme.of(context).colorScheme.primaryContainer,
-            child: AnimatedSize(
-              duration: const Duration(milliseconds: 125),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    child: Row(
-                      spacing: 8,
-                      children: [
-                        if (_showClearButton && currentHotKey != null)
-                          GestureDetector(
-                            onTap: () {
-                              setIsListening(false);
-                              widget.onChanged(null);
-                            },
-                            child: const Icon(
-                              IconsaxPlusLinear.trash,
-                              size: 17,
+    return Focus(
+      focusNode: focusNode,
+      onKeyEvent: _handleKeyEvent,
+      child: MouseRegion(
+        onEnter: (event) => showClearButton(true),
+        onExit: (event) => showClearButton(false),
+        child: ClipRRect(
+          borderRadius: FladderTheme.smallShape.borderRadius,
+          child: InkWell(
+            canRequestFocus: false,
+            onTap: _isListening ? _stopListening : _startListening,
+            onSecondaryTap: () {
+              setState(() {
+                setIsListening(false);
+                widget.onChanged(null);
+              });
+            },
+            child: Container(
+              color: Theme.of(context).colorScheme.primaryContainer,
+              child: AnimatedSize(
+                duration: const Duration(milliseconds: 125),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      child: Row(
+                        spacing: 8,
+                        children: [
+                          if (_showClearButton && currentHotKey != null)
+                            GestureDetector(
+                              onTap: () {
+                                setIsListening(false);
+                                widget.onChanged(null);
+                              },
+                              child: const Icon(
+                                IconsaxPlusLinear.trash,
+                                size: 17,
+                              ),
                             ),
+                          Text(
+                            currentHotKey?.label ?? "+",
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
                           ),
-                        Text(
-                          currentHotKey?.label ?? "+",
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  if (_isListening)
-                    Positioned.fill(
-                      child: KeyboardListener(
-                        focusNode: focusNode,
-                        autofocus: true,
-                        onKeyEvent: _handleKeyEvent,
-                        child: const Opacity(
+                    if (_isListening)
+                      const Positioned.fill(
+                        child: Opacity(
                           opacity: 0.25,
                           child: LinearProgressIndicator(),
                         ),
                       ),
-                    ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
