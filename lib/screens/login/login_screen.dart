@@ -91,6 +91,7 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
                   FloatingActionButton(
                     key: const Key("edit_button"),
                     heroTag: "edit_button",
+                    backgroundColor: editingUsers ? Theme.of(context).colorScheme.errorContainer : null,
                     child: const Icon(IconsaxPlusLinear.edit_2),
                     onPressed: () => setState(() => editingUsers = !editingUsers),
                   ),

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/account_model.dart';
 import 'package:fladder/providers/user_provider.dart';
@@ -105,7 +105,7 @@ class _LockScreenState extends ConsumerState<LockScreen> with WidgetsBindingObse
           tooltip: context.localized.login,
           onPressed: () {
             ref.read(lockScreenActiveProvider.notifier).update((state) => false);
-            context.router.push(const LoginRoute());
+            context.router.replaceAll([const LoginRoute()]);
           },
           child: const Icon(IconsaxPlusLinear.arrow_swap_horizontal),
         ),
