@@ -1,1 +1,223 @@
-{}
+{
+    "nativeName": "Català",
+    "@nativeName": {},
+    "about": "Sobre",
+    "@about": {},
+    "accept": "Acceptar",
+    "@accept": {},
+    "active": "Actiu",
+    "@active": {},
+    "actor": "{count, plural, other{Actors} one{Actor}}",
+    "@actor": {
+        "description": "actor",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "addAsFavorite": "Afegir com a favorit",
+    "@addAsFavorite": {},
+    "addToCollection": "Afegir a col·lecció",
+    "@addToCollection": {},
+    "addToPlaylist": "Afegir a llista de reproducció",
+    "@addToPlaylist": {},
+    "advanced": "Avançat",
+    "@advanced": {},
+    "all": "Tot",
+    "@all": {},
+    "amoledBlack": "Amoled black",
+    "@amoledBlack": {},
+    "appLockAutoLogin": "Auto login",
+    "@appLockAutoLogin": {},
+    "appLockBiometrics": "Biometriques",
+    "@appLockBiometrics": {},
+    "appLockPasscode": "Codi de pas",
+    "@appLockPasscode": {},
+    "appLockTitle": "Seleccioni la forma de log-in per {userName}",
+    "@appLockTitle": {
+        "description": "Pop-up to pick a login method",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "ascending": "Ascendent",
+    "@ascending": {},
+    "audio": "Àudio",
+    "@audio": {},
+    "autoPlay": "Reproducció automàtica",
+    "@autoPlay": {},
+    "backgroundBlur": "Desenfocament del fons",
+    "@backgroundBlur": {},
+    "backgroundOpacity": "Opacitat del fons",
+    "@backgroundOpacity": {},
+    "biometricsFailedCheckAgain": "Error en biometriques. Comprovar configuració i provar de nou.",
+    "@biometricsFailedCheckAgain": {},
+    "bold": "Negreta",
+    "@bold": {},
+    "cancel": "Cancel·lar",
+    "@cancel": {},
+    "change": "Canviar",
+    "@change": {},
+    "chapter": "capítol",
+    "@chapter": {
+        "description": "chapter",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "clear": "Netejar",
+    "@clear": {},
+    "clearAllSettingsQuestion": "Esborrar totes les configuracions?",
+    "@clearAllSettingsQuestion": {},
+    "clearChanges": "Esborrar canvis",
+    "@clearChanges": {},
+    "clearSelection": "Esborrar selecció",
+    "@clearSelection": {},
+    "close": "Tancar",
+    "@close": {},
+    "code": "Codi",
+    "@code": {},
+    "collectionFolder": "Carpeta de col·lecció",
+    "@collectionFolder": {},
+    "color": "Color",
+    "@color": {},
+    "combined": "Combinat",
+    "@combined": {},
+    "clearAllSettings": "Esborrar tots els paràmetres",
+    "@clearAllSettings": {},
+    "communityRating": "Valoració de la comunitat",
+    "@communityRating": {},
+    "continuePage": "Continuar - pagina {page}",
+    "@continuePage": {
+        "description": "Continue - page 1",
+        "placeholders": {
+            "page": {
+                "type": "int"
+            }
+        }
+    },
+    "controls": "Controls",
+    "@controls": {},
+    "dashboard": "Tauler",
+    "@dashboard": {},
+    "dashboardContinue": "Continuar",
+    "@dashboardContinue": {},
+    "dashboardContinueListening": "Seguir escoltant",
+    "@dashboardContinueListening": {},
+    "dashboardContinueReading": "Seguir llegint",
+    "@dashboardContinueReading": {},
+    "dashboardContinueWatching": "Seguir veient",
+    "@dashboardContinueWatching": {},
+    "nextUp": "Següent",
+    "@nextUp": {},
+    "dashboardRecentlyAdded": "Afegit recentment a {name}",
+    "@dashboardRecentlyAdded": {
+        "description": "Recently added on home screen",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "dateAdded": "Afegit el",
+    "@dateAdded": {},
+    "dateLastContentAdded": "Últim contingut afegit el",
+    "@dateLastContentAdded": {},
+    "datePlayed": "Reproduït el",
+    "@datePlayed": {},
+    "days": "Dies",
+    "@days": {},
+    "delete": "Eliminar",
+    "@delete": {},
+    "deleteFileFromSystem": "Aquest element {item} serà esborrat del sistema de fitxers i la Llibreria de mitjans. Esta segur de voler continuar?",
+    "@deleteFileFromSystem": {
+        "description": "Delete file from system",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteItem": "Esborrar {item}?",
+    "@deleteItem": {
+        "description": "deleteItem",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "descending": "Descendent",
+    "@descending": {},
+    "director": "{count, plural, other{Director} two{Directors}}",
+    "@director": {
+        "description": "director",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "disableFilters": "Desactivar filtres",
+    "@disableFilters": {},
+    "disabled": "Desactivar",
+    "@disabled": {},
+    "discovered": "Descobrir",
+    "@discovered": {},
+    "displayLanguage": "Llengua de visualització",
+    "@displayLanguage": {},
+    "downloadsClearDesc": "Esborrar totes les dades sincronitzades, esborrar totes les dades de tots els usuaris sincronitzats?",
+    "@downloadsClearDesc": {},
+    "downloadsClearTitle": "Esborrar dades sincronitzades",
+    "@downloadsClearTitle": {},
+    "downloadsPath": "Cami",
+    "@downloadsPath": {},
+    "downloadsSyncedData": "Dades sincronitzades",
+    "@downloadsSyncedData": {},
+    "downloadsTitle": "Descàrregues",
+    "@downloadsTitle": {},
+    "dynamicText": "Dinàmic",
+    "@dynamicText": {},
+    "editMetadata": "Editar metadades",
+    "@editMetadata": {},
+    "empty": "Buit",
+    "@empty": {},
+    "enabled": "Activat",
+    "@enabled": {},
+    "endsAt": "Acaba el {date}",
+    "@endsAt": {
+        "description": "endsAt",
+        "placeholders": {
+            "date": {
+                "type": "DateTime",
+                "format": "jm"
+            }
+        }
+    },
+    "episode": "{count, plural, other{Episodis} one{Episodi} }",
+    "@episode": {
+        "description": "episode",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "error": "Error",
+    "@error": {},
+    "failedToLoadImage": "No s'ha pogut carregar l'imatge",
+    "@failedToLoadImage": {},
+    "favorite": "Preferit",
+    "@favorite": {},
+    "favorites": "Preferits",
+    "@favorites": {}
+}
