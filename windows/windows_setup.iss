@@ -1,9 +1,13 @@
 #define SourcePath ".."
 
+#ifndef FLADDER_VERSION
+  #define FLADDER_VERSION "latest"
+#endif
+
 [Setup]
 AppId={{D573EDD5-117A-47AD-88AC-62C8EBD11DC7}
 AppName="Fladder"
-AppVersion={%FLADDER_VERSION|latest}
+AppVersion={#FLADDER_VERSION}
 AppPublisher="DonutWare"
 AppPublisherURL="https://github.com/DonutWare/Fladder"
 AppSupportURL="https://github.com/DonutWare/Fladder"
