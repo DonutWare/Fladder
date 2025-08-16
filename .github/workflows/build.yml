@@ -187,6 +187,8 @@ jobs:
   build-windows:
     runs-on: windows-latest
     needs: [fetch-info]
+    env:
+      FLADDER_VERSION: ${{ needs.fetch-info.outputs.version_name }}
 
     steps:
       - name: Checkout repository
@@ -207,13 +209,25 @@ jobs:
       - name: Build Windows EXE
         run: flutter build windows --build-number=${{ github.run_number }}
 
+      - name: Debug version info
+        run: |
+          echo "Version from fetch-info: ${{ needs.fetch-info.outputs.version_name }}"
+          echo "FLADDER_VERSION will be set to: ${{ needs.fetch-info.outputs.version_name }}"
+        shell: pwsh
+
+      - name: Set version in Inno Setup script
+        run: |
+          $version = "${{ needs.fetch-info.outputs.version_name }}"
+          $content = Get-Content "windows/windows_setup.iss" -Raw
+          $content = $content -replace '\{%FLADDER_VERSION\|latest\}', $version
+          Set-Content "windows/windows_setup.iss" -Value $content
+        shell: pwsh
+
       - name: Compile Inno Setup installer
         uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
         with:
           path: windows/windows_setup.iss
           options: /O+
-        env:
-          FLADDER_VERSION: ${{ needs.fetch-info.outputs.version_name }}
 
       - name: Archive Windows portable artifact
         uses: actions/upload-artifact@v4.0.0
