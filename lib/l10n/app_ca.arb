@@ -27,7 +27,7 @@
     "@advanced": {},
     "all": "Tot",
     "@all": {},
-    "amoledBlack": "Amoled black",
+    "amoledBlack": "Amoled negre",
     "@amoledBlack": {},
     "appLockAutoLogin": "Auto login",
     "@appLockAutoLogin": {},
@@ -62,7 +62,7 @@
     "@cancel": {},
     "change": "Canviar",
     "@change": {},
-    "chapter": "capítol",
+    "chapter": "{count, plural, other{Capítols} one{Capítol}}",
     "@chapter": {
         "description": "chapter",
         "placeholders": {
@@ -219,5 +219,39 @@
     "favorite": "Preferit",
     "@favorite": {},
     "favorites": "Preferits",
-    "@favorites": {}
+    "@favorites": {},
+    "fetchingLibrary": "Recopilant elements de la llibreria…",
+    "@fetchingLibrary": {},
+    "filter": "{count, plural, other{Filtres} one{Filtre}}",
+    "@filter": {
+        "description": "filter",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "folders": "Carpetes",
+    "@folders": {},
+    "fontColor": "Color de lletra",
+    "@fontColor": {},
+    "fontSize": "Mida de la lletra",
+    "@fontSize": {},
+    "forceRefresh": "Forçar refresc",
+    "@forceRefresh": {},
+    "genre": "{count, plural, other{Generes} one{Genere}}",
+    "@genre": {
+        "description": "genre",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "goTo": "Anar a",
+    "@goTo": {},
+    "grid": "Graella",
+    "@grid": {}
 }
