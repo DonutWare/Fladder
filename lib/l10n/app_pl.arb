@@ -1312,7 +1312,7 @@
     "@fullScreen": {},
     "exit": "Wyjdź",
     "@exit": {},
-    "shortCutAlreadyAssigned": "Skrót klawiszowy '{hotkey}' już jest przypisany",
+    "shortCutAlreadyAssigned": "Skrót klawiszowy '{hotKey}' już jest przypisany",
     "@shortCutAlreadyAssigned": {
         "placeholders": {
             "hotKey": {
