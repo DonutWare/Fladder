@@ -1139,5 +1139,329 @@
     "deviceOrientationLandscapeLeft": "Màn hình ngang (trái)",
     "@deviceOrientationLandscapeLeft": {},
     "deviceOrientationLandscapeRight": "Màn hình ngang (phải)",
-    "@deviceOrientationLandscapeRight": {}
+    "@deviceOrientationLandscapeRight": {},
+    "clientSettingsSchemeVariantTitle": "Biến thể phối màu",
+    "@clientSettingsSchemeVariantTitle": {},
+    "schemeSettingsTonalSpot": "Tông màu",
+    "@schemeSettingsTonalSpot": {},
+    "schemeSettingsFidelity": "Trung thực",
+    "@schemeSettingsFidelity": {},
+    "schemeSettingsMonochrome": "Đơn sắc",
+    "@schemeSettingsMonochrome": {},
+    "schemeSettingsNeutral": "Trung tính",
+    "@schemeSettingsNeutral": {},
+    "schemeSettingsVibrant": "Rực rỡ",
+    "@schemeSettingsVibrant": {},
+    "schemeSettingsExpressive": "Sinh động",
+    "@schemeSettingsExpressive": {},
+    "schemeSettingsContent": "Nội dung",
+    "@schemeSettingsContent": {},
+    "schemeSettingsRainbow": "Cầu vồng",
+    "@schemeSettingsRainbow": {},
+    "schemeSettingsFruitSalad": "Sặc sỡ",
+    "@schemeSettingsFruitSalad": {},
+    "clientSettingsRequireWifiTitle": "Yêu cầu Wi-Fi",
+    "@clientSettingsRequireWifiTitle": {},
+    "clientSettingsRequireWifiDesc": "Chỉ tải xuống khi kết nối Wi-Fi",
+    "@clientSettingsRequireWifiDesc": {},
+    "libraryShuffleAndPlayItems": "Phát ngẫu nhiên",
+    "@libraryShuffleAndPlayItems": {},
+    "libraryPlayItems": "Phát",
+    "@libraryPlayItems": {},
+    "clientSettingsShowAllCollectionsTitle": "Hiển thị tất cả các loại bộ sưu tập",
+    "@clientSettingsShowAllCollectionsTitle": {},
+    "clientSettingsShowAllCollectionsDesc": "Khi bật, hiển thị tất cả loại bộ sưu tập, kể cả những loại Fladder không hỗ trợ",
+    "@clientSettingsShowAllCollectionsDesc": {},
+    "stop": "Dừng",
+    "@stop": {},
+    "resumeVideo": "Tiếp tục video",
+    "@resumeVideo": {},
+    "closeVideo": "Đóng video",
+    "@closeVideo": {},
+    "playNextVideo": "Phát video tiếp theo",
+    "@playNextVideo": {},
+    "playerSettingsBackendTitle": "Trình phát video",
+    "@playerSettingsBackendTitle": {},
+    "playerSettingsBackendDesc": "Chọn trình phát media ưa thích để có trải nghiệm phát lại tối ưu",
+    "@playerSettingsBackendDesc": {},
+    "defaultLabel": "Mặc định",
+    "@defaultLabel": {
+        "description": "To indicate a default value, default video player backend"
+    },
+    "noVideoPlayerOptions": "Nền tảng đã chọn không có tùy chọn nào",
+    "@noVideoPlayerOptions": {},
+    "mdkExperimental": "MDK vẫn đang ở giai đoạn thử nghiệm",
+    "@mdkExperimental": {},
+    "skipButtonLabel": "Bỏ qua {segment}",
+    "@skipButtonLabel": {
+        "placeholders": {
+            "segment": {
+                "type": "String"
+            }
+        }
+    },
+    "mediaSegmentUnknown": "Không rõ",
+    "@mediaSegmentUnknown": {},
+    "mediaSegmentCommercial": "Quảng cáo",
+    "@mediaSegmentCommercial": {},
+    "mediaSegmentPreview": "Xem trước",
+    "@mediaSegmentPreview": {},
+    "mediaSegmentRecap": "Tóm tắt",
+    "@mediaSegmentRecap": {},
+    "mediaSegmentOutro": "Kết thúc",
+    "@mediaSegmentOutro": {},
+    "mediaSegmentIntro": "Mở đầu",
+    "@mediaSegmentIntro": {},
+    "errorLogs": "Nhật ký lỗi",
+    "@errorLogs": {},
+    "external": "Bên ngoài",
+    "@external": {},
+    "downloadFile": "Tải {type}",
+    "@downloadFile": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "copyStreamUrl": "Sao chép URL phát trực tuyến",
+    "@copyStreamUrl": {},
+    "settingsLayoutSizesTitle": "Kích thước bố cục",
+    "@settingsLayoutSizesTitle": {},
+    "settingsLayoutSizesDesc": "Chọn kích thước bố cục mà ứng dụng có thể dùng dựa trên kích thước cửa sổ",
+    "@settingsLayoutSizesDesc": {},
+    "settingsLayoutModesTitle": "Chế độ bố cục",
+    "@settingsLayoutModesTitle": {},
+    "settingsLayoutModesDesc": "Điều chỉnh việc ứng dụng có dùng bố cục một hay hai khung",
+    "@settingsLayoutModesDesc": {},
+    "phone": "Điện thoại",
+    "@phone": {},
+    "tablet": "Máy tính bảng",
+    "@tablet": {},
+    "desktop": "Máy tính bàn",
+    "@desktop": {},
+    "layoutModeSingle": "Đơn",
+    "@layoutModeSingle": {},
+    "layoutModeDual": "Đôi",
+    "@layoutModeDual": {},
+    "copiedToClipboard": "Sao chép vào bộ nhớ tạm",
+    "@copiedToClipboard": {},
+    "episodeAvailable": "Có sẵn",
+    "@episodeAvailable": {},
+    "episodeUnaired": "Chưa phát sóng",
+    "@episodeUnaired": {},
+    "episodeMissing": "Thiếu",
+    "@episodeMissing": {},
+    "internetStreamingQualityTitle": "Chất lượng mạng",
+    "@internetStreamingQualityTitle": {},
+    "internetStreamingQualityDesc": "Chất lượng phát trực tuyến tối đa qua Internet (di động)",
+    "@internetStreamingQualityDesc": {},
+    "homeStreamingQualityTitle": "Chất lượng mạng nhà",
+    "@homeStreamingQualityTitle": {},
+    "homeStreamingQualityDesc": "Chất lượng phát trực tuyến tối đa khi kết nối mạng nội bộ",
+    "@homeStreamingQualityDesc": {},
+    "qualityOptionsTitle": "Tùy chọn chất lượng",
+    "@qualityOptionsTitle": {},
+    "qualityOptionsOriginal": "Nguyên bản",
+    "@qualityOptionsOriginal": {},
+    "qualityOptionsAuto": "Tự động",
+    "@qualityOptionsAuto": {},
+    "version": "Phiên bản",
+    "@version": {},
+    "mediaSegmentActions": "Hành động với đoạn nội dung",
+    "@mediaSegmentActions": {},
+    "segmentActionNone": "Không",
+    "@segmentActionNone": {},
+    "segmentActionAskToSkip": "Hỏi để bỏ qua",
+    "@segmentActionAskToSkip": {},
+    "segmentActionSkip": "Bỏ qua",
+    "@segmentActionSkip": {},
+    "loading": "Tải",
+    "@loading": {},
+    "exitFladderTitle": "Thoát Fladder",
+    "@exitFladderTitle": {},
+    "castAndCrew": "Diễn viên và đoàn làm phim",
+    "@castAndCrew": {},
+    "guestActor": "{count, plural, other{Diễn viên khách mời} one{Diễn viên khách mời}}",
+    "@guestActor": {
+        "description": "Guest actors",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "maxConcurrentDownloadsTitle": "Số lượt tải đồng thời tối đa",
+    "@maxConcurrentDownloadsTitle": {},
+    "maxConcurrentDownloadsDesc": "Đặt số lượt tải tối đa có thể chạy cùng lúc. Đặt 0 để bỏ giới hạn.",
+    "@maxConcurrentDownloadsDesc": {},
+    "playbackTrackSelection": "Chọn bản phát lại",
+    "@playbackTrackSelection": {},
+    "rememberSubtitleSelections": "Đặt phụ đề dựa trên mục trước đó",
+    "@rememberSubtitleSelections": {},
+    "rememberAudioSelections": "Đặt âm thanh dựa trên mục trước đó",
+    "@rememberAudioSelections": {},
+    "rememberSubtitleSelectionsDesc": "Cố gắng đặt phụ đề gần khớp nhất với video trước đó.",
+    "@rememberSubtitleSelectionsDesc": {},
+    "rememberAudioSelectionsDesc": "Cố gắng đặt âm thanh gần khớp nhất với video trước đó.",
+    "@rememberAudioSelectionsDesc": {},
+    "similarToRecentlyPlayed": "Tương tự nội dung phát gần đây",
+    "@similarToRecentlyPlayed": {},
+    "similarToLikedItem": "Tương tự mục đã thích",
+    "@similarToLikedItem": {},
+    "hasDirectorFromRecentlyPlayed": "Có đạo diễn từ nội dung phát gần đây",
+    "@hasDirectorFromRecentlyPlayed": {},
+    "hasActorFromRecentlyPlayed": "Có diễn viên từ nội dung phát gần đây",
+    "@hasActorFromRecentlyPlayed": {},
+    "hasLikedDirector": "Có đạo diễn đã thích",
+    "@hasLikedDirector": {},
+    "hasLikedActor": "Có diễn viên đã thích",
+    "@hasLikedActor": {},
+    "latest": "Mới nhất",
+    "@latest": {},
+    "recommended": "Đề cử",
+    "@recommended": {},
+    "playbackType": "Kiểu phát lại",
+    "@playbackType": {},
+    "playbackTypeDirect": "Trực tiếp",
+    "@playbackTypeDirect": {},
+    "playbackTypeTranscode": "Chuyển mã",
+    "@playbackTypeTranscode": {},
+    "playbackTypeOffline": "Ngoại tuyến",
+    "@playbackTypeOffline": {},
+    "latestReleases": "Mới được phát hành",
+    "@latestReleases": {},
+    "autoCheckForUpdates": "Tự động kiểm tra cập nhật định kỳ",
+    "@autoCheckForUpdates": {},
+    "newReleaseFoundTitle": "Có bản cập nhật {newRelease}!",
+    "@newReleaseFoundTitle": {
+        "placeholders": {
+            "newRelease": {
+                "type": "String"
+            }
+        }
+    },
+    "newUpdateFoundOnGithub": "Tìm thấy bản cập nhật mới trên Github",
+    "@newUpdateFoundOnGithub": {},
+    "enableBackgroundPostersTitle": "Bật áp phích nền",
+    "@enableBackgroundPostersTitle": {},
+    "enableBackgroundPostersDesc": "Hiển thị áp phích ngẫu nhiên trong các màn hình có thể áp dụng",
+    "@enableBackgroundPostersDesc": {},
+    "notificationDownloadingDownloading": "Đang tải",
+    "@notificationDownloadingDownloading": {},
+    "notificationDownloadingPaused": "Đã tạm dừng tải xuống",
+    "@notificationDownloadingPaused": {},
+    "notificationDownloadingFinished": "Đã tải xuống",
+    "@notificationDownloadingFinished": {},
+    "notificationDownloadingError": "Lỗi tải xuống",
+    "@notificationDownloadingError": {},
+    "syncAllItemsTitle": "Đồng bộ tất cả mục từ {itemName}?",
+    "@syncAllItemsTitle": {
+        "description": "syncAllItemsFrom",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncAllItemsDesc": "Đồng bộ ({itemCount}) mục từ '{itemName}' về máy.\nThời gian thực hiện phụ thuộc số lượng mục.",
+    "@syncAllItemsDesc": {
+        "description": "syncAllitemsFromDesc",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            },
+            "itemCount": {
+                "type": "int"
+            }
+        }
+    },
+    "syncDeleteAllItemsTitle": "Xóa tất cả mục đã đồng bộ từ {itemName}?",
+    "@syncDeleteAllItemsTitle": {
+        "description": "syncDeleteAllitemsFrom",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncDeleteAllItemsDesc": "Thao tác này sẽ xóa tất cả mục đã đồng bộ từ '{itemName}'.\nHành động này là vĩnh viễn và bạn sẽ cần đồng bộ lại ({itemCount}) tệp.",
+    "@syncDeleteAllItemsDesc": {
+        "description": "syncDeleteAllitemsFromDesc",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            },
+            "itemCount": {
+                "type": "int"
+            }
+        }
+    },
+    "syncPauseAll": "Tạm dừng tất cả",
+    "@syncPauseAll": {},
+    "syncResumeAll": "Tiếp tục tất cả",
+    "@syncResumeAll": {},
+    "syncStopAll": "Dừng tất cả",
+    "@syncStopAll": {},
+    "syncDeleteAll": "Xoá tất cả tệp tin",
+    "@syncDeleteAll": {},
+    "syncAllFiles": "Đồng bộ tất cả tệp tin",
+    "@syncAllFiles": {},
+    "usePostersForLibraryIconsTitle": "Dùng áp phích làm biểu tượng thư viện",
+    "@usePostersForLibraryIconsTitle": {},
+    "usePostersForLibraryIconsDesc": "Dùng áp phích thay biểu tượng thư viện",
+    "@usePostersForLibraryIconsDesc": {},
+    "offline": "Ngoại tuyến",
+    "@offline": {},
+    "shortCuts": "Lối tắt",
+    "@shortCuts": {},
+    "skipForwardLength": "Thời gian tua tới",
+    "@skipForwardLength": {},
+    "skipBackLength": "Thời gian tua về",
+    "@skipBackLength": {},
+    "playPause": "Phát/Tạm dừng",
+    "@playPause": {},
+    "seekForward": "Tua tới",
+    "@seekForward": {},
+    "seekBack": "Tua lùi",
+    "@seekBack": {},
+    "mute": "Im lặng",
+    "@mute": {},
+    "volumeUp": "Tăng âm lượng",
+    "@volumeUp": {},
+    "volumeDown": "Giảm âm lượng",
+    "@volumeDown": {},
+    "nextVideo": "Video tiếp",
+    "@nextVideo": {},
+    "prevVideo": "Video trước",
+    "@prevVideo": {},
+    "nextChapter": "Chương tiếp",
+    "@nextChapter": {},
+    "prevChapter": "Chương trước",
+    "@prevChapter": {},
+    "fullScreen": "Toàn màn hình",
+    "@fullScreen": {},
+    "skipMediaSegment": "Bỏ qua đoạn nội dung",
+    "@skipMediaSegment": {},
+    "exit": "Thoát",
+    "@exit": {},
+    "shortCutAlreadyAssigned": "Phím tắt '{hotKey}' đã được gán",
+    "@shortCutAlreadyAssigned": {
+        "placeholders": {
+            "hotKey": {
+                "type": "String"
+            }
+        }
+    },
+    "blurred": "Đã làm mờ",
+    "@blurred": {},
+    "volumeIndicator": "Âm lượng: {volume}",
+    "@volumeIndicator": {
+        "placeholders": {
+            "volume": {
+                "type": "int"
+            }
+        }
+    }
 }
