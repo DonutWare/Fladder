@@ -6,8 +6,8 @@ part of 'key_combinations.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$KeyCombinationImpl _$$KeyCombinationImplFromJson(Map<String, dynamic> json) =>
-    _$KeyCombinationImpl(
+_KeyCombination _$KeyCombinationFromJson(Map<String, dynamic> json) =>
+    _KeyCombination(
       key: _$JsonConverterFromJson<String, LogicalKeyboardKey>(
           json['key'], const LogicalKeyboardSerializer().fromJson),
       modifier: _$JsonConverterFromJson<String, LogicalKeyboardKey>(
@@ -18,8 +18,7 @@ _$KeyCombinationImpl _$$KeyCombinationImplFromJson(Map<String, dynamic> json) =>
           json['altModifier'], const LogicalKeyboardSerializer().fromJson),
     );
 
-Map<String, dynamic> _$$KeyCombinationImplToJson(
-        _$KeyCombinationImpl instance) =>
+Map<String, dynamic> _$KeyCombinationToJson(_KeyCombination instance) =>
     <String, dynamic>{
       'key': _$JsonConverterToJson<String, LogicalKeyboardKey>(
           instance.key, const LogicalKeyboardSerializer().toJson),

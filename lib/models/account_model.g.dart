@@ -6,8 +6,8 @@ part of 'account_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$AccountModelImpl _$$AccountModelImplFromJson(Map<String, dynamic> json) =>
-    _$AccountModelImpl(
+_AccountModel _$AccountModelFromJson(Map<String, dynamic> json) =>
+    _AccountModel(
       name: json['name'] as String,
       id: json['id'] as String,
       avatar: json['avatar'] as String,
@@ -36,7 +36,7 @@ _$AccountModelImpl _$$AccountModelImplFromJson(Map<String, dynamic> json) =>
           : UserSettings.fromJson(json['userSettings'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$AccountModelImplToJson(_$AccountModelImpl instance) =>
+Map<String, dynamic> _$AccountModelToJson(_AccountModel instance) =>
     <String, dynamic>{
       'name': instance.name,
       'id': instance.id,
@@ -59,8 +59,8 @@ const _$AuthenticationEnumMap = {
   Authentication.none: 'none',
 };
 
-_$UserSettingsImpl _$$UserSettingsImplFromJson(Map<String, dynamic> json) =>
-    _$UserSettingsImpl(
+_UserSettings _$UserSettingsFromJson(Map<String, dynamic> json) =>
+    _UserSettings(
       skipForwardDuration: json['skipForwardDuration'] == null
           ? const Duration(seconds: 30)
           : Duration(
@@ -70,7 +70,7 @@ _$UserSettingsImpl _$$UserSettingsImplFromJson(Map<String, dynamic> json) =>
           : Duration(microseconds: (json['skipBackDuration'] as num).toInt()),
     );
 
-Map<String, dynamic> _$$UserSettingsImplToJson(_$UserSettingsImpl instance) =>
+Map<String, dynamic> _$UserSettingsToJson(_UserSettings instance) =>
     <String, dynamic>{
       'skipForwardDuration': instance.skipForwardDuration.inMicroseconds,
       'skipBackDuration': instance.skipBackDuration.inMicroseconds,

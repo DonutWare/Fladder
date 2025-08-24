@@ -15,10 +15,10 @@ part 'library_filters_model.freezed.dart';
 part 'library_filters_model.g.dart';
 
 @Freezed(copyWith: true)
-class LibraryFiltersModel with _$LibraryFiltersModel {
+abstract class LibraryFiltersModel with _$LibraryFiltersModel {
   const LibraryFiltersModel._();
 
-  factory LibraryFiltersModel._internal({
+  factory LibraryFiltersModel({
     required String id,
     required String name,
     required bool isFavourite,
@@ -46,7 +46,7 @@ class LibraryFiltersModel with _$LibraryFiltersModel {
     bool? isFavourite,
     String? id,
   }) {
-    return LibraryFiltersModel._internal(
+    return LibraryFiltersModel(
       id: id ?? Xid().toString(),
       name: name,
       isFavourite: isFavourite ?? false,

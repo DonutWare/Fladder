@@ -41,7 +41,6 @@ import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
-import 'package:fladder/util/migration/isar_drift_migration.dart';
 
 final syncProvider = StateNotifierProvider<SyncNotifier, SyncSettingsModel>((ref) => throw UnimplementedError());
 
@@ -65,11 +64,6 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
   set state(SyncSettingsModel value) {
     super.state = value;
     updateSyncStates();
-  }
-
-  void migrateFromIsar() async {
-    await isarMigration(ref, _db, mainDirectory.path);
-    _initializeQueryStream();
   }
 
   Future<void> updateSyncStates() async {
@@ -114,7 +108,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
         updateSyncStates();
       }
     });
-    migrateFromIsar();
+    _initializeQueryStream();
   }
 
   void _initializeQueryStream({String? id}) async {

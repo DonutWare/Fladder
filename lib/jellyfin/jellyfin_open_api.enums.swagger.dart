@@ -2565,7 +2565,8 @@ enum AudioItemIdHls1PlaylistIdSegmentIdContainerGetSubtitleMethod {
   final String? value;
 
   const AudioItemIdHls1PlaylistIdSegmentIdContainerGetSubtitleMethod(
-      this.value);
+    this.value,
+  );
 }
 
 enum AudioItemIdHls1PlaylistIdSegmentIdContainerGetContext {
@@ -2702,7 +2703,8 @@ enum VideosItemIdHls1PlaylistIdSegmentIdContainerGetSubtitleMethod {
   final String? value;
 
   const VideosItemIdHls1PlaylistIdSegmentIdContainerGetSubtitleMethod(
-      this.value);
+    this.value,
+  );
 }
 
 enum VideosItemIdHls1PlaylistIdSegmentIdContainerGetContext {
@@ -3635,7 +3637,8 @@ enum ItemsItemIdImagesImageTypeImageIndexTagFormatMaxWidthMaxHeightPercentPlayed
   final String? value;
 
   const ItemsItemIdImagesImageTypeImageIndexTagFormatMaxWidthMaxHeightPercentPlayedUnplayedCountGetImageType(
-      this.value);
+    this.value,
+  );
 }
 
 enum ItemsItemIdImagesImageTypeImageIndexTagFormatMaxWidthMaxHeightPercentPlayedUnplayedCountGetFormat {
@@ -3658,7 +3661,8 @@ enum ItemsItemIdImagesImageTypeImageIndexTagFormatMaxWidthMaxHeightPercentPlayed
   final String? value;
 
   const ItemsItemIdImagesImageTypeImageIndexTagFormatMaxWidthMaxHeightPercentPlayedUnplayedCountGetFormat(
-      this.value);
+    this.value,
+  );
 }
 
 enum ItemsItemIdImagesImageTypeImageIndexTagFormatMaxWidthMaxHeightPercentPlayedUnplayedCountHeadImageType {
@@ -3695,7 +3699,8 @@ enum ItemsItemIdImagesImageTypeImageIndexTagFormatMaxWidthMaxHeightPercentPlayed
   final String? value;
 
   const ItemsItemIdImagesImageTypeImageIndexTagFormatMaxWidthMaxHeightPercentPlayedUnplayedCountHeadImageType(
-      this.value);
+    this.value,
+  );
 }
 
 enum ItemsItemIdImagesImageTypeImageIndexTagFormatMaxWidthMaxHeightPercentPlayedUnplayedCountHeadFormat {
@@ -3718,7 +3723,8 @@ enum ItemsItemIdImagesImageTypeImageIndexTagFormatMaxWidthMaxHeightPercentPlayed
   final String? value;
 
   const ItemsItemIdImagesImageTypeImageIndexTagFormatMaxWidthMaxHeightPercentPlayedUnplayedCountHeadFormat(
-      this.value);
+    this.value,
+  );
 }
 
 enum ItemsItemIdImagesImageTypeImageIndexIndexPostImageType {

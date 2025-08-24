@@ -151,13 +151,14 @@ class MovieModelMapper extends SubClassMapperBase<MovieModel> {
 
 mixin MovieModelMappable {
   MovieModelCopyWith<MovieModel, MovieModel, MovieModel> get copyWith =>
-      _MovieModelCopyWithImpl(this as MovieModel, $identity, $identity);
+      _MovieModelCopyWithImpl<MovieModel, MovieModel>(
+          this as MovieModel, $identity, $identity);
 }
 
 extension MovieModelValueCopy<$R, $Out>
     on ObjectCopyWith<$R, MovieModel, $Out> {
   MovieModelCopyWith<$R, MovieModel, $Out> get $asMovieModel =>
-      $base.as((v, t, t2) => _MovieModelCopyWithImpl(v, t, t2));
+      $base.as((v, t, t2) => _MovieModelCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
 abstract class MovieModelCopyWith<$R, $In extends MovieModel, $Out>
@@ -291,5 +292,5 @@ class _MovieModelCopyWithImpl<$R, $Out>
   @override
   MovieModelCopyWith<$R2, MovieModel, $Out2> $chain<$R2, $Out2>(
           Then<$Out2, $R2> t) =>
-      _MovieModelCopyWithImpl($value, $cast, t);
+      _MovieModelCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

@@ -173,14 +173,16 @@ class _LibraryFilterChipsState extends ConsumerState<LibraryFilterChips> {
               children: [
                 Text(context.localized.groupBy),
                 ...GroupBy.values.map(
-                  (group) => RadioListTile.adaptive(
-                    value: group,
+                  (group) => RadioGroup(
                     groupValue: groupBy,
-                    title: Text(group.value(context)),
                     onChanged: (_) {
                       provider.setGroupBy(group);
                       Navigator.pop(context);
                     },
+                    child: RadioListTile.adaptive(
+                      value: group,
+                      title: Text(group.value(context)),
+                    ),
                   ),
                 ),
               ],

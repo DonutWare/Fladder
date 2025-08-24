@@ -51,7 +51,7 @@ enum BackgroundType {
 }
 
 @Freezed(copyWith: true)
-class ClientSettingsModel with _$ClientSettingsModel {
+abstract class ClientSettingsModel with _$ClientSettingsModel {
   const ClientSettingsModel._();
 
   factory ClientSettingsModel({

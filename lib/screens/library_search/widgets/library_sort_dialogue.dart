@@ -1,7 +1,8 @@
+import 'package:flutter/material.dart';
+
 import 'package:fladder/models/library_search/library_search_options.dart';
 import 'package:fladder/providers/library_search_provider.dart';
 import 'package:fladder/util/localization_helper.dart';
-import 'package:flutter/material.dart';
 
 Future<(SortingOptions? sortOptions, SortingOrder? sortingOrder)?> openSortByDialogue(
   BuildContext context, {
@@ -27,9 +28,7 @@ Future<(SortingOptions? sortOptions, SortingOrder? sortingOrder)?> openSortByDia
                     child: Text(context.localized.sortBy, style: Theme.of(context).textTheme.titleLarge),
                   ),
                   const SizedBox(height: 8),
-                  ...SortingOptions.values.map((e) => RadioListTile.adaptive(
-                        value: e,
-                        title: Text(e.label(context)),
+                  ...SortingOptions.values.map((e) => RadioGroup(
                         groupValue: newSortingOptions,
                         onChanged: (value) {
                           state(
@@ -38,6 +37,10 @@ Future<(SortingOptions? sortOptions, SortingOrder? sortingOrder)?> openSortByDia
                             },
                           );
                         },
+                        child: RadioListTile.adaptive(
+                          value: e,
+                          title: Text(e.label(context)),
+                        ),
                       )),
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 8),
@@ -49,9 +52,7 @@ Future<(SortingOptions? sortOptions, SortingOrder? sortingOrder)?> openSortByDia
                   ),
                   const SizedBox(height: 8),
                   ...SortingOrder.values.map(
-                    (e) => RadioListTile.adaptive(
-                      value: e,
-                      title: Text(e.label(context)),
+                    (e) => RadioGroup(
                       groupValue: newSortOrder,
                       onChanged: (value) {
                         state(
@@ -60,6 +61,10 @@ Future<(SortingOptions? sortOptions, SortingOrder? sortingOrder)?> openSortByDia
                           },
                         );
                       },
+                      child: RadioListTile.adaptive(
+                        value: e,
+                        title: Text(e.label(context)),
+                      ),
                     ),
                   ),
                 ],

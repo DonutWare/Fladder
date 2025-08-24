@@ -112,13 +112,14 @@ class FolderModelMapper extends SubClassMapperBase<FolderModel> {
 
 mixin FolderModelMappable {
   FolderModelCopyWith<FolderModel, FolderModel, FolderModel> get copyWith =>
-      _FolderModelCopyWithImpl(this as FolderModel, $identity, $identity);
+      _FolderModelCopyWithImpl<FolderModel, FolderModel>(
+          this as FolderModel, $identity, $identity);
 }
 
 extension FolderModelValueCopy<$R, $Out>
     on ObjectCopyWith<$R, FolderModel, $Out> {
   FolderModelCopyWith<$R, FolderModel, $Out> get $asFolderModel =>
-      $base.as((v, t, t2) => _FolderModelCopyWithImpl(v, t, t2));
+      $base.as((v, t, t2) => _FolderModelCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
 abstract class FolderModelCopyWith<$R, $In extends FolderModel, $Out>
@@ -215,5 +216,5 @@ class _FolderModelCopyWithImpl<$R, $Out>
   @override
   FolderModelCopyWith<$R2, FolderModel, $Out2> $chain<$R2, $Out2>(
           Then<$Out2, $R2> t) =>
-      _FolderModelCopyWithImpl($value, $cast, t);
+      _FolderModelCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

@@ -112,14 +112,15 @@ class PhotoAlbumModelMapper extends SubClassMapperBase<PhotoAlbumModel> {
 
 mixin PhotoAlbumModelMappable {
   PhotoAlbumModelCopyWith<PhotoAlbumModel, PhotoAlbumModel, PhotoAlbumModel>
-      get copyWith => _PhotoAlbumModelCopyWithImpl(
-          this as PhotoAlbumModel, $identity, $identity);
+      get copyWith =>
+          _PhotoAlbumModelCopyWithImpl<PhotoAlbumModel, PhotoAlbumModel>(
+              this as PhotoAlbumModel, $identity, $identity);
 }
 
 extension PhotoAlbumModelValueCopy<$R, $Out>
     on ObjectCopyWith<$R, PhotoAlbumModel, $Out> {
   PhotoAlbumModelCopyWith<$R, PhotoAlbumModel, $Out> get $asPhotoAlbumModel =>
-      $base.as((v, t, t2) => _PhotoAlbumModelCopyWithImpl(v, t, t2));
+      $base.as((v, t, t2) => _PhotoAlbumModelCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
 abstract class PhotoAlbumModelCopyWith<$R, $In extends PhotoAlbumModel, $Out>
@@ -217,7 +218,7 @@ class _PhotoAlbumModelCopyWithImpl<$R, $Out>
   @override
   PhotoAlbumModelCopyWith<$R2, PhotoAlbumModel, $Out2> $chain<$R2, $Out2>(
           Then<$Out2, $R2> t) =>
-      _PhotoAlbumModelCopyWithImpl($value, $cast, t);
+      _PhotoAlbumModelCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }
 
 class PhotoModelMapper extends SubClassMapperBase<PhotoModel> {
@@ -340,13 +341,14 @@ class PhotoModelMapper extends SubClassMapperBase<PhotoModel> {
 
 mixin PhotoModelMappable {
   PhotoModelCopyWith<PhotoModel, PhotoModel, PhotoModel> get copyWith =>
-      _PhotoModelCopyWithImpl(this as PhotoModel, $identity, $identity);
+      _PhotoModelCopyWithImpl<PhotoModel, PhotoModel>(
+          this as PhotoModel, $identity, $identity);
 }
 
 extension PhotoModelValueCopy<$R, $Out>
     on ObjectCopyWith<$R, PhotoModel, $Out> {
   PhotoModelCopyWith<$R, PhotoModel, $Out> get $asPhotoModel =>
-      $base.as((v, t, t2) => _PhotoModelCopyWithImpl(v, t, t2));
+      $base.as((v, t, t2) => _PhotoModelCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
 abstract class PhotoModelCopyWith<$R, $In extends PhotoModel, $Out>
@@ -448,5 +450,5 @@ class _PhotoModelCopyWithImpl<$R, $Out>
   @override
   PhotoModelCopyWith<$R2, PhotoModel, $Out2> $chain<$R2, $Out2>(
           Then<$Out2, $R2> t) =>
-      _PhotoModelCopyWithImpl($value, $cast, t);
+      _PhotoModelCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

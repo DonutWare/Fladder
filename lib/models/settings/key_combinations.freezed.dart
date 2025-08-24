@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,97 +9,42 @@ part of 'key_combinations.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-KeyCombination _$KeyCombinationFromJson(Map<String, dynamic> json) {
-  return _KeyCombination.fromJson(json);
-}
 
 /// @nodoc
 mixin _$KeyCombination {
   @LogicalKeyboardSerializer()
-  LogicalKeyboardKey? get key => throw _privateConstructorUsedError;
+  LogicalKeyboardKey? get key;
   @LogicalKeyboardSerializer()
-  LogicalKeyboardKey? get modifier => throw _privateConstructorUsedError;
+  LogicalKeyboardKey? get modifier;
   @LogicalKeyboardSerializer()
-  LogicalKeyboardKey? get altKey => throw _privateConstructorUsedError;
+  LogicalKeyboardKey? get altKey;
   @LogicalKeyboardSerializer()
-  LogicalKeyboardKey? get altModifier => throw _privateConstructorUsedError;
-
-  /// Serializes this KeyCombination to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  LogicalKeyboardKey? get altModifier;
 
   /// Create a copy of KeyCombination
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $KeyCombinationCopyWith<KeyCombination> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $KeyCombinationCopyWith<$Res> {
-  factory $KeyCombinationCopyWith(
-          KeyCombination value, $Res Function(KeyCombination) then) =
-      _$KeyCombinationCopyWithImpl<$Res, KeyCombination>;
-  @useResult
-  $Res call(
-      {@LogicalKeyboardSerializer() LogicalKeyboardKey? key,
-      @LogicalKeyboardSerializer() LogicalKeyboardKey? modifier,
-      @LogicalKeyboardSerializer() LogicalKeyboardKey? altKey,
-      @LogicalKeyboardSerializer() LogicalKeyboardKey? altModifier});
-}
-
-/// @nodoc
-class _$KeyCombinationCopyWithImpl<$Res, $Val extends KeyCombination>
-    implements $KeyCombinationCopyWith<$Res> {
-  _$KeyCombinationCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of KeyCombination
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $KeyCombinationCopyWith<KeyCombination> get copyWith =>
+      _$KeyCombinationCopyWithImpl<KeyCombination>(
+          this as KeyCombination, _$identity);
+
+  /// Serializes this KeyCombination to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? key = freezed,
-    Object? modifier = freezed,
-    Object? altKey = freezed,
-    Object? altModifier = freezed,
-  }) {
-    return _then(_value.copyWith(
-      key: freezed == key
-          ? _value.key
-          : key // ignore: cast_nullable_to_non_nullable
-              as LogicalKeyboardKey?,
-      modifier: freezed == modifier
-          ? _value.modifier
-          : modifier // ignore: cast_nullable_to_non_nullable
-              as LogicalKeyboardKey?,
-      altKey: freezed == altKey
-          ? _value.altKey
-          : altKey // ignore: cast_nullable_to_non_nullable
-              as LogicalKeyboardKey?,
-      altModifier: freezed == altModifier
-          ? _value.altModifier
-          : altModifier // ignore: cast_nullable_to_non_nullable
-              as LogicalKeyboardKey?,
-    ) as $Val);
+  String toString() {
+    return 'KeyCombination(key: $key, modifier: $modifier, altKey: $altKey, altModifier: $altModifier)';
   }
 }
 
 /// @nodoc
-abstract class _$$KeyCombinationImplCopyWith<$Res>
-    implements $KeyCombinationCopyWith<$Res> {
-  factory _$$KeyCombinationImplCopyWith(_$KeyCombinationImpl value,
-          $Res Function(_$KeyCombinationImpl) then) =
-      __$$KeyCombinationImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $KeyCombinationCopyWith<$Res> {
+  factory $KeyCombinationCopyWith(
+          KeyCombination value, $Res Function(KeyCombination) _then) =
+      _$KeyCombinationCopyWithImpl;
   @useResult
   $Res call(
       {@LogicalKeyboardSerializer() LogicalKeyboardKey? key,
@@ -109,12 +54,12 @@ abstract class _$$KeyCombinationImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$KeyCombinationImplCopyWithImpl<$Res>
-    extends _$KeyCombinationCopyWithImpl<$Res, _$KeyCombinationImpl>
-    implements _$$KeyCombinationImplCopyWith<$Res> {
-  __$$KeyCombinationImplCopyWithImpl(
-      _$KeyCombinationImpl _value, $Res Function(_$KeyCombinationImpl) _then)
-      : super(_value, _then);
+class _$KeyCombinationCopyWithImpl<$Res>
+    implements $KeyCombinationCopyWith<$Res> {
+  _$KeyCombinationCopyWithImpl(this._self, this._then);
+
+  final KeyCombination _self;
+  final $Res Function(KeyCombination) _then;
 
   /// Create a copy of KeyCombination
   /// with the given fields replaced by the non-null parameter values.
@@ -126,39 +71,213 @@ class __$$KeyCombinationImplCopyWithImpl<$Res>
     Object? altKey = freezed,
     Object? altModifier = freezed,
   }) {
-    return _then(_$KeyCombinationImpl(
+    return _then(_self.copyWith(
       key: freezed == key
-          ? _value.key
+          ? _self.key
           : key // ignore: cast_nullable_to_non_nullable
               as LogicalKeyboardKey?,
       modifier: freezed == modifier
-          ? _value.modifier
+          ? _self.modifier
           : modifier // ignore: cast_nullable_to_non_nullable
               as LogicalKeyboardKey?,
       altKey: freezed == altKey
-          ? _value.altKey
+          ? _self.altKey
           : altKey // ignore: cast_nullable_to_non_nullable
               as LogicalKeyboardKey?,
       altModifier: freezed == altModifier
-          ? _value.altModifier
+          ? _self.altModifier
           : altModifier // ignore: cast_nullable_to_non_nullable
               as LogicalKeyboardKey?,
     ));
   }
 }
 
+/// Adds pattern-matching-related methods to [KeyCombination].
+extension KeyCombinationPatterns on KeyCombination {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_KeyCombination value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _KeyCombination() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_KeyCombination value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _KeyCombination():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_KeyCombination value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _KeyCombination() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            @LogicalKeyboardSerializer() LogicalKeyboardKey? key,
+            @LogicalKeyboardSerializer() LogicalKeyboardKey? modifier,
+            @LogicalKeyboardSerializer() LogicalKeyboardKey? altKey,
+            @LogicalKeyboardSerializer() LogicalKeyboardKey? altModifier)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _KeyCombination() when $default != null:
+        return $default(
+            _that.key, _that.modifier, _that.altKey, _that.altModifier);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            @LogicalKeyboardSerializer() LogicalKeyboardKey? key,
+            @LogicalKeyboardSerializer() LogicalKeyboardKey? modifier,
+            @LogicalKeyboardSerializer() LogicalKeyboardKey? altKey,
+            @LogicalKeyboardSerializer() LogicalKeyboardKey? altModifier)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _KeyCombination():
+        return $default(
+            _that.key, _that.modifier, _that.altKey, _that.altModifier);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            @LogicalKeyboardSerializer() LogicalKeyboardKey? key,
+            @LogicalKeyboardSerializer() LogicalKeyboardKey? modifier,
+            @LogicalKeyboardSerializer() LogicalKeyboardKey? altKey,
+            @LogicalKeyboardSerializer() LogicalKeyboardKey? altModifier)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _KeyCombination() when $default != null:
+        return $default(
+            _that.key, _that.modifier, _that.altKey, _that.altModifier);
+      case _:
+        return null;
+    }
+  }
+}
+
 /// @nodoc
 @JsonSerializable()
-class _$KeyCombinationImpl extends _KeyCombination {
-  _$KeyCombinationImpl(
+class _KeyCombination extends KeyCombination {
+  _KeyCombination(
       {@LogicalKeyboardSerializer() this.key,
       @LogicalKeyboardSerializer() this.modifier,
       @LogicalKeyboardSerializer() this.altKey,
       @LogicalKeyboardSerializer() this.altModifier})
       : super._();
-
-  factory _$KeyCombinationImpl.fromJson(Map<String, dynamic> json) =>
-      _$$KeyCombinationImplFromJson(json);
+  factory _KeyCombination.fromJson(Map<String, dynamic> json) =>
+      _$KeyCombinationFromJson(json);
 
   @override
   @LogicalKeyboardSerializer()
@@ -173,57 +292,79 @@ class _$KeyCombinationImpl extends _KeyCombination {
   @LogicalKeyboardSerializer()
   final LogicalKeyboardKey? altModifier;
 
+  /// Create a copy of KeyCombination
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$KeyCombinationCopyWith<_KeyCombination> get copyWith =>
+      __$KeyCombinationCopyWithImpl<_KeyCombination>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$KeyCombinationToJson(
+      this,
+    );
+  }
+
   @override
   String toString() {
     return 'KeyCombination(key: $key, modifier: $modifier, altKey: $altKey, altModifier: $altModifier)';
   }
+}
+
+/// @nodoc
+abstract mixin class _$KeyCombinationCopyWith<$Res>
+    implements $KeyCombinationCopyWith<$Res> {
+  factory _$KeyCombinationCopyWith(
+          _KeyCombination value, $Res Function(_KeyCombination) _then) =
+      __$KeyCombinationCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {@LogicalKeyboardSerializer() LogicalKeyboardKey? key,
+      @LogicalKeyboardSerializer() LogicalKeyboardKey? modifier,
+      @LogicalKeyboardSerializer() LogicalKeyboardKey? altKey,
+      @LogicalKeyboardSerializer() LogicalKeyboardKey? altModifier});
+}
+
+/// @nodoc
+class __$KeyCombinationCopyWithImpl<$Res>
+    implements _$KeyCombinationCopyWith<$Res> {
+  __$KeyCombinationCopyWithImpl(this._self, this._then);
+
+  final _KeyCombination _self;
+  final $Res Function(_KeyCombination) _then;
 
   /// Create a copy of KeyCombination
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$KeyCombinationImplCopyWith<_$KeyCombinationImpl> get copyWith =>
-      __$$KeyCombinationImplCopyWithImpl<_$KeyCombinationImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$KeyCombinationImplToJson(
-      this,
-    );
+  $Res call({
+    Object? key = freezed,
+    Object? modifier = freezed,
+    Object? altKey = freezed,
+    Object? altModifier = freezed,
+  }) {
+    return _then(_KeyCombination(
+      key: freezed == key
+          ? _self.key
+          : key // ignore: cast_nullable_to_non_nullable
+              as LogicalKeyboardKey?,
+      modifier: freezed == modifier
+          ? _self.modifier
+          : modifier // ignore: cast_nullable_to_non_nullable
+              as LogicalKeyboardKey?,
+      altKey: freezed == altKey
+          ? _self.altKey
+          : altKey // ignore: cast_nullable_to_non_nullable
+              as LogicalKeyboardKey?,
+      altModifier: freezed == altModifier
+          ? _self.altModifier
+          : altModifier // ignore: cast_nullable_to_non_nullable
+              as LogicalKeyboardKey?,
+    ));
   }
 }
 
-abstract class _KeyCombination extends KeyCombination {
-  factory _KeyCombination(
-          {@LogicalKeyboardSerializer() final LogicalKeyboardKey? key,
-          @LogicalKeyboardSerializer() final LogicalKeyboardKey? modifier,
-          @LogicalKeyboardSerializer() final LogicalKeyboardKey? altKey,
-          @LogicalKeyboardSerializer() final LogicalKeyboardKey? altModifier}) =
-      _$KeyCombinationImpl;
-  _KeyCombination._() : super._();
-
-  factory _KeyCombination.fromJson(Map<String, dynamic> json) =
-      _$KeyCombinationImpl.fromJson;
-
-  @override
-  @LogicalKeyboardSerializer()
-  LogicalKeyboardKey? get key;
-  @override
-  @LogicalKeyboardSerializer()
-  LogicalKeyboardKey? get modifier;
-  @override
-  @LogicalKeyboardSerializer()
-  LogicalKeyboardKey? get altKey;
-  @override
-  @LogicalKeyboardSerializer()
-  LogicalKeyboardKey? get altModifier;
-
-  /// Create a copy of KeyCombination
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$KeyCombinationImplCopyWith<_$KeyCombinationImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+// dart format on

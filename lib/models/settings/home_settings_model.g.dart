@@ -6,9 +6,8 @@ part of 'home_settings_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$HomeSettingsModelImpl _$$HomeSettingsModelImplFromJson(
-        Map<String, dynamic> json) =>
-    _$HomeSettingsModelImpl(
+_HomeSettingsModel _$HomeSettingsModelFromJson(Map<String, dynamic> json) =>
+    _HomeSettingsModel(
       screenLayouts: (json['screenLayouts'] as List<dynamic>?)
               ?.map((e) => $enumDecode(_$LayoutModeEnumMap, e))
               .toSet() ??
@@ -27,8 +26,7 @@ _$HomeSettingsModelImpl _$$HomeSettingsModelImplFromJson(
           HomeNextUp.separate,
     );
 
-Map<String, dynamic> _$$HomeSettingsModelImplToJson(
-        _$HomeSettingsModelImpl instance) =>
+Map<String, dynamic> _$HomeSettingsModelToJson(_HomeSettingsModel instance) =>
     <String, dynamic>{
       'screenLayouts':
           instance.screenLayouts.map((e) => _$LayoutModeEnumMap[e]!).toList(),

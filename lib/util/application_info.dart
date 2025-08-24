@@ -14,7 +14,7 @@ final applicationInfoProvider = StateProvider<ApplicationInfo>((ref) {
 });
 
 @Freezed(toJson: false, fromJson: false)
-class ApplicationInfo with _$ApplicationInfo {
+abstract class ApplicationInfo with _$ApplicationInfo {
   const ApplicationInfo._();
 
   factory ApplicationInfo({

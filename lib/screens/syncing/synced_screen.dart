@@ -70,10 +70,6 @@ class _SyncedScreenState extends ConsumerState<SyncedScreen> {
                           onPressed: () => ref.read(syncProvider.notifier).removeAllSyncedData(),
                           child: const Text("Clear drift database"),
                         ),
-                        ElevatedButton(
-                          onPressed: () => ref.read(syncProvider.notifier).migrateFromIsar(),
-                          child: const Text("Migrate Isar to Drift"),
-                        ),
                       ],
                     ),
                   ),

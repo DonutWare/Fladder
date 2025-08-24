@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,101 +9,39 @@ part of 'home_settings_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-HomeSettingsModel _$HomeSettingsModelFromJson(Map<String, dynamic> json) {
-  return _HomeSettingsModel.fromJson(json);
-}
 
 /// @nodoc
 mixin _$HomeSettingsModel {
-  Set<LayoutMode> get screenLayouts => throw _privateConstructorUsedError;
-  Set<ViewSize> get layoutStates => throw _privateConstructorUsedError;
-  HomeBanner get homeBanner => throw _privateConstructorUsedError;
-  HomeCarouselSettings get carouselSettings =>
-      throw _privateConstructorUsedError;
-  HomeNextUp get nextUp => throw _privateConstructorUsedError;
-
-  /// Serializes this HomeSettingsModel to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Set<LayoutMode> get screenLayouts;
+  Set<ViewSize> get layoutStates;
+  HomeBanner get homeBanner;
+  HomeCarouselSettings get carouselSettings;
+  HomeNextUp get nextUp;
 
   /// Create a copy of HomeSettingsModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $HomeSettingsModelCopyWith<HomeSettingsModel> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $HomeSettingsModelCopyWith<$Res> {
-  factory $HomeSettingsModelCopyWith(
-          HomeSettingsModel value, $Res Function(HomeSettingsModel) then) =
-      _$HomeSettingsModelCopyWithImpl<$Res, HomeSettingsModel>;
-  @useResult
-  $Res call(
-      {Set<LayoutMode> screenLayouts,
-      Set<ViewSize> layoutStates,
-      HomeBanner homeBanner,
-      HomeCarouselSettings carouselSettings,
-      HomeNextUp nextUp});
-}
-
-/// @nodoc
-class _$HomeSettingsModelCopyWithImpl<$Res, $Val extends HomeSettingsModel>
-    implements $HomeSettingsModelCopyWith<$Res> {
-  _$HomeSettingsModelCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of HomeSettingsModel
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $HomeSettingsModelCopyWith<HomeSettingsModel> get copyWith =>
+      _$HomeSettingsModelCopyWithImpl<HomeSettingsModel>(
+          this as HomeSettingsModel, _$identity);
+
+  /// Serializes this HomeSettingsModel to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? screenLayouts = null,
-    Object? layoutStates = null,
-    Object? homeBanner = null,
-    Object? carouselSettings = null,
-    Object? nextUp = null,
-  }) {
-    return _then(_value.copyWith(
-      screenLayouts: null == screenLayouts
-          ? _value.screenLayouts
-          : screenLayouts // ignore: cast_nullable_to_non_nullable
-              as Set<LayoutMode>,
-      layoutStates: null == layoutStates
-          ? _value.layoutStates
-          : layoutStates // ignore: cast_nullable_to_non_nullable
-              as Set<ViewSize>,
-      homeBanner: null == homeBanner
-          ? _value.homeBanner
-          : homeBanner // ignore: cast_nullable_to_non_nullable
-              as HomeBanner,
-      carouselSettings: null == carouselSettings
-          ? _value.carouselSettings
-          : carouselSettings // ignore: cast_nullable_to_non_nullable
-              as HomeCarouselSettings,
-      nextUp: null == nextUp
-          ? _value.nextUp
-          : nextUp // ignore: cast_nullable_to_non_nullable
-              as HomeNextUp,
-    ) as $Val);
+  String toString() {
+    return 'HomeSettingsModel(screenLayouts: $screenLayouts, layoutStates: $layoutStates, homeBanner: $homeBanner, carouselSettings: $carouselSettings, nextUp: $nextUp)';
   }
 }
 
 /// @nodoc
-abstract class _$$HomeSettingsModelImplCopyWith<$Res>
-    implements $HomeSettingsModelCopyWith<$Res> {
-  factory _$$HomeSettingsModelImplCopyWith(_$HomeSettingsModelImpl value,
-          $Res Function(_$HomeSettingsModelImpl) then) =
-      __$$HomeSettingsModelImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $HomeSettingsModelCopyWith<$Res> {
+  factory $HomeSettingsModelCopyWith(
+          HomeSettingsModel value, $Res Function(HomeSettingsModel) _then) =
+      _$HomeSettingsModelCopyWithImpl;
   @useResult
   $Res call(
       {Set<LayoutMode> screenLayouts,
@@ -114,12 +52,12 @@ abstract class _$$HomeSettingsModelImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$HomeSettingsModelImplCopyWithImpl<$Res>
-    extends _$HomeSettingsModelCopyWithImpl<$Res, _$HomeSettingsModelImpl>
-    implements _$$HomeSettingsModelImplCopyWith<$Res> {
-  __$$HomeSettingsModelImplCopyWithImpl(_$HomeSettingsModelImpl _value,
-      $Res Function(_$HomeSettingsModelImpl) _then)
-      : super(_value, _then);
+class _$HomeSettingsModelCopyWithImpl<$Res>
+    implements $HomeSettingsModelCopyWith<$Res> {
+  _$HomeSettingsModelCopyWithImpl(this._self, this._then);
+
+  final HomeSettingsModel _self;
+  final $Res Function(HomeSettingsModel) _then;
 
   /// Create a copy of HomeSettingsModel
   /// with the given fields replaced by the non-null parameter values.
@@ -132,35 +70,213 @@ class __$$HomeSettingsModelImplCopyWithImpl<$Res>
     Object? carouselSettings = null,
     Object? nextUp = null,
   }) {
-    return _then(_$HomeSettingsModelImpl(
+    return _then(_self.copyWith(
       screenLayouts: null == screenLayouts
-          ? _value._screenLayouts
+          ? _self.screenLayouts
           : screenLayouts // ignore: cast_nullable_to_non_nullable
               as Set<LayoutMode>,
       layoutStates: null == layoutStates
-          ? _value._layoutStates
+          ? _self.layoutStates
           : layoutStates // ignore: cast_nullable_to_non_nullable
               as Set<ViewSize>,
       homeBanner: null == homeBanner
-          ? _value.homeBanner
+          ? _self.homeBanner
           : homeBanner // ignore: cast_nullable_to_non_nullable
               as HomeBanner,
       carouselSettings: null == carouselSettings
-          ? _value.carouselSettings
+          ? _self.carouselSettings
           : carouselSettings // ignore: cast_nullable_to_non_nullable
               as HomeCarouselSettings,
       nextUp: null == nextUp
-          ? _value.nextUp
+          ? _self.nextUp
           : nextUp // ignore: cast_nullable_to_non_nullable
               as HomeNextUp,
     ));
   }
 }
 
+/// Adds pattern-matching-related methods to [HomeSettingsModel].
+extension HomeSettingsModelPatterns on HomeSettingsModel {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_HomeSettingsModel value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _HomeSettingsModel() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_HomeSettingsModel value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _HomeSettingsModel():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_HomeSettingsModel value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _HomeSettingsModel() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            Set<LayoutMode> screenLayouts,
+            Set<ViewSize> layoutStates,
+            HomeBanner homeBanner,
+            HomeCarouselSettings carouselSettings,
+            HomeNextUp nextUp)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _HomeSettingsModel() when $default != null:
+        return $default(_that.screenLayouts, _that.layoutStates,
+            _that.homeBanner, _that.carouselSettings, _that.nextUp);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            Set<LayoutMode> screenLayouts,
+            Set<ViewSize> layoutStates,
+            HomeBanner homeBanner,
+            HomeCarouselSettings carouselSettings,
+            HomeNextUp nextUp)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _HomeSettingsModel():
+        return $default(_that.screenLayouts, _that.layoutStates,
+            _that.homeBanner, _that.carouselSettings, _that.nextUp);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            Set<LayoutMode> screenLayouts,
+            Set<ViewSize> layoutStates,
+            HomeBanner homeBanner,
+            HomeCarouselSettings carouselSettings,
+            HomeNextUp nextUp)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _HomeSettingsModel() when $default != null:
+        return $default(_that.screenLayouts, _that.layoutStates,
+            _that.homeBanner, _that.carouselSettings, _that.nextUp);
+      case _:
+        return null;
+    }
+  }
+}
+
 /// @nodoc
 @JsonSerializable()
-class _$HomeSettingsModelImpl implements _HomeSettingsModel {
-  _$HomeSettingsModelImpl(
+class _HomeSettingsModel implements HomeSettingsModel {
+  _HomeSettingsModel(
       {final Set<LayoutMode> screenLayouts = const {...LayoutMode.values},
       final Set<ViewSize> layoutStates = const {...ViewSize.values},
       this.homeBanner = HomeBanner.carousel,
@@ -168,9 +284,8 @@ class _$HomeSettingsModelImpl implements _HomeSettingsModel {
       this.nextUp = HomeNextUp.separate})
       : _screenLayouts = screenLayouts,
         _layoutStates = layoutStates;
-
-  factory _$HomeSettingsModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$HomeSettingsModelImplFromJson(json);
+  factory _HomeSettingsModel.fromJson(Map<String, dynamic> json) =>
+      _$HomeSettingsModelFromJson(json);
 
   final Set<LayoutMode> _screenLayouts;
   @override
@@ -200,54 +315,85 @@ class _$HomeSettingsModelImpl implements _HomeSettingsModel {
   @JsonKey()
   final HomeNextUp nextUp;
 
+  /// Create a copy of HomeSettingsModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$HomeSettingsModelCopyWith<_HomeSettingsModel> get copyWith =>
+      __$HomeSettingsModelCopyWithImpl<_HomeSettingsModel>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$HomeSettingsModelToJson(
+      this,
+    );
+  }
+
   @override
   String toString() {
     return 'HomeSettingsModel(screenLayouts: $screenLayouts, layoutStates: $layoutStates, homeBanner: $homeBanner, carouselSettings: $carouselSettings, nextUp: $nextUp)';
   }
+}
+
+/// @nodoc
+abstract mixin class _$HomeSettingsModelCopyWith<$Res>
+    implements $HomeSettingsModelCopyWith<$Res> {
+  factory _$HomeSettingsModelCopyWith(
+          _HomeSettingsModel value, $Res Function(_HomeSettingsModel) _then) =
+      __$HomeSettingsModelCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {Set<LayoutMode> screenLayouts,
+      Set<ViewSize> layoutStates,
+      HomeBanner homeBanner,
+      HomeCarouselSettings carouselSettings,
+      HomeNextUp nextUp});
+}
+
+/// @nodoc
+class __$HomeSettingsModelCopyWithImpl<$Res>
+    implements _$HomeSettingsModelCopyWith<$Res> {
+  __$HomeSettingsModelCopyWithImpl(this._self, this._then);
+
+  final _HomeSettingsModel _self;
+  final $Res Function(_HomeSettingsModel) _then;
 
   /// Create a copy of HomeSettingsModel
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$HomeSettingsModelImplCopyWith<_$HomeSettingsModelImpl> get copyWith =>
-      __$$HomeSettingsModelImplCopyWithImpl<_$HomeSettingsModelImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$HomeSettingsModelImplToJson(
-      this,
-    );
+  $Res call({
+    Object? screenLayouts = null,
+    Object? layoutStates = null,
+    Object? homeBanner = null,
+    Object? carouselSettings = null,
+    Object? nextUp = null,
+  }) {
+    return _then(_HomeSettingsModel(
+      screenLayouts: null == screenLayouts
+          ? _self._screenLayouts
+          : screenLayouts // ignore: cast_nullable_to_non_nullable
+              as Set<LayoutMode>,
+      layoutStates: null == layoutStates
+          ? _self._layoutStates
+          : layoutStates // ignore: cast_nullable_to_non_nullable
+              as Set<ViewSize>,
+      homeBanner: null == homeBanner
+          ? _self.homeBanner
+          : homeBanner // ignore: cast_nullable_to_non_nullable
+              as HomeBanner,
+      carouselSettings: null == carouselSettings
+          ? _self.carouselSettings
+          : carouselSettings // ignore: cast_nullable_to_non_nullable
+              as HomeCarouselSettings,
+      nextUp: null == nextUp
+          ? _self.nextUp
+          : nextUp // ignore: cast_nullable_to_non_nullable
+              as HomeNextUp,
+    ));
   }
 }
 
-abstract class _HomeSettingsModel implements HomeSettingsModel {
-  factory _HomeSettingsModel(
-      {final Set<LayoutMode> screenLayouts,
-      final Set<ViewSize> layoutStates,
-      final HomeBanner homeBanner,
-      final HomeCarouselSettings carouselSettings,
-      final HomeNextUp nextUp}) = _$HomeSettingsModelImpl;
-
-  factory _HomeSettingsModel.fromJson(Map<String, dynamic> json) =
-      _$HomeSettingsModelImpl.fromJson;
-
-  @override
-  Set<LayoutMode> get screenLayouts;
-  @override
-  Set<ViewSize> get layoutStates;
-  @override
-  HomeBanner get homeBanner;
-  @override
-  HomeCarouselSettings get carouselSettings;
-  @override
-  HomeNextUp get nextUp;
-
-  /// Create a copy of HomeSettingsModel
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$HomeSettingsModelImplCopyWith<_$HomeSettingsModelImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+// dart format on

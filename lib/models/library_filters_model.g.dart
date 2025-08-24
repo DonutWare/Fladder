@@ -6,9 +6,8 @@ part of 'library_filters_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$LibraryFiltersModelImpl _$$LibraryFiltersModelImplFromJson(
-        Map<String, dynamic> json) =>
-    _$LibraryFiltersModelImpl(
+_LibraryFiltersModel _$LibraryFiltersModelFromJson(Map<String, dynamic> json) =>
+    _LibraryFiltersModel(
       id: json['id'] as String,
       name: json['name'] as String,
       isFavourite: json['isFavourite'] as bool,
@@ -35,8 +34,8 @@ _$LibraryFiltersModelImpl _$$LibraryFiltersModelImplFromJson(
       groupBy: $enumDecode(_$GroupByEnumMap, json['groupBy']),
     );
 
-Map<String, dynamic> _$$LibraryFiltersModelImplToJson(
-        _$LibraryFiltersModelImpl instance) =>
+Map<String, dynamic> _$LibraryFiltersModelToJson(
+        _LibraryFiltersModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,

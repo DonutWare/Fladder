@@ -141,13 +141,14 @@ class SeasonModelMapper extends SubClassMapperBase<SeasonModel> {
 
 mixin SeasonModelMappable {
   SeasonModelCopyWith<SeasonModel, SeasonModel, SeasonModel> get copyWith =>
-      _SeasonModelCopyWithImpl(this as SeasonModel, $identity, $identity);
+      _SeasonModelCopyWithImpl<SeasonModel, SeasonModel>(
+          this as SeasonModel, $identity, $identity);
 }
 
 extension SeasonModelValueCopy<$R, $Out>
     on ObjectCopyWith<$R, SeasonModel, $Out> {
   SeasonModelCopyWith<$R, SeasonModel, $Out> get $asSeasonModel =>
-      $base.as((v, t, t2) => _SeasonModelCopyWithImpl(v, t, t2));
+      $base.as((v, t, t2) => _SeasonModelCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
 abstract class SeasonModelCopyWith<$R, $In extends SeasonModel, $Out>
@@ -268,5 +269,5 @@ class _SeasonModelCopyWithImpl<$R, $Out>
   @override
   SeasonModelCopyWith<$R2, SeasonModel, $Out2> $chain<$R2, $Out2>(
           Then<$Out2, $R2> t) =>
-      _SeasonModelCopyWithImpl($value, $cast, t);
+      _SeasonModelCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

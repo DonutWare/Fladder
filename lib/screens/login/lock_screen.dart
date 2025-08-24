@@ -59,7 +59,7 @@ class _LockScreenState extends ConsumerState<LockScreen> with WidgetsBindingObse
   void handleLogin(AccountModel user) {
     ref.read(lockScreenActiveProvider.notifier).update((state) => false);
     poppingLockScreen = true;
-    context.router.popForced();
+    context.router.pop();
   }
 
   void tapLoggedInAccount(AccountModel user) async {
