@@ -53,6 +53,7 @@ class LibrarySearchScreen extends ConsumerStatefulWidget {
   final List<String>? folderId;
   final SortingOrder? sortOrder;
   final SortingOptions? sortingOptions;
+  final bool recursive;
   final PhotoModel? photoToView;
   const LibrarySearchScreen({
     @QueryParam("parentId") this.viewModelId,
@@ -60,6 +61,7 @@ class LibrarySearchScreen extends ConsumerStatefulWidget {
     @QueryParam("favourites") this.favourites,
     @QueryParam("sortOrder") this.sortOrder,
     @QueryParam("sortOptions") this.sortingOptions,
+    @QueryParam("recursive") this.recursive = true,
     this.photoToView,
     super.key,
   });
@@ -235,6 +237,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                                 widget.favourites,
                                 widget.sortOrder,
                                 widget.sortingOptions,
+                                widget.recursive,
                               );
                             }
                           },

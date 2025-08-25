@@ -55,9 +55,7 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
   Future<void> initRefresh(
     List<String>? folderId,
     String? viewModelId,
-    bool? favourites,
-    SortingOrder? sortOrder,
-    SortingOptions? sortingOptions,
+    LibraryFiltersModel filters,
   ) async {
     loading = true;
     state = state.resetLazyLoad();
@@ -65,7 +63,7 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
       if (folderId != null) {
         await loadFolders(folderId: folderId);
       } else {
-        await loadViews(viewModelId, favourites, sortOrder, sortingOptions);
+        await loadViews(viewModelId, filters);
       }
     }
 
@@ -159,9 +157,7 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
   //Pas viewmodel otherwise select first
   Future<void> loadViews(
     String? viewModelId,
-    bool? favourites,
-    SortingOrder? sortOrder,
-    SortingOptions? sortingOptions,
+    LibraryFiltersModel filters,
   ) async {
     final response = await api.usersUserIdViewsGet(includeHidden: false);
     final createdViews = response.body?.items?.map((e) => ViewModel.fromBodyDto(e, ref));
@@ -177,21 +173,7 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
     state = state.copyWith(
       views: views,
     );
-
-    if (sortOrder == null && sortingOptions == null && favourites == null) {
-      final findFavouriteFilter = ref
-          .read(libraryFiltersProvider(views.included.map((e) => e.id).toList()))
-          .firstWhereOrNull((element) => element.isFavourite);
-      if (findFavouriteFilter != null) {
-        loadModel(findFavouriteFilter);
-      }
-    } else {
-      state = state.copyWith(
-        sortOrder: sortOrder,
-        sortingOption: sortingOptions,
-        favourites: favourites,
-      );
-    }
+    loadModel(filters);
   }
 
   Future<void> loadFolders({List<String>? folderId}) async {
@@ -230,6 +212,7 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
       genres: {for (var element in genres) element.name: false}.replaceMap(tempState.genres),
       studios: {for (var element in studios) element: false}.replaceMap(tempState.studios),
       tags: {for (var element in tags) element: false}.replaceMap(tempState.tags),
+      recursive: true,
     );
     state = tempState;
   }
