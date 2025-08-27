@@ -264,6 +264,8 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                                       gradient: LinearGradient(
                                     colors: [
                                       surfaceColor.withValues(alpha: 0.8),
+                                      surfaceColor.withValues(alpha: 0.75),
+                                      surfaceColor.withValues(alpha: 0.5),
                                       surfaceColor.withValues(alpha: 0),
                                     ],
                                     begin: Alignment.topCenter,
