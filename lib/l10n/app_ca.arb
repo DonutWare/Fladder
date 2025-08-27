@@ -253,5 +253,64 @@
     "goTo": "Anar a",
     "@goTo": {},
     "grid": "Graella",
-    "@grid": {}
+    "@grid": {},
+    "group": "Agrupar",
+    "@group": {},
+    "groupBy": "Agrupar per",
+    "@groupBy": {},
+    "heightOffset": "Correcció d'alçada",
+    "@heightOffset": {},
+    "hide": "Amagar",
+    "@hide": {},
+    "hideEmpty": "Amagar buits",
+    "@hideEmpty": {},
+    "home": "Inici",
+    "@home": {},
+    "homeBannerSlideshow": "Presentació",
+    "@homeBannerSlideshow": {},
+    "homeBannerCarousel": "Carroussel",
+    "@homeBannerCarousel": {},
+    "identify": "Identificar",
+    "@identify": {},
+    "immediately": "Immediatament",
+    "@immediately": {},
+    "incorrectPinTryAgain": "Pin incorrecte. Provar de nou.",
+    "@incorrectPinTryAgain": {},
+    "info": "Informació",
+    "@info": {},
+    "invalidUrl": "URL invalida",
+    "@invalidUrl": {},
+    "invalidUrlDesc": "La URL ha de començar per http(s)://",
+    "@invalidUrlDesc": {},
+    "itemCount": "Nombre d'elements: {count}",
+    "@itemCount": {
+        "description": "Item count",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "label": "{count, plural, other{Etiquetes} one{Etiqueta}}",
+    "@label": {
+        "description": "label",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "library": "{count, plural, other{Llibreries} one{Llibreria}}",
+    "@library": {
+        "description": "Plural",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "libraryFetchNoItemsFound": "No s'han trobat elements. Proveu una configuració diferent.",
+    "@libraryFetchNoItemsFound": {}
 }
