@@ -46,6 +46,11 @@ extension MapExtensions<T> on Map<T, bool> {
 
     return result;
   }
+
+  Map<T, bool> sortByKey(String Function(T value) keySelector) {
+    final sortedEntries = entries.toList()..sort((a, b) => keySelector(a.key).compareTo(keySelector(b.key)));
+    return Map<T, bool>.fromEntries(sortedEntries);
+  }
 }
 
 extension MapExtensionsGeneric<K, V> on Map<K, V> {

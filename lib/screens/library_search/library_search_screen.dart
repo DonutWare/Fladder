@@ -9,6 +9,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/models/boxset_model.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/photos_model.dart';
+import 'package:fladder/models/library_filter_model.dart';
 import 'package:fladder/models/library_search/library_search_model.dart';
 import 'package:fladder/models/library_search/library_search_options.dart';
 import 'package:fladder/models/playlist_model.dart';
@@ -71,7 +72,6 @@ class LibrarySearchScreen extends ConsumerStatefulWidget {
 }
 
 class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
-  final SearchController searchController = SearchController();
   final Debouncer debouncer = Debouncer(const Duration(seconds: 1));
   final GlobalKey<RefreshIndicatorState> refreshKey = GlobalKey<RefreshIndicatorState>();
   final ScrollController scrollController = ScrollController();
@@ -95,32 +95,24 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
   @override
   void initState() {
     super.initState();
-    initLibrary();
+    WidgetsBinding.instance.addPostFrameCallback((value) {
+      initLibrary();
+    });
   }
 
-  void initLibrary() {
-    searchController.addListener(() {
-      debouncer.run(() {
-        ref.read(providerKey.notifier).setSearch(searchController.text);
-      });
-    });
-
-    Future.microtask(
-      () async {
-        await refreshKey.currentState?.show();
-        SystemChrome.setEnabledSystemUIMode(
-          SystemUiMode.edgeToEdge,
-          overlays: [],
-        );
-
-        if (context.mounted && widget.photoToView != null) {
-          libraryProvider.viewGallery(context, selected: widget.photoToView);
-        }
-        scrollController.addListener(() {
-          scrollPosition();
-        });
-      },
+  Future<void> initLibrary() async {
+    await refreshKey.currentState?.show();
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.edgeToEdge,
+      overlays: [],
     );
+
+    if (context.mounted && widget.photoToView != null) {
+      libraryProvider.viewGallery(context, selected: widget.photoToView);
+    }
+    scrollController.addListener(() {
+      scrollPosition();
+    });
   }
 
   void scrollPosition() {
@@ -129,19 +121,23 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
     }
   }
 
+  Future<void> refreshSearch() async {
+    await refreshKey.currentState?.show();
+    scrollController.jumpTo(0);
+  }
+
   @override
   Widget build(BuildContext context) {
     final isEmptySearchScreen = widget.viewModelId == null && widget.favourites == null && widget.folderId == null;
     final librarySearchResults = ref.watch(providerKey);
-    final postersList = librarySearchResults.posters.hideEmptyChildren(librarySearchResults.hideEmptyShows);
+    final postersList = librarySearchResults.posters.hideEmptyChildren(librarySearchResults.filters.hideEmptyShows);
     final libraryViewType = ref.watch(libraryViewTypeProvider);
 
     ref.listen(
       providerKey,
       (previous, next) {
-        if (previous != next) {
-          refreshKey.currentState?.show();
-          scrollController.jumpTo(0);
+        if (previous?.filters != next.filters) {
+          refreshSearch();
         }
       },
     );
@@ -163,12 +159,8 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
             extendBodyBehindAppBar: true,
             floatingActionButton: HideOnScroll(
               controller: scrollController,
-              visibleBuilder: (visible) => Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (librarySearchResults.activePosters.isNotEmpty)
-                    FloatingActionButtonAnimated(
+              visibleBuilder: (visible) => librarySearchResults.activePosters.isNotEmpty
+                  ? FloatingActionButtonAnimated(
                       key: Key(context.localized.playLabel),
                       isExtended: visible,
                       tooltip: context.localized.playVideos,
@@ -194,9 +186,8 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                       },
                       label: Text(context.localized.playLabel),
                       icon: const Icon(IconsaxPlusBold.play),
-                    ),
-                ].addInBetween(const SizedBox(height: 10)),
-              ),
+                    )
+                  : null,
             ),
             bottomNavigationBar: HideOnScroll(
               controller: AdaptiveLayout.of(context).isDesktop ? null : scrollController,
@@ -230,14 +221,17 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                           autoFocus: false,
                           contextRefresh: false,
                           onRefresh: () async {
+                            final defaultFilter = const LibraryFilterModel();
                             if (libraryProvider.mounted) {
                               return libraryProvider.initRefresh(
                                 widget.folderId,
                                 widget.viewModelId,
-                                widget.favourites,
-                                widget.sortOrder,
-                                widget.sortingOptions,
-                                widget.recursive,
+                                defaultFilter.copyWith(
+                                  favourites: widget.favourites ?? defaultFilter.favourites,
+                                  sortOrder: widget.sortOrder ?? defaultFilter.sortOrder,
+                                  sortingOption: widget.sortingOptions ?? defaultFilter.sortingOption,
+                                  recursive: widget.recursive,
+                                ),
                               );
                             }
                           },
@@ -480,7 +474,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                                   sliver: LibraryViews(
                                     key: uniqueKey,
                                     items: postersList,
-                                    groupByType: librarySearchResults.groupBy,
+                                    groupByType: librarySearchResults.filters.groupBy,
                                   ),
                                 )
                               else
@@ -666,7 +660,7 @@ class _LibrarySearchBottomBar extends ConsumerWidget {
                           context,
                           libraryProvider: libraryProvider,
                           uniqueKey: uniqueKey,
-                          options: (librarySearchResults.sortingOption, librarySearchResults.sortOrder),
+                          options: (librarySearchResults.filters.sortingOption, librarySearchResults.filters.sortOrder),
                         );
                         if (newOptions != null) {
                           if (newOptions.$1 != null) {

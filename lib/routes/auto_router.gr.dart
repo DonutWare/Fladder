@@ -198,6 +198,7 @@ class LibrarySearchRoute extends _i18.PageRouteInfo<LibrarySearchRouteArgs> {
     bool? favourites,
     _i21.SortingOrder? sortOrder,
     _i21.SortingOptions? sortingOptions,
+    bool recursive = true,
     _i22.PhotoModel? photoToView,
     _i20.Key? key,
     List<_i18.PageRouteInfo>? children,
@@ -209,6 +210,7 @@ class LibrarySearchRoute extends _i18.PageRouteInfo<LibrarySearchRouteArgs> {
             favourites: favourites,
             sortOrder: sortOrder,
             sortingOptions: sortingOptions,
+            recursive: recursive,
             photoToView: photoToView,
             key: key,
           ),
@@ -218,6 +220,7 @@ class LibrarySearchRoute extends _i18.PageRouteInfo<LibrarySearchRouteArgs> {
             'favourites': favourites,
             'sortOrder': sortOrder,
             'sortOptions': sortingOptions,
+            'recursive': recursive,
           },
           initialChildren: children,
         );
@@ -235,6 +238,7 @@ class LibrarySearchRoute extends _i18.PageRouteInfo<LibrarySearchRouteArgs> {
           favourites: queryParams.optBool('favourites'),
           sortOrder: queryParams.get('sortOrder'),
           sortingOptions: queryParams.get('sortOptions'),
+          recursive: queryParams.getBool('recursive', true),
         ),
       );
       return _i8.LibrarySearchScreen(
@@ -243,6 +247,7 @@ class LibrarySearchRoute extends _i18.PageRouteInfo<LibrarySearchRouteArgs> {
         favourites: args.favourites,
         sortOrder: args.sortOrder,
         sortingOptions: args.sortingOptions,
+        recursive: args.recursive,
         photoToView: args.photoToView,
         key: args.key,
       );
@@ -257,6 +262,7 @@ class LibrarySearchRouteArgs {
     this.favourites,
     this.sortOrder,
     this.sortingOptions,
+    this.recursive = true,
     this.photoToView,
     this.key,
   });
@@ -271,13 +277,15 @@ class LibrarySearchRouteArgs {
 
   final _i21.SortingOptions? sortingOptions;
 
+  final bool recursive;
+
   final _i22.PhotoModel? photoToView;
 
   final _i20.Key? key;
 
   @override
   String toString() {
-    return 'LibrarySearchRouteArgs{viewModelId: $viewModelId, folderId: $folderId, favourites: $favourites, sortOrder: $sortOrder, sortingOptions: $sortingOptions, photoToView: $photoToView, key: $key}';
+    return 'LibrarySearchRouteArgs{viewModelId: $viewModelId, folderId: $folderId, favourites: $favourites, sortOrder: $sortOrder, sortingOptions: $sortingOptions, recursive: $recursive, photoToView: $photoToView, key: $key}';
   }
 
   @override
@@ -289,6 +297,7 @@ class LibrarySearchRouteArgs {
         favourites == other.favourites &&
         sortOrder == other.sortOrder &&
         sortingOptions == other.sortingOptions &&
+        recursive == other.recursive &&
         photoToView == other.photoToView &&
         key == other.key;
   }
@@ -300,6 +309,7 @@ class LibrarySearchRouteArgs {
       favourites.hashCode ^
       sortOrder.hashCode ^
       sortingOptions.hashCode ^
+      recursive.hashCode ^
       photoToView.hashCode ^
       key.hashCode;
 }

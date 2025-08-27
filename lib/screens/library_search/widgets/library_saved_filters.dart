@@ -61,7 +61,7 @@ class LibrarySavedFiltersDialogue extends ConsumerWidget {
                           margin: const EdgeInsets.symmetric(vertical: 4),
                           child: Card(
                             child: InkWell(
-                              onTap: () => provider.loadModel(filter),
+                              onTap: () => provider.loadModel(filter.filter),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                                 child: Row(

@@ -2,102 +2,36 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:collection/collection.dart';
-import 'package:dart_mappable/dart_mappable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
-import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
-import 'package:fladder/models/items/item_shared_models.dart';
-import 'package:fladder/models/library_search/library_search_options.dart';
+import 'package:fladder/models/library_filter_model.dart';
 import 'package:fladder/models/view_model.dart';
 import 'package:fladder/util/list_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/map_bool_helper.dart';
 
-part 'library_search_model.mapper.dart';
+part 'library_search_model.freezed.dart';
 
-@MappableClass()
-class LibrarySearchModel with LibrarySearchModelMappable {
-  final bool loading;
-  final bool selecteMode;
-  final String searchQuery;
-  final List<ItemBaseModel> folderOverwrite;
-  final Map<ViewModel, bool> views;
-  final List<ItemBaseModel> posters;
-  final List<ItemBaseModel> selectedPosters;
-  final Map<ItemFilter, bool> filters;
-  final Map<String, bool> genres;
-  final Map<Studio, bool> studios;
-  final Map<String, bool> tags;
-  final Map<int, bool> years;
-  final Map<String, bool> officialRatings;
-  final Map<FladderItemType, bool> types;
-  final SortingOptions sortingOption;
-  final SortingOrder sortOrder;
-  final bool favourites;
-  final bool hideEmptyShows;
-  final bool recursive;
-  final GroupBy groupBy;
-  final Map<String, int> lastIndices;
-  final Map<String, int> libraryItemCounts;
-  final bool fetchingItems;
+@Freezed(copyWith: true)
+abstract class LibrarySearchModel with _$LibrarySearchModel {
+  const factory LibrarySearchModel({
+    @Default(false) bool loading,
+    @Default(false) bool selecteMode,
+    @Default(<ItemBaseModel>[]) List<ItemBaseModel> folderOverwrite,
+    @Default("") String searchQuery,
+    @Default(<ViewModel, bool>{}) Map<ViewModel, bool> views,
+    @Default(<ItemBaseModel>[]) List<ItemBaseModel> posters,
+    @Default(<ItemBaseModel>[]) List<ItemBaseModel> selectedPosters,
+    @Default(LibraryFilterModel()) LibraryFilterModel filters,
+    @Default(<String, int>{}) Map<String, int> lastIndices,
+    @Default(<String, int>{}) Map<String, int> libraryItemCounts,
+    @Default(false) bool fetchingItems,
+  }) = _LibrarySearchModel;
+}
 
-  const LibrarySearchModel({
-    this.loading = false,
-    this.selecteMode = false,
-    this.folderOverwrite = const [],
-    this.searchQuery = "",
-    this.views = const {},
-    this.posters = const [],
-    this.selectedPosters = const [],
-    this.filters = const {
-      ItemFilter.isplayed: false,
-      ItemFilter.isunplayed: false,
-      ItemFilter.isresumable: false,
-    },
-    this.genres = const {},
-    this.studios = const {},
-    this.tags = const {},
-    this.years = const {},
-    this.officialRatings = const {},
-    this.types = const {
-      FladderItemType.audio: false,
-      FladderItemType.boxset: false,
-      FladderItemType.book: false,
-      FladderItemType.collectionFolder: false,
-      FladderItemType.episode: false,
-      FladderItemType.folder: false,
-      FladderItemType.movie: true,
-      FladderItemType.musicAlbum: false,
-      FladderItemType.musicVideo: false,
-      FladderItemType.photo: false,
-      FladderItemType.person: false,
-      FladderItemType.photoAlbum: false,
-      FladderItemType.series: true,
-      FladderItemType.video: true,
-    },
-    this.favourites = false,
-    this.sortingOption = SortingOptions.sortName,
-    this.sortOrder = SortingOrder.ascending,
-    this.hideEmptyShows = true,
-    this.recursive = false,
-    this.groupBy = GroupBy.none,
-    this.lastIndices = const {},
-    this.libraryItemCounts = const {},
-    this.fetchingItems = false,
-  });
-
-  bool get hasActiveFilters {
-    return genres.hasEnabled ||
-        studios.hasEnabled ||
-        tags.hasEnabled ||
-        years.hasEnabled ||
-        officialRatings.hasEnabled ||
-        hideEmptyShows ||
-        filters.hasEnabled ||
-        favourites ||
-        searchQuery.isNotEmpty;
-  }
+extension LibrarySearchModelX on LibrarySearchModel {
+  bool get hasActiveFilters => filters.hasActiveFilters || searchQuery.isNotEmpty;
 
   int get totalItemCount {
     if (libraryItemCounts.isEmpty) return posters.length;
@@ -137,16 +71,16 @@ class LibrarySearchModel with LibrarySearchModelMappable {
 
   bool get showPlayButtons {
     if (totalItemCount == 0) return false;
-    return types.included.isEmpty ||
-        types.included.containsAny(
+    return filters.types.included.isEmpty ||
+        filters.types.included.containsAny(
           {...FladderItemType.playable, FladderItemType.folder},
         );
   }
 
   bool get showGalleryButtons {
     if (totalItemCount == 0) return false;
-    return types.included.isEmpty ||
-        types.included.containsAny(
+    return filters.types.included.isEmpty ||
+        filters.types.included.containsAny(
           {...FladderItemType.galleryItem, FladderItemType.photoAlbum, FladderItemType.folder},
         );
   }
@@ -170,55 +104,8 @@ class LibrarySearchModel with LibrarySearchModelMappable {
 
   LibrarySearchModel setFiltersToDefault() {
     return copyWith(
-      genres: const {},
-      tags: const {},
-      officialRatings: const {},
-      years: const {},
       searchQuery: '',
-      favourites: false,
-      recursive: false,
-      studios: const {},
-      hideEmptyShows: true,
+      filters: const LibraryFilterModel(),
     );
-  }
-
-  @override
-  bool operator ==(covariant LibrarySearchModel other) {
-    if (identical(this, other)) return true;
-
-    return other.searchQuery == searchQuery &&
-        listEquals(other.folderOverwrite, folderOverwrite) &&
-        mapEquals(other.views, views) &&
-        mapEquals(other.filters, filters) &&
-        mapEquals(other.genres, genres) &&
-        mapEquals(other.studios, studios) &&
-        mapEquals(other.tags, tags) &&
-        mapEquals(other.years, years) &&
-        mapEquals(other.officialRatings, officialRatings) &&
-        mapEquals(other.types, types) &&
-        other.sortingOption == sortingOption &&
-        other.sortOrder == sortOrder &&
-        other.favourites == favourites &&
-        other.recursive == recursive;
-  }
-
-  @override
-  int get hashCode {
-    return searchQuery.hashCode ^
-        folderOverwrite.hashCode ^
-        views.hashCode ^
-        posters.hashCode ^
-        selectedPosters.hashCode ^
-        filters.hashCode ^
-        genres.hashCode ^
-        studios.hashCode ^
-        tags.hashCode ^
-        years.hashCode ^
-        officialRatings.hashCode ^
-        types.hashCode ^
-        sortingOption.hashCode ^
-        sortOrder.hashCode ^
-        favourites.hashCode ^
-        recursive.hashCode;
   }
 }

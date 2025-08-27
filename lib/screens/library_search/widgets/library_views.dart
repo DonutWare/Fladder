@@ -14,6 +14,7 @@ import 'package:sliver_tools/sliver_tools.dart';
 import 'package:fladder/models/boxset_model.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/photos_model.dart';
+import 'package:fladder/models/library_search/library_search_model.dart';
 import 'package:fladder/models/library_search/library_search_options.dart';
 import 'package:fladder/models/playlist_model.dart';
 import 'package:fladder/providers/library_search_provider.dart';
@@ -76,7 +77,7 @@ class LibraryViews extends ConsumerWidget {
             ref.watch(clientSettingsProvider.select((value) => value.posterSize)));
     final decimal = posterSize - posterSize.toInt();
 
-    final sortingOptions = ref.watch(librarySearchProvider(key!).select((value) => value.sortingOption));
+    final sortingOptions = ref.watch(librarySearchProvider(key!).select((value) => value.filters.sortingOption));
 
     List<ItemAction> otherActions(ItemBaseModel item) {
       return [

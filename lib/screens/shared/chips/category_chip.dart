@@ -7,6 +7,7 @@ import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/map_bool_helper.dart';
+import 'package:fladder/widgets/shared/button_group.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 import 'package:fladder/widgets/shared/modal_side_sheet.dart';
 
@@ -20,7 +21,6 @@ class CategoryChip<T> extends StatelessWidget {
   final VoidCallback? onCancel;
   final VoidCallback? onClear;
   final VoidCallback? onDismiss;
-
   const CategoryChip({
     required this.label,
     this.dialogueTitle,
@@ -37,37 +37,21 @@ class CategoryChip<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var selection = items.included.isNotEmpty;
-    return FilterChip(
-      selected: selection,
-      showCheckmark: activeIcon == null,
+    return ExpressiveButton(
+      isSelected: selection,
+      icon: selection ? Icon(activeIcon ?? IconsaxPlusBold.archive_tick) : null,
       label: Row(
-        mainAxisSize: MainAxisSize.min,
+        spacing: 6,
         children: [
-          if (activeIcon != null)
-            AnimatedSize(
-              duration: const Duration(milliseconds: 250),
-              child: selection
-                  ? Padding(
-                      padding: const EdgeInsets.only(right: 12),
-                      child: Icon(
-                        activeIcon!,
-                        size: 20,
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      ),
-                    )
-                  : const SizedBox(),
-            ),
           label,
-          const SizedBox(width: 8),
-          Icon(
-            Icons.arrow_drop_down_rounded,
-            size: 20,
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
-          ),
+          const Icon(
+            IconsaxPlusLinear.arrow_down,
+            size: 16,
+          )
         ],
       ),
-      onSelected: items.isNotEmpty
-          ? (_) async {
+      onPressed: items.isNotEmpty
+          ? () async {
               final newEntry = await openActionSheet(context);
               if (newEntry != null) {
                 onSave?.call(newEntry);
