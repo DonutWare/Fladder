@@ -8,6 +8,7 @@ import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/library_search/library_search_options.dart';
+import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/util/map_bool_helper.dart';
 
 part 'library_filter_model.freezed.dart';
@@ -37,14 +38,14 @@ abstract class LibraryFilterModel with _$LibraryFilterModel {
       FladderItemType.collectionFolder: false,
       FladderItemType.episode: false,
       FladderItemType.folder: false,
-      FladderItemType.movie: true,
+      FladderItemType.movie: false,
       FladderItemType.musicAlbum: false,
       FladderItemType.musicVideo: false,
       FladderItemType.photo: false,
       FladderItemType.person: false,
       FladderItemType.photoAlbum: false,
-      FladderItemType.series: true,
-      FladderItemType.video: true,
+      FladderItemType.series: false,
+      FladderItemType.video: false,
     })
     Map<FladderItemType, bool> types,
     @Default(SortingOptions.sortName) SortingOptions sortingOption,
@@ -63,6 +64,7 @@ abstract class LibraryFilterModel with _$LibraryFilterModel {
         officialRatings.hasEnabled ||
         hideEmptyShows ||
         itemFilters.hasEnabled ||
+        !recursive ||
         favourites;
   }
 
@@ -116,14 +118,14 @@ abstract class LibraryFilterModel with _$LibraryFilterModel {
         recursive.hashCode;
   }
 
-  LibraryFilterModel setAll(bool bool) {
+  LibraryFilterModel clear() {
     return copyWith(
       genres: genres.setAll(false),
       tags: tags.setAll(false),
       officialRatings: officialRatings.setAll(false),
       years: years.setAll(false),
       favourites: false,
-      recursive: false,
+      recursive: true,
       studios: studios.setAll(false),
       itemFilters: itemFilters.setAll(false),
       hideEmptyShows: false,
@@ -143,4 +145,16 @@ class StudioEncoder implements JsonConverter<Map<Studio, bool>, String> {
 
   @override
   String toJson(Map<Studio, bool> studios) => jsonEncode(studios.map((key, value) => MapEntry(key.toJson(), value)));
+}
+
+extension LibrarySearchRouteExtension on LibrarySearchRoute {
+  LibrarySearchRoute withFilter(LibraryFilterModel model) {
+    return LibrarySearchRoute(
+      favourites: model.favourites,
+      sortOrder: model.sortOrder,
+      sortingOptions: model.sortingOption,
+      types: model.types,
+      recursive: model.recursive,
+    );
+  }
 }

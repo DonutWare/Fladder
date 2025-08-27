@@ -81,7 +81,7 @@ class ExpressiveButton extends StatelessWidget {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(borderRadius: borderRadius),
-        elevation: isSelected ? 3 : 0,
+        elevation: isSelected ? 4 : 0,
         backgroundColor:
             isSelected ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.surfaceContainerHighest,
         foregroundColor:

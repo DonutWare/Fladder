@@ -46,14 +46,14 @@ _LibraryFilterModel _$LibraryFilterModelFromJson(Map<String, dynamic> json) =>
             FladderItemType.collectionFolder: false,
             FladderItemType.episode: false,
             FladderItemType.folder: false,
-            FladderItemType.movie: true,
+            FladderItemType.movie: false,
             FladderItemType.musicAlbum: false,
             FladderItemType.musicVideo: false,
             FladderItemType.photo: false,
             FladderItemType.person: false,
             FladderItemType.photoAlbum: false,
-            FladderItemType.series: true,
-            FladderItemType.video: true
+            FladderItemType.series: false,
+            FladderItemType.video: false
           },
       sortingOption:
           $enumDecodeNullable(_$SortingOptionsEnumMap, json['sortingOption']) ??

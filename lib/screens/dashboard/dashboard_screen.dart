@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/collection_types.dart';
+import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/library_search/library_search_options.dart';
 import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/dashboard_provider.dart';
@@ -177,19 +178,26 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                               contentPadding: padding,
                               label: context.localized.dashboardRecentlyAdded(view.name),
                               collectionAspectRatio: view.collectionType.aspectRatio,
-                              onLabelClick: () => context.router.push(LibrarySearchRoute(
-                                viewModelId: view.id,
-                                sortingOptions: switch (view.collectionType) {
-                                  CollectionType.tvshows ||
-                                  CollectionType.books ||
-                                  CollectionType.boxsets ||
-                                  CollectionType.folders ||
-                                  CollectionType.music =>
-                                    SortingOptions.dateLastContentAdded,
-                                  _ => SortingOptions.dateAdded,
-                                },
-                                sortOrder: SortingOrder.descending,
-                              )),
+                              onLabelClick: () => context.router.push(
+                                LibrarySearchRoute(
+                                  viewModelId: view.id,
+                                  types: switch (view.collectionType) {
+                                    CollectionType.tvshows => {
+                                        FladderItemType.episode: true,
+                                      },
+                                    _ => {},
+                                  },
+                                  sortingOptions: switch (view.collectionType) {
+                                    CollectionType.books ||
+                                    CollectionType.boxsets ||
+                                    CollectionType.folders ||
+                                    CollectionType.music =>
+                                      SortingOptions.dateLastContentAdded,
+                                    _ => SortingOptions.dateAdded,
+                                  },
+                                  sortOrder: SortingOrder.descending,
+                                ),
+                              ),
                               posters: view.recentlyAdded,
                             ),
                           )),

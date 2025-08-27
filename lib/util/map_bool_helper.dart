@@ -37,11 +37,19 @@ extension MapExtensions<T> on Map<T, bool> {
   bool get hasEnabled => values.any((element) => element == true);
 
   //Replaces only keys that exist with the new values
-  Map<T, bool> replaceMap(Map<T, bool> oldMap) {
+  Map<T, bool> replaceMap(Map<T, bool> oldMap, {bool enabledOnly = false}) {
     Map<T, bool> result = {};
 
     forEach((key, value) {
-      result[key] = oldMap[key] ?? false;
+      if (enabledOnly) {
+        if (oldMap[key] == true) {
+          result[key] = true;
+        } else {
+          result[key] = value;
+        }
+      } else {
+        result[key] = oldMap[key] ?? false;
+      }
     });
 
     return result;

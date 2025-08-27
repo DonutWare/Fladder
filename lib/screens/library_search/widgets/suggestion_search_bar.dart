@@ -66,7 +66,7 @@ class _SearchBarState extends ConsumerState<SuggestionSearchBar> {
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(
-        borderRadius: FladderTheme.largeShape.borderRadius,
+        borderRadius: FladderTheme.smallShape.borderRadius,
       ),
       shadowColor: Colors.transparent,
       child: TypeAheadField<ItemBaseModel>(
@@ -83,7 +83,7 @@ class _SearchBarState extends ConsumerState<SuggestionSearchBar> {
         decorationBuilder: (context, child) => DecoratedBox(
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.secondaryContainer,
-            borderRadius: FladderTheme.largeShape.borderRadius,
+            borderRadius: FladderTheme.smallShape.borderRadius,
           ),
           child: child,
         ),

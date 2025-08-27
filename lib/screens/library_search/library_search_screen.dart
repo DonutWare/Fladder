@@ -45,7 +45,6 @@ import 'package:fladder/widgets/shared/pinch_poster_zoom.dart';
 import 'package:fladder/widgets/shared/poster_size_slider.dart';
 import 'package:fladder/widgets/shared/pull_to_refresh.dart';
 import 'package:fladder/widgets/shared/scroll_position.dart';
-import 'package:fladder/widgets/shared/shapes.dart';
 
 @RoutePage()
 class LibrarySearchScreen extends ConsumerStatefulWidget {
@@ -54,6 +53,7 @@ class LibrarySearchScreen extends ConsumerStatefulWidget {
   final List<String>? folderId;
   final SortingOrder? sortOrder;
   final SortingOptions? sortingOptions;
+  final Map<FladderItemType, bool>? types;
   final bool recursive;
   final PhotoModel? photoToView;
   const LibrarySearchScreen({
@@ -62,6 +62,7 @@ class LibrarySearchScreen extends ConsumerStatefulWidget {
     @QueryParam("favourites") this.favourites,
     @QueryParam("sortOrder") this.sortOrder,
     @QueryParam("sortOptions") this.sortingOptions,
+    @QueryParam("itemTypes") this.types,
     @QueryParam("recursive") this.recursive = true,
     this.photoToView,
     super.key,
@@ -128,10 +129,14 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final surfaceColor = Theme.of(context).colorScheme.surface;
+
     final isEmptySearchScreen = widget.viewModelId == null && widget.favourites == null && widget.folderId == null;
     final librarySearchResults = ref.watch(providerKey);
     final postersList = librarySearchResults.posters.hideEmptyChildren(librarySearchResults.filters.hideEmptyShows);
     final libraryViewType = ref.watch(libraryViewTypeProvider);
+
+    final floatingAppBar = AdaptiveLayout.layoutModeOf(context) != LayoutMode.single;
 
     ref.listen(
       providerKey,
@@ -151,11 +156,12 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
         }
       },
       child: NestedScaffold(
-        background: BackgroundImage(items: librarySearchResults.activePosters),
+        background: BackgroundImage(images: postersList.map((e) => e.images).nonNulls.toList()),
         body: Padding(
           padding: EdgeInsets.only(left: AdaptiveLayout.of(context).sideBarWidth),
           child: Scaffold(
             extendBody: true,
+            backgroundColor: Colors.transparent,
             extendBodyBehindAppBar: true,
             floatingActionButton: HideOnScroll(
               controller: scrollController,
@@ -230,6 +236,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                                   favourites: widget.favourites ?? defaultFilter.favourites,
                                   sortOrder: widget.sortOrder ?? defaultFilter.sortOrder,
                                   sortingOption: widget.sortingOptions ?? defaultFilter.sortingOption,
+                                  types: widget.types ?? {},
                                   recursive: widget.recursive,
                                 ),
                               );
@@ -241,21 +248,29 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                             physics: const AlwaysScrollableScrollPhysics(),
                             slivers: [
                               SliverAppBar(
-                                floating: !AdaptiveLayout.of(context).isDesktop,
+                                floating: !floatingAppBar,
                                 collapsedHeight: 80,
                                 automaticallyImplyLeading: false,
-                                pinned: AdaptiveLayout.of(context).isDesktop,
                                 primary: true,
+                                pinned: floatingAppBar,
                                 elevation: 5,
-                                leading: context.router.backButton(),
                                 surfaceTintColor: Colors.transparent,
                                 shadowColor: Colors.transparent,
-                                backgroundColor: Theme.of(context).colorScheme.surface,
-                                shape: AppBarShape(),
+                                backgroundColor: Colors.transparent,
                                 titleSpacing: 4,
                                 leadingWidth: 48,
+                                flexibleSpace: Container(
+                                  decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                    colors: [
+                                      surfaceColor.withValues(alpha: 0.8),
+                                      surfaceColor.withValues(alpha: 0),
+                                    ],
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                  )),
+                                ),
                                 actions: [
-                                  const SizedBox(width: 4),
                                   Builder(builder: (context) {
                                     final isFavorite =
                                         librarySearchResults.nestedCurrentItem?.userData.isFavourite == true;
@@ -286,7 +301,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                                     );
                                     final showSavedFiltersDialogue = ItemActionButton(
                                       label: Text(context.localized.filter(2)),
-                                      action: () => showSavedFilters(context, librarySearchResults, libraryProvider),
+                                      action: () => showSavedFilters(context, uniqueKey),
                                       icon: const Icon(IconsaxPlusLinear.refresh),
                                     );
                                     final itemViewAction = ItemActionButton(
@@ -412,24 +427,40 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                                   ],
                                   const SizedBox(width: 12)
                                 ],
-                                title: Hero(
-                                  tag: "PrimarySearch",
-                                  child: SuggestionSearchBar(
-                                    autoFocus: isEmptySearchScreen,
-                                    key: uniqueKey,
-                                    title: librarySearchResults.searchBarTitle(context),
-                                    debounceDuration: const Duration(seconds: 1),
-                                    onItem: (value) async {
-                                      await value.navigateTo(context);
-                                      refreshKey.currentState?.show();
-                                    },
-                                    onSubmited: (value) async {
-                                      if (librarySearchResults.searchQuery != value) {
-                                        libraryProvider.setSearch(value);
-                                        refreshKey.currentState?.show();
-                                      }
-                                    },
-                                  ),
+                                title: Row(
+                                  spacing: 2,
+                                  children: [
+                                    const SizedBox(width: 2),
+                                    Center(
+                                      child: SizedBox.square(
+                                        dimension: 47,
+                                        child: Card(
+                                          child: context.router.backButton(),
+                                        ),
+                                      ),
+                                    ),
+                                    Flexible(
+                                      child: Hero(
+                                        tag: "PrimarySearch",
+                                        child: SuggestionSearchBar(
+                                          autoFocus: isEmptySearchScreen,
+                                          key: uniqueKey,
+                                          title: librarySearchResults.searchBarTitle(context),
+                                          debounceDuration: const Duration(seconds: 1),
+                                          onItem: (value) async {
+                                            await value.navigateTo(context);
+                                            refreshKey.currentState?.show();
+                                          },
+                                          onSubmited: (value) async {
+                                            if (librarySearchResults.searchQuery != value) {
+                                              libraryProvider.setSearch(value);
+                                              refreshKey.currentState?.show();
+                                            }
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                                 bottom: PreferredSize(
                                   preferredSize: const Size(0, 50),

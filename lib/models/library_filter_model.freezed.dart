@@ -431,14 +431,14 @@ class _LibraryFilterModel extends LibraryFilterModel
         FladderItemType.collectionFolder: false,
         FladderItemType.episode: false,
         FladderItemType.folder: false,
-        FladderItemType.movie: true,
+        FladderItemType.movie: false,
         FladderItemType.musicAlbum: false,
         FladderItemType.musicVideo: false,
         FladderItemType.photo: false,
         FladderItemType.person: false,
         FladderItemType.photoAlbum: false,
-        FladderItemType.series: true,
-        FladderItemType.video: true
+        FladderItemType.series: false,
+        FladderItemType.video: false
       },
       this.sortingOption = SortingOptions.sortName,
       this.sortOrder = SortingOrder.ascending,

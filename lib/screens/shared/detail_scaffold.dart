@@ -189,7 +189,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                       onPressed: () => context.router.popBack(),
                       icon: Padding(
                         padding: EdgeInsets.all(AdaptiveLayout.of(context).inputDevice == InputDevice.pointer ? 0 : 4),
-                        child: const Icon(IconsaxPlusLinear.arrow_left_2),
+                        child: const BackButtonIcon(),
                       ),
                     ),
                     const Spacer(),

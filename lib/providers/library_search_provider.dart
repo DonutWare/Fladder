@@ -50,6 +50,7 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
   set loading(bool loading) => state = state.copyWith(loading: loading);
 
   bool loadedFilters = false;
+  bool wasInitialized = false;
 
   bool get loading => state.loading;
 
@@ -67,14 +68,24 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
         await loadViews(viewModelId, filters);
       }
     }
-
     await loadFilters();
-    await loadMore();
+
+    if (filters.types.isNotEmpty && !wasInitialized) {
+      wasInitialized = true;
+      state = state.copyWith(
+        filters: state.filters.copyWith(
+          types: state.filters.types.replaceMap(filters.types, enabledOnly: true),
+        ),
+      );
+    }
+
+    await loadMore(init: true);
+
     loading = false;
   }
 
-  Future<void> loadMore() async {
-    if (state.allDoneFetching) return;
+  Future<void> loadMore({bool? init}) async {
+    if ((loading && init != true) || state.allDoneFetching) return;
     loading = true;
 
     final newLastIndices = Map<String, int>.from(state.lastIndices);
@@ -386,7 +397,7 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
   void clearAllFilters() {
     state = state.copyWith(
       searchQuery: '',
-      filters: state.filters.setAll(false),
+      filters: state.filters.clear(),
     );
   }
 

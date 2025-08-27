@@ -47,7 +47,7 @@ class FavouritesNotifier extends StateNotifier<FavouritesModel> {
     final response = await api.itemsGet(
       parentId: viewModel?.id,
       isFavorite: true,
-      limit: 10,
+      limit: 15,
       sortOrder: [SortOrder.ascending],
       sortBy: [ItemSortBy.seriessortname, ItemSortBy.sortname, ItemSortBy.datelastcontentadded],
     );
@@ -55,7 +55,7 @@ class FavouritesNotifier extends StateNotifier<FavouritesModel> {
       parentId: viewModel?.id,
       isFavorite: true,
       recursive: true,
-      limit: 10,
+      limit: 15,
       includeItemTypes: [BaseItemKind.photo, BaseItemKind.episode, BaseItemKind.video, BaseItemKind.collectionfolder],
       sortOrder: [SortOrder.ascending],
       sortBy: [ItemSortBy.seriessortname, ItemSortBy.sortname, ItemSortBy.datelastcontentadded],

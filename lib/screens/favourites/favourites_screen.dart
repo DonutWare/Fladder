@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:fladder/models/library_filter_model.dart';
 import 'package:fladder/providers/favourites_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
@@ -56,6 +57,15 @@ class FavouritesScreen extends ConsumerWidget {
                     (e) => SliverToBoxAdapter(
                       child: PosterRow(
                         contentPadding: padding,
+                        onLabelClick: () => context.pushRoute(
+                          LibrarySearchRoute().withFilter(
+                            LibraryFilterModel(
+                              favourites: true,
+                              types: {e.key: true},
+                              recursive: true,
+                            ),
+                          ),
+                        ),
                         label: e.key.label(context),
                         posters: e.value,
                       ),
