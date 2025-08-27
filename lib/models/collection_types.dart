@@ -30,6 +30,11 @@ extension CollectionTypeExtension on CollectionType {
     }
   }
 
+  bool get searchRecursive => switch (this) {
+        CollectionType.homevideos || CollectionType.photos => false,
+        _ => true,
+      };
+
   IconData getIconType(bool outlined) {
     switch (this) {
       case CollectionType.music:

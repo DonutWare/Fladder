@@ -233,7 +233,7 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
         genres: {for (var element in genres) element.name: false}.replaceMap(tempFilters.genres),
         studios: {for (var element in studios) element: false}.replaceMap(tempFilters.studios),
         tags: {for (var element in tags) element: false}.replaceMap(tempFilters.tags),
-        recursive: true,
+        recursive: state.views.included.firstOrNull?.collectionType.searchRecursive ?? true,
       ),
     );
     state = tempState;
