@@ -764,3 +764,4 @@ jobs:
           installers-regex: 'Fladder-Windows-.*-Setup\.exe$'
           token: ${{ secrets.WINGET_TOKEN }}
           max-versions-to-keep: ${{ matrix.max_versions || '' }}
+          release-tag: ${{ matrix.build_type == 'nightly' && env.NIGHTLY_TAG || github.ref_name }}
