@@ -44,23 +44,33 @@ class FavouritesNotifier extends StateNotifier<FavouritesModel> {
   }
 
   Future<List<ItemBaseModel>?> _loadLibrary({ViewModel? viewModel}) async {
-    final response = await api.itemsGet(
-      parentId: viewModel?.id,
-      isFavorite: true,
-      limit: 10,
-      sortOrder: [SortOrder.ascending],
-      sortBy: [ItemSortBy.seriessortname, ItemSortBy.sortname, ItemSortBy.datelastcontentadded],
-    );
-    final response2 = await api.itemsGet(
-      parentId: viewModel?.id,
-      isFavorite: true,
-      recursive: true,
-      limit: 10,
-      includeItemTypes: [BaseItemKind.photo, BaseItemKind.episode, BaseItemKind.video, BaseItemKind.collectionfolder],
-      sortOrder: [SortOrder.ascending],
-      sortBy: [ItemSortBy.seriessortname, ItemSortBy.sortname, ItemSortBy.datelastcontentadded],
-    );
-    return [...?response.body?.items, ...?response2.body?.items];
+    final kinds = [
+      BaseItemKind.movie,
+      BaseItemKind.episode,
+      BaseItemKind.series,
+      BaseItemKind.video,
+      BaseItemKind.photo,
+      BaseItemKind.book,
+      BaseItemKind.photoalbum,
+    ];
+    final futures = kinds.map((kind) => fetchTypes(viewModel?.id, [kind])).toList();
+    final results = await Future.wait(futures);
+    return results.expand((list) => list).toList();
+  }
+
+  Future<List<ItemBaseModel>> fetchTypes(String? id, List<BaseItemKind>? includeItemTypes) async {
+    return (await api.itemsGet(
+          parentId: id,
+          isFavorite: true,
+          recursive: true,
+          limit: 15,
+          includeItemTypes: includeItemTypes,
+          sortOrder: [SortOrder.ascending],
+          sortBy: [ItemSortBy.seriessortname, ItemSortBy.sortname, ItemSortBy.datelastcontentadded],
+        ))
+            .body
+            ?.items ??
+        [];
   }
 
   Future<Response<List<ItemBaseModel>>?> _fetchPeople() async {

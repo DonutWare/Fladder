@@ -64,7 +64,8 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
       children: [
         AdaptiveLayoutBuilder(
           adaptiveLayout: AdaptiveLayout.of(context).copyWith(
-            sideBarWidth: fullyExpanded ? expandedWidth : collapsedWidth,
+            // -0.1 offset to fix single visible pixel line
+            sideBarWidth: (fullyExpanded ? expandedWidth : collapsedWidth) - 0.1,
           ),
           child: (context) => widget.child,
         ),

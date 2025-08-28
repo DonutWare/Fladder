@@ -66,7 +66,8 @@ class LibraryScreen extends _$LibraryScreen {
 
   Future<void> fetchAllLibraries() async {
     final views = await ref.read(viewsProvider.notifier).fetchViews();
-    state = state.copyWith(views: views?.views ?? []);
+    state = state.copyWith(
+        views: views?.views.where((element) => element.collectionType != CollectionType.folders).toList() ?? []);
     if (state.views.isEmpty) return;
     final viewModel = state.selectedViewModel ?? state.views.firstOrNull;
     if (viewModel == null) return;

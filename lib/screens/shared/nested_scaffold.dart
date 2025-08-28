@@ -27,7 +27,7 @@ class NestedScaffold extends ConsumerWidget {
               end: Alignment.bottomCenter,
               colors: [
                 Theme.of(context).colorScheme.surface.withValues(alpha: backgroundOpacity),
-                Theme.of(context).colorScheme.surface.withValues(alpha: backgroundOpacity - 0.15),
+                Theme.of(context).colorScheme.surface.withValues(alpha: backgroundOpacity / 1.5),
               ],
             ),
           ),

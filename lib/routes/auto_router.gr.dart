@@ -198,6 +198,9 @@ class LibrarySearchRoute extends _i18.PageRouteInfo<LibrarySearchRouteArgs> {
     bool? favourites,
     _i21.SortingOrder? sortOrder,
     _i21.SortingOptions? sortingOptions,
+    Map<_i19.FladderItemType, bool>? types,
+    Map<String, bool>? genres,
+    bool recursive = true,
     _i22.PhotoModel? photoToView,
     _i20.Key? key,
     List<_i18.PageRouteInfo>? children,
@@ -209,6 +212,9 @@ class LibrarySearchRoute extends _i18.PageRouteInfo<LibrarySearchRouteArgs> {
             favourites: favourites,
             sortOrder: sortOrder,
             sortingOptions: sortingOptions,
+            types: types,
+            genres: genres,
+            recursive: recursive,
             photoToView: photoToView,
             key: key,
           ),
@@ -218,6 +224,9 @@ class LibrarySearchRoute extends _i18.PageRouteInfo<LibrarySearchRouteArgs> {
             'favourites': favourites,
             'sortOrder': sortOrder,
             'sortOptions': sortingOptions,
+            'itemTypes': types,
+            'genres': genres,
+            'recursive': recursive,
           },
           initialChildren: children,
         );
@@ -235,6 +244,9 @@ class LibrarySearchRoute extends _i18.PageRouteInfo<LibrarySearchRouteArgs> {
           favourites: queryParams.optBool('favourites'),
           sortOrder: queryParams.get('sortOrder'),
           sortingOptions: queryParams.get('sortOptions'),
+          types: queryParams.get('itemTypes'),
+          genres: queryParams.get('genres'),
+          recursive: queryParams.getBool('recursive', true),
         ),
       );
       return _i8.LibrarySearchScreen(
@@ -243,6 +255,9 @@ class LibrarySearchRoute extends _i18.PageRouteInfo<LibrarySearchRouteArgs> {
         favourites: args.favourites,
         sortOrder: args.sortOrder,
         sortingOptions: args.sortingOptions,
+        types: args.types,
+        genres: args.genres,
+        recursive: args.recursive,
         photoToView: args.photoToView,
         key: args.key,
       );
@@ -257,6 +272,9 @@ class LibrarySearchRouteArgs {
     this.favourites,
     this.sortOrder,
     this.sortingOptions,
+    this.types,
+    this.genres,
+    this.recursive = true,
     this.photoToView,
     this.key,
   });
@@ -271,13 +289,19 @@ class LibrarySearchRouteArgs {
 
   final _i21.SortingOptions? sortingOptions;
 
+  final Map<_i19.FladderItemType, bool>? types;
+
+  final Map<String, bool>? genres;
+
+  final bool recursive;
+
   final _i22.PhotoModel? photoToView;
 
   final _i20.Key? key;
 
   @override
   String toString() {
-    return 'LibrarySearchRouteArgs{viewModelId: $viewModelId, folderId: $folderId, favourites: $favourites, sortOrder: $sortOrder, sortingOptions: $sortingOptions, photoToView: $photoToView, key: $key}';
+    return 'LibrarySearchRouteArgs{viewModelId: $viewModelId, folderId: $folderId, favourites: $favourites, sortOrder: $sortOrder, sortingOptions: $sortingOptions, types: $types, genres: $genres, recursive: $recursive, photoToView: $photoToView, key: $key}';
   }
 
   @override
@@ -289,6 +313,9 @@ class LibrarySearchRouteArgs {
         favourites == other.favourites &&
         sortOrder == other.sortOrder &&
         sortingOptions == other.sortingOptions &&
+        const _i23.MapEquality().equals(types, other.types) &&
+        const _i23.MapEquality().equals(genres, other.genres) &&
+        recursive == other.recursive &&
         photoToView == other.photoToView &&
         key == other.key;
   }
@@ -300,6 +327,9 @@ class LibrarySearchRouteArgs {
       favourites.hashCode ^
       sortOrder.hashCode ^
       sortingOptions.hashCode ^
+      const _i23.MapEquality().hash(types) ^
+      const _i23.MapEquality().hash(genres) ^
+      recursive.hashCode ^
       photoToView.hashCode ^
       key.hashCode;
 }

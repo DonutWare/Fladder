@@ -24,7 +24,7 @@ mixin _$AccountModel implements DiagnosticableTreeMixin {
   List<String> get latestItemsExcludes;
   List<String> get searchQueryHistory;
   bool get quickConnectState;
-  List<LibraryFiltersModel> get savedFilters;
+  List<LibraryFiltersModel> get libraryFilters;
   @JsonKey(includeFromJson: false, includeToJson: false)
   UserPolicy? get policy;
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -58,7 +58,7 @@ mixin _$AccountModel implements DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('latestItemsExcludes', latestItemsExcludes))
       ..add(DiagnosticsProperty('searchQueryHistory', searchQueryHistory))
       ..add(DiagnosticsProperty('quickConnectState', quickConnectState))
-      ..add(DiagnosticsProperty('savedFilters', savedFilters))
+      ..add(DiagnosticsProperty('libraryFilters', libraryFilters))
       ..add(DiagnosticsProperty('policy', policy))
       ..add(DiagnosticsProperty('serverConfiguration', serverConfiguration))
       ..add(DiagnosticsProperty('userConfiguration', userConfiguration))
@@ -67,7 +67,7 @@ mixin _$AccountModel implements DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, localPin: $localPin, credentials: $credentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, savedFilters: $savedFilters, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration, userSettings: $userSettings)';
+    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, localPin: $localPin, credentials: $credentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, libraryFilters: $libraryFilters, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration, userSettings: $userSettings)';
   }
 }
 
@@ -88,7 +88,7 @@ abstract mixin class $AccountModelCopyWith<$Res> {
       List<String> latestItemsExcludes,
       List<String> searchQueryHistory,
       bool quickConnectState,
-      List<LibraryFiltersModel> savedFilters,
+      List<LibraryFiltersModel> libraryFilters,
       @JsonKey(includeFromJson: false, includeToJson: false) UserPolicy? policy,
       @JsonKey(includeFromJson: false, includeToJson: false)
       ServerConfiguration? serverConfiguration,
@@ -121,7 +121,7 @@ class _$AccountModelCopyWithImpl<$Res> implements $AccountModelCopyWith<$Res> {
     Object? latestItemsExcludes = null,
     Object? searchQueryHistory = null,
     Object? quickConnectState = null,
-    Object? savedFilters = null,
+    Object? libraryFilters = null,
     Object? policy = freezed,
     Object? serverConfiguration = freezed,
     Object? userConfiguration = freezed,
@@ -168,9 +168,9 @@ class _$AccountModelCopyWithImpl<$Res> implements $AccountModelCopyWith<$Res> {
           ? _self.quickConnectState
           : quickConnectState // ignore: cast_nullable_to_non_nullable
               as bool,
-      savedFilters: null == savedFilters
-          ? _self.savedFilters
-          : savedFilters // ignore: cast_nullable_to_non_nullable
+      libraryFilters: null == libraryFilters
+          ? _self.libraryFilters
+          : libraryFilters // ignore: cast_nullable_to_non_nullable
               as List<LibraryFiltersModel>,
       policy: freezed == policy
           ? _self.policy
@@ -310,7 +310,7 @@ extension AccountModelPatterns on AccountModel {
             List<String> latestItemsExcludes,
             List<String> searchQueryHistory,
             bool quickConnectState,
-            List<LibraryFiltersModel> savedFilters,
+            List<LibraryFiltersModel> libraryFilters,
             @JsonKey(includeFromJson: false, includeToJson: false)
             UserPolicy? policy,
             @JsonKey(includeFromJson: false, includeToJson: false)
@@ -335,7 +335,7 @@ extension AccountModelPatterns on AccountModel {
             _that.latestItemsExcludes,
             _that.searchQueryHistory,
             _that.quickConnectState,
-            _that.savedFilters,
+            _that.libraryFilters,
             _that.policy,
             _that.serverConfiguration,
             _that.userConfiguration,
@@ -371,7 +371,7 @@ extension AccountModelPatterns on AccountModel {
             List<String> latestItemsExcludes,
             List<String> searchQueryHistory,
             bool quickConnectState,
-            List<LibraryFiltersModel> savedFilters,
+            List<LibraryFiltersModel> libraryFilters,
             @JsonKey(includeFromJson: false, includeToJson: false)
             UserPolicy? policy,
             @JsonKey(includeFromJson: false, includeToJson: false)
@@ -395,7 +395,7 @@ extension AccountModelPatterns on AccountModel {
             _that.latestItemsExcludes,
             _that.searchQueryHistory,
             _that.quickConnectState,
-            _that.savedFilters,
+            _that.libraryFilters,
             _that.policy,
             _that.serverConfiguration,
             _that.userConfiguration,
@@ -430,7 +430,7 @@ extension AccountModelPatterns on AccountModel {
             List<String> latestItemsExcludes,
             List<String> searchQueryHistory,
             bool quickConnectState,
-            List<LibraryFiltersModel> savedFilters,
+            List<LibraryFiltersModel> libraryFilters,
             @JsonKey(includeFromJson: false, includeToJson: false)
             UserPolicy? policy,
             @JsonKey(includeFromJson: false, includeToJson: false)
@@ -454,7 +454,7 @@ extension AccountModelPatterns on AccountModel {
             _that.latestItemsExcludes,
             _that.searchQueryHistory,
             _that.quickConnectState,
-            _that.savedFilters,
+            _that.libraryFilters,
             _that.policy,
             _that.serverConfiguration,
             _that.userConfiguration,
@@ -479,7 +479,7 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
       final List<String> latestItemsExcludes = const [],
       final List<String> searchQueryHistory = const [],
       this.quickConnectState = false,
-      final List<LibraryFiltersModel> savedFilters = const [],
+      final List<LibraryFiltersModel> libraryFilters = const [],
       @JsonKey(includeFromJson: false, includeToJson: false) this.policy,
       @JsonKey(includeFromJson: false, includeToJson: false)
       this.serverConfiguration,
@@ -488,7 +488,7 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
       this.userSettings})
       : _latestItemsExcludes = latestItemsExcludes,
         _searchQueryHistory = searchQueryHistory,
-        _savedFilters = savedFilters,
+        _libraryFilters = libraryFilters,
         super._();
   factory _AccountModel.fromJson(Map<String, dynamic> json) =>
       _$AccountModelFromJson(json);
@@ -532,13 +532,13 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
   @override
   @JsonKey()
   final bool quickConnectState;
-  final List<LibraryFiltersModel> _savedFilters;
+  final List<LibraryFiltersModel> _libraryFilters;
   @override
   @JsonKey()
-  List<LibraryFiltersModel> get savedFilters {
-    if (_savedFilters is EqualUnmodifiableListView) return _savedFilters;
+  List<LibraryFiltersModel> get libraryFilters {
+    if (_libraryFilters is EqualUnmodifiableListView) return _libraryFilters;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_savedFilters);
+    return EqualUnmodifiableListView(_libraryFilters);
   }
 
   @override
@@ -582,7 +582,7 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('latestItemsExcludes', latestItemsExcludes))
       ..add(DiagnosticsProperty('searchQueryHistory', searchQueryHistory))
       ..add(DiagnosticsProperty('quickConnectState', quickConnectState))
-      ..add(DiagnosticsProperty('savedFilters', savedFilters))
+      ..add(DiagnosticsProperty('libraryFilters', libraryFilters))
       ..add(DiagnosticsProperty('policy', policy))
       ..add(DiagnosticsProperty('serverConfiguration', serverConfiguration))
       ..add(DiagnosticsProperty('userConfiguration', userConfiguration))
@@ -591,7 +591,7 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, localPin: $localPin, credentials: $credentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, savedFilters: $savedFilters, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration, userSettings: $userSettings)';
+    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, localPin: $localPin, credentials: $credentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, libraryFilters: $libraryFilters, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration, userSettings: $userSettings)';
   }
 }
 
@@ -614,7 +614,7 @@ abstract mixin class _$AccountModelCopyWith<$Res>
       List<String> latestItemsExcludes,
       List<String> searchQueryHistory,
       bool quickConnectState,
-      List<LibraryFiltersModel> savedFilters,
+      List<LibraryFiltersModel> libraryFilters,
       @JsonKey(includeFromJson: false, includeToJson: false) UserPolicy? policy,
       @JsonKey(includeFromJson: false, includeToJson: false)
       ServerConfiguration? serverConfiguration,
@@ -649,7 +649,7 @@ class __$AccountModelCopyWithImpl<$Res>
     Object? latestItemsExcludes = null,
     Object? searchQueryHistory = null,
     Object? quickConnectState = null,
-    Object? savedFilters = null,
+    Object? libraryFilters = null,
     Object? policy = freezed,
     Object? serverConfiguration = freezed,
     Object? userConfiguration = freezed,
@@ -696,9 +696,9 @@ class __$AccountModelCopyWithImpl<$Res>
           ? _self.quickConnectState
           : quickConnectState // ignore: cast_nullable_to_non_nullable
               as bool,
-      savedFilters: null == savedFilters
-          ? _self._savedFilters
-          : savedFilters // ignore: cast_nullable_to_non_nullable
+      libraryFilters: null == libraryFilters
+          ? _self._libraryFilters
+          : libraryFilters // ignore: cast_nullable_to_non_nullable
               as List<LibraryFiltersModel>,
       policy: freezed == policy
           ? _self.policy

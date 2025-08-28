@@ -26,7 +26,7 @@ _AccountModel _$AccountModelFromJson(Map<String, dynamic> json) =>
               .toList() ??
           const [],
       quickConnectState: json['quickConnectState'] as bool? ?? false,
-      savedFilters: (json['savedFilters'] as List<dynamic>?)
+      libraryFilters: (json['libraryFilters'] as List<dynamic>?)
               ?.map((e) =>
                   LibraryFiltersModel.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -48,7 +48,7 @@ Map<String, dynamic> _$AccountModelToJson(_AccountModel instance) =>
       'latestItemsExcludes': instance.latestItemsExcludes,
       'searchQueryHistory': instance.searchQueryHistory,
       'quickConnectState': instance.quickConnectState,
-      'savedFilters': instance.savedFilters,
+      'libraryFilters': instance.libraryFilters,
       'userSettings': instance.userSettings,
     };
 

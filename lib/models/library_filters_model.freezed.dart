@@ -18,20 +18,7 @@ mixin _$LibraryFiltersModel {
   String get name;
   bool get isFavourite;
   List<String> get ids;
-  Map<String, bool> get genres;
-  Map<ItemFilter, bool> get filters;
-  @StudioEncoder()
-  Map<Studio, bool> get studios;
-  Map<String, bool> get tags;
-  Map<int, bool> get years;
-  Map<String, bool> get officialRatings;
-  Map<FladderItemType, bool> get types;
-  SortingOptions get sortingOption;
-  SortingOrder get sortOrder;
-  bool get favourites;
-  bool get hideEmptyShows;
-  bool get recursive;
-  GroupBy get groupBy;
+  LibraryFilterModel get filter;
 
   /// Create a copy of LibraryFiltersModel
   /// with the given fields replaced by the non-null parameter values.
@@ -46,7 +33,7 @@ mixin _$LibraryFiltersModel {
 
   @override
   String toString() {
-    return 'LibraryFiltersModel(id: $id, name: $name, isFavourite: $isFavourite, ids: $ids, genres: $genres, filters: $filters, studios: $studios, tags: $tags, years: $years, officialRatings: $officialRatings, types: $types, sortingOption: $sortingOption, sortOrder: $sortOrder, favourites: $favourites, hideEmptyShows: $hideEmptyShows, recursive: $recursive, groupBy: $groupBy)';
+    return 'LibraryFiltersModel(id: $id, name: $name, isFavourite: $isFavourite, ids: $ids, filter: $filter)';
   }
 }
 
@@ -61,19 +48,9 @@ abstract mixin class $LibraryFiltersModelCopyWith<$Res> {
       String name,
       bool isFavourite,
       List<String> ids,
-      Map<String, bool> genres,
-      Map<ItemFilter, bool> filters,
-      @StudioEncoder() Map<Studio, bool> studios,
-      Map<String, bool> tags,
-      Map<int, bool> years,
-      Map<String, bool> officialRatings,
-      Map<FladderItemType, bool> types,
-      SortingOptions sortingOption,
-      SortingOrder sortOrder,
-      bool favourites,
-      bool hideEmptyShows,
-      bool recursive,
-      GroupBy groupBy});
+      LibraryFilterModel filter});
+
+  $LibraryFilterModelCopyWith<$Res> get filter;
 }
 
 /// @nodoc
@@ -93,19 +70,7 @@ class _$LibraryFiltersModelCopyWithImpl<$Res>
     Object? name = null,
     Object? isFavourite = null,
     Object? ids = null,
-    Object? genres = null,
-    Object? filters = null,
-    Object? studios = null,
-    Object? tags = null,
-    Object? years = null,
-    Object? officialRatings = null,
-    Object? types = null,
-    Object? sortingOption = null,
-    Object? sortOrder = null,
-    Object? favourites = null,
-    Object? hideEmptyShows = null,
-    Object? recursive = null,
-    Object? groupBy = null,
+    Object? filter = null,
   }) {
     return _then(_self.copyWith(
       id: null == id
@@ -124,59 +89,21 @@ class _$LibraryFiltersModelCopyWithImpl<$Res>
           ? _self.ids
           : ids // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      genres: null == genres
-          ? _self.genres
-          : genres // ignore: cast_nullable_to_non_nullable
-              as Map<String, bool>,
-      filters: null == filters
-          ? _self.filters
-          : filters // ignore: cast_nullable_to_non_nullable
-              as Map<ItemFilter, bool>,
-      studios: null == studios
-          ? _self.studios
-          : studios // ignore: cast_nullable_to_non_nullable
-              as Map<Studio, bool>,
-      tags: null == tags
-          ? _self.tags
-          : tags // ignore: cast_nullable_to_non_nullable
-              as Map<String, bool>,
-      years: null == years
-          ? _self.years
-          : years // ignore: cast_nullable_to_non_nullable
-              as Map<int, bool>,
-      officialRatings: null == officialRatings
-          ? _self.officialRatings
-          : officialRatings // ignore: cast_nullable_to_non_nullable
-              as Map<String, bool>,
-      types: null == types
-          ? _self.types
-          : types // ignore: cast_nullable_to_non_nullable
-              as Map<FladderItemType, bool>,
-      sortingOption: null == sortingOption
-          ? _self.sortingOption
-          : sortingOption // ignore: cast_nullable_to_non_nullable
-              as SortingOptions,
-      sortOrder: null == sortOrder
-          ? _self.sortOrder
-          : sortOrder // ignore: cast_nullable_to_non_nullable
-              as SortingOrder,
-      favourites: null == favourites
-          ? _self.favourites
-          : favourites // ignore: cast_nullable_to_non_nullable
-              as bool,
-      hideEmptyShows: null == hideEmptyShows
-          ? _self.hideEmptyShows
-          : hideEmptyShows // ignore: cast_nullable_to_non_nullable
-              as bool,
-      recursive: null == recursive
-          ? _self.recursive
-          : recursive // ignore: cast_nullable_to_non_nullable
-              as bool,
-      groupBy: null == groupBy
-          ? _self.groupBy
-          : groupBy // ignore: cast_nullable_to_non_nullable
-              as GroupBy,
+      filter: null == filter
+          ? _self.filter
+          : filter // ignore: cast_nullable_to_non_nullable
+              as LibraryFilterModel,
     ));
+  }
+
+  /// Create a copy of LibraryFiltersModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $LibraryFilterModelCopyWith<$Res> get filter {
+    return $LibraryFilterModelCopyWith<$Res>(_self.filter, (value) {
+      return _then(_self.copyWith(filter: value));
+    });
   }
 }
 
@@ -273,24 +200,8 @@ extension LibraryFiltersModelPatterns on LibraryFiltersModel {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(
-            String id,
-            String name,
-            bool isFavourite,
-            List<String> ids,
-            Map<String, bool> genres,
-            Map<ItemFilter, bool> filters,
-            @StudioEncoder() Map<Studio, bool> studios,
-            Map<String, bool> tags,
-            Map<int, bool> years,
-            Map<String, bool> officialRatings,
-            Map<FladderItemType, bool> types,
-            SortingOptions sortingOption,
-            SortingOrder sortOrder,
-            bool favourites,
-            bool hideEmptyShows,
-            bool recursive,
-            GroupBy groupBy)?
+    TResult Function(String id, String name, bool isFavourite, List<String> ids,
+            LibraryFilterModel filter)?
         $default, {
     required TResult orElse(),
   }) {
@@ -298,23 +209,7 @@ extension LibraryFiltersModelPatterns on LibraryFiltersModel {
     switch (_that) {
       case _LibraryFiltersModel() when $default != null:
         return $default(
-            _that.id,
-            _that.name,
-            _that.isFavourite,
-            _that.ids,
-            _that.genres,
-            _that.filters,
-            _that.studios,
-            _that.tags,
-            _that.years,
-            _that.officialRatings,
-            _that.types,
-            _that.sortingOption,
-            _that.sortOrder,
-            _that.favourites,
-            _that.hideEmptyShows,
-            _that.recursive,
-            _that.groupBy);
+            _that.id, _that.name, _that.isFavourite, _that.ids, _that.filter);
       case _:
         return orElse();
     }
@@ -335,47 +230,15 @@ extension LibraryFiltersModelPatterns on LibraryFiltersModel {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(
-            String id,
-            String name,
-            bool isFavourite,
-            List<String> ids,
-            Map<String, bool> genres,
-            Map<ItemFilter, bool> filters,
-            @StudioEncoder() Map<Studio, bool> studios,
-            Map<String, bool> tags,
-            Map<int, bool> years,
-            Map<String, bool> officialRatings,
-            Map<FladderItemType, bool> types,
-            SortingOptions sortingOption,
-            SortingOrder sortOrder,
-            bool favourites,
-            bool hideEmptyShows,
-            bool recursive,
-            GroupBy groupBy)
+    TResult Function(String id, String name, bool isFavourite, List<String> ids,
+            LibraryFilterModel filter)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _LibraryFiltersModel():
         return $default(
-            _that.id,
-            _that.name,
-            _that.isFavourite,
-            _that.ids,
-            _that.genres,
-            _that.filters,
-            _that.studios,
-            _that.tags,
-            _that.years,
-            _that.officialRatings,
-            _that.types,
-            _that.sortingOption,
-            _that.sortOrder,
-            _that.favourites,
-            _that.hideEmptyShows,
-            _that.recursive,
-            _that.groupBy);
+            _that.id, _that.name, _that.isFavourite, _that.ids, _that.filter);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -395,47 +258,15 @@ extension LibraryFiltersModelPatterns on LibraryFiltersModel {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(
-            String id,
-            String name,
-            bool isFavourite,
-            List<String> ids,
-            Map<String, bool> genres,
-            Map<ItemFilter, bool> filters,
-            @StudioEncoder() Map<Studio, bool> studios,
-            Map<String, bool> tags,
-            Map<int, bool> years,
-            Map<String, bool> officialRatings,
-            Map<FladderItemType, bool> types,
-            SortingOptions sortingOption,
-            SortingOrder sortOrder,
-            bool favourites,
-            bool hideEmptyShows,
-            bool recursive,
-            GroupBy groupBy)?
+    TResult? Function(String id, String name, bool isFavourite,
+            List<String> ids, LibraryFilterModel filter)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _LibraryFiltersModel() when $default != null:
         return $default(
-            _that.id,
-            _that.name,
-            _that.isFavourite,
-            _that.ids,
-            _that.genres,
-            _that.filters,
-            _that.studios,
-            _that.tags,
-            _that.years,
-            _that.officialRatings,
-            _that.types,
-            _that.sortingOption,
-            _that.sortOrder,
-            _that.favourites,
-            _that.hideEmptyShows,
-            _that.recursive,
-            _that.groupBy);
+            _that.id, _that.name, _that.isFavourite, _that.ids, _that.filter);
       case _:
         return null;
     }
@@ -449,28 +280,9 @@ class _LibraryFiltersModel extends LibraryFiltersModel {
       {required this.id,
       required this.name,
       required this.isFavourite,
-      required final List<String> ids,
-      required final Map<String, bool> genres,
-      required final Map<ItemFilter, bool> filters,
-      @StudioEncoder() required final Map<Studio, bool> studios,
-      required final Map<String, bool> tags,
-      required final Map<int, bool> years,
-      required final Map<String, bool> officialRatings,
-      required final Map<FladderItemType, bool> types,
-      required this.sortingOption,
-      required this.sortOrder,
-      required this.favourites,
-      required this.hideEmptyShows,
-      required this.recursive,
-      required this.groupBy})
+      final List<String> ids = const [],
+      this.filter = const LibraryFilterModel()})
       : _ids = ids,
-        _genres = genres,
-        _filters = filters,
-        _studios = studios,
-        _tags = tags,
-        _years = years,
-        _officialRatings = officialRatings,
-        _types = types,
         super._();
   factory _LibraryFiltersModel.fromJson(Map<String, dynamic> json) =>
       _$LibraryFiltersModelFromJson(json);
@@ -483,81 +295,16 @@ class _LibraryFiltersModel extends LibraryFiltersModel {
   final bool isFavourite;
   final List<String> _ids;
   @override
+  @JsonKey()
   List<String> get ids {
     if (_ids is EqualUnmodifiableListView) return _ids;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_ids);
   }
 
-  final Map<String, bool> _genres;
   @override
-  Map<String, bool> get genres {
-    if (_genres is EqualUnmodifiableMapView) return _genres;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_genres);
-  }
-
-  final Map<ItemFilter, bool> _filters;
-  @override
-  Map<ItemFilter, bool> get filters {
-    if (_filters is EqualUnmodifiableMapView) return _filters;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_filters);
-  }
-
-  final Map<Studio, bool> _studios;
-  @override
-  @StudioEncoder()
-  Map<Studio, bool> get studios {
-    if (_studios is EqualUnmodifiableMapView) return _studios;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_studios);
-  }
-
-  final Map<String, bool> _tags;
-  @override
-  Map<String, bool> get tags {
-    if (_tags is EqualUnmodifiableMapView) return _tags;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_tags);
-  }
-
-  final Map<int, bool> _years;
-  @override
-  Map<int, bool> get years {
-    if (_years is EqualUnmodifiableMapView) return _years;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_years);
-  }
-
-  final Map<String, bool> _officialRatings;
-  @override
-  Map<String, bool> get officialRatings {
-    if (_officialRatings is EqualUnmodifiableMapView) return _officialRatings;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_officialRatings);
-  }
-
-  final Map<FladderItemType, bool> _types;
-  @override
-  Map<FladderItemType, bool> get types {
-    if (_types is EqualUnmodifiableMapView) return _types;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_types);
-  }
-
-  @override
-  final SortingOptions sortingOption;
-  @override
-  final SortingOrder sortOrder;
-  @override
-  final bool favourites;
-  @override
-  final bool hideEmptyShows;
-  @override
-  final bool recursive;
-  @override
-  final GroupBy groupBy;
+  @JsonKey()
+  final LibraryFilterModel filter;
 
   /// Create a copy of LibraryFiltersModel
   /// with the given fields replaced by the non-null parameter values.
@@ -577,7 +324,7 @@ class _LibraryFiltersModel extends LibraryFiltersModel {
 
   @override
   String toString() {
-    return 'LibraryFiltersModel(id: $id, name: $name, isFavourite: $isFavourite, ids: $ids, genres: $genres, filters: $filters, studios: $studios, tags: $tags, years: $years, officialRatings: $officialRatings, types: $types, sortingOption: $sortingOption, sortOrder: $sortOrder, favourites: $favourites, hideEmptyShows: $hideEmptyShows, recursive: $recursive, groupBy: $groupBy)';
+    return 'LibraryFiltersModel(id: $id, name: $name, isFavourite: $isFavourite, ids: $ids, filter: $filter)';
   }
 }
 
@@ -594,19 +341,10 @@ abstract mixin class _$LibraryFiltersModelCopyWith<$Res>
       String name,
       bool isFavourite,
       List<String> ids,
-      Map<String, bool> genres,
-      Map<ItemFilter, bool> filters,
-      @StudioEncoder() Map<Studio, bool> studios,
-      Map<String, bool> tags,
-      Map<int, bool> years,
-      Map<String, bool> officialRatings,
-      Map<FladderItemType, bool> types,
-      SortingOptions sortingOption,
-      SortingOrder sortOrder,
-      bool favourites,
-      bool hideEmptyShows,
-      bool recursive,
-      GroupBy groupBy});
+      LibraryFilterModel filter});
+
+  @override
+  $LibraryFilterModelCopyWith<$Res> get filter;
 }
 
 /// @nodoc
@@ -626,19 +364,7 @@ class __$LibraryFiltersModelCopyWithImpl<$Res>
     Object? name = null,
     Object? isFavourite = null,
     Object? ids = null,
-    Object? genres = null,
-    Object? filters = null,
-    Object? studios = null,
-    Object? tags = null,
-    Object? years = null,
-    Object? officialRatings = null,
-    Object? types = null,
-    Object? sortingOption = null,
-    Object? sortOrder = null,
-    Object? favourites = null,
-    Object? hideEmptyShows = null,
-    Object? recursive = null,
-    Object? groupBy = null,
+    Object? filter = null,
   }) {
     return _then(_LibraryFiltersModel(
       id: null == id
@@ -657,59 +383,21 @@ class __$LibraryFiltersModelCopyWithImpl<$Res>
           ? _self._ids
           : ids // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      genres: null == genres
-          ? _self._genres
-          : genres // ignore: cast_nullable_to_non_nullable
-              as Map<String, bool>,
-      filters: null == filters
-          ? _self._filters
-          : filters // ignore: cast_nullable_to_non_nullable
-              as Map<ItemFilter, bool>,
-      studios: null == studios
-          ? _self._studios
-          : studios // ignore: cast_nullable_to_non_nullable
-              as Map<Studio, bool>,
-      tags: null == tags
-          ? _self._tags
-          : tags // ignore: cast_nullable_to_non_nullable
-              as Map<String, bool>,
-      years: null == years
-          ? _self._years
-          : years // ignore: cast_nullable_to_non_nullable
-              as Map<int, bool>,
-      officialRatings: null == officialRatings
-          ? _self._officialRatings
-          : officialRatings // ignore: cast_nullable_to_non_nullable
-              as Map<String, bool>,
-      types: null == types
-          ? _self._types
-          : types // ignore: cast_nullable_to_non_nullable
-              as Map<FladderItemType, bool>,
-      sortingOption: null == sortingOption
-          ? _self.sortingOption
-          : sortingOption // ignore: cast_nullable_to_non_nullable
-              as SortingOptions,
-      sortOrder: null == sortOrder
-          ? _self.sortOrder
-          : sortOrder // ignore: cast_nullable_to_non_nullable
-              as SortingOrder,
-      favourites: null == favourites
-          ? _self.favourites
-          : favourites // ignore: cast_nullable_to_non_nullable
-              as bool,
-      hideEmptyShows: null == hideEmptyShows
-          ? _self.hideEmptyShows
-          : hideEmptyShows // ignore: cast_nullable_to_non_nullable
-              as bool,
-      recursive: null == recursive
-          ? _self.recursive
-          : recursive // ignore: cast_nullable_to_non_nullable
-              as bool,
-      groupBy: null == groupBy
-          ? _self.groupBy
-          : groupBy // ignore: cast_nullable_to_non_nullable
-              as GroupBy,
+      filter: null == filter
+          ? _self.filter
+          : filter // ignore: cast_nullable_to_non_nullable
+              as LibraryFilterModel,
     ));
+  }
+
+  /// Create a copy of LibraryFiltersModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $LibraryFilterModelCopyWith<$Res> get filter {
+    return $LibraryFilterModelCopyWith<$Res>(_self.filter, (value) {
+      return _then(_self.copyWith(filter: value));
+    });
   }
 }
 

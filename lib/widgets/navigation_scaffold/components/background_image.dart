@@ -10,6 +10,8 @@ import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/util/fladder_image.dart';
 
+final _backgroundImageProvider = StateProvider<ImageData?>((ref) => null);
+
 class BackgroundImage extends ConsumerStatefulWidget {
   final List<ItemBaseModel> items;
   final List<ImagesData> images;
@@ -20,7 +22,11 @@ class BackgroundImage extends ConsumerStatefulWidget {
 }
 
 class _BackgroundImageState extends ConsumerState<BackgroundImage> {
-  ImageData? backgroundImage;
+  @override
+  void initState() {
+    super.initState();
+    updateItems();
+  }
 
   @override
   void didUpdateWidget(covariant BackgroundImage oldWidget) {
@@ -30,55 +36,65 @@ class _BackgroundImageState extends ConsumerState<BackgroundImage> {
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    updateItems();
-  }
-
   void updateItems() {
-    final enabled =
-        ref.read(clientSettingsProvider.select((value) => value.backgroundImage != BackgroundType.disabled));
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final enabled = ref.read(
+        clientSettingsProvider.select((value) => value.backgroundImage != BackgroundType.disabled),
+      );
+      if (!enabled || !mounted) return;
 
-    WidgetsBinding.instance.addPostFrameCallback((value) async {
-      if (!enabled && mounted) return;
+      ImageData? newImage;
 
       if (widget.images.isNotEmpty) {
-        final image = widget.images.shuffled().firstOrNull?.primary;
-        if (mounted) setState(() => backgroundImage = image);
-        return;
+        newImage = widget.images.shuffled().firstOrNull?.primary;
+      } else if (widget.items.isNotEmpty) {
+        final randomItem = widget.items.shuffled().firstOrNull;
+        final itemId = switch (randomItem?.type) {
+          FladderItemType.folder => randomItem?.id,
+          FladderItemType.series => randomItem?.parentId ?? randomItem?.id,
+          _ => randomItem?.id,
+        };
+
+        if (itemId != null) {
+          final apiResponse = await ref.read(jellyApiProvider).usersUserIdItemsItemIdGet(itemId: itemId);
+
+          newImage = apiResponse.body?.parentBaseModel.getPosters?.randomBackDrop ??
+              apiResponse.body?.getPosters?.randomBackDrop ??
+              apiResponse.body?.getPosters?.primary;
+        }
       }
 
-      if (widget.items.isEmpty) return;
-
-      final randomItem = widget.items.shuffled().firstOrNull;
-      final itemId = switch (randomItem?.type) {
-        FladderItemType.folder => randomItem?.id,
-        FladderItemType.series => randomItem?.parentId ?? randomItem?.id,
-        _ => randomItem?.id,
-      };
-
-      if (itemId == null) return;
-
-      final apiResponse = await ref.read(jellyApiProvider).usersUserIdItemsItemIdGet(itemId: itemId);
-      final image = apiResponse.body?.parentBaseModel.getPosters?.randomBackDrop ??
-          apiResponse.body?.getPosters?.randomBackDrop ??
-          apiResponse.body?.getPosters?.primary;
-
-      if (mounted) setState(() => backgroundImage = image);
+      if (newImage != null && mounted) {
+        ref.read(_backgroundImageProvider.notifier).state = newImage;
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(clientSettingsProvider.select((value) => value.backgroundImage));
-    final enabled = state != BackgroundType.disabled;
-    return enabled
-        ? FladderImage(
-            image: backgroundImage,
-            fit: BoxFit.cover,
-            blurOnly: state == BackgroundType.blurred,
-          )
-        : const SizedBox.shrink();
+    final settings = ref.watch(clientSettingsProvider.select((value) => value.backgroundImage));
+    final enabled = settings != BackgroundType.disabled;
+    final image = ref.watch(_backgroundImageProvider);
+
+    if (!enabled || image == null) return const SizedBox.shrink();
+
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 500),
+      layoutBuilder: (currentChild, previousChildren) {
+        return Stack(
+          fit: StackFit.expand,
+          children: [
+            ...previousChildren,
+            if (currentChild != null) currentChild,
+          ],
+        );
+      },
+      child: FladderImage(
+        key: ValueKey(image.key),
+        image: image,
+        fit: BoxFit.cover,
+        blurOnly: settings == BackgroundType.blurred,
+      ),
+    );
   }
 }

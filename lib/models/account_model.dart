@@ -31,7 +31,7 @@ abstract class AccountModel with _$AccountModel {
     @Default([]) List<String> latestItemsExcludes,
     @Default([]) List<String> searchQueryHistory,
     @Default(false) bool quickConnectState,
-    @Default([]) List<LibraryFiltersModel> savedFilters,
+    @Default([]) List<LibraryFiltersModel> libraryFilters,
     @JsonKey(includeFromJson: false, includeToJson: false) UserPolicy? policy,
     @JsonKey(includeFromJson: false, includeToJson: false) ServerConfiguration? serverConfiguration,
     @JsonKey(includeFromJson: false, includeToJson: false) UserConfiguration? userConfiguration,

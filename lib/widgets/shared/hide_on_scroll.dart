@@ -11,6 +11,7 @@ class HideOnScroll extends ConsumerStatefulWidget {
   final double height;
   final Widget? Function(bool visible)? visibleBuilder;
   final Duration duration;
+  final bool canHide;
   final bool forceHide;
   const HideOnScroll({
     this.child,
@@ -18,6 +19,7 @@ class HideOnScroll extends ConsumerStatefulWidget {
     this.height = kBottomNavigationBarHeight,
     this.visibleBuilder,
     this.duration = const Duration(milliseconds: 200),
+    this.canHide = true,
     this.forceHide = false,
     super.key,
   }) : assert(child != null || visibleBuilder != null);
@@ -46,6 +48,12 @@ class _HideOnScrollState extends ConsumerState<HideOnScroll> {
   }
 
   void _onScroll() {
+    if (!widget.canHide) {
+      if (!isVisible) {
+        setState(() => isVisible = true);
+      }
+      return;
+    }
     final position = scrollController.position;
     final direction = position.userScrollDirection;
 
@@ -78,9 +86,9 @@ class _HideOnScrollState extends ConsumerState<HideOnScroll> {
       alignment: const Alignment(0, -1),
       heightFactor: widget.forceHide
           ? 0
-          : isVisible
-              ? 1.0
-              : 0,
+          : !isVisible && widget.canHide
+              ? 0.0
+              : 1.0,
       duration: widget.duration,
       child: Wrap(
         children: [widget.child!],

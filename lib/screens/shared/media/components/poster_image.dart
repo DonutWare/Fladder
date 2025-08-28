@@ -83,6 +83,8 @@ class _PosterImageState extends ConsumerState<PosterImage> {
     await widget.poster.navigateTo(context);
   }
 
+  final posterRadius = FladderTheme.smallShape.borderRadius;
+
   @override
   Widget build(BuildContext context) {
     final poster = widget.poster;
@@ -101,7 +103,7 @@ class _PosterImageState extends ConsumerState<PosterImage> {
               width: 1.0,
               color: Colors.white.withValues(alpha: 0.10),
             ),
-            borderRadius: FladderTheme.defaultShape.borderRadius,
+            borderRadius: posterRadius,
           ),
           child: Stack(
             fit: StackFit.expand,
@@ -135,7 +137,7 @@ class _PosterImageState extends ConsumerState<PosterImage> {
                   decoration: BoxDecoration(
                     color: Colors.black.withValues(alpha: 0.15),
                     border: Border.all(width: 3, color: Theme.of(context).colorScheme.primary),
-                    borderRadius: FladderTheme.defaultShape.borderRadius,
+                    borderRadius: posterRadius,
                   ),
                   clipBehavior: Clip.hardEdge,
                   child: Stack(
@@ -201,6 +203,102 @@ class _PosterImageState extends ConsumerState<PosterImage> {
                   ],
                 ),
               ),
+              if (widget.poster.unWatched)
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: StatusCard(
+                    color: Colors.amber,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.amber,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              if (widget.inlineTitle)
+                IgnorePointer(
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Text(
+                        widget.poster.title.maxLength(limitTo: 25),
+                        style:
+                            Theme.of(context).textTheme.labelLarge?.copyWith(fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ),
+              if (widget.poster.unPlayedItemCount != null && widget.poster is SeriesModel)
+                IgnorePointer(
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: StatusCard(
+                      color: Theme.of(context).colorScheme.primary,
+                      useFittedBox: widget.poster.unPlayedItemCount != 0,
+                      child: Padding(
+                        padding: const EdgeInsets.all(6),
+                        child: widget.poster.unPlayedItemCount != 0
+                            ? Container(
+                                constraints: const BoxConstraints(minWidth: 16),
+                                child: Text(
+                                  widget.poster.userData.unPlayedItemCount.toString(),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Theme.of(context).colorScheme.primary,
+                                    fontWeight: FontWeight.bold,
+                                    overflow: TextOverflow.visible,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              )
+                            : Icon(
+                                Icons.check_rounded,
+                                size: 20,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                      ),
+                    ),
+                  ),
+                ),
+              if (widget.poster.overview.runTime != null &&
+                  ((widget.poster is PhotoModel) &&
+                      (widget.poster as PhotoModel).internalType == FladderItemType.video)) ...{
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                    padding: padding,
+                    child: Card(
+                      elevation: 5,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              widget.poster.overview.runTime.humanizeSmall ?? "",
+                              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context).colorScheme.onSurface,
+                                  ),
+                            ),
+                            const SizedBox(width: 2),
+                            Icon(
+                              Icons.play_arrow_rounded,
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              },
               //Desktop overlay
               if (AdaptiveLayout.of(context).inputDevice != InputDevice.touch &&
                   widget.poster.type != FladderItemType.person)
@@ -215,7 +313,7 @@ class _PosterImageState extends ConsumerState<PosterImage> {
                           decoration: BoxDecoration(
                         color: Colors.black.withValues(alpha: 0.55),
                         border: Border.all(width: 3, color: Theme.of(context).colorScheme.primary),
-                        borderRadius: FladderTheme.defaultShape.borderRadius,
+                        borderRadius: posterRadius,
                       )),
                       //Poster Button
                       Focus(
@@ -317,102 +415,6 @@ class _PosterImageState extends ConsumerState<PosterImage> {
                     },
                   ),
                 ),
-              if (widget.poster.unWatched)
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: StatusCard(
-                    color: Colors.amber,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.amber,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              if (widget.inlineTitle)
-                IgnorePointer(
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Text(
-                        widget.poster.title.maxLength(limitTo: 25),
-                        style:
-                            Theme.of(context).textTheme.labelLarge?.copyWith(fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                ),
-              if (widget.poster.unPlayedItemCount != null && widget.poster is SeriesModel)
-                IgnorePointer(
-                  child: Align(
-                    alignment: Alignment.topRight,
-                    child: StatusCard(
-                      color: Theme.of(context).colorScheme.primary,
-                      useFittedBox: widget.poster.unPlayedItemCount != 0,
-                      child: Padding(
-                        padding: const EdgeInsets.all(6),
-                        child: widget.poster.unPlayedItemCount != 0
-                            ? Container(
-                                constraints: const BoxConstraints(minWidth: 16),
-                                child: Text(
-                                  widget.poster.userData.unPlayedItemCount.toString(),
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Theme.of(context).colorScheme.primary,
-                                    fontWeight: FontWeight.bold,
-                                    overflow: TextOverflow.visible,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              )
-                            : Icon(
-                                Icons.check_rounded,
-                                size: 20,
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                      ),
-                    ),
-                  ),
-                ),
-              if (widget.poster.overview.runTime != null &&
-                  ((widget.poster is PhotoModel) &&
-                      (widget.poster as PhotoModel).internalType == FladderItemType.video)) ...{
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Padding(
-                    padding: padding,
-                    child: Card(
-                      elevation: 5,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              widget.poster.overview.runTime.humanizeSmall ?? "",
-                              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(context).colorScheme.onSurface,
-                                  ),
-                            ),
-                            const SizedBox(width: 2),
-                            Icon(
-                              Icons.play_arrow_rounded,
-                              color: Theme.of(context).colorScheme.onSurface,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              }
             ],
           ),
         ),
