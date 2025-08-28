@@ -47,6 +47,7 @@ class _LibraryFilterChipsState extends ConsumerState<LibraryFilterChips> {
       CategoryChip<FladderItemType>(
         label: Text(context.localized.type(librarySearchResults.filters.types.length)),
         items: librarySearchResults.filters.types.sortByKey((value) => value.label(context)),
+        activeIcon: IconsaxPlusBold.filter_tick,
         labelBuilder: (item) => Row(
           children: [
             Icon(item.icon),

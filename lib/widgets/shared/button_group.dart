@@ -87,6 +87,7 @@ class ExpressiveButton extends StatelessWidget {
         foregroundColor:
             isSelected ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onSurfaceVariant,
         textStyle: Theme.of(context).textTheme.labelLarge,
+        visualDensity: VisualDensity.comfortable,
         padding: const EdgeInsets.all(12),
       ),
       onPressed: onPressed,

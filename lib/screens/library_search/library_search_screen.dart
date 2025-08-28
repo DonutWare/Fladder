@@ -196,7 +196,8 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                   : null,
             ),
             bottomNavigationBar: HideOnScroll(
-              controller: AdaptiveLayout.of(context).isDesktop ? null : scrollController,
+              controller: scrollController,
+              canHide: !floatingAppBar,
               child: IgnorePointer(
                 ignoring: librarySearchResults.fetchingItems,
                 child: _LibrarySearchBottomBar(
@@ -208,350 +209,305 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                 ),
               ),
             ),
-            body: Stack(
-              fit: StackFit.expand,
-              children: [
-                Positioned.fill(
-                  child: PinchPosterZoom(
-                    scaleDifference: (difference) =>
-                        ref.read(clientSettingsProvider.notifier).addPosterSize(difference),
-                    child: ClipRRect(
-                      borderRadius: AdaptiveLayout.viewSizeOf(context) == ViewSize.desktop
-                          ? BorderRadius.circular(15)
-                          : BorderRadius.circular(0),
-                      child: FladderScrollbar(
-                        visible: AdaptiveLayout.of(context).inputDevice != InputDevice.pointer,
-                        controller: scrollController,
-                        child: PullToRefresh(
-                          refreshKey: refreshKey,
-                          autoFocus: false,
-                          contextRefresh: false,
-                          onRefresh: () async {
-                            final defaultFilter = const LibraryFilterModel();
-                            if (libraryProvider.mounted) {
-                              return libraryProvider.initRefresh(
-                                widget.folderId,
-                                widget.viewModelId,
-                                defaultFilter.copyWith(
-                                  favourites: widget.favourites ?? defaultFilter.favourites,
-                                  sortOrder: widget.sortOrder ?? defaultFilter.sortOrder,
-                                  sortingOption: widget.sortingOptions ?? defaultFilter.sortingOption,
-                                  types: widget.types ?? {},
-                                  recursive: widget.recursive,
-                                ),
-                              );
-                            }
-                          },
-                          refreshOnStart: false,
-                          child: CustomScrollView(
-                            controller: scrollController,
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            slivers: [
-                              SliverAppBar(
-                                floating: !floatingAppBar,
-                                collapsedHeight: 80,
-                                automaticallyImplyLeading: false,
-                                primary: true,
-                                pinned: floatingAppBar,
-                                elevation: 5,
-                                surfaceTintColor: Colors.transparent,
-                                shadowColor: Colors.transparent,
-                                backgroundColor: Colors.transparent,
-                                titleSpacing: 4,
-                                leadingWidth: 48,
-                                flexibleSpace: Container(
-                                  decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                    colors: [
-                                      surfaceColor.withValues(alpha: 0.8),
-                                      surfaceColor.withValues(alpha: 0.75),
-                                      surfaceColor.withValues(alpha: 0.5),
-                                      surfaceColor.withValues(alpha: 0),
-                                    ],
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
-                                  )),
-                                ),
-                                actions: [
-                                  Builder(builder: (context) {
-                                    final isFavorite =
-                                        librarySearchResults.nestedCurrentItem?.userData.isFavourite == true;
-                                    final itemActions = librarySearchResults.nestedCurrentItem?.generateActions(
-                                          context,
-                                          ref,
-                                          exclude: {
-                                            ItemActions.details,
-                                            ItemActions.markPlayed,
-                                            ItemActions.markUnplayed,
-                                          },
-                                          onItemUpdated: (item) {
-                                            libraryProvider.updateParentItem(item);
-                                          },
-                                          onUserDataChanged: (userData) {
-                                            libraryProvider.updateUserDataMain(userData);
-                                          },
-                                        ) ??
-                                        [];
-                                    final itemCountWidget = ItemActionButton(
-                                      label: Text(context.localized.itemCount(librarySearchResults.totalItemCount)),
-                                      icon: const Icon(IconsaxPlusBold.document_1),
-                                    );
-                                    final refreshAction = ItemActionButton(
-                                      label: Text(context.localized.forceRefresh),
-                                      action: () => refreshKey.currentState?.show(),
-                                      icon: const Icon(IconsaxPlusLinear.refresh),
-                                    );
-                                    final showSavedFiltersDialogue = ItemActionButton(
-                                      label: Text(context.localized.filter(2)),
-                                      action: () => showSavedFilters(context, uniqueKey),
-                                      icon: const Icon(IconsaxPlusLinear.refresh),
-                                    );
-                                    final itemViewAction = ItemActionButton(
-                                        label: Text(context.localized.selectViewType),
-                                        icon: Icon(libraryViewType.icon),
-                                        action: () {
-                                          showAdaptiveDialog(
-                                            context: context,
-                                            builder: (context) => AlertDialog(
-                                              content: Consumer(
-                                                builder: (context, ref, child) {
-                                                  final currentType = ref.watch(libraryViewTypeProvider);
-                                                  return Column(
-                                                    mainAxisSize: MainAxisSize.min,
-                                                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                                                    children: [
-                                                      Text(context.localized.selectViewType,
-                                                          style: Theme.of(context).textTheme.titleMedium),
-                                                      const SizedBox(height: 12),
-                                                      ...LibraryViewTypes.values
-                                                          .map(
-                                                            (e) => FilledButton.tonal(
-                                                              style: FilledButtonTheme.of(context).style?.copyWith(
-                                                                    padding: const WidgetStatePropertyAll(
-                                                                        EdgeInsets.symmetric(
-                                                                            horizontal: 12, vertical: 24)),
-                                                                    backgroundColor: WidgetStateProperty.resolveWith(
-                                                                      (states) {
-                                                                        if (e != currentType) {
-                                                                          return Colors.transparent;
-                                                                        }
-                                                                        return null;
-                                                                      },
-                                                                    ),
-                                                                  ),
-                                                              onPressed: () {
-                                                                ref.read(libraryViewTypeProvider.notifier).state = e;
+            body: PinchPosterZoom(
+              scaleDifference: (difference) => ref.read(clientSettingsProvider.notifier).addPosterSize(difference),
+              child: FladderScrollbar(
+                visible: AdaptiveLayout.of(context).inputDevice != InputDevice.pointer,
+                controller: scrollController,
+                child: PullToRefresh(
+                  refreshKey: refreshKey,
+                  autoFocus: false,
+                  contextRefresh: false,
+                  onRefresh: () async {
+                    final defaultFilter = const LibraryFilterModel();
+                    if (libraryProvider.mounted) {
+                      return libraryProvider.initRefresh(
+                        widget.folderId,
+                        widget.viewModelId,
+                        defaultFilter.copyWith(
+                          favourites: widget.favourites ?? defaultFilter.favourites,
+                          sortOrder: widget.sortOrder ?? defaultFilter.sortOrder,
+                          sortingOption: widget.sortingOptions ?? defaultFilter.sortingOption,
+                          types: widget.types ?? {},
+                          recursive: widget.recursive,
+                        ),
+                      );
+                    }
+                  },
+                  refreshOnStart: false,
+                  child: CustomScrollView(
+                    controller: scrollController,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    slivers: [
+                      SliverAppBar(
+                        floating: !floatingAppBar,
+                        collapsedHeight: 80,
+                        automaticallyImplyLeading: false,
+                        primary: true,
+                        pinned: floatingAppBar,
+                        elevation: 5,
+                        surfaceTintColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        backgroundColor: Colors.transparent,
+                        titleSpacing: 4,
+                        flexibleSpace: Container(
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                            colors: [
+                              surfaceColor.withValues(alpha: 0.8),
+                              surfaceColor.withValues(alpha: 0.75),
+                              surfaceColor.withValues(alpha: 0.5),
+                              surfaceColor.withValues(alpha: 0),
+                            ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                          )),
+                        ),
+                        actions: [
+                          Builder(builder: (context) {
+                            final isFavorite = librarySearchResults.nestedCurrentItem?.userData.isFavourite == true;
+                            final itemActions = librarySearchResults.nestedCurrentItem?.generateActions(
+                                  context,
+                                  ref,
+                                  exclude: {
+                                    ItemActions.details,
+                                    ItemActions.markPlayed,
+                                    ItemActions.markUnplayed,
+                                  },
+                                  onItemUpdated: (item) {
+                                    libraryProvider.updateParentItem(item);
+                                  },
+                                  onUserDataChanged: (userData) {
+                                    libraryProvider.updateUserDataMain(userData);
+                                  },
+                                ) ??
+                                [];
+                            final itemCountWidget = ItemActionButton(
+                              label: Text(context.localized.itemCount(librarySearchResults.totalItemCount)),
+                              icon: const Icon(IconsaxPlusBold.document_1),
+                            );
+                            final refreshAction = ItemActionButton(
+                              label: Text(context.localized.forceRefresh),
+                              action: () => refreshKey.currentState?.show(),
+                              icon: const Icon(IconsaxPlusLinear.refresh),
+                            );
+                            final showSavedFiltersDialogue = ItemActionButton(
+                              label: Text(context.localized.filter(2)),
+                              action: () => showSavedFilters(context, uniqueKey),
+                              icon: const Icon(IconsaxPlusLinear.refresh),
+                            );
+                            final itemViewAction = ItemActionButton(
+                                label: Text(context.localized.selectViewType),
+                                icon: Icon(libraryViewType.icon),
+                                action: () {
+                                  showAdaptiveDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      content: Consumer(
+                                        builder: (context, ref, child) {
+                                          final currentType = ref.watch(libraryViewTypeProvider);
+                                          return Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                                            children: [
+                                              Text(context.localized.selectViewType,
+                                                  style: Theme.of(context).textTheme.titleMedium),
+                                              const SizedBox(height: 12),
+                                              ...LibraryViewTypes.values
+                                                  .map(
+                                                    (e) => FilledButton.tonal(
+                                                      style: FilledButtonTheme.of(context).style?.copyWith(
+                                                            padding: const WidgetStatePropertyAll(
+                                                                EdgeInsets.symmetric(horizontal: 12, vertical: 24)),
+                                                            backgroundColor: WidgetStateProperty.resolveWith(
+                                                              (states) {
+                                                                if (e != currentType) {
+                                                                  return Colors.transparent;
+                                                                }
+                                                                return null;
                                                               },
-                                                              child: Row(
-                                                                children: [
-                                                                  Icon(e.icon),
-                                                                  const SizedBox(width: 12),
-                                                                  Text(
-                                                                    e.label(context),
-                                                                  )
-                                                                ],
-                                                              ),
                                                             ),
+                                                          ),
+                                                      onPressed: () {
+                                                        ref.read(libraryViewTypeProvider.notifier).state = e;
+                                                      },
+                                                      child: Row(
+                                                        children: [
+                                                          Icon(e.icon),
+                                                          const SizedBox(width: 12),
+                                                          Text(
+                                                            e.label(context),
                                                           )
-                                                          .toList()
-                                                          .addInBetween(const SizedBox(height: 12)),
-                                                    ],
-                                                  );
-                                                },
-                                              ),
-                                            ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  )
+                                                  .toList()
+                                                  .addInBetween(const SizedBox(height: 12)),
+                                            ],
                                           );
-                                        });
-                                    return Card(
-                                      elevation: 0,
-                                      child: Tooltip(
-                                        message: librarySearchResults.nestedCurrentItem?.type.label(context) ??
-                                            context.localized.library(1),
-                                        child: InkWell(
-                                          onTapUp: (details) async {
-                                            if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer) {
-                                              double left = details.globalPosition.dx;
-                                              double top = details.globalPosition.dy;
-                                              await showMenu(
-                                                context: context,
-                                                position: RelativeRect.fromLTRB(left, top, 40, 100),
-                                                items: <PopupMenuEntry>[
-                                                  PopupMenuItem(
-                                                      child: Text(
-                                                          librarySearchResults.nestedCurrentItem?.type.label(context) ??
-                                                              context.localized.library(0))),
-                                                  itemCountWidget.toPopupMenuItem(useIcons: true),
-                                                  refreshAction.toPopupMenuItem(useIcons: true),
-                                                  itemViewAction.toPopupMenuItem(useIcons: true),
-                                                  if (librarySearchResults.views.hasEnabled == true)
-                                                    showSavedFiltersDialogue.toPopupMenuItem(useIcons: true),
-                                                  if (itemActions.isNotEmpty) ItemActionDivider().toPopupMenuItem(),
-                                                  ...itemActions.popupMenuItems(useIcons: true),
-                                                ],
-                                                elevation: 8.0,
-                                              );
-                                            } else {
-                                              await showBottomSheetPill(
-                                                context: context,
-                                                content: (context, scrollController) => ListView(
-                                                  shrinkWrap: true,
-                                                  controller: scrollController,
-                                                  children: [
-                                                    itemCountWidget.toListItem(context, useIcons: true),
-                                                    refreshAction.toListItem(context, useIcons: true),
-                                                    itemViewAction.toListItem(context, useIcons: true),
-                                                    if (librarySearchResults.views.hasEnabled == true)
-                                                      showSavedFiltersDialogue.toPopupMenuItem(useIcons: true),
-                                                    if (itemActions.isNotEmpty) ItemActionDivider().toListItem(context),
-                                                    ...itemActions.listTileItems(context, useIcons: true),
-                                                  ],
-                                                ),
-                                              );
-                                            }
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(12),
-                                            child: Icon(
-                                              isFavorite
-                                                  ? librarySearchResults.nestedCurrentItem?.type.selectedicon
-                                                  : librarySearchResults.nestedCurrentItem?.type.icon ??
-                                                      IconsaxPlusLinear.document,
-                                              color: isFavorite ? Theme.of(context).colorScheme.primary : null,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  }),
-                                  if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.single) ...[
-                                    const SizedBox(width: 6),
-                                    const SizedBox.square(dimension: 46, child: SettingsUserIcon()),
-                                  ],
-                                  const SizedBox(width: 12)
-                                ],
-                                title: Row(
-                                  spacing: 2,
-                                  children: [
-                                    const SizedBox(width: 2),
-                                    Center(
-                                      child: SizedBox.square(
-                                        dimension: 47,
-                                        child: Card(
-                                          child: context.router.backButton(),
-                                        ),
+                                        },
                                       ),
                                     ),
-                                    Flexible(
-                                      child: Hero(
-                                        tag: "PrimarySearch",
-                                        child: SuggestionSearchBar(
-                                          autoFocus: isEmptySearchScreen,
-                                          key: uniqueKey,
-                                          title: librarySearchResults.searchBarTitle(context),
-                                          debounceDuration: const Duration(seconds: 1),
-                                          onItem: (value) async {
-                                            await value.navigateTo(context);
-                                            refreshKey.currentState?.show();
-                                          },
-                                          onSubmited: (value) async {
-                                            if (librarySearchResults.searchQuery != value) {
-                                              libraryProvider.setSearch(value);
-                                              refreshKey.currentState?.show();
-                                            }
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                bottom: PreferredSize(
-                                  preferredSize: const Size(0, 50),
-                                  child: Transform.translate(
-                                    offset: Offset(0, AdaptiveLayout.of(context).isDesktop ? -20 : -15),
-                                    child: IgnorePointer(
-                                      ignoring: librarySearchResults.loading,
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                                        children: [
-                                          Opacity(
-                                            opacity: librarySearchResults.loading ? 0.5 : 1,
-                                            child: SingleChildScrollView(
-                                              padding: const EdgeInsets.all(8),
-                                              scrollDirection: Axis.horizontal,
-                                              child: LibraryFilterChips(
-                                                key: uniqueKey,
-                                              ),
-                                            ),
-                                          ),
+                                  );
+                                });
+                            return Card(
+                              elevation: 0,
+                              child: Tooltip(
+                                message: librarySearchResults.nestedCurrentItem?.type.label(context) ??
+                                    context.localized.library(1),
+                                child: InkWell(
+                                  onTapUp: (details) async {
+                                    if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer) {
+                                      double left = details.globalPosition.dx;
+                                      double top = details.globalPosition.dy;
+                                      await showMenu(
+                                        context: context,
+                                        position: RelativeRect.fromLTRB(left, top, 40, 100),
+                                        items: <PopupMenuEntry>[
+                                          PopupMenuItem(
+                                              child: Text(librarySearchResults.nestedCurrentItem?.type.label(context) ??
+                                                  context.localized.library(0))),
+                                          itemCountWidget.toPopupMenuItem(useIcons: true),
+                                          refreshAction.toPopupMenuItem(useIcons: true),
+                                          itemViewAction.toPopupMenuItem(useIcons: true),
+                                          if (librarySearchResults.views.hasEnabled == true)
+                                            showSavedFiltersDialogue.toPopupMenuItem(useIcons: true),
+                                          if (itemActions.isNotEmpty) ItemActionDivider().toPopupMenuItem(),
+                                          ...itemActions.popupMenuItems(useIcons: true),
                                         ],
-                                      ),
+                                        elevation: 8.0,
+                                      );
+                                    } else {
+                                      await showBottomSheetPill(
+                                        context: context,
+                                        content: (context, scrollController) => ListView(
+                                          shrinkWrap: true,
+                                          controller: scrollController,
+                                          children: [
+                                            itemCountWidget.toListItem(context, useIcons: true),
+                                            refreshAction.toListItem(context, useIcons: true),
+                                            itemViewAction.toListItem(context, useIcons: true),
+                                            if (librarySearchResults.views.hasEnabled == true)
+                                              showSavedFiltersDialogue.toPopupMenuItem(useIcons: true),
+                                            if (itemActions.isNotEmpty) ItemActionDivider().toListItem(context),
+                                            ...itemActions.listTileItems(context, useIcons: true),
+                                          ],
+                                        ),
+                                      );
+                                    }
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(12),
+                                    child: Icon(
+                                      isFavorite
+                                          ? librarySearchResults.nestedCurrentItem?.type.selectedicon
+                                          : librarySearchResults.nestedCurrentItem?.type.icon ??
+                                              IconsaxPlusLinear.document,
+                                      color: isFavorite ? Theme.of(context).colorScheme.primary : null,
                                     ),
                                   ),
                                 ),
                               ),
-                              if (AdaptiveLayout.of(context).isDesktop)
-                                const SliverToBoxAdapter(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      PosterSizeWidget(),
-                                    ],
-                                  ),
+                            );
+                          }),
+                          if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.single) ...[
+                            const SizedBox(width: 6),
+                            const SizedBox.square(dimension: 46, child: SettingsUserIcon()),
+                          ],
+                          const SizedBox(width: 12)
+                        ],
+                        title: Row(
+                          spacing: 2,
+                          children: [
+                            const SizedBox(width: 2),
+                            Center(
+                              child: SizedBox.square(
+                                dimension: 47,
+                                child: Card(
+                                  child: context.router.backButton(),
                                 ),
-                              if (postersList.isNotEmpty)
-                                SliverPadding(
-                                  padding: EdgeInsets.only(
-                                      left: MediaQuery.of(context).padding.left,
-                                      right: MediaQuery.of(context).padding.right),
-                                  sliver: LibraryViews(
-                                    key: uniqueKey,
-                                    items: postersList,
-                                    groupByType: librarySearchResults.filters.groupBy,
-                                  ),
-                                )
-                              else
-                                SliverFillRemaining(
-                                  child: Center(
-                                    child: Text(context.localized.noItemsToShow),
-                                  ),
+                              ),
+                            ),
+                            Flexible(
+                              child: Hero(
+                                tag: "PrimarySearch",
+                                child: SuggestionSearchBar(
+                                  autoFocus: isEmptySearchScreen,
+                                  key: uniqueKey,
+                                  title: librarySearchResults.searchBarTitle(context),
+                                  debounceDuration: const Duration(seconds: 1),
+                                  onItem: (value) async {
+                                    await value.navigateTo(context);
+                                    refreshKey.currentState?.show();
+                                  },
+                                  onSubmited: (value) async {
+                                    if (librarySearchResults.searchQuery != value) {
+                                      libraryProvider.setSearch(value);
+                                      refreshKey.currentState?.show();
+                                    }
+                                  },
                                 ),
-                              SliverPadding(padding: EdgeInsets.only(bottom: MediaQuery.sizeOf(context).height * 0.20))
-                            ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        bottom: PreferredSize(
+                          preferredSize: const Size(0, 50),
+                          child: Transform.translate(
+                            offset: Offset(0, AdaptiveLayout.of(context).isDesktop ? -20 : -15),
+                            child: IgnorePointer(
+                              ignoring: librarySearchResults.loading,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Opacity(
+                                    opacity: librarySearchResults.loading ? 0.5 : 1,
+                                    child: SingleChildScrollView(
+                                      padding: const EdgeInsets.all(8),
+                                      scrollDirection: Axis.horizontal,
+                                      child: LibraryFilterChips(
+                                        key: uniqueKey,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                      if (AdaptiveLayout.of(context).isDesktop)
+                        const SliverToBoxAdapter(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              PosterSizeWidget(),
+                            ],
+                          ),
+                        ),
+                      if (postersList.isNotEmpty)
+                        SliverPadding(
+                          padding: EdgeInsets.only(
+                              left: MediaQuery.of(context).padding.left, right: MediaQuery.of(context).padding.right),
+                          sliver: LibraryViews(
+                            key: uniqueKey,
+                            items: postersList,
+                            groupByType: librarySearchResults.filters.groupBy,
+                          ),
+                        )
+                      else
+                        SliverFillRemaining(
+                          child: Center(
+                            child: Text(context.localized.noItemsToShow),
+                          ),
+                        ),
+                      SliverPadding(padding: EdgeInsets.only(bottom: MediaQuery.sizeOf(context).height * 0.20))
+                    ],
                   ),
                 ),
-                if (librarySearchResults.fetchingItems) ...[
-                  Container(
-                    color: Colors.black.withValues(alpha: 0.1),
-                  ),
-                  Center(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.primaryContainer,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const CircularProgressIndicator.adaptive(),
-                            Text(context.localized.fetchingLibrary, style: Theme.of(context).textTheme.titleMedium),
-                            IconButton(
-                              onPressed: () => libraryProvider.cancelFetch(),
-                              icon: const Icon(IconsaxPlusLinear.close_square),
-                            )
-                          ].addInBetween(const SizedBox(width: 16)),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ],
+              ),
             ),
           ),
         ),
