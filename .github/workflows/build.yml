@@ -686,6 +686,7 @@ jobs:
           releaseFiles: "fladder-android/${{ needs.build-android.outputs.artifact_suffix }}.aab"
           track: ${{ needs.fetch-info.outputs.build_type == 'nightly' && 'internal' || 'production' }}
           status: ${{ needs.fetch-info.outputs.build_type == 'nightly' && 'completed' || 'draft' }}
+          releaseName: "${{ github.run_number }} (${{ needs.fetch-info.outputs.version_name }})"
 
   release_web:
     name: Release Web
