@@ -38,6 +38,8 @@ extension MapExtensions<T> on Map<T, bool> {
 
   //Replaces only keys that exist with the new values
   Map<T, bool> replaceMap(Map<T, bool> oldMap, {bool enabledOnly = false}) {
+    if (oldMap.isEmpty) return this;
+
     Map<T, bool> result = {};
 
     forEach((key, value) {

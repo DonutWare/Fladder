@@ -54,6 +54,7 @@ class LibrarySearchScreen extends ConsumerStatefulWidget {
   final SortingOrder? sortOrder;
   final SortingOptions? sortingOptions;
   final Map<FladderItemType, bool>? types;
+  final Map<String, bool>? genres;
   final bool recursive;
   final PhotoModel? photoToView;
   const LibrarySearchScreen({
@@ -63,6 +64,7 @@ class LibrarySearchScreen extends ConsumerStatefulWidget {
     @QueryParam("sortOrder") this.sortOrder,
     @QueryParam("sortOptions") this.sortingOptions,
     @QueryParam("itemTypes") this.types,
+    @QueryParam("genres") this.genres,
     @QueryParam("recursive") this.recursive = true,
     this.photoToView,
     super.key,
@@ -229,6 +231,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                           sortOrder: widget.sortOrder ?? defaultFilter.sortOrder,
                           sortingOption: widget.sortingOptions ?? defaultFilter.sortingOption,
                           types: widget.types ?? {},
+                          genres: widget.genres ?? {},
                           recursive: widget.recursive,
                         ),
                       );

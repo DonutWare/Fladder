@@ -70,11 +70,12 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
     }
     await loadFilters();
 
-    if (filters.types.isNotEmpty && !wasInitialized) {
+    if (!wasInitialized) {
       wasInitialized = true;
       state = state.copyWith(
         filters: state.filters.copyWith(
           types: state.filters.types.replaceMap(filters.types, enabledOnly: true),
+          genres: state.filters.genres.replaceMap(filters.genres, enabledOnly: true),
         ),
       );
     }
