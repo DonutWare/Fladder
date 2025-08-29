@@ -231,8 +231,8 @@ class LibraryRow extends ConsumerWidget {
     return HorizontalList(
       label: context.localized.library(views.length),
       items: views,
+      height: 155,
       startIndex: selectedView != null ? views.indexOf(selectedView!) : null,
-      height: 125,
       contentPadding: padding,
       itemBuilder: (context, index) {
         final view = views[index];
@@ -262,16 +262,13 @@ class LibraryRow extends ConsumerWidget {
               items: viewActions.popupMenuItems(useIcons: true),
             );
           },
-          child: Stack(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 250),
+              Container(
                 decoration: BoxDecoration(
-                  color: Theme.of(context).cardColor,
-                  border: Border.all(
-                    width: isSelected ? 4 : 0,
-                    color: isSelected ? Theme.of(context).colorScheme.primary : Colors.transparent,
-                  ),
                   borderRadius: FladderTheme.defaultShape.borderRadius,
                 ),
                 clipBehavior: Clip.hardEdge,
@@ -296,30 +293,13 @@ class LibraryRow extends ConsumerWidget {
                   ),
                 ),
               ),
-              Positioned.fill(
-                child: Align(
-                  alignment: Alignment.bottomLeft,
-                  child: AnimatedOpacity(
-                    duration: const Duration(milliseconds: 250),
-                    opacity: isSelected ? 0 : 1,
-                    child: Padding(
-                      padding: const EdgeInsets.all(6),
-                      child: Row(
-                        spacing: 8,
-                        children: [
-                          Text(
-                            view.name,
-                            style: Theme.of(context).textTheme.titleMedium,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.start,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              Text(
+                view.name,
+                style: Theme.of(context).textTheme.titleMedium,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.start,
+              )
             ],
           ),
         );
