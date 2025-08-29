@@ -7,6 +7,8 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/providers/sync/sync_provider_helpers.dart';
+import 'package:fladder/providers/sync_provider.dart';
+import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/syncing/sync_button.dart';
 import 'package:fladder/screens/syncing/sync_item_details.dart';
@@ -205,13 +207,25 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                               ref.watch(syncedItemProvider(widget.item)).when(
                                     error: (error, stackTrace) => const SizedBox.shrink(),
                                     data: (syncedItem) {
-                                      if (syncedItem == null) {
-                                        return const SizedBox.shrink();
+                                      if (syncedItem == null &&
+                                          ref.read(userProvider.select(
+                                            (value) => value?.canDownload ?? false,
+                                          )) &&
+                                          widget.item?.syncAble == true) {
+                                        return IconButton(
+                                          onPressed: () =>
+                                              ref.read(syncProvider.notifier).addSyncItem(context, widget.item!),
+                                          icon: const Icon(
+                                            IconsaxPlusLinear.arrow_down_2,
+                                          ),
+                                        );
+                                      } else if (syncedItem != null) {
+                                        return IconButton(
+                                          onPressed: () => showSyncItemDetails(context, syncedItem, ref),
+                                          icon: SyncButton(item: widget.item!, syncedItem: syncedItem),
+                                        );
                                       }
-                                      return IconButton(
-                                        onPressed: () => showSyncItemDetails(context, syncedItem, ref),
-                                        icon: SyncButton(item: widget.item!, syncedItem: syncedItem),
-                                      );
+                                      return const SizedBox.shrink();
                                     },
                                     loading: () => const SizedBox.shrink(),
                                   ),
@@ -222,7 +236,10 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                                     return PopupMenuButton(
                                       tooltip: context.localized.moreOptions,
                                       enabled: newActions?.isNotEmpty == true,
-                                      icon: Icon(widget.item!.type.icon),
+                                      icon: Icon(
+                                        widget.item!.type.icon,
+                                        color: Theme.of(context).colorScheme.onSurface,
+                                      ),
                                       itemBuilder: (context) => newActions?.popupMenuItems(useIcons: true) ?? [],
                                     );
                                   } else {
