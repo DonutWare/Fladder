@@ -82,10 +82,6 @@ abstract class SyncedItem with _$SyncedItem {
         _ => TaskStatus.notFound,
       };
 
-  String? get taskId => task?.taskId;
-
-  bool get childHasTask => false;
-
   double get totalProgress => 0.0;
 
   bool get hasVideoFile => videoFileName?.isNotEmpty == true && (fileSize ?? 0) > 0;
@@ -93,10 +89,6 @@ abstract class SyncedItem with _$SyncedItem {
   TaskStatus get anyStatus {
     return TaskStatus.notFound;
   }
-
-  double get downloadProgress => 0.0;
-  TaskStatus get downloadStatus => TaskStatus.notFound;
-  DownloadTask? get task => null;
 
   Future<bool> deleteDatFiles(Ref ref) async {
     try {

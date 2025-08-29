@@ -1,23 +1,59 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 
 import 'package:background_downloader/background_downloader.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import 'package:fladder/models/syncing/download_stream.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
+import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/util/localization_helper.dart';
 
 part 'background_download_provider.g.dart';
 
+final itemDownloadGroup = "ITEM_DOWNLOAD_GROUP";
+
 @Riverpod(keepAlive: true)
 class BackgroundDownloader extends _$BackgroundDownloader {
+  late StreamSubscription<TaskUpdate> updateListener;
+
   @override
   FileDownloader build() {
+    ref.onDispose(
+      () => updateListener.cancel(),
+    );
+
     final maxDownloads = ref.read(clientSettingsProvider.select((value) => value.maxConcurrentDownloads));
-    return FileDownloader()
+    final downloader = FileDownloader()
       ..configure(
         globalConfig: globalConfig(maxDownloads),
       )
       ..trackTasks();
+    updateListener = downloader.updates.listen(updateTask);
+    return downloader;
+  }
+
+  void updateTask(TaskUpdate update) {
+    switch (update) {
+      case TaskStatusUpdate():
+        final status = update.status;
+        ref.read(downloadTasksProvider(update.task.taskId).notifier).update(
+              (state) => state.copyWith(status: status),
+            );
+
+        if (status == TaskStatus.complete || status == TaskStatus.canceled) {
+          ref.read(downloadTasksProvider(update.task.taskId).notifier).update((state) => DownloadStream.empty());
+        }
+      case TaskProgressUpdate():
+        final progress = update.progress;
+        ref.read(downloadTasksProvider(update.task.taskId).notifier).update(
+              (state) => state.copyWith(
+                progress: progress > 0 && progress < 1 ? progress : null,
+                downloadSpeed: update.networkSpeedAsString,
+              ),
+            );
+    }
   }
 
   void setMaxConcurrent(int value) {
