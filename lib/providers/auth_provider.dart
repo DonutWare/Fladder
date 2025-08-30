@@ -8,6 +8,7 @@ import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/dashboard_provider.dart';
 import 'package:fladder/providers/favourites_provider.dart';
 import 'package:fladder/providers/image_provider.dart';
+import 'package:fladder/providers/library_screen_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
@@ -91,6 +92,7 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
     ref.read(viewsProvider.notifier).clear();
     ref.read(favouritesProvider.notifier).clear();
     ref.read(userProvider.notifier).clear();
+    ref.read(libraryScreenProvider.notifier).clear();
   }
 
   void setServer(String server) {

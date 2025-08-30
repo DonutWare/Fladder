@@ -217,4 +217,8 @@ class LibraryScreen extends _$LibraryScreen {
 
     return null;
   }
+
+  void clear() {
+    state = LibraryScreenModel();
+  }
 }
