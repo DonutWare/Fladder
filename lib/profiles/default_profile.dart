@@ -12,20 +12,20 @@ final videoProfileProvider = StateProvider.autoDispose<DeviceProfile>((ref) =>
 
 DeviceProfile defaultProfile(PlayerOptions player) => kIsWeb
     ? webProfile
-    : DeviceProfile(
+    : const DeviceProfile(
         maxStreamingBitrate: 120000000,
         maxStaticBitrate: 120000000,
         musicStreamingTranscodingBitrate: 384000,
         directPlayProfiles: [
-          const DirectPlayProfile(
+          DirectPlayProfile(
             type: DlnaProfileType.video,
           ),
-          const DirectPlayProfile(
+          DirectPlayProfile(
             type: DlnaProfileType.audio,
           )
         ],
         transcodingProfiles: [
-          const TranscodingProfile(
+          TranscodingProfile(
             audioCodec: 'aac,mp3,mp2',
             container: 'ts',
             maxAudioChannels: '2',
@@ -36,10 +36,9 @@ DeviceProfile defaultProfile(PlayerOptions player) => kIsWeb
         ],
         containerProfiles: [],
         subtitleProfiles: [
-          const SubtitleProfile(format: 'vtt', method: SubtitleDeliveryMethod.$external),
-          const SubtitleProfile(format: 'ass', method: SubtitleDeliveryMethod.$external),
-          const SubtitleProfile(format: 'ssa', method: SubtitleDeliveryMethod.$external),
-          if (player == PlayerOptions.libMDK)
-            const SubtitleProfile(format: 'pgssub', method: SubtitleDeliveryMethod.$external),
+          SubtitleProfile(format: 'vtt', method: SubtitleDeliveryMethod.$external),
+          SubtitleProfile(format: 'ass', method: SubtitleDeliveryMethod.$external),
+          SubtitleProfile(format: 'ssa', method: SubtitleDeliveryMethod.$external),
+          SubtitleProfile(format: 'pgssub', method: SubtitleDeliveryMethod.$external),
         ],
       );
