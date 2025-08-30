@@ -2,10 +2,12 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
+import 'package:async/async.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:chopper/chopper.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/collection_types.dart';
@@ -579,16 +581,13 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
   }
 
   Future<void> playLibraryItems(BuildContext context, WidgetRef ref, {bool shuffle = false}) async {
-    state = state.copyWith(fetchingItems: true);
     List<ItemBaseModel> itemsToPlay = [];
 
     if (state.selectedPosters.isNotEmpty) {
       itemsToPlay = shuffle ? state.selectedPosters.random() : state.selectedPosters;
     } else {
-      itemsToPlay = await _loadAllItems(shuffle: shuffle);
+      itemsToPlay = await showLoadingOverlay(context, callBack: _loadAllItems(shuffle: shuffle));
     }
-
-    state = state.copyWith(fetchingItems: false);
 
     //Only try to load video items
     itemsToPlay = itemsToPlay.where((element) => FladderItemType.playable.contains(element.type)).toList();
@@ -662,26 +661,68 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
   }
 
   Future<void> viewGallery(BuildContext context, {PhotoModel? selected, bool shuffle = false}) async {
-    state = state.copyWith(fetchingItems: true);
-    final allItems = await fetchGallery(shuffle: shuffle);
-
+    List<PhotoModel> allItems = [];
+    allItems = await showLoadingOverlay(context, callBack: fetchGallery(shuffle: shuffle));
     if (allItems.isNotEmpty) {
-      if (state.fetchingItems == true) {
-        state = state.copyWith(fetchingItems: false);
-        final newItemList = shuffle ? allItems.shuffled() : allItems;
-        await context.navigateTo(PhotoViewerRoute(
-          items: newItemList,
-          selected: selected?.id,
-        ));
-      }
+      final newItemList = shuffle ? allItems.shuffled() : allItems;
+      await context.navigateTo(PhotoViewerRoute(
+        items: newItemList,
+        selected: selected?.id,
+      ));
     } else {
       fladderSnackbar(context, title: context.localized.libraryFetchNoItemsFound);
     }
-    state = state.copyWith(fetchingItems: false);
   }
 
-  void cancelFetch() {
-    state = state.copyWith(fetchingItems: false);
+  Future<T> showLoadingOverlay<T>(
+    BuildContext context, {
+    required Future<T> callBack,
+  }) async {
+    state = state.copyWith(fetchingItems: true);
+    BuildContext? dialogContext;
+    var cancelAble = CancelableOperation<T>.fromFuture(callBack);
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        dialogContext = context;
+        return Center(
+          child: Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primaryContainer,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                spacing: 16,
+                children: [
+                  const CircularProgressIndicator.adaptive(),
+                  Text(context.localized.fetchingLibrary, style: Theme.of(context).textTheme.titleMedium),
+                  IconButton(
+                    onPressed: () {
+                      cancelAble.cancel();
+                      context.pop();
+                    },
+                    icon: const Icon(IconsaxPlusLinear.close_square),
+                  )
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+
+    try {
+      return await cancelAble.value;
+    } finally {
+      state = state.copyWith(fetchingItems: false);
+      if (dialogContext != null && Navigator.of(dialogContext!).canPop()) {
+        Navigator.of(dialogContext!).pop();
+      }
+    }
   }
 
   Future<void> openRandom(BuildContext context) async {
