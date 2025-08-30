@@ -27,10 +27,19 @@ class _TrickPlayImageState extends ConsumerState<TrickPlayImage> {
   late Offset currentOffset = const Offset(0, 0);
   String? currentUrl;
 
+  bool _isMounted = true;
+
   @override
   void initState() {
     super.initState();
     loadImage();
+  }
+
+  @override
+  void dispose() {
+    image?.dispose();
+    _isMounted = false;
+    super.dispose();
   }
 
   @override
@@ -55,6 +64,7 @@ class _TrickPlayImageState extends ConsumerState<TrickPlayImage> {
   }
 
   Future<void> loadImage() async {
+    if (!_isMounted) return;
     if (model.images.isEmpty) return;
     final newUrl = model.getTile(time);
     currentOffset = model.offset(time);
@@ -76,11 +86,10 @@ class _TrickPlayImageState extends ConsumerState<TrickPlayImage> {
       final Uint8List bytes = response.bodyBytes;
       final ui.Codec codec = await ui.instantiateImageCodec(bytes);
       final ui.FrameInfo frameInfo = await codec.getNextFrame();
-      if (context.mounted) {
-        setState(() {
-          image = frameInfo.image;
-        });
-      }
+      if (!_isMounted) return;
+      setState(() {
+        image = frameInfo.image;
+      });
     } else {
       throw Exception('Failed to load network image');
     }
@@ -90,6 +99,7 @@ class _TrickPlayImageState extends ConsumerState<TrickPlayImage> {
     final Uint8List bytes = await File(path).readAsBytes();
     final ui.Codec codec = await ui.instantiateImageCodec(bytes);
     final ui.FrameInfo frameInfo = await codec.getNextFrame();
+    if (!_isMounted) return;
     setState(() {
       image = frameInfo.image;
     });

@@ -53,6 +53,7 @@ class MediaControlsWrapper extends BaseAudioHandler {
 
   Future<void> init() async {
     if (!initMediaControls) {
+      initMediaControls = true;
       await AudioService.init(
         builder: () => this,
         config: const AudioServiceConfig(
@@ -66,7 +67,6 @@ class MediaControlsWrapper extends BaseAudioHandler {
           androidShowNotificationBadge: true,
         ),
       );
-      initMediaControls = true;
     }
 
     final player = switch (ref.read(videoPlayerSettingsProvider.select((value) => value.wantedPlayer))) {

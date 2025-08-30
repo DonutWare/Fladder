@@ -88,10 +88,12 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
 
           final newItems = await Future.value(widget.loadingItems);
 
-          setState(() {
-            photos = {...photos, ...newItems}.toList();
-            loadingItems = false;
-          });
+          if (context.mounted) {
+            setState(() {
+              photos = {...photos, ...newItems}.toList();
+              loadingItems = false;
+            });
+          }
         }
       },
     );

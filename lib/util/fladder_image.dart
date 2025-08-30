@@ -52,7 +52,7 @@ class FladderImage extends ConsumerWidget {
             ),
           if (!blurOnly)
             FadeInImage(
-              placeholder: Image.memory(kTransparentImage).image,
+              placeholder: MemoryImage(kTransparentImage),
               fit: fit,
               placeholderFit: fit,
               excludeFromSemantics: true,

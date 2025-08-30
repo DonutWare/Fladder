@@ -58,7 +58,7 @@ class _PosterImageState extends ConsumerState<PosterImage> {
   late String currentTag = widget.heroTag == true ? widget.poster.id : UniqueKey().toString();
   bool hover = false;
 
-  void pressedWidget() async {
+  void pressedWidget(BuildContext context) async {
     if (widget.heroTag == false) {
       setState(() {
         currentTag = widget.poster.id;
@@ -67,15 +67,12 @@ class _PosterImageState extends ConsumerState<PosterImage> {
     if (widget.onPressed != null) {
       widget.onPressed?.call(() async {
         await navigateToDetails();
-        if (context.mounted) {
-          context.refreshData();
-        }
+        context.refreshData();
       }, widget.poster);
     } else {
       await navigateToDetails();
-      if (context.mounted) {
-        context.refreshData();
-      }
+      if (!context.mounted) return;
+      context.refreshData();
     }
   }
 
@@ -319,7 +316,7 @@ class _PosterImageState extends ConsumerState<PosterImage> {
                       Focus(
                         onFocusChange: (value) => setState(() => hover = value),
                         child: FlatButton(
-                          onTap: pressedWidget,
+                          onTap: () => pressedWidget(context),
                           onSecondaryTapDown: (details) async {
                             Offset localPosition = details.globalPosition;
                             RelativeRect position = RelativeRect.fromLTRB(
@@ -391,7 +388,7 @@ class _PosterImageState extends ConsumerState<PosterImage> {
                 Material(
                   color: Colors.transparent,
                   child: InkWell(
-                    onTap: pressedWidget,
+                    onTap: () => pressedWidget(context),
                     onLongPress: () {
                       showBottomSheetPill(
                         context: context,
