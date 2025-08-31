@@ -344,5 +344,9 @@
     "mediaTypeBase": "Alaptípus",
     "@mediaTypeBase": {},
     "mediaTypeBook": "Könyv",
-    "@mediaTypeBook": {}
+    "@mediaTypeBook": {},
+    "accept": "Elfogadás",
+    "@accept": {},
+    "active": "Aktív",
+    "@active": {}
 }
