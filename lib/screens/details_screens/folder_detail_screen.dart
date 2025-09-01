@@ -35,7 +35,7 @@ class FolderDetailScreen extends ConsumerWidget {
                   switch (item) {
                     case PhotoModel photoModel:
                       final photoItems = details?.items.whereType<PhotoModel>().toList();
-                      await context.navigateTo(PhotoViewerRoute(
+                      await context.pushRoute(PhotoViewerRoute(
                         items: photoItems,
                         selected: photoModel.id,
                       ));

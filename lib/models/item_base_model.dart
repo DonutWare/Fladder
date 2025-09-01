@@ -22,12 +22,14 @@ import 'package:fladder/models/items/season_model.dart';
 import 'package:fladder/models/items/series_model.dart';
 import 'package:fladder/models/library_search/library_search_options.dart';
 import 'package:fladder/models/playlist_model.dart';
+import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/details_screens/book_detail_screen.dart';
 import 'package:fladder/screens/details_screens/details_screens.dart';
 import 'package:fladder/screens/details_screens/episode_detail_screen.dart';
 import 'package:fladder/screens/details_screens/season_detail_screen.dart';
 import 'package:fladder/screens/library_search/library_search_screen.dart';
+import 'package:fladder/screens/photo_viewer/photo_viewer_screen.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/string_extensions.dart';
 
@@ -140,15 +142,14 @@ class ItemBaseModel with ItemBaseModelMappable {
       case SeasonModel _:
         return SeasonDetailScreen(item: this);
       case FolderModel _:
-      case PhotoAlbumModel _:
       case BoxSetModel _:
       case PlaylistModel _:
+      case PhotoAlbumModel _:
         return LibrarySearchScreen(folderId: [id]);
       case PhotoModel _:
         final photo = this as PhotoModel;
-        return LibrarySearchScreen(
-          folderId: [photo.albumId ?? photo.parentId ?? ""],
-          photoToView: photo,
+        return PhotoViewerScreen(
+          items: [photo],
         );
       case BookModel book:
         return BookDetailScreen(item: book);
@@ -163,7 +164,37 @@ class ItemBaseModel with ItemBaseModelMappable {
     }
   }
 
-  Future<void> navigateTo(BuildContext context) async => context.router.push(DetailsRoute(id: id, item: this));
+  Future<void> navigateTo(BuildContext context, {WidgetRef? ref}) async {
+    switch (this) {
+      case FolderModel _:
+      case BoxSetModel _:
+      case PlaylistModel _:
+        context.router.push(LibrarySearchRoute(folderId: [id], recursive: true));
+        break;
+      case PhotoAlbumModel _:
+        context.router.push(LibrarySearchRoute(folderId: [id], recursive: false));
+        break;
+      case PhotoModel _:
+        final photo = this as PhotoModel;
+        context.router.push(
+          PhotoViewerRoute(
+            items: [photo],
+            loadingItems: ref?.read(jellyApiProvider).itemsGetAlbumPhotos(albumId: photo.albumId),
+            selected: photo.id,
+          ),
+        );
+        break;
+      case BookModel _:
+      case MovieModel _:
+      case EpisodeModel _:
+      case SeriesModel _:
+      case SeasonModel _:
+      case PersonModel _:
+      default:
+        context.router.push(DetailsRoute(id: id, item: this));
+        break;
+    }
+  }
 
   factory ItemBaseModel.fromBaseDto(dto.BaseItemDto item, Ref ref) {
     return switch (item.type) {

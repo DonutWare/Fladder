@@ -50,9 +50,9 @@ abstract class LibraryFilterModel with _$LibraryFilterModel {
     Map<FladderItemType, bool> types,
     @Default(SortingOptions.sortName) SortingOptions sortingOption,
     @Default(SortingOrder.ascending) SortingOrder sortOrder,
-    @Default(false) bool favourites,
+    @Default(false) bool? favourites,
     @Default(true) bool hideEmptyShows,
-    @Default(true) bool recursive,
+    @Default(true) bool? recursive,
     @Default(GroupBy.none) GroupBy groupBy,
   }) = _LibraryFilterModel;
 
@@ -64,8 +64,8 @@ abstract class LibraryFilterModel with _$LibraryFilterModel {
         officialRatings.hasEnabled ||
         hideEmptyShows ||
         itemFilters.hasEnabled ||
-        !recursive ||
-        favourites;
+        recursive == false ||
+        favourites == true;
   }
 
   LibraryFilterModel loadModel(LibraryFilterModel model) {

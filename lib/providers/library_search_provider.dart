@@ -70,6 +70,7 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
         await loadViews(viewModelId, filters);
       }
     }
+
     await loadFilters();
 
     if (!wasInitialized) {
@@ -78,6 +79,7 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
         filters: state.filters.copyWith(
           types: state.filters.types.replaceMap(filters.types, enabledOnly: true),
           genres: state.filters.genres.replaceMap(filters.genres, enabledOnly: true),
+          recursive: filters.recursive,
         ),
       );
     }
@@ -158,7 +160,7 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
     } else if (state.views.hasEnabled) {
       await handleViewLoading();
     } else {
-      if (state.searchQuery.isEmpty && !state.filters.favourites) {
+      if (state.searchQuery.isEmpty && state.filters.favourites == false) {
         state = state.copyWith(posters: []);
       } else {
         final response = await _loadLibrary(recursive: true);
@@ -236,7 +238,6 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
         genres: {for (var element in genres) element.name: false}.replaceMap(tempFilters.genres),
         studios: {for (var element in studios) element: false}.replaceMap(tempFilters.studios),
         tags: {for (var element in tags) element: false}.replaceMap(tempFilters.tags),
-        recursive: state.views.included.firstOrNull?.collectionType.searchRecursive ?? true,
       ),
     );
     state = tempState;
@@ -295,7 +296,7 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
       }.toList(),
       filters: [
         ...state.filters.itemFilters.included,
-        if (state.filters.favourites) ItemFilter.isfavorite,
+        if (state.filters.favourites == true) ItemFilter.isfavorite,
       ],
       includeItemTypes: state.filters.types.included.map((e) => e.dtoKind).toList(),
     );
@@ -353,9 +354,9 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
   }
 
   void toggleFavourite() =>
-      state = state.copyWith(filters: state.filters.copyWith(favourites: !state.filters.favourites));
+      state = state.copyWith(filters: state.filters.copyWith(favourites: state.filters.favourites == false));
   void toggleRecursive() =>
-      state = state.copyWith(filters: state.filters.copyWith(recursive: !state.filters.recursive));
+      state = state.copyWith(filters: state.filters.copyWith(recursive: state.filters.recursive == false));
   void toggleType(FladderItemType type) =>
       state = state.copyWith(filters: state.filters.copyWith(types: state.filters.types.toggleKey(type)));
   void toggleView(ViewModel view) => state = state.copyWith(views: state.views.toggleKey(view));
@@ -569,7 +570,7 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
     } else if (state.views.hasEnabled) {
       await handleViewLoading();
     } else {
-      if (state.searchQuery.isEmpty && !state.filters.favourites) {
+      if (state.searchQuery.isEmpty && state.filters.favourites == false) {
         itemsToPlay = [];
       } else {
         final response = await _loadLibrary(recursive: true, shuffle: shuffle);
@@ -612,7 +613,7 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
       List<PhotoModel> albumItems = [];
 
       if (!state.filters.types.included.containsAny([FladderItemType.video, FladderItemType.photo]) &&
-          state.filters.recursive) {
+          state.filters.recursive == true) {
         for (var album in itemsToPlay.where(
           (element) => element is PhotoAlbumModel || element is FolderModel,
         )) {
@@ -634,7 +635,7 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
               }.toList(),
               filters: [
                 ...state.filters.itemFilters.included,
-                if (state.filters.favourites) ItemFilter.isfavorite,
+                if (state.filters.favourites == true) ItemFilter.isfavorite,
               ],
               sortBy: shuffle ? [ItemSortBy.random] : null,
             );
@@ -665,7 +666,7 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
     allItems = await showLoadingOverlay(context, callBack: fetchGallery(shuffle: shuffle));
     if (allItems.isNotEmpty) {
       final newItemList = shuffle ? allItems.shuffled() : allItems;
-      await context.navigateTo(PhotoViewerRoute(
+      await context.pushRoute(PhotoViewerRoute(
         items: newItemList,
         selected: selected?.id,
       ));

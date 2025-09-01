@@ -29,7 +29,7 @@ class HideOnScroll extends ConsumerStatefulWidget {
 }
 
 class _HideOnScrollState extends ConsumerState<HideOnScroll> {
-  late final ScrollController scrollController = widget.controller ?? ScrollController();
+  late ScrollController scrollController = widget.controller ?? ScrollController();
   bool isVisible = true;
 
   @override
@@ -45,6 +45,16 @@ class _HideOnScrollState extends ConsumerState<HideOnScroll> {
       scrollController.dispose();
     }
     super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(covariant HideOnScroll oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.controller != widget.controller) {
+      scrollController.removeListener(_onScroll);
+      scrollController = widget.controller ?? ScrollController();
+      scrollController.addListener(_onScroll);
+    }
   }
 
   void _onScroll() {

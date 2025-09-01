@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/settings/home_settings_provider.dart';
+import 'package:fladder/screens/home_screen.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout_model.dart';
 import 'package:fladder/util/debug_banner.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -81,9 +82,9 @@ class AdaptiveLayout extends InheritedWidget {
     return result!.data.posterDefaults;
   }
 
-  static ScrollController scrollOf(BuildContext context) {
+  static ScrollController scrollOf(BuildContext context, HomeTabs tab) {
     final AdaptiveLayout? result = maybeOf(context);
-    return result!.data.controller;
+    return result?.data.controller[tab] ?? ScrollController();
   }
 
   static EdgeInsets adaptivePadding(BuildContext context, {double horizontalPadding = 16}) {
@@ -130,7 +131,10 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
   late ViewSize viewSize = ViewSize.tablet;
   late LayoutMode layoutMode = LayoutMode.single;
   late TargetPlatform currentPlatform = defaultTargetPlatform;
-  late ScrollController controller = ScrollController();
+
+  final Map<HomeTabs, ScrollController> scrollControllers = {
+    for (var item in HomeTabs.values) item: ScrollController(),
+  };
 
   @override
   void didChangeDependencies() {
@@ -177,11 +181,7 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
     final selectedLayoutMode = selectAvailableOrSmaller<LayoutMode>(layoutMode, acceptedLayouts, LayoutMode.values);
     final input = (isDesktop || kIsWeb) ? InputDevice.pointer : InputDevice.touch;
 
-    final posterDefaults = switch (selectedViewSize) {
-      ViewSize.phone => const PosterDefaults(size: 300, ratio: 0.55),
-      ViewSize.tablet => const PosterDefaults(size: 350, ratio: 0.55),
-      ViewSize.desktop => const PosterDefaults(size: 400, ratio: 0.55),
-    };
+    final posterDefaults = const PosterDefaults(size: 350, ratio: 0.55);
 
     final currentLayout = widget.adaptiveLayout ??
         AdaptiveLayoutModel(
@@ -191,7 +191,7 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
           platform: currentPlatform,
           isDesktop: isDesktop,
           sideBarWidth: 0,
-          controller: controller,
+          controller: scrollControllers,
           posterDefaults: posterDefaults,
         );
 
@@ -207,7 +207,7 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
           inputDevice: input,
           platform: currentPlatform,
           isDesktop: isDesktop,
-          controller: controller,
+          controller: scrollControllers,
           posterDefaults: posterDefaults,
         ),
         child: Builder(

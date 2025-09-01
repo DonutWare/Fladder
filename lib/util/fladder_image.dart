@@ -36,6 +36,7 @@ class FladderImage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final useBluredPlaceHolder = ref.watch(clientSettingsProvider.select((value) => value.blurPlaceHolders));
     final newImage = image;
+    final imageProvider = image?.imageProvider;
     if (newImage == null) {
       return placeHolder ?? Container();
     } else {
@@ -44,13 +45,15 @@ class FladderImage extends ConsumerWidget {
         fit: stackFit,
         children: [
           if (!disableBlur && useBluredPlaceHolder && newImage.hash.isNotEmpty || blurOnly)
-            BlurHash(
-              hash: newImage.hash,
-              optimizationMode: BlurHashOptimizationMode.approximation,
-              color: Colors.transparent,
-              imageFit: blurFit ?? fit,
+            Image(
+              image: BlurHashImage(
+                newImage.hash,
+                decodingHeight: 24,
+                decodingWidth: 24,
+              ),
+              fit: blurFit ?? fit,
             ),
-          if (!blurOnly)
+          if (!blurOnly && imageProvider != null)
             FadeInImage(
               placeholder: MemoryImage(kTransparentImage),
               fit: fit,
@@ -58,7 +61,7 @@ class FladderImage extends ConsumerWidget {
               excludeFromSemantics: true,
               alignment: alignment ?? Alignment.center,
               imageErrorBuilder: imageErrorBuilder,
-              image: newImage.imageProvider,
+              image: imageProvider,
             )
         ],
       );

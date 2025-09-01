@@ -14,12 +14,16 @@ class SelectableIconButton extends ConsumerStatefulWidget {
   final IconData icon;
   final IconData? selectedIcon;
   final bool selected;
+  final Color? backgroundColor;
+  final Color? iconColor;
   const SelectableIconButton({
     required this.onPressed,
     required this.selected,
     required this.icon,
     this.selectedIcon,
     this.label,
+    this.backgroundColor,
+    this.iconColor,
     super.key,
   });
 
@@ -37,9 +41,14 @@ class _SelectableIconButtonState extends ConsumerState<SelectableIconButton> {
       message: widget.label ?? "",
       child: ElevatedButton(
         style: ButtonStyle(
-          backgroundColor: widget.selected ? WidgetStatePropertyAll(Theme.of(context).colorScheme.primary) : null,
-          iconColor: widget.selected ? WidgetStatePropertyAll(Theme.of(context).colorScheme.onPrimary) : null,
-          foregroundColor: widget.selected ? WidgetStatePropertyAll(Theme.of(context).colorScheme.onPrimary) : null,
+          elevation: WidgetStatePropertyAll(
+              widget.backgroundColor != null ? (widget.backgroundColor!.a < 1 ? 0 : null) : null),
+          backgroundColor: WidgetStatePropertyAll(
+              widget.backgroundColor ?? (widget.selected ? Theme.of(context).colorScheme.primary : null)),
+          iconColor: WidgetStatePropertyAll(
+              widget.iconColor ?? (widget.selected ? Theme.of(context).colorScheme.onPrimary : null)),
+          foregroundColor: WidgetStatePropertyAll(
+              widget.iconColor ?? (widget.selected ? Theme.of(context).colorScheme.onPrimary : null)),
           padding: const WidgetStatePropertyAll(EdgeInsets.zero),
         ),
         onPressed: loading

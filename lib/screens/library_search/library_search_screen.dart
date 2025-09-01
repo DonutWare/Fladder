@@ -8,7 +8,6 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/boxset_model.dart';
 import 'package:fladder/models/item_base_model.dart';
-import 'package:fladder/models/items/photos_model.dart';
 import 'package:fladder/models/library_filter_model.dart';
 import 'package:fladder/models/library_search/library_search_model.dart';
 import 'package:fladder/models/library_search/library_search_options.dart';
@@ -55,8 +54,7 @@ class LibrarySearchScreen extends ConsumerStatefulWidget {
   final SortingOptions? sortingOptions;
   final Map<FladderItemType, bool>? types;
   final Map<String, bool>? genres;
-  final bool recursive;
-  final PhotoModel? photoToView;
+  final bool? recursive;
   const LibrarySearchScreen({
     @QueryParam("parentId") this.viewModelId,
     @QueryParam("folderId") this.folderId,
@@ -65,8 +63,7 @@ class LibrarySearchScreen extends ConsumerStatefulWidget {
     @QueryParam("sortOptions") this.sortingOptions,
     @QueryParam("itemTypes") this.types,
     @QueryParam("genres") this.genres,
-    @QueryParam("recursive") this.recursive = true,
-    this.photoToView,
+    @QueryParam("recursive") this.recursive,
     super.key,
   });
 
@@ -109,10 +106,6 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
       SystemUiMode.edgeToEdge,
       overlays: [],
     );
-
-    if (context.mounted && widget.photoToView != null) {
-      libraryProvider.viewGallery(context, selected: widget.photoToView);
-    }
     scrollController.addListener(() {
       scrollPosition();
     });
@@ -227,7 +220,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                         widget.folderId,
                         widget.viewModelId,
                         defaultFilter.copyWith(
-                          favourites: widget.favourites ?? defaultFilter.favourites,
+                          favourites: widget.favourites,
                           sortOrder: widget.sortOrder ?? defaultFilter.sortOrder,
                           sortingOption: widget.sortingOptions ?? defaultFilter.sortingOption,
                           types: widget.types ?? {},

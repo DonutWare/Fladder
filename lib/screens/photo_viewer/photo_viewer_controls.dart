@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,6 +24,7 @@ import 'package:fladder/util/throttler.dart';
 import 'package:fladder/widgets/full_screen_helpers/full_screen_wrapper.dart';
 import 'package:fladder/widgets/shared/elevated_icon.dart';
 import 'package:fladder/widgets/shared/progress_floating_button.dart';
+import 'package:fladder/widgets/shared/selectable_icon_button.dart';
 
 class PhotoViewerControls extends ConsumerStatefulWidget {
   final EdgeInsets padding;
@@ -309,13 +311,19 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with
                           children: [
                             ElevatedIconButton(
                               onPressed: widget.openOptions,
-                              icon: IconsaxPlusLinear.more_2,
+                              icon: IconsaxPlusLinear.more_square,
                             ),
                             const Spacer(),
-                            ElevatedIconButton(
+                            SelectableIconButton(
                               onPressed: markAsFavourite,
-                              color: widget.photo.userData.isFavourite ? Colors.red : null,
+                              selected: false,
                               icon: widget.photo.userData.isFavourite ? IconsaxPlusBold.heart : IconsaxPlusLinear.heart,
+                              backgroundColor: Theme.of(context)
+                                  .colorScheme
+                                  .onPrimary
+                                  .harmonizeWith(Colors.red)
+                                  .withValues(alpha: 0.25),
+                              iconColor: widget.photo.userData.isFavourite ? Colors.red : null,
                             ),
                             ProgressFloatingButton(
                               controller: timerController,
@@ -341,8 +349,11 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with
     );
   }
 
-  void markAsFavourite() {
-    ref.read(userProvider.notifier).setAsFavorite(!widget.photo.userData.isFavourite, widget.photo.id);
+  Future<void> markAsFavourite() async {
+    final response =
+        await ref.read(userProvider.notifier).setAsFavorite(!widget.photo.userData.isFavourite, widget.photo.id);
+
+    if (response?.isSuccessful == false) return;
 
     widget.onPhotoChanged(widget.photo
         .copyWith(userData: widget.photo.userData.copyWith(isFavourite: !widget.photo.userData.isFavourite)));

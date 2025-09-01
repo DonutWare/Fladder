@@ -12,9 +12,9 @@
 import 'dart:async' as _i24;
 
 import 'package:auto_route/auto_route.dart' as _i18;
-import 'package:collection/collection.dart' as _i23;
+import 'package:collection/collection.dart' as _i22;
 import 'package:fladder/models/item_base_model.dart' as _i19;
-import 'package:fladder/models/items/photos_model.dart' as _i22;
+import 'package:fladder/models/items/photos_model.dart' as _i23;
 import 'package:fladder/models/library_search/library_search_options.dart'
     as _i21;
 import 'package:fladder/routes/nested_details_screen.dart' as _i4;
@@ -200,8 +200,7 @@ class LibrarySearchRoute extends _i18.PageRouteInfo<LibrarySearchRouteArgs> {
     _i21.SortingOptions? sortingOptions,
     Map<_i19.FladderItemType, bool>? types,
     Map<String, bool>? genres,
-    bool recursive = true,
-    _i22.PhotoModel? photoToView,
+    bool? recursive,
     _i20.Key? key,
     List<_i18.PageRouteInfo>? children,
   }) : super(
@@ -215,7 +214,6 @@ class LibrarySearchRoute extends _i18.PageRouteInfo<LibrarySearchRouteArgs> {
             types: types,
             genres: genres,
             recursive: recursive,
-            photoToView: photoToView,
             key: key,
           ),
           rawQueryParams: {
@@ -246,7 +244,7 @@ class LibrarySearchRoute extends _i18.PageRouteInfo<LibrarySearchRouteArgs> {
           sortingOptions: queryParams.get('sortOptions'),
           types: queryParams.get('itemTypes'),
           genres: queryParams.get('genres'),
-          recursive: queryParams.getBool('recursive', true),
+          recursive: queryParams.optBool('recursive'),
         ),
       );
       return _i8.LibrarySearchScreen(
@@ -258,7 +256,6 @@ class LibrarySearchRoute extends _i18.PageRouteInfo<LibrarySearchRouteArgs> {
         types: args.types,
         genres: args.genres,
         recursive: args.recursive,
-        photoToView: args.photoToView,
         key: args.key,
       );
     },
@@ -274,8 +271,7 @@ class LibrarySearchRouteArgs {
     this.sortingOptions,
     this.types,
     this.genres,
-    this.recursive = true,
-    this.photoToView,
+    this.recursive,
     this.key,
   });
 
@@ -293,15 +289,13 @@ class LibrarySearchRouteArgs {
 
   final Map<String, bool>? genres;
 
-  final bool recursive;
-
-  final _i22.PhotoModel? photoToView;
+  final bool? recursive;
 
   final _i20.Key? key;
 
   @override
   String toString() {
-    return 'LibrarySearchRouteArgs{viewModelId: $viewModelId, folderId: $folderId, favourites: $favourites, sortOrder: $sortOrder, sortingOptions: $sortingOptions, types: $types, genres: $genres, recursive: $recursive, photoToView: $photoToView, key: $key}';
+    return 'LibrarySearchRouteArgs{viewModelId: $viewModelId, folderId: $folderId, favourites: $favourites, sortOrder: $sortOrder, sortingOptions: $sortingOptions, types: $types, genres: $genres, recursive: $recursive, key: $key}';
   }
 
   @override
@@ -309,28 +303,26 @@ class LibrarySearchRouteArgs {
     if (identical(this, other)) return true;
     if (other is! LibrarySearchRouteArgs) return false;
     return viewModelId == other.viewModelId &&
-        const _i23.ListEquality().equals(folderId, other.folderId) &&
+        const _i22.ListEquality().equals(folderId, other.folderId) &&
         favourites == other.favourites &&
         sortOrder == other.sortOrder &&
         sortingOptions == other.sortingOptions &&
-        const _i23.MapEquality().equals(types, other.types) &&
-        const _i23.MapEquality().equals(genres, other.genres) &&
+        const _i22.MapEquality().equals(types, other.types) &&
+        const _i22.MapEquality().equals(genres, other.genres) &&
         recursive == other.recursive &&
-        photoToView == other.photoToView &&
         key == other.key;
   }
 
   @override
   int get hashCode =>
       viewModelId.hashCode ^
-      const _i23.ListEquality().hash(folderId) ^
+      const _i22.ListEquality().hash(folderId) ^
       favourites.hashCode ^
       sortOrder.hashCode ^
       sortingOptions.hashCode ^
-      const _i23.MapEquality().hash(types) ^
-      const _i23.MapEquality().hash(genres) ^
+      const _i22.MapEquality().hash(types) ^
+      const _i22.MapEquality().hash(genres) ^
       recursive.hashCode ^
-      photoToView.hashCode ^
       key.hashCode;
 }
 
@@ -370,9 +362,9 @@ class LoginRoute extends _i18.PageRouteInfo<void> {
 /// [_i11.PhotoViewerScreen]
 class PhotoViewerRoute extends _i18.PageRouteInfo<PhotoViewerRouteArgs> {
   PhotoViewerRoute({
-    List<_i22.PhotoModel>? items,
+    List<_i23.PhotoModel>? items,
     String? selected,
-    _i24.Future<List<_i22.PhotoModel>>? loadingItems,
+    _i24.Future<List<_i23.PhotoModel>>? loadingItems,
     _i25.Key? key,
     List<_i18.PageRouteInfo>? children,
   }) : super(
@@ -415,11 +407,11 @@ class PhotoViewerRouteArgs {
     this.key,
   });
 
-  final List<_i22.PhotoModel>? items;
+  final List<_i23.PhotoModel>? items;
 
   final String? selected;
 
-  final _i24.Future<List<_i22.PhotoModel>>? loadingItems;
+  final _i24.Future<List<_i23.PhotoModel>>? loadingItems;
 
   final _i25.Key? key;
 
@@ -432,7 +424,7 @@ class PhotoViewerRouteArgs {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! PhotoViewerRouteArgs) return false;
-    return const _i23.ListEquality().equals(items, other.items) &&
+    return const _i22.ListEquality().equals(items, other.items) &&
         selected == other.selected &&
         loadingItems == other.loadingItems &&
         key == other.key;
@@ -440,7 +432,7 @@ class PhotoViewerRouteArgs {
 
   @override
   int get hashCode =>
-      const _i23.ListEquality().hash(items) ^
+      const _i22.ListEquality().hash(items) ^
       selected.hashCode ^
       loadingItems.hashCode ^
       key.hashCode;
@@ -561,56 +553,16 @@ class SplashRouteArgs {
 
 /// generated route for
 /// [_i17.SyncedScreen]
-class SyncedRoute extends _i18.PageRouteInfo<SyncedRouteArgs> {
-  SyncedRoute({
-    _i25.ScrollController? navigationScrollController,
-    _i20.Key? key,
-    List<_i18.PageRouteInfo>? children,
-  }) : super(
-          SyncedRoute.name,
-          args: SyncedRouteArgs(
-            navigationScrollController: navigationScrollController,
-            key: key,
-          ),
-          initialChildren: children,
-        );
+class SyncedRoute extends _i18.PageRouteInfo<void> {
+  const SyncedRoute({List<_i18.PageRouteInfo>? children})
+      : super(SyncedRoute.name, initialChildren: children);
 
   static const String name = 'SyncedRoute';
 
   static _i18.PageInfo page = _i18.PageInfo(
     name,
     builder: (data) {
-      final args = data.argsAs<SyncedRouteArgs>(
-        orElse: () => const SyncedRouteArgs(),
-      );
-      return _i17.SyncedScreen(
-        navigationScrollController: args.navigationScrollController,
-        key: args.key,
-      );
+      return const _i17.SyncedScreen();
     },
   );
-}
-
-class SyncedRouteArgs {
-  const SyncedRouteArgs({this.navigationScrollController, this.key});
-
-  final _i25.ScrollController? navigationScrollController;
-
-  final _i20.Key? key;
-
-  @override
-  String toString() {
-    return 'SyncedRouteArgs{navigationScrollController: $navigationScrollController, key: $key}';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    if (other is! SyncedRouteArgs) return false;
-    return navigationScrollController == other.navigationScrollController &&
-        key == other.key;
-  }
-
-  @override
-  int get hashCode => navigationScrollController.hashCode ^ key.hashCode;
 }

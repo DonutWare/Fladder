@@ -8,6 +8,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
+import 'package:fladder/screens/home_screen.dart';
 import 'package:fladder/screens/shared/nested_scaffold.dart';
 import 'package:fladder/screens/shared/nested_sliver_appbar.dart';
 import 'package:fladder/screens/syncing/sync_list_item.dart';
@@ -20,9 +21,7 @@ import 'package:fladder/widgets/shared/pull_to_refresh.dart';
 
 @RoutePage()
 class SyncedScreen extends ConsumerStatefulWidget {
-  final ScrollController? navigationScrollController;
-
-  const SyncedScreen({this.navigationScrollController, super.key});
+  const SyncedScreen({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _SyncedScreenState();
@@ -43,7 +42,7 @@ class _SyncedScreenState extends ConsumerState<SyncedScreen> {
           scaleDifference: (difference) => ref.read(clientSettingsProvider.notifier).addPosterSize(difference / 2),
           child: CustomScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
-            controller: widget.navigationScrollController,
+            controller: AdaptiveLayout.scrollOf(context, HomeTabs.sync),
             slivers: [
               if (AdaptiveLayout.viewSizeOf(context) == ViewSize.phone)
                 NestedSliverAppBar(

@@ -171,7 +171,7 @@ extension PhotoAlbumExtension on PhotoAlbumModel? {
       return;
     }
 
-    await context.navigateTo(PhotoViewerRoute(
+    await context.pushRoute(PhotoViewerRoute(
       items: photos.toList(),
     ));
 

@@ -158,7 +158,7 @@ class _ProgressFloatingButtonState extends ConsumerState<ProgressFloatingButton>
             }
           : null,
       child: FloatingActionButton(
-        heroTag: null,
+        heroTag: "Progress_Floating_Button",
         onPressed: isActive ? timer.cancel : timer.play,
         child: Stack(
           fit: StackFit.expand,

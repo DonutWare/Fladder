@@ -77,7 +77,7 @@ class _PosterImageState extends ConsumerState<PosterImage> {
   }
 
   Future<void> navigateToDetails() async {
-    await widget.poster.navigateTo(context);
+    await widget.poster.navigateTo(context, ref: ref);
   }
 
   final posterRadius = FladderTheme.smallShape.borderRadius;

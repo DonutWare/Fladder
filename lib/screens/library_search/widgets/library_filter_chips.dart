@@ -59,8 +59,8 @@ class _LibraryFilterChipsState extends ConsumerState<LibraryFilterChips> {
         onClear: () => libraryProvider.setTypes(librarySearchResults.filters.types.setAll(false)),
       ),
       ExpressiveButton(
-        isSelected: favourites,
-        icon: favourites ? const Icon(IconsaxPlusBold.heart) : null,
+        isSelected: favourites == true,
+        icon: favourites == true ? const Icon(IconsaxPlusBold.heart) : null,
         label: Text(context.localized.favorites),
         onPressed: () {
           libraryProvider.toggleFavourite();
@@ -68,8 +68,8 @@ class _LibraryFilterChipsState extends ConsumerState<LibraryFilterChips> {
         },
       ),
       ExpressiveButton(
-        isSelected: recursive,
-        icon: recursive ? const Icon(IconsaxPlusBold.tick_circle) : null,
+        isSelected: recursive == true,
+        icon: recursive == true ? const Icon(IconsaxPlusBold.tick_circle) : null,
         label: Text(context.localized.recursive),
         onPressed: () {
           libraryProvider.toggleRecursive();

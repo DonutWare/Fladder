@@ -7,6 +7,7 @@ import 'package:fladder/models/library_filter_model.dart';
 import 'package:fladder/providers/favourites_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
+import 'package:fladder/screens/home_screen.dart';
 import 'package:fladder/screens/shared/media/poster_row.dart';
 import 'package:fladder/screens/shared/nested_scaffold.dart';
 import 'package:fladder/screens/shared/nested_sliver_appbar.dart';
@@ -35,7 +36,7 @@ class FavouritesScreen extends ConsumerWidget {
           scaleDifference: (difference) => ref.read(clientSettingsProvider.notifier).addPosterSize(difference / 2),
           child: CustomScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
-            controller: AdaptiveLayout.scrollOf(context),
+            controller: AdaptiveLayout.scrollOf(context, HomeTabs.favorites),
             slivers: [
               if (AdaptiveLayout.viewSizeOf(context) == ViewSize.phone)
                 NestedSliverAppBar(

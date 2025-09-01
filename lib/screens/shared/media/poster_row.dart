@@ -42,6 +42,7 @@ class _PosterRowState extends ConsumerState<PosterRow> {
       contentPadding: widget.contentPadding,
       label: widget.label,
       onLabelClick: widget.onLabelClick,
+      dominantRatio: dominantRatio,
       items: widget.posters,
       itemBuilder: (context, index) {
         final poster = widget.posters[index];

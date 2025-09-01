@@ -44,7 +44,7 @@ enum HomeTabs {
         HomeTabs.dashboard => context.router.navigate(const DashboardRoute()),
         HomeTabs.library => context.router.navigate(const LibraryRoute()),
         HomeTabs.favorites => context.router.navigate(const FavouritesRoute()),
-        HomeTabs.sync => context.router.navigate(SyncedRoute()),
+        HomeTabs.sync => context.router.navigate(const SyncedRoute()),
       };
 
   String label(BuildContext context) => switch (this) {
@@ -101,7 +101,7 @@ class HomeScreen extends ConsumerWidget {
                   label: context.localized.navigationSync,
                   icon: Icon(e.icon),
                   selectedIcon: Icon(e.selectedIcon),
-                  route: SyncedRoute(),
+                  route: const SyncedRoute(),
                   action: () => e.navigate(context),
                 );
               }

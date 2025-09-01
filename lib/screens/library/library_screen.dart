@@ -11,6 +11,7 @@ import 'package:fladder/models/recommended_model.dart';
 import 'package:fladder/models/view_model.dart';
 import 'package:fladder/providers/library_screen_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
+import 'package:fladder/screens/home_screen.dart';
 import 'package:fladder/screens/metadata/refresh_metadata.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/screens/shared/media/poster_row.dart';
@@ -62,7 +63,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
         onRefresh: () => ref.read(libraryScreenProvider.notifier).fetchAllLibraries(),
         child: SizedBox.expand(
           child: CustomScrollView(
-            controller: AdaptiveLayout.scrollOf(context),
+            controller: AdaptiveLayout.scrollOf(context, HomeTabs.library),
             physics: const AlwaysScrollableScrollPhysics(),
             slivers: [
               const DefaultSliverTopBadding(),

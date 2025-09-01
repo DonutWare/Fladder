@@ -16,6 +16,7 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
+import 'package:fladder/models/items/photos_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
 import 'package:fladder/providers/auth_provider.dart';
 import 'package:fladder/providers/image_provider.dart';
@@ -342,6 +343,20 @@ class JellyService {
     return response.copyWith(
       body: ServerQueryResult.fromBaseQuery(response.bodyOrThrow, ref),
     );
+  }
+
+  Future<List<PhotoModel>> itemsGetAlbumPhotos({
+    String? albumId,
+  }) async {
+    final response = await itemsGet(
+      parentId: albumId,
+      enableUserData: true,
+      fields: [
+        ItemFields.parentid,
+        ItemFields.datecreated,
+      ],
+    );
+    return response.body?.items.whereType<PhotoModel>().toList() ?? [];
   }
 
   Future<Response<List<ItemBaseModel>>> personsGet({

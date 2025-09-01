@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,6 +21,7 @@ class HorizontalList<T> extends ConsumerStatefulWidget {
   final Widget Function(BuildContext context, int index) itemBuilder;
   final bool scrollToEnd;
   final EdgeInsets contentPadding;
+  final double? dominantRatio;
   final double? height;
   final bool shrinkWrap;
   const HorizontalList({
@@ -33,6 +36,7 @@ class HorizontalList<T> extends ConsumerStatefulWidget {
     this.contentPadding = const EdgeInsets.symmetric(horizontal: 16),
     this.subtext,
     this.shrinkWrap = false,
+    this.dominantRatio,
     super.key,
   });
 
@@ -201,9 +205,11 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
         ),
         const SizedBox(height: 8),
         SizedBox(
-          height: (widget.height ??
-              AdaptiveLayout.poster(context).size *
-                  ref.watch(clientSettingsProvider.select((value) => value.posterSize))),
+          height: widget.height ??
+              ((AdaptiveLayout.poster(context).size *
+                          ref.watch(clientSettingsProvider.select((value) => value.posterSize))) /
+                      pow((widget.dominantRatio ?? 1.0), 0.55)) *
+                  0.72,
           child: ListView.separated(
             controller: _scrollController,
             scrollDirection: Axis.horizontal,

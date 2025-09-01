@@ -24,9 +24,9 @@ mixin _$LibraryFilterModel implements DiagnosticableTreeMixin {
   Map<FladderItemType, bool> get types;
   SortingOptions get sortingOption;
   SortingOrder get sortOrder;
-  bool get favourites;
+  bool? get favourites;
   bool get hideEmptyShows;
-  bool get recursive;
+  bool? get recursive;
   GroupBy get groupBy;
 
   /// Create a copy of LibraryFilterModel
@@ -81,9 +81,9 @@ abstract mixin class $LibraryFilterModelCopyWith<$Res> {
       Map<FladderItemType, bool> types,
       SortingOptions sortingOption,
       SortingOrder sortOrder,
-      bool favourites,
+      bool? favourites,
       bool hideEmptyShows,
-      bool recursive,
+      bool? recursive,
       GroupBy groupBy});
 }
 
@@ -109,9 +109,9 @@ class _$LibraryFilterModelCopyWithImpl<$Res>
     Object? types = null,
     Object? sortingOption = null,
     Object? sortOrder = null,
-    Object? favourites = null,
+    Object? favourites = freezed,
     Object? hideEmptyShows = null,
-    Object? recursive = null,
+    Object? recursive = freezed,
     Object? groupBy = null,
   }) {
     return _then(_self.copyWith(
@@ -151,18 +151,18 @@ class _$LibraryFilterModelCopyWithImpl<$Res>
           ? _self.sortOrder
           : sortOrder // ignore: cast_nullable_to_non_nullable
               as SortingOrder,
-      favourites: null == favourites
+      favourites: freezed == favourites
           ? _self.favourites
           : favourites // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
       hideEmptyShows: null == hideEmptyShows
           ? _self.hideEmptyShows
           : hideEmptyShows // ignore: cast_nullable_to_non_nullable
               as bool,
-      recursive: null == recursive
+      recursive: freezed == recursive
           ? _self.recursive
           : recursive // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
       groupBy: null == groupBy
           ? _self.groupBy
           : groupBy // ignore: cast_nullable_to_non_nullable
@@ -274,9 +274,9 @@ extension LibraryFilterModelPatterns on LibraryFilterModel {
             Map<FladderItemType, bool> types,
             SortingOptions sortingOption,
             SortingOrder sortOrder,
-            bool favourites,
+            bool? favourites,
             bool hideEmptyShows,
-            bool recursive,
+            bool? recursive,
             GroupBy groupBy)?
         $default, {
     required TResult orElse(),
@@ -328,9 +328,9 @@ extension LibraryFilterModelPatterns on LibraryFilterModel {
             Map<FladderItemType, bool> types,
             SortingOptions sortingOption,
             SortingOrder sortOrder,
-            bool favourites,
+            bool? favourites,
             bool hideEmptyShows,
-            bool recursive,
+            bool? recursive,
             GroupBy groupBy)
         $default,
   ) {
@@ -380,9 +380,9 @@ extension LibraryFilterModelPatterns on LibraryFilterModel {
             Map<FladderItemType, bool> types,
             SortingOptions sortingOption,
             SortingOrder sortOrder,
-            bool favourites,
+            bool? favourites,
             bool hideEmptyShows,
-            bool recursive,
+            bool? recursive,
             GroupBy groupBy)?
         $default,
   ) {
@@ -529,13 +529,13 @@ class _LibraryFilterModel extends LibraryFilterModel
   final SortingOrder sortOrder;
   @override
   @JsonKey()
-  final bool favourites;
+  final bool? favourites;
   @override
   @JsonKey()
   final bool hideEmptyShows;
   @override
   @JsonKey()
-  final bool recursive;
+  final bool? recursive;
   @override
   @JsonKey()
   final GroupBy groupBy;
@@ -598,9 +598,9 @@ abstract mixin class _$LibraryFilterModelCopyWith<$Res>
       Map<FladderItemType, bool> types,
       SortingOptions sortingOption,
       SortingOrder sortOrder,
-      bool favourites,
+      bool? favourites,
       bool hideEmptyShows,
-      bool recursive,
+      bool? recursive,
       GroupBy groupBy});
 }
 
@@ -626,9 +626,9 @@ class __$LibraryFilterModelCopyWithImpl<$Res>
     Object? types = null,
     Object? sortingOption = null,
     Object? sortOrder = null,
-    Object? favourites = null,
+    Object? favourites = freezed,
     Object? hideEmptyShows = null,
-    Object? recursive = null,
+    Object? recursive = freezed,
     Object? groupBy = null,
   }) {
     return _then(_LibraryFilterModel(
@@ -668,18 +668,18 @@ class __$LibraryFilterModelCopyWithImpl<$Res>
           ? _self.sortOrder
           : sortOrder // ignore: cast_nullable_to_non_nullable
               as SortingOrder,
-      favourites: null == favourites
+      favourites: freezed == favourites
           ? _self.favourites
           : favourites // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
       hideEmptyShows: null == hideEmptyShows
           ? _self.hideEmptyShows
           : hideEmptyShows // ignore: cast_nullable_to_non_nullable
               as bool,
-      recursive: null == recursive
+      recursive: freezed == recursive
           ? _self.recursive
           : recursive // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
       groupBy: null == groupBy
           ? _self.groupBy
           : groupBy // ignore: cast_nullable_to_non_nullable

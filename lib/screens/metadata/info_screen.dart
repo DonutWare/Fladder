@@ -61,18 +61,23 @@ class ItemInfoScreenState extends ConsumerState<ItemInfoScreen> {
               Container(
                 color: Theme.of(context).colorScheme.surface,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
-                        spacing: 6,
+                        spacing: 12,
                         children: [
-                          Text(
-                            widget.item.name,
-                            style: Theme.of(context).textTheme.titleLarge,
+                          Expanded(
+                            child: Text(
+                              widget.item.name,
+                              softWrap: false,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.titleLarge,
+                            ),
                           ),
-                          const Spacer(),
                           IconButton(
                               onPressed: () => context.copyToClipboard(info.model.toString()),
                               icon: const Icon(Icons.copy_all_rounded)),

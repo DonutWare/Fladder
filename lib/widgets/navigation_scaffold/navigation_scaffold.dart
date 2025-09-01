@@ -8,6 +8,7 @@ import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/providers/views_provider.dart';
 import 'package:fladder/routes/auto_router.dart';
+import 'package:fladder/screens/home_screen.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/screens/shared/nested_bottom_appbar.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
@@ -77,6 +78,9 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
     final calculatedBottomViewPadding =
         showPlayerBar ? floatingPlayerHeight(context) + bottomViewPadding : bottomViewPadding;
 
+    final currentTab =
+        HomeTabs.values.elementAtOrNull(currentIndex.clamp(0, HomeTabs.values.length - 1)) ?? HomeTabs.dashboard;
+
     return PopScope(
       canPop: currentIndex == 0,
       onPopInvokedWithResult: (didPop, result) {
@@ -124,7 +128,7 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
                     hiddenHeight: calculatedBottomViewPadding,
                     duration: const Duration(milliseconds: 250),
                     child: HideOnScroll(
-                      controller: AdaptiveLayout.scrollOf(context),
+                      controller: AdaptiveLayout.scrollOf(context, currentTab),
                       forceHide: !homeRoutes.any((element) => element.name.contains(currentLocation)),
                       child: NestedBottomAppBar(
                         child: SizedBox(

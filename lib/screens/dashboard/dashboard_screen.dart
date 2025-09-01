@@ -18,6 +18,7 @@ import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/views_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/dashboard/home_banner_widget.dart';
+import 'package:fladder/screens/home_screen.dart';
 import 'package:fladder/screens/shared/media/poster_row.dart';
 import 'package:fladder/screens/shared/nested_scaffold.dart';
 import 'package:fladder/screens/shared/nested_sliver_appbar.dart';
@@ -97,7 +98,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           child: PinchPosterZoom(
             scaleDifference: (difference) => ref.read(clientSettingsProvider.notifier).addPosterSize(difference),
             child: CustomScrollView(
-              controller: AdaptiveLayout.scrollOf(context),
+              controller: AdaptiveLayout.scrollOf(context, HomeTabs.dashboard),
               physics: const AlwaysScrollableScrollPhysics(),
               slivers: [
                 const DefaultSliverTopBadding(),
@@ -196,6 +197,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                     _ => SortingOptions.dateAdded,
                                   },
                                   sortOrder: SortingOrder.descending,
+                                  recursive: true,
                                 ),
                               ),
                               posters: view.recentlyAdded,
