@@ -77,7 +77,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
       child: InputHandler(
         autoFocus: true,
         keyMap: ref.watch(videoPlayerSettingsProvider.select((value) => value.currentShortcuts)),
-        keyMapResult: (result) => _onKey(result),
+        keyMapResult: _onKey,
         child: PopScope(
           canPop: false,
           onPopInvokedWithResult: (didPop, result) {
