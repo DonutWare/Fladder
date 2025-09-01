@@ -690,5 +690,62 @@
     "@set": {
         "description": "Use for setting a certain value",
         "context": "Set 'time'"
-    }
+    },
+    "setIdentityTo": "Canviar l'identitat a {name}",
+    "@setIdentityTo": {
+        "description": "setIdentityTo",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "settingSecurityApplockTitle": "Bloqueig d'aplicació",
+    "@settingSecurityApplockTitle": {},
+    "settings": "Ajustos",
+    "@settings": {},
+    "settingsBlurEpisodesDesc": "Difuminar tots els proxims episodis",
+    "@settingsBlurEpisodesDesc": {},
+    "settingsBlurEpisodesTitle": "Difuminar següent episodi",
+    "@settingsBlurEpisodesTitle": {},
+    "settingsBlurredPlaceholderDesc": "Mostrar fons difuminat al carregar posters",
+    "@settingsBlurredPlaceholderDesc": {},
+    "settingsBlurredPlaceholderTitle": "Marcador difuminat",
+    "@settingsBlurredPlaceholderTitle": {},
+    "settingsClientDesc": "General, time-out, Disseny, Tema",
+    "@settingsClientDesc": {},
+    "settingsClientTitle": "Fladder",
+    "@settingsClientTitle": {},
+    "settingsContinue": "Continuar",
+    "@settingsContinue": {},
+    "settingsEnableOsMediaControls": "Habilitar controls multimedia del Sistema Operatiu",
+    "@settingsEnableOsMediaControls": {},
+    "settingsEnableOsMediaControlsDesc": "Habilitar tecles multimèdia i mostrar reproducció en curs al sistema operatiu",
+    "@settingsEnableOsMediaControlsDesc": {},
+    "settingsHomeBannerDescription": "Mostrar com a presentació de diapositives, carroussel, o amagar el baner",
+    "@settingsHomeBannerDescription": {},
+    "settingsHomeBannerTitle": "Bàner d'inici",
+    "@settingsHomeBannerTitle": {},
+    "settingsHomeBannerInformationDesc": "Informació a mostrar al bàner d'inici",
+    "@settingsHomeBannerInformationDesc": {},
+    "settingsHomeBannerInformationTitle": "Informació del bàner",
+    "@settingsHomeBannerInformationTitle": {},
+    "settingsHomeNextUpDesc": "Tipus de pòsters mostrats a la pantalla del Tauler",
+    "@settingsHomeNextUpDesc": {},
+    "settingsHomeNextUpTitle": "Pròxims posters",
+    "@settingsHomeNextUpTitle": {},
+    "settingsPlayerCustomSubtitlesDesc": "Personalitzar mida, color, posició, vora",
+    "@settingsPlayerCustomSubtitlesDesc": {},
+    "settingsPlayerCustomSubtitlesTitle": "Personalitzar subtítols",
+    "@settingsPlayerCustomSubtitlesTitle": {},
+    "settingsPlayerDesc": "Ràtio d'aspecte, Avançat",
+    "@settingsPlayerDesc": {},
+    "settingsPlayerMobileWarning": "Activar l'acceleració per hardware i subtítols natius libass a Android pot provocar que no es renderitizin alguns subtítols.",
+    "@settingsPlayerMobileWarning": {},
+    "settingsPlayerNativeLibassAccelDesc": "Utilitzar renderitzador de subtítols libass del reproductor",
+    "@settingsPlayerNativeLibassAccelDesc": {},
+    "settingsPlayerNativeLibassAccelTitle": "Subtítols libass natius",
+    "@settingsPlayerNativeLibassAccelTitle": {},
+    "settingsPlayerBufferSizeTitle": "Mida del buffer de video",
+    "@settingsPlayerBufferSizeTitle": {}
 }
