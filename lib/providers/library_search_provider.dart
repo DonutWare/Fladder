@@ -79,7 +79,8 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
         filters: state.filters.copyWith(
           types: state.filters.types.replaceMap(filters.types, enabledOnly: true),
           genres: state.filters.genres.replaceMap(filters.genres, enabledOnly: true),
-          recursive: filters.recursive,
+          recursive: filters.recursive ?? true,
+          favourites: filters.favourites ?? false,
         ),
       );
     }
