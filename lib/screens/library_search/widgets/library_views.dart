@@ -113,7 +113,7 @@ class LibraryViews extends ConsumerWidget {
         Widget createGrid(List<ItemBaseModel> items) {
           return SliverGrid.builder(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: posterSize.toInt(),
+              crossAxisCount: posterSize.clamp(2, double.maxFinite).toInt(),
               mainAxisSpacing: (8 * decimal) + 8,
               crossAxisSpacing: (8 * decimal) + 8,
               childAspectRatio: items.getMostCommonType.aspectRatio,
@@ -247,7 +247,7 @@ class LibraryViews extends ConsumerWidget {
           return SliverMasonryGrid.count(
             mainAxisSpacing: (8 * decimal) + 8,
             crossAxisSpacing: (8 * decimal) + 8,
-            crossAxisCount: posterSize.toInt(),
+            crossAxisCount: posterSize.clamp(2, double.maxFinite).toInt(),
             childCount: items.length,
             itemBuilder: (context, index) {
               final item = items[index];
