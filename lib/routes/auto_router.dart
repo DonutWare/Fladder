@@ -7,6 +7,10 @@ import 'package:fladder/screens/login/lock_screen.dart';
 
 const settingsPageRoute = "settings";
 
+const fullScreenRoutes = {
+  PhotoViewerRoute.name,
+};
+
 @AutoRouterConfig(replaceInRouteName: 'Screen|Page,Route')
 class AutoRouter extends RootStackRouter {
   AutoRouter({

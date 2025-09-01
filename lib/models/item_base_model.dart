@@ -335,6 +335,7 @@ enum FladderItemType {
         FladderItemType.video => 0.8,
         FladderItemType.photo => 0.8,
         FladderItemType.photoAlbum => 0.8,
+        FladderItemType.folder => 0.8,
         FladderItemType.musicAlbum => 0.8,
         FladderItemType.baseType => 0.8,
         _ => 0.55,

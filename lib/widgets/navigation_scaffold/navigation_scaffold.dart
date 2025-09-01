@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide ConnectionState;
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/media_playback_model.dart';
@@ -81,6 +82,8 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
     final currentTab =
         HomeTabs.values.elementAtOrNull(currentIndex.clamp(0, HomeTabs.values.length - 1)) ?? HomeTabs.dashboard;
 
+    final fullScreenChildRoute = fullScreenRoutes.contains(context.router.current.name);
+
     return PopScope(
       canPop: currentIndex == 0,
       onPopInvokedWithResult: (didPop, result) {
@@ -107,7 +110,7 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
               child: Builder(builder: (context) {
                 return Scaffold(
                   key: _key,
-                  appBar: const FladderAppBar(),
+                  appBar: fullScreenChildRoute ? null : const FladderAppBar(),
                   extendBodyBehindAppBar: true,
                   resizeToAvoidBottomInset: false,
                   extendBody: true,

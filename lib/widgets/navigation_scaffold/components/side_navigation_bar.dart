@@ -10,6 +10,7 @@ import 'package:fladder/models/collection_types.dart';
 import 'package:fladder/models/library_filter_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/views_provider.dart';
+import 'package:fladder/routes/auto_router.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/metadata/refresh_metadata.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
@@ -24,10 +25,6 @@ import 'package:fladder/widgets/navigation_scaffold/components/settings_user_ico
 import 'package:fladder/widgets/shared/custom_tooltip.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
-
-const _fullScreenRoutes = {
-  PhotoViewerRoute.name,
-};
 
 class SideNavigationBar extends ConsumerStatefulWidget {
   final int currentIndex;
@@ -65,7 +62,7 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
     final shouldExpand = fullyExpanded;
     final isDesktop = AdaptiveLayout.of(context).isDesktop;
 
-    final fullScreenChildRoute = _fullScreenRoutes.contains(context.router.current.name);
+    final fullScreenChildRoute = fullScreenRoutes.contains(context.router.current.name);
 
     return Stack(
       children: [

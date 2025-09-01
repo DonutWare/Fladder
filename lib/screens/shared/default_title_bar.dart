@@ -43,6 +43,7 @@ class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> with WindowLi
     final iconColor = theme.colorScheme.onSurface.withValues(alpha: 0.65);
     final isOffline = ref.watch(connectivityStatusProvider.select((value) => value == ConnectionState.offline));
     final surfaceColor = theme.colorScheme.surface;
+
     return MouseRegion(
       onEnter: (event) => setState(() => hovering = true),
       onExit: (event) => setState(() => hovering = false),
