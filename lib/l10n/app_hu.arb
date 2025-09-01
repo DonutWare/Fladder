@@ -348,5 +348,226 @@
     "accept": "Elfogadás",
     "@accept": {},
     "active": "Aktív",
-    "@active": {}
+    "@active": {},
+    "dashboardRecentlyAdded": "Nemrég hozzáadott a {name} kategóriában",
+    "@dashboardRecentlyAdded": {
+        "description": "Recently added on home screen",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "mediaTypeEpisode": "Epizód",
+    "@mediaTypeEpisode": {},
+    "mediaTypeFolder": "Mappa",
+    "@mediaTypeFolder": {},
+    "mediaTypeMovie": "Film",
+    "@mediaTypeMovie": {},
+    "mediaTypePerson": "Személy",
+    "@mediaTypePerson": {},
+    "mediaTypePhoto": "Fotó",
+    "@mediaTypePhoto": {},
+    "mediaTypePhotoAlbum": "Fotóalbum",
+    "@mediaTypePhotoAlbum": {},
+    "mediaTypePlaylist": "Lejátszási lista",
+    "@mediaTypePlaylist": {},
+    "mediaTypeSeason": "Évad",
+    "@mediaTypeSeason": {},
+    "mediaTypeSeries": "Sorozat",
+    "@mediaTypeSeries": {},
+    "metaDataSavedFor": "Metaadatok elmentve {item} elemhez",
+    "@metaDataSavedFor": {
+        "description": "metaDataSavedFor",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "metadataRefreshDefault": "Új vagy megváltoztatott fájlok keresése",
+    "@metadataRefreshDefault": {},
+    "metadataRefreshFull": "Összes metaadat cseréje",
+    "@metadataRefreshFull": {},
+    "metadataRefreshValidation": "Hiányzó metaadatok keresése",
+    "@metadataRefreshValidation": {},
+    "minutes": "{count, plural, other{Percek} one{Perc}}",
+    "@minutes": {
+        "description": "minute",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mode": "Mód",
+    "@mode": {},
+    "moreFrom": "Több ettől: {info}",
+    "@moreFrom": {
+        "description": "More from",
+        "placeholders": {
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "moreOptions": "Több lehetőség",
+    "@moreOptions": {},
+    "mouseDragSupport": "Egér használata elhúzásra",
+    "@mouseDragSupport": {},
+    "musicAlbum": "Album",
+    "@musicAlbum": {},
+    "name": "Név",
+    "@name": {},
+    "navigation": "Navigáció",
+    "@navigation": {},
+    "navigationDashboard": "Gyorspanel",
+    "@navigationDashboard": {},
+    "navigationFavorites": "Kedvencek",
+    "@navigationFavorites": {},
+    "navigationSync": "Szinkronizálva",
+    "@navigationSync": {},
+    "never": "Soha",
+    "@never": {},
+    "noItemsSynced": "Nincsenek szinkronizált elemek",
+    "@noItemsSynced": {},
+    "noItemsToShow": "Nincsenek mutatható elemek",
+    "@noItemsToShow": {},
+    "noRating": "Nincs értékelés",
+    "@noRating": {},
+    "noResults": "Nincs találat",
+    "@noResults": {},
+    "noServersFound": "Nem található új szerver",
+    "@noServersFound": {},
+    "noSuggestionsFound": "Nem található javaslat",
+    "@noSuggestionsFound": {},
+    "none": "Nincs",
+    "@none": {},
+    "normal": "Normál",
+    "@normal": {},
+    "notPartOfAlbum": "Nem része albumnak",
+    "@notPartOfAlbum": {},
+    "openParent": "Szülő megnyitása",
+    "@openParent": {},
+    "openShow": "Műsor megnyitása",
+    "@openShow": {},
+    "openWebLink": "Web link megnyitása",
+    "@openWebLink": {},
+    "options": "Beállítások",
+    "@options": {},
+    "other": "Más",
+    "@other": {},
+    "outlineColor": "Körvonal színe",
+    "@outlineColor": {},
+    "outlineSize": "Körvonal vastagsága",
+    "@outlineSize": {},
+    "overview": "Áttekintés",
+    "@overview": {},
+    "page": "{index}. oldal",
+    "@page": {
+        "description": "page",
+        "placeholders": {
+            "index": {
+                "type": "int"
+            }
+        }
+    },
+    "parentalRating": "Korhatár-besorolás",
+    "@parentalRating": {},
+    "password": "Jelszó",
+    "@password": {},
+    "pathClearTitle": "Letöltési útvonal törlése",
+    "@pathClearTitle": {},
+    "pathEditDesc": "Ez az útvonal minden felhasználóra közösen van beállítva, a szinkronizált adatok nem lesznek elérhetőek, viszont a tárhelyen maradnak.",
+    "@pathEditDesc": {},
+    "pathEditSelect": "Letöltési útvonal kiválasztása",
+    "@pathEditSelect": {},
+    "pathEditTitle": "Helyzet megváltoztatása",
+    "@pathEditTitle": {},
+    "play": "{item} lejátszása",
+    "@play": {
+        "description": "Play with",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "playCount": "Lejátszások száma",
+    "@playCount": {},
+    "playFrom": "Lejátszás innen: {name}",
+    "@playFrom": {
+        "description": "playFrom",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "playFromStart": "{name} lejátszása elölről",
+    "@playFromStart": {
+        "description": "speel vanaf het begin",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "playLabel": "Lejátszás",
+    "@playLabel": {},
+    "playVideos": "Videók lejátszása",
+    "@playVideos": {},
+    "played": "Lejátszva",
+    "@played": {},
+    "quickConnectInputACode": "Adja meg a kódot",
+    "@quickConnectInputACode": {},
+    "quickConnectWrongCode": "Hibás kód",
+    "@quickConnectWrongCode": {},
+    "random": "Véletlenszerű",
+    "@random": {},
+    "rating": "{count, plural, other{Értékelések} one{Értékelés}}",
+    "@rating": {
+        "description": "rating",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "reWatch": "Újranézés",
+    "@reWatch": {},
+    "read": "{item} elolvasása",
+    "@read": {
+        "description": "read",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "readFromStart": "{item} elolvasása elölről",
+    "@readFromStart": {
+        "description": "Read book from start",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "recursive": "Rekurzív",
+    "@recursive": {},
+    "refresh": "Frissítés",
+    "@refresh": {},
+    "refreshMetadata": "Metaadatok frissítése",
+    "@refreshMetadata": {},
+    "refreshPopup": "Frissítés - {name}",
+    "@refreshPopup": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    }
 }
