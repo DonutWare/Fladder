@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -22,6 +23,7 @@ import 'package:fladder/wrappers/players/base_player.dart';
 import 'package:fladder/wrappers/players/lib_mdk.dart'
     if (dart.library.html) 'package:fladder/stubs/web/lib_mdk_web.dart';
 import 'package:fladder/wrappers/players/lib_mpv.dart';
+import 'package:fladder/wrappers/players/native_player.dart';
 import 'package:fladder/wrappers/players/player_states.dart';
 
 class MediaControlsWrapper extends BaseAudioHandler {
@@ -72,6 +74,7 @@ class MediaControlsWrapper extends BaseAudioHandler {
     final player = switch (ref.read(videoPlayerSettingsProvider.select((value) => value.wantedPlayer))) {
       PlayerOptions.libMDK => LibMDK(),
       PlayerOptions.libMPV => LibMPV(),
+      PlayerOptions.nativePlayer => NativePlayer(),
     };
 
     setup(player);
@@ -238,9 +241,11 @@ class MediaControlsWrapper extends BaseAudioHandler {
 
   @override
   Future<void> stop() async {
+    log('Sending stop');
     final playbackModel = ref.read(playBackModel);
     if (playbackModel == null) return;
 
+    log("Starting stop");
     ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(state: VideoPlayerState.disposed));
     WakelockPlus.disable();
     super.stop();
@@ -312,5 +317,12 @@ class MediaControlsWrapper extends BaseAudioHandler {
   Future<void> setSpeed(double speed) {
     _player?.setSpeed(speed);
     return super.setSpeed(speed);
+  }
+
+  Future<bool> sendPlaybackData(PlaybackModel data, Duration startPosition) async {
+    if (_player is NativePlayer) {
+      return (_player as NativePlayer).sendPlaybackData(data, startPosition, this);
+    }
+    return false;
   }
 }

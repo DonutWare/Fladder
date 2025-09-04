@@ -22,6 +22,15 @@
 			</intent-filter>
 		</activity>
 
+		<activity
+			android:name=".VideoPlayerActivity"
+			android:theme="@style/Theme.AppCompat.NoActionBar"
+			android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+			android:hardwareAccelerated="true"
+			android:windowSoftInputMode="adjustResize"
+			android:exported="true"
+			/>
+
 		<service android:name="androidx.work.impl.foreground.SystemForegroundService" android:foregroundServiceType="dataSync" tools:node="merge" />
 		<service android:name="com.ryanheise.audioservice.AudioService" android:foregroundServiceType="mediaPlayback" android:exported="true" tools:ignore="Instantiatable">
 			<intent-filter>

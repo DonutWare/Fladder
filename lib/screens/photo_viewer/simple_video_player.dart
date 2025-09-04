@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:path/path.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:window_manager/window_manager.dart';
@@ -20,6 +20,7 @@ import 'package:fladder/wrappers/players/base_player.dart';
 import 'package:fladder/wrappers/players/lib_mdk.dart'
     if (dart.library.html) 'package:fladder/stubs/web/lib_mdk_web.dart';
 import 'package:fladder/wrappers/players/lib_mpv.dart';
+import 'package:fladder/wrappers/players/native_player.dart';
 
 class SimpleVideoPlayer extends ConsumerStatefulWidget {
   final PhotoModel video;
@@ -35,6 +36,7 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
   late final BasePlayer player = switch (ref.read(videoPlayerSettingsProvider.select((value) => value.wantedPlayer))) {
     PlayerOptions.libMDK => LibMDK(),
     PlayerOptions.libMPV => LibMPV(),
+    PlayerOptions.nativePlayer => NativePlayer(),
   };
   late String videoUrl = "";
 

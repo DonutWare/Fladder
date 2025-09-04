@@ -77,6 +77,8 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     mediaState.update(
       (state) => state.playing == event ? state : state.copyWith(playing: event),
     );
+    final currentState = playbackState;
+    ref.read(playBackModel)?.updatePlaybackPosition(currentState.position, playbackState.playing, ref);
   }
 
   Future<void> updatePosition(Duration event) async {
