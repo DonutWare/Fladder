@@ -1,1 +1,58 @@
-{}
+{
+    "nativeName": "Αγγλικά",
+    "@nativeName": {},
+    "accept": "Αποδέχομαι",
+    "@accept": {},
+    "active": "Ενεργός/ή",
+    "@active": {},
+    "actor": "σκηνοθέτης",
+    "@actor": {
+        "description": "actor",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "addAsFavorite": "Προσθήκη ως αγαπημένο",
+    "@addAsFavorite": {},
+    "addToCollection": "Προσθήκη στην συλλογή",
+    "@addToCollection": {},
+    "addToPlaylist": "Προσθήκη στην λίστα αναπαραγωγής",
+    "@addToPlaylist": {},
+    "advanced": "Για προχωρημένους",
+    "@advanced": {},
+    "all": "Όλα",
+    "@all": {},
+    "appLockAutoLogin": "Αυτόματη σύνδεση",
+    "@appLockAutoLogin": {},
+    "appLockBiometrics": "Βιομετρικά",
+    "@appLockBiometrics": {},
+    "appLockPasscode": "Κωδικός πρόσβασης",
+    "@appLockPasscode": {},
+    "ascending": "Αύξουσα",
+    "@ascending": {},
+    "audio": "Ήχος",
+    "@audio": {},
+    "autoPlay": "Αυτόματη αναπαραγωγή",
+    "@autoPlay": {},
+    "biometricsFailedCheckAgain": "Τα βιομετρικά απορρίφθηκαν. Ελέγξτε τις ρυθμίσεις και δοκιμάστε ξανά.",
+    "@biometricsFailedCheckAgain": {},
+    "cancel": "Ακύρωση",
+    "@cancel": {},
+    "change": "Αλλαγή",
+    "@change": {},
+    "chapter": "{count, plural, other{Κεφάλαια}, one{Κεφάλαιο}}",
+    "@chapter": {
+        "description": "chapter",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "clear": "Εκκαθάριση",
+    "@clear": {}
+}
