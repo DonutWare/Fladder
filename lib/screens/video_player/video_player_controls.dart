@@ -26,6 +26,7 @@ import 'package:fladder/screens/video_player/components/video_player_controls_ex
 import 'package:fladder/screens/video_player/components/video_player_options_sheet.dart';
 import 'package:fladder/screens/video_player/components/video_player_quality_controls.dart';
 import 'package:fladder/screens/video_player/components/video_player_seek_indicator.dart';
+import 'package:fladder/screens/video_player/components/video_player_speed_indicator.dart';
 import 'package:fladder/screens/video_player/components/video_player_volume_indicator.dart';
 import 'package:fladder/screens/video_player/components/video_progress_bar.dart';
 import 'package:fladder/screens/video_player/components/video_volume_slider.dart';
@@ -125,6 +126,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                 ),
                 const VideoPlayerSeekIndicator(),
                 const VideoPlayerVolumeIndicator(),
+                const VideoPlayerSpeedIndicator(),
                 Consumer(
                   builder: (context, ref, child) {
                     final position = ref.watch(mediaPlaybackProvider.select((value) => value.position));
