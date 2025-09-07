@@ -34,7 +34,6 @@ import 'package:fladder/widgets/shared/fladder_slider.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 import 'package:fladder/widgets/shared/spaced_list_tile.dart';
 
-final playbackRateProvider = StateProvider<double>((ref) => 1.0);
 
 Future<void> showVideoPlayerOptions(BuildContext context, Function() minimizePlayer) {
   return showBottomSheetPill(

@@ -15,6 +15,8 @@ final videoPlayerSettingsProvider =
   return VideoPlayerSettingsProviderNotifier(ref);
 });
 
+final playbackRateProvider = StateProvider<double>((ref) => 1.0);
+
 class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSettingsModel> {
   VideoPlayerSettingsProviderNotifier(this.ref) : super(VideoPlayerSettingsModel());
 
