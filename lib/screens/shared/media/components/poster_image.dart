@@ -200,22 +200,22 @@ class _PosterImageState extends ConsumerState<PosterImage> {
                   ],
                 ),
               ),
-              if (widget.poster.unWatched)
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: StatusCard(
-                    color: Colors.amber,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.amber,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+              // if (widget.poster.unWatched)
+              //   Align(
+              //     alignment: Alignment.topLeft,
+              //     child: StatusCard(
+              //       color: Colors.amber,
+              //       child: Padding(
+              //         padding: const EdgeInsets.all(10),
+              //         child: Container(
+              //           decoration: const BoxDecoration(
+              //             shape: BoxShape.circle,
+              //             color: Colors.amber,
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ),
               if (widget.inlineTitle)
                 IgnorePointer(
                   child: Align(
