@@ -297,7 +297,7 @@ class MediaControlsWrapper extends BaseAudioHandler {
   Future<int> setSubtitleTrack(SubStreamModel? model, PlaybackModel playbackModel) async =>
       await _player?.setSubtitleTrack(model, playbackModel) ?? -1;
 
-  Future<void> setVolume(double speed) async => _player?.setVolume(speed);
+  Future<void> setVolume(double volume) async => _player?.setVolume(volume);
 
   @override
   Future<void> seek(Duration position) {
