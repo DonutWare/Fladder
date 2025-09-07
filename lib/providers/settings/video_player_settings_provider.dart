@@ -69,6 +69,15 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
     ref.read(videoPlayerProvider).setVolume(value);
   }
 
+  void steppedSpeed(double i) {
+    final value = double.parse(
+      ((ref.read(playbackRateProvider) + i).clamp(0.25, 3))
+          .toStringAsFixed(2),
+    );
+    ref.read(playbackRateProvider.notifier).state = value;
+    ref.read(videoPlayerProvider).setSpeed(value);
+  }
+
   void toggleOrientation(Set<DeviceOrientation>? orientation) =>
       state = state.copyWith(allowedOrientations: orientation);
 

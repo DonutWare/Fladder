@@ -697,6 +697,14 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         resetTimer();
         ref.read(videoPlayerSettingsProvider.notifier).steppedVolume(-5);
         return true;
+      case VideoHotKeys.speedUp:
+        resetTimer();
+        ref.read(videoPlayerSettingsProvider.notifier).steppedSpeed(0.1);
+        return true;
+      case VideoHotKeys.speedDown:
+        resetTimer();
+        ref.read(videoPlayerSettingsProvider.notifier).steppedSpeed(-0.1);
+        return true;
       case VideoHotKeys.fullScreen:
         fullScreenHelper.toggleFullScreen(ref);
         return true;
