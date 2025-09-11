@@ -14,10 +14,15 @@ class PlayableData {
   final String title;
   final String description;
   final int startPosition;
+  final int defaultAudioTrack;
   final List<AudioTrack> audioTracks;
+  final int defaultSubtrack;
   final List<SubtitleTrack> subtitleTracks;
   final TrickPlayModel? trickPlayModel;
   final List<Chapter> chapters;
+  final List<MediaSegment> segments;
+  final int skipForward;
+  final int skipBackward;
   final String url;
 
   PlayableData({
@@ -25,22 +30,51 @@ class PlayableData {
     required this.title,
     required this.description,
     required this.startPosition,
+    required this.defaultAudioTrack,
     this.audioTracks = const [],
+    required this.defaultSubtrack,
     this.subtitleTracks = const [],
     this.trickPlayModel,
     this.chapters = const [],
+    this.segments = const [],
+    required this.skipForward,
+    required this.skipBackward,
     required this.url,
+  });
+}
+
+enum MediaSegmentType {
+  commercial,
+  preview,
+  recap,
+  intro,
+  outro,
+}
+
+class MediaSegment {
+  final MediaSegmentType type;
+  final int start;
+  final int end;
+
+  const MediaSegment({
+    required this.type,
+    required this.start,
+    required this.end,
   });
 }
 
 class AudioTrack {
   final String name;
+  final String languageCode;
+  final String codec;
   final int index;
   final bool external;
   final String? url;
 
   const AudioTrack({
     required this.name,
+    required this.languageCode,
+    required this.codec,
     required this.index,
     required this.external,
     required this.url,
@@ -49,12 +83,16 @@ class AudioTrack {
 
 class SubtitleTrack {
   final String name;
+  final String languageCode;
+  final String codec;
   final int index;
   final bool external;
   final String? url;
 
   const SubtitleTrack({
     required this.name,
+    required this.languageCode,
+    required this.codec,
     required this.index,
     required this.external,
     required this.url,
@@ -101,13 +139,18 @@ class StartResult {
 
 @HostApi()
 abstract class NativeVideoActivity {
-  StartResult launchActivity() ;
+  @async
+  StartResult launchActivity();
   void disposeActivity();
+
+  bool isLeanBackEnabled();
 }
 
 @HostApi()
 abstract class VideoPlayerApi {
   bool sendPlayableModel(PlayableData playableData);
+
+  void open(String url, bool play);
 
   void setLooping(bool looping);
 
@@ -133,24 +176,32 @@ class PlaybackState {
   final int position;
   //Milliseconds
   final int buffered;
+  //Milliseconds
+  final int duration;
   final bool playing;
+  final bool buffering;
   final bool completed;
   final bool failed;
 
   const PlaybackState({
     required this.position,
     required this.buffered,
+    required this.duration,
     required this.playing,
+    required this.buffering,
     required this.completed,
     required this.failed,
   });
 }
 
 @FlutterApi()
-abstract class VideoPlayerListener {
+abstract class VideoPlayerListenerCallback {
   void onPlaybackStateChanged(PlaybackState state);
+}
+
+@FlutterApi()
+abstract class VideoPlayerControlsCallback {
   void loadNextVideo();
   void loadPreviousVideo();
-
   void onStop();
 }

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
@@ -7,13 +6,11 @@ import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/src/video_player_helper.g.dart';
-import 'package:fladder/wrappers/media_control_wrapper.dart';
 import 'package:fladder/wrappers/players/base_player.dart';
 import 'package:fladder/wrappers/players/player_states.dart';
 
-class NativePlayer extends BasePlayer implements VideoPlayerListener {
+class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
   final player = VideoPlayerApi();
-  MediaControlsWrapper? ref;
 
   @override
   Future<void> dispose() async {
@@ -21,7 +18,7 @@ class NativePlayer extends BasePlayer implements VideoPlayerListener {
   }
 
   @override
-  Future<void> init(VideoPlayerSettingsModel settings) async => VideoPlayerListener.setUp(this);
+  Future<void> init(VideoPlayerSettingsModel settings) async => VideoPlayerListenerCallback.setUp(this);
 
   @override
   Future<void> loop(bool loop) {
@@ -29,11 +26,10 @@ class NativePlayer extends BasePlayer implements VideoPlayerListener {
   }
 
   @override
-  Future<void> open(String url, bool play) async {
-    final result = await NativeVideoActivity().launchActivity();
-    log(result.resultValue ?? "No result");
-    return;
-  }
+  Future<void> loadVideo(String url, bool play) async => player.open(url, play);
+
+  @override
+  Future<void> open(BuildContext context) async => await NativeVideoActivity().launchActivity();
 
   @override
   Future<void> pause() {
@@ -88,6 +84,7 @@ class NativePlayer extends BasePlayer implements VideoPlayerListener {
       playing: state.playing,
       position: Duration(milliseconds: state.position),
       buffer: Duration(milliseconds: state.buffered),
+      buffering: state.buffering,
     );
     _stateController.add(lastState);
   }
@@ -97,40 +94,52 @@ class NativePlayer extends BasePlayer implements VideoPlayerListener {
   @override
   Stream<PlayerState> get stateStream => _stateController.stream;
 
-  @override
-  void loadNextVideo() {
-    // final previousVideo = ref?.read(playBackModel.select((value) => value?.previousVideo));
-    // final buffering = ref?.read(mediaPlaybackProvider.select((value) => value.buffering)) ?? true;
-    // previousVideo != null && !buffering ? () => ref?.read(playbackModelHelper).loadNewVideo(previousVideo) : null;
-  }
-
-  @override
-  void loadPreviousVideo() {
-    // final nextVideo = ref?.read(playBackModel.select((value) => value?.nextVideo));
-    // final buffering = ref?.read(mediaPlaybackProvider.select((value) => value.buffering)) ?? true;
-    // nextVideo != null && !buffering ? () => ref?.read(playbackModelHelper).loadNewVideo(nextVideo) : null;
-  }
-
-  @override
-  void onStop() {
-    ref?.stop();
-  }
-
-  Future<bool> sendPlaybackData(
+  Future<void> sendPlaybackDataToNative(
     PlaybackModel model,
     Duration startPosition,
-    MediaControlsWrapper playerProvider,
   ) async {
-    ref = playerProvider;
     final playableData = PlayableData(
       id: model.item.id,
       title: model.item.title,
       startPosition: startPosition.inMilliseconds,
       description: model.item.overview.summary,
-      audioTracks:
-          model.audioStreams?.map((e) => AudioTrack(name: e.name, index: e.index, external: false)).toList() ?? [],
+      defaultAudioTrack: model.mediaStreams?.defaultAudioStreamIndex ?? 1,
+      audioTracks: model.audioStreams
+              ?.map(
+                (audio) => AudioTrack(
+                  name: audio.displayTitle,
+                  languageCode: audio.language,
+                  codec: audio.codec,
+                  index: audio.index,
+                  external: false,
+                ),
+              )
+              .toList() ??
+          [],
+      defaultSubtrack: model.mediaStreams?.defaultSubStreamIndex ?? 1,
+      skipForward: const Duration(seconds: 30).inMilliseconds,
+      skipBackward: const Duration(seconds: 15).inMilliseconds,
       subtitleTracks: model.subStreams
-              ?.map((e) => SubtitleTrack(name: e.name, index: e.index, external: e.isExternal, url: e.url))
+              ?.map(
+                (sub) => SubtitleTrack(
+                  name: sub.displayTitle,
+                  languageCode: sub.language,
+                  codec: sub.codec,
+                  index: sub.index,
+                  external: sub.isExternal,
+                  url: sub.url,
+                ),
+              )
+              .toList() ??
+          [],
+      segments: model.mediaSegments?.segments
+              .map(
+                (e) => MediaSegment(
+                  type: MediaSegmentType.values.firstWhere((element) => element.name == e.type.name),
+                  start: e.start.inMilliseconds,
+                  end: e.end.inMilliseconds,
+                ),
+              )
               .toList() ??
           [],
       trickPlayModel: model.trickPlay != null
@@ -143,9 +152,12 @@ class NativePlayer extends BasePlayer implements VideoPlayerListener {
               interval: model.trickPlay!.interval.inMilliseconds,
               images: model.trickPlay?.images ?? [])
           : null,
-      chapters: [],
+      chapters: model.chapters
+              ?.map((e) => Chapter(name: e.name, url: e.imageUrl, time: e.startPosition.inMilliseconds))
+              .toList() ??
+          [],
       url: model.media?.url ?? "",
     );
-    return player.sendPlayableModel(playableData);
+    player.sendPlayableModel(playableData);
   }
 }

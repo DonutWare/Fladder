@@ -39,16 +39,29 @@ bool _deepEquals(Object? a, Object? b) {
 }
 
 
+enum MediaSegmentType {
+  commercial,
+  preview,
+  recap,
+  intro,
+  outro,
+}
+
 class PlayableData {
   PlayableData({
     required this.id,
     required this.title,
     required this.description,
     required this.startPosition,
+    required this.defaultAudioTrack,
     required this.audioTracks,
+    required this.defaultSubtrack,
     required this.subtitleTracks,
     this.trickPlayModel,
     required this.chapters,
+    required this.segments,
+    required this.skipForward,
+    required this.skipBackward,
     required this.url,
   });
 
@@ -60,13 +73,23 @@ class PlayableData {
 
   int startPosition;
 
+  int defaultAudioTrack;
+
   List<AudioTrack> audioTracks;
+
+  int defaultSubtrack;
 
   List<SubtitleTrack> subtitleTracks;
 
   TrickPlayModel? trickPlayModel;
 
   List<Chapter> chapters;
+
+  List<MediaSegment> segments;
+
+  int skipForward;
+
+  int skipBackward;
 
   String url;
 
@@ -76,10 +99,15 @@ class PlayableData {
       title,
       description,
       startPosition,
+      defaultAudioTrack,
       audioTracks,
+      defaultSubtrack,
       subtitleTracks,
       trickPlayModel,
       chapters,
+      segments,
+      skipForward,
+      skipBackward,
       url,
     ];
   }
@@ -94,11 +122,16 @@ class PlayableData {
       title: result[1]! as String,
       description: result[2]! as String,
       startPosition: result[3]! as int,
-      audioTracks: (result[4] as List<Object?>?)!.cast<AudioTrack>(),
-      subtitleTracks: (result[5] as List<Object?>?)!.cast<SubtitleTrack>(),
-      trickPlayModel: result[6] as TrickPlayModel?,
-      chapters: (result[7] as List<Object?>?)!.cast<Chapter>(),
-      url: result[8]! as String,
+      defaultAudioTrack: result[4]! as int,
+      audioTracks: (result[5] as List<Object?>?)!.cast<AudioTrack>(),
+      defaultSubtrack: result[6]! as int,
+      subtitleTracks: (result[7] as List<Object?>?)!.cast<SubtitleTrack>(),
+      trickPlayModel: result[8] as TrickPlayModel?,
+      chapters: (result[9] as List<Object?>?)!.cast<Chapter>(),
+      segments: (result[10] as List<Object?>?)!.cast<MediaSegment>(),
+      skipForward: result[11]! as int,
+      skipBackward: result[12]! as int,
+      url: result[13]! as String,
     );
   }
 
@@ -120,15 +153,72 @@ class PlayableData {
 ;
 }
 
+class MediaSegment {
+  MediaSegment({
+    required this.type,
+    required this.start,
+    required this.end,
+  });
+
+  MediaSegmentType type;
+
+  int start;
+
+  int end;
+
+  List<Object?> _toList() {
+    return <Object?>[
+      type,
+      start,
+      end,
+    ];
+  }
+
+  Object encode() {
+    return _toList();  }
+
+  static MediaSegment decode(Object result) {
+    result as List<Object?>;
+    return MediaSegment(
+      type: result[0]! as MediaSegmentType,
+      start: result[1]! as int,
+      end: result[2]! as int,
+    );
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  bool operator ==(Object other) {
+    if (other is! MediaSegment || other.runtimeType != runtimeType) {
+      return false;
+    }
+    if (identical(this, other)) {
+      return true;
+    }
+    return _deepEquals(encode(), other.encode());
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  int get hashCode => Object.hashAll(_toList())
+;
+}
+
 class AudioTrack {
   AudioTrack({
     required this.name,
+    required this.languageCode,
+    required this.codec,
     required this.index,
     required this.external,
     this.url,
   });
 
   String name;
+
+  String languageCode;
+
+  String codec;
 
   int index;
 
@@ -139,6 +229,8 @@ class AudioTrack {
   List<Object?> _toList() {
     return <Object?>[
       name,
+      languageCode,
+      codec,
       index,
       external,
       url,
@@ -152,9 +244,11 @@ class AudioTrack {
     result as List<Object?>;
     return AudioTrack(
       name: result[0]! as String,
-      index: result[1]! as int,
-      external: result[2]! as bool,
-      url: result[3] as String?,
+      languageCode: result[1]! as String,
+      codec: result[2]! as String,
+      index: result[3]! as int,
+      external: result[4]! as bool,
+      url: result[5] as String?,
     );
   }
 
@@ -179,12 +273,18 @@ class AudioTrack {
 class SubtitleTrack {
   SubtitleTrack({
     required this.name,
+    required this.languageCode,
+    required this.codec,
     required this.index,
     required this.external,
     this.url,
   });
 
   String name;
+
+  String languageCode;
+
+  String codec;
 
   int index;
 
@@ -195,6 +295,8 @@ class SubtitleTrack {
   List<Object?> _toList() {
     return <Object?>[
       name,
+      languageCode,
+      codec,
       index,
       external,
       url,
@@ -208,9 +310,11 @@ class SubtitleTrack {
     result as List<Object?>;
     return SubtitleTrack(
       name: result[0]! as String,
-      index: result[1]! as int,
-      external: result[2]! as bool,
-      url: result[3] as String?,
+      languageCode: result[1]! as String,
+      codec: result[2]! as String,
+      index: result[3]! as int,
+      external: result[4]! as bool,
+      url: result[5] as String?,
     );
   }
 
@@ -399,7 +503,9 @@ class PlaybackState {
   PlaybackState({
     required this.position,
     required this.buffered,
+    required this.duration,
     required this.playing,
+    required this.buffering,
     required this.completed,
     required this.failed,
   });
@@ -408,7 +514,11 @@ class PlaybackState {
 
   int buffered;
 
+  int duration;
+
   bool playing;
+
+  bool buffering;
 
   bool completed;
 
@@ -418,7 +528,9 @@ class PlaybackState {
     return <Object?>[
       position,
       buffered,
+      duration,
       playing,
+      buffering,
       completed,
       failed,
     ];
@@ -432,9 +544,11 @@ class PlaybackState {
     return PlaybackState(
       position: result[0]! as int,
       buffered: result[1]! as int,
-      playing: result[2]! as bool,
-      completed: result[3]! as bool,
-      failed: result[4]! as bool,
+      duration: result[2]! as int,
+      playing: result[3]! as bool,
+      buffering: result[4]! as bool,
+      completed: result[5]! as bool,
+      failed: result[6]! as bool,
     );
   }
 
@@ -464,26 +578,32 @@ class _PigeonCodec extends StandardMessageCodec {
     if (value is int) {
       buffer.putUint8(4);
       buffer.putInt64(value);
-    }    else if (value is PlayableData) {
+    }    else if (value is MediaSegmentType) {
       buffer.putUint8(129);
-      writeValue(buffer, value.encode());
-    }    else if (value is AudioTrack) {
+      writeValue(buffer, value.index);
+    }    else if (value is PlayableData) {
       buffer.putUint8(130);
       writeValue(buffer, value.encode());
-    }    else if (value is SubtitleTrack) {
+    }    else if (value is MediaSegment) {
       buffer.putUint8(131);
       writeValue(buffer, value.encode());
-    }    else if (value is Chapter) {
+    }    else if (value is AudioTrack) {
       buffer.putUint8(132);
       writeValue(buffer, value.encode());
-    }    else if (value is TrickPlayModel) {
+    }    else if (value is SubtitleTrack) {
       buffer.putUint8(133);
       writeValue(buffer, value.encode());
-    }    else if (value is StartResult) {
+    }    else if (value is Chapter) {
       buffer.putUint8(134);
       writeValue(buffer, value.encode());
-    }    else if (value is PlaybackState) {
+    }    else if (value is TrickPlayModel) {
       buffer.putUint8(135);
+      writeValue(buffer, value.encode());
+    }    else if (value is StartResult) {
+      buffer.putUint8(136);
+      writeValue(buffer, value.encode());
+    }    else if (value is PlaybackState) {
+      buffer.putUint8(137);
       writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
@@ -494,18 +614,23 @@ class _PigeonCodec extends StandardMessageCodec {
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
       case 129: 
-        return PlayableData.decode(readValue(buffer)!);
+        final int? value = readValue(buffer) as int?;
+        return value == null ? null : MediaSegmentType.values[value];
       case 130: 
-        return AudioTrack.decode(readValue(buffer)!);
+        return PlayableData.decode(readValue(buffer)!);
       case 131: 
-        return SubtitleTrack.decode(readValue(buffer)!);
+        return MediaSegment.decode(readValue(buffer)!);
       case 132: 
-        return Chapter.decode(readValue(buffer)!);
+        return AudioTrack.decode(readValue(buffer)!);
       case 133: 
-        return TrickPlayModel.decode(readValue(buffer)!);
+        return SubtitleTrack.decode(readValue(buffer)!);
       case 134: 
-        return StartResult.decode(readValue(buffer)!);
+        return Chapter.decode(readValue(buffer)!);
       case 135: 
+        return TrickPlayModel.decode(readValue(buffer)!);
+      case 136: 
+        return StartResult.decode(readValue(buffer)!);
+      case 137: 
         return PlaybackState.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
@@ -576,6 +701,34 @@ class NativeVideoActivity {
       return;
     }
   }
+
+  Future<bool> isLeanBackEnabled() async {
+    final String pigeonVar_channelName = 'dev.flutter.pigeon.nl_jknaapen_fladder.video.NativeVideoActivity.isLeanBackEnabled$pigeonVar_messageChannelSuffix';
+    final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
+    final List<Object?>? pigeonVar_replyList =
+        await pigeonVar_sendFuture as List<Object?>?;
+    if (pigeonVar_replyList == null) {
+      throw _createConnectionError(pigeonVar_channelName);
+    } else if (pigeonVar_replyList.length > 1) {
+      throw PlatformException(
+        code: pigeonVar_replyList[0]! as String,
+        message: pigeonVar_replyList[1] as String?,
+        details: pigeonVar_replyList[2],
+      );
+    } else if (pigeonVar_replyList[0] == null) {
+      throw PlatformException(
+        code: 'null-error',
+        message: 'Host platform returned null value for non-null return value.',
+      );
+    } else {
+      return (pigeonVar_replyList[0] as bool?)!;
+    }
+  }
 }
 
 class VideoPlayerApi {
@@ -616,6 +769,29 @@ class VideoPlayerApi {
       );
     } else {
       return (pigeonVar_replyList[0] as bool?)!;
+    }
+  }
+
+  Future<void> open(String url, bool play) async {
+    final String pigeonVar_channelName = 'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.open$pigeonVar_messageChannelSuffix';
+    final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[url, play]);
+    final List<Object?>? pigeonVar_replyList =
+        await pigeonVar_sendFuture as List<Object?>?;
+    if (pigeonVar_replyList == null) {
+      throw _createConnectionError(pigeonVar_channelName);
+    } else if (pigeonVar_replyList.length > 1) {
+      throw PlatformException(
+        code: pigeonVar_replyList[0]! as String,
+        message: pigeonVar_replyList[1] as String?,
+        details: pigeonVar_replyList[2],
+      );
+    } else {
+      return;
     }
   }
 
@@ -785,33 +961,27 @@ class VideoPlayerApi {
   }
 }
 
-abstract class VideoPlayerListener {
+abstract class VideoPlayerListenerCallback {
   static const MessageCodec<Object?> pigeonChannelCodec = _PigeonCodec();
 
   void onPlaybackStateChanged(PlaybackState state);
 
-  void loadNextVideo();
-
-  void loadPreviousVideo();
-
-  void onStop();
-
-  static void setUp(VideoPlayerListener? api, {BinaryMessenger? binaryMessenger, String messageChannelSuffix = '',}) {
+  static void setUp(VideoPlayerListenerCallback? api, {BinaryMessenger? binaryMessenger, String messageChannelSuffix = '',}) {
     messageChannelSuffix = messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '';
     {
       final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerListener.onPlaybackStateChanged$messageChannelSuffix', pigeonChannelCodec,
+          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerListenerCallback.onPlaybackStateChanged$messageChannelSuffix', pigeonChannelCodec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           assert(message != null,
-          'Argument for dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerListener.onPlaybackStateChanged was null.');
+          'Argument for dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerListenerCallback.onPlaybackStateChanged was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final PlaybackState? arg_state = (args[0] as PlaybackState?);
           assert(arg_state != null,
-              'Argument for dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerListener.onPlaybackStateChanged was null, expected non-null PlaybackState.');
+              'Argument for dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerListenerCallback.onPlaybackStateChanged was null, expected non-null PlaybackState.');
           try {
             api.onPlaybackStateChanged(arg_state!);
             return wrapResponse(empty: true);
@@ -823,9 +993,23 @@ abstract class VideoPlayerListener {
         });
       }
     }
+  }
+}
+
+abstract class VideoPlayerControlsCallback {
+  static const MessageCodec<Object?> pigeonChannelCodec = _PigeonCodec();
+
+  void loadNextVideo();
+
+  void loadPreviousVideo();
+
+  void onStop();
+
+  static void setUp(VideoPlayerControlsCallback? api, {BinaryMessenger? binaryMessenger, String messageChannelSuffix = '',}) {
+    messageChannelSuffix = messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '';
     {
       final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerListener.loadNextVideo$messageChannelSuffix', pigeonChannelCodec,
+          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.loadNextVideo$messageChannelSuffix', pigeonChannelCodec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
@@ -844,7 +1028,7 @@ abstract class VideoPlayerListener {
     }
     {
       final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerListener.loadPreviousVideo$messageChannelSuffix', pigeonChannelCodec,
+          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.loadPreviousVideo$messageChannelSuffix', pigeonChannelCodec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
@@ -863,7 +1047,7 @@ abstract class VideoPlayerListener {
     }
     {
       final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerListener.onStop$messageChannelSuffix', pigeonChannelCodec,
+          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.onStop$messageChannelSuffix', pigeonChannelCodec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);

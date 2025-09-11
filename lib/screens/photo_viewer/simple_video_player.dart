@@ -20,7 +20,6 @@ import 'package:fladder/wrappers/players/base_player.dart';
 import 'package:fladder/wrappers/players/lib_mdk.dart'
     if (dart.library.html) 'package:fladder/stubs/web/lib_mdk_web.dart';
 import 'package:fladder/wrappers/players/lib_mpv.dart';
-import 'package:fladder/wrappers/players/native_player.dart';
 
 class SimpleVideoPlayer extends ConsumerStatefulWidget {
   final PhotoModel video;
@@ -36,7 +35,7 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
   late final BasePlayer player = switch (ref.read(videoPlayerSettingsProvider.select((value) => value.wantedPlayer))) {
     PlayerOptions.libMDK => LibMDK(),
     PlayerOptions.libMPV => LibMPV(),
-    PlayerOptions.nativePlayer => NativePlayer(),
+    _ => LibMDK(),
   };
   late String videoUrl = "";
 
@@ -104,7 +103,7 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
         duration = event.duration;
       });
     }));
-    await player.open(videoUrl, !ref.watch(photoViewSettingsProvider).autoPlay);
+    await player.loadVideo(videoUrl, !ref.watch(photoViewSettingsProvider).autoPlay);
     await player.setVolume(ref.watch(photoViewSettingsProvider.select((value) => value.mute)) ? 0 : 100);
     await player.loop(ref.watch(photoViewSettingsProvider.select((value) => value.repeat)));
   }

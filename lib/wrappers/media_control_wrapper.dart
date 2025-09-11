@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -18,6 +17,7 @@ import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
+import 'package:fladder/src/video_player_helper.g.dart' hide PlaybackState;
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/wrappers/players/base_player.dart';
 import 'package:fladder/wrappers/players/lib_mdk.dart'
@@ -26,7 +26,7 @@ import 'package:fladder/wrappers/players/lib_mpv.dart';
 import 'package:fladder/wrappers/players/native_player.dart';
 import 'package:fladder/wrappers/players/player_states.dart';
 
-class MediaControlsWrapper extends BaseAudioHandler {
+class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerControlsCallback {
   MediaControlsWrapper({required this.ref});
 
   BasePlayer? _player;
@@ -51,11 +51,12 @@ class MediaControlsWrapper extends BaseAudioHandler {
   List<StreamSubscription> subscriptions = [];
   SMTCWindows? smtc;
 
-  bool initMediaControls = false;
+  bool initializedWrapper = false;
 
   Future<void> init() async {
-    if (!initMediaControls) {
-      initMediaControls = true;
+    if (!initializedWrapper) {
+      initializedWrapper = true;
+      VideoPlayerControlsCallback.setUp(this);
       await AudioService.init(
         builder: () => this,
         config: const AudioServiceConfig(
@@ -96,7 +97,14 @@ class MediaControlsWrapper extends BaseAudioHandler {
     _subscribePlayer();
   }
 
-  Future<void> open(String url, bool play) async => _player?.open(url, play);
+  Future<void> loadVideo(PlaybackModel model, Duration startPosition, bool play) async {
+    if (_player is NativePlayer) {
+      await (_player as NativePlayer).sendPlaybackDataToNative(model, startPosition);
+    }
+    return _player?.loadVideo(model.media?.url ?? "", play);
+  }
+
+  Future<void> openPlayer(BuildContext context) async => _player?.open(context);
 
   void _subscribePlayer() {
     if (Platform.isWindows && !kIsWeb) {
@@ -241,11 +249,9 @@ class MediaControlsWrapper extends BaseAudioHandler {
 
   @override
   Future<void> stop() async {
-    log('Sending stop');
     final playbackModel = ref.read(playBackModel);
     if (playbackModel == null) return;
 
-    log("Starting stop");
     ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(state: VideoPlayerState.disposed));
     WakelockPlus.disable();
     super.stop();
@@ -319,10 +325,23 @@ class MediaControlsWrapper extends BaseAudioHandler {
     return super.setSpeed(speed);
   }
 
-  Future<bool> sendPlaybackData(PlaybackModel data, Duration startPosition) async {
-    if (_player is NativePlayer) {
-      return (_player as NativePlayer).sendPlaybackData(data, startPosition, this);
-    }
-    return false;
+  //Native player calls
+  //
+  //
+  @override
+  void loadNextVideo() async {
+    final nextVideo = ref.read(playBackModel.select((value) => value?.nextVideo));
+    final buffering = ref.read(mediaPlaybackProvider.select((value) => value.buffering));
+    if (nextVideo != null && !buffering) ref.read(playbackModelHelper).loadNewVideo(nextVideo);
   }
+
+  @override
+  void loadPreviousVideo() async {
+    final previousVideo = ref.read(playBackModel.select((value) => value?.previousVideo));
+    final buffering = ref.read(mediaPlaybackProvider.select((value) => value.buffering));
+    if (previousVideo != null && !buffering) ref.read(playbackModelHelper).loadNewVideo(previousVideo);
+  }
+
+  @override
+  void onStop() => stop();
 }

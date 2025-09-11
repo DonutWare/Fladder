@@ -10,14 +10,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.media3.common.AudioAttributes
+import androidx.media3.common.C
 import androidx.media3.common.C.VIDEO_SCALING_MODE_SCALE_TO_FIT
 import androidx.media3.common.Player
+import androidx.media3.common.Tracks
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DataSource
 import androidx.media3.datasource.DefaultDataSource
@@ -25,12 +29,19 @@ import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.datasource.cache.CacheDataSource
 import androidx.media3.datasource.cache.LeastRecentlyUsedCacheEvictor
 import androidx.media3.datasource.cache.SimpleCache
+import androidx.media3.exoplayer.DefaultRenderersFactory
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
+import androidx.media3.ui.CaptionStyleCompat
 import androidx.media3.ui.PlayerView
+import io.github.peerless2012.ass.media.kt.buildWithAssSupport
+import io.github.peerless2012.ass.media.type.AssRenderType
+import kotlinx.coroutines.delay
+import nl.jknaapen.fladder.messengers.properlySetSubAndAudioTracks
 import nl.jknaapen.fladder.objects.VideoPlayerHost
 import java.io.File
+import kotlin.time.Duration.Companion.seconds
 
 val LocalPlayer = compositionLocalOf<ExoPlayer?> { null }
 
@@ -44,36 +55,80 @@ internal fun ExoPlayer(
 ) {
     val videoHost = VideoPlayerHost
     val context = LocalContext.current
-    val trackSelector = DefaultTrackSelector(context)
+
+    var initialized = false
+
+
+    val trackSelector = DefaultTrackSelector(context).apply {
+        setParameters(
+            buildUponParameters()
+                .setAllowVideoMixedMimeTypeAdaptiveness(true)
+                .setAllowVideoNonSeamlessAdaptiveness(true)
+        )
+    }
     val cacheDataSourceFactory = remember { VideoCache.buildCacheDataSourceFactory(context) }
 
-    val exoPlayer = remember {
-        ExoPlayer.Builder(context).apply {
-            setTrackSelector(trackSelector)
-            setMediaSourceFactory(
-                DefaultMediaSourceFactory(cacheDataSourceFactory)
-            )
-            setVideoScalingMode(VIDEO_SCALING_MODE_SCALE_TO_FIT)
-        }.build()
+    val audioAttributes = AudioAttributes.Builder()
+        .setUsage(C.USAGE_MEDIA)
+        .setContentType(C.AUDIO_CONTENT_TYPE_MOVIE)
+        .build()
+
+    val renderersFactory = DefaultRenderersFactory(context)
+        .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER) // ensure ffmpeg is picked first
+        .setEnableDecoderFallback(true)
+
+    val exoPlayer = ExoPlayer.Builder(context, renderersFactory)
+        .setTrackSelector(trackSelector)
+        .setMediaSourceFactory(DefaultMediaSourceFactory(cacheDataSourceFactory))
+        .setAudioAttributes(audioAttributes, true)
+        .setVideoScalingMode(VIDEO_SCALING_MODE_SCALE_TO_FIT)
+        .buildWithAssSupport(context, AssRenderType.OPEN_GL)
+
+    LaunchedEffect(exoPlayer) {
+        while (true) {
+            if (exoPlayer.isPlaying) {
+                videoHost.setPlaybackState(
+                    PlaybackState(
+                        position = exoPlayer.currentPosition,
+                        buffered = exoPlayer.bufferedPosition,
+                        duration = exoPlayer.duration,
+                        playing = exoPlayer.isPlaying,
+                        buffering = exoPlayer.playbackState == Player.STATE_BUFFERING,
+                        completed = exoPlayer.playbackState == Player.STATE_ENDED,
+                        failed = exoPlayer.playbackState == Player.STATE_IDLE
+                    )
+                )
+            }
+            delay(1.seconds)
+        }
     }
 
     DisposableEffect(exoPlayer) {
         val listener = object : Player.Listener {
             override fun onEvents(player: Player, events: Player.Events) {
                 super.onEvents(player, events)
-
-                videoHost.callBack?.onPlaybackStateChanged(
+                videoHost.setPlaybackState(
                     PlaybackState(
                         position = exoPlayer.currentPosition,
                         buffered = exoPlayer.bufferedPosition,
+                        duration = exoPlayer.duration,
                         playing = exoPlayer.isPlaying,
+                        buffering = exoPlayer.playbackState == Player.STATE_BUFFERING,
                         completed = exoPlayer.playbackState == Player.STATE_ENDED,
                         failed = exoPlayer.playbackState == Player.STATE_IDLE
-                    ),
-                    callback = {
-
-                    }
+                    )
                 )
+            }
+
+            override fun onTracksChanged(tracks: Tracks) {
+                super.onTracksChanged(tracks)
+                if (!initialized) {
+                    initialized = true
+                    VideoPlayerHost.implementation.playbackData.value?.let {
+                        exoPlayer.properlySetSubAndAudioTracks(it)
+                    }
+                }
+
             }
         }
         exoPlayer.addListener(listener)
@@ -84,8 +139,10 @@ internal fun ExoPlayer(
 
     DisposableEffect(Unit) {
         VideoPlayerHost.implementation.init(exoPlayer)
+        //Testing purposes
+//        VideoPlayerHost.implementation.sendPlayableModel(testPlaybackData)
         onDispose {
-            videoHost.callBack?.onStop(callback = {})
+            videoHost.videoPlayerControls?.onStop(callback = {})
             VideoPlayerHost.implementation.init(null)
             exoPlayer.release()
         }
@@ -105,6 +162,16 @@ internal fun ExoPlayer(
                     layoutParams = ViewGroup.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT
+                    )
+                    subtitleView?.setStyle(
+                        CaptionStyleCompat(
+                            android.graphics.Color.WHITE,
+                            android.graphics.Color.TRANSPARENT,
+                            android.graphics.Color.TRANSPARENT,
+                            CaptionStyleCompat.EDGE_TYPE_OUTLINE,
+                            android.graphics.Color.BLACK,
+                            null
+                        )
                     )
                 }
             }

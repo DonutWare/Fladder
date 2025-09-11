@@ -13,6 +13,7 @@ import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/settings/subtitle_settings_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/settings/subtitle_settings_provider.dart';
+import 'package:fladder/screens/video_player/video_player.dart' as video_screen;
 import 'package:fladder/util/subtitle_position_calculator.dart';
 import 'package:fladder/wrappers/players/base_player.dart';
 import 'package:fladder/wrappers/players/player_states.dart';
@@ -82,10 +83,17 @@ class LibMPV extends BasePlayer {
   }
 
   @override
-  Future<void> open(String url, bool play) async {
+  Future<void> loadVideo(String url, bool play) async {
     await _player?.open(mpv.Media(url), play: play);
     return setState(lastState.update(buffering: true));
   }
+
+  @override
+  Future<void> open(BuildContext context) async => Navigator.of(context, rootNavigator: true).push(
+        MaterialPageRoute(
+          builder: (context) => const video_screen.VideoPlayer(),
+        ),
+      );
 
   List<mpv.SubtitleTrack> get subTracks => _player?.state.tracks.subtitle ?? [];
   mpv.SubtitleTrack get subtitleTrack => _player?.state.track.subtitle ?? mpv.SubtitleTrack.no();

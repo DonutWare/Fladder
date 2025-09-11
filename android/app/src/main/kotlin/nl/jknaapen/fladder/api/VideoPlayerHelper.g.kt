@@ -80,16 +80,35 @@ class FlutterError (
   val details: Any? = null
 ) : Throwable()
 
+enum class MediaSegmentType(val raw: Int) {
+  COMMERCIAL(0),
+  PREVIEW(1),
+  RECAP(2),
+  INTRO(3),
+  OUTRO(4);
+
+  companion object {
+    fun ofRaw(raw: Int): MediaSegmentType? {
+      return values().firstOrNull { it.raw == raw }
+    }
+  }
+}
+
 /** Generated class from Pigeon that represents data sent in messages. */
 data class PlayableData (
   val id: String,
   val title: String,
   val description: String,
   val startPosition: Long,
+  val defaultAudioTrack: Long,
   val audioTracks: List<AudioTrack>,
+  val defaultSubtrack: Long,
   val subtitleTracks: List<SubtitleTrack>,
   val trickPlayModel: TrickPlayModel? = null,
   val chapters: List<Chapter>,
+  val segments: List<MediaSegment>,
+  val skipForward: Long,
+  val skipBackward: Long,
   val url: String
 )
  {
@@ -99,12 +118,17 @@ data class PlayableData (
       val title = pigeonVar_list[1] as String
       val description = pigeonVar_list[2] as String
       val startPosition = pigeonVar_list[3] as Long
-      val audioTracks = pigeonVar_list[4] as List<AudioTrack>
-      val subtitleTracks = pigeonVar_list[5] as List<SubtitleTrack>
-      val trickPlayModel = pigeonVar_list[6] as TrickPlayModel?
-      val chapters = pigeonVar_list[7] as List<Chapter>
-      val url = pigeonVar_list[8] as String
-      return PlayableData(id, title, description, startPosition, audioTracks, subtitleTracks, trickPlayModel, chapters, url)
+      val defaultAudioTrack = pigeonVar_list[4] as Long
+      val audioTracks = pigeonVar_list[5] as List<AudioTrack>
+      val defaultSubtrack = pigeonVar_list[6] as Long
+      val subtitleTracks = pigeonVar_list[7] as List<SubtitleTrack>
+      val trickPlayModel = pigeonVar_list[8] as TrickPlayModel?
+      val chapters = pigeonVar_list[9] as List<Chapter>
+      val segments = pigeonVar_list[10] as List<MediaSegment>
+      val skipForward = pigeonVar_list[11] as Long
+      val skipBackward = pigeonVar_list[12] as Long
+      val url = pigeonVar_list[13] as String
+      return PlayableData(id, title, description, startPosition, defaultAudioTrack, audioTracks, defaultSubtrack, subtitleTracks, trickPlayModel, chapters, segments, skipForward, skipBackward, url)
     }
   }
   fun toList(): List<Any?> {
@@ -113,10 +137,15 @@ data class PlayableData (
       title,
       description,
       startPosition,
+      defaultAudioTrack,
       audioTracks,
+      defaultSubtrack,
       subtitleTracks,
       trickPlayModel,
       chapters,
+      segments,
+      skipForward,
+      skipBackward,
       url,
     )
   }
@@ -133,8 +162,44 @@ data class PlayableData (
 }
 
 /** Generated class from Pigeon that represents data sent in messages. */
+data class MediaSegment (
+  val type: MediaSegmentType,
+  val start: Long,
+  val end: Long
+)
+ {
+  companion object {
+    fun fromList(pigeonVar_list: List<Any?>): MediaSegment {
+      val type = pigeonVar_list[0] as MediaSegmentType
+      val start = pigeonVar_list[1] as Long
+      val end = pigeonVar_list[2] as Long
+      return MediaSegment(type, start, end)
+    }
+  }
+  fun toList(): List<Any?> {
+    return listOf(
+      type,
+      start,
+      end,
+    )
+  }
+  override fun equals(other: Any?): Boolean {
+    if (other !is MediaSegment) {
+      return false
+    }
+    if (this === other) {
+      return true
+    }
+    return VideoPlayerHelperPigeonUtils.deepEquals(toList(), other.toList())  }
+
+  override fun hashCode(): Int = toList().hashCode()
+}
+
+/** Generated class from Pigeon that represents data sent in messages. */
 data class AudioTrack (
   val name: String,
+  val languageCode: String,
+  val codec: String,
   val index: Long,
   val external: Boolean,
   val url: String? = null
@@ -143,15 +208,19 @@ data class AudioTrack (
   companion object {
     fun fromList(pigeonVar_list: List<Any?>): AudioTrack {
       val name = pigeonVar_list[0] as String
-      val index = pigeonVar_list[1] as Long
-      val external = pigeonVar_list[2] as Boolean
-      val url = pigeonVar_list[3] as String?
-      return AudioTrack(name, index, external, url)
+      val languageCode = pigeonVar_list[1] as String
+      val codec = pigeonVar_list[2] as String
+      val index = pigeonVar_list[3] as Long
+      val external = pigeonVar_list[4] as Boolean
+      val url = pigeonVar_list[5] as String?
+      return AudioTrack(name, languageCode, codec, index, external, url)
     }
   }
   fun toList(): List<Any?> {
     return listOf(
       name,
+      languageCode,
+      codec,
       index,
       external,
       url,
@@ -172,6 +241,8 @@ data class AudioTrack (
 /** Generated class from Pigeon that represents data sent in messages. */
 data class SubtitleTrack (
   val name: String,
+  val languageCode: String,
+  val codec: String,
   val index: Long,
   val external: Boolean,
   val url: String? = null
@@ -180,15 +251,19 @@ data class SubtitleTrack (
   companion object {
     fun fromList(pigeonVar_list: List<Any?>): SubtitleTrack {
       val name = pigeonVar_list[0] as String
-      val index = pigeonVar_list[1] as Long
-      val external = pigeonVar_list[2] as Boolean
-      val url = pigeonVar_list[3] as String?
-      return SubtitleTrack(name, index, external, url)
+      val languageCode = pigeonVar_list[1] as String
+      val codec = pigeonVar_list[2] as String
+      val index = pigeonVar_list[3] as Long
+      val external = pigeonVar_list[4] as Boolean
+      val url = pigeonVar_list[5] as String?
+      return SubtitleTrack(name, languageCode, codec, index, external, url)
     }
   }
   fun toList(): List<Any?> {
     return listOf(
       name,
+      languageCode,
+      codec,
       index,
       external,
       url,
@@ -318,7 +393,9 @@ data class StartResult (
 data class PlaybackState (
   val position: Long,
   val buffered: Long,
+  val duration: Long,
   val playing: Boolean,
+  val buffering: Boolean,
   val completed: Boolean,
   val failed: Boolean
 )
@@ -327,17 +404,21 @@ data class PlaybackState (
     fun fromList(pigeonVar_list: List<Any?>): PlaybackState {
       val position = pigeonVar_list[0] as Long
       val buffered = pigeonVar_list[1] as Long
-      val playing = pigeonVar_list[2] as Boolean
-      val completed = pigeonVar_list[3] as Boolean
-      val failed = pigeonVar_list[4] as Boolean
-      return PlaybackState(position, buffered, playing, completed, failed)
+      val duration = pigeonVar_list[2] as Long
+      val playing = pigeonVar_list[3] as Boolean
+      val buffering = pigeonVar_list[4] as Boolean
+      val completed = pigeonVar_list[5] as Boolean
+      val failed = pigeonVar_list[6] as Boolean
+      return PlaybackState(position, buffered, duration, playing, buffering, completed, failed)
     }
   }
   fun toList(): List<Any?> {
     return listOf(
       position,
       buffered,
+      duration,
       playing,
+      buffering,
       completed,
       failed,
     )
@@ -357,36 +438,46 @@ private open class VideoPlayerHelperPigeonCodec : StandardMessageCodec() {
   override fun readValueOfType(type: Byte, buffer: ByteBuffer): Any? {
     return when (type) {
       129.toByte() -> {
-        return (readValue(buffer) as? List<Any?>)?.let {
-          PlayableData.fromList(it)
+        return (readValue(buffer) as Long?)?.let {
+          MediaSegmentType.ofRaw(it.toInt())
         }
       }
       130.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          AudioTrack.fromList(it)
+          PlayableData.fromList(it)
         }
       }
       131.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          SubtitleTrack.fromList(it)
+          MediaSegment.fromList(it)
         }
       }
       132.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          Chapter.fromList(it)
+          AudioTrack.fromList(it)
         }
       }
       133.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          TrickPlayModel.fromList(it)
+          SubtitleTrack.fromList(it)
         }
       }
       134.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          StartResult.fromList(it)
+          Chapter.fromList(it)
         }
       }
       135.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          TrickPlayModel.fromList(it)
+        }
+      }
+      136.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          StartResult.fromList(it)
+        }
+      }
+      137.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
           PlaybackState.fromList(it)
         }
@@ -396,32 +487,40 @@ private open class VideoPlayerHelperPigeonCodec : StandardMessageCodec() {
   }
   override fun writeValue(stream: ByteArrayOutputStream, value: Any?)   {
     when (value) {
-      is PlayableData -> {
+      is MediaSegmentType -> {
         stream.write(129)
-        writeValue(stream, value.toList())
+        writeValue(stream, value.raw)
       }
-      is AudioTrack -> {
+      is PlayableData -> {
         stream.write(130)
         writeValue(stream, value.toList())
       }
-      is SubtitleTrack -> {
+      is MediaSegment -> {
         stream.write(131)
         writeValue(stream, value.toList())
       }
-      is Chapter -> {
+      is AudioTrack -> {
         stream.write(132)
         writeValue(stream, value.toList())
       }
-      is TrickPlayModel -> {
+      is SubtitleTrack -> {
         stream.write(133)
         writeValue(stream, value.toList())
       }
-      is StartResult -> {
+      is Chapter -> {
         stream.write(134)
         writeValue(stream, value.toList())
       }
-      is PlaybackState -> {
+      is TrickPlayModel -> {
         stream.write(135)
+        writeValue(stream, value.toList())
+      }
+      is StartResult -> {
+        stream.write(136)
+        writeValue(stream, value.toList())
+      }
+      is PlaybackState -> {
+        stream.write(137)
         writeValue(stream, value.toList())
       }
       else -> super.writeValue(stream, value)
@@ -429,10 +528,12 @@ private open class VideoPlayerHelperPigeonCodec : StandardMessageCodec() {
   }
 }
 
+
 /** Generated interface from Pigeon that represents a handler of messages from Flutter. */
 interface NativeVideoActivity {
-  fun launchActivity(): StartResult
+  fun launchActivity(callback: (Result<StartResult>) -> Unit)
   fun disposeActivity()
+  fun isLeanBackEnabled(): Boolean
 
   companion object {
     /** The codec used by NativeVideoActivity. */
@@ -447,12 +548,15 @@ interface NativeVideoActivity {
         val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.nl_jknaapen_fladder.video.NativeVideoActivity.launchActivity$separatedMessageChannelSuffix", codec)
         if (api != null) {
           channel.setMessageHandler { _, reply ->
-            val wrapped: List<Any?> = try {
-              listOf(api.launchActivity())
-            } catch (exception: Throwable) {
-              VideoPlayerHelperPigeonUtils.wrapError(exception)
+            api.launchActivity{ result: Result<StartResult> ->
+              val error = result.exceptionOrNull()
+              if (error != null) {
+                reply.reply(VideoPlayerHelperPigeonUtils.wrapError(error))
+              } else {
+                val data = result.getOrNull()
+                reply.reply(VideoPlayerHelperPigeonUtils.wrapResult(data))
+              }
             }
-            reply.reply(wrapped)
           }
         } else {
           channel.setMessageHandler(null)
@@ -474,12 +578,28 @@ interface NativeVideoActivity {
           channel.setMessageHandler(null)
         }
       }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.nl_jknaapen_fladder.video.NativeVideoActivity.isLeanBackEnabled$separatedMessageChannelSuffix", codec)
+        if (api != null) {
+          channel.setMessageHandler { _, reply ->
+            val wrapped: List<Any?> = try {
+              listOf(api.isLeanBackEnabled())
+            } catch (exception: Throwable) {
+              VideoPlayerHelperPigeonUtils.wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
     }
   }
 }
 /** Generated interface from Pigeon that represents a handler of messages from Flutter. */
 interface VideoPlayerApi {
   fun sendPlayableModel(playableData: PlayableData): Boolean
+  fun open(url: String, play: Boolean)
   fun setLooping(looping: Boolean)
   /** Sets the volume, with 0.0 being muted and 1.0 being full volume. */
   fun setVolume(volume: Double)
@@ -509,6 +629,25 @@ interface VideoPlayerApi {
             val playableDataArg = args[0] as PlayableData
             val wrapped: List<Any?> = try {
               listOf(api.sendPlayableModel(playableDataArg))
+            } catch (exception: Throwable) {
+              VideoPlayerHelperPigeonUtils.wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.open$separatedMessageChannelSuffix", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val urlArg = args[0] as String
+            val playArg = args[1] as Boolean
+            val wrapped: List<Any?> = try {
+              api.open(urlArg, playArg)
+              listOf(null)
             } catch (exception: Throwable) {
               VideoPlayerHelperPigeonUtils.wrapError(exception)
             }
@@ -642,9 +781,9 @@ interface VideoPlayerApi {
   }
 }
 /** Generated class from Pigeon that represents Flutter messages that can be called from Kotlin. */
-class VideoPlayerListener(private val binaryMessenger: BinaryMessenger, private val messageChannelSuffix: String = "") {
+class VideoPlayerListenerCallback(private val binaryMessenger: BinaryMessenger, private val messageChannelSuffix: String = "") {
   companion object {
-    /** The codec used by VideoPlayerListener. */
+    /** The codec used by VideoPlayerListenerCallback. */
     val codec: MessageCodec<Any?> by lazy {
       VideoPlayerHelperPigeonCodec()
     }
@@ -652,7 +791,7 @@ class VideoPlayerListener(private val binaryMessenger: BinaryMessenger, private 
   fun onPlaybackStateChanged(stateArg: PlaybackState, callback: (Result<Unit>) -> Unit)
 {
     val separatedMessageChannelSuffix = if (messageChannelSuffix.isNotEmpty()) ".$messageChannelSuffix" else ""
-    val channelName = "dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerListener.onPlaybackStateChanged$separatedMessageChannelSuffix"
+    val channelName = "dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerListenerCallback.onPlaybackStateChanged$separatedMessageChannelSuffix"
     val channel = BasicMessageChannel<Any?>(binaryMessenger, channelName, codec)
     channel.send(listOf(stateArg)) {
       if (it is List<*>) {
@@ -666,10 +805,19 @@ class VideoPlayerListener(private val binaryMessenger: BinaryMessenger, private 
       } 
     }
   }
+}
+/** Generated class from Pigeon that represents Flutter messages that can be called from Kotlin. */
+class VideoPlayerControlsCallback(private val binaryMessenger: BinaryMessenger, private val messageChannelSuffix: String = "") {
+  companion object {
+    /** The codec used by VideoPlayerControlsCallback. */
+    val codec: MessageCodec<Any?> by lazy {
+      VideoPlayerHelperPigeonCodec()
+    }
+  }
   fun loadNextVideo(callback: (Result<Unit>) -> Unit)
 {
     val separatedMessageChannelSuffix = if (messageChannelSuffix.isNotEmpty()) ".$messageChannelSuffix" else ""
-    val channelName = "dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerListener.loadNextVideo$separatedMessageChannelSuffix"
+    val channelName = "dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.loadNextVideo$separatedMessageChannelSuffix"
     val channel = BasicMessageChannel<Any?>(binaryMessenger, channelName, codec)
     channel.send(null) {
       if (it is List<*>) {
@@ -686,7 +834,7 @@ class VideoPlayerListener(private val binaryMessenger: BinaryMessenger, private 
   fun loadPreviousVideo(callback: (Result<Unit>) -> Unit)
 {
     val separatedMessageChannelSuffix = if (messageChannelSuffix.isNotEmpty()) ".$messageChannelSuffix" else ""
-    val channelName = "dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerListener.loadPreviousVideo$separatedMessageChannelSuffix"
+    val channelName = "dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.loadPreviousVideo$separatedMessageChannelSuffix"
     val channel = BasicMessageChannel<Any?>(binaryMessenger, channelName, codec)
     channel.send(null) {
       if (it is List<*>) {
@@ -703,7 +851,7 @@ class VideoPlayerListener(private val binaryMessenger: BinaryMessenger, private 
   fun onStop(callback: (Result<Unit>) -> Unit)
 {
     val separatedMessageChannelSuffix = if (messageChannelSuffix.isNotEmpty()) ".$messageChannelSuffix" else ""
-    val channelName = "dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerListener.onStop$separatedMessageChannelSuffix"
+    val channelName = "dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.onStop$separatedMessageChannelSuffix"
     val channel = BasicMessageChannel<Any?>(binaryMessenger, channelName, codec)
     channel.send(null) {
       if (it is List<*>) {

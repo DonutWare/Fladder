@@ -23,7 +23,7 @@ class LibMDK extends BasePlayer {
   Future<void> dispose() async {}
 
   @override
-  Future<void> open(String url, bool play) async {}
+  Future<void> loadVideo(String url, bool play) async {}
 
   void setState(PlayerState state) {}
 
@@ -34,6 +34,10 @@ class LibMDK extends BasePlayer {
 
   @override
   Future<void> play() async {}
+
+  @override
+  Future<void> open(BuildContext context) async {}
+
   @override
   Future<void> playOrPause() async {}
 

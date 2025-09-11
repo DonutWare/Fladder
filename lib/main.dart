@@ -29,6 +29,7 @@ import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/routes/auto_router.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/login/lock_screen.dart';
+import 'package:fladder/src/video_player_helper.g.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/application_info.dart';
@@ -86,13 +87,16 @@ void main(List<String> args) async {
     os: !kIsWeb ? defaultTargetPlatform.name.capitalize() : "${defaultTargetPlatform.name.capitalize()} Web",
   );
 
+  // Check if running on android TV
+  final leanBackEnabled = await NativeVideoActivity().isLeanBackEnabled();
+
   runApp(
     ProviderScope(
       overrides: [
         sharedPreferencesProvider.overrideWith((ref) => sharedPreferences),
         applicationInfoProvider.overrideWith((ref) => applicationInfo),
         crashLogProvider.overrideWith((ref) => crashProvider),
-        argumentsStateProvider.overrideWith((ref) => ArgumentsModel.fromArguments(args)),
+        argumentsStateProvider.overrideWith((ref) => ArgumentsModel.fromArguments(args, leanBackEnabled)),
         syncProvider.overrideWith((ref) => SyncNotifier(ref, applicationDirectory))
       ],
       child: AdaptiveLayoutBuilder(

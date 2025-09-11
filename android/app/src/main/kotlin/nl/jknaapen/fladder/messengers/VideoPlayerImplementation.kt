@@ -6,6 +6,12 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import kotlinx.coroutines.flow.MutableStateFlow
+import nl.jknaapen.fladder.utility.clearAudioTrack
+import nl.jknaapen.fladder.utility.clearSubtitleTrack
+import nl.jknaapen.fladder.utility.getAudioTracks
+import nl.jknaapen.fladder.utility.getSubtitleTracks
+import nl.jknaapen.fladder.utility.setInternalAudioTrack
+import nl.jknaapen.fladder.utility.setInternalSubtitleTrack
 
 class VideoPlayerImplementation(
 ) : VideoPlayerApi {
@@ -14,16 +20,28 @@ class VideoPlayerImplementation(
 
     override fun sendPlayableModel(playableData: PlayableData): Boolean {
         try {
+            println("Send playable data")
             playbackData.value = playableData
-            println("Loading video in native ${playableData.url}")
-            val mediaItem = MediaItem.fromUri(playableData.url)
-            player?.setMediaItem(mediaItem)
-            player?.prepare()
-            player?.play()
             return true
         } catch (e: Exception) {
-            println("Error playing video $e")
+            println("Error loading data $e")
             return false
+        }
+    }
+
+    override fun open(url: String, play: Boolean) {
+        try {
+            player?.clearMediaItems()
+            val startPosition = playbackData.value?.startPosition
+            println("Loading video in native $url")
+            val mediaItem = MediaItem.fromUri(url)
+            player?.setMediaItem(mediaItem, startPosition ?: 0L)
+            player?.prepare()
+            if (play) {
+                player?.play()
+            }
+        } catch (e: Exception) {
+            println("Error playing video $e")
         }
     }
 
@@ -57,8 +75,42 @@ class VideoPlayerImplementation(
 
     fun init(exoPlayer: ExoPlayer?) {
         player = exoPlayer
+        //exoPlayer initializes after the playbackData is set for the first load
         playbackData.value?.let {
             sendPlayableModel(it)
+            open(it.url, true)
         }
     }
+}
+
+fun ExoPlayer.properlySetSubAndAudioTracks(playableData: PlayableData) {
+    val currentSubIndex = playableData.defaultSubtrack
+    val indexOfSubtitleTrack =
+        playableData.subtitleTracks.indexOfFirst { it.index == currentSubIndex }
+    val internalSubTracks = this.getSubtitleTracks()
+
+    //Set default subtitle, -1 for "Off" index
+    val wantedSubIndex = indexOfSubtitleTrack - 1
+    if (wantedSubIndex < 0) {
+        clearSubtitleTrack()
+    } else {
+        clearSubtitleTrack(false)
+        setInternalSubtitleTrack(internalSubTracks[wantedSubIndex])
+    }
+
+    //Set default audio, -1 for "Off" index
+    return
+
+    val currentAudioIndex = playableData.defaultAudioTrack
+    val indexOfAudioTrack = playableData.audioTracks.indexOfFirst { it.index == currentAudioIndex }
+    val internalAudioTracks = this.getAudioTracks()
+
+    val wantedAudioIndex = indexOfAudioTrack - 1
+    if (wantedAudioIndex < 0) {
+        clearAudioTrack()
+    } else {
+        clearAudioTrack(false)
+        setInternalAudioTrack(internalAudioTracks[wantedAudioIndex])
+    }
+
 }

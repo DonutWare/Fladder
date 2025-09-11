@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/media_playback_model.dart';
@@ -107,7 +109,7 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     }
   }
 
-  Future<bool> loadPlaybackItem(PlaybackModel model, {Duration? startPosition}) async {
+  Future<bool> loadPlaybackItem(PlaybackModel model, Duration startPosition) async {
     await state.stop();
     mediaState
         .update((state) => state.copyWith(state: VideoPlayerState.fullScreen, buffering: true, errorPlaying: false));
@@ -116,13 +118,13 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     PlaybackModel? newPlaybackModel = model;
 
     if (media != null) {
-      await state.open(media.url, false);
+      await state.loadVideo(model, startPosition, false);
       await state.setVolume(ref.read(videoPlayerSettingsProvider).volume);
       state.stateStream?.takeWhile((event) => event.buffering == true).listen(
         null,
         onDone: () async {
-          final start = startPosition ?? await model.startDuration();
-          if (start != null) {
+          final start = startPosition;
+          if (start != Duration.zero) {
             await state.seek(start);
           }
           await state.setAudioTrack(null, model);
@@ -140,4 +142,6 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     mediaState.update((state) => state.copyWith(errorPlaying: true));
     return false;
   }
+
+  Future<void> openPlayer(BuildContext context) async => state.openPlayer(context);
 }

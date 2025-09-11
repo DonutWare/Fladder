@@ -31,6 +31,21 @@ if (flutterVersionName == null) {
 }
 
 android {
+    packagingOptions {
+        jniLibs {
+            pickFirsts += [                
+                    "lib/x86_64/libc++_shared.so",
+                    "lib/arm64-v8a/libc++_shared.so",
+                    "lib/armeabi-v7a/libc++_shared.so",
+                    "lib/x86/libc++_shared.so",
+
+                    "lib/x86_64/libass.so",
+                    "lib/arm64-v8a/libass.so",
+                    "lib/armeabi-v7a/libass.so",
+                    "lib/x86/libass.so",
+            ]
+        }
+    }
     namespace = "nl.jknaapen.fladder"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
@@ -111,8 +126,11 @@ dependencies {
 
     implementation("androidx.media3:media3-exoplayer-dash:media3_version")
     implementation("androidx.media3:media3-exoplayer-hls:media3_version")
-    implementation "org.jellyfin.media3:media3-ffmpeg-decoder:1.8.0+1"
+    implementation("org.jellyfin.media3:media3-ffmpeg-decoder:1.8.0+1")
+    implementation "io.github.peerless2012:ass-media:0.3.0-rc03"
 
     //UI
     implementation("io.github.rabehx:iconsax-compose:0.0.3")
+    implementation("io.coil-kt.coil3:coil-compose:3.3.0")
+    implementation("io.coil-kt.coil3:coil-network-okhttp:3.3.0")
 }

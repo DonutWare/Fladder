@@ -1,5 +1,7 @@
 package nl.jknaapen.fladder.composables.controls
 
+import MediaSegment
+import MediaSegmentType
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -10,12 +12,15 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -42,14 +47,12 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.media3.exoplayer.ExoPlayer
-import nl.jknaapen.fladder.composables.controls.MediaSegmentType.intro
-import nl.jknaapen.fladder.composables.controls.MediaSegmentType.recap
+import nl.jknaapen.fladder.objects.VideoPlayerHost
 import nl.jknaapen.fladder.utility.formatTime
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.seconds
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
@@ -59,8 +62,8 @@ internal fun ProgressBar(
     bottomControlFocusRequester: FocusRequester,
     onUserInteraction: () -> Unit = {}
 ) {
-    val position by PlaybackState.position
-    val duration by PlaybackState.duration
+    val position by VideoPlayerHost.position.collectAsState(0L)
+    val duration by VideoPlayerHost.duration.collectAsState(0L)
     Row(
         horizontalArrangement = Arrangement.spacedBy(
             8.dp,
@@ -89,29 +92,17 @@ internal fun RowScope.SimpleProgressBar(
     playFocusRequester: FocusRequester,
     onUserInteraction: () -> Unit,
 ) {
+    val playbackData by VideoPlayerHost.implementation.playbackData.collectAsState()
+
     var width by remember { mutableIntStateOf(0) }
-    val position by PlaybackState.position
-    val duration by PlaybackState.duration
+    val position by VideoPlayerHost.position.collectAsState(0L)
+    val duration by VideoPlayerHost.duration.collectAsState(0L)
     val slideBarShape = RoundedCornerShape(size = 8.dp)
     val progress = position.toFloat() / duration.toFloat()
 
+
     var pausedByScrub by remember { mutableStateOf(false) }
     var thumbFocused by remember { mutableStateOf(false) }
-
-    val segments = remember {
-        listOf(
-            MediaSegment(
-                start = 5.seconds,
-                end = 7.seconds,
-                type = intro
-            ),
-            MediaSegment(
-                start = 10.seconds,
-                end = 20.seconds,
-                type = recap
-            ),
-        )
-    }
 
     Box(
         modifier = Modifier
@@ -145,7 +136,8 @@ internal fun RowScope.SimpleProgressBar(
             Box(
                 modifier = Modifier
                     .focusable(enabled = false)
-                    .fillMaxWidth(progress - 0.01f)
+                    .fillMaxWidth(progress)
+                    .padding(end = 8.dp)
                     .height(8.dp)
                     .background(
                         color = Color.White.copy(alpha = 0.75f),
@@ -154,10 +146,20 @@ internal fun RowScope.SimpleProgressBar(
             )
 
             val density = LocalDensity.current
+
+            val mediaSegments = playbackData?.segments
             if (width > 0 && duration.toDuration(DurationUnit.MILLISECONDS) > Duration.ZERO) {
-                segments.forEach { segment ->
-                    val segStartMs = max(0.0, segment.start.toDouble(DurationUnit.MILLISECONDS))
-                    val segEndMs = max(segStartMs, segment.end.toDouble(DurationUnit.MILLISECONDS))
+                mediaSegments?.forEach { segment ->
+                    val segStartMs = max(
+                        0.0,
+                        segment.start.toDuration(DurationUnit.MILLISECONDS)
+                            .toDouble(DurationUnit.MILLISECONDS)
+                    )
+                    val segEndMs = max(
+                        segStartMs,
+                        segment.end.toDuration(DurationUnit.MILLISECONDS)
+                            .toDouble(DurationUnit.MILLISECONDS)
+                    )
                     val durMs = duration.toDouble().coerceAtLeast(1.0)
 
                     if (segStartMs >= durMs) return@forEach
@@ -177,11 +179,42 @@ internal fun RowScope.SimpleProgressBar(
                             .width(segDp)
                             .height(6.dp)
                             .background(
-                                color = segment.type.color.copy(alpha = 0.75f),
+                                color = segment.color.copy(alpha = 0.75f),
                                 shape = RoundedCornerShape(8.dp)
                             )
                     )
                 }
+            }
+
+            //Generate chapter dots
+            val chapters = playbackData?.chapters ?: listOf()
+            chapters.forEach { chapter ->
+                val chapterDuration = chapter.time.toDuration(DurationUnit.SECONDS)
+                    .toDouble(DurationUnit.SECONDS)
+                val isAfterCurrentPositon = chapterDuration > position.toDouble()
+                val segStartMs = max(
+                    0.0,
+                    chapterDuration
+                )
+
+                val durMs = duration.toDouble().coerceAtLeast(1.0)
+                val startPx = (width * (segStartMs / durMs)).toFloat()
+
+                Box(
+                    modifier = Modifier
+                        .focusable(enabled = false)
+                        .graphicsLayer {
+                            translationX = startPx
+                            translationY = 1f
+                        }
+                        .size(7.dp)
+                        .background(
+                            color = (if (isAfterCurrentPositon) Color.White else Color.Black).copy(
+                                alpha = 0.75f
+                            ),
+                            shape = CircleShape
+                        )
+                )
             }
         }
 
@@ -212,7 +245,6 @@ internal fun RowScope.SimpleProgressBar(
                             // step back 1 second
                             val newPos = max(0L, player.currentPosition - 1000L)
                             player.seekTo(newPos)
-                            PlaybackState.position.longValue = newPos
                             true
                         }
 
@@ -224,14 +256,12 @@ internal fun RowScope.SimpleProgressBar(
                             val newPos = min(player.duration.takeIf { it > 0 } ?: 1L,
                                 player.currentPosition + 1000L)
                             player.seekTo(newPos)
-                            PlaybackState.position.longValue = newPos
                             true
                         }
 
                         Enter, Key(13), Key.Spacebar -> {
                             if (pausedByScrub) {
                                 player.play()
-                                PlaybackState.isPlaying.value = player.isPlaying
                                 pausedByScrub = false
                                 true
                             } else false
@@ -253,29 +283,11 @@ internal fun RowScope.SimpleProgressBar(
     }
 }
 
-enum class MediaSegmentType {
-    recap,
-    credits,
-    intro;
-
-    override fun toString(): String {
-        return when (this) {
-            recap -> "Recap"
-            credits -> "Credits"
-            intro -> "Intro"
-        }
+val MediaSegment.color: Color
+    get() = when (this.type) {
+        MediaSegmentType.COMMERCIAL -> Color.Magenta
+        MediaSegmentType.PREVIEW -> Color(255, 128, 0)
+        MediaSegmentType.RECAP -> Color(135, 206, 250)
+        MediaSegmentType.OUTRO -> Color.Yellow
+        MediaSegmentType.INTRO -> Color.Green
     }
-
-    val color
-        get() = when (this) {
-            recap -> Color.Green
-            credits -> Color.Magenta
-            intro -> Color.Blue
-        }
-}
-
-data class MediaSegment(
-    val start: Duration,
-    val end: Duration,
-    val type: MediaSegmentType,
-)
