@@ -64,6 +64,7 @@ internal fun ExoPlayer(
             buildUponParameters()
                 .setAllowVideoMixedMimeTypeAdaptiveness(true)
                 .setAllowVideoNonSeamlessAdaptiveness(true)
+                .setTunnelingEnabled(true)
         )
     }
     val cacheDataSourceFactory = remember { VideoCache.buildCacheDataSourceFactory(context) }
@@ -82,7 +83,7 @@ internal fun ExoPlayer(
         .setMediaSourceFactory(DefaultMediaSourceFactory(cacheDataSourceFactory))
         .setAudioAttributes(audioAttributes, true)
         .setVideoScalingMode(VIDEO_SCALING_MODE_SCALE_TO_FIT)
-        .buildWithAssSupport(context, AssRenderType.OPEN_GL)
+        .buildWithAssSupport(context, AssRenderType.OVERLAY)
 
     LaunchedEffect(exoPlayer) {
         while (true) {
@@ -148,6 +149,7 @@ internal fun ExoPlayer(
         }
     }
 
+
     Box(
         modifier = Modifier
             .background(Color.Black)
@@ -161,18 +163,20 @@ internal fun ExoPlayer(
                     useController = false
                     layoutParams = ViewGroup.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT
+                        ViewGroup.LayoutParams.MATCH_PARENT,
                     )
-                    subtitleView?.setStyle(
-                        CaptionStyleCompat(
-                            android.graphics.Color.WHITE,
-                            android.graphics.Color.TRANSPARENT,
-                            android.graphics.Color.TRANSPARENT,
-                            CaptionStyleCompat.EDGE_TYPE_OUTLINE,
-                            android.graphics.Color.BLACK,
-                            null
+                    subtitleView?.apply {
+                        setStyle(
+                            CaptionStyleCompat(
+                                android.graphics.Color.WHITE,
+                                android.graphics.Color.TRANSPARENT,
+                                android.graphics.Color.TRANSPARENT,
+                                CaptionStyleCompat.EDGE_TYPE_OUTLINE,
+                                android.graphics.Color.BLACK,
+                                null
+                            )
                         )
-                    )
+                    }
                 }
             }
         )

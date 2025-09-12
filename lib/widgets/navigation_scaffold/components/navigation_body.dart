@@ -75,7 +75,7 @@ class _NavigationBodyState extends ConsumerState<NavigationBody> {
               scaffoldKey: widget.drawerKey,
             )
           : paddedChild(),
-      ViewSize.desktop => SideNavigationBar(
+      ViewSize.desktop || ViewSize.television => SideNavigationBar(
           currentIndex: widget.currentIndex,
           destinations: widget.destinations,
           currentLocation: widget.currentLocation,

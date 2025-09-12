@@ -68,7 +68,6 @@ class MainActivity : AudioServiceFragmentActivity(), NativeVideoActivity {
     override fun isLeanBackEnabled(): Boolean {
         val pm = applicationContext.packageManager
         val leanBackEnabled = pm.hasSystemFeature(PackageManager.FEATURE_LEANBACK)
-        println("Leanback enabled: $leanBackEnabled")
         return leanBackEnabled
     }
 }

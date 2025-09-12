@@ -28,7 +28,6 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
 
     if (viewTypes.containsAny([CollectionType.movies, CollectionType.tvshows])) {
       final resumeVideoResponse = await api.usersUserIdItemsResumeGet(
-        limit: 16,
         fields: [
           ItemFields.parentid,
           ItemFields.mediastreams,
@@ -48,7 +47,6 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
 
     if (viewTypes.contains(CollectionType.music)) {
       final resumeAudioResponse = await api.usersUserIdItemsResumeGet(
-        limit: 16,
         fields: [
           ItemFields.parentid,
           ItemFields.mediastreams,
@@ -68,7 +66,6 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
 
     if (viewTypes.contains(CollectionType.books)) {
       final resumeBookResponse = await api.usersUserIdItemsResumeGet(
-        limit: 16,
         fields: [
           ItemFields.parentid,
           ItemFields.mediastreams,
@@ -87,7 +84,6 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
     }
 
     final nextResponse = await api.showsNextUpGet(
-      limit: 16,
       nextUpDateCutoff: DateTime.now().subtract(
           ref.read(clientSettingsProvider.select((value) => value.nextUpDateCutoff ?? const Duration(days: 28)))),
       fields: [

@@ -42,6 +42,7 @@ class _InputHandlerState<T> extends ConsumerState<InputHandler<T>> {
     return Focus(
       autofocus: widget.autoFocus,
       focusNode: focusNode,
+      skipTraversal: true,
       onFocusChange: (value) {
         if (!focusNode.hasFocus && widget.autoFocus) {
           focusNode.requestFocus();

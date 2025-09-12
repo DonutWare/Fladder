@@ -78,7 +78,6 @@ fun CustomVideoControls(
     exoPlayer: ExoPlayer,
     trackSelector: DefaultTrackSelector,
 ) {
-
     var hideControls by remember { mutableStateOf(false) }
     val lastInteraction = remember { mutableLongStateOf(System.currentTimeMillis()) }
 

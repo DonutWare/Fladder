@@ -88,6 +88,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         return IconsaxPlusLinear.monitor;
       case ViewSize.desktop:
         return IconsaxPlusLinear.monitor;
+      case ViewSize.television:
+        return IconsaxPlusLinear.mirroring_screen;
     }
   }
 

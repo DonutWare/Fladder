@@ -1,0 +1,151 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import 'package:fladder/theme.dart';
+
+class FocusProvider extends InheritedWidget {
+  final bool value;
+
+  const FocusProvider({
+    super.key,
+    required this.value,
+    required super.child,
+  });
+
+  static bool of(BuildContext context) {
+    final widget = context.dependOnInheritedWidgetOfExactType<FocusProvider>();
+    return widget?.value ?? false;
+  }
+
+  @override
+  bool updateShouldNotify(FocusProvider oldWidget) {
+    return oldWidget.value != value;
+  }
+}
+
+class FocusButton extends StatefulWidget {
+  final Widget? child;
+  final List<Widget> overlays;
+  final Function()? onTap;
+  final Function()? onLongPress;
+  final Function(TapDownDetails)? onSecondaryTapDown;
+  const FocusButton({
+    this.child,
+    this.overlays = const [],
+    this.onTap,
+    this.onLongPress,
+    this.onSecondaryTapDown,
+    super.key,
+  });
+
+  @override
+  State<FocusButton> createState() => FocusButtonState();
+}
+
+class FocusButtonState extends State<FocusButton> {
+  bool onFocused = false;
+  bool onHover = false;
+  Timer? _longPressTimer;
+  bool _longPressTriggered = false;
+  bool _keyDownActive = false;
+
+  static const Duration _kLongPressTimeout = Duration(milliseconds: 500);
+
+  bool _handleKey(KeyEvent event) {
+    if (!onFocused) return false;
+
+    if (event.logicalKey == LogicalKeyboardKey.space || event.logicalKey == LogicalKeyboardKey.enter) {
+      if (event is KeyDownEvent) {
+        if (_keyDownActive) return true;
+        _keyDownActive = true;
+        _startLongPressTimer();
+      } else if (event is KeyUpEvent) {
+        if (!_keyDownActive) return false;
+        if (_longPressTriggered) {
+          _resetKeyState();
+          return true;
+        }
+        _cancelLongPressTimer();
+        _keyDownActive = false;
+        widget.onTap?.call();
+      }
+    }
+    return false;
+  }
+
+  void _startLongPressTimer() {
+    _longPressTriggered = false;
+    _longPressTimer?.cancel();
+    _longPressTimer = Timer(_kLongPressTimeout, () {
+      _longPressTriggered = true;
+      widget.onLongPress?.call();
+    });
+  }
+
+  void _cancelLongPressTimer() {
+    _longPressTimer?.cancel();
+    _longPressTimer = null;
+  }
+
+  void _resetKeyState() {
+    _cancelLongPressTimer();
+    _keyDownActive = false;
+    _longPressTriggered = false;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    HardwareKeyboard.instance.addHandler(_handleKey);
+  }
+
+  @override
+  void dispose() {
+    _resetKeyState();
+    HardwareKeyboard.instance.removeHandler(_handleKey);
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    onFocused = FocusProvider.of(context);
+    return GestureDetector(
+      onTap: widget.onTap,
+      onLongPress: widget.onLongPress,
+      onSecondaryTapDown: widget.onSecondaryTapDown,
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        onEnter: (event) => setState(() => onHover = true),
+        onExit: (event) => setState(() => onHover = false),
+        child: ExcludeFocus(
+          child: Stack(
+            children: [
+              ClipRRect(
+                borderRadius: FladderTheme.smallShape.borderRadius,
+                child: widget.child,
+              ),
+              Positioned.fill(
+                child: AnimatedOpacity(
+                  opacity: onFocused || onHover ? 1 : 0,
+                  duration: const Duration(milliseconds: 125),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.55),
+                      border: Border.all(width: 3, color: Theme.of(context).colorScheme.primary),
+                      borderRadius: FladderTheme.smallShape.borderRadius,
+                    ),
+                    child: Stack(
+                      children: widget.overlays,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

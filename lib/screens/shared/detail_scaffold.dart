@@ -72,8 +72,10 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
       onRefresh: () async {
         await widget.onRefresh?.call();
         setState(() {
-          if (widget.backDrops?.backDrop?.contains(backgroundImage) == true) {
-            backgroundImage = widget.backDrops?.randomBackDrop;
+          if (context.mounted) {
+            if (widget.backDrops?.backDrop?.contains(backgroundImage) == true) {
+              backgroundImage = widget.backDrops?.randomBackDrop;
+            }
           }
         });
       },

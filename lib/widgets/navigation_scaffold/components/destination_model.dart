@@ -81,10 +81,12 @@ class DestinationModel {
     );
   }
 
-  NavigationButton toNavigationButton(bool selected, bool horizontal, bool expanded, {Widget? customIcon}) {
+  NavigationButton toNavigationButton(bool selected, bool horizontal, bool expanded,
+      {bool navFocusNode = false, Widget? customIcon}) {
     return NavigationButton(
       label: label,
       selected: selected,
+      navFocusNode: navFocusNode,
       onPressed: action,
       horizontal: horizontal,
       expanded: expanded,

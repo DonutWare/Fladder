@@ -1171,6 +1171,7 @@
   "phone": "Phone",
   "tablet": "Tablet",
   "desktop": "Desktop",
+  "television": "Television",
   "layoutModeSingle": "Single",
   "layoutModeDual": "Dual",
   "copiedToClipboard": "Copied to clipboard",

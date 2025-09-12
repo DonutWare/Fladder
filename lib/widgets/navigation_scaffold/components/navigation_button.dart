@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/widgets/navigation_scaffold/components/side_navigation_bar.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 
 class NavigationButton extends ConsumerStatefulWidget {
   final String? label;
   final Widget selectedIcon;
   final Widget icon;
+  final bool navFocusNode;
   final bool horizontal;
   final bool expanded;
   final Function()? onPressed;
@@ -21,6 +23,7 @@ class NavigationButton extends ConsumerStatefulWidget {
     required this.label,
     required this.selectedIcon,
     required this.icon,
+    this.navFocusNode = false,
     this.horizontal = false,
     this.expanded = false,
     this.onPressed,
@@ -48,6 +51,7 @@ class _NavigationButtonState extends ConsumerState<NavigationButton> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 6),
       child: ElevatedButton(
+        focusNode: widget.navFocusNode ? navBarNode : null,
         onHover: (value) => setState(() => showPopupButton = value),
         style: ButtonStyle(
             elevation: const WidgetStatePropertyAll(0),

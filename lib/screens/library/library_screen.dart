@@ -13,13 +13,13 @@ import 'package:fladder/providers/library_screen_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/home_screen.dart';
 import 'package:fladder/screens/metadata/refresh_metadata.dart';
-import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/screens/shared/media/poster_row.dart';
 import 'package:fladder/screens/shared/nested_scaffold.dart';
 import 'package:fladder/screens/shared/nested_sliver_appbar.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
+import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/sliver_list_padding.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/background_image.dart';
@@ -86,50 +86,53 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
                 ),
               if (selectedView != null)
                 SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 24, bottom: 16),
-                    child: SizedBox(
-                      height: 40,
-                      child: ListView(
-                        padding: padding,
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          FilledButton.tonalIcon(
-                            onPressed: () => context.pushRoute(LibrarySearchRoute(viewModelId: selectedView.id)),
-                            label: Text("${context.localized.search} ${selectedView.name}..."),
-                            icon: const Icon(IconsaxPlusLinear.search_normal),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 4.0),
-                            child: VerticalDivider(),
-                          ),
-                          ExpressiveButtonGroup(
-                            multiSelection: true,
-                            options: LibraryViewType.values
-                                .map((element) => ButtonGroupOption(
-                                    value: element,
-                                    icon: Icon(element.icon),
-                                    selected: Icon(element.iconSelected),
-                                    child: Text(
-                                      element.label(context),
-                                    )))
-                                .toList(),
-                            selectedValues: viewTypes,
-                            onSelected: (value) {
-                              ref.read(libraryScreenProvider.notifier).setViewType(value);
-                            },
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 4.0),
-                            child: VerticalDivider(),
-                          ),
-                          ElevatedButton.icon(
-                            onPressed: () => showRefreshPopup(context, selectedView.id, selectedView.name),
-                            label: Text(context.localized.scanLibrary),
-                            icon: const Icon(IconsaxPlusLinear.refresh),
-                          ),
-                        ],
+                  child: FocusTraversalGroup(
+                    policy: ReadingOrderTraversalPolicy(),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 24, bottom: 16),
+                      child: SizedBox(
+                        height: 40,
+                        child: ListView(
+                          padding: padding,
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          children: [
+                            FilledButton.tonalIcon(
+                              onPressed: () => context.pushRoute(LibrarySearchRoute(viewModelId: selectedView.id)),
+                              label: Text("${context.localized.search} ${selectedView.name}..."),
+                              icon: const Icon(IconsaxPlusLinear.search_normal),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 4.0),
+                              child: VerticalDivider(),
+                            ),
+                            ExpressiveButtonGroup(
+                              multiSelection: true,
+                              options: LibraryViewType.values
+                                  .map((element) => ButtonGroupOption(
+                                      value: element,
+                                      icon: Icon(element.icon),
+                                      selected: Icon(element.iconSelected),
+                                      child: Text(
+                                        element.label(context),
+                                      )))
+                                  .toList(),
+                              selectedValues: viewTypes,
+                              onSelected: (value) {
+                                ref.read(libraryScreenProvider.notifier).setViewType(value);
+                              },
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 4.0),
+                              child: VerticalDivider(),
+                            ),
+                            ElevatedButton.icon(
+                              onPressed: () => showRefreshPopup(context, selectedView.id, selectedView.name),
+                              label: Text(context.localized.scanLibrary),
+                              icon: const Icon(IconsaxPlusLinear.refresh),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -233,9 +236,10 @@ class LibraryRow extends ConsumerWidget {
       label: context.localized.library(views.length),
       items: views,
       height: 155,
+      autoFocus: true,
       startIndex: selectedView != null ? views.indexOf(selectedView!) : null,
       contentPadding: padding,
-      itemBuilder: (context, index) {
+      itemBuilder: (context, index, selected) {
         final view = views[index];
         final isSelected = selectedView == view;
         final List<ItemActionButton> viewActions = [
@@ -250,7 +254,8 @@ class LibraryRow extends ConsumerWidget {
             action: () => showRefreshPopup(context, view.id, view.name),
           )
         ];
-        return FlatButton(
+        return FocusButton(
+          key: Key(view.id),
           onTap: isSelected ? null : () => onSelected?.call(view),
           onLongPress: () => context.pushRoute(LibrarySearchRoute(viewModelId: view.id)),
           onSecondaryTapDown: (details) async {

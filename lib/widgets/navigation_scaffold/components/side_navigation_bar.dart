@@ -26,6 +26,9 @@ import 'package:fladder/widgets/shared/custom_tooltip.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 
+final navBarNode = FocusNode();
+FocusNode? horizontalFocus;
+
 class SideNavigationBar extends ConsumerStatefulWidget {
   final int currentIndex;
   final List<DestinationModel> destinations;
@@ -47,6 +50,8 @@ class SideNavigationBar extends ConsumerStatefulWidget {
 
 class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
   bool expandedSideBar = false;
+
+  FocusNode? traversalGroup;
 
   @override
   Widget build(BuildContext context) {
@@ -73,15 +78,16 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
           ),
           child: (context) => widget.child,
         ),
-        IgnorePointer(
-          ignoring: fullScreenChildRoute,
-          child: AnimatedOpacity(
-            duration: const Duration(milliseconds: 250),
-            opacity: !fullScreenChildRoute ? 1 : 0,
-            child: Container(
-              color: Theme.of(context).colorScheme.surface.withValues(alpha: shouldExpand ? 0.95 : 0.85),
-              width: shouldExpand ? expandedWidth : collapsedWidth,
-              child: MouseRegion(
+        FocusTraversalGroup(
+          policy: RailTraversalPolicy(receivedFocus: (value) {}),
+          child: IgnorePointer(
+            ignoring: fullScreenChildRoute,
+            child: AnimatedOpacity(
+              duration: const Duration(milliseconds: 250),
+              opacity: !fullScreenChildRoute ? 1 : 0,
+              child: Container(
+                color: Theme.of(context).colorScheme.surface.withValues(alpha: shouldExpand ? 0.95 : 0.85),
+                width: shouldExpand ? expandedWidth : collapsedWidth,
                 child: Padding(
                   key: const Key('navigation_rail'),
                   padding: padding.copyWith(right: 0, top: isDesktop ? padding.top : null),
@@ -137,6 +143,7 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                                 child: destination.toNavigationButton(
                                   widget.currentIndex == index,
                                   true,
+                                  navFocusNode: index == 0,
                                   shouldExpand,
                                 ),
                               ),
@@ -330,5 +337,53 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
           onPressed: () => context.router.navigate(LibrarySearchRoute()),
           child: const Icon(IconsaxPlusLinear.search_normal_1),
         );
+  }
+}
+
+class RailTraversalPolicy extends ReadingOrderTraversalPolicy {
+  RailTraversalPolicy({
+    this.receivedFocus,
+    super.requestFocusCallback,
+  });
+
+  final Function(bool focus)? receivedFocus;
+
+  @override
+  bool inDirection(FocusNode currentNode, TraversalDirection direction) {
+    if (direction == TraversalDirection.right) {
+      horizontalFocus?.requestFocus();
+      return false;
+    }
+    if (direction == TraversalDirection.up || direction == TraversalDirection.down) {
+      final scope = currentNode.enclosingScope;
+      if (scope == null) {
+        return false;
+      }
+
+      receivedFocus?.call(true);
+
+      final candidates = scope.traversalDescendants
+          .where((n) => n.canRequestFocus && FocusTraversalGroup.maybeOfNode(n) == this)
+          .toList();
+
+      if (candidates.isEmpty) return false;
+
+      final sorted = sortDescendants(candidates, currentNode).toList();
+
+      var index = sorted.indexOf(currentNode);
+      if (index == -1) {
+        index = direction == TraversalDirection.down ? -1 : sorted.length;
+      }
+
+      final nextIndex = direction == TraversalDirection.down ? index + 1 : index - 1;
+
+      if (nextIndex < 0 || nextIndex >= sorted.length) {
+        return true; // stop at the edge, don’t leak out
+      }
+
+      requestFocusCallback(sorted[nextIndex]);
+      return true;
+    }
+    return super.inDirection(currentNode, direction);
   }
 }

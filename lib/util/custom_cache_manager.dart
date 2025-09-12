@@ -6,7 +6,7 @@ class CustomCacheManager {
     Config(
       key,
       stalePeriod: const Duration(days: 3),
-      maxNrOfCacheObjects: 250,
+      maxNrOfCacheObjects: 125,
       fileService: HttpFileService(),
     ),
   );

@@ -1,6 +1,8 @@
 package nl.jknaapen.fladder
 
+import android.graphics.PixelFormat
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -16,6 +18,14 @@ class VideoPlayerActivity : ComponentActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         VideoPlayerHost.currentActivity = this
+
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
+            WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED
+        )
+
+        window.setFormat(PixelFormat.TRANSLUCENT)
+
         setContent {
             VideoPlayerTheme {
                 VideoPlayerScreen()

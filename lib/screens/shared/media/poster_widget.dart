@@ -15,7 +15,6 @@ class PosterWidget extends ConsumerWidget {
   final ItemBaseModel poster;
   final Widget? subTitle;
   final bool? selected;
-  final bool? heroTag;
   final int maxLines;
   final double? aspectRatio;
   final bool inlineTitle;
@@ -31,7 +30,6 @@ class PosterWidget extends ConsumerWidget {
       this.subTitle,
       this.maxLines = 3,
       this.selected,
-      this.heroTag,
       this.aspectRatio,
       this.inlineTitle = false,
       this.underTitle = true,
@@ -54,7 +52,6 @@ class PosterWidget extends ConsumerWidget {
           Expanded(
             child: PosterImage(
               poster: poster,
-              heroTag: heroTag ?? false,
               selected: selected,
               playVideo: (value) async => await poster.play(context, ref),
               inlineTitle: inlineTitle,
@@ -67,64 +64,66 @@ class PosterWidget extends ConsumerWidget {
             ),
           ),
           if (!inlineTitle && underTitle)
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Flexible(
-                  child: ClickableText(
-                    onTap: AdaptiveLayout.viewSizeOf(context) != ViewSize.phone
-                        ? () => poster.parentBaseModel.navigateTo(context)
-                        : null,
-                    text: poster.title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+            ExcludeFocus(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Flexible(
+                    child: ClickableText(
+                      onTap: AdaptiveLayout.viewSizeOf(context) != ViewSize.phone
+                          ? () => poster.parentBaseModel.navigateTo(context)
+                          : null,
+                      text: poster.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                    ),
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    if (subTitle != null) ...[
-                      Flexible(
-                        child: Opacity(
-                          opacity: opacity,
-                          child: subTitle!,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      if (subTitle != null) ...[
+                        Flexible(
+                          child: Opacity(
+                            opacity: opacity,
+                            child: subTitle!,
+                          ),
                         ),
-                      ),
+                      ],
+                      if (poster.subText?.isNotEmpty ?? false)
+                        Flexible(
+                          child: ClickableText(
+                            opacity: opacity,
+                            text: poster.subText ?? "",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+                          ),
+                        )
+                      else
+                        Flexible(
+                          child: ClickableText(
+                            opacity: opacity,
+                            text: poster.subTextShort(context) ?? "",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+                          ),
+                        ),
                     ],
-                    if (poster.subText?.isNotEmpty ?? false)
-                      Flexible(
-                        child: ClickableText(
-                          opacity: opacity,
-                          text: poster.subText ?? "",
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                      )
-                    else
-                      Flexible(
-                        child: ClickableText(
-                          opacity: opacity,
-                          text: poster.subTextShort(context) ?? "",
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                  ],
-                ),
-                Flexible(
-                  child: ClickableText(
-                    opacity: opacity,
-                    text: poster.subText?.isNotEmpty ?? false ? poster.subTextShort(context) ?? "" : "",
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
                   ),
-                ),
-              ].take(maxLines).toList(),
+                  Flexible(
+                    child: ClickableText(
+                      opacity: opacity,
+                      text: poster.subText?.isNotEmpty ?? false ? poster.subTextShort(context) ?? "" : "",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ].take(maxLines).toList(),
+              ),
             ),
         ],
       ),

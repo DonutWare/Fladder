@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/settings/home_settings_model.dart';
+import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/providers/settings/home_settings_provider.dart';
 import 'package:fladder/screens/home_screen.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout_model.dart';
@@ -15,12 +16,14 @@ import 'package:fladder/util/resolution_checker.dart';
 enum InputDevice {
   touch,
   pointer,
+  dpad,
 }
 
 enum ViewSize {
   phone,
   tablet,
-  desktop;
+  desktop,
+  television;
 
   const ViewSize();
 
@@ -28,6 +31,7 @@ enum ViewSize {
         ViewSize.phone => context.localized.phone,
         ViewSize.tablet => context.localized.tablet,
         ViewSize.desktop => context.localized.desktop,
+        ViewSize.television => context.localized.television,
       };
 
   bool operator >(ViewSize other) => index > other.index;
@@ -174,12 +178,19 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    final acceptedLayouts = ref.watch(homeSettingsProvider.select((value) => value.screenLayouts));
-    final acceptedViewSizes = ref.watch(homeSettingsProvider.select((value) => value.layoutStates));
+    final leanBackMode = ref.watch(argumentsStateProvider).leanBackMode;
+    final acceptedLayouts =
+        leanBackMode ? {LayoutMode.single} : ref.watch(homeSettingsProvider.select((value) => value.screenLayouts));
+    final acceptedViewSizes =
+        leanBackMode ? {ViewSize.television} : ref.watch(homeSettingsProvider.select((value) => value.layoutStates));
 
     final selectedViewSize = selectAvailableOrSmaller<ViewSize>(viewSize, acceptedViewSizes, ViewSize.values);
     final selectedLayoutMode = selectAvailableOrSmaller<LayoutMode>(layoutMode, acceptedLayouts, LayoutMode.values);
-    final input = (isDesktop || kIsWeb) ? InputDevice.pointer : InputDevice.touch;
+    final input = leanBackMode
+        ? InputDevice.dpad
+        : (isDesktop || kIsWeb)
+            ? InputDevice.pointer
+            : InputDevice.touch;
 
     final posterDefaults = const PosterDefaults(size: 350, ratio: 0.55);
 

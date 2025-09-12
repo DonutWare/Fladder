@@ -4,9 +4,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/items/chapters_model.dart';
-import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
-import 'package:fladder/util/disable_keypad_focus.dart';
+import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/humanize_duration.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/horizontal_list.dart';
@@ -25,7 +24,7 @@ class ChapterRow extends ConsumerWidget {
       label: context.localized.chapter(chapters.length),
       height: AdaptiveLayout.poster(context).size / 1.75,
       items: chapters,
-      itemBuilder: (context, index) {
+      itemBuilder: (context, index, selected) {
         final chapter = chapters[index];
         List<ItemAction> generateActions() {
           return [
@@ -34,16 +33,39 @@ class ChapterRow extends ConsumerWidget {
           ];
         }
 
-        return AspectRatio(
-          aspectRatio: 1.75,
-          child: Card(
+        return FocusButton(
+          onSecondaryTapDown: (details) async {
+            Offset localPosition = details.globalPosition;
+            RelativeRect position =
+                RelativeRect.fromLTRB(localPosition.dx, localPosition.dy, localPosition.dx, localPosition.dy);
+            await showMenu(
+              context: context,
+              position: position,
+              items: generateActions().popupMenuItems(),
+            );
+          },
+          onLongPress: () {
+            showBottomSheetPill(
+              context: context,
+              content: (context, scrollController) {
+                return ListView(
+                  shrinkWrap: true,
+                  controller: scrollController,
+                  children: [
+                    ...generateActions().listTileItems(context),
+                  ],
+                );
+              },
+            );
+          },
+          child: AspectRatio(
+            aspectRatio: 1.75,
             child: Stack(
+              fit: StackFit.expand,
               children: [
-                Positioned.fill(
-                  child: CachedNetworkImage(
-                    imageUrl: chapter.imageUrl,
-                    fit: BoxFit.cover,
-                  ),
+                CachedNetworkImage(
+                  imageUrl: chapter.imageUrl,
+                  fit: BoxFit.cover,
                 ),
                 Align(
                   alignment: Alignment.bottomLeft,
@@ -64,49 +86,25 @@ class ChapterRow extends ConsumerWidget {
                     ),
                   ),
                 ),
-                FlatButton(
-                  onSecondaryTapDown: (details) async {
-                    Offset localPosition = details.globalPosition;
-                    RelativeRect position =
-                        RelativeRect.fromLTRB(localPosition.dx, localPosition.dy, localPosition.dx, localPosition.dy);
-                    await showMenu(
-                      context: context,
-                      position: position,
-                      items: generateActions().popupMenuItems(),
-                    );
-                  },
-                  onLongPress: () {
-                    showBottomSheetPill(
-                      context: context,
-                      content: (context, scrollController) {
-                        return ListView(
-                          shrinkWrap: true,
-                          controller: scrollController,
-                          children: [
-                            ...generateActions().listTileItems(context),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                ),
-                if (AdaptiveLayout.of(context).isDesktop)
-                  DisableFocus(
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: PopupMenuButton(
-                        tooltip: context.localized.options,
-                        icon: const Icon(
-                          Icons.more_vert,
-                          color: Colors.white,
-                        ),
-                        itemBuilder: (context) => generateActions().popupMenuItems(),
-                      ),
-                    ),
-                  ),
               ],
             ),
           ),
+          overlays: [
+            if (AdaptiveLayout.of(context).isDesktop)
+              ExcludeFocus(
+                child: Align(
+                  alignment: Alignment.bottomRight,
+                  child: PopupMenuButton(
+                    tooltip: context.localized.options,
+                    icon: const Icon(
+                      Icons.more_vert,
+                      color: Colors.white,
+                    ),
+                    itemBuilder: (context) => generateActions().popupMenuItems(),
+                  ),
+                ),
+              )
+          ],
         );
       },
       contentPadding: contentPadding,
