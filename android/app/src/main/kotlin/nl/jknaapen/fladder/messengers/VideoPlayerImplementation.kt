@@ -84,33 +84,37 @@ class VideoPlayerImplementation(
 }
 
 fun ExoPlayer.properlySetSubAndAudioTracks(playableData: PlayableData) {
-    val currentSubIndex = playableData.defaultSubtrack
-    val indexOfSubtitleTrack =
-        playableData.subtitleTracks.indexOfFirst { it.index == currentSubIndex }
-    val internalSubTracks = this.getSubtitleTracks()
+    try {
+        val currentSubIndex = playableData.defaultSubtrack
+        val indexOfSubtitleTrack =
+            playableData.subtitleTracks.indexOfFirst { it.index == currentSubIndex }
+        val internalSubTracks = this.getSubtitleTracks()
 
-    //Set default subtitle, -1 for "Off" index
-    val wantedSubIndex = indexOfSubtitleTrack - 1
-    if (wantedSubIndex < 0) {
-        clearSubtitleTrack()
-    } else {
-        clearSubtitleTrack(false)
-        setInternalSubtitleTrack(internalSubTracks[wantedSubIndex])
+        //Set default subtitle, -1 for "Off" index
+        val wantedSubIndex = indexOfSubtitleTrack - 1
+        if (wantedSubIndex < 0) {
+            clearSubtitleTrack()
+        } else {
+            clearSubtitleTrack(false)
+            setInternalSubtitleTrack(internalSubTracks[wantedSubIndex])
+        }
+
+        //Set default audio, -1 for "Off" index
+        return
+
+        val currentAudioIndex = playableData.defaultAudioTrack
+        val indexOfAudioTrack =
+            playableData.audioTracks.indexOfFirst { it.index == currentAudioIndex }
+        val internalAudioTracks = this.getAudioTracks()
+
+        val wantedAudioIndex = indexOfAudioTrack - 1
+        if (wantedAudioIndex < 0) {
+            clearAudioTrack()
+        } else {
+            clearAudioTrack(false)
+            setInternalAudioTrack(internalAudioTracks[wantedAudioIndex])
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
     }
-
-    //Set default audio, -1 for "Off" index
-    return
-
-    val currentAudioIndex = playableData.defaultAudioTrack
-    val indexOfAudioTrack = playableData.audioTracks.indexOfFirst { it.index == currentAudioIndex }
-    val internalAudioTracks = this.getAudioTracks()
-
-    val wantedAudioIndex = indexOfAudioTrack - 1
-    if (wantedAudioIndex < 0) {
-        clearAudioTrack()
-    } else {
-        clearAudioTrack(false)
-        setInternalAudioTrack(internalAudioTracks[wantedAudioIndex])
-    }
-
 }

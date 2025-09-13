@@ -51,6 +51,8 @@ class PlayableData {
   PlayableData({
     required this.id,
     required this.title,
+    this.subTitle,
+    this.logoUrl,
     required this.description,
     required this.startPosition,
     required this.defaultAudioTrack,
@@ -62,12 +64,18 @@ class PlayableData {
     required this.segments,
     required this.skipForward,
     required this.skipBackward,
+    this.previousVideo,
+    this.nextVideo,
     required this.url,
   });
 
   String id;
 
   String title;
+
+  String? subTitle;
+
+  String? logoUrl;
 
   String description;
 
@@ -91,12 +99,18 @@ class PlayableData {
 
   int skipBackward;
 
+  String? previousVideo;
+
+  String? nextVideo;
+
   String url;
 
   List<Object?> _toList() {
     return <Object?>[
       id,
       title,
+      subTitle,
+      logoUrl,
       description,
       startPosition,
       defaultAudioTrack,
@@ -108,6 +122,8 @@ class PlayableData {
       segments,
       skipForward,
       skipBackward,
+      previousVideo,
+      nextVideo,
       url,
     ];
   }
@@ -120,18 +136,22 @@ class PlayableData {
     return PlayableData(
       id: result[0]! as String,
       title: result[1]! as String,
-      description: result[2]! as String,
-      startPosition: result[3]! as int,
-      defaultAudioTrack: result[4]! as int,
-      audioTracks: (result[5] as List<Object?>?)!.cast<AudioTrack>(),
-      defaultSubtrack: result[6]! as int,
-      subtitleTracks: (result[7] as List<Object?>?)!.cast<SubtitleTrack>(),
-      trickPlayModel: result[8] as TrickPlayModel?,
-      chapters: (result[9] as List<Object?>?)!.cast<Chapter>(),
-      segments: (result[10] as List<Object?>?)!.cast<MediaSegment>(),
-      skipForward: result[11]! as int,
-      skipBackward: result[12]! as int,
-      url: result[13]! as String,
+      subTitle: result[2] as String?,
+      logoUrl: result[3] as String?,
+      description: result[4]! as String,
+      startPosition: result[5]! as int,
+      defaultAudioTrack: result[6]! as int,
+      audioTracks: (result[7] as List<Object?>?)!.cast<AudioTrack>(),
+      defaultSubtrack: result[8]! as int,
+      subtitleTracks: (result[9] as List<Object?>?)!.cast<SubtitleTrack>(),
+      trickPlayModel: result[10] as TrickPlayModel?,
+      chapters: (result[11] as List<Object?>?)!.cast<Chapter>(),
+      segments: (result[12] as List<Object?>?)!.cast<MediaSegment>(),
+      skipForward: result[13]! as int,
+      skipBackward: result[14]! as int,
+      previousVideo: result[15] as String?,
+      nextVideo: result[16] as String?,
+      url: result[17]! as String,
     );
   }
 

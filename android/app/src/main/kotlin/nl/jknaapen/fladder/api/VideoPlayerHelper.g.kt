@@ -98,6 +98,8 @@ enum class MediaSegmentType(val raw: Int) {
 data class PlayableData (
   val id: String,
   val title: String,
+  val subTitle: String? = null,
+  val logoUrl: String? = null,
   val description: String,
   val startPosition: Long,
   val defaultAudioTrack: Long,
@@ -109,6 +111,8 @@ data class PlayableData (
   val segments: List<MediaSegment>,
   val skipForward: Long,
   val skipBackward: Long,
+  val previousVideo: String? = null,
+  val nextVideo: String? = null,
   val url: String
 )
  {
@@ -116,25 +120,31 @@ data class PlayableData (
     fun fromList(pigeonVar_list: List<Any?>): PlayableData {
       val id = pigeonVar_list[0] as String
       val title = pigeonVar_list[1] as String
-      val description = pigeonVar_list[2] as String
-      val startPosition = pigeonVar_list[3] as Long
-      val defaultAudioTrack = pigeonVar_list[4] as Long
-      val audioTracks = pigeonVar_list[5] as List<AudioTrack>
-      val defaultSubtrack = pigeonVar_list[6] as Long
-      val subtitleTracks = pigeonVar_list[7] as List<SubtitleTrack>
-      val trickPlayModel = pigeonVar_list[8] as TrickPlayModel?
-      val chapters = pigeonVar_list[9] as List<Chapter>
-      val segments = pigeonVar_list[10] as List<MediaSegment>
-      val skipForward = pigeonVar_list[11] as Long
-      val skipBackward = pigeonVar_list[12] as Long
-      val url = pigeonVar_list[13] as String
-      return PlayableData(id, title, description, startPosition, defaultAudioTrack, audioTracks, defaultSubtrack, subtitleTracks, trickPlayModel, chapters, segments, skipForward, skipBackward, url)
+      val subTitle = pigeonVar_list[2] as String?
+      val logoUrl = pigeonVar_list[3] as String?
+      val description = pigeonVar_list[4] as String
+      val startPosition = pigeonVar_list[5] as Long
+      val defaultAudioTrack = pigeonVar_list[6] as Long
+      val audioTracks = pigeonVar_list[7] as List<AudioTrack>
+      val defaultSubtrack = pigeonVar_list[8] as Long
+      val subtitleTracks = pigeonVar_list[9] as List<SubtitleTrack>
+      val trickPlayModel = pigeonVar_list[10] as TrickPlayModel?
+      val chapters = pigeonVar_list[11] as List<Chapter>
+      val segments = pigeonVar_list[12] as List<MediaSegment>
+      val skipForward = pigeonVar_list[13] as Long
+      val skipBackward = pigeonVar_list[14] as Long
+      val previousVideo = pigeonVar_list[15] as String?
+      val nextVideo = pigeonVar_list[16] as String?
+      val url = pigeonVar_list[17] as String
+      return PlayableData(id, title, subTitle, logoUrl, description, startPosition, defaultAudioTrack, audioTracks, defaultSubtrack, subtitleTracks, trickPlayModel, chapters, segments, skipForward, skipBackward, previousVideo, nextVideo, url)
     }
   }
   fun toList(): List<Any?> {
     return listOf(
       id,
       title,
+      subTitle,
+      logoUrl,
       description,
       startPosition,
       defaultAudioTrack,
@@ -146,6 +156,8 @@ data class PlayableData (
       segments,
       skipForward,
       skipBackward,
+      previousVideo,
+      nextVideo,
       url,
     )
   }

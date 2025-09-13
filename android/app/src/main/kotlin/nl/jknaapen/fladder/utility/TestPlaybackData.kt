@@ -10,6 +10,7 @@ import kotlin.time.DurationUnit
 val testPlaybackData = PlayableData(
     id = "8lsf8234l99sdf923lsd8f23j98j",
     title = "Big buck bunny",
+    subTitle = "Episode 1x2",
     startPosition = 0,
     description = "Short description of the movie that is being watched",
     defaultSubtrack = 1,
@@ -80,6 +81,8 @@ val testPlaybackData = PlayableData(
     ),
     skipForward = 30.seconds.toLong(DurationUnit.MILLISECONDS),
     skipBackward = 15.seconds.toLong(DurationUnit.MILLISECONDS),
+    nextVideo = null,
+    previousVideo = "Previous episode name",
     segments = listOf(),
     url = "https://github.com/ietf-wg-cellar/matroska-test-files/raw/refs/heads/master/test_files/test5.mkv",
 )

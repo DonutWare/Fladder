@@ -5,6 +5,14 @@ import 'package:flutter/services.dart';
 
 import 'package:fladder/theme.dart';
 
+final acceptKeys = {
+  LogicalKeyboardKey.space,
+  LogicalKeyboardKey.enter,
+  LogicalKeyboardKey.accept,
+  LogicalKeyboardKey.select,
+  LogicalKeyboardKey.gameButtonA,
+};
+
 class FocusProvider extends InheritedWidget {
   final bool value;
 
@@ -56,7 +64,7 @@ class FocusButtonState extends State<FocusButton> {
   bool _handleKey(KeyEvent event) {
     if (!onFocused) return false;
 
-    if (event.logicalKey == LogicalKeyboardKey.space || event.logicalKey == LogicalKeyboardKey.enter) {
+    if (acceptKeys.contains(event.logicalKey)) {
       if (event is KeyDownEvent) {
         if (_keyDownActive) return true;
         _keyDownActive = true;
@@ -111,38 +119,45 @@ class FocusButtonState extends State<FocusButton> {
   @override
   Widget build(BuildContext context) {
     onFocused = FocusProvider.of(context);
-    return GestureDetector(
-      onTap: widget.onTap,
-      onLongPress: widget.onLongPress,
-      onSecondaryTapDown: widget.onSecondaryTapDown,
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        onEnter: (event) => setState(() => onHover = true),
-        onExit: (event) => setState(() => onHover = false),
-        child: ExcludeFocus(
-          child: Stack(
-            children: [
-              ClipRRect(
-                borderRadius: FladderTheme.smallShape.borderRadius,
-                child: widget.child,
-              ),
-              Positioned.fill(
-                child: AnimatedOpacity(
-                  opacity: onFocused || onHover ? 1 : 0,
-                  duration: const Duration(milliseconds: 125),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: 0.55),
-                      border: Border.all(width: 3, color: Theme.of(context).colorScheme.primary),
-                      borderRadius: FladderTheme.smallShape.borderRadius,
-                    ),
-                    child: Stack(
-                      children: widget.overlays,
+    return Focus(
+      onFocusChange: (value) {
+        setState(() {
+          onHover = value;
+        });
+      },
+      child: GestureDetector(
+        onTap: widget.onTap,
+        onLongPress: widget.onLongPress,
+        onSecondaryTapDown: widget.onSecondaryTapDown,
+        child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          onEnter: (event) => setState(() => onHover = true),
+          onExit: (event) => setState(() => onHover = false),
+          child: ExcludeFocus(
+            child: Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: FladderTheme.smallShape.borderRadius,
+                  child: widget.child,
+                ),
+                Positioned.fill(
+                  child: AnimatedOpacity(
+                    opacity: onFocused || onHover ? 1 : 0,
+                    duration: const Duration(milliseconds: 125),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.35),
+                        border: Border.all(width: 3, color: Theme.of(context).colorScheme.primaryFixed),
+                        borderRadius: FladderTheme.smallShape.borderRadius,
+                      ),
+                      child: Stack(
+                        children: widget.overlays,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

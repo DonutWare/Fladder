@@ -55,10 +55,30 @@ class SharedUtility {
   }
 
   Future<bool?> addAccount(AccountModel account) async {
-    return await saveAccounts(getAccounts()
-      ..add(account.copyWith(
-        lastUsed: DateTime.now(),
-      )));
+    final newAccount = account.copyWith(
+      lastUsed: DateTime.now(),
+    );
+
+    List<AccountModel> accounts = getAccounts().toList();
+    if (accounts.any((element) => element.sameIdentity(newAccount))) {
+      accounts = accounts
+          .map(
+            (e) => e.sameIdentity(newAccount)
+                ? e.copyWith(
+                    credentials: newAccount.credentials,
+                    lastUsed: newAccount.lastUsed,
+                  )
+                : e,
+          )
+          .toList();
+    } else {
+      accounts = [
+        ...accounts,
+        newAccount,
+      ];
+    }
+
+    return await saveAccounts(accounts);
   }
 
   Future<bool?> removeAccount(AccountModel? account) async {

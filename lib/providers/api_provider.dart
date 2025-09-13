@@ -37,10 +37,14 @@ class JellyRequest implements Interceptor {
   FutureOr<Response<BodyType>> intercept<BodyType>(Chain<BodyType> chain) async {
     final connectivityNotifier = ref.read(connectivityStatusProvider.notifier);
     try {
-      final serverUrl = Uri.parse(ref.read(userProvider)?.server ?? ref.read(authProvider).tempCredentials.server);
+      final serverUrl = Uri.parse(
+          ref.read(userProvider)?.server ?? ref.read(authProvider).serverLoginModel?.tempCredentials.server ?? "");
 
       //Use current logged in user otherwise use the authprovider
-      var loginModel = ref.read(userProvider)?.credentials ?? ref.read(authProvider).tempCredentials;
+      var loginModel = ref.read(userProvider)?.credentials ?? ref.read(authProvider).serverLoginModel?.tempCredentials;
+
+      if (loginModel == null) throw UnimplementedError();
+
       var headers = loginModel.header(ref);
       final Response<BodyType> response = await chain.proceed(
         applyHeaders(

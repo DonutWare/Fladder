@@ -76,7 +76,7 @@ final List<AutoRoute> detailsRoutes = [
 
 final List<AutoRoute> _defaultRoutes = [
   AutoRoute(page: SplashRoute.page, path: '/splash'),
-  AutoRoute(page: LoginRoute.page, path: '/login'),
+  AutoRoute(page: LoginRoute.page, path: '/login', maintainState: false),
 ];
 
 final List<AutoRoute> _settingsChildren = [

@@ -61,12 +61,11 @@ fun SubtitlePicker(
                         .highlightOnFocus()
                         .padding(12.dp),
                     onClick = {
+                        player.clearSubtitleTrack()
                         val wantedIndex = index - 1
                         if (wantedIndex < 0) {
-                            player.clearSubtitleTrack()
                             return@TextButton
                         }
-                        player.clearSubtitleTrack(false)
                         if (subtitle.external) {
                             player.addExternalSubtitle(
                                 (subtitle.url ?: "").toUri(),

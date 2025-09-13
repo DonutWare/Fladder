@@ -156,7 +156,9 @@ class _CarouselBannerState extends ConsumerState<CarouselBanner> {
                                         );
                                       },
                               ),
-                              BannerPlayButton(item: widget.items[index]),
+                              ExcludeFocus(
+                                child: BannerPlayButton(item: widget.items[index]),
+                              ),
                               IgnorePointer(
                                 child: Container(
                                   decoration: BoxDecoration(

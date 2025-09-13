@@ -14,7 +14,7 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
 
   @override
   Future<void> dispose() async {
-    // return NativeVideoPlayerApi().disposeActivity();
+    return NativeVideoActivity().disposeActivity();
   }
 
   @override

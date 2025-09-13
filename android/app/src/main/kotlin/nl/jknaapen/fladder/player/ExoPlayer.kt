@@ -40,6 +40,7 @@ import io.github.peerless2012.ass.media.type.AssRenderType
 import kotlinx.coroutines.delay
 import nl.jknaapen.fladder.messengers.properlySetSubAndAudioTracks
 import nl.jknaapen.fladder.objects.VideoPlayerHost
+import nl.jknaapen.fladder.utility.testPlaybackData
 import java.io.File
 import kotlin.time.Duration.Companion.seconds
 
@@ -57,7 +58,6 @@ internal fun ExoPlayer(
     val context = LocalContext.current
 
     var initialized = false
-
 
     val trackSelector = DefaultTrackSelector(context).apply {
         setParameters(
@@ -141,7 +141,8 @@ internal fun ExoPlayer(
     DisposableEffect(Unit) {
         VideoPlayerHost.implementation.init(exoPlayer)
         //Testing purposes
-//        VideoPlayerHost.implementation.sendPlayableModel(testPlaybackData)
+        VideoPlayerHost.implementation.sendPlayableModel(testPlaybackData)
+        VideoPlayerHost.implementation.open(testPlaybackData.url, true)
         onDispose {
             videoHost.videoPlayerControls?.onStop(callback = {})
             VideoPlayerHost.implementation.init(null)

@@ -18,26 +18,27 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.input.key.KeyEventType
@@ -48,15 +49,14 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
 import io.github.rabehx.iconsax.Iconsax
+import io.github.rabehx.iconsax.filled.AudioSquare
+import io.github.rabehx.iconsax.filled.Backward
+import io.github.rabehx.iconsax.filled.Check
+import io.github.rabehx.iconsax.filled.Forward
 import io.github.rabehx.iconsax.filled.Pause
 import io.github.rabehx.iconsax.filled.Play
-import io.github.rabehx.iconsax.outline.ArrowLeft1
-import io.github.rabehx.iconsax.outline.ArrowRight4
-import io.github.rabehx.iconsax.outline.AudioSquare
-import io.github.rabehx.iconsax.outline.Backward
-import io.github.rabehx.iconsax.outline.Check
-import io.github.rabehx.iconsax.outline.Forward
-import io.github.rabehx.iconsax.outline.Subtitle
+import io.github.rabehx.iconsax.filled.Subtitle
+import io.github.rabehx.iconsax.outline.Refresh
 import kotlinx.coroutines.delay
 import nl.jknaapen.fladder.composables.dialogs.AudioPicker
 import nl.jknaapen.fladder.composables.dialogs.ChapterSelectionSheet
@@ -64,13 +64,8 @@ import nl.jknaapen.fladder.composables.dialogs.SubtitlePicker
 import nl.jknaapen.fladder.objects.VideoPlayerHost
 import nl.jknaapen.fladder.utility.ImmersiveSystemBars
 import nl.jknaapen.fladder.utility.defaultSelected
-import nl.jknaapen.fladder.utility.highlightOnFocus
 import kotlin.time.Duration.Companion.seconds
 
-object PlaybackState {
-    var selectedSubIndex = mutableIntStateOf(0)
-    var selectedAudioIndex = mutableIntStateOf(1)
-}
 
 @OptIn(UnstableApi::class)
 @Composable
@@ -111,7 +106,6 @@ fun CustomVideoControls(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
             .focusable(enabled = false)
             .onFocusChanged { focusState ->
                 if (focusState.hasFocus) {
@@ -120,7 +114,6 @@ fun CustomVideoControls(
             }
             .onKeyEvent { keyEvent: KeyEvent ->
                 if (keyEvent.type != KeyEventType.KeyDown) return@onKeyEvent false
-                // Show controls and reset the hide timer on any key press
                 updateLastInteraction()
                 return@onKeyEvent false
             }
@@ -143,13 +136,27 @@ fun CustomVideoControls(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 // Progress Bar
-                ProgressBar(exoPlayer, bottomControlFocusRequester, ::updateLastInteraction)
+                ProgressBar(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    exoPlayer, bottomControlFocusRequester, ::updateLastInteraction
+                )
                 Row(
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 8.dp)
+                        .background(
+                            brush = Brush.linearGradient(
+                                colors = listOf(
+                                    Color.Black.copy(alpha = 0f),
+                                    Color.Black.copy(alpha = 0.85f),
+                                ),
+                                start = Offset(0f, 0f),
+                                end = Offset(0f, Float.POSITIVE_INFINITY)
+                            ),
+                        )
+                        .padding(horizontal = 16.dp)
+                        .padding(top = 8.dp, bottom = 16.dp)
                 ) {
                     LeftButtons(
                         openChapterSelection = {
@@ -200,17 +207,14 @@ fun PlaybackButtons(
     player: ExoPlayer,
     bottomControlFocusRequester: FocusRequester,
 ) {
-    val interactionSource by remember { mutableStateOf(MutableInteractionSource()) }
     val state by VideoPlayerHost.videoPlayerState.collectAsState(null)
+
+    val forwardSpeed by VideoPlayerHost.forwardSpeed.collectAsState(30.seconds)
+    val backwardSpeed by VideoPlayerHost.backwardSpeed.collectAsState(15.seconds)
+
     val isPlaying = state?.playing ?: false
     Row(
         modifier = Modifier
-            .background(
-                color = Color.Black.copy(alpha = 0.1f),
-                shape = RoundedCornerShape(
-                    corner = CornerSize(32.dp)
-                )
-            )
             .padding(horizontal = 4.dp, vertical = 6.dp)
             .wrapContentWidth(),
         horizontalArrangement = Arrangement.spacedBy(
@@ -219,78 +223,88 @@ fun PlaybackButtons(
         ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        IconButton(
+        CustomIconButton(
             onClick = { VideoPlayerHost.videoPlayerControls?.loadPreviousVideo {} },
-            modifier = Modifier.highlightOnFocus()
         ) {
             Icon(
-                Iconsax.Outline.Backward,
+                Iconsax.Filled.Backward,
                 modifier = Modifier.size(32.dp),
                 contentDescription = "Previous Video",
                 tint = Color.White
             )
         }
-        IconButton(
-            onClick = { player.seekBack() },
-            modifier = Modifier.highlightOnFocus()
+        CustomIconButton(
+            onClick = {
+                player.seekTo(
+                    player.currentPosition - backwardSpeed.inWholeMilliseconds
+                )
+            },
         ) {
-            Icon(
-                Iconsax.Outline.ArrowLeft1,
-                modifier = Modifier.size(32.dp),
-                contentDescription = "Back",
-                tint = Color.White
-            )
+            Box(
+                modifier = Modifier
+                    .wrapContentSize(),
+                contentAlignment = Alignment.Center,
+            ) {
+                Icon(
+                    Iconsax.Outline.Refresh,
+                    contentDescription = "Forward",
+                    modifier = Modifier
+                        .size(48.dp),
+                )
+                Text("-${backwardSpeed.inWholeSeconds}")
+            }
         }
-        val playButtonShape = RoundedCornerShape(16.dp)
-        IconButton(
+        CustomIconButton(
             modifier = Modifier
                 .size(54.dp)
                 .focusRequester(bottomControlFocusRequester)
-                .highlightOnFocus(
-                    width = 4.dp,
-                    color = Color.Black.copy(alpha = 0.85f),
-                    shape = playButtonShape
-                )
-                .background(
-                    color = Color.White.copy(alpha = 0.8f),
-                    shape = playButtonShape,
-                )
                 .defaultSelected(true),
+            backgroundColor = Color.White.copy(alpha = 0.75f),
+            foreGroundColor = Color.Black,
+            backgroundFocusedColor = Color.White,
+            foreGroundFocusedColor = Color.Black,
+            enableFocusIndicator = false,
+            enableScaledFocus = true,
             onClick = {
                 if (player.isPlaying) player.pause() else player.play()
             },
-            interactionSource = interactionSource
         ) {
             Icon(
                 if (isPlaying) Iconsax.Filled.Pause else Iconsax.Filled.Play,
                 modifier = Modifier.size(40.dp),
                 contentDescription = if (isPlaying) "Pause" else "Play",
-                tint = Color.Black,
-
-                )
-        }
-        IconButton(
-            onClick = { player.seekForward() },
-            modifier = Modifier.highlightOnFocus()
-        ) {
-            Icon(
-                Iconsax.Outline.ArrowRight4,
-                contentDescription = "Forward",
-                modifier = Modifier.size(32.dp),
-
-                tint = Color.White
             )
         }
+        CustomIconButton(
+            onClick = {
+                player.seekTo(
+                    player.currentPosition + forwardSpeed.inWholeMilliseconds
+                )
+            },
+        ) {
+            Box(
+                modifier = Modifier
+                    .wrapContentSize(),
+                contentAlignment = Alignment.Center,
+            ) {
+                Icon(
+                    Iconsax.Outline.Refresh,
+                    contentDescription = "Forward",
+                    modifier = Modifier
+                        .size(48.dp)
+                        .scale(scaleX = -1f, scaleY = 1f),
+                )
+                Text(forwardSpeed.inWholeSeconds.toString())
+            }
+        }
 
-        IconButton(
+        CustomIconButton(
             onClick = { VideoPlayerHost.videoPlayerControls?.loadNextVideo {} },
-            modifier = Modifier.highlightOnFocus()
         ) {
             Icon(
-                Iconsax.Outline.Forward,
+                Iconsax.Filled.Forward,
                 modifier = Modifier.size(32.dp),
                 contentDescription = "Next video",
-                tint = Color.White
             )
         }
     }
@@ -304,14 +318,13 @@ internal fun RowScope.LeftButtons(
         modifier = Modifier.weight(1f),
         horizontalArrangement = Arrangement.Start
     ) {
-        IconButton(
+        CustomIconButton(
             onClick = openChapterSelection,
-            modifier = Modifier.highlightOnFocus()
         ) {
             Icon(
-                Iconsax.Outline.Check,
+                Iconsax.Filled.Check,
+                modifier = Modifier.size(32.dp),
                 contentDescription = "Show chapters",
-                tint = Color.White
             )
         }
     }
@@ -326,28 +339,26 @@ internal fun RowScope.RightButtons(
         modifier = Modifier.weight(1f),
         horizontalArrangement = Arrangement.End
     ) {
-        IconButton(
+        CustomIconButton(
             onClick = {
                 showAudioDialog.value = true
             },
-            modifier = Modifier.highlightOnFocus()
         ) {
             Icon(
-                Iconsax.Outline.AudioSquare,
+                Iconsax.Filled.AudioSquare,
+                modifier = Modifier.size(32.dp),
                 contentDescription = "Audio Track",
-                tint = Color.White
             )
         }
-        IconButton(
+        CustomIconButton(
             onClick = {
                 showSubDialog.value = true
             },
-            modifier = Modifier.highlightOnFocus()
         ) {
             Icon(
-                Iconsax.Outline.Subtitle,
+                Iconsax.Filled.Subtitle,
+                modifier = Modifier.size(32.dp),
                 contentDescription = "Subtitles",
-                tint = Color.White
             )
         }
     }

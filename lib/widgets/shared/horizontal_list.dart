@@ -74,6 +74,10 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
 
   @override
   void dispose() {
+    if (horizontalFocus == focusNode) {
+      horizontalFocus = null;
+    }
+    focusNode.dispose();
     super.dispose();
   }
 
@@ -236,6 +240,14 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
               setState(() {
                 hasFocus = value;
               });
+              if (value) {
+                Scrollable.ensureVisible(
+                  context,
+                  duration: const Duration(milliseconds: 250),
+                  alignment: 0.5,
+                  curve: Curves.easeOut,
+                );
+              }
             },
             onKeyEvent: (node, event) {
               if (event is KeyDownEvent || event is KeyRepeatEvent) {

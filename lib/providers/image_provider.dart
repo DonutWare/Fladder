@@ -19,7 +19,7 @@ class ImageNotifier {
   });
 
   String get currentServerUrl {
-    return ref.read(userProvider)?.server ?? ref.read(authProvider).tempCredentials.server;
+    return ref.read(userProvider)?.server ?? ref.read(authProvider).serverLoginModel?.tempCredentials.server ?? "";
   }
 
   String getUserImageUrl(String id) {

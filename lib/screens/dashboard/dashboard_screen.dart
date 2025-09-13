@@ -45,6 +45,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   late final Timer _timer;
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
+  final textController = TextEditingController();
+
   @override
   void initState() {
     super.initState();

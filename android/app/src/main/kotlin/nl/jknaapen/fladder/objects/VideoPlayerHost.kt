@@ -7,6 +7,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import nl.jknaapen.fladder.VideoPlayerActivity
 import nl.jknaapen.fladder.messengers.VideoPlayerImplementation
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 object VideoPlayerHost {
     val implementation: VideoPlayerImplementation = VideoPlayerImplementation()
@@ -23,6 +25,16 @@ object VideoPlayerHost {
 
     val subtitleTracks = implementation.playbackData.map { it?.subtitleTracks ?: listOf() }
     val audioTracks = implementation.playbackData.map { it?.audioTracks ?: listOf() }
+
+    val forwardSpeed =
+        implementation.playbackData.map {
+            (it?.skipForward ?: 1L).toDuration(DurationUnit.MILLISECONDS)
+        }
+    val backwardSpeed = implementation.playbackData.map {
+        (it?.skipBackward ?: 1L).toDuration(
+            DurationUnit.MILLISECONDS
+        )
+    }
 
     fun setPlaybackState(state: PlaybackState) {
         _currentState.value = state

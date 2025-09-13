@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -22,9 +23,14 @@ internal fun CustomModalBottomSheet(
     maxWidth: Dp = LocalConfiguration.current.screenWidthDp.dp,
     content: @Composable () -> Unit,
 ) {
+    val modalBottomSheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
+
     ModalBottomSheet(
         onDismissRequest,
         dragHandle = null,
+        sheetState = modalBottomSheetState,
         containerColor = Color.Transparent,
         sheetMaxWidth = maxWidth,
     ) {
@@ -36,7 +42,7 @@ internal fun CustomModalBottomSheet(
                     brush = Brush.linearGradient(
                         colors = listOf(
                             Color.Black.copy(alpha = 0f),
-                            Color.Black,
+                            Color.Black.copy(alpha = 0.8f),
                         ),
                         start = Offset(0f, 0f),
                         end = Offset(0f, Float.POSITIVE_INFINITY)

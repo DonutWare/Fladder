@@ -47,6 +47,7 @@ const _$ViewSizeEnumMap = {
   ViewSize.phone: 'phone',
   ViewSize.tablet: 'tablet',
   ViewSize.desktop: 'desktop',
+  ViewSize.television: 'television',
 };
 
 const _$HomeBannerEnumMap = {

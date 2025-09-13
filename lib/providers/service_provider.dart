@@ -77,7 +77,7 @@ class JellyService {
   final JellyfinOpenApi _api;
 
   JellyfinOpenApi get api {
-    var authServer = ref.read(authProvider).tempCredentials.server;
+    var authServer = ref.read(authProvider).serverLoginModel?.tempCredentials.server ?? "";
     var currentServer = ref.read(userProvider)?.credentials.server;
     if ((authServer.isNotEmpty ? authServer : currentServer) == FakeHelper.fakeTestServerUrl) {
       return FakeJellyfinOpenApi();
@@ -1125,6 +1125,8 @@ class JellyService {
   Future<Response<bool>> quickConnect(String code) async => api.quickConnectAuthorizePost(code: code);
 
   Future<Response<bool>> quickConnectEnabled() async => api.quickConnectEnabledGet();
+
+  Future<Response<BrandingOptions>> getBranding() async => api.brandingConfigurationGet();
 
   Future<Response<dynamic>> deleteItem(String itemId) => api.itemsItemIdDelete(itemId: itemId);
 

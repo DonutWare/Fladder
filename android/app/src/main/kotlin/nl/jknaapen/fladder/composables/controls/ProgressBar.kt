@@ -3,12 +3,14 @@ package nl.jknaapen.fladder.composables.controls
 import MediaSegment
 import MediaSegmentType
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -58,6 +60,7 @@ import kotlin.time.toDuration
 
 @Composable
 internal fun ProgressBar(
+    modifier: Modifier = Modifier,
     player: ExoPlayer,
     bottomControlFocusRequester: FocusRequester,
     onUserInteraction: () -> Unit = {}
@@ -70,7 +73,7 @@ internal fun ProgressBar(
             alignment = Alignment.CenterHorizontally
         ),
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
     ) {
         Text(
             formatTime(position),
@@ -127,7 +130,7 @@ internal fun RowScope.SimpleProgressBar(
             modifier = Modifier
                 .focusable(enabled = false)
                 .fillMaxWidth()
-                .height(8.dp)
+                .height(10.dp)
                 .background(
                     color = Color.Black.copy(alpha = 0.15f),
                     shape = slideBarShape
@@ -136,9 +139,12 @@ internal fun RowScope.SimpleProgressBar(
             Box(
                 modifier = Modifier
                     .focusable(enabled = false)
+                    .fillMaxHeight()
                     .fillMaxWidth(progress)
                     .padding(end = 8.dp)
-                    .height(8.dp)
+                    .border(
+                        width = 1.dp, color = Color.Black.copy(alpha = 0.5f), shape = slideBarShape
+                    )
                     .background(
                         color = Color.White.copy(alpha = 0.75f),
                         shape = slideBarShape
@@ -202,15 +208,15 @@ internal fun RowScope.SimpleProgressBar(
 
                 Box(
                     modifier = Modifier
+                        .align(Alignment.CenterStart)
                         .focusable(enabled = false)
                         .graphicsLayer {
                             translationX = startPx
-                            translationY = 1f
                         }
-                        .size(7.dp)
+                        .size(6.dp)
                         .background(
                             color = (if (isAfterCurrentPositon) Color.White else Color.Black).copy(
-                                alpha = 0.75f
+                                alpha = 0.45f
                             ),
                             shape = CircleShape
                         )

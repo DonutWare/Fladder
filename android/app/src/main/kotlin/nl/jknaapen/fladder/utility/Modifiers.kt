@@ -64,3 +64,15 @@ fun Modifier.defaultSelected(defaultSelected: Boolean): Modifier {
     }
     return this.focusRequester(requester)
 }
+
+/**
+ * Conditional if modifier
+ */
+@Composable
+fun Modifier.conditional(condition: Boolean, modifier: Modifier.() -> Modifier): Modifier {
+    return if (condition) {
+        then(modifier(Modifier))
+    } else {
+        this
+    }
+}

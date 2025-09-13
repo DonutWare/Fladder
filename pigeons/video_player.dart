@@ -12,6 +12,8 @@ import 'package:pigeon/pigeon.dart';
 class PlayableData {
   final String id;
   final String title;
+  final String? subTitle;
+  final String? logoUrl;
   final String description;
   final int startPosition;
   final int defaultAudioTrack;
@@ -23,11 +25,15 @@ class PlayableData {
   final List<MediaSegment> segments;
   final int skipForward;
   final int skipBackward;
+  final String? previousVideo;
+  final String? nextVideo;
   final String url;
 
   PlayableData({
     required this.id,
     required this.title,
+    this.subTitle,
+    this.logoUrl,
     required this.description,
     required this.startPosition,
     required this.defaultAudioTrack,
@@ -39,6 +45,8 @@ class PlayableData {
     this.segments = const [],
     required this.skipForward,
     required this.skipBackward,
+    this.previousVideo,
+    this.nextVideo,
     required this.url,
   });
 }

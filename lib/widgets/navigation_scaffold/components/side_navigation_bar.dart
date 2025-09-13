@@ -351,8 +351,12 @@ class RailTraversalPolicy extends ReadingOrderTraversalPolicy {
   @override
   bool inDirection(FocusNode currentNode, TraversalDirection direction) {
     if (direction == TraversalDirection.right) {
-      horizontalFocus?.requestFocus();
-      return false;
+      if (horizontalFocus != null) {
+        horizontalFocus?.requestFocus();
+        return false;
+      } else {
+        return true;
+      }
     }
     if (direction == TraversalDirection.up || direction == TraversalDirection.down) {
       final scope = currentNode.enclosingScope;

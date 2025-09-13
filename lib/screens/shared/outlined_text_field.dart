@@ -3,8 +3,10 @@ import 'package:flutter/services.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/theme.dart';
+import 'package:fladder/util/focus_provider.dart';
 
 class OutlinedTextField extends ConsumerStatefulWidget {
   final String? label;
@@ -55,7 +57,29 @@ class OutlinedTextField extends ConsumerStatefulWidget {
 }
 
 class _OutlinedTextFieldState extends ConsumerState<OutlinedTextField> {
-  late FocusNode focusNode = widget.focusNode ?? FocusNode();
+  late final FocusNode _textFocus = widget.focusNode ?? FocusNode();
+  late final FocusNode _wrapperFocus = FocusNode()
+    ..addListener(() {
+      final leanBackMode = ref.read(argumentsStateProvider).leanBackMode;
+      if (!leanBackMode && _wrapperFocus.hasFocus) {
+        _textFocus.requestFocus();
+      }
+      setState(() {
+        hasFocus = _wrapperFocus.hasFocus;
+      });
+    });
+
+  bool hasFocus = false;
+
+  @override
+  void dispose() {
+    if (widget.focusNode == null) {
+      _textFocus.dispose();
+    }
+    _wrapperFocus.dispose();
+    super.dispose();
+  }
+
   bool _obscureText = true;
   void _toggle() {
     setState(() {
@@ -71,12 +95,14 @@ class _OutlinedTextFieldState extends ConsumerState<OutlinedTextField> {
   @override
   Widget build(BuildContext context) {
     final isPasswordField = widget.keyboardType == TextInputType.visiblePassword;
+    final leanBackMode = ref.watch(argumentsStateProvider).leanBackMode;
     if (widget.autoFocus) {
-      focusNode.requestFocus();
+      if (leanBackMode) {
+        _wrapperFocus.requestFocus();
+      } else {
+        _textFocus.requestFocus();
+      }
     }
-    focusNode.addListener(
-      () {},
-    );
     return Column(
       children: [
         Stack(
@@ -88,74 +114,93 @@ class _OutlinedTextFieldState extends ConsumerState<OutlinedTextField> {
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 250),
                   decoration: BoxDecoration(
-                    color: widget.fillColor ?? getColor(),
-                    borderRadius: FladderTheme.defaultShape.borderRadius,
-                  ),
+                      color: widget.fillColor ?? getColor(),
+                      borderRadius: FladderTheme.defaultShape.borderRadius,
+                      border: BoxBorder.all(
+                        width: 2,
+                        color: hasFocus ? Theme.of(context).colorScheme.primaryFixed : Colors.transparent,
+                      )),
                 ),
               ),
             ),
             IgnorePointer(
               ignoring: widget.enabled == false,
-              child: TextField(
-                controller: widget.controller,
-                onChanged: widget.onChanged,
-                focusNode: focusNode,
-                onTap: widget.onTap,
-                autofillHints: widget.autoFillHints,
-                keyboardType: widget.keyboardType,
-                autocorrect: widget.autocorrect,
-                onSubmitted: widget.onSubmitted,
-                textInputAction: widget.textInputAction,
-                obscureText: isPasswordField ? _obscureText : false,
-                style: widget.style,
-                maxLines: widget.maxLines,
-                inputFormatters: widget.inputFormatters,
-                textAlign: widget.textAlign,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary.withValues(alpha: 0),
-                      width: widget.borderWidth,
+              child: KeyboardListener(
+                focusNode: _wrapperFocus,
+                onKeyEvent: (KeyEvent event) {
+                  if (event is KeyUpEvent && acceptKeys.contains(event.logicalKey)) {
+                    if (_textFocus.hasFocus) {
+                      _textFocus.unfocus();
+                      Future.delayed(Duration.zero, () => _textFocus.requestFocus());
+                    } else if (_wrapperFocus.hasFocus) {
+                      _textFocus.requestFocus();
+                    }
+                  }
+                },
+                child: ExcludeFocusTraversal(
+                  child: TextField(
+                    controller: widget.controller,
+                    onChanged: widget.onChanged,
+                    focusNode: _textFocus,
+                    onTap: widget.onTap,
+                    autofillHints: widget.autoFillHints,
+                    keyboardType: widget.keyboardType,
+                    autocorrect: widget.autocorrect,
+                    onSubmitted: widget.onSubmitted,
+                    textInputAction: widget.textInputAction,
+                    obscureText: isPasswordField ? _obscureText : false,
+                    style: widget.style,
+                    maxLines: widget.maxLines,
+                    inputFormatters: widget.inputFormatters,
+                    textAlign: widget.textAlign,
+                    selectAllOnFocus: true,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Theme.of(context).colorScheme.primary.withValues(alpha: 0),
+                          width: widget.borderWidth,
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Theme.of(context).colorScheme.primary.withValues(alpha: 0),
+                          width: widget.borderWidth,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Theme.of(context).colorScheme.primary.withValues(alpha: 0),
+                          width: widget.borderWidth,
+                        ),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Theme.of(context).colorScheme.primary.withValues(alpha: 0),
+                          width: widget.borderWidth,
+                        ),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Theme.of(context).colorScheme.primary.withValues(alpha: 0),
+                          width: widget.borderWidth,
+                        ),
+                      ),
+                      filled: widget.fillColor != null,
+                      fillColor: widget.fillColor,
+                      labelText: widget.label,
+                      // errorText: widget.errorText,
+                      suffixIcon: isPasswordField
+                          ? InkWell(
+                              onTap: _toggle,
+                              borderRadius: BorderRadius.circular(5),
+                              child: Icon(
+                                _obscureText ? Icons.visibility : Icons.visibility_off,
+                                size: 16.0,
+                              ),
+                            )
+                          : null,
                     ),
                   ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary.withValues(alpha: 0),
-                      width: widget.borderWidth,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary.withValues(alpha: 0),
-                      width: widget.borderWidth,
-                    ),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary.withValues(alpha: 0),
-                      width: widget.borderWidth,
-                    ),
-                  ),
-                  focusedErrorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary.withValues(alpha: 0),
-                      width: widget.borderWidth,
-                    ),
-                  ),
-                  filled: widget.fillColor != null,
-                  fillColor: widget.fillColor,
-                  labelText: widget.label,
-                  // errorText: widget.errorText,
-                  suffixIcon: isPasswordField
-                      ? InkWell(
-                          onTap: _toggle,
-                          borderRadius: BorderRadius.circular(5),
-                          child: Icon(
-                            _obscureText ? Icons.visibility : Icons.visibility_off,
-                            size: 16.0,
-                          ),
-                        )
-                      : null,
                 ),
               ),
             ),
