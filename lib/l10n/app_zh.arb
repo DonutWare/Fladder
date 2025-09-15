@@ -1462,5 +1462,7 @@
                 "type": "int"
             }
         }
-    }
+    },
+    "keyboardShortCuts": "键盘快捷键",
+    "@keyboardShortCuts": {}
 }
