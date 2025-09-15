@@ -5,7 +5,7 @@
     "@accept": {},
     "active": "Ενεργός/ή",
     "@active": {},
-    "actor": "σκηνοθέτης",
+    "actor": "{count, plural, other{Ηθοποιοί} one{Ηθοποιός}}",
     "@actor": {
         "description": "actor",
         "placeholders": {
@@ -43,7 +43,7 @@
     "@cancel": {},
     "change": "Αλλαγή",
     "@change": {},
-    "chapter": "{count, plural, other{Κεφάλαια}, one{Κεφάλαιο}}",
+    "chapter": "{count, plural, other{Ηθοποιοί} one{Ηθοποιός}}",
     "@chapter": {
         "description": "chapter",
         "placeholders": {
