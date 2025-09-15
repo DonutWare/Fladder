@@ -19,6 +19,7 @@ Future<void> showDefaultAlertDialog(
       actions: [
         if (decline != null)
           ElevatedButton(
+            autofocus: true,
             onPressed: () => decline.call(context),
             child: Text(declineTitle),
           ),

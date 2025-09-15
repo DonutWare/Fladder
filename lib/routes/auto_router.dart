@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/login/lock_screen.dart';
+import 'package:fladder/widgets/navigation_scaffold/components/navigation_body.dart';
 
 const settingsPageRoute = "settings";
 
@@ -57,14 +58,17 @@ final List<AutoRoute> homeRoutes = [
   AutoRoute(
     page: FavouritesRoute.page,
     path: 'favourites',
+    maintainState: false,
   ),
   AutoRoute(
     page: SyncedRoute.page,
     path: 'synced',
+    maintainState: false,
   ),
   AutoRoute(
     page: LibraryRoute.page,
     path: 'libraries',
+    maintainState: false,
   ),
 ];
 
@@ -117,6 +121,8 @@ class AuthGuard extends AutoRouteGuard {
     if (ref.read(userProvider) != null ||
         resolver.routeName == const LoginRoute().routeName ||
         resolver.routeName == SplashRoute().routeName) {
+      // We assume the last main focus is no longer active after navigating
+      lastMainFocus = null;
       return resolver.next(true);
     }
 
@@ -127,5 +133,9 @@ class AuthGuard extends AutoRouteGuard {
         router.replace(const LoginRoute());
       }
     }));
+
+    // We assume the last main focus is no longer active after navigating
+    lastMainFocus = null;
+    return;
   }
 }

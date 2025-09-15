@@ -59,12 +59,14 @@ class _SelectableIconButtonState extends ConsumerState<SelectableIconButton> {
             setState(() {
               focused = value;
             });
-            Scrollable.ensureVisible(
-              context,
-              duration: const Duration(milliseconds: 250),
-              alignment: 0.5,
-              curve: Curves.easeOut,
-            );
+            if (value) {
+              Scrollable.ensureVisible(
+                context,
+                duration: const Duration(milliseconds: 250),
+                alignment: 1,
+                curve: Curves.easeOut,
+              );
+            }
           },
           onPressed: loading
               ? null

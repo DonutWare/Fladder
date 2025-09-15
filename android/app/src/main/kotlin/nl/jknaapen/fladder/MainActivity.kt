@@ -7,6 +7,7 @@ import VideoPlayerControlsCallback
 import VideoPlayerListenerCallback
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.view.WindowManager
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.ryanheise.audioservice.AudioServiceFragmentActivity
@@ -19,6 +20,17 @@ class MainActivity : AudioServiceFragmentActivity(), NativeVideoActivity {
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+
+        val leanBackEnabled = isLeanBackEnabled()
+        if (leanBackEnabled) {
+            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM,
+                WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM
+            )
+        }
+
+
         val videoPlayerHost = VideoPlayerHost
         NativeVideoActivity.setUp(
             flutterEngine.dartExecutor.binaryMessenger,
@@ -68,6 +80,7 @@ class MainActivity : AudioServiceFragmentActivity(), NativeVideoActivity {
     override fun isLeanBackEnabled(): Boolean {
         val pm = applicationContext.packageManager
         val leanBackEnabled = pm.hasSystemFeature(PackageManager.FEATURE_LEANBACK)
-        return leanBackEnabled
+        val leanBackOnly = pm.hasSystemFeature(PackageManager.FEATURE_LEANBACK_ONLY)
+        return leanBackEnabled || leanBackOnly
     }
 }

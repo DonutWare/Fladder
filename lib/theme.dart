@@ -37,6 +37,15 @@ class FladderTheme {
   static ThemeData theme(ColorScheme? colorScheme, DynamicSchemeVariant dynamicSchemeVariant) {
     final ColorScheme? scheme = generateDynamicColourSchemes(colorScheme, dynamicSchemeVariant);
 
+    final buttonState = WidgetStateProperty.resolveWith(
+      (states) {
+        return BorderSide(
+          width: 2,
+          color: states.contains(WidgetState.focused) ? Colors.white.withValues(alpha: 0.65) : Colors.transparent,
+        );
+      },
+    );
+
     final textTheme = FladderFonts.rubikTextTheme(
       const TextTheme(),
     );
@@ -61,7 +70,6 @@ class FladderTheme {
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: scheme?.secondaryContainer,
         foregroundColor: scheme?.onSecondaryContainer,
-        shape: defaultShape,
       ),
       snackBarTheme: SnackBarThemeData(
         backgroundColor: scheme?.secondary,
@@ -145,9 +153,30 @@ class FladderTheme {
           side: const WidgetStatePropertyAll(BorderSide.none),
         ),
       ),
-      elevatedButtonTheme: ElevatedButtonThemeData(style: ButtonStyle(shape: WidgetStatePropertyAll(defaultShape))),
-      filledButtonTheme: FilledButtonThemeData(style: ButtonStyle(shape: WidgetStatePropertyAll(defaultShape))),
-      outlinedButtonTheme: OutlinedButtonThemeData(style: ButtonStyle(shape: WidgetStatePropertyAll(defaultShape))),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ButtonStyle(
+          shape: WidgetStatePropertyAll(defaultShape),
+          side: buttonState,
+        ),
+      ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: ButtonStyle(
+          shape: WidgetStatePropertyAll(defaultShape),
+          side: buttonState,
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: ButtonStyle(
+          shape: WidgetStatePropertyAll(defaultShape),
+          side: buttonState,
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: ButtonStyle(
+          shape: WidgetStatePropertyAll(defaultShape),
+          side: buttonState,
+        ),
+      ),
       textTheme: textTheme.copyWith(
         titleMedium: textTheme.titleMedium?.copyWith(
           fontWeight: FontWeight.w600,

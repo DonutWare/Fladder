@@ -20,6 +20,7 @@ import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/adaptive_fab.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/destination_model.dart';
+import 'package:fladder/widgets/navigation_scaffold/components/navigation_body.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/navigation_button.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/settings_user_icon.dart';
 import 'package:fladder/widgets/shared/custom_tooltip.dart';
@@ -27,7 +28,6 @@ import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 
 final navBarNode = FocusNode();
-FocusNode? horizontalFocus;
 
 class SideNavigationBar extends ConsumerStatefulWidget {
   final int currentIndex;
@@ -49,16 +49,14 @@ class SideNavigationBar extends ConsumerStatefulWidget {
 }
 
 class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
-  bool expandedSideBar = false;
-
-  FocusNode? traversalGroup;
+  late bool expandedSideBar = AdaptiveLayout.of(context).viewSize >= ViewSize.television;
 
   @override
   Widget build(BuildContext context) {
     final views = ref.watch(viewsProvider.select((value) => value.views));
     final usePostersForLibrary = ref.watch(clientSettingsProvider.select((value) => value.usePosterForLibrary));
 
-    final expandedWidth = 250.0;
+    final expandedWidth = 200.0;
     final padding = MediaQuery.paddingOf(context);
 
     final collapsedWidth = 90 + padding.left;
@@ -79,7 +77,7 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
           child: (context) => widget.child,
         ),
         FocusTraversalGroup(
-          policy: RailTraversalPolicy(receivedFocus: (value) {}),
+          policy: RailTraversalPolicy(),
           child: IgnorePointer(
             ignoring: fullScreenChildRoute,
             child: AnimatedOpacity(
@@ -117,9 +115,12 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                         ),
                       ),
                       if (largeBar) ...[
-                        AnimatedFadeSize(
-                          duration: const Duration(milliseconds: 250),
-                          child: shouldExpand ? actionButton(context).extended : actionButton(context).normal,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4).copyWith(bottom: expandedSideBar ? 10 : 0),
+                          child: AnimatedFadeSize(
+                            duration: const Duration(milliseconds: 250),
+                            child: shouldExpand ? actionButton(context).extended : actionButton(context).normal,
+                          ),
                         ),
                       ],
                       Expanded(
@@ -306,7 +307,7 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                         selectedIcon: const Icon(IconsaxPlusBold.setting_3),
                         horizontal: true,
                         expanded: shouldExpand,
-                        icon: const SettingsUserIcon(),
+                        icon: const ExcludeFocusTraversal(child: SettingsUserIcon()),
                         onPressed: () {
                           if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.single) {
                             context.router.push(const SettingsRoute());
@@ -342,20 +343,17 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
 
 class RailTraversalPolicy extends ReadingOrderTraversalPolicy {
   RailTraversalPolicy({
-    this.receivedFocus,
     super.requestFocusCallback,
   });
-
-  final Function(bool focus)? receivedFocus;
 
   @override
   bool inDirection(FocusNode currentNode, TraversalDirection direction) {
     if (direction == TraversalDirection.right) {
-      if (horizontalFocus != null) {
-        horizontalFocus?.requestFocus();
-        return false;
-      } else {
+      if (lastMainFocus != null) {
+        lastMainFocus?.requestFocus();
         return true;
+      } else {
+        return super.inDirection(currentNode, direction);
       }
     }
     if (direction == TraversalDirection.up || direction == TraversalDirection.down) {
@@ -363,8 +361,6 @@ class RailTraversalPolicy extends ReadingOrderTraversalPolicy {
       if (scope == null) {
         return false;
       }
-
-      receivedFocus?.call(true);
 
       final candidates = scope.traversalDescendants
           .where((n) => n.canRequestFocus && FocusTraversalGroup.maybeOfNode(n) == this)
@@ -382,7 +378,7 @@ class RailTraversalPolicy extends ReadingOrderTraversalPolicy {
       final nextIndex = direction == TraversalDirection.down ? index + 1 : index - 1;
 
       if (nextIndex < 0 || nextIndex >= sorted.length) {
-        return true; // stop at the edge, don’t leak out
+        return true;
       }
 
       requestFocusCallback(sorted[nextIndex]);
@@ -390,4 +386,12 @@ class RailTraversalPolicy extends ReadingOrderTraversalPolicy {
     }
     return super.inDirection(currentNode, direction);
   }
+}
+
+bool isNodeInCurrentRoute(FocusNode node) {
+  if (!node.canRequestFocus) return false;
+  if (node.context == null) return false;
+
+  final nearestScope = FocusScope.of(node.context!);
+  return nearestScope.hasFocus || nearestScope.isFirstFocus;
 }

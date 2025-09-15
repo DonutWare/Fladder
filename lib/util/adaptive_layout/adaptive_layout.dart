@@ -180,7 +180,7 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
   Widget build(BuildContext context) {
     final leanBackMode = ref.watch(argumentsStateProvider).leanBackMode;
     final acceptedLayouts =
-        leanBackMode ? {LayoutMode.single} : ref.watch(homeSettingsProvider.select((value) => value.screenLayouts));
+        leanBackMode ? {LayoutMode.dual} : ref.watch(homeSettingsProvider.select((value) => value.screenLayouts));
     final acceptedViewSizes =
         leanBackMode ? {ViewSize.television} : ref.watch(homeSettingsProvider.select((value) => value.layoutStates));
 

@@ -74,20 +74,46 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                   OverviewHeader(
                     name: details.name,
                     image: details.images,
-                    centerButtons: MediaPlayButton(
-                      item: details.nextUp,
-                      onPressed: details.nextUp != null
-                          ? () async {
-                              await details.nextUp.play(context, ref);
-                              ref.read(providerId.notifier).fetchDetails(widget.item);
-                            }
-                          : null,
-                      onLongPressed: details.nextUp != null
-                          ? () async {
-                              await details.nextUp.play(context, ref, showPlaybackOption: true);
-                              ref.read(providerId.notifier).fetchDetails(widget.item);
-                            }
-                          : null,
+                    centerButtons: Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      alignment: wrapAlignment,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        MediaPlayButton(
+                          item: details.nextUp,
+                          onPressed: details.nextUp != null
+                              ? () async {
+                                  await details.nextUp.play(context, ref);
+                                  ref.read(providerId.notifier).fetchDetails(widget.item);
+                                }
+                              : null,
+                          onLongPressed: details.nextUp != null
+                              ? () async {
+                                  await details.nextUp.play(context, ref, showPlaybackOption: true);
+                                  ref.read(providerId.notifier).fetchDetails(widget.item);
+                                }
+                              : null,
+                        ),
+                        SelectableIconButton(
+                          onPressed: () async {
+                            await ref
+                                .read(userProvider.notifier)
+                                .setAsFavorite(!details.userData.isFavourite, details.id);
+                          },
+                          selected: details.userData.isFavourite,
+                          selectedIcon: IconsaxPlusBold.heart,
+                          icon: IconsaxPlusLinear.heart,
+                        ),
+                        SelectableIconButton(
+                          onPressed: () async {
+                            await ref.read(userProvider.notifier).markAsPlayed(!details.userData.played, details.id);
+                          },
+                          selected: details.userData.played,
+                          selectedIcon: IconsaxPlusBold.tick_circle,
+                          icon: IconsaxPlusLinear.tick_circle,
+                        ),
+                      ],
                     ),
                     padding: padding,
                     originalTitle: details.originalTitle,
@@ -98,32 +124,6 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                     genres: details.overview.genreItems,
                     communityRating: details.overview.communityRating,
                   ),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    alignment: wrapAlignment,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      SelectableIconButton(
-                        onPressed: () async {
-                          await ref
-                              .read(userProvider.notifier)
-                              .setAsFavorite(!details.userData.isFavourite, details.id);
-                        },
-                        selected: details.userData.isFavourite,
-                        selectedIcon: IconsaxPlusBold.heart,
-                        icon: IconsaxPlusLinear.heart,
-                      ),
-                      SelectableIconButton(
-                        onPressed: () async {
-                          await ref.read(userProvider.notifier).markAsPlayed(!details.userData.played, details.id);
-                        },
-                        selected: details.userData.played,
-                        selectedIcon: IconsaxPlusBold.tick_circle,
-                        icon: IconsaxPlusLinear.tick_circle,
-                      ),
-                    ],
-                  ).padding(padding),
                   if (details.nextUp != null)
                     NextUpEpisode(
                       nextEpisode: details.nextUp!,

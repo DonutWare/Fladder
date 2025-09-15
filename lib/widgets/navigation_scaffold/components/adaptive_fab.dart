@@ -32,8 +32,11 @@ class AdaptiveFab {
         padding: const EdgeInsets.symmetric(horizontal: 6),
         child: FilledButton.tonal(
           onPressed: onPressed,
+          style: FilledButton.styleFrom(
+            padding: const EdgeInsets.all(16),
+          ),
           child: Row(
-            spacing: 24,
+            spacing: 16,
             children: [
               child,
               Flexible(child: Text(title)),

@@ -1192,6 +1192,7 @@
   "segmentActionSkip": "Skip",
   "loading": "Loading",
   "exitFladderTitle": "Exit Fladder",
+  "exitFladderDesc": "Are you sure you want to close Fladder?",
   "castAndCrew": "Cast & Crew",
   "guestActor": "{count, plural, other{Guest Actors} one{Guest Actor}}",
   "@guestActor": {

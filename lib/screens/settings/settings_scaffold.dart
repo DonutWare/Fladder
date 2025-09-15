@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/shared/user_icon.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
@@ -76,7 +77,7 @@ class SettingsScaffold extends ConsumerWidget {
                       padding: MediaQuery.paddingOf(context).copyWith(bottom: 0),
                       child: Row(
                         children: [
-                          if (showBackButtonNested)
+                          if (showBackButtonNested && !ref.read(argumentsStateProvider).htpcMode)
                             BackButton(
                               onPressed: () => backAction(context),
                             )

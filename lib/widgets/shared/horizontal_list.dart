@@ -11,7 +11,6 @@ import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/sticky_header_text.dart';
-import 'package:fladder/widgets/navigation_scaffold/components/side_navigation_bar.dart';
 
 class HorizontalList<T> extends ConsumerStatefulWidget {
   final bool autoFocus;
@@ -74,9 +73,6 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
 
   @override
   void dispose() {
-    if (horizontalFocus == focusNode) {
-      horizontalFocus = null;
-    }
     focusNode.dispose();
     super.dispose();
   }
@@ -104,7 +100,7 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
     _scrollController
         .animateTo(
           math.min(offset, _scrollController.position.maxScrollExtent),
-          duration: const Duration(milliseconds: 175),
+          duration: const Duration(milliseconds: 125),
           curve: Curves.easeInOut,
         )
         .whenComplete(() => _isAnimating = false);
@@ -231,9 +227,6 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
             autofocus: widget.autoFocus,
             focusNode: focusNode,
             onFocusChange: (value) {
-              if (value) {
-                horizontalFocus = focusNode;
-              }
               if (value && hasFocus != value) {
                 _scrollToPosition(currentIndex);
               }
@@ -253,11 +246,10 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
               if (event is KeyDownEvent || event is KeyRepeatEvent) {
                 if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
                   _scrollToPosition(math.min(currentIndex + 1, widget.items.length - 1));
-
                   return KeyEventResult.handled;
                 } else if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
-                  if (currentIndex == 0) {
-                    navBarNode.requestFocus();
+                  if (currentIndex == 0 && event is KeyDownEvent) {
+                    return KeyEventResult.ignored;
                   } else {
                     _scrollToPosition(math.max(currentIndex - 1, 0));
                   }
@@ -274,7 +266,7 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
               itemBuilder: (context, index) {
                 return ExcludeFocus(
                   child: FocusProvider(
-                    value: hasFocus && index == currentIndex,
+                    hasFocus: hasFocus && index == currentIndex,
                     key: index == 0 ? _firstItemKey : null,
                     child: widget.itemBuilder(context, index, hasFocus ? currentIndex : -1),
                   ),

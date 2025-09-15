@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
@@ -23,6 +24,7 @@ import 'package:fladder/screens/shared/media/poster_row.dart';
 import 'package:fladder/screens/shared/nested_scaffold.dart';
 import 'package:fladder/screens/shared/nested_sliver_appbar.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
+import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/sliver_list_padding.dart';
@@ -132,80 +134,85 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 ...[
                   if (resumeVideo.isNotEmpty &&
                       (homeSettings.nextUp == HomeNextUp.cont || homeSettings.nextUp == HomeNextUp.separate))
-                    SliverToBoxAdapter(
-                      child: PosterRow(
-                        contentPadding: padding,
-                        label: context.localized.dashboardContinueWatching,
-                        posters: resumeVideo,
-                      ),
+                    PosterRow(
+                      contentPadding: padding,
+                      label: context.localized.dashboardContinueWatching,
+                      posters: resumeVideo,
                     ),
                   if (resumeAudio.isNotEmpty &&
                       (homeSettings.nextUp == HomeNextUp.cont || homeSettings.nextUp == HomeNextUp.separate))
-                    SliverToBoxAdapter(
-                      child: PosterRow(
-                        contentPadding: padding,
-                        label: context.localized.dashboardContinueListening,
-                        posters: resumeAudio,
-                      ),
+                    PosterRow(
+                      contentPadding: padding,
+                      label: context.localized.dashboardContinueListening,
+                      posters: resumeAudio,
                     ),
                   if (resumeBooks.isNotEmpty &&
                       (homeSettings.nextUp == HomeNextUp.cont || homeSettings.nextUp == HomeNextUp.separate))
-                    SliverToBoxAdapter(
-                      child: PosterRow(
-                        contentPadding: padding,
-                        label: context.localized.dashboardContinueReading,
-                        posters: resumeBooks,
-                      ),
+                    PosterRow(
+                      contentPadding: padding,
+                      label: context.localized.dashboardContinueReading,
+                      posters: resumeBooks,
                     ),
                   if (dashboardData.nextUp.isNotEmpty &&
                       (homeSettings.nextUp == HomeNextUp.nextUp || homeSettings.nextUp == HomeNextUp.separate))
-                    SliverToBoxAdapter(
-                      child: PosterRow(
-                        contentPadding: padding,
-                        label: context.localized.nextUp,
-                        posters: dashboardData.nextUp,
-                      ),
+                    PosterRow(
+                      contentPadding: padding,
+                      label: context.localized.nextUp,
+                      posters: dashboardData.nextUp,
                     ),
                   if ([...allResume, ...dashboardData.nextUp].isNotEmpty && homeSettings.nextUp == HomeNextUp.combined)
-                    SliverToBoxAdapter(
-                      child: PosterRow(
-                        contentPadding: padding,
-                        label: context.localized.dashboardContinue,
-                        posters: [...allResume, ...dashboardData.nextUp],
+                    PosterRow(
+                      contentPadding: padding,
+                      label: context.localized.dashboardContinue,
+                      posters: [...allResume, ...dashboardData.nextUp],
+                    ),
+                  ...views.dashboardViews.where((element) => element.recentlyAdded.isNotEmpty).map(
+                        (view) => PosterRow(
+                          contentPadding: padding,
+                          label: context.localized.dashboardRecentlyAdded(view.name),
+                          collectionAspectRatio: view.collectionType.aspectRatio,
+                          onLabelClick: () => context.router.push(
+                            LibrarySearchRoute(
+                              viewModelId: view.id,
+                              types: switch (view.collectionType) {
+                                CollectionType.tvshows => {
+                                    FladderItemType.episode: true,
+                                  },
+                                _ => {},
+                              },
+                              sortingOptions: switch (view.collectionType) {
+                                CollectionType.books ||
+                                CollectionType.boxsets ||
+                                CollectionType.folders ||
+                                CollectionType.music =>
+                                  SortingOptions.dateLastContentAdded,
+                                _ => SortingOptions.dateAdded,
+                              },
+                              sortOrder: SortingOrder.descending,
+                              recursive: true,
+                            ),
+                          ),
+                          posters: view.recentlyAdded,
+                        ),
+                      ),
+                ]
+                    .nonNulls
+                    .toList()
+                    .mapIndexed(
+                      (index, e) => SliverToBoxAdapter(
+                        child: FocusProvider(
+                          hasFocus: false,
+                          autoFocus: index == 0,
+                          child: e,
+                        ),
+                      ),
+                    )
+                    .toList()
+                    .addInBetween(
+                      const SliverToBoxAdapter(
+                        child: SizedBox(height: 16),
                       ),
                     ),
-                  ...views.dashboardViews
-                      .where((element) => element.recentlyAdded.isNotEmpty)
-                      .map((view) => SliverToBoxAdapter(
-                            child: PosterRow(
-                              contentPadding: padding,
-                              label: context.localized.dashboardRecentlyAdded(view.name),
-                              collectionAspectRatio: view.collectionType.aspectRatio,
-                              onLabelClick: () => context.router.push(
-                                LibrarySearchRoute(
-                                  viewModelId: view.id,
-                                  types: switch (view.collectionType) {
-                                    CollectionType.tvshows => {
-                                        FladderItemType.episode: true,
-                                      },
-                                    _ => {},
-                                  },
-                                  sortingOptions: switch (view.collectionType) {
-                                    CollectionType.books ||
-                                    CollectionType.boxsets ||
-                                    CollectionType.folders ||
-                                    CollectionType.music =>
-                                      SortingOptions.dateLastContentAdded,
-                                    _ => SortingOptions.dateAdded,
-                                  },
-                                  sortOrder: SortingOrder.descending,
-                                  recursive: true,
-                                ),
-                              ),
-                              posters: view.recentlyAdded,
-                            ),
-                          )),
-                ].nonNulls.toList().addInBetween(const SliverToBoxAdapter(child: SizedBox(height: 16))),
                 const DefautlSliverBottomPadding(),
               ],
             ),

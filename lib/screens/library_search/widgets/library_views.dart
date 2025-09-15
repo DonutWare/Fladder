@@ -63,7 +63,10 @@ class LibraryViews extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 4),
       sliver: SliverAnimatedSwitcher(
         duration: const Duration(milliseconds: 250),
-        child: _getWidget(ref, context),
+        child: FocusTraversalGroup(
+          policy: ReadingOrderTraversalPolicy(),
+          child: _getWidget(ref, context),
+        ),
       ),
     );
   }

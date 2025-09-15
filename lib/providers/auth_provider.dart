@@ -179,7 +179,7 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
 
   Future<void> setServer(String server) async {
     final url = (state.hasBaseUrl ? FladderConfig.baseUrl : server);
-    if (url == null) return;
+    if (url == null || server.isEmpty) return;
     final isUrlValid = _parseUrl(url);
     state = state.copyWith(
       errorMessage: isUrlValid,

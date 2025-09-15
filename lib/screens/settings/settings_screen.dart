@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,6 +14,7 @@ import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/settings/quick_connect_window.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/settings/settings_scaffold.dart';
+import 'package:fladder/screens/shared/default_alert_dialog.dart';
 import 'package:fladder/screens/shared/fladder_icon.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
@@ -131,6 +133,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             SettingsListTile(
               label: Text(context.localized.settingsClientTitle),
               subLabel: Text(context.localized.settingsClientDesc),
+              autoFocus: true,
               selected: containsRoute(const ClientSettingsRoute()),
               icon: deviceIcon,
               onTap: () => navigateTo(const ClientSettingsRoute()),
@@ -173,12 +176,26 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 label: Text(context.localized.exitFladderTitle),
                 icon: IconsaxPlusLinear.close_square,
                 onTap: () async {
-                  final manager = WindowManager.instance;
-                  if (await manager.isClosable()) {
-                    manager.close();
-                  } else {
-                    fladderSnackbar(context, title: context.localized.somethingWentWrong);
-                  }
+                  showDefaultAlertDialog(
+                    context,
+                    context.localized.exitFladderTitle,
+                    context.localized.exitFladderDesc,
+                    (context) async {
+                      if (AdaptiveLayout.of(context).isDesktop) {
+                        final manager = WindowManager.instance;
+                        if (await manager.isClosable()) {
+                          manager.close();
+                        } else {
+                          fladderSnackbar(context, title: context.localized.somethingWentWrong);
+                        }
+                      } else {
+                        SystemNavigator.pop();
+                      }
+                    },
+                    context.localized.close,
+                    (context) => context.pop(),
+                    context.localized.cancel,
+                  );
                 },
               ),
             ],

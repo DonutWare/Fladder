@@ -26,6 +26,9 @@ class OutlinedTextField extends ConsumerStatefulWidget {
   final TextAlign textAlign;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
+  final InputDecoration? decoration;
+  final String? placeHolder;
+  final String? suffix;
   final String? errorText;
   final bool? enabled;
 
@@ -48,6 +51,9 @@ class OutlinedTextField extends ConsumerStatefulWidget {
     this.keyboardType,
     this.textInputAction,
     this.errorText,
+    this.placeHolder,
+    this.decoration,
+    this.suffix,
     this.enabled,
     super.key,
   });
@@ -60,12 +66,16 @@ class _OutlinedTextFieldState extends ConsumerState<OutlinedTextField> {
   late final FocusNode _textFocus = widget.focusNode ?? FocusNode();
   late final FocusNode _wrapperFocus = FocusNode()
     ..addListener(() {
-      final leanBackMode = ref.read(argumentsStateProvider).leanBackMode;
-      if (!leanBackMode && _wrapperFocus.hasFocus) {
-        _textFocus.requestFocus();
-      }
       setState(() {
         hasFocus = _wrapperFocus.hasFocus;
+        if (hasFocus) {
+          Scrollable.ensureVisible(
+            context,
+            duration: const Duration(milliseconds: 250),
+            alignment: 0.5,
+            curve: Curves.easeOut,
+          );
+        }
       });
     });
 
@@ -73,9 +83,7 @@ class _OutlinedTextFieldState extends ConsumerState<OutlinedTextField> {
 
   @override
   void dispose() {
-    if (widget.focusNode == null) {
-      _textFocus.dispose();
-    }
+    _textFocus.dispose();
     _wrapperFocus.dispose();
     super.dispose();
   }
@@ -89,7 +97,7 @@ class _OutlinedTextFieldState extends ConsumerState<OutlinedTextField> {
 
   Color getColor() {
     if (widget.errorText != null) return Theme.of(context).colorScheme.errorContainer;
-    return Theme.of(context).colorScheme.secondaryContainer.withValues(alpha: 0.25);
+    return Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.35);
   }
 
   @override
@@ -105,25 +113,19 @@ class _OutlinedTextFieldState extends ConsumerState<OutlinedTextField> {
     }
     return Column(
       children: [
-        Stack(
-          clipBehavior: Clip.none,
-          children: [
-            Positioned.fill(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 6),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 250),
-                  decoration: BoxDecoration(
-                      color: widget.fillColor ?? getColor(),
-                      borderRadius: FladderTheme.defaultShape.borderRadius,
-                      border: BoxBorder.all(
-                        width: 2,
-                        color: hasFocus ? Theme.of(context).colorScheme.primaryFixed : Colors.transparent,
-                      )),
-                ),
-              ),
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 175),
+          decoration: BoxDecoration(
+            color: widget.decoration == null ? widget.fillColor ?? getColor() : null,
+            borderRadius: FladderTheme.smallShape.borderRadius,
+            border: BoxBorder.all(
+              width: 2,
+              color: hasFocus ? Theme.of(context).colorScheme.primaryFixed : Colors.transparent,
             ),
-            IgnorePointer(
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: IgnorePointer(
               ignoring: widget.enabled == false,
               child: KeyboardListener(
                 focusNode: _wrapperFocus,
@@ -131,7 +133,7 @@ class _OutlinedTextFieldState extends ConsumerState<OutlinedTextField> {
                   if (event is KeyUpEvent && acceptKeys.contains(event.logicalKey)) {
                     if (_textFocus.hasFocus) {
                       _textFocus.unfocus();
-                      Future.delayed(Duration.zero, () => _textFocus.requestFocus());
+                      _wrapperFocus.requestFocus();
                     } else if (_wrapperFocus.hasFocus) {
                       _textFocus.requestFocus();
                     }
@@ -146,65 +148,52 @@ class _OutlinedTextFieldState extends ConsumerState<OutlinedTextField> {
                     autofillHints: widget.autoFillHints,
                     keyboardType: widget.keyboardType,
                     autocorrect: widget.autocorrect,
-                    onSubmitted: widget.onSubmitted,
+                    onSubmitted: widget.onSubmitted != null
+                        ? (value) {
+                            widget.onSubmitted?.call(value);
+                            Future.microtask(() async {
+                              await Future.delayed(const Duration(milliseconds: 125));
+                              _wrapperFocus.requestFocus();
+                            });
+                          }
+                        : null,
                     textInputAction: widget.textInputAction,
                     obscureText: isPasswordField ? _obscureText : false,
                     style: widget.style,
                     maxLines: widget.maxLines,
                     inputFormatters: widget.inputFormatters,
                     textAlign: widget.textAlign,
-                    selectAllOnFocus: true,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.primary.withValues(alpha: 0),
-                          width: widget.borderWidth,
+                    canRequestFocus: true,
+                    decoration: widget.decoration ??
+                        InputDecoration(
+                          border: InputBorder.none,
+                          filled: widget.fillColor != null,
+                          fillColor: widget.fillColor,
+                          labelText: widget.label,
+                          suffix: widget.suffix != null
+                              ? Padding(
+                                  padding: const EdgeInsets.only(right: 6),
+                                  child: Text(widget.suffix!),
+                                )
+                              : null,
+                          hintText: widget.placeHolder,
+                          errorText: widget.errorText,
+                          suffixIcon: isPasswordField
+                              ? InkWell(
+                                  onTap: _toggle,
+                                  borderRadius: BorderRadius.circular(5),
+                                  child: Icon(
+                                    _obscureText ? Icons.visibility : Icons.visibility_off,
+                                    size: 16.0,
+                                  ),
+                                )
+                              : null,
                         ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.primary.withValues(alpha: 0),
-                          width: widget.borderWidth,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.primary.withValues(alpha: 0),
-                          width: widget.borderWidth,
-                        ),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.primary.withValues(alpha: 0),
-                          width: widget.borderWidth,
-                        ),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.primary.withValues(alpha: 0),
-                          width: widget.borderWidth,
-                        ),
-                      ),
-                      filled: widget.fillColor != null,
-                      fillColor: widget.fillColor,
-                      labelText: widget.label,
-                      // errorText: widget.errorText,
-                      suffixIcon: isPasswordField
-                          ? InkWell(
-                              onTap: _toggle,
-                              borderRadius: BorderRadius.circular(5),
-                              child: Icon(
-                                _obscureText ? Icons.visibility : Icons.visibility_off,
-                                size: 16.0,
-                              ),
-                            )
-                          : null,
-                    ),
                   ),
                 ),
               ),
             ),
-          ],
+          ),
         ),
         AnimatedFadeSize(
           child: widget.errorText != null

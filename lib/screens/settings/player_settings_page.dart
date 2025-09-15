@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
+import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
@@ -268,38 +269,38 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
           context,
           SettingsLabelDivider(label: context.localized.advanced),
           [
-            if (PlayerOptions.available.length != 1)
-              SettingsListTile(
-                label: Text(context.localized.playerSettingsBackendTitle),
-                subLabel: Text(context.localized.playerSettingsBackendDesc),
-                trailing: Builder(builder: (context) {
-                  final wantedPlayer = videoSettings.wantedPlayer;
-                  final currentPlayer = videoSettings.playerOptions;
-                  return EnumBox(
-                    current: currentPlayer == null
-                        ? "${context.localized.defaultLabel} (${PlayerOptions.platformDefaults.label(context)})"
-                        : wantedPlayer.label(context),
-                    itemBuilder: (context) => [
-                      PopupMenuItem(
-                        value: null,
-                        child: Text(
-                            "${context.localized.defaultLabel} (${PlayerOptions.platformDefaults.label(context)})"),
-                        onTap: () => ref.read(videoPlayerSettingsProvider.notifier).state =
-                            videoSettings.copyWith(playerOptions: null),
-                      ),
-                      ...PlayerOptions.available.map(
-                        (entry) => PopupMenuItem(
-                          value: entry,
-                          child: Text(entry.label(context)),
+            if (videoSettings.wantedPlayer != PlayerOptions.nativePlayer) ...[
+              if (PlayerOptions.available.length != 1)
+                SettingsListTile(
+                  label: Text(context.localized.playerSettingsBackendTitle),
+                  subLabel: Text(context.localized.playerSettingsBackendDesc),
+                  trailing: Builder(builder: (context) {
+                    final wantedPlayer = videoSettings.wantedPlayer;
+                    final currentPlayer = videoSettings.playerOptions;
+                    return EnumBox(
+                      current: currentPlayer == null
+                          ? "${context.localized.defaultLabel} (${PlayerOptions.platformDefaults.label(context)})"
+                          : wantedPlayer.label(context),
+                      itemBuilder: (context) => [
+                        PopupMenuItem(
+                          value: null,
+                          child: Text(
+                              "${context.localized.defaultLabel} (${PlayerOptions.platformDefaults.label(context)})"),
                           onTap: () => ref.read(videoPlayerSettingsProvider.notifier).state =
-                              videoSettings.copyWith(playerOptions: entry),
+                              videoSettings.copyWith(playerOptions: null),
                         ),
-                      )
-                    ],
-                  );
-                }),
-              ),
-            if (videoSettings.wantedPlayer != PlayerOptions.nativePlayer)
+                        ...PlayerOptions.available.map(
+                          (entry) => PopupMenuItem(
+                            value: entry,
+                            child: Text(entry.label(context)),
+                            onTap: () => ref.read(videoPlayerSettingsProvider.notifier).state =
+                                videoSettings.copyWith(playerOptions: entry),
+                          ),
+                        )
+                      ],
+                    );
+                  }),
+                ),
               AnimatedFadeSize(
                 child: switch (videoSettings.wantedPlayer) {
                   PlayerOptions.libMPV => Column(
@@ -369,6 +370,7 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                   _ => const SizedBox.shrink()
                 },
               ),
+            ],
             Column(
               children: [
                 SettingsListTile(
@@ -401,7 +403,7 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                 ),
               ],
             ),
-            if (!AdaptiveLayout.of(context).isDesktop && !kIsWeb)
+            if (!AdaptiveLayout.of(context).isDesktop && !kIsWeb && !ref.read(argumentsStateProvider).htpcMode)
               SettingsListTile(
                 label: Text(context.localized.playerSettingsOrientationTitle),
                 subLabel: Text(context.localized.playerSettingsOrientationDesc),

@@ -14,22 +14,29 @@ final acceptKeys = {
 };
 
 class FocusProvider extends InheritedWidget {
-  final bool value;
+  final bool hasFocus;
+  final bool autoFocus;
 
   const FocusProvider({
     super.key,
-    required this.value,
+    this.hasFocus = false,
+    this.autoFocus = false,
     required super.child,
   });
 
   static bool of(BuildContext context) {
     final widget = context.dependOnInheritedWidgetOfExactType<FocusProvider>();
-    return widget?.value ?? false;
+    return widget?.hasFocus ?? false;
+  }
+
+  static bool hasAutoFocus(BuildContext context) {
+    final widget = context.dependOnInheritedWidgetOfExactType<FocusProvider>();
+    return widget?.autoFocus ?? false;
   }
 
   @override
   bool updateShouldNotify(FocusProvider oldWidget) {
-    return oldWidget.value != value;
+    return oldWidget.hasFocus != hasFocus;
   }
 }
 
@@ -53,6 +60,7 @@ class FocusButton extends StatefulWidget {
 }
 
 class FocusButtonState extends State<FocusButton> {
+  FocusNode focusNode = FocusNode();
   bool onFocused = false;
   bool onHover = false;
   Timer? _longPressTimer;
@@ -62,7 +70,7 @@ class FocusButtonState extends State<FocusButton> {
   static const Duration _kLongPressTimeout = Duration(milliseconds: 500);
 
   bool _handleKey(KeyEvent event) {
-    if (!onFocused) return false;
+    if (!onFocused && !onHover) return false;
 
     if (acceptKeys.contains(event.logicalKey)) {
       if (event is KeyDownEvent) {
@@ -89,6 +97,7 @@ class FocusButtonState extends State<FocusButton> {
     _longPressTimer = Timer(_kLongPressTimeout, () {
       _longPressTriggered = true;
       widget.onLongPress?.call();
+      _resetKeyState();
     });
   }
 
@@ -107,12 +116,18 @@ class FocusButtonState extends State<FocusButton> {
   void initState() {
     super.initState();
     HardwareKeyboard.instance.addHandler(_handleKey);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (FocusProvider.hasAutoFocus(context)) {
+        focusNode.requestFocus();
+      }
+    });
   }
 
   @override
   void dispose() {
     _resetKeyState();
     HardwareKeyboard.instance.removeHandler(_handleKey);
+    focusNode.dispose();
     super.dispose();
   }
 
@@ -120,7 +135,16 @@ class FocusButtonState extends State<FocusButton> {
   Widget build(BuildContext context) {
     onFocused = FocusProvider.of(context);
     return Focus(
+      focusNode: focusNode,
       onFocusChange: (value) {
+        if (value) {
+          Scrollable.ensureVisible(
+            context,
+            duration: const Duration(milliseconds: 250),
+            alignment: 0.5,
+            curve: Curves.easeOut,
+          );
+        }
         setState(() {
           onHover = value;
         });
