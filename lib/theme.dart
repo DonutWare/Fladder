@@ -53,6 +53,10 @@ class FladderTheme {
         margin: EdgeInsets.zero,
         shape: smallShape,
       ),
+      expansionTileTheme: ExpansionTileThemeData(
+        shape: RoundedRectangleBorder(borderRadius: FladderTheme.defaultShape.borderRadius),
+        collapsedShape: RoundedRectangleBorder(borderRadius: FladderTheme.defaultShape.borderRadius),
+      ),
       progressIndicatorTheme: const ProgressIndicatorThemeData(),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: scheme?.secondaryContainer,
@@ -62,7 +66,7 @@ class FladderTheme {
       snackBarTheme: SnackBarThemeData(
         backgroundColor: scheme?.secondary,
         behavior: SnackBarBehavior.fixed,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(borderRadius: FladderTheme.defaultShape.borderRadius),
         elevation: 5,
         dismissDirection: DismissDirection.horizontal,
       ),

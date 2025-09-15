@@ -1294,6 +1294,7 @@
   "usePostersForLibraryIconsDesc": "Show posters instead of icons for libraries",
   "offline": "Offline",
   "shortCuts": "Shortcuts",
+  "keyboardShortCuts": "Keyboard shortcuts",
   "skipForwardLength": "Skip forward length",
   "skipBackLength": "Skip back length",
   "playPause": "Play/Pause",

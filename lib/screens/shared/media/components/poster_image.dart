@@ -1,3 +1,4 @@
+import 'package:fladder/models/items/movie_model.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -200,22 +201,6 @@ class _PosterImageState extends ConsumerState<PosterImage> {
                   ],
                 ),
               ),
-              if (widget.poster.unWatched)
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: StatusCard(
-                    color: Colors.amber,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.amber,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
               if (widget.inlineTitle)
                 IgnorePointer(
                   child: Align(
@@ -230,7 +215,8 @@ class _PosterImageState extends ConsumerState<PosterImage> {
                     ),
                   ),
                 ),
-              if (widget.poster.unPlayedItemCount != null && widget.poster is SeriesModel)
+              if ((widget.poster.unPlayedItemCount != null && widget.poster is SeriesModel) 
+                || (widget.poster is MovieModel && !widget.poster.unWatched))
                 IgnorePointer(
                   child: Align(
                     alignment: Alignment.topRight,

@@ -206,29 +206,36 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                   )),
             ),
             if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer)
-              ...VideoHotKeys.values.map(
-                (entry) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          entry.label(context),
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                      ),
-                      Flexible(
-                        child: KeyCombinationWidget(
-                          currentKey: videoSettings.hotKeys[entry],
-                          defaultKey: videoSettings.defaultShortCuts[entry]!,
-                          onChanged: (value) =>
-                              ref.read(videoPlayerSettingsProvider.notifier).setShortcuts(MapEntry(entry, value)),
-                        ),
-                      )
-                    ],
-                  ),
+              ExpansionTile(
+                title: Text(
+                  context.localized.keyboardShortCuts,
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
-              )
+                children: VideoHotKeys.values.map(
+                  (entry) => Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            entry.label(context),
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                        ),
+                        Flexible(
+                          child: KeyCombinationWidget(
+                            currentKey: videoSettings.hotKeys[entry],
+                            defaultKey: videoSettings.defaultShortCuts[entry]!,
+                            onChanged: (value) => ref
+                                .read(videoPlayerSettingsProvider.notifier)
+                                .setShortcuts(MapEntry(entry, value)),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ).toList(),
+              ),
           ],
         ),
         const SizedBox(height: 12),
