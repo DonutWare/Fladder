@@ -70,10 +70,14 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
   }
 
   void steppedSpeed(double i) {
-    final value = double.parse(
+    var value = double.parse(
       ((ref.read(playbackRateProvider) + i).clamp(0.25, 3))
           .toStringAsFixed(2),
     );
+
+    if ((value - 1.0).abs() < 0.1) {
+      value = 1.0;
+    }
     ref.read(playbackRateProvider.notifier).state = value;
     ref.read(videoPlayerProvider).setSpeed(value);
   }
