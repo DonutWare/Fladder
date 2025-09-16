@@ -312,5 +312,502 @@
         }
     },
     "libraryFetchNoItemsFound": "No s'han trobat elements. Proveu una configuració diferent.",
-    "@libraryFetchNoItemsFound": {}
+    "@libraryFetchNoItemsFound": {},
+    "libraryPageSizeDesc": "Especificar quantitat a carregar per pàgina. 0 desactiva la paginació.",
+    "@libraryPageSizeDesc": {},
+    "libraryPageSizeTitle": "Mida de les pàgines de la llibreria",
+    "@libraryPageSizeTitle": {},
+    "light": "Il·luminació",
+    "@light": {},
+    "list": "Llista",
+    "@list": {},
+    "lockscreen": "Bloqueig de pantalla",
+    "@lockscreen": {},
+    "loggedIn": "Sessió iniciada",
+    "@loggedIn": {},
+    "login": "Iniciar sessió",
+    "@login": {},
+    "logout": "Desconnectar",
+    "@logout": {},
+    "logoutUserPopupContent": "Això descoenctara l'usuari {userName} i esborrarà l'usuari de l'aplicació\nHaurà de tornar a iniciar sessió a {serverName}.",
+    "@logoutUserPopupContent": {
+        "description": "Pop-up for logging out the user description",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            },
+            "serverName": {
+                "type": "String"
+            }
+        }
+    },
+    "logoutUserPopupTitle": "Desconnectar {userName}?",
+    "@logoutUserPopupTitle": {
+        "description": "Pop-up for logging out the user",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "loop": "Bucle",
+    "@loop": {},
+    "markAsUnwatched": "Marcar com a no vist",
+    "@markAsUnwatched": {},
+    "markAsWatched": "Marcar com a vist",
+    "@markAsWatched": {},
+    "masonry": "Maçoneria",
+    "@masonry": {},
+    "mediaTypeBase": "Tipus base",
+    "@mediaTypeBase": {},
+    "mediaTypeBook": "Llibre",
+    "@mediaTypeBook": {},
+    "mediaTypeBoxset": "Recopilatori",
+    "@mediaTypeBoxset": {},
+    "mediaTypeEpisode": "Capítol",
+    "@mediaTypeEpisode": {},
+    "mediaTypeFolder": "Carpeta",
+    "@mediaTypeFolder": {},
+    "mediaTypeMovie": "Pel·lícula",
+    "@mediaTypeMovie": {},
+    "mediaTypePerson": "Persona",
+    "@mediaTypePerson": {},
+    "mediaTypePhoto": "Foto",
+    "@mediaTypePhoto": {},
+    "mediaTypePhotoAlbum": "Album de fotos",
+    "@mediaTypePhotoAlbum": {},
+    "mediaTypePlaylist": "Llista de reproducció",
+    "@mediaTypePlaylist": {},
+    "mediaTypeSeason": "Temporada",
+    "@mediaTypeSeason": {},
+    "mediaTypeSeries": "Series",
+    "@mediaTypeSeries": {},
+    "metaDataSavedFor": "Metadades de {item} guardades",
+    "@metaDataSavedFor": {
+        "description": "metaDataSavedFor",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "metadataRefreshDefault": "Cercar fitxers nous i actualitzats",
+    "@metadataRefreshDefault": {},
+    "metadataRefreshFull": "Reemplaçar totes les metadades",
+    "@metadataRefreshFull": {},
+    "metadataRefreshValidation": "Cercar metadades faltants",
+    "@metadataRefreshValidation": {},
+    "minutes": "{count, plural, other{Minuts} one{Minut} }",
+    "@minutes": {
+        "description": "minute",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mode": "Mode",
+    "@mode": {},
+    "moreFrom": "Més de {info}",
+    "@moreFrom": {
+        "description": "More from",
+        "placeholders": {
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "moreOptions": "Més opcions",
+    "@moreOptions": {},
+    "mouseDragSupport": "Arrastrar utilitzant el ratolí",
+    "@mouseDragSupport": {},
+    "musicAlbum": "Album",
+    "@musicAlbum": {},
+    "name": "Nom",
+    "@name": {},
+    "navigation": "Navegació",
+    "@navigation": {},
+    "navigationDashboard": "Tauler",
+    "@navigationDashboard": {},
+    "navigationFavorites": "Preferits",
+    "@navigationFavorites": {},
+    "navigationSync": "Sincronitzat",
+    "@navigationSync": {},
+    "never": "Mai",
+    "@never": {},
+    "noItemsSynced": "Cap element sincronitzat",
+    "@noItemsSynced": {},
+    "noItemsToShow": "Cap element per mostrar",
+    "@noItemsToShow": {},
+    "noRating": "Cap valoració",
+    "@noRating": {},
+    "noResults": "Cap resultat",
+    "@noResults": {},
+    "noServersFound": "Cap servidor nou trobat",
+    "@noServersFound": {},
+    "noSuggestionsFound": "No s'ha trobat cap suggeriment",
+    "@noSuggestionsFound": {},
+    "none": "Cap",
+    "@none": {},
+    "normal": "Normal",
+    "@normal": {},
+    "notPartOfAlbum": "No forma part de cap album",
+    "@notPartOfAlbum": {},
+    "openParent": "Obrir carpeta superior",
+    "@openParent": {},
+    "openShow": "Obrir la serie",
+    "@openShow": {},
+    "openWebLink": "Obrir l'enllaç web",
+    "@openWebLink": {},
+    "options": "Opcions",
+    "@options": {},
+    "other": "Altres",
+    "@other": {},
+    "outlineColor": "Color de la vora",
+    "@outlineColor": {},
+    "outlineSize": "Mida de la vora",
+    "@outlineSize": {},
+    "overview": "Visió general",
+    "@overview": {},
+    "page": "Pagina {index}",
+    "@page": {
+        "description": "page",
+        "placeholders": {
+            "index": {
+                "type": "int"
+            }
+        }
+    },
+    "parentalRating": "Qualificació parental",
+    "@parentalRating": {},
+    "password": "Contrasenya",
+    "@password": {},
+    "pathClearTitle": "Esborrar ruta de descàrregues",
+    "@pathClearTitle": {},
+    "pathEditDesc": "Aquesta ubicació esta definida per a tots els usuaris, qualsevol dada sincronitzada deixarà d'estar disponible. Es mantindra però en el vostre emmagatzematge.",
+    "@pathEditDesc": {},
+    "pathEditSelect": "Escollir ubicació de descàrrega",
+    "@pathEditSelect": {},
+    "pathEditTitle": "Cambiar ubicació",
+    "@pathEditTitle": {},
+    "play": "Reproduir {item}",
+    "@play": {
+        "description": "Play with",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "playCount": "Compte de reproduccions",
+    "@playCount": {},
+    "playFrom": "Reproduir desde {name}",
+    "@playFrom": {
+        "description": "playFrom",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "playFromStart": "Reproduir {name} des del principi",
+    "@playFromStart": {
+        "description": "speel vanaf het begin",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "playLabel": "Reproduir",
+    "@playLabel": {},
+    "playVideos": "Reproduir vídeos",
+    "@playVideos": {},
+    "played": "Reproduït",
+    "@played": {},
+    "quickConnectAction": "Introduir codi quick connect per",
+    "@quickConnectAction": {},
+    "quickConnectInputACode": "Introduir un codi",
+    "@quickConnectInputACode": {},
+    "quickConnectTitle": "Quick-connect",
+    "@quickConnectTitle": {},
+    "quickConnectWrongCode": "Codi incorrecte",
+    "@quickConnectWrongCode": {},
+    "random": "Aleatori",
+    "@random": {},
+    "rating": "{count, plural, other{Qualificacions} one{Qualificació}}",
+    "@rating": {
+        "description": "rating",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "reWatch": "Tornar a veure",
+    "@reWatch": {},
+    "read": "Llegir {item}",
+    "@read": {
+        "description": "read",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "readFromStart": "Llegir {item} des del principi",
+    "@readFromStart": {
+        "description": "Read book from start",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "recursive": "Recursiu",
+    "@recursive": {},
+    "refresh": "Actualitzar",
+    "@refresh": {},
+    "refreshMetadata": "Actualitzar metadada",
+    "@refreshMetadata": {},
+    "refreshPopup": "Actualitzar - {name}",
+    "@refreshPopup": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "refreshPopupContentMetadata": "Les metadades s'actualitzen depenent de la configuració i dels serveis d'Internet activats al Tauler.",
+    "@refreshPopupContentMetadata": {},
+    "related": "Relacionat",
+    "@related": {},
+    "releaseDate": "Data de publicació",
+    "@releaseDate": {},
+    "removeAsFavorite": "Esborrar de preferit",
+    "@removeAsFavorite": {},
+    "removeFromCollection": "Esborrar de la col·lecció",
+    "@removeFromCollection": {},
+    "removeFromPlaylist": "Esborrar de la llista de reproducció",
+    "@removeFromPlaylist": {},
+    "replaceAllImages": "Reemplaçar totes les imatges",
+    "@replaceAllImages": {},
+    "replaceExistingImages": "Reemplaçar imatges existents",
+    "@replaceExistingImages": {},
+    "restart": "Reiniciar",
+    "@restart": {},
+    "result": "Resultat",
+    "@result": {},
+    "resumable": "Continuable",
+    "@resumable": {},
+    "resume": "Continuar {item}",
+    "@resume": {
+        "description": "resume",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "retrievePublicListOfUsers": "Recuperar llistat públic d'usuaris",
+    "@retrievePublicListOfUsers": {},
+    "retry": "Reintentar",
+    "@retry": {},
+    "runTime": "Duració",
+    "@runTime": {},
+    "save": "Desar",
+    "@save": {},
+    "saved": "Desat",
+    "@saved": {},
+    "scanBiometricHint": "Verificar identitat",
+    "@scanBiometricHint": {},
+    "scanLibrary": "Escanejar biblioteca",
+    "@scanLibrary": {},
+    "scanYourFingerprintToAuthenticate": "Escanejar la vostra empremta digital per autenticar {user}",
+    "@scanYourFingerprintToAuthenticate": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "scanningName": "Escanejant - {name}…",
+    "@scanningName": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "scrollToTop": "Desplaçar cap amunt",
+    "@scrollToTop": {},
+    "search": "Cercar",
+    "@search": {},
+    "season": "{count, plural, other{Temporades} one{Temporada} }",
+    "@season": {
+        "description": "season",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "seconds": "{count, plural, other{Segons} one{Segon}}",
+    "@seconds": {
+        "description": "second",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "selectAll": "Seleccionar tot",
+    "@selectAll": {},
+    "selectTime": "Seleccionar hora",
+    "@selectTime": {},
+    "selectViewType": "Seleccionar tipus de visualització",
+    "@selectViewType": {},
+    "selected": "Seleccionat",
+    "@selected": {},
+    "selectedWith": "Seleccionat {info}",
+    "@selectedWith": {
+        "description": "selected",
+        "placeholders": {
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "separate": "Separar",
+    "@separate": {},
+    "server": "Servidor",
+    "@server": {},
+    "set": "Establir",
+    "@set": {
+        "description": "Use for setting a certain value",
+        "context": "Set 'time'"
+    },
+    "setIdentityTo": "Canviar l'identitat a {name}",
+    "@setIdentityTo": {
+        "description": "setIdentityTo",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "settingSecurityApplockTitle": "Bloqueig d'aplicació",
+    "@settingSecurityApplockTitle": {},
+    "settings": "Ajustos",
+    "@settings": {},
+    "settingsBlurEpisodesDesc": "Difuminar tots els proxims episodis",
+    "@settingsBlurEpisodesDesc": {},
+    "settingsBlurEpisodesTitle": "Difuminar següent episodi",
+    "@settingsBlurEpisodesTitle": {},
+    "settingsBlurredPlaceholderDesc": "Mostrar fons difuminat al carregar posters",
+    "@settingsBlurredPlaceholderDesc": {},
+    "settingsBlurredPlaceholderTitle": "Marcador difuminat",
+    "@settingsBlurredPlaceholderTitle": {},
+    "settingsClientDesc": "General, time-out, Disseny, Tema",
+    "@settingsClientDesc": {},
+    "settingsClientTitle": "Fladder",
+    "@settingsClientTitle": {},
+    "settingsContinue": "Continuar",
+    "@settingsContinue": {},
+    "settingsEnableOsMediaControls": "Habilitar controls multimedia del Sistema Operatiu",
+    "@settingsEnableOsMediaControls": {},
+    "settingsEnableOsMediaControlsDesc": "Habilitar tecles multimèdia i mostrar reproducció en curs al sistema operatiu",
+    "@settingsEnableOsMediaControlsDesc": {},
+    "settingsHomeBannerDescription": "Mostrar com a presentació de diapositives, carroussel, o amagar el baner",
+    "@settingsHomeBannerDescription": {},
+    "settingsHomeBannerTitle": "Bàner d'inici",
+    "@settingsHomeBannerTitle": {},
+    "settingsHomeBannerInformationDesc": "Informació a mostrar al bàner d'inici",
+    "@settingsHomeBannerInformationDesc": {},
+    "settingsHomeBannerInformationTitle": "Informació del bàner",
+    "@settingsHomeBannerInformationTitle": {},
+    "settingsHomeNextUpDesc": "Tipus de pòsters mostrats a la pantalla del Tauler",
+    "@settingsHomeNextUpDesc": {},
+    "settingsHomeNextUpTitle": "Pròxims posters",
+    "@settingsHomeNextUpTitle": {},
+    "settingsPlayerCustomSubtitlesDesc": "Personalitzar mida, color, posició, vora",
+    "@settingsPlayerCustomSubtitlesDesc": {},
+    "settingsPlayerCustomSubtitlesTitle": "Personalitzar subtítols",
+    "@settingsPlayerCustomSubtitlesTitle": {},
+    "settingsPlayerDesc": "Ràtio d'aspecte, Avançat",
+    "@settingsPlayerDesc": {},
+    "settingsPlayerMobileWarning": "Activar l'acceleració per hardware i subtítols natius libass a Android pot provocar que no es renderitizin alguns subtítols.",
+    "@settingsPlayerMobileWarning": {},
+    "settingsPlayerNativeLibassAccelDesc": "Utilitzar renderitzador de subtítols libass del reproductor",
+    "@settingsPlayerNativeLibassAccelDesc": {},
+    "settingsPlayerNativeLibassAccelTitle": "Subtítols libass natius",
+    "@settingsPlayerNativeLibassAccelTitle": {},
+    "settingsPlayerBufferSizeTitle": "Mida del buffer de video",
+    "@settingsPlayerBufferSizeTitle": {},
+    "settingsNextUpCutoffDays": "Últims dies de proxims",
+    "@settingsNextUpCutoffDays": {},
+    "settingsPlayerBufferSizeDesc": "Configurar el tamany de bufer per reproducció de vídeo, determinant la quantitat de dades carregades a la memòria cau.",
+    "@settingsPlayerBufferSizeDesc": {},
+    "settingsPlayerTitle": "Reproductor",
+    "@settingsPlayerTitle": {},
+    "settingsPlayerVideoHWAccelDesc": "Utilitzar la GPU per renderitzar vídeo (recomanat)",
+    "@settingsPlayerVideoHWAccelDesc": {},
+    "settingsPlayerVideoHWAccelTitle": "Acceleració per maquinari",
+    "@settingsPlayerVideoHWAccelTitle": {},
+    "settingsPosterPinch": "Pinçar amb dos dits per escalar posters",
+    "@settingsPosterPinch": {},
+    "settingsPosterSize": "Mida de poster",
+    "@settingsPosterSize": {},
+    "settingsPosterSlider": "Mostrar control lliscant per l'escala",
+    "@settingsPosterSlider": {},
+    "settingsProfileDesc": "Pantalla de bloqueig",
+    "@settingsProfileDesc": {},
+    "settingsProfileTitle": "Perfil",
+    "@settingsProfileTitle": {},
+    "settingsQuickConnectTitle": "Quick connect",
+    "@settingsQuickConnectTitle": {},
+    "settingsSecurity": "Seguretat",
+    "@settingsSecurity": {},
+    "settingsVisual": "Visualització",
+    "@settingsVisual": {},
+    "shadow": "Ombra",
+    "@shadow": {},
+    "showAlbum": "Mostra àlbum",
+    "@showAlbum": {},
+    "showDetails": "Mostra detalls",
+    "@showDetails": {},
+    "showEmpty": "Mostra buit",
+    "@showEmpty": {},
+    "shuffleGallery": "Mescla la Galeria",
+    "@shuffleGallery": {},
+    "shuffleVideos": "Mescla els vídeos",
+    "@shuffleVideos": {},
+    "somethingWentWrong": "Alguna cosa ha anat malament",
+    "@somethingWentWrong": {},
+    "somethingWentWrongPasswordCheck": "Alguna cosa ha anat malament. Comprovi la seva contrasenya.",
+    "@somethingWentWrongPasswordCheck": {},
+    "sortBy": "Ordenar per",
+    "@sortBy": {},
+    "sortName": "Nom",
+    "@sortName": {},
+    "sortOrder": "Ordre de classificació",
+    "@sortOrder": {},
+    "start": "Començar",
+    "@start": {},
+    "studio": "{count, plural, other{Estudis} one{Estudi}}",
+    "@studio": {
+        "description": "studio",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "subtitleConfigurator": "Configurador de subtítols",
+    "@subtitleConfigurator": {}
 }
