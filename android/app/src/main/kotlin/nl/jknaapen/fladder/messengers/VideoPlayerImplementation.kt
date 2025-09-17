@@ -2,12 +2,16 @@ package nl.jknaapen.fladder.messengers
 
 import PlayableData
 import VideoPlayerApi
+import androidx.core.net.toUri
 import androidx.media3.common.MediaItem
+import androidx.media3.common.MimeTypes
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import kotlinx.coroutines.flow.MutableStateFlow
+import nl.jknaapen.fladder.objects.VideoPlayerHost
 import nl.jknaapen.fladder.utility.clearAudioTrack
 import nl.jknaapen.fladder.utility.clearSubtitleTrack
+import nl.jknaapen.fladder.utility.enableSubtitles
 import nl.jknaapen.fladder.utility.getAudioTracks
 import nl.jknaapen.fladder.utility.getSubtitleTracks
 import nl.jknaapen.fladder.utility.setInternalAudioTrack
@@ -31,10 +35,27 @@ class VideoPlayerImplementation(
 
     override fun open(url: String, play: Boolean) {
         try {
+            playbackData.value?.let {
+                VideoPlayerHost.setAudioTrackIndex(it.defaultAudioTrack.toInt(), true)
+                VideoPlayerHost.setSubtitleTrackIndex(it.defaultSubtrack.toInt(), true)
+            }
+            
             player?.clearMediaItems()
             val startPosition = playbackData.value?.startPosition
             println("Loading video in native $url")
-            val mediaItem = MediaItem.fromUri(url)
+            val subTitles = playbackData.value?.subtitleTracks ?: listOf()
+            val mediaItem = MediaItem.Builder()
+                .setUri(url)
+                .setSubtitleConfigurations(
+                    subTitles.filter { it.external && it.url?.isNotEmpty() == true }.map { sub ->
+                        MediaItem.SubtitleConfiguration.Builder(sub.url!!.toUri())
+                            .setMimeType(guessSubtitleMimeType(sub.url))
+                            .setLanguage(sub.languageCode)
+                            .setLabel(sub.name)
+                            .build()
+                    }
+                )
+                .build()
             player?.setMediaItem(mediaItem, startPosition ?: 0L)
             player?.prepare()
             if (play) {
@@ -78,9 +99,18 @@ class VideoPlayerImplementation(
         //exoPlayer initializes after the playbackData is set for the first load
         playbackData.value?.let {
             sendPlayableModel(it)
+            VideoPlayerHost.setAudioTrackIndex(it.defaultAudioTrack.toInt(), true)
+            VideoPlayerHost.setSubtitleTrackIndex(it.defaultSubtrack.toInt(), true)
             open(it.url, true)
         }
     }
+}
+
+fun guessSubtitleMimeType(fileName: String): String = when {
+    fileName.contains(".srt", ignoreCase = true) -> MimeTypes.APPLICATION_SUBRIP
+    fileName.contains(".vtt", ignoreCase = true) -> MimeTypes.TEXT_VTT
+    fileName.contains(".ass", ignoreCase = true) -> MimeTypes.TEXT_SSA
+    else -> MimeTypes.APPLICATION_SUBRIP
 }
 
 fun ExoPlayer.properlySetSubAndAudioTracks(playableData: PlayableData) {
@@ -90,17 +120,13 @@ fun ExoPlayer.properlySetSubAndAudioTracks(playableData: PlayableData) {
             playableData.subtitleTracks.indexOfFirst { it.index == currentSubIndex }
         val internalSubTracks = this.getSubtitleTracks()
 
-        //Set default subtitle, -1 for "Off" index
         val wantedSubIndex = indexOfSubtitleTrack - 1
         if (wantedSubIndex < 0) {
             clearSubtitleTrack()
         } else {
-            clearSubtitleTrack(false)
+            enableSubtitles()
             setInternalSubtitleTrack(internalSubTracks[wantedSubIndex])
         }
-
-        //Set default audio, -1 for "Off" index
-        return
 
         val currentAudioIndex = playableData.defaultAudioTrack
         val indexOfAudioTrack =

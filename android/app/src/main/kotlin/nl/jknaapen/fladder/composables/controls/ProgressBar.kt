@@ -2,12 +2,16 @@ package nl.jknaapen.fladder.composables.controls
 
 import MediaSegment
 import MediaSegmentType
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.focusable
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -23,8 +27,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -36,9 +42,12 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.Key.Companion.Back
 import androidx.compose.ui.input.key.Key.Companion.DirectionLeft
 import androidx.compose.ui.input.key.Key.Companion.DirectionRight
 import androidx.compose.ui.input.key.Key.Companion.Enter
+import androidx.compose.ui.input.key.Key.Companion.Escape
+import androidx.compose.ui.input.key.Key.Companion.Spacebar
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
@@ -58,6 +67,7 @@ import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 internal fun ProgressBar(
     modifier: Modifier = Modifier,
@@ -67,26 +77,79 @@ internal fun ProgressBar(
 ) {
     val position by VideoPlayerHost.position.collectAsState(0L)
     val duration by VideoPlayerHost.duration.collectAsState(0L)
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(
-            8.dp,
-            alignment = Alignment.CenterHorizontally
-        ),
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.fillMaxWidth()
-    ) {
-        Text(
-            formatTime(position),
-            color = Color.White,
-            style = MaterialTheme.typography.labelMedium
-        )
-        SimpleProgressBar(player, bottomControlFocusRequester, onUserInteraction)
-        Text(
-            "-" + formatTime(duration - position),
-            color = Color.White,
-            style = MaterialTheme.typography.labelMedium
-        )
+
+    var tempPosition by remember { mutableLongStateOf(position) }
+    var scrubbingTimeLine by remember { mutableStateOf(false) }
+
+    val playableData by VideoPlayerHost.implementation.playbackData.collectAsState(null)
+
+    val currentPosition by remember {
+        derivedStateOf {
+            if (scrubbingTimeLine) {
+                tempPosition
+            } else {
+                position
+            }
+        }
     }
+
+    Column {
+        val playbackData by VideoPlayerHost.implementation.playbackData.collectAsState(null)
+        if (scrubbingTimeLine)
+            FilmstripTrickPlayOverlay(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(125.dp)
+                    .align(alignment = Alignment.CenterHorizontally),
+                currentPosition = tempPosition.milliseconds,
+                trickPlayModel = playbackData?.trickPlayModel
+            )
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            val subTitle = playableData?.subTitle
+            subTitle?.let {
+                Text(
+                    text = it,
+                    style = MaterialTheme.typography.bodyLarge.copy(color = Color.White),
+                )
+            }
+            VideoEndTime()
+        }
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(
+                8.dp,
+                alignment = Alignment.CenterHorizontally
+            ),
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier.fillMaxWidth()
+        ) {
+            Text(
+                formatTime(currentPosition),
+                color = Color.White,
+                style = MaterialTheme.typography.labelMedium
+            )
+            SimpleProgressBar(
+                player,
+                bottomControlFocusRequester,
+                onUserInteraction,
+                tempPosition,
+                scrubbingTimeLine,
+                onTempPosChanged = {
+                    tempPosition = it
+                },
+                onScrubbingChanged = {
+                    scrubbingTimeLine = it
+                }
+            )
+            Text(
+                "-" + formatTime(duration - currentPosition),
+                color = Color.White,
+                style = MaterialTheme.typography.labelMedium
+            )
+        }
+    }
+
 }
 
 @Composable
@@ -94,18 +157,32 @@ internal fun RowScope.SimpleProgressBar(
     player: ExoPlayer,
     playFocusRequester: FocusRequester,
     onUserInteraction: () -> Unit,
+    tempPosition: Long,
+    scrubbingTimeLine: Boolean,
+    onTempPosChanged: (Long) -> Unit = {},
+    onScrubbingChanged: (Boolean) -> Unit = {}
 ) {
     val playbackData by VideoPlayerHost.implementation.playbackData.collectAsState()
 
     var width by remember { mutableIntStateOf(0) }
     val position by VideoPlayerHost.position.collectAsState(0L)
     val duration by VideoPlayerHost.duration.collectAsState(0L)
+
     val slideBarShape = RoundedCornerShape(size = 8.dp)
-    val progress = position.toFloat() / duration.toFloat()
 
-
-    var pausedByScrub by remember { mutableStateOf(false) }
     var thumbFocused by remember { mutableStateOf(false) }
+
+    var internalTempPosition by remember { mutableLongStateOf(0L) }
+
+    val progress by remember(scrubbingTimeLine, tempPosition, position) {
+        derivedStateOf {
+            if (scrubbingTimeLine) {
+                tempPosition.toFloat() / duration.toFloat()
+            } else {
+                position.toFloat() / duration.toFloat()
+            }
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -123,6 +200,32 @@ internal fun RowScope.SimpleProgressBar(
                     val newPosition = duration.milliseconds * clickRelativeOffset.toDouble()
                     player.seekTo(newPosition.toLong(DurationUnit.MILLISECONDS))
                 }
+            }
+            .pointerInput(Unit) {
+                detectDragGestures(
+                    onDragStart = { offset ->
+                        onScrubbingChanged(true)
+                        onUserInteraction()
+                        onTempPosChanged(player.currentPosition)
+                    },
+                    onDrag = { change, dragAmount ->
+                        onUserInteraction()
+                        change.consume()
+                        val relative = change.position.x / size.width.toFloat()
+                        internalTempPosition = (duration.milliseconds * relative.toDouble())
+                            .toLong(DurationUnit.MILLISECONDS)
+                        onTempPosChanged(
+                            internalTempPosition
+                        )
+                    },
+                    onDragEnd = {
+                        onScrubbingChanged(false)
+                        player.seekTo(internalTempPosition)
+                    },
+                    onDragCancel = {
+                        onScrubbingChanged(false)
+                    }
+                )
             },
         contentAlignment = Alignment.CenterStart,
     ) {
@@ -143,7 +246,7 @@ internal fun RowScope.SimpleProgressBar(
                     .fillMaxWidth(progress)
                     .padding(end = 8.dp)
                     .border(
-                        width = 1.dp, color = Color.Black.copy(alpha = 0.5f), shape = slideBarShape
+                        width = 1.dp, color = Color.Black.copy(alpha = 0.15f), shape = slideBarShape
                     )
                     .background(
                         color = Color.White.copy(alpha = 0.75f),
@@ -229,6 +332,11 @@ internal fun RowScope.SimpleProgressBar(
             modifier = Modifier
                 .onFocusChanged { state: FocusState ->
                     thumbFocused = state.isFocused
+                    if (!state.isFocused) {
+                        onScrubbingChanged(false)
+                    } else {
+                        onTempPosChanged(position)
+                    }
                 }
                 .focusable(enabled = true)
                 .onKeyEvent { keyEvent: KeyEvent ->
@@ -239,38 +347,49 @@ internal fun RowScope.SimpleProgressBar(
                     when (keyEvent.key) {
                         Key.DirectionDown -> {
                             playFocusRequester.requestFocus()
+                            onScrubbingChanged(false)
                             true
                         }
 
                         DirectionLeft -> {
-                            // Pause player if playing and mark pausedByScrub
-                            if (player.isPlaying) {
-                                pausedByScrub = true
+                            if (!scrubbingTimeLine) {
+                                onTempPosChanged(position)
+                                onScrubbingChanged(true)
                                 player.pause()
                             }
-                            // step back 1 second
-                            val newPos = max(0L, player.currentPosition - 1000L)
-                            player.seekTo(newPos)
+                            val newPos = max(0L, tempPosition - 3000L)
+                            onTempPosChanged(newPos)
                             true
                         }
 
                         DirectionRight -> {
-                            if (player.isPlaying) {
-                                pausedByScrub = true
+                            if (!scrubbingTimeLine) {
+                                onTempPosChanged(position)
+                                onScrubbingChanged(true)
                                 player.pause()
                             }
                             val newPos = min(player.duration.takeIf { it > 0 } ?: 1L,
-                                player.currentPosition + 1000L)
-                            player.seekTo(newPos)
+                                tempPosition + 3000L)
+                            onTempPosChanged(newPos)
                             true
                         }
 
-                        Enter, Key(13), Key.Spacebar -> {
-                            if (pausedByScrub) {
+                        Enter, Key(13), Spacebar -> {
+                            if (scrubbingTimeLine) {
+                                player.seekTo(tempPosition)
                                 player.play()
-                                pausedByScrub = false
+                                onScrubbingChanged(false)
                                 true
                             } else false
+                        }
+
+                        Escape, Back -> {
+                            if (scrubbingTimeLine) {
+                                onScrubbingChanged(false)
+                                player.play()
+                                true
+                            }
+                            false
                         }
 
                         else -> false

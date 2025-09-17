@@ -206,8 +206,10 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
           posterDefaults: posterDefaults,
         );
 
+    final mediaQuery = MediaQuery.of(context);
+
     return MediaQuery(
-      data: MediaQuery.of(context).copyWith(
+      data: mediaQuery.copyWith(
         padding: isDesktop || kIsWeb ? const EdgeInsets.only(top: defaultTitleBarHeight, bottom: 16) : null,
         viewPadding: isDesktop || kIsWeb ? const EdgeInsets.only(top: defaultTitleBarHeight, bottom: 16) : null,
       ),

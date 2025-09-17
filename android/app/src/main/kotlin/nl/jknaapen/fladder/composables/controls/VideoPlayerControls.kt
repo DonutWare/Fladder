@@ -1,7 +1,10 @@
 package nl.jknaapen.fladder.composables.controls
 
+import android.os.Build
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.LocalActivity
 import androidx.annotation.OptIn
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -14,13 +17,16 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -44,6 +50,7 @@ import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.input.key.type
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
@@ -56,6 +63,7 @@ import io.github.rabehx.iconsax.filled.Forward
 import io.github.rabehx.iconsax.filled.Pause
 import io.github.rabehx.iconsax.filled.Play
 import io.github.rabehx.iconsax.filled.Subtitle
+import io.github.rabehx.iconsax.outline.CloseSquare
 import io.github.rabehx.iconsax.outline.Refresh
 import kotlinx.coroutines.delay
 import nl.jknaapen.fladder.composables.dialogs.AudioPicker
@@ -67,6 +75,7 @@ import nl.jknaapen.fladder.utility.defaultSelected
 import kotlin.time.Duration.Companion.seconds
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(UnstableApi::class)
 @Composable
 fun CustomVideoControls(
@@ -81,6 +90,8 @@ fun CustomVideoControls(
     var showChapterDialog by remember { mutableStateOf(false) }
 
     val interactionSource = remember { MutableInteractionSource() }
+
+    val activity = LocalActivity.current
 
     ImmersiveSystemBars(isImmersive = hideControls)
 
@@ -133,13 +144,62 @@ fun CustomVideoControls(
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
             ) {
+                Row(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth()
+                        .background(
+                            brush = Brush.linearGradient(
+                                colors = listOf(
+                                    Color.Black.copy(alpha = 0.50f),
+                                    Color.Black.copy(alpha = 0f),
+                                ),
+                                start = Offset(0f, 0f),
+                                end = Offset(0f, Float.POSITIVE_INFINITY)
+                            ),
+                        )
+                        .safeContentPadding(),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp, alignment = Alignment.Start)
+                ) {
+                    Column(
+                        modifier = Modifier.weight(1f),
+                    ) {
+                        val state by VideoPlayerHost.implementation.playbackData.collectAsState(null)
+                        state?.let {
+                            ItemHeader(it)
+                        }
+                    }
+                    if (!VideoPlayerHost.isAndroidTV(LocalContext.current)) {
+                        IconButton(
+                            {
+                                activity?.finish()
+                            }
+                        ) {
+                            Icon(
+                                Iconsax.Outline.CloseSquare,
+                                modifier = Modifier
+                                    .size(48.dp)
+                                    .focusable(false),
+                                contentDescription = "Close icon",
+                                tint = Color.White,
+                            )
+                        }
+                    }
+                }
                 // Progress Bar
-                ProgressBar(
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                    exoPlayer, bottomControlFocusRequester, ::updateLastInteraction
-                )
+                Column(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .displayCutoutPadding(),
+                ) {
+                    ProgressBar(
+                        modifier = Modifier,
+                        exoPlayer, bottomControlFocusRequester, ::updateLastInteraction
+                    )
+                }
                 Row(
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,
@@ -155,6 +215,7 @@ fun CustomVideoControls(
                                 end = Offset(0f, Float.POSITIVE_INFINITY)
                             ),
                         )
+                        .displayCutoutPadding()
                         .padding(horizontal = 16.dp)
                         .padding(top = 8.dp, bottom = 16.dp)
                 ) {
@@ -211,7 +272,6 @@ fun PlaybackButtons(
 
     val forwardSpeed by VideoPlayerHost.forwardSpeed.collectAsState(30.seconds)
     val backwardSpeed by VideoPlayerHost.backwardSpeed.collectAsState(15.seconds)
-
     val isPlaying = state?.playing ?: false
     Row(
         modifier = Modifier

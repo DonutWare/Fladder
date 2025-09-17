@@ -1,20 +1,17 @@
 package nl.jknaapen.fladder.composables.dialogs
 
 import androidx.annotation.OptIn
-import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
@@ -22,7 +19,6 @@ import nl.jknaapen.fladder.objects.VideoPlayerHost
 import nl.jknaapen.fladder.utility.clearAudioTrack
 import nl.jknaapen.fladder.utility.defaultSelected
 import nl.jknaapen.fladder.utility.getAudioTracks
-import nl.jknaapen.fladder.utility.highlightOnFocus
 import nl.jknaapen.fladder.utility.setInternalAudioTrack
 
 @OptIn(UnstableApi::class)
@@ -31,7 +27,7 @@ fun AudioPicker(
     player: ExoPlayer,
     onDismissRequest: () -> Unit,
 ) {
-    val selectedIndex by VideoPlayerHost.defaultAudioIndex.collectAsState(1)
+    val selectedIndex by VideoPlayerHost.currentAudioTrackIndex.collectAsState()
     val audioTracks by VideoPlayerHost.audioTracks.collectAsState(listOf())
     val internalAudioTracks = player.getAudioTracks()
 
@@ -44,32 +40,39 @@ fun AudioPicker(
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp, vertical = 16.dp)
                 .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
-            audioTracks.forEachIndexed { index, audioTrack ->
-                val isSelected = audioTrack.index.toInt() == selectedIndex
-                TextButton(
+            TrackButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .defaultSelected(-1 == selectedIndex),
+                onClick = {
+                    VideoPlayerHost.setAudioTrackIndex(-1)
+                    player.clearAudioTrack()
+                },
+                selected = -1 == selectedIndex
+            ) {
+                Text(
+                    text = "Off",
+                )
+            }
+            internalAudioTracks.forEachIndexed { index, track ->
+                val serverTrack = audioTracks.elementAtOrNull(index + 1)
+                val selected = serverTrack?.index == selectedIndex.toLong()
+                TrackButton(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(
-                            color = Color.Black.copy(alpha = 0.65f),
-                            shape = RoundedCornerShape(12.dp),
-                        )
-                        .defaultSelected(isSelected)
-                        .highlightOnFocus()
-                        .padding(12.dp),
+                        .defaultSelected(selected),
                     onClick = {
-                        val wantedIndex = index - 1
-                        if (wantedIndex < 0) {
-                            player.clearAudioTrack()
-                            return@TextButton
+                        serverTrack?.index?.let {
+                            VideoPlayerHost.setAudioTrackIndex(it.toInt())
                         }
-                        player.clearAudioTrack(false)
-                        player.setInternalAudioTrack(internalAudioTracks[wantedIndex])
-                    }
+                        player.setInternalAudioTrack(track)
+                    },
+                    selected = selected
                 ) {
                     Text(
-                        text = audioTrack.name,
-                        color = Color.White
+                        text = serverTrack?.name ?: "",
                     )
                 }
             }

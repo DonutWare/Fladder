@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/theme.dart';
 
@@ -59,7 +60,7 @@ class MediaPlayButton extends ConsumerWidget {
           : TextButton(
               onPressed: onPressed,
               onLongPress: onLongPressed,
-              autofocus: true,
+              autofocus: ref.read(argumentsStateProvider).htpcMode,
               style: TextButton.styleFrom(
                 padding: EdgeInsets.zero,
               ),

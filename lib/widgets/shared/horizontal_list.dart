@@ -1,7 +1,6 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
@@ -11,6 +10,7 @@ import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/sticky_header_text.dart';
+import 'package:fladder/widgets/navigation_scaffold/components/side_navigation_bar.dart';
 
 class HorizontalList<T> extends ConsumerStatefulWidget {
   final bool autoFocus;
@@ -223,61 +223,87 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
                           ref.watch(clientSettingsProvider.select((value) => value.posterSize))) /
                       math.pow((widget.dominantRatio ?? 1.0), 0.55)) *
                   0.72,
-          child: Focus(
-            autofocus: widget.autoFocus,
-            focusNode: focusNode,
-            onFocusChange: (value) {
-              if (value && hasFocus != value) {
-                _scrollToPosition(currentIndex);
-              }
-              setState(() {
-                hasFocus = value;
-              });
-              if (value) {
-                Scrollable.ensureVisible(
-                  context,
-                  duration: const Duration(milliseconds: 250),
-                  alignment: 0.5,
-                  curve: Curves.easeOut,
-                );
-              }
-            },
-            onKeyEvent: (node, event) {
-              if (event is KeyDownEvent || event is KeyRepeatEvent) {
-                if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
-                  _scrollToPosition(math.min(currentIndex + 1, widget.items.length - 1));
-                  return KeyEventResult.handled;
-                } else if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
-                  if (currentIndex == 0 && event is KeyDownEvent) {
-                    return KeyEventResult.ignored;
-                  } else {
-                    _scrollToPosition(math.max(currentIndex - 1, 0));
-                  }
-                  return KeyEventResult.handled;
+          child: FocusTraversalGroup(
+            policy: HorizontalRailFocus(
+                hasFocus: focusNode.hasFocus,
+                size: widget.items.length,
+                current: currentIndex,
+                onChanged: (value) {
+                  _scrollToPosition(value);
+                }),
+            child: Focus(
+              autofocus: widget.autoFocus,
+              focusNode: focusNode,
+              onFocusChange: (value) {
+                if (value && hasFocus != value) {
+                  _scrollToPosition(currentIndex);
                 }
-              }
-
-              return KeyEventResult.ignored;
-            },
-            child: ListView.separated(
-              controller: _scrollController,
-              scrollDirection: Axis.horizontal,
-              padding: widget.contentPadding,
-              itemBuilder: (context, index) {
-                return ExcludeFocus(
-                  child: FocusProvider(
-                    hasFocus: hasFocus && index == currentIndex,
-                    key: index == 0 ? _firstItemKey : null,
-                    child: widget.itemBuilder(context, index, hasFocus ? currentIndex : -1),
-                  ),
-                );
+                setState(() {
+                  hasFocus = value;
+                });
+                if (value) {
+                  Scrollable.ensureVisible(
+                    context,
+                    duration: const Duration(milliseconds: 250),
+                    alignment: 0.5,
+                    curve: Curves.easeOut,
+                  );
+                }
               },
-              separatorBuilder: (context, index) => SizedBox(width: contentPadding),
-              itemCount: widget.items.length,
+              child: ListView.separated(
+                controller: _scrollController,
+                scrollDirection: Axis.horizontal,
+                padding: widget.contentPadding,
+                itemBuilder: (context, index) {
+                  return ExcludeFocus(
+                    child: FocusProvider(
+                      hasFocus: hasFocus && index == currentIndex,
+                      key: index == 0 ? _firstItemKey : null,
+                      child: widget.itemBuilder(context, index, hasFocus ? currentIndex : -1),
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) => SizedBox(width: contentPadding),
+                itemCount: widget.items.length,
+              ),
             ),
           ),
         ),
       ],
     );
+  }
+}
+
+class HorizontalRailFocus extends ReadingOrderTraversalPolicy {
+  final bool hasFocus;
+  final int size;
+  final int current;
+  final Function(int value) onChanged;
+  HorizontalRailFocus({
+    required this.hasFocus,
+    required this.size,
+    required this.current,
+    required this.onChanged,
+  });
+
+  @override
+  bool inDirection(FocusNode currentNode, TraversalDirection direction) {
+    if (direction == TraversalDirection.left) {
+      if (current <= 0) {
+        navBarNode.requestFocus();
+        return true;
+      } else {
+        onChanged(math.max(current - 1, 0));
+        return true;
+      }
+    } else if (direction == TraversalDirection.right) {
+      if (current >= size) {
+        return super.inDirection(currentNode, direction);
+      } else {
+        onChanged(math.min(current + 1, size - 1));
+        return true;
+      }
+    }
+    return super.inDirection(currentNode, direction);
   }
 }

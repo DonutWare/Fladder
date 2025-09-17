@@ -177,7 +177,7 @@ class _OutlinedTextFieldState extends ConsumerState<OutlinedTextField> {
                                 )
                               : null,
                           hintText: widget.placeHolder,
-                          errorText: widget.errorText,
+                          // errorText: widget.errorText,
                           suffixIcon: isPasswordField
                               ? InkWell(
                                   onTap: _toggle,

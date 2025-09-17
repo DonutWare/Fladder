@@ -1,10 +1,7 @@
 package nl.jknaapen.fladder.utility
 
-import android.net.Uri
 import androidx.annotation.OptIn
 import androidx.media3.common.C
-import androidx.media3.common.MediaItem
-import androidx.media3.common.MimeTypes
 import androidx.media3.common.TrackSelectionOverride
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
@@ -81,7 +78,6 @@ fun ExoPlayer.setInternalAudioTrack(audioTrack: InternalSubtitleTrack) {
 @OptIn(UnstableApi::class)
 fun ExoPlayer.clearAudioTrack(disable: Boolean = true) {
     val selector = trackSelector as? DefaultTrackSelector ?: return
-    // Fully disable audio renderer so no audio track selected
     selector.setParameters(
         selector.buildUponParameters()
             .setRendererDisabled(C.TRACK_TYPE_AUDIO, disable)
@@ -118,19 +114,31 @@ fun ExoPlayer.getSubtitleTracks(): List<InternalSubtitleTrack> {
 }
 
 @OptIn(UnstableApi::class)
-fun ExoPlayer.clearSubtitleTrack(disable: Boolean = true) {
+fun ExoPlayer.clearSubtitleTrack() {
     val selector = trackSelector as? DefaultTrackSelector ?: return
-    // Disable text renderer entirely
-    selector.setParameters(
-        selector.buildUponParameters()
-            .setRendererDisabled(C.TRACK_TYPE_TEXT, disable)
-            .build()
-    )
+    val newParams = selector.buildUponParameters()
+        .setRendererDisabled(C.TRACK_TYPE_TEXT, false) // keep text renderer active
+        .setPreferredTextLanguage(null)                // don't auto-pick a language
+        .setTrackTypeDisabled(C.TRACK_TYPE_TEXT, true) // <– disables selection of *any* text track
+        .build()
+    selector.setParameters(newParams)
 }
+
+@OptIn(UnstableApi::class)
+fun ExoPlayer.enableSubtitles(language: String? = null) {
+    val selector = trackSelector as? DefaultTrackSelector ?: return
+    val newParams = selector.buildUponParameters()
+        .setTrackTypeDisabled(C.TRACK_TYPE_TEXT, false) // allow text again
+        .setPreferredTextLanguage(language)             // optional: auto-pick by language
+        .build()
+    selector.setParameters(newParams)
+}
+
 
 @OptIn(UnstableApi::class)
 fun ExoPlayer.setInternalSubtitleTrack(subtitleTrack: InternalSubtitleTrack) {
     try {
+        enableSubtitles()
         val selector = trackSelector as? DefaultTrackSelector ?: return
         val mapped = selector.currentMappedTrackInfo ?: return
         val groups = mapped.getTrackGroups(subtitleTrack.rendererIndex)
@@ -153,29 +161,4 @@ fun ExoPlayer.setInternalSubtitleTrack(subtitleTrack: InternalSubtitleTrack) {
     } catch (e: Exception) {
         e.printStackTrace()
     }
-}
-
-
-@OptIn(UnstableApi::class)
-fun ExoPlayer.addExternalSubtitle(
-    uri: Uri,
-    mimeType: String = MimeTypes.APPLICATION_SUBRIP,
-    language: String? = null,
-    label: String? = null,
-    selectionFlags: Int = C.SELECTION_FLAG_DEFAULT
-) {
-    val subtitleConfig = MediaItem.SubtitleConfiguration.Builder(uri)
-        .setMimeType(mimeType)
-        .setLanguage(language)
-        .setLabel(label)
-        .setSelectionFlags(selectionFlags)
-        .build()
-
-    val currentItem = currentMediaItem ?: return
-    val newItem = currentItem.buildUpon()
-        .setSubtitleConfigurations(listOf(subtitleConfig))
-        .build()
-
-    val index = currentMediaItemIndex
-    replaceMediaItem(index, newItem)
 }

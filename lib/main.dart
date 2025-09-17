@@ -88,7 +88,7 @@ void main(List<String> args) async {
   );
 
   // Check if running on android TV
-  final leanBackEnabled = true ?? (Platform.isAndroid ? await NativeVideoActivity().isLeanBackEnabled() : false);
+  final leanBackEnabled = Platform.isAndroid ? await NativeVideoActivity().isLeanBackEnabled() : false;
 
   runApp(
     ProviderScope(
@@ -120,7 +120,9 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
-    if (ref.read(lockScreenActiveProvider) || ref.read(userProvider) == null) {
+    if (ref.read(lockScreenActiveProvider) ||
+        ref.read(userProvider) == null ||
+        ref.read(videoPlayerProvider).lastState?.playing == true) {
       dateTime = DateTime.now();
       return;
     }
@@ -252,11 +254,8 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
     final language = ref.watch(clientSettingsProvider
         .select((value) => value.selectedLocale ?? WidgetsBinding.instance.platformDispatcher.locale));
     final scrollBehaviour = const MaterialScrollBehavior();
-    return Shortcuts(
-      shortcuts: <LogicalKeySet, Intent>{
-        LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
-      },
-      child: DynamicColorBuilder(builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+    return DynamicColorBuilder(
+      builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
         final lightTheme = themeColor == null
             ? FladderTheme.theme(lightDynamic ?? FladderTheme.defaultScheme(Brightness.light), schemeVariant)
             : FladderTheme.theme(themeColor.schemeLight, schemeVariant);
@@ -304,7 +303,7 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
             routerConfig: autoRouter.config(),
           ),
         );
-      }),
+      },
     );
   }
 }

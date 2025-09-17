@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/credentials_model.dart';
 import 'package:fladder/providers/discovery_provider.dart';
@@ -37,6 +37,7 @@ class DiscoverServersWidget extends ConsumerWidget {
     return ListView(
       padding: const EdgeInsets.all(6),
       shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       children: [
         if (existingServers.isNotEmpty) ...[
           Row(

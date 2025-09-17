@@ -65,15 +65,16 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: IconButton.filledTonal(
-                onPressed: existingUsers.isNotEmpty ? () => provider.goUserSelect() : null,
-                icon: const Icon(
-                  IconsaxPlusLinear.arrow_left_2,
+            if (existingUsers.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: IconButton.filledTonal(
+                  onPressed: () => provider.goUserSelect(),
+                  icon: const Icon(
+                    IconsaxPlusLinear.arrow_left_2,
+                  ),
                 ),
               ),
-            ),
             if (!hasBaseUrl)
               Flexible(
                 child: OutlinedTextField(

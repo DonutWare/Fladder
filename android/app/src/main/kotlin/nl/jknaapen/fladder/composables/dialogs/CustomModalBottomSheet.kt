@@ -2,7 +2,11 @@ package nl.jknaapen.fladder.composables.dialogs
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
@@ -31,6 +35,7 @@ internal fun CustomModalBottomSheet(
         onDismissRequest,
         dragHandle = null,
         sheetState = modalBottomSheetState,
+        contentWindowInsets = { WindowInsets(0, 0, 0, 0) },
         containerColor = Color.Transparent,
         sheetMaxWidth = maxWidth,
     ) {
@@ -38,6 +43,8 @@ internal fun CustomModalBottomSheet(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
+                .systemBarsPadding()
+                .displayCutoutPadding()
                 .background(
                     brush = Brush.linearGradient(
                         colors = listOf(
@@ -48,6 +55,7 @@ internal fun CustomModalBottomSheet(
                         end = Offset(0f, Float.POSITIVE_INFINITY)
                     )
                 )
+                .navigationBarsPadding()
         ) {
             content()
         }

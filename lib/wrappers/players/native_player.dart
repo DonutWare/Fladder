@@ -29,7 +29,7 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
   Future<void> loadVideo(String url, bool play) async => player.open(url, play);
 
   @override
-  Future<void> open(BuildContext context) async => await NativeVideoActivity().launchActivity();
+  Future<void> open(BuildContext newContext) async => NativeVideoActivity().launchActivity();
 
   @override
   Future<void> pause() {
@@ -95,12 +95,15 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
   Stream<PlayerState> get stateStream => _stateController.stream;
 
   Future<void> sendPlaybackDataToNative(
+    BuildContext? context,
     PlaybackModel model,
     Duration startPosition,
   ) async {
     final playableData = PlayableData(
       id: model.item.id,
       title: model.item.title,
+      subTitle: context != null ? model.item.label(context) : "",
+      logoUrl: model.item.getPosters?.logo?.path,
       startPosition: startPosition.inMilliseconds,
       description: model.item.overview.summary,
       defaultAudioTrack: model.mediaStreams?.defaultAudioStreamIndex ?? 1,

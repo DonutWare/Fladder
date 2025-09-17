@@ -269,7 +269,7 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
           context,
           SettingsLabelDivider(label: context.localized.advanced),
           [
-            if (videoSettings.wantedPlayer != PlayerOptions.nativePlayer) ...[
+            if (!ref.read(argumentsStateProvider).leanBackMode) ...[
               if (PlayerOptions.available.length != 1)
                 SettingsListTile(
                   label: Text(context.localized.playerSettingsBackendTitle),
@@ -371,44 +371,46 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                 },
               ),
             ],
-            Column(
-              children: [
-                SettingsListTile(
-                  label: Text(context.localized.settingsAutoNextTitle),
-                  subLabel: Text(context.localized.settingsAutoNextDesc),
-                  trailing: EnumBox(
-                    current: ref.watch(
-                      videoPlayerSettingsProvider.select(
-                        (value) => value.nextVideoType.label(context),
+            if (videoSettings.wantedPlayer != PlayerOptions.nativePlayer) ...[
+              Column(
+                children: [
+                  SettingsListTile(
+                    label: Text(context.localized.settingsAutoNextTitle),
+                    subLabel: Text(context.localized.settingsAutoNextDesc),
+                    trailing: EnumBox(
+                      current: ref.watch(
+                        videoPlayerSettingsProvider.select(
+                          (value) => value.nextVideoType.label(context),
+                        ),
                       ),
+                      itemBuilder: (context) => AutoNextType.values
+                          .map(
+                            (entry) => PopupMenuItem(
+                              value: entry,
+                              child: Text(entry.label(context)),
+                              onTap: () => ref.read(videoPlayerSettingsProvider.notifier).state =
+                                  videoSettings.copyWith(nextVideoType: entry),
+                            ),
+                          )
+                          .toList(),
                     ),
-                    itemBuilder: (context) => AutoNextType.values
-                        .map(
-                          (entry) => PopupMenuItem(
-                            value: entry,
-                            child: Text(entry.label(context)),
-                            onTap: () => ref.read(videoPlayerSettingsProvider.notifier).state =
-                                videoSettings.copyWith(nextVideoType: entry),
-                          ),
-                        )
-                        .toList(),
                   ),
-                ),
-                AnimatedFadeSize(
-                  child: switch (ref.watch(videoPlayerSettingsProvider.select((value) => value.nextVideoType))) {
-                    AutoNextType.smart => SettingsMessageBox(AutoNextType.smart.desc(context)),
-                    AutoNextType.static => SettingsMessageBox(AutoNextType.static.desc(context)),
-                    _ => const SizedBox.shrink(),
-                  },
-                ),
-              ],
-            ),
-            if (!AdaptiveLayout.of(context).isDesktop && !kIsWeb && !ref.read(argumentsStateProvider).htpcMode)
-              SettingsListTile(
-                label: Text(context.localized.playerSettingsOrientationTitle),
-                subLabel: Text(context.localized.playerSettingsOrientationDesc),
-                onTap: () => showOrientationOptions(context, ref),
+                  AnimatedFadeSize(
+                    child: switch (ref.watch(videoPlayerSettingsProvider.select((value) => value.nextVideoType))) {
+                      AutoNextType.smart => SettingsMessageBox(AutoNextType.smart.desc(context)),
+                      AutoNextType.static => SettingsMessageBox(AutoNextType.static.desc(context)),
+                      _ => const SizedBox.shrink(),
+                    },
+                  ),
+                ],
               ),
+              if (!AdaptiveLayout.of(context).isDesktop && !kIsWeb && !ref.read(argumentsStateProvider).htpcMode)
+                SettingsListTile(
+                  label: Text(context.localized.playerSettingsOrientationTitle),
+                  subLabel: Text(context.localized.playerSettingsOrientationDesc),
+                  onTap: () => showOrientationOptions(context, ref),
+                ),
+            ],
           ],
         ),
       ],

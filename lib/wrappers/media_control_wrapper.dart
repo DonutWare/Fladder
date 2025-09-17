@@ -102,7 +102,8 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
 
   Future<void> loadVideo(PlaybackModel model, Duration startPosition, bool play) async {
     if (_player is NativePlayer) {
-      await (_player as NativePlayer).sendPlaybackDataToNative(model, startPosition);
+      final context = ref.read(localizationContextProvider);
+      await (_player as NativePlayer).sendPlaybackDataToNative(context, model, startPosition);
     }
     return _player?.loadVideo(model.media?.url ?? "", play);
   }
@@ -347,4 +348,26 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
 
   @override
   void onStop() => stop();
+
+  @override
+  void swapAudioTrack(int value) async {
+    final playbackModel = ref.read(playBackModel);
+    final newModel = await playbackModel?.setAudio(
+        playbackModel.audioStreams?.firstWhere((element) => element.index == value), this);
+    ref.read(playBackModel.notifier).update((state) => newModel);
+    if (newModel != null) {
+      await ref.read(playbackModelHelper).shouldReload(newModel);
+    }
+  }
+
+  @override
+  void swapSubtitleTrack(int value) async {
+    final playbackModel = ref.read(playBackModel);
+    final newModel = await playbackModel?.setSubtitle(
+        playbackModel.subStreams?.firstWhere((element) => element.index == value), this);
+    ref.read(playBackModel.notifier).update((state) => newModel);
+    if (newModel != null) {
+      await ref.read(playbackModelHelper).shouldReload(newModel);
+    }
+  }
 }

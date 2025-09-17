@@ -19,7 +19,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
-import androidx.media3.common.C.VIDEO_SCALING_MODE_SCALE_TO_FIT
 import androidx.media3.common.Player
 import androidx.media3.common.Tracks
 import androidx.media3.common.util.UnstableApi
@@ -66,7 +65,8 @@ internal fun ExoPlayer(
                 .setTunnelingEnabled(true)
         )
     }
-    val cacheDataSourceFactory = remember { VideoCache.buildCacheDataSourceFactory(context) }
+
+    remember { VideoCache.buildCacheDataSourceFactory(context) }
 
     val audioAttributes = AudioAttributes.Builder()
         .setUsage(C.USAGE_MEDIA)
@@ -74,15 +74,22 @@ internal fun ExoPlayer(
         .build()
 
     val renderersFactory = DefaultRenderersFactory(context)
-        .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER) // ensure ffmpeg is picked first
+        .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER)
         .setEnableDecoderFallback(true)
 
     val exoPlayer = ExoPlayer.Builder(context, renderersFactory)
         .setTrackSelector(trackSelector)
-        .setMediaSourceFactory(DefaultMediaSourceFactory(cacheDataSourceFactory))
+        .setMediaSourceFactory(
+            DefaultMediaSourceFactory(
+                VideoCache.buildCacheDataSourceFactory(
+                    context
+                )
+            )
+        )
         .setAudioAttributes(audioAttributes, true)
-        .setVideoScalingMode(VIDEO_SCALING_MODE_SCALE_TO_FIT)
-        .buildWithAssSupport(context, AssRenderType.OVERLAY)
+        .setHandleAudioBecomingNoisy(true)
+        .setVideoScalingMode(C.VIDEO_SCALING_MODE_SCALE_TO_FIT)
+        .buildWithAssSupport(context, AssRenderType.LEGACY)
 
     LaunchedEffect(exoPlayer) {
         while (true) {

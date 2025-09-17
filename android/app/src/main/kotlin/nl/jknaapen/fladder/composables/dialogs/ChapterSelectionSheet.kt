@@ -123,7 +123,7 @@ internal fun ChapterSelectionSheet(
                                     color = Color.White.copy(alpha = if (isCurrentChapter) 1f else 0f),
                                     shape = RoundedCornerShape(24.dp)
                                 ),
-                            contentDescription = "Translated description of what the image contains"
+                            contentDescription = ""
                         )
                     }
                 }

@@ -44,6 +44,8 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
     final accounts = ref.watch(authProvider.select((value) => value.accounts));
     return Scaffold(
       appBar: const FladderAppBar(),
+      extendBody: true,
+      extendBodyBehindAppBar: true,
       floatingActionButton: switch (screen) {
         LoginScreenType.users => Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -70,7 +72,7 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
       body: Center(
         child: ListView(
           shrinkWrap: true,
-          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
+          padding: MediaQuery.paddingOf(context).add(const EdgeInsetsGeometry.all(16)),
           children: [
             const FladderLogo(),
             const SizedBox(height: 24),

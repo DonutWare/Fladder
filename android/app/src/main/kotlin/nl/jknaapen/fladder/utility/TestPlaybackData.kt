@@ -30,6 +30,14 @@ val testPlaybackData = PlayableData(
             index = 2,
             external = false,
         ),
+        SubtitleTrack(
+            name = "Japanese",
+            languageCode = "JP",
+            codec = "srt",
+            index = 3,
+            url = "https://gist.githubusercontent.com/matibzurovski/d690d5c14acbaa399e7f0829f9d6888e/raw/63578ca30e7430be1fa4942d4d8dd599f78151c7/example.srt",
+            external = true,
+        ),
     ),
     audioTracks = listOf(
         AudioTrack(

@@ -67,6 +67,9 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
 
     final fullScreenChildRoute = fullScreenRoutes.contains(context.router.current.name);
 
+    final hasOverlay = AdaptiveLayout.layoutModeOf(context) == LayoutMode.dual ||
+        homeRoutes.any((element) => element.name.contains(context.router.current.name));
+
     return Stack(
       children: [
         AdaptiveLayoutBuilder(
@@ -79,7 +82,7 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
         FocusTraversalGroup(
           policy: RailTraversalPolicy(),
           child: IgnorePointer(
-            ignoring: fullScreenChildRoute,
+            ignoring: !hasOverlay || fullScreenChildRoute,
             child: AnimatedOpacity(
               duration: const Duration(milliseconds: 250),
               opacity: !fullScreenChildRoute ? 1 : 0,

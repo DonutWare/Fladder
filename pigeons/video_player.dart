@@ -212,4 +212,6 @@ abstract class VideoPlayerControlsCallback {
   void loadNextVideo();
   void loadPreviousVideo();
   void onStop();
+  void swapSubtitleTrack(int value);
+  void swapAudioTrack(int value);
 }
