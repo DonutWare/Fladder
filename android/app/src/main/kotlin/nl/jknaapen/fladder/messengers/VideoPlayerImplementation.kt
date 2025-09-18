@@ -8,7 +8,7 @@ import androidx.media3.common.MimeTypes
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import kotlinx.coroutines.flow.MutableStateFlow
-import nl.jknaapen.fladder.objects.VideoPlayerHost
+import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.clearAudioTrack
 import nl.jknaapen.fladder.utility.clearSubtitleTrack
 import nl.jknaapen.fladder.utility.enableSubtitles
@@ -36,10 +36,10 @@ class VideoPlayerImplementation(
     override fun open(url: String, play: Boolean) {
         try {
             playbackData.value?.let {
-                VideoPlayerHost.setAudioTrackIndex(it.defaultAudioTrack.toInt(), true)
-                VideoPlayerHost.setSubtitleTrackIndex(it.defaultSubtrack.toInt(), true)
+                VideoPlayerObject.setAudioTrackIndex(it.defaultAudioTrack.toInt(), true)
+                VideoPlayerObject.setSubtitleTrackIndex(it.defaultSubtrack.toInt(), true)
             }
-            
+
             player?.clearMediaItems()
             val startPosition = playbackData.value?.startPosition
             println("Loading video in native $url")
@@ -99,8 +99,8 @@ class VideoPlayerImplementation(
         //exoPlayer initializes after the playbackData is set for the first load
         playbackData.value?.let {
             sendPlayableModel(it)
-            VideoPlayerHost.setAudioTrackIndex(it.defaultAudioTrack.toInt(), true)
-            VideoPlayerHost.setSubtitleTrackIndex(it.defaultSubtrack.toInt(), true)
+            VideoPlayerObject.setAudioTrackIndex(it.defaultAudioTrack.toInt(), true)
+            VideoPlayerObject.setSubtitleTrackIndex(it.defaultSubtrack.toInt(), true)
             open(it.url, true)
         }
     }

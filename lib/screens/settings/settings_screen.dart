@@ -57,9 +57,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Expanded(flex: 1, child: _leftPane(context)),
+                    Expanded(flex: 4, child: _leftPane(context)),
                     Expanded(
-                      flex: 2,
+                      flex: 5,
                       child: content,
                     ),
                   ],
@@ -107,6 +107,68 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final newRelease = ref.watch(updateProvider.select((value) => value.latestRelease));
 
     final hasNewUpdate = ref.watch(hasNewUpdateProvider);
+
+    final actionButtons = Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        const Spacer(),
+        FloatingActionButton(
+          key: Key(context.localized.switchUser),
+          tooltip: context.localized.switchUser,
+          onPressed: () async {
+            await ref.read(userProvider.notifier).logoutUser();
+            context.router.replaceAll([const LoginRoute()]);
+          },
+          child: const Icon(
+            IconsaxPlusLinear.arrow_swap_horizontal,
+          ),
+        ),
+        const SizedBox(width: 16),
+        FloatingActionButton(
+          heroTag: context.localized.logout,
+          key: Key(context.localized.logout),
+          tooltip: context.localized.logout,
+          backgroundColor: Theme.of(context).colorScheme.errorContainer,
+          onPressed: () {
+            final user = ref.read(userProvider);
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: Text(context.localized.logoutUserPopupTitle(user?.name ?? "")),
+                scrollable: true,
+                content: Text(
+                  context.localized.logoutUserPopupContent(user?.name ?? "", user?.server ?? ""),
+                ),
+                actions: [
+                  ElevatedButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text(context.localized.cancel),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom().copyWith(
+                      iconColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.onErrorContainer),
+                      foregroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.onErrorContainer),
+                      backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.errorContainer),
+                    ),
+                    onPressed: () async {
+                      await ref.read(authProvider.notifier).logOutUser();
+                      if (context.mounted) {
+                        context.router.replaceAll([const LoginRoute()]);
+                      }
+                    },
+                    child: Text(context.localized.logout),
+                  ),
+                ],
+              ),
+            );
+          },
+          child: Icon(
+            IconsaxPlusLinear.logout,
+            color: Theme.of(context).colorScheme.onErrorContainer,
+          ),
+        ),
+      ],
+    );
 
     return Padding(
       padding: EdgeInsets.only(left: AdaptiveLayout.of(context).sideBarWidth),
@@ -199,74 +261,22 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 },
               ),
             ],
+            if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.dpad) ...[
+              Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: actionButtons,
+              )
+            ],
           ],
-          floatingActionButton: Padding(
-            padding: EdgeInsets.symmetric(horizontal: MediaQuery.paddingOf(context).horizontal),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  const Spacer(),
-                  FloatingActionButton(
-                    key: Key(context.localized.switchUser),
-                    tooltip: context.localized.switchUser,
-                    onPressed: () async {
-                      await ref.read(userProvider.notifier).logoutUser();
-                      context.router.replaceAll([const LoginRoute()]);
-                    },
-                    child: const Icon(
-                      IconsaxPlusLinear.arrow_swap_horizontal,
-                    ),
+          floatingActionButton: AdaptiveLayout.inputDeviceOf(context) != InputDevice.dpad
+              ? Padding(
+                  padding: EdgeInsets.symmetric(horizontal: MediaQuery.paddingOf(context).horizontal),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: actionButtons,
                   ),
-                  const SizedBox(width: 16),
-                  FloatingActionButton(
-                    heroTag: context.localized.logout,
-                    key: Key(context.localized.logout),
-                    tooltip: context.localized.logout,
-                    backgroundColor: Theme.of(context).colorScheme.errorContainer,
-                    onPressed: () {
-                      final user = ref.read(userProvider);
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          title: Text(context.localized.logoutUserPopupTitle(user?.name ?? "")),
-                          scrollable: true,
-                          content: Text(
-                            context.localized.logoutUserPopupContent(user?.name ?? "", user?.server ?? ""),
-                          ),
-                          actions: [
-                            ElevatedButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: Text(context.localized.cancel),
-                            ),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom().copyWith(
-                                iconColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.onErrorContainer),
-                                foregroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.onErrorContainer),
-                                backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.errorContainer),
-                              ),
-                              onPressed: () async {
-                                await ref.read(authProvider.notifier).logOutUser();
-                                if (context.mounted) {
-                                  context.router.replaceAll([const LoginRoute()]);
-                                }
-                              },
-                              child: Text(context.localized.logout),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    child: Icon(
-                      IconsaxPlusLinear.logout,
-                      color: Theme.of(context).colorScheme.onErrorContainer,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+                )
+              : null,
         ),
       ),
     );

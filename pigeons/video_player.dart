@@ -61,11 +61,13 @@ enum MediaSegmentType {
 
 class MediaSegment {
   final MediaSegmentType type;
+  final String name;
   final int start;
   final int end;
 
   const MediaSegment({
     required this.type,
+    required this.name,
     required this.start,
     required this.end,
   });

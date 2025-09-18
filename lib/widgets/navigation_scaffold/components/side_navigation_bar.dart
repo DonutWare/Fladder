@@ -80,7 +80,7 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
           child: (context) => widget.child,
         ),
         FocusTraversalGroup(
-          policy: RailTraversalPolicy(),
+          policy: _RailTraversalPolicy(),
           child: IgnorePointer(
             ignoring: !hasOverlay || fullScreenChildRoute,
             child: AnimatedOpacity(
@@ -344,16 +344,17 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
   }
 }
 
-class RailTraversalPolicy extends ReadingOrderTraversalPolicy {
-  RailTraversalPolicy({
-    super.requestFocusCallback,
-  });
+class _RailTraversalPolicy extends ReadingOrderTraversalPolicy {
+  _RailTraversalPolicy();
 
   @override
   bool inDirection(FocusNode currentNode, TraversalDirection direction) {
+    if (direction == TraversalDirection.left) {
+      return false;
+    }
     if (direction == TraversalDirection.right) {
-      if (lastMainFocus != null) {
-        lastMainFocus?.requestFocus();
+      if (lastMainFocus != null && _isLaidOut(lastMainFocus!)) {
+        lastMainFocus!.requestFocus();
         return true;
       } else {
         return super.inDirection(currentNode, direction);
@@ -366,7 +367,7 @@ class RailTraversalPolicy extends ReadingOrderTraversalPolicy {
       }
 
       final candidates = scope.traversalDescendants
-          .where((n) => n.canRequestFocus && FocusTraversalGroup.maybeOfNode(n) == this)
+          .where((n) => n.canRequestFocus && FocusTraversalGroup.maybeOfNode(n) == this && _isLaidOut(n))
           .toList();
 
       if (candidates.isEmpty) return false;
@@ -389,6 +390,11 @@ class RailTraversalPolicy extends ReadingOrderTraversalPolicy {
     }
     return super.inDirection(currentNode, direction);
   }
+}
+
+bool _isLaidOut(FocusNode node) {
+  final ro = node.context?.findRenderObject();
+  return ro is RenderBox && ro.hasSize;
 }
 
 bool isNodeInCurrentRoute(FocusNode node) {

@@ -30,7 +30,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import nl.jknaapen.fladder.objects.VideoPlayerHost
+import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.defaultSelected
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,9 +39,9 @@ internal fun ChapterSelectionSheet(
     onSelected: (Chapter) -> Unit,
     onDismiss: () -> Unit
 ) {
-    val playbackData by VideoPlayerHost.implementation.playbackData.collectAsState()
+    val playbackData by VideoPlayerObject.implementation.playbackData.collectAsState()
     val chapters = playbackData?.chapters ?: listOf()
-    val currentPosition by VideoPlayerHost.position.collectAsState(0L)
+    val currentPosition by VideoPlayerObject.position.collectAsState(0L)
 
     var currentChapter: Chapter? by remember { mutableStateOf(chapters.firstOrNull()) }
 

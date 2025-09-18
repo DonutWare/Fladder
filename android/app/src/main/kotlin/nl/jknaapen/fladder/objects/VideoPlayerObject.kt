@@ -14,7 +14,7 @@ import nl.jknaapen.fladder.messengers.VideoPlayerImplementation
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
-object VideoPlayerHost {
+object VideoPlayerObject {
     val implementation: VideoPlayerImplementation = VideoPlayerImplementation()
     private var _currentState = MutableStateFlow<PlaybackState?>(null)
 

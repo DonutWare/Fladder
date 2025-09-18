@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
-import nl.jknaapen.fladder.objects.VideoPlayerHost
+import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.clearAudioTrack
 import nl.jknaapen.fladder.utility.defaultSelected
 import nl.jknaapen.fladder.utility.getAudioTracks
@@ -27,8 +27,8 @@ fun AudioPicker(
     player: ExoPlayer,
     onDismissRequest: () -> Unit,
 ) {
-    val selectedIndex by VideoPlayerHost.currentAudioTrackIndex.collectAsState()
-    val audioTracks by VideoPlayerHost.audioTracks.collectAsState(listOf())
+    val selectedIndex by VideoPlayerObject.currentAudioTrackIndex.collectAsState()
+    val audioTracks by VideoPlayerObject.audioTracks.collectAsState(listOf())
     val internalAudioTracks = player.getAudioTracks()
 
     CustomModalBottomSheet(
@@ -47,7 +47,7 @@ fun AudioPicker(
                     .fillMaxWidth()
                     .defaultSelected(-1 == selectedIndex),
                 onClick = {
-                    VideoPlayerHost.setAudioTrackIndex(-1)
+                    VideoPlayerObject.setAudioTrackIndex(-1)
                     player.clearAudioTrack()
                 },
                 selected = -1 == selectedIndex
@@ -65,7 +65,7 @@ fun AudioPicker(
                         .defaultSelected(selected),
                     onClick = {
                         serverTrack?.index?.let {
-                            VideoPlayerHost.setAudioTrackIndex(it.toInt())
+                            VideoPlayerObject.setAudioTrackIndex(it.toInt())
                         }
                         player.setInternalAudioTrack(track)
                     },

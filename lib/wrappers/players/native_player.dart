@@ -139,6 +139,7 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
               .map(
                 (e) => MediaSegment(
                   type: MediaSegmentType.values.firstWhere((element) => element.name == e.type.name),
+                  name: context != null ? e.type.label(context) : e.type.name,
                   start: e.start.inMilliseconds,
                   end: e.end.inMilliseconds,
                 ),

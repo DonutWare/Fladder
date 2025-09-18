@@ -54,6 +54,7 @@ final List<AutoRoute> homeRoutes = [
     page: DashboardRoute.page,
     initial: true,
     path: 'dashboard',
+    maintainState: false,
   ),
   AutoRoute(
     page: FavouritesRoute.page,

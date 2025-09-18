@@ -58,7 +58,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.media3.exoplayer.ExoPlayer
-import nl.jknaapen.fladder.objects.VideoPlayerHost
+import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.formatTime
 import kotlin.math.max
 import kotlin.math.min
@@ -75,13 +75,13 @@ internal fun ProgressBar(
     bottomControlFocusRequester: FocusRequester,
     onUserInteraction: () -> Unit = {}
 ) {
-    val position by VideoPlayerHost.position.collectAsState(0L)
-    val duration by VideoPlayerHost.duration.collectAsState(0L)
+    val position by VideoPlayerObject.position.collectAsState(0L)
+    val duration by VideoPlayerObject.duration.collectAsState(0L)
 
     var tempPosition by remember { mutableLongStateOf(position) }
     var scrubbingTimeLine by remember { mutableStateOf(false) }
 
-    val playableData by VideoPlayerHost.implementation.playbackData.collectAsState(null)
+    val playableData by VideoPlayerObject.implementation.playbackData.collectAsState(null)
 
     val currentPosition by remember {
         derivedStateOf {
@@ -94,7 +94,7 @@ internal fun ProgressBar(
     }
 
     Column {
-        val playbackData by VideoPlayerHost.implementation.playbackData.collectAsState(null)
+        val playbackData by VideoPlayerObject.implementation.playbackData.collectAsState(null)
         if (scrubbingTimeLine)
             FilmstripTrickPlayOverlay(
                 modifier = Modifier
@@ -162,11 +162,11 @@ internal fun RowScope.SimpleProgressBar(
     onTempPosChanged: (Long) -> Unit = {},
     onScrubbingChanged: (Boolean) -> Unit = {}
 ) {
-    val playbackData by VideoPlayerHost.implementation.playbackData.collectAsState()
+    val playbackData by VideoPlayerObject.implementation.playbackData.collectAsState()
 
     var width by remember { mutableIntStateOf(0) }
-    val position by VideoPlayerHost.position.collectAsState(0L)
-    val duration by VideoPlayerHost.duration.collectAsState(0L)
+    val position by VideoPlayerObject.position.collectAsState(0L)
+    val duration by VideoPlayerObject.duration.collectAsState(0L)
 
     val slideBarShape = RoundedCornerShape(size = 8.dp)
 
@@ -312,6 +312,7 @@ internal fun RowScope.SimpleProgressBar(
                 Box(
                     modifier = Modifier
                         .align(Alignment.CenterStart)
+                        .padding(horizontal = 2.dp)
                         .focusable(enabled = false)
                         .graphicsLayer {
                             translationX = startPx

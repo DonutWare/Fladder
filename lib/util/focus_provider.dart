@@ -97,7 +97,6 @@ class FocusButtonState extends State<FocusButton> {
     _longPressTimer = Timer(_kLongPressTimeout, () {
       _longPressTriggered = true;
       widget.onLongPress?.call();
-      HapticFeedback.selectionClick();
       _resetKeyState();
     });
   }
@@ -150,7 +149,8 @@ class FocusButtonState extends State<FocusButton> {
           onHover = value;
         });
       },
-      child: GestureDetector(
+      child: InkWell(
+        canRequestFocus: false,
         onTap: widget.onTap,
         onLongPress: widget.onLongPress,
         onSecondaryTapDown: widget.onSecondaryTapDown,

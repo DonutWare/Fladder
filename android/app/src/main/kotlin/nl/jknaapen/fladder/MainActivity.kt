@@ -1,6 +1,7 @@
 package nl.jknaapen.fladder
 
 import NativeVideoActivity
+import PlayerSettingsPigeon
 import StartResult
 import VideoPlayerApi
 import VideoPlayerControlsCallback
@@ -12,7 +13,8 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.ryanheise.audioservice.AudioServiceFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
-import nl.jknaapen.fladder.objects.VideoPlayerHost
+import nl.jknaapen.fladder.objects.PlayerSettingsObject
+import nl.jknaapen.fladder.objects.VideoPlayerObject
 
 class MainActivity : AudioServiceFragmentActivity(), NativeVideoActivity {
     private lateinit var videoPlayerLauncher: ActivityResultLauncher<Intent>
@@ -31,7 +33,7 @@ class MainActivity : AudioServiceFragmentActivity(), NativeVideoActivity {
         }
 
 
-        val videoPlayerHost = VideoPlayerHost
+        val videoPlayerHost = VideoPlayerObject
         NativeVideoActivity.setUp(
             flutterEngine.dartExecutor.binaryMessenger,
             this
@@ -45,6 +47,11 @@ class MainActivity : AudioServiceFragmentActivity(), NativeVideoActivity {
 
         videoPlayerHost.videoPlayerControls =
             VideoPlayerControlsCallback(flutterEngine.dartExecutor.binaryMessenger)
+
+        PlayerSettingsPigeon.setUp(
+            flutterEngine.dartExecutor.binaryMessenger,
+            api = PlayerSettingsObject
+        )
 
         videoPlayerLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
@@ -74,7 +81,7 @@ class MainActivity : AudioServiceFragmentActivity(), NativeVideoActivity {
     }
 
     override fun disposeActivity() {
-        VideoPlayerHost.currentActivity?.finish()
+        VideoPlayerObject.currentActivity?.finish()
     }
 
     override fun isLeanBackEnabled(): Boolean {

@@ -176,6 +176,7 @@ data class PlayableData (
 /** Generated class from Pigeon that represents data sent in messages. */
 data class MediaSegment (
   val type: MediaSegmentType,
+  val name: String,
   val start: Long,
   val end: Long
 )
@@ -183,14 +184,16 @@ data class MediaSegment (
   companion object {
     fun fromList(pigeonVar_list: List<Any?>): MediaSegment {
       val type = pigeonVar_list[0] as MediaSegmentType
-      val start = pigeonVar_list[1] as Long
-      val end = pigeonVar_list[2] as Long
-      return MediaSegment(type, start, end)
+      val name = pigeonVar_list[1] as String
+      val start = pigeonVar_list[2] as Long
+      val end = pigeonVar_list[3] as Long
+      return MediaSegment(type, name, start, end)
     }
   }
   fun toList(): List<Any?> {
     return listOf(
       type,
+      name,
       start,
       end,
     )

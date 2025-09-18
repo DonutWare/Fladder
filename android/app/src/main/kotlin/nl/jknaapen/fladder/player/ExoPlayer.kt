@@ -38,7 +38,7 @@ import io.github.peerless2012.ass.media.kt.buildWithAssSupport
 import io.github.peerless2012.ass.media.type.AssRenderType
 import kotlinx.coroutines.delay
 import nl.jknaapen.fladder.messengers.properlySetSubAndAudioTracks
-import nl.jknaapen.fladder.objects.VideoPlayerHost
+import nl.jknaapen.fladder.objects.VideoPlayerObject
 import java.io.File
 import kotlin.time.Duration.Companion.seconds
 
@@ -52,7 +52,7 @@ internal fun ExoPlayer(
         trackSelector: DefaultTrackSelector,
     ) -> Unit,
 ) {
-    val videoHost = VideoPlayerHost
+    val videoHost = VideoPlayerObject
     val context = LocalContext.current
 
     var initialized = false
@@ -131,7 +131,7 @@ internal fun ExoPlayer(
                 super.onTracksChanged(tracks)
                 if (!initialized) {
                     initialized = true
-                    VideoPlayerHost.implementation.playbackData.value?.let {
+                    VideoPlayerObject.implementation.playbackData.value?.let {
                         exoPlayer.properlySetSubAndAudioTracks(it)
                     }
                 }
@@ -145,13 +145,10 @@ internal fun ExoPlayer(
     }
 
     DisposableEffect(Unit) {
-        VideoPlayerHost.implementation.init(exoPlayer)
-        //Testing purposes
-//        VideoPlayerHost.implementation.sendPlayableModel(testPlaybackData)
-//        VideoPlayerHost.implementation.open(testPlaybackData.url, true)
+        VideoPlayerObject.implementation.init(exoPlayer)
         onDispose {
             videoHost.videoPlayerControls?.onStop(callback = {})
-            VideoPlayerHost.implementation.init(null)
+            VideoPlayerObject.implementation.init(null)
             exoPlayer.release()
         }
     }

@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
-import nl.jknaapen.fladder.objects.VideoPlayerHost
+import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.clearSubtitleTrack
 import nl.jknaapen.fladder.utility.defaultSelected
 import nl.jknaapen.fladder.utility.getSubtitleTracks
@@ -28,8 +28,8 @@ fun SubtitlePicker(
     player: ExoPlayer,
     onDismissRequest: () -> Unit,
 ) {
-    val selectedIndex by VideoPlayerHost.currentSubtitleTrackIndex.collectAsState()
-    val subTitles by VideoPlayerHost.subtitleTracks.collectAsState(listOf())
+    val selectedIndex by VideoPlayerObject.currentSubtitleTrackIndex.collectAsState()
+    val subTitles by VideoPlayerObject.subtitleTracks.collectAsState(listOf())
     val internalSubTracks = player.getSubtitleTracks()
 
     CustomModalBottomSheet(
@@ -48,7 +48,7 @@ fun SubtitlePicker(
                     .fillMaxWidth()
                     .defaultSelected(-1 == selectedIndex),
                 onClick = {
-                    VideoPlayerHost.setSubtitleTrackIndex(-1)
+                    VideoPlayerObject.setSubtitleTrackIndex(-1)
                     player.clearSubtitleTrack()
                 },
                 selected = -1 == selectedIndex
@@ -74,7 +74,7 @@ fun SubtitlePicker(
                         .defaultSelected(selected),
                     onClick = {
                         serverSub?.index?.let {
-                            VideoPlayerHost.setSubtitleTrackIndex(it.toInt())
+                            VideoPlayerObject.setSubtitleTrackIndex(it.toInt())
                         }
                         player.setInternalSubtitleTrack(subtitle)
                     },

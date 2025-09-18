@@ -176,11 +176,14 @@ class PlayableData {
 class MediaSegment {
   MediaSegment({
     required this.type,
+    required this.name,
     required this.start,
     required this.end,
   });
 
   MediaSegmentType type;
+
+  String name;
 
   int start;
 
@@ -189,6 +192,7 @@ class MediaSegment {
   List<Object?> _toList() {
     return <Object?>[
       type,
+      name,
       start,
       end,
     ];
@@ -201,8 +205,9 @@ class MediaSegment {
     result as List<Object?>;
     return MediaSegment(
       type: result[0]! as MediaSegmentType,
-      start: result[1]! as int,
-      end: result[2]! as int,
+      name: result[1]! as String,
+      start: result[2]! as int,
+      end: result[3]! as int,
     );
   }
 

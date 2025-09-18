@@ -69,7 +69,7 @@ import kotlinx.coroutines.delay
 import nl.jknaapen.fladder.composables.dialogs.AudioPicker
 import nl.jknaapen.fladder.composables.dialogs.ChapterSelectionSheet
 import nl.jknaapen.fladder.composables.dialogs.SubtitlePicker
-import nl.jknaapen.fladder.objects.VideoPlayerHost
+import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.ImmersiveSystemBars
 import nl.jknaapen.fladder.utility.defaultSelected
 import kotlin.time.Duration.Companion.seconds
@@ -167,12 +167,14 @@ fun CustomVideoControls(
                     Column(
                         modifier = Modifier.weight(1f),
                     ) {
-                        val state by VideoPlayerHost.implementation.playbackData.collectAsState(null)
+                        val state by VideoPlayerObject.implementation.playbackData.collectAsState(
+                            null
+                        )
                         state?.let {
                             ItemHeader(it)
                         }
                     }
-                    if (!VideoPlayerHost.isAndroidTV(LocalContext.current)) {
+                    if (!VideoPlayerObject.isAndroidTV(LocalContext.current)) {
                         IconButton(
                             {
                                 activity?.finish()
@@ -229,6 +231,7 @@ fun CustomVideoControls(
                 }
             }
         }
+        SegmentSkipOverlay()
     }
 
     if (showAudioDialog.value) {
@@ -268,10 +271,10 @@ fun PlaybackButtons(
     player: ExoPlayer,
     bottomControlFocusRequester: FocusRequester,
 ) {
-    val state by VideoPlayerHost.videoPlayerState.collectAsState(null)
+    val state by VideoPlayerObject.videoPlayerState.collectAsState(null)
 
-    val forwardSpeed by VideoPlayerHost.forwardSpeed.collectAsState(30.seconds)
-    val backwardSpeed by VideoPlayerHost.backwardSpeed.collectAsState(15.seconds)
+    val forwardSpeed by VideoPlayerObject.forwardSpeed.collectAsState(30.seconds)
+    val backwardSpeed by VideoPlayerObject.backwardSpeed.collectAsState(15.seconds)
     val isPlaying = state?.playing ?: false
     Row(
         modifier = Modifier
@@ -284,7 +287,7 @@ fun PlaybackButtons(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         CustomIconButton(
-            onClick = { VideoPlayerHost.videoPlayerControls?.loadPreviousVideo {} },
+            onClick = { VideoPlayerObject.videoPlayerControls?.loadPreviousVideo {} },
         ) {
             Icon(
                 Iconsax.Filled.Backward,
@@ -359,7 +362,7 @@ fun PlaybackButtons(
         }
 
         CustomIconButton(
-            onClick = { VideoPlayerHost.videoPlayerControls?.loadNextVideo {} },
+            onClick = { VideoPlayerObject.videoPlayerControls?.loadNextVideo {} },
         ) {
             Icon(
                 Iconsax.Filled.Forward,

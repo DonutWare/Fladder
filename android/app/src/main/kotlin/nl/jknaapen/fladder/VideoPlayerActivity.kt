@@ -12,7 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.media3.common.util.UnstableApi
 import nl.jknaapen.fladder.composables.controls.CustomVideoControls
-import nl.jknaapen.fladder.objects.VideoPlayerHost
+import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.player.ExoPlayer
 
 class VideoPlayerActivity : ComponentActivity() {
@@ -20,7 +20,7 @@ class VideoPlayerActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-        VideoPlayerHost.currentActivity = this
+        VideoPlayerObject.currentActivity = this
 
         window.setFlags(
             WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,

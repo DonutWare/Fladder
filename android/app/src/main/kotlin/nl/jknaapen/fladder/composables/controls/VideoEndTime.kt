@@ -9,7 +9,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
-import nl.jknaapen.fladder.objects.VideoPlayerHost
+import nl.jknaapen.fladder.objects.VideoPlayerObject
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import kotlin.time.Clock
@@ -21,7 +21,7 @@ import kotlin.time.toJavaInstant
 @Composable
 fun VideoEndTime() {
     val startInstant = remember { Clock.System.now() }
-    val durationMs by VideoPlayerHost.duration.collectAsState(initial = 0L)
+    val durationMs by VideoPlayerObject.duration.collectAsState(initial = 0L)
     val zone = ZoneId.systemDefault()
 
     val javaInstant = remember(startInstant) { startInstant.toJavaInstant() }

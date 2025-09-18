@@ -10,6 +10,7 @@ import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/sticky_header_text.dart';
+import 'package:fladder/widgets/navigation_scaffold/components/navigation_body.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/side_navigation_bar.dart';
 
 class HorizontalList<T> extends ConsumerStatefulWidget {
@@ -74,6 +75,9 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
   @override
   void dispose() {
     focusNode.dispose();
+    if (lastMainFocus == focusNode) {
+      lastMainFocus = null;
+    }
     super.dispose();
   }
 
@@ -235,6 +239,9 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
               autofocus: widget.autoFocus,
               focusNode: focusNode,
               onFocusChange: (value) {
+                if (!value) {
+                  lastMainFocus = focusNode;
+                }
                 if (value && hasFocus != value) {
                   _scrollToPosition(currentIndex);
                 }

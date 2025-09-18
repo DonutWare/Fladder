@@ -5,10 +5,12 @@ import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:screen_brightness/screen_brightness.dart';
 
+import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/settings/key_combinations.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
+import 'package:fladder/src/player_settings_helper.g.dart' as pigeon;
 
 final videoPlayerSettingsProvider =
     StateNotifierProvider<VideoPlayerSettingsProviderNotifier, VideoPlayerSettingsModel>((ref) {
@@ -30,6 +32,27 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
     if (!oldState.playerSame(value)) {
       ref.read(videoPlayerProvider.notifier).init();
     }
+    pigeon.PlayerSettingsPigeon().sendPlayerSettings(
+      pigeon.PlayerSettings(
+        skipTypes: value.segmentSkipSettings.map(
+          (key, value) => MapEntry(
+            switch (key) {
+              MediaSegmentType.unknown => pigeon.SegmentType.intro,
+              MediaSegmentType.commercial => pigeon.SegmentType.commercial,
+              MediaSegmentType.preview => pigeon.SegmentType.preview,
+              MediaSegmentType.recap => pigeon.SegmentType.recap,
+              MediaSegmentType.outro => pigeon.SegmentType.outro,
+              MediaSegmentType.intro => pigeon.SegmentType.intro,
+            },
+            switch (value) {
+              SegmentSkip.none => pigeon.SegmentSkip.none,
+              SegmentSkip.askToSkip => pigeon.SegmentSkip.ask,
+              SegmentSkip.skip => pigeon.SegmentSkip.skip,
+            },
+          ),
+        ),
+      ),
+    );
   }
 
   void setScreenBrightness(double? value) async {
