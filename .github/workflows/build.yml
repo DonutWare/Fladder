@@ -185,7 +185,7 @@ jobs:
           path: build/app/outputs/android_artifacts/
 
   build-windows:
-    runs-on: windows-latest
+    runs-on: windows-2025
     needs: [fetch-info]
 
     steps:
@@ -207,11 +207,17 @@ jobs:
       - name: Build Windows EXE
         run: flutter build windows --build-number=${{ github.run_number }}
 
+      - name: List files in Windows folder
+        run: ls /
+
+      - name: List files in Windows folder
+        run: ls windows/
+
       - name: Compile Inno Setup installer
         uses: Minionguyjpro/Inno-Setup-Action@v1.2.7
         with:
           path: windows/windows_setup.iss
-          options: /O+ /DFLADDER_VERSION=${{ needs.fetch-info.outputs.version_name }}
+          options: /O+ /DFLADDER_VERSION="${{ needs.fetch-info.outputs.version_name }}"
 
       - name: Archive Windows portable artifact
         uses: actions/upload-artifact@v4.0.0
