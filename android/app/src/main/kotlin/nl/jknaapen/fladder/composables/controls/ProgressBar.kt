@@ -5,7 +5,6 @@ import MediaSegmentType
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -44,6 +43,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.Key.Companion.Back
 import androidx.compose.ui.input.key.Key.Companion.ButtonSelect
+import androidx.compose.ui.input.key.Key.Companion.DirectionCenter
 import androidx.compose.ui.input.key.Key.Companion.DirectionLeft
 import androidx.compose.ui.input.key.Key.Companion.DirectionRight
 import androidx.compose.ui.input.key.Key.Companion.Enter
@@ -58,6 +58,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.fastCoerceIn
 import androidx.media3.exoplayer.ExoPlayer
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.formatTime
@@ -144,7 +145,12 @@ internal fun ProgressBar(
                 }
             )
             Text(
-                "-" + formatTime(duration - currentPosition),
+                "-" + formatTime(
+                    (duration - currentPosition).fastCoerceIn(
+                        minimumValue = 0L,
+                        maximumValue = duration
+                    )
+                ),
                 color = Color.White,
                 style = MaterialTheme.typography.labelMedium
             )
@@ -234,7 +240,7 @@ internal fun RowScope.SimpleProgressBar(
             modifier = Modifier
                 .focusable(enabled = false)
                 .fillMaxWidth()
-                .height(10.dp)
+                .height(12.dp)
                 .background(
                     color = Color.Black.copy(alpha = 0.15f),
                     shape = slideBarShape
@@ -245,10 +251,7 @@ internal fun RowScope.SimpleProgressBar(
                     .focusable(enabled = false)
                     .fillMaxHeight()
                     .fillMaxWidth(progress)
-                    .padding(end = 8.dp)
-                    .border(
-                        width = 1.dp, color = Color.Black.copy(alpha = 0.15f), shape = slideBarShape
-                    )
+                    .padding(end = 9.dp)
                     .background(
                         color = Color.White.copy(alpha = 0.75f),
                         shape = slideBarShape
@@ -376,7 +379,7 @@ internal fun RowScope.SimpleProgressBar(
                             true
                         }
 
-                        Enter, Key(13), Spacebar, ButtonSelect -> {
+                        Enter, Spacebar, ButtonSelect, DirectionCenter -> {
                             if (scrubbingTimeLine) {
                                 player.seekTo(tempPosition)
                                 player.play()

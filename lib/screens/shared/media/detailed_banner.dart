@@ -4,13 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/screens/details_screens/components/overview_header.dart';
-import 'package:fladder/screens/shared/media/components/media_play_button.dart';
 import 'package:fladder/screens/shared/media/poster_row.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/focus_provider.dart';
-import 'package:fladder/util/item_base_model/play_item_helpers.dart';
 import 'package:fladder/util/localization_helper.dart';
-import 'package:fladder/util/refresh_state.dart';
 
 class DetailedBanner extends ConsumerStatefulWidget {
   final List<ItemBaseModel> posters;
@@ -109,24 +106,6 @@ class _DetailedBannerState extends ConsumerState<DetailedBanner> {
                             image: selectedPoster.getPosters,
                             logoAlignment: Alignment.centerLeft,
                             summary: selectedPoster.overview.summary,
-                            centerButtons: MediaPlayButton(
-                              item: selectedPoster,
-                              onLongPressed: () async {
-                                await selectedPoster.play(
-                                  context,
-                                  ref,
-                                  showPlaybackOption: true,
-                                );
-                                context.refreshData();
-                              },
-                              onPressed: () async {
-                                await selectedPoster.play(
-                                  context,
-                                  ref,
-                                );
-                                context.refreshData();
-                              },
-                            ),
                             productionYear: selectedPoster.overview.productionYear,
                             runTime: selectedPoster.overview.runTime,
                             genres: selectedPoster.overview.genreItems,
@@ -135,6 +114,9 @@ class _DetailedBannerState extends ConsumerState<DetailedBanner> {
                             communityRating: selectedPoster.overview.communityRating,
                           ),
                         ),
+                        SizedBox(
+                          height: size.height * 0.05,
+                        )
                       ],
                     ),
                   ),
@@ -148,7 +130,7 @@ class _DetailedBannerState extends ConsumerState<DetailedBanner> {
           focusPosition: 1.0,
           child: PosterRow(
             primaryPosters: true,
-            label: context.localized.goTo,
+            label: context.localized.nextUp,
             posters: widget.posters,
             onFocused: (poster) {
               widget.onSelect(poster);

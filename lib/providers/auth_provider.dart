@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:chopper/chopper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/account_model.dart';
 import 'package:fladder/models/credentials_model.dart';
 import 'package:fladder/models/login_screen_model.dart';
@@ -65,10 +66,14 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
       final publicUsers = (await getPublicUsers())?.body ?? [];
       final quickConnectStatus = (await api.quickConnectEnabled()).body ?? false;
       final branding = await api.getBranding();
+      final serverResponse = await api.systemInfoPublicGet();
       state = state.copyWith(
         screen: quickConnectStatus ? LoginScreenType.code : LoginScreenType.login,
         serverLoginModel: newLoginModel.copyWith(
-          tempCredentials: newCredentials,
+          tempCredentials: newCredentials.copyWith(
+            serverName: serverResponse.body?.serverName,
+            serverId: serverResponse.body?.id,
+          ),
           accounts: publicUsers,
           hasQuickConnect: quickConnectStatus,
           serverMessage: branding.body?.loginDisclaimer,
@@ -123,9 +128,19 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
     }
   }
 
+  Future<Response<AccountModel>?> authenticateUsingSecret(String secret) async {
+    clearAllProviders();
+    var response = await api.quickConnectAuthenticate(secret);
+    return _createAccountModel(response);
+  }
+
   Future<Response<AccountModel>?> authenticateByName(String userName, String password) async {
     clearAllProviders();
     var response = await api.usersAuthenticateByNamePost(userName: userName, password: password);
+    return _createAccountModel(response);
+  }
+
+  Future<Response<AccountModel>?> _createAccountModel(Response<AuthenticationResult> response) async {
     CredentialsModel? credentials = state.serverLoginModel?.tempCredentials;
     if (credentials == null) return null;
     if (response.isSuccessful && (response.body?.accessToken?.isNotEmpty ?? false)) {

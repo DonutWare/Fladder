@@ -17,14 +17,17 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -60,8 +63,8 @@ import io.github.rabehx.iconsax.filled.AudioSquare
 import io.github.rabehx.iconsax.filled.Backward
 import io.github.rabehx.iconsax.filled.Check
 import io.github.rabehx.iconsax.filled.Forward
-import io.github.rabehx.iconsax.filled.Pause
-import io.github.rabehx.iconsax.filled.Play
+import io.github.rabehx.iconsax.filled.PauseCircle
+import io.github.rabehx.iconsax.filled.PlayCircle
 import io.github.rabehx.iconsax.filled.Subtitle
 import io.github.rabehx.iconsax.outline.CloseSquare
 import io.github.rabehx.iconsax.outline.Refresh
@@ -69,6 +72,7 @@ import kotlinx.coroutines.delay
 import nl.jknaapen.fladder.composables.dialogs.AudioPicker
 import nl.jknaapen.fladder.composables.dialogs.ChapterSelectionSheet
 import nl.jknaapen.fladder.composables.dialogs.SubtitlePicker
+import nl.jknaapen.fladder.objects.PlayerSettingsObject
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.ImmersiveSystemBars
 import nl.jknaapen.fladder.utility.defaultSelected
@@ -93,7 +97,10 @@ fun CustomVideoControls(
 
     val activity = LocalActivity.current
 
-    ImmersiveSystemBars(isImmersive = showControls)
+    val buffering by VideoPlayerObject.buffering.collectAsState(true)
+    val playing by VideoPlayerObject.playing.collectAsState(false)
+
+    ImmersiveSystemBars(isImmersive = !showControls)
 
     BackHandler(
         enabled = showControls
@@ -144,17 +151,18 @@ fun CustomVideoControls(
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
                 Row(
                     modifier = Modifier
-                        .weight(1f)
                         .fillMaxWidth()
+                        .wrapContentHeight()
                         .background(
                             brush = Brush.linearGradient(
                                 colors = listOf(
-                                    Color.Black.copy(alpha = 0.50f),
+                                    Color.Black.copy(alpha = 0.85f),
                                     Color.Black.copy(alpha = 0f),
                                 ),
                                 start = Offset(0f, 0f),
@@ -191,6 +199,7 @@ fun CustomVideoControls(
                         }
                     }
                 }
+                Spacer(modifier = Modifier.weight(1f))
                 // Progress Bar
                 Column(
                     modifier = Modifier
@@ -232,6 +241,12 @@ fun CustomVideoControls(
             }
         }
         SegmentSkipOverlay()
+        if (buffering && !playing) {
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .align(alignment = Alignment.Center)
+            )
+        }
     }
 
     if (showAudioDialog.value) {
@@ -273,9 +288,15 @@ fun PlaybackButtons(
 ) {
     val state by VideoPlayerObject.videoPlayerState.collectAsState(null)
 
-    val forwardSpeed by VideoPlayerObject.forwardSpeed.collectAsState(30.seconds)
-    val backwardSpeed by VideoPlayerObject.backwardSpeed.collectAsState(15.seconds)
+    val forwardSpeed by PlayerSettingsObject.forwardSpeed.collectAsState(30.seconds)
+    val backwardSpeed by PlayerSettingsObject.backwardSpeed.collectAsState(15.seconds)
+
+    val playbackData by VideoPlayerObject.implementation.playbackData.collectAsState(null)
+    val nextVideo = playbackData?.nextVideo
+    val previousVideo = playbackData?.previousVideo
+
     val isPlaying = state?.playing ?: false
+
     Row(
         modifier = Modifier
             .padding(horizontal = 4.dp, vertical = 6.dp)
@@ -288,11 +309,12 @@ fun PlaybackButtons(
     ) {
         CustomIconButton(
             onClick = { VideoPlayerObject.videoPlayerControls?.loadPreviousVideo {} },
+            enabled = previousVideo != null,
         ) {
             Icon(
                 Iconsax.Filled.Backward,
                 modifier = Modifier.size(32.dp),
-                contentDescription = "Previous Video",
+                contentDescription = previousVideo,
                 tint = Color.White
             )
         }
@@ -319,22 +341,16 @@ fun PlaybackButtons(
         }
         CustomIconButton(
             modifier = Modifier
-                .size(54.dp)
                 .focusRequester(bottomControlFocusRequester)
                 .defaultSelected(true),
-            backgroundColor = Color.White.copy(alpha = 0.75f),
-            foreGroundColor = Color.Black,
-            backgroundFocusedColor = Color.White,
-            foreGroundFocusedColor = Color.Black,
-            enableFocusIndicator = false,
             enableScaledFocus = true,
             onClick = {
                 if (player.isPlaying) player.pause() else player.play()
             },
         ) {
             Icon(
-                if (isPlaying) Iconsax.Filled.Pause else Iconsax.Filled.Play,
-                modifier = Modifier.size(40.dp),
+                if (isPlaying) Iconsax.Filled.PauseCircle else Iconsax.Filled.PlayCircle,
+                modifier = Modifier.size(55.dp),
                 contentDescription = if (isPlaying) "Pause" else "Play",
             )
         }
@@ -363,11 +379,12 @@ fun PlaybackButtons(
 
         CustomIconButton(
             onClick = { VideoPlayerObject.videoPlayerControls?.loadNextVideo {} },
+            enabled = nextVideo != null,
         ) {
             Icon(
                 Iconsax.Filled.Forward,
                 modifier = Modifier.size(32.dp),
-                contentDescription = "Next video",
+                contentDescription = nextVideo,
             )
         }
     }

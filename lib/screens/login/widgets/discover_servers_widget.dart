@@ -124,8 +124,8 @@ class _ServerInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: InkWell(
-        onTap: () => onPressed(server),
+      child: TextButton(
+        onPressed: () => onPressed(server),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
           child: Row(

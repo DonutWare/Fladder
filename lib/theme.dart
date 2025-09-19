@@ -98,11 +98,6 @@ class FladderTheme {
         }),
         trackOutlineWidth: const WidgetStatePropertyAll(1),
       ),
-      iconButtonTheme: IconButtonThemeData(
-        style: ButtonStyle(
-          shape: WidgetStatePropertyAll(defaultShape),
-        ),
-      ),
       navigationBarTheme: const NavigationBarThemeData(),
       dialogTheme: DialogThemeData(shape: defaultShape),
       scrollbarTheme: ScrollbarThemeData(
@@ -138,7 +133,7 @@ class FladderTheme {
       dividerTheme: DividerThemeData(
         indent: 6,
         endIndent: 6,
-        color: scheme?.onSurface.withAlpha(125),
+        color: scheme?.onSurface.withAlpha(30),
       ),
       segmentedButtonTheme: SegmentedButtonThemeData(
         style: ButtonStyle(
@@ -153,27 +148,33 @@ class FladderTheme {
           side: const WidgetStatePropertyAll(BorderSide.none),
         ),
       ),
+      iconButtonTheme: IconButtonThemeData(
+        style: ButtonStyle(
+          shape: WidgetStatePropertyAll(smallShape),
+          side: buttonState,
+        ),
+      ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
-          shape: WidgetStatePropertyAll(defaultShape),
+          shape: WidgetStatePropertyAll(smallShape),
           side: buttonState,
         ),
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: ButtonStyle(
-          shape: WidgetStatePropertyAll(defaultShape),
+          shape: WidgetStatePropertyAll(smallShape),
           side: buttonState,
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: ButtonStyle(
-          shape: WidgetStatePropertyAll(defaultShape),
+          shape: WidgetStatePropertyAll(smallShape),
           side: buttonState,
         ),
       ),
       textButtonTheme: TextButtonThemeData(
         style: ButtonStyle(
-          shape: WidgetStatePropertyAll(defaultShape),
+          shape: WidgetStatePropertyAll(smallShape),
           side: buttonState,
         ),
       ),

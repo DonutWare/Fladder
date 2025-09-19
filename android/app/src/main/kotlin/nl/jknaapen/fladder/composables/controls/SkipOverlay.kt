@@ -97,6 +97,7 @@ internal fun BoxScope.SegmentSkipOverlay(
         activeSegment != null && skip == SegmentSkip.ASK,
         modifier = Modifier
             .fillMaxSize()
+            .padding(16.dp)
             .safeContentPadding()
     ) {
         Box {

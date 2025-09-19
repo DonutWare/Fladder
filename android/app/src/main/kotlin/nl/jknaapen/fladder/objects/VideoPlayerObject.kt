@@ -7,12 +7,12 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import nl.jknaapen.fladder.VideoPlayerActivity
 import nl.jknaapen.fladder.messengers.VideoPlayerImplementation
-import kotlin.time.DurationUnit
-import kotlin.time.toDuration
+import nl.jknaapen.fladder.utility.InternalTrack
 
 object VideoPlayerObject {
     val implementation: VideoPlayerImplementation = VideoPlayerImplementation()
@@ -23,12 +23,15 @@ object VideoPlayerObject {
     val buffering = _currentState.map { it?.buffering ?: true }
     val position = _currentState.map { it?.position ?: 0L }
     val duration = _currentState.map { it?.duration ?: 0L }
-    val playing = _currentState.map { it?.playing ?: 0L }
+    val playing = _currentState.map { it?.playing ?: false }
 
     val currentSubtitleTrackIndex =
         MutableStateFlow((implementation.playbackData.value?.defaultSubtrack ?: -1).toInt())
     val currentAudioTrackIndex =
         MutableStateFlow((implementation.playbackData.value?.defaultAudioTrack ?: -1).toInt())
+
+    val exoAudioTracks = mutableStateOf<List<InternalTrack>>(listOf())
+    val exoSubTracks = mutableStateOf<List<InternalTrack>>(listOf())
 
     fun setSubtitleTrackIndex(value: Int, init: Boolean = false) {
         currentSubtitleTrackIndex.value = value
@@ -46,16 +49,6 @@ object VideoPlayerObject {
 
     val subtitleTracks = implementation.playbackData.map { it?.subtitleTracks ?: listOf() }
     val audioTracks = implementation.playbackData.map { it?.audioTracks ?: listOf() }
-
-    val forwardSpeed =
-        implementation.playbackData.map {
-            (it?.skipForward ?: 1L).toDuration(DurationUnit.MILLISECONDS)
-        }
-    val backwardSpeed = implementation.playbackData.map {
-        (it?.skipBackward ?: 1L).toDuration(
-            DurationUnit.MILLISECONDS
-        )
-    }
 
     fun setPlaybackState(state: PlaybackState) {
         _currentState.value = state

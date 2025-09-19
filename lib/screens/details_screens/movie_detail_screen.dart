@@ -71,23 +71,49 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
                     name: details.name,
                     image: details.images,
                     padding: padding,
-                    centerButtons: MediaPlayButton(
-                      item: details,
-                      onLongPressed: () async {
-                        await details.play(
-                          context,
-                          ref,
-                          showPlaybackOption: true,
-                        );
-                        ref.read(providerInstance.notifier).fetchDetails(widget.item);
-                      },
-                      onPressed: () async {
-                        await details.play(
-                          context,
-                          ref,
-                        );
-                        ref.read(providerInstance.notifier).fetchDetails(widget.item);
-                      },
+                    centerButtons: Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      alignment: wrapAlignment,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        MediaPlayButton(
+                          item: details,
+                          onLongPressed: () async {
+                            await details.play(
+                              context,
+                              ref,
+                              showPlaybackOption: true,
+                            );
+                            ref.read(providerInstance.notifier).fetchDetails(widget.item);
+                          },
+                          onPressed: () async {
+                            await details.play(
+                              context,
+                              ref,
+                            );
+                            ref.read(providerInstance.notifier).fetchDetails(widget.item);
+                          },
+                        ),
+                        SelectableIconButton(
+                          onPressed: () async {
+                            await ref
+                                .read(userProvider.notifier)
+                                .setAsFavorite(!details.userData.isFavourite, details.id);
+                          },
+                          selected: details.userData.isFavourite,
+                          selectedIcon: IconsaxPlusBold.heart,
+                          icon: IconsaxPlusLinear.heart,
+                        ),
+                        SelectableIconButton(
+                          onPressed: () async {
+                            await ref.read(userProvider.notifier).markAsPlayed(!details.userData.played, details.id);
+                          },
+                          selected: details.userData.played,
+                          selectedIcon: IconsaxPlusBold.tick_circle,
+                          icon: IconsaxPlusLinear.tick_circle,
+                        ),
+                      ],
                     ),
                     originalTitle: details.originalTitle,
                     productionYear: details.overview.productionYear,
@@ -97,32 +123,6 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
                     officialRating: details.overview.parentalRating,
                     communityRating: details.overview.communityRating,
                   ),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    alignment: wrapAlignment,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      SelectableIconButton(
-                        onPressed: () async {
-                          await ref
-                              .read(userProvider.notifier)
-                              .setAsFavorite(!details.userData.isFavourite, details.id);
-                        },
-                        selected: details.userData.isFavourite,
-                        selectedIcon: IconsaxPlusBold.heart,
-                        icon: IconsaxPlusLinear.heart,
-                      ),
-                      SelectableIconButton(
-                        onPressed: () async {
-                          await ref.read(userProvider.notifier).markAsPlayed(!details.userData.played, details.id);
-                        },
-                        selected: details.userData.played,
-                        selectedIcon: IconsaxPlusBold.tick_circle,
-                        icon: IconsaxPlusLinear.tick_circle,
-                      ),
-                    ],
-                  ).padding(padding),
                   if (details.mediaStreams.isNotEmpty)
                     MediaStreamInformation(
                       onVersionIndexChanged: (index) {

@@ -62,8 +62,6 @@ class PlayableData {
     this.trickPlayModel,
     required this.chapters,
     required this.segments,
-    required this.skipForward,
-    required this.skipBackward,
     this.previousVideo,
     this.nextVideo,
     required this.url,
@@ -95,10 +93,6 @@ class PlayableData {
 
   List<MediaSegment> segments;
 
-  int skipForward;
-
-  int skipBackward;
-
   String? previousVideo;
 
   String? nextVideo;
@@ -120,8 +114,6 @@ class PlayableData {
       trickPlayModel,
       chapters,
       segments,
-      skipForward,
-      skipBackward,
       previousVideo,
       nextVideo,
       url,
@@ -147,11 +139,9 @@ class PlayableData {
       trickPlayModel: result[10] as TrickPlayModel?,
       chapters: (result[11] as List<Object?>?)!.cast<Chapter>(),
       segments: (result[12] as List<Object?>?)!.cast<MediaSegment>(),
-      skipForward: result[13]! as int,
-      skipBackward: result[14]! as int,
-      previousVideo: result[15] as String?,
-      nextVideo: result[16] as String?,
-      url: result[17]! as String,
+      previousVideo: result[13] as String?,
+      nextVideo: result[14] as String?,
+      url: result[15]! as String,
     );
   }
 

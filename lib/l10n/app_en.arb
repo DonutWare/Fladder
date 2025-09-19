@@ -1338,5 +1338,8 @@
         "type": "double"
       }
     }
-  }
+  },
+  "quickConnectPostFailed": "Failed to get quick connect code",
+  "quickConnectLoginUsingCode": "Using quick connect",
+  "quickConnectEnterCodeDescription": "Enter the code below to login"
 }

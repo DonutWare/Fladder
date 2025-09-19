@@ -109,8 +109,6 @@ data class PlayableData (
   val trickPlayModel: TrickPlayModel? = null,
   val chapters: List<Chapter>,
   val segments: List<MediaSegment>,
-  val skipForward: Long,
-  val skipBackward: Long,
   val previousVideo: String? = null,
   val nextVideo: String? = null,
   val url: String
@@ -131,12 +129,10 @@ data class PlayableData (
       val trickPlayModel = pigeonVar_list[10] as TrickPlayModel?
       val chapters = pigeonVar_list[11] as List<Chapter>
       val segments = pigeonVar_list[12] as List<MediaSegment>
-      val skipForward = pigeonVar_list[13] as Long
-      val skipBackward = pigeonVar_list[14] as Long
-      val previousVideo = pigeonVar_list[15] as String?
-      val nextVideo = pigeonVar_list[16] as String?
-      val url = pigeonVar_list[17] as String
-      return PlayableData(id, title, subTitle, logoUrl, description, startPosition, defaultAudioTrack, audioTracks, defaultSubtrack, subtitleTracks, trickPlayModel, chapters, segments, skipForward, skipBackward, previousVideo, nextVideo, url)
+      val previousVideo = pigeonVar_list[13] as String?
+      val nextVideo = pigeonVar_list[14] as String?
+      val url = pigeonVar_list[15] as String
+      return PlayableData(id, title, subTitle, logoUrl, description, startPosition, defaultAudioTrack, audioTracks, defaultSubtrack, subtitleTracks, trickPlayModel, chapters, segments, previousVideo, nextVideo, url)
     }
   }
   fun toList(): List<Any?> {
@@ -154,8 +150,6 @@ data class PlayableData (
       trickPlayModel,
       chapters,
       segments,
-      skipForward,
-      skipBackward,
       previousVideo,
       nextVideo,
       url,

@@ -7,13 +7,13 @@ import VideoPlayerApi
 import VideoPlayerControlsCallback
 import VideoPlayerListenerCallback
 import android.content.Intent
-import android.content.pm.PackageManager
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.ryanheise.audioservice.AudioServiceFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import nl.jknaapen.fladder.objects.PlayerSettingsObject
 import nl.jknaapen.fladder.objects.VideoPlayerObject
+import nl.jknaapen.fladder.utility.leanBackEnabled
 
 class MainActivity : AudioServiceFragmentActivity(), NativeVideoActivity {
     private lateinit var videoPlayerLauncher: ActivityResultLauncher<Intent>
@@ -73,10 +73,5 @@ class MainActivity : AudioServiceFragmentActivity(), NativeVideoActivity {
         VideoPlayerObject.currentActivity?.finish()
     }
 
-    override fun isLeanBackEnabled(): Boolean {
-        val pm = applicationContext.packageManager
-        val leanBackEnabled = pm.hasSystemFeature(PackageManager.FEATURE_LEANBACK)
-        val leanBackOnly = pm.hasSystemFeature(PackageManager.FEATURE_LEANBACK_ONLY)
-        return leanBackEnabled || leanBackOnly
-    }
+    override fun isLeanBackEnabled(): Boolean = leanBackEnabled(applicationContext)
 }

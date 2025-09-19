@@ -46,13 +46,21 @@ enum SegmentSkip {
 class PlayerSettings {
   PlayerSettings({
     required this.skipTypes,
+    required this.skipForward,
+    required this.skipBackward,
   });
 
   Map<SegmentType, SegmentSkip> skipTypes;
 
+  int skipForward;
+
+  int skipBackward;
+
   List<Object?> _toList() {
     return <Object?>[
       skipTypes,
+      skipForward,
+      skipBackward,
     ];
   }
 
@@ -63,6 +71,8 @@ class PlayerSettings {
     result as List<Object?>;
     return PlayerSettings(
       skipTypes: (result[0] as Map<Object?, Object?>?)!.cast<SegmentType, SegmentSkip>(),
+      skipForward: result[1]! as int,
+      skipBackward: result[2]! as int,
     );
   }
 

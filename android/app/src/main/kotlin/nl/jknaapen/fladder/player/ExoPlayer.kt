@@ -37,6 +37,8 @@ import io.github.peerless2012.ass.media.kt.buildWithAssSupport
 import io.github.peerless2012.ass.media.type.AssRenderType
 import nl.jknaapen.fladder.messengers.properlySetSubAndAudioTracks
 import nl.jknaapen.fladder.objects.VideoPlayerObject
+import nl.jknaapen.fladder.utility.getAudioTracks
+import nl.jknaapen.fladder.utility.getSubtitleTracks
 import java.io.File
 
 val LocalPlayer = compositionLocalOf<ExoPlayer?> { null }
@@ -71,7 +73,7 @@ internal fun ExoPlayer(
         .build()
 
     val renderersFactory = DefaultRenderersFactory(context)
-        .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER)
+        .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
         .setEnableDecoderFallback(true)
 
     val exoPlayer = ExoPlayer.Builder(context, renderersFactory)
@@ -126,8 +128,9 @@ internal fun ExoPlayer(
                     VideoPlayerObject.implementation.playbackData.value?.let {
                         exoPlayer.properlySetSubAndAudioTracks(it)
                     }
+                    VideoPlayerObject.exoSubTracks.value = exoPlayer.getSubtitleTracks()
+                    VideoPlayerObject.exoAudioTracks.value = exoPlayer.getAudioTracks()
                 }
-
             }
         }
         exoPlayer.addListener(listener)

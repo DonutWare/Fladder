@@ -352,49 +352,27 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                               child: Tooltip(
                                 message: librarySearchResults.nestedCurrentItem?.type.label(context) ??
                                     context.localized.library(1),
-                                child: InkWell(
-                                  onTapUp: (details) async {
-                                    if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer) {
-                                      double left = details.globalPosition.dx;
-                                      double top = details.globalPosition.dy;
-                                      await showMenu(
-                                        context: context,
-                                        position: RelativeRect.fromLTRB(left, top, 40, 100),
-                                        items: <PopupMenuEntry>[
-                                          PopupMenuItem(
-                                              child: Text(librarySearchResults.nestedCurrentItem?.type.label(context) ??
-                                                  context.localized.library(0))),
-                                          itemCountWidget.toPopupMenuItem(useIcons: true),
-                                          refreshAction.toPopupMenuItem(useIcons: true),
-                                          itemViewAction.toPopupMenuItem(useIcons: true),
+                                child: IconButton(
+                                  onPressed: () async {
+                                    await showBottomSheetPill(
+                                      context: context,
+                                      content: (context, scrollController) => ListView(
+                                        shrinkWrap: true,
+                                        controller: scrollController,
+                                        children: [
+                                          itemCountWidget.toListItem(context, useIcons: true),
+                                          refreshAction.toListItem(context, useIcons: true),
+                                          itemViewAction.toListItem(context, useIcons: true),
                                           if (librarySearchResults.views.hasEnabled == true)
-                                            showSavedFiltersDialogue.toPopupMenuItem(useIcons: true),
-                                          if (itemActions.isNotEmpty) ItemActionDivider().toPopupMenuItem(),
-                                          ...itemActions.popupMenuItems(useIcons: true),
+                                            showSavedFiltersDialogue.toListItem(context, useIcons: true),
+                                          if (itemActions.isNotEmpty) ItemActionDivider().toListItem(context),
+                                          ...itemActions.listTileItems(context, useIcons: true),
                                         ],
-                                        elevation: 8.0,
-                                      );
-                                    } else {
-                                      await showBottomSheetPill(
-                                        context: context,
-                                        content: (context, scrollController) => ListView(
-                                          shrinkWrap: true,
-                                          controller: scrollController,
-                                          children: [
-                                            itemCountWidget.toListItem(context, useIcons: true),
-                                            refreshAction.toListItem(context, useIcons: true),
-                                            itemViewAction.toListItem(context, useIcons: true),
-                                            if (librarySearchResults.views.hasEnabled == true)
-                                              showSavedFiltersDialogue.toPopupMenuItem(useIcons: true),
-                                            if (itemActions.isNotEmpty) ItemActionDivider().toListItem(context),
-                                            ...itemActions.listTileItems(context, useIcons: true),
-                                          ],
-                                        ),
-                                      );
-                                    }
+                                      ),
+                                    );
                                   },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(12),
+                                  icon: Padding(
+                                    padding: const EdgeInsets.all(6),
                                     child: Icon(
                                       isFavorite
                                           ? librarySearchResults.nestedCurrentItem?.type.selectedicon

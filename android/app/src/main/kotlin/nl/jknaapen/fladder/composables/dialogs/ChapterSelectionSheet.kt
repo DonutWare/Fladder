@@ -4,7 +4,6 @@ import Chapter
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,12 +11,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -43,7 +44,21 @@ internal fun ChapterSelectionSheet(
     val chapters = playbackData?.chapters ?: listOf()
     val currentPosition by VideoPlayerObject.position.collectAsState(0L)
 
-    var currentChapter: Chapter? by remember { mutableStateOf(chapters.firstOrNull()) }
+    var currentChapter: Chapter? by remember {
+        mutableStateOf(
+            chapters[chapters.indexOfCurrent(
+                currentPosition
+            )]
+        )
+    }
+
+    val lazyListState = rememberLazyListState()
+
+    LaunchedEffect(Unit) {
+        lazyListState.animateScrollToItem(
+            chapters.indexOfCurrent(currentPosition)
+        )
+    }
 
     CustomModalBottomSheet(
         onDismiss,
@@ -56,78 +71,86 @@ internal fun ChapterSelectionSheet(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(
-                "Select chapter",
+                "Chapters",
                 style = MaterialTheme.typography.titleLarge,
                 color = Color.White
             )
-            Row(
-                modifier = Modifier.horizontalScroll(rememberScrollState()),
+            LazyRow(
+                state = lazyListState,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 chapters.forEachIndexed { index, chapter ->
                     val selectedChapter = currentChapter == chapter
-                    val nextChapterTime = chapters.getOrNull(index + 1)?.time ?: Long.MAX_VALUE
-                    val isCurrentChapter =
-                        currentPosition >= chapter.time && currentPosition < nextChapterTime
-                    Column(
-                        modifier = Modifier
-                            .background(
-                                color = Color.Black.copy(alpha = 0.75f),
-                                shape = RoundedCornerShape(8.dp)
-                            )
-                            .border(
-                                width = 2.dp,
-                                color = Color.White.copy(alpha = if (selectedChapter) 1f else 0f),
-                                shape = RoundedCornerShape(8.dp)
-                            )
-                            .defaultSelected(index == 0)
-                            .onFocusChanged {
-                                if (it.isFocused) {
-                                    currentChapter = chapter
-                                }
-                            }
-                            .clickable(
-                                onClick = {
-                                    onSelected(chapter)
-                                }
-                            )
-                            .padding(horizontal = 8.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(
-                            8.dp,
-                            alignment = Alignment.CenterVertically
-                        ),
-                    ) {
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(
-                                8.dp,
-                                alignment = Alignment.CenterHorizontally
-                            ),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Text(
-                                chapter.name,
-                                style = MaterialTheme.typography.bodyLarge,
-                                color = Color.White
-                            )
-                        }
-                        AsyncImage(
-                            model = chapter.url,
+                    val isCurrentChapter = chapters.indexOfCurrent(currentPosition) == index
+                    item {
+                        Column(
                             modifier = Modifier
-                                .clip(
-                                    shape = RoundedCornerShape(24.dp)
+                                .background(
+                                    color = Color.Black.copy(alpha = 0.75f),
+                                    shape = RoundedCornerShape(8.dp)
                                 )
-                                .heightIn(min = 125.dp, max = 150.dp)
                                 .border(
                                     width = 2.dp,
-                                    color = Color.White.copy(alpha = if (isCurrentChapter) 1f else 0f),
-                                    shape = RoundedCornerShape(24.dp)
+                                    color = Color.White.copy(alpha = if (selectedChapter) 1f else 0f),
+                                    shape = RoundedCornerShape(8.dp)
+                                )
+                                .defaultSelected(index == 0)
+                                .onFocusChanged {
+                                    if (it.isFocused) {
+                                        currentChapter = chapter
+                                    }
+                                }
+                                .clickable(
+                                    onClick = {
+                                        onSelected(chapter)
+                                    }
+                                )
+                                .padding(horizontal = 8.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(
+                                8.dp,
+                                alignment = Alignment.CenterVertically
+                            ),
+                        ) {
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(
+                                    8.dp,
+                                    alignment = Alignment.CenterHorizontally
                                 ),
-                            contentDescription = ""
-                        )
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                Text(
+                                    chapter.name,
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = Color.White
+                                )
+                            }
+                            AsyncImage(
+                                model = chapter.url,
+                                modifier = Modifier
+                                    .clip(
+                                        shape = RoundedCornerShape(24.dp)
+                                    )
+                                    .heightIn(min = 125.dp, max = 150.dp)
+                                    .border(
+                                        width = 2.dp,
+                                        color = Color.White.copy(alpha = if (isCurrentChapter) 1f else 0f),
+                                        shape = RoundedCornerShape(24.dp)
+                                    ),
+                                contentDescription = ""
+                            )
+                        }
                     }
                 }
             }
         }
+    }
+}
+
+private fun List<Chapter>.indexOfCurrent(currentPosition: Long): Int {
+    return this.indexOfFirst { chapter ->
+        val nextChapterTime =
+            this.getOrNull(this.indexOf(chapter) + 1)?.time ?: Long.MAX_VALUE
+        currentPosition >= chapter.time && currentPosition < nextChapterTime
     }
 }

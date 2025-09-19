@@ -225,9 +225,14 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
           posterDefaults: posterDefaults,
         ),
         child: Builder(
-          builder: (context) => ResolutionChecker(
-            child: widget.adaptiveLayout == null ? DebugBanner(child: widget.child(context)) : widget.child(context),
-          ),
+          builder: (context) => isDesktop
+              ? ResolutionChecker(
+                  child:
+                      widget.adaptiveLayout == null ? DebugBanner(child: widget.child(context)) : widget.child(context),
+                )
+              : widget.adaptiveLayout == null
+                  ? DebugBanner(child: widget.child(context))
+                  : widget.child(context),
         ),
       ),
     );

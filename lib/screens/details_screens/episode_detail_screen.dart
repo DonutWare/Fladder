@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/providers/items/episode_details_provider.dart';
@@ -77,19 +77,47 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                   OverviewHeader(
                     name: details.series?.name ?? "",
                     image: seasonDetails.images,
-                    centerButtons: episodeDetails.playAble
-                        ? MediaPlayButton(
-                            item: episodeDetails,
-                            onPressed: () async {
-                              await details.episode.play(context, ref);
-                              ref.read(providerInstance.notifier).fetchDetails(widget.item);
-                            },
-                            onLongPressed: () async {
-                              await details.episode.play(context, ref, showPlaybackOption: true);
-                              ref.read(providerInstance.notifier).fetchDetails(widget.item);
-                            },
-                          )
-                        : null,
+                    centerButtons: Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      alignment: wrapAlignment,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        episodeDetails.playAble
+                            ? MediaPlayButton(
+                                item: episodeDetails,
+                                onPressed: () async {
+                                  await details.episode.play(context, ref);
+                                  ref.read(providerInstance.notifier).fetchDetails(widget.item);
+                                },
+                                onLongPressed: () async {
+                                  await details.episode.play(context, ref, showPlaybackOption: true);
+                                  ref.read(providerInstance.notifier).fetchDetails(widget.item);
+                                },
+                              )
+                            : null,
+                        SelectableIconButton(
+                          onPressed: () async {
+                            await ref
+                                .read(userProvider.notifier)
+                                .setAsFavorite(!(episodeDetails.userData.isFavourite), episodeDetails.id);
+                          },
+                          selected: episodeDetails.userData.isFavourite,
+                          selectedIcon: IconsaxPlusBold.heart,
+                          icon: IconsaxPlusLinear.heart,
+                        ),
+                        SelectableIconButton(
+                          onPressed: () async {
+                            await ref
+                                .read(userProvider.notifier)
+                                .markAsPlayed(!(episodeDetails.userData.played), episodeDetails.id);
+                          },
+                          selected: episodeDetails.userData.played,
+                          selectedIcon: IconsaxPlusBold.tick_circle,
+                          icon: IconsaxPlusLinear.tick_circle,
+                        ),
+                      ].nonNulls.toList().addPadding(const EdgeInsets.symmetric(horizontal: 6)),
+                    ),
                     padding: padding,
                     subTitle: details.episode?.detailedName(context),
                     originalTitle: details.series?.originalTitle,
@@ -101,34 +129,6 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                     officialRating: details.series?.overview.parentalRating,
                     communityRating: details.series?.overview.communityRating,
                   ),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    alignment: wrapAlignment,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      SelectableIconButton(
-                        onPressed: () async {
-                          await ref
-                              .read(userProvider.notifier)
-                              .setAsFavorite(!(episodeDetails.userData.isFavourite), episodeDetails.id);
-                        },
-                        selected: episodeDetails.userData.isFavourite,
-                        selectedIcon: IconsaxPlusBold.heart,
-                        icon: IconsaxPlusLinear.heart,
-                      ),
-                      SelectableIconButton(
-                        onPressed: () async {
-                          await ref
-                              .read(userProvider.notifier)
-                              .markAsPlayed(!(episodeDetails.userData.played), episodeDetails.id);
-                        },
-                        selected: episodeDetails.userData.played,
-                        selectedIcon: IconsaxPlusBold.tick_circle,
-                        icon: IconsaxPlusLinear.tick_circle,
-                      ),
-                    ].addPadding(const EdgeInsets.symmetric(horizontal: 6)),
-                  ).padding(padding),
                   if (details.episode?.mediaStreams != null)
                     Padding(
                       padding: padding,

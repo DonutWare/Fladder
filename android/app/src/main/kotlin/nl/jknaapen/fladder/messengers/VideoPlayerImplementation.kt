@@ -35,12 +35,13 @@ class VideoPlayerImplementation(
 
     override fun open(url: String, play: Boolean) {
         try {
+            player?.clearMediaItems()
+
             playbackData.value?.let {
                 VideoPlayerObject.setAudioTrackIndex(it.defaultAudioTrack.toInt(), true)
                 VideoPlayerObject.setSubtitleTrackIndex(it.defaultSubtrack.toInt(), true)
             }
 
-            player?.clearMediaItems()
             val startPosition = playbackData.value?.startPosition
             println("Loading video in native $url")
             val subTitles = playbackData.value?.subtitleTracks ?: listOf()
@@ -56,8 +57,10 @@ class VideoPlayerImplementation(
                     }
                 )
                 .build()
+
             player?.setMediaItem(mediaItem, startPosition ?: 0L)
             player?.prepare()
+            
             if (play) {
                 player?.play()
             }

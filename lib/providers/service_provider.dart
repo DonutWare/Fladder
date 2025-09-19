@@ -1163,6 +1163,22 @@ class JellyService {
     );
     return _updateUserConfiguration(updated);
   }
+
+  Future<Response<QuickConnectResult>> quickConnectInitiate() async {
+    return api.quickConnectInitiatePost();
+  }
+
+  Future<Response<QuickConnectResult>> quickConnectConnectGet({
+    String? secret,
+  }) async {
+    return api.quickConnectConnectGet(secret: secret);
+  }
+
+  Future<Response<AuthenticationResult>> quickConnectAuthenticate(String secret) async {
+    return api.usersAuthenticateWithQuickConnectPost(
+      body: QuickConnectDto(secret: secret),
+    );
+  }
 }
 
 extension ParsedMap on Map<String, dynamic> {

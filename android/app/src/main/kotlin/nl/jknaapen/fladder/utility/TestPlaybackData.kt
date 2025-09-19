@@ -87,8 +87,6 @@ val testPlaybackData = PlayableData(
             time = 30.seconds.toLong(DurationUnit.MILLISECONDS),
         )
     ),
-    skipForward = 30.seconds.toLong(DurationUnit.MILLISECONDS),
-    skipBackward = 15.seconds.toLong(DurationUnit.MILLISECONDS),
     nextVideo = null,
     previousVideo = "Previous episode name",
     segments = listOf(),

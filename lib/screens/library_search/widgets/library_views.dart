@@ -23,6 +23,7 @@ import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/shared/media/poster_list_item.dart';
 import 'package:fladder/screens/shared/media/poster_widget.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
+import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
@@ -63,10 +64,7 @@ class LibraryViews extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 4),
       sliver: SliverAnimatedSwitcher(
         duration: const Duration(milliseconds: 250),
-        child: FocusTraversalGroup(
-          policy: ReadingOrderTraversalPolicy(),
-          child: _getWidget(ref, context),
-        ),
+        child: _getWidget(ref, context),
       ),
     );
   }
@@ -124,18 +122,21 @@ class LibraryViews extends ConsumerWidget {
             itemCount: items.length,
             itemBuilder: (context, index) {
               final item = items[index];
-              return PosterWidget(
-                key: Key(item.id),
-                poster: item,
-                maxLines: 2,
-                subTitle: item.subTitle(sortingOptions),
-                excludeActions: excludeActions,
-                otherActions: otherActions(item),
-                selected: selected.contains(item),
-                onUserDataChanged: (id, newData) => libraryProvider.updateUserData(id, newData),
-                onItemRemoved: (oldItem) => libraryProvider.removeFromPosters([oldItem.id]),
-                onItemUpdated: (newItem) => libraryProvider.updateItem(newItem),
-                onPressed: (action, item) async => onItemPressed(action, key, item, ref, context),
+              return FocusProvider(
+                autoFocus: index == 0,
+                child: PosterWidget(
+                  key: Key(item.id),
+                  poster: item,
+                  maxLines: 2,
+                  subTitle: item.subTitle(sortingOptions),
+                  excludeActions: excludeActions,
+                  otherActions: otherActions(item),
+                  selected: selected.contains(item),
+                  onUserDataChanged: (id, newData) => libraryProvider.updateUserData(id, newData),
+                  onItemRemoved: (oldItem) => libraryProvider.removeFromPosters([oldItem.id]),
+                  onItemUpdated: (newItem) => libraryProvider.updateItem(newItem),
+                  onPressed: (action, item) async => onItemPressed(action, key, item, ref, context),
+                ),
               );
             },
           );
@@ -167,16 +168,19 @@ class LibraryViews extends ConsumerWidget {
             itemCount: items.length,
             itemBuilder: (context, index) {
               final poster = items[index];
-              return PosterListItem(
-                poster: poster,
-                selected: selected.contains(poster),
-                excludeActions: excludeActions,
-                otherActions: otherActions(poster),
-                subTitle: poster.subTitle(sortingOptions),
-                onUserDataChanged: (id, newData) => libraryProvider.updateUserData(id, newData),
-                onItemRemoved: (oldItem) => libraryProvider.removeFromPosters([oldItem.id]),
-                onItemUpdated: (newItem) => libraryProvider.updateItem(newItem),
-                onPressed: (action, item) async => onItemPressed(action, key, item, ref, context),
+              return FocusProvider(
+                autoFocus: index == 0,
+                child: PosterListItem(
+                  poster: poster,
+                  selected: selected.contains(poster),
+                  excludeActions: excludeActions,
+                  otherActions: otherActions(poster),
+                  subTitle: poster.subTitle(sortingOptions),
+                  onUserDataChanged: (id, newData) => libraryProvider.updateUserData(id, newData),
+                  onItemRemoved: (oldItem) => libraryProvider.removeFromPosters([oldItem.id]),
+                  onItemUpdated: (newItem) => libraryProvider.updateItem(newItem),
+                  onPressed: (action, item) async => onItemPressed(action, key, item, ref, context),
+                ),
               );
             },
           );

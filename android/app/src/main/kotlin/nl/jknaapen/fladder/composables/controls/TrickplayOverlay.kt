@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import coil3.compose.AsyncImagePainter
 import coil3.compose.rememberAsyncImagePainter
 import coil3.request.ImageRequest
@@ -113,10 +114,14 @@ fun FilmstripTrickPlayOverlay(
             Thumbnail(
                 modifier = Modifier
                     .weight(1f)
+                    .zIndex(if (isCenter) 1f else 0f)
                     .fillMaxHeight()
                     .padding(horizontal = 4.dp)
+                    .padding(bottom = 8.dp)
                     .scale(scale)
-                    .graphicsLayer { this.alpha = alpha },
+                    .graphicsLayer {
+                        this.alpha = alpha
+                    },
                 trickPlayModel = trickPlayModel,
                 tileUrl = thumbnailData.tileUrl,
                 offset = thumbnailData.offset

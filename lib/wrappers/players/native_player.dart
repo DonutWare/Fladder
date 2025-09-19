@@ -107,6 +107,8 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
       startPosition: startPosition.inMilliseconds,
       description: model.item.overview.summary,
       defaultAudioTrack: model.mediaStreams?.defaultAudioStreamIndex ?? 1,
+      nextVideo: model.nextVideo?.name,
+      previousVideo: model.previousVideo?.name,
       audioTracks: model.audioStreams
               ?.map(
                 (audio) => AudioTrack(
@@ -120,8 +122,6 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
               .toList() ??
           [],
       defaultSubtrack: model.mediaStreams?.defaultSubStreamIndex ?? 1,
-      skipForward: const Duration(seconds: 30).inMilliseconds,
-      skipBackward: const Duration(seconds: 15).inMilliseconds,
       subtitleTracks: model.subStreams
               ?.map(
                 (sub) => SubtitleTrack(

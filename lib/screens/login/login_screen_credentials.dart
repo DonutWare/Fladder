@@ -7,11 +7,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/account_model.dart';
+import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/auth_provider.dart';
 import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/login/lock_screen.dart';
+import 'package:fladder/screens/login/login_code_dialog.dart';
 import 'package:fladder/screens/login/login_user_grid.dart';
 import 'package:fladder/screens/login/widgets/discover_servers_widget.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
@@ -46,6 +48,7 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
     final loading = ref.watch(authProvider.select((value) => value.loading));
     final hasBaseUrl = ref.watch(authProvider.select((value) => value.hasBaseUrl));
     final urlError = ref.watch(authProvider.select((value) => value.errorMessage));
+    final hasQuickConnect = ref.watch(authProvider.select((value) => value.serverLoginModel?.hasQuickConnect ?? false));
 
     ref.listen(
       authProvider.select((value) => value.serverLoginModel),
@@ -62,17 +65,16 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
       spacing: 16,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
+          spacing: 8,
           children: [
             if (existingUsers.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: IconButton.filledTonal(
-                  onPressed: () => provider.goUserSelect(),
-                  icon: const Icon(
-                    IconsaxPlusLinear.arrow_left_2,
-                  ),
+              IconButton.filledTonal(
+                onPressed: () => provider.goUserSelect(),
+                iconSize: 28,
+                icon: const Icon(
+                  IconsaxPlusLinear.arrow_left_2,
                 ),
               ),
             if (!hasBaseUrl)
@@ -89,16 +91,14 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
                   errorText: urlError,
                 ),
               ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Tooltip(
-                message: context.localized.retrievePublicListOfUsers,
-                waitDuration: const Duration(seconds: 1),
-                child: IconButton.filled(
-                  onPressed: () => provider.setServer(serverTextController.text),
-                  icon: const Icon(
-                    IconsaxPlusLinear.refresh,
-                  ),
+            Tooltip(
+              message: context.localized.retrievePublicListOfUsers,
+              waitDuration: const Duration(seconds: 1),
+              child: IconButton.filled(
+                onPressed: () => provider.setServer(serverTextController.text),
+                iconSize: 28,
+                icon: const Icon(
+                  IconsaxPlusLinear.refresh,
                 ),
               ),
             ),
@@ -133,7 +133,8 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
               AutofillGroup(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  spacing: 4,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  spacing: 8,
                   children: [
                     Flexible(
                       child: OutlinedTextField(
@@ -158,6 +159,10 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
                         label: context.localized.password,
                       ),
                     ),
+                    const Divider(
+                      indent: 32,
+                      endIndent: 32,
+                    ),
                     FilledButton(
                       onPressed: enterCredentialsTryLogin,
                       child: loggingIn
@@ -176,6 +181,34 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
                               ],
                             ),
                     ),
+                    if (hasQuickConnect)
+                      FilledButton(
+                        onPressed: () async {
+                          final result = await ref.read(jellyApiProvider).quickConnectInitiate();
+                          if (result.body != null) {
+                            await openLoginCodeDialog(
+                              context,
+                              quickConnectInfo: result.body!,
+                              onAuthenticated: (context, secret) async {
+                                context.pop();
+                                if (secret.isNotEmpty) {
+                                  await loginUsingSecret(secret);
+                                }
+                              },
+                            );
+                          } else {
+                            fladderSnackbar(context, title: context.localized.quickConnectPostFailed);
+                          }
+                        },
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(context.localized.quickConnectLoginUsingCode),
+                            const SizedBox(width: 8),
+                            const Icon(IconsaxPlusBold.scan_barcode),
+                          ],
+                        ),
+                      ),
                   ],
                 ),
               ),
@@ -193,27 +226,44 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
     );
   }
 
-  Future<Null> Function()? get enterCredentialsTryLogin => emptyFields()
-      ? null
-      : () async {
-          setState(() {
-            loggingIn = true;
-          });
-          final response = await ref.read(authProvider.notifier).authenticateByName(
-                usernameController.text,
-                passwordController.text,
-              );
-          if (response?.isSuccessful == false) {
-            fladderSnackbar(context,
-                title:
-                    "(${response?.base.statusCode}) ${response?.base.reasonPhrase ?? context.localized.somethingWentWrongPasswordCheck}");
-          } else if (response?.body != null) {
-            loggedInGoToHome(context, ref);
-          }
-          setState(() {
-            loggingIn = false;
-          });
-        };
+  Future<void> Function()? get enterCredentialsTryLogin => emptyFields() ? null : () => loginUsingCredentials();
+
+  Future<void> loginUsingCredentials() async {
+    setState(() {
+      loggingIn = true;
+    });
+    final response = await ref.read(authProvider.notifier).authenticateByName(
+          usernameController.text,
+          passwordController.text,
+        );
+    if (response?.isSuccessful == false) {
+      fladderSnackbar(context,
+          title:
+              "(${response?.base.statusCode}) ${response?.base.reasonPhrase ?? context.localized.somethingWentWrongPasswordCheck}");
+    } else if (response?.body != null) {
+      loggedInGoToHome(context, ref);
+    }
+    setState(() {
+      loggingIn = false;
+    });
+  }
+
+  Future<void> loginUsingSecret(String secret) async {
+    setState(() {
+      loggingIn = true;
+    });
+    final response = await ref.read(authProvider.notifier).authenticateUsingSecret(secret);
+    if (response?.isSuccessful == false) {
+      fladderSnackbar(context,
+          title:
+              "(${response?.base.statusCode}) ${response?.base.reasonPhrase ?? context.localized.somethingWentWrongPasswordCheck}");
+    } else if (response?.body != null) {
+      loggedInGoToHome(context, ref);
+    }
+    setState(() {
+      loggingIn = false;
+    });
+  }
 
   bool emptyFields() => usernameController.text.isEmpty;
 }

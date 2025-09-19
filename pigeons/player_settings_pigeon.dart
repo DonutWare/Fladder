@@ -13,9 +13,13 @@ import 'package:pigeon/pigeon.dart';
 )
 class PlayerSettings {
   final Map<SegmentType, SegmentSkip> skipTypes;
+    final int skipForward;
+  final int skipBackward;
 
   const PlayerSettings({
     required this.skipTypes,
+    required this.skipForward,
+    required this.skipBackward,
   });
 }
 

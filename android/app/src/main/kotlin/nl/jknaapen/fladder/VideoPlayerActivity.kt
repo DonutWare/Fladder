@@ -10,10 +10,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.annotation.OptIn
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.media3.common.util.UnstableApi
 import nl.jknaapen.fladder.composables.controls.CustomVideoControls
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.player.ExoPlayer
+import nl.jknaapen.fladder.utility.ScaledContent
+import nl.jknaapen.fladder.utility.leanBackEnabled
 
 class VideoPlayerActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
@@ -42,7 +45,10 @@ class VideoPlayerActivity : ComponentActivity() {
 @Composable
 fun VideoPlayerScreen(
 ) {
+    val leanBackEnabled = leanBackEnabled(LocalContext.current)
     ExoPlayer { player, trackSelector ->
-        CustomVideoControls(player, trackSelector)
+        ScaledContent(if (leanBackEnabled) 0.50f else 1f) {
+            CustomVideoControls(player, trackSelector)
+        }
     }
 }

@@ -7,14 +7,7 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
 
-data class InternalAudioTrack(
-    val rendererIndex: Int,
-    val groupIndex: Int,
-    val trackIndex: Int,
-    val label: String
-)
-
-data class InternalSubtitleTrack(
+data class InternalTrack(
     val rendererIndex: Int,
     val groupIndex: Int,
     val trackIndex: Int,
@@ -22,10 +15,10 @@ data class InternalSubtitleTrack(
 )
 
 @OptIn(UnstableApi::class)
-fun ExoPlayer.getAudioTracks(): List<InternalSubtitleTrack> {
+fun ExoPlayer.getAudioTracks(): List<InternalTrack> {
     val selector = trackSelector as? DefaultTrackSelector ?: return emptyList()
     val mapped = selector.currentMappedTrackInfo ?: return emptyList()
-    val result = mutableListOf<InternalSubtitleTrack>()
+    val result = mutableListOf<InternalTrack>()
 
     for (rendererIndex in 0 until mapped.rendererCount) {
         if (mapped.getRendererType(rendererIndex) != C.TRACK_TYPE_AUDIO) continue
@@ -36,7 +29,7 @@ fun ExoPlayer.getAudioTracks(): List<InternalSubtitleTrack> {
             for (trackIndex in 0 until group.length) {
                 val format = group.getFormat(trackIndex)
                 result.add(
-                    InternalSubtitleTrack(
+                    InternalTrack(
                         rendererIndex = rendererIndex,
                         groupIndex = groupIndex,
                         trackIndex = trackIndex,
@@ -50,7 +43,7 @@ fun ExoPlayer.getAudioTracks(): List<InternalSubtitleTrack> {
 }
 
 @OptIn(UnstableApi::class)
-fun ExoPlayer.setInternalAudioTrack(audioTrack: InternalSubtitleTrack) {
+fun ExoPlayer.setInternalAudioTrack(audioTrack: InternalTrack) {
     try {
         val selector = trackSelector as? DefaultTrackSelector ?: return
         val mapped = selector.currentMappedTrackInfo ?: return
@@ -86,10 +79,10 @@ fun ExoPlayer.clearAudioTrack(disable: Boolean = true) {
 }
 
 @OptIn(UnstableApi::class)
-fun ExoPlayer.getSubtitleTracks(): List<InternalSubtitleTrack> {
+fun ExoPlayer.getSubtitleTracks(): List<InternalTrack> {
     val selector = trackSelector as? DefaultTrackSelector ?: return emptyList()
     val mapped = selector.currentMappedTrackInfo ?: return emptyList()
-    val result = mutableListOf<InternalSubtitleTrack>()
+    val result = mutableListOf<InternalTrack>()
 
     for (rendererIndex in 0 until mapped.rendererCount) {
         if (mapped.getRendererType(rendererIndex) != C.TRACK_TYPE_TEXT) continue
@@ -100,7 +93,7 @@ fun ExoPlayer.getSubtitleTracks(): List<InternalSubtitleTrack> {
             for (trackIndex in 0 until group.length) {
                 val format = group.getFormat(trackIndex)
                 result.add(
-                    InternalSubtitleTrack(
+                    InternalTrack(
                         rendererIndex = rendererIndex,
                         groupIndex = groupIndex,
                         trackIndex = trackIndex,
@@ -136,7 +129,7 @@ fun ExoPlayer.enableSubtitles(language: String? = null) {
 
 
 @OptIn(UnstableApi::class)
-fun ExoPlayer.setInternalSubtitleTrack(subtitleTrack: InternalSubtitleTrack) {
+fun ExoPlayer.setInternalSubtitleTrack(subtitleTrack: InternalTrack) {
     try {
         enableSubtitles()
         val selector = trackSelector as? DefaultTrackSelector ?: return

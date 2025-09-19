@@ -23,8 +23,6 @@ class PlayableData {
   final TrickPlayModel? trickPlayModel;
   final List<Chapter> chapters;
   final List<MediaSegment> segments;
-  final int skipForward;
-  final int skipBackward;
   final String? previousVideo;
   final String? nextVideo;
   final String url;
@@ -43,8 +41,6 @@ class PlayableData {
     this.trickPlayModel,
     this.chapters = const [],
     this.segments = const [],
-    required this.skipForward,
-    required this.skipBackward,
     this.previousVideo,
     this.nextVideo,
     required this.url,
