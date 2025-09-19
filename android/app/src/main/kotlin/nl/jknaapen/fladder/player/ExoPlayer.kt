@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -36,11 +35,9 @@ import androidx.media3.ui.CaptionStyleCompat
 import androidx.media3.ui.PlayerView
 import io.github.peerless2012.ass.media.kt.buildWithAssSupport
 import io.github.peerless2012.ass.media.type.AssRenderType
-import kotlinx.coroutines.delay
 import nl.jknaapen.fladder.messengers.properlySetSubAndAudioTracks
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import java.io.File
-import kotlin.time.Duration.Companion.seconds
 
 val LocalPlayer = compositionLocalOf<ExoPlayer?> { null }
 
@@ -91,27 +88,22 @@ internal fun ExoPlayer(
         .setVideoScalingMode(C.VIDEO_SCALING_MODE_SCALE_TO_FIT)
         .buildWithAssSupport(context, AssRenderType.LEGACY)
 
-    LaunchedEffect(exoPlayer) {
-        while (true) {
-            if (exoPlayer.isPlaying) {
+    DisposableEffect(exoPlayer) {
+        val listener = object : Player.Listener {
+            override fun onPlaybackStateChanged(playbackState: Int) {
                 videoHost.setPlaybackState(
                     PlaybackState(
                         position = exoPlayer.currentPosition,
                         buffered = exoPlayer.bufferedPosition,
                         duration = exoPlayer.duration,
                         playing = exoPlayer.isPlaying,
-                        buffering = exoPlayer.playbackState == Player.STATE_BUFFERING,
-                        completed = exoPlayer.playbackState == Player.STATE_ENDED,
-                        failed = exoPlayer.playbackState == Player.STATE_IDLE
+                        buffering = playbackState == Player.STATE_BUFFERING,
+                        completed = playbackState == Player.STATE_ENDED,
+                        failed = playbackState == Player.STATE_IDLE
                     )
                 )
             }
-            delay(1.seconds)
-        }
-    }
 
-    DisposableEffect(exoPlayer) {
-        val listener = object : Player.Listener {
             override fun onEvents(player: Player, events: Player.Events) {
                 super.onEvents(player, events)
                 videoHost.setPlaybackState(

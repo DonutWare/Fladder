@@ -24,7 +24,7 @@
         android:banner="@drawable/app_banner"
         android:usesCleartextTraffic="true"
         android:enableOnBackInvokedCallback="true">
-        
+
         <activity
             android:name=".MainActivity"
             android:exported="true"

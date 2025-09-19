@@ -25,21 +25,24 @@ class PosterWidget extends ConsumerWidget {
   final Function(ItemBaseModel newItem)? onItemUpdated;
   final Function(ItemBaseModel oldItem)? onItemRemoved;
   final Function(VoidCallback action, ItemBaseModel item)? onPressed;
-  const PosterWidget(
-      {required this.poster,
-      this.subTitle,
-      this.maxLines = 3,
-      this.selected,
-      this.aspectRatio,
-      this.inlineTitle = false,
-      this.underTitle = true,
-      this.excludeActions = const {},
-      this.otherActions = const [],
-      this.onUserDataChanged,
-      this.onItemUpdated,
-      this.onItemRemoved,
-      this.onPressed,
-      super.key});
+  final bool primaryPosters;
+  const PosterWidget({
+    required this.poster,
+    this.subTitle,
+    this.maxLines = 3,
+    this.selected,
+    this.aspectRatio,
+    this.inlineTitle = false,
+    this.underTitle = true,
+    this.excludeActions = const {},
+    this.otherActions = const [],
+    this.onUserDataChanged,
+    this.onItemUpdated,
+    this.onItemRemoved,
+    this.onPressed,
+    this.primaryPosters = false,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -61,6 +64,7 @@ class PosterWidget extends ConsumerWidget {
               onItemRemoved: onItemRemoved,
               onItemUpdated: onItemUpdated,
               onPressed: onPressed,
+              primaryPosters: primaryPosters,
             ),
           ),
           if (!inlineTitle && underTitle)

@@ -49,6 +49,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
 
   final textController = TextEditingController();
 
+  ItemBaseModel? selectedPoster;
+
   @override
   void initState() {
     super.initState();
@@ -74,6 +76,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     final padding = AdaptiveLayout.adaptivePadding(context);
+    final bannerType = ref.watch(homeSettingsProvider.select((value) => value.homeBanner));
 
     final dashboardData = ref.watch(dashboardProvider);
     final views = ref.watch(viewsProvider);
@@ -91,130 +94,145 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       HomeCarouselSettings.cont => allResume,
     };
 
+    final viewSize = AdaptiveLayout.viewSizeOf(context);
+
     return MediaQuery.removeViewInsets(
       context: context,
       child: NestedScaffold(
-        background: BackgroundImage(items: [...homeCarouselItems, ...dashboardData.nextUp, ...allResume]),
+        background: BackgroundImage(
+            items: selectedPoster != null
+                ? [selectedPoster!]
+                : [...homeCarouselItems, ...dashboardData.nextUp, ...allResume]),
         body: PullToRefresh(
           refreshKey: _refreshIndicatorKey,
           displacement: 80 + MediaQuery.of(context).viewPadding.top,
           onRefresh: () async => await _refreshHome(),
           child: PinchPosterZoom(
             scaleDifference: (difference) => ref.read(clientSettingsProvider.notifier).addPosterSize(difference),
-            child: CustomScrollView(
-              controller: AdaptiveLayout.scrollOf(context, HomeTabs.dashboard),
-              physics: const AlwaysScrollableScrollPhysics(),
-              slivers: [
-                const DefaultSliverTopBadding(),
-                if (AdaptiveLayout.viewSizeOf(context) == ViewSize.phone)
-                  NestedSliverAppBar(
-                    route: LibrarySearchRoute(),
-                    parent: context,
-                  ),
-                if (homeBanner && homeCarouselItems.isNotEmpty) ...{
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: AdaptiveLayout.adaptivePadding(
-                        context,
-                        horizontalPadding: 0,
+            child: FocusTraversalGroup(
+              policy: OrderedTraversalPolicy(),
+              child: CustomScrollView(
+                controller: AdaptiveLayout.scrollOf(context, HomeTabs.dashboard),
+                physics: const AlwaysScrollableScrollPhysics(),
+                slivers: [
+                  if (viewSize != ViewSize.television) const DefaultSliverTopBadding(),
+                  if (viewSize == ViewSize.phone)
+                    NestedSliverAppBar(
+                      route: LibrarySearchRoute(),
+                      parent: context,
+                    ),
+                  if (homeBanner && homeCarouselItems.isNotEmpty) ...{
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: AdaptiveLayout.adaptivePadding(
+                          context,
+                          horizontalPadding: 0,
+                        ),
+                        child: HomeBannerWidget(
+                          posters: homeCarouselItems,
+                          onSelect: (selected) {
+                            setState(() {
+                              selectedPoster = selected;
+                            });
+                          },
+                        ),
                       ),
-                      child: HomeBannerWidget(posters: homeCarouselItems),
                     ),
-                  ),
-                },
-                if (AdaptiveLayout.of(context).isDesktop)
-                  const SliverToBoxAdapter(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        PosterSizeWidget(),
-                      ],
+                  },
+                  if (AdaptiveLayout.of(context).isDesktop)
+                    const SliverToBoxAdapter(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          PosterSizeWidget(),
+                        ],
+                      ),
                     ),
-                  ),
-                ...[
-                  if (resumeVideo.isNotEmpty &&
-                      (homeSettings.nextUp == HomeNextUp.cont || homeSettings.nextUp == HomeNextUp.separate))
-                    PosterRow(
-                      contentPadding: padding,
-                      label: context.localized.dashboardContinueWatching,
-                      posters: resumeVideo,
-                    ),
-                  if (resumeAudio.isNotEmpty &&
-                      (homeSettings.nextUp == HomeNextUp.cont || homeSettings.nextUp == HomeNextUp.separate))
-                    PosterRow(
-                      contentPadding: padding,
-                      label: context.localized.dashboardContinueListening,
-                      posters: resumeAudio,
-                    ),
-                  if (resumeBooks.isNotEmpty &&
-                      (homeSettings.nextUp == HomeNextUp.cont || homeSettings.nextUp == HomeNextUp.separate))
-                    PosterRow(
-                      contentPadding: padding,
-                      label: context.localized.dashboardContinueReading,
-                      posters: resumeBooks,
-                    ),
-                  if (dashboardData.nextUp.isNotEmpty &&
-                      (homeSettings.nextUp == HomeNextUp.nextUp || homeSettings.nextUp == HomeNextUp.separate))
-                    PosterRow(
-                      contentPadding: padding,
-                      label: context.localized.nextUp,
-                      posters: dashboardData.nextUp,
-                    ),
-                  if ([...allResume, ...dashboardData.nextUp].isNotEmpty && homeSettings.nextUp == HomeNextUp.combined)
-                    PosterRow(
-                      contentPadding: padding,
-                      label: context.localized.dashboardContinue,
-                      posters: [...allResume, ...dashboardData.nextUp],
-                    ),
-                  ...views.dashboardViews.where((element) => element.recentlyAdded.isNotEmpty).map(
-                        (view) => PosterRow(
-                          contentPadding: padding,
-                          label: context.localized.dashboardRecentlyAdded(view.name),
-                          collectionAspectRatio: view.collectionType.aspectRatio,
-                          onLabelClick: () => context.router.push(
-                            LibrarySearchRoute(
-                              viewModelId: view.id,
-                              types: switch (view.collectionType) {
-                                CollectionType.tvshows => {
-                                    FladderItemType.episode: true,
-                                  },
-                                _ => {},
-                              },
-                              sortingOptions: switch (view.collectionType) {
-                                CollectionType.books ||
-                                CollectionType.boxsets ||
-                                CollectionType.folders ||
-                                CollectionType.music =>
-                                  SortingOptions.dateLastContentAdded,
-                                _ => SortingOptions.dateAdded,
-                              },
-                              sortOrder: SortingOrder.descending,
-                              recursive: true,
+                  ...[
+                    if (resumeVideo.isNotEmpty &&
+                        (homeSettings.nextUp == HomeNextUp.cont || homeSettings.nextUp == HomeNextUp.separate))
+                      PosterRow(
+                        contentPadding: padding,
+                        label: context.localized.dashboardContinueWatching,
+                        posters: resumeVideo,
+                      ),
+                    if (resumeAudio.isNotEmpty &&
+                        (homeSettings.nextUp == HomeNextUp.cont || homeSettings.nextUp == HomeNextUp.separate))
+                      PosterRow(
+                        contentPadding: padding,
+                        label: context.localized.dashboardContinueListening,
+                        posters: resumeAudio,
+                      ),
+                    if (resumeBooks.isNotEmpty &&
+                        (homeSettings.nextUp == HomeNextUp.cont || homeSettings.nextUp == HomeNextUp.separate))
+                      PosterRow(
+                        contentPadding: padding,
+                        label: context.localized.dashboardContinueReading,
+                        posters: resumeBooks,
+                      ),
+                    if (dashboardData.nextUp.isNotEmpty &&
+                        (homeSettings.nextUp == HomeNextUp.nextUp || homeSettings.nextUp == HomeNextUp.separate))
+                      PosterRow(
+                        contentPadding: padding,
+                        label: context.localized.nextUp,
+                        posters: dashboardData.nextUp,
+                      ),
+                    if ([...allResume, ...dashboardData.nextUp].isNotEmpty &&
+                        homeSettings.nextUp == HomeNextUp.combined)
+                      PosterRow(
+                        contentPadding: padding,
+                        label: context.localized.dashboardContinue,
+                        posters: [...allResume, ...dashboardData.nextUp],
+                      ),
+                    ...views.dashboardViews.where((element) => element.recentlyAdded.isNotEmpty).map(
+                          (view) => PosterRow(
+                            contentPadding: padding,
+                            label: context.localized.dashboardRecentlyAdded(view.name),
+                            collectionAspectRatio: view.collectionType.aspectRatio,
+                            onLabelClick: () => context.router.push(
+                              LibrarySearchRoute(
+                                viewModelId: view.id,
+                                types: switch (view.collectionType) {
+                                  CollectionType.tvshows => {
+                                      FladderItemType.episode: true,
+                                    },
+                                  _ => {},
+                                },
+                                sortingOptions: switch (view.collectionType) {
+                                  CollectionType.books ||
+                                  CollectionType.boxsets ||
+                                  CollectionType.folders ||
+                                  CollectionType.music =>
+                                    SortingOptions.dateLastContentAdded,
+                                  _ => SortingOptions.dateAdded,
+                                },
+                                sortOrder: SortingOrder.descending,
+                                recursive: true,
+                              ),
                             ),
+                            posters: view.recentlyAdded,
                           ),
-                          posters: view.recentlyAdded,
+                        ),
+                  ]
+                      .nonNulls
+                      .toList()
+                      .mapIndexed(
+                        (index, child) => SliverToBoxAdapter(
+                          child: FocusProvider(
+                            autoFocus: bannerType != HomeBanner.detailedBanner ? index == 0 : false,
+                            child: child,
+                          ),
+                        ),
+                      )
+                      .toList()
+                      .addInBetween(
+                        const SliverToBoxAdapter(
+                          child: SizedBox(height: 16),
                         ),
                       ),
-                ]
-                    .nonNulls
-                    .toList()
-                    .mapIndexed(
-                      (index, e) => SliverToBoxAdapter(
-                        child: FocusProvider(
-                          hasFocus: false,
-                          autoFocus: index == 0,
-                          child: e,
-                        ),
-                      ),
-                    )
-                    .toList()
-                    .addInBetween(
-                      const SliverToBoxAdapter(
-                        child: SizedBox(height: 16),
-                      ),
-                    ),
-                const DefautlSliverBottomPadding(),
-              ],
+                  const DefautlSliverBottomPadding(),
+                ],
+              ),
             ),
           ),
         ),

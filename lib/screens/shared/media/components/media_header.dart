@@ -9,10 +9,12 @@ class MediaHeader extends ConsumerWidget {
   final String name;
   final ImageData? logo;
   final Function()? onTap;
+  final Alignment alignment;
   const MediaHeader({
     required this.name,
     required this.logo,
     this.onTap,
+    this.alignment = Alignment.bottomCenter,
     super.key,
   });
 
@@ -48,7 +50,7 @@ class MediaHeader extends ConsumerWidget {
                   ? FladderImage(
                       image: logo,
                       disableBlur: true,
-                      alignment: Alignment.bottomCenter,
+                      alignment: alignment,
                       imageErrorBuilder: (context, object, stack) => textWidget,
                       placeHolder: const SizedBox(height: 0),
                       fit: BoxFit.contain,

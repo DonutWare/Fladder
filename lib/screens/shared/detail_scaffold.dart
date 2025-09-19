@@ -63,10 +63,11 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
 
   @override
   Widget build(BuildContext context) {
-    final padding = EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).width / 25);
+    final size = MediaQuery.sizeOf(context);
+    final padding = EdgeInsets.symmetric(horizontal: size.width / 25);
     final backGroundColor = Theme.of(context).colorScheme.surface.withValues(alpha: 0.8);
-    final minHeight = 450.0.clamp(0, MediaQuery.sizeOf(context).height).toDouble();
-    final maxHeight = MediaQuery.sizeOf(context).height - 10;
+    final minHeight = 450.0.clamp(0, size.height).toDouble();
+    final maxHeight = size.height - 10;
     final sideBarPadding = AdaptiveLayout.of(context).sideBarWidth;
     return PullToRefresh(
       onRefresh: () async {
@@ -91,7 +92,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                 children: [
                   SizedBox(
                     height: maxHeight,
-                    width: MediaQuery.sizeOf(context).width,
+                    width: size.width,
                     child: FladderImage(
                       image: backgroundImage,
                       blurOnly: true,
@@ -153,8 +154,8 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                     ),
                   ),
                   Container(
-                    height: MediaQuery.sizeOf(context).height,
-                    width: MediaQuery.sizeOf(context).width,
+                    height: size.height,
+                    width: size.width,
                     color: widget.backgroundColor,
                   ),
                   Padding(
@@ -166,8 +167,8 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                       autofocus: true,
                       child: ConstrainedBox(
                         constraints: BoxConstraints(
-                          minHeight: MediaQuery.sizeOf(context).height,
-                          maxWidth: MediaQuery.sizeOf(context).width,
+                          minHeight: size.height,
+                          maxWidth: size.width,
                         ),
                         child: widget.content(
                           padding.copyWith(

@@ -16,6 +16,7 @@ class PosterRow extends ConsumerWidget {
   final Function()? onLabelClick;
   final EdgeInsets contentPadding;
   final Function(ItemBaseModel focused)? onFocused;
+  final bool primaryPosters;
   const PosterRow({
     required this.posters,
     this.contentPadding = const EdgeInsets.symmetric(horizontal: 16),
@@ -23,16 +24,17 @@ class PosterRow extends ConsumerWidget {
     this.collectionAspectRatio,
     this.onLabelClick,
     this.onFocused,
+    this.primaryPosters = false,
     super.key,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dominantRatio = collectionAspectRatio ?? posters.getMostCommonType.aspectRatio;
+    final dominantRatio = primaryPosters ? 1.2 : collectionAspectRatio ?? posters.getMostCommonType.aspectRatio;
     return HorizontalList(
       contentPadding: contentPadding,
       label: label,
-      autoFocus: ref.read(argumentsStateProvider).htpcMode ? FocusProvider.hasAutoFocus(context) : false,
+      autoFocus: ref.read(argumentsStateProvider).htpcMode ? FocusProvider.autoFocusOf(context) : false,
       onLabelClick: onLabelClick,
       dominantRatio: dominantRatio,
       items: posters,
@@ -43,6 +45,7 @@ class PosterRow extends ConsumerWidget {
           key: Key(poster.id),
           poster: poster,
           aspectRatio: dominantRatio,
+          primaryPosters: primaryPosters,
         );
       },
     );

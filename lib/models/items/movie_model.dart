@@ -75,6 +75,11 @@ class MovieModel extends ItemStreamModel with MovieModelMappable {
   MediaStreamsModel? get streamModel => mediaStreams;
 
   @override
+  String? label(BuildContext context) {
+    return name;
+  }
+
+  @override
   bool get syncAble => true;
 
   factory MovieModel.fromBaseDto(dto.BaseItemDto item, Ref ref) {

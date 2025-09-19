@@ -252,7 +252,7 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
                   Scrollable.ensureVisible(
                     context,
                     duration: const Duration(milliseconds: 250),
-                    alignment: 0.5,
+                    alignment: FocusProvider.focusPositionOf(context),
                     curve: Curves.easeOut,
                   );
                 }

@@ -178,15 +178,16 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    final leanBackMode = ref.watch(argumentsStateProvider).leanBackMode;
+    final arguments = ref.watch(argumentsStateProvider);
+    final htpcMode = arguments.htpcMode;
     final acceptedLayouts =
-        leanBackMode ? {LayoutMode.dual} : ref.watch(homeSettingsProvider.select((value) => value.screenLayouts));
+        htpcMode ? {LayoutMode.dual} : ref.watch(homeSettingsProvider.select((value) => value.screenLayouts));
     final acceptedViewSizes =
-        leanBackMode ? {ViewSize.television} : ref.watch(homeSettingsProvider.select((value) => value.layoutStates));
+        htpcMode ? {ViewSize.television} : ref.watch(homeSettingsProvider.select((value) => value.layoutStates));
 
     final selectedViewSize = selectAvailableOrSmaller<ViewSize>(viewSize, acceptedViewSizes, ViewSize.values);
     final selectedLayoutMode = selectAvailableOrSmaller<LayoutMode>(layoutMode, acceptedLayouts, LayoutMode.values);
-    final input = leanBackMode
+    final input = htpcMode
         ? InputDevice.dpad
         : (isDesktop || kIsWeb)
             ? InputDevice.pointer

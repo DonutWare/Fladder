@@ -16,11 +16,13 @@ final acceptKeys = {
 class FocusProvider extends InheritedWidget {
   final bool hasFocus;
   final bool autoFocus;
+  final double focusPosition;
 
   const FocusProvider({
     super.key,
     this.hasFocus = false,
     this.autoFocus = false,
+    this.focusPosition = 0.5,
     required super.child,
   });
 
@@ -29,9 +31,14 @@ class FocusProvider extends InheritedWidget {
     return widget?.hasFocus ?? false;
   }
 
-  static bool hasAutoFocus(BuildContext context) {
+  static bool autoFocusOf(BuildContext context) {
     final widget = context.dependOnInheritedWidgetOfExactType<FocusProvider>();
     return widget?.autoFocus ?? false;
+  }
+
+  static double focusPositionOf(BuildContext context) {
+    final widget = context.dependOnInheritedWidgetOfExactType<FocusProvider>();
+    return widget?.focusPosition ?? 0.5;
   }
 
   @override
@@ -117,7 +124,7 @@ class FocusButtonState extends State<FocusButton> {
     super.initState();
     HardwareKeyboard.instance.addHandler(_handleKey);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (FocusProvider.hasAutoFocus(context)) {
+      if (FocusProvider.autoFocusOf(context)) {
         focusNode.requestFocus();
       }
     });

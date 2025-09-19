@@ -31,7 +31,7 @@ class _BackgroundImageState extends ConsumerState<BackgroundImage> {
   @override
   void didUpdateWidget(covariant BackgroundImage oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.items.length != widget.items.length || oldWidget.images.length != widget.images.length) {
+    if (!oldWidget.items.equals(widget.items)) {
       updateItems();
     }
   }

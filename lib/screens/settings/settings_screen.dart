@@ -57,9 +57,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Expanded(flex: 4, child: _leftPane(context)),
+                    Expanded(flex: 2, child: _leftPane(context)),
                     Expanded(
-                      flex: 5,
+                      flex: 3,
                       child: content,
                     ),
                   ],

@@ -37,6 +37,7 @@ import 'package:fladder/util/fladder_config.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/util/themes_data.dart';
+import 'package:fladder/widgets/media_query_scaler.dart';
 
 bool get _isDesktop {
   if (kIsWeb) return false;
@@ -88,7 +89,7 @@ void main(List<String> args) async {
   );
 
   // Check if running on android TV
-  final leanBackEnabled = true;
+  final leanBackEnabled = Platform.isAndroid ? await NativeVideoActivity().isLeanBackEnabled() : false;
 
   runApp(
     ProviderScope(
@@ -284,9 +285,12 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
               }
               return locale;
             },
-            builder: (context, child) => LocalizationContextWrapper(
-              child: ScaffoldMessenger(child: child ?? Container()),
-              currentLocale: language,
+            builder: (context, child) => MediaQueryScaler(
+              child: LocalizationContextWrapper(
+                child: ScaffoldMessenger(child: child ?? Container()),
+                currentLocale: language,
+              ),
+              enable: ref.read(argumentsStateProvider).leanBackMode,
             ),
             debugShowCheckedModeBanner: false,
             darkTheme: darkTheme.copyWith(

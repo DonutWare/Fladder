@@ -34,6 +34,7 @@ class PosterImage extends ConsumerStatefulWidget {
   final Function(ItemBaseModel newItem)? onItemUpdated;
   final Function(ItemBaseModel oldItem)? onItemRemoved;
   final Function(Function() action, ItemBaseModel item)? onPressed;
+  final bool primaryPosters;
   const PosterImage({
     required this.poster,
     this.selected,
@@ -45,6 +46,7 @@ class PosterImage extends ConsumerStatefulWidget {
     this.otherActions = const [],
     this.onPressed,
     this.onUserDataChanged,
+    this.primaryPosters = false,
     super.key,
   });
 
@@ -94,7 +96,9 @@ class _PosterImageState extends ConsumerState<PosterImage> {
           fit: StackFit.expand,
           children: [
             FladderImage(
-              image: widget.poster.getPosters?.primary ?? widget.poster.getPosters?.backDrop?.lastOrNull,
+              image: widget.primaryPosters
+                  ? widget.poster.images?.primary
+                  : widget.poster.getPosters?.primary ?? widget.poster.getPosters?.backDrop?.lastOrNull,
               placeHolder: PosterPlaceholder(item: widget.poster),
             ),
             if (poster.userData.progress > 0 && widget.poster.type == FladderItemType.book)

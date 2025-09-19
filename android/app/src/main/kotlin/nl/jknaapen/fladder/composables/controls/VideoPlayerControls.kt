@@ -82,7 +82,7 @@ fun CustomVideoControls(
     exoPlayer: ExoPlayer,
     trackSelector: DefaultTrackSelector,
 ) {
-    var hideControls by remember { mutableStateOf(false) }
+    var showControls by remember { mutableStateOf(false) }
     val lastInteraction = remember { mutableLongStateOf(System.currentTimeMillis()) }
 
     val showAudioDialog = remember { mutableStateOf(false) }
@@ -93,24 +93,24 @@ fun CustomVideoControls(
 
     val activity = LocalActivity.current
 
-    ImmersiveSystemBars(isImmersive = hideControls)
+    ImmersiveSystemBars(isImmersive = showControls)
 
     BackHandler(
-        enabled = !hideControls
+        enabled = showControls
     ) {
-        hideControls = true
+        showControls = false
     }
 
     // Restart the hide timer whenever `lastInteraction` changes.
     LaunchedEffect(lastInteraction.longValue) {
         delay(5.seconds)
-        hideControls = true
+        showControls = false
     }
 
     val bottomControlFocusRequester = remember { FocusRequester() }
 
     fun updateLastInteraction() {
-        hideControls = false
+        showControls = true
         lastInteraction.longValue = System.currentTimeMillis()
     }
 
@@ -132,13 +132,13 @@ fun CustomVideoControls(
                 indication = null,
                 interactionSource = interactionSource,
             ) {
-                hideControls = !hideControls
-                if (!hideControls) lastInteraction.longValue = System.currentTimeMillis()
+                showControls = !showControls
+                if (showControls) lastInteraction.longValue = System.currentTimeMillis()
             },
         contentAlignment = Alignment.BottomCenter
     ) {
         AnimatedVisibility(
-            visible = !hideControls,
+            visible = showControls,
             enter = fadeIn(),
             exit = fadeOut(),
         ) {

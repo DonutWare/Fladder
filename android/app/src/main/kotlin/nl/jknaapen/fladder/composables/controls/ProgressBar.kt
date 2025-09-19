@@ -43,6 +43,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.Key.Companion.Back
+import androidx.compose.ui.input.key.Key.Companion.ButtonSelect
 import androidx.compose.ui.input.key.Key.Companion.DirectionLeft
 import androidx.compose.ui.input.key.Key.Companion.DirectionRight
 import androidx.compose.ui.input.key.Key.Companion.Enter
@@ -375,7 +376,7 @@ internal fun RowScope.SimpleProgressBar(
                             true
                         }
 
-                        Enter, Key(13), Spacebar -> {
+                        Enter, Key(13), Spacebar, ButtonSelect -> {
                             if (scrubbingTimeLine) {
                                 player.seekTo(tempPosition)
                                 player.play()
