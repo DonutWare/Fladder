@@ -1464,5 +1464,17 @@
         }
     },
     "keyboardShortCuts": "键盘快捷键",
-    "@keyboardShortCuts": {}
+    "@keyboardShortCuts": {},
+    "speedUp": "加速",
+    "@speedUp": {},
+    "speedDown": "减速",
+    "@speedDown": {},
+    "speedIndicator": "播放速率：{speed}",
+    "@speedIndicator": {
+        "placeholders": {
+            "speed": {
+                "type": "double"
+            }
+        }
+    }
 }
