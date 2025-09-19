@@ -71,13 +71,13 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
 
   void steppedSpeed(double i) {
     var value = double.parse(
-      ((ref.read(playbackRateProvider) + i).clamp(0.25, 3))
-          .toStringAsFixed(2),
+      ((ref.read(playbackRateProvider) + i).clamp(0.25, 3)).toStringAsFixed(2),
     );
 
-    if ((value - 1.0).abs() < 0.1) {
+    if ((value - 1.0).abs() <= 0.06) {
       value = 1.0;
     }
+
     ref.read(playbackRateProvider.notifier).state = value;
     ref.read(videoPlayerProvider).setSpeed(value);
   }
@@ -86,7 +86,7 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
       state = state.copyWith(allowedOrientations: orientation);
 
   void setShortcuts(MapEntry<VideoHotKeys, KeyCombination> newEntry) {
-      state = state.copyWith(hotKeys: state.hotKeys.setOrRemove(newEntry, state.defaultShortCuts));
+    state = state.copyWith(hotKeys: state.hotKeys.setOrRemove(newEntry, state.defaultShortCuts));
   }
 
   void nextChapter() {
