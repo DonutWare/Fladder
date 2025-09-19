@@ -1473,5 +1473,17 @@
         }
     },
     "keyboardShortCuts": "Сполучення клавіш",
-    "@keyboardShortCuts": {}
+    "@keyboardShortCuts": {},
+    "speedUp": "Прискорення",
+    "@speedUp": {},
+    "speedDown": "Зменшення швидкості",
+    "@speedDown": {},
+    "speedIndicator": "Швидкість відтворення: {speed}",
+    "@speedIndicator": {
+        "placeholders": {
+            "speed": {
+                "type": "double"
+            }
+        }
+    }
 }
