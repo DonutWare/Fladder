@@ -208,7 +208,7 @@ jobs:
         run: flutter build windows --build-number=${{ github.run_number }}
 
       - name: Compile Inno Setup installer
-        uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
+        uses: Minionguyjpro/Inno-Setup-Action@v1.2.7
         with:
           path: windows/windows_setup.iss
           options: /O+ /DFLADDER_VERSION="${{ needs.fetch-info.outputs.version_name }}"
