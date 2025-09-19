@@ -1303,6 +1303,8 @@
   "mute": "Mute",
   "volumeUp": "Volume Up",
   "volumeDown": "Volume Down",
+  "speedUp": "Speed Up",
+  "speedDown": "Speed Down",
   "nextVideo": "Next Video",
   "prevVideo": "Previous Video",
   "nextChapter": "Next Chapter",
@@ -1324,6 +1326,14 @@
     "placeholders": {
       "volume": {
         "type": "int"
+      }
+    }
+  },
+  "speedIndicator": "Playback rate: {speed}",
+  "@speedIndicator": {
+    "placeholders": {
+      "speed": {
+        "type": "double"
       }
     }
   }

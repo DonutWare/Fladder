@@ -138,6 +138,8 @@ const _$VideoHotKeysEnumMap = {
   VideoHotKeys.mute: 'mute',
   VideoHotKeys.volumeUp: 'volumeUp',
   VideoHotKeys.volumeDown: 'volumeDown',
+  VideoHotKeys.speedUp: 'speedUp',
+  VideoHotKeys.speedDown: 'speedDown',
   VideoHotKeys.nextVideo: 'nextVideo',
   VideoHotKeys.prevVideo: 'prevVideo',
   VideoHotKeys.nextChapter: 'nextChapter',

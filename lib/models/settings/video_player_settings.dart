@@ -20,6 +20,8 @@ enum VideoHotKeys {
   mute,
   volumeUp,
   volumeDown,
+  speedUp,
+  speedDown,
   nextVideo,
   prevVideo,
   nextChapter,
@@ -38,6 +40,8 @@ enum VideoHotKeys {
       VideoHotKeys.mute => context.localized.mute,
       VideoHotKeys.volumeUp => context.localized.volumeUp,
       VideoHotKeys.volumeDown => context.localized.volumeDown,
+      VideoHotKeys.speedUp => context.localized.speedUp,
+      VideoHotKeys.speedDown => context.localized.speedDown,
       VideoHotKeys.nextVideo => context.localized.nextVideo,
       VideoHotKeys.prevVideo => context.localized.prevVideo,
       VideoHotKeys.nextChapter => context.localized.nextChapter,
@@ -180,6 +184,8 @@ Map<VideoHotKeys, KeyCombination> get _defaultVideoHotKeys => {
           VideoHotKeys.mute => KeyCombination(key: LogicalKeyboardKey.keyM),
           VideoHotKeys.volumeUp => KeyCombination(key: LogicalKeyboardKey.arrowUp),
           VideoHotKeys.volumeDown => KeyCombination(key: LogicalKeyboardKey.arrowDown),
+          VideoHotKeys.speedUp => KeyCombination(key: LogicalKeyboardKey.arrowUp, modifier: LogicalKeyboardKey.controlLeft),
+          VideoHotKeys.speedDown => KeyCombination(key: LogicalKeyboardKey.arrowDown, modifier: LogicalKeyboardKey.controlLeft),
           VideoHotKeys.prevVideo =>
             KeyCombination(key: LogicalKeyboardKey.keyP, modifier: LogicalKeyboardKey.shiftLeft),
           VideoHotKeys.nextVideo =>
