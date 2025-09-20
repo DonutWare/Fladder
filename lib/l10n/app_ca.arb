@@ -810,6 +810,422 @@
     },
     "subtitleConfigurator": "Configurador de subtítols",
     "@subtitleConfigurator": {},
-    "syncDetails": "Detalls de Sync",
-    "@syncDetails": {}
+    "syncDetails": "Detalls de sincronitzat",
+    "@syncDetails": {},
+    "settingsShowScaleSlider": "Mostrar diapositives mida poster",
+    "@settingsShowScaleSlider": {},
+    "subtitleConfiguratorPlaceHolder": "Això és un text marcador de posició, no hi ha res a veure aquí.",
+    "@subtitleConfiguratorPlaceHolder": {},
+    "subtitles": "Subtítols",
+    "@subtitles": {},
+    "switchUser": "Canviar d'usuari",
+    "@switchUser": {},
+    "sync": "Sincronitzar",
+    "@sync": {},
+    "syncDeleteItemDesc": "Esborrar totes les dades sincronitzades de {item}?",
+    "@syncDeleteItemDesc": {
+        "description": "Sync delete item pop-up window",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "syncDeleteItemTitle": "Esborrar element sincronitzat",
+    "@syncDeleteItemTitle": {},
+    "syncDeletePopupPermanent": "Aquesta acció es permanent i esborrarà tots els arxius sincronitzats localment",
+    "@syncDeletePopupPermanent": {},
+    "syncOpenParent": "Obrir superior",
+    "@syncOpenParent": {},
+    "syncRemoveDataDesc": "Esborrar dades de vídeos sincronitzats? Aquesta acció serà permanent i haureu de resincronitzar els arxius",
+    "@syncRemoveDataDesc": {},
+    "syncRemoveDataTitle": "Esborrar dades sincronitzades?",
+    "@syncRemoveDataTitle": {},
+    "syncedItems": "Elements sincronitzats",
+    "@syncedItems": {},
+    "tag": "{count, plural, one{Etiqueta} other{Etiquetes}}",
+    "@tag": {
+        "description": "tag",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "theme": "Tema",
+    "@theme": {},
+    "themeColor": "Color del tema",
+    "@themeColor": {},
+    "themeModeDark": "Fosc",
+    "@themeModeDark": {},
+    "themeModeLight": "Clar",
+    "@themeModeLight": {},
+    "themeModeSystem": "Sistema",
+    "@themeModeSystem": {},
+    "timeAndAnnotation": "{minutes} i {seconds}",
+    "@timeAndAnnotation": {
+        "description": "timeAndAnnotation",
+        "placeholders": {
+            "minutes": {
+                "type": "String"
+            },
+            "seconds": {
+                "type": "String"
+            }
+        }
+    },
+    "timeOut": "Temps d'espera",
+    "@timeOut": {},
+    "totalSize": "Mida total: {size}",
+    "@totalSize": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+    "type": "{count, plural, other{Tipus} one{Tipu}}",
+    "@type": {
+        "description": "type",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "unPlayed": "No reproduït",
+    "@unPlayed": {},
+    "unableToConnectHost": "No és possible conectar al servidor",
+    "@unableToConnectHost": {},
+    "unableToReverseAction": "Aquesta acció no és pot desfer. S'esborraran tots els ajustos.",
+    "@unableToReverseAction": {},
+    "unknown": "Desconegut",
+    "@unknown": {},
+    "useDefaults": "Utilitzar valors per defecte",
+    "@useDefaults": {},
+    "userName": "Nom d'usuari",
+    "@userName": {},
+    "video": "Vídeo",
+    "@video": {},
+    "videoScaling": "Escalat de video",
+    "@videoScaling": {},
+    "videoScalingContain": "Conté",
+    "@videoScalingContain": {},
+    "videoScalingCover": "Coberta",
+    "@videoScalingCover": {},
+    "videoScalingFill": "Omplir",
+    "@videoScalingFill": {},
+    "videoScalingFillScreenDesc": "Omplir les barres de navegació i estat",
+    "@videoScalingFillScreenDesc": {},
+    "videoScalingFillScreenNotif": "Omplir pantalla sobreescriu ajust de vídeo, en rotació horitzontal",
+    "@videoScalingFillScreenNotif": {},
+    "videoScalingFillScreenTitle": "Omplir pantalla",
+    "@videoScalingFillScreenTitle": {},
+    "videoScalingFitHeight": "Ajustar alçada",
+    "@videoScalingFitHeight": {},
+    "videoScalingFitWidth": "Ajustar llargada",
+    "@videoScalingFitWidth": {},
+    "videoScalingScaleDown": "Empetitir",
+    "@videoScalingScaleDown": {},
+    "viewPhotos": "Veure fotos",
+    "@viewPhotos": {},
+    "watchOn": "Veure a",
+    "@watchOn": {},
+    "writer": "{count, plural, other{Escriptor} two{Escriptors}}",
+    "@writer": {
+        "description": "writer",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "year": "{count, plural, other{Anys} one{Any}}",
+    "@year": {
+        "description": "year",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "addToNewCollection": "Nova col·lecció",
+    "@addToNewCollection": {},
+    "addItemsToCollection": "Afegir {itemLength} element(s) a col·lecció",
+    "@addItemsToCollection": {
+        "placeholders": {
+            "itemLength": {
+                "type": "int"
+            }
+        }
+    },
+    "addedToCollection": "Afegit a la col·lecció {collectionName}",
+    "@addedToCollection": {
+        "placeholders": {
+            "collectionName": {
+                "type": "String"
+            }
+        }
+    },
+    "removedFromCollection": "Esborrat de la col·lecció {collectionName}",
+    "@removedFromCollection": {
+        "placeholders": {
+            "collectionName": {
+                "type": "String"
+            }
+        }
+    },
+    "addToNewPlaylist": "Nova llista de reproducció",
+    "@addToNewPlaylist": {},
+    "addItemsToPlaylist": "Afegir {itemLength} element(s) a la llista de reproducció",
+    "@addItemsToPlaylist": {
+        "placeholders": {
+            "itemLength": {
+                "type": "int"
+            }
+        }
+    },
+    "addedToPlaylist": "Afegit a llista de reproducció {playlistName}",
+    "@addedToPlaylist": {
+        "placeholders": {
+            "playlistName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncStatusEnqueued": "En cua",
+    "@syncStatusEnqueued": {},
+    "syncStatusRunning": "En curs",
+    "@syncStatusRunning": {},
+    "syncStatusComplete": "Complet",
+    "@syncStatusComplete": {},
+    "syncStatusNotFound": "No trobat",
+    "@syncStatusNotFound": {},
+    "syncStatusFailed": "Fallat",
+    "@syncStatusFailed": {},
+    "syncStatusCanceled": "Cancel·lat",
+    "@syncStatusCanceled": {},
+    "syncStatusWaitingToRetry": "Esperant per reintentar",
+    "@syncStatusWaitingToRetry": {},
+    "syncStatusPaused": "Pausat",
+    "@syncStatusPaused": {},
+    "syncStatusSynced": "Sincronitzat",
+    "@syncStatusSynced": {},
+    "syncStatusPartially": "Parcialment",
+    "@syncStatusPartially": {},
+    "syncOverlayDeleting": "Esborrant element sincronitzat",
+    "@syncOverlayDeleting": {},
+    "syncOverlaySyncing": "Sincronitzat detalls del element",
+    "@syncOverlaySyncing": {},
+    "syncSelectDownloadsFolder": "Seleccionar carpeta de baixades",
+    "@syncSelectDownloadsFolder": {},
+    "syncNoFolderSetup": "Carpeta per sincronització no configurada",
+    "@syncNoFolderSetup": {},
+    "syncRemoveUnableToDeleteItem": "No és pot esborrar l'element sincronitzat, alguna cosa ha anat malament",
+    "@syncRemoveUnableToDeleteItem": {},
+    "syncAddItemForSyncing": "Afegit {item} per sincronitzar",
+    "@syncAddItemForSyncing": {
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "startedSyncingItem": "Iniciat sincronitzat de {item}",
+    "@startedSyncingItem": {
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "unableToSyncItem": "No és possible sincronitzar {item}, alguna cosa ha anat malament",
+    "@unableToSyncItem": {
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutVersion": "Versió: {version}",
+    "@aboutVersion": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutBuild": "Compilació: {buildNumber}",
+    "@aboutBuild": {
+        "placeholders": {
+            "buildNumber": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutCreatedBy": "Creat per DonutWare",
+    "@aboutCreatedBy": {},
+    "aboutSocials": "Socials",
+    "@aboutSocials": {},
+    "aboutLicenses": "Llicència",
+    "@aboutLicenses": {},
+    "subtitle": "Subtítol",
+    "@subtitle": {},
+    "subtitleConfiguration": "Configuració de subtítol",
+    "@subtitleConfiguration": {},
+    "off": "Apagar",
+    "@off": {},
+    "screenBrightness": "Brillantor de pantalla",
+    "@screenBrightness": {},
+    "scale": "Escala",
+    "@scale": {},
+    "playBackSettings": "Opcions de reproducció",
+    "@playBackSettings": {},
+    "settingsAutoNextTitle": "Vista prèvia del següent",
+    "@settingsAutoNextTitle": {},
+    "settingsAutoNextDesc": "Mostra una vista prèvia del següent si hi ha un altre element a la cua",
+    "@settingsAutoNextDesc": {},
+    "autoNextOffSmartTitle": "Intel·ligent",
+    "@autoNextOffSmartTitle": {},
+    "autoNextOffSmartDesc": "Mostra la pantalla de següent en cua al començar els crèdits en cas que no quedin més de 10 segons després d'aquests. Si no es així, mostrarà següent en cua quan quedin 30 segons de reproducció",
+    "@autoNextOffSmartDesc": {},
+    "autoNextOffStaticTitle": "Estàtic",
+    "@autoNextOffStaticTitle": {},
+    "autoNextOffStaticDesc": "Mostra pantalla de següent en cua quan quedin 30 segons de reproducció",
+    "@autoNextOffStaticDesc": {},
+    "playbackRate": "Velocitat de reproducció",
+    "@playbackRate": {},
+    "speed": "Velocitat",
+    "@speed": {},
+    "unableToPlayMedia": "Hi ha hagut un error trobat un tipus de mitja compatible",
+    "@unableToPlayMedia": {},
+    "errorOpeningMedia": "Alguna cosa ha anat malament al provar de reproduir aquest mitjà",
+    "@errorOpeningMedia": {},
+    "unableToPlayBooksOnWeb": "De moment, els llibres no estan suportats a la web",
+    "@unableToPlayBooksOnWeb": {},
+    "defaultFilterForLibrary": "Filtre predeterminat per la Biblioteca",
+    "@defaultFilterForLibrary": {},
+    "updateFilterForLibrary": "Actualitzar filtre",
+    "@updateFilterForLibrary": {},
+    "removeFilterForLibrary": "Esborrar {filter}?",
+    "@removeFilterForLibrary": {
+        "description": "removeFilterForLibrary",
+        "placeholders": {
+            "filter": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteFilterConfirmation": "Esta segur de voler esborrar aquest filtre?",
+    "@deleteFilterConfirmation": {},
+    "libraryFiltersLimitReached": "S'ha arribat al límit de filtres (10) esborri algun(s) filtre(s)",
+    "@libraryFiltersLimitReached": {},
+    "libraryFiltersRemoveAll": "Esborrar tots els filtres",
+    "@libraryFiltersRemoveAll": {},
+    "libraryFiltersRemoveAllConfirm": "Això esborrarà tots els filtres guardats per totes les biblioteques",
+    "@libraryFiltersRemoveAllConfirm": {},
+    "playerSettingsOrientationTitle": "Orientació del reproductor",
+    "@playerSettingsOrientationTitle": {},
+    "playerSettingsOrientationDesc": "Forçar el reproductor de vídeo a orientacions determinades",
+    "@playerSettingsOrientationDesc": {},
+    "deviceOrientationPortraitUp": "Retrat (vertical)",
+    "@deviceOrientationPortraitUp": {},
+    "deviceOrientationPortraitDown": "Retrat del revés",
+    "@deviceOrientationPortraitDown": {},
+    "deviceOrientationLandscapeLeft": "Apaïsat esquerra",
+    "@deviceOrientationLandscapeLeft": {},
+    "deviceOrientationLandscapeRight": "Apaïsat dret",
+    "@deviceOrientationLandscapeRight": {},
+    "clientSettingsSchemeVariantTitle": "Variant d'esquema",
+    "@clientSettingsSchemeVariantTitle": {},
+    "schemeSettingsTonalSpot": "To de ressaltat",
+    "@schemeSettingsTonalSpot": {},
+    "schemeSettingsFidelity": "Fidelitat",
+    "@schemeSettingsFidelity": {},
+    "schemeSettingsMonochrome": "Monocrom",
+    "@schemeSettingsMonochrome": {},
+    "schemeSettingsNeutral": "Neutral",
+    "@schemeSettingsNeutral": {},
+    "schemeSettingsVibrant": "Vibrant",
+    "@schemeSettingsVibrant": {},
+    "schemeSettingsExpressive": "Expressiu",
+    "@schemeSettingsExpressive": {},
+    "schemeSettingsContent": "Contingut",
+    "@schemeSettingsContent": {},
+    "schemeSettingsRainbow": "Arc iris",
+    "@schemeSettingsRainbow": {},
+    "schemeSettingsFruitSalad": "Amanida de fruites",
+    "@schemeSettingsFruitSalad": {},
+    "clientSettingsRequireWifiTitle": "Requerir Wi-Fi",
+    "@clientSettingsRequireWifiTitle": {},
+    "clientSettingsRequireWifiDesc": "Baixar només amb connexió a xarxa Wi-Fi",
+    "@clientSettingsRequireWifiDesc": {},
+    "libraryShuffleAndPlayItems": "Barrejar i reproduir elements",
+    "@libraryShuffleAndPlayItems": {},
+    "libraryPlayItems": "Reproduir elements",
+    "@libraryPlayItems": {},
+    "clientSettingsShowAllCollectionsTitle": "Mostra tots els tipus de col·leccions",
+    "@clientSettingsShowAllCollectionsTitle": {},
+    "clientSettingsShowAllCollectionsDesc": "Quan està activat, mostra tots els tipus de col·leccions, incloses les no suportades per Fladder",
+    "@clientSettingsShowAllCollectionsDesc": {},
+    "stop": "Parar",
+    "@stop": {},
+    "resumeVideo": "Rependre vídeo",
+    "@resumeVideo": {},
+    "closeVideo": "Tancar vídeo",
+    "@closeVideo": {},
+    "playNextVideo": "Reproduir següent vídeo",
+    "@playNextVideo": {},
+    "playerSettingsBackendTitle": "Backend del reproductor de vídeo",
+    "@playerSettingsBackendTitle": {},
+    "playerSettingsBackendDesc": "Escull el teu reproductor preferit per una experiència de visualització òptima",
+    "@playerSettingsBackendDesc": {},
+    "defaultLabel": "Per defecte",
+    "@defaultLabel": {
+        "description": "To indicate a default value, default video player backend"
+    },
+    "noVideoPlayerOptions": "El backend seleccionat no té opcions",
+    "@noVideoPlayerOptions": {},
+    "mdkExperimental": "MDK encara es troba en fase experimental",
+    "@mdkExperimental": {},
+    "skipButtonLabel": "Salta {segment}",
+    "@skipButtonLabel": {
+        "placeholders": {
+            "segment": {
+                "type": "String"
+            }
+        }
+    },
+    "mediaSegmentUnknown": "Desconegut",
+    "@mediaSegmentUnknown": {},
+    "mediaSegmentCommercial": "Comercial",
+    "@mediaSegmentCommercial": {},
+    "mediaSegmentPreview": "Previsualització",
+    "@mediaSegmentPreview": {},
+    "mediaSegmentRecap": "Recapitular",
+    "@mediaSegmentRecap": {},
+    "mediaSegmentOutro": "Conclusió",
+    "@mediaSegmentOutro": {},
+    "mediaSegmentIntro": "Introducció",
+    "@mediaSegmentIntro": {},
+    "errorLogs": "Registre d'errors",
+    "@errorLogs": {},
+    "external": "Extern",
+    "@external": {},
+    "downloadFile": "Baixar {type}",
+    "@downloadFile": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "copyStreamUrl": "Copiar l'url del flux",
+    "@copyStreamUrl": {},
+    "settingsLayoutSizesTitle": "Mides d'interfície",
+    "@settingsLayoutSizesTitle": {}
 }
