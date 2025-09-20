@@ -809,5 +809,7 @@
         }
     },
     "subtitleConfigurator": "Configurador de subtítols",
-    "@subtitleConfigurator": {}
+    "@subtitleConfigurator": {},
+    "syncDetails": "Detalls de Sync",
+    "@syncDetails": {}
 }
