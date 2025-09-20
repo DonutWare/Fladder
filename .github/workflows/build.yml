@@ -185,7 +185,7 @@ jobs:
           path: build/app/outputs/android_artifacts/
 
   build-windows:
-    runs-on: windows-2025
+    runs-on: windows-2022
     needs: [fetch-info]
 
     steps:
@@ -207,14 +207,8 @@ jobs:
       - name: Build Windows EXE
         run: flutter build windows --build-number=${{ github.run_number }}
 
-      - name: List files in Windows folder
-        run: ls /
-
-      - name: List files in Windows folder
-        run: ls windows/
-
       - name: Compile Inno Setup installer
-        uses: Minionguyjpro/Inno-Setup-Action@v1.2.7
+        uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
         with:
           path: windows/windows_setup.iss
           options: /O+ /DFLADDER_VERSION="${{ needs.fetch-info.outputs.version_name }}"
