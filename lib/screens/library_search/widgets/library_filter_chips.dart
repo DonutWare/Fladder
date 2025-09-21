@@ -149,16 +149,19 @@ class _LibraryFilterChipsState extends ConsumerState<LibraryFilterChips> {
         ),
     ];
 
-    return Row(
-      spacing: 4,
-      children: chips.mapIndexed(
-        (index, element) {
-          final position = index == 0
-              ? PositionContext.first
-              : (index == chips.length - 1 ? PositionContext.last : PositionContext.middle);
-          return PositionProvider(position: position, child: element);
-        },
-      ).toList(),
+    return FocusTraversalGroup(
+      policy: ReadingOrderTraversalPolicy(),
+      child: Row(
+        spacing: 4,
+        children: chips.mapIndexed(
+          (index, element) {
+            final position = index == 0
+                ? PositionContext.first
+                : (index == chips.length - 1 ? PositionContext.last : PositionContext.middle);
+            return PositionProvider(position: position, child: element);
+          },
+        ).toList(),
+      ),
     );
   }
 

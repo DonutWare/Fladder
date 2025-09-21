@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:fladder/theme.dart';
+import 'package:fladder/widgets/shared/ensure_visible.dart';
 
 final acceptKeys = {
   LogicalKeyboardKey.space,
@@ -53,12 +54,14 @@ class FocusButton extends StatefulWidget {
   final Function()? onTap;
   final Function()? onLongPress;
   final Function(TapDownDetails)? onSecondaryTapDown;
+  final bool darkOverlay;
   const FocusButton({
     this.child,
     this.overlays = const [],
     this.onTap,
     this.onLongPress,
     this.onSecondaryTapDown,
+    this.darkOverlay = true,
     super.key,
   });
 
@@ -77,7 +80,7 @@ class FocusButtonState extends State<FocusButton> {
   static const Duration _kLongPressTimeout = Duration(milliseconds: 500);
 
   bool _handleKey(KeyEvent event) {
-    if (!onFocused && !onHover) return false;
+    if (!onFocused && !onHover && !focusNode.hasFocus) return false;
 
     if (acceptKeys.contains(event.logicalKey)) {
       if (event is KeyDownEvent) {
@@ -145,12 +148,7 @@ class FocusButtonState extends State<FocusButton> {
       focusNode: focusNode,
       onFocusChange: (value) {
         if (value) {
-          Scrollable.ensureVisible(
-            context,
-            duration: const Duration(milliseconds: 250),
-            alignment: 0.5,
-            curve: Curves.easeOut,
-          );
+          context.ensureVisible();
         }
         setState(() {
           onHover = value;
@@ -178,7 +176,7 @@ class FocusButtonState extends State<FocusButton> {
                     duration: const Duration(milliseconds: 125),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 0.35),
+                        color: widget.darkOverlay ? Colors.black.withValues(alpha: 0.35) : Colors.transparent,
                         border: Border.all(width: 3, color: Theme.of(context).colorScheme.primaryFixed),
                         borderRadius: FladderTheme.smallShape.borderRadius,
                       ),

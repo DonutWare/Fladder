@@ -181,7 +181,7 @@ class EpisodeModel extends ItemStreamModel with EpisodeModelMappable {
         playlistId: item.playlistItemId,
         dateAired: item.premiereDate,
         chapters: Chapter.chaptersFromInfo(item.id ?? "", item.chapters ?? [], ref),
-        images: ImagesData.fromBaseItem(item, ref, getOriginalSize: true),
+        images: ImagesData.fromBaseItem(item, ref),
         primaryRatio: item.primaryImageAspectRatio,
         season: item.parentIndexNumber ?? 0,
         episode: item.indexNumber ?? 0,

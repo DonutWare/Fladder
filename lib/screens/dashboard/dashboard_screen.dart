@@ -115,7 +115,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 controller: AdaptiveLayout.scrollOf(context, HomeTabs.dashboard),
                 physics: const AlwaysScrollableScrollPhysics(),
                 slivers: [
-                  if (viewSize != ViewSize.television) const DefaultSliverTopBadding(),
+                  if (bannerType != HomeBanner.detailedBanner) const DefaultSliverTopBadding(),
                   if (viewSize == ViewSize.phone)
                     NestedSliverAppBar(
                       route: LibrarySearchRoute(),
@@ -131,9 +131,11 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         child: HomeBannerWidget(
                           posters: homeCarouselItems,
                           onSelect: (selected) {
-                            setState(() {
-                              selectedPoster = selected;
-                            });
+                            if (selectedPoster != selected) {
+                              setState(() {
+                                selectedPoster = selected;
+                              });
+                            }
                           },
                         ),
                       ),

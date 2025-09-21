@@ -112,11 +112,14 @@ class LibraryViews extends ConsumerWidget {
     switch (ref.watch(libraryViewTypeProvider)) {
       case LibraryViewTypes.grid:
         Widget createGrid(List<ItemBaseModel> items) {
+          final width = MediaQuery.of(context).size.width;
+          final cellWidth = (width / posterSize).floorToDouble();
+          final crossAxisCount = (width / cellWidth).floor();
           return SliverGrid.builder(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: posterSize.clamp(2, double.maxFinite).toInt(),
-              mainAxisSpacing: (8 * decimal) + 8,
-              crossAxisSpacing: (8 * decimal) + 8,
+              crossAxisCount: crossAxisCount.clamp(2, 10),
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 8,
               childAspectRatio: items.getMostCommonType.aspectRatio,
             ),
             itemCount: items.length,

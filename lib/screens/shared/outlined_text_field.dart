@@ -7,6 +7,7 @@ import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/focus_provider.dart';
+import 'package:fladder/widgets/shared/ensure_visible.dart';
 
 class OutlinedTextField extends ConsumerStatefulWidget {
   final String? label;
@@ -69,12 +70,7 @@ class _OutlinedTextFieldState extends ConsumerState<OutlinedTextField> {
       setState(() {
         hasFocus = _wrapperFocus.hasFocus;
         if (hasFocus) {
-          Scrollable.ensureVisible(
-            context,
-            duration: const Duration(milliseconds: 250),
-            alignment: 0.5,
-            curve: Curves.easeOut,
-          );
+          context.ensureVisible();
         }
       });
     });

@@ -5,9 +5,6 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
 import androidx.annotation.OptIn
 import androidx.annotation.RequiresApi
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
@@ -76,6 +73,7 @@ import nl.jknaapen.fladder.objects.PlayerSettingsObject
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.ImmersiveSystemBars
 import nl.jknaapen.fladder.utility.defaultSelected
+import nl.jknaapen.fladder.utility.visible
 import kotlin.time.Duration.Companion.seconds
 
 
@@ -132,6 +130,9 @@ fun CustomVideoControls(
             }
             .onKeyEvent { keyEvent: KeyEvent ->
                 if (keyEvent.type != KeyEventType.KeyDown) return@onKeyEvent false
+                if (!showControls) {
+                    bottomControlFocusRequester.requestFocus()
+                }
                 updateLastInteraction()
                 return@onKeyEvent false
             }
@@ -144,10 +145,10 @@ fun CustomVideoControls(
             },
         contentAlignment = Alignment.BottomCenter
     ) {
-        AnimatedVisibility(
-            visible = showControls,
-            enter = fadeIn(),
-            exit = fadeOut(),
+        Box(
+            modifier = Modifier.visible(
+                visible = showControls,
+            )
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -394,12 +395,15 @@ fun PlaybackButtons(
 internal fun RowScope.LeftButtons(
     openChapterSelection: () -> Unit,
 ) {
+    val chapters by VideoPlayerObject.chapters.collectAsState(emptyList())
+
     Row(
         modifier = Modifier.weight(1f),
         horizontalArrangement = Arrangement.Start
     ) {
         CustomIconButton(
             onClick = openChapterSelection,
+            enabled = chapters?.isNotEmpty() == true
         ) {
             Icon(
                 Iconsax.Filled.Check,

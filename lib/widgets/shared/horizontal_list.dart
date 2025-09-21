@@ -12,6 +12,7 @@ import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/sticky_header_text.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/navigation_body.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/side_navigation_bar.dart';
+import 'package:fladder/widgets/shared/ensure_visible.dart';
 
 class HorizontalList<T> extends ConsumerStatefulWidget {
   final bool autoFocus;
@@ -59,7 +60,6 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
   double? contentWidth;
   double? _firstItemWidth;
   bool hasFocus = false;
-  bool _isAnimating = false;
 
   @override
   void initState() {
@@ -93,28 +93,29 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
     });
   }
 
-  void _scrollToPosition(int index) {
-    if (_isAnimating) return;
+  Future<void> _scrollToPosition(int index) async {
     setState(() {
       currentIndex = index;
       widget.onFocused?.call(currentIndex);
     });
-    _isAnimating = true;
+
     final offset = index * _firstItemWidth! + index * contentPadding;
-    _scrollController
-        .animateTo(
-          math.min(offset, _scrollController.position.maxScrollExtent),
-          duration: const Duration(milliseconds: 125),
-          curve: Curves.easeInOut,
-        )
-        .whenComplete(() => _isAnimating = false);
+    final clamped = math.min(offset, _scrollController.position.maxScrollExtent);
+
+    _scrollController.jumpTo(_scrollController.offset);
+
+    await _scrollController.animateTo(
+      clamped,
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.fastOutSlowIn,
+    );
   }
 
   void _scrollToStart() {
     _scrollController.animateTo(
       0,
       duration: const Duration(milliseconds: 250),
-      curve: Curves.easeInOut,
+      curve: Curves.fastOutSlowIn,
     );
   }
 
@@ -123,7 +124,7 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
     _scrollController.animateTo(
       math.min(offset, _scrollController.position.maxScrollExtent),
       duration: const Duration(milliseconds: 250),
-      curve: Curves.easeInOut,
+      curve: Curves.fastOutSlowIn,
     );
   }
 
@@ -135,25 +136,27 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        ExcludeFocus(
-          child: Padding(
-            padding: widget.contentPadding,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Flexible(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      if (widget.label != null)
-                        Flexible(
+        Padding(
+          padding: widget.contentPadding,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Flexible(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    if (widget.label != null)
+                      Flexible(
+                        child: ExcludeFocus(
                           child: StickyHeaderText(
                             label: widget.label ?? "",
                             onClick: widget.onLabelClick,
                           ),
                         ),
-                      if (widget.subtext != null)
-                        Flexible(
+                      ),
+                    if (widget.subtext != null)
+                      Flexible(
+                        child: ExcludeFocus(
                           child: Opacity(
                             opacity: 0.5,
                             child: Text(
@@ -162,12 +165,14 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
                             ),
                           ),
                         ),
-                      ...widget.titleActions
-                    ],
-                  ),
+                      ),
+                    ...widget.titleActions
+                  ],
                 ),
-                if (widget.items.length > 1)
-                  Card(
+              ),
+              if (widget.items.length > 1)
+                ExcludeFocus(
+                  child: Card(
                     elevation: 5,
                     color: Theme.of(context).colorScheme.surface,
                     child: Row(
@@ -216,8 +221,8 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
                       ],
                     ),
                   ),
-              ].addPadding(const EdgeInsets.symmetric(horizontal: 6)),
-            ),
+                ),
+            ].addPadding(const EdgeInsets.symmetric(horizontal: 6)),
           ),
         ),
         const SizedBox(height: 8),
@@ -249,12 +254,7 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
                   hasFocus = value;
                 });
                 if (value) {
-                  Scrollable.ensureVisible(
-                    context,
-                    duration: const Duration(milliseconds: 250),
-                    alignment: FocusProvider.focusPositionOf(context),
-                    curve: Curves.easeOut,
-                  );
+                  context.ensureVisible();
                 }
               },
               child: ListView.separated(

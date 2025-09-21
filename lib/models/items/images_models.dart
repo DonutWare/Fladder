@@ -38,10 +38,9 @@ class ImagesData {
     dto.BaseItemDto item,
     Ref ref, {
     Size backDrop = const Size(2000, 2000),
-    Size logo = const Size(1000, 1000),
+    Size logo = const Size(500, 500),
     Size primary = const Size(600, 600),
     bool getOriginalSize = false,
-    int quality = 95,
   }) {
     final itemid = item.id;
     if (itemid == null) return null;
@@ -59,7 +58,6 @@ class ImagesData {
                       type: enums.ImageType.primary,
                       maxHeight: primary.height.toInt(),
                       maxWidth: primary.width.toInt(),
-                      quality: quality,
                     ),
               key: "${itemid}_primary_${item.imageTags?['Primary']}",
               hash: item.imageBlurHashes?.primary?[item.imageTags?['Primary']] ?? "",
@@ -77,7 +75,6 @@ class ImagesData {
                       type: enums.ImageType.logo,
                       maxHeight: logo.height.toInt(),
                       maxWidth: logo.width.toInt(),
-                      quality: quality,
                     ),
               key: "${itemid}_logo_${item.imageTags?['Logo']}",
               hash: item.imageBlurHashes?.logo?[item.imageTags?['Logo']] ?? "")
@@ -98,7 +95,6 @@ class ImagesData {
                         backdrop,
                         maxHeight: backDrop.height.toInt(),
                         maxWidth: backDrop.width.toInt(),
-                        quality: quality,
                       ),
                 key: "${itemid}_backdrop_${index}_$backdrop",
                 hash: item.imageBlurHashes?.backdrop?[backdrop] ?? "",
@@ -116,9 +112,8 @@ class ImagesData {
     dto.BaseItemDto item,
     Ref ref, {
     Size backDrop = const Size(2000, 2000),
-    Size logo = const Size(1000, 1000),
+    Size logo = const Size(500, 500),
     Size primary = const Size(600, 600),
-    int quality = 95,
   }) {
     if (item.seriesId == null && item.parentId == null) return null;
 
@@ -132,7 +127,6 @@ class ImagesData {
                 type: enums.ImageType.primary,
                 maxHeight: primary.height.toInt(),
                 maxWidth: primary.width.toInt(),
-                quality: quality,
               ),
               key: "${item.seriesId}_primary_${item.seriesPrimaryImageTag ?? ""}",
               hash: item.imageBlurHashes?.primary?[item.seriesPrimaryImageTag] ?? "")
@@ -144,7 +138,6 @@ class ImagesData {
                 type: enums.ImageType.logo,
                 maxHeight: logo.height.toInt(),
                 maxWidth: logo.width.toInt(),
-                quality: quality,
               ),
               key: "${item.seriesId}_logo_${item.parentLogoImageTag ?? ""}",
               hash: item.imageBlurHashes?.logo?[item.parentLogoImageTag] ?? "")
@@ -161,7 +154,6 @@ class ImagesData {
                   backdrop,
                   maxHeight: backDrop.height.toInt(),
                   maxWidth: backDrop.width.toInt(),
-                  quality: quality,
                 ),
                 key: "${itemId}_backdrop_${index}_$backdrop",
                 hash: item.imageBlurHashes?.backdrop?[backdrop] ?? "",
@@ -180,8 +172,7 @@ class ImagesData {
     Ref ref, {
     Size backDrop = const Size(2000, 2000),
     Size logo = const Size(1000, 1000),
-    Size primary = const Size(2000, 2000),
-    int quality = 95,
+    Size primary = const Size(500, 500),
   }) {
     return ImagesData(
       primary: (item.primaryImageTag != null && item.imageBlurHashes != null)
@@ -191,7 +182,6 @@ class ImagesData {
                     type: enums.ImageType.primary,
                     maxHeight: primary.height.toInt(),
                     maxWidth: primary.width.toInt(),
-                    quality: quality,
                   ),
               key: "${item.id ?? ""}_primary_${item.primaryImageTag ?? ''}",
               hash: item.imageBlurHashes?.primary?[item.primaryImageTag] ?? '')

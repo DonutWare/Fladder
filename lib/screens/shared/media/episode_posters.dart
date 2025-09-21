@@ -182,6 +182,7 @@ class EpisodePoster extends ConsumerWidget {
                           : ref.watch(clientSettingsProvider.select((value) => value.blurUpcomingEpisodes))
                               ? blur
                               : false,
+                      decodeHeight: 250,
                     ),
                     overlays: [
                       if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer && actions.isNotEmpty)

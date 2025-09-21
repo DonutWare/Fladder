@@ -59,6 +59,7 @@ class UserIcon extends ConsumerWidget {
                   imageUrl: user?.avatar ?? "",
                   progressIndicatorBuilder: (context, url, progress) => placeHolder(),
                   errorWidget: (context, url, error) => placeHolder(),
+                  memCacheHeight: 64,
                 ),
                 FlatButton(
                   onTap: onTap,

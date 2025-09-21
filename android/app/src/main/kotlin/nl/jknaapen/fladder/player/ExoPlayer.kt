@@ -76,19 +76,21 @@ internal fun ExoPlayer(
         .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
         .setEnableDecoderFallback(true)
 
-    val exoPlayer = ExoPlayer.Builder(context, renderersFactory)
-        .setTrackSelector(trackSelector)
-        .setMediaSourceFactory(
-            DefaultMediaSourceFactory(
-                VideoCache.buildCacheDataSourceFactory(
-                    context
+    val exoPlayer = remember {
+        ExoPlayer.Builder(context, renderersFactory)
+            .setTrackSelector(trackSelector)
+            .setMediaSourceFactory(
+                DefaultMediaSourceFactory(
+                    VideoCache.buildCacheDataSourceFactory(
+                        context
+                    )
                 )
             )
-        )
-        .setAudioAttributes(audioAttributes, true)
-        .setHandleAudioBecomingNoisy(true)
-        .setVideoScalingMode(C.VIDEO_SCALING_MODE_SCALE_TO_FIT)
-        .buildWithAssSupport(context, AssRenderType.LEGACY)
+            .setAudioAttributes(audioAttributes, true)
+            .setHandleAudioBecomingNoisy(true)
+            .setVideoScalingMode(C.VIDEO_SCALING_MODE_SCALE_TO_FIT)
+            .buildWithAssSupport(context, AssRenderType.LEGACY)
+    }
 
     DisposableEffect(exoPlayer) {
         val listener = object : Player.Listener {

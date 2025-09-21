@@ -25,6 +25,8 @@ object VideoPlayerObject {
     val duration = _currentState.map { it?.duration ?: 0L }
     val playing = _currentState.map { it?.playing ?: false }
 
+    val chapters = implementation.playbackData.map { it?.chapters }
+
     val currentSubtitleTrackIndex =
         MutableStateFlow((implementation.playbackData.value?.defaultSubtrack ?: -1).toInt())
     val currentAudioTrackIndex =

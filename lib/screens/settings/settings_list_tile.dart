@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:fladder/screens/shared/flat_button.dart';
+import 'package:fladder/widgets/shared/ensure_visible.dart';
 
 class SettingsListTile extends StatelessWidget {
   final Widget label;
@@ -57,12 +58,7 @@ class SettingsListTile extends StatelessWidget {
         autoFocus: autoFocus,
         onFocusChange: (value) {
           if (value) {
-            Scrollable.ensureVisible(
-              context,
-              duration: const Duration(milliseconds: 250),
-              alignment: 0.5,
-              curve: Curves.easeOut,
-            );
+            context.ensureVisible();
           }
         },
         child: Padding(
@@ -99,7 +95,7 @@ class SettingsListTile extends StatelessWidget {
                       children: [
                         Material(
                           color: Colors.transparent,
-                          textStyle: Theme.of(context).textTheme.titleLarge,
+                          textStyle: Theme.of(context).textTheme.titleLarge?.copyWith(color: contentColor),
                           child: label,
                         ),
                         if (subLabel != null)
@@ -107,7 +103,7 @@ class SettingsListTile extends StatelessWidget {
                             opacity: 0.65,
                             child: Material(
                               color: Colors.transparent,
-                              textStyle: Theme.of(context).textTheme.labelLarge,
+                              textStyle: Theme.of(context).textTheme.labelLarge?.copyWith(color: contentColor),
                               child: subLabel,
                             ),
                           ),

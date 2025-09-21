@@ -85,7 +85,7 @@ class SeriesModel extends ItemBaseModel with SeriesModelMappable {
         userData: UserData.fromDto(item.userData),
         parentId: item.parentId,
         playlistId: item.playlistItemId,
-        images: ImagesData.fromBaseItem(item, ref, getOriginalSize: true),
+        images: ImagesData.fromBaseItem(item, ref),
         primaryRatio: item.primaryImageAspectRatio,
         originalTitle: item.originalTitle ?? "",
         sortName: item.sortName ?? "",

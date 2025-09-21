@@ -7,6 +7,7 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/theme.dart';
+import 'package:fladder/widgets/shared/ensure_visible.dart';
 
 class MediaPlayButton extends ConsumerWidget {
   final ItemBaseModel? item;
@@ -66,11 +67,8 @@ class MediaPlayButton extends ConsumerWidget {
               ),
               onFocusChange: (value) {
                 if (value) {
-                  Scrollable.ensureVisible(
-                    context,
-                    duration: const Duration(milliseconds: 250),
-                    alignment: 1,
-                    curve: Curves.easeOut,
+                  context.ensureVisible(
+                    alignment: 1.0,
                   );
                 }
               },

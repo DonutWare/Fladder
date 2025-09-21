@@ -39,7 +39,8 @@ class _DetailedBannerState extends ConsumerState<DetailedBanner> {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  color.withValues(alpha: 0.8),
+                  color.withValues(alpha: 0.85),
+                  color.withValues(alpha: 0.75),
                   color.withValues(alpha: 0),
                 ],
                 begin: Alignment.topCenter,

@@ -12,13 +12,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -83,11 +83,12 @@ fun Modifier.conditional(condition: Boolean, modifier: Modifier.() -> Modifier):
 @Composable
 fun Modifier.visible(
     visible: Boolean,
-    animate: Boolean = true
 ): Modifier {
-    val alpha by animateFloatAsState(if (visible) 1f else 0f)
+    val alphaAnimated by animateFloatAsState(if (visible) 1f else 0f)
     return this
-        .alpha(alpha)
+        .graphicsLayer {
+            alpha = alphaAnimated
+        }
         .then(
             if (!visible) Modifier.pointerInput(Unit) {} else Modifier
         )

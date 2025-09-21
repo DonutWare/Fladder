@@ -123,14 +123,19 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                               maxHeight: maxHeight.clamp(minHeight, 2500) - 20,
                             ),
                             child: FadeInImage(
-                              placeholder: backgroundImage!.imageProvider,
+                              placeholder: ResizeImage(
+                                backgroundImage!.imageProvider,
+                                height: maxHeight ~/ 1.5,
+                              ),
                               placeholderColor: Colors.transparent,
                               fit: BoxFit.cover,
                               alignment: Alignment.topCenter,
                               placeholderFit: BoxFit.cover,
                               excludeFromSemantics: true,
-                              placeholderFilterQuality: FilterQuality.low,
-                              image: backgroundImage!.imageProvider,
+                              image: ResizeImage(
+                                backgroundImage!.imageProvider,
+                                height: maxHeight ~/ 1.5,
+                              ),
                             ),
                           ),
                         ),
