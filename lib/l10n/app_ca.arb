@@ -1227,5 +1227,255 @@
     "copyStreamUrl": "Copiar l'url del flux",
     "@copyStreamUrl": {},
     "settingsLayoutSizesTitle": "Mides d'interfície",
-    "@settingsLayoutSizesTitle": {}
+    "@settingsLayoutSizesTitle": {},
+    "settingsLayoutSizesDesc": "Escull quines mides d'interfície pot utilitzar l'app basat en la mida de la finestra",
+    "@settingsLayoutSizesDesc": {},
+    "settingsLayoutModesTitle": "Modes d'interfície",
+    "@settingsLayoutModesTitle": {},
+    "settingsLayoutModesDesc": "Controla si la app pot utilitzar interfícies de un sol o doble panell",
+    "@settingsLayoutModesDesc": {},
+    "phone": "Telèfon",
+    "@phone": {},
+    "tablet": "Tauleta",
+    "@tablet": {},
+    "desktop": "Escriptori",
+    "@desktop": {},
+    "layoutModeSingle": "Unic",
+    "@layoutModeSingle": {},
+    "layoutModeDual": "Dual",
+    "@layoutModeDual": {},
+    "copiedToClipboard": "Copiat al portaretalls",
+    "@copiedToClipboard": {},
+    "episodeAvailable": "Disponible",
+    "@episodeAvailable": {},
+    "episodeUnaired": "No emès",
+    "@episodeUnaired": {},
+    "episodeMissing": "Faltant",
+    "@episodeMissing": {},
+    "internetStreamingQualityTitle": "Qualitat per internet",
+    "@internetStreamingQualityTitle": {},
+    "internetStreamingQualityDesc": "Màxima qualitat de streaming via Internet (mòbil)",
+    "@internetStreamingQualityDesc": {},
+    "homeStreamingQualityTitle": "Qualitat a casa",
+    "@homeStreamingQualityTitle": {},
+    "homeStreamingQualityDesc": "Màxima qualitat del streaming connectat en xarxa local",
+    "@homeStreamingQualityDesc": {},
+    "qualityOptionsTitle": "Opcions de qualitat",
+    "@qualityOptionsTitle": {},
+    "qualityOptionsOriginal": "Original",
+    "@qualityOptionsOriginal": {},
+    "qualityOptionsAuto": "Auto",
+    "@qualityOptionsAuto": {},
+    "version": "Versió",
+    "@version": {},
+    "mediaSegmentActions": "Accions pels segments de mitjans",
+    "@mediaSegmentActions": {},
+    "segmentActionNone": "Cap",
+    "@segmentActionNone": {},
+    "segmentActionAskToSkip": "Preguntar per ometre",
+    "@segmentActionAskToSkip": {},
+    "segmentActionSkip": "Omet",
+    "@segmentActionSkip": {},
+    "loading": "Carregant",
+    "@loading": {},
+    "exitFladderTitle": "Sortir de Fladder",
+    "@exitFladderTitle": {},
+    "castAndCrew": "Equip i repartiment",
+    "@castAndCrew": {},
+    "guestActor": "{count, plural, other{Actors convidats} one{Actor convidat}}",
+    "@guestActor": {
+        "description": "Guest actors",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "maxConcurrentDownloadsTitle": "Màxim de descàrregues concurrents",
+    "@maxConcurrentDownloadsTitle": {},
+    "maxConcurrentDownloadsDesc": "Fixar el màxim de descàrregues simultànies possibles. Un valor de 0 desactiva el limit.",
+    "@maxConcurrentDownloadsDesc": {},
+    "playbackTrackSelection": "Selecció de la pista de reproducció",
+    "@playbackTrackSelection": {},
+    "rememberSubtitleSelections": "Fixar la pista de subtítols basat en l'element anterior",
+    "@rememberSubtitleSelections": {},
+    "rememberAudioSelections": "Fixar la pista d'àudio basat en l'element anterior",
+    "@rememberAudioSelections": {},
+    "rememberSubtitleSelectionsDesc": "Provar de fixar la pista de subtítol amb la millor coincidència amb el vídeo anterior.",
+    "@rememberSubtitleSelectionsDesc": {},
+    "rememberAudioSelectionsDesc": "Provar de fixar la pista d'audio amb la millor coincidència amb el vídeo anterior.",
+    "@rememberAudioSelectionsDesc": {},
+    "similarToRecentlyPlayed": "Similar a reproduït recentment",
+    "@similarToRecentlyPlayed": {},
+    "similarToLikedItem": "Similar a elements favorits",
+    "@similarToLikedItem": {},
+    "hasDirectorFromRecentlyPlayed": "Mateix director que reproduït recentment",
+    "@hasDirectorFromRecentlyPlayed": {},
+    "hasActorFromRecentlyPlayed": "Mateix actor que reproduït recentment",
+    "@hasActorFromRecentlyPlayed": {},
+    "hasLikedDirector": "Director entre els preferits",
+    "@hasLikedDirector": {},
+    "hasLikedActor": "Actor entre els preferits",
+    "@hasLikedActor": {},
+    "latest": "Ultim",
+    "@latest": {},
+    "recommended": "Recomanat",
+    "@recommended": {},
+    "playbackType": "Tipus de reproducció",
+    "@playbackType": {},
+    "playbackTypeDirect": "Directe",
+    "@playbackTypeDirect": {},
+    "playbackTypeTranscode": "Transcodificar",
+    "@playbackTypeTranscode": {},
+    "playbackTypeOffline": "Sense connexió",
+    "@playbackTypeOffline": {},
+    "latestReleases": "Últims llançaments",
+    "@latestReleases": {},
+    "autoCheckForUpdates": "Comprovar actualitzacions periodicament",
+    "@autoCheckForUpdates": {},
+    "newReleaseFoundTitle": "Actualització {newRelease} disponible!",
+    "@newReleaseFoundTitle": {
+        "placeholders": {
+            "newRelease": {
+                "type": "String"
+            }
+        }
+    },
+    "newUpdateFoundOnGithub": "S'ha trobat una actualització a Github",
+    "@newUpdateFoundOnGithub": {},
+    "enableBackgroundPostersTitle": "Habilitar pòsters de fons",
+    "@enableBackgroundPostersTitle": {},
+    "enableBackgroundPostersDesc": "Mostra pòsters aleatoris en pantalles on apliqui",
+    "@enableBackgroundPostersDesc": {},
+    "notificationDownloadingDownloading": "Baixant",
+    "@notificationDownloadingDownloading": {},
+    "notificationDownloadingPaused": "Baixada pausada",
+    "@notificationDownloadingPaused": {},
+    "notificationDownloadingFinished": "Baixada finalitzada",
+    "@notificationDownloadingFinished": {},
+    "notificationDownloadingError": "Error en la baixada",
+    "@notificationDownloadingError": {},
+    "syncAllItemsTitle": "Sincronitzar tots els elements de {itemName}?",
+    "@syncAllItemsTitle": {
+        "description": "syncAllItemsFrom",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncAllItemsDesc": "Això sincronitzara {itemCount} elements de '{itemName}' al teu dispositiu.\nAixò pot tardar una estona depenent de la quantitat d'elements.",
+    "@syncAllItemsDesc": {
+        "description": "syncAllitemsFromDesc",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            },
+            "itemCount": {
+                "type": "int"
+            }
+        }
+    },
+    "syncDeleteAllItemsTitle": "Esborrar tots els elements sincronitzats de {itemName}?",
+    "@syncDeleteAllItemsTitle": {
+        "description": "syncDeleteAllitemsFrom",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncDeleteAllItemsDesc": "Això esborrarà tots els elements sincronitzats de '{itemName}'.\nAquesta acció es permanent i s'hauran de resincronitzar ({itemCount}) arxius.",
+    "@syncDeleteAllItemsDesc": {
+        "description": "syncDeleteAllitemsFromDesc",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            },
+            "itemCount": {
+                "type": "int"
+            }
+        }
+    },
+    "syncPauseAll": "Pausar tot",
+    "@syncPauseAll": {},
+    "syncResumeAll": "Rependre tot",
+    "@syncResumeAll": {},
+    "syncStopAll": "Parar tot",
+    "@syncStopAll": {},
+    "syncDeleteAll": "Esborrar tots els arxius",
+    "@syncDeleteAll": {},
+    "syncAllFiles": "Sincronitzar tots els arxius",
+    "@syncAllFiles": {},
+    "usePostersForLibraryIconsTitle": "Mostrar pòsters com a icones de les biblioteques",
+    "@usePostersForLibraryIconsTitle": {},
+    "usePostersForLibraryIconsDesc": "Mostrar pòsters enlloc d'icones per les biblioteques",
+    "@usePostersForLibraryIconsDesc": {},
+    "offline": "Fora de linia",
+    "@offline": {},
+    "shortCuts": "Dreceres",
+    "@shortCuts": {},
+    "keyboardShortCuts": "Dreceres de teclat",
+    "@keyboardShortCuts": {},
+    "skipForwardLength": "Llargada d'avanç",
+    "@skipForwardLength": {},
+    "prevVideo": "Vídeo anterior",
+    "@prevVideo": {},
+    "nextChapter": "Pròxim capítol",
+    "@nextChapter": {},
+    "prevChapter": "Capítol anterior",
+    "@prevChapter": {},
+    "fullScreen": "Pantalla completa",
+    "@fullScreen": {},
+    "skipMediaSegment": "Saltar segment del mitjà",
+    "@skipMediaSegment": {},
+    "exit": "Sortir",
+    "@exit": {},
+    "shortCutAlreadyAssigned": "Drecera '{hotKey}' ja assignada",
+    "@shortCutAlreadyAssigned": {
+        "placeholders": {
+            "hotKey": {
+                "type": "String"
+            }
+        }
+    },
+    "blurred": "Borrós",
+    "@blurred": {},
+    "volumeIndicator": "Volum: {volume}",
+    "@volumeIndicator": {
+        "placeholders": {
+            "volume": {
+                "type": "int"
+            }
+        }
+    },
+    "speedIndicator": "Ritme de reproducció: {speed}",
+    "@speedIndicator": {
+        "placeholders": {
+            "speed": {
+                "type": "double"
+            }
+        }
+    },
+    "skipBackLength": "Llargada de salt enrera",
+    "@skipBackLength": {},
+    "playPause": "Reproduir/Pausar",
+    "@playPause": {},
+    "seekForward": "Avançar",
+    "@seekForward": {},
+    "seekBack": "Rebobinar",
+    "@seekBack": {},
+    "mute": "Mut",
+    "@mute": {},
+    "volumeUp": "Apujar volum",
+    "@volumeUp": {},
+    "volumeDown": "Abaixar volum",
+    "@volumeDown": {},
+    "speedUp": "Augmentar velocitat",
+    "@speedUp": {},
+    "speedDown": "Reduir velocitat",
+    "@speedDown": {},
+    "nextVideo": "Vídeo següent",
+    "@nextVideo": {}
 }
