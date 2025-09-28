@@ -29,6 +29,7 @@ import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/routes/auto_router.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/login/lock_screen.dart';
+import 'package:fladder/src/video_player_helper.g.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/application_info.dart';
@@ -36,6 +37,7 @@ import 'package:fladder/util/fladder_config.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/util/themes_data.dart';
+import 'package:fladder/widgets/media_query_scaler.dart';
 
 bool get _isDesktop {
   if (kIsWeb) return false;
@@ -86,13 +88,16 @@ void main(List<String> args) async {
     os: !kIsWeb ? defaultTargetPlatform.name.capitalize() : "${defaultTargetPlatform.name.capitalize()} Web",
   );
 
+  // Check if running on android TV
+  final leanBackEnabled = !kIsWeb && Platform.isAndroid ? await NativeVideoActivity().isLeanBackEnabled() : false;
+
   runApp(
     ProviderScope(
       overrides: [
         sharedPreferencesProvider.overrideWith((ref) => sharedPreferences),
         applicationInfoProvider.overrideWith((ref) => applicationInfo),
         crashLogProvider.overrideWith((ref) => crashProvider),
-        argumentsStateProvider.overrideWith((ref) => ArgumentsModel.fromArguments(args)),
+        argumentsStateProvider.overrideWith((ref) => ArgumentsModel.fromArguments(args, leanBackEnabled)),
         syncProvider.overrideWith((ref) => SyncNotifier(ref, applicationDirectory))
       ],
       child: AdaptiveLayoutBuilder(
@@ -116,7 +121,9 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
-    if (ref.read(lockScreenActiveProvider) || ref.read(userProvider) == null) {
+    if (ref.read(lockScreenActiveProvider) ||
+        ref.read(userProvider) == null ||
+        ref.read(videoPlayerProvider).lastState?.playing == true) {
       dateTime = DateTime.now();
       return;
     }
@@ -248,11 +255,8 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
     final language = ref.watch(clientSettingsProvider
         .select((value) => value.selectedLocale ?? WidgetsBinding.instance.platformDispatcher.locale));
     final scrollBehaviour = const MaterialScrollBehavior();
-    return Shortcuts(
-      shortcuts: <LogicalKeySet, Intent>{
-        LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
-      },
-      child: DynamicColorBuilder(builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+    return DynamicColorBuilder(
+      builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
         final lightTheme = themeColor == null
             ? FladderTheme.theme(lightDynamic ?? FladderTheme.defaultScheme(Brightness.light), schemeVariant)
             : FladderTheme.theme(themeColor.schemeLight, schemeVariant);
@@ -281,9 +285,12 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
               }
               return locale;
             },
-            builder: (context, child) => LocalizationContextWrapper(
-              child: ScaffoldMessenger(child: child ?? Container()),
-              currentLocale: language,
+            builder: (context, child) => MediaQueryScaler(
+              child: LocalizationContextWrapper(
+                child: ScaffoldMessenger(child: child ?? Container()),
+                currentLocale: language,
+              ),
+              enable: ref.read(argumentsStateProvider).leanBackMode,
             ),
             debugShowCheckedModeBanner: false,
             darkTheme: darkTheme.copyWith(
@@ -300,7 +307,7 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
             routerConfig: autoRouter.config(),
           ),
         );
-      }),
+      },
     );
   }
 }

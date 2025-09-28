@@ -23,11 +23,14 @@ import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/shared/media/poster_list_item.dart';
 import 'package:fladder/screens/shared/media/poster_widget.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
+import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/util/theme_extensions.dart';
+import 'package:fladder/widgets/shared/ensure_visible.dart';
+import 'package:fladder/widgets/shared/grid_focus_traveler.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 
 final libraryViewTypeProvider = StateProvider<LibraryViewTypes>((ref) {
@@ -63,12 +66,12 @@ class LibraryViews extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 4),
       sliver: SliverAnimatedSwitcher(
         duration: const Duration(milliseconds: 250),
-        child: _getWidget(ref, context),
+        child: _getWidget(context, ref),
       ),
     );
   }
 
-  Widget _getWidget(WidgetRef ref, BuildContext context) {
+  Widget _getWidget(BuildContext context, WidgetRef ref) {
     final selected = ref.watch(librarySearchProvider(key!).select((value) => value.selectedPosters));
     final posterSizeMultiplier = ref.watch(clientSettingsProvider.select((value) => value.posterSize));
     final libraryProvider = ref.read(librarySearchProvider(key!).notifier);
@@ -111,21 +114,24 @@ class LibraryViews extends ConsumerWidget {
     switch (ref.watch(libraryViewTypeProvider)) {
       case LibraryViewTypes.grid:
         Widget createGrid(List<ItemBaseModel> items) {
-          return SliverGrid.builder(
+          final width = MediaQuery.of(context).size.width;
+          final cellWidth = (width / posterSize).floorToDouble();
+          final crossAxisCount = ((width / cellWidth).floor()).clamp(2, 10);
+          return GridFocusTraveler(
+            itemCount: items.length,
+            crossAxisCount: crossAxisCount,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: posterSize.clamp(2, double.maxFinite).toInt(),
-              mainAxisSpacing: (8 * decimal) + 8,
-              crossAxisSpacing: (8 * decimal) + 8,
+              crossAxisCount: crossAxisCount,
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 8,
               childAspectRatio: items.getMostCommonType.aspectRatio,
             ),
-            itemCount: items.length,
-            itemBuilder: (context, index) {
+            itemBuilder: (other, selectedIndex, index) {
               final item = items[index];
               return PosterWidget(
                 key: Key(item.id),
                 poster: item,
                 maxLines: 2,
-                heroTag: true,
                 subTitle: item.subTitle(sortingOptions),
                 excludeActions: excludeActions,
                 otherActions: otherActions(item),
@@ -134,6 +140,11 @@ class LibraryViews extends ConsumerWidget {
                 onItemRemoved: (oldItem) => libraryProvider.removeFromPosters([oldItem.id]),
                 onItemUpdated: (newItem) => libraryProvider.updateItem(newItem),
                 onPressed: (action, item) async => onItemPressed(action, key, item, ref, context),
+                onFocusChanged: (focus) {
+                  if (focus) {
+                    other.ensureVisible();
+                  }
+                },
               );
             },
           );
@@ -165,16 +176,19 @@ class LibraryViews extends ConsumerWidget {
             itemCount: items.length,
             itemBuilder: (context, index) {
               final poster = items[index];
-              return PosterListItem(
-                poster: poster,
-                selected: selected.contains(poster),
-                excludeActions: excludeActions,
-                otherActions: otherActions(poster),
-                subTitle: poster.subTitle(sortingOptions),
-                onUserDataChanged: (id, newData) => libraryProvider.updateUserData(id, newData),
-                onItemRemoved: (oldItem) => libraryProvider.removeFromPosters([oldItem.id]),
-                onItemUpdated: (newItem) => libraryProvider.updateItem(newItem),
-                onPressed: (action, item) async => onItemPressed(action, key, item, ref, context),
+              return FocusProvider(
+                autoFocus: index == 0,
+                child: PosterListItem(
+                  poster: poster,
+                  selected: selected.contains(poster),
+                  excludeActions: excludeActions,
+                  otherActions: otherActions(poster),
+                  subTitle: poster.subTitle(sortingOptions),
+                  onUserDataChanged: (id, newData) => libraryProvider.updateUserData(id, newData),
+                  onItemRemoved: (oldItem) => libraryProvider.removeFromPosters([oldItem.id]),
+                  onItemUpdated: (newItem) => libraryProvider.updateItem(newItem),
+                  onPressed: (action, item) async => onItemPressed(action, key, item, ref, context),
+                ),
               );
             },
           );
@@ -228,7 +242,6 @@ class LibraryViews extends ConsumerWidget {
                         aspectRatio: item.primaryRatio,
                         selected: selected.contains(item),
                         inlineTitle: true,
-                        heroTag: true,
                         subTitle: item.subTitle(sortingOptions),
                         excludeActions: excludeActions,
                         otherActions: otherActions(group[index]),
@@ -257,7 +270,6 @@ class LibraryViews extends ConsumerWidget {
                 aspectRatio: item.primaryRatio,
                 selected: selected.contains(item),
                 inlineTitle: true,
-                heroTag: true,
                 excludeActions: excludeActions,
                 otherActions: otherActions(item),
                 subTitle: item.subTitle(sortingOptions),

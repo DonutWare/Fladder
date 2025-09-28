@@ -6,9 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/screens/details_screens/person_detail_screen.dart';
-import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
+import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/widgets/shared/clickable_text.dart';
@@ -47,7 +47,7 @@ class PeopleRow extends ConsumerWidget {
       height: AdaptiveLayout.poster(context).size * 0.9,
       contentPadding: contentPadding,
       items: people,
-      itemBuilder: (context, index) {
+      itemBuilder: (context, index, selected) {
         final person = people[index];
         return AspectRatio(
           aspectRatio: 0.6,
@@ -63,19 +63,13 @@ class PeopleRow extends ConsumerWidget {
                   transitionType: ContainerTransitionType.fadeThrough,
                   openColor: Colors.transparent,
                   tappable: false,
-                  closedBuilder: (context, action) => Stack(
-                    children: [
-                      Positioned.fill(
-                        child: Card(
-                          child: FladderImage(
-                            image: person.image,
-                            placeHolder: placeHolder(person.name),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      FlatButton(onTap: () => action()),
-                    ],
+                  closedBuilder: (context, action) => FocusButton(
+                    onTap: () => action(),
+                    child: FladderImage(
+                      image: person.image,
+                      placeHolder: placeHolder(person.name),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   openBuilder: (context, action) => PersonDetailScreen(
                     person: person,

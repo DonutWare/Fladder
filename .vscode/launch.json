@@ -77,7 +77,6 @@
 			"name": "Web",
 			"request": "launch",
 			"type": "dart",
-			"deviceId": "chrome",
 			"args": [
 				"--web-port",
 				"9090",
@@ -87,7 +86,6 @@
 			"name": "Web (release mode)",
 			"request": "launch",
 			"type": "dart",
-			"deviceId": "chrome",
 			"flutterMode": "release",
 			"args": [
 				"--web-port",

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,6 +14,7 @@ import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/settings/quick_connect_window.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/settings/settings_scaffold.dart';
+import 'package:fladder/screens/shared/default_alert_dialog.dart';
 import 'package:fladder/screens/shared/fladder_icon.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
@@ -55,9 +57,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Expanded(flex: 1, child: _leftPane(context)),
+                    Expanded(flex: 2, child: _leftPane(context)),
                     Expanded(
-                      flex: 2,
+                      flex: 3,
                       child: content,
                     ),
                   ],
@@ -88,6 +90,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         return IconsaxPlusLinear.monitor;
       case ViewSize.desktop:
         return IconsaxPlusLinear.monitor;
+      case ViewSize.television:
+        return IconsaxPlusLinear.mirroring_screen;
     }
   }
 
@@ -129,6 +133,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             SettingsListTile(
               label: Text(context.localized.settingsClientTitle),
               subLabel: Text(context.localized.settingsClientDesc),
+              autoFocus: true,
               selected: containsRoute(const ClientSettingsRoute()),
               icon: deviceIcon,
               onTap: () => navigateTo(const ClientSettingsRoute()),
@@ -171,83 +176,81 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 label: Text(context.localized.exitFladderTitle),
                 icon: IconsaxPlusLinear.close_square,
                 onTap: () async {
-                  final manager = WindowManager.instance;
-                  if (await manager.isClosable()) {
-                    manager.close();
-                  } else {
-                    fladderSnackbar(context, title: context.localized.somethingWentWrong);
-                  }
+                  showDefaultAlertDialog(
+                    context,
+                    context.localized.exitFladderTitle,
+                    context.localized.exitFladderDesc,
+                    (context) async {
+                      if (AdaptiveLayout.of(context).isDesktop) {
+                        final manager = WindowManager.instance;
+                        if (await manager.isClosable()) {
+                          manager.close();
+                        } else {
+                          fladderSnackbar(context, title: context.localized.somethingWentWrong);
+                        }
+                      } else {
+                        SystemNavigator.pop();
+                      }
+                    },
+                    context.localized.close,
+                    (context) => context.pop(),
+                    context.localized.cancel,
+                  );
                 },
               ),
             ],
-          ],
-          floatingActionButton: Padding(
-            padding: EdgeInsets.symmetric(horizontal: MediaQuery.paddingOf(context).horizontal),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  const Spacer(),
-                  FloatingActionButton(
-                    key: Key(context.localized.switchUser),
-                    tooltip: context.localized.switchUser,
-                    onPressed: () async {
-                      await ref.read(userProvider.notifier).logoutUser();
-                      context.router.replaceAll([const LoginRoute()]);
-                    },
-                    child: const Icon(
-                      IconsaxPlusLinear.arrow_swap_horizontal,
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  FloatingActionButton(
-                    heroTag: context.localized.logout,
-                    key: Key(context.localized.logout),
-                    tooltip: context.localized.logout,
-                    backgroundColor: Theme.of(context).colorScheme.errorContainer,
-                    onPressed: () {
-                      final user = ref.read(userProvider);
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          title: Text(context.localized.logoutUserPopupTitle(user?.name ?? "")),
-                          scrollable: true,
-                          content: Text(
-                            context.localized.logoutUserPopupContent(user?.name ?? "", user?.server ?? ""),
-                          ),
-                          actions: [
-                            ElevatedButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: Text(context.localized.cancel),
-                            ),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom().copyWith(
-                                iconColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.onErrorContainer),
-                                foregroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.onErrorContainer),
-                                backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.errorContainer),
-                              ),
-                              onPressed: () async {
-                                await ref.read(authProvider.notifier).logOutUser();
-                                if (context.mounted) {
-                                  context.router.replaceAll([const LoginRoute()]);
-                                }
-                              },
-                              child: Text(context.localized.logout),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    child: Icon(
-                      IconsaxPlusLinear.logout,
-                      color: Theme.of(context).colorScheme.onErrorContainer,
-                    ),
-                  ),
-                ],
-              ),
+            const FractionallySizedBox(
+              widthFactor: 0.25,
+              child: Divider(),
             ),
-          ),
+            SettingsListTile(
+              label: Text(context.localized.switchUser),
+              icon: IconsaxPlusLinear.arrow_swap_horizontal,
+              contentColor: Colors.greenAccent,
+              onTap: () async {
+                await ref.read(userProvider.notifier).logoutUser();
+                context.router.replaceAll([const LoginRoute()]);
+              },
+            ),
+            SettingsListTile(
+              label: Text(context.localized.logout),
+              icon: IconsaxPlusLinear.logout,
+              contentColor: Theme.of(context).colorScheme.error,
+              onTap: () {
+                final user = ref.read(userProvider);
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: Text(context.localized.logoutUserPopupTitle(user?.name ?? "")),
+                    scrollable: true,
+                    content: Text(
+                      context.localized.logoutUserPopupContent(user?.name ?? "", user?.server ?? ""),
+                    ),
+                    actions: [
+                      ElevatedButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: Text(context.localized.cancel),
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom().copyWith(
+                          iconColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.onErrorContainer),
+                          foregroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.onErrorContainer),
+                          backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.errorContainer),
+                        ),
+                        onPressed: () async {
+                          await ref.read(authProvider.notifier).logOutUser();
+                          if (context.mounted) {
+                            context.router.replaceAll([const LoginRoute()]);
+                          }
+                        },
+                        child: Text(context.localized.logout),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
         ),
       ),
     );

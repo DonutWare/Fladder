@@ -6,7 +6,7 @@ import 'package:fladder/providers/user_provider.dart';
 
 const _defaultHeight = 576;
 const _defaultWidth = 384;
-const _defaultQuality = 96;
+const _defaultQuality = 90;
 
 final imageUtilityProvider = Provider<ImageNotifier>((ref) {
   return ImageNotifier(ref: ref);
@@ -19,7 +19,7 @@ class ImageNotifier {
   });
 
   String get currentServerUrl {
-    return ref.read(userProvider)?.server ?? ref.read(authProvider).tempCredentials.server;
+    return ref.read(userProvider)?.server ?? ref.read(authProvider).serverLoginModel?.tempCredentials.server ?? "";
   }
 
   String getUserImageUrl(String id) {

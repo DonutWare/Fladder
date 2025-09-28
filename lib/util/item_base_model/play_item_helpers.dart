@@ -17,7 +17,6 @@ import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/book_viewer/book_viewer_screen.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
-import 'package:fladder/screens/video_player/video_player.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/list_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -75,9 +74,11 @@ Future<void> _playVideo(
     return;
   }
 
+  final actualStartPosition = startPosition ?? await current.startDuration() ?? Duration.zero;
+
   final loadedCorrectly = await ref.read(videoPlayerProvider.notifier).loadPlaybackItem(
         current,
-        startPosition: startPosition,
+        actualStartPosition,
       );
 
   if (!loadedCorrectly) {
@@ -93,22 +94,16 @@ Future<void> _playVideo(
 
   ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(state: VideoPlayerState.fullScreen));
 
-  if (context.mounted) {
-    await Navigator.of(context, rootNavigator: true).push(
-      MaterialPageRoute(
-        builder: (context) => const VideoPlayer(),
-      ),
-    );
-    if (AdaptiveLayout.of(context).isDesktop) {
-      fullScreenHelper.closeFullScreen(ref);
-    }
-
-    if (context.mounted) {
-      await context.refreshData();
-    }
-
-    onPlayerExit?.call();
+  await ref.read(videoPlayerProvider.notifier).openPlayer(context);
+  if (AdaptiveLayout.of(context).isDesktop) {
+    fullScreenHelper.closeFullScreen(ref);
   }
+
+  if (context.mounted) {
+    await context.refreshData();
+  }
+
+  onPlayerExit?.call();
 }
 
 extension BookBaseModelExtension on BookModel? {

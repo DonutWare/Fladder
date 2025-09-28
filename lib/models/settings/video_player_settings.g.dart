@@ -82,6 +82,7 @@ const _$BoxFitEnumMap = {
 const _$PlayerOptionsEnumMap = {
   PlayerOptions.libMDK: 'libMDK',
   PlayerOptions.libMPV: 'libMPV',
+  PlayerOptions.nativePlayer: 'nativePlayer',
 };
 
 const _$DeviceOrientationEnumMap = {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/series_model.dart';
@@ -25,6 +25,8 @@ import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/router_extension.dart';
 import 'package:fladder/util/widget_extensions.dart';
+import 'package:fladder/widgets/shared/item_actions.dart';
+import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 import 'package:fladder/widgets/shared/selectable_icon_button.dart';
 
 class SeriesDetailScreen extends ConsumerStatefulWidget {
@@ -74,20 +76,60 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                   OverviewHeader(
                     name: details.name,
                     image: details.images,
-                    centerButtons: MediaPlayButton(
-                      item: details.nextUp,
-                      onPressed: details.nextUp != null
-                          ? () async {
-                              await details.nextUp.play(context, ref);
-                              ref.read(providerId.notifier).fetchDetails(widget.item);
-                            }
-                          : null,
-                      onLongPressed: details.nextUp != null
-                          ? () async {
-                              await details.nextUp.play(context, ref, showPlaybackOption: true);
-                              ref.read(providerId.notifier).fetchDetails(widget.item);
-                            }
-                          : null,
+                    centerButtons: Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      alignment: wrapAlignment,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        MediaPlayButton(
+                          item: details.nextUp,
+                          onPressed: details.nextUp != null
+                              ? () async {
+                                  await details.nextUp.play(context, ref);
+                                  ref.read(providerId.notifier).fetchDetails(widget.item);
+                                }
+                              : null,
+                          onLongPressed: details.nextUp != null
+                              ? () async {
+                                  await details.nextUp.play(context, ref, showPlaybackOption: true);
+                                  ref.read(providerId.notifier).fetchDetails(widget.item);
+                                }
+                              : null,
+                        ),
+                        SelectableIconButton(
+                          onPressed: () async {
+                            await ref
+                                .read(userProvider.notifier)
+                                .setAsFavorite(!details.userData.isFavourite, details.id);
+                          },
+                          selected: details.userData.isFavourite,
+                          selectedIcon: IconsaxPlusBold.heart,
+                          icon: IconsaxPlusLinear.heart,
+                        ),
+                        SelectableIconButton(
+                          onPressed: () async {
+                            await ref.read(userProvider.notifier).markAsPlayed(!details.userData.played, details.id);
+                          },
+                          selected: details.userData.played,
+                          selectedIcon: IconsaxPlusBold.tick_circle,
+                          icon: IconsaxPlusLinear.tick_circle,
+                        ),
+                        SelectableIconButton(
+                          onPressed: () async {
+                            await showBottomSheetPill(
+                              context: context,
+                              content: (context, scrollController) => ListView(
+                                controller: scrollController,
+                                shrinkWrap: true,
+                                children: details.generateActions(context, ref).listTileItems(context, useIcons: true),
+                              ),
+                            );
+                          },
+                          selected: false,
+                          icon: IconsaxPlusLinear.more,
+                        ),
+                      ],
                     ),
                     padding: padding,
                     originalTitle: details.originalTitle,
@@ -98,32 +140,6 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                     genres: details.overview.genreItems,
                     communityRating: details.overview.communityRating,
                   ),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    alignment: wrapAlignment,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      SelectableIconButton(
-                        onPressed: () async {
-                          await ref
-                              .read(userProvider.notifier)
-                              .setAsFavorite(!details.userData.isFavourite, details.id);
-                        },
-                        selected: details.userData.isFavourite,
-                        selectedIcon: IconsaxPlusBold.heart,
-                        icon: IconsaxPlusLinear.heart,
-                      ),
-                      SelectableIconButton(
-                        onPressed: () async {
-                          await ref.read(userProvider.notifier).markAsPlayed(!details.userData.played, details.id);
-                        },
-                        selected: details.userData.played,
-                        selectedIcon: IconsaxPlusBold.tick_circle,
-                        icon: IconsaxPlusLinear.tick_circle,
-                      ),
-                    ],
-                  ).padding(padding),
                   if (details.nextUp != null)
                     NextUpEpisode(
                       nextEpisode: details.nextUp!,

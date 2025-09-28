@@ -18,8 +18,10 @@ class OverviewHeader extends ConsumerWidget {
   final EdgeInsets? padding;
   final String? subTitle;
   final String? originalTitle;
+  final Alignment logoAlignment;
   final Function()? onTitleClicked;
   final int? productionYear;
+  final String? summary;
   final Duration? runTime;
   final String? officialRating;
   final double? communityRating;
@@ -32,8 +34,10 @@ class OverviewHeader extends ConsumerWidget {
     this.padding,
     this.subTitle,
     this.originalTitle,
+    this.logoAlignment = Alignment.bottomCenter,
     this.onTitleClicked,
     this.productionYear,
+    this.summary,
     this.runTime,
     this.officialRating,
     this.communityRating,
@@ -68,83 +72,101 @@ class OverviewHeader extends ConsumerWidget {
           crossAxisAlignment: crossAlignment,
           mainAxisSize: MainAxisSize.min,
           children: [
-            MediaHeader(
-              name: name,
-              logo: image?.logo,
-              onTap: onTitleClicked,
-            ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: crossAlignment,
-              children: [
-                if (subTitle != null)
-                  Flexible(
-                    child: SelectableText(
-                      subTitle ?? "",
-                      textAlign: TextAlign.center,
-                      style: mainStyle,
-                    ),
-                  ),
-                if (name.toLowerCase() != originalTitle?.toLowerCase() && originalTitle != null)
-                  SelectableText(
-                    originalTitle.toString(),
-                    textAlign: TextAlign.center,
-                    style: subStyle,
-                  ),
-              ].addInBetween(const SizedBox(height: 4)),
-            ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: crossAlignment,
-              children: [
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  direction: Axis.horizontal,
-                  alignment: WrapAlignment.center,
-                  runAlignment: WrapAlignment.center,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: [
-                    if (officialRating != null)
-                      ChipButton(
-                        label: officialRating.toString(),
-                      ),
-                    if (productionYear != null)
-                      SelectableText(
-                        productionYear.toString(),
-                        textAlign: TextAlign.center,
-                        style: subStyle,
-                      ),
-                    if (runTime != null && (runTime?.inSeconds ?? 0) > 1)
-                      SelectableText(
-                        runTime.humanize.toString(),
-                        textAlign: TextAlign.center,
-                        style: subStyle,
-                      ),
-                    if (communityRating != null)
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.star_rate_rounded,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                          Text(
-                            communityRating?.toStringAsFixed(2) ?? "",
-                            style: subStyle,
-                          ),
-                        ],
-                      ),
-                  ].addInBetween(CircleAvatar(
-                    radius: 3,
-                    backgroundColor: Theme.of(context).colorScheme.onSurface,
-                  )),
+            Flexible(
+              child: ExcludeFocus(
+                child: MediaHeader(
+                  name: name,
+                  logo: image?.logo,
+                  onTap: onTitleClicked,
+                  alignment: logoAlignment,
                 ),
-                if (genres.isNotEmpty)
-                  Genres(
-                    genres: genres.take(6).toList(),
+              ),
+            ),
+            ExcludeFocus(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: crossAlignment,
+                children: [
+                  if (subTitle != null)
+                    Flexible(
+                      child: SelectableText(
+                        subTitle ?? "",
+                        textAlign: TextAlign.center,
+                        style: mainStyle,
+                      ),
+                    ),
+                  if (name.toLowerCase() != originalTitle?.toLowerCase() && originalTitle != null)
+                    SelectableText(
+                      originalTitle.toString(),
+                      textAlign: TextAlign.center,
+                      style: subStyle,
+                    ),
+                ].addInBetween(const SizedBox(height: 4)),
+              ),
+            ),
+            ExcludeFocus(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: crossAlignment,
+                children: [
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    direction: Axis.horizontal,
+                    alignment: WrapAlignment.center,
+                    runAlignment: WrapAlignment.center,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      if (officialRating != null)
+                        ChipButton(
+                          label: officialRating.toString(),
+                        ),
+                      if (productionYear != null)
+                        SelectableText(
+                          productionYear.toString(),
+                          textAlign: TextAlign.center,
+                          style: subStyle,
+                        ),
+                      if (runTime != null && (runTime?.inSeconds ?? 0) > 1)
+                        SelectableText(
+                          runTime.humanize.toString(),
+                          textAlign: TextAlign.center,
+                          style: subStyle,
+                        ),
+                      if (communityRating != null)
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.star_rate_rounded,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                            Text(
+                              communityRating?.toStringAsFixed(2) ?? "",
+                              style: subStyle,
+                            ),
+                          ],
+                        ),
+                    ].addInBetween(CircleAvatar(
+                      radius: 3,
+                      backgroundColor: Theme.of(context).colorScheme.onSurface,
+                    )),
                   ),
-              ].addInBetween(const SizedBox(height: 10)),
+                  if (summary?.isNotEmpty == true)
+                    Flexible(
+                      child: Text(
+                        summary ?? "",
+                        style: Theme.of(context).textTheme.titleLarge,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 3,
+                      ),
+                    ),
+                  if (genres.isNotEmpty)
+                    Genres(
+                      genres: genres.take(6).toList(),
+                    ),
+                ].addInBetween(const SizedBox(height: 10)),
+              ),
             ),
             if (centerButtons != null) centerButtons!,
           ].addInBetween(const SizedBox(height: 21)),

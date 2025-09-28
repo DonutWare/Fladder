@@ -13,6 +13,7 @@ import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/enum_selection.dart';
 import 'package:fladder/widgets/shared/fladder_slider.dart';
+import 'package:fladder/widgets/shared/item_actions.dart';
 
 List<Widget> buildClientSettingsVisual(
   BuildContext context,
@@ -41,16 +42,15 @@ List<Widget> buildClientSettingsVisual(
               itemBuilder: (context) {
                 return [
                   ...AppLocalizations.supportedLocales.map(
-                    (entry) => PopupMenuItem(
-                      value: entry,
-                      child: Localizations.override(
+                    (entry) => ItemActionButton(
+                      label: Localizations.override(
                         context: context,
                         locale: entry,
                         child: Builder(builder: (context) {
                           return Text("${context.localized.nativeName} (${entry.toDisplayCode()})");
                         }),
                       ),
-                      onTap: () => ref
+                      action: () => ref
                           .read(clientSettingsProvider.notifier)
                           .update((state) => state.copyWith(selectedLocale: entry)),
                     ),
@@ -95,10 +95,9 @@ List<Widget> buildClientSettingsVisual(
           current: clientSettings.backgroundImage.label(context),
           itemBuilder: (context) => BackgroundType.values
               .map(
-                (e) => PopupMenuItem(
-                  value: e,
-                  child: Text(e.label(context)),
-                  onTap: () =>
+                (e) => ItemActionButton(
+                  label: Text(e.label(context)),
+                  action: () =>
                       ref.read(clientSettingsProvider.notifier).update((cb) => cb.copyWith(backgroundImage: e)),
                 ),
               )

@@ -1171,6 +1171,7 @@
   "phone": "Phone",
   "tablet": "Tablet",
   "desktop": "Desktop",
+  "television": "Television",
   "layoutModeSingle": "Single",
   "layoutModeDual": "Dual",
   "copiedToClipboard": "Copied to clipboard",
@@ -1191,6 +1192,7 @@
   "segmentActionSkip": "Skip",
   "loading": "Loading",
   "exitFladderTitle": "Exit Fladder",
+  "exitFladderDesc": "Are you sure you want to close Fladder?",
   "castAndCrew": "Cast & Crew",
   "guestActor": "{count, plural, other{Guest Actors} one{Guest Actor}}",
   "@guestActor": {
@@ -1336,5 +1338,8 @@
         "type": "double"
       }
     }
-  }
+  },
+  "quickConnectPostFailed": "Failed to get quick connect code",
+  "quickConnectLoginUsingCode": "Using quick connect",
+  "quickConnectEnterCodeDescription": "Enter the code below to login"
 }

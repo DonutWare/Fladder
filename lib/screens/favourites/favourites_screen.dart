@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/library_filter_model.dart';
@@ -12,6 +13,7 @@ import 'package:fladder/screens/shared/media/poster_row.dart';
 import 'package:fladder/screens/shared/nested_scaffold.dart';
 import 'package:fladder/screens/shared/nested_sliver_appbar.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
+import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/sliver_list_padding.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/background_image.dart';
@@ -54,9 +56,9 @@ class FavouritesScreen extends ConsumerWidget {
                     ],
                   ),
                 ),
-              ...favourites.favourites.entries.where((element) => element.value.isNotEmpty).map(
-                    (e) => SliverToBoxAdapter(
-                      child: PosterRow(
+              ...[
+                ...favourites.favourites.entries.where((element) => element.value.isNotEmpty).map(
+                      (e) => PosterRow(
                         contentPadding: padding,
                         onLabelClick: () => context.pushRoute(
                           LibrarySearchRoute().withFilter(
@@ -71,15 +73,17 @@ class FavouritesScreen extends ConsumerWidget {
                         posters: e.value,
                       ),
                     ),
-                  ),
-              if (favourites.people.isNotEmpty)
-                SliverToBoxAdapter(
-                  child: PosterRow(
+                if (favourites.people.isNotEmpty)
+                  PosterRow(
                     contentPadding: padding,
                     label: context.localized.actor(favourites.people.length),
                     posters: favourites.people,
                   ),
+              ].mapIndexed(
+                (index, e) => SliverToBoxAdapter(
+                  child: FocusProvider(hasFocus: false, autoFocus: index == 0, child: e),
                 ),
+              ),
               const DefautlSliverBottomPadding(),
             ],
           ),

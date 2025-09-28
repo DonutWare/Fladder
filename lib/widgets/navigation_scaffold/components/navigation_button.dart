@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/widgets/navigation_scaffold/components/side_navigation_bar.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 
 class NavigationButton extends ConsumerStatefulWidget {
   final String? label;
   final Widget selectedIcon;
   final Widget icon;
+  final bool navFocusNode;
   final bool horizontal;
   final bool expanded;
   final Function()? onPressed;
@@ -21,6 +23,7 @@ class NavigationButton extends ConsumerStatefulWidget {
     required this.label,
     required this.selectedIcon,
     required this.icon,
+    this.navFocusNode = false,
     this.horizontal = false,
     this.expanded = false,
     this.onPressed,
@@ -48,6 +51,7 @@ class _NavigationButtonState extends ConsumerState<NavigationButton> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 6),
       child: ElevatedButton(
+        focusNode: widget.navFocusNode ? navBarNode : null,
         onHover: (value) => setState(() => showPopupButton = value),
         style: ButtonStyle(
             elevation: const WidgetStatePropertyAll(0),
@@ -64,95 +68,97 @@ class _NavigationButtonState extends ConsumerState<NavigationButton> {
             })),
         onPressed: widget.onPressed,
         onLongPress: widget.onLongPress,
-        child: widget.horizontal
-            ? Padding(
-                padding: widget.customIcon != null
-                    ? EdgeInsetsGeometry.zero
-                    : const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
-                child: SizedBox(
-                  height: widget.customIcon != null ? 60 : 35,
-                  child: Row(
-                    spacing: 4,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      AnimatedContainer(
-                        duration: const Duration(milliseconds: 250),
-                        height: widget.selected ? 16 : 0,
-                        margin: const EdgeInsets.only(top: 1.5),
-                        width: 6,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: Theme.of(context)
-                              .colorScheme
-                              .primary
-                              .withValues(alpha: widget.selected && !widget.expanded ? 1 : 0),
-                        ),
-                      ),
-                      widget.customIcon ??
-                          AnimatedSwitcher(
-                            duration: widget.duration,
-                            child: widget.selected ? widget.selectedIcon : widget.icon,
-                          ),
-                      const SizedBox(width: 6),
-                      if (widget.horizontal && widget.expanded) ...[
-                        if (widget.label != null)
-                          Expanded(
-                            child: ConstrainedBox(
-                              constraints: const BoxConstraints(minWidth: 80),
-                              child: Text(
-                                widget.label!,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ),
-                        if (widget.trailing.isNotEmpty)
-                          AnimatedOpacity(
-                            duration: const Duration(milliseconds: 125),
-                            opacity: showPopupButton ? 1 : 0,
-                            child: PopupMenuButton(
-                              tooltip: context.localized.options,
-                              iconColor: foreGroundColor,
-                              iconSize: 18,
-                              itemBuilder: (context) => widget.trailing.popupMenuItems(useIcons: true),
-                            ),
-                          )
-                      ],
-                    ],
-                  ),
-                ),
-              )
-            : Padding(
-                padding: widget.customIcon != null ? EdgeInsetsGeometry.zero : const EdgeInsets.all(8),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      spacing: 8,
+        child: ExcludeFocusTraversal(
+          child: widget.horizontal
+              ? Padding(
+                  padding: widget.customIcon != null
+                      ? EdgeInsetsGeometry.zero
+                      : const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+                  child: SizedBox(
+                    height: widget.customIcon != null ? 60 : 35,
+                    child: Row(
+                      spacing: 4,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        AnimatedContainer(
+                          duration: const Duration(milliseconds: 250),
+                          height: widget.selected ? 16 : 0,
+                          margin: const EdgeInsets.only(top: 1.5),
+                          width: 6,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: Theme.of(context)
+                                .colorScheme
+                                .primary
+                                .withValues(alpha: widget.selected && !widget.expanded ? 1 : 0),
+                          ),
+                        ),
                         widget.customIcon ??
                             AnimatedSwitcher(
                               duration: widget.duration,
                               child: widget.selected ? widget.selectedIcon : widget.icon,
                             ),
-                        if (widget.label != null && widget.horizontal && widget.expanded)
-                          Flexible(child: Text(widget.label!))
+                        const SizedBox(width: 6),
+                        if (widget.horizontal && widget.expanded) ...[
+                          if (widget.label != null)
+                            Expanded(
+                              child: ConstrainedBox(
+                                constraints: const BoxConstraints(minWidth: 80),
+                                child: Text(
+                                  widget.label!,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                          if (widget.trailing.isNotEmpty)
+                            AnimatedOpacity(
+                              duration: const Duration(milliseconds: 125),
+                              opacity: showPopupButton ? 1 : 0,
+                              child: PopupMenuButton(
+                                tooltip: context.localized.options,
+                                iconColor: foreGroundColor,
+                                iconSize: 18,
+                                itemBuilder: (context) => widget.trailing.popupMenuItems(useIcons: true),
+                              ),
+                            )
+                        ],
                       ],
                     ),
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 250),
-                      margin: EdgeInsets.only(top: widget.selected ? 4 : 0),
-                      height: widget.selected ? 6 : 0,
-                      width: widget.selected ? 14 : 0,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: Theme.of(context).colorScheme.primary.withValues(alpha: widget.selected ? 1 : 0),
+                  ),
+                )
+              : Padding(
+                  padding: widget.customIcon != null ? EdgeInsetsGeometry.zero : const EdgeInsets.all(8),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        spacing: 8,
+                        children: [
+                          widget.customIcon ??
+                              AnimatedSwitcher(
+                                duration: widget.duration,
+                                child: widget.selected ? widget.selectedIcon : widget.icon,
+                              ),
+                          if (widget.label != null && widget.horizontal && widget.expanded)
+                            Flexible(child: Text(widget.label!))
+                        ],
                       ),
-                    ),
-                  ],
+                      AnimatedContainer(
+                        duration: const Duration(milliseconds: 250),
+                        margin: EdgeInsets.only(top: widget.selected ? 4 : 0),
+                        height: widget.selected ? 6 : 0,
+                        width: widget.selected ? 14 : 0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Theme.of(context).colorScheme.primary.withValues(alpha: widget.selected ? 1 : 0),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+        ),
       ),
     );
   }

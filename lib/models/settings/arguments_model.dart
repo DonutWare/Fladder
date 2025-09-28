@@ -8,12 +8,14 @@ abstract class ArgumentsModel with _$ArgumentsModel {
 
   factory ArgumentsModel({
     @Default(false) bool htpcMode,
+    @Default(false) bool leanBackMode,
   }) = _ArgumentsModel;
 
-  factory ArgumentsModel.fromArguments(List<String> arguments) {
+  factory ArgumentsModel.fromArguments(List<String> arguments, bool leanBackEnabled) {
     arguments = arguments.map((e) => e.trim()).toList();
     return ArgumentsModel(
-      htpcMode: arguments.contains('--htpc'),
+      htpcMode: arguments.contains('--htpc') || leanBackEnabled,
+      leanBackMode: leanBackEnabled,
     );
   }
 }

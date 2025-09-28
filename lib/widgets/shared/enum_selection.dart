@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
-import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
+import 'package:fladder/util/focus_provider.dart';
+import 'package:fladder/widgets/shared/ensure_visible.dart';
+import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 
 class EnumBox<T> extends StatelessWidget {
   final String current;
-  final List<PopupMenuEntry<T>> Function(BuildContext context) itemBuilder;
+  final List<ItemAction> Function(BuildContext context) itemBuilder;
 
   const EnumBox({required this.current, required this.itemBuilder, super.key});
 
@@ -15,7 +17,7 @@ class EnumBox<T> extends StatelessWidget {
     final textStyle = Theme.of(context).textTheme.titleMedium;
     const padding = EdgeInsets.symmetric(horizontal: 12, vertical: 6);
     final itemList = itemBuilder(context);
-    final useBottomSheet = AdaptiveLayout.viewSizeOf(context) <= ViewSize.phone;
+    final useBottomSheet = AdaptiveLayout.inputDeviceOf(context) != InputDevice.pointer;
 
     final labelWidget = Padding(
       padding: padding,
@@ -46,29 +48,39 @@ class EnumBox<T> extends StatelessWidget {
       ),
     );
     return Card(
-      color: Theme.of(context).colorScheme.primaryContainer,
+      color: itemList.length > 1 ? Theme.of(context).colorScheme.primaryContainer : Colors.transparent,
       shadowColor: Colors.transparent,
       elevation: 0,
       child: useBottomSheet
-          ? FlatButton(
+          ? FocusButton(
               child: labelWidget,
-              onTap: () => showBottomSheetPill(
-                context: context,
-                content: (context, scrollController) => ListView(
-                  shrinkWrap: true,
-                  controller: scrollController,
-                  children: [
-                    const SizedBox(height: 6),
-                    ...itemBuilder(context),
-                  ],
-                ),
-              ),
+              darkOverlay: false,
+              onFocusChanged: (value) {
+                if (value) {
+                  context.ensureVisible();
+                }
+              },
+              onTap: itemList.length > 1
+                  ? () => showBottomSheetPill(
+                        context: context,
+                        content: (context, scrollController) => ListView(
+                          shrinkWrap: true,
+                          controller: scrollController,
+                          children: [
+                            const SizedBox(height: 6),
+                            ...itemList.map(
+                              (e) => e.toListItem(context),
+                            ),
+                          ],
+                        ),
+                      )
+                  : null,
             )
           : PopupMenuButton(
               tooltip: '',
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
               enabled: itemList.length > 1,
-              itemBuilder: itemBuilder,
+              itemBuilder: (context) => itemList.map((e) => e.toPopupMenuItem()).toList(),
               padding: padding,
               child: labelWidget,
             ),
@@ -79,7 +91,7 @@ class EnumBox<T> extends StatelessWidget {
 class EnumSelection<T> extends StatelessWidget {
   final Text label;
   final String current;
-  final List<PopupMenuEntry<T>> Function(BuildContext context) itemBuilder;
+  final List<ItemAction> Function(BuildContext context) itemBuilder;
   const EnumSelection({
     super.key,
     required this.label,

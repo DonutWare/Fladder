@@ -679,6 +679,12 @@ class FakeJellyfinOpenApi extends JellyfinOpenApi {
       ),
     );
   }
+
+  @override
+  Future<chopper.Response<BrandingOptions>> brandingConfigurationGet() async => chopper.Response(
+        FakeHelper.fakeCorrectResponse,
+        const BrandingOptions(loginDisclaimer: "Test server"),
+      );
 }
 
 class FakeHelper {

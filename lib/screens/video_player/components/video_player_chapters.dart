@@ -45,7 +45,7 @@ class VideoPlayerChapters extends ConsumerWidget {
           startIndex: chapters.indexOf(currentChapter ?? chapters.first),
           contentPadding: const EdgeInsets.symmetric(horizontal: 32),
           items: chapters.toList(),
-          itemBuilder: (context, index) {
+          itemBuilder: (context, index, selected) {
             final chapter = chapters[index];
             final isCurrent = chapter == currentChapter;
             return Card(

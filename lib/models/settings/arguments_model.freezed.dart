@@ -15,10 +15,11 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ArgumentsModel {
   bool get htpcMode;
+  bool get leanBackMode;
 
   @override
   String toString() {
-    return 'ArgumentsModel(htpcMode: $htpcMode)';
+    return 'ArgumentsModel(htpcMode: $htpcMode, leanBackMode: $leanBackMode)';
   }
 }
 
@@ -115,13 +116,13 @@ extension ArgumentsModelPatterns on ArgumentsModel {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(bool htpcMode)? $default, {
+    TResult Function(bool htpcMode, bool leanBackMode)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _ArgumentsModel() when $default != null:
-        return $default(_that.htpcMode);
+        return $default(_that.htpcMode, _that.leanBackMode);
       case _:
         return orElse();
     }
@@ -142,12 +143,12 @@ extension ArgumentsModelPatterns on ArgumentsModel {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(bool htpcMode) $default,
+    TResult Function(bool htpcMode, bool leanBackMode) $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ArgumentsModel():
-        return $default(_that.htpcMode);
+        return $default(_that.htpcMode, _that.leanBackMode);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -167,12 +168,12 @@ extension ArgumentsModelPatterns on ArgumentsModel {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(bool htpcMode)? $default,
+    TResult? Function(bool htpcMode, bool leanBackMode)? $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ArgumentsModel() when $default != null:
-        return $default(_that.htpcMode);
+        return $default(_that.htpcMode, _that.leanBackMode);
       case _:
         return null;
     }
@@ -182,15 +183,19 @@ extension ArgumentsModelPatterns on ArgumentsModel {
 /// @nodoc
 
 class _ArgumentsModel extends ArgumentsModel {
-  _ArgumentsModel({this.htpcMode = false}) : super._();
+  _ArgumentsModel({this.htpcMode = false, this.leanBackMode = false})
+      : super._();
 
   @override
   @JsonKey()
   final bool htpcMode;
+  @override
+  @JsonKey()
+  final bool leanBackMode;
 
   @override
   String toString() {
-    return 'ArgumentsModel(htpcMode: $htpcMode)';
+    return 'ArgumentsModel(htpcMode: $htpcMode, leanBackMode: $leanBackMode)';
   }
 }
 

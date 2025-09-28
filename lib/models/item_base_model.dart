@@ -164,7 +164,7 @@ class ItemBaseModel with ItemBaseModelMappable {
     }
   }
 
-  Future<void> navigateTo(BuildContext context, {WidgetRef? ref}) async {
+  Future<void> navigateTo(BuildContext context, {WidgetRef? ref, Object? tag}) async {
     switch (this) {
       case FolderModel _:
       case BoxSetModel _:
@@ -191,7 +191,7 @@ class ItemBaseModel with ItemBaseModelMappable {
       case SeasonModel _:
       case PersonModel _:
       default:
-        context.router.push(DetailsRoute(id: id, item: this));
+        context.router.push(DetailsRoute(id: id, item: this, tag: tag));
         break;
     }
   }

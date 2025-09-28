@@ -89,6 +89,21 @@ List<Widget> buildClientSettingsDownload(BuildContext context, WidgetRef ref, Fu
             return SettingsListTile(
               label: Text(context.localized.downloadsSyncedData),
               subLabel: Text(data.byteFormat ?? ""),
+              onTap: () {
+                showDefaultAlertDialog(
+                  context,
+                  context.localized.downloadsClearTitle,
+                  context.localized.downloadsClearDesc,
+                  (context) async {
+                    await ref.read(syncProvider.notifier).removeAllSyncedData();
+                    setState(() {});
+                    Navigator.of(context).pop();
+                  },
+                  context.localized.clear,
+                  (context) => Navigator.of(context).pop(),
+                  context.localized.cancel,
+                );
+              },
               trailing: FilledButton(
                 onPressed: () {
                   showDefaultAlertDialog(
@@ -123,21 +138,22 @@ List<Widget> buildClientSettingsDownload(BuildContext context, WidgetRef ref, Fu
           label: Text(context.localized.maxConcurrentDownloadsTitle),
           subLabel: Text(context.localized.maxConcurrentDownloadsDesc),
           trailing: SizedBox(
-              width: 100,
-              child: IntInputField(
-                controller: TextEditingController(text: clientSettings.maxConcurrentDownloads.toString()),
-                onSubmitted: (value) {
-                  if (value != null) {
-                    ref.read(clientSettingsProvider.notifier).update(
-                          (current) => current.copyWith(
-                            maxConcurrentDownloads: value,
-                          ),
-                        );
+            width: 150,
+            child: IntInputField(
+              controller: TextEditingController(text: clientSettings.maxConcurrentDownloads.toString()),
+              onSubmitted: (value) {
+                if (value != null) {
+                  ref.read(clientSettingsProvider.notifier).update(
+                        (current) => current.copyWith(
+                          maxConcurrentDownloads: value,
+                        ),
+                      );
 
-                    ref.read(backgroundDownloaderProvider.notifier).setMaxConcurrent(value);
-                  }
-                },
-              )),
+                  ref.read(backgroundDownloaderProvider.notifier).setMaxConcurrent(value);
+                }
+              },
+            ),
+          ),
         ),
       ]),
       const SizedBox(height: 12),

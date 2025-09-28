@@ -47,12 +47,14 @@ const _$ViewSizeEnumMap = {
   ViewSize.phone: 'phone',
   ViewSize.tablet: 'tablet',
   ViewSize.desktop: 'desktop',
+  ViewSize.television: 'television',
 };
 
 const _$HomeBannerEnumMap = {
   HomeBanner.hide: 'hide',
   HomeBanner.carousel: 'carousel',
   HomeBanner.banner: 'banner',
+  HomeBanner.detailedBanner: 'detailedBanner',
 };
 
 const _$HomeCarouselSettingsEnumMap = {

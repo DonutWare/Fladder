@@ -13,13 +13,13 @@ import 'package:fladder/providers/library_screen_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/home_screen.dart';
 import 'package:fladder/screens/metadata/refresh_metadata.dart';
-import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/screens/shared/media/poster_row.dart';
 import 'package:fladder/screens/shared/nested_scaffold.dart';
 import 'package:fladder/screens/shared/nested_sliver_appbar.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
+import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/sliver_list_padding.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/background_image.dart';
@@ -233,9 +233,10 @@ class LibraryRow extends ConsumerWidget {
       label: context.localized.library(views.length),
       items: views,
       height: 155,
+      autoFocus: true,
       startIndex: selectedView != null ? views.indexOf(selectedView!) : null,
       contentPadding: padding,
-      itemBuilder: (context, index) {
+      itemBuilder: (context, index, selected) {
         final view = views[index];
         final isSelected = selectedView == view;
         final List<ItemActionButton> viewActions = [
@@ -250,25 +251,26 @@ class LibraryRow extends ConsumerWidget {
             action: () => showRefreshPopup(context, view.id, view.name),
           )
         ];
-        return FlatButton(
-          onTap: isSelected ? null : () => onSelected?.call(view),
-          onLongPress: () => context.pushRoute(LibrarySearchRoute(viewModelId: view.id)),
-          onSecondaryTapDown: (details) async {
-            Offset localPosition = details.globalPosition;
-            RelativeRect position =
-                RelativeRect.fromLTRB(localPosition.dx, localPosition.dy, localPosition.dx, localPosition.dy);
-            await showMenu(
-              context: context,
-              position: position,
-              items: viewActions.popupMenuItems(useIcons: true),
-            );
-          },
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            FocusButton(
+              key: Key(view.id),
+              onTap: isSelected ? null : () => onSelected?.call(view),
+              onLongPress: () => context.pushRoute(LibrarySearchRoute(viewModelId: view.id)),
+              onSecondaryTapDown: (details) async {
+                Offset localPosition = details.globalPosition;
+                RelativeRect position =
+                    RelativeRect.fromLTRB(localPosition.dx, localPosition.dy, localPosition.dx, localPosition.dy);
+                await showMenu(
+                  context: context,
+                  position: position,
+                  items: viewActions.popupMenuItems(useIcons: true),
+                );
+              },
+              child: Container(
                 decoration: BoxDecoration(
                   borderRadius: FladderTheme.defaultShape.borderRadius,
                 ),
@@ -294,15 +296,15 @@ class LibraryRow extends ConsumerWidget {
                   ),
                 ),
               ),
-              Text(
-                view.name,
-                style: Theme.of(context).textTheme.titleMedium,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.start,
-              )
-            ],
-          ),
+            ),
+            Text(
+              view.name,
+              style: Theme.of(context).textTheme.titleMedium,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.start,
+            )
+          ],
         );
       },
     );

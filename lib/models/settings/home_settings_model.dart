@@ -40,7 +40,8 @@ T selectAvailableOrSmaller<T>(T value, Set<T> availableOptions, List<T> allOptio
 enum HomeBanner {
   hide,
   carousel,
-  banner;
+  banner,
+  detailedBanner;
 
   const HomeBanner();
 
@@ -48,6 +49,7 @@ enum HomeBanner {
         HomeBanner.hide => context.localized.hide,
         HomeBanner.carousel => context.localized.homeBannerCarousel,
         HomeBanner.banner => context.localized.homeBannerSlideshow,
+        HomeBanner.detailedBanner => 'Detailed banner'
       };
 }
 

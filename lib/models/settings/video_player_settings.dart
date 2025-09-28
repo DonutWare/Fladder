@@ -127,11 +127,17 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
 
 enum PlayerOptions {
   libMDK,
-  libMPV;
+  libMPV,
+  nativePlayer;
 
   const PlayerOptions();
 
-  static Iterable<PlayerOptions> get available => kIsWeb ? {PlayerOptions.libMPV} : PlayerOptions.values;
+  static Iterable<PlayerOptions> get available => kIsWeb
+      ? {PlayerOptions.libMPV}
+      : switch (defaultTargetPlatform) {
+          TargetPlatform.android => PlayerOptions.values,
+          _ => {PlayerOptions.libMDK, PlayerOptions.libMPV},
+        };
 
   static PlayerOptions get platformDefaults {
     if (kIsWeb) return PlayerOptions.libMPV;
@@ -143,6 +149,7 @@ enum PlayerOptions {
   String label(BuildContext context) => switch (this) {
         PlayerOptions.libMDK => "MDK",
         PlayerOptions.libMPV => "MPV",
+        PlayerOptions.nativePlayer => "Native",
       };
 }
 

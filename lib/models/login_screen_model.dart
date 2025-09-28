@@ -1,26 +1,34 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 import 'package:fladder/models/account_model.dart';
 import 'package:fladder/models/credentials_model.dart';
 
-class LoginScreenModel {
-  final List<AccountModel> accounts;
-  final CredentialsModel tempCredentials;
-  final bool loading;
-  LoginScreenModel({
-    required this.accounts,
-    required this.tempCredentials,
-    required this.loading,
-  });
+part 'login_screen_model.freezed.dart';
 
-  LoginScreenModel copyWith({
-    List<AccountModel>? accounts,
-    CredentialsModel? tempCredentials,
-    bool? loading,
-  }) {
-    return LoginScreenModel(
-      accounts: accounts ?? this.accounts,
-      tempCredentials: tempCredentials ?? this.tempCredentials,
-      loading: loading ?? this.loading,
-    );
-  }
+enum LoginScreenType {
+  users,
+  login,
+  code,
+}
+
+@Freezed(copyWith: true)
+abstract class LoginScreenModel with _$LoginScreenModel {
+  factory LoginScreenModel({
+    @Default([]) List<AccountModel> accounts,
+    @Default(LoginScreenType.users) LoginScreenType screen,
+    ServerLoginModel? serverLoginModel,
+    String? errorMessage,
+    @Default(false) bool hasBaseUrl,
+    @Default(false) bool loading,
+  }) = _LoginScreenModel;
+}
+
+@Freezed(copyWith: true)
+abstract class ServerLoginModel with _$ServerLoginModel {
+  factory ServerLoginModel({
+    required CredentialsModel tempCredentials,
+    @Default([]) List<AccountModel> accounts,
+    String? serverMessage,
+    @Default(false) bool hasQuickConnect,
+  }) = _ServerLoginModel;
 }

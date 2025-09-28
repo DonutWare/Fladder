@@ -20,11 +20,14 @@ import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/adaptive_fab.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/destination_model.dart';
+import 'package:fladder/widgets/navigation_scaffold/components/navigation_body.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/navigation_button.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/settings_user_icon.dart';
 import 'package:fladder/widgets/shared/custom_tooltip.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
+
+final navBarNode = FocusNode();
 
 class SideNavigationBar extends ConsumerStatefulWidget {
   final int currentIndex;
@@ -53,7 +56,7 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
     final views = ref.watch(viewsProvider.select((value) => value.views));
     final usePostersForLibrary = ref.watch(clientSettingsProvider.select((value) => value.usePosterForLibrary));
 
-    final expandedWidth = 250.0;
+    final expandedWidth = 200.0;
     final padding = MediaQuery.paddingOf(context);
 
     final collapsedWidth = 90 + padding.left;
@@ -64,6 +67,9 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
 
     final fullScreenChildRoute = fullScreenRoutes.contains(context.router.current.name);
 
+    final hasOverlay = AdaptiveLayout.layoutModeOf(context) == LayoutMode.dual ||
+        homeRoutes.any((element) => element.name.contains(context.router.current.name));
+
     return Stack(
       children: [
         AdaptiveLayoutBuilder(
@@ -73,15 +79,16 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
           ),
           child: (context) => widget.child,
         ),
-        IgnorePointer(
-          ignoring: fullScreenChildRoute,
-          child: AnimatedOpacity(
-            duration: const Duration(milliseconds: 250),
-            opacity: !fullScreenChildRoute ? 1 : 0,
-            child: Container(
-              color: Theme.of(context).colorScheme.surface.withValues(alpha: shouldExpand ? 0.95 : 0.85),
-              width: shouldExpand ? expandedWidth : collapsedWidth,
-              child: MouseRegion(
+        FocusTraversalGroup(
+          policy: _RailTraversalPolicy(),
+          child: IgnorePointer(
+            ignoring: !hasOverlay || fullScreenChildRoute,
+            child: AnimatedOpacity(
+              duration: const Duration(milliseconds: 250),
+              opacity: !fullScreenChildRoute ? 1 : 0,
+              child: Container(
+                color: Theme.of(context).colorScheme.surface.withValues(alpha: shouldExpand ? 0.95 : 0.85),
+                width: shouldExpand ? expandedWidth : collapsedWidth,
                 child: Padding(
                   key: const Key('navigation_rail'),
                   padding: padding.copyWith(right: 0, top: isDesktop ? padding.top : null),
@@ -111,9 +118,12 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                         ),
                       ),
                       if (largeBar) ...[
-                        AnimatedFadeSize(
-                          duration: const Duration(milliseconds: 250),
-                          child: shouldExpand ? actionButton(context).extended : actionButton(context).normal,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4).copyWith(bottom: expandedSideBar ? 10 : 0),
+                          child: AnimatedFadeSize(
+                            duration: const Duration(milliseconds: 250),
+                            child: shouldExpand ? actionButton(context).extended : actionButton(context).normal,
+                          ),
                         ),
                       ],
                       Expanded(
@@ -137,6 +147,7 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                                 child: destination.toNavigationButton(
                                   widget.currentIndex == index,
                                   true,
+                                  navFocusNode: index == 0,
                                   shouldExpand,
                                 ),
                               ),
@@ -204,6 +215,7 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                                                               : view.collectionType.iconOutlined,
                                                         ),
                                                       ),
+                                                      decodeHeight: 64,
                                                     ),
                                                   ),
                                                 )
@@ -273,6 +285,7 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                                                                       e.collectionType.iconOutlined,
                                                                     ),
                                                                   ),
+                                                                  decodeHeight: 64,
                                                                 ),
                                                               ),
                                                             ),
@@ -299,7 +312,7 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                         selectedIcon: const Icon(IconsaxPlusBold.setting_3),
                         horizontal: true,
                         expanded: shouldExpand,
-                        icon: const SettingsUserIcon(),
+                        icon: const ExcludeFocusTraversal(child: SettingsUserIcon()),
                         onPressed: () {
                           if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.single) {
                             context.router.push(const SettingsRoute());
@@ -331,4 +344,65 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
           child: const Icon(IconsaxPlusLinear.search_normal_1),
         );
   }
+}
+
+class _RailTraversalPolicy extends ReadingOrderTraversalPolicy {
+  _RailTraversalPolicy();
+
+  @override
+  bool inDirection(FocusNode currentNode, TraversalDirection direction) {
+    if (direction == TraversalDirection.left) {
+      return false;
+    }
+    if (direction == TraversalDirection.right) {
+      if (lastMainFocus != null && _isLaidOut(lastMainFocus!)) {
+        lastMainFocus!.requestFocus();
+        return true;
+      } else {
+        return super.inDirection(currentNode, direction);
+      }
+    }
+    if (direction == TraversalDirection.up || direction == TraversalDirection.down) {
+      final scope = currentNode.enclosingScope;
+      if (scope == null) {
+        return false;
+      }
+
+      final candidates = scope.traversalDescendants
+          .where((n) => n.canRequestFocus && FocusTraversalGroup.maybeOfNode(n) == this && _isLaidOut(n))
+          .toList();
+
+      if (candidates.isEmpty) return false;
+
+      final sorted = sortDescendants(candidates, currentNode).toList();
+
+      var index = sorted.indexOf(currentNode);
+      if (index == -1) {
+        index = direction == TraversalDirection.down ? -1 : sorted.length;
+      }
+
+      final nextIndex = direction == TraversalDirection.down ? index + 1 : index - 1;
+
+      if (nextIndex < 0 || nextIndex >= sorted.length) {
+        return true;
+      }
+
+      requestFocusCallback(sorted[nextIndex]);
+      return true;
+    }
+    return super.inDirection(currentNode, direction);
+  }
+}
+
+bool _isLaidOut(FocusNode node) {
+  final ro = node.context?.findRenderObject();
+  return ro is RenderBox && ro.hasSize;
+}
+
+bool isNodeInCurrentRoute(FocusNode node) {
+  if (!node.canRequestFocus) return false;
+  if (node.context == null) return false;
+
+  final nearestScope = FocusScope.of(node.context!);
+  return nearestScope.hasFocus || nearestScope.isFirstFocus;
 }

@@ -6,11 +6,10 @@ import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/sync/sync_provider_helpers.dart';
-import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/screens/syncing/sync_button.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
-import 'package:fladder/util/disable_keypad_focus.dart';
 import 'package:fladder/util/fladder_image.dart';
+import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/clickable_text.dart';
@@ -64,14 +63,14 @@ class _EpisodePosterState extends ConsumerState<EpisodePosters> {
           EnumBox(
             current: selectedSeason != null ? "${context.localized.season(1)} $selectedSeason" : context.localized.all,
             itemBuilder: (context) => [
-              PopupMenuItem(
-                child: Text(context.localized.all),
-                onTap: () => setState(() => selectedSeason = null),
+              ItemActionButton(
+                label: Text(context.localized.all),
+                action: () => setState(() => selectedSeason = null),
               ),
               ...episodesBySeason.entries.map(
-                (e) => PopupMenuItem(
-                  child: Text("${context.localized.season(1)} ${e.key}"),
-                  onTap: () {
+                (e) => ItemActionButton(
+                  label: Text("${context.localized.season(1)} ${e.key}"),
+                  action: () {
                     setState(() => selectedSeason = e.key);
                   },
                 ),
@@ -84,7 +83,7 @@ class _EpisodePosterState extends ConsumerState<EpisodePosters> {
       contentPadding: widget.contentPadding,
       startIndex: indexOfCurrent,
       items: episodes,
-      itemBuilder: (context, index) {
+      itemBuilder: (context, index, selected) {
         final episode = episodes[index];
         final isCurrentEpisode = index == indexOfCurrent;
         return EpisodePoster(
@@ -164,14 +163,43 @@ class EpisodePoster extends ConsumerWidget {
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  FladderImage(
-                    image: !episodeAvailable ? episode.parentImages?.primary : episode.images?.primary,
-                    placeHolder: placeHolder,
-                    blurOnly: !episodeAvailable
-                        ? true
-                        : ref.watch(clientSettingsProvider.select((value) => value.blurUpcomingEpisodes))
-                            ? blur
-                            : false,
+                  FocusButton(
+                    onTap: onTap,
+                    onLongPress: onLongPress,
+                    onSecondaryTapDown: (details) async {
+                      Offset localPosition = details.globalPosition;
+                      RelativeRect position =
+                          RelativeRect.fromLTRB(localPosition.dx, localPosition.dy, localPosition.dx, localPosition.dy);
+
+                      await showMenu(
+                          context: context, position: position, items: actions.popupMenuItems(useIcons: true));
+                    },
+                    child: FladderImage(
+                      image: !episodeAvailable ? episode.parentImages?.primary : episode.images?.primary,
+                      placeHolder: placeHolder,
+                      blurOnly: !episodeAvailable
+                          ? true
+                          : ref.watch(clientSettingsProvider.select((value) => value.blurUpcomingEpisodes))
+                              ? blur
+                              : false,
+                      decodeHeight: 250,
+                    ),
+                    overlays: [
+                      if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer && actions.isNotEmpty)
+                        ExcludeFocus(
+                          child: Align(
+                            alignment: Alignment.bottomRight,
+                            child: PopupMenuButton(
+                              tooltip: context.localized.options,
+                              icon: const Icon(
+                                Icons.more_vert,
+                                color: Colors.white,
+                              ),
+                              itemBuilder: (context) => actions.popupMenuItems(useIcons: true),
+                            ),
+                          ),
+                        ),
+                    ],
                   ),
                   if (!episodeAvailable)
                     Align(
@@ -234,36 +262,6 @@ class EpisodePoster extends ConsumerWidget {
                         minHeight: 6,
                         backgroundColor: Colors.black.withValues(alpha: 0.75),
                         value: episode.userData.progress / 100,
-                      ),
-                    ),
-                  LayoutBuilder(
-                    builder: (context, constraints) {
-                      return FlatButton(
-                        onSecondaryTapDown: (details) async {
-                          Offset localPosition = details.globalPosition;
-                          RelativeRect position = RelativeRect.fromLTRB(
-                              localPosition.dx, localPosition.dy, localPosition.dx, localPosition.dy);
-
-                          await showMenu(
-                              context: context, position: position, items: actions.popupMenuItems(useIcons: true));
-                        },
-                        onTap: onTap,
-                        onLongPress: onLongPress,
-                      );
-                    },
-                  ),
-                  if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer && actions.isNotEmpty)
-                    DisableFocus(
-                      child: Align(
-                        alignment: Alignment.bottomRight,
-                        child: PopupMenuButton(
-                          tooltip: context.localized.options,
-                          icon: const Icon(
-                            Icons.more_vert,
-                            color: Colors.white,
-                          ),
-                          itemBuilder: (context) => actions.popupMenuItems(useIcons: true),
-                        ),
                       ),
                     ),
                 ],

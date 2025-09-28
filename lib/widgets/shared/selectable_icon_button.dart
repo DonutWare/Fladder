@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/util/refresh_state.dart';
+import 'package:fladder/widgets/shared/ensure_visible.dart';
 
 class SelectableIconButton extends ConsumerStatefulWidget {
   final FutureOr<dynamic> Function() onPressed;
@@ -33,6 +34,7 @@ class SelectableIconButton extends ConsumerStatefulWidget {
 
 class _SelectableIconButtonState extends ConsumerState<SelectableIconButton> {
   bool loading = false;
+  bool focused = false;
   @override
   Widget build(BuildContext context) {
     const duration = Duration(milliseconds: 250);
@@ -51,6 +53,16 @@ class _SelectableIconButtonState extends ConsumerState<SelectableIconButton> {
               widget.iconColor ?? (widget.selected ? Theme.of(context).colorScheme.onPrimary : null)),
           padding: const WidgetStatePropertyAll(EdgeInsets.zero),
         ),
+        onFocusChange: (value) {
+          setState(() {
+            focused = value;
+          });
+          if (value) {
+            context.ensureVisible(
+              alignment: 1.0,
+            );
+          }
+        },
         onPressed: loading
             ? null
             : () async {

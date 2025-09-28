@@ -4,11 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/items/season_model.dart';
 import 'package:fladder/providers/sync/sync_provider_helpers.dart';
-import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/screens/syncing/sync_button.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
-import 'package:fladder/util/disable_keypad_focus.dart';
 import 'package:fladder/util/fladder_image.dart';
+import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/clickable_text.dart';
@@ -39,6 +38,7 @@ class SeasonsRow extends ConsumerWidget {
       itemBuilder: (
         context,
         index,
+        selected,
       ) {
         final season = (seasons ?? [])[index];
         return SeasonPoster(
@@ -141,46 +141,46 @@ class SeasonPoster extends ConsumerWidget {
                       ],
                     ),
                   ),
-                  LayoutBuilder(
-                    builder: (context, constraints) {
-                      return FlatButton(
-                        onSecondaryTapDown: (details) async {
-                          Offset localPosition = details.globalPosition;
-                          RelativeRect position = RelativeRect.fromLTRB(
-                              localPosition.dx, localPosition.dy, localPosition.dx, localPosition.dy);
-                          await showMenu(
-                              context: context,
-                              position: position,
-                              items: season.generateActions(context, ref).popupMenuItems(useIcons: true));
-                        },
-                        onTap: () => onSeasonPressed?.call(season),
-                        onLongPress: AdaptiveLayout.of(context).inputDevice == InputDevice.touch
-                            ? () {
-                                showBottomSheetPill(
-                                  context: context,
-                                  content: (context, scrollController) => ListView(
-                                    shrinkWrap: true,
-                                    controller: scrollController,
-                                    children:
-                                        season.generateActions(context, ref).listTileItems(context, useIcons: true),
-                                  ),
-                                );
-                              }
-                            : null,
-                      );
-                    },
-                  ),
-                  if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer)
-                    DisableFocus(
-                      child: Align(
-                        alignment: Alignment.bottomRight,
-                        child: PopupMenuButton(
-                          tooltip: context.localized.options,
-                          icon: const Icon(Icons.more_vert, color: Colors.white),
-                          itemBuilder: (context) => season.generateActions(context, ref).popupMenuItems(useIcons: true),
-                        ),
-                      ),
+                  Positioned.fill(
+                    child: FocusButton(
+                      onSecondaryTapDown: (details) async {
+                        Offset localPosition = details.globalPosition;
+                        RelativeRect position = RelativeRect.fromLTRB(
+                            localPosition.dx, localPosition.dy, localPosition.dx, localPosition.dy);
+                        await showMenu(
+                            context: context,
+                            position: position,
+                            items: season.generateActions(context, ref).popupMenuItems(useIcons: true));
+                      },
+                      onTap: () => onSeasonPressed?.call(season),
+                      onLongPress: AdaptiveLayout.of(context).inputDevice == InputDevice.touch
+                          ? () {
+                              showBottomSheetPill(
+                                context: context,
+                                content: (context, scrollController) => ListView(
+                                  shrinkWrap: true,
+                                  controller: scrollController,
+                                  children: season.generateActions(context, ref).listTileItems(context, useIcons: true),
+                                ),
+                              );
+                            }
+                          : null,
+                      overlays: [
+                        if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer)
+                          ExcludeFocus(
+                            child: Align(
+                              alignment: Alignment.bottomRight,
+                              child: PopupMenuButton(
+                                tooltip: context.localized.options,
+                                icon: const Icon(Icons.more_vert, color: Colors.white),
+                                itemBuilder: (context) =>
+                                    season.generateActions(context, ref).popupMenuItems(useIcons: true),
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
+                  ),
                 ],
               ),
             ),

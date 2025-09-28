@@ -18,6 +18,7 @@ class FladderImage extends ConsumerWidget {
   final AlignmentGeometry? alignment;
   final bool disableBlur;
   final bool blurOnly;
+  final int? decodeHeight;
   const FladderImage({
     required this.image,
     this.frameBuilder,
@@ -29,6 +30,7 @@ class FladderImage extends ConsumerWidget {
     this.alignment,
     this.disableBlur = false,
     this.blurOnly = false,
+    this.decodeHeight = 400,
     super.key,
   });
 
@@ -48,20 +50,23 @@ class FladderImage extends ConsumerWidget {
             Image(
               image: BlurHashImage(
                 newImage.hash,
-                decodingHeight: 24,
-                decodingWidth: 24,
+                decodingHeight: 16,
+                decodingWidth: 16,
               ),
               fit: blurFit ?? fit,
+              height: 16,
             ),
           if (!blurOnly && imageProvider != null)
             FadeInImage(
               placeholder: MemoryImage(kTransparentImage),
               fit: fit,
               placeholderFit: fit,
-              excludeFromSemantics: true,
               alignment: alignment ?? Alignment.center,
               imageErrorBuilder: imageErrorBuilder,
-              image: imageProvider,
+              image: ResizeImage(
+                imageProvider,
+                height: decodeHeight,
+              ),
             )
         ],
       );
