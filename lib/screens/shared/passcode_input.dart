@@ -4,8 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/screens/shared/animated_fade_size.dart';
-import 'package:fladder/util/input_handler.dart';
-import 'package:fladder/util/list_padding.dart';
 
 class PassCodeInput extends ConsumerStatefulWidget {
   final ValueChanged<String> passCode;
@@ -19,6 +17,18 @@ class _PassCodeInputState extends ConsumerState<PassCodeInput> {
   final iconSize = 45.0;
   final passCodeLength = 4;
   var currentPasscode = "";
+
+  @override
+  void initState() {
+    super.initState();
+    HardwareKeyboard.instance.addHandler(_onKey);
+  }
+
+  @override
+  void dispose() {
+    HardwareKeyboard.instance.removeHandler(_onKey);
+    super.dispose();
+  }
 
   bool _onKey(KeyEvent value) {
     if (value is KeyDownEvent) {
@@ -37,70 +47,68 @@ class _PassCodeInputState extends ConsumerState<PassCodeInput> {
 
   @override
   Widget build(BuildContext context) {
-    return InputHandler(
-      onKeyEvent: (node, event) => _onKey(event) ? KeyEventResult.handled : KeyEventResult.ignored,
-      child: AlertDialog(
-        scrollable: true,
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: List.generate(
-                passCodeLength,
-                (index) => Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: SizedBox(
-                      height: iconSize * 1.2,
-                      width: iconSize * 1.2,
-                      child: Card(
-                        child: Transform.translate(
-                          offset: const Offset(0, 5),
-                          child: AnimatedFadeSize(
-                            child: Text(
-                              currentPasscode.length > index ? "*" : "",
-                              style: Theme.of(context).textTheme.displayLarge?.copyWith(fontSize: 60),
-                            ),
+    return AlertDialog(
+      scrollable: true,
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        spacing: 8,
+        children: [
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: List.generate(
+              passCodeLength,
+              (index) => Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: SizedBox(
+                    height: iconSize * 1.2,
+                    width: iconSize * 1.2,
+                    child: Card(
+                      child: Transform.translate(
+                        offset: const Offset(0, 5),
+                        child: AnimatedFadeSize(
+                          child: Text(
+                            currentPasscode.length > index ? "*" : "",
+                            style: Theme.of(context).textTheme.displayLarge?.copyWith(fontSize: 60),
                           ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ).toList(),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: List.of([1, 2, 3]).map((e) => passCodeNumber(e)).toList(),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: List.of([4, 5, 6]).map((e) => passCodeNumber(e)).toList(),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: List.of([7, 8, 9]).map((e) => passCodeNumber(e)).toList(),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                backSpaceButton,
-                passCodeNumber(0),
-                clearAllButton,
-              ],
-            )
-          ].addPadding(const EdgeInsets.symmetric(vertical: 8)),
-        ),
+              ),
+            ).toList(),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: List.of([1, 2, 3]).map((e) => passCodeNumber(e)).toList(),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: List.of([4, 5, 6]).map((e) => passCodeNumber(e)).toList(),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: List.of([7, 8, 9]).map((e) => passCodeNumber(e)).toList(),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              backSpaceButton,
+              passCodeNumber(0),
+              clearAllButton,
+            ],
+          )
+        ],
       ),
     );
   }
 
   Widget passCodeNumber(int value) {
     return IconButton.filledTonal(
-      onPressed: () async {
+      onPressed: () {
         addToPassCode(value.toString());
       },
       icon: Container(
@@ -138,6 +146,7 @@ class _PassCodeInputState extends ConsumerState<PassCodeInput> {
 
   Widget get clearAllButton {
     return IconButton.filled(
+      autofocus: true,
       style: ButtonStyle(
         backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.errorContainer),
         iconColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.onErrorContainer),
