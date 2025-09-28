@@ -93,11 +93,12 @@ class DetailsRoute extends _i18.PageRouteInfo<DetailsRouteArgs> {
   DetailsRoute({
     String id = '',
     _i19.ItemBaseModel? item,
+    Object? tag,
     _i20.Key? key,
     List<_i18.PageRouteInfo>? children,
   }) : super(
           DetailsRoute.name,
-          args: DetailsRouteArgs(id: id, item: item, key: key),
+          args: DetailsRouteArgs(id: id, item: item, tag: tag, key: key),
           rawQueryParams: {'id': id},
           initialChildren: children,
         );
@@ -111,34 +112,44 @@ class DetailsRoute extends _i18.PageRouteInfo<DetailsRouteArgs> {
       final args = data.argsAs<DetailsRouteArgs>(
         orElse: () => DetailsRouteArgs(id: queryParams.getString('id', '')),
       );
-      return _i4.DetailsScreen(id: args.id, item: args.item, key: args.key);
+      return _i4.DetailsScreen(
+        id: args.id,
+        item: args.item,
+        tag: args.tag,
+        key: args.key,
+      );
     },
   );
 }
 
 class DetailsRouteArgs {
-  const DetailsRouteArgs({this.id = '', this.item, this.key});
+  const DetailsRouteArgs({this.id = '', this.item, this.tag, this.key});
 
   final String id;
 
   final _i19.ItemBaseModel? item;
 
+  final Object? tag;
+
   final _i20.Key? key;
 
   @override
   String toString() {
-    return 'DetailsRouteArgs{id: $id, item: $item, key: $key}';
+    return 'DetailsRouteArgs{id: $id, item: $item, tag: $tag, key: $key}';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! DetailsRouteArgs) return false;
-    return id == other.id && item == other.item && key == other.key;
+    return id == other.id &&
+        item == other.item &&
+        tag == other.tag &&
+        key == other.key;
   }
 
   @override
-  int get hashCode => id.hashCode ^ item.hashCode ^ key.hashCode;
+  int get hashCode => id.hashCode ^ item.hashCode ^ tag.hashCode ^ key.hashCode;
 }
 
 /// generated route for

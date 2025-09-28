@@ -58,6 +58,7 @@ class PosterImage extends ConsumerStatefulWidget {
 }
 
 class _PosterImageState extends ConsumerState<PosterImage> {
+  final tag = UniqueKey();
   void pressedWidget(BuildContext context) async {
     if (widget.onPressed != null) {
       widget.onPressed?.call(() async {
@@ -72,7 +73,7 @@ class _PosterImageState extends ConsumerState<PosterImage> {
   }
 
   Future<void> navigateToDetails() async {
-    await widget.poster.navigateTo(context, ref: ref);
+    await widget.poster.navigateTo(context, ref: ref, tag: tag);
   }
 
   final posterRadius = FladderTheme.smallShape.borderRadius;
@@ -82,9 +83,8 @@ class _PosterImageState extends ConsumerState<PosterImage> {
     final poster = widget.poster;
     final padding = const EdgeInsets.all(5);
 
-    //TODO: Fix this key
     return Hero(
-      tag: UniqueKey(),
+      tag: tag,
       child: Card(
         elevation: 6,
         color: Theme.of(context).colorScheme.secondaryContainer,
