@@ -77,7 +77,6 @@ class _GridFocusTravelerState extends ConsumerState<GridFocusTraveler> {
   void dispose() {
     for (var node in _focusNodes) {
       node.dispose();
-      node.removeListener(() {});
     }
     super.dispose();
   }
@@ -86,13 +85,11 @@ class _GridFocusTravelerState extends ConsumerState<GridFocusTraveler> {
   Widget build(BuildContext context) {
     return FocusTraversalGroup(
       policy: GridFocusTravelerPolicy(
-        itemCount: widget.itemCount,
-        current: selectedIndex,
+        navBarNode: navBarNode,
+        nodes: _focusNodes,
         crossAxisCount: widget.crossAxisCount,
         onChanged: (value) {
-          setState(() {
-            selectedIndex = value;
-          });
+          selectedIndex = value;
           _focusNodes[value].requestFocus();
         },
       ),
@@ -113,23 +110,36 @@ class _GridFocusTravelerState extends ConsumerState<GridFocusTraveler> {
 }
 
 class GridFocusTravelerPolicy extends ReadingOrderTraversalPolicy {
-  final int itemCount;
-  final int current;
+  /// The complete list of FocusNodes for the grid.
+  final List<FocusNode> nodes;
+
+  /// The number of items in each row.
   final int crossAxisCount;
+
+  /// Callback to notify the parent which node index should be focused next.
   final Function(int value) onChanged;
+
+  /// The navigation bar node to focus when navigating left from the first column.
+  final FocusNode navBarNode;
+
   GridFocusTravelerPolicy({
-    required this.itemCount,
-    required this.current,
+    required this.nodes,
     required this.crossAxisCount,
     required this.onChanged,
+    required this.navBarNode,
   });
 
   @override
   bool inDirection(FocusNode currentNode, TraversalDirection direction) {
+    final int current = nodes.indexOf(currentNode);
+    if (current == -1) {
+      return super.inDirection(currentNode, direction);
+    }
+
+    final int itemCount = nodes.length;
     final int row = current ~/ crossAxisCount;
     final int col = current % crossAxisCount;
     final int rowCount = (itemCount / crossAxisCount).ceil();
-
     int? next;
 
     switch (direction) {
@@ -153,7 +163,7 @@ class GridFocusTravelerPolicy extends ReadingOrderTraversalPolicy {
 
       case TraversalDirection.down:
         if (row < rowCount - 1) {
-          final candidate = current + crossAxisCount;
+          final int candidate = current + crossAxisCount;
           if (candidate < itemCount) {
             next = candidate;
           }
@@ -166,8 +176,9 @@ class GridFocusTravelerPolicy extends ReadingOrderTraversalPolicy {
       return true;
     }
 
-    if (next == null && direction == TraversalDirection.left) {
+    if (direction == TraversalDirection.left && col == 0) {
       navBarNode.requestFocus();
+      return true;
     }
 
     return super.inDirection(currentNode, direction);

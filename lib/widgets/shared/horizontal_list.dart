@@ -87,7 +87,11 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
       node.addListener(() {
         if (node.hasFocus) {
           _scrollToPosition(i);
-          widget.onFocused?.call(i);
+          if (widget.onFocused != null) {
+            widget.onFocused?.call(i);
+          } else {
+            context.ensureVisible();
+          }
         }
       });
       return node;
@@ -169,7 +173,6 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
       onFocusChange: (value) {
         if (value) {
           _focusNodes[currentIndex].requestFocus();
-          context.ensureVisible();
         }
       },
       child: Column(
@@ -276,12 +279,9 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
             child: FocusTraversalGroup(
               policy: HorizontalRailFocus(
                   parentNode: parentNode,
-                  size: _focusNodes.length,
-                  current: currentIndex,
+                  nodes: _focusNodes,
                   onChanged: (value) {
-                    setState(() {
-                      currentIndex = value;
-                    });
+                    currentIndex = value;
                     _focusNodes[value].requestFocus();
                   }),
               child: ExcludeFocusTraversal(
@@ -311,35 +311,38 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
 
 class HorizontalRailFocus extends WidgetOrderTraversalPolicy {
   final FocusNode parentNode;
-  final int size;
-  final int current;
+  final List<FocusNode> nodes;
   final Function(int value) onChanged;
   HorizontalRailFocus({
     required this.parentNode,
-    required this.size,
-    required this.current,
+    required this.nodes,
     required this.onChanged,
   });
 
   @override
   bool inDirection(FocusNode currentNode, TraversalDirection direction) {
+    // Find the index of the currently focused node
+    final int current = nodes.indexWhere((node) => node.hasFocus);
+    // If nothing is focused, default to 0
+    final int currentIndex = current == -1 ? 0 : current;
+
     if (direction == TraversalDirection.left) {
-      if (current <= 0) {
+      if (currentIndex <= 0) {
         navBarNode.requestFocus();
         return true;
       } else {
-        onChanged(math.max(current - 1, 0));
+        onChanged(math.max(currentIndex - 1, 0));
         return true;
       }
     } else if (direction == TraversalDirection.right) {
-      if (current >= size) {
+      if (currentIndex >= nodes.length - 1) {
+        // Corrected boundary check
         return super.inDirection(parentNode, direction);
       } else {
-        onChanged(math.min(current + 1, size - 1));
+        onChanged(math.min(currentIndex + 1, nodes.length - 1));
         return true;
       }
     }
-    //Force focus on the parent when not navigating in the list
     parentNode.requestFocus();
     return super.inDirection(parentNode, direction);
   }

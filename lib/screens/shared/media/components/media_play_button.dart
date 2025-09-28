@@ -94,7 +94,7 @@ class MediaPlayButton extends ConsumerWidget {
                       ),
                     ),
                     // Button content
-                    buttonTitle(Theme.of(context).colorScheme.onSurface),
+                    buttonTitle(Theme.of(context).colorScheme.primary),
                     Positioned.fill(
                       child: ClipRect(
                         clipper: _ProgressClipper(

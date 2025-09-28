@@ -130,6 +130,7 @@ class _DetailedBannerState extends ConsumerState<DetailedBanner> {
         FocusProvider(
           autoFocus: true,
           child: PosterRow(
+            key: const Key("detailed-banner-row"),
             primaryPosters: true,
             label: context.localized.nextUp,
             posters: widget.posters,
@@ -137,10 +138,10 @@ class _DetailedBannerState extends ConsumerState<DetailedBanner> {
               context.ensureVisible(
                 alignment: 1.0,
               );
-              // widget.onSelect(poster);
               setState(() {
                 selectedPoster = poster;
               });
+              widget.onSelect(poster);
             },
           ),
         )

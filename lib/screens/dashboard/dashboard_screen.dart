@@ -129,11 +129,11 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                       child: HomeBannerWidget(
                         posters: homeCarouselItems,
                         onSelect: (selected) {
-                          if (selectedPoster != selected) {
-                            setState(() {
-                              selectedPoster = selected;
-                            });
-                          }
+                          // if (selectedPoster != selected) {
+                          //   setState(() {
+                          //     selectedPoster = selected;
+                          //   });
+                          // }
                         },
                       ),
                     ),
