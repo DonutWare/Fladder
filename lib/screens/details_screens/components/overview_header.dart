@@ -157,7 +157,8 @@ class OverviewHeader extends ConsumerWidget {
                       child: Text(
                         summary ?? "",
                         style: Theme.of(context).textTheme.titleLarge,
-                        maxLines: 6,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 3,
                       ),
                     ),
                   if (genres.isNotEmpty)
