@@ -1485,5 +1485,15 @@
                 "type": "double"
             }
         }
-    }
+    },
+    "television": "Телебачення",
+    "@television": {},
+    "exitFladderDesc": "Ви впевнені, що хочете закрити Fladder?",
+    "@exitFladderDesc": {},
+    "quickConnectPostFailed": "Не вдалося отримати код швидкого підключення",
+    "@quickConnectPostFailed": {},
+    "quickConnectLoginUsingCode": "Використання швидкого з'єднання",
+    "@quickConnectLoginUsingCode": {},
+    "quickConnectEnterCodeDescription": "Введіть код нижче, щоб увійти",
+    "@quickConnectEnterCodeDescription": {}
 }
