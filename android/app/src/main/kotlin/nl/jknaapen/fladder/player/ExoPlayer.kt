@@ -1,6 +1,7 @@
 package nl.jknaapen.fladder.player
 
 import PlaybackState
+import android.app.ActivityManager
 import android.content.Context
 import android.view.ViewGroup
 import androidx.annotation.OptIn
@@ -16,9 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.getSystemService
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.Player
+import androidx.media3.common.TrackSelectionParameters
 import androidx.media3.common.Tracks
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DataSource
@@ -31,6 +34,8 @@ import androidx.media3.exoplayer.DefaultRenderersFactory
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
+import androidx.media3.extractor.DefaultExtractorsFactory
+import androidx.media3.extractor.ts.TsExtractor
 import androidx.media3.ui.CaptionStyleCompat
 import androidx.media3.ui.PlayerView
 import io.github.peerless2012.ass.media.kt.buildWithAssSupport
@@ -48,7 +53,6 @@ val LocalPlayer = compositionLocalOf<ExoPlayer?> { null }
 internal fun ExoPlayer(
     controls: @Composable (
         player: ExoPlayer,
-        trackSelector: DefaultTrackSelector,
     ) -> Unit,
 ) {
     val videoHost = VideoPlayerObject
@@ -56,16 +60,19 @@ internal fun ExoPlayer(
 
     var initialized = false
 
-    val trackSelector = DefaultTrackSelector(context).apply {
-        setParameters(
-            buildUponParameters()
-                .setAllowVideoMixedMimeTypeAdaptiveness(true)
-                .setAllowVideoNonSeamlessAdaptiveness(true)
-                .setTunnelingEnabled(true)
+    val extractorsFactory = DefaultExtractorsFactory().apply {
+        val isLowRamDevice = context.getSystemService<ActivityManager>()?.isLowRamDevice == true
+        setTsExtractorTimestampSearchBytes(
+            when (isLowRamDevice) {
+                true -> TsExtractor.TS_PACKET_SIZE * 1800
+                false -> TsExtractor.DEFAULT_TIMESTAMP_SEARCH_BYTES
+            }
         )
+        setConstantBitrateSeekingEnabled(true)
+        setConstantBitrateSeekingAlwaysEnabled(true)
     }
 
-    remember { VideoCache.buildCacheDataSourceFactory(context) }
+    val videoCache = remember { VideoCache.buildCacheDataSourceFactory(context) }
 
     val audioAttributes = AudioAttributes.Builder()
         .setUsage(C.USAGE_MEDIA)
@@ -78,16 +85,26 @@ internal fun ExoPlayer(
 
     val exoPlayer = remember {
         ExoPlayer.Builder(context, renderersFactory)
-            .setTrackSelector(trackSelector)
+            .setTrackSelector(DefaultTrackSelector(context).apply {
+                setParameters(buildUponParameters().apply {
+                    setAudioOffloadPreferences(
+                        TrackSelectionParameters.AudioOffloadPreferences.DEFAULT.buildUpon().apply {
+                            setAudioOffloadMode(TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_ENABLED)
+                        }.build()
+                    )
+                    setAllowInvalidateSelectionsOnRendererCapabilitiesChange(true)
+                    setTunnelingEnabled(true)
+                })
+            })
             .setMediaSourceFactory(
                 DefaultMediaSourceFactory(
-                    VideoCache.buildCacheDataSourceFactory(
-                        context
-                    )
-                )
+                    videoCache,
+                    extractorsFactory
+                ),
             )
             .setAudioAttributes(audioAttributes, true)
             .setHandleAudioBecomingNoisy(true)
+            .setPauseAtEndOfMediaItems(true)
             .setVideoScalingMode(C.VIDEO_SCALING_MODE_SCALE_TO_FIT)
             .buildWithAssSupport(context, AssRenderType.LEGACY)
     }
@@ -179,10 +196,10 @@ internal fun ExoPlayer(
                         )
                     }
                 }
-            }
+            },
         )
         CompositionLocalProvider(LocalPlayer provides exoPlayer) {
-            controls(exoPlayer, trackSelector)
+            controls(exoPlayer)
         }
     }
 }

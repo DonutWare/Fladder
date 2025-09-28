@@ -49,7 +49,7 @@ class SideNavigationBar extends ConsumerStatefulWidget {
 }
 
 class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
-  late bool expandedSideBar = AdaptiveLayout.of(context).viewSize >= ViewSize.television;
+  bool expandedSideBar = false;
 
   @override
   Widget build(BuildContext context) {

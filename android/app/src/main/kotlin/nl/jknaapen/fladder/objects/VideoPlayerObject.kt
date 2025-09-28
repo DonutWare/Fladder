@@ -3,10 +3,6 @@ package nl.jknaapen.fladder.objects
 import PlaybackState
 import VideoPlayerControlsCallback
 import VideoPlayerListenerCallback
-import android.content.Context
-import android.content.pm.PackageManager
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
@@ -62,12 +58,4 @@ object VideoPlayerObject {
     var videoPlayerListener: VideoPlayerListenerCallback? = null
     var videoPlayerControls: VideoPlayerControlsCallback? = null
     var currentActivity: VideoPlayerActivity? = null
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun isAndroidTV(context: Context): Boolean {
-        val pm = context.packageManager
-        val leanBackEnabled = pm.hasSystemFeature(PackageManager.FEATURE_LEANBACK)
-        val leanBackOnly = pm.hasSystemFeature(PackageManager.FEATURE_LEANBACK_ONLY)
-        return leanBackEnabled || leanBackOnly
-    }
 }

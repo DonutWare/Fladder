@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:fladder/util/focus_provider.dart';
-
 extension EnsureVisibleHelper on BuildContext {
   Future<void> ensureVisible({
     Duration duration = const Duration(milliseconds: 300),
@@ -11,7 +9,7 @@ extension EnsureVisibleHelper on BuildContext {
     return Scrollable.ensureVisible(
       this,
       duration: duration,
-      alignment: alignment ?? FocusProvider.focusPositionOf(this),
+      alignment: alignment ?? 0.5,
       curve: curve,
     );
   }

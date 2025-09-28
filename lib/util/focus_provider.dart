@@ -3,8 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/theme.dart';
-import 'package:fladder/widgets/shared/ensure_visible.dart';
+import 'package:fladder/widgets/navigation_scaffold/components/navigation_body.dart';
 
 final acceptKeys = {
   LogicalKeyboardKey.space,
@@ -17,13 +18,13 @@ final acceptKeys = {
 class FocusProvider extends InheritedWidget {
   final bool hasFocus;
   final bool autoFocus;
-  final double focusPosition;
+  final FocusNode? focusNode;
 
   const FocusProvider({
     super.key,
     this.hasFocus = false,
     this.autoFocus = false,
-    this.focusPosition = 0.5,
+    this.focusNode,
     required super.child,
   });
 
@@ -37,9 +38,9 @@ class FocusProvider extends InheritedWidget {
     return widget?.autoFocus ?? false;
   }
 
-  static double focusPositionOf(BuildContext context) {
+  static FocusNode? focusNodeOf(BuildContext context) {
     final widget = context.dependOnInheritedWidgetOfExactType<FocusProvider>();
-    return widget?.focusPosition ?? 0.5;
+    return widget?.focusNode;
   }
 
   @override
@@ -55,6 +56,8 @@ class FocusButton extends StatefulWidget {
   final Function()? onLongPress;
   final Function(TapDownDetails)? onSecondaryTapDown;
   final bool darkOverlay;
+  final Function(bool focus)? onFocusChanged;
+
   const FocusButton({
     this.child,
     this.overlays = const [],
@@ -62,6 +65,7 @@ class FocusButton extends StatefulWidget {
     this.onLongPress,
     this.onSecondaryTapDown,
     this.darkOverlay = true,
+    this.onFocusChanged,
     super.key,
   });
 
@@ -70,8 +74,6 @@ class FocusButton extends StatefulWidget {
 }
 
 class FocusButtonState extends State<FocusButton> {
-  FocusNode focusNode = FocusNode();
-  bool onFocused = false;
   bool onHover = false;
   Timer? _longPressTimer;
   bool _longPressTriggered = false;
@@ -79,26 +81,27 @@ class FocusButtonState extends State<FocusButton> {
 
   static const Duration _kLongPressTimeout = Duration(milliseconds: 500);
 
-  bool _handleKey(KeyEvent event) {
-    if (!onFocused && !onHover && !focusNode.hasFocus) return false;
+  KeyEventResult _handleKey(FocusNode node, KeyEvent event) {
+    if (!node.hasFocus) return KeyEventResult.ignored;
 
     if (acceptKeys.contains(event.logicalKey)) {
       if (event is KeyDownEvent) {
-        if (_keyDownActive) return true;
+        if (_keyDownActive) return KeyEventResult.ignored;
         _keyDownActive = true;
         _startLongPressTimer();
       } else if (event is KeyUpEvent) {
-        if (!_keyDownActive) return false;
+        if (!_keyDownActive) return KeyEventResult.ignored;
         if (_longPressTriggered) {
           _resetKeyState();
-          return true;
+
+          return KeyEventResult.ignored;
         }
         _cancelLongPressTimer();
         _keyDownActive = false;
         widget.onTap?.call();
       }
     }
-    return false;
+    return KeyEventResult.ignored;
   }
 
   void _startLongPressTimer() {
@@ -123,47 +126,36 @@ class FocusButtonState extends State<FocusButton> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    HardwareKeyboard.instance.addHandler(_handleKey);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (FocusProvider.autoFocusOf(context)) {
-        focusNode.requestFocus();
-      }
-    });
-  }
-
-  @override
   void dispose() {
     _resetKeyState();
-    HardwareKeyboard.instance.removeHandler(_handleKey);
-    focusNode.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    onFocused = FocusProvider.of(context);
-    return Focus(
-      focusNode: focusNode,
-      onFocusChange: (value) {
-        if (value) {
-          context.ensureVisible();
-        }
-        setState(() {
-          onHover = value;
-        });
-      },
-      child: InkWell(
-        canRequestFocus: false,
-        onTap: widget.onTap,
-        onLongPress: widget.onLongPress,
-        onSecondaryTapDown: widget.onSecondaryTapDown,
-        child: MouseRegion(
-          cursor: SystemMouseCursors.click,
-          onEnter: (event) => setState(() => onHover = true),
-          onExit: (event) => setState(() => onHover = false),
-          child: ExcludeFocus(
+    final focusNode = FocusProvider.focusNodeOf(context);
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: (event) => setState(() => onHover = true),
+      onExit: (event) => setState(() => onHover = false),
+      hitTestBehavior: HitTestBehavior.translucent,
+      child: Focus(
+        focusNode: focusNode,
+        onFocusChange: (value) {
+          widget.onFocusChanged?.call(value);
+          if (value) {
+            lastMainFocus = focusNode;
+          }
+          setState(() {
+            onHover = value;
+          });
+        },
+        onKeyEvent: _handleKey,
+        child: ExcludeFocus(
+          child: FlatButton(
+            onTap: widget.onTap,
+            onSecondaryTapDown: widget.onSecondaryTapDown,
+            onLongPress: widget.onLongPress,
             child: Stack(
               children: [
                 ClipRRect(
@@ -172,7 +164,7 @@ class FocusButtonState extends State<FocusButton> {
                 ),
                 Positioned.fill(
                   child: AnimatedOpacity(
-                    opacity: onFocused || onHover ? 1 : 0,
+                    opacity: onHover ? 1 : 0,
                     duration: const Duration(milliseconds: 125),
                     child: Container(
                       decoration: BoxDecoration(

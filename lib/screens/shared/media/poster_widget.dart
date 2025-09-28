@@ -26,6 +26,8 @@ class PosterWidget extends ConsumerWidget {
   final Function(ItemBaseModel oldItem)? onItemRemoved;
   final Function(VoidCallback action, ItemBaseModel item)? onPressed;
   final bool primaryPosters;
+  final Function(bool focus)? onFocusChanged;
+
   const PosterWidget({
     required this.poster,
     this.subTitle,
@@ -41,6 +43,7 @@ class PosterWidget extends ConsumerWidget {
     this.onItemRemoved,
     this.onPressed,
     this.primaryPosters = false,
+    this.onFocusChanged,
     super.key,
   });
 
@@ -65,6 +68,7 @@ class PosterWidget extends ConsumerWidget {
               onItemUpdated: onItemUpdated,
               onPressed: onPressed,
               primaryPosters: primaryPosters,
+              onFocusChanged: onFocusChanged,
             ),
           ),
           if (!inlineTitle && underTitle)

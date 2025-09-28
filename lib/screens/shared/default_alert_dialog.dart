@@ -2,6 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:fladder/providers/arguments_provider.dart';
+
 Future<void> showDefaultAlertDialog(
   BuildContext context,
   String title,
@@ -18,10 +22,12 @@ Future<void> showDefaultAlertDialog(
       content: content != null ? Text(content) : null,
       actions: [
         if (decline != null)
-          ElevatedButton(
-            autofocus: true,
-            onPressed: () => decline.call(context),
-            child: Text(declineTitle),
+          Consumer(
+            builder: (context, ref, child) => ElevatedButton(
+              autofocus: ref.read(argumentsStateProvider).htpcMode,
+              onPressed: () => decline.call(context),
+              child: Text(declineTitle),
+            ),
           ),
         if (accept != null)
           ElevatedButton(

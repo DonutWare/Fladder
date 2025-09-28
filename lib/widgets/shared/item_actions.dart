@@ -33,21 +33,25 @@ class ItemActionDivider extends ItemAction {
 }
 
 class ItemActionButton extends ItemAction {
+  final bool selected;
   final Widget? icon;
   final Widget? label;
   final FutureOr<void> Function()? action;
   ItemActionButton({
+    this.selected = false,
     this.icon,
     this.label,
     this.action,
   });
 
   ItemActionButton copyWith({
+    bool? selected,
     Widget? icon,
     Widget? label,
     Future<void> Function()? action,
   }) {
     return ItemActionButton(
+      selected: selected ?? this.selected,
       icon: icon ?? this.icon,
       label: label ?? this.label,
       action: action ?? this.action,
@@ -93,14 +97,19 @@ class ItemActionButton extends ItemAction {
 
   @override
   Widget toListItem(BuildContext context, {bool useIcons = false, bool shouldPop = true}) {
+    final foregroundColor =
+        selected ? Theme.of(context).colorScheme.onPrimaryContainer : Theme.of(context).colorScheme.onSurface;
     return ElevatedButton(
+      autofocus: selected,
       style: ButtonStyle(
-        backgroundColor: const WidgetStatePropertyAll(Colors.transparent),
+        backgroundColor: WidgetStatePropertyAll(
+          selected ? Theme.of(context).colorScheme.primaryContainer : Colors.transparent,
+        ),
         padding: const WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 12)),
         minimumSize: const WidgetStatePropertyAll(Size(50, 50)),
         elevation: const WidgetStatePropertyAll(0),
-        foregroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.onSurface),
-        iconColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.onSurface),
+        foregroundColor: WidgetStatePropertyAll(foregroundColor),
+        iconColor: WidgetStatePropertyAll(foregroundColor),
       ),
       onPressed: () {
         if (shouldPop) {
@@ -113,7 +122,7 @@ class ItemActionButton extends ItemAction {
               builder: (context) {
                 return Theme(
                   data: ThemeData(
-                    iconTheme: IconThemeData(color: Theme.of(context).colorScheme.onSurface),
+                    iconTheme: IconThemeData(color: foregroundColor),
                   ),
                   child: Row(
                     children: [
@@ -134,10 +143,13 @@ extension ItemActionExtension on List<ItemAction> {
   List<PopupMenuEntry> popupMenuItems({bool useIcons = false}) => map((e) => e.toPopupMenuItem(useIcons: useIcons))
       .whereNotIndexed((index, element) => (index == 0 && element is PopupMenuDivider))
       .toList();
+
   List<Widget> menuItemButtonItems() =>
       map((e) => e.toMenuItemButton()).whereNotIndexed((index, element) => (index == 0 && element is Divider)).toList();
-  List<Widget> listTileItems(BuildContext context, {bool useIcons = false, bool shouldPop = true}) =>
-      map((e) => e.toListItem(context, useIcons: useIcons, shouldPop: shouldPop))
-          .whereNotIndexed((index, element) => (index == 0 && element is Divider))
-          .toList();
+
+  List<Widget> listTileItems(BuildContext context, {bool useIcons = false, bool shouldPop = true}) {
+    return map((e) => e.toListItem(context, useIcons: useIcons, shouldPop: shouldPop))
+        .whereNotIndexed((index, element) => (index == 0 && element is Divider))
+        .toList();
+  }
 }

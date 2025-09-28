@@ -7,6 +7,7 @@ import 'package:fladder/theme.dart';
 class FlatButton extends ConsumerWidget {
   final Widget? child;
   final bool autoFocus;
+  final FocusNode? focusNode;
   final Function(bool value)? onFocusChange;
   final Function()? onTap;
   final Function()? onLongPress;
@@ -20,6 +21,7 @@ class FlatButton extends ConsumerWidget {
   const FlatButton({
     this.child,
     this.onFocusChange,
+    this.focusNode,
     this.autoFocus = false,
     this.onTap,
     this.onLongPress,
@@ -52,6 +54,7 @@ class FlatButton extends ConsumerWidget {
             elevation: 0,
             child: InkWell(
               autofocus: autoFocus,
+              focusNode: focusNode,
               onTap: onTap,
               onLongPress: onLongPress,
               onFocusChange: onFocusChange,

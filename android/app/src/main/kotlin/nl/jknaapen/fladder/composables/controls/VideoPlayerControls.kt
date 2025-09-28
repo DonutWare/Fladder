@@ -54,7 +54,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
 import io.github.rabehx.iconsax.Iconsax
 import io.github.rabehx.iconsax.filled.AudioSquare
 import io.github.rabehx.iconsax.filled.Backward
@@ -73,6 +72,7 @@ import nl.jknaapen.fladder.objects.PlayerSettingsObject
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.ImmersiveSystemBars
 import nl.jknaapen.fladder.utility.defaultSelected
+import nl.jknaapen.fladder.utility.leanBackEnabled
 import nl.jknaapen.fladder.utility.visible
 import kotlin.time.Duration.Companion.seconds
 
@@ -82,7 +82,6 @@ import kotlin.time.Duration.Companion.seconds
 @Composable
 fun CustomVideoControls(
     exoPlayer: ExoPlayer,
-    trackSelector: DefaultTrackSelector,
 ) {
     var showControls by remember { mutableStateOf(false) }
     val lastInteraction = remember { mutableLongStateOf(System.currentTimeMillis()) }
@@ -183,7 +182,7 @@ fun CustomVideoControls(
                             ItemHeader(it)
                         }
                     }
-                    if (!VideoPlayerObject.isAndroidTV(LocalContext.current)) {
+                    if (!leanBackEnabled(LocalContext.current)) {
                         IconButton(
                             {
                                 activity?.finish()

@@ -35,6 +35,7 @@ class VideoPlayerImplementation(
 
     override fun open(url: String, play: Boolean) {
         try {
+            player?.stop()
             player?.clearMediaItems()
 
             playbackData.value?.let {
@@ -42,12 +43,14 @@ class VideoPlayerImplementation(
                 VideoPlayerObject.setSubtitleTrackIndex(it.defaultSubtrack.toInt(), true)
             }
 
-            val startPosition = playbackData.value?.startPosition
+            val startPosition = playbackData.value?.startPosition ?: 0L
             println("Loading video in native $url")
             val subTitles = playbackData.value?.subtitleTracks ?: listOf()
-            val mediaItem = MediaItem.Builder()
-                .setUri(url)
-                .setSubtitleConfigurations(
+            val mediaItem = MediaItem.Builder().apply {
+                setUri(url)
+                setTag(playbackData.value?.title)
+                setMediaId(playbackData.value?.id ?: "")
+                setSubtitleConfigurations(
                     subTitles.filter { it.external && it.url?.isNotEmpty() == true }.map { sub ->
                         MediaItem.SubtitleConfiguration.Builder(sub.url!!.toUri())
                             .setMimeType(guessSubtitleMimeType(sub.url))
@@ -56,14 +59,11 @@ class VideoPlayerImplementation(
                             .build()
                     }
                 )
-                .build()
+            }.build()
 
-            player?.setMediaItem(mediaItem, startPosition ?: 0L)
+            player?.setMediaItem(mediaItem, startPosition)
             player?.prepare()
-            
-            if (play) {
-                player?.play()
-            }
+            player?.playWhenReady = play
         } catch (e: Exception) {
             println("Error playing video $e")
         }

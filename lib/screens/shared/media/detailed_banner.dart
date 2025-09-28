@@ -8,6 +8,7 @@ import 'package:fladder/screens/shared/media/poster_row.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/widgets/shared/ensure_visible.dart';
 
 class DetailedBanner extends ConsumerStatefulWidget {
   final List<ItemBaseModel> posters;
@@ -128,13 +129,15 @@ class _DetailedBannerState extends ConsumerState<DetailedBanner> {
         ),
         FocusProvider(
           autoFocus: true,
-          focusPosition: 1.0,
           child: PosterRow(
             primaryPosters: true,
             label: context.localized.nextUp,
             posters: widget.posters,
             onFocused: (poster) {
-              widget.onSelect(poster);
+              context.ensureVisible(
+                alignment: 1.0,
+              );
+              // widget.onSelect(poster);
               setState(() {
                 selectedPoster = poster;
               });

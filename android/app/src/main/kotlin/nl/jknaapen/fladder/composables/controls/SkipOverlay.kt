@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import nl.jknaapen.fladder.objects.PlayerSettingsObject
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.defaultSelected
+import nl.jknaapen.fladder.utility.leanBackEnabled
 import kotlin.time.Duration.Companion.milliseconds
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -51,7 +52,7 @@ internal fun BoxScope.SegmentSkipOverlay(
     modifier: Modifier = Modifier,
 ) {
 
-    val isAndroidTV = VideoPlayerObject.isAndroidTV(LocalContext.current)
+    val isAndroidTV = leanBackEnabled(LocalContext.current)
     val focusRequester = remember { FocusRequester() }
 
     val state by VideoPlayerObject.implementation.playbackData.collectAsState()

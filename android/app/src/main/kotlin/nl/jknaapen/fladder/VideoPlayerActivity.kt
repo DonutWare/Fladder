@@ -46,9 +46,9 @@ class VideoPlayerActivity : ComponentActivity() {
 fun VideoPlayerScreen(
 ) {
     val leanBackEnabled = leanBackEnabled(LocalContext.current)
-    ExoPlayer { player, trackSelector ->
+    ExoPlayer { player ->
         ScaledContent(if (leanBackEnabled) 0.50f else 1f) {
-            CustomVideoControls(player, trackSelector)
+            CustomVideoControls(player)
         }
     }
 }

@@ -14,6 +14,7 @@ import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/clickable_text.dart';
+import 'package:fladder/widgets/shared/ensure_visible.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 
@@ -68,6 +69,11 @@ class PosterListItem extends ConsumerWidget {
             ),
             child: FocusButton(
               onTap: () => pressedWidget(context),
+              onFocusChanged: (focus) {
+                if (focus) {
+                  context.ensureVisible();
+                }
+              },
               onSecondaryTapDown: (details) async {
                 Offset localPosition = details.globalPosition;
                 RelativeRect position =

@@ -63,14 +63,14 @@ class _EpisodePosterState extends ConsumerState<EpisodePosters> {
           EnumBox(
             current: selectedSeason != null ? "${context.localized.season(1)} $selectedSeason" : context.localized.all,
             itemBuilder: (context) => [
-              PopupMenuItem(
-                child: Text(context.localized.all),
-                onTap: () => setState(() => selectedSeason = null),
+              ItemActionButton(
+                label: Text(context.localized.all),
+                action: () => setState(() => selectedSeason = null),
               ),
               ...episodesBySeason.entries.map(
-                (e) => PopupMenuItem(
-                  child: Text("${context.localized.season(1)} ${e.key}"),
-                  onTap: () {
+                (e) => ItemActionButton(
+                  label: Text("${context.localized.season(1)} ${e.key}"),
+                  action: () {
                     setState(() => selectedSeason = e.key);
                   },
                 ),

@@ -29,6 +29,8 @@ import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/util/theme_extensions.dart';
+import 'package:fladder/widgets/shared/ensure_visible.dart';
+import 'package:fladder/widgets/shared/grid_focus_traveler.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 
 final libraryViewTypeProvider = StateProvider<LibraryViewTypes>((ref) {
@@ -64,12 +66,12 @@ class LibraryViews extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 4),
       sliver: SliverAnimatedSwitcher(
         duration: const Duration(milliseconds: 250),
-        child: _getWidget(ref, context),
+        child: _getWidget(context, ref),
       ),
     );
   }
 
-  Widget _getWidget(WidgetRef ref, BuildContext context) {
+  Widget _getWidget(BuildContext context, WidgetRef ref) {
     final selected = ref.watch(librarySearchProvider(key!).select((value) => value.selectedPosters));
     final posterSizeMultiplier = ref.watch(clientSettingsProvider.select((value) => value.posterSize));
     final libraryProvider = ref.read(librarySearchProvider(key!).notifier);
@@ -114,32 +116,35 @@ class LibraryViews extends ConsumerWidget {
         Widget createGrid(List<ItemBaseModel> items) {
           final width = MediaQuery.of(context).size.width;
           final cellWidth = (width / posterSize).floorToDouble();
-          final crossAxisCount = (width / cellWidth).floor();
-          return SliverGrid.builder(
+          final crossAxisCount = ((width / cellWidth).floor()).clamp(2, 10);
+          return GridFocusTraveler(
+            itemCount: items.length,
+            crossAxisCount: crossAxisCount,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: crossAxisCount.clamp(2, 10),
+              crossAxisCount: crossAxisCount,
               crossAxisSpacing: 8,
               mainAxisSpacing: 8,
               childAspectRatio: items.getMostCommonType.aspectRatio,
             ),
-            itemCount: items.length,
-            itemBuilder: (context, index) {
+            itemBuilder: (other, selectedIndex, index) {
               final item = items[index];
-              return FocusProvider(
-                autoFocus: index == 0,
-                child: PosterWidget(
-                  key: Key(item.id),
-                  poster: item,
-                  maxLines: 2,
-                  subTitle: item.subTitle(sortingOptions),
-                  excludeActions: excludeActions,
-                  otherActions: otherActions(item),
-                  selected: selected.contains(item),
-                  onUserDataChanged: (id, newData) => libraryProvider.updateUserData(id, newData),
-                  onItemRemoved: (oldItem) => libraryProvider.removeFromPosters([oldItem.id]),
-                  onItemUpdated: (newItem) => libraryProvider.updateItem(newItem),
-                  onPressed: (action, item) async => onItemPressed(action, key, item, ref, context),
-                ),
+              return PosterWidget(
+                key: Key(item.id),
+                poster: item,
+                maxLines: 2,
+                subTitle: item.subTitle(sortingOptions),
+                excludeActions: excludeActions,
+                otherActions: otherActions(item),
+                selected: selected.contains(item),
+                onUserDataChanged: (id, newData) => libraryProvider.updateUserData(id, newData),
+                onItemRemoved: (oldItem) => libraryProvider.removeFromPosters([oldItem.id]),
+                onItemUpdated: (newItem) => libraryProvider.updateItem(newItem),
+                onPressed: (action, item) async => onItemPressed(action, key, item, ref, context),
+                onFocusChanged: (focus) {
+                  if (focus) {
+                    other.ensureVisible();
+                  }
+                },
               );
             },
           );

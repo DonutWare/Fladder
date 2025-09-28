@@ -22,6 +22,8 @@ import 'package:fladder/util/item_base_model/play_item_helpers.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/router_extension.dart';
 import 'package:fladder/util/widget_extensions.dart';
+import 'package:fladder/widgets/shared/item_actions.dart';
+import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 import 'package:fladder/widgets/shared/selectable_icon_button.dart';
 
 class MovieDetailScreen extends ConsumerStatefulWidget {
@@ -112,6 +114,20 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
                           selected: details.userData.played,
                           selectedIcon: IconsaxPlusBold.tick_circle,
                           icon: IconsaxPlusLinear.tick_circle,
+                        ),
+                        SelectableIconButton(
+                          onPressed: () async {
+                            await showBottomSheetPill(
+                              context: context,
+                              content: (context, scrollController) => ListView(
+                                controller: scrollController,
+                                shrinkWrap: true,
+                                children: details.generateActions(context, ref).listTileItems(context, useIcons: true),
+                              ),
+                            );
+                          },
+                          selected: false,
+                          icon: IconsaxPlusLinear.more,
                         ),
                       ],
                     ),

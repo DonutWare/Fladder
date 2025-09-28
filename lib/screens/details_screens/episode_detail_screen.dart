@@ -25,6 +25,8 @@ import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/people_extension.dart';
 import 'package:fladder/util/router_extension.dart';
 import 'package:fladder/util/widget_extensions.dart';
+import 'package:fladder/widgets/shared/item_actions.dart';
+import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 import 'package:fladder/widgets/shared/selectable_icon_button.dart';
 
 class EpisodeDetailScreen extends ConsumerStatefulWidget {
@@ -115,6 +117,21 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                           selected: episodeDetails.userData.played,
                           selectedIcon: IconsaxPlusBold.tick_circle,
                           icon: IconsaxPlusLinear.tick_circle,
+                        ),
+                        SelectableIconButton(
+                          onPressed: () async {
+                            await showBottomSheetPill(
+                              context: context,
+                              content: (context, scrollController) => ListView(
+                                controller: scrollController,
+                                shrinkWrap: true,
+                                children:
+                                    episodeDetails.generateActions(context, ref).listTileItems(context, useIcons: true),
+                              ),
+                            );
+                          },
+                          selected: false,
+                          icon: IconsaxPlusLinear.more,
                         ),
                       ].nonNulls.toList().addPadding(const EdgeInsets.symmetric(horizontal: 6)),
                     ),

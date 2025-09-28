@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/screens/details_screens/components/label_title_item.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/widgets/shared/enum_selection.dart';
+import 'package:fladder/widgets/shared/item_actions.dart';
 
 class MediaStreamInformation extends ConsumerWidget {
   final MediaStreamsModel mediaStream;
@@ -30,15 +32,13 @@ class MediaStreamInformation extends ConsumerWidget {
             label: Text(context.localized.version),
             current: mediaStream.currentVersionStream?.name ?? "",
             itemBuilder: (context) => mediaStream.versionStreams
-                .map((e) => PopupMenuItem(
-                      value: e,
-                      padding: EdgeInsets.zero,
-                      child: textWidget(
+                .map((e) => ItemActionButton(
+                      selected: mediaStream.currentVersionStream == e,
+                      label: textWidget(
                         context,
-                        selected: mediaStream.currentVersionStream == e,
                         label: e.name,
                       ),
-                      onTap: () => onVersionIndexChanged?.call(e.index),
+                      action: () => onVersionIndexChanged?.call(e.index),
                     ))
                 .toList(),
           ),
@@ -48,10 +48,8 @@ class MediaStreamInformation extends ConsumerWidget {
             current: (mediaStream.videoStreams.first).prettyName,
             itemBuilder: (context) => mediaStream.videoStreams
                 .map(
-                  (e) => PopupMenuItem(
-                    value: e,
-                    padding: EdgeInsets.zero,
-                    child: Text(e.prettyName),
+                  (e) => ItemActionButton(
+                    label: Text(e.prettyName),
                   ),
                 )
                 .toList(),
@@ -62,12 +60,13 @@ class MediaStreamInformation extends ConsumerWidget {
             current: mediaStream.currentAudioStream?.displayTitle ?? "",
             itemBuilder: (context) => [AudioStreamModel.no(), ...mediaStream.audioStreams]
                 .map(
-                  (e) => PopupMenuItem(
-                    value: e,
-                    padding: EdgeInsets.zero,
-                    child: textWidget(context,
-                        selected: mediaStream.currentAudioStream?.index == e.index, label: e.displayTitle),
-                    onTap: () => onAudioIndexChanged?.call(e.index),
+                  (e) => ItemActionButton(
+                    selected: mediaStream.currentAudioStream?.index == e.index,
+                    label: textWidget(
+                      context,
+                      label: e.displayTitle,
+                    ),
+                    action: () => onAudioIndexChanged?.call(e.index),
                   ),
                 )
                 .toList(),
@@ -78,12 +77,13 @@ class MediaStreamInformation extends ConsumerWidget {
             current: mediaStream.currentSubStream?.displayTitle ?? "",
             itemBuilder: (context) => [SubStreamModel.no(), ...mediaStream.subStreams]
                 .map(
-                  (e) => PopupMenuItem(
-                    value: e,
-                    padding: EdgeInsets.zero,
-                    child: textWidget(context,
-                        selected: mediaStream.currentSubStream?.index == e.index, label: e.displayTitle),
-                    onTap: () => onSubIndexChanged?.call(e.index),
+                  (e) => ItemActionButton(
+                    selected: mediaStream.currentSubStream?.index == e.index,
+                    label: textWidget(
+                      context,
+                      label: e.displayTitle,
+                    ),
+                    action: () => onSubIndexChanged?.call(e.index),
                   ),
                 )
                 .toList(),
@@ -92,22 +92,12 @@ class MediaStreamInformation extends ConsumerWidget {
     );
   }
 
-  Widget textWidget(BuildContext context, {required bool selected, required String label}) {
-    return Container(
-      height: kMinInteractiveDimension,
-      width: double.maxFinite,
-      color: selected ? Theme.of(context).colorScheme.primary : null,
-      alignment: Alignment.centerLeft,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: Text(
-          label,
-          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                color: selected ? Theme.of(context).colorScheme.onPrimary : null,
-                fontWeight: FontWeight.bold,
-              ),
-        ),
-      ),
+  Widget textWidget(BuildContext context, {required String label}) {
+    return Text(
+      label,
+      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
     );
   }
 }
@@ -115,7 +105,7 @@ class MediaStreamInformation extends ConsumerWidget {
 class _StreamOptionSelect<T> extends StatelessWidget {
   final Text label;
   final String current;
-  final List<PopupMenuEntry<T>> Function(BuildContext context) itemBuilder;
+  final List<ItemAction> Function(BuildContext context) itemBuilder;
   const _StreamOptionSelect({
     required this.label,
     required this.current,
@@ -124,47 +114,14 @@ class _StreamOptionSelect<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textStyle = Theme.of(context).textTheme.titleMedium;
-    const padding = EdgeInsets.all(6);
-    final itemList = itemBuilder(context);
-    return LabelTitleItem(
-      title: label,
-      content: Flexible(
-        child: PopupMenuButton(
-          tooltip: '',
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          enabled: itemList.length > 1,
-          itemBuilder: itemBuilder,
-          enableFeedback: false,
-          menuPadding: const EdgeInsets.symmetric(vertical: 16),
-          padding: padding,
-          child: Padding(
-            padding: padding,
-            child: Material(
-              textStyle: textStyle?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: itemList.length > 1 ? Theme.of(context).colorScheme.primary : null),
-              color: Colors.transparent,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Flexible(
-                    child: Text(
-                      current,
-                      textAlign: TextAlign.start,
-                    ),
-                  ),
-                  const SizedBox(width: 6),
-                  if (itemList.length > 1)
-                    Icon(
-                      Icons.keyboard_arrow_down,
-                      color: Theme.of(context).colorScheme.primary,
-                    )
-                ],
-              ),
-            ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 3),
+      child: LabelTitleItem(
+        title: label,
+        content: Flexible(
+          child: EnumBox(
+            current: current,
+            itemBuilder: itemBuilder,
           ),
         ),
       ),

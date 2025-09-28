@@ -9,6 +9,7 @@ import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/widgets/shared/enum_selection.dart';
+import 'package:fladder/widgets/shared/item_actions.dart';
 
 final _selectedWarningProvider = StateProvider<ErrorType?>((ref) => null);
 
@@ -41,16 +42,14 @@ class CrashScreen extends ConsumerWidget {
                 EnumBox(
                   current: selectedType == null ? context.localized.all : selectedType.name.capitalize(),
                   itemBuilder: (context) => [
-                    PopupMenuItem(
-                      value: null,
-                      child: Text(context.localized.all),
-                      onTap: () => ref.read(_selectedWarningProvider.notifier).update((state) => null),
+                    ItemActionButton(
+                      label: Text(context.localized.all),
+                      action: () => ref.read(_selectedWarningProvider.notifier).update((state) => null),
                     ),
                     ...ErrorType.values.map(
-                      (entry) => PopupMenuItem(
-                        value: entry,
-                        child: Text(entry.name.capitalize()),
-                        onTap: () => ref.read(_selectedWarningProvider.notifier).update((state) => entry),
+                      (entry) => ItemActionButton(
+                        label: Text(entry.name.capitalize()),
+                        action: () => ref.read(_selectedWarningProvider.notifier).update((state) => entry),
                       ),
                     )
                   ],

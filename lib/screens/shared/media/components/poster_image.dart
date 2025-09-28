@@ -35,6 +35,8 @@ class PosterImage extends ConsumerStatefulWidget {
   final Function(ItemBaseModel oldItem)? onItemRemoved;
   final Function(Function() action, ItemBaseModel item)? onPressed;
   final bool primaryPosters;
+  final Function(bool focus)? onFocusChanged;
+
   const PosterImage({
     required this.poster,
     this.selected,
@@ -47,6 +49,7 @@ class PosterImage extends ConsumerStatefulWidget {
     this.onPressed,
     this.onUserDataChanged,
     this.primaryPosters = false,
+    this.onFocusChanged,
     super.key,
   });
 
@@ -272,6 +275,7 @@ class _PosterImageState extends ConsumerState<PosterImage> {
             },
             FocusButton(
               onTap: () => pressedWidget(context),
+              onFocusChanged: widget.onFocusChanged,
               onLongPress: () {
                 showBottomSheetPill(
                   context: context,

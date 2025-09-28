@@ -86,53 +86,50 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
                 ),
               if (selectedView != null)
                 SliverToBoxAdapter(
-                  child: FocusTraversalGroup(
-                    policy: ReadingOrderTraversalPolicy(),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 24, bottom: 16),
-                      child: SizedBox(
-                        height: 40,
-                        child: ListView(
-                          padding: padding,
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          children: [
-                            FilledButton.tonalIcon(
-                              onPressed: () => context.pushRoute(LibrarySearchRoute(viewModelId: selectedView.id)),
-                              label: Text("${context.localized.search} ${selectedView.name}..."),
-                              icon: const Icon(IconsaxPlusLinear.search_normal),
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 4.0),
-                              child: VerticalDivider(),
-                            ),
-                            ExpressiveButtonGroup(
-                              multiSelection: true,
-                              options: LibraryViewType.values
-                                  .map((element) => ButtonGroupOption(
-                                      value: element,
-                                      icon: Icon(element.icon),
-                                      selected: Icon(element.iconSelected),
-                                      child: Text(
-                                        element.label(context),
-                                      )))
-                                  .toList(),
-                              selectedValues: viewTypes,
-                              onSelected: (value) {
-                                ref.read(libraryScreenProvider.notifier).setViewType(value);
-                              },
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 4.0),
-                              child: VerticalDivider(),
-                            ),
-                            ElevatedButton.icon(
-                              onPressed: () => showRefreshPopup(context, selectedView.id, selectedView.name),
-                              label: Text(context.localized.scanLibrary),
-                              icon: const Icon(IconsaxPlusLinear.refresh),
-                            ),
-                          ],
-                        ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 24, bottom: 16),
+                    child: SizedBox(
+                      height: 40,
+                      child: ListView(
+                        padding: padding,
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          FilledButton.tonalIcon(
+                            onPressed: () => context.pushRoute(LibrarySearchRoute(viewModelId: selectedView.id)),
+                            label: Text("${context.localized.search} ${selectedView.name}..."),
+                            icon: const Icon(IconsaxPlusLinear.search_normal),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 4.0),
+                            child: VerticalDivider(),
+                          ),
+                          ExpressiveButtonGroup(
+                            multiSelection: true,
+                            options: LibraryViewType.values
+                                .map((element) => ButtonGroupOption(
+                                    value: element,
+                                    icon: Icon(element.icon),
+                                    selected: Icon(element.iconSelected),
+                                    child: Text(
+                                      element.label(context),
+                                    )))
+                                .toList(),
+                            selectedValues: viewTypes,
+                            onSelected: (value) {
+                              ref.read(libraryScreenProvider.notifier).setViewType(value);
+                            },
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 4.0),
+                            child: VerticalDivider(),
+                          ),
+                          ElevatedButton.icon(
+                            onPressed: () => showRefreshPopup(context, selectedView.id, selectedView.name),
+                            label: Text(context.localized.scanLibrary),
+                            icon: const Icon(IconsaxPlusLinear.refresh),
+                          ),
+                        ],
                       ),
                     ),
                   ),

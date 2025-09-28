@@ -28,6 +28,7 @@ import 'package:fladder/util/bitrate_helper.dart';
 import 'package:fladder/util/box_fit_extension.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/enum_selection.dart';
+import 'package:fladder/widgets/shared/item_actions.dart';
 
 @RoutePage()
 class PlayerSettingsPage extends ConsumerStatefulWidget {
@@ -82,10 +83,9 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                 current: videoSettings.videoFit.label(context),
                 itemBuilder: (context) => BoxFit.values
                     .map(
-                      (entry) => PopupMenuItem(
-                        value: entry,
-                        child: Text(entry.label(context)),
-                        onTap: () => ref.read(videoPlayerSettingsProvider.notifier).setFitType(entry),
+                      (entry) => ItemActionButton(
+                        label: Text(entry.label(context)),
+                        action: () => ref.read(videoPlayerSettingsProvider.notifier).setFitType(entry),
                       ),
                     )
                     .toList(),
@@ -103,10 +103,9 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                 ),
                 itemBuilder: (context) => Bitrate.values
                     .map(
-                      (entry) => PopupMenuItem(
-                        value: entry,
-                        child: Text(entry.label(context)),
-                        onTap: () => ref.read(videoPlayerSettingsProvider.notifier).state =
+                      (entry) => ItemActionButton(
+                        label: Text(entry.label(context)),
+                        action: () => ref.read(videoPlayerSettingsProvider.notifier).state =
                             videoSettings.copyWith(maxHomeBitrate: entry),
                       ),
                     )
@@ -125,10 +124,9 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                 ),
                 itemBuilder: (context) => Bitrate.values
                     .map(
-                      (entry) => PopupMenuItem(
-                        value: entry,
-                        child: Text(entry.label(context)),
-                        onTap: () => ref.read(videoPlayerSettingsProvider.notifier).state =
+                      (entry) => ItemActionButton(
+                        label: Text(entry.label(context)),
+                        action: () => ref.read(videoPlayerSettingsProvider.notifier).state =
                             videoSettings.copyWith(maxInternetBitrate: entry),
                       ),
                     )
@@ -154,10 +152,9 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                         current: entry.value.label(context),
                         itemBuilder: (context) => SegmentSkip.values
                             .map(
-                              (value) => PopupMenuItem(
-                                value: value,
-                                child: Text(value.label(context)),
-                                onTap: () {
+                              (value) => ItemActionButton(
+                                label: Text(value.label(context)),
+                                action: () {
                                   final newEntries = videoSettings.segmentSkipSettings.map(
                                       (key, currentValue) => MapEntry(key, key == entry.key ? value : currentValue));
                                   ref.read(videoPlayerSettingsProvider.notifier).state =
@@ -282,18 +279,16 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                           ? "${context.localized.defaultLabel} (${PlayerOptions.platformDefaults.label(context)})"
                           : wantedPlayer.label(context),
                       itemBuilder: (context) => [
-                        PopupMenuItem(
-                          value: null,
-                          child: Text(
+                        ItemActionButton(
+                          label: Text(
                               "${context.localized.defaultLabel} (${PlayerOptions.platformDefaults.label(context)})"),
-                          onTap: () => ref.read(videoPlayerSettingsProvider.notifier).state =
+                          action: () => ref.read(videoPlayerSettingsProvider.notifier).state =
                               videoSettings.copyWith(playerOptions: null),
                         ),
                         ...PlayerOptions.available.map(
-                          (entry) => PopupMenuItem(
-                            value: entry,
-                            child: Text(entry.label(context)),
-                            onTap: () => ref.read(videoPlayerSettingsProvider.notifier).state =
+                          (entry) => ItemActionButton(
+                            label: Text(entry.label(context)),
+                            action: () => ref.read(videoPlayerSettingsProvider.notifier).state =
                                 videoSettings.copyWith(playerOptions: entry),
                           ),
                         )
@@ -385,10 +380,9 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                       ),
                       itemBuilder: (context) => AutoNextType.values
                           .map(
-                            (entry) => PopupMenuItem(
-                              value: entry,
-                              child: Text(entry.label(context)),
-                              onTap: () => ref.read(videoPlayerSettingsProvider.notifier).state =
+                            (entry) => ItemActionButton(
+                              label: Text(entry.label(context)),
+                              action: () => ref.read(videoPlayerSettingsProvider.notifier).state =
                                   videoSettings.copyWith(nextVideoType: entry),
                             ),
                           )
