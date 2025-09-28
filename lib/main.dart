@@ -89,7 +89,7 @@ void main(List<String> args) async {
   );
 
   // Check if running on android TV
-  final leanBackEnabled = Platform.isAndroid ? await NativeVideoActivity().isLeanBackEnabled() : false;
+  final leanBackEnabled = !kIsWeb && Platform.isAndroid ? await NativeVideoActivity().isLeanBackEnabled() : false;
 
   runApp(
     ProviderScope(
