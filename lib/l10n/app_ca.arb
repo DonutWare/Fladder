@@ -1477,5 +1477,15 @@
     "speedDown": "Reduir velocitat",
     "@speedDown": {},
     "nextVideo": "Vídeo següent",
-    "@nextVideo": {}
+    "@nextVideo": {},
+    "television": "Televisió",
+    "@television": {},
+    "exitFladderDesc": "Estàs segur de voler tancar Fladder?",
+    "@exitFladderDesc": {},
+    "quickConnectPostFailed": "S'ha fallat en obtenir el codi Quick connect",
+    "@quickConnectPostFailed": {},
+    "quickConnectLoginUsingCode": "Utilitzant quick connect",
+    "@quickConnectLoginUsingCode": {},
+    "quickConnectEnterCodeDescription": "Introduir el codi de sota per iniciar sessió",
+    "@quickConnectEnterCodeDescription": {}
 }
