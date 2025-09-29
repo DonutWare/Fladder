@@ -1476,5 +1476,15 @@
                 "type": "double"
             }
         }
-    }
+    },
+    "television": "电视",
+    "@television": {},
+    "exitFladderDesc": "您确定要关闭 Fladder 吗？",
+    "@exitFladderDesc": {},
+    "quickConnectPostFailed": "无法获取快速连接代码",
+    "@quickConnectPostFailed": {},
+    "quickConnectLoginUsingCode": "使用快速连接",
+    "@quickConnectLoginUsingCode": {},
+    "quickConnectEnterCodeDescription": "输入以下代码登录",
+    "@quickConnectEnterCodeDescription": {}
 }
