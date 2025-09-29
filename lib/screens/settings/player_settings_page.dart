@@ -140,7 +140,7 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
           ],
         ),
         const SizedBox(height: 12),
-        ...settingsListGroup(context, SettingsLabelDivider(label: context.localized.mediaSegmentActions), [
+        ...settingsListGroup(context, SettingsLabelDivider(label: context.localized.screenshots), [
           SettingsListTile(
             label: Text(context.localized.downloadsPath),
             subLabel: Text(screenshotsFolder ?? "-"),
@@ -154,7 +154,7 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                           ElevatedButton(
                             onPressed: () async {
                               String? selectedDirectory = await FilePicker.platform.getDirectoryPath(
-                                  dialogTitle: context.localized.pathEditSelect, initialDirectory: screenshotsFolder);
+                                  dialogTitle: context.localized.screenshotsPath, initialDirectory: screenshotsFolder);
                               if (selectedDirectory != null) {
                                 ref.read(videoPlayerSettingsProvider.notifier).setScreenshotsPath(selectedDirectory);
                               }
@@ -196,8 +196,8 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                 : null,
           ),
           SettingsListTile(
-            label: const Text("Format"),
-            subLabel: Text(context.localized.settingsHomeBannerDescription),
+            label: Text(context.localized.format),
+            subLabel: Text(context.localized.formatSubLabel),
             trailing: EnumBox(
               current: ref.watch(
                 videoPlayerSettingsProvider.select(
@@ -218,8 +218,8 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
             ),
           ),
           SettingsListTile(
-          label: const Text("Name padding"),
-          subLabel: const Text("The amount of zeroes to use for padding the file name"),
+          label: Text(context.localized.namePadding),
+          subLabel: Text(context.localized.namePaddingSubLabel),
           trailing: SizedBox(
               width: 100,
               child: IntInputField(

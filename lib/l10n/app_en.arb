@@ -1367,4 +1367,12 @@
       }
     }
   }
+  "quickConnectEnterCodeDescription": "Enter the code below to login",
+  "takeScreenshot": "Take screenshot",
+  "screenshots": "Screenshots",
+  "screenshotsPath": "Select screenshots destination",
+  "format": "Format",
+  "formatSubLabel": "The image format to use when saving the screenshot",
+  "namePadding": "Name padding",
+  "namePaddingSubLabel": "The amount of zeroes to use for padding the file name"
 }
