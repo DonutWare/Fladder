@@ -44,6 +44,12 @@ _VideoPlayerSettingsModel _$VideoPlayerSettingsModelFromJson(
                 KeyCombination.fromJson(e as Map<String, dynamic>)),
           ) ??
           const {},
+      screenshotsPath: json['screenshotsPath'] as String?,
+      screenshotFormat: $enumDecodeNullable(
+              _$ScreenshotFormatEnumMap, json['screenshotFormat']) ??
+          ScreenshotFormat.png,
+      screenshotNamePadding:
+          (json['screenshotNamePadding'] as num?)?.toInt() ?? 3,
     );
 
 Map<String, dynamic> _$VideoPlayerSettingsModelToJson(
@@ -69,6 +75,9 @@ Map<String, dynamic> _$VideoPlayerSettingsModelToJson(
           MapEntry(_$MediaSegmentTypeEnumMap[k]!, _$SegmentSkipEnumMap[e]!)),
       'hotKeys': instance.hotKeys
           .map((k, e) => MapEntry(_$VideoHotKeysEnumMap[k]!, e)),
+      'screenshotsPath': instance.screenshotsPath,
+      'screenshotFormat': _$ScreenshotFormatEnumMap[instance.screenshotFormat]!,
+      'screenshotNamePadding': instance.screenshotNamePadding,
     };
 
 const _$BoxFitEnumMap = {
@@ -149,5 +158,11 @@ const _$VideoHotKeysEnumMap = {
   VideoHotKeys.prevChapter: 'prevChapter',
   VideoHotKeys.fullScreen: 'fullScreen',
   VideoHotKeys.skipMediaSegment: 'skipMediaSegment',
+  VideoHotKeys.takeScreenshot: 'takeScreenshot',
   VideoHotKeys.exit: 'exit',
+};
+
+const _$ScreenshotFormatEnumMap = {
+  ScreenshotFormat.png: 'png',
+  ScreenshotFormat.jpeg: 'jpeg',
 };

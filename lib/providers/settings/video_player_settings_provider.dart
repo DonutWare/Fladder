@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -32,6 +35,8 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
     }
   }
 
+  VideoPlayerSettingsModel update(VideoPlayerSettingsModel Function(VideoPlayerSettingsModel currentState) value) => state = value(state);
+
   void setScreenBrightness(double? value) async {
     state = state.copyWith(
       screenBrightness: value,
@@ -58,6 +63,21 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
   void setMediaTunneling(bool? value) => state = state.copyWith(enableTunneling: value ?? false);
   void setBufferSize(int? value) => state = state.copyWith(bufferSize: value ?? 32);
   void setFitType(BoxFit? value) => state = state.copyWith(videoFit: value ?? BoxFit.contain);
+
+  String? get _screenshotsFolder => !kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)
+      ? ref.read(videoPlayerSettingsProvider.select((value) => value.screenshotsPath))
+      : "";
+
+  String? get screenshotsFolder => _screenshotsFolder;
+  void setScreenshotsPath(String? path) => state = state.copyWith(screenshotsPath: path);
+
+  ScreenshotFormat get _screenshotFormat => ref.read(videoPlayerSettingsProvider.select((value) => value.screenshotFormat));
+  ScreenshotFormat get screenshotFormat => _screenshotFormat;
+  void setScreenshotFormat(ScreenshotFormat format) => state = state.copyWith(screenshotFormat: format);
+
+  int get _screenshotNamePadding => ref.read(videoPlayerSettingsProvider.select((value) => value.screenshotNamePadding));
+  int get screenshotNamePadding => _screenshotNamePadding;
+  void setscreenshotNamePadding(int amount) => state = state.copyWith(screenshotNamePadding: amount);
 
   void setVolume(double value) {
     state = state.copyWith(internalVolume: value);

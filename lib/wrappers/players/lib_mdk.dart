@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
@@ -157,6 +158,12 @@ class LibMDK extends BasePlayer {
       }
     }
     return -1;
+  }
+
+  @override
+  Future<Uint8List?> takeScreenshot(ScreenshotFormat format) async {
+    // TODO: Handle screenshot formats.
+    return _controller?.snapshot();
   }
 
   @override

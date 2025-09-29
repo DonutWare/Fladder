@@ -29,6 +29,7 @@ enum VideoHotKeys {
   prevChapter,
   fullScreen,
   skipMediaSegment,
+  takeScreenshot,
   exit;
 
   const VideoHotKeys();
@@ -49,7 +50,20 @@ enum VideoHotKeys {
       VideoHotKeys.prevChapter => context.localized.prevChapter,
       VideoHotKeys.fullScreen => context.localized.fullScreen,
       VideoHotKeys.skipMediaSegment => context.localized.skipMediaSegment,
+      VideoHotKeys.takeScreenshot => "Take screenshot",
       VideoHotKeys.exit => context.localized.exit,
+    };
+  }
+}
+
+enum ScreenshotFormat {
+  png,
+  jpeg;
+
+  String label(BuildContext context) {
+    return switch (this) {
+      ScreenshotFormat.png => "PNG",
+      ScreenshotFormat.jpeg => "JPEG"
     };
   }
 }
@@ -75,6 +89,9 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     String? audioDevice,
     @Default(defaultSegmentSkipValues) Map<MediaSegmentType, SegmentSkip> segmentSkipSettings,
     @Default({}) Map<VideoHotKeys, KeyCombination> hotKeys,
+    String? screenshotsPath,
+    @Default(ScreenshotFormat.png) ScreenshotFormat screenshotFormat,
+    @Default(3) int screenshotNamePadding,
   }) = _VideoPlayerSettingsModel;
 
   double get volume => switch (defaultTargetPlatform) {
@@ -212,6 +229,7 @@ Map<VideoHotKeys, KeyCombination> get _defaultVideoHotKeys => {
           VideoHotKeys.prevChapter => KeyCombination(key: LogicalKeyboardKey.pageDown),
           VideoHotKeys.fullScreen => KeyCombination(key: LogicalKeyboardKey.keyF),
           VideoHotKeys.skipMediaSegment => KeyCombination(key: LogicalKeyboardKey.keyS),
+          VideoHotKeys.takeScreenshot => KeyCombination(key: LogicalKeyboardKey.keyG),
           VideoHotKeys.exit => KeyCombination(key: LogicalKeyboardKey.escape),
         },
     };

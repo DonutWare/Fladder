@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
@@ -55,6 +56,11 @@ class LibMDK extends BasePlayer {
   @override
   Future<int> setSubtitleTrack(SubStreamModel? model, PlaybackModel playbackModel) async {
     return -1;
+  }
+
+  @override
+  Future<Uint8List?> takeScreenshot(ScreenshotFormat format) async {
+    return null;
   }
 
   @override

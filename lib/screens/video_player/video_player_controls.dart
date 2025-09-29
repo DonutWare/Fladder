@@ -1,9 +1,12 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'package:path/path.dart' as p;
 
 import 'package:async/async.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -678,6 +681,58 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     }
   }
 
+  void takeScreenshot() async {
+    final savePath = ref.read(videoPlayerSettingsProvider).screenshotsPath;
+    // Early return here if we don't have a set/valid path. Skips actually taking the screenshot
+    // which would be discarded.
+    if (savePath == null) {
+      return;
+    }
+
+    final screenshotBuf = await ref.read(videoPlayerProvider).takeScreenshot();
+    if (screenshotBuf != null) {
+      final savePathDirectory = Directory(savePath);
+      
+      // Should we try to create the directory instead?
+      if (!await savePathDirectory.exists()) {
+        return;
+      }
+
+      final fileExtension = switch (ref.read(videoPlayerSettingsProvider).screenshotFormat) {
+        ScreenshotFormat.jpeg => "jpg",
+        ScreenshotFormat.png => "png"
+      };
+
+      final paddingAmount = ref.read(videoPlayerSettingsProvider).screenshotNamePadding;
+      int maxNumber = 0;
+
+      await for (var file in savePathDirectory.list()) {
+        final finalSegment = file.uri.pathSegments.last;
+
+        if (file is File && finalSegment.endsWith(fileExtension)) {
+          final match = RegExp(r'(\d+)').firstMatch(finalSegment);
+
+          if (match != null) {
+            final fileNumber = int.parse(match.group(0)!);
+
+            if (fileNumber > maxNumber) {
+              maxNumber = fileNumber;
+            }
+          }
+        }
+      }
+
+      maxNumber += 1;
+        
+      final maxNumberStr = maxNumber.toString().padLeft(paddingAmount, '0');
+      final screenshotName = '$maxNumberStr.$fileExtension';
+      final screenshotPath = p.join(savePath, screenshotName);
+
+      final screenshotFile = File(screenshotPath);
+      await screenshotFile.writeAsBytes(screenshotBuf);
+    }
+  }
+
   bool _onKey(VideoHotKeys value) {
     final mediaSegments = ref.read(playBackModel.select((value) => value?.mediaSegments));
     final position = ref.read(mediaPlaybackProvider).position;
@@ -713,6 +768,9 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         if (segment != null) {
           skipToSegmentEnd(segment);
         }
+        return true;
+      case VideoHotKeys.takeScreenshot:
+        takeScreenshot();
         return true;
       case VideoHotKeys.exit:
         disableFullScreen();
