@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
@@ -84,6 +85,11 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
   Future<void> stop() async {
     nativeActivityStarted = false;
     return player.stop();
+  }
+
+  @override
+  Future<Uint8List?> takeScreenshot(ScreenshotFormat format) async {
+    return null;
   }
 
   @override

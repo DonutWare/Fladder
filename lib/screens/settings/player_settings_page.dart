@@ -206,11 +206,12 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
               ),
               itemBuilder: (context) => ScreenshotFormat.values
                   .map(
-                    (entry) => PopupMenuItem(
-                      value: entry,
-                      child: Text(entry.label(context)),
-                      onTap: () =>
-                          ref.read(videoPlayerSettingsProvider.notifier).update((context) => context.copyWith(screenshotFormat: entry)),
+                    (entry) => ItemActionButton(
+                      label: Text(entry.label(context)),
+                      action: () =>
+                          ref
+                            .read(videoPlayerSettingsProvider.notifier)
+                            .update((context) => context.copyWith(screenshotFormat: entry)),
                     ),
                   )
                   .toList(),
