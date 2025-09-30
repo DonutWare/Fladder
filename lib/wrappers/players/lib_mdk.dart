@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:fvp/fvp.dart' as fvp;
 import 'package:fvp/mdk.dart';
 import 'package:video_player/video_player.dart';
+import 'package:image/image.dart' as img;
 
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
@@ -162,8 +163,25 @@ class LibMDK extends BasePlayer {
 
   @override
   Future<Uint8List?> takeScreenshot(ScreenshotFormat format) async {
-    // TODO: Handle screenshot formats.
-    return _controller?.snapshot();
+    final snapshotData = await _controller?.snapshot();
+    final videoCodec = _controller?.getMediaInfo()?.video?[0].codec;
+
+    if (snapshotData != null && videoCodec != null) {
+      final imgWidth = videoCodec.width;
+      final imgHeight = videoCodec.height;
+
+      final image = img.Image.fromBytes(width: imgWidth, height: imgHeight, bytes: snapshotData.buffer, numChannels: 4, order: img.ChannelOrder.rgba);
+
+      switch (format) {
+        case ScreenshotFormat.jpeg:
+          return img.encodeJpg(image);
+        case ScreenshotFormat.png:
+          return img.encodePng(image);
+      }
+    }
+    else {
+      return null;  
+    }
   }
 
   @override
