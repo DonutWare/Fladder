@@ -88,7 +88,7 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
   }
 
   @override
-  Future<Uint8List?> takeScreenshot(ScreenshotFormat format) async {
+  Future<Uint8List?> takeScreenshot(ScreenshotFormat format, bool withSubtitles) async {
     return null;
   }
 

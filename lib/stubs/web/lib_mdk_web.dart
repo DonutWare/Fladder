@@ -59,7 +59,7 @@ class LibMDK extends BasePlayer {
   }
 
   @override
-  Future<Uint8List?> takeScreenshot(ScreenshotFormat format) async {
+  Future<Uint8List?> takeScreenshot(ScreenshotFormat format, bool withSubtitles) async {
     return null;
   }
 

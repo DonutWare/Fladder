@@ -30,6 +30,7 @@ enum VideoHotKeys {
   fullScreen,
   skipMediaSegment,
   takeScreenshot,
+  takeScreenshotClean,
   exit;
 
   const VideoHotKeys();
@@ -50,7 +51,8 @@ enum VideoHotKeys {
       VideoHotKeys.prevChapter => context.localized.prevChapter,
       VideoHotKeys.fullScreen => context.localized.fullScreen,
       VideoHotKeys.skipMediaSegment => context.localized.skipMediaSegment,
-      VideoHotKeys.takeScreenshot => "Take screenshot",
+      VideoHotKeys.takeScreenshot => context.localized.takeScreenshot,
+      VideoHotKeys.takeScreenshotClean => context.localized.takeScreenshotClean,
       VideoHotKeys.exit => context.localized.exit,
     };
   }
@@ -230,6 +232,7 @@ Map<VideoHotKeys, KeyCombination> get _defaultVideoHotKeys => {
           VideoHotKeys.fullScreen => KeyCombination(key: LogicalKeyboardKey.keyF),
           VideoHotKeys.skipMediaSegment => KeyCombination(key: LogicalKeyboardKey.keyS),
           VideoHotKeys.takeScreenshot => KeyCombination(key: LogicalKeyboardKey.keyG),
+          VideoHotKeys.takeScreenshotClean => KeyCombination(key: LogicalKeyboardKey.keyG, modifier: LogicalKeyboardKey.controlLeft),
           VideoHotKeys.exit => KeyCombination(key: LogicalKeyboardKey.escape),
         },
     };

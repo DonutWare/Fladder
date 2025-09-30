@@ -681,7 +681,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     }
   }
 
-  void takeScreenshot() async {
+  void takeScreenshot({required bool withSubtitles}) async {
     final savePath = ref.read(videoPlayerSettingsProvider).screenshotsPath;
     // Early return here if we don't have a set/valid path. Skips actually taking the screenshot
     // which would be discarded.
@@ -689,7 +689,8 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
       return;
     }
 
-    final screenshotBuf = await ref.read(videoPlayerProvider).takeScreenshot();
+    final screenshotBuf = await ref.read(videoPlayerProvider).takeScreenshot(withSubtitles);
+
     if (screenshotBuf != null) {
       final savePathDirectory = Directory(savePath);
       
@@ -770,7 +771,10 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         }
         return true;
       case VideoHotKeys.takeScreenshot:
-        takeScreenshot();
+        takeScreenshot(withSubtitles: true);
+        return true;
+      case VideoHotKeys.takeScreenshotClean:
+        takeScreenshot(withSubtitles: false);
         return true;
       case VideoHotKeys.exit:
         disableFullScreen();

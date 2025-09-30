@@ -1369,6 +1369,7 @@
   }
   "quickConnectEnterCodeDescription": "Enter the code below to login",
   "takeScreenshot": "Take screenshot",
+  "takeScreenshotClean": "Take screenshot (without subtitles)",
   "screenshots": "Screenshots",
   "screenshotsPath": "Select screenshots destination",
   "format": "Format",
