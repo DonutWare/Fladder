@@ -225,10 +225,6 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
               child: IntInputField(
                 controller: TextEditingController(text: ref.watch(videoPlayerSettingsProvider.notifier).screenshotNamePadding.toString()),
                 onSubmitted: (value) {
-                  ref.read(videoPlayerSettingsProvider.notifier).update(
-                    (current) => current.copyWith(screenshotNamePadding: value ?? 3),
-                  );
-
                   ref.read(videoPlayerSettingsProvider.notifier).setscreenshotNamePadding(value ?? 3);
                 },
               )),

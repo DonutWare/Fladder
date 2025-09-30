@@ -370,7 +370,13 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     }
   }
 
-  Future<Uint8List?>? takeScreenshot(bool withSubtitles) {
-    return _player?.takeScreenshot(ref.read(videoPlayerSettingsProvider.select((value) => value.screenshotFormat)), withSubtitles);
+  Future<Uint8List?> takeScreenshot(bool withSubtitles) {
+    final player = _player;
+
+    if (player == null) {
+      return Future.value(null);
+    }
+
+    return player.takeScreenshot(ref.read(videoPlayerSettingsProvider.select((value) => value.screenshotFormat)), withSubtitles);
   }
 }

@@ -160,7 +160,7 @@ class LibMPV extends BasePlayer {
   Future<Uint8List?> takeScreenshot(ScreenshotFormat format, bool withSubtitles) async {
     String screenshotFormat = "";
     
-    // I'm intentionally not provinding a default case so we explicitely handle potential new formats.
+    // I'm intentionally not providing a default case so we explicitely handle potential new formats.
     switch (format) {
       case ScreenshotFormat.jpeg:
         screenshotFormat = "image/jpeg";

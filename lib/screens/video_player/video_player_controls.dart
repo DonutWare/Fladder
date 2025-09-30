@@ -710,7 +710,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
       await for (var file in savePathDirectory.list()) {
         final finalSegment = file.uri.pathSegments.last;
 
-        if (file is File && finalSegment.endsWith(fileExtension)) {
+        if (file is File && p.extension(finalSegment) == ".$fileExtension") {
           final match = RegExp(r'(\d+)').firstMatch(finalSegment);
 
           if (match != null) {
