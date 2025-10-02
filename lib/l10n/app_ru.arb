@@ -1463,5 +1463,29 @@
                 "type": "int"
             }
         }
-    }
+    },
+    "television": "Телевидение",
+    "@television": {},
+    "exitFladderDesc": "Вы уверены, что хотите закрыть Fladder?",
+    "@exitFladderDesc": {},
+    "keyboardShortCuts": "Горячие клавиши",
+    "@keyboardShortCuts": {},
+    "speedUp": "Ускорение",
+    "@speedUp": {},
+    "speedDown": "Замедление",
+    "@speedDown": {},
+    "speedIndicator": "Скорость воспроизведения: {speed}",
+    "@speedIndicator": {
+        "placeholders": {
+            "speed": {
+                "type": "double"
+            }
+        }
+    },
+    "quickConnectPostFailed": "Не удалось получить код быстрого подключения",
+    "@quickConnectPostFailed": {},
+    "quickConnectLoginUsingCode": "Использовать быстрое подключение",
+    "@quickConnectLoginUsingCode": {},
+    "quickConnectEnterCodeDescription": "Введите код ниже, чтобы войти",
+    "@quickConnectEnterCodeDescription": {}
 }
