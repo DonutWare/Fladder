@@ -173,7 +173,7 @@ class FocusButtonState extends State<FocusButton> {
                                   .colorScheme
                                   .primaryContainer
                                   .withValues(alpha: widget.darkOverlay ? 0.1 : 0),
-                              border: Border.all(width: 4, color: Theme.of(context).colorScheme.onPrimaryContainer),
+                              border: Border.all(width: 3, color: Theme.of(context).colorScheme.onPrimaryContainer),
                               borderRadius: FladderTheme.smallShape.borderRadius,
                             ),
                           ),

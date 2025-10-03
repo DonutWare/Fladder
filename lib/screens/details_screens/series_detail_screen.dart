@@ -76,21 +76,28 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                   OverviewHeader(
                     name: details.name,
                     image: details.images,
-                    playButton: MediaPlayButton(
-                      item: details.nextUp,
-                      onPressed: details.nextUp != null
-                          ? () async {
-                              await details.nextUp.play(context, ref);
+                    playButton: details.nextUp != null
+                        ? MediaPlayButton(
+                            item: details.nextUp,
+                            onPressed: (restart) async {
+                              await details.nextUp.play(
+                                context,
+                                ref,
+                                startPosition: restart ? Duration.zero : null,
+                              );
                               ref.read(providerId.notifier).fetchDetails(widget.item);
-                            }
-                          : null,
-                      onLongPressed: details.nextUp != null
-                          ? () async {
-                              await details.nextUp.play(context, ref, showPlaybackOption: true);
+                            },
+                            onLongPressed: (restart) async {
+                              await details.nextUp.play(
+                                context,
+                                ref,
+                                showPlaybackOption: true,
+                                startPosition: restart ? Duration.zero : null,
+                              );
                               ref.read(providerId.notifier).fetchDetails(widget.item);
-                            }
-                          : null,
-                    ),
+                            },
+                          )
+                        : null,
                     centerButtons: Wrap(
                       spacing: 8,
                       runSpacing: 8,

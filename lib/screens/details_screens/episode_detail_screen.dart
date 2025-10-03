@@ -82,12 +82,21 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                     playButton: episodeDetails.playAble
                         ? MediaPlayButton(
                             item: episodeDetails,
-                            onPressed: () async {
-                              await details.episode.play(context, ref);
+                            onPressed: (restart) async {
+                              await details.episode.play(
+                                context,
+                                ref,
+                                startPosition: restart ? Duration.zero : null,
+                              );
                               ref.read(providerInstance.notifier).fetchDetails(widget.item);
                             },
-                            onLongPressed: () async {
-                              await details.episode.play(context, ref, showPlaybackOption: true);
+                            onLongPressed: (restart) async {
+                              await details.episode.play(
+                                context,
+                                ref,
+                                showPlaybackOption: true,
+                                startPosition: restart ? Duration.zero : null,
+                              );
                               ref.read(providerInstance.notifier).fetchDetails(widget.item);
                             },
                           )

@@ -87,20 +87,22 @@ class _EpisodePosterState extends ConsumerState<EpisodePosters> {
       itemBuilder: (context, index) {
         final episode = episodes[index];
         final isCurrentEpisode = index == indexOfCurrent;
+        final tag = UniqueKey();
         return EpisodePoster(
           episode: episode,
+          heroTag: tag,
           blur: allPlayed ? false : indexOfCurrent < index,
           onTap: widget.onEpisodeTap != null
               ? () {
                   widget.onEpisodeTap?.call(
                     () {
-                      episode.navigateTo(context);
+                      episode.navigateTo(context, tag: tag);
                     },
                     episode,
                   );
                 }
               : () {
-                  episode.navigateTo(context);
+                  episode.navigateTo(context, tag: tag);
                 },
           onLongPress: () async {
             await showBottomSheetPill(
@@ -134,6 +136,7 @@ class EpisodePoster extends ConsumerWidget {
   final bool blur;
   final List<ItemAction> actions;
   final bool isCurrentEpisode;
+  final Object? heroTag;
 
   const EpisodePoster({
     super.key,
@@ -144,6 +147,7 @@ class EpisodePoster extends ConsumerWidget {
     this.blur = false,
     required this.actions,
     required this.isCurrentEpisode,
+    this.heroTag,
   });
 
   @override
@@ -176,15 +180,18 @@ class EpisodePoster extends ConsumerWidget {
                       await showMenu(
                           context: context, position: position, items: actions.popupMenuItems(useIcons: true));
                     },
-                    child: FladderImage(
-                      image: !episodeAvailable ? episode.parentImages?.primary : episode.images?.primary,
-                      placeHolder: placeHolder,
-                      blurOnly: !episodeAvailable
-                          ? true
-                          : ref.watch(clientSettingsProvider.select((value) => value.blurUpcomingEpisodes))
-                              ? blur
-                              : false,
-                      decodeHeight: 250,
+                    child: Hero(
+                      tag: heroTag ?? UniqueKey(),
+                      child: FladderImage(
+                        image: !episodeAvailable ? episode.parentImages?.primary : episode.images?.primary,
+                        placeHolder: placeHolder,
+                        blurOnly: !episodeAvailable
+                            ? true
+                            : ref.watch(clientSettingsProvider.select((value) => value.blurUpcomingEpisodes))
+                                ? blur
+                                : false,
+                        decodeHeight: 250,
+                      ),
                     ),
                     overlays: [
                       if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer && actions.isNotEmpty)

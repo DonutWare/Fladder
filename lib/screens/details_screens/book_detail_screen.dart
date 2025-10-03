@@ -81,7 +81,12 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
                                     //Wrapped so the correct context is used for refreshing the pages
                                     return MediaPlayButton(
                                       item: details.nextUp!,
-                                      onPressed: () async => details.nextUp.play(context, ref, provider: provider),
+                                      onPressed: (restart) async => details.nextUp.play(
+                                        context,
+                                        ref,
+                                        provider: provider,
+                                        currentPage: restart ? 0 : null,
+                                      ),
                                     );
                                   },
                                 ),

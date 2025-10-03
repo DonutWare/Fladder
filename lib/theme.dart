@@ -40,7 +40,7 @@ class FladderTheme {
     final buttonState = WidgetStateProperty.resolveWith(
       (states) {
         return BorderSide(
-          width: 2,
+          width: 3,
           color: scheme?.onPrimaryContainer.withValues(alpha: states.contains(WidgetState.focused) ? 0.9 : 0.0) ??
               Colors.transparent,
         );

@@ -75,18 +75,20 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
                     padding: padding,
                     playButton: MediaPlayButton(
                       item: details,
-                      onLongPressed: () async {
+                      onLongPressed: (restart) async {
                         await details.play(
                           context,
                           ref,
                           showPlaybackOption: true,
+                          startPosition: restart ? Duration.zero : null,
                         );
                         ref.read(providerInstance.notifier).fetchDetails(widget.item);
                       },
-                      onPressed: () async {
+                      onPressed: (restart) async {
                         await details.play(
                           context,
                           ref,
+                          startPosition: restart ? Duration.zero : null,
                         );
                         ref.read(providerInstance.notifier).fetchDetails(widget.item);
                       },
