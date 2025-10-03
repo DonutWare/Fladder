@@ -146,7 +146,7 @@ class _MediaBannerState extends ConsumerState<MediaBanner> {
                             ),
                             child: FocusButton(
                               onTap: () => currentItem.navigateTo(context),
-                              onLongPress: AdaptiveLayout.of(context).inputDevice == InputDevice.touch
+                              onLongPress: AdaptiveLayout.inputDeviceOf(context) == InputDevice.touch
                                   ? () async {
                                       interacting = true;
                                       final poster = currentItem;
@@ -165,7 +165,7 @@ class _MediaBannerState extends ConsumerState<MediaBanner> {
                                       timer.reset();
                                     }
                                   : null,
-                              onSecondaryTapDown: AdaptiveLayout.of(context).inputDevice == InputDevice.touch
+                              onSecondaryTapDown: AdaptiveLayout.inputDeviceOf(context) == InputDevice.touch
                                   ? null
                                   : (details) async {
                                       Offset localPosition = details.globalPosition;

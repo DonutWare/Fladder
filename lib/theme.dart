@@ -41,7 +41,8 @@ class FladderTheme {
       (states) {
         return BorderSide(
           width: 2,
-          color: states.contains(WidgetState.focused) ? Colors.white.withValues(alpha: 0.65) : Colors.transparent,
+          color: scheme?.onPrimaryContainer.withValues(alpha: states.contains(WidgetState.focused) ? 0.9 : 0.0) ??
+              Colors.transparent,
         );
       },
     );

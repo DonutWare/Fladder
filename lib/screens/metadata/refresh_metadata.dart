@@ -42,7 +42,7 @@ class _RefreshPopupDialogState extends ConsumerState<RefreshPopupDialog> {
         color: Theme.of(context).colorScheme.surface,
         child: ConstrainedBox(
           constraints: BoxConstraints(
-              maxWidth: AdaptiveLayout.of(context).inputDevice == InputDevice.pointer ? 700 : double.infinity),
+              maxWidth: AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer ? 700 : double.infinity),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

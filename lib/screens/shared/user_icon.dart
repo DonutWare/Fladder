@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/account_model.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
+import 'package:fladder/theme.dart';
 import 'package:fladder/util/string_extensions.dart';
 
 class UserIcon extends ConsumerWidget {
@@ -55,12 +56,15 @@ class UserIcon extends ConsumerWidget {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                CachedNetworkImage(
-                  imageUrl: user?.avatar ?? "",
-                  progressIndicatorBuilder: (context, url, progress) => placeHolder(),
-                  errorWidget: (context, url, error) => placeHolder(),
-                  memCacheHeight: 128,
-                  fit: BoxFit.cover,
+                ClipRRect(
+                  borderRadius: FladderTheme.defaultShape.borderRadius,
+                  child: CachedNetworkImage(
+                    imageUrl: user?.avatar ?? "",
+                    progressIndicatorBuilder: (context, url, progress) => placeHolder(),
+                    errorWidget: (context, url, error) => placeHolder(),
+                    memCacheHeight: 128,
+                    fit: BoxFit.cover,
+                  ),
                 ),
                 FlatButton(
                   onTap: onTap,

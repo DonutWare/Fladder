@@ -138,12 +138,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               icon: deviceIcon,
               onTap: () => navigateTo(const ClientSettingsRoute()),
             ),
-            if (quickConnectAvailable)
-              SettingsListTile(
-                label: Text(context.localized.settingsQuickConnectTitle),
-                icon: IconsaxPlusLinear.password_check,
-                onTap: () => openQuickConnectDialog(context),
-              ),
             SettingsListTile(
               label: Text(context.localized.settingsProfileTitle),
               subLabel: Text(context.localized.settingsProfileDesc),
@@ -203,6 +197,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               widthFactor: 0.25,
               child: Divider(),
             ),
+            if (quickConnectAvailable)
+              SettingsListTile(
+                label: Text(context.localized.settingsQuickConnectTitle),
+                icon: IconsaxPlusLinear.password_check,
+                onTap: () => openQuickConnectDialog(context),
+              ),
             SettingsListTile(
               label: Text(context.localized.switchUser),
               icon: IconsaxPlusLinear.arrow_swap_horizontal,

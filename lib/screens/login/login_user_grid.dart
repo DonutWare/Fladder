@@ -50,7 +50,7 @@ class LoginUserGrid extends ConsumerWidget {
               child: FocusButton(
                 onTap: () => editMode ? onLongPress?.call(user) : onPressed?.call(user),
                 onLongPress: switch (AdaptiveLayout.inputDeviceOf(context)) {
-                  InputDevice.dpad || InputDevice.pointer => () => onLongPress?.call(user),
+                  InputDevice.dPad || InputDevice.pointer => () => onLongPress?.call(user),
                   InputDevice.touch => null,
                 },
                 darkOverlay: false,

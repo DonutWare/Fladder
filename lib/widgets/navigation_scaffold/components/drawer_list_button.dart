@@ -45,7 +45,7 @@ class _DrawerListButtonState extends ConsumerState<DrawerListButton> {
           selected: widget.selected,
           selectedTileColor: Theme.of(context).colorScheme.primary,
           selectedColor: Theme.of(context).colorScheme.onPrimary,
-          onLongPress: widget.actions.isNotEmpty && AdaptiveLayout.of(context).inputDevice == InputDevice.touch
+          onLongPress: widget.actions.isNotEmpty && AdaptiveLayout.inputDeviceOf(context) == InputDevice.touch
               ? () => showBottomSheetPill(
                     context: context,
                     content: (context, scrollController) => ListView(
@@ -61,7 +61,7 @@ class _DrawerListButtonState extends ConsumerState<DrawerListButton> {
             child:
                 AnimatedFadeSize(duration: widget.duration, child: widget.selected ? widget.selectedIcon : widget.icon),
           ),
-          trailing: widget.actions.isNotEmpty && AdaptiveLayout.of(context).inputDevice == InputDevice.pointer
+          trailing: widget.actions.isNotEmpty && AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer
               ? AnimatedOpacity(
                   duration: const Duration(milliseconds: 125),
                   opacity: showPopupButton ? 1 : 0,

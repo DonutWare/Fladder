@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/screens/shared/media/components/poster_image.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
+import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/item_base_model/play_item_helpers.dart';
+import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/clickable_text.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 
@@ -134,6 +137,59 @@ class PosterWidget extends ConsumerWidget {
               ),
             ),
         ],
+      ),
+    );
+  }
+}
+
+class PosterPlaceHolder extends StatelessWidget {
+  final Function() onTap;
+  final double aspectRatio;
+  const PosterPlaceHolder({
+    required this.onTap,
+    required this.aspectRatio,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AspectRatio(
+      aspectRatio: aspectRatio,
+      child: FractionallySizedBox(
+        alignment: Alignment.topCenter,
+        heightFactor: 0.85,
+        child: Padding(
+          padding: const EdgeInsets.all(4),
+          child: FocusButton(
+            onTap: onTap,
+            child: Card(
+              color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.2),
+              elevation: 0,
+              shadowColor: Colors.transparent,
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    spacing: 8,
+                    children: [
+                      const Icon(
+                        IconsaxPlusLinear.more_square,
+                        size: 46,
+                      ),
+                      Text(
+                        context.localized.showMore,
+                        style: Theme.of(context).textTheme.labelMedium,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

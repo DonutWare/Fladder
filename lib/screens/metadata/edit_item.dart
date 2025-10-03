@@ -26,7 +26,7 @@ Future<ItemBaseModel?> showEditItemPopup(
             itemUpdated: (newItem) => updatedItem = newItem,
             refreshOnClose: (refresh) => shouldRefresh = refresh,
           );
-      return AdaptiveLayout.of(context).inputDevice == InputDevice.pointer
+      return AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer
           ? Dialog(
               insetPadding: const EdgeInsets.all(64),
               child: editWidget(),

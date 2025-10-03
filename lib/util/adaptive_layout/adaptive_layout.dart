@@ -16,7 +16,7 @@ import 'package:fladder/util/resolution_checker.dart';
 enum InputDevice {
   touch,
   pointer,
-  dpad,
+  dPad,
 }
 
 enum ViewSize {
@@ -188,7 +188,7 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
     final selectedViewSize = selectAvailableOrSmaller<ViewSize>(viewSize, acceptedViewSizes, ViewSize.values);
     final selectedLayoutMode = selectAvailableOrSmaller<LayoutMode>(layoutMode, acceptedLayouts, LayoutMode.values);
     final input = htpcMode
-        ? InputDevice.dpad
+        ? InputDevice.dPad
         : (isDesktop || kIsWeb)
             ? InputDevice.pointer
             : InputDevice.touch;

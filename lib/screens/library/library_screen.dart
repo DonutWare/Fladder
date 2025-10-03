@@ -236,7 +236,7 @@ class LibraryRow extends ConsumerWidget {
       autoFocus: true,
       startIndex: selectedView != null ? views.indexOf(selectedView!) : null,
       contentPadding: padding,
-      itemBuilder: (context, index, selected) {
+      itemBuilder: (context, index) {
         final view = views[index];
         final isSelected = selectedView == view;
         final List<ItemActionButton> viewActions = [

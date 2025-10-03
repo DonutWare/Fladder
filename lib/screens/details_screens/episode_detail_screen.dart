@@ -79,25 +79,25 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                   OverviewHeader(
                     name: details.series?.name ?? "",
                     image: seasonDetails.images,
+                    playButton: episodeDetails.playAble
+                        ? MediaPlayButton(
+                            item: episodeDetails,
+                            onPressed: () async {
+                              await details.episode.play(context, ref);
+                              ref.read(providerInstance.notifier).fetchDetails(widget.item);
+                            },
+                            onLongPressed: () async {
+                              await details.episode.play(context, ref, showPlaybackOption: true);
+                              ref.read(providerInstance.notifier).fetchDetails(widget.item);
+                            },
+                          )
+                        : null,
                     centerButtons: Wrap(
                       spacing: 8,
                       runSpacing: 8,
                       alignment: wrapAlignment,
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
-                        episodeDetails.playAble
-                            ? MediaPlayButton(
-                                item: episodeDetails,
-                                onPressed: () async {
-                                  await details.episode.play(context, ref);
-                                  ref.read(providerInstance.notifier).fetchDetails(widget.item);
-                                },
-                                onLongPressed: () async {
-                                  await details.episode.play(context, ref, showPlaybackOption: true);
-                                  ref.read(providerInstance.notifier).fetchDetails(widget.item);
-                                },
-                              )
-                            : null,
                         SelectableIconButton(
                           onPressed: () async {
                             await ref
@@ -133,7 +133,7 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                           selected: false,
                           icon: IconsaxPlusLinear.more,
                         ),
-                      ].nonNulls.toList().addPadding(const EdgeInsets.symmetric(horizontal: 6)),
+                      ].nonNulls.toList(),
                     ),
                     padding: padding,
                     subTitle: details.episode?.detailedName(context),

@@ -79,16 +79,23 @@ class ExpressiveButton extends StatelessWidget {
       right: isSelected || position == PositionContext.last ? const Radius.circular(16) : const Radius.circular(4),
     );
     return ElevatedButton.icon(
-      style: ElevatedButton.styleFrom(
-        shape: RoundedRectangleBorder(borderRadius: borderRadius),
-        elevation: isSelected ? 4 : 0,
-        backgroundColor:
-            isSelected ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.surfaceContainerHighest,
-        foregroundColor:
-            isSelected ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onSurfaceVariant,
-        textStyle: Theme.of(context).textTheme.labelLarge,
+      style: ButtonStyle(
+        shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: borderRadius)),
+        elevation: WidgetStatePropertyAll(isSelected ? 4 : 0),
+        backgroundColor: WidgetStatePropertyAll(
+            isSelected ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.surfaceContainerHighest),
+        foregroundColor: WidgetStatePropertyAll(
+            isSelected ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onSurfaceVariant),
+        textStyle: WidgetStatePropertyAll(Theme.of(context).textTheme.labelLarge),
         visualDensity: VisualDensity.comfortable,
-        padding: const EdgeInsets.all(12),
+        side: WidgetStateProperty.resolveWith((states) => BorderSide(
+              width: 2,
+              color: (isSelected
+                      ? Theme.of(context).colorScheme.onPrimary
+                      : Theme.of(context).colorScheme.onPrimaryContainer)
+                  .withValues(alpha: states.contains(WidgetState.focused) ? 1.0 : 0),
+            )),
+        padding: const WidgetStatePropertyAll(EdgeInsets.all(12)),
       ),
       onPressed: onPressed,
       label: label,

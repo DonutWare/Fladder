@@ -54,22 +54,18 @@ final List<AutoRoute> homeRoutes = [
     page: DashboardRoute.page,
     initial: true,
     path: 'dashboard',
-    maintainState: false,
   ),
   AutoRoute(
     page: FavouritesRoute.page,
     path: 'favourites',
-    maintainState: false,
   ),
   AutoRoute(
     page: SyncedRoute.page,
     path: 'synced',
-    maintainState: false,
   ),
   AutoRoute(
     page: LibraryRoute.page,
     path: 'libraries',
-    maintainState: false,
   ),
 ];
 

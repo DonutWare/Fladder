@@ -110,7 +110,7 @@ flutter {
 }
 
 dependencies {
-    def composeBom = platform('androidx.compose:compose-bom:2025.09.00')
+    def composeBom = platform('androidx.compose:compose-bom:2025.09.01')
     implementation composeBom
     androidTestImplementation composeBom
     implementation('androidx.compose.material3:material3')
@@ -130,7 +130,8 @@ dependencies {
     implementation("io.github.peerless2012:ass-media:0.3.0-rc03")
 
     //UI
-    implementation("io.github.rabehx:iconsax-compose:0.0.3")
+    implementation("io.github.rabehx:iconsax-compose:0.0.4")
     implementation("io.coil-kt.coil3:coil-compose:3.3.0")
     implementation("io.coil-kt.coil3:coil-network-okhttp:3.3.0")
+    implementation("com.materialkolor:material-kolor:3.0.1")
 }

@@ -128,7 +128,7 @@ class _VideoPlayerNextWrapperState extends ConsumerState<VideoPlayerNextWrapper>
   }
 
   Future<void> clearOverlaySettings() async {
-    if (AdaptiveLayout.of(context).inputDevice != InputDevice.pointer) {
+    if (AdaptiveLayout.inputDeviceOf(context) != InputDevice.pointer) {
       ScreenBrightness().resetApplicationScreenBrightness();
     } else {
       fullScreenHelper.closeFullScreen(ref);

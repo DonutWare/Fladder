@@ -46,7 +46,7 @@ class PosterRow extends ConsumerWidget {
           context.ensureVisible();
         }
       },
-      itemBuilder: (context, index, selected) {
+      itemBuilder: (context, index) {
         final poster = posters[index];
         return PosterWidget(
           key: Key(poster.id),

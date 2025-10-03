@@ -50,7 +50,7 @@ class _NavigationButtonState extends ConsumerState<NavigationButton> {
         : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.45);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 6),
-      child: ElevatedButton(
+      child: TextButton(
         focusNode: widget.navFocusNode ? navBarNode : null,
         onHover: (value) => setState(() => showPopupButton = value),
         style: ButtonStyle(

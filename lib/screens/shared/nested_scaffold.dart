@@ -31,10 +31,7 @@ class NestedScaffold extends ConsumerWidget {
               ],
             ),
           ),
-          child: Scaffold(
-            backgroundColor: Colors.transparent,
-            body: body,
-          ),
+          child: body,
         ),
       ],
     );

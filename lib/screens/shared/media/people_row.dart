@@ -47,7 +47,7 @@ class PeopleRow extends ConsumerWidget {
       height: AdaptiveLayout.poster(context).size * 0.9,
       contentPadding: contentPadding,
       items: people,
-      itemBuilder: (context, index, selected) {
+      itemBuilder: (context, index) {
         final person = people[index];
         return AspectRatio(
           aspectRatio: 0.6,

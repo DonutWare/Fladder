@@ -95,10 +95,10 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
               children: [
                 Positioned.fill(
                   child: GestureDetector(
-                    onTap: AdaptiveLayout.of(context).inputDevice == InputDevice.pointer
+                    onTap: AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer
                         ? () => player.playOrPause()
                         : () => toggleOverlay(),
-                    onDoubleTap: AdaptiveLayout.of(context).inputDevice == InputDevice.pointer
+                    onDoubleTap: AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer
                         ? () => fullScreenHelper.toggleFullScreen(ref)
                         : null,
                   ),
@@ -245,7 +245,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                           ],
                         ),
                       ),
-                    if (AdaptiveLayout.of(context).inputDevice == InputDevice.touch)
+                    if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.touch)
                       Align(
                         alignment: Alignment.centerRight,
                         child: Tooltip(
@@ -362,7 +362,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer)
+                        if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer)
                           Tooltip(
                               message: context.localized.stop,
                               child: IconButton(
@@ -379,7 +379,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                               ),
                             ),
                         },
-                        if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer &&
+                        if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer &&
                             AdaptiveLayout.viewSizeOf(context) > ViewSize.phone) ...[
                           VideoVolumeSlider(
                             onChanged: () => resetTimer(),
@@ -651,7 +651,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
 
   Future<void> clearOverlaySettings() async {
     toggleOverlay(value: true);
-    if (AdaptiveLayout.of(context).inputDevice != InputDevice.pointer) {
+    if (AdaptiveLayout.inputDeviceOf(context) != InputDevice.pointer) {
       ScreenBrightness().resetApplicationScreenBrightness();
     } else {
       disableFullScreen();

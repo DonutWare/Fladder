@@ -7,6 +7,7 @@ import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/screens/shared/media/components/chip_button.dart';
 import 'package:fladder/screens/shared/media/components/media_header.dart';
 import 'package:fladder/screens/shared/media/components/small_detail_widgets.dart';
+import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/humanize_duration.dart';
 import 'package:fladder/util/list_padding.dart';
@@ -14,6 +15,7 @@ import 'package:fladder/util/list_padding.dart';
 class OverviewHeader extends ConsumerWidget {
   final String name;
   final ImagesData? image;
+  final Widget? playButton;
   final Widget? centerButtons;
   final EdgeInsets? padding;
   final String? subTitle;
@@ -30,6 +32,7 @@ class OverviewHeader extends ConsumerWidget {
   const OverviewHeader({
     required this.name,
     this.image,
+    this.playButton,
     this.centerButtons,
     this.padding,
     this.subTitle,
@@ -59,7 +62,7 @@ class OverviewHeader extends ConsumerWidget {
         (MediaQuery.sizeOf(context).height - (MediaQuery.paddingOf(context).top + 150)).clamp(50, 1250).toDouble();
 
     final crossAlignment =
-        AdaptiveLayout.viewSizeOf(context) != ViewSize.phone ? CrossAxisAlignment.start : CrossAxisAlignment.center;
+        AdaptiveLayout.viewSizeOf(context) != ViewSize.phone ? CrossAxisAlignment.start : CrossAxisAlignment.stretch;
 
     return ConstrainedBox(
       constraints: BoxConstraints(
@@ -156,7 +159,7 @@ class OverviewHeader extends ConsumerWidget {
                     Flexible(
                       child: Text(
                         summary ?? "",
-                        style: Theme.of(context).textTheme.titleLarge,
+                        style: Theme.of(context).textTheme.titleMedium,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 3,
                       ),
@@ -168,7 +171,29 @@ class OverviewHeader extends ConsumerWidget {
                 ].addInBetween(const SizedBox(height: 10)),
               ),
             ),
-            if (centerButtons != null) centerButtons!,
+            if (AdaptiveLayout.viewSizeOf(context) == ViewSize.phone) ...[
+              if (playButton != null) playButton!,
+              if (centerButtons != null) centerButtons!,
+            ] else
+              Flexible(
+                child: Row(
+                  spacing: 16,
+                  children: [
+                    if (playButton != null) ...[
+                      playButton!,
+                      Container(
+                        width: 2,
+                        height: 12,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.onSurface.withAlpha(64),
+                          borderRadius: FladderTheme.smallShape.borderRadius,
+                        ),
+                      )
+                    ],
+                    if (centerButtons != null) centerButtons!,
+                  ],
+                ),
+              ),
           ].addInBetween(const SizedBox(height: 21)),
         ),
       ),

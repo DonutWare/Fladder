@@ -49,7 +49,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
 
   final textController = TextEditingController();
 
-  ItemBaseModel? selectedPoster;
+  final selectedPoster = ValueNotifier<ItemBaseModel?>(null);
 
   @override
   void initState() {
@@ -76,7 +76,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     final padding = AdaptiveLayout.adaptivePadding(context);
-    final bannerType = ref.watch(homeSettingsProvider.select((value) => value.homeBanner));
+    final bannerType = AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad
+        ? HomeBanner.detailedBanner
+        : ref.watch(homeSettingsProvider.select((value) => value.homeBanner));
 
     final dashboardData = ref.watch(dashboardProvider);
     final views = ref.watch(viewsProvider);
@@ -99,10 +101,14 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     return MediaQuery.removeViewInsets(
       context: context,
       child: NestedScaffold(
-        background: BackgroundImage(
-            items: selectedPoster != null
-                ? [selectedPoster!]
-                : [...homeCarouselItems, ...dashboardData.nextUp, ...allResume]),
+        background: ValueListenableBuilder<ItemBaseModel?>(
+          valueListenable: selectedPoster,
+          builder: (_, value, __) {
+            return BackgroundImage(
+              items: value != null ? [value] : [...homeCarouselItems, ...dashboardData.nextUp, ...allResume],
+            );
+          },
+        ),
         body: PullToRefresh(
           refreshKey: _refreshIndicatorKey,
           displacement: 80 + MediaQuery.of(context).viewPadding.top,
@@ -128,13 +134,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                       ),
                       child: HomeBannerWidget(
                         posters: homeCarouselItems,
-                        onSelect: (selected) {
-                          // if (selectedPoster != selected) {
-                          //   setState(() {
-                          //     selectedPoster = selected;
-                          //   });
-                          // }
-                        },
+                        onSelect: (poster) => selectedPoster.value = poster,
                       ),
                     ),
                   ),
@@ -218,7 +218,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     .mapIndexed(
                       (index, child) => SliverToBoxAdapter(
                         child: FocusProvider(
-                          autoFocus: bannerType != HomeBanner.detailedBanner ? index == 0 : false,
+                          autoFocus:
+                              bannerType != HomeBanner.detailedBanner || homeCarouselItems.isEmpty ? index == 0 : false,
                           child: child,
                         ),
                       ),

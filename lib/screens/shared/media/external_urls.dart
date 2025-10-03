@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart' as urilauncher;
 import 'package:url_launcher/url_launcher_string.dart';
 
 import 'package:fladder/models/items/item_shared_models.dart';
+import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/sticky_header_text.dart';
@@ -19,6 +20,9 @@ class ExternalUrlsRow extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    if (ref.watch(argumentsStateProvider).htpcMode) {
+      return const SizedBox.shrink();
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,

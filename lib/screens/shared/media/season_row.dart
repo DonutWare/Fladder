@@ -38,7 +38,6 @@ class SeasonsRow extends ConsumerWidget {
       itemBuilder: (
         context,
         index,
-        selected,
       ) {
         final season = (seasons ?? [])[index];
         return SeasonPoster(
@@ -153,7 +152,7 @@ class SeasonPoster extends ConsumerWidget {
                             items: season.generateActions(context, ref).popupMenuItems(useIcons: true));
                       },
                       onTap: () => onSeasonPressed?.call(season),
-                      onLongPress: AdaptiveLayout.of(context).inputDevice == InputDevice.touch
+                      onLongPress: AdaptiveLayout.inputDeviceOf(context) == InputDevice.touch
                           ? () {
                               showBottomSheetPill(
                                 context: context,
@@ -166,7 +165,7 @@ class SeasonPoster extends ConsumerWidget {
                             }
                           : null,
                       overlays: [
-                        if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer)
+                        if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer)
                           ExcludeFocus(
                             child: Align(
                               alignment: Alignment.bottomRight,

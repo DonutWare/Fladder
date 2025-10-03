@@ -1341,5 +1341,6 @@
   },
   "quickConnectPostFailed": "Failed to get quick connect code",
   "quickConnectLoginUsingCode": "Using quick connect",
-  "quickConnectEnterCodeDescription": "Enter the code below to login"
+  "quickConnectEnterCodeDescription": "Enter the code below to login",
+  "showMore": "Show more"
 }

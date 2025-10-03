@@ -13,12 +13,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -102,6 +102,7 @@ internal fun ProgressBar(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(125.dp)
+                    .padding(bottom = 32.dp)
                     .align(alignment = Alignment.CenterHorizontally),
                 currentPosition = tempPosition.milliseconds,
                 trickPlayModel = playbackData?.trickPlayModel
@@ -129,7 +130,7 @@ internal fun ProgressBar(
             Text(
                 formatTime(currentPosition),
                 color = Color.White,
-                style = MaterialTheme.typography.labelMedium
+                style = MaterialTheme.typography.titleMedium
             )
             SimpleProgressBar(
                 player,
@@ -152,7 +153,7 @@ internal fun ProgressBar(
                     )
                 ),
                 color = Color.White,
-                style = MaterialTheme.typography.labelMedium
+                style = MaterialTheme.typography.titleMedium
             )
         }
     }
@@ -240,9 +241,11 @@ internal fun RowScope.SimpleProgressBar(
             modifier = Modifier
                 .focusable(enabled = false)
                 .fillMaxWidth()
-                .height(12.dp)
+                .height(8.dp)
                 .background(
-                    color = Color.Black.copy(alpha = 0.15f),
+                    color = Color.Black.copy(
+                        alpha = 0.15f
+                    ),
                     shape = slideBarShape
                 ),
         ) {
@@ -251,9 +254,11 @@ internal fun RowScope.SimpleProgressBar(
                     .focusable(enabled = false)
                     .fillMaxHeight()
                     .fillMaxWidth(progress)
-                    .padding(end = 9.dp)
+                    .padding(end = 8.dp)
                     .background(
-                        color = Color.White.copy(alpha = 0.75f),
+                        color = if (thumbFocused) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.primary.copy(
+                            alpha = 0.75f
+                        ),
                         shape = slideBarShape
                     )
             )
@@ -321,11 +326,13 @@ internal fun RowScope.SimpleProgressBar(
                         .graphicsLayer {
                             translationX = startPx
                         }
-                        .size(6.dp)
+                        .padding(vertical = 0.5.dp)
+                        .fillMaxHeight()
+                        .aspectRatio(ratio = 1f)
                         .background(
-                            color = (if (isAfterCurrentPositon) Color.White else Color.Black).copy(
-                                alpha = 0.45f
-                            ),
+                            color = if (isAfterCurrentPositon) Color.White.copy(
+                                alpha = 0.5f
+                            ) else MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.7f),
                             shape = CircleShape
                         )
                 )

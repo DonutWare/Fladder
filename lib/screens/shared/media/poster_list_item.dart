@@ -69,6 +69,8 @@ class PosterListItem extends ConsumerWidget {
             ),
             child: FocusButton(
               onTap: () => pressedWidget(context),
+              autoFocus:
+                  FocusProvider.autoFocusOf(context) && AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad,
               onFocusChanged: (focus) {
                 if (focus) {
                   context.ensureVisible();

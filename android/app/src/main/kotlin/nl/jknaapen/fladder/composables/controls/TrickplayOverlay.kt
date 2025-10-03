@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -25,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import coil3.compose.AsyncImagePainter
 import coil3.compose.rememberAsyncImagePainter
+import coil3.imageLoader
 import coil3.request.ImageRequest
 import coil3.toBitmap
 import kotlin.time.Duration
@@ -40,6 +42,16 @@ fun FilmstripTrickPlayOverlay(
 ) {
     if (trickPlayModel == null) {
         return
+    }
+
+    val context = LocalContext.current
+    LaunchedEffect(trickPlayModel) {
+        trickPlayModel.images.forEach { imageUrl ->
+            val request = ImageRequest.Builder(context)
+                .data(imageUrl)
+                .build()
+            context.imageLoader.enqueue(request)
+        }
     }
 
     val uniqueThumbnails = remember(currentPosition, trickPlayModel, thumbnailsToShowOnEachSide) {

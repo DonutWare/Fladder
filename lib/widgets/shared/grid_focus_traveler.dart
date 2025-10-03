@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/focus_provider.dart';
+import 'package:fladder/widgets/navigation_scaffold/components/navigation_body.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/side_navigation_bar.dart';
 
 class GridFocusTraveler extends ConsumerStatefulWidget {
@@ -28,80 +29,44 @@ class GridFocusTraveler extends ConsumerStatefulWidget {
 
 class _GridFocusTravelerState extends ConsumerState<GridFocusTraveler> {
   late int selectedIndex = widget.currentIndex;
-
-  late final List<FocusNode> _focusNodes;
-
-  @override
-  void initState() {
-    super.initState();
-    _focusNodes = List.generate(widget.itemCount, (index) => FocusNode());
-    _focusNodes.mapIndexed(
-      (index, element) {
-        element.addListener(() {
-          if (element.hasFocus) {
-            setState(() {
-              selectedIndex = index;
-            });
-          }
-        });
-      },
-    );
-
-    if (!FocusProvider.autoFocusOf(context)) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _focusNodes.firstOrNull?.requestFocus();
-      });
-    }
-  }
-
-  @override
-  void didUpdateWidget(GridFocusTraveler oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.itemCount != oldWidget.itemCount) {
-      for (var node in _focusNodes) {
-        node.dispose();
-      }
-      _focusNodes = List.generate(widget.itemCount, (index) => FocusNode());
-      if (selectedIndex >= widget.itemCount) {
-        selectedIndex = widget.itemCount - 1;
-        if (selectedIndex >= 0) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            _focusNodes[selectedIndex].requestFocus();
-          });
-        }
-      }
-    }
-  }
-
-  @override
-  void dispose() {
-    for (var node in _focusNodes) {
-      node.dispose();
-    }
-    super.dispose();
-  }
+  bool _initializedFocus = false;
 
   @override
   Widget build(BuildContext context) {
     return FocusTraversalGroup(
       policy: GridFocusTravelerPolicy(
         navBarNode: navBarNode,
-        nodes: _focusNodes,
         crossAxisCount: widget.crossAxisCount,
         onChanged: (value) {
           selectedIndex = value;
-          _focusNodes[value].requestFocus();
         },
       ),
-      child: SliverGrid.builder(
-        gridDelegate: widget.gridDelegate,
-        itemCount: widget.itemCount,
-        itemBuilder: (context, index) {
-          return FocusProvider(
-            focusNode: _focusNodes[index],
-            child: Builder(
-              builder: (context) => widget.itemBuilder(context, selectedIndex, index),
-            ),
+      child: Builder(
+        builder: (context) {
+          if (!_initializedFocus && AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              final parent = Focus.of(context);
+              final nodes = _childNodes(parent);
+              if (nodes.isNotEmpty) {
+                nodes.first.requestFocus();
+                setState(() {
+                  selectedIndex = 0;
+                  _initializedFocus = true;
+                });
+              }
+            });
+          }
+
+          return SliverGrid.builder(
+            gridDelegate: widget.gridDelegate,
+            itemCount: widget.itemCount,
+            itemBuilder: (context, index) {
+              return FocusProvider(
+                child: Builder(
+                  builder: (context) => widget.itemBuilder(context, selectedIndex, index),
+                ),
+              );
+            },
           );
         },
       ),
@@ -109,21 +74,20 @@ class _GridFocusTravelerState extends ConsumerState<GridFocusTraveler> {
   }
 }
 
-class GridFocusTravelerPolicy extends ReadingOrderTraversalPolicy {
-  /// The complete list of FocusNodes for the grid.
-  final List<FocusNode> nodes;
+List<FocusNode> _childNodes(FocusNode node) {
+  return node.descendants.where((n) => n.canRequestFocus && n.context != null).toList()
+    ..sort((a, b) {
+      final dy = a.rect.top.compareTo(b.rect.top);
+      return dy != 0 ? dy : a.rect.left.compareTo(b.rect.left);
+    });
+}
 
-  /// The number of items in each row.
+class GridFocusTravelerPolicy extends WidgetOrderTraversalPolicy {
   final int crossAxisCount;
-
-  /// Callback to notify the parent which node index should be focused next.
   final Function(int value) onChanged;
-
-  /// The navigation bar node to focus when navigating left from the first column.
   final FocusNode navBarNode;
 
   GridFocusTravelerPolicy({
-    required this.nodes,
     required this.crossAxisCount,
     required this.onChanged,
     required this.navBarNode,
@@ -131,52 +95,53 @@ class GridFocusTravelerPolicy extends ReadingOrderTraversalPolicy {
 
   @override
   bool inDirection(FocusNode currentNode, TraversalDirection direction) {
-    final int current = nodes.indexOf(currentNode);
+    final parent = currentNode.parent;
+    if (parent == null) {
+      return super.inDirection(currentNode, direction);
+    }
+
+    final nodes = _childNodes(parent);
+
+    final current = nodes.indexOf(currentNode);
     if (current == -1) {
       return super.inDirection(currentNode, direction);
     }
 
-    final int itemCount = nodes.length;
-    final int row = current ~/ crossAxisCount;
-    final int col = current % crossAxisCount;
-    final int rowCount = (itemCount / crossAxisCount).ceil();
-    int? next;
+    final itemCount = nodes.length;
+    final row = current ~/ crossAxisCount;
+    final col = current % crossAxisCount;
+    final rowCount = (itemCount / crossAxisCount).ceil();
 
+    int? next;
     switch (direction) {
       case TraversalDirection.left:
-        if (col > 0) {
-          next = current - 1;
-        }
+        if (col > 0) next = current - 1;
         break;
-
       case TraversalDirection.right:
         if (col < crossAxisCount - 1 && current + 1 < itemCount) {
           next = current + 1;
         }
         break;
-
       case TraversalDirection.up:
-        if (row > 0) {
-          next = current - crossAxisCount;
-        }
+        if (row > 0) next = current - crossAxisCount;
         break;
-
       case TraversalDirection.down:
         if (row < rowCount - 1) {
-          final int candidate = current + crossAxisCount;
-          if (candidate < itemCount) {
-            next = candidate;
-          }
+          final candidate = current + crossAxisCount;
+          if (candidate < itemCount) next = candidate;
         }
         break;
     }
 
     if (next != null) {
+      final target = nodes[next];
+      target.requestFocus();
       onChanged(next);
       return true;
     }
 
     if (direction == TraversalDirection.left && col == 0) {
+      lastMainFocus = currentNode;
       navBarNode.requestFocus();
       return true;
     }

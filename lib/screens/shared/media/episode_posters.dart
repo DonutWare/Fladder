@@ -12,6 +12,7 @@ import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/widgets/shared/clickable_text.dart';
 import 'package:fladder/widgets/shared/enum_selection.dart';
 import 'package:fladder/widgets/shared/horizontal_list.dart';
@@ -83,7 +84,7 @@ class _EpisodePosterState extends ConsumerState<EpisodePosters> {
       contentPadding: widget.contentPadding,
       startIndex: indexOfCurrent,
       items: episodes,
-      itemBuilder: (context, index, selected) {
+      itemBuilder: (context, index) {
         final episode = episodes[index];
         final isCurrentEpisode = index == indexOfCurrent;
         return EpisodePoster(
@@ -101,8 +102,8 @@ class _EpisodePosterState extends ConsumerState<EpisodePosters> {
               : () {
                   episode.navigateTo(context);
                 },
-          onLongPress: () {
-            showBottomSheetPill(
+          onLongPress: () async {
+            await showBottomSheetPill(
               context: context,
               item: episode,
               content: (context, scrollController) {
@@ -115,6 +116,7 @@ class _EpisodePosterState extends ConsumerState<EpisodePosters> {
                 );
               },
             );
+            context.refreshData();
           },
           actions: episode.generateActions(context, ref),
           isCurrentEpisode: isCurrentEpisode,
@@ -185,7 +187,7 @@ class EpisodePoster extends ConsumerWidget {
                       decodeHeight: 250,
                     ),
                     overlays: [
-                      if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer && actions.isNotEmpty)
+                      if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer && actions.isNotEmpty)
                         ExcludeFocus(
                           child: Align(
                             alignment: Alignment.bottomRight,

@@ -125,7 +125,7 @@ class _CarouselBannerState extends ConsumerState<CarouselBanner> {
                               ),
                               FlatButton(
                                 onTap: () => widget.items[index].navigateTo(context),
-                                onLongPress: AdaptiveLayout.of(context).inputDevice == InputDevice.pointer
+                                onLongPress: AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer
                                     ? null
                                     : () {
                                         final poster = widget.items[index];
@@ -141,7 +141,7 @@ class _CarouselBannerState extends ConsumerState<CarouselBanner> {
                                           ),
                                         );
                                       },
-                                onSecondaryTapDown: AdaptiveLayout.of(context).inputDevice == InputDevice.touch
+                                onSecondaryTapDown: AdaptiveLayout.inputDeviceOf(context) == InputDevice.touch
                                     ? null
                                     : (details) async {
                                         Offset localPosition = details.globalPosition;
@@ -175,7 +175,7 @@ class _CarouselBannerState extends ConsumerState<CarouselBanner> {
                       )
                     ],
                   ),
-                  if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer)
+                  if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer)
                     AnimatedOpacity(
                       duration: const Duration(milliseconds: 250),
                       opacity: showControls ? 1 : 0,

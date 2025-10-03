@@ -59,8 +59,8 @@ import io.github.rabehx.iconsax.filled.AudioSquare
 import io.github.rabehx.iconsax.filled.Backward
 import io.github.rabehx.iconsax.filled.Check
 import io.github.rabehx.iconsax.filled.Forward
-import io.github.rabehx.iconsax.filled.PauseCircle
-import io.github.rabehx.iconsax.filled.PlayCircle
+import io.github.rabehx.iconsax.filled.Pause
+import io.github.rabehx.iconsax.filled.Play
 import io.github.rabehx.iconsax.filled.Subtitle
 import io.github.rabehx.iconsax.outline.CloseSquare
 import io.github.rabehx.iconsax.outline.Refresh
@@ -349,7 +349,7 @@ fun PlaybackButtons(
             },
         ) {
             Icon(
-                if (isPlaying) Iconsax.Filled.PauseCircle else Iconsax.Filled.PlayCircle,
+                if (isPlaying) Iconsax.Filled.Pause else Iconsax.Filled.Play,
                 modifier = Modifier.size(55.dp),
                 contentDescription = if (isPlaying) "Pause" else "Play",
             )

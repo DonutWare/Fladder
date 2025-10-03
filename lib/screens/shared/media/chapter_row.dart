@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/items/chapters_model.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
@@ -24,7 +25,7 @@ class ChapterRow extends ConsumerWidget {
       label: context.localized.chapter(chapters.length),
       height: AdaptiveLayout.poster(context).size / 1.75,
       items: chapters,
-      itemBuilder: (context, index, selected) {
+      itemBuilder: (context, index) {
         final chapter = chapters[index];
         List<ItemAction> generateActions() {
           return [
@@ -58,35 +59,38 @@ class ChapterRow extends ConsumerWidget {
               },
             );
           },
-          child: AspectRatio(
-            aspectRatio: 1.75,
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                CachedNetworkImage(
-                  imageUrl: chapter.imageUrl,
-                  fit: BoxFit.cover,
-                ),
-                Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: Card(
-                      elevation: 0,
-                      shadowColor: Colors.transparent,
-                      color: Theme.of(context).cardColor.withValues(alpha: 0.4),
-                      child: Padding(
-                        padding: const EdgeInsets.all(5),
-                        child: Text(
-                          "${chapter.name} \n${chapter.startPosition.humanize ?? context.localized.start}",
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+          child: Card(
+            child: AspectRatio(
+              aspectRatio: 1.75,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  CachedNetworkImage(
+                    imageUrl: chapter.imageUrl,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => const Icon(IconsaxPlusBold.image),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: Card(
+                        elevation: 0,
+                        shadowColor: Colors.transparent,
+                        color: Theme.of(context).cardColor.withValues(alpha: 0.4),
+                        child: Padding(
+                          padding: const EdgeInsets.all(5),
+                          child: Text(
+                            "${chapter.name} \n${chapter.startPosition.humanize ?? context.localized.start}",
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           overlays: [

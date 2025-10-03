@@ -2,10 +2,9 @@ package nl.jknaapen.fladder.composables.controls
 
 import PlayableData
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,8 +32,8 @@ fun ItemHeader(state: PlayableData?) {
                 contentDescription = title ?: "logo",
                 alignment = Alignment.CenterStart,
                 modifier = Modifier
-                    .heightIn(max = 100.dp)
-                    .widthIn(max = 200.dp)
+                    .fillMaxHeight(0.25f)
+                    .fillMaxWidth(0.5f)
             )
         } else {
             title?.let {

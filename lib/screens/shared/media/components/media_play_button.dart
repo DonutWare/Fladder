@@ -4,9 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
-import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/theme.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/widgets/shared/ensure_visible.dart';
 
 class MediaPlayButton extends ConsumerWidget {
@@ -24,7 +24,19 @@ class MediaPlayButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final progress = (item?.progress ?? 0) / 100.0;
-    final radius = FladderTheme.defaultShape.borderRadius;
+    final padding = 3.0;
+    final radius = FladderTheme.smallShape.borderRadius.subtract(BorderRadius.circular(padding));
+    final buttonState = WidgetStateProperty.resolveWith(
+      (states) {
+        return BorderSide(
+          width: 2,
+          color: Theme.of(context)
+              .colorScheme
+              .onPrimaryContainer
+              .withValues(alpha: states.contains(WidgetState.focused) ? 0.9 : 0.0),
+        );
+      },
+    );
 
     Widget buttonTitle(Color contentColor) {
       return Padding(
@@ -61,9 +73,10 @@ class MediaPlayButton extends ConsumerWidget {
           : TextButton(
               onPressed: onPressed,
               onLongPress: onLongPressed,
-              autofocus: ref.read(argumentsStateProvider).htpcMode,
-              style: TextButton.styleFrom(
-                padding: EdgeInsets.zero,
+              autofocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad,
+              style: ButtonStyle(
+                side: buttonState,
+                padding: const WidgetStatePropertyAll(EdgeInsets.zero),
               ),
               onFocusChange: (value) {
                 if (value) {
@@ -73,7 +86,7 @@ class MediaPlayButton extends ConsumerWidget {
                 }
               },
               child: Padding(
-                padding: const EdgeInsets.all(2.0),
+                padding: EdgeInsets.all(padding),
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
@@ -81,20 +94,13 @@ class MediaPlayButton extends ConsumerWidget {
                     Positioned.fill(
                       child: DecoratedBox(
                         decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.surfaceContainer,
-                          boxShadow: [
-                            BoxShadow(
-                              blurRadius: 8.0,
-                              offset: const Offset(0, 2),
-                              color: Colors.black.withValues(alpha: 0.3),
-                            )
-                          ],
+                          color: Theme.of(context).colorScheme.primaryContainer,
                           borderRadius: radius,
                         ),
                       ),
                     ),
                     // Button content
-                    buttonTitle(Theme.of(context).colorScheme.primary),
+                    buttonTitle(Theme.of(context).colorScheme.onPrimaryContainer),
                     Positioned.fill(
                       child: ClipRect(
                         clipper: _ProgressClipper(

@@ -18,13 +18,11 @@ final acceptKeys = {
 class FocusProvider extends InheritedWidget {
   final bool hasFocus;
   final bool autoFocus;
-  final FocusNode? focusNode;
 
   const FocusProvider({
     super.key,
     this.hasFocus = false,
     this.autoFocus = false,
-    this.focusNode,
     required super.child,
   });
 
@@ -38,11 +36,6 @@ class FocusProvider extends InheritedWidget {
     return widget?.autoFocus ?? false;
   }
 
-  static FocusNode? focusNodeOf(BuildContext context) {
-    final widget = context.dependOnInheritedWidgetOfExactType<FocusProvider>();
-    return widget?.focusNode;
-  }
-
   @override
   bool updateShouldNotify(FocusProvider oldWidget) {
     return oldWidget.hasFocus != hasFocus;
@@ -51,6 +44,7 @@ class FocusProvider extends InheritedWidget {
 
 class FocusButton extends StatefulWidget {
   final Widget? child;
+  final bool autoFocus;
   final List<Widget> overlays;
   final Function()? onTap;
   final Function()? onLongPress;
@@ -60,6 +54,7 @@ class FocusButton extends StatefulWidget {
 
   const FocusButton({
     this.child,
+    this.autoFocus = false,
     this.overlays = const [],
     this.onTap,
     this.onLongPress,
@@ -74,7 +69,8 @@ class FocusButton extends StatefulWidget {
 }
 
 class FocusButtonState extends State<FocusButton> {
-  bool onHover = false;
+  FocusNode focusNode = FocusNode();
+  ValueNotifier<bool> onHover = ValueNotifier<bool>(false);
   Timer? _longPressTimer;
   bool _longPressTriggered = false;
   bool _keyDownActive = false;
@@ -128,27 +124,29 @@ class FocusButtonState extends State<FocusButton> {
   @override
   void dispose() {
     _resetKeyState();
+    if (lastMainFocus == focusNode) {
+      lastMainFocus = null;
+    }
+    focusNode.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final focusNode = FocusProvider.focusNodeOf(context);
     return MouseRegion(
       cursor: SystemMouseCursors.click,
-      onEnter: (event) => setState(() => onHover = true),
-      onExit: (event) => setState(() => onHover = false),
+      onEnter: (event) => onHover.value = true,
+      onExit: (event) => onHover.value = false,
       hitTestBehavior: HitTestBehavior.translucent,
       child: Focus(
         focusNode: focusNode,
+        autofocus: widget.autoFocus,
         onFocusChange: (value) {
           widget.onFocusChanged?.call(value);
           if (value) {
             lastMainFocus = focusNode;
           }
-          setState(() {
-            onHover = value;
-          });
+          onHover.value = value;
         },
         onKeyEvent: _handleKey,
         child: ExcludeFocus(
@@ -163,17 +161,23 @@ class FocusButtonState extends State<FocusButton> {
                   child: widget.child,
                 ),
                 Positioned.fill(
-                  child: AnimatedOpacity(
-                    opacity: onHover ? 1 : 0,
-                    duration: const Duration(milliseconds: 125),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: widget.darkOverlay ? Colors.black.withValues(alpha: 0.35) : Colors.transparent,
-                        border: Border.all(width: 3, color: Theme.of(context).colorScheme.primaryFixed),
-                        borderRadius: FladderTheme.smallShape.borderRadius,
-                      ),
-                      child: Stack(
-                        children: widget.overlays,
+                  child: ValueListenableBuilder(
+                    valueListenable: onHover,
+                    builder: (context, value, child) => AnimatedOpacity(
+                      opacity: value ? 1 : 0,
+                      duration: const Duration(milliseconds: 125),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .primaryContainer
+                              .withValues(alpha: widget.darkOverlay ? 0.1 : 0),
+                          border: Border.all(width: 4, color: Theme.of(context).colorScheme.onPrimaryContainer),
+                          borderRadius: FladderTheme.smallShape.borderRadius,
+                        ),
+                        child: Stack(
+                          children: widget.overlays,
+                        ),
                       ),
                     ),
                   ),

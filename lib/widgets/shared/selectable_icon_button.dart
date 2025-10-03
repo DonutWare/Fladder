@@ -39,18 +39,27 @@ class _SelectableIconButtonState extends ConsumerState<SelectableIconButton> {
   Widget build(BuildContext context) {
     const duration = Duration(milliseconds: 250);
     const iconSize = 24.0;
+    final theme = Theme.of(context).colorScheme;
+    final buttonState = WidgetStateProperty.resolveWith(
+      (states) {
+        return BorderSide(
+          width: 2,
+          color: theme.onPrimaryContainer.withValues(alpha: states.contains(WidgetState.focused) ? 0.9 : 0.0),
+        );
+      },
+    );
     return Tooltip(
       message: widget.label ?? "",
       child: ElevatedButton(
         style: ButtonStyle(
+          side: buttonState,
           elevation: WidgetStatePropertyAll(
               widget.backgroundColor != null ? (widget.backgroundColor!.a < 1 ? 0 : null) : null),
           backgroundColor: WidgetStatePropertyAll(
-              widget.backgroundColor ?? (widget.selected ? Theme.of(context).colorScheme.primary : null)),
-          iconColor: WidgetStatePropertyAll(
-              widget.iconColor ?? (widget.selected ? Theme.of(context).colorScheme.onPrimary : null)),
-          foregroundColor: WidgetStatePropertyAll(
-              widget.iconColor ?? (widget.selected ? Theme.of(context).colorScheme.onPrimary : null)),
+              widget.backgroundColor ?? (widget.selected ? theme.primaryContainer : theme.surfaceContainerHigh)),
+          iconColor: WidgetStatePropertyAll(widget.iconColor ?? (widget.selected ? theme.onPrimaryContainer : null)),
+          foregroundColor:
+              WidgetStatePropertyAll(widget.iconColor ?? (widget.selected ? theme.onPrimaryContainer : null)),
           padding: const WidgetStatePropertyAll(EdgeInsets.zero),
         ),
         onFocusChange: (value) {

@@ -11,6 +11,7 @@ import 'package:fladder/screens/shared/default_alert_dialog.dart';
 import 'package:fladder/screens/syncing/sync_item_details.dart';
 import 'package:fladder/screens/syncing/sync_widgets.dart';
 import 'package:fladder/screens/syncing/widgets/sync_progress_builder.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -65,6 +66,7 @@ class SyncListItem extends ConsumerWidget {
           child: FocusButton(
             onTap: () => baseItem?.navigateTo(context),
             onLongPress: () => showSyncItemDetails(context, syncedItem, ref),
+            autoFocus: FocusProvider.autoFocusOf(context) && AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad,
             child: ExcludeFocus(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),

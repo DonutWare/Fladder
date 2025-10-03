@@ -76,27 +76,27 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                   OverviewHeader(
                     name: details.name,
                     image: details.images,
+                    playButton: MediaPlayButton(
+                      item: details.nextUp,
+                      onPressed: details.nextUp != null
+                          ? () async {
+                              await details.nextUp.play(context, ref);
+                              ref.read(providerId.notifier).fetchDetails(widget.item);
+                            }
+                          : null,
+                      onLongPressed: details.nextUp != null
+                          ? () async {
+                              await details.nextUp.play(context, ref, showPlaybackOption: true);
+                              ref.read(providerId.notifier).fetchDetails(widget.item);
+                            }
+                          : null,
+                    ),
                     centerButtons: Wrap(
                       spacing: 8,
                       runSpacing: 8,
                       alignment: wrapAlignment,
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
-                        MediaPlayButton(
-                          item: details.nextUp,
-                          onPressed: details.nextUp != null
-                              ? () async {
-                                  await details.nextUp.play(context, ref);
-                                  ref.read(providerId.notifier).fetchDetails(widget.item);
-                                }
-                              : null,
-                          onLongPressed: details.nextUp != null
-                              ? () async {
-                                  await details.nextUp.play(context, ref, showPlaybackOption: true);
-                                  ref.read(providerId.notifier).fetchDetails(widget.item);
-                                }
-                              : null,
-                        ),
                         SelectableIconButton(
                           onPressed: () async {
                             await ref
