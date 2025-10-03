@@ -21,6 +21,7 @@ mixin _$ClientSettingsModel implements DiagnosticableTreeMixin {
   Duration? get nextUpDateCutoff;
   ThemeMode get themeMode;
   ColorThemes? get themeColor;
+  bool get deriveColorsFromItem;
   bool get amoledBlack;
   bool get blurPlaceHolders;
   bool get blurUpcomingEpisodes;
@@ -63,6 +64,7 @@ mixin _$ClientSettingsModel implements DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('nextUpDateCutoff', nextUpDateCutoff))
       ..add(DiagnosticsProperty('themeMode', themeMode))
       ..add(DiagnosticsProperty('themeColor', themeColor))
+      ..add(DiagnosticsProperty('deriveColorsFromItem', deriveColorsFromItem))
       ..add(DiagnosticsProperty('amoledBlack', amoledBlack))
       ..add(DiagnosticsProperty('blurPlaceHolders', blurPlaceHolders))
       ..add(DiagnosticsProperty('blurUpcomingEpisodes', blurUpcomingEpisodes))
@@ -87,7 +89,7 @@ mixin _$ClientSettingsModel implements DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ClientSettingsModel(syncPath: $syncPath, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, themeMode: $themeMode, themeColor: $themeColor, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundImage: $backgroundImage, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
+    return 'ClientSettingsModel(syncPath: $syncPath, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, themeMode: $themeMode, themeColor: $themeColor, deriveColorsFromItem: $deriveColorsFromItem, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundImage: $backgroundImage, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
   }
 }
 
@@ -105,6 +107,7 @@ abstract mixin class $ClientSettingsModelCopyWith<$Res> {
       Duration? nextUpDateCutoff,
       ThemeMode themeMode,
       ColorThemes? themeColor,
+      bool deriveColorsFromItem,
       bool amoledBlack,
       bool blurPlaceHolders,
       bool blurUpcomingEpisodes,
@@ -145,6 +148,7 @@ class _$ClientSettingsModelCopyWithImpl<$Res>
     Object? nextUpDateCutoff = freezed,
     Object? themeMode = null,
     Object? themeColor = freezed,
+    Object? deriveColorsFromItem = null,
     Object? amoledBlack = null,
     Object? blurPlaceHolders = null,
     Object? blurUpcomingEpisodes = null,
@@ -193,6 +197,10 @@ class _$ClientSettingsModelCopyWithImpl<$Res>
           ? _self.themeColor
           : themeColor // ignore: cast_nullable_to_non_nullable
               as ColorThemes?,
+      deriveColorsFromItem: null == deriveColorsFromItem
+          ? _self.deriveColorsFromItem
+          : deriveColorsFromItem // ignore: cast_nullable_to_non_nullable
+              as bool,
       amoledBlack: null == amoledBlack
           ? _self.amoledBlack
           : amoledBlack // ignore: cast_nullable_to_non_nullable
@@ -370,6 +378,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             Duration? nextUpDateCutoff,
             ThemeMode themeMode,
             ColorThemes? themeColor,
+            bool deriveColorsFromItem,
             bool amoledBlack,
             bool blurPlaceHolders,
             bool blurUpcomingEpisodes,
@@ -402,6 +411,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             _that.nextUpDateCutoff,
             _that.themeMode,
             _that.themeColor,
+            _that.deriveColorsFromItem,
             _that.amoledBlack,
             _that.blurPlaceHolders,
             _that.blurUpcomingEpisodes,
@@ -448,6 +458,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             Duration? nextUpDateCutoff,
             ThemeMode themeMode,
             ColorThemes? themeColor,
+            bool deriveColorsFromItem,
             bool amoledBlack,
             bool blurPlaceHolders,
             bool blurUpcomingEpisodes,
@@ -479,6 +490,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             _that.nextUpDateCutoff,
             _that.themeMode,
             _that.themeColor,
+            _that.deriveColorsFromItem,
             _that.amoledBlack,
             _that.blurPlaceHolders,
             _that.blurUpcomingEpisodes,
@@ -524,6 +536,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             Duration? nextUpDateCutoff,
             ThemeMode themeMode,
             ColorThemes? themeColor,
+            bool deriveColorsFromItem,
             bool amoledBlack,
             bool blurPlaceHolders,
             bool blurUpcomingEpisodes,
@@ -555,6 +568,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             _that.nextUpDateCutoff,
             _that.themeMode,
             _that.themeColor,
+            _that.deriveColorsFromItem,
             _that.amoledBlack,
             _that.blurPlaceHolders,
             _that.blurUpcomingEpisodes,
@@ -591,6 +605,7 @@ class _ClientSettingsModel extends ClientSettingsModel
       this.nextUpDateCutoff,
       this.themeMode = ThemeMode.system,
       this.themeColor,
+      this.deriveColorsFromItem = true,
       this.amoledBlack = false,
       this.blurPlaceHolders = true,
       this.blurUpcomingEpisodes = false,
@@ -632,6 +647,9 @@ class _ClientSettingsModel extends ClientSettingsModel
   final ThemeMode themeMode;
   @override
   final ColorThemes? themeColor;
+  @override
+  @JsonKey()
+  final bool deriveColorsFromItem;
   @override
   @JsonKey()
   final bool amoledBlack;
@@ -717,6 +735,7 @@ class _ClientSettingsModel extends ClientSettingsModel
       ..add(DiagnosticsProperty('nextUpDateCutoff', nextUpDateCutoff))
       ..add(DiagnosticsProperty('themeMode', themeMode))
       ..add(DiagnosticsProperty('themeColor', themeColor))
+      ..add(DiagnosticsProperty('deriveColorsFromItem', deriveColorsFromItem))
       ..add(DiagnosticsProperty('amoledBlack', amoledBlack))
       ..add(DiagnosticsProperty('blurPlaceHolders', blurPlaceHolders))
       ..add(DiagnosticsProperty('blurUpcomingEpisodes', blurUpcomingEpisodes))
@@ -741,7 +760,7 @@ class _ClientSettingsModel extends ClientSettingsModel
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ClientSettingsModel(syncPath: $syncPath, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, themeMode: $themeMode, themeColor: $themeColor, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundImage: $backgroundImage, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
+    return 'ClientSettingsModel(syncPath: $syncPath, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, themeMode: $themeMode, themeColor: $themeColor, deriveColorsFromItem: $deriveColorsFromItem, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundImage: $backgroundImage, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
   }
 }
 
@@ -761,6 +780,7 @@ abstract mixin class _$ClientSettingsModelCopyWith<$Res>
       Duration? nextUpDateCutoff,
       ThemeMode themeMode,
       ColorThemes? themeColor,
+      bool deriveColorsFromItem,
       bool amoledBlack,
       bool blurPlaceHolders,
       bool blurUpcomingEpisodes,
@@ -801,6 +821,7 @@ class __$ClientSettingsModelCopyWithImpl<$Res>
     Object? nextUpDateCutoff = freezed,
     Object? themeMode = null,
     Object? themeColor = freezed,
+    Object? deriveColorsFromItem = null,
     Object? amoledBlack = null,
     Object? blurPlaceHolders = null,
     Object? blurUpcomingEpisodes = null,
@@ -849,6 +870,10 @@ class __$ClientSettingsModelCopyWithImpl<$Res>
           ? _self.themeColor
           : themeColor // ignore: cast_nullable_to_non_nullable
               as ColorThemes?,
+      deriveColorsFromItem: null == deriveColorsFromItem
+          ? _self.deriveColorsFromItem
+          : deriveColorsFromItem // ignore: cast_nullable_to_non_nullable
+              as bool,
       amoledBlack: null == amoledBlack
           ? _self.amoledBlack
           : amoledBlack // ignore: cast_nullable_to_non_nullable
