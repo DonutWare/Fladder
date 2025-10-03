@@ -63,12 +63,14 @@ class PeopleRow extends ConsumerWidget {
                   transitionType: ContainerTransitionType.fadeThrough,
                   openColor: Colors.transparent,
                   tappable: false,
-                  closedBuilder: (context, action) => FocusButton(
-                    onTap: () => action(),
-                    child: FladderImage(
-                      image: person.image,
-                      placeHolder: placeHolder(person.name),
-                      fit: BoxFit.cover,
+                  closedBuilder: (context, action) => Card(
+                    child: FocusButton(
+                      onTap: () => action(),
+                      child: FladderImage(
+                        image: person.image,
+                        placeHolder: placeHolder(person.name),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                   openBuilder: (context, action) => PersonDetailScreen(
