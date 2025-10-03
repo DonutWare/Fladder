@@ -80,13 +80,16 @@
 
 Web/Desktop [try out the web build!](https://DonutWare.github.io/Fladder)
 > [!NOTE]
-> The GitHub hosted web build only allows `https` connections. This is a limitation on GitHub's end, for self-hosted versions `http` works fine. 
+> The GitHub hosted web build only allows `https` connections. This is a limitation on GitHub's end, for self-hosted versions `http` works fine.
+
+## In progress
+
+* [Android TV](https://github.com/DonutWare/Fladder/issues/510)
 
 ## Planned Features
 
 * Music playback* 
 * Server management
-* [~~??Android TV support??~~](https://github.com/DonutWare/Fladder/discussions/265)
 * And more???
 
 ## Download
