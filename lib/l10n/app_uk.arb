@@ -1495,5 +1495,11 @@
     "quickConnectLoginUsingCode": "Використання швидкого з'єднання",
     "@quickConnectLoginUsingCode": {},
     "quickConnectEnterCodeDescription": "Введіть код нижче, щоб увійти",
-    "@quickConnectEnterCodeDescription": {}
+    "@quickConnectEnterCodeDescription": {},
+    "showMore": "Показати більше",
+    "@showMore": {},
+    "itemColorsTitle": "Кольори предметів",
+    "@itemColorsTitle": {},
+    "itemColorsDesc": "Використовуйте основний колір товару для оформлення сторінки з деталями",
+    "@itemColorsDesc": {}
 }
