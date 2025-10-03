@@ -1373,6 +1373,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.1"
+  palette_generator_master:
+    dependency: "direct main"
+    description:
+      name: palette_generator_master
+      sha256: "2b27a3d9f773c5bc407ed828589488777f73fa23cd24abe6a9b90249a41a7df0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   path:
     dependency: "direct main"
     description:

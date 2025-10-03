@@ -39,6 +39,8 @@ class ClientSettingsNotifier extends StateNotifier<ClientSettingsModel> {
 
   void setAmoledBlack(bool? value) => state = state.copyWith(amoledBlack: value ?? false);
 
+  void setDerivedColorsFromItem(bool? value) => state = state.copyWith(deriveColorsFromItem: value ?? false);
+
   void setBlurPlaceholders(bool value) => state = state.copyWith(blurPlaceHolders: value);
 
   void setTimeOut(Duration? duration) => state = state.copyWith(timeOut: duration);

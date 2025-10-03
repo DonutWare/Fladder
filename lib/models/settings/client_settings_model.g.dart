@@ -24,6 +24,7 @@ _ClientSettingsModel _$ClientSettingsModelFromJson(Map<String, dynamic> json) =>
       themeMode: $enumDecodeNullable(_$ThemeModeEnumMap, json['themeMode']) ??
           ThemeMode.system,
       themeColor: $enumDecodeNullable(_$ColorThemesEnumMap, json['themeColor']),
+      deriveColorsFromItem: json['deriveColorsFromItem'] as bool? ?? true,
       amoledBlack: json['amoledBlack'] as bool? ?? false,
       blurPlaceHolders: json['blurPlaceHolders'] as bool? ?? true,
       blurUpcomingEpisodes: json['blurUpcomingEpisodes'] as bool? ?? false,
@@ -64,6 +65,7 @@ Map<String, dynamic> _$ClientSettingsModelToJson(
       'nextUpDateCutoff': instance.nextUpDateCutoff?.inMicroseconds,
       'themeMode': _$ThemeModeEnumMap[instance.themeMode]!,
       'themeColor': _$ColorThemesEnumMap[instance.themeColor],
+      'deriveColorsFromItem': instance.deriveColorsFromItem,
       'amoledBlack': instance.amoledBlack,
       'blurPlaceHolders': instance.blurPlaceHolders,
       'blurUpcomingEpisodes': instance.blurUpcomingEpisodes,
