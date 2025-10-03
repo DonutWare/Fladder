@@ -91,6 +91,7 @@ dependencies:
   overflow_view: ^0.5.0
   flutter_sticky_header: ^0.8.0
   markdown_widget: ^2.3.2+8
+  palette_generator_master: ^1.0.1
 
   # Navigation
   auto_route: ^10.1.2
@@ -202,6 +203,7 @@ flutter:
     - assets/fonts/
     - config/
     - assets/mp-font.ttf
+    - assets/
 
   fonts:
     - family: Rubik

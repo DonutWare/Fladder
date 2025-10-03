@@ -1342,5 +1342,7 @@
   "quickConnectPostFailed": "Failed to get quick connect code",
   "quickConnectLoginUsingCode": "Using quick connect",
   "quickConnectEnterCodeDescription": "Enter the code below to login",
-  "showMore": "Show more"
+  "showMore": "Show more",
+  "itemColorsTitle": "Item colors",
+  "itemColorsDesc": "Use item's primary color to theme the details page"
 }

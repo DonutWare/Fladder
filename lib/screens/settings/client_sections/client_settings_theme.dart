@@ -113,5 +113,15 @@ List<Widget> buildClientSettingsTheme(BuildContext context, WidgetRef ref) {
         onChanged: (value) => ref.read(clientSettingsProvider.notifier).setAmoledBlack(value),
       ),
     ),
+    SettingsListTile(
+      label: Text(context.localized.itemColorsTitle),
+      subLabel: Text(context.localized.itemColorsDesc),
+      onTap: () =>
+          ref.read(clientSettingsProvider.notifier).setDerivedColorsFromItem(!clientSettings.deriveColorsFromItem),
+      trailing: Switch(
+        value: clientSettings.deriveColorsFromItem,
+        onChanged: (value) => ref.read(clientSettingsProvider.notifier).setDerivedColorsFromItem(value),
+      ),
+    ),
   ]);
 }

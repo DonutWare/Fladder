@@ -62,6 +62,7 @@ abstract class ClientSettingsModel with _$ClientSettingsModel {
     Duration? nextUpDateCutoff,
     @Default(ThemeMode.system) ThemeMode themeMode,
     ColorThemes? themeColor,
+    @Default(true) bool deriveColorsFromItem,
     @Default(false) bool amoledBlack,
     @Default(true) bool blurPlaceHolders,
     @Default(false) bool blurUpcomingEpisodes,
