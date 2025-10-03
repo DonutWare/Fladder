@@ -150,40 +150,41 @@ class FocusButtonState extends State<FocusButton> {
         },
         onKeyEvent: _handleKey,
         child: ExcludeFocus(
-          child: FlatButton(
-            onTap: widget.onTap,
-            onSecondaryTapDown: widget.onSecondaryTapDown,
-            onLongPress: widget.onLongPress,
-            child: Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: FladderTheme.smallShape.borderRadius,
-                  child: widget.child,
-                ),
-                Positioned.fill(
-                  child: ValueListenableBuilder(
-                    valueListenable: onHover,
-                    builder: (context, value, child) => AnimatedOpacity(
-                      opacity: value ? 1 : 0,
-                      duration: const Duration(milliseconds: 125),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .primaryContainer
-                              .withValues(alpha: widget.darkOverlay ? 0.1 : 0),
-                          border: Border.all(width: 4, color: Theme.of(context).colorScheme.onPrimaryContainer),
-                          borderRadius: FladderTheme.smallShape.borderRadius,
+          child: Stack(
+            children: [
+              FlatButton(
+                onTap: widget.onTap,
+                onSecondaryTapDown: widget.onSecondaryTapDown,
+                onLongPress: widget.onLongPress,
+                child: widget.child,
+              ),
+              Positioned.fill(
+                child: ValueListenableBuilder(
+                  valueListenable: onHover,
+                  builder: (context, value, child) => AnimatedOpacity(
+                    opacity: value ? 1 : 0,
+                    duration: const Duration(milliseconds: 125),
+                    child: Stack(
+                      children: [
+                        IgnorePointer(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primaryContainer
+                                  .withValues(alpha: widget.darkOverlay ? 0.1 : 0),
+                              border: Border.all(width: 4, color: Theme.of(context).colorScheme.onPrimaryContainer),
+                              borderRadius: FladderTheme.smallShape.borderRadius,
+                            ),
+                          ),
                         ),
-                        child: Stack(
-                          children: widget.overlays,
-                        ),
-                      ),
+                        ...widget.overlays,
+                      ],
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
