@@ -1462,5 +1462,29 @@
                 "type": "int"
             }
         }
-    }
+    },
+    "keyboardShortCuts": "键盘快捷键",
+    "@keyboardShortCuts": {},
+    "speedUp": "加速",
+    "@speedUp": {},
+    "speedDown": "减速",
+    "@speedDown": {},
+    "speedIndicator": "播放速率：{speed}",
+    "@speedIndicator": {
+        "placeholders": {
+            "speed": {
+                "type": "double"
+            }
+        }
+    },
+    "television": "电视",
+    "@television": {},
+    "exitFladderDesc": "您确定要关闭 Fladder 吗？",
+    "@exitFladderDesc": {},
+    "quickConnectPostFailed": "无法获取快速连接代码",
+    "@quickConnectPostFailed": {},
+    "quickConnectLoginUsingCode": "使用快速连接",
+    "@quickConnectLoginUsingCode": {},
+    "quickConnectEnterCodeDescription": "输入以下代码登录",
+    "@quickConnectEnterCodeDescription": {}
 }
