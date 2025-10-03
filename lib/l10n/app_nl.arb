@@ -1,1468 +1,1498 @@
 {
-  "@@locale": "nl",
-  "nativeName": "Nederlands",
-  "@nativeName": {},
-  "about": "Over",
-  "@about": {},
-  "accept": "Accepteren",
-  "@accept": {},
-  "active": "Actief",
-  "@active": {},
-  "actor": "{count, plural, other{Acteurs} one{Acteur}}",
-  "@actor": {
-    "description": "acteur",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "addAsFavorite": "Toevoegen als favoriet",
-  "@addAsFavorite": {},
-  "addToCollection": "Toevoegen aan collectie",
-  "@addToCollection": {},
-  "addToPlaylist": "Toevoegen aan afspeellijst",
-  "@addToPlaylist": {},
-  "advanced": "Geavanceerd",
-  "@advanced": {},
-  "all": "Alles",
-  "@all": {},
-  "amoledBlack": "Amoled zwart",
-  "@amoledBlack": {},
-  "appLockAutoLogin": "Automatisch inloggen",
-  "@appLockAutoLogin": {},
-  "appLockBiometrics": "Biometrie",
-  "@appLockBiometrics": {},
-  "appLockPasscode": "Pincode",
-  "@appLockPasscode": {},
-  "appLockTitle": "Stel de inlogmethode in voor {userName}",
-  "@appLockTitle": {
-    "description": "Pop-up om een inlogmethode te kiezen",
-    "placeholders": {
-      "userName": {
-        "type": "String"
-      }
-    }
-  },
-  "ascending": "Oplopend",
-  "@ascending": {},
-  "audio": "Audio",
-  "@audio": {},
-  "autoPlay": "Automatisch afspelen",
-  "@autoPlay": {},
-  "backgroundBlur": "Achtergrond vervagen",
-  "@backgroundBlur": {},
-  "backgroundOpacity": "Achtergrond doorzichtigheid",
-  "@backgroundOpacity": {},
-  "biometricsFailedCheckAgain": "Biometrie mislukt, controleer de instellingen en probeer opnieuw.",
-  "@biometricsFailedCheckAgain": {},
-  "bold": "Vet",
-  "@bold": {},
-  "cancel": "Annuleren",
-  "@cancel": {},
-  "change": "Wijzig",
-  "@change": {},
-  "chapter": "{count, plural, other{Hoofdstukken} one{Hoofdstuk}}",
-  "@chapter": {
-    "description": "hoofdstuk",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "clear": "Wissen",
-  "@clear": {},
-  "clearAllSettings": "Alle instellingen wissen",
-  "@clearAllSettings": {},
-  "clearAllSettingsQuestion": "Alle instellingen wissen?",
-  "@clearAllSettingsQuestion": {},
-  "clearChanges": "Wijzigingen wissen",
-  "@clearChanges": {},
-  "clearSelection": "Selectie wissen",
-  "@clearSelection": {},
-  "close": "Sluiten",
-  "@close": {},
-  "code": "Code",
-  "@code": {},
-  "collectionFolder": "Collectiemap",
-  "@collectionFolder": {},
-  "color": "Kleur",
-  "@color": {},
-  "combined": "Gecombineerd",
-  "@combined": {},
-  "communityRating": "Gemeenschapswaardering",
-  "@communityRating": {},
-  "continuePage": "Doorgaan - pagina {page}",
-  "@continuePage": {
-    "description": "Doorgaan - pagina 1",
-    "placeholders": {
-      "page": {
-        "type": "int"
-      }
-    }
-  },
-  "controls": "Bediening",
-  "@controls": {},
-  "dashboard": "Dashboard",
-  "@dashboard": {},
-  "dashboardContinue": "Doorgaan",
-  "@dashboardContinue": {},
-  "dashboardContinueListening": "Doorgaan met luisteren",
-  "@dashboardContinueListening": {},
-  "dashboardContinueReading": "Doorgaan met lezen",
-  "@dashboardContinueReading": {},
-  "dashboardContinueWatching": "Doorgaan met kijken",
-  "@dashboardContinueWatching": {},
-  "dashboardNextUp": "Volgende",
-  "@dashboardNextUp": {},
-  "dashboardRecentlyAdded": "Onlangs toegevoegd in {name}",
-  "@dashboardRecentlyAdded": {
-    "description": "Onlangs toegevoegd op startscherm",
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "dateAdded": "Datum toegevoegd",
-  "@dateAdded": {},
-  "dateLastContentAdded": "Datum laatste inhoud toegevoegd",
-  "@dateLastContentAdded": {},
-  "datePlayed": "Datum afgespeeld",
-  "@datePlayed": {},
-  "days": "Dagen",
-  "@days": {},
-  "delete": "Verwijderen",
-  "@delete": {},
-  "deleteFileFromSystem": "Het verwijderen van dit item {item} zal het zowel uit het bestandssysteem als uit je mediatheek verwijderen. Weet je zeker dat je wilt doorgaan?",
-  "@deleteFileFromSystem": {
-    "description": "Bestand uit systeem verwijderen",
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "deleteItem": "{item} verwijderen?",
-  "@deleteItem": {
-    "description": "deleteItem",
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "descending": "Aflopend",
-  "@descending": {},
-  "director": "{count, plural, other{Regisseurs} one{Regisseur}}",
-  "@director": {
-    "description": "regisseur",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "disableFilters": "Filters uitschakelen",
-  "@disableFilters": {},
-  "disabled": "Uitgeschakeld",
-  "@disabled": {},
-  "discovered": "Ontdekt",
-  "@discovered": {},
-  "displayLanguage": "Weergavetaal",
-  "@displayLanguage": {},
-  "downloadsClearDesc": "Weet je zeker dat je alle gesynchroniseerde gegevens wilt verwijderen? Dit wist alle gegevens voor elke gesynchroniseerde gebruiker, weet je het zeker?",
-  "@downloadsClearDesc": {},
-  "downloadsClearTitle": "Gesynchroniseerde gegevens wissen",
-  "@downloadsClearTitle": {},
-  "downloadsPath": "Pad",
-  "@downloadsPath": {},
-  "downloadsSyncedData": "Gesynchroniseerde gegevens",
-  "@downloadsSyncedData": {},
-  "downloadsTitle": "Downloads",
-  "@downloadsTitle": {},
-  "dynamicText": "Dynamisch",
-  "@dynamicText": {},
-  "editMetadata": "Metadata bewerken",
-  "@editMetadata": {},
-  "empty": "Leeg",
-  "@empty": {},
-  "enabled": "Ingeschakeld",
-  "@enabled": {},
-  "endsAt": "eindigt om {date}",
-  "@endsAt": {},
-  "episode": "{count, plural, other{Afleveringen} one{Aflevering}}",
-  "@episode": {
-    "description": "aflevering",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "error": "Fout",
-  "@error": {},
-  "failedToLoadImage": "Kan afbeelding niet laden",
-  "@failedToLoadImage": {},
-  "favorite": "Favoriet",
-  "@favorite": {},
-  "favorites": "Favorieten",
-  "@favorites": {},
-  "fetchingLibrary": "Bibliotheek items ophalen…",
-  "@fetchingLibrary": {},
-  "filter": "{count, plural, other{Filters} one{Filter}}",
-  "@filter": {
-    "description": "filter",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "folders": "Mappen",
-  "@folders": {},
-  "fontColor": "Letterkleur",
-  "@fontColor": {},
-  "fontSize": "Lettergrootte",
-  "@fontSize": {},
-  "forceRefresh": "Geforceerd vernieuwen",
-  "@forceRefresh": {},
-  "genre": "{count, plural, other{Genres} one{Genre}}",
-  "@genre": {
-    "description": "genre",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "goTo": "Ga naar",
-  "@goTo": {},
-  "grid": "Raster",
-  "@grid": {},
-  "group": "Groeperen",
-  "@group": {},
-  "groupBy": "Groepeer op",
-  "@groupBy": {},
-  "heightOffset": "Hoogte-offset",
-  "@heightOffset": {},
-  "hide": "Verbergen",
-  "@hide": {},
-  "hideEmpty": "Verberg leeg",
-  "@hideEmpty": {},
-  "home": "Home",
-  "@home": {},
-  "identify": "Identificeren",
-  "@identify": {},
-  "immediately": "Direct",
-  "@immediately": {},
-  "incorrectPinTryAgain": "Onjuiste pin, probeer opnieuw.",
-  "@incorrectPinTryAgain": {},
-  "info": "Info",
-  "@info": {},
-  "invalidUrl": "Ongeldige url",
-  "@invalidUrl": {},
-  "invalidUrlDesc": "Url moet beginnen met http(s)://",
-  "@invalidUrlDesc": {},
-  "itemCount": "Aantal items: {count}",
-  "@itemCount": {
-    "description": "Aantal items",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "label": "{count, plural, other{Labels} one{Label}}",
-  "@label": {
-    "description": "label",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "library": "{count, plural, other{Bibliotheken} one{Bibliotheek}}",
-  "@library": {
-    "description": "meervoud",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "libraryFetchNoItemsFound": "Geen items gevonden, probeer andere instellingen.",
-  "@libraryFetchNoItemsFound": {},
-  "libraryPageSizeDesc": "Stel de hoeveelheid in om per keer te laden. 0 schakelt paginering uit.",
-  "@libraryPageSizeDesc": {},
-  "libraryPageSizeTitle": "Bibliotheek paginagrootte",
-  "@libraryPageSizeTitle": {},
-  "light": "Licht",
-  "@light": {},
-  "list": "Lijst",
-  "@list": {},
-  "lockscreen": "Vergrendelscherm",
-  "@lockscreen": {},
-  "loggedIn": "Ingelogd",
-  "@loggedIn": {},
-  "login": "Inloggen",
-  "@login": {},
-  "logout": "Uitloggen",
-  "@logout": {},
-  "logoutUserPopupContent": "Dit zal {userName} uitloggen en de gebruiker uit de app verwijderen.\nJe moet opnieuw inloggen op {serverName}.",
-  "@logoutUserPopupContent": {
-    "description": "Pop-up voor uitloggen gebruiker beschrijving",
-    "placeholders": {
-      "userName": {
-        "type": "String"
-      },
-      "serverName": {
-        "type": "String"
-      }
-    }
-  },
-  "logoutUserPopupTitle": "Gebruiker {userName} uitloggen?",
-  "@logoutUserPopupTitle": {
-    "description": "Pop-up voor uitloggen gebruiker",
-    "placeholders": {
-      "userName": {
-        "type": "String"
-      }
-    }
-  },
-  "loop": "Lus",
-  "@loop": {},
-  "markAsUnwatched": "Markeer als niet bekeken",
-  "@markAsUnwatched": {},
-  "markAsWatched": "Markeer als bekeken",
-  "@markAsWatched": {},
-  "masonry": "Metseleffect",
-  "@masonry": {},
-  "mediaTypeBase": "Basis type",
-  "@mediaTypeBase": {},
-  "mediaTypeBook": "Boek",
-  "@mediaTypeBook": {},
-  "mediaTypeBoxset": "Boxset",
-  "@mediaTypeBoxset": {},
-  "mediaTypeEpisode": "Aflevering",
-  "@mediaTypeEpisode": {},
-  "mediaTypeFolder": "Map",
-  "@mediaTypeFolder": {},
-  "mediaTypeMovie": "Film",
-  "@mediaTypeMovie": {},
-  "mediaTypePerson": "Persoon",
-  "@mediaTypePerson": {},
-  "mediaTypePhoto": "Foto",
-  "@mediaTypePhoto": {},
-  "mediaTypePhotoAlbum": "Foto album",
-  "@mediaTypePhotoAlbum": {},
-  "mediaTypePlaylist": "Afspeellijst",
-  "@mediaTypePlaylist": {},
-  "mediaTypeSeason": "Seizoen",
-  "@mediaTypeSeason": {},
-  "mediaTypeSeries": "Serie",
-  "@mediaTypeSeries": {},
-  "metaDataSavedFor": "Metadata opgeslagen voor {item}",
-  "@metaDataSavedFor": {
-    "description": "metadataOpgeslagenVoor",
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "metadataRefreshDefault": "Scannen naar nieuwe en bijgewerkte bestanden",
-  "@metadataRefreshDefault": {},
-  "metadataRefreshFull": "Alle metadata vervangen",
-  "@metadataRefreshFull": {},
-  "metadataRefreshValidation": "Zoeken naar ontbrekende metadata",
-  "@metadataRefreshValidation": {},
-  "minutes": "{count, plural, other{Minuten} one{Minuut}}",
-  "@minutes": {
-    "description": "minuut",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "mode": "Modus",
-  "@mode": {},
-  "moreFrom": "Meer van {info}",
-  "@moreFrom": {
-    "description": "Meer van",
-    "placeholders": {
-      "info": {
-        "type": "String"
-      }
-    }
-  },
-  "moreOptions": "Meer opties",
-  "@moreOptions": {},
-  "mouseDragSupport": "Slepen met de muis",
-  "@mouseDragSupport": {},
-  "musicAlbum": "Album",
-  "@musicAlbum": {},
-  "name": "Naam",
-  "@name": {},
-  "navigation": "Navigatie",
-  "@navigation": {},
-  "navigationDashboard": "Dashboard",
-  "@navigationDashboard": {},
-  "navigationFavorites": "Favorieten",
-  "@navigationFavorites": {},
-  "navigationSync": "Gesynchroniseerd",
-  "@navigationSync": {},
-  "never": "Nooit",
-  "@never": {},
-  "nextUp": "Volgende",
-  "@nextUp": {},
-  "noItemsSynced": "Geen items gesynchroniseerd",
-  "@noItemsSynced": {},
-  "noItemsToShow": "Geen items om te tonen",
-  "@noItemsToShow": {},
-  "noRating": "Geen beoordeling",
-  "@noRating": {},
-  "noResults": "Geen resultaten",
-  "@noResults": {},
-  "noServersFound": "Geen nieuwe servers gevonden",
-  "@noServersFound": {},
-  "noSuggestionsFound": "Geen suggesties gevonden",
-  "@noSuggestionsFound": {},
-  "none": "Geen",
-  "@none": {},
-  "normal": "Normaal",
-  "@normal": {},
-  "notPartOfAlbum": "Maakt geen deel uit van een album",
-  "@notPartOfAlbum": {},
-  "openParent": "Bovenliggende map openen",
-  "@openParent": {},
-  "openShow": "Serie openen",
-  "@openShow": {},
-  "openWebLink": "Weblink openen",
-  "@openWebLink": {},
-  "options": "Opties",
-  "@options": {},
-  "other": "Overig",
-  "@other": {},
-  "outlineColor": "Omtreklijnkleur",
-  "@outlineColor": {},
-  "outlineSize": "Omtreklijn grootte",
-  "@outlineSize": {},
-  "overview": "Overzicht",
-  "@overview": {},
-  "page": "Pagina {index}",
-  "@page": {
-    "description": "pagina",
-    "placeholders": {
-      "index": {
-        "type": "int"
-      }
-    }
-  },
-  "parentalRating": "Ouderlijk toezicht beoordeling",
-  "@parentalRating": {},
-  "password": "Wachtwoord",
-  "@password": {},
-  "pathClearTitle": "Downloadpad wissen",
-  "@pathClearTitle": {},
-  "pathEditDesc": "Deze locatie is ingesteld voor alle gebruikers, gesynchroniseerde gegevens zijn niet meer toegankelijk. Het blijft op je opslag.",
-  "@pathEditDesc": {},
-  "pathEditSelect": "Selecteer downloadbestemming",
-  "@pathEditSelect": {},
-  "pathEditTitle": "Locatie wijzigen",
-  "@pathEditTitle": {},
-  "play": "{item} Afspelen",
-  "@play": {
-    "description": "Speel met",
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "playCount": "Aantal keren afgespeeld",
-  "@playCount": {},
-  "playFrom": "Speel vanaf {name}",
-  "@playFrom": {
-    "description": "speel vanaf",
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "playFromStart": "{name} Vanaf het begin afspelen",
-  "@playFromStart": {
-    "description": "speel vanaf het begin",
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "playLabel": "Afspelen",
-  "@playLabel": {},
-  "playVideos": "Video''s afspelen",
-  "@playVideos": {},
-  "played": "Gespeeld",
-  "@played": {},
-  "quickConnectAction": "Voer snelverbind code in voor",
-  "@quickConnectAction": {},
-  "quickConnectInputACode": "Voer een code in",
-  "@quickConnectInputACode": {},
-  "quickConnectTitle": "Snel verbinden",
-  "@quickConnectTitle": {},
-  "quickConnectWrongCode": "Verkeerde code",
-  "@quickConnectWrongCode": {},
-  "random": "Willekeurig",
-  "@random": {},
-  "rating": "{count, plural, other{Beoordelingen} one{Beoordeling}}",
-  "@rating": {
-    "description": "beoordeling",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "reWatch": "Opnieuw bekijken",
-  "@reWatch": {},
-  "read": "{item} Lezen",
-  "@read": {
-    "description": "lezen",
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "readFromStart": "{item} vanaf het begin lezen",
-  "@readFromStart": {
-    "description": "Lees boek vanaf het begin",
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "recursive": "Recursief",
-  "@recursive": {},
-  "refresh": "Vernieuwen",
-  "@refresh": {},
-  "refreshMetadata": "Metadata vernieuwen",
-  "@refreshMetadata": {},
-  "refreshPopup": "Vernieuwen - {name}",
-  "@refreshPopup": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "refreshPopupContentMetadata": "Metadata wordt vernieuwd op basis van instellingen en internetdiensten die zijn ingeschakeld in het Dashboard.",
-  "@refreshPopupContentMetadata": {},
-  "related": "Gerelateerd",
-  "@related": {},
-  "releaseDate": "Releasedatum",
-  "@releaseDate": {},
-  "removeAsFavorite": "Verwijderen als favoriet",
-  "@removeAsFavorite": {},
-  "removeFromCollection": "Verwijderen uit collectie",
-  "@removeFromCollection": {},
-  "removeFromPlaylist": "Verwijderen uit afspeellijst",
-  "@removeFromPlaylist": {},
-  "replaceAllImages": "Alle afbeeldingen vervangen",
-  "@replaceAllImages": {},
-  "replaceExistingImages": "Bestaande afbeeldingen vervangen",
-  "@replaceExistingImages": {},
-  "restart": "Herstarten",
-  "@restart": {},
-  "result": "Resultaat",
-  "@result": {},
-  "resumable": "Hervatbaar",
-  "@resumable": {},
-  "resume": "{item} Hervatten",
-  "@resume": {
-    "description": "hervatten",
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "retrievePublicListOfUsers": "Publieke lijst van gebruikers ophalen",
-  "@retrievePublicListOfUsers": {},
-  "retry": "Opnieuw proberen",
-  "@retry": {},
-  "runTime": "Looptijd",
-  "@runTime": {},
-  "save": "Opslaan",
-  "@save": {},
-  "saved": "Opgeslagen",
-  "@saved": {},
-  "scanBiometricHint": "Identiteit verifiëren",
-  "@scanBiometricHint": {},
-  "scanLibrary": "Scan bibliotheek",
-  "@scanLibrary": {},
-  "scanYourFingerprintToAuthenticate": "Scan je vingerafdruk om {user} te verifiëren",
-  "@scanYourFingerprintToAuthenticate": {
-    "placeholders": {
-      "user": {
-        "type": "String"
-      }
-    }
-  },
-  "scanningName": "Scannen - {name}…",
-  "@scanningName": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "scrollToTop": "Scroll naar boven",
-  "@scrollToTop": {},
-  "search": "Zoeken",
-  "@search": {},
-  "season": "{count, plural, other{Seizoenen} one{Seizoen}}",
-  "@season": {
-    "description": "seizoen",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "seconds": "{count, plural, other{Seconden} one{Seconde}}",
-  "@seconds": {
-    "description": "seconde",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "selectAll": "Alles selecteren",
-  "@selectAll": {},
-  "selectTime": "Tijd selecteren",
-  "@selectTime": {},
-  "selectViewType": "Selecteer weergavetype",
-  "@selectViewType": {},
-  "selected": "Geselecteerd",
-  "@selected": {},
-  "selectedWith": "Geselecteerd {info}",
-  "@selectedWith": {
-    "description": "geselecteerd",
-    "placeholders": {
-      "info": {
-        "type": "String"
-      }
-    }
-  },
-  "separate": "Gescheiden",
-  "@separate": {},
-  "server": "Server",
-  "@server": {},
-  "set": "Instellen",
-  "@set": {
-    "description": "Gebruik voor het instellen van een bepaalde waarde",
-    "context": "Instellen 'tijd'"
-  },
-  "setIdentityTo": "Identiteit instellen op {name}",
-  "@setIdentityTo": {
-    "description": "setIdentityTo",
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "settingSecurityApplockTitle": "App vergrendelen",
-  "@settingSecurityApplockTitle": {},
-  "settings": "Instellingen",
-  "@settings": {},
-  "settingsBlurEpisodesDesc": "Vervaag alle komende afleveringen",
-  "@settingsBlurEpisodesDesc": {},
-  "settingsBlurEpisodesTitle": "Vervagen volgende afleveringen",
-  "@settingsBlurEpisodesTitle": {},
-  "settingsBlurredPlaceholderDesc": "Toon vervaagde achtergrond bij het laden van posters",
-  "@settingsBlurredPlaceholderDesc": {},
-  "settingsBlurredPlaceholderTitle": "Vervaagde placeholder",
-  "@settingsBlurredPlaceholderTitle": {},
-  "settingsClientDesc": "Algemeen, Time-out, Lay-out, Thema",
-  "@settingsClientDesc": {},
-  "settingsClientTitle": "Fladder",
-  "@settingsClientTitle": {},
-  "settingsContinue": "Doorgaan",
-  "@settingsContinue": {},
-  "settingsEnableOsMediaControls": "OS media bediening inschakelen",
-  "@settingsEnableOsMediaControls": {},
-  "settingsHomeCarouselDesc": "Toont een carrousel op het dashboard scherm",
-  "@settingsHomeCarouselDesc": {},
-  "settingsHomeCarouselTitle": "Dashboard carrousel",
-  "@settingsHomeCarouselTitle": {},
-  "settingsHomeNextUpDesc": "Soort posters getoond op het dashboard scherm",
-  "@settingsHomeNextUpDesc": {},
-  "settingsHomeNextUpTitle": "Volgende posters",
-  "@settingsHomeNextUpTitle": {},
-  "settingsNextUpCutoffDays": "Volgende cutoff dagen",
-  "@settingsNextUpCutoffDays": {},
-  "settingsPlayerCustomSubtitlesDesc": "Pas grootte, kleur, positie, omtrek aan",
-  "@settingsPlayerCustomSubtitlesDesc": {},
-  "settingsPlayerCustomSubtitlesTitle": "Ondertitels aanpassen",
-  "@settingsPlayerCustomSubtitlesTitle": {},
-  "settingsPlayerDesc": "Beeldverhouding, Geavanceerd",
-  "@settingsPlayerDesc": {},
-  "settingsPlayerMobileWarning": "Hardwareversnelling en native libass ondertitels inschakelen op Android kan ervoor zorgen dat sommige ondertitels niet worden weergegeven.",
-  "@settingsPlayerMobileWarning": {},
-  "settingsPlayerNativeLibassAccelDesc": "Gebruik videospeler libass ondertitel renderer",
-  "@settingsPlayerNativeLibassAccelDesc": {},
-  "settingsPlayerNativeLibassAccelTitle": "Native libass ondertiteling",
-  "@settingsPlayerNativeLibassAccelTitle": {},
-  "settingsPlayerTitle": "Speler",
-  "@settingsPlayerTitle": {},
-  "settingsPlayerVideoHWAccelDesc": "Gebruik de gpu om video weer te geven (aanbevolen)",
-  "@settingsPlayerVideoHWAccelDesc": {},
-  "settingsPlayerVideoHWAccelTitle": "Hardwareversnelling",
-  "@settingsPlayerVideoHWAccelTitle": {},
-  "settingsPosterPinch": "Knijp-zoom om posters te schalen",
-  "@settingsPosterPinch": {},
-  "settingsPosterSize": "Poster grootte",
-  "@settingsPosterSize": {},
-  "settingsPosterSlider": "Toon schaal schuifregelaar",
-  "@settingsPosterSlider": {},
-  "settingsProfileDesc": "Vergrendelscherm",
-  "@settingsProfileDesc": {},
-  "settingsProfileTitle": "Profiel",
-  "@settingsProfileTitle": {},
-  "settingsQuickConnectTitle": "Snel verbinden",
-  "@settingsQuickConnectTitle": {},
-  "settingsSecurity": "Beveiliging",
-  "@settingsSecurity": {},
-  "settingsShowScaleSlider": "Toon posterschaal schuifregelaar",
-  "@settingsShowScaleSlider": {},
-  "settingsVisual": "Visueel",
-  "@settingsVisual": {},
-  "shadow": "Schaduw",
-  "@shadow": {},
-  "showAlbum": "Toon album",
-  "@showAlbum": {},
-  "showDetails": "Toon details",
-  "@showDetails": {},
-  "showEmpty": "Toon leeg",
-  "@showEmpty": {},
-  "shuffleGallery": "Galerij shuffle",
-  "@shuffleGallery": {},
-  "shuffleVideos": "Video''s shuffle",
-  "@shuffleVideos": {},
-  "somethingWentWrong": "Er is iets misgegaan",
-  "@somethingWentWrong": {},
-  "somethingWentWrongPasswordCheck": "Er is iets misgegaan, controleer je wachtwoord.",
-  "@somethingWentWrongPasswordCheck": {},
-  "sortBy": "Sorteer op",
-  "@sortBy": {},
-  "sortName": "Naam",
-  "@sortName": {},
-  "sortOrder": "Sorteervolgorde",
-  "@sortOrder": {},
-  "start": "Start",
-  "@start": {},
-  "studio": "{count, plural, other{Studio''s} one{Studio}}",
-  "@studio": {
-    "description": "studio",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "subtitleConfigurator": "Ondertitel configurator",
-  "@subtitleConfigurator": {},
-  "subtitleConfiguratorPlaceHolder": "Dit is placeholder tekst, niets te zien hier.",
-  "@subtitleConfiguratorPlaceHolder": {},
-  "subtitles": "Ondertitels",
-  "@subtitles": {},
-  "switchUser": "Wissel gebruiker",
-  "@switchUser": {},
-  "sync": "Synchroniseren",
-  "@sync": {},
-  "syncDeleteItemDesc": "Alle gesynchroniseerde gegevens verwijderen voor {item}?",
-  "@syncDeleteItemDesc": {
-    "description": "Pop-upvenster voor synchronisatie van te verwijderen item",
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "syncDeleteItemTitle": "Gesynchroniseerd item verwijderen",
-  "@syncDeleteItemTitle": {},
-  "syncDeletePopupPermanent": "Deze actie is permanent en verwijdert alle lokaal gesynchroniseerde bestanden",
-  "@syncDeletePopupPermanent": {},
-  "syncDetails": "Details synchroniseren",
-  "@syncDetails": {},
-  "syncOpenParent": "Ouder openen",
-  "@syncOpenParent": {},
-  "syncRemoveDataDesc": "Gesynchroniseerde videogegevens verwijderen? Dit is permanent en u moet de bestanden opnieuw synchroniseren",
-  "@syncRemoveDataDesc": {},
-  "syncRemoveDataTitle": "Gesynchroniseerde gegevens verwijderen?",
-  "@syncRemoveDataTitle": {},
-  "syncedItems": "Gesynchroniseerde items",
-  "@syncedItems": {},
-  "tag": "{count, plural, one{Label} other{Labels}}",
-  "@tag": {
-    "description": "label",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "theme": "Thema",
-  "@theme": {},
-  "themeColor": "Thema kleur",
-  "@themeColor": {},
-  "themeModeDark": "Donker",
-  "@themeModeDark": {},
-  "themeModeLight": "Licht",
-  "@themeModeLight": {},
-  "themeModeSystem": "Systeem",
-  "@themeModeSystem": {},
-  "timeAndAnnotation": "{minutes} en {seconds}",
-  "@timeAndAnnotation": {
-    "description": "timeAndAnnotation",
-    "placeholders": {
-      "minutes": {
-        "type": "String"
-      },
-      "seconds": {
-        "type": "String"
-      }
-    }
-  },
-  "timeOut": "Time-out",
-  "@timeOut": {},
-  "totalSize": "Totale grootte: {size}",
-  "@totalSize": {
-    "placeholders": {
-      "size": {
-        "type": "String"
-      }
-    }
-  },
-  "type": "{count, plural, other{Soorten} one{Soort}}",
-  "@type": {
-    "description": "type",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "unPlayed": "Ongespeeld",
-  "@unPlayed": {},
-  "unableToConnectHost": "Kan geen verbinding maken met host",
-  "@unableToConnectHost": {},
-  "unableToReverseAction": "Deze actie kan niet ongedaan worden gemaakt, het verwijdert alle instellingen.",
-  "@unableToReverseAction": {},
-  "unknown": "Onbekend",
-  "@unknown": {},
-  "useDefaults": "Standaardwaarden gebruiken",
-  "@useDefaults": {},
-  "userName": "Gebruikersnaam",
-  "@userName": {},
-  "video": "Video",
-  "@video": {},
-  "videoScaling": "Videoschaling",
-  "@videoScaling": {},
-  "videoScalingContain": "Bevatten",
-  "@videoScalingContain": {},
-  "videoScalingCover": "Bedekken",
-  "@videoScalingCover": {},
-  "videoScalingFill": "Vullen",
-  "@videoScalingFill": {},
-  "videoScalingFillScreenDesc": "Vul de navigatie- en statusbalk",
-  "@videoScalingFillScreenDesc": {},
-  "videoScalingFillScreenNotif": "Volledig scherm overschrijft videopasvorm, in horizontale rotatie",
-  "@videoScalingFillScreenNotif": {},
-  "videoScalingFillScreenTitle": "Vul scherm",
-  "@videoScalingFillScreenTitle": {},
-  "videoScalingFitHeight": "Pas hoogte aan",
-  "@videoScalingFitHeight": {},
-  "videoScalingFitWidth": "Pas breedte aan",
-  "@videoScalingFitWidth": {},
-  "videoScalingScaleDown": "Schaal omlaag",
-  "@videoScalingScaleDown": {},
-  "viewPhotos": "Foto''s bekijken",
-  "@viewPhotos": {},
-  "watchOn": "Kijk op",
-  "@watchOn": {},
-  "writer": "{count, plural, other{Schrijvers} one{Schrijver}}",
-  "@writer": {
-    "description": "schrijver",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "year": "{count, plural, other{Jaren} one{Jaar}}",
-  "@year": {
-    "description": "jaar",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "settingsHomeBannerDescription": "Weergeven als diavoorstelling, carrousel, of de banner verbergen",
-  "@settingsHomeBannerDescription": {},
-  "homeBannerBanner": "Banner",
-  "@homeBannerBanner": {},
-  "homeBannerCarousel": "Carrousel",
-  "@homeBannerCarousel": {},
-  "settingsHomeBannerTitle": "Start banner",
-  "@settingsHomeBannerTitle": {},
-  "settingsHomeBannerInformationDesc": "Informatie om weer te geven in de home-banner",
-  "@settingsHomeBannerInformationDesc": {},
-  "settingsHomeBannerInformationTitle": "Bannerinformatie",
-  "@settingsHomeBannerInformationTitle": {},
-  "syncStatusEnqueued": "In wachtrij",
-  "@syncStatusEnqueued": {},
-  "syncStatusComplete": "Voltooid",
-  "@syncStatusComplete": {},
-  "syncStatusNotFound": "Niet gevonden",
-  "@syncStatusNotFound": {},
-  "syncStatusSynced": "Gesynchroniseerd",
-  "@syncStatusSynced": {},
-  "syncStatusPartially": "Gedeeltelijk",
-  "@syncStatusPartially": {},
-  "syncOverlayDeleting": "Gesynchroniseerd item verwijderen",
-  "@syncOverlayDeleting": {},
-  "syncOverlaySyncing": "Item details synchroniseren",
-  "@syncOverlaySyncing": {},
-  "homeBannerSlideshow": "Diavoorstelling",
-  "@homeBannerSlideshow": {},
-  "syncStatusRunning": "Downloaden",
-  "@syncStatusRunning": {},
-  "syncStatusFailed": "Mislukt",
-  "@syncStatusFailed": {},
-  "syncStatusCanceled": "Geannuleerd",
-  "@syncStatusCanceled": {},
-  "syncStatusPaused": "Gepauzeerd",
-  "@syncStatusPaused": {},
-  "syncStatusWaitingToRetry": "Wachten om opnieuw te proberen",
-  "@syncStatusWaitingToRetry": {},
-  "syncSelectDownloadsFolder": "Selecteer de downloadmap",
-  "@syncSelectDownloadsFolder": {},
-  "syncNoFolderSetup": "Geen synchronisatiemap gezet",
-  "@syncNoFolderSetup": {},
-  "syncRemoveUnableToDeleteItem": "Kan gesynchroniseerd item niet verwijderen, er is iets misgegaan",
-  "@syncRemoveUnableToDeleteItem": {},
-  "syncAddItemForSyncing": "{item} toegevoegd voor synchronisatie",
-  "@syncAddItemForSyncing": {
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "startedSyncingItem": "Begonnen met synchroniseren {item}",
-  "@startedSyncingItem": {
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "unableToSyncItem": "Kan {item} niet synchroniseren, er is iets misgegaan",
-  "@unableToSyncItem": {
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "removedFromCollection": "Verwijderd uit de collectie {collectionName}",
-  "@removedFromCollection": {
-    "placeholders": {
-      "collectionName": {
-        "type": "String"
-      }
-    }
-  },
-  "addItemsToPlaylist": "Voeg {itemLength} item(s) toe aan afspeellijst",
-  "@addItemsToPlaylist": {
-    "placeholders": {
-      "itemLength": {
-        "type": "int"
-      }
-    }
-  },
-  "addToNewCollection": "Nieuwe collectie",
-  "@addToNewCollection": {},
-  "addToNewPlaylist": "Nieuwe afspeellijst",
-  "@addToNewPlaylist": {},
-  "aboutVersion": "Versie: {version}",
-  "@aboutVersion": {
-    "placeholders": {
-      "version": {
-        "type": "String"
-      }
-    }
-  },
-  "aboutCreatedBy": "Gemaakt door DonutWare",
-  "@aboutCreatedBy": {},
-  "aboutLicenses": "Licenties",
-  "@aboutLicenses": {},
-  "addItemsToCollection": "Voeg {itemLength} item(s) toe aan collectie",
-  "@addItemsToCollection": {
-    "placeholders": {
-      "itemLength": {
-        "type": "int"
-      }
-    }
-  },
-  "addedToPlaylist": "Toegevoegd aan {playlistName} afspeellijst",
-  "@addedToPlaylist": {
-    "placeholders": {
-      "playlistName": {
-        "type": "String"
-      }
-    }
-  },
-  "addedToCollection": "Toegevoegd aan de collectie {collectionName}",
-  "@addedToCollection": {
-    "placeholders": {
-      "collectionName": {
-        "type": "String"
-      }
-    }
-  },
-  "aboutBuild": "Iteratie: {buildNumber}",
-  "@aboutBuild": {
-    "placeholders": {
-      "buildNumber": {
-        "type": "String"
-      }
-    }
-  },
-  "aboutSocials": "Sociaal",
-  "@aboutSocials": {},
-  "subtitle": "Ondertitel",
-  "@subtitle": {},
-  "subtitleConfiguration": "Ondertitel instellingen",
-  "@subtitleConfiguration": {},
-  "off": "Uit",
-  "@off": {},
-  "screenBrightness": "Scherm helderheid",
-  "@screenBrightness": {},
-  "scale": "Schaal",
-  "@scale": {},
-  "playBackSettings": "Afspeel instellingen",
-  "@playBackSettings": {},
-  "removeFilterForLibrary": "Verwijder {filter}?",
-  "@removeFilterForLibrary": {
-    "description": "removeFilterForLibrary",
-    "placeholders": {
-      "filter": {
-        "type": "String"
-      }
-    }
-  },
-  "libraryFiltersLimitReached": "Filterlimiet bereikt (10) verwijder enkele filters",
-  "@libraryFiltersLimitReached": {},
-  "defaultFilterForLibrary": "Standaardfilter voor bibliotheek",
-  "@defaultFilterForLibrary": {},
-  "updateFilterForLibrary": "Filter updaten",
-  "@updateFilterForLibrary": {},
-  "deleteFilterConfirmation": "Weet je zeker dat je deze filter wilt verwijderen?",
-  "@deleteFilterConfirmation": {},
-  "libraryFiltersRemoveAll": "Verwijder alle filters",
-  "@libraryFiltersRemoveAll": {},
-  "deviceOrientationPortraitUp": "Portret omhoog",
-  "@deviceOrientationPortraitUp": {},
-  "libraryFiltersRemoveAllConfirm": "Hiermee worden alle opgeslagen filters voor elke bibliotheek verwijderd",
-  "@libraryFiltersRemoveAllConfirm": {},
-  "playerSettingsOrientationTitle": "Oriëntatie van de speler",
-  "@playerSettingsOrientationTitle": {},
-  "playerSettingsOrientationDesc": "Forceer de videospeler in een bepaalde richting",
-  "@playerSettingsOrientationDesc": {},
-  "deviceOrientationPortraitDown": "Portret naar beneden",
-  "@deviceOrientationPortraitDown": {},
-  "deviceOrientationLandscapeLeft": "Landschap Links",
-  "@deviceOrientationLandscapeLeft": {},
-  "deviceOrientationLandscapeRight": "Landschap Rechts",
-  "@deviceOrientationLandscapeRight": {},
-  "settingsAutoNextTitle": "Volgende preview",
-  "@settingsAutoNextTitle": {},
-  "settingsAutoNextDesc": "Geeft aan het einde van de video een preview van de volgende video",
-  "@settingsAutoNextDesc": {},
-  "autoNextOffSmartTitle": "Slim",
-  "@autoNextOffSmartTitle": {},
-  "autoNextOffSmartDesc": "Toont het volgende scherm wanneer de aftiteling begint als er niet meer dan 10 seconden over zijn na de aftiteling. Anders wordt het volgende scherm weergegeven met nog 30 seconden speeltijd",
-  "@autoNextOffSmartDesc": {},
-  "autoNextOffStaticTitle": "Statisch",
-  "@autoNextOffStaticTitle": {},
-  "autoNextOffStaticDesc": "Toon het volgende scherm als er nog 30 seconden speeltijd over is",
-  "@autoNextOffStaticDesc": {},
-  "playbackRate": "Afspeel snelheid",
-  "@playbackRate": {},
-  "speed": "Snelheid",
-  "@speed": {},
-  "unableToPlayMedia": "Er is een fout opgetreden bij het vinden van een compatibel mediatype",
-  "@unableToPlayMedia": {},
-  "errorOpeningMedia": "Er ging iets miss met het afspelen van deze media",
-  "@errorOpeningMedia": {},
-  "unableToPlayBooksOnWeb": "Boeken worden momenteel niet ondersteund in browsers",
-  "@unableToPlayBooksOnWeb": {},
-  "schemeSettingsFidelity": "Fideliteit",
-  "@schemeSettingsFidelity": {},
-  "schemeSettingsMonochrome": "Monochrome",
-  "@schemeSettingsMonochrome": {},
-  "schemeSettingsExpressive": "Expressief",
-  "@schemeSettingsExpressive": {},
-  "schemeSettingsContent": "Tevreden",
-  "@schemeSettingsContent": {},
-  "libraryPlayItems": "Items afspelen",
-  "@libraryPlayItems": {},
-  "clientSettingsSchemeVariantTitle": "Schema variant",
-  "@clientSettingsSchemeVariantTitle": {},
-  "schemeSettingsTonalSpot": "Tonale vlek",
-  "@schemeSettingsTonalSpot": {},
-  "schemeSettingsNeutral": "Neutraal",
-  "@schemeSettingsNeutral": {},
-  "schemeSettingsRainbow": "Regenboog",
-  "@schemeSettingsRainbow": {},
-  "schemeSettingsFruitSalad": "Fruit salade",
-  "@schemeSettingsFruitSalad": {},
-  "libraryShuffleAndPlayItems": "Items willekeurig afpselen",
-  "@libraryShuffleAndPlayItems": {},
-  "clientSettingsRequireWifiDesc": "Alleen downloaden wanneer verbonden met een Wi-Fi-netwerk",
-  "@clientSettingsRequireWifiDesc": {},
-  "clientSettingsRequireWifiTitle": "Alleen op Wi-Fi",
-  "@clientSettingsRequireWifiTitle": {},
-  "schemeSettingsVibrant": "Levendig",
-  "@schemeSettingsVibrant": {},
-  "clientSettingsShowAllCollectionsTitle": "Toon alle soorten collecties",
-  "@clientSettingsShowAllCollectionsTitle": {},
-  "clientSettingsShowAllCollectionsDesc": "Als deze optie is ingeschakeld, worden alle bibliotheek types weergegeven, inclusief de types die niet door Fladder worden ondersteund",
-  "@clientSettingsShowAllCollectionsDesc": {},
-  "closeVideo": "Video sluiten",
-  "@closeVideo": {},
-  "playNextVideo": "Volgend video afspelen",
-  "@playNextVideo": {},
-  "resumeVideo": "Video hervatten",
-  "@resumeVideo": {},
-  "stop": "Stop",
-  "@stop": {},
-  "playerSettingsBackendTitle": "Videospeler Backend",
-  "@playerSettingsBackendTitle": {},
-  "noVideoPlayerOptions": "De geselecteerde backend heeft geen instellingen",
-  "@noVideoPlayerOptions": {},
-  "playerSettingsBackendDesc": "Kies je mediaspeler backend voor een optimale afspeelervaring",
-  "@playerSettingsBackendDesc": {},
-  "defaultLabel": "Standaard",
-  "@defaultLabel": {
-    "description": "To indicate a default value, default video player backend"
-  },
-  "mdkExperimental": "MDK backend is nog experimenteel",
-  "@mdkExperimental": {},
-  "skipButtonLabel": "Skip {segment}",
-  "@skipButtonLabel": {
-    "placeholders": {
-      "segment": {
-        "type": "String"
-      }
-    }
-  },
-  "mediaSegmentPreview": "Voorvertoning",
-  "@mediaSegmentPreview": {},
-  "mediaSegmentRecap": "Samenvatting",
-  "@mediaSegmentRecap": {},
-  "mediaSegmentUnknown": "Onbekend",
-  "@mediaSegmentUnknown": {},
-  "mediaSegmentOutro": "Uitro",
-  "@mediaSegmentOutro": {},
-  "mediaSegmentCommercial": "Reclame",
-  "@mediaSegmentCommercial": {},
-  "mediaSegmentIntro": "Inleiding",
-  "@mediaSegmentIntro": {},
-  "errorLogs": "Foutlogs",
-  "@errorLogs": {},
-  "external": "Extern",
-  "@external": {},
-  "downloadFile": "Download {type}",
-  "@downloadFile": {
-    "placeholders": {
-      "type": {
-        "type": "String"
-      }
-    }
-  },
-  "copyStreamUrl": "Stream-URL kopiëren",
-  "@copyStreamUrl": {},
-  "settingsLayoutSizesTitle": "Lay-out Formaten",
-  "@settingsLayoutSizesTitle": {},
-  "settingsLayoutSizesDesc": "Kies welke lay-outformaten de app mag gebruiken op basis van de venstergrootte",
-  "@settingsLayoutSizesDesc": {},
-  "settingsLayoutModesTitle": "Lay-out modi",
-  "@settingsLayoutModesTitle": {},
-  "settingsLayoutModesDesc": "Bepaal of de app lay-outs met één of twee panelen kan gebruiken",
-  "@settingsLayoutModesDesc": {},
-  "phone": "Telefoon",
-  "@phone": {},
-  "tablet": "Tablet",
-  "@tablet": {},
-  "desktop": "Desktop",
-  "@desktop": {},
-  "layoutModeSingle": "Enkel",
-  "@layoutModeSingle": {},
-  "layoutModeDual": "Twee",
-  "@layoutModeDual": {},
-  "copiedToClipboard": "Gekopieerd naar klembord",
-  "@copiedToClipboard": {},
-  "episodeAvailable": "Beschikbaar",
-  "@episodeAvailable": {},
-  "episodeUnaired": "Niet uitgezonden",
-  "@episodeUnaired": {},
-  "episodeMissing": "Ontbreekt",
-  "@episodeMissing": {},
-  "homeStreamingQualityTitle": "Thuisnetwerk kwaliteit",
-  "@homeStreamingQualityTitle": {},
-  "qualityOptionsTitle": "Kwaliteit opties",
-  "@qualityOptionsTitle": {},
-  "qualityOptionsOriginal": "Origineel",
-  "@qualityOptionsOriginal": {},
-  "qualityOptionsAuto": "Auto",
-  "@qualityOptionsAuto": {},
-  "version": "Versie",
-  "@version": {},
-  "segmentActionNone": "Geen",
-  "@segmentActionNone": {},
-  "internetStreamingQualityTitle": "Internet kwaliteit",
-  "@internetStreamingQualityTitle": {},
-  "mediaSegmentActions": "Media segment acties",
-  "@mediaSegmentActions": {},
-  "segmentActionAskToSkip": "Vraag om over te slaan",
-  "@segmentActionAskToSkip": {},
-  "segmentActionSkip": "Overslaan",
-  "@segmentActionSkip": {},
-  "loading": "Laden",
-  "@loading": {},
-  "internetStreamingQualityDesc": "Maximale streamingkwaliteit via internet (mobiel)",
-  "@internetStreamingQualityDesc": {},
-  "homeStreamingQualityDesc": "Maximale streamingkwaliteit bij verbinding met het thuisnetwerk",
-  "@homeStreamingQualityDesc": {},
-  "guestActor": "{count, plural, other{Gastacteurs} one{Gastacteur}}",
-  "@guestActor": {
-    "description": "Guest actors",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "castAndCrew": "Cast en crew",
-  "@castAndCrew": {},
-  "settingsPlayerBufferSizeTitle": "Video buffer grootte",
-  "@settingsPlayerBufferSizeTitle": {},
-  "settingsPlayerBufferSizeDesc": "Configureer de buffergrootte voor het afspelen van video's en bepaal de hoeveelheid vooraf geladen data.",
-  "@settingsPlayerBufferSizeDesc": {},
-  "maxConcurrentDownloadsTitle": "Maximum gelijktijdige downloads",
-  "@maxConcurrentDownloadsTitle": {},
-  "maxConcurrentDownloadsDesc": "Stelt het maximumaantal downloads in dat tegelijkertijd kan worden uitgevoerd. Stel in op 0 om de limiet uit te schakelen.",
-  "@maxConcurrentDownloadsDesc": {},
-  "rememberSubtitleSelections": "Ondertitelspoor instellen op basis van vorig item",
-  "@rememberSubtitleSelections": {},
-  "rememberSubtitleSelectionsDesc": "Probeer het ondertitelspoor in te stellen op de best overeenkomende optie van de vorige video.",
-  "@rememberSubtitleSelectionsDesc": {},
-  "playbackTrackSelection": "Selectie van afspeeltrack",
-  "@playbackTrackSelection": {},
-  "rememberAudioSelections": "Audiotrack instellen op basis van vorig item",
-  "@rememberAudioSelections": {},
-  "rememberAudioSelectionsDesc": "Probeer de audiotrack in te stellen op de best overeenkomende optie van de vorige video.",
-  "@rememberAudioSelectionsDesc": {},
-  "hasLikedActor": "Heeft dezelfde favorite acteur",
-  "@hasLikedActor": {},
-  "hasDirectorFromRecentlyPlayed": "Heeft regisseur van recent afgespeeld",
-  "@hasDirectorFromRecentlyPlayed": {},
-  "similarToLikedItem": "Vergelijkbaar met favoriet",
-  "@similarToLikedItem": {},
-  "hasActorFromRecentlyPlayed": "Heeft acteur van recent afgespeeld",
-  "@hasActorFromRecentlyPlayed": {},
-  "hasLikedDirector": "Heeft dezelfde favoriete regisseur",
-  "@hasLikedDirector": {},
-  "recommended": "Aanbevolen",
-  "@recommended": {},
-  "similarToRecentlyPlayed": "Vergelijkbaar met recent afgespeeld",
-  "@similarToRecentlyPlayed": {},
-  "latest": "Laatste",
-  "@latest": {},
-  "exitFladderTitle": "Fladder sluiten",
-  "@exitFladderTitle": {},
-  "playbackTypeDirect": "Direct",
-  "@playbackTypeDirect": {},
-  "playbackTypeOffline": "Offline",
-  "@playbackTypeOffline": {},
-  "playbackType": "Afspeel type",
-  "@playbackType": {},
-  "playbackTypeTranscode": "Transcoderen",
-  "@playbackTypeTranscode": {},
-  "newUpdateFoundOnGithub": "Nieuwe update gevonden op Github",
-  "@newUpdateFoundOnGithub": {},
-  "autoCheckForUpdates": "Regelmatig controleren op updates",
-  "@autoCheckForUpdates": {},
-  "newReleaseFoundTitle": "Update {newRelease} beschikbaar!",
-  "@newReleaseFoundTitle": {
-    "placeholders": {
-      "newRelease": {
-        "type": "String"
-      }
-    }
-  },
-  "latestReleases": "Nieuwste releases",
-  "@latestReleases": {},
-  "enableBackgroundPostersTitle": "Achtergrondposters inschakelen",
-  "@enableBackgroundPostersTitle": {},
-  "settingsEnableOsMediaControlsDesc": "Afspeelbediening via mediatoetsen en toon de huidige afspeelmedia in het besturingssysteem",
-  "@settingsEnableOsMediaControlsDesc": {},
-  "enableBackgroundPostersDesc": "Toon willekeurige posters in toepasselijke schermen",
-  "@enableBackgroundPostersDesc": {},
-  "notificationDownloadingDownloading": "Downloads",
-  "@notificationDownloadingDownloading": {},
-  "notificationDownloadingPaused": "Download gepauzeerd",
-  "@notificationDownloadingPaused": {},
-  "notificationDownloadingFinished": "Download klaar",
-  "@notificationDownloadingFinished": {},
-  "notificationDownloadingError": "Download fout",
-  "@notificationDownloadingError": {},
-  "syncAllItemsTitle": "Synchroniseer alle items van {itemName}?",
-  "@syncAllItemsTitle": {
-    "description": "syncAllItemsFrom",
-    "placeholders": {
-      "itemName": {
-        "type": "String"
-      }
-    }
-  },
-  "syncAllItemsDesc": "Hiermee worden ({itemCount}) items van '{itemName}' gesynchroniseerd naar uw apparaat.\nDit kan even duren, afhankelijk van de hoeveelheid items.",
-  "@syncAllItemsDesc": {
-    "description": "syncAllitemsFromDesc",
-    "placeholders": {
-      "itemName": {
-        "type": "String"
-      },
-      "itemCount": {
-        "type": "int"
-      }
-    }
-  },
-  "syncDeleteAllItemsTitle": "Alle gesynchroniseerde items verwijderen uit {itemName}?",
-  "@syncDeleteAllItemsTitle": {
-    "description": "syncDeleteAllitemsFrom",
-    "placeholders": {
-      "itemName": {
-        "type": "String"
-      }
-    }
-  },
-  "syncDeleteAllItemsDesc": "Hiermee worden alle gesynchroniseerde items van '{itemName}' verwijderd.\nDit is permanent en u moet ({itemCount}) bestanden opnieuw synchroniseren.",
-  "@syncDeleteAllItemsDesc": {
-    "description": "syncDeleteAllitemsFromDesc",
-    "placeholders": {
-      "itemName": {
-        "type": "String"
-      },
-      "itemCount": {
-        "type": "int"
-      }
-    }
-  },
-  "syncPauseAll": "Alles pauzeren",
-  "@syncPauseAll": {},
-  "syncResumeAll": "Alles hervatten",
-  "@syncResumeAll": {},
-  "syncStopAll": "Alles stoppen",
-  "@syncStopAll": {},
-  "syncDeleteAll": "Alle bestanden verwijderen",
-  "@syncDeleteAll": {},
-  "syncAllFiles": "All bestanden synchronizeren",
-  "@syncAllFiles": {},
-  "usePostersForLibraryIconsTitle": "Toon posters voor bibliotheekpictogrammen",
-  "@usePostersForLibraryIconsTitle": {},
-  "usePostersForLibraryIconsDesc": "Toon posters in plaats van pictogrammen voor bibliotheken",
-  "@usePostersForLibraryIconsDesc": {},
-  "offline": "Offline",
-  "@offline": {},
-  "shortCuts": "Sneltoetsen",
-  "@shortCuts": {},
-  "skipForwardLength": "Duur van vooruit spoelen",
-  "@skipForwardLength": {},
-  "skipBackLength": "Duur van terugspoelen",
-  "@skipBackLength": {},
-  "playPause": "Afspelen/Pauzeren",
-  "@playPause": {},
-  "seekForward": "Vooruit zoeken",
-  "@seekForward": {},
-  "seekBack": "Terugspoelen",
-  "@seekBack": {},
-  "mute": "Dempen",
-  "@mute": {},
-  "volumeUp": "Volume omhoog",
-  "@volumeUp": {},
-  "volumeDown": "Volume omlaag",
-  "@volumeDown": {},
-  "nextVideo": "Volgende video",
-  "@nextVideo": {},
-  "prevVideo": "Vorige video",
-  "@prevVideo": {},
-  "nextChapter": "Volgende hoofdstuk",
-  "@nextChapter": {},
-  "prevChapter": "Vorige hoofdstuk",
-  "@prevChapter": {},
-  "fullScreen": "Volledig scherm",
-  "@fullScreen": {},
-  "skipMediaSegment": "Media segment overslaan",
-  "@skipMediaSegment": {},
-  "exit": "Sluiten",
-  "@exit": {},
-  "shortCutAlreadyAssigned": "Sneltoets '{hotKey}\" al toegewezen",
-  "@shortCutAlreadyAssigned": {
-    "placeholders": {
-      "hotKey": {
-        "type": "String"
-      }
-    }
-  },
-  "blurred": "Vervaagd",
-  "@blurred": {},
-  "volumeIndicator": "Volume: {volume}",
-  "@volumeIndicator": {
-    "placeholders": {
-      "volume": {
-        "type": "int"
-      }
-    }
-  }
+    "@@locale": "nl",
+    "nativeName": "Nederlands",
+    "@nativeName": {},
+    "about": "Over",
+    "@about": {},
+    "accept": "Accepteren",
+    "@accept": {},
+    "active": "Actief",
+    "@active": {},
+    "actor": "{count, plural, other{Acteurs} one{Acteur}}",
+    "@actor": {
+        "description": "acteur",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "addAsFavorite": "Toevoegen als favoriet",
+    "@addAsFavorite": {},
+    "addToCollection": "Toevoegen aan collectie",
+    "@addToCollection": {},
+    "addToPlaylist": "Toevoegen aan afspeellijst",
+    "@addToPlaylist": {},
+    "advanced": "Geavanceerd",
+    "@advanced": {},
+    "all": "Alles",
+    "@all": {},
+    "amoledBlack": "Amoled zwart",
+    "@amoledBlack": {},
+    "appLockAutoLogin": "Automatisch inloggen",
+    "@appLockAutoLogin": {},
+    "appLockBiometrics": "Biometrie",
+    "@appLockBiometrics": {},
+    "appLockPasscode": "Pincode",
+    "@appLockPasscode": {},
+    "appLockTitle": "Stel de inlogmethode in voor {userName}",
+    "@appLockTitle": {
+        "description": "Pop-up om een inlogmethode te kiezen",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "ascending": "Oplopend",
+    "@ascending": {},
+    "audio": "Audio",
+    "@audio": {},
+    "autoPlay": "Automatisch afspelen",
+    "@autoPlay": {},
+    "backgroundBlur": "Achtergrond vervagen",
+    "@backgroundBlur": {},
+    "backgroundOpacity": "Achtergrond doorzichtigheid",
+    "@backgroundOpacity": {},
+    "biometricsFailedCheckAgain": "Biometrie mislukt, controleer de instellingen en probeer opnieuw.",
+    "@biometricsFailedCheckAgain": {},
+    "bold": "Vet",
+    "@bold": {},
+    "cancel": "Annuleren",
+    "@cancel": {},
+    "change": "Wijzig",
+    "@change": {},
+    "chapter": "{count, plural, other{Hoofdstukken} one{Hoofdstuk}}",
+    "@chapter": {
+        "description": "hoofdstuk",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "clear": "Wissen",
+    "@clear": {},
+    "clearAllSettings": "Alle instellingen wissen",
+    "@clearAllSettings": {},
+    "clearAllSettingsQuestion": "Alle instellingen wissen?",
+    "@clearAllSettingsQuestion": {},
+    "clearChanges": "Wijzigingen wissen",
+    "@clearChanges": {},
+    "clearSelection": "Selectie wissen",
+    "@clearSelection": {},
+    "close": "Sluiten",
+    "@close": {},
+    "code": "Code",
+    "@code": {},
+    "collectionFolder": "Collectiemap",
+    "@collectionFolder": {},
+    "color": "Kleur",
+    "@color": {},
+    "combined": "Gecombineerd",
+    "@combined": {},
+    "communityRating": "Gemeenschapswaardering",
+    "@communityRating": {},
+    "continuePage": "Doorgaan - pagina {page}",
+    "@continuePage": {
+        "description": "Doorgaan - pagina 1",
+        "placeholders": {
+            "page": {
+                "type": "int"
+            }
+        }
+    },
+    "controls": "Bediening",
+    "@controls": {},
+    "dashboard": "Dashboard",
+    "@dashboard": {},
+    "dashboardContinue": "Doorgaan",
+    "@dashboardContinue": {},
+    "dashboardContinueListening": "Doorgaan met luisteren",
+    "@dashboardContinueListening": {},
+    "dashboardContinueReading": "Doorgaan met lezen",
+    "@dashboardContinueReading": {},
+    "dashboardContinueWatching": "Doorgaan met kijken",
+    "@dashboardContinueWatching": {},
+    "dashboardNextUp": "Volgende",
+    "@dashboardNextUp": {},
+    "dashboardRecentlyAdded": "Onlangs toegevoegd in {name}",
+    "@dashboardRecentlyAdded": {
+        "description": "Onlangs toegevoegd op startscherm",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "dateAdded": "Datum toegevoegd",
+    "@dateAdded": {},
+    "dateLastContentAdded": "Datum laatste inhoud toegevoegd",
+    "@dateLastContentAdded": {},
+    "datePlayed": "Datum afgespeeld",
+    "@datePlayed": {},
+    "days": "Dagen",
+    "@days": {},
+    "delete": "Verwijderen",
+    "@delete": {},
+    "deleteFileFromSystem": "Het verwijderen van dit item {item} zal het zowel uit het bestandssysteem als uit je mediatheek verwijderen. Weet je zeker dat je wilt doorgaan?",
+    "@deleteFileFromSystem": {
+        "description": "Bestand uit systeem verwijderen",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteItem": "{item} verwijderen?",
+    "@deleteItem": {
+        "description": "deleteItem",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "descending": "Aflopend",
+    "@descending": {},
+    "director": "{count, plural, other{Regisseurs} one{Regisseur}}",
+    "@director": {
+        "description": "regisseur",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "disableFilters": "Filters uitschakelen",
+    "@disableFilters": {},
+    "disabled": "Uitgeschakeld",
+    "@disabled": {},
+    "discovered": "Ontdekt",
+    "@discovered": {},
+    "displayLanguage": "Weergavetaal",
+    "@displayLanguage": {},
+    "downloadsClearDesc": "Weet je zeker dat je alle gesynchroniseerde gegevens wilt verwijderen? Dit wist alle gegevens voor elke gesynchroniseerde gebruiker, weet je het zeker?",
+    "@downloadsClearDesc": {},
+    "downloadsClearTitle": "Gesynchroniseerde gegevens wissen",
+    "@downloadsClearTitle": {},
+    "downloadsPath": "Pad",
+    "@downloadsPath": {},
+    "downloadsSyncedData": "Gesynchroniseerde gegevens",
+    "@downloadsSyncedData": {},
+    "downloadsTitle": "Downloads",
+    "@downloadsTitle": {},
+    "dynamicText": "Dynamisch",
+    "@dynamicText": {},
+    "editMetadata": "Metadata bewerken",
+    "@editMetadata": {},
+    "empty": "Leeg",
+    "@empty": {},
+    "enabled": "Ingeschakeld",
+    "@enabled": {},
+    "endsAt": "eindigt om {date}",
+    "@endsAt": {},
+    "episode": "{count, plural, other{Afleveringen} one{Aflevering}}",
+    "@episode": {
+        "description": "aflevering",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "error": "Fout",
+    "@error": {},
+    "failedToLoadImage": "Kan afbeelding niet laden",
+    "@failedToLoadImage": {},
+    "favorite": "Favoriet",
+    "@favorite": {},
+    "favorites": "Favorieten",
+    "@favorites": {},
+    "fetchingLibrary": "Bibliotheek items ophalen…",
+    "@fetchingLibrary": {},
+    "filter": "{count, plural, other{Filters} one{Filter}}",
+    "@filter": {
+        "description": "filter",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "folders": "Mappen",
+    "@folders": {},
+    "fontColor": "Letterkleur",
+    "@fontColor": {},
+    "fontSize": "Lettergrootte",
+    "@fontSize": {},
+    "forceRefresh": "Geforceerd vernieuwen",
+    "@forceRefresh": {},
+    "genre": "{count, plural, other{Genres} one{Genre}}",
+    "@genre": {
+        "description": "genre",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "goTo": "Ga naar",
+    "@goTo": {},
+    "grid": "Raster",
+    "@grid": {},
+    "group": "Groeperen",
+    "@group": {},
+    "groupBy": "Groepeer op",
+    "@groupBy": {},
+    "heightOffset": "Hoogte-offset",
+    "@heightOffset": {},
+    "hide": "Verbergen",
+    "@hide": {},
+    "hideEmpty": "Verberg leeg",
+    "@hideEmpty": {},
+    "home": "Home",
+    "@home": {},
+    "identify": "Identificeren",
+    "@identify": {},
+    "immediately": "Direct",
+    "@immediately": {},
+    "incorrectPinTryAgain": "Onjuiste pin, probeer opnieuw.",
+    "@incorrectPinTryAgain": {},
+    "info": "Info",
+    "@info": {},
+    "invalidUrl": "Ongeldige url",
+    "@invalidUrl": {},
+    "invalidUrlDesc": "Url moet beginnen met http(s)://",
+    "@invalidUrlDesc": {},
+    "itemCount": "Aantal items: {count}",
+    "@itemCount": {
+        "description": "Aantal items",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "label": "{count, plural, other{Labels} one{Label}}",
+    "@label": {
+        "description": "label",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "library": "{count, plural, other{Bibliotheken} one{Bibliotheek}}",
+    "@library": {
+        "description": "meervoud",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "libraryFetchNoItemsFound": "Geen items gevonden, probeer andere instellingen.",
+    "@libraryFetchNoItemsFound": {},
+    "libraryPageSizeDesc": "Stel de hoeveelheid in om per keer te laden. 0 schakelt paginering uit.",
+    "@libraryPageSizeDesc": {},
+    "libraryPageSizeTitle": "Bibliotheek paginagrootte",
+    "@libraryPageSizeTitle": {},
+    "light": "Licht",
+    "@light": {},
+    "list": "Lijst",
+    "@list": {},
+    "lockscreen": "Vergrendelscherm",
+    "@lockscreen": {},
+    "loggedIn": "Ingelogd",
+    "@loggedIn": {},
+    "login": "Inloggen",
+    "@login": {},
+    "logout": "Uitloggen",
+    "@logout": {},
+    "logoutUserPopupContent": "Dit zal {userName} uitloggen en de gebruiker uit de app verwijderen.\nJe moet opnieuw inloggen op {serverName}.",
+    "@logoutUserPopupContent": {
+        "description": "Pop-up voor uitloggen gebruiker beschrijving",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            },
+            "serverName": {
+                "type": "String"
+            }
+        }
+    },
+    "logoutUserPopupTitle": "Gebruiker {userName} uitloggen?",
+    "@logoutUserPopupTitle": {
+        "description": "Pop-up voor uitloggen gebruiker",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "loop": "Lus",
+    "@loop": {},
+    "markAsUnwatched": "Markeer als niet bekeken",
+    "@markAsUnwatched": {},
+    "markAsWatched": "Markeer als bekeken",
+    "@markAsWatched": {},
+    "masonry": "Metseleffect",
+    "@masonry": {},
+    "mediaTypeBase": "Basis type",
+    "@mediaTypeBase": {},
+    "mediaTypeBook": "Boek",
+    "@mediaTypeBook": {},
+    "mediaTypeBoxset": "Boxset",
+    "@mediaTypeBoxset": {},
+    "mediaTypeEpisode": "Aflevering",
+    "@mediaTypeEpisode": {},
+    "mediaTypeFolder": "Map",
+    "@mediaTypeFolder": {},
+    "mediaTypeMovie": "Film",
+    "@mediaTypeMovie": {},
+    "mediaTypePerson": "Persoon",
+    "@mediaTypePerson": {},
+    "mediaTypePhoto": "Foto",
+    "@mediaTypePhoto": {},
+    "mediaTypePhotoAlbum": "Foto album",
+    "@mediaTypePhotoAlbum": {},
+    "mediaTypePlaylist": "Afspeellijst",
+    "@mediaTypePlaylist": {},
+    "mediaTypeSeason": "Seizoen",
+    "@mediaTypeSeason": {},
+    "mediaTypeSeries": "Serie",
+    "@mediaTypeSeries": {},
+    "metaDataSavedFor": "Metadata opgeslagen voor {item}",
+    "@metaDataSavedFor": {
+        "description": "metadataOpgeslagenVoor",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "metadataRefreshDefault": "Scannen naar nieuwe en bijgewerkte bestanden",
+    "@metadataRefreshDefault": {},
+    "metadataRefreshFull": "Alle metadata vervangen",
+    "@metadataRefreshFull": {},
+    "metadataRefreshValidation": "Zoeken naar ontbrekende metadata",
+    "@metadataRefreshValidation": {},
+    "minutes": "{count, plural, other{Minuten} one{Minuut}}",
+    "@minutes": {
+        "description": "minuut",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mode": "Modus",
+    "@mode": {},
+    "moreFrom": "Meer van {info}",
+    "@moreFrom": {
+        "description": "Meer van",
+        "placeholders": {
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "moreOptions": "Meer opties",
+    "@moreOptions": {},
+    "mouseDragSupport": "Slepen met de muis",
+    "@mouseDragSupport": {},
+    "musicAlbum": "Album",
+    "@musicAlbum": {},
+    "name": "Naam",
+    "@name": {},
+    "navigation": "Navigatie",
+    "@navigation": {},
+    "navigationDashboard": "Dashboard",
+    "@navigationDashboard": {},
+    "navigationFavorites": "Favorieten",
+    "@navigationFavorites": {},
+    "navigationSync": "Gesynchroniseerd",
+    "@navigationSync": {},
+    "never": "Nooit",
+    "@never": {},
+    "nextUp": "Volgende",
+    "@nextUp": {},
+    "noItemsSynced": "Geen items gesynchroniseerd",
+    "@noItemsSynced": {},
+    "noItemsToShow": "Geen items om te tonen",
+    "@noItemsToShow": {},
+    "noRating": "Geen beoordeling",
+    "@noRating": {},
+    "noResults": "Geen resultaten",
+    "@noResults": {},
+    "noServersFound": "Geen nieuwe servers gevonden",
+    "@noServersFound": {},
+    "noSuggestionsFound": "Geen suggesties gevonden",
+    "@noSuggestionsFound": {},
+    "none": "Geen",
+    "@none": {},
+    "normal": "Normaal",
+    "@normal": {},
+    "notPartOfAlbum": "Maakt geen deel uit van een album",
+    "@notPartOfAlbum": {},
+    "openParent": "Bovenliggende map openen",
+    "@openParent": {},
+    "openShow": "Serie openen",
+    "@openShow": {},
+    "openWebLink": "Weblink openen",
+    "@openWebLink": {},
+    "options": "Opties",
+    "@options": {},
+    "other": "Overig",
+    "@other": {},
+    "outlineColor": "Omtreklijnkleur",
+    "@outlineColor": {},
+    "outlineSize": "Omtreklijn grootte",
+    "@outlineSize": {},
+    "overview": "Overzicht",
+    "@overview": {},
+    "page": "Pagina {index}",
+    "@page": {
+        "description": "pagina",
+        "placeholders": {
+            "index": {
+                "type": "int"
+            }
+        }
+    },
+    "parentalRating": "Ouderlijk toezicht beoordeling",
+    "@parentalRating": {},
+    "password": "Wachtwoord",
+    "@password": {},
+    "pathClearTitle": "Downloadpad wissen",
+    "@pathClearTitle": {},
+    "pathEditDesc": "Deze locatie is ingesteld voor alle gebruikers, gesynchroniseerde gegevens zijn niet meer toegankelijk. Het blijft op je opslag.",
+    "@pathEditDesc": {},
+    "pathEditSelect": "Selecteer downloadbestemming",
+    "@pathEditSelect": {},
+    "pathEditTitle": "Locatie wijzigen",
+    "@pathEditTitle": {},
+    "play": "{item} Afspelen",
+    "@play": {
+        "description": "Speel met",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "playCount": "Aantal keren afgespeeld",
+    "@playCount": {},
+    "playFrom": "Speel vanaf {name}",
+    "@playFrom": {
+        "description": "speel vanaf",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "playFromStart": "{name} Vanaf het begin afspelen",
+    "@playFromStart": {
+        "description": "speel vanaf het begin",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "playLabel": "Afspelen",
+    "@playLabel": {},
+    "playVideos": "Video''s afspelen",
+    "@playVideos": {},
+    "played": "Gespeeld",
+    "@played": {},
+    "quickConnectAction": "Voer snelverbind code in voor",
+    "@quickConnectAction": {},
+    "quickConnectInputACode": "Voer een code in",
+    "@quickConnectInputACode": {},
+    "quickConnectTitle": "Snel verbinden",
+    "@quickConnectTitle": {},
+    "quickConnectWrongCode": "Verkeerde code",
+    "@quickConnectWrongCode": {},
+    "random": "Willekeurig",
+    "@random": {},
+    "rating": "{count, plural, other{Beoordelingen} one{Beoordeling}}",
+    "@rating": {
+        "description": "beoordeling",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "reWatch": "Opnieuw bekijken",
+    "@reWatch": {},
+    "read": "{item} Lezen",
+    "@read": {
+        "description": "lezen",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "readFromStart": "{item} vanaf het begin lezen",
+    "@readFromStart": {
+        "description": "Lees boek vanaf het begin",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "recursive": "Recursief",
+    "@recursive": {},
+    "refresh": "Vernieuwen",
+    "@refresh": {},
+    "refreshMetadata": "Metadata vernieuwen",
+    "@refreshMetadata": {},
+    "refreshPopup": "Vernieuwen - {name}",
+    "@refreshPopup": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "refreshPopupContentMetadata": "Metadata wordt vernieuwd op basis van instellingen en internetdiensten die zijn ingeschakeld in het Dashboard.",
+    "@refreshPopupContentMetadata": {},
+    "related": "Gerelateerd",
+    "@related": {},
+    "releaseDate": "Releasedatum",
+    "@releaseDate": {},
+    "removeAsFavorite": "Verwijderen als favoriet",
+    "@removeAsFavorite": {},
+    "removeFromCollection": "Verwijderen uit collectie",
+    "@removeFromCollection": {},
+    "removeFromPlaylist": "Verwijderen uit afspeellijst",
+    "@removeFromPlaylist": {},
+    "replaceAllImages": "Alle afbeeldingen vervangen",
+    "@replaceAllImages": {},
+    "replaceExistingImages": "Bestaande afbeeldingen vervangen",
+    "@replaceExistingImages": {},
+    "restart": "Herstarten",
+    "@restart": {},
+    "result": "Resultaat",
+    "@result": {},
+    "resumable": "Hervatbaar",
+    "@resumable": {},
+    "resume": "{item} Hervatten",
+    "@resume": {
+        "description": "hervatten",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "retrievePublicListOfUsers": "Publieke lijst van gebruikers ophalen",
+    "@retrievePublicListOfUsers": {},
+    "retry": "Opnieuw proberen",
+    "@retry": {},
+    "runTime": "Looptijd",
+    "@runTime": {},
+    "save": "Opslaan",
+    "@save": {},
+    "saved": "Opgeslagen",
+    "@saved": {},
+    "scanBiometricHint": "Identiteit verifiëren",
+    "@scanBiometricHint": {},
+    "scanLibrary": "Scan bibliotheek",
+    "@scanLibrary": {},
+    "scanYourFingerprintToAuthenticate": "Scan je vingerafdruk om {user} te verifiëren",
+    "@scanYourFingerprintToAuthenticate": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "scanningName": "Scannen - {name}…",
+    "@scanningName": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "scrollToTop": "Scroll naar boven",
+    "@scrollToTop": {},
+    "search": "Zoeken",
+    "@search": {},
+    "season": "{count, plural, other{Seizoenen} one{Seizoen}}",
+    "@season": {
+        "description": "seizoen",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "seconds": "{count, plural, other{Seconden} one{Seconde}}",
+    "@seconds": {
+        "description": "seconde",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "selectAll": "Alles selecteren",
+    "@selectAll": {},
+    "selectTime": "Tijd selecteren",
+    "@selectTime": {},
+    "selectViewType": "Selecteer weergavetype",
+    "@selectViewType": {},
+    "selected": "Geselecteerd",
+    "@selected": {},
+    "selectedWith": "Geselecteerd {info}",
+    "@selectedWith": {
+        "description": "geselecteerd",
+        "placeholders": {
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "separate": "Gescheiden",
+    "@separate": {},
+    "server": "Server",
+    "@server": {},
+    "set": "Instellen",
+    "@set": {
+        "description": "Gebruik voor het instellen van een bepaalde waarde",
+        "context": "Instellen 'tijd'"
+    },
+    "setIdentityTo": "Identiteit instellen op {name}",
+    "@setIdentityTo": {
+        "description": "setIdentityTo",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "settingSecurityApplockTitle": "App vergrendelen",
+    "@settingSecurityApplockTitle": {},
+    "settings": "Instellingen",
+    "@settings": {},
+    "settingsBlurEpisodesDesc": "Vervaag alle komende afleveringen",
+    "@settingsBlurEpisodesDesc": {},
+    "settingsBlurEpisodesTitle": "Vervagen volgende afleveringen",
+    "@settingsBlurEpisodesTitle": {},
+    "settingsBlurredPlaceholderDesc": "Toon vervaagde achtergrond bij het laden van posters",
+    "@settingsBlurredPlaceholderDesc": {},
+    "settingsBlurredPlaceholderTitle": "Vervaagde placeholder",
+    "@settingsBlurredPlaceholderTitle": {},
+    "settingsClientDesc": "Algemeen, Time-out, Lay-out, Thema",
+    "@settingsClientDesc": {},
+    "settingsClientTitle": "Fladder",
+    "@settingsClientTitle": {},
+    "settingsContinue": "Doorgaan",
+    "@settingsContinue": {},
+    "settingsEnableOsMediaControls": "OS media bediening inschakelen",
+    "@settingsEnableOsMediaControls": {},
+    "settingsHomeCarouselDesc": "Toont een carrousel op het dashboard scherm",
+    "@settingsHomeCarouselDesc": {},
+    "settingsHomeCarouselTitle": "Dashboard carrousel",
+    "@settingsHomeCarouselTitle": {},
+    "settingsHomeNextUpDesc": "Soort posters getoond op het dashboard scherm",
+    "@settingsHomeNextUpDesc": {},
+    "settingsHomeNextUpTitle": "Volgende posters",
+    "@settingsHomeNextUpTitle": {},
+    "settingsNextUpCutoffDays": "Volgende cutoff dagen",
+    "@settingsNextUpCutoffDays": {},
+    "settingsPlayerCustomSubtitlesDesc": "Pas grootte, kleur, positie, omtrek aan",
+    "@settingsPlayerCustomSubtitlesDesc": {},
+    "settingsPlayerCustomSubtitlesTitle": "Ondertitels aanpassen",
+    "@settingsPlayerCustomSubtitlesTitle": {},
+    "settingsPlayerDesc": "Beeldverhouding, Geavanceerd",
+    "@settingsPlayerDesc": {},
+    "settingsPlayerMobileWarning": "Hardwareversnelling en native libass ondertitels inschakelen op Android kan ervoor zorgen dat sommige ondertitels niet worden weergegeven.",
+    "@settingsPlayerMobileWarning": {},
+    "settingsPlayerNativeLibassAccelDesc": "Gebruik videospeler libass ondertitel renderer",
+    "@settingsPlayerNativeLibassAccelDesc": {},
+    "settingsPlayerNativeLibassAccelTitle": "Native libass ondertiteling",
+    "@settingsPlayerNativeLibassAccelTitle": {},
+    "settingsPlayerTitle": "Speler",
+    "@settingsPlayerTitle": {},
+    "settingsPlayerVideoHWAccelDesc": "Gebruik de gpu om video weer te geven (aanbevolen)",
+    "@settingsPlayerVideoHWAccelDesc": {},
+    "settingsPlayerVideoHWAccelTitle": "Hardwareversnelling",
+    "@settingsPlayerVideoHWAccelTitle": {},
+    "settingsPosterPinch": "Knijp-zoom om posters te schalen",
+    "@settingsPosterPinch": {},
+    "settingsPosterSize": "Poster grootte",
+    "@settingsPosterSize": {},
+    "settingsPosterSlider": "Toon schaal schuifregelaar",
+    "@settingsPosterSlider": {},
+    "settingsProfileDesc": "Vergrendelscherm",
+    "@settingsProfileDesc": {},
+    "settingsProfileTitle": "Profiel",
+    "@settingsProfileTitle": {},
+    "settingsQuickConnectTitle": "Snel verbinden",
+    "@settingsQuickConnectTitle": {},
+    "settingsSecurity": "Beveiliging",
+    "@settingsSecurity": {},
+    "settingsShowScaleSlider": "Toon posterschaal schuifregelaar",
+    "@settingsShowScaleSlider": {},
+    "settingsVisual": "Visueel",
+    "@settingsVisual": {},
+    "shadow": "Schaduw",
+    "@shadow": {},
+    "showAlbum": "Toon album",
+    "@showAlbum": {},
+    "showDetails": "Toon details",
+    "@showDetails": {},
+    "showEmpty": "Toon leeg",
+    "@showEmpty": {},
+    "shuffleGallery": "Galerij shuffle",
+    "@shuffleGallery": {},
+    "shuffleVideos": "Video''s shuffle",
+    "@shuffleVideos": {},
+    "somethingWentWrong": "Er is iets misgegaan",
+    "@somethingWentWrong": {},
+    "somethingWentWrongPasswordCheck": "Er is iets misgegaan, controleer je wachtwoord.",
+    "@somethingWentWrongPasswordCheck": {},
+    "sortBy": "Sorteer op",
+    "@sortBy": {},
+    "sortName": "Naam",
+    "@sortName": {},
+    "sortOrder": "Sorteervolgorde",
+    "@sortOrder": {},
+    "start": "Start",
+    "@start": {},
+    "studio": "{count, plural, other{Studio''s} one{Studio}}",
+    "@studio": {
+        "description": "studio",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "subtitleConfigurator": "Ondertitel configurator",
+    "@subtitleConfigurator": {},
+    "subtitleConfiguratorPlaceHolder": "Dit is placeholder tekst, niets te zien hier.",
+    "@subtitleConfiguratorPlaceHolder": {},
+    "subtitles": "Ondertitels",
+    "@subtitles": {},
+    "switchUser": "Wissel gebruiker",
+    "@switchUser": {},
+    "sync": "Synchroniseren",
+    "@sync": {},
+    "syncDeleteItemDesc": "Alle gesynchroniseerde gegevens verwijderen voor {item}?",
+    "@syncDeleteItemDesc": {
+        "description": "Pop-upvenster voor synchronisatie van te verwijderen item",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "syncDeleteItemTitle": "Gesynchroniseerd item verwijderen",
+    "@syncDeleteItemTitle": {},
+    "syncDeletePopupPermanent": "Deze actie is permanent en verwijdert alle lokaal gesynchroniseerde bestanden",
+    "@syncDeletePopupPermanent": {},
+    "syncDetails": "Details synchroniseren",
+    "@syncDetails": {},
+    "syncOpenParent": "Ouder openen",
+    "@syncOpenParent": {},
+    "syncRemoveDataDesc": "Gesynchroniseerde videogegevens verwijderen? Dit is permanent en u moet de bestanden opnieuw synchroniseren",
+    "@syncRemoveDataDesc": {},
+    "syncRemoveDataTitle": "Gesynchroniseerde gegevens verwijderen?",
+    "@syncRemoveDataTitle": {},
+    "syncedItems": "Gesynchroniseerde items",
+    "@syncedItems": {},
+    "tag": "{count, plural, one{Label} other{Labels}}",
+    "@tag": {
+        "description": "label",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "theme": "Thema",
+    "@theme": {},
+    "themeColor": "Thema kleur",
+    "@themeColor": {},
+    "themeModeDark": "Donker",
+    "@themeModeDark": {},
+    "themeModeLight": "Licht",
+    "@themeModeLight": {},
+    "themeModeSystem": "Systeem",
+    "@themeModeSystem": {},
+    "timeAndAnnotation": "{minutes} en {seconds}",
+    "@timeAndAnnotation": {
+        "description": "timeAndAnnotation",
+        "placeholders": {
+            "minutes": {
+                "type": "String"
+            },
+            "seconds": {
+                "type": "String"
+            }
+        }
+    },
+    "timeOut": "Time-out",
+    "@timeOut": {},
+    "totalSize": "Totale grootte: {size}",
+    "@totalSize": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+    "type": "{count, plural, other{Soorten} one{Soort}}",
+    "@type": {
+        "description": "type",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "unPlayed": "Ongespeeld",
+    "@unPlayed": {},
+    "unableToConnectHost": "Kan geen verbinding maken met host",
+    "@unableToConnectHost": {},
+    "unableToReverseAction": "Deze actie kan niet ongedaan worden gemaakt, het verwijdert alle instellingen.",
+    "@unableToReverseAction": {},
+    "unknown": "Onbekend",
+    "@unknown": {},
+    "useDefaults": "Standaardwaarden gebruiken",
+    "@useDefaults": {},
+    "userName": "Gebruikersnaam",
+    "@userName": {},
+    "video": "Video",
+    "@video": {},
+    "videoScaling": "Videoschaling",
+    "@videoScaling": {},
+    "videoScalingContain": "Bevatten",
+    "@videoScalingContain": {},
+    "videoScalingCover": "Bedekken",
+    "@videoScalingCover": {},
+    "videoScalingFill": "Vullen",
+    "@videoScalingFill": {},
+    "videoScalingFillScreenDesc": "Vul de navigatie- en statusbalk",
+    "@videoScalingFillScreenDesc": {},
+    "videoScalingFillScreenNotif": "Volledig scherm overschrijft videopasvorm, in horizontale rotatie",
+    "@videoScalingFillScreenNotif": {},
+    "videoScalingFillScreenTitle": "Vul scherm",
+    "@videoScalingFillScreenTitle": {},
+    "videoScalingFitHeight": "Pas hoogte aan",
+    "@videoScalingFitHeight": {},
+    "videoScalingFitWidth": "Pas breedte aan",
+    "@videoScalingFitWidth": {},
+    "videoScalingScaleDown": "Schaal omlaag",
+    "@videoScalingScaleDown": {},
+    "viewPhotos": "Foto''s bekijken",
+    "@viewPhotos": {},
+    "watchOn": "Kijk op",
+    "@watchOn": {},
+    "writer": "{count, plural, other{Schrijvers} one{Schrijver}}",
+    "@writer": {
+        "description": "schrijver",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "year": "{count, plural, other{Jaren} one{Jaar}}",
+    "@year": {
+        "description": "jaar",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "settingsHomeBannerDescription": "Weergeven als diavoorstelling, carrousel, of de banner verbergen",
+    "@settingsHomeBannerDescription": {},
+    "homeBannerBanner": "Banner",
+    "@homeBannerBanner": {},
+    "homeBannerCarousel": "Carrousel",
+    "@homeBannerCarousel": {},
+    "settingsHomeBannerTitle": "Start banner",
+    "@settingsHomeBannerTitle": {},
+    "settingsHomeBannerInformationDesc": "Informatie om weer te geven in de home-banner",
+    "@settingsHomeBannerInformationDesc": {},
+    "settingsHomeBannerInformationTitle": "Bannerinformatie",
+    "@settingsHomeBannerInformationTitle": {},
+    "syncStatusEnqueued": "In wachtrij",
+    "@syncStatusEnqueued": {},
+    "syncStatusComplete": "Voltooid",
+    "@syncStatusComplete": {},
+    "syncStatusNotFound": "Niet gevonden",
+    "@syncStatusNotFound": {},
+    "syncStatusSynced": "Gesynchroniseerd",
+    "@syncStatusSynced": {},
+    "syncStatusPartially": "Gedeeltelijk",
+    "@syncStatusPartially": {},
+    "syncOverlayDeleting": "Gesynchroniseerd item verwijderen",
+    "@syncOverlayDeleting": {},
+    "syncOverlaySyncing": "Item details synchroniseren",
+    "@syncOverlaySyncing": {},
+    "homeBannerSlideshow": "Diavoorstelling",
+    "@homeBannerSlideshow": {},
+    "syncStatusRunning": "Downloaden",
+    "@syncStatusRunning": {},
+    "syncStatusFailed": "Mislukt",
+    "@syncStatusFailed": {},
+    "syncStatusCanceled": "Geannuleerd",
+    "@syncStatusCanceled": {},
+    "syncStatusPaused": "Gepauzeerd",
+    "@syncStatusPaused": {},
+    "syncStatusWaitingToRetry": "Wachten om opnieuw te proberen",
+    "@syncStatusWaitingToRetry": {},
+    "syncSelectDownloadsFolder": "Selecteer de downloadmap",
+    "@syncSelectDownloadsFolder": {},
+    "syncNoFolderSetup": "Geen synchronisatiemap gezet",
+    "@syncNoFolderSetup": {},
+    "syncRemoveUnableToDeleteItem": "Kan gesynchroniseerd item niet verwijderen, er is iets misgegaan",
+    "@syncRemoveUnableToDeleteItem": {},
+    "syncAddItemForSyncing": "{item} toegevoegd voor synchronisatie",
+    "@syncAddItemForSyncing": {
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "startedSyncingItem": "Begonnen met synchroniseren {item}",
+    "@startedSyncingItem": {
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "unableToSyncItem": "Kan {item} niet synchroniseren, er is iets misgegaan",
+    "@unableToSyncItem": {
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "removedFromCollection": "Verwijderd uit de collectie {collectionName}",
+    "@removedFromCollection": {
+        "placeholders": {
+            "collectionName": {
+                "type": "String"
+            }
+        }
+    },
+    "addItemsToPlaylist": "Voeg {itemLength} item(s) toe aan afspeellijst",
+    "@addItemsToPlaylist": {
+        "placeholders": {
+            "itemLength": {
+                "type": "int"
+            }
+        }
+    },
+    "addToNewCollection": "Nieuwe collectie",
+    "@addToNewCollection": {},
+    "addToNewPlaylist": "Nieuwe afspeellijst",
+    "@addToNewPlaylist": {},
+    "aboutVersion": "Versie: {version}",
+    "@aboutVersion": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutCreatedBy": "Gemaakt door DonutWare",
+    "@aboutCreatedBy": {},
+    "aboutLicenses": "Licenties",
+    "@aboutLicenses": {},
+    "addItemsToCollection": "Voeg {itemLength} item(s) toe aan collectie",
+    "@addItemsToCollection": {
+        "placeholders": {
+            "itemLength": {
+                "type": "int"
+            }
+        }
+    },
+    "addedToPlaylist": "Toegevoegd aan {playlistName} afspeellijst",
+    "@addedToPlaylist": {
+        "placeholders": {
+            "playlistName": {
+                "type": "String"
+            }
+        }
+    },
+    "addedToCollection": "Toegevoegd aan de collectie {collectionName}",
+    "@addedToCollection": {
+        "placeholders": {
+            "collectionName": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutBuild": "Iteratie: {buildNumber}",
+    "@aboutBuild": {
+        "placeholders": {
+            "buildNumber": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutSocials": "Sociaal",
+    "@aboutSocials": {},
+    "subtitle": "Ondertitel",
+    "@subtitle": {},
+    "subtitleConfiguration": "Ondertitel instellingen",
+    "@subtitleConfiguration": {},
+    "off": "Uit",
+    "@off": {},
+    "screenBrightness": "Scherm helderheid",
+    "@screenBrightness": {},
+    "scale": "Schaal",
+    "@scale": {},
+    "playBackSettings": "Afspeel instellingen",
+    "@playBackSettings": {},
+    "removeFilterForLibrary": "Verwijder {filter}?",
+    "@removeFilterForLibrary": {
+        "description": "removeFilterForLibrary",
+        "placeholders": {
+            "filter": {
+                "type": "String"
+            }
+        }
+    },
+    "libraryFiltersLimitReached": "Filterlimiet bereikt (10) verwijder enkele filters",
+    "@libraryFiltersLimitReached": {},
+    "defaultFilterForLibrary": "Standaardfilter voor bibliotheek",
+    "@defaultFilterForLibrary": {},
+    "updateFilterForLibrary": "Filter updaten",
+    "@updateFilterForLibrary": {},
+    "deleteFilterConfirmation": "Weet je zeker dat je deze filter wilt verwijderen?",
+    "@deleteFilterConfirmation": {},
+    "libraryFiltersRemoveAll": "Verwijder alle filters",
+    "@libraryFiltersRemoveAll": {},
+    "deviceOrientationPortraitUp": "Portret omhoog",
+    "@deviceOrientationPortraitUp": {},
+    "libraryFiltersRemoveAllConfirm": "Hiermee worden alle opgeslagen filters voor elke bibliotheek verwijderd",
+    "@libraryFiltersRemoveAllConfirm": {},
+    "playerSettingsOrientationTitle": "Oriëntatie van de speler",
+    "@playerSettingsOrientationTitle": {},
+    "playerSettingsOrientationDesc": "Forceer de videospeler in een bepaalde richting",
+    "@playerSettingsOrientationDesc": {},
+    "deviceOrientationPortraitDown": "Portret naar beneden",
+    "@deviceOrientationPortraitDown": {},
+    "deviceOrientationLandscapeLeft": "Landschap Links",
+    "@deviceOrientationLandscapeLeft": {},
+    "deviceOrientationLandscapeRight": "Landschap Rechts",
+    "@deviceOrientationLandscapeRight": {},
+    "settingsAutoNextTitle": "Volgende preview",
+    "@settingsAutoNextTitle": {},
+    "settingsAutoNextDesc": "Geeft aan het einde van de video een preview van de volgende video",
+    "@settingsAutoNextDesc": {},
+    "autoNextOffSmartTitle": "Slim",
+    "@autoNextOffSmartTitle": {},
+    "autoNextOffSmartDesc": "Toont het volgende scherm wanneer de aftiteling begint als er niet meer dan 10 seconden over zijn na de aftiteling. Anders wordt het volgende scherm weergegeven met nog 30 seconden speeltijd",
+    "@autoNextOffSmartDesc": {},
+    "autoNextOffStaticTitle": "Statisch",
+    "@autoNextOffStaticTitle": {},
+    "autoNextOffStaticDesc": "Toon het volgende scherm als er nog 30 seconden speeltijd over is",
+    "@autoNextOffStaticDesc": {},
+    "playbackRate": "Afspeel snelheid",
+    "@playbackRate": {},
+    "speed": "Snelheid",
+    "@speed": {},
+    "unableToPlayMedia": "Er is een fout opgetreden bij het vinden van een compatibel mediatype",
+    "@unableToPlayMedia": {},
+    "errorOpeningMedia": "Er ging iets miss met het afspelen van deze media",
+    "@errorOpeningMedia": {},
+    "unableToPlayBooksOnWeb": "Boeken worden momenteel niet ondersteund in browsers",
+    "@unableToPlayBooksOnWeb": {},
+    "schemeSettingsFidelity": "Fideliteit",
+    "@schemeSettingsFidelity": {},
+    "schemeSettingsMonochrome": "Monochrome",
+    "@schemeSettingsMonochrome": {},
+    "schemeSettingsExpressive": "Expressief",
+    "@schemeSettingsExpressive": {},
+    "schemeSettingsContent": "Tevreden",
+    "@schemeSettingsContent": {},
+    "libraryPlayItems": "Items afspelen",
+    "@libraryPlayItems": {},
+    "clientSettingsSchemeVariantTitle": "Schema variant",
+    "@clientSettingsSchemeVariantTitle": {},
+    "schemeSettingsTonalSpot": "Tonale vlek",
+    "@schemeSettingsTonalSpot": {},
+    "schemeSettingsNeutral": "Neutraal",
+    "@schemeSettingsNeutral": {},
+    "schemeSettingsRainbow": "Regenboog",
+    "@schemeSettingsRainbow": {},
+    "schemeSettingsFruitSalad": "Fruit salade",
+    "@schemeSettingsFruitSalad": {},
+    "libraryShuffleAndPlayItems": "Items willekeurig afpselen",
+    "@libraryShuffleAndPlayItems": {},
+    "clientSettingsRequireWifiDesc": "Alleen downloaden wanneer verbonden met een Wi-Fi-netwerk",
+    "@clientSettingsRequireWifiDesc": {},
+    "clientSettingsRequireWifiTitle": "Alleen op Wi-Fi",
+    "@clientSettingsRequireWifiTitle": {},
+    "schemeSettingsVibrant": "Levendig",
+    "@schemeSettingsVibrant": {},
+    "clientSettingsShowAllCollectionsTitle": "Toon alle soorten collecties",
+    "@clientSettingsShowAllCollectionsTitle": {},
+    "clientSettingsShowAllCollectionsDesc": "Als deze optie is ingeschakeld, worden alle bibliotheek types weergegeven, inclusief de types die niet door Fladder worden ondersteund",
+    "@clientSettingsShowAllCollectionsDesc": {},
+    "closeVideo": "Video sluiten",
+    "@closeVideo": {},
+    "playNextVideo": "Volgend video afspelen",
+    "@playNextVideo": {},
+    "resumeVideo": "Video hervatten",
+    "@resumeVideo": {},
+    "stop": "Stop",
+    "@stop": {},
+    "playerSettingsBackendTitle": "Videospeler Backend",
+    "@playerSettingsBackendTitle": {},
+    "noVideoPlayerOptions": "De geselecteerde backend heeft geen instellingen",
+    "@noVideoPlayerOptions": {},
+    "playerSettingsBackendDesc": "Kies je mediaspeler backend voor een optimale afspeelervaring",
+    "@playerSettingsBackendDesc": {},
+    "defaultLabel": "Standaard",
+    "@defaultLabel": {
+        "description": "To indicate a default value, default video player backend"
+    },
+    "mdkExperimental": "MDK backend is nog experimenteel",
+    "@mdkExperimental": {},
+    "skipButtonLabel": "Skip {segment}",
+    "@skipButtonLabel": {
+        "placeholders": {
+            "segment": {
+                "type": "String"
+            }
+        }
+    },
+    "mediaSegmentPreview": "Voorvertoning",
+    "@mediaSegmentPreview": {},
+    "mediaSegmentRecap": "Samenvatting",
+    "@mediaSegmentRecap": {},
+    "mediaSegmentUnknown": "Onbekend",
+    "@mediaSegmentUnknown": {},
+    "mediaSegmentOutro": "Uitro",
+    "@mediaSegmentOutro": {},
+    "mediaSegmentCommercial": "Reclame",
+    "@mediaSegmentCommercial": {},
+    "mediaSegmentIntro": "Inleiding",
+    "@mediaSegmentIntro": {},
+    "errorLogs": "Foutlogs",
+    "@errorLogs": {},
+    "external": "Extern",
+    "@external": {},
+    "downloadFile": "Download {type}",
+    "@downloadFile": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "copyStreamUrl": "Stream-URL kopiëren",
+    "@copyStreamUrl": {},
+    "settingsLayoutSizesTitle": "Lay-out Formaten",
+    "@settingsLayoutSizesTitle": {},
+    "settingsLayoutSizesDesc": "Kies welke lay-outformaten de app mag gebruiken op basis van de venstergrootte",
+    "@settingsLayoutSizesDesc": {},
+    "settingsLayoutModesTitle": "Lay-out modi",
+    "@settingsLayoutModesTitle": {},
+    "settingsLayoutModesDesc": "Bepaal of de app lay-outs met één of twee panelen kan gebruiken",
+    "@settingsLayoutModesDesc": {},
+    "phone": "Telefoon",
+    "@phone": {},
+    "tablet": "Tablet",
+    "@tablet": {},
+    "desktop": "Desktop",
+    "@desktop": {},
+    "layoutModeSingle": "Enkel",
+    "@layoutModeSingle": {},
+    "layoutModeDual": "Twee",
+    "@layoutModeDual": {},
+    "copiedToClipboard": "Gekopieerd naar klembord",
+    "@copiedToClipboard": {},
+    "episodeAvailable": "Beschikbaar",
+    "@episodeAvailable": {},
+    "episodeUnaired": "Niet uitgezonden",
+    "@episodeUnaired": {},
+    "episodeMissing": "Ontbreekt",
+    "@episodeMissing": {},
+    "homeStreamingQualityTitle": "Thuisnetwerk kwaliteit",
+    "@homeStreamingQualityTitle": {},
+    "qualityOptionsTitle": "Kwaliteit opties",
+    "@qualityOptionsTitle": {},
+    "qualityOptionsOriginal": "Origineel",
+    "@qualityOptionsOriginal": {},
+    "qualityOptionsAuto": "Auto",
+    "@qualityOptionsAuto": {},
+    "version": "Versie",
+    "@version": {},
+    "segmentActionNone": "Geen",
+    "@segmentActionNone": {},
+    "internetStreamingQualityTitle": "Internet kwaliteit",
+    "@internetStreamingQualityTitle": {},
+    "mediaSegmentActions": "Media segment acties",
+    "@mediaSegmentActions": {},
+    "segmentActionAskToSkip": "Vraag om over te slaan",
+    "@segmentActionAskToSkip": {},
+    "segmentActionSkip": "Overslaan",
+    "@segmentActionSkip": {},
+    "loading": "Laden",
+    "@loading": {},
+    "internetStreamingQualityDesc": "Maximale streamingkwaliteit via internet (mobiel)",
+    "@internetStreamingQualityDesc": {},
+    "homeStreamingQualityDesc": "Maximale streamingkwaliteit bij verbinding met het thuisnetwerk",
+    "@homeStreamingQualityDesc": {},
+    "guestActor": "{count, plural, other{Gastacteurs} one{Gastacteur}}",
+    "@guestActor": {
+        "description": "Guest actors",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "castAndCrew": "Cast en crew",
+    "@castAndCrew": {},
+    "settingsPlayerBufferSizeTitle": "Video buffer grootte",
+    "@settingsPlayerBufferSizeTitle": {},
+    "settingsPlayerBufferSizeDesc": "Configureer de buffergrootte voor het afspelen van video's en bepaal de hoeveelheid vooraf geladen data.",
+    "@settingsPlayerBufferSizeDesc": {},
+    "maxConcurrentDownloadsTitle": "Maximum gelijktijdige downloads",
+    "@maxConcurrentDownloadsTitle": {},
+    "maxConcurrentDownloadsDesc": "Stelt het maximumaantal downloads in dat tegelijkertijd kan worden uitgevoerd. Stel in op 0 om de limiet uit te schakelen.",
+    "@maxConcurrentDownloadsDesc": {},
+    "rememberSubtitleSelections": "Ondertitelspoor instellen op basis van vorig item",
+    "@rememberSubtitleSelections": {},
+    "rememberSubtitleSelectionsDesc": "Probeer het ondertitelspoor in te stellen op de best overeenkomende optie van de vorige video.",
+    "@rememberSubtitleSelectionsDesc": {},
+    "playbackTrackSelection": "Selectie van afspeeltrack",
+    "@playbackTrackSelection": {},
+    "rememberAudioSelections": "Audiotrack instellen op basis van vorig item",
+    "@rememberAudioSelections": {},
+    "rememberAudioSelectionsDesc": "Probeer de audiotrack in te stellen op de best overeenkomende optie van de vorige video.",
+    "@rememberAudioSelectionsDesc": {},
+    "hasLikedActor": "Heeft dezelfde favorite acteur",
+    "@hasLikedActor": {},
+    "hasDirectorFromRecentlyPlayed": "Heeft regisseur van recent afgespeeld",
+    "@hasDirectorFromRecentlyPlayed": {},
+    "similarToLikedItem": "Vergelijkbaar met favoriet",
+    "@similarToLikedItem": {},
+    "hasActorFromRecentlyPlayed": "Heeft acteur van recent afgespeeld",
+    "@hasActorFromRecentlyPlayed": {},
+    "hasLikedDirector": "Heeft dezelfde favoriete regisseur",
+    "@hasLikedDirector": {},
+    "recommended": "Aanbevolen",
+    "@recommended": {},
+    "similarToRecentlyPlayed": "Vergelijkbaar met recent afgespeeld",
+    "@similarToRecentlyPlayed": {},
+    "latest": "Laatste",
+    "@latest": {},
+    "exitFladderTitle": "Fladder sluiten",
+    "@exitFladderTitle": {},
+    "playbackTypeDirect": "Direct",
+    "@playbackTypeDirect": {},
+    "playbackTypeOffline": "Offline",
+    "@playbackTypeOffline": {},
+    "playbackType": "Afspeel type",
+    "@playbackType": {},
+    "playbackTypeTranscode": "Transcoderen",
+    "@playbackTypeTranscode": {},
+    "newUpdateFoundOnGithub": "Nieuwe update gevonden op Github",
+    "@newUpdateFoundOnGithub": {},
+    "autoCheckForUpdates": "Regelmatig controleren op updates",
+    "@autoCheckForUpdates": {},
+    "newReleaseFoundTitle": "Update {newRelease} beschikbaar!",
+    "@newReleaseFoundTitle": {
+        "placeholders": {
+            "newRelease": {
+                "type": "String"
+            }
+        }
+    },
+    "latestReleases": "Nieuwste releases",
+    "@latestReleases": {},
+    "enableBackgroundPostersTitle": "Achtergrondposters inschakelen",
+    "@enableBackgroundPostersTitle": {},
+    "settingsEnableOsMediaControlsDesc": "Afspeelbediening via mediatoetsen en toon de huidige afspeelmedia in het besturingssysteem",
+    "@settingsEnableOsMediaControlsDesc": {},
+    "enableBackgroundPostersDesc": "Toon willekeurige posters in toepasselijke schermen",
+    "@enableBackgroundPostersDesc": {},
+    "notificationDownloadingDownloading": "Downloads",
+    "@notificationDownloadingDownloading": {},
+    "notificationDownloadingPaused": "Download gepauzeerd",
+    "@notificationDownloadingPaused": {},
+    "notificationDownloadingFinished": "Download klaar",
+    "@notificationDownloadingFinished": {},
+    "notificationDownloadingError": "Download fout",
+    "@notificationDownloadingError": {},
+    "syncAllItemsTitle": "Synchroniseer alle items van {itemName}?",
+    "@syncAllItemsTitle": {
+        "description": "syncAllItemsFrom",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncAllItemsDesc": "Hiermee worden ({itemCount}) items van '{itemName}' gesynchroniseerd naar uw apparaat.\nDit kan even duren, afhankelijk van de hoeveelheid items.",
+    "@syncAllItemsDesc": {
+        "description": "syncAllitemsFromDesc",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            },
+            "itemCount": {
+                "type": "int"
+            }
+        }
+    },
+    "syncDeleteAllItemsTitle": "Alle gesynchroniseerde items verwijderen uit {itemName}?",
+    "@syncDeleteAllItemsTitle": {
+        "description": "syncDeleteAllitemsFrom",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncDeleteAllItemsDesc": "Hiermee worden alle gesynchroniseerde items van '{itemName}' verwijderd.\nDit is permanent en u moet ({itemCount}) bestanden opnieuw synchroniseren.",
+    "@syncDeleteAllItemsDesc": {
+        "description": "syncDeleteAllitemsFromDesc",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            },
+            "itemCount": {
+                "type": "int"
+            }
+        }
+    },
+    "syncPauseAll": "Alles pauzeren",
+    "@syncPauseAll": {},
+    "syncResumeAll": "Alles hervatten",
+    "@syncResumeAll": {},
+    "syncStopAll": "Alles stoppen",
+    "@syncStopAll": {},
+    "syncDeleteAll": "Alle bestanden verwijderen",
+    "@syncDeleteAll": {},
+    "syncAllFiles": "All bestanden synchronizeren",
+    "@syncAllFiles": {},
+    "usePostersForLibraryIconsTitle": "Toon posters voor bibliotheekpictogrammen",
+    "@usePostersForLibraryIconsTitle": {},
+    "usePostersForLibraryIconsDesc": "Toon posters in plaats van pictogrammen voor bibliotheken",
+    "@usePostersForLibraryIconsDesc": {},
+    "offline": "Offline",
+    "@offline": {},
+    "shortCuts": "Sneltoetsen",
+    "@shortCuts": {},
+    "skipForwardLength": "Duur van vooruit spoelen",
+    "@skipForwardLength": {},
+    "skipBackLength": "Duur van terugspoelen",
+    "@skipBackLength": {},
+    "playPause": "Afspelen/Pauzeren",
+    "@playPause": {},
+    "seekForward": "Vooruit zoeken",
+    "@seekForward": {},
+    "seekBack": "Terugspoelen",
+    "@seekBack": {},
+    "mute": "Dempen",
+    "@mute": {},
+    "volumeUp": "Volume omhoog",
+    "@volumeUp": {},
+    "volumeDown": "Volume omlaag",
+    "@volumeDown": {},
+    "nextVideo": "Volgende video",
+    "@nextVideo": {},
+    "prevVideo": "Vorige video",
+    "@prevVideo": {},
+    "nextChapter": "Volgende hoofdstuk",
+    "@nextChapter": {},
+    "prevChapter": "Vorige hoofdstuk",
+    "@prevChapter": {},
+    "fullScreen": "Volledig scherm",
+    "@fullScreen": {},
+    "skipMediaSegment": "Media segment overslaan",
+    "@skipMediaSegment": {},
+    "exit": "Sluiten",
+    "@exit": {},
+    "shortCutAlreadyAssigned": "Sneltoets '{hotKey}\" al toegewezen",
+    "@shortCutAlreadyAssigned": {
+        "placeholders": {
+            "hotKey": {
+                "type": "String"
+            }
+        }
+    },
+    "blurred": "Vervaagd",
+    "@blurred": {},
+    "volumeIndicator": "Volume: {volume}",
+    "@volumeIndicator": {
+        "placeholders": {
+            "volume": {
+                "type": "int"
+            }
+        }
+    },
+    "keyboardShortCuts": "Toetscombinaties",
+    "@keyboardShortCuts": {},
+    "television": "Televisie",
+    "@television": {},
+    "exitFladderDesc": "Weet je zeker dat je Fladder wilt sluiten?",
+    "@exitFladderDesc": {},
+    "speedUp": "Versnellen",
+    "@speedUp": {},
+    "speedDown": "Vertragen",
+    "@speedDown": {},
+    "speedIndicator": "Afspeel snelheid: {speed}",
+    "@speedIndicator": {
+        "placeholders": {
+            "speed": {
+                "type": "double"
+            }
+        }
+    },
+    "quickConnectPostFailed": "Fout bij het verkrijgen van connect code",
+    "@quickConnectPostFailed": {},
+    "quickConnectLoginUsingCode": "Gebruik quick connect",
+    "@quickConnectLoginUsingCode": {},
+    "quickConnectEnterCodeDescription": "Voer de code in om in te loggen",
+    "@quickConnectEnterCodeDescription": {},
+    "showMore": "Meer laten zien",
+    "@showMore": {},
+    "itemColorsTitle": "Item kleuren",
+    "@itemColorsTitle": {},
+    "itemColorsDesc": "Gebruik de primaire kleuren van het item voor de details pagina",
+    "@itemColorsDesc": {}
 }

@@ -1462,5 +1462,29 @@
     "nextChapter": "Chapitre suivant",
     "@nextChapter": {},
     "prevChapter": "Chapitre précédent",
-    "@prevChapter": {}
+    "@prevChapter": {},
+    "television": "Télévision",
+    "@television": {},
+    "exitFladderDesc": "Êtes-vous sur de vouloir fermer Fladder ?",
+    "@exitFladderDesc": {},
+    "keyboardShortCuts": "Raccourcis clavier",
+    "@keyboardShortCuts": {},
+    "speedUp": "Accélérer",
+    "@speedUp": {},
+    "speedDown": "Ralentir",
+    "@speedDown": {},
+    "speedIndicator": "Vitesse de lecture:",
+    "@speedIndicator": {
+        "placeholders": {
+            "speed": {
+                "type": "double"
+            }
+        }
+    },
+    "quickConnectPostFailed": "Impossible de récupérer le code de connexion rapide",
+    "@quickConnectPostFailed": {},
+    "quickConnectLoginUsingCode": "Utilisation de la connexion rapide",
+    "@quickConnectLoginUsingCode": {},
+    "quickConnectEnterCodeDescription": "Entrez le code ci-dessous pour se connecter",
+    "@quickConnectEnterCodeDescription": {}
 }

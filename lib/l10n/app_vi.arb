@@ -1463,5 +1463,19 @@
                 "type": "int"
             }
         }
+    },
+    "keyboardShortCuts": "Phím tắt",
+    "@keyboardShortCuts": {},
+    "speedUp": "Tăng tốc",
+    "@speedUp": {},
+    "speedDown": "Giảm tốc",
+    "@speedDown": {},
+    "speedIndicator": "Tốc độ phát: {speed}",
+    "@speedIndicator": {
+        "placeholders": {
+            "speed": {
+                "type": "double"
+            }
+        }
     }
 }
