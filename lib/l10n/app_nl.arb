@@ -1466,5 +1466,33 @@
         }
     },
     "keyboardShortCuts": "Toetscombinaties",
-    "@keyboardShortCuts": {}
+    "@keyboardShortCuts": {},
+    "television": "Televisie",
+    "@television": {},
+    "exitFladderDesc": "Weet je zeker dat je Fladder wilt sluiten?",
+    "@exitFladderDesc": {},
+    "speedUp": "Versnellen",
+    "@speedUp": {},
+    "speedDown": "Vertragen",
+    "@speedDown": {},
+    "speedIndicator": "Afspeel snelheid: {speed}",
+    "@speedIndicator": {
+        "placeholders": {
+            "speed": {
+                "type": "double"
+            }
+        }
+    },
+    "quickConnectPostFailed": "Fout bij het verkrijgen van connect code",
+    "@quickConnectPostFailed": {},
+    "quickConnectLoginUsingCode": "Gebruik quick connect",
+    "@quickConnectLoginUsingCode": {},
+    "quickConnectEnterCodeDescription": "Voer de code in om in te loggen",
+    "@quickConnectEnterCodeDescription": {},
+    "showMore": "Meer laten zien",
+    "@showMore": {},
+    "itemColorsTitle": "Item kleuren",
+    "@itemColorsTitle": {},
+    "itemColorsDesc": "Gebruik de primaire kleuren van het item voor de details pagina",
+    "@itemColorsDesc": {}
 }
