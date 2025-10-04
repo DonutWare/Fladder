@@ -1492,5 +1492,9 @@
     "itemColorsTitle": "项目颜色",
     "@itemColorsTitle": {},
     "itemColorsDesc": "使用项目的主色调作为详情页面的主题",
-    "@itemColorsDesc": {}
+    "@itemColorsDesc": {},
+    "mediaTunnelingTitle": "媒体隧道",
+    "@mediaTunnelingTitle": {},
+    "mediaTunnelingDesc": "为本机播放器启用媒体隧道",
+    "@mediaTunnelingDesc": {}
 }
