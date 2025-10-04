@@ -1501,5 +1501,9 @@
     "itemColorsTitle": "Кольори предметів",
     "@itemColorsTitle": {},
     "itemColorsDesc": "Використовуйте основний колір товару для оформлення сторінки з деталями",
-    "@itemColorsDesc": {}
+    "@itemColorsDesc": {},
+    "mediaTunnelingTitle": "Тунелювання медіа",
+    "@mediaTunnelingTitle": {},
+    "mediaTunnelingDesc": "Увімкнути тунелювання медіа для рідного програвача",
+    "@mediaTunnelingDesc": {}
 }
