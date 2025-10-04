@@ -1486,5 +1486,11 @@
     "quickConnectLoginUsingCode": "使用快速连接",
     "@quickConnectLoginUsingCode": {},
     "quickConnectEnterCodeDescription": "输入以下代码登录",
-    "@quickConnectEnterCodeDescription": {}
+    "@quickConnectEnterCodeDescription": {},
+    "showMore": "显示更多",
+    "@showMore": {},
+    "itemColorsTitle": "项目颜色",
+    "@itemColorsTitle": {},
+    "itemColorsDesc": "使用项目的主色调作为详情页面的主题",
+    "@itemColorsDesc": {}
 }
