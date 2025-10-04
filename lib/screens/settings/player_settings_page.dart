@@ -141,7 +141,7 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
         ),
         const SizedBox(height: 12),
         ...settingsListGroup(context, SettingsLabelDivider(label: context.localized.screenshots), [
-          if (!AdaptiveLayout.of(context).isDesktop && !kIsWeb) SettingsListTile(
+          if (AdaptiveLayout.of(context).isDesktop && !kIsWeb) SettingsListTile(
             label: Text(context.localized.downloadsPath),
             subLabel: Text(screenshotsFolder ?? "-"),
             onTap: screenshotsFolder != null
