@@ -101,6 +101,11 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
         _ => internalVolume,
       };
 
+  String? get screenshotsFolder => switch(defaultTargetPlatform) {
+    TargetPlatform.windows || TargetPlatform.linux || TargetPlatform.macOS => !kIsWeb ? screenshotsPath : "",
+    _ => ""
+  };
+
   factory VideoPlayerSettingsModel.fromJson(Map<String, dynamic> json) => _$VideoPlayerSettingsModelFromJson(json);
 
   PlayerOptions get wantedPlayer =>

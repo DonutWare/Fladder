@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -64,16 +61,9 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
   void setBufferSize(int? value) => state = state.copyWith(bufferSize: value ?? 32);
   void setFitType(BoxFit? value) => state = state.copyWith(videoFit: value ?? BoxFit.contain);
 
-  String? get screenshotsFolder => !kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)
-    ? ref.read(videoPlayerSettingsProvider.select((value) => value.screenshotsPath))
-    : "";
   void setScreenshotsPath(String? path) => state = state.copyWith(screenshotsPath: path);
-
-  ScreenshotFormat get screenshotFormat => ref.read(videoPlayerSettingsProvider.select((value) => value.screenshotFormat));
   void setScreenshotFormat(ScreenshotFormat format) => state = state.copyWith(screenshotFormat: format);
-
-  int get screenshotNamePadding => ref.read(videoPlayerSettingsProvider.select((value) => value.screenshotNamePadding));
-  void setscreenshotNamePadding(int amount) => state = state.copyWith(screenshotNamePadding: amount);
+  void setScreenshotNamePadding(int amount) => state = state.copyWith(screenshotNamePadding: amount);
 
   void setVolume(double value) {
     state = state.copyWith(internalVolume: value);

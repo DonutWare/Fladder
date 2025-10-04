@@ -50,8 +50,6 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
 
     final userSettings = ref.watch(userProvider.select((value) => value?.userSettings));
 
-    final screenshotsFolder = ref.watch(videoPlayerSettingsProvider.notifier).screenshotsFolder;
-
     return SettingsScaffold(
       label: context.localized.settingsPlayerTitle,
       items: [
@@ -143,8 +141,8 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
         ...settingsListGroup(context, SettingsLabelDivider(label: context.localized.screenshots), [
           if (AdaptiveLayout.of(context).isDesktop && !kIsWeb) SettingsListTile(
             label: Text(context.localized.downloadsPath),
-            subLabel: Text(screenshotsFolder ?? "-"),
-            onTap: screenshotsFolder != null
+            subLabel: Text(videoSettings.screenshotsFolder ?? "-"),
+            onTap: videoSettings.screenshotsFolder != null
                 ? () async => await showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
@@ -154,7 +152,7 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                           ElevatedButton(
                             onPressed: () async {
                               String? selectedDirectory = await FilePicker.platform.getDirectoryPath(
-                                  dialogTitle: context.localized.screenshotsPath, initialDirectory: screenshotsFolder);
+                                  dialogTitle: context.localized.screenshotsPath, initialDirectory: videoSettings.screenshotsFolder);
                               if (selectedDirectory != null) {
                                 ref.read(videoPlayerSettingsProvider.notifier).setScreenshotsPath(selectedDirectory);
                               }
@@ -167,12 +165,12 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                     )
                 : () async {
                     String? selectedDirectory = await FilePicker.platform.getDirectoryPath(
-                        dialogTitle: context.localized.pathEditSelect, initialDirectory: screenshotsFolder);
+                        dialogTitle: context.localized.pathEditSelect, initialDirectory: videoSettings.screenshotsFolder);
                     if (selectedDirectory != null) {
                       ref.read(videoPlayerSettingsProvider.notifier).setScreenshotsPath(selectedDirectory);
                     }
                   },
-            trailing: screenshotsFolder?.isNotEmpty == true
+            trailing: videoSettings.screenshotsFolder?.isNotEmpty == true
                 ? IconButton(
                     color: Theme.of(context).colorScheme.error,
                     onPressed: () async => await showDialog(
@@ -223,9 +221,9 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
           trailing: SizedBox(
               width: 100,
               child: IntInputField(
-                controller: TextEditingController(text: ref.watch(videoPlayerSettingsProvider.notifier).screenshotNamePadding.toString()),
+                controller: TextEditingController(text: videoSettings.screenshotNamePadding.toString()),
                 onSubmitted: (value) {
-                  ref.read(videoPlayerSettingsProvider.notifier).setscreenshotNamePadding(value ?? 3);
+                  ref.read(videoPlayerSettingsProvider.notifier).setScreenshotNamePadding(value ?? 3);
                 },
               )),
         ),
