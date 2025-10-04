@@ -62,6 +62,7 @@ class MediaPlayButton extends ConsumerWidget {
       child: onPressed == null
           ? const SizedBox.shrink(key: ValueKey('empty'))
           : Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               spacing: 4,
               children: [
                 FocusButton(
@@ -120,6 +121,7 @@ class MediaPlayButton extends ConsumerWidget {
                     },
                     child: Card(
                       color: theme.colorScheme.primaryContainer,
+                      shadowColor: Colors.transparent,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Icon(
