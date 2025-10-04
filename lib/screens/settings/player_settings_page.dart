@@ -209,7 +209,7 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                       action: () =>
                           ref
                             .read(videoPlayerSettingsProvider.notifier)
-                            .update((context) => context.copyWith(screenshotFormat: entry)),
+                            .setScreenshotFormat(entry),
                     ),
                   )
                   .toList(),

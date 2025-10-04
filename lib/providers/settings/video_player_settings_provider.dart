@@ -32,8 +32,6 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
     }
   }
 
-  VideoPlayerSettingsModel update(VideoPlayerSettingsModel Function(VideoPlayerSettingsModel currentState) value) => state = value(state);
-
   void setScreenBrightness(double? value) async {
     state = state.copyWith(
       screenBrightness: value,
