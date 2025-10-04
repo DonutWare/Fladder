@@ -14,7 +14,6 @@ import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
-import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
@@ -73,13 +72,11 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
       );
     }
 
-    final player = ref.read(argumentsStateProvider).leanBackMode
-        ? NativePlayer()
-        : switch (ref.read(videoPlayerSettingsProvider.select((value) => value.wantedPlayer))) {
-            PlayerOptions.libMDK => LibMDK(),
-            PlayerOptions.libMPV => LibMPV(),
-            PlayerOptions.nativePlayer => NativePlayer(),
-          };
+    final player = switch (ref.read(videoPlayerSettingsProvider).wantedPlayer) {
+      PlayerOptions.libMDK => LibMDK(),
+      PlayerOptions.libMPV => LibMPV(),
+      PlayerOptions.nativePlayer => NativePlayer(),
+    };
 
     setup(player);
   }

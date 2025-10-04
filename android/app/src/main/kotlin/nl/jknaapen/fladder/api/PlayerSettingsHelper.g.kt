@@ -93,6 +93,7 @@ enum class SegmentSkip(val raw: Int) {
 
 /** Generated class from Pigeon that represents data sent in messages. */
 data class PlayerSettings (
+  val enableTunneling: Boolean,
   val skipTypes: Map<SegmentType, SegmentSkip>,
   val skipForward: Long,
   val skipBackward: Long
@@ -100,14 +101,16 @@ data class PlayerSettings (
  {
   companion object {
     fun fromList(pigeonVar_list: List<Any?>): PlayerSettings {
-      val skipTypes = pigeonVar_list[0] as Map<SegmentType, SegmentSkip>
-      val skipForward = pigeonVar_list[1] as Long
-      val skipBackward = pigeonVar_list[2] as Long
-      return PlayerSettings(skipTypes, skipForward, skipBackward)
+      val enableTunneling = pigeonVar_list[0] as Boolean
+      val skipTypes = pigeonVar_list[1] as Map<SegmentType, SegmentSkip>
+      val skipForward = pigeonVar_list[2] as Long
+      val skipBackward = pigeonVar_list[3] as Long
+      return PlayerSettings(enableTunneling, skipTypes, skipForward, skipBackward)
     }
   }
   fun toList(): List<Any?> {
     return listOf(
+      enableTunneling,
       skipTypes,
       skipForward,
       skipBackward,

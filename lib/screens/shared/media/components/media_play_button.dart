@@ -62,7 +62,7 @@ class MediaPlayButton extends ConsumerWidget {
       child: onPressed == null
           ? const SizedBox.shrink(key: ValueKey('empty'))
           : Row(
-              spacing: 2,
+              spacing: 4,
               children: [
                 FocusButton(
                   onTap: () => onPressed?.call(false),
@@ -76,38 +76,35 @@ class MediaPlayButton extends ConsumerWidget {
                       );
                     }
                   },
-                  child: Padding(
-                    padding: EdgeInsets.all(padding),
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        // Progress background
-                        Positioned.fill(
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      // Progress background
+                      Positioned.fill(
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: theme.colorScheme.primaryContainer,
+                            borderRadius: radius,
+                          ),
+                        ),
+                      ),
+                      // Button content
+                      buttonTitle(theme.colorScheme.onPrimaryContainer),
+                      Positioned.fill(
+                        child: ClipRect(
+                          clipper: _ProgressClipper(
+                            progress,
+                          ),
                           child: DecoratedBox(
                             decoration: BoxDecoration(
-                              color: theme.colorScheme.primaryContainer,
+                              color: theme.colorScheme.primary,
                               borderRadius: radius,
                             ),
+                            child: buttonTitle(theme.colorScheme.onPrimary),
                           ),
                         ),
-                        // Button content
-                        buttonTitle(theme.colorScheme.onPrimaryContainer),
-                        Positioned.fill(
-                          child: ClipRect(
-                            clipper: _ProgressClipper(
-                              progress,
-                            ),
-                            child: DecoratedBox(
-                              decoration: BoxDecoration(
-                                color: theme.colorScheme.primary,
-                                borderRadius: radius,
-                              ),
-                              child: buttonTitle(theme.colorScheme.onPrimary),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
                 if (progress != 0)
