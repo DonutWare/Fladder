@@ -53,10 +53,9 @@ class _SelectableIconButtonState extends ConsumerState<SelectableIconButton> {
       child: ElevatedButton(
         style: ButtonStyle(
           side: buttonState,
-          elevation: WidgetStatePropertyAll(
-              widget.backgroundColor != null ? (widget.backgroundColor!.a < 1 ? 0 : null) : null),
+          elevation: const WidgetStatePropertyAll(0),
           backgroundColor: WidgetStatePropertyAll(
-              widget.backgroundColor ?? (widget.selected ? theme.primaryContainer : theme.surfaceContainerHigh)),
+              widget.backgroundColor ?? (widget.selected ? theme.primaryContainer : theme.surfaceContainerLow)),
           iconColor: WidgetStatePropertyAll(widget.iconColor ?? (widget.selected ? theme.onPrimaryContainer : null)),
           foregroundColor:
               WidgetStatePropertyAll(widget.iconColor ?? (widget.selected ? theme.onPrimaryContainer : null)),

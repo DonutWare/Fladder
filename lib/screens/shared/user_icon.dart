@@ -57,7 +57,7 @@ class UserIcon extends ConsumerWidget {
               alignment: Alignment.center,
               children: [
                 ClipRRect(
-                  borderRadius: FladderTheme.defaultShape.borderRadius,
+                  borderRadius: FladderTheme.smallShape.borderRadius,
                   child: CachedNetworkImage(
                     imageUrl: user?.avatar ?? "",
                     progressIndicatorBuilder: (context, url, progress) => placeHolder(),
