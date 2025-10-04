@@ -171,7 +171,7 @@ class OverviewHeader extends ConsumerWidget {
                 ].addInBetween(const SizedBox(height: 10)),
               ),
             ),
-            if (AdaptiveLayout.viewSizeOf(context) == ViewSize.phone) ...[
+            if (AdaptiveLayout.viewSizeOf(context) <= ViewSize.phone) ...[
               if (playButton != null) playButton!,
               if (centerButtons != null) centerButtons!,
             ] else

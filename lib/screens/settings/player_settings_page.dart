@@ -209,30 +209,31 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                   context.localized.keyboardShortCuts,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
-                children: VideoHotKeys.values.map(
-                  (entry) => Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            entry.label(context),
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
+                children: VideoHotKeys.values
+                    .map(
+                      (entry) => Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                entry.label(context),
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                            ),
+                            Flexible(
+                              child: KeyCombinationWidget(
+                                currentKey: videoSettings.hotKeys[entry],
+                                defaultKey: videoSettings.defaultShortCuts[entry]!,
+                                onChanged: (value) =>
+                                    ref.read(videoPlayerSettingsProvider.notifier).setShortcuts(MapEntry(entry, value)),
+                              ),
+                            ),
+                          ],
                         ),
-                        Flexible(
-                          child: KeyCombinationWidget(
-                            currentKey: videoSettings.hotKeys[entry],
-                            defaultKey: videoSettings.defaultShortCuts[entry]!,
-                            onChanged: (value) => ref
-                                .read(videoPlayerSettingsProvider.notifier)
-                                .setShortcuts(MapEntry(entry, value)),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ).toList(),
+                      ),
+                    )
+                    .toList(),
               ),
           ],
         ),
@@ -266,106 +267,116 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
           context,
           SettingsLabelDivider(label: context.localized.advanced),
           [
-            if (!ref.read(argumentsStateProvider).leanBackMode) ...[
-              if (PlayerOptions.available.length != 1)
-                SettingsListTile(
-                  label: Text(context.localized.playerSettingsBackendTitle),
-                  subLabel: Text(context.localized.playerSettingsBackendDesc),
-                  trailing: Builder(builder: (context) {
-                    final wantedPlayer = videoSettings.wantedPlayer;
-                    final currentPlayer = videoSettings.playerOptions;
-                    return EnumBox(
-                      current: currentPlayer == null
-                          ? "${context.localized.defaultLabel} (${PlayerOptions.platformDefaults.label(context)})"
-                          : wantedPlayer.label(context),
-                      itemBuilder: (context) => [
-                        ItemActionButton(
-                          label: Text(
-                              "${context.localized.defaultLabel} (${PlayerOptions.platformDefaults.label(context)})"),
+            if (PlayerOptions.available.length != 1)
+              SettingsListTile(
+                label: Text(context.localized.playerSettingsBackendTitle),
+                subLabel: Text(context.localized.playerSettingsBackendDesc),
+                trailing: Builder(builder: (context) {
+                  final wantedPlayer = videoSettings.wantedPlayer;
+                  final currentPlayer = videoSettings.playerOptions;
+                  return EnumBox(
+                    current: currentPlayer == null
+                        ? "${context.localized.defaultLabel} (${PlayerOptions.platformDefaults.label(context)})"
+                        : wantedPlayer.label(context),
+                    itemBuilder: (context) => [
+                      ItemActionButton(
+                        label: Text(
+                            "${context.localized.defaultLabel} (${PlayerOptions.platformDefaults.label(context)})"),
+                        action: () => ref.read(videoPlayerSettingsProvider.notifier).state =
+                            videoSettings.copyWith(playerOptions: null),
+                      ),
+                      ...PlayerOptions.available.map(
+                        (entry) => ItemActionButton(
+                          label: Text(entry.label(context)),
                           action: () => ref.read(videoPlayerSettingsProvider.notifier).state =
-                              videoSettings.copyWith(playerOptions: null),
+                              videoSettings.copyWith(playerOptions: entry),
                         ),
-                        ...PlayerOptions.available.map(
-                          (entry) => ItemActionButton(
-                            label: Text(entry.label(context)),
-                            action: () => ref.read(videoPlayerSettingsProvider.notifier).state =
-                                videoSettings.copyWith(playerOptions: entry),
-                          ),
-                        )
-                      ],
-                    );
-                  }),
-                ),
-              AnimatedFadeSize(
-                child: switch (videoSettings.wantedPlayer) {
-                  PlayerOptions.libMPV => Column(
-                      children: [
-                        SettingsListTile(
-                          label: Text(context.localized.settingsPlayerVideoHWAccelTitle),
-                          subLabel: Text(context.localized.settingsPlayerVideoHWAccelDesc),
-                          onTap: () => provider.setHardwareAccel(!videoSettings.hardwareAccel),
-                          trailing: Switch(
-                            value: videoSettings.hardwareAccel,
-                            onChanged: (value) => provider.setHardwareAccel(value),
-                          ),
-                        ),
-                        if (!kIsWeb)
-                          SettingsListTile(
-                            label: Text(context.localized.settingsPlayerNativeLibassAccelTitle),
-                            subLabel: Text(context.localized.settingsPlayerNativeLibassAccelDesc),
-                            onTap: () => provider.setUseLibass(!videoSettings.useLibass),
-                            trailing: Switch(
-                              value: videoSettings.useLibass,
-                              onChanged: (value) => provider.setUseLibass(value),
-                            ),
-                          ),
-                        if (!videoSettings.useLibass)
-                          SettingsListTile(
-                            label: Text(context.localized.settingsPlayerCustomSubtitlesTitle),
-                            subLabel: Text(context.localized.settingsPlayerCustomSubtitlesDesc),
-                            onTap: videoSettings.useLibass
-                                ? null
-                                : () {
-                                    showDialog(
-                                      context: context,
-                                      barrierDismissible: true,
-                                      useSafeArea: false,
-                                      builder: (context) => const SubtitleEditor(),
-                                    );
-                                  },
-                          ),
-                        AnimatedFadeSize(
-                          child: videoSettings.useLibass && videoSettings.hardwareAccel && Platform.isAndroid
-                              ? SettingsMessageBox(
-                                  context.localized.settingsPlayerMobileWarning,
-                                  messageType: MessageType.warning,
-                                )
-                              : Container(),
-                        ),
-                        SettingsListTile(
-                          label: Text(context.localized.settingsPlayerBufferSizeTitle),
-                          subLabel: Text(context.localized.settingsPlayerBufferSizeDesc),
-                          trailing: SizedBox(
-                              width: 70,
-                              child: IntInputField(
-                                suffix: 'MB',
-                                controller: TextEditingController(text: videoSettings.bufferSize.toString()),
-                                onSubmitted: (value) {
-                                  if (value != null) {
-                                    provider.setBufferSize(value);
-                                  }
-                                },
-                              )),
-                        ),
-                      ],
-                    ),
-                  PlayerOptions.libMDK => SettingsMessageBox(
-                      messageType: MessageType.info,
-                      "${context.localized.noVideoPlayerOptions}\n${context.localized.mdkExperimental}"),
-                  _ => const SizedBox.shrink()
-                },
+                      )
+                    ],
+                  );
+                }),
               ),
-            ],
+            AnimatedFadeSize(
+              child: switch (videoSettings.wantedPlayer) {
+                PlayerOptions.libMPV => Column(
+                    children: [
+                      SettingsListTile(
+                        label: Text(context.localized.settingsPlayerVideoHWAccelTitle),
+                        subLabel: Text(context.localized.settingsPlayerVideoHWAccelDesc),
+                        onTap: () => provider.setHardwareAccel(!videoSettings.hardwareAccel),
+                        trailing: Switch(
+                          value: videoSettings.hardwareAccel,
+                          onChanged: (value) => provider.setHardwareAccel(value),
+                        ),
+                      ),
+                      if (!kIsWeb)
+                        SettingsListTile(
+                          label: Text(context.localized.settingsPlayerNativeLibassAccelTitle),
+                          subLabel: Text(context.localized.settingsPlayerNativeLibassAccelDesc),
+                          onTap: () => provider.setUseLibass(!videoSettings.useLibass),
+                          trailing: Switch(
+                            value: videoSettings.useLibass,
+                            onChanged: (value) => provider.setUseLibass(value),
+                          ),
+                        ),
+                      if (!videoSettings.useLibass)
+                        SettingsListTile(
+                          label: Text(context.localized.settingsPlayerCustomSubtitlesTitle),
+                          subLabel: Text(context.localized.settingsPlayerCustomSubtitlesDesc),
+                          onTap: videoSettings.useLibass
+                              ? null
+                              : () {
+                                  showDialog(
+                                    context: context,
+                                    barrierDismissible: true,
+                                    useSafeArea: false,
+                                    builder: (context) => const SubtitleEditor(),
+                                  );
+                                },
+                        ),
+                      AnimatedFadeSize(
+                        child: videoSettings.useLibass && videoSettings.hardwareAccel && Platform.isAndroid
+                            ? SettingsMessageBox(
+                                context.localized.settingsPlayerMobileWarning,
+                                messageType: MessageType.warning,
+                              )
+                            : Container(),
+                      ),
+                      SettingsListTile(
+                        label: Text(context.localized.settingsPlayerBufferSizeTitle),
+                        subLabel: Text(context.localized.settingsPlayerBufferSizeDesc),
+                        trailing: SizedBox(
+                            width: 70,
+                            child: IntInputField(
+                              suffix: 'MB',
+                              controller: TextEditingController(text: videoSettings.bufferSize.toString()),
+                              onSubmitted: (value) {
+                                if (value != null) {
+                                  provider.setBufferSize(value);
+                                }
+                              },
+                            )),
+                      ),
+                    ],
+                  ),
+                PlayerOptions.nativePlayer => Column(
+                    children: [
+                      SettingsListTile(
+                        label: Text(context.localized.mediaTunnelingTitle),
+                        subLabel: Text(context.localized.mediaTunnelingDesc),
+                        onTap: () => provider.setMediaTunneling(!videoSettings.enableTunneling),
+                        trailing: Switch(
+                          value: videoSettings.enableTunneling,
+                          onChanged: (value) => provider.setMediaTunneling(value),
+                        ),
+                      ),
+                    ],
+                  ),
+                PlayerOptions.libMDK => SettingsMessageBox(
+                    messageType: MessageType.info,
+                    "${context.localized.noVideoPlayerOptions}\n${context.localized.mdkExperimental}"),
+              },
+            ),
             if (videoSettings.wantedPlayer != PlayerOptions.nativePlayer) ...[
               Column(
                 children: [

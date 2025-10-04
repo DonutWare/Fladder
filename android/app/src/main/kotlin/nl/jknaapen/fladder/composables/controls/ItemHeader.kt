@@ -32,8 +32,8 @@ fun ItemHeader(state: PlayableData?) {
                 contentDescription = title ?: "logo",
                 alignment = Alignment.CenterStart,
                 modifier = Modifier
-                    .fillMaxHeight(0.25f)
-                    .fillMaxWidth(0.5f)
+                    .fillMaxHeight(0.20f)
+                    .fillMaxWidth(0.45f)
             )
         } else {
             title?.let {

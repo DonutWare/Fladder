@@ -45,10 +45,13 @@ enum SegmentSkip {
 
 class PlayerSettings {
   PlayerSettings({
+    required this.enableTunneling,
     required this.skipTypes,
     required this.skipForward,
     required this.skipBackward,
   });
+
+  bool enableTunneling;
 
   Map<SegmentType, SegmentSkip> skipTypes;
 
@@ -58,6 +61,7 @@ class PlayerSettings {
 
   List<Object?> _toList() {
     return <Object?>[
+      enableTunneling,
       skipTypes,
       skipForward,
       skipBackward,
@@ -70,9 +74,10 @@ class PlayerSettings {
   static PlayerSettings decode(Object result) {
     result as List<Object?>;
     return PlayerSettings(
-      skipTypes: (result[0] as Map<Object?, Object?>?)!.cast<SegmentType, SegmentSkip>(),
-      skipForward: result[1]! as int,
-      skipBackward: result[2]! as int,
+      enableTunneling: result[0]! as bool,
+      skipTypes: (result[1] as Map<Object?, Object?>?)!.cast<SegmentType, SegmentSkip>(),
+      skipForward: result[2]! as int,
+      skipBackward: result[3]! as int,
     );
   }
 

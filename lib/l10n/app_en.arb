@@ -1344,5 +1344,7 @@
   "quickConnectEnterCodeDescription": "Enter the code below to login",
   "showMore": "Show more",
   "itemColorsTitle": "Item colors",
-  "itemColorsDesc": "Use item's primary color to theme the details page"
+  "itemColorsDesc": "Use item's primary color to theme the details page",
+  "mediaTunnelingTitle": "Media tunneling",
+  "mediaTunnelingDesc": "Enable media tunneling for native player"
 }

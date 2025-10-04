@@ -21,7 +21,6 @@ import androidx.core.content.getSystemService
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.Player
-import androidx.media3.common.TrackSelectionParameters
 import androidx.media3.common.Tracks
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DataSource
@@ -41,6 +40,7 @@ import androidx.media3.ui.PlayerView
 import io.github.peerless2012.ass.media.kt.buildWithAssSupport
 import io.github.peerless2012.ass.media.type.AssRenderType
 import nl.jknaapen.fladder.messengers.properlySetSubAndAudioTracks
+import nl.jknaapen.fladder.objects.PlayerSettingsObject
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.getAudioTracks
 import nl.jknaapen.fladder.utility.getSubtitleTracks
@@ -76,41 +76,37 @@ internal fun ExoPlayer(
 
     val audioAttributes = AudioAttributes.Builder()
         .setUsage(C.USAGE_MEDIA)
-        .setContentType(C.AUDIO_CONTENT_TYPE_MOVIE)
         .build()
 
     val renderersFactory = DefaultRenderersFactory(context)
         .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
         .setEnableDecoderFallback(true)
 
+    val trackSelector = DefaultTrackSelector(context).apply {
+        setParameters(buildUponParameters().apply {
+            setTunnelingEnabled(PlayerSettingsObject.settings.value?.enableTunneling ?: false)
+            setAllowInvalidateSelectionsOnRendererCapabilitiesChange(true)
+        })
+    }
+
     val exoPlayer = remember {
         ExoPlayer.Builder(context, renderersFactory)
-            .setTrackSelector(DefaultTrackSelector(context).apply {
-                setParameters(buildUponParameters().apply {
-                    setAudioOffloadPreferences(
-                        TrackSelectionParameters.AudioOffloadPreferences.DEFAULT.buildUpon().apply {
-                            setAudioOffloadMode(TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_ENABLED)
-                        }.build()
-                    )
-                    setAllowInvalidateSelectionsOnRendererCapabilitiesChange(true)
-                    setTunnelingEnabled(true)
-                })
-            })
-            .setMediaSourceFactory(
-                DefaultMediaSourceFactory(
-                    videoCache,
-                    extractorsFactory
-                ),
-            )
+            .setTrackSelector(trackSelector)
+            .setMediaSourceFactory(DefaultMediaSourceFactory(videoCache, extractorsFactory))
             .setAudioAttributes(audioAttributes, true)
             .setHandleAudioBecomingNoisy(true)
             .setPauseAtEndOfMediaItems(true)
             .setVideoScalingMode(C.VIDEO_SCALING_MODE_SCALE_TO_FIT)
-            .buildWithAssSupport(context, AssRenderType.LEGACY)
+            .buildWithAssSupport(
+                context,
+                renderersFactory = renderersFactory,
+                renderType = AssRenderType.LEGACY
+            )
     }
 
     DisposableEffect(exoPlayer) {
         val listener = object : Player.Listener {
+
             override fun onPlaybackStateChanged(playbackState: Int) {
                 videoHost.setPlaybackState(
                     PlaybackState(

@@ -19,6 +19,7 @@ mixin _$VideoPlayerSettingsModel implements DiagnosticableTreeMixin {
   bool get fillScreen;
   bool get hardwareAccel;
   bool get useLibass;
+  bool get enableTunneling;
   int get bufferSize;
   PlayerOptions? get playerOptions;
   double get internalVolume;
@@ -50,6 +51,7 @@ mixin _$VideoPlayerSettingsModel implements DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('fillScreen', fillScreen))
       ..add(DiagnosticsProperty('hardwareAccel', hardwareAccel))
       ..add(DiagnosticsProperty('useLibass', useLibass))
+      ..add(DiagnosticsProperty('enableTunneling', enableTunneling))
       ..add(DiagnosticsProperty('bufferSize', bufferSize))
       ..add(DiagnosticsProperty('playerOptions', playerOptions))
       ..add(DiagnosticsProperty('internalVolume', internalVolume))
@@ -64,7 +66,7 @@ mixin _$VideoPlayerSettingsModel implements DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys)';
+    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys)';
   }
 }
 
@@ -80,6 +82,7 @@ abstract mixin class $VideoPlayerSettingsModelCopyWith<$Res> {
       bool fillScreen,
       bool hardwareAccel,
       bool useLibass,
+      bool enableTunneling,
       int bufferSize,
       PlayerOptions? playerOptions,
       double internalVolume,
@@ -110,6 +113,7 @@ class _$VideoPlayerSettingsModelCopyWithImpl<$Res>
     Object? fillScreen = null,
     Object? hardwareAccel = null,
     Object? useLibass = null,
+    Object? enableTunneling = null,
     Object? bufferSize = null,
     Object? playerOptions = freezed,
     Object? internalVolume = null,
@@ -141,6 +145,10 @@ class _$VideoPlayerSettingsModelCopyWithImpl<$Res>
       useLibass: null == useLibass
           ? _self.useLibass
           : useLibass // ignore: cast_nullable_to_non_nullable
+              as bool,
+      enableTunneling: null == enableTunneling
+          ? _self.enableTunneling
+          : enableTunneling // ignore: cast_nullable_to_non_nullable
               as bool,
       bufferSize: null == bufferSize
           ? _self.bufferSize
@@ -285,6 +293,7 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             bool fillScreen,
             bool hardwareAccel,
             bool useLibass,
+            bool enableTunneling,
             int bufferSize,
             PlayerOptions? playerOptions,
             double internalVolume,
@@ -307,6 +316,7 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.fillScreen,
             _that.hardwareAccel,
             _that.useLibass,
+            _that.enableTunneling,
             _that.bufferSize,
             _that.playerOptions,
             _that.internalVolume,
@@ -343,6 +353,7 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             bool fillScreen,
             bool hardwareAccel,
             bool useLibass,
+            bool enableTunneling,
             int bufferSize,
             PlayerOptions? playerOptions,
             double internalVolume,
@@ -364,6 +375,7 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.fillScreen,
             _that.hardwareAccel,
             _that.useLibass,
+            _that.enableTunneling,
             _that.bufferSize,
             _that.playerOptions,
             _that.internalVolume,
@@ -399,6 +411,7 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             bool fillScreen,
             bool hardwareAccel,
             bool useLibass,
+            bool enableTunneling,
             int bufferSize,
             PlayerOptions? playerOptions,
             double internalVolume,
@@ -420,6 +433,7 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.fillScreen,
             _that.hardwareAccel,
             _that.useLibass,
+            _that.enableTunneling,
             _that.bufferSize,
             _that.playerOptions,
             _that.internalVolume,
@@ -446,6 +460,7 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
       this.fillScreen = false,
       this.hardwareAccel = true,
       this.useLibass = false,
+      this.enableTunneling = false,
       this.bufferSize = 32,
       this.playerOptions,
       this.internalVolume = 100,
@@ -478,6 +493,9 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
   @override
   @JsonKey()
   final bool useLibass;
+  @override
+  @JsonKey()
+  final bool enableTunneling;
   @override
   @JsonKey()
   final int bufferSize;
@@ -552,6 +570,7 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
       ..add(DiagnosticsProperty('fillScreen', fillScreen))
       ..add(DiagnosticsProperty('hardwareAccel', hardwareAccel))
       ..add(DiagnosticsProperty('useLibass', useLibass))
+      ..add(DiagnosticsProperty('enableTunneling', enableTunneling))
       ..add(DiagnosticsProperty('bufferSize', bufferSize))
       ..add(DiagnosticsProperty('playerOptions', playerOptions))
       ..add(DiagnosticsProperty('internalVolume', internalVolume))
@@ -566,7 +585,7 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys)';
+    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys)';
   }
 }
 
@@ -584,6 +603,7 @@ abstract mixin class _$VideoPlayerSettingsModelCopyWith<$Res>
       bool fillScreen,
       bool hardwareAccel,
       bool useLibass,
+      bool enableTunneling,
       int bufferSize,
       PlayerOptions? playerOptions,
       double internalVolume,
@@ -614,6 +634,7 @@ class __$VideoPlayerSettingsModelCopyWithImpl<$Res>
     Object? fillScreen = null,
     Object? hardwareAccel = null,
     Object? useLibass = null,
+    Object? enableTunneling = null,
     Object? bufferSize = null,
     Object? playerOptions = freezed,
     Object? internalVolume = null,
@@ -645,6 +666,10 @@ class __$VideoPlayerSettingsModelCopyWithImpl<$Res>
       useLibass: null == useLibass
           ? _self.useLibass
           : useLibass // ignore: cast_nullable_to_non_nullable
+              as bool,
+      enableTunneling: null == enableTunneling
+          ? _self.enableTunneling
+          : enableTunneling // ignore: cast_nullable_to_non_nullable
               as bool,
       bufferSize: null == bufferSize
           ? _self.bufferSize
