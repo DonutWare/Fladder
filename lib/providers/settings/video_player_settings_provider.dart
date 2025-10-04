@@ -64,19 +64,15 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
   void setBufferSize(int? value) => state = state.copyWith(bufferSize: value ?? 32);
   void setFitType(BoxFit? value) => state = state.copyWith(videoFit: value ?? BoxFit.contain);
 
-  String? get _screenshotsFolder => !kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)
-      ? ref.read(videoPlayerSettingsProvider.select((value) => value.screenshotsPath))
-      : "";
-
-  String? get screenshotsFolder => _screenshotsFolder;
+  String? get screenshotsFolder => !kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)
+    ? ref.read(videoPlayerSettingsProvider.select((value) => value.screenshotsPath))
+    : "";
   void setScreenshotsPath(String? path) => state = state.copyWith(screenshotsPath: path);
 
-  ScreenshotFormat get _screenshotFormat => ref.read(videoPlayerSettingsProvider.select((value) => value.screenshotFormat));
-  ScreenshotFormat get screenshotFormat => _screenshotFormat;
+  ScreenshotFormat get screenshotFormat => ref.read(videoPlayerSettingsProvider.select((value) => value.screenshotFormat));
   void setScreenshotFormat(ScreenshotFormat format) => state = state.copyWith(screenshotFormat: format);
 
-  int get _screenshotNamePadding => ref.read(videoPlayerSettingsProvider.select((value) => value.screenshotNamePadding));
-  int get screenshotNamePadding => _screenshotNamePadding;
+  int get screenshotNamePadding => ref.read(videoPlayerSettingsProvider.select((value) => value.screenshotNamePadding));
   void setscreenshotNamePadding(int amount) => state = state.copyWith(screenshotNamePadding: amount);
 
   void setVolume(double value) {
