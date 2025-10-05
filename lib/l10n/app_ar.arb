@@ -1487,5 +1487,15 @@
                 "type": "double"
             }
         }
-    }
+    },
+    "showMore": "عرض المزيد",
+    "@showMore": {},
+    "itemColorsTitle": "ألوان العناصر",
+    "@itemColorsTitle": {},
+    "itemColorsDesc": "استخدام اللون الأساسي للعنصر لتنسيق صفحة التفاصيل",
+    "@itemColorsDesc": {},
+    "mediaTunnelingTitle": "نفق الوسائط",
+    "@mediaTunnelingTitle": {},
+    "mediaTunnelingDesc": "تمكين نفق الوسائط لمشغل الوسائط الأصلي",
+    "@mediaTunnelingDesc": {}
 }
