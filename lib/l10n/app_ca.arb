@@ -1487,5 +1487,15 @@
     "quickConnectLoginUsingCode": "Utilitzant quick connect",
     "@quickConnectLoginUsingCode": {},
     "quickConnectEnterCodeDescription": "Introduir el codi de sota per iniciar sessió",
-    "@quickConnectEnterCodeDescription": {}
+    "@quickConnectEnterCodeDescription": {},
+    "showMore": "Mostrar més",
+    "@showMore": {},
+    "itemColorsTitle": "Color dels elements",
+    "@itemColorsTitle": {},
+    "itemColorsDesc": "Utilitzar el color primari dels elements com a tema en la pàgina de detalls",
+    "@itemColorsDesc": {},
+    "mediaTunnelingTitle": "Túnel de mitjans",
+    "@mediaTunnelingTitle": {},
+    "mediaTunnelingDesc": "Activar túnel de mitjans per el reproductor nadiu",
+    "@mediaTunnelingDesc": {}
 }
