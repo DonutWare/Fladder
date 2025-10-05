@@ -46,6 +46,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.onKeyEvent
@@ -96,6 +97,7 @@ fun CustomVideoControls(
 
     val buffering by VideoPlayerObject.buffering.collectAsState(true)
     val playing by VideoPlayerObject.playing.collectAsState(false)
+    val controlsPadding = 32.dp
 
     ImmersiveSystemBars(isImmersive = !showControls)
 
@@ -131,9 +133,12 @@ fun CustomVideoControls(
                 if (keyEvent.type != KeyEventType.KeyDown) return@onKeyEvent false
                 if (!showControls) {
                     bottomControlFocusRequester.requestFocus()
+                    updateLastInteraction()
+                    return@onKeyEvent true
+                } else {
+                    updateLastInteraction()
+                    return@onKeyEvent false
                 }
-                updateLastInteraction()
-                return@onKeyEvent false
             }
             .clickable(
                 indication = null,
@@ -170,7 +175,7 @@ fun CustomVideoControls(
                             ),
                         )
                         .safeContentPadding(),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp, alignment = Alignment.Start)
+                    horizontalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.Start)
                 ) {
                     Column(
                         modifier = Modifier.weight(1f),
@@ -203,7 +208,7 @@ fun CustomVideoControls(
                 // Progress Bar
                 Column(
                     modifier = Modifier
-                        .padding(horizontal = 16.dp)
+                        .padding(horizontal = controlsPadding)
                         .displayCutoutPadding(),
                 ) {
                     ProgressBar(
@@ -227,8 +232,8 @@ fun CustomVideoControls(
                             ),
                         )
                         .displayCutoutPadding()
-                        .padding(horizontal = 16.dp)
-                        .padding(top = 8.dp, bottom = 16.dp)
+                        .padding(horizontal = controlsPadding)
+                        .padding(top = 8.dp, bottom = controlsPadding)
                 ) {
                     LeftButtons(
                         openChapterSelection = {
@@ -245,6 +250,9 @@ fun CustomVideoControls(
             CircularProgressIndicator(
                 modifier = Modifier
                     .align(alignment = Alignment.Center)
+                    .size(64.dp),
+                strokeCap = StrokeCap.Round,
+                strokeWidth = 12.dp
             )
         }
     }
@@ -302,7 +310,7 @@ fun PlaybackButtons(
             .padding(horizontal = 4.dp, vertical = 6.dp)
             .wrapContentWidth(),
         horizontalArrangement = Arrangement.spacedBy(
-            8.dp,
+            16.dp,
             alignment = Alignment.CenterHorizontally
         ),
         verticalAlignment = Alignment.CenterVertically,
@@ -315,7 +323,6 @@ fun PlaybackButtons(
                 Iconsax.Filled.Backward,
                 modifier = Modifier.size(32.dp),
                 contentDescription = previousVideo,
-                tint = Color.White
             )
         }
         CustomIconButton(

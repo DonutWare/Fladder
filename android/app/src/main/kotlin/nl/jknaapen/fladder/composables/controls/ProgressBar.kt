@@ -4,6 +4,8 @@ import MediaSegment
 import MediaSegmentType
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.detectDragGestures
@@ -57,6 +59,7 @@ import androidx.compose.ui.input.key.type
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastCoerceIn
 import androidx.media3.exoplayer.ExoPlayer
@@ -95,7 +98,9 @@ internal fun ProgressBar(
         }
     }
 
-    Column {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(12.dp, alignment = Alignment.CenterVertically)
+    ) {
         val playbackData by VideoPlayerObject.implementation.playbackData.collectAsState(null)
         if (scrubbingTimeLine)
             FilmstripTrickPlayOverlay(
@@ -108,20 +113,23 @@ internal fun ProgressBar(
                 trickPlayModel = playbackData?.trickPlayModel
             )
         Row(
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             val subTitle = playableData?.subTitle
             subTitle?.let {
                 Text(
                     text = it,
-                    style = MaterialTheme.typography.bodyLarge.copy(color = Color.White),
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold
+                    ),
                 )
             }
             VideoEndTime()
         }
         Row(
             horizontalArrangement = Arrangement.spacedBy(
-                8.dp,
+                16.dp,
                 alignment = Alignment.CenterHorizontally
             ),
             verticalAlignment = Alignment.CenterVertically,
@@ -130,7 +138,9 @@ internal fun ProgressBar(
             Text(
                 formatTime(currentPosition),
                 color = Color.White,
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleLarge.copy(
+                    fontWeight = FontWeight.Bold
+                )
             )
             SimpleProgressBar(
                 player,
@@ -153,7 +163,9 @@ internal fun ProgressBar(
                     )
                 ),
                 color = Color.White,
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleLarge.copy(
+                    fontWeight = FontWeight.Bold
+                )
             )
         }
     }
@@ -200,7 +212,7 @@ internal fun RowScope.SimpleProgressBar(
                     width = it.size.width
                 }
             )
-            .heightIn(min = 26.dp)
+            .heightIn(min = 42.dp)
             .pointerInput(Unit) {
                 detectTapGestures { offset ->
                     onUserInteraction()
@@ -241,14 +253,19 @@ internal fun RowScope.SimpleProgressBar(
             modifier = Modifier
                 .focusable(enabled = false)
                 .fillMaxWidth()
-                .height(8.dp)
+                .height(10.dp)
                 .background(
-                    color = Color.Black.copy(
+                    color = Color.White.copy(
                         alpha = 0.15f
                     ),
                     shape = slideBarShape
                 ),
         ) {
+
+            val animatedBarColor by animateColorAsState(
+                if (thumbFocused) MaterialTheme.colorScheme.primary else Color.White,
+                label = "progressBarColor"
+            )
             Box(
                 modifier = Modifier
                     .focusable(enabled = false)
@@ -256,9 +273,7 @@ internal fun RowScope.SimpleProgressBar(
                     .fillMaxWidth(progress)
                     .padding(end = 8.dp)
                     .background(
-                        color = if (thumbFocused) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.primary.copy(
-                            alpha = 0.75f
-                        ),
+                        color = animatedBarColor,
                         shape = slideBarShape
                     )
             )
@@ -292,10 +307,10 @@ internal fun RowScope.SimpleProgressBar(
                             .focusable(enabled = false)
                             .graphicsLayer {
                                 translationX = startPx
-                                translationY = 16.dp.toPx()
+                                translationY = 20.dp.toPx()
                             }
                             .width(segDp)
-                            .height(6.dp)
+                            .height(8.dp)
                             .background(
                                 color = segment.color.copy(alpha = 0.75f),
                                 shape = RoundedCornerShape(8.dp)
@@ -318,6 +333,7 @@ internal fun RowScope.SimpleProgressBar(
                 val durMs = duration.toDouble().coerceAtLeast(1.0)
                 val startPx = (width * (segStartMs / durMs)).toFloat()
 
+
                 Box(
                     modifier = Modifier
                         .align(Alignment.CenterStart)
@@ -331,13 +347,19 @@ internal fun RowScope.SimpleProgressBar(
                         .aspectRatio(ratio = 1f)
                         .background(
                             color = if (isAfterCurrentPositon) Color.White.copy(
-                                alpha = 0.5f
+                                alpha = 0.15f
                             ) else MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.7f),
                             shape = CircleShape
                         )
                 )
             }
         }
+
+        val animatedThumbHeight by animateDpAsState(
+            if (thumbFocused) 28.dp else 14.dp,
+            label = "Thumb height"
+        )
+
 
         //Thumb
         Box(
@@ -414,8 +436,8 @@ internal fun RowScope.SimpleProgressBar(
                     color = Color.White,
                     shape = CircleShape,
                 )
-                .width(8.dp)
-                .height(if (thumbFocused) 21.dp else 8.dp)
+                .width(14.dp)
+                .height(animatedThumbHeight)
         )
     }
 }

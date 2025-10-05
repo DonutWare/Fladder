@@ -219,15 +219,17 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
           onFocusChange: (value) {
             if (value) {
               final nodesOnSameRow = _nodesInRow(parentNode);
-              final focusNode = lastFocused ?? _firstFullyVisibleNode(context, nodesOnSameRow);
+              final currentNode =
+                  nodesOnSameRow.contains(lastFocused) ? lastFocused : _firstFullyVisibleNode(context, nodesOnSameRow);
 
-              if (focusNode != null) {
+              if (currentNode != null) {
+                lastFocused = currentNode;
                 if (widget.onFocused != null) {
-                  widget.onFocused!(nodesOnSameRow.indexOf(focusNode));
+                  widget.onFocused!(nodesOnSameRow.indexOf(currentNode));
                 } else {
                   context.ensureVisible();
                 }
-                focusNode.requestFocus();
+                currentNode.requestFocus();
               }
             }
           },
@@ -240,7 +242,7 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
             child: FocusTraversalGroup(
               policy: HorizontalRailFocus(
                 parentNode: parentNode,
-                throttle: Throttler(duration: const Duration(milliseconds: 125)),
+                throttle: Throttler(duration: const Duration(milliseconds: 100)),
                 onFocused: (node) {
                   lastFocused = node;
                   final nodesOnSameRow = _nodesInRow(parentNode);

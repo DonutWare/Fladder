@@ -9,6 +9,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -39,6 +40,9 @@ fun VideoEndTime() {
 
     Text(
         text = "ends at $formattedEnd",
-        style = MaterialTheme.typography.bodyLarge.copy(color = Color.White),
+        style = MaterialTheme.typography.titleLarge.copy(
+            color = Color.White,
+            fontWeight = FontWeight.Bold
+        ),
     )
 }

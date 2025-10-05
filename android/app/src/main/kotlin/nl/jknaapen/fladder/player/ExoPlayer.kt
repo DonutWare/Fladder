@@ -21,6 +21,7 @@ import androidx.core.content.getSystemService
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.Player
+import androidx.media3.common.TrackSelectionParameters
 import androidx.media3.common.Tracks
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DataSource
@@ -76,6 +77,7 @@ internal fun ExoPlayer(
 
     val audioAttributes = AudioAttributes.Builder()
         .setUsage(C.USAGE_MEDIA)
+        .setContentType(C.AUDIO_CONTENT_TYPE_MOVIE)
         .build()
 
     val renderersFactory = DefaultRenderersFactory(context)
@@ -84,6 +86,11 @@ internal fun ExoPlayer(
 
     val trackSelector = DefaultTrackSelector(context).apply {
         setParameters(buildUponParameters().apply {
+            setAudioOffloadPreferences(
+                TrackSelectionParameters.AudioOffloadPreferences.DEFAULT.buildUpon().apply {
+                    setAudioOffloadMode(TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_ENABLED)
+                }.build()
+            )
             setTunnelingEnabled(PlayerSettingsObject.settings.value?.enableTunneling ?: false)
             setAllowInvalidateSelectionsOnRendererCapabilitiesChange(true)
         })
@@ -100,6 +107,7 @@ internal fun ExoPlayer(
             .buildWithAssSupport(
                 context,
                 renderersFactory = renderersFactory,
+                extractorsFactory = extractorsFactory,
                 renderType = AssRenderType.LEGACY
             )
     }

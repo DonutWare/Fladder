@@ -34,17 +34,26 @@ fun Modifier.highlightOnFocus(
 ): Modifier = composed {
     var hasFocus by remember { mutableStateOf(false) }
     val highlightModifier = remember {
-        Modifier
-            .clip(RoundedCornerShape(8.dp))
-            .background(
-                color = color.copy(alpha = 0.25f),
-                shape = shape,
-            )
-            .border(
-                width = width,
-                color = color.copy(alpha = 0.5f),
-                shape = shape
-            )
+        if (width != 0.dp) {
+            Modifier
+                .clip(RoundedCornerShape(8.dp))
+                .background(
+                    color = color.copy(alpha = 0.25f),
+                    shape = shape,
+                )
+                .border(
+                    width = width,
+                    color = color.copy(alpha = 0.5f),
+                    shape = shape
+                )
+        } else {
+            Modifier
+                .clip(RoundedCornerShape(8.dp))
+                .background(
+                    color = color.copy(alpha = 0.25f),
+                    shape = shape,
+                )
+        }
     }
 
     this

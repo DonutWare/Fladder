@@ -44,6 +44,8 @@ internal fun ChapterSelectionSheet(
     val chapters = playbackData?.chapters ?: listOf()
     val currentPosition by VideoPlayerObject.position.collectAsState(0L)
 
+    if (chapters.isEmpty()) return
+
     var currentChapter: Chapter? by remember {
         mutableStateOf(
             chapters[chapters.indexOfCurrent(
@@ -54,7 +56,7 @@ internal fun ChapterSelectionSheet(
 
     val lazyListState = rememberLazyListState()
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(chapters) {
         lazyListState.animateScrollToItem(
             chapters.indexOfCurrent(currentPosition)
         )

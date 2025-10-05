@@ -51,7 +51,6 @@ import kotlin.time.Duration.Companion.milliseconds
 internal fun BoxScope.SegmentSkipOverlay(
     modifier: Modifier = Modifier,
 ) {
-
     val isAndroidTV = leanBackEnabled(LocalContext.current)
     val focusRequester = remember { FocusRequester() }
 
