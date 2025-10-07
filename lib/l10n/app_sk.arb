@@ -858,5 +858,93 @@
     "syncRemoveDataDesc": "Odstrániť synchronizované video dáta? Toto je trvalé a súbory budete musieť znova synchronizovať",
     "@syncRemoveDataDesc": {},
     "syncRemoveDataTitle": "Odstrániť synchronizované dáta?",
-    "@syncRemoveDataTitle": {}
+    "@syncRemoveDataTitle": {},
+    "syncedItems": "Synchronizované položky",
+    "@syncedItems": {},
+    "tag": "{count, plural, one{Tag} other{Tagy}}",
+    "@tag": {
+        "description": "tag",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "theme": "Téma",
+    "@theme": {},
+    "themeColor": "Farba témy",
+    "@themeColor": {},
+    "themeModeDark": "Tmavé",
+    "@themeModeDark": {},
+    "themeModeLight": "Svetlé",
+    "@themeModeLight": {},
+    "themeModeSystem": "Systémové",
+    "@themeModeSystem": {},
+    "timeAndAnnotation": "{minutes} a {seconds}",
+    "@timeAndAnnotation": {
+        "description": "timeAndAnnotation",
+        "placeholders": {
+            "minutes": {
+                "type": "String"
+            },
+            "seconds": {
+                "type": "String"
+            }
+        }
+    },
+    "timeOut": "Časový limit",
+    "@timeOut": {},
+    "totalSize": "Celková veľkosť: {size}",
+    "@totalSize": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+    "type": "{count, plural, other{Typy} one{Typ}}",
+    "@type": {
+        "description": "type",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "unPlayed": "Neprehrané",
+    "@unPlayed": {},
+    "unableToConnectHost": "Nie je možné sa pripojiť k hostiteľovi",
+    "@unableToConnectHost": {},
+    "unableToReverseAction": "Túto akciu nie je možné vrátiť späť. Odstráni všetky nastavenia.",
+    "@unableToReverseAction": {},
+    "unknown": "Neznámy",
+    "@unknown": {},
+    "useDefaults": "Použiť predvolené nastavenia",
+    "@useDefaults": {},
+    "userName": "Meno používateľa",
+    "@userName": {},
+    "video": "Video",
+    "@video": {},
+    "videoScaling": "Škálovanie videa",
+    "@videoScaling": {},
+    "videoScalingContain": "Obsahuje",
+    "@videoScalingContain": {},
+    "videoScalingCover": "Vyplniť",
+    "@videoScalingCover": {},
+    "videoScalingFill": "Vyplniť",
+    "@videoScalingFill": {},
+    "videoScalingFillScreenDesc": "Vyplniť navigačnú a stavovú lištu",
+    "@videoScalingFillScreenDesc": {},
+    "videoScalingFillScreenTitle": "Vyplniť obrazovku",
+    "@videoScalingFillScreenTitle": {},
+    "videoScalingFitHeight": "Prispôsobiť výške",
+    "@videoScalingFitHeight": {},
+    "videoScalingFitWidth": "Prispôsobiť šírke",
+    "@videoScalingFitWidth": {},
+    "videoScalingScaleDown": "Zmenšiť",
+    "@videoScalingScaleDown": {},
+    "viewPhotos": "Zobraziť fotografie",
+    "@viewPhotos": {}
 }
