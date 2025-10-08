@@ -1487,5 +1487,15 @@
     "quickConnectLoginUsingCode": "Использовать быстрое подключение",
     "@quickConnectLoginUsingCode": {},
     "quickConnectEnterCodeDescription": "Введите код ниже, чтобы войти",
-    "@quickConnectEnterCodeDescription": {}
+    "@quickConnectEnterCodeDescription": {},
+    "showMore": "Показать еще",
+    "@showMore": {},
+    "itemColorsTitle": "Цвет элементов",
+    "@itemColorsTitle": {},
+    "itemColorsDesc": "Использовать основной цвет элемента для оформления страницы подробностей",
+    "@itemColorsDesc": {},
+    "mediaTunnelingTitle": "Туннелирование мультимедиа",
+    "@mediaTunnelingTitle": {},
+    "mediaTunnelingDesc": "Включить туннелирование мультимедиа для встроенного плеера",
+    "@mediaTunnelingDesc": {}
 }
