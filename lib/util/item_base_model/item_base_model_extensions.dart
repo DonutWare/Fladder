@@ -42,6 +42,7 @@ extension ItemBaseModelsBooleans on List<ItemBaseModel> {
   }
 
   FladderItemType get getMostCommonType {
+    if (isEmpty) return FladderItemType.movie;
     final Map<FladderItemType, int> counts = {};
 
     for (final item in this) {
