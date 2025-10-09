@@ -74,6 +74,7 @@ class OverviewHeader extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: crossAlignment,
           mainAxisSize: MainAxisSize.min,
+          spacing: 16,
           children: [
             Flexible(
               child: ExcludeFocus(
@@ -194,7 +195,7 @@ class OverviewHeader extends ConsumerWidget {
                   ],
                 ),
               ),
-          ].addInBetween(const SizedBox(height: 21)),
+          ],
         ),
       ),
     );

@@ -52,6 +52,7 @@ class FocusButton extends StatefulWidget {
   final Function(TapDownDetails)? onSecondaryTapDown;
   final bool darkOverlay;
   final Function(bool focus)? onFocusChanged;
+  final BorderRadiusGeometry? borderRadius;
 
   const FocusButton({
     this.child,
@@ -63,6 +64,7 @@ class FocusButton extends StatefulWidget {
     this.onSecondaryTapDown,
     this.darkOverlay = true,
     this.onFocusChanged,
+    this.borderRadius,
     super.key,
   });
 
@@ -176,7 +178,7 @@ class FocusButtonState extends State<FocusButton> {
                                   .primaryContainer
                                   .withValues(alpha: widget.darkOverlay ? 0.1 : 0),
                               border: Border.all(width: 3, color: Theme.of(context).colorScheme.onPrimaryContainer),
-                              borderRadius: FladderTheme.smallShape.borderRadius,
+                              borderRadius: widget.borderRadius ?? FladderTheme.smallShape.borderRadius,
                             ),
                           ),
                         ),
