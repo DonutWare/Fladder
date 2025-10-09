@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -34,30 +37,32 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
       ref.read(videoPlayerProvider.notifier).init();
     }
     final userData = ref.read(userProvider);
-    pigeon.PlayerSettingsPigeon().sendPlayerSettings(
-      pigeon.PlayerSettings(
-        enableTunneling: value.enableTunneling,
-        skipTypes: value.segmentSkipSettings.map(
-          (key, value) => MapEntry(
-            switch (key) {
-              MediaSegmentType.unknown => pigeon.SegmentType.intro,
-              MediaSegmentType.commercial => pigeon.SegmentType.commercial,
-              MediaSegmentType.preview => pigeon.SegmentType.preview,
-              MediaSegmentType.recap => pigeon.SegmentType.recap,
-              MediaSegmentType.outro => pigeon.SegmentType.outro,
-              MediaSegmentType.intro => pigeon.SegmentType.intro,
-            },
-            switch (value) {
-              SegmentSkip.none => pigeon.SegmentSkip.none,
-              SegmentSkip.askToSkip => pigeon.SegmentSkip.ask,
-              SegmentSkip.skip => pigeon.SegmentSkip.skip,
-            },
+    if (!kIsWeb && Platform.isAndroid) {
+      pigeon.PlayerSettingsPigeon().sendPlayerSettings(
+        pigeon.PlayerSettings(
+          enableTunneling: value.enableTunneling,
+          skipTypes: value.segmentSkipSettings.map(
+            (key, value) => MapEntry(
+              switch (key) {
+                MediaSegmentType.unknown => pigeon.SegmentType.intro,
+                MediaSegmentType.commercial => pigeon.SegmentType.commercial,
+                MediaSegmentType.preview => pigeon.SegmentType.preview,
+                MediaSegmentType.recap => pigeon.SegmentType.recap,
+                MediaSegmentType.outro => pigeon.SegmentType.outro,
+                MediaSegmentType.intro => pigeon.SegmentType.intro,
+              },
+              switch (value) {
+                SegmentSkip.none => pigeon.SegmentSkip.none,
+                SegmentSkip.askToSkip => pigeon.SegmentSkip.ask,
+                SegmentSkip.skip => pigeon.SegmentSkip.skip,
+              },
+            ),
           ),
+          skipBackward: (userData?.userSettings?.skipBackDuration ?? const Duration(seconds: 15)).inMilliseconds,
+          skipForward: (userData?.userSettings?.skipForwardDuration ?? const Duration(seconds: 30)).inMilliseconds,
         ),
-        skipBackward: (userData?.userSettings?.skipBackDuration ?? const Duration(seconds: 15)).inMilliseconds,
-        skipForward: (userData?.userSettings?.skipForwardDuration ?? const Duration(seconds: 30)).inMilliseconds,
-      ),
-    );
+      );
+    }
   }
 
   void setScreenBrightness(double? value) async {

@@ -107,6 +107,7 @@ class CustomKeyboardState extends State<CustomKeyboardWrapper> {
           color: Theme.of(context).colorScheme.surface,
           alignment: Alignment.center,
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               AnimatedSize(
                 duration: const Duration(milliseconds: 125),
