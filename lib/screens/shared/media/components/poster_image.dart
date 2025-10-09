@@ -6,7 +6,6 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/models/book_model.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
-import 'package:fladder/models/items/movie_model.dart';
 import 'package:fladder/models/items/photos_model.dart';
 import 'package:fladder/models/items/series_model.dart';
 import 'package:fladder/screens/shared/media/components/poster_placeholder.dart';
@@ -207,7 +206,7 @@ class _PosterImageState extends ConsumerState<PosterImage> {
                 ),
               ),
             if ((widget.poster.unPlayedItemCount != null && widget.poster is SeriesModel) ||
-                (widget.poster is MovieModel && !widget.poster.unWatched))
+                (widget.poster.playAble && !widget.poster.unWatched))
               IgnorePointer(
                 child: Align(
                   alignment: Alignment.topRight,
