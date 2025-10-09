@@ -1497,5 +1497,9 @@
     "mediaTunnelingTitle": "Túnel de mitjans",
     "@mediaTunnelingTitle": {},
     "mediaTunnelingDesc": "Activar túnel de mitjans per el reproductor nadiu",
-    "@mediaTunnelingDesc": {}
+    "@mediaTunnelingDesc": {},
+    "clientSettingsUseSystemIMETitle": "Utilitzar el teclat del sistema",
+    "@clientSettingsUseSystemIMETitle": {},
+    "clientSettingsUseSystemIMEDesc": "Utitzar el teclat per defecte proporcionat per el vostre sistema",
+    "@clientSettingsUseSystemIMEDesc": {}
 }
