@@ -35,6 +35,7 @@ fun SubtitlePicker(
     val listState = rememberLazyListState()
 
     LaunchedEffect(selectedIndex) {
+        if (selectedIndex == -1) return@LaunchedEffect
         listState.scrollToItem(
             subTitles.indexOfFirst { it.index == selectedIndex.toLong() }
         )
@@ -52,15 +53,16 @@ fun SubtitlePicker(
             verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
             item {
+                val selectedOff = -1 == selectedIndex
                 TrackButton(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .defaultSelected(-1 == selectedIndex),
+                        .defaultSelected(selectedOff),
                     onClick = {
                         VideoPlayerObject.setSubtitleTrackIndex(-1)
                         player.clearSubtitleTrack()
                     },
-                    selected = -1 == selectedIndex
+                    selected = selectedOff
                 ) {
                     Column(
                         horizontalAlignment = Alignment.Start,

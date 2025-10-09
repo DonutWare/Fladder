@@ -1346,5 +1346,7 @@
   "itemColorsTitle": "Item colors",
   "itemColorsDesc": "Use item's primary color to theme the details page",
   "mediaTunnelingTitle": "Media tunneling",
-  "mediaTunnelingDesc": "Enable media tunneling for native player"
+  "mediaTunnelingDesc": "Enable media tunneling for native player",
+  "clientSettingsUseSystemIMETitle": "Use system keyboard",
+  "clientSettingsUseSystemIMEDesc": "Use the built-in keyboard provided by your system"
 }

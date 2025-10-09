@@ -63,24 +63,26 @@ class _DetailedBannerState extends ConsumerState<DetailedBanner> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Flexible(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 4),
-                  child: FractionallySizedBox(
-                    widthFactor: AdaptiveLayout.viewSizeOf(context) <= ViewSize.phone ? 1.0 : 0.55,
-                    child: OverviewHeader(
-                      name: selectedPoster.parentBaseModel.name,
-                      subTitle: selectedPoster.label(context),
-                      image: selectedPoster.getPosters,
-                      logoAlignment: AdaptiveLayout.viewSizeOf(context) <= ViewSize.phone
-                          ? Alignment.center
-                          : Alignment.centerLeft,
-                      summary: selectedPoster.overview.summary,
-                      productionYear: selectedPoster.overview.productionYear,
-                      runTime: selectedPoster.overview.runTime,
-                      genres: selectedPoster.overview.genreItems,
-                      studios: selectedPoster.overview.studios,
-                      officialRating: selectedPoster.overview.parentalRating,
-                      communityRating: selectedPoster.overview.communityRating,
+                child: ExcludeFocus(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 4),
+                    child: FractionallySizedBox(
+                      widthFactor: AdaptiveLayout.viewSizeOf(context) <= ViewSize.phone ? 1.0 : 0.55,
+                      child: OverviewHeader(
+                        name: selectedPoster.parentBaseModel.name,
+                        subTitle: selectedPoster.label(context),
+                        image: selectedPoster.getPosters,
+                        logoAlignment: AdaptiveLayout.viewSizeOf(context) <= ViewSize.phone
+                            ? Alignment.center
+                            : Alignment.centerLeft,
+                        summary: selectedPoster.overview.summary,
+                        productionYear: selectedPoster.overview.productionYear,
+                        runTime: selectedPoster.overview.runTime,
+                        genres: selectedPoster.overview.genreItems,
+                        studios: selectedPoster.overview.studios,
+                        officialRating: selectedPoster.overview.parentalRating,
+                        communityRating: selectedPoster.overview.communityRating,
+                      ),
                     ),
                   ),
                 ),

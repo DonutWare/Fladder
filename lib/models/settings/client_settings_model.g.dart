@@ -46,6 +46,7 @@ _ClientSettingsModel _$ClientSettingsModelFromJson(Map<String, dynamic> json) =>
           BackgroundType.blurred,
       checkForUpdates: json['checkForUpdates'] as bool? ?? true,
       usePosterForLibrary: json['usePosterForLibrary'] as bool? ?? false,
+      useSystemIME: json['useSystemIME'] as bool? ?? false,
       lastViewedUpdate: json['lastViewedUpdate'] as String?,
       libraryPageSize: (json['libraryPageSize'] as num?)?.toInt(),
       shortcuts: (json['shortcuts'] as Map<String, dynamic>?)?.map(
@@ -81,6 +82,7 @@ Map<String, dynamic> _$ClientSettingsModelToJson(
       'backgroundImage': _$BackgroundTypeEnumMap[instance.backgroundImage]!,
       'checkForUpdates': instance.checkForUpdates,
       'usePosterForLibrary': instance.usePosterForLibrary,
+      'useSystemIME': instance.useSystemIME,
       'lastViewedUpdate': instance.lastViewedUpdate,
       'libraryPageSize': instance.libraryPageSize,
       'shortcuts': instance.shortcuts

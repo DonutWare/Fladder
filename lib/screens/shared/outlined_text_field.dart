@@ -1,12 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/providers/arguments_provider.dart';
+import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/theme.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/focus_provider.dart';
+import 'package:fladder/widgets/keyboard/custom_keyboard.dart';
 import 'package:fladder/widgets/shared/ensure_visible.dart';
 
 class OutlinedTextField extends ConsumerStatefulWidget {
@@ -18,6 +23,7 @@ class OutlinedTextField extends ConsumerStatefulWidget {
   final Function()? onTap;
   final Function(String value)? onChanged;
   final Function(String value)? onSubmitted;
+  final FutureOr<List<String>> Function(String query)? searchQuery;
   final List<String>? autoFillHints;
   final List<TextInputFormatter>? inputFormatters;
   final bool autocorrect;
@@ -42,6 +48,7 @@ class OutlinedTextField extends ConsumerStatefulWidget {
     this.onTap,
     this.onChanged,
     this.onSubmitted,
+    this.searchQuery,
     this.fillColor,
     this.style,
     this.borderWidth = 1,
@@ -71,11 +78,15 @@ class _OutlinedTextFieldState extends ConsumerState<OutlinedTextField> {
         hasFocus = _wrapperFocus.hasFocus;
         if (hasFocus) {
           context.ensureVisible();
+          if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer) {
+            _textFocus.requestFocus();
+          }
         }
       });
     });
 
   bool hasFocus = false;
+  bool keyboardFocus = false;
 
   @override
   void dispose() {
@@ -97,16 +108,79 @@ class _OutlinedTextFieldState extends ConsumerState<OutlinedTextField> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final useCustomKeyboard = ref.watch(argumentsStateProvider.select((value) => value.leanBackMode)) &&
+          ref.watch(clientSettingsProvider.select((value) => !value.useSystemIME));
+      if (widget.autoFocus) {
+        if (useCustomKeyboard) {
+          _wrapperFocus.requestFocus();
+        } else {
+          _textFocus.requestFocus();
+        }
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final isPasswordField = widget.keyboardType == TextInputType.visiblePassword;
-    final leanBackMode = ref.watch(argumentsStateProvider).leanBackMode;
-    if (widget.autoFocus) {
-      if (leanBackMode) {
-        _wrapperFocus.requestFocus();
-      } else {
-        _textFocus.requestFocus();
-      }
-    }
+    final useCustomKeyboard = ref.watch(argumentsStateProvider.select((value) => value.leanBackMode)) &&
+        ref.watch(clientSettingsProvider.select((value) => !value.useSystemIME));
+
+    final textField = TextField(
+      controller: widget.controller,
+      onChanged: widget.onChanged,
+      focusNode: _textFocus,
+      onTap: widget.onTap,
+      readOnly: useCustomKeyboard,
+      autofillHints: widget.autoFillHints,
+      keyboardType: widget.keyboardType,
+      autocorrect: widget.autocorrect,
+      onSubmitted: widget.onSubmitted != null
+          ? (value) {
+              widget.onSubmitted?.call(value);
+              Future.microtask(() async {
+                await Future.delayed(const Duration(milliseconds: 125));
+                _wrapperFocus.requestFocus();
+              });
+            }
+          : null,
+      textInputAction: widget.textInputAction,
+      obscureText: isPasswordField ? _obscureText : false,
+      style: widget.style,
+      maxLines: widget.maxLines,
+      inputFormatters: widget.inputFormatters,
+      textAlign: widget.textAlign,
+      canRequestFocus: true,
+      decoration: widget.decoration ??
+          InputDecoration(
+            border: InputBorder.none,
+            filled: widget.fillColor != null,
+            fillColor: widget.fillColor,
+            labelText: widget.label,
+            suffix: widget.suffix != null
+                ? Padding(
+                    padding: const EdgeInsets.only(right: 6),
+                    child: Text(widget.suffix!),
+                  )
+                : null,
+            hintText: widget.placeHolder,
+            // errorText: widget.errorText,
+            suffixIcon: isPasswordField
+                ? InkWell(
+                    onTap: _toggle,
+                    borderRadius: BorderRadius.circular(5),
+                    child: Icon(
+                      _obscureText ? Icons.visibility : Icons.visibility_off,
+                      size: 16.0,
+                    ),
+                  )
+                : null,
+          ),
+    );
+
     return Column(
       children: [
         AnimatedContainer(
@@ -116,7 +190,7 @@ class _OutlinedTextFieldState extends ConsumerState<OutlinedTextField> {
             borderRadius: FladderTheme.smallShape.borderRadius,
             border: BoxBorder.all(
               width: 2,
-              color: hasFocus ? Theme.of(context).colorScheme.primaryFixed : Colors.transparent,
+              color: hasFocus || keyboardFocus ? Theme.of(context).colorScheme.primaryFixed : Colors.transparent,
             ),
           ),
           child: Padding(
@@ -126,66 +200,33 @@ class _OutlinedTextFieldState extends ConsumerState<OutlinedTextField> {
               child: KeyboardListener(
                 focusNode: _wrapperFocus,
                 onKeyEvent: (KeyEvent event) {
-                  if (event is KeyUpEvent && acceptKeys.contains(event.logicalKey)) {
+                  if (keyboardFocus) return;
+                  if (event is KeyDownEvent && acceptKeys.contains(event.logicalKey)) {
                     if (_textFocus.hasFocus) {
-                      _textFocus.unfocus();
                       _wrapperFocus.requestFocus();
                     } else if (_wrapperFocus.hasFocus) {
-                      _textFocus.requestFocus();
+                      if (useCustomKeyboard) {
+                        CustomKeyboard.of(context).openKeyboard(
+                          textField,
+                          onClosed: () {
+                            setState(() {
+                              keyboardFocus = false;
+                            });
+                            _wrapperFocus.requestFocus();
+                          },
+                          query: widget.searchQuery,
+                        );
+                        setState(() {
+                          keyboardFocus = true;
+                        });
+                      } else {
+                        _textFocus.requestFocus();
+                      }
                     }
                   }
                 },
                 child: ExcludeFocusTraversal(
-                  child: TextField(
-                    controller: widget.controller,
-                    onChanged: widget.onChanged,
-                    focusNode: _textFocus,
-                    onTap: widget.onTap,
-                    autofillHints: widget.autoFillHints,
-                    keyboardType: widget.keyboardType,
-                    autocorrect: widget.autocorrect,
-                    onSubmitted: widget.onSubmitted != null
-                        ? (value) {
-                            widget.onSubmitted?.call(value);
-                            Future.microtask(() async {
-                              await Future.delayed(const Duration(milliseconds: 125));
-                              _wrapperFocus.requestFocus();
-                            });
-                          }
-                        : null,
-                    textInputAction: widget.textInputAction,
-                    obscureText: isPasswordField ? _obscureText : false,
-                    style: widget.style,
-                    maxLines: widget.maxLines,
-                    inputFormatters: widget.inputFormatters,
-                    textAlign: widget.textAlign,
-                    canRequestFocus: true,
-                    decoration: widget.decoration ??
-                        InputDecoration(
-                          border: InputBorder.none,
-                          filled: widget.fillColor != null,
-                          fillColor: widget.fillColor,
-                          labelText: widget.label,
-                          suffix: widget.suffix != null
-                              ? Padding(
-                                  padding: const EdgeInsets.only(right: 6),
-                                  child: Text(widget.suffix!),
-                                )
-                              : null,
-                          hintText: widget.placeHolder,
-                          // errorText: widget.errorText,
-                          suffixIcon: isPasswordField
-                              ? InkWell(
-                                  onTap: _toggle,
-                                  borderRadius: BorderRadius.circular(5),
-                                  child: Icon(
-                                    _obscureText ? Icons.visibility : Icons.visibility_off,
-                                    size: 16.0,
-                                  ),
-                                )
-                              : null,
-                        ),
-                  ),
+                  child: textField,
                 ),
               ),
             ),

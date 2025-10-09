@@ -33,6 +33,7 @@ fun AudioPicker(
     val listState = rememberLazyListState()
 
     LaunchedEffect(selectedIndex) {
+        if (selectedIndex == -1) return@LaunchedEffect
         listState.scrollToItem(
             audioTracks.indexOfFirst { it.index == selectedIndex.toLong() }
         )
@@ -50,15 +51,16 @@ fun AudioPicker(
             verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
             item {
+                val selectedOff = -1 == selectedIndex
                 TrackButton(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .defaultSelected(-1 == selectedIndex),
+                        .defaultSelected(selectedOff),
                     onClick = {
                         VideoPlayerObject.setAudioTrackIndex(-1)
                         player.clearAudioTrack()
                     },
-                    selected = -1 == selectedIndex
+                    selected = selectedOff
                 ) {
                     Text(
                         text = "Off",

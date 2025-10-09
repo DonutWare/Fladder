@@ -100,6 +100,15 @@ class _SearchBarState extends ConsumerState<SuggestionSearchBar> {
               isEmpty = value.isEmpty;
             });
           },
+          searchQuery: (query) async {
+            if (query.isEmpty) return [];
+            if (widget.key != null) {
+              final items =
+                  await ref.read(librarySearchProvider(widget.key!).notifier).fetchSuggestions(query, limit: 5);
+              return items.map((e) => e.name).toList();
+            }
+            return [];
+          },
           placeHolder: widget.title ?? "${context.localized.search}...",
           decoration: InputDecoration(
             hintText: widget.title ?? "${context.localized.search}...",
