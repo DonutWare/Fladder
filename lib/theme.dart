@@ -37,11 +37,11 @@ class FladderTheme {
   static ThemeData theme(ColorScheme? colorScheme, DynamicSchemeVariant dynamicSchemeVariant) {
     final ColorScheme? scheme = generateDynamicColourSchemes(colorScheme, dynamicSchemeVariant);
 
-    final buttonState = WidgetStateProperty.resolveWith(
+    final buttonSides = WidgetStateProperty.resolveWith(
       (states) {
         return BorderSide(
           width: 3,
-          color: scheme?.onPrimaryContainer.withValues(alpha: states.contains(WidgetState.focused) ? 0.9 : 0.0) ??
+          color: scheme?.onPrimaryContainer.withValues(alpha: states.contains(WidgetState.focused) ? 1.0 : 0.0) ??
               Colors.transparent,
         );
       },
@@ -152,31 +152,31 @@ class FladderTheme {
       iconButtonTheme: IconButtonThemeData(
         style: ButtonStyle(
           shape: WidgetStatePropertyAll(smallShape),
-          side: buttonState,
+          side: buttonSides,
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
           shape: WidgetStatePropertyAll(smallShape),
-          side: buttonState,
+          side: buttonSides,
         ),
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: ButtonStyle(
           shape: WidgetStatePropertyAll(smallShape),
-          side: buttonState,
+          side: buttonSides,
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: ButtonStyle(
           shape: WidgetStatePropertyAll(smallShape),
-          side: buttonState,
+          side: buttonSides,
         ),
       ),
       textButtonTheme: TextButtonThemeData(
         style: ButtonStyle(
           shape: WidgetStatePropertyAll(smallShape),
-          side: buttonState,
+          side: buttonSides,
         ),
       ),
       textTheme: textTheme.copyWith(

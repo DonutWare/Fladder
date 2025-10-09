@@ -325,14 +325,14 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
     return response.body;
   }
 
-  Future<List<ItemBaseModel>> fetchSuggestions(String searchTerm) async {
+  Future<List<ItemBaseModel>> fetchSuggestions(String searchTerm, {int limit = 25}) async {
     if (state.folderOverwrite.isNotEmpty) {
-      final response = await _loadLibrary(id: state.nestedCurrentItem?.id ?? "", searchTerm: searchTerm, limit: 25);
+      final response = await _loadLibrary(id: state.nestedCurrentItem?.id ?? "", searchTerm: searchTerm, limit: limit);
       return response?.items ?? [];
     } else {
       if (state.views.hasEnabled) {
         final mappedList = await Future.wait(state.views.included
-            .map((viewModel) => _loadLibrary(viewModel: viewModel, limit: 25, searchTerm: searchTerm)));
+            .map((viewModel) => _loadLibrary(viewModel: viewModel, limit: limit, searchTerm: searchTerm)));
         return mappedList
             .expand((innerList) => innerList?.items ?? [])
             .where((item) => item != null)
@@ -342,7 +342,7 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
         if (searchTerm.isEmpty) {
           return [];
         } else {
-          final response = await _loadLibrary(limit: 25, recursive: true, searchTerm: searchTerm);
+          final response = await _loadLibrary(limit: limit, recursive: true, searchTerm: searchTerm);
           return response?.items ?? [];
         }
       }

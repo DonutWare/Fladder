@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/screens/shared/animated_fade_size.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 
 class PassCodeInput extends ConsumerStatefulWidget {
   final ValueChanged<String> passCode;
@@ -107,11 +108,16 @@ class _PassCodeInputState extends ConsumerState<PassCodeInput> {
   }
 
   Widget passCodeNumber(int value) {
-    return IconButton.filledTonal(
+    return ElevatedButton(
+      autofocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad ? value == 1 : false,
       onPressed: () {
         addToPassCode(value.toString());
       },
-      icon: Container(
+      style: ElevatedButton.styleFrom(
+        padding: const EdgeInsets.all(8),
+        foregroundColor: Theme.of(context).colorScheme.onSurface,
+      ),
+      child: Container(
         width: iconSize,
         height: iconSize,
         alignment: Alignment.center,
@@ -146,7 +152,6 @@ class _PassCodeInputState extends ConsumerState<PassCodeInput> {
 
   Widget get clearAllButton {
     return IconButton.filled(
-      autofocus: true,
       style: ButtonStyle(
         backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.errorContainer),
         iconColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.onErrorContainer),

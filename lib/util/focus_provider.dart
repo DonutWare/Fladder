@@ -8,11 +8,11 @@ import 'package:fladder/theme.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/navigation_body.dart';
 
 final acceptKeys = {
-  LogicalKeyboardKey.space,
   LogicalKeyboardKey.enter,
   LogicalKeyboardKey.accept,
   LogicalKeyboardKey.select,
   LogicalKeyboardKey.gameButtonA,
+  LogicalKeyboardKey.space,
 };
 
 class FocusProvider extends InheritedWidget {
@@ -45,6 +45,7 @@ class FocusProvider extends InheritedWidget {
 class FocusButton extends StatefulWidget {
   final Widget? child;
   final bool autoFocus;
+  final FocusNode? focusNode;
   final List<Widget> overlays;
   final Function()? onTap;
   final Function()? onLongPress;
@@ -55,6 +56,7 @@ class FocusButton extends StatefulWidget {
   const FocusButton({
     this.child,
     this.autoFocus = false,
+    this.focusNode,
     this.overlays = const [],
     this.onTap,
     this.onLongPress,
@@ -69,7 +71,7 @@ class FocusButton extends StatefulWidget {
 }
 
 class FocusButtonState extends State<FocusButton> {
-  FocusNode focusNode = FocusNode();
+  late FocusNode focusNode = widget.focusNode ?? FocusNode();
   ValueNotifier<bool> onHover = ValueNotifier<bool>(false);
   Timer? _longPressTimer;
   bool _longPressTriggered = false;

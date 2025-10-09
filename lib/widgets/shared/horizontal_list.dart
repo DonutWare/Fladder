@@ -61,7 +61,6 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
   final contentPadding = 8.0;
   double? contentWidth;
   double? _firstItemWidth;
-  bool hasFocus = false;
 
   @override
   void initState() {
@@ -256,7 +255,7 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
                     position.ensureVisible(
                       renderObject,
                       alignment: _calcAlignmentWithPadding(nodeContext),
-                      duration: const Duration(milliseconds: 200),
+                      duration: const Duration(milliseconds: 175),
                       curve: Curves.fastOutSlowIn,
                     );
                   }
