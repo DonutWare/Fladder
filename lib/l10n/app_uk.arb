@@ -1505,5 +1505,9 @@
     "mediaTunnelingTitle": "Тунелювання медіа",
     "@mediaTunnelingTitle": {},
     "mediaTunnelingDesc": "Увімкнути тунелювання медіа для рідного програвача",
-    "@mediaTunnelingDesc": {}
+    "@mediaTunnelingDesc": {},
+    "clientSettingsUseSystemIMETitle": "Використовувати системну клавіатуру",
+    "@clientSettingsUseSystemIMETitle": {},
+    "clientSettingsUseSystemIMEDesc": "Використовуйте вбудовану клавіатуру вашої системи",
+    "@clientSettingsUseSystemIMEDesc": {}
 }
