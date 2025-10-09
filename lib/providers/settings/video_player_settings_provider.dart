@@ -15,7 +15,6 @@ import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/src/player_settings_helper.g.dart' as pigeon;
-import 'package:fladder/util/debouncer.dart';
 
 final videoPlayerSettingsProvider =
     StateNotifierProvider<VideoPlayerSettingsProviderNotifier, VideoPlayerSettingsModel>((ref) {
@@ -29,8 +28,6 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
 
   final Ref ref;
 
-  final Debouncer debouncer = Debouncer(const Duration(seconds: 2));
-
   @override
   set state(VideoPlayerSettingsModel value) {
     final oldState = super.state;
@@ -38,7 +35,6 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
     ref.read(sharedUtilityProvider).videoPlayerSettings = value;
     if (!kIsWeb && Platform.isAndroid) {
       final userData = ref.read(userProvider);
-
       pigeon.PlayerSettingsPigeon().sendPlayerSettings(
         pigeon.PlayerSettings(
           enableTunneling: value.enableTunneling,
@@ -65,11 +61,9 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
       );
     }
 
-    debouncer.run(() {
-      if (!oldState.playerSame(value)) {
-        ref.read(videoPlayerProvider.notifier).init();
-      }
-    });
+    if (!oldState.playerSame(value)) {
+      ref.read(videoPlayerProvider.notifier).init();
+    }
   }
 
   void setScreenBrightness(double? value) async {

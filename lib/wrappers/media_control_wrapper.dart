@@ -18,6 +18,7 @@ import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/src/video_player_helper.g.dart' hide PlaybackState;
+import 'package:fladder/util/debouncer.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/wrappers/players/base_player.dart';
 import 'package:fladder/wrappers/players/lib_mdk.dart'
@@ -53,6 +54,8 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
 
   bool initializedWrapper = false;
 
+  final Debouncer debouncer = Debouncer(const Duration(seconds: 2));
+
   Future<void> init() async {
     if (!initializedWrapper) {
       initializedWrapper = true;
@@ -74,13 +77,15 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
       );
     }
 
-    final player = switch (ref.read(videoPlayerSettingsProvider).wantedPlayer) {
-      PlayerOptions.libMDK => LibMDK(),
-      PlayerOptions.libMPV => LibMPV(),
-      PlayerOptions.nativePlayer => NativePlayer(),
-    };
+    debouncer.run(() {
+      final player = switch (ref.read(videoPlayerSettingsProvider).wantedPlayer) {
+        PlayerOptions.libMDK => LibMDK(),
+        PlayerOptions.libMPV => LibMPV(),
+        PlayerOptions.nativePlayer => NativePlayer(),
+      };
 
-    setup(player);
+      setup(player);
+    });
   }
 
   Future<void> dispose() async => _player?.dispose();
