@@ -71,6 +71,12 @@ class _HorizontalListState extends ConsumerState<HorizontalList> with TickerProv
     _measureFirstItem();
   }
 
+  @override
+  void dispose() {
+    _scrollAnimation?.dispose();
+    super.dispose();
+  }
+
   void _measureFirstItem() {
     if (_firstItemWidth != null) return;
     WidgetsBinding.instance.addPostFrameCallback((_) {
