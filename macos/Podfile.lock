@@ -13,17 +13,17 @@ PODS:
   - file_picker (0.0.1):
     - FlutterMacOS
   - FlutterMacOS (1.0.0)
-  - fvp (0.33.1):
+  - fvp (0.35.0):
     - Flutter
     - FlutterMacOS
-    - mdk (~> 0.33.1)
+    - mdk (~> 0.35.0)
   - just_audio (0.0.1):
     - Flutter
     - FlutterMacOS
   - local_auth_darwin (0.0.1):
     - Flutter
     - FlutterMacOS
-  - mdk (0.33.1)
+  - mdk (0.35.0)
   - media_kit_libs_macos_video (1.0.4):
     - FlutterMacOS
   - media_kit_video (0.0.1):
@@ -180,10 +180,10 @@ SPEC CHECKSUMS:
   dynamic_color: cb7c2a300ee67ed3bd96c3e852df3af0300bf610
   file_picker: 7584aae6fa07a041af2b36a2655122d42f578c1a
   FlutterMacOS: d0db08ddef1a9af05a5ec4b724367152bb0500b1
-  fvp: ed100b827d10aff53789fb9cb9dfdd85a87d037d
+  fvp: ecee65308dd86ae46e3c6d5d42cd2aad48095ef5
   just_audio: 4e391f57b79cad2b0674030a00453ca5ce817eed
-  local_auth_darwin: d2e8c53ef0c4f43c646462e3415432c4dab3ae19
-  mdk: 622e3452cea55a982c0712ec9ce931d8ec718b22
+  local_auth_darwin: c3ee6cce0a8d56be34c8ccb66ba31f7f180aaebb
+  mdk: baa616b93f696c7066df0e5ebe057badfa9c462b
   media_kit_libs_macos_video: 85a23e549b5f480e72cae3e5634b5514bc692f65
   media_kit_video: fa6564e3799a0a28bff39442334817088b7ca758
   package_info_plus: f0052d280d17aa382b932f399edf32507174e870
@@ -198,10 +198,10 @@ SPEC CHECKSUMS:
   url_launcher_macos: 0fba8ddabfc33ce0a9afe7c5fef5aab3d8d2d673
   video_player_avfoundation: 2cef49524dd1f16c5300b9cd6efd9611ce03639b
   volume_controller: 5c068e6d085c80dadd33fc2c918d2114b775b3dd
-  wakelock_plus: 21ddc249ac4b8d018838dbdabd65c5976c308497
-  webview_flutter_wkwebview: 1821ceac936eba6f7984d89a9f3bcb4dea99ebb2
+  wakelock_plus: 917609be14d812ddd9e9528876538b2263aaa03b
+  webview_flutter_wkwebview: 8ebf4fded22593026f7dbff1fbff31ea98573c8d
   window_manager: b729e31d38fb04905235df9ea896128991cad99e
 
-PODFILE CHECKSUM: 9ebaf0ce3d369aaa26a9ea0e159195ed94724cf3
+PODFILE CHECKSUM: c2e95c8c0fe03c5c57e438583cae4cc732296009
 
 COCOAPODS: 1.16.2
