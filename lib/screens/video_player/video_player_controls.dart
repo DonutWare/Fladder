@@ -1,12 +1,9 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'package:path/path.dart' as p;
 
 import 'package:async/async.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,6 +25,7 @@ import 'package:fladder/screens/video_player/components/video_playback_informati
 import 'package:fladder/screens/video_player/components/video_player_controls_extras.dart';
 import 'package:fladder/screens/video_player/components/video_player_options_sheet.dart';
 import 'package:fladder/screens/video_player/components/video_player_quality_controls.dart';
+import 'package:fladder/screens/video_player/components/video_player_screenshot_indicator.dart';
 import 'package:fladder/screens/video_player/components/video_player_seek_indicator.dart';
 import 'package:fladder/screens/video_player/components/video_player_speed_indicator.dart';
 import 'package:fladder/screens/video_player/components/video_player_volume_indicator.dart';
@@ -129,6 +127,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                 const VideoPlayerSeekIndicator(),
                 const VideoPlayerVolumeIndicator(),
                 const VideoPlayerSpeedIndicator(),
+                const VideoPlayerScreenshotIndicator(),
                 Consumer(
                   builder: (context, ref, child) {
                     final position = ref.watch(mediaPlaybackProvider.select((value) => value.position));
@@ -681,57 +680,6 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     }
   }
 
-  void takeScreenshot({required bool withSubtitles}) async {
-    final syncPath = ref.read(clientSettingsProvider).syncPath;
-    // Early return here if we don't have a set/valid path. Skips actually taking the screenshot
-    // which would be discarded.
-    if (syncPath == null) {
-      return;
-    }
-
-    final screenshotsPath = p.join(syncPath, "Screenshots");
-    final screenshotBuf = await ref.read(videoPlayerProvider).takeScreenshot(withSubtitles);
-
-    if (screenshotBuf != null) {
-      final savePathDirectory = Directory(screenshotsPath);
-      
-      // Should we try to create the directory instead?
-      if (!await savePathDirectory.exists()) {
-        return;
-      }
-
-      final fileExtension = "png";
-      final paddingAmount = 3;
-
-      int maxNumber = 0;
-
-      await for (var file in savePathDirectory.list()) {
-        final finalSegment = file.uri.pathSegments.last;
-
-        if (file is File && p.extension(finalSegment) == ".$fileExtension") {
-          final match = RegExp(r'(\d+)').firstMatch(finalSegment);
-
-          if (match != null) {
-            final fileNumber = int.parse(match.group(0)!);
-
-            if (fileNumber > maxNumber) {
-              maxNumber = fileNumber;
-            }
-          }
-        }
-      }
-
-      maxNumber += 1;
-        
-      final maxNumberStr = maxNumber.toString().padLeft(paddingAmount, '0');
-      final screenshotName = '$maxNumberStr.$fileExtension';
-      final screenshotPath = p.join(screenshotsPath, screenshotName);
-
-      final screenshotFile = File(screenshotPath);
-      await screenshotFile.writeAsBytes(screenshotBuf);
-    }
-  }
-
   bool _onKey(VideoHotKeys value) {
     final mediaSegments = ref.read(playBackModel.select((value) => value?.mediaSegments));
     final position = ref.read(mediaPlaybackProvider).position;
@@ -767,12 +715,6 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         if (segment != null) {
           skipToSegmentEnd(segment);
         }
-        return true;
-      case VideoHotKeys.takeScreenshot:
-        takeScreenshot(withSubtitles: true);
-        return true;
-      case VideoHotKeys.takeScreenshotClean:
-        takeScreenshot(withSubtitles: false);
         return true;
       case VideoHotKeys.exit:
         disableFullScreen();
