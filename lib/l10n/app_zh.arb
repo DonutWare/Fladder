@@ -1496,5 +1496,9 @@
     "mediaTunnelingTitle": "媒体隧道",
     "@mediaTunnelingTitle": {},
     "mediaTunnelingDesc": "为本机播放器启用媒体隧道",
-    "@mediaTunnelingDesc": {}
+    "@mediaTunnelingDesc": {},
+    "clientSettingsUseSystemIMETitle": "使用系统键盘",
+    "@clientSettingsUseSystemIMETitle": {},
+    "clientSettingsUseSystemIMEDesc": "使用系统提供的内置键盘",
+    "@clientSettingsUseSystemIMEDesc": {}
 }
