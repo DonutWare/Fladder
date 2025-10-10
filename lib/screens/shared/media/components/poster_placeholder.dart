@@ -8,6 +8,7 @@ class PosterPlaceholder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final color = Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.75);
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -15,7 +16,10 @@ class PosterPlaceholder extends StatelessWidget {
           alignment: Alignment.topRight,
           child: Padding(
             padding: const EdgeInsets.all(12.0),
-            child: Opacity(opacity: 0.5, child: Icon(item.type.icon)),
+            child: Icon(
+              item.type.icon,
+              color: color.withValues(alpha: 0.5),
+            ),
           ),
         ),
         Padding(
@@ -34,15 +38,14 @@ class PosterPlaceholder extends StatelessWidget {
                   softWrap: true,
                 ),
                 if (item.label(context) != null) ...[
-                  Opacity(
-                    opacity: 0.75,
-                    child: Text(
-                      item.label(context)!,
-                      maxLines: 2,
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.titleSmall,
-                      softWrap: true,
-                    ),
+                  Text(
+                    item.label(context)!,
+                    maxLines: 2,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color: color.withValues(alpha: 0.75),
+                        ),
+                    softWrap: true,
                   ),
                 ],
               ],

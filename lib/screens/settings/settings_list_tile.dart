@@ -72,54 +72,51 @@ class SettingsListTile extends StatelessWidget {
             constraints: const BoxConstraints(
               minHeight: 50,
             ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  DefaultTextStyle.merge(
-                    style: TextStyle(
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                DefaultTextStyle.merge(
+                  style: TextStyle(
+                    color: contentColor ?? Theme.of(context).colorScheme.onSurface,
+                  ),
+                  child: IconTheme(
+                    data: IconThemeData(
                       color: contentColor ?? Theme.of(context).colorScheme.onSurface,
                     ),
-                    child: IconTheme(
-                      data: IconThemeData(
-                        color: contentColor ?? Theme.of(context).colorScheme.onSurface,
-                      ),
-                      child: leadingWidget,
-                    ),
+                    child: leadingWidget,
                   ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Material(
+                        color: Colors.transparent,
+                        textStyle: Theme.of(context).textTheme.titleLarge?.copyWith(color: contentColor),
+                        child: label,
+                      ),
+                      if (subLabel != null)
                         Material(
                           color: Colors.transparent,
-                          textStyle: Theme.of(context).textTheme.titleLarge?.copyWith(color: contentColor),
-                          child: label,
+                          textStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
+                                color:
+                                    (contentColor ?? Theme.of(context).colorScheme.onSurface).withValues(alpha: 0.65),
+                              ),
+                          child: subLabel,
                         ),
-                        if (subLabel != null)
-                          Opacity(
-                            opacity: 0.65,
-                            child: Material(
-                              color: Colors.transparent,
-                              textStyle: Theme.of(context).textTheme.labelLarge?.copyWith(color: contentColor),
-                              child: subLabel,
-                            ),
-                          ),
-                      ],
-                    ),
+                    ],
                   ),
-                  if (trailing != null)
-                    ExcludeFocusTraversal(
-                      excluding: onTap != null,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 16),
-                        child: trailing,
-                      ),
-                    )
-                ],
-              ),
+                ),
+                if (trailing != null)
+                  ExcludeFocusTraversal(
+                    excluding: onTap != null,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 16),
+                      child: trailing,
+                    ),
+                  )
+              ],
             ),
           ),
         ),

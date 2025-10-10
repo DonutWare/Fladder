@@ -20,6 +20,7 @@ class NextUpEpisode extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final alreadyPlayed = nextEpisode.userData.played;
     final episodeSummary = nextEpisode.overview.summary.maxLength(limitTo: 250);
+    final style = Theme.of(context).textTheme.titleMedium;
     return Column(
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,11 +28,10 @@ class NextUpEpisode extends ConsumerWidget {
         StickyHeaderText(
           label: alreadyPlayed ? context.localized.reWatch : context.localized.nextUp,
         ),
-        Opacity(
-          opacity: 0.75,
-          child: SelectableText(
-            nextEpisode.seasonEpisodeLabelFull(context),
-            style: Theme.of(context).textTheme.titleMedium,
+        SelectableText(
+          nextEpisode.seasonEpisodeLabelFull(context),
+          style: style?.copyWith(
+            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.75),
           ),
         ),
         SelectableText(

@@ -103,16 +103,16 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                             if (expandedSideBar) ...[
                               Expanded(child: Text(context.localized.navigation)),
                             ],
-                            Opacity(
-                              opacity: largeBar && expandedSideBar ? 0.65 : 1.0,
-                              child: IconButton(
-                                onPressed: !largeBar
-                                    ? () => widget.scaffoldKey.currentState?.openDrawer()
-                                    : () => setState(() => expandedSideBar = !expandedSideBar),
-                                icon: Icon(
-                                  largeBar && expandedSideBar ? IconsaxPlusLinear.sidebar_left : IconsaxPlusLinear.menu,
-                                ),
+                            IconButton(
+                              onPressed: !largeBar
+                                  ? () => widget.scaffoldKey.currentState?.openDrawer()
+                                  : () => setState(() => expandedSideBar = !expandedSideBar),
+                              icon: Icon(
+                                largeBar && expandedSideBar ? IconsaxPlusLinear.sidebar_left : IconsaxPlusLinear.menu,
                               ),
+                              color: Theme.of(context).colorScheme.onSurface.withValues(
+                                    alpha: largeBar && expandedSideBar ? 0.65 : 1,
+                                  ),
                             )
                           ],
                         ),

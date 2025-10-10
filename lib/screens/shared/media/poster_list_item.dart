@@ -149,13 +149,10 @@ class PosterListItem extends ConsumerWidget {
                             overflow: TextOverflow.ellipsis,
                           ),
                           if ((poster.subText ?? poster.subTextShort(context))?.isNotEmpty == true)
-                            Opacity(
-                              opacity: 0.45,
-                              child: Text(
-                                poster.subText ?? poster.subTextShort(context) ?? "",
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
+                            Text(
+                              poster.subText ?? poster.subTextShort(context) ?? "",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           Row(
                             children: [

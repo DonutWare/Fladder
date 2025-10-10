@@ -28,18 +28,19 @@ class _ClickableTextState extends ConsumerState<ClickableText> {
   bool hovering = false;
 
   Widget _textWidget(bool showDecoration) {
-    return Opacity(
-      opacity: widget.opacity,
-      child: Text(
-        widget.text,
-        maxLines: widget.maxLines,
-        overflow: widget.overflow,
-        style: widget.style?.copyWith(
-          color: showDecoration ? Theme.of(context).colorScheme.primary : null,
-          decoration: showDecoration ? TextDecoration.underline : TextDecoration.none,
-          decorationColor: showDecoration ? Theme.of(context).colorScheme.primary : null,
-          decorationThickness: 3,
-        ),
+    final color =
+        (showDecoration ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface).withValues(
+      alpha: widget.opacity,
+    );
+    return Text(
+      widget.text,
+      maxLines: widget.maxLines,
+      overflow: widget.overflow,
+      style: widget.style?.copyWith(
+        color: color,
+        decoration: showDecoration ? TextDecoration.underline : TextDecoration.none,
+        decorationColor: color,
+        decorationThickness: 3,
       ),
     );
   }

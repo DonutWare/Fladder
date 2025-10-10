@@ -200,7 +200,7 @@ class _OutlinedTextFieldState extends ConsumerState<OutlinedTextField> {
               child: KeyboardListener(
                 focusNode: _wrapperFocus,
                 onKeyEvent: (KeyEvent event) {
-                  if (keyboardFocus) return;
+                  if (keyboardFocus || AdaptiveLayout.inputDeviceOf(context) != InputDevice.dPad) return;
                   if (event is KeyDownEvent && acceptKeys.contains(event.logicalKey)) {
                     if (_textFocus.hasFocus) {
                       _wrapperFocus.requestFocus();

@@ -104,16 +104,30 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
     final minHeight = 450.0.clamp(0, size.height).toDouble();
     final maxHeight = size.height - 10;
     final sideBarPadding = AdaptiveLayout.of(context).sideBarWidth;
+    final newColorScheme = dominantColor != null
+        ? ColorScheme.fromSeed(
+            seedColor: dominantColor!,
+            brightness: Theme.brightnessOf(context),
+            dynamicSchemeVariant: ref.watch(clientSettingsProvider.select((value) => value.schemeVariant)),
+          )
+        : null;
+    final amoledBlack = ref.watch(clientSettingsProvider.select((value) => value.amoledBlack));
+    final amoledOverwrite = amoledBlack ? Colors.black : null;
     return Theme(
-      data: Theme.of(context).copyWith(
-        colorScheme: dominantColor != null
-            ? ColorScheme.fromSeed(
-                seedColor: dominantColor!,
-                brightness: Theme.brightnessOf(context),
-                dynamicSchemeVariant: ref.watch(clientSettingsProvider.select((value) => value.schemeVariant)),
-              )
-            : null,
-      ),
+      data: Theme.of(context)
+          .copyWith(
+            colorScheme: newColorScheme,
+          )
+          .copyWith(
+            scaffoldBackgroundColor: amoledOverwrite,
+            cardColor: amoledOverwrite,
+            canvasColor: amoledOverwrite,
+            colorScheme: newColorScheme?.copyWith(
+              surface: amoledOverwrite,
+              surfaceContainerHighest: amoledOverwrite,
+              surfaceContainerLow: amoledOverwrite,
+            ),
+          ),
       child: Builder(builder: (context) {
         return PullToRefresh(
           onRefresh: () async {

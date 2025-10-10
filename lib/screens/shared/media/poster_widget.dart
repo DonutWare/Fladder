@@ -96,10 +96,7 @@ class PosterWidget extends ConsumerWidget {
                     children: [
                       if (subTitle != null) ...[
                         Flexible(
-                          child: Opacity(
-                            opacity: opacity,
-                            child: subTitle!,
-                          ),
+                          child: subTitle!,
                         ),
                       ],
                       if (poster.subText?.isNotEmpty ?? false)

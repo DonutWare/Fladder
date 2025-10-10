@@ -38,6 +38,9 @@ class EpisodeDetailsList extends ConsumerWidget {
         ((AdaptiveLayout.poster(context).gridRatio * 2) *
             ref.watch(clientSettingsProvider.select((value) => value.posterSize)));
     final decimals = size - size.toInt();
+    final textStyle = Theme.of(context).textTheme.titleMedium?.copyWith(
+          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.65),
+        );
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 250),
       child: switch (viewType) {
@@ -73,20 +76,14 @@ class EpisodeDetailsList extends ConsumerWidget {
                             Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Opacity(
-                                  opacity: 0.65,
-                                  child: SelectableText(
-                                    episode.seasonEpisodeLabel(context),
-                                    style: Theme.of(context).textTheme.titleMedium,
-                                  ),
+                                SelectableText(
+                                  episode.seasonEpisodeLabel(context),
+                                  style: textStyle,
                                 ),
                                 if (episode.overview.runTime != null)
-                                  Opacity(
-                                    opacity: 0.65,
-                                    child: SelectableText(
-                                      " - ${episode.overview.runTime!.humanize!}",
-                                      style: Theme.of(context).textTheme.titleMedium,
-                                    ),
+                                  SelectableText(
+                                    " - ${episode.overview.runTime!.humanize!}",
+                                    style: textStyle,
                                   ),
                               ],
                             ),
