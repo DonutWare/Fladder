@@ -377,6 +377,6 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
       return Future.value(null);
     }
 
-    return player.takeScreenshot(ref.read(videoPlayerSettingsProvider.select((value) => value.screenshotFormat)), withSubtitles);
+    return player.takeScreenshot(withSubtitles);
   }
 }

@@ -162,7 +162,7 @@ class LibMDK extends BasePlayer {
   }
 
   @override
-  Future<Uint8List?> takeScreenshot(ScreenshotFormat format, bool withSubtitles) async {
+  Future<Uint8List?> takeScreenshot(bool withSubtitles) async {
     // MDK doesn't have a way to request a screenshot without subtitles apparently.
     // Workaround is to save the active track, disable it, take the screenshot, and re-enable it.
     final activeSubtitles = _controller?.getActiveSubtitleTracks();
@@ -181,15 +181,9 @@ class LibMDK extends BasePlayer {
     if (snapshotData != null && videoCodec != null) {
       final imgWidth = videoCodec.width;
       final imgHeight = videoCodec.height;
-
       final image = img.Image.fromBytes(width: imgWidth, height: imgHeight, bytes: snapshotData.buffer, numChannels: 4, order: img.ChannelOrder.rgba);
-
-      switch (format) {
-        case ScreenshotFormat.jpeg:
-          return img.encodeJpg(image);
-        case ScreenshotFormat.png:
-          return img.encodePng(image);
-      }
+      
+      return img.encodePng(image);
     }
     else {
       return null;  

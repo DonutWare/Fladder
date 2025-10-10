@@ -59,10 +59,6 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
   void setBufferSize(int? value) => state = state.copyWith(bufferSize: value ?? 32);
   void setFitType(BoxFit? value) => state = state.copyWith(videoFit: value ?? BoxFit.contain);
 
-  void setScreenshotsPath(String? path) => state = state.copyWith(screenshotsPath: path);
-  void setScreenshotFormat(ScreenshotFormat format) => state = state.copyWith(screenshotFormat: format);
-  void setScreenshotNamePadding(int amount) => state = state.copyWith(screenshotNamePadding: amount);
-
   void setVolume(double value) {
     state = state.copyWith(internalVolume: value);
     ref.read(videoPlayerProvider).setVolume(value);

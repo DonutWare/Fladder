@@ -1,9 +1,7 @@
 import 'dart:io' show Platform;
 
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
@@ -137,97 +135,6 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
             ),
           ],
         ),
-        const SizedBox(height: 12),
-        ...settingsListGroup(context, SettingsLabelDivider(label: context.localized.screenshots), [
-          if (AdaptiveLayout.of(context).isDesktop && !kIsWeb) SettingsListTile(
-            label: Text(context.localized.downloadsPath),
-            subLabel: Text(videoSettings.screenshotsFolder ?? "-"),
-            onTap: videoSettings.screenshotsFolder != null
-                ? () async => await showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: Text(context.localized.pathEditTitle),
-                        content: Text(context.localized.pathEditDesc),
-                        actions: [
-                          ElevatedButton(
-                            onPressed: () async {
-                              String? selectedDirectory = await FilePicker.platform.getDirectoryPath(
-                                  dialogTitle: context.localized.screenshotsPath, initialDirectory: videoSettings.screenshotsFolder);
-                              if (selectedDirectory != null) {
-                                ref.read(videoPlayerSettingsProvider.notifier).setScreenshotsPath(selectedDirectory);
-                              }
-                              Navigator.of(context).pop();
-                            },
-                            child: Text(context.localized.change),
-                          )
-                        ],
-                      ),
-                    )
-                : () async {
-                    String? selectedDirectory = await FilePicker.platform.getDirectoryPath(
-                        dialogTitle: context.localized.pathEditSelect, initialDirectory: videoSettings.screenshotsFolder);
-                    if (selectedDirectory != null) {
-                      ref.read(videoPlayerSettingsProvider.notifier).setScreenshotsPath(selectedDirectory);
-                    }
-                  },
-            trailing: videoSettings.screenshotsFolder?.isNotEmpty == true
-                ? IconButton(
-                    color: Theme.of(context).colorScheme.error,
-                    onPressed: () async => await showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: Text(context.localized.pathClearTitle),
-                        content: Text(context.localized.pathEditDesc),
-                        actions: [
-                          ElevatedButton(
-                            onPressed: () {
-                              ref.read(videoPlayerSettingsProvider.notifier).setScreenshotsPath(null);
-                              Navigator.of(context).pop();
-                            },
-                            child: Text(context.localized.clear),
-                          )
-                        ],
-                      ),
-                    ),
-                    icon: const Icon(IconsaxPlusLinear.folder_minus),
-                  )
-                : null,
-          ),
-          SettingsListTile(
-            label: Text(context.localized.format),
-            subLabel: Text(context.localized.formatSubLabel),
-            trailing: EnumBox(
-              current: ref.watch(
-                videoPlayerSettingsProvider.select(
-                  (value) => value.screenshotFormat.label(context),
-                ),
-              ),
-              itemBuilder: (context) => ScreenshotFormat.values
-                  .map(
-                    (entry) => ItemActionButton(
-                      label: Text(entry.label(context)),
-                      action: () =>
-                          ref
-                            .read(videoPlayerSettingsProvider.notifier)
-                            .setScreenshotFormat(entry),
-                    ),
-                  )
-                  .toList(),
-            ),
-          ),
-          SettingsListTile(
-          label: Text(context.localized.namePadding),
-          subLabel: Text(context.localized.namePaddingSubLabel),
-          trailing: SizedBox(
-              width: 100,
-              child: IntInputField(
-                controller: TextEditingController(text: videoSettings.screenshotNamePadding.toString()),
-                onSubmitted: (value) {
-                  ref.read(videoPlayerSettingsProvider.notifier).setScreenshotNamePadding(value ?? 3);
-                },
-              )),
-        ),
-        ]),
         const SizedBox(height: 12),
         ...settingsListGroup(context, SettingsLabelDivider(label: context.localized.mediaSegmentActions), [
           ...videoSettings.segmentSkipSettings.entries.sorted((a, b) => b.key.index.compareTo(a.key.index)).map(

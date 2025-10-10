@@ -30,9 +30,6 @@ mixin _$VideoPlayerSettingsModel implements DiagnosticableTreeMixin {
   String? get audioDevice;
   Map<MediaSegmentType, SegmentSkip> get segmentSkipSettings;
   Map<VideoHotKeys, KeyCombination> get hotKeys;
-  String? get screenshotsPath;
-  ScreenshotFormat get screenshotFormat;
-  int get screenshotNamePadding;
 
   /// Create a copy of VideoPlayerSettingsModel
   /// with the given fields replaced by the non-null parameter values.
@@ -64,11 +61,7 @@ mixin _$VideoPlayerSettingsModel implements DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('maxInternetBitrate', maxInternetBitrate))
       ..add(DiagnosticsProperty('audioDevice', audioDevice))
       ..add(DiagnosticsProperty('segmentSkipSettings', segmentSkipSettings))
-      ..add(DiagnosticsProperty('hotKeys', hotKeys))
-      ..add(DiagnosticsProperty('screenshotsPath', screenshotsPath))
-      ..add(DiagnosticsProperty('screenshotFormat', screenshotFormat))
-      ..add(
-          DiagnosticsProperty('screenshotNamePadding', screenshotNamePadding));
+      ..add(DiagnosticsProperty('hotKeys', hotKeys));
   }
 
   @override
@@ -99,10 +92,7 @@ abstract mixin class $VideoPlayerSettingsModelCopyWith<$Res> {
       Bitrate maxInternetBitrate,
       String? audioDevice,
       Map<MediaSegmentType, SegmentSkip> segmentSkipSettings,
-      Map<VideoHotKeys, KeyCombination> hotKeys,
-      String? screenshotsPath,
-      ScreenshotFormat screenshotFormat,
-      int screenshotNamePadding});
+      Map<VideoHotKeys, KeyCombination> hotKeys});
 }
 
 /// @nodoc
@@ -134,9 +124,6 @@ class _$VideoPlayerSettingsModelCopyWithImpl<$Res>
     Object? audioDevice = freezed,
     Object? segmentSkipSettings = null,
     Object? hotKeys = null,
-    Object? screenshotsPath = freezed,
-    Object? screenshotFormat = null,
-    Object? screenshotNamePadding = null,
   }) {
     return _then(_self.copyWith(
       screenBrightness: freezed == screenBrightness
@@ -203,18 +190,6 @@ class _$VideoPlayerSettingsModelCopyWithImpl<$Res>
           ? _self.hotKeys
           : hotKeys // ignore: cast_nullable_to_non_nullable
               as Map<VideoHotKeys, KeyCombination>,
-      screenshotsPath: freezed == screenshotsPath
-          ? _self.screenshotsPath
-          : screenshotsPath // ignore: cast_nullable_to_non_nullable
-              as String?,
-      screenshotFormat: null == screenshotFormat
-          ? _self.screenshotFormat
-          : screenshotFormat // ignore: cast_nullable_to_non_nullable
-              as ScreenshotFormat,
-      screenshotNamePadding: null == screenshotNamePadding
-          ? _self.screenshotNamePadding
-          : screenshotNamePadding // ignore: cast_nullable_to_non_nullable
-              as int,
     ));
   }
 }
@@ -328,10 +303,7 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             Bitrate maxInternetBitrate,
             String? audioDevice,
             Map<MediaSegmentType, SegmentSkip> segmentSkipSettings,
-            Map<VideoHotKeys, KeyCombination> hotKeys,
-            String? screenshotsPath,
-            ScreenshotFormat screenshotFormat,
-            int screenshotNamePadding)?
+            Map<VideoHotKeys, KeyCombination> hotKeys)?
         $default, {
     required TResult orElse(),
   }) {
@@ -354,10 +326,7 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.maxInternetBitrate,
             _that.audioDevice,
             _that.segmentSkipSettings,
-            _that.hotKeys,
-            _that.screenshotsPath,
-            _that.screenshotFormat,
-            _that.screenshotNamePadding);
+            _that.hotKeys);
       case _:
         return orElse();
     }
@@ -394,10 +363,7 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             Bitrate maxInternetBitrate,
             String? audioDevice,
             Map<MediaSegmentType, SegmentSkip> segmentSkipSettings,
-            Map<VideoHotKeys, KeyCombination> hotKeys,
-            String? screenshotsPath,
-            ScreenshotFormat screenshotFormat,
-            int screenshotNamePadding)
+            Map<VideoHotKeys, KeyCombination> hotKeys)
         $default,
   ) {
     final _that = this;
@@ -419,10 +385,7 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.maxInternetBitrate,
             _that.audioDevice,
             _that.segmentSkipSettings,
-            _that.hotKeys,
-            _that.screenshotsPath,
-            _that.screenshotFormat,
-            _that.screenshotNamePadding);
+            _that.hotKeys);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -458,10 +421,7 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             Bitrate maxInternetBitrate,
             String? audioDevice,
             Map<MediaSegmentType, SegmentSkip> segmentSkipSettings,
-            Map<VideoHotKeys, KeyCombination> hotKeys,
-            String? screenshotsPath,
-            ScreenshotFormat screenshotFormat,
-            int screenshotNamePadding)?
+            Map<VideoHotKeys, KeyCombination> hotKeys)?
         $default,
   ) {
     final _that = this;
@@ -483,10 +443,7 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.maxInternetBitrate,
             _that.audioDevice,
             _that.segmentSkipSettings,
-            _that.hotKeys,
-            _that.screenshotsPath,
-            _that.screenshotFormat,
-            _that.screenshotNamePadding);
+            _that.hotKeys);
       case _:
         return null;
     }
@@ -514,10 +471,7 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
       this.audioDevice,
       final Map<MediaSegmentType, SegmentSkip> segmentSkipSettings =
           defaultSegmentSkipValues,
-      final Map<VideoHotKeys, KeyCombination> hotKeys = const {},
-      this.screenshotsPath,
-      this.screenshotFormat = ScreenshotFormat.png,
-      this.screenshotNamePadding = 3})
+      final Map<VideoHotKeys, KeyCombination> hotKeys = const {}})
       : _allowedOrientations = allowedOrientations,
         _segmentSkipSettings = segmentSkipSettings,
         _hotKeys = hotKeys,
@@ -591,15 +545,6 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
     return EqualUnmodifiableMapView(_hotKeys);
   }
 
-  @override
-  final String? screenshotsPath;
-  @override
-  @JsonKey()
-  final ScreenshotFormat screenshotFormat;
-  @override
-  @JsonKey()
-  final int screenshotNamePadding;
-
   /// Create a copy of VideoPlayerSettingsModel
   /// with the given fields replaced by the non-null parameter values.
   @override
@@ -635,11 +580,7 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
       ..add(DiagnosticsProperty('maxInternetBitrate', maxInternetBitrate))
       ..add(DiagnosticsProperty('audioDevice', audioDevice))
       ..add(DiagnosticsProperty('segmentSkipSettings', segmentSkipSettings))
-      ..add(DiagnosticsProperty('hotKeys', hotKeys))
-      ..add(DiagnosticsProperty('screenshotsPath', screenshotsPath))
-      ..add(DiagnosticsProperty('screenshotFormat', screenshotFormat))
-      ..add(
-          DiagnosticsProperty('screenshotNamePadding', screenshotNamePadding));
+      ..add(DiagnosticsProperty('hotKeys', hotKeys));
   }
 
   @override
@@ -672,10 +613,7 @@ abstract mixin class _$VideoPlayerSettingsModelCopyWith<$Res>
       Bitrate maxInternetBitrate,
       String? audioDevice,
       Map<MediaSegmentType, SegmentSkip> segmentSkipSettings,
-      Map<VideoHotKeys, KeyCombination> hotKeys,
-      String? screenshotsPath,
-      ScreenshotFormat screenshotFormat,
-      int screenshotNamePadding});
+      Map<VideoHotKeys, KeyCombination> hotKeys});
 }
 
 /// @nodoc
@@ -707,9 +645,6 @@ class __$VideoPlayerSettingsModelCopyWithImpl<$Res>
     Object? audioDevice = freezed,
     Object? segmentSkipSettings = null,
     Object? hotKeys = null,
-    Object? screenshotsPath = freezed,
-    Object? screenshotFormat = null,
-    Object? screenshotNamePadding = null,
   }) {
     return _then(_VideoPlayerSettingsModel(
       screenBrightness: freezed == screenBrightness
@@ -776,18 +711,6 @@ class __$VideoPlayerSettingsModelCopyWithImpl<$Res>
           ? _self._hotKeys
           : hotKeys // ignore: cast_nullable_to_non_nullable
               as Map<VideoHotKeys, KeyCombination>,
-      screenshotsPath: freezed == screenshotsPath
-          ? _self.screenshotsPath
-          : screenshotsPath // ignore: cast_nullable_to_non_nullable
-              as String?,
-      screenshotFormat: null == screenshotFormat
-          ? _self.screenshotFormat
-          : screenshotFormat // ignore: cast_nullable_to_non_nullable
-              as ScreenshotFormat,
-      screenshotNamePadding: null == screenshotNamePadding
-          ? _self.screenshotNamePadding
-          : screenshotNamePadding // ignore: cast_nullable_to_non_nullable
-              as int,
     ));
   }
 }

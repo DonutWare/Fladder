@@ -682,29 +682,27 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   }
 
   void takeScreenshot({required bool withSubtitles}) async {
-    final savePath = ref.read(videoPlayerSettingsProvider).screenshotsPath;
+    final syncPath = ref.read(clientSettingsProvider).syncPath;
     // Early return here if we don't have a set/valid path. Skips actually taking the screenshot
     // which would be discarded.
-    if (savePath == null) {
+    if (syncPath == null) {
       return;
     }
 
+    final screenshotsPath = p.join(syncPath, "Screenshots");
     final screenshotBuf = await ref.read(videoPlayerProvider).takeScreenshot(withSubtitles);
 
     if (screenshotBuf != null) {
-      final savePathDirectory = Directory(savePath);
+      final savePathDirectory = Directory(screenshotsPath);
       
       // Should we try to create the directory instead?
       if (!await savePathDirectory.exists()) {
         return;
       }
 
-      final fileExtension = switch (ref.read(videoPlayerSettingsProvider).screenshotFormat) {
-        ScreenshotFormat.jpeg => "jpg",
-        ScreenshotFormat.png => "png"
-      };
+      final fileExtension = "png";
+      final paddingAmount = 3;
 
-      final paddingAmount = ref.read(videoPlayerSettingsProvider).screenshotNamePadding;
       int maxNumber = 0;
 
       await for (var file in savePathDirectory.list()) {
@@ -727,7 +725,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         
       final maxNumberStr = maxNumber.toString().padLeft(paddingAmount, '0');
       final screenshotName = '$maxNumberStr.$fileExtension';
-      final screenshotPath = p.join(savePath, screenshotName);
+      final screenshotPath = p.join(screenshotsPath, screenshotName);
 
       final screenshotFile = File(screenshotPath);
       await screenshotFile.writeAsBytes(screenshotBuf);

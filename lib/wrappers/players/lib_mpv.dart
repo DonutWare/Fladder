@@ -157,20 +157,8 @@ class LibMPV extends BasePlayer {
   Future<void> stop() async => _player?.stop();
 
   @override
-  Future<Uint8List?> takeScreenshot(ScreenshotFormat format, bool withSubtitles) async {
-    String screenshotFormat = "";
-    
-    // I'm intentionally not providing a default case so we explicitely handle potential new formats.
-    switch (format) {
-      case ScreenshotFormat.jpeg:
-        screenshotFormat = "image/jpeg";
-        break;
-      case ScreenshotFormat.png:
-        screenshotFormat = "image/png";
-        break;
-    }
-
-    return _player?.screenshot(format: screenshotFormat, includeLibassSubtitles: withSubtitles);
+  Future<Uint8List?> takeScreenshot(bool withSubtitles) async {
+    return _player?.screenshot(format: "image/png", includeLibassSubtitles: withSubtitles);
   }
 
   @override
