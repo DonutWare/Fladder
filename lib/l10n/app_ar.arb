@@ -1497,5 +1497,9 @@
     "mediaTunnelingTitle": "نفق الوسائط",
     "@mediaTunnelingTitle": {},
     "mediaTunnelingDesc": "تمكين نفق الوسائط لمشغل الوسائط الأصلي",
-    "@mediaTunnelingDesc": {}
+    "@mediaTunnelingDesc": {},
+    "clientSettingsUseSystemIMETitle": "استخدام لوحة مفاتيح النظام",
+    "@clientSettingsUseSystemIMETitle": {},
+    "clientSettingsUseSystemIMEDesc": "استخدم لوحة المفاتيح المدمجة التي يوفرها نظامك",
+    "@clientSettingsUseSystemIMEDesc": {}
 }
