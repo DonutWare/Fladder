@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/account_model.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
-import 'package:fladder/theme.dart';
 import 'package:fladder/util/string_extensions.dart';
 
 class UserIcon extends ConsumerWidget {
@@ -18,7 +17,7 @@ class UserIcon extends ConsumerWidget {
   const UserIcon({
     this.size = const Size(50, 50),
     this.labelStyle,
-    this.cornerRadius = 5,
+    this.cornerRadius = 16,
     this.onTap,
     this.onLongPress,
     required this.user,
@@ -46,25 +45,23 @@ class UserIcon extends ConsumerWidget {
       tag: Key(user?.id ?? "empty-user-avatar"),
       child: AspectRatio(
         aspectRatio: 1,
-        child: Card(
-          elevation: 0,
-          surfaceTintColor: Colors.transparent,
-          color: Colors.transparent,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(cornerRadius),
+          ),
           clipBehavior: Clip.hardEdge,
           child: SizedBox.fromSize(
             size: size,
             child: Stack(
               alignment: Alignment.center,
+              fit: StackFit.expand,
               children: [
-                ClipRRect(
-                  borderRadius: FladderTheme.smallShape.borderRadius,
-                  child: CachedNetworkImage(
-                    imageUrl: user?.avatar ?? "",
-                    progressIndicatorBuilder: (context, url, progress) => placeHolder(),
-                    errorWidget: (context, url, error) => placeHolder(),
-                    memCacheHeight: 128,
-                    fit: BoxFit.cover,
-                  ),
+                CachedNetworkImage(
+                  imageUrl: user?.avatar ?? "",
+                  progressIndicatorBuilder: (context, url, progress) => placeHolder(),
+                  errorWidget: (context, url, error) => placeHolder(),
+                  memCacheHeight: 128,
+                  fit: BoxFit.cover,
                 ),
                 FlatButton(
                   onTap: onTap,

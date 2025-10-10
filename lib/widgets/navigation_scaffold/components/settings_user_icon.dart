@@ -38,7 +38,7 @@ class SettingsUserIcon extends ConsumerWidget {
           children: [
             UserIcon(
               user: user,
-              cornerRadius: 200,
+              cornerRadius: 8,
             ),
             if (hasNewUpdate)
               Transform.translate(

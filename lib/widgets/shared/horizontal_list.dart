@@ -53,19 +53,28 @@ class HorizontalList<T> extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _HorizontalListState();
 }
 
-class _HorizontalListState extends ConsumerState<HorizontalList> {
+class _HorizontalListState extends ConsumerState<HorizontalList> with TickerProviderStateMixin {
   final FocusNode parentNode = FocusNode();
   FocusNode? lastFocused;
   final GlobalKey _firstItemKey = GlobalKey();
+  final GlobalKey _listViewKey = GlobalKey();
   final ScrollController _scrollController = ScrollController();
   final contentPadding = 8.0;
   double? contentWidth;
   double? _firstItemWidth;
 
+  AnimationController? _scrollAnimation;
+
   @override
   void initState() {
     super.initState();
     _measureFirstItem();
+  }
+
+  @override
+  void dispose() {
+    _scrollAnimation?.dispose();
+    super.dispose();
   }
 
   void _measureFirstItem() {
@@ -87,16 +96,34 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
   }
 
   Future<void> _scrollToPosition(int index) async {
-    if (_firstItemWidth == null) return;
+    if (_firstItemWidth == null || !_scrollController.hasClients) return;
 
-    final offset = index * (_firstItemWidth! + contentPadding);
-    final clamped = math.min(offset, _scrollController.position.maxScrollExtent);
+    final target = (index * (_firstItemWidth! + contentPadding)).clamp(0, _scrollController.position.maxScrollExtent);
 
-    await _scrollController.animateTo(
-      clamped,
-      duration: const Duration(milliseconds: 250),
-      curve: Curves.fastOutSlowIn,
+    // Cancel any ongoing animation
+    _scrollAnimation?.stop();
+
+    final controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 125),
     );
+
+    _scrollAnimation = controller;
+
+    final tween = Tween<double>(
+      begin: _scrollController.offset,
+      end: target.toDouble(),
+    );
+
+    controller.addListener(() {
+      if (_scrollController.hasClients) {
+        _scrollController.jumpTo(tween.evaluate(controller));
+      }
+    });
+
+    controller.forward().whenComplete(() {
+      if (_scrollAnimation == controller) _scrollAnimation = null;
+    });
   }
 
   void _scrollToStart() {
@@ -146,12 +173,11 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
                     if (widget.subtext != null)
                       Flexible(
                         child: ExcludeFocus(
-                          child: Opacity(
-                            opacity: 0.5,
-                            child: Text(
-                              widget.subtext!,
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
+                          child: Text(
+                            widget.subtext!,
+                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
+                                ),
                           ),
                         ),
                       ),
@@ -223,11 +249,16 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
 
               if (currentNode != null) {
                 lastFocused = currentNode;
+                final correctIndex = _getCorrectIndexForNode(currentNode);
+
                 if (widget.onFocused != null) {
-                  widget.onFocused!(nodesOnSameRow.indexOf(currentNode));
+                  if (correctIndex != -1) {
+                    widget.onFocused!(correctIndex);
+                  }
                 } else {
                   context.ensureVisible();
                 }
+
                 currentNode.requestFocus();
               }
             }
@@ -244,25 +275,17 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
                 throttle: Throttler(duration: const Duration(milliseconds: 100)),
                 onFocused: (node) {
                   lastFocused = node;
-                  final nodesOnSameRow = _nodesInRow(parentNode);
-                  if (widget.onFocused != null) {
-                    widget.onFocused?.call(nodesOnSameRow.indexOf(node));
-                  }
-                  final nodeContext = node.context!;
-                  final renderObject = nodeContext.findRenderObject();
-                  if (renderObject != null) {
-                    final position = _scrollController.position;
-                    position.ensureVisible(
-                      renderObject,
-                      alignment: _calcAlignmentWithPadding(nodeContext),
-                      duration: const Duration(milliseconds: 175),
-                      curve: Curves.fastOutSlowIn,
-                    );
+                  final correctIndex = _getCorrectIndexForNode(node);
+                  if (correctIndex != -1) {
+                    widget.onFocused?.call(correctIndex);
+                    _scrollToPosition(correctIndex);
                   }
                 },
               ),
               child: ListView.separated(
+                key: _listViewKey,
                 controller: _scrollController,
+                clipBehavior: Clip.none,
                 scrollDirection: Axis.horizontal,
                 padding: widget.contentPadding,
                 itemBuilder: (context, index) => index == widget.items.length
@@ -286,10 +309,24 @@ class _HorizontalListState extends ConsumerState<HorizontalList> {
     );
   }
 
-  double _calcAlignmentWithPadding(BuildContext context) {
-    final viewportWidth = _scrollController.position.viewportDimension;
-    final double leftPadding = widget.contentPadding.left + (contentPadding * 2);
-    return leftPadding / viewportWidth;
+  int _getCorrectIndexForNode(FocusNode node) {
+    if (!mounted || _firstItemWidth == null || !_scrollController.hasClients || node.context == null) return -1;
+
+    final scrollableContext = _listViewKey.currentContext;
+    if (scrollableContext == null || !scrollableContext.mounted) return -1;
+
+    final scrollableBox = scrollableContext.findRenderObject() as RenderBox?;
+    final itemBox = node.context!.findRenderObject() as RenderBox?;
+    if (scrollableBox == null || itemBox == null) return -1;
+
+    final dx = itemBox.localToGlobal(Offset.zero, ancestor: scrollableBox).dx;
+
+    final totalItemWidth = _firstItemWidth! + contentPadding;
+    final offset = dx + _scrollController.offset - widget.contentPadding.left;
+
+    final index = ((offset + totalItemWidth / 2) ~/ totalItemWidth).clamp(0, widget.items.length - 1);
+
+    return index;
   }
 }
 
@@ -344,12 +381,11 @@ class HorizontalRailFocus extends WidgetOrderTraversalPolicy {
 
   @override
   bool inDirection(FocusNode currentNode, TraversalDirection direction) {
-    if (throttle?.canRun() == false) return true;
-
     final rowNodes = _nodesInRow(parentNode);
     final index = rowNodes.indexOf(currentNode);
 
     if (direction == TraversalDirection.left) {
+      if (throttle?.canRun() == false) return true;
       if (index > 0) {
         final target = rowNodes[index - 1];
         target.requestFocus();

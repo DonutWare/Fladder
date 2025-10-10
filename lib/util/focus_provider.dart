@@ -175,8 +175,8 @@ class FocusButtonState extends State<FocusButton> {
                             decoration: BoxDecoration(
                               color: Theme.of(context)
                                   .colorScheme
-                                  .primaryContainer
-                                  .withValues(alpha: widget.darkOverlay ? 0.1 : 0),
+                                  .surfaceContainerLowest
+                                  .withValues(alpha: widget.darkOverlay ? 0.35 : 0),
                               border: Border.all(width: 3, color: Theme.of(context).colorScheme.onPrimaryContainer),
                               borderRadius: widget.borderRadius ?? FladderTheme.smallShape.borderRadius,
                             ),
