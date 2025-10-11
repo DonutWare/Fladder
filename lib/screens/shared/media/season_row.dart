@@ -10,6 +10,7 @@ import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/widgets/shared/clickable_text.dart';
 import 'package:fladder/widgets/shared/horizontal_list.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
@@ -18,12 +19,10 @@ import 'package:fladder/widgets/shared/status_card.dart';
 
 class SeasonsRow extends ConsumerWidget {
   final EdgeInsets contentPadding;
-  final ValueChanged<SeasonModel>? onSeasonPressed;
   final List<SeasonModel>? seasons;
 
   const SeasonsRow({
     super.key,
-    this.onSeasonPressed,
     required this.seasons,
     this.contentPadding = const EdgeInsets.symmetric(horizontal: 16),
   });
@@ -42,7 +41,6 @@ class SeasonsRow extends ConsumerWidget {
         final season = (seasons ?? [])[index];
         return SeasonPoster(
           season: season,
-          onSeasonPressed: onSeasonPressed,
         );
       },
     );
@@ -51,12 +49,12 @@ class SeasonsRow extends ConsumerWidget {
 
 class SeasonPoster extends ConsumerWidget {
   final SeasonModel season;
-  final ValueChanged<SeasonModel>? onSeasonPressed;
 
-  const SeasonPoster({required this.season, this.onSeasonPressed, super.key});
+  const SeasonPoster({required this.season, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final myKey = key ?? UniqueKey();
     Padding placeHolder(String title) {
       return Padding(
         padding: const EdgeInsets.all(4),
@@ -86,11 +84,14 @@ class SeasonPoster extends ConsumerWidget {
               child: Stack(
                 children: [
                   Positioned.fill(
-                    child: FladderImage(
-                      image: season.getPosters?.primary ??
-                          season.parentImages?.backDrop?.firstOrNull ??
-                          season.parentImages?.primary,
-                      placeHolder: placeHolder(season.name),
+                    child: Hero(
+                      tag: myKey,
+                      child: FladderImage(
+                        image: season.getPosters?.primary ??
+                            season.parentImages?.backDrop?.firstOrNull ??
+                            season.parentImages?.primary,
+                        placeHolder: placeHolder(season.name),
+                      ),
                     ),
                   ),
                   if (season.images?.primary == null)
@@ -151,7 +152,11 @@ class SeasonPoster extends ConsumerWidget {
                             position: position,
                             items: season.generateActions(context, ref).popupMenuItems(useIcons: true));
                       },
-                      onTap: () => onSeasonPressed?.call(season),
+                      onTap: () async {
+                        await season.navigateTo(context, ref: ref, tag: myKey);
+                        if (!context.mounted) return;
+                        context.refreshData();
+                      },
                       onLongPress: AdaptiveLayout.inputDeviceOf(context) == InputDevice.touch
                           ? () {
                               showBottomSheetPill(

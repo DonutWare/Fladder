@@ -173,7 +173,6 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                     SeasonsRow(
                       contentPadding: padding,
                       seasons: details.seasons,
-                      onSeasonPressed: (season) => season.navigateTo(context),
                     ),
                   if (details.overview.people.isNotEmpty)
                     PeopleRow(
