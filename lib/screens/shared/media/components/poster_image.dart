@@ -22,7 +22,7 @@ import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 import 'package:fladder/widgets/shared/status_card.dart';
 
-class PosterImage extends ConsumerStatefulWidget {
+class PosterImage extends ConsumerWidget {
   final ItemBaseModel poster;
   final bool? selected;
   final ValueChanged<bool>? playVideo;
@@ -53,56 +53,43 @@ class PosterImage extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _PosterImageState();
-}
-
-class _PosterImageState extends ConsumerState<PosterImage> {
-  final tag = UniqueKey();
-  void pressedWidget(BuildContext context) async {
-    if (widget.onPressed != null) {
-      widget.onPressed?.call(() async {
-        await navigateToDetails();
-        context.refreshData();
-      }, widget.poster);
-    } else {
-      await navigateToDetails();
-      if (!context.mounted) return;
-      context.refreshData();
-    }
-  }
-
-  Future<void> navigateToDetails() async {
-    await widget.poster.navigateTo(context, ref: ref, tag: tag);
-  }
-
-  final posterRadius = FladderTheme.smallShape.borderRadius;
-
-  @override
-  Widget build(BuildContext context) {
-    final poster = widget.poster;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final posterRadius = FladderTheme.smallShape.borderRadius;
     final padding = const EdgeInsets.all(5);
+    final myKey = key ?? UniqueKey();
 
     return Hero(
-      tag: tag,
+      tag: myKey,
       child: FocusButton(
-        onTap: () => pressedWidget(context),
-        onFocusChanged: widget.onFocusChanged,
+        onTap: () async {
+          if (onPressed != null) {
+            onPressed?.call(() async {
+              await poster.navigateTo(context, ref: ref, tag: myKey);
+              context.refreshData();
+            }, poster);
+          } else {
+            await poster.navigateTo(context, ref: ref, tag: myKey);
+            if (!context.mounted) return;
+            context.refreshData();
+          }
+        },
+        onFocusChanged: onFocusChanged,
         onLongPress: () {
           showBottomSheetPill(
             context: context,
-            item: widget.poster,
+            item: poster,
             content: (scrollContext, scrollController) => ListView(
               shrinkWrap: true,
               controller: scrollController,
-              children: widget.poster
+              children: poster
                   .generateActions(
                     context,
                     ref,
-                    exclude: widget.excludeActions,
-                    otherActions: widget.otherActions,
-                    onUserDataChanged: widget.onUserDataChanged,
-                    onDeleteSuccesFully: widget.onItemRemoved,
-                    onItemUpdated: widget.onItemUpdated,
+                    exclude: excludeActions,
+                    otherActions: otherActions,
+                    onUserDataChanged: onUserDataChanged,
+                    onDeleteSuccesFully: onItemRemoved,
+                    onItemUpdated: onItemUpdated,
                   )
                   .listTileItems(scrollContext, useIcons: true),
             ),
@@ -115,15 +102,15 @@ class _PosterImageState extends ConsumerState<PosterImage> {
           await showMenu(
             context: context,
             position: position,
-            items: widget.poster
+            items: poster
                 .generateActions(
                   context,
                   ref,
-                  exclude: widget.excludeActions,
-                  otherActions: widget.otherActions,
-                  onUserDataChanged: widget.onUserDataChanged,
-                  onDeleteSuccesFully: widget.onItemRemoved,
-                  onItemUpdated: widget.onItemUpdated,
+                  exclude: excludeActions,
+                  otherActions: otherActions,
+                  onUserDataChanged: onUserDataChanged,
+                  onDeleteSuccesFully: onItemRemoved,
+                  onItemUpdated: onItemUpdated,
                 )
                 .popupMenuItems(useIcons: true),
           );
@@ -142,12 +129,12 @@ class _PosterImageState extends ConsumerState<PosterImage> {
             fit: StackFit.expand,
             children: [
               FladderImage(
-                image: widget.primaryPosters
-                    ? widget.poster.images?.primary
-                    : widget.poster.getPosters?.primary ?? widget.poster.getPosters?.backDrop?.lastOrNull,
-                placeHolder: PosterPlaceholder(item: widget.poster),
+                image: primaryPosters
+                    ? poster.images?.primary
+                    : poster.getPosters?.primary ?? poster.getPosters?.backDrop?.lastOrNull,
+                placeHolder: PosterPlaceholder(item: poster),
               ),
-              if (poster.userData.progress > 0 && widget.poster.type == FladderItemType.book)
+              if (poster.userData.progress > 0 && poster.type == FladderItemType.book)
                 Align(
                   alignment: Alignment.topLeft,
                   child: Padding(
@@ -156,7 +143,7 @@ class _PosterImageState extends ConsumerState<PosterImage> {
                       child: Padding(
                         padding: const EdgeInsets.all(5.5),
                         child: Text(
-                          context.localized.page((widget.poster as BookModel).currentPage),
+                          context.localized.page((poster as BookModel).currentPage),
                           style: Theme.of(context).textTheme.labelLarge?.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: Theme.of(context).colorScheme.primary,
@@ -167,7 +154,7 @@ class _PosterImageState extends ConsumerState<PosterImage> {
                     ),
                   ),
                 ),
-              if (widget.selected == true)
+              if (selected == true)
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.black.withValues(alpha: 0.15),
@@ -184,7 +171,7 @@ class _PosterImageState extends ConsumerState<PosterImage> {
                         child: Padding(
                           padding: const EdgeInsets.all(2),
                           child: Text(
-                            widget.poster.name,
+                            poster.name,
                             maxLines: 2,
                             textAlign: TextAlign.center,
                             style: Theme.of(context)
@@ -202,7 +189,7 @@ class _PosterImageState extends ConsumerState<PosterImage> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    if (widget.poster.userData.isFavourite)
+                    if (poster.userData.isFavourite)
                       const Row(
                         children: [
                           StatusCard(
@@ -216,7 +203,7 @@ class _PosterImageState extends ConsumerState<PosterImage> {
                         ],
                       ),
                     if ((poster.userData.progress > 0 && poster.userData.progress < 100) &&
-                        widget.poster.type != FladderItemType.book) ...{
+                        poster.type != FladderItemType.book) ...{
                       const SizedBox(
                         height: 4,
                       ),
@@ -238,33 +225,33 @@ class _PosterImageState extends ConsumerState<PosterImage> {
                   ],
                 ),
               ),
-              if (widget.inlineTitle)
+              if (inlineTitle)
                 Align(
                   alignment: Alignment.topLeft,
                   child: Padding(
                     padding: const EdgeInsets.all(8),
                     child: Text(
-                      widget.poster.title.maxLength(limitTo: 25),
+                      poster.title.maxLength(limitTo: 25),
                       style:
                           Theme.of(context).textTheme.labelLarge?.copyWith(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),
-              if ((widget.poster.unPlayedItemCount != null && widget.poster is SeriesModel) ||
-                  (widget.poster.playAble && !widget.poster.unWatched && widget.poster is! PhotoAlbumModel))
+              if ((poster.unPlayedItemCount != null && poster is SeriesModel) ||
+                  (poster.playAble && !poster.unWatched && poster is! PhotoAlbumModel))
                 IgnorePointer(
                   child: Align(
                     alignment: Alignment.topRight,
                     child: StatusCard(
                       color: Theme.of(context).colorScheme.primary,
-                      useFittedBox: widget.poster.unPlayedItemCount != 0,
+                      useFittedBox: poster.unPlayedItemCount != 0,
                       child: Padding(
                         padding: const EdgeInsets.all(6),
-                        child: widget.poster.unPlayedItemCount != 0
+                        child: poster.unPlayedItemCount != 0
                             ? Container(
                                 constraints: const BoxConstraints(minWidth: 16),
                                 child: Text(
-                                  widget.poster.userData.unPlayedItemCount.toString(),
+                                  poster.userData.unPlayedItemCount.toString(),
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: Theme.of(context).colorScheme.primary,
@@ -283,9 +270,8 @@ class _PosterImageState extends ConsumerState<PosterImage> {
                     ),
                   ),
                 ),
-              if (widget.poster.overview.runTime != null &&
-                  ((widget.poster is PhotoModel) &&
-                      (widget.poster as PhotoModel).internalType == FladderItemType.video)) ...{
+              if (poster.overview.runTime != null &&
+                  ((poster is PhotoModel) && (poster as PhotoModel).internalType == FladderItemType.video)) ...{
                 Align(
                   alignment: Alignment.topRight,
                   child: Padding(
@@ -299,7 +285,7 @@ class _PosterImageState extends ConsumerState<PosterImage> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              widget.poster.overview.runTime.humanizeSmall ?? "",
+                              poster.overview.runTime.humanizeSmall ?? "",
                               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                                     fontWeight: FontWeight.bold,
                                     color: Theme.of(context).colorScheme.onSurface,
@@ -324,11 +310,11 @@ class _PosterImageState extends ConsumerState<PosterImage> {
           //Poster Button
           if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer) ...[
             //  Play Button
-            if (widget.poster.playAble)
+            if (poster.playAble)
               Align(
                 alignment: Alignment.center,
                 child: IconButton.filledTonal(
-                  onPressed: () => widget.playVideo?.call(false),
+                  onPressed: () => playVideo?.call(false),
                   icon: const Icon(
                     IconsaxPlusBold.play,
                     size: 32,
@@ -341,20 +327,20 @@ class _PosterImageState extends ConsumerState<PosterImage> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   PopupMenuButton(
-                    tooltip: "Options",
+                    tooltip: context.localized.options,
                     icon: const Icon(
                       Icons.more_vert,
                       color: Colors.white,
                     ),
-                    itemBuilder: (context) => widget.poster
+                    itemBuilder: (context) => poster
                         .generateActions(
                           context,
                           ref,
-                          exclude: widget.excludeActions,
-                          otherActions: widget.otherActions,
-                          onUserDataChanged: widget.onUserDataChanged,
-                          onDeleteSuccesFully: widget.onItemRemoved,
-                          onItemUpdated: widget.onItemUpdated,
+                          exclude: excludeActions,
+                          otherActions: otherActions,
+                          onUserDataChanged: onUserDataChanged,
+                          onDeleteSuccesFully: onItemRemoved,
+                          onItemUpdated: onItemUpdated,
                         )
                         .popupMenuItems(useIcons: true),
                   ),
