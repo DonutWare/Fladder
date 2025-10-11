@@ -251,7 +251,7 @@ class _PosterImageState extends ConsumerState<PosterImage> {
                   ),
                 ),
               if ((widget.poster.unPlayedItemCount != null && widget.poster is SeriesModel) ||
-                  (widget.poster.playAble && !widget.poster.unWatched))
+                  (widget.poster.playAble && !widget.poster.unWatched && widget.poster is! PhotoAlbumModel))
                 IgnorePointer(
                   child: Align(
                     alignment: Alignment.topRight,

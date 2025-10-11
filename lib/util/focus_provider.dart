@@ -141,7 +141,6 @@ class FocusButtonState extends State<FocusButton> {
       cursor: SystemMouseCursors.click,
       onEnter: (event) => onHover.value = true,
       onExit: (event) => onHover.value = false,
-      hitTestBehavior: HitTestBehavior.translucent,
       child: Focus(
         focusNode: focusNode,
         autofocus: widget.autoFocus,
@@ -160,7 +159,13 @@ class FocusButtonState extends State<FocusButton> {
                 onTap: widget.onTap,
                 onSecondaryTapDown: widget.onSecondaryTapDown,
                 onLongPress: widget.onLongPress,
-                child: widget.child,
+                child: Container(
+                  clipBehavior: Clip.hardEdge,
+                  decoration: BoxDecoration(
+                    borderRadius: widget.borderRadius ?? FladderTheme.smallShape.borderRadius,
+                  ),
+                  child: widget.child,
+                ),
               ),
               Positioned.fill(
                 child: ValueListenableBuilder(

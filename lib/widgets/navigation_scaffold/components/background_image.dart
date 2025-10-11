@@ -31,7 +31,7 @@ class _BackgroundImageState extends ConsumerState<BackgroundImage> {
   @override
   void didUpdateWidget(covariant BackgroundImage oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (!oldWidget.items.equals(widget.items)) {
+    if (!oldWidget.items.equals(widget.items) || !oldWidget.images.equals(widget.images)) {
       updateItems();
     }
   }
@@ -46,7 +46,7 @@ class _BackgroundImageState extends ConsumerState<BackgroundImage> {
       ImageData? newImage;
 
       if (widget.images.isNotEmpty) {
-        newImage = widget.images.shuffled().firstOrNull?.primary;
+        newImage = widget.images.shuffled().firstOrNull?.randomBackDrop;
       } else if (widget.items.isNotEmpty) {
         final randomItem = widget.items.shuffled().firstOrNull;
         final itemId = switch (randomItem?.type) {

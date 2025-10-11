@@ -12,6 +12,7 @@ import 'package:fladder/util/debug_banner.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/poster_defaults.dart';
 import 'package:fladder/util/resolution_checker.dart';
+import 'package:fladder/widgets/keyboard/slide_in_keyboard.dart';
 
 enum InputDevice {
   touch,
@@ -209,32 +210,40 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
 
     final mediaQuery = MediaQuery.of(context);
 
-    return MediaQuery(
-      data: mediaQuery.copyWith(
-        padding: isDesktop || kIsWeb ? const EdgeInsets.only(top: defaultTitleBarHeight, bottom: 16) : null,
-        viewPadding: isDesktop || kIsWeb ? const EdgeInsets.only(top: defaultTitleBarHeight, bottom: 16) : null,
-      ),
-      child: AdaptiveLayout(
-        data: currentLayout.copyWith(
-          viewSize: selectedViewSize,
-          layoutMode: selectedLayoutMode,
-          inputDevice: input,
-          platform: currentPlatform,
-          isDesktop: isDesktop,
-          controller: scrollControllers,
-          posterDefaults: posterDefaults,
-        ),
-        child: Builder(
-          builder: (context) => isDesktop
-              ? ResolutionChecker(
-                  child:
-                      widget.adaptiveLayout == null ? DebugBanner(child: widget.child(context)) : widget.child(context),
-                )
-              : widget.adaptiveLayout == null
-                  ? DebugBanner(child: widget.child(context))
-                  : widget.child(context),
-        ),
-      ),
+    return ValueListenableBuilder(
+      valueListenable: isKeyboardOpen,
+      builder: (context, value, child) {
+        return MediaQuery(
+          data: mediaQuery.copyWith(
+            padding: (isDesktop || kIsWeb
+                ? const EdgeInsets.only(top: defaultTitleBarHeight, bottom: 16)
+                : mediaQuery.padding),
+            viewPadding: isDesktop || kIsWeb ? const EdgeInsets.only(top: defaultTitleBarHeight, bottom: 16) : null,
+          ),
+          child: AdaptiveLayout(
+            data: currentLayout.copyWith(
+              viewSize: selectedViewSize,
+              layoutMode: selectedLayoutMode,
+              inputDevice: input,
+              platform: currentPlatform,
+              isDesktop: isDesktop,
+              controller: scrollControllers,
+              posterDefaults: posterDefaults,
+            ),
+            child: Builder(
+              builder: (context) => isDesktop
+                  ? ResolutionChecker(
+                      child: widget.adaptiveLayout == null
+                          ? DebugBanner(child: widget.child(context))
+                          : widget.child(context),
+                    )
+                  : widget.adaptiveLayout == null
+                      ? DebugBanner(child: widget.child(context))
+                      : widget.child(context),
+            ),
+          ),
+        );
+      },
     );
   }
 }

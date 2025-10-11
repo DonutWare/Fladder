@@ -11,7 +11,7 @@ import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/focus_provider.dart';
-import 'package:fladder/widgets/keyboard/custom_keyboard.dart';
+import 'package:fladder/widgets/keyboard/slide_in_keyboard.dart';
 import 'package:fladder/widgets/shared/ensure_visible.dart';
 
 class OutlinedTextField extends ConsumerStatefulWidget {
@@ -71,6 +71,7 @@ class OutlinedTextField extends ConsumerStatefulWidget {
 }
 
 class _OutlinedTextFieldState extends ConsumerState<OutlinedTextField> {
+  late final controller = widget.controller ?? TextEditingController();
   late final FocusNode _textFocus = widget.focusNode ?? FocusNode();
   late final FocusNode _wrapperFocus = FocusNode()
     ..addListener(() {
@@ -130,7 +131,7 @@ class _OutlinedTextFieldState extends ConsumerState<OutlinedTextField> {
         ref.watch(clientSettingsProvider.select((value) => !value.useSystemIME));
 
     final textField = TextField(
-      controller: widget.controller,
+      controller: controller,
       onChanged: widget.onChanged,
       focusNode: _textFocus,
       onTap: widget.onTap,
@@ -199,26 +200,28 @@ class _OutlinedTextFieldState extends ConsumerState<OutlinedTextField> {
               ignoring: widget.enabled == false,
               child: KeyboardListener(
                 focusNode: _wrapperFocus,
-                onKeyEvent: (KeyEvent event) {
+                onKeyEvent: (KeyEvent event) async {
                   if (keyboardFocus || AdaptiveLayout.inputDeviceOf(context) != InputDevice.dPad) return;
                   if (event is KeyDownEvent && acceptKeys.contains(event.logicalKey)) {
                     if (_textFocus.hasFocus) {
                       _wrapperFocus.requestFocus();
                     } else if (_wrapperFocus.hasFocus) {
                       if (useCustomKeyboard) {
-                        CustomKeyboard.of(context).openKeyboard(
-                          textField,
-                          onClosed: () {
-                            setState(() {
-                              keyboardFocus = false;
-                            });
-                            _wrapperFocus.requestFocus();
+                        await openKeyboard(
+                          context,
+                          controller,
+                          inputType: widget.keyboardType,
+                          inputAction: widget.textInputAction,
+                          searchQuery: widget.searchQuery,
+                          onChanged: () {
+                            widget.onChanged?.call(controller.text);
                           },
-                          query: widget.searchQuery,
                         );
+                        widget.onSubmitted?.call(controller.text);
                         setState(() {
-                          keyboardFocus = true;
+                          keyboardFocus = false;
                         });
+                        _wrapperFocus.requestFocus();
                       } else {
                         _textFocus.requestFocus();
                       }

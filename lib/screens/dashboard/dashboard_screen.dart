@@ -105,7 +105,16 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           valueListenable: selectedPoster,
           builder: (_, value, __) {
             return BackgroundImage(
-              items: value != null ? [value] : [...homeCarouselItems, ...dashboardData.nextUp, ...allResume],
+              images: (value != null
+                      ? [value]
+                      : [
+                          ...homeCarouselItems,
+                          ...dashboardData.nextUp,
+                          ...allResume,
+                        ])
+                  .map((e) => e.images)
+                  .nonNulls
+                  .toList(),
             );
           },
         ),

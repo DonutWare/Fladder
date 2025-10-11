@@ -13,7 +13,7 @@ import 'package:fladder/screens/login/login_user_grid.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/screens/shared/fladder_logo.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
-import 'package:fladder/widgets/keyboard/custom_keyboard.dart';
+import 'package:fladder/widgets/keyboard/slide_in_keyboard.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/fladder_app_bar.dart';
 
 @RoutePage()

@@ -33,19 +33,21 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
       ImageType.banner,
     }.toList();
 
+    final fieldsToFetch = [
+      ItemFields.parentid,
+      ItemFields.mediastreams,
+      ItemFields.mediasources,
+      ItemFields.candelete,
+      ItemFields.candownload,
+      ItemFields.primaryimageaspectratio,
+      ItemFields.overview,
+      ItemFields.genres,
+    ];
+
     if (viewTypes.containsAny([CollectionType.movies, CollectionType.tvshows])) {
       final resumeVideoResponse = await api.usersUserIdItemsResumeGet(
         enableImageTypes: imagesToFetch,
-        fields: [
-          ItemFields.parentid,
-          ItemFields.mediastreams,
-          ItemFields.mediasources,
-          ItemFields.candelete,
-          ItemFields.candownload,
-          ItemFields.primaryimageaspectratio,
-          ItemFields.overview,
-          ItemFields.genres,
-        ],
+        fields: fieldsToFetch,
         mediaTypes: [MediaType.video],
         enableTotalRecordCount: false,
       );
@@ -58,16 +60,7 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
     if (viewTypes.contains(CollectionType.music)) {
       final resumeAudioResponse = await api.usersUserIdItemsResumeGet(
         enableImageTypes: imagesToFetch,
-        fields: [
-          ItemFields.parentid,
-          ItemFields.mediastreams,
-          ItemFields.mediasources,
-          ItemFields.candelete,
-          ItemFields.candownload,
-          ItemFields.primaryimageaspectratio,
-          ItemFields.overview,
-          ItemFields.genres,
-        ],
+        fields: fieldsToFetch,
         mediaTypes: [MediaType.audio],
         enableTotalRecordCount: false,
       );
@@ -80,16 +73,7 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
     if (viewTypes.contains(CollectionType.books)) {
       final resumeBookResponse = await api.usersUserIdItemsResumeGet(
         enableImageTypes: imagesToFetch,
-        fields: [
-          ItemFields.parentid,
-          ItemFields.mediastreams,
-          ItemFields.mediasources,
-          ItemFields.candelete,
-          ItemFields.candownload,
-          ItemFields.primaryimageaspectratio,
-          ItemFields.overview,
-          ItemFields.genres,
-        ],
+        fields: fieldsToFetch,
         mediaTypes: [MediaType.book],
         enableTotalRecordCount: false,
       );
@@ -102,16 +86,7 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
     final nextResponse = await api.showsNextUpGet(
       nextUpDateCutoff: DateTime.now().subtract(
           ref.read(clientSettingsProvider.select((value) => value.nextUpDateCutoff ?? const Duration(days: 28)))),
-      fields: [
-        ItemFields.parentid,
-        ItemFields.mediastreams,
-        ItemFields.mediasources,
-        ItemFields.candelete,
-        ItemFields.candownload,
-        ItemFields.primaryimageaspectratio,
-        ItemFields.overview,
-        ItemFields.genres,
-      ],
+      fields: fieldsToFetch,
     );
 
     final next = nextResponse.body?.items

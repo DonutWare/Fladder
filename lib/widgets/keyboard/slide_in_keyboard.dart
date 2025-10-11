@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/screens/shared/animated_fade_size.dart';
@@ -9,128 +10,124 @@ import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/keyboard/alpha_numeric_keyboard.dart';
 
-class CustomKeyboard extends InheritedWidget {
-  final CustomKeyboardState state;
+ValueNotifier<bool> isKeyboardOpen = ValueNotifier<bool>(false);
 
-  const CustomKeyboard({
-    required this.state,
-    required super.child,
+double keyboardWidthFactor = 0.2;
+
+class CustomKeyboardWrapper extends StatelessWidget {
+  final Widget child;
+  const CustomKeyboardWrapper({
+    required this.child,
     super.key,
   });
 
-  static CustomKeyboardState of(BuildContext context) {
-    final inherited = context.dependOnInheritedWidgetOfExactType<CustomKeyboard>();
-    assert(inherited != null, 'No CustomKeyboard found in context');
-    return inherited!.state;
-  }
-
-  @override
-  bool updateShouldNotify(CustomKeyboard oldWidget) => state != oldWidget.state;
-}
-
-class CustomKeyboardWrapper extends StatefulWidget {
-  final Widget child;
-
-  const CustomKeyboardWrapper({super.key, required this.child});
-
-  @override
-  CustomKeyboardState createState() => CustomKeyboardState();
-}
-
-class CustomKeyboardState extends State<CustomKeyboardWrapper> {
-  bool _isOpen = false;
-  TextEditingController? _controller;
-  TextField? _textField;
-
-  bool get isOpen => _isOpen;
-
-  VoidCallback? onCloseCall;
-
-  FutureOr<List<String>> Function(String query)? searchQuery;
-
-  void openKeyboard(
-    TextField textField, {
-    VoidCallback? onClosed,
-    FutureOr<List<String>> Function(String query)? query,
-  }) {
-    onCloseCall = onClosed;
-
-    searchQuery = query;
-
-    setState(() {
-      _isOpen = true;
-      _textField = textField;
-      _controller = textField.controller;
-    });
-    _controller?.addListener(() {
-      _textField?.onChanged?.call(_controller?.text ?? "");
-    });
-  }
-
-  void closeKeyboard() {
-    setState(() {
-      _isOpen = false;
-    });
-    onCloseCall?.call();
-    onCloseCall = null;
-    if (_controller != null) {
-      _textField?.onSubmitted?.call(_controller?.text ?? "");
-      _textField?.onEditingComplete?.call();
-      _controller?.removeListener(() {
-        _textField?.onChanged?.call(_controller?.text ?? "");
-      });
-    }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _controller?.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    final mq = MediaQuery.of(context);
-    return BackButtonListener(
-      onBackButtonPressed: () async {
-        if (!context.mounted) return false;
-        if (_isOpen && context.mounted) {
-          closeKeyboard();
-          return true;
-        } else {
-          return false;
-        }
-      },
-      child: CustomKeyboard(
-        state: this,
+    return Container(
+      color: Theme.of(context).colorScheme.surface,
+      child: ValueListenableBuilder(
+        valueListenable: isKeyboardOpen,
+        builder: (context, value, _) {
+          return AnimatedFractionallySizedBox(
+            duration: const Duration(milliseconds: 175),
+            widthFactor: value ? 1.0 - keyboardWidthFactor : 1.0,
+            heightFactor: 1.0,
+            alignment: Alignment.centerRight,
+            child: child,
+          );
+        },
+      ),
+    );
+  }
+}
+
+Future<T?> openKeyboard<T>(
+  BuildContext context,
+  TextEditingController controller, {
+  TextInputType? inputType,
+  TextInputAction? inputAction,
+  FutureOr<List<String>> Function(String query)? searchQuery,
+  VoidCallback? onChanged,
+}) async {
+  isKeyboardOpen.value = true;
+  await showGeneralDialog(
+    context: context,
+    transitionDuration: const Duration(milliseconds: 175),
+    barrierDismissible: true,
+    barrierColor: Colors.transparent,
+    barrierLabel: 'Custom keyboard',
+    useRootNavigator: true,
+    fullscreenDialog: true,
+    transitionBuilder: (context, animation, secondaryAnimation, child) {
+      return SlideTransition(
+        position: Tween(begin: const Offset(-1, 0), end: const Offset(0, 0)).animate(
+          animation,
+        ),
+        child: child,
+      );
+    },
+    pageBuilder: (context, animation1, animation2) {
+      return Align(
+        alignment: Alignment.centerLeft,
+        child: _SlideInKeyboard(
+          controller: controller,
+          onChanged: onChanged ?? () {},
+          onClose: () {
+            context.router.pop();
+            isKeyboardOpen.value = false;
+            return null;
+          },
+          inputType: inputType,
+          inputAction: inputAction,
+          searchQuery: searchQuery,
+        ),
+      );
+    },
+  );
+  isKeyboardOpen.value = false;
+  return null;
+}
+
+class _SlideInKeyboard extends StatefulWidget {
+  final TextEditingController controller;
+  final Function() onChanged;
+  final Function() onClose;
+  final TextInputType? inputType;
+  final TextInputAction? inputAction;
+  final FutureOr<List<String>> Function(String query)? searchQuery;
+  const _SlideInKeyboard({
+    required this.controller,
+    required this.onChanged,
+    required this.onClose,
+    this.inputType,
+    this.inputAction,
+    this.searchQuery,
+  });
+
+  @override
+  State<_SlideInKeyboard> createState() => __SlideInKeyboardState();
+}
+
+class __SlideInKeyboardState extends State<_SlideInKeyboard> {
+  @override
+  Widget build(BuildContext context) {
+    final padding = MediaQuery.paddingOf(context);
+    final width = MediaQuery.sizeOf(context).width * keyboardWidthFactor;
+    return FractionallySizedBox(
+      widthFactor: keyboardWidthFactor,
+      heightFactor: 1.0,
+      child: Padding(
+        padding: padding.copyWith(left: (padding.left - width).clamp(0, padding.left)),
         child: Container(
+          height: double.infinity,
           color: Theme.of(context).colorScheme.surface,
-          alignment: Alignment.center,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              AnimatedSize(
-                duration: const Duration(milliseconds: 125),
-                child: _isOpen
-                    ? SizedBox(
-                        width: mq.size.width * 0.20,
-                        height: double.infinity,
-                        child: Material(
-                          color: Theme.of(context).colorScheme.surface,
-                          child: _CustomKeyboardView(
-                            controller: _controller!,
-                            keyboardType: _textField?.keyboardType,
-                            keyboardActionType: _textField?.textInputAction,
-                            onClose: closeKeyboard,
-                            onChanged: () => _textField?.onChanged?.call(_controller?.text ?? ""),
-                            searchQuery: searchQuery,
-                          ),
-                        ),
-                      )
-                    : const SizedBox.shrink(),
-              ),
-              Expanded(child: widget.child),
-            ],
+          child: _CustomKeyboardView(
+            controller: widget.controller,
+            onChanged: widget.onChanged,
+            onClose: widget.onClose,
+            keyboardType: widget.inputType,
+            keyboardActionType: widget.inputAction,
+            searchQuery: widget.searchQuery,
           ),
         ),
       ),
@@ -187,7 +184,7 @@ class _CustomKeyboardViewState extends State<_CustomKeyboardView> {
       node: scope,
       autofocus: true,
       child: Padding(
-        padding: const EdgeInsets.all(12.0).add(MediaQuery.paddingOf(context)),
+        padding: const EdgeInsets.all(12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           spacing: 16,
@@ -301,7 +298,10 @@ class _SearchResults extends StatelessWidget {
                 spacing: 8,
                 children: [
                   const Icon(IconsaxPlusLinear.search_status_1),
-                  Text(context.localized.noResults),
+                  Text(
+                    context.localized.noResults,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
                 ],
               ),
             ),
