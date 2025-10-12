@@ -1,3 +1,4 @@
+// poster_image.dart
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -54,7 +55,7 @@ class PosterImage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final posterRadius = FladderTheme.smallShape.borderRadius;
+    final radius = FladderTheme.smallShape.borderRadius;
     final padding = const EdgeInsets.all(5);
     final myKey = key ?? UniqueKey();
 
@@ -74,240 +75,188 @@ class PosterImage extends ConsumerWidget {
           }
         },
         onFocusChanged: onFocusChanged,
-        onLongPress: () {
-          showBottomSheetPill(
-            context: context,
-            item: poster,
-            content: (scrollContext, scrollController) => ListView(
-              shrinkWrap: true,
-              controller: scrollController,
-              children: poster
-                  .generateActions(
-                    context,
-                    ref,
-                    exclude: excludeActions,
-                    otherActions: otherActions,
-                    onUserDataChanged: onUserDataChanged,
-                    onDeleteSuccesFully: onItemRemoved,
-                    onItemUpdated: onItemUpdated,
-                  )
-                  .listTileItems(scrollContext, useIcons: true),
-            ),
-          );
-        },
-        onSecondaryTapDown: (details) async {
-          Offset localPosition = details.globalPosition;
-          RelativeRect position =
-              RelativeRect.fromLTRB(localPosition.dx, localPosition.dy, localPosition.dx, localPosition.dy);
-          await showMenu(
-            context: context,
-            position: position,
-            items: poster
-                .generateActions(
-                  context,
-                  ref,
-                  exclude: excludeActions,
-                  otherActions: otherActions,
-                  onUserDataChanged: onUserDataChanged,
-                  onDeleteSuccesFully: onItemRemoved,
-                  onItemUpdated: onItemUpdated,
-                )
-                .popupMenuItems(useIcons: true),
-          );
-        },
-        child: Card(
-          elevation: 6,
-          color: Theme.of(context).colorScheme.secondaryContainer,
-          shape: RoundedRectangleBorder(
-            side: BorderSide(
-              width: 1.0,
-              color: Colors.white.withValues(alpha: 0.10),
-            ),
-            borderRadius: posterRadius,
-          ),
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              FladderImage(
-                image: primaryPosters
-                    ? poster.images?.primary
-                    : poster.getPosters?.primary ?? poster.getPosters?.backDrop?.lastOrNull,
-                placeHolder: PosterPlaceholder(item: poster),
-              ),
-              if (poster.userData.progress > 0 && poster.type == FladderItemType.book)
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Padding(
-                    padding: padding,
-                    child: Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(5.5),
-                        child: Text(
-                          context.localized.page((poster as BookModel).currentPage),
-                          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.primary,
-                                fontSize: 12,
-                              ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              if (selected == true)
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.15),
-                    border: Border.all(width: 3, color: Theme.of(context).colorScheme.primary),
-                    borderRadius: posterRadius,
-                  ),
-                  clipBehavior: Clip.hardEdge,
-                  child: Stack(
-                    alignment: Alignment.topCenter,
-                    children: [
-                      Container(
-                        color: Theme.of(context).colorScheme.primary,
-                        width: double.infinity,
-                        child: Padding(
-                          padding: const EdgeInsets.all(2),
-                          child: Text(
-                            poster.name,
-                            maxLines: 2,
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelMedium
-                                ?.copyWith(color: Theme.of(context).colorScheme.onPrimary, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (poster.userData.isFavourite)
-                      const Row(
-                        children: [
-                          StatusCard(
-                            color: Colors.red,
-                            child: Icon(
-                              IconsaxPlusBold.heart,
-                              size: 21,
-                              color: Colors.red,
-                            ),
-                          ),
-                        ],
-                      ),
-                    if ((poster.userData.progress > 0 && poster.userData.progress < 100) &&
-                        poster.type != FladderItemType.book) ...{
-                      const SizedBox(
-                        height: 4,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 3).copyWith(bottom: 3).add(padding),
-                        child: Card(
-                          color: Colors.transparent,
-                          elevation: 3,
-                          shadowColor: Colors.transparent,
-                          child: LinearProgressIndicator(
-                            minHeight: 7.5,
-                            backgroundColor: Theme.of(context).colorScheme.onPrimary.withValues(alpha: 0.5),
-                            value: poster.userData.progress / 100,
-                            borderRadius: BorderRadius.circular(2),
-                          ),
-                        ),
-                      ),
-                    },
-                  ],
-                ),
-              ),
-              if (inlineTitle)
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Text(
-                      poster.title.maxLength(limitTo: 25),
-                      style:
-                          Theme.of(context).textTheme.labelLarge?.copyWith(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
-              if ((poster.unPlayedItemCount != null && poster is SeriesModel) ||
-                  (poster.playAble && !poster.unWatched && poster is! PhotoAlbumModel))
-                IgnorePointer(
-                  child: Align(
-                    alignment: Alignment.topRight,
-                    child: StatusCard(
-                      color: Theme.of(context).colorScheme.primary,
-                      useFittedBox: poster.unPlayedItemCount != 0,
-                      child: Padding(
-                        padding: const EdgeInsets.all(6),
-                        child: poster.unPlayedItemCount != 0
-                            ? Container(
-                                constraints: const BoxConstraints(minWidth: 16),
-                                child: Text(
-                                  poster.userData.unPlayedItemCount.toString(),
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Theme.of(context).colorScheme.primary,
-                                    fontWeight: FontWeight.bold,
-                                    overflow: TextOverflow.visible,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              )
-                            : Icon(
-                                Icons.check_rounded,
-                                size: 20,
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                      ),
-                    ),
-                  ),
-                ),
-              if (poster.overview.runTime != null &&
-                  ((poster is PhotoModel) && (poster as PhotoModel).internalType == FladderItemType.video)) ...{
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Padding(
-                    padding: padding,
-                    child: Card(
-                      elevation: 5,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              poster.overview.runTime.humanizeSmall ?? "",
-                              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(context).colorScheme.onSurface,
-                                  ),
-                            ),
-                            const SizedBox(width: 2),
-                            Icon(
-                              Icons.play_arrow_rounded,
-                              color: Theme.of(context).colorScheme.onSurface,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              },
-            ],
+        onLongPress: () => _showBottomSheet(context, ref),
+        onSecondaryTapDown: (details) => _showContextMenu(context, ref, details.globalPosition),
+        child: Container(
+          color: Theme.of(context).cardColor,
+          child: FladderImage(
+            image: primaryPosters
+                ? poster.images?.primary
+                : poster.getPosters?.primary ?? poster.getPosters?.backDrop?.lastOrNull,
+            placeHolder: PosterPlaceholder(item: poster),
           ),
         ),
         overlays: [
-          //Poster Button
+          if (poster.userData.progress > 0 && poster.type == FladderItemType.book)
+            Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: padding,
+                child: Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.5),
+                    child: Text(
+                      context.localized.page((poster as BookModel).currentPage),
+                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.primary,
+                            fontSize: 12,
+                          ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          if (selected == true)
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.black.withValues(alpha: 0.15),
+                border: Border.all(width: 3, color: Theme.of(context).colorScheme.primary),
+                borderRadius: radius,
+              ),
+              clipBehavior: Clip.hardEdge,
+              child: Stack(
+                alignment: Alignment.topCenter,
+                children: [
+                  Container(
+                    color: Theme.of(context).colorScheme.primary,
+                    width: double.infinity,
+                    child: Padding(
+                      padding: const EdgeInsets.all(2),
+                      child: Text(
+                        poster.name,
+                        maxLines: 2,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context)
+                            .textTheme
+                            .labelMedium
+                            ?.copyWith(color: Theme.of(context).colorScheme.onPrimary, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (poster.userData.isFavourite)
+                  const Row(
+                    children: [
+                      StatusCard(
+                        color: Colors.red,
+                        child: Icon(
+                          IconsaxPlusBold.heart,
+                          size: 21,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ],
+                  ),
+                if ((poster.userData.progress > 0 && poster.userData.progress < 100) &&
+                    poster.type != FladderItemType.book) ...{
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 3).copyWith(bottom: 3).add(padding),
+                    child: Card(
+                      color: Colors.transparent,
+                      elevation: 3,
+                      shadowColor: Colors.transparent,
+                      child: LinearProgressIndicator(
+                        minHeight: 7.5,
+                        backgroundColor: Theme.of(context).colorScheme.onPrimary.withValues(alpha: 0.5),
+                        value: poster.userData.progress / 100,
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                    ),
+                  ),
+                },
+              ],
+            ),
+          ),
+          if (inlineTitle)
+            Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Text(
+                  poster.title.maxLength(limitTo: 25),
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+          if (poster is! PhotoAlbumModel && (poster.unPlayedItemCount != null && poster is SeriesModel) ||
+              (poster.playAble && !poster.unWatched))
+            IgnorePointer(
+              child: Align(
+                alignment: Alignment.topRight,
+                child: StatusCard(
+                  color: Theme.of(context).colorScheme.primary,
+                  useFittedBox: poster.unPlayedItemCount != 0,
+                  child: Padding(
+                    padding: const EdgeInsets.all(6),
+                    child: poster.unPlayedItemCount != 0
+                        ? Container(
+                            constraints: const BoxConstraints(minWidth: 16),
+                            child: Text(
+                              poster.userData.unPlayedItemCount.toString(),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontWeight: FontWeight.bold,
+                                overflow: TextOverflow.visible,
+                                fontSize: 14,
+                              ),
+                            ),
+                          )
+                        : Icon(
+                            Icons.check_rounded,
+                            size: 20,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                  ),
+                ),
+              ),
+            ),
+          if (poster.overview.runTime != null &&
+              ((poster is PhotoModel) && (poster as PhotoModel).internalType == FladderItemType.video)) ...{
+            Align(
+              alignment: Alignment.topRight,
+              child: Padding(
+                padding: padding,
+                child: Card(
+                  elevation: 5,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          poster.overview.runTime.humanizeSmall ?? "",
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
+                        ),
+                        const SizedBox(width: 2),
+                        Icon(
+                          Icons.play_arrow_rounded,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            )
+          },
+        ],
+        focusedOverlays: [
           if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer) ...[
             //  Play Button
             if (poster.playAble)
@@ -350,6 +299,47 @@ class PosterImage extends ConsumerWidget {
           ],
         ],
       ),
+    );
+  }
+
+  void _showBottomSheet(BuildContext context, WidgetRef ref) {
+    showBottomSheetPill(
+      context: context,
+      item: poster,
+      content: (scrollContext, scrollController) => ListView(
+        shrinkWrap: true,
+        controller: scrollController,
+        children: poster
+            .generateActions(
+              context,
+              ref,
+              exclude: excludeActions,
+              otherActions: otherActions,
+              onUserDataChanged: onUserDataChanged,
+              onDeleteSuccesFully: onItemRemoved,
+              onItemUpdated: onItemUpdated,
+            )
+            .listTileItems(scrollContext, useIcons: true),
+      ),
+    );
+  }
+
+  Future<void> _showContextMenu(BuildContext context, WidgetRef ref, Offset globalPos) async {
+    final position = RelativeRect.fromLTRB(globalPos.dx, globalPos.dy, globalPos.dx, globalPos.dy);
+    await showMenu(
+      context: context,
+      position: position,
+      items: poster
+          .generateActions(
+            context,
+            ref,
+            exclude: excludeActions,
+            otherActions: otherActions,
+            onUserDataChanged: onUserDataChanged,
+            onDeleteSuccesFully: onItemRemoved,
+            onItemUpdated: onItemUpdated,
+          )
+          .popupMenuItems(useIcons: true),
     );
   }
 }

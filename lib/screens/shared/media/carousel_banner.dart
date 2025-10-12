@@ -70,6 +70,7 @@ class _CarouselBannerState extends ConsumerState<CarouselBanner> {
                             final opacity = (constraints.maxWidth / maxExtent);
                             return FocusButton(
                               onTap: () => widget.items[index].navigateTo(context),
+                              borderRadius: border,
                               onFocusChanged: (hover) {
                                 context.ensureVisible();
                               },
@@ -155,9 +156,6 @@ class _CarouselBannerState extends ConsumerState<CarouselBanner> {
                                       ),
                                     ),
                                   ),
-                                  ExcludeFocus(
-                                    child: BannerPlayButton(item: widget.items[index]),
-                                  ),
                                   IgnorePointer(
                                     child: Container(
                                       decoration: BoxDecoration(
@@ -171,6 +169,11 @@ class _CarouselBannerState extends ConsumerState<CarouselBanner> {
                                   ),
                                 ],
                               ),
+                              overlays: [
+                                ExcludeFocus(
+                                  child: BannerPlayButton(item: widget.items[index]),
+                                ),
+                              ],
                             );
                           },
                         ),

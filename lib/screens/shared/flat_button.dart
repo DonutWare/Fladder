@@ -18,6 +18,7 @@ class FlatButton extends ConsumerWidget {
   final double elevation;
   final bool showFeedback;
   final Clip clipBehavior;
+  final List<Widget> overlays;
   const FlatButton({
     this.child,
     this.onFocusChange,
@@ -32,6 +33,7 @@ class FlatButton extends ConsumerWidget {
     this.elevation = 0,
     this.showFeedback = true,
     this.clipBehavior = Clip.none,
+    this.overlays = const [],
     super.key,
   });
 
@@ -67,6 +69,7 @@ class FlatButton extends ConsumerWidget {
             ),
           ),
         ),
+        ...overlays,
       ],
     );
   }

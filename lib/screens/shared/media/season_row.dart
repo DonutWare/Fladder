@@ -80,20 +80,42 @@ class SeasonPoster extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
-            child: Card(
-              child: Stack(
-                children: [
-                  Positioned.fill(
-                    child: Hero(
-                      tag: myKey,
-                      child: FladderImage(
-                        image: season.getPosters?.primary ??
-                            season.parentImages?.backDrop?.firstOrNull ??
-                            season.parentImages?.primary,
-                        placeHolder: placeHolder(season.name),
-                      ),
-                    ),
-                  ),
+            child: Hero(
+              tag: myKey,
+              child: FocusButton(
+                child: FladderImage(
+                  image: season.getPosters?.primary ??
+                      season.parentImages?.backDrop?.firstOrNull ??
+                      season.parentImages?.primary,
+                  placeHolder: placeHolder(season.name),
+                ),
+                onSecondaryTapDown: (details) async {
+                  Offset localPosition = details.globalPosition;
+                  RelativeRect position =
+                      RelativeRect.fromLTRB(localPosition.dx, localPosition.dy, localPosition.dx, localPosition.dy);
+                  await showMenu(
+                      context: context,
+                      position: position,
+                      items: season.generateActions(context, ref).popupMenuItems(useIcons: true));
+                },
+                onTap: () async {
+                  await season.navigateTo(context, ref: ref, tag: myKey);
+                  if (!context.mounted) return;
+                  context.refreshData();
+                },
+                onLongPress: AdaptiveLayout.inputDeviceOf(context) == InputDevice.touch
+                    ? () {
+                        showBottomSheetPill(
+                          context: context,
+                          content: (context, scrollController) => ListView(
+                            shrinkWrap: true,
+                            controller: scrollController,
+                            children: season.generateActions(context, ref).listTileItems(context, useIcons: true),
+                          ),
+                        );
+                      }
+                    : null,
+                overlays: [
                   if (season.images?.primary == null)
                     Align(
                       alignment: Alignment.topLeft,
@@ -141,50 +163,19 @@ class SeasonPoster extends ConsumerWidget {
                       ],
                     ),
                   ),
-                  Positioned.fill(
-                    child: FocusButton(
-                      onSecondaryTapDown: (details) async {
-                        Offset localPosition = details.globalPosition;
-                        RelativeRect position = RelativeRect.fromLTRB(
-                            localPosition.dx, localPosition.dy, localPosition.dx, localPosition.dy);
-                        await showMenu(
-                            context: context,
-                            position: position,
-                            items: season.generateActions(context, ref).popupMenuItems(useIcons: true));
-                      },
-                      onTap: () async {
-                        await season.navigateTo(context, ref: ref, tag: myKey);
-                        if (!context.mounted) return;
-                        context.refreshData();
-                      },
-                      onLongPress: AdaptiveLayout.inputDeviceOf(context) == InputDevice.touch
-                          ? () {
-                              showBottomSheetPill(
-                                context: context,
-                                content: (context, scrollController) => ListView(
-                                  shrinkWrap: true,
-                                  controller: scrollController,
-                                  children: season.generateActions(context, ref).listTileItems(context, useIcons: true),
-                                ),
-                              );
-                            }
-                          : null,
-                      overlays: [
-                        if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer)
-                          ExcludeFocus(
-                            child: Align(
-                              alignment: Alignment.bottomRight,
-                              child: PopupMenuButton(
-                                tooltip: context.localized.options,
-                                icon: const Icon(Icons.more_vert, color: Colors.white),
-                                itemBuilder: (context) =>
-                                    season.generateActions(context, ref).popupMenuItems(useIcons: true),
-                              ),
-                            ),
-                          ),
-                      ],
+                ],
+                focusedOverlays: [
+                  if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer)
+                    ExcludeFocus(
+                      child: Align(
+                        alignment: Alignment.bottomRight,
+                        child: PopupMenuButton(
+                          tooltip: context.localized.options,
+                          icon: const Icon(Icons.more_vert, color: Colors.white),
+                          itemBuilder: (context) => season.generateActions(context, ref).popupMenuItems(useIcons: true),
+                        ),
+                      ),
                     ),
-                  ),
                 ],
               ),
             ),

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:animations/animations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/screens/details_screens/person_detail_screen.dart';
+import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/focus_provider.dart';
@@ -26,10 +26,11 @@ class PeopleRow extends ConsumerWidget {
         child: SizedBox(
           height: 75,
           width: 75,
-          child: Card(
-            elevation: 5,
-            shadowColor: Colors.transparent,
-            color: Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.50),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: FladderTheme.smallShape.borderRadius,
+              color: Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.50),
+            ),
             child: Center(
                 child: Text(
               name.getInitials(),
@@ -55,26 +56,24 @@ class PeopleRow extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Flexible(
-                child: OpenContainer(
-                  closedColor: Colors.transparent,
-                  closedElevation: 5,
-                  openElevation: 0,
-                  closedShape: const RoundedRectangleBorder(),
-                  transitionType: ContainerTransitionType.fadeThrough,
-                  openColor: Colors.transparent,
-                  tappable: false,
-                  closedBuilder: (context, action) => Card(
-                    child: FocusButton(
-                      onTap: () => action(),
-                      child: FladderImage(
-                        image: person.image,
-                        placeHolder: placeHolder(person.name),
-                        fit: BoxFit.cover,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: FladderTheme.smallShape.borderRadius,
+                    color: Theme.of(context).cardTheme.color?.withValues(alpha: 0.1),
+                  ),
+                  child: FocusButton(
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => PersonDetailScreen(
+                          person: person,
+                        ),
                       ),
                     ),
-                  ),
-                  openBuilder: (context, action) => PersonDetailScreen(
-                    person: person,
+                    child: FladderImage(
+                      image: person.image,
+                      placeHolder: placeHolder(person.name),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),

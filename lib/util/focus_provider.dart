@@ -46,6 +46,7 @@ class FocusButton extends StatefulWidget {
   final Widget? child;
   final bool autoFocus;
   final FocusNode? focusNode;
+  final List<Widget> focusedOverlays;
   final List<Widget> overlays;
   final Function()? onTap;
   final Function()? onLongPress;
@@ -58,6 +59,7 @@ class FocusButton extends StatefulWidget {
     this.child,
     this.autoFocus = false,
     this.focusNode,
+    this.focusedOverlays = const [],
     this.overlays = const [],
     this.onTap,
     this.onLongPress,
@@ -74,7 +76,7 @@ class FocusButton extends StatefulWidget {
 
 class FocusButtonState extends State<FocusButton> {
   late FocusNode focusNode = widget.focusNode ?? FocusNode();
-  ValueNotifier<bool> onHover = ValueNotifier<bool>(false);
+  ValueNotifier<bool> onHover = ValueNotifier(false);
   Timer? _longPressTimer;
   bool _longPressTriggered = false;
   bool _keyDownActive = false;
@@ -153,47 +155,49 @@ class FocusButtonState extends State<FocusButton> {
         },
         onKeyEvent: _handleKey,
         child: ExcludeFocus(
-          child: Stack(
-            children: [
-              FlatButton(
-                onTap: widget.onTap,
-                onSecondaryTapDown: widget.onSecondaryTapDown,
-                onLongPress: widget.onLongPress,
-                child: Container(
-                  clipBehavior: Clip.hardEdge,
-                  decoration: BoxDecoration(
-                    borderRadius: widget.borderRadius ?? FladderTheme.smallShape.borderRadius,
-                  ),
-                  child: widget.child,
+          child: ValueListenableBuilder(
+            valueListenable: onHover,
+            builder: (context, value, child) {
+              return AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.easeInOut,
+                clipBehavior: Clip.hardEdge,
+                decoration: BoxDecoration(
+                  borderRadius: widget.borderRadius ?? FladderTheme.smallShape.borderRadius,
                 ),
-              ),
-              Positioned.fill(
-                child: ValueListenableBuilder(
-                  valueListenable: onHover,
-                  builder: (context, value, child) => AnimatedOpacity(
-                    opacity: value ? 1 : 0,
-                    duration: const Duration(milliseconds: 125),
-                    child: Stack(
-                      children: [
-                        IgnorePointer(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .surfaceContainerLowest
-                                  .withValues(alpha: widget.darkOverlay ? 0.35 : 0),
-                              border: Border.all(width: 3, color: Theme.of(context).colorScheme.onPrimaryContainer),
-                              borderRadius: widget.borderRadius ?? FladderTheme.smallShape.borderRadius,
-                            ),
-                          ),
+                foregroundDecoration: BoxDecoration(
+                  borderRadius: widget.borderRadius ?? FladderTheme.smallShape.borderRadius,
+                  color: widget.darkOverlay
+                      ? Theme.of(context).colorScheme.primaryFixedDim.withValues(alpha: value ? 0.10 : 0.0)
+                      : null,
+                  border: Border.all(
+                    width: value ? 3.5 : 2,
+                    color: value ? Theme.of(context).colorScheme.primary : Colors.white.withAlpha(15),
+                  ),
+                ),
+                child: FlatButton(
+                  onTap: widget.onTap,
+                  onSecondaryTapDown: widget.onSecondaryTapDown,
+                  onLongPress: widget.onLongPress,
+                  child: Stack(
+                    children: [
+                      if (widget.child != null) widget.child!,
+                    ],
+                  ),
+                  overlays: [
+                    if (widget.overlays.isNotEmpty) ...widget.overlays,
+                    if (widget.focusedOverlays.isNotEmpty)
+                      AnimatedOpacity(
+                        opacity: value ? 1 : 0,
+                        duration: const Duration(milliseconds: 250),
+                        child: Stack(
+                          children: [...widget.focusedOverlays],
                         ),
-                        ...widget.overlays,
-                      ],
-                    ),
-                  ),
+                      ),
+                  ],
                 ),
-              ),
-            ],
+              );
+            },
           ),
         ),
       ),
