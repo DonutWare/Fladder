@@ -247,7 +247,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                   ),
                 ),
                 //Top row buttons
-                if (AdaptiveLayout.of(context).viewSize < ViewSize.desktop)
+                if (AdaptiveLayout.inputDeviceOf(context) != InputDevice.dPad)
                   IconTheme(
                     data: IconThemeData(color: Theme.of(context).colorScheme.onSurface),
                     child: Padding(

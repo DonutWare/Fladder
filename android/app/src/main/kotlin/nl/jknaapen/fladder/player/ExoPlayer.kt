@@ -2,7 +2,6 @@ package nl.jknaapen.fladder.player
 
 import PlaybackState
 import android.app.ActivityManager
-import android.content.Context
 import android.view.ViewGroup
 import androidx.annotation.OptIn
 import androidx.compose.foundation.background
@@ -24,12 +23,8 @@ import androidx.media3.common.Player
 import androidx.media3.common.TrackSelectionParameters
 import androidx.media3.common.Tracks
 import androidx.media3.common.util.UnstableApi
-import androidx.media3.datasource.DataSource
 import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.DefaultHttpDataSource
-import androidx.media3.datasource.cache.CacheDataSource
-import androidx.media3.datasource.cache.LeastRecentlyUsedCacheEvictor
-import androidx.media3.datasource.cache.SimpleCache
 import androidx.media3.exoplayer.DefaultRenderersFactory
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
@@ -45,7 +40,6 @@ import nl.jknaapen.fladder.objects.PlayerSettingsObject
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.getAudioTracks
 import nl.jknaapen.fladder.utility.getSubtitleTracks
-import java.io.File
 
 val LocalPlayer = compositionLocalOf<ExoPlayer?> { null }
 
@@ -73,7 +67,9 @@ internal fun ExoPlayer(
         setConstantBitrateSeekingAlwaysEnabled(true)
     }
 
-    val videoCache = remember { VideoCache.buildCacheDataSourceFactory(context) }
+    val dataSourceFactory = remember {
+        DefaultDataSource.Factory(context, DefaultHttpDataSource.Factory())
+    }
 
     val audioAttributes = AudioAttributes.Builder()
         .setUsage(C.USAGE_MEDIA)
@@ -99,7 +95,7 @@ internal fun ExoPlayer(
     val exoPlayer = remember {
         ExoPlayer.Builder(context, renderersFactory)
             .setTrackSelector(trackSelector)
-            .setMediaSourceFactory(DefaultMediaSourceFactory(videoCache, extractorsFactory))
+            .setMediaSourceFactory(DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory))
             .setAudioAttributes(audioAttributes, true)
             .setHandleAudioBecomingNoisy(true)
             .setPauseAtEndOfMediaItems(true)
@@ -205,32 +201,5 @@ internal fun ExoPlayer(
         CompositionLocalProvider(LocalPlayer provides exoPlayer) {
             controls(exoPlayer)
         }
-    }
-}
-
-@UnstableApi
-object VideoCache {
-    private const val CACHE_SIZE: Long = 150L * 1024L * 1024L // 150 MB
-
-    @Volatile
-    private var cache: SimpleCache? = null
-
-    fun getCache(context: Context): SimpleCache {
-        return cache ?: synchronized(this) {
-            cache ?: SimpleCache(
-                File(context.cacheDir, "video_cache"),
-                LeastRecentlyUsedCacheEvictor(CACHE_SIZE)
-            ).also { cache = it }
-        }
-    }
-
-    fun buildCacheDataSourceFactory(context: Context): DataSource.Factory {
-        val httpDataSourceFactory = DefaultHttpDataSource.Factory()
-        val upstreamFactory = DefaultDataSource.Factory(context, httpDataSourceFactory)
-
-        return CacheDataSource.Factory()
-            .setCache(getCache(context))
-            .setUpstreamDataSourceFactory(upstreamFactory)
-            .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
     }
 }

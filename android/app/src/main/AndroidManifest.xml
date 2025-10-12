@@ -23,7 +23,8 @@
         android:icon="@mipmap/ic_launcher"
         android:banner="@drawable/app_banner"
         android:usesCleartextTraffic="true"
-        android:enableOnBackInvokedCallback="true">
+        android:enableOnBackInvokedCallback="true"
+        android:largeHeap="true">
 
         <activity
             android:name=".MainActivity"
