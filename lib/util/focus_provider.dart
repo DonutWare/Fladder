@@ -172,7 +172,7 @@ class FocusButtonState extends State<FocusButton> {
                       : null,
                   border: Border.all(
                     width: value ? 3.5 : 2,
-                    color: value ? Theme.of(context).colorScheme.primary : Colors.white.withAlpha(15),
+                    color: Theme.of(context).colorScheme.primary.withValues(alpha: value ? 1 : 0.0),
                   ),
                 ),
                 child: FlatButton(

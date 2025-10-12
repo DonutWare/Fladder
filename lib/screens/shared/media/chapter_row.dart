@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/items/chapters_model.dart';
+import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/humanize_duration.dart';
@@ -59,42 +60,45 @@ class ChapterRow extends ConsumerWidget {
               },
             );
           },
-          child: Card(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: FladderTheme.smallShape.borderRadius,
+              color: Theme.of(context).colorScheme.surfaceContainer,
+            ),
+            foregroundDecoration: BoxDecoration(
+              borderRadius: FladderTheme.smallShape.borderRadius,
+              border: Border.all(width: 2, color: Colors.white.withAlpha(25)),
+            ),
             child: AspectRatio(
               aspectRatio: 1.75,
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  CachedNetworkImage(
-                    imageUrl: chapter.imageUrl,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => const Icon(IconsaxPlusBold.image),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.all(5),
-                      child: Card(
-                        elevation: 0,
-                        shadowColor: Colors.transparent,
-                        color: Theme.of(context).cardColor.withValues(alpha: 0.4),
-                        child: Padding(
-                          padding: const EdgeInsets.all(5),
-                          child: Text(
-                            "${chapter.name} \n${chapter.startPosition.humanize ?? context.localized.start}",
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+              child: CachedNetworkImage(
+                imageUrl: chapter.imageUrl,
+                fit: BoxFit.cover,
+                placeholder: (context, url) => const Icon(IconsaxPlusBold.image),
               ),
             ),
           ),
           overlays: [
-            if (AdaptiveLayout.of(context).isDesktop)
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: Padding(
+                padding: const EdgeInsets.all(5),
+                child: Container(
+                  color: Theme.of(context).colorScheme.surfaceContainer,
+                  child: Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: Text(
+                      "${chapter.name} \n${chapter.startPosition.humanize ?? context.localized.start}",
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+          focusedOverlays: [
+            if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer)
               ExcludeFocus(
                 child: Align(
                   alignment: Alignment.bottomRight,

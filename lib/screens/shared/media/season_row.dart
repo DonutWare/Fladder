@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fladder/models/items/season_model.dart';
 import 'package:fladder/providers/sync/sync_provider_helpers.dart';
 import 'package:fladder/screens/syncing/sync_button.dart';
+import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/focus_provider.dart';
@@ -83,11 +84,21 @@ class SeasonPoster extends ConsumerWidget {
             child: Hero(
               tag: myKey,
               child: FocusButton(
-                child: FladderImage(
-                  image: season.getPosters?.primary ??
-                      season.parentImages?.backDrop?.firstOrNull ??
-                      season.parentImages?.primary,
-                  placeHolder: placeHolder(season.name),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: FladderTheme.smallShape.borderRadius,
+                    color: Theme.of(context).colorScheme.surfaceContainer,
+                  ),
+                  foregroundDecoration: BoxDecoration(
+                    borderRadius: FladderTheme.smallShape.borderRadius,
+                    border: Border.all(width: 2, color: Colors.white.withAlpha(25)),
+                  ),
+                  child: FladderImage(
+                    image: season.getPosters?.primary ??
+                        season.parentImages?.backDrop?.firstOrNull ??
+                        season.parentImages?.primary,
+                    placeHolder: placeHolder(season.name),
+                  ),
                 ),
                 onSecondaryTapDown: (details) async {
                   Offset localPosition = details.globalPosition;

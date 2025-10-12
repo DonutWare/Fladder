@@ -7,6 +7,7 @@ import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/sync/sync_provider_helpers.dart';
 import 'package:fladder/screens/syncing/sync_button.dart';
+import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/focus_provider.dart';
@@ -174,15 +175,25 @@ class EpisodePoster extends ConsumerWidget {
               },
               child: Hero(
                 tag: heroTag ?? UniqueKey(),
-                child: FladderImage(
-                  image: !episodeAvailable ? episode.parentImages?.primary : episode.images?.primary,
-                  placeHolder: placeHolder,
-                  blurOnly: !episodeAvailable
-                      ? true
-                      : ref.watch(clientSettingsProvider.select((value) => value.blurUpcomingEpisodes))
-                          ? blur
-                          : false,
-                  decodeHeight: 250,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: FladderTheme.smallShape.borderRadius,
+                    color: Theme.of(context).colorScheme.surfaceContainer,
+                  ),
+                  foregroundDecoration: BoxDecoration(
+                    borderRadius: FladderTheme.smallShape.borderRadius,
+                    border: Border.all(width: 2, color: Colors.white.withAlpha(25)),
+                  ),
+                  child: FladderImage(
+                    image: !episodeAvailable ? episode.parentImages?.primary : episode.images?.primary,
+                    placeHolder: placeHolder,
+                    blurOnly: !episodeAvailable
+                        ? true
+                        : ref.watch(clientSettingsProvider.select((value) => value.blurUpcomingEpisodes))
+                            ? blur
+                            : false,
+                    decodeHeight: 250,
+                  ),
                 ),
               ),
               overlays: [

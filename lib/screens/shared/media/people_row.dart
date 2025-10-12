@@ -59,7 +59,11 @@ class PeopleRow extends ConsumerWidget {
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: FladderTheme.smallShape.borderRadius,
-                    color: Theme.of(context).cardTheme.color?.withValues(alpha: 0.1),
+                    color: Theme.of(context).colorScheme.surfaceContainer,
+                  ),
+                  foregroundDecoration: BoxDecoration(
+                    borderRadius: FladderTheme.smallShape.borderRadius,
+                    border: Border.all(width: 2, color: Colors.white.withAlpha(25)),
                   ),
                   child: FocusButton(
                     onTap: () => Navigator.of(context).push(

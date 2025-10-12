@@ -78,7 +78,14 @@ class PosterImage extends ConsumerWidget {
         onLongPress: () => _showBottomSheet(context, ref),
         onSecondaryTapDown: (details) => _showContextMenu(context, ref, details.globalPosition),
         child: Container(
-          color: Theme.of(context).cardColor,
+          decoration: BoxDecoration(
+            borderRadius: radius,
+            color: Theme.of(context).colorScheme.surfaceContainer,
+          ),
+          foregroundDecoration: BoxDecoration(
+            borderRadius: radius,
+            border: Border.all(width: 2, color: Colors.white.withAlpha(25)),
+          ),
           child: FladderImage(
             image: primaryPosters
                 ? poster.images?.primary
