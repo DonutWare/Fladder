@@ -1202,7 +1202,7 @@ packages:
     description:
       path: media_kit
       ref: main
-      resolved-ref: "6578860b4106b73f6c0b27aeef6124cd8d443876"
+      resolved-ref: "46bf02c1a49be19bee4e9c2c41bc2209b4884c33"
       url: "https://github.com/DonutWare/media-kit.git"
     source: git
     version: "1.2.1"
@@ -1211,7 +1211,7 @@ packages:
     description:
       path: "libs/android/media_kit_libs_android_video"
       ref: HEAD
-      resolved-ref: "6578860b4106b73f6c0b27aeef6124cd8d443876"
+      resolved-ref: "46bf02c1a49be19bee4e9c2c41bc2209b4884c33"
       url: "https://github.com/DonutWare/media-kit.git"
     source: git
     version: "1.3.8"
@@ -1220,7 +1220,7 @@ packages:
     description:
       path: "libs/ios/media_kit_libs_ios_video"
       ref: HEAD
-      resolved-ref: "6578860b4106b73f6c0b27aeef6124cd8d443876"
+      resolved-ref: "46bf02c1a49be19bee4e9c2c41bc2209b4884c33"
       url: "https://github.com/DonutWare/media-kit.git"
     source: git
     version: "1.1.4"
@@ -1229,7 +1229,7 @@ packages:
     description:
       path: "libs/linux/media_kit_libs_linux"
       ref: HEAD
-      resolved-ref: "6578860b4106b73f6c0b27aeef6124cd8d443876"
+      resolved-ref: "46bf02c1a49be19bee4e9c2c41bc2209b4884c33"
       url: "https://github.com/DonutWare/media-kit.git"
     source: git
     version: "1.2.1"
@@ -1238,7 +1238,7 @@ packages:
     description:
       path: "libs/macos/media_kit_libs_macos_video"
       ref: HEAD
-      resolved-ref: "6578860b4106b73f6c0b27aeef6124cd8d443876"
+      resolved-ref: "46bf02c1a49be19bee4e9c2c41bc2209b4884c33"
       url: "https://github.com/DonutWare/media-kit.git"
     source: git
     version: "1.1.4"
@@ -1247,7 +1247,7 @@ packages:
     description:
       path: "libs/universal/media_kit_libs_video"
       ref: main
-      resolved-ref: "6578860b4106b73f6c0b27aeef6124cd8d443876"
+      resolved-ref: "46bf02c1a49be19bee4e9c2c41bc2209b4884c33"
       url: "https://github.com/DonutWare/media-kit.git"
     source: git
     version: "1.0.7"
@@ -1256,7 +1256,7 @@ packages:
     description:
       path: "libs/windows/media_kit_libs_windows_video"
       ref: HEAD
-      resolved-ref: "6578860b4106b73f6c0b27aeef6124cd8d443876"
+      resolved-ref: "46bf02c1a49be19bee4e9c2c41bc2209b4884c33"
       url: "https://github.com/DonutWare/media-kit.git"
     source: git
     version: "1.0.11"
@@ -1265,7 +1265,7 @@ packages:
     description:
       path: media_kit_video
       ref: main
-      resolved-ref: "6578860b4106b73f6c0b27aeef6124cd8d443876"
+      resolved-ref: "46bf02c1a49be19bee4e9c2c41bc2209b4884c33"
       url: "https://github.com/DonutWare/media-kit.git"
     source: git
     version: "1.3.1"
