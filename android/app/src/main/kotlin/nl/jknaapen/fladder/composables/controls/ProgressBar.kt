@@ -83,6 +83,8 @@ internal fun ProgressBar(
     val position by VideoPlayerObject.position.collectAsState(0L)
     val duration by VideoPlayerObject.duration.collectAsState(0L)
 
+    val endTimeString by VideoPlayerObject.endTime.collectAsState(null)
+
     var tempPosition by remember { mutableLongStateOf(position) }
     var scrubbingTimeLine by remember { mutableStateOf(false) }
 
@@ -99,7 +101,7 @@ internal fun ProgressBar(
     }
 
     Column(
-        verticalArrangement = Arrangement.spacedBy(12.dp, alignment = Alignment.CenterVertically)
+        verticalArrangement = Arrangement.spacedBy(4.dp, alignment = Alignment.CenterVertically)
     ) {
         val playbackData by VideoPlayerObject.implementation.playbackData.collectAsState(null)
         if (scrubbingTimeLine)
@@ -115,21 +117,25 @@ internal fun ProgressBar(
         Row(
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            val subTitle = playableData?.subTitle
-            subTitle?.let {
+            val progressBarTopLabel = listOf(
+                playableData?.subTitle,
+                endTimeString,
+            )
+
+            val label = progressBarTopLabel.joinToString(separator = " - ")
+            if (label.isNotBlank()) {
                 Text(
-                    text = it,
-                    style = MaterialTheme.typography.titleLarge.copy(
+                    text = label,
+                    style = MaterialTheme.typography.bodyLarge.copy(
                         color = Color.White,
                         fontWeight = FontWeight.Bold
                     ),
                 )
             }
-            VideoEndTime()
         }
         Row(
             horizontalArrangement = Arrangement.spacedBy(
-                16.dp,
+                12.dp,
                 alignment = Alignment.CenterHorizontally
             ),
             verticalAlignment = Alignment.CenterVertically,
@@ -138,7 +144,7 @@ internal fun ProgressBar(
             Text(
                 formatTime(currentPosition),
                 color = Color.White,
-                style = MaterialTheme.typography.titleLarge.copy(
+                style = MaterialTheme.typography.bodyLarge.copy(
                     fontWeight = FontWeight.Bold
                 )
             )
@@ -163,7 +169,7 @@ internal fun ProgressBar(
                     )
                 ),
                 color = Color.White,
-                style = MaterialTheme.typography.titleLarge.copy(
+                style = MaterialTheme.typography.bodyLarge.copy(
                     fontWeight = FontWeight.Bold
                 )
             )
@@ -212,7 +218,7 @@ internal fun RowScope.SimpleProgressBar(
                     width = it.size.width
                 }
             )
-            .heightIn(min = 42.dp)
+            .heightIn(min = 32.dp)
             .pointerInput(Unit) {
                 detectTapGestures { offset ->
                     onUserInteraction()
@@ -253,7 +259,7 @@ internal fun RowScope.SimpleProgressBar(
             modifier = Modifier
                 .focusable(enabled = false)
                 .fillMaxWidth()
-                .height(10.dp)
+                .height(9.dp)
                 .background(
                     color = Color.White.copy(
                         alpha = 0.15f
@@ -307,10 +313,10 @@ internal fun RowScope.SimpleProgressBar(
                             .focusable(enabled = false)
                             .graphicsLayer {
                                 translationX = startPx
-                                translationY = 20.dp.toPx()
+                                translationY = 13.dp.toPx()
                             }
                             .width(segDp)
-                            .height(8.dp)
+                            .height(7.dp)
                             .background(
                                 color = segment.color.copy(alpha = 0.75f),
                                 shape = RoundedCornerShape(8.dp)

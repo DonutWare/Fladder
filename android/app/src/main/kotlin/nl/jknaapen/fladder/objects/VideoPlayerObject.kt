@@ -3,12 +3,20 @@ package nl.jknaapen.fladder.objects
 import PlaybackState
 import VideoPlayerControlsCallback
 import VideoPlayerListenerCallback
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import nl.jknaapen.fladder.VideoPlayerActivity
 import nl.jknaapen.fladder.messengers.VideoPlayerImplementation
 import nl.jknaapen.fladder.utility.InternalTrack
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
+import kotlin.time.toJavaInstant
 
 object VideoPlayerObject {
     val implementation: VideoPlayerImplementation = VideoPlayerImplementation()
@@ -22,6 +30,20 @@ object VideoPlayerObject {
     val playing = _currentState.map { it?.playing ?: false }
 
     val chapters = implementation.playbackData.map { it?.chapters }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    @OptIn(ExperimentalTime::class)
+    val endTime = combine(position, duration) { pos, dur ->
+        val startInstant = Clock.System.now()
+        val zone = ZoneId.systemDefault()
+
+        val remainingMs = (dur - pos).coerceAtLeast(0L)
+        val endInstant = startInstant.toJavaInstant().plusMillis(remainingMs)
+        val endZoned = endInstant.atZone(zone)
+        val formatter = DateTimeFormatter.ofPattern("hh:mm a")
+
+        "ends at ${endZoned.format(formatter)}"
+    }
 
     val currentSubtitleTrackIndex =
         MutableStateFlow((implementation.playbackData.value?.defaultSubtrack ?: -1).toInt())

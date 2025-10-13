@@ -1,10 +1,9 @@
 package nl.jknaapen.fladder.composables.dialogs
 
 import androidx.annotation.OptIn
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
@@ -12,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
@@ -48,9 +46,8 @@ fun SubtitlePicker(
         LazyColumn(
             state = listState,
             modifier = Modifier
-                .fillMaxWidth()
+                .wrapContentWidth()
                 .padding(horizontal = 8.dp, vertical = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
             item {
                 val selectedOff = -1 == selectedIndex
@@ -64,17 +61,9 @@ fun SubtitlePicker(
                     },
                     selected = selectedOff
                 ) {
-                    Column(
-                        horizontalAlignment = Alignment.Start,
-                        verticalArrangement = Arrangement.spacedBy(
-                            8.dp,
-                            alignment = Alignment.CenterVertically
-                        )
-                    ) {
-                        Text(
-                            text = "Off",
-                        )
-                    }
+                    Text(
+                        text = "Off",
+                    )
                 }
             }
             internalSubTracks.forEachIndexed { index, subtitle ->
@@ -93,17 +82,9 @@ fun SubtitlePicker(
                         },
                         selected = selected,
                     ) {
-                        Column(
-                            horizontalAlignment = Alignment.Start,
-                            verticalArrangement = Arrangement.spacedBy(
-                                8.dp,
-                                alignment = Alignment.CenterVertically
-                            )
-                        ) {
-                            Text(
-                                text = serverSub?.name ?: "",
-                            )
-                        }
+                        Text(
+                            text = serverSub?.name ?: "",
+                        )
                     }
                 }
             }

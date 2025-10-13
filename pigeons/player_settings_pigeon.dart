@@ -14,12 +14,15 @@ import 'package:pigeon/pigeon.dart';
 class PlayerSettings {
   final bool enableTunneling;
   final Map<SegmentType, SegmentSkip> skipTypes;
+  //Color in ARGB32 format
+  final int? themeColor;
   final int skipForward;
   final int skipBackward;
 
   const PlayerSettings({
     required this.enableTunneling,
     required this.skipTypes,
+    required this.themeColor,
     required this.skipForward,
     required this.skipBackward,
   });

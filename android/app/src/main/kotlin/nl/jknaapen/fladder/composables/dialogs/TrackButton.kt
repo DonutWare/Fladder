@@ -1,20 +1,23 @@
 package nl.jknaapen.fladder.composables.dialogs
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import io.github.rabehx.iconsax.Iconsax
+import io.github.rabehx.iconsax.filled.TickSquare
+import nl.jknaapen.fladder.composables.controls.CustomIconButton
+import nl.jknaapen.fladder.utility.defaultSelected
 
 @Composable
 internal fun TrackButton(
@@ -23,30 +26,30 @@ internal fun TrackButton(
     selected: Boolean = false,
     content: @Composable () -> Unit,
 ) {
-    val backgroundColor = if (selected) Color.White else Color.Black
-    val textColor = if (selected) Color.Black else Color.White
     val textStyle =
-        MaterialTheme.typography.bodyLarge.copy(color = textColor, fontWeight = FontWeight.Bold)
+        MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold)
 
-    val interactionSource = remember { MutableInteractionSource() }
-
-    TextButton(
+    CustomIconButton(
+        backgroundColor = Color.White.copy(alpha = 0.25f),
         modifier = modifier
-            .background(
-                color = backgroundColor.copy(alpha = 0.65f),
-                shape = RoundedCornerShape(12.dp),
-            )
-            .padding(12.dp)
-            .clickable(
-                onClick = onClick,
-                interactionSource = interactionSource,
-                indication = null,
-            ),
+            .padding(vertical = 6.dp, horizontal = 12.dp)
+            .defaultMinSize(minHeight = 40.dp)
+            .defaultSelected(selected),
         onClick = onClick,
-        interactionSource = interactionSource,
     ) {
-        CompositionLocalProvider(LocalTextStyle provides textStyle) {
-            content()
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            if (selected) {
+                Icon(
+                    imageVector = Iconsax.Filled.TickSquare,
+                    contentDescription = "",
+                )
+            }
+            CompositionLocalProvider(LocalTextStyle provides textStyle) {
+                content()
+            }
         }
     }
 }

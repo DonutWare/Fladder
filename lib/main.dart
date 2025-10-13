@@ -98,7 +98,7 @@ void main(List<String> args) async {
         applicationInfoProvider.overrideWith((ref) => applicationInfo),
         crashLogProvider.overrideWith((ref) => crashProvider),
         argumentsStateProvider.overrideWith((ref) => ArgumentsModel.fromArguments(args, leanBackEnabled)),
-        syncProvider.overrideWith((ref) => SyncNotifier(ref, applicationDirectory))
+        syncProvider.overrideWith((ref) => SyncNotifier(ref, applicationDirectory)),
       ],
       child: AdaptiveLayoutBuilder(
         child: (context) => const Main(),

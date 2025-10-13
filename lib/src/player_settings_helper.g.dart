@@ -47,6 +47,7 @@ class PlayerSettings {
   PlayerSettings({
     required this.enableTunneling,
     required this.skipTypes,
+    this.themeColor,
     required this.skipForward,
     required this.skipBackward,
   });
@@ -54,6 +55,8 @@ class PlayerSettings {
   bool enableTunneling;
 
   Map<SegmentType, SegmentSkip> skipTypes;
+
+  int? themeColor;
 
   int skipForward;
 
@@ -63,6 +66,7 @@ class PlayerSettings {
     return <Object?>[
       enableTunneling,
       skipTypes,
+      themeColor,
       skipForward,
       skipBackward,
     ];
@@ -76,8 +80,9 @@ class PlayerSettings {
     return PlayerSettings(
       enableTunneling: result[0]! as bool,
       skipTypes: (result[1] as Map<Object?, Object?>?)!.cast<SegmentType, SegmentSkip>(),
-      skipForward: result[2]! as int,
-      skipBackward: result[3]! as int,
+      themeColor: result[2] as int?,
+      skipForward: result[3]! as int,
+      skipBackward: result[4]! as int,
     );
   }
 

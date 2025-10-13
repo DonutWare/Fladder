@@ -24,15 +24,12 @@ List<Widget> buildClientSettingsTheme(BuildContext context, WidgetRef ref) {
         items: ThemeMode.values,
         selected: [ref.read(clientSettingsProvider.select((value) => value.themeMode))],
         onChanged: (values) => ref.read(clientSettingsProvider.notifier).setThemeMode(values.first),
-        itemBuilder: (type, selected, tap) => RadioGroup(
-          groupValue: ref.read(clientSettingsProvider.select((value) => value.themeMode)),
+        itemBuilder: (type, selected, tap) => CheckboxListTile(
+          value: selected,
           onChanged: (value) => tap(),
-          child: RadioListTile(
-            value: type,
-            title: Text(type.label(context)),
-            contentPadding: EdgeInsets.zero,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          ),
+          title: Text(type.label(context)),
+          contentPadding: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         ),
       ),
     ),
@@ -41,43 +38,40 @@ List<Widget> buildClientSettingsTheme(BuildContext context, WidgetRef ref) {
       subLabel: Text(clientSettings.themeColor?.name ?? context.localized.dynamicText),
       onTap: () => openMultiSelectOptions<ColorThemes?>(
         context,
-        label: context.localized.settingsLayoutModesTitle,
+        label: context.localized.color,
         items: [null, ...ColorThemes.values],
         selected: [(ref.read(clientSettingsProvider.select((value) => value.themeColor)))],
         onChanged: (values) => ref.read(clientSettingsProvider.notifier).setThemeColor(values.first),
-        itemBuilder: (type, selected, tap) => RadioGroup(
+        itemBuilder: (type, selected, tap) => CheckboxListTile(
+          contentPadding: EdgeInsets.zero,
+          value: selected,
           onChanged: (value) => tap(),
-          groupValue: ref.read(clientSettingsProvider.select((value) => value.themeColor)),
-          child: RadioListTile<ColorThemes?>(
-            contentPadding: EdgeInsets.zero,
-            value: type,
-            title: Row(
-              children: [
-                Container(
-                  height: 24,
-                  width: 24,
-                  decoration: BoxDecoration(
-                    gradient: type == null
-                        ? const SweepGradient(
-                            center: FractionalOffset.center,
-                            colors: <Color>[
-                              Color(0xFF4285F4), // blue
-                              Color(0xFF34A853), // green
-                              Color(0xFFFBBC05), // yellow
-                              Color(0xFFEA4335), // red
-                              Color(0xFF4285F4), // blue again to seamlessly transition to the start
-                            ],
-                            stops: <double>[0.0, 0.25, 0.5, 0.75, 1.0],
-                          )
-                        : null,
-                    color: type?.color,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
+          title: Row(
+            children: [
+              Container(
+                height: 24,
+                width: 24,
+                decoration: BoxDecoration(
+                  gradient: type == null
+                      ? const SweepGradient(
+                          center: FractionalOffset.center,
+                          colors: <Color>[
+                            Color(0xFF4285F4), // blue
+                            Color(0xFF34A853), // green
+                            Color(0xFFFBBC05), // yellow
+                            Color(0xFFEA4335), // red
+                            Color(0xFF4285F4), // blue again to seamlessly transition to the start
+                          ],
+                          stops: <double>[0.0, 0.25, 0.5, 0.75, 1.0],
+                        )
+                      : null,
+                  color: type?.color,
+                  borderRadius: BorderRadius.circular(4),
                 ),
-                const SizedBox(width: 8),
-                Text(type?.name ?? context.localized.dynamicText),
-              ],
-            ),
+              ),
+              const SizedBox(width: 8),
+              Text(type?.name ?? context.localized.dynamicText),
+            ],
           ),
         ),
       ),
@@ -88,18 +82,15 @@ List<Widget> buildClientSettingsTheme(BuildContext context, WidgetRef ref) {
       onTap: () async {
         await openMultiSelectOptions<DynamicSchemeVariant>(
           context,
-          label: context.localized.settingsLayoutModesTitle,
+          label: context.localized.clientSettingsSchemeVariantTitle,
           items: DynamicSchemeVariant.values,
           selected: [(ref.read(clientSettingsProvider.select((value) => value.schemeVariant)))],
           onChanged: (values) => ref.read(clientSettingsProvider.notifier).setSchemeVariant(values.first),
-          itemBuilder: (type, selected, tap) => RadioGroup(
+          itemBuilder: (type, selected, tap) => CheckboxListTile(
+            contentPadding: EdgeInsets.zero,
+            value: selected,
             onChanged: (value) => tap(),
-            groupValue: selected ? type : null,
-            child: RadioListTile<DynamicSchemeVariant>(
-              contentPadding: EdgeInsets.zero,
-              value: type,
-              title: Text(type.label(context)),
-            ),
+            title: Text(type.label(context)),
           ),
         );
       },

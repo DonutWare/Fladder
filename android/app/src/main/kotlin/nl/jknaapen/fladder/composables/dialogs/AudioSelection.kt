@@ -1,7 +1,6 @@
 package nl.jknaapen.fladder.composables.dialogs
 
 import androidx.annotation.OptIn
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -48,7 +47,6 @@ fun AudioPicker(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp, vertical = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
             item {
                 val selectedOff = -1 == selectedIndex

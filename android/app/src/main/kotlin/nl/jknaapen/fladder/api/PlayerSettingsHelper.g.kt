@@ -95,6 +95,7 @@ enum class SegmentSkip(val raw: Int) {
 data class PlayerSettings (
   val enableTunneling: Boolean,
   val skipTypes: Map<SegmentType, SegmentSkip>,
+  val themeColor: Long? = null,
   val skipForward: Long,
   val skipBackward: Long
 )
@@ -103,15 +104,17 @@ data class PlayerSettings (
     fun fromList(pigeonVar_list: List<Any?>): PlayerSettings {
       val enableTunneling = pigeonVar_list[0] as Boolean
       val skipTypes = pigeonVar_list[1] as Map<SegmentType, SegmentSkip>
-      val skipForward = pigeonVar_list[2] as Long
-      val skipBackward = pigeonVar_list[3] as Long
-      return PlayerSettings(enableTunneling, skipTypes, skipForward, skipBackward)
+      val themeColor = pigeonVar_list[2] as Long?
+      val skipForward = pigeonVar_list[3] as Long
+      val skipBackward = pigeonVar_list[4] as Long
+      return PlayerSettings(enableTunneling, skipTypes, themeColor, skipForward, skipBackward)
     }
   }
   fun toList(): List<Any?> {
     return listOf(
       enableTunneling,
       skipTypes,
+      themeColor,
       skipForward,
       skipBackward,
     )

@@ -6,7 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
@@ -57,7 +56,6 @@ internal fun CustomIconButton(
 
     Box(
         modifier = modifier
-            .wrapContentSize() // parent expands to fit children
             .conditional(enableScaledFocus) {
                 scale(if (isFocused) 1.05f else 1f)
             }
@@ -69,11 +67,11 @@ internal fun CustomIconButton(
                 indication = null,
                 onClick = onClick
             )
-            .alpha(if (enabled) 1f else 0.5f),
+            .alpha(if (enabled) 1f else 0.15f),
         contentAlignment = Alignment.Center
     ) {
         CompositionLocalProvider(LocalContentColor provides currentContentColor) {
-            Box(modifier = Modifier.padding(16.dp)) {
+            Box(modifier = Modifier.padding(8.dp)) {
                 icon()
             }
         }

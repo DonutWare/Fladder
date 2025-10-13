@@ -15,6 +15,7 @@ import 'package:fladder/providers/settings/book_viewer_settings_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/home_settings_provider.dart';
 import 'package:fladder/providers/settings/photo_view_settings_provider.dart';
+import 'package:fladder/providers/settings/pigeon_player_settings_provider.dart';
 import 'package:fladder/providers/settings/subtitle_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
@@ -25,6 +26,9 @@ final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
 
 final sharedUtilityProvider = Provider<SharedUtility>((ref) {
   final sharedPrefs = ref.watch(sharedPreferencesProvider);
+
+  //Init pigeon settings sync for native
+  ref.read(pigeonPlayerSettingsSyncProvider);
   return SharedUtility(ref: ref, sharedPreferences: sharedPrefs);
 });
 

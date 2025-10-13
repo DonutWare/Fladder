@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -97,23 +98,30 @@ fun CustomVideoControls(
 
     val buffering by VideoPlayerObject.buffering.collectAsState(true)
     val playing by VideoPlayerObject.playing.collectAsState(false)
-    val controlsPadding = 32.dp
+    val controlsPadding = 16.dp
 
     ImmersiveSystemBars(isImmersive = !showControls)
+
+    val bottomControlFocusRequester = remember { FocusRequester() }
+
+    fun hideControls() {
+        showControls = false
+        bottomControlFocusRequester.requestFocus()
+    }
+
 
     BackHandler(
         enabled = showControls
     ) {
-        showControls = false
+        hideControls()
     }
+
 
     // Restart the hide timer whenever `lastInteraction` changes.
     LaunchedEffect(lastInteraction.longValue) {
         delay(5.seconds)
-        showControls = false
+        hideControls()
     }
-
-    val bottomControlFocusRequester = remember { FocusRequester() }
 
     fun updateLastInteraction() {
         showControls = true
@@ -167,7 +175,7 @@ fun CustomVideoControls(
                         .background(
                             brush = Brush.linearGradient(
                                 colors = listOf(
-                                    Color.Black.copy(alpha = 0.85f),
+                                    Color.Black.copy(alpha = 0.90f),
                                     Color.Black.copy(alpha = 0f),
                                 ),
                                 start = Offset(0f, 0f),
@@ -175,10 +183,11 @@ fun CustomVideoControls(
                             ),
                         )
                         .safeContentPadding(),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.Start)
+                    horizontalArrangement = Arrangement.spacedBy(12.dp, alignment = Alignment.Start)
                 ) {
                     Column(
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier
+                            .weight(1f),
                     ) {
                         val state by VideoPlayerObject.implementation.playbackData.collectAsState(
                             null
@@ -196,7 +205,7 @@ fun CustomVideoControls(
                             Icon(
                                 Iconsax.Outline.CloseSquare,
                                 modifier = Modifier
-                                    .size(48.dp)
+                                    .size(38.dp)
                                     .focusable(false),
                                 contentDescription = "Close icon",
                                 tint = Color.White,
@@ -209,40 +218,39 @@ fun CustomVideoControls(
                 Column(
                     modifier = Modifier
                         .padding(horizontal = controlsPadding)
-                        .displayCutoutPadding(),
-                ) {
-                    ProgressBar(
-                        modifier = Modifier,
-                        exoPlayer, bottomControlFocusRequester, ::updateLastInteraction
-                    )
-                }
-                Row(
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
                         .background(
                             brush = Brush.linearGradient(
                                 colors = listOf(
                                     Color.Black.copy(alpha = 0f),
-                                    Color.Black.copy(alpha = 0.85f),
+                                    Color.Black.copy(alpha = 0.9f),
                                 ),
                                 start = Offset(0f, 0f),
                                 end = Offset(0f, Float.POSITIVE_INFINITY)
                             ),
                         )
                         .displayCutoutPadding()
-                        .padding(horizontal = controlsPadding)
                         .padding(top = 8.dp, bottom = controlsPadding)
                 ) {
-                    LeftButtons(
-                        openChapterSelection = {
-                            showChapterDialog = true
-                        }
+                    ProgressBar(
+                        modifier = Modifier,
+                        exoPlayer, bottomControlFocusRequester, ::updateLastInteraction
                     )
-                    PlaybackButtons(exoPlayer, bottomControlFocusRequester)
-                    RightButtons(showAudioDialog, showSubDialog)
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        LeftButtons(
+                            openChapterSelection = {
+                                showChapterDialog = true
+                            }
+                        )
+                        PlaybackButtons(exoPlayer, bottomControlFocusRequester)
+                        RightButtons(showAudioDialog, showSubDialog)
+                    }
                 }
+
             }
         }
         SegmentSkipOverlay()
@@ -252,7 +260,7 @@ fun CustomVideoControls(
                     .align(alignment = Alignment.Center)
                     .size(64.dp),
                 strokeCap = StrokeCap.Round,
-                strokeWidth = 12.dp
+                strokeWidth = 10.dp
             )
         }
     }
@@ -310,7 +318,7 @@ fun PlaybackButtons(
             .padding(horizontal = 4.dp, vertical = 6.dp)
             .wrapContentWidth(),
         horizontalArrangement = Arrangement.spacedBy(
-            16.dp,
+            12.dp,
             alignment = Alignment.CenterHorizontally
         ),
         verticalAlignment = Alignment.CenterVertically,
@@ -321,7 +329,6 @@ fun PlaybackButtons(
         ) {
             Icon(
                 Iconsax.Filled.Backward,
-                modifier = Modifier.size(32.dp),
                 contentDescription = previousVideo,
             )
         }
@@ -339,11 +346,13 @@ fun PlaybackButtons(
             ) {
                 Icon(
                     Iconsax.Outline.Refresh,
+                    modifier = Modifier.size(38.dp),
                     contentDescription = "Forward",
-                    modifier = Modifier
-                        .size(48.dp),
                 )
-                Text("-${backwardSpeed.inWholeSeconds}")
+                Text(
+                    "-${backwardSpeed.inWholeSeconds}",
+                    style = MaterialTheme.typography.bodySmall
+                )
             }
         }
         CustomIconButton(
@@ -357,7 +366,7 @@ fun PlaybackButtons(
         ) {
             Icon(
                 if (isPlaying) Iconsax.Filled.Pause else Iconsax.Filled.Play,
-                modifier = Modifier.size(55.dp),
+                modifier = Modifier.size(42.dp),
                 contentDescription = if (isPlaying) "Pause" else "Play",
             )
         }
@@ -377,10 +386,13 @@ fun PlaybackButtons(
                     Iconsax.Outline.Refresh,
                     contentDescription = "Forward",
                     modifier = Modifier
-                        .size(48.dp)
+                        .size(38.dp)
                         .scale(scaleX = -1f, scaleY = 1f),
                 )
-                Text(forwardSpeed.inWholeSeconds.toString())
+                Text(
+                    forwardSpeed.inWholeSeconds.toString(),
+                    style = MaterialTheme.typography.bodySmall
+                )
             }
         }
 
@@ -390,7 +402,6 @@ fun PlaybackButtons(
         ) {
             Icon(
                 Iconsax.Filled.Forward,
-                modifier = Modifier.size(32.dp),
                 contentDescription = nextVideo,
             )
         }
@@ -405,7 +416,7 @@ internal fun RowScope.LeftButtons(
 
     Row(
         modifier = Modifier.weight(1f),
-        horizontalArrangement = Arrangement.Start
+        horizontalArrangement = Arrangement.spacedBy(12.dp, alignment = Alignment.Start)
     ) {
         CustomIconButton(
             onClick = openChapterSelection,
@@ -413,7 +424,6 @@ internal fun RowScope.LeftButtons(
         ) {
             Icon(
                 Iconsax.Filled.Check,
-                modifier = Modifier.size(32.dp),
                 contentDescription = "Show chapters",
             )
         }
@@ -427,7 +437,7 @@ internal fun RowScope.RightButtons(
 ) {
     Row(
         modifier = Modifier.weight(1f),
-        horizontalArrangement = Arrangement.End
+        horizontalArrangement = Arrangement.spacedBy(12.dp, alignment = Alignment.End)
     ) {
         CustomIconButton(
             onClick = {
@@ -436,7 +446,6 @@ internal fun RowScope.RightButtons(
         ) {
             Icon(
                 Iconsax.Filled.AudioSquare,
-                modifier = Modifier.size(32.dp),
                 contentDescription = "Audio Track",
             )
         }
@@ -447,7 +456,6 @@ internal fun RowScope.RightButtons(
         ) {
             Icon(
                 Iconsax.Filled.Subtitle,
-                modifier = Modifier.size(32.dp),
                 contentDescription = "Subtitles",
             )
         }

@@ -2,6 +2,7 @@ package nl.jknaapen.fladder.objects
 
 import PlayerSettings
 import PlayerSettingsPigeon
+import androidx.compose.ui.graphics.Color
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import kotlin.time.DurationUnit
@@ -19,6 +20,12 @@ object PlayerSettingsObject : PlayerSettingsPigeon {
         (it?.skipBackward ?: 1L).toDuration(
             DurationUnit.MILLISECONDS
         )
+    }
+
+    val themeColor = settings.map { settings ->
+        settings?.themeColor.let {
+            if (it == null) null else Color(it)
+        }
     }
 
     override fun sendPlayerSettings(playerSettings: PlayerSettings) {
