@@ -26,7 +26,7 @@ class DetailedBanner extends ConsumerStatefulWidget {
 }
 
 class _DetailedBannerState extends ConsumerState<DetailedBanner> {
-  late ItemBaseModel selectedPoster = widget.posters.first;
+  late ValueNotifier<ItemBaseModel> selectedPoster = ValueNotifier(widget.posters.first);
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +45,11 @@ class _DetailedBannerState extends ConsumerState<DetailedBanner> {
                 child: AspectRatio(
                   aspectRatio: 1.8,
                   child: CustomShaderMask(
-                    child: FladderImage(
-                      image: selectedPoster.images?.primary,
+                    child: ValueListenableBuilder(
+                      valueListenable: selectedPoster,
+                      builder: (context, value, child) => FladderImage(
+                        image: value.images?.primary,
+                      ),
                     ),
                   ),
                 ),
@@ -68,20 +71,23 @@ class _DetailedBannerState extends ConsumerState<DetailedBanner> {
                     padding: const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 4),
                     child: FractionallySizedBox(
                       widthFactor: AdaptiveLayout.viewSizeOf(context) <= ViewSize.phone ? 1.0 : 0.55,
-                      child: OverviewHeader(
-                        name: selectedPoster.parentBaseModel.name,
-                        subTitle: selectedPoster.label(context),
-                        image: selectedPoster.getPosters,
-                        logoAlignment: AdaptiveLayout.viewSizeOf(context) <= ViewSize.phone
-                            ? Alignment.center
-                            : Alignment.centerLeft,
-                        summary: selectedPoster.overview.summary,
-                        productionYear: selectedPoster.overview.productionYear,
-                        runTime: selectedPoster.overview.runTime,
-                        genres: selectedPoster.overview.genreItems,
-                        studios: selectedPoster.overview.studios,
-                        officialRating: selectedPoster.overview.parentalRating,
-                        communityRating: selectedPoster.overview.communityRating,
+                      child: ValueListenableBuilder(
+                        valueListenable: selectedPoster,
+                        builder: (context, value, child) => OverviewHeader(
+                          name: value.parentBaseModel.name,
+                          subTitle: value.label(context),
+                          image: value.getPosters,
+                          logoAlignment: AdaptiveLayout.viewSizeOf(context) <= ViewSize.phone
+                              ? Alignment.center
+                              : Alignment.centerLeft,
+                          summary: value.overview.summary,
+                          productionYear: value.overview.productionYear,
+                          runTime: value.overview.runTime,
+                          genres: value.overview.genreItems,
+                          studios: value.overview.studios,
+                          officialRating: value.overview.parentalRating,
+                          communityRating: value.overview.communityRating,
+                        ),
                       ),
                     ),
                   ),
@@ -97,9 +103,7 @@ class _DetailedBannerState extends ConsumerState<DetailedBanner> {
                     context.ensureVisible(
                       alignment: 1.0,
                     );
-                    setState(() {
-                      selectedPoster = poster;
-                    });
+                    selectedPoster.value = poster;
                     widget.onSelect(poster);
                   },
                 ),

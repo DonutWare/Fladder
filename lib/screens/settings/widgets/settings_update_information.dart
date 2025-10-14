@@ -1,11 +1,17 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
 import 'package:markdown_widget/widget/markdown.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/update_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
+import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/screens/shared/media/external_urls.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -87,6 +93,8 @@ class UpdateInformation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final apkDownload =
+        releaseInfo.preferredDownloads.entries.where((entry) => entry.value.toLowerCase().endsWith('.apk')).firstOrNull;
     return ExpansionTile(
       backgroundColor:
           releaseInfo.isNewerThanCurrent ? context.colors.primaryContainer : context.colors.surfaceContainer,
@@ -107,6 +115,32 @@ class UpdateInformation extends StatelessWidget {
             ),
           ),
         ),
+        if (apkDownload != null)
+          FilledButton(
+            onPressed: () async {
+              try {
+                final response = await http.get(Uri.parse(apkDownload.value));
+
+                final tempDir = await getTemporaryDirectory();
+                final apkPath = '${tempDir.path}/update.apk';
+
+                if (response.statusCode == 200) {
+                  final file = File(apkPath);
+                  await file.writeAsBytes(response.bodyBytes);
+                  launchUrl(context, file.path);
+                } else {
+                  throw Exception('Failed to download APK: ${response.statusCode}');
+                }
+              } catch (e) {
+                if (context.mounted) {
+                  fladderSnackbar(context, title: 'Failed to download update: $e');
+                }
+              }
+            },
+            child: const Text(
+              "Install",
+            ),
+          ),
         ...releaseInfo.preferredDownloads.entries.map(
           (entry) {
             return FilledButton(

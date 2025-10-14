@@ -4,7 +4,6 @@ import PlayableData
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -13,19 +12,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 
 @Composable
-fun ItemHeader(state: PlayableData?) {
+fun ItemHeader(
+    modifier: Modifier = Modifier,
+    state: PlayableData?
+) {
     val title = state?.title
     val logoUrl = state?.logoUrl
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .statusBarsPadding()
-            .padding(16.dp),
+            .statusBarsPadding(),
         contentAlignment = Alignment.CenterStart
     ) {
         if (!logoUrl.isNullOrBlank()) {

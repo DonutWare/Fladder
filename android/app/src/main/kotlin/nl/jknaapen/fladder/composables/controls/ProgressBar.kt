@@ -27,6 +27,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -51,7 +52,6 @@ import androidx.compose.ui.input.key.Key.Companion.DirectionRight
 import androidx.compose.ui.input.key.Key.Companion.Enter
 import androidx.compose.ui.input.key.Key.Companion.Escape
 import androidx.compose.ui.input.key.Key.Companion.Spacebar
-import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
@@ -63,12 +63,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastCoerceIn
 import androidx.media3.exoplayer.ExoPlayer
+import kotlinx.coroutines.delay
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.formatTime
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
@@ -259,7 +261,7 @@ internal fun RowScope.SimpleProgressBar(
             modifier = Modifier
                 .focusable(enabled = false)
                 .fillMaxWidth()
-                .height(9.dp)
+                .height(8.dp)
                 .background(
                     color = Color.White.copy(
                         alpha = 0.15f
@@ -313,10 +315,10 @@ internal fun RowScope.SimpleProgressBar(
                             .focusable(enabled = false)
                             .graphicsLayer {
                                 translationX = startPx
-                                translationY = 13.dp.toPx()
+                                translationY = 14.dp.toPx()
                             }
                             .width(segDp)
-                            .height(7.dp)
+                            .height(6.dp)
                             .background(
                                 color = segment.color.copy(alpha = 0.75f),
                                 shape = RoundedCornerShape(8.dp)
@@ -367,6 +369,30 @@ internal fun RowScope.SimpleProgressBar(
         )
 
 
+        var direction by remember { mutableIntStateOf(0) }
+        var speed by remember { mutableLongStateOf(1L) }
+        val scrubSpeedDivider = 15L
+
+        val lastInteraction = remember { mutableLongStateOf(System.currentTimeMillis()) }
+
+        // Restart the multiplier
+        LaunchedEffect(lastInteraction.longValue) {
+            delay(500.milliseconds)
+            speed = 1L
+        }
+
+        fun updateLastInteraction() {
+            lastInteraction.longValue = System.currentTimeMillis()
+        }
+
+        val scrubSpeed = playbackData?.trickPlayModel?.interval ?: 5.seconds.inWholeMilliseconds
+
+        fun scrubSpeedResult(): Long {
+            return (scrubSpeed * (speed / scrubSpeedDivider).coerceIn(
+                1L..60.seconds.inWholeMilliseconds
+            ))
+        }
+
         //Thumb
         Box(
             modifier = Modifier
@@ -379,7 +405,7 @@ internal fun RowScope.SimpleProgressBar(
                     }
                 }
                 .focusable(enabled = true)
-                .onKeyEvent { keyEvent: KeyEvent ->
+                .onKeyEvent { keyEvent ->
                     if (keyEvent.type != KeyEventType.KeyDown) return@onKeyEvent false
 
                     onUserInteraction()
@@ -392,25 +418,42 @@ internal fun RowScope.SimpleProgressBar(
                         }
 
                         DirectionLeft -> {
+                            if (direction != -1) {
+                                direction = -1
+                                speed = 1L
+                            } else {
+                                speed++
+                            }
                             if (!scrubbingTimeLine) {
                                 onTempPosChanged(position)
                                 onScrubbingChanged(true)
                                 player.pause()
                             }
-                            val newPos = max(0L, tempPosition - 3000L)
+                            val newPos = max(
+                                0L,
+                                tempPosition - scrubSpeedResult()
+                            )
                             onTempPosChanged(newPos)
+                            updateLastInteraction()
                             true
                         }
 
                         DirectionRight -> {
+                            if (direction != 1) {
+                                direction = 1
+                                speed = 1L
+                            } else {
+                                speed++
+                            }
                             if (!scrubbingTimeLine) {
                                 onTempPosChanged(position)
                                 onScrubbingChanged(true)
                                 player.pause()
                             }
                             val newPos = min(player.duration.takeIf { it > 0 } ?: 1L,
-                                tempPosition + 3000L)
+                                tempPosition + scrubSpeedResult())
                             onTempPosChanged(newPos)
+                            updateLastInteraction()
                             true
                         }
 
@@ -447,6 +490,7 @@ internal fun RowScope.SimpleProgressBar(
         )
     }
 }
+
 
 val MediaSegment.color: Color
     get() = when (this.type) {

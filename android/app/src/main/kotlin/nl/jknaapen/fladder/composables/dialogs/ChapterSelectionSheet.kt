@@ -27,12 +27,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import nl.jknaapen.fladder.objects.VideoPlayerObject
-import nl.jknaapen.fladder.utility.defaultSelected
+import nl.jknaapen.fladder.utility.conditional
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,6 +45,8 @@ internal fun ChapterSelectionSheet(
     val playbackData by VideoPlayerObject.implementation.playbackData.collectAsState()
     val chapters = playbackData?.chapters ?: listOf()
     val currentPosition by VideoPlayerObject.position.collectAsState(0L)
+
+    val focusRequester = remember { FocusRequester() }
 
     if (chapters.isEmpty()) return
 
@@ -56,10 +60,13 @@ internal fun ChapterSelectionSheet(
 
     val lazyListState = rememberLazyListState()
 
-    LaunchedEffect(chapters) {
+    LaunchedEffect(chapters, currentPosition) {
+        val chapter = chapters.indexOfCurrent(currentPosition)
         lazyListState.animateScrollToItem(
-            chapters.indexOfCurrent(currentPosition)
+            chapter
         )
+        currentChapter = chapters[chapter]
+        focusRequester.requestFocus()
     }
 
     CustomModalBottomSheet(
@@ -68,7 +75,7 @@ internal fun ChapterSelectionSheet(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 16.dp, vertical = 16.dp)
                 .wrapContentHeight(),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
@@ -88,15 +95,19 @@ internal fun ChapterSelectionSheet(
                         Column(
                             modifier = Modifier
                                 .background(
-                                    color = Color.Black.copy(alpha = 0.75f),
+                                    color = if (selectedChapter) Color.White.copy(alpha = 0.25f) else Color.Black.copy(
+                                        alpha = 0.75f
+                                    ),
                                     shape = RoundedCornerShape(8.dp)
                                 )
                                 .border(
                                     width = 2.dp,
-                                    color = Color.White.copy(alpha = if (selectedChapter) 1f else 0f),
+                                    color = Color.White.copy(alpha = if (selectedChapter) 0.45f else 0f),
                                     shape = RoundedCornerShape(8.dp)
                                 )
-                                .defaultSelected(index == 0)
+                                .conditional(selectedChapter) {
+                                    focusRequester(focusRequester)
+                                }
                                 .onFocusChanged {
                                     if (it.isFocused) {
                                         currentChapter = chapter

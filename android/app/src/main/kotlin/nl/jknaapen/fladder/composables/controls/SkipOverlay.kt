@@ -88,15 +88,16 @@ internal fun BoxScope.SegmentSkipOverlay(
     AnimatedVisibility(
         activeSegment != null && skip == SegmentSkip.ASK,
         modifier = Modifier
-            .fillMaxSize()
+            .align(alignment = Alignment.CenterEnd)
             .padding(16.dp)
             .safeContentPadding()
     ) {
         CustomIconButton(
             modifier = modifier
-                .align(alignment = Alignment.CenterEnd)
                 .focusRequester(focusRequester)
                 .defaultSelected(true),
+            backgroundColor = Color.Black.copy(alpha = 0.5f),
+            enableScaledFocus = true,
             onClick = {
                 activeSegment?.let {
                     player.seekTo(it.end)

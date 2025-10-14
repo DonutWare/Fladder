@@ -71,7 +71,7 @@ internal fun CustomIconButton(
         contentAlignment = Alignment.Center
     ) {
         CompositionLocalProvider(LocalContentColor provides currentContentColor) {
-            Box(modifier = Modifier.padding(8.dp)) {
+            Box(modifier = Modifier.padding(12.dp)) {
                 icon()
             }
         }

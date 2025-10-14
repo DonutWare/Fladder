@@ -10,13 +10,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.clearAudioTrack
-import nl.jknaapen.fladder.utility.defaultSelected
+import nl.jknaapen.fladder.utility.conditional
 import nl.jknaapen.fladder.utility.setInternalAudioTrack
 
 @OptIn(UnstableApi::class)
@@ -28,6 +31,8 @@ fun AudioPicker(
     val selectedIndex by VideoPlayerObject.currentAudioTrackIndex.collectAsState()
     val audioTracks by VideoPlayerObject.audioTracks.collectAsState(listOf())
     val internalAudioTracks by VideoPlayerObject.exoAudioTracks
+
+    val focusRequester = remember { FocusRequester() }
 
     val listState = rememberLazyListState()
 
@@ -53,7 +58,9 @@ fun AudioPicker(
                 TrackButton(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .defaultSelected(selectedOff),
+                        .conditional(selectedOff) {
+                            focusRequester(focusRequester)
+                        },
                     onClick = {
                         VideoPlayerObject.setAudioTrackIndex(-1)
                         player.clearAudioTrack()
@@ -72,7 +79,9 @@ fun AudioPicker(
                     TrackButton(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .defaultSelected(selected),
+                            .conditional(selected) {
+                                focusRequester(focusRequester)
+                            },
                         onClick = {
                             serverTrack?.index?.let {
                                 VideoPlayerObject.setAudioTrackIndex(it.toInt())

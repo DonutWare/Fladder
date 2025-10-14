@@ -11,13 +11,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.clearSubtitleTrack
-import nl.jknaapen.fladder.utility.defaultSelected
+import nl.jknaapen.fladder.utility.conditional
 import nl.jknaapen.fladder.utility.setInternalSubtitleTrack
 
 @OptIn(UnstableApi::class)
@@ -30,13 +33,16 @@ fun SubtitlePicker(
     val subTitles by VideoPlayerObject.subtitleTracks.collectAsState(listOf())
     val internalSubTracks by VideoPlayerObject.exoSubTracks
 
+    val focusRequester = remember { FocusRequester() }
+
     val listState = rememberLazyListState()
 
-    LaunchedEffect(selectedIndex) {
+    LaunchedEffect(selectedIndex, subTitles) {
         if (selectedIndex == -1) return@LaunchedEffect
         listState.scrollToItem(
             subTitles.indexOfFirst { it.index == selectedIndex.toLong() }
         )
+        focusRequester.requestFocus()
     }
 
     CustomModalBottomSheet(
@@ -54,7 +60,9 @@ fun SubtitlePicker(
                 TrackButton(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .defaultSelected(selectedOff),
+                        .conditional(selectedOff) {
+                            focusRequester(focusRequester)
+                        },
                     onClick = {
                         VideoPlayerObject.setSubtitleTrackIndex(-1)
                         player.clearSubtitleTrack()
@@ -73,7 +81,9 @@ fun SubtitlePicker(
                     TrackButton(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .defaultSelected(selected),
+                            .conditional(selected) {
+                                focusRequester(focusRequester)
+                            },
                         onClick = {
                             serverSub?.index?.let {
                                 VideoPlayerObject.setSubtitleTrackIndex(it.toInt())

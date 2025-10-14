@@ -48,8 +48,11 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.input.key.Key.Companion.DirectionLeft
+import androidx.compose.ui.input.key.Key.Companion.DirectionRight
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.LocalContext
@@ -76,6 +79,7 @@ import nl.jknaapen.fladder.utility.ImmersiveSystemBars
 import nl.jknaapen.fladder.utility.defaultSelected
 import nl.jknaapen.fladder.utility.leanBackEnabled
 import nl.jknaapen.fladder.utility.visible
+import kotlin.math.absoluteValue
 import kotlin.time.Duration.Companion.seconds
 
 
@@ -98,7 +102,7 @@ fun CustomVideoControls(
 
     val buffering by VideoPlayerObject.buffering.collectAsState(true)
     val playing by VideoPlayerObject.playing.collectAsState(false)
-    val controlsPadding = 16.dp
+    val controlsPadding = 32.dp
 
     ImmersiveSystemBars(isImmersive = !showControls)
 
@@ -128,6 +132,26 @@ fun CustomVideoControls(
         lastInteraction.longValue = System.currentTimeMillis()
     }
 
+    val forwardSpeed by PlayerSettingsObject.forwardSpeed.collectAsState(30.seconds)
+    val backwardSpeed by PlayerSettingsObject.backwardSpeed.collectAsState(15.seconds)
+
+    val position by VideoPlayerObject.position.collectAsState(0L)
+    val player = VideoPlayerObject.implementation.player
+    val lastSeekInteraction = remember { mutableLongStateOf(System.currentTimeMillis()) }
+
+    var currentSkipTime by remember { mutableLongStateOf(0L) }
+
+    // Restart the multiplier
+    LaunchedEffect(lastSeekInteraction.longValue) {
+        delay(2.seconds)
+        player?.seekTo(position + currentSkipTime)
+        currentSkipTime = 0L
+    }
+
+    fun updateSeekInteraction() {
+        lastSeekInteraction.longValue = System.currentTimeMillis()
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -139,7 +163,27 @@ fun CustomVideoControls(
             }
             .onKeyEvent { keyEvent: KeyEvent ->
                 if (keyEvent.type != KeyEventType.KeyDown) return@onKeyEvent false
+
                 if (!showControls) {
+                    when (keyEvent.key) {
+                        DirectionLeft -> {
+                            if (currentSkipTime == 0L) {
+                                player?.seekTo(position - backwardSpeed.inWholeMilliseconds)
+                            }
+                            currentSkipTime -= backwardSpeed.inWholeMilliseconds
+                            updateSeekInteraction()
+                            return@onKeyEvent true
+                        }
+
+                        DirectionRight -> {
+                            if (currentSkipTime.absoluteValue == 0L) {
+                                player?.seekTo(position + forwardSpeed.inWholeMilliseconds)
+                            }
+                            currentSkipTime += forwardSpeed.inWholeMilliseconds
+                            updateSeekInteraction()
+                            return@onKeyEvent true
+                        }
+                    }
                     bottomControlFocusRequester.requestFocus()
                     updateLastInteraction()
                     return@onKeyEvent true
@@ -193,7 +237,10 @@ fun CustomVideoControls(
                             null
                         )
                         state?.let {
-                            ItemHeader(it)
+                            ItemHeader(
+                                modifier = Modifier.padding(controlsPadding),
+                                it
+                            )
                         }
                     }
                     if (!leanBackEnabled(LocalContext.current)) {
@@ -217,7 +264,6 @@ fun CustomVideoControls(
                 // Progress Bar
                 Column(
                     modifier = Modifier
-                        .padding(horizontal = controlsPadding)
                         .background(
                             brush = Brush.linearGradient(
                                 colors = listOf(
@@ -228,6 +274,7 @@ fun CustomVideoControls(
                                 end = Offset(0f, Float.POSITIVE_INFINITY)
                             ),
                         )
+                        .padding(horizontal = controlsPadding)
                         .displayCutoutPadding()
                         .padding(top = 8.dp, bottom = controlsPadding)
                 ) {
@@ -250,10 +297,10 @@ fun CustomVideoControls(
                         RightButtons(showAudioDialog, showSubDialog)
                     }
                 }
-
             }
         }
         SegmentSkipOverlay()
+        SeekOverlay(value = currentSkipTime)
         if (buffering && !playing) {
             CircularProgressIndicator(
                 modifier = Modifier
