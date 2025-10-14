@@ -2,6 +2,8 @@ package nl.jknaapen.fladder.messengers
 
 import PlayableData
 import VideoPlayerApi
+import android.os.Handler
+import android.os.Looper
 import androidx.core.net.toUri
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MimeTypes
@@ -35,23 +37,18 @@ class VideoPlayerImplementation(
 
     override fun open(url: String, play: Boolean) {
         try {
-            player?.stop()
-            player?.clearMediaItems()
-
             playbackData.value?.let {
                 VideoPlayerObject.setAudioTrackIndex(it.defaultAudioTrack.toInt(), true)
                 VideoPlayerObject.setSubtitleTrackIndex(it.defaultSubtrack.toInt(), true)
             }
 
-            val startPosition = playbackData.value?.startPosition ?: 0L
-            println("Loading video in native $url")
             val subTitles = playbackData.value?.subtitleTracks ?: listOf()
             val mediaItem = MediaItem.Builder().apply {
                 setUri(url)
                 setTag(playbackData.value?.title)
                 setMediaId(playbackData.value?.id ?: "")
                 setSubtitleConfigurations(
-                    subTitles.filter { it.external && it.url?.isNotEmpty() == true }.map { sub ->
+                    subTitles.filter { it.external && !it.url.isNullOrEmpty() }.map { sub ->
                         MediaItem.SubtitleConfiguration.Builder(sub.url!!.toUri())
                             .setMimeType(guessSubtitleMimeType(sub.url))
                             .setLanguage(sub.languageCode)
@@ -61,9 +58,29 @@ class VideoPlayerImplementation(
                 )
             }.build()
 
-            player?.setMediaItem(mediaItem, startPosition)
-            player?.prepare()
-            player?.playWhenReady = play
+            //Ensure correct thread when calling from the main activity
+            Handler(Looper.getMainLooper()).post {
+                player?.stop()
+                player?.clearMediaItems()
+                player?.setMediaItem(mediaItem)
+                player?.prepare()
+            }
+
+            //Wait for player to be ready before "starting" playback
+            val listener = object : Player.Listener {
+                override fun onPlaybackStateChanged(state: Int) {
+                    if (state == Player.STATE_READY) {
+                        player?.removeListener(this) // remove listener immediately
+                        val startPosition = playbackData.value?.startPosition ?: 0L
+                        if (startPosition > 0) {
+                            player?.seekTo(startPosition)
+                        }
+                        player?.playWhenReady = play
+                    }
+                }
+            }
+            player?.addListener(listener)
+            
         } catch (e: Exception) {
             println("Error playing video $e")
         }
