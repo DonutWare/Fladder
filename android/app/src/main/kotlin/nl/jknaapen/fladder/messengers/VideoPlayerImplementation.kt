@@ -5,6 +5,7 @@ import VideoPlayerApi
 import android.os.Handler
 import android.os.Looper
 import androidx.core.net.toUri
+import androidx.core.os.postDelayed
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MimeTypes
 import androidx.media3.common.Player
@@ -18,6 +19,7 @@ import nl.jknaapen.fladder.utility.getAudioTracks
 import nl.jknaapen.fladder.utility.getSubtitleTracks
 import nl.jknaapen.fladder.utility.setInternalAudioTrack
 import nl.jknaapen.fladder.utility.setInternalSubtitleTrack
+import kotlin.time.Duration.Companion.seconds
 
 class VideoPlayerImplementation(
 ) : VideoPlayerApi {
@@ -36,53 +38,44 @@ class VideoPlayerImplementation(
     }
 
     override fun open(url: String, play: Boolean) {
-        try {
-            playbackData.value?.let {
-                VideoPlayerObject.setAudioTrackIndex(it.defaultAudioTrack.toInt(), true)
-                VideoPlayerObject.setSubtitleTrackIndex(it.defaultSubtrack.toInt(), true)
-            }
+        Handler(Looper.getMainLooper()).postDelayed(delayInMillis = 1.seconds.inWholeMilliseconds) {
+            try {
+                playbackData.value?.let {
+                    VideoPlayerObject.setAudioTrackIndex(it.defaultAudioTrack.toInt(), true)
+                    VideoPlayerObject.setSubtitleTrackIndex(it.defaultSubtrack.toInt(), true)
+                }
 
-            val subTitles = playbackData.value?.subtitleTracks ?: listOf()
-            val mediaItem = MediaItem.Builder().apply {
-                setUri(url)
-                setTag(playbackData.value?.title)
-                setMediaId(playbackData.value?.id ?: "")
-                setSubtitleConfigurations(
-                    subTitles.filter { it.external && !it.url.isNullOrEmpty() }.map { sub ->
-                        MediaItem.SubtitleConfiguration.Builder(sub.url!!.toUri())
-                            .setMimeType(guessSubtitleMimeType(sub.url))
-                            .setLanguage(sub.languageCode)
-                            .setLabel(sub.name)
-                            .build()
-                    }
-                )
-            }.build()
+                val subTitles = playbackData.value?.subtitleTracks ?: listOf()
+                val mediaItem = MediaItem.Builder()
+                    .setUri(url)
+                    .setTag(playbackData.value?.title)
+                    .setMediaId(playbackData.value?.id ?: "")
+                    .setSubtitleConfigurations(
+                        subTitles.filter { it.external && !it.url.isNullOrEmpty() }.map { sub ->
+                            MediaItem.SubtitleConfiguration.Builder(sub.url!!.toUri())
+                                .setMimeType(guessSubtitleMimeType(sub.url))
+                                .setLanguage(sub.languageCode)
+                                .setLabel(sub.name)
+                                .build()
+                        }
+                    )
+                    .build()
 
-            //Ensure correct thread when calling from the main activity
-            Handler(Looper.getMainLooper()).post {
+
                 player?.stop()
                 player?.clearMediaItems()
                 player?.setMediaItem(mediaItem)
                 player?.prepare()
-            }
 
-            //Wait for player to be ready before "starting" playback
-            val listener = object : Player.Listener {
-                override fun onPlaybackStateChanged(state: Int) {
-                    if (state == Player.STATE_READY) {
-                        player?.removeListener(this) // remove listener immediately
-                        val startPosition = playbackData.value?.startPosition ?: 0L
-                        if (startPosition > 0) {
-                            player?.seekTo(startPosition)
-                        }
-                        player?.playWhenReady = play
-                    }
+                val startPosition = playbackData.value?.startPosition ?: 0L
+                if (startPosition > 0) {
+                    player?.seekTo(startPosition)
+
+                    player?.playWhenReady = play
                 }
+            } catch (e: Exception) {
+                println("Error playing video $e")
             }
-            player?.addListener(listener)
-            
-        } catch (e: Exception) {
-            println("Error playing video $e")
         }
     }
 
