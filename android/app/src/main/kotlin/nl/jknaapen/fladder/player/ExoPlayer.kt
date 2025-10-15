@@ -3,7 +3,10 @@ package nl.jknaapen.fladder.player
 import PlaybackState
 import android.app.ActivityManager
 import android.view.ViewGroup
+import android.view.WindowManager
+import androidx.activity.compose.LocalActivity
 import androidx.annotation.OptIn
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -12,6 +15,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.getSystemService
@@ -130,9 +134,19 @@ internal fun ExoPlayer(
         }
     }
 
+    val activity = LocalActivity.current
+
     DisposableEffect(exoPlayer) {
         val listener = object : Player.Listener {
             override fun onPlaybackStateChanged(playbackState: Int) {
+                activity?.window?.let {
+                    if (exoPlayer.isPlaying) {
+                        it.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                    } else {
+                        it.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                    }
+                }
+                
                 videoHost.setPlaybackState(
                     PlaybackState(
                         position = exoPlayer.currentPosition,
@@ -185,7 +199,8 @@ internal fun ExoPlayer(
     ) { showControls ->
         AndroidView(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .background(color = Color.Black),
             factory = {
                 PlayerView(it).apply {
                     player = exoPlayer
@@ -194,6 +209,7 @@ internal fun ExoPlayer(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT,
                     )
+                    keepScreenOn = true
                     subtitleView?.apply {
                         setStyle(
                             CaptionStyleCompat(
