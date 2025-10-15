@@ -31,6 +31,8 @@ object VideoPlayerObject {
 
     val chapters = implementation.playbackData.map { it?.chapters }
 
+    val nextUpVideo = implementation.playbackData.map { it?.nextVideo }
+
     @RequiresApi(Build.VERSION_CODES.O)
     @OptIn(ExperimentalTime::class)
     val endTime = combine(position, duration) { pos, dur ->

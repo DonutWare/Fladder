@@ -95,11 +95,51 @@ enum class MediaSegmentType(val raw: Int) {
 }
 
 /** Generated class from Pigeon that represents data sent in messages. */
-data class PlayableData (
+data class SimpleItemModel (
   val id: String,
   val title: String,
   val subTitle: String? = null,
+  val overview: String? = null,
   val logoUrl: String? = null,
+  val primaryPoster: String
+)
+ {
+  companion object {
+    fun fromList(pigeonVar_list: List<Any?>): SimpleItemModel {
+      val id = pigeonVar_list[0] as String
+      val title = pigeonVar_list[1] as String
+      val subTitle = pigeonVar_list[2] as String?
+      val overview = pigeonVar_list[3] as String?
+      val logoUrl = pigeonVar_list[4] as String?
+      val primaryPoster = pigeonVar_list[5] as String
+      return SimpleItemModel(id, title, subTitle, overview, logoUrl, primaryPoster)
+    }
+  }
+  fun toList(): List<Any?> {
+    return listOf(
+      id,
+      title,
+      subTitle,
+      overview,
+      logoUrl,
+      primaryPoster,
+    )
+  }
+  override fun equals(other: Any?): Boolean {
+    if (other !is SimpleItemModel) {
+      return false
+    }
+    if (this === other) {
+      return true
+    }
+    return VideoPlayerHelperPigeonUtils.deepEquals(toList(), other.toList())  }
+
+  override fun hashCode(): Int = toList().hashCode()
+}
+
+/** Generated class from Pigeon that represents data sent in messages. */
+data class PlayableData (
+  val currentItem: SimpleItemModel,
   val description: String,
   val startPosition: Long,
   val defaultAudioTrack: Long,
@@ -109,38 +149,32 @@ data class PlayableData (
   val trickPlayModel: TrickPlayModel? = null,
   val chapters: List<Chapter>,
   val segments: List<MediaSegment>,
-  val previousVideo: String? = null,
-  val nextVideo: String? = null,
+  val previousVideo: SimpleItemModel? = null,
+  val nextVideo: SimpleItemModel? = null,
   val url: String
 )
  {
   companion object {
     fun fromList(pigeonVar_list: List<Any?>): PlayableData {
-      val id = pigeonVar_list[0] as String
-      val title = pigeonVar_list[1] as String
-      val subTitle = pigeonVar_list[2] as String?
-      val logoUrl = pigeonVar_list[3] as String?
-      val description = pigeonVar_list[4] as String
-      val startPosition = pigeonVar_list[5] as Long
-      val defaultAudioTrack = pigeonVar_list[6] as Long
-      val audioTracks = pigeonVar_list[7] as List<AudioTrack>
-      val defaultSubtrack = pigeonVar_list[8] as Long
-      val subtitleTracks = pigeonVar_list[9] as List<SubtitleTrack>
-      val trickPlayModel = pigeonVar_list[10] as TrickPlayModel?
-      val chapters = pigeonVar_list[11] as List<Chapter>
-      val segments = pigeonVar_list[12] as List<MediaSegment>
-      val previousVideo = pigeonVar_list[13] as String?
-      val nextVideo = pigeonVar_list[14] as String?
-      val url = pigeonVar_list[15] as String
-      return PlayableData(id, title, subTitle, logoUrl, description, startPosition, defaultAudioTrack, audioTracks, defaultSubtrack, subtitleTracks, trickPlayModel, chapters, segments, previousVideo, nextVideo, url)
+      val currentItem = pigeonVar_list[0] as SimpleItemModel
+      val description = pigeonVar_list[1] as String
+      val startPosition = pigeonVar_list[2] as Long
+      val defaultAudioTrack = pigeonVar_list[3] as Long
+      val audioTracks = pigeonVar_list[4] as List<AudioTrack>
+      val defaultSubtrack = pigeonVar_list[5] as Long
+      val subtitleTracks = pigeonVar_list[6] as List<SubtitleTrack>
+      val trickPlayModel = pigeonVar_list[7] as TrickPlayModel?
+      val chapters = pigeonVar_list[8] as List<Chapter>
+      val segments = pigeonVar_list[9] as List<MediaSegment>
+      val previousVideo = pigeonVar_list[10] as SimpleItemModel?
+      val nextVideo = pigeonVar_list[11] as SimpleItemModel?
+      val url = pigeonVar_list[12] as String
+      return PlayableData(currentItem, description, startPosition, defaultAudioTrack, audioTracks, defaultSubtrack, subtitleTracks, trickPlayModel, chapters, segments, previousVideo, nextVideo, url)
     }
   }
   fun toList(): List<Any?> {
     return listOf(
-      id,
-      title,
-      subTitle,
-      logoUrl,
+      currentItem,
       description,
       startPosition,
       defaultAudioTrack,
@@ -453,40 +487,45 @@ private open class VideoPlayerHelperPigeonCodec : StandardMessageCodec() {
       }
       130.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          PlayableData.fromList(it)
+          SimpleItemModel.fromList(it)
         }
       }
       131.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          MediaSegment.fromList(it)
+          PlayableData.fromList(it)
         }
       }
       132.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          AudioTrack.fromList(it)
+          MediaSegment.fromList(it)
         }
       }
       133.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          SubtitleTrack.fromList(it)
+          AudioTrack.fromList(it)
         }
       }
       134.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          Chapter.fromList(it)
+          SubtitleTrack.fromList(it)
         }
       }
       135.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          TrickPlayModel.fromList(it)
+          Chapter.fromList(it)
         }
       }
       136.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          StartResult.fromList(it)
+          TrickPlayModel.fromList(it)
         }
       }
       137.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          StartResult.fromList(it)
+        }
+      }
+      138.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
           PlaybackState.fromList(it)
         }
@@ -500,36 +539,40 @@ private open class VideoPlayerHelperPigeonCodec : StandardMessageCodec() {
         stream.write(129)
         writeValue(stream, value.raw)
       }
-      is PlayableData -> {
+      is SimpleItemModel -> {
         stream.write(130)
         writeValue(stream, value.toList())
       }
-      is MediaSegment -> {
+      is PlayableData -> {
         stream.write(131)
         writeValue(stream, value.toList())
       }
-      is AudioTrack -> {
+      is MediaSegment -> {
         stream.write(132)
         writeValue(stream, value.toList())
       }
-      is SubtitleTrack -> {
+      is AudioTrack -> {
         stream.write(133)
         writeValue(stream, value.toList())
       }
-      is Chapter -> {
+      is SubtitleTrack -> {
         stream.write(134)
         writeValue(stream, value.toList())
       }
-      is TrickPlayModel -> {
+      is Chapter -> {
         stream.write(135)
         writeValue(stream, value.toList())
       }
-      is StartResult -> {
+      is TrickPlayModel -> {
         stream.write(136)
         writeValue(stream, value.toList())
       }
-      is PlaybackState -> {
+      is StartResult -> {
         stream.write(137)
+        writeValue(stream, value.toList())
+      }
+      is PlaybackState -> {
+        stream.write(138)
         writeValue(stream, value.toList())
       }
       else -> super.writeValue(stream, value)

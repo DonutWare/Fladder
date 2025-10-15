@@ -1,9 +1,12 @@
 package nl.jknaapen.fladder.composables.controls
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
@@ -20,11 +23,15 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.unit.dp
-import nl.jknaapen.fladder.utility.conditional
 
 @Composable
-internal fun CustomIconButton(
+internal fun CustomButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
     enabled: Boolean = true,
@@ -37,6 +44,23 @@ internal fun CustomIconButton(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     var isFocused by remember { mutableStateOf(false) }
+
+    var isClickAnimationActive by remember { mutableStateOf(false) }
+    val isPressed by interactionSource.collectIsPressedAsState()
+
+    isClickAnimationActive = isPressed
+
+    val targetScale = when {
+        isClickAnimationActive -> 0.9f
+        isFocused && enableScaledFocus -> 1.05f
+        else -> 1.0f
+    }
+
+    val animatedScale by animateFloatAsState(
+        targetValue = targetScale,
+        animationSpec = spring(dampingRatio = 0.5f, stiffness = 400f),
+        label = "buttonScaleAnimation"
+    )
 
     val currentContentColor by animateColorAsState(
         if (isFocused) {
@@ -56,9 +80,29 @@ internal fun CustomIconButton(
 
     Box(
         modifier = modifier
-            .conditional(enableScaledFocus) {
-                scale(if (isFocused) 1.05f else 1f)
+            .onKeyEvent { event ->
+                if (!enabled || !isFocused) return@onKeyEvent false
+
+                val isDpadClick = event.key == Key.Enter || event.key == Key.DirectionCenter
+
+                if (isDpadClick) {
+                    when (event.type) {
+                        KeyEventType.KeyDown -> {
+                            isClickAnimationActive = true
+                            return@onKeyEvent false
+                        }
+
+                        KeyEventType.KeyUp -> {
+                            isClickAnimationActive = false
+                            return@onKeyEvent false
+                        }
+
+                        else -> return@onKeyEvent false
+                    }
+                }
+                return@onKeyEvent false
             }
+            .scale(animatedScale)
             .background(currentBackgroundColor, shape = CircleShape)
             .onFocusChanged { isFocused = it.isFocused }
             .clickable(

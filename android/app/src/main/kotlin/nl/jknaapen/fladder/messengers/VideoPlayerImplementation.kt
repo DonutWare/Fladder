@@ -48,8 +48,8 @@ class VideoPlayerImplementation(
                 val subTitles = playbackData.value?.subtitleTracks ?: listOf()
                 val mediaItem = MediaItem.Builder()
                     .setUri(url)
-                    .setTag(playbackData.value?.title)
-                    .setMediaId(playbackData.value?.id ?: "")
+                    .setTag(playbackData.value?.currentItem?.title)
+                    .setMediaId(playbackData.value?.currentItem?.id ?: "")
                     .setSubtitleConfigurations(
                         subTitles.filter { it.external && !it.url.isNullOrEmpty() }.map { sub ->
                             MediaItem.SubtitleConfiguration.Builder(sub.url!!.toUri())

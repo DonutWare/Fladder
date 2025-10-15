@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/items/media_segments_model.dart';
+import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
@@ -42,6 +43,11 @@ final pigeonPlayerSettingsSyncProvider = Provider<void>((ref) {
             ),
           ),
           themeColor: color,
+          autoNextType: switch (value.nextVideoType) {
+            AutoNextType.off => pigeon.AutoNextType.off,
+            AutoNextType.static => pigeon.AutoNextType.static,
+            AutoNextType.smart => pigeon.AutoNextType.smart,
+          },
           skipBackward: (userData?.userSettings?.skipBackDuration ?? const Duration(seconds: 15)).inMilliseconds,
           skipForward: (userData?.userSettings?.skipForwardDuration ?? const Duration(seconds: 30)).inMilliseconds,
         ),

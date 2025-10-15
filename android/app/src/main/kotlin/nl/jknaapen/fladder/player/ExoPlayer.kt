@@ -4,16 +4,14 @@ import PlaybackState
 import android.app.ActivityManager
 import android.view.ViewGroup
 import androidx.annotation.OptIn
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.getSystemService
@@ -35,11 +33,14 @@ import androidx.media3.ui.CaptionStyleCompat
 import androidx.media3.ui.PlayerView
 import io.github.peerless2012.ass.media.kt.buildWithAssSupport
 import io.github.peerless2012.ass.media.type.AssRenderType
+import kotlinx.coroutines.delay
+import nl.jknaapen.fladder.composables.overlays.NextUpOverlay
 import nl.jknaapen.fladder.messengers.properlySetSubAndAudioTracks
 import nl.jknaapen.fladder.objects.PlayerSettingsObject
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.getAudioTracks
 import nl.jknaapen.fladder.utility.getSubtitleTracks
+import kotlin.time.Duration.Companion.seconds
 
 val LocalPlayer = compositionLocalOf<ExoPlayer?> { null }
 
@@ -108,9 +109,29 @@ internal fun ExoPlayer(
             )
     }
 
+    fun updatePlaybackState() {
+        videoHost.setPlaybackState(
+            PlaybackState(
+                position = exoPlayer.currentPosition,
+                buffered = exoPlayer.bufferedPosition,
+                duration = exoPlayer.duration,
+                playing = exoPlayer.isPlaying,
+                buffering = exoPlayer.playbackState == Player.STATE_BUFFERING,
+                completed = exoPlayer.playbackState == Player.STATE_ENDED,
+                failed = exoPlayer.playbackState == Player.STATE_IDLE
+            )
+        )
+    }
+
+    LaunchedEffect(exoPlayer) {
+        while (true) {
+            updatePlaybackState()
+            delay(1.seconds)
+        }
+    }
+
     DisposableEffect(exoPlayer) {
         val listener = object : Player.Listener {
-
             override fun onPlaybackStateChanged(playbackState: Int) {
                 videoHost.setPlaybackState(
                     PlaybackState(
@@ -127,17 +148,7 @@ internal fun ExoPlayer(
 
             override fun onEvents(player: Player, events: Player.Events) {
                 super.onEvents(player, events)
-                videoHost.setPlaybackState(
-                    PlaybackState(
-                        position = exoPlayer.currentPosition,
-                        buffered = exoPlayer.bufferedPosition,
-                        duration = exoPlayer.duration,
-                        playing = exoPlayer.isPlaying,
-                        buffering = exoPlayer.playbackState == Player.STATE_BUFFERING,
-                        completed = exoPlayer.playbackState == Player.STATE_ENDED,
-                        failed = exoPlayer.playbackState == Player.STATE_IDLE
-                    )
-                )
+                updatePlaybackState()
             }
 
             override fun onTracksChanged(tracks: Tracks) {
@@ -168,13 +179,13 @@ internal fun ExoPlayer(
     }
 
 
-    Box(
+    NextUpOverlay(
         modifier = Modifier
-            .background(Color.Black)
             .fillMaxSize()
-    ) {
+    ) { showControls ->
         AndroidView(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize(),
             factory = {
                 PlayerView(it).apply {
                     player = exoPlayer
@@ -198,8 +209,9 @@ internal fun ExoPlayer(
                 }
             },
         )
-        CompositionLocalProvider(LocalPlayer provides exoPlayer) {
-            controls(exoPlayer)
-        }
+        if (showControls)
+            CompositionLocalProvider(LocalPlayer provides exoPlayer) {
+                controls(exoPlayer)
+            }
     }
 }

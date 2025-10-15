@@ -120,7 +120,7 @@ internal fun ProgressBar(
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             val progressBarTopLabel = listOf(
-                playableData?.subTitle,
+                playableData?.currentItem?.subTitle,
                 endTimeString,
             )
 

@@ -377,39 +377,42 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                     "${context.localized.noVideoPlayerOptions}\n${context.localized.mdkExperimental}"),
               },
             ),
-            if (videoSettings.wantedPlayer != PlayerOptions.nativePlayer) ...[
-              Column(
-                children: [
-                  SettingsListTile(
-                    label: Text(context.localized.settingsAutoNextTitle),
-                    subLabel: Text(context.localized.settingsAutoNextDesc),
-                    trailing: EnumBox(
-                      current: ref.watch(
-                        videoPlayerSettingsProvider.select(
-                          (value) => value.nextVideoType.label(context),
-                        ),
+            Column(
+              children: [
+                SettingsListTile(
+                  label: Text(context.localized.settingsAutoNextTitle),
+                  subLabel: Text(context.localized.settingsAutoNextDesc),
+                  trailing: EnumBox(
+                    current: ref.watch(
+                      videoPlayerSettingsProvider.select(
+                        (value) => value.nextVideoType.label(context),
                       ),
-                      itemBuilder: (context) => AutoNextType.values
-                          .map(
-                            (entry) => ItemActionButton(
-                              label: Text(entry.label(context)),
-                              action: () => ref.read(videoPlayerSettingsProvider.notifier).state =
-                                  videoSettings.copyWith(nextVideoType: entry),
-                            ),
-                          )
-                          .toList(),
                     ),
+                    itemBuilder: (context) => AutoNextType.values
+                        .map(
+                          (entry) => ItemActionButton(
+                            label: Text(entry.label(context)),
+                            action: () => ref.read(videoPlayerSettingsProvider.notifier).state =
+                                videoSettings.copyWith(nextVideoType: entry),
+                          ),
+                        )
+                        .toList(),
                   ),
-                  AnimatedFadeSize(
-                    child: switch (ref.watch(videoPlayerSettingsProvider.select((value) => value.nextVideoType))) {
-                      AutoNextType.smart => SettingsMessageBox(AutoNextType.smart.desc(context)),
-                      AutoNextType.static => SettingsMessageBox(AutoNextType.static.desc(context)),
-                      _ => const SizedBox.shrink(),
-                    },
-                  ),
-                ],
-              ),
-              if (!AdaptiveLayout.of(context).isDesktop && !kIsWeb && !ref.read(argumentsStateProvider).htpcMode)
+                ),
+                AnimatedFadeSize(
+                  child: switch (ref.watch(videoPlayerSettingsProvider.select((value) => value.nextVideoType))) {
+                    AutoNextType.smart => SettingsMessageBox(AutoNextType.smart.desc(context)),
+                    AutoNextType.static => SettingsMessageBox(AutoNextType.static.desc(context)),
+                    _ => const SizedBox.shrink(),
+                  },
+                ),
+              ],
+            ),
+            if (videoSettings.wantedPlayer != PlayerOptions.nativePlayer) ...[
+              if (!AdaptiveLayout.of(context).isDesktop &&
+                  !kIsWeb &&
+                  !ref.read(argumentsStateProvider).htpcMode &&
+                  videoSettings.wantedPlayer != PlayerOptions.nativePlayer)
                 SettingsListTile(
                   label: Text(context.localized.playerSettingsOrientationTitle),
                   subLabel: Text(context.localized.playerSettingsOrientationDesc),

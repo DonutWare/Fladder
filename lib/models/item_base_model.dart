@@ -30,6 +30,7 @@ import 'package:fladder/screens/details_screens/episode_detail_screen.dart';
 import 'package:fladder/screens/details_screens/season_detail_screen.dart';
 import 'package:fladder/screens/library_search/library_search_screen.dart';
 import 'package:fladder/screens/photo_viewer/photo_viewer_screen.dart';
+import 'package:fladder/src/video_player_helper.g.dart' show SimpleItemModel;
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/string_extensions.dart';
 
@@ -230,6 +231,17 @@ class ItemBaseModel with ItemBaseModelMappable {
       canDelete: item.canDelete,
       canDownload: item.canDownload,
       jellyType: item.type,
+    );
+  }
+
+  SimpleItemModel toSimpleItem(BuildContext? context) {
+    return SimpleItemModel(
+      id: id,
+      title: title,
+      subTitle: context != null ? label(context) : null,
+      overview: overview.summary,
+      logoUrl: images?.logo?.path,
+      primaryPoster: images?.primary?.path ?? getPosters?.primary?.path ?? "",
     );
   }
 

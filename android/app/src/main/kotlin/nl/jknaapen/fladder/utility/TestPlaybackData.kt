@@ -3,14 +3,18 @@ package nl.jknaapen.fladder.utility
 import AudioTrack
 import Chapter
 import PlayableData
+import SimpleItemModel
 import SubtitleTrack
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.DurationUnit
 
 val testPlaybackData = PlayableData(
-    id = "8lsf8234l99sdf923lsd8f23j98j",
-    title = "Big buck bunny",
-    subTitle = "Episode 1x2",
+    currentItem = SimpleItemModel(
+        id = "8lsf8234l99sdf923lsd8f23j98j",
+        title = "Big buck bunny",
+        subTitle = "Episode 1x2",
+        primaryPoster = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.ytimg.com%2Fvi%2Faqz-KE-bpKQ%2Fmaxresdefault.jpg&f=1&nofb=1&ipt=4e375598bf8cc78e681ee62de9111dea32b85972ae756e40a1eddac01aa79f80"
+    ),
     startPosition = 0,
     description = "Short description of the movie that is being watched",
     defaultSubtrack = 1,
@@ -88,7 +92,12 @@ val testPlaybackData = PlayableData(
         )
     ),
     nextVideo = null,
-    previousVideo = "Previous episode name",
+    previousVideo = SimpleItemModel(
+        id = "8lsf8234l99sdf923lsd8f23j98j",
+        title = "Big buck bunny",
+        subTitle = "Episode 1x26",
+        primaryPoster = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.ytimg.com%2Fvi%2Faqz-KE-bpKQ%2Fmaxresdefault.jpg&f=1&nofb=1&ipt=4e375598bf8cc78e681ee62de9111dea32b85972ae756e40a1eddac01aa79f80"
+    ),
     segments = listOf(),
     url = "https://github.com/ietf-wg-cellar/matroska-test-files/raw/refs/heads/master/test_files/test5.mkv",
 )

@@ -370,16 +370,16 @@ fun PlaybackButtons(
         ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        CustomIconButton(
+        CustomButton(
             onClick = { VideoPlayerObject.videoPlayerControls?.loadPreviousVideo {} },
             enabled = previousVideo != null,
         ) {
             Icon(
                 Iconsax.Filled.Backward,
-                contentDescription = previousVideo,
+                contentDescription = previousVideo?.title,
             )
         }
-        CustomIconButton(
+        CustomButton(
             onClick = {
                 player.seekTo(
                     player.currentPosition - backwardSpeed.inWholeMilliseconds
@@ -402,7 +402,7 @@ fun PlaybackButtons(
                 )
             }
         }
-        CustomIconButton(
+        CustomButton(
             modifier = Modifier
                 .focusRequester(bottomControlFocusRequester)
                 .defaultSelected(true),
@@ -417,7 +417,7 @@ fun PlaybackButtons(
                 contentDescription = if (isPlaying) "Pause" else "Play",
             )
         }
-        CustomIconButton(
+        CustomButton(
             onClick = {
                 player.seekTo(
                     player.currentPosition + forwardSpeed.inWholeMilliseconds
@@ -443,13 +443,13 @@ fun PlaybackButtons(
             }
         }
 
-        CustomIconButton(
+        CustomButton(
             onClick = { VideoPlayerObject.videoPlayerControls?.loadNextVideo {} },
             enabled = nextVideo != null,
         ) {
             Icon(
                 Iconsax.Filled.Forward,
-                contentDescription = nextVideo,
+                contentDescription = nextVideo?.title,
             )
         }
     }
@@ -465,7 +465,7 @@ internal fun RowScope.LeftButtons(
         modifier = Modifier.weight(1f),
         horizontalArrangement = Arrangement.spacedBy(12.dp, alignment = Alignment.Start)
     ) {
-        CustomIconButton(
+        CustomButton(
             onClick = openChapterSelection,
             enabled = chapters?.isNotEmpty() == true
         ) {
@@ -486,7 +486,7 @@ internal fun RowScope.RightButtons(
         modifier = Modifier.weight(1f),
         horizontalArrangement = Arrangement.spacedBy(12.dp, alignment = Alignment.End)
     ) {
-        CustomIconButton(
+        CustomButton(
             onClick = {
                 showAudioDialog.value = true
             },
@@ -496,7 +496,7 @@ internal fun RowScope.RightButtons(
                 contentDescription = "Audio Track",
             )
         }
-        CustomIconButton(
+        CustomButton(
             onClick = {
                 showSubDialog.value = true
             },

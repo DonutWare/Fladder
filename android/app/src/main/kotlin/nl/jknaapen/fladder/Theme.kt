@@ -3,7 +3,7 @@ package nl.jknaapen.fladder
 import android.os.Build
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.dynamicLightColorScheme
+import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -31,7 +31,7 @@ fun VideoPlayerTheme(
 
     val chosenScheme: ColorScheme =
         if (themeColor == null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            dynamicLightColorScheme(context)
+            dynamicDarkColorScheme(context)
         } else {
             generatedScheme
         }

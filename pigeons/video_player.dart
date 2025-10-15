@@ -9,11 +9,26 @@ import 'package:pigeon/pigeon.dart';
     dartPackageName: 'nl_jknaapen_fladder.video',
   ),
 )
-class PlayableData {
+class SimpleItemModel {
   final String id;
   final String title;
   final String? subTitle;
+  final String? overview;
   final String? logoUrl;
+  final String primaryPoster;
+
+  const SimpleItemModel({
+    required this.id,
+    required this.title,
+    this.subTitle,
+    this.overview,
+    this.logoUrl,
+    required this.primaryPoster,
+  });
+}
+
+class PlayableData {
+  final SimpleItemModel currentItem;
   final String description;
   final int startPosition;
   final int defaultAudioTrack;
@@ -23,15 +38,12 @@ class PlayableData {
   final TrickPlayModel? trickPlayModel;
   final List<Chapter> chapters;
   final List<MediaSegment> segments;
-  final String? previousVideo;
-  final String? nextVideo;
+  final SimpleItemModel? previousVideo;
+  final SimpleItemModel? nextVideo;
   final String url;
 
   PlayableData({
-    required this.id,
-    required this.title,
-    this.subTitle,
-    this.logoUrl,
+    required this.currentItem,
     required this.description,
     required this.startPosition,
     required this.defaultAudioTrack,
