@@ -179,19 +179,17 @@ class FocusButtonState extends State<FocusButton> {
                   onTap: widget.onTap,
                   onSecondaryTapDown: widget.onSecondaryTapDown,
                   onLongPress: widget.onLongPress,
-                  child: Stack(
-                    children: [
-                      if (widget.child != null) widget.child!,
-                    ],
-                  ),
+                  child: widget.child,
                   overlays: [
                     if (widget.overlays.isNotEmpty) ...widget.overlays,
                     if (widget.focusedOverlays.isNotEmpty)
-                      AnimatedOpacity(
-                        opacity: value ? 1 : 0,
-                        duration: const Duration(milliseconds: 250),
-                        child: Stack(
-                          children: [...widget.focusedOverlays],
+                      Positioned.fill(
+                        child: AnimatedOpacity(
+                          opacity: value ? 1 : 0,
+                          duration: const Duration(milliseconds: 250),
+                          child: Stack(
+                            children: [...widget.focusedOverlays],
+                          ),
                         ),
                       ),
                   ],

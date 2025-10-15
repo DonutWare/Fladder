@@ -84,7 +84,10 @@ class ChapterRow extends ConsumerWidget {
               child: Padding(
                 padding: const EdgeInsets.all(5),
                 child: Container(
-                  color: Theme.of(context).colorScheme.surfaceContainer,
+                  decoration: BoxDecoration(
+                    borderRadius: FladderTheme.smallShape.borderRadius,
+                    color: Theme.of(context).colorScheme.surfaceContainer.withValues(alpha: 0.75),
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.all(5),
                     child: Text(
@@ -99,9 +102,9 @@ class ChapterRow extends ConsumerWidget {
           ],
           focusedOverlays: [
             if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer)
-              ExcludeFocus(
-                child: Align(
-                  alignment: Alignment.bottomRight,
+              Align(
+                alignment: Alignment.bottomRight,
+                child: ExcludeFocus(
                   child: PopupMenuButton(
                     tooltip: context.localized.options,
                     icon: const Icon(
