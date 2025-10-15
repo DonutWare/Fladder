@@ -19,8 +19,8 @@ fun ItemHeader(
     modifier: Modifier = Modifier,
     state: PlayableData?
 ) {
-    val title = state?.title
-    val logoUrl = state?.logoUrl
+    val title = state?.currentItem?.title
+    val logoUrl = state?.currentItem?.logoUrl
 
     Box(
         modifier = modifier

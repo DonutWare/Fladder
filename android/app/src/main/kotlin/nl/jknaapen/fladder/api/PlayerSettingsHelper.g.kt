@@ -65,6 +65,18 @@ private object PlayerSettingsHelperPigeonUtils {
       
 }
 
+enum class AutoNextType(val raw: Int) {
+  OFF(0),
+  STATIC(1),
+  SMART(2);
+
+  companion object {
+    fun ofRaw(raw: Int): AutoNextType? {
+      return values().firstOrNull { it.raw == raw }
+    }
+  }
+}
+
 enum class SegmentType(val raw: Int) {
   COMMERCIAL(0),
   PREVIEW(1),
@@ -97,7 +109,8 @@ data class PlayerSettings (
   val skipTypes: Map<SegmentType, SegmentSkip>,
   val themeColor: Long? = null,
   val skipForward: Long,
-  val skipBackward: Long
+  val skipBackward: Long,
+  val autoNextType: AutoNextType
 )
  {
   companion object {
@@ -107,7 +120,8 @@ data class PlayerSettings (
       val themeColor = pigeonVar_list[2] as Long?
       val skipForward = pigeonVar_list[3] as Long
       val skipBackward = pigeonVar_list[4] as Long
-      return PlayerSettings(enableTunneling, skipTypes, themeColor, skipForward, skipBackward)
+      val autoNextType = pigeonVar_list[5] as AutoNextType
+      return PlayerSettings(enableTunneling, skipTypes, themeColor, skipForward, skipBackward, autoNextType)
     }
   }
   fun toList(): List<Any?> {
@@ -117,6 +131,7 @@ data class PlayerSettings (
       themeColor,
       skipForward,
       skipBackward,
+      autoNextType,
     )
   }
   override fun equals(other: Any?): Boolean {
@@ -135,15 +150,20 @@ private open class PlayerSettingsHelperPigeonCodec : StandardMessageCodec() {
     return when (type) {
       129.toByte() -> {
         return (readValue(buffer) as Long?)?.let {
-          SegmentType.ofRaw(it.toInt())
+          AutoNextType.ofRaw(it.toInt())
         }
       }
       130.toByte() -> {
         return (readValue(buffer) as Long?)?.let {
-          SegmentSkip.ofRaw(it.toInt())
+          SegmentType.ofRaw(it.toInt())
         }
       }
       131.toByte() -> {
+        return (readValue(buffer) as Long?)?.let {
+          SegmentSkip.ofRaw(it.toInt())
+        }
+      }
+      132.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
           PlayerSettings.fromList(it)
         }
@@ -153,16 +173,20 @@ private open class PlayerSettingsHelperPigeonCodec : StandardMessageCodec() {
   }
   override fun writeValue(stream: ByteArrayOutputStream, value: Any?)   {
     when (value) {
-      is SegmentType -> {
+      is AutoNextType -> {
         stream.write(129)
         writeValue(stream, value.raw)
       }
-      is SegmentSkip -> {
+      is SegmentType -> {
         stream.write(130)
         writeValue(stream, value.raw)
       }
-      is PlayerSettings -> {
+      is SegmentSkip -> {
         stream.write(131)
+        writeValue(stream, value.raw)
+      }
+      is PlayerSettings -> {
+        stream.write(132)
         writeValue(stream, value.toList())
       }
       else -> super.writeValue(stream, value)

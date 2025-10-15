@@ -1,5 +1,6 @@
 package nl.jknaapen.fladder.objects
 
+import AutoNextType
 import PlayerSettings
 import PlayerSettingsPigeon
 import androidx.compose.ui.graphics.Color
@@ -26,6 +27,10 @@ object PlayerSettingsObject : PlayerSettingsPigeon {
         settings?.themeColor.let {
             if (it == null) null else Color(it)
         }
+    }
+
+    val autoNextType = settings.map { settings ->
+        settings?.autoNextType ?: AutoNextType.OFF
     }
 
     override fun sendPlayerSettings(playerSettings: PlayerSettings) {

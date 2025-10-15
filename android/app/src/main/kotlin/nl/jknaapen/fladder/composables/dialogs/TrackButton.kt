@@ -16,7 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import io.github.rabehx.iconsax.Iconsax
 import io.github.rabehx.iconsax.filled.TickSquare
-import nl.jknaapen.fladder.composables.controls.CustomIconButton
+import nl.jknaapen.fladder.composables.controls.CustomButton
 import nl.jknaapen.fladder.utility.defaultSelected
 
 @Composable
@@ -29,7 +29,7 @@ internal fun TrackButton(
     val textStyle =
         MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold)
 
-    CustomIconButton(
+    CustomButton(
         backgroundColor = Color.White.copy(alpha = 0.25f),
         modifier = modifier
             .padding(vertical = 6.dp, horizontal = 12.dp)

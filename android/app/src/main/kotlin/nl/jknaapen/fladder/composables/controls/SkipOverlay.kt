@@ -92,7 +92,7 @@ internal fun BoxScope.SegmentSkipOverlay(
             .padding(16.dp)
             .safeContentPadding()
     ) {
-        CustomIconButton(
+        CustomButton(
             modifier = modifier
                 .focusRequester(focusRequester)
                 .defaultSelected(true),

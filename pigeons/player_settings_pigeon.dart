@@ -18,6 +18,7 @@ class PlayerSettings {
   final int? themeColor;
   final int skipForward;
   final int skipBackward;
+  final AutoNextType autoNextType;
 
   const PlayerSettings({
     required this.enableTunneling,
@@ -25,7 +26,14 @@ class PlayerSettings {
     required this.themeColor,
     required this.skipForward,
     required this.skipBackward,
+    required this.autoNextType,
   });
+}
+
+enum AutoNextType {
+  off,
+  static,
+  smart,
 }
 
 enum SegmentType {

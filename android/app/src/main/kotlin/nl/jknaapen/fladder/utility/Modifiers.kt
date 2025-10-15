@@ -30,30 +30,41 @@ import androidx.compose.ui.unit.dp
 fun Modifier.highlightOnFocus(
     color: Color = Color.White.copy(alpha = 0.85f),
     width: Dp = 1.5.dp,
-    shape: Shape = RoundedCornerShape(16.dp)
+    shape: Shape = RoundedCornerShape(16.dp),
+    useClip: Boolean = true,
 ): Modifier = composed {
     var hasFocus by remember { mutableStateOf(false) }
     val highlightModifier = remember {
-        if (width != 0.dp) {
+        if (!useClip) {
             Modifier
-                .clip(RoundedCornerShape(8.dp))
                 .background(
                     color = color.copy(alpha = 0.25f),
-                    shape = shape,
                 )
                 .border(
                     width = width,
                     color = color.copy(alpha = 0.5f),
-                    shape = shape
                 )
-        } else {
-            Modifier
-                .clip(RoundedCornerShape(8.dp))
-                .background(
-                    color = color.copy(alpha = 0.25f),
-                    shape = shape,
-                )
-        }
+        } else
+            if (width != 0.dp) {
+                Modifier
+                    .clip(shape)
+                    .background(
+                        color = color.copy(alpha = 0.25f),
+                        shape = shape,
+                    )
+                    .border(
+                        width = width,
+                        color = color.copy(alpha = 0.5f),
+                        shape = shape
+                    )
+            } else {
+                Modifier
+                    .clip(shape)
+                    .background(
+                        color = color.copy(alpha = 0.25f),
+                        shape = shape,
+                    )
+            }
     }
 
     this
