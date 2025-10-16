@@ -19,7 +19,6 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.clearAudioTrack
-import nl.jknaapen.fladder.utility.conditional
 import nl.jknaapen.fladder.utility.setInternalAudioTrack
 
 @OptIn(UnstableApi::class)
@@ -32,15 +31,31 @@ fun AudioPicker(
     val audioTracks by VideoPlayerObject.audioTracks.collectAsState(listOf())
     val internalAudioTracks by VideoPlayerObject.exoAudioTracks
 
-    val focusRequester = remember { FocusRequester() }
+    val focusOffTrack = remember { FocusRequester() }
+    val focusRequesters = remember(internalAudioTracks) {
+        internalAudioTracks.associateWith { FocusRequester() }
+    }
 
     val listState = rememberLazyListState()
 
-    LaunchedEffect(selectedIndex) {
-        if (selectedIndex == -1) return@LaunchedEffect
-        listState.scrollToItem(
-            audioTracks.indexOfFirst { it.index == selectedIndex.toLong() }
-        )
+    LaunchedEffect(selectedIndex, audioTracks, internalAudioTracks) {
+        if (selectedIndex == -1) {
+            focusOffTrack.requestFocus()
+            return@LaunchedEffect
+        }
+
+        val serverTrackIndex = audioTracks.indexOfFirst { it.index == selectedIndex.toLong() }
+
+        if (serverTrackIndex <= 0) {
+            focusOffTrack.requestFocus()
+            return@LaunchedEffect
+        }
+
+        val internalIndex = serverTrackIndex - 1
+        val lazyColumnIndex = internalIndex + 1
+
+        listState.scrollToItem(lazyColumnIndex)
+        focusRequesters[internalAudioTracks[internalIndex]]?.requestFocus()
     }
 
     CustomModalBottomSheet(
@@ -54,45 +69,37 @@ fun AudioPicker(
                 .padding(horizontal = 8.dp, vertical = 16.dp),
         ) {
             item {
-                val selectedOff = -1 == selectedIndex
+                val selectedOff = selectedIndex == -1
                 TrackButton(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .conditional(selectedOff) {
-                            focusRequester(focusRequester)
-                        },
+                        .focusRequester(focusOffTrack),
                     onClick = {
                         VideoPlayerObject.setAudioTrackIndex(-1)
                         player.clearAudioTrack()
                     },
                     selected = selectedOff
                 ) {
-                    Text(
-                        text = "Off",
-                    )
+                    Text("Off")
                 }
             }
+
             internalAudioTracks.forEachIndexed { index, track ->
                 val serverTrack = audioTracks.elementAtOrNull(index + 1)
-                val selected = serverTrack?.index == selectedIndex.toLong()
+                val selected = serverTrack?.index?.toInt() == selectedIndex
+
                 item {
                     TrackButton(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .conditional(selected) {
-                                focusRequester(focusRequester)
-                            },
+                            .focusRequester(focusRequesters[track]!!),
                         onClick = {
-                            serverTrack?.index?.let {
-                                VideoPlayerObject.setAudioTrackIndex(it.toInt())
-                            }
+                            serverTrack?.index?.let { VideoPlayerObject.setAudioTrackIndex(it.toInt()) }
                             player.setInternalAudioTrack(track)
                         },
                         selected = selected
                     ) {
-                        Text(
-                            text = serverTrack?.name ?: "",
-                        )
+                        Text(serverTrack?.name ?: "")
                     }
                 }
             }

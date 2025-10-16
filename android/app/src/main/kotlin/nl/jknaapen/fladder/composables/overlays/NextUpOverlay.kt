@@ -165,22 +165,29 @@ internal fun NextUpOverlay(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            Text(
-                "Next-up in $timeUntilNextVideo seconds",
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-            Box(
-                modifier = Modifier
-                    .align(alignment = Alignment.CenterHorizontally)
-                    .fillMaxWidth(fraction = 0.1f)
-                    .heightIn(2.dp)
-                    .background(
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f),
-                        shape = RoundedCornerShape(16.dp),
-                    )
-            )
-            MediaInfo()
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Text(
+                    "Next-up in $timeUntilNextVideo seconds",
+                    style = MaterialTheme.typography.titleLarge,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Box(
+                    modifier = Modifier
+                        .align(alignment = Alignment.CenterHorizontally)
+                        .fillMaxWidth(fraction = 0.1f)
+                        .heightIn(2.dp)
+                        .background(
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f),
+                            shape = RoundedCornerShape(16.dp),
+                        )
+                )
+                MediaInfo()
+            }
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,

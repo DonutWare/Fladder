@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import io.github.rabehx.iconsax.Iconsax
 import io.github.rabehx.iconsax.filled.TickSquare
 import nl.jknaapen.fladder.composables.controls.CustomButton
-import nl.jknaapen.fladder.utility.defaultSelected
 
 @Composable
 internal fun TrackButton(
@@ -33,8 +32,7 @@ internal fun TrackButton(
         backgroundColor = Color.White.copy(alpha = 0.25f),
         modifier = modifier
             .padding(vertical = 6.dp, horizontal = 12.dp)
-            .defaultMinSize(minHeight = 40.dp)
-            .defaultSelected(selected),
+            .defaultMinSize(minHeight = 40.dp),
         onClick = onClick,
     ) {
         Row(

@@ -56,6 +56,7 @@ fun ExoPlayer.setInternalAudioTrack(audioTrack: InternalTrack) {
         selector.setParameters(
             selector.buildUponParameters()
                 .setRendererDisabled(audioTrack.rendererIndex, false)
+                .setTrackTypeDisabled(C.TRACK_TYPE_AUDIO, false)
                 .build()
         )
 
@@ -74,8 +75,12 @@ fun ExoPlayer.clearAudioTrack(disable: Boolean = true) {
     selector.setParameters(
         selector.buildUponParameters()
             .setRendererDisabled(C.TRACK_TYPE_AUDIO, disable)
+            .setTrackTypeDisabled(C.TRACK_TYPE_AUDIO, disable)
             .build()
     )
+
+    this.trackSelectionParameters = selector.parameters.buildUpon()
+        .build()
 }
 
 @OptIn(UnstableApi::class)
@@ -110,21 +115,27 @@ fun ExoPlayer.getSubtitleTracks(): List<InternalTrack> {
 fun ExoPlayer.clearSubtitleTrack() {
     val selector = trackSelector as? DefaultTrackSelector ?: return
     val newParams = selector.buildUponParameters()
-        .setRendererDisabled(C.TRACK_TYPE_TEXT, false) // keep text renderer active
-        .setPreferredTextLanguage(null)                // don't auto-pick a language
-        .setTrackTypeDisabled(C.TRACK_TYPE_TEXT, true) // <– disables selection of *any* text track
+        .setRendererDisabled(C.TRACK_TYPE_TEXT, false)
+        .setPreferredTextLanguage(null)
+        .setTrackTypeDisabled(C.TRACK_TYPE_TEXT, true)
         .build()
     selector.setParameters(newParams)
+
+    this.trackSelectionParameters = selector.parameters.buildUpon()
+        .build()
 }
 
 @OptIn(UnstableApi::class)
 fun ExoPlayer.enableSubtitles(language: String? = null) {
     val selector = trackSelector as? DefaultTrackSelector ?: return
     val newParams = selector.buildUponParameters()
-        .setTrackTypeDisabled(C.TRACK_TYPE_TEXT, false) // allow text again
-        .setPreferredTextLanguage(language)             // optional: auto-pick by language
+        .setTrackTypeDisabled(C.TRACK_TYPE_TEXT, false)
+        .setPreferredTextLanguage(language)
         .build()
     selector.setParameters(newParams)
+
+    this.trackSelectionParameters = selector.parameters.buildUpon()
+        .build()
 }
 
 

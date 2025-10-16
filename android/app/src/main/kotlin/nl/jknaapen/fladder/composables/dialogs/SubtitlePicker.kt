@@ -20,7 +20,6 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.clearSubtitleTrack
-import nl.jknaapen.fladder.utility.conditional
 import nl.jknaapen.fladder.utility.setInternalSubtitleTrack
 
 @OptIn(UnstableApi::class)
@@ -33,16 +32,27 @@ fun SubtitlePicker(
     val subTitles by VideoPlayerObject.subtitleTracks.collectAsState(listOf())
     val internalSubTracks by VideoPlayerObject.exoSubTracks
 
-    val focusRequester = remember { FocusRequester() }
+    val focusOffTrack = remember { FocusRequester() }
+
+    val focusRequesters = remember(internalSubTracks) {
+        internalSubTracks.associateWith { FocusRequester() }
+    }
 
     val listState = rememberLazyListState()
 
-    LaunchedEffect(selectedIndex, subTitles) {
-        if (selectedIndex == -1) return@LaunchedEffect
-        listState.scrollToItem(
-            subTitles.indexOfFirst { it.index == selectedIndex.toLong() }
-        )
-        focusRequester.requestFocus()
+    LaunchedEffect(selectedIndex, subTitles, internalSubTracks) {
+        val serverSubIndex = subTitles.indexOfFirst { it.index == selectedIndex.toLong() }
+
+        if (serverSubIndex <= 0) {
+            focusOffTrack.requestFocus()
+            return@LaunchedEffect
+        }
+
+        val internalIndex = serverSubIndex - 1
+        val lazyColumnIndex = internalIndex + 1
+
+        listState.scrollToItem(lazyColumnIndex)
+        focusRequesters[internalSubTracks[internalIndex]]?.requestFocus()
     }
 
     CustomModalBottomSheet(
@@ -60,9 +70,7 @@ fun SubtitlePicker(
                 TrackButton(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .conditional(selectedOff) {
-                            focusRequester(focusRequester)
-                        },
+                        .focusRequester(focusOffTrack),
                     onClick = {
                         VideoPlayerObject.setSubtitleTrackIndex(-1)
                         player.clearSubtitleTrack()
@@ -81,9 +89,7 @@ fun SubtitlePicker(
                     TrackButton(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .conditional(selected) {
-                                focusRequester(focusRequester)
-                            },
+                            .focusRequester(focusRequesters[subtitle]!!),
                         onClick = {
                             serverSub?.index?.let {
                                 VideoPlayerObject.setSubtitleTrackIndex(it.toInt())

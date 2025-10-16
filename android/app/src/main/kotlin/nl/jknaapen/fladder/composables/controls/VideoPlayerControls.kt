@@ -79,7 +79,6 @@ import nl.jknaapen.fladder.utility.ImmersiveSystemBars
 import nl.jknaapen.fladder.utility.defaultSelected
 import nl.jknaapen.fladder.utility.leanBackEnabled
 import nl.jknaapen.fladder.utility.visible
-import kotlin.math.absoluteValue
 import kotlin.time.Duration.Companion.seconds
 
 
@@ -143,7 +142,8 @@ fun CustomVideoControls(
 
     // Restart the multiplier
     LaunchedEffect(lastSeekInteraction.longValue) {
-        delay(2.seconds)
+        delay(1.seconds)
+        if (currentSkipTime == 0L) return@LaunchedEffect
         player?.seekTo(position + currentSkipTime)
         currentSkipTime = 0L
     }
@@ -167,18 +167,12 @@ fun CustomVideoControls(
                 if (!showControls) {
                     when (keyEvent.key) {
                         DirectionLeft -> {
-                            if (currentSkipTime == 0L) {
-                                player?.seekTo(position - backwardSpeed.inWholeMilliseconds)
-                            }
                             currentSkipTime -= backwardSpeed.inWholeMilliseconds
                             updateSeekInteraction()
                             return@onKeyEvent true
                         }
 
                         DirectionRight -> {
-                            if (currentSkipTime.absoluteValue == 0L) {
-                                player?.seekTo(position + forwardSpeed.inWholeMilliseconds)
-                            }
                             currentSkipTime += forwardSpeed.inWholeMilliseconds
                             updateSeekInteraction()
                             return@onKeyEvent true

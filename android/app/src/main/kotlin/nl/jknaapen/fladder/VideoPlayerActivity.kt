@@ -38,6 +38,11 @@ class VideoPlayerActivity : ComponentActivity() {
             }
         }
     }
+
+    override fun onPause() {
+        super.onPause()
+        VideoPlayerObject.implementation.pause()
+    }
 }
 
 @RequiresApi(Build.VERSION_CODES.O)

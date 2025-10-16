@@ -58,8 +58,6 @@ internal fun ExoPlayer(
     val videoHost = VideoPlayerObject
     val context = LocalContext.current
 
-    var initialized = false
-
     val extractorsFactory = DefaultExtractorsFactory().apply {
         val isLowRamDevice = context.getSystemService<ActivityManager>()?.isLowRamDevice == true
         setTsExtractorTimestampSearchBytes(
@@ -146,7 +144,7 @@ internal fun ExoPlayer(
                         it.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
                     }
                 }
-                
+
                 videoHost.setPlaybackState(
                     PlaybackState(
                         position = exoPlayer.currentPosition,
@@ -167,13 +165,17 @@ internal fun ExoPlayer(
 
             override fun onTracksChanged(tracks: Tracks) {
                 super.onTracksChanged(tracks)
-                if (!initialized) {
-                    initialized = true
+                val subTracks = exoPlayer.getSubtitleTracks()
+                val audioTracks = exoPlayer.getAudioTracks()
+
+                if (subTracks.isEmpty() && audioTracks.isEmpty()) return
+
+                if (subTracks != VideoPlayerObject.exoSubTracks.value || audioTracks != VideoPlayerObject.exoAudioTracks.value) {
                     VideoPlayerObject.implementation.playbackData.value?.let {
                         exoPlayer.properlySetSubAndAudioTracks(it)
                     }
-                    VideoPlayerObject.exoSubTracks.value = exoPlayer.getSubtitleTracks()
-                    VideoPlayerObject.exoAudioTracks.value = exoPlayer.getAudioTracks()
+                    VideoPlayerObject.exoSubTracks.value = subTracks
+                    VideoPlayerObject.exoAudioTracks.value = audioTracks
                 }
             }
         }

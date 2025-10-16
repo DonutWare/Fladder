@@ -62,6 +62,7 @@
             android:hardwareAccelerated="true"
             android:supportsPictureInPicture="true"
             android:windowSoftInputMode="adjustResize"
+            android:launchMode="singleTop"
             android:exported="true" />
 
         <service

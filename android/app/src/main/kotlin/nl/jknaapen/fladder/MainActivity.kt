@@ -61,7 +61,11 @@ class MainActivity : AudioServiceFragmentActivity(), NativeVideoActivity {
     override fun launchActivity(callback: (Result<StartResult>) -> Unit) {
         try {
             videoPlayerCallback = callback
-            val intent = Intent(this, VideoPlayerActivity::class.java)
+
+            val intent = Intent(this, VideoPlayerActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+            }
+
             videoPlayerLauncher.launch(intent)
         } catch (e: Exception) {
             e.printStackTrace()

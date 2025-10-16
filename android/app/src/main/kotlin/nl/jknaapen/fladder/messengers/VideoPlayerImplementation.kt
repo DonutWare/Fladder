@@ -61,7 +61,6 @@ class VideoPlayerImplementation(
                     )
                     .build()
 
-
                 player?.stop()
                 player?.clearMediaItems()
                 player?.setMediaItem(mediaItem)

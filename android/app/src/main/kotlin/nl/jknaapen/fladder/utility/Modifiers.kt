@@ -3,6 +3,7 @@ package nl.jknaapen.fladder.utility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -13,13 +14,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -42,7 +43,7 @@ fun Modifier.highlightOnFocus(
                 )
                 .border(
                     width = width,
-                    color = color.copy(alpha = 0.5f),
+                    color = color.copy(alpha = 0.8f),
                 )
         } else
             if (width != 0.dp) {
@@ -54,7 +55,7 @@ fun Modifier.highlightOnFocus(
                     )
                     .border(
                         width = width,
-                        color = color.copy(alpha = 0.5f),
+                        color = color.copy(alpha = 0.8f),
                         shape = shape
                     )
             } else {
@@ -104,12 +105,23 @@ fun Modifier.conditional(condition: Boolean, modifier: Modifier.() -> Modifier):
 fun Modifier.visible(
     visible: Boolean,
 ): Modifier {
-    val alphaAnimated by animateFloatAsState(if (visible) 1f else 0f)
+    val alphaAnimated by animateFloatAsState(
+        targetValue = if (visible) 1f else 0f,
+        label = "AlphaAnimation"
+    )
+
     return this
         .graphicsLayer {
             alpha = alphaAnimated
         }
         .then(
-            if (!visible) Modifier.pointerInput(Unit) {} else Modifier
+            if (!visible) {
+                //Collapse composable to disable input blocking
+                Modifier
+                    .size(0.dp)
+                    .clipToBounds()
+            } else {
+                Modifier
+            }
         )
 }
