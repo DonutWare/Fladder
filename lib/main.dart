@@ -36,6 +36,7 @@ import 'package:fladder/util/application_info.dart';
 import 'package:fladder/util/fladder_config.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/string_extensions.dart';
+import 'package:fladder/util/svg_utils.dart';
 import 'package:fladder/util/themes_data.dart';
 import 'package:fladder/widgets/media_query_scaler.dart';
 
@@ -56,6 +57,8 @@ Future<Map<String, dynamic>> loadConfig() async {
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   final crashProvider = CrashLogNotifier();
+
+  await SvgUtils.preCacheSVGs();
 
   if (defaultTargetPlatform == TargetPlatform.windows) {
     await SMTCWindows.initialize();
