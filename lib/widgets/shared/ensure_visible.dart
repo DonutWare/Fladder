@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 extension EnsureVisibleHelper on BuildContext {
   Future<void> ensureVisible({
-    Duration duration = const Duration(milliseconds: 225),
+    Duration duration = const Duration(milliseconds: 275),
     double? alignment,
     Curve curve = Curves.fastOutSlowIn,
   }) {

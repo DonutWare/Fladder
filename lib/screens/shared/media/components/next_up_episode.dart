@@ -10,6 +10,7 @@ import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/sticky_header_text.dart';
 import 'package:fladder/util/string_extensions.dart';
+import 'package:fladder/widgets/shared/ensure_visible.dart';
 
 class NextUpEpisode extends ConsumerWidget {
   final EpisodeModel nextEpisode;
@@ -49,6 +50,11 @@ class NextUpEpisode extends ConsumerWidget {
                     showLabel: false,
                     onTap: () => nextEpisode.navigateTo(context),
                     actions: const [],
+                    onFocusChanged: (value) {
+                      if (value) {
+                        context.ensureVisible();
+                      }
+                    },
                     isCurrentEpisode: false,
                   ),
                   const SizedBox(height: 16),
@@ -71,6 +77,11 @@ class NextUpEpisode extends ConsumerWidget {
                       showLabel: false,
                       onTap: () => nextEpisode.navigateTo(context),
                       actions: const [],
+                      onFocusChanged: (value) {
+                        if (value) {
+                          context.ensureVisible();
+                        }
+                      },
                       isCurrentEpisode: false,
                     ),
                   ),

@@ -134,6 +134,7 @@ class EpisodePoster extends ConsumerWidget {
   final Function()? onLongPress;
   final bool blur;
   final List<ItemAction> actions;
+  final Function(bool value)? onFocusChanged;
   final bool isCurrentEpisode;
   final Object? heroTag;
 
@@ -145,6 +146,7 @@ class EpisodePoster extends ConsumerWidget {
     this.onLongPress,
     this.blur = false,
     required this.actions,
+    this.onFocusChanged,
     required this.isCurrentEpisode,
     this.heroTag,
   });
@@ -167,6 +169,7 @@ class EpisodePoster extends ConsumerWidget {
             child: FocusButton(
               onTap: onTap,
               onLongPress: onLongPress,
+              onFocusChanged: onFocusChanged,
               onSecondaryTapDown: (details) async {
                 Offset localPosition = details.globalPosition;
                 RelativeRect position =

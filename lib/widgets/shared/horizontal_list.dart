@@ -11,7 +11,6 @@ import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/sticky_header_text.dart';
-import 'package:fladder/util/throttler.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/navigation_body.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/side_navigation_bar.dart';
 import 'package:fladder/widgets/shared/ensure_visible.dart';
@@ -100,12 +99,11 @@ class _HorizontalListState extends ConsumerState<HorizontalList> with TickerProv
 
     final target = (index * (_firstItemWidth! + contentPadding)).clamp(0, _scrollController.position.maxScrollExtent);
 
-    // Cancel any ongoing animation
     _scrollAnimation?.stop();
 
     final controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 125),
+      duration: const Duration(milliseconds: 275),
     );
 
     _scrollAnimation = controller;
@@ -115,15 +113,21 @@ class _HorizontalListState extends ConsumerState<HorizontalList> with TickerProv
       end: target.toDouble(),
     );
 
+    final animation = CurvedAnimation(
+      parent: controller,
+      curve: Curves.fastOutSlowIn,
+    );
+
     controller.addListener(() {
       if (_scrollController.hasClients) {
-        _scrollController.jumpTo(tween.evaluate(controller));
+        _scrollController.jumpTo(tween.evaluate(animation));
       }
     });
 
-    controller.forward().whenComplete(() {
-      if (_scrollAnimation == controller) _scrollAnimation = null;
-    });
+    await controller.forward();
+
+    if (_scrollAnimation == controller) _scrollAnimation = null;
+    controller.dispose();
   }
 
   void _scrollToStart() {
@@ -272,7 +276,8 @@ class _HorizontalListState extends ConsumerState<HorizontalList> with TickerProv
             child: FocusTraversalGroup(
               policy: HorizontalRailFocus(
                 parentNode: parentNode,
-                throttle: Throttler(duration: const Duration(milliseconds: 100)),
+                scrollController: _scrollController,
+                firstItemWidth: _firstItemWidth ?? 250,
                 onFocused: (node) {
                   lastFocused = node;
                   final correctIndex = _getCorrectIndexForNode(node);
@@ -288,6 +293,7 @@ class _HorizontalListState extends ConsumerState<HorizontalList> with TickerProv
                 clipBehavior: Clip.none,
                 scrollDirection: Axis.horizontal,
                 padding: widget.contentPadding,
+                cacheExtent: _firstItemWidth ?? 250 * 3,
                 itemBuilder: (context, index) => index == widget.items.length
                     ? PosterPlaceHolder(
                         onTap: widget.onLabelClick ?? () {},
@@ -371,28 +377,33 @@ List<FocusNode> _nodesInRow(FocusNode parentNode) {
 class HorizontalRailFocus extends WidgetOrderTraversalPolicy {
   final FocusNode parentNode;
   final void Function(FocusNode node) onFocused;
-  final Throttler? throttle;
+  final ScrollController scrollController;
+  final double firstItemWidth;
 
   HorizontalRailFocus({
     required this.parentNode,
     required this.onFocused,
-    this.throttle,
+    required this.scrollController,
+    required this.firstItemWidth,
   });
 
   @override
   bool inDirection(FocusNode currentNode, TraversalDirection direction) {
     final rowNodes = _nodesInRow(parentNode);
     final index = rowNodes.indexOf(currentNode);
+    if (index == -1) return false;
 
     if (direction == TraversalDirection.left) {
-      if (throttle?.canRun() == false) return true;
+      if (scrollController.hasClients && scrollController.offset <= firstItemWidth * 0.5) {
+        lastMainFocus = currentNode;
+        navBarNode.requestFocus();
+        return true;
+      }
+
       if (index > 0) {
         final target = rowNodes[index - 1];
         target.requestFocus();
         onFocused(target);
-      } else {
-        lastMainFocus = currentNode;
-        navBarNode.requestFocus();
       }
       return true;
     }
