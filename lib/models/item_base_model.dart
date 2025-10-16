@@ -240,7 +240,7 @@ class ItemBaseModel with ItemBaseModelMappable {
       title: title,
       subTitle: context != null ? label(context) : null,
       overview: overview.summary,
-      logoUrl: images?.logo?.path,
+      logoUrl: getPosters?.logo?.path ?? images?.logo?.path,
       primaryPoster: images?.primary?.path ?? getPosters?.primary?.path ?? "",
     );
   }
