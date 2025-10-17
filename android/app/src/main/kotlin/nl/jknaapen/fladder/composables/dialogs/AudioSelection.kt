@@ -31,6 +31,8 @@ fun AudioPicker(
     val audioTracks by VideoPlayerObject.audioTracks.collectAsState(listOf())
     val internalAudioTracks by VideoPlayerObject.exoAudioTracks
 
+    if (internalAudioTracks.isEmpty()) return
+
     val focusOffTrack = remember { FocusRequester() }
     val focusRequesters = remember(internalAudioTracks) {
         internalAudioTracks.associateWith { FocusRequester() }

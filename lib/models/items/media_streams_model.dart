@@ -69,6 +69,8 @@ class MediaStreamsModel {
     return "${stream.width}x${stream.height}";
   }
 
+  String? get mediaInfoTag => '${displayProfile?.value} ${resolution?.value}';
+
   Widget? audioIcon(
     BuildContext context,
     Function()? onTap,

@@ -39,6 +39,12 @@ bool _deepEquals(Object? a, Object? b) {
 }
 
 
+enum PlaybackType {
+  direct,
+  transcoded,
+  offline,
+}
+
 enum MediaSegmentType {
   commercial,
   preview,
@@ -113,6 +119,52 @@ class SimpleItemModel {
 ;
 }
 
+class MediaInfo {
+  MediaInfo({
+    required this.playbackType,
+    required this.videoInformation,
+  });
+
+  PlaybackType playbackType;
+
+  String videoInformation;
+
+  List<Object?> _toList() {
+    return <Object?>[
+      playbackType,
+      videoInformation,
+    ];
+  }
+
+  Object encode() {
+    return _toList();  }
+
+  static MediaInfo decode(Object result) {
+    result as List<Object?>;
+    return MediaInfo(
+      playbackType: result[0]! as PlaybackType,
+      videoInformation: result[1]! as String,
+    );
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  bool operator ==(Object other) {
+    if (other is! MediaInfo || other.runtimeType != runtimeType) {
+      return false;
+    }
+    if (identical(this, other)) {
+      return true;
+    }
+    return _deepEquals(encode(), other.encode());
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  int get hashCode => Object.hashAll(_toList())
+;
+}
+
 class PlayableData {
   PlayableData({
     required this.currentItem,
@@ -127,6 +179,7 @@ class PlayableData {
     required this.segments,
     this.previousVideo,
     this.nextVideo,
+    required this.mediaInfo,
     required this.url,
   });
 
@@ -154,6 +207,8 @@ class PlayableData {
 
   SimpleItemModel? nextVideo;
 
+  MediaInfo mediaInfo;
+
   String url;
 
   List<Object?> _toList() {
@@ -170,6 +225,7 @@ class PlayableData {
       segments,
       previousVideo,
       nextVideo,
+      mediaInfo,
       url,
     ];
   }
@@ -192,7 +248,8 @@ class PlayableData {
       segments: (result[9] as List<Object?>?)!.cast<MediaSegment>(),
       previousVideo: result[10] as SimpleItemModel?,
       nextVideo: result[11] as SimpleItemModel?,
-      url: result[12]! as String,
+      mediaInfo: result[12]! as MediaInfo,
+      url: result[13]! as String,
     );
   }
 
@@ -644,35 +701,41 @@ class _PigeonCodec extends StandardMessageCodec {
     if (value is int) {
       buffer.putUint8(4);
       buffer.putInt64(value);
-    }    else if (value is MediaSegmentType) {
+    }    else if (value is PlaybackType) {
       buffer.putUint8(129);
       writeValue(buffer, value.index);
-    }    else if (value is SimpleItemModel) {
+    }    else if (value is MediaSegmentType) {
       buffer.putUint8(130);
-      writeValue(buffer, value.encode());
-    }    else if (value is PlayableData) {
+      writeValue(buffer, value.index);
+    }    else if (value is SimpleItemModel) {
       buffer.putUint8(131);
       writeValue(buffer, value.encode());
-    }    else if (value is MediaSegment) {
+    }    else if (value is MediaInfo) {
       buffer.putUint8(132);
       writeValue(buffer, value.encode());
-    }    else if (value is AudioTrack) {
+    }    else if (value is PlayableData) {
       buffer.putUint8(133);
       writeValue(buffer, value.encode());
-    }    else if (value is SubtitleTrack) {
+    }    else if (value is MediaSegment) {
       buffer.putUint8(134);
       writeValue(buffer, value.encode());
-    }    else if (value is Chapter) {
+    }    else if (value is AudioTrack) {
       buffer.putUint8(135);
       writeValue(buffer, value.encode());
-    }    else if (value is TrickPlayModel) {
+    }    else if (value is SubtitleTrack) {
       buffer.putUint8(136);
       writeValue(buffer, value.encode());
-    }    else if (value is StartResult) {
+    }    else if (value is Chapter) {
       buffer.putUint8(137);
       writeValue(buffer, value.encode());
-    }    else if (value is PlaybackState) {
+    }    else if (value is TrickPlayModel) {
       buffer.putUint8(138);
+      writeValue(buffer, value.encode());
+    }    else if (value is StartResult) {
+      buffer.putUint8(139);
+      writeValue(buffer, value.encode());
+    }    else if (value is PlaybackState) {
+      buffer.putUint8(140);
       writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
@@ -684,24 +747,29 @@ class _PigeonCodec extends StandardMessageCodec {
     switch (type) {
       case 129: 
         final int? value = readValue(buffer) as int?;
-        return value == null ? null : MediaSegmentType.values[value];
+        return value == null ? null : PlaybackType.values[value];
       case 130: 
-        return SimpleItemModel.decode(readValue(buffer)!);
+        final int? value = readValue(buffer) as int?;
+        return value == null ? null : MediaSegmentType.values[value];
       case 131: 
-        return PlayableData.decode(readValue(buffer)!);
+        return SimpleItemModel.decode(readValue(buffer)!);
       case 132: 
-        return MediaSegment.decode(readValue(buffer)!);
+        return MediaInfo.decode(readValue(buffer)!);
       case 133: 
-        return AudioTrack.decode(readValue(buffer)!);
+        return PlayableData.decode(readValue(buffer)!);
       case 134: 
-        return SubtitleTrack.decode(readValue(buffer)!);
+        return MediaSegment.decode(readValue(buffer)!);
       case 135: 
-        return Chapter.decode(readValue(buffer)!);
+        return AudioTrack.decode(readValue(buffer)!);
       case 136: 
-        return TrickPlayModel.decode(readValue(buffer)!);
+        return SubtitleTrack.decode(readValue(buffer)!);
       case 137: 
-        return StartResult.decode(readValue(buffer)!);
+        return Chapter.decode(readValue(buffer)!);
       case 138: 
+        return TrickPlayModel.decode(readValue(buffer)!);
+      case 139: 
+        return StartResult.decode(readValue(buffer)!);
+      case 140: 
         return PlaybackState.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);

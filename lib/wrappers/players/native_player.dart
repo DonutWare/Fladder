@@ -3,7 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:fladder/models/items/media_streams_model.dart';
+import 'package:fladder/models/playback/direct_playback_model.dart';
+import 'package:fladder/models/playback/offline_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
+import 'package:fladder/models/playback/transcode_playback_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/src/video_player_helper.g.dart';
 import 'package:fladder/wrappers/players/base_player.dart';
@@ -157,6 +160,15 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
               ?.map((e) => Chapter(name: e.name, url: e.imageUrl, time: e.startPosition.inMilliseconds))
               .toList() ??
           [],
+      mediaInfo: MediaInfo(
+        playbackType: switch (model) {
+          DirectPlaybackModel() => PlaybackType.direct,
+          OfflinePlaybackModel() => PlaybackType.offline,
+          TranscodePlaybackModel() => PlaybackType.transcoded,
+          _ => PlaybackType.direct,
+        },
+        videoInformation: model.item.streamModel?.mediaInfoTag ?? " ",
+      ),
       url: model.media?.url ?? "",
     );
     player.sendPlayableModel(playableData);

@@ -32,6 +32,8 @@ fun SubtitlePicker(
     val subTitles by VideoPlayerObject.subtitleTracks.collectAsState(listOf())
     val internalSubTracks by VideoPlayerObject.exoSubTracks
 
+    if (internalSubTracks.isEmpty()) return
+
     val focusOffTrack = remember { FocusRequester() }
 
     val focusRequesters = remember(internalSubTracks) {

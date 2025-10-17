@@ -27,6 +27,22 @@ class SimpleItemModel {
   });
 }
 
+enum PlaybackType {
+  direct,
+  transcoded,
+  offline,
+}
+
+class MediaInfo {
+  final PlaybackType playbackType;
+  final String videoInformation;
+
+  const MediaInfo({
+    required this.playbackType,
+    required this.videoInformation,
+  });
+}
+
 class PlayableData {
   final SimpleItemModel currentItem;
   final String description;
@@ -40,6 +56,7 @@ class PlayableData {
   final List<MediaSegment> segments;
   final SimpleItemModel? previousVideo;
   final SimpleItemModel? nextVideo;
+  final MediaInfo mediaInfo;
   final String url;
 
   PlayableData({
@@ -55,6 +72,7 @@ class PlayableData {
     this.segments = const [],
     this.previousVideo,
     this.nextVideo,
+    required this.mediaInfo,
     required this.url,
   });
 }

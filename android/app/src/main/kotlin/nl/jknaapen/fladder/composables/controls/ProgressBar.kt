@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,6 +23,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -65,6 +67,7 @@ import androidx.compose.ui.util.fastCoerceIn
 import androidx.media3.exoplayer.ExoPlayer
 import kotlinx.coroutines.delay
 import nl.jknaapen.fladder.objects.VideoPlayerObject
+import nl.jknaapen.fladder.utility.capitalize
 import nl.jknaapen.fladder.utility.formatTime
 import kotlin.math.max
 import kotlin.math.min
@@ -117,7 +120,7 @@ internal fun ProgressBar(
                 trickPlayModel = playbackData?.trickPlayModel
             )
         Row(
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             val progressBarTopLabel = listOf(
                 playableData?.currentItem?.subTitle,
@@ -134,6 +137,11 @@ internal fun ProgressBar(
                     ),
                 )
             }
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Videolabel(playableData?.mediaInfo?.playbackType?.name?.capitalize)
+            Videolabel(playableData?.mediaInfo?.videoInformation)
         }
         Row(
             horizontalArrangement = Arrangement.spacedBy(
@@ -177,7 +185,30 @@ internal fun ProgressBar(
             )
         }
     }
+}
 
+@Composable
+private fun Videolabel(value: String?) {
+    if (value.isNullOrBlank()) return
+
+    Box(
+        modifier = Modifier
+            .background(
+                color = MaterialTheme.colorScheme.surfaceContainer,
+                shape = RoundedCornerShape(8.dp)
+            )
+            .wrapContentSize()
+            .padding(horizontal = 6.dp, vertical = 4.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            value,
+            style = MaterialTheme.typography.bodySmall.copy(
+                fontWeight = FontWeight.SemiBold,
+            ),
+            color = MaterialTheme.colorScheme.onSurface
+        )
+    }
 }
 
 @Composable

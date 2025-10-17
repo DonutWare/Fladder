@@ -476,11 +476,15 @@ internal fun RowScope.RightButtons(
     showAudioDialog: MutableState<Boolean>,
     showSubDialog: MutableState<Boolean>
 ) {
+    val hasSubtitles by VideoPlayerObject.hasSubtracks.collectAsState(false)
+    val hasAudioTracks by VideoPlayerObject.hasAudioTracks.collectAsState(false)
+
     Row(
         modifier = Modifier.weight(1f),
         horizontalArrangement = Arrangement.spacedBy(12.dp, alignment = Alignment.End)
     ) {
         CustomButton(
+            enabled = hasAudioTracks,
             onClick = {
                 showAudioDialog.value = true
             },
@@ -491,6 +495,7 @@ internal fun RowScope.RightButtons(
             )
         }
         CustomButton(
+            enabled = hasSubtitles,
             onClick = {
                 showSubDialog.value = true
             },

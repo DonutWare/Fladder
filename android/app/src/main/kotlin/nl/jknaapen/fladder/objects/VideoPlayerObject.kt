@@ -72,6 +72,10 @@ object VideoPlayerObject {
     val subtitleTracks = implementation.playbackData.map { it?.subtitleTracks ?: listOf() }
     val audioTracks = implementation.playbackData.map { it?.audioTracks ?: listOf() }
 
+    val hasSubtracks = subtitleTracks.map { it.isNotEmpty() && exoSubTracks.value.isNotEmpty() }
+    val hasAudioTracks = audioTracks.map { it.isNotEmpty() && exoAudioTracks.value.isNotEmpty() }
+
+
     fun setPlaybackState(state: PlaybackState) {
         _currentState.value = state
         videoPlayerListener?.onPlaybackStateChanged(

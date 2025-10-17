@@ -2,7 +2,9 @@ package nl.jknaapen.fladder.utility
 
 import AudioTrack
 import Chapter
+import MediaInfo
 import PlayableData
+import PlaybackType
 import SimpleItemModel
 import SubtitleTrack
 import kotlin.time.Duration.Companion.seconds
@@ -99,5 +101,9 @@ val testPlaybackData = PlayableData(
         primaryPoster = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.ytimg.com%2Fvi%2Faqz-KE-bpKQ%2Fmaxresdefault.jpg&f=1&nofb=1&ipt=4e375598bf8cc78e681ee62de9111dea32b85972ae756e40a1eddac01aa79f80"
     ),
     segments = listOf(),
+    mediaInfo = MediaInfo(
+        videoInformation = "SDR HD",
+        playbackType = PlaybackType.DIRECT,
+    ),
     url = "https://github.com/ietf-wg-cellar/matroska-test-files/raw/refs/heads/master/test_files/test5.mkv",
 )
