@@ -394,7 +394,10 @@ class HorizontalRailFocus extends WidgetOrderTraversalPolicy {
     if (index == -1) return false;
 
     if (direction == TraversalDirection.left) {
-      if (scrollController.hasClients && scrollController.offset <= firstItemWidth * 0.5) {
+      final shouldAllowNavBarFocus =
+          scrollController.hasClients && (scrollController.offset <= firstItemWidth * 0.5) && (index == 0);
+
+      if (shouldAllowNavBarFocus) {
         lastMainFocus = currentNode;
         navBarNode.requestFocus();
         return true;
