@@ -137,14 +137,19 @@ internal fun ExoPlayer(
 
     DisposableEffect(exoPlayer) {
         val listener = object : Player.Listener {
-            override fun onPlaybackStateChanged(playbackState: Int) {
+            override fun onIsPlayingChanged(isPlaying: Boolean) {
                 activity?.window?.let {
-                    if (exoPlayer.isPlaying) {
+                    println("Changing playback state")
+                    if (isPlaying) {
                         it.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
                     } else {
                         it.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
                     }
                 }
+                super.onIsPlayingChanged(isPlaying)
+            }
+
+            override fun onPlaybackStateChanged(playbackState: Int) {
 
                 videoHost.setPlaybackState(
                     PlaybackState(
@@ -214,7 +219,7 @@ internal fun ExoPlayer(
                             ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.MATCH_PARENT,
                         )
-                        keepScreenOn = true
+                        keepScreenOn = false
                         subtitleView?.apply {
                             setStyle(
                                 CaptionStyleCompat(
