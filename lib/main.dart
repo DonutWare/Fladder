@@ -49,6 +49,8 @@ bool get _isDesktop {
   ].contains(defaultTargetPlatform);
 }
 
+bool nativeActivityStarted = false;
+
 Future<Map<String, dynamic>> loadConfig() async {
   final configString = await rootBundle.loadString('config/config.json');
   return jsonDecode(configString);
@@ -118,28 +120,36 @@ class Main extends ConsumerStatefulWidget with WindowListener {
 }
 
 class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBindingObserver {
-  DateTime dateTime = DateTime.now();
-  bool hidden = false;
+  DateTime _lastPaused = DateTime.now();
+  bool _hidden = false;
   late final autoRouter = AutoRouter(ref: ref);
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
-    if (ref.read(lockScreenActiveProvider) ||
+    final ignoreLifeCycle = ref.read(lockScreenActiveProvider) ||
         ref.read(userProvider) == null ||
-        ref.read(videoPlayerProvider).lastState?.playing == true) {
-      dateTime = DateTime.now();
+        ref.read(videoPlayerProvider).lastState?.playing == true ||
+        nativeActivityStarted;
+
+    if (ignoreLifeCycle) {
+      _lastPaused = DateTime.now();
+      _hidden = false;
       return;
     }
+
     switch (state) {
       case AppLifecycleState.resumed:
-        enableTimeOut();
+        if (_hidden) {
+          enableTimeOut();
+          _hidden = false;
+        }
         break;
-      case AppLifecycleState.hidden:
-        break;
+
       case AppLifecycleState.paused:
-        hidden = true;
-        dateTime = DateTime.now();
+        _hidden = true;
+        _lastPaused = DateTime.now();
         break;
+
       default:
         break;
     }
@@ -147,14 +157,12 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
 
   void enableTimeOut() async {
     final timeOut = ref.read(clientSettingsProvider).timeOut;
-
     if (timeOut == null) return;
 
-    final difference = DateTime.now().difference(dateTime).abs();
+    final difference = DateTime.now().difference(_lastPaused);
 
-    if (difference > timeOut && ref.read(userProvider)?.authMethod != Authentication.autoLogin && hidden) {
-      hidden = false;
-      dateTime = DateTime.now();
+    if (difference > timeOut && ref.read(userProvider)?.authMethod != Authentication.autoLogin) {
+      _lastPaused = DateTime.now();
 
       // Stop playback if the user was still watching a video
       await ref.read(videoPlayerProvider).pause();

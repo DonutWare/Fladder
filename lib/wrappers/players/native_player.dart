@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import 'package:fladder/main.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/playback/direct_playback_model.dart';
 import 'package:fladder/models/playback/offline_playback_model.dart';
@@ -17,6 +18,7 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
 
   @override
   Future<void> dispose() async {
+    nativeActivityStarted = false;
     return NativeVideoActivity().disposeActivity();
   }
 
@@ -32,7 +34,10 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
   Future<void> loadVideo(String url, bool play) async => player.open(url, play);
 
   @override
-  Future<void> open(BuildContext newContext) async => NativeVideoActivity().launchActivity();
+  Future<void> open(BuildContext newContext) async {
+    nativeActivityStarted = true;
+    NativeVideoActivity().launchActivity();
+  }
 
   @override
   Future<void> pause() {
@@ -72,6 +77,7 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
 
   @override
   Future<void> stop() async {
+    nativeActivityStarted = false;
     return player.stop();
   }
 
