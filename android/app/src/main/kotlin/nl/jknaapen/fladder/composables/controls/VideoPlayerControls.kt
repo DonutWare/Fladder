@@ -388,7 +388,7 @@ fun PlaybackButtons(
                 Icon(
                     Iconsax.Outline.Refresh,
                     modifier = Modifier.size(38.dp),
-                    contentDescription = "Forward",
+                    contentDescription = "Backwards",
                 )
                 Text(
                     "-${backwardSpeed.inWholeSeconds}",
