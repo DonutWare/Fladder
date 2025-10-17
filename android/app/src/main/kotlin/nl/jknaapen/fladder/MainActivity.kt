@@ -55,6 +55,8 @@ class MainActivity : AudioServiceFragmentActivity(), NativeVideoActivity {
             }
 
             callback?.invoke(Result.success(startResult))
+            VideoPlayerObject.implementation.player?.stop()
+            VideoPlayerObject.implementation.player?.release()
         }
     }
 
@@ -72,6 +74,8 @@ class MainActivity : AudioServiceFragmentActivity(), NativeVideoActivity {
     }
 
     override fun disposeActivity() {
+        VideoPlayerObject.implementation.player?.stop()
+        VideoPlayerObject.implementation.player?.release()
         VideoPlayerObject.currentActivity?.finish()
     }
 

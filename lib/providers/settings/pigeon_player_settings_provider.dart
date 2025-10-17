@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -51,6 +52,16 @@ final pigeonPlayerSettingsSyncProvider = Provider<void>((ref) {
           },
           skipBackward: (userData?.userSettings?.skipBackDuration ?? const Duration(seconds: 15)).inMilliseconds,
           skipForward: (userData?.userSettings?.skipForwardDuration ?? const Duration(seconds: 30)).inMilliseconds,
+          fillScreen: value.fillScreen,
+          videoFit: switch (value.videoFit) {
+            BoxFit.fill => pigeon.VideoPlayerFit.fill,
+            BoxFit.contain => pigeon.VideoPlayerFit.contain,
+            BoxFit.cover => pigeon.VideoPlayerFit.cover,
+            BoxFit.fitWidth => pigeon.VideoPlayerFit.fitWidth,
+            BoxFit.fitHeight => pigeon.VideoPlayerFit.fitHeight,
+            BoxFit.none => pigeon.VideoPlayerFit.none,
+            BoxFit.scaleDown => pigeon.VideoPlayerFit.scaleDown,
+          },
           acceptedOrientations: (value.allowedOrientations?.toList() ?? DeviceOrientation.values)
               .map(
                 (e) => switch (e) {

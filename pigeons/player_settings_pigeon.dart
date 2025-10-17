@@ -20,6 +20,8 @@ class PlayerSettings {
   final int skipBackward;
   final AutoNextType autoNextType;
   final List<PlayerOrientations> acceptedOrientations;
+  final bool fillScreen;
+  final VideoPlayerFit videoFit;
 
   const PlayerSettings({
     required this.enableTunneling,
@@ -29,7 +31,19 @@ class PlayerSettings {
     required this.skipBackward,
     required this.autoNextType,
     required this.acceptedOrientations,
+    required this.fillScreen,
+    required this.videoFit,
   });
+}
+
+enum VideoPlayerFit {
+  fill,
+  contain,
+  cover,
+  fitWidth,
+  fitHeight,
+  none,
+  scaleDown,
 }
 
 enum PlayerOrientations {

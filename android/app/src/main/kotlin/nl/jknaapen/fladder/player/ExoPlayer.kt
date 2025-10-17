@@ -7,12 +7,15 @@ import android.view.WindowManager
 import androidx.activity.compose.LocalActivity
 import androidx.annotation.OptIn
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,6 +36,7 @@ import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
 import androidx.media3.extractor.DefaultExtractorsFactory
 import androidx.media3.extractor.ts.TsExtractor
+import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.CaptionStyleCompat
 import androidx.media3.ui.PlayerView
 import io.github.peerless2012.ass.media.kt.buildWithAssSupport
@@ -43,6 +47,7 @@ import nl.jknaapen.fladder.messengers.properlySetSubAndAudioTracks
 import nl.jknaapen.fladder.objects.PlayerSettingsObject
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.AllowedOrientations
+import nl.jknaapen.fladder.utility.conditional
 import nl.jknaapen.fladder.utility.getAudioTracks
 import nl.jknaapen.fladder.utility.getSubtitleTracks
 import kotlin.time.Duration.Companion.seconds
@@ -139,7 +144,6 @@ internal fun ExoPlayer(
         val listener = object : Player.Listener {
             override fun onIsPlayingChanged(isPlaying: Boolean) {
                 activity?.window?.let {
-                    println("Changing playback state")
                     if (isPlaying) {
                         it.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
                     } else {
@@ -200,8 +204,12 @@ internal fun ExoPlayer(
         }
     }
 
+    val acceptedOrientations by PlayerSettingsObject.acceptedOrientations.collectAsState(emptyList())
+    val fillScreen by PlayerSettingsObject.fillScreen.collectAsState(false)
+    val videoFit by PlayerSettingsObject.videoFit.collectAsState(AspectRatioFrameLayout.RESIZE_MODE_FIT)
+
     AllowedOrientations(
-        PlayerSettingsObject.settings.value?.acceptedOrientations ?: emptyList()
+        acceptedOrientations
     ) {
         NextUpOverlay(
             modifier = Modifier
@@ -210,11 +218,15 @@ internal fun ExoPlayer(
             AndroidView(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(color = Color.Black),
+                    .background(color = Color.Black)
+                    .conditional(!fillScreen) {
+                        displayCutoutPadding()
+                    },
                 factory = {
                     PlayerView(it).apply {
                         player = exoPlayer
                         useController = false
+                        resizeMode = videoFit
                         layoutParams = ViewGroup.LayoutParams(
                             ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.MATCH_PARENT,

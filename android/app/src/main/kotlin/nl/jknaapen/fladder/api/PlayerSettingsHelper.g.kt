@@ -65,6 +65,22 @@ private object PlayerSettingsHelperPigeonUtils {
       
 }
 
+enum class VideoPlayerFit(val raw: Int) {
+  FILL(0),
+  CONTAIN(1),
+  COVER(2),
+  FIT_WIDTH(3),
+  FIT_HEIGHT(4),
+  NONE(5),
+  SCALE_DOWN(6);
+
+  companion object {
+    fun ofRaw(raw: Int): VideoPlayerFit? {
+      return values().firstOrNull { it.raw == raw }
+    }
+  }
+}
+
 enum class PlayerOrientations(val raw: Int) {
   PORTRAIT_UP(0),
   PORTRAIT_DOWN(1),
@@ -124,7 +140,9 @@ data class PlayerSettings (
   val skipForward: Long,
   val skipBackward: Long,
   val autoNextType: AutoNextType,
-  val acceptedOrientations: List<PlayerOrientations>
+  val acceptedOrientations: List<PlayerOrientations>,
+  val fillScreen: Boolean,
+  val videoFit: VideoPlayerFit
 )
  {
   companion object {
@@ -136,7 +154,9 @@ data class PlayerSettings (
       val skipBackward = pigeonVar_list[4] as Long
       val autoNextType = pigeonVar_list[5] as AutoNextType
       val acceptedOrientations = pigeonVar_list[6] as List<PlayerOrientations>
-      return PlayerSettings(enableTunneling, skipTypes, themeColor, skipForward, skipBackward, autoNextType, acceptedOrientations)
+      val fillScreen = pigeonVar_list[7] as Boolean
+      val videoFit = pigeonVar_list[8] as VideoPlayerFit
+      return PlayerSettings(enableTunneling, skipTypes, themeColor, skipForward, skipBackward, autoNextType, acceptedOrientations, fillScreen, videoFit)
     }
   }
   fun toList(): List<Any?> {
@@ -148,6 +168,8 @@ data class PlayerSettings (
       skipBackward,
       autoNextType,
       acceptedOrientations,
+      fillScreen,
+      videoFit,
     )
   }
   override fun equals(other: Any?): Boolean {
@@ -166,25 +188,30 @@ private open class PlayerSettingsHelperPigeonCodec : StandardMessageCodec() {
     return when (type) {
       129.toByte() -> {
         return (readValue(buffer) as Long?)?.let {
-          PlayerOrientations.ofRaw(it.toInt())
+          VideoPlayerFit.ofRaw(it.toInt())
         }
       }
       130.toByte() -> {
         return (readValue(buffer) as Long?)?.let {
-          AutoNextType.ofRaw(it.toInt())
+          PlayerOrientations.ofRaw(it.toInt())
         }
       }
       131.toByte() -> {
         return (readValue(buffer) as Long?)?.let {
-          SegmentType.ofRaw(it.toInt())
+          AutoNextType.ofRaw(it.toInt())
         }
       }
       132.toByte() -> {
         return (readValue(buffer) as Long?)?.let {
-          SegmentSkip.ofRaw(it.toInt())
+          SegmentType.ofRaw(it.toInt())
         }
       }
       133.toByte() -> {
+        return (readValue(buffer) as Long?)?.let {
+          SegmentSkip.ofRaw(it.toInt())
+        }
+      }
+      134.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
           PlayerSettings.fromList(it)
         }
@@ -194,24 +221,28 @@ private open class PlayerSettingsHelperPigeonCodec : StandardMessageCodec() {
   }
   override fun writeValue(stream: ByteArrayOutputStream, value: Any?)   {
     when (value) {
-      is PlayerOrientations -> {
+      is VideoPlayerFit -> {
         stream.write(129)
         writeValue(stream, value.raw)
       }
-      is AutoNextType -> {
+      is PlayerOrientations -> {
         stream.write(130)
         writeValue(stream, value.raw)
       }
-      is SegmentType -> {
+      is AutoNextType -> {
         stream.write(131)
         writeValue(stream, value.raw)
       }
-      is SegmentSkip -> {
+      is SegmentType -> {
         stream.write(132)
         writeValue(stream, value.raw)
       }
-      is PlayerSettings -> {
+      is SegmentSkip -> {
         stream.write(133)
+        writeValue(stream, value.raw)
+      }
+      is PlayerSettings -> {
+        stream.write(134)
         writeValue(stream, value.toList())
       }
       else -> super.writeValue(stream, value)

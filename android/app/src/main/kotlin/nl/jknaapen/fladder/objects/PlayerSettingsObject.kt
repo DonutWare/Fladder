@@ -6,6 +6,7 @@ import PlayerSettingsPigeon
 import androidx.compose.ui.graphics.Color
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
+import nl.jknaapen.fladder.utility.toExoPlayerFit
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
@@ -32,6 +33,14 @@ object PlayerSettingsObject : PlayerSettingsPigeon {
     val autoNextType = settings.map { settings ->
         settings?.autoNextType ?: AutoNextType.OFF
     }
+
+    val acceptedOrientations = settings.map { settings ->
+        settings?.acceptedOrientations ?: emptyList()
+    }
+
+    val fillScreen = settings.map { settings -> settings?.fillScreen ?: false }
+
+    val videoFit = settings.map { settings -> settings?.videoFit.toExoPlayerFit }
 
     override fun sendPlayerSettings(playerSettings: PlayerSettings) {
         settings.value = playerSettings

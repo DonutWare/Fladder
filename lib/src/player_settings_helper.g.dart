@@ -29,6 +29,16 @@ bool _deepEquals(Object? a, Object? b) {
 }
 
 
+enum VideoPlayerFit {
+  fill,
+  contain,
+  cover,
+  fitWidth,
+  fitHeight,
+  none,
+  scaleDown,
+}
+
 enum PlayerOrientations {
   portraitUp,
   portraitDown,
@@ -65,6 +75,8 @@ class PlayerSettings {
     required this.skipBackward,
     required this.autoNextType,
     required this.acceptedOrientations,
+    required this.fillScreen,
+    required this.videoFit,
   });
 
   bool enableTunneling;
@@ -81,6 +93,10 @@ class PlayerSettings {
 
   List<PlayerOrientations> acceptedOrientations;
 
+  bool fillScreen;
+
+  VideoPlayerFit videoFit;
+
   List<Object?> _toList() {
     return <Object?>[
       enableTunneling,
@@ -90,6 +106,8 @@ class PlayerSettings {
       skipBackward,
       autoNextType,
       acceptedOrientations,
+      fillScreen,
+      videoFit,
     ];
   }
 
@@ -106,6 +124,8 @@ class PlayerSettings {
       skipBackward: result[4]! as int,
       autoNextType: result[5]! as AutoNextType,
       acceptedOrientations: (result[6] as List<Object?>?)!.cast<PlayerOrientations>(),
+      fillScreen: result[7]! as bool,
+      videoFit: result[8]! as VideoPlayerFit,
     );
   }
 
@@ -135,20 +155,23 @@ class _PigeonCodec extends StandardMessageCodec {
     if (value is int) {
       buffer.putUint8(4);
       buffer.putInt64(value);
-    }    else if (value is PlayerOrientations) {
+    }    else if (value is VideoPlayerFit) {
       buffer.putUint8(129);
       writeValue(buffer, value.index);
-    }    else if (value is AutoNextType) {
+    }    else if (value is PlayerOrientations) {
       buffer.putUint8(130);
       writeValue(buffer, value.index);
-    }    else if (value is SegmentType) {
+    }    else if (value is AutoNextType) {
       buffer.putUint8(131);
       writeValue(buffer, value.index);
-    }    else if (value is SegmentSkip) {
+    }    else if (value is SegmentType) {
       buffer.putUint8(132);
       writeValue(buffer, value.index);
-    }    else if (value is PlayerSettings) {
+    }    else if (value is SegmentSkip) {
       buffer.putUint8(133);
+      writeValue(buffer, value.index);
+    }    else if (value is PlayerSettings) {
+      buffer.putUint8(134);
       writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
@@ -160,17 +183,20 @@ class _PigeonCodec extends StandardMessageCodec {
     switch (type) {
       case 129: 
         final int? value = readValue(buffer) as int?;
-        return value == null ? null : PlayerOrientations.values[value];
+        return value == null ? null : VideoPlayerFit.values[value];
       case 130: 
         final int? value = readValue(buffer) as int?;
-        return value == null ? null : AutoNextType.values[value];
+        return value == null ? null : PlayerOrientations.values[value];
       case 131: 
         final int? value = readValue(buffer) as int?;
-        return value == null ? null : SegmentType.values[value];
+        return value == null ? null : AutoNextType.values[value];
       case 132: 
         final int? value = readValue(buffer) as int?;
-        return value == null ? null : SegmentSkip.values[value];
+        return value == null ? null : SegmentType.values[value];
       case 133: 
+        final int? value = readValue(buffer) as int?;
+        return value == null ? null : SegmentSkip.values[value];
+      case 134: 
         return PlayerSettings.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
