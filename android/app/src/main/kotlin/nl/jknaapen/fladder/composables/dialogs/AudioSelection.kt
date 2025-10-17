@@ -28,8 +28,8 @@ fun AudioPicker(
     onDismissRequest: () -> Unit,
 ) {
     val selectedIndex by VideoPlayerObject.currentAudioTrackIndex.collectAsState()
-    val audioTracks by VideoPlayerObject.audioTracks.collectAsState(listOf())
-    val internalAudioTracks by VideoPlayerObject.exoAudioTracks
+    val audioTracks by VideoPlayerObject.audioTracks.collectAsState(emptyList())
+    val internalAudioTracks by VideoPlayerObject.exoAudioTracks.collectAsState(emptyList())
 
     if (internalAudioTracks.isEmpty()) return
 

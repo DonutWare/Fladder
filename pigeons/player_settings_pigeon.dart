@@ -19,6 +19,7 @@ class PlayerSettings {
   final int skipForward;
   final int skipBackward;
   final AutoNextType autoNextType;
+  final List<PlayerOrientations> acceptedOrientations;
 
   const PlayerSettings({
     required this.enableTunneling,
@@ -27,7 +28,15 @@ class PlayerSettings {
     required this.skipForward,
     required this.skipBackward,
     required this.autoNextType,
+    required this.acceptedOrientations,
   });
+}
+
+enum PlayerOrientations {
+  portraitUp,
+  portraitDown,
+  landScapeLeft,
+  landScapeRight,
 }
 
 enum AutoNextType {

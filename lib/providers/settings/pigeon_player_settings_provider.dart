@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -50,6 +51,16 @@ final pigeonPlayerSettingsSyncProvider = Provider<void>((ref) {
           },
           skipBackward: (userData?.userSettings?.skipBackDuration ?? const Duration(seconds: 15)).inMilliseconds,
           skipForward: (userData?.userSettings?.skipForwardDuration ?? const Duration(seconds: 30)).inMilliseconds,
+          acceptedOrientations: (value.allowedOrientations?.toList() ?? DeviceOrientation.values)
+              .map(
+                (e) => switch (e) {
+                  DeviceOrientation.portraitUp => pigeon.PlayerOrientations.portraitUp,
+                  DeviceOrientation.portraitDown => pigeon.PlayerOrientations.portraitDown,
+                  DeviceOrientation.landscapeLeft => pigeon.PlayerOrientations.landScapeLeft,
+                  DeviceOrientation.landscapeRight => pigeon.PlayerOrientations.landScapeRight,
+                },
+              )
+              .toList(),
         ),
       );
     }

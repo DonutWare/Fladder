@@ -5,8 +5,9 @@ import VideoPlayerControlsCallback
 import VideoPlayerListenerCallback
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.runtime.mutableStateOf
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import nl.jknaapen.fladder.VideoPlayerActivity
@@ -52,8 +53,8 @@ object VideoPlayerObject {
     val currentAudioTrackIndex =
         MutableStateFlow((implementation.playbackData.value?.defaultAudioTrack ?: -1).toInt())
 
-    val exoAudioTracks = mutableStateOf<List<InternalTrack>>(listOf())
-    val exoSubTracks = mutableStateOf<List<InternalTrack>>(listOf())
+    val exoAudioTracks = MutableStateFlow<List<InternalTrack>>(emptyList())
+    val exoSubTracks = MutableStateFlow<List<InternalTrack>>(emptyList())
 
     fun setSubtitleTrackIndex(value: Int, init: Boolean = false) {
         currentSubtitleTrackIndex.value = value
@@ -72,9 +73,15 @@ object VideoPlayerObject {
     val subtitleTracks = implementation.playbackData.map { it?.subtitleTracks ?: listOf() }
     val audioTracks = implementation.playbackData.map { it?.audioTracks ?: listOf() }
 
-    val hasSubtracks = subtitleTracks.map { it.isNotEmpty() && exoSubTracks.value.isNotEmpty() }
-    val hasAudioTracks = audioTracks.map { it.isNotEmpty() && exoAudioTracks.value.isNotEmpty() }
+    val hasSubtracks: Flow<Boolean> =
+        combine(subtitleTracks, exoSubTracks.asStateFlow()) { sub, exo ->
+            sub.isNotEmpty() && exo.isNotEmpty()
+        }
 
+    val hasAudioTracks: Flow<Boolean> =
+        combine(audioTracks, exoAudioTracks.asStateFlow()) { audio, exo ->
+            audio.isNotEmpty() && exo.isNotEmpty()
+        }
 
     fun setPlaybackState(state: PlaybackState) {
         _currentState.value = state

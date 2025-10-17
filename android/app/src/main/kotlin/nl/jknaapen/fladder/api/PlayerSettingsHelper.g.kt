@@ -65,6 +65,19 @@ private object PlayerSettingsHelperPigeonUtils {
       
 }
 
+enum class PlayerOrientations(val raw: Int) {
+  PORTRAIT_UP(0),
+  PORTRAIT_DOWN(1),
+  LAND_SCAPE_LEFT(2),
+  LAND_SCAPE_RIGHT(3);
+
+  companion object {
+    fun ofRaw(raw: Int): PlayerOrientations? {
+      return values().firstOrNull { it.raw == raw }
+    }
+  }
+}
+
 enum class AutoNextType(val raw: Int) {
   OFF(0),
   STATIC(1),
@@ -110,7 +123,8 @@ data class PlayerSettings (
   val themeColor: Long? = null,
   val skipForward: Long,
   val skipBackward: Long,
-  val autoNextType: AutoNextType
+  val autoNextType: AutoNextType,
+  val acceptedOrientations: List<PlayerOrientations>
 )
  {
   companion object {
@@ -121,7 +135,8 @@ data class PlayerSettings (
       val skipForward = pigeonVar_list[3] as Long
       val skipBackward = pigeonVar_list[4] as Long
       val autoNextType = pigeonVar_list[5] as AutoNextType
-      return PlayerSettings(enableTunneling, skipTypes, themeColor, skipForward, skipBackward, autoNextType)
+      val acceptedOrientations = pigeonVar_list[6] as List<PlayerOrientations>
+      return PlayerSettings(enableTunneling, skipTypes, themeColor, skipForward, skipBackward, autoNextType, acceptedOrientations)
     }
   }
   fun toList(): List<Any?> {
@@ -132,6 +147,7 @@ data class PlayerSettings (
       skipForward,
       skipBackward,
       autoNextType,
+      acceptedOrientations,
     )
   }
   override fun equals(other: Any?): Boolean {
@@ -150,20 +166,25 @@ private open class PlayerSettingsHelperPigeonCodec : StandardMessageCodec() {
     return when (type) {
       129.toByte() -> {
         return (readValue(buffer) as Long?)?.let {
-          AutoNextType.ofRaw(it.toInt())
+          PlayerOrientations.ofRaw(it.toInt())
         }
       }
       130.toByte() -> {
         return (readValue(buffer) as Long?)?.let {
-          SegmentType.ofRaw(it.toInt())
+          AutoNextType.ofRaw(it.toInt())
         }
       }
       131.toByte() -> {
         return (readValue(buffer) as Long?)?.let {
-          SegmentSkip.ofRaw(it.toInt())
+          SegmentType.ofRaw(it.toInt())
         }
       }
       132.toByte() -> {
+        return (readValue(buffer) as Long?)?.let {
+          SegmentSkip.ofRaw(it.toInt())
+        }
+      }
+      133.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
           PlayerSettings.fromList(it)
         }
@@ -173,20 +194,24 @@ private open class PlayerSettingsHelperPigeonCodec : StandardMessageCodec() {
   }
   override fun writeValue(stream: ByteArrayOutputStream, value: Any?)   {
     when (value) {
-      is AutoNextType -> {
+      is PlayerOrientations -> {
         stream.write(129)
         writeValue(stream, value.raw)
       }
-      is SegmentType -> {
+      is AutoNextType -> {
         stream.write(130)
         writeValue(stream, value.raw)
       }
-      is SegmentSkip -> {
+      is SegmentType -> {
         stream.write(131)
         writeValue(stream, value.raw)
       }
-      is PlayerSettings -> {
+      is SegmentSkip -> {
         stream.write(132)
+        writeValue(stream, value.raw)
+      }
+      is PlayerSettings -> {
+        stream.write(133)
         writeValue(stream, value.toList())
       }
       else -> super.writeValue(stream, value)

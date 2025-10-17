@@ -408,17 +408,12 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                 ),
               ],
             ),
-            if (videoSettings.wantedPlayer != PlayerOptions.nativePlayer) ...[
-              if (!AdaptiveLayout.of(context).isDesktop &&
-                  !kIsWeb &&
-                  !ref.read(argumentsStateProvider).htpcMode &&
-                  videoSettings.wantedPlayer != PlayerOptions.nativePlayer)
-                SettingsListTile(
-                  label: Text(context.localized.playerSettingsOrientationTitle),
-                  subLabel: Text(context.localized.playerSettingsOrientationDesc),
-                  onTap: () => showOrientationOptions(context, ref),
-                ),
-            ],
+            if (!AdaptiveLayout.of(context).isDesktop && !kIsWeb && !ref.read(argumentsStateProvider).htpcMode)
+              SettingsListTile(
+                label: Text(context.localized.playerSettingsOrientationTitle),
+                subLabel: Text(context.localized.playerSettingsOrientationDesc),
+                onTap: () => showOrientationOptions(context, ref),
+              ),
           ],
         ),
       ],

@@ -42,6 +42,7 @@ import nl.jknaapen.fladder.composables.overlays.NextUpOverlay
 import nl.jknaapen.fladder.messengers.properlySetSubAndAudioTracks
 import nl.jknaapen.fladder.objects.PlayerSettingsObject
 import nl.jknaapen.fladder.objects.VideoPlayerObject
+import nl.jknaapen.fladder.utility.AllowedOrientations
 import nl.jknaapen.fladder.utility.getAudioTracks
 import nl.jknaapen.fladder.utility.getSubtitleTracks
 import kotlin.time.Duration.Companion.seconds
@@ -194,42 +195,45 @@ internal fun ExoPlayer(
         }
     }
 
-
-    NextUpOverlay(
-        modifier = Modifier
-            .fillMaxSize()
-    ) { showControls ->
-        AndroidView(
+    AllowedOrientations(
+        PlayerSettingsObject.settings.value?.acceptedOrientations ?: emptyList()
+    ) {
+        NextUpOverlay(
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = Color.Black),
-            factory = {
-                PlayerView(it).apply {
-                    player = exoPlayer
-                    useController = false
-                    layoutParams = ViewGroup.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                    )
-                    keepScreenOn = true
-                    subtitleView?.apply {
-                        setStyle(
-                            CaptionStyleCompat(
-                                android.graphics.Color.WHITE,
-                                android.graphics.Color.TRANSPARENT,
-                                android.graphics.Color.TRANSPARENT,
-                                CaptionStyleCompat.EDGE_TYPE_OUTLINE,
-                                android.graphics.Color.BLACK,
-                                null
-                            )
+        ) { showControls ->
+            AndroidView(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(color = Color.Black),
+                factory = {
+                    PlayerView(it).apply {
+                        player = exoPlayer
+                        useController = false
+                        layoutParams = ViewGroup.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.MATCH_PARENT,
                         )
+                        keepScreenOn = true
+                        subtitleView?.apply {
+                            setStyle(
+                                CaptionStyleCompat(
+                                    android.graphics.Color.WHITE,
+                                    android.graphics.Color.TRANSPARENT,
+                                    android.graphics.Color.TRANSPARENT,
+                                    CaptionStyleCompat.EDGE_TYPE_OUTLINE,
+                                    android.graphics.Color.BLACK,
+                                    null
+                                )
+                            )
+                        }
                     }
+                },
+            )
+            if (showControls)
+                CompositionLocalProvider(LocalPlayer provides exoPlayer) {
+                    controls(exoPlayer)
                 }
-            },
-        )
-        if (showControls)
-            CompositionLocalProvider(LocalPlayer provides exoPlayer) {
-                controls(exoPlayer)
-            }
+        }
     }
 }

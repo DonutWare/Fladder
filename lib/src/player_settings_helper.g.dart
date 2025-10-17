@@ -29,6 +29,13 @@ bool _deepEquals(Object? a, Object? b) {
 }
 
 
+enum PlayerOrientations {
+  portraitUp,
+  portraitDown,
+  landScapeLeft,
+  landScapeRight,
+}
+
 enum AutoNextType {
   off,
   static,
@@ -57,6 +64,7 @@ class PlayerSettings {
     required this.skipForward,
     required this.skipBackward,
     required this.autoNextType,
+    required this.acceptedOrientations,
   });
 
   bool enableTunneling;
@@ -71,6 +79,8 @@ class PlayerSettings {
 
   AutoNextType autoNextType;
 
+  List<PlayerOrientations> acceptedOrientations;
+
   List<Object?> _toList() {
     return <Object?>[
       enableTunneling,
@@ -79,6 +89,7 @@ class PlayerSettings {
       skipForward,
       skipBackward,
       autoNextType,
+      acceptedOrientations,
     ];
   }
 
@@ -94,6 +105,7 @@ class PlayerSettings {
       skipForward: result[3]! as int,
       skipBackward: result[4]! as int,
       autoNextType: result[5]! as AutoNextType,
+      acceptedOrientations: (result[6] as List<Object?>?)!.cast<PlayerOrientations>(),
     );
   }
 
@@ -123,17 +135,20 @@ class _PigeonCodec extends StandardMessageCodec {
     if (value is int) {
       buffer.putUint8(4);
       buffer.putInt64(value);
-    }    else if (value is AutoNextType) {
+    }    else if (value is PlayerOrientations) {
       buffer.putUint8(129);
       writeValue(buffer, value.index);
-    }    else if (value is SegmentType) {
+    }    else if (value is AutoNextType) {
       buffer.putUint8(130);
       writeValue(buffer, value.index);
-    }    else if (value is SegmentSkip) {
+    }    else if (value is SegmentType) {
       buffer.putUint8(131);
       writeValue(buffer, value.index);
-    }    else if (value is PlayerSettings) {
+    }    else if (value is SegmentSkip) {
       buffer.putUint8(132);
+      writeValue(buffer, value.index);
+    }    else if (value is PlayerSettings) {
+      buffer.putUint8(133);
       writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
@@ -145,14 +160,17 @@ class _PigeonCodec extends StandardMessageCodec {
     switch (type) {
       case 129: 
         final int? value = readValue(buffer) as int?;
-        return value == null ? null : AutoNextType.values[value];
+        return value == null ? null : PlayerOrientations.values[value];
       case 130: 
         final int? value = readValue(buffer) as int?;
-        return value == null ? null : SegmentType.values[value];
+        return value == null ? null : AutoNextType.values[value];
       case 131: 
         final int? value = readValue(buffer) as int?;
-        return value == null ? null : SegmentSkip.values[value];
+        return value == null ? null : SegmentType.values[value];
       case 132: 
+        final int? value = readValue(buffer) as int?;
+        return value == null ? null : SegmentSkip.values[value];
+      case 133: 
         return PlayerSettings.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);

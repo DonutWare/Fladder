@@ -29,8 +29,8 @@ fun SubtitlePicker(
     onDismissRequest: () -> Unit,
 ) {
     val selectedIndex by VideoPlayerObject.currentSubtitleTrackIndex.collectAsState()
-    val subTitles by VideoPlayerObject.subtitleTracks.collectAsState(listOf())
-    val internalSubTracks by VideoPlayerObject.exoSubTracks
+    val subTitles by VideoPlayerObject.subtitleTracks.collectAsState(emptyList())
+    val internalSubTracks by VideoPlayerObject.exoSubTracks.collectAsState(emptyList())
 
     if (internalSubTracks.isEmpty()) return
 
