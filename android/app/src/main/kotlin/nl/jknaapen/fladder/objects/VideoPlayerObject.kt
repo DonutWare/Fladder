@@ -14,7 +14,6 @@ import nl.jknaapen.fladder.VideoPlayerActivity
 import nl.jknaapen.fladder.messengers.VideoPlayerImplementation
 import nl.jknaapen.fladder.utility.InternalTrack
 import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 import kotlin.time.toJavaInstant
@@ -43,9 +42,8 @@ object VideoPlayerObject {
         val remainingMs = (dur - pos).coerceAtLeast(0L)
         val endInstant = startInstant.toJavaInstant().plusMillis(remainingMs)
         val endZoned = endInstant.atZone(zone)
-        val formatter = DateTimeFormatter.ofPattern("hh:mm a")
 
-        "ends at ${endZoned.format(formatter)}"
+        endZoned.toOffsetDateTime().toString()
     }
 
     val currentSubtitleTrackIndex =

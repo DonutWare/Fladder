@@ -34,9 +34,9 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
   Future<void> loadVideo(String url, bool play) async => player.open(url, play);
 
   @override
-  Future<void> open(BuildContext newContext) async {
+  Future<StartResult> open(BuildContext newContext) async {
     nativeActivityStarted = true;
-    NativeVideoActivity().launchActivity();
+    return NativeVideoActivity().launchActivity();
   }
 
   @override

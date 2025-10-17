@@ -1348,5 +1348,13 @@
   "mediaTunnelingTitle": "Media tunneling",
   "mediaTunnelingDesc": "Enable media tunneling for native player",
   "clientSettingsUseSystemIMETitle": "Use system keyboard",
-  "clientSettingsUseSystemIMEDesc": "Use the built-in keyboard provided by your system"
+  "clientSettingsUseSystemIMEDesc": "Use the built-in keyboard provided by your system",
+  "nextUpInCount": "Next-up in {seconds}",
+  "@nextUpInCount": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  }
 }

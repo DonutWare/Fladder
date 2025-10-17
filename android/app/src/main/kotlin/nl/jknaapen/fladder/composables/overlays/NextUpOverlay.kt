@@ -45,7 +45,9 @@ import io.github.rabehx.iconsax.filled.Next
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import nl.jknaapen.fladder.composables.controls.CustomButton
+import nl.jknaapen.fladder.objects.Localized
 import nl.jknaapen.fladder.objects.PlayerSettingsObject
+import nl.jknaapen.fladder.objects.Translate
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.conditional
 import nl.jknaapen.fladder.utility.highlightOnFocus
@@ -169,13 +171,24 @@ internal fun NextUpOverlay(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                Text(
-                    "Next-up in $timeUntilNextVideo seconds",
-                    style = MaterialTheme.typography.titleLarge,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
+                Translate(
+                    {
+                        Localized.nextUpInSeconds(
+                            timeUntilNextVideo.toLong(),
+                            callback = it
+                        )
+                    },
+                    key = timeUntilNextVideo,
+                ) {
+                    Text(
+                        it,
+                        style = MaterialTheme.typography.titleLarge,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+
                 Box(
                     modifier = Modifier
                         .align(alignment = Alignment.CenterHorizontally)
@@ -199,7 +212,9 @@ internal fun NextUpOverlay(
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Text("Next")
+                        Translate(Localized::next) { value ->
+                            Text(value)
+                        }
                         Icon(Iconsax.Filled.Next, contentDescription = "Play next video")
                     }
                 }
@@ -213,7 +228,9 @@ internal fun NextUpOverlay(
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
-                            Text("Close")
+                            Translate(Localized::close) {
+                                Text(it)
+                            }
                             Icon(Iconsax.Filled.CloseCircle, contentDescription = "Close Icon")
                         }
                     }

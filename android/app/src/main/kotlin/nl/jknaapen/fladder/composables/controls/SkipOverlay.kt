@@ -34,7 +34,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import nl.jknaapen.fladder.objects.Localized
 import nl.jknaapen.fladder.objects.PlayerSettingsObject
+import nl.jknaapen.fladder.objects.Translate
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.defaultSelected
 import nl.jknaapen.fladder.utility.leanBackEnabled
@@ -135,11 +137,18 @@ internal fun BoxScope.SegmentSkipOverlay(
                         }
                     }
                 }
-                activeSegment?.let {
-                    Text(
-                        "Skip ${it.name.lowercase()}",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
-                    )
+                activeSegment?.let { segment ->
+                    Translate({ cb ->
+                        Localized.skip(
+                            segment.name.lowercase(),
+                            cb
+                        )
+                    }) { translation ->
+                        Text(
+                            translation,
+                            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+                        )
+                    }
                 }
             }
         }

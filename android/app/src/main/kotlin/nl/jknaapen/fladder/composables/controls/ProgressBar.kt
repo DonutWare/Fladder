@@ -66,6 +66,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastCoerceIn
 import androidx.media3.exoplayer.ExoPlayer
 import kotlinx.coroutines.delay
+import nl.jknaapen.fladder.objects.Localized
+import nl.jknaapen.fladder.objects.Translate
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.capitalize
 import nl.jknaapen.fladder.utility.formatTime
@@ -122,20 +124,23 @@ internal fun ProgressBar(
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            val progressBarTopLabel = listOf(
-                playableData?.currentItem?.subTitle,
-                endTimeString,
-            )
-
-            val label = progressBarTopLabel.joinToString(separator = " - ")
-            if (label.isNotBlank()) {
-                Text(
-                    text = label,
-                    style = MaterialTheme.typography.bodyLarge.copy(
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold
-                    ),
+            Translate({ Localized.endsAt(endTimeString ?: "", it) }, endTimeString) { translation ->
+                val progressBarTopLabel = listOf(
+                    playableData?.currentItem?.subTitle,
+                    translation,
                 )
+
+                val label = progressBarTopLabel.filterNot { it.isNullOrBlank() }
+                    .joinToString(separator = " - ")
+                if (label.isNotBlank()) {
+                    Text(
+                        text = label,
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold
+                        ),
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.weight(1f))

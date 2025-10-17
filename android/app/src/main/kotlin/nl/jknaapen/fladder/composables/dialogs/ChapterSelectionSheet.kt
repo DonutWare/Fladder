@@ -34,6 +34,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import nl.jknaapen.fladder.objects.Localized
+import nl.jknaapen.fladder.objects.Translate
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.highlightOnFocus
 
@@ -78,11 +80,14 @@ internal fun ChapterSelectionSheet(
                 .wrapContentHeight(),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Text(
-                "Chapters",
-                style = MaterialTheme.typography.titleLarge,
-                color = Color.White
-            )
+            Translate({ Localized.chapters(chapters.size.toLong(), it) }) {
+                Text(
+                    it,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = Color.White
+                )
+            }
+
             LazyRow(
                 state = lazyListState,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)

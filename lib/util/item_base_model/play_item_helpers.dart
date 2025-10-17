@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -100,6 +102,7 @@ Future<void> _playVideo(
   }
 
   if (context.mounted) {
+    log("Finished refreshing");
     await context.refreshData();
   }
 

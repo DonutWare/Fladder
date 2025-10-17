@@ -17,6 +17,8 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
+import nl.jknaapen.fladder.objects.Localized
+import nl.jknaapen.fladder.objects.Translate
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.clearAudioTrack
 import nl.jknaapen.fladder.utility.setInternalAudioTrack
@@ -82,7 +84,9 @@ fun AudioPicker(
                     },
                     selected = selectedOff
                 ) {
-                    Text("Off")
+                    Translate(Localized::off) {
+                        Text(it)
+                    }
                 }
             }
 

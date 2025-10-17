@@ -3,6 +3,7 @@ package nl.jknaapen.fladder
 import NativeVideoActivity
 import PlayerSettingsPigeon
 import StartResult
+import TranslationsPigeon
 import VideoPlayerApi
 import VideoPlayerControlsCallback
 import VideoPlayerListenerCallback
@@ -12,6 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.ryanheise.audioservice.AudioServiceFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import nl.jknaapen.fladder.objects.PlayerSettingsObject
+import nl.jknaapen.fladder.objects.TranslationsMessenger
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.leanBackEnabled
 
@@ -37,6 +39,9 @@ class MainActivity : AudioServiceFragmentActivity(), NativeVideoActivity {
         videoPlayerHost.videoPlayerControls =
             VideoPlayerControlsCallback(flutterEngine.dartExecutor.binaryMessenger)
 
+        TranslationsMessenger.translation =
+            TranslationsPigeon(flutterEngine.dartExecutor.binaryMessenger)
+
         PlayerSettingsPigeon.setUp(
             flutterEngine.dartExecutor.binaryMessenger,
             api = PlayerSettingsObject
@@ -54,9 +59,9 @@ class MainActivity : AudioServiceFragmentActivity(), NativeVideoActivity {
                 StartResult(resultValue = "Cancelled")
             }
 
-            callback?.invoke(Result.success(startResult))
             VideoPlayerObject.implementation.player?.stop()
             VideoPlayerObject.implementation.player?.release()
+            callback?.invoke(Result.success(startResult))
         }
     }
 
