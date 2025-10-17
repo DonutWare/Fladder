@@ -61,6 +61,7 @@ class _HorizontalListState extends ConsumerState<HorizontalList> with TickerProv
   final contentPadding = 8.0;
   double? contentWidth;
   double? _firstItemWidth;
+  bool hasFocus = false;
 
   AnimationController? _scrollAnimation;
 
@@ -246,7 +247,8 @@ class _HorizontalListState extends ConsumerState<HorizontalList> with TickerProv
         Focus(
           focusNode: parentNode,
           onFocusChange: (value) {
-            if (value) {
+            if (value && hasFocus != value) {
+              hasFocus = value;
               final nodesOnSameRow = _nodesInRow(parentNode);
               final currentNode =
                   nodesOnSameRow.contains(lastFocused) ? lastFocused : _firstFullyVisibleNode(context, nodesOnSameRow);
@@ -262,9 +264,10 @@ class _HorizontalListState extends ConsumerState<HorizontalList> with TickerProv
                 } else {
                   context.ensureVisible();
                 }
-
                 currentNode.requestFocus();
               }
+            } else {
+              hasFocus = false;
             }
           },
           child: SizedBox(
