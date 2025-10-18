@@ -62,6 +62,9 @@ void main(List<String> args) async {
 
   await SvgUtils.preCacheSVGs();
 
+  // Check if running on android TV
+  final leanBackEnabled = !kIsWeb && Platform.isAndroid ? await NativeVideoActivity().isLeanBackEnabled() : false;
+
   if (defaultTargetPlatform == TargetPlatform.windows) {
     await SMTCWindows.initialize();
   }
@@ -92,9 +95,6 @@ void main(List<String> args) async {
     buildNumber: packageInfo.buildNumber,
     os: !kIsWeb ? defaultTargetPlatform.name.capitalize() : "${defaultTargetPlatform.name.capitalize()} Web",
   );
-
-  // Check if running on android TV
-  final leanBackEnabled = !kIsWeb && Platform.isAndroid ? await NativeVideoActivity().isLeanBackEnabled() : false;
 
   runApp(
     ProviderScope(

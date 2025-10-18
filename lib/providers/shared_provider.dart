@@ -136,7 +136,7 @@ class SharedUtility {
       return ClientSettingsModel.fromJson(jsonDecode(sharedPreferences.getString(_clientSettingsKey) ?? ""));
     } catch (e) {
       log(e.toString());
-      return ClientSettingsModel();
+      return ClientSettingsModel.defaultModel();
     }
   }
 
@@ -148,7 +148,7 @@ class SharedUtility {
       return HomeSettingsModel.fromJson(jsonDecode(sharedPreferences.getString(_homeSettingsKey) ?? ""));
     } catch (e) {
       log(e.toString());
-      return HomeSettingsModel();
+      return HomeSettingsModel.defaultModel();
     }
   }
 

@@ -13,7 +13,7 @@ final clientSettingsProvider = StateNotifierProvider<ClientSettingsNotifier, Cli
 });
 
 class ClientSettingsNotifier extends StateNotifier<ClientSettingsModel> {
-  ClientSettingsNotifier(this.ref) : super(ClientSettingsModel());
+  ClientSettingsNotifier(this.ref) : super(ClientSettingsModel.defaultModel());
 
   final Ref ref;
 

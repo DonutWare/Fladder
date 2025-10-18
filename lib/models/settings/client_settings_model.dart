@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'package:fladder/models/settings/arguments_model.dart';
 import 'package:fladder/models/settings/key_combinations.dart';
 import 'package:fladder/util/custom_color_themes.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -64,7 +65,7 @@ abstract class ClientSettingsModel with _$ClientSettingsModel {
     ColorThemes? themeColor,
     @Default(true) bool deriveColorsFromItem,
     @Default(false) bool amoledBlack,
-    @Default(true) bool blurPlaceHolders,
+    required bool blurPlaceHolders,
     @Default(false) bool blurUpcomingEpisodes,
     @LocaleConvert() Locale? selectedLocale,
     @Default(true) bool enableMediaKeys,
@@ -75,7 +76,7 @@ abstract class ClientSettingsModel with _$ClientSettingsModel {
     @Default(false) bool showAllCollectionTypes,
     @Default(2) int maxConcurrentDownloads,
     @Default(DynamicSchemeVariant.rainbow) DynamicSchemeVariant schemeVariant,
-    @Default(BackgroundType.blurred) BackgroundType backgroundImage,
+    required BackgroundType backgroundImage,
     @Default(true) bool checkForUpdates,
     @Default(false) bool usePosterForLibrary,
     @Default(false) bool useSystemIME,
@@ -83,6 +84,13 @@ abstract class ClientSettingsModel with _$ClientSettingsModel {
     int? libraryPageSize,
     @Default({}) Map<GlobalHotKeys, KeyCombination> shortcuts,
   }) = _ClientSettingsModel;
+
+  static ClientSettingsModel defaultModel() {
+    return ClientSettingsModel(
+      blurPlaceHolders: leanBackMode ? false : true,
+      backgroundImage: leanBackMode ? BackgroundType.disabled : BackgroundType.blurred,
+    );
+  }
 
   factory ClientSettingsModel.fromJson(Map<String, dynamic> json) => _$ClientSettingsModelFromJson(json);
 

@@ -16,9 +16,7 @@ _HomeSettingsModel _$HomeSettingsModelFromJson(Map<String, dynamic> json) =>
               ?.map((e) => $enumDecode(_$ViewSizeEnumMap, e))
               .toSet() ??
           const {...ViewSize.values},
-      homeBanner:
-          $enumDecodeNullable(_$HomeBannerEnumMap, json['homeBanner']) ??
-              HomeBanner.carousel,
+      homeBanner: $enumDecode(_$HomeBannerEnumMap, json['homeBanner']),
       carouselSettings: $enumDecodeNullable(
               _$HomeCarouselSettingsEnumMap, json['carouselSettings']) ??
           HomeCarouselSettings.combined,

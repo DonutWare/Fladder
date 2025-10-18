@@ -275,15 +275,16 @@ extension HomeSettingsModelPatterns on HomeSettingsModel {
 
 /// @nodoc
 @JsonSerializable()
-class _HomeSettingsModel implements HomeSettingsModel {
+class _HomeSettingsModel extends HomeSettingsModel {
   _HomeSettingsModel(
       {final Set<LayoutMode> screenLayouts = const {...LayoutMode.values},
       final Set<ViewSize> layoutStates = const {...ViewSize.values},
-      this.homeBanner = HomeBanner.carousel,
+      required this.homeBanner,
       this.carouselSettings = HomeCarouselSettings.combined,
       this.nextUp = HomeNextUp.separate})
       : _screenLayouts = screenLayouts,
-        _layoutStates = layoutStates;
+        _layoutStates = layoutStates,
+        super._();
   factory _HomeSettingsModel.fromJson(Map<String, dynamic> json) =>
       _$HomeSettingsModelFromJson(json);
 
@@ -306,7 +307,6 @@ class _HomeSettingsModel implements HomeSettingsModel {
   }
 
   @override
-  @JsonKey()
   final HomeBanner homeBanner;
   @override
   @JsonKey()
