@@ -47,15 +47,6 @@ class _SearchBarState extends ConsumerState<SuggestionSearchBar> {
   final FocusNode focusNode = FocusNode();
 
   @override
-  void initState() {
-    super.initState();
-    if (widget.autoFocus) {
-      focusNode.requestFocus();
-    }
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     ref.listen(librarySearchProvider(widget.key!).select((value) => value.searchQuery), (previous, next) {
       if (textEditingController.text != next) {
@@ -90,6 +81,7 @@ class _SearchBarState extends ConsumerState<SuggestionSearchBar> {
         ),
         builder: (context, controller, focusNode) => OutlinedTextField(
           focusNode: focusNode,
+          autoFocus: widget.autoFocus,
           controller: controller,
           onSubmitted: (value) {
             widget.onSubmited!(value);

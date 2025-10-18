@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/home_settings_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
@@ -81,7 +80,7 @@ List<Widget> buildClientSettingsAdvanced(BuildContext context, WidgetRef ref) {
           ),
         ),
       ),
-      if (ref.read(argumentsStateProvider).leanBackMode)
+      if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad)
         SettingsListTile(
           label: Text(context.localized.clientSettingsUseSystemIMETitle),
           subLabel: Text(context.localized.clientSettingsUseSystemIMEDesc),

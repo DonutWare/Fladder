@@ -65,7 +65,7 @@ class _DetailedBannerState extends ConsumerState<DetailedBanner> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Flexible(
+              Expanded(
                 child: ExcludeFocus(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 4),

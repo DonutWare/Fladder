@@ -12,7 +12,7 @@ import 'package:fladder/widgets/keyboard/alpha_numeric_keyboard.dart';
 
 ValueNotifier<bool> isKeyboardOpen = ValueNotifier<bool>(false);
 
-double keyboardWidthFactor = 0.2;
+double keyboardWidthFactor = 0.25;
 
 class CustomKeyboardWrapper extends StatelessWidget {
   final Widget child;

@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/theme.dart';
@@ -112,8 +111,8 @@ class _OutlinedTextFieldState extends ConsumerState<OutlinedTextField> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final useCustomKeyboard = ref.watch(argumentsStateProvider.select((value) => value.leanBackMode)) &&
-          ref.watch(clientSettingsProvider.select((value) => !value.useSystemIME));
+      final useCustomKeyboard = AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad &&
+          ref.read(clientSettingsProvider.select((value) => !value.useSystemIME));
       if (widget.autoFocus) {
         if (useCustomKeyboard) {
           _wrapperFocus.requestFocus();
@@ -127,7 +126,7 @@ class _OutlinedTextFieldState extends ConsumerState<OutlinedTextField> {
   @override
   Widget build(BuildContext context) {
     final isPasswordField = widget.keyboardType == TextInputType.visiblePassword;
-    final useCustomKeyboard = ref.watch(argumentsStateProvider.select((value) => value.leanBackMode)) &&
+    final useCustomKeyboard = AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad &&
         ref.watch(clientSettingsProvider.select((value) => !value.useSystemIME));
 
     final textField = TextField(
