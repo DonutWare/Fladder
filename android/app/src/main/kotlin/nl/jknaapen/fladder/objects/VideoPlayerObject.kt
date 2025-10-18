@@ -36,11 +36,11 @@ object VideoPlayerObject {
     @RequiresApi(Build.VERSION_CODES.O)
     @OptIn(ExperimentalTime::class)
     val endTime = combine(position, duration) { pos, dur ->
-        val startInstant = Clock.System.now()
+        val now = Clock.System.now().toJavaInstant()
         val zone = ZoneId.systemDefault()
-
         val remainingMs = (dur - pos).coerceAtLeast(0L)
-        val endInstant = startInstant.toJavaInstant().plusMillis(remainingMs)
+        val endInstant = now.plusMillis(remainingMs)
+
         val endZoned = endInstant.atZone(zone)
 
         endZoned.toOffsetDateTime().toString()

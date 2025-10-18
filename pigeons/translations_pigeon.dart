@@ -25,6 +25,7 @@ abstract class TranslationsPigeon {
   String chapters(int count);
 
   String nextUpInSeconds(int seconds);
+  String hoursAndMinutes(String time);
 
   String endsAt(String time);
 }

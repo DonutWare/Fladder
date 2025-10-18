@@ -59,6 +59,8 @@ abstract class TranslationsPigeon {
 
   String nextUpInSeconds(int seconds);
 
+  String hoursAndMinutes(String time);
+
   String endsAt(String time);
 
   static void setUp(TranslationsPigeon? api, {BinaryMessenger? binaryMessenger, String messageChannelSuffix = '',}) {
@@ -224,6 +226,31 @@ abstract class TranslationsPigeon {
               'Argument for dev.flutter.pigeon.nl_jknaapen_fladder.settings.TranslationsPigeon.nextUpInSeconds was null, expected non-null int.');
           try {
             final String output = api.nextUpInSeconds(arg_seconds!);
+            return wrapResponse(result: output);
+          } on PlatformException catch (e) {
+            return wrapResponse(error: e);
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
+          }
+        });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.nl_jknaapen_fladder.settings.TranslationsPigeon.hoursAndMinutes$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
+      if (api == null) {
+        pigeonVar_channel.setMessageHandler(null);
+      } else {
+        pigeonVar_channel.setMessageHandler((Object? message) async {
+          assert(message != null,
+          'Argument for dev.flutter.pigeon.nl_jknaapen_fladder.settings.TranslationsPigeon.hoursAndMinutes was null.');
+          final List<Object?> args = (message as List<Object?>?)!;
+          final String? arg_time = (args[0] as String?);
+          assert(arg_time != null,
+              'Argument for dev.flutter.pigeon.nl_jknaapen_fladder.settings.TranslationsPigeon.hoursAndMinutes was null, expected non-null String.');
+          try {
+            final String output = api.hoursAndMinutes(arg_time!);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);

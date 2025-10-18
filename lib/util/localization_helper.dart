@@ -78,7 +78,7 @@ class _TranslationsMessgener extends messenger.TranslationsPigeon {
   String close() => context.localized.close;
 
   @override
-  String endsAt(String time) => context.localized.endsAt(DateTime.parse(time));
+  String endsAt(String time) => context.localized.endsAt(DateTime.parse(time).toLocal());
 
   @override
   String next() => context.localized.nextVideo;
@@ -97,4 +97,7 @@ class _TranslationsMessgener extends messenger.TranslationsPigeon {
 
   @override
   String subtitles() => context.localized.subtitles;
+
+  @override
+  String hoursAndMinutes(String time) => context.localized.formattedTime(DateTime.parse(time).toLocal());
 }

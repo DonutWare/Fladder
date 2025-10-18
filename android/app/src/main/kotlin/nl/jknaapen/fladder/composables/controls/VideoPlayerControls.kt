@@ -74,14 +74,15 @@ import kotlinx.coroutines.delay
 import nl.jknaapen.fladder.composables.dialogs.AudioPicker
 import nl.jknaapen.fladder.composables.dialogs.ChapterSelectionSheet
 import nl.jknaapen.fladder.composables.dialogs.SubtitlePicker
+import nl.jknaapen.fladder.objects.Localized
 import nl.jknaapen.fladder.objects.PlayerSettingsObject
+import nl.jknaapen.fladder.objects.Translate
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.ImmersiveSystemBars
 import nl.jknaapen.fladder.utility.defaultSelected
 import nl.jknaapen.fladder.utility.leanBackEnabled
 import nl.jknaapen.fladder.utility.visible
 import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.ExperimentalTime
@@ -522,21 +523,34 @@ internal fun RowScope.RightButtons(
     }
 }
 
-
 @RequiresApi(Build.VERSION_CODES.O)
 @kotlin.OptIn(ExperimentalTime::class)
 @Composable
 private fun CurrentTime() {
-    val startInstant = Clock.System.now()
     val zone = ZoneId.systemDefault()
 
-    val endInstant = startInstant.toJavaInstant()
-    val endZoned = endInstant.atZone(zone)
-    val formatter = DateTimeFormatter.ofPattern("hh:mm a")
+    var currentTime by remember { mutableStateOf(Clock.System.now()) }
 
-    Text(
-        endZoned.format(formatter),
-        style = MaterialTheme.typography.titleMedium,
-        color = Color.White
-    )
+    LaunchedEffect(Unit) {
+        while (true) {
+            currentTime = Clock.System.now()
+            val delayMs = 60_000L - (currentTime.toEpochMilliseconds() % 60_000L)
+            delay(delayMs)
+        }
+    }
+
+    val endZoned = currentTime.toJavaInstant().atZone(zone)
+
+    Translate(
+        {
+            Localized.hoursAndMinutes(endZoned.toOffsetDateTime().toString(), it)
+        },
+        key = currentTime,
+    ) { time ->
+        Text(
+            text = time,
+            style = MaterialTheme.typography.titleMedium,
+            color = Color.White
+        )
+    }
 }
