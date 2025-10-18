@@ -1509,5 +1509,13 @@
     "clientSettingsUseSystemIMETitle": "Використовувати системну клавіатуру",
     "@clientSettingsUseSystemIMETitle": {},
     "clientSettingsUseSystemIMEDesc": "Використовуйте вбудовану клавіатуру вашої системи",
-    "@clientSettingsUseSystemIMEDesc": {}
+    "@clientSettingsUseSystemIMEDesc": {},
+    "nextUpInCount": "Далі через {seconds}",
+    "@nextUpInCount": {
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    }
 }
