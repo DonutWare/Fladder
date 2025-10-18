@@ -48,6 +48,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.input.key.Key.Companion.Back
 import androidx.compose.ui.input.key.Key.Companion.DirectionLeft
 import androidx.compose.ui.input.key.Key.Companion.DirectionRight
 import androidx.compose.ui.input.key.KeyEvent
@@ -79,7 +80,12 @@ import nl.jknaapen.fladder.utility.ImmersiveSystemBars
 import nl.jknaapen.fladder.utility.defaultSelected
 import nl.jknaapen.fladder.utility.leanBackEnabled
 import nl.jknaapen.fladder.utility.visible
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import kotlin.time.Clock
 import kotlin.time.Duration.Companion.seconds
+import kotlin.time.ExperimentalTime
+import kotlin.time.toJavaInstant
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -112,13 +118,11 @@ fun CustomVideoControls(
         bottomControlFocusRequester.requestFocus()
     }
 
-
     BackHandler(
         enabled = showControls
     ) {
         hideControls()
     }
-
 
     // Restart the hide timer whenever `lastInteraction` changes.
     LaunchedEffect(lastInteraction.longValue) {
@@ -166,6 +170,7 @@ fun CustomVideoControls(
 
                 if (!showControls) {
                     when (keyEvent.key) {
+                        Back -> return@onKeyEvent true
                         DirectionLeft -> {
                             currentSkipTime -= backwardSpeed.inWholeMilliseconds
                             updateSeekInteraction()
@@ -225,32 +230,41 @@ fun CustomVideoControls(
                 ) {
                     Column(
                         modifier = Modifier
+                            .padding(controlsPadding)
                             .weight(1f),
                     ) {
-                        val state by VideoPlayerObject.implementation.playbackData.collectAsState(
-                            null
-                        )
-                        state?.let {
-                            ItemHeader(
-                                modifier = Modifier.padding(controlsPadding),
-                                it
-                            )
-                        }
-                    }
-                    if (!leanBackEnabled(LocalContext.current)) {
-                        IconButton(
-                            {
-                                activity?.finish()
-                            }
+                        Row(
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically,
                         ) {
-                            Icon(
-                                Iconsax.Outline.CloseSquare,
-                                modifier = Modifier
-                                    .size(38.dp)
-                                    .focusable(false),
-                                contentDescription = "Close icon",
-                                tint = Color.White,
+                            val state by VideoPlayerObject.implementation.playbackData.collectAsState(
+                                null
                             )
+                            state?.let {
+                                ItemHeader(
+                                    modifier = Modifier
+                                        .weight(1f),
+                                    it
+                                )
+                            }
+                            if (!leanBackEnabled(LocalContext.current)) {
+                                IconButton(
+                                    {
+                                        activity?.finish()
+                                    }
+                                ) {
+                                    Icon(
+                                        Iconsax.Outline.CloseSquare,
+                                        modifier = Modifier
+                                            .size(38.dp)
+                                            .focusable(false),
+                                        contentDescription = "Close icon",
+                                        tint = Color.White,
+                                    )
+                                }
+                            } else {
+                                CurrentTime()
+                            }
                         }
                     }
                 }
@@ -506,4 +520,23 @@ internal fun RowScope.RightButtons(
             )
         }
     }
+}
+
+
+@RequiresApi(Build.VERSION_CODES.O)
+@kotlin.OptIn(ExperimentalTime::class)
+@Composable
+private fun CurrentTime() {
+    val startInstant = Clock.System.now()
+    val zone = ZoneId.systemDefault()
+
+    val endInstant = startInstant.toJavaInstant()
+    val endZoned = endInstant.atZone(zone)
+    val formatter = DateTimeFormatter.ofPattern("hh:mm a")
+
+    Text(
+        endZoned.format(formatter),
+        style = MaterialTheme.typography.titleMedium,
+        color = Color.White
+    )
 }
