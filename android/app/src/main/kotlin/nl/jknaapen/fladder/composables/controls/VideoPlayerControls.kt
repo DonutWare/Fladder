@@ -49,8 +49,11 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.input.key.Key.Companion.Back
+import androidx.compose.ui.input.key.Key.Companion.Backspace
+import androidx.compose.ui.input.key.Key.Companion.ButtonB
 import androidx.compose.ui.input.key.Key.Companion.DirectionLeft
 import androidx.compose.ui.input.key.Key.Companion.DirectionRight
+import androidx.compose.ui.input.key.Key.Companion.Escape
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
@@ -120,9 +123,13 @@ fun CustomVideoControls(
     }
 
     BackHandler(
-        enabled = showControls
+        enabled = true
     ) {
-        hideControls()
+        if (showControls) {
+            hideControls()
+        } else {
+            activity?.finish()
+        }
     }
 
     // Restart the hide timer whenever `lastInteraction` changes.
@@ -169,9 +176,20 @@ fun CustomVideoControls(
             .onKeyEvent { keyEvent: KeyEvent ->
                 if (keyEvent.type != KeyEventType.KeyDown) return@onKeyEvent false
 
+                when (keyEvent.key) {
+                    Back, Escape, ButtonB, Backspace -> {
+                        if (showControls) {
+                            hideControls()
+                            return@onKeyEvent true
+                        } else {
+                            activity?.finish()
+                            return@onKeyEvent true
+                        }
+                    }
+                }
+
                 if (!showControls) {
                     when (keyEvent.key) {
-                        Back -> return@onKeyEvent true
                         DirectionLeft -> {
                             currentSkipTime -= backwardSpeed.inWholeMilliseconds
                             updateSeekInteraction()
