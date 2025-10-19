@@ -26,7 +26,7 @@ _ClientSettingsModel _$ClientSettingsModelFromJson(Map<String, dynamic> json) =>
       themeColor: $enumDecodeNullable(_$ColorThemesEnumMap, json['themeColor']),
       deriveColorsFromItem: json['deriveColorsFromItem'] as bool? ?? true,
       amoledBlack: json['amoledBlack'] as bool? ?? false,
-      blurPlaceHolders: json['blurPlaceHolders'] as bool,
+      blurPlaceHolders: json['blurPlaceHolders'] as bool? ?? true,
       blurUpcomingEpisodes: json['blurUpcomingEpisodes'] as bool? ?? false,
       selectedLocale:
           const LocaleConvert().fromJson(json['selectedLocale'] as String?),
@@ -41,8 +41,9 @@ _ClientSettingsModel _$ClientSettingsModelFromJson(Map<String, dynamic> json) =>
       schemeVariant: $enumDecodeNullable(
               _$DynamicSchemeVariantEnumMap, json['schemeVariant']) ??
           DynamicSchemeVariant.rainbow,
-      backgroundImage:
-          $enumDecode(_$BackgroundTypeEnumMap, json['backgroundImage']),
+      backgroundImage: $enumDecodeNullable(
+              _$BackgroundTypeEnumMap, json['backgroundImage']) ??
+          BackgroundType.blurred,
       checkForUpdates: json['checkForUpdates'] as bool? ?? true,
       usePosterForLibrary: json['usePosterForLibrary'] as bool? ?? false,
       useSystemIME: json['useSystemIME'] as bool? ?? false,

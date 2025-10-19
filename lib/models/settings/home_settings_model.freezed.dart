@@ -279,7 +279,7 @@ class _HomeSettingsModel extends HomeSettingsModel {
   _HomeSettingsModel(
       {final Set<LayoutMode> screenLayouts = const {...LayoutMode.values},
       final Set<ViewSize> layoutStates = const {...ViewSize.values},
-      required this.homeBanner,
+      this.homeBanner = HomeBanner.carousel,
       this.carouselSettings = HomeCarouselSettings.combined,
       this.nextUp = HomeNextUp.separate})
       : _screenLayouts = screenLayouts,
@@ -307,6 +307,7 @@ class _HomeSettingsModel extends HomeSettingsModel {
   }
 
   @override
+  @JsonKey()
   final HomeBanner homeBanner;
   @override
   @JsonKey()

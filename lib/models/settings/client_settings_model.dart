@@ -65,7 +65,7 @@ abstract class ClientSettingsModel with _$ClientSettingsModel {
     ColorThemes? themeColor,
     @Default(true) bool deriveColorsFromItem,
     @Default(false) bool amoledBlack,
-    required bool blurPlaceHolders,
+    @Default(true) bool blurPlaceHolders,
     @Default(false) bool blurUpcomingEpisodes,
     @LocaleConvert() Locale? selectedLocale,
     @Default(true) bool enableMediaKeys,
@@ -76,7 +76,7 @@ abstract class ClientSettingsModel with _$ClientSettingsModel {
     @Default(false) bool showAllCollectionTypes,
     @Default(2) int maxConcurrentDownloads,
     @Default(DynamicSchemeVariant.rainbow) DynamicSchemeVariant schemeVariant,
-    required BackgroundType backgroundImage,
+    @Default(BackgroundType.blurred) BackgroundType backgroundImage,
     @Default(true) bool checkForUpdates,
     @Default(false) bool usePosterForLibrary,
     @Default(false) bool useSystemIME,
@@ -89,6 +89,7 @@ abstract class ClientSettingsModel with _$ClientSettingsModel {
     return ClientSettingsModel(
       blurPlaceHolders: leanBackMode ? false : true,
       backgroundImage: leanBackMode ? BackgroundType.disabled : BackgroundType.blurred,
+      themeMode: leanBackMode ? ThemeMode.dark : ThemeMode.system,
     );
   }
 

@@ -16,7 +16,7 @@ abstract class HomeSettingsModel with _$HomeSettingsModel {
   factory HomeSettingsModel({
     @Default({...LayoutMode.values}) Set<LayoutMode> screenLayouts,
     @Default({...ViewSize.values}) Set<ViewSize> layoutStates,
-    required HomeBanner homeBanner,
+    @Default(HomeBanner.carousel) HomeBanner homeBanner,
     @Default(HomeCarouselSettings.combined) HomeCarouselSettings carouselSettings,
     @Default(HomeNextUp.separate) HomeNextUp nextUp,
   }) = _HomeSettingsModel;

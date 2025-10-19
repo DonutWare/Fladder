@@ -621,7 +621,7 @@ class _ClientSettingsModel extends ClientSettingsModel
       this.themeColor,
       this.deriveColorsFromItem = true,
       this.amoledBlack = false,
-      required this.blurPlaceHolders,
+      this.blurPlaceHolders = true,
       this.blurUpcomingEpisodes = false,
       @LocaleConvert() this.selectedLocale,
       this.enableMediaKeys = true,
@@ -632,7 +632,7 @@ class _ClientSettingsModel extends ClientSettingsModel
       this.showAllCollectionTypes = false,
       this.maxConcurrentDownloads = 2,
       this.schemeVariant = DynamicSchemeVariant.rainbow,
-      required this.backgroundImage,
+      this.backgroundImage = BackgroundType.blurred,
       this.checkForUpdates = true,
       this.usePosterForLibrary = false,
       this.useSystemIME = false,
@@ -669,6 +669,7 @@ class _ClientSettingsModel extends ClientSettingsModel
   @JsonKey()
   final bool amoledBlack;
   @override
+  @JsonKey()
   final bool blurPlaceHolders;
   @override
   @JsonKey()
@@ -701,6 +702,7 @@ class _ClientSettingsModel extends ClientSettingsModel
   @JsonKey()
   final DynamicSchemeVariant schemeVariant;
   @override
+  @JsonKey()
   final BackgroundType backgroundImage;
   @override
   @JsonKey()
