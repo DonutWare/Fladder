@@ -1497,5 +1497,27 @@
     "mediaTunnelingTitle": "Туннелирование мультимедиа",
     "@mediaTunnelingTitle": {},
     "mediaTunnelingDesc": "Включить туннелирование мультимедиа для встроенного плеера",
-    "@mediaTunnelingDesc": {}
+    "@mediaTunnelingDesc": {},
+    "clientSettingsUseSystemIMETitle": "Использовать системную клавиатуру",
+    "@clientSettingsUseSystemIMETitle": {},
+    "clientSettingsUseSystemIMEDesc": "Использовать встроенную клавиатуру, предоставляемой вашей системой",
+    "@clientSettingsUseSystemIMEDesc": {},
+    "nextUpInCount": "Следующий через {seconds}",
+    "@nextUpInCount": {
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "formattedTime": "{time}",
+    "@formattedTime": {
+        "description": "Formatted time",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            }
+        }
+    }
 }
