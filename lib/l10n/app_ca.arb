@@ -1501,5 +1501,23 @@
     "clientSettingsUseSystemIMETitle": "Utilitzar el teclat del sistema",
     "@clientSettingsUseSystemIMETitle": {},
     "clientSettingsUseSystemIMEDesc": "Utitzar el teclat per defecte proporcionat per el vostre sistema",
-    "@clientSettingsUseSystemIMEDesc": {}
+    "@clientSettingsUseSystemIMEDesc": {},
+    "nextUpInCount": "Seguidament en {seconds}",
+    "@nextUpInCount": {
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "formattedTime": "{time}",
+    "@formattedTime": {
+        "description": "Formatted time",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            }
+        }
+    }
 }
