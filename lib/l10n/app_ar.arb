@@ -1501,5 +1501,23 @@
     "clientSettingsUseSystemIMETitle": "استخدام لوحة مفاتيح النظام",
     "@clientSettingsUseSystemIMETitle": {},
     "clientSettingsUseSystemIMEDesc": "استخدم لوحة المفاتيح المدمجة التي يوفرها نظامك",
-    "@clientSettingsUseSystemIMEDesc": {}
+    "@clientSettingsUseSystemIMEDesc": {},
+    "formattedTime": "{time}",
+    "@formattedTime": {
+        "description": "Formatted time",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            }
+        }
+    },
+    "nextUpInCount": "التالي في {seconds}",
+    "@nextUpInCount": {
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    }
 }
