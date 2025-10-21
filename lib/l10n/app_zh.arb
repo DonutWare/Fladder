@@ -1500,5 +1500,23 @@
     "clientSettingsUseSystemIMETitle": "使用系统键盘",
     "@clientSettingsUseSystemIMETitle": {},
     "clientSettingsUseSystemIMEDesc": "使用系统提供的内置键盘",
-    "@clientSettingsUseSystemIMEDesc": {}
+    "@clientSettingsUseSystemIMEDesc": {},
+    "nextUpInCount": "接下来是 {seconds}",
+    "@nextUpInCount": {
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "formattedTime": "{time}",
+    "@formattedTime": {
+        "description": "Formatted time",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            }
+        }
+    }
 }
