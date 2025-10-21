@@ -130,6 +130,7 @@ dependencies:
   share_plus: ^12.0.0
   archive: ^4.0.7
   dart_mappable: ^4.6.0
+  flutter_native_splash: ^2.4.7
 
 dependency_overrides:
   media_kit:
@@ -219,3 +220,12 @@ flutter:
           style: normal
         - asset: assets/fonts/opensans/OpenSans-Italic.ttf
           style: italic
+
+flutter_native_splash:
+  color: "#210000"
+  color_dark: "#210000"
+  image: icons/production/fladder_icon.png
+  image_dark: icons/production/fladder_icon.png
+  android: true
+  ios: false
+  web: false
