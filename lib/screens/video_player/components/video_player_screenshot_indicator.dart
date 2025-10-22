@@ -1,3 +1,4 @@
+import 'package:fladder/util/localization_helper.dart';
 import 'package:flutter/material.dart';
 
 import 'package:async/async.dart';
@@ -72,8 +73,8 @@ class _VideoPlayerScreenshotIndicatorState extends ConsumerState<VideoPlayerScre
                     const Icon(Icons.image),
                     Text(
                       screenshotTaken
-                          ? isCleanScreenshot ? "Screenshot without subtitles saved!" : "Screenshot saved!"
-                          : "There was an error taking the screenshot.",
+                          ? isCleanScreenshot ? context.localized.screenshotCleanTaken : context.localized.screenshotTaken
+                          : context.localized.errorTakingScreenshot,
                       style: Theme.of(context).textTheme.bodyMedium,
                     )
                   ],
