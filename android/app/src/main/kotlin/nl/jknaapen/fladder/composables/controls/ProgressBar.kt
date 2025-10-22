@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -62,6 +63,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastCoerceIn
 import androidx.media3.exoplayer.ExoPlayer
@@ -71,6 +73,7 @@ import nl.jknaapen.fladder.objects.Translate
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.capitalize
 import nl.jknaapen.fladder.utility.formatTime
+import nl.jknaapen.fladder.utility.measureTextWidth
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.time.Duration
@@ -135,7 +138,7 @@ internal fun ProgressBar(
                 if (label.isNotBlank()) {
                     Text(
                         text = label,
-                        style = MaterialTheme.typography.bodyLarge.copy(
+                        style = MaterialTheme.typography.titleLarge.copy(
                             color = Color.White,
                             fontWeight = FontWeight.Bold
                         ),
@@ -156,12 +159,20 @@ internal fun ProgressBar(
             verticalAlignment = Alignment.CenterVertically,
             modifier = modifier.fillMaxWidth()
         ) {
+            val timeTextStyle = MaterialTheme.typography.titleLarge.copy(
+                fontWeight = FontWeight.Bold
+            )
+
+            //Calculate min width to stop resizing of progressbar
+            val textWidth = measureTextWidth("-" + formatTime(duration), timeTextStyle)
+
             Text(
                 formatTime(currentPosition),
                 color = Color.White,
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    fontWeight = FontWeight.Bold
-                )
+                modifier = Modifier.widthIn(min = textWidth),
+                textAlign = TextAlign.Start,
+                maxLines = 1,
+                style = timeTextStyle
             )
             SimpleProgressBar(
                 player,
@@ -184,9 +195,10 @@ internal fun ProgressBar(
                     )
                 ),
                 color = Color.White,
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    fontWeight = FontWeight.Bold
-                )
+                textAlign = TextAlign.End,
+                modifier = Modifier.widthIn(min = textWidth),
+                maxLines = 1,
+                style = timeTextStyle
             )
         }
     }
