@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
+import 'package:fladder/providers/settings/subtitle_offset_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/util/debouncer.dart';
 import 'package:fladder/wrappers/media_control_wrapper.dart';
@@ -134,6 +135,11 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
           }
           await state.setAudioTrack(null, model);
           await state.setSubtitleTrack(null, model);
+          // Apply the saved subtitle offset
+          final savedOffset = ref.read(subtitleOffsetProvider);
+          if (savedOffset != 0.0) {
+            await state.adjustSubtitleOffset(savedOffset);
+          }
           state.play();
           ref.read(playBackModel.notifier).update((state) => newPlaybackModel);
         },

@@ -15,10 +15,15 @@ import 'package:fladder/wrappers/players/player_states.dart';
 
 class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
   final player = VideoPlayerApi();
+  final StreamController<PlayerState> _stateController = StreamController<PlayerState>.broadcast();
+  
+  @override
+  Stream<PlayerState> get stateStream => _stateController.stream;
 
   @override
   Future<void> dispose() async {
     nativeActivityStarted = false;
+    await _stateController.close();
     return NativeVideoActivity().disposeActivity();
   }
 
@@ -76,6 +81,18 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
   }
 
   @override
+  Future<void> adjustSubtitleOffset(double offsetSeconds) async {
+    // Native player does not support subtitle offset
+    // The "not supported" message will be shown by the calling code
+  }
+
+  @override
+  Future<double> getSubtitleOffset() async {
+    // Native player does not support subtitle offset
+    return 0.0;
+  }
+
+  @override
   Future<void> stop() async {
     nativeActivityStarted = false;
     return player.stop();
@@ -97,11 +114,6 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
     );
     _stateController.add(lastState);
   }
-
-  final StreamController<PlayerState> _stateController = StreamController.broadcast();
-
-  @override
-  Stream<PlayerState> get stateStream => _stateController.stream;
 
   Future<void> sendPlaybackDataToNative(
     BuildContext? context,
