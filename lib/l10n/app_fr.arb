@@ -1486,5 +1486,27 @@
     "quickConnectLoginUsingCode": "Utilisation de la connexion rapide",
     "@quickConnectLoginUsingCode": {},
     "quickConnectEnterCodeDescription": "Entrez le code ci-dessous pour se connecter",
-    "@quickConnectEnterCodeDescription": {}
+    "@quickConnectEnterCodeDescription": {},
+    "showMore": "Voir plus",
+    "@showMore": {},
+    "mediaTunnelingTitle": "Tunneling multimédia",
+    "@mediaTunnelingTitle": {},
+    "mediaTunnelingDesc": "Activer le tunneling multimédia pour le lecteur natif",
+    "@mediaTunnelingDesc": {},
+    "clientSettingsUseSystemIMETitle": "Utiliser le clavier du système",
+    "@clientSettingsUseSystemIMETitle": {},
+    "clientSettingsUseSystemIMEDesc": "Utiliser le clavier par défaut de votre système",
+    "@clientSettingsUseSystemIMEDesc": {},
+    "nextUpInCount": "Prochain dans {seconds}",
+    "@nextUpInCount": {
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "itemColorsDesc": "Utilisez la couleur principale de l'élément pour définir le thème de la page de détails",
+    "@itemColorsDesc": {},
+    "itemColorsTitle": "Couleurs de l'élément",
+    "@itemColorsTitle": {}
 }
