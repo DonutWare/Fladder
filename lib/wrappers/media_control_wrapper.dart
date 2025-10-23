@@ -32,6 +32,8 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
   BasePlayer? _player;
 
   bool get hasPlayer => _player != null;
+  
+  BasePlayer? get player => _player;
 
   PlayerOptions? get backend => switch (_player) {
         LibMPV _ => PlayerOptions.libMPV,
@@ -364,6 +366,65 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     final playbackModel = ref.read(playBackModel);
     final newModel = await playbackModel?.setSubtitle(
         playbackModel.subStreams?.firstWhere((element) => element.index == value), this);
+    ref.read(playBackModel.notifier).update((state) => newModel);
+    if (newModel != null) {
+      await ref.read(playbackModelHelper).shouldReload(newModel);
+    }
+  }
+
+  Future<void> adjustSubtitleOffset(double offsetSeconds) async => 
+      await _player?.adjustSubtitleOffset(offsetSeconds);
+
+  Future<double> getSubtitleOffset() async => 
+      await _player?.getSubtitleOffset() ?? 0.0;
+
+  Future<void> cycleSubtitleTrack({bool forward = true}) async {
+    final playbackModel = ref.read(playBackModel);
+    final subStreams = playbackModel?.subStreams;
+    
+    if (subStreams == null || subStreams.isEmpty) return;
+    
+    final currentIndex = playbackModel?.mediaStreams?.defaultSubStreamIndex ?? -1;
+    final currentStreamIndex = subStreams.indexWhere((stream) => stream.index == currentIndex);
+    
+    int newIndex;
+    if (forward) {
+      newIndex = (currentStreamIndex + 1) % subStreams.length;
+    } else {
+      newIndex = currentStreamIndex <= 0 ? subStreams.length - 1 : currentStreamIndex - 1;
+    }
+    
+    final newSubtitleStream = subStreams[newIndex];
+    final newModel = await playbackModel?.setSubtitle(newSubtitleStream, this);
+    ref.read(playBackModel.notifier).update((state) => newModel);
+    if (newModel != null) {
+      await ref.read(playbackModelHelper).shouldReload(newModel);
+    }
+  }
+
+  Future<void> toggleSubtitles() async {
+    final playbackModel = ref.read(playBackModel);
+    final subStreams = playbackModel?.subStreams;
+    
+    if (subStreams == null || subStreams.isEmpty) return;
+    
+    final currentIndex = playbackModel?.mediaStreams?.defaultSubStreamIndex ?? -1;
+    
+    // If subtitles are currently off (index -1 or SubStreamModel.no().index), turn them on with first available
+    // If subtitles are on, turn them off
+    SubStreamModel? newSubtitleStream;
+    if (currentIndex == -1 || currentIndex == SubStreamModel.no().index) {
+      // Turn subtitles on - find first non-"no" subtitle
+      newSubtitleStream = subStreams.firstWhere(
+        (stream) => stream.index != SubStreamModel.no().index,
+        orElse: () => subStreams.first,
+      );
+    } else {
+      // Turn subtitles off
+      newSubtitleStream = SubStreamModel.no();
+    }
+    
+    final newModel = await playbackModel?.setSubtitle(newSubtitleStream, this);
     ref.read(playBackModel.notifier).update((state) => newModel);
     if (newModel != null) {
       await ref.read(playbackModelHelper).shouldReload(newModel);

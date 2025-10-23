@@ -160,7 +160,19 @@ class LibMDK extends BasePlayer {
   }
 
   @override
-  Future<void> stop() async => _controller?.dispose();
+  Future<void> stop() async => _controller?.pause();
+
+  @override
+  Future<void> adjustSubtitleOffset(double offsetSeconds) async {
+    // MDK player does not support subtitle offset
+    // The "not supported" message will be shown by the calling code
+  }
+
+  @override
+  Future<double> getSubtitleOffset() async {
+    // MDK player does not support subtitle offset
+    return 0.0;
+  }
 
   @override
   Widget? videoWidget(
