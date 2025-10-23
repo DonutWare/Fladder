@@ -16,6 +16,7 @@ import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/home_settings_provider.dart';
 import 'package:fladder/providers/settings/photo_view_settings_provider.dart';
 import 'package:fladder/providers/settings/pigeon_player_settings_provider.dart';
+import 'package:fladder/providers/settings/subtitle_offset_provider.dart';
 import 'package:fladder/providers/settings/subtitle_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
@@ -50,6 +51,8 @@ class SharedUtility {
       ref.read(homeSettingsProvider.notifier).state = homeSettings;
       ref.read(videoPlayerSettingsProvider.notifier).state = videoPlayerSettings;
       ref.read(subtitleSettingsProvider.notifier).state = subtitleSettings;
+      // Use setOffset to ensure the player is also updated with the saved offset
+      ref.read(subtitleOffsetProvider.notifier).setOffset(subtitleOffset);
       ref.read(bookViewerSettingsProvider.notifier).state = bookViewSettings;
       ref.read(photoViewSettingsProvider.notifier).state = photoViewSettings;
       return true;
@@ -221,6 +224,14 @@ class SharedUtility {
   set photoViewSettings(PhotoViewSettingsModel settings) {
     sharedPreferences.setString(_photoViewSettingsKey, settings.toJson());
   }
+
+  double get subtitleOffset {
+    return sharedPreferences.getDouble(_subtitleOffsetKey) ?? 0.0;
+  }
+
+  set subtitleOffset(double offset) {
+    sharedPreferences.setDouble(_subtitleOffsetKey, offset);
+  }
 }
 
 const String _loginCredentialsKey = 'loginCredentialsKey';
@@ -230,3 +241,4 @@ const String _videoPlayerSettingsKey = 'videoPlayerSettings';
 const String _subtitleSettingsKey = 'subtitleSettings';
 const String _bookViewSettingsKey = 'bookViewSettings';
 const String _photoViewSettingsKey = 'photoViewSettings';
+const String _subtitleOffsetKey = 'subtitleOffset';

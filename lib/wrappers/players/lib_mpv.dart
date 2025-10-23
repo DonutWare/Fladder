@@ -21,10 +21,15 @@ import 'package:fladder/wrappers/players/player_states.dart';
 class LibMPV extends BasePlayer {
   mpv.Player? _player;
   VideoController? _controller;
+  double _currentSubtitleOffset = 0.0; // Internal tracking of subtitle offset
 
   final StreamController<PlayerState> _stateController = StreamController.broadcast();
+  
   @override
   Stream<PlayerState> get stateStream => _stateController.stream;
+  
+  @override
+  bool get supportsSubtitleOffset => true;
 
   StreamSubscription<bool>? _onCompleted;
 
@@ -155,6 +160,40 @@ class LibMPV extends BasePlayer {
 
   @override
   Future<void> stop() async => _player?.stop();
+
+  @override
+  Future<void> adjustSubtitleOffset(double offsetSeconds) async {
+    if (_player?.platform is mpv.NativePlayer) {
+      try {
+        _currentSubtitleOffset = offsetSeconds;
+        print('Setting subtitle delay to: $offsetSeconds seconds');
+        
+        // Try using MPV command instead of property
+        await (_player?.platform as dynamic).command(['set', 'sub-delay', offsetSeconds.toString()]);
+        print('Successfully set subtitle delay via command');
+      } catch (e) {
+        print('Error with command approach: $e');
+        // Fallback to property approach
+        try {
+          await (_player?.platform as dynamic).setProperty('sub-delay', offsetSeconds);
+          print('Successfully set subtitle delay via property');
+        } catch (e2) {
+          print('Error setting subtitle offset via property: $e2');
+        }
+      }
+    } else {
+      print('Player platform is not MPV native player');
+    }
+  }
+
+  @override
+  Future<double> getSubtitleOffset() async {
+    if (_player?.platform is mpv.NativePlayer) {
+      // Return the internally tracked offset as it's more reliable
+      return _currentSubtitleOffset;
+    }
+    return 0.0;
+  }
 
   @override
   Widget? videoWidget(

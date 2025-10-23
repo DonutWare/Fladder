@@ -12,11 +12,14 @@ import 'package:screen_brightness/screen_brightness.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
+import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
+import 'package:fladder/providers/settings/subtitle_offset_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
+import 'package:fladder/providers/subtitle_action_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/shared/default_title_bar.dart';
@@ -27,6 +30,7 @@ import 'package:fladder/screens/video_player/components/video_player_options_she
 import 'package:fladder/screens/video_player/components/video_player_quality_controls.dart';
 import 'package:fladder/screens/video_player/components/video_player_seek_indicator.dart';
 import 'package:fladder/screens/video_player/components/video_player_speed_indicator.dart';
+import 'package:fladder/screens/video_player/components/video_player_subtitle_indicator.dart';
 import 'package:fladder/screens/video_player/components/video_player_volume_indicator.dart';
 import 'package:fladder/screens/video_player/components/video_progress_bar.dart';
 import 'package:fladder/screens/video_player/components/video_volume_slider.dart';
@@ -127,6 +131,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                 const VideoPlayerSeekIndicator(),
                 const VideoPlayerVolumeIndicator(),
                 const VideoPlayerSpeedIndicator(),
+                const VideoPlayerSubtitleIndicator(),
                 Consumer(
                   builder: (context, ref, child) {
                     final position = ref.watch(mediaPlaybackProvider.select((value) => value.position));
@@ -686,6 +691,50 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     }
   }
 
+  void _adjustSubtitleOffset(double offsetChange) async {
+    // Use the provider's adjustOffset method which handles both state and player updates
+    ref.read(subtitleOffsetProvider.notifier).adjustOffset(offsetChange);
+    
+    // Get the new offset value for the OSD
+    final newOffset = ref.read(subtitleOffsetProvider);
+    
+    // Show OSD indicator
+    final action = offsetChange > 0 ? SubtitleAction.offsetIncrease : SubtitleAction.offsetDecrease;
+    final sign = newOffset >= 0 ? '+' : '';
+    ref.read(subtitleActionProvider.notifier).showAction(
+      action, 
+      "Subtitle Offset: $sign${newOffset.toStringAsFixed(1)}s"
+    );
+    
+    resetTimer();
+  }
+
+  void _showSubtitleTrackName(PlaybackModel? playbackModel, {required bool forward}) {
+    final subStreams = playbackModel?.subStreams;
+    if (subStreams == null || subStreams.isEmpty) return;
+    
+    // Calculate what the new subtitle track will be after cycling
+    final currentIndex = playbackModel?.mediaStreams?.defaultSubStreamIndex ?? -1;
+    final currentStreamIndex = subStreams.indexWhere((stream) => stream.index == currentIndex);
+    
+    int newIndex;
+    if (forward) {
+      newIndex = (currentStreamIndex + 1) % subStreams.length;
+    } else {
+      newIndex = currentStreamIndex <= 0 ? subStreams.length - 1 : currentStreamIndex - 1;
+    }
+    
+    final newSubtitleStream = subStreams[newIndex];
+    final trackName = newSubtitleStream.displayTitle.isNotEmpty 
+        ? newSubtitleStream.displayTitle 
+        : (newSubtitleStream.index == SubStreamModel.no().index ? context.localized.off : context.localized.unknown);
+    
+    ref.read(subtitleActionProvider.notifier).showAction(
+      forward ? SubtitleAction.nextTrack : SubtitleAction.prevTrack,
+      "${context.localized.subtitles}: $trackName"
+    );
+  }
+
   bool _onKey(VideoHotKeys value) {
     final mediaSegments = ref.read(playBackModel.select((value) => value?.mediaSegments));
     final position = ref.read(mediaPlaybackProvider).position;
@@ -742,6 +791,40 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         return true;
       case VideoHotKeys.prevChapter:
         ref.read(videoPlayerSettingsProvider.notifier).prevChapter();
+        return true;
+      case VideoHotKeys.toggleSubtitles:
+        final playbackModel = ref.read(playBackModel);
+        final currentIndex = playbackModel?.mediaStreams?.defaultSubStreamIndex ?? -1;
+        final isSubtitlesOn = currentIndex != -1 && currentIndex != SubStreamModel.no().index;
+        
+        ref.read(videoPlayerProvider).toggleSubtitles();
+        
+        // Show "Subtitles On" or "Subtitles Off" based on the NEW state (opposite of current)
+        final newState = isSubtitlesOn ? context.localized.off : context.localized.enabled;
+        ref.read(subtitleActionProvider.notifier).showAction(
+          SubtitleAction.toggle, 
+          "${context.localized.subtitles} $newState"
+        );
+        return true;
+      case VideoHotKeys.nextSubtitleTrack:
+        final playbackModel = ref.read(playBackModel);
+        ref.read(videoPlayerProvider).cycleSubtitleTrack(forward: true);
+        
+        // Get the new subtitle track name after cycling
+        _showSubtitleTrackName(playbackModel, forward: true);
+        return true;
+      case VideoHotKeys.prevSubtitleTrack:
+        final playbackModel = ref.read(playBackModel);
+        ref.read(videoPlayerProvider).cycleSubtitleTrack(forward: false);
+        
+        // Get the new subtitle track name after cycling
+        _showSubtitleTrackName(playbackModel, forward: false);
+        return true;
+      case VideoHotKeys.subtitleOffsetIncrease:
+        _adjustSubtitleOffset(0.1); // Increase by 100ms
+        return true;
+      case VideoHotKeys.subtitleOffsetDecrease:
+        _adjustSubtitleOffset(-0.1); // Decrease by 100ms
         return true;
       default:
         return false;

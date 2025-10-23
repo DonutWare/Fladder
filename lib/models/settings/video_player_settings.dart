@@ -29,7 +29,12 @@ enum VideoHotKeys {
   prevChapter,
   fullScreen,
   skipMediaSegment,
-  exit;
+  exit,
+  toggleSubtitles,
+  nextSubtitleTrack,
+  prevSubtitleTrack,
+  subtitleOffsetIncrease,
+  subtitleOffsetDecrease;
 
   const VideoHotKeys();
 
@@ -50,6 +55,11 @@ enum VideoHotKeys {
       VideoHotKeys.fullScreen => context.localized.fullScreen,
       VideoHotKeys.skipMediaSegment => context.localized.skipMediaSegment,
       VideoHotKeys.exit => context.localized.exit,
+      VideoHotKeys.toggleSubtitles => context.localized.subtitles,
+      VideoHotKeys.nextSubtitleTrack => context.localized.nextSubtitleTrack,
+      VideoHotKeys.prevSubtitleTrack => context.localized.prevSubtitleTrack,
+      VideoHotKeys.subtitleOffsetIncrease => context.localized.subtitleOffsetIncrease,
+      VideoHotKeys.subtitleOffsetDecrease => context.localized.subtitleOffsetDecrease,
     };
   }
 }
@@ -232,5 +242,16 @@ Map<VideoHotKeys, KeyCombination> get _defaultVideoHotKeys => {
           VideoHotKeys.fullScreen => KeyCombination(key: LogicalKeyboardKey.keyF),
           VideoHotKeys.skipMediaSegment => KeyCombination(key: LogicalKeyboardKey.keyS),
           VideoHotKeys.exit => KeyCombination(key: LogicalKeyboardKey.escape),
+          VideoHotKeys.toggleSubtitles => KeyCombination(key: LogicalKeyboardKey.keyV),
+          VideoHotKeys.nextSubtitleTrack => KeyCombination(
+              key: LogicalKeyboardKey.keyV, 
+              modifier: LogicalKeyboardKey.shiftLeft
+            ),
+          VideoHotKeys.prevSubtitleTrack => KeyCombination(
+              key: LogicalKeyboardKey.keyV, 
+              modifier: LogicalKeyboardKey.controlLeft
+            ),
+          VideoHotKeys.subtitleOffsetIncrease => KeyCombination(key: LogicalKeyboardKey.keyH),
+          VideoHotKeys.subtitleOffsetDecrease => KeyCombination(key: LogicalKeyboardKey.keyG),
         },
     };

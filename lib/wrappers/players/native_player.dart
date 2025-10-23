@@ -81,6 +81,18 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
   }
 
   @override
+  Future<void> adjustSubtitleOffset(double offsetSeconds) async {
+    // Native player does not support subtitle offset
+    // The "not supported" message will be shown by the calling code
+  }
+
+  @override
+  Future<double> getSubtitleOffset() async {
+    // Native player does not support subtitle offset
+    return 0.0;
+  }
+
+  @override
   Future<void> stop() async {
     nativeActivityStarted = false;
     return player.stop();
@@ -102,11 +114,6 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
     );
     _stateController.add(lastState);
   }
-
-  final StreamController<PlayerState> _stateController = StreamController.broadcast();
-
-  @override
-  Stream<PlayerState> get stateStream => _stateController.stream;
 
   Future<void> sendPlaybackDataToNative(
     BuildContext? context,

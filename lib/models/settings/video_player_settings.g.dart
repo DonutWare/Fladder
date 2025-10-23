@@ -154,6 +154,11 @@ const _$VideoHotKeysEnumMap = {
   VideoHotKeys.fullScreen: 'fullScreen',
   VideoHotKeys.skipMediaSegment: 'skipMediaSegment',
   VideoHotKeys.exit: 'exit',
+  VideoHotKeys.toggleSubtitles: 'toggleSubtitles',
+  VideoHotKeys.nextSubtitleTrack: 'nextSubtitleTrack',
+  VideoHotKeys.prevSubtitleTrack: 'prevSubtitleTrack',
+  VideoHotKeys.subtitleOffsetIncrease: 'subtitleOffsetIncrease',
+  VideoHotKeys.subtitleOffsetDecrease: 'subtitleOffsetDecrease',
 };
 
 const _$ScreensaverEnumMap = {

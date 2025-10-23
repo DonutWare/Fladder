@@ -35,6 +35,11 @@ abstract class BasePlayer {
   Future<void> loop(bool loop);
   Future<int> setSubtitleTrack(SubStreamModel? model, PlaybackModel playbackModel);
   Future<int> setAudioTrack(AudioStreamModel? model, PlaybackModel playbackModel);
+  Future<void> adjustSubtitleOffset(double offsetSeconds);
+  Future<double> getSubtitleOffset();
+  
+  /// Whether this player supports subtitle offset adjustment
+  bool get supportsSubtitleOffset => false;
 
   Uri? isValidUrl(String input) {
     try {
