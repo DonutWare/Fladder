@@ -440,7 +440,7 @@ fun PlaybackButtons(
         ) {
             Icon(
                 if (isPlaying) Iconsax.Filled.Pause else Iconsax.Filled.Play,
-                modifier = Modifier.size(42.dp),
+                modifier = Modifier.size(40.dp),
                 contentDescription = if (isPlaying) "Pause" else "Play",
             )
         }
@@ -567,7 +567,7 @@ private fun CurrentTime() {
     ) { time ->
         Text(
             text = time,
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.titleLarge,
             color = Color.White
         )
     }

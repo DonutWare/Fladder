@@ -138,7 +138,7 @@ internal fun ProgressBar(
                 if (label.isNotBlank()) {
                     Text(
                         text = label,
-                        style = MaterialTheme.typography.titleLarge.copy(
+                        style = MaterialTheme.typography.titleMedium.copy(
                             color = Color.White,
                             fontWeight = FontWeight.Bold
                         ),
@@ -159,7 +159,7 @@ internal fun ProgressBar(
             verticalAlignment = Alignment.CenterVertically,
             modifier = modifier.fillMaxWidth()
         ) {
-            val timeTextStyle = MaterialTheme.typography.titleLarge.copy(
+            val timeTextStyle = MaterialTheme.typography.titleMedium.copy(
                 fontWeight = FontWeight.Bold
             )
 
@@ -220,7 +220,7 @@ private fun Videolabel(value: String?) {
     ) {
         Text(
             value,
-            style = MaterialTheme.typography.bodySmall.copy(
+            style = MaterialTheme.typography.titleMedium.copy(
                 fontWeight = FontWeight.SemiBold,
             ),
             color = MaterialTheme.colorScheme.onSurface
