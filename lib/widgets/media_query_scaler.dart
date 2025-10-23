@@ -19,7 +19,6 @@ class MediaQueryScaler extends StatelessWidget {
     final screenSize = MediaQuery.sizeOf(context) * scale;
 
     final scaledMedia = mediaQuery.copyWith(
-      navigationMode: NavigationMode.directional,
       size: screenSize,
       padding: mediaQuery.padding * scale,
       viewInsets: mediaQuery.viewInsets * scale,

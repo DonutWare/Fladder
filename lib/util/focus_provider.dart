@@ -146,6 +146,8 @@ class FocusButtonState extends State<FocusButton> {
       child: Focus(
         focusNode: focusNode,
         autofocus: widget.autoFocus,
+        canRequestFocus: widget.onTap != null || widget.onLongPress != null || widget.onSecondaryTapDown != null,
+        skipTraversal: widget.onTap == null && widget.onLongPress == null && widget.onSecondaryTapDown != null,
         onFocusChange: (value) {
           widget.onFocusChanged?.call(value);
           if (value) {

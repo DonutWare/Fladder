@@ -9,6 +9,7 @@ import 'package:fladder/providers/settings/home_settings_provider.dart';
 import 'package:fladder/screens/home_screen.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout_model.dart';
 import 'package:fladder/util/debug_banner.dart';
+import 'package:fladder/util/input_detector.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/poster_defaults.dart';
 import 'package:fladder/util/resolution_checker.dart';
@@ -188,11 +189,6 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
 
     final selectedViewSize = selectAvailableOrSmaller<ViewSize>(viewSize, acceptedViewSizes, ViewSize.values);
     final selectedLayoutMode = selectAvailableOrSmaller<LayoutMode>(layoutMode, acceptedLayouts, LayoutMode.values);
-    final input = htpcMode
-        ? InputDevice.dPad
-        : (isDesktop || kIsWeb)
-            ? InputDevice.pointer
-            : InputDevice.touch;
 
     final posterDefaults = const PosterDefaults(size: 350, ratio: 0.55);
 
@@ -200,7 +196,7 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
         AdaptiveLayoutModel(
           viewSize: selectedViewSize,
           layoutMode: selectedLayoutMode,
-          inputDevice: input,
+          inputDevice: InputDevice.pointer,
           platform: currentPlatform,
           isDesktop: isDesktop,
           sideBarWidth: 0,
@@ -213,33 +209,38 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
     return ValueListenableBuilder(
       valueListenable: isKeyboardOpen,
       builder: (context, value, child) {
-        return MediaQuery(
-          data: mediaQuery.copyWith(
-            padding: (isDesktop || kIsWeb
-                ? const EdgeInsets.only(top: defaultTitleBarHeight, bottom: 16)
-                : mediaQuery.padding),
-            viewPadding: isDesktop || kIsWeb ? const EdgeInsets.only(top: defaultTitleBarHeight, bottom: 16) : null,
-          ),
-          child: AdaptiveLayout(
-            data: currentLayout.copyWith(
-              viewSize: selectedViewSize,
-              layoutMode: selectedLayoutMode,
-              inputDevice: input,
-              platform: currentPlatform,
-              isDesktop: isDesktop,
-              controller: scrollControllers,
-              posterDefaults: posterDefaults,
+        return InputDetector(
+          isDesktop: isDesktop,
+          htpcMode: htpcMode,
+          child: (input) => MediaQuery(
+            data: mediaQuery.copyWith(
+              navigationMode: input == InputDevice.dPad ? NavigationMode.directional : NavigationMode.traditional,
+              padding: (isDesktop || kIsWeb
+                  ? const EdgeInsets.only(top: defaultTitleBarHeight, bottom: 16)
+                  : mediaQuery.padding),
+              viewPadding: isDesktop || kIsWeb ? const EdgeInsets.only(top: defaultTitleBarHeight, bottom: 16) : null,
             ),
-            child: Builder(
-              builder: (context) => isDesktop
-                  ? ResolutionChecker(
-                      child: widget.adaptiveLayout == null
-                          ? DebugBanner(child: widget.child(context))
-                          : widget.child(context),
-                    )
-                  : widget.adaptiveLayout == null
-                      ? DebugBanner(child: widget.child(context))
-                      : widget.child(context),
+            child: AdaptiveLayout(
+              data: currentLayout.copyWith(
+                viewSize: selectedViewSize,
+                layoutMode: selectedLayoutMode,
+                inputDevice: input,
+                platform: currentPlatform,
+                isDesktop: isDesktop,
+                controller: scrollControllers,
+                posterDefaults: posterDefaults,
+              ),
+              child: Builder(
+                builder: (context) => isDesktop
+                    ? ResolutionChecker(
+                        child: widget.adaptiveLayout == null
+                            ? DebugBanner(child: widget.child(context))
+                            : widget.child(context),
+                      )
+                    : widget.adaptiveLayout == null
+                        ? DebugBanner(child: widget.child(context))
+                        : widget.child(context),
+              ),
             ),
           ),
         );

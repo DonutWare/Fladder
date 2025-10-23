@@ -10,7 +10,11 @@ class EnumBox<T> extends StatelessWidget {
   final String current;
   final List<ItemAction> Function(BuildContext context) itemBuilder;
 
-  const EnumBox({required this.current, required this.itemBuilder, super.key});
+  const EnumBox({
+    required this.current,
+    required this.itemBuilder,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

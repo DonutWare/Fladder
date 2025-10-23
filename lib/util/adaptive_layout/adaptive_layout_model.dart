@@ -86,7 +86,10 @@ class AdaptiveLayoutModel {
   @override
   bool operator ==(covariant AdaptiveLayoutModel other) {
     if (identical(this, other)) return true;
-    return other.viewSize == viewSize && other.layoutMode == layoutMode && other.sideBarWidth == sideBarWidth;
+    return other.viewSize == viewSize &&
+        other.layoutMode == layoutMode &&
+        other.sideBarWidth == sideBarWidth &&
+        other.inputDevice == inputDevice;
   }
 
   @override
