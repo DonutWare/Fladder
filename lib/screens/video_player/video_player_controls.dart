@@ -17,6 +17,7 @@ import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
+import 'package:fladder/providers/touchbar_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/shared/default_title_bar.dart';
@@ -66,6 +67,22 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   void initState() {
     super.initState();
     timer.reset();
+    
+    // Initialize TouchBar integration on macOS
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(touchBarIntegrationProvider);
+    });
+  }
+
+  @override
+  void dispose() {
+    // Clean up TouchBar when video player is closed
+    try {
+      ref.read(touchBarIntegrationProvider).clear();
+    } catch (e) {
+      // Ignore disposal errors
+    }
+    super.dispose();
   }
 
   @override
