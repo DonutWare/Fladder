@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 
 import 'package:collection/collection.dart';
 
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
+
 abstract class ItemAction {
   Widget toMenuItemButton();
   PopupMenuEntry toPopupMenuItem({bool useIcons = false});
@@ -100,7 +102,7 @@ class ItemActionButton extends ItemAction {
     final foregroundColor =
         selected ? Theme.of(context).colorScheme.onPrimaryContainer : Theme.of(context).colorScheme.onSurface;
     return ElevatedButton(
-      autofocus: selected,
+      autofocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad && selected,
       style: ButtonStyle(
         backgroundColor: WidgetStatePropertyAll(
           selected ? Theme.of(context).colorScheme.primaryContainer : Colors.transparent,
