@@ -1487,5 +1487,37 @@
     "quickConnectLoginUsingCode": "Использовать быстрое подключение",
     "@quickConnectLoginUsingCode": {},
     "quickConnectEnterCodeDescription": "Введите код ниже, чтобы войти",
-    "@quickConnectEnterCodeDescription": {}
+    "@quickConnectEnterCodeDescription": {},
+    "showMore": "Показать еще",
+    "@showMore": {},
+    "itemColorsTitle": "Цвет элементов",
+    "@itemColorsTitle": {},
+    "itemColorsDesc": "Использовать основной цвет элемента для оформления страницы подробностей",
+    "@itemColorsDesc": {},
+    "mediaTunnelingTitle": "Туннелирование мультимедиа",
+    "@mediaTunnelingTitle": {},
+    "mediaTunnelingDesc": "Включить туннелирование мультимедиа для встроенного плеера",
+    "@mediaTunnelingDesc": {},
+    "clientSettingsUseSystemIMETitle": "Использовать системную клавиатуру",
+    "@clientSettingsUseSystemIMETitle": {},
+    "clientSettingsUseSystemIMEDesc": "Использовать встроенную клавиатуру, предоставляемой вашей системой",
+    "@clientSettingsUseSystemIMEDesc": {},
+    "nextUpInCount": "Следующий через {seconds}",
+    "@nextUpInCount": {
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "formattedTime": "{time}",
+    "@formattedTime": {
+        "description": "Formatted time",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            }
+        }
+    }
 }

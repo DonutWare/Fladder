@@ -1487,5 +1487,37 @@
     "quickConnectLoginUsingCode": "Utilitzant quick connect",
     "@quickConnectLoginUsingCode": {},
     "quickConnectEnterCodeDescription": "Introduir el codi de sota per iniciar sessió",
-    "@quickConnectEnterCodeDescription": {}
+    "@quickConnectEnterCodeDescription": {},
+    "showMore": "Mostrar més",
+    "@showMore": {},
+    "itemColorsTitle": "Color dels elements",
+    "@itemColorsTitle": {},
+    "itemColorsDesc": "Utilitzar el color primari dels elements com a tema en la pàgina de detalls",
+    "@itemColorsDesc": {},
+    "mediaTunnelingTitle": "Túnel de mitjans",
+    "@mediaTunnelingTitle": {},
+    "mediaTunnelingDesc": "Activar túnel de mitjans per el reproductor nadiu",
+    "@mediaTunnelingDesc": {},
+    "clientSettingsUseSystemIMETitle": "Utilitzar el teclat del sistema",
+    "@clientSettingsUseSystemIMETitle": {},
+    "clientSettingsUseSystemIMEDesc": "Utitzar el teclat per defecte proporcionat per el vostre sistema",
+    "@clientSettingsUseSystemIMEDesc": {},
+    "nextUpInCount": "Seguidament en {seconds}",
+    "@nextUpInCount": {
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "formattedTime": "{time}",
+    "@formattedTime": {
+        "description": "Formatted time",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            }
+        }
+    }
 }

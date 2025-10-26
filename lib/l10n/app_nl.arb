@@ -1494,5 +1494,21 @@
     "itemColorsTitle": "Item kleuren",
     "@itemColorsTitle": {},
     "itemColorsDesc": "Gebruik de primaire kleuren van het item voor de details pagina",
-    "@itemColorsDesc": {}
+    "@itemColorsDesc": {},
+    "mediaTunnelingTitle": "Mediatunneling",
+    "@mediaTunnelingTitle": {},
+    "mediaTunnelingDesc": "Mediatunneling inschakelen voor native speler",
+    "@mediaTunnelingDesc": {},
+    "clientSettingsUseSystemIMETitle": "Gebruik systeem toetsenbord",
+    "@clientSettingsUseSystemIMETitle": {},
+    "clientSettingsUseSystemIMEDesc": "Gebruik het ingebouwde toetsenbord van uw systeem",
+    "@clientSettingsUseSystemIMEDesc": {},
+    "nextUpInCount": "Volgende in {seconds}",
+    "@nextUpInCount": {
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    }
 }

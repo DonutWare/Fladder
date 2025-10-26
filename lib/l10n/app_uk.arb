@@ -1495,5 +1495,37 @@
     "quickConnectLoginUsingCode": "Використання швидкого з'єднання",
     "@quickConnectLoginUsingCode": {},
     "quickConnectEnterCodeDescription": "Введіть код нижче, щоб увійти",
-    "@quickConnectEnterCodeDescription": {}
+    "@quickConnectEnterCodeDescription": {},
+    "showMore": "Показати більше",
+    "@showMore": {},
+    "itemColorsTitle": "Кольори предметів",
+    "@itemColorsTitle": {},
+    "itemColorsDesc": "Використовуйте основний колір товару для оформлення сторінки з деталями",
+    "@itemColorsDesc": {},
+    "mediaTunnelingTitle": "Тунелювання медіа",
+    "@mediaTunnelingTitle": {},
+    "mediaTunnelingDesc": "Увімкнути тунелювання медіа для рідного програвача",
+    "@mediaTunnelingDesc": {},
+    "clientSettingsUseSystemIMETitle": "Використовувати системну клавіатуру",
+    "@clientSettingsUseSystemIMETitle": {},
+    "clientSettingsUseSystemIMEDesc": "Використовуйте вбудовану клавіатуру вашої системи",
+    "@clientSettingsUseSystemIMEDesc": {},
+    "nextUpInCount": "Далі через {seconds}",
+    "@nextUpInCount": {
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "formattedTime": "{time}",
+    "@formattedTime": {
+        "description": "Formatted time",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            }
+        }
+    }
 }

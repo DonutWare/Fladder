@@ -1465,5 +1465,9 @@
         }
     },
     "keyboardShortCuts": "Kısayol tuşları",
-    "@keyboardShortCuts": {}
+    "@keyboardShortCuts": {},
+    "exitFladderDesc": "Fladder'ı kapatmak istediğinizden emin misiniz?",
+    "@exitFladderDesc": {},
+    "television": "Televizyon",
+    "@television": {}
 }

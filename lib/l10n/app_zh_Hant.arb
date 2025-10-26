@@ -1463,5 +1463,61 @@
                 "type": "int"
             }
         }
+    },
+    "television": "電視",
+    "@television": {},
+    "exitFladderDesc": "你確定要關閉 Fladder 嗎？",
+    "@exitFladderDesc": {},
+    "keyboardShortCuts": "按鍵快速鍵",
+    "@keyboardShortCuts": {},
+    "speedUp": "加速",
+    "@speedUp": {},
+    "speedDown": "減速",
+    "@speedDown": {},
+    "speedIndicator": "播放速度: {speed}",
+    "@speedIndicator": {
+        "placeholders": {
+            "speed": {
+                "type": "double"
+            }
+        }
+    },
+    "quickConnectPostFailed": "無法取得快速連接碼",
+    "@quickConnectPostFailed": {},
+    "quickConnectLoginUsingCode": "使用快速連接",
+    "@quickConnectLoginUsingCode": {},
+    "quickConnectEnterCodeDescription": "請輸入下方代碼進行登入",
+    "@quickConnectEnterCodeDescription": {},
+    "showMore": "顯示更多",
+    "@showMore": {},
+    "itemColorsTitle": "項目顏色",
+    "@itemColorsTitle": {},
+    "itemColorsDesc": "使用項目主色調作為詳請頁面的主題",
+    "@itemColorsDesc": {},
+    "clientSettingsUseSystemIMETitle": "使用系統鍵盤",
+    "@clientSettingsUseSystemIMETitle": {},
+    "clientSettingsUseSystemIMEDesc": "使用系統提供的內建鍵盤",
+    "@clientSettingsUseSystemIMEDesc": {},
+    "formattedTime": "{time}",
+    "@formattedTime": {
+        "description": "Formatted time",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            }
+        }
+    },
+    "mediaTunnelingTitle": "媒體通道",
+    "@mediaTunnelingTitle": {},
+    "mediaTunnelingDesc": "為本機播放器啟用媒體通道",
+    "@mediaTunnelingDesc": {},
+    "nextUpInCount": "接下來是 {seconds}",
+    "@nextUpInCount": {
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
     }
 }

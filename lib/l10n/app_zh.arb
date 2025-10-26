@@ -1486,5 +1486,37 @@
     "quickConnectLoginUsingCode": "使用快速连接",
     "@quickConnectLoginUsingCode": {},
     "quickConnectEnterCodeDescription": "输入以下代码登录",
-    "@quickConnectEnterCodeDescription": {}
+    "@quickConnectEnterCodeDescription": {},
+    "showMore": "显示更多",
+    "@showMore": {},
+    "itemColorsTitle": "项目颜色",
+    "@itemColorsTitle": {},
+    "itemColorsDesc": "使用项目的主色调作为详情页面的主题",
+    "@itemColorsDesc": {},
+    "mediaTunnelingTitle": "媒体隧道",
+    "@mediaTunnelingTitle": {},
+    "mediaTunnelingDesc": "为本机播放器启用媒体隧道",
+    "@mediaTunnelingDesc": {},
+    "clientSettingsUseSystemIMETitle": "使用系统键盘",
+    "@clientSettingsUseSystemIMETitle": {},
+    "clientSettingsUseSystemIMEDesc": "使用系统提供的内置键盘",
+    "@clientSettingsUseSystemIMEDesc": {},
+    "nextUpInCount": "接下来是 {seconds}",
+    "@nextUpInCount": {
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "formattedTime": "{time}",
+    "@formattedTime": {
+        "description": "Formatted time",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            }
+        }
+    }
 }

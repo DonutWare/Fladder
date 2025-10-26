@@ -1487,5 +1487,37 @@
                 "type": "double"
             }
         }
+    },
+    "showMore": "عرض المزيد",
+    "@showMore": {},
+    "itemColorsTitle": "ألوان العناصر",
+    "@itemColorsTitle": {},
+    "itemColorsDesc": "استخدام اللون الأساسي للعنصر لتنسيق صفحة التفاصيل",
+    "@itemColorsDesc": {},
+    "mediaTunnelingTitle": "نفق الوسائط",
+    "@mediaTunnelingTitle": {},
+    "mediaTunnelingDesc": "تمكين نفق الوسائط لمشغل الوسائط الأصلي",
+    "@mediaTunnelingDesc": {},
+    "clientSettingsUseSystemIMETitle": "استخدام لوحة مفاتيح النظام",
+    "@clientSettingsUseSystemIMETitle": {},
+    "clientSettingsUseSystemIMEDesc": "استخدم لوحة المفاتيح المدمجة التي يوفرها نظامك",
+    "@clientSettingsUseSystemIMEDesc": {},
+    "formattedTime": "{time}",
+    "@formattedTime": {
+        "description": "Formatted time",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            }
+        }
+    },
+    "nextUpInCount": "التالي في {seconds}",
+    "@nextUpInCount": {
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
     }
 }
