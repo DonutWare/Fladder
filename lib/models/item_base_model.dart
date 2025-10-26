@@ -111,6 +111,8 @@ class ItemBaseModel with ItemBaseModelMappable {
 
   bool get unWatched => !userData.played && userData.progress <= 0 && userData.unPlayedItemCount == 0;
 
+  bool get watched => userData.played;
+
   String? detailedName(BuildContext context) => "$name${overview.yearAired != null ? " (${overview.yearAired})" : ""}";
 
   String? get subText => null;

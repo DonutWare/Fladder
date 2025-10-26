@@ -196,8 +196,7 @@ class PosterImage extends ConsumerWidget {
                 ),
               ),
             ),
-          if (poster is! PhotoAlbumModel && (poster.unPlayedItemCount != null && poster is SeriesModel) ||
-              (poster.playAble && !poster.unWatched))
+          if ((poster.unPlayedItemCount != null && poster is SeriesModel) || poster.watched)
             IgnorePointer(
               child: Align(
                 alignment: Alignment.topRight,
