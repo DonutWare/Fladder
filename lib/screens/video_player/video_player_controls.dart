@@ -362,7 +362,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer)
+                        if (AdaptiveLayout.isDesktop(context))
                           Tooltip(
                               message: context.localized.stop,
                               child: IconButton(
@@ -379,7 +379,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                               ),
                             ),
                         },
-                        if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer &&
+                        if (AdaptiveLayout.isDesktop(context) &&
                             AdaptiveLayout.viewSizeOf(context) > ViewSize.phone) ...[
                           VideoVolumeSlider(
                             onChanged: () => resetTimer(),

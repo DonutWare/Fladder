@@ -93,6 +93,11 @@ class AdaptiveLayout extends InheritedWidget {
     return result?.data.controller[tab] ?? ScrollController();
   }
 
+  static bool isDesktop(BuildContext context) {
+    final AdaptiveLayout? result = maybeOf(context);
+    return result?.data.isDesktop ?? false;
+  }
+
   static EdgeInsets adaptivePadding(BuildContext context, {double horizontalPadding = 16}) {
     final viewPadding = MediaQuery.paddingOf(context);
     final padding = viewPadding.copyWith(
