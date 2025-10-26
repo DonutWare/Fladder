@@ -221,7 +221,7 @@ fun CustomVideoControls(
     ) {
         Box(
             modifier = Modifier.visible(
-                visible = true,
+                visible = showControls,
             )
         ) {
             Column(
