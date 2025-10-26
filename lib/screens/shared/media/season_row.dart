@@ -89,10 +89,7 @@ class SeasonPoster extends ConsumerWidget {
                     borderRadius: FladderTheme.smallShape.borderRadius,
                     color: Theme.of(context).colorScheme.surfaceContainer,
                   ),
-                  foregroundDecoration: BoxDecoration(
-                    borderRadius: FladderTheme.smallShape.borderRadius,
-                    border: Border.all(width: 2, color: Colors.white.withAlpha(25)),
-                  ),
+                  foregroundDecoration: FladderTheme.defaultPosterDecoration,
                   child: FladderImage(
                     image: season.getPosters?.primary ??
                         season.parentImages?.backDrop?.firstOrNull ??
@@ -153,11 +150,17 @@ class SeasonPoster extends ConsumerWidget {
                         if (season.userData.unPlayedItemCount != 0)
                           StatusCard(
                             color: Theme.of(context).colorScheme.primary,
-                            useFittedBox: true,
-                            child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(6),
                               child: Text(
                                 season.userData.unPlayedItemCount.toString(),
-                                style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontWeight: FontWeight.bold,
+                                  overflow: TextOverflow.visible,
+                                  fontSize: 14,
+                                ),
                               ),
                             ),
                           )

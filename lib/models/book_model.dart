@@ -1,11 +1,13 @@
+import 'package:flutter/material.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/overview_model.dart';
 import 'package:fladder/util/localization_helper.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class BookModel extends ItemBaseModel {
   final String? parentName;
@@ -45,6 +47,9 @@ class BookModel extends ItemBaseModel {
 
   @override
   double get progress => userData.progress != 0 ? 100 : 0;
+
+  @override
+  String? unplayedLabel(BuildContext context) => userData.progress != 0 ? context.localized.page(currentPage) : null;
 
   @override
   String playButtonLabel(BuildContext context) => progress != 0

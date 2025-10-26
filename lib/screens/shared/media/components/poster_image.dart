@@ -4,11 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
-import 'package:fladder/models/book_model.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/photos_model.dart';
-import 'package:fladder/models/items/series_model.dart';
 import 'package:fladder/screens/shared/media/components/poster_placeholder.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
@@ -84,7 +82,7 @@ class PosterImage extends ConsumerWidget {
           ),
           foregroundDecoration: BoxDecoration(
             borderRadius: radius,
-            border: Border.all(width: 2, color: Colors.white.withAlpha(25)),
+            border: Border.all(width: 1, color: Colors.white.withAlpha(45)),
           ),
           child: FladderImage(
             image: primaryPosters
@@ -94,26 +92,6 @@ class PosterImage extends ConsumerWidget {
           ),
         ),
         overlays: [
-          if (poster.userData.progress > 0 && poster.type == FladderItemType.book)
-            Align(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                padding: padding,
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(5.5),
-                    child: Text(
-                      context.localized.page((poster as BookModel).currentPage),
-                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.primary,
-                            fontSize: 12,
-                          ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
           if (selected == true)
             Container(
               decoration: BoxDecoration(
@@ -196,27 +174,23 @@ class PosterImage extends ConsumerWidget {
                 ),
               ),
             ),
-          if ((poster.unPlayedItemCount != null && poster is SeriesModel) || poster.watched)
+          if (poster.unplayedLabel(context) != null || poster.watched)
             IgnorePointer(
               child: Align(
                 alignment: Alignment.topRight,
                 child: StatusCard(
-                  color: Theme.of(context).colorScheme.primary,
-                  useFittedBox: poster.unPlayedItemCount != 0,
+                  color: Theme.of(context).colorScheme.primaryContainer,
                   child: Padding(
                     padding: const EdgeInsets.all(6),
-                    child: poster.unPlayedItemCount != 0
-                        ? Container(
-                            constraints: const BoxConstraints(minWidth: 16),
-                            child: Text(
-                              poster.userData.unPlayedItemCount.toString(),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.bold,
-                                overflow: TextOverflow.visible,
-                                fontSize: 14,
-                              ),
+                    child: poster.unplayedLabel(context) != null
+                        ? Text(
+                            poster.unplayedLabel(context) ?? "",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                              fontWeight: FontWeight.bold,
+                              overflow: TextOverflow.visible,
+                              fontSize: 14,
                             ),
                           )
                         : Icon(

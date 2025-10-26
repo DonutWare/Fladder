@@ -75,6 +75,9 @@ class SeriesModel extends ItemBaseModel with SeriesModelMappable {
   }
 
   @override
+  String? unplayedLabel(BuildContext context) => userData.played ? null : userData.unPlayedItemCount?.toString();
+
+  @override
   bool get syncAble => true;
 
   factory SeriesModel.fromBaseDto(dto.BaseItemDto item, Ref ref) => SeriesModel(

@@ -34,6 +34,11 @@ class FladderTheme {
   static RoundedRectangleBorder get defaultShape => RoundedRectangleBorder(borderRadius: BorderRadius.circular(16));
   static RoundedRectangleBorder get largeShape => RoundedRectangleBorder(borderRadius: BorderRadius.circular(32));
 
+  static BoxDecoration get defaultPosterDecoration => BoxDecoration(
+        borderRadius: FladderTheme.smallShape.borderRadius,
+        border: Border.all(width: 1, color: Colors.white.withAlpha(45)),
+      );
+
   static ThemeData theme(ColorScheme? colorScheme, DynamicSchemeVariant dynamicSchemeVariant) {
     final ColorScheme? scheme = generateDynamicColourSchemes(colorScheme, dynamicSchemeVariant);
 

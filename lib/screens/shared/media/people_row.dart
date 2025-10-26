@@ -61,10 +61,7 @@ class PeopleRow extends ConsumerWidget {
                     borderRadius: FladderTheme.smallShape.borderRadius,
                     color: Theme.of(context).colorScheme.surfaceContainer,
                   ),
-                  foregroundDecoration: BoxDecoration(
-                    borderRadius: FladderTheme.smallShape.borderRadius,
-                    border: Border.all(width: 2, color: Colors.white.withAlpha(25)),
-                  ),
+                  foregroundDecoration: FladderTheme.defaultPosterDecoration,
                   child: FocusButton(
                     onTap: () => Navigator.of(context).push(
                       MaterialPageRoute(

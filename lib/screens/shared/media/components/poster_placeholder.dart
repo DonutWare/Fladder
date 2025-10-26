@@ -13,7 +13,7 @@ class PosterPlaceholder extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         Align(
-          alignment: Alignment.topRight,
+          alignment: Alignment.topLeft,
           child: Padding(
             padding: const EdgeInsets.all(12.0),
             child: Icon(
