@@ -26,18 +26,23 @@ class VideoPlayerImplementation(
     var player: ExoPlayer? = null
     val playbackData: MutableStateFlow<PlayableData?> = MutableStateFlow(null)
 
-    override fun sendPlayableModel(playableData: PlayableData): Boolean {
+    override fun sendPlayableModel(
+        playableData: PlayableData,
+        callback: (Result<Boolean>) -> Unit
+    ) {
         try {
             println("Send playable data")
             playbackData.value = playableData
-            return true
+            callback(Result.success(true))
+            return
         } catch (e: Exception) {
             println("Error loading data $e")
-            return false
+            callback(Result.success(false))
+            return
         }
     }
 
-    override fun open(url: String, play: Boolean) {
+    override fun open(url: String, play: Boolean, callback: (Result<Boolean>) -> Unit) {
         Handler(Looper.getMainLooper()).postDelayed(delayInMillis = 1.seconds.inWholeMilliseconds) {
             try {
                 playbackData.value?.let {
@@ -67,16 +72,20 @@ class VideoPlayerImplementation(
                 player?.prepare()
 
                 val startPosition = playbackData.value?.startPosition ?: 0L
-                if (startPosition > 0) {
+                if (startPosition > 0L) {
                     player?.seekTo(startPosition)
-
-                    player?.playWhenReady = play
                 }
+                player?.playWhenReady = play
+                callback(Result.success(true))
+                return@postDelayed
             } catch (e: Exception) {
                 println("Error playing video $e")
+                callback(Result.success(false))
+                return@postDelayed
             }
         }
     }
+
 
     override fun setLooping(looping: Boolean) {
         player?.repeatMode = if (looping) Player.REPEAT_MODE_ONE else Player.REPEAT_MODE_OFF
@@ -110,10 +119,9 @@ class VideoPlayerImplementation(
         player = exoPlayer
         //exoPlayer initializes after the playbackData is set for the first load
         playbackData.value?.let {
-            sendPlayableModel(it)
             VideoPlayerObject.setAudioTrackIndex(it.defaultAudioTrack.toInt(), true)
             VideoPlayerObject.setSubtitleTrackIndex(it.defaultSubtrack.toInt(), true)
-            open(it.url, true)
+            open(it.url, true, callback = {})
         }
     }
 }

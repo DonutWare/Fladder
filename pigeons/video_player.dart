@@ -184,9 +184,11 @@ abstract class NativeVideoActivity {
 
 @HostApi()
 abstract class VideoPlayerApi {
+  @async
   bool sendPlayableModel(PlayableData playableData);
 
-  void open(String url, bool play);
+  @async
+  bool open(String url, bool play);
 
   void setLooping(bool looping);
 

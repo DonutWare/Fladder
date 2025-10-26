@@ -15,11 +15,12 @@ import 'package:fladder/wrappers/players/player_states.dart';
 
 class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
   final player = VideoPlayerApi();
+  final activity = NativeVideoActivity();
 
   @override
   Future<void> dispose() async {
     nativeActivityStarted = false;
-    return NativeVideoActivity().disposeActivity();
+    return activity.disposeActivity();
   }
 
   @override
@@ -36,7 +37,7 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
   @override
   Future<StartResult> open(BuildContext newContext) async {
     nativeActivityStarted = true;
-    return NativeVideoActivity().launchActivity();
+    return activity.launchActivity();
   }
 
   @override
@@ -49,7 +50,11 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
 
   @override
   Future<void> playOrPause() async {
-    return;
+    if (lastState.playing) {
+      return player.pause();
+    } else {
+      return player.play();
+    }
   }
 
   @override
@@ -59,7 +64,7 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
 
   @override
   Future<int> setAudioTrack(AudioStreamModel? model, PlaybackModel playbackModel) async {
-    return 0;
+    return model?.index ?? 0;
   }
 
   @override
@@ -67,7 +72,7 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
 
   @override
   Future<int> setSubtitleTrack(SubStreamModel? model, PlaybackModel playbackModel) async {
-    return 0;
+    return model?.index ?? 0;
   }
 
   @override
@@ -177,6 +182,6 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
       ),
       url: model.media?.url ?? "",
     );
-    player.sendPlayableModel(playableData);
+    await player.sendPlayableModel(playableData);
   }
 }

@@ -714,8 +714,8 @@ interface NativeVideoActivity {
 }
 /** Generated interface from Pigeon that represents a handler of messages from Flutter. */
 interface VideoPlayerApi {
-  fun sendPlayableModel(playableData: PlayableData): Boolean
-  fun open(url: String, play: Boolean)
+  fun sendPlayableModel(playableData: PlayableData, callback: (Result<Boolean>) -> Unit)
+  fun open(url: String, play: Boolean, callback: (Result<Boolean>) -> Unit)
   fun setLooping(looping: Boolean)
   /** Sets the volume, with 0.0 being muted and 1.0 being full volume. */
   fun setVolume(volume: Double)
@@ -743,12 +743,15 @@ interface VideoPlayerApi {
           channel.setMessageHandler { message, reply ->
             val args = message as List<Any?>
             val playableDataArg = args[0] as PlayableData
-            val wrapped: List<Any?> = try {
-              listOf(api.sendPlayableModel(playableDataArg))
-            } catch (exception: Throwable) {
-              VideoPlayerHelperPigeonUtils.wrapError(exception)
+            api.sendPlayableModel(playableDataArg) { result: Result<Boolean> ->
+              val error = result.exceptionOrNull()
+              if (error != null) {
+                reply.reply(VideoPlayerHelperPigeonUtils.wrapError(error))
+              } else {
+                val data = result.getOrNull()
+                reply.reply(VideoPlayerHelperPigeonUtils.wrapResult(data))
+              }
             }
-            reply.reply(wrapped)
           }
         } else {
           channel.setMessageHandler(null)
@@ -761,13 +764,15 @@ interface VideoPlayerApi {
             val args = message as List<Any?>
             val urlArg = args[0] as String
             val playArg = args[1] as Boolean
-            val wrapped: List<Any?> = try {
-              api.open(urlArg, playArg)
-              listOf(null)
-            } catch (exception: Throwable) {
-              VideoPlayerHelperPigeonUtils.wrapError(exception)
+            api.open(urlArg, playArg) { result: Result<Boolean> ->
+              val error = result.exceptionOrNull()
+              if (error != null) {
+                reply.reply(VideoPlayerHelperPigeonUtils.wrapError(error))
+              } else {
+                val data = result.getOrNull()
+                reply.reply(VideoPlayerHelperPigeonUtils.wrapResult(data))
+              }
             }
-            reply.reply(wrapped)
           }
         } else {
           channel.setMessageHandler(null)
