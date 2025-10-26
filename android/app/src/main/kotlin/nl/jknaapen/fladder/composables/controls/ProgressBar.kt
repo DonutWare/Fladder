@@ -125,7 +125,8 @@ internal fun ProgressBar(
                 trickPlayModel = playbackData?.trickPlayModel
             )
         Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Translate({ Localized.endsAt(endTimeString ?: "", it) }, endTimeString) { translation ->
                 val progressBarTopLabel = listOf(
