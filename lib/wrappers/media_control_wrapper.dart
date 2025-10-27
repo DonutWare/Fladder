@@ -56,7 +56,7 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
   Future<void> init() async {
     if (!initializedWrapper) {
       initializedWrapper = true;
-      if (!kIsWeb || Platform.isAndroid) {
+      if (!kIsWeb && Platform.isAndroid) {
         VideoPlayerControlsCallback.setUp(this);
       }
       await AudioService.init(

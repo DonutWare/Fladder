@@ -10,6 +10,7 @@ import 'package:fladder/routes/auto_router.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/destination_model.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/side_navigation_bar.dart';
+import 'package:fladder/widgets/shared/back_intent_dpad.dart';
 
 class NavigationBody extends ConsumerStatefulWidget {
   final BuildContext parentContext;
@@ -64,27 +65,29 @@ class _NavigationBodyState extends ConsumerState<NavigationBody> {
           child: widget.child,
         );
 
-    return FocusTraversalGroup(
-      policy: GlobalFallbackTraversalPolicy(fallbackNode: navBarNode),
-      child: switch (AdaptiveLayout.layoutOf(context)) {
-        ViewSize.phone => paddedChild(),
-        ViewSize.tablet => hasOverlay
-            ? SideNavigationBar(
-                currentIndex: widget.currentIndex,
-                destinations: widget.destinations,
-                currentLocation: widget.currentLocation,
-                child: paddedChild(),
-                scaffoldKey: widget.drawerKey,
-              )
-            : paddedChild(),
-        ViewSize.desktop || ViewSize.television => SideNavigationBar(
-            currentIndex: widget.currentIndex,
-            destinations: widget.destinations,
-            currentLocation: widget.currentLocation,
-            child: paddedChild(),
-            scaffoldKey: widget.drawerKey,
-          )
-      },
+    return BackIntentDpad(
+      child: FocusTraversalGroup(
+        policy: GlobalFallbackTraversalPolicy(fallbackNode: navBarNode),
+        child: switch (AdaptiveLayout.layoutOf(context)) {
+          ViewSize.phone => paddedChild(),
+          ViewSize.tablet => hasOverlay
+              ? SideNavigationBar(
+                  currentIndex: widget.currentIndex,
+                  destinations: widget.destinations,
+                  currentLocation: widget.currentLocation,
+                  child: paddedChild(),
+                  scaffoldKey: widget.drawerKey,
+                )
+              : paddedChild(),
+          ViewSize.desktop || ViewSize.television => SideNavigationBar(
+              currentIndex: widget.currentIndex,
+              destinations: widget.destinations,
+              currentLocation: widget.currentLocation,
+              child: paddedChild(),
+              scaffoldKey: widget.drawerKey,
+            )
+        },
+      ),
     );
   }
 
