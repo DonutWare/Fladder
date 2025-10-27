@@ -4,7 +4,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
-import 'package:overflow_view/overflow_view.dart';
 
 import 'package:fladder/models/collection_types.dart';
 import 'package:fladder/models/library_filter_model.dart';
@@ -26,6 +25,7 @@ import 'package:fladder/widgets/navigation_scaffold/components/settings_user_ico
 import 'package:fladder/widgets/shared/custom_tooltip.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
+import 'package:fladder/widgets/shared/simple_overflow_widget.dart';
 
 final navBarNode = FocusNode();
 
@@ -87,7 +87,7 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
               duration: const Duration(milliseconds: 250),
               opacity: !fullScreenChildRoute ? 1 : 0,
               child: Container(
-                color: Theme.of(context).colorScheme.surface.withValues(alpha: shouldExpand ? 0.95 : 0.85),
+                color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.65),
                 width: shouldExpand ? expandedWidth : collapsedWidth,
                 child: Padding(
                   key: const Key('navigation_rail'),
@@ -158,9 +158,8 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                                 endIndent: 32,
                               ),
                               Flexible(
-                                child: OverflowView.flexible(
-                                  direction: Axis.vertical,
-                                  spacing: 4,
+                                child: SimpleOverflowWidget(
+                                  axis: Axis.vertical,
                                   children: views.map(
                                     (view) {
                                       final selected = context.router.currentUrl.contains(view.id);
@@ -225,25 +224,25 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                                       );
                                     },
                                   ).toList(),
-                                  builder: (context, remaining) {
-                                    return CustomTooltip(
-                                      tooltipContent: expandedSideBar
-                                          ? null
-                                          : Card(
-                                              child: Padding(
-                                                padding: const EdgeInsets.all(12),
-                                                child: Text(
-                                                  context.localized.moreOptions,
-                                                  style: Theme.of(context).textTheme.titleSmall,
-                                                ),
+                                  overflowBuilder: (remainingCount) => CustomTooltip(
+                                    tooltipContent: expandedSideBar
+                                        ? null
+                                        : Card(
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(12),
+                                              child: Text(
+                                                context.localized.moreOptions,
+                                                style: Theme.of(context).textTheme.titleSmall,
                                               ),
                                             ),
-                                      position: TooltipPosition.right,
-                                      child: PopupMenuButton(
-                                        iconColor: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.45),
-                                        padding: EdgeInsets.zero,
-                                        tooltip: "",
-                                        icon: NavigationButton(
+                                          ),
+                                    position: TooltipPosition.right,
+                                    child: PopupMenuButton(
+                                      iconColor: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.45),
+                                      padding: EdgeInsets.zero,
+                                      tooltip: "",
+                                      icon: ExcludeFocus(
+                                        child: NavigationButton(
                                           label: context.localized.other,
                                           selectedIcon: const Icon(IconsaxPlusLinear.arrow_square_down),
                                           icon: const Icon(IconsaxPlusLinear.arrow_square_down),
@@ -261,45 +260,45 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                                               : null,
                                           horizontal: true,
                                         ),
-                                        itemBuilder: (context) => views
-                                            .sublist(views.length - remaining)
-                                            .map(
-                                              (e) => PopupMenuItem(
-                                                onTap: () => context.pushRoute(LibrarySearchRoute(
-                                                  viewModelId: e.id,
-                                                ).withFilter(e.collectionType.defaultFilters)),
-                                                child: Row(
-                                                  spacing: 8,
-                                                  children: [
-                                                    usePostersForLibrary
-                                                        ? Padding(
-                                                            padding: const EdgeInsets.symmetric(vertical: 4),
-                                                            child: ClipRRect(
-                                                              borderRadius: FladderTheme.smallShape.borderRadius,
-                                                              child: SizedBox.square(
-                                                                dimension: 45,
-                                                                child: FladderImage(
-                                                                  image: e.imageData?.primary,
-                                                                  placeHolder: Card(
-                                                                    child: Icon(
-                                                                      e.collectionType.iconOutlined,
-                                                                    ),
+                                      ),
+                                      itemBuilder: (context) => views
+                                          .sublist(views.length - remainingCount)
+                                          .map(
+                                            (e) => PopupMenuItem(
+                                              onTap: () => context.pushRoute(LibrarySearchRoute(
+                                                viewModelId: e.id,
+                                              ).withFilter(e.collectionType.defaultFilters)),
+                                              child: Row(
+                                                spacing: 8,
+                                                children: [
+                                                  usePostersForLibrary
+                                                      ? Padding(
+                                                          padding: const EdgeInsets.symmetric(vertical: 4),
+                                                          child: ClipRRect(
+                                                            borderRadius: FladderTheme.smallShape.borderRadius,
+                                                            child: SizedBox.square(
+                                                              dimension: 45,
+                                                              child: FladderImage(
+                                                                image: e.imageData?.primary,
+                                                                placeHolder: Card(
+                                                                  child: Icon(
+                                                                    e.collectionType.iconOutlined,
                                                                   ),
-                                                                  decodeHeight: 64,
                                                                 ),
+                                                                decodeHeight: 64,
                                                               ),
                                                             ),
-                                                          )
-                                                        : Icon(e.collectionType.iconOutlined),
-                                                    Text(e.name),
-                                                  ],
-                                                ),
+                                                          ),
+                                                        )
+                                                      : Icon(e.collectionType.iconOutlined),
+                                                  Text(e.name),
+                                                ],
                                               ),
-                                            )
-                                            .toList(),
-                                      ),
-                                    );
-                                  },
+                                            ),
+                                          )
+                                          .toList(),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ],
