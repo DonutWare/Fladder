@@ -188,13 +188,15 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
   Future<void> play() async {
     WakelockPlus.enable();
     _player?.play();
-    if (!ref.read(clientSettingsProvider).enableMediaKeys) return;
+    final currentPosition = await ref.read(playBackModel.select((value) => value?.startDuration()));
+    ref.read(playBackModel)?.playbackStarted(currentPosition ?? Duration.zero, ref);
 
     final playBackItem = ref.read(playBackModel.select((value) => value?.item));
-    final currentPosition = await ref.read(playBackModel.select((value) => value?.startDuration()));
-    final poster = playBackItem?.images?.firstOrNull;
-
     if (playBackItem == null) return;
+
+    if (!ref.read(clientSettingsProvider).enableMediaKeys) return;
+
+    final poster = playBackItem.images?.firstOrNull;
 
     windowSMTCSetup(playBackItem, currentPosition ?? Duration.zero);
 
@@ -220,8 +222,6 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
       },
       processingState: AudioProcessingState.ready,
     ));
-
-    ref.read(playBackModel)?.playbackStarted(currentPosition ?? Duration.zero, ref);
 
     return super.play();
   }
