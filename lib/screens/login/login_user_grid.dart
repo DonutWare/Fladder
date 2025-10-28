@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:reorderable_grid/reorderable_grid.dart';
@@ -27,6 +28,8 @@ class LoginUserGrid extends ConsumerWidget {
 
     final neededWidth = crossAxisCount * mainAxisExtent + (crossAxisCount - 1) * 24.0;
 
+    final lastUsedAccount = users.sorted((a, b) => a.lastUsed.compareTo(b.lastUsed)).last;
+
     return SizedBox(
       width: neededWidth,
       child: ReorderableGridView.builder(
@@ -48,6 +51,9 @@ class LoginUserGrid extends ConsumerWidget {
             child: AspectRatio(
               aspectRatio: 1.0,
               child: FocusButton(
+                autoFocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad
+                    ? user.sameIdentity(lastUsedAccount)
+                    : false,
                 onTap: () => editMode ? onLongPress?.call(user) : onPressed?.call(user),
                 onLongPress: switch (AdaptiveLayout.inputDeviceOf(context)) {
                   InputDevice.dPad || InputDevice.pointer => () => onLongPress?.call(user),
