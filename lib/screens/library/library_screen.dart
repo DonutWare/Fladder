@@ -40,6 +40,9 @@ class LibraryScreen extends ConsumerStatefulWidget {
 
 class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTickerProviderStateMixin {
   final GlobalKey<RefreshIndicatorState>? refreshKey = GlobalKey();
+
+  bool refreshing = false;
+
   @override
   Widget build(BuildContext context) {
     final libraryScreenState = ref.watch(libraryScreenProvider);
@@ -60,152 +63,170 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
       body: PullToRefresh(
         refreshOnStart: true,
         refreshKey: refreshKey,
-        onRefresh: () => ref.read(libraryScreenProvider.notifier).fetchAllLibraries(),
-        child: SizedBox.expand(
-          child: CustomScrollView(
-            controller: AdaptiveLayout.scrollOf(context, HomeTabs.library),
-            physics: const AlwaysScrollableScrollPhysics(),
-            slivers: [
-              const DefaultSliverTopBadding(),
-              if (AdaptiveLayout.viewSizeOf(context) == ViewSize.phone)
-                NestedSliverAppBar(
-                  route: LibrarySearchRoute(),
-                  parent: context,
-                ),
-              if (views.isNotEmpty)
-                SliverToBoxAdapter(
-                  child: LibraryRow(
-                    padding: padding,
-                    views: views,
-                    selectedView: libraryScreenState.selectedViewModel,
-                    onSelected: (view) {
-                      ref.read(libraryScreenProvider.notifier).selectLibrary(view);
-                      refreshKey?.currentState?.show();
-                    },
+        onRefresh: () async {
+          if (refreshing) return;
+          setState(() => refreshing = true);
+          try {
+            await ref.read(libraryScreenProvider.notifier).fetchAllLibraries();
+          } finally {
+            if (mounted) {
+              setState(() => refreshing = false);
+            }
+          }
+        },
+        child: AnimatedOpacity(
+          opacity: refreshing ? 0.75 : 1.0,
+          duration: const Duration(milliseconds: 175),
+          child: SizedBox.expand(
+            child: CustomScrollView(
+              controller: AdaptiveLayout.scrollOf(context, HomeTabs.library),
+              physics: const AlwaysScrollableScrollPhysics(),
+              slivers: [
+                const DefaultSliverTopBadding(),
+                if (AdaptiveLayout.viewSizeOf(context) == ViewSize.phone)
+                  NestedSliverAppBar(
+                    route: LibrarySearchRoute(),
+                    parent: context,
                   ),
-                ),
-              if (selectedView != null)
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 24, bottom: 16),
-                    child: SizedBox(
-                      height: 40,
-                      child: ListView(
-                        padding: padding,
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          FilledButton.tonalIcon(
-                            onPressed: () => context.pushRoute(LibrarySearchRoute(viewModelId: selectedView.id)),
-                            label: Text("${context.localized.search} ${selectedView.name}..."),
-                            icon: const Icon(IconsaxPlusLinear.search_normal),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 4.0),
-                            child: VerticalDivider(),
-                          ),
-                          ExpressiveButtonGroup(
-                            multiSelection: true,
-                            options: LibraryViewType.values
-                                .map((element) => ButtonGroupOption(
-                                    value: element,
-                                    icon: Icon(element.icon),
-                                    selected: Icon(element.iconSelected),
-                                    child: Text(
-                                      element.label(context),
-                                    )))
-                                .toList(),
-                            selectedValues: viewTypes,
-                            onSelected: (value) {
-                              ref.read(libraryScreenProvider.notifier).setViewType(value);
-                            },
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 4.0),
-                            child: VerticalDivider(),
-                          ),
-                          ElevatedButton.icon(
-                            onPressed: () => showRefreshPopup(context, selectedView.id, selectedView.name),
-                            label: Text(context.localized.scanLibrary),
-                            icon: const Icon(IconsaxPlusLinear.refresh),
-                          ),
-                        ],
-                      ),
+                if (views.isNotEmpty)
+                  SliverToBoxAdapter(
+                    child: LibraryRow(
+                      padding: padding,
+                      views: views,
+                      selectedView: libraryScreenState.selectedViewModel,
+                      onSelected: (view) {
+                        if (refreshing) return;
+                        ref.read(libraryScreenProvider.notifier).selectLibrary(view);
+                        refreshKey?.currentState?.show();
+                      },
                     ),
                   ),
-                ),
-              if (viewTypes.isEmpty)
-                SliverFillRemaining(
-                  child: Center(child: Text(context.localized.noResults)),
-                ),
-              if (viewTypes.contains(LibraryViewType.recommended)) ...[
-                if (recommendations.isNotEmpty)
-                  ...recommendations.where((element) => element.posters.isNotEmpty).map(
-                        (element) => SliverToBoxAdapter(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: PosterRow(
-                              contentPadding: padding,
-                              posters: element.posters,
-                              label: element.type != null
-                                  ? "${element.type?.label(context)} - ${element.name.label(context)}"
-                                  : element.name.label(context),
-                            ),
-                          ),
-                        ),
-                      ),
-              ],
-              if (viewTypes.contains(LibraryViewType.favourites))
-                if (favourites.isNotEmpty)
+                if (selectedView != null)
                   SliverToBoxAdapter(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: PosterRow(
-                        contentPadding: padding,
-                        onLabelClick: () => context.pushRoute(
-                          LibrarySearchRoute(
-                            viewModelId: libraryScreenState.selectedViewModel?.id ?? "",
-                          ).withFilter(
-                            const LibraryFilterModel(
-                              favourites: true,
-                              recursive: true,
+                      padding: const EdgeInsets.only(top: 24, bottom: 16),
+                      child: SizedBox(
+                        height: 40,
+                        child: ListView(
+                          padding: padding,
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          children: [
+                            FilledButton.tonalIcon(
+                              onPressed: () => context.pushRoute(LibrarySearchRoute(viewModelId: selectedView.id)),
+                              label: Text("${context.localized.search} ${selectedView.name}..."),
+                              icon: const Icon(IconsaxPlusLinear.search_normal),
                             ),
-                          ),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 4.0),
+                              child: VerticalDivider(),
+                            ),
+                            ExpressiveButtonGroup(
+                              multiSelection: true,
+                              options: LibraryViewType.values
+                                  .map((element) => ButtonGroupOption(
+                                      value: element,
+                                      icon: Icon(element.icon),
+                                      selected: Icon(element.iconSelected),
+                                      child: Text(
+                                        element.label(context),
+                                      )))
+                                  .toList(),
+                              selectedValues: viewTypes,
+                              onSelected: (value) {
+                                ref.read(libraryScreenProvider.notifier).setViewType(value);
+                              },
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 4.0),
+                              child: VerticalDivider(),
+                            ),
+                            ElevatedButton.icon(
+                              onPressed: () => showRefreshPopup(context, selectedView.id, selectedView.name),
+                              label: Text(context.localized.scanLibrary),
+                              icon: const Icon(IconsaxPlusLinear.refresh),
+                            ),
+                          ],
                         ),
-                        posters: favourites,
-                        label: context.localized.favorites,
                       ),
                     ),
                   ),
-              if (viewTypes.contains(LibraryViewType.genres)) ...[
-                if (genres.isNotEmpty)
-                  ...genres.where((element) => element.posters.isNotEmpty).map(
-                        (element) => SliverToBoxAdapter(
+                if (viewTypes.isEmpty)
+                  SliverFillRemaining(
+                    child: Center(child: Text(context.localized.noResults)),
+                  ),
+                if (viewTypes.contains(LibraryViewType.recommended)) ...[
+                  if (recommendations.isNotEmpty)
+                    ...recommendations.where((element) => element.posters.isNotEmpty).map(
+                      (element) {
+                        return SliverToBoxAdapter(
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0),
                             child: PosterRow(
                               contentPadding: padding,
                               posters: element.posters,
-                              onLabelClick: () => context.pushRoute(
-                                LibrarySearchRoute(
-                                  viewModelId: libraryScreenState.selectedViewModel?.id ?? "",
-                                ).withFilter(
-                                  LibraryFilterModel(
-                                    recursive: true,
-                                    genres: {(element.name as Other).customLabel: true},
-                                  ),
-                                ),
-                              ),
+                              primaryPosters: element.name is Resume,
                               label: element.type != null
                                   ? "${element.type?.label(context)} - ${element.name.label(context)}"
                                   : element.name.label(context),
                             ),
                           ),
+                        );
+                      },
+                    ),
+                ],
+                if (viewTypes.contains(LibraryViewType.favourites))
+                  if (favourites.isNotEmpty)
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: PosterRow(
+                          contentPadding: padding,
+                          onLabelClick: () => context.pushRoute(
+                            LibrarySearchRoute(
+                              viewModelId: libraryScreenState.selectedViewModel?.id ?? "",
+                            ).withFilter(
+                              const LibraryFilterModel(
+                                favourites: true,
+                                recursive: true,
+                              ),
+                            ),
+                          ),
+                          posters: favourites,
+                          label: context.localized.favorites,
                         ),
-                      )
+                      ),
+                    ),
+                if (viewTypes.contains(LibraryViewType.genres)) ...[
+                  if (genres.isNotEmpty)
+                    ...genres.where((element) => element.posters.isNotEmpty).map(
+                          (element) => SliverToBoxAdapter(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8.0),
+                              child: PosterRow(
+                                contentPadding: padding,
+                                posters: element.posters,
+                                onLabelClick: () => context.pushRoute(
+                                  LibrarySearchRoute(
+                                    viewModelId: libraryScreenState.selectedViewModel?.id ?? "",
+                                  ).withFilter(
+                                    LibraryFilterModel(
+                                      recursive: true,
+                                      genres: {(element.name as Other).customLabel: true},
+                                    ),
+                                  ),
+                                ),
+                                label: element.type != null
+                                    ? "${element.type?.label(context)} - ${element.name.label(context)}"
+                                    : element.name.label(context),
+                              ),
+                            ),
+                          ),
+                        )
+                ],
+                const DefautlSliverBottomPadding(),
               ],
-              const DefautlSliverBottomPadding(),
-            ],
+            ),
           ),
         ),
       ),
@@ -297,12 +318,27 @@ class LibraryRow extends ConsumerWidget {
                 ),
               ),
             ),
-            Text(
-              view.name,
-              style: Theme.of(context).textTheme.titleMedium,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.start,
+            Row(
+              spacing: 8,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (isSelected)
+                  Container(
+                    height: 12,
+                    width: 12,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                Text(
+                  view.name,
+                  style: Theme.of(context).textTheme.titleMedium,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.start,
+                )
+              ],
             )
           ],
         );
