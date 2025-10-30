@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,114 +9,41 @@ part of 'trick_play_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-TrickPlayModel _$TrickPlayModelFromJson(Map<String, dynamic> json) {
-  return _TrickPlayModel.fromJson(json);
-}
 
 /// @nodoc
 mixin _$TrickPlayModel {
-  int get width => throw _privateConstructorUsedError;
-  int get height => throw _privateConstructorUsedError;
-  int get tileWidth => throw _privateConstructorUsedError;
-  int get tileHeight => throw _privateConstructorUsedError;
-  int get thumbnailCount => throw _privateConstructorUsedError;
-  Duration get interval => throw _privateConstructorUsedError;
-  List<String> get images => throw _privateConstructorUsedError;
-
-  /// Serializes this TrickPlayModel to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  int get width;
+  int get height;
+  int get tileWidth;
+  int get tileHeight;
+  int get thumbnailCount;
+  Duration get interval;
+  List<String> get images;
 
   /// Create a copy of TrickPlayModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $TrickPlayModelCopyWith<TrickPlayModel> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $TrickPlayModelCopyWith<$Res> {
-  factory $TrickPlayModelCopyWith(
-          TrickPlayModel value, $Res Function(TrickPlayModel) then) =
-      _$TrickPlayModelCopyWithImpl<$Res, TrickPlayModel>;
-  @useResult
-  $Res call(
-      {int width,
-      int height,
-      int tileWidth,
-      int tileHeight,
-      int thumbnailCount,
-      Duration interval,
-      List<String> images});
-}
-
-/// @nodoc
-class _$TrickPlayModelCopyWithImpl<$Res, $Val extends TrickPlayModel>
-    implements $TrickPlayModelCopyWith<$Res> {
-  _$TrickPlayModelCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of TrickPlayModel
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $TrickPlayModelCopyWith<TrickPlayModel> get copyWith =>
+      _$TrickPlayModelCopyWithImpl<TrickPlayModel>(
+          this as TrickPlayModel, _$identity);
+
+  /// Serializes this TrickPlayModel to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? width = null,
-    Object? height = null,
-    Object? tileWidth = null,
-    Object? tileHeight = null,
-    Object? thumbnailCount = null,
-    Object? interval = null,
-    Object? images = null,
-  }) {
-    return _then(_value.copyWith(
-      width: null == width
-          ? _value.width
-          : width // ignore: cast_nullable_to_non_nullable
-              as int,
-      height: null == height
-          ? _value.height
-          : height // ignore: cast_nullable_to_non_nullable
-              as int,
-      tileWidth: null == tileWidth
-          ? _value.tileWidth
-          : tileWidth // ignore: cast_nullable_to_non_nullable
-              as int,
-      tileHeight: null == tileHeight
-          ? _value.tileHeight
-          : tileHeight // ignore: cast_nullable_to_non_nullable
-              as int,
-      thumbnailCount: null == thumbnailCount
-          ? _value.thumbnailCount
-          : thumbnailCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      interval: null == interval
-          ? _value.interval
-          : interval // ignore: cast_nullable_to_non_nullable
-              as Duration,
-      images: null == images
-          ? _value.images
-          : images // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-    ) as $Val);
+  String toString() {
+    return 'TrickPlayModel(width: $width, height: $height, tileWidth: $tileWidth, tileHeight: $tileHeight, thumbnailCount: $thumbnailCount, interval: $interval, images: $images)';
   }
 }
 
 /// @nodoc
-abstract class _$$TrickPlayModelImplCopyWith<$Res>
-    implements $TrickPlayModelCopyWith<$Res> {
-  factory _$$TrickPlayModelImplCopyWith(_$TrickPlayModelImpl value,
-          $Res Function(_$TrickPlayModelImpl) then) =
-      __$$TrickPlayModelImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $TrickPlayModelCopyWith<$Res> {
+  factory $TrickPlayModelCopyWith(
+          TrickPlayModel value, $Res Function(TrickPlayModel) _then) =
+      _$TrickPlayModelCopyWithImpl;
   @useResult
   $Res call(
       {int width,
@@ -129,12 +56,12 @@ abstract class _$$TrickPlayModelImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$TrickPlayModelImplCopyWithImpl<$Res>
-    extends _$TrickPlayModelCopyWithImpl<$Res, _$TrickPlayModelImpl>
-    implements _$$TrickPlayModelImplCopyWith<$Res> {
-  __$$TrickPlayModelImplCopyWithImpl(
-      _$TrickPlayModelImpl _value, $Res Function(_$TrickPlayModelImpl) _then)
-      : super(_value, _then);
+class _$TrickPlayModelCopyWithImpl<$Res>
+    implements $TrickPlayModelCopyWith<$Res> {
+  _$TrickPlayModelCopyWithImpl(this._self, this._then);
+
+  final TrickPlayModel _self;
+  final $Res Function(TrickPlayModel) _then;
 
   /// Create a copy of TrickPlayModel
   /// with the given fields replaced by the non-null parameter values.
@@ -149,43 +76,227 @@ class __$$TrickPlayModelImplCopyWithImpl<$Res>
     Object? interval = null,
     Object? images = null,
   }) {
-    return _then(_$TrickPlayModelImpl(
+    return _then(_self.copyWith(
       width: null == width
-          ? _value.width
+          ? _self.width
           : width // ignore: cast_nullable_to_non_nullable
               as int,
       height: null == height
-          ? _value.height
+          ? _self.height
           : height // ignore: cast_nullable_to_non_nullable
               as int,
       tileWidth: null == tileWidth
-          ? _value.tileWidth
+          ? _self.tileWidth
           : tileWidth // ignore: cast_nullable_to_non_nullable
               as int,
       tileHeight: null == tileHeight
-          ? _value.tileHeight
+          ? _self.tileHeight
           : tileHeight // ignore: cast_nullable_to_non_nullable
               as int,
       thumbnailCount: null == thumbnailCount
-          ? _value.thumbnailCount
+          ? _self.thumbnailCount
           : thumbnailCount // ignore: cast_nullable_to_non_nullable
               as int,
       interval: null == interval
-          ? _value.interval
+          ? _self.interval
           : interval // ignore: cast_nullable_to_non_nullable
               as Duration,
       images: null == images
-          ? _value._images
+          ? _self.images
           : images // ignore: cast_nullable_to_non_nullable
               as List<String>,
     ));
   }
 }
 
+/// Adds pattern-matching-related methods to [TrickPlayModel].
+extension TrickPlayModelPatterns on TrickPlayModel {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_TrickPlayModel value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _TrickPlayModel() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_TrickPlayModel value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _TrickPlayModel():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_TrickPlayModel value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _TrickPlayModel() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(int width, int height, int tileWidth, int tileHeight,
+            int thumbnailCount, Duration interval, List<String> images)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _TrickPlayModel() when $default != null:
+        return $default(
+            _that.width,
+            _that.height,
+            _that.tileWidth,
+            _that.tileHeight,
+            _that.thumbnailCount,
+            _that.interval,
+            _that.images);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(int width, int height, int tileWidth, int tileHeight,
+            int thumbnailCount, Duration interval, List<String> images)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _TrickPlayModel():
+        return $default(
+            _that.width,
+            _that.height,
+            _that.tileWidth,
+            _that.tileHeight,
+            _that.thumbnailCount,
+            _that.interval,
+            _that.images);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(int width, int height, int tileWidth, int tileHeight,
+            int thumbnailCount, Duration interval, List<String> images)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _TrickPlayModel() when $default != null:
+        return $default(
+            _that.width,
+            _that.height,
+            _that.tileWidth,
+            _that.tileHeight,
+            _that.thumbnailCount,
+            _that.interval,
+            _that.images);
+      case _:
+        return null;
+    }
+  }
+}
+
 /// @nodoc
 @JsonSerializable()
-class _$TrickPlayModelImpl extends _TrickPlayModel {
-  _$TrickPlayModelImpl(
+class _TrickPlayModel extends TrickPlayModel {
+  _TrickPlayModel(
       {required this.width,
       required this.height,
       required this.tileWidth,
@@ -195,9 +306,8 @@ class _$TrickPlayModelImpl extends _TrickPlayModel {
       final List<String> images = const []})
       : _images = images,
         super._();
-
-  factory _$TrickPlayModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$TrickPlayModelImplFromJson(json);
+  factory _TrickPlayModel.fromJson(Map<String, dynamic> json) =>
+      _$TrickPlayModelFromJson(json);
 
   @override
   final int width;
@@ -220,61 +330,97 @@ class _$TrickPlayModelImpl extends _TrickPlayModel {
     return EqualUnmodifiableListView(_images);
   }
 
+  /// Create a copy of TrickPlayModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$TrickPlayModelCopyWith<_TrickPlayModel> get copyWith =>
+      __$TrickPlayModelCopyWithImpl<_TrickPlayModel>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$TrickPlayModelToJson(
+      this,
+    );
+  }
+
   @override
   String toString() {
     return 'TrickPlayModel(width: $width, height: $height, tileWidth: $tileWidth, tileHeight: $tileHeight, thumbnailCount: $thumbnailCount, interval: $interval, images: $images)';
   }
+}
+
+/// @nodoc
+abstract mixin class _$TrickPlayModelCopyWith<$Res>
+    implements $TrickPlayModelCopyWith<$Res> {
+  factory _$TrickPlayModelCopyWith(
+          _TrickPlayModel value, $Res Function(_TrickPlayModel) _then) =
+      __$TrickPlayModelCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {int width,
+      int height,
+      int tileWidth,
+      int tileHeight,
+      int thumbnailCount,
+      Duration interval,
+      List<String> images});
+}
+
+/// @nodoc
+class __$TrickPlayModelCopyWithImpl<$Res>
+    implements _$TrickPlayModelCopyWith<$Res> {
+  __$TrickPlayModelCopyWithImpl(this._self, this._then);
+
+  final _TrickPlayModel _self;
+  final $Res Function(_TrickPlayModel) _then;
 
   /// Create a copy of TrickPlayModel
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$TrickPlayModelImplCopyWith<_$TrickPlayModelImpl> get copyWith =>
-      __$$TrickPlayModelImplCopyWithImpl<_$TrickPlayModelImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$TrickPlayModelImplToJson(
-      this,
-    );
+  $Res call({
+    Object? width = null,
+    Object? height = null,
+    Object? tileWidth = null,
+    Object? tileHeight = null,
+    Object? thumbnailCount = null,
+    Object? interval = null,
+    Object? images = null,
+  }) {
+    return _then(_TrickPlayModel(
+      width: null == width
+          ? _self.width
+          : width // ignore: cast_nullable_to_non_nullable
+              as int,
+      height: null == height
+          ? _self.height
+          : height // ignore: cast_nullable_to_non_nullable
+              as int,
+      tileWidth: null == tileWidth
+          ? _self.tileWidth
+          : tileWidth // ignore: cast_nullable_to_non_nullable
+              as int,
+      tileHeight: null == tileHeight
+          ? _self.tileHeight
+          : tileHeight // ignore: cast_nullable_to_non_nullable
+              as int,
+      thumbnailCount: null == thumbnailCount
+          ? _self.thumbnailCount
+          : thumbnailCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      interval: null == interval
+          ? _self.interval
+          : interval // ignore: cast_nullable_to_non_nullable
+              as Duration,
+      images: null == images
+          ? _self._images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+    ));
   }
 }
 
-abstract class _TrickPlayModel extends TrickPlayModel {
-  factory _TrickPlayModel(
-      {required final int width,
-      required final int height,
-      required final int tileWidth,
-      required final int tileHeight,
-      required final int thumbnailCount,
-      required final Duration interval,
-      final List<String> images}) = _$TrickPlayModelImpl;
-  _TrickPlayModel._() : super._();
-
-  factory _TrickPlayModel.fromJson(Map<String, dynamic> json) =
-      _$TrickPlayModelImpl.fromJson;
-
-  @override
-  int get width;
-  @override
-  int get height;
-  @override
-  int get tileWidth;
-  @override
-  int get tileHeight;
-  @override
-  int get thumbnailCount;
-  @override
-  Duration get interval;
-  @override
-  List<String> get images;
-
-  /// Create a copy of TrickPlayModel
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$TrickPlayModelImplCopyWith<_$TrickPlayModelImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+// dart format on

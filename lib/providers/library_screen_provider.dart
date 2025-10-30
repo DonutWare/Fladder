@@ -46,7 +46,7 @@ enum LibraryViewType {
 }
 
 @Freezed(fromJson: false, toJson: false, copyWith: true)
-class LibraryScreenModel with _$LibraryScreenModel {
+abstract class LibraryScreenModel with _$LibraryScreenModel {
   factory LibraryScreenModel({
     @Default([]) List<ViewModel> views,
     ViewModel? selectedViewModel,
@@ -66,7 +66,8 @@ class LibraryScreen extends _$LibraryScreen {
 
   Future<void> fetchAllLibraries() async {
     final views = await ref.read(viewsProvider.notifier).fetchViews();
-    state = state.copyWith(views: views?.views ?? []);
+    state = state.copyWith(
+        views: views?.views.where((element) => element.collectionType != CollectionType.folders).toList() ?? []);
     if (state.views.isEmpty) return;
     final viewModel = state.selectedViewModel ?? state.views.firstOrNull;
     if (viewModel == null) return;
@@ -89,23 +90,32 @@ class LibraryScreen extends _$LibraryScreen {
     return null;
   }
 
+  Future<void> loadResume(ViewModel viewModel) async {}
+
   Future<void> loadRecommendations(ViewModel viewModel) async {
     List<RecommendedModel> newRecommendations = [];
-    final latest = await api.usersUserIdItemsLatestGet(
+
+    final resume = await api.usersUserIdItemsResumeGet(
       parentId: viewModel.id,
       limit: 14,
-      isPlayed: false,
-      imageTypeLimit: 1,
-      includeItemTypes: viewModel.collectionType.itemKinds.map((e) => e.dtoKind).toList(),
+      enableUserData: true,
+      enableImageTypes: [
+        ImageType.primary,
+        ImageType.banner,
+        ImageType.screenshot,
+      ],
+      mediaTypes: [MediaType.video],
+      enableTotalRecordCount: false,
     );
     newRecommendations = [
       ...newRecommendations,
       RecommendedModel(
-        name: const Latest(),
-        posters: latest.body?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList() ?? [],
+        name: const Resume(),
+        posters: resume.body?.items?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList() ?? [],
         type: null,
       ),
     ];
+
     if (viewModel.collectionType == CollectionType.movies) {
       final response = await api.moviesRecommendationsGet(
         parentId: viewModel.id,
@@ -144,6 +154,22 @@ class LibraryScreen extends _$LibraryScreen {
         )
       ];
     }
+
+    final latest = await api.usersUserIdItemsLatestGet(
+      parentId: viewModel.id,
+      limit: 14,
+      isPlayed: false,
+      imageTypeLimit: 1,
+      includeItemTypes: viewModel.collectionType.itemKinds.map((e) => e.dtoKind).toList(),
+    );
+    newRecommendations = [
+      ...newRecommendations,
+      RecommendedModel(
+        name: const Latest(),
+        posters: latest.body?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList() ?? [],
+        type: null,
+      ),
+    ];
 
     state = state.copyWith(
       recommendations: newRecommendations,
@@ -215,5 +241,9 @@ class LibraryScreen extends _$LibraryScreen {
     );
 
     return null;
+  }
+
+  void clear() {
+    state = LibraryScreenModel();
   }
 }

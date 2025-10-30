@@ -83,6 +83,9 @@ class SeasonModel extends ItemBaseModel with SeasonModelMappable {
   String localizedName(BuildContext context) => name.replaceFirst("Season", context.localized.season(1));
 
   @override
+  String? unplayedLabel(BuildContext context) => userData.played ? null : userData.unPlayedItemCount?.toString();
+
+  @override
   SeriesModel get parentBaseModel => SeriesModel(
         originalTitle: '',
         sortName: '',

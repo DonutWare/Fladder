@@ -22,6 +22,8 @@ import 'package:fladder/util/item_base_model/play_item_helpers.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/router_extension.dart';
 import 'package:fladder/util/widget_extensions.dart';
+import 'package:fladder/widgets/shared/item_actions.dart';
+import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 import 'package:fladder/widgets/shared/selectable_icon_button.dart';
 
 class MovieDetailScreen extends ConsumerStatefulWidget {
@@ -71,23 +73,65 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
                     name: details.name,
                     image: details.images,
                     padding: padding,
-                    centerButtons: MediaPlayButton(
+                    playButton: MediaPlayButton(
                       item: details,
-                      onLongPressed: () async {
+                      onLongPressed: (restart) async {
                         await details.play(
                           context,
                           ref,
                           showPlaybackOption: true,
+                          startPosition: restart ? Duration.zero : null,
                         );
                         ref.read(providerInstance.notifier).fetchDetails(widget.item);
                       },
-                      onPressed: () async {
+                      onPressed: (restart) async {
                         await details.play(
                           context,
                           ref,
+                          startPosition: restart ? Duration.zero : null,
                         );
                         ref.read(providerInstance.notifier).fetchDetails(widget.item);
                       },
+                    ),
+                    centerButtons: Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      alignment: wrapAlignment,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        SelectableIconButton(
+                          onPressed: () async {
+                            await ref
+                                .read(userProvider.notifier)
+                                .setAsFavorite(!details.userData.isFavourite, details.id);
+                          },
+                          selected: details.userData.isFavourite,
+                          selectedIcon: IconsaxPlusBold.heart,
+                          icon: IconsaxPlusLinear.heart,
+                        ),
+                        SelectableIconButton(
+                          onPressed: () async {
+                            await ref.read(userProvider.notifier).markAsPlayed(!details.userData.played, details.id);
+                          },
+                          selected: details.userData.played,
+                          selectedIcon: IconsaxPlusBold.tick_circle,
+                          icon: IconsaxPlusLinear.tick_circle,
+                        ),
+                        SelectableIconButton(
+                          onPressed: () async {
+                            await showBottomSheetPill(
+                              context: context,
+                              content: (context, scrollController) => ListView(
+                                controller: scrollController,
+                                shrinkWrap: true,
+                                children: details.generateActions(context, ref).listTileItems(context, useIcons: true),
+                              ),
+                            );
+                          },
+                          selected: false,
+                          icon: IconsaxPlusLinear.more,
+                        ),
+                      ],
                     ),
                     originalTitle: details.originalTitle,
                     productionYear: details.overview.productionYear,
@@ -97,32 +141,6 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
                     officialRating: details.overview.parentalRating,
                     communityRating: details.overview.communityRating,
                   ),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    alignment: wrapAlignment,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      SelectableIconButton(
-                        onPressed: () async {
-                          await ref
-                              .read(userProvider.notifier)
-                              .setAsFavorite(!details.userData.isFavourite, details.id);
-                        },
-                        selected: details.userData.isFavourite,
-                        selectedIcon: IconsaxPlusBold.heart,
-                        icon: IconsaxPlusLinear.heart,
-                      ),
-                      SelectableIconButton(
-                        onPressed: () async {
-                          await ref.read(userProvider.notifier).markAsPlayed(!details.userData.played, details.id);
-                        },
-                        selected: details.userData.played,
-                        selectedIcon: IconsaxPlusBold.tick_circle,
-                        icon: IconsaxPlusLinear.tick_circle,
-                      ),
-                    ],
-                  ).padding(padding),
                   if (details.mediaStreams.isNotEmpty)
                     MediaStreamInformation(
                       onVersionIndexChanged: (index) {

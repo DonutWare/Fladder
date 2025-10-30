@@ -6,9 +6,8 @@ part of 'session_info_provider.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$SessionInfoModelImpl _$$SessionInfoModelImplFromJson(
-        Map<String, dynamic> json) =>
-    _$SessionInfoModelImpl(
+_SessionInfoModel _$SessionInfoModelFromJson(Map<String, dynamic> json) =>
+    _SessionInfoModel(
       playbackModel: json['playbackModel'] as String?,
       transCodeInfo: json['transCodeInfo'] == null
           ? null
@@ -16,8 +15,7 @@ _$SessionInfoModelImpl _$$SessionInfoModelImplFromJson(
               json['transCodeInfo'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$SessionInfoModelImplToJson(
-        _$SessionInfoModelImpl instance) =>
+Map<String, dynamic> _$SessionInfoModelToJson(_SessionInfoModel instance) =>
     <String, dynamic>{
       'playbackModel': instance.playbackModel,
       'transCodeInfo': instance.transCodeInfo,

@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:path/path.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:window_manager/window_manager.dart';
@@ -32,9 +32,10 @@ class SimpleVideoPlayer extends ConsumerStatefulWidget {
 }
 
 class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with WindowListener, WidgetsBindingObserver {
-  late final BasePlayer player = switch (ref.read(videoPlayerSettingsProvider.select((value) => value.wantedPlayer))) {
+  late final BasePlayer player = switch (ref.read(videoPlayerSettingsProvider).wantedPlayer) {
     PlayerOptions.libMDK => LibMDK(),
     PlayerOptions.libMPV => LibMPV(),
+    _ => LibMDK(),
   };
   late String videoUrl = "";
 
@@ -102,7 +103,7 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
         duration = event.duration;
       });
     }));
-    await player.open(videoUrl, !ref.watch(photoViewSettingsProvider).autoPlay);
+    await player.loadVideo(videoUrl, !ref.watch(photoViewSettingsProvider).autoPlay);
     await player.setVolume(ref.watch(photoViewSettingsProvider.select((value) => value.mute)) ? 0 : 100);
     await player.loop(ref.watch(photoViewSettingsProvider.select((value) => value.repeat)));
   }

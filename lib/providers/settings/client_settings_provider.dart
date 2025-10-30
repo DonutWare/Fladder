@@ -13,7 +13,7 @@ final clientSettingsProvider = StateNotifierProvider<ClientSettingsNotifier, Cli
 });
 
 class ClientSettingsNotifier extends StateNotifier<ClientSettingsModel> {
-  ClientSettingsNotifier(this.ref) : super(ClientSettingsModel());
+  ClientSettingsNotifier(this.ref) : super(ClientSettingsModel.defaultModel());
 
   final Ref ref;
 
@@ -38,6 +38,10 @@ class ClientSettingsNotifier extends StateNotifier<ClientSettingsModel> {
   void setThemeColor(ColorThemes? themeColor) => state = state.copyWith(themeColor: themeColor);
 
   void setAmoledBlack(bool? value) => state = state.copyWith(amoledBlack: value ?? false);
+
+  void setDerivedColorsFromItem(bool? value) => state = state.copyWith(deriveColorsFromItem: value ?? false);
+
+  void useSystemIME(bool? value) => state = state.copyWith(useSystemIME: value ?? false);
 
   void setBlurPlaceholders(bool value) => state = state.copyWith(blurPlaceHolders: value);
 

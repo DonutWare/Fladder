@@ -1,1467 +1,1523 @@
 {
-  "dashboardContinueReading": "Продолжить читать",
-  "@dashboardContinueReading": {},
-  "dashboardContinueListening": "Продолжить слушать",
-  "@dashboardContinueListening": {},
-  "clearAllSettings": "Очистите все настройки",
-  "@clearAllSettings": {},
-  "backgroundBlur": "Размытие фона",
-  "@backgroundBlur": {},
-  "color": "Цвет",
-  "@color": {},
-  "biometricsFailedCheckAgain": "Сбой биометрии. Проверьте настройки и повторите попытку.",
-  "@biometricsFailedCheckAgain": {},
-  "clearAllSettingsQuestion": "Очистить все настройки?",
-  "@clearAllSettingsQuestion": {},
-  "appLockTitle": "Установите метод входа в систему для {userName}",
-  "@appLockTitle": {
-    "description": "Pop-up to pick a login method",
-    "placeholders": {
-      "userName": {
-        "type": "String"
-      }
+    "dashboardContinueReading": "Продолжить читать",
+    "@dashboardContinueReading": {},
+    "dashboardContinueListening": "Продолжить слушать",
+    "@dashboardContinueListening": {},
+    "clearAllSettings": "Очистите все настройки",
+    "@clearAllSettings": {},
+    "backgroundBlur": "Размытие фона",
+    "@backgroundBlur": {},
+    "color": "Цвет",
+    "@color": {},
+    "biometricsFailedCheckAgain": "Сбой биометрии. Проверьте настройки и повторите попытку.",
+    "@biometricsFailedCheckAgain": {},
+    "clearAllSettingsQuestion": "Очистить все настройки?",
+    "@clearAllSettingsQuestion": {},
+    "appLockTitle": "Установите метод входа в систему для {userName}",
+    "@appLockTitle": {
+        "description": "Pop-up to pick a login method",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "nativeName": "Русский",
+    "@nativeName": {},
+    "about": "О приложении",
+    "@about": {},
+    "accept": "Принять",
+    "@accept": {},
+    "active": "Активно",
+    "@active": {},
+    "addAsFavorite": "Добавить в избранное",
+    "@addAsFavorite": {},
+    "addToCollection": "Добавить в коллекцию",
+    "@addToCollection": {},
+    "addToPlaylist": "Добавить в плейлист",
+    "@addToPlaylist": {},
+    "advanced": "Дополнительно",
+    "@advanced": {},
+    "all": "Все",
+    "@all": {},
+    "amoledBlack": "Матовый черный",
+    "@amoledBlack": {},
+    "appLockAutoLogin": "Автоматический вход в систему",
+    "@appLockAutoLogin": {},
+    "appLockBiometrics": "Биометрия",
+    "@appLockBiometrics": {},
+    "appLockPasscode": "Пароль",
+    "@appLockPasscode": {},
+    "audio": "Аудио",
+    "@audio": {},
+    "autoPlay": "Автоматическое воспроизведение",
+    "@autoPlay": {},
+    "backgroundOpacity": "Непрозрачность фона",
+    "@backgroundOpacity": {},
+    "bold": "Жирный",
+    "@bold": {},
+    "cancel": "Отмена",
+    "@cancel": {},
+    "change": "Изменить",
+    "@change": {},
+    "chapter": "{count, plural, other{Глав} two{Главы} one{Глава}}",
+    "@chapter": {
+        "description": "chapter",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "clear": "Очистить",
+    "@clear": {},
+    "close": "Закрыть",
+    "@close": {},
+    "code": "Код",
+    "@code": {},
+    "collectionFolder": "Папка для сбора данных",
+    "@collectionFolder": {},
+    "combined": "Комбинированный",
+    "@combined": {},
+    "controls": "Управление",
+    "@controls": {},
+    "dashboard": "Главная",
+    "@dashboard": {},
+    "dashboardContinue": "Продолжить",
+    "@dashboardContinue": {},
+    "communityRating": "Рейтинг сообщества",
+    "@communityRating": {},
+    "continuePage": "Следующая - страница {page}",
+    "@continuePage": {
+        "description": "Continue - page 1",
+        "placeholders": {
+            "page": {
+                "type": "int"
+            }
+        }
+    },
+    "ascending": "Восходящий",
+    "@ascending": {},
+    "dashboardRecentlyAdded": "Недавно добавлено в {name}",
+    "@dashboardRecentlyAdded": {
+        "description": "Recently added on home screen",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "nextUp": "Следующее",
+    "@nextUp": {},
+    "actor": "{count, plural, other{Актёры} two{Актёра} one{Актёр}}",
+    "@actor": {
+        "description": "actor",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "clearChanges": "Очистить изменения",
+    "@clearChanges": {},
+    "clearSelection": "Очистить выделение",
+    "@clearSelection": {},
+    "dashboardContinueWatching": "Продолжить просмотр",
+    "@dashboardContinueWatching": {},
+    "deleteFileFromSystem": "Элемент «{item}» будет удалён из файловой системы и медиатеки. Продолжить?",
+    "@deleteFileFromSystem": {
+        "description": "Delete file from system",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "datePlayed": "Дата воспроизведения",
+    "@datePlayed": {},
+    "delete": "Удалить",
+    "@delete": {},
+    "dateAdded": "Добавлено",
+    "@dateAdded": {},
+    "dateLastContentAdded": "Дата добавления",
+    "@dateLastContentAdded": {},
+    "days": "Дни",
+    "@days": {},
+    "deleteItem": "Удалить {item}?",
+    "@deleteItem": {
+        "description": "deleteItem",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "grid": "Сетка",
+    "@grid": {},
+    "episode": "{count, plural, other{Эпизодов} two{Эпизода} one{Эпизод} }",
+    "@episode": {
+        "description": "episode",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "itemCount": "Кол-во элементов: {count}",
+    "@itemCount": {
+        "description": "Item count",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "noItemsSynced": "Ни один элемент не синхронизирован",
+    "@noItemsSynced": {},
+    "heightOffset": "Смещение по высоте",
+    "@heightOffset": {},
+    "homeBannerCarousel": "Карусель",
+    "@homeBannerCarousel": {},
+    "libraryFetchNoItemsFound": "Не найдено ни одного элемента. Попробуйте разные настройки.",
+    "@libraryFetchNoItemsFound": {},
+    "list": "Список",
+    "@list": {},
+    "metaDataSavedFor": "Метаданные сохранены для {item}",
+    "@metaDataSavedFor": {
+        "description": "metaDataSavedFor",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "openShow": "Открыть серию",
+    "@openShow": {},
+    "playFromStart": "Воспроизвести {name} с самого начала",
+    "@playFromStart": {
+        "description": "speel vanaf het begin",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "navigationSync": "Синхронизированное",
+    "@navigationSync": {},
+    "parentalRating": "Родительский рейтинг",
+    "@parentalRating": {},
+    "openWebLink": "Открыть веб-ссылку",
+    "@openWebLink": {},
+    "retry": "Повторить",
+    "@retry": {},
+    "logout": "Выйти",
+    "@logout": {},
+    "endsAt": "закончится в {date}",
+    "@endsAt": {
+        "description": "endsAt",
+        "placeholders": {
+            "date": {
+                "type": "DateTime",
+                "format": "jm"
+            }
+        }
+    },
+    "discovered": "Найдено",
+    "@discovered": {},
+    "descending": "По убыванию",
+    "@descending": {},
+    "director": "{count, plural, other{Режиссеры} two{Режиссера} one{Режиссер}}",
+    "@director": {
+        "description": "director",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "disableFilters": "Отключить фильтры",
+    "@disableFilters": {},
+    "disabled": "Выключено",
+    "@disabled": {},
+    "displayLanguage": "Язык интерфейса",
+    "@displayLanguage": {},
+    "downloadsClearTitle": "Очистить синхронизированные данные",
+    "@downloadsClearTitle": {},
+    "downloadsPath": "Путь",
+    "@downloadsPath": {},
+    "downloadsSyncedData": "Синхронизированные данные",
+    "@downloadsSyncedData": {},
+    "downloadsTitle": "Скачанные",
+    "@downloadsTitle": {},
+    "dynamicText": "Динамический",
+    "@dynamicText": {},
+    "editMetadata": "Редактирование метаданных",
+    "@editMetadata": {},
+    "empty": "Пустой",
+    "@empty": {},
+    "enabled": "Включено",
+    "@enabled": {},
+    "error": "Ошибка",
+    "@error": {},
+    "failedToLoadImage": "Не удалось загрузить изображение",
+    "@failedToLoadImage": {},
+    "favorite": "Избранное",
+    "@favorite": {},
+    "favorites": "Избранные",
+    "@favorites": {},
+    "fetchingLibrary": "Получение элементов библиотеки…",
+    "@fetchingLibrary": {},
+    "filter": "{count, plural, other{Фильтров} two{Фильтра} one{Фильтр}}",
+    "@filter": {
+        "description": "filter",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "folders": "Каталоги",
+    "@folders": {},
+    "fontColor": "Цвет шрифта",
+    "@fontColor": {},
+    "fontSize": "Размер шрифта",
+    "@fontSize": {},
+    "forceRefresh": "Принудительно обновить",
+    "@forceRefresh": {},
+    "goTo": "Перейти к",
+    "@goTo": {},
+    "group": "Группа",
+    "@group": {},
+    "hide": "Скрыть",
+    "@hide": {},
+    "hideEmpty": "Скрыть пустое",
+    "@hideEmpty": {},
+    "home": "Главная",
+    "@home": {},
+    "identify": "Определить",
+    "@identify": {},
+    "info": "Информация",
+    "@info": {},
+    "invalidUrl": "Недопустимый URL",
+    "@invalidUrl": {},
+    "invalidUrlDesc": "URL должен начинаться с http(s)://",
+    "@invalidUrlDesc": {},
+    "label": "{count, plural, other{Ярлыков} two{Ярлыка} one{Ярлык}}",
+    "@label": {
+        "description": "label",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "library": "{count, plural, other{Библиотек} two{Библиотеки} one{Библиотека}}",
+    "@library": {
+        "description": "Plural",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "libraryPageSizeDesc": "Установить количество загружаемых за раз файлов. 0 отключит подкачку.",
+    "@libraryPageSizeDesc": {},
+    "light": "Светлый",
+    "@light": {},
+    "lockscreen": "Экран блокировки",
+    "@lockscreen": {},
+    "loggedIn": "Вход в систему",
+    "@loggedIn": {},
+    "login": "Войти",
+    "@login": {},
+    "logoutUserPopupTitle": "Выйти из системы {userName}?",
+    "@logoutUserPopupTitle": {
+        "description": "Pop-up for logging out the user",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "loop": "Цикл",
+    "@loop": {},
+    "markAsUnwatched": "Отметить как непросмотренное",
+    "@markAsUnwatched": {},
+    "markAsWatched": "Отметить как просмотренное",
+    "@markAsWatched": {},
+    "masonry": "Мозаика",
+    "@masonry": {},
+    "mediaTypeBase": "Основной тип",
+    "@mediaTypeBase": {},
+    "mediaTypeBook": "Книга",
+    "@mediaTypeBook": {},
+    "mediaTypeBoxset": "Набор",
+    "@mediaTypeBoxset": {},
+    "mediaTypeEpisode": "Серия",
+    "@mediaTypeEpisode": {},
+    "mediaTypeFolder": "Папка",
+    "@mediaTypeFolder": {},
+    "mediaTypeMovie": "Фильм",
+    "@mediaTypeMovie": {},
+    "mediaTypePerson": "Персона",
+    "@mediaTypePerson": {},
+    "mediaTypePhoto": "Фото",
+    "@mediaTypePhoto": {},
+    "mediaTypePhotoAlbum": "Фотоальбом",
+    "@mediaTypePhotoAlbum": {},
+    "mediaTypePlaylist": "Плейлист",
+    "@mediaTypePlaylist": {},
+    "mediaTypeSeason": "Сезон",
+    "@mediaTypeSeason": {},
+    "mediaTypeSeries": "Серии",
+    "@mediaTypeSeries": {},
+    "metadataRefreshDefault": "Сканирование на наличие новых и обновленных файлов",
+    "@metadataRefreshDefault": {},
+    "metadataRefreshFull": "Заменить все метаданные",
+    "@metadataRefreshFull": {},
+    "metadataRefreshValidation": "Поиск отсутствующих метаданных",
+    "@metadataRefreshValidation": {},
+    "mode": "Режим",
+    "@mode": {},
+    "moreFrom": "Подробнее от {info}",
+    "@moreFrom": {
+        "description": "More from",
+        "placeholders": {
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "moreOptions": "Другие варианты",
+    "@moreOptions": {},
+    "mouseDragSupport": "Перетаскивание с помощью мыши",
+    "@mouseDragSupport": {},
+    "musicAlbum": "Альбом",
+    "@musicAlbum": {},
+    "name": "Название",
+    "@name": {},
+    "navigation": "Навигация",
+    "@navigation": {},
+    "navigationDashboard": "Главная",
+    "@navigationDashboard": {},
+    "navigationFavorites": "Избранное",
+    "@navigationFavorites": {},
+    "never": "Никогда",
+    "@never": {},
+    "noItemsToShow": "Ни один элемент не показан",
+    "@noItemsToShow": {},
+    "noRating": "Нет рейтинга",
+    "@noRating": {},
+    "noServersFound": "Новые серверы не найдены",
+    "@noServersFound": {},
+    "noSuggestionsFound": "Предложений не найдено",
+    "@noSuggestionsFound": {},
+    "none": "Ничего",
+    "@none": {},
+    "normal": "Нормальный",
+    "@normal": {},
+    "notPartOfAlbum": "Не является частью альбома",
+    "@notPartOfAlbum": {},
+    "openParent": "Открыть родительский элемент",
+    "@openParent": {},
+    "options": "Опции",
+    "@options": {},
+    "other": "Другое",
+    "@other": {},
+    "outlineSize": "Размер контура",
+    "@outlineSize": {},
+    "overview": "Обзор",
+    "@overview": {},
+    "page": "Страница {index}",
+    "@page": {
+        "description": "page",
+        "placeholders": {
+            "index": {
+                "type": "int"
+            }
+        }
+    },
+    "password": "Пароль",
+    "@password": {},
+    "pathClearTitle": "Очистить путь загрузок",
+    "@pathClearTitle": {},
+    "pathEditTitle": "Изменить путь",
+    "@pathEditTitle": {},
+    "playCount": "Количество воспроизведений",
+    "@playCount": {},
+    "playFrom": "Воспроизвести из {name}",
+    "@playFrom": {
+        "description": "playFrom",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "playLabel": "Воспроизвести",
+    "@playLabel": {},
+    "playVideos": "Воспроизвести видео",
+    "@playVideos": {},
+    "quickConnectInputACode": "Введите код",
+    "@quickConnectInputACode": {},
+    "quickConnectTitle": "Быстрое подключение",
+    "@quickConnectTitle": {},
+    "quickConnectWrongCode": "Неверный код",
+    "@quickConnectWrongCode": {},
+    "random": "Случайный",
+    "@random": {},
+    "rating": "{count, plural, other{Рейтингов} two{Рейтинга} one{Рейтинг}}",
+    "@rating": {
+        "description": "rating",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "reWatch": "Пересмотреть",
+    "@reWatch": {},
+    "read": "Читать {item}",
+    "@read": {
+        "description": "read",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "readFromStart": "Читать {item} с позиции",
+    "@readFromStart": {
+        "description": "Read book from start",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "recursive": "Рекурсивно",
+    "@recursive": {},
+    "refresh": "Обновить",
+    "@refresh": {},
+    "refreshMetadata": "Обновить метаданные",
+    "@refreshMetadata": {},
+    "refreshPopup": "Обновить - {name}",
+    "@refreshPopup": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "refreshPopupContentMetadata": "Метаданные обновляются в зависимости от настроек и интернет-сервисов, включенных на панели.",
+    "@refreshPopupContentMetadata": {},
+    "related": "Связанные",
+    "@related": {},
+    "releaseDate": "Дата выхода",
+    "@releaseDate": {},
+    "removeAsFavorite": "Удалить из избранного",
+    "@removeAsFavorite": {},
+    "removeFromCollection": "Удалить из коллекции",
+    "@removeFromCollection": {},
+    "replaceAllImages": "Заменить все изображения",
+    "@replaceAllImages": {},
+    "restart": "Перезапуск",
+    "@restart": {},
+    "result": "Результат",
+    "@result": {},
+    "resumable": "Доступные для продолжения",
+    "@resumable": {},
+    "resume": "Продолжить {item}",
+    "@resume": {
+        "description": "resume",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "retrievePublicListOfUsers": "Получение публичного списка пользователей",
+    "@retrievePublicListOfUsers": {},
+    "runTime": "Время выполнения",
+    "@runTime": {},
+    "save": "Сохранить",
+    "@save": {},
+    "scanBiometricHint": "Подтвердить личность",
+    "@scanBiometricHint": {},
+    "scanLibrary": "Сканировать библиотеку",
+    "@scanLibrary": {},
+    "scanningName": "Сканирование - {name}…",
+    "@scanningName": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "scrollToTop": "Прокрутить к верху",
+    "@scrollToTop": {},
+    "search": "Поиск",
+    "@search": {},
+    "season": "{count, plural, other{Сезонов} two{Сезона} one{Сезон} }",
+    "@season": {
+        "description": "season",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "seconds": "{count, plural, other{Секунд} two{Секунды} one{Секунда}}",
+    "@seconds": {
+        "description": "second",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "selectAll": "Выбрать всё",
+    "@selectAll": {},
+    "selectTime": "Выбрать время",
+    "@selectTime": {},
+    "selectViewType": "Выбрать тип просмотра",
+    "@selectViewType": {},
+    "selected": "Выбрано",
+    "@selected": {},
+    "selectedWith": "Выбрано {info}",
+    "@selectedWith": {
+        "description": "selected",
+        "placeholders": {
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "separate": "Отдельно",
+    "@separate": {},
+    "server": "Сервер",
+    "@server": {},
+    "set": "Установить",
+    "@set": {
+        "description": "Use for setting a certain value",
+        "context": "Set 'time'"
+    },
+    "settingSecurityApplockTitle": "Блокировка приложения",
+    "@settingSecurityApplockTitle": {},
+    "settings": "Настройки",
+    "@settings": {},
+    "settingsBlurEpisodesDesc": "Размыть все предстоящие серии",
+    "@settingsBlurEpisodesDesc": {},
+    "settingsBlurEpisodesTitle": "Размыть следующие серии",
+    "@settingsBlurEpisodesTitle": {},
+    "settingsBlurredPlaceholderDesc": "Показывать размытый фон при загрузке постеров",
+    "@settingsBlurredPlaceholderDesc": {},
+    "settingsBlurredPlaceholderTitle": "Размытый заполнитель",
+    "@settingsBlurredPlaceholderTitle": {},
+    "settingsClientDesc": "Основное, тайм-аут, макет, тема",
+    "@settingsClientDesc": {},
+    "settingsClientTitle": "Fladder",
+    "@settingsClientTitle": {},
+    "settingsContinue": "Продолжить",
+    "@settingsContinue": {},
+    "settingsHomeBannerDescription": "Отображение в виде слайд-шоу, карусели или скрытие баннера",
+    "@settingsHomeBannerDescription": {},
+    "settingsHomeBannerTitle": "Основной баннер",
+    "@settingsHomeBannerTitle": {},
+    "settingsHomeBannerInformationTitle": "Информация о баннере",
+    "@settingsHomeBannerInformationTitle": {},
+    "settingsHomeNextUpDesc": "Тип постеров, отображаемых на экране панели",
+    "@settingsHomeNextUpDesc": {},
+    "settingsHomeNextUpTitle": "Следующие постеры",
+    "@settingsHomeNextUpTitle": {},
+    "settingsPlayerCustomSubtitlesDesc": "Настроить размер, цвет, положение, контур",
+    "@settingsPlayerCustomSubtitlesDesc": {},
+    "settingsPlayerDesc": "Соотношение сторон, Дополнительно",
+    "@settingsPlayerDesc": {},
+    "settingsPlayerMobileWarning": "Включение аппаратного ускорения и нативных субтитров libass на Android может привести к тому, что некоторые субтитры не будут отображаться.",
+    "@settingsPlayerMobileWarning": {},
+    "settingsPlayerNativeLibassAccelDesc": "Использование видеоплеера libass для отображения субтитров",
+    "@settingsPlayerNativeLibassAccelDesc": {},
+    "settingsPlayerNativeLibassAccelTitle": "Наивные субтитры libass",
+    "@settingsPlayerNativeLibassAccelTitle": {},
+    "settingsPlayerBufferSizeDesc": "Настроить размер буфера для воспроизведения видео, определяющий объем данных, загружаемых в кэш.",
+    "@settingsPlayerBufferSizeDesc": {},
+    "settingsPlayerVideoHWAccelDesc": "Используйте GPU для рендеринга видео (рекомендуется)",
+    "@settingsPlayerVideoHWAccelDesc": {},
+    "settingsPosterPinch": "Уменьшение масштаба постеров",
+    "@settingsPosterPinch": {},
+    "settingsPosterSize": "Размер постера",
+    "@settingsPosterSize": {},
+    "settingsPosterSlider": "Показать ползунок масштаба",
+    "@settingsPosterSlider": {},
+    "settingsProfileTitle": "Профиль",
+    "@settingsProfileTitle": {},
+    "settingsQuickConnectTitle": "Быстрое подключение",
+    "@settingsQuickConnectTitle": {},
+    "settingsSecurity": "Безопасность",
+    "@settingsSecurity": {},
+    "settingsShowScaleSlider": "Показать ползунок размером с постер",
+    "@settingsShowScaleSlider": {},
+    "settingsVisual": "Визуальный",
+    "@settingsVisual": {},
+    "showDetails": "Показать детали",
+    "@showDetails": {},
+    "showEmpty": "Показать пустое",
+    "@showEmpty": {},
+    "shuffleGallery": "Перемешать галереи",
+    "@shuffleGallery": {},
+    "shuffleVideos": "Перемешать видео",
+    "@shuffleVideos": {},
+    "somethingWentWrong": "Что-то пошло не так",
+    "@somethingWentWrong": {},
+    "sortBy": "Сортировать по",
+    "@sortBy": {},
+    "sortOrder": "Порядок сортировки",
+    "@sortOrder": {},
+    "start": "Начало",
+    "@start": {},
+    "studio": "{count, plural, other{Студий} two{Студии} one{Студия}}",
+    "@studio": {
+        "description": "studio",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "subtitles": "Субтитры",
+    "@subtitles": {},
+    "switchUser": "Переключить пользователя",
+    "@switchUser": {},
+    "sync": "Синхронизировать",
+    "@sync": {},
+    "immediately": "Сразу",
+    "@immediately": {},
+    "incorrectPinTryAgain": "Неверный PIN-код. Попробуйте еще раз.",
+    "@incorrectPinTryAgain": {},
+    "groupBy": "Группировать по",
+    "@groupBy": {},
+    "downloadsClearDesc": "Удалить все синхронизированные данные, очистив все данные для каждого синхронизированного пользователя?",
+    "@downloadsClearDesc": {},
+    "noResults": "Нет результатов",
+    "@noResults": {},
+    "shadow": "Тень",
+    "@shadow": {},
+    "play": "Воспроизвести {item}",
+    "@play": {
+        "description": "Play with",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "removeFromPlaylist": "Удалить из плейлиста",
+    "@removeFromPlaylist": {},
+    "libraryPageSizeTitle": "Размер страницы библиотеки",
+    "@libraryPageSizeTitle": {},
+    "setIdentityTo": "Сменить идентификатор на {name}",
+    "@setIdentityTo": {
+        "description": "setIdentityTo",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "genre": "{count, plural, other{Жанров} two{Жанра} one{Жанр}}",
+    "@genre": {
+        "description": "genre",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "homeBannerSlideshow": "Слайд-шоу",
+    "@homeBannerSlideshow": {},
+    "minutes": "{count, plural, other{Минут} two{Минуты} one{Минута} }",
+    "@minutes": {
+        "description": "minute",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "outlineColor": "Цвет контура",
+    "@outlineColor": {},
+    "pathEditDesc": "Это путь установлен для всех пользователей, все синхронизированные данные больше не будут доступны. Они останутся в вашем хранилище.",
+    "@pathEditDesc": {},
+    "scanYourFingerprintToAuthenticate": "Сканирование отпечатка пальца для аутентификации {user}",
+    "@scanYourFingerprintToAuthenticate": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "settingsHomeBannerInformationDesc": "Информация для отображения на основном баннере",
+    "@settingsHomeBannerInformationDesc": {},
+    "settingsPlayerBufferSizeTitle": "Размер видеобуфера",
+    "@settingsPlayerBufferSizeTitle": {},
+    "settingsPlayerVideoHWAccelTitle": "Аппаратное ускорение",
+    "@settingsPlayerVideoHWAccelTitle": {},
+    "settingsProfileDesc": "Экран блокировки",
+    "@settingsProfileDesc": {},
+    "showAlbum": "Покатать альбом",
+    "@showAlbum": {},
+    "settingsNextUpCutoffDays": "Лимит дней для \"Следующего\"",
+    "@settingsNextUpCutoffDays": {},
+    "somethingWentWrongPasswordCheck": "Что-то пошло не так. Проверьте свой пароль.",
+    "@somethingWentWrongPasswordCheck": {},
+    "subtitleConfiguratorPlaceHolder": "Это текст-заготовка, здесь нечего смотреть.",
+    "@subtitleConfiguratorPlaceHolder": {},
+    "settingsPlayerTitle": "Плеер",
+    "@settingsPlayerTitle": {},
+    "sortName": "Название",
+    "@sortName": {},
+    "quickConnectAction": "Введите код быстрого подключения для",
+    "@quickConnectAction": {},
+    "settingsEnableOsMediaControls": "Включить средства управления мультимедиа ОС",
+    "@settingsEnableOsMediaControls": {},
+    "settingsPlayerCustomSubtitlesTitle": "Настройка субтитров",
+    "@settingsPlayerCustomSubtitlesTitle": {},
+    "replaceExistingImages": "Заменить существующие изображения",
+    "@replaceExistingImages": {},
+    "played": "Воспроизведено",
+    "@played": {},
+    "logoutUserPopupContent": "Это приведет к выходу из {userName} и удалению пользователя из приложения.\nВам придется снова войти в систему на {serverName}.",
+    "@logoutUserPopupContent": {
+        "description": "Pop-up for logging out the user description",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            },
+            "serverName": {
+                "type": "String"
+            }
+        }
+    },
+    "subtitleConfigurator": "Конфигуратор субтитров",
+    "@subtitleConfigurator": {},
+    "pathEditSelect": "Выберите место загрузки",
+    "@pathEditSelect": {},
+    "saved": "Сохранено",
+    "@saved": {},
+    "maxConcurrentDownloadsTitle": "Максимальное количество одновременных загрузок",
+    "@maxConcurrentDownloadsTitle": {},
+    "exitFladderTitle": "Выйти из Fladder",
+    "@exitFladderTitle": {},
+    "maxConcurrentDownloadsDesc": "Устанавливает максимальное количество загрузок, которые могут выполняться одновременно. Установите значение 0, чтобы отключить ограничение.",
+    "@maxConcurrentDownloadsDesc": {},
+    "rememberAudioSelections": "Установка звуковой дорожки на основе предыдущего элемента",
+    "@rememberAudioSelections": {},
+    "similarToRecentlyPlayed": "Похожие на недавно просмотренные",
+    "@similarToRecentlyPlayed": {},
+    "similarToLikedItem": "Похожие на понравившиеся",
+    "@similarToLikedItem": {},
+    "hasDirectorFromRecentlyPlayed": "Имеет режиссёра из недавно воспроизведённых",
+    "@hasDirectorFromRecentlyPlayed": {},
+    "hasActorFromRecentlyPlayed": "Имеет актера из недавно воспроизведённых",
+    "@hasActorFromRecentlyPlayed": {},
+    "hasLikedDirector": "Имеет понравившегося режиссера",
+    "@hasLikedDirector": {},
+    "hasLikedActor": "Имеет понравившегося актёра",
+    "@hasLikedActor": {},
+    "latest": "Последние",
+    "@latest": {},
+    "recommended": "Рекомендуемое",
+    "@recommended": {},
+    "playbackTypeTranscode": "Транскодируемое",
+    "@playbackTypeTranscode": {},
+    "playbackTypeOffline": "Оффлайн",
+    "@playbackTypeOffline": {},
+    "latestReleases": "Последние релизы",
+    "@latestReleases": {},
+    "autoCheckForUpdates": "Периодически проверять наличие обновлений",
+    "@autoCheckForUpdates": {},
+    "newUpdateFoundOnGithub": "На Github появилось новое обновление",
+    "@newUpdateFoundOnGithub": {},
+    "syncDeletePopupPermanent": "Это действие является постоянным и удаляет все локально синхронизированные файлы",
+    "@syncDeletePopupPermanent": {},
+    "syncDetails": "Детали синхронизации",
+    "@syncDetails": {},
+    "syncOpenParent": "Открытый родительский элемент",
+    "@syncOpenParent": {},
+    "syncedItems": "Синхронизированные элементы",
+    "@syncedItems": {},
+    "tag": "{count, plural, one{Тег} two{Тега} other{Тегов}}",
+    "@tag": {
+        "description": "tag",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "theme": "Тема",
+    "@theme": {},
+    "themeModeDark": "Темная",
+    "@themeModeDark": {},
+    "timeAndAnnotation": "{minutes} и {seconds}",
+    "@timeAndAnnotation": {
+        "description": "timeAndAnnotation",
+        "placeholders": {
+            "minutes": {
+                "type": "String"
+            },
+            "seconds": {
+                "type": "String"
+            }
+        }
+    },
+    "timeOut": "Тайм-аут",
+    "@timeOut": {},
+    "totalSize": "Общий размер: {size}",
+    "@totalSize": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+    "type": "{count, plural, other{Типов} two{Типа} one{Тип}}",
+    "@type": {
+        "description": "type",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "unableToReverseAction": "Это действие не может быть отменено. Оно удалит все настройки.",
+    "@unableToReverseAction": {},
+    "unknown": "Неизвестный",
+    "@unknown": {},
+    "useDefaults": "Использовать значения по умолчанию",
+    "@useDefaults": {},
+    "userName": "Имя пользователя",
+    "@userName": {},
+    "videoScaling": "Масштабирование видео",
+    "@videoScaling": {},
+    "videoScalingContain": "Вместить",
+    "@videoScalingContain": {},
+    "videoScalingCover": "Перекрыть",
+    "@videoScalingCover": {},
+    "videoScalingFillScreenNotif": "Полноэкранный режим переопределяет заполнение видео при горизонтальном повороте",
+    "@videoScalingFillScreenNotif": {},
+    "videoScalingFitHeight": "Заполнить по высоте",
+    "@videoScalingFitHeight": {},
+    "viewPhotos": "Посмотреть фотографии",
+    "@viewPhotos": {},
+    "year": "{count, plural, other{Лет} two{Года} one{Год}}",
+    "@year": {
+        "description": "year",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "addToNewPlaylist": "Новый плейлист",
+    "@addToNewPlaylist": {},
+    "addItemsToPlaylist": "Добавить элемент(ы) {itemLength} в плейлист",
+    "@addItemsToPlaylist": {
+        "placeholders": {
+            "itemLength": {
+                "type": "int"
+            }
+        }
+    },
+    "syncStatusEnqueued": "Записано",
+    "@syncStatusEnqueued": {},
+    "syncStatusComplete": "Завершено",
+    "@syncStatusComplete": {},
+    "syncStatusNotFound": "Не найдено",
+    "@syncStatusNotFound": {},
+    "syncStatusFailed": "Не удалось",
+    "@syncStatusFailed": {},
+    "syncStatusRunning": "В процессе",
+    "@syncStatusRunning": {},
+    "syncStatusWaitingToRetry": "Ожидание повторной попытки",
+    "@syncStatusWaitingToRetry": {},
+    "syncStatusPaused": "Приостановлено",
+    "@syncStatusPaused": {},
+    "syncStatusSynced": "Синхронизировано",
+    "@syncStatusSynced": {},
+    "syncStatusPartially": "Частично",
+    "@syncStatusPartially": {},
+    "syncOverlayDeleting": "Удаление синхронизированного элемента",
+    "@syncOverlayDeleting": {},
+    "syncSelectDownloadsFolder": "Выбрать папку для загрузок",
+    "@syncSelectDownloadsFolder": {},
+    "syncRemoveUnableToDeleteItem": "Невозможно удалить синхронизированный элемент, что-то пошло не так",
+    "@syncRemoveUnableToDeleteItem": {},
+    "syncAddItemForSyncing": "Добавлен {item} для синхронизации",
+    "@syncAddItemForSyncing": {
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "startedSyncingItem": "Началась синхронизация {item}",
+    "@startedSyncingItem": {
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutVersion": "Версия: {version}",
+    "@aboutVersion": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutCreatedBy": "Создано DonutWare",
+    "@aboutCreatedBy": {},
+    "aboutSocials": "Социальные сети",
+    "@aboutSocials": {},
+    "aboutLicenses": "Лицензии",
+    "@aboutLicenses": {},
+    "subtitleConfiguration": "Настройка субтитров",
+    "@subtitleConfiguration": {},
+    "off": "Выключено",
+    "@off": {},
+    "screenBrightness": "Яркость экрана",
+    "@screenBrightness": {},
+    "autoNextOffStaticTitle": "Статический",
+    "@autoNextOffStaticTitle": {},
+    "autoNextOffStaticDesc": "Показывайте следующее, когда остается 30 секунд до конца воспроизведения",
+    "@autoNextOffStaticDesc": {},
+    "errorOpeningMedia": "Что-то пошло не так при попытке воспроизвести это медиа",
+    "@errorOpeningMedia": {},
+    "unableToPlayBooksOnWeb": "Книги пока не поддерживаются в вебе",
+    "@unableToPlayBooksOnWeb": {},
+    "defaultFilterForLibrary": "Фильтр по умолчанию для библиотеки",
+    "@defaultFilterForLibrary": {},
+    "removeFilterForLibrary": "Удалить {filter}?",
+    "@removeFilterForLibrary": {
+        "description": "removeFilterForLibrary",
+        "placeholders": {
+            "filter": {
+                "type": "String"
+            }
+        }
+    },
+    "libraryFiltersLimitReached": "Достигнут предел фильтрации (10) Удалите некоторые фильтры",
+    "@libraryFiltersLimitReached": {},
+    "libraryFiltersRemoveAll": "Удалить все фильтры",
+    "@libraryFiltersRemoveAll": {},
+    "libraryFiltersRemoveAllConfirm": "Это приведет к удалению всех сохраненных фильтров для каждой библиотеки",
+    "@libraryFiltersRemoveAllConfirm": {},
+    "deviceOrientationPortraitDown": "Портретная ориентация вниз",
+    "@deviceOrientationPortraitDown": {},
+    "schemeSettingsFidelity": "Точность",
+    "@schemeSettingsFidelity": {},
+    "schemeSettingsVibrant": "Яркий",
+    "@schemeSettingsVibrant": {},
+    "schemeSettingsExpressive": "Выразительный",
+    "@schemeSettingsExpressive": {},
+    "schemeSettingsContent": "Содержание",
+    "@schemeSettingsContent": {},
+    "schemeSettingsRainbow": "Радуга",
+    "@schemeSettingsRainbow": {},
+    "schemeSettingsFruitSalad": "Фруктовый салат",
+    "@schemeSettingsFruitSalad": {},
+    "clientSettingsRequireWifiTitle": "Требовать Wi-Fi",
+    "@clientSettingsRequireWifiTitle": {},
+    "clientSettingsRequireWifiDesc": "Загружать только при подключении к сети Wi-Fi",
+    "@clientSettingsRequireWifiDesc": {},
+    "libraryShuffleAndPlayItems": "Перемешать и воспроизвести элементы",
+    "@libraryShuffleAndPlayItems": {},
+    "libraryPlayItems": "Воспроизвести элементы",
+    "@libraryPlayItems": {},
+    "clientSettingsShowAllCollectionsTitle": "Показать все типы коллекций",
+    "@clientSettingsShowAllCollectionsTitle": {},
+    "clientSettingsShowAllCollectionsDesc": "Если включить эту функцию, будут показаны все типы коллекций, включая те, которые не поддерживаются Fladder",
+    "@clientSettingsShowAllCollectionsDesc": {},
+    "stop": "Остановить",
+    "@stop": {},
+    "playNextVideo": "Воспроизвести следующее видео",
+    "@playNextVideo": {},
+    "playerSettingsBackendTitle": "Бэкенд видеоплеера",
+    "@playerSettingsBackendTitle": {},
+    "playerSettingsBackendDesc": "Выберите предпочтительный медиаплеер для оптимального воспроизведения",
+    "@playerSettingsBackendDesc": {},
+    "defaultLabel": "По умолчанию",
+    "@defaultLabel": {
+        "description": "To indicate a default value, default video player backend"
+    },
+    "skipButtonLabel": "Пропустить {segment}",
+    "@skipButtonLabel": {
+        "placeholders": {
+            "segment": {
+                "type": "String"
+            }
+        }
+    },
+    "mediaSegmentUnknown": "Неизвестный",
+    "@mediaSegmentUnknown": {},
+    "mediaSegmentOutro": "Финал",
+    "@mediaSegmentOutro": {},
+    "mediaSegmentIntro": "Вступление",
+    "@mediaSegmentIntro": {},
+    "errorLogs": "Журнал ошибок",
+    "@errorLogs": {},
+    "external": "Внешний",
+    "@external": {},
+    "downloadFile": "Загрузить {type}",
+    "@downloadFile": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "copyStreamUrl": "Скопировать url потока",
+    "@copyStreamUrl": {},
+    "settingsLayoutSizesTitle": "Размеры компоновки",
+    "@settingsLayoutSizesTitle": {},
+    "settingsLayoutSizesDesc": "Выберите, какие размеры компоновки может использовать приложение в зависимости от размера окна",
+    "@settingsLayoutSizesDesc": {},
+    "settingsLayoutModesTitle": "Режимы компоновки",
+    "@settingsLayoutModesTitle": {},
+    "settingsLayoutModesDesc": "Контролируйте, может ли приложение использовать однопанельную или двухпанельную компоновку",
+    "@settingsLayoutModesDesc": {},
+    "phone": "Телефон",
+    "@phone": {},
+    "tablet": "Планшет",
+    "@tablet": {},
+    "desktop": "ПК",
+    "@desktop": {},
+    "layoutModeSingle": "Одиночная",
+    "@layoutModeSingle": {},
+    "layoutModeDual": "Двойная",
+    "@layoutModeDual": {},
+    "episodeAvailable": "Доступно",
+    "@episodeAvailable": {},
+    "episodeMissing": "Отсутствует",
+    "@episodeMissing": {},
+    "homeStreamingQualityTitle": "Качество дома",
+    "@homeStreamingQualityTitle": {},
+    "qualityOptionsTitle": "Настройки качества",
+    "@qualityOptionsTitle": {},
+    "guestActor": "{count, plural, other{Приглашенных актеров} two{Приглашенных актёра} one{Приглашенный актёр}}",
+    "@guestActor": {
+        "description": "Guest actors",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "qualityOptionsAuto": "Авто",
+    "@qualityOptionsAuto": {},
+    "version": "Версия",
+    "@version": {},
+    "mediaSegmentActions": "Действия с сегментами медиа",
+    "@mediaSegmentActions": {},
+    "segmentActionNone": "Нет",
+    "@segmentActionNone": {},
+    "segmentActionAskToSkip": "Спросить пропустить",
+    "@segmentActionAskToSkip": {},
+    "segmentActionSkip": "Пропустить",
+    "@segmentActionSkip": {},
+    "loading": "Загрузка",
+    "@loading": {},
+    "castAndCrew": "Кастинг и съемочная группа",
+    "@castAndCrew": {},
+    "syncRemoveDataDesc": "Удалить синхронизированные видеоданные? Это необратимо, и вам придется заново синхронизировать файлы",
+    "@syncRemoveDataDesc": {},
+    "videoScalingFitWidth": "Заполнить по ширине",
+    "@videoScalingFitWidth": {},
+    "subtitle": "Субтитры",
+    "@subtitle": {},
+    "deviceOrientationPortraitUp": "Портретная ориентация вверх",
+    "@deviceOrientationPortraitUp": {},
+    "unableToConnectHost": "Невозможно подключиться к хосту",
+    "@unableToConnectHost": {},
+    "videoScalingFill": "Заполнить",
+    "@videoScalingFill": {},
+    "watchOn": "Смотреть на",
+    "@watchOn": {},
+    "removedFromCollection": "Удалено из коллекции {collectionName}",
+    "@removedFromCollection": {
+        "placeholders": {
+            "collectionName": {
+                "type": "String"
+            }
+        }
+    },
+    "copiedToClipboard": "Скопировано в буфер обмена",
+    "@copiedToClipboard": {},
+    "schemeSettingsNeutral": "Нейтральный",
+    "@schemeSettingsNeutral": {},
+    "clientSettingsSchemeVariantTitle": "Вариант схемы",
+    "@clientSettingsSchemeVariantTitle": {},
+    "closeVideo": "Закрыть видео",
+    "@closeVideo": {},
+    "mediaSegmentPreview": "Предварительный просмотр",
+    "@mediaSegmentPreview": {},
+    "addToNewCollection": "Новая коллекция",
+    "@addToNewCollection": {},
+    "syncOverlaySyncing": "Синхронизация сведений об элементе",
+    "@syncOverlaySyncing": {},
+    "themeModeLight": "Светлая",
+    "@themeModeLight": {},
+    "writer": "{count, plural, other{Писателей} two{Писателя} one{Писатель}}",
+    "@writer": {
+        "description": "writer",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "syncDeleteItemDesc": "Удалить все синхронизированные данные для {item}?",
+    "@syncDeleteItemDesc": {
+        "description": "Sync delete item pop-up window",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "playBackSettings": "Настройки воспроизведения",
+    "@playBackSettings": {},
+    "syncRemoveDataTitle": "Удалить синхронизированные данные?",
+    "@syncRemoveDataTitle": {},
+    "video": "Видео",
+    "@video": {},
+    "syncStatusCanceled": "Отменено",
+    "@syncStatusCanceled": {},
+    "syncDeleteItemTitle": "Удалить синхронизированный элемент",
+    "@syncDeleteItemTitle": {},
+    "schemeSettingsTonalSpot": "Тональное пятно",
+    "@schemeSettingsTonalSpot": {},
+    "videoScalingFillScreenTitle": "Заполнить экран",
+    "@videoScalingFillScreenTitle": {},
+    "unPlayed": "Не воспроизведено",
+    "@unPlayed": {},
+    "deviceOrientationLandscapeRight": "Ландшафтная ориентация вправо",
+    "@deviceOrientationLandscapeRight": {},
+    "resumeVideo": "Продолжить видео",
+    "@resumeVideo": {},
+    "aboutBuild": "Сборка: {buildNumber}",
+    "@aboutBuild": {
+        "placeholders": {
+            "buildNumber": {
+                "type": "String"
+            }
+        }
+    },
+    "schemeSettingsMonochrome": "Монохром",
+    "@schemeSettingsMonochrome": {},
+    "addedToCollection": "Добавлено в коллекцию {collectionName}",
+    "@addedToCollection": {
+        "placeholders": {
+            "collectionName": {
+                "type": "String"
+            }
+        }
+    },
+    "settingsAutoNextTitle": "Следующее превью",
+    "@settingsAutoNextTitle": {},
+    "playbackRate": "Скорость воспроизведения",
+    "@playbackRate": {},
+    "deviceOrientationLandscapeLeft": "Ландшафтная ориентация влево",
+    "@deviceOrientationLandscapeLeft": {},
+    "mediaSegmentRecap": "Краткое содержание",
+    "@mediaSegmentRecap": {},
+    "episodeUnaired": "Без рекламы",
+    "@episodeUnaired": {},
+    "mediaSegmentCommercial": "Реклама",
+    "@mediaSegmentCommercial": {},
+    "rememberSubtitleSelectionsDesc": "Постараться установить дорожку субтитров так, чтобы она максимально соответствовала последнему видео.",
+    "@rememberSubtitleSelectionsDesc": {},
+    "themeColor": "Цвет темы",
+    "@themeColor": {},
+    "unableToPlayMedia": "Возникла ошибка при поиске совместимого типа носителя",
+    "@unableToPlayMedia": {},
+    "addItemsToCollection": "Добавить {itemLength} элемент(ы) в коллекцию",
+    "@addItemsToCollection": {
+        "placeholders": {
+            "itemLength": {
+                "type": "int"
+            }
+        }
+    },
+    "speed": "Скорость",
+    "@speed": {},
+    "videoScalingScaleDown": "Уменьшить масштаб",
+    "@videoScalingScaleDown": {},
+    "syncNoFolderSetup": "Отсутствует настройка папки синхронизации",
+    "@syncNoFolderSetup": {},
+    "unableToSyncItem": "Невозможно синхронизировать {item}, что-то пошло не так",
+    "@unableToSyncItem": {
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteFilterConfirmation": "Вы уверены, что хотите удалить этот фильтр?",
+    "@deleteFilterConfirmation": {},
+    "settingsAutoNextDesc": "Отображает предварительный просмотр следующего элемента в конце, если другой элемент находится в очереди",
+    "@settingsAutoNextDesc": {},
+    "playerSettingsOrientationDesc": "Принудительно установить ориентацию для видеоплеера",
+    "@playerSettingsOrientationDesc": {},
+    "autoNextOffSmartTitle": "Умный",
+    "@autoNextOffSmartTitle": {},
+    "updateFilterForLibrary": "Обновить фильтр",
+    "@updateFilterForLibrary": {},
+    "noVideoPlayerOptions": "Выбранный бэкэнд не имеет опций",
+    "@noVideoPlayerOptions": {},
+    "mdkExperimental": "MDK все еще находится на экспериментальной стадии",
+    "@mdkExperimental": {},
+    "playbackType": "Тип воспроизведения",
+    "@playbackType": {},
+    "internetStreamingQualityDesc": "Максимальное качество потокового вещания через интернет (мобильный)",
+    "@internetStreamingQualityDesc": {},
+    "homeStreamingQualityDesc": "Максимальное качество потокового вещания при подключении в домашней сети",
+    "@homeStreamingQualityDesc": {},
+    "qualityOptionsOriginal": "Оригинал",
+    "@qualityOptionsOriginal": {},
+    "playbackTypeDirect": "Прямое",
+    "@playbackTypeDirect": {},
+    "autoNextOffSmartDesc": "Показывает следующее, когда начинаются титры, если после титров осталось не более 10 секунд. В противном случае показывать следующиее, когда остается 30 секунд",
+    "@autoNextOffSmartDesc": {},
+    "playbackTrackSelection": "Выбор дорожки воспроизведения",
+    "@playbackTrackSelection": {},
+    "rememberSubtitleSelections": "Установка дорожки субтитров на основе предыдущего элемента",
+    "@rememberSubtitleSelections": {},
+    "rememberAudioSelectionsDesc": "Постараться установить звуковую дорожку, максимально приближенную к последнему видео.",
+    "@rememberAudioSelectionsDesc": {},
+    "videoScalingFillScreenDesc": "Заполните панель навигации и статусную панель",
+    "@videoScalingFillScreenDesc": {},
+    "addedToPlaylist": "Добавлено в плейлист {playlistName}",
+    "@addedToPlaylist": {
+        "placeholders": {
+            "playlistName": {
+                "type": "String"
+            }
+        }
+    },
+    "playerSettingsOrientationTitle": "Ориентация плеера",
+    "@playerSettingsOrientationTitle": {},
+    "internetStreamingQualityTitle": "Качество интернета",
+    "@internetStreamingQualityTitle": {},
+    "themeModeSystem": "Системная",
+    "@themeModeSystem": {},
+    "scale": "Масштаб",
+    "@scale": {},
+    "newReleaseFoundTitle": "Доступно обновление {newRelease}!",
+    "@newReleaseFoundTitle": {
+        "placeholders": {
+            "newRelease": {
+                "type": "String"
+            }
+        }
+    },
+    "enableBackgroundPostersTitle": "Включить фоновые постеры",
+    "@enableBackgroundPostersTitle": {},
+    "enableBackgroundPostersDesc": "Показывать случайные постеры на соответствующих экранах",
+    "@enableBackgroundPostersDesc": {},
+    "settingsEnableOsMediaControlsDesc": "Позволяет управлять воспроизведением с помощью медиа-клавиш и показывать текущее воспроизводимое медиа в ОС",
+    "@settingsEnableOsMediaControlsDesc": {},
+    "notificationDownloadingDownloading": "Загрузка",
+    "@notificationDownloadingDownloading": {},
+    "notificationDownloadingPaused": "Загрузка приостановлена",
+    "@notificationDownloadingPaused": {},
+    "notificationDownloadingFinished": "Загрузка завершена",
+    "@notificationDownloadingFinished": {},
+    "notificationDownloadingError": "Ошибка загрузки",
+    "@notificationDownloadingError": {},
+    "syncAllItemsTitle": "Синхронизировать все элементы из {itemName}?",
+    "@syncAllItemsTitle": {
+        "description": "syncAllItemsFrom",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncAllItemsDesc": "Это позволит синхронизировать ({itemCount}) элементов из '{itemName}' на ваше устройство.\nЭто может занять некоторое время в зависимости от количества элементов.",
+    "@syncAllItemsDesc": {
+        "description": "syncAllitemsFromDesc",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            },
+            "itemCount": {
+                "type": "int"
+            }
+        }
+    },
+    "syncDeleteAllItemsTitle": "Удалить все синхронизированные элементы из {itemName}?",
+    "@syncDeleteAllItemsTitle": {
+        "description": "syncDeleteAllitemsFrom",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncDeleteAllItemsDesc": "Это приведет к удалению всех синхронизированных элементов из '{itemName}'.\nЭто произойдет навсегда, и вам придется повторно синхронизировать ({itemCount}) файлов.",
+    "@syncDeleteAllItemsDesc": {
+        "description": "syncDeleteAllitemsFromDesc",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            },
+            "itemCount": {
+                "type": "int"
+            }
+        }
+    },
+    "syncPauseAll": "Приостановить все",
+    "@syncPauseAll": {},
+    "syncResumeAll": "Продолжить всё",
+    "@syncResumeAll": {},
+    "syncStopAll": "Оставить всё",
+    "@syncStopAll": {},
+    "syncDeleteAll": "Удалить все файлы",
+    "@syncDeleteAll": {},
+    "syncAllFiles": "Синхронизировать все файлы",
+    "@syncAllFiles": {},
+    "usePostersForLibraryIconsTitle": "Показывайте постеры с библиотечными иконами",
+    "@usePostersForLibraryIconsTitle": {},
+    "usePostersForLibraryIconsDesc": "Показывать постеры вместо иконок для библиотек",
+    "@usePostersForLibraryIconsDesc": {},
+    "offline": "Офлайн",
+    "@offline": {},
+    "shortCuts": "Ярлыки",
+    "@shortCuts": {},
+    "skipForwardLength": "Длительность перемотки вперёд",
+    "@skipForwardLength": {},
+    "skipBackLength": "Длительность перемотки назад",
+    "@skipBackLength": {},
+    "playPause": "Воспроизведение/пауза",
+    "@playPause": {},
+    "seekForward": "Перемотка вперёд",
+    "@seekForward": {},
+    "seekBack": "Перемотка назад",
+    "@seekBack": {},
+    "mute": "Выключить звук",
+    "@mute": {},
+    "volumeUp": "Увеличить громкость",
+    "@volumeUp": {},
+    "volumeDown": "Уменьшить громкость",
+    "@volumeDown": {},
+    "nextVideo": "Следующее видео",
+    "@nextVideo": {},
+    "prevVideo": "Предыдущее видео",
+    "@prevVideo": {},
+    "nextChapter": "Следующая глава",
+    "@nextChapter": {},
+    "prevChapter": "Предыдущая глава",
+    "@prevChapter": {},
+    "fullScreen": "Полный экран",
+    "@fullScreen": {},
+    "skipMediaSegment": "Пропустить фрагмент",
+    "@skipMediaSegment": {},
+    "exit": "Выход",
+    "@exit": {},
+    "shortCutAlreadyAssigned": "Сочетание клавиш '{hotKey}' уже назначено",
+    "@shortCutAlreadyAssigned": {
+        "placeholders": {
+            "hotKey": {
+                "type": "String"
+            }
+        }
+    },
+    "blurred": "Размытый",
+    "@blurred": {},
+    "volumeIndicator": "Громкость: {volume}",
+    "@volumeIndicator": {
+        "placeholders": {
+            "volume": {
+                "type": "int"
+            }
+        }
+    },
+    "television": "Телевидение",
+    "@television": {},
+    "exitFladderDesc": "Вы уверены, что хотите закрыть Fladder?",
+    "@exitFladderDesc": {},
+    "keyboardShortCuts": "Горячие клавиши",
+    "@keyboardShortCuts": {},
+    "speedUp": "Ускорение",
+    "@speedUp": {},
+    "speedDown": "Замедление",
+    "@speedDown": {},
+    "speedIndicator": "Скорость воспроизведения: {speed}",
+    "@speedIndicator": {
+        "placeholders": {
+            "speed": {
+                "type": "double"
+            }
+        }
+    },
+    "quickConnectPostFailed": "Не удалось получить код быстрого подключения",
+    "@quickConnectPostFailed": {},
+    "quickConnectLoginUsingCode": "Использовать быстрое подключение",
+    "@quickConnectLoginUsingCode": {},
+    "quickConnectEnterCodeDescription": "Введите код ниже, чтобы войти",
+    "@quickConnectEnterCodeDescription": {},
+    "showMore": "Показать еще",
+    "@showMore": {},
+    "itemColorsTitle": "Цвет элементов",
+    "@itemColorsTitle": {},
+    "itemColorsDesc": "Использовать основной цвет элемента для оформления страницы подробностей",
+    "@itemColorsDesc": {},
+    "mediaTunnelingTitle": "Туннелирование мультимедиа",
+    "@mediaTunnelingTitle": {},
+    "mediaTunnelingDesc": "Включить туннелирование мультимедиа для встроенного плеера",
+    "@mediaTunnelingDesc": {},
+    "clientSettingsUseSystemIMETitle": "Использовать системную клавиатуру",
+    "@clientSettingsUseSystemIMETitle": {},
+    "clientSettingsUseSystemIMEDesc": "Использовать встроенную клавиатуру, предоставляемой вашей системой",
+    "@clientSettingsUseSystemIMEDesc": {},
+    "nextUpInCount": "Следующий через {seconds}",
+    "@nextUpInCount": {
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "formattedTime": "{time}",
+    "@formattedTime": {
+        "description": "Formatted time",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            }
+        }
     }
-  },
-  "nativeName": "Русский",
-  "@nativeName": {},
-  "about": "О приложении",
-  "@about": {},
-  "accept": "Принять",
-  "@accept": {},
-  "active": "Активно",
-  "@active": {},
-  "addAsFavorite": "Добавить в избранное",
-  "@addAsFavorite": {},
-  "addToCollection": "Добавить в коллекцию",
-  "@addToCollection": {},
-  "addToPlaylist": "Добавить в плейлист",
-  "@addToPlaylist": {},
-  "advanced": "Дополнительно",
-  "@advanced": {},
-  "all": "Все",
-  "@all": {},
-  "amoledBlack": "Матовый черный",
-  "@amoledBlack": {},
-  "appLockAutoLogin": "Автоматический вход в систему",
-  "@appLockAutoLogin": {},
-  "appLockBiometrics": "Биометрия",
-  "@appLockBiometrics": {},
-  "appLockPasscode": "Пароль",
-  "@appLockPasscode": {},
-  "audio": "Аудио",
-  "@audio": {},
-  "autoPlay": "Автоматическое воспроизведение",
-  "@autoPlay": {},
-  "backgroundOpacity": "Непрозрачность фона",
-  "@backgroundOpacity": {},
-  "bold": "Жирный",
-  "@bold": {},
-  "cancel": "Отмена",
-  "@cancel": {},
-  "change": "Изменить",
-  "@change": {},
-  "chapter": "{count, plural, other{Глав} two{Главы} one{Глава}}",
-  "@chapter": {
-    "description": "chapter",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "clear": "Очистить",
-  "@clear": {},
-  "close": "Закрыть",
-  "@close": {},
-  "code": "Код",
-  "@code": {},
-  "collectionFolder": "Папка для сбора данных",
-  "@collectionFolder": {},
-  "combined": "Комбинированный",
-  "@combined": {},
-  "controls": "Управление",
-  "@controls": {},
-  "dashboard": "Главная",
-  "@dashboard": {},
-  "dashboardContinue": "Продолжить",
-  "@dashboardContinue": {},
-  "communityRating": "Рейтинг сообщества",
-  "@communityRating": {},
-  "continuePage": "Следующая - страница {page}",
-  "@continuePage": {
-    "description": "Continue - page 1",
-    "placeholders": {
-      "page": {
-        "type": "int"
-      }
-    }
-  },
-  "ascending": "Восходящий",
-  "@ascending": {},
-  "dashboardRecentlyAdded": "Недавно добавлено в {name}",
-  "@dashboardRecentlyAdded": {
-    "description": "Recently added on home screen",
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "nextUp": "Следующее",
-  "@nextUp": {},
-  "actor": "{count, plural, other{Актёры} two{Актёра} one{Актёр}}",
-  "@actor": {
-    "description": "actor",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "clearChanges": "Очистить изменения",
-  "@clearChanges": {},
-  "clearSelection": "Очистить выделение",
-  "@clearSelection": {},
-  "dashboardContinueWatching": "Продолжить просмотр",
-  "@dashboardContinueWatching": {},
-  "deleteFileFromSystem": "Элемент «{item}» будет удалён из файловой системы и медиатеки. Продолжить?",
-  "@deleteFileFromSystem": {
-    "description": "Delete file from system",
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "datePlayed": "Дата воспроизведения",
-  "@datePlayed": {},
-  "delete": "Удалить",
-  "@delete": {},
-  "dateAdded": "Добавлено",
-  "@dateAdded": {},
-  "dateLastContentAdded": "Дата добавления",
-  "@dateLastContentAdded": {},
-  "days": "Дни",
-  "@days": {},
-  "deleteItem": "Удалить {item}?",
-  "@deleteItem": {
-    "description": "deleteItem",
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "grid": "Сетка",
-  "@grid": {},
-  "episode": "{count, plural, other{Эпизодов} two{Эпизода} one{Эпизод} }",
-  "@episode": {
-    "description": "episode",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "itemCount": "Кол-во элементов: {count}",
-  "@itemCount": {
-    "description": "Item count",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "noItemsSynced": "Ни один элемент не синхронизирован",
-  "@noItemsSynced": {},
-  "heightOffset": "Смещение по высоте",
-  "@heightOffset": {},
-  "homeBannerCarousel": "Карусель",
-  "@homeBannerCarousel": {},
-  "libraryFetchNoItemsFound": "Не найдено ни одного элемента. Попробуйте разные настройки.",
-  "@libraryFetchNoItemsFound": {},
-  "list": "Список",
-  "@list": {},
-  "metaDataSavedFor": "Метаданные сохранены для {item}",
-  "@metaDataSavedFor": {
-    "description": "metaDataSavedFor",
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "openShow": "Открыть серию",
-  "@openShow": {},
-  "playFromStart": "Воспроизвести {name} с самого начала",
-  "@playFromStart": {
-    "description": "speel vanaf het begin",
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "navigationSync": "Синхронизированное",
-  "@navigationSync": {},
-  "parentalRating": "Родительский рейтинг",
-  "@parentalRating": {},
-  "openWebLink": "Открыть веб-ссылку",
-  "@openWebLink": {},
-  "retry": "Повторить",
-  "@retry": {},
-  "logout": "Выйти",
-  "@logout": {},
-  "endsAt": "закончится в {date}",
-  "@endsAt": {
-    "description": "endsAt",
-    "placeholders": {
-      "date": {
-        "type": "DateTime",
-        "format": "jm"
-      }
-    }
-  },
-  "discovered": "Найдено",
-  "@discovered": {},
-  "descending": "По убыванию",
-  "@descending": {},
-  "director": "{count, plural, other{Режиссеры} two{Режиссера} one{Режиссер}}",
-  "@director": {
-    "description": "director",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "disableFilters": "Отключить фильтры",
-  "@disableFilters": {},
-  "disabled": "Выключено",
-  "@disabled": {},
-  "displayLanguage": "Язык интерфейса",
-  "@displayLanguage": {},
-  "downloadsClearTitle": "Очистить синхронизированные данные",
-  "@downloadsClearTitle": {},
-  "downloadsPath": "Путь",
-  "@downloadsPath": {},
-  "downloadsSyncedData": "Синхронизированные данные",
-  "@downloadsSyncedData": {},
-  "downloadsTitle": "Скачанные",
-  "@downloadsTitle": {},
-  "dynamicText": "Динамический",
-  "@dynamicText": {},
-  "editMetadata": "Редактирование метаданных",
-  "@editMetadata": {},
-  "empty": "Пустой",
-  "@empty": {},
-  "enabled": "Включено",
-  "@enabled": {},
-  "error": "Ошибка",
-  "@error": {},
-  "failedToLoadImage": "Не удалось загрузить изображение",
-  "@failedToLoadImage": {},
-  "favorite": "Избранное",
-  "@favorite": {},
-  "favorites": "Избранные",
-  "@favorites": {},
-  "fetchingLibrary": "Получение элементов библиотеки…",
-  "@fetchingLibrary": {},
-  "filter": "{count, plural, other{Фильтров} two{Фильтра} one{Фильтр}}",
-  "@filter": {
-    "description": "filter",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "folders": "Каталоги",
-  "@folders": {},
-  "fontColor": "Цвет шрифта",
-  "@fontColor": {},
-  "fontSize": "Размер шрифта",
-  "@fontSize": {},
-  "forceRefresh": "Принудительно обновить",
-  "@forceRefresh": {},
-  "goTo": "Перейти к",
-  "@goTo": {},
-  "group": "Группа",
-  "@group": {},
-  "hide": "Скрыть",
-  "@hide": {},
-  "hideEmpty": "Скрыть пустое",
-  "@hideEmpty": {},
-  "home": "Главная",
-  "@home": {},
-  "identify": "Определить",
-  "@identify": {},
-  "info": "Информация",
-  "@info": {},
-  "invalidUrl": "Недопустимый URL",
-  "@invalidUrl": {},
-  "invalidUrlDesc": "URL должен начинаться с http(s)://",
-  "@invalidUrlDesc": {},
-  "label": "{count, plural, other{Ярлыков} two{Ярлыка} one{Ярлык}}",
-  "@label": {
-    "description": "label",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "library": "{count, plural, other{Библиотек} two{Библиотеки} one{Библиотека}}",
-  "@library": {
-    "description": "Plural",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "libraryPageSizeDesc": "Установить количество загружаемых за раз файлов. 0 отключит подкачку.",
-  "@libraryPageSizeDesc": {},
-  "light": "Светлая",
-  "@light": {},
-  "lockscreen": "Экран блокировки",
-  "@lockscreen": {},
-  "loggedIn": "Вход в систему",
-  "@loggedIn": {},
-  "login": "Войти",
-  "@login": {},
-  "logoutUserPopupTitle": "Выйти из системы {userName}?",
-  "@logoutUserPopupTitle": {
-    "description": "Pop-up for logging out the user",
-    "placeholders": {
-      "userName": {
-        "type": "String"
-      }
-    }
-  },
-  "loop": "Цикл",
-  "@loop": {},
-  "markAsUnwatched": "Отметить как непросмотренное",
-  "@markAsUnwatched": {},
-  "markAsWatched": "Отметить как просмотренное",
-  "@markAsWatched": {},
-  "masonry": "Мозаика",
-  "@masonry": {},
-  "mediaTypeBase": "Основной тип",
-  "@mediaTypeBase": {},
-  "mediaTypeBook": "Книга",
-  "@mediaTypeBook": {},
-  "mediaTypeBoxset": "Набор",
-  "@mediaTypeBoxset": {},
-  "mediaTypeEpisode": "Серия",
-  "@mediaTypeEpisode": {},
-  "mediaTypeFolder": "Папка",
-  "@mediaTypeFolder": {},
-  "mediaTypeMovie": "Фильм",
-  "@mediaTypeMovie": {},
-  "mediaTypePerson": "Персона",
-  "@mediaTypePerson": {},
-  "mediaTypePhoto": "Фото",
-  "@mediaTypePhoto": {},
-  "mediaTypePhotoAlbum": "Фотоальбом",
-  "@mediaTypePhotoAlbum": {},
-  "mediaTypePlaylist": "Плейлист",
-  "@mediaTypePlaylist": {},
-  "mediaTypeSeason": "Сезон",
-  "@mediaTypeSeason": {},
-  "mediaTypeSeries": "Серии",
-  "@mediaTypeSeries": {},
-  "metadataRefreshDefault": "Сканирование на наличие новых и обновленных файлов",
-  "@metadataRefreshDefault": {},
-  "metadataRefreshFull": "Заменить все метаданные",
-  "@metadataRefreshFull": {},
-  "metadataRefreshValidation": "Поиск отсутствующих метаданных",
-  "@metadataRefreshValidation": {},
-  "mode": "Режим",
-  "@mode": {},
-  "moreFrom": "Подробнее от {info}",
-  "@moreFrom": {
-    "description": "More from",
-    "placeholders": {
-      "info": {
-        "type": "String"
-      }
-    }
-  },
-  "moreOptions": "Другие варианты",
-  "@moreOptions": {},
-  "mouseDragSupport": "Перетаскивание с помощью мыши",
-  "@mouseDragSupport": {},
-  "musicAlbum": "Альбом",
-  "@musicAlbum": {},
-  "name": "Название",
-  "@name": {},
-  "navigation": "Навигация",
-  "@navigation": {},
-  "navigationDashboard": "Главная",
-  "@navigationDashboard": {},
-  "navigationFavorites": "Избранное",
-  "@navigationFavorites": {},
-  "never": "Никогда",
-  "@never": {},
-  "noItemsToShow": "Ни один элемент не показан",
-  "@noItemsToShow": {},
-  "noRating": "Нет рейтинга",
-  "@noRating": {},
-  "noServersFound": "Новые серверы не найдены",
-  "@noServersFound": {},
-  "noSuggestionsFound": "Предложений не найдено",
-  "@noSuggestionsFound": {},
-  "none": "Ничего",
-  "@none": {},
-  "normal": "Нормальный",
-  "@normal": {},
-  "notPartOfAlbum": "Не является частью альбома",
-  "@notPartOfAlbum": {},
-  "openParent": "Открыть родительский элемент",
-  "@openParent": {},
-  "options": "Опции",
-  "@options": {},
-  "other": "Другое",
-  "@other": {},
-  "outlineSize": "Размер контура",
-  "@outlineSize": {},
-  "overview": "Обзор",
-  "@overview": {},
-  "page": "Страница {index}",
-  "@page": {
-    "description": "page",
-    "placeholders": {
-      "index": {
-        "type": "int"
-      }
-    }
-  },
-  "password": "Пароль",
-  "@password": {},
-  "pathClearTitle": "Очистить путь загрузок",
-  "@pathClearTitle": {},
-  "pathEditTitle": "Изменить путь",
-  "@pathEditTitle": {},
-  "playCount": "Количество воспроизведений",
-  "@playCount": {},
-  "playFrom": "Воспроизвести из {name}",
-  "@playFrom": {
-    "description": "playFrom",
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "playLabel": "Воспроизвести",
-  "@playLabel": {},
-  "playVideos": "Воспроизвести видео",
-  "@playVideos": {},
-  "quickConnectInputACode": "Введите код",
-  "@quickConnectInputACode": {},
-  "quickConnectTitle": "Быстрое подключение",
-  "@quickConnectTitle": {},
-  "quickConnectWrongCode": "Неверный код",
-  "@quickConnectWrongCode": {},
-  "random": "Случайный",
-  "@random": {},
-  "rating": "{count, plural, other{Рейтингов} two{Рейтинга} one{Рейтинг}}",
-  "@rating": {
-    "description": "rating",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "reWatch": "Пересмотреть",
-  "@reWatch": {},
-  "read": "Читать {item}",
-  "@read": {
-    "description": "read",
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "readFromStart": "Читать {item} с позиции",
-  "@readFromStart": {
-    "description": "Read book from start",
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "recursive": "Рекурсивно",
-  "@recursive": {},
-  "refresh": "Обновить",
-  "@refresh": {},
-  "refreshMetadata": "Обновить метаданные",
-  "@refreshMetadata": {},
-  "refreshPopup": "Обновить - {name}",
-  "@refreshPopup": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "refreshPopupContentMetadata": "Метаданные обновляются в зависимости от настроек и интернет-сервисов, включенных на панели.",
-  "@refreshPopupContentMetadata": {},
-  "related": "Связанные",
-  "@related": {},
-  "releaseDate": "Дата выхода",
-  "@releaseDate": {},
-  "removeAsFavorite": "Удалить из избранного",
-  "@removeAsFavorite": {},
-  "removeFromCollection": "Удалить из коллекции",
-  "@removeFromCollection": {},
-  "replaceAllImages": "Заменить все изображения",
-  "@replaceAllImages": {},
-  "restart": "Перезапуск",
-  "@restart": {},
-  "result": "Результат",
-  "@result": {},
-  "resumable": "Доступные для продолжения",
-  "@resumable": {},
-  "resume": "Продолжить {item}",
-  "@resume": {
-    "description": "resume",
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "retrievePublicListOfUsers": "Получение публичного списка пользователей",
-  "@retrievePublicListOfUsers": {},
-  "runTime": "Время выполнения",
-  "@runTime": {},
-  "save": "Сохранить",
-  "@save": {},
-  "scanBiometricHint": "Подтвердить личность",
-  "@scanBiometricHint": {},
-  "scanLibrary": "Сканировать библиотеку",
-  "@scanLibrary": {},
-  "scanningName": "Сканирование - {name}…",
-  "@scanningName": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "scrollToTop": "Прокрутить к верху",
-  "@scrollToTop": {},
-  "search": "Поиск",
-  "@search": {},
-  "season": "{count, plural, other{Сезонов} two{Сезона} one{Сезон} }",
-  "@season": {
-    "description": "season",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "seconds": "{count, plural, other{Секунд} two{Секунды} one{Секунда}}",
-  "@seconds": {
-    "description": "second",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "selectAll": "Выбрать всё",
-  "@selectAll": {},
-  "selectTime": "Выбрать время",
-  "@selectTime": {},
-  "selectViewType": "Выбрать тип просмотра",
-  "@selectViewType": {},
-  "selected": "Выбрано",
-  "@selected": {},
-  "selectedWith": "Выбрано {info}",
-  "@selectedWith": {
-    "description": "selected",
-    "placeholders": {
-      "info": {
-        "type": "String"
-      }
-    }
-  },
-  "separate": "Отдельно",
-  "@separate": {},
-  "server": "Сервер",
-  "@server": {},
-  "set": "Установить",
-  "@set": {
-    "description": "Use for setting a certain value",
-    "context": "Set 'time'"
-  },
-  "settingSecurityApplockTitle": "Блокировка приложения",
-  "@settingSecurityApplockTitle": {},
-  "settings": "Настройки",
-  "@settings": {},
-  "settingsBlurEpisodesDesc": "Размыть все предстоящие серии",
-  "@settingsBlurEpisodesDesc": {},
-  "settingsBlurEpisodesTitle": "Размыть следующие серии",
-  "@settingsBlurEpisodesTitle": {},
-  "settingsBlurredPlaceholderDesc": "Показывать размытый фон при загрузке постеров",
-  "@settingsBlurredPlaceholderDesc": {},
-  "settingsBlurredPlaceholderTitle": "Размытый заполнитель",
-  "@settingsBlurredPlaceholderTitle": {},
-  "settingsClientDesc": "Основное, тайм-аут, макет, тема",
-  "@settingsClientDesc": {},
-  "settingsClientTitle": "Fladder",
-  "@settingsClientTitle": {},
-  "settingsContinue": "Продолжить",
-  "@settingsContinue": {},
-  "settingsHomeBannerDescription": "Отображение в виде слайд-шоу, карусели или скрытие баннера",
-  "@settingsHomeBannerDescription": {},
-  "settingsHomeBannerTitle": "Основной баннер",
-  "@settingsHomeBannerTitle": {},
-  "settingsHomeBannerInformationTitle": "Информация о баннере",
-  "@settingsHomeBannerInformationTitle": {},
-  "settingsHomeNextUpDesc": "Тип постеров, отображаемых на экране панели",
-  "@settingsHomeNextUpDesc": {},
-  "settingsHomeNextUpTitle": "Следующие постеры",
-  "@settingsHomeNextUpTitle": {},
-  "settingsPlayerCustomSubtitlesDesc": "Настроить размер, цвет, положение, контур",
-  "@settingsPlayerCustomSubtitlesDesc": {},
-  "settingsPlayerDesc": "Соотношение сторон, Дополнительно",
-  "@settingsPlayerDesc": {},
-  "settingsPlayerMobileWarning": "Включение аппаратного ускорения и нативных субтитров libass на Android может привести к тому, что некоторые субтитры не будут отображаться.",
-  "@settingsPlayerMobileWarning": {},
-  "settingsPlayerNativeLibassAccelDesc": "Использование видеоплеера libass для отображения субтитров",
-  "@settingsPlayerNativeLibassAccelDesc": {},
-  "settingsPlayerNativeLibassAccelTitle": "Наивные субтитры libass",
-  "@settingsPlayerNativeLibassAccelTitle": {},
-  "settingsPlayerBufferSizeDesc": "Настроить размер буфера для воспроизведения видео, определяющий объем данных, загружаемых в кэш.",
-  "@settingsPlayerBufferSizeDesc": {},
-  "settingsPlayerVideoHWAccelDesc": "Используйте GPU для рендеринга видео (рекомендуется)",
-  "@settingsPlayerVideoHWAccelDesc": {},
-  "settingsPosterPinch": "Уменьшение масштаба постеров",
-  "@settingsPosterPinch": {},
-  "settingsPosterSize": "Размер постера",
-  "@settingsPosterSize": {},
-  "settingsPosterSlider": "Показать ползунок масштаба",
-  "@settingsPosterSlider": {},
-  "settingsProfileTitle": "Профиль",
-  "@settingsProfileTitle": {},
-  "settingsQuickConnectTitle": "Быстрое подключение",
-  "@settingsQuickConnectTitle": {},
-  "settingsSecurity": "Безопасность",
-  "@settingsSecurity": {},
-  "settingsShowScaleSlider": "Показать ползунок размером с постер",
-  "@settingsShowScaleSlider": {},
-  "settingsVisual": "Визуальный",
-  "@settingsVisual": {},
-  "showDetails": "Показать детали",
-  "@showDetails": {},
-  "showEmpty": "Показать пустое",
-  "@showEmpty": {},
-  "shuffleGallery": "Перемешать галереи",
-  "@shuffleGallery": {},
-  "shuffleVideos": "Перемешать видео",
-  "@shuffleVideos": {},
-  "somethingWentWrong": "Что-то пошло не так",
-  "@somethingWentWrong": {},
-  "sortBy": "Сортировать по",
-  "@sortBy": {},
-  "sortOrder": "Порядок сортировки",
-  "@sortOrder": {},
-  "start": "Начало",
-  "@start": {},
-  "studio": "{count, plural, other{Студий} two{Студии} one{Студия}}",
-  "@studio": {
-    "description": "studio",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "subtitles": "Субтитры",
-  "@subtitles": {},
-  "switchUser": "Переключить пользователя",
-  "@switchUser": {},
-  "sync": "Синхронизировать",
-  "@sync": {},
-  "immediately": "Сразу",
-  "@immediately": {},
-  "incorrectPinTryAgain": "Неверный PIN-код. Попробуйте еще раз.",
-  "@incorrectPinTryAgain": {},
-  "groupBy": "Группировать по",
-  "@groupBy": {},
-  "downloadsClearDesc": "Удалить все синхронизированные данные, очистив все данные для каждого синхронизированного пользователя?",
-  "@downloadsClearDesc": {},
-  "noResults": "Нет результатов",
-  "@noResults": {},
-  "shadow": "Тень",
-  "@shadow": {},
-  "play": "Воспроизвести {item}",
-  "@play": {
-    "description": "Play with",
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "removeFromPlaylist": "Удалить из плейлиста",
-  "@removeFromPlaylist": {},
-  "libraryPageSizeTitle": "Размер страницы библиотеки",
-  "@libraryPageSizeTitle": {},
-  "setIdentityTo": "Сменить идентификатор на {name}",
-  "@setIdentityTo": {
-    "description": "setIdentityTo",
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "genre": "{count, plural, other{Жанров} two{Жанра} one{Жанр}}",
-  "@genre": {
-    "description": "genre",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "homeBannerSlideshow": "Слайд-шоу",
-  "@homeBannerSlideshow": {},
-  "minutes": "{count, plural, other{Минут} two{Минуты} one{Минута} }",
-  "@minutes": {
-    "description": "minute",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "outlineColor": "Цвет контура",
-  "@outlineColor": {},
-  "pathEditDesc": "Это путь установлен для всех пользователей, все синхронизированные данные больше не будут доступны. Они останутся в вашем хранилище.",
-  "@pathEditDesc": {},
-  "scanYourFingerprintToAuthenticate": "Сканирование отпечатка пальца для аутентификации {user}",
-  "@scanYourFingerprintToAuthenticate": {
-    "placeholders": {
-      "user": {
-        "type": "String"
-      }
-    }
-  },
-  "settingsHomeBannerInformationDesc": "Информация для отображения на основном баннере",
-  "@settingsHomeBannerInformationDesc": {},
-  "settingsPlayerBufferSizeTitle": "Размер видеобуфера",
-  "@settingsPlayerBufferSizeTitle": {},
-  "settingsPlayerVideoHWAccelTitle": "Аппаратное ускорение",
-  "@settingsPlayerVideoHWAccelTitle": {},
-  "settingsProfileDesc": "Экран блокировки",
-  "@settingsProfileDesc": {},
-  "showAlbum": "Покатать альбом",
-  "@showAlbum": {},
-  "settingsNextUpCutoffDays": "Лимит дней для \"Следующего\"",
-  "@settingsNextUpCutoffDays": {},
-  "somethingWentWrongPasswordCheck": "Что-то пошло не так. Проверьте свой пароль.",
-  "@somethingWentWrongPasswordCheck": {},
-  "subtitleConfiguratorPlaceHolder": "Это текст-заготовка, здесь нечего смотреть.",
-  "@subtitleConfiguratorPlaceHolder": {},
-  "settingsPlayerTitle": "Плеер",
-  "@settingsPlayerTitle": {},
-  "sortName": "Название",
-  "@sortName": {},
-  "quickConnectAction": "Введите код быстрого подключения для",
-  "@quickConnectAction": {},
-  "settingsEnableOsMediaControls": "Включить средства управления мультимедиа ОС",
-  "@settingsEnableOsMediaControls": {},
-  "settingsPlayerCustomSubtitlesTitle": "Настройка субтитров",
-  "@settingsPlayerCustomSubtitlesTitle": {},
-  "replaceExistingImages": "Заменить существующие изображения",
-  "@replaceExistingImages": {},
-  "played": "Воспроизведено",
-  "@played": {},
-  "logoutUserPopupContent": "Это приведет к выходу из {userName} и удалению пользователя из приложения.\nВам придется снова войти в систему на {serverName}.",
-  "@logoutUserPopupContent": {
-    "description": "Pop-up for logging out the user description",
-    "placeholders": {
-      "userName": {
-        "type": "String"
-      },
-      "serverName": {
-        "type": "String"
-      }
-    }
-  },
-  "subtitleConfigurator": "Конфигуратор субтитров",
-  "@subtitleConfigurator": {},
-  "pathEditSelect": "Выберите место загрузки",
-  "@pathEditSelect": {},
-  "saved": "Сохранено",
-  "@saved": {},
-  "maxConcurrentDownloadsTitle": "Максимальное количество одновременных загрузок",
-  "@maxConcurrentDownloadsTitle": {},
-  "exitFladderTitle": "Выйти из Fladder",
-  "@exitFladderTitle": {},
-  "maxConcurrentDownloadsDesc": "Устанавливает максимальное количество загрузок, которые могут выполняться одновременно. Установите значение 0, чтобы отключить ограничение.",
-  "@maxConcurrentDownloadsDesc": {},
-  "rememberAudioSelections": "Установка звуковой дорожки на основе предыдущего элемента",
-  "@rememberAudioSelections": {},
-  "similarToRecentlyPlayed": "Похожие на недавно просмотренные",
-  "@similarToRecentlyPlayed": {},
-  "similarToLikedItem": "Похожие на понравившиеся",
-  "@similarToLikedItem": {},
-  "hasDirectorFromRecentlyPlayed": "Имеет режиссёра из недавно воспроизведённых",
-  "@hasDirectorFromRecentlyPlayed": {},
-  "hasActorFromRecentlyPlayed": "Имеет актера из недавно воспроизведённых",
-  "@hasActorFromRecentlyPlayed": {},
-  "hasLikedDirector": "Имеет понравившегося режиссера",
-  "@hasLikedDirector": {},
-  "hasLikedActor": "Имеет понравившегося актёра",
-  "@hasLikedActor": {},
-  "latest": "Последние",
-  "@latest": {},
-  "recommended": "Рекомендуемое",
-  "@recommended": {},
-  "playbackTypeTranscode": "Транскодируемое",
-  "@playbackTypeTranscode": {},
-  "playbackTypeOffline": "Оффлайн",
-  "@playbackTypeOffline": {},
-  "latestReleases": "Последние релизы",
-  "@latestReleases": {},
-  "autoCheckForUpdates": "Периодически проверять наличие обновлений",
-  "@autoCheckForUpdates": {},
-  "newUpdateFoundOnGithub": "На Github появилось новое обновление",
-  "@newUpdateFoundOnGithub": {},
-  "syncDeletePopupPermanent": "Это действие является постоянным и удаляет все локально синхронизированные файлы",
-  "@syncDeletePopupPermanent": {},
-  "syncDetails": "Детали синхронизации",
-  "@syncDetails": {},
-  "syncOpenParent": "Открытый родительский элемент",
-  "@syncOpenParent": {},
-  "syncedItems": "Синхронизированные элементы",
-  "@syncedItems": {},
-  "tag": "{count, plural, one{Тег} two{Тега} other{Тегов}}",
-  "@tag": {
-    "description": "tag",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "theme": "Тема",
-  "@theme": {},
-  "themeModeDark": "Темная",
-  "@themeModeDark": {},
-  "timeAndAnnotation": "{minutes} и {seconds}",
-  "@timeAndAnnotation": {
-    "description": "timeAndAnnotation",
-    "placeholders": {
-      "minutes": {
-        "type": "String"
-      },
-      "seconds": {
-        "type": "String"
-      }
-    }
-  },
-  "timeOut": "Тайм-аут",
-  "@timeOut": {},
-  "totalSize": "Общий размер: {size}",
-  "@totalSize": {
-    "placeholders": {
-      "size": {
-        "type": "String"
-      }
-    }
-  },
-  "type": "{count, plural, other{Типов} two{Типа} one{Тип}}",
-  "@type": {
-    "description": "type",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "unableToReverseAction": "Это действие не может быть отменено. Оно удалит все настройки.",
-  "@unableToReverseAction": {},
-  "unknown": "Неизвестный",
-  "@unknown": {},
-  "useDefaults": "Использовать значения по умолчанию",
-  "@useDefaults": {},
-  "userName": "Имя пользователя",
-  "@userName": {},
-  "videoScaling": "Масштабирование видео",
-  "@videoScaling": {},
-  "videoScalingContain": "Вместить",
-  "@videoScalingContain": {},
-  "videoScalingCover": "Перекрыть",
-  "@videoScalingCover": {},
-  "videoScalingFillScreenNotif": "Полноэкранный режим переопределяет заполнение видео при горизонтальном повороте",
-  "@videoScalingFillScreenNotif": {},
-  "videoScalingFitHeight": "Заполнить по высоте",
-  "@videoScalingFitHeight": {},
-  "viewPhotos": "Посмотреть фотографии",
-  "@viewPhotos": {},
-  "year": "{count, plural, other{Лет} two{Года} one{Год}}",
-  "@year": {
-    "description": "year",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "addToNewPlaylist": "Новый плейлист",
-  "@addToNewPlaylist": {},
-  "addItemsToPlaylist": "Добавить элемент(ы) {itemLength} в плейлист",
-  "@addItemsToPlaylist": {
-    "placeholders": {
-      "itemLength": {
-        "type": "int"
-      }
-    }
-  },
-  "syncStatusEnqueued": "Записано",
-  "@syncStatusEnqueued": {},
-  "syncStatusComplete": "Завершено",
-  "@syncStatusComplete": {},
-  "syncStatusNotFound": "Не найдено",
-  "@syncStatusNotFound": {},
-  "syncStatusFailed": "Не удалось",
-  "@syncStatusFailed": {},
-  "syncStatusRunning": "В процессе",
-  "@syncStatusRunning": {},
-  "syncStatusWaitingToRetry": "Ожидание повторной попытки",
-  "@syncStatusWaitingToRetry": {},
-  "syncStatusPaused": "Приостановлено",
-  "@syncStatusPaused": {},
-  "syncStatusSynced": "Синхронизировано",
-  "@syncStatusSynced": {},
-  "syncStatusPartially": "Частично",
-  "@syncStatusPartially": {},
-  "syncOverlayDeleting": "Удаление синхронизированного элемента",
-  "@syncOverlayDeleting": {},
-  "syncSelectDownloadsFolder": "Выбрать папку для загрузок",
-  "@syncSelectDownloadsFolder": {},
-  "syncRemoveUnableToDeleteItem": "Невозможно удалить синхронизированный элемент, что-то пошло не так",
-  "@syncRemoveUnableToDeleteItem": {},
-  "syncAddItemForSyncing": "Добавлен {item} для синхронизации",
-  "@syncAddItemForSyncing": {
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "startedSyncingItem": "Началась синхронизация {item}",
-  "@startedSyncingItem": {
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "aboutVersion": "Версия: {version}",
-  "@aboutVersion": {
-    "placeholders": {
-      "version": {
-        "type": "String"
-      }
-    }
-  },
-  "aboutCreatedBy": "Создано DonutWare",
-  "@aboutCreatedBy": {},
-  "aboutSocials": "Социальные сети",
-  "@aboutSocials": {},
-  "aboutLicenses": "Лицензии",
-  "@aboutLicenses": {},
-  "subtitleConfiguration": "Настройка субтитров",
-  "@subtitleConfiguration": {},
-  "off": "Выключено",
-  "@off": {},
-  "screenBrightness": "Яркость экрана",
-  "@screenBrightness": {},
-  "autoNextOffStaticTitle": "Статический",
-  "@autoNextOffStaticTitle": {},
-  "autoNextOffStaticDesc": "Показывайте следующее, когда остается 30 секунд до конца воспроизведения",
-  "@autoNextOffStaticDesc": {},
-  "errorOpeningMedia": "Что-то пошло не так при попытке воспроизвести это медиа",
-  "@errorOpeningMedia": {},
-  "unableToPlayBooksOnWeb": "Книги пока не поддерживаются в вебе",
-  "@unableToPlayBooksOnWeb": {},
-  "defaultFilterForLibrary": "Фильтр по умолчанию для библиотеки",
-  "@defaultFilterForLibrary": {},
-  "removeFilterForLibrary": "Удалить {filter}?",
-  "@removeFilterForLibrary": {
-    "description": "removeFilterForLibrary",
-    "placeholders": {
-      "filter": {
-        "type": "String"
-      }
-    }
-  },
-  "libraryFiltersLimitReached": "Достигнут предел фильтрации (10) Удалите некоторые фильтры",
-  "@libraryFiltersLimitReached": {},
-  "libraryFiltersRemoveAll": "Удалить все фильтры",
-  "@libraryFiltersRemoveAll": {},
-  "libraryFiltersRemoveAllConfirm": "Это приведет к удалению всех сохраненных фильтров для каждой библиотеки",
-  "@libraryFiltersRemoveAllConfirm": {},
-  "deviceOrientationPortraitDown": "Портретная ориентация вниз",
-  "@deviceOrientationPortraitDown": {},
-  "schemeSettingsFidelity": "Точность",
-  "@schemeSettingsFidelity": {},
-  "schemeSettingsVibrant": "Яркий",
-  "@schemeSettingsVibrant": {},
-  "schemeSettingsExpressive": "Выразительный",
-  "@schemeSettingsExpressive": {},
-  "schemeSettingsContent": "Содержание",
-  "@schemeSettingsContent": {},
-  "schemeSettingsRainbow": "Радуга",
-  "@schemeSettingsRainbow": {},
-  "schemeSettingsFruitSalad": "Фруктовый салат",
-  "@schemeSettingsFruitSalad": {},
-  "clientSettingsRequireWifiTitle": "Требовать Wi-Fi",
-  "@clientSettingsRequireWifiTitle": {},
-  "clientSettingsRequireWifiDesc": "Загружать только при подключении к сети Wi-Fi",
-  "@clientSettingsRequireWifiDesc": {},
-  "libraryShuffleAndPlayItems": "Перемешать и воспроизвести элементы",
-  "@libraryShuffleAndPlayItems": {},
-  "libraryPlayItems": "Воспроизвести элементы",
-  "@libraryPlayItems": {},
-  "clientSettingsShowAllCollectionsTitle": "Показать все типы коллекций",
-  "@clientSettingsShowAllCollectionsTitle": {},
-  "clientSettingsShowAllCollectionsDesc": "Если включить эту функцию, будут показаны все типы коллекций, включая те, которые не поддерживаются Fladder",
-  "@clientSettingsShowAllCollectionsDesc": {},
-  "stop": "Остановить",
-  "@stop": {},
-  "playNextVideo": "Воспроизвести следующее видео",
-  "@playNextVideo": {},
-  "playerSettingsBackendTitle": "Бэкенд видеоплеера",
-  "@playerSettingsBackendTitle": {},
-  "playerSettingsBackendDesc": "Выберите предпочтительный медиаплеер для оптимального воспроизведения",
-  "@playerSettingsBackendDesc": {},
-  "defaultLabel": "По умолчанию",
-  "@defaultLabel": {
-    "description": "To indicate a default value, default video player backend"
-  },
-  "skipButtonLabel": "Пропустить {segment}",
-  "@skipButtonLabel": {
-    "placeholders": {
-      "segment": {
-        "type": "String"
-      }
-    }
-  },
-  "mediaSegmentUnknown": "Неизвестный",
-  "@mediaSegmentUnknown": {},
-  "mediaSegmentOutro": "Финал",
-  "@mediaSegmentOutro": {},
-  "mediaSegmentIntro": "Вступление",
-  "@mediaSegmentIntro": {},
-  "errorLogs": "Журнал ошибок",
-  "@errorLogs": {},
-  "external": "Внешний",
-  "@external": {},
-  "downloadFile": "Загрузить {type}",
-  "@downloadFile": {
-    "placeholders": {
-      "type": {
-        "type": "String"
-      }
-    }
-  },
-  "copyStreamUrl": "Скопировать url потока",
-  "@copyStreamUrl": {},
-  "settingsLayoutSizesTitle": "Размеры компоновки",
-  "@settingsLayoutSizesTitle": {},
-  "settingsLayoutSizesDesc": "Выберите, какие размеры компоновки может использовать приложение в зависимости от размера окна",
-  "@settingsLayoutSizesDesc": {},
-  "settingsLayoutModesTitle": "Режимы компоновки",
-  "@settingsLayoutModesTitle": {},
-  "settingsLayoutModesDesc": "Контролируйте, может ли приложение использовать однопанельную или двухпанельную компоновку",
-  "@settingsLayoutModesDesc": {},
-  "phone": "Телефон",
-  "@phone": {},
-  "tablet": "Планшет",
-  "@tablet": {},
-  "desktop": "ПК",
-  "@desktop": {},
-  "layoutModeSingle": "Одиночная",
-  "@layoutModeSingle": {},
-  "layoutModeDual": "Двойная",
-  "@layoutModeDual": {},
-  "episodeAvailable": "Доступно",
-  "@episodeAvailable": {},
-  "episodeMissing": "Отсутствует",
-  "@episodeMissing": {},
-  "homeStreamingQualityTitle": "Качество дома",
-  "@homeStreamingQualityTitle": {},
-  "qualityOptionsTitle": "Настройки качества",
-  "@qualityOptionsTitle": {},
-  "guestActor": "{count, plural, other{Приглашенных актеров} two{Приглашенных актёра} one{Приглашенный актёр}}",
-  "@guestActor": {
-    "description": "Guest actors",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "qualityOptionsAuto": "Авто",
-  "@qualityOptionsAuto": {},
-  "version": "Версия",
-  "@version": {},
-  "mediaSegmentActions": "Действия с сегментами медиа",
-  "@mediaSegmentActions": {},
-  "segmentActionNone": "Нет",
-  "@segmentActionNone": {},
-  "segmentActionAskToSkip": "Спросить пропустить",
-  "@segmentActionAskToSkip": {},
-  "segmentActionSkip": "Пропустить",
-  "@segmentActionSkip": {},
-  "loading": "Загрузка",
-  "@loading": {},
-  "castAndCrew": "Кастинг и съемочная группа",
-  "@castAndCrew": {},
-  "syncRemoveDataDesc": "Удалить синхронизированные видеоданные? Это необратимо, и вам придется заново синхронизировать файлы",
-  "@syncRemoveDataDesc": {},
-  "videoScalingFitWidth": "Заполнить по ширине",
-  "@videoScalingFitWidth": {},
-  "subtitle": "Субтитры",
-  "@subtitle": {},
-  "deviceOrientationPortraitUp": "Портретная ориентация вверх",
-  "@deviceOrientationPortraitUp": {},
-  "unableToConnectHost": "Невозможно подключиться к хосту",
-  "@unableToConnectHost": {},
-  "videoScalingFill": "Заполнить",
-  "@videoScalingFill": {},
-  "watchOn": "Смотреть на",
-  "@watchOn": {},
-  "removedFromCollection": "Удалено из коллекции {collectionName}",
-  "@removedFromCollection": {
-    "placeholders": {
-      "collectionName": {
-        "type": "String"
-      }
-    }
-  },
-  "copiedToClipboard": "Скопировано в буфер обмена",
-  "@copiedToClipboard": {},
-  "schemeSettingsNeutral": "Нейтральный",
-  "@schemeSettingsNeutral": {},
-  "clientSettingsSchemeVariantTitle": "Вариант схемы",
-  "@clientSettingsSchemeVariantTitle": {},
-  "closeVideo": "Закрыть видео",
-  "@closeVideo": {},
-  "mediaSegmentPreview": "Предварительный просмотр",
-  "@mediaSegmentPreview": {},
-  "addToNewCollection": "Новая коллекция",
-  "@addToNewCollection": {},
-  "syncOverlaySyncing": "Синхронизация сведений об элементе",
-  "@syncOverlaySyncing": {},
-  "themeModeLight": "Светлая",
-  "@themeModeLight": {},
-  "writer": "{count, plural, other{Писателей} two{Писателя} one{Писатель}}",
-  "@writer": {
-    "description": "writer",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "syncDeleteItemDesc": "Удалить все синхронизированные данные для {item}?",
-  "@syncDeleteItemDesc": {
-    "description": "Sync delete item pop-up window",
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "playBackSettings": "Настройки воспроизведения",
-  "@playBackSettings": {},
-  "syncRemoveDataTitle": "Удалить синхронизированные данные?",
-  "@syncRemoveDataTitle": {},
-  "video": "Видео",
-  "@video": {},
-  "syncStatusCanceled": "Отменено",
-  "@syncStatusCanceled": {},
-  "syncDeleteItemTitle": "Удалить синхронизированный элемент",
-  "@syncDeleteItemTitle": {},
-  "schemeSettingsTonalSpot": "Тональное пятно",
-  "@schemeSettingsTonalSpot": {},
-  "videoScalingFillScreenTitle": "Заполнить экран",
-  "@videoScalingFillScreenTitle": {},
-  "unPlayed": "Не воспроизведено",
-  "@unPlayed": {},
-  "deviceOrientationLandscapeRight": "Ландшафтная ориентация вправо",
-  "@deviceOrientationLandscapeRight": {},
-  "resumeVideo": "Продолжить видео",
-  "@resumeVideo": {},
-  "aboutBuild": "Сборка: {buildNumber}",
-  "@aboutBuild": {
-    "placeholders": {
-      "buildNumber": {
-        "type": "String"
-      }
-    }
-  },
-  "schemeSettingsMonochrome": "Монохром",
-  "@schemeSettingsMonochrome": {},
-  "addedToCollection": "Добавлено в коллекцию {collectionName}",
-  "@addedToCollection": {
-    "placeholders": {
-      "collectionName": {
-        "type": "String"
-      }
-    }
-  },
-  "settingsAutoNextTitle": "Следующее превью",
-  "@settingsAutoNextTitle": {},
-  "playbackRate": "Скорость воспроизведения",
-  "@playbackRate": {},
-  "deviceOrientationLandscapeLeft": "Ландшафтная ориентация влево",
-  "@deviceOrientationLandscapeLeft": {},
-  "mediaSegmentRecap": "Краткое содержание",
-  "@mediaSegmentRecap": {},
-  "episodeUnaired": "Без рекламы",
-  "@episodeUnaired": {},
-  "mediaSegmentCommercial": "Реклама",
-  "@mediaSegmentCommercial": {},
-  "rememberSubtitleSelectionsDesc": "Постараться установить дорожку субтитров так, чтобы она максимально соответствовала последнему видео.",
-  "@rememberSubtitleSelectionsDesc": {},
-  "themeColor": "Цвет темы",
-  "@themeColor": {},
-  "unableToPlayMedia": "Возникла ошибка при поиске совместимого типа носителя",
-  "@unableToPlayMedia": {},
-  "addItemsToCollection": "Добавить {itemLength} элемент(ы) в коллекцию",
-  "@addItemsToCollection": {
-    "placeholders": {
-      "itemLength": {
-        "type": "int"
-      }
-    }
-  },
-  "speed": "Скорость",
-  "@speed": {},
-  "videoScalingScaleDown": "Уменьшить масштаб",
-  "@videoScalingScaleDown": {},
-  "syncNoFolderSetup": "Отсутствует настройка папки синхронизации",
-  "@syncNoFolderSetup": {},
-  "unableToSyncItem": "Невозможно синхронизировать {item}, что-то пошло не так",
-  "@unableToSyncItem": {
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "deleteFilterConfirmation": "Вы уверены, что хотите удалить этот фильтр?",
-  "@deleteFilterConfirmation": {},
-  "settingsAutoNextDesc": "Отображает предварительный просмотр следующего элемента в конце, если другой элемент находится в очереди",
-  "@settingsAutoNextDesc": {},
-  "playerSettingsOrientationDesc": "Принудительно установить ориентацию для видеоплеера",
-  "@playerSettingsOrientationDesc": {},
-  "autoNextOffSmartTitle": "Умный",
-  "@autoNextOffSmartTitle": {},
-  "updateFilterForLibrary": "Обновить фильтр",
-  "@updateFilterForLibrary": {},
-  "noVideoPlayerOptions": "Выбранный бэкэнд не имеет опций",
-  "@noVideoPlayerOptions": {},
-  "mdkExperimental": "MDK все еще находится на экспериментальной стадии",
-  "@mdkExperimental": {},
-  "playbackType": "Тип воспроизведения",
-  "@playbackType": {},
-  "internetStreamingQualityDesc": "Максимальное качество потокового вещания через интернет (мобильный)",
-  "@internetStreamingQualityDesc": {},
-  "homeStreamingQualityDesc": "Максимальное качество потокового вещания при подключении в домашней сети",
-  "@homeStreamingQualityDesc": {},
-  "qualityOptionsOriginal": "Оригинал",
-  "@qualityOptionsOriginal": {},
-  "playbackTypeDirect": "Прямое",
-  "@playbackTypeDirect": {},
-  "autoNextOffSmartDesc": "Показывает следующее, когда начинаются титры, если после титров осталось не более 10 секунд. В противном случае показывать следующиее, когда остается 30 секунд",
-  "@autoNextOffSmartDesc": {},
-  "playbackTrackSelection": "Выбор дорожки воспроизведения",
-  "@playbackTrackSelection": {},
-  "rememberSubtitleSelections": "Установка дорожки субтитров на основе предыдущего элемента",
-  "@rememberSubtitleSelections": {},
-  "rememberAudioSelectionsDesc": "Постараться установить звуковую дорожку, максимально приближенную к последнему видео.",
-  "@rememberAudioSelectionsDesc": {},
-  "videoScalingFillScreenDesc": "Заполните панель навигации и статусную панель",
-  "@videoScalingFillScreenDesc": {},
-  "addedToPlaylist": "Добавлено в плейлист {playlistName}",
-  "@addedToPlaylist": {
-    "placeholders": {
-      "playlistName": {
-        "type": "String"
-      }
-    }
-  },
-  "playerSettingsOrientationTitle": "Ориентация плеера",
-  "@playerSettingsOrientationTitle": {},
-  "internetStreamingQualityTitle": "Качество интернета",
-  "@internetStreamingQualityTitle": {},
-  "themeModeSystem": "Системная",
-  "@themeModeSystem": {},
-  "scale": "Масштаб",
-  "@scale": {},
-  "newReleaseFoundTitle": "Доступно обновление {newRelease}!",
-  "@newReleaseFoundTitle": {
-    "placeholders": {
-      "newRelease": {
-        "type": "String"
-      }
-    }
-  },
-  "enableBackgroundPostersTitle": "Включить фоновые постеры",
-  "@enableBackgroundPostersTitle": {},
-  "enableBackgroundPostersDesc": "Показывать случайные постеры на соответствующих экранах",
-  "@enableBackgroundPostersDesc": {},
-  "settingsEnableOsMediaControlsDesc": "Позволяет управлять воспроизведением с помощью медиа-клавиш и показывать текущее воспроизводимое медиа в ОС",
-  "@settingsEnableOsMediaControlsDesc": {},
-  "notificationDownloadingDownloading": "Загрузка",
-  "@notificationDownloadingDownloading": {},
-  "notificationDownloadingPaused": "Загрузка приостановлена",
-  "@notificationDownloadingPaused": {},
-  "notificationDownloadingFinished": "Загрузка завершена",
-  "@notificationDownloadingFinished": {},
-  "notificationDownloadingError": "Ошибка загрузки",
-  "@notificationDownloadingError": {},
-  "syncAllItemsTitle": "Синхронизировать все элементы из {itemName}?",
-  "@syncAllItemsTitle": {
-    "description": "syncAllItemsFrom",
-    "placeholders": {
-      "itemName": {
-        "type": "String"
-      }
-    }
-  },
-  "syncAllItemsDesc": "Это позволит синхронизировать ({itemCount}) элементов из '{itemName}' на ваше устройство.\nЭто может занять некоторое время в зависимости от количества элементов.",
-  "@syncAllItemsDesc": {
-    "description": "syncAllitemsFromDesc",
-    "placeholders": {
-      "itemName": {
-        "type": "String"
-      },
-      "itemCount": {
-        "type": "int"
-      }
-    }
-  },
-  "syncDeleteAllItemsTitle": "Удалить все синхронизированные элементы из {itemName}?",
-  "@syncDeleteAllItemsTitle": {
-    "description": "syncDeleteAllitemsFrom",
-    "placeholders": {
-      "itemName": {
-        "type": "String"
-      }
-    }
-  },
-  "syncDeleteAllItemsDesc": "Это приведет к удалению всех синхронизированных элементов из '{itemName}'.\nЭто произойдет навсегда, и вам придется повторно синхронизировать ({itemCount}) файлов.",
-  "@syncDeleteAllItemsDesc": {
-    "description": "syncDeleteAllitemsFromDesc",
-    "placeholders": {
-      "itemName": {
-        "type": "String"
-      },
-      "itemCount": {
-        "type": "int"
-      }
-    }
-  },
-  "syncPauseAll": "Приостановить все",
-  "@syncPauseAll": {},
-  "syncResumeAll": "Продолжить всё",
-  "@syncResumeAll": {},
-  "syncStopAll": "Оставить всё",
-  "@syncStopAll": {},
-  "syncDeleteAll": "Удалить все файлы",
-  "@syncDeleteAll": {},
-  "syncAllFiles": "Синхронизировать все файлы",
-  "@syncAllFiles": {},
-  "usePostersForLibraryIconsTitle": "Показывайте постеры с библиотечными иконами",
-  "@usePostersForLibraryIconsTitle": {},
-  "usePostersForLibraryIconsDesc": "Показывать постеры вместо иконок для библиотек",
-  "@usePostersForLibraryIconsDesc": {},
-  "offline": "Офлайн",
-  "@offline": {},
-  "shortCuts": "Ярлыки",
-  "@shortCuts": {},
-  "skipForwardLength": "Длительность перемотки вперёд",
-  "@skipForwardLength": {},
-  "skipBackLength": "Длительность перемотки назад",
-  "@skipBackLength": {},
-  "playPause": "Воспроизведение/пауза",
-  "@playPause": {},
-  "seekForward": "Перемотка вперёд",
-  "@seekForward": {},
-  "seekBack": "Перемотка назад",
-  "@seekBack": {},
-  "mute": "Выключить звук",
-  "@mute": {},
-  "volumeUp": "Увеличить громкость",
-  "@volumeUp": {},
-  "volumeDown": "Уменьшить громкость",
-  "@volumeDown": {},
-  "nextVideo": "Следующее видео",
-  "@nextVideo": {},
-  "prevVideo": "Предыдущее видео",
-  "@prevVideo": {},
-  "nextChapter": "Следующая глава",
-  "@nextChapter": {},
-  "prevChapter": "Предыдущая глава",
-  "@prevChapter": {},
-  "fullScreen": "Полный экран",
-  "@fullScreen": {},
-  "skipMediaSegment": "Пропустить фрагмент",
-  "@skipMediaSegment": {},
-  "exit": "Выход",
-  "@exit": {},
-  "shortCutAlreadyAssigned": "Сочетание клавиш '{hotKey}' уже назначено",
-  "@shortCutAlreadyAssigned": {
-    "placeholders": {
-      "hotKey": {
-        "type": "String"
-      }
-    }
-  },
-  "blurred": "Размытый",
-  "@blurred": {},
-  "volumeIndicator": "Громкость: {volume}",
-  "@volumeIndicator": {
-    "placeholders": {
-      "volume": {
-        "type": "int"
-      }
-    }
-  }
 }

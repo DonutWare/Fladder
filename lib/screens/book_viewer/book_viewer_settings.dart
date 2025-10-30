@@ -1,11 +1,14 @@
+import 'package:flutter/material.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:fladder/providers/settings/book_viewer_settings_provider.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/widgets/shared/enum_selection.dart';
 import 'package:fladder/widgets/shared/fladder_slider.dart';
+import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_side_sheet.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 Future<void> showBookViewerSettings(
   BuildContext context,
@@ -80,10 +83,9 @@ class BookViewerSettingsScreen extends ConsumerWidget {
                   label: const Text("Read direction"),
                   current: settings.readDirection.name.toUpperCaseSplit(),
                   itemBuilder: (context) => ReadDirection.values
-                      .map((value) => PopupMenuItem(
-                            value: value,
-                            child: Text(value.name.toUpperCaseSplit()),
-                            onTap: () => ref
+                      .map((value) => ItemActionButton(
+                            label: Text(value.name.toUpperCaseSplit()),
+                            action: () => ref
                                 .read(bookViewerSettingsProvider.notifier)
                                 .update((state) => state.copyWith(readDirection: value)),
                           ))
@@ -102,10 +104,9 @@ class BookViewerSettingsScreen extends ConsumerWidget {
                   label: const Text("Init zoom"),
                   current: settings.initZoomState.name.toUpperCaseSplit(),
                   itemBuilder: (context) => InitZoomState.values
-                      .map((value) => PopupMenuItem(
-                            value: value,
-                            child: Text(value.name.toUpperCaseSplit()),
-                            onTap: () => ref
+                      .map((value) => ItemActionButton(
+                            label: Text(value.name.toUpperCaseSplit()),
+                            action: () => ref
                                 .read(bookViewerSettingsProvider.notifier)
                                 .update((state) => state.copyWith(initZoomState: value)),
                           ))

@@ -25,6 +25,7 @@ double floatingPlayerHeight(BuildContext context) => switch (AdaptiveLayout.view
       ViewSize.phone => 75,
       ViewSize.tablet => 85,
       ViewSize.desktop => 95,
+      ViewSize.television => 105,
     };
 
 class FloatingPlayerBar extends ConsumerStatefulWidget {

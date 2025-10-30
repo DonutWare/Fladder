@@ -10,6 +10,7 @@ import 'package:video_player/video_player.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
+import 'package:fladder/screens/video_player/video_player.dart' as video_screen;
 import 'package:fladder/wrappers/players/base_player.dart';
 import 'package:fladder/wrappers/players/player_states.dart';
 
@@ -40,7 +41,7 @@ class LibMDK extends BasePlayer {
   }
 
   @override
-  Future<void> open(String url, bool play) async {
+  Future<void> loadVideo(String url, bool play) async {
     if (_controller != null) {
       _controller?.dispose();
     }
@@ -94,6 +95,13 @@ class LibMDK extends BasePlayer {
       return (total + (range.end - range.start));
     });
   }
+
+  @override
+  Future<void> open(BuildContext context) async => Navigator.of(context, rootNavigator: true).push(
+        MaterialPageRoute(
+          builder: (context) => const video_screen.VideoPlayer(),
+        ),
+      );
 
   @override
   Future<void> pause() async => _controller?.pause();

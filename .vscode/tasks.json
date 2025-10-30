@@ -114,6 +114,23 @@
 			"group": {
 				"kind": "build",
 			}
+		},
+		{
+			"label": "Generate Pigeon Files",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-Command",
+				"Get-ChildItem -Path pigeons/*.dart | ForEach-Object { dart run pigeon --input $_.FullName }"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
 		}
 	],
 }

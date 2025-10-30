@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
@@ -11,7 +12,9 @@ import 'package:fladder/providers/library_search_provider.dart';
 import 'package:fladder/screens/shared/chips/category_chip.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/map_bool_helper.dart';
+import 'package:fladder/util/position_provider.dart';
 import 'package:fladder/util/refresh_state.dart';
+import 'package:fladder/widgets/shared/button_group.dart';
 
 class LibraryFilterChips extends ConsumerStatefulWidget {
   const LibraryFilterChips({super.key});
@@ -25,133 +28,140 @@ class _LibraryFilterChipsState extends ConsumerState<LibraryFilterChips> {
   Widget build(BuildContext context) {
     final uniqueKey = widget.key ?? UniqueKey();
     final libraryProvider = ref.watch(librarySearchProvider(uniqueKey).notifier);
-    final groupBy = ref.watch(librarySearchProvider(uniqueKey).select((v) => v.groupBy));
-    final favourites = ref.watch(librarySearchProvider(uniqueKey).select((v) => v.favourites));
-    final recursive = ref.watch(librarySearchProvider(uniqueKey).select((v) => v.recursive));
-    final hideEmpty = ref.watch(librarySearchProvider(uniqueKey).select((v) => v.hideEmptyShows));
+    final groupBy = ref.watch(librarySearchProvider(uniqueKey).select((v) => v.filters.groupBy));
+    final favourites = ref.watch(librarySearchProvider(uniqueKey).select((v) => v.filters.favourites));
+    final recursive = ref.watch(librarySearchProvider(uniqueKey).select((v) => v.filters.recursive));
+    final hideEmpty = ref.watch(librarySearchProvider(uniqueKey).select((v) => v.filters.hideEmptyShows));
     final librarySearchResults = ref.watch(librarySearchProvider(uniqueKey));
 
-    return Row(
-      spacing: 8,
-      children: [
-        if (librarySearchResults.folderOverwrite.isEmpty)
-          CategoryChip(
-            label: Text(context.localized.library(2)),
-            items: librarySearchResults.views,
-            labelBuilder: (item) => Text(item.name),
-            onSave: (value) => libraryProvider.setViews(value),
-            onCancel: () => libraryProvider.setViews(librarySearchResults.views),
-            onClear: () => libraryProvider.setViews(librarySearchResults.views.setAll(false)),
-          ),
-        CategoryChip<FladderItemType>(
-          label: Text(context.localized.type(librarySearchResults.types.length)),
-          items: librarySearchResults.types,
-          labelBuilder: (item) => Row(
-            children: [
-              Icon(item.icon),
-              const SizedBox(width: 12),
-              Text(item.label(context)),
-            ],
-          ),
-          onSave: (value) => libraryProvider.setTypes(value),
-          onClear: () => libraryProvider.setTypes(librarySearchResults.types.setAll(false)),
+    final chips = [
+      if (librarySearchResults.folderOverwrite.isEmpty)
+        CategoryChip(
+          label: Text(context.localized.library(2)),
+          items: librarySearchResults.views.sortByKey((value) => value.name),
+          labelBuilder: (item) => Text(item.name),
+          onSave: (value) => libraryProvider.setViews(value),
+          onCancel: () => libraryProvider.setViews(librarySearchResults.views),
+          onClear: () => libraryProvider.setViews(librarySearchResults.views.setAll(false)),
         ),
-        FilterChip(
-          label: Text(context.localized.favorites),
-          avatar: Icon(
-            favourites ? IconsaxPlusBold.heart : IconsaxPlusLinear.heart,
-            color: Theme.of(context).colorScheme.onSurface,
-          ),
-          selected: favourites,
-          showCheckmark: false,
-          onSelected: (_) {
-            libraryProvider.toggleFavourite();
-            context.refreshData();
+      CategoryChip<FladderItemType>(
+        label: Text(context.localized.type(librarySearchResults.filters.types.length)),
+        items: librarySearchResults.filters.types.sortByKey((value) => value.label(context)),
+        activeIcon: IconsaxPlusBold.filter_tick,
+        labelBuilder: (item) => Row(
+          children: [
+            Icon(item.icon),
+            const SizedBox(width: 12),
+            Text(item.label(context)),
+          ],
+        ),
+        onSave: (value) => libraryProvider.setTypes(value),
+        onClear: () => libraryProvider.setTypes(librarySearchResults.filters.types.setAll(false)),
+      ),
+      ExpressiveButton(
+        isSelected: favourites == true,
+        icon: favourites == true ? const Icon(IconsaxPlusBold.heart) : null,
+        label: Text(context.localized.favorites),
+        onPressed: () {
+          libraryProvider.toggleFavourite();
+          context.refreshData();
+        },
+      ),
+      ExpressiveButton(
+        isSelected: recursive == true,
+        icon: recursive == true ? const Icon(IconsaxPlusBold.tick_circle) : null,
+        label: Text(context.localized.recursive),
+        onPressed: () {
+          libraryProvider.toggleRecursive();
+          context.refreshData();
+        },
+      ),
+      if (librarySearchResults.filters.genres.isNotEmpty)
+        CategoryChip<String>(
+          label: Text(context.localized.genre(librarySearchResults.filters.genres.length)),
+          activeIcon: IconsaxPlusBold.hierarchy_2,
+          items: librarySearchResults.filters.genres,
+          labelBuilder: (item) => Text(item),
+          onSave: (value) => libraryProvider.setGenres(value),
+          onCancel: () => libraryProvider.setGenres(librarySearchResults.filters.genres),
+          onClear: () => libraryProvider.setGenres(librarySearchResults.filters.genres.setAll(false)),
+        ),
+      if (librarySearchResults.filters.studios.isNotEmpty)
+        CategoryChip<Studio>(
+          label: Text(context.localized.studio(librarySearchResults.filters.studios.length)),
+          activeIcon: IconsaxPlusBold.airdrop,
+          items: librarySearchResults.filters.studios,
+          labelBuilder: (item) => Text(item.name),
+          onSave: (value) => libraryProvider.setStudios(value),
+          onCancel: () => libraryProvider.setStudios(librarySearchResults.filters.studios),
+          onClear: () => libraryProvider.setStudios(librarySearchResults.filters.studios.setAll(false)),
+        ),
+      if (librarySearchResults.filters.tags.isNotEmpty)
+        CategoryChip<String>(
+          label: Text(context.localized.label(librarySearchResults.filters.tags.length)),
+          activeIcon: Icons.label_rounded,
+          items: librarySearchResults.filters.tags,
+          labelBuilder: (item) => Text(item),
+          onSave: (value) => libraryProvider.setTags(value),
+          onCancel: () => libraryProvider.setTags(librarySearchResults.filters.tags),
+          onClear: () => libraryProvider.setTags(librarySearchResults.filters.tags.setAll(false)),
+        ),
+      ExpressiveButton(
+        isSelected: groupBy != GroupBy.none,
+        icon: groupBy != GroupBy.none ? const Icon(IconsaxPlusBold.bag_tick) : null,
+        label: Text(context.localized.group),
+        onPressed: () {
+          _openGroupDialogue(context, ref, libraryProvider, uniqueKey);
+        },
+      ),
+      CategoryChip<ItemFilter>(
+        label: Text(context.localized.filter(librarySearchResults.filters.itemFilters.length)),
+        items: librarySearchResults.filters.itemFilters,
+        labelBuilder: (item) => Text(item.label(context)),
+        onSave: (value) => libraryProvider.setFilters(value),
+        onClear: () => libraryProvider.setFilters(librarySearchResults.filters.itemFilters.setAll(false)),
+      ),
+      if (librarySearchResults.filters.types[FladderItemType.series] == true)
+        ExpressiveButton(
+          isSelected: !hideEmpty,
+          icon: !hideEmpty ? const Icon(IconsaxPlusBold.ghost) : null,
+          label: Text(!hideEmpty ? context.localized.hideEmpty : context.localized.showEmpty),
+          onPressed: libraryProvider.toggleEmptyShows,
+        ),
+      if (librarySearchResults.filters.officialRatings.isNotEmpty)
+        CategoryChip<String>(
+          label: Text(context.localized.rating(librarySearchResults.filters.officialRatings.length)),
+          activeIcon: Icons.star_rate_rounded,
+          items: librarySearchResults.filters.officialRatings,
+          labelBuilder: (item) => Text(item),
+          onSave: (value) => libraryProvider.setRatings(value),
+          onCancel: () => libraryProvider.setRatings(librarySearchResults.filters.officialRatings),
+          onClear: () => libraryProvider.setRatings(librarySearchResults.filters.officialRatings.setAll(false)),
+        ),
+      if (librarySearchResults.filters.years.isNotEmpty)
+        CategoryChip<int>(
+          label: Text(context.localized.year(librarySearchResults.filters.years.length)),
+          items: librarySearchResults.filters.years,
+          labelBuilder: (item) => Text(item.toString()),
+          onSave: (value) => libraryProvider.setYears(value),
+          onCancel: () => libraryProvider.setYears(librarySearchResults.filters.years),
+          onClear: () => libraryProvider.setYears(librarySearchResults.filters.years.setAll(false)),
+        ),
+    ];
+
+    return FocusTraversalGroup(
+      policy: ReadingOrderTraversalPolicy(),
+      child: Row(
+        spacing: 4,
+        children: chips.mapIndexed(
+          (index, element) {
+            final position = index == 0
+                ? PositionContext.first
+                : (index == chips.length - 1 ? PositionContext.last : PositionContext.middle);
+            return PositionProvider(position: position, child: element);
           },
-        ),
-        FilterChip(
-          label: Text(context.localized.recursive),
-          selected: recursive,
-          onSelected: (_) {
-            libraryProvider.toggleRecursive();
-            context.refreshData();
-          },
-        ),
-        if (librarySearchResults.genres.isNotEmpty)
-          CategoryChip<String>(
-            label: Text(context.localized.genre(librarySearchResults.genres.length)),
-            activeIcon: IconsaxPlusBold.hierarchy_2,
-            items: librarySearchResults.genres,
-            labelBuilder: (item) => Text(item),
-            onSave: (value) => libraryProvider.setGenres(value),
-            onCancel: () => libraryProvider.setGenres(librarySearchResults.genres),
-            onClear: () => libraryProvider.setGenres(librarySearchResults.genres.setAll(false)),
-          ),
-        if (librarySearchResults.studios.isNotEmpty)
-          CategoryChip<Studio>(
-            label: Text(context.localized.studio(librarySearchResults.studios.length)),
-            activeIcon: IconsaxPlusBold.airdrop,
-            items: librarySearchResults.studios,
-            labelBuilder: (item) => Text(item.name),
-            onSave: (value) => libraryProvider.setStudios(value),
-            onCancel: () => libraryProvider.setStudios(librarySearchResults.studios),
-            onClear: () => libraryProvider.setStudios(librarySearchResults.studios.setAll(false)),
-          ),
-        if (librarySearchResults.tags.isNotEmpty)
-          CategoryChip<String>(
-            label: Text(context.localized.label(librarySearchResults.tags.length)),
-            activeIcon: Icons.label_rounded,
-            items: librarySearchResults.tags,
-            labelBuilder: (item) => Text(item),
-            onSave: (value) => libraryProvider.setTags(value),
-            onCancel: () => libraryProvider.setTags(librarySearchResults.tags),
-            onClear: () => libraryProvider.setTags(librarySearchResults.tags.setAll(false)),
-          ),
-        FilterChip(
-          label: Text(context.localized.group),
-          selected: groupBy != GroupBy.none,
-          onSelected: (_) {
-            _openGroupDialogue(context, ref, libraryProvider, uniqueKey);
-          },
-        ),
-        CategoryChip<ItemFilter>(
-          label: Text(context.localized.filter(librarySearchResults.filters.length)),
-          items: librarySearchResults.filters,
-          labelBuilder: (item) => Text(item.label(context)),
-          onSave: (value) => libraryProvider.setFilters(value),
-          onClear: () => libraryProvider.setFilters(librarySearchResults.filters.setAll(false)),
-        ),
-        if (librarySearchResults.types[FladderItemType.series] == true)
-          FilterChip(
-            avatar: Icon(
-              hideEmpty ? Icons.visibility_off_rounded : Icons.visibility_rounded,
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
-            selected: hideEmpty,
-            showCheckmark: false,
-            label: Text(context.localized.hideEmpty),
-            onSelected: libraryProvider.setHideEmpty,
-          ),
-        if (librarySearchResults.officialRatings.isNotEmpty)
-          CategoryChip<String>(
-            label: Text(context.localized.rating(librarySearchResults.officialRatings.length)),
-            activeIcon: Icons.star_rate_rounded,
-            items: librarySearchResults.officialRatings,
-            labelBuilder: (item) => Text(item),
-            onSave: (value) => libraryProvider.setRatings(value),
-            onCancel: () => libraryProvider.setRatings(librarySearchResults.officialRatings),
-            onClear: () => libraryProvider.setRatings(librarySearchResults.officialRatings.setAll(false)),
-          ),
-        if (librarySearchResults.years.isNotEmpty)
-          CategoryChip<int>(
-            label: Text(context.localized.year(librarySearchResults.years.length)),
-            items: librarySearchResults.years,
-            labelBuilder: (item) => Text(item.toString()),
-            onSave: (value) => libraryProvider.setYears(value),
-            onCancel: () => libraryProvider.setYears(librarySearchResults.years),
-            onClear: () => libraryProvider.setYears(librarySearchResults.years.setAll(false)),
-          ),
-      ],
+        ).toList(),
+      ),
     );
   }
 
@@ -164,7 +174,7 @@ class _LibraryFilterChipsState extends ConsumerState<LibraryFilterChips> {
     showDialog(
       context: context,
       builder: (context) {
-        final groupBy = ref.watch(librarySearchProvider(uniqueKey).select((v) => v.groupBy));
+        final groupBy = ref.watch(librarySearchProvider(uniqueKey).select((v) => v.filters.groupBy));
         return AlertDialog(
           content: SizedBox(
             width: MediaQuery.of(context).size.width * 0.65,
@@ -173,14 +183,16 @@ class _LibraryFilterChipsState extends ConsumerState<LibraryFilterChips> {
               children: [
                 Text(context.localized.groupBy),
                 ...GroupBy.values.map(
-                  (group) => RadioListTile.adaptive(
-                    value: group,
+                  (group) => RadioGroup(
                     groupValue: groupBy,
-                    title: Text(group.value(context)),
                     onChanged: (_) {
                       provider.setGroupBy(group);
                       Navigator.pop(context);
                     },
+                    child: RadioListTile.adaptive(
+                      value: group,
+                      title: Text(group.value(context)),
+                    ),
                   ),
                 ),
               ],

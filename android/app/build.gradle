@@ -1,6 +1,7 @@
 plugins {
     id "com.android.application"
     id "kotlin-android"
+    id "org.jetbrains.kotlin.plugin.compose"
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id "dev.flutter.flutter-gradle-plugin"
 }
@@ -8,7 +9,7 @@ plugins {
 def keystoreProperties = new Properties()
 def keystorePropertiesFile = file('key.properties')
 if (keystorePropertiesFile.exists()) {
-	keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
 def localProperties = new Properties()
@@ -30,6 +31,21 @@ if (flutterVersionName == null) {
 }
 
 android {
+    packagingOptions {
+        jniLibs {
+            pickFirsts += [
+                    "lib/x86_64/libc++_shared.so",
+                    "lib/arm64-v8a/libc++_shared.so",
+                    "lib/armeabi-v7a/libc++_shared.so",
+                    "lib/x86/libc++_shared.so",
+
+                    "lib/x86_64/libass.so",
+                    "lib/arm64-v8a/libass.so",
+                    "lib/armeabi-v7a/libass.so",
+                    "lib/x86/libass.so",
+            ]
+        }
+    }
     namespace = "nl.jknaapen.fladder"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
@@ -39,37 +55,45 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
+    buildFeatures {
+        compose = true
+    }
+
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
+        jvmTarget = "1.8"
     }
 
     defaultConfig {
         applicationId = "nl.jknaapen.fladder"
-        minSdk = 23
+        minSdkVersion flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
 
-	signingConfigs {
-		release {
-			storeFile file('keystore.jks')
-			keyAlias keystoreProperties['keyAlias']
-			keyPassword keystoreProperties['keyPassword']
-			storePassword keystoreProperties['storePassword']
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.6.4'
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('keystore.jks')
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storePassword keystoreProperties['storePassword']
         }
-   }
+    }
     buildTypes {
-		release {
+        release {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-			signingConfig signingConfigs.release
-		}
-    }	
+            signingConfig signingConfigs.release
+        }
+    }
 
     flavorDimensions "default"
-    productFlavors {        
+    productFlavors {
         development {
             dimension "default"
             applicationIdSuffix ".dev"
@@ -83,4 +107,31 @@ android {
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    def composeBom = platform('androidx.compose:compose-bom:2025.09.01')
+    implementation composeBom
+    androidTestImplementation composeBom
+    implementation('androidx.compose.material3:material3')
+    implementation('androidx.compose.ui:ui-tooling-preview')
+    debugImplementation('androidx.compose.ui:ui-tooling')
+    implementation('androidx.activity:activity-compose:1.11.0')
+
+    // Media3 (ExoPlayer)
+    def media3_version = "1.8.0+1"
+    implementation("androidx.media3:media3-exoplayer:$media3_version")
+    implementation("androidx.media3:media3-session:$media3_version")
+    implementation("androidx.media3:media3-ui:$media3_version")
+
+    implementation("androidx.media3:media3-exoplayer-dash:$media3_version")
+    implementation("androidx.media3:media3-exoplayer-hls:$media3_version")
+    implementation("org.jellyfin.media3:media3-ffmpeg-decoder:$media3_version")
+    implementation("io.github.peerless2012:ass-media:0.3.0-rc03")
+
+    //UI
+    implementation("io.github.rabehx:iconsax-compose:0.0.4")
+    implementation("io.coil-kt.coil3:coil-compose:3.3.0")
+    implementation("io.coil-kt.coil3:coil-network-okhttp:3.3.0")
+    implementation("com.materialkolor:material-kolor:3.0.1")
 }

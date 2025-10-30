@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,7 +11,9 @@ import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'package:fladder/models/items/photos_model.dart';
+import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/settings/photo_view_settings_provider.dart';
+import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/screens/shared/input_fields.dart';
@@ -23,6 +25,7 @@ import 'package:fladder/util/throttler.dart';
 import 'package:fladder/widgets/full_screen_helpers/full_screen_wrapper.dart';
 import 'package:fladder/widgets/shared/elevated_icon.dart';
 import 'package:fladder/widgets/shared/progress_floating_button.dart';
+import 'package:fladder/widgets/shared/selectable_icon_button.dart';
 
 class PhotoViewerControls extends ConsumerStatefulWidget {
   final EdgeInsets padding;
@@ -72,43 +75,6 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with
     }
   }
 
-  bool _onKey(KeyEvent value) {
-    if (value is KeyRepeatEvent) {
-      if (value.logicalKey == LogicalKeyboardKey.arrowLeft) {
-        throttler.run(() =>
-            widget.pageController.previousPage(duration: const Duration(milliseconds: 125), curve: Curves.easeInOut));
-        return true;
-      }
-      if (value.logicalKey == LogicalKeyboardKey.arrowRight) {
-        throttler.run(
-            () => widget.pageController.nextPage(duration: const Duration(milliseconds: 125), curve: Curves.easeInOut));
-        return true;
-      }
-    }
-    if (value is KeyDownEvent) {
-      if (value.logicalKey == LogicalKeyboardKey.arrowLeft) {
-        throttler.run(() =>
-            widget.pageController.previousPage(duration: const Duration(milliseconds: 125), curve: Curves.easeInOut));
-        return true;
-      }
-      if (value.logicalKey == LogicalKeyboardKey.arrowRight) {
-        throttler.run(
-            () => widget.pageController.nextPage(duration: const Duration(milliseconds: 125), curve: Curves.easeInOut));
-        return true;
-      }
-
-      if (value.logicalKey == LogicalKeyboardKey.keyK) {
-        timerController.playPause();
-        return true;
-      }
-      if (value.logicalKey == LogicalKeyboardKey.space) {
-        widget.toggleOverlay?.call(null);
-        return true;
-      }
-    }
-    return false;
-  }
-
   @override
   void initState() {
     super.initState();
@@ -150,8 +116,9 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with
     return PopScope(
       onPopInvokedWithResult: (didPop, result) async => await WakelockPlus.disable(),
       child: InputHandler(
-        autoFocus: false,
-        onKeyEvent: (node, event) => _onKey(event) ? KeyEventResult.handled : KeyEventResult.ignored,
+        autoFocus: true,
+        keyMap: ref.watch(videoPlayerSettingsProvider.select((value) => value.currentShortcuts)),
+        keyMapResult: _onKey,
         child: Stack(
           children: [
             Align(
@@ -309,13 +276,19 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with
                           children: [
                             ElevatedIconButton(
                               onPressed: widget.openOptions,
-                              icon: IconsaxPlusLinear.more_2,
+                              icon: IconsaxPlusLinear.more_square,
                             ),
                             const Spacer(),
-                            ElevatedIconButton(
+                            SelectableIconButton(
                               onPressed: markAsFavourite,
-                              color: widget.photo.userData.isFavourite ? Colors.red : null,
+                              selected: false,
                               icon: widget.photo.userData.isFavourite ? IconsaxPlusBold.heart : IconsaxPlusLinear.heart,
+                              backgroundColor: Theme.of(context)
+                                  .colorScheme
+                                  .onPrimary
+                                  .harmonizeWith(Colors.red)
+                                  .withValues(alpha: 0.25),
+                              iconColor: widget.photo.userData.isFavourite ? Colors.red : null,
                             ),
                             ProgressFloatingButton(
                               controller: timerController,
@@ -341,8 +314,57 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with
     );
   }
 
-  void markAsFavourite() {
-    ref.read(userProvider.notifier).setAsFavorite(!widget.photo.userData.isFavourite, widget.photo.id);
+  bool _onKey(VideoHotKeys value) {
+    switch (value) {
+      case VideoHotKeys.playPause:
+        widget.toggleOverlay?.call(null);
+        return true;
+      case VideoHotKeys.fullScreen:
+        fullScreenHelper.toggleFullScreen(ref);
+        return true;
+      case VideoHotKeys.skipMediaSegment:
+        timerController.playPause();
+        return true;
+      case VideoHotKeys.exit:
+        fullScreenHelper.closeFullScreen(ref);
+        return true;
+      case VideoHotKeys.mute:
+        ref.read(photoViewSettingsProvider.notifier).update((state) => state.copyWith(mute: !state.mute));
+        return true;
+      case VideoHotKeys.seekForward:
+        throttler.run(
+            () => widget.pageController.nextPage(duration: const Duration(milliseconds: 125), curve: Curves.easeInOut));
+        return true;
+      case VideoHotKeys.seekBack:
+        throttler.run(() =>
+            widget.pageController.previousPage(duration: const Duration(milliseconds: 125), curve: Curves.easeInOut));
+        return true;
+      case VideoHotKeys.nextVideo:
+        throttler.run(
+            () => widget.pageController.nextPage(duration: const Duration(milliseconds: 125), curve: Curves.easeInOut));
+        return true;
+      case VideoHotKeys.prevVideo:
+        throttler.run(() =>
+            widget.pageController.previousPage(duration: const Duration(milliseconds: 125), curve: Curves.easeInOut));
+        return true;
+      case VideoHotKeys.nextChapter:
+        throttler.run(
+            () => widget.pageController.nextPage(duration: const Duration(milliseconds: 125), curve: Curves.easeInOut));
+        return true;
+      case VideoHotKeys.prevChapter:
+        throttler.run(() =>
+            widget.pageController.previousPage(duration: const Duration(milliseconds: 125), curve: Curves.easeInOut));
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  Future<void> markAsFavourite() async {
+    final response =
+        await ref.read(userProvider.notifier).setAsFavorite(!widget.photo.userData.isFavourite, widget.photo.id);
+
+    if (response?.isSuccessful == false) return;
 
     widget.onPhotoChanged(widget.photo
         .copyWith(userData: widget.photo.userData.copyWith(isFavourite: !widget.photo.userData.isFavourite)));

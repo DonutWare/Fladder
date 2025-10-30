@@ -24,13 +24,12 @@ List<Widget> buildClientSettingsTheme(BuildContext context, WidgetRef ref) {
         items: ThemeMode.values,
         selected: [ref.read(clientSettingsProvider.select((value) => value.themeMode))],
         onChanged: (values) => ref.read(clientSettingsProvider.notifier).setThemeMode(values.first),
-        itemBuilder: (type, selected, tap) => RadioListTile(
-          value: type,
+        itemBuilder: (type, selected, tap) => CheckboxListTile(
+          value: selected,
+          onChanged: (value) => tap(),
           title: Text(type.label(context)),
           contentPadding: EdgeInsets.zero,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          groupValue: ref.read(clientSettingsProvider.select((value) => value.themeMode)),
-          onChanged: (value) => tap(),
         ),
       ),
     ),
@@ -39,14 +38,13 @@ List<Widget> buildClientSettingsTheme(BuildContext context, WidgetRef ref) {
       subLabel: Text(clientSettings.themeColor?.name ?? context.localized.dynamicText),
       onTap: () => openMultiSelectOptions<ColorThemes?>(
         context,
-        label: context.localized.settingsLayoutModesTitle,
+        label: context.localized.color,
         items: [null, ...ColorThemes.values],
         selected: [(ref.read(clientSettingsProvider.select((value) => value.themeColor)))],
         onChanged: (values) => ref.read(clientSettingsProvider.notifier).setThemeColor(values.first),
-        itemBuilder: (type, selected, tap) => RadioListTile<ColorThemes?>(
-          groupValue: ref.read(clientSettingsProvider.select((value) => value.themeColor)),
+        itemBuilder: (type, selected, tap) => CheckboxListTile(
           contentPadding: EdgeInsets.zero,
-          value: type,
+          value: selected,
           onChanged: (value) => tap(),
           title: Row(
             children: [
@@ -84,14 +82,13 @@ List<Widget> buildClientSettingsTheme(BuildContext context, WidgetRef ref) {
       onTap: () async {
         await openMultiSelectOptions<DynamicSchemeVariant>(
           context,
-          label: context.localized.settingsLayoutModesTitle,
+          label: context.localized.clientSettingsSchemeVariantTitle,
           items: DynamicSchemeVariant.values,
           selected: [(ref.read(clientSettingsProvider.select((value) => value.schemeVariant)))],
           onChanged: (values) => ref.read(clientSettingsProvider.notifier).setSchemeVariant(values.first),
-          itemBuilder: (type, selected, tap) => RadioListTile<DynamicSchemeVariant>(
-            groupValue: selected ? type : null,
+          itemBuilder: (type, selected, tap) => CheckboxListTile(
             contentPadding: EdgeInsets.zero,
-            value: type,
+            value: selected,
             onChanged: (value) => tap(),
             title: Text(type.label(context)),
           ),
@@ -105,6 +102,16 @@ List<Widget> buildClientSettingsTheme(BuildContext context, WidgetRef ref) {
       trailing: Switch(
         value: clientSettings.amoledBlack,
         onChanged: (value) => ref.read(clientSettingsProvider.notifier).setAmoledBlack(value),
+      ),
+    ),
+    SettingsListTile(
+      label: Text(context.localized.itemColorsTitle),
+      subLabel: Text(context.localized.itemColorsDesc),
+      onTap: () =>
+          ref.read(clientSettingsProvider.notifier).setDerivedColorsFromItem(!clientSettings.deriveColorsFromItem),
+      trailing: Switch(
+        value: clientSettings.deriveColorsFromItem,
+        onChanged: (value) => ref.read(clientSettingsProvider.notifier).setDerivedColorsFromItem(value),
       ),
     ),
   ]);

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/theme.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
 
 Future<void> showBottomSheetPill({
@@ -44,7 +45,9 @@ Future<void> showBottomSheetPill({
                     height: 8,
                     width: 35,
                     decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.onSurface,
+                      color: AdaptiveLayout.inputDeviceOf(context) == InputDevice.touch
+                          ? Theme.of(context).colorScheme.onSurface
+                          : Colors.transparent,
                       borderRadius: FladderTheme.largeShape.borderRadius,
                     ),
                   ),

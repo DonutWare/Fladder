@@ -10,6 +10,7 @@ import 'package:fladder/routes/auto_router.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/destination_model.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/side_navigation_bar.dart';
+import 'package:fladder/widgets/shared/back_intent_dpad.dart';
 
 class NavigationBody extends ConsumerStatefulWidget {
   final BuildContext parentContext;
@@ -64,25 +65,30 @@ class _NavigationBodyState extends ConsumerState<NavigationBody> {
           child: widget.child,
         );
 
-    return switch (AdaptiveLayout.layoutOf(context)) {
-      ViewSize.phone => paddedChild(),
-      ViewSize.tablet => hasOverlay
-          ? SideNavigationBar(
+    return BackIntentDpad(
+      child: FocusTraversalGroup(
+        policy: GlobalFallbackTraversalPolicy(fallbackNode: navBarNode),
+        child: switch (AdaptiveLayout.layoutOf(context)) {
+          ViewSize.phone => paddedChild(),
+          ViewSize.tablet => hasOverlay
+              ? SideNavigationBar(
+                  currentIndex: widget.currentIndex,
+                  destinations: widget.destinations,
+                  currentLocation: widget.currentLocation,
+                  child: paddedChild(),
+                  scaffoldKey: widget.drawerKey,
+                )
+              : paddedChild(),
+          ViewSize.desktop || ViewSize.television => SideNavigationBar(
               currentIndex: widget.currentIndex,
               destinations: widget.destinations,
               currentLocation: widget.currentLocation,
               child: paddedChild(),
               scaffoldKey: widget.drawerKey,
             )
-          : paddedChild(),
-      ViewSize.desktop => SideNavigationBar(
-          currentIndex: widget.currentIndex,
-          destinations: widget.destinations,
-          currentLocation: widget.currentLocation,
-          child: paddedChild(),
-          scaffoldKey: widget.drawerKey,
-        )
-    };
+        },
+      ),
+    );
   }
 
   MediaQueryData semiNestedPadding(BuildContext context, bool hasOverlay) {
@@ -90,5 +96,30 @@ class _NavigationBodyState extends ConsumerState<NavigationBody> {
     return MediaQuery.of(context).copyWith(
       padding: paddingOf.copyWith(left: hasOverlay ? 0 : paddingOf.left),
     );
+  }
+}
+
+FocusNode? lastMainFocus;
+
+class GlobalFallbackTraversalPolicy extends ReadingOrderTraversalPolicy {
+  final FocusNode fallbackNode;
+
+  GlobalFallbackTraversalPolicy({required this.fallbackNode}) : super();
+
+  @override
+  bool inDirection(FocusNode currentNode, TraversalDirection direction) {
+    lastMainFocus = null;
+    final handled = super.inDirection(currentNode, direction);
+    if (!handled && direction == TraversalDirection.left) {
+      lastMainFocus = currentNode;
+
+      if (fallbackNode.canRequestFocus && fallbackNode.context?.mounted == true) {
+        final cb = FocusTraversalPolicy.defaultTraversalRequestFocusCallback;
+        cb(fallbackNode);
+        return true;
+      }
+    }
+
+    return handled;
   }
 }

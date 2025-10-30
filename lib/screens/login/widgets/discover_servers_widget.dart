@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/credentials_model.dart';
 import 'package:fladder/providers/discovery_provider.dart';
@@ -37,6 +37,7 @@ class DiscoverServersWidget extends ConsumerWidget {
     return ListView(
       padding: const EdgeInsets.all(6),
       shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       children: [
         if (existingServers.isNotEmpty) ...[
           Row(
@@ -123,8 +124,8 @@ class _ServerInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: InkWell(
-        onTap: () => onPressed(server),
+      child: TextButton(
+        onPressed: () => onPressed(server),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
           child: Row(

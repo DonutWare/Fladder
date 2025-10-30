@@ -13,6 +13,7 @@ import 'package:fladder/screens/video_player/components/video_player_next_wrappe
 import 'package:fladder/screens/video_player/video_player_controls.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/themes_data.dart';
+import 'package:fladder/widgets/shared/back_intent_dpad.dart';
 
 class VideoPlayer extends ConsumerStatefulWidget {
   const VideoPlayer({super.key});
@@ -83,38 +84,40 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
       },
     );
 
-    return Material(
-      color: Colors.black,
-      child: Theme(
-        data: ThemesData.of(context).dark,
-        child: Container(
-          color: Colors.black,
-          child: GestureDetector(
-            onScaleUpdate: (details) {
-              lastScale = details.scale;
-            },
-            onScaleEnd: (details) {
-              if (lastScale < 1.0) {
-                ref.read(videoPlayerSettingsProvider.notifier).setFillScreen(false, context: context);
-              } else if (lastScale > 1.0) {
-                ref.read(videoPlayerSettingsProvider.notifier).setFillScreen(true, context: context);
-              }
-              lastScale = 0.0;
-            },
-            child: VideoPlayerNextWrapper(
-              video: Padding(
-                padding: fillScreen ? EdgeInsets.zero : EdgeInsets.only(left: padding.left, right: padding.right),
-                child: playerController.videoWidget(
-                  const Key("VideoPlayer"),
-                  fillScreen
-                      ? (MediaQuery.of(context).orientation == Orientation.portrait ? videoFit : BoxFit.cover)
-                      : videoFit,
+    return BackIntentDpad(
+      child: Material(
+        color: Colors.black,
+        child: Theme(
+          data: ThemesData.of(context).dark,
+          child: Container(
+            color: Colors.black,
+            child: GestureDetector(
+              onScaleUpdate: (details) {
+                lastScale = details.scale;
+              },
+              onScaleEnd: (details) {
+                if (lastScale < 1.0) {
+                  ref.read(videoPlayerSettingsProvider.notifier).setFillScreen(false, context: context);
+                } else if (lastScale > 1.0) {
+                  ref.read(videoPlayerSettingsProvider.notifier).setFillScreen(true, context: context);
+                }
+                lastScale = 0.0;
+              },
+              child: VideoPlayerNextWrapper(
+                video: Padding(
+                  padding: fillScreen ? EdgeInsets.zero : EdgeInsets.only(left: padding.left, right: padding.right),
+                  child: playerController.videoWidget(
+                    const Key("VideoPlayer"),
+                    fillScreen
+                        ? (MediaQuery.of(context).orientation == Orientation.portrait ? videoFit : BoxFit.cover)
+                        : videoFit,
+                  ),
                 ),
+                controls: const DesktopControls(),
+                overlays: [
+                  if (errorPlaying) const _VideoErrorWidget(),
+                ],
               ),
-              controls: const DesktopControls(),
-              overlays: [
-                if (errorPlaying) const _VideoErrorWidget(),
-              ],
             ),
           ),
         ),

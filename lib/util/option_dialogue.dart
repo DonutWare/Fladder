@@ -19,7 +19,7 @@ Future<List<T>> openMultiSelectOptions<T>(
       builder: (context, setState) => AlertDialog(
         title: Text(label),
         content: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.65,
+          width: MediaQuery.of(context).size.width * 0.85,
           child: ListView(
             physics: const AlwaysScrollableScrollPhysics(),
             shrinkWrap: true,

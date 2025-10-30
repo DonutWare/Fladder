@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:fladder/models/items/media_segments_model.dart';
+import 'package:fladder/models/settings/arguments_model.dart';
 import 'package:fladder/models/settings/key_combinations.dart';
 import 'package:fladder/util/bitrate_helper.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -20,6 +21,8 @@ enum VideoHotKeys {
   mute,
   volumeUp,
   volumeDown,
+  speedUp,
+  speedDown,
   nextVideo,
   prevVideo,
   nextChapter,
@@ -38,6 +41,8 @@ enum VideoHotKeys {
       VideoHotKeys.mute => context.localized.mute,
       VideoHotKeys.volumeUp => context.localized.volumeUp,
       VideoHotKeys.volumeDown => context.localized.volumeDown,
+      VideoHotKeys.speedUp => context.localized.speedUp,
+      VideoHotKeys.speedDown => context.localized.speedDown,
       VideoHotKeys.nextVideo => context.localized.nextVideo,
       VideoHotKeys.prevVideo => context.localized.prevVideo,
       VideoHotKeys.nextChapter => context.localized.nextChapter,
@@ -50,7 +55,7 @@ enum VideoHotKeys {
 }
 
 @Freezed(copyWith: true)
-class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
+abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
   const VideoPlayerSettingsModel._();
 
   factory VideoPlayerSettingsModel({
@@ -59,6 +64,7 @@ class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     @Default(false) bool fillScreen,
     @Default(true) bool hardwareAccel,
     @Default(false) bool useLibass,
+    @Default(false) bool enableTunneling,
     @Default(32) int bufferSize,
     PlayerOptions? playerOptions,
     @Default(100) double internalVolume,
@@ -78,7 +84,8 @@ class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
 
   factory VideoPlayerSettingsModel.fromJson(Map<String, dynamic> json) => _$VideoPlayerSettingsModelFromJson(json);
 
-  PlayerOptions get wantedPlayer => playerOptions ?? PlayerOptions.platformDefaults;
+  PlayerOptions get wantedPlayer =>
+      leanBackMode ? PlayerOptions.nativePlayer : playerOptions ?? PlayerOptions.platformDefaults;
 
   Map<VideoHotKeys, KeyCombination> get currentShortcuts =>
       _defaultVideoHotKeys.map((key, value) => MapEntry(key, hotKeys[key] ?? value));
@@ -87,6 +94,7 @@ class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
 
   bool playerSame(VideoPlayerSettingsModel other) {
     return other.hardwareAccel == hardwareAccel &&
+        other.enableTunneling == enableTunneling &&
         other.useLibass == useLibass &&
         other.bufferSize == bufferSize &&
         other.wantedPlayer == wantedPlayer;
@@ -102,6 +110,7 @@ class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
         other.fillScreen == fillScreen &&
         other.hardwareAccel == hardwareAccel &&
         other.useLibass == useLibass &&
+        other.enableTunneling == enableTunneling &&
         other.bufferSize == bufferSize &&
         other.internalVolume == internalVolume &&
         other.playerOptions == playerOptions &&
@@ -115,6 +124,7 @@ class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
         fillScreen.hashCode ^
         hardwareAccel.hashCode ^
         useLibass.hashCode ^
+        enableTunneling.hashCode ^
         bufferSize.hashCode ^
         internalVolume.hashCode ^
         audioDevice.hashCode;
@@ -123,13 +133,22 @@ class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
 
 enum PlayerOptions {
   libMDK,
-  libMPV;
+  libMPV,
+  nativePlayer;
 
   const PlayerOptions();
 
-  static Iterable<PlayerOptions> get available => kIsWeb ? {PlayerOptions.libMPV} : PlayerOptions.values;
+  static Iterable<PlayerOptions> get available => leanBackMode
+      ? {PlayerOptions.nativePlayer, PlayerOptions.libMPV}
+      : kIsWeb
+          ? {PlayerOptions.libMPV}
+          : switch (defaultTargetPlatform) {
+              TargetPlatform.android => PlayerOptions.values,
+              _ => {PlayerOptions.libMDK, PlayerOptions.libMPV},
+            };
 
   static PlayerOptions get platformDefaults {
+    if (leanBackMode) return PlayerOptions.nativePlayer;
     if (kIsWeb) return PlayerOptions.libMPV;
     return switch (defaultTargetPlatform) {
       _ => PlayerOptions.libMPV,
@@ -139,6 +158,7 @@ enum PlayerOptions {
   String label(BuildContext context) => switch (this) {
         PlayerOptions.libMDK => "MDK",
         PlayerOptions.libMPV => "MPV",
+        PlayerOptions.nativePlayer => "Native",
       };
 }
 
@@ -180,6 +200,10 @@ Map<VideoHotKeys, KeyCombination> get _defaultVideoHotKeys => {
           VideoHotKeys.mute => KeyCombination(key: LogicalKeyboardKey.keyM),
           VideoHotKeys.volumeUp => KeyCombination(key: LogicalKeyboardKey.arrowUp),
           VideoHotKeys.volumeDown => KeyCombination(key: LogicalKeyboardKey.arrowDown),
+          VideoHotKeys.speedUp =>
+            KeyCombination(key: LogicalKeyboardKey.arrowUp, modifier: LogicalKeyboardKey.controlLeft),
+          VideoHotKeys.speedDown =>
+            KeyCombination(key: LogicalKeyboardKey.arrowDown, modifier: LogicalKeyboardKey.controlLeft),
           VideoHotKeys.prevVideo =>
             KeyCombination(key: LogicalKeyboardKey.keyP, modifier: LogicalKeyboardKey.shiftLeft),
           VideoHotKeys.nextVideo =>

@@ -1171,6 +1171,7 @@
   "phone": "Phone",
   "tablet": "Tablet",
   "desktop": "Desktop",
+  "television": "Television",
   "layoutModeSingle": "Single",
   "layoutModeDual": "Dual",
   "copiedToClipboard": "Copied to clipboard",
@@ -1191,6 +1192,7 @@
   "segmentActionSkip": "Skip",
   "loading": "Loading",
   "exitFladderTitle": "Exit Fladder",
+  "exitFladderDesc": "Are you sure you want to close Fladder?",
   "castAndCrew": "Cast & Crew",
   "guestActor": "{count, plural, other{Guest Actors} one{Guest Actor}}",
   "@guestActor": {
@@ -1294,6 +1296,7 @@
   "usePostersForLibraryIconsDesc": "Show posters instead of icons for libraries",
   "offline": "Offline",
   "shortCuts": "Shortcuts",
+  "keyboardShortCuts": "Keyboard shortcuts",
   "skipForwardLength": "Skip forward length",
   "skipBackLength": "Skip back length",
   "playPause": "Play/Pause",
@@ -1302,6 +1305,8 @@
   "mute": "Mute",
   "volumeUp": "Volume Up",
   "volumeDown": "Volume Down",
+  "speedUp": "Speed Up",
+  "speedDown": "Speed Down",
   "nextVideo": "Next Video",
   "prevVideo": "Previous Video",
   "nextChapter": "Next Chapter",
@@ -1323,6 +1328,42 @@
     "placeholders": {
       "volume": {
         "type": "int"
+      }
+    }
+  },
+  "speedIndicator": "Playback rate: {speed}",
+  "@speedIndicator": {
+    "placeholders": {
+      "speed": {
+        "type": "double"
+      }
+    }
+  },
+  "quickConnectPostFailed": "Failed to get quick connect code",
+  "quickConnectLoginUsingCode": "Using quick connect",
+  "quickConnectEnterCodeDescription": "Enter the code below to login",
+  "showMore": "Show more",
+  "itemColorsTitle": "Item colors",
+  "itemColorsDesc": "Use item's primary color to theme the details page",
+  "mediaTunnelingTitle": "Media tunneling",
+  "mediaTunnelingDesc": "Enable media tunneling for native player",
+  "clientSettingsUseSystemIMETitle": "Use system keyboard",
+  "clientSettingsUseSystemIMEDesc": "Use the built-in keyboard provided by your system",
+  "nextUpInCount": "Next-up in {seconds}",
+  "@nextUpInCount": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "formattedTime": "{time}",
+  "@formattedTime": {
+    "description": "Formatted time",
+    "placeholders": {
+      "time": {
+        "type": "DateTime",
+        "format": "jm"
       }
     }
   }

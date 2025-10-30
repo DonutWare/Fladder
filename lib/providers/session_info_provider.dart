@@ -52,7 +52,7 @@ class SessionInfo extends _$SessionInfo {
 }
 
 @freezed
-class SessionInfoModel with _$SessionInfoModel {
+abstract class SessionInfoModel with _$SessionInfoModel {
   const SessionInfoModel._();
 
   factory SessionInfoModel({

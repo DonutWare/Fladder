@@ -29,13 +29,16 @@ import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/routes/auto_router.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/login/lock_screen.dart';
+import 'package:fladder/src/video_player_helper.g.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/application_info.dart';
 import 'package:fladder/util/fladder_config.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/string_extensions.dart';
+import 'package:fladder/util/svg_utils.dart';
 import 'package:fladder/util/themes_data.dart';
+import 'package:fladder/widgets/media_query_scaler.dart';
 
 bool get _isDesktop {
   if (kIsWeb) return false;
@@ -46,6 +49,8 @@ bool get _isDesktop {
   ].contains(defaultTargetPlatform);
 }
 
+bool nativeActivityStarted = false;
+
 Future<Map<String, dynamic>> loadConfig() async {
   final configString = await rootBundle.loadString('config/config.json');
   return jsonDecode(configString);
@@ -54,6 +59,11 @@ Future<Map<String, dynamic>> loadConfig() async {
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   final crashProvider = CrashLogNotifier();
+
+  await SvgUtils.preCacheSVGs();
+
+  // Check if running on android TV
+  final leanBackEnabled = !kIsWeb && Platform.isAndroid ? await NativeVideoActivity().isLeanBackEnabled() : false;
 
   if (defaultTargetPlatform == TargetPlatform.windows) {
     await SMTCWindows.initialize();
@@ -92,8 +102,8 @@ void main(List<String> args) async {
         sharedPreferencesProvider.overrideWith((ref) => sharedPreferences),
         applicationInfoProvider.overrideWith((ref) => applicationInfo),
         crashLogProvider.overrideWith((ref) => crashProvider),
-        argumentsStateProvider.overrideWith((ref) => ArgumentsModel.fromArguments(args)),
-        syncProvider.overrideWith((ref) => SyncNotifier(ref, applicationDirectory))
+        argumentsStateProvider.overrideWith((ref) => ArgumentsModel.fromArguments(args, leanBackEnabled)),
+        syncProvider.overrideWith((ref) => SyncNotifier(ref, applicationDirectory)),
       ],
       child: AdaptiveLayoutBuilder(
         child: (context) => const Main(),
@@ -110,26 +120,36 @@ class Main extends ConsumerStatefulWidget with WindowListener {
 }
 
 class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBindingObserver {
-  DateTime dateTime = DateTime.now();
-  bool hidden = false;
+  DateTime _lastPaused = DateTime.now();
+  bool _hidden = false;
   late final autoRouter = AutoRouter(ref: ref);
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
-    if (ref.read(lockScreenActiveProvider) || ref.read(userProvider) == null) {
-      dateTime = DateTime.now();
+    final ignoreLifeCycle = ref.read(lockScreenActiveProvider) ||
+        ref.read(userProvider) == null ||
+        ref.read(videoPlayerProvider).lastState?.playing == true ||
+        nativeActivityStarted;
+
+    if (ignoreLifeCycle) {
+      _lastPaused = DateTime.now();
+      _hidden = false;
       return;
     }
+
     switch (state) {
       case AppLifecycleState.resumed:
-        enableTimeOut();
+        if (_hidden) {
+          enableTimeOut();
+          _hidden = false;
+        }
         break;
-      case AppLifecycleState.hidden:
-        break;
+
       case AppLifecycleState.paused:
-        hidden = true;
-        dateTime = DateTime.now();
+        _hidden = true;
+        _lastPaused = DateTime.now();
         break;
+
       default:
         break;
     }
@@ -137,14 +157,12 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
 
   void enableTimeOut() async {
     final timeOut = ref.read(clientSettingsProvider).timeOut;
-
     if (timeOut == null) return;
 
-    final difference = DateTime.now().difference(dateTime).abs();
+    final difference = DateTime.now().difference(_lastPaused);
 
-    if (difference > timeOut && ref.read(userProvider)?.authMethod != Authentication.autoLogin && hidden) {
-      hidden = false;
-      dateTime = DateTime.now();
+    if (difference > timeOut && ref.read(userProvider)?.authMethod != Authentication.autoLogin) {
+      _lastPaused = DateTime.now();
 
       // Stop playback if the user was still watching a video
       await ref.read(videoPlayerProvider).pause();
@@ -248,11 +266,8 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
     final language = ref.watch(clientSettingsProvider
         .select((value) => value.selectedLocale ?? WidgetsBinding.instance.platformDispatcher.locale));
     final scrollBehaviour = const MaterialScrollBehavior();
-    return Shortcuts(
-      shortcuts: <LogicalKeySet, Intent>{
-        LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
-      },
-      child: DynamicColorBuilder(builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+    return DynamicColorBuilder(
+      builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
         final lightTheme = themeColor == null
             ? FladderTheme.theme(lightDynamic ?? FladderTheme.defaultScheme(Brightness.light), schemeVariant)
             : FladderTheme.theme(themeColor.schemeLight, schemeVariant);
@@ -281,9 +296,12 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
               }
               return locale;
             },
-            builder: (context, child) => LocalizationContextWrapper(
-              child: ScaffoldMessenger(child: child ?? Container()),
-              currentLocale: language,
+            builder: (context, child) => MediaQueryScaler(
+              child: LocalizationContextWrapper(
+                child: ScaffoldMessenger(child: child ?? Container()),
+                currentLocale: language,
+              ),
+              enable: ref.read(argumentsStateProvider).leanBackMode,
             ),
             debugShowCheckedModeBanner: false,
             darkTheme: darkTheme.copyWith(
@@ -300,7 +318,7 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
             routerConfig: autoRouter.config(),
           ),
         );
-      }),
+      },
     );
   }
 }

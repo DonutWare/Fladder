@@ -7,7 +7,7 @@ import 'package:fladder/models/syncing/sync_item.dart';
 part 'sync_settings_model.freezed.dart';
 
 @Freezed(toJson: false, fromJson: false, copyWith: true)
-class SyncSettingsModel with _$SyncSettingsModel {
+abstract class SyncSettingsModel with _$SyncSettingsModel {
   const SyncSettingsModel._();
 
   factory SyncSettingsModel({

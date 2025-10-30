@@ -8,7 +8,7 @@ part 'key_combinations.freezed.dart';
 part 'key_combinations.g.dart';
 
 @Freezed(toJson: true, fromJson: true, copyWith: true)
-class KeyCombination with _$KeyCombination {
+abstract class KeyCombination with _$KeyCombination {
   const KeyCombination._();
 
   factory KeyCombination({

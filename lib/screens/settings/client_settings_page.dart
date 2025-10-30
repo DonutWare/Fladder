@@ -95,6 +95,15 @@ class _ClientSettingsPageState extends ConsumerState<ClientSettingsPage> {
         if (kDebugMode) ...[
           const SizedBox(height: 64),
           SettingsListTile(
+            label: const Text(
+              "Clear cache",
+            ),
+            contentColor: Theme.of(context).colorScheme.error,
+            onTap: () {
+              PaintingBinding.instance.imageCache.clear();
+            },
+          ),
+          SettingsListTile(
             label: Text(
               context.localized.clearAllSettings,
             ),

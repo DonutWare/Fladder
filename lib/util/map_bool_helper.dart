@@ -37,14 +37,29 @@ extension MapExtensions<T> on Map<T, bool> {
   bool get hasEnabled => values.any((element) => element == true);
 
   //Replaces only keys that exist with the new values
-  Map<T, bool> replaceMap(Map<T, bool> oldMap) {
+  Map<T, bool> replaceMap(Map<T, bool> oldMap, {bool enabledOnly = false}) {
+    if (oldMap.isEmpty) return this;
+
     Map<T, bool> result = {};
 
     forEach((key, value) {
-      result[key] = oldMap[key] ?? false;
+      if (enabledOnly) {
+        if (oldMap[key] == true) {
+          result[key] = true;
+        } else {
+          result[key] = value;
+        }
+      } else {
+        result[key] = oldMap[key] ?? false;
+      }
     });
 
     return result;
+  }
+
+  Map<T, bool> sortByKey(String Function(T value) keySelector) {
+    final sortedEntries = entries.toList()..sort((a, b) => keySelector(a.key).compareTo(keySelector(b.key)));
+    return Map<T, bool>.fromEntries(sortedEntries);
   }
 }
 

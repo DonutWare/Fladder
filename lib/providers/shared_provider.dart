@@ -15,6 +15,7 @@ import 'package:fladder/providers/settings/book_viewer_settings_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/home_settings_provider.dart';
 import 'package:fladder/providers/settings/photo_view_settings_provider.dart';
+import 'package:fladder/providers/settings/pigeon_player_settings_provider.dart';
 import 'package:fladder/providers/settings/subtitle_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
@@ -25,6 +26,9 @@ final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
 
 final sharedUtilityProvider = Provider<SharedUtility>((ref) {
   final sharedPrefs = ref.watch(sharedPreferencesProvider);
+
+  //Init pigeon settings sync for native
+  ref.read(pigeonPlayerSettingsSyncProvider);
   return SharedUtility(ref: ref, sharedPreferences: sharedPrefs);
 });
 
@@ -55,10 +59,30 @@ class SharedUtility {
   }
 
   Future<bool?> addAccount(AccountModel account) async {
-    return await saveAccounts(getAccounts()
-      ..add(account.copyWith(
-        lastUsed: DateTime.now(),
-      )));
+    final newAccount = account.copyWith(
+      lastUsed: DateTime.now(),
+    );
+
+    List<AccountModel> accounts = getAccounts().toList();
+    if (accounts.any((element) => element.sameIdentity(newAccount))) {
+      accounts = accounts
+          .map(
+            (e) => e.sameIdentity(newAccount)
+                ? e.copyWith(
+                    credentials: newAccount.credentials,
+                    lastUsed: newAccount.lastUsed,
+                  )
+                : e,
+          )
+          .toList();
+    } else {
+      accounts = [
+        ...accounts,
+        newAccount,
+      ];
+    }
+
+    return await saveAccounts(accounts);
   }
 
   Future<bool?> removeAccount(AccountModel? account) async {
@@ -112,7 +136,7 @@ class SharedUtility {
       return ClientSettingsModel.fromJson(jsonDecode(sharedPreferences.getString(_clientSettingsKey) ?? ""));
     } catch (e) {
       log(e.toString());
-      return ClientSettingsModel();
+      return ClientSettingsModel.defaultModel();
     }
   }
 
@@ -124,7 +148,7 @@ class SharedUtility {
       return HomeSettingsModel.fromJson(jsonDecode(sharedPreferences.getString(_homeSettingsKey) ?? ""));
     } catch (e) {
       log(e.toString());
-      return HomeSettingsModel();
+      return HomeSettingsModel.defaultModel();
     }
   }
 

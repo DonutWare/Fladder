@@ -10,6 +10,7 @@ import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/sticky_header_text.dart';
 import 'package:fladder/util/string_extensions.dart';
+import 'package:fladder/widgets/shared/ensure_visible.dart';
 
 class NextUpEpisode extends ConsumerWidget {
   final EpisodeModel nextEpisode;
@@ -20,6 +21,7 @@ class NextUpEpisode extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final alreadyPlayed = nextEpisode.userData.played;
     final episodeSummary = nextEpisode.overview.summary.maxLength(limitTo: 250);
+    final style = Theme.of(context).textTheme.titleMedium;
     return Column(
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,11 +29,10 @@ class NextUpEpisode extends ConsumerWidget {
         StickyHeaderText(
           label: alreadyPlayed ? context.localized.reWatch : context.localized.nextUp,
         ),
-        Opacity(
-          opacity: 0.75,
-          child: SelectableText(
-            nextEpisode.seasonEpisodeLabelFull(context),
-            style: Theme.of(context).textTheme.titleMedium,
+        SelectableText(
+          nextEpisode.seasonEpisodeLabelFull(context),
+          style: style?.copyWith(
+            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.75),
           ),
         ),
         SelectableText(
@@ -49,6 +50,11 @@ class NextUpEpisode extends ConsumerWidget {
                     showLabel: false,
                     onTap: () => nextEpisode.navigateTo(context),
                     actions: const [],
+                    onFocusChanged: (value) {
+                      if (value) {
+                        context.ensureVisible();
+                      }
+                    },
                     isCurrentEpisode: false,
                   ),
                   const SizedBox(height: 16),
@@ -71,6 +77,11 @@ class NextUpEpisode extends ConsumerWidget {
                       showLabel: false,
                       onTap: () => nextEpisode.navigateTo(context),
                       actions: const [],
+                      onFocusChanged: (value) {
+                        if (value) {
+                          context.ensureVisible();
+                        }
+                      },
                       isCurrentEpisode: false,
                     ),
                   ),

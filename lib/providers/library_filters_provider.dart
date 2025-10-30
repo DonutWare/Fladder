@@ -10,7 +10,7 @@ class LibraryFilters extends _$LibraryFilters {
   @override
   List<LibraryFiltersModel> build(List<String> ids) => ref.watch(
         userProvider
-            .select((value) => (value?.savedFilters ?? []).where((element) => element.containsSameIds(ids)).toList()),
+            .select((value) => (value?.libraryFilters ?? []).where((element) => element.containsSameIds(ids)).toList()),
       );
 
   void removeFilter(LibraryFiltersModel model) => ref.read(userProvider.notifier).removeFilter(model);

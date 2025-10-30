@@ -24,7 +24,7 @@ class ItemLogo extends StatelessWidget {
       child: Text(
         item.parentBaseModel.name,
         textAlign: TextAlign.start,
-        maxLines: 3,
+        maxLines: 2,
         overflow: TextOverflow.fade,
         style: textStyle ??
             Theme.of(context).textTheme.headlineLarge?.copyWith(

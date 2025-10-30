@@ -41,11 +41,10 @@ import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
-import 'package:fladder/util/migration/isar_drift_migration.dart';
 
 final syncProvider = StateNotifierProvider<SyncNotifier, SyncSettingsModel>((ref) => throw UnimplementedError());
 
-final downloadTasksProvider = StateProvider.family<DownloadStream, String>((ref, id) => DownloadStream.empty());
+final downloadTasksProvider = StateProvider.family<DownloadStream, String?>((ref, id) => DownloadStream.empty());
 
 class SyncNotifier extends StateNotifier<SyncSettingsModel> {
   SyncNotifier(this.ref, this.mobileDirectory) : super(SyncSettingsModel()) {
@@ -65,11 +64,6 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
   set state(SyncSettingsModel value) {
     super.state = value;
     updateSyncStates();
-  }
-
-  void migrateFromIsar() async {
-    await isarMigration(ref, _db, mainDirectory.path);
-    _initializeQueryStream();
   }
 
   Future<void> updateSyncStates() async {
@@ -114,7 +108,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
         updateSyncStates();
       }
     });
-    migrateFromIsar();
+    _initializeQueryStream();
   }
 
   void _initializeQueryStream({String? id}) async {
@@ -321,17 +315,13 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
               )
               .toList());
 
-      if (item.taskId != null) {
-        await ref.read(backgroundDownloaderProvider).cancelTaskWithId(item.taskId!);
-      }
+      await ref.read(backgroundDownloaderProvider).cancelTaskWithId(item.id);
 
       await _db.deleteAllItems([...nestedChildren, item]);
 
       for (var i = 0; i < nestedChildren.length; i++) {
         final element = nestedChildren[i];
-        if (element.taskId != null) {
-          await ref.read(backgroundDownloaderProvider).cancelTaskWithId(element.taskId!);
-        }
+        await ref.read(backgroundDownloaderProvider).cancelTaskWithId(element.id);
         if (await element.directory.exists()) {
           await element.directory.delete(recursive: true);
         }
@@ -462,16 +452,14 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
 
     ref.read(downloadTasksProvider(syncedItem.id).notifier).update((state) => DownloadStream.empty());
 
-    final taskId = task?.taskId;
-    if (taskId != null) {
-      ref.read(backgroundDownloaderProvider).cancelTaskWithId(taskId);
-    }
+    ref.read(backgroundDownloaderProvider).cancelTaskWithId(syncedItem.id);
+
     cleanupTemporaryFiles();
     refresh();
     return syncedItem;
   }
 
-  Future<DownloadStream?> syncFile(SyncedItem syncItem, bool skipDownload) async {
+  Future<bool?> syncFile(SyncedItem syncItem, bool skipDownload) async {
     cleanupTemporaryFiles();
 
     final playbackResponse = await api.itemsItemIdPlaybackInfoPost(
@@ -511,8 +499,12 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     final downloadUrl = path.joinAll([user.server, "Items", syncItem.id, "Download"]);
 
     try {
-      if (!skipDownload && currentTask.task == null) {
+      if (currentTask.task != null) {
+        await ref.read(backgroundDownloaderProvider).cancelTaskWithId(currentTask.id);
+      }
+      if (!skipDownload) {
         final downloadTask = DownloadTask(
+          taskId: syncItem.id,
           url: Uri.parse(downloadUrl).toString(),
           directory: syncItem.directory.path,
           filename: syncItem.videoFileName,
@@ -525,36 +517,9 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
           allowPause: true,
         );
 
-        final defaultDownloadStream =
-            DownloadStream(id: syncItem.id, task: downloadTask, progress: 0.0, status: TaskStatus.enqueued);
-
+        final defaultDownloadStream = DownloadStream(id: syncItem.id, task: downloadTask, status: TaskStatus.enqueued);
         ref.read(downloadTasksProvider(syncItem.id).notifier).update((state) => defaultDownloadStream);
-
-        ref.read(backgroundDownloaderProvider).download(
-          downloadTask,
-          onProgress: (progress) {
-            if (progress > 0 && progress < 1) {
-              ref.read(downloadTasksProvider(syncItem.id).notifier).update(
-                    (state) => state.copyWith(progress: progress),
-                  );
-            } else {
-              ref.read(downloadTasksProvider(syncItem.id).notifier).update(
-                    (state) => state.copyWith(progress: null),
-                  );
-            }
-          },
-          onStatus: (status) {
-            ref.read(downloadTasksProvider(syncItem.id).notifier).update(
-                  (state) => state.copyWith(status: status),
-                );
-
-            if (status == TaskStatus.complete || status == TaskStatus.canceled) {
-              ref.read(downloadTasksProvider(syncItem.id).notifier).update((state) => DownloadStream.empty());
-            }
-          },
-        );
-
-        return defaultDownloadStream;
+        return await ref.read(backgroundDownloaderProvider).enqueue(downloadTask);
       }
     } catch (e) {
       log(e.toString());

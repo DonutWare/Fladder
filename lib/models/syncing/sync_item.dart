@@ -17,13 +17,12 @@ import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
-import 'package:fladder/models/syncing/i_synced_item.dart';
 import 'package:fladder/util/localization_helper.dart';
 
 part 'sync_item.freezed.dart';
 
 @Freezed(copyWith: true)
-class SyncedItem with _$SyncedItem {
+abstract class SyncedItem with _$SyncedItem {
   const SyncedItem._();
 
   factory SyncedItem({
@@ -83,10 +82,6 @@ class SyncedItem with _$SyncedItem {
         _ => TaskStatus.notFound,
       };
 
-  String? get taskId => task?.taskId;
-
-  bool get childHasTask => false;
-
   double get totalProgress => 0.0;
 
   bool get hasVideoFile => videoFileName?.isNotEmpty == true && (fileSize ?? 0) > 0;
@@ -94,10 +89,6 @@ class SyncedItem with _$SyncedItem {
   TaskStatus get anyStatus {
     return TaskStatus.notFound;
   }
-
-  double get downloadProgress => 0.0;
-  TaskStatus get downloadStatus => TaskStatus.notFound;
-  DownloadTask? get task => null;
 
   Future<bool> deleteDatFiles(Ref ref) async {
     try {
@@ -124,39 +115,6 @@ class SyncedItem with _$SyncedItem {
     return itemModel.copyWith(
       images: images,
       userData: userData,
-    );
-  }
-
-  factory SyncedItem.fromIsar(ISyncedItem isarSyncedItem, String savePath) {
-    return SyncedItem(
-      id: isarSyncedItem.id,
-      parentId: isarSyncedItem.parentId,
-      userId: isarSyncedItem.userId ?? "",
-      sortName: isarSyncedItem.sortName,
-      syncing: isarSyncedItem.syncing,
-      path: joinAll([savePath, isarSyncedItem.path ?? ""]),
-      fileSize: isarSyncedItem.fileSize,
-      videoFileName: isarSyncedItem.videoFileName,
-      mediaSegments: isarSyncedItem.mediaSegments != null
-          ? MediaSegmentsModel.fromJson(jsonDecode(isarSyncedItem.mediaSegments!))
-          : null,
-      fTrickPlayModel: isarSyncedItem.trickPlayModel != null
-          ? TrickPlayModel.fromJson(jsonDecode(isarSyncedItem.trickPlayModel!))
-          : null,
-      fImages: isarSyncedItem.images != null ? ImagesData.fromJson(jsonDecode(isarSyncedItem.images!)) : null,
-      fChapters: isarSyncedItem.chapters
-              ?.map(
-                (e) => Chapter.fromJson(jsonDecode(e)),
-              )
-              .toList() ??
-          [],
-      subtitles: isarSyncedItem.subtitles
-              ?.map(
-                (e) => SubStreamModel.fromJson(jsonDecode(e)),
-              )
-              .toList() ??
-          [],
-      userData: isarSyncedItem.userData != null ? UserData.fromJson(jsonDecode(isarSyncedItem.userData!)) : null,
     );
   }
 }

@@ -128,13 +128,14 @@ class PersonModelMapper extends SubClassMapperBase<PersonModel> {
 
 mixin PersonModelMappable {
   PersonModelCopyWith<PersonModel, PersonModel, PersonModel> get copyWith =>
-      _PersonModelCopyWithImpl(this as PersonModel, $identity, $identity);
+      _PersonModelCopyWithImpl<PersonModel, PersonModel>(
+          this as PersonModel, $identity, $identity);
 }
 
 extension PersonModelValueCopy<$R, $Out>
     on ObjectCopyWith<$R, PersonModel, $Out> {
   PersonModelCopyWith<$R, PersonModel, $Out> get $asPersonModel =>
-      $base.as((v, t, t2) => _PersonModelCopyWithImpl(v, t, t2));
+      $base.as((v, t, t2) => _PersonModelCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
 abstract class PersonModelCopyWith<$R, $In extends PersonModel, $Out>
@@ -254,5 +255,5 @@ class _PersonModelCopyWithImpl<$R, $Out>
   @override
   PersonModelCopyWith<$R2, PersonModel, $Out2> $chain<$R2, $Out2>(
           Then<$Out2, $R2> t) =>
-      _PersonModelCopyWithImpl($value, $cast, t);
+      _PersonModelCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

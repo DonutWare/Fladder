@@ -16,6 +16,7 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
+import 'package:fladder/models/items/photos_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
 import 'package:fladder/providers/auth_provider.dart';
 import 'package:fladder/providers/image_provider.dart';
@@ -76,7 +77,7 @@ class JellyService {
   final JellyfinOpenApi _api;
 
   JellyfinOpenApi get api {
-    var authServer = ref.read(authProvider).tempCredentials.server;
+    var authServer = ref.read(authProvider).serverLoginModel?.tempCredentials.server ?? "";
     var currentServer = ref.read(userProvider)?.credentials.server;
     if ((authServer.isNotEmpty ? authServer : currentServer) == FakeHelper.fakeTestServerUrl) {
       return FakeJellyfinOpenApi();
@@ -342,6 +343,20 @@ class JellyService {
     return response.copyWith(
       body: ServerQueryResult.fromBaseQuery(response.bodyOrThrow, ref),
     );
+  }
+
+  Future<List<PhotoModel>> itemsGetAlbumPhotos({
+    String? albumId,
+  }) async {
+    final response = await itemsGet(
+      parentId: albumId,
+      enableUserData: true,
+      fields: [
+        ItemFields.parentid,
+        ItemFields.datecreated,
+      ],
+    );
+    return response.body?.items.whereType<PhotoModel>().toList() ?? [];
   }
 
   Future<Response<List<ItemBaseModel>>> personsGet({
@@ -1111,6 +1126,8 @@ class JellyService {
 
   Future<Response<bool>> quickConnectEnabled() async => api.quickConnectEnabledGet();
 
+  Future<Response<BrandingOptions>> getBranding() async => api.brandingConfigurationGet();
+
   Future<Response<dynamic>> deleteItem(String itemId) => api.itemsItemIdDelete(itemId: itemId);
 
   Future<UserConfiguration?> _updateUserConfiguration(UserConfiguration newUserConfiguration) async {
@@ -1145,6 +1162,22 @@ class JellyService {
       rememberSubtitleSelections: !(current.rememberSubtitleSelections ?? false),
     );
     return _updateUserConfiguration(updated);
+  }
+
+  Future<Response<QuickConnectResult>> quickConnectInitiate() async {
+    return api.quickConnectInitiatePost();
+  }
+
+  Future<Response<QuickConnectResult>> quickConnectConnectGet({
+    String? secret,
+  }) async {
+    return api.quickConnectConnectGet(secret: secret);
+  }
+
+  Future<Response<AuthenticationResult>> quickConnectAuthenticate(String secret) async {
+    return api.usersAuthenticateWithQuickConnectPost(
+      body: QuickConnectDto(secret: secret),
+    );
   }
 }
 

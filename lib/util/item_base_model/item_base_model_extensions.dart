@@ -8,7 +8,6 @@ import 'package:fladder/models/book_model.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
-import 'package:fladder/models/items/photos_model.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/collections/add_to_collection.dart';
@@ -43,6 +42,7 @@ extension ItemBaseModelsBooleans on List<ItemBaseModel> {
   }
 
   FladderItemType get getMostCommonType {
+    if (isEmpty) return FladderItemType.movie;
     final Map<FladderItemType, int> counts = {};
 
     for (final item in this) {
@@ -142,7 +142,7 @@ extension ItemBaseModelExtensions on ItemBaseModel {
       else if (!exclude.contains(ItemActions.showAlbum) && galleryItem)
         ItemActionButton(
           icon: Icon(FladderItemType.photoAlbum.icon),
-          action: () => (this as PhotoModel).navigateToAlbum(context),
+          action: () => parentBaseModel.navigateTo(context),
           label: Text(context.localized.showAlbum),
         ),
       if (!exclude.contains(ItemActions.playFromStart))

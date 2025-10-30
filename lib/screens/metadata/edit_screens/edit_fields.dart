@@ -1,5 +1,11 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 import 'package:collection/collection.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
+import 'package:intl/intl.dart';
+
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/providers/edit_item_provider.dart';
@@ -12,10 +18,7 @@ import 'package:fladder/util/list_extensions.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/widgets/shared/adaptive_date_picker.dart';
 import 'package:fladder/widgets/shared/enum_selection.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
+import 'package:fladder/widgets/shared/item_actions.dart';
 
 class EditFields extends ConsumerStatefulWidget {
   final Map<String, dynamic> fields;
@@ -63,14 +66,14 @@ class _EditGeneralState extends ConsumerState<EditFields> {
                               trailing: EnumBox(
                                 current: map.entries.firstWhereOrNull((element) => element.value == true)?.key ?? "",
                                 itemBuilder: (context) => [
-                                  PopupMenuItem(
-                                    child: const Text(""),
-                                    onTap: () => ref.read(editItemProvider.notifier).updateField(MapEntry(e.key, "")),
+                                  ItemActionButton(
+                                    label: const Text(""),
+                                    action: () => ref.read(editItemProvider.notifier).updateField(MapEntry(e.key, "")),
                                   ),
                                   ...map.entries.map(
-                                    (mapEntry) => PopupMenuItem(
-                                      child: Text(mapEntry.key),
-                                      onTap: () => ref
+                                    (mapEntry) => ItemActionButton(
+                                      label: Text(mapEntry.key),
+                                      action: () => ref
                                           .read(editItemProvider.notifier)
                                           .updateField(MapEntry(e.key, mapEntry.key)),
                                     ),
@@ -240,9 +243,9 @@ class _EditGeneralState extends ConsumerState<EditFields> {
                                                         .whereNot(
                                                             (element) => element == PersonKind.swaggerGeneratedUnknown)
                                                         .map(
-                                                          (entry) => PopupMenuItem(
-                                                            child: Text(entry.name.toUpperCaseSplit()),
-                                                            onTap: () {
+                                                          (entry) => ItemActionButton(
+                                                            label: Text(entry.name.toUpperCaseSplit()),
+                                                            action: () {
                                                               setState(() {
                                                                 personType = entry;
                                                               });
@@ -570,9 +573,9 @@ class _EditGeneralState extends ConsumerState<EditFields> {
                                     current: (e.value as DisplayOrder).value.toUpperCaseSplit(),
                                     itemBuilder: (context) => DisplayOrder.values
                                         .map(
-                                          (mapEntry) => PopupMenuItem(
-                                            child: Text(mapEntry.value.toUpperCaseSplit()),
-                                            onTap: () => ref
+                                          (mapEntry) => ItemActionButton(
+                                            label: Text(mapEntry.value.toUpperCaseSplit()),
+                                            action: () => ref
                                                 .read(editItemProvider.notifier)
                                                 .updateField(MapEntry(e.key, mapEntry.value)),
                                           ),
@@ -594,9 +597,9 @@ class _EditGeneralState extends ConsumerState<EditFields> {
                                 current: (e.value as ShowStatus).value,
                                 itemBuilder: (context) => ShowStatus.values
                                     .map(
-                                      (mapEntry) => PopupMenuItem(
-                                        child: Text(mapEntry.value),
-                                        onTap: () => ref
+                                      (mapEntry) => ItemActionButton(
+                                        label: Text(mapEntry.value),
+                                        action: () => ref
                                             .read(editItemProvider.notifier)
                                             .updateField(MapEntry(e.key, mapEntry.value)),
                                       ),

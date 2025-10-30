@@ -12,6 +12,13 @@ sealed class NameSwitch {
   String label(BuildContext context);
 }
 
+class Resume extends NameSwitch {
+  const Resume();
+
+  @override
+  String label(BuildContext context) => context.localized.dashboardContinue;
+}
+
 class NextUp extends NameSwitch {
   const NextUp();
 

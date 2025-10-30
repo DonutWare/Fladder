@@ -14,6 +14,7 @@ import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/util/input_handler.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/string_extensions.dart';
+import 'package:fladder/widgets/keyboard/slide_in_keyboard.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/adaptive_fab.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/destination_model.dart';
 import 'package:fladder/widgets/navigation_scaffold/navigation_scaffold.dart';
@@ -44,7 +45,7 @@ enum HomeTabs {
         HomeTabs.dashboard => context.router.navigate(const DashboardRoute()),
         HomeTabs.library => context.router.navigate(const LibraryRoute()),
         HomeTabs.favorites => context.router.navigate(const FavouritesRoute()),
-        HomeTabs.sync => context.router.navigate(SyncedRoute()),
+        HomeTabs.sync => context.router.navigate(const SyncedRoute()),
       };
 
   String label(BuildContext context) => switch (this) {
@@ -101,7 +102,7 @@ class HomeScreen extends ConsumerWidget {
                   label: context.localized.navigationSync,
                   icon: Icon(e.icon),
                   selectedIcon: Icon(e.selectedIcon),
-                  route: SyncedRoute(),
+                  route: const SyncedRoute(),
                   action: () => e.navigate(context),
                 );
               }
@@ -148,10 +149,12 @@ class HomeScreen extends ConsumerWidget {
         controller: HeroController(),
         child: AutoRouter(
           builder: (context, child) {
-            return NavigationScaffold(
-              destinations: destinations.nonNulls.toList(),
-              currentRouteName: context.router.current.name,
-              nestedChild: child,
+            return CustomKeyboardWrapper(
+              child: NavigationScaffold(
+                destinations: destinations.nonNulls.toList(),
+                currentRouteName: context.router.current.name,
+                nestedChild: child,
+              ),
             );
           },
         ),

@@ -5,10 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
-import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/screens/shared/media/banner_play_button.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
+import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/themes_data.dart';
@@ -99,9 +99,7 @@ class _MediaBannerState extends ConsumerState<MediaBanner> {
               surfaceTintColor: overlayColor,
               color: overlayColor,
               child: MouseRegion(
-                onEnter: (event) => setState(() => showControls = true),
                 onHover: (event) => timer.reset(),
-                onExit: (event) => setState(() => showControls = false),
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
@@ -146,56 +144,52 @@ class _MediaBannerState extends ConsumerState<MediaBanner> {
                                 ],
                               ),
                             ),
-                            child: Stack(
-                              children: [
-                                SizedBox(
-                                  width: double.infinity,
-                                  height: double.infinity,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(1),
-                                    child: FladderImage(
-                                      fit: BoxFit.cover,
-                                      image: currentItem.bannerImage,
-                                    ),
+                            child: FocusButton(
+                              onTap: () => currentItem.navigateTo(context),
+                              onLongPress: AdaptiveLayout.inputDeviceOf(context) == InputDevice.touch
+                                  ? () async {
+                                      interacting = true;
+                                      final poster = currentItem;
+                                      showBottomSheetPill(
+                                        context: context,
+                                        item: poster,
+                                        content: (scrollContext, scrollController) => ListView(
+                                          shrinkWrap: true,
+                                          controller: scrollController,
+                                          children: poster
+                                              .generateActions(context, ref)
+                                              .listTileItems(scrollContext, useIcons: true),
+                                        ),
+                                      );
+                                      interacting = false;
+                                      timer.reset();
+                                    }
+                                  : null,
+                              onSecondaryTapDown: AdaptiveLayout.inputDeviceOf(context) == InputDevice.touch
+                                  ? null
+                                  : (details) async {
+                                      Offset localPosition = details.globalPosition;
+                                      RelativeRect position = RelativeRect.fromLTRB(
+                                          localPosition.dx - 320, localPosition.dy, localPosition.dx, localPosition.dy);
+                                      final poster = currentItem;
+
+                                      await showMenu(
+                                        context: context,
+                                        position: position,
+                                        items: poster.generateActions(context, ref).popupMenuItems(useIcons: true),
+                                      );
+                                    },
+                              child: SizedBox(
+                                width: double.infinity,
+                                height: double.infinity,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(1),
+                                  child: FladderImage(
+                                    fit: BoxFit.cover,
+                                    image: currentItem.bannerImage,
                                   ),
                                 ),
-                                FlatButton(
-                                  onTap: () => currentItem.navigateTo(context),
-                                  onLongPress: AdaptiveLayout.of(context).inputDevice == InputDevice.touch
-                                      ? () async {
-                                          interacting = true;
-                                          final poster = currentItem;
-                                          showBottomSheetPill(
-                                            context: context,
-                                            item: poster,
-                                            content: (scrollContext, scrollController) => ListView(
-                                              shrinkWrap: true,
-                                              controller: scrollController,
-                                              children: poster
-                                                  .generateActions(context, ref)
-                                                  .listTileItems(scrollContext, useIcons: true),
-                                            ),
-                                          );
-                                          interacting = false;
-                                          timer.reset();
-                                        }
-                                      : null,
-                                  onSecondaryTapDown: AdaptiveLayout.of(context).inputDevice == InputDevice.touch
-                                      ? null
-                                      : (details) async {
-                                          Offset localPosition = details.globalPosition;
-                                          RelativeRect position = RelativeRect.fromLTRB(localPosition.dx - 320,
-                                              localPosition.dy, localPosition.dx, localPosition.dy);
-                                          final poster = currentItem;
-
-                                          await showMenu(
-                                            context: context,
-                                            position: position,
-                                            items: poster.generateActions(context, ref).popupMenuItems(useIcons: true),
-                                          );
-                                        },
-                                ),
-                              ],
+                              ),
                             ),
                           ),
                         ),

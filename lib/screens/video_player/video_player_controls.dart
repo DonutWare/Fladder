@@ -26,6 +26,7 @@ import 'package:fladder/screens/video_player/components/video_player_controls_ex
 import 'package:fladder/screens/video_player/components/video_player_options_sheet.dart';
 import 'package:fladder/screens/video_player/components/video_player_quality_controls.dart';
 import 'package:fladder/screens/video_player/components/video_player_seek_indicator.dart';
+import 'package:fladder/screens/video_player/components/video_player_speed_indicator.dart';
 import 'package:fladder/screens/video_player/components/video_player_volume_indicator.dart';
 import 'package:fladder/screens/video_player/components/video_progress_bar.dart';
 import 'package:fladder/screens/video_player/components/video_volume_slider.dart';
@@ -46,6 +47,8 @@ class DesktopControls extends ConsumerStatefulWidget {
 
 class _DesktopControlsState extends ConsumerState<DesktopControls> {
   final GlobalKey _bottomControlsKey = GlobalKey();
+
+  late final initInputDevice = AdaptiveLayout.inputDeviceOf(context);
 
   late RestartableTimer timer = RestartableTimer(
     const Duration(seconds: 5),
@@ -77,7 +80,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
       child: InputHandler(
         autoFocus: true,
         keyMap: ref.watch(videoPlayerSettingsProvider.select((value) => value.currentShortcuts)),
-        keyMapResult: (result) => _onKey(result),
+        keyMapResult: _onKey,
         child: PopScope(
           canPop: false,
           onPopInvokedWithResult: (didPop, result) {
@@ -94,12 +97,9 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
               children: [
                 Positioned.fill(
                   child: GestureDetector(
-                    onTap: AdaptiveLayout.of(context).inputDevice == InputDevice.pointer
-                        ? () => player.playOrPause()
-                        : () => toggleOverlay(),
-                    onDoubleTap: AdaptiveLayout.of(context).inputDevice == InputDevice.pointer
-                        ? () => fullScreenHelper.toggleFullScreen(ref)
-                        : null,
+                    onTap: initInputDevice == InputDevice.pointer ? () => player.playOrPause() : () => toggleOverlay(),
+                    onDoubleTap:
+                        initInputDevice == InputDevice.pointer ? () => fullScreenHelper.toggleFullScreen(ref) : null,
                   ),
                 ),
                 if (subtitleWidget != null) subtitleWidget,
@@ -125,6 +125,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                 ),
                 const VideoPlayerSeekIndicator(),
                 const VideoPlayerVolumeIndicator(),
+                const VideoPlayerSpeedIndicator(),
                 Consumer(
                   builder: (context, ref, child) {
                     final position = ref.watch(mediaPlaybackProvider.select((value) => value.position));
@@ -243,7 +244,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                           ],
                         ),
                       ),
-                    if (AdaptiveLayout.of(context).inputDevice == InputDevice.touch)
+                    if (initInputDevice == InputDevice.touch)
                       Align(
                         alignment: Alignment.centerRight,
                         child: Tooltip(
@@ -360,7 +361,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer)
+                        if (initInputDevice == InputDevice.pointer)
                           Tooltip(
                               message: context.localized.stop,
                               child: IconButton(
@@ -377,7 +378,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                               ),
                             ),
                         },
-                        if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer &&
+                        if (initInputDevice == InputDevice.pointer &&
                             AdaptiveLayout.viewSizeOf(context) > ViewSize.phone) ...[
                           VideoVolumeSlider(
                             onChanged: () => resetTimer(),
@@ -441,7 +442,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       child: Text(
-                        '${item.streamModel?.displayProfile?.value} ${item.streamModel?.resolution?.value}',
+                        item.streamModel?.mediaInfoTag ?? "",
                       ),
                     ),
                   ),
@@ -649,7 +650,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
 
   Future<void> clearOverlaySettings() async {
     toggleOverlay(value: true);
-    if (AdaptiveLayout.of(context).inputDevice != InputDevice.pointer) {
+    if (initInputDevice != InputDevice.pointer) {
       ScreenBrightness().resetApplicationScreenBrightness();
     } else {
       disableFullScreen();
@@ -697,6 +698,14 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         resetTimer();
         ref.read(videoPlayerSettingsProvider.notifier).steppedVolume(-5);
         return true;
+      case VideoHotKeys.speedUp:
+        resetTimer();
+        ref.read(videoPlayerSettingsProvider.notifier).steppedSpeed(0.1);
+        return true;
+      case VideoHotKeys.speedDown:
+        resetTimer();
+        ref.read(videoPlayerSettingsProvider.notifier).steppedSpeed(-0.1);
+        return true;
       case VideoHotKeys.fullScreen:
         fullScreenHelper.toggleFullScreen(ref);
         return true;
@@ -707,7 +716,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         return true;
       case VideoHotKeys.exit:
         disableFullScreen();
-        return true;
+        return false;
       case VideoHotKeys.mute:
         if (volume != 0) {
           previousVolume = volume;

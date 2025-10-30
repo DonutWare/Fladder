@@ -78,15 +78,30 @@
    <img src="https://github.com/DonutWare/Fladder/blob/develop/assets/marketing/screenshots/Tablet/Player.png?raw=true" alt="Fladder" width="1280">   
 </details>
 
+<details close>
+  <summary>Television</summary>
+   <img src="https://github.com/DonutWare/Fladder/blob/develop/assets/marketing/screenshots/Television/Dashboard.png?raw=true" alt="Fladder" width="1280">  
+   <img src="https://github.com/DonutWare/Fladder/blob/develop/assets/marketing/screenshots/Television/Details.png?raw=true" alt="Fladder" width="1280">  
+   <img src="https://github.com/DonutWare/Fladder/blob/develop/assets/marketing/screenshots/Television/Favourites.png?raw=true" alt="Fladder" width="1280">  
+   <img src="https://github.com/DonutWare/Fladder/blob/develop/assets/marketing/screenshots/Television/Library.png?raw=true" alt="Fladder" width="1280">  
+   <img src="https://github.com/DonutWare/Fladder/blob/develop/assets/marketing/screenshots/Television/Library_Search.png?raw=true" alt="Fladder" width="1280">  
+   <img src="https://github.com/DonutWare/Fladder/blob/develop/assets/marketing/screenshots/Television/Sync.png?raw=true" alt="Fladder" width="1280">  
+   <img src="https://github.com/DonutWare/Fladder/blob/develop/assets/marketing/screenshots/Television/Settings.png?raw=true" alt="Fladder" width="1280">  
+   <img src="https://github.com/DonutWare/Fladder/blob/develop/assets/marketing/screenshots/Television/Player.png?raw=true" alt="Fladder" width="1280">   
+</details>
+
 Web/Desktop [try out the web build!](https://DonutWare.github.io/Fladder)
 > [!NOTE]
-> The GitHub hosted web build only allows `https` connections. This is a limitation on GitHub's end, for self-hosted versions `http` works fine. 
+> The GitHub hosted web build only allows `https` connections. This is a limitation on GitHub's end, for self-hosted versions `http` works fine.
+
+## In progress
+
+* [Android TV](https://github.com/DonutWare/Fladder/issues/510)
 
 ## Planned Features
 
 * Music playback* 
 * Server management
-* [~~??Android TV support??~~](https://github.com/DonutWare/Fladder/discussions/265)
 * And more???
 
 ## Download

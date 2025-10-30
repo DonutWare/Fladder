@@ -23,7 +23,8 @@ abstract class BasePlayer {
     GlobalKey? controlsKey,
   });
   Future<void> dispose();
-  Future<void> open(String url, bool play);
+  Future<void> open(BuildContext context);
+  Future<void> loadVideo(String url, bool play);
   Future<void> seek(Duration position);
   Future<void> play();
   Future<void> setVolume(double volume);

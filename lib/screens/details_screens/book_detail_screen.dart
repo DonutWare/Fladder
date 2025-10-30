@@ -76,17 +76,22 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
                               OverviewHeader(
                                 subTitle: details.book?.parentName ?? details.parentModel?.name,
                                 name: details.nextUp?.name ?? "",
-                                image: ImagesData(
-                                  logo: details.book?.getPosters?.primary,
-                                ),
-                                centerButtons: Builder(
+                                playButton: Builder(
                                   builder: (context) {
                                     //Wrapped so the correct context is used for refreshing the pages
                                     return MediaPlayButton(
                                       item: details.nextUp!,
-                                      onPressed: () async => details.nextUp.play(context, ref, provider: provider),
+                                      onPressed: (restart) async => details.nextUp.play(
+                                        context,
+                                        ref,
+                                        provider: provider,
+                                        currentPage: restart ? 0 : null,
+                                      ),
                                     );
                                   },
+                                ),
+                                image: ImagesData(
+                                  logo: details.book?.getPosters?.primary,
                                 ),
                                 productionYear: details.nextUp!.overview.productionYear,
                                 runTime: details.nextUp!.overview.runTime,

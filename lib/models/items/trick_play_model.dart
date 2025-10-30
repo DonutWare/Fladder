@@ -6,7 +6,7 @@ part 'trick_play_model.freezed.dart';
 part 'trick_play_model.g.dart';
 
 @Freezed(copyWith: true)
-class TrickPlayModel with _$TrickPlayModel {
+abstract class TrickPlayModel with _$TrickPlayModel {
   factory TrickPlayModel({
     required int width,
     required int height,

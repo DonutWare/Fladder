@@ -9,6 +9,7 @@ import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/enum_selection.dart';
+import 'package:fladder/widgets/shared/item_actions.dart';
 
 Future<void> showRefreshPopup(BuildContext context, String itemId, String itemName) async {
   return showDialog(
@@ -41,7 +42,7 @@ class _RefreshPopupDialogState extends ConsumerState<RefreshPopupDialog> {
         color: Theme.of(context).colorScheme.surface,
         child: ConstrainedBox(
           constraints: BoxConstraints(
-              maxWidth: AdaptiveLayout.of(context).inputDevice == InputDevice.pointer ? 700 : double.infinity),
+              maxWidth: AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer ? 700 : double.infinity),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -69,10 +70,9 @@ class _RefreshPopupDialogState extends ConsumerState<RefreshPopupDialog> {
                 child: EnumBox(
                   current: refreshMode.label(context),
                   itemBuilder: (context) => MetadataRefresh.values
-                      .map((value) => PopupMenuItem(
-                            value: value,
-                            child: Text(value.label(context)),
-                            onTap: () => setState(() {
+                      .map((value) => ItemActionButton(
+                            label: Text(value.label(context)),
+                            action: () => setState(() {
                               refreshMode = value;
                             }),
                           ))

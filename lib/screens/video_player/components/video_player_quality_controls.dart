@@ -42,23 +42,24 @@ class _QualityOptionsDialogue extends ConsumerWidget {
               shrinkWrap: true,
               children: qualityOptions?.entries
                       .map(
-                        (entry) => RadioListTile(
-                          value: entry.value,
-                          groupValue: true,
-                          onChanged: (value) async {
-                            final newModel = await playbackModel?.setQualityOption(
-                              qualityOptions.map(
-                                (key, value) => MapEntry(key, key == entry.key ? true : false),
-                              ),
-                            );
-                            ref.read(playBackModel.notifier).update((state) => newModel);
-                            if (newModel != null) {
-                              await ref.read(playbackModelHelper).shouldReload(newModel);
-                            }
-                            context.router.maybePop();
-                          },
-                          title: Text(entry.key.label(context)),
-                        ),
+                        (entry) => RadioGroup(
+                            groupValue: true,
+                            onChanged: (value) async {
+                              final newModel = await playbackModel?.setQualityOption(
+                                qualityOptions.map(
+                                  (key, value) => MapEntry(key, key == entry.key ? true : false),
+                                ),
+                              );
+                              ref.read(playBackModel.notifier).update((state) => newModel);
+                              if (newModel != null) {
+                                await ref.read(playbackModelHelper).shouldReload(newModel);
+                              }
+                              context.router.maybePop();
+                            },
+                            child: RadioListTile(
+                              value: entry.value,
+                              title: Text(entry.key.label(context)),
+                            )),
                       )
                       .toList() ??
                   [],

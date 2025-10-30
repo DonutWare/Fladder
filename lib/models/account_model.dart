@@ -17,7 +17,7 @@ part 'account_model.freezed.dart';
 part 'account_model.g.dart';
 
 @Freezed(copyWith: true)
-class AccountModel with _$AccountModel {
+abstract class AccountModel with _$AccountModel {
   const AccountModel._();
 
   const factory AccountModel({
@@ -31,7 +31,7 @@ class AccountModel with _$AccountModel {
     @Default([]) List<String> latestItemsExcludes,
     @Default([]) List<String> searchQueryHistory,
     @Default(false) bool quickConnectState,
-    @Default([]) List<LibraryFiltersModel> savedFilters,
+    @Default([]) List<LibraryFiltersModel> libraryFilters,
     @JsonKey(includeFromJson: false, includeToJson: false) UserPolicy? policy,
     @JsonKey(includeFromJson: false, includeToJson: false) ServerConfiguration? serverConfiguration,
     @JsonKey(includeFromJson: false, includeToJson: false) UserConfiguration? userConfiguration,
@@ -52,7 +52,7 @@ class AccountModel with _$AccountModel {
 }
 
 @Freezed(copyWith: true)
-class UserSettings with _$UserSettings {
+abstract class UserSettings with _$UserSettings {
   factory UserSettings({
     @Default(Duration(seconds: 30)) Duration skipForwardDuration,
     @Default(Duration(seconds: 10)) Duration skipBackDuration,

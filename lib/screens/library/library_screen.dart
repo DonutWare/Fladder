@@ -6,17 +6,20 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
+import 'package:fladder/models/library_filter_model.dart';
 import 'package:fladder/models/recommended_model.dart';
 import 'package:fladder/models/view_model.dart';
 import 'package:fladder/providers/library_screen_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
+import 'package:fladder/screens/home_screen.dart';
 import 'package:fladder/screens/metadata/refresh_metadata.dart';
-import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/screens/shared/media/poster_row.dart';
 import 'package:fladder/screens/shared/nested_scaffold.dart';
 import 'package:fladder/screens/shared/nested_sliver_appbar.dart';
+import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
+import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/sliver_list_padding.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/background_image.dart';
@@ -37,6 +40,9 @@ class LibraryScreen extends ConsumerStatefulWidget {
 
 class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTickerProviderStateMixin {
   final GlobalKey<RefreshIndicatorState>? refreshKey = GlobalKey();
+
+  bool refreshing = false;
+
   @override
   Widget build(BuildContext context) {
     final libraryScreenState = ref.watch(libraryScreenProvider);
@@ -57,132 +63,170 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
       body: PullToRefresh(
         refreshOnStart: true,
         refreshKey: refreshKey,
-        onRefresh: () => ref.read(libraryScreenProvider.notifier).fetchAllLibraries(),
-        child: SizedBox.expand(
-          child: CustomScrollView(
-            controller: AdaptiveLayout.scrollOf(context),
-            physics: const AlwaysScrollableScrollPhysics(),
-            slivers: [
-              const DefaultSliverTopBadding(),
-              if (AdaptiveLayout.viewSizeOf(context) == ViewSize.phone)
-                NestedSliverAppBar(
-                  route: LibrarySearchRoute(),
-                  parent: context,
-                ),
-              if (views.isNotEmpty)
-                SliverToBoxAdapter(
-                  child: LibraryRow(
-                    padding: padding,
-                    views: views,
-                    selectedView: libraryScreenState.selectedViewModel,
-                    onSelected: (view) {
-                      ref.read(libraryScreenProvider.notifier).selectLibrary(view);
-                      refreshKey?.currentState?.show();
-                    },
+        onRefresh: () async {
+          if (refreshing) return;
+          setState(() => refreshing = true);
+          try {
+            await ref.read(libraryScreenProvider.notifier).fetchAllLibraries();
+          } finally {
+            if (mounted) {
+              setState(() => refreshing = false);
+            }
+          }
+        },
+        child: AnimatedOpacity(
+          opacity: refreshing ? 0.75 : 1.0,
+          duration: const Duration(milliseconds: 175),
+          child: SizedBox.expand(
+            child: CustomScrollView(
+              controller: AdaptiveLayout.scrollOf(context, HomeTabs.library),
+              physics: const AlwaysScrollableScrollPhysics(),
+              slivers: [
+                const DefaultSliverTopBadding(),
+                if (AdaptiveLayout.viewSizeOf(context) == ViewSize.phone)
+                  NestedSliverAppBar(
+                    route: LibrarySearchRoute(),
+                    parent: context,
                   ),
-                ),
-              if (selectedView != null)
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 24, bottom: 16),
-                    child: SizedBox(
-                      height: 40,
-                      child: ListView(
-                        padding: padding,
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          FilledButton.tonalIcon(
-                            onPressed: () => context.pushRoute(LibrarySearchRoute(viewModelId: selectedView.id)),
-                            label: Text("${context.localized.search} ${selectedView.name}..."),
-                            icon: const Icon(IconsaxPlusLinear.search_normal),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 4.0),
-                            child: VerticalDivider(),
-                          ),
-                          ExpressiveButtonGroup(
-                            multiSelection: true,
-                            options: LibraryViewType.values
-                                .map((element) => ButtonGroupOption(
-                                    value: element,
-                                    icon: Icon(element.icon),
-                                    selected: Icon(element.iconSelected),
-                                    child: Text(
-                                      element.label(context),
-                                    )))
-                                .toList(),
-                            selectedValues: viewTypes,
-                            onSelected: (value) {
-                              ref.read(libraryScreenProvider.notifier).setViewType(value);
-                            },
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 4.0),
-                            child: VerticalDivider(),
-                          ),
-                          ElevatedButton.icon(
-                            onPressed: () => showRefreshPopup(context, selectedView.id, selectedView.name),
-                            label: Text(context.localized.scanLibrary),
-                            icon: const Icon(IconsaxPlusLinear.refresh),
-                          ),
-                        ],
-                      ),
+                if (views.isNotEmpty)
+                  SliverToBoxAdapter(
+                    child: LibraryRow(
+                      padding: padding,
+                      views: views,
+                      selectedView: libraryScreenState.selectedViewModel,
+                      onSelected: (view) {
+                        if (refreshing) return;
+                        ref.read(libraryScreenProvider.notifier).selectLibrary(view);
+                        refreshKey?.currentState?.show();
+                      },
                     ),
                   ),
-                ),
-              if (viewTypes.isEmpty)
-                SliverFillRemaining(
-                  child: Center(child: Text(context.localized.noResults)),
-                ),
-              if (viewTypes.contains(LibraryViewType.recommended)) ...[
-                if (recommendations.isNotEmpty)
-                  ...recommendations.where((element) => element.posters.isNotEmpty).map(
-                        (element) => SliverToBoxAdapter(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: PosterRow(
-                              contentPadding: padding,
-                              posters: element.posters,
-                              label: element.type != null
-                                  ? "${element.type?.label(context)} - ${element.name.label(context)}"
-                                  : element.name.label(context),
-                            ),
-                          ),
-                        ),
-                      ),
-              ],
-              if (viewTypes.contains(LibraryViewType.favourites))
-                if (favourites.isNotEmpty)
+                if (selectedView != null)
                   SliverToBoxAdapter(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: PosterRow(
-                        contentPadding: padding,
-                        posters: favourites,
-                        label: context.localized.favorites,
+                      padding: const EdgeInsets.only(top: 24, bottom: 16),
+                      child: SizedBox(
+                        height: 40,
+                        child: ListView(
+                          padding: padding,
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          children: [
+                            FilledButton.tonalIcon(
+                              onPressed: () => context.pushRoute(LibrarySearchRoute(viewModelId: selectedView.id)),
+                              label: Text("${context.localized.search} ${selectedView.name}..."),
+                              icon: const Icon(IconsaxPlusLinear.search_normal),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 4.0),
+                              child: VerticalDivider(),
+                            ),
+                            ExpressiveButtonGroup(
+                              multiSelection: true,
+                              options: LibraryViewType.values
+                                  .map((element) => ButtonGroupOption(
+                                      value: element,
+                                      icon: Icon(element.icon),
+                                      selected: Icon(element.iconSelected),
+                                      child: Text(
+                                        element.label(context),
+                                      )))
+                                  .toList(),
+                              selectedValues: viewTypes,
+                              onSelected: (value) {
+                                ref.read(libraryScreenProvider.notifier).setViewType(value);
+                              },
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 4.0),
+                              child: VerticalDivider(),
+                            ),
+                            ElevatedButton.icon(
+                              onPressed: () => showRefreshPopup(context, selectedView.id, selectedView.name),
+                              label: Text(context.localized.scanLibrary),
+                              icon: const Icon(IconsaxPlusLinear.refresh),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-              if (viewTypes.contains(LibraryViewType.genres)) ...[
-                if (genres.isNotEmpty)
-                  ...genres.where((element) => element.posters.isNotEmpty).map(
-                        (element) => SliverToBoxAdapter(
+                if (viewTypes.isEmpty)
+                  SliverFillRemaining(
+                    child: Center(child: Text(context.localized.noResults)),
+                  ),
+                if (viewTypes.contains(LibraryViewType.recommended)) ...[
+                  if (recommendations.isNotEmpty)
+                    ...recommendations.where((element) => element.posters.isNotEmpty).map(
+                      (element) {
+                        return SliverToBoxAdapter(
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0),
                             child: PosterRow(
                               contentPadding: padding,
                               posters: element.posters,
+                              primaryPosters: element.name is Resume,
                               label: element.type != null
                                   ? "${element.type?.label(context)} - ${element.name.label(context)}"
                                   : element.name.label(context),
                             ),
                           ),
+                        );
+                      },
+                    ),
+                ],
+                if (viewTypes.contains(LibraryViewType.favourites))
+                  if (favourites.isNotEmpty)
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: PosterRow(
+                          contentPadding: padding,
+                          onLabelClick: () => context.pushRoute(
+                            LibrarySearchRoute(
+                              viewModelId: libraryScreenState.selectedViewModel?.id ?? "",
+                            ).withFilter(
+                              const LibraryFilterModel(
+                                favourites: true,
+                                recursive: true,
+                              ),
+                            ),
+                          ),
+                          posters: favourites,
+                          label: context.localized.favorites,
                         ),
-                      )
+                      ),
+                    ),
+                if (viewTypes.contains(LibraryViewType.genres)) ...[
+                  if (genres.isNotEmpty)
+                    ...genres.where((element) => element.posters.isNotEmpty).map(
+                          (element) => SliverToBoxAdapter(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8.0),
+                              child: PosterRow(
+                                contentPadding: padding,
+                                posters: element.posters,
+                                onLabelClick: () => context.pushRoute(
+                                  LibrarySearchRoute(
+                                    viewModelId: libraryScreenState.selectedViewModel?.id ?? "",
+                                  ).withFilter(
+                                    LibraryFilterModel(
+                                      recursive: true,
+                                      genres: {(element.name as Other).customLabel: true},
+                                    ),
+                                  ),
+                                ),
+                                label: element.type != null
+                                    ? "${element.type?.label(context)} - ${element.name.label(context)}"
+                                    : element.name.label(context),
+                              ),
+                            ),
+                          ),
+                        )
+                ],
+                const DefautlSliverBottomPadding(),
               ],
-              const DefautlSliverBottomPadding(),
-            ],
+            ),
           ),
         ),
       ),
@@ -209,8 +253,9 @@ class LibraryRow extends ConsumerWidget {
     return HorizontalList(
       label: context.localized.library(views.length),
       items: views,
+      height: 155,
+      autoFocus: true,
       startIndex: selectedView != null ? views.indexOf(selectedView!) : null,
-      height: 165,
       contentPadding: padding,
       itemBuilder: (context, index) {
         final view = views[index];
@@ -227,80 +272,75 @@ class LibraryRow extends ConsumerWidget {
             action: () => showRefreshPopup(context, view.id, view.name),
           )
         ];
-        return FlatButton(
-          onTap: isSelected ? null : () => onSelected?.call(view),
-          onLongPress: () => context.pushRoute(LibrarySearchRoute(viewModelId: view.id)),
-          onSecondaryTapDown: (details) async {
-            Offset localPosition = details.globalPosition;
-            RelativeRect position =
-                RelativeRect.fromLTRB(localPosition.dx, localPosition.dy, localPosition.dx, localPosition.dy);
-            await showMenu(
-              context: context,
-              position: position,
-              items: viewActions.popupMenuItems(useIcons: true),
-            );
-          },
-          child: Card(
-            color: isSelected ? Theme.of(context).colorScheme.primaryContainer : null,
-            shadowColor: Colors.transparent,
-            child: Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: 4,
-                children: [
-                  SizedBox(
-                    width: 200,
-                    child: Card(
-                      child: AspectRatio(
-                        aspectRatio: 1.60,
-                        child: FladderImage(
-                          image: view.imageData?.primary,
-                          fit: BoxFit.cover,
-                          placeHolder: Center(
-                            child: Text(
-                              view.name,
-                              style: Theme.of(context).textTheme.titleMedium,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.start,
-                            ),
-                          ),
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            FocusButton(
+              key: Key(view.id),
+              onTap: isSelected ? null : () => onSelected?.call(view),
+              onLongPress: () => context.pushRoute(LibrarySearchRoute(viewModelId: view.id)),
+              onSecondaryTapDown: (details) async {
+                Offset localPosition = details.globalPosition;
+                RelativeRect position =
+                    RelativeRect.fromLTRB(localPosition.dx, localPosition.dy, localPosition.dx, localPosition.dy);
+                await showMenu(
+                  context: context,
+                  position: position,
+                  items: viewActions.popupMenuItems(useIcons: true),
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: FladderTheme.defaultShape.borderRadius,
+                ),
+                clipBehavior: Clip.hardEdge,
+                width: 200,
+                child: ClipRRect(
+                  borderRadius: FladderTheme.smallShape.borderRadius,
+                  child: AspectRatio(
+                    aspectRatio: 1.60,
+                    child: FladderImage(
+                      image: view.imageData?.primary,
+                      fit: BoxFit.cover,
+                      placeHolder: Center(
+                        child: Text(
+                          view.name,
+                          style: Theme.of(context).textTheme.titleMedium,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.start,
                         ),
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                      child: Row(
-                        spacing: 8,
-                        children: [
-                          if (isSelected)
-                            Container(
-                              height: 12,
-                              width: 12,
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.primary,
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                          Text(
-                            view.name,
-                            style: Theme.of(context).textTheme.titleMedium,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.start,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
-          ),
+            Row(
+              spacing: 8,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (isSelected)
+                  Container(
+                    height: 12,
+                    width: 12,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                Text(
+                  view.name,
+                  style: Theme.of(context).textTheme.titleMedium,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.start,
+                )
+              ],
+            )
+          ],
         );
       },
     );

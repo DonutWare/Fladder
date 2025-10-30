@@ -88,10 +88,18 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
 
           final newItems = await Future.value(widget.loadingItems);
 
-          setState(() {
-            photos = {...photos, ...newItems}.toList();
-            loadingItems = false;
-          });
+          if (context.mounted) {
+            setState(() {
+              if (photos.length == 1 && newItems.contains(photos.first)) {
+                photos = newItems;
+                currentPage = photos.indexWhere((value) => value.id == widget.selected).clamp(0, photos.length - 1);
+                controller.jumpToPage(currentPage);
+              } else {
+                photos = {...photos, ...newItems}.toList();
+              }
+              loadingItems = false;
+            });
+          }
         }
       },
     );
@@ -163,14 +171,14 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
                 ? Center(
                     child: Text(context.localized.noItemsToShow),
                   )
-                : buildViewer(),
+                : buildViewer(context),
           ),
         ),
       ),
     );
   }
 
-  Widget buildViewer() {
+  Widget buildViewer(BuildContext context) {
     final currentPhoto = photos[currentPage];
     final imageHash = currentPhoto.images?.primary?.hash;
     return Stack(
@@ -496,8 +504,8 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
         },
       );
 
-  void markAsFavourite(PhotoModel photo, {bool? value}) {
-    ref.read(userProvider.notifier).setAsFavorite(value ?? !photo.userData.isFavourite, photo.id);
+  Future<void> markAsFavourite(PhotoModel photo, {bool? value}) async {
+    await ref.read(userProvider.notifier).setAsFavorite(value ?? !photo.userData.isFavourite, photo.id);
 
     setState(() {
       int index = photos.indexOf(photo);

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'package:fladder/models/settings/arguments_model.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 
@@ -9,7 +10,9 @@ part 'home_settings_model.freezed.dart';
 part 'home_settings_model.g.dart';
 
 @Freezed(copyWith: true)
-class HomeSettingsModel with _$HomeSettingsModel {
+abstract class HomeSettingsModel with _$HomeSettingsModel {
+  const HomeSettingsModel._();
+
   factory HomeSettingsModel({
     @Default({...LayoutMode.values}) Set<LayoutMode> screenLayouts,
     @Default({...ViewSize.values}) Set<ViewSize> layoutStates,
@@ -17,6 +20,12 @@ class HomeSettingsModel with _$HomeSettingsModel {
     @Default(HomeCarouselSettings.combined) HomeCarouselSettings carouselSettings,
     @Default(HomeNextUp.separate) HomeNextUp nextUp,
   }) = _HomeSettingsModel;
+
+  static HomeSettingsModel defaultModel() {
+    return HomeSettingsModel(
+      homeBanner: leanBackMode ? HomeBanner.detailedBanner : HomeBanner.carousel,
+    );
+  }
 
   factory HomeSettingsModel.fromJson(Map<String, dynamic> json) => _$HomeSettingsModelFromJson(json);
 }
@@ -40,7 +49,8 @@ T selectAvailableOrSmaller<T>(T value, Set<T> availableOptions, List<T> allOptio
 enum HomeBanner {
   hide,
   carousel,
-  banner;
+  banner,
+  detailedBanner;
 
   const HomeBanner();
 
@@ -48,6 +58,7 @@ enum HomeBanner {
         HomeBanner.hide => context.localized.hide,
         HomeBanner.carousel => context.localized.homeBannerCarousel,
         HomeBanner.banner => context.localized.homeBannerSlideshow,
+        HomeBanner.detailedBanner => 'Detailed banner'
       };
 }
 

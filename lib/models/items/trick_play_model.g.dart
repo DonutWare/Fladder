@@ -6,8 +6,8 @@ part of 'trick_play_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$TrickPlayModelImpl _$$TrickPlayModelImplFromJson(Map<String, dynamic> json) =>
-    _$TrickPlayModelImpl(
+_TrickPlayModel _$TrickPlayModelFromJson(Map<String, dynamic> json) =>
+    _TrickPlayModel(
       width: (json['width'] as num).toInt(),
       height: (json['height'] as num).toInt(),
       tileWidth: (json['tileWidth'] as num).toInt(),
@@ -20,8 +20,7 @@ _$TrickPlayModelImpl _$$TrickPlayModelImplFromJson(Map<String, dynamic> json) =>
           const [],
     );
 
-Map<String, dynamic> _$$TrickPlayModelImplToJson(
-        _$TrickPlayModelImpl instance) =>
+Map<String, dynamic> _$TrickPlayModelToJson(_TrickPlayModel instance) =>
     <String, dynamic>{
       'width': instance.width,
       'height': instance.height,

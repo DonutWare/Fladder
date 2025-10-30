@@ -56,25 +56,41 @@ class SyncProgressBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final downloadStatus = task.status;
     final downloadProgress = task.progress;
+    final downloadSpeed = task.downloadSpeed;
     final downloadTask = task.task;
+
     if (!task.hasDownload) {
       return const SizedBox.shrink();
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(downloadStatus.name(context)),
+        Row(
+          spacing: 8,
+          children: [
+            Text(downloadStatus.name(context)),
+            if (downloadSpeed.isNotEmpty) Opacity(opacity: 0.45, child: Text("($downloadSpeed)")),
+          ],
+        ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           spacing: 8,
           children: [
             Flexible(
-              child: LinearProgressIndicator(
-                minHeight: 8,
-                value: downloadProgress,
-                color: downloadStatus.color(context),
-                borderRadius: BorderRadius.circular(8),
+              child: TweenAnimationBuilder(
+                duration: const Duration(milliseconds: 250),
+                curve: Curves.easeInOut,
+                tween: Tween<double>(
+                  begin: 0,
+                  end: downloadProgress,
+                ),
+                builder: (context, value, child) => LinearProgressIndicator(
+                  minHeight: 8,
+                  value: value,
+                  color: downloadStatus.color(context),
+                  borderRadius: BorderRadius.circular(8),
+                ),
               ),
             ),
             Opacity(opacity: 0.75, child: Text("${(downloadProgress * 100).toStringAsFixed(0)}%")),
@@ -86,13 +102,13 @@ class SyncProgressBar extends ConsumerWidget {
                 ),
               if (downloadStatus == TaskStatus.paused) ...[
                 IconButton(
+                  onPressed: () => ref.read(syncProvider.notifier).deleteFullSyncFiles(item, downloadTask),
+                  icon: const Icon(IconsaxPlusBold.stop),
+                ),
+                IconButton(
                   onPressed: () => ref.read(backgroundDownloaderProvider).resume(downloadTask),
                   icon: const Icon(IconsaxPlusBold.play),
                 ),
-                IconButton(
-                  onPressed: () => ref.read(syncProvider.notifier).deleteFullSyncFiles(item, downloadTask),
-                  icon: const Icon(IconsaxPlusBold.stop),
-                )
               ],
               if (_cancellableStatuses.contains(downloadStatus)) ...[
                 IconButton(

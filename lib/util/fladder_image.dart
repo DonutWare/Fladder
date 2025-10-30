@@ -18,6 +18,7 @@ class FladderImage extends ConsumerWidget {
   final AlignmentGeometry? alignment;
   final bool disableBlur;
   final bool blurOnly;
+  final int? decodeHeight;
   const FladderImage({
     required this.image,
     this.frameBuilder,
@@ -29,6 +30,7 @@ class FladderImage extends ConsumerWidget {
     this.alignment,
     this.disableBlur = false,
     this.blurOnly = false,
+    this.decodeHeight = 400,
     super.key,
   });
 
@@ -36,6 +38,7 @@ class FladderImage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final useBluredPlaceHolder = ref.watch(clientSettingsProvider.select((value) => value.blurPlaceHolders));
     final newImage = image;
+    final imageProvider = image?.imageProvider;
     if (newImage == null) {
       return placeHolder ?? Container();
     } else {
@@ -44,21 +47,26 @@ class FladderImage extends ConsumerWidget {
         fit: stackFit,
         children: [
           if (!disableBlur && useBluredPlaceHolder && newImage.hash.isNotEmpty || blurOnly)
-            BlurHash(
-              hash: newImage.hash,
-              optimizationMode: BlurHashOptimizationMode.approximation,
-              color: Colors.transparent,
-              imageFit: blurFit ?? fit,
+            Image(
+              image: BlurHashImage(
+                newImage.hash,
+                decodingHeight: 16,
+                decodingWidth: 16,
+              ),
+              fit: blurFit ?? fit,
+              height: 16,
             ),
-          if (!blurOnly)
+          if (!blurOnly && imageProvider != null)
             FadeInImage(
-              placeholder: Image.memory(kTransparentImage).image,
+              placeholder: MemoryImage(kTransparentImage),
               fit: fit,
               placeholderFit: fit,
-              excludeFromSemantics: true,
               alignment: alignment ?? Alignment.center,
               imageErrorBuilder: imageErrorBuilder,
-              image: newImage.imageProvider,
+              image: ResizeImage(
+                imageProvider,
+                height: decodeHeight,
+              ),
             )
         ],
       );

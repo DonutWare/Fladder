@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/home_settings_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/settings/widgets/settings_label_divider.dart';
@@ -79,6 +80,18 @@ List<Widget> buildClientSettingsAdvanced(BuildContext context, WidgetRef ref) {
           ),
         ),
       ),
+      if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad)
+        SettingsListTile(
+          label: Text(context.localized.clientSettingsUseSystemIMETitle),
+          subLabel: Text(context.localized.clientSettingsUseSystemIMEDesc),
+          onTap: () => ref
+              .read(clientSettingsProvider.notifier)
+              .useSystemIME(!ref.read(clientSettingsProvider.select((value) => value.useSystemIME))),
+          trailing: Switch(
+            value: ref.watch(clientSettingsProvider.select((value) => value.useSystemIME)),
+            onChanged: (value) => ref.read(clientSettingsProvider.notifier).useSystemIME(value),
+          ),
+        ),
     ],
   );
 }

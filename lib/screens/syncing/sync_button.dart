@@ -35,11 +35,19 @@ class SyncButton extends ConsumerWidget {
                 ),
                 SizedBox.fromSize(
                   size: const Size.fromRadius(10),
-                  child: CircularProgressIndicator(
-                    strokeCap: StrokeCap.round,
-                    strokeWidth: 1.5,
-                    color: status.color(context),
-                    value: status == TaskStatus.running ? progress.clamp(0.0, 1.0) : 0,
+                  child: TweenAnimationBuilder(
+                    duration: const Duration(milliseconds: 250),
+                    curve: Curves.easeInOut,
+                    tween: Tween<double>(
+                      begin: 0,
+                      end: progress,
+                    ),
+                    builder: (context, value, child) => CircularProgressIndicator(
+                      strokeCap: StrokeCap.round,
+                      strokeWidth: 2,
+                      color: status.color(context),
+                      value: status == TaskStatus.running ? value.clamp(0.0, 1.0) : 0,
+                    ),
                   ),
                 ),
               ],

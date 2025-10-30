@@ -17,14 +17,16 @@ import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
+import 'package:fladder/src/video_player_helper.g.dart' hide PlaybackState;
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/wrappers/players/base_player.dart';
 import 'package:fladder/wrappers/players/lib_mdk.dart'
     if (dart.library.html) 'package:fladder/stubs/web/lib_mdk_web.dart';
 import 'package:fladder/wrappers/players/lib_mpv.dart';
+import 'package:fladder/wrappers/players/native_player.dart';
 import 'package:fladder/wrappers/players/player_states.dart';
 
-class MediaControlsWrapper extends BaseAudioHandler {
+class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerControlsCallback {
   MediaControlsWrapper({required this.ref});
 
   BasePlayer? _player;
@@ -49,10 +51,14 @@ class MediaControlsWrapper extends BaseAudioHandler {
   List<StreamSubscription> subscriptions = [];
   SMTCWindows? smtc;
 
-  bool initMediaControls = false;
+  bool initializedWrapper = false;
 
   Future<void> init() async {
-    if (!initMediaControls) {
+    if (!initializedWrapper) {
+      initializedWrapper = true;
+      if (!kIsWeb && Platform.isAndroid) {
+        VideoPlayerControlsCallback.setUp(this);
+      }
       await AudioService.init(
         builder: () => this,
         config: const AudioServiceConfig(
@@ -66,12 +72,12 @@ class MediaControlsWrapper extends BaseAudioHandler {
           androidShowNotificationBadge: true,
         ),
       );
-      initMediaControls = true;
     }
 
-    final player = switch (ref.read(videoPlayerSettingsProvider.select((value) => value.wantedPlayer))) {
+    final player = switch (ref.read(videoPlayerSettingsProvider).wantedPlayer) {
       PlayerOptions.libMDK => LibMDK(),
       PlayerOptions.libMPV => LibMPV(),
+      PlayerOptions.nativePlayer => NativePlayer(),
     };
 
     setup(player);
@@ -93,7 +99,15 @@ class MediaControlsWrapper extends BaseAudioHandler {
     _subscribePlayer();
   }
 
-  Future<void> open(String url, bool play) async => _player?.open(url, play);
+  Future<void> loadVideo(PlaybackModel model, Duration startPosition, bool play) async {
+    if (_player is NativePlayer) {
+      final context = ref.read(localizationContextProvider);
+      await (_player as NativePlayer).sendPlaybackDataToNative(context, model, startPosition);
+    }
+    return _player?.loadVideo(model.media?.url ?? "", play);
+  }
+
+  Future<void> openPlayer(BuildContext context) async => _player?.open(context);
 
   void _subscribePlayer() {
     if (Platform.isWindows && !kIsWeb) {
@@ -174,13 +188,15 @@ class MediaControlsWrapper extends BaseAudioHandler {
   Future<void> play() async {
     WakelockPlus.enable();
     _player?.play();
-    if (!ref.read(clientSettingsProvider).enableMediaKeys) return;
+    final currentPosition = await ref.read(playBackModel.select((value) => value?.startDuration()));
+    ref.read(playBackModel)?.playbackStarted(currentPosition ?? Duration.zero, ref);
 
     final playBackItem = ref.read(playBackModel.select((value) => value?.item));
-    final currentPosition = await ref.read(playBackModel.select((value) => value?.startDuration()));
-    final poster = playBackItem?.images?.firstOrNull;
-
     if (playBackItem == null) return;
+
+    if (!ref.read(clientSettingsProvider).enableMediaKeys) return;
+
+    final poster = playBackItem.images?.firstOrNull;
 
     windowSMTCSetup(playBackItem, currentPosition ?? Duration.zero);
 
@@ -206,8 +222,6 @@ class MediaControlsWrapper extends BaseAudioHandler {
       },
       processingState: AudioProcessingState.ready,
     ));
-
-    ref.read(playBackModel)?.playbackStarted(currentPosition ?? Duration.zero, ref);
 
     return super.play();
   }
@@ -297,7 +311,7 @@ class MediaControlsWrapper extends BaseAudioHandler {
   Future<int> setSubtitleTrack(SubStreamModel? model, PlaybackModel playbackModel) async =>
       await _player?.setSubtitleTrack(model, playbackModel) ?? -1;
 
-  Future<void> setVolume(double speed) async => _player?.setVolume(speed);
+  Future<void> setVolume(double volume) async => _player?.setVolume(volume);
 
   @override
   Future<void> seek(Duration position) {
@@ -312,5 +326,47 @@ class MediaControlsWrapper extends BaseAudioHandler {
   Future<void> setSpeed(double speed) {
     _player?.setSpeed(speed);
     return super.setSpeed(speed);
+  }
+
+  //Native player calls
+  //
+  //
+  @override
+  void loadNextVideo() async {
+    final nextVideo = ref.read(playBackModel.select((value) => value?.nextVideo));
+    final buffering = ref.read(mediaPlaybackProvider.select((value) => value.buffering));
+    if (nextVideo != null && !buffering) ref.read(playbackModelHelper).loadNewVideo(nextVideo);
+  }
+
+  @override
+  void loadPreviousVideo() async {
+    final previousVideo = ref.read(playBackModel.select((value) => value?.previousVideo));
+    final buffering = ref.read(mediaPlaybackProvider.select((value) => value.buffering));
+    if (previousVideo != null && !buffering) ref.read(playbackModelHelper).loadNewVideo(previousVideo);
+  }
+
+  @override
+  void onStop() => stop();
+
+  @override
+  void swapAudioTrack(int value) async {
+    final playbackModel = ref.read(playBackModel);
+    final newModel = await playbackModel?.setAudio(
+        playbackModel.audioStreams?.firstWhere((element) => element.index == value), this);
+    ref.read(playBackModel.notifier).update((state) => newModel);
+    if (newModel != null) {
+      await ref.read(playbackModelHelper).shouldReload(newModel);
+    }
+  }
+
+  @override
+  void swapSubtitleTrack(int value) async {
+    final playbackModel = ref.read(playBackModel);
+    final newModel = await playbackModel?.setSubtitle(
+        playbackModel.subStreams?.firstWhere((element) => element.index == value), this);
+    ref.read(playBackModel.notifier).update((state) => newModel);
+    if (newModel != null) {
+      await ref.read(playbackModelHelper).shouldReload(newModel);
+    }
   }
 }

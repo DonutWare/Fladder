@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:fladder/screens/home_screen.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/poster_defaults.dart';
 
@@ -46,7 +47,7 @@ class AdaptiveLayoutModel {
   final TargetPlatform platform;
   final bool isDesktop;
   final PosterDefaults posterDefaults;
-  final ScrollController controller;
+  final Map<HomeTabs, ScrollController> controller;
   final double sideBarWidth;
 
   const AdaptiveLayoutModel({
@@ -67,7 +68,7 @@ class AdaptiveLayoutModel {
     TargetPlatform? platform,
     bool? isDesktop,
     PosterDefaults? posterDefaults,
-    ScrollController? controller,
+    Map<HomeTabs, ScrollController>? controller,
     double? sideBarWidth,
   }) {
     return AdaptiveLayoutModel(
@@ -85,7 +86,10 @@ class AdaptiveLayoutModel {
   @override
   bool operator ==(covariant AdaptiveLayoutModel other) {
     if (identical(this, other)) return true;
-    return other.viewSize == viewSize && other.layoutMode == layoutMode && other.sideBarWidth == sideBarWidth;
+    return other.viewSize == viewSize &&
+        other.layoutMode == layoutMode &&
+        other.sideBarWidth == sideBarWidth &&
+        other.inputDevice == inputDevice;
   }
 
   @override

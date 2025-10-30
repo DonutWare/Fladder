@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 
-Future<void> showDialogAdaptive(
-    {required BuildContext context, required Widget Function(BuildContext context) builder}) {
-  if (AdaptiveLayout.of(context).inputDevice == InputDevice.pointer) {
+Future<void> showDialogAdaptive({
+  required BuildContext context,
+  required Widget Function(BuildContext context) builder,
+}) {
+  if (AdaptiveLayout.viewSizeOf(context) >= ViewSize.tablet) {
     return showDialog(
       context: context,
       useSafeArea: false,

@@ -34,8 +34,23 @@ class FladderTheme {
   static RoundedRectangleBorder get defaultShape => RoundedRectangleBorder(borderRadius: BorderRadius.circular(16));
   static RoundedRectangleBorder get largeShape => RoundedRectangleBorder(borderRadius: BorderRadius.circular(32));
 
+  static BoxDecoration get defaultPosterDecoration => BoxDecoration(
+        borderRadius: FladderTheme.smallShape.borderRadius,
+        border: Border.all(width: 1, color: Colors.white.withAlpha(45)),
+      );
+
   static ThemeData theme(ColorScheme? colorScheme, DynamicSchemeVariant dynamicSchemeVariant) {
     final ColorScheme? scheme = generateDynamicColourSchemes(colorScheme, dynamicSchemeVariant);
+
+    final buttonSides = WidgetStateProperty.resolveWith(
+      (states) {
+        return BorderSide(
+          width: 3,
+          color: scheme?.onPrimaryContainer.withValues(alpha: states.contains(WidgetState.focused) ? 1.0 : 0.0) ??
+              Colors.transparent,
+        );
+      },
+    );
 
     final textTheme = FladderFonts.rubikTextTheme(
       const TextTheme(),
@@ -53,16 +68,19 @@ class FladderTheme {
         margin: EdgeInsets.zero,
         shape: smallShape,
       ),
+      expansionTileTheme: ExpansionTileThemeData(
+        shape: RoundedRectangleBorder(borderRadius: FladderTheme.defaultShape.borderRadius),
+        collapsedShape: RoundedRectangleBorder(borderRadius: FladderTheme.defaultShape.borderRadius),
+      ),
       progressIndicatorTheme: const ProgressIndicatorThemeData(),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: scheme?.secondaryContainer,
         foregroundColor: scheme?.onSecondaryContainer,
-        shape: defaultShape,
       ),
       snackBarTheme: SnackBarThemeData(
         backgroundColor: scheme?.secondary,
         behavior: SnackBarBehavior.fixed,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(borderRadius: FladderTheme.defaultShape.borderRadius),
         elevation: 5,
         dismissDirection: DismissDirection.horizontal,
       ),
@@ -85,11 +103,6 @@ class FladderTheme {
           return null;
         }),
         trackOutlineWidth: const WidgetStatePropertyAll(1),
-      ),
-      iconButtonTheme: IconButtonThemeData(
-        style: ButtonStyle(
-          shape: WidgetStatePropertyAll(defaultShape),
-        ),
       ),
       navigationBarTheme: const NavigationBarThemeData(),
       dialogTheme: DialogThemeData(shape: defaultShape),
@@ -126,7 +139,7 @@ class FladderTheme {
       dividerTheme: DividerThemeData(
         indent: 6,
         endIndent: 6,
-        color: scheme?.onSurface.withAlpha(125),
+        color: scheme?.onSurface.withAlpha(30),
       ),
       segmentedButtonTheme: SegmentedButtonThemeData(
         style: ButtonStyle(
@@ -141,9 +154,36 @@ class FladderTheme {
           side: const WidgetStatePropertyAll(BorderSide.none),
         ),
       ),
-      elevatedButtonTheme: ElevatedButtonThemeData(style: ButtonStyle(shape: WidgetStatePropertyAll(defaultShape))),
-      filledButtonTheme: FilledButtonThemeData(style: ButtonStyle(shape: WidgetStatePropertyAll(defaultShape))),
-      outlinedButtonTheme: OutlinedButtonThemeData(style: ButtonStyle(shape: WidgetStatePropertyAll(defaultShape))),
+      iconButtonTheme: IconButtonThemeData(
+        style: ButtonStyle(
+          shape: WidgetStatePropertyAll(smallShape),
+          side: buttonSides,
+        ),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ButtonStyle(
+          shape: WidgetStatePropertyAll(smallShape),
+          side: buttonSides,
+        ),
+      ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: ButtonStyle(
+          shape: WidgetStatePropertyAll(smallShape),
+          side: buttonSides,
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: ButtonStyle(
+          shape: WidgetStatePropertyAll(smallShape),
+          side: buttonSides,
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: ButtonStyle(
+          shape: WidgetStatePropertyAll(smallShape),
+          side: buttonSides,
+        ),
+      ),
       textTheme: textTheme.copyWith(
         titleMedium: textTheme.titleMedium?.copyWith(
           fontWeight: FontWeight.w600,

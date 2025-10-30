@@ -75,6 +75,9 @@ class SeriesModel extends ItemBaseModel with SeriesModelMappable {
   }
 
   @override
+  String? unplayedLabel(BuildContext context) => userData.played ? null : userData.unPlayedItemCount?.toString();
+
+  @override
   bool get syncAble => true;
 
   factory SeriesModel.fromBaseDto(dto.BaseItemDto item, Ref ref) => SeriesModel(
@@ -85,7 +88,7 @@ class SeriesModel extends ItemBaseModel with SeriesModelMappable {
         userData: UserData.fromDto(item.userData),
         parentId: item.parentId,
         playlistId: item.playlistItemId,
-        images: ImagesData.fromBaseItem(item, ref, getOriginalSize: true),
+        images: ImagesData.fromBaseItem(item, ref),
         primaryRatio: item.primaryImageAspectRatio,
         originalTitle: item.originalTitle ?? "",
         sortName: item.sortName ?? "",

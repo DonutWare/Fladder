@@ -77,18 +77,15 @@
 			"name": "Web",
 			"request": "launch",
 			"type": "dart",
-			"deviceId": "chrome",
 			"args": [
 				"--web-port",
 				"9090",
-				"--web-experimental-hot-reload",
 			],
 		},
 		{
 			"name": "Web (release mode)",
 			"request": "launch",
 			"type": "dart",
-			"deviceId": "chrome",
 			"flutterMode": "release",
 			"args": [
 				"--web-port",

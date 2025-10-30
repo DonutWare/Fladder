@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:fladder/models/account_model.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/screens/shared/user_icon.dart';
 import 'package:fladder/util/list_padding.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LoginIcon extends ConsumerWidget {
   final AccountModel user;
@@ -24,7 +26,6 @@ class LoginIcon extends ConsumerWidget {
       aspectRatio: 1.0,
       child: Card(
         elevation: 1,
-        clipBehavior: Clip.hardEdge,
         margin: EdgeInsets.zero,
         child: Stack(
           children: [

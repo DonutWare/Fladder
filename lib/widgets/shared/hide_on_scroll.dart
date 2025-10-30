@@ -11,6 +11,7 @@ class HideOnScroll extends ConsumerStatefulWidget {
   final double height;
   final Widget? Function(bool visible)? visibleBuilder;
   final Duration duration;
+  final bool canHide;
   final bool forceHide;
   const HideOnScroll({
     this.child,
@@ -18,6 +19,7 @@ class HideOnScroll extends ConsumerStatefulWidget {
     this.height = kBottomNavigationBarHeight,
     this.visibleBuilder,
     this.duration = const Duration(milliseconds: 200),
+    this.canHide = true,
     this.forceHide = false,
     super.key,
   }) : assert(child != null || visibleBuilder != null);
@@ -27,7 +29,7 @@ class HideOnScroll extends ConsumerStatefulWidget {
 }
 
 class _HideOnScrollState extends ConsumerState<HideOnScroll> {
-  late final ScrollController scrollController = widget.controller ?? ScrollController();
+  late ScrollController scrollController = widget.controller ?? ScrollController();
   bool isVisible = true;
 
   @override
@@ -45,7 +47,23 @@ class _HideOnScrollState extends ConsumerState<HideOnScroll> {
     super.dispose();
   }
 
+  @override
+  void didUpdateWidget(covariant HideOnScroll oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.controller != widget.controller) {
+      scrollController.removeListener(_onScroll);
+      scrollController = widget.controller ?? ScrollController();
+      scrollController.addListener(_onScroll);
+    }
+  }
+
   void _onScroll() {
+    if (!widget.canHide) {
+      if (!isVisible) {
+        setState(() => isVisible = true);
+      }
+      return;
+    }
     final position = scrollController.position;
     final direction = position.userScrollDirection;
 
@@ -78,9 +96,9 @@ class _HideOnScrollState extends ConsumerState<HideOnScroll> {
       alignment: const Alignment(0, -1),
       heightFactor: widget.forceHide
           ? 0
-          : isVisible
-              ? 1.0
-              : 0,
+          : !isVisible && widget.canHide
+              ? 0.0
+              : 1.0,
       duration: widget.duration,
       child: Wrap(
         children: [widget.child!],

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/l10n/generated/app_localizations.dart';
 import 'package:fladder/providers/sync/background_download_provider.dart';
+import 'package:fladder/src/translations_pigeon.g.dart' as messenger;
 
 ///Only use for base translations, under normal circumstances ALWAYS use the widgets provided context
 final localizationContextProvider = StateProvider<BuildContext?>((ref) => null);
@@ -26,6 +27,7 @@ class LocalizationContextWrapper extends ConsumerStatefulWidget {
 }
 
 class _LocalizationContextWrapperState extends ConsumerState<LocalizationContextWrapper> {
+  _TranslationsMessgener? _messenger;
   @override
   void initState() {
     super.initState();
@@ -41,6 +43,11 @@ class _LocalizationContextWrapperState extends ConsumerState<LocalizationContext
   }
 
   void updateLanguageContext() {
+    if (_messenger == null) {
+      _messenger = _TranslationsMessgener(context: context);
+      messenger.TranslationsPigeon.setUp(_messenger);
+    }
+
     WidgetsBinding.instance.addPostFrameCallback((value) {
       ref.read(localizationContextProvider.notifier).update((cb) => context);
       ref.read(backgroundDownloaderProvider.notifier).updateTranslations(context);
@@ -57,4 +64,40 @@ extension LocaleDisplayCodeExtension on Locale {
         ? "${languageCode.toUpperCase()}-${countryCode!.toUpperCase()}"
         : languageCode.toUpperCase();
   }
+}
+
+class _TranslationsMessgener extends messenger.TranslationsPigeon {
+  _TranslationsMessgener({required this.context});
+
+  final BuildContext context;
+
+  @override
+  String chapters(int count) => context.localized.chapter(count);
+
+  @override
+  String close() => context.localized.close;
+
+  @override
+  String endsAt(String time) => context.localized.endsAt(DateTime.parse(time).toLocal());
+
+  @override
+  String next() => context.localized.nextVideo;
+
+  @override
+  String nextUpInSeconds(int seconds) => context.localized.nextUpInCount(seconds);
+
+  @override
+  String nextVideo() => context.localized.nextVideo;
+
+  @override
+  String off() => context.localized.off;
+
+  @override
+  String skip(String name) => context.localized.skipButtonLabel(name);
+
+  @override
+  String subtitles() => context.localized.subtitles;
+
+  @override
+  String hoursAndMinutes(String time) => context.localized.formattedTime(DateTime.parse(time).toLocal());
 }

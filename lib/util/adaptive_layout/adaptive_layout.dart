@@ -4,22 +4,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/settings/home_settings_model.dart';
+import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/providers/settings/home_settings_provider.dart';
+import 'package:fladder/screens/home_screen.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout_model.dart';
 import 'package:fladder/util/debug_banner.dart';
+import 'package:fladder/util/input_detector.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/poster_defaults.dart';
 import 'package:fladder/util/resolution_checker.dart';
+import 'package:fladder/widgets/keyboard/slide_in_keyboard.dart';
 
 enum InputDevice {
   touch,
   pointer,
+  dPad,
 }
 
 enum ViewSize {
   phone,
   tablet,
-  desktop;
+  desktop,
+  television;
 
   const ViewSize();
 
@@ -27,6 +33,7 @@ enum ViewSize {
         ViewSize.phone => context.localized.phone,
         ViewSize.tablet => context.localized.tablet,
         ViewSize.desktop => context.localized.desktop,
+        ViewSize.television => context.localized.television,
       };
 
   bool operator >(ViewSize other) => index > other.index;
@@ -81,9 +88,14 @@ class AdaptiveLayout extends InheritedWidget {
     return result!.data.posterDefaults;
   }
 
-  static ScrollController scrollOf(BuildContext context) {
+  static ScrollController scrollOf(BuildContext context, HomeTabs tab) {
     final AdaptiveLayout? result = maybeOf(context);
-    return result!.data.controller;
+    return result?.data.controller[tab] ?? ScrollController();
+  }
+
+  static bool isDesktop(BuildContext context) {
+    final AdaptiveLayout? result = maybeOf(context);
+    return result?.data.isDesktop ?? false;
   }
 
   static EdgeInsets adaptivePadding(BuildContext context, {double horizontalPadding = 16}) {
@@ -130,7 +142,10 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
   late ViewSize viewSize = ViewSize.tablet;
   late LayoutMode layoutMode = LayoutMode.single;
   late TargetPlatform currentPlatform = defaultTargetPlatform;
-  late ScrollController controller = ScrollController();
+
+  final Map<HomeTabs, ScrollController> scrollControllers = {
+    for (var item in HomeTabs.values) item: ScrollController(),
+  };
 
   @override
   void didChangeDependencies() {
@@ -170,52 +185,71 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    final acceptedLayouts = ref.watch(homeSettingsProvider.select((value) => value.screenLayouts));
-    final acceptedViewSizes = ref.watch(homeSettingsProvider.select((value) => value.layoutStates));
+    final arguments = ref.watch(argumentsStateProvider);
+    final htpcMode = arguments.htpcMode;
+    final acceptedLayouts =
+        htpcMode ? {LayoutMode.dual} : ref.watch(homeSettingsProvider.select((value) => value.screenLayouts));
+    final acceptedViewSizes =
+        htpcMode ? {ViewSize.television} : ref.watch(homeSettingsProvider.select((value) => value.layoutStates));
 
     final selectedViewSize = selectAvailableOrSmaller<ViewSize>(viewSize, acceptedViewSizes, ViewSize.values);
     final selectedLayoutMode = selectAvailableOrSmaller<LayoutMode>(layoutMode, acceptedLayouts, LayoutMode.values);
-    final input = (isDesktop || kIsWeb) ? InputDevice.pointer : InputDevice.touch;
 
-    final posterDefaults = switch (selectedViewSize) {
-      ViewSize.phone => const PosterDefaults(size: 300, ratio: 0.55),
-      ViewSize.tablet => const PosterDefaults(size: 350, ratio: 0.55),
-      ViewSize.desktop => const PosterDefaults(size: 400, ratio: 0.55),
-    };
+    final posterDefaults = const PosterDefaults(size: 350, ratio: 0.55);
 
     final currentLayout = widget.adaptiveLayout ??
         AdaptiveLayoutModel(
           viewSize: selectedViewSize,
           layoutMode: selectedLayoutMode,
-          inputDevice: input,
+          inputDevice: InputDevice.pointer,
           platform: currentPlatform,
           isDesktop: isDesktop,
           sideBarWidth: 0,
-          controller: controller,
+          controller: scrollControllers,
           posterDefaults: posterDefaults,
         );
 
-    return MediaQuery(
-      data: MediaQuery.of(context).copyWith(
-        padding: isDesktop || kIsWeb ? const EdgeInsets.only(top: defaultTitleBarHeight, bottom: 16) : null,
-        viewPadding: isDesktop || kIsWeb ? const EdgeInsets.only(top: defaultTitleBarHeight, bottom: 16) : null,
-      ),
-      child: AdaptiveLayout(
-        data: currentLayout.copyWith(
-          viewSize: selectedViewSize,
-          layoutMode: selectedLayoutMode,
-          inputDevice: input,
-          platform: currentPlatform,
+    final mediaQuery = MediaQuery.of(context);
+
+    return ValueListenableBuilder(
+      valueListenable: isKeyboardOpen,
+      builder: (context, value, child) {
+        return InputDetector(
           isDesktop: isDesktop,
-          controller: controller,
-          posterDefaults: posterDefaults,
-        ),
-        child: Builder(
-          builder: (context) => ResolutionChecker(
-            child: widget.adaptiveLayout == null ? DebugBanner(child: widget.child(context)) : widget.child(context),
+          htpcMode: htpcMode,
+          child: (input) => MediaQuery(
+            data: mediaQuery.copyWith(
+              navigationMode: input == InputDevice.dPad ? NavigationMode.directional : NavigationMode.traditional,
+              padding: (isDesktop || kIsWeb
+                  ? const EdgeInsets.only(top: defaultTitleBarHeight, bottom: 16)
+                  : mediaQuery.padding),
+              viewPadding: isDesktop || kIsWeb ? const EdgeInsets.only(top: defaultTitleBarHeight, bottom: 16) : null,
+            ),
+            child: AdaptiveLayout(
+              data: currentLayout.copyWith(
+                viewSize: selectedViewSize,
+                layoutMode: selectedLayoutMode,
+                inputDevice: input,
+                platform: currentPlatform,
+                isDesktop: isDesktop,
+                controller: scrollControllers,
+                posterDefaults: posterDefaults,
+              ),
+              child: Builder(
+                builder: (context) => isDesktop
+                    ? ResolutionChecker(
+                        child: widget.adaptiveLayout == null
+                            ? DebugBanner(child: widget.child(context))
+                            : widget.child(context),
+                      )
+                    : widget.adaptiveLayout == null
+                        ? DebugBanner(child: widget.child(context))
+                        : widget.child(context),
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

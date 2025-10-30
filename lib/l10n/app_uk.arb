@@ -1,1475 +1,1531 @@
 {
-  "about": "Про",
-  "@about": {},
-  "accept": "Прийняти",
-  "@accept": {},
-  "active": "Активне",
-  "@active": {},
-  "actor": "{count, plural, other{Актори} one{Актор}}",
-  "@actor": {
-    "description": "actor",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
+    "about": "Про",
+    "@about": {},
+    "accept": "Прийняти",
+    "@accept": {},
+    "active": "Активне",
+    "@active": {},
+    "actor": "{count, plural, other{Актори} one{Актор}}",
+    "@actor": {
+        "description": "actor",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "addToCollection": "Додати до колекції",
+    "@addToCollection": {},
+    "addAsFavorite": "Додати до улюблених",
+    "@addAsFavorite": {},
+    "advanced": "Розширені",
+    "@advanced": {},
+    "all": "Усе",
+    "@all": {},
+    "appLockBiometrics": "Біометрія",
+    "@appLockBiometrics": {},
+    "ascending": "За зростанням",
+    "@ascending": {},
+    "audio": "Аудіо",
+    "@audio": {},
+    "bold": "Жирний",
+    "@bold": {},
+    "cancel": "Скасувати",
+    "@cancel": {},
+    "change": "Змінити",
+    "@change": {},
+    "chapter": "{count, plural, other{Розділи} one{Розділ}}",
+    "@chapter": {
+        "description": "chapter",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "clear": "Очистити",
+    "@clear": {},
+    "clearAllSettings": "Очистити всі налаштування",
+    "@clearAllSettings": {},
+    "clearAllSettingsQuestion": "Очистити всі налаштування?",
+    "@clearAllSettingsQuestion": {},
+    "clearChanges": "Очистити зміни",
+    "@clearChanges": {},
+    "clearSelection": "Очистити вибір",
+    "@clearSelection": {},
+    "close": "Закрити",
+    "@close": {},
+    "code": "Код",
+    "@code": {},
+    "collectionFolder": "Тека колекції",
+    "@collectionFolder": {},
+    "color": "Колір",
+    "@color": {},
+    "combined": "Комбіновано",
+    "@combined": {},
+    "communityRating": "Рейтинг спільноти",
+    "@communityRating": {},
+    "continuePage": "Продовжити - сторінка {page}",
+    "@continuePage": {
+        "description": "Continue - page 1",
+        "placeholders": {
+            "page": {
+                "type": "int"
+            }
+        }
+    },
+    "controls": "Керування",
+    "@controls": {},
+    "dashboardContinue": "Продовжити",
+    "@dashboardContinue": {},
+    "dashboardContinueListening": "Продовжити слухати",
+    "@dashboardContinueListening": {},
+    "dashboard": "Інформаційна панель",
+    "@dashboard": {},
+    "dashboardNextUp": "Наступне",
+    "@dashboardNextUp": {},
+    "dateAdded": "Дата додавання",
+    "@dateAdded": {},
+    "datePlayed": "Дата відтворення",
+    "@datePlayed": {},
+    "days": "Дні",
+    "@days": {},
+    "delete": "Видалити",
+    "@delete": {},
+    "deleteItem": "Видалити {item}?",
+    "@deleteItem": {
+        "description": "deleteItem",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "descending": "За спаданням",
+    "@descending": {},
+    "director": "{count, plural, other{Режисери} one{Режисер}}",
+    "@director": {
+        "description": "director",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "disableFilters": "Вимкнути фільтри",
+    "@disableFilters": {},
+    "disabled": "Вимкнено",
+    "@disabled": {},
+    "discovered": "Виявлено",
+    "@discovered": {},
+    "displayLanguage": "Мова відображення",
+    "@displayLanguage": {},
+    "downloadsClearTitle": "Очистити синхронізовані дані",
+    "@downloadsClearTitle": {},
+    "downloadsTitle": "Завантаження",
+    "@downloadsTitle": {},
+    "editMetadata": "Редагувати метадані",
+    "@editMetadata": {},
+    "enabled": "Увімкнено",
+    "@enabled": {},
+    "endsAt": "завершиться о {date}",
+    "@endsAt": {
+        "description": "endsAt",
+        "placeholders": {
+            "date": {
+                "type": "DateTime",
+                "format": "jm"
+            }
+        }
+    },
+    "error": "Помилка",
+    "@error": {},
+    "favorite": "Улюблене",
+    "@favorite": {},
+    "favorites": "Улюблені",
+    "@favorites": {},
+    "fetchingLibrary": "Отримання елементів бібліотеки…",
+    "@fetchingLibrary": {},
+    "folders": "Теки",
+    "@folders": {},
+    "fontColor": "Колір шрифту",
+    "@fontColor": {},
+    "fontSize": "Розмір шрифту",
+    "@fontSize": {},
+    "forceRefresh": "Обновити примусово",
+    "@forceRefresh": {},
+    "genre": "{count, plural, other{Жанри} one{Жанр}}",
+    "@genre": {
+        "description": "genre",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "goTo": "Перейти до",
+    "@goTo": {},
+    "groupBy": "Групувати за",
+    "@groupBy": {},
+    "hide": "Приховати",
+    "@hide": {},
+    "incorrectPinTryAgain": "Неправильний пін-код. Спробуйте ще раз.",
+    "@incorrectPinTryAgain": {},
+    "info": "Інформація",
+    "@info": {},
+    "invalidUrl": "Невірна URL-адреса",
+    "@invalidUrl": {},
+    "invalidUrlDesc": "URL-адреса повинна починатися з http(s)://",
+    "@invalidUrlDesc": {},
+    "itemCount": "Кількість елементів: {count}",
+    "@itemCount": {
+        "description": "Item count",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "libraryPageSizeDesc": "Встановіть кількість, яка буде завантажена за один раз. 0 - вимикає пагінацію.",
+    "@libraryPageSizeDesc": {},
+    "libraryPageSizeTitle": "Розмір сторінки бібліотеки",
+    "@libraryPageSizeTitle": {},
+    "loggedIn": "Увійшов",
+    "@loggedIn": {},
+    "login": "Увійти в систему",
+    "@login": {},
+    "logout": "Вийти з системи",
+    "@logout": {},
+    "logoutUserPopupContent": "Це призведе до виходу {userName} і видалення користувача з програми.\nВам потрібно буде знову увійти на {serverName}.",
+    "@logoutUserPopupContent": {
+        "description": "Pop-up for loging out the user description",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            },
+            "serverName": {
+                "type": "String"
+            }
+        }
+    },
+    "logoutUserPopupTitle": "Вийти для {userName}?",
+    "@logoutUserPopupTitle": {
+        "description": "Pop-up for loging out the user",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "loop": "Цикл",
+    "@loop": {},
+    "masonry": "Кладка",
+    "@masonry": {},
+    "mediaTypeBase": "Базовий тип",
+    "@mediaTypeBase": {},
+    "mediaTypeBook": "Книга",
+    "@mediaTypeBook": {},
+    "mediaTypeFolder": "Тека",
+    "@mediaTypeFolder": {},
+    "mediaTypeMovie": "Фільм",
+    "@mediaTypeMovie": {},
+    "mediaTypePerson": "Людина",
+    "@mediaTypePerson": {},
+    "mediaTypePlaylist": "Плейлист",
+    "@mediaTypePlaylist": {},
+    "mediaTypeSeason": "Сезон",
+    "@mediaTypeSeason": {},
+    "mediaTypeSeries": "Серіал",
+    "@mediaTypeSeries": {},
+    "metaDataSavedFor": "Метадані збережено для {item}",
+    "@metaDataSavedFor": {
+        "description": "metaDataSavedFor",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "metadataRefreshDefault": "Пошук нових та оновлених файлів",
+    "@metadataRefreshDefault": {},
+    "metadataRefreshFull": "Замінити всі метадані",
+    "@metadataRefreshFull": {},
+    "metadataRefreshValidation": "Пошук відсутніх метаданих",
+    "@metadataRefreshValidation": {},
+    "minutes": "{count, plural, other{Хвилини} one{Хвилина} few{Хвилини} many{Хвилин}}",
+    "@minutes": {
+        "description": "minute",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "moreFrom": "Більше з {info}",
+    "@moreFrom": {
+        "description": "More from",
+        "placeholders": {
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "moreOptions": "Більше параметрів",
+    "@moreOptions": {},
+    "name": "Назва",
+    "@name": {},
+    "navigationDashboard": "Інформаційна панель",
+    "@navigationDashboard": {},
+    "navigationFavorites": "Улюблене",
+    "@navigationFavorites": {},
+    "nextUp": "Наступне",
+    "@nextUp": {},
+    "noItemsSynced": "Не синхронізовано жодного елемента",
+    "@noItemsSynced": {},
+    "noRating": "Немає рейтингу",
+    "@noRating": {},
+    "openParent": "Відкрити вміст",
+    "@openParent": {},
+    "openShow": "Відкрити серіал",
+    "@openShow": {},
+    "openWebLink": "Відкрити веб-посилання",
+    "@openWebLink": {},
+    "other": "Інше",
+    "@other": {},
+    "overview": "Огляд",
+    "@overview": {},
+    "parentalRating": "Батьківський рейтинг",
+    "@parentalRating": {},
+    "password": "Пароль",
+    "@password": {},
+    "pathClearTitle": "Очистити шлях завантаження",
+    "@pathClearTitle": {},
+    "pathEditSelect": "Вибрати місце завантаження",
+    "@pathEditSelect": {},
+    "pathEditTitle": "Змінити розташування",
+    "@pathEditTitle": {},
+    "playLabel": "Відтворити",
+    "@playLabel": {},
+    "playVideos": "Відтворити відео",
+    "@playVideos": {},
+    "played": "Відтворено",
+    "@played": {},
+    "quickConnectInputACode": "Введіть код",
+    "@quickConnectInputACode": {},
+    "quickConnectWrongCode": "Невірний код",
+    "@quickConnectWrongCode": {},
+    "random": "Випадково",
+    "@random": {},
+    "rating": "{count, plural, other{Рейтинги} one{Рейтинг}}",
+    "@rating": {
+        "description": "rating",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "reWatch": "Передивитися",
+    "@reWatch": {},
+    "read": "Читати {item}",
+    "@read": {
+        "description": "read",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "removeAsFavorite": "Видалити з улюблених",
+    "@removeAsFavorite": {},
+    "refreshMetadata": "Оновити метадані",
+    "@refreshMetadata": {},
+    "replaceAllImages": "Замінити всі зображення",
+    "@replaceAllImages": {},
+    "replaceExistingImages": "Замінити існуючі зображення",
+    "@replaceExistingImages": {},
+    "restart": "Перезапустити",
+    "@restart": {},
+    "result": "Результат",
+    "@result": {},
+    "resumable": "Відновлюване",
+    "@resumable": {},
+    "retry": "Повторити спробу",
+    "@retry": {},
+    "runTime": "Тривалість",
+    "@runTime": {},
+    "saved": "Збережено",
+    "@saved": {},
+    "scanBiometricHint": "Підтвердити особу",
+    "@scanBiometricHint": {},
+    "scanLibrary": "Сканувати бібліотеку",
+    "@scanLibrary": {},
+    "scanningName": "Сканування - {name}…",
+    "@scanningName": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "scrollToTop": "Прокрутити догори",
+    "@scrollToTop": {},
+    "search": "Шукати",
+    "@search": {},
+    "season": "{count, plural, other{Сезони} one{Сезон} }",
+    "@season": {
+        "description": "season",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "selectAll": "Вибрати все",
+    "@selectAll": {},
+    "selectedWith": "Вибране {info}",
+    "@selectedWith": {
+        "description": "selected",
+        "placeholders": {
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "separate": "Окремо",
+    "@separate": {},
+    "server": "Сервер",
+    "@server": {},
+    "set": "Встановити",
+    "@set": {
+        "description": "Use for setting a certain value",
+        "context": "Set 'time'"
+    },
+    "settings": "Налаштування",
+    "@settings": {},
+    "settingsBlurEpisodesTitle": "Розмити наступні серії",
+    "@settingsBlurEpisodesTitle": {},
+    "settingsHomeCarouselDesc": "Показує карусель на екрані інформаційної панелі",
+    "@settingsHomeCarouselDesc": {},
+    "settingsClientDesc": "Загальні, Тайм-аут, Макет, Тема",
+    "@settingsClientDesc": {},
+    "settingsClientTitle": "Fladder",
+    "@settingsClientTitle": {},
+    "settingsContinue": "Продовжити",
+    "@settingsContinue": {},
+    "settingsEnableOsMediaControls": "Увімкнути засоби керування мультимедіа в ОС",
+    "@settingsEnableOsMediaControls": {},
+    "settingsHomeNextUpTitle": "Постери для \"Наступне\"",
+    "@settingsHomeNextUpTitle": {},
+    "settingsNextUpCutoffDays": "Ліміт днів для \"Наступне\"",
+    "@settingsNextUpCutoffDays": {},
+    "settingsPlayerCustomSubtitlesDesc": "Налаштувати розмір, колір, позицію, контур",
+    "@settingsPlayerCustomSubtitlesDesc": {},
+    "settingsPlayerNativeLibassAccelTitle": "Нативні libass субтитри",
+    "@settingsPlayerNativeLibassAccelTitle": {},
+    "settingsPlayerTitle": "Програвач",
+    "@settingsPlayerTitle": {},
+    "settingsPlayerVideoHWAccelTitle": "Апаратне прискорення",
+    "@settingsPlayerVideoHWAccelTitle": {},
+    "settingsPosterPinch": "Масштабування постерів пальцями",
+    "@settingsPosterPinch": {},
+    "settingsPosterSize": "Розмір постера",
+    "@settingsPosterSize": {},
+    "settingsProfileTitle": "Профіль",
+    "@settingsProfileTitle": {},
+    "settingsQuickConnectTitle": "Швидке підключення",
+    "@settingsQuickConnectTitle": {},
+    "settingsSecurity": "Безпека",
+    "@settingsSecurity": {},
+    "showAlbum": "Показати альбом",
+    "@showAlbum": {},
+    "shuffleVideos": "Перемішати відео",
+    "@shuffleVideos": {},
+    "somethingWentWrong": "Щось пішло не так",
+    "@somethingWentWrong": {},
+    "somethingWentWrongPasswordCheck": "Щось пішло не так. Перевір свій пароль.",
+    "@somethingWentWrongPasswordCheck": {},
+    "sortBy": "Сортувати за",
+    "@sortBy": {},
+    "sortName": "Назва",
+    "@sortName": {},
+    "subtitles": "Субтитри",
+    "@subtitles": {},
+    "switchUser": "Змінити користувача",
+    "@switchUser": {},
+    "sync": "Синхронізувати",
+    "@sync": {},
+    "syncDeleteItemTitle": "Видалити синхронізований елемент",
+    "@syncDeleteItemTitle": {},
+    "syncRemoveDataTitle": "Видалити синхронізовані дані?",
+    "@syncRemoveDataTitle": {},
+    "syncedItems": "Синхронізовані елементи",
+    "@syncedItems": {},
+    "theme": "Тема",
+    "@theme": {},
+    "timeAndAnnotation": "{minutes} і {seconds}",
+    "@timeAndAnnotation": {
+        "description": "timeAndAnnotation",
+        "placeholders": {
+            "minutes": {
+                "type": "String"
+            },
+            "seconds": {
+                "type": "String"
+            }
+        }
+    },
+    "timeOut": "Тайм-аут",
+    "@timeOut": {},
+    "unableToConnectHost": "Не вдається з'єднатися з хостом",
+    "@unableToConnectHost": {},
+    "unableToReverseAction": "Цю дію не можна скасувати. Це призведе до видалення всіх налаштувань.",
+    "@unableToReverseAction": {},
+    "unknown": "Невідомо",
+    "@unknown": {},
+    "video": "Відео",
+    "@video": {},
+    "videoScalingCover": "Покрити",
+    "@videoScalingCover": {},
+    "videoScalingFill": "Заповнити",
+    "@videoScalingFill": {},
+    "videoScalingFillScreenDesc": "Заповнити навігацію та рядок стану",
+    "@videoScalingFillScreenDesc": {},
+    "videoScalingFillScreenNotif": "Заповнення екрану перезаписує відповідність відео, при горизонтальному обертанні",
+    "@videoScalingFillScreenNotif": {},
+    "videoScalingFitHeight": "Підігнати по висоті",
+    "@videoScalingFitHeight": {},
+    "videoScalingFitWidth": "Підігнати по ширині",
+    "@videoScalingFitWidth": {},
+    "videoScalingScaleDown": "Зменшити",
+    "@videoScalingScaleDown": {},
+    "writer": "{count, plural, other{Сценаристи} one{Сценарист}}",
+    "@writer": {
+        "description": "writer",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "year": "{count, plural, other{Роки} one{Рік}}",
+    "@year": {
+        "description": "year",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "addToPlaylist": "Додати до плейлиста",
+    "@addToPlaylist": {},
+    "amoledBlack": "Чорний амолед",
+    "@amoledBlack": {},
+    "appLockAutoLogin": "Автоматичний вхід",
+    "@appLockAutoLogin": {},
+    "appLockPasscode": "Код доступу",
+    "@appLockPasscode": {},
+    "appLockTitle": "Встановити метод входу для {userName}",
+    "@appLockTitle": {
+        "description": "Pop-up to pick a login method",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "autoPlay": "Автовідтворення",
+    "@autoPlay": {},
+    "backgroundBlur": "Розмиття фону",
+    "@backgroundBlur": {},
+    "backgroundOpacity": "Прозорість фону",
+    "@backgroundOpacity": {},
+    "biometricsFailedCheckAgain": "Біометрія не пройшла. Перевірте налаштування та спробуйте ще раз.",
+    "@biometricsFailedCheckAgain": {},
+    "dashboardContinueReading": "Продовжити читати",
+    "@dashboardContinueReading": {},
+    "dashboardContinueWatching": "Продовжити дивитися",
+    "@dashboardContinueWatching": {},
+    "dashboardRecentlyAdded": "Нещодавно додане в {name}",
+    "@dashboardRecentlyAdded": {
+        "description": "Recently added on home screen",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "dateLastContentAdded": "Дата останнього додавання вмісту",
+    "@dateLastContentAdded": {},
+    "deleteFileFromSystem": "Видалення цього елемента {item} призведе до видалення його з файлової системи та медіатеки. Ви впевнені, що хочете продовжити?",
+    "@deleteFileFromSystem": {
+        "description": "Delete file from system",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "downloadsClearDesc": "Видалити всі синхронізовані дані, очистивши всі дані для кожного синхронізованого користувача?",
+    "@downloadsClearDesc": {},
+    "downloadsPath": "Шлях",
+    "@downloadsPath": {},
+    "dynamicText": "Динамічний",
+    "@dynamicText": {},
+    "empty": "Порожньо",
+    "@empty": {},
+    "downloadsSyncedData": "Синхронізовані дані",
+    "@downloadsSyncedData": {},
+    "episode": "{count, plural, other{Серії} one{Серія} }",
+    "@episode": {
+        "description": "episode",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "failedToLoadImage": "Не вдалося завантажити зображення",
+    "@failedToLoadImage": {},
+    "filter": "{count, plural, other{Фільтри} one{Фільтр}}",
+    "@filter": {
+        "description": "filter",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "grid": "Сітка",
+    "@grid": {},
+    "group": "Група",
+    "@group": {},
+    "heightOffset": "Зміщення по висоті",
+    "@heightOffset": {},
+    "hideEmpty": "Приховати порожнє",
+    "@hideEmpty": {},
+    "home": "Головна",
+    "@home": {},
+    "identify": "Ідентифікувати",
+    "@identify": {},
+    "immediately": "Негайно",
+    "@immediately": {},
+    "label": "{count, plural, other{Ярлики} one{Ярлик}}",
+    "@label": {
+        "description": "label",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "library": "{count, plural, other{Бібліотеки} one{Бібліотека}}",
+    "@library": {
+        "description": "Plural",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "libraryFetchNoItemsFound": "Не знайдено жодного елемента. Спробуйте інші налаштування.",
+    "@libraryFetchNoItemsFound": {},
+    "light": "Худий",
+    "@light": {},
+    "list": "Список",
+    "@list": {},
+    "lockscreen": "Екран блокування",
+    "@lockscreen": {},
+    "markAsUnwatched": "Відмітити як непереглянуте",
+    "@markAsUnwatched": {},
+    "markAsWatched": "Відмітити як переглянуте",
+    "@markAsWatched": {},
+    "mediaTypeBoxset": "Бокс-сет",
+    "@mediaTypeBoxset": {},
+    "mediaTypeEpisode": "Серія",
+    "@mediaTypeEpisode": {},
+    "mediaTypePhoto": "Фото",
+    "@mediaTypePhoto": {},
+    "mediaTypePhotoAlbum": "Фотоальбом",
+    "@mediaTypePhotoAlbum": {},
+    "settingsPosterSlider": "Показати повзунок масштабу",
+    "@settingsPosterSlider": {},
+    "settingsProfileDesc": "Екран блокування",
+    "@settingsProfileDesc": {},
+    "shadow": "Тінь",
+    "@shadow": {},
+    "settingsShowScaleSlider": "Показати повзунок розміру постера",
+    "@settingsShowScaleSlider": {},
+    "showEmpty": "Показати порожнє",
+    "@showEmpty": {},
+    "settingsVisual": "Візуальне",
+    "@settingsVisual": {},
+    "themeModeSystem": "Системний",
+    "@themeModeSystem": {},
+    "showDetails": "Показати деталі",
+    "@showDetails": {},
+    "mode": "Стиль",
+    "@mode": {},
+    "shuffleGallery": "Перемішати галерею",
+    "@shuffleGallery": {},
+    "themeModeDark": "Темний",
+    "@themeModeDark": {},
+    "musicAlbum": "Альбом",
+    "@musicAlbum": {},
+    "sortOrder": "Порядок сортування",
+    "@sortOrder": {},
+    "themeModeLight": "Світлий",
+    "@themeModeLight": {},
+    "start": "Початок",
+    "@start": {},
+    "mouseDragSupport": "Перетягування за допомогою миші",
+    "@mouseDragSupport": {},
+    "studio": "{count, plural, other{Студії} one{Студія}}",
+    "@studio": {
+        "description": "studio",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "navigation": "Навігація",
+    "@navigation": {},
+    "subtitleConfigurator": "Налаштування субтитрів",
+    "@subtitleConfigurator": {},
+    "refreshPopupContentMetadata": "Метадані оновлюються на основі налаштувань та інтернет-сервісів, увімкнених на інформаційній панелі.",
+    "@refreshPopupContentMetadata": {},
+    "subtitleConfiguratorPlaceHolder": "Це текст-заповнювач, тут нема на що дивитися.",
+    "@subtitleConfiguratorPlaceHolder": {},
+    "settingsHomeCarouselTitle": "Карусель інформаційної панелі",
+    "@settingsHomeCarouselTitle": {},
+    "settingsHomeNextUpDesc": "Тип постерів, що відображаються на екрані інформаційної панелі",
+    "@settingsHomeNextUpDesc": {},
+    "navigationSync": "Синхронізоване",
+    "@navigationSync": {},
+    "never": "Ніколи",
+    "@never": {},
+    "noServersFound": "Не знайдено нових серверів",
+    "@noServersFound": {},
+    "noItemsToShow": "Немає елементів для показу",
+    "@noItemsToShow": {},
+    "noResults": "Немає результатів",
+    "@noResults": {},
+    "noSuggestionsFound": "Не знайдено жодної пропозиції",
+    "@noSuggestionsFound": {},
+    "none": "Нічого",
+    "@none": {},
+    "normal": "Нормально",
+    "@normal": {},
+    "notPartOfAlbum": "Не входить до альбому",
+    "@notPartOfAlbum": {},
+    "options": "Параметри",
+    "@options": {},
+    "page": "Сторінка {index}",
+    "@page": {
+        "description": "page",
+        "placeholders": {
+            "index": {
+                "type": "int"
+            }
+        }
+    },
+    "outlineSize": "Розмір контуру",
+    "@outlineSize": {},
+    "outlineColor": "Колір контуру",
+    "@outlineColor": {},
+    "quickConnectTitle": "Швидке підключення",
+    "@quickConnectTitle": {},
+    "pathEditDesc": "Це місце встановлюється для всіх користувачів, будь-які синхронізовані дані більше не будуть доступні. Вони залишаться у вашому сховищі.",
+    "@pathEditDesc": {},
+    "play": "Відтворити {item}",
+    "@play": {
+        "description": "Play with",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "playCount": "Кількість відтворень",
+    "@playCount": {},
+    "playFrom": "Відтворити від {name}",
+    "@playFrom": {
+        "description": "playFrom",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "playFromStart": "Відтворити {name} з самого початку",
+    "@playFromStart": {
+        "description": "speel vanaf het begin",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "removeFromPlaylist": "Видалити з плейлиста",
+    "@removeFromPlaylist": {},
+    "quickConnectAction": "Введіть код швидкого підключення для",
+    "@quickConnectAction": {},
+    "related": "Пов'язане",
+    "@related": {},
+    "readFromStart": "Читати {item} з початку",
+    "@readFromStart": {
+        "description": "Read book from start",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "refresh": "Оновити",
+    "@refresh": {},
+    "removeFromCollection": "Видалити з колекції",
+    "@removeFromCollection": {},
+    "resume": "Відновити {item}",
+    "@resume": {
+        "description": "resume",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "recursive": "Рекурсивно",
+    "@recursive": {},
+    "releaseDate": "Дата виходу",
+    "@releaseDate": {},
+    "refreshPopup": "Оновити - {name}",
+    "@refreshPopup": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "retrievePublicListOfUsers": "Отримати публічний список користувачів",
+    "@retrievePublicListOfUsers": {},
+    "save": "Зберегти",
+    "@save": {},
+    "scanYourFingerprintToAuthenticate": "Відскануйте відбиток пальця для автентифікації {user}",
+    "@scanYourFingerprintToAuthenticate": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "seconds": "{count, plural, other{Секунди} one{Секунда} few{Секунди} many{Секунд}}",
+    "@seconds": {
+        "description": "second",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "selectTime": "Виберіть час",
+    "@selectTime": {},
+    "selectViewType": "Вибрати тип перегляду",
+    "@selectViewType": {},
+    "selected": "Вибране",
+    "@selected": {},
+    "setIdentityTo": "Встановити ідентичність на {name}",
+    "@setIdentityTo": {
+        "description": "setIdentityTo",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "settingSecurityApplockTitle": "Блокування програми",
+    "@settingSecurityApplockTitle": {},
+    "settingsBlurEpisodesDesc": "Розмити всі майбутні серії",
+    "@settingsBlurEpisodesDesc": {},
+    "settingsBlurredPlaceholderDesc": "Показувати розмитий фон при завантаженні постерів",
+    "@settingsBlurredPlaceholderDesc": {},
+    "settingsBlurredPlaceholderTitle": "Розмитий заповнювач",
+    "@settingsBlurredPlaceholderTitle": {},
+    "settingsPlayerDesc": "Співвідношення сторін, розширене",
+    "@settingsPlayerDesc": {},
+    "settingsPlayerCustomSubtitlesTitle": "Налаштувати субтитри",
+    "@settingsPlayerCustomSubtitlesTitle": {},
+    "settingsPlayerMobileWarning": "Увімкнення апаратного прискорення та власних субтитрів libass на Android може призвести до того, що деякі субтитри не відображатимуться.",
+    "@settingsPlayerMobileWarning": {},
+    "settingsPlayerNativeLibassAccelDesc": "Використовувати обробник субтитрів відеопрогравача libass",
+    "@settingsPlayerNativeLibassAccelDesc": {},
+    "settingsPlayerVideoHWAccelDesc": "Використовувати GPU для рендерингу відео (рекомендовано)",
+    "@settingsPlayerVideoHWAccelDesc": {},
+    "syncDeleteItemDesc": "Видалити всі синхронізовані дані для {item}?",
+    "@syncDeleteItemDesc": {
+        "description": "Sync delete item pop-up window",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "syncDeletePopupPermanent": "Ця дія буде безповоротною і вилучить усі локально синхронізовані файли",
+    "@syncDeletePopupPermanent": {},
+    "syncDetails": "Деталі синхронізації",
+    "@syncDetails": {},
+    "syncOpenParent": "Відкрити вміст",
+    "@syncOpenParent": {},
+    "syncRemoveDataDesc": "Видалити синхронізовані відеодані? Це незворотній процес, і вам потрібно буде повторно синхронізувати файли",
+    "@syncRemoveDataDesc": {},
+    "tag": "{count, plural, one{Тег} other{Теги}}",
+    "@tag": {
+        "description": "tag",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "themeColor": "Колір теми",
+    "@themeColor": {},
+    "totalSize": "Загальний розмір: {size}",
+    "@totalSize": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+    "type": "{count, plural, other{Типи} one{Тип}}",
+    "@type": {
+        "description": "type",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "unPlayed": "Невідтворено",
+    "@unPlayed": {},
+    "useDefaults": "Використовувати значення за замовчуванням",
+    "@useDefaults": {},
+    "userName": "Ім'я користувача",
+    "@userName": {},
+    "videoScalingContain": "Вмістити",
+    "@videoScalingContain": {},
+    "videoScaling": "Масштабування відео",
+    "@videoScaling": {},
+    "videoScalingFillScreenTitle": "Заповнення екрана",
+    "@videoScalingFillScreenTitle": {},
+    "watchOn": "Дивіться на",
+    "@watchOn": {},
+    "viewPhotos": "Переглянути фото",
+    "@viewPhotos": {},
+    "nativeName": "Українська",
+    "@nativeName": {},
+    "homeBannerBanner": "Банер",
+    "@homeBannerBanner": {},
+    "homeBannerCarousel": "Карусель",
+    "@homeBannerCarousel": {},
+    "settingsHomeBannerDescription": "Відобразити у вигляді слайд-шоу, каруселі або приховати банер",
+    "@settingsHomeBannerDescription": {},
+    "settingsHomeBannerTitle": "Банер на головній сторінці",
+    "@settingsHomeBannerTitle": {},
+    "settingsHomeBannerInformationTitle": "Інформація на банері",
+    "@settingsHomeBannerInformationTitle": {},
+    "settingsHomeBannerInformationDesc": "Інформація для показу на банері на головній сторінці",
+    "@settingsHomeBannerInformationDesc": {},
+    "homeBannerSlideshow": "Слайд-шоу",
+    "@homeBannerSlideshow": {},
+    "syncStatusEnqueued": "У черзі",
+    "@syncStatusEnqueued": {},
+    "syncStatusRunning": "Виконується",
+    "@syncStatusRunning": {},
+    "syncStatusComplete": "Завершено",
+    "@syncStatusComplete": {},
+    "syncStatusNotFound": "Не знайдено",
+    "@syncStatusNotFound": {},
+    "syncStatusFailed": "Не вдалося",
+    "@syncStatusFailed": {},
+    "syncStatusCanceled": "Скасовано",
+    "@syncStatusCanceled": {},
+    "syncRemoveUnableToDeleteItem": "Не вдалося видалити синхронізований елемент, щось пішло не так",
+    "@syncRemoveUnableToDeleteItem": {},
+    "aboutLicenses": "Ліцензії",
+    "@aboutLicenses": {},
+    "aboutSocials": "Соцмережі",
+    "@aboutSocials": {},
+    "syncStatusPartially": "Частково",
+    "@syncStatusPartially": {},
+    "syncStatusWaitingToRetry": "Очікує на повторну спробу",
+    "@syncStatusWaitingToRetry": {},
+    "syncStatusPaused": "Призупинено",
+    "@syncStatusPaused": {},
+    "syncStatusSynced": "Синхронізовано",
+    "@syncStatusSynced": {},
+    "syncOverlayDeleting": "Видалення синхронізованого елемента",
+    "@syncOverlayDeleting": {},
+    "syncOverlaySyncing": "Деталі про елемент синхронізації",
+    "@syncOverlaySyncing": {},
+    "syncSelectDownloadsFolder": "Вибрати теку для завантаження",
+    "@syncSelectDownloadsFolder": {},
+    "syncNoFolderSetup": "Немає налаштувань теки синхронізації",
+    "@syncNoFolderSetup": {},
+    "addToNewCollection": "Нова колекція",
+    "@addToNewCollection": {},
+    "addItemsToCollection": "Додати {itemLength} елемент(и) до колекції",
+    "@addItemsToCollection": {
+        "placeholders": {
+            "itemLength": {
+                "type": "int"
+            }
+        }
+    },
+    "syncAddItemForSyncing": "Додано {item} для синхронізації",
+    "@syncAddItemForSyncing": {
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "startedSyncingItem": "Розпочато синхронізацію {item}",
+    "@startedSyncingItem": {
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "unableToSyncItem": "Не вдалося синхронізувати {item}, щось пішло не так",
+    "@unableToSyncItem": {
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "addedToCollection": "Додано до колекції {collectionName}",
+    "@addedToCollection": {
+        "placeholders": {
+            "collectionName": {
+                "type": "String"
+            }
+        }
+    },
+    "removedFromCollection": "Видалено з колекції {collectionName}",
+    "@removedFromCollection": {
+        "placeholders": {
+            "collectionName": {
+                "type": "String"
+            }
+        }
+    },
+    "addToNewPlaylist": "Новий плейлист",
+    "@addToNewPlaylist": {},
+    "addItemsToPlaylist": "Додати {itemLength} елемент(и) до плейлиста",
+    "@addItemsToPlaylist": {
+        "placeholders": {
+            "itemLength": {
+                "type": "int"
+            }
+        }
+    },
+    "aboutVersion": "Версія: {version}",
+    "@aboutVersion": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutCreatedBy": "Створено DonutWare",
+    "@aboutCreatedBy": {},
+    "addedToPlaylist": "Додано до плейлиста {playlistName}",
+    "@addedToPlaylist": {
+        "placeholders": {
+            "playlistName": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutBuild": "Збірка: {buildNumber}",
+    "@aboutBuild": {
+        "placeholders": {
+            "buildNumber": {
+                "type": "String"
+            }
+        }
+    },
+    "subtitleConfiguration": "Налаштування субтитрів",
+    "@subtitleConfiguration": {},
+    "off": "Вимкнути",
+    "@off": {},
+    "playBackSettings": "Параметри відтворення",
+    "@playBackSettings": {},
+    "subtitle": "Субтитри",
+    "@subtitle": {},
+    "screenBrightness": "Яскравість екрана",
+    "@screenBrightness": {},
+    "scale": "Масштаб",
+    "@scale": {},
+    "settingsAutoNextTitle": "Попередній перегляд \"наступного\"",
+    "@settingsAutoNextTitle": {},
+    "autoNextOffSmartDesc": "Показує екран \"наступне\" після початку титрів, якщо після них залишилося не більше 10 секунд. В іншому випадку показує екран \"наступне\", коли залишається 30 секунд відтворення",
+    "@autoNextOffSmartDesc": {},
+    "settingsAutoNextDesc": "Відображає попередній перегляд \"наступного\" в кінці, якщо в черзі стоїть інший елемент",
+    "@settingsAutoNextDesc": {},
+    "autoNextOffStaticDesc": "Показати екран \"наступне\", коли залишиться 30 секунд до завершення відтворення",
+    "@autoNextOffStaticDesc": {},
+    "autoNextOffStaticTitle": "Статичний",
+    "@autoNextOffStaticTitle": {},
+    "autoNextOffSmartTitle": "Розумний",
+    "@autoNextOffSmartTitle": {},
+    "playbackRate": "Швидкість відтворення",
+    "@playbackRate": {},
+    "speed": "Швидкість",
+    "@speed": {},
+    "unableToPlayMedia": "Виникла помилка під час пошуку сумісного типу носія",
+    "@unableToPlayMedia": {},
+    "unableToPlayBooksOnWeb": "Наразі книги не підтримуються на вебі",
+    "@unableToPlayBooksOnWeb": {},
+    "defaultFilterForLibrary": "Фільтр за замовчуванням для бібліотеки",
+    "@defaultFilterForLibrary": {},
+    "deleteFilterConfirmation": "Ви впевнені, що хочете видалити цей фільтр?",
+    "@deleteFilterConfirmation": {},
+    "libraryFiltersLimitReached": "Досягнуто ліміту фільтрів (10) видаліть деякі фільтри",
+    "@libraryFiltersLimitReached": {},
+    "playerSettingsOrientationDesc": "Примусити відеопрогравач до певної орієнтації",
+    "@playerSettingsOrientationDesc": {},
+    "deviceOrientationPortraitUp": "Портретно вгору",
+    "@deviceOrientationPortraitUp": {},
+    "deviceOrientationLandscapeLeft": "Горизонтально зліва",
+    "@deviceOrientationLandscapeLeft": {},
+    "deviceOrientationLandscapeRight": "Горизонтально справа",
+    "@deviceOrientationLandscapeRight": {},
+    "schemeSettingsTonalSpot": "Тональна пляма",
+    "@schemeSettingsTonalSpot": {},
+    "schemeSettingsFidelity": "Точність",
+    "@schemeSettingsFidelity": {},
+    "schemeSettingsVibrant": "Яскравий",
+    "@schemeSettingsVibrant": {},
+    "schemeSettingsExpressive": "Виразний",
+    "@schemeSettingsExpressive": {},
+    "schemeSettingsContent": "Вміст",
+    "@schemeSettingsContent": {},
+    "libraryShuffleAndPlayItems": "Перемішати та відтворити елементи",
+    "@libraryShuffleAndPlayItems": {},
+    "libraryPlayItems": "Відтворити елементи",
+    "@libraryPlayItems": {},
+    "errorOpeningMedia": "Щось пішло не так, при спробі відтворити це медіа",
+    "@errorOpeningMedia": {},
+    "updateFilterForLibrary": "Оновити фільтр",
+    "@updateFilterForLibrary": {},
+    "removeFilterForLibrary": "Видалити {filter}?",
+    "@removeFilterForLibrary": {
+        "description": "removeFilterForLibrary",
+        "placeholders": {
+            "filter": {
+                "type": "String"
+            }
+        }
+    },
+    "libraryFiltersRemoveAll": "Видалити всі фільтри",
+    "@libraryFiltersRemoveAll": {},
+    "libraryFiltersRemoveAllConfirm": "Це призведе до видалення всіх збережених фільтрів для кожної бібліотеки",
+    "@libraryFiltersRemoveAllConfirm": {},
+    "playerSettingsOrientationTitle": "Орієнтація програвача",
+    "@playerSettingsOrientationTitle": {},
+    "deviceOrientationPortraitDown": "Портретно вниз",
+    "@deviceOrientationPortraitDown": {},
+    "clientSettingsSchemeVariantTitle": "Варіант схеми",
+    "@clientSettingsSchemeVariantTitle": {},
+    "schemeSettingsMonochrome": "Монохромний",
+    "@schemeSettingsMonochrome": {},
+    "schemeSettingsNeutral": "Нейтральний",
+    "@schemeSettingsNeutral": {},
+    "schemeSettingsRainbow": "Веселка",
+    "@schemeSettingsRainbow": {},
+    "schemeSettingsFruitSalad": "Фруктовий салат",
+    "@schemeSettingsFruitSalad": {},
+    "clientSettingsRequireWifiTitle": "Потрібен Wi-Fi",
+    "@clientSettingsRequireWifiTitle": {},
+    "clientSettingsRequireWifiDesc": "Завантажувати тільки при підключенні до мережі Wi-Fi",
+    "@clientSettingsRequireWifiDesc": {},
+    "clientSettingsShowAllCollectionsTitle": "Показати всі типи колекцій",
+    "@clientSettingsShowAllCollectionsTitle": {},
+    "clientSettingsShowAllCollectionsDesc": "Якщо увімкнено, показувати всі типи колекцій, включно з тими, що не підтримує Fladder",
+    "@clientSettingsShowAllCollectionsDesc": {},
+    "stop": "Зупинити",
+    "@stop": {},
+    "closeVideo": "Закрити відео",
+    "@closeVideo": {},
+    "resumeVideo": "Відновити відео",
+    "@resumeVideo": {},
+    "playNextVideo": "Відтворити наступне відео",
+    "@playNextVideo": {},
+    "defaultLabel": "За замовчуванням",
+    "@defaultLabel": {
+        "description": "To indicate a default value, default video player backend"
+    },
+    "mdkExperimental": "MDK все ще перебуває на експериментальній стадії",
+    "@mdkExperimental": {},
+    "playerSettingsBackendTitle": "Бекенд відеопрогравача",
+    "@playerSettingsBackendTitle": {},
+    "playerSettingsBackendDesc": "Виберіть медіапрогравач, який вам подобається, для оптимального відтворення",
+    "@playerSettingsBackendDesc": {},
+    "noVideoPlayerOptions": "Обраний бекенд не має опцій",
+    "@noVideoPlayerOptions": {},
+    "skipButtonLabel": "Пропустити {segment}",
+    "@skipButtonLabel": {
+        "placeholders": {
+            "segment": {
+                "type": "String"
+            }
+        }
+    },
+    "mediaSegmentPreview": "Попередній перегляд",
+    "@mediaSegmentPreview": {},
+    "mediaSegmentRecap": "Підсумок",
+    "@mediaSegmentRecap": {},
+    "mediaSegmentIntro": "Вступ",
+    "@mediaSegmentIntro": {},
+    "mediaSegmentOutro": "Завершення",
+    "@mediaSegmentOutro": {},
+    "mediaSegmentUnknown": "Невідомо",
+    "@mediaSegmentUnknown": {},
+    "mediaSegmentCommercial": "Реклама",
+    "@mediaSegmentCommercial": {},
+    "errorLogs": "Журнал помилок",
+    "@errorLogs": {},
+    "external": "Зовнішнє",
+    "@external": {},
+    "downloadFile": "Завантажити {type}",
+    "@downloadFile": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "copyStreamUrl": "Скопіювати URL потоку",
+    "@copyStreamUrl": {},
+    "settingsLayoutSizesDesc": "Виберіть, які розміри макета використовуватиме додаток залежно від розміру вікна",
+    "@settingsLayoutSizesDesc": {},
+    "layoutModeSingle": "Одинарний",
+    "@layoutModeSingle": {},
+    "settingsLayoutSizesTitle": "Розміри макета",
+    "@settingsLayoutSizesTitle": {},
+    "settingsLayoutModesTitle": "Режими макета",
+    "@settingsLayoutModesTitle": {},
+    "settingsLayoutModesDesc": "Контролюйте, чи може програма використовувати одно- або двопанельні макети",
+    "@settingsLayoutModesDesc": {},
+    "phone": "Телефон",
+    "@phone": {},
+    "tablet": "Планшет",
+    "@tablet": {},
+    "desktop": "Комп'ютер",
+    "@desktop": {},
+    "layoutModeDual": "Подвійний",
+    "@layoutModeDual": {},
+    "copiedToClipboard": "Скопійовано в буфер обміну",
+    "@copiedToClipboard": {},
+    "episodeAvailable": "Доступна",
+    "@episodeAvailable": {},
+    "episodeUnaired": "Непоказана",
+    "@episodeUnaired": {},
+    "episodeMissing": "Відсутня",
+    "@episodeMissing": {},
+    "homeStreamingQualityTitle": "Якість вдома",
+    "@homeStreamingQualityTitle": {},
+    "homeStreamingQualityDesc": "Максимальна якість трансляції при підключенні до домашньої мережі",
+    "@homeStreamingQualityDesc": {},
+    "internetStreamingQualityDesc": "Максимальна якість трансляції через Інтернет (мобільний)",
+    "@internetStreamingQualityDesc": {},
+    "internetStreamingQualityTitle": "Якість через інтернет",
+    "@internetStreamingQualityTitle": {},
+    "qualityOptionsTitle": "Варіанти якості",
+    "@qualityOptionsTitle": {},
+    "qualityOptionsOriginal": "Оригінал",
+    "@qualityOptionsOriginal": {},
+    "qualityOptionsAuto": "Авто",
+    "@qualityOptionsAuto": {},
+    "version": "Версія",
+    "@version": {},
+    "mediaSegmentActions": "Дії для медіа сегментів",
+    "@mediaSegmentActions": {},
+    "segmentActionNone": "Нічого",
+    "@segmentActionNone": {},
+    "segmentActionAskToSkip": "Запитати, чи пропустити",
+    "@segmentActionAskToSkip": {},
+    "segmentActionSkip": "Пропустити",
+    "@segmentActionSkip": {},
+    "loading": "Завантаження",
+    "@loading": {},
+    "castAndCrew": "Актори та знімальна група",
+    "@castAndCrew": {},
+    "guestActor": "{count, plural, other{Запрошені актори} one{Запрошений актор}}",
+    "@guestActor": {
+        "description": "Guest actors",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "settingsPlayerBufferSizeTitle": "Розмір буфера відео",
+    "@settingsPlayerBufferSizeTitle": {},
+    "settingsPlayerBufferSizeDesc": "Налаштуйте розмір буфера для відтворення відео, визначивши, скільки даних буде завантажено в кеш.",
+    "@settingsPlayerBufferSizeDesc": {},
+    "maxConcurrentDownloadsTitle": "Максимум одночасних завантажень",
+    "@maxConcurrentDownloadsTitle": {},
+    "maxConcurrentDownloadsDesc": "Встановлює максимальну кількість завантажень, які можуть виконуватися одночасно. Встановіть значення 0, щоб вимкнути обмеження.",
+    "@maxConcurrentDownloadsDesc": {},
+    "playbackTrackSelection": "Вибір доріжки відтворення",
+    "@playbackTrackSelection": {},
+    "rememberSubtitleSelectionsDesc": "Спробувати встановити доріжку субтитрів, яка найкраще відповідає останньому відео.",
+    "@rememberSubtitleSelectionsDesc": {},
+    "rememberAudioSelections": "Встановити аудіодоріжку на основі попереднього елемента",
+    "@rememberAudioSelections": {},
+    "rememberAudioSelectionsDesc": "Спробувати встановити аудіодоріжку, яка найкраще відповідає останньому відео.",
+    "@rememberAudioSelectionsDesc": {},
+    "rememberSubtitleSelections": "Встановити доріжку субтитрів на основі попереднього елемента",
+    "@rememberSubtitleSelections": {},
+    "similarToRecentlyPlayed": "Схоже на нещодавно відтворене",
+    "@similarToRecentlyPlayed": {},
+    "similarToLikedItem": "Схоже на вподобаний елемент",
+    "@similarToLikedItem": {},
+    "hasActorFromRecentlyPlayed": "Має актора з нещодавно відтвореного",
+    "@hasActorFromRecentlyPlayed": {},
+    "latest": "Останнє",
+    "@latest": {},
+    "hasLikedDirector": "Має вподобаного режисера",
+    "@hasLikedDirector": {},
+    "hasLikedActor": "Має вподобаного актора",
+    "@hasLikedActor": {},
+    "recommended": "Рекомендовано",
+    "@recommended": {},
+    "hasDirectorFromRecentlyPlayed": "Має режисера з нещодавно відтвореного",
+    "@hasDirectorFromRecentlyPlayed": {},
+    "exitFladderTitle": "Вийти з Fladder",
+    "@exitFladderTitle": {},
+    "playbackTypeDirect": "Пряме",
+    "@playbackTypeDirect": {},
+    "playbackType": "Тип відтворення",
+    "@playbackType": {},
+    "playbackTypeTranscode": "Перекодування",
+    "@playbackTypeTranscode": {},
+    "playbackTypeOffline": "Офлайн",
+    "@playbackTypeOffline": {},
+    "latestReleases": "Останні релізи",
+    "@latestReleases": {},
+    "autoCheckForUpdates": "Періодично перевіряти наявність оновлень",
+    "@autoCheckForUpdates": {},
+    "newReleaseFoundTitle": "Доступне оновлення {newRelease}!",
+    "@newReleaseFoundTitle": {
+        "placeholders": {
+            "newRelease": {
+                "type": "String"
+            }
+        }
+    },
+    "newUpdateFoundOnGithub": "Знайдено нове оновлення на Github",
+    "@newUpdateFoundOnGithub": {},
+    "enableBackgroundPostersTitle": "Увімкнути фонові постери",
+    "@enableBackgroundPostersTitle": {},
+    "settingsEnableOsMediaControlsDesc": "Дозволяє керувати відтворенням за допомогою медіа-клавіш та показувати поточний відтворюваний медіафайл в ОС",
+    "@settingsEnableOsMediaControlsDesc": {},
+    "enableBackgroundPostersDesc": "Показувати випадкові постери на відповідних екранах",
+    "@enableBackgroundPostersDesc": {},
+    "notificationDownloadingDownloading": "Завантаження",
+    "@notificationDownloadingDownloading": {},
+    "notificationDownloadingPaused": "Завантаження призупинено",
+    "@notificationDownloadingPaused": {},
+    "notificationDownloadingFinished": "Завантаження завершено",
+    "@notificationDownloadingFinished": {},
+    "notificationDownloadingError": "Помилка завантаження",
+    "@notificationDownloadingError": {},
+    "syncAllItemsTitle": "Синхронізувати всі елементи з {itemName}?",
+    "@syncAllItemsTitle": {
+        "description": "syncAllItemsFrom",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncAllItemsDesc": "Це синхронізує ({itemCount}) елементів з '{itemName}' на ваш пристрій.\nЦе може зайняти деякий час, залежно від кількості елементів.",
+    "@syncAllItemsDesc": {
+        "description": "syncAllitemsFromDesc",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            },
+            "itemCount": {
+                "type": "int"
+            }
+        }
+    },
+    "syncDeleteAllItemsTitle": "Видалити всі синхронізовані елементи з {itemName}?",
+    "@syncDeleteAllItemsTitle": {
+        "description": "syncDeleteAllitemsFrom",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncDeleteAllItemsDesc": "Це видалить усі синхронізовані елементи з '{itemName}'.\nЦе остаточне рішення, і вам доведеться повторно синхронізувати ({itemCount}) файлів.",
+    "@syncDeleteAllItemsDesc": {
+        "description": "syncDeleteAllitemsFromDesc",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            },
+            "itemCount": {
+                "type": "int"
+            }
+        }
+    },
+    "syncPauseAll": "Призупинити все",
+    "@syncPauseAll": {},
+    "syncResumeAll": "Відновити все",
+    "@syncResumeAll": {},
+    "syncStopAll": "Зупинити все",
+    "@syncStopAll": {},
+    "syncDeleteAll": "Видалити всі файли",
+    "@syncDeleteAll": {},
+    "syncAllFiles": "Синхронізувати всі файли",
+    "@syncAllFiles": {},
+    "usePostersForLibraryIconsTitle": "Показати постери для іконок бібліотеки",
+    "@usePostersForLibraryIconsTitle": {},
+    "usePostersForLibraryIconsDesc": "Показувати постери замість іконок для бібліотек",
+    "@usePostersForLibraryIconsDesc": {},
+    "offline": "Офлайн",
+    "@offline": {},
+    "shortCuts": "Комбінації клавіш",
+    "@shortCuts": {},
+    "skipForwardLength": "Крок перемотування вперед",
+    "@skipForwardLength": {},
+    "skipBackLength": "Крок перемотування назад",
+    "@skipBackLength": {},
+    "playPause": "Відтворення/Пауза",
+    "@playPause": {},
+    "seekForward": "Перемотати вперед",
+    "@seekForward": {},
+    "seekBack": "Перемотати назад",
+    "@seekBack": {},
+    "mute": "Вимкнути звук",
+    "@mute": {},
+    "volumeUp": "Збільшити гучність",
+    "@volumeUp": {},
+    "volumeDown": "Зменшити гучність",
+    "@volumeDown": {},
+    "nextVideo": "Наступне відео",
+    "@nextVideo": {},
+    "prevVideo": "Попереднє відео",
+    "@prevVideo": {},
+    "nextChapter": "Наступний розділ",
+    "@nextChapter": {},
+    "prevChapter": "Попередній розділ",
+    "@prevChapter": {},
+    "fullScreen": "Повноекранний режим",
+    "@fullScreen": {},
+    "skipMediaSegment": "Пропустити медіа-сегмент",
+    "@skipMediaSegment": {},
+    "exit": "Вихід",
+    "@exit": {},
+    "shortCutAlreadyAssigned": "Комбінацію клавіш '{hotKey}' уже призначено",
+    "@shortCutAlreadyAssigned": {
+        "placeholders": {
+            "hotKey": {
+                "type": "String"
+            }
+        }
+    },
+    "blurred": "Розмитий",
+    "@blurred": {},
+    "volumeIndicator": "Гучність: {volume}",
+    "@volumeIndicator": {
+        "placeholders": {
+            "volume": {
+                "type": "int"
+            }
+        }
+    },
+    "keyboardShortCuts": "Сполучення клавіш",
+    "@keyboardShortCuts": {},
+    "speedUp": "Прискорення",
+    "@speedUp": {},
+    "speedDown": "Зменшення швидкості",
+    "@speedDown": {},
+    "speedIndicator": "Швидкість відтворення: {speed}",
+    "@speedIndicator": {
+        "placeholders": {
+            "speed": {
+                "type": "double"
+            }
+        }
+    },
+    "television": "Телебачення",
+    "@television": {},
+    "exitFladderDesc": "Ви впевнені, що хочете закрити Fladder?",
+    "@exitFladderDesc": {},
+    "quickConnectPostFailed": "Не вдалося отримати код швидкого підключення",
+    "@quickConnectPostFailed": {},
+    "quickConnectLoginUsingCode": "Використання швидкого з'єднання",
+    "@quickConnectLoginUsingCode": {},
+    "quickConnectEnterCodeDescription": "Введіть код нижче, щоб увійти",
+    "@quickConnectEnterCodeDescription": {},
+    "showMore": "Показати більше",
+    "@showMore": {},
+    "itemColorsTitle": "Кольори предметів",
+    "@itemColorsTitle": {},
+    "itemColorsDesc": "Використовуйте основний колір товару для оформлення сторінки з деталями",
+    "@itemColorsDesc": {},
+    "mediaTunnelingTitle": "Тунелювання медіа",
+    "@mediaTunnelingTitle": {},
+    "mediaTunnelingDesc": "Увімкнути тунелювання медіа для рідного програвача",
+    "@mediaTunnelingDesc": {},
+    "clientSettingsUseSystemIMETitle": "Використовувати системну клавіатуру",
+    "@clientSettingsUseSystemIMETitle": {},
+    "clientSettingsUseSystemIMEDesc": "Використовуйте вбудовану клавіатуру вашої системи",
+    "@clientSettingsUseSystemIMEDesc": {},
+    "nextUpInCount": "Далі через {seconds}",
+    "@nextUpInCount": {
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "formattedTime": "{time}",
+    "@formattedTime": {
+        "description": "Formatted time",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            }
+        }
     }
-  },
-  "addToCollection": "Додати до колекції",
-  "@addToCollection": {},
-  "addAsFavorite": "Додати до улюблених",
-  "@addAsFavorite": {},
-  "advanced": "Розширені",
-  "@advanced": {},
-  "all": "Усе",
-  "@all": {},
-  "appLockBiometrics": "Біометрія",
-  "@appLockBiometrics": {},
-  "ascending": "За зростанням",
-  "@ascending": {},
-  "audio": "Аудіо",
-  "@audio": {},
-  "bold": "Жирний",
-  "@bold": {},
-  "cancel": "Скасувати",
-  "@cancel": {},
-  "change": "Змінити",
-  "@change": {},
-  "chapter": "{count, plural, other{Розділи} one{Розділ}}",
-  "@chapter": {
-    "description": "chapter",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "clear": "Очистити",
-  "@clear": {},
-  "clearAllSettings": "Очистити всі налаштування",
-  "@clearAllSettings": {},
-  "clearAllSettingsQuestion": "Очистити всі налаштування?",
-  "@clearAllSettingsQuestion": {},
-  "clearChanges": "Очистити зміни",
-  "@clearChanges": {},
-  "clearSelection": "Очистити вибір",
-  "@clearSelection": {},
-  "close": "Закрити",
-  "@close": {},
-  "code": "Код",
-  "@code": {},
-  "collectionFolder": "Тека колекції",
-  "@collectionFolder": {},
-  "color": "Колір",
-  "@color": {},
-  "combined": "Комбіновано",
-  "@combined": {},
-  "communityRating": "Рейтинг спільноти",
-  "@communityRating": {},
-  "continuePage": "Продовжити - сторінка {page}",
-  "@continuePage": {
-    "description": "Continue - page 1",
-    "placeholders": {
-      "page": {
-        "type": "int"
-      }
-    }
-  },
-  "controls": "Керування",
-  "@controls": {},
-  "dashboardContinue": "Продовжити",
-  "@dashboardContinue": {},
-  "dashboardContinueListening": "Продовжити слухати",
-  "@dashboardContinueListening": {},
-  "dashboard": "Інформаційна панель",
-  "@dashboard": {},
-  "dashboardNextUp": "Наступне",
-  "@dashboardNextUp": {},
-  "dateAdded": "Дата додавання",
-  "@dateAdded": {},
-  "datePlayed": "Дата відтворення",
-  "@datePlayed": {},
-  "days": "Дні",
-  "@days": {},
-  "delete": "Видалити",
-  "@delete": {},
-  "deleteItem": "Видалити {item}?",
-  "@deleteItem": {
-    "description": "deleteItem",
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "descending": "За спаданням",
-  "@descending": {},
-  "director": "{count, plural, other{Режисери} one{Режисер}}",
-  "@director": {
-    "description": "director",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "disableFilters": "Вимкнути фільтри",
-  "@disableFilters": {},
-  "disabled": "Вимкнено",
-  "@disabled": {},
-  "discovered": "Виявлено",
-  "@discovered": {},
-  "displayLanguage": "Мова відображення",
-  "@displayLanguage": {},
-  "downloadsClearTitle": "Очистити синхронізовані дані",
-  "@downloadsClearTitle": {},
-  "downloadsTitle": "Завантаження",
-  "@downloadsTitle": {},
-  "editMetadata": "Редагувати метадані",
-  "@editMetadata": {},
-  "enabled": "Увімкнено",
-  "@enabled": {},
-  "endsAt": "завершиться о {date}",
-  "@endsAt": {
-    "description": "endsAt",
-    "placeholders": {
-      "date": {
-        "type": "DateTime",
-        "format": "jm"
-      }
-    }
-  },
-  "error": "Помилка",
-  "@error": {},
-  "favorite": "Улюблене",
-  "@favorite": {},
-  "favorites": "Улюблені",
-  "@favorites": {},
-  "fetchingLibrary": "Отримання елементів бібліотеки…",
-  "@fetchingLibrary": {},
-  "folders": "Теки",
-  "@folders": {},
-  "fontColor": "Колір шрифту",
-  "@fontColor": {},
-  "fontSize": "Розмір шрифту",
-  "@fontSize": {},
-  "forceRefresh": "Обновити примусово",
-  "@forceRefresh": {},
-  "genre": "{count, plural, other{Жанри} one{Жанр}}",
-  "@genre": {
-    "description": "genre",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "goTo": "Перейти до",
-  "@goTo": {},
-  "groupBy": "Групувати за",
-  "@groupBy": {},
-  "hide": "Приховати",
-  "@hide": {},
-  "incorrectPinTryAgain": "Неправильний пін-код. Спробуйте ще раз.",
-  "@incorrectPinTryAgain": {},
-  "info": "Інформація",
-  "@info": {},
-  "invalidUrl": "Невірна URL-адреса",
-  "@invalidUrl": {},
-  "invalidUrlDesc": "URL-адреса повинна починатися з http(s)://",
-  "@invalidUrlDesc": {},
-  "itemCount": "Кількість елементів: {count}",
-  "@itemCount": {
-    "description": "Item count",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "libraryPageSizeDesc": "Встановіть кількість, яка буде завантажена за один раз. 0 - вимикає пагінацію.",
-  "@libraryPageSizeDesc": {},
-  "libraryPageSizeTitle": "Розмір сторінки бібліотеки",
-  "@libraryPageSizeTitle": {},
-  "loggedIn": "Увійшов",
-  "@loggedIn": {},
-  "login": "Увійти в систему",
-  "@login": {},
-  "logout": "Вийти з системи",
-  "@logout": {},
-  "logoutUserPopupContent": "Це призведе до виходу {userName} і видалення користувача з програми.\nВам потрібно буде знову увійти на {serverName}.",
-  "@logoutUserPopupContent": {
-    "description": "Pop-up for loging out the user description",
-    "placeholders": {
-      "userName": {
-        "type": "String"
-      },
-      "serverName": {
-        "type": "String"
-      }
-    }
-  },
-  "logoutUserPopupTitle": "Вийти для {userName}?",
-  "@logoutUserPopupTitle": {
-    "description": "Pop-up for loging out the user",
-    "placeholders": {
-      "userName": {
-        "type": "String"
-      }
-    }
-  },
-  "loop": "Цикл",
-  "@loop": {},
-  "masonry": "Кладка",
-  "@masonry": {},
-  "mediaTypeBase": "Базовий тип",
-  "@mediaTypeBase": {},
-  "mediaTypeBook": "Книга",
-  "@mediaTypeBook": {},
-  "mediaTypeFolder": "Тека",
-  "@mediaTypeFolder": {},
-  "mediaTypeMovie": "Фільм",
-  "@mediaTypeMovie": {},
-  "mediaTypePerson": "Людина",
-  "@mediaTypePerson": {},
-  "mediaTypePlaylist": "Плейлист",
-  "@mediaTypePlaylist": {},
-  "mediaTypeSeason": "Сезон",
-  "@mediaTypeSeason": {},
-  "mediaTypeSeries": "Серіал",
-  "@mediaTypeSeries": {},
-  "metaDataSavedFor": "Метадані збережено для {item}",
-  "@metaDataSavedFor": {
-    "description": "metaDataSavedFor",
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "metadataRefreshDefault": "Пошук нових та оновлених файлів",
-  "@metadataRefreshDefault": {},
-  "metadataRefreshFull": "Замінити всі метадані",
-  "@metadataRefreshFull": {},
-  "metadataRefreshValidation": "Пошук відсутніх метаданих",
-  "@metadataRefreshValidation": {},
-  "minutes": "{count, plural, other{Хвилини} one{Хвилина} few{Хвилини} many{Хвилин}}",
-  "@minutes": {
-    "description": "minute",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "moreFrom": "Більше з {info}",
-  "@moreFrom": {
-    "description": "More from",
-    "placeholders": {
-      "info": {
-        "type": "String"
-      }
-    }
-  },
-  "moreOptions": "Більше параметрів",
-  "@moreOptions": {},
-  "name": "Назва",
-  "@name": {},
-  "navigationDashboard": "Інформаційна панель",
-  "@navigationDashboard": {},
-  "navigationFavorites": "Улюблене",
-  "@navigationFavorites": {},
-  "nextUp": "Наступне",
-  "@nextUp": {},
-  "noItemsSynced": "Не синхронізовано жодного елемента",
-  "@noItemsSynced": {},
-  "noRating": "Немає рейтингу",
-  "@noRating": {},
-  "openParent": "Відкрити вміст",
-  "@openParent": {},
-  "openShow": "Відкрити серіал",
-  "@openShow": {},
-  "openWebLink": "Відкрити веб-посилання",
-  "@openWebLink": {},
-  "other": "Інше",
-  "@other": {},
-  "overview": "Огляд",
-  "@overview": {},
-  "parentalRating": "Батьківський рейтинг",
-  "@parentalRating": {},
-  "password": "Пароль",
-  "@password": {},
-  "pathClearTitle": "Очистити шлях завантаження",
-  "@pathClearTitle": {},
-  "pathEditSelect": "Вибрати місце завантаження",
-  "@pathEditSelect": {},
-  "pathEditTitle": "Змінити розташування",
-  "@pathEditTitle": {},
-  "playLabel": "Відтворити",
-  "@playLabel": {},
-  "playVideos": "Відтворити відео",
-  "@playVideos": {},
-  "played": "Відтворено",
-  "@played": {},
-  "quickConnectInputACode": "Введіть код",
-  "@quickConnectInputACode": {},
-  "quickConnectWrongCode": "Невірний код",
-  "@quickConnectWrongCode": {},
-  "random": "Випадково",
-  "@random": {},
-  "rating": "{count, plural, other{Рейтинги} one{Рейтинг}}",
-  "@rating": {
-    "description": "rating",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "reWatch": "Передивитися",
-  "@reWatch": {},
-  "read": "Читати {item}",
-  "@read": {
-    "description": "read",
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "removeAsFavorite": "Видалити з улюблених",
-  "@removeAsFavorite": {},
-  "refreshMetadata": "Оновити метадані",
-  "@refreshMetadata": {},
-  "replaceAllImages": "Замінити всі зображення",
-  "@replaceAllImages": {},
-  "replaceExistingImages": "Замінити існуючі зображення",
-  "@replaceExistingImages": {},
-  "restart": "Перезапустити",
-  "@restart": {},
-  "result": "Результат",
-  "@result": {},
-  "resumable": "Відновлюване",
-  "@resumable": {},
-  "retry": "Повторити спробу",
-  "@retry": {},
-  "runTime": "Тривалість",
-  "@runTime": {},
-  "saved": "Збережено",
-  "@saved": {},
-  "scanBiometricHint": "Підтвердити особу",
-  "@scanBiometricHint": {},
-  "scanLibrary": "Сканувати бібліотеку",
-  "@scanLibrary": {},
-  "scanningName": "Сканування - {name}…",
-  "@scanningName": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "scrollToTop": "Прокрутити догори",
-  "@scrollToTop": {},
-  "search": "Шукати",
-  "@search": {},
-  "season": "{count, plural, other{Сезони} one{Сезон} }",
-  "@season": {
-    "description": "season",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "selectAll": "Вибрати все",
-  "@selectAll": {},
-  "selectedWith": "Вибране {info}",
-  "@selectedWith": {
-    "description": "selected",
-    "placeholders": {
-      "info": {
-        "type": "String"
-      }
-    }
-  },
-  "separate": "Окремо",
-  "@separate": {},
-  "server": "Сервер",
-  "@server": {},
-  "set": "Встановити",
-  "@set": {
-    "description": "Use for setting a certain value",
-    "context": "Set 'time'"
-  },
-  "settings": "Налаштування",
-  "@settings": {},
-  "settingsBlurEpisodesTitle": "Розмити наступні серії",
-  "@settingsBlurEpisodesTitle": {},
-  "settingsHomeCarouselDesc": "Показує карусель на екрані інформаційної панелі",
-  "@settingsHomeCarouselDesc": {},
-  "settingsClientDesc": "Загальні, Тайм-аут, Макет, Тема",
-  "@settingsClientDesc": {},
-  "settingsClientTitle": "Fladder",
-  "@settingsClientTitle": {},
-  "settingsContinue": "Продовжити",
-  "@settingsContinue": {},
-  "settingsEnableOsMediaControls": "Увімкнути засоби керування мультимедіа в ОС",
-  "@settingsEnableOsMediaControls": {},
-  "settingsHomeNextUpTitle": "Постери для \"Наступне\"",
-  "@settingsHomeNextUpTitle": {},
-  "settingsNextUpCutoffDays": "Ліміт днів для \"Наступне\"",
-  "@settingsNextUpCutoffDays": {},
-  "settingsPlayerCustomSubtitlesDesc": "Налаштувати розмір, колір, позицію, контур",
-  "@settingsPlayerCustomSubtitlesDesc": {},
-  "settingsPlayerNativeLibassAccelTitle": "Нативні libass субтитри",
-  "@settingsPlayerNativeLibassAccelTitle": {},
-  "settingsPlayerTitle": "Програвач",
-  "@settingsPlayerTitle": {},
-  "settingsPlayerVideoHWAccelTitle": "Апаратне прискорення",
-  "@settingsPlayerVideoHWAccelTitle": {},
-  "settingsPosterPinch": "Масштабування постерів пальцями",
-  "@settingsPosterPinch": {},
-  "settingsPosterSize": "Розмір постера",
-  "@settingsPosterSize": {},
-  "settingsProfileTitle": "Профіль",
-  "@settingsProfileTitle": {},
-  "settingsQuickConnectTitle": "Швидке підключення",
-  "@settingsQuickConnectTitle": {},
-  "settingsSecurity": "Безпека",
-  "@settingsSecurity": {},
-  "showAlbum": "Показати альбом",
-  "@showAlbum": {},
-  "shuffleVideos": "Перемішати відео",
-  "@shuffleVideos": {},
-  "somethingWentWrong": "Щось пішло не так",
-  "@somethingWentWrong": {},
-  "somethingWentWrongPasswordCheck": "Щось пішло не так. Перевір свій пароль.",
-  "@somethingWentWrongPasswordCheck": {},
-  "sortBy": "Сортувати за",
-  "@sortBy": {},
-  "sortName": "Назва",
-  "@sortName": {},
-  "subtitles": "Субтитри",
-  "@subtitles": {},
-  "switchUser": "Змінити користувача",
-  "@switchUser": {},
-  "sync": "Синхронізувати",
-  "@sync": {},
-  "syncDeleteItemTitle": "Видалити синхронізований елемент",
-  "@syncDeleteItemTitle": {},
-  "syncRemoveDataTitle": "Видалити синхронізовані дані?",
-  "@syncRemoveDataTitle": {},
-  "syncedItems": "Синхронізовані елементи",
-  "@syncedItems": {},
-  "theme": "Тема",
-  "@theme": {},
-  "timeAndAnnotation": "{minutes} і {seconds}",
-  "@timeAndAnnotation": {
-    "description": "timeAndAnnotation",
-    "placeholders": {
-      "minutes": {
-        "type": "String"
-      },
-      "seconds": {
-        "type": "String"
-      }
-    }
-  },
-  "timeOut": "Тайм-аут",
-  "@timeOut": {},
-  "unableToConnectHost": "Не вдається з'єднатися з хостом",
-  "@unableToConnectHost": {},
-  "unableToReverseAction": "Цю дію не можна скасувати. Це призведе до видалення всіх налаштувань.",
-  "@unableToReverseAction": {},
-  "unknown": "Невідомо",
-  "@unknown": {},
-  "video": "Відео",
-  "@video": {},
-  "videoScalingCover": "Покрити",
-  "@videoScalingCover": {},
-  "videoScalingFill": "Заповнити",
-  "@videoScalingFill": {},
-  "videoScalingFillScreenDesc": "Заповнити навігацію та рядок стану",
-  "@videoScalingFillScreenDesc": {},
-  "videoScalingFillScreenNotif": "Заповнення екрану перезаписує відповідність відео, при горизонтальному обертанні",
-  "@videoScalingFillScreenNotif": {},
-  "videoScalingFitHeight": "Підігнати по висоті",
-  "@videoScalingFitHeight": {},
-  "videoScalingFitWidth": "Підігнати по ширині",
-  "@videoScalingFitWidth": {},
-  "videoScalingScaleDown": "Зменшити",
-  "@videoScalingScaleDown": {},
-  "writer": "{count, plural, other{Сценаристи} one{Сценарист}}",
-  "@writer": {
-    "description": "writer",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "year": "{count, plural, other{Роки} one{Рік}}",
-  "@year": {
-    "description": "year",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "addToPlaylist": "Додати до плейлиста",
-  "@addToPlaylist": {},
-  "amoledBlack": "Чорний амолед",
-  "@amoledBlack": {},
-  "appLockAutoLogin": "Автоматичний вхід",
-  "@appLockAutoLogin": {},
-  "appLockPasscode": "Код доступу",
-  "@appLockPasscode": {},
-  "appLockTitle": "Встановити метод входу для {userName}",
-  "@appLockTitle": {
-    "description": "Pop-up to pick a login method",
-    "placeholders": {
-      "userName": {
-        "type": "String"
-      }
-    }
-  },
-  "autoPlay": "Автовідтворення",
-  "@autoPlay": {},
-  "backgroundBlur": "Розмиття фону",
-  "@backgroundBlur": {},
-  "backgroundOpacity": "Прозорість фону",
-  "@backgroundOpacity": {},
-  "biometricsFailedCheckAgain": "Біометрія не пройшла. Перевірте налаштування та спробуйте ще раз.",
-  "@biometricsFailedCheckAgain": {},
-  "dashboardContinueReading": "Продовжити читати",
-  "@dashboardContinueReading": {},
-  "dashboardContinueWatching": "Продовжити дивитися",
-  "@dashboardContinueWatching": {},
-  "dashboardRecentlyAdded": "Нещодавно додане в {name}",
-  "@dashboardRecentlyAdded": {
-    "description": "Recently added on home screen",
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "dateLastContentAdded": "Дата останнього додавання вмісту",
-  "@dateLastContentAdded": {},
-  "deleteFileFromSystem": "Видалення цього елемента {item} призведе до видалення його з файлової системи та медіатеки. Ви впевнені, що хочете продовжити?",
-  "@deleteFileFromSystem": {
-    "description": "Delete file from system",
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "downloadsClearDesc": "Видалити всі синхронізовані дані, очистивши всі дані для кожного синхронізованого користувача?",
-  "@downloadsClearDesc": {},
-  "downloadsPath": "Шлях",
-  "@downloadsPath": {},
-  "dynamicText": "Динамічний",
-  "@dynamicText": {},
-  "empty": "Порожньо",
-  "@empty": {},
-  "downloadsSyncedData": "Синхронізовані дані",
-  "@downloadsSyncedData": {},
-  "episode": "{count, plural, other{Серії} one{Серія} }",
-  "@episode": {
-    "description": "episode",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "failedToLoadImage": "Не вдалося завантажити зображення",
-  "@failedToLoadImage": {},
-  "filter": "{count, plural, other{Фільтри} one{Фільтр}}",
-  "@filter": {
-    "description": "filter",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "grid": "Сітка",
-  "@grid": {},
-  "group": "Група",
-  "@group": {},
-  "heightOffset": "Зміщення по висоті",
-  "@heightOffset": {},
-  "hideEmpty": "Приховати порожнє",
-  "@hideEmpty": {},
-  "home": "Головна",
-  "@home": {},
-  "identify": "Ідентифікувати",
-  "@identify": {},
-  "immediately": "Негайно",
-  "@immediately": {},
-  "label": "{count, plural, other{Ярлики} one{Ярлик}}",
-  "@label": {
-    "description": "label",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "library": "{count, plural, other{Бібліотеки} one{Бібліотека}}",
-  "@library": {
-    "description": "Plural",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "libraryFetchNoItemsFound": "Не знайдено жодного елемента. Спробуйте інші налаштування.",
-  "@libraryFetchNoItemsFound": {},
-  "light": "Худий",
-  "@light": {},
-  "list": "Список",
-  "@list": {},
-  "lockscreen": "Екран блокування",
-  "@lockscreen": {},
-  "markAsUnwatched": "Відмітити як непереглянуте",
-  "@markAsUnwatched": {},
-  "markAsWatched": "Відмітити як переглянуте",
-  "@markAsWatched": {},
-  "mediaTypeBoxset": "Бокс-сет",
-  "@mediaTypeBoxset": {},
-  "mediaTypeEpisode": "Серія",
-  "@mediaTypeEpisode": {},
-  "mediaTypePhoto": "Фото",
-  "@mediaTypePhoto": {},
-  "mediaTypePhotoAlbum": "Фотоальбом",
-  "@mediaTypePhotoAlbum": {},
-  "settingsPosterSlider": "Показати повзунок масштабу",
-  "@settingsPosterSlider": {},
-  "settingsProfileDesc": "Екран блокування",
-  "@settingsProfileDesc": {},
-  "shadow": "Тінь",
-  "@shadow": {},
-  "settingsShowScaleSlider": "Показати повзунок розміру постера",
-  "@settingsShowScaleSlider": {},
-  "showEmpty": "Показати порожнє",
-  "@showEmpty": {},
-  "settingsVisual": "Візуальне",
-  "@settingsVisual": {},
-  "themeModeSystem": "Системний",
-  "@themeModeSystem": {},
-  "showDetails": "Показати деталі",
-  "@showDetails": {},
-  "mode": "Стиль",
-  "@mode": {},
-  "shuffleGallery": "Перемішати галерею",
-  "@shuffleGallery": {},
-  "themeModeDark": "Темний",
-  "@themeModeDark": {},
-  "musicAlbum": "Альбом",
-  "@musicAlbum": {},
-  "sortOrder": "Порядок сортування",
-  "@sortOrder": {},
-  "themeModeLight": "Світлий",
-  "@themeModeLight": {},
-  "start": "Початок",
-  "@start": {},
-  "mouseDragSupport": "Перетягування за допомогою миші",
-  "@mouseDragSupport": {},
-  "studio": "{count, plural, other{Студії} one{Студія}}",
-  "@studio": {
-    "description": "studio",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "navigation": "Навігація",
-  "@navigation": {},
-  "subtitleConfigurator": "Налаштування субтитрів",
-  "@subtitleConfigurator": {},
-  "refreshPopupContentMetadata": "Метадані оновлюються на основі налаштувань та інтернет-сервісів, увімкнених на інформаційній панелі.",
-  "@refreshPopupContentMetadata": {},
-  "subtitleConfiguratorPlaceHolder": "Це текст-заповнювач, тут нема на що дивитися.",
-  "@subtitleConfiguratorPlaceHolder": {},
-  "settingsHomeCarouselTitle": "Карусель інформаційної панелі",
-  "@settingsHomeCarouselTitle": {},
-  "settingsHomeNextUpDesc": "Тип постерів, що відображаються на екрані інформаційної панелі",
-  "@settingsHomeNextUpDesc": {},
-  "navigationSync": "Синхронізоване",
-  "@navigationSync": {},
-  "never": "Ніколи",
-  "@never": {},
-  "noServersFound": "Не знайдено нових серверів",
-  "@noServersFound": {},
-  "noItemsToShow": "Немає елементів для показу",
-  "@noItemsToShow": {},
-  "noResults": "Немає результатів",
-  "@noResults": {},
-  "noSuggestionsFound": "Не знайдено жодної пропозиції",
-  "@noSuggestionsFound": {},
-  "none": "Нічого",
-  "@none": {},
-  "normal": "Нормально",
-  "@normal": {},
-  "notPartOfAlbum": "Не входить до альбому",
-  "@notPartOfAlbum": {},
-  "options": "Параметри",
-  "@options": {},
-  "page": "Сторінка {index}",
-  "@page": {
-    "description": "page",
-    "placeholders": {
-      "index": {
-        "type": "int"
-      }
-    }
-  },
-  "outlineSize": "Розмір контуру",
-  "@outlineSize": {},
-  "outlineColor": "Колір контуру",
-  "@outlineColor": {},
-  "quickConnectTitle": "Швидке підключення",
-  "@quickConnectTitle": {},
-  "pathEditDesc": "Це місце встановлюється для всіх користувачів, будь-які синхронізовані дані більше не будуть доступні. Вони залишаться у вашому сховищі.",
-  "@pathEditDesc": {},
-  "play": "Відтворити {item}",
-  "@play": {
-    "description": "Play with",
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "playCount": "Кількість відтворень",
-  "@playCount": {},
-  "playFrom": "Відтворити від {name}",
-  "@playFrom": {
-    "description": "playFrom",
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "playFromStart": "Відтворити {name} з самого початку",
-  "@playFromStart": {
-    "description": "speel vanaf het begin",
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "removeFromPlaylist": "Видалити з плейлиста",
-  "@removeFromPlaylist": {},
-  "quickConnectAction": "Введіть код швидкого підключення для",
-  "@quickConnectAction": {},
-  "related": "Пов'язане",
-  "@related": {},
-  "readFromStart": "Читати {item} з початку",
-  "@readFromStart": {
-    "description": "Read book from start",
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "refresh": "Оновити",
-  "@refresh": {},
-  "removeFromCollection": "Видалити з колекції",
-  "@removeFromCollection": {},
-  "resume": "Відновити {item}",
-  "@resume": {
-    "description": "resume",
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "recursive": "Рекурсивно",
-  "@recursive": {},
-  "releaseDate": "Дата виходу",
-  "@releaseDate": {},
-  "refreshPopup": "Оновити - {name}",
-  "@refreshPopup": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "retrievePublicListOfUsers": "Отримати публічний список користувачів",
-  "@retrievePublicListOfUsers": {},
-  "save": "Зберегти",
-  "@save": {},
-  "scanYourFingerprintToAuthenticate": "Відскануйте відбиток пальця для автентифікації {user}",
-  "@scanYourFingerprintToAuthenticate": {
-    "placeholders": {
-      "user": {
-        "type": "String"
-      }
-    }
-  },
-  "seconds": "{count, plural, other{Секунди} one{Секунда} few{Секунди} many{Секунд}}",
-  "@seconds": {
-    "description": "second",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "selectTime": "Виберіть час",
-  "@selectTime": {},
-  "selectViewType": "Вибрати тип перегляду",
-  "@selectViewType": {},
-  "selected": "Вибране",
-  "@selected": {},
-  "setIdentityTo": "Встановити ідентичність на {name}",
-  "@setIdentityTo": {
-    "description": "setIdentityTo",
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "settingSecurityApplockTitle": "Блокування програми",
-  "@settingSecurityApplockTitle": {},
-  "settingsBlurEpisodesDesc": "Розмити всі майбутні серії",
-  "@settingsBlurEpisodesDesc": {},
-  "settingsBlurredPlaceholderDesc": "Показувати розмитий фон при завантаженні постерів",
-  "@settingsBlurredPlaceholderDesc": {},
-  "settingsBlurredPlaceholderTitle": "Розмитий заповнювач",
-  "@settingsBlurredPlaceholderTitle": {},
-  "settingsPlayerDesc": "Співвідношення сторін, розширене",
-  "@settingsPlayerDesc": {},
-  "settingsPlayerCustomSubtitlesTitle": "Налаштувати субтитри",
-  "@settingsPlayerCustomSubtitlesTitle": {},
-  "settingsPlayerMobileWarning": "Увімкнення апаратного прискорення та власних субтитрів libass на Android може призвести до того, що деякі субтитри не відображатимуться.",
-  "@settingsPlayerMobileWarning": {},
-  "settingsPlayerNativeLibassAccelDesc": "Використовувати обробник субтитрів відеопрогравача libass",
-  "@settingsPlayerNativeLibassAccelDesc": {},
-  "settingsPlayerVideoHWAccelDesc": "Використовувати GPU для рендерингу відео (рекомендовано)",
-  "@settingsPlayerVideoHWAccelDesc": {},
-  "syncDeleteItemDesc": "Видалити всі синхронізовані дані для {item}?",
-  "@syncDeleteItemDesc": {
-    "description": "Sync delete item pop-up window",
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "syncDeletePopupPermanent": "Ця дія буде безповоротною і вилучить усі локально синхронізовані файли",
-  "@syncDeletePopupPermanent": {},
-  "syncDetails": "Деталі синхронізації",
-  "@syncDetails": {},
-  "syncOpenParent": "Відкрити вміст",
-  "@syncOpenParent": {},
-  "syncRemoveDataDesc": "Видалити синхронізовані відеодані? Це незворотній процес, і вам потрібно буде повторно синхронізувати файли",
-  "@syncRemoveDataDesc": {},
-  "tag": "{count, plural, one{Тег} other{Теги}}",
-  "@tag": {
-    "description": "tag",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "themeColor": "Колір теми",
-  "@themeColor": {},
-  "totalSize": "Загальний розмір: {size}",
-  "@totalSize": {
-    "placeholders": {
-      "size": {
-        "type": "String"
-      }
-    }
-  },
-  "type": "{count, plural, other{Типи} one{Тип}}",
-  "@type": {
-    "description": "type",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "unPlayed": "Невідтворено",
-  "@unPlayed": {},
-  "useDefaults": "Використовувати значення за замовчуванням",
-  "@useDefaults": {},
-  "userName": "Ім'я користувача",
-  "@userName": {},
-  "videoScalingContain": "Вмістити",
-  "@videoScalingContain": {},
-  "videoScaling": "Масштабування відео",
-  "@videoScaling": {},
-  "videoScalingFillScreenTitle": "Заповнення екрана",
-  "@videoScalingFillScreenTitle": {},
-  "watchOn": "Дивіться на",
-  "@watchOn": {},
-  "viewPhotos": "Переглянути фото",
-  "@viewPhotos": {},
-  "nativeName": "Українська",
-  "@nativeName": {},
-  "homeBannerBanner": "Банер",
-  "@homeBannerBanner": {},
-  "homeBannerCarousel": "Карусель",
-  "@homeBannerCarousel": {},
-  "settingsHomeBannerDescription": "Відобразити у вигляді слайд-шоу, каруселі або приховати банер",
-  "@settingsHomeBannerDescription": {},
-  "settingsHomeBannerTitle": "Банер на головній сторінці",
-  "@settingsHomeBannerTitle": {},
-  "settingsHomeBannerInformationTitle": "Інформація на банері",
-  "@settingsHomeBannerInformationTitle": {},
-  "settingsHomeBannerInformationDesc": "Інформація для показу на банері на головній сторінці",
-  "@settingsHomeBannerInformationDesc": {},
-  "homeBannerSlideshow": "Слайд-шоу",
-  "@homeBannerSlideshow": {},
-  "syncStatusEnqueued": "У черзі",
-  "@syncStatusEnqueued": {},
-  "syncStatusRunning": "Виконується",
-  "@syncStatusRunning": {},
-  "syncStatusComplete": "Завершено",
-  "@syncStatusComplete": {},
-  "syncStatusNotFound": "Не знайдено",
-  "@syncStatusNotFound": {},
-  "syncStatusFailed": "Не вдалося",
-  "@syncStatusFailed": {},
-  "syncStatusCanceled": "Скасовано",
-  "@syncStatusCanceled": {},
-  "syncRemoveUnableToDeleteItem": "Не вдалося видалити синхронізований елемент, щось пішло не так",
-  "@syncRemoveUnableToDeleteItem": {},
-  "aboutLicenses": "Ліцензії",
-  "@aboutLicenses": {},
-  "aboutSocials": "Соцмережі",
-  "@aboutSocials": {},
-  "syncStatusPartially": "Частково",
-  "@syncStatusPartially": {},
-  "syncStatusWaitingToRetry": "Очікує на повторну спробу",
-  "@syncStatusWaitingToRetry": {},
-  "syncStatusPaused": "Призупинено",
-  "@syncStatusPaused": {},
-  "syncStatusSynced": "Синхронізовано",
-  "@syncStatusSynced": {},
-  "syncOverlayDeleting": "Видалення синхронізованого елемента",
-  "@syncOverlayDeleting": {},
-  "syncOverlaySyncing": "Деталі про елемент синхронізації",
-  "@syncOverlaySyncing": {},
-  "syncSelectDownloadsFolder": "Вибрати теку для завантаження",
-  "@syncSelectDownloadsFolder": {},
-  "syncNoFolderSetup": "Немає налаштувань теки синхронізації",
-  "@syncNoFolderSetup": {},
-  "addToNewCollection": "Нова колекція",
-  "@addToNewCollection": {},
-  "addItemsToCollection": "Додати {itemLength} елемент(и) до колекції",
-  "@addItemsToCollection": {
-    "placeholders": {
-      "itemLength": {
-        "type": "int"
-      }
-    }
-  },
-  "syncAddItemForSyncing": "Додано {item} для синхронізації",
-  "@syncAddItemForSyncing": {
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "startedSyncingItem": "Розпочато синхронізацію {item}",
-  "@startedSyncingItem": {
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "unableToSyncItem": "Не вдалося синхронізувати {item}, щось пішло не так",
-  "@unableToSyncItem": {
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "addedToCollection": "Додано до колекції {collectionName}",
-  "@addedToCollection": {
-    "placeholders": {
-      "collectionName": {
-        "type": "String"
-      }
-    }
-  },
-  "removedFromCollection": "Видалено з колекції {collectionName}",
-  "@removedFromCollection": {
-    "placeholders": {
-      "collectionName": {
-        "type": "String"
-      }
-    }
-  },
-  "addToNewPlaylist": "Новий плейлист",
-  "@addToNewPlaylist": {},
-  "addItemsToPlaylist": "Додати {itemLength} елемент(и) до плейлиста",
-  "@addItemsToPlaylist": {
-    "placeholders": {
-      "itemLength": {
-        "type": "int"
-      }
-    }
-  },
-  "aboutVersion": "Версія: {version}",
-  "@aboutVersion": {
-    "placeholders": {
-      "version": {
-        "type": "String"
-      }
-    }
-  },
-  "aboutCreatedBy": "Створено DonutWare",
-  "@aboutCreatedBy": {},
-  "addedToPlaylist": "Додано до плейлиста {playlistName}",
-  "@addedToPlaylist": {
-    "placeholders": {
-      "playlistName": {
-        "type": "String"
-      }
-    }
-  },
-  "aboutBuild": "Збірка: {buildNumber}",
-  "@aboutBuild": {
-    "placeholders": {
-      "buildNumber": {
-        "type": "String"
-      }
-    }
-  },
-  "subtitleConfiguration": "Налаштування субтитрів",
-  "@subtitleConfiguration": {},
-  "off": "Вимкнути",
-  "@off": {},
-  "playBackSettings": "Параметри відтворення",
-  "@playBackSettings": {},
-  "subtitle": "Субтитри",
-  "@subtitle": {},
-  "screenBrightness": "Яскравість екрана",
-  "@screenBrightness": {},
-  "scale": "Масштаб",
-  "@scale": {},
-  "settingsAutoNextTitle": "Попередній перегляд \"наступного\"",
-  "@settingsAutoNextTitle": {},
-  "autoNextOffSmartDesc": "Показує екран \"наступне\" після початку титрів, якщо після них залишилося не більше 10 секунд. В іншому випадку показує екран \"наступне\", коли залишається 30 секунд відтворення",
-  "@autoNextOffSmartDesc": {},
-  "settingsAutoNextDesc": "Відображає попередній перегляд \"наступного\" в кінці, якщо в черзі стоїть інший елемент",
-  "@settingsAutoNextDesc": {},
-  "autoNextOffStaticDesc": "Показати екран \"наступне\", коли залишиться 30 секунд до завершення відтворення",
-  "@autoNextOffStaticDesc": {},
-  "autoNextOffStaticTitle": "Статичний",
-  "@autoNextOffStaticTitle": {},
-  "autoNextOffSmartTitle": "Розумний",
-  "@autoNextOffSmartTitle": {},
-  "playbackRate": "Швидкість відтворення",
-  "@playbackRate": {},
-  "speed": "Швидкість",
-  "@speed": {},
-  "unableToPlayMedia": "Виникла помилка під час пошуку сумісного типу носія",
-  "@unableToPlayMedia": {},
-  "unableToPlayBooksOnWeb": "Наразі книги не підтримуються на вебі",
-  "@unableToPlayBooksOnWeb": {},
-  "defaultFilterForLibrary": "Фільтр за замовчуванням для бібліотеки",
-  "@defaultFilterForLibrary": {},
-  "deleteFilterConfirmation": "Ви впевнені, що хочете видалити цей фільтр?",
-  "@deleteFilterConfirmation": {},
-  "libraryFiltersLimitReached": "Досягнуто ліміту фільтрів (10) видаліть деякі фільтри",
-  "@libraryFiltersLimitReached": {},
-  "playerSettingsOrientationDesc": "Примусити відеопрогравач до певної орієнтації",
-  "@playerSettingsOrientationDesc": {},
-  "deviceOrientationPortraitUp": "Портретно вгору",
-  "@deviceOrientationPortraitUp": {},
-  "deviceOrientationLandscapeLeft": "Горизонтально зліва",
-  "@deviceOrientationLandscapeLeft": {},
-  "deviceOrientationLandscapeRight": "Горизонтально справа",
-  "@deviceOrientationLandscapeRight": {},
-  "schemeSettingsTonalSpot": "Тональна пляма",
-  "@schemeSettingsTonalSpot": {},
-  "schemeSettingsFidelity": "Точність",
-  "@schemeSettingsFidelity": {},
-  "schemeSettingsVibrant": "Яскравий",
-  "@schemeSettingsVibrant": {},
-  "schemeSettingsExpressive": "Виразний",
-  "@schemeSettingsExpressive": {},
-  "schemeSettingsContent": "Вміст",
-  "@schemeSettingsContent": {},
-  "libraryShuffleAndPlayItems": "Перемішати та відтворити елементи",
-  "@libraryShuffleAndPlayItems": {},
-  "libraryPlayItems": "Відтворити елементи",
-  "@libraryPlayItems": {},
-  "errorOpeningMedia": "Щось пішло не так, при спробі відтворити це медіа",
-  "@errorOpeningMedia": {},
-  "updateFilterForLibrary": "Оновити фільтр",
-  "@updateFilterForLibrary": {},
-  "removeFilterForLibrary": "Видалити {filter}?",
-  "@removeFilterForLibrary": {
-    "description": "removeFilterForLibrary",
-    "placeholders": {
-      "filter": {
-        "type": "String"
-      }
-    }
-  },
-  "libraryFiltersRemoveAll": "Видалити всі фільтри",
-  "@libraryFiltersRemoveAll": {},
-  "libraryFiltersRemoveAllConfirm": "Це призведе до видалення всіх збережених фільтрів для кожної бібліотеки",
-  "@libraryFiltersRemoveAllConfirm": {},
-  "playerSettingsOrientationTitle": "Орієнтація програвача",
-  "@playerSettingsOrientationTitle": {},
-  "deviceOrientationPortraitDown": "Портретно вниз",
-  "@deviceOrientationPortraitDown": {},
-  "clientSettingsSchemeVariantTitle": "Варіант схеми",
-  "@clientSettingsSchemeVariantTitle": {},
-  "schemeSettingsMonochrome": "Монохромний",
-  "@schemeSettingsMonochrome": {},
-  "schemeSettingsNeutral": "Нейтральний",
-  "@schemeSettingsNeutral": {},
-  "schemeSettingsRainbow": "Веселка",
-  "@schemeSettingsRainbow": {},
-  "schemeSettingsFruitSalad": "Фруктовий салат",
-  "@schemeSettingsFruitSalad": {},
-  "clientSettingsRequireWifiTitle": "Потрібен Wi-Fi",
-  "@clientSettingsRequireWifiTitle": {},
-  "clientSettingsRequireWifiDesc": "Завантажувати тільки при підключенні до мережі Wi-Fi",
-  "@clientSettingsRequireWifiDesc": {},
-  "clientSettingsShowAllCollectionsTitle": "Показати всі типи колекцій",
-  "@clientSettingsShowAllCollectionsTitle": {},
-  "clientSettingsShowAllCollectionsDesc": "Якщо увімкнено, показувати всі типи колекцій, включно з тими, що не підтримує Fladder",
-  "@clientSettingsShowAllCollectionsDesc": {},
-  "stop": "Зупинити",
-  "@stop": {},
-  "closeVideo": "Закрити відео",
-  "@closeVideo": {},
-  "resumeVideo": "Відновити відео",
-  "@resumeVideo": {},
-  "playNextVideo": "Відтворити наступне відео",
-  "@playNextVideo": {},
-  "defaultLabel": "За замовчуванням",
-  "@defaultLabel": {
-    "description": "To indicate a default value, default video player backend"
-  },
-  "mdkExperimental": "MDK все ще перебуває на експериментальній стадії",
-  "@mdkExperimental": {},
-  "playerSettingsBackendTitle": "Бекенд відеопрогравача",
-  "@playerSettingsBackendTitle": {},
-  "playerSettingsBackendDesc": "Виберіть медіапрогравач, який вам подобається, для оптимального відтворення",
-  "@playerSettingsBackendDesc": {},
-  "noVideoPlayerOptions": "Обраний бекенд не має опцій",
-  "@noVideoPlayerOptions": {},
-  "skipButtonLabel": "Пропустити {segment}",
-  "@skipButtonLabel": {
-    "placeholders": {
-      "segment": {
-        "type": "String"
-      }
-    }
-  },
-  "mediaSegmentPreview": "Попередній перегляд",
-  "@mediaSegmentPreview": {},
-  "mediaSegmentRecap": "Підсумок",
-  "@mediaSegmentRecap": {},
-  "mediaSegmentIntro": "Вступ",
-  "@mediaSegmentIntro": {},
-  "mediaSegmentOutro": "Завершення",
-  "@mediaSegmentOutro": {},
-  "mediaSegmentUnknown": "Невідомо",
-  "@mediaSegmentUnknown": {},
-  "mediaSegmentCommercial": "Реклама",
-  "@mediaSegmentCommercial": {},
-  "errorLogs": "Журнал помилок",
-  "@errorLogs": {},
-  "external": "Зовнішнє",
-  "@external": {},
-  "downloadFile": "Завантажити {type}",
-  "@downloadFile": {
-    "placeholders": {
-      "type": {
-        "type": "String"
-      }
-    }
-  },
-  "copyStreamUrl": "Скопіювати URL потоку",
-  "@copyStreamUrl": {},
-  "settingsLayoutSizesDesc": "Виберіть, які розміри макета використовуватиме додаток залежно від розміру вікна",
-  "@settingsLayoutSizesDesc": {},
-  "layoutModeSingle": "Одинарний",
-  "@layoutModeSingle": {},
-  "settingsLayoutSizesTitle": "Розміри макета",
-  "@settingsLayoutSizesTitle": {},
-  "settingsLayoutModesTitle": "Режими макета",
-  "@settingsLayoutModesTitle": {},
-  "settingsLayoutModesDesc": "Контролюйте, чи може програма використовувати одно- або двопанельні макети",
-  "@settingsLayoutModesDesc": {},
-  "phone": "Телефон",
-  "@phone": {},
-  "tablet": "Планшет",
-  "@tablet": {},
-  "desktop": "Комп'ютер",
-  "@desktop": {},
-  "layoutModeDual": "Подвійний",
-  "@layoutModeDual": {},
-  "copiedToClipboard": "Скопійовано в буфер обміну",
-  "@copiedToClipboard": {},
-  "episodeAvailable": "Доступна",
-  "@episodeAvailable": {},
-  "episodeUnaired": "Непоказана",
-  "@episodeUnaired": {},
-  "episodeMissing": "Відсутня",
-  "@episodeMissing": {},
-  "homeStreamingQualityTitle": "Якість вдома",
-  "@homeStreamingQualityTitle": {},
-  "homeStreamingQualityDesc": "Максимальна якість трансляції при підключенні до домашньої мережі",
-  "@homeStreamingQualityDesc": {},
-  "internetStreamingQualityDesc": "Максимальна якість трансляції через Інтернет (мобільний)",
-  "@internetStreamingQualityDesc": {},
-  "internetStreamingQualityTitle": "Якість через інтернет",
-  "@internetStreamingQualityTitle": {},
-  "qualityOptionsTitle": "Варіанти якості",
-  "@qualityOptionsTitle": {},
-  "qualityOptionsOriginal": "Оригінал",
-  "@qualityOptionsOriginal": {},
-  "qualityOptionsAuto": "Авто",
-  "@qualityOptionsAuto": {},
-  "version": "Версія",
-  "@version": {},
-  "mediaSegmentActions": "Дії для медіа сегментів",
-  "@mediaSegmentActions": {},
-  "segmentActionNone": "Нічого",
-  "@segmentActionNone": {},
-  "segmentActionAskToSkip": "Запитати, чи пропустити",
-  "@segmentActionAskToSkip": {},
-  "segmentActionSkip": "Пропустити",
-  "@segmentActionSkip": {},
-  "loading": "Завантаження",
-  "@loading": {},
-  "castAndCrew": "Актори та знімальна група",
-  "@castAndCrew": {},
-  "guestActor": "{count, plural, other{Запрошені актори} one{Запрошений актор}}",
-  "@guestActor": {
-    "description": "Guest actors",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "1"
-      }
-    }
-  },
-  "settingsPlayerBufferSizeTitle": "Розмір буфера відео",
-  "@settingsPlayerBufferSizeTitle": {},
-  "settingsPlayerBufferSizeDesc": "Налаштуйте розмір буфера для відтворення відео, визначивши, скільки даних буде завантажено в кеш.",
-  "@settingsPlayerBufferSizeDesc": {},
-  "maxConcurrentDownloadsTitle": "Максимум одночасних завантажень",
-  "@maxConcurrentDownloadsTitle": {},
-  "maxConcurrentDownloadsDesc": "Встановлює максимальну кількість завантажень, які можуть виконуватися одночасно. Встановіть значення 0, щоб вимкнути обмеження.",
-  "@maxConcurrentDownloadsDesc": {},
-  "playbackTrackSelection": "Вибір доріжки відтворення",
-  "@playbackTrackSelection": {},
-  "rememberSubtitleSelectionsDesc": "Спробувати встановити доріжку субтитрів, яка найкраще відповідає останньому відео.",
-  "@rememberSubtitleSelectionsDesc": {},
-  "rememberAudioSelections": "Встановити аудіодоріжку на основі попереднього елемента",
-  "@rememberAudioSelections": {},
-  "rememberAudioSelectionsDesc": "Спробувати встановити аудіодоріжку, яка найкраще відповідає останньому відео.",
-  "@rememberAudioSelectionsDesc": {},
-  "rememberSubtitleSelections": "Встановити доріжку субтитрів на основі попереднього елемента",
-  "@rememberSubtitleSelections": {},
-  "similarToRecentlyPlayed": "Схоже на нещодавно відтворене",
-  "@similarToRecentlyPlayed": {},
-  "similarToLikedItem": "Схоже на вподобаний елемент",
-  "@similarToLikedItem": {},
-  "hasActorFromRecentlyPlayed": "Має актора з нещодавно відтвореного",
-  "@hasActorFromRecentlyPlayed": {},
-  "latest": "Останнє",
-  "@latest": {},
-  "hasLikedDirector": "Має вподобаного режисера",
-  "@hasLikedDirector": {},
-  "hasLikedActor": "Має вподобаного актора",
-  "@hasLikedActor": {},
-  "recommended": "Рекомендовано",
-  "@recommended": {},
-  "hasDirectorFromRecentlyPlayed": "Має режисера з нещодавно відтвореного",
-  "@hasDirectorFromRecentlyPlayed": {},
-  "exitFladderTitle": "Вийти з Fladder",
-  "@exitFladderTitle": {},
-  "playbackTypeDirect": "Пряме",
-  "@playbackTypeDirect": {},
-  "playbackType": "Тип відтворення",
-  "@playbackType": {},
-  "playbackTypeTranscode": "Перекодування",
-  "@playbackTypeTranscode": {},
-  "playbackTypeOffline": "Офлайн",
-  "@playbackTypeOffline": {},
-  "latestReleases": "Останні релізи",
-  "@latestReleases": {},
-  "autoCheckForUpdates": "Періодично перевіряти наявність оновлень",
-  "@autoCheckForUpdates": {},
-  "newReleaseFoundTitle": "Доступне оновлення {newRelease}!",
-  "@newReleaseFoundTitle": {
-    "placeholders": {
-      "newRelease": {
-        "type": "String"
-      }
-    }
-  },
-  "newUpdateFoundOnGithub": "Знайдено нове оновлення на Github",
-  "@newUpdateFoundOnGithub": {},
-  "enableBackgroundPostersTitle": "Увімкнути фонові постери",
-  "@enableBackgroundPostersTitle": {},
-  "settingsEnableOsMediaControlsDesc": "Дозволяє керувати відтворенням за допомогою медіа-клавіш та показувати поточний відтворюваний медіафайл в ОС",
-  "@settingsEnableOsMediaControlsDesc": {},
-  "enableBackgroundPostersDesc": "Показувати випадкові постери на відповідних екранах",
-  "@enableBackgroundPostersDesc": {},
-  "notificationDownloadingDownloading": "Завантаження",
-  "@notificationDownloadingDownloading": {},
-  "notificationDownloadingPaused": "Завантаження призупинено",
-  "@notificationDownloadingPaused": {},
-  "notificationDownloadingFinished": "Завантаження завершено",
-  "@notificationDownloadingFinished": {},
-  "notificationDownloadingError": "Помилка завантаження",
-  "@notificationDownloadingError": {},
-  "syncAllItemsTitle": "Синхронізувати всі елементи з {itemName}?",
-  "@syncAllItemsTitle": {
-    "description": "syncAllItemsFrom",
-    "placeholders": {
-      "itemName": {
-        "type": "String"
-      }
-    }
-  },
-  "syncAllItemsDesc": "Це синхронізує ({itemCount}) елементів з '{itemName}' на ваш пристрій.\nЦе може зайняти деякий час, залежно від кількості елементів.",
-  "@syncAllItemsDesc": {
-    "description": "syncAllitemsFromDesc",
-    "placeholders": {
-      "itemName": {
-        "type": "String"
-      },
-      "itemCount": {
-        "type": "int"
-      }
-    }
-  },
-  "syncDeleteAllItemsTitle": "Видалити всі синхронізовані елементи з {itemName}?",
-  "@syncDeleteAllItemsTitle": {
-    "description": "syncDeleteAllitemsFrom",
-    "placeholders": {
-      "itemName": {
-        "type": "String"
-      }
-    }
-  },
-  "syncDeleteAllItemsDesc": "Це видалить усі синхронізовані елементи з '{itemName}'.\nЦе остаточне рішення, і вам доведеться повторно синхронізувати ({itemCount}) файлів.",
-  "@syncDeleteAllItemsDesc": {
-    "description": "syncDeleteAllitemsFromDesc",
-    "placeholders": {
-      "itemName": {
-        "type": "String"
-      },
-      "itemCount": {
-        "type": "int"
-      }
-    }
-  },
-  "syncPauseAll": "Призупинити все",
-  "@syncPauseAll": {},
-  "syncResumeAll": "Відновити все",
-  "@syncResumeAll": {},
-  "syncStopAll": "Зупинити все",
-  "@syncStopAll": {},
-  "syncDeleteAll": "Видалити всі файли",
-  "@syncDeleteAll": {},
-  "syncAllFiles": "Синхронізувати всі файли",
-  "@syncAllFiles": {},
-  "usePostersForLibraryIconsTitle": "Показати постери для іконок бібліотеки",
-  "@usePostersForLibraryIconsTitle": {},
-  "usePostersForLibraryIconsDesc": "Показувати постери замість іконок для бібліотек",
-  "@usePostersForLibraryIconsDesc": {},
-  "offline": "Офлайн",
-  "@offline": {},
-  "shortCuts": "Комбінації клавіш",
-  "@shortCuts": {},
-  "skipForwardLength": "Крок перемотування вперед",
-  "@skipForwardLength": {},
-  "skipBackLength": "Крок перемотування назад",
-  "@skipBackLength": {},
-  "playPause": "Відтворення/Пауза",
-  "@playPause": {},
-  "seekForward": "Перемотати вперед",
-  "@seekForward": {},
-  "seekBack": "Перемотати назад",
-  "@seekBack": {},
-  "mute": "Вимкнути звук",
-  "@mute": {},
-  "volumeUp": "Збільшити гучність",
-  "@volumeUp": {},
-  "volumeDown": "Зменшити гучність",
-  "@volumeDown": {},
-  "nextVideo": "Наступне відео",
-  "@nextVideo": {},
-  "prevVideo": "Попереднє відео",
-  "@prevVideo": {},
-  "nextChapter": "Наступний розділ",
-  "@nextChapter": {},
-  "prevChapter": "Попередній розділ",
-  "@prevChapter": {},
-  "fullScreen": "Повноекранний режим",
-  "@fullScreen": {},
-  "skipMediaSegment": "Пропустити медіа-сегмент",
-  "@skipMediaSegment": {},
-  "exit": "Вихід",
-  "@exit": {},
-  "shortCutAlreadyAssigned": "Комбінацію клавіш '{hotKey}' уже призначено",
-  "@shortCutAlreadyAssigned": {
-    "placeholders": {
-      "hotKey": {
-        "type": "String"
-      }
-    }
-  },
-  "blurred": "Розмитий",
-  "@blurred": {},
-  "volumeIndicator": "Гучність: {volume}",
-  "@volumeIndicator": {
-    "placeholders": {
-      "volume": {
-        "type": "int"
-      }
-    }
-  }
 }

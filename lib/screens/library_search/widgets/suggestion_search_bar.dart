@@ -7,6 +7,7 @@ import 'package:page_transition/page_transition.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/providers/library_search_provider.dart';
+import 'package:fladder/screens/shared/outlined_text_field.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/debouncer.dart';
 import 'package:fladder/util/fladder_image.dart';
@@ -46,15 +47,6 @@ class _SearchBarState extends ConsumerState<SuggestionSearchBar> {
   final FocusNode focusNode = FocusNode();
 
   @override
-  void initState() {
-    super.initState();
-    if (widget.autoFocus) {
-      focusNode.requestFocus();
-    }
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     ref.listen(librarySearchProvider(widget.key!).select((value) => value.searchQuery), (previous, next) {
       if (textEditingController.text != next) {
@@ -66,7 +58,7 @@ class _SearchBarState extends ConsumerState<SuggestionSearchBar> {
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(
-        borderRadius: FladderTheme.largeShape.borderRadius,
+        borderRadius: FladderTheme.smallShape.borderRadius,
       ),
       shadowColor: Colors.transparent,
       child: TypeAheadField<ItemBaseModel>(
@@ -83,12 +75,13 @@ class _SearchBarState extends ConsumerState<SuggestionSearchBar> {
         decorationBuilder: (context, child) => DecoratedBox(
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.secondaryContainer,
-            borderRadius: FladderTheme.largeShape.borderRadius,
+            borderRadius: FladderTheme.smallShape.borderRadius,
           ),
           child: child,
         ),
-        builder: (context, controller, focusNode) => TextField(
+        builder: (context, controller, focusNode) => OutlinedTextField(
           focusNode: focusNode,
+          autoFocus: widget.autoFocus,
           controller: controller,
           onSubmitted: (value) {
             widget.onSubmited!(value);
@@ -99,6 +92,16 @@ class _SearchBarState extends ConsumerState<SuggestionSearchBar> {
               isEmpty = value.isEmpty;
             });
           },
+          searchQuery: (query) async {
+            if (query.isEmpty) return [];
+            if (widget.key != null) {
+              final items =
+                  await ref.read(librarySearchProvider(widget.key!).notifier).fetchSuggestions(query, limit: 5);
+              return items.map((e) => e.name).toList();
+            }
+            return [];
+          },
+          placeHolder: widget.title ?? "${context.localized.search}...",
           decoration: InputDecoration(
             hintText: widget.title ?? "${context.localized.search}...",
             prefixIcon: const Icon(IconsaxPlusLinear.search_normal),

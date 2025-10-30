@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:collection/collection.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
@@ -31,10 +31,10 @@ import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/widgets/shared/enum_selection.dart';
 import 'package:fladder/widgets/shared/fladder_slider.dart';
+import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 import 'package:fladder/widgets/shared/spaced_list_tile.dart';
 
-final playbackRateProvider = StateProvider<double>((ref) => 1.0);
 
 Future<void> showVideoPlayerOptions(BuildContext context, Function() minimizePlayer) {
   return showBottomSheetPill(
@@ -154,10 +154,9 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
                     label: Text(context.localized.scale),
                     current: videoSettings.videoFit.name.toUpperCaseSplit(),
                     itemBuilder: (context) => BoxFit.values
-                        .map((value) => PopupMenuItem(
-                              value: value,
-                              child: Text(value.name.toUpperCaseSplit()),
-                              onTap: () => ref.read(videoPlayerSettingsProvider.notifier).setFitType(value),
+                        .map((value) => ItemActionButton(
+                              label: Text(value.name.toUpperCaseSplit()),
+                              action: () => ref.read(videoPlayerSettingsProvider.notifier).setFitType(value),
                             ))
                         .toList(),
                   ),

@@ -1,13 +1,16 @@
-import 'package:flutter/foundation.dart';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/login/lock_screen.dart';
+import 'package:fladder/widgets/navigation_scaffold/components/navigation_body.dart';
 
 const settingsPageRoute = "settings";
+
+const fullScreenRoutes = {
+  PhotoViewerRoute.name,
+};
 
 @AutoRouterConfig(replaceInRouteName: 'Screen|Page,Route')
 class AutoRouter extends RootStackRouter {
@@ -21,14 +24,7 @@ class AutoRouter extends RootStackRouter {
   List<AutoRouteGuard> get guards => [...super.guards, AuthGuard(ref: ref)];
 
   @override
-  RouteType get defaultRouteType => kIsWeb ||
-          {
-            TargetPlatform.windows,
-            TargetPlatform.linux,
-            TargetPlatform.macOS,
-          }.contains(defaultTargetPlatform)
-      ? const RouteType.cupertino()
-      : const RouteType.adaptive();
+  RouteType get defaultRouteType => const RouteType.adaptive();
 
   @override
   List<AutoRoute> get routes => [
@@ -40,67 +36,56 @@ class AutoRouter extends RootStackRouter {
     _homeRoute.copyWith(
       children: [
         ...homeRoutes,
-        AutoRoute(page: DetailsRoute.page, path: 'details', usesPathAsKey: true),
-        AutoRoute(page: LibrarySearchRoute.page, path: 'library', usesPathAsKey: true),
-        CustomRoute(
+        ...detailsRoutes,
+        AutoRoute(
           page: SettingsRoute.page,
           path: settingsPageRoute,
           children: _settingsChildren,
-          transitionsBuilder: TransitionsBuilders.fadeIn,
         ),
       ],
     ),
     AutoRoute(page: LockRoute.page, path: '/locked'),
-    AutoRoute(page: PhotoViewerRoute.page, path: "/album"),
   ];
 }
 
+final AutoRoute _homeRoute = AutoRoute(page: HomeRoute.page, path: '/');
 final List<AutoRoute> homeRoutes = [
-  _dashboardRoute,
-  _favouritesRoute,
-  _syncedRoute,
-  _librariesRoute,
+  AutoRoute(
+    page: DashboardRoute.page,
+    initial: true,
+    path: 'dashboard',
+  ),
+  AutoRoute(
+    page: FavouritesRoute.page,
+    path: 'favourites',
+  ),
+  AutoRoute(
+    page: SyncedRoute.page,
+    path: 'synced',
+  ),
+  AutoRoute(
+    page: LibraryRoute.page,
+    path: 'libraries',
+  ),
+];
+
+final List<AutoRoute> detailsRoutes = [
+  AutoRoute(page: DetailsRoute.page, path: 'details'),
+  AutoRoute(page: PhotoViewerRoute.page, path: "album"),
+  AutoRoute(page: LibrarySearchRoute.page, path: 'library'),
 ];
 
 final List<AutoRoute> _defaultRoutes = [
   AutoRoute(page: SplashRoute.page, path: '/splash'),
-  AutoRoute(page: LoginRoute.page, path: '/login'),
+  AutoRoute(page: LoginRoute.page, path: '/login', maintainState: false),
 ];
 
-final AutoRoute _homeRoute = AutoRoute(page: HomeRoute.page, path: '/');
-final AutoRoute _dashboardRoute = CustomRoute(
-  page: DashboardRoute.page,
-  transitionsBuilder: TransitionsBuilders.fadeIn,
-  initial: true,
-  maintainState: false,
-  path: 'dashboard',
-);
-final AutoRoute _favouritesRoute = CustomRoute(
-  page: FavouritesRoute.page,
-  transitionsBuilder: TransitionsBuilders.fadeIn,
-  maintainState: false,
-  path: 'favourites',
-);
-final AutoRoute _syncedRoute = CustomRoute(
-  page: SyncedRoute.page,
-  transitionsBuilder: TransitionsBuilders.fadeIn,
-  maintainState: false,
-  path: 'synced',
-);
-
-final AutoRoute _librariesRoute = CustomRoute(
-  page: LibraryRoute.page,
-  transitionsBuilder: TransitionsBuilders.fadeIn,
-  maintainState: false,
-  path: 'libraries',
-);
-
 final List<AutoRoute> _settingsChildren = [
-  CustomRoute(page: SettingsSelectionRoute.page, transitionsBuilder: TransitionsBuilders.fadeIn, path: 'list'),
-  CustomRoute(page: ClientSettingsRoute.page, transitionsBuilder: TransitionsBuilders.fadeIn, path: 'client'),
-  CustomRoute(page: SecuritySettingsRoute.page, transitionsBuilder: TransitionsBuilders.fadeIn, path: 'security'),
-  CustomRoute(page: PlayerSettingsRoute.page, transitionsBuilder: TransitionsBuilders.fadeIn, path: 'player'),
-  CustomRoute(page: AboutSettingsRoute.page, transitionsBuilder: TransitionsBuilders.fadeIn, path: 'about'),
+  AutoRoute(page: SettingsSelectionRoute.page, path: 'list'),
+  AutoRoute(page: ClientSettingsRoute.page, path: 'client'),
+  AutoRoute(page: SecuritySettingsRoute.page, path: 'security'),
+  AutoRoute(page: PlayerSettingsRoute.page, path: 'player'),
+  AutoRoute(page: AboutSettingsRoute.page, path: 'about'),
 ];
 
 class LockScreenGuard extends AutoRouteGuard {
@@ -133,15 +118,21 @@ class AuthGuard extends AutoRouteGuard {
     if (ref.read(userProvider) != null ||
         resolver.routeName == const LoginRoute().routeName ||
         resolver.routeName == SplashRoute().routeName) {
+      // We assume the last main focus is no longer active after navigating
+      lastMainFocus = null;
       return resolver.next(true);
     }
 
-    resolver.redirect<bool>(SplashRoute(loggedIn: (value) {
+    resolver.redirectUntil<bool>(SplashRoute(loggedIn: (value) {
       if (value) {
         resolver.next(true);
       } else {
         router.replace(const LoginRoute());
       }
     }));
+
+    // We assume the last main focus is no longer active after navigating
+    lastMainFocus = null;
+    return;
   }
 }

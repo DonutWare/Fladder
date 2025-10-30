@@ -189,16 +189,16 @@ class User extends _$User {
   }
 
   void removeFilter(LibraryFiltersModel model) {
-    final currentList = ((state?.savedFilters ?? [])).toList(growable: true);
+    final currentList = ((state?.libraryFilters ?? [])).toList(growable: true);
     currentList.remove(model);
-    state = state?.copyWith(savedFilters: currentList);
+    userState = state?.copyWith(libraryFilters: currentList);
   }
 
   void saveFilter(LibraryFiltersModel model) {
-    final currentList = (state?.savedFilters ?? []).toList(growable: true);
+    final currentList = (state?.libraryFilters ?? []).toList(growable: true);
     if (currentList.firstWhereOrNull((value) => value.id == model.id) != null) {
-      state = state?.copyWith(
-          savedFilters: currentList.map(
+      userState = state?.copyWith(
+          libraryFilters: currentList.map(
         (e) {
           if (e.id == model.id) {
             return model;
@@ -210,11 +210,11 @@ class User extends _$User {
         },
       ).toList());
     } else {
-      state = state?.copyWith(savedFilters: [model, ...currentList]);
+      userState = state?.copyWith(libraryFilters: [model, ...currentList]);
     }
   }
 
-  void deleteAllFilters() => state = state?.copyWith(savedFilters: []);
+  void deleteAllFilters() => userState = state?.copyWith(libraryFilters: []);
 
   String? createDownloadUrl(ItemBaseModel item) =>
       Uri.encodeFull("${state?.server}/Items/${item.id}/Download?api_key=${state?.credentials.token}");

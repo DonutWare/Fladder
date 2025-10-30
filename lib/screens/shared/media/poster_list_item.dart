@@ -9,10 +9,12 @@ import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
+import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/clickable_text.dart';
+import 'package:fladder/widgets/shared/ensure_visible.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 
@@ -65,8 +67,15 @@ class PosterListItem extends ConsumerWidget {
               color: Theme.of(context).colorScheme.primary.withValues(alpha: selected == true ? 0.25 : 0),
               borderRadius: BorderRadius.circular(6),
             ),
-            child: InkWell(
+            child: FocusButton(
               onTap: () => pressedWidget(context),
+              autoFocus:
+                  FocusProvider.autoFocusOf(context) && AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad,
+              onFocusChanged: (focus) {
+                if (focus) {
+                  context.ensureVisible();
+                }
+              },
               onSecondaryTapDown: (details) async {
                 Offset localPosition = details.globalPosition;
                 RelativeRect position =
@@ -140,13 +149,10 @@ class PosterListItem extends ConsumerWidget {
                             overflow: TextOverflow.ellipsis,
                           ),
                           if ((poster.subText ?? poster.subTextShort(context))?.isNotEmpty == true)
-                            Opacity(
-                              opacity: 0.45,
-                              child: Text(
-                                poster.subText ?? poster.subTextShort(context) ?? "",
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
+                            Text(
+                              poster.subText ?? poster.subTextShort(context) ?? "",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           Row(
                             children: [

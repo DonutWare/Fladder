@@ -13,7 +13,13 @@ import 'package:fladder/util/fladder_image.dart';
 class DetailsScreen extends ConsumerStatefulWidget {
   final String id;
   final ItemBaseModel? item;
-  const DetailsScreen({@QueryParam() this.id = '', this.item, super.key});
+  final Object? tag;
+  const DetailsScreen({
+    @QueryParam() this.id = '',
+    this.item,
+    this.tag,
+    super.key,
+  });
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _DetailsScreenState();
@@ -66,7 +72,7 @@ class _DetailsScreenState extends ConsumerState<DetailsScreen> {
       key: Key(widget.id),
       children: [
         Hero(
-          tag: widget.id,
+          tag: widget.tag ?? UniqueKey(),
           child: Container(
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.surface.withValues(alpha: 1.0),

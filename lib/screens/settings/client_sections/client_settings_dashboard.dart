@@ -10,6 +10,7 @@ import 'package:fladder/screens/settings/widgets/settings_label_divider.dart';
 import 'package:fladder/screens/settings/widgets/settings_list_group.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/enum_selection.dart';
+import 'package:fladder/widgets/shared/item_actions.dart';
 
 List<Widget> buildClientSettingsDashboard(BuildContext context, WidgetRef ref) {
   final clientSettings = ref.watch(clientSettingsProvider);
@@ -28,10 +29,9 @@ List<Widget> buildClientSettingsDashboard(BuildContext context, WidgetRef ref) {
           ),
           itemBuilder: (context) => HomeBanner.values
               .map(
-                (entry) => PopupMenuItem(
-                  value: entry,
-                  child: Text(entry.label(context)),
-                  onTap: () =>
+                (entry) => ItemActionButton(
+                  label: Text(entry.label(context)),
+                  action: () =>
                       ref.read(homeSettingsProvider.notifier).update((context) => context.copyWith(homeBanner: entry)),
                 ),
               )
@@ -48,10 +48,9 @@ List<Widget> buildClientSettingsDashboard(BuildContext context, WidgetRef ref) {
             ),
             itemBuilder: (context) => HomeCarouselSettings.values
                 .map(
-                  (entry) => PopupMenuItem(
-                    value: entry,
-                    child: Text(entry.label(context)),
-                    onTap: () => ref
+                  (entry) => ItemActionButton(
+                    label: Text(entry.label(context)),
+                    action: () => ref
                         .read(homeSettingsProvider.notifier)
                         .update((context) => context.copyWith(carouselSettings: entry)),
                   ),
@@ -70,10 +69,9 @@ List<Widget> buildClientSettingsDashboard(BuildContext context, WidgetRef ref) {
           ),
           itemBuilder: (context) => HomeNextUp.values
               .map(
-                (entry) => PopupMenuItem(
-                  value: entry,
-                  child: Text(entry.label(context)),
-                  onTap: () =>
+                (entry) => ItemActionButton(
+                  label: Text(entry.label(context)),
+                  action: () =>
                       ref.read(homeSettingsProvider.notifier).update((context) => context.copyWith(nextUp: entry)),
                 ),
               )

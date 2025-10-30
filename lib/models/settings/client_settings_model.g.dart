@@ -6,9 +6,8 @@ part of 'client_settings_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ClientSettingsModelImpl _$$ClientSettingsModelImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ClientSettingsModelImpl(
+_ClientSettingsModel _$ClientSettingsModelFromJson(Map<String, dynamic> json) =>
+    _ClientSettingsModel(
       syncPath: json['syncPath'] as String?,
       position: json['position'] == null
           ? const Vector2(x: 0, y: 0)
@@ -25,6 +24,7 @@ _$ClientSettingsModelImpl _$$ClientSettingsModelImplFromJson(
       themeMode: $enumDecodeNullable(_$ThemeModeEnumMap, json['themeMode']) ??
           ThemeMode.system,
       themeColor: $enumDecodeNullable(_$ColorThemesEnumMap, json['themeColor']),
+      deriveColorsFromItem: json['deriveColorsFromItem'] as bool? ?? true,
       amoledBlack: json['amoledBlack'] as bool? ?? false,
       blurPlaceHolders: json['blurPlaceHolders'] as bool? ?? true,
       blurUpcomingEpisodes: json['blurUpcomingEpisodes'] as bool? ?? false,
@@ -46,6 +46,7 @@ _$ClientSettingsModelImpl _$$ClientSettingsModelImplFromJson(
           BackgroundType.blurred,
       checkForUpdates: json['checkForUpdates'] as bool? ?? true,
       usePosterForLibrary: json['usePosterForLibrary'] as bool? ?? false,
+      useSystemIME: json['useSystemIME'] as bool? ?? false,
       lastViewedUpdate: json['lastViewedUpdate'] as String?,
       libraryPageSize: (json['libraryPageSize'] as num?)?.toInt(),
       shortcuts: (json['shortcuts'] as Map<String, dynamic>?)?.map(
@@ -55,8 +56,8 @@ _$ClientSettingsModelImpl _$$ClientSettingsModelImplFromJson(
           const {},
     );
 
-Map<String, dynamic> _$$ClientSettingsModelImplToJson(
-        _$ClientSettingsModelImpl instance) =>
+Map<String, dynamic> _$ClientSettingsModelToJson(
+        _ClientSettingsModel instance) =>
     <String, dynamic>{
       'syncPath': instance.syncPath,
       'position': instance.position,
@@ -65,6 +66,7 @@ Map<String, dynamic> _$$ClientSettingsModelImplToJson(
       'nextUpDateCutoff': instance.nextUpDateCutoff?.inMicroseconds,
       'themeMode': _$ThemeModeEnumMap[instance.themeMode]!,
       'themeColor': _$ColorThemesEnumMap[instance.themeColor],
+      'deriveColorsFromItem': instance.deriveColorsFromItem,
       'amoledBlack': instance.amoledBlack,
       'blurPlaceHolders': instance.blurPlaceHolders,
       'blurUpcomingEpisodes': instance.blurUpcomingEpisodes,
@@ -80,6 +82,7 @@ Map<String, dynamic> _$$ClientSettingsModelImplToJson(
       'backgroundImage': _$BackgroundTypeEnumMap[instance.backgroundImage]!,
       'checkForUpdates': instance.checkForUpdates,
       'usePosterForLibrary': instance.usePosterForLibrary,
+      'useSystemIME': instance.useSystemIME,
       'lastViewedUpdate': instance.lastViewedUpdate,
       'libraryPageSize': instance.libraryPageSize,
       'shortcuts': instance.shortcuts

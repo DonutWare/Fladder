@@ -9,11 +9,10 @@ class NestedBottomAppBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
-      padding: const EdgeInsets.all(8.0).copyWith(bottom: MediaQuery.paddingOf(context).bottom),
-      child: Card(
-        color: Theme.of(context).colorScheme.surfaceContainerLow,
-        elevation: 5,
-        shape: RoundedRectangleBorder(
+      padding: const EdgeInsets.all(8.0).copyWith(bottom: MediaQuery.paddingOf(context).bottom + 8),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surfaceContainerLow.withValues(alpha: 0.965),
           borderRadius: BorderRadiusDirectional.circular(24),
         ),
         child: Padding(

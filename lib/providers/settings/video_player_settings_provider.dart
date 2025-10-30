@@ -15,6 +15,8 @@ final videoPlayerSettingsProvider =
   return VideoPlayerSettingsProviderNotifier(ref);
 });
 
+final playbackRateProvider = StateProvider<double>((ref) => 1.0);
+
 class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSettingsModel> {
   VideoPlayerSettingsProviderNotifier(this.ref) : super(VideoPlayerSettingsModel());
 
@@ -53,6 +55,7 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
 
   void setHardwareAccel(bool? value) => state = state.copyWith(hardwareAccel: value ?? true);
   void setUseLibass(bool? value) => state = state.copyWith(useLibass: value ?? false);
+  void setMediaTunneling(bool? value) => state = state.copyWith(enableTunneling: value ?? false);
   void setBufferSize(int? value) => state = state.copyWith(bufferSize: value ?? 32);
   void setFitType(BoxFit? value) => state = state.copyWith(videoFit: value ?? BoxFit.contain);
 
@@ -67,11 +70,24 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
     ref.read(videoPlayerProvider).setVolume(value);
   }
 
+  void steppedSpeed(double i) {
+    var value = double.parse(
+      ((ref.read(playbackRateProvider) + i).clamp(0.25, 3)).toStringAsFixed(2),
+    );
+
+    if ((value - 1.0).abs() <= 0.06) {
+      value = 1.0;
+    }
+
+    ref.read(playbackRateProvider.notifier).state = value;
+    ref.read(videoPlayerProvider).setSpeed(value);
+  }
+
   void toggleOrientation(Set<DeviceOrientation>? orientation) =>
       state = state.copyWith(allowedOrientations: orientation);
 
   void setShortcuts(MapEntry<VideoHotKeys, KeyCombination> newEntry) {
-      state = state.copyWith(hotKeys: state.hotKeys.setOrRemove(newEntry, state.defaultShortCuts));
+    state = state.copyWith(hotKeys: state.hotKeys.setOrRemove(newEntry, state.defaultShortCuts));
   }
 
   void nextChapter() {

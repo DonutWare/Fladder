@@ -9,7 +9,7 @@ final homeSettingsProvider = StateNotifierProvider<HomeSettingsNotifier, HomeSet
 });
 
 class HomeSettingsNotifier extends StateNotifier<HomeSettingsModel> {
-  HomeSettingsNotifier(this.ref) : super(HomeSettingsModel());
+  HomeSettingsNotifier(this.ref) : super(HomeSettingsModel.defaultModel());
 
   final Ref ref;
 

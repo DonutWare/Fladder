@@ -6,15 +6,16 @@ part of 'video_player_settings.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$VideoPlayerSettingsModelImpl _$$VideoPlayerSettingsModelImplFromJson(
+_VideoPlayerSettingsModel _$VideoPlayerSettingsModelFromJson(
         Map<String, dynamic> json) =>
-    _$VideoPlayerSettingsModelImpl(
+    _VideoPlayerSettingsModel(
       screenBrightness: (json['screenBrightness'] as num?)?.toDouble(),
       videoFit: $enumDecodeNullable(_$BoxFitEnumMap, json['videoFit']) ??
           BoxFit.contain,
       fillScreen: json['fillScreen'] as bool? ?? false,
       hardwareAccel: json['hardwareAccel'] as bool? ?? true,
       useLibass: json['useLibass'] as bool? ?? false,
+      enableTunneling: json['enableTunneling'] as bool? ?? false,
       bufferSize: (json['bufferSize'] as num?)?.toInt() ?? 32,
       playerOptions:
           $enumDecodeNullable(_$PlayerOptionsEnumMap, json['playerOptions']),
@@ -45,14 +46,15 @@ _$VideoPlayerSettingsModelImpl _$$VideoPlayerSettingsModelImplFromJson(
           const {},
     );
 
-Map<String, dynamic> _$$VideoPlayerSettingsModelImplToJson(
-        _$VideoPlayerSettingsModelImpl instance) =>
+Map<String, dynamic> _$VideoPlayerSettingsModelToJson(
+        _VideoPlayerSettingsModel instance) =>
     <String, dynamic>{
       'screenBrightness': instance.screenBrightness,
       'videoFit': _$BoxFitEnumMap[instance.videoFit]!,
       'fillScreen': instance.fillScreen,
       'hardwareAccel': instance.hardwareAccel,
       'useLibass': instance.useLibass,
+      'enableTunneling': instance.enableTunneling,
       'bufferSize': instance.bufferSize,
       'playerOptions': _$PlayerOptionsEnumMap[instance.playerOptions],
       'internalVolume': instance.internalVolume,
@@ -82,6 +84,7 @@ const _$BoxFitEnumMap = {
 const _$PlayerOptionsEnumMap = {
   PlayerOptions.libMDK: 'libMDK',
   PlayerOptions.libMPV: 'libMPV',
+  PlayerOptions.nativePlayer: 'nativePlayer',
 };
 
 const _$DeviceOrientationEnumMap = {
@@ -138,6 +141,8 @@ const _$VideoHotKeysEnumMap = {
   VideoHotKeys.mute: 'mute',
   VideoHotKeys.volumeUp: 'volumeUp',
   VideoHotKeys.volumeDown: 'volumeDown',
+  VideoHotKeys.speedUp: 'speedUp',
+  VideoHotKeys.speedDown: 'speedDown',
   VideoHotKeys.nextVideo: 'nextVideo',
   VideoHotKeys.prevVideo: 'prevVideo',
   VideoHotKeys.nextChapter: 'nextChapter',
