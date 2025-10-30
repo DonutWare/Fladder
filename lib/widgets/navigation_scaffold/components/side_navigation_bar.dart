@@ -72,12 +72,12 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
 
     return Stack(
       children: [
-        AdaptiveLayoutBuilder(
-          adaptiveLayout: AdaptiveLayout.of(context).copyWith(
+        AdaptiveLayout(
+          data: AdaptiveLayout.of(context).copyWith(
             // -0.1 offset to fix single visible pixel line
             sideBarWidth: (fullyExpanded ? expandedWidth : collapsedWidth) - 0.1,
           ),
-          child: (context) => widget.child,
+          child: widget.child,
         ),
         FocusTraversalGroup(
           policy: _RailTraversalPolicy(),
