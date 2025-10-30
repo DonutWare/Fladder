@@ -1469,5 +1469,9 @@
     "exitFladderDesc": "Fladder'ı kapatmak istediğinizden emin misiniz?",
     "@exitFladderDesc": {},
     "television": "Televizyon",
-    "@television": {}
+    "@television": {},
+    "quickConnectEnterCodeDescription": "Giriş yapmak için aşağıdaki kodu giriniz",
+    "@quickConnectEnterCodeDescription": {},
+    "showMore": "Daha fazla göster",
+    "@showMore": {}
 }
