@@ -527,9 +527,9 @@ jobs:
 
           ---
 
-          📅 **Build Date:** $(date -u "+%Y-%m-%d %H:%M:%S UTC")  
-          🔧 **Build Number:** ${{ github.run_number }}  
-          📝 **Commit:** ${{ github.sha }}  
+          📅 **Build Date:** $(date -u "+%Y-%m-%d %H:%M:%S UTC")
+          🔧 **Build Number:** ${{ github.run_number }}
+          📝 **Commit:** ${{ github.sha }}
           🌿 **Branch:** develop
           EOF
 
@@ -752,7 +752,7 @@ jobs:
         include:
           - build_type: release
             identifier: DonutWare.Fladder
-            max_versions: ""
+            max_versions: "0"
           - build_type: nightly
             identifier: DonutWare.Fladder.Nightly
             max_versions: "1"
