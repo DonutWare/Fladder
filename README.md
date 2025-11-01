@@ -34,12 +34,12 @@
 
 * Play media – Stream or sync content locally to your device
 * Manage your library – Refresh content and edit metadata
-* Multiple profiles – add multiple users or different servers easily switchng between
+* Multiple profiles – add multiple users or different servers easily switching between
 * Direct, Transcode and Offline playback
-* Mediasgements skipping (Intro/Credits etc.)
+* Media segments skipping (Intro/Credits etc.)
 * Trickplay support (timeline scrubbing)
 * Dark/Light mode and multiple color styles to pick
-* Simple comic book format reading support (.cbz, .crb)
+* Simple comic book format reading support (.cbz, .cbr)
 * Sync items for all platforms
 * Download items and keep progress in sync
 * Keyboard shortcuts
