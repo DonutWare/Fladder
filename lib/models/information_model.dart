@@ -1,6 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
+import 'package:fladder/util/bitrate_formatting.dart';
 import 'package:fladder/util/size_formatting.dart';
 
 class InformationModel {
@@ -35,12 +36,10 @@ class InformationModel {
               "Profile": e.profile,
               "Level": e.level,
               "Resolution": "${e.width}x${e.height}",
-              "Aspect Ration": e.aspectRatio,
+              "Aspect Ratio": e.aspectRatio,
               "Interlaced": e.isInterlaced,
               "FrameRate": e.realFrameRate,
-              "Bitrate": e.bitRate! <= 10000000
-                  ? "${(e.bitRate! / 1000).round()} kbps"
-                  : "${(e.bitRate! / 1000000).toStringAsFixed(1)} Mbps",
+              "Bitrate": e.bitRate.videoBitrateFormat,
               "Bit depth": e.bitDepth,
               "Video range": e.videoRange,
               "Video range type": e.videoRangeType,
@@ -55,7 +54,7 @@ class InformationModel {
               "Language": e.language,
               "Codec": e.codec,
               "Layout": e.channelLayout,
-              "Bitrate": "${(e.bitRate! / 1000).round()} kbps",
+              "Bitrate": e.bitRate.audioBitrateFormat,
               "Sample Rate": "${e.sampleRate} Hz",
               "Default": e.isDefault,
               "Forced": e.isForced,
