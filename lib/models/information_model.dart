@@ -38,7 +38,9 @@ class InformationModel {
               "Aspect Ration": e.aspectRatio,
               "Interlaced": e.isInterlaced,
               "FrameRate": e.realFrameRate,
-              "Bitrate": "${e.bitRate} kbps",
+              "Bitrate": e.bitRate! <= 10000000
+                  ? "${(e.bitRate! / 1000).round()} kbps"
+                  : "${(e.bitRate! / 1000000).toStringAsFixed(1)} Mbps",
               "Bit depth": e.bitDepth,
               "Video range": e.videoRange,
               "Video range type": e.videoRangeType,
@@ -53,7 +55,7 @@ class InformationModel {
               "Language": e.language,
               "Codec": e.codec,
               "Layout": e.channelLayout,
-              "Bitrate": "${e.bitRate} kbps",
+              "Bitrate": "${(e.bitRate! / 1000).round()} kbps",
               "Sample Rate": "${e.sampleRate} Hz",
               "Default": e.isDefault,
               "Forced": e.isForced,
