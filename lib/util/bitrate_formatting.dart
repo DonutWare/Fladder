@@ -8,16 +8,16 @@ extension BitrateFormats on int? {
   }
 
   String? get videoBitrateFormat {
-    const int VIDEO_HIGH_BITRATE_CUTOFF = 10000000;
-    const int Kb = 1000;
-    const int Mb = Kb * Kb;
+    const int highBitrateCutoff = 10000000;
+    const int kb = 1000;
+    const int Mb = kb * kb;
 
     final bitrate = this;
     if (bitrate == null) return null;
-    if (bitrate >= VIDEO_HIGH_BITRATE_CUTOFF) {
+    if (bitrate >= highBitrateCutoff) {
       return "${(bitrate / Mb).toStringAsFixed(1)} Mbps";
     } else {
-      return "${(bitrate / Kb).round()} kbps";
+      return "${(bitrate / kb).round()} kbps";
     }
   }
 }
