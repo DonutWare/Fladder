@@ -34,7 +34,7 @@ abstract class BasePlayer {
   Future<void> stop();
   Future<void> playOrPause();
   Future<void> loop(bool loop);
-  Future<Uint8List?> takeScreenshot(bool withSubtitles);
+  Future<Uint8List?> takeScreenshot();
   Future<int> setSubtitleTrack(SubStreamModel? model, PlaybackModel playbackModel);
   Future<int> setAudioTrack(AudioStreamModel? model, PlaybackModel playbackModel);
 

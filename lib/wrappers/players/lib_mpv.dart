@@ -157,8 +157,8 @@ class LibMPV extends BasePlayer {
   Future<void> stop() async => _player?.stop();
 
   @override
-  Future<Uint8List?> takeScreenshot(bool withSubtitles) async {
-    return _player?.screenshot(format: "image/png", includeLibassSubtitles: withSubtitles);
+  Future<Uint8List?> takeScreenshot() async {
+    return _player?.screenshot(format: "image/png", includeLibassSubtitles: true);
   }
 
   @override

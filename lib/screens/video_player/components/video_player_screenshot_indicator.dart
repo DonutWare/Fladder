@@ -1,3 +1,5 @@
+import 'package:fladder/models/items/media_streams_model.dart';
+import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:flutter/material.dart';
 
@@ -33,7 +35,32 @@ class _VideoPlayerScreenshotIndicatorState extends ConsumerState<VideoPlayerScre
   }
 
   void onTakeScreenshot(bool cleanScreenshot) async {
-    final result = await ref.read(videoPlayerProvider.notifier).takeScreenshot(withSubtitles: !cleanScreenshot);  // Placeholder
+    bool result;
+
+    if (cleanScreenshot) {
+      final playbackModel = ref.watch(playBackModel);
+      final player = ref.watch(videoPlayerProvider);
+      final selectedSubs = playbackModel?.mediaStreams?.currentSubStream;
+      final noSubsModel = await playbackModel?.setSubtitle(SubStreamModel.no(), player);
+
+      ref.read(playBackModel.notifier).update((state) => noSubsModel);
+
+      if (noSubsModel != null) {
+        await ref.read(playbackModelHelper).shouldReload(noSubsModel);
+      }
+
+      result = await ref.read(videoPlayerProvider.notifier).takeScreenshot();
+
+      final restoredModel = await playbackModel?.setSubtitle(selectedSubs, player);
+      ref.read(playBackModel.notifier).update((state) => restoredModel);
+
+      if (restoredModel != null) {
+        await ref.read(playbackModelHelper).shouldReload(restoredModel);
+      }
+    }
+    else {
+      result = await ref.read(videoPlayerProvider.notifier).takeScreenshot();
+    }
 
     if (timer == null) {
       timer = RestartableTimer(const Duration(milliseconds: 500), () => onTimerEnd());

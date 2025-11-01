@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:path/path.dart' as p;
 
 import 'package:flutter/material.dart';
@@ -154,7 +153,7 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
 
   Future<void> openPlayer(BuildContext context) async => state.openPlayer(context);
 
-  Future<bool> takeScreenshot({required bool withSubtitles}) async {
+  Future<bool> takeScreenshot() async {
     final syncPath = ref.read(clientSettingsProvider).syncPath;
     // Early return here if we don't have a set/valid path. Skips actually taking the screenshot
     // which would be discarded.
@@ -163,7 +162,7 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     }
 
     final screenshotsPath = p.join(syncPath, "Screenshots");
-    final screenshotBuf = await state.takeScreenshot(withSubtitles);
+    final screenshotBuf = await state.takeScreenshot();
 
     if (screenshotBuf != null) {
       final savePathDirectory = Directory(screenshotsPath);
