@@ -9,7 +9,7 @@ extension BitrateFormats on int? {
 
   String? get videoBitrateFormat {
     const int VIDEO_HIGH_BITRATE_CUTOFF = 10000000;
-    const int Kb = 1024;
+    const int Kb = 1000;
     const int Mb = Kb * Kb;
 
     final bitrate = this;
