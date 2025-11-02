@@ -9,6 +9,7 @@ import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/util/debouncer.dart';
 import 'package:fladder/wrappers/media_control_wrapper.dart';
+import 'package:fladder/wrappers/players/player_states.dart';
 
 final mediaPlaybackProvider = StateProvider<MediaPlaybackModel>((ref) => MediaPlaybackModel());
 
@@ -139,9 +140,41 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
           await state.play();
           
           if (start != Duration.zero) {
-            // Wait for playback to actually start before seeking
-            await Future.delayed(const Duration(milliseconds: 1000));
-            await state.seek(start);
+
+            final playStartTime = DateTime.now();
+            const minDelay = Duration(milliseconds: 800);
+            
+            final completer = Completer<void>();
+            StreamSubscription<PlayerState>? subscription;
+            
+            subscription = state.stateStream?.listen((event) async {
+              if (event.playing && !event.buffering) {
+                subscription?.cancel();
+                if (!completer.isCompleted) {
+                  // Ensure minimum delay has elapsed for codec stability
+                  final elapsed = DateTime.now().difference(playStartTime);
+                  final remaining = minDelay - elapsed;
+                  
+                  if (remaining > Duration.zero) {
+                    await Future.delayed(remaining);
+                  }
+                  
+                  await state.seek(start);
+                  completer.complete();
+                }
+              }
+            });
+            
+            // Fallback: if event doesn't fire within 3 seconds, seek anyway
+            Future.delayed(const Duration(seconds: 3)).then((_) async {
+              if (!completer.isCompleted) {
+                subscription?.cancel();
+                await state.seek(start);
+                completer.complete();
+              }
+            });
+            
+            await completer.future;
           }
           
           ref.read(playBackModel.notifier).update((state) => newPlaybackModel);
