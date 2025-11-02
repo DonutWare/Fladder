@@ -625,7 +625,8 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     if (showOverlay == (value ?? !showOverlay)) return;
     setState(() => showOverlay = (value ?? !showOverlay));
     resetTimer();
-    SystemChrome.setEnabledSystemUIMode(showOverlay ? SystemUiMode.edgeToEdge : SystemUiMode.leanBack, overlays: []);
+    
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky, overlays: []);
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       systemNavigationBarColor: Colors.transparent,

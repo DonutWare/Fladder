@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 @Composable
 fun ImmersiveSystemBars(isImmersive: Boolean) {
     val view = LocalView.current
+    
     LaunchedEffect(view) {
         val activity = view.context as? Activity
         val window = activity?.window
@@ -26,10 +27,11 @@ fun ImmersiveSystemBars(isImmersive: Boolean) {
 
         if (isImmersive) {
             controller?.hide(androidx.core.view.WindowInsetsCompat.Type.systemBars())
+            controller?.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         } else {
             controller?.show(androidx.core.view.WindowInsetsCompat.Type.systemBars())
         }
-
+        
         onDispose { }
     }
 }
