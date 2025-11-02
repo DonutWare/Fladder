@@ -1,0 +1,204 @@
+id: nl.jknaapen.fladder
+runtime: org.gnome.Platform
+runtime-version: '48'
+sdk: org.gnome.Sdk
+
+command: Fladder
+add-extensions:
+  org.freedesktop.Platform.ffmpeg-full:
+    directory: lib/ffmpeg
+    version: '24.08'
+    add-ld-path: .
+
+cleanup-commands:
+  - mkdir -p /app/lib/ffmpeg
+
+finish-args:
+  # X11/Wayland access
+  - --share=ipc
+  - --socket=fallback-x11
+  - --socket=wayland
+  # Audio playback
+  - --socket=pulseaudio
+  # Network access for Jellyfin streaming
+  - --share=network
+  # File access for downloads/media
+  - --filesystem=home
+  # File access for downloads temporary directory
+  - --filesystem=/tmp
+  # Allow access to PipeWire socket for mpv
+  - --filesystem=xdg-run/pipewire-0:ro
+  # Hardware acceleration
+  - --device=dri
+  # Allow notification access
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=org.freedesktop.PowerManagement
+  - --talk-name=org.freedesktop.ScreenSaver
+  - --talk-name=org.freedesktop.portal.*
+
+modules:
+  - name: mpv
+    buildsystem: meson
+    config-opts:
+      - -Dlibmpv=true
+      - -Dcplayer=false
+      - -Dbuild-date=false
+      - -Dmanpage-build=disabled
+      - -Dvaapi=enabled
+      - -Dcuda-hwaccel=enabled
+      - -Dpulse=enabled
+      - -Dalsa=enabled
+      - -Duchardet=enabled
+    cleanup:
+      - /lib/pkgconfig
+      - /share
+      - /include
+    sources:
+      - type: git
+        url: https://github.com/mpv-player/mpv.git
+        tag: v0.39.0
+        commit: a0fba7be57f3822d967b04f0f6b6d6341e7516e7
+        x-checker-data:
+          type: git
+          tag-pattern: ^v([\d.]+)$
+    modules:
+      - name: ffnvcodec
+        buildsystem: simple
+        build-commands:
+          - make install PREFIX=/app
+        cleanup:
+          - /lib/pkgconfig
+          - /include
+        sources:
+          - type: git
+            url: https://github.com/FFmpeg/nv-codec-headers.git
+            tag: n13.0.19.0
+            commit: e844e5b26f46bb77479f063029595293aa8f812d
+            x-checker-data:
+              type: git
+              tag-pattern: ^n([\d.]+)$
+      - shared-modules/luajit/luajit.json
+      - name: libass
+        config-opts:
+          - --enable-shared
+          - --disable-static
+        cleanup:
+          - /lib/*.la
+          - /lib/pkgconfig
+          - /include
+        sources:
+          - type: git
+            url: https://github.com/libass/libass.git
+            tag: 0.17.3
+            commit: e46aedea0a0d17da4c4ef49d84b94a7994664ab5
+            x-checker-data:
+              type: git
+              tag-pattern: ^([\d.]+)$
+      - name: uchardet
+        buildsystem: cmake-ninja
+        config-opts:
+          - -DCMAKE_BUILD_TYPE=Release
+          - -DCMAKE_INSTALL_LIBDIR=lib
+          - -DBUILD_BINARY=OFF
+        cleanup:
+          - /lib/*.a
+          - /lib/pkgconfig
+          - /share
+          - /include
+        sources:
+          - type: archive
+            url: https://www.freedesktop.org/software/uchardet/releases/uchardet-0.0.8.tar.xz
+            sha256: e97a60cfc00a1c147a674b097bb1422abd9fa78a2d9ce3f3fdcc2e78a34ac5f0
+            x-checker-data:
+              type: html
+              url: https://www.freedesktop.org/software/uchardet/releases/
+              version-pattern: uchardet-(\d+\.\d+\.\d+)\.tar\.xz
+              url-template: https://www.freedesktop.org/software/uchardet/releases/uchardet-$version.tar.xz
+      - name: libplacebo
+        buildsystem: meson
+        config-opts:
+          - -Dvulkan=enabled
+          - -Dshaderc=enabled
+          - --libdir=lib
+        sources:
+          - type: git
+            url: https://code.videolan.org/videolan/libplacebo.git
+            tag: v7.349.0
+            commit: 1fd3c7bde7b943fe8985c893310b5269a09b46c5
+            x-checker-data:
+              type: git
+              tag-pattern: ^v([\d.]+)$
+
+  - name: zenity
+    buildsystem: meson
+    sources:
+      - type: git
+        url: https://gitlab.gnome.org/GNOME/zenity.git
+        tag: 4.0.3
+        commit: 7f7ac1840cfd914dfac69d947f0849dc50b0f695
+
+  # Flutter SDK
+  - name: flutter-sdk
+    buildsystem: simple
+    build-commands:
+      - mkdir -p /app/flutter
+      - cp -r * /app/flutter/
+      - /app/flutter/bin/flutter config --no-analytics
+      - /app/flutter/bin/flutter precache --linux
+    cleanup:
+      - '*'
+    sources:
+      - type: archive
+        only-arches:
+          - x86_64
+        url: https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.35.1-stable.tar.xz
+        sha256: 58efd9d1e570a1bf976e218cfbbcca3f23b21b873d765a74e045d5b9022ab515
+        x-checker-data:
+          type: json
+          url: https://storage.googleapis.com/flutter_infra_release/releases/releases_linux.json
+          version-query: .releases[] | select(.channel == "stable") | .version
+          url-query: .releases[] | select(.channel == "stable" and .version == $version) | "https://storage.googleapis.com/flutter_infra_release/releases/" + .archive
+          is-main-source: true
+
+  - name: fladder
+    buildsystem: simple
+    build-commands:
+      # Set up Flutter
+      - export PATH="/app/flutter/bin:$PATH"
+      - export PUB_CACHE=/run/build/fladder/pub_cache
+      
+      # Get dependencies and build
+      - flutter pub get
+      - flutter build linux --release
+      
+      # Install the app
+      - mkdir -p /app/bin
+      - cp -r build/linux/x64/release/bundle/* /app/bin/
+      - chmod +x /app/bin/fladder
+      
+      # Fix RPATH for libraries
+      - |
+        for lib in /app/bin/lib/*.so; do
+          if [[ -f "$lib" && -n "$(patchelf --print-rpath "$lib" 2>/dev/null || true)" ]]; then
+            patchelf --set-rpath '$ORIGIN' "$lib" || true
+          fi
+        done
+      - patchelf --set-rpath '$ORIGIN/lib' /app/bin/fladder
+      
+      # Install desktop file and icon
+      - mkdir -p /app/share/applications
+      - mkdir -p /app/share/icons/hicolor/scalable/apps
+      - install -Dm644 flatpak/Fladder.desktop /app/share/applications/${FLATPAK_ID}.desktop
+      - install -Dm644 icons/fladder_icon.svg /app/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg
+      
+      # Install metainfo
+      - mkdir -p /app/share/metainfo
+      - install -Dm644 flatpak/${FLATPAK_ID}.metainfo.xml /app/share/metainfo/${FLATPAK_ID}.metainfo.xml
+    sources:
+      - type: git
+        url: https://github.com/DonutWare/Fladder.git
+        tag: v0.8.0
+        # Note: This will be updated automatically by the GitHub workflow
+        # x-checker-data:
+        #   type: git
+        #   tag-pattern: ^v([\d.]+)$

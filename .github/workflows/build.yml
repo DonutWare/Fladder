@@ -766,3 +766,61 @@ jobs:
           token: ${{ secrets.WINGET_TOKEN }}
           max-versions-to-keep: ${{ matrix.max_versions || '' }}
           release-tag: ${{ matrix.build_type == 'nightly' && env.NIGHTLY_TAG || github.ref_name }}
+
+  # Flathub package submission
+  flathub-package-submit:
+    runs-on: ubuntu-latest
+    needs: [check-trigger, create_release, fetch-info]
+    if: needs.check-trigger.outputs.build_type == 'release'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.1.1
+        with:
+          fetch-depth: 0
+
+      - name: Checkout Flathub repository
+        uses: actions/checkout@v4.1.1
+        with:
+          repository: flathub/nl.jknaapen.fladder
+          token: ${{ secrets.FLATHUB_TOKEN }}
+          path: flathub-repo
+
+      - name: Update Flathub manifest
+        run: |
+          # Copy updated manifest files
+          cp flatpak/nl.jknaapen.fladder.flathub.yaml flathub-repo/nl.jknaapen.fladder.yaml
+          cp flatpak/nl.jknaapen.fladder.metainfo.xml flathub-repo/nl.jknaapen.fladder.metainfo.xml
+          
+          cd flathub-repo
+          
+          # Update the git tag in the manifest
+          sed -i "s|tag: v[0-9.]*|tag: ${{ github.ref_name }}|g" nl.jknaapen.fladder.yaml
+          
+          # Get the commit hash for the release tag
+          cd ..
+          COMMIT_HASH=$(git rev-parse ${{ github.ref_name }}^{commit})
+          cd flathub-repo
+          
+          # Update commit hash - look for the fladder sources section
+          sed -i "/name: fladder/,/sources:/s|tag: ${{ github.ref_name }}|tag: ${{ github.ref_name }}\\n        commit: ${COMMIT_HASH}|" nl.jknaapen.fladder.yaml
+          
+          # Update version in metainfo
+          TODAY=$(date +%Y-%m-%d)
+          VERSION_NUM="${{ needs.fetch-info.outputs.version_name }}"
+          sed -i "s|<release version=\"[0-9.]*\" date=\"[0-9-]*\">|<release version=\"${VERSION_NUM}\" date=\"${TODAY}\">|" nl.jknaapen.fladder.metainfo.xml
+
+      - name: Create Pull Request to Flathub
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.FLATHUB_TOKEN }}
+          path: flathub-repo
+          commit-message: Update to version ${{ github.ref_name }}
+          title: Update Fladder to ${{ github.ref_name }}
+          body: |
+            Automated update to version ${{ github.ref_name }}
+            
+            **Release notes:** https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}
+            
+            This PR was automatically created by the Fladder release workflow.
+          branch: update-${{ github.ref_name }}
+          delete-branch: true
