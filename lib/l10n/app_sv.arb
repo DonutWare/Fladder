@@ -129,5 +129,18 @@
     "notificationDownloadingError": "Nedladdningsfel",
     "@notificationDownloadingError": {},
     "addToCollection": "Lägg till i samling",
-    "@addToCollection": {}
+    "@addToCollection": {},
+    "addToPlaylist": "Till till i spellista",
+    "@addToPlaylist": {},
+    "appLockTitle": "Välj inloggningsmetod för {userName}",
+    "@appLockTitle": {
+        "description": "Pop-up to pick a login method",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "audio": "Ljud",
+    "@audio": {}
 }
