@@ -35,6 +35,8 @@ finish-args:
   - --talk-name=org.freedesktop.PowerManagement
   - --talk-name=org.freedesktop.ScreenSaver
   - --talk-name=org.freedesktop.portal.*
+  # DBus system bus access for NetworkManager (connectivity checking)
+  - --system-talk-name=org.freedesktop.NetworkManager
 
 modules:
   - name: mpv
