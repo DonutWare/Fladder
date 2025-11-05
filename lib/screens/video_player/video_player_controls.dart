@@ -695,7 +695,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     final success = ref.read(subtitleOffsetProvider.notifier).adjustOffset(offsetChange);
     
     if (!success) {
-      final backend = ref.read(videoPlayerProvider).backend?.label(context) ?? 'Unknown';
+      final backend = ref.read(videoPlayerProvider).backend?.label(context) ?? context.localized.unknown;
       ref.read(subtitleActionProvider.notifier).showNotSupported(backend);
       return;
     }
@@ -708,7 +708,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     final sign = newOffset >= 0 ? '+' : '';
     ref.read(subtitleActionProvider.notifier).showAction(
       action, 
-      "Subtitle Offset: $sign${newOffset.toStringAsFixed(1)}s"
+      "${context.localized.subtitleOffset}: $sign${newOffset.toStringAsFixed(1)}s"
     );
     
     resetTimer();
