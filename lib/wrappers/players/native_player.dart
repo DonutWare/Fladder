@@ -16,10 +16,15 @@ import 'package:fladder/wrappers/players/player_states.dart';
 class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
   final player = VideoPlayerApi();
   final activity = NativeVideoActivity();
+  final StreamController<PlayerState> _stateController = StreamController<PlayerState>.broadcast();
+  
+  @override
+  Stream<PlayerState> get stateStream => _stateController.stream;
 
   @override
   Future<void> dispose() async {
     nativeActivityStarted = false;
+    await _stateController.close();
     return activity.disposeActivity();
   }
 
