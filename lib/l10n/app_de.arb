@@ -218,7 +218,7 @@
     "@days": {},
     "delete": "Löschen",
     "@delete": {},
-    "deleteFileFromSystem": "Das Element {item} wird sowohl vom Dateisystem als auch aus der Bibliothek entfernt.\nFortfahren?",
+    "deleteFileFromSystem": "Das Element {item} wird sowohl vom Dateisystem als auch aus der Bibliothek entfernt. Sind Sie sicher, dass sie Fortfahren möchten?",
     "@deleteFileFromSystem": {
         "description": "Delete file from system",
         "placeholders": {
@@ -452,13 +452,13 @@
     "@navigationDashboard": {},
     "navigationFavorites": "Favoriten",
     "@navigationFavorites": {},
-    "navigationSync": "Syncronisiert",
+    "navigationSync": "Synchronisiert",
     "@navigationSync": {},
     "never": "Niemals",
     "@never": {},
     "nextUp": "Als nächstes",
     "@nextUp": {},
-    "noItemsSynced": "Keine syncronisierten Elemente",
+    "noItemsSynced": "Keine synchronisierten Elemente",
     "@noItemsSynced": {},
     "openWebLink": "Weblink öffnen",
     "@openWebLink": {},
@@ -509,7 +509,7 @@
     },
     "quickConnectInputACode": "Einen Code eingeben",
     "@quickConnectInputACode": {},
-    "quickConnectTitle": "Quick-connect",
+    "quickConnectTitle": "Quick Connect",
     "@quickConnectTitle": {},
     "quickConnectWrongCode": "Falscher Code",
     "@quickConnectWrongCode": {},
@@ -639,7 +639,7 @@
     "@settingsProfileDesc": {},
     "settingsProfileTitle": "Profil",
     "@settingsProfileTitle": {},
-    "settingsQuickConnectTitle": "Quick connect",
+    "settingsQuickConnectTitle": "Quick Connect",
     "@settingsQuickConnectTitle": {},
     "shadow": "Schatten",
     "@shadow": {},
@@ -692,7 +692,7 @@
     "@settingsSecurity": {},
     "showDetails": "Details anzeigen",
     "@showDetails": {},
-    "sync": "Syncronisierung",
+    "sync": "Synchronisierung",
     "@sync": {},
     "switchUser": "Benutzer wechseln",
     "@switchUser": {},
@@ -727,7 +727,7 @@
         "description": "Use for setting a certain value",
         "context": "Set 'time'"
     },
-    "settingSecurityApplockTitle": "App lock",
+    "settingSecurityApplockTitle": "App sperren",
     "@settingSecurityApplockTitle": {},
     "settingsBlurEpisodesTitle": "Nächste Folgen verschwommen anzeigen",
     "@settingsBlurEpisodesTitle": {},
@@ -801,7 +801,7 @@
     "@sortOrder": {},
     "subtitleConfiguratorPlaceHolder": "Dies ist Platzhaltertext, hier gibt es nichts zu sehen.",
     "@subtitleConfiguratorPlaceHolder": {},
-    "syncDeleteItemTitle": "Syncronisiertes Element löschen",
+    "syncDeleteItemTitle": "Synchronisiertes Element löschen",
     "@syncDeleteItemTitle": {},
     "syncOpenParent": "Übergeordnetes Element öffnen",
     "@syncOpenParent": {},
@@ -815,9 +815,9 @@
             }
         }
     },
-    "syncedItems": "Syncronisierte Elemente",
+    "syncedItems": "Synchronisierte Elemente",
     "@syncedItems": {},
-    "syncRemoveDataTitle": "syncronisierte Daten löschen?",
+    "syncRemoveDataTitle": "Synchronisierte Daten löschen?",
     "@syncRemoveDataTitle": {},
     "timeOut": "Zeitüberschreitung",
     "@timeOut": {},
@@ -853,7 +853,7 @@
     },
     "syncDetails": "Details zur Synronsierung",
     "@syncDetails": {},
-    "syncDeletePopupPermanent": "Diese Aktion ist dauerhaft und entfernt alle lokal synchronisierten Dateien.",
+    "syncDeletePopupPermanent": "Diese Aktion ist endgültig und entfernt alle lokal synchronisierten Dateien",
     "@syncDeletePopupPermanent": {},
     "unableToConnectHost": "Verbindung zum Host nicht möglich",
     "@unableToConnectHost": {},
@@ -879,7 +879,7 @@
     "@settingsHomeBannerInformationTitle": {},
     "settingsHomeBannerTitle": "Home-Banner",
     "@settingsHomeBannerTitle": {},
-    "settingsHomeNextUpDesc": "Art der im Dashboard-Bildschirm angezeigten Poster",
+    "settingsHomeNextUpDesc": "Art der auf der Dashboard Seite angezeigten Poster",
     "@settingsHomeNextUpDesc": {},
     "settingsPlayerNativeLibassAccelDesc": "Nutze den libass-Untertitel-Renderer im Videoplayer",
     "@settingsPlayerNativeLibassAccelDesc": {},
@@ -1024,7 +1024,7 @@
     "@syncNoFolderSetup": {},
     "defaultFilterForLibrary": "Standardfilter für Bibliothek",
     "@defaultFilterForLibrary": {},
-    "libraryFiltersLimitReached": "Filterlimit erreicht (10). Entferne einige Filter.",
+    "libraryFiltersLimitReached": "Filterlimit erreicht (10). Entferne Filter",
     "@libraryFiltersLimitReached": {},
     "aboutCreatedBy": "Erstellt von DonutWare",
     "@aboutCreatedBy": {},
@@ -1050,7 +1050,7 @@
     "@updateFilterForLibrary": {},
     "aboutSocials": "Socials",
     "@aboutSocials": {},
-    "unableToSyncItem": "{item} kann nicht synchronisiert werden, es ist ein Fehler aufgetreten.",
+    "unableToSyncItem": "{item} kann nicht synchronisiert werden, es ist ein Fehler aufgetreten",
     "@unableToSyncItem": {
         "placeholders": {
             "item": {
@@ -1058,7 +1058,7 @@
             }
         }
     },
-    "syncRemoveUnableToDeleteItem": "Synchronisiertes Element kann nicht entfernt werden, es ist ein Fehler aufgetreten.",
+    "syncRemoveUnableToDeleteItem": "Synchronisiertes Element kann nicht entfernt werden, es ist ein Fehler aufgetreten",
     "@syncRemoveUnableToDeleteItem": {},
     "syncAddItemForSyncing": "{item} zur Synchronisation hinzugefügt",
     "@syncAddItemForSyncing": {
@@ -1094,7 +1094,7 @@
     },
     "scale": "Skalierung",
     "@scale": {},
-    "subtitleConfiguration": "Konfiguration der Untertitel",
+    "subtitleConfiguration": "Untertitelkonfiguration",
     "@subtitleConfiguration": {},
     "removeFilterForLibrary": "{filter} entfernen?",
     "@removeFilterForLibrary": {
@@ -1105,17 +1105,17 @@
             }
         }
     },
-    "settingsAutoNextDesc": "Zeigt eine Vorschau des nächsten Elements gegen Ende an, wenn ein weiteres Element in der Warteschlange ist.",
+    "settingsAutoNextDesc": "Zeigt eine Vorschau des nächsten Elements gegen Ende an, wenn ein weiteres Element in der Warteschlange ist",
     "@settingsAutoNextDesc": {},
-    "autoNextOffSmartDesc": "Zeigt den Als Nächstes-Bildschirm, wenn der Abspann beginnt, sofern danach nicht mehr als 10 Sekunden verbleiben. Andernfalls wird der Als Nächstes-Bildschirm 30 Sekunden vor dem Ende der Wiedergabe angezeigt.",
+    "autoNextOffSmartDesc": "Zeigt den Als Nächstes-Bildschirm an, wenn der Abspann beginnt, sofern danach nicht mehr als 10 Sekunden verbleiben. Andernfalls wird der Als Nächstes-Bildschirm 30 Sekunden vor dem Ende der Wiedergabe angezeigt",
     "@autoNextOffSmartDesc": {},
     "autoNextOffStaticTitle": "Statisch",
     "@autoNextOffStaticTitle": {},
-    "autoNextOffStaticDesc": "Zeige den Als Nächstes-Bildschirm, wenn noch 30 Sekunden Wiedergabezeit verbleiben.",
+    "autoNextOffStaticDesc": "Zeige den Als Nächstes-Bildschirm, wenn 30 Sekunden Wiedergabezeit verbleiben",
     "@autoNextOffStaticDesc": {},
-    "errorOpeningMedia": "Beim Abspielen dieses Mediums ist ein Fehler aufgetreten.",
+    "errorOpeningMedia": "Beim Abspielen dieses Mediums ist ein Fehler aufgetreten",
     "@errorOpeningMedia": {},
-    "unableToPlayBooksOnWeb": "Bücher werden derzeit im Web nicht unterstützt.",
+    "unableToPlayBooksOnWeb": "Bücher werden derzeit im Web nicht unterstützt",
     "@unableToPlayBooksOnWeb": {},
     "clientSettingsShowAllCollectionsTitle": "Alle Kollektionstypen anzeigen",
     "@clientSettingsShowAllCollectionsTitle": {},
@@ -1187,7 +1187,7 @@
     "@autoNextOffSmartTitle": {},
     "clientSettingsRequireWifiDesc": "Nur herunterladen, wenn Sie mit einem WLAN-Netzwerk verbunden sind",
     "@clientSettingsRequireWifiDesc": {},
-    "clientSettingsShowAllCollectionsDesc": "Wenn aktiviert, werden alle Sammlungstypen angezeigt, einschließlich derjenigen, die von Fladder nicht unterstützt werden.",
+    "clientSettingsShowAllCollectionsDesc": "Wenn aktiviert, werden alle Sammlungstypen angezeigt, einschließlich derjenigen, die von Fladder nicht unterstützt werden",
     "@clientSettingsShowAllCollectionsDesc": {},
     "downloadFile": "{type} herunterladen",
     "@downloadFile": {
@@ -1209,7 +1209,7 @@
     "@mediaSegmentOutro": {},
     "masonry": "Masonry",
     "@masonry": {},
-    "settingsLayoutModesDesc": "Steuere, ob die App ein Einzelfenster- oder Zweifenster-Layout verwenden kann.",
+    "settingsLayoutModesDesc": "Steuere, ob die App ein Einzelfenster- oder Zweifenster-Layout verwenden kann",
     "@settingsLayoutModesDesc": {},
     "tablet": "Tablet",
     "@tablet": {},
@@ -1251,13 +1251,13 @@
     "@playerSettingsBackendTitle": {},
     "copiedToClipboard": "In die Zwischenablage kopiert",
     "@copiedToClipboard": {},
-    "libraryShuffleAndPlayItems": "Elemente mischen und abspielen",
+    "libraryShuffleAndPlayItems": "Elemente zufällig abspielen",
     "@libraryShuffleAndPlayItems": {},
     "libraryPlayItems": "Elemente abspielen",
     "@libraryPlayItems": {},
     "homeStreamingQualityTitle": "Qualität für Zuhause",
     "@homeStreamingQualityTitle": {},
-    "segmentActionAskToSkip": "Fragen, ob übersprungen werden soll",
+    "segmentActionAskToSkip": "Zum Überspringen fragen",
     "@segmentActionAskToSkip": {},
     "segmentActionSkip": "Überspringen",
     "@segmentActionSkip": {},
@@ -1271,13 +1271,13 @@
     "@playNextVideo": {},
     "external": "Extern",
     "@external": {},
-    "settingsAutoNextTitle": "Vorschau auf das Nächste",
+    "settingsAutoNextTitle": "Vorschau des nächsten Titels",
     "@settingsAutoNextTitle": {},
     "clientSettingsRequireWifiTitle": "WLAN erforderlich",
     "@clientSettingsRequireWifiTitle": {},
     "episodeUnaired": "Unveröffentlicht",
     "@episodeUnaired": {},
-    "episodeMissing": "Fehlend",
+    "episodeMissing": "Fehlt",
     "@episodeMissing": {},
     "castAndCrew": "Besetzung & Crew",
     "@castAndCrew": {},
@@ -1293,13 +1293,13 @@
     },
     "settingsPlayerBufferSizeTitle": "Videopuffergröße",
     "@settingsPlayerBufferSizeTitle": {},
-    "settingsPlayerBufferSizeDesc": "Konfigurieren Sie die Puffergröße für die Videowiedergabe und legen Sie fest, wie viele Daten in den Cache geladen werden.",
+    "settingsPlayerBufferSizeDesc": "Konfiguriere die Puffergröße für die Videowiedergabe und lege fest, wie viele Daten in den Cache geladen werden.",
     "@settingsPlayerBufferSizeDesc": {},
     "exitFladderTitle": "Fladder Beenden",
     "@exitFladderTitle": {},
     "maxConcurrentDownloadsTitle": "Maximale Anzahl gleichzeitiger Downloads",
     "@maxConcurrentDownloadsTitle": {},
-    "maxConcurrentDownloadsDesc": "Legt die maximale Anzahl gleichzeitig laufender Downloads fest. Setzen Sie den Wert auf 0, um die Begrenzung zu deaktivieren.",
+    "maxConcurrentDownloadsDesc": "Legt die maximale Anzahl gleichzeitig laufender Downloads fest. Setze den Wert auf 0, um die Begrenzung zu deaktivieren.",
     "@maxConcurrentDownloadsDesc": {},
     "rememberSubtitleSelections": "Untertitelspur basierend auf vorherigem Element einstellen",
     "@rememberSubtitleSelections": {},
@@ -1307,17 +1307,17 @@
     "@rememberAudioSelections": {},
     "similarToRecentlyPlayed": "Ähnlich wie kürzlich gespielt",
     "@similarToRecentlyPlayed": {},
-    "similarToLikedItem": "Ähnlich wie der gewünschte Artikel",
+    "similarToLikedItem": "Ähnlich zu gefallenem Element",
     "@similarToLikedItem": {},
     "hasActorFromRecentlyPlayed": "Hat Schauspieler aus vor kurzem gespielt",
     "@hasActorFromRecentlyPlayed": {},
-    "hasLikedActor": "Hat Schauspieler gemocht",
+    "hasLikedActor": "Hat Schauspieler der gefällt",
     "@hasLikedActor": {},
-    "latest": "Letzte",
+    "latest": "Neueste",
     "@latest": {},
     "recommended": "Empfohlen",
     "@recommended": {},
-    "hasLikedDirector": "Hat Regisseur gemocht",
+    "hasLikedDirector": "Hat Regisseur der gefällt",
     "@hasLikedDirector": {},
     "hasDirectorFromRecentlyPlayed": "Hat Regisseur von vor kurzem gespielt",
     "@hasDirectorFromRecentlyPlayed": {},
@@ -1343,9 +1343,9 @@
     "@autoCheckForUpdates": {},
     "newUpdateFoundOnGithub": "Neue Aktualisierung auf Github gefunden",
     "@newUpdateFoundOnGithub": {},
-    "rememberSubtitleSelectionsDesc": "Versuchen Sie, die Untertitelspur so einzustellen, dass sie dem letzten Video am nächsten kommt.",
+    "rememberSubtitleSelectionsDesc": "Versucht die Untertitelspur so einzustellen, dass sie dem letzten Video am nächsten kommt.",
     "@rememberSubtitleSelectionsDesc": {},
-    "rememberAudioSelectionsDesc": "Versuchen Sie, die Audiospur so einzustellen, dass sie dem letzten Video am nächsten kommt.",
+    "rememberAudioSelectionsDesc": "Versucht die Audiospur so einzustellen, dass sie dem letzten Video am nächsten kommt.",
     "@rememberAudioSelectionsDesc": {},
     "playbackTrackSelection": "Auswahl der Wiedergabespur",
     "@playbackTrackSelection": {},
@@ -1420,7 +1420,7 @@
     "@skipMediaSegment": {},
     "exit": "Beenden",
     "@exit": {},
-    "syncDeleteAllItemsDesc": "Dies wird alle synchronisierten Elemente aus '{itemName}' löschen.\nDies ist permanent und Sie müssen wieder synchronisieren ({itemCount}) Dateien.",
+    "syncDeleteAllItemsDesc": "Dies wird alle synchronisierten Elemente aus '{itemName}' löschen.\nDies ist permanent und Sie müssen ({itemCount}) Dateien erneut synchronisieren.",
     "@syncDeleteAllItemsDesc": {
         "description": "syncDeleteAllitemsFromDesc",
         "placeholders": {
@@ -1438,6 +1438,93 @@
     "@keyboardShortCuts": {},
     "clientSettingsUseSystemIMETitle": "Systemtastatur verwenden",
     "@clientSettingsUseSystemIMETitle": {},
-    "clientSettingsUseSystemIMEDesc": "Verwenden Sie die von Ihrem System bereitgestellte integrierte Tastatur",
-    "@clientSettingsUseSystemIMEDesc": {}
+    "clientSettingsUseSystemIMEDesc": "Verwende die vom System bereitgestellte integrierte Tastatur",
+    "@clientSettingsUseSystemIMEDesc": {},
+    "television": "Fernsehen",
+    "@television": {},
+    "exitFladderDesc": "Möchten Sie Fladder wirklich beenden?",
+    "@exitFladderDesc": {},
+    "syncAllItemsDesc": "Dies synchronisiert ({itemCount}) Elemente von '{itemName}' zu Ihrem Gerät .\nJe nach Anzahl der Elemente kann dies eine Weile dauern.",
+    "@syncAllItemsDesc": {
+        "description": "syncAllitemsFromDesc",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            },
+            "itemCount": {
+                "type": "int"
+            }
+        }
+    },
+    "syncDeleteAllItemsTitle": "Alle synchronisierten Elemente aus {itemName} löschen?",
+    "@syncDeleteAllItemsTitle": {
+        "description": "syncDeleteAllitemsFrom",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "skipForwardLength": "Länge zum Überspringen",
+    "@skipForwardLength": {},
+    "skipBackLength": "Länge zum Zurückspringen",
+    "@skipBackLength": {},
+    "seekForward": "Vorwärts suchen",
+    "@seekForward": {},
+    "seekBack": "Rückwärts suchen",
+    "@seekBack": {},
+    "speedUp": "Beschleunigen",
+    "@speedUp": {},
+    "speedDown": "Verlangsamen",
+    "@speedDown": {},
+    "shortCutAlreadyAssigned": "Die Tastenkombination '{hotKey}' ist bereits belegt",
+    "@shortCutAlreadyAssigned": {
+        "placeholders": {
+            "hotKey": {
+                "type": "String"
+            }
+        }
+    },
+    "speedIndicator": "Wiedergabegeschwindigkeit: {speed}",
+    "@speedIndicator": {
+        "placeholders": {
+            "speed": {
+                "type": "double"
+            }
+        }
+    },
+    "quickConnectPostFailed": "Quick Connect-Code konnte nicht abgerufen werden",
+    "@quickConnectPostFailed": {},
+    "quickConnectLoginUsingCode": "Quick Connect verwenden",
+    "@quickConnectLoginUsingCode": {},
+    "quickConnectEnterCodeDescription": "Gib den folgenden Code ein, um dich anzumelden",
+    "@quickConnectEnterCodeDescription": {},
+    "showMore": "Mehr anzeigen",
+    "@showMore": {},
+    "itemColorsTitle": "Item Farben",
+    "@itemColorsTitle": {},
+    "itemColorsDesc": "Verwende die Hauptfarbe des Items als Thema für die Detailseite",
+    "@itemColorsDesc": {},
+    "mediaTunnelingTitle": "Medientunneling",
+    "@mediaTunnelingTitle": {},
+    "mediaTunnelingDesc": "Medientunneling für nativen Player aktivieren",
+    "@mediaTunnelingDesc": {},
+    "nextUpInCount": "Als Nächstes in {seconds}",
+    "@nextUpInCount": {
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "formattedTime": "{time}",
+    "@formattedTime": {
+        "description": "Formatted time",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            }
+        }
+    }
 }
