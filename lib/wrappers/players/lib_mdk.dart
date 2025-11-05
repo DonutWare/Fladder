@@ -160,7 +160,10 @@ class LibMDK extends BasePlayer {
   }
 
   @override
-  Future<void> stop() async => _controller?.pause();
+  Future<void> stop() async {
+    await _controller?.pause();
+    await _controller?.seekTo(Duration.zero);
+  }
 
   @override
   Future<void> adjustSubtitleOffset(double offsetSeconds) async {
