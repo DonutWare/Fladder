@@ -30,6 +30,7 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
   MediaControlsWrapper({required this.ref});
 
   BasePlayer? _player;
+  SubStreamModel? _previousSubtitleStream;
 
   bool get hasPlayer => _player != null;
   
@@ -102,6 +103,9 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
   }
 
   Future<void> loadVideo(PlaybackModel model, Duration startPosition, bool play) async {
+    // Clear previous subtitle selection when loading a new video
+    _previousSubtitleStream = null;
+    
     if (_player is NativePlayer) {
       final context = ref.read(localizationContextProvider);
       await (_player as NativePlayer).sendPlaybackDataToNative(context, model, startPosition);
@@ -410,17 +414,22 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     
     final currentIndex = playbackModel?.mediaStreams?.defaultSubStreamIndex ?? -1;
     
-    // If subtitles are currently off (index -1 or SubStreamModel.no().index), turn them on with first available
-    // If subtitles are on, turn them off
     SubStreamModel? newSubtitleStream;
     if (currentIndex == -1 || currentIndex == SubStreamModel.no().index) {
-      // Turn subtitles on - find first non-"no" subtitle
-      newSubtitleStream = subStreams.firstWhere(
-        (stream) => stream.index != SubStreamModel.no().index,
+      // Turn subtitles on - restore previously chosen subtitle or use first available
+      newSubtitleStream = _previousSubtitleStream != null &&
+              subStreams.any((stream) => stream.index == _previousSubtitleStream!.index)
+          ? _previousSubtitleStream
+          : subStreams.firstWhere(
+              (stream) => stream.index != SubStreamModel.no().index,
+              orElse: () => subStreams.first,
+            );
+    } else {
+      // Turn subtitles off but remember the current selection
+      _previousSubtitleStream = subStreams.firstWhere(
+        (stream) => stream.index == currentIndex,
         orElse: () => subStreams.first,
       );
-    } else {
-      // Turn subtitles off
       newSubtitleStream = SubStreamModel.no();
     }
     
