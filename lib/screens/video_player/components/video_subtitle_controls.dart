@@ -222,7 +222,7 @@ class _VideoSubtitleControlsState extends ConsumerState<VideoSubtitleControls> {
                                           onChanged: (value) {
                                             final success = ref.read(subtitleOffsetProvider.notifier).setOffset(value);
                                             if (!success && context.mounted) {
-                                              fladderSnackbar(context, title: 'Subtitle offset not supported');
+                                              fladderSnackbar(context, title: context.localized.subtitleOffsetNotSupported);
                                             }
                                           },
                                         );
@@ -248,15 +248,15 @@ class _VideoSubtitleControlsState extends ConsumerState<VideoSubtitleControls> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  const Text("Subtitle Offset"),
+                                  Text(context.localized.subtitleOffset),
                                   ElevatedButton(
                                     onPressed: () {
                                       final success = ref.read(subtitleOffsetProvider.notifier).resetOffset();
                                       if (!success && context.mounted) {
-                                        fladderSnackbar(context, title: 'Subtitle offset not supported');
+                                        fladderSnackbar(context, title: context.localized.subtitleOffsetNotSupported);
                                       }
                                     },
-                                    child: const Text("Reset"),
+                                    child: Text(context.localized.reset),
                                   ),
                                 ],
                               ),

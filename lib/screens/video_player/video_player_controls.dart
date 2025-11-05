@@ -697,7 +697,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     if (!success) {
       ref.read(subtitleActionProvider.notifier).showAction(
         SubtitleAction.notSupported,
-        'Subtitle offset not supported',
+        context.localized.subtitleOffsetNotSupported,
       );
       return;
     }
