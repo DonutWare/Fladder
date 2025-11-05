@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/providers/subtitle_action_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 
@@ -12,11 +11,7 @@ class SubtitleOffsetNotifier extends StateNotifier<double> {
 
   final Ref ref;
 
-  @override
-  set state(double value) {
-    super.state = value;
-    ref.read(sharedUtilityProvider).subtitleOffset = value;
-  }
+
 
   bool setOffset(double value) {
     state = value;

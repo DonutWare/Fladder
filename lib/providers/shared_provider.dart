@@ -51,7 +51,7 @@ class SharedUtility {
       ref.read(homeSettingsProvider.notifier).state = homeSettings;
       ref.read(videoPlayerSettingsProvider.notifier).state = videoPlayerSettings;
       ref.read(subtitleSettingsProvider.notifier).state = subtitleSettings;
-      ref.read(subtitleOffsetProvider.notifier).setOffset(subtitleOffset);
+
       ref.read(bookViewerSettingsProvider.notifier).state = bookViewSettings;
       ref.read(photoViewSettingsProvider.notifier).state = photoViewSettings;
       return true;
@@ -224,13 +224,7 @@ class SharedUtility {
     sharedPreferences.setString(_photoViewSettingsKey, settings.toJson());
   }
 
-  double get subtitleOffset {
-    return sharedPreferences.getDouble(_subtitleOffsetKey) ?? 0.0;
-  }
 
-  set subtitleOffset(double offset) {
-    sharedPreferences.setDouble(_subtitleOffsetKey, offset);
-  }
 }
 
 const String _loginCredentialsKey = 'loginCredentialsKey';
@@ -240,4 +234,3 @@ const String _videoPlayerSettingsKey = 'videoPlayerSettings';
 const String _subtitleSettingsKey = 'subtitleSettings';
 const String _bookViewSettingsKey = 'bookViewSettings';
 const String _photoViewSettingsKey = 'photoViewSettings';
-const String _subtitleOffsetKey = 'subtitleOffset';
