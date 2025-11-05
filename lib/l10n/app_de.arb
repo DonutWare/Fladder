@@ -1431,5 +1431,13 @@
                 "type": "int"
             }
         }
-    }
+    },
+    "shortCuts": "Shortcuts",
+    "@shortCuts": {},
+    "keyboardShortCuts": "Tastenkombinationen",
+    "@keyboardShortCuts": {},
+    "clientSettingsUseSystemIMETitle": "Systemtastatur verwenden",
+    "@clientSettingsUseSystemIMETitle": {},
+    "clientSettingsUseSystemIMEDesc": "Verwenden Sie die von Ihrem System bereitgestellte integrierte Tastatur",
+    "@clientSettingsUseSystemIMEDesc": {}
 }
