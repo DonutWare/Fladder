@@ -90,9 +90,8 @@ class _VideoPlayerSubtitleIndicatorState extends ConsumerState<VideoPlayerSubtit
       case SubtitleAction.prevTrack:
         return IconsaxPlusLinear.previous;
       case SubtitleAction.offsetIncrease:
-        return IconsaxPlusLinear.arrow_up_2;
       case SubtitleAction.offsetDecrease:
-        return IconsaxPlusLinear.arrow_down_2;
+        return IconsaxPlusLinear.clock;
       case SubtitleAction.notSupported:
         return IconsaxPlusLinear.close_circle;
       default:
