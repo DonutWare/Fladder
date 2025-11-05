@@ -20,7 +20,6 @@ class SubtitleOffsetNotifier extends StateNotifier<double> {
 
   void setOffset(double value) {
     state = value;
-    // Also apply the offset to the actual player
     _applyOffsetToPlayer(value);
   }
 
@@ -36,14 +35,11 @@ class SubtitleOffsetNotifier extends StateNotifier<double> {
   }
 
   void _applyOffsetToPlayer(double offset) {
-    // Apply the offset to the video player
     final player = ref.read(videoPlayerProvider);
     
-    // Check if the current player supports subtitle offset
     if (player.player?.supportsSubtitleOffset == true) {
       player.adjustSubtitleOffset(offset);
     } else {
-      // Show "not supported" message for non-MPV players
       ref.read(subtitleActionProvider.notifier).showAction(
         SubtitleAction.notSupported,
         'Subtitle offset not supported',
