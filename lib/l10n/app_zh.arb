@@ -1207,7 +1207,7 @@
     "@mediaSegmentCommercial": {},
     "errorLogs": "错误日志",
     "@errorLogs": {},
-    "external": "外部的",
+    "external": "外部链接",
     "@external": {},
     "downloadFile": "下载{type}",
     "@downloadFile": {
