@@ -696,7 +696,9 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     
     if (!success) {
       final backend = ref.read(videoPlayerProvider).backend?.label(context) ?? context.localized.unknown;
-      ref.read(subtitleActionProvider.notifier).showNotSupported(backend);
+      ref.read(subtitleActionProvider.notifier).showNotSupported(
+        "${context.localized.subtitleOffsetNotSupported} ($backend)"
+      );
       return;
     }
     

@@ -44,10 +44,10 @@ class SubtitleActionNotifier extends StateNotifier<SubtitleActionState?> {
     );
   }
 
-  void showNotSupported(String playerBackend) {
+  void showNotSupported(String message) {
     state = SubtitleActionState(
       action: SubtitleAction.notSupported,
-      message: context.localizations.subtitleOffsetNotSupported(playerBackend),
+      message: message,
       timestamp: DateTime.now(),
     );
   }
