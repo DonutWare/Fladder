@@ -27,7 +27,7 @@
   
   <screenshots>
     <screenshot type="default">
-      <image>https://raw.githubusercontent.com/DonutWare/Fladder/develop/assets/marketing/screenshot1.png</image>
+      <image>https://raw.githubusercontent.com/DonutWare/Fladder/v0.8.0/assets/marketing/screenshot1.png</image>
       <caption>Main interface</caption>
     </screenshot>
   </screenshots>
@@ -45,7 +45,7 @@
   </content_rating>
   
   <releases>
-    <release version="0.0.0" date="1970-01-01">
+    <release version="0.8.0" date="2025-11-01">
       <description>
         <p>Latest release - see GitHub for detailed changelog</p>
       </description>
