@@ -31,7 +31,6 @@ import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/map_bool_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/util/string_extensions.dart';
-import 'package:fladder/widgets/shared/fladder_slider.dart';
 import 'package:fladder/widgets/shared/enum_selection.dart';
 import 'package:fladder/widgets/shared/fladder_slider.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
@@ -624,7 +623,6 @@ Future<void> showSubtitleOffset(BuildContext context) {
       return StatefulBuilder(builder: (context, setState) {
         return Consumer(
           builder: (context, ref, child) {
-            final player = ref.watch(videoPlayerProvider);
             final offset = ref.watch(subtitleOffsetProvider);
             return SimpleDialog(
               contentPadding: const EdgeInsets.only(top: 8, bottom: 24),

@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fladder/providers/subtitle_action_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 
 final subtitleOffsetProvider = StateNotifierProvider<SubtitleOffsetNotifier, double>((ref) {

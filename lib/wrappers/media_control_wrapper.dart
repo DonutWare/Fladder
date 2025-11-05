@@ -317,7 +317,7 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
 
   Future<int> setSubtitleTrack(SubStreamModel? model, PlaybackModel playbackModel) async {
     // Reset subtitle offset when changing subtitle tracks
-    ref.read(subtitleOffsetProvider.notifier).state = 0.0;
+    ref.read(subtitleOffsetProvider.notifier).resetOffset();
     
     return await _player?.setSubtitleTrack(model, playbackModel) ?? -1;
   }
