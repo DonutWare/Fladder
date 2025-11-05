@@ -4,10 +4,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
-import 'package:fladder/providers/settings/subtitle_offset_provider.dart';
 import 'package:fladder/providers/settings/subtitle_settings_provider.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
-import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/widget_extensions.dart';
@@ -203,65 +201,6 @@ class _VideoSubtitleControlsState extends ConsumerState<VideoSubtitleControls> {
                               Text(context.localized.heightOffset),
                             ],
                           ).addVisiblity(activeKey == null ? controlsHidden : activeKey == const Key('verticalOffset')),
-                          Column(
-                            children: [
-                              Row(
-                                children: [
-                                  const Icon(Icons.schedule_rounded),
-                                  Flexible(
-                                    child: Consumer(
-                                      builder: (context, ref, child) {
-                                        final offset = ref.watch(subtitleOffsetProvider);
-                                        return FladderSlider(
-                                          min: -30.0,
-                                          max: 30.0,
-                                          divisions: 120,
-                                          onChangeStart: (value) => setOpacity(const Key('subtitleOffset')),
-                                          onChangeEnd: (value) => setOpacity(null),
-                                          value: offset.clamp(-30.0, 30.0),
-                                          onChanged: (value) {
-                                            final success = ref.read(subtitleOffsetProvider.notifier).setOffset(value);
-                                            if (!success && context.mounted) {
-                                              fladderSnackbar(context, title: context.localized.subtitleOffsetNotSupported);
-                                            }
-                                          },
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                  ConstrainedBox(
-                                    constraints: const BoxConstraints(
-                                      minWidth: 50,
-                                    ),
-                                    child: Consumer(
-                                      builder: (context, ref, child) {
-                                        final offset = ref.watch(subtitleOffsetProvider);
-                                        return Text(
-                                          "${offset >= 0 ? '+' : ''}${offset.toStringAsFixed(1)}s",
-                                          textAlign: TextAlign.center,
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text(context.localized.subtitleOffset),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      final success = ref.read(subtitleOffsetProvider.notifier).resetOffset();
-                                      if (!success && context.mounted) {
-                                        fladderSnackbar(context, title: context.localized.subtitleOffsetNotSupported);
-                                      }
-                                    },
-                                    child: Text(context.localized.reset),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ).addVisiblity(activeKey == null ? controlsHidden : activeKey == const Key('subtitleOffset')),
                           Column(
                             children: [
                               Row(

@@ -13,12 +13,14 @@ import 'package:fladder/models/playback/offline_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/playback/transcode_playback_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
+import 'package:fladder/providers/settings/subtitle_offset_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/collections/add_to_collection.dart';
 import 'package:fladder/screens/metadata/info_screen.dart';
 import 'package:fladder/screens/playlists/add_to_playlists.dart';
+import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/screens/video_player/components/video_player_quality_controls.dart';
 import 'package:fladder/screens/video_player/components/video_player_queue.dart';
 import 'package:fladder/screens/video_player/components/video_subtitle_controls.dart';
@@ -29,6 +31,7 @@ import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/map_bool_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/util/string_extensions.dart';
+import 'package:fladder/widgets/shared/fladder_slider.dart';
 import 'package:fladder/widgets/shared/enum_selection.dart';
 import 'package:fladder/widgets/shared/fladder_slider.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
@@ -204,6 +207,29 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
               ],
             ),
           ),
+          if (ref.watch(videoPlayerProvider).supportsSubtitleOffset)
+            ListTile(
+              onTap: () {
+                Navigator.of(context).pop();
+                showSubtitleOffset(context);
+              },
+              title: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: Text(context.localized.subtitleOffset),
+                  ),
+                  const Spacer(),
+                  Consumer(
+                    builder: (context, ref, child) {
+                      final offset = ref.watch(subtitleOffsetProvider);
+                      return Text("${offset >= 0 ? '+' : ''}${offset.toStringAsFixed(1)}s");
+                    },
+                  ),
+                ],
+              ),
+            ),
           if (bitRateOptions?.isNotEmpty == true)
             ListTile(
               title: Row(
@@ -585,6 +611,75 @@ Future<void> showOrientationOptions(BuildContext context, WidgetRef ref) async {
               ),
             )
           ],
+        );
+      });
+    },
+  );
+}
+
+Future<void> showSubtitleOffset(BuildContext context) {
+  return showDialog(
+    context: context,
+    builder: (context) {
+      return StatefulBuilder(builder: (context, setState) {
+        return Consumer(
+          builder: (context, ref, child) {
+            final player = ref.watch(videoPlayerProvider);
+            final offset = ref.watch(subtitleOffsetProvider);
+            return SimpleDialog(
+              contentPadding: const EdgeInsets.only(top: 8, bottom: 24),
+              title: Row(children: [Text(context.localized.subtitleOffset)]),
+              children: [
+                const Divider(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12).copyWith(top: 6),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text("${context.localized.subtitleOffset}: "),
+                          Flexible(
+                            child: SizedBox(
+                              width: 250,
+                              child: FladderSlider(
+                                min: -30.0,
+                                max: 30.0,
+                                value: offset.clamp(-30.0, 30.0),
+                                divisions: 120,
+                                onChanged: (value) {
+                                  final success = ref.read(subtitleOffsetProvider.notifier).setOffset(value);
+                                  if (!success && context.mounted) {
+                                    fladderSnackbar(context, title: context.localized.subtitleOffsetNotSupported);
+                                  }
+                                },
+                              ),
+                            ),
+                          ),
+                          Text("${offset >= 0 ? '+' : ''}${offset.toStringAsFixed(1)}s")
+                        ].addInBetween(const SizedBox(width: 8)),
+                      ),
+                      const SizedBox(height: 16),
+                      ElevatedButton(
+                        onPressed: () {
+                          final success = ref.read(subtitleOffsetProvider.notifier).resetOffset();
+                          if (!success && context.mounted) {
+                            fladderSnackbar(context, title: context.localized.subtitleOffsetNotSupported);
+                          }
+                        },
+                        child: Text(context.localized.reset),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            );
+          },
         );
       });
     },
