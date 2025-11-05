@@ -44,6 +44,14 @@ class SubtitleActionNotifier extends StateNotifier<SubtitleActionState?> {
     );
   }
 
+  void showNotSupported(String playerBackend) {
+    state = SubtitleActionState(
+      action: SubtitleAction.notSupported,
+      message: 'Offset not supported by $playerBackend',
+      timestamp: DateTime.now(),
+    );
+  }
+
   void clear() {
     state = null;
   }
