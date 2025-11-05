@@ -32,7 +32,7 @@ class SubtitleOffsetNotifier extends StateNotifier<double> {
   bool _applyOffsetToPlayer(double offset) {
     final player = ref.read(videoPlayerProvider);
     
-    if (player.player?.supportsSubtitleOffset == true) {
+    if (player.supportsSubtitleOffset) {
       player.adjustSubtitleOffset(offset);
       return true;
     } else {

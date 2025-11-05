@@ -33,7 +33,7 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
 
   bool get hasPlayer => _player != null;
   
-  BasePlayer? get player => _player;
+  bool get supportsSubtitleOffset => _player?.supportsSubtitleOffset == true;
 
   PlayerOptions? get backend => switch (_player) {
         LibMPV _ => PlayerOptions.libMPV,
