@@ -15,6 +15,7 @@ import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
+import 'package:fladder/providers/settings/subtitle_offset_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/src/video_player_helper.g.dart' hide PlaybackState;
@@ -314,8 +315,12 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
   Future<int> setAudioTrack(AudioStreamModel? model, PlaybackModel playbackModel) async =>
       await _player?.setAudioTrack(model, playbackModel) ?? -1;
 
-  Future<int> setSubtitleTrack(SubStreamModel? model, PlaybackModel playbackModel) async =>
-      await _player?.setSubtitleTrack(model, playbackModel) ?? -1;
+  Future<int> setSubtitleTrack(SubStreamModel? model, PlaybackModel playbackModel) async {
+    // Reset subtitle offset when changing subtitle tracks
+    ref.read(subtitleOffsetProvider.notifier).state = 0.0;
+    
+    return await _player?.setSubtitleTrack(model, playbackModel) ?? -1;
+  }
 
   Future<void> setVolume(double volume) async => _player?.setVolume(volume);
 
