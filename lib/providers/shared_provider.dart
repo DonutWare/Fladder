@@ -51,7 +51,6 @@ class SharedUtility {
       ref.read(homeSettingsProvider.notifier).state = homeSettings;
       ref.read(videoPlayerSettingsProvider.notifier).state = videoPlayerSettings;
       ref.read(subtitleSettingsProvider.notifier).state = subtitleSettings;
-      // Use setOffset to ensure the player is also updated with the saved offset
       ref.read(subtitleOffsetProvider.notifier).setOffset(subtitleOffset);
       ref.read(bookViewerSettingsProvider.notifier).state = bookViewSettings;
       ref.read(photoViewSettingsProvider.notifier).state = photoViewSettings;

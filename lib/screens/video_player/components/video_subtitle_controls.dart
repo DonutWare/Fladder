@@ -7,6 +7,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/providers/settings/subtitle_offset_provider.dart';
 import 'package:fladder/providers/settings/subtitle_settings_provider.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
+import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/widget_extensions.dart';
@@ -218,7 +219,12 @@ class _VideoSubtitleControlsState extends ConsumerState<VideoSubtitleControls> {
                                           onChangeStart: (value) => setOpacity(const Key('subtitleOffset')),
                                           onChangeEnd: (value) => setOpacity(null),
                                           value: offset.clamp(-30.0, 30.0),
-                                          onChanged: (value) => ref.read(subtitleOffsetProvider.notifier).setOffset(value),
+                                          onChanged: (value) {
+                                            final success = ref.read(subtitleOffsetProvider.notifier).setOffset(value);
+                                            if (!success && context.mounted) {
+                                              fladderSnackbar(context, title: 'Subtitle offset not supported');
+                                            }
+                                          },
                                         );
                                       },
                                     ),
@@ -244,7 +250,12 @@ class _VideoSubtitleControlsState extends ConsumerState<VideoSubtitleControls> {
                                 children: [
                                   const Text("Subtitle Offset"),
                                   ElevatedButton(
-                                    onPressed: () => ref.read(subtitleOffsetProvider.notifier).resetOffset(),
+                                    onPressed: () {
+                                      final success = ref.read(subtitleOffsetProvider.notifier).resetOffset();
+                                      if (!success && context.mounted) {
+                                        fladderSnackbar(context, title: 'Subtitle offset not supported');
+                                      }
+                                    },
                                     child: const Text("Reset"),
                                   ),
                                 ],

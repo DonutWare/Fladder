@@ -692,8 +692,15 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   }
 
   void _adjustSubtitleOffset(double offsetChange) async {
-    // Use the provider's adjustOffset method which handles both state and player updates
-    ref.read(subtitleOffsetProvider.notifier).adjustOffset(offsetChange);
+    final success = ref.read(subtitleOffsetProvider.notifier).adjustOffset(offsetChange);
+    
+    if (!success) {
+      ref.read(subtitleActionProvider.notifier).showAction(
+        SubtitleAction.notSupported,
+        'Subtitle offset not supported',
+      );
+      return;
+    }
     
     // Get the new offset value for the OSD
     final newOffset = ref.read(subtitleOffsetProvider);

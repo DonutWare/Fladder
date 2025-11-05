@@ -18,32 +18,30 @@ class SubtitleOffsetNotifier extends StateNotifier<double> {
     ref.read(sharedUtilityProvider).subtitleOffset = value;
   }
 
-  void setOffset(double value) {
+  bool setOffset(double value) {
     state = value;
-    _applyOffsetToPlayer(value);
+    return _applyOffsetToPlayer(value);
   }
 
-  void adjustOffset(double delta) {
+  bool adjustOffset(double delta) {
     final newValue = (state + delta).clamp(-30.0, 30.0);
     state = newValue;
-    _applyOffsetToPlayer(newValue);
+    return _applyOffsetToPlayer(newValue);
   }
 
-  void resetOffset() {
+  bool resetOffset() {
     state = 0.0;
-    _applyOffsetToPlayer(0.0);
+    return _applyOffsetToPlayer(0.0);
   }
 
-  void _applyOffsetToPlayer(double offset) {
+  bool _applyOffsetToPlayer(double offset) {
     final player = ref.read(videoPlayerProvider);
     
     if (player.player?.supportsSubtitleOffset == true) {
       player.adjustSubtitleOffset(offset);
+      return true;
     } else {
-      ref.read(subtitleActionProvider.notifier).showAction(
-        SubtitleAction.notSupported,
-        'Subtitle offset not supported',
-      );
+      return false;
     }
   }
 }
