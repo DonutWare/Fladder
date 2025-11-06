@@ -503,11 +503,19 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
         await ref.read(backgroundDownloaderProvider).cancelTaskWithId(currentTask.id);
       }
       if (!skipDownload) {
+        // Sanitize filename to avoid path separators causing ArgumentError.
+        final rawFilename = syncItem.videoFileName;
+        final safeFilename = path.basename(rawFilename ?? 'unknown').replaceAll(RegExp(r'[\\/]+'), '_');
+        if (safeFilename != rawFilename) {
+          // Update syncItem expectation so completion detection (videoFile.existsSync) matches saved file.
+          syncItem = syncItem.copyWith(videoFileName: safeFilename);
+          await updateItem(syncItem); // persist new filename
+        }
         final downloadTask = DownloadTask(
           taskId: syncItem.id,
           url: Uri.parse(downloadUrl).toString(),
           directory: syncItem.directory.path,
-          filename: syncItem.videoFileName,
+          filename: safeFilename,
           updates: Updates.statusAndProgress,
           baseDirectory: BaseDirectory.root,
           urlQueryParameters: {"api_key": user.credentials.token},
