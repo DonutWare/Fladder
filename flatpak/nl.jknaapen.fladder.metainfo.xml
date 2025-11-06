@@ -27,8 +27,24 @@
   
   <screenshots>
     <screenshot type="default">
-      <image>https://raw.githubusercontent.com/DonutWare/Fladder/v0.8.0/assets/marketing/screenshot1.png</image>
-      <caption>Main interface</caption>
+      <image>https://raw.githubusercontent.com/DonutWare/Fladder/develop/assets/marketing/screenshots/Tablet/Dashboard.png</image>
+      <caption>Main dashboard</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/DonutWare/Fladder/develop/assets/marketing/screenshots/Tablet/Library.png</image>
+      <caption>Media library view</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/DonutWare/Fladder/develop/assets/marketing/screenshots/Tablet/Details.png</image>
+      <caption>Content details</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/DonutWare/Fladder/develop/assets/marketing/screenshots/Tablet/Player.png</image>
+      <caption>Video player</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/DonutWare/Fladder/develop/assets/marketing/screenshots/Tablet/Library_Search.png</image>
+      <caption>Library search</caption>
     </screenshot>
   </screenshots>
   
