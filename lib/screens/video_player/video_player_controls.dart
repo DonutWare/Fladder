@@ -626,23 +626,23 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     if (showOverlay == (value ?? !showOverlay)) return;
     setState(() => showOverlay = (value ?? !showOverlay));
     resetTimer();
-    
-    // Determine the desired SystemUiMode based on overlay state
+
     final desiredMode = showOverlay ? SystemUiMode.edgeToEdge : SystemUiMode.immersiveSticky;
-    
-    // Only update SystemUiMode if it's actually changing
+
     if (_currentSystemUiMode != desiredMode) {
       _currentSystemUiMode = desiredMode;
       SystemChrome.setEnabledSystemUIMode(desiredMode, overlays: []);
     }
-    
+
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       systemNavigationBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.light,
       systemNavigationBarDividerColor: Colors.transparent,
     ));
-  }  void minimizePlayer(BuildContext context) {
+  }
+
+  void minimizePlayer(BuildContext context) {
     clearOverlaySettings();
     ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(state: VideoPlayerState.minimized));
     Navigator.of(context).pop();

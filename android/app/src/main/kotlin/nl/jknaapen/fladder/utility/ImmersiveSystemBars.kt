@@ -28,7 +28,6 @@ fun ImmersiveSystemBars(isImmersive: Boolean) {
         }
 
         onDispose {
-            // Restore system bars when leaving immersive mode
             controller?.show(androidx.core.view.WindowInsetsCompat.Type.systemBars())
         }
     }
