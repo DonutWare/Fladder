@@ -1066,7 +1066,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param maxVideoBitDepth Optional. The maximum video bit depth.
   ///@param requireAvc Optional. Whether to require avc.
   ///@param deInterlace Optional. Whether to deinterlace the video.
-  ///@param requireNonAnamorphic Optional. Whether to require a non anamporphic stream.
+  ///@param requireNonAnamorphic Optional. Whether to require a non anamorphic stream.
   ///@param transcodingMaxAudioChannels Optional. The maximum number of audio channels to transcode.
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
@@ -1223,7 +1223,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param maxVideoBitDepth Optional. The maximum video bit depth.
   ///@param requireAvc Optional. Whether to require avc.
   ///@param deInterlace Optional. Whether to deinterlace the video.
-  ///@param requireNonAnamorphic Optional. Whether to require a non anamporphic stream.
+  ///@param requireNonAnamorphic Optional. Whether to require a non anamorphic stream.
   ///@param transcodingMaxAudioChannels Optional. The maximum number of audio channels to transcode.
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
@@ -1328,7 +1328,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param maxVideoBitDepth Optional. The maximum video bit depth.
   ///@param requireAvc Optional. Whether to require avc.
   ///@param deInterlace Optional. Whether to deinterlace the video.
-  ///@param requireNonAnamorphic Optional. Whether to require a non anamporphic stream.
+  ///@param requireNonAnamorphic Optional. Whether to require a non anamorphic stream.
   ///@param transcodingMaxAudioChannels Optional. The maximum number of audio channels to transcode.
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
@@ -1485,7 +1485,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param maxVideoBitDepth Optional. The maximum video bit depth.
   ///@param requireAvc Optional. Whether to require avc.
   ///@param deInterlace Optional. Whether to deinterlace the video.
-  ///@param requireNonAnamorphic Optional. Whether to require a non anamporphic stream.
+  ///@param requireNonAnamorphic Optional. Whether to require a non anamorphic stream.
   ///@param transcodingMaxAudioChannels Optional. The maximum number of audio channels to transcode.
   ///@param cpuCoreLimit Optional. The limit of how many cpu cores to use.
   ///@param liveStreamId The live stream id.
@@ -1552,11 +1552,76 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
   });
 
-  ///Gets branding configuration.
-  Future<chopper.Response<BrandingOptions>> brandingConfigurationGet() {
+  ///Gets a list of all currently present backups in the backup directory.
+  Future<chopper.Response<List<BackupManifestDto>>> backupGet() {
     generatedMapping.putIfAbsent(
-      BrandingOptions,
-      () => BrandingOptions.fromJsonFactory,
+      BackupManifestDto,
+      () => BackupManifestDto.fromJsonFactory,
+    );
+
+    return _backupGet();
+  }
+
+  ///Gets a list of all currently present backups in the backup directory.
+  @GET(path: '/Backup')
+  Future<chopper.Response<List<BackupManifestDto>>> _backupGet();
+
+  ///Creates a new Backup.
+  Future<chopper.Response<BackupManifestDto>> backupCreatePost({
+    required BackupOptionsDto? body,
+  }) {
+    generatedMapping.putIfAbsent(
+      BackupManifestDto,
+      () => BackupManifestDto.fromJsonFactory,
+    );
+
+    return _backupCreatePost(body: body);
+  }
+
+  ///Creates a new Backup.
+  @POST(path: '/Backup/Create', optionalBody: true)
+  Future<chopper.Response<BackupManifestDto>> _backupCreatePost({
+    @Body() required BackupOptionsDto? body,
+  });
+
+  ///Gets the descriptor from an existing archive is present.
+  ///@param path The data to start a restore process.
+  Future<chopper.Response<BackupManifestDto>> backupManifestGet({
+    required String? path,
+  }) {
+    generatedMapping.putIfAbsent(
+      BackupManifestDto,
+      () => BackupManifestDto.fromJsonFactory,
+    );
+
+    return _backupManifestGet(path: path);
+  }
+
+  ///Gets the descriptor from an existing archive is present.
+  ///@param path The data to start a restore process.
+  @GET(path: '/Backup/Manifest')
+  Future<chopper.Response<BackupManifestDto>> _backupManifestGet({
+    @Query('path') required String? path,
+  });
+
+  ///Restores to a backup by restarting the server and applying the backup.
+  Future<chopper.Response> backupRestorePost({
+    required BackupRestoreRequestDto? body,
+  }) {
+    return _backupRestorePost(body: body);
+  }
+
+  ///Restores to a backup by restarting the server and applying the backup.
+  @POST(path: '/Backup/Restore', optionalBody: true)
+  Future<chopper.Response> _backupRestorePost({
+    @Body() required BackupRestoreRequestDto? body,
+  });
+
+  ///Gets branding configuration.
+  Future<chopper.Response<BrandingOptionsDto>> brandingConfigurationGet() {
+    generatedMapping.putIfAbsent(
+      BrandingOptionsDto,
+      () => BrandingOptionsDto.fromJsonFactory,
     );
 
     return _brandingConfigurationGet();
@@ -1564,7 +1629,7 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Gets branding configuration.
   @GET(path: '/Branding/Configuration')
-  Future<chopper.Response<BrandingOptions>> _brandingConfigurationGet();
+  Future<chopper.Response<BrandingOptionsDto>> _brandingConfigurationGet();
 
   ///Gets branding css.
   Future<chopper.Response<String>> brandingCssGet() {
@@ -1929,6 +1994,19 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _systemConfigurationKeyPost({
     @Path('key') required String? key,
     @Body() required Object? body,
+  });
+
+  ///Updates branding configuration.
+  Future<chopper.Response> systemConfigurationBrandingPost({
+    required BrandingOptionsDto? body,
+  }) {
+    return _systemConfigurationBrandingPost(body: body);
+  }
+
+  ///Updates branding configuration.
+  @POST(path: '/System/Configuration/Branding', optionalBody: true)
+  Future<chopper.Response> _systemConfigurationBrandingPost({
+    @Body() required BrandingOptionsDto? body,
   });
 
   ///Gets a default MetadataOptions object.
@@ -5309,73 +5387,23 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///Generates or gets the splashscreen.
   ///@param tag Supply the cache tag from the item object to receive strong caching headers.
   ///@param format Determines the output format of the image - original,gif,jpg,png.
-  ///@param maxWidth The maximum image width to return.
-  ///@param maxHeight The maximum image height to return.
-  ///@param width The fixed image width to return.
-  ///@param height The fixed image height to return.
-  ///@param fillWidth Width of box to fill.
-  ///@param fillHeight Height of box to fill.
-  ///@param blur Blur image.
-  ///@param backgroundColor Apply a background color for transparent images.
-  ///@param foregroundLayer Apply a foreground layer on top of the image.
-  ///@param quality Quality setting, from 0-100.
   Future<chopper.Response<String>> brandingSplashscreenGet({
     String? tag,
     enums.BrandingSplashscreenGetFormat? format,
-    int? maxWidth,
-    int? maxHeight,
-    int? width,
-    int? height,
-    int? fillWidth,
-    int? fillHeight,
-    int? blur,
-    String? backgroundColor,
-    String? foregroundLayer,
-    int? quality,
   }) {
     return _brandingSplashscreenGet(
       tag: tag,
       format: format?.value?.toString(),
-      maxWidth: maxWidth,
-      maxHeight: maxHeight,
-      width: width,
-      height: height,
-      fillWidth: fillWidth,
-      fillHeight: fillHeight,
-      blur: blur,
-      backgroundColor: backgroundColor,
-      foregroundLayer: foregroundLayer,
-      quality: quality,
     );
   }
 
   ///Generates or gets the splashscreen.
   ///@param tag Supply the cache tag from the item object to receive strong caching headers.
   ///@param format Determines the output format of the image - original,gif,jpg,png.
-  ///@param maxWidth The maximum image width to return.
-  ///@param maxHeight The maximum image height to return.
-  ///@param width The fixed image width to return.
-  ///@param height The fixed image height to return.
-  ///@param fillWidth Width of box to fill.
-  ///@param fillHeight Height of box to fill.
-  ///@param blur Blur image.
-  ///@param backgroundColor Apply a background color for transparent images.
-  ///@param foregroundLayer Apply a foreground layer on top of the image.
-  ///@param quality Quality setting, from 0-100.
   @GET(path: '/Branding/Splashscreen')
   Future<chopper.Response<String>> _brandingSplashscreenGet({
     @Query('tag') String? tag,
     @Query('format') String? format,
-    @Query('maxWidth') int? maxWidth,
-    @Query('maxHeight') int? maxHeight,
-    @Query('width') int? width,
-    @Query('height') int? height,
-    @Query('fillWidth') int? fillWidth,
-    @Query('fillHeight') int? fillHeight,
-    @Query('blur') int? blur,
-    @Query('backgroundColor') String? backgroundColor,
-    @Query('foregroundLayer') String? foregroundLayer,
-    @Query('quality') int? quality,
   });
 
   ///Uploads a custom splashscreen.
@@ -7751,54 +7779,15 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param userId User id.
   ///@param tag Optional. Supply the cache tag from the item object to receive strong caching headers.
   ///@param format Determines the output format of the image - original,gif,jpg,png.
-  ///@param maxWidth The maximum image width to return.
-  ///@param maxHeight The maximum image height to return.
-  ///@param percentPlayed Optional. Percent to render for the percent played overlay.
-  ///@param unplayedCount Optional. Unplayed count overlay to render.
-  ///@param width The fixed image width to return.
-  ///@param height The fixed image height to return.
-  ///@param quality Optional. Quality setting, from 0-100. Defaults to 90 and should suffice in most cases.
-  ///@param fillWidth Width of box to fill.
-  ///@param fillHeight Height of box to fill.
-  ///@param blur Optional. Blur image.
-  ///@param backgroundColor Optional. Apply a background color for transparent images.
-  ///@param foregroundLayer Optional. Apply a foreground layer on top of the image.
-  ///@param imageIndex Image index.
   Future<chopper.Response<String>> userImageGet({
     String? userId,
     String? tag,
     enums.UserImageGetFormat? format,
-    int? maxWidth,
-    int? maxHeight,
-    num? percentPlayed,
-    int? unplayedCount,
-    int? width,
-    int? height,
-    int? quality,
-    int? fillWidth,
-    int? fillHeight,
-    int? blur,
-    String? backgroundColor,
-    String? foregroundLayer,
-    int? imageIndex,
   }) {
     return _userImageGet(
       userId: userId,
       tag: tag,
       format: format?.value?.toString(),
-      maxWidth: maxWidth,
-      maxHeight: maxHeight,
-      percentPlayed: percentPlayed,
-      unplayedCount: unplayedCount,
-      width: width,
-      height: height,
-      quality: quality,
-      fillWidth: fillWidth,
-      fillHeight: fillHeight,
-      blur: blur,
-      backgroundColor: backgroundColor,
-      foregroundLayer: foregroundLayer,
-      imageIndex: imageIndex,
     );
   }
 
@@ -7806,91 +7795,26 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param userId User id.
   ///@param tag Optional. Supply the cache tag from the item object to receive strong caching headers.
   ///@param format Determines the output format of the image - original,gif,jpg,png.
-  ///@param maxWidth The maximum image width to return.
-  ///@param maxHeight The maximum image height to return.
-  ///@param percentPlayed Optional. Percent to render for the percent played overlay.
-  ///@param unplayedCount Optional. Unplayed count overlay to render.
-  ///@param width The fixed image width to return.
-  ///@param height The fixed image height to return.
-  ///@param quality Optional. Quality setting, from 0-100. Defaults to 90 and should suffice in most cases.
-  ///@param fillWidth Width of box to fill.
-  ///@param fillHeight Height of box to fill.
-  ///@param blur Optional. Blur image.
-  ///@param backgroundColor Optional. Apply a background color for transparent images.
-  ///@param foregroundLayer Optional. Apply a foreground layer on top of the image.
-  ///@param imageIndex Image index.
   @GET(path: '/UserImage')
   Future<chopper.Response<String>> _userImageGet({
     @Query('userId') String? userId,
     @Query('tag') String? tag,
     @Query('format') String? format,
-    @Query('maxWidth') int? maxWidth,
-    @Query('maxHeight') int? maxHeight,
-    @Query('percentPlayed') num? percentPlayed,
-    @Query('unplayedCount') int? unplayedCount,
-    @Query('width') int? width,
-    @Query('height') int? height,
-    @Query('quality') int? quality,
-    @Query('fillWidth') int? fillWidth,
-    @Query('fillHeight') int? fillHeight,
-    @Query('blur') int? blur,
-    @Query('backgroundColor') String? backgroundColor,
-    @Query('foregroundLayer') String? foregroundLayer,
-    @Query('imageIndex') int? imageIndex,
   });
 
   ///Get user profile image.
   ///@param userId User id.
   ///@param tag Optional. Supply the cache tag from the item object to receive strong caching headers.
   ///@param format Determines the output format of the image - original,gif,jpg,png.
-  ///@param maxWidth The maximum image width to return.
-  ///@param maxHeight The maximum image height to return.
-  ///@param percentPlayed Optional. Percent to render for the percent played overlay.
-  ///@param unplayedCount Optional. Unplayed count overlay to render.
-  ///@param width The fixed image width to return.
-  ///@param height The fixed image height to return.
-  ///@param quality Optional. Quality setting, from 0-100. Defaults to 90 and should suffice in most cases.
-  ///@param fillWidth Width of box to fill.
-  ///@param fillHeight Height of box to fill.
-  ///@param blur Optional. Blur image.
-  ///@param backgroundColor Optional. Apply a background color for transparent images.
-  ///@param foregroundLayer Optional. Apply a foreground layer on top of the image.
-  ///@param imageIndex Image index.
   Future<chopper.Response<String>> userImageHead({
     String? userId,
     String? tag,
     enums.UserImageHeadFormat? format,
-    int? maxWidth,
-    int? maxHeight,
-    num? percentPlayed,
-    int? unplayedCount,
-    int? width,
-    int? height,
-    int? quality,
-    int? fillWidth,
-    int? fillHeight,
-    int? blur,
-    String? backgroundColor,
-    String? foregroundLayer,
-    int? imageIndex,
   }) {
     return _userImageHead(
       userId: userId,
       tag: tag,
       format: format?.value?.toString(),
-      maxWidth: maxWidth,
-      maxHeight: maxHeight,
-      percentPlayed: percentPlayed,
-      unplayedCount: unplayedCount,
-      width: width,
-      height: height,
-      quality: quality,
-      fillWidth: fillWidth,
-      fillHeight: fillHeight,
-      blur: blur,
-      backgroundColor: backgroundColor,
-      foregroundLayer: foregroundLayer,
-      imageIndex: imageIndex,
     );
   }
 
@@ -7898,37 +7822,11 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param userId User id.
   ///@param tag Optional. Supply the cache tag from the item object to receive strong caching headers.
   ///@param format Determines the output format of the image - original,gif,jpg,png.
-  ///@param maxWidth The maximum image width to return.
-  ///@param maxHeight The maximum image height to return.
-  ///@param percentPlayed Optional. Percent to render for the percent played overlay.
-  ///@param unplayedCount Optional. Unplayed count overlay to render.
-  ///@param width The fixed image width to return.
-  ///@param height The fixed image height to return.
-  ///@param quality Optional. Quality setting, from 0-100. Defaults to 90 and should suffice in most cases.
-  ///@param fillWidth Width of box to fill.
-  ///@param fillHeight Height of box to fill.
-  ///@param blur Optional. Blur image.
-  ///@param backgroundColor Optional. Apply a background color for transparent images.
-  ///@param foregroundLayer Optional. Apply a foreground layer on top of the image.
-  ///@param imageIndex Image index.
   @HEAD(path: '/UserImage')
   Future<chopper.Response<String>> _userImageHead({
     @Query('userId') String? userId,
     @Query('tag') String? tag,
     @Query('format') String? format,
-    @Query('maxWidth') int? maxWidth,
-    @Query('maxHeight') int? maxHeight,
-    @Query('percentPlayed') num? percentPlayed,
-    @Query('unplayedCount') int? unplayedCount,
-    @Query('width') int? width,
-    @Query('height') int? height,
-    @Query('quality') int? quality,
-    @Query('fillWidth') int? fillWidth,
-    @Query('fillHeight') int? fillHeight,
-    @Query('blur') int? blur,
-    @Query('backgroundColor') String? backgroundColor,
-    @Query('foregroundLayer') String? foregroundLayer,
-    @Query('imageIndex') int? imageIndex,
   });
 
   ///Creates an instant playlist based on a given album.
@@ -8612,12 +8510,14 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param imageRefreshMode (Optional) Specifies the image refresh mode.
   ///@param replaceAllMetadata (Optional) Determines if metadata should be replaced. Only applicable if mode is FullRefresh.
   ///@param replaceAllImages (Optional) Determines if images should be replaced. Only applicable if mode is FullRefresh.
+  ///@param regenerateTrickplay (Optional) Determines if trickplay images should be replaced. Only applicable if mode is FullRefresh.
   Future<chopper.Response> itemsItemIdRefreshPost({
     required String? itemId,
     enums.ItemsItemIdRefreshPostMetadataRefreshMode? metadataRefreshMode,
     enums.ItemsItemIdRefreshPostImageRefreshMode? imageRefreshMode,
     bool? replaceAllMetadata,
     bool? replaceAllImages,
+    bool? regenerateTrickplay,
   }) {
     return _itemsItemIdRefreshPost(
       itemId: itemId,
@@ -8625,6 +8525,7 @@ abstract class JellyfinOpenApi extends ChopperService {
       imageRefreshMode: imageRefreshMode?.value?.toString(),
       replaceAllMetadata: replaceAllMetadata,
       replaceAllImages: replaceAllImages,
+      regenerateTrickplay: regenerateTrickplay,
     );
   }
 
@@ -8634,6 +8535,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param imageRefreshMode (Optional) Specifies the image refresh mode.
   ///@param replaceAllMetadata (Optional) Determines if metadata should be replaced. Only applicable if mode is FullRefresh.
   ///@param replaceAllImages (Optional) Determines if images should be replaced. Only applicable if mode is FullRefresh.
+  ///@param regenerateTrickplay (Optional) Determines if trickplay images should be replaced. Only applicable if mode is FullRefresh.
   @POST(path: '/Items/{itemId}/Refresh', optionalBody: true)
   Future<chopper.Response> _itemsItemIdRefreshPost({
     @Path('itemId') required String? itemId,
@@ -8641,6 +8543,7 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('imageRefreshMode') String? imageRefreshMode,
     @Query('replaceAllMetadata') bool? replaceAllMetadata,
     @Query('replaceAllImages') bool? replaceAllImages,
+    @Query('regenerateTrickplay') bool? regenerateTrickplay,
   });
 
   ///Gets items based on a query.
@@ -10314,14 +10217,14 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('userId') String? userId,
   });
 
-  ///Get guid info.
+  ///Get guide info.
   Future<chopper.Response<GuideInfo>> liveTvGuideInfoGet() {
     generatedMapping.putIfAbsent(GuideInfo, () => GuideInfo.fromJsonFactory);
 
     return _liveTvGuideInfoGet();
   }
 
-  ///Get guid info.
+  ///Get guide info.
   @GET(path: '/LiveTv/GuideInfo')
   Future<chopper.Response<GuideInfo>> _liveTvGuideInfoGet();
 
@@ -10680,6 +10583,7 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Gets recommended live tv epgs.
   ///@param userId Optional. filter by user id.
+  ///@param startIndex Optional. The record index to start at. All items with a lower index will be dropped from the results.
   ///@param limit Optional. The maximum number of records to return.
   ///@param isAiring Optional. Filter by programs that are currently airing, or not.
   ///@param hasAired Optional. Filter by programs that have completed airing, or not.
@@ -10698,6 +10602,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<BaseItemDtoQueryResult>>
   liveTvProgramsRecommendedGet({
     String? userId,
+    int? startIndex,
     int? limit,
     bool? isAiring,
     bool? hasAired,
@@ -10721,6 +10626,7 @@ abstract class JellyfinOpenApi extends ChopperService {
 
     return _liveTvProgramsRecommendedGet(
       userId: userId,
+      startIndex: startIndex,
       limit: limit,
       isAiring: isAiring,
       hasAired: hasAired,
@@ -10741,6 +10647,7 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Gets recommended live tv epgs.
   ///@param userId Optional. filter by user id.
+  ///@param startIndex Optional. The record index to start at. All items with a lower index will be dropped from the results.
   ///@param limit Optional. The maximum number of records to return.
   ///@param isAiring Optional. Filter by programs that are currently airing, or not.
   ///@param hasAired Optional. Filter by programs that have completed airing, or not.
@@ -10760,6 +10667,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<BaseItemDtoQueryResult>>
   _liveTvProgramsRecommendedGet({
     @Query('userId') String? userId,
+    @Query('startIndex') int? startIndex,
     @Query('limit') int? limit,
     @Query('isAiring') bool? isAiring,
     @Query('hasAired') bool? hasAired,
@@ -11992,6 +11900,22 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('userId') String? userId,
   });
 
+  ///
+  Future<chopper.Response> jellyfinPluginOpenSubtitlesValidateLoginInfoPost({
+    required LoginInfoInput? body,
+  }) {
+    return _jellyfinPluginOpenSubtitlesValidateLoginInfoPost(body: body);
+  }
+
+  ///
+  @POST(
+    path: '/Jellyfin.Plugin.OpenSubtitles/ValidateLoginInfo',
+    optionalBody: true,
+  )
+  Future<chopper.Response> _jellyfinPluginOpenSubtitlesValidateLoginInfoPost({
+    @Body() required LoginInfoInput? body,
+  });
+
   ///Gets available packages.
   Future<chopper.Response<List<PackageInfo>>> packagesGet() {
     generatedMapping.putIfAbsent(
@@ -12208,6 +12132,339 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<BaseItemDto>> _personsNameGet({
     @Path('name') required String? name,
     @Query('userId') String? userId,
+  });
+
+  ///
+  ///@param breakdownType
+  ///@param days
+  ///@param endDate
+  ///@param timezoneOffset
+  Future<chopper.Response> userUsageStatsBreakdownTypeBreakdownReportGet({
+    required String? breakdownType,
+    int? days,
+    DateTime? endDate,
+    num? timezoneOffset,
+  }) {
+    return _userUsageStatsBreakdownTypeBreakdownReportGet(
+      breakdownType: breakdownType,
+      days: days,
+      endDate: endDate,
+      timezoneOffset: timezoneOffset,
+    );
+  }
+
+  ///
+  ///@param breakdownType
+  ///@param days
+  ///@param endDate
+  ///@param timezoneOffset
+  @GET(path: '/user_usage_stats/{breakdownType}/BreakdownReport')
+  Future<chopper.Response> _userUsageStatsBreakdownTypeBreakdownReportGet({
+    @Path('breakdownType') required String? breakdownType,
+    @Query('days') int? days,
+    @Query('endDate') DateTime? endDate,
+    @Query('timezoneOffset') num? timezoneOffset,
+  });
+
+  ///
+  ///@param userId
+  ///@param date
+  ///@param filter
+  ///@param timezoneOffset
+  Future<chopper.Response> userUsageStatsUserIdDateGetItemsGet({
+    required String? userId,
+    required String? date,
+    String? filter,
+    num? timezoneOffset,
+  }) {
+    return _userUsageStatsUserIdDateGetItemsGet(
+      userId: userId,
+      date: date,
+      filter: filter,
+      timezoneOffset: timezoneOffset,
+    );
+  }
+
+  ///
+  ///@param userId
+  ///@param date
+  ///@param filter
+  ///@param timezoneOffset
+  @GET(path: '/user_usage_stats/{userId}/{date}/GetItems')
+  Future<chopper.Response> _userUsageStatsUserIdDateGetItemsGet({
+    @Path('userId') required String? userId,
+    @Path('date') required String? date,
+    @Query('filter') String? filter,
+    @Query('timezoneOffset') num? timezoneOffset,
+  });
+
+  ///
+  ///@param days
+  ///@param endDate
+  ///@param filter
+  Future<chopper.Response> userUsageStatsDurationHistogramReportGet({
+    int? days,
+    DateTime? endDate,
+    String? filter,
+  }) {
+    return _userUsageStatsDurationHistogramReportGet(
+      days: days,
+      endDate: endDate,
+      filter: filter,
+    );
+  }
+
+  ///
+  ///@param days
+  ///@param endDate
+  ///@param filter
+  @GET(path: '/user_usage_stats/DurationHistogramReport')
+  Future<chopper.Response> _userUsageStatsDurationHistogramReportGet({
+    @Query('days') int? days,
+    @Query('endDate') DateTime? endDate,
+    @Query('filter') String? filter,
+  });
+
+  ///
+  ///@param days
+  ///@param endDate
+  ///@param timezoneOffset
+  Future<chopper.Response> userUsageStatsGetTvShowsReportGet({
+    int? days,
+    DateTime? endDate,
+    num? timezoneOffset,
+  }) {
+    return _userUsageStatsGetTvShowsReportGet(
+      days: days,
+      endDate: endDate,
+      timezoneOffset: timezoneOffset,
+    );
+  }
+
+  ///
+  ///@param days
+  ///@param endDate
+  ///@param timezoneOffset
+  @GET(path: '/user_usage_stats/GetTvShowsReport')
+  Future<chopper.Response> _userUsageStatsGetTvShowsReportGet({
+    @Query('days') int? days,
+    @Query('endDate') DateTime? endDate,
+    @Query('timezoneOffset') num? timezoneOffset,
+  });
+
+  ///
+  ///@param days
+  ///@param endDate
+  ///@param filter
+  ///@param timezoneOffset
+  Future<chopper.Response> userUsageStatsHourlyReportGet({
+    int? days,
+    DateTime? endDate,
+    String? filter,
+    num? timezoneOffset,
+  }) {
+    return _userUsageStatsHourlyReportGet(
+      days: days,
+      endDate: endDate,
+      filter: filter,
+      timezoneOffset: timezoneOffset,
+    );
+  }
+
+  ///
+  ///@param days
+  ///@param endDate
+  ///@param filter
+  ///@param timezoneOffset
+  @GET(path: '/user_usage_stats/HourlyReport')
+  Future<chopper.Response> _userUsageStatsHourlyReportGet({
+    @Query('days') int? days,
+    @Query('endDate') DateTime? endDate,
+    @Query('filter') String? filter,
+    @Query('timezoneOffset') num? timezoneOffset,
+  });
+
+  ///
+  ///@param backupFilePath
+  Future<chopper.Response<List<String>>> userUsageStatsLoadBackupGet({
+    String? backupFilePath,
+  }) {
+    return _userUsageStatsLoadBackupGet(backupFilePath: backupFilePath);
+  }
+
+  ///
+  ///@param backupFilePath
+  @GET(path: '/user_usage_stats/load_backup')
+  Future<chopper.Response<List<String>>> _userUsageStatsLoadBackupGet({
+    @Query('backupFilePath') String? backupFilePath,
+  });
+
+  ///
+  ///@param days
+  ///@param endDate
+  ///@param timezoneOffset
+  Future<chopper.Response> userUsageStatsMoviesReportGet({
+    int? days,
+    DateTime? endDate,
+    num? timezoneOffset,
+  }) {
+    return _userUsageStatsMoviesReportGet(
+      days: days,
+      endDate: endDate,
+      timezoneOffset: timezoneOffset,
+    );
+  }
+
+  ///
+  ///@param days
+  ///@param endDate
+  ///@param timezoneOffset
+  @GET(path: '/user_usage_stats/MoviesReport')
+  Future<chopper.Response> _userUsageStatsMoviesReportGet({
+    @Query('days') int? days,
+    @Query('endDate') DateTime? endDate,
+    @Query('timezoneOffset') num? timezoneOffset,
+  });
+
+  ///
+  ///@param days
+  ///@param endDate
+  ///@param filter
+  ///@param dataType
+  ///@param timezoneOffset
+  Future<chopper.Response> userUsageStatsPlayActivityGet({
+    int? days,
+    DateTime? endDate,
+    String? filter,
+    String? dataType,
+    num? timezoneOffset,
+  }) {
+    return _userUsageStatsPlayActivityGet(
+      days: days,
+      endDate: endDate,
+      filter: filter,
+      dataType: dataType,
+      timezoneOffset: timezoneOffset,
+    );
+  }
+
+  ///
+  ///@param days
+  ///@param endDate
+  ///@param filter
+  ///@param dataType
+  ///@param timezoneOffset
+  @GET(path: '/user_usage_stats/PlayActivity')
+  Future<chopper.Response> _userUsageStatsPlayActivityGet({
+    @Query('days') int? days,
+    @Query('endDate') DateTime? endDate,
+    @Query('filter') String? filter,
+    @Query('dataType') String? dataType,
+    @Query('timezoneOffset') num? timezoneOffset,
+  });
+
+  ///
+  Future<chopper.Response<List<String>>> userUsageStatsSaveBackupGet() {
+    return _userUsageStatsSaveBackupGet();
+  }
+
+  ///
+  @GET(path: '/user_usage_stats/save_backup')
+  Future<chopper.Response<List<String>>> _userUsageStatsSaveBackupGet();
+
+  ///
+  Future<chopper.Response<Object>> userUsageStatsSubmitCustomQueryPost({
+    required CustomQueryData? body,
+  }) {
+    return _userUsageStatsSubmitCustomQueryPost(body: body);
+  }
+
+  ///
+  @POST(path: '/user_usage_stats/submit_custom_query', optionalBody: true)
+  Future<chopper.Response<Object>> _userUsageStatsSubmitCustomQueryPost({
+    @Body() required CustomQueryData? body,
+  });
+
+  ///
+  Future<chopper.Response> userUsageStatsTypeFilterListGet() {
+    return _userUsageStatsTypeFilterListGet();
+  }
+
+  ///
+  @GET(path: '/user_usage_stats/type_filter_list')
+  Future<chopper.Response> _userUsageStatsTypeFilterListGet();
+
+  ///
+  ///@param days
+  ///@param endDate
+  ///@param timezoneOffset
+  Future<chopper.Response> userUsageStatsUserActivityGet({
+    int? days,
+    DateTime? endDate,
+    num? timezoneOffset,
+  }) {
+    return _userUsageStatsUserActivityGet(
+      days: days,
+      endDate: endDate,
+      timezoneOffset: timezoneOffset,
+    );
+  }
+
+  ///
+  ///@param days
+  ///@param endDate
+  ///@param timezoneOffset
+  @GET(path: '/user_usage_stats/user_activity')
+  Future<chopper.Response> _userUsageStatsUserActivityGet({
+    @Query('days') int? days,
+    @Query('endDate') DateTime? endDate,
+    @Query('timezoneOffset') num? timezoneOffset,
+  });
+
+  ///
+  Future<chopper.Response> userUsageStatsUserListGet() {
+    return _userUsageStatsUserListGet();
+  }
+
+  ///
+  @GET(path: '/user_usage_stats/user_list')
+  Future<chopper.Response> _userUsageStatsUserListGet();
+
+  ///
+  ///@param id
+  Future<chopper.Response<bool>> userUsageStatsUserManageAddGet({String? id}) {
+    return _userUsageStatsUserManageAddGet(id: id);
+  }
+
+  ///
+  ///@param id
+  @GET(path: '/user_usage_stats/user_manage/add')
+  Future<chopper.Response<bool>> _userUsageStatsUserManageAddGet({
+    @Query('id') String? id,
+  });
+
+  ///
+  Future<chopper.Response<bool>> userUsageStatsUserManagePruneGet() {
+    return _userUsageStatsUserManagePruneGet();
+  }
+
+  ///
+  @GET(path: '/user_usage_stats/user_manage/prune')
+  Future<chopper.Response<bool>> _userUsageStatsUserManagePruneGet();
+
+  ///
+  ///@param id
+  Future<chopper.Response<bool>> userUsageStatsUserManageRemoveGet({
+    String? id,
+  }) {
+    return _userUsageStatsUserManageRemoveGet(id: id);
+  }
+
+  ///
+  ///@param id
+  @GET(path: '/user_usage_stats/user_manage/remove')
+  Future<chopper.Response<bool>> _userUsageStatsUserManageRemoveGet({
+    @Query('id') String? id,
   });
 
   ///Creates a new playlist.
@@ -12534,6 +12791,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param liveStreamId The live stream id.
   ///@param playSessionId The play session id.
   ///@param canSeek Indicates if the client can seek.
+  @deprecated
   Future<chopper.Response> playingItemsItemIdPost({
     required String? itemId,
     String? mediaSourceId,
@@ -12565,6 +12823,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param liveStreamId The live stream id.
   ///@param playSessionId The play session id.
   ///@param canSeek Indicates if the client can seek.
+  @deprecated
   @POST(path: '/PlayingItems/{itemId}', optionalBody: true)
   Future<chopper.Response> _playingItemsItemIdPost({
     @Path('itemId') required String? itemId,
@@ -12584,6 +12843,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param positionTicks Optional. The position, in ticks, where playback stopped. 1 tick = 10000 ms.
   ///@param liveStreamId The live stream id.
   ///@param playSessionId The play session id.
+  @deprecated
   Future<chopper.Response> playingItemsItemIdDelete({
     required String? itemId,
     String? mediaSourceId,
@@ -12609,6 +12869,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param positionTicks Optional. The position, in ticks, where playback stopped. 1 tick = 10000 ms.
   ///@param liveStreamId The live stream id.
   ///@param playSessionId The play session id.
+  @deprecated
   @DELETE(path: '/PlayingItems/{itemId}')
   Future<chopper.Response> _playingItemsItemIdDelete({
     @Path('itemId') required String? itemId,
@@ -12632,6 +12893,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param repeatMode The repeat mode.
   ///@param isPaused Indicates if the player is paused.
   ///@param isMuted Indicates if the player is muted.
+  @deprecated
   Future<chopper.Response> playingItemsItemIdProgressPost({
     required String? itemId,
     String? mediaSourceId,
@@ -12675,6 +12937,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param repeatMode The repeat mode.
   ///@param isPaused Indicates if the player is paused.
   ///@param isMuted Indicates if the player is muted.
+  @deprecated
   @POST(path: '/PlayingItems/{itemId}/Progress', optionalBody: true)
   Future<chopper.Response> _playingItemsItemIdProgressPost({
     @Path('itemId') required String? itemId,
@@ -14276,6 +14539,24 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('enableTotalRecordCount') bool? enableTotalRecordCount,
   });
 
+  ///Gets a SyncPlay group by id.
+  ///@param id The id of the group.
+  Future<chopper.Response<GroupInfoDto>> syncPlayIdGet({required String? id}) {
+    generatedMapping.putIfAbsent(
+      GroupInfoDto,
+      () => GroupInfoDto.fromJsonFactory,
+    );
+
+    return _syncPlayIdGet(id: id);
+  }
+
+  ///Gets a SyncPlay group by id.
+  ///@param id The id of the group.
+  @GET(path: '/SyncPlay/{id}')
+  Future<chopper.Response<GroupInfoDto>> _syncPlayIdGet({
+    @Path('id') required String? id,
+  });
+
   ///Notify SyncPlay group that member is buffering.
   Future<chopper.Response> syncPlayBufferingPost({
     required BufferRequestDto? body,
@@ -14339,15 +14620,20 @@ abstract class JellyfinOpenApi extends ChopperService {
   });
 
   ///Create a new SyncPlay group.
-  Future<chopper.Response> syncPlayNewPost({
+  Future<chopper.Response<GroupInfoDto>> syncPlayNewPost({
     required NewGroupRequestDto? body,
   }) {
+    generatedMapping.putIfAbsent(
+      GroupInfoDto,
+      () => GroupInfoDto.fromJsonFactory,
+    );
+
     return _syncPlayNewPost(body: body);
   }
 
   ///Create a new SyncPlay group.
   @POST(path: '/SyncPlay/New', optionalBody: true)
-  Future<chopper.Response> _syncPlayNewPost({
+  Future<chopper.Response<GroupInfoDto>> _syncPlayNewPost({
     @Body() required NewGroupRequestDto? body,
   });
 
@@ -14565,6 +14851,20 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/System/Info/Public')
   Future<chopper.Response<PublicSystemInfo>> _systemInfoPublicGet();
 
+  ///Gets information about the server.
+  Future<chopper.Response<SystemStorageDto>> systemInfoStorageGet() {
+    generatedMapping.putIfAbsent(
+      SystemStorageDto,
+      () => SystemStorageDto.fromJsonFactory,
+    );
+
+    return _systemInfoStorageGet();
+  }
+
+  ///Gets information about the server.
+  @GET(path: '/System/Info/Storage')
+  Future<chopper.Response<SystemStorageDto>> _systemInfoStorageGet();
+
   ///Gets a list of available server log files.
   Future<chopper.Response<List<LogFile>>> systemLogsGet() {
     generatedMapping.putIfAbsent(LogFile, () => LogFile.fromJsonFactory);
@@ -14624,22 +14924,6 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///Shuts down the application.
   @POST(path: '/System/Shutdown', optionalBody: true)
   Future<chopper.Response> _systemShutdownPost();
-
-  ///Gets wake on lan information.
-  @deprecated
-  Future<chopper.Response<List<WakeOnLanInfo>>> systemWakeOnLanInfoGet() {
-    generatedMapping.putIfAbsent(
-      WakeOnLanInfo,
-      () => WakeOnLanInfo.fromJsonFactory,
-    );
-
-    return _systemWakeOnLanInfoGet();
-  }
-
-  ///Gets wake on lan information.
-  @deprecated
-  @GET(path: '/System/WakeOnLanInfo')
-  Future<chopper.Response<List<WakeOnLanInfo>>> _systemWakeOnLanInfoGet();
 
   ///Gets the current UTC time.
   Future<chopper.Response<UtcTimeResponse>> getUtcTimeGet() {
@@ -19284,6 +19568,253 @@ extension $AuthenticationResultExtension on AuthenticationResult {
 }
 
 @JsonSerializable(explicitToJson: true)
+class BackupManifestDto {
+  const BackupManifestDto({
+    this.serverVersion,
+    this.backupEngineVersion,
+    this.dateCreated,
+    this.path,
+    this.options,
+  });
+
+  factory BackupManifestDto.fromJson(Map<String, dynamic> json) =>
+      _$BackupManifestDtoFromJson(json);
+
+  static const toJsonFactory = _$BackupManifestDtoToJson;
+  Map<String, dynamic> toJson() => _$BackupManifestDtoToJson(this);
+
+  @JsonKey(name: 'ServerVersion', includeIfNull: false)
+  final String? serverVersion;
+  @JsonKey(name: 'BackupEngineVersion', includeIfNull: false)
+  final String? backupEngineVersion;
+  @JsonKey(name: 'DateCreated', includeIfNull: false)
+  final DateTime? dateCreated;
+  @JsonKey(name: 'Path', includeIfNull: false)
+  final String? path;
+  @JsonKey(name: 'Options', includeIfNull: false)
+  final BackupOptionsDto? options;
+  static const fromJsonFactory = _$BackupManifestDtoFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BackupManifestDto &&
+            (identical(other.serverVersion, serverVersion) ||
+                const DeepCollectionEquality().equals(
+                  other.serverVersion,
+                  serverVersion,
+                )) &&
+            (identical(other.backupEngineVersion, backupEngineVersion) ||
+                const DeepCollectionEquality().equals(
+                  other.backupEngineVersion,
+                  backupEngineVersion,
+                )) &&
+            (identical(other.dateCreated, dateCreated) ||
+                const DeepCollectionEquality().equals(
+                  other.dateCreated,
+                  dateCreated,
+                )) &&
+            (identical(other.path, path) ||
+                const DeepCollectionEquality().equals(other.path, path)) &&
+            (identical(other.options, options) ||
+                const DeepCollectionEquality().equals(other.options, options)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(serverVersion) ^
+      const DeepCollectionEquality().hash(backupEngineVersion) ^
+      const DeepCollectionEquality().hash(dateCreated) ^
+      const DeepCollectionEquality().hash(path) ^
+      const DeepCollectionEquality().hash(options) ^
+      runtimeType.hashCode;
+}
+
+extension $BackupManifestDtoExtension on BackupManifestDto {
+  BackupManifestDto copyWith({
+    String? serverVersion,
+    String? backupEngineVersion,
+    DateTime? dateCreated,
+    String? path,
+    BackupOptionsDto? options,
+  }) {
+    return BackupManifestDto(
+      serverVersion: serverVersion ?? this.serverVersion,
+      backupEngineVersion: backupEngineVersion ?? this.backupEngineVersion,
+      dateCreated: dateCreated ?? this.dateCreated,
+      path: path ?? this.path,
+      options: options ?? this.options,
+    );
+  }
+
+  BackupManifestDto copyWithWrapped({
+    Wrapped<String?>? serverVersion,
+    Wrapped<String?>? backupEngineVersion,
+    Wrapped<DateTime?>? dateCreated,
+    Wrapped<String?>? path,
+    Wrapped<BackupOptionsDto?>? options,
+  }) {
+    return BackupManifestDto(
+      serverVersion: (serverVersion != null
+          ? serverVersion.value
+          : this.serverVersion),
+      backupEngineVersion: (backupEngineVersion != null
+          ? backupEngineVersion.value
+          : this.backupEngineVersion),
+      dateCreated: (dateCreated != null ? dateCreated.value : this.dateCreated),
+      path: (path != null ? path.value : this.path),
+      options: (options != null ? options.value : this.options),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BackupOptionsDto {
+  const BackupOptionsDto({
+    this.metadata,
+    this.trickplay,
+    this.subtitles,
+    this.database,
+  });
+
+  factory BackupOptionsDto.fromJson(Map<String, dynamic> json) =>
+      _$BackupOptionsDtoFromJson(json);
+
+  static const toJsonFactory = _$BackupOptionsDtoToJson;
+  Map<String, dynamic> toJson() => _$BackupOptionsDtoToJson(this);
+
+  @JsonKey(name: 'Metadata', includeIfNull: false)
+  final bool? metadata;
+  @JsonKey(name: 'Trickplay', includeIfNull: false)
+  final bool? trickplay;
+  @JsonKey(name: 'Subtitles', includeIfNull: false)
+  final bool? subtitles;
+  @JsonKey(name: 'Database', includeIfNull: false)
+  final bool? database;
+  static const fromJsonFactory = _$BackupOptionsDtoFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BackupOptionsDto &&
+            (identical(other.metadata, metadata) ||
+                const DeepCollectionEquality().equals(
+                  other.metadata,
+                  metadata,
+                )) &&
+            (identical(other.trickplay, trickplay) ||
+                const DeepCollectionEquality().equals(
+                  other.trickplay,
+                  trickplay,
+                )) &&
+            (identical(other.subtitles, subtitles) ||
+                const DeepCollectionEquality().equals(
+                  other.subtitles,
+                  subtitles,
+                )) &&
+            (identical(other.database, database) ||
+                const DeepCollectionEquality().equals(
+                  other.database,
+                  database,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(metadata) ^
+      const DeepCollectionEquality().hash(trickplay) ^
+      const DeepCollectionEquality().hash(subtitles) ^
+      const DeepCollectionEquality().hash(database) ^
+      runtimeType.hashCode;
+}
+
+extension $BackupOptionsDtoExtension on BackupOptionsDto {
+  BackupOptionsDto copyWith({
+    bool? metadata,
+    bool? trickplay,
+    bool? subtitles,
+    bool? database,
+  }) {
+    return BackupOptionsDto(
+      metadata: metadata ?? this.metadata,
+      trickplay: trickplay ?? this.trickplay,
+      subtitles: subtitles ?? this.subtitles,
+      database: database ?? this.database,
+    );
+  }
+
+  BackupOptionsDto copyWithWrapped({
+    Wrapped<bool?>? metadata,
+    Wrapped<bool?>? trickplay,
+    Wrapped<bool?>? subtitles,
+    Wrapped<bool?>? database,
+  }) {
+    return BackupOptionsDto(
+      metadata: (metadata != null ? metadata.value : this.metadata),
+      trickplay: (trickplay != null ? trickplay.value : this.trickplay),
+      subtitles: (subtitles != null ? subtitles.value : this.subtitles),
+      database: (database != null ? database.value : this.database),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BackupRestoreRequestDto {
+  const BackupRestoreRequestDto({this.archiveFileName});
+
+  factory BackupRestoreRequestDto.fromJson(Map<String, dynamic> json) =>
+      _$BackupRestoreRequestDtoFromJson(json);
+
+  static const toJsonFactory = _$BackupRestoreRequestDtoToJson;
+  Map<String, dynamic> toJson() => _$BackupRestoreRequestDtoToJson(this);
+
+  @JsonKey(name: 'ArchiveFileName', includeIfNull: false)
+  final String? archiveFileName;
+  static const fromJsonFactory = _$BackupRestoreRequestDtoFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BackupRestoreRequestDto &&
+            (identical(other.archiveFileName, archiveFileName) ||
+                const DeepCollectionEquality().equals(
+                  other.archiveFileName,
+                  archiveFileName,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(archiveFileName) ^
+      runtimeType.hashCode;
+}
+
+extension $BackupRestoreRequestDtoExtension on BackupRestoreRequestDto {
+  BackupRestoreRequestDto copyWith({String? archiveFileName}) {
+    return BackupRestoreRequestDto(
+      archiveFileName: archiveFileName ?? this.archiveFileName,
+    );
+  }
+
+  BackupRestoreRequestDto copyWithWrapped({Wrapped<String?>? archiveFileName}) {
+    return BackupRestoreRequestDto(
+      archiveFileName: (archiveFileName != null
+          ? archiveFileName.value
+          : this.archiveFileName),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class BaseItemDto {
   const BaseItemDto({
     this.name,
@@ -19766,9 +20297,12 @@ class BaseItemDto {
     name: 'MediaType',
     includeIfNull: false,
     toJson: mediaTypeNullableToJson,
-    fromJson: mediaTypeNullableFromJson,
+    fromJson: mediaTypeMediaTypeNullableFromJson,
   )
   final enums.MediaType? mediaType;
+  static enums.MediaType? mediaTypeMediaTypeNullableFromJson(Object? value) =>
+      mediaTypeNullableFromJson(value, enums.MediaType.unknown);
+
   @JsonKey(name: 'EndDate', includeIfNull: false)
   final DateTime? endDate;
   @JsonKey(
@@ -21667,9 +22201,12 @@ class BaseItemPerson {
     name: 'Type',
     includeIfNull: false,
     toJson: personKindNullableToJson,
-    fromJson: personKindNullableFromJson,
+    fromJson: personKindTypeNullableFromJson,
   )
   final enums.PersonKind? type;
+  static enums.PersonKind? personKindTypeNullableFromJson(Object? value) =>
+      personKindNullableFromJson(value, enums.PersonKind.unknown);
+
   @JsonKey(name: 'PrimaryImageTag', includeIfNull: false)
   final String? primaryImageTag;
   @JsonKey(name: 'ImageBlurHashes', includeIfNull: false)
@@ -22355,18 +22892,18 @@ extension $BoxSetInfoRemoteSearchQueryExtension on BoxSetInfoRemoteSearchQuery {
 }
 
 @JsonSerializable(explicitToJson: true)
-class BrandingOptions {
-  const BrandingOptions({
+class BrandingOptionsDto {
+  const BrandingOptionsDto({
     this.loginDisclaimer,
     this.customCss,
     this.splashscreenEnabled,
   });
 
-  factory BrandingOptions.fromJson(Map<String, dynamic> json) =>
-      _$BrandingOptionsFromJson(json);
+  factory BrandingOptionsDto.fromJson(Map<String, dynamic> json) =>
+      _$BrandingOptionsDtoFromJson(json);
 
-  static const toJsonFactory = _$BrandingOptionsToJson;
-  Map<String, dynamic> toJson() => _$BrandingOptionsToJson(this);
+  static const toJsonFactory = _$BrandingOptionsDtoToJson;
+  Map<String, dynamic> toJson() => _$BrandingOptionsDtoToJson(this);
 
   @JsonKey(name: 'LoginDisclaimer', includeIfNull: false)
   final String? loginDisclaimer;
@@ -22374,12 +22911,12 @@ class BrandingOptions {
   final String? customCss;
   @JsonKey(name: 'SplashscreenEnabled', includeIfNull: false)
   final bool? splashscreenEnabled;
-  static const fromJsonFactory = _$BrandingOptionsFromJson;
+  static const fromJsonFactory = _$BrandingOptionsDtoFromJson;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other is BrandingOptions &&
+        (other is BrandingOptionsDto &&
             (identical(other.loginDisclaimer, loginDisclaimer) ||
                 const DeepCollectionEquality().equals(
                   other.loginDisclaimer,
@@ -22408,25 +22945,25 @@ class BrandingOptions {
       runtimeType.hashCode;
 }
 
-extension $BrandingOptionsExtension on BrandingOptions {
-  BrandingOptions copyWith({
+extension $BrandingOptionsDtoExtension on BrandingOptionsDto {
+  BrandingOptionsDto copyWith({
     String? loginDisclaimer,
     String? customCss,
     bool? splashscreenEnabled,
   }) {
-    return BrandingOptions(
+    return BrandingOptionsDto(
       loginDisclaimer: loginDisclaimer ?? this.loginDisclaimer,
       customCss: customCss ?? this.customCss,
       splashscreenEnabled: splashscreenEnabled ?? this.splashscreenEnabled,
     );
   }
 
-  BrandingOptions copyWithWrapped({
+  BrandingOptionsDto copyWithWrapped({
     Wrapped<String?>? loginDisclaimer,
     Wrapped<String?>? customCss,
     Wrapped<bool?>? splashscreenEnabled,
   }) {
-    return BrandingOptions(
+    return BrandingOptionsDto(
       loginDisclaimer: (loginDisclaimer != null
           ? loginDisclaimer.value
           : this.loginDisclaimer),
@@ -24152,6 +24689,317 @@ extension $CultureDtoExtension on CultureDto {
       threeLetterISOLanguageNames: (threeLetterISOLanguageNames != null
           ? threeLetterISOLanguageNames.value
           : this.threeLetterISOLanguageNames),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class CustomDatabaseOption {
+  const CustomDatabaseOption({this.key, this.$Value});
+
+  factory CustomDatabaseOption.fromJson(Map<String, dynamic> json) =>
+      _$CustomDatabaseOptionFromJson(json);
+
+  static const toJsonFactory = _$CustomDatabaseOptionToJson;
+  Map<String, dynamic> toJson() => _$CustomDatabaseOptionToJson(this);
+
+  @JsonKey(name: 'Key', includeIfNull: false)
+  final String? key;
+  @JsonKey(name: 'Value', includeIfNull: false)
+  final String? $Value;
+  static const fromJsonFactory = _$CustomDatabaseOptionFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is CustomDatabaseOption &&
+            (identical(other.key, key) ||
+                const DeepCollectionEquality().equals(other.key, key)) &&
+            (identical(other.$Value, $Value) ||
+                const DeepCollectionEquality().equals(other.$Value, $Value)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(key) ^
+      const DeepCollectionEquality().hash($Value) ^
+      runtimeType.hashCode;
+}
+
+extension $CustomDatabaseOptionExtension on CustomDatabaseOption {
+  CustomDatabaseOption copyWith({String? key, String? $Value}) {
+    return CustomDatabaseOption(
+      key: key ?? this.key,
+      $Value: $Value ?? this.$Value,
+    );
+  }
+
+  CustomDatabaseOption copyWithWrapped({
+    Wrapped<String?>? key,
+    Wrapped<String?>? $Value,
+  }) {
+    return CustomDatabaseOption(
+      key: (key != null ? key.value : this.key),
+      $Value: ($Value != null ? $Value.value : this.$Value),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class CustomDatabaseOptions {
+  const CustomDatabaseOptions({
+    this.pluginName,
+    this.pluginAssembly,
+    this.connectionString,
+    this.options,
+  });
+
+  factory CustomDatabaseOptions.fromJson(Map<String, dynamic> json) =>
+      _$CustomDatabaseOptionsFromJson(json);
+
+  static const toJsonFactory = _$CustomDatabaseOptionsToJson;
+  Map<String, dynamic> toJson() => _$CustomDatabaseOptionsToJson(this);
+
+  @JsonKey(name: 'PluginName', includeIfNull: false)
+  final String? pluginName;
+  @JsonKey(name: 'PluginAssembly', includeIfNull: false)
+  final String? pluginAssembly;
+  @JsonKey(name: 'ConnectionString', includeIfNull: false)
+  final String? connectionString;
+  @JsonKey(
+    name: 'Options',
+    includeIfNull: false,
+    defaultValue: <CustomDatabaseOption>[],
+  )
+  final List<CustomDatabaseOption>? options;
+  static const fromJsonFactory = _$CustomDatabaseOptionsFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is CustomDatabaseOptions &&
+            (identical(other.pluginName, pluginName) ||
+                const DeepCollectionEquality().equals(
+                  other.pluginName,
+                  pluginName,
+                )) &&
+            (identical(other.pluginAssembly, pluginAssembly) ||
+                const DeepCollectionEquality().equals(
+                  other.pluginAssembly,
+                  pluginAssembly,
+                )) &&
+            (identical(other.connectionString, connectionString) ||
+                const DeepCollectionEquality().equals(
+                  other.connectionString,
+                  connectionString,
+                )) &&
+            (identical(other.options, options) ||
+                const DeepCollectionEquality().equals(other.options, options)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(pluginName) ^
+      const DeepCollectionEquality().hash(pluginAssembly) ^
+      const DeepCollectionEquality().hash(connectionString) ^
+      const DeepCollectionEquality().hash(options) ^
+      runtimeType.hashCode;
+}
+
+extension $CustomDatabaseOptionsExtension on CustomDatabaseOptions {
+  CustomDatabaseOptions copyWith({
+    String? pluginName,
+    String? pluginAssembly,
+    String? connectionString,
+    List<CustomDatabaseOption>? options,
+  }) {
+    return CustomDatabaseOptions(
+      pluginName: pluginName ?? this.pluginName,
+      pluginAssembly: pluginAssembly ?? this.pluginAssembly,
+      connectionString: connectionString ?? this.connectionString,
+      options: options ?? this.options,
+    );
+  }
+
+  CustomDatabaseOptions copyWithWrapped({
+    Wrapped<String?>? pluginName,
+    Wrapped<String?>? pluginAssembly,
+    Wrapped<String?>? connectionString,
+    Wrapped<List<CustomDatabaseOption>?>? options,
+  }) {
+    return CustomDatabaseOptions(
+      pluginName: (pluginName != null ? pluginName.value : this.pluginName),
+      pluginAssembly: (pluginAssembly != null
+          ? pluginAssembly.value
+          : this.pluginAssembly),
+      connectionString: (connectionString != null
+          ? connectionString.value
+          : this.connectionString),
+      options: (options != null ? options.value : this.options),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class CustomQueryData {
+  const CustomQueryData({this.customQueryString, this.replaceUserId});
+
+  factory CustomQueryData.fromJson(Map<String, dynamic> json) =>
+      _$CustomQueryDataFromJson(json);
+
+  static const toJsonFactory = _$CustomQueryDataToJson;
+  Map<String, dynamic> toJson() => _$CustomQueryDataToJson(this);
+
+  @JsonKey(name: 'CustomQueryString', includeIfNull: false)
+  final String? customQueryString;
+  @JsonKey(name: 'ReplaceUserId', includeIfNull: false)
+  final bool? replaceUserId;
+  static const fromJsonFactory = _$CustomQueryDataFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is CustomQueryData &&
+            (identical(other.customQueryString, customQueryString) ||
+                const DeepCollectionEquality().equals(
+                  other.customQueryString,
+                  customQueryString,
+                )) &&
+            (identical(other.replaceUserId, replaceUserId) ||
+                const DeepCollectionEquality().equals(
+                  other.replaceUserId,
+                  replaceUserId,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(customQueryString) ^
+      const DeepCollectionEquality().hash(replaceUserId) ^
+      runtimeType.hashCode;
+}
+
+extension $CustomQueryDataExtension on CustomQueryData {
+  CustomQueryData copyWith({String? customQueryString, bool? replaceUserId}) {
+    return CustomQueryData(
+      customQueryString: customQueryString ?? this.customQueryString,
+      replaceUserId: replaceUserId ?? this.replaceUserId,
+    );
+  }
+
+  CustomQueryData copyWithWrapped({
+    Wrapped<String?>? customQueryString,
+    Wrapped<bool?>? replaceUserId,
+  }) {
+    return CustomQueryData(
+      customQueryString: (customQueryString != null
+          ? customQueryString.value
+          : this.customQueryString),
+      replaceUserId: (replaceUserId != null
+          ? replaceUserId.value
+          : this.replaceUserId),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class DatabaseConfigurationOptions {
+  const DatabaseConfigurationOptions({
+    this.databaseType,
+    this.customProviderOptions,
+    this.lockingBehavior,
+  });
+
+  factory DatabaseConfigurationOptions.fromJson(Map<String, dynamic> json) =>
+      _$DatabaseConfigurationOptionsFromJson(json);
+
+  static const toJsonFactory = _$DatabaseConfigurationOptionsToJson;
+  Map<String, dynamic> toJson() => _$DatabaseConfigurationOptionsToJson(this);
+
+  @JsonKey(name: 'DatabaseType', includeIfNull: false)
+  final String? databaseType;
+  @JsonKey(name: 'CustomProviderOptions', includeIfNull: false)
+  final CustomDatabaseOptions? customProviderOptions;
+  @JsonKey(
+    name: 'LockingBehavior',
+    includeIfNull: false,
+    toJson: databaseLockingBehaviorTypesNullableToJson,
+    fromJson: databaseLockingBehaviorTypesNullableFromJson,
+  )
+  final enums.DatabaseLockingBehaviorTypes? lockingBehavior;
+  static const fromJsonFactory = _$DatabaseConfigurationOptionsFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is DatabaseConfigurationOptions &&
+            (identical(other.databaseType, databaseType) ||
+                const DeepCollectionEquality().equals(
+                  other.databaseType,
+                  databaseType,
+                )) &&
+            (identical(other.customProviderOptions, customProviderOptions) ||
+                const DeepCollectionEquality().equals(
+                  other.customProviderOptions,
+                  customProviderOptions,
+                )) &&
+            (identical(other.lockingBehavior, lockingBehavior) ||
+                const DeepCollectionEquality().equals(
+                  other.lockingBehavior,
+                  lockingBehavior,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(databaseType) ^
+      const DeepCollectionEquality().hash(customProviderOptions) ^
+      const DeepCollectionEquality().hash(lockingBehavior) ^
+      runtimeType.hashCode;
+}
+
+extension $DatabaseConfigurationOptionsExtension
+    on DatabaseConfigurationOptions {
+  DatabaseConfigurationOptions copyWith({
+    String? databaseType,
+    CustomDatabaseOptions? customProviderOptions,
+    enums.DatabaseLockingBehaviorTypes? lockingBehavior,
+  }) {
+    return DatabaseConfigurationOptions(
+      databaseType: databaseType ?? this.databaseType,
+      customProviderOptions:
+          customProviderOptions ?? this.customProviderOptions,
+      lockingBehavior: lockingBehavior ?? this.lockingBehavior,
+    );
+  }
+
+  DatabaseConfigurationOptions copyWithWrapped({
+    Wrapped<String?>? databaseType,
+    Wrapped<CustomDatabaseOptions?>? customProviderOptions,
+    Wrapped<enums.DatabaseLockingBehaviorTypes?>? lockingBehavior,
+  }) {
+    return DatabaseConfigurationOptions(
+      databaseType: (databaseType != null
+          ? databaseType.value
+          : this.databaseType),
+      customProviderOptions: (customProviderOptions != null
+          ? customProviderOptions.value
+          : this.customProviderOptions),
+      lockingBehavior: (lockingBehavior != null
+          ? lockingBehavior.value
+          : this.lockingBehavior),
     );
   }
 }
@@ -26000,7 +26848,7 @@ extension $EndPointInfoExtension on EndPointInfo {
 
 @JsonSerializable(explicitToJson: true)
 class ExternalIdInfo {
-  const ExternalIdInfo({this.name, this.key, this.type, this.urlFormatString});
+  const ExternalIdInfo({this.name, this.key, this.type});
 
   factory ExternalIdInfo.fromJson(Map<String, dynamic> json) =>
       _$ExternalIdInfoFromJson(json);
@@ -26019,9 +26867,6 @@ class ExternalIdInfo {
     fromJson: externalIdMediaTypeNullableFromJson,
   )
   final enums.ExternalIdMediaType? type;
-  @JsonKey(name: 'UrlFormatString', includeIfNull: false)
-  @deprecated
-  final String? urlFormatString;
   static const fromJsonFactory = _$ExternalIdInfoFromJson;
 
   @override
@@ -26033,12 +26878,7 @@ class ExternalIdInfo {
             (identical(other.key, key) ||
                 const DeepCollectionEquality().equals(other.key, key)) &&
             (identical(other.type, type) ||
-                const DeepCollectionEquality().equals(other.type, type)) &&
-            (identical(other.urlFormatString, urlFormatString) ||
-                const DeepCollectionEquality().equals(
-                  other.urlFormatString,
-                  urlFormatString,
-                )));
+                const DeepCollectionEquality().equals(other.type, type)));
   }
 
   @override
@@ -26049,7 +26889,6 @@ class ExternalIdInfo {
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(key) ^
       const DeepCollectionEquality().hash(type) ^
-      const DeepCollectionEquality().hash(urlFormatString) ^
       runtimeType.hashCode;
 }
 
@@ -26058,13 +26897,11 @@ extension $ExternalIdInfoExtension on ExternalIdInfo {
     String? name,
     String? key,
     enums.ExternalIdMediaType? type,
-    String? urlFormatString,
   }) {
     return ExternalIdInfo(
       name: name ?? this.name,
       key: key ?? this.key,
       type: type ?? this.type,
-      urlFormatString: urlFormatString ?? this.urlFormatString,
     );
   }
 
@@ -26072,15 +26909,11 @@ extension $ExternalIdInfoExtension on ExternalIdInfo {
     Wrapped<String?>? name,
     Wrapped<String?>? key,
     Wrapped<enums.ExternalIdMediaType?>? type,
-    Wrapped<String?>? urlFormatString,
   }) {
     return ExternalIdInfo(
       name: (name != null ? name.value : this.name),
       key: (key != null ? key.value : this.key),
       type: (type != null ? type.value : this.type),
-      urlFormatString: (urlFormatString != null
-          ? urlFormatString.value
-          : this.urlFormatString),
     );
   }
 }
@@ -26202,6 +27035,109 @@ extension $FileSystemEntryInfoExtension on FileSystemEntryInfo {
       name: (name != null ? name.value : this.name),
       path: (path != null ? path.value : this.path),
       type: (type != null ? type.value : this.type),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class FolderStorageDto {
+  const FolderStorageDto({
+    this.path,
+    this.freeSpace,
+    this.usedSpace,
+    this.storageType,
+    this.deviceId,
+  });
+
+  factory FolderStorageDto.fromJson(Map<String, dynamic> json) =>
+      _$FolderStorageDtoFromJson(json);
+
+  static const toJsonFactory = _$FolderStorageDtoToJson;
+  Map<String, dynamic> toJson() => _$FolderStorageDtoToJson(this);
+
+  @JsonKey(name: 'Path', includeIfNull: false)
+  final String? path;
+  @JsonKey(name: 'FreeSpace', includeIfNull: false)
+  final int? freeSpace;
+  @JsonKey(name: 'UsedSpace', includeIfNull: false)
+  final int? usedSpace;
+  @JsonKey(name: 'StorageType', includeIfNull: false)
+  final String? storageType;
+  @JsonKey(name: 'DeviceId', includeIfNull: false)
+  final String? deviceId;
+  static const fromJsonFactory = _$FolderStorageDtoFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is FolderStorageDto &&
+            (identical(other.path, path) ||
+                const DeepCollectionEquality().equals(other.path, path)) &&
+            (identical(other.freeSpace, freeSpace) ||
+                const DeepCollectionEquality().equals(
+                  other.freeSpace,
+                  freeSpace,
+                )) &&
+            (identical(other.usedSpace, usedSpace) ||
+                const DeepCollectionEquality().equals(
+                  other.usedSpace,
+                  usedSpace,
+                )) &&
+            (identical(other.storageType, storageType) ||
+                const DeepCollectionEquality().equals(
+                  other.storageType,
+                  storageType,
+                )) &&
+            (identical(other.deviceId, deviceId) ||
+                const DeepCollectionEquality().equals(
+                  other.deviceId,
+                  deviceId,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(path) ^
+      const DeepCollectionEquality().hash(freeSpace) ^
+      const DeepCollectionEquality().hash(usedSpace) ^
+      const DeepCollectionEquality().hash(storageType) ^
+      const DeepCollectionEquality().hash(deviceId) ^
+      runtimeType.hashCode;
+}
+
+extension $FolderStorageDtoExtension on FolderStorageDto {
+  FolderStorageDto copyWith({
+    String? path,
+    int? freeSpace,
+    int? usedSpace,
+    String? storageType,
+    String? deviceId,
+  }) {
+    return FolderStorageDto(
+      path: path ?? this.path,
+      freeSpace: freeSpace ?? this.freeSpace,
+      usedSpace: usedSpace ?? this.usedSpace,
+      storageType: storageType ?? this.storageType,
+      deviceId: deviceId ?? this.deviceId,
+    );
+  }
+
+  FolderStorageDto copyWithWrapped({
+    Wrapped<String?>? path,
+    Wrapped<int?>? freeSpace,
+    Wrapped<int?>? usedSpace,
+    Wrapped<String?>? storageType,
+    Wrapped<String?>? deviceId,
+  }) {
+    return FolderStorageDto(
+      path: (path != null ? path.value : this.path),
+      freeSpace: (freeSpace != null ? freeSpace.value : this.freeSpace),
+      usedSpace: (usedSpace != null ? usedSpace.value : this.usedSpace),
+      storageType: (storageType != null ? storageType.value : this.storageType),
+      deviceId: (deviceId != null ? deviceId.value : this.deviceId),
     );
   }
 }
@@ -27241,81 +28177,6 @@ extension $GroupInfoDtoExtension on GroupInfoDto {
 }
 
 @JsonSerializable(explicitToJson: true)
-class GroupInfoDtoGroupUpdate {
-  const GroupInfoDtoGroupUpdate({this.groupId, this.type, this.data});
-
-  factory GroupInfoDtoGroupUpdate.fromJson(Map<String, dynamic> json) =>
-      _$GroupInfoDtoGroupUpdateFromJson(json);
-
-  static const toJsonFactory = _$GroupInfoDtoGroupUpdateToJson;
-  Map<String, dynamic> toJson() => _$GroupInfoDtoGroupUpdateToJson(this);
-
-  @JsonKey(name: 'GroupId', includeIfNull: false)
-  final String? groupId;
-  @JsonKey(
-    name: 'Type',
-    includeIfNull: false,
-    toJson: groupUpdateTypeNullableToJson,
-    fromJson: groupUpdateTypeNullableFromJson,
-  )
-  final enums.GroupUpdateType? type;
-  @JsonKey(name: 'Data', includeIfNull: false)
-  final GroupInfoDto? data;
-  static const fromJsonFactory = _$GroupInfoDtoGroupUpdateFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is GroupInfoDtoGroupUpdate &&
-            (identical(other.groupId, groupId) ||
-                const DeepCollectionEquality().equals(
-                  other.groupId,
-                  groupId,
-                )) &&
-            (identical(other.type, type) ||
-                const DeepCollectionEquality().equals(other.type, type)) &&
-            (identical(other.data, data) ||
-                const DeepCollectionEquality().equals(other.data, data)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(groupId) ^
-      const DeepCollectionEquality().hash(type) ^
-      const DeepCollectionEquality().hash(data) ^
-      runtimeType.hashCode;
-}
-
-extension $GroupInfoDtoGroupUpdateExtension on GroupInfoDtoGroupUpdate {
-  GroupInfoDtoGroupUpdate copyWith({
-    String? groupId,
-    enums.GroupUpdateType? type,
-    GroupInfoDto? data,
-  }) {
-    return GroupInfoDtoGroupUpdate(
-      groupId: groupId ?? this.groupId,
-      type: type ?? this.type,
-      data: data ?? this.data,
-    );
-  }
-
-  GroupInfoDtoGroupUpdate copyWithWrapped({
-    Wrapped<String?>? groupId,
-    Wrapped<enums.GroupUpdateType?>? type,
-    Wrapped<GroupInfoDto?>? data,
-  }) {
-    return GroupInfoDtoGroupUpdate(
-      groupId: (groupId != null ? groupId.value : this.groupId),
-      type: (type != null ? type.value : this.type),
-      data: (data != null ? data.value : this.data),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
 class GroupStateUpdate {
   const GroupStateUpdate({this.state, this.reason});
 
@@ -27384,83 +28245,8 @@ extension $GroupStateUpdateExtension on GroupStateUpdate {
 }
 
 @JsonSerializable(explicitToJson: true)
-class GroupStateUpdateGroupUpdate {
-  const GroupStateUpdateGroupUpdate({this.groupId, this.type, this.data});
-
-  factory GroupStateUpdateGroupUpdate.fromJson(Map<String, dynamic> json) =>
-      _$GroupStateUpdateGroupUpdateFromJson(json);
-
-  static const toJsonFactory = _$GroupStateUpdateGroupUpdateToJson;
-  Map<String, dynamic> toJson() => _$GroupStateUpdateGroupUpdateToJson(this);
-
-  @JsonKey(name: 'GroupId', includeIfNull: false)
-  final String? groupId;
-  @JsonKey(
-    name: 'Type',
-    includeIfNull: false,
-    toJson: groupUpdateTypeNullableToJson,
-    fromJson: groupUpdateTypeNullableFromJson,
-  )
-  final enums.GroupUpdateType? type;
-  @JsonKey(name: 'Data', includeIfNull: false)
-  final GroupStateUpdate? data;
-  static const fromJsonFactory = _$GroupStateUpdateGroupUpdateFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is GroupStateUpdateGroupUpdate &&
-            (identical(other.groupId, groupId) ||
-                const DeepCollectionEquality().equals(
-                  other.groupId,
-                  groupId,
-                )) &&
-            (identical(other.type, type) ||
-                const DeepCollectionEquality().equals(other.type, type)) &&
-            (identical(other.data, data) ||
-                const DeepCollectionEquality().equals(other.data, data)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(groupId) ^
-      const DeepCollectionEquality().hash(type) ^
-      const DeepCollectionEquality().hash(data) ^
-      runtimeType.hashCode;
-}
-
-extension $GroupStateUpdateGroupUpdateExtension on GroupStateUpdateGroupUpdate {
-  GroupStateUpdateGroupUpdate copyWith({
-    String? groupId,
-    enums.GroupUpdateType? type,
-    GroupStateUpdate? data,
-  }) {
-    return GroupStateUpdateGroupUpdate(
-      groupId: groupId ?? this.groupId,
-      type: type ?? this.type,
-      data: data ?? this.data,
-    );
-  }
-
-  GroupStateUpdateGroupUpdate copyWithWrapped({
-    Wrapped<String?>? groupId,
-    Wrapped<enums.GroupUpdateType?>? type,
-    Wrapped<GroupStateUpdate?>? data,
-  }) {
-    return GroupStateUpdateGroupUpdate(
-      groupId: (groupId != null ? groupId.value : this.groupId),
-      type: (type != null ? type.value : this.type),
-      data: (data != null ? data.value : this.data),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
 class GroupUpdate {
-  const GroupUpdate({this.groupId, this.type});
+  const GroupUpdate();
 
   factory GroupUpdate.fromJson(Map<String, dynamic> json) =>
       _$GroupUpdateFromJson(json);
@@ -27468,57 +28254,13 @@ class GroupUpdate {
   static const toJsonFactory = _$GroupUpdateToJson;
   Map<String, dynamic> toJson() => _$GroupUpdateToJson(this);
 
-  @JsonKey(name: 'GroupId', includeIfNull: false)
-  final String? groupId;
-  @JsonKey(
-    name: 'Type',
-    includeIfNull: false,
-    toJson: groupUpdateTypeNullableToJson,
-    fromJson: groupUpdateTypeNullableFromJson,
-  )
-  final enums.GroupUpdateType? type;
   static const fromJsonFactory = _$GroupUpdateFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is GroupUpdate &&
-            (identical(other.groupId, groupId) ||
-                const DeepCollectionEquality().equals(
-                  other.groupId,
-                  groupId,
-                )) &&
-            (identical(other.type, type) ||
-                const DeepCollectionEquality().equals(other.type, type)));
-  }
 
   @override
   String toString() => jsonEncode(this);
 
   @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(groupId) ^
-      const DeepCollectionEquality().hash(type) ^
-      runtimeType.hashCode;
-}
-
-extension $GroupUpdateExtension on GroupUpdate {
-  GroupUpdate copyWith({String? groupId, enums.GroupUpdateType? type}) {
-    return GroupUpdate(
-      groupId: groupId ?? this.groupId,
-      type: type ?? this.type,
-    );
-  }
-
-  GroupUpdate copyWithWrapped({
-    Wrapped<String?>? groupId,
-    Wrapped<enums.GroupUpdateType?>? type,
-  }) {
-    return GroupUpdate(
-      groupId: (groupId != null ? groupId.value : this.groupId),
-      type: (type != null ? type.value : this.type),
-    );
-  }
+  int get hashCode => runtimeType.hashCode;
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -28659,7 +29401,7 @@ class LibraryOptions {
     this.disabledSubtitleFetchers,
     this.subtitleFetcherOrder,
     this.disabledMediaSegmentProviders,
-    this.mediaSegmentProvideOrder,
+    this.mediaSegmentProviderOrder,
     this.skipSubtitlesIfEmbeddedSubtitlesPresent,
     this.skipSubtitlesIfAudioTrackMatches,
     this.subtitleDownloadLanguages,
@@ -28767,11 +29509,11 @@ class LibraryOptions {
   )
   final List<String>? disabledMediaSegmentProviders;
   @JsonKey(
-    name: 'MediaSegmentProvideOrder',
+    name: 'MediaSegmentProviderOrder',
     includeIfNull: false,
     defaultValue: <String>[],
   )
-  final List<String>? mediaSegmentProvideOrder;
+  final List<String>? mediaSegmentProviderOrder;
   @JsonKey(
     name: 'SkipSubtitlesIfEmbeddedSubtitlesPresent',
     includeIfNull: false,
@@ -29026,12 +29768,12 @@ class LibraryOptions {
                   disabledMediaSegmentProviders,
                 )) &&
             (identical(
-                  other.mediaSegmentProvideOrder,
-                  mediaSegmentProvideOrder,
+                  other.mediaSegmentProviderOrder,
+                  mediaSegmentProviderOrder,
                 ) ||
                 const DeepCollectionEquality().equals(
-                  other.mediaSegmentProvideOrder,
-                  mediaSegmentProvideOrder,
+                  other.mediaSegmentProviderOrder,
+                  mediaSegmentProviderOrder,
                 )) &&
             (identical(
                   other.skipSubtitlesIfEmbeddedSubtitlesPresent,
@@ -29167,7 +29909,7 @@ class LibraryOptions {
       const DeepCollectionEquality().hash(disabledSubtitleFetchers) ^
       const DeepCollectionEquality().hash(subtitleFetcherOrder) ^
       const DeepCollectionEquality().hash(disabledMediaSegmentProviders) ^
-      const DeepCollectionEquality().hash(mediaSegmentProvideOrder) ^
+      const DeepCollectionEquality().hash(mediaSegmentProviderOrder) ^
       const DeepCollectionEquality().hash(
         skipSubtitlesIfEmbeddedSubtitlesPresent,
       ) ^
@@ -29216,7 +29958,7 @@ extension $LibraryOptionsExtension on LibraryOptions {
     List<String>? disabledSubtitleFetchers,
     List<String>? subtitleFetcherOrder,
     List<String>? disabledMediaSegmentProviders,
-    List<String>? mediaSegmentProvideOrder,
+    List<String>? mediaSegmentProviderOrder,
     bool? skipSubtitlesIfEmbeddedSubtitlesPresent,
     bool? skipSubtitlesIfAudioTrackMatches,
     List<String>? subtitleDownloadLanguages,
@@ -29278,8 +30020,8 @@ extension $LibraryOptionsExtension on LibraryOptions {
       subtitleFetcherOrder: subtitleFetcherOrder ?? this.subtitleFetcherOrder,
       disabledMediaSegmentProviders:
           disabledMediaSegmentProviders ?? this.disabledMediaSegmentProviders,
-      mediaSegmentProvideOrder:
-          mediaSegmentProvideOrder ?? this.mediaSegmentProvideOrder,
+      mediaSegmentProviderOrder:
+          mediaSegmentProviderOrder ?? this.mediaSegmentProviderOrder,
       skipSubtitlesIfEmbeddedSubtitlesPresent:
           skipSubtitlesIfEmbeddedSubtitlesPresent ??
           this.skipSubtitlesIfEmbeddedSubtitlesPresent,
@@ -29338,7 +30080,7 @@ extension $LibraryOptionsExtension on LibraryOptions {
     Wrapped<List<String>?>? disabledSubtitleFetchers,
     Wrapped<List<String>?>? subtitleFetcherOrder,
     Wrapped<List<String>?>? disabledMediaSegmentProviders,
-    Wrapped<List<String>?>? mediaSegmentProvideOrder,
+    Wrapped<List<String>?>? mediaSegmentProviderOrder,
     Wrapped<bool?>? skipSubtitlesIfEmbeddedSubtitlesPresent,
     Wrapped<bool?>? skipSubtitlesIfAudioTrackMatches,
     Wrapped<List<String>?>? subtitleDownloadLanguages,
@@ -29430,9 +30172,9 @@ extension $LibraryOptionsExtension on LibraryOptions {
       disabledMediaSegmentProviders: (disabledMediaSegmentProviders != null
           ? disabledMediaSegmentProviders.value
           : this.disabledMediaSegmentProviders),
-      mediaSegmentProvideOrder: (mediaSegmentProvideOrder != null
-          ? mediaSegmentProvideOrder.value
-          : this.mediaSegmentProvideOrder),
+      mediaSegmentProviderOrder: (mediaSegmentProviderOrder != null
+          ? mediaSegmentProviderOrder.value
+          : this.mediaSegmentProviderOrder),
       skipSubtitlesIfEmbeddedSubtitlesPresent:
           (skipSubtitlesIfEmbeddedSubtitlesPresent != null
           ? skipSubtitlesIfEmbeddedSubtitlesPresent.value
@@ -29492,6 +30234,7 @@ class LibraryOptionsResultDto {
     this.metadataReaders,
     this.subtitleFetchers,
     this.lyricFetchers,
+    this.mediaSegmentProviders,
     this.typeOptions,
   });
 
@@ -29526,6 +30269,12 @@ class LibraryOptionsResultDto {
   )
   final List<LibraryOptionInfoDto>? lyricFetchers;
   @JsonKey(
+    name: 'MediaSegmentProviders',
+    includeIfNull: false,
+    defaultValue: <LibraryOptionInfoDto>[],
+  )
+  final List<LibraryOptionInfoDto>? mediaSegmentProviders;
+  @JsonKey(
     name: 'TypeOptions',
     includeIfNull: false,
     defaultValue: <LibraryTypeOptionsDto>[],
@@ -29557,6 +30306,11 @@ class LibraryOptionsResultDto {
                   other.lyricFetchers,
                   lyricFetchers,
                 )) &&
+            (identical(other.mediaSegmentProviders, mediaSegmentProviders) ||
+                const DeepCollectionEquality().equals(
+                  other.mediaSegmentProviders,
+                  mediaSegmentProviders,
+                )) &&
             (identical(other.typeOptions, typeOptions) ||
                 const DeepCollectionEquality().equals(
                   other.typeOptions,
@@ -29573,6 +30327,7 @@ class LibraryOptionsResultDto {
       const DeepCollectionEquality().hash(metadataReaders) ^
       const DeepCollectionEquality().hash(subtitleFetchers) ^
       const DeepCollectionEquality().hash(lyricFetchers) ^
+      const DeepCollectionEquality().hash(mediaSegmentProviders) ^
       const DeepCollectionEquality().hash(typeOptions) ^
       runtimeType.hashCode;
 }
@@ -29583,6 +30338,7 @@ extension $LibraryOptionsResultDtoExtension on LibraryOptionsResultDto {
     List<LibraryOptionInfoDto>? metadataReaders,
     List<LibraryOptionInfoDto>? subtitleFetchers,
     List<LibraryOptionInfoDto>? lyricFetchers,
+    List<LibraryOptionInfoDto>? mediaSegmentProviders,
     List<LibraryTypeOptionsDto>? typeOptions,
   }) {
     return LibraryOptionsResultDto(
@@ -29590,6 +30346,8 @@ extension $LibraryOptionsResultDtoExtension on LibraryOptionsResultDto {
       metadataReaders: metadataReaders ?? this.metadataReaders,
       subtitleFetchers: subtitleFetchers ?? this.subtitleFetchers,
       lyricFetchers: lyricFetchers ?? this.lyricFetchers,
+      mediaSegmentProviders:
+          mediaSegmentProviders ?? this.mediaSegmentProviders,
       typeOptions: typeOptions ?? this.typeOptions,
     );
   }
@@ -29599,6 +30357,7 @@ extension $LibraryOptionsResultDtoExtension on LibraryOptionsResultDto {
     Wrapped<List<LibraryOptionInfoDto>?>? metadataReaders,
     Wrapped<List<LibraryOptionInfoDto>?>? subtitleFetchers,
     Wrapped<List<LibraryOptionInfoDto>?>? lyricFetchers,
+    Wrapped<List<LibraryOptionInfoDto>?>? mediaSegmentProviders,
     Wrapped<List<LibraryTypeOptionsDto>?>? typeOptions,
   }) {
     return LibraryOptionsResultDto(
@@ -29614,7 +30373,81 @@ extension $LibraryOptionsResultDtoExtension on LibraryOptionsResultDto {
       lyricFetchers: (lyricFetchers != null
           ? lyricFetchers.value
           : this.lyricFetchers),
+      mediaSegmentProviders: (mediaSegmentProviders != null
+          ? mediaSegmentProviders.value
+          : this.mediaSegmentProviders),
       typeOptions: (typeOptions != null ? typeOptions.value : this.typeOptions),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class LibraryStorageDto {
+  const LibraryStorageDto({this.id, this.name, this.folders});
+
+  factory LibraryStorageDto.fromJson(Map<String, dynamic> json) =>
+      _$LibraryStorageDtoFromJson(json);
+
+  static const toJsonFactory = _$LibraryStorageDtoToJson;
+  Map<String, dynamic> toJson() => _$LibraryStorageDtoToJson(this);
+
+  @JsonKey(name: 'Id', includeIfNull: false)
+  final String? id;
+  @JsonKey(name: 'Name', includeIfNull: false)
+  final String? name;
+  @JsonKey(
+    name: 'Folders',
+    includeIfNull: false,
+    defaultValue: <FolderStorageDto>[],
+  )
+  final List<FolderStorageDto>? folders;
+  static const fromJsonFactory = _$LibraryStorageDtoFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is LibraryStorageDto &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.folders, folders) ||
+                const DeepCollectionEquality().equals(other.folders, folders)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(folders) ^
+      runtimeType.hashCode;
+}
+
+extension $LibraryStorageDtoExtension on LibraryStorageDto {
+  LibraryStorageDto copyWith({
+    String? id,
+    String? name,
+    List<FolderStorageDto>? folders,
+  }) {
+    return LibraryStorageDto(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      folders: folders ?? this.folders,
+    );
+  }
+
+  LibraryStorageDto copyWithWrapped({
+    Wrapped<String?>? id,
+    Wrapped<String?>? name,
+    Wrapped<List<FolderStorageDto>?>? folders,
+  }) {
+    return LibraryStorageDto(
+      id: (id != null ? id.value : this.id),
+      name: (name != null ? name.value : this.name),
+      folders: (folders != null ? folders.value : this.folders),
     );
   }
 }
@@ -30912,6 +31745,67 @@ extension $LogFileExtension on LogFile {
 }
 
 @JsonSerializable(explicitToJson: true)
+class LoginInfoInput {
+  const LoginInfoInput({required this.username, required this.password});
+
+  factory LoginInfoInput.fromJson(Map<String, dynamic> json) =>
+      _$LoginInfoInputFromJson(json);
+
+  static const toJsonFactory = _$LoginInfoInputToJson;
+  Map<String, dynamic> toJson() => _$LoginInfoInputToJson(this);
+
+  @JsonKey(name: 'Username', includeIfNull: false)
+  final String username;
+  @JsonKey(name: 'Password', includeIfNull: false)
+  final String password;
+  static const fromJsonFactory = _$LoginInfoInputFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is LoginInfoInput &&
+            (identical(other.username, username) ||
+                const DeepCollectionEquality().equals(
+                  other.username,
+                  username,
+                )) &&
+            (identical(other.password, password) ||
+                const DeepCollectionEquality().equals(
+                  other.password,
+                  password,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(username) ^
+      const DeepCollectionEquality().hash(password) ^
+      runtimeType.hashCode;
+}
+
+extension $LoginInfoInputExtension on LoginInfoInput {
+  LoginInfoInput copyWith({String? username, String? password}) {
+    return LoginInfoInput(
+      username: username ?? this.username,
+      password: password ?? this.password,
+    );
+  }
+
+  LoginInfoInput copyWithWrapped({
+    Wrapped<String>? username,
+    Wrapped<String>? password,
+  }) {
+    return LoginInfoInput(
+      username: (username != null ? username.value : this.username),
+      password: (password != null ? password.value : this.password),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class LyricDto {
   const LyricDto({this.metadata, this.lyrics});
 
@@ -30971,7 +31865,7 @@ extension $LyricDtoExtension on LyricDto {
 
 @JsonSerializable(explicitToJson: true)
 class LyricLine {
-  const LyricLine({this.text, this.start});
+  const LyricLine({this.text, this.start, this.cues});
 
   factory LyricLine.fromJson(Map<String, dynamic> json) =>
       _$LyricLineFromJson(json);
@@ -30983,6 +31877,8 @@ class LyricLine {
   final String? text;
   @JsonKey(name: 'Start', includeIfNull: false)
   final int? start;
+  @JsonKey(name: 'Cues', includeIfNull: false, defaultValue: <LyricLineCue>[])
+  final List<LyricLineCue>? cues;
   static const fromJsonFactory = _$LyricLineFromJson;
 
   @override
@@ -30992,7 +31888,9 @@ class LyricLine {
             (identical(other.text, text) ||
                 const DeepCollectionEquality().equals(other.text, text)) &&
             (identical(other.start, start) ||
-                const DeepCollectionEquality().equals(other.start, start)));
+                const DeepCollectionEquality().equals(other.start, start)) &&
+            (identical(other.cues, cues) ||
+                const DeepCollectionEquality().equals(other.cues, cues)));
   }
 
   @override
@@ -31002,18 +31900,110 @@ class LyricLine {
   int get hashCode =>
       const DeepCollectionEquality().hash(text) ^
       const DeepCollectionEquality().hash(start) ^
+      const DeepCollectionEquality().hash(cues) ^
       runtimeType.hashCode;
 }
 
 extension $LyricLineExtension on LyricLine {
-  LyricLine copyWith({String? text, int? start}) {
-    return LyricLine(text: text ?? this.text, start: start ?? this.start);
+  LyricLine copyWith({String? text, int? start, List<LyricLineCue>? cues}) {
+    return LyricLine(
+      text: text ?? this.text,
+      start: start ?? this.start,
+      cues: cues ?? this.cues,
+    );
   }
 
-  LyricLine copyWithWrapped({Wrapped<String?>? text, Wrapped<int?>? start}) {
+  LyricLine copyWithWrapped({
+    Wrapped<String?>? text,
+    Wrapped<int?>? start,
+    Wrapped<List<LyricLineCue>?>? cues,
+  }) {
     return LyricLine(
       text: (text != null ? text.value : this.text),
       start: (start != null ? start.value : this.start),
+      cues: (cues != null ? cues.value : this.cues),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class LyricLineCue {
+  const LyricLineCue({this.position, this.endPosition, this.start, this.end});
+
+  factory LyricLineCue.fromJson(Map<String, dynamic> json) =>
+      _$LyricLineCueFromJson(json);
+
+  static const toJsonFactory = _$LyricLineCueToJson;
+  Map<String, dynamic> toJson() => _$LyricLineCueToJson(this);
+
+  @JsonKey(name: 'Position', includeIfNull: false)
+  final int? position;
+  @JsonKey(name: 'EndPosition', includeIfNull: false)
+  final int? endPosition;
+  @JsonKey(name: 'Start', includeIfNull: false)
+  final int? start;
+  @JsonKey(name: 'End', includeIfNull: false)
+  final int? end;
+  static const fromJsonFactory = _$LyricLineCueFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is LyricLineCue &&
+            (identical(other.position, position) ||
+                const DeepCollectionEquality().equals(
+                  other.position,
+                  position,
+                )) &&
+            (identical(other.endPosition, endPosition) ||
+                const DeepCollectionEquality().equals(
+                  other.endPosition,
+                  endPosition,
+                )) &&
+            (identical(other.start, start) ||
+                const DeepCollectionEquality().equals(other.start, start)) &&
+            (identical(other.end, end) ||
+                const DeepCollectionEquality().equals(other.end, end)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(position) ^
+      const DeepCollectionEquality().hash(endPosition) ^
+      const DeepCollectionEquality().hash(start) ^
+      const DeepCollectionEquality().hash(end) ^
+      runtimeType.hashCode;
+}
+
+extension $LyricLineCueExtension on LyricLineCue {
+  LyricLineCue copyWith({
+    int? position,
+    int? endPosition,
+    int? start,
+    int? end,
+  }) {
+    return LyricLineCue(
+      position: position ?? this.position,
+      endPosition: endPosition ?? this.endPosition,
+      start: start ?? this.start,
+      end: end ?? this.end,
+    );
+  }
+
+  LyricLineCue copyWithWrapped({
+    Wrapped<int?>? position,
+    Wrapped<int?>? endPosition,
+    Wrapped<int?>? start,
+    Wrapped<int?>? end,
+  }) {
+    return LyricLineCue(
+      position: (position != null ? position.value : this.position),
+      endPosition: (endPosition != null ? endPosition.value : this.endPosition),
+      start: (start != null ? start.value : this.start),
+      end: (end != null ? end.value : this.end),
     );
   }
 }
@@ -31424,9 +32414,13 @@ class MediaSegmentDto {
     name: 'Type',
     includeIfNull: false,
     toJson: mediaSegmentTypeNullableToJson,
-    fromJson: mediaSegmentTypeNullableFromJson,
+    fromJson: mediaSegmentTypeTypeNullableFromJson,
   )
   final enums.MediaSegmentType? type;
+  static enums.MediaSegmentType? mediaSegmentTypeTypeNullableFromJson(
+    Object? value,
+  ) => mediaSegmentTypeNullableFromJson(value, enums.MediaSegmentType.unknown);
+
   @JsonKey(name: 'StartTicks', includeIfNull: false)
   final int? startTicks;
   @JsonKey(name: 'EndTicks', includeIfNull: false)
@@ -32336,6 +33330,7 @@ class MediaStream {
     this.timeBase,
     this.codecTimeBase,
     this.title,
+    this.hdr10PlusPresentFlag,
     this.videoRange,
     this.videoRangeType,
     this.videoDoViTitle,
@@ -32427,20 +33422,30 @@ class MediaStream {
   final String? codecTimeBase;
   @JsonKey(name: 'Title', includeIfNull: false)
   final String? title;
+  @JsonKey(name: 'Hdr10PlusPresentFlag', includeIfNull: false)
+  final bool? hdr10PlusPresentFlag;
   @JsonKey(
     name: 'VideoRange',
     includeIfNull: false,
     toJson: videoRangeNullableToJson,
-    fromJson: videoRangeNullableFromJson,
+    fromJson: videoRangeVideoRangeNullableFromJson,
   )
   final enums.VideoRange? videoRange;
+  static enums.VideoRange? videoRangeVideoRangeNullableFromJson(
+    Object? value,
+  ) => videoRangeNullableFromJson(value, enums.VideoRange.unknown);
+
   @JsonKey(
     name: 'VideoRangeType',
     includeIfNull: false,
     toJson: videoRangeTypeNullableToJson,
-    fromJson: videoRangeTypeNullableFromJson,
+    fromJson: videoRangeTypeVideoRangeTypeNullableFromJson,
   )
   final enums.VideoRangeType? videoRangeType;
+  static enums.VideoRangeType? videoRangeTypeVideoRangeTypeNullableFromJson(
+    Object? value,
+  ) => videoRangeTypeNullableFromJson(value, enums.VideoRangeType.unknown);
+
   @JsonKey(name: 'VideoDoViTitle', includeIfNull: false)
   final String? videoDoViTitle;
   @JsonKey(
@@ -32645,6 +33650,11 @@ class MediaStream {
                 )) &&
             (identical(other.title, title) ||
                 const DeepCollectionEquality().equals(other.title, title)) &&
+            (identical(other.hdr10PlusPresentFlag, hdr10PlusPresentFlag) ||
+                const DeepCollectionEquality().equals(
+                  other.hdr10PlusPresentFlag,
+                  hdr10PlusPresentFlag,
+                )) &&
             (identical(other.videoRange, videoRange) ||
                 const DeepCollectionEquality().equals(
                   other.videoRange,
@@ -32866,6 +33876,7 @@ class MediaStream {
       const DeepCollectionEquality().hash(timeBase) ^
       const DeepCollectionEquality().hash(codecTimeBase) ^
       const DeepCollectionEquality().hash(title) ^
+      const DeepCollectionEquality().hash(hdr10PlusPresentFlag) ^
       const DeepCollectionEquality().hash(videoRange) ^
       const DeepCollectionEquality().hash(videoRangeType) ^
       const DeepCollectionEquality().hash(videoDoViTitle) ^
@@ -32934,6 +33945,7 @@ extension $MediaStreamExtension on MediaStream {
     String? timeBase,
     String? codecTimeBase,
     String? title,
+    bool? hdr10PlusPresentFlag,
     enums.VideoRange? videoRange,
     enums.VideoRangeType? videoRangeType,
     String? videoDoViTitle,
@@ -33000,6 +34012,7 @@ extension $MediaStreamExtension on MediaStream {
       timeBase: timeBase ?? this.timeBase,
       codecTimeBase: codecTimeBase ?? this.codecTimeBase,
       title: title ?? this.title,
+      hdr10PlusPresentFlag: hdr10PlusPresentFlag ?? this.hdr10PlusPresentFlag,
       videoRange: videoRange ?? this.videoRange,
       videoRangeType: videoRangeType ?? this.videoRangeType,
       videoDoViTitle: videoDoViTitle ?? this.videoDoViTitle,
@@ -33069,6 +34082,7 @@ extension $MediaStreamExtension on MediaStream {
     Wrapped<String?>? timeBase,
     Wrapped<String?>? codecTimeBase,
     Wrapped<String?>? title,
+    Wrapped<bool?>? hdr10PlusPresentFlag,
     Wrapped<enums.VideoRange?>? videoRange,
     Wrapped<enums.VideoRangeType?>? videoRangeType,
     Wrapped<String?>? videoDoViTitle,
@@ -33152,6 +34166,9 @@ extension $MediaStreamExtension on MediaStream {
           ? codecTimeBase.value
           : this.codecTimeBase),
       title: (title != null ? title.value : this.title),
+      hdr10PlusPresentFlag: (hdr10PlusPresentFlag != null
+          ? hdr10PlusPresentFlag.value
+          : this.hdr10PlusPresentFlag),
       videoRange: (videoRange != null ? videoRange.value : this.videoRange),
       videoRangeType: (videoRangeType != null
           ? videoRangeType.value
@@ -34695,6 +35712,7 @@ class NetworkConfiguration {
   @JsonKey(name: 'AutoDiscovery', includeIfNull: false)
   final bool? autoDiscovery;
   @JsonKey(name: 'EnableUPnP', includeIfNull: false)
+  @deprecated
   final bool? enableUPnP;
   @JsonKey(name: 'EnableIPv4', includeIfNull: false)
   final bool? enableIPv4;
@@ -35638,7 +36656,7 @@ extension $PackageInfoExtension on PackageInfo {
 
 @JsonSerializable(explicitToJson: true)
 class ParentalRating {
-  const ParentalRating({this.name, this.$Value});
+  const ParentalRating({this.name, this.$Value, this.ratingScore});
 
   factory ParentalRating.fromJson(Map<String, dynamic> json) =>
       _$ParentalRatingFromJson(json);
@@ -35650,6 +36668,8 @@ class ParentalRating {
   final String? name;
   @JsonKey(name: 'Value', includeIfNull: false)
   final int? $Value;
+  @JsonKey(name: 'RatingScore', includeIfNull: false)
+  final ParentalRatingScore? ratingScore;
   static const fromJsonFactory = _$ParentalRatingFromJson;
 
   @override
@@ -35659,7 +36679,12 @@ class ParentalRating {
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.$Value, $Value) ||
-                const DeepCollectionEquality().equals(other.$Value, $Value)));
+                const DeepCollectionEquality().equals(other.$Value, $Value)) &&
+            (identical(other.ratingScore, ratingScore) ||
+                const DeepCollectionEquality().equals(
+                  other.ratingScore,
+                  ratingScore,
+                )));
   }
 
   @override
@@ -35669,24 +36694,90 @@ class ParentalRating {
   int get hashCode =>
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash($Value) ^
+      const DeepCollectionEquality().hash(ratingScore) ^
       runtimeType.hashCode;
 }
 
 extension $ParentalRatingExtension on ParentalRating {
-  ParentalRating copyWith({String? name, int? $Value}) {
+  ParentalRating copyWith({
+    String? name,
+    int? $Value,
+    ParentalRatingScore? ratingScore,
+  }) {
     return ParentalRating(
       name: name ?? this.name,
       $Value: $Value ?? this.$Value,
+      ratingScore: ratingScore ?? this.ratingScore,
     );
   }
 
   ParentalRating copyWithWrapped({
     Wrapped<String?>? name,
     Wrapped<int?>? $Value,
+    Wrapped<ParentalRatingScore?>? ratingScore,
   }) {
     return ParentalRating(
       name: (name != null ? name.value : this.name),
       $Value: ($Value != null ? $Value.value : this.$Value),
+      ratingScore: (ratingScore != null ? ratingScore.value : this.ratingScore),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ParentalRatingScore {
+  const ParentalRatingScore({this.score, this.subScore});
+
+  factory ParentalRatingScore.fromJson(Map<String, dynamic> json) =>
+      _$ParentalRatingScoreFromJson(json);
+
+  static const toJsonFactory = _$ParentalRatingScoreToJson;
+  Map<String, dynamic> toJson() => _$ParentalRatingScoreToJson(this);
+
+  @JsonKey(name: 'score', includeIfNull: false)
+  final int? score;
+  @JsonKey(name: 'subScore', includeIfNull: false)
+  final int? subScore;
+  static const fromJsonFactory = _$ParentalRatingScoreFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ParentalRatingScore &&
+            (identical(other.score, score) ||
+                const DeepCollectionEquality().equals(other.score, score)) &&
+            (identical(other.subScore, subScore) ||
+                const DeepCollectionEquality().equals(
+                  other.subScore,
+                  subScore,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(score) ^
+      const DeepCollectionEquality().hash(subScore) ^
+      runtimeType.hashCode;
+}
+
+extension $ParentalRatingScoreExtension on ParentalRatingScore {
+  ParentalRatingScore copyWith({int? score, int? subScore}) {
+    return ParentalRatingScore(
+      score: score ?? this.score,
+      subScore: subScore ?? this.subScore,
+    );
+  }
+
+  ParentalRatingScore copyWithWrapped({
+    Wrapped<int?>? score,
+    Wrapped<int?>? subScore,
+  }) {
+    return ParentalRatingScore(
+      score: (score != null ? score.value : this.score),
+      subScore: (subScore != null ? subScore.value : this.subScore),
     );
   }
 }
@@ -38030,81 +39121,6 @@ extension $PlayQueueUpdateExtension on PlayQueueUpdate {
       isPlaying: (isPlaying != null ? isPlaying.value : this.isPlaying),
       shuffleMode: (shuffleMode != null ? shuffleMode.value : this.shuffleMode),
       repeatMode: (repeatMode != null ? repeatMode.value : this.repeatMode),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class PlayQueueUpdateGroupUpdate {
-  const PlayQueueUpdateGroupUpdate({this.groupId, this.type, this.data});
-
-  factory PlayQueueUpdateGroupUpdate.fromJson(Map<String, dynamic> json) =>
-      _$PlayQueueUpdateGroupUpdateFromJson(json);
-
-  static const toJsonFactory = _$PlayQueueUpdateGroupUpdateToJson;
-  Map<String, dynamic> toJson() => _$PlayQueueUpdateGroupUpdateToJson(this);
-
-  @JsonKey(name: 'GroupId', includeIfNull: false)
-  final String? groupId;
-  @JsonKey(
-    name: 'Type',
-    includeIfNull: false,
-    toJson: groupUpdateTypeNullableToJson,
-    fromJson: groupUpdateTypeNullableFromJson,
-  )
-  final enums.GroupUpdateType? type;
-  @JsonKey(name: 'Data', includeIfNull: false)
-  final PlayQueueUpdate? data;
-  static const fromJsonFactory = _$PlayQueueUpdateGroupUpdateFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is PlayQueueUpdateGroupUpdate &&
-            (identical(other.groupId, groupId) ||
-                const DeepCollectionEquality().equals(
-                  other.groupId,
-                  groupId,
-                )) &&
-            (identical(other.type, type) ||
-                const DeepCollectionEquality().equals(other.type, type)) &&
-            (identical(other.data, data) ||
-                const DeepCollectionEquality().equals(other.data, data)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(groupId) ^
-      const DeepCollectionEquality().hash(type) ^
-      const DeepCollectionEquality().hash(data) ^
-      runtimeType.hashCode;
-}
-
-extension $PlayQueueUpdateGroupUpdateExtension on PlayQueueUpdateGroupUpdate {
-  PlayQueueUpdateGroupUpdate copyWith({
-    String? groupId,
-    enums.GroupUpdateType? type,
-    PlayQueueUpdate? data,
-  }) {
-    return PlayQueueUpdateGroupUpdate(
-      groupId: groupId ?? this.groupId,
-      type: type ?? this.type,
-      data: data ?? this.data,
-    );
-  }
-
-  PlayQueueUpdateGroupUpdate copyWithWrapped({
-    Wrapped<String?>? groupId,
-    Wrapped<enums.GroupUpdateType?>? type,
-    Wrapped<PlayQueueUpdate?>? data,
-  }) {
-    return PlayQueueUpdateGroupUpdate(
-      groupId: (groupId != null ? groupId.value : this.groupId),
-      type: (type != null ? type.value : this.type),
-      data: (data != null ? data.value : this.data),
     );
   }
 }
@@ -41105,6 +42121,88 @@ extension $RemoveFromPlaylistRequestDtoExtension
 }
 
 @JsonSerializable(explicitToJson: true)
+class ReportPlaybackOptions {
+  const ReportPlaybackOptions({
+    this.maxDataAge,
+    this.backupPath,
+    this.maxBackupFiles,
+  });
+
+  factory ReportPlaybackOptions.fromJson(Map<String, dynamic> json) =>
+      _$ReportPlaybackOptionsFromJson(json);
+
+  static const toJsonFactory = _$ReportPlaybackOptionsToJson;
+  Map<String, dynamic> toJson() => _$ReportPlaybackOptionsToJson(this);
+
+  @JsonKey(name: 'MaxDataAge', includeIfNull: false)
+  final int? maxDataAge;
+  @JsonKey(name: 'BackupPath', includeIfNull: false)
+  final String? backupPath;
+  @JsonKey(name: 'MaxBackupFiles', includeIfNull: false)
+  final int? maxBackupFiles;
+  static const fromJsonFactory = _$ReportPlaybackOptionsFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ReportPlaybackOptions &&
+            (identical(other.maxDataAge, maxDataAge) ||
+                const DeepCollectionEquality().equals(
+                  other.maxDataAge,
+                  maxDataAge,
+                )) &&
+            (identical(other.backupPath, backupPath) ||
+                const DeepCollectionEquality().equals(
+                  other.backupPath,
+                  backupPath,
+                )) &&
+            (identical(other.maxBackupFiles, maxBackupFiles) ||
+                const DeepCollectionEquality().equals(
+                  other.maxBackupFiles,
+                  maxBackupFiles,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(maxDataAge) ^
+      const DeepCollectionEquality().hash(backupPath) ^
+      const DeepCollectionEquality().hash(maxBackupFiles) ^
+      runtimeType.hashCode;
+}
+
+extension $ReportPlaybackOptionsExtension on ReportPlaybackOptions {
+  ReportPlaybackOptions copyWith({
+    int? maxDataAge,
+    String? backupPath,
+    int? maxBackupFiles,
+  }) {
+    return ReportPlaybackOptions(
+      maxDataAge: maxDataAge ?? this.maxDataAge,
+      backupPath: backupPath ?? this.backupPath,
+      maxBackupFiles: maxBackupFiles ?? this.maxBackupFiles,
+    );
+  }
+
+  ReportPlaybackOptions copyWithWrapped({
+    Wrapped<int?>? maxDataAge,
+    Wrapped<String?>? backupPath,
+    Wrapped<int?>? maxBackupFiles,
+  }) {
+    return ReportPlaybackOptions(
+      maxDataAge: (maxDataAge != null ? maxDataAge.value : this.maxDataAge),
+      backupPath: (backupPath != null ? backupPath.value : this.backupPath),
+      maxBackupFiles: (maxBackupFiles != null
+          ? maxBackupFiles.value
+          : this.maxBackupFiles),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class RepositoryInfo {
   const RepositoryInfo({this.name, this.url, this.enabled});
 
@@ -41639,9 +42737,12 @@ class SearchHint {
     name: 'MediaType',
     includeIfNull: false,
     toJson: mediaTypeNullableToJson,
-    fromJson: mediaTypeNullableFromJson,
+    fromJson: mediaTypeMediaTypeNullableFromJson,
   )
   final enums.MediaType? mediaType;
+  static enums.MediaType? mediaTypeMediaTypeNullableFromJson(Object? value) =>
+      mediaTypeNullableFromJson(value, enums.MediaType.unknown);
+
   @JsonKey(name: 'StartDate', includeIfNull: false)
   final DateTime? startDate;
   @JsonKey(name: 'EndDate', includeIfNull: false)
@@ -43355,6 +44456,7 @@ class ServerConfiguration {
     this.inactiveSessionThreshold,
     this.libraryMonitorDelay,
     this.libraryUpdateDuration,
+    this.cacheSize,
     this.imageSavingConvention,
     this.metadataOptions,
     this.skipDeserializationForBasicTypes,
@@ -43364,7 +44466,8 @@ class ServerConfiguration {
     this.contentTypes,
     this.remoteClientBitrateLimit,
     this.enableFolderView,
-    this.enableGroupingIntoCollections,
+    this.enableGroupingMoviesIntoCollections,
+    this.enableGroupingShowsIntoCollections,
     this.displaySpecialsWithinSeasons,
     this.codecsUsed,
     this.pluginRepositories,
@@ -43377,13 +44480,13 @@ class ServerConfiguration {
     this.activityLogRetentionDays,
     this.libraryScanFanoutConcurrency,
     this.libraryMetadataRefreshConcurrency,
-    this.removeOldPlugins,
     this.allowClientLogUpload,
     this.dummyChapterDuration,
     this.chapterImageResolution,
     this.parallelImageEncodingLimit,
     this.castReceiverApplications,
     this.trickplayOptions,
+    this.enableLegacyAuthorization,
   });
 
   factory ServerConfiguration.fromJson(Map<String, dynamic> json) =>
@@ -43454,6 +44557,8 @@ class ServerConfiguration {
   final int? libraryMonitorDelay;
   @JsonKey(name: 'LibraryUpdateDuration', includeIfNull: false)
   final int? libraryUpdateDuration;
+  @JsonKey(name: 'CacheSize', includeIfNull: false)
+  final int? cacheSize;
   @JsonKey(
     name: 'ImageSavingConvention',
     includeIfNull: false,
@@ -43485,8 +44590,10 @@ class ServerConfiguration {
   final int? remoteClientBitrateLimit;
   @JsonKey(name: 'EnableFolderView', includeIfNull: false)
   final bool? enableFolderView;
-  @JsonKey(name: 'EnableGroupingIntoCollections', includeIfNull: false)
-  final bool? enableGroupingIntoCollections;
+  @JsonKey(name: 'EnableGroupingMoviesIntoCollections', includeIfNull: false)
+  final bool? enableGroupingMoviesIntoCollections;
+  @JsonKey(name: 'EnableGroupingShowsIntoCollections', includeIfNull: false)
+  final bool? enableGroupingShowsIntoCollections;
   @JsonKey(name: 'DisplaySpecialsWithinSeasons', includeIfNull: false)
   final bool? displaySpecialsWithinSeasons;
   @JsonKey(name: 'CodecsUsed', includeIfNull: false, defaultValue: <String>[])
@@ -43519,8 +44626,6 @@ class ServerConfiguration {
   final int? libraryScanFanoutConcurrency;
   @JsonKey(name: 'LibraryMetadataRefreshConcurrency', includeIfNull: false)
   final int? libraryMetadataRefreshConcurrency;
-  @JsonKey(name: 'RemoveOldPlugins', includeIfNull: false)
-  final bool? removeOldPlugins;
   @JsonKey(name: 'AllowClientLogUpload', includeIfNull: false)
   final bool? allowClientLogUpload;
   @JsonKey(name: 'DummyChapterDuration', includeIfNull: false)
@@ -43542,6 +44647,8 @@ class ServerConfiguration {
   final List<CastReceiverApplication>? castReceiverApplications;
   @JsonKey(name: 'TrickplayOptions', includeIfNull: false)
   final TrickplayOptions? trickplayOptions;
+  @JsonKey(name: 'EnableLegacyAuthorization', includeIfNull: false)
+  final bool? enableLegacyAuthorization;
   static const fromJsonFactory = _$ServerConfigurationFromJson;
 
   @override
@@ -43694,6 +44801,11 @@ class ServerConfiguration {
                   other.libraryUpdateDuration,
                   libraryUpdateDuration,
                 )) &&
+            (identical(other.cacheSize, cacheSize) ||
+                const DeepCollectionEquality().equals(
+                  other.cacheSize,
+                  cacheSize,
+                )) &&
             (identical(other.imageSavingConvention, imageSavingConvention) ||
                 const DeepCollectionEquality().equals(
                   other.imageSavingConvention,
@@ -43746,12 +44858,20 @@ class ServerConfiguration {
                   enableFolderView,
                 )) &&
             (identical(
-                  other.enableGroupingIntoCollections,
-                  enableGroupingIntoCollections,
+                  other.enableGroupingMoviesIntoCollections,
+                  enableGroupingMoviesIntoCollections,
                 ) ||
                 const DeepCollectionEquality().equals(
-                  other.enableGroupingIntoCollections,
-                  enableGroupingIntoCollections,
+                  other.enableGroupingMoviesIntoCollections,
+                  enableGroupingMoviesIntoCollections,
+                )) &&
+            (identical(
+                  other.enableGroupingShowsIntoCollections,
+                  enableGroupingShowsIntoCollections,
+                ) ||
+                const DeepCollectionEquality().equals(
+                  other.enableGroupingShowsIntoCollections,
+                  enableGroupingShowsIntoCollections,
                 )) &&
             (identical(
                   other.displaySpecialsWithinSeasons,
@@ -43837,11 +44957,6 @@ class ServerConfiguration {
                   other.libraryMetadataRefreshConcurrency,
                   libraryMetadataRefreshConcurrency,
                 )) &&
-            (identical(other.removeOldPlugins, removeOldPlugins) ||
-                const DeepCollectionEquality().equals(
-                  other.removeOldPlugins,
-                  removeOldPlugins,
-                )) &&
             (identical(other.allowClientLogUpload, allowClientLogUpload) ||
                 const DeepCollectionEquality().equals(
                   other.allowClientLogUpload,
@@ -43877,6 +44992,14 @@ class ServerConfiguration {
                 const DeepCollectionEquality().equals(
                   other.trickplayOptions,
                   trickplayOptions,
+                )) &&
+            (identical(
+                  other.enableLegacyAuthorization,
+                  enableLegacyAuthorization,
+                ) ||
+                const DeepCollectionEquality().equals(
+                  other.enableLegacyAuthorization,
+                  enableLegacyAuthorization,
                 )));
   }
 
@@ -43910,6 +45033,7 @@ class ServerConfiguration {
       const DeepCollectionEquality().hash(inactiveSessionThreshold) ^
       const DeepCollectionEquality().hash(libraryMonitorDelay) ^
       const DeepCollectionEquality().hash(libraryUpdateDuration) ^
+      const DeepCollectionEquality().hash(cacheSize) ^
       const DeepCollectionEquality().hash(imageSavingConvention) ^
       const DeepCollectionEquality().hash(metadataOptions) ^
       const DeepCollectionEquality().hash(skipDeserializationForBasicTypes) ^
@@ -43919,7 +45043,8 @@ class ServerConfiguration {
       const DeepCollectionEquality().hash(contentTypes) ^
       const DeepCollectionEquality().hash(remoteClientBitrateLimit) ^
       const DeepCollectionEquality().hash(enableFolderView) ^
-      const DeepCollectionEquality().hash(enableGroupingIntoCollections) ^
+      const DeepCollectionEquality().hash(enableGroupingMoviesIntoCollections) ^
+      const DeepCollectionEquality().hash(enableGroupingShowsIntoCollections) ^
       const DeepCollectionEquality().hash(displaySpecialsWithinSeasons) ^
       const DeepCollectionEquality().hash(codecsUsed) ^
       const DeepCollectionEquality().hash(pluginRepositories) ^
@@ -43932,13 +45057,13 @@ class ServerConfiguration {
       const DeepCollectionEquality().hash(activityLogRetentionDays) ^
       const DeepCollectionEquality().hash(libraryScanFanoutConcurrency) ^
       const DeepCollectionEquality().hash(libraryMetadataRefreshConcurrency) ^
-      const DeepCollectionEquality().hash(removeOldPlugins) ^
       const DeepCollectionEquality().hash(allowClientLogUpload) ^
       const DeepCollectionEquality().hash(dummyChapterDuration) ^
       const DeepCollectionEquality().hash(chapterImageResolution) ^
       const DeepCollectionEquality().hash(parallelImageEncodingLimit) ^
       const DeepCollectionEquality().hash(castReceiverApplications) ^
       const DeepCollectionEquality().hash(trickplayOptions) ^
+      const DeepCollectionEquality().hash(enableLegacyAuthorization) ^
       runtimeType.hashCode;
 }
 
@@ -43969,6 +45094,7 @@ extension $ServerConfigurationExtension on ServerConfiguration {
     int? inactiveSessionThreshold,
     int? libraryMonitorDelay,
     int? libraryUpdateDuration,
+    int? cacheSize,
     enums.ImageSavingConvention? imageSavingConvention,
     List<MetadataOptions>? metadataOptions,
     bool? skipDeserializationForBasicTypes,
@@ -43978,7 +45104,8 @@ extension $ServerConfigurationExtension on ServerConfiguration {
     List<NameValuePair>? contentTypes,
     int? remoteClientBitrateLimit,
     bool? enableFolderView,
-    bool? enableGroupingIntoCollections,
+    bool? enableGroupingMoviesIntoCollections,
+    bool? enableGroupingShowsIntoCollections,
     bool? displaySpecialsWithinSeasons,
     List<String>? codecsUsed,
     List<RepositoryInfo>? pluginRepositories,
@@ -43991,13 +45118,13 @@ extension $ServerConfigurationExtension on ServerConfiguration {
     int? activityLogRetentionDays,
     int? libraryScanFanoutConcurrency,
     int? libraryMetadataRefreshConcurrency,
-    bool? removeOldPlugins,
     bool? allowClientLogUpload,
     int? dummyChapterDuration,
     enums.ImageResolution? chapterImageResolution,
     int? parallelImageEncodingLimit,
     List<CastReceiverApplication>? castReceiverApplications,
     TrickplayOptions? trickplayOptions,
+    bool? enableLegacyAuthorization,
   }) {
     return ServerConfiguration(
       logFileRetentionDays: logFileRetentionDays ?? this.logFileRetentionDays,
@@ -44036,6 +45163,7 @@ extension $ServerConfigurationExtension on ServerConfiguration {
       libraryMonitorDelay: libraryMonitorDelay ?? this.libraryMonitorDelay,
       libraryUpdateDuration:
           libraryUpdateDuration ?? this.libraryUpdateDuration,
+      cacheSize: cacheSize ?? this.cacheSize,
       imageSavingConvention:
           imageSavingConvention ?? this.imageSavingConvention,
       metadataOptions: metadataOptions ?? this.metadataOptions,
@@ -44049,8 +45177,12 @@ extension $ServerConfigurationExtension on ServerConfiguration {
       remoteClientBitrateLimit:
           remoteClientBitrateLimit ?? this.remoteClientBitrateLimit,
       enableFolderView: enableFolderView ?? this.enableFolderView,
-      enableGroupingIntoCollections:
-          enableGroupingIntoCollections ?? this.enableGroupingIntoCollections,
+      enableGroupingMoviesIntoCollections:
+          enableGroupingMoviesIntoCollections ??
+          this.enableGroupingMoviesIntoCollections,
+      enableGroupingShowsIntoCollections:
+          enableGroupingShowsIntoCollections ??
+          this.enableGroupingShowsIntoCollections,
       displaySpecialsWithinSeasons:
           displaySpecialsWithinSeasons ?? this.displaySpecialsWithinSeasons,
       codecsUsed: codecsUsed ?? this.codecsUsed,
@@ -44073,7 +45205,6 @@ extension $ServerConfigurationExtension on ServerConfiguration {
       libraryMetadataRefreshConcurrency:
           libraryMetadataRefreshConcurrency ??
           this.libraryMetadataRefreshConcurrency,
-      removeOldPlugins: removeOldPlugins ?? this.removeOldPlugins,
       allowClientLogUpload: allowClientLogUpload ?? this.allowClientLogUpload,
       dummyChapterDuration: dummyChapterDuration ?? this.dummyChapterDuration,
       chapterImageResolution:
@@ -44083,6 +45214,8 @@ extension $ServerConfigurationExtension on ServerConfiguration {
       castReceiverApplications:
           castReceiverApplications ?? this.castReceiverApplications,
       trickplayOptions: trickplayOptions ?? this.trickplayOptions,
+      enableLegacyAuthorization:
+          enableLegacyAuthorization ?? this.enableLegacyAuthorization,
     );
   }
 
@@ -44112,6 +45245,7 @@ extension $ServerConfigurationExtension on ServerConfiguration {
     Wrapped<int?>? inactiveSessionThreshold,
     Wrapped<int?>? libraryMonitorDelay,
     Wrapped<int?>? libraryUpdateDuration,
+    Wrapped<int?>? cacheSize,
     Wrapped<enums.ImageSavingConvention?>? imageSavingConvention,
     Wrapped<List<MetadataOptions>?>? metadataOptions,
     Wrapped<bool?>? skipDeserializationForBasicTypes,
@@ -44121,7 +45255,8 @@ extension $ServerConfigurationExtension on ServerConfiguration {
     Wrapped<List<NameValuePair>?>? contentTypes,
     Wrapped<int?>? remoteClientBitrateLimit,
     Wrapped<bool?>? enableFolderView,
-    Wrapped<bool?>? enableGroupingIntoCollections,
+    Wrapped<bool?>? enableGroupingMoviesIntoCollections,
+    Wrapped<bool?>? enableGroupingShowsIntoCollections,
     Wrapped<bool?>? displaySpecialsWithinSeasons,
     Wrapped<List<String>?>? codecsUsed,
     Wrapped<List<RepositoryInfo>?>? pluginRepositories,
@@ -44134,13 +45269,13 @@ extension $ServerConfigurationExtension on ServerConfiguration {
     Wrapped<int?>? activityLogRetentionDays,
     Wrapped<int?>? libraryScanFanoutConcurrency,
     Wrapped<int?>? libraryMetadataRefreshConcurrency,
-    Wrapped<bool?>? removeOldPlugins,
     Wrapped<bool?>? allowClientLogUpload,
     Wrapped<int?>? dummyChapterDuration,
     Wrapped<enums.ImageResolution?>? chapterImageResolution,
     Wrapped<int?>? parallelImageEncodingLimit,
     Wrapped<List<CastReceiverApplication>?>? castReceiverApplications,
     Wrapped<TrickplayOptions?>? trickplayOptions,
+    Wrapped<bool?>? enableLegacyAuthorization,
   }) {
     return ServerConfiguration(
       logFileRetentionDays: (logFileRetentionDays != null
@@ -44217,6 +45352,7 @@ extension $ServerConfigurationExtension on ServerConfiguration {
       libraryUpdateDuration: (libraryUpdateDuration != null
           ? libraryUpdateDuration.value
           : this.libraryUpdateDuration),
+      cacheSize: (cacheSize != null ? cacheSize.value : this.cacheSize),
       imageSavingConvention: (imageSavingConvention != null
           ? imageSavingConvention.value
           : this.imageSavingConvention),
@@ -44241,9 +45377,14 @@ extension $ServerConfigurationExtension on ServerConfiguration {
       enableFolderView: (enableFolderView != null
           ? enableFolderView.value
           : this.enableFolderView),
-      enableGroupingIntoCollections: (enableGroupingIntoCollections != null
-          ? enableGroupingIntoCollections.value
-          : this.enableGroupingIntoCollections),
+      enableGroupingMoviesIntoCollections:
+          (enableGroupingMoviesIntoCollections != null
+          ? enableGroupingMoviesIntoCollections.value
+          : this.enableGroupingMoviesIntoCollections),
+      enableGroupingShowsIntoCollections:
+          (enableGroupingShowsIntoCollections != null
+          ? enableGroupingShowsIntoCollections.value
+          : this.enableGroupingShowsIntoCollections),
       displaySpecialsWithinSeasons: (displaySpecialsWithinSeasons != null
           ? displaySpecialsWithinSeasons.value
           : this.displaySpecialsWithinSeasons),
@@ -44278,9 +45419,6 @@ extension $ServerConfigurationExtension on ServerConfiguration {
           (libraryMetadataRefreshConcurrency != null
           ? libraryMetadataRefreshConcurrency.value
           : this.libraryMetadataRefreshConcurrency),
-      removeOldPlugins: (removeOldPlugins != null
-          ? removeOldPlugins.value
-          : this.removeOldPlugins),
       allowClientLogUpload: (allowClientLogUpload != null
           ? allowClientLogUpload.value
           : this.allowClientLogUpload),
@@ -44299,6 +45437,9 @@ extension $ServerConfigurationExtension on ServerConfiguration {
       trickplayOptions: (trickplayOptions != null
           ? trickplayOptions.value
           : this.trickplayOptions),
+      enableLegacyAuthorization: (enableLegacyAuthorization != null
+          ? enableLegacyAuthorization.value
+          : this.enableLegacyAuthorization),
     );
   }
 }
@@ -45805,6 +46946,7 @@ extension $SpecialViewOptionDtoExtension on SpecialViewOptionDto {
 @JsonSerializable(explicitToJson: true)
 class StartupConfigurationDto {
   const StartupConfigurationDto({
+    this.serverName,
     this.uICulture,
     this.metadataCountryCode,
     this.preferredMetadataLanguage,
@@ -45816,6 +46958,8 @@ class StartupConfigurationDto {
   static const toJsonFactory = _$StartupConfigurationDtoToJson;
   Map<String, dynamic> toJson() => _$StartupConfigurationDtoToJson(this);
 
+  @JsonKey(name: 'ServerName', includeIfNull: false)
+  final String? serverName;
   @JsonKey(name: 'UICulture', includeIfNull: false)
   final String? uICulture;
   @JsonKey(name: 'MetadataCountryCode', includeIfNull: false)
@@ -45828,6 +46972,11 @@ class StartupConfigurationDto {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other is StartupConfigurationDto &&
+            (identical(other.serverName, serverName) ||
+                const DeepCollectionEquality().equals(
+                  other.serverName,
+                  serverName,
+                )) &&
             (identical(other.uICulture, uICulture) ||
                 const DeepCollectionEquality().equals(
                   other.uICulture,
@@ -45853,6 +47002,7 @@ class StartupConfigurationDto {
 
   @override
   int get hashCode =>
+      const DeepCollectionEquality().hash(serverName) ^
       const DeepCollectionEquality().hash(uICulture) ^
       const DeepCollectionEquality().hash(metadataCountryCode) ^
       const DeepCollectionEquality().hash(preferredMetadataLanguage) ^
@@ -45861,11 +47011,13 @@ class StartupConfigurationDto {
 
 extension $StartupConfigurationDtoExtension on StartupConfigurationDto {
   StartupConfigurationDto copyWith({
+    String? serverName,
     String? uICulture,
     String? metadataCountryCode,
     String? preferredMetadataLanguage,
   }) {
     return StartupConfigurationDto(
+      serverName: serverName ?? this.serverName,
       uICulture: uICulture ?? this.uICulture,
       metadataCountryCode: metadataCountryCode ?? this.metadataCountryCode,
       preferredMetadataLanguage:
@@ -45874,11 +47026,13 @@ extension $StartupConfigurationDtoExtension on StartupConfigurationDto {
   }
 
   StartupConfigurationDto copyWithWrapped({
+    Wrapped<String?>? serverName,
     Wrapped<String?>? uICulture,
     Wrapped<String?>? metadataCountryCode,
     Wrapped<String?>? preferredMetadataLanguage,
   }) {
     return StartupConfigurationDto(
+      serverName: (serverName != null ? serverName.value : this.serverName),
       uICulture: (uICulture != null ? uICulture.value : this.uICulture),
       metadataCountryCode: (metadataCountryCode != null
           ? metadataCountryCode.value
@@ -45906,6 +47060,7 @@ class StartupRemoteAccessDto {
   @JsonKey(name: 'EnableRemoteAccess', includeIfNull: false)
   final bool enableRemoteAccess;
   @JsonKey(name: 'EnableAutomaticPortMapping', includeIfNull: false)
+  @deprecated
   final bool enableAutomaticPortMapping;
   static const fromJsonFactory = _$StartupRemoteAccessDtoFromJson;
 
@@ -46019,81 +47174,6 @@ extension $StartupUserDtoExtension on StartupUserDto {
     return StartupUserDto(
       name: (name != null ? name.value : this.name),
       password: (password != null ? password.value : this.password),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class StringGroupUpdate {
-  const StringGroupUpdate({this.groupId, this.type, this.data});
-
-  factory StringGroupUpdate.fromJson(Map<String, dynamic> json) =>
-      _$StringGroupUpdateFromJson(json);
-
-  static const toJsonFactory = _$StringGroupUpdateToJson;
-  Map<String, dynamic> toJson() => _$StringGroupUpdateToJson(this);
-
-  @JsonKey(name: 'GroupId', includeIfNull: false)
-  final String? groupId;
-  @JsonKey(
-    name: 'Type',
-    includeIfNull: false,
-    toJson: groupUpdateTypeNullableToJson,
-    fromJson: groupUpdateTypeNullableFromJson,
-  )
-  final enums.GroupUpdateType? type;
-  @JsonKey(name: 'Data', includeIfNull: false)
-  final String? data;
-  static const fromJsonFactory = _$StringGroupUpdateFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is StringGroupUpdate &&
-            (identical(other.groupId, groupId) ||
-                const DeepCollectionEquality().equals(
-                  other.groupId,
-                  groupId,
-                )) &&
-            (identical(other.type, type) ||
-                const DeepCollectionEquality().equals(other.type, type)) &&
-            (identical(other.data, data) ||
-                const DeepCollectionEquality().equals(other.data, data)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(groupId) ^
-      const DeepCollectionEquality().hash(type) ^
-      const DeepCollectionEquality().hash(data) ^
-      runtimeType.hashCode;
-}
-
-extension $StringGroupUpdateExtension on StringGroupUpdate {
-  StringGroupUpdate copyWith({
-    String? groupId,
-    enums.GroupUpdateType? type,
-    String? data,
-  }) {
-    return StringGroupUpdate(
-      groupId: groupId ?? this.groupId,
-      type: type ?? this.type,
-      data: data ?? this.data,
-    );
-  }
-
-  StringGroupUpdate copyWithWrapped({
-    Wrapped<String?>? groupId,
-    Wrapped<enums.GroupUpdateType?>? type,
-    Wrapped<String?>? data,
-  }) {
-    return StringGroupUpdate(
-      groupId: (groupId != null ? groupId.value : this.groupId),
-      type: (type != null ? type.value : this.type),
-      data: (data != null ? data.value : this.data),
     );
   }
 }
@@ -46491,20 +47571,261 @@ extension $SyncPlayCommandMessageExtension on SyncPlayCommandMessage {
 }
 
 @JsonSerializable(explicitToJson: true)
-class SyncPlayGroupUpdateCommandMessage {
-  const SyncPlayGroupUpdateCommandMessage({
+class SyncPlayGroupDoesNotExistUpdate {
+  const SyncPlayGroupDoesNotExistUpdate({this.groupId, this.data, this.type});
+
+  factory SyncPlayGroupDoesNotExistUpdate.fromJson(Map<String, dynamic> json) =>
+      _$SyncPlayGroupDoesNotExistUpdateFromJson(json);
+
+  static const toJsonFactory = _$SyncPlayGroupDoesNotExistUpdateToJson;
+  Map<String, dynamic> toJson() =>
+      _$SyncPlayGroupDoesNotExistUpdateToJson(this);
+
+  @JsonKey(name: 'GroupId', includeIfNull: false)
+  final String? groupId;
+  @JsonKey(name: 'Data', includeIfNull: false)
+  final String? data;
+  @JsonKey(
+    name: 'Type',
+    includeIfNull: false,
+    toJson: groupUpdateTypeNullableToJson,
+    fromJson: groupUpdateTypeTypeNullableFromJson,
+  )
+  final enums.GroupUpdateType? type;
+  static enums.GroupUpdateType? groupUpdateTypeTypeNullableFromJson(
+    Object? value,
+  ) => groupUpdateTypeNullableFromJson(
+    value,
+    enums.GroupUpdateType.groupdoesnotexist,
+  );
+
+  static const fromJsonFactory = _$SyncPlayGroupDoesNotExistUpdateFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is SyncPlayGroupDoesNotExistUpdate &&
+            (identical(other.groupId, groupId) ||
+                const DeepCollectionEquality().equals(
+                  other.groupId,
+                  groupId,
+                )) &&
+            (identical(other.data, data) ||
+                const DeepCollectionEquality().equals(other.data, data)) &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(groupId) ^
+      const DeepCollectionEquality().hash(data) ^
+      const DeepCollectionEquality().hash(type) ^
+      runtimeType.hashCode;
+}
+
+extension $SyncPlayGroupDoesNotExistUpdateExtension
+    on SyncPlayGroupDoesNotExistUpdate {
+  SyncPlayGroupDoesNotExistUpdate copyWith({
+    String? groupId,
+    String? data,
+    enums.GroupUpdateType? type,
+  }) {
+    return SyncPlayGroupDoesNotExistUpdate(
+      groupId: groupId ?? this.groupId,
+      data: data ?? this.data,
+      type: type ?? this.type,
+    );
+  }
+
+  SyncPlayGroupDoesNotExistUpdate copyWithWrapped({
+    Wrapped<String?>? groupId,
+    Wrapped<String?>? data,
+    Wrapped<enums.GroupUpdateType?>? type,
+  }) {
+    return SyncPlayGroupDoesNotExistUpdate(
+      groupId: (groupId != null ? groupId.value : this.groupId),
+      data: (data != null ? data.value : this.data),
+      type: (type != null ? type.value : this.type),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class SyncPlayGroupJoinedUpdate {
+  const SyncPlayGroupJoinedUpdate({this.groupId, this.data, this.type});
+
+  factory SyncPlayGroupJoinedUpdate.fromJson(Map<String, dynamic> json) =>
+      _$SyncPlayGroupJoinedUpdateFromJson(json);
+
+  static const toJsonFactory = _$SyncPlayGroupJoinedUpdateToJson;
+  Map<String, dynamic> toJson() => _$SyncPlayGroupJoinedUpdateToJson(this);
+
+  @JsonKey(name: 'GroupId', includeIfNull: false)
+  final String? groupId;
+  @JsonKey(name: 'Data', includeIfNull: false)
+  final GroupInfoDto? data;
+  @JsonKey(
+    name: 'Type',
+    includeIfNull: false,
+    toJson: groupUpdateTypeNullableToJson,
+    fromJson: groupUpdateTypeTypeNullableFromJson,
+  )
+  final enums.GroupUpdateType? type;
+  static enums.GroupUpdateType? groupUpdateTypeTypeNullableFromJson(
+    Object? value,
+  ) =>
+      groupUpdateTypeNullableFromJson(value, enums.GroupUpdateType.groupjoined);
+
+  static const fromJsonFactory = _$SyncPlayGroupJoinedUpdateFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is SyncPlayGroupJoinedUpdate &&
+            (identical(other.groupId, groupId) ||
+                const DeepCollectionEquality().equals(
+                  other.groupId,
+                  groupId,
+                )) &&
+            (identical(other.data, data) ||
+                const DeepCollectionEquality().equals(other.data, data)) &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(groupId) ^
+      const DeepCollectionEquality().hash(data) ^
+      const DeepCollectionEquality().hash(type) ^
+      runtimeType.hashCode;
+}
+
+extension $SyncPlayGroupJoinedUpdateExtension on SyncPlayGroupJoinedUpdate {
+  SyncPlayGroupJoinedUpdate copyWith({
+    String? groupId,
+    GroupInfoDto? data,
+    enums.GroupUpdateType? type,
+  }) {
+    return SyncPlayGroupJoinedUpdate(
+      groupId: groupId ?? this.groupId,
+      data: data ?? this.data,
+      type: type ?? this.type,
+    );
+  }
+
+  SyncPlayGroupJoinedUpdate copyWithWrapped({
+    Wrapped<String?>? groupId,
+    Wrapped<GroupInfoDto?>? data,
+    Wrapped<enums.GroupUpdateType?>? type,
+  }) {
+    return SyncPlayGroupJoinedUpdate(
+      groupId: (groupId != null ? groupId.value : this.groupId),
+      data: (data != null ? data.value : this.data),
+      type: (type != null ? type.value : this.type),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class SyncPlayGroupLeftUpdate {
+  const SyncPlayGroupLeftUpdate({this.groupId, this.data, this.type});
+
+  factory SyncPlayGroupLeftUpdate.fromJson(Map<String, dynamic> json) =>
+      _$SyncPlayGroupLeftUpdateFromJson(json);
+
+  static const toJsonFactory = _$SyncPlayGroupLeftUpdateToJson;
+  Map<String, dynamic> toJson() => _$SyncPlayGroupLeftUpdateToJson(this);
+
+  @JsonKey(name: 'GroupId', includeIfNull: false)
+  final String? groupId;
+  @JsonKey(name: 'Data', includeIfNull: false)
+  final String? data;
+  @JsonKey(
+    name: 'Type',
+    includeIfNull: false,
+    toJson: groupUpdateTypeNullableToJson,
+    fromJson: groupUpdateTypeTypeNullableFromJson,
+  )
+  final enums.GroupUpdateType? type;
+  static enums.GroupUpdateType? groupUpdateTypeTypeNullableFromJson(
+    Object? value,
+  ) => groupUpdateTypeNullableFromJson(value, enums.GroupUpdateType.groupleft);
+
+  static const fromJsonFactory = _$SyncPlayGroupLeftUpdateFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is SyncPlayGroupLeftUpdate &&
+            (identical(other.groupId, groupId) ||
+                const DeepCollectionEquality().equals(
+                  other.groupId,
+                  groupId,
+                )) &&
+            (identical(other.data, data) ||
+                const DeepCollectionEquality().equals(other.data, data)) &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(groupId) ^
+      const DeepCollectionEquality().hash(data) ^
+      const DeepCollectionEquality().hash(type) ^
+      runtimeType.hashCode;
+}
+
+extension $SyncPlayGroupLeftUpdateExtension on SyncPlayGroupLeftUpdate {
+  SyncPlayGroupLeftUpdate copyWith({
+    String? groupId,
+    String? data,
+    enums.GroupUpdateType? type,
+  }) {
+    return SyncPlayGroupLeftUpdate(
+      groupId: groupId ?? this.groupId,
+      data: data ?? this.data,
+      type: type ?? this.type,
+    );
+  }
+
+  SyncPlayGroupLeftUpdate copyWithWrapped({
+    Wrapped<String?>? groupId,
+    Wrapped<String?>? data,
+    Wrapped<enums.GroupUpdateType?>? type,
+  }) {
+    return SyncPlayGroupLeftUpdate(
+      groupId: (groupId != null ? groupId.value : this.groupId),
+      data: (data != null ? data.value : this.data),
+      type: (type != null ? type.value : this.type),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class SyncPlayGroupUpdateMessage {
+  const SyncPlayGroupUpdateMessage({
     this.data,
     this.messageId,
     this.messageType,
   });
 
-  factory SyncPlayGroupUpdateCommandMessage.fromJson(
-    Map<String, dynamic> json,
-  ) => _$SyncPlayGroupUpdateCommandMessageFromJson(json);
+  factory SyncPlayGroupUpdateMessage.fromJson(Map<String, dynamic> json) =>
+      _$SyncPlayGroupUpdateMessageFromJson(json);
 
-  static const toJsonFactory = _$SyncPlayGroupUpdateCommandMessageToJson;
-  Map<String, dynamic> toJson() =>
-      _$SyncPlayGroupUpdateCommandMessageToJson(this);
+  static const toJsonFactory = _$SyncPlayGroupUpdateMessageToJson;
+  Map<String, dynamic> toJson() => _$SyncPlayGroupUpdateMessageToJson(this);
 
   @JsonKey(name: 'Data', includeIfNull: false)
   final GroupUpdate? data;
@@ -46524,12 +47845,12 @@ class SyncPlayGroupUpdateCommandMessage {
         enums.SessionMessageType.syncplaygroupupdate,
       );
 
-  static const fromJsonFactory = _$SyncPlayGroupUpdateCommandMessageFromJson;
+  static const fromJsonFactory = _$SyncPlayGroupUpdateMessageFromJson;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other is SyncPlayGroupUpdateCommandMessage &&
+        (other is SyncPlayGroupUpdateMessage &&
             (identical(other.data, data) ||
                 const DeepCollectionEquality().equals(other.data, data)) &&
             (identical(other.messageId, messageId) ||
@@ -46555,29 +47876,271 @@ class SyncPlayGroupUpdateCommandMessage {
       runtimeType.hashCode;
 }
 
-extension $SyncPlayGroupUpdateCommandMessageExtension
-    on SyncPlayGroupUpdateCommandMessage {
-  SyncPlayGroupUpdateCommandMessage copyWith({
+extension $SyncPlayGroupUpdateMessageExtension on SyncPlayGroupUpdateMessage {
+  SyncPlayGroupUpdateMessage copyWith({
     GroupUpdate? data,
     String? messageId,
     enums.SessionMessageType? messageType,
   }) {
-    return SyncPlayGroupUpdateCommandMessage(
+    return SyncPlayGroupUpdateMessage(
       data: data ?? this.data,
       messageId: messageId ?? this.messageId,
       messageType: messageType ?? this.messageType,
     );
   }
 
-  SyncPlayGroupUpdateCommandMessage copyWithWrapped({
+  SyncPlayGroupUpdateMessage copyWithWrapped({
     Wrapped<GroupUpdate?>? data,
     Wrapped<String?>? messageId,
     Wrapped<enums.SessionMessageType?>? messageType,
   }) {
-    return SyncPlayGroupUpdateCommandMessage(
+    return SyncPlayGroupUpdateMessage(
       data: (data != null ? data.value : this.data),
       messageId: (messageId != null ? messageId.value : this.messageId),
       messageType: (messageType != null ? messageType.value : this.messageType),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class SyncPlayLibraryAccessDeniedUpdate {
+  const SyncPlayLibraryAccessDeniedUpdate({this.groupId, this.data, this.type});
+
+  factory SyncPlayLibraryAccessDeniedUpdate.fromJson(
+    Map<String, dynamic> json,
+  ) => _$SyncPlayLibraryAccessDeniedUpdateFromJson(json);
+
+  static const toJsonFactory = _$SyncPlayLibraryAccessDeniedUpdateToJson;
+  Map<String, dynamic> toJson() =>
+      _$SyncPlayLibraryAccessDeniedUpdateToJson(this);
+
+  @JsonKey(name: 'GroupId', includeIfNull: false)
+  final String? groupId;
+  @JsonKey(name: 'Data', includeIfNull: false)
+  final String? data;
+  @JsonKey(
+    name: 'Type',
+    includeIfNull: false,
+    toJson: groupUpdateTypeNullableToJson,
+    fromJson: groupUpdateTypeTypeNullableFromJson,
+  )
+  final enums.GroupUpdateType? type;
+  static enums.GroupUpdateType? groupUpdateTypeTypeNullableFromJson(
+    Object? value,
+  ) => groupUpdateTypeNullableFromJson(
+    value,
+    enums.GroupUpdateType.libraryaccessdenied,
+  );
+
+  static const fromJsonFactory = _$SyncPlayLibraryAccessDeniedUpdateFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is SyncPlayLibraryAccessDeniedUpdate &&
+            (identical(other.groupId, groupId) ||
+                const DeepCollectionEquality().equals(
+                  other.groupId,
+                  groupId,
+                )) &&
+            (identical(other.data, data) ||
+                const DeepCollectionEquality().equals(other.data, data)) &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(groupId) ^
+      const DeepCollectionEquality().hash(data) ^
+      const DeepCollectionEquality().hash(type) ^
+      runtimeType.hashCode;
+}
+
+extension $SyncPlayLibraryAccessDeniedUpdateExtension
+    on SyncPlayLibraryAccessDeniedUpdate {
+  SyncPlayLibraryAccessDeniedUpdate copyWith({
+    String? groupId,
+    String? data,
+    enums.GroupUpdateType? type,
+  }) {
+    return SyncPlayLibraryAccessDeniedUpdate(
+      groupId: groupId ?? this.groupId,
+      data: data ?? this.data,
+      type: type ?? this.type,
+    );
+  }
+
+  SyncPlayLibraryAccessDeniedUpdate copyWithWrapped({
+    Wrapped<String?>? groupId,
+    Wrapped<String?>? data,
+    Wrapped<enums.GroupUpdateType?>? type,
+  }) {
+    return SyncPlayLibraryAccessDeniedUpdate(
+      groupId: (groupId != null ? groupId.value : this.groupId),
+      data: (data != null ? data.value : this.data),
+      type: (type != null ? type.value : this.type),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class SyncPlayNotInGroupUpdate {
+  const SyncPlayNotInGroupUpdate({this.groupId, this.data, this.type});
+
+  factory SyncPlayNotInGroupUpdate.fromJson(Map<String, dynamic> json) =>
+      _$SyncPlayNotInGroupUpdateFromJson(json);
+
+  static const toJsonFactory = _$SyncPlayNotInGroupUpdateToJson;
+  Map<String, dynamic> toJson() => _$SyncPlayNotInGroupUpdateToJson(this);
+
+  @JsonKey(name: 'GroupId', includeIfNull: false)
+  final String? groupId;
+  @JsonKey(name: 'Data', includeIfNull: false)
+  final String? data;
+  @JsonKey(
+    name: 'Type',
+    includeIfNull: false,
+    toJson: groupUpdateTypeNullableToJson,
+    fromJson: groupUpdateTypeTypeNullableFromJson,
+  )
+  final enums.GroupUpdateType? type;
+  static enums.GroupUpdateType? groupUpdateTypeTypeNullableFromJson(
+    Object? value,
+  ) => groupUpdateTypeNullableFromJson(value, enums.GroupUpdateType.notingroup);
+
+  static const fromJsonFactory = _$SyncPlayNotInGroupUpdateFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is SyncPlayNotInGroupUpdate &&
+            (identical(other.groupId, groupId) ||
+                const DeepCollectionEquality().equals(
+                  other.groupId,
+                  groupId,
+                )) &&
+            (identical(other.data, data) ||
+                const DeepCollectionEquality().equals(other.data, data)) &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(groupId) ^
+      const DeepCollectionEquality().hash(data) ^
+      const DeepCollectionEquality().hash(type) ^
+      runtimeType.hashCode;
+}
+
+extension $SyncPlayNotInGroupUpdateExtension on SyncPlayNotInGroupUpdate {
+  SyncPlayNotInGroupUpdate copyWith({
+    String? groupId,
+    String? data,
+    enums.GroupUpdateType? type,
+  }) {
+    return SyncPlayNotInGroupUpdate(
+      groupId: groupId ?? this.groupId,
+      data: data ?? this.data,
+      type: type ?? this.type,
+    );
+  }
+
+  SyncPlayNotInGroupUpdate copyWithWrapped({
+    Wrapped<String?>? groupId,
+    Wrapped<String?>? data,
+    Wrapped<enums.GroupUpdateType?>? type,
+  }) {
+    return SyncPlayNotInGroupUpdate(
+      groupId: (groupId != null ? groupId.value : this.groupId),
+      data: (data != null ? data.value : this.data),
+      type: (type != null ? type.value : this.type),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class SyncPlayPlayQueueUpdate {
+  const SyncPlayPlayQueueUpdate({this.groupId, this.data, this.type});
+
+  factory SyncPlayPlayQueueUpdate.fromJson(Map<String, dynamic> json) =>
+      _$SyncPlayPlayQueueUpdateFromJson(json);
+
+  static const toJsonFactory = _$SyncPlayPlayQueueUpdateToJson;
+  Map<String, dynamic> toJson() => _$SyncPlayPlayQueueUpdateToJson(this);
+
+  @JsonKey(name: 'GroupId', includeIfNull: false)
+  final String? groupId;
+  @JsonKey(name: 'Data', includeIfNull: false)
+  final PlayQueueUpdate? data;
+  @JsonKey(
+    name: 'Type',
+    includeIfNull: false,
+    toJson: groupUpdateTypeNullableToJson,
+    fromJson: groupUpdateTypeTypeNullableFromJson,
+  )
+  final enums.GroupUpdateType? type;
+  static enums.GroupUpdateType? groupUpdateTypeTypeNullableFromJson(
+    Object? value,
+  ) => groupUpdateTypeNullableFromJson(value, enums.GroupUpdateType.playqueue);
+
+  static const fromJsonFactory = _$SyncPlayPlayQueueUpdateFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is SyncPlayPlayQueueUpdate &&
+            (identical(other.groupId, groupId) ||
+                const DeepCollectionEquality().equals(
+                  other.groupId,
+                  groupId,
+                )) &&
+            (identical(other.data, data) ||
+                const DeepCollectionEquality().equals(other.data, data)) &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(groupId) ^
+      const DeepCollectionEquality().hash(data) ^
+      const DeepCollectionEquality().hash(type) ^
+      runtimeType.hashCode;
+}
+
+extension $SyncPlayPlayQueueUpdateExtension on SyncPlayPlayQueueUpdate {
+  SyncPlayPlayQueueUpdate copyWith({
+    String? groupId,
+    PlayQueueUpdate? data,
+    enums.GroupUpdateType? type,
+  }) {
+    return SyncPlayPlayQueueUpdate(
+      groupId: groupId ?? this.groupId,
+      data: data ?? this.data,
+      type: type ?? this.type,
+    );
+  }
+
+  SyncPlayPlayQueueUpdate copyWithWrapped({
+    Wrapped<String?>? groupId,
+    Wrapped<PlayQueueUpdate?>? data,
+    Wrapped<enums.GroupUpdateType?>? type,
+  }) {
+    return SyncPlayPlayQueueUpdate(
+      groupId: (groupId != null ? groupId.value : this.groupId),
+      data: (data != null ? data.value : this.data),
+      type: (type != null ? type.value : this.type),
     );
   }
 }
@@ -46638,6 +48201,244 @@ extension $SyncPlayQueueItemExtension on SyncPlayQueueItem {
       playlistItemId: (playlistItemId != null
           ? playlistItemId.value
           : this.playlistItemId),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class SyncPlayStateUpdate {
+  const SyncPlayStateUpdate({this.groupId, this.data, this.type});
+
+  factory SyncPlayStateUpdate.fromJson(Map<String, dynamic> json) =>
+      _$SyncPlayStateUpdateFromJson(json);
+
+  static const toJsonFactory = _$SyncPlayStateUpdateToJson;
+  Map<String, dynamic> toJson() => _$SyncPlayStateUpdateToJson(this);
+
+  @JsonKey(name: 'GroupId', includeIfNull: false)
+  final String? groupId;
+  @JsonKey(name: 'Data', includeIfNull: false)
+  final GroupStateUpdate? data;
+  @JsonKey(
+    name: 'Type',
+    includeIfNull: false,
+    toJson: groupUpdateTypeNullableToJson,
+    fromJson: groupUpdateTypeTypeNullableFromJson,
+  )
+  final enums.GroupUpdateType? type;
+  static enums.GroupUpdateType? groupUpdateTypeTypeNullableFromJson(
+    Object? value,
+  ) =>
+      groupUpdateTypeNullableFromJson(value, enums.GroupUpdateType.stateupdate);
+
+  static const fromJsonFactory = _$SyncPlayStateUpdateFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is SyncPlayStateUpdate &&
+            (identical(other.groupId, groupId) ||
+                const DeepCollectionEquality().equals(
+                  other.groupId,
+                  groupId,
+                )) &&
+            (identical(other.data, data) ||
+                const DeepCollectionEquality().equals(other.data, data)) &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(groupId) ^
+      const DeepCollectionEquality().hash(data) ^
+      const DeepCollectionEquality().hash(type) ^
+      runtimeType.hashCode;
+}
+
+extension $SyncPlayStateUpdateExtension on SyncPlayStateUpdate {
+  SyncPlayStateUpdate copyWith({
+    String? groupId,
+    GroupStateUpdate? data,
+    enums.GroupUpdateType? type,
+  }) {
+    return SyncPlayStateUpdate(
+      groupId: groupId ?? this.groupId,
+      data: data ?? this.data,
+      type: type ?? this.type,
+    );
+  }
+
+  SyncPlayStateUpdate copyWithWrapped({
+    Wrapped<String?>? groupId,
+    Wrapped<GroupStateUpdate?>? data,
+    Wrapped<enums.GroupUpdateType?>? type,
+  }) {
+    return SyncPlayStateUpdate(
+      groupId: (groupId != null ? groupId.value : this.groupId),
+      data: (data != null ? data.value : this.data),
+      type: (type != null ? type.value : this.type),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class SyncPlayUserJoinedUpdate {
+  const SyncPlayUserJoinedUpdate({this.groupId, this.data, this.type});
+
+  factory SyncPlayUserJoinedUpdate.fromJson(Map<String, dynamic> json) =>
+      _$SyncPlayUserJoinedUpdateFromJson(json);
+
+  static const toJsonFactory = _$SyncPlayUserJoinedUpdateToJson;
+  Map<String, dynamic> toJson() => _$SyncPlayUserJoinedUpdateToJson(this);
+
+  @JsonKey(name: 'GroupId', includeIfNull: false)
+  final String? groupId;
+  @JsonKey(name: 'Data', includeIfNull: false)
+  final String? data;
+  @JsonKey(
+    name: 'Type',
+    includeIfNull: false,
+    toJson: groupUpdateTypeNullableToJson,
+    fromJson: groupUpdateTypeTypeNullableFromJson,
+  )
+  final enums.GroupUpdateType? type;
+  static enums.GroupUpdateType? groupUpdateTypeTypeNullableFromJson(
+    Object? value,
+  ) => groupUpdateTypeNullableFromJson(value, enums.GroupUpdateType.userjoined);
+
+  static const fromJsonFactory = _$SyncPlayUserJoinedUpdateFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is SyncPlayUserJoinedUpdate &&
+            (identical(other.groupId, groupId) ||
+                const DeepCollectionEquality().equals(
+                  other.groupId,
+                  groupId,
+                )) &&
+            (identical(other.data, data) ||
+                const DeepCollectionEquality().equals(other.data, data)) &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(groupId) ^
+      const DeepCollectionEquality().hash(data) ^
+      const DeepCollectionEquality().hash(type) ^
+      runtimeType.hashCode;
+}
+
+extension $SyncPlayUserJoinedUpdateExtension on SyncPlayUserJoinedUpdate {
+  SyncPlayUserJoinedUpdate copyWith({
+    String? groupId,
+    String? data,
+    enums.GroupUpdateType? type,
+  }) {
+    return SyncPlayUserJoinedUpdate(
+      groupId: groupId ?? this.groupId,
+      data: data ?? this.data,
+      type: type ?? this.type,
+    );
+  }
+
+  SyncPlayUserJoinedUpdate copyWithWrapped({
+    Wrapped<String?>? groupId,
+    Wrapped<String?>? data,
+    Wrapped<enums.GroupUpdateType?>? type,
+  }) {
+    return SyncPlayUserJoinedUpdate(
+      groupId: (groupId != null ? groupId.value : this.groupId),
+      data: (data != null ? data.value : this.data),
+      type: (type != null ? type.value : this.type),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class SyncPlayUserLeftUpdate {
+  const SyncPlayUserLeftUpdate({this.groupId, this.data, this.type});
+
+  factory SyncPlayUserLeftUpdate.fromJson(Map<String, dynamic> json) =>
+      _$SyncPlayUserLeftUpdateFromJson(json);
+
+  static const toJsonFactory = _$SyncPlayUserLeftUpdateToJson;
+  Map<String, dynamic> toJson() => _$SyncPlayUserLeftUpdateToJson(this);
+
+  @JsonKey(name: 'GroupId', includeIfNull: false)
+  final String? groupId;
+  @JsonKey(name: 'Data', includeIfNull: false)
+  final String? data;
+  @JsonKey(
+    name: 'Type',
+    includeIfNull: false,
+    toJson: groupUpdateTypeNullableToJson,
+    fromJson: groupUpdateTypeTypeNullableFromJson,
+  )
+  final enums.GroupUpdateType? type;
+  static enums.GroupUpdateType? groupUpdateTypeTypeNullableFromJson(
+    Object? value,
+  ) => groupUpdateTypeNullableFromJson(value, enums.GroupUpdateType.userleft);
+
+  static const fromJsonFactory = _$SyncPlayUserLeftUpdateFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is SyncPlayUserLeftUpdate &&
+            (identical(other.groupId, groupId) ||
+                const DeepCollectionEquality().equals(
+                  other.groupId,
+                  groupId,
+                )) &&
+            (identical(other.data, data) ||
+                const DeepCollectionEquality().equals(other.data, data)) &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(groupId) ^
+      const DeepCollectionEquality().hash(data) ^
+      const DeepCollectionEquality().hash(type) ^
+      runtimeType.hashCode;
+}
+
+extension $SyncPlayUserLeftUpdateExtension on SyncPlayUserLeftUpdate {
+  SyncPlayUserLeftUpdate copyWith({
+    String? groupId,
+    String? data,
+    enums.GroupUpdateType? type,
+  }) {
+    return SyncPlayUserLeftUpdate(
+      groupId: groupId ?? this.groupId,
+      data: data ?? this.data,
+      type: type ?? this.type,
+    );
+  }
+
+  SyncPlayUserLeftUpdate copyWithWrapped({
+    Wrapped<String?>? groupId,
+    Wrapped<String?>? data,
+    Wrapped<enums.GroupUpdateType?>? type,
+  }) {
+    return SyncPlayUserLeftUpdate(
+      groupId: (groupId != null ? groupId.value : this.groupId),
+      data: (data != null ? data.value : this.data),
+      type: (type != null ? type.value : this.type),
     );
   }
 }
@@ -46725,18 +48526,25 @@ class SystemInfo {
   @deprecated
   final bool? canLaunchWebBrowser;
   @JsonKey(name: 'ProgramDataPath', includeIfNull: false)
+  @deprecated
   final String? programDataPath;
   @JsonKey(name: 'WebPath', includeIfNull: false)
+  @deprecated
   final String? webPath;
   @JsonKey(name: 'ItemsByNamePath', includeIfNull: false)
+  @deprecated
   final String? itemsByNamePath;
   @JsonKey(name: 'CachePath', includeIfNull: false)
+  @deprecated
   final String? cachePath;
   @JsonKey(name: 'LogPath', includeIfNull: false)
+  @deprecated
   final String? logPath;
   @JsonKey(name: 'InternalMetadataPath', includeIfNull: false)
+  @deprecated
   final String? internalMetadataPath;
   @JsonKey(name: 'TranscodingTempPath', includeIfNull: false)
+  @deprecated
   final String? transcodingTempPath;
   @JsonKey(
     name: 'CastReceiverApplications',
@@ -47104,6 +48912,165 @@ extension $SystemInfoExtension on SystemInfo {
 }
 
 @JsonSerializable(explicitToJson: true)
+class SystemStorageDto {
+  const SystemStorageDto({
+    this.programDataFolder,
+    this.webFolder,
+    this.imageCacheFolder,
+    this.cacheFolder,
+    this.logFolder,
+    this.internalMetadataFolder,
+    this.transcodingTempFolder,
+    this.libraries,
+  });
+
+  factory SystemStorageDto.fromJson(Map<String, dynamic> json) =>
+      _$SystemStorageDtoFromJson(json);
+
+  static const toJsonFactory = _$SystemStorageDtoToJson;
+  Map<String, dynamic> toJson() => _$SystemStorageDtoToJson(this);
+
+  @JsonKey(name: 'ProgramDataFolder', includeIfNull: false)
+  final FolderStorageDto? programDataFolder;
+  @JsonKey(name: 'WebFolder', includeIfNull: false)
+  final FolderStorageDto? webFolder;
+  @JsonKey(name: 'ImageCacheFolder', includeIfNull: false)
+  final FolderStorageDto? imageCacheFolder;
+  @JsonKey(name: 'CacheFolder', includeIfNull: false)
+  final FolderStorageDto? cacheFolder;
+  @JsonKey(name: 'LogFolder', includeIfNull: false)
+  final FolderStorageDto? logFolder;
+  @JsonKey(name: 'InternalMetadataFolder', includeIfNull: false)
+  final FolderStorageDto? internalMetadataFolder;
+  @JsonKey(name: 'TranscodingTempFolder', includeIfNull: false)
+  final FolderStorageDto? transcodingTempFolder;
+  @JsonKey(
+    name: 'Libraries',
+    includeIfNull: false,
+    defaultValue: <LibraryStorageDto>[],
+  )
+  final List<LibraryStorageDto>? libraries;
+  static const fromJsonFactory = _$SystemStorageDtoFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is SystemStorageDto &&
+            (identical(other.programDataFolder, programDataFolder) ||
+                const DeepCollectionEquality().equals(
+                  other.programDataFolder,
+                  programDataFolder,
+                )) &&
+            (identical(other.webFolder, webFolder) ||
+                const DeepCollectionEquality().equals(
+                  other.webFolder,
+                  webFolder,
+                )) &&
+            (identical(other.imageCacheFolder, imageCacheFolder) ||
+                const DeepCollectionEquality().equals(
+                  other.imageCacheFolder,
+                  imageCacheFolder,
+                )) &&
+            (identical(other.cacheFolder, cacheFolder) ||
+                const DeepCollectionEquality().equals(
+                  other.cacheFolder,
+                  cacheFolder,
+                )) &&
+            (identical(other.logFolder, logFolder) ||
+                const DeepCollectionEquality().equals(
+                  other.logFolder,
+                  logFolder,
+                )) &&
+            (identical(other.internalMetadataFolder, internalMetadataFolder) ||
+                const DeepCollectionEquality().equals(
+                  other.internalMetadataFolder,
+                  internalMetadataFolder,
+                )) &&
+            (identical(other.transcodingTempFolder, transcodingTempFolder) ||
+                const DeepCollectionEquality().equals(
+                  other.transcodingTempFolder,
+                  transcodingTempFolder,
+                )) &&
+            (identical(other.libraries, libraries) ||
+                const DeepCollectionEquality().equals(
+                  other.libraries,
+                  libraries,
+                )));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(programDataFolder) ^
+      const DeepCollectionEquality().hash(webFolder) ^
+      const DeepCollectionEquality().hash(imageCacheFolder) ^
+      const DeepCollectionEquality().hash(cacheFolder) ^
+      const DeepCollectionEquality().hash(logFolder) ^
+      const DeepCollectionEquality().hash(internalMetadataFolder) ^
+      const DeepCollectionEquality().hash(transcodingTempFolder) ^
+      const DeepCollectionEquality().hash(libraries) ^
+      runtimeType.hashCode;
+}
+
+extension $SystemStorageDtoExtension on SystemStorageDto {
+  SystemStorageDto copyWith({
+    FolderStorageDto? programDataFolder,
+    FolderStorageDto? webFolder,
+    FolderStorageDto? imageCacheFolder,
+    FolderStorageDto? cacheFolder,
+    FolderStorageDto? logFolder,
+    FolderStorageDto? internalMetadataFolder,
+    FolderStorageDto? transcodingTempFolder,
+    List<LibraryStorageDto>? libraries,
+  }) {
+    return SystemStorageDto(
+      programDataFolder: programDataFolder ?? this.programDataFolder,
+      webFolder: webFolder ?? this.webFolder,
+      imageCacheFolder: imageCacheFolder ?? this.imageCacheFolder,
+      cacheFolder: cacheFolder ?? this.cacheFolder,
+      logFolder: logFolder ?? this.logFolder,
+      internalMetadataFolder:
+          internalMetadataFolder ?? this.internalMetadataFolder,
+      transcodingTempFolder:
+          transcodingTempFolder ?? this.transcodingTempFolder,
+      libraries: libraries ?? this.libraries,
+    );
+  }
+
+  SystemStorageDto copyWithWrapped({
+    Wrapped<FolderStorageDto?>? programDataFolder,
+    Wrapped<FolderStorageDto?>? webFolder,
+    Wrapped<FolderStorageDto?>? imageCacheFolder,
+    Wrapped<FolderStorageDto?>? cacheFolder,
+    Wrapped<FolderStorageDto?>? logFolder,
+    Wrapped<FolderStorageDto?>? internalMetadataFolder,
+    Wrapped<FolderStorageDto?>? transcodingTempFolder,
+    Wrapped<List<LibraryStorageDto>?>? libraries,
+  }) {
+    return SystemStorageDto(
+      programDataFolder: (programDataFolder != null
+          ? programDataFolder.value
+          : this.programDataFolder),
+      webFolder: (webFolder != null ? webFolder.value : this.webFolder),
+      imageCacheFolder: (imageCacheFolder != null
+          ? imageCacheFolder.value
+          : this.imageCacheFolder),
+      cacheFolder: (cacheFolder != null ? cacheFolder.value : this.cacheFolder),
+      logFolder: (logFolder != null ? logFolder.value : this.logFolder),
+      internalMetadataFolder: (internalMetadataFolder != null
+          ? internalMetadataFolder.value
+          : this.internalMetadataFolder),
+      transcodingTempFolder: (transcodingTempFolder != null
+          ? transcodingTempFolder.value
+          : this.transcodingTempFolder),
+      libraries: (libraries != null ? libraries.value : this.libraries),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class TaskInfo {
   const TaskInfo({
     this.name,
@@ -47439,8 +49406,13 @@ class TaskTriggerInfo {
   static const toJsonFactory = _$TaskTriggerInfoToJson;
   Map<String, dynamic> toJson() => _$TaskTriggerInfoToJson(this);
 
-  @JsonKey(name: 'Type', includeIfNull: false)
-  final String? type;
+  @JsonKey(
+    name: 'Type',
+    includeIfNull: false,
+    toJson: taskTriggerInfoTypeNullableToJson,
+    fromJson: taskTriggerInfoTypeNullableFromJson,
+  )
+  final enums.TaskTriggerInfoType? type;
   @JsonKey(name: 'TimeOfDayTicks', includeIfNull: false)
   final int? timeOfDayTicks;
   @JsonKey(name: 'IntervalTicks', includeIfNull: false)
@@ -47499,7 +49471,7 @@ class TaskTriggerInfo {
 
 extension $TaskTriggerInfoExtension on TaskTriggerInfo {
   TaskTriggerInfo copyWith({
-    String? type,
+    enums.TaskTriggerInfoType? type,
     int? timeOfDayTicks,
     int? intervalTicks,
     enums.DayOfWeek? dayOfWeek,
@@ -47515,7 +49487,7 @@ extension $TaskTriggerInfoExtension on TaskTriggerInfo {
   }
 
   TaskTriggerInfo copyWithWrapped({
-    Wrapped<String?>? type,
+    Wrapped<enums.TaskTriggerInfoType?>? type,
     Wrapped<int?>? timeOfDayTicks,
     Wrapped<int?>? intervalTicks,
     Wrapped<enums.DayOfWeek?>? dayOfWeek,
@@ -49221,8 +51193,8 @@ extension $TranscodingProfileExtension on TranscodingProfile {
 }
 
 @JsonSerializable(explicitToJson: true)
-class TrickplayInfo {
-  const TrickplayInfo({
+class TrickplayInfoDto {
+  const TrickplayInfoDto({
     this.width,
     this.height,
     this.tileWidth,
@@ -49232,11 +51204,11 @@ class TrickplayInfo {
     this.bandwidth,
   });
 
-  factory TrickplayInfo.fromJson(Map<String, dynamic> json) =>
-      _$TrickplayInfoFromJson(json);
+  factory TrickplayInfoDto.fromJson(Map<String, dynamic> json) =>
+      _$TrickplayInfoDtoFromJson(json);
 
-  static const toJsonFactory = _$TrickplayInfoToJson;
-  Map<String, dynamic> toJson() => _$TrickplayInfoToJson(this);
+  static const toJsonFactory = _$TrickplayInfoDtoToJson;
+  Map<String, dynamic> toJson() => _$TrickplayInfoDtoToJson(this);
 
   @JsonKey(name: 'Width', includeIfNull: false)
   final int? width;
@@ -49252,12 +51224,12 @@ class TrickplayInfo {
   final int? interval;
   @JsonKey(name: 'Bandwidth', includeIfNull: false)
   final int? bandwidth;
-  static const fromJsonFactory = _$TrickplayInfoFromJson;
+  static const fromJsonFactory = _$TrickplayInfoDtoFromJson;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other is TrickplayInfo &&
+        (other is TrickplayInfoDto &&
             (identical(other.width, width) ||
                 const DeepCollectionEquality().equals(other.width, width)) &&
             (identical(other.height, height) ||
@@ -49304,8 +51276,8 @@ class TrickplayInfo {
       runtimeType.hashCode;
 }
 
-extension $TrickplayInfoExtension on TrickplayInfo {
-  TrickplayInfo copyWith({
+extension $TrickplayInfoDtoExtension on TrickplayInfoDto {
+  TrickplayInfoDto copyWith({
     int? width,
     int? height,
     int? tileWidth,
@@ -49314,7 +51286,7 @@ extension $TrickplayInfoExtension on TrickplayInfo {
     int? interval,
     int? bandwidth,
   }) {
-    return TrickplayInfo(
+    return TrickplayInfoDto(
       width: width ?? this.width,
       height: height ?? this.height,
       tileWidth: tileWidth ?? this.tileWidth,
@@ -49325,7 +51297,7 @@ extension $TrickplayInfoExtension on TrickplayInfo {
     );
   }
 
-  TrickplayInfo copyWithWrapped({
+  TrickplayInfoDto copyWithWrapped({
     Wrapped<int?>? width,
     Wrapped<int?>? height,
     Wrapped<int?>? tileWidth,
@@ -49334,7 +51306,7 @@ extension $TrickplayInfoExtension on TrickplayInfo {
     Wrapped<int?>? interval,
     Wrapped<int?>? bandwidth,
   }) {
-    return TrickplayInfo(
+    return TrickplayInfoDto(
       width: (width != null ? width.value : this.width),
       height: (height != null ? height.value : this.height),
       tileWidth: (tileWidth != null ? tileWidth.value : this.tileWidth),
@@ -49683,6 +51655,7 @@ class TunerHostInfo {
     this.tunerCount,
     this.userAgent,
     this.ignoreDts,
+    this.readAtNativeFramerate,
   });
 
   factory TunerHostInfo.fromJson(Map<String, dynamic> json) =>
@@ -49721,6 +51694,8 @@ class TunerHostInfo {
   final String? userAgent;
   @JsonKey(name: 'IgnoreDts', includeIfNull: false)
   final bool? ignoreDts;
+  @JsonKey(name: 'ReadAtNativeFramerate', includeIfNull: false)
+  final bool? readAtNativeFramerate;
   static const fromJsonFactory = _$TunerHostInfoFromJson;
 
   @override
@@ -49795,6 +51770,11 @@ class TunerHostInfo {
                 const DeepCollectionEquality().equals(
                   other.ignoreDts,
                   ignoreDts,
+                )) &&
+            (identical(other.readAtNativeFramerate, readAtNativeFramerate) ||
+                const DeepCollectionEquality().equals(
+                  other.readAtNativeFramerate,
+                  readAtNativeFramerate,
                 )));
   }
 
@@ -49818,6 +51798,7 @@ class TunerHostInfo {
       const DeepCollectionEquality().hash(tunerCount) ^
       const DeepCollectionEquality().hash(userAgent) ^
       const DeepCollectionEquality().hash(ignoreDts) ^
+      const DeepCollectionEquality().hash(readAtNativeFramerate) ^
       runtimeType.hashCode;
 }
 
@@ -49838,6 +51819,7 @@ extension $TunerHostInfoExtension on TunerHostInfo {
     int? tunerCount,
     String? userAgent,
     bool? ignoreDts,
+    bool? readAtNativeFramerate,
   }) {
     return TunerHostInfo(
       id: id ?? this.id,
@@ -49857,6 +51839,8 @@ extension $TunerHostInfoExtension on TunerHostInfo {
       tunerCount: tunerCount ?? this.tunerCount,
       userAgent: userAgent ?? this.userAgent,
       ignoreDts: ignoreDts ?? this.ignoreDts,
+      readAtNativeFramerate:
+          readAtNativeFramerate ?? this.readAtNativeFramerate,
     );
   }
 
@@ -49876,6 +51860,7 @@ extension $TunerHostInfoExtension on TunerHostInfo {
     Wrapped<int?>? tunerCount,
     Wrapped<String?>? userAgent,
     Wrapped<bool?>? ignoreDts,
+    Wrapped<bool?>? readAtNativeFramerate,
   }) {
     return TunerHostInfo(
       id: (id != null ? id.value : this.id),
@@ -49907,6 +51892,9 @@ extension $TunerHostInfoExtension on TunerHostInfo {
       tunerCount: (tunerCount != null ? tunerCount.value : this.tunerCount),
       userAgent: (userAgent != null ? userAgent.value : this.userAgent),
       ignoreDts: (ignoreDts != null ? ignoreDts.value : this.ignoreDts),
+      readAtNativeFramerate: (readAtNativeFramerate != null
+          ? readAtNativeFramerate.value
+          : this.readAtNativeFramerate),
     );
   }
 }
@@ -51663,6 +53651,7 @@ class UserPolicy {
     this.enableLyricManagement,
     this.isDisabled,
     this.maxParentalRating,
+    this.maxParentalSubRating,
     this.blockedTags,
     this.allowedTags,
     this.enableUserPreferenceAccess,
@@ -51733,6 +53722,8 @@ class UserPolicy {
   final bool? isDisabled;
   @JsonKey(name: 'MaxParentalRating', includeIfNull: false)
   final int? maxParentalRating;
+  @JsonKey(name: 'MaxParentalSubRating', includeIfNull: false)
+  final int? maxParentalSubRating;
   @JsonKey(name: 'BlockedTags', includeIfNull: false, defaultValue: <String>[])
   final List<String>? blockedTags;
   @JsonKey(name: 'AllowedTags', includeIfNull: false, defaultValue: <String>[])
@@ -51889,6 +53880,11 @@ class UserPolicy {
                 const DeepCollectionEquality().equals(
                   other.maxParentalRating,
                   maxParentalRating,
+                )) &&
+            (identical(other.maxParentalSubRating, maxParentalSubRating) ||
+                const DeepCollectionEquality().equals(
+                  other.maxParentalSubRating,
+                  maxParentalSubRating,
                 )) &&
             (identical(other.blockedTags, blockedTags) ||
                 const DeepCollectionEquality().equals(
@@ -52123,6 +54119,7 @@ class UserPolicy {
       const DeepCollectionEquality().hash(enableLyricManagement) ^
       const DeepCollectionEquality().hash(isDisabled) ^
       const DeepCollectionEquality().hash(maxParentalRating) ^
+      const DeepCollectionEquality().hash(maxParentalSubRating) ^
       const DeepCollectionEquality().hash(blockedTags) ^
       const DeepCollectionEquality().hash(allowedTags) ^
       const DeepCollectionEquality().hash(enableUserPreferenceAccess) ^
@@ -52171,6 +54168,7 @@ extension $UserPolicyExtension on UserPolicy {
     bool? enableLyricManagement,
     bool? isDisabled,
     int? maxParentalRating,
+    int? maxParentalSubRating,
     List<String>? blockedTags,
     List<String>? allowedTags,
     bool? enableUserPreferenceAccess,
@@ -52219,6 +54217,7 @@ extension $UserPolicyExtension on UserPolicy {
           enableLyricManagement ?? this.enableLyricManagement,
       isDisabled: isDisabled ?? this.isDisabled,
       maxParentalRating: maxParentalRating ?? this.maxParentalRating,
+      maxParentalSubRating: maxParentalSubRating ?? this.maxParentalSubRating,
       blockedTags: blockedTags ?? this.blockedTags,
       allowedTags: allowedTags ?? this.allowedTags,
       enableUserPreferenceAccess:
@@ -52286,6 +54285,7 @@ extension $UserPolicyExtension on UserPolicy {
     Wrapped<bool?>? enableLyricManagement,
     Wrapped<bool?>? isDisabled,
     Wrapped<int?>? maxParentalRating,
+    Wrapped<int?>? maxParentalSubRating,
     Wrapped<List<String>?>? blockedTags,
     Wrapped<List<String>?>? allowedTags,
     Wrapped<bool?>? enableUserPreferenceAccess,
@@ -52341,6 +54341,9 @@ extension $UserPolicyExtension on UserPolicy {
       maxParentalRating: (maxParentalRating != null
           ? maxParentalRating.value
           : this.maxParentalRating),
+      maxParentalSubRating: (maxParentalSubRating != null
+          ? maxParentalSubRating.value
+          : this.maxParentalSubRating),
       blockedTags: (blockedTags != null ? blockedTags.value : this.blockedTags),
       allowedTags: (allowedTags != null ? allowedTags.value : this.allowedTags),
       enableUserPreferenceAccess: (enableUserPreferenceAccess != null
@@ -52996,64 +54999,6 @@ extension $VirtualFolderInfoExtension on VirtualFolderInfo {
       refreshStatus: (refreshStatus != null
           ? refreshStatus.value
           : this.refreshStatus),
-    );
-  }
-}
-
-@JsonSerializable(explicitToJson: true)
-class WakeOnLanInfo {
-  const WakeOnLanInfo({this.macAddress, this.port});
-
-  factory WakeOnLanInfo.fromJson(Map<String, dynamic> json) =>
-      _$WakeOnLanInfoFromJson(json);
-
-  static const toJsonFactory = _$WakeOnLanInfoToJson;
-  Map<String, dynamic> toJson() => _$WakeOnLanInfoToJson(this);
-
-  @JsonKey(name: 'MacAddress', includeIfNull: false)
-  final String? macAddress;
-  @JsonKey(name: 'Port', includeIfNull: false)
-  final int? port;
-  static const fromJsonFactory = _$WakeOnLanInfoFromJson;
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is WakeOnLanInfo &&
-            (identical(other.macAddress, macAddress) ||
-                const DeepCollectionEquality().equals(
-                  other.macAddress,
-                  macAddress,
-                )) &&
-            (identical(other.port, port) ||
-                const DeepCollectionEquality().equals(other.port, port)));
-  }
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode =>
-      const DeepCollectionEquality().hash(macAddress) ^
-      const DeepCollectionEquality().hash(port) ^
-      runtimeType.hashCode;
-}
-
-extension $WakeOnLanInfoExtension on WakeOnLanInfo {
-  WakeOnLanInfo copyWith({String? macAddress, int? port}) {
-    return WakeOnLanInfo(
-      macAddress: macAddress ?? this.macAddress,
-      port: port ?? this.port,
-    );
-  }
-
-  WakeOnLanInfo copyWithWrapped({
-    Wrapped<String?>? macAddress,
-    Wrapped<int?>? port,
-  }) {
-    return WakeOnLanInfo(
-      macAddress: (macAddress != null ? macAddress.value : this.macAddress),
-      port: (port != null ? port.value : this.port),
     );
   }
 }
@@ -54218,6 +56163,87 @@ List<enums.CollectionTypeOptions>? collectionTypeOptionsNullableListFromJson(
 
   return collectionTypeOptions
       .map((e) => collectionTypeOptionsFromJson(e.toString()))
+      .toList();
+}
+
+String? databaseLockingBehaviorTypesNullableToJson(
+  enums.DatabaseLockingBehaviorTypes? databaseLockingBehaviorTypes,
+) {
+  return databaseLockingBehaviorTypes?.value;
+}
+
+String? databaseLockingBehaviorTypesToJson(
+  enums.DatabaseLockingBehaviorTypes databaseLockingBehaviorTypes,
+) {
+  return databaseLockingBehaviorTypes.value;
+}
+
+enums.DatabaseLockingBehaviorTypes databaseLockingBehaviorTypesFromJson(
+  Object? databaseLockingBehaviorTypes, [
+  enums.DatabaseLockingBehaviorTypes? defaultValue,
+]) {
+  return enums.DatabaseLockingBehaviorTypes.values.firstWhereOrNull(
+        (e) => e.value == databaseLockingBehaviorTypes,
+      ) ??
+      defaultValue ??
+      enums.DatabaseLockingBehaviorTypes.swaggerGeneratedUnknown;
+}
+
+enums.DatabaseLockingBehaviorTypes?
+databaseLockingBehaviorTypesNullableFromJson(
+  Object? databaseLockingBehaviorTypes, [
+  enums.DatabaseLockingBehaviorTypes? defaultValue,
+]) {
+  if (databaseLockingBehaviorTypes == null) {
+    return null;
+  }
+  return enums.DatabaseLockingBehaviorTypes.values.firstWhereOrNull(
+        (e) => e.value == databaseLockingBehaviorTypes,
+      ) ??
+      defaultValue;
+}
+
+String databaseLockingBehaviorTypesExplodedListToJson(
+  List<enums.DatabaseLockingBehaviorTypes>? databaseLockingBehaviorTypes,
+) {
+  return databaseLockingBehaviorTypes?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> databaseLockingBehaviorTypesListToJson(
+  List<enums.DatabaseLockingBehaviorTypes>? databaseLockingBehaviorTypes,
+) {
+  if (databaseLockingBehaviorTypes == null) {
+    return [];
+  }
+
+  return databaseLockingBehaviorTypes.map((e) => e.value!).toList();
+}
+
+List<enums.DatabaseLockingBehaviorTypes>
+databaseLockingBehaviorTypesListFromJson(
+  List? databaseLockingBehaviorTypes, [
+  List<enums.DatabaseLockingBehaviorTypes>? defaultValue,
+]) {
+  if (databaseLockingBehaviorTypes == null) {
+    return defaultValue ?? [];
+  }
+
+  return databaseLockingBehaviorTypes
+      .map((e) => databaseLockingBehaviorTypesFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.DatabaseLockingBehaviorTypes>?
+databaseLockingBehaviorTypesNullableListFromJson(
+  List? databaseLockingBehaviorTypes, [
+  List<enums.DatabaseLockingBehaviorTypes>? defaultValue,
+]) {
+  if (databaseLockingBehaviorTypes == null) {
+    return defaultValue;
+  }
+
+  return databaseLockingBehaviorTypes
+      .map((e) => databaseLockingBehaviorTypesFromJson(e.toString()))
       .toList();
 }
 
@@ -59169,6 +61195,84 @@ List<enums.TaskState>? taskStateNullableListFromJson(
   }
 
   return taskState.map((e) => taskStateFromJson(e.toString())).toList();
+}
+
+String? taskTriggerInfoTypeNullableToJson(
+  enums.TaskTriggerInfoType? taskTriggerInfoType,
+) {
+  return taskTriggerInfoType?.value;
+}
+
+String? taskTriggerInfoTypeToJson(
+  enums.TaskTriggerInfoType taskTriggerInfoType,
+) {
+  return taskTriggerInfoType.value;
+}
+
+enums.TaskTriggerInfoType taskTriggerInfoTypeFromJson(
+  Object? taskTriggerInfoType, [
+  enums.TaskTriggerInfoType? defaultValue,
+]) {
+  return enums.TaskTriggerInfoType.values.firstWhereOrNull(
+        (e) => e.value == taskTriggerInfoType,
+      ) ??
+      defaultValue ??
+      enums.TaskTriggerInfoType.swaggerGeneratedUnknown;
+}
+
+enums.TaskTriggerInfoType? taskTriggerInfoTypeNullableFromJson(
+  Object? taskTriggerInfoType, [
+  enums.TaskTriggerInfoType? defaultValue,
+]) {
+  if (taskTriggerInfoType == null) {
+    return null;
+  }
+  return enums.TaskTriggerInfoType.values.firstWhereOrNull(
+        (e) => e.value == taskTriggerInfoType,
+      ) ??
+      defaultValue;
+}
+
+String taskTriggerInfoTypeExplodedListToJson(
+  List<enums.TaskTriggerInfoType>? taskTriggerInfoType,
+) {
+  return taskTriggerInfoType?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> taskTriggerInfoTypeListToJson(
+  List<enums.TaskTriggerInfoType>? taskTriggerInfoType,
+) {
+  if (taskTriggerInfoType == null) {
+    return [];
+  }
+
+  return taskTriggerInfoType.map((e) => e.value!).toList();
+}
+
+List<enums.TaskTriggerInfoType> taskTriggerInfoTypeListFromJson(
+  List? taskTriggerInfoType, [
+  List<enums.TaskTriggerInfoType>? defaultValue,
+]) {
+  if (taskTriggerInfoType == null) {
+    return defaultValue ?? [];
+  }
+
+  return taskTriggerInfoType
+      .map((e) => taskTriggerInfoTypeFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.TaskTriggerInfoType>? taskTriggerInfoTypeNullableListFromJson(
+  List? taskTriggerInfoType, [
+  List<enums.TaskTriggerInfoType>? defaultValue,
+]) {
+  if (taskTriggerInfoType == null) {
+    return defaultValue;
+  }
+
+  return taskTriggerInfoType
+      .map((e) => taskTriggerInfoTypeFromJson(e.toString()))
+      .toList();
 }
 
 String? tonemappingAlgorithmNullableToJson(

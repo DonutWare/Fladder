@@ -681,9 +681,9 @@ class FakeJellyfinOpenApi extends JellyfinOpenApi {
   }
 
   @override
-  Future<chopper.Response<BrandingOptions>> brandingConfigurationGet() async => chopper.Response(
+  Future<chopper.Response<BrandingOptionsDto>> brandingConfigurationGet() async => chopper.Response(
         FakeHelper.fakeCorrectResponse,
-        const BrandingOptions(loginDisclaimer: "Test server"),
+        const BrandingOptionsDto(loginDisclaimer: "Test server"),
       );
 }
 

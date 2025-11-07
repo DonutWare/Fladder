@@ -1126,7 +1126,7 @@ class JellyService {
 
   Future<Response<bool>> quickConnectEnabled() async => api.quickConnectEnabledGet();
 
-  Future<Response<BrandingOptions>> getBranding() async => api.brandingConfigurationGet();
+  Future<Response<BrandingOptionsDto>> getBranding() async => api.brandingConfigurationGet();
 
   Future<Response<dynamic>> deleteItem(String itemId) => api.itemsItemIdDelete(itemId: itemId);
 

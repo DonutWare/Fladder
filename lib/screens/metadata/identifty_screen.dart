@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
@@ -10,7 +9,6 @@ import 'package:fladder/providers/items/identify_provider.dart';
 import 'package:fladder/screens/shared/adaptive_dialog.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/screens/shared/focused_outlined_text_field.dart';
-import 'package:fladder/screens/shared/media/external_urls.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/widgets/shared/alert_content.dart';
@@ -150,26 +148,7 @@ class _IdentifyScreenState extends ConsumerState<IdentifyScreen> with TickerProv
                                       ),
                                     ),
                                     Tooltip(
-                                      message: context.localized.openWebLink,
-                                      child: IconButton(
-                                          onPressed: () {
-                                            final providerKeyEntry = result.providerIds?.entries.first;
-                                            final providerKey = providerKeyEntry?.key;
-                                            final providerValue = providerKeyEntry?.value;
-
-                                            final externalId = state.externalIds
-                                                .firstWhereOrNull((element) => element.key == providerKey)
-                                                // ignore: deprecated_member_use_from_same_package
-                                                ?.urlFormatString;
-
-                                            final url = externalId?.replaceAll("{0}", providerValue?.toString() ?? "");
-
-                                            launchUrl(context, url ?? "");
-                                          },
-                                          icon: const Icon(Icons.launch_rounded)),
-                                    ),
-                                    Tooltip(
-                                      message: "Select result",
+                                      message: context.localized.set,
                                       child: IconButton(
                                         onPressed: !processing
                                             ? () async {
@@ -185,7 +164,7 @@ class _IdentifyScreenState extends ConsumerState<IdentifyScreen> with TickerProv
                                                 Navigator.of(context).pop();
                                               }
                                             : null,
-                                        icon: const Icon(Icons.save_alt_rounded),
+                                        icon: const Icon(IconsaxPlusBold.tag_2),
                                       ),
                                     )
                                   ],
