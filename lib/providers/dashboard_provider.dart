@@ -26,6 +26,8 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
     final viewTypes =
         ref.read(viewsProvider.select((value) => value.dashboardViews)).map((e) => e.collectionType).toSet().toList();
 
+    final limit = 16;
+
     final imagesToFetch = {
       ImageType.logo,
       ImageType.primary,
@@ -50,6 +52,7 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
         fields: fieldsToFetch,
         mediaTypes: [MediaType.video],
         enableTotalRecordCount: false,
+        limit: limit,
       );
 
       state = state.copyWith(
@@ -63,6 +66,7 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
         fields: fieldsToFetch,
         mediaTypes: [MediaType.audio],
         enableTotalRecordCount: false,
+        limit: limit,
       );
 
       state = state.copyWith(
@@ -76,6 +80,7 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
         fields: fieldsToFetch,
         mediaTypes: [MediaType.book],
         enableTotalRecordCount: false,
+        limit: limit,
       );
 
       state = state.copyWith(

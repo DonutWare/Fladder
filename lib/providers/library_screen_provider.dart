@@ -158,7 +158,6 @@ class LibraryScreen extends _$LibraryScreen {
     final latest = await api.usersUserIdItemsLatestGet(
       parentId: viewModel.id,
       limit: 14,
-      isPlayed: false,
       imageTypeLimit: 1,
       includeItemTypes: viewModel.collectionType.itemKinds.map((e) => e.dtoKind).toList(),
     );
@@ -181,6 +180,7 @@ class LibraryScreen extends _$LibraryScreen {
       parentId: viewModel.id,
       isFavorite: true,
       recursive: true,
+      limit: 14,
       includeItemTypes: viewModel.collectionType.itemKinds.map((e) => e.dtoKind).toList(),
       enableImageTypes: [ImageType.primary],
       fields: [
@@ -215,8 +215,7 @@ class LibraryScreen extends _$LibraryScreen {
       final response = await api.itemsGet(
         parentId: viewModel.id,
         genreIds: [genre.id],
-        limit: 9,
-        recursive: true,
+        limit: 14,
         includeItemTypes: viewModel.collectionType.itemKinds.map((e) => e.dtoKind).toList(),
         enableImageTypes: [ImageType.primary],
         fields: [
