@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:fladder/util/string_extensions.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide ConnectionState;
 
@@ -620,11 +621,11 @@ extension SyncNotifierHelpers on SyncNotifier {
     if (parent == null) {
       await _db.insertItem(syncItem);
     }
-
+    
     return syncItem.copyWith(
       fileSize: response.mediaSources?.firstOrNull?.size ?? 0,
       syncing: false,
-      videoFileName: response.path?.split('/').lastOrNull ?? "",
+      videoFileName: response.path?.universalBasename ?? "",
     );
   }
 
