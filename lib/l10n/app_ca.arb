@@ -1519,5 +1519,7 @@
                 "format": "jm"
             }
         }
-    }
+    },
+    "openImeKeyboard": "Obrir teclat IME",
+    "@openImeKeyboard": {}
 }
