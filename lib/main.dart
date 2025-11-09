@@ -291,10 +291,17 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
             supportedLocales: AppLocalizations.supportedLocales,
             locale: language,
             localeResolutionCallback: (locale, supportedLocales) {
-              if (locale == null || !supportedLocales.contains(locale)) {
-                return const Locale('en');
+              const fallback = Locale('en');
+              if (locale == null) return fallback;
+              if (supportedLocales.contains(locale)) {
+                return locale;
               }
-              return locale;
+              final matchByLanguage = supportedLocales.firstWhere(
+                (l) => l.languageCode == locale.languageCode,
+                orElse: () => fallback,
+              );
+
+              return matchByLanguage;
             },
             builder: (context, child) => MediaQueryScaler(
               child: LocalizationContextWrapper(
