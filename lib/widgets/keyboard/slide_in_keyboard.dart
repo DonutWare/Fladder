@@ -162,6 +162,9 @@ class _CustomKeyboardViewState extends State<_CustomKeyboardView> {
 
   ValueNotifier<List<String>> searchQueryResults = ValueNotifier([]);
 
+  final FocusNode internalTextField = FocusNode();
+  final FocusNode keyboardOpenFocusNode = FocusNode();
+
   Future<void> startUpdate(String text) async {
     final newValues = await widget.searchQuery?.call(widget.controller.text) ?? [];
     searchQueryResults.value = newValues;
@@ -173,6 +176,15 @@ class _CustomKeyboardViewState extends State<_CustomKeyboardView> {
     WidgetsBinding.instance.addPostFrameCallback((value) {
       startUpdate(widget.controller.text);
     });
+  }
+
+  @override
+  void dispose() {
+    scope.dispose();
+    internalTextField.dispose();
+    searchQueryResults.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -189,19 +201,53 @@ class _CustomKeyboardViewState extends State<_CustomKeyboardView> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           spacing: 16,
           children: [
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Text(
-                  widget.keyboardType == TextInputType.visiblePassword
-                      ? List.generate(
-                          widget.controller.text.length,
-                          (index) => "*",
-                        ).join()
-                      : widget.controller.text,
-                  style: Theme.of(context).textTheme.titleLarge,
+            Row(
+              children: [
+                Expanded(
+                  child: ExcludeFocusTraversal(
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: TextField(
+                          focusNode: internalTextField,
+                          controller: widget.controller,
+                          showCursor: true,
+                          keyboardType: widget.keyboardType,
+                          textInputAction: widget.keyboardActionType,
+                          obscureText: widget.keyboardType == TextInputType.visiblePassword,
+                          onChanged: (value) {
+                            setState(() {
+                              widget.onChanged();
+                              startUpdate(value);
+                            });
+                          },
+                          onSubmitted: (value) {
+                            internalTextField.unfocus();
+                            keyboardOpenFocusNode.requestFocus();
+                            setState(() {
+                              widget.onChanged();
+                              startUpdate(value);
+                            });
+                          },
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            isDense: true,
+                            contentPadding: EdgeInsets.zero,
+                          ),
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+                IconButton(
+                  focusNode: keyboardOpenFocusNode,
+                  onPressed: () => internalTextField.requestFocus(),
+                  icon: const Icon(
+                    IconsaxPlusBold.keyboard_open,
+                  ),
+                )
+              ],
             ),
             if (widget.searchQuery != null)
               ValueListenableBuilder(
