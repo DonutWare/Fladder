@@ -182,8 +182,8 @@ class _CustomKeyboardViewState extends State<_CustomKeyboardView> {
   void dispose() {
     scope.dispose();
     internalTextField.dispose();
+    keyboardOpenFocusNode.dispose();
     searchQueryResults.dispose();
-
     super.dispose();
   }
 
@@ -243,6 +243,7 @@ class _CustomKeyboardViewState extends State<_CustomKeyboardView> {
                 IconButton(
                   focusNode: keyboardOpenFocusNode,
                   onPressed: () => internalTextField.requestFocus(),
+                  tooltip: context.localized.openImeKeyboard,
                   icon: const Icon(
                     IconsaxPlusBold.keyboard_open,
                   ),
