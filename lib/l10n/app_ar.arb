@@ -1519,5 +1519,7 @@
                 "type": "int"
             }
         }
-    }
+    },
+    "openImeKeyboard": "فتح لوحة مفاتيح IME",
+    "@openImeKeyboard": {}
 }
