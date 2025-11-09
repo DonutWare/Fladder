@@ -1366,5 +1366,6 @@
         "format": "jm"
       }
     }
-  }
+  },
+  "openImeKeyboard": "Open IME keyboard"
 }
