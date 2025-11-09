@@ -1518,5 +1518,7 @@
                 "format": "jm"
             }
         }
-    }
+    },
+    "openImeKeyboard": "打开输入法键盘",
+    "@openImeKeyboard": {}
 }
