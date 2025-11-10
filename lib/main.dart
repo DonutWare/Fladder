@@ -240,6 +240,7 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
 
       windowManager.waitUntilReadyToShow(windowOptions, () async {
         await windowManager.show();
+
         await windowManager.focus();
         final startupArguments = ref.read(argumentsStateProvider);
         if (startupArguments.htpcMode && !(await windowManager.isFullScreen())) {
