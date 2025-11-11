@@ -14,6 +14,7 @@ import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/screens/shared/fladder_logo.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/widgets/keyboard/slide_in_keyboard.dart';
+import 'package:fladder/widgets/navigation_scaffold/components/adaptive_fab.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/fladder_app_bar.dart';
 
 @RoutePage()
@@ -53,20 +54,22 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.end,
               spacing: 16,
               children: [
-                if (!AdaptiveLayout.of(context).isDesktop)
-                  FloatingActionButton(
+                if (AdaptiveLayout.of(context).isDesktop)
+                  AdaptiveFab(
+                    context: context,
                     key: const Key("edit_user_button"),
                     heroTag: "edit_user_button",
                     backgroundColor: editUsersMode ? Theme.of(context).colorScheme.errorContainer : null,
                     child: const Icon(IconsaxPlusLinear.edit_2),
                     onPressed: () => setState(() => editUsersMode = !editUsersMode),
-                  ),
-                FloatingActionButton(
+                  ).normal,
+                AdaptiveFab(
+                  context: context,
                   key: const Key("new_user_button"),
                   heroTag: "new_user_button",
                   child: const Icon(IconsaxPlusLinear.add_square),
                   onPressed: () => ref.read(authProvider.notifier).addNewUser(),
-                ),
+                ).normal,
               ],
             ),
           _ => null,
