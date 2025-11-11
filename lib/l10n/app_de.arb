@@ -1444,7 +1444,7 @@
     "@television": {},
     "exitFladderDesc": "Möchten Sie Fladder wirklich beenden?",
     "@exitFladderDesc": {},
-    "syncAllItemsDesc": "Dies synchronisiert ({itemCount}) Elemente von '{itemName}' zu Ihrem Gerät .\nJe nach Anzahl der Elemente kann dies eine Weile dauern.",
+    "syncAllItemsDesc": "Dies synchronisiert ({itemCount}) Elemente von '{itemName}' zu Ihrem Gerät.\nDies kann eine Weile dauern, abhängig von der Menge der Elemente.",
     "@syncAllItemsDesc": {
         "description": "syncAllitemsFromDesc",
         "placeholders": {
