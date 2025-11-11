@@ -252,7 +252,7 @@ class JellyService {
     bool? enableTotalRecordCount,
     bool? enableImages,
   }) async {
-    final response = await api.itemsGet(
+    final response = await api.usersUserIdItemsGet(
       userId: account?.id,
       maxOfficialRating: maxOfficialRating,
       hasThemeSong: hasThemeSong,
@@ -497,7 +497,7 @@ class JellyService {
     int? limit,
     bool? groupItems,
   }) async {
-    return api.itemsLatestGet(
+    return api.usersUserIdItemsLatestGet(
       parentId: parentId,
       userId: account?.id,
       fields: fields,
@@ -701,7 +701,7 @@ class JellyService {
     bool? recursive,
     List<BaseItemKind>? includeItemTypes,
   }) async {
-    return api.itemsGet(
+    return api.usersUserIdItemsGet(
       parentId: parentId,
       userId: account?.id,
       recursive: recursive,

@@ -225,7 +225,7 @@ class FakeJellyfinOpenApi extends JellyfinOpenApi {
   }
 
   @override
-  Future<chopper.Response<List<BaseItemDto>>> itemsLatestGet({
+  Future<chopper.Response<List<BaseItemDto>>> usersUserIdItemsLatestGet({
     String? userId,
     String? parentId,
     List<enums.ItemFields>? fields,
@@ -289,7 +289,7 @@ class FakeJellyfinOpenApi extends JellyfinOpenApi {
   }
 
   @override
-  Future<chopper.Response<BaseItemDtoQueryResult>> itemsGet({
+  Future<chopper.Response<BaseItemDtoQueryResult>> usersUserIdItemsGet({
     String? userId,
     String? maxOfficialRating,
     bool? hasThemeSong,

@@ -8633,8 +8633,8 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param genreIds Optional. If specified, results will be filtered based on genre id. This allows multiple, pipe delimited.
   ///@param enableTotalRecordCount Optional. Enable the total record count.
   ///@param enableImages Optional, include image information in output.
-  Future<chopper.Response<BaseItemDtoQueryResult>> itemsGet({
-    String? userId,
+  Future<chopper.Response<BaseItemDtoQueryResult>> usersUserIdItemsGet({
+    required String? userId,
     String? maxOfficialRating,
     bool? hasThemeSong,
     bool? hasThemeVideo,
@@ -8726,7 +8726,7 @@ abstract class JellyfinOpenApi extends ChopperService {
       () => BaseItemDtoQueryResult.fromJsonFactory,
     );
 
-    return _itemsGet(
+    return _usersUserIdItemsGet(
       userId: userId,
       maxOfficialRating: maxOfficialRating,
       hasThemeSong: hasThemeSong,
@@ -8903,9 +8903,9 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param genreIds Optional. If specified, results will be filtered based on genre id. This allows multiple, pipe delimited.
   ///@param enableTotalRecordCount Optional. Enable the total record count.
   ///@param enableImages Optional, include image information in output.
-  @GET(path: '/Items')
-  Future<chopper.Response<BaseItemDtoQueryResult>> _itemsGet({
-    @Query('userId') String? userId,
+  @GET(path: '/Users/{userId}/Items')
+  Future<chopper.Response<BaseItemDtoQueryResult>> _usersUserIdItemsGet({
+    @Path('userId') required String? userId,
     @Query('maxOfficialRating') String? maxOfficialRating,
     @Query('hasThemeSong') bool? hasThemeSong,
     @Query('hasThemeVideo') bool? hasThemeVideo,
@@ -8995,14 +8995,16 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Deletes items from the library and filesystem.
   ///@param ids The item ids.
-  Future<chopper.Response> itemsDelete({List<String>? ids}) {
-    return _itemsDelete(ids: ids);
+  Future<chopper.Response> usersUserIdItemsDelete({List<String>? ids}) {
+    return _usersUserIdItemsDelete(ids: ids);
   }
 
   ///Deletes items from the library and filesystem.
   ///@param ids The item ids.
-  @DELETE(path: '/Items')
-  Future<chopper.Response> _itemsDelete({@Query('ids') List<String>? ids});
+  @DELETE(path: '/Users/{userId}/Items')
+  Future<chopper.Response> _usersUserIdItemsDelete({
+    @Query('ids') List<String>? ids,
+  });
 
   ///Get Item User Data.
   ///@param userId The user id.
@@ -16283,8 +16285,8 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param enableUserData Optional. include user data.
   ///@param limit Return item limit.
   ///@param groupItems Whether or not to group items into a parent container.
-  Future<chopper.Response<List<BaseItemDto>>> itemsLatestGet({
-    String? userId,
+  Future<chopper.Response<List<BaseItemDto>>> usersUserIdItemsLatestGet({
+    required String? userId,
     String? parentId,
     List<enums.ItemFields>? fields,
     List<enums.BaseItemKind>? includeItemTypes,
@@ -16301,7 +16303,7 @@ abstract class JellyfinOpenApi extends ChopperService {
       () => BaseItemDto.fromJsonFactory,
     );
 
-    return _itemsLatestGet(
+    return _usersUserIdItemsLatestGet(
       userId: userId,
       parentId: parentId,
       fields: itemFieldsListToJson(fields),
@@ -16328,9 +16330,9 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param enableUserData Optional. include user data.
   ///@param limit Return item limit.
   ///@param groupItems Whether or not to group items into a parent container.
-  @GET(path: '/Items/Latest')
-  Future<chopper.Response<List<BaseItemDto>>> _itemsLatestGet({
-    @Query('userId') String? userId,
+  @GET(path: 'Users/{userId}/Items/Latest')
+  Future<chopper.Response<List<BaseItemDto>>> _usersUserIdItemsLatestGet({
+    @Path('userId') required String? userId,
     @Query('parentId') String? parentId,
     @Query('fields') List<Object?>? fields,
     @Query('includeItemTypes') List<Object?>? includeItemTypes,
