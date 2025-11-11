@@ -1526,5 +1526,7 @@
                 "format": "jm"
             }
         }
-    }
+    },
+    "openImeKeyboard": "IME Tastatur öffnen",
+    "@openImeKeyboard": {}
 }
