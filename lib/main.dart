@@ -231,17 +231,19 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
 
     if (_isDesktop) {
       WindowOptions windowOptions = WindowOptions(
-          size: Size(clientSettings.size.x, clientSettings.size.y),
-          center: true,
-          backgroundColor: Colors.transparent,
-          skipTaskbar: false,
-          titleBarStyle: TitleBarStyle.hidden,
-          title: packageInfo.appName.capitalize());
+        backgroundColor: Colors.transparent,
+        skipTaskbar: false,
+        titleBarStyle: TitleBarStyle.hidden,
+        title: packageInfo.appName.capitalize(),
+      );
 
       windowManager.waitUntilReadyToShow(windowOptions, () async {
-        await windowManager.show();
-
-        await windowManager.focus();
+        if (!kDebugMode) {
+          await windowManager.show();
+          await windowManager.focus();
+          await windowManager.setSize(Size(clientSettings.size.x, clientSettings.size.y));
+          await windowManager.center();
+        }
         final startupArguments = ref.read(argumentsStateProvider);
         if (startupArguments.htpcMode && !(await windowManager.isFullScreen())) {
           await windowManager.setFullScreen(true);

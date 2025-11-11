@@ -1,9 +1,11 @@
-import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
-import 'package:fladder/util/refresh_state.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
+import 'package:fladder/util/refresh_state.dart';
 
 class PullToRefresh extends ConsumerStatefulWidget {
   final GlobalKey<RefreshIndicatorState>? refreshKey;
@@ -68,7 +70,7 @@ class _PullToRefreshState extends ConsumerState<PullToRefresh> {
           return KeyEventResult.ignored;
         },
         child: widget.onRefresh != null
-            ? RefreshIndicator.adaptive(
+            ? RefreshIndicator(
                 displacement: widget.displacement ?? 80 + MediaQuery.of(context).viewPadding.top,
                 key: refreshKey,
                 onRefresh: widget.onRefresh!,
