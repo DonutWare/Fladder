@@ -1527,5 +1527,7 @@
                 "format": "jm"
             }
         }
-    }
+    },
+    "openImeKeyboard": "Відкрити клавіатуру IME",
+    "@openImeKeyboard": {}
 }
