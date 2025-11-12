@@ -161,17 +161,17 @@ class LibraryScreen extends _$LibraryScreen {
       ];
     }
 
-    final latest = await api.usersUserIdItemsLatestGet(
+    final latest = await api.usersUserIdItemsGet(
       parentId: viewModel.id,
-      limit: 9,
-      imageTypeLimit: 1,
+      sortBy: [ItemSortBy.datelastcontentadded, ItemSortBy.datecreated, ItemSortBy.sortname],
+      sortOrder: [SortOrder.descending],
       includeItemTypes: viewModel.collectionType.itemKinds.map((e) => e.dtoKind).toList(),
     );
     newRecommendations = [
       ...newRecommendations,
       RecommendedModel(
         name: const Latest(),
-        posters: latest.body?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList() ?? [],
+        posters: latest.body?.items?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList() ?? [],
         type: null,
       ),
     ];

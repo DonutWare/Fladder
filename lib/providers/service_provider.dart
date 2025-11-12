@@ -698,6 +698,8 @@ class JellyService {
 
   Future<Response<BaseItemDtoQueryResult>> usersUserIdItemsGet({
     String? parentId,
+    List<ItemSortBy>? sortBy,
+    List<SortOrder>? sortOrder,
     bool? recursive,
     List<BaseItemKind>? includeItemTypes,
   }) async {
@@ -705,6 +707,8 @@ class JellyService {
       parentId: parentId,
       userId: account?.id,
       recursive: recursive,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
       includeItemTypes: includeItemTypes,
     );
   }
