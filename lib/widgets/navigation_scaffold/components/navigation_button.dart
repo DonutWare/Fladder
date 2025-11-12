@@ -10,6 +10,7 @@ class NavigationButton extends ConsumerStatefulWidget {
   final String? label;
   final Widget selectedIcon;
   final Widget icon;
+  final Widget? badge;
   final bool navFocusNode;
   final bool horizontal;
   final bool expanded;
@@ -23,6 +24,7 @@ class NavigationButton extends ConsumerStatefulWidget {
     required this.label,
     required this.selectedIcon,
     required this.icon,
+    this.badge,
     this.navFocusNode = false,
     this.horizontal = false,
     this.expanded = false,
@@ -95,9 +97,19 @@ class _NavigationButtonState extends ConsumerState<NavigationButton> {
                           ),
                         ),
                         widget.customIcon ??
-                            AnimatedSwitcher(
-                              duration: widget.duration,
-                              child: widget.selected ? widget.selectedIcon : widget.icon,
+                            Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                AnimatedSwitcher(
+                                  duration: widget.duration,
+                                  child: widget.selected ? widget.selectedIcon : widget.icon,
+                                ),
+                                if (widget.badge != null && !widget.expanded)
+                                  Transform.translate(
+                                    offset: const Offset(8, -8),
+                                    child: widget.badge,
+                                  ),
+                              ],
                             ),
                         const SizedBox(width: 6),
                         if (widget.horizontal && widget.expanded) ...[
@@ -105,10 +117,17 @@ class _NavigationButtonState extends ConsumerState<NavigationButton> {
                             Expanded(
                               child: ConstrainedBox(
                                 constraints: const BoxConstraints(minWidth: 80),
-                                child: Text(
-                                  widget.label!,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      widget.label!,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    if (widget.badge != null) widget.badge!,
+                                  ],
                                 ),
                               ),
                             ),
@@ -137,9 +156,19 @@ class _NavigationButtonState extends ConsumerState<NavigationButton> {
                         spacing: 8,
                         children: [
                           widget.customIcon ??
-                              AnimatedSwitcher(
-                                duration: widget.duration,
-                                child: widget.selected ? widget.selectedIcon : widget.icon,
+                              Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  AnimatedSwitcher(
+                                    duration: widget.duration,
+                                    child: widget.selected ? widget.selectedIcon : widget.icon,
+                                  ),
+                                  if (widget.badge != null && !widget.expanded)
+                                    Transform.translate(
+                                      offset: const Offset(8, -8),
+                                      child: widget.badge,
+                                    ),
+                                ],
                               ),
                           if (widget.label != null && widget.horizontal && widget.expanded)
                             Flexible(child: Text(widget.label!))

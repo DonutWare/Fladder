@@ -8,6 +8,7 @@ import 'package:window_manager/window_manager.dart';
 
 import 'package:fladder/models/settings/client_settings_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
+import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
@@ -101,6 +102,19 @@ class HomeScreen extends ConsumerWidget {
                 return DestinationModel(
                   label: context.localized.navigationSync,
                   icon: Icon(e.icon),
+                  badge: Consumer(
+                    builder: (context, ref, child) {
+                      final length = ref.watch(activeDownloadTasksProvider.select((value) => value.length));
+                      return length != 0
+                          ? CircleAvatar(
+                              radius: 10,
+                              child: FittedBox(
+                                child: Text(length.toString()),
+                              ),
+                            )
+                          : const SizedBox.shrink();
+                    },
+                  ),
                   selectedIcon: Icon(e.selectedIcon),
                   route: const SyncedRoute(),
                   action: () => e.navigate(context),
