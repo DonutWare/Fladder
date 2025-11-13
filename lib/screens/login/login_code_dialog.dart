@@ -1,15 +1,13 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
-
 import 'package:async/async.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/auth_provider.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 Future<void> openLoginCodeDialog(
   BuildContext context, {
@@ -62,7 +60,9 @@ class _LoginCodeDialogState extends ConsumerState<LoginCodeDialog> {
             secret: quickConnectInfo.secret,
           );
       final newSecret = result.body?.secret;
-      if (result.isSuccessful && result.body?.authenticated == true && newSecret != null) {
+      if (result.isSuccessful &&
+          result.body?.authenticated == true &&
+          newSecret != null) {
         widget.onAuthenticated.call(context, newSecret);
       } else {
         timer?.reset();
@@ -73,8 +73,12 @@ class _LoginCodeDialogState extends ConsumerState<LoginCodeDialog> {
   @override
   Widget build(BuildContext context) {
     final code = quickConnectInfo.code;
-    final serverName = ref.watch(authProvider.select((value) => value.serverLoginModel?.tempCredentials.serverName));
+    final serverName = ref.watch(authProvider
+        .select((value) => value.serverLoginModel?.tempCredentials.serverName));
     return Dialog(
+      constraints: const BoxConstraints(
+        maxWidth: 500,
+      ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -104,11 +108,12 @@ class _LoginCodeDialogState extends ConsumerState<LoginCodeDialog> {
                         padding: const EdgeInsets.all(12.0),
                         child: Text(
                           code,
-                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                fontWeight: FontWeight.bold,
-                                wordSpacing: 8,
-                                letterSpacing: 8,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.titleLarge?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    wordSpacing: 8,
+                                    letterSpacing: 8,
+                                  ),
                           textAlign: TextAlign.center,
                           semanticsLabel: code,
                         ),
@@ -118,7 +123,8 @@ class _LoginCodeDialogState extends ConsumerState<LoginCodeDialog> {
                 ],
                 FilledButton(
                   onPressed: () async {
-                    final response = await ref.read(jellyApiProvider).quickConnectInitiate();
+                    final response =
+                        await ref.read(jellyApiProvider).quickConnectInitiate();
                     if (response.isSuccessful && response.body != null) {
                       setState(() {
                         quickConnectInfo = response.body!;
