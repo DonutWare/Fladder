@@ -4,10 +4,24 @@ import 'package:async/async.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
-import 'package:fladder/providers/subtitle_action_provider.dart';
+enum SubtitleAction {
+  toggle,
+  nextTrack,
+  prevTrack,
+  offsetIncrease,
+  offsetDecrease,
+  notSupported,
+}
+
+typedef SubtitleActionCallback = void Function(SubtitleAction action, String message);
 
 class VideoPlayerSubtitleIndicator extends ConsumerStatefulWidget {
-  const VideoPlayerSubtitleIndicator({super.key});
+  final void Function(SubtitleActionCallback callback) onRegisterCallback;
+  
+  const VideoPlayerSubtitleIndicator({
+    super.key,
+    required this.onRegisterCallback,
+  });
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _VideoPlayerSubtitleIndicatorState();
@@ -19,10 +33,18 @@ class _VideoPlayerSubtitleIndicatorState extends ConsumerState<VideoPlayerSubtit
 
   bool showIndicator = false;
   late final timer = RestartableTimer(const Duration(seconds: 1), () {
-    setState(() {
-      showIndicator = false;
-    });
+    if (mounted) {
+      setState(() {
+        showIndicator = false;
+      });
+    }
   });
+
+  @override
+  void initState() {
+    super.initState();
+    widget.onRegisterCallback(_showAction);
+  }
 
   @override
   void dispose() {
@@ -31,21 +53,19 @@ class _VideoPlayerSubtitleIndicatorState extends ConsumerState<VideoPlayerSubtit
     super.dispose();
   }
 
+  void _showAction(SubtitleAction action, String message) {
+    if (mounted) {
+      setState(() {
+        showIndicator = true;
+        currentMessage = message;
+        currentAction = action;
+      });
+      timer.reset();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    ref.listen(
-      subtitleActionProvider,
-      (previous, next) {
-        if (next != null) {
-          setState(() {
-            showIndicator = true;
-            currentMessage = next.message;
-            currentAction = next.action;
-          });
-          timer.reset();
-        }
-      },
-    );
     return IgnorePointer(
       child: AnimatedOpacity(
         duration: const Duration(milliseconds: 250),

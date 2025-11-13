@@ -19,7 +19,6 @@ import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
-import 'package:fladder/providers/subtitle_action_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/shared/default_title_bar.dart';
@@ -60,6 +59,8 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   );
 
   double? previousVolume;
+  
+  SubtitleActionCallback? _subtitleActionCallback;
 
   final fadeDuration = const Duration(milliseconds: 350);
   bool showOverlay = true;
@@ -131,7 +132,9 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                 const VideoPlayerSeekIndicator(),
                 const VideoPlayerVolumeIndicator(),
                 const VideoPlayerSpeedIndicator(),
-                const VideoPlayerSubtitleIndicator(),
+                VideoPlayerSubtitleIndicator(
+                  onRegisterCallback: (callback) => _subtitleActionCallback = callback,
+                ),
                 Consumer(
                   builder: (context, ref, child) {
                     final position = ref.watch(mediaPlaybackProvider.select((value) => value.position));
@@ -697,7 +700,8 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     
     if (!player.supportsSubtitleOffset || playbackModel == null) {
       final backend = player.backend?.label(context) ?? context.localized.unknown;
-      ref.read(subtitleActionProvider.notifier).showNotSupported(
+      _subtitleActionCallback?.call(
+        SubtitleAction.notSupported,
         "${context.localized.subtitleOffsetNotSupported} ($backend)"
       );
       return;
@@ -711,7 +715,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     // Show OSD indicator
     final action = offsetChange > 0 ? SubtitleAction.offsetIncrease : SubtitleAction.offsetDecrease;
     final sign = newOffset >= 0 ? '+' : '';
-    ref.read(subtitleActionProvider.notifier).showAction(
+    _subtitleActionCallback?.call(
       action, 
       "${context.localized.subtitleOffset}: $sign${newOffset.toStringAsFixed(1)}s"
     );
@@ -739,7 +743,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         ? newSubtitleStream.displayTitle 
         : (newSubtitleStream.index == SubStreamModel.no().index ? context.localized.off : context.localized.unknown);
     
-    ref.read(subtitleActionProvider.notifier).showAction(
+    _subtitleActionCallback?.call(
       forward ? SubtitleAction.nextTrack : SubtitleAction.prevTrack,
       "${context.localized.subtitles}: $trackName"
     );
@@ -811,7 +815,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         
         // Show "Subtitles On" or "Subtitles Off" based on the NEW state (opposite of current)
         final newState = isSubtitlesOn ? context.localized.off : context.localized.enabled;
-        ref.read(subtitleActionProvider.notifier).showAction(
+        _subtitleActionCallback?.call(
           SubtitleAction.toggle, 
           "${context.localized.subtitles} $newState"
         );
