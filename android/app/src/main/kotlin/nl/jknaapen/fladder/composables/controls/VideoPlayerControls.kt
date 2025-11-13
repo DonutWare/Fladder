@@ -62,6 +62,7 @@ import io.github.rabehx.iconsax.Iconsax
 import io.github.rabehx.iconsax.filled.AudioSquare
 import io.github.rabehx.iconsax.filled.Backward
 import io.github.rabehx.iconsax.filled.Check
+import io.github.rabehx.iconsax.filled.Flash
 import io.github.rabehx.iconsax.filled.Forward
 import io.github.rabehx.iconsax.filled.Pause
 import io.github.rabehx.iconsax.filled.Play
@@ -72,6 +73,7 @@ import kotlinx.coroutines.delay
 import nl.jknaapen.fladder.composables.dialogs.AudioPicker
 import nl.jknaapen.fladder.composables.dialogs.ChapterSelectionSheet
 import nl.jknaapen.fladder.composables.dialogs.SubtitlePicker
+import nl.jknaapen.fladder.composables.dialogs.PlaybackSpeedPicker
 import nl.jknaapen.fladder.objects.Localized
 import nl.jknaapen.fladder.objects.PlayerSettingsObject
 import nl.jknaapen.fladder.objects.Translate
@@ -99,6 +101,7 @@ fun CustomVideoControls(
     val showAudioDialog = remember { mutableStateOf(false) }
     val showSubDialog = remember { mutableStateOf(false) }
     var showChapterDialog by remember { mutableStateOf(false) }
+    var showSpeedDialog by remember { mutableStateOf(false) }
 
     val interactionSource = remember { MutableInteractionSource() }
 
@@ -337,6 +340,9 @@ fun CustomVideoControls(
                         LeftButtons(
                             openChapterSelection = {
                                 showChapterDialog = true
+                            },
+                            openPlaybackSpeedPicker = {
+                                showSpeedDialog = true
                             }
                         )
                         PlaybackButtons(exoPlayer, bottomControlFocusRequester) {
@@ -386,6 +392,15 @@ fun CustomVideoControls(
             },
             onDismiss = {
                 showChapterDialog = false
+            }
+        )
+    }
+
+    if (showSpeedDialog) {
+        PlaybackSpeedPicker(
+            player = exoPlayer,
+            onDismissRequest = {
+                showSpeedDialog = false
             }
         )
     }
@@ -512,6 +527,7 @@ fun PlaybackButtons(
 @Composable
 internal fun RowScope.LeftButtons(
     openChapterSelection: () -> Unit,
+    openPlaybackSpeedPicker: () -> Unit,
 ) {
     val chapters by VideoPlayerObject.chapters.collectAsState(emptyList())
 
@@ -526,6 +542,16 @@ internal fun RowScope.LeftButtons(
             Icon(
                 Iconsax.Filled.Check,
                 contentDescription = "Show chapters",
+            )
+        }
+
+        CustomButton(
+            onClick = openPlaybackSpeedPicker,
+            enabled = true
+        ) {
+            Icon(
+                Iconsax.Filled.Flash,
+                contentDescription = "Playback Speed",
             )
         }
     }
