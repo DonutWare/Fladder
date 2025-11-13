@@ -200,7 +200,7 @@ class _CategoryChipEditorState<T> extends State<CategoryChipEditor<T>> {
             ),
           ),
           ...activeItems.mapIndexed((index, element) {
-            return CheckboxListTile.adaptive(
+            return CheckboxListTile(
               value: currentState[element.key],
               title: widget.labelBuilder(element.key),
               fillColor: WidgetStateProperty.resolveWith(
@@ -218,7 +218,7 @@ class _CategoryChipEditorState<T> extends State<CategoryChipEditor<T>> {
           const Divider(),
         },
         ...otherItems.mapIndexed((index, element) {
-          return CheckboxListTile.adaptive(
+          return CheckboxListTile(
             value: currentState[element.key],
             title: widget.labelBuilder(element.key),
             fillColor: WidgetStateProperty.resolveWith(
