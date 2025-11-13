@@ -48,12 +48,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.input.key.Key.Companion.Back
-import androidx.compose.ui.input.key.Key.Companion.Backspace
-import androidx.compose.ui.input.key.Key.Companion.ButtonB
-import androidx.compose.ui.input.key.Key.Companion.DirectionLeft
-import androidx.compose.ui.input.key.Key.Companion.DirectionRight
-import androidx.compose.ui.input.key.Key.Companion.Escape
+import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
@@ -177,7 +172,31 @@ fun CustomVideoControls(
                 if (keyEvent.type != KeyEventType.KeyDown) return@onKeyEvent false
 
                 when (keyEvent.key) {
-                    Back, Escape, ButtonB, Backspace -> {
+                    Key.MediaStop, Key.X -> {
+                        activity?.finish()
+                        return@onKeyEvent true
+                    }
+                    Key.MediaPlay -> {
+                        player?.play()
+                        return@onKeyEvent true
+                    }
+                    Key.MediaPlayPause -> {
+                        player?.let{
+                            if (it.isPlaying){
+                                it.pause()
+                                updateLastInteraction()
+                            } else {
+                                it.play()
+                            }
+                        }
+                        return@onKeyEvent true
+                    }
+                    Key.MediaPause, Key.P -> {
+                        player?.pause()
+                        updateLastInteraction()
+                        return@onKeyEvent true
+                    }
+                    Key.Back, Key.Escape, Key.ButtonB, Key.Backspace -> {
                         if (showControls) {
                             hideControls()
                             return@onKeyEvent true
@@ -190,13 +209,13 @@ fun CustomVideoControls(
 
                 if (!showControls) {
                     when (keyEvent.key) {
-                        DirectionLeft -> {
+                        Key.DirectionLeft -> {
                             currentSkipTime -= backwardSpeed.inWholeMilliseconds
                             updateSeekInteraction()
                             return@onKeyEvent true
                         }
 
-                        DirectionRight -> {
+                        Key.DirectionRight -> {
                             currentSkipTime += forwardSpeed.inWholeMilliseconds
                             updateSeekInteraction()
                             return@onKeyEvent true
@@ -320,7 +339,9 @@ fun CustomVideoControls(
                                 showChapterDialog = true
                             }
                         )
-                        PlaybackButtons(exoPlayer, bottomControlFocusRequester)
+                        PlaybackButtons(exoPlayer, bottomControlFocusRequester) {
+                            updateLastInteraction()
+                        }
                         RightButtons(showAudioDialog, showSubDialog)
                     }
                 }
@@ -375,6 +396,7 @@ fun CustomVideoControls(
 fun PlaybackButtons(
     player: ExoPlayer,
     bottomControlFocusRequester: FocusRequester,
+    onPause: () -> Unit,
 ) {
     val state by VideoPlayerObject.videoPlayerState.collectAsState(null)
 
@@ -435,7 +457,12 @@ fun PlaybackButtons(
                 .defaultSelected(true),
             enableScaledFocus = true,
             onClick = {
-                if (player.isPlaying) player.pause() else player.play()
+                if (player.isPlaying) {
+                    player.pause()
+                    onPause()
+                } else {
+                    player.play()
+                }
             },
         ) {
             Icon(
