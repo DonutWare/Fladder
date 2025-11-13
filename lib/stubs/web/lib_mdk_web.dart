@@ -61,14 +61,10 @@ class LibMDK extends BasePlayer {
   Future<void> stop() async {}
 
   @override
-  Future<void> adjustSubtitleOffset(double offsetSeconds) async {
-    // Web MDK player does not support subtitle offset
-    // The "not supported" message will be shown by the calling code
-  }
+  Future<void> adjustSubtitleOffset(double offsetSeconds) async {}
 
   @override
   Future<double> getSubtitleOffset() async {
-    // Web MDK player does not support subtitle offset
     return 0.0;
   }
 

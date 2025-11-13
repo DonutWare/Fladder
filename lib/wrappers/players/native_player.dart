@@ -81,14 +81,10 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
   }
 
   @override
-  Future<void> adjustSubtitleOffset(double offsetSeconds) async {
-    // Native player does not support subtitle offset
-    // The "not supported" message will be shown by the calling code
-  }
+  Future<void> adjustSubtitleOffset(double offsetSeconds) async {}
 
   @override
   Future<double> getSubtitleOffset() async {
-    // Native player does not support subtitle offset
     return 0.0;
   }
 

@@ -104,7 +104,6 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
   }
 
   Future<void> loadVideo(PlaybackModel model, Duration startPosition, bool play) async {
-    // Clear previous subtitle selection when loading a new video
     _previousSubtitleStream = null;
     
     if (_player is NativePlayer) {
@@ -207,7 +206,6 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
 
     windowSMTCSetup(playBackItem, currentPosition ?? Duration.zero);
 
-    //Everything else setup
     mediaItem.add(MediaItem(
       id: playBackItem.id,
       title: playBackItem.title,
@@ -237,7 +235,6 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     final poster = playBackItem.images?.firstOrNull;
     final mainContext = ref.read(localizationContextProvider);
 
-    //Windows setup
     smtc?.updateMetadata(MusicMetadata(
       title: playBackItem.title,
       artist: mainContext != null ? playBackItem.label(mainContext) : null,
@@ -270,7 +267,6 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     final position = _player?.lastState.position;
     final totalDuration = _player?.lastState.duration;
 
-    // //Small delay so we don't post right after playback/progress update
     await Future.delayed(const Duration(seconds: 1));
 
     await playbackModel.playbackStopped(position ?? Duration.zero, totalDuration, ref);
@@ -316,7 +312,6 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
       await _player?.setAudioTrack(model, playbackModel) ?? -1;
 
   Future<int> setSubtitleTrack(SubStreamModel? model, PlaybackModel playbackModel) async {
-    // Reset subtitle offset when changing subtitle tracks
     if (supportsSubtitleOffset) {
       await adjustSubtitleOffset(0.0);
       final updatedModel = playbackModel.copyWith(subtitleOffset: 0.0);
@@ -343,9 +338,6 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     return super.setSpeed(speed);
   }
 
-  //Native player calls
-  //
-  //
   @override
   void loadNextVideo() async {
     final nextVideo = ref.read(playBackModel.select((value) => value?.nextVideo));
@@ -425,7 +417,6 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     
     SubStreamModel? newSubtitleStream;
     if (currentIndex == -1 || currentIndex == SubStreamModel.no().index) {
-      // Turn subtitles on - restore previously chosen subtitle or use first available
       newSubtitleStream = _previousSubtitleStream != null &&
               subStreams.any((stream) => stream.index == _previousSubtitleStream!.index)
           ? _previousSubtitleStream
@@ -434,7 +425,6 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
               orElse: () => subStreams.first,
             );
     } else {
-      // Turn subtitles off but remember the current selection
       _previousSubtitleStream = subStreams.firstWhere(
         (stream) => stream.index == currentIndex,
         orElse: () => subStreams.first,

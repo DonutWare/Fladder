@@ -135,7 +135,6 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
           }
           await state.setAudioTrack(null, model);
           await state.setSubtitleTrack(null, model);
-          // Apply subtitle offset from model (will be 0.0 for new videos)
           if (model.subtitleOffset != 0.0) {
             await state.adjustSubtitleOffset(model.subtitleOffset);
           }

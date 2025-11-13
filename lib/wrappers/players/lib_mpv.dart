@@ -21,7 +21,7 @@ import 'package:fladder/wrappers/players/player_states.dart';
 class LibMPV extends BasePlayer {
   mpv.Player? _player;
   VideoController? _controller;
-  double _currentSubtitleOffset = 0.0; // Internal tracking of subtitle offset
+  double _currentSubtitleOffset = 0.0;
 
   final StreamController<PlayerState> _stateController = StreamController.broadcast();
   
@@ -44,7 +44,7 @@ class LibMPV extends BasePlayer {
         title: "nl.jknaapen.fladder",
         libassAndroidFont: libassFallbackFont,
         libass: !kIsWeb && settings.useLibass,
-        bufferSize: settings.bufferSize * 1024 * 1024, // MPV uses buffer size in bytes
+        bufferSize: settings.bufferSize * 1024 * 1024,
       ),
     );
 
@@ -168,12 +168,10 @@ class LibMPV extends BasePlayer {
         _currentSubtitleOffset = offsetSeconds;
         print('Setting subtitle delay to: $offsetSeconds seconds');
         
-        // Try using MPV command instead of property
         await (_player?.platform as dynamic).command(['set', 'sub-delay', offsetSeconds.toString()]);
         print('Successfully set subtitle delay via command');
       } catch (e) {
         print('Error with command approach: $e');
-        // Fallback to property approach
         try {
           await (_player?.platform as dynamic).setProperty('sub-delay', offsetSeconds);
           print('Successfully set subtitle delay via property');
@@ -189,7 +187,6 @@ class LibMPV extends BasePlayer {
   @override
   Future<double> getSubtitleOffset() async {
     if (_player?.platform is mpv.NativePlayer) {
-      // Return the internally tracked offset as it's more reliable
       return _currentSubtitleOffset;
     }
     return 0.0;

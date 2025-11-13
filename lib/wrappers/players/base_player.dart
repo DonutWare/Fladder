@@ -38,7 +38,6 @@ abstract class BasePlayer {
   Future<void> adjustSubtitleOffset(double offsetSeconds);
   Future<double> getSubtitleOffset();
   
-  /// Whether this player supports subtitle offset adjustment
   bool get supportsSubtitleOffset => false;
 
   Uri? isValidUrl(String input) {

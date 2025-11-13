@@ -276,7 +276,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
       final mediaPlayback = ref.watch(mediaPlaybackProvider);
       final bitRateOptions = ref.watch(playBackModel.select((value) => value?.bitRateOptions));
       return Container(
-        key: _bottomControlsKey, // Add key to measure height
+        key: _bottomControlsKey,
         decoration: BoxDecoration(
             gradient: LinearGradient(
           begin: Alignment.bottomCenter,
@@ -712,7 +712,6 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     final updatedModel = playbackModel.copyWith(subtitleOffset: newOffset);
     ref.read(playBackModel.notifier).update((state) => updatedModel);
     
-    // Show OSD indicator
     final action = offsetChange > 0 ? SubtitleAction.offsetIncrease : SubtitleAction.offsetDecrease;
     final sign = newOffset >= 0 ? '+' : '';
     _subtitleActionCallback?.call(
@@ -727,7 +726,6 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     final subStreams = playbackModel?.subStreams;
     if (subStreams == null || subStreams.isEmpty) return;
     
-    // Calculate what the new subtitle track will be after cycling
     final currentIndex = playbackModel?.mediaStreams?.defaultSubStreamIndex ?? -1;
     final currentStreamIndex = subStreams.indexWhere((stream) => stream.index == currentIndex);
     
@@ -813,7 +811,6 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         
         ref.read(videoPlayerProvider).toggleSubtitles();
         
-        // Show "Subtitles On" or "Subtitles Off" based on the NEW state (opposite of current)
         final newState = isSubtitlesOn ? context.localized.off : context.localized.enabled;
         _subtitleActionCallback?.call(
           SubtitleAction.toggle, 
@@ -824,21 +821,19 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         final playbackModel = ref.read(playBackModel);
         ref.read(videoPlayerProvider).cycleSubtitleTrack(forward: true);
         
-        // Get the new subtitle track name after cycling
         _showSubtitleTrackName(playbackModel, forward: true);
         return true;
       case VideoHotKeys.prevSubtitleTrack:
         final playbackModel = ref.read(playBackModel);
         ref.read(videoPlayerProvider).cycleSubtitleTrack(forward: false);
         
-        // Get the new subtitle track name after cycling
         _showSubtitleTrackName(playbackModel, forward: false);
         return true;
       case VideoHotKeys.subtitleOffsetIncrease:
-        _adjustSubtitleOffset(0.1); // Increase by 100ms
+        _adjustSubtitleOffset(0.1);
         return true;
       case VideoHotKeys.subtitleOffsetDecrease:
-        _adjustSubtitleOffset(-0.1); // Decrease by 100ms
+        _adjustSubtitleOffset(-0.1);
         return true;
       default:
         return false;
