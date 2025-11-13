@@ -1,5 +1,3 @@
-import 'package:flutter/widgets.dart';
-
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -28,6 +26,7 @@ class TranscodePlaybackModel extends PlaybackModel {
     super.trickPlay,
     super.queue = const [],
     super.bitRateOptions,
+    super.subtitleOffset,
   });
 
   @override
@@ -39,7 +38,7 @@ class TranscodePlaybackModel extends PlaybackModel {
   @override
   Future<TranscodePlaybackModel> setSubtitle(SubStreamModel? model, MediaControlsWrapper player) async {
     final newIndex = await player.setSubtitleTrack(model, this);
-    return copyWith(mediaStreams: () => mediaStreams?.copyWith(defaultSubStreamIndex: newIndex));
+    return copyWith(mediaStreams: mediaStreams?.copyWith(defaultSubStreamIndex: newIndex));
   }
 
   @override
@@ -48,7 +47,7 @@ class TranscodePlaybackModel extends PlaybackModel {
   @override
   Future<TranscodePlaybackModel>? setAudio(AudioStreamModel? model, MediaControlsWrapper player) async {
     final newIndex = await player.setAudioTrack(model, this);
-    return copyWith(mediaStreams: () => mediaStreams?.copyWith(defaultAudioStreamIndex: newIndex));
+    return copyWith(mediaStreams: mediaStreams?.copyWith(defaultAudioStreamIndex: newIndex));
   }
 
   @override
@@ -130,26 +129,27 @@ class TranscodePlaybackModel extends PlaybackModel {
   @override
   TranscodePlaybackModel copyWith({
     ItemBaseModel? item,
-    ValueGetter<Media?>? media,
-    ValueGetter<Duration>? lastPosition,
+    Media? media,
     PlaybackInfoResponse? playbackInfo,
-    ValueGetter<MediaStreamsModel?>? mediaStreams,
-    ValueGetter<MediaSegmentsModel?>? mediaSegments,
-    ValueGetter<List<Chapter>?>? chapters,
-    ValueGetter<TrickPlayModel?>? trickPlay,
+    MediaStreamsModel? mediaStreams,
+    MediaSegmentsModel? mediaSegments,
+    List<Chapter>? chapters,
+    TrickPlayModel? trickPlay,
     List<ItemBaseModel>? queue,
     Map<Bitrate, bool>? bitRateOptions,
+    double? subtitleOffset,
   }) {
     return TranscodePlaybackModel(
       item: item ?? this.item,
-      media: media != null ? media() : this.media,
+      media: media ?? this.media,
       playbackInfo: playbackInfo ?? this.playbackInfo,
-      mediaStreams: mediaStreams != null ? mediaStreams() : this.mediaStreams,
-      mediaSegments: mediaSegments != null ? mediaSegments() : this.mediaSegments,
-      chapters: chapters != null ? chapters() : this.chapters,
-      trickPlay: trickPlay != null ? trickPlay() : this.trickPlay,
+      mediaStreams: mediaStreams ?? this.mediaStreams,
+      mediaSegments: mediaSegments ?? this.mediaSegments,
+      chapters: chapters ?? this.chapters,
+      trickPlay: trickPlay ?? this.trickPlay,
       queue: queue ?? this.queue,
       bitRateOptions: bitRateOptions ?? this.bitRateOptions,
+      subtitleOffset: subtitleOffset ?? this.subtitleOffset,
     );
   }
 }

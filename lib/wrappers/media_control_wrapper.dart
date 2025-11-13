@@ -15,7 +15,7 @@ import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
-import 'package:fladder/providers/settings/subtitle_offset_provider.dart';
+
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/src/video_player_helper.g.dart' hide PlaybackState;
@@ -317,7 +317,11 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
 
   Future<int> setSubtitleTrack(SubStreamModel? model, PlaybackModel playbackModel) async {
     // Reset subtitle offset when changing subtitle tracks
-    ref.read(subtitleOffsetProvider.notifier).resetOffset();
+    if (supportsSubtitleOffset) {
+      await adjustSubtitleOffset(0.0);
+      final updatedModel = playbackModel.copyWith(subtitleOffset: 0.0);
+      ref.read(playBackModel.notifier).update((state) => updatedModel);
+    }
     
     return await _player?.setSubtitleTrack(model, playbackModel) ?? -1;
   }

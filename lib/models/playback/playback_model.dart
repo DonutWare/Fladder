@@ -69,6 +69,7 @@ class PlaybackModel {
   final List<ItemBaseModel> queue;
   final MediaSegmentsModel? mediaSegments;
   final PlaybackInfoResponse? playbackInfo;
+  final double subtitleOffset;
 
   Map<Bitrate, bool> bitRateOptions;
 
@@ -96,7 +97,11 @@ class PlaybackModel {
   ItemBaseModel? get nextVideo => queue.nextOrNull(item);
   ItemBaseModel? get previousVideo => queue.previousOrNull(item);
 
-  PlaybackModel copyWith() => throw UnimplementedError();
+  PlaybackModel copyWith({
+    ItemBaseModel? item,
+    Media? media,
+    double? subtitleOffset,
+  }) => throw UnimplementedError();
 
   PlaybackModel({
     required this.playbackInfo,
@@ -108,6 +113,7 @@ class PlaybackModel {
     this.mediaSegments,
     this.chapters,
     this.trickPlay,
+    this.subtitleOffset = 0.0,
   });
 }
 

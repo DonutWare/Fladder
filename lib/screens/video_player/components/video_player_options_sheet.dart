@@ -13,7 +13,7 @@ import 'package:fladder/models/playback/offline_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/playback/transcode_playback_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
-import 'package:fladder/providers/settings/subtitle_offset_provider.dart';
+
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
@@ -222,7 +222,7 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
                   const Spacer(),
                   Consumer(
                     builder: (context, ref, child) {
-                      final offset = ref.watch(subtitleOffsetProvider);
+                      final offset = ref.watch(playBackModel.select((value) => value?.subtitleOffset ?? 0.0));
                       return Text("${offset >= 0 ? '+' : ''}${offset.toStringAsFixed(1)}s");
                     },
                   ),
@@ -623,7 +623,7 @@ Future<void> showSubtitleOffset(BuildContext context) {
       return StatefulBuilder(builder: (context, setState) {
         return Consumer(
           builder: (context, ref, child) {
-            final offset = ref.watch(subtitleOffsetProvider);
+            final offset = ref.watch(playBackModel.select((value) => value?.subtitleOffset ?? 0.0));
             return SimpleDialog(
               contentPadding: const EdgeInsets.only(top: 8, bottom: 24),
               title: Row(children: [Text(context.localized.subtitleOffset)]),
@@ -651,8 +651,14 @@ Future<void> showSubtitleOffset(BuildContext context) {
                                 value: offset.clamp(-30.0, 30.0),
                                 divisions: 120,
                                 onChanged: (value) {
-                                  final success = ref.read(subtitleOffsetProvider.notifier).setOffset(value);
-                                  if (!success && context.mounted) {
+                                  final player = ref.read(videoPlayerProvider);
+                                  final playbackModel = ref.read(playBackModel);
+                                  
+                                  if (player.supportsSubtitleOffset && playbackModel != null) {
+                                    player.adjustSubtitleOffset(value);
+                                    final updatedModel = playbackModel.copyWith(subtitleOffset: value);
+                                    ref.read(playBackModel.notifier).update((state) => updatedModel);
+                                  } else if (context.mounted) {
                                     fladderSnackbar(context, title: context.localized.subtitleOffsetNotSupported);
                                   }
                                 },
@@ -665,8 +671,14 @@ Future<void> showSubtitleOffset(BuildContext context) {
                       const SizedBox(height: 16),
                       ElevatedButton(
                         onPressed: () {
-                          final success = ref.read(subtitleOffsetProvider.notifier).resetOffset();
-                          if (!success && context.mounted) {
+                          final player = ref.read(videoPlayerProvider);
+                          final playbackModel = ref.read(playBackModel);
+                          
+                          if (player.supportsSubtitleOffset && playbackModel != null) {
+                            player.adjustSubtitleOffset(0.0);
+                            final updatedModel = playbackModel.copyWith(subtitleOffset: 0.0);
+                            ref.read(playBackModel.notifier).update((state) => updatedModel);
+                          } else if (context.mounted) {
                             fladderSnackbar(context, title: context.localized.subtitleOffsetNotSupported);
                           }
                         },

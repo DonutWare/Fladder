@@ -17,7 +17,7 @@ import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
-import 'package:fladder/providers/settings/subtitle_offset_provider.dart';
+
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/subtitle_action_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
@@ -692,18 +692,21 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   }
 
   void _adjustSubtitleOffset(double offsetChange) async {
-    final success = ref.read(subtitleOffsetProvider.notifier).adjustOffset(offsetChange);
+    final player = ref.read(videoPlayerProvider);
+    final playbackModel = ref.read(playBackModel);
     
-    if (!success) {
-      final backend = ref.read(videoPlayerProvider).backend?.label(context) ?? context.localized.unknown;
+    if (!player.supportsSubtitleOffset || playbackModel == null) {
+      final backend = player.backend?.label(context) ?? context.localized.unknown;
       ref.read(subtitleActionProvider.notifier).showNotSupported(
         "${context.localized.subtitleOffsetNotSupported} ($backend)"
       );
       return;
     }
     
-    // Get the new offset value for the OSD
-    final newOffset = ref.read(subtitleOffsetProvider);
+    final newOffset = (playbackModel.subtitleOffset + offsetChange).clamp(-30.0, 30.0);
+    player.adjustSubtitleOffset(newOffset);
+    final updatedModel = playbackModel.copyWith(subtitleOffset: newOffset);
+    ref.read(playBackModel.notifier).update((state) => updatedModel);
     
     // Show OSD indicator
     final action = offsetChange > 0 ? SubtitleAction.offsetIncrease : SubtitleAction.offsetDecrease;

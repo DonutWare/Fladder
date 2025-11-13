@@ -1,5 +1,3 @@
-import 'package:flutter/widgets.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/item_base_model.dart';
@@ -26,6 +24,7 @@ class OfflinePlaybackModel extends PlaybackModel {
     super.trickPlay,
     super.queue = const [],
     this.syncedQueue = const [],
+    super.subtitleOffset,
   });
 
   final SyncedItem syncedItem;
@@ -47,7 +46,7 @@ class OfflinePlaybackModel extends PlaybackModel {
   @override
   Future<OfflinePlaybackModel> setSubtitle(SubStreamModel? model, MediaControlsWrapper player) async {
     final newIndex = await player.setSubtitleTrack(model, this);
-    return copyWith(mediaStreams: () => mediaStreams?.copyWith(defaultSubStreamIndex: newIndex));
+    return copyWith(mediaStreams: mediaStreams?.copyWith(defaultSubStreamIndex: newIndex));
   }
 
   @override
@@ -56,7 +55,7 @@ class OfflinePlaybackModel extends PlaybackModel {
   @override
   Future<OfflinePlaybackModel>? setAudio(AudioStreamModel? model, MediaControlsWrapper player) async {
     final newIndex = await player.setAudioTrack(model, this);
-    return copyWith(mediaStreams: () => mediaStreams?.copyWith(defaultAudioStreamIndex: newIndex));
+    return copyWith(mediaStreams: mediaStreams?.copyWith(defaultAudioStreamIndex: newIndex));
   }
 
   @override
@@ -115,23 +114,23 @@ class OfflinePlaybackModel extends PlaybackModel {
   @override
   OfflinePlaybackModel copyWith({
     ItemBaseModel? item,
-    ValueGetter<Media?>? media,
-    SyncedItem? syncedItem,
-    ValueGetter<MediaStreamsModel?>? mediaStreams,
-    ValueGetter<MediaSegmentsModel?>? mediaSegments,
-    ValueGetter<TrickPlayModel?>? trickPlay,
+    Media? media,
+    MediaStreamsModel? mediaStreams,
+    MediaSegmentsModel? mediaSegments,
+    TrickPlayModel? trickPlay,
     List<ItemBaseModel>? queue,
-    List<SyncedItem>? syncedQueue,
+    double? subtitleOffset,
   }) {
     return OfflinePlaybackModel(
       item: item ?? this.item,
-      media: media != null ? media() : this.media,
-      syncedItem: syncedItem ?? this.syncedItem,
-      mediaStreams: mediaStreams != null ? mediaStreams() : this.mediaStreams,
-      mediaSegments: mediaSegments != null ? mediaSegments() : this.mediaSegments,
-      trickPlay: trickPlay != null ? trickPlay() : this.trickPlay,
+      media: media ?? this.media,
+      syncedItem: syncedItem,
+      mediaStreams: mediaStreams ?? this.mediaStreams,
+      mediaSegments: mediaSegments ?? this.mediaSegments,
+      trickPlay: trickPlay ?? this.trickPlay,
       queue: queue ?? this.queue,
-      syncedQueue: syncedQueue ?? this.syncedQueue,
+      syncedQueue: syncedQueue,
+      subtitleOffset: subtitleOffset ?? this.subtitleOffset,
     );
   }
 }

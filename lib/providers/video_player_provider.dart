@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
-import 'package:fladder/providers/settings/subtitle_offset_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/util/debouncer.dart';
 import 'package:fladder/wrappers/media_control_wrapper.dart';
@@ -118,9 +117,6 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
   Future<bool> loadPlaybackItem(PlaybackModel model, Duration startPosition) async {
     await state.stop();
     
-    // Reset subtitle offset for new video
-    ref.read(subtitleOffsetProvider.notifier).state = 0.0;
-    
     mediaState
         .update((state) => state.copyWith(state: VideoPlayerState.fullScreen, buffering: true, errorPlaying: false));
 
@@ -139,10 +135,9 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
           }
           await state.setAudioTrack(null, model);
           await state.setSubtitleTrack(null, model);
-          // Apply the saved subtitle offset
-          final savedOffset = ref.read(subtitleOffsetProvider);
-          if (savedOffset != 0.0) {
-            await state.adjustSubtitleOffset(savedOffset);
+          // Apply subtitle offset from model (will be 0.0 for new videos)
+          if (model.subtitleOffset != 0.0) {
+            await state.adjustSubtitleOffset(model.subtitleOffset);
           }
           state.play();
           ref.read(playBackModel.notifier).update((state) => newPlaybackModel);
