@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
+import 'package:fladder/util/focus_helper.dart';
 
 class InputDetector extends StatefulWidget {
   final bool isDesktop;
@@ -46,7 +47,7 @@ class _InputDetectorState extends State<InputDetector> {
 
   bool _handleKeyPress(KeyEvent event) {
     if (event is KeyDownEvent) {
-      if (_isEditableTextFocused() &&
+      if (isEditableTextFocused() &&
           (event.logicalKey == LogicalKeyboardKey.arrowUp ||
               event.logicalKey == LogicalKeyboardKey.arrowDown ||
               event.logicalKey == LogicalKeyboardKey.arrowLeft ||
@@ -63,16 +64,6 @@ class _InputDetectorState extends State<InputDetector> {
       }
     }
     return false;
-  }
-
-  bool _isEditableTextFocused() {
-    final focus = FocusManager.instance.primaryFocus;
-    if (focus == null) return false;
-    final ctx = focus.context;
-    if (ctx == null) return false;
-
-    if (ctx.widget is EditableText) return true;
-    return ctx.findAncestorWidgetOfExactType<EditableText>() != null;
   }
 
   void _handlePointerEvent(PointerEvent event) {

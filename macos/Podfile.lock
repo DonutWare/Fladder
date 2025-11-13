@@ -173,34 +173,34 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/window_manager/macos
 
 SPEC CHECKSUMS:
-  audio_service: aa99a6ba2ae7565996015322b0bb024e1d25c6fd
-  audio_session: eaca2512cf2b39212d724f35d11f46180ad3a33e
-  connectivity_plus: 4adf20a405e25b42b9c9f87feff8f4b6fde18a4e
-  desktop_drop: 248706031734554504f939cab1ad4c5fbc9c9c72
-  dynamic_color: cb7c2a300ee67ed3bd96c3e852df3af0300bf610
-  file_picker: 7584aae6fa07a041af2b36a2655122d42f578c1a
+  audio_service: cab6c1a0eaf01b5a35b567e11fa67d3cc1956910
+  audio_session: 728ae3823d914f809c485d390274861a24b0904e
+  connectivity_plus: 0a976dfd033b59192912fa3c6c7b54aab5093802
+  desktop_drop: e52397f93b3daec9fe1d504f1d5a21b76403d8ae
+  dynamic_color: 5fdff3953fb3457311091863f72914fc76ea3209
+  file_picker: e716a70a9fe5fd9e09ebc922d7541464289443af
   FlutterMacOS: d0db08ddef1a9af05a5ec4b724367152bb0500b1
-  fvp: ecee65308dd86ae46e3c6d5d42cd2aad48095ef5
-  just_audio: 4e391f57b79cad2b0674030a00453ca5ce817eed
-  local_auth_darwin: c3ee6cce0a8d56be34c8ccb66ba31f7f180aaebb
+  fvp: f4fdb89279e863eb09869bde7ba7fce9e81a16ab
+  just_audio: a42c63806f16995daf5b219ae1d679deb76e6a79
+  local_auth_darwin: 63c73d6d28cc3e239be2b6aa460ea6e317cd5100
   mdk: baa616b93f696c7066df0e5ebe057badfa9c462b
-  media_kit_libs_macos_video: 85a23e549b5f480e72cae3e5634b5514bc692f65
-  media_kit_video: fa6564e3799a0a28bff39442334817088b7ca758
-  package_info_plus: f0052d280d17aa382b932f399edf32507174e870
-  path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
-  screen_brightness_macos: 2a3ee243f8051c340381e8e51bcedced8360f421
-  screen_retriever_macos: 452e51764a9e1cdb74b3c541238795849f21557f
-  share_plus: 510bf0af1a42cd602274b4629920c9649c52f4cc
-  shared_preferences_foundation: 9e1978ff2562383bd5676f64ec4e9aa8fa06a6f7
-  sqflite_darwin: 20b2a3a3b70e43edae938624ce550a3cbf66a3d0
+  media_kit_libs_macos_video: b3e2bbec2eef97c285f2b1baa7963c67c753fb82
+  media_kit_video: c75b07f14d59706c775778e4dd47dd027de8d1e5
+  package_info_plus: 12f1c5c2cfe8727ca46cbd0b26677728972d9a5b
+  path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
+  screen_brightness_macos: 2d6d3af2165592d9a55ffcd95b7550970e41ebda
+  screen_retriever_macos: 776e0fa5d42c6163d2bf772d22478df4b302b161
+  share_plus: 1fa619de8392a4398bfaf176d441853922614e89
+  shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
+  sqflite_darwin: 5a7236e3b501866c1c9befc6771dfd73ffb8702d
   sqlite3: 73513155ec6979715d3904ef53a8d68892d4032b
-  sqlite3_flutter_libs: 83f8e9f5b6554077f1d93119fe20ebaa5f3a9ef1
-  url_launcher_macos: 0fba8ddabfc33ce0a9afe7c5fef5aab3d8d2d673
-  video_player_avfoundation: 2cef49524dd1f16c5300b9cd6efd9611ce03639b
-  volume_controller: 5c068e6d085c80dadd33fc2c918d2114b775b3dd
-  wakelock_plus: 917609be14d812ddd9e9528876538b2263aaa03b
-  webview_flutter_wkwebview: 8ebf4fded22593026f7dbff1fbff31ea98573c8d
-  window_manager: b729e31d38fb04905235df9ea896128991cad99e
+  sqlite3_flutter_libs: 86f82662868ee26ff3451f73cac9c5fc2a1f57fa
+  url_launcher_macos: c82c93949963e55b228a30115bd219499a6fe404
+  video_player_avfoundation: 7c6c11d8470e1675df7397027218274b6d2360b3
+  volume_controller: 90a5978956cf18ebb7739bf5382fc1b0cfef66d0
+  wakelock_plus: 9d63063ffb7af1c215209769067c57103bde719d
+  webview_flutter_wkwebview: 29eb20d43355b48fe7d07113835b9128f84e3af4
+  window_manager: e25faf20d88283a0d46e7b1a759d07261ca27575
 
 PODFILE CHECKSUM: c2e95c8c0fe03c5c57e438583cae4cc732296009
 
