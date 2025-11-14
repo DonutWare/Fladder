@@ -165,6 +165,7 @@ class LibraryScreen extends _$LibraryScreen {
       parentId: viewModel.id,
       sortBy: [ItemSortBy.datelastcontentadded, ItemSortBy.datecreated, ItemSortBy.sortname],
       sortOrder: [SortOrder.descending],
+      limit: 9,
       includeItemTypes: viewModel.collectionType.itemKinds.map((e) => e.dtoKind).toList(),
     );
     newRecommendations = [

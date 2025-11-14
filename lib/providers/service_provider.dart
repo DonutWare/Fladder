@@ -700,6 +700,7 @@ class JellyService {
     String? parentId,
     List<ItemSortBy>? sortBy,
     List<SortOrder>? sortOrder,
+    int? limit,
     bool? recursive,
     List<BaseItemKind>? includeItemTypes,
   }) async {
@@ -710,6 +711,7 @@ class JellyService {
       sortBy: sortBy,
       sortOrder: sortOrder,
       includeItemTypes: includeItemTypes,
+      limit: limit,
     );
   }
 
