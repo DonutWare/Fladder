@@ -22,6 +22,7 @@ import 'package:fladder/models/playback/direct_playback_model.dart';
 import 'package:fladder/models/playback/offline_playback_model.dart';
 import 'package:fladder/models/playback/playback_options_dialogue.dart';
 import 'package:fladder/models/playback/transcode_playback_model.dart';
+import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/models/video_stream_model.dart';
 import 'package:fladder/profiles/default_profile.dart';
@@ -277,11 +278,17 @@ class PlaybackModelHelper {
           oldModel?.mediaStreams?.currentAudioStream,
           newStreamModel?.audioStreams,
           newStreamModel?.defaultAudioStreamIndex);
+
       final subStreamIndex = selectSubStream(
           ref.read(userProvider.select((value) => value?.userConfiguration?.rememberSubtitleSelections ?? true)),
           oldModel?.mediaStreams?.currentSubStream,
           newStreamModel?.subStreams,
           newStreamModel?.defaultSubStreamIndex);
+
+      //Native player does not allow for loading external subtitles with transcoding
+      final isNativePlayer =
+          ref.read(videoPlayerSettingsProvider.select((value) => value.wantedPlayer == PlayerOptions.nativePlayer));
+      final isExternalSub = newStreamModel?.currentSubStream?.isExternal == true;
 
       final Response<PlaybackInfoResponse> response = await api.itemsItemIdPlaybackInfoPost(
         itemId: item.id,
@@ -295,6 +302,7 @@ class PlaybackModelHelper {
           userId: userId,
           enableDirectPlay: type != PlaybackType.transcode,
           enableDirectStream: type != PlaybackType.transcode,
+          alwaysBurnInSubtitleWhenTranscoding: isNativePlayer && isExternalSub,
           maxStreamingBitrate: qualityOptions.enabledFirst.keys.firstOrNull?.bitRate,
           mediaSourceId: newStreamModel?.currentVersionStream?.id,
         ),

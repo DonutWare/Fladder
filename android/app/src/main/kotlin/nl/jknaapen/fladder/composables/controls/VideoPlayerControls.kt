@@ -48,12 +48,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.input.key.Key.Companion.Back
-import androidx.compose.ui.input.key.Key.Companion.Backspace
-import androidx.compose.ui.input.key.Key.Companion.ButtonB
-import androidx.compose.ui.input.key.Key.Companion.DirectionLeft
-import androidx.compose.ui.input.key.Key.Companion.DirectionRight
-import androidx.compose.ui.input.key.Key.Companion.Escape
+import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
@@ -67,6 +62,7 @@ import io.github.rabehx.iconsax.Iconsax
 import io.github.rabehx.iconsax.filled.AudioSquare
 import io.github.rabehx.iconsax.filled.Backward
 import io.github.rabehx.iconsax.filled.Check
+import io.github.rabehx.iconsax.filled.Flash
 import io.github.rabehx.iconsax.filled.Forward
 import io.github.rabehx.iconsax.filled.Pause
 import io.github.rabehx.iconsax.filled.Play
@@ -76,20 +72,16 @@ import io.github.rabehx.iconsax.outline.Refresh
 import kotlinx.coroutines.delay
 import nl.jknaapen.fladder.composables.dialogs.AudioPicker
 import nl.jknaapen.fladder.composables.dialogs.ChapterSelectionSheet
+import nl.jknaapen.fladder.composables.dialogs.PlaybackSpeedPicker
 import nl.jknaapen.fladder.composables.dialogs.SubtitlePicker
-import nl.jknaapen.fladder.objects.Localized
+import nl.jknaapen.fladder.composables.shared.CurrentTime
 import nl.jknaapen.fladder.objects.PlayerSettingsObject
-import nl.jknaapen.fladder.objects.Translate
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.ImmersiveSystemBars
 import nl.jknaapen.fladder.utility.defaultSelected
 import nl.jknaapen.fladder.utility.leanBackEnabled
 import nl.jknaapen.fladder.utility.visible
-import java.time.ZoneId
-import kotlin.time.Clock
 import kotlin.time.Duration.Companion.seconds
-import kotlin.time.ExperimentalTime
-import kotlin.time.toJavaInstant
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -104,6 +96,7 @@ fun CustomVideoControls(
     val showAudioDialog = remember { mutableStateOf(false) }
     val showSubDialog = remember { mutableStateOf(false) }
     var showChapterDialog by remember { mutableStateOf(false) }
+    var showSpeedDialog by remember { mutableStateOf(false) }
 
     val interactionSource = remember { MutableInteractionSource() }
 
@@ -177,7 +170,35 @@ fun CustomVideoControls(
                 if (keyEvent.type != KeyEventType.KeyDown) return@onKeyEvent false
 
                 when (keyEvent.key) {
-                    Back, Escape, ButtonB, Backspace -> {
+                    Key.MediaStop, Key.X -> {
+                        activity?.finish()
+                        return@onKeyEvent true
+                    }
+
+                    Key.MediaPlay -> {
+                        player?.play()
+                        return@onKeyEvent true
+                    }
+
+                    Key.MediaPlayPause -> {
+                        player?.let {
+                            if (it.isPlaying) {
+                                it.pause()
+                                updateLastInteraction()
+                            } else {
+                                it.play()
+                            }
+                        }
+                        return@onKeyEvent true
+                    }
+
+                    Key.MediaPause, Key.P -> {
+                        player?.pause()
+                        updateLastInteraction()
+                        return@onKeyEvent true
+                    }
+
+                    Key.Back, Key.Escape, Key.ButtonB, Key.Backspace -> {
                         if (showControls) {
                             hideControls()
                             return@onKeyEvent true
@@ -190,13 +211,13 @@ fun CustomVideoControls(
 
                 if (!showControls) {
                     when (keyEvent.key) {
-                        DirectionLeft -> {
+                        Key.DirectionLeft -> {
                             currentSkipTime -= backwardSpeed.inWholeMilliseconds
                             updateSeekInteraction()
                             return@onKeyEvent true
                         }
 
-                        DirectionRight -> {
+                        Key.DirectionRight -> {
                             currentSkipTime += forwardSpeed.inWholeMilliseconds
                             updateSeekInteraction()
                             return@onKeyEvent true
@@ -318,9 +339,14 @@ fun CustomVideoControls(
                         LeftButtons(
                             openChapterSelection = {
                                 showChapterDialog = true
+                            },
+                            openPlaybackSpeedPicker = {
+                                showSpeedDialog = true
                             }
                         )
-                        PlaybackButtons(exoPlayer, bottomControlFocusRequester)
+                        PlaybackButtons(exoPlayer, bottomControlFocusRequester) {
+                            updateLastInteraction()
+                        }
                         RightButtons(showAudioDialog, showSubDialog)
                     }
                 }
@@ -368,6 +394,15 @@ fun CustomVideoControls(
             }
         )
     }
+
+    if (showSpeedDialog) {
+        PlaybackSpeedPicker(
+            player = exoPlayer,
+            onDismissRequest = {
+                showSpeedDialog = false
+            }
+        )
+    }
 }
 
 // Control Buttons
@@ -375,6 +410,7 @@ fun CustomVideoControls(
 fun PlaybackButtons(
     player: ExoPlayer,
     bottomControlFocusRequester: FocusRequester,
+    onPause: () -> Unit,
 ) {
     val state by VideoPlayerObject.videoPlayerState.collectAsState(null)
 
@@ -435,7 +471,12 @@ fun PlaybackButtons(
                 .defaultSelected(true),
             enableScaledFocus = true,
             onClick = {
-                if (player.isPlaying) player.pause() else player.play()
+                if (player.isPlaying) {
+                    player.pause()
+                    onPause()
+                } else {
+                    player.play()
+                }
             },
         ) {
             Icon(
@@ -485,6 +526,7 @@ fun PlaybackButtons(
 @Composable
 internal fun RowScope.LeftButtons(
     openChapterSelection: () -> Unit,
+    openPlaybackSpeedPicker: () -> Unit,
 ) {
     val chapters by VideoPlayerObject.chapters.collectAsState(emptyList())
 
@@ -499,6 +541,16 @@ internal fun RowScope.LeftButtons(
             Icon(
                 Iconsax.Filled.Check,
                 contentDescription = "Show chapters",
+            )
+        }
+
+        CustomButton(
+            onClick = openPlaybackSpeedPicker,
+            enabled = true
+        ) {
+            Icon(
+                Iconsax.Filled.Flash,
+                contentDescription = "Playback Speed",
             )
         }
     }
@@ -538,37 +590,5 @@ internal fun RowScope.RightButtons(
                 contentDescription = "Subtitles",
             )
         }
-    }
-}
-
-@RequiresApi(Build.VERSION_CODES.O)
-@kotlin.OptIn(ExperimentalTime::class)
-@Composable
-private fun CurrentTime() {
-    val zone = ZoneId.systemDefault()
-
-    var currentTime by remember { mutableStateOf(Clock.System.now()) }
-
-    LaunchedEffect(Unit) {
-        while (true) {
-            currentTime = Clock.System.now()
-            val delayMs = 60_000L - (currentTime.toEpochMilliseconds() % 60_000L)
-            delay(delayMs)
-        }
-    }
-
-    val endZoned = currentTime.toJavaInstant().atZone(zone)
-
-    Translate(
-        {
-            Localized.hoursAndMinutes(endZoned.toOffsetDateTime().toString(), it)
-        },
-        key = currentTime,
-    ) { time ->
-        Text(
-            text = time,
-            style = MaterialTheme.typography.titleLarge,
-            color = Color.White
-        )
     }
 }

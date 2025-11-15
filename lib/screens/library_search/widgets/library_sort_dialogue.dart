@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fladder/models/library_search/library_search_options.dart';
 import 'package:fladder/providers/library_search_provider.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/widgets/shared/ensure_visible.dart';
 
 Future<(SortingOptions? sortOptions, SortingOrder? sortingOrder)?> openSortByDialogue(
   BuildContext context, {
@@ -28,20 +29,14 @@ Future<(SortingOptions? sortOptions, SortingOrder? sortingOrder)?> openSortByDia
                     child: Text(context.localized.sortBy, style: Theme.of(context).textTheme.titleLarge),
                   ),
                   const SizedBox(height: 8),
-                  ...SortingOptions.values.map((e) => RadioGroup(
-                        groupValue: newSortingOptions,
-                        onChanged: (value) {
-                          state(
-                            () {
-                              newSortingOptions = value;
-                            },
-                          );
-                        },
-                        child: RadioListTile.adaptive(
-                          value: e,
-                          title: Text(e.label(context)),
-                        ),
-                      )),
+                  ...SortingOptions.values.map(
+                    (e) => _CheckBoxListItem(
+                      value: e,
+                      current: newSortingOptions,
+                      onSelected: (value) => state(() => newSortingOptions = e),
+                      title: Text(e.label(context)),
+                    ),
+                  ),
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 8),
                     child: Divider(),
@@ -52,19 +47,11 @@ Future<(SortingOptions? sortOptions, SortingOrder? sortingOrder)?> openSortByDia
                   ),
                   const SizedBox(height: 8),
                   ...SortingOrder.values.map(
-                    (e) => RadioGroup(
-                      groupValue: newSortOrder,
-                      onChanged: (value) {
-                        state(
-                          () {
-                            newSortOrder = value;
-                          },
-                        );
-                      },
-                      child: RadioListTile.adaptive(
-                        value: e,
-                        title: Text(e.label(context)),
-                      ),
+                    (e) => _CheckBoxListItem(
+                      value: e,
+                      current: newSortOrder,
+                      onSelected: (value) => state(() => newSortOrder = e),
+                      title: Text(e.label(context)),
                     ),
                   ),
                 ],
@@ -79,5 +66,37 @@ Future<(SortingOptions? sortOptions, SortingOrder? sortingOrder)?> openSortByDia
     return null;
   } else {
     return (newSortingOptions, newSortOrder);
+  }
+}
+
+class _CheckBoxListItem<T> extends StatelessWidget {
+  final T value;
+  final T current;
+  final Widget? title;
+  final Function(T selected) onSelected;
+  const _CheckBoxListItem({
+    required this.value,
+    required this.current,
+    required this.onSelected,
+    this.title,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return CheckboxListTile(
+      value: current == value,
+      onFocusChange: (value) {
+        if (value) {
+          context.ensureVisible();
+        }
+      },
+      onChanged: (newState) {
+        if (newState == true) {
+          onSelected(value);
+        }
+      },
+      title: title,
+    );
   }
 }

@@ -30,6 +30,7 @@ mixin _$VideoPlayerSettingsModel implements DiagnosticableTreeMixin {
   String? get audioDevice;
   Map<MediaSegmentType, SegmentSkip> get segmentSkipSettings;
   Map<VideoHotKeys, KeyCombination> get hotKeys;
+  Screensaver get screensaver;
 
   /// Create a copy of VideoPlayerSettingsModel
   /// with the given fields replaced by the non-null parameter values.
@@ -61,12 +62,13 @@ mixin _$VideoPlayerSettingsModel implements DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('maxInternetBitrate', maxInternetBitrate))
       ..add(DiagnosticsProperty('audioDevice', audioDevice))
       ..add(DiagnosticsProperty('segmentSkipSettings', segmentSkipSettings))
-      ..add(DiagnosticsProperty('hotKeys', hotKeys));
+      ..add(DiagnosticsProperty('hotKeys', hotKeys))
+      ..add(DiagnosticsProperty('screensaver', screensaver));
   }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys)';
+    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver)';
   }
 }
 
@@ -92,7 +94,8 @@ abstract mixin class $VideoPlayerSettingsModelCopyWith<$Res> {
       Bitrate maxInternetBitrate,
       String? audioDevice,
       Map<MediaSegmentType, SegmentSkip> segmentSkipSettings,
-      Map<VideoHotKeys, KeyCombination> hotKeys});
+      Map<VideoHotKeys, KeyCombination> hotKeys,
+      Screensaver screensaver});
 }
 
 /// @nodoc
@@ -124,6 +127,7 @@ class _$VideoPlayerSettingsModelCopyWithImpl<$Res>
     Object? audioDevice = freezed,
     Object? segmentSkipSettings = null,
     Object? hotKeys = null,
+    Object? screensaver = null,
   }) {
     return _then(_self.copyWith(
       screenBrightness: freezed == screenBrightness
@@ -190,6 +194,10 @@ class _$VideoPlayerSettingsModelCopyWithImpl<$Res>
           ? _self.hotKeys
           : hotKeys // ignore: cast_nullable_to_non_nullable
               as Map<VideoHotKeys, KeyCombination>,
+      screensaver: null == screensaver
+          ? _self.screensaver
+          : screensaver // ignore: cast_nullable_to_non_nullable
+              as Screensaver,
     ));
   }
 }
@@ -303,7 +311,8 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             Bitrate maxInternetBitrate,
             String? audioDevice,
             Map<MediaSegmentType, SegmentSkip> segmentSkipSettings,
-            Map<VideoHotKeys, KeyCombination> hotKeys)?
+            Map<VideoHotKeys, KeyCombination> hotKeys,
+            Screensaver screensaver)?
         $default, {
     required TResult orElse(),
   }) {
@@ -326,7 +335,8 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.maxInternetBitrate,
             _that.audioDevice,
             _that.segmentSkipSettings,
-            _that.hotKeys);
+            _that.hotKeys,
+            _that.screensaver);
       case _:
         return orElse();
     }
@@ -363,7 +373,8 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             Bitrate maxInternetBitrate,
             String? audioDevice,
             Map<MediaSegmentType, SegmentSkip> segmentSkipSettings,
-            Map<VideoHotKeys, KeyCombination> hotKeys)
+            Map<VideoHotKeys, KeyCombination> hotKeys,
+            Screensaver screensaver)
         $default,
   ) {
     final _that = this;
@@ -385,7 +396,8 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.maxInternetBitrate,
             _that.audioDevice,
             _that.segmentSkipSettings,
-            _that.hotKeys);
+            _that.hotKeys,
+            _that.screensaver);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -421,7 +433,8 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             Bitrate maxInternetBitrate,
             String? audioDevice,
             Map<MediaSegmentType, SegmentSkip> segmentSkipSettings,
-            Map<VideoHotKeys, KeyCombination> hotKeys)?
+            Map<VideoHotKeys, KeyCombination> hotKeys,
+            Screensaver screensaver)?
         $default,
   ) {
     final _that = this;
@@ -443,7 +456,8 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.maxInternetBitrate,
             _that.audioDevice,
             _that.segmentSkipSettings,
-            _that.hotKeys);
+            _that.hotKeys,
+            _that.screensaver);
       case _:
         return null;
     }
@@ -471,7 +485,8 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
       this.audioDevice,
       final Map<MediaSegmentType, SegmentSkip> segmentSkipSettings =
           defaultSegmentSkipValues,
-      final Map<VideoHotKeys, KeyCombination> hotKeys = const {}})
+      final Map<VideoHotKeys, KeyCombination> hotKeys = const {},
+      this.screensaver = Screensaver.time})
       : _allowedOrientations = allowedOrientations,
         _segmentSkipSettings = segmentSkipSettings,
         _hotKeys = hotKeys,
@@ -545,6 +560,10 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
     return EqualUnmodifiableMapView(_hotKeys);
   }
 
+  @override
+  @JsonKey()
+  final Screensaver screensaver;
+
   /// Create a copy of VideoPlayerSettingsModel
   /// with the given fields replaced by the non-null parameter values.
   @override
@@ -580,12 +599,13 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
       ..add(DiagnosticsProperty('maxInternetBitrate', maxInternetBitrate))
       ..add(DiagnosticsProperty('audioDevice', audioDevice))
       ..add(DiagnosticsProperty('segmentSkipSettings', segmentSkipSettings))
-      ..add(DiagnosticsProperty('hotKeys', hotKeys));
+      ..add(DiagnosticsProperty('hotKeys', hotKeys))
+      ..add(DiagnosticsProperty('screensaver', screensaver));
   }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys)';
+    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver)';
   }
 }
 
@@ -613,7 +633,8 @@ abstract mixin class _$VideoPlayerSettingsModelCopyWith<$Res>
       Bitrate maxInternetBitrate,
       String? audioDevice,
       Map<MediaSegmentType, SegmentSkip> segmentSkipSettings,
-      Map<VideoHotKeys, KeyCombination> hotKeys});
+      Map<VideoHotKeys, KeyCombination> hotKeys,
+      Screensaver screensaver});
 }
 
 /// @nodoc
@@ -645,6 +666,7 @@ class __$VideoPlayerSettingsModelCopyWithImpl<$Res>
     Object? audioDevice = freezed,
     Object? segmentSkipSettings = null,
     Object? hotKeys = null,
+    Object? screensaver = null,
   }) {
     return _then(_VideoPlayerSettingsModel(
       screenBrightness: freezed == screenBrightness
@@ -711,6 +733,10 @@ class __$VideoPlayerSettingsModelCopyWithImpl<$Res>
           ? _self._hotKeys
           : hotKeys // ignore: cast_nullable_to_non_nullable
               as Map<VideoHotKeys, KeyCombination>,
+      screensaver: null == screensaver
+          ? _self.screensaver
+          : screensaver // ignore: cast_nullable_to_non_nullable
+              as Screensaver,
     ));
   }
 }

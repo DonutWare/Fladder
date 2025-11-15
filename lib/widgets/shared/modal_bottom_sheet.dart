@@ -39,19 +39,18 @@ Future<void> showBottomSheetPill({
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: Container(
-                    height: 8,
-                    width: 35,
-                    decoration: BoxDecoration(
-                      color: AdaptiveLayout.inputDeviceOf(context) == InputDevice.touch
-                          ? Theme.of(context).colorScheme.onSurface
-                          : Colors.transparent,
-                      borderRadius: FladderTheme.largeShape.borderRadius,
+                if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.touch)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    child: Container(
+                      height: 8,
+                      width: 35,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.onSurface,
+                        borderRadius: FladderTheme.largeShape.borderRadius,
+                      ),
                     ),
                   ),
-                ),
                 Flexible(
                   child: ListView(
                     shrinkWrap: true,
@@ -59,7 +58,7 @@ Future<void> showBottomSheetPill({
                     children: [
                       if (item != null) ...{
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          padding: const EdgeInsets.symmetric(horizontal: 12).copyWith(top: 8),
                           child: ItemBottomSheetPreview(item: item),
                         ),
                         const Divider(),

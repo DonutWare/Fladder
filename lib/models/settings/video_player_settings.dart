@@ -75,6 +75,7 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     String? audioDevice,
     @Default(defaultSegmentSkipValues) Map<MediaSegmentType, SegmentSkip> segmentSkipSettings,
     @Default({}) Map<VideoHotKeys, KeyCombination> hotKeys,
+    @Default(Screensaver.logo) Screensaver screensaver,
   }) = _VideoPlayerSettingsModel;
 
   double get volume => switch (defaultTargetPlatform) {
@@ -159,6 +160,24 @@ enum PlayerOptions {
         PlayerOptions.libMDK => "MDK",
         PlayerOptions.libMPV => "MPV",
         PlayerOptions.nativePlayer => "Native",
+      };
+}
+
+enum Screensaver {
+  disabled,
+  dvd,
+  logo,
+  time,
+  black;
+
+  const Screensaver();
+
+  String label(BuildContext context) => switch (this) {
+        Screensaver.disabled => context.localized.disabled,
+        Screensaver.dvd => context.localized.screensaverDvd,
+        Screensaver.logo => context.localized.screensaverLogo,
+        Screensaver.time => context.localized.screensaverTime,
+        Screensaver.black => context.localized.screensaverBlack,
       };
 }
 

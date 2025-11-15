@@ -252,7 +252,7 @@ class JellyService {
     bool? enableTotalRecordCount,
     bool? enableImages,
   }) async {
-    final response = await api.itemsGet(
+    final response = await api.usersUserIdItemsGet(
       userId: account?.id,
       maxOfficialRating: maxOfficialRating,
       hasThemeSong: hasThemeSong,
@@ -497,7 +497,7 @@ class JellyService {
     int? limit,
     bool? groupItems,
   }) async {
-    return api.itemsLatestGet(
+    return api.usersUserIdItemsLatestGet(
       parentId: parentId,
       userId: account?.id,
       fields: fields,
@@ -698,14 +698,20 @@ class JellyService {
 
   Future<Response<BaseItemDtoQueryResult>> usersUserIdItemsGet({
     String? parentId,
+    List<ItemSortBy>? sortBy,
+    List<SortOrder>? sortOrder,
+    int? limit,
     bool? recursive,
     List<BaseItemKind>? includeItemTypes,
   }) async {
-    return api.itemsGet(
+    return api.usersUserIdItemsGet(
       parentId: parentId,
       userId: account?.id,
       recursive: recursive,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
       includeItemTypes: includeItemTypes,
+      limit: limit,
     );
   }
 
@@ -1126,7 +1132,7 @@ class JellyService {
 
   Future<Response<bool>> quickConnectEnabled() async => api.quickConnectEnabledGet();
 
-  Future<Response<BrandingOptions>> getBranding() async => api.brandingConfigurationGet();
+  Future<Response<BrandingOptionsDto>> getBranding() async => api.brandingConfigurationGet();
 
   Future<Response<dynamic>> deleteItem(String itemId) => api.itemsItemIdDelete(itemId: itemId);
 

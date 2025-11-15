@@ -231,16 +231,19 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
 
     if (_isDesktop) {
       WindowOptions windowOptions = WindowOptions(
-          size: Size(clientSettings.size.x, clientSettings.size.y),
-          center: true,
-          backgroundColor: Colors.transparent,
-          skipTaskbar: false,
-          titleBarStyle: TitleBarStyle.hidden,
-          title: packageInfo.appName.capitalize());
+        backgroundColor: Colors.transparent,
+        skipTaskbar: false,
+        titleBarStyle: TitleBarStyle.hidden,
+        title: packageInfo.appName.capitalize(),
+      );
 
       windowManager.waitUntilReadyToShow(windowOptions, () async {
-        await windowManager.show();
-        await windowManager.focus();
+        if (!kDebugMode) {
+          await windowManager.show();
+          await windowManager.focus();
+          await windowManager.setSize(Size(clientSettings.size.x, clientSettings.size.y));
+          await windowManager.center();
+        }
         final startupArguments = ref.read(argumentsStateProvider);
         if (startupArguments.htpcMode && !(await windowManager.isFullScreen())) {
           await windowManager.setFullScreen(true);
@@ -291,10 +294,17 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
             supportedLocales: AppLocalizations.supportedLocales,
             locale: language,
             localeResolutionCallback: (locale, supportedLocales) {
-              if (locale == null || !supportedLocales.contains(locale)) {
-                return const Locale('en');
+              const fallback = Locale('en');
+              if (locale == null) return fallback;
+              if (supportedLocales.contains(locale)) {
+                return locale;
               }
-              return locale;
+              final matchByLanguage = supportedLocales.firstWhere(
+                (l) => l.languageCode == locale.languageCode,
+                orElse: () => fallback,
+              );
+
+              return matchByLanguage;
             },
             builder: (context, child) => MediaQueryScaler(
               child: LocalizationContextWrapper(

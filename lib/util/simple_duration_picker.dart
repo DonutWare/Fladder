@@ -68,6 +68,7 @@ class SimpleDurationPicker extends ConsumerWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Flexible(
                 child: Column(
@@ -92,10 +93,10 @@ class SimpleDurationPicker extends ConsumerWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Text(
                   ':',
-                  style: Theme.of(context).textTheme.displayLarge,
+                  style: Theme.of(context).textTheme.displayMedium,
                 ),
               ),
               Flexible(
@@ -120,12 +121,6 @@ class SimpleDurationPicker extends ConsumerWidget {
                                 .toString()
                                 .padLeft(2, '0');
                           }
-                          onChanged(
-                            Duration(
-                              minutes: int.tryParse(minuteTextController.text) ?? 0,
-                              seconds: int.tryParse(secondsTextController.text) ?? 0,
-                            ),
-                          );
                         } catch (e) {
                           log(e.toString());
                         }

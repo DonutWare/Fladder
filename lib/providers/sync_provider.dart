@@ -41,10 +41,15 @@ import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/util/string_extensions.dart';
 
 final syncProvider = StateNotifierProvider<SyncNotifier, SyncSettingsModel>((ref) => throw UnimplementedError());
 
 final downloadTasksProvider = StateProvider.family<DownloadStream, String?>((ref, id) => DownloadStream.empty());
+
+final activeDownloadTasksProvider = StateProvider<List<DownloadTask>>((ref) {
+  return [];
+});
 
 class SyncNotifier extends StateNotifier<SyncSettingsModel> {
   SyncNotifier(this.ref, this.mobileDirectory) : super(SyncSettingsModel()) {
@@ -129,6 +134,9 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
   }
 
   Future<void> cleanupTemporaryFiles() async {
+    final activeDownloads = ref.read(activeDownloadTasksProvider);
+    if (activeDownloads.isNotEmpty) return;
+
     // List of directories to check
     final directories = [
       //Desktop directory
@@ -517,6 +525,11 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
           allowPause: true,
         );
 
+        ref.read(activeDownloadTasksProvider.notifier).update((state) {
+          final existingTasks = state.where((element) => element.taskId != downloadTask.taskId).toList();
+          return [...existingTasks, downloadTask];
+        });
+
         final defaultDownloadStream = DownloadStream(id: syncItem.id, task: downloadTask, status: TaskStatus.enqueued);
         ref.read(downloadTasksProvider(syncItem.id).notifier).update((state) => defaultDownloadStream);
         return await ref.read(backgroundDownloaderProvider).enqueue(downloadTask);
@@ -624,7 +637,7 @@ extension SyncNotifierHelpers on SyncNotifier {
     return syncItem.copyWith(
       fileSize: response.mediaSources?.firstOrNull?.size ?? 0,
       syncing: false,
-      videoFileName: response.path?.split('/').lastOrNull ?? "",
+      videoFileName: response.path?.universalBasename ?? "",
     );
   }
 

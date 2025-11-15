@@ -12,11 +12,13 @@ class LoginIcon extends ConsumerWidget {
   final Function()? onPressed;
   final Function()? onLongPress;
   final Function()? onNewPressed;
+  final bool autoFocus;
   const LoginIcon({
     required this.user,
     this.onPressed,
     this.onLongPress,
     this.onNewPressed,
+    this.autoFocus = false,
     super.key,
   });
 
@@ -88,6 +90,7 @@ class LoginIcon extends ConsumerWidget {
             ),
             FlatButton(
               onTap: onPressed,
+              autoFocus: autoFocus,
               onLongPress: onLongPress,
             )
           ],

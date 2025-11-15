@@ -303,6 +303,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                                 action: () {
                                   showAdaptiveDialog(
                                     context: context,
+                                    barrierDismissible: true,
                                     builder: (context) => AlertDialog(
                                       content: Consumer(
                                         builder: (context, ref, child) {

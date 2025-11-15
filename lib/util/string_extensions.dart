@@ -1,4 +1,5 @@
 import 'package:fladder/models/items/item_shared_models.dart';
+import 'package:path/path.dart' as path;
 
 extension StringExtensions on String {
   String capitalize() {
@@ -48,6 +49,13 @@ extension StringExtensions on String {
     }
 
     return result;
+  }
+
+  /// Supports both Linux and Windows server path separators as referenced in [path.separator].
+  /// Instead of the [path.basename] method, which returns the last part of the path for the current client platform.
+  String get universalBasename {
+    final parts = split(RegExp(r'[\\/]+'));
+    return parts.where((s)=>s.isNotEmpty).lastOrNull ?? '';
   }
 }
 

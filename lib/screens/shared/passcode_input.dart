@@ -108,16 +108,16 @@ class _PassCodeInputState extends ConsumerState<PassCodeInput> {
   }
 
   Widget passCodeNumber(int value) {
-    return ElevatedButton(
+    return IconButton.filled(
       autofocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad ? value == 1 : false,
       onPressed: () {
         addToPassCode(value.toString());
       },
-      style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.all(8),
-        foregroundColor: Theme.of(context).colorScheme.onSurface,
+      style: ButtonStyle(
+        backgroundColor: WidgetStatePropertyAll(Theme.of(context).cardColor),
+        iconColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.onSurfaceVariant),
       ),
-      child: Container(
+      icon: Container(
         width: iconSize,
         height: iconSize,
         alignment: Alignment.center,

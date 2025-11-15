@@ -44,6 +44,9 @@ _VideoPlayerSettingsModel _$VideoPlayerSettingsModelFromJson(
                 KeyCombination.fromJson(e as Map<String, dynamic>)),
           ) ??
           const {},
+      screensaver:
+          $enumDecodeNullable(_$ScreensaverEnumMap, json['screensaver']) ??
+              Screensaver.time,
     );
 
 Map<String, dynamic> _$VideoPlayerSettingsModelToJson(
@@ -69,6 +72,7 @@ Map<String, dynamic> _$VideoPlayerSettingsModelToJson(
           MapEntry(_$MediaSegmentTypeEnumMap[k]!, _$SegmentSkipEnumMap[e]!)),
       'hotKeys': instance.hotKeys
           .map((k, e) => MapEntry(_$VideoHotKeysEnumMap[k]!, e)),
+      'screensaver': _$ScreensaverEnumMap[instance.screensaver]!,
     };
 
 const _$BoxFitEnumMap = {
@@ -150,4 +154,12 @@ const _$VideoHotKeysEnumMap = {
   VideoHotKeys.fullScreen: 'fullScreen',
   VideoHotKeys.skipMediaSegment: 'skipMediaSegment',
   VideoHotKeys.exit: 'exit',
+};
+
+const _$ScreensaverEnumMap = {
+  Screensaver.disabled: 'disabled',
+  Screensaver.dvd: 'dvd',
+  Screensaver.logo: 'logo',
+  Screensaver.time: 'time',
+  Screensaver.black: 'black',
 };
