@@ -26,7 +26,7 @@ import kotlinx.coroutines.delay
 import nl.jknaapen.fladder.objects.PlayerSettingsObject
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.leanBackEnabled
-import kotlin.time.Duration.Companion.seconds
+import kotlin.time.Duration.Companion.minutes
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -61,7 +61,7 @@ internal fun ScreenSaver(
         }
 
         if (playerInactive) {
-            delay(5.seconds)
+            delay(5.minutes)
             screenSaverActive = true
         } else {
             screenSaverActive = false
