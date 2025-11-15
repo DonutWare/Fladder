@@ -22,6 +22,7 @@ class PlayerSettings {
   final List<PlayerOrientations> acceptedOrientations;
   final bool fillScreen;
   final VideoPlayerFit videoFit;
+  final Screensaver screensaver;
 
   const PlayerSettings({
     required this.enableTunneling,
@@ -33,7 +34,16 @@ class PlayerSettings {
     required this.acceptedOrientations,
     required this.fillScreen,
     required this.videoFit,
+    required this.screensaver,
   });
+}
+
+enum Screensaver {
+  disabled,
+  dvd,
+  logo,
+  time,
+  black,
 }
 
 enum VideoPlayerFit {

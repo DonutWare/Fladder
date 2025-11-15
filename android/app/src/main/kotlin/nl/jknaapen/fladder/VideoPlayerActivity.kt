@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.media3.common.util.UnstableApi
 import nl.jknaapen.fladder.composables.controls.CustomVideoControls
+import nl.jknaapen.fladder.composables.overlays.screensavers.ScreenSaver
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.player.ExoPlayer
 import nl.jknaapen.fladder.utility.ScaledContent
@@ -51,9 +52,11 @@ class VideoPlayerActivity : ComponentActivity() {
 fun VideoPlayerScreen(
 ) {
     val leanBackEnabled = leanBackEnabled(LocalContext.current)
-    ExoPlayer { player ->
-        ScaledContent(if (leanBackEnabled) 0.6f else 1f) {
-            CustomVideoControls(player)
+    ScreenSaver {
+        ExoPlayer { player ->
+            ScaledContent(if (leanBackEnabled) 0.6f else 1f) {
+                CustomVideoControls(player)
+            }
         }
     }
 }

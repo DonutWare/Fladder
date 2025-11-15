@@ -72,21 +72,16 @@ import io.github.rabehx.iconsax.outline.Refresh
 import kotlinx.coroutines.delay
 import nl.jknaapen.fladder.composables.dialogs.AudioPicker
 import nl.jknaapen.fladder.composables.dialogs.ChapterSelectionSheet
-import nl.jknaapen.fladder.composables.dialogs.SubtitlePicker
 import nl.jknaapen.fladder.composables.dialogs.PlaybackSpeedPicker
-import nl.jknaapen.fladder.objects.Localized
+import nl.jknaapen.fladder.composables.dialogs.SubtitlePicker
+import nl.jknaapen.fladder.composables.shared.CurrentTime
 import nl.jknaapen.fladder.objects.PlayerSettingsObject
-import nl.jknaapen.fladder.objects.Translate
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.ImmersiveSystemBars
 import nl.jknaapen.fladder.utility.defaultSelected
 import nl.jknaapen.fladder.utility.leanBackEnabled
 import nl.jknaapen.fladder.utility.visible
-import java.time.ZoneId
-import kotlin.time.Clock
 import kotlin.time.Duration.Companion.seconds
-import kotlin.time.ExperimentalTime
-import kotlin.time.toJavaInstant
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -179,13 +174,15 @@ fun CustomVideoControls(
                         activity?.finish()
                         return@onKeyEvent true
                     }
+
                     Key.MediaPlay -> {
                         player?.play()
                         return@onKeyEvent true
                     }
+
                     Key.MediaPlayPause -> {
-                        player?.let{
-                            if (it.isPlaying){
+                        player?.let {
+                            if (it.isPlaying) {
                                 it.pause()
                                 updateLastInteraction()
                             } else {
@@ -194,11 +191,13 @@ fun CustomVideoControls(
                         }
                         return@onKeyEvent true
                     }
+
                     Key.MediaPause, Key.P -> {
                         player?.pause()
                         updateLastInteraction()
                         return@onKeyEvent true
                     }
+
                     Key.Back, Key.Escape, Key.ButtonB, Key.Backspace -> {
                         if (showControls) {
                             hideControls()
@@ -591,37 +590,5 @@ internal fun RowScope.RightButtons(
                 contentDescription = "Subtitles",
             )
         }
-    }
-}
-
-@RequiresApi(Build.VERSION_CODES.O)
-@kotlin.OptIn(ExperimentalTime::class)
-@Composable
-private fun CurrentTime() {
-    val zone = ZoneId.systemDefault()
-
-    var currentTime by remember { mutableStateOf(Clock.System.now()) }
-
-    LaunchedEffect(Unit) {
-        while (true) {
-            currentTime = Clock.System.now()
-            val delayMs = 60_000L - (currentTime.toEpochMilliseconds() % 60_000L)
-            delay(delayMs)
-        }
-    }
-
-    val endZoned = currentTime.toJavaInstant().atZone(zone)
-
-    Translate(
-        {
-            Localized.hoursAndMinutes(endZoned.toOffsetDateTime().toString(), it)
-        },
-        key = currentTime,
-    ) { time ->
-        Text(
-            text = time,
-            style = MaterialTheme.typography.titleLarge,
-            color = Color.White
-        )
     }
 }

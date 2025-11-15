@@ -1367,5 +1367,11 @@
       }
     }
   },
-  "openImeKeyboard": "Open IME keyboard"
+  "openImeKeyboard": "Open IME keyboard",
+  "screensaverDvd": "DVD",
+  "screensaverLogo": "Logo",
+  "screensaverTime": "Time",
+  "screensaverBlack": "Black",
+  "playerSettingsScreensaverTitle": "Screensaver",
+  "playerSettingsScreensaverDesc": "Select screen saver that will be shown after no player activity"
 }
