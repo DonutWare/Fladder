@@ -22549,7 +22549,7 @@
         ]
       }
     },
-    "/Items": {
+    "/Users/{userId}/Items": {
       "get": {
         "tags": [
           "Items"
@@ -22559,7 +22559,8 @@
         "parameters": [
           {
             "name": "userId",
-            "in": "query",
+            "in": "path",
+            "required": true,
             "description": "The user id supplied as query parameter; this is required when not using an API key.",
             "schema": {
               "type": "string",
@@ -51151,7 +51152,7 @@
         ]
       }
     },
-    "/Items/Latest": {
+    "Users/{userId}/Items/Latest": {
       "get": {
         "tags": [
           "UserLibrary"
@@ -51161,8 +51162,9 @@
         "parameters": [
           {
             "name": "userId",
-            "in": "query",
+            "in": "path",
             "description": "User id.",
+            "required": true,
             "schema": {
               "type": "string",
               "format": "uuid"

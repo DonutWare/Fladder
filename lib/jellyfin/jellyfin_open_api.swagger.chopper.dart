@@ -4349,8 +4349,8 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
   }
 
   @override
-  Future<Response<BaseItemDtoQueryResult>> _itemsGet({
-    String? userId,
+  Future<Response<BaseItemDtoQueryResult>> _usersUserIdItemsGet({
+    required String? userId,
     String? maxOfficialRating,
     bool? hasThemeSong,
     bool? hasThemeVideo,
@@ -4437,9 +4437,8 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
     bool? enableTotalRecordCount,
     bool? enableImages,
   }) {
-    final Uri $url = Uri.parse('/Items');
+    final Uri $url = Uri.parse('/Users/${userId}/Items');
     final Map<String, dynamic> $params = <String, dynamic>{
-      'userId': userId,
       'maxOfficialRating': maxOfficialRating,
       'hasThemeSong': hasThemeSong,
       'hasThemeVideo': hasThemeVideo,
@@ -4537,8 +4536,8 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
   }
 
   @override
-  Future<Response<dynamic>> _itemsDelete({List<String>? ids}) {
-    final Uri $url = Uri.parse('/Items');
+  Future<Response<dynamic>> _usersUserIdItemsDelete({List<String>? ids}) {
+    final Uri $url = Uri.parse('/Users/{userId}/Items');
     final Map<String, dynamic> $params = <String, dynamic>{'ids': ids};
     final Request $request = Request(
       'DELETE',
@@ -9452,8 +9451,8 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
   }
 
   @override
-  Future<Response<List<BaseItemDto>>> _itemsLatestGet({
-    String? userId,
+  Future<Response<List<BaseItemDto>>> _usersUserIdItemsLatestGet({
+    required String? userId,
     String? parentId,
     List<Object?>? fields,
     List<Object?>? includeItemTypes,
@@ -9465,9 +9464,8 @@ final class _$JellyfinOpenApi extends JellyfinOpenApi {
     int? limit,
     bool? groupItems,
   }) {
-    final Uri $url = Uri.parse('/Items/Latest');
+    final Uri $url = Uri.parse('Users/${userId}/Items/Latest');
     final Map<String, dynamic> $params = <String, dynamic>{
-      'userId': userId,
       'parentId': parentId,
       'fields': fields,
       'includeItemTypes': includeItemTypes,
