@@ -1485,5 +1485,51 @@
     "playerSettingsScreensaverTitle": "Spořič obrazovky",
     "@playerSettingsScreensaverTitle": {},
     "playerSettingsScreensaverDesc": "Vyberte spořič obrazovky, který bude zobrazen při nečinnosti",
-    "@playerSettingsScreensaverDesc": {}
+    "@playerSettingsScreensaverDesc": {},
+    "syncAllItemsDesc": "To bude synchronizovat ({itemCount}) položky z '{itemName}' do vašeho zařízení.\nTo může chvíli trvat v závislosti na množství položek.",
+    "@syncAllItemsDesc": {
+        "description": "syncAllitemsFromDesc",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            },
+            "itemCount": {
+                "type": "int"
+            }
+        }
+    },
+    "syncDeleteAll": "Smazat všechny soubory",
+    "@syncDeleteAll": {},
+    "keyboardShortCuts": "Klávesové zkratky",
+    "@keyboardShortCuts": {},
+    "nextVideo": "Další video",
+    "@nextVideo": {},
+    "prevVideo": "Předchozí video",
+    "@prevVideo": {},
+    "nextChapter": "Další kapitola",
+    "@nextChapter": {},
+    "prevChapter": "Předchozí kapitola",
+    "@prevChapter": {},
+    "fullScreen": "Celá obrazovka",
+    "@fullScreen": {},
+    "skipMediaSegment": "Přeskočit mediální Segment",
+    "@skipMediaSegment": {},
+    "speedIndicator": "Rychlost přehrávání: {speed}",
+    "@speedIndicator": {
+        "placeholders": {
+            "speed": {
+                "type": "double"
+            }
+        }
+    },
+    "quickConnectLoginUsingCode": "Pomocí rychlého připojení",
+    "@quickConnectLoginUsingCode": {},
+    "quickConnectEnterCodeDescription": "Zadejte kód níže pro přihlášení",
+    "@quickConnectEnterCodeDescription": {},
+    "showMore": "Zobrazit více",
+    "@showMore": {},
+    "itemColorsTitle": "Barva položky",
+    "@itemColorsTitle": {},
+    "clientSettingsUseSystemIMETitle": "Použití systémové klávesnice",
+    "@clientSettingsUseSystemIMETitle": {}
 }
