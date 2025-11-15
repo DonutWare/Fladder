@@ -140,7 +140,7 @@ enum PlayerOptions {
   const PlayerOptions();
 
   static Iterable<PlayerOptions> get available => leanBackMode
-      ? {PlayerOptions.nativePlayer, PlayerOptions.libMPV}
+      ? {PlayerOptions.nativePlayer}
       : kIsWeb
           ? {PlayerOptions.libMPV}
           : switch (defaultTargetPlatform) {
