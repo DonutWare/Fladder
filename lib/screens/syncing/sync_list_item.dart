@@ -11,6 +11,7 @@ import 'package:fladder/screens/shared/default_alert_dialog.dart';
 import 'package:fladder/screens/syncing/sync_item_details.dart';
 import 'package:fladder/screens/syncing/sync_widgets.dart';
 import 'package:fladder/screens/syncing/widgets/sync_progress_builder.dart';
+import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/focus_provider.dart';
@@ -27,13 +28,14 @@ class SyncListItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final baseItem = syncedItem.itemModel;
-    print(FocusManager.instance.primaryFocus);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Card(
-        elevation: 1,
-        color: Theme.of(context).colorScheme.surfaceDim,
-        shadowColor: Colors.transparent,
+      child: Container(
+        clipBehavior: Clip.hardEdge,
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surfaceDim,
+          borderRadius: FladderTheme.defaultShape.borderRadius,
+        ),
         child: Dismissible(
           key: Key(syncedItem.id),
           background: Container(
@@ -66,24 +68,26 @@ class SyncListItem extends ConsumerWidget {
           child: FocusButton(
             onTap: () => baseItem?.navigateTo(context),
             onLongPress: () => showSyncItemDetails(context, syncedItem, ref),
+            onSecondaryTapDown: (_) => showSyncItemDetails(context, syncedItem, ref),
             autoFocus: FocusProvider.autoFocusOf(context) && AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad,
-            child: ExcludeFocus(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
+            overlays: [
+              Padding(
+                padding: const EdgeInsets.all(8),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   spacing: 16,
                   children: [
-                    ConstrainedBox(
-                      constraints: const BoxConstraints(maxHeight: 125, maxWidth: 512),
-                      child: Card(
-                        child: AspectRatio(
-                            aspectRatio: baseItem?.primaryRatio ?? 1.0,
-                            child: FladderImage(
-                              image: baseItem?.getPosters?.primary,
-                              fit: BoxFit.cover,
-                            )),
-                      ),
+                    Container(
+                      height: 150,
+                      decoration: FladderTheme.defaultPosterDecoration,
+                      clipBehavior: Clip.hardEdge,
+                      child: AspectRatio(
+                          aspectRatio: baseItem?.primaryRatio ?? 0.67,
+                          child: FladderImage(
+                            image: baseItem?.getPosters?.primary,
+                            fit: BoxFit.cover,
+                          )),
                     ),
                     Expanded(
                       child: FutureBuilder(
@@ -96,24 +100,27 @@ class SyncListItem extends ConsumerWidget {
                             builder: (context, combinedStream) {
                               return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.min,
-                                spacing: 4,
+                                spacing: 6,
                                 children: [
                                   Flexible(
-                                    child: Text(
-                                      baseItem?.detailedName(context) ?? "",
-                                      maxLines: 3,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: Theme.of(context).textTheme.titleMedium,
+                                    child: IgnorePointer(
+                                      child: Text(
+                                        baseItem?.detailedName(context) ?? "",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: Theme.of(context).textTheme.titleMedium,
+                                      ),
                                     ),
                                   ),
-                                  Flexible(
+                                  IgnorePointer(
                                     child: SyncSubtitle(
                                       syncItem: syncedItem,
                                       children: nestedChildren,
                                     ),
                                   ),
-                                  Flexible(
+                                  IgnorePointer(
                                     child: Consumer(
                                       builder: (context, ref, child) => SyncLabel(
                                         label: context.localized.totalSize(
@@ -131,27 +138,14 @@ class SyncListItem extends ConsumerWidget {
                         },
                       ),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Card(
-                            elevation: 0,
-                            shadowColor: Colors.transparent,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-                              child: Text(baseItem != null ? baseItem.type.label(context) : ""),
-                            )),
-                        IconButton(
-                          onPressed: () => showSyncItemDetails(context, syncedItem, ref),
-                          icon: const Icon(IconsaxPlusLinear.more_square),
-                        ),
-                      ],
+                    IconButton(
+                      onPressed: () => showSyncItemDetails(context, syncedItem, ref),
+                      icon: const Icon(IconsaxPlusLinear.more_square),
                     ),
                   ],
                 ),
-              ),
-            ),
+              )
+            ],
           ),
         ),
       ),
