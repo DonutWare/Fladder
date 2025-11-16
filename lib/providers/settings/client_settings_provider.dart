@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -31,9 +32,16 @@ class ClientSettingsNotifier extends StateNotifier<ClientSettingsModel> {
   }
 
   Future<void> initialize(ClientSettingsModel value) async {
-    if (!kIsWeb && Platform.isMacOS) {
-      final bookmarkPath = await DirectoryBookmark().resolveDirectory(syncPathKey);
-      state = value.copyWith(syncPath: bookmarkPath);
+    ClientSettingsModel newState = value;
+    try {
+      if (!kIsWeb && Platform.isMacOS) {
+        final bookmarkPath = await DirectoryBookmark().resolveDirectory(syncPathKey);
+        newState = newState.copyWith(syncPath: bookmarkPath);
+      }
+    } catch (e) {
+      log("Error fetching bookmarks (macOS)");
+    } finally {
+      state = newState;
     }
   }
 
