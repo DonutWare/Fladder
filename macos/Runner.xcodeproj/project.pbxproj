@@ -31,6 +31,7 @@
 		65282C83A95EB2A42957BF45 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E27FD4BD14A9CB9C1FF0CEB /* Pods_Runner.framework */; };
 		F456C9582EC9C5B9008972C5 /* DirectoryBookmark.g.swift in Sources */ = {isa = PBXBuildFile; fileRef = F456C9572EC9C5B8008972C5 /* DirectoryBookmark.g.swift */; };
 		F456C9592EC9C5B9008972C5 /* DirectoryBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = F456C9562EC9C5B8008972C5 /* DirectoryBookmark.swift */; };
+		F456C95F2EC9E484008972C5 /* ApplicationMenu.g.swift in Sources */ = {isa = PBXBuildFile; fileRef = F456C95E2EC9E484008972C5 /* ApplicationMenu.g.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +102,7 @@
 		EDA8D7B78E4A154229FA3A28 /* Pods-RunnerTests.debug-development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.debug-development.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.debug-development.xcconfig"; sourceTree = "<group>"; };
 		F456C9562EC9C5B8008972C5 /* DirectoryBookmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryBookmark.swift; sourceTree = "<group>"; };
 		F456C9572EC9C5B8008972C5 /* DirectoryBookmark.g.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryBookmark.g.swift; sourceTree = "<group>"; };
+		F456C95E2EC9E484008972C5 /* ApplicationMenu.g.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationMenu.g.swift; sourceTree = "<group>"; };
 		F7C9F7ACA827571D7EF7B2CB /* Pods-Runner.debug-development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-development.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-development.xcconfig"; sourceTree = "<group>"; };
 		F9064DF3712070BBCFF054C0 /* Pods-Runner.release-development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-development.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-development.xcconfig"; sourceTree = "<group>"; };
 		F986A9F1C80A8E7E0D9644FB /* Pods-RunnerTests.debug-production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.debug-production.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.debug-production.xcconfig"; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 				33CC11122044BFA00003C045 /* MainFlutterWindow.swift */,
 				F456C9562EC9C5B8008972C5 /* DirectoryBookmark.swift */,
 				F456C9572EC9C5B8008972C5 /* DirectoryBookmark.g.swift */,
+				F456C95E2EC9E484008972C5 /* ApplicationMenu.g.swift */,
 				33E51913231747F40026EE4D /* DebugProfile.entitlements */,
 				33E51914231749380026EE4D /* Release.entitlements */,
 				33CC11242044D66E0003C045 /* Resources */,
@@ -469,6 +472,7 @@
 				F456C9582EC9C5B9008972C5 /* DirectoryBookmark.g.swift in Sources */,
 				F456C9592EC9C5B9008972C5 /* DirectoryBookmark.swift in Sources */,
 				33CC10F12044A3C60003C045 /* AppDelegate.swift in Sources */,
+				F456C95F2EC9E484008972C5 /* ApplicationMenu.g.swift in Sources */,
 				335BBD1B22A9A15E00E9071D /* GeneratedPluginRegistrant.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

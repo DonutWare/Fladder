@@ -3,6 +3,8 @@ import FlutterMacOS
 
 @main
 class AppDelegate: FlutterAppDelegate {
+    var appMenuApi: ApplicationMenu?
+    
     override func applicationDidFinishLaunching(_ notification: Notification) {
         let controller = mainFlutterWindow?.contentViewController as! FlutterViewController
         
@@ -11,8 +13,29 @@ class AppDelegate: FlutterAppDelegate {
             api: DirectoryBookmarkImplementation()
         )
         
+        self.appMenuApi = ApplicationMenu(binaryMessenger: controller.engine.binaryMessenger)
+        
         super.applicationDidFinishLaunching(notification)
     }
+    
+    override func applicationDockMenu(_ sender: NSApplication) -> NSMenu? {
+        let dockMenu = NSMenu(title: "App Menu")
+
+        let newWindowItem = NSMenuItem(
+            title: "New Window",
+            action: #selector(handleNewWindowAction(_:)),
+            keyEquivalent: "n"
+        )
+        dockMenu.addItem(newWindowItem)
+        
+        return dockMenu
+    }
+    
+    // 4. Implement the action function
+    @objc func handleNewWindowAction(_ sender: NSMenuItem) {
+        self.appMenuApi?.openNewWindow(completion: {_ in print("New window opened")})
+    }
+    
     override func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         return true
     }
