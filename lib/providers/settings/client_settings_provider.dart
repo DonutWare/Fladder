@@ -41,7 +41,7 @@ class ClientSettingsNotifier extends StateNotifier<ClientSettingsModel> {
     } catch (e) {
       log("Error fetching bookmarks (macOS)");
     } finally {
-      state = value;
+      state = newState;
     }
   }
 
