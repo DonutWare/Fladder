@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,6 +8,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fladder/models/settings/client_settings_model.dart';
 import 'package:fladder/models/settings/key_combinations.dart';
 import 'package:fladder/providers/shared_provider.dart';
+import 'package:fladder/providers/sync_provider.dart';
+import 'package:fladder/src/directory_bookmark.g.dart';
 import 'package:fladder/util/custom_color_themes.dart';
 import 'package:fladder/util/debouncer.dart';
 
@@ -23,6 +28,13 @@ class ClientSettingsNotifier extends StateNotifier<ClientSettingsModel> {
   set state(ClientSettingsModel value) {
     super.state = value;
     _debouncer.run(() => ref.read(sharedUtilityProvider).clientSettings = state);
+  }
+
+  Future<void> initialize(ClientSettingsModel value) async {
+    if (!kIsWeb && Platform.isMacOS) {
+      final bookmarkPath = await DirectoryBookmark().resolveDirectory(syncPathKey);
+      state = value.copyWith(syncPath: bookmarkPath);
+    }
   }
 
   void setWindowPosition(Offset windowPosition) =>
@@ -55,7 +67,20 @@ class ClientSettingsNotifier extends StateNotifier<ClientSettingsModel> {
 
   void addPosterSize(double value) => state = state.copyWith(posterSize: (state.posterSize + value).clamp(0.5, 1.5));
 
-  void setSyncPath(String? path) => state = state.copyWith(syncPath: path);
+  Future<ClientSettingsModel> setSyncPath(String? path) async {
+    String? newPath = path;
+
+    if (path != null) {
+      if (!kIsWeb && Platform.isMacOS) {
+        final directoryBookmarks = DirectoryBookmark();
+        await closeDirectory();
+        await directoryBookmarks.saveDirectory(syncPathKey, path);
+        newPath = await directoryBookmarks.resolveDirectory(syncPathKey);
+      }
+    }
+
+    return state = state.copyWith(syncPath: newPath);
+  }
 
   void update(Function(ClientSettingsModel current) value) => state = value(state);
 
@@ -66,4 +91,6 @@ class ClientSettingsNotifier extends StateNotifier<ClientSettingsModel> {
 
   void setShortcuts(MapEntry<GlobalHotKeys, KeyCombination> newEntry) =>
       state = state.copyWith(shortcuts: state.shortcuts.setOrRemove(newEntry, state.defaultShortCuts));
+
+  Future<void> closeDirectory() => DirectoryBookmark().closeDirectory(syncPathKey);
 }

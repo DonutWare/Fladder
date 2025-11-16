@@ -51,6 +51,8 @@ final activeDownloadTasksProvider = StateProvider<List<DownloadTask>>((ref) {
   return [];
 });
 
+const syncPathKey = "syncPathKey";
+
 class SyncNotifier extends StateNotifier<SyncSettingsModel> {
   SyncNotifier(this.ref, this.mobileDirectory) : super(SyncSettingsModel()) {
     _init();

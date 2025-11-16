@@ -191,6 +191,7 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
   @override
   void onWindowClose() {
     ref.read(videoPlayerProvider).stop();
+    ref.read(clientSettingsProvider.notifier).closeDirectory();
     super.onWindowClose();
   }
 
