@@ -1520,5 +1520,17 @@
         }
     },
     "openImeKeyboard": "打开输入法键盘",
-    "@openImeKeyboard": {}
+    "@openImeKeyboard": {},
+    "screensaverDvd": "DVD",
+    "@screensaverDvd": {},
+    "screensaverLogo": "Logo",
+    "@screensaverLogo": {},
+    "screensaverTime": "时间",
+    "@screensaverTime": {},
+    "screensaverBlack": "黑色",
+    "@screensaverBlack": {},
+    "playerSettingsScreensaverTitle": "屏幕保护程序",
+    "@playerSettingsScreensaverTitle": {},
+    "playerSettingsScreensaverDesc": "选择在播发无活动后显示的屏幕保护程序",
+    "@playerSettingsScreensaverDesc": {}
 }
