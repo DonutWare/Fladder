@@ -1528,5 +1528,15 @@
         }
     },
     "openImeKeyboard": "IME Tastatur öffnen",
-    "@openImeKeyboard": {}
+    "@openImeKeyboard": {},
+    "playerSettingsScreensaverDesc": "Wähle einen Bildschirmschoner aus, der bei Inaktivität angezeigt wird",
+    "@playerSettingsScreensaverDesc": {},
+    "screensaverDvd": "DVD",
+    "@screensaverDvd": {},
+    "screensaverLogo": "Logo",
+    "@screensaverLogo": {},
+    "screensaverTime": "Zeit",
+    "@screensaverTime": {},
+    "screensaverBlack": "Schwarz",
+    "@screensaverBlack": {}
 }
