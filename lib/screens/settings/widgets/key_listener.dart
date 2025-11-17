@@ -10,6 +10,7 @@ import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/widgets/shared/ensure_visible.dart';
 
 // Only use for actively checking if a shortcut is being changed
 bool changingShortCut = false;
@@ -89,10 +90,13 @@ class KeyListenerWidget extends ConsumerStatefulWidget {
 
 class KeyListenerWidgetState extends ConsumerState<KeyListenerWidget> {
   final focusNode = FocusNode();
+  final buttonFocus = FocusNode();
   bool _isListening = false;
   bool _showClearButton = false;
   LogicalKeyboardKey? _pressedKey;
   LogicalKeyboardKey? _pressedModifier;
+
+  bool _isFocused = false;
 
   void setIsListening(bool value) {
     changingShortCut = value;
@@ -132,6 +136,7 @@ class KeyListenerWidgetState extends ConsumerState<KeyListenerWidget> {
       }
       _pressedKey = null;
       _pressedModifier = null;
+      buttonFocus.requestFocus();
     });
   }
 
@@ -192,12 +197,21 @@ class KeyListenerWidgetState extends ConsumerState<KeyListenerWidget> {
     return Focus(
       focusNode: focusNode,
       onKeyEvent: _handleKeyEvent,
+      onFocusChange: (value) {
+        setState(() {
+          _isFocused = value;
+        });
+        if (value) {
+          context.ensureVisible();
+        }
+      },
       child: MouseRegion(
         onEnter: (event) => showClearButton(true),
         onExit: (event) => showClearButton(false),
         child: ClipRRect(
           borderRadius: FladderTheme.smallShape.borderRadius,
           child: InkWell(
+            focusNode: buttonFocus,
             canRequestFocus: false,
             onTap: _isListening ? _stopListening : _startListening,
             onSecondaryTap: () {
@@ -207,7 +221,15 @@ class KeyListenerWidgetState extends ConsumerState<KeyListenerWidget> {
               });
             },
             child: Container(
-              color: Theme.of(context).colorScheme.primaryContainer,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primaryContainer,
+                borderRadius: FladderTheme.smallShape.borderRadius,
+                border: BoxBorder.all(
+                  width: 2.0,
+                  strokeAlign: BorderSide.strokeAlignInside,
+                  color: Theme.of(context).colorScheme.onPrimaryContainer.withValues(alpha: _isFocused ? 1.0 : 0.0),
+                ),
+              ),
               child: AnimatedSize(
                 duration: const Duration(milliseconds: 125),
                 child: Stack(

@@ -203,7 +203,7 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                     },
                   )),
             ),
-            if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer)
+            if (AdaptiveLayout.inputDeviceOf(context) != InputDevice.touch)
               ExpansionTile(
                 title: Text(
                   context.localized.keyboardShortCuts,
