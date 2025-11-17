@@ -125,6 +125,7 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
     setState(() {
       showInterface = show ?? !showInterface;
     });
+
     SystemChrome.setEnabledSystemUIMode(
       !showInterface ? SystemUiMode.leanBack : SystemUiMode.edgeToEdge,
       overlays: [],
