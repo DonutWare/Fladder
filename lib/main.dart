@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:desktop_multi_window/desktop_multi_window.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:macos_window_utils/window_manipulator.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -38,6 +39,7 @@ import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/application_info.dart';
 import 'package:fladder/util/fladder_config.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/util/macos_window_helpers.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/util/svg_utils.dart';
 import 'package:fladder/util/themes_data.dart';
@@ -79,6 +81,10 @@ void main(List<String> args) async {
   }
 
   String windowArguments = "";
+
+  if (!kIsWeb && Platform.isMacOS) {
+    await WindowManipulator.initialize(enableWindowDelegate: true);
+  }
 
   if (_isDesktop) {
     final windowController = await WindowController.fromCurrentEngine();
@@ -236,6 +242,20 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
     super.onWindowMoved();
   }
 
+  @override
+  void onWindowEnterFullScreen() {
+    ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(fullScreen: true));
+    toggleMacTrafficLights(true);
+    super.onWindowEnterFullScreen();
+  }
+
+  @override
+  void onWindowLeaveFullScreen() {
+    toggleMacTrafficLights(false);
+    ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(fullScreen: false));
+    super.onWindowLeaveFullScreen();
+  }
+
   void _init() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
@@ -250,6 +270,8 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
         titleBarStyle: TitleBarStyle.hidden,
         title: packageInfo.appName.capitalize(),
       );
+
+      toggleMacTrafficLights(false);
 
       windowManager.waitUntilReadyToShow(windowOptions, () async {
         if (!kDebugMode) {

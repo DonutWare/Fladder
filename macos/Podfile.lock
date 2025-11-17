@@ -25,6 +25,8 @@ PODS:
   - local_auth_darwin (0.0.1):
     - Flutter
     - FlutterMacOS
+  - macos_window_utils (1.0.0):
+    - FlutterMacOS
   - mdk (0.35.0)
   - media_kit_libs_macos_video (1.0.4):
     - FlutterMacOS
@@ -99,6 +101,7 @@ DEPENDENCIES:
   - fvp (from `Flutter/ephemeral/.symlinks/plugins/fvp/darwin`)
   - just_audio (from `Flutter/ephemeral/.symlinks/plugins/just_audio/darwin`)
   - local_auth_darwin (from `Flutter/ephemeral/.symlinks/plugins/local_auth_darwin/darwin`)
+  - macos_window_utils (from `Flutter/ephemeral/.symlinks/plugins/macos_window_utils/macos`)
   - media_kit_libs_macos_video (from `Flutter/ephemeral/.symlinks/plugins/media_kit_libs_macos_video/macos`)
   - media_kit_video (from `Flutter/ephemeral/.symlinks/plugins/media_kit_video/macos`)
   - package_info_plus (from `Flutter/ephemeral/.symlinks/plugins/package_info_plus/macos`)
@@ -144,6 +147,8 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/just_audio/darwin
   local_auth_darwin:
     :path: Flutter/ephemeral/.symlinks/plugins/local_auth_darwin/darwin
+  macos_window_utils:
+    :path: Flutter/ephemeral/.symlinks/plugins/macos_window_utils/macos
   media_kit_libs_macos_video:
     :path: Flutter/ephemeral/.symlinks/plugins/media_kit_libs_macos_video/macos
   media_kit_video:
@@ -189,6 +194,7 @@ SPEC CHECKSUMS:
   fvp: f4fdb89279e863eb09869bde7ba7fce9e81a16ab
   just_audio: a42c63806f16995daf5b219ae1d679deb76e6a79
   local_auth_darwin: 63c73d6d28cc3e239be2b6aa460ea6e317cd5100
+  macos_window_utils: 721df4da91cb4bde7b2b7b6ae93cdead4851118f
   mdk: baa616b93f696c7066df0e5ebe057badfa9c462b
   media_kit_libs_macos_video: b3e2bbec2eef97c285f2b1baa7963c67c753fb82
   media_kit_video: c75b07f14d59706c775778e4dd47dd027de8d1e5
