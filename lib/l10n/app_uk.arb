@@ -1529,5 +1529,17 @@
         }
     },
     "openImeKeyboard": "Відкрити клавіатуру IME",
-    "@openImeKeyboard": {}
+    "@openImeKeyboard": {},
+    "screensaverDvd": "DVD",
+    "@screensaverDvd": {},
+    "screensaverLogo": "Логотип",
+    "@screensaverLogo": {},
+    "screensaverTime": "Час",
+    "@screensaverTime": {},
+    "screensaverBlack": "Чорний",
+    "@screensaverBlack": {},
+    "playerSettingsScreensaverTitle": "Скрінсейвер",
+    "@playerSettingsScreensaverTitle": {},
+    "playerSettingsScreensaverDesc": "Виберіть заставку, яка відображатиметься після відсутності активності гравця",
+    "@playerSettingsScreensaverDesc": {}
 }
