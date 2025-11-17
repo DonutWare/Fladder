@@ -1521,5 +1521,7 @@
         }
     },
     "openImeKeyboard": "فتح لوحة مفاتيح IME",
-    "@openImeKeyboard": {}
+    "@openImeKeyboard": {},
+    "screensaverTime": "وقت",
+    "@screensaverTime": {}
 }
