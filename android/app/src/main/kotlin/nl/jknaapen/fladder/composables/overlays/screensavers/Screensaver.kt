@@ -33,9 +33,13 @@ import kotlin.time.Duration.Companion.minutes
 internal fun ScreenSaver(
     content: @Composable () -> Unit,
 ) {
-    if (!leanBackEnabled(LocalContext.current)) return
-
     val selectedType by PlayerSettingsObject.screenSaver.collectAsState(Screensaver.LOGO)
+
+    if (!leanBackEnabled(LocalContext.current) || selectedType == Screensaver.DISABLED) {
+        content()
+        return
+    }
+
     val isPlaying by VideoPlayerObject.playing.collectAsState(false)
     val isBuffering by VideoPlayerObject.buffering.collectAsState(true)
 
@@ -55,11 +59,6 @@ internal fun ScreenSaver(
     }
 
     LaunchedEffect(playerInactive, selectedType, lastInteraction.longValue) {
-        if (selectedType == Screensaver.DISABLED) {
-            screenSaverActive = false
-            return@LaunchedEffect
-        }
-
         if (playerInactive) {
             delay(5.minutes)
             screenSaverActive = true
