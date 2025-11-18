@@ -79,8 +79,6 @@ PODS:
   - video_player_avfoundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - volume_controller (0.0.1):
-    - FlutterMacOS
   - wakelock_plus (0.0.1):
     - FlutterMacOS
   - webview_flutter_wkwebview (0.0.1):
@@ -114,7 +112,6 @@ DEPENDENCIES:
   - sqlite3_flutter_libs (from `Flutter/ephemeral/.symlinks/plugins/sqlite3_flutter_libs/darwin`)
   - url_launcher_macos (from `Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos`)
   - video_player_avfoundation (from `Flutter/ephemeral/.symlinks/plugins/video_player_avfoundation/darwin`)
-  - volume_controller (from `Flutter/ephemeral/.symlinks/plugins/volume_controller/macos`)
   - wakelock_plus (from `Flutter/ephemeral/.symlinks/plugins/wakelock_plus/macos`)
   - webview_flutter_wkwebview (from `Flutter/ephemeral/.symlinks/plugins/webview_flutter_wkwebview/darwin`)
   - window_manager (from `Flutter/ephemeral/.symlinks/plugins/window_manager/macos`)
@@ -173,8 +170,6 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos
   video_player_avfoundation:
     :path: Flutter/ephemeral/.symlinks/plugins/video_player_avfoundation/darwin
-  volume_controller:
-    :path: Flutter/ephemeral/.symlinks/plugins/volume_controller/macos
   wakelock_plus:
     :path: Flutter/ephemeral/.symlinks/plugins/wakelock_plus/macos
   webview_flutter_wkwebview:
@@ -199,17 +194,16 @@ SPEC CHECKSUMS:
   media_kit_libs_macos_video: b3e2bbec2eef97c285f2b1baa7963c67c753fb82
   media_kit_video: c75b07f14d59706c775778e4dd47dd027de8d1e5
   package_info_plus: 12f1c5c2cfe8727ca46cbd0b26677728972d9a5b
-  path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
+  path_provider_foundation: 0b743cbb62d8e47eab856f09262bb8c1ddcfe6ba
   screen_brightness_macos: 2d6d3af2165592d9a55ffcd95b7550970e41ebda
   screen_retriever_macos: 776e0fa5d42c6163d2bf772d22478df4b302b161
   share_plus: 1fa619de8392a4398bfaf176d441853922614e89
-  shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
+  shared_preferences_foundation: 5086985c1d43c5ba4d5e69a4e8083a389e2909e6
   sqflite_darwin: 5a7236e3b501866c1c9befc6771dfd73ffb8702d
   sqlite3: 73513155ec6979715d3904ef53a8d68892d4032b
   sqlite3_flutter_libs: 86f82662868ee26ff3451f73cac9c5fc2a1f57fa
-  url_launcher_macos: c82c93949963e55b228a30115bd219499a6fe404
-  video_player_avfoundation: 7c6c11d8470e1675df7397027218274b6d2360b3
-  volume_controller: 90a5978956cf18ebb7739bf5382fc1b0cfef66d0
+  url_launcher_macos: 175a54c831f4375a6cf895875f716ee5af3888ce
+  video_player_avfoundation: 7993f492ae0bd77edaea24d9dc051d8bb2cd7c86
   wakelock_plus: 9d63063ffb7af1c215209769067c57103bde719d
   webview_flutter_wkwebview: 29eb20d43355b48fe7d07113835b9128f84e3af4
   window_manager: e25faf20d88283a0d46e7b1a759d07261ca27575
