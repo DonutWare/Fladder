@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:intl/intl.dart';
 
 import 'package:fladder/models/account_model.dart';
@@ -31,17 +31,17 @@ class LoginEditUser extends ConsumerWidget {
                 Text(user.credentials.serverName),
               ],
             ),
-          if (user.credentials.server.isNotEmpty)
+          if (user.credentials.url.isNotEmpty)
             Row(
               children: [
                 const Icon(Icons.http_rounded),
                 const SizedBox(width: 8),
-                Text(user.credentials.server),
+                Text(user.credentials.url),
                 if (onTapServer != null) ...{
                   const SizedBox(width: 8),
                   IconButton.filledTonal(
                     onPressed: () {
-                      onTapServer?.call(user.credentials.server);
+                      onTapServer?.call(user.credentials.url);
                     },
                     icon: const Icon(
                       Icons.send_rounded,

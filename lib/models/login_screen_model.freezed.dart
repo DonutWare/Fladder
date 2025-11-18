@@ -460,6 +460,8 @@ abstract mixin class $ServerLoginModelCopyWith<$Res> {
       List<AccountModel> accounts,
       String? serverMessage,
       bool hasQuickConnect});
+
+  $CredentialsModelCopyWith<$Res> get tempCredentials;
 }
 
 /// @nodoc
@@ -498,6 +500,16 @@ class _$ServerLoginModelCopyWithImpl<$Res>
           : hasQuickConnect // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
+  }
+
+  /// Create a copy of ServerLoginModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $CredentialsModelCopyWith<$Res> get tempCredentials {
+    return $CredentialsModelCopyWith<$Res>(_self.tempCredentials, (value) {
+      return _then(_self.copyWith(tempCredentials: value));
+    });
   }
 }
 
@@ -730,6 +742,9 @@ abstract mixin class _$ServerLoginModelCopyWith<$Res>
       List<AccountModel> accounts,
       String? serverMessage,
       bool hasQuickConnect});
+
+  @override
+  $CredentialsModelCopyWith<$Res> get tempCredentials;
 }
 
 /// @nodoc
@@ -768,6 +783,16 @@ class __$ServerLoginModelCopyWithImpl<$Res>
           : hasQuickConnect // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
+  }
+
+  /// Create a copy of ServerLoginModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $CredentialsModelCopyWith<$Res> get tempCredentials {
+    return $CredentialsModelCopyWith<$Res>(_self.tempCredentials, (value) {
+      return _then(_self.copyWith(tempCredentials: value));
+    });
   }
 }
 

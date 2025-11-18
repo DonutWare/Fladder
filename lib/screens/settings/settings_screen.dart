@@ -141,9 +141,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             SettingsListTile(
               label: Text(context.localized.settingsProfileTitle),
               subLabel: Text(context.localized.settingsProfileDesc),
-              selected: containsRoute(const SecuritySettingsRoute()),
+              selected: containsRoute(const ProfileSettingsRoute()),
               icon: IconsaxPlusLinear.security_user,
-              onTap: () => navigateTo(const SecuritySettingsRoute()),
+              onTap: () => navigateTo(const ProfileSettingsRoute()),
             ),
             SettingsListTile(
               label: Text(context.localized.settingsPlayerTitle),
@@ -224,7 +224,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     title: Text(context.localized.logoutUserPopupTitle(user?.name ?? "")),
                     scrollable: true,
                     content: Text(
-                      context.localized.logoutUserPopupContent(user?.name ?? "", user?.server ?? ""),
+                      context.localized.logoutUserPopupContent(user?.name ?? "", user?.credentials.url ?? ""),
                     ),
                     actions: [
                       ElevatedButton(
