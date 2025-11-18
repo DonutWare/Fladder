@@ -136,5 +136,123 @@
     "invalidUrlDesc": "To URL πρέπει να ξεκινάει με http(s)://",
     "@invalidUrlDesc": {},
     "libraryFetchNoItemsFound": "Δεν βρέθηκε κανένα στοιχείο. Δοκιμάστε διαφορετικές ρυθμίσεις",
-    "@libraryFetchNoItemsFound": {}
+    "@libraryFetchNoItemsFound": {},
+    "appLockTitle": "Επιλογή τρόπου εισόδου για {userName}",
+    "@appLockTitle": {
+        "description": "Pop-up to pick a login method",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "about": "Σχετικά",
+    "@about": {},
+    "bold": "Bold",
+    "@bold": {},
+    "collectionFolder": "Φάκελος συλλογών",
+    "@collectionFolder": {},
+    "combined": "Συνδιαστικά",
+    "@combined": {},
+    "controls": "Στοιχεία ελέγχου",
+    "@controls": {},
+    "dashboard": "Πίνακας ελέγχου",
+    "@dashboard": {},
+    "dashboardContinueListening": "Συνέχεια ακρόασης",
+    "@dashboardContinueListening": {},
+    "dashboardRecentlyAdded": "Προστέθηκαν πρόσφατα σε {name}",
+    "@dashboardRecentlyAdded": {
+        "description": "Recently added on home screen",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteFileFromSystem": "Διαγράφοντας το {item} θα διαγραφεί και απο τη βιβλιοθήκη σας ΚΑΙ απο τα αρχεία σας. Θελετε σίγουρα να συνεχίσετε;",
+    "@deleteFileFromSystem": {
+        "description": "Delete file from system",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteItem": "Διαγραφή {item};",
+    "@deleteItem": {
+        "description": "deleteItem",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "descending": "Φθίνουσα",
+    "@descending": {},
+    "director": "{count, plural, other{Σκηνοθέτης} two{Σκηνοθέτες}}",
+    "@director": {
+        "description": "director",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "disabled": "Κλειστό",
+    "@disabled": {},
+    "discovered": "Ανακαλύφθηκαν",
+    "@discovered": {},
+    "downloadsPath": "Διαδρομή",
+    "@downloadsPath": {},
+    "empty": "Άδειο",
+    "@empty": {},
+    "enabled": "Ανοικτό",
+    "@enabled": {},
+    "endsAt": "Τελειώνει στις {date}",
+    "@endsAt": {
+        "description": "endsAt",
+        "placeholders": {
+            "date": {
+                "type": "DateTime",
+                "format": "jm"
+            }
+        }
+    },
+    "episode": "{count, plural, other{Επεισόδια} one{Επεισόδιο} }",
+    "@episode": {
+        "description": "episode",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "favorite": "Αγαπημένο",
+    "@favorite": {},
+    "filter": "{count, plural, other{Φίλτρα} one{Φίλτρο}}",
+    "@filter": {
+        "description": "filter",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "forceRefresh": "Αναγκαστική ανανέωση",
+    "@forceRefresh": {},
+    "genre": "{count, plural, other{Είδη} one{Είδος}}",
+    "@genre": {
+        "description": "genre",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "goTo": "Μετάβαση σε",
+    "@goTo": {}
 }
