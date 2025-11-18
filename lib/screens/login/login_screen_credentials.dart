@@ -53,8 +53,8 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
     ref.listen(
       authProvider.select((value) => value.serverLoginModel),
       (previous, next) {
-        if (next?.tempCredentials.server.isNotEmpty == true) {
-          serverTextController.text = next?.tempCredentials.server ?? "";
+        if (next?.tempCredentials.url.isNotEmpty == true) {
+          serverTextController.text = next?.tempCredentials.url ?? "";
         }
       },
     );

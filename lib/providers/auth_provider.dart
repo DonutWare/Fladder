@@ -57,7 +57,7 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
 
   Future<void> _fetchServerInfo(String url) async {
     try {
-      final newCredentials = CredentialsModel.createNewCredentials().copyWith(server: url.rtrim('/'));
+      final newCredentials = CredentialsModel.createNewCredentials().copyWith(url: url.rtrim('/'));
       final newLoginModel = ServerLoginModel(tempCredentials: newCredentials);
       state = state.copyWith(
         serverLoginModel: newLoginModel,
@@ -71,8 +71,8 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
         screen: quickConnectStatus ? LoginScreenType.code : LoginScreenType.login,
         serverLoginModel: newLoginModel.copyWith(
           tempCredentials: newCredentials.copyWith(
-            serverName: serverResponse.body?.serverName,
-            serverId: serverResponse.body?.id,
+            serverName: serverResponse.body?.serverName ?? "",
+            serverId: serverResponse.body?.id ?? "",
           ),
           accounts: publicUsers,
           hasQuickConnect: quickConnectStatus,
@@ -147,7 +147,7 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
       var serverResponse = await api.systemInfoPublicGet();
       credentials = credentials.copyWith(
         token: response.body?.accessToken ?? "",
-        serverId: response.body?.serverId,
+        serverId: response.body?.serverId ?? "",
         serverName: serverResponse.body?.serverName ?? "",
       );
       var imageUrl = ref.read(imageUtilityProvider).getUserImageUrl(response.body?.user?.id ?? "");

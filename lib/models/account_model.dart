@@ -27,7 +27,7 @@ abstract class AccountModel with _$AccountModel {
     required DateTime lastUsed,
     @Default(Authentication.autoLogin) Authentication authMethod,
     @Default("") String localPin,
-    required CredentialsModel credentials,
+    @CredentialsConverter() required CredentialsModel credentials,
     @Default([]) List<String> latestItemsExcludes,
     @Default([]) List<String> searchQueryHistory,
     @Default(false) bool quickConnectState,
@@ -40,7 +40,7 @@ abstract class AccountModel with _$AccountModel {
 
   factory AccountModel.fromJson(Map<String, dynamic> json) => _$AccountModelFromJson(json);
 
-  String get server => credentials.server;
+  String get server => credentials.url;
 
   bool get canDownload => (policy?.enableContentDownloading ?? false);
 
@@ -48,6 +48,27 @@ abstract class AccountModel with _$AccountModel {
   bool sameIdentity(AccountModel other) {
     if (identical(this, other)) return true;
     return other.id == id && other.credentials.serverId == credentials.serverId;
+  }
+}
+
+//Converter to convert old json to new json formats
+class CredentialsConverter implements JsonConverter<CredentialsModel, Object?> {
+  const CredentialsConverter();
+
+  @override
+  CredentialsModel fromJson(Object? json) {
+    if (json is String) {
+      return CredentialsModel.fromJsonString(json);
+    }
+    if (json is Map<String, dynamic>) {
+      return CredentialsModel.fromJson(json);
+    }
+    throw ArgumentError('Invalid credentials JSON: $json');
+  }
+
+  @override
+  Object? toJson(CredentialsModel object) {
+    return object.toJson();
   }
 }
 

@@ -77,8 +77,8 @@ class JellyService {
   final JellyfinOpenApi _api;
 
   JellyfinOpenApi get api {
-    var authServer = ref.read(authProvider).serverLoginModel?.tempCredentials.server ?? "";
-    var currentServer = ref.read(userProvider)?.credentials.server;
+    var authServer = ref.read(authProvider).serverLoginModel?.tempCredentials.url ?? "";
+    var currentServer = ref.read(userProvider)?.credentials.url;
     if ((authServer.isNotEmpty ? authServer : currentServer) == FakeHelper.fakeTestServerUrl) {
       return FakeJellyfinOpenApi();
     } else {

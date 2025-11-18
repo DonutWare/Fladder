@@ -38,7 +38,7 @@ class JellyRequest implements Interceptor {
     final connectivityNotifier = ref.read(connectivityStatusProvider.notifier);
     try {
       final serverUrl = Uri.parse(
-          ref.read(userProvider)?.server ?? ref.read(authProvider).serverLoginModel?.tempCredentials.server ?? "");
+          ref.read(userProvider)?.server ?? ref.read(authProvider).serverLoginModel?.tempCredentials.url ?? "");
 
       //Use current logged in user otherwise use the authprovider
       var loginModel = ref.read(userProvider)?.credentials ?? ref.read(authProvider).serverLoginModel?.tempCredentials;

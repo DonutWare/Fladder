@@ -1,27 +1,31 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:xid/xid.dart';
 
 import 'package:fladder/util/application_info.dart';
 
-class CredentialsModel {
-  final String token;
-  final String server;
-  final String serverName;
-  final String serverId;
-  final String deviceId;
-  CredentialsModel({
-    this.token = "",
-    this.server = "",
-    this.serverName = "",
-    this.serverId = "",
-    required this.deviceId,
-  });
+part 'credentials_model.freezed.dart';
+part 'credentials_model.g.dart';
 
-  factory CredentialsModel.createNewCredentials() {
-    return CredentialsModel(deviceId: Xid().toString());
-  }
+@Freezed(copyWith: true)
+abstract class CredentialsModel with _$CredentialsModel {
+  const CredentialsModel._();
+
+  factory CredentialsModel.internal({
+    @Default("") String token,
+    @Default("") String url,
+    String? localUrl,
+    String? networkName,
+    @Default("") String serverName,
+    @Default("") String serverId,
+    @Default("") String deviceId,
+  }) = _CredentialsModel;
+
+  factory CredentialsModel.createNewCredentials() => CredentialsModel.internal(deviceId: Xid().toString());
 
   Map<String, String> header(Ref ref) {
     final application = ref.read(applicationInfoProvider);
@@ -32,48 +36,17 @@ class CredentialsModel {
     return headers;
   }
 
-  CredentialsModel copyWith({
-    String? token,
-    String? server,
-    String? serverName,
-    String? serverId,
-    String? deviceId,
-  }) {
-    return CredentialsModel(
-      token: token ?? this.token,
-      server: server ?? this.server,
-      serverName: serverName ?? this.serverName,
-      serverId: serverId ?? this.serverId,
-      deviceId: deviceId ?? this.deviceId,
-    );
-  }
+  factory CredentialsModel.fromJson(Map<String, dynamic> json) => _$CredentialsModelFromJson(json);
 
-  Map<String, dynamic> toMap() {
-    return {
-      'token': token,
-      'server': server,
-      'serverName': serverName,
-      'serverId': serverId,
-      'deviceId': deviceId,
-    };
-  }
+  factory CredentialsModel.fromJsonString(String source) => CredentialsModel.fromMap(json.decode(source));
 
   factory CredentialsModel.fromMap(Map<String, dynamic> map) {
-    return CredentialsModel(
+    return CredentialsModel.internal(
       token: map['token'] ?? '',
-      server: map['server'] ?? '',
+      url: map['server'] ?? '',
       serverName: map['serverName'] ?? '',
       serverId: map['serverId'] ?? '',
       deviceId: map['deviceId'] ?? '',
     );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory CredentialsModel.fromJson(String source) => CredentialsModel.fromMap(json.decode(source));
-
-  @override
-  String toString() {
-    return 'CredentialsModel(token: $token, server: $server, serverName: $serverName, serverId: $serverId, header: $header)';
   }
 }
