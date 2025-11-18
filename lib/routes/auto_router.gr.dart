@@ -30,7 +30,7 @@ import 'package:fladder/screens/photo_viewer/photo_viewer_screen.dart' as _i11;
 import 'package:fladder/screens/settings/about_settings_page.dart' as _i1;
 import 'package:fladder/screens/settings/client_settings_page.dart' as _i2;
 import 'package:fladder/screens/settings/player_settings_page.dart' as _i12;
-import 'package:fladder/screens/settings/security_settings_page.dart' as _i13;
+import 'package:fladder/screens/settings/profile_settings_page.dart' as _i13;
 import 'package:fladder/screens/settings/settings_screen.dart' as _i14;
 import 'package:fladder/screens/settings/settings_selection_screen.dart'
     as _i15;
@@ -466,17 +466,17 @@ class PlayerSettingsRoute extends _i18.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i13.SecuritySettingsPage]
-class SecuritySettingsRoute extends _i18.PageRouteInfo<void> {
-  const SecuritySettingsRoute({List<_i18.PageRouteInfo>? children})
-      : super(SecuritySettingsRoute.name, initialChildren: children);
+/// [_i13.ProfileSettingsPage]
+class ProfileSettingsRoute extends _i18.PageRouteInfo<void> {
+  const ProfileSettingsRoute({List<_i18.PageRouteInfo>? children})
+      : super(ProfileSettingsRoute.name, initialChildren: children);
 
-  static const String name = 'SecuritySettingsRoute';
+  static const String name = 'ProfileSettingsRoute';
 
   static _i18.PageInfo page = _i18.PageInfo(
     name,
     builder: (data) {
-      return const _i13.SecuritySettingsPage();
+      return const _i13.ProfileSettingsPage();
     },
   );
 }

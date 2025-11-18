@@ -40,8 +40,6 @@ abstract class AccountModel with _$AccountModel {
 
   factory AccountModel.fromJson(Map<String, dynamic> json) => _$AccountModelFromJson(json);
 
-  String get server => credentials.url;
-
   bool get canDownload => (policy?.enableContentDownloading ?? false);
 
   //Check if it's the same account on the same server

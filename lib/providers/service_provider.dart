@@ -18,6 +18,7 @@ import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/items/photos_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
+import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/auth_provider.dart';
 import 'package:fladder/providers/image_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
@@ -1102,7 +1103,7 @@ class JellyService {
         width: trickPlayModel.width,
       );
 
-      final server = ref.read(userProvider)?.server;
+      final server = ref.read(serverUrlProvider);
 
       if (server == null) return null;
 

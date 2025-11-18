@@ -20,7 +20,6 @@ import 'package:fladder/screens/login/lock_screen.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/util/fladder_config.dart';
 import 'package:fladder/util/localization_helper.dart';
-import 'package:fladder/util/string_extensions.dart';
 
 final authProvider = StateNotifierProvider<AuthNotifier, LoginScreenModel>((ref) {
   return AuthNotifier(ref);
@@ -57,7 +56,7 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
 
   Future<void> _fetchServerInfo(String url) async {
     try {
-      final newCredentials = CredentialsModel.createNewCredentials().copyWith(url: url.rtrim('/'));
+      final newCredentials = CredentialsModel.createNewCredentials().copyWith(url: url);
       final newLoginModel = ServerLoginModel(tempCredentials: newCredentials);
       state = state.copyWith(
         serverLoginModel: newLoginModel,
@@ -68,6 +67,7 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
       final branding = await api.getBranding();
       final serverResponse = await api.systemInfoPublicGet();
       state = state.copyWith(
+        errorMessage: null,
         screen: quickConnectStatus ? LoginScreenType.code : LoginScreenType.login,
         serverLoginModel: newLoginModel.copyWith(
           tempCredentials: newCredentials.copyWith(
@@ -89,20 +89,6 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
         fladderSnackbar(context!, title: context!.localized.unableToConnectHost);
       }
     }
-  }
-
-  String? _parseUrl(String url) {
-    if (url.isEmpty) {
-      return null;
-    }
-    if (!Uri.parse(url).isAbsolute) {
-      return context?.localized.invalidUrl;
-    }
-
-    if (!url.startsWith('https://') && !url.startsWith('http://')) {
-      return context?.localized.invalidUrlDesc;
-    }
-    return null;
   }
 
   Future<Response<List<AccountModel>>?> getPublicUsers() async {
@@ -195,14 +181,7 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
   Future<void> setServer(String server) async {
     final url = (state.hasBaseUrl ? FladderConfig.baseUrl : server);
     if (url == null || server.isEmpty) return;
-    final isUrlValid = _parseUrl(url);
-    state = state.copyWith(
-      errorMessage: isUrlValid,
-      serverLoginModel: null,
-    );
-    if (isUrlValid == null) {
-      await _fetchServerInfo(url);
-    }
+    await _fetchServerInfo(url);
   }
 
   List<AccountModel> getSavedAccounts() {
@@ -211,10 +190,11 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
   }
 
   void reOrderUsers(int oldIndex, int newIndex) {
-    final accounts = state.accounts;
+    final accounts = state.accounts.toList();
     final original = accounts.elementAt(oldIndex);
     accounts.removeAt(oldIndex);
     accounts.insert(newIndex, original);
+    state = state.copyWith(accounts: accounts);
     ref.read(sharedUtilityProvider).saveAccounts(accounts);
   }
 
@@ -229,15 +209,5 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
       serverLoginModel: state.hasBaseUrl ? state.serverLoginModel : null,
       screen: LoginScreenType.users,
     );
-  }
-
-  void tryParseUrl(String server) {
-    if (server.isNotEmpty && state.errorMessage != null) {
-      final url = server;
-      final isUrlValid = _parseUrl(url);
-      state = state.copyWith(
-        errorMessage: isUrlValid,
-      );
-    }
   }
 }

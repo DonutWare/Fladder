@@ -111,6 +111,7 @@ class _OutlinedTextFieldState extends ConsumerState<OutlinedTextField> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
       final useCustomKeyboard = AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad &&
           ref.read(clientSettingsProvider.select((value) => !value.useSystemIME));
       if (widget.autoFocus) {

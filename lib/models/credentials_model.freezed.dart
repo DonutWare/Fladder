@@ -17,7 +17,6 @@ mixin _$CredentialsModel {
   String get token;
   String get url;
   String? get localUrl;
-  String? get networkName;
   String get serverName;
   String get serverId;
   String get deviceId;
@@ -35,7 +34,7 @@ mixin _$CredentialsModel {
 
   @override
   String toString() {
-    return 'CredentialsModel(token: $token, url: $url, localUrl: $localUrl, networkName: $networkName, serverName: $serverName, serverId: $serverId, deviceId: $deviceId)';
+    return 'CredentialsModel(token: $token, url: $url, localUrl: $localUrl, serverName: $serverName, serverId: $serverId, deviceId: $deviceId)';
   }
 }
 
@@ -49,7 +48,6 @@ abstract mixin class $CredentialsModelCopyWith<$Res> {
       {String token,
       String url,
       String? localUrl,
-      String? networkName,
       String serverName,
       String serverId,
       String deviceId});
@@ -71,7 +69,6 @@ class _$CredentialsModelCopyWithImpl<$Res>
     Object? token = null,
     Object? url = null,
     Object? localUrl = freezed,
-    Object? networkName = freezed,
     Object? serverName = null,
     Object? serverId = null,
     Object? deviceId = null,
@@ -88,10 +85,6 @@ class _$CredentialsModelCopyWithImpl<$Res>
       localUrl: freezed == localUrl
           ? _self.localUrl
           : localUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      networkName: freezed == networkName
-          ? _self.networkName
-          : networkName // ignore: cast_nullable_to_non_nullable
               as String?,
       serverName: null == serverName
           ? _self.serverName
@@ -202,28 +195,16 @@ extension CredentialsModelPatterns on CredentialsModel {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            String token,
-            String url,
-            String? localUrl,
-            String? networkName,
-            String serverName,
-            String serverId,
-            String deviceId)?
+    TResult Function(String token, String url, String? localUrl,
+            String serverName, String serverId, String deviceId)?
         internal,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _CredentialsModel() when internal != null:
-        return internal(
-            _that.token,
-            _that.url,
-            _that.localUrl,
-            _that.networkName,
-            _that.serverName,
-            _that.serverId,
-            _that.deviceId);
+        return internal(_that.token, _that.url, _that.localUrl,
+            _that.serverName, _that.serverId, _that.deviceId);
       case _:
         return orElse();
     }
@@ -244,27 +225,15 @@ extension CredentialsModelPatterns on CredentialsModel {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            String token,
-            String url,
-            String? localUrl,
-            String? networkName,
-            String serverName,
-            String serverId,
-            String deviceId)
+    required TResult Function(String token, String url, String? localUrl,
+            String serverName, String serverId, String deviceId)
         internal,
   }) {
     final _that = this;
     switch (_that) {
       case _CredentialsModel():
-        return internal(
-            _that.token,
-            _that.url,
-            _that.localUrl,
-            _that.networkName,
-            _that.serverName,
-            _that.serverId,
-            _that.deviceId);
+        return internal(_that.token, _that.url, _that.localUrl,
+            _that.serverName, _that.serverId, _that.deviceId);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -284,27 +253,15 @@ extension CredentialsModelPatterns on CredentialsModel {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-            String token,
-            String url,
-            String? localUrl,
-            String? networkName,
-            String serverName,
-            String serverId,
-            String deviceId)?
+    TResult? Function(String token, String url, String? localUrl,
+            String serverName, String serverId, String deviceId)?
         internal,
   }) {
     final _that = this;
     switch (_that) {
       case _CredentialsModel() when internal != null:
-        return internal(
-            _that.token,
-            _that.url,
-            _that.localUrl,
-            _that.networkName,
-            _that.serverName,
-            _that.serverId,
-            _that.deviceId);
+        return internal(_that.token, _that.url, _that.localUrl,
+            _that.serverName, _that.serverId, _that.deviceId);
       case _:
         return null;
     }
@@ -318,7 +275,6 @@ class _CredentialsModel extends CredentialsModel {
       {this.token = "",
       this.url = "",
       this.localUrl,
-      this.networkName,
       this.serverName = "",
       this.serverId = "",
       this.deviceId = ""})
@@ -334,8 +290,6 @@ class _CredentialsModel extends CredentialsModel {
   final String url;
   @override
   final String? localUrl;
-  @override
-  final String? networkName;
   @override
   @JsonKey()
   final String serverName;
@@ -363,7 +317,7 @@ class _CredentialsModel extends CredentialsModel {
 
   @override
   String toString() {
-    return 'CredentialsModel.internal(token: $token, url: $url, localUrl: $localUrl, networkName: $networkName, serverName: $serverName, serverId: $serverId, deviceId: $deviceId)';
+    return 'CredentialsModel.internal(token: $token, url: $url, localUrl: $localUrl, serverName: $serverName, serverId: $serverId, deviceId: $deviceId)';
   }
 }
 
@@ -379,7 +333,6 @@ abstract mixin class _$CredentialsModelCopyWith<$Res>
       {String token,
       String url,
       String? localUrl,
-      String? networkName,
       String serverName,
       String serverId,
       String deviceId});
@@ -401,7 +354,6 @@ class __$CredentialsModelCopyWithImpl<$Res>
     Object? token = null,
     Object? url = null,
     Object? localUrl = freezed,
-    Object? networkName = freezed,
     Object? serverName = null,
     Object? serverId = null,
     Object? deviceId = null,
@@ -418,10 +370,6 @@ class __$CredentialsModelCopyWithImpl<$Res>
       localUrl: freezed == localUrl
           ? _self.localUrl
           : localUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      networkName: freezed == networkName
-          ? _self.networkName
-          : networkName // ignore: cast_nullable_to_non_nullable
               as String?,
       serverName: null == serverName
           ? _self.serverName

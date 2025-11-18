@@ -19,7 +19,6 @@ abstract class CredentialsModel with _$CredentialsModel {
     @Default("") String token,
     @Default("") String url,
     String? localUrl,
-    String? networkName,
     @Default("") String serverName,
     @Default("") String serverId,
     @Default("") String deviceId,

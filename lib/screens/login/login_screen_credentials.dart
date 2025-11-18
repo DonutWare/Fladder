@@ -81,7 +81,6 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
               Flexible(
                 child: OutlinedTextField(
                   controller: serverTextController,
-                  onChanged: (value) => provider.tryParseUrl(value),
                   onSubmitted: (value) => provider.setServer(value),
                   autoFillHints: const [AutofillHints.url],
                   keyboardType: TextInputType.url,
