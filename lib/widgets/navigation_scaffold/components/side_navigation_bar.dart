@@ -70,12 +70,14 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
     final hasOverlay = AdaptiveLayout.layoutModeOf(context) == LayoutMode.dual ||
         homeRoutes.any((element) => element.name.contains(context.router.current.name));
 
+    final sideBarPadding = isDesktop ? 6.0 : 0.0;
+
     return Stack(
       children: [
         AdaptiveLayout(
           data: AdaptiveLayout.of(context).copyWith(
             // -0.1 offset to fix single visible pixel line
-            sideBarWidth: (fullyExpanded ? expandedWidth : collapsedWidth) + 3,
+            sideBarWidth: (fullyExpanded ? expandedWidth : collapsedWidth) + sideBarPadding,
           ),
           child: widget.child,
         ),
@@ -84,7 +86,7 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
           child: IgnorePointer(
             ignoring: !hasOverlay || fullScreenChildRoute,
             child: Padding(
-              padding: EdgeInsets.all(isDesktop ? 6.0 : 0.0),
+              padding: EdgeInsets.all(sideBarPadding),
               child: AnimatedOpacity(
                 duration: const Duration(milliseconds: 250),
                 opacity: !fullScreenChildRoute ? 1 : 0,

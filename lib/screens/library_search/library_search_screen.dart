@@ -155,7 +155,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
       child: NestedScaffold(
         background: BackgroundImage(images: postersList.map((e) => e.images).nonNulls.toList()),
         body: Padding(
-          padding: EdgeInsets.only(left: AdaptiveLayout.of(context).sideBarWidth + 2),
+          padding: EdgeInsets.only(left: AdaptiveLayout.of(context).sideBarWidth),
           child: Scaffold(
             extendBody: true,
             backgroundColor: Colors.transparent,
