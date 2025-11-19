@@ -54,9 +54,10 @@ class SyncDownloadStatus extends _$SyncDownloadStatus {
       if (childItem.videoFile.existsSync()) {
         fullySyncedChildren++;
       }
-      if (downloadStream.hasDownload) {
+      if (downloadStream.isEnqueuedOrDownloading) {
         downloadCount++;
-        fullProgress += downloadStream.progress;
+        fullProgress += downloadStream.progress.clamp(0.0, 1.0);
+
         mainStream = mainStream.copyWith(
           status: mainStream.status != TaskStatus.running ? downloadStream.status : mainStream.status,
         );

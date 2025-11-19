@@ -34,29 +34,21 @@ fun SubtitlePicker(
     val subTitles by VideoPlayerObject.subtitleTracks.collectAsState(emptyList())
     val internalSubTracks by VideoPlayerObject.exoSubTracks.collectAsState(emptyList())
 
-    if (internalSubTracks.isEmpty()) return
+    if (subTitles.isEmpty()) return
 
-    val focusOffTrack = remember { FocusRequester() }
-
-    val focusRequesters = remember(internalSubTracks) {
-        internalSubTracks.associateWith { FocusRequester() }
+    val focusRequesters = remember(subTitles) {
+        subTitles.associateWith { FocusRequester() }
     }
 
     val listState = rememberLazyListState()
 
-    LaunchedEffect(selectedIndex, subTitles, internalSubTracks) {
-        val serverSubIndex = subTitles.indexOfFirst { it.index == selectedIndex.toLong() }
+    LaunchedEffect(selectedIndex, subTitles) {
+        val selectedSubIndex = subTitles.indexOfFirst { it.index == selectedIndex.toLong() }
 
-        if (serverSubIndex <= 0) {
-            focusOffTrack.requestFocus()
-            return@LaunchedEffect
+        if (selectedSubIndex in subTitles.indices) {
+            listState.scrollToItem(selectedSubIndex)
+            focusRequesters[subTitles[selectedSubIndex]]?.requestFocus()
         }
-
-        val internalIndex = serverSubIndex - 1
-        val lazyColumnIndex = internalIndex + 1
-
-        listState.scrollToItem(lazyColumnIndex)
-        focusRequesters[internalSubTracks[internalIndex]]?.requestFocus()
     }
 
     CustomModalBottomSheet(
@@ -69,42 +61,42 @@ fun SubtitlePicker(
                 .wrapContentWidth()
                 .padding(horizontal = 8.dp, vertical = 16.dp),
         ) {
-            item {
-                val selectedOff = -1 == selectedIndex
-                TrackButton(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .focusRequester(focusOffTrack),
-                    onClick = {
-                        VideoPlayerObject.setSubtitleTrackIndex(-1)
-                        player.clearSubtitleTrack()
-                    },
-                    selected = selectedOff
-                ) {
-                    Translate(Localized::off) {
-                        Text(it)
-                    }
-                }
-            }
-            internalSubTracks.forEachIndexed { index, subtitle ->
-                val serverSub = subTitles.elementAtOrNull(index + 1)
-                val selected = serverSub?.index == selectedIndex.toLong()
+            subTitles.forEachIndexed { index, serverSub ->
+                val isOffTrack = index == 0
+                val selected = serverSub.index == selectedIndex.toLong()
+
                 item {
                     TrackButton(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .focusRequester(focusRequesters[subtitle]!!),
+                            .focusRequester(focusRequesters[serverSub]!!),
                         onClick = {
-                            serverSub?.index?.let {
-                                VideoPlayerObject.setSubtitleTrackIndex(it.toInt())
+                            if (isOffTrack) {
+                                VideoPlayerObject.setSubtitleTrackIndex(-1)
+                                player.clearSubtitleTrack()
+                            } else {
+                                val internalTrackIndex = index - 1
+
+                                val internalSubTrack =
+                                    internalSubTracks.elementAtOrNull(internalTrackIndex)
+
+                                if (internalSubTrack != null) {
+                                    VideoPlayerObject.setSubtitleTrackIndex(serverSub.index.toInt())
+                                    player.setInternalSubtitleTrack(internalSubTrack)
+                                }
                             }
-                            player.setInternalSubtitleTrack(subtitle)
                         },
                         selected = selected,
                     ) {
-                        Text(
-                            text = serverSub?.name ?: "",
-                        )
+                        if (isOffTrack) {
+                            Translate(Localized::off) {
+                                Text(it)
+                            }
+                        } else {
+                            Text(
+                                text = serverSub.name,
+                            )
+                        }
                     }
                 }
             }

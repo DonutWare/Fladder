@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:auto_route/auto_route.dart';
 
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
+import 'package:fladder/util/focus_helper.dart';
 
 class BackIntentDpad extends StatelessWidget {
   final Widget child;
@@ -22,7 +23,7 @@ class BackIntentDpad extends StatelessWidget {
         }
 
         if (event.logicalKey == LogicalKeyboardKey.backspace) {
-          if (_isEditableTextFocused()) {
+          if (isEditableTextFocused()) {
             return KeyEventResult.ignored;
           } else {
             context.maybePop();
@@ -34,16 +35,6 @@ class BackIntentDpad extends StatelessWidget {
       },
       child: child,
     );
-  }
-
-  bool _isEditableTextFocused() {
-    final focus = FocusManager.instance.primaryFocus;
-    if (focus == null) return false;
-    final ctx = focus.context;
-    if (ctx == null) return false;
-
-    if (ctx.widget is EditableText) return true;
-    return ctx.findAncestorWidgetOfExactType<EditableText>() != null;
   }
 }
 

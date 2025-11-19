@@ -49,6 +49,7 @@ body:
       multiple: true
       options:
         - Android
+        - Android TV
         - iOS
         - Linux
         - Windows
@@ -62,5 +63,11 @@ body:
       label: App Version
       description: What version of Fladder are you using?
       placeholder: e.g. v0.7.0 (267)
+  - type: input
+    id: server
+    attributes:
+      label: Jellyfin server
+      description: What is your Jellyfin setup
+      placeholder: e.g. 10.11.2 on docker,windows,macos
     validations:
       required: true

@@ -65,10 +65,9 @@ dependencies:
   path_provider: ^2.1.5
 
   # Media
-  media_kit: ^1.2.1 # Primary package.
-  media_kit_video: ^1.3.1 # For video rendering.
+  media_kit: ^1.2.2 # Primary package.
+  media_kit_video: ^2.0.0 # For video rendering.
   media_kit_libs_video: ^1.0.7 # Native video dependencies.
-
   audio_service: ^0.18.18
   fvp: ^0.35.0
   video_player: ^2.10.0
@@ -114,6 +113,7 @@ dependencies:
   smtc_windows: ^1.1.0
   background_downloader: ^9.2.3
   screen_retriever: ^0.2.0
+  desktop_multi_window: ^0.3.0
 
   # Data
   drift: ^2.28.1
@@ -131,6 +131,7 @@ dependencies:
   archive: ^4.0.7
   dart_mappable: ^4.6.0
   flutter_native_splash: ^2.4.7
+  macos_window_utils: ^1.9.0
 
 dependency_overrides:
   media_kit:

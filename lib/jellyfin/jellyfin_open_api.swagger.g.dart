@@ -409,6 +409,58 @@ Map<String, dynamic> _$AuthenticationResultToJson(
       if (instance.serverId case final value?) 'ServerId': value,
     };
 
+BackupManifestDto _$BackupManifestDtoFromJson(Map<String, dynamic> json) =>
+    BackupManifestDto(
+      serverVersion: json['ServerVersion'] as String?,
+      backupEngineVersion: json['BackupEngineVersion'] as String?,
+      dateCreated: json['DateCreated'] == null
+          ? null
+          : DateTime.parse(json['DateCreated'] as String),
+      path: json['Path'] as String?,
+      options: json['Options'] == null
+          ? null
+          : BackupOptionsDto.fromJson(json['Options'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$BackupManifestDtoToJson(BackupManifestDto instance) =>
+    <String, dynamic>{
+      if (instance.serverVersion case final value?) 'ServerVersion': value,
+      if (instance.backupEngineVersion case final value?)
+        'BackupEngineVersion': value,
+      if (instance.dateCreated?.toIso8601String() case final value?)
+        'DateCreated': value,
+      if (instance.path case final value?) 'Path': value,
+      if (instance.options?.toJson() case final value?) 'Options': value,
+    };
+
+BackupOptionsDto _$BackupOptionsDtoFromJson(Map<String, dynamic> json) =>
+    BackupOptionsDto(
+      metadata: json['Metadata'] as bool?,
+      trickplay: json['Trickplay'] as bool?,
+      subtitles: json['Subtitles'] as bool?,
+      database: json['Database'] as bool?,
+    );
+
+Map<String, dynamic> _$BackupOptionsDtoToJson(BackupOptionsDto instance) =>
+    <String, dynamic>{
+      if (instance.metadata case final value?) 'Metadata': value,
+      if (instance.trickplay case final value?) 'Trickplay': value,
+      if (instance.subtitles case final value?) 'Subtitles': value,
+      if (instance.database case final value?) 'Database': value,
+    };
+
+BackupRestoreRequestDto _$BackupRestoreRequestDtoFromJson(
+        Map<String, dynamic> json) =>
+    BackupRestoreRequestDto(
+      archiveFileName: json['ArchiveFileName'] as String?,
+    );
+
+Map<String, dynamic> _$BackupRestoreRequestDtoToJson(
+        BackupRestoreRequestDto instance) =>
+    <String, dynamic>{
+      if (instance.archiveFileName case final value?) 'ArchiveFileName': value,
+    };
+
 BaseItemDto _$BaseItemDtoFromJson(Map<String, dynamic> json) => BaseItemDto(
       name: json['Name'] as String?,
       originalTitle: json['OriginalTitle'] as String?,
@@ -585,7 +637,8 @@ BaseItemDto _$BaseItemDtoFromJson(Map<String, dynamic> json) => BaseItemDto(
       trickplay: json['Trickplay'] as Map<String, dynamic>?,
       locationType: locationTypeNullableFromJson(json['LocationType']),
       isoType: isoTypeNullableFromJson(json['IsoType']),
-      mediaType: mediaTypeNullableFromJson(json['MediaType']),
+      mediaType:
+          BaseItemDto.mediaTypeMediaTypeNullableFromJson(json['MediaType']),
       endDate: json['EndDate'] == null
           ? null
           : DateTime.parse(json['EndDate'] as String),
@@ -894,7 +947,7 @@ BaseItemPerson _$BaseItemPersonFromJson(Map<String, dynamic> json) =>
       name: json['Name'] as String?,
       id: json['Id'] as String?,
       role: json['Role'] as String?,
-      type: personKindNullableFromJson(json['Type']),
+      type: BaseItemPerson.personKindTypeNullableFromJson(json['Type']),
       primaryImageTag: json['PrimaryImageTag'] as String?,
       imageBlurHashes: json['ImageBlurHashes'] == null
           ? null
@@ -1037,14 +1090,14 @@ Map<String, dynamic> _$BoxSetInfoRemoteSearchQueryToJson(
         'IncludeDisabledProviders': value,
     };
 
-BrandingOptions _$BrandingOptionsFromJson(Map<String, dynamic> json) =>
-    BrandingOptions(
+BrandingOptionsDto _$BrandingOptionsDtoFromJson(Map<String, dynamic> json) =>
+    BrandingOptionsDto(
       loginDisclaimer: json['LoginDisclaimer'] as String?,
       customCss: json['CustomCss'] as String?,
       splashscreenEnabled: json['SplashscreenEnabled'] as bool?,
     );
 
-Map<String, dynamic> _$BrandingOptionsToJson(BrandingOptions instance) =>
+Map<String, dynamic> _$BrandingOptionsDtoToJson(BrandingOptionsDto instance) =>
     <String, dynamic>{
       if (instance.loginDisclaimer case final value?) 'LoginDisclaimer': value,
       if (instance.customCss case final value?) 'CustomCss': value,
@@ -1424,6 +1477,80 @@ Map<String, dynamic> _$CultureDtoToJson(CultureDto instance) =>
         'ThreeLetterISOLanguageName': value,
       if (instance.threeLetterISOLanguageNames case final value?)
         'ThreeLetterISOLanguageNames': value,
+    };
+
+CustomDatabaseOption _$CustomDatabaseOptionFromJson(
+        Map<String, dynamic> json) =>
+    CustomDatabaseOption(
+      key: json['Key'] as String?,
+      $Value: json['Value'] as String?,
+    );
+
+Map<String, dynamic> _$CustomDatabaseOptionToJson(
+        CustomDatabaseOption instance) =>
+    <String, dynamic>{
+      if (instance.key case final value?) 'Key': value,
+      if (instance.$Value case final value?) 'Value': value,
+    };
+
+CustomDatabaseOptions _$CustomDatabaseOptionsFromJson(
+        Map<String, dynamic> json) =>
+    CustomDatabaseOptions(
+      pluginName: json['PluginName'] as String?,
+      pluginAssembly: json['PluginAssembly'] as String?,
+      connectionString: json['ConnectionString'] as String?,
+      options: (json['Options'] as List<dynamic>?)
+              ?.map((e) =>
+                  CustomDatabaseOption.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$CustomDatabaseOptionsToJson(
+        CustomDatabaseOptions instance) =>
+    <String, dynamic>{
+      if (instance.pluginName case final value?) 'PluginName': value,
+      if (instance.pluginAssembly case final value?) 'PluginAssembly': value,
+      if (instance.connectionString case final value?)
+        'ConnectionString': value,
+      if (instance.options?.map((e) => e.toJson()).toList() case final value?)
+        'Options': value,
+    };
+
+CustomQueryData _$CustomQueryDataFromJson(Map<String, dynamic> json) =>
+    CustomQueryData(
+      customQueryString: json['CustomQueryString'] as String?,
+      replaceUserId: json['ReplaceUserId'] as bool?,
+    );
+
+Map<String, dynamic> _$CustomQueryDataToJson(CustomQueryData instance) =>
+    <String, dynamic>{
+      if (instance.customQueryString case final value?)
+        'CustomQueryString': value,
+      if (instance.replaceUserId case final value?) 'ReplaceUserId': value,
+    };
+
+DatabaseConfigurationOptions _$DatabaseConfigurationOptionsFromJson(
+        Map<String, dynamic> json) =>
+    DatabaseConfigurationOptions(
+      databaseType: json['DatabaseType'] as String?,
+      customProviderOptions: json['CustomProviderOptions'] == null
+          ? null
+          : CustomDatabaseOptions.fromJson(
+              json['CustomProviderOptions'] as Map<String, dynamic>),
+      lockingBehavior:
+          databaseLockingBehaviorTypesNullableFromJson(json['LockingBehavior']),
+    );
+
+Map<String, dynamic> _$DatabaseConfigurationOptionsToJson(
+        DatabaseConfigurationOptions instance) =>
+    <String, dynamic>{
+      if (instance.databaseType case final value?) 'DatabaseType': value,
+      if (instance.customProviderOptions?.toJson() case final value?)
+        'CustomProviderOptions': value,
+      if (databaseLockingBehaviorTypesNullableToJson(instance.lockingBehavior)
+          case final value?)
+        'LockingBehavior': value,
     };
 
 DefaultDirectoryBrowserInfoDto _$DefaultDirectoryBrowserInfoDtoFromJson(
@@ -1821,7 +1948,6 @@ ExternalIdInfo _$ExternalIdInfoFromJson(Map<String, dynamic> json) =>
       name: json['Name'] as String?,
       key: json['Key'] as String?,
       type: externalIdMediaTypeNullableFromJson(json['Type']),
-      urlFormatString: json['UrlFormatString'] as String?,
     );
 
 Map<String, dynamic> _$ExternalIdInfoToJson(ExternalIdInfo instance) =>
@@ -1830,7 +1956,6 @@ Map<String, dynamic> _$ExternalIdInfoToJson(ExternalIdInfo instance) =>
       if (instance.key case final value?) 'Key': value,
       if (externalIdMediaTypeNullableToJson(instance.type) case final value?)
         'Type': value,
-      if (instance.urlFormatString case final value?) 'UrlFormatString': value,
     };
 
 ExternalUrl _$ExternalUrlFromJson(Map<String, dynamic> json) => ExternalUrl(
@@ -1858,6 +1983,24 @@ Map<String, dynamic> _$FileSystemEntryInfoToJson(
       if (instance.path case final value?) 'Path': value,
       if (fileSystemEntryTypeNullableToJson(instance.type) case final value?)
         'Type': value,
+    };
+
+FolderStorageDto _$FolderStorageDtoFromJson(Map<String, dynamic> json) =>
+    FolderStorageDto(
+      path: json['Path'] as String?,
+      freeSpace: (json['FreeSpace'] as num?)?.toInt(),
+      usedSpace: (json['UsedSpace'] as num?)?.toInt(),
+      storageType: json['StorageType'] as String?,
+      deviceId: json['DeviceId'] as String?,
+    );
+
+Map<String, dynamic> _$FolderStorageDtoToJson(FolderStorageDto instance) =>
+    <String, dynamic>{
+      if (instance.path case final value?) 'Path': value,
+      if (instance.freeSpace case final value?) 'FreeSpace': value,
+      if (instance.usedSpace case final value?) 'UsedSpace': value,
+      if (instance.storageType case final value?) 'StorageType': value,
+      if (instance.deviceId case final value?) 'DeviceId': value,
     };
 
 FontFile _$FontFileFromJson(Map<String, dynamic> json) => FontFile(
@@ -2089,25 +2232,6 @@ Map<String, dynamic> _$GroupInfoDtoToJson(GroupInfoDto instance) =>
         'LastUpdatedAt': value,
     };
 
-GroupInfoDtoGroupUpdate _$GroupInfoDtoGroupUpdateFromJson(
-        Map<String, dynamic> json) =>
-    GroupInfoDtoGroupUpdate(
-      groupId: json['GroupId'] as String?,
-      type: groupUpdateTypeNullableFromJson(json['Type']),
-      data: json['Data'] == null
-          ? null
-          : GroupInfoDto.fromJson(json['Data'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$GroupInfoDtoGroupUpdateToJson(
-        GroupInfoDtoGroupUpdate instance) =>
-    <String, dynamic>{
-      if (instance.groupId case final value?) 'GroupId': value,
-      if (groupUpdateTypeNullableToJson(instance.type) case final value?)
-        'Type': value,
-      if (instance.data?.toJson() case final value?) 'Data': value,
-    };
-
 GroupStateUpdate _$GroupStateUpdateFromJson(Map<String, dynamic> json) =>
     GroupStateUpdate(
       state: groupStateTypeNullableFromJson(json['State']),
@@ -2122,36 +2246,10 @@ Map<String, dynamic> _$GroupStateUpdateToJson(GroupStateUpdate instance) =>
         'Reason': value,
     };
 
-GroupStateUpdateGroupUpdate _$GroupStateUpdateGroupUpdateFromJson(
-        Map<String, dynamic> json) =>
-    GroupStateUpdateGroupUpdate(
-      groupId: json['GroupId'] as String?,
-      type: groupUpdateTypeNullableFromJson(json['Type']),
-      data: json['Data'] == null
-          ? null
-          : GroupStateUpdate.fromJson(json['Data'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$GroupStateUpdateGroupUpdateToJson(
-        GroupStateUpdateGroupUpdate instance) =>
-    <String, dynamic>{
-      if (instance.groupId case final value?) 'GroupId': value,
-      if (groupUpdateTypeNullableToJson(instance.type) case final value?)
-        'Type': value,
-      if (instance.data?.toJson() case final value?) 'Data': value,
-    };
-
-GroupUpdate _$GroupUpdateFromJson(Map<String, dynamic> json) => GroupUpdate(
-      groupId: json['GroupId'] as String?,
-      type: groupUpdateTypeNullableFromJson(json['Type']),
-    );
+GroupUpdate _$GroupUpdateFromJson(Map<String, dynamic> json) => GroupUpdate();
 
 Map<String, dynamic> _$GroupUpdateToJson(GroupUpdate instance) =>
-    <String, dynamic>{
-      if (instance.groupId case final value?) 'GroupId': value,
-      if (groupUpdateTypeNullableToJson(instance.type) case final value?)
-        'Type': value,
-    };
+    <String, dynamic>{};
 
 GuideInfo _$GuideInfoFromJson(Map<String, dynamic> json) => GuideInfo(
       startDate: json['StartDate'] == null
@@ -2436,8 +2534,8 @@ LibraryOptions _$LibraryOptionsFromJson(Map<String, dynamic> json) =>
                   ?.map((e) => e as String)
                   .toList() ??
               [],
-      mediaSegmentProvideOrder:
-          (json['MediaSegmentProvideOrder'] as List<dynamic>?)
+      mediaSegmentProviderOrder:
+          (json['MediaSegmentProviderOrder'] as List<dynamic>?)
                   ?.map((e) => e as String)
                   .toList() ??
               [],
@@ -2531,8 +2629,8 @@ Map<String, dynamic> _$LibraryOptionsToJson(LibraryOptions instance) =>
         'SubtitleFetcherOrder': value,
       if (instance.disabledMediaSegmentProviders case final value?)
         'DisabledMediaSegmentProviders': value,
-      if (instance.mediaSegmentProvideOrder case final value?)
-        'MediaSegmentProvideOrder': value,
+      if (instance.mediaSegmentProviderOrder case final value?)
+        'MediaSegmentProviderOrder': value,
       if (instance.skipSubtitlesIfEmbeddedSubtitlesPresent case final value?)
         'SkipSubtitlesIfEmbeddedSubtitlesPresent': value,
       if (instance.skipSubtitlesIfAudioTrackMatches case final value?)
@@ -2592,6 +2690,11 @@ LibraryOptionsResultDto _$LibraryOptionsResultDtoFromJson(
                   LibraryOptionInfoDto.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
+      mediaSegmentProviders: (json['MediaSegmentProviders'] as List<dynamic>?)
+              ?.map((e) =>
+                  LibraryOptionInfoDto.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
       typeOptions: (json['TypeOptions'] as List<dynamic>?)
               ?.map((e) =>
                   LibraryTypeOptionsDto.fromJson(e as Map<String, dynamic>))
@@ -2614,9 +2717,30 @@ Map<String, dynamic> _$LibraryOptionsResultDtoToJson(
       if (instance.lyricFetchers?.map((e) => e.toJson()).toList()
           case final value?)
         'LyricFetchers': value,
+      if (instance.mediaSegmentProviders?.map((e) => e.toJson()).toList()
+          case final value?)
+        'MediaSegmentProviders': value,
       if (instance.typeOptions?.map((e) => e.toJson()).toList()
           case final value?)
         'TypeOptions': value,
+    };
+
+LibraryStorageDto _$LibraryStorageDtoFromJson(Map<String, dynamic> json) =>
+    LibraryStorageDto(
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      folders: (json['Folders'] as List<dynamic>?)
+              ?.map((e) => FolderStorageDto.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$LibraryStorageDtoToJson(LibraryStorageDto instance) =>
+    <String, dynamic>{
+      if (instance.id case final value?) 'Id': value,
+      if (instance.name case final value?) 'Name': value,
+      if (instance.folders?.map((e) => e.toJson()).toList() case final value?)
+        'Folders': value,
     };
 
 LibraryTypeOptionsDto _$LibraryTypeOptionsDtoFromJson(
@@ -2928,6 +3052,18 @@ Map<String, dynamic> _$LogFileToJson(LogFile instance) => <String, dynamic>{
       if (instance.name case final value?) 'Name': value,
     };
 
+LoginInfoInput _$LoginInfoInputFromJson(Map<String, dynamic> json) =>
+    LoginInfoInput(
+      username: json['Username'] as String,
+      password: json['Password'] as String,
+    );
+
+Map<String, dynamic> _$LoginInfoInputToJson(LoginInfoInput instance) =>
+    <String, dynamic>{
+      'Username': instance.username,
+      'Password': instance.password,
+    };
+
 LyricDto _$LyricDtoFromJson(Map<String, dynamic> json) => LyricDto(
       metadata: json['Metadata'] == null
           ? null
@@ -2947,11 +3083,32 @@ Map<String, dynamic> _$LyricDtoToJson(LyricDto instance) => <String, dynamic>{
 LyricLine _$LyricLineFromJson(Map<String, dynamic> json) => LyricLine(
       text: json['Text'] as String?,
       start: (json['Start'] as num?)?.toInt(),
+      cues: (json['Cues'] as List<dynamic>?)
+              ?.map((e) => LyricLineCue.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
     );
 
 Map<String, dynamic> _$LyricLineToJson(LyricLine instance) => <String, dynamic>{
       if (instance.text case final value?) 'Text': value,
       if (instance.start case final value?) 'Start': value,
+      if (instance.cues?.map((e) => e.toJson()).toList() case final value?)
+        'Cues': value,
+    };
+
+LyricLineCue _$LyricLineCueFromJson(Map<String, dynamic> json) => LyricLineCue(
+      position: (json['Position'] as num?)?.toInt(),
+      endPosition: (json['EndPosition'] as num?)?.toInt(),
+      start: (json['Start'] as num?)?.toInt(),
+      end: (json['End'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$LyricLineCueToJson(LyricLineCue instance) =>
+    <String, dynamic>{
+      if (instance.position case final value?) 'Position': value,
+      if (instance.endPosition case final value?) 'EndPosition': value,
+      if (instance.start case final value?) 'Start': value,
+      if (instance.end case final value?) 'End': value,
     };
 
 LyricMetadata _$LyricMetadataFromJson(Map<String, dynamic> json) =>
@@ -3033,7 +3190,7 @@ MediaSegmentDto _$MediaSegmentDtoFromJson(Map<String, dynamic> json) =>
     MediaSegmentDto(
       id: json['Id'] as String?,
       itemId: json['ItemId'] as String?,
-      type: mediaSegmentTypeNullableFromJson(json['Type']),
+      type: MediaSegmentDto.mediaSegmentTypeTypeNullableFromJson(json['Type']),
       startTicks: (json['StartTicks'] as num?)?.toInt(),
       endTicks: (json['EndTicks'] as num?)?.toInt(),
     );
@@ -3230,8 +3387,11 @@ MediaStream _$MediaStreamFromJson(Map<String, dynamic> json) => MediaStream(
       timeBase: json['TimeBase'] as String?,
       codecTimeBase: json['CodecTimeBase'] as String?,
       title: json['Title'] as String?,
-      videoRange: videoRangeNullableFromJson(json['VideoRange']),
-      videoRangeType: videoRangeTypeNullableFromJson(json['VideoRangeType']),
+      hdr10PlusPresentFlag: json['Hdr10PlusPresentFlag'] as bool?,
+      videoRange:
+          MediaStream.videoRangeVideoRangeNullableFromJson(json['VideoRange']),
+      videoRangeType: MediaStream.videoRangeTypeVideoRangeTypeNullableFromJson(
+          json['VideoRangeType']),
       videoDoViTitle: json['VideoDoViTitle'] as String?,
       audioSpatialFormat:
           MediaStream.audioSpatialFormatAudioSpatialFormatNullableFromJson(
@@ -3301,6 +3461,8 @@ Map<String, dynamic> _$MediaStreamToJson(MediaStream instance) =>
       if (instance.timeBase case final value?) 'TimeBase': value,
       if (instance.codecTimeBase case final value?) 'CodecTimeBase': value,
       if (instance.title case final value?) 'Title': value,
+      if (instance.hdr10PlusPresentFlag case final value?)
+        'Hdr10PlusPresentFlag': value,
       if (videoRangeNullableToJson(instance.videoRange) case final value?)
         'VideoRange': value,
       if (videoRangeTypeNullableToJson(instance.videoRangeType)
@@ -3902,12 +4064,31 @@ ParentalRating _$ParentalRatingFromJson(Map<String, dynamic> json) =>
     ParentalRating(
       name: json['Name'] as String?,
       $Value: (json['Value'] as num?)?.toInt(),
+      ratingScore: json['RatingScore'] == null
+          ? null
+          : ParentalRatingScore.fromJson(
+              json['RatingScore'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ParentalRatingToJson(ParentalRating instance) =>
     <String, dynamic>{
       if (instance.name case final value?) 'Name': value,
       if (instance.$Value case final value?) 'Value': value,
+      if (instance.ratingScore?.toJson() case final value?)
+        'RatingScore': value,
+    };
+
+ParentalRatingScore _$ParentalRatingScoreFromJson(Map<String, dynamic> json) =>
+    ParentalRatingScore(
+      score: (json['score'] as num?)?.toInt(),
+      subScore: (json['subScore'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$ParentalRatingScoreToJson(
+        ParentalRatingScore instance) =>
+    <String, dynamic>{
+      if (instance.score case final value?) 'score': value,
+      if (instance.subScore case final value?) 'subScore': value,
     };
 
 PathSubstitution _$PathSubstitutionFromJson(Map<String, dynamic> json) =>
@@ -4388,25 +4569,6 @@ Map<String, dynamic> _$PlayQueueUpdateToJson(PlayQueueUpdate instance) =>
         'ShuffleMode': value,
       if (groupRepeatModeNullableToJson(instance.repeatMode) case final value?)
         'RepeatMode': value,
-    };
-
-PlayQueueUpdateGroupUpdate _$PlayQueueUpdateGroupUpdateFromJson(
-        Map<String, dynamic> json) =>
-    PlayQueueUpdateGroupUpdate(
-      groupId: json['GroupId'] as String?,
-      type: groupUpdateTypeNullableFromJson(json['Type']),
-      data: json['Data'] == null
-          ? null
-          : PlayQueueUpdate.fromJson(json['Data'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$PlayQueueUpdateGroupUpdateToJson(
-        PlayQueueUpdateGroupUpdate instance) =>
-    <String, dynamic>{
-      if (instance.groupId case final value?) 'GroupId': value,
-      if (groupUpdateTypeNullableToJson(instance.type) case final value?)
-        'Type': value,
-      if (instance.data?.toJson() case final value?) 'Data': value,
     };
 
 PlayRequest _$PlayRequestFromJson(Map<String, dynamic> json) => PlayRequest(
@@ -5047,6 +5209,22 @@ Map<String, dynamic> _$RemoveFromPlaylistRequestDtoToJson(
         'ClearPlayingItem': value,
     };
 
+ReportPlaybackOptions _$ReportPlaybackOptionsFromJson(
+        Map<String, dynamic> json) =>
+    ReportPlaybackOptions(
+      maxDataAge: (json['MaxDataAge'] as num?)?.toInt(),
+      backupPath: json['BackupPath'] as String?,
+      maxBackupFiles: (json['MaxBackupFiles'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$ReportPlaybackOptionsToJson(
+        ReportPlaybackOptions instance) =>
+    <String, dynamic>{
+      if (instance.maxDataAge case final value?) 'MaxDataAge': value,
+      if (instance.backupPath case final value?) 'BackupPath': value,
+      if (instance.maxBackupFiles case final value?) 'MaxBackupFiles': value,
+    };
+
 RepositoryInfo _$RepositoryInfoFromJson(Map<String, dynamic> json) =>
     RepositoryInfo(
       name: json['Name'] as String?,
@@ -5171,7 +5349,8 @@ SearchHint _$SearchHintFromJson(Map<String, dynamic> json) => SearchHint(
       type: baseItemKindNullableFromJson(json['Type']),
       isFolder: json['IsFolder'] as bool?,
       runTimeTicks: (json['RunTimeTicks'] as num?)?.toInt(),
-      mediaType: mediaTypeNullableFromJson(json['MediaType']),
+      mediaType:
+          SearchHint.mediaTypeMediaTypeNullableFromJson(json['MediaType']),
       startDate: json['StartDate'] == null
           ? null
           : DateTime.parse(json['StartDate'] as String),
@@ -5555,6 +5734,7 @@ ServerConfiguration _$ServerConfigurationFromJson(Map<String, dynamic> json) =>
           (json['InactiveSessionThreshold'] as num?)?.toInt(),
       libraryMonitorDelay: (json['LibraryMonitorDelay'] as num?)?.toInt(),
       libraryUpdateDuration: (json['LibraryUpdateDuration'] as num?)?.toInt(),
+      cacheSize: (json['CacheSize'] as num?)?.toInt(),
       imageSavingConvention:
           imageSavingConventionNullableFromJson(json['ImageSavingConvention']),
       metadataOptions: (json['MetadataOptions'] as List<dynamic>?)
@@ -5573,8 +5753,10 @@ ServerConfiguration _$ServerConfigurationFromJson(Map<String, dynamic> json) =>
       remoteClientBitrateLimit:
           (json['RemoteClientBitrateLimit'] as num?)?.toInt(),
       enableFolderView: json['EnableFolderView'] as bool?,
-      enableGroupingIntoCollections:
-          json['EnableGroupingIntoCollections'] as bool?,
+      enableGroupingMoviesIntoCollections:
+          json['EnableGroupingMoviesIntoCollections'] as bool?,
+      enableGroupingShowsIntoCollections:
+          json['EnableGroupingShowsIntoCollections'] as bool?,
       displaySpecialsWithinSeasons:
           json['DisplaySpecialsWithinSeasons'] as bool?,
       codecsUsed: (json['CodecsUsed'] as List<dynamic>?)
@@ -5606,7 +5788,6 @@ ServerConfiguration _$ServerConfigurationFromJson(Map<String, dynamic> json) =>
           (json['LibraryScanFanoutConcurrency'] as num?)?.toInt(),
       libraryMetadataRefreshConcurrency:
           (json['LibraryMetadataRefreshConcurrency'] as num?)?.toInt(),
-      removeOldPlugins: json['RemoveOldPlugins'] as bool?,
       allowClientLogUpload: json['AllowClientLogUpload'] as bool?,
       dummyChapterDuration: (json['DummyChapterDuration'] as num?)?.toInt(),
       chapterImageResolution:
@@ -5623,6 +5804,7 @@ ServerConfiguration _$ServerConfigurationFromJson(Map<String, dynamic> json) =>
           ? null
           : TrickplayOptions.fromJson(
               json['TrickplayOptions'] as Map<String, dynamic>),
+      enableLegacyAuthorization: json['EnableLegacyAuthorization'] as bool?,
     );
 
 Map<String, dynamic> _$ServerConfigurationToJson(
@@ -5671,6 +5853,7 @@ Map<String, dynamic> _$ServerConfigurationToJson(
         'LibraryMonitorDelay': value,
       if (instance.libraryUpdateDuration case final value?)
         'LibraryUpdateDuration': value,
+      if (instance.cacheSize case final value?) 'CacheSize': value,
       if (imageSavingConventionNullableToJson(instance.imageSavingConvention)
           case final value?)
         'ImageSavingConvention': value,
@@ -5690,8 +5873,10 @@ Map<String, dynamic> _$ServerConfigurationToJson(
         'RemoteClientBitrateLimit': value,
       if (instance.enableFolderView case final value?)
         'EnableFolderView': value,
-      if (instance.enableGroupingIntoCollections case final value?)
-        'EnableGroupingIntoCollections': value,
+      if (instance.enableGroupingMoviesIntoCollections case final value?)
+        'EnableGroupingMoviesIntoCollections': value,
+      if (instance.enableGroupingShowsIntoCollections case final value?)
+        'EnableGroupingShowsIntoCollections': value,
       if (instance.displaySpecialsWithinSeasons case final value?)
         'DisplaySpecialsWithinSeasons': value,
       if (instance.codecsUsed case final value?) 'CodecsUsed': value,
@@ -5716,8 +5901,6 @@ Map<String, dynamic> _$ServerConfigurationToJson(
         'LibraryScanFanoutConcurrency': value,
       if (instance.libraryMetadataRefreshConcurrency case final value?)
         'LibraryMetadataRefreshConcurrency': value,
-      if (instance.removeOldPlugins case final value?)
-        'RemoveOldPlugins': value,
       if (instance.allowClientLogUpload case final value?)
         'AllowClientLogUpload': value,
       if (instance.dummyChapterDuration case final value?)
@@ -5732,6 +5915,8 @@ Map<String, dynamic> _$ServerConfigurationToJson(
         'CastReceiverApplications': value,
       if (instance.trickplayOptions?.toJson() case final value?)
         'TrickplayOptions': value,
+      if (instance.enableLegacyAuthorization case final value?)
+        'EnableLegacyAuthorization': value,
     };
 
 ServerDiscoveryInfo _$ServerDiscoveryInfoFromJson(Map<String, dynamic> json) =>
@@ -6087,6 +6272,7 @@ Map<String, dynamic> _$SpecialViewOptionDtoToJson(
 StartupConfigurationDto _$StartupConfigurationDtoFromJson(
         Map<String, dynamic> json) =>
     StartupConfigurationDto(
+      serverName: json['ServerName'] as String?,
       uICulture: json['UICulture'] as String?,
       metadataCountryCode: json['MetadataCountryCode'] as String?,
       preferredMetadataLanguage: json['PreferredMetadataLanguage'] as String?,
@@ -6095,6 +6281,7 @@ StartupConfigurationDto _$StartupConfigurationDtoFromJson(
 Map<String, dynamic> _$StartupConfigurationDtoToJson(
         StartupConfigurationDto instance) =>
     <String, dynamic>{
+      if (instance.serverName case final value?) 'ServerName': value,
       if (instance.uICulture case final value?) 'UICulture': value,
       if (instance.metadataCountryCode case final value?)
         'MetadataCountryCode': value,
@@ -6126,21 +6313,6 @@ Map<String, dynamic> _$StartupUserDtoToJson(StartupUserDto instance) =>
     <String, dynamic>{
       if (instance.name case final value?) 'Name': value,
       if (instance.password case final value?) 'Password': value,
-    };
-
-StringGroupUpdate _$StringGroupUpdateFromJson(Map<String, dynamic> json) =>
-    StringGroupUpdate(
-      groupId: json['GroupId'] as String?,
-      type: groupUpdateTypeNullableFromJson(json['Type']),
-      data: json['Data'] as String?,
-    );
-
-Map<String, dynamic> _$StringGroupUpdateToJson(StringGroupUpdate instance) =>
-    <String, dynamic>{
-      if (instance.groupId case final value?) 'GroupId': value,
-      if (groupUpdateTypeNullableToJson(instance.type) case final value?)
-        'Type': value,
-      if (instance.data case final value?) 'Data': value,
     };
 
 SubtitleOptions _$SubtitleOptionsFromJson(Map<String, dynamic> json) =>
@@ -6224,25 +6396,138 @@ Map<String, dynamic> _$SyncPlayCommandMessageToJson(
         'MessageType': value,
     };
 
-SyncPlayGroupUpdateCommandMessage _$SyncPlayGroupUpdateCommandMessageFromJson(
+SyncPlayGroupDoesNotExistUpdate _$SyncPlayGroupDoesNotExistUpdateFromJson(
         Map<String, dynamic> json) =>
-    SyncPlayGroupUpdateCommandMessage(
+    SyncPlayGroupDoesNotExistUpdate(
+      groupId: json['GroupId'] as String?,
+      data: json['Data'] as String?,
+      type: SyncPlayGroupDoesNotExistUpdate.groupUpdateTypeTypeNullableFromJson(
+          json['Type']),
+    );
+
+Map<String, dynamic> _$SyncPlayGroupDoesNotExistUpdateToJson(
+        SyncPlayGroupDoesNotExistUpdate instance) =>
+    <String, dynamic>{
+      if (instance.groupId case final value?) 'GroupId': value,
+      if (instance.data case final value?) 'Data': value,
+      if (groupUpdateTypeNullableToJson(instance.type) case final value?)
+        'Type': value,
+    };
+
+SyncPlayGroupJoinedUpdate _$SyncPlayGroupJoinedUpdateFromJson(
+        Map<String, dynamic> json) =>
+    SyncPlayGroupJoinedUpdate(
+      groupId: json['GroupId'] as String?,
+      data: json['Data'] == null
+          ? null
+          : GroupInfoDto.fromJson(json['Data'] as Map<String, dynamic>),
+      type: SyncPlayGroupJoinedUpdate.groupUpdateTypeTypeNullableFromJson(
+          json['Type']),
+    );
+
+Map<String, dynamic> _$SyncPlayGroupJoinedUpdateToJson(
+        SyncPlayGroupJoinedUpdate instance) =>
+    <String, dynamic>{
+      if (instance.groupId case final value?) 'GroupId': value,
+      if (instance.data?.toJson() case final value?) 'Data': value,
+      if (groupUpdateTypeNullableToJson(instance.type) case final value?)
+        'Type': value,
+    };
+
+SyncPlayGroupLeftUpdate _$SyncPlayGroupLeftUpdateFromJson(
+        Map<String, dynamic> json) =>
+    SyncPlayGroupLeftUpdate(
+      groupId: json['GroupId'] as String?,
+      data: json['Data'] as String?,
+      type: SyncPlayGroupLeftUpdate.groupUpdateTypeTypeNullableFromJson(
+          json['Type']),
+    );
+
+Map<String, dynamic> _$SyncPlayGroupLeftUpdateToJson(
+        SyncPlayGroupLeftUpdate instance) =>
+    <String, dynamic>{
+      if (instance.groupId case final value?) 'GroupId': value,
+      if (instance.data case final value?) 'Data': value,
+      if (groupUpdateTypeNullableToJson(instance.type) case final value?)
+        'Type': value,
+    };
+
+SyncPlayGroupUpdateMessage _$SyncPlayGroupUpdateMessageFromJson(
+        Map<String, dynamic> json) =>
+    SyncPlayGroupUpdateMessage(
       data: json['Data'] == null
           ? null
           : GroupUpdate.fromJson(json['Data'] as Map<String, dynamic>),
       messageId: json['MessageId'] as String?,
-      messageType: SyncPlayGroupUpdateCommandMessage
+      messageType: SyncPlayGroupUpdateMessage
           .sessionMessageTypeMessageTypeNullableFromJson(json['MessageType']),
     );
 
-Map<String, dynamic> _$SyncPlayGroupUpdateCommandMessageToJson(
-        SyncPlayGroupUpdateCommandMessage instance) =>
+Map<String, dynamic> _$SyncPlayGroupUpdateMessageToJson(
+        SyncPlayGroupUpdateMessage instance) =>
     <String, dynamic>{
       if (instance.data?.toJson() case final value?) 'Data': value,
       if (instance.messageId case final value?) 'MessageId': value,
       if (sessionMessageTypeNullableToJson(instance.messageType)
           case final value?)
         'MessageType': value,
+    };
+
+SyncPlayLibraryAccessDeniedUpdate _$SyncPlayLibraryAccessDeniedUpdateFromJson(
+        Map<String, dynamic> json) =>
+    SyncPlayLibraryAccessDeniedUpdate(
+      groupId: json['GroupId'] as String?,
+      data: json['Data'] as String?,
+      type:
+          SyncPlayLibraryAccessDeniedUpdate.groupUpdateTypeTypeNullableFromJson(
+              json['Type']),
+    );
+
+Map<String, dynamic> _$SyncPlayLibraryAccessDeniedUpdateToJson(
+        SyncPlayLibraryAccessDeniedUpdate instance) =>
+    <String, dynamic>{
+      if (instance.groupId case final value?) 'GroupId': value,
+      if (instance.data case final value?) 'Data': value,
+      if (groupUpdateTypeNullableToJson(instance.type) case final value?)
+        'Type': value,
+    };
+
+SyncPlayNotInGroupUpdate _$SyncPlayNotInGroupUpdateFromJson(
+        Map<String, dynamic> json) =>
+    SyncPlayNotInGroupUpdate(
+      groupId: json['GroupId'] as String?,
+      data: json['Data'] as String?,
+      type: SyncPlayNotInGroupUpdate.groupUpdateTypeTypeNullableFromJson(
+          json['Type']),
+    );
+
+Map<String, dynamic> _$SyncPlayNotInGroupUpdateToJson(
+        SyncPlayNotInGroupUpdate instance) =>
+    <String, dynamic>{
+      if (instance.groupId case final value?) 'GroupId': value,
+      if (instance.data case final value?) 'Data': value,
+      if (groupUpdateTypeNullableToJson(instance.type) case final value?)
+        'Type': value,
+    };
+
+SyncPlayPlayQueueUpdate _$SyncPlayPlayQueueUpdateFromJson(
+        Map<String, dynamic> json) =>
+    SyncPlayPlayQueueUpdate(
+      groupId: json['GroupId'] as String?,
+      data: json['Data'] == null
+          ? null
+          : PlayQueueUpdate.fromJson(json['Data'] as Map<String, dynamic>),
+      type: SyncPlayPlayQueueUpdate.groupUpdateTypeTypeNullableFromJson(
+          json['Type']),
+    );
+
+Map<String, dynamic> _$SyncPlayPlayQueueUpdateToJson(
+        SyncPlayPlayQueueUpdate instance) =>
+    <String, dynamic>{
+      if (instance.groupId case final value?) 'GroupId': value,
+      if (instance.data?.toJson() case final value?) 'Data': value,
+      if (groupUpdateTypeNullableToJson(instance.type) case final value?)
+        'Type': value,
     };
 
 SyncPlayQueueItem _$SyncPlayQueueItemFromJson(Map<String, dynamic> json) =>
@@ -6255,6 +6540,61 @@ Map<String, dynamic> _$SyncPlayQueueItemToJson(SyncPlayQueueItem instance) =>
     <String, dynamic>{
       if (instance.itemId case final value?) 'ItemId': value,
       if (instance.playlistItemId case final value?) 'PlaylistItemId': value,
+    };
+
+SyncPlayStateUpdate _$SyncPlayStateUpdateFromJson(Map<String, dynamic> json) =>
+    SyncPlayStateUpdate(
+      groupId: json['GroupId'] as String?,
+      data: json['Data'] == null
+          ? null
+          : GroupStateUpdate.fromJson(json['Data'] as Map<String, dynamic>),
+      type:
+          SyncPlayStateUpdate.groupUpdateTypeTypeNullableFromJson(json['Type']),
+    );
+
+Map<String, dynamic> _$SyncPlayStateUpdateToJson(
+        SyncPlayStateUpdate instance) =>
+    <String, dynamic>{
+      if (instance.groupId case final value?) 'GroupId': value,
+      if (instance.data?.toJson() case final value?) 'Data': value,
+      if (groupUpdateTypeNullableToJson(instance.type) case final value?)
+        'Type': value,
+    };
+
+SyncPlayUserJoinedUpdate _$SyncPlayUserJoinedUpdateFromJson(
+        Map<String, dynamic> json) =>
+    SyncPlayUserJoinedUpdate(
+      groupId: json['GroupId'] as String?,
+      data: json['Data'] as String?,
+      type: SyncPlayUserJoinedUpdate.groupUpdateTypeTypeNullableFromJson(
+          json['Type']),
+    );
+
+Map<String, dynamic> _$SyncPlayUserJoinedUpdateToJson(
+        SyncPlayUserJoinedUpdate instance) =>
+    <String, dynamic>{
+      if (instance.groupId case final value?) 'GroupId': value,
+      if (instance.data case final value?) 'Data': value,
+      if (groupUpdateTypeNullableToJson(instance.type) case final value?)
+        'Type': value,
+    };
+
+SyncPlayUserLeftUpdate _$SyncPlayUserLeftUpdateFromJson(
+        Map<String, dynamic> json) =>
+    SyncPlayUserLeftUpdate(
+      groupId: json['GroupId'] as String?,
+      data: json['Data'] as String?,
+      type: SyncPlayUserLeftUpdate.groupUpdateTypeTypeNullableFromJson(
+          json['Type']),
+    );
+
+Map<String, dynamic> _$SyncPlayUserLeftUpdateToJson(
+        SyncPlayUserLeftUpdate instance) =>
+    <String, dynamic>{
+      if (instance.groupId case final value?) 'GroupId': value,
+      if (instance.data case final value?) 'Data': value,
+      if (groupUpdateTypeNullableToJson(instance.type) case final value?)
+        'Type': value,
     };
 
 SystemInfo _$SystemInfoFromJson(Map<String, dynamic> json) => SystemInfo(
@@ -6340,6 +6680,61 @@ Map<String, dynamic> _$SystemInfoToJson(SystemInfo instance) =>
         'SystemArchitecture': value,
     };
 
+SystemStorageDto _$SystemStorageDtoFromJson(Map<String, dynamic> json) =>
+    SystemStorageDto(
+      programDataFolder: json['ProgramDataFolder'] == null
+          ? null
+          : FolderStorageDto.fromJson(
+              json['ProgramDataFolder'] as Map<String, dynamic>),
+      webFolder: json['WebFolder'] == null
+          ? null
+          : FolderStorageDto.fromJson(
+              json['WebFolder'] as Map<String, dynamic>),
+      imageCacheFolder: json['ImageCacheFolder'] == null
+          ? null
+          : FolderStorageDto.fromJson(
+              json['ImageCacheFolder'] as Map<String, dynamic>),
+      cacheFolder: json['CacheFolder'] == null
+          ? null
+          : FolderStorageDto.fromJson(
+              json['CacheFolder'] as Map<String, dynamic>),
+      logFolder: json['LogFolder'] == null
+          ? null
+          : FolderStorageDto.fromJson(
+              json['LogFolder'] as Map<String, dynamic>),
+      internalMetadataFolder: json['InternalMetadataFolder'] == null
+          ? null
+          : FolderStorageDto.fromJson(
+              json['InternalMetadataFolder'] as Map<String, dynamic>),
+      transcodingTempFolder: json['TranscodingTempFolder'] == null
+          ? null
+          : FolderStorageDto.fromJson(
+              json['TranscodingTempFolder'] as Map<String, dynamic>),
+      libraries: (json['Libraries'] as List<dynamic>?)
+              ?.map(
+                  (e) => LibraryStorageDto.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$SystemStorageDtoToJson(SystemStorageDto instance) =>
+    <String, dynamic>{
+      if (instance.programDataFolder?.toJson() case final value?)
+        'ProgramDataFolder': value,
+      if (instance.webFolder?.toJson() case final value?) 'WebFolder': value,
+      if (instance.imageCacheFolder?.toJson() case final value?)
+        'ImageCacheFolder': value,
+      if (instance.cacheFolder?.toJson() case final value?)
+        'CacheFolder': value,
+      if (instance.logFolder?.toJson() case final value?) 'LogFolder': value,
+      if (instance.internalMetadataFolder?.toJson() case final value?)
+        'InternalMetadataFolder': value,
+      if (instance.transcodingTempFolder?.toJson() case final value?)
+        'TranscodingTempFolder': value,
+      if (instance.libraries?.map((e) => e.toJson()).toList() case final value?)
+        'Libraries': value,
+    };
+
 TaskInfo _$TaskInfoFromJson(Map<String, dynamic> json) => TaskInfo(
       name: json['Name'] as String?,
       state: taskStateNullableFromJson(json['State']),
@@ -6410,7 +6805,7 @@ Map<String, dynamic> _$TaskResultToJson(TaskResult instance) =>
 
 TaskTriggerInfo _$TaskTriggerInfoFromJson(Map<String, dynamic> json) =>
     TaskTriggerInfo(
-      type: json['Type'] as String?,
+      type: taskTriggerInfoTypeNullableFromJson(json['Type']),
       timeOfDayTicks: (json['TimeOfDayTicks'] as num?)?.toInt(),
       intervalTicks: (json['IntervalTicks'] as num?)?.toInt(),
       dayOfWeek: dayOfWeekNullableFromJson(json['DayOfWeek']),
@@ -6419,7 +6814,8 @@ TaskTriggerInfo _$TaskTriggerInfoFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$TaskTriggerInfoToJson(TaskTriggerInfo instance) =>
     <String, dynamic>{
-      if (instance.type case final value?) 'Type': value,
+      if (taskTriggerInfoTypeNullableToJson(instance.type) case final value?)
+        'Type': value,
       if (instance.timeOfDayTicks case final value?) 'TimeOfDayTicks': value,
       if (instance.intervalTicks case final value?) 'IntervalTicks': value,
       if (dayOfWeekNullableToJson(instance.dayOfWeek) case final value?)
@@ -6772,8 +7168,8 @@ Map<String, dynamic> _$TranscodingProfileToJson(TranscodingProfile instance) =>
         'EnableAudioVbrEncoding': value,
     };
 
-TrickplayInfo _$TrickplayInfoFromJson(Map<String, dynamic> json) =>
-    TrickplayInfo(
+TrickplayInfoDto _$TrickplayInfoDtoFromJson(Map<String, dynamic> json) =>
+    TrickplayInfoDto(
       width: (json['Width'] as num?)?.toInt(),
       height: (json['Height'] as num?)?.toInt(),
       tileWidth: (json['TileWidth'] as num?)?.toInt(),
@@ -6783,7 +7179,7 @@ TrickplayInfo _$TrickplayInfoFromJson(Map<String, dynamic> json) =>
       bandwidth: (json['Bandwidth'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$TrickplayInfoToJson(TrickplayInfo instance) =>
+Map<String, dynamic> _$TrickplayInfoDtoToJson(TrickplayInfoDto instance) =>
     <String, dynamic>{
       if (instance.width case final value?) 'Width': value,
       if (instance.height case final value?) 'Height': value,
@@ -6877,6 +7273,7 @@ TunerHostInfo _$TunerHostInfoFromJson(Map<String, dynamic> json) =>
       tunerCount: (json['TunerCount'] as num?)?.toInt(),
       userAgent: json['UserAgent'] as String?,
       ignoreDts: json['IgnoreDts'] as bool?,
+      readAtNativeFramerate: json['ReadAtNativeFramerate'] as bool?,
     );
 
 Map<String, dynamic> _$TunerHostInfoToJson(TunerHostInfo instance) =>
@@ -6902,6 +7299,8 @@ Map<String, dynamic> _$TunerHostInfoToJson(TunerHostInfo instance) =>
       if (instance.tunerCount case final value?) 'TunerCount': value,
       if (instance.userAgent case final value?) 'UserAgent': value,
       if (instance.ignoreDts case final value?) 'IgnoreDts': value,
+      if (instance.readAtNativeFramerate case final value?)
+        'ReadAtNativeFramerate': value,
     };
 
 TypeOptions _$TypeOptionsFromJson(Map<String, dynamic> json) => TypeOptions(
@@ -7300,6 +7699,7 @@ UserPolicy _$UserPolicyFromJson(Map<String, dynamic> json) => UserPolicy(
       enableLyricManagement: json['EnableLyricManagement'] as bool? ?? false,
       isDisabled: json['IsDisabled'] as bool?,
       maxParentalRating: (json['MaxParentalRating'] as num?)?.toInt(),
+      maxParentalSubRating: (json['MaxParentalSubRating'] as num?)?.toInt(),
       blockedTags: (json['BlockedTags'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
@@ -7388,6 +7788,8 @@ Map<String, dynamic> _$UserPolicyToJson(UserPolicy instance) =>
       if (instance.isDisabled case final value?) 'IsDisabled': value,
       if (instance.maxParentalRating case final value?)
         'MaxParentalRating': value,
+      if (instance.maxParentalSubRating case final value?)
+        'MaxParentalSubRating': value,
       if (instance.blockedTags case final value?) 'BlockedTags': value,
       if (instance.allowedTags case final value?) 'AllowedTags': value,
       if (instance.enableUserPreferenceAccess case final value?)
@@ -7567,18 +7969,6 @@ Map<String, dynamic> _$VirtualFolderInfoToJson(VirtualFolderInfo instance) =>
         'PrimaryImageItemId': value,
       if (instance.refreshProgress case final value?) 'RefreshProgress': value,
       if (instance.refreshStatus case final value?) 'RefreshStatus': value,
-    };
-
-WakeOnLanInfo _$WakeOnLanInfoFromJson(Map<String, dynamic> json) =>
-    WakeOnLanInfo(
-      macAddress: json['MacAddress'] as String?,
-      port: (json['Port'] as num?)?.toInt(),
-    );
-
-Map<String, dynamic> _$WakeOnLanInfoToJson(WakeOnLanInfo instance) =>
-    <String, dynamic>{
-      if (instance.macAddress case final value?) 'MacAddress': value,
-      if (instance.port case final value?) 'Port': value,
     };
 
 WebSocketMessage _$WebSocketMessageFromJson(Map<String, dynamic> json) =>

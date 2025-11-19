@@ -42,7 +42,7 @@ List<Widget> buildClientSettingsDownload(BuildContext context, WidgetRef ref, Fu
                               String? selectedDirectory = await FilePicker.platform.getDirectoryPath(
                                   dialogTitle: context.localized.pathEditSelect, initialDirectory: currentFolder);
                               if (selectedDirectory != null) {
-                                ref.read(clientSettingsProvider.notifier).setSyncPath(selectedDirectory);
+                                await ref.read(clientSettingsProvider.notifier).setSyncPath(selectedDirectory);
                               }
                               Navigator.of(context).pop();
                             },

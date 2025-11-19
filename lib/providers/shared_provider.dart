@@ -46,7 +46,7 @@ class SharedUtility {
 
   Future<bool?> loadSettings() async {
     try {
-      ref.read(clientSettingsProvider.notifier).state = clientSettings;
+      ref.read(clientSettingsProvider.notifier).initialize(clientSettings);
       ref.read(homeSettingsProvider.notifier).state = homeSettings;
       ref.read(videoPlayerSettingsProvider.notifier).state = videoPlayerSettings;
       ref.read(subtitleSettingsProvider.notifier).state = subtitleSettings;

@@ -20,6 +20,7 @@ mixin _$AccountModel implements DiagnosticableTreeMixin {
   DateTime get lastUsed;
   Authentication get authMethod;
   String get localPin;
+  @CredentialsConverter()
   CredentialsModel get credentials;
   List<String> get latestItemsExcludes;
   List<String> get searchQueryHistory;
@@ -84,7 +85,7 @@ abstract mixin class $AccountModelCopyWith<$Res> {
       DateTime lastUsed,
       Authentication authMethod,
       String localPin,
-      CredentialsModel credentials,
+      @CredentialsConverter() CredentialsModel credentials,
       List<String> latestItemsExcludes,
       List<String> searchQueryHistory,
       bool quickConnectState,
@@ -96,6 +97,7 @@ abstract mixin class $AccountModelCopyWith<$Res> {
       UserConfiguration? userConfiguration,
       UserSettings? userSettings});
 
+  $CredentialsModelCopyWith<$Res> get credentials;
   $UserSettingsCopyWith<$Res>? get userSettings;
 }
 
@@ -189,6 +191,16 @@ class _$AccountModelCopyWithImpl<$Res> implements $AccountModelCopyWith<$Res> {
           : userSettings // ignore: cast_nullable_to_non_nullable
               as UserSettings?,
     ));
+  }
+
+  /// Create a copy of AccountModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $CredentialsModelCopyWith<$Res> get credentials {
+    return $CredentialsModelCopyWith<$Res>(_self.credentials, (value) {
+      return _then(_self.copyWith(credentials: value));
+    });
   }
 
   /// Create a copy of AccountModel
@@ -306,7 +318,7 @@ extension AccountModelPatterns on AccountModel {
             DateTime lastUsed,
             Authentication authMethod,
             String localPin,
-            CredentialsModel credentials,
+            @CredentialsConverter() CredentialsModel credentials,
             List<String> latestItemsExcludes,
             List<String> searchQueryHistory,
             bool quickConnectState,
@@ -367,7 +379,7 @@ extension AccountModelPatterns on AccountModel {
             DateTime lastUsed,
             Authentication authMethod,
             String localPin,
-            CredentialsModel credentials,
+            @CredentialsConverter() CredentialsModel credentials,
             List<String> latestItemsExcludes,
             List<String> searchQueryHistory,
             bool quickConnectState,
@@ -426,7 +438,7 @@ extension AccountModelPatterns on AccountModel {
             DateTime lastUsed,
             Authentication authMethod,
             String localPin,
-            CredentialsModel credentials,
+            @CredentialsConverter() CredentialsModel credentials,
             List<String> latestItemsExcludes,
             List<String> searchQueryHistory,
             bool quickConnectState,
@@ -475,7 +487,7 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
       required this.lastUsed,
       this.authMethod = Authentication.autoLogin,
       this.localPin = "",
-      required this.credentials,
+      @CredentialsConverter() required this.credentials,
       final List<String> latestItemsExcludes = const [],
       final List<String> searchQueryHistory = const [],
       this.quickConnectState = false,
@@ -508,6 +520,7 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
   @JsonKey()
   final String localPin;
   @override
+  @CredentialsConverter()
   final CredentialsModel credentials;
   final List<String> _latestItemsExcludes;
   @override
@@ -610,7 +623,7 @@ abstract mixin class _$AccountModelCopyWith<$Res>
       DateTime lastUsed,
       Authentication authMethod,
       String localPin,
-      CredentialsModel credentials,
+      @CredentialsConverter() CredentialsModel credentials,
       List<String> latestItemsExcludes,
       List<String> searchQueryHistory,
       bool quickConnectState,
@@ -622,6 +635,8 @@ abstract mixin class _$AccountModelCopyWith<$Res>
       UserConfiguration? userConfiguration,
       UserSettings? userSettings});
 
+  @override
+  $CredentialsModelCopyWith<$Res> get credentials;
   @override
   $UserSettingsCopyWith<$Res>? get userSettings;
 }
@@ -717,6 +732,16 @@ class __$AccountModelCopyWithImpl<$Res>
           : userSettings // ignore: cast_nullable_to_non_nullable
               as UserSettings?,
     ));
+  }
+
+  /// Create a copy of AccountModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $CredentialsModelCopyWith<$Res> get credentials {
+    return $CredentialsModelCopyWith<$Res>(_self.credentials, (value) {
+      return _then(_self.copyWith(credentials: value));
+    });
   }
 
   /// Create a copy of AccountModel

@@ -12,9 +12,8 @@ class DestinationModel {
   final PageRouteInfo? route;
   final Function()? action;
   final String? tooltip;
-  final Badge? badge;
+  final Widget? badge;
   final AdaptiveFab? floatingActionButton;
-  // final FloatingActionButton? floatingActionButton;
 
   DestinationModel({
     required this.label,
@@ -25,21 +24,10 @@ class DestinationModel {
     this.tooltip,
     this.badge,
     this.floatingActionButton,
-  }) : assert(
-          badge == null || icon == null,
-          'Only one of icon or badge should be provided, not both.',
-        );
+  });
 
   /// Converts this [DestinationModel] to a [NavigationRailDestination] used in a [NavigationRail].
   NavigationRailDestination toNavigationRailDestination({EdgeInsets? padding}) {
-    if (badge != null) {
-      return NavigationRailDestination(
-        icon: badge!,
-        label: Text(label),
-        selectedIcon: badge!,
-        padding: padding,
-      );
-    }
     return NavigationRailDestination(
       icon: icon!,
       label: Text(label),
@@ -50,13 +38,6 @@ class DestinationModel {
 
   /// Converts this [DestinationModel] to a [NavigationDrawerDestination] used in a [NavigationDrawer].
   NavigationDrawerDestination toNavigationDrawerDestination() {
-    if (badge != null) {
-      return NavigationDrawerDestination(
-        icon: badge!,
-        label: Text(label),
-        selectedIcon: badge!,
-      );
-    }
     return NavigationDrawerDestination(
       icon: icon!,
       label: Text(label),
@@ -66,13 +47,6 @@ class DestinationModel {
 
   /// Converts this [DestinationModel] to a [NavigationDestination] used in a [BottomNavigationBar].
   NavigationDestination toNavigationDestination() {
-    if (badge != null) {
-      return NavigationDestination(
-        icon: badge!,
-        label: label,
-        selectedIcon: badge!,
-      );
-    }
     return NavigationDestination(
       icon: icon!,
       label: label,
@@ -87,6 +61,7 @@ class DestinationModel {
       label: label,
       selected: selected,
       navFocusNode: navFocusNode,
+      badge: badge,
       onPressed: action,
       horizontal: horizontal,
       expanded: expanded,

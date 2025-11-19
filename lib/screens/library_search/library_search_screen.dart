@@ -133,6 +133,8 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
 
     final floatingAppBar = AdaptiveLayout.layoutModeOf(context) != LayoutMode.single;
 
+    final toolbarHeight = 55.0;
+
     ref.listen(
       providerKey,
       (previous, next) {
@@ -153,7 +155,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
       child: NestedScaffold(
         background: BackgroundImage(images: postersList.map((e) => e.images).nonNulls.toList()),
         body: Padding(
-          padding: EdgeInsets.only(left: AdaptiveLayout.of(context).sideBarWidth),
+          padding: EdgeInsets.only(left: AdaptiveLayout.of(context).sideBarWidth + 2),
           child: Scaffold(
             extendBody: true,
             backgroundColor: Colors.transparent,
@@ -251,19 +253,21 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                         shadowColor: Colors.transparent,
                         backgroundColor: Colors.transparent,
                         titleSpacing: 4,
-                        flexibleSpace: Container(
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                            colors: [
-                              surfaceColor.withValues(alpha: 0.8),
-                              surfaceColor.withValues(alpha: 0.75),
-                              surfaceColor.withValues(alpha: 0.5),
-                              surfaceColor.withValues(alpha: 0),
-                            ],
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                          )),
-                        ),
+                        flexibleSpace: AdaptiveLayout.layoutModeOf(context) != LayoutMode.dual
+                            ? Container(
+                                decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                  colors: [
+                                    surfaceColor.withValues(alpha: 0.8),
+                                    surfaceColor.withValues(alpha: 0.75),
+                                    surfaceColor.withValues(alpha: 0.5),
+                                    surfaceColor.withValues(alpha: 0),
+                                  ],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                )),
+                              )
+                            : null,
                         actions: [
                           Builder(builder: (context) {
                             final isFavorite = librarySearchResults.nestedCurrentItem?.userData.isFavourite == true;
@@ -303,6 +307,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                                 action: () {
                                   showAdaptiveDialog(
                                     context: context,
+                                    barrierDismissible: true,
                                     builder: (context) => AlertDialog(
                                       content: Consumer(
                                         builder: (context, ref, child) {
@@ -352,38 +357,41 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                                     ),
                                   );
                                 });
-                            return Card(
-                              elevation: 0,
-                              child: Tooltip(
-                                message: librarySearchResults.nestedCurrentItem?.type.label(context) ??
-                                    context.localized.library(1),
-                                child: IconButton(
-                                  onPressed: () async {
-                                    await showBottomSheetPill(
-                                      context: context,
-                                      content: (context, scrollController) => ListView(
-                                        shrinkWrap: true,
-                                        controller: scrollController,
-                                        children: [
-                                          itemCountWidget.toListItem(context, useIcons: true),
-                                          refreshAction.toListItem(context, useIcons: true),
-                                          itemViewAction.toListItem(context, useIcons: true),
-                                          if (librarySearchResults.views.hasEnabled == true)
-                                            showSavedFiltersDialogue.toListItem(context, useIcons: true),
-                                          if (itemActions.isNotEmpty) ItemActionDivider().toListItem(context),
-                                          ...itemActions.listTileItems(context, useIcons: true),
-                                        ],
+                            return SizedBox.square(
+                              dimension: toolbarHeight,
+                              child: Card(
+                                elevation: 0,
+                                child: Tooltip(
+                                  message: librarySearchResults.nestedCurrentItem?.type.label(context) ??
+                                      context.localized.library(1),
+                                  child: IconButton(
+                                    onPressed: () async {
+                                      await showBottomSheetPill(
+                                        context: context,
+                                        content: (context, scrollController) => ListView(
+                                          shrinkWrap: true,
+                                          controller: scrollController,
+                                          children: [
+                                            itemCountWidget.toListItem(context, useIcons: true),
+                                            refreshAction.toListItem(context, useIcons: true),
+                                            itemViewAction.toListItem(context, useIcons: true),
+                                            if (librarySearchResults.views.hasEnabled == true)
+                                              showSavedFiltersDialogue.toListItem(context, useIcons: true),
+                                            if (itemActions.isNotEmpty) ItemActionDivider().toListItem(context),
+                                            ...itemActions.listTileItems(context, useIcons: true),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                    icon: Padding(
+                                      padding: const EdgeInsets.all(6),
+                                      child: Icon(
+                                        isFavorite
+                                            ? librarySearchResults.nestedCurrentItem?.type.selectedicon
+                                            : librarySearchResults.nestedCurrentItem?.type.icon ??
+                                                IconsaxPlusLinear.document,
+                                        color: isFavorite ? Theme.of(context).colorScheme.primary : null,
                                       ),
-                                    );
-                                  },
-                                  icon: Padding(
-                                    padding: const EdgeInsets.all(6),
-                                    child: Icon(
-                                      isFavorite
-                                          ? librarySearchResults.nestedCurrentItem?.type.selectedicon
-                                          : librarySearchResults.nestedCurrentItem?.type.icon ??
-                                              IconsaxPlusLinear.document,
-                                      color: isFavorite ? Theme.of(context).colorScheme.primary : null,
                                     ),
                                   ),
                                 ),
@@ -392,45 +400,49 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                           }),
                           if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.single) ...[
                             const SizedBox(width: 6),
-                            const SizedBox.square(dimension: 46, child: SettingsUserIcon()),
+                            SizedBox.square(dimension: toolbarHeight - 3.0, child: const SettingsUserIcon()),
                           ],
                           const SizedBox(width: 12)
                         ],
-                        title: Row(
-                          spacing: 2,
-                          children: [
-                            const SizedBox(width: 2),
-                            if (AdaptiveLayout.inputDeviceOf(context) != InputDevice.dPad)
-                              Center(
-                                child: SizedBox.square(
-                                  dimension: 47,
-                                  child: Card(
-                                    child: context.router.backButton(),
+                        title: SizedBox(
+                          height: toolbarHeight,
+                          child: Row(
+                            spacing: 2,
+                            children: [
+                              const SizedBox(width: 2),
+                              if (AdaptiveLayout.inputDeviceOf(context) != InputDevice.dPad)
+                                Center(
+                                  child: SizedBox.square(
+                                    dimension: toolbarHeight,
+                                    child: Card(
+                                      elevation: 0,
+                                      child: context.router.backButton(),
+                                    ),
+                                  ),
+                                ),
+                              Flexible(
+                                child: Hero(
+                                  tag: "PrimarySearch",
+                                  child: SuggestionSearchBar(
+                                    autoFocus: isEmptySearchScreen,
+                                    key: uniqueKey,
+                                    title: librarySearchResults.searchBarTitle(context),
+                                    debounceDuration: const Duration(seconds: 1),
+                                    onItem: (value) async {
+                                      await value.navigateTo(context);
+                                      refreshKey.currentState?.show();
+                                    },
+                                    onSubmited: (value) async {
+                                      if (librarySearchResults.searchQuery != value) {
+                                        libraryProvider.setSearch(value);
+                                        refreshKey.currentState?.show();
+                                      }
+                                    },
                                   ),
                                 ),
                               ),
-                            Flexible(
-                              child: Hero(
-                                tag: "PrimarySearch",
-                                child: SuggestionSearchBar(
-                                  autoFocus: isEmptySearchScreen,
-                                  key: uniqueKey,
-                                  title: librarySearchResults.searchBarTitle(context),
-                                  debounceDuration: const Duration(seconds: 1),
-                                  onItem: (value) async {
-                                    await value.navigateTo(context);
-                                    refreshKey.currentState?.show();
-                                  },
-                                  onSubmited: (value) async {
-                                    if (librarySearchResults.searchQuery != value) {
-                                      libraryProvider.setSearch(value);
-                                      refreshKey.currentState?.show();
-                                    }
-                                  },
-                                ),
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         bottom: PreferredSize(
                           preferredSize: Size(0, AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad ? 105 : 50),

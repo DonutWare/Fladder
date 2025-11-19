@@ -58,6 +58,7 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
   void setMediaTunneling(bool? value) => state = state.copyWith(enableTunneling: value ?? false);
   void setBufferSize(int? value) => state = state.copyWith(bufferSize: value ?? 32);
   void setFitType(BoxFit? value) => state = state.copyWith(videoFit: value ?? BoxFit.contain);
+  void setScreensaver(Screensaver? value) => state = state.copyWith(screensaver: value ?? Screensaver.black);
 
   void setVolume(double value) {
     state = state.copyWith(internalVolume: value);

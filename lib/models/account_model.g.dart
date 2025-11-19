@@ -16,7 +16,7 @@ _AccountModel _$AccountModelFromJson(Map<String, dynamic> json) =>
           $enumDecodeNullable(_$AuthenticationEnumMap, json['authMethod']) ??
               Authentication.autoLogin,
       localPin: json['localPin'] as String? ?? "",
-      credentials: CredentialsModel.fromJson(json['credentials'] as String),
+      credentials: const CredentialsConverter().fromJson(json['credentials']),
       latestItemsExcludes: (json['latestItemsExcludes'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
@@ -44,7 +44,7 @@ Map<String, dynamic> _$AccountModelToJson(_AccountModel instance) =>
       'lastUsed': instance.lastUsed.toIso8601String(),
       'authMethod': _$AuthenticationEnumMap[instance.authMethod]!,
       'localPin': instance.localPin,
-      'credentials': instance.credentials,
+      'credentials': const CredentialsConverter().toJson(instance.credentials),
       'latestItemsExcludes': instance.latestItemsExcludes,
       'searchQueryHistory': instance.searchQueryHistory,
       'quickConnectState': instance.quickConnectState,
