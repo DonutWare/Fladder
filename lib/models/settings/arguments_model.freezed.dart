@@ -16,10 +16,11 @@ T _$identity<T>(T value) => value;
 mixin _$ArgumentsModel {
   bool get htpcMode;
   bool get leanBackMode;
+  bool get newWindow;
 
   @override
   String toString() {
-    return 'ArgumentsModel(htpcMode: $htpcMode, leanBackMode: $leanBackMode)';
+    return 'ArgumentsModel(htpcMode: $htpcMode, leanBackMode: $leanBackMode, newWindow: $newWindow)';
   }
 }
 
@@ -116,13 +117,14 @@ extension ArgumentsModelPatterns on ArgumentsModel {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(bool htpcMode, bool leanBackMode)? $default, {
+    TResult Function(bool htpcMode, bool leanBackMode, bool newWindow)?
+        $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _ArgumentsModel() when $default != null:
-        return $default(_that.htpcMode, _that.leanBackMode);
+        return $default(_that.htpcMode, _that.leanBackMode, _that.newWindow);
       case _:
         return orElse();
     }
@@ -143,12 +145,12 @@ extension ArgumentsModelPatterns on ArgumentsModel {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(bool htpcMode, bool leanBackMode) $default,
+    TResult Function(bool htpcMode, bool leanBackMode, bool newWindow) $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ArgumentsModel():
-        return $default(_that.htpcMode, _that.leanBackMode);
+        return $default(_that.htpcMode, _that.leanBackMode, _that.newWindow);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -168,12 +170,13 @@ extension ArgumentsModelPatterns on ArgumentsModel {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(bool htpcMode, bool leanBackMode)? $default,
+    TResult? Function(bool htpcMode, bool leanBackMode, bool newWindow)?
+        $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ArgumentsModel() when $default != null:
-        return $default(_that.htpcMode, _that.leanBackMode);
+        return $default(_that.htpcMode, _that.leanBackMode, _that.newWindow);
       case _:
         return null;
     }
@@ -183,7 +186,10 @@ extension ArgumentsModelPatterns on ArgumentsModel {
 /// @nodoc
 
 class _ArgumentsModel extends ArgumentsModel {
-  _ArgumentsModel({this.htpcMode = false, this.leanBackMode = false})
+  _ArgumentsModel(
+      {this.htpcMode = false,
+      this.leanBackMode = false,
+      this.newWindow = false})
       : super._();
 
   @override
@@ -192,10 +198,13 @@ class _ArgumentsModel extends ArgumentsModel {
   @override
   @JsonKey()
   final bool leanBackMode;
+  @override
+  @JsonKey()
+  final bool newWindow;
 
   @override
   String toString() {
-    return 'ArgumentsModel(htpcMode: $htpcMode, leanBackMode: $leanBackMode)';
+    return 'ArgumentsModel(htpcMode: $htpcMode, leanBackMode: $leanBackMode, newWindow: $newWindow)';
   }
 }
 

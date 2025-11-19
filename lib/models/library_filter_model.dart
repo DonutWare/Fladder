@@ -25,7 +25,6 @@ abstract class LibraryFilterModel with _$LibraryFilterModel {
       ItemFilter.isunplayed: false,
       ItemFilter.isresumable: false,
     })
-    @Default({})
     Map<ItemFilter, bool> itemFilters,
     @StudioEncoder() @Default({}) Map<Studio, bool> studios,
     @Default({}) Map<String, bool> tags,
@@ -97,6 +96,7 @@ abstract class LibraryFilterModel with _$LibraryFilterModel {
         mapEquals(other.years, years) &&
         mapEquals(other.officialRatings, officialRatings) &&
         mapEquals(other.types, types) &&
+        mapEquals(other.itemFilters, itemFilters) &&
         other.sortingOption == sortingOption &&
         other.sortOrder == sortOrder &&
         other.favourites == favourites &&
@@ -113,6 +113,7 @@ abstract class LibraryFilterModel with _$LibraryFilterModel {
         officialRatings.hashCode ^
         types.hashCode ^
         sortingOption.hashCode ^
+        itemFilters.hashCode ^
         sortOrder.hashCode ^
         favourites.hashCode ^
         recursive.hashCode;

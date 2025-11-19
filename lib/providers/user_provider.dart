@@ -133,20 +133,16 @@ class User extends _$User {
     return Response(response.base, UserData.fromDto(response.body));
   }
 
-  void clear() {
-    userState = null;
-  }
-
-  void updateUser(AccountModel? user) {
-    userState = user;
-  }
-
-  void loginUser(AccountModel? user) {
-    state = user;
-  }
-
-  void setAuthMethod(Authentication method) {
-    userState = state?.copyWith(authMethod: method);
+  void clear() => userState = null;
+  void updateUser(AccountModel? user) => userState = user;
+  void loginUser(AccountModel? user) => state = user;
+  void setAuthMethod(Authentication method) => userState = state?.copyWith(authMethod: method);
+  void setLocalURL(String? value) {
+    final user = state;
+    if (user == null) return;
+    state = user.copyWith(
+      credentials: user.credentials.copyWith(localUrl: value?.isEmpty == true ? null : value),
+    );
   }
 
   void addSearchQuery(String value) {
@@ -217,5 +213,5 @@ class User extends _$User {
   void deleteAllFilters() => userState = state?.copyWith(libraryFilters: []);
 
   String? createDownloadUrl(ItemBaseModel item) =>
-      Uri.encodeFull("${state?.server}/Items/${item.id}/Download?api_key=${state?.credentials.token}");
+      Uri.encodeFull("${state?.credentials.url}/Items/${item.id}/Download?api_key=${state?.credentials.token}");
 }

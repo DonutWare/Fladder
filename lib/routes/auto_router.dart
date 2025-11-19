@@ -83,7 +83,7 @@ final List<AutoRoute> _defaultRoutes = [
 final List<AutoRoute> _settingsChildren = [
   AutoRoute(page: SettingsSelectionRoute.page, path: 'list'),
   AutoRoute(page: ClientSettingsRoute.page, path: 'client'),
-  AutoRoute(page: SecuritySettingsRoute.page, path: 'security'),
+  AutoRoute(page: ProfileSettingsRoute.page, path: 'security'),
   AutoRoute(page: PlayerSettingsRoute.page, path: 'player'),
   AutoRoute(page: AboutSettingsRoute.page, path: 'about'),
 ];

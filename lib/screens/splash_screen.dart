@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/account_model.dart';
+import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
@@ -28,7 +29,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       ref.read(userProvider.notifier).updateUser(lastUsedAccount);
 
       if (context.mounted) {
-        if (lastUsedAccount == null) {
+        if (lastUsedAccount == null || ref.read(argumentsStateProvider).newWindow == true) {
           callBackOrNavigate(false);
         } else {
           switch (lastUsedAccount.authMethod) {

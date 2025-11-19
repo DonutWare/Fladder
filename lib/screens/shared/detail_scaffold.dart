@@ -14,6 +14,7 @@ import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/syncing/sync_button.dart';
 import 'package:fladder/screens/syncing/sync_item_details.dart';
+import 'package:fladder/shaders/fade_edges.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
@@ -162,20 +163,10 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                         Align(
                           alignment: Alignment.topCenter,
                           child: Padding(
-                            padding: EdgeInsets.only(left: sideBarPadding),
-                            child: ShaderMask(
-                              shaderCallback: (bounds) => LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  Colors.white,
-                                  Colors.white,
-                                  Colors.white,
-                                  Colors.white,
-                                  Colors.white,
-                                  Colors.white.withValues(alpha: 0),
-                                ],
-                              ).createShader(bounds),
+                            padding: EdgeInsets.only(left: (sideBarPadding - 25).clamp(0, double.infinity)),
+                            child: FadeEdges(
+                              leftFade: AdaptiveLayout.layoutModeOf(context) != LayoutMode.single ? 0.05 : 0.0,
+                              bottomFade: 0.3,
                               child: ConstrainedBox(
                                 constraints: BoxConstraints(
                                   minWidth: double.infinity,

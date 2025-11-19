@@ -26,16 +26,20 @@ import kotlinx.coroutines.delay
 import nl.jknaapen.fladder.objects.PlayerSettingsObject
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.leanBackEnabled
-import kotlin.time.Duration.Companion.seconds
+import kotlin.time.Duration.Companion.minutes
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 internal fun ScreenSaver(
     content: @Composable () -> Unit,
 ) {
-    if (!leanBackEnabled(LocalContext.current)) return
-
     val selectedType by PlayerSettingsObject.screenSaver.collectAsState(Screensaver.LOGO)
+
+    if (!leanBackEnabled(LocalContext.current) || selectedType == Screensaver.DISABLED) {
+        content()
+        return
+    }
+
     val isPlaying by VideoPlayerObject.playing.collectAsState(false)
     val isBuffering by VideoPlayerObject.buffering.collectAsState(true)
 
@@ -55,13 +59,8 @@ internal fun ScreenSaver(
     }
 
     LaunchedEffect(playerInactive, selectedType, lastInteraction.longValue) {
-        if (selectedType == Screensaver.DISABLED) {
-            screenSaverActive = false
-            return@LaunchedEffect
-        }
-
         if (playerInactive) {
-            delay(5.seconds)
+            delay(5.minutes)
             screenSaverActive = true
         } else {
             screenSaverActive = false

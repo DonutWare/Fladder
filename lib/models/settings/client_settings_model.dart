@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:fladder/models/settings/arguments_model.dart';
 import 'package:fladder/models/settings/key_combinations.dart';
+import 'package:fladder/providers/sync_provider.dart';
+import 'package:fladder/src/directory_bookmark.g.dart';
 import 'package:fladder/util/custom_color_themes.dart';
 import 'package:fladder/util/localization_helper.dart';
 
@@ -91,6 +94,14 @@ abstract class ClientSettingsModel with _$ClientSettingsModel {
       backgroundImage: leanBackMode ? BackgroundType.disabled : BackgroundType.blurred,
       themeMode: leanBackMode ? ThemeMode.dark : ThemeMode.system,
     );
+  }
+
+  Future<String?> getSavePath() async {
+    if (kIsWeb && syncPath == null) return null;
+    if (Platform.isMacOS) {
+      return await DirectoryBookmark().resolveDirectory(syncPathKey);
+    }
+    return syncPath;
   }
 
   factory ClientSettingsModel.fromJson(Map<String, dynamic> json) => _$ClientSettingsModelFromJson(json);

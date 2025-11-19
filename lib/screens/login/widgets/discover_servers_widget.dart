@@ -26,10 +26,11 @@ class DiscoverServersWidget extends ConsumerWidget {
     final existingServers = serverCredentials
         .map(
           (credentials) => DiscoveryInfo(
-              id: credentials.serverId,
-              name: credentials.serverName,
-              address: credentials.server,
-              endPointAddress: null),
+            id: credentials.serverId,
+            name: credentials.serverName,
+            address: credentials.url,
+            endPointAddress: null,
+          ),
         )
         .toSet()
         .toList();

@@ -343,7 +343,7 @@ class PlaybackModelHelper {
         }
 
         final params = Uri(queryParameters: directOptions).query;
-        final playbackUrl = joinAll([ref.read(userProvider)!.server, "Videos", mediaSource.id!, "stream?$params"]);
+        final playbackUrl = joinAll([ref.read(serverUrlProvider) ?? "", "Videos", mediaSource.id!, "stream?$params"]);
 
         return DirectPlaybackModel(
           item: item,
@@ -364,7 +364,7 @@ class PlaybackModelHelper {
           chapters: chapters,
           trickPlay: trickPlay,
           playbackInfo: playbackInfo,
-          media: Media(url: "${ref.read(userProvider)?.server ?? ""}${mediaSource.transcodingUrl ?? ""}"),
+          media: Media(url: "${ref.read(serverUrlProvider) ?? ""}${mediaSource.transcodingUrl ?? ""}"),
           mediaStreams: mediaStreamsWithUrls,
           bitRateOptions: qualityOptions,
         );
@@ -480,7 +480,7 @@ class PlaybackModelHelper {
 
       final params = Uri(queryParameters: directOptions).query;
 
-      final directPlay = '${ref.read(userProvider)?.server ?? ""}/Videos/${mediaSource.id}/stream?$params';
+      final directPlay = '${ref.read(serverUrlProvider) ?? ""}/Videos/${mediaSource.id}/stream?$params';
 
       final mediaPath = isValidVideoUrl(mediaSource.path ?? "");
 
@@ -503,7 +503,7 @@ class PlaybackModelHelper {
         chapters: playbackModel.chapters,
         playbackInfo: playbackInfo,
         trickPlay: playbackModel.trickPlay,
-        media: Media(url: "${ref.read(userProvider)?.server ?? ""}${mediaSource.transcodingUrl ?? ""}"),
+        media: Media(url: "${ref.read(serverUrlProvider) ?? ""}${mediaSource.transcodingUrl ?? ""}"),
         mediaStreams: mediaStreamsWithUrls,
         bitRateOptions: playbackModel.bitRateOptions,
       );

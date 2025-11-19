@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:fladder/providers/api_provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -94,7 +95,7 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
 
     player.init(ref.read(videoPlayerSettingsProvider));
 
-    videoUrl = joinAll([ref.read(userProvider)?.server ?? "", "Videos", widget.video.id, "stream?$params"]);
+    videoUrl = joinAll([ref.read(serverUrlProvider) ?? "", "Videos", widget.video.id, "stream?$params"]);
 
     subscriptions.add(player.stateStream.listen((event) {
       setState(() {

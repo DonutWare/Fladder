@@ -11,6 +11,7 @@ import 'package:fladder/models/items/item_stream_model.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
+import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/util/localization_helper.dart';
 
@@ -182,9 +183,9 @@ class VideoStream {
 
       final params = Uri(queryParameters: directOptions).query;
 
-      playbackUrl = '${ref.read(userProvider)?.server ?? ""}/Videos/${mediaSource.id}/stream?$params';
+      playbackUrl = '${ref.read(serverUrlProvider) ?? ""}/Videos/${mediaSource.id}/stream?$params';
     } else if ((mediaSource.supportsTranscoding ?? false) && mediaSource.transcodingUrl != null) {
-      playbackUrl = "${ref.read(userProvider)?.server ?? ""}${mediaSource.transcodingUrl ?? ""}";
+      playbackUrl = "${ref.read(serverUrlProvider) ?? ""}${mediaSource.transcodingUrl ?? ""}";
       playType = PlaybackType.transcode;
     }
 

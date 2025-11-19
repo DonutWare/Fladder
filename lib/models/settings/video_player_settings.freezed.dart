@@ -486,7 +486,7 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
       final Map<MediaSegmentType, SegmentSkip> segmentSkipSettings =
           defaultSegmentSkipValues,
       final Map<VideoHotKeys, KeyCombination> hotKeys = const {},
-      this.screensaver = Screensaver.time})
+      this.screensaver = Screensaver.logo})
       : _allowedOrientations = allowedOrientations,
         _segmentSkipSettings = segmentSkipSettings,
         _hotKeys = hotKeys,

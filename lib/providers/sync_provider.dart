@@ -51,6 +51,8 @@ final activeDownloadTasksProvider = StateProvider<List<DownloadTask>>((ref) {
   return [];
 });
 
+const syncPathKey = "syncPathKey";
+
 class SyncNotifier extends StateNotifier<SyncSettingsModel> {
   SyncNotifier(this.ref, this.mobileDirectory) : super(SyncSettingsModel()) {
     _init();
@@ -504,7 +506,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
 
     if (user == null) return null;
 
-    final downloadUrl = path.joinAll([user.server, "Items", syncItem.id, "Download"]);
+    final downloadUrl = path.joinAll([ref.read(serverUrlProvider) ?? "", "Items", syncItem.id, "Download"]);
 
     try {
       if (currentTask.task != null) {

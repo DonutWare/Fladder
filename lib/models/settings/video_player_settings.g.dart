@@ -46,7 +46,7 @@ _VideoPlayerSettingsModel _$VideoPlayerSettingsModelFromJson(
           const {},
       screensaver:
           $enumDecodeNullable(_$ScreensaverEnumMap, json['screensaver']) ??
-              Screensaver.time,
+              Screensaver.logo,
     );
 
 Map<String, dynamic> _$VideoPlayerSettingsModelToJson(
