@@ -764,7 +764,7 @@
     "@settingsPosterSize": {},
     "settingsPosterSlider": "Mostrar control lliscant per l'escala",
     "@settingsPosterSlider": {},
-    "settingsProfileDesc": "Pantalla de bloqueig",
+    "settingsProfileDesc": "Pantalla de bloqueig, URL local",
     "@settingsProfileDesc": {},
     "settingsProfileTitle": "Perfil",
     "@settingsProfileTitle": {},
@@ -1521,5 +1521,21 @@
         }
     },
     "openImeKeyboard": "Obrir teclat IME",
-    "@openImeKeyboard": {}
+    "@openImeKeyboard": {},
+    "screensaverDvd": "DVD",
+    "@screensaverDvd": {},
+    "screensaverLogo": "Logo",
+    "@screensaverLogo": {},
+    "screensaverTime": "Temps",
+    "@screensaverTime": {},
+    "screensaverBlack": "Negre",
+    "@screensaverBlack": {},
+    "playerSettingsScreensaverTitle": "Salvapantalles",
+    "@playerSettingsScreensaverTitle": {},
+    "playerSettingsScreensaverDesc": "Selecciona el salvapantalles que es mostrarà després d'un temps d'inactivitat",
+    "@playerSettingsScreensaverDesc": {},
+    "settingsLocalUrlTitle": "URL del servidor local",
+    "@settingsLocalUrlTitle": {},
+    "settingsLocalUrlSetTitle": "Configurar URL Local",
+    "@settingsLocalUrlSetTitle": {}
 }
