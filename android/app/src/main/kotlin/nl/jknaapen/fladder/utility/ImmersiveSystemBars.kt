@@ -22,7 +22,7 @@ fun ImmersiveSystemBars(isImmersive: Boolean) {
 
         if (isImmersive) {
             controller?.hide(androidx.core.view.WindowInsetsCompat.Type.systemBars())
-            controller?.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            controller?.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_DEFAULT
         } else {
             controller?.show(androidx.core.view.WindowInsetsCompat.Type.systemBars())
         }
