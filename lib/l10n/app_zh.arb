@@ -745,7 +745,7 @@
     "@settingsPosterSize": {},
     "settingsPosterSlider": "显示比例滑块",
     "@settingsPosterSlider": {},
-    "settingsProfileDesc": "锁屏",
+    "settingsProfileDesc": "锁屏，本地网址",
     "@settingsProfileDesc": {},
     "settingsProfileTitle": "个人资料",
     "@settingsProfileTitle": {},
@@ -1532,5 +1532,11 @@
     "playerSettingsScreensaverTitle": "屏幕保护程序",
     "@playerSettingsScreensaverTitle": {},
     "playerSettingsScreensaverDesc": "选择在播发无活动后显示的屏幕保护程序",
-    "@playerSettingsScreensaverDesc": {}
+    "@playerSettingsScreensaverDesc": {},
+    "settingsLocalUrlTitle": "本地服务器网址",
+    "@settingsLocalUrlTitle": {},
+    "settingsLocalUrlSetTitle": "配置本地网址",
+    "@settingsLocalUrlSetTitle": {},
+    "settingsLocalUrlSetDesc": "指定本地服务器地址。当您的设备与服务器位于同一网络时，Fladder 将自动使用此网址。",
+    "@settingsLocalUrlSetDesc": {}
 }
