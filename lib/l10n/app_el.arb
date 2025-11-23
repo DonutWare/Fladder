@@ -255,7 +255,7 @@
     },
     "goTo": "Μετάβαση σε",
     "@goTo": {},
-    "backgroundBlur": "Σκηνοθέτης blur",
+    "backgroundBlur": "Θόλωμα φόντου",
     "@backgroundBlur": {},
     "downloadsClearDesc": "Αφαιρέστε όλα τα δεδομένα που συγχρονίζονται, καθαρίζοντας όλα τα δεδομένα για κάθε συγχρονισμένο χρήστη?",
     "@downloadsClearDesc": {}
