@@ -30,6 +30,7 @@ import 'package:fladder/models/syncing/database_item.dart';
 import 'package:fladder/models/syncing/download_stream.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/models/syncing/sync_settings_model.dart';
+import 'package:fladder/models/syncing/transcode_download_model.dart';
 import 'package:fladder/models/video_stream_model.dart';
 import 'package:fladder/profiles/default_profile.dart';
 import 'package:fladder/providers/api_provider.dart';
@@ -170,6 +171,34 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
         }
       }
     }
+  }
+
+  Future<List<String>> getTempFiles() async {
+    final tempFiles = <String>[];
+
+    // List of directories to check
+    final directories = [
+      //Desktop directory
+      await getTemporaryDirectory(),
+      //Mobile directory
+      await getApplicationSupportDirectory(),
+    ];
+
+    for (final dir in directories) {
+      final List<FileSystemEntity> files = dir.listSync();
+
+      for (var file in files) {
+        if (file is File) {
+          final fileName = file.path.split(Platform.pathSeparator).last;
+          final fileSize = await file.length();
+          if (fileName.startsWith('com.bbflight.background_downloader') && fileSize != 0) {
+            tempFiles.add(file.path);
+          }
+        }
+      }
+    }
+
+    return tempFiles;
   }
 
   late final JellyService api = ref.read(jellyApiProvider);
@@ -475,7 +504,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     return syncedItem;
   }
 
-  Future<bool?> syncFile(SyncedItem syncItem, bool skipDownload) async {
+  Future<bool?> syncFile(SyncedItem syncItem, bool skipDownload, {TranscodeDownloadModel? transcodeModel}) async {
     cleanupTemporaryFiles();
 
     final playbackResponse = await api.itemsItemIdPlaybackInfoPost(
@@ -487,6 +516,10 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
         deviceProfile: ref.read(videoProfileProvider),
       ),
     );
+
+    final globalTranscodeModel = ref.read(clientSettingsProvider.select((value) => value.transcodeDownloadModel));
+
+    transcodeModel ??= globalTranscodeModel;
 
     final item = syncItem.createItemModel(ref);
 
@@ -501,8 +534,15 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     syncItem = syncItem.copyWith(
       fChapters: await saveChapterImages(item?.overview.chapters, directory) ?? [],
       subtitles: subtitles,
+      videoFileName: transcodeModel.enabled
+          ? syncItem.videoFileName?.replaceAll(
+              path.extension(syncItem.videoFileName ?? ""),
+              transcodeModel.container.extension,
+            )
+          : syncItem.videoFileName,
       fTrickPlayModel: trickPlayFile,
       mediaSegments: mediaSegments,
+      transcodeDownloadModel: transcodeModel,
     );
 
     await updateItem(syncItem);
@@ -514,20 +554,44 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
 
     final downloadUrl = buildServerUrl(ref, pathSegments: ['Items', syncItem.id, 'Download']);
 
+    final transcodeUrl = ref.read(jellyApiProvider).buildVideoStreamUrl(
+          itemId: syncItem.id,
+          container: transcodeModel.container.name,
+          maxHeight: transcodeModel.maxHeight.value,
+          videoBitRate: transcodeModel.maxBitrate.bitRate,
+          subtitleMethod: VideosItemIdStreamContainerGetSubtitleMethod.embed,
+          transcodingMaxAudioChannels: 2,
+        );
+
+    log(transcodeUrl);
+
+    final queryParams = {
+      "api_key": user.credentials.token,
+      if (transcodeModel.enabled) ...transcodeModel.queryParams,
+    };
+
     try {
       if (currentTask.task != null) {
         await ref.read(backgroundDownloaderProvider).cancelTaskWithId(currentTask.id);
       }
       if (!skipDownload) {
+        final curlHeaders = {
+          ...user.credentials.header(ref),
+          if (transcodeModel.enabled)
+            ...transcodeModel.curlHeaders(item?.overview.runTime ?? Duration.zero, item: item),
+        };
+
+        log(curlHeaders.toString());
+
         final downloadTask = DownloadTask(
           taskId: syncItem.id,
-          url: downloadUrl,
+          url: transcodeModel.enabled ? transcodeUrl : downloadUrl,
+          urlQueryParameters: queryParams,
           directory: syncItem.directory.path,
           filename: syncItem.videoFileName,
           updates: Updates.statusAndProgress,
           baseDirectory: BaseDirectory.root,
-          urlQueryParameters: {"api_key": user.credentials.token},
-          headers: user.credentials.header(ref),
+          headers: curlHeaders,
           requiresWiFi: ref.read(clientSettingsProvider.select((value) => value.requireWifi)),
           retries: 3,
           allowPause: true,
@@ -673,7 +737,11 @@ extension SyncNotifierHelpers on SyncNotifier {
     return syncItem;
   }
 
-  Future<SyncedItem?> syncMovie(ItemBaseModel item, {bool skipDownload = false}) async {
+  Future<SyncedItem?> syncMovie(
+    ItemBaseModel item, {
+    bool skipDownload = false,
+    TranscodeDownloadModel? transcodeModel,
+  }) async {
     final response = await api.usersUserIdItemsItemIdGetBaseItem(
       itemId: item.id,
     );
@@ -687,12 +755,17 @@ extension SyncNotifierHelpers on SyncNotifier {
 
     await _db.insertItem(syncItem);
 
-    await syncFile(syncItem, skipDownload);
+    await syncFile(syncItem, skipDownload, transcodeModel: transcodeModel);
 
     return syncItem;
   }
 
-  Future<SyncedItem?> syncSeries(SeriesModel item, {SeasonModel? season, EpisodeModel? episode}) async {
+  Future<SyncedItem?> syncSeries(
+    SeriesModel item, {
+    SeasonModel? season,
+    EpisodeModel? episode,
+    TranscodeDownloadModel? transcodeModel,
+  }) async {
     final response = await api.usersUserIdItemsItemIdGetBaseItem(
       itemId: item.id,
     );
@@ -782,7 +855,7 @@ extension SyncNotifierHelpers on SyncNotifier {
     for (var i = 0; i < itemsToDownload.length; i++) {
       final item = itemsToDownload[i];
       //No need to await file sync happens in the background
-      syncFile(item, false);
+      syncFile(item, false, transcodeModel: transcodeModel);
     }
 
     return seriesItem;

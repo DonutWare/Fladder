@@ -17,6 +17,7 @@ import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
+import 'package:fladder/models/syncing/transcode_download_model.dart';
 import 'package:fladder/util/localization_helper.dart';
 
 part 'sync_item.freezed.dart';
@@ -42,6 +43,7 @@ abstract class SyncedItem with _$SyncedItem {
     @Default([]) List<SubStreamModel> subtitles,
     @Default(false) bool unSyncedData,
     @UserDataJsonSerializer() UserData? userData,
+    TranscodeDownloadModel? transcodeDownloadModel,
     // ignore: invalid_annotation_target
     @JsonKey(includeFromJson: false, includeToJson: false) ItemBaseModel? itemModel,
   }) = _SyncItem;

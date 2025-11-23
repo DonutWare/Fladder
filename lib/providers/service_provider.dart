@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:fladder/fake/fake_jellyfin_open_api.dart';
 import 'package:fladder/jellyfin/enum_models.dart';
+import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart' as enums;
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/account_model.dart';
 import 'package:fladder/models/credentials_model.dart';
@@ -604,6 +605,25 @@ class JellyService {
         subtitleStreamIndex: body?.subtitleStreamIndex,
         body: body,
       );
+
+  //VideosItemsStreamGet
+  Future<Response<String>> videoStreamGet(
+    String? itemId,
+    String? container,
+    int? maxHeight,
+    int? maxBitRate,
+  ) async {
+    var response = await api.videosItemIdStreamContainerGet(
+      itemId: itemId,
+      container: container,
+      enableAudioVbrEncoding: true,
+      enableAutoStreamCopy: true,
+      maxHeight: maxHeight,
+      videoBitRate: maxBitRate,
+      subtitleMethod: VideosItemIdStreamContainerGetSubtitleMethod.embed,
+    );
+    return response;
+  }
 
   Future<Response<BaseItemDtoQueryResult>> showsSeriesIdEpisodesGet({
     required String? seriesId,
@@ -1481,6 +1501,130 @@ class JellyService {
 
   Future<Response> deleteListingProvider(String id) async {
     return api.liveTvListingProvidersDelete(id: id);
+  }
+
+  /// Builds the URL for video streaming without making the HTTP request
+  String buildVideoStreamUrl({
+    required String itemId,
+    required String container,
+    bool? $static,
+    String? params,
+    String? tag,
+    String? deviceProfileId,
+    String? playSessionId,
+    String? segmentContainer,
+    int? segmentLength,
+    int? minSegments,
+    String? mediaSourceId,
+    String? deviceId,
+    String? audioCodec,
+    bool? enableAutoStreamCopy,
+    bool? allowVideoStreamCopy,
+    bool? allowAudioStreamCopy,
+    bool? breakOnNonKeyFrames,
+    int? audioSampleRate,
+    int? maxAudioBitDepth,
+    int? audioBitRate,
+    int? audioChannels,
+    int? maxAudioChannels,
+    String? profile,
+    String? level,
+    num? framerate,
+    num? maxFramerate,
+    bool? copyTimestamps,
+    int? startTimeTicks,
+    int? width,
+    int? height,
+    int? maxWidth,
+    int? maxHeight,
+    int? videoBitRate,
+    int? subtitleStreamIndex,
+    enums.VideosItemIdStreamContainerGetSubtitleMethod? subtitleMethod,
+    int? maxRefFrames,
+    int? maxVideoBitDepth,
+    bool? requireAvc,
+    bool? deInterlace,
+    bool? requireNonAnamorphic,
+    int? transcodingMaxAudioChannels,
+    int? cpuCoreLimit,
+    String? liveStreamId,
+    bool? enableMpegtsM2TsMode,
+    String? videoCodec,
+    String? subtitleCodec,
+    String? transcodeReasons,
+    int? audioStreamIndex,
+    int? videoStreamIndex,
+    enums.VideosItemIdStreamContainerGetContext? context,
+    Object? streamOptions,
+    bool? enableAudioVbrEncoding,
+  }) {
+    final serverUrl =
+        ref.read(authProvider).serverLoginModel?.tempCredentials.url ?? ref.read(userProvider)?.credentials.url ?? '';
+
+    final baseUrl = serverUrl.endsWith('/') ? serverUrl.substring(0, serverUrl.length - 1) : serverUrl;
+    final path = '/Videos/$itemId/stream.$container';
+
+    // Build query parameters
+    final queryParams = <String, String>{};
+
+    if ($static != null) queryParams['static'] = $static.toString();
+    if (params != null) queryParams['params'] = params;
+    if (tag != null) queryParams['tag'] = tag;
+    if (deviceProfileId != null) queryParams['deviceProfileId'] = deviceProfileId;
+    if (playSessionId != null) queryParams['playSessionId'] = playSessionId;
+    if (segmentContainer != null) queryParams['segmentContainer'] = segmentContainer;
+    if (segmentLength != null) queryParams['segmentLength'] = segmentLength.toString();
+    if (minSegments != null) queryParams['minSegments'] = minSegments.toString();
+    if (mediaSourceId != null) queryParams['mediaSourceId'] = mediaSourceId;
+    if (deviceId != null) queryParams['deviceId'] = deviceId;
+    if (audioCodec != null) queryParams['audioCodec'] = audioCodec;
+    if (enableAutoStreamCopy != null) queryParams['enableAutoStreamCopy'] = enableAutoStreamCopy.toString();
+    if (allowVideoStreamCopy != null) queryParams['allowVideoStreamCopy'] = allowVideoStreamCopy.toString();
+    if (allowAudioStreamCopy != null) queryParams['allowAudioStreamCopy'] = allowAudioStreamCopy.toString();
+    if (breakOnNonKeyFrames != null) queryParams['breakOnNonKeyFrames'] = breakOnNonKeyFrames.toString();
+    if (audioSampleRate != null) queryParams['audioSampleRate'] = audioSampleRate.toString();
+    if (maxAudioBitDepth != null) queryParams['maxAudioBitDepth'] = maxAudioBitDepth.toString();
+    if (audioBitRate != null) queryParams['audioBitRate'] = audioBitRate.toString();
+    if (audioChannels != null) queryParams['audioChannels'] = audioChannels.toString();
+    if (maxAudioChannels != null) queryParams['maxAudioChannels'] = maxAudioChannels.toString();
+    if (profile != null) queryParams['profile'] = profile;
+    if (level != null) queryParams['level'] = level;
+    if (framerate != null) queryParams['framerate'] = framerate.toString();
+    if (maxFramerate != null) queryParams['maxFramerate'] = maxFramerate.toString();
+    if (copyTimestamps != null) queryParams['copyTimestamps'] = copyTimestamps.toString();
+    if (startTimeTicks != null) queryParams['startTimeTicks'] = startTimeTicks.toString();
+    if (width != null) queryParams['width'] = width.toString();
+    if (height != null) queryParams['height'] = height.toString();
+    if (maxWidth != null) queryParams['maxWidth'] = maxWidth.toString();
+    if (maxHeight != null) queryParams['maxHeight'] = maxHeight.toString();
+    if (videoBitRate != null) queryParams['videoBitRate'] = videoBitRate.toString();
+    if (subtitleStreamIndex != null) queryParams['subtitleStreamIndex'] = subtitleStreamIndex.toString();
+    if (subtitleMethod != null) queryParams['subtitleMethod'] = subtitleMethod.value.toString();
+    if (maxRefFrames != null) queryParams['maxRefFrames'] = maxRefFrames.toString();
+    if (maxVideoBitDepth != null) queryParams['maxVideoBitDepth'] = maxVideoBitDepth.toString();
+    if (requireAvc != null) queryParams['requireAvc'] = requireAvc.toString();
+    if (deInterlace != null) queryParams['deInterlace'] = deInterlace.toString();
+    if (requireNonAnamorphic != null) queryParams['requireNonAnamorphic'] = requireNonAnamorphic.toString();
+    if (transcodingMaxAudioChannels != null) {
+      queryParams['transcodingMaxAudioChannels'] = transcodingMaxAudioChannels.toString();
+    }
+    if (cpuCoreLimit != null) queryParams['cpuCoreLimit'] = cpuCoreLimit.toString();
+    if (liveStreamId != null) queryParams['liveStreamId'] = liveStreamId;
+    if (enableMpegtsM2TsMode != null) queryParams['enableMpegtsM2TsMode'] = enableMpegtsM2TsMode.toString();
+    if (videoCodec != null) queryParams['videoCodec'] = videoCodec;
+    if (subtitleCodec != null) queryParams['subtitleCodec'] = subtitleCodec;
+    if (transcodeReasons != null) queryParams['transcodeReasons'] = transcodeReasons;
+    if (audioStreamIndex != null) queryParams['audioStreamIndex'] = audioStreamIndex.toString();
+    if (videoStreamIndex != null) queryParams['videoStreamIndex'] = videoStreamIndex.toString();
+    if (context != null) queryParams['context'] = context.value.toString();
+    if (streamOptions != null) queryParams['streamOptions'] = streamOptions.toString();
+    if (enableAudioVbrEncoding != null) queryParams['enableAudioVbrEncoding'] = enableAudioVbrEncoding.toString();
+
+    // Build the query string
+    final queryString =
+        queryParams.entries.map((e) => '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}').join('&');
+
+    return queryString.isEmpty ? '$baseUrl$path' : '$baseUrl$path?$queryString';
   }
 }
 

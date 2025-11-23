@@ -30,7 +30,9 @@ mixin _$SyncedItem {
   List<SubStreamModel> get subtitles;
   bool get unSyncedData;
   @UserDataJsonSerializer()
-  UserData? get userData; // ignore: invalid_annotation_target
+  UserData? get userData;
+  TranscodeDownloadModel?
+      get transcodeDownloadModel; // ignore: invalid_annotation_target
   @JsonKey(includeFromJson: false, includeToJson: false)
   ItemBaseModel? get itemModel;
 
@@ -43,7 +45,7 @@ mixin _$SyncedItem {
 
   @override
   String toString() {
-    return 'SyncedItem(id: $id, syncing: $syncing, parentId: $parentId, userId: $userId, path: $path, markedForDelete: $markedForDelete, sortName: $sortName, fileSize: $fileSize, videoFileName: $videoFileName, mediaSegments: $mediaSegments, fTrickPlayModel: $fTrickPlayModel, fImages: $fImages, fChapters: $fChapters, subtitles: $subtitles, unSyncedData: $unSyncedData, userData: $userData, itemModel: $itemModel)';
+    return 'SyncedItem(id: $id, syncing: $syncing, parentId: $parentId, userId: $userId, path: $path, markedForDelete: $markedForDelete, sortName: $sortName, fileSize: $fileSize, videoFileName: $videoFileName, mediaSegments: $mediaSegments, fTrickPlayModel: $fTrickPlayModel, fImages: $fImages, fChapters: $fChapters, subtitles: $subtitles, unSyncedData: $unSyncedData, userData: $userData, transcodeDownloadModel: $transcodeDownloadModel, itemModel: $itemModel)';
   }
 }
 
@@ -70,10 +72,12 @@ abstract mixin class $SyncedItemCopyWith<$Res> {
       List<SubStreamModel> subtitles,
       bool unSyncedData,
       @UserDataJsonSerializer() UserData? userData,
+      TranscodeDownloadModel? transcodeDownloadModel,
       @JsonKey(includeFromJson: false, includeToJson: false)
       ItemBaseModel? itemModel});
 
   $TrickPlayModelCopyWith<$Res>? get fTrickPlayModel;
+  $TranscodeDownloadModelCopyWith<$Res>? get transcodeDownloadModel;
 }
 
 /// @nodoc
@@ -104,6 +108,7 @@ class _$SyncedItemCopyWithImpl<$Res> implements $SyncedItemCopyWith<$Res> {
     Object? subtitles = null,
     Object? unSyncedData = null,
     Object? userData = freezed,
+    Object? transcodeDownloadModel = freezed,
     Object? itemModel = freezed,
   }) {
     return _then(_self.copyWith(
@@ -171,6 +176,10 @@ class _$SyncedItemCopyWithImpl<$Res> implements $SyncedItemCopyWith<$Res> {
           ? _self.userData
           : userData // ignore: cast_nullable_to_non_nullable
               as UserData?,
+      transcodeDownloadModel: freezed == transcodeDownloadModel
+          ? _self.transcodeDownloadModel
+          : transcodeDownloadModel // ignore: cast_nullable_to_non_nullable
+              as TranscodeDownloadModel?,
       itemModel: freezed == itemModel
           ? _self.itemModel
           : itemModel // ignore: cast_nullable_to_non_nullable
@@ -189,6 +198,21 @@ class _$SyncedItemCopyWithImpl<$Res> implements $SyncedItemCopyWith<$Res> {
 
     return $TrickPlayModelCopyWith<$Res>(_self.fTrickPlayModel!, (value) {
       return _then(_self.copyWith(fTrickPlayModel: value));
+    });
+  }
+
+  /// Create a copy of SyncedItem
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TranscodeDownloadModelCopyWith<$Res>? get transcodeDownloadModel {
+    if (_self.transcodeDownloadModel == null) {
+      return null;
+    }
+
+    return $TranscodeDownloadModelCopyWith<$Res>(_self.transcodeDownloadModel!,
+        (value) {
+      return _then(_self.copyWith(transcodeDownloadModel: value));
     });
   }
 }
@@ -303,6 +327,7 @@ extension SyncedItemPatterns on SyncedItem {
             List<SubStreamModel> subtitles,
             bool unSyncedData,
             @UserDataJsonSerializer() UserData? userData,
+            TranscodeDownloadModel? transcodeDownloadModel,
             @JsonKey(includeFromJson: false, includeToJson: false)
             ItemBaseModel? itemModel)?
         $default, {
@@ -328,6 +353,7 @@ extension SyncedItemPatterns on SyncedItem {
             _that.subtitles,
             _that.unSyncedData,
             _that.userData,
+            _that.transcodeDownloadModel,
             _that.itemModel);
       case _:
         return orElse();
@@ -366,6 +392,7 @@ extension SyncedItemPatterns on SyncedItem {
             List<SubStreamModel> subtitles,
             bool unSyncedData,
             @UserDataJsonSerializer() UserData? userData,
+            TranscodeDownloadModel? transcodeDownloadModel,
             @JsonKey(includeFromJson: false, includeToJson: false)
             ItemBaseModel? itemModel)
         $default,
@@ -390,6 +417,7 @@ extension SyncedItemPatterns on SyncedItem {
             _that.subtitles,
             _that.unSyncedData,
             _that.userData,
+            _that.transcodeDownloadModel,
             _that.itemModel);
       case _:
         throw StateError('Unexpected subclass');
@@ -427,6 +455,7 @@ extension SyncedItemPatterns on SyncedItem {
             List<SubStreamModel> subtitles,
             bool unSyncedData,
             @UserDataJsonSerializer() UserData? userData,
+            TranscodeDownloadModel? transcodeDownloadModel,
             @JsonKey(includeFromJson: false, includeToJson: false)
             ItemBaseModel? itemModel)?
         $default,
@@ -451,6 +480,7 @@ extension SyncedItemPatterns on SyncedItem {
             _that.subtitles,
             _that.unSyncedData,
             _that.userData,
+            _that.transcodeDownloadModel,
             _that.itemModel);
       case _:
         return null;
@@ -478,6 +508,7 @@ class _SyncItem extends SyncedItem {
       final List<SubStreamModel> subtitles = const [],
       this.unSyncedData = false,
       @UserDataJsonSerializer() this.userData,
+      this.transcodeDownloadModel,
       @JsonKey(includeFromJson: false, includeToJson: false) this.itemModel})
       : _fChapters = fChapters,
         _subtitles = subtitles,
@@ -533,6 +564,8 @@ class _SyncItem extends SyncedItem {
   @override
   @UserDataJsonSerializer()
   final UserData? userData;
+  @override
+  final TranscodeDownloadModel? transcodeDownloadModel;
 // ignore: invalid_annotation_target
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -548,7 +581,7 @@ class _SyncItem extends SyncedItem {
 
   @override
   String toString() {
-    return 'SyncedItem(id: $id, syncing: $syncing, parentId: $parentId, userId: $userId, path: $path, markedForDelete: $markedForDelete, sortName: $sortName, fileSize: $fileSize, videoFileName: $videoFileName, mediaSegments: $mediaSegments, fTrickPlayModel: $fTrickPlayModel, fImages: $fImages, fChapters: $fChapters, subtitles: $subtitles, unSyncedData: $unSyncedData, userData: $userData, itemModel: $itemModel)';
+    return 'SyncedItem(id: $id, syncing: $syncing, parentId: $parentId, userId: $userId, path: $path, markedForDelete: $markedForDelete, sortName: $sortName, fileSize: $fileSize, videoFileName: $videoFileName, mediaSegments: $mediaSegments, fTrickPlayModel: $fTrickPlayModel, fImages: $fImages, fChapters: $fChapters, subtitles: $subtitles, unSyncedData: $unSyncedData, userData: $userData, transcodeDownloadModel: $transcodeDownloadModel, itemModel: $itemModel)';
   }
 }
 
@@ -576,11 +609,14 @@ abstract mixin class _$SyncItemCopyWith<$Res>
       List<SubStreamModel> subtitles,
       bool unSyncedData,
       @UserDataJsonSerializer() UserData? userData,
+      TranscodeDownloadModel? transcodeDownloadModel,
       @JsonKey(includeFromJson: false, includeToJson: false)
       ItemBaseModel? itemModel});
 
   @override
   $TrickPlayModelCopyWith<$Res>? get fTrickPlayModel;
+  @override
+  $TranscodeDownloadModelCopyWith<$Res>? get transcodeDownloadModel;
 }
 
 /// @nodoc
@@ -611,6 +647,7 @@ class __$SyncItemCopyWithImpl<$Res> implements _$SyncItemCopyWith<$Res> {
     Object? subtitles = null,
     Object? unSyncedData = null,
     Object? userData = freezed,
+    Object? transcodeDownloadModel = freezed,
     Object? itemModel = freezed,
   }) {
     return _then(_SyncItem(
@@ -678,6 +715,10 @@ class __$SyncItemCopyWithImpl<$Res> implements _$SyncItemCopyWith<$Res> {
           ? _self.userData
           : userData // ignore: cast_nullable_to_non_nullable
               as UserData?,
+      transcodeDownloadModel: freezed == transcodeDownloadModel
+          ? _self.transcodeDownloadModel
+          : transcodeDownloadModel // ignore: cast_nullable_to_non_nullable
+              as TranscodeDownloadModel?,
       itemModel: freezed == itemModel
           ? _self.itemModel
           : itemModel // ignore: cast_nullable_to_non_nullable
@@ -696,6 +737,21 @@ class __$SyncItemCopyWithImpl<$Res> implements _$SyncItemCopyWith<$Res> {
 
     return $TrickPlayModelCopyWith<$Res>(_self.fTrickPlayModel!, (value) {
       return _then(_self.copyWith(fTrickPlayModel: value));
+    });
+  }
+
+  /// Create a copy of SyncedItem
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TranscodeDownloadModelCopyWith<$Res>? get transcodeDownloadModel {
+    if (_self.transcodeDownloadModel == null) {
+      return null;
+    }
+
+    return $TranscodeDownloadModelCopyWith<$Res>(_self.transcodeDownloadModel!,
+        (value) {
+      return _then(_self.copyWith(transcodeDownloadModel: value));
     });
   }
 }

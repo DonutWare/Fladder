@@ -81,7 +81,12 @@ class SyncSize extends _$SyncSize {
     final nestedChildren = children;
 
     ref.watch(downloadTasksProvider(arg.id));
-    int size = arg.fileSize ?? 0;
+    int size = 0;
+    if (arg.videoFile.existsSync()) {
+      size = arg.videoFile.lengthSync();
+    } else {
+      size = arg.fileSize ?? 0;
+    }
 
     if (nestedChildren != null) {
       for (var element in nestedChildren) {
@@ -89,6 +94,8 @@ class SyncSize extends _$SyncSize {
       }
       for (var element in nestedChildren) {
         if (element.videoFile.existsSync()) {
+          size += element.videoFile.lengthSync();
+        } else {
           size += element.fileSize ?? 0;
         }
       }
