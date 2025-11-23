@@ -254,5 +254,7 @@
         }
     },
     "goTo": "Μετάβαση σε",
-    "@goTo": {}
+    "@goTo": {},
+    "backgroundBlur": "Σκηνοθέτης blur",
+    "@backgroundBlur": {}
 }
