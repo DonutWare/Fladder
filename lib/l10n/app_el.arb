@@ -260,5 +260,18 @@
     "downloadsClearDesc": "Αφαίρεση όλων των συγχρονισμένων δεδομένων, διαγράφοντας όλα τα δεδομένα για κάθε συγχρονισμένο χρήστη?",
     "@downloadsClearDesc": {},
     "backgroundOpacity": "Αδιαφάνεια φόντου",
-    "@backgroundOpacity": {}
+    "@backgroundOpacity": {},
+    "continuePage": "Συνέχεια - Σελίδα {page}",
+    "@continuePage": {
+        "description": "Continue - page 1",
+        "placeholders": {
+            "page": {
+                "type": "int"
+            }
+        }
+    },
+    "dynamicText": "Δυναμικό",
+    "@dynamicText": {},
+    "groupBy": "Ομαδοποίηση με",
+    "@groupBy": {}
 }
