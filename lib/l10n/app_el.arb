@@ -257,6 +257,8 @@
     "@goTo": {},
     "backgroundBlur": "Θόλωμα φόντου",
     "@backgroundBlur": {},
-    "downloadsClearDesc": "Αφαιρέστε όλα τα δεδομένα που συγχρονίζονται, καθαρίζοντας όλα τα δεδομένα για κάθε συγχρονισμένο χρήστη?",
-    "@downloadsClearDesc": {}
+    "downloadsClearDesc": "Αφαίρεση όλων των συγχρονισμένων δεδομένων, διαγράφοντας όλα τα δεδομένα για κάθε συγχρονισμένο χρήστη?",
+    "@downloadsClearDesc": {},
+    "backgroundOpacity": "Αδιαφάνεια φόντου",
+    "@backgroundOpacity": {}
 }
