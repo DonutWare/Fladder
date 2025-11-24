@@ -41,11 +41,7 @@
             xorg.libXcomposite
             xorg.libXcursor
             xorg.libXdamage
-            xorg.libXdmcp
             xorg.libXext
-            xorg.libXfixes
-            xorg.libXi
-            xorg.libXrender
             xorg.libXtst
             libxkbcommon
             libepoxy
@@ -70,8 +66,6 @@
             stdenv.cc.cc
             zlib
             openssl
-            nss
-            nspr
             systemd
             xdg-user-dirs
 
@@ -106,11 +100,7 @@
               pkgs.xorg.libXcomposite
               pkgs.xorg.libXcursor
               pkgs.xorg.libXdamage
-              pkgs.xorg.libXdmcp
               pkgs.xorg.libXext
-              pkgs.xorg.libXfixes
-              pkgs.xorg.libXi
-              pkgs.xorg.libXrender
               pkgs.xorg.libXtst
               pkgs.libxkbcommon
               pkgs.libepoxy
@@ -129,8 +119,6 @@
               pkgs.stdenv.cc.cc
               pkgs.zlib
               pkgs.openssl
-              pkgs.nss
-              pkgs.nspr
               pkgs.systemd
               pkgs.mpv
             ]}:$LD_LIBRARY_PATH"
