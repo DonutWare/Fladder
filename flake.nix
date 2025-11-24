@@ -36,12 +36,7 @@
             # Linux Desktop Development Dependencies
             gtk3
             glib
-            pcre2
             util-linux # for libmount
-            libselinux
-            libsepol
-            libthai
-            libdatrie
             xorg.libX11
             xorg.libXcomposite
             xorg.libXcursor
@@ -77,8 +72,6 @@
             openssl
             nss
             nspr
-            cups
-            expat
             systemd
             xdg-user-dirs
 
@@ -108,12 +101,7 @@
             export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath [
               pkgs.gtk3
               pkgs.glib
-              pkgs.pcre2
               pkgs.util-linux
-              pkgs.libselinux
-              pkgs.libsepol
-              pkgs.libthai
-              pkgs.libdatrie
               pkgs.xorg.libX11
               pkgs.xorg.libXcomposite
               pkgs.xorg.libXcursor
@@ -143,8 +131,6 @@
               pkgs.openssl
               pkgs.nss
               pkgs.nspr
-              pkgs.cups
-              pkgs.expat
               pkgs.systemd
               pkgs.mpv
             ]}:$LD_LIBRARY_PATH"
