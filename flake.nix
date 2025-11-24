@@ -54,6 +54,7 @@
             
             # Graphics and Mesa
             mesa
+            mesa-demos
             libdrm
             libGL
             libgbm
@@ -79,11 +80,6 @@
             
             # Ensure fvm bin is in path
             export PATH="$PWD/.fvm/flutter_sdk/bin:$PATH"
-            
-            # Set up XDG directories for path_provider
-            export XDG_DATA_HOME="''${XDG_DATA_HOME:-$HOME/.local/share}"
-            export XDG_CONFIG_HOME="''${XDG_CONFIG_HOME:-$HOME/.config}"
-            export XDG_CACHE_HOME="''${XDG_CACHE_HOME:-$HOME/.cache}"
             
             # Initialize XDG user directories
             ${pkgs.xdg-user-dirs}/bin/xdg-user-dirs-update
@@ -111,6 +107,7 @@
               pkgs.cairo
               pkgs.gdk-pixbuf
               pkgs.mesa
+              pkgs.mesa-demos
               pkgs.libdrm
               pkgs.libGL
               pkgs.libgbm
