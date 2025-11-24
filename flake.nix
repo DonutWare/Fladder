@@ -50,6 +50,10 @@
 
             # eglinfo
             mesa-demos
+
+            # Media playback
+            mpv
+            libass
           ];
 
           # Set up environment variables if needed
