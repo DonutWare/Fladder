@@ -1518,5 +1518,17 @@
                 "format": "jm"
             }
         }
-    }
+    },
+    "settingsLocalUrlSetDesc": "Spécifiez l'adresse du serveur local. Fladder utilisera automatiquement cette URL lorsque votre appareil est sur le même réseau.",
+    "@settingsLocalUrlSetDesc": {},
+    "openImeKeyboard": "Ouvrir le clavier IME",
+    "@openImeKeyboard": {},
+    "screensaverDvd": "DVD",
+    "@screensaverDvd": {},
+    "screensaverLogo": "Logo",
+    "@screensaverLogo": {},
+    "screensaverBlack": "Noir",
+    "@screensaverBlack": {},
+    "settingsLocalUrlTitle": "URL du serveur local",
+    "@settingsLocalUrlTitle": {}
 }
