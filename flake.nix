@@ -47,6 +47,9 @@
             libepoxy
             at-spi2-core
             dbus
+
+            # eglinfo
+            mesa-demos
           ];
 
           # Set up environment variables if needed
