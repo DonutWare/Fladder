@@ -44,7 +44,7 @@
             xorg.libXdmcp
             xorg.libXtst
             libxkbcommon
-            epoxy
+            libepoxy
             at-spi2-core
             dbus
           ];
