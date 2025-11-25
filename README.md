@@ -132,7 +132,21 @@ You can add Fladder to your packages `environment.systemPackages` by adding:
 environment.systemPackages = [ pkgs.fladder ];
 ```
 
-You can pull the Docker version using the following tags: ```ghcr.io/donutware/fladder:latest```. or ```ghcr.io/donutware/fladder-rootless:latest```
+### Docker
+
+You can pull the Docker version using the following tags: 
+
+#### Root
+
+```
+ghcr.io/donutware/fladder:latest
+```
+
+#### Rootless
+
+```
+ghcr.io/donutware/fladder-rootless:latest
+```
 
 *Platform-specific installation and usage instructions can be found [here](https://github.com/DonutWare/Fladder/blob/develop/INSTALL.md).*
 
