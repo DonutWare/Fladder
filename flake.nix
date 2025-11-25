@@ -37,12 +37,12 @@
             gtk3
             glib
             util-linux # for libmount
-            xorg.libX11
-            xorg.libXcomposite
-            xorg.libXcursor
-            xorg.libXdamage
-            xorg.libXext
-            xorg.libXtst
+            libx11
+            libxcomposite
+            libxcursor
+            libxdamage
+            libxext
+            libxtst
             libxkbcommon
             libepoxy
             at-spi2-core
@@ -92,12 +92,12 @@
               pkgs.gtk3
               pkgs.glib
               pkgs.util-linux
-              pkgs.xorg.libX11
-              pkgs.xorg.libXcomposite
-              pkgs.xorg.libXcursor
-              pkgs.xorg.libXdamage
-              pkgs.xorg.libXext
-              pkgs.xorg.libXtst
+              pkgs.libx11
+              pkgs.libxcomposite
+              pkgs.libxcursor
+              pkgs.libxdamage
+              pkgs.libxext
+              pkgs.libxtst
               pkgs.libxkbcommon
               pkgs.libepoxy
               pkgs.at-spi2-core
