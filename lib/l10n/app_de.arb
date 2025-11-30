@@ -138,7 +138,7 @@
     "@all": {},
     "amoledBlack": "Amoled Schwarz",
     "@amoledBlack": {},
-    "appLockBiometrics": "Biometriesche Daten",
+    "appLockBiometrics": "Biometrische Daten",
     "@appLockBiometrics": {},
     "appLockPasscode": "Passcode",
     "@appLockPasscode": {},
@@ -148,7 +148,7 @@
     "@backgroundBlur": {},
     "backgroundOpacity": "Hintergrundtransparenz",
     "@backgroundOpacity": {},
-    "biometricsFailedCheckAgain": "Biometrische Daten fehlgeschlagen. Überprüfe die Einstellungen oder pprobiere es nochmal.",
+    "biometricsFailedCheckAgain": "Biometrische Anmeldung fehlgeschlagen. Überprüfe die Einstellungen oder probiere es nochmal.",
     "@biometricsFailedCheckAgain": {},
     "bold": "Fett",
     "@bold": {},
@@ -1540,5 +1540,7 @@
     "screensaverBlack": "Schwarz",
     "@screensaverBlack": {},
     "playerSettingsScreensaverTitle": "Bildschirmschoner",
-    "@playerSettingsScreensaverTitle": {}
+    "@playerSettingsScreensaverTitle": {},
+    "settingsLocalUrlSetTitle": "konfiguriere lokale URL",
+    "@settingsLocalUrlSetTitle": {}
 }
