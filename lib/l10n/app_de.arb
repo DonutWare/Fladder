@@ -1542,5 +1542,7 @@
     "playerSettingsScreensaverTitle": "Bildschirmschoner",
     "@playerSettingsScreensaverTitle": {},
     "settingsLocalUrlSetTitle": "konfiguriere lokale URL",
-    "@settingsLocalUrlSetTitle": {}
+    "@settingsLocalUrlSetTitle": {},
+    "settingsLocalUrlSetDesc": "Geben Sie die lokale Serveradresse an. Fladder wird diese URL automatisch verwenden, wenn Ihr Gerät im selben Netzwerk ist.",
+    "@settingsLocalUrlSetDesc": {}
 }
