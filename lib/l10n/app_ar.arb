@@ -863,7 +863,7 @@
     "@settingsPlayerMobileWarning": {},
     "settingsPlayerNativeLibassAccelTitle": "ترجمات libass الأصلية",
     "@settingsPlayerNativeLibassAccelTitle": {},
-    "settingsProfileDesc": "شاشة القفل",
+    "settingsProfileDesc": "شاشة القفل، الرابط المحلي (URL)",
     "@settingsProfileDesc": {},
     "settingsProfileTitle": "ملف التعريف",
     "@settingsProfileTitle": {},
@@ -1519,5 +1519,25 @@
                 "type": "int"
             }
         }
-    }
+    },
+    "openImeKeyboard": "فتح لوحة مفاتيح IME",
+    "@openImeKeyboard": {},
+    "screensaverTime": "الوقت",
+    "@screensaverTime": {},
+    "screensaverDvd": "DVD",
+    "@screensaverDvd": {},
+    "screensaverLogo": "الشعار",
+    "@screensaverLogo": {},
+    "screensaverBlack": "أسود",
+    "@screensaverBlack": {},
+    "playerSettingsScreensaverTitle": "شاشة التوقف",
+    "@playerSettingsScreensaverTitle": {},
+    "playerSettingsScreensaverDesc": "اختر شاشة التوقف التي ستظهر بعد فترة من عدم النشاط في المشغّل",
+    "@playerSettingsScreensaverDesc": {},
+    "settingsLocalUrlTitle": "عنوان الخادم المحلي",
+    "@settingsLocalUrlTitle": {},
+    "settingsLocalUrlSetTitle": "إعداد عنوان URL المحلي",
+    "@settingsLocalUrlSetTitle": {},
+    "settingsLocalUrlSetDesc": "حدد عنوان الخادم المحلي. سيستخدم Fladder هذا الرابط تلقائياً عند اتصال الجهاز بنفس الشبكة.",
+    "@settingsLocalUrlSetDesc": {}
 }
