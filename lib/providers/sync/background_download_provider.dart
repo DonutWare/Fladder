@@ -44,6 +44,11 @@ class BackgroundDownloader extends _$BackgroundDownloader {
 
         if (status == TaskStatus.complete || status == TaskStatus.canceled) {
           ref.read(downloadTasksProvider(update.task.taskId).notifier).update((state) => DownloadStream.empty());
+          ref
+              .read(activeDownloadTasksProvider.notifier)
+              .update((state) => state.where((element) => element.taskId != update.task.taskId).toList());
+
+          ref.read(syncProvider.notifier).cleanupTemporaryFiles();
         }
       case TaskProgressUpdate():
         final progress = update.progress;

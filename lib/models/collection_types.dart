@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 
 import 'package:iconsax_plus/iconsax_plus.dart';
@@ -56,15 +54,12 @@ extension CollectionTypeExtension on CollectionType {
     }
   }
 
-  LibraryFilterModel get defaultFilters {
-    log(name);
-    return switch (this) {
-      CollectionType.homevideos || CollectionType.photos => const LibraryFilterModel(recursive: false),
-      _ => const LibraryFilterModel(
-          recursive: true,
-        )
-    };
-  }
+  LibraryFilterModel get defaultFilters => switch (this) {
+        CollectionType.homevideos || CollectionType.photos => const LibraryFilterModel(recursive: false),
+        _ => const LibraryFilterModel(
+            recursive: true,
+          )
+      };
 
   double? get aspectRatio => switch (this) {
         CollectionType.music ||

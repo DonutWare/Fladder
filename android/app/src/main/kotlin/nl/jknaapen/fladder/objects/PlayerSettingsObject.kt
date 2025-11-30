@@ -3,6 +3,7 @@ package nl.jknaapen.fladder.objects
 import AutoNextType
 import PlayerSettings
 import PlayerSettingsPigeon
+import Screensaver
 import androidx.compose.ui.graphics.Color
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
@@ -42,6 +43,7 @@ object PlayerSettingsObject : PlayerSettingsPigeon {
 
     val videoFit = settings.map { settings -> settings?.videoFit.toExoPlayerFit }
 
+    val screenSaver = settings.map { settings -> settings?.screensaver ?: Screensaver.LOGO }
     override fun sendPlayerSettings(playerSettings: PlayerSettings) {
         settings.value = playerSettings
     }

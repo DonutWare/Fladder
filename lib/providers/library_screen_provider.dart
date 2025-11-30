@@ -84,9 +84,15 @@ class LibraryScreen extends _$LibraryScreen {
   }
 
   Future<Response?> loadLibrary(ViewModel viewModel) async {
-    await loadRecommendations(viewModel);
-    await loadGenres(viewModel);
-    await loadFavourites(viewModel);
+    if (state.viewType.contains(LibraryViewType.recommended)) {
+      await loadRecommendations(viewModel);
+    }
+    if (state.viewType.contains(LibraryViewType.favourites)) {
+      await loadFavourites(viewModel);
+    }
+    if (state.viewType.contains(LibraryViewType.genres)) {
+      await loadGenres(viewModel);
+    }
     return null;
   }
 
@@ -97,7 +103,7 @@ class LibraryScreen extends _$LibraryScreen {
 
     final resume = await api.usersUserIdItemsResumeGet(
       parentId: viewModel.id,
-      limit: 14,
+      limit: 9,
       enableUserData: true,
       enableImageTypes: [
         ImageType.primary,
@@ -120,7 +126,7 @@ class LibraryScreen extends _$LibraryScreen {
       final response = await api.moviesRecommendationsGet(
         parentId: viewModel.id,
         categoryLimit: 6,
-        itemLimit: 14,
+        itemLimit: 9,
         fields: [ItemFields.mediasourcecount],
       );
       newRecommendations = [
@@ -133,7 +139,7 @@ class LibraryScreen extends _$LibraryScreen {
     } else {
       final nextUp = await api.showsNextUpGet(
         parentId: viewModel.id,
-        limit: 14,
+        limit: 9,
         imageTypeLimit: 1,
         fields: [ItemFields.mediasourcecount, ItemFields.primaryimageaspectratio],
       );
@@ -155,18 +161,18 @@ class LibraryScreen extends _$LibraryScreen {
       ];
     }
 
-    final latest = await api.usersUserIdItemsLatestGet(
+    final latest = await api.usersUserIdItemsGet(
       parentId: viewModel.id,
-      limit: 14,
-      isPlayed: false,
-      imageTypeLimit: 1,
+      sortBy: [ItemSortBy.datelastcontentadded, ItemSortBy.datecreated, ItemSortBy.sortname],
+      sortOrder: [SortOrder.descending],
+      limit: 9,
       includeItemTypes: viewModel.collectionType.itemKinds.map((e) => e.dtoKind).toList(),
     );
     newRecommendations = [
       ...newRecommendations,
       RecommendedModel(
         name: const Latest(),
-        posters: latest.body?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList() ?? [],
+        posters: latest.body?.items?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList() ?? [],
         type: null,
       ),
     ];
@@ -181,6 +187,7 @@ class LibraryScreen extends _$LibraryScreen {
       parentId: viewModel.id,
       isFavorite: true,
       recursive: true,
+      limit: 9,
       includeItemTypes: viewModel.collectionType.itemKinds.map((e) => e.dtoKind).toList(),
       enableImageTypes: [ImageType.primary],
       fields: [
@@ -211,8 +218,9 @@ class LibraryScreen extends _$LibraryScreen {
 
     if (filteredGenres.isEmpty) return null;
 
-    final results = await Future.wait(filteredGenres.map((genre) async {
-      final response = await api.itemsGet(
+    final futures = filteredGenres.map((genre) {
+      return api
+          .itemsGet(
         parentId: viewModel.id,
         genreIds: [genre.id],
         limit: 9,
@@ -227,14 +235,17 @@ class LibraryScreen extends _$LibraryScreen {
         enableTotalRecordCount: false,
         imageTypeLimit: 1,
         sortOrder: [SortOrder.ascending],
-      );
+      )
+          .then((response) {
+        final items = response.body?.items;
+        if (items != null && items.isNotEmpty) {
+          return RecommendedModel(name: Other(genre.name), posters: items);
+        }
+        return null;
+      });
+    }).toList();
 
-      final items = response.body?.items;
-      if (items != null && items.isNotEmpty) {
-        return RecommendedModel(name: Other(genre.name), posters: items);
-      }
-      return null;
-    }));
+    final results = await Future.wait(futures);
 
     state = state.copyWith(
       genres: results.whereType<RecommendedModel>().toList(),

@@ -453,7 +453,7 @@ class _SyncedNestedChildrenProviderElement
 }
 
 String _$syncDownloadStatusHash() =>
-    r'6ee039e094f1e007ebaeb20ae63430be829cdeb7';
+    r'39cacaf983e7da79b406b0249f5de4da1e785f9a';
 
 abstract class _$SyncDownloadStatus
     extends BuildlessAutoDisposeNotifier<DownloadStream?> {

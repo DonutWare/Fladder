@@ -24,8 +24,12 @@ internal fun Translate(
     var value by remember { mutableStateOf<String?>(null) }
 
     LaunchedEffect(key) {
-        callback { result ->
-            value = result.getOrNull()
+        try {
+            callback { result ->
+                value = result.getOrNull()
+            }
+        } catch (e: Exception) {
+            println(e)
         }
     }
 

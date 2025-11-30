@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
@@ -10,7 +9,6 @@ import 'package:fladder/providers/items/identify_provider.dart';
 import 'package:fladder/screens/shared/adaptive_dialog.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/screens/shared/focused_outlined_text_field.dart';
-import 'package:fladder/screens/shared/media/external_urls.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/widgets/shared/alert_content.dart';
@@ -36,14 +34,70 @@ class _IdentifyScreenState extends ConsumerState<IdentifyScreen> with TickerProv
   AutoDisposeStateNotifierProvider<IdentifyNotifier, IdentifyModel> get provider => identifyProvider(widget.item.id);
   late final TabController tabController = TabController(length: 2, vsync: this);
 
-  TextEditingController? currentController;
-  String? currentKey;
+  late final TextEditingController _nameController;
+  late final TextEditingController _yearController;
+  final Map<String, TextEditingController> _dynamicControllers = {};
+
   int currentTab = 0;
+
+  ProviderSubscription<IdentifyModel>? listener;
 
   @override
   void initState() {
     super.initState();
+
+    final initialState = ref.read(provider);
+
+    _nameController = TextEditingController(text: initialState.searchString);
+    _yearController = TextEditingController(text: initialState.year?.toString() ?? "");
+    for (final entry in initialState.keys.entries) {
+      _dynamicControllers[entry.key] = TextEditingController(text: entry.value);
+    }
+
+    listener = ref.listenManual(provider, (IdentifyModel? previous, IdentifyModel next) {
+      final yearString = next.year?.toString() ?? "";
+
+      if (_nameController.text != next.searchString) {
+        _nameController.text = next.searchString;
+      }
+
+      if (_yearController.text != yearString) {
+        _yearController.text = yearString;
+      }
+
+      final newKeys = next.keys.keys.toSet();
+      final oldKeys = _dynamicControllers.keys.toSet();
+
+      for (final key in newKeys.difference(oldKeys)) {
+        _dynamicControllers[key] = TextEditingController(text: next.keys[key]);
+      }
+
+      for (final key in newKeys.intersection(oldKeys)) {
+        final controller = _dynamicControllers[key]!;
+        final newValue = next.keys[key] ?? "";
+        if (controller.text != newValue) {
+          controller.text = newValue;
+        }
+      }
+
+      for (final key in oldKeys.difference(newKeys)) {
+        _dynamicControllers.remove(key)?.dispose();
+      }
+    });
+
     Future.microtask(() => ref.read(provider.notifier).fetchInformation());
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    _nameController.dispose();
+    _yearController.dispose();
+    for (final controller in _dynamicControllers.values) {
+      controller.dispose();
+    }
+    listener?.close();
+    super.dispose();
   }
 
   @override
@@ -150,26 +204,7 @@ class _IdentifyScreenState extends ConsumerState<IdentifyScreen> with TickerProv
                                       ),
                                     ),
                                     Tooltip(
-                                      message: context.localized.openWebLink,
-                                      child: IconButton(
-                                          onPressed: () {
-                                            final providerKeyEntry = result.providerIds?.entries.first;
-                                            final providerKey = providerKeyEntry?.key;
-                                            final providerValue = providerKeyEntry?.value;
-
-                                            final externalId = state.externalIds
-                                                .firstWhereOrNull((element) => element.key == providerKey)
-                                                // ignore: deprecated_member_use_from_same_package
-                                                ?.urlFormatString;
-
-                                            final url = externalId?.replaceAll("{0}", providerValue?.toString() ?? "");
-
-                                            launchUrl(context, url ?? "");
-                                          },
-                                          icon: const Icon(Icons.launch_rounded)),
-                                    ),
-                                    Tooltip(
-                                      message: "Select result",
+                                      message: context.localized.set,
                                       child: IconButton(
                                         onPressed: !processing
                                             ? () async {
@@ -185,7 +220,7 @@ class _IdentifyScreenState extends ConsumerState<IdentifyScreen> with TickerProv
                                                 Navigator.of(context).pop();
                                               }
                                             : null,
-                                        icon: const Icon(Icons.save_alt_rounded),
+                                        icon: const Icon(IconsaxPlusBold.tag_2),
                                       ),
                                     )
                                   ],
@@ -233,8 +268,6 @@ class _IdentifyScreenState extends ConsumerState<IdentifyScreen> with TickerProv
           children: [
             FilledButton(
                 onPressed: () {
-                  currentController = null;
-                  currentKey = "";
                   ref.read(provider.notifier).clearFields();
                 },
                 child: Text(context.localized.clear)),
@@ -243,86 +276,69 @@ class _IdentifyScreenState extends ConsumerState<IdentifyScreen> with TickerProv
         const SizedBox(height: 6),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
-          child: Builder(builder: (context) {
-            final controller =
-                currentKey == "Name" ? currentController : TextEditingController(text: state.searchString);
-            return FocusedOutlinedTextField(
-              label: context.localized.name,
-              controller: controller,
-              onChanged: (value) {
-                currentController = controller;
-                currentKey = "Name";
-                return ref.read(provider.notifier).update((state) => state.copyWith(searchString: value));
-              },
-              onSubmitted: (value) {
-                return ref.read(provider.notifier).update((state) => state.copyWith(searchString: value));
-              },
-            );
-          }),
+          child: FocusedOutlinedTextField(
+            label: context.localized.name,
+            controller: _nameController,
+            onChanged: (value) {
+              ref.read(provider.notifier).update((state) => state.copyWith(searchString: value));
+            },
+            onSubmitted: (value) {
+              ref.read(provider.notifier).update((state) => state.copyWith(searchString: value));
+            },
+          ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
-          child: Builder(builder: (context) {
-            final controller =
-                currentKey == "Year" ? currentController : TextEditingController(text: state.year?.toString() ?? "");
-            return FocusedOutlinedTextField(
-              label: context.localized.year(1),
-              controller: controller,
-              keyboardType: TextInputType.number,
-              onChanged: (value) {
-                currentController = controller;
-                currentKey = "Year";
-                if (value.isEmpty) {
-                  ref.read(provider.notifier).update((state) => state.copyWith(
-                        year: () => null,
-                      ));
-                  return;
-                }
-                final newYear = int.tryParse(value);
-                if (newYear != null) {
-                  ref.read(provider.notifier).update((state) => state.copyWith(
-                        year: () => newYear,
-                      ));
-                } else {
-                  controller?.text = state.year?.toString() ?? "";
-                }
-              },
-              onSubmitted: (value) {
-                currentController = null;
-                currentKey = null;
-                if (value.isEmpty) {
-                  ref.read(provider.notifier).update((state) => state.copyWith(
-                        year: () => null,
-                      ));
-                }
-                final newYear = int.tryParse(value);
-                if (newYear != null) {
-                  ref.read(provider.notifier).update((state) => state.copyWith(
-                        year: () => newYear,
-                      ));
-                }
-              },
-            );
-          }),
+          child: FocusedOutlinedTextField(
+            label: context.localized.year(1),
+            controller: _yearController,
+            keyboardType: TextInputType.number,
+            onChanged: (value) {
+              if (value.isEmpty) {
+                ref.read(provider.notifier).update((state) => state.copyWith(
+                      year: () => null,
+                    ));
+                return;
+              }
+              final newYear = int.tryParse(value);
+              if (newYear != null) {
+                ref.read(provider.notifier).update((state) => state.copyWith(
+                      year: () => newYear,
+                    ));
+              } else {
+                _yearController.text = state.year?.toString() ?? "";
+              }
+            },
+            onSubmitted: (value) {
+              if (value.isEmpty) {
+                ref.read(provider.notifier).update((state) => state.copyWith(
+                      year: () => null,
+                    ));
+              }
+              final newYear = int.tryParse(value);
+              if (newYear != null) {
+                ref.read(provider.notifier).update((state) => state.copyWith(
+                      year: () => newYear,
+                    ));
+              }
+            },
+          ),
         ),
         ...state.keys.entries.map(
-          (searchKey) => Builder(builder: (context) {
-            final controller =
-                currentKey == searchKey.key ? currentController : TextEditingController(text: searchKey.value);
+          (searchKey) {
+            final controller = _dynamicControllers[searchKey.key];
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: FocusedOutlinedTextField(
                 label: searchKey.key,
                 controller: controller,
                 onChanged: (value) {
-                  currentController = controller;
-                  currentKey = searchKey.key;
                   ref.read(provider.notifier).updateKey(MapEntry(searchKey.key, value));
                 },
                 onSubmitted: (value) => ref.read(provider.notifier).updateKey(MapEntry(searchKey.key, value)),
               ),
             );
-          }),
+          },
         ),
       ],
     );

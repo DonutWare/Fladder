@@ -745,7 +745,7 @@
     "@settingsPosterSize": {},
     "settingsPosterSlider": "Afficher le curseur de mise à l'échelle",
     "@settingsPosterSlider": {},
-    "settingsProfileDesc": "Écran de verrouillage",
+    "settingsProfileDesc": "Écran de verrouillage, URL locale",
     "@settingsProfileDesc": {},
     "settingsProfileTitle": "Profil",
     "@settingsProfileTitle": {},
@@ -1518,5 +1518,25 @@
                 "format": "jm"
             }
         }
-    }
+    },
+    "settingsLocalUrlSetDesc": "Spécifiez l'adresse du serveur local. Fladder utilisera automatiquement cette URL lorsque votre appareil est sur le même réseau.",
+    "@settingsLocalUrlSetDesc": {},
+    "openImeKeyboard": "Ouvrir le clavier IME",
+    "@openImeKeyboard": {},
+    "screensaverDvd": "DVD",
+    "@screensaverDvd": {},
+    "screensaverLogo": "Logo",
+    "@screensaverLogo": {},
+    "screensaverBlack": "Noir",
+    "@screensaverBlack": {},
+    "settingsLocalUrlTitle": "URL du serveur local",
+    "@settingsLocalUrlTitle": {},
+    "screensaverTime": "Latence",
+    "@screensaverTime": {},
+    "playerSettingsScreensaverTitle": "Économiseur d'écran",
+    "@playerSettingsScreensaverTitle": {},
+    "playerSettingsScreensaverDesc": "Sélectionner l'économiseur d'écran qui sera affiché en cas d'inactivité du lecteur",
+    "@playerSettingsScreensaverDesc": {},
+    "settingsLocalUrlSetTitle": "Configurer l'URL locale",
+    "@settingsLocalUrlSetTitle": {}
 }
