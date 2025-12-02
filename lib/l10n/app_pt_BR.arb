@@ -1543,5 +1543,7 @@
     "settingsLocalUrlSetTitle": "Configurar URL local",
     "@settingsLocalUrlSetTitle": {},
     "settingsLocalUrlSetDesc": "Especifique o endereço do servidor local. O Fladder usará automaticamente este URL quando seu dispositivo estiver na mesma rede.",
-    "@settingsLocalUrlSetDesc": {}
+    "@settingsLocalUrlSetDesc": {},
+    "screensaverBlack": "Preto",
+    "@screensaverBlack": {}
 }
