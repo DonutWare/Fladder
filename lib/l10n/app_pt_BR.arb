@@ -778,7 +778,7 @@
     "@settingsProfileTitle": {},
     "settingsQuickConnectTitle": "Conexão rápida",
     "@settingsQuickConnectTitle": {},
-    "settingsProfileDesc": "Tela de bloqueio",
+    "settingsProfileDesc": "Tela de bloqueio, URL local",
     "@settingsProfileDesc": {},
     "settingsShowScaleSlider": "Mostrar slide do tamanho do pôster",
     "@settingsShowScaleSlider": {},
@@ -1408,7 +1408,7 @@
             }
         }
     },
-    "syncPauseAll": "Pausar todos",
+    "syncPauseAll": "Pausar tudo",
     "@syncPauseAll": {},
     "syncResumeAll": "Reiniciar todos",
     "@syncResumeAll": {},
@@ -1502,7 +1502,7 @@
     "@itemColorsDesc": {},
     "mediaTunnelingTitle": "Tunelamento de mídia",
     "@mediaTunnelingTitle": {},
-    "mediaTunnelingDesc": "Ative o tunelamento de mídia para o reprodutor nativo.",
+    "mediaTunnelingDesc": "Ative o tunelamento de mídia para o player nativo",
     "@mediaTunnelingDesc": {},
     "clientSettingsUseSystemIMETitle": "Usar atalhos do sistema",
     "@clientSettingsUseSystemIMETitle": {},
@@ -1516,7 +1516,7 @@
             }
         }
     },
-    "formattedTime": "Hora",
+    "formattedTime": "{time}",
     "@formattedTime": {
         "description": "Formatted time",
         "placeholders": {
@@ -1527,5 +1527,21 @@
         }
     },
     "openImeKeyboard": "Abir teclado IME",
-    "@openImeKeyboard": {}
+    "@openImeKeyboard": {},
+    "screensaverDvd": "DVD",
+    "@screensaverDvd": {},
+    "screensaverLogo": "Logo",
+    "@screensaverLogo": {},
+    "screensaverTime": "Tempo",
+    "@screensaverTime": {},
+    "playerSettingsScreensaverTitle": "Protetor de tela",
+    "@playerSettingsScreensaverTitle": {},
+    "playerSettingsScreensaverDesc": "Selecione o protetor de tela que será exibido após um período sem atividade do player",
+    "@playerSettingsScreensaverDesc": {},
+    "settingsLocalUrlTitle": "URL local do servidor",
+    "@settingsLocalUrlTitle": {},
+    "settingsLocalUrlSetTitle": "Configurar URL local",
+    "@settingsLocalUrlSetTitle": {},
+    "settingsLocalUrlSetDesc": "Especifique o endereço do servidor local. O Fladder usará automaticamente este URL quando seu dispositivo estiver na mesma rede.",
+    "@settingsLocalUrlSetDesc": {}
 }
