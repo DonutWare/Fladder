@@ -132,6 +132,7 @@ dependencies:
   dart_mappable: ^4.6.0
   flutter_native_splash: ^2.4.7
   macos_window_utils: ^1.9.0
+  punycoder: ^0.2.2
 
 dependency_overrides:
   media_kit:

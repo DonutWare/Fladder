@@ -11,13 +11,15 @@ import 'package:fladder/providers/auth_provider.dart';
 import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
-
+import 'package:punycoder/punycoder.dart';
 part 'api_provider.g.dart';
 
 final serverUrlProvider = StateProvider<String?>((ref) {
   final localUrlAvailable = ref.watch(localConnectionAvailableProvider);
-  final userCredentials = ref.watch(userProvider.select((value) => value?.credentials));
-  final tempUrl = ref.watch(authProvider.select((value) => value.serverLoginModel?.tempCredentials.url));
+  final userCredentials =
+      ref.watch(userProvider.select((value) => value?.credentials));
+  final tempUrl = ref.watch(authProvider
+      .select((value) => value.serverLoginModel?.tempCredentials.url));
   String? newUrl;
 
   if (localUrlAvailable && userCredentials?.localUrl?.isNotEmpty == true) {
@@ -54,14 +56,25 @@ class JellyRequest implements Interceptor {
   final Ref ref;
 
   @override
-  FutureOr<Response<BodyType>> intercept<BodyType>(Chain<BodyType> chain) async {
+  FutureOr<Response<BodyType>> intercept<BodyType>(
+      Chain<BodyType> chain) async {
     final connectivityNotifier = ref.read(connectivityStatusProvider.notifier);
-    final serverUrl = ref.read(serverUrlProvider);
-    try {
-      if (serverUrl?.isEmpty == true || serverUrl == null) throw const HttpException("Failed to connect");
+    String? serverUrl = ref.read(serverUrlProvider);
 
+    try {
+      if (serverUrl?.isEmpty == true || serverUrl == null)
+        throw const HttpException("Failed to connect");
+      //host needs to be separated as punycodec breaks if its given any extras / or other characters
+      int? port = Uri.parse(serverUrl).port;
+      String scheme = Uri.parse(serverUrl).scheme;
+      String? host = serverUrl.replaceAll(
+          RegExp(r'^(https?://)|(:\d+)|(/)'), ''); //removes scheme and port
+      String decodedhost = const PunycodeCodec().encode(host);
+      serverUrl = "$scheme://$decodedhost:$port";
+      print(serverUrl);
       //Use current logged in user otherwise use the authprovider
-      var loginModel = ref.read(userProvider)?.credentials ?? ref.read(authProvider).serverLoginModel?.tempCredentials;
+      var loginModel = ref.read(userProvider)?.credentials ??
+          ref.read(authProvider).serverLoginModel?.tempCredentials;
 
       if (loginModel == null) throw UnimplementedError();
 
@@ -100,7 +113,8 @@ class JellyResponse implements Interceptor {
   final Ref ref;
 
   @override
-  FutureOr<Response<BodyType>> intercept<BodyType>(Chain<BodyType> chain) async {
+  FutureOr<Response<BodyType>> intercept<BodyType>(
+      Chain<BodyType> chain) async {
     final Response<BodyType> response = await chain.proceed(chain.request);
 
     if (!response.isSuccessful) {
