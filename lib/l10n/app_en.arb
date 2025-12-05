@@ -1367,6 +1367,12 @@
       }
     }
   },
+  "takeScreenshot": "Take screenshot",
+  "takeScreenshotClean": "Take screenshot (without subtitles)",
+  "screenshots": "Screenshots",
+  "screenshotTaken": "Screenshot saved!",
+  "screenshotCleanTaken": "Screenshot without subtitles saved!",
+  "errorTakingScreenshot": "There was an error taking the screenshot",
   "openImeKeyboard": "Open IME keyboard",
   "screensaverDvd": "DVD",
   "screensaverLogo": "Logo",
