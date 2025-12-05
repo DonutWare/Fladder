@@ -213,7 +213,7 @@ class _EditImageContentState extends ConsumerState<EditImageContent> {
         ),
         SettingsListTile(
           label: const Text("Include all languages"),
-          trailing: Switch.adaptive(
+          trailing: Switch(
             value: includeAllImages,
             onChanged: (value) {
               ref.read(editItemProvider.notifier).setIncludeImages(value);

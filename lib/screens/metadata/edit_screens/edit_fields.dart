@@ -610,7 +610,7 @@ class _EditGeneralState extends ConsumerState<EditFields> {
                           }),
                         bool _ => SettingsListTile(
                             label: Text(keyLabel),
-                            trailing: Switch.adaptive(
+                            trailing: Switch(
                               value: e.value as bool,
                               onChanged: (value) =>
                                   ref.read(editItemProvider.notifier).updateField(MapEntry(e.key, value)),
@@ -669,7 +669,7 @@ class _EditGeneralState extends ConsumerState<EditFields> {
                                                   children: [
                                                     Text(values.key.value),
                                                     const Spacer(),
-                                                    Switch.adaptive(
+                                                    Switch(
                                                       value: !values.value,
                                                       onChanged: (value) {
                                                         final newEntries = map;
