@@ -58,18 +58,6 @@ enum VideoHotKeys {
   }
 }
 
-enum ScreenshotFormat {
-  png,
-  jpeg;
-
-  String label(BuildContext context) {
-    return switch (this) {
-      ScreenshotFormat.png => "PNG",
-      ScreenshotFormat.jpeg => "JPEG"
-    };
-  }
-}
-
 @Freezed(copyWith: true)
 abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
   const VideoPlayerSettingsModel._();
@@ -248,7 +236,8 @@ Map<VideoHotKeys, KeyCombination> get _defaultVideoHotKeys => {
           VideoHotKeys.fullScreen => KeyCombination(key: LogicalKeyboardKey.keyF),
           VideoHotKeys.skipMediaSegment => KeyCombination(key: LogicalKeyboardKey.keyS),
           VideoHotKeys.takeScreenshot => KeyCombination(key: LogicalKeyboardKey.keyG),
-          VideoHotKeys.takeScreenshotClean => KeyCombination(key: LogicalKeyboardKey.keyG, modifier: LogicalKeyboardKey.controlLeft),
+          VideoHotKeys.takeScreenshotClean =>
+            KeyCombination(key: LogicalKeyboardKey.keyG, modifier: LogicalKeyboardKey.controlLeft),
           VideoHotKeys.exit => KeyCombination(key: LogicalKeyboardKey.escape),
         },
     };
