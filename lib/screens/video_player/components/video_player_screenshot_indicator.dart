@@ -1,24 +1,24 @@
-import 'package:fladder/models/items/media_streams_model.dart';
-import 'package:fladder/models/playback/playback_model.dart';
-import 'package:fladder/util/localization_helper.dart';
 import 'package:flutter/material.dart';
 
 import 'package:async/async.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:fladder/models/items/media_streams_model.dart';
+import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/util/input_handler.dart';
+import 'package:fladder/util/localization_helper.dart';
 
 class VideoPlayerScreenshotIndicator extends ConsumerStatefulWidget {
   const VideoPlayerScreenshotIndicator({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _VideoPlayerScreenshotIndicatorState();
+  ConsumerState<ConsumerStatefulWidget> createState() => VideoPlayerScreenshotIndicatorState();
 }
 
-class _VideoPlayerScreenshotIndicatorState extends ConsumerState<VideoPlayerScreenshotIndicator> {
+class VideoPlayerScreenshotIndicatorState extends ConsumerState<VideoPlayerScreenshotIndicator> {
   RestartableTimer? timer;
 
   bool visible = false;
@@ -57,8 +57,7 @@ class _VideoPlayerScreenshotIndicatorState extends ConsumerState<VideoPlayerScre
       if (restoredModel != null) {
         await ref.read(playbackModelHelper).shouldReload(restoredModel);
       }
-    }
-    else {
+    } else {
       result = await ref.read(videoPlayerProvider.notifier).takeScreenshot();
     }
 
@@ -77,8 +76,9 @@ class _VideoPlayerScreenshotIndicatorState extends ConsumerState<VideoPlayerScre
 
   @override
   Widget build(BuildContext context) {
-    return InputHandler(
-      autoFocus: true,
+    return InputHandler<VideoHotKeys>(
+      autoFocus: false,
+      listenRawKeyboard: true,
       keyMap: ref.watch(videoPlayerSettingsProvider.select((value) => value.currentShortcuts)),
       keyMapResult: (result) => _onKey(result),
       child: IgnorePointer(
@@ -100,7 +100,9 @@ class _VideoPlayerScreenshotIndicatorState extends ConsumerState<VideoPlayerScre
                     const Icon(Icons.image),
                     Text(
                       screenshotTaken
-                          ? isCleanScreenshot ? context.localized.screenshotCleanTaken : context.localized.screenshotTaken
+                          ? isCleanScreenshot
+                              ? context.localized.screenshotCleanTaken
+                              : context.localized.screenshotTaken
                           : context.localized.errorTakingScreenshot,
                       style: Theme.of(context).textTheme.bodyMedium,
                     )
@@ -114,6 +116,14 @@ class _VideoPlayerScreenshotIndicatorState extends ConsumerState<VideoPlayerScre
     );
   }
 
+  void takeScreenshot() {
+    onTakeScreenshot(false);
+  }
+
+  void takeScreenshotClean() {
+    onTakeScreenshot(true);
+  }
+
   bool _onKey(VideoHotKeys value) {
     switch (value) {
       case VideoHotKeys.takeScreenshot:
@@ -123,16 +133,7 @@ class _VideoPlayerScreenshotIndicatorState extends ConsumerState<VideoPlayerScre
         takeScreenshotClean();
         return true;
       default:
-        break;
+        return false;
     }
-    return false;
-  }
-
-  void takeScreenshot() {
-    onTakeScreenshot(false);
-  }
-
-  void takeScreenshotClean() {
-    onTakeScreenshot(true);
   }
 }
