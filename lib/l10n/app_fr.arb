@@ -1545,8 +1545,10 @@
     "@takeScreenshotClean": {},
     "screenshots": "Captures d'écran",
     "@screenshots": {},
-    "screenshotTaken": "Capture d'écran sauvée !",
+    "screenshotTaken": "Capture d'écran sauvegardée !",
     "@screenshotTaken": {},
-    "screenshotCleanTaken": "Capture d'écran sans sous-titres sauvés !",
-    "@screenshotCleanTaken": {}
+    "screenshotCleanTaken": "Capture d'écran sans sous-titres sauvegardée !",
+    "@screenshotCleanTaken": {},
+    "errorTakingScreenshot": "Une erreur s'est produite lors de la capture d'écran",
+    "@errorTakingScreenshot": {}
 }
