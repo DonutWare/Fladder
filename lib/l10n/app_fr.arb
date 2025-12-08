@@ -1546,5 +1546,7 @@
     "screenshots": "Captures d'écran",
     "@screenshots": {},
     "screenshotTaken": "Capture d'écran sauvée !",
-    "@screenshotTaken": {}
+    "@screenshotTaken": {},
+    "screenshotCleanTaken": "Capture d'écran sans sous-titres sauvés !",
+    "@screenshotCleanTaken": {}
 }
