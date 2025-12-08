@@ -1527,6 +1527,12 @@
             }
         }
     },
+    "takeScreenshot": "Screenshot aufnehmen",
+    "takeScreenshotClean": "Screenshot aufnehmen (ohne Untertitel)",
+    "screenshots": "Screenshots",
+    "screenshotTaken": "Screenshot gespeichert!",
+    "screenshotCleanTaken": "Screenshot ohne Untertitel gespeichert!",
+    "errorTakingScreenshot": "Beim Aufnehmen des Screenshots ist ein Fehler aufgetreten",
     "openImeKeyboard": "IME Tastatur öffnen",
     "@openImeKeyboard": {},
     "playerSettingsScreensaverDesc": "Wähle einen Bildschirmschoner aus, der bei Inaktivität angezeigt wird",
@@ -1540,5 +1546,8 @@
     "screensaverBlack": "Schwarz",
     "@screensaverBlack": {},
     "playerSettingsScreensaverTitle": "Bildschirmschoner",
-    "@playerSettingsScreensaverTitle": {}
+    "@playerSettingsScreensaverTitle": {},
+    "settingsLocalUrlTitle": "Lokale Server-URL",
+    "settingsLocalUrlSetTitle": "Lokale URL konfigurieren",
+    "settingsLocalUrlSetDesc": "Gib die lokale Serveradresse an. Fladder verwendet diese URL automatisch, wenn sich dein Gerät im selben Netzwerk befindet."
 }
