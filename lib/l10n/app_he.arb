@@ -7,7 +7,7 @@
     "@accept": {},
     "active": "פעיל",
     "@active": {},
-    "actor": "שחקן",
+    "actor": "{count, plural, one{שחקן} other{שחקנים}}",
     "@actor": {
         "description": "actor",
         "placeholders": {
@@ -35,7 +35,7 @@
     "@appLockBiometrics": {},
     "appLockPasscode": "סיסמה",
     "@appLockPasscode": {},
-    "appLockTitle": "לקבוע שיטת התחברות ל{שם-משתמש}",
+    "appLockTitle": "הגדר את שיטת ההתחברות עבור {userName}",
     "@appLockTitle": {
         "description": "Pop-up to pick a login method",
         "placeholders": {
@@ -58,7 +58,7 @@
     "@cancel": {},
     "change": "לשנות",
     "@change": {},
-    "chapter": "פרק",
+    "chapter": "{count, plural, one{פרק} other{פרקים}}",
     "@chapter": {
         "description": "chapter",
         "placeholders": {
