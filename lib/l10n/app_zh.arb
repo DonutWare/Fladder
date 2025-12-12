@@ -1538,5 +1538,17 @@
     "settingsLocalUrlSetTitle": "配置本地网址",
     "@settingsLocalUrlSetTitle": {},
     "settingsLocalUrlSetDesc": "指定本地服务器地址。当您的设备与服务器位于同一网络时，Fladder 将自动使用此网址。",
-    "@settingsLocalUrlSetDesc": {}
+    "@settingsLocalUrlSetDesc": {},
+    "takeScreenshot": "截屏",
+    "@takeScreenshot": {},
+    "takeScreenshotClean": "截取屏幕截图（不含字幕）",
+    "@takeScreenshotClean": {},
+    "screenshots": "屏幕截图",
+    "@screenshots": {},
+    "screenshotTaken": "截图已保存！",
+    "@screenshotTaken": {},
+    "screenshotCleanTaken": "已保存无字幕截图！",
+    "@screenshotCleanTaken": {},
+    "errorTakingScreenshot": "截屏时出现错误",
+    "@errorTakingScreenshot": {}
 }

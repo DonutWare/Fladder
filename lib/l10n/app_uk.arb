@@ -1547,5 +1547,17 @@
     "settingsLocalUrlSetTitle": "Налаштувати локальну URL-адресу",
     "@settingsLocalUrlSetTitle": {},
     "settingsLocalUrlSetDesc": "Вкажіть адресу локального сервера. Fladder автоматично використовуватиме цю URL-адресу, коли ваш пристрій буде підключено до тієї ж мережі.",
-    "@settingsLocalUrlSetDesc": {}
+    "@settingsLocalUrlSetDesc": {},
+    "takeScreenshot": "Зробити скріншот",
+    "@takeScreenshot": {},
+    "takeScreenshotClean": "Зробити скріншот (без субтитрів)",
+    "@takeScreenshotClean": {},
+    "screenshots": "Знімки екрана",
+    "@screenshots": {},
+    "screenshotTaken": "Знімок екрана збережено!",
+    "@screenshotTaken": {},
+    "screenshotCleanTaken": "Збережено скріншот без субтитрів!",
+    "@screenshotCleanTaken": {},
+    "errorTakingScreenshot": "Сталася помилка під час створення знімка екрана",
+    "@errorTakingScreenshot": {}
 }
