@@ -6,6 +6,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
+import 'package:fladder/models/collection_types.dart';
 import 'package:fladder/models/library_filter_model.dart';
 import 'package:fladder/models/recommended_model.dart';
 import 'package:fladder/models/view_model.dart';
@@ -291,9 +292,15 @@ class LibraryRow extends ConsumerWidget {
                   items: viewActions.popupMenuItems(useIcons: true),
                 );
               },
-              child: Container(
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 150),
                 decoration: BoxDecoration(
-                  borderRadius: FladderTheme.defaultShape.borderRadius,
+                  color: Theme.of(context).colorScheme.surface,
+                  borderRadius: FladderTheme.smallShape.borderRadius,
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.primary.withValues(alpha: isSelected ? 1.0 : 0.0),
+                    width: isSelected ? 3 : 0,
+                  ),
                 ),
                 clipBehavior: Clip.hardEdge,
                 width: 200,
@@ -305,12 +312,19 @@ class LibraryRow extends ConsumerWidget {
                       image: view.imageData?.primary,
                       fit: BoxFit.cover,
                       placeHolder: Center(
-                        child: Text(
-                          view.name,
-                          style: Theme.of(context).textTheme.titleMedium,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.start,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          spacing: 8,
+                          children: [
+                            Icon(view.collectionType.icon),
+                            Text(
+                              view.name,
+                              style: Theme.of(context).textTheme.titleMedium,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
                         ),
                       ),
                     ),
