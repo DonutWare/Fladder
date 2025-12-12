@@ -100,8 +100,14 @@ class User extends _$User {
   }) async {
     return api.itemsItemIdRefreshPost(
       itemId: itemId,
-      metadataRefreshMode: metadataRefreshMode,
-      imageRefreshMode: metadataRefreshMode,
+      metadataRefreshMode: switch (metadataRefreshMode) {
+        MetadataRefresh.defaultRefresh => MetadataRefresh.defaultRefresh,
+        _ => MetadataRefresh.fullRefresh,
+      },
+      imageRefreshMode: switch (metadataRefreshMode) {
+        MetadataRefresh.defaultRefresh => MetadataRefresh.defaultRefresh,
+        _ => MetadataRefresh.fullRefresh,
+      },
       replaceAllMetadata: switch (metadataRefreshMode) {
         MetadataRefresh.fullRefresh => true,
         _ => false,
