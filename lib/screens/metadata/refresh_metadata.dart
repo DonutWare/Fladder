@@ -34,6 +34,7 @@ class RefreshPopupDialog extends ConsumerStatefulWidget {
 class _RefreshPopupDialogState extends ConsumerState<RefreshPopupDialog> {
   MetadataRefresh refreshMode = MetadataRefresh.defaultRefresh;
   bool replaceAllMetadata = false;
+  bool replaceTrickplayImages = false;
 
   @override
   Widget build(BuildContext context) {
@@ -79,14 +80,24 @@ class _RefreshPopupDialogState extends ConsumerState<RefreshPopupDialog> {
                       .toList(),
                 ),
               ),
-              if (refreshMode != MetadataRefresh.defaultRefresh)
+              if (refreshMode != MetadataRefresh.defaultRefresh) ...[
                 SettingsListTile(
                   label: Text(context.localized.replaceExistingImages),
-                  trailing: Switch.adaptive(
+                  onTap: () => setState(() => replaceAllMetadata = !replaceAllMetadata),
+                  trailing: Switch(
                     value: replaceAllMetadata,
                     onChanged: (value) => setState(() => replaceAllMetadata = value),
                   ),
                 ),
+                SettingsListTile(
+                  label: Text(context.localized.regenerateTrickplayImages),
+                  onTap: () => setState(() => replaceTrickplayImages = !replaceTrickplayImages),
+                  trailing: Switch(
+                    value: replaceTrickplayImages,
+                    onChanged: (value) => setState(() => replaceTrickplayImages = value),
+                  ),
+                ),
+              ],
               SettingsListTile(
                 label: Text(
                   context.localized.refreshPopupContentMetadata,

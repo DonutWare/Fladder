@@ -128,7 +128,7 @@ class BookViewerSettingsScreen extends ConsumerWidget {
                 child: Text("Disable slide page gestures when zoomed"),
               ),
               const Spacer(),
-              Switch.adaptive(
+              Switch(
                 value: settings.disableScrollOnZoom,
                 onChanged: (value) => ref
                     .read(bookViewerSettingsProvider.notifier)
@@ -149,7 +149,7 @@ class BookViewerSettingsScreen extends ConsumerWidget {
                 child: Text("Cache page zoom state"),
               ),
               const Spacer(),
-              Switch.adaptive(
+              Switch(
                 value: settings.cachePageZoom,
                 onChanged: (value) => ref
                     .read(bookViewerSettingsProvider.notifier)
@@ -170,7 +170,7 @@ class BookViewerSettingsScreen extends ConsumerWidget {
                 child: Text("Keep page zoom"),
               ),
               const Spacer(),
-              Switch.adaptive(
+              Switch(
                 value: settings.keepPageZoom,
                 onChanged: (value) => ref
                     .read(bookViewerSettingsProvider.notifier)

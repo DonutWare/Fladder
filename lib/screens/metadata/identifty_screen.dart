@@ -161,7 +161,7 @@ class _IdentifyScreenState extends ConsumerState<IdentifyScreen> with TickerProv
                     children: [
                       Text(context.localized.replaceAllImages),
                       const SizedBox(width: 16),
-                      Switch.adaptive(
+                      Switch(
                         value: state.replaceAllImages,
                         onChanged: (value) {
                           ref.read(provider.notifier).update((state) => state.copyWith(replaceAllImages: value));
