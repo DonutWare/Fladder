@@ -156,7 +156,7 @@
     },
     "descending": "Giảm dần",
     "@descending": {},
-    "director": "{count, plural, two{{count} đạo diễn} other{{count} đạo diễn}}",
+    "director": "{count, plural, other{Đạo diễn} two{Đạo diễn}}",
     "@director": {
         "description": "director",
         "placeholders": {
@@ -222,7 +222,7 @@
     "@favorites": {},
     "fetchingLibrary": "Đang tải các mục trong thư viện…",
     "@fetchingLibrary": {},
-    "filter": "{count, plural, one{{count} bộ lọc} other{{count} bộ lọc}}",
+    "filter": "{count, plural, other{Bộ lọc} one{Bộ lọc}}",
     "@filter": {
         "description": "filter",
         "placeholders": {
@@ -240,7 +240,7 @@
     "@fontSize": {},
     "forceRefresh": "Làm mới bắt buộc",
     "@forceRefresh": {},
-    "genre": "{count, plural, one{{count} thể loại} other{{count} thể loại}}",
+    "genre": "{count, plural, other{Thể loại} one{Thể loại}}",
     "@genre": {
         "description": "genre",
         "placeholders": {
@@ -291,7 +291,7 @@
             }
         }
     },
-    "label": "{count, plural, one{{count} nhãn} other{{count} nhãn}}",
+    "label": "{count, plural, other{Nhãn} one{Nhãn}}",
     "@label": {
         "description": "label",
         "placeholders": {
@@ -301,7 +301,7 @@
             }
         }
     },
-    "library": "{count, plural, one{{count} thư viện} other{{count} thư viện}}",
+    "library": "{count, plural, other{Thư viện} one{Thư viện}}",
     "@library": {
         "description": "Plural",
         "placeholders": {
@@ -397,7 +397,7 @@
     "@metadataRefreshFull": {},
     "metadataRefreshValidation": "Tìm kiếm các thông tin mô tả còn thiếu",
     "@metadataRefreshValidation": {},
-    "minutes": "{count, plural, one{{count} phút} other{{count} phút}}",
+    "minutes": "{count, plural, other{Phút} one{Phút} }",
     "@minutes": {
         "description": "minute",
         "placeholders": {
@@ -536,7 +536,7 @@
     "@quickConnectWrongCode": {},
     "random": "Ngẫu nhiên",
     "@random": {},
-    "rating": "{count, plural, one{{count} đánh giá} other{{count} đánh giá}}",
+    "rating": "{count, plural, other{Đánh giá} one{Đánh giá}}",
     "@rating": {
         "description": "rating",
         "placeholders": {
@@ -645,7 +645,7 @@
     "@scrollToTop": {},
     "search": "Tìm kiếm",
     "@search": {},
-    "season": "{count, plural, one{{count} mùa} other{{count} mùa}}",
+    "season": "{count, plural, other{Mùa} one{Mùa} }",
     "@season": {
         "description": "season",
         "placeholders": {
@@ -655,7 +655,7 @@
             }
         }
     },
-    "seconds": "{count, plural, one{{count} giây} other{{count} giây}}",
+    "seconds": "{count, plural, other{Giây} one{Giây}}",
     "@seconds": {
         "description": "second",
         "placeholders": {
@@ -764,7 +764,7 @@
     "@settingsPosterSize": {},
     "settingsPosterSlider": "Hiện thanh trượt thu phóng",
     "@settingsPosterSlider": {},
-    "settingsProfileDesc": "Màn hình khoá",
+    "settingsProfileDesc": "Màn hình khóa, URL cục bộ",
     "@settingsProfileDesc": {},
     "settingsProfileTitle": "Hồ sơ",
     "@settingsProfileTitle": {},
@@ -800,7 +800,7 @@
     "@sortOrder": {},
     "start": "Bắt đầu",
     "@start": {},
-    "studio": "{count, plural, one{{count} hãng phim} other{{count} hãng phim}}",
+    "studio": "{count, plural, other{Hãng phim} one{Hãng phim}}",
     "@studio": {
         "description": "studio",
         "placeholders": {
@@ -843,7 +843,7 @@
     "@syncRemoveDataTitle": {},
     "syncedItems": "Các mục đã đồng bộ",
     "@syncedItems": {},
-    "tag": "{count, plural, one{{count} thẻ} other{{count} thẻ}}",
+    "tag": "{count, plural, one{Thẻ} other{Thẻ}}",
     "@tag": {
         "description": "tag",
         "placeholders": {
@@ -885,7 +885,7 @@
             }
         }
     },
-    "type": "{count, plural, one{{count} loại} other{{count} loại}}",
+    "type": "{count, plural, other{Loại} one{Loại}}",
     "@type": {
         "description": "type",
         "placeholders": {
@@ -933,7 +933,7 @@
     "@viewPhotos": {},
     "watchOn": "Xem trên",
     "@watchOn": {},
-    "writer": "{count, plural, other{{count} biên kịch} two{{count} biên kịch}}",
+    "writer": "{count, plural, other{Biên kịch} two{Biên kịch}}",
     "@writer": {
         "description": "writer",
         "placeholders": {
@@ -943,7 +943,7 @@
             }
         }
     },
-    "year": "{count, plural, one{{count} năm} other{{count} năm}}",
+    "year": "{count, plural, other{Năm} one{Năm}}",
     "@year": {
         "description": "year",
         "placeholders": {
@@ -1477,5 +1477,79 @@
                 "type": "double"
             }
         }
-    }
+    },
+    "television": "Tivi",
+    "@television": {},
+    "exitFladderDesc": "Bạn có chắc muốn đóng Fladder không?",
+    "@exitFladderDesc": {},
+    "quickConnectPostFailed": "Không lấy được mã kết nối nhanh",
+    "@quickConnectPostFailed": {},
+    "quickConnectLoginUsingCode": "Sử dụng kết nối nhanh",
+    "@quickConnectLoginUsingCode": {},
+    "quickConnectEnterCodeDescription": "Nhập mã bên dưới để đăng nhập",
+    "@quickConnectEnterCodeDescription": {},
+    "showMore": "Xem thêm",
+    "@showMore": {},
+    "itemColorsTitle": "Màu của mục",
+    "@itemColorsTitle": {},
+    "itemColorsDesc": "Dùng màu chính của mục để tạo giao diện cho trang chi tiết",
+    "@itemColorsDesc": {},
+    "mediaTunnelingTitle": "Tăng tốc truyền tải media",
+    "@mediaTunnelingTitle": {},
+    "mediaTunnelingDesc": "Bật tăng tốc truyền tải media cho trình phát tích hợp",
+    "@mediaTunnelingDesc": {},
+    "clientSettingsUseSystemIMETitle": "Sử dụng bàn phím hệ thống",
+    "@clientSettingsUseSystemIMETitle": {},
+    "clientSettingsUseSystemIMEDesc": "Dùng bàn phím tích hợp của hệ thống",
+    "@clientSettingsUseSystemIMEDesc": {},
+    "nextUpInCount": "Phát tiếp trong {seconds} giây",
+    "@nextUpInCount": {
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "formattedTime": "{time}",
+    "@formattedTime": {
+        "description": "Formatted time",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            }
+        }
+    },
+    "takeScreenshot": "Chụp ảnh màn hình",
+    "@takeScreenshot": {},
+    "takeScreenshotClean": "Chụp ảnh màn hình (không phụ đề)",
+    "@takeScreenshotClean": {},
+    "screenshots": "Ảnh chụp màn hình",
+    "@screenshots": {},
+    "screenshotTaken": "Đã lưu ảnh chụp màn hình!",
+    "@screenshotTaken": {},
+    "screenshotCleanTaken": "Đã lưu ảnh chụp màn hình không có phụ đề!",
+    "@screenshotCleanTaken": {},
+    "errorTakingScreenshot": "Đã xảy ra lỗi khi chụp màn hình",
+    "@errorTakingScreenshot": {},
+    "openImeKeyboard": "Mở bàn phím IME",
+    "@openImeKeyboard": {},
+    "screensaverDvd": "DVD",
+    "@screensaverDvd": {},
+    "screensaverLogo": "Biểu tượng",
+    "@screensaverLogo": {},
+    "screensaverTime": "Thời gian",
+    "@screensaverTime": {},
+    "screensaverBlack": "Đen",
+    "@screensaverBlack": {},
+    "playerSettingsScreensaverTitle": "Trình bảo vệ màn hình",
+    "@playerSettingsScreensaverTitle": {},
+    "playerSettingsScreensaverDesc": "Chọn trình bảo vệ màn hình hiển thị khi trình phát không hoạt động",
+    "@playerSettingsScreensaverDesc": {},
+    "settingsLocalUrlTitle": "URL máy chủ cục bộ",
+    "@settingsLocalUrlTitle": {},
+    "settingsLocalUrlSetTitle": "Cấu hình URL cục bộ",
+    "@settingsLocalUrlSetTitle": {},
+    "settingsLocalUrlSetDesc": "Chỉ định địa chỉ máy chủ cục bộ. Fladder sẽ tự dùng URL này khi thiết bị của ông ở trong cùng mạng.",
+    "@settingsLocalUrlSetDesc": {}
 }
