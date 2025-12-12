@@ -1539,5 +1539,17 @@
     "settingsLocalUrlSetTitle": "إعداد عنوان URL المحلي",
     "@settingsLocalUrlSetTitle": {},
     "settingsLocalUrlSetDesc": "حدد عنوان الخادم المحلي. سيستخدم Fladder هذا الرابط تلقائياً عند اتصال الجهاز بنفس الشبكة.",
-    "@settingsLocalUrlSetDesc": {}
+    "@settingsLocalUrlSetDesc": {},
+    "takeScreenshot": "التقط لقطة شاشة",
+    "@takeScreenshot": {},
+    "takeScreenshotClean": "التقط لقطة شاشة (بدون ترجمات)",
+    "@takeScreenshotClean": {},
+    "screenshots": "لقطات الشاشة",
+    "@screenshots": {},
+    "screenshotTaken": "تم حفظ لقطة الشاشة!",
+    "@screenshotTaken": {},
+    "screenshotCleanTaken": "تم حفظ لقطة الشاشة بدون ترجمات!",
+    "@screenshotCleanTaken": {},
+    "errorTakingScreenshot": "حدث خطأ أثناء التقاط لقطة الشاشة",
+    "@errorTakingScreenshot": {}
 }

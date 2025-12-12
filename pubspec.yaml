@@ -72,6 +72,8 @@ dependencies:
   fvp: ^0.35.0
   video_player: ^2.10.0
 
+  image: ^4.5.4 # For saving screenshots.
+
   # UI Components
   dynamic_color: ^1.8.1
   flutter_svg: ^2.2.0
