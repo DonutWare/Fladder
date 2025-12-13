@@ -1550,5 +1550,7 @@
     "screenshotCleanTaken": "已保存无字幕截图！",
     "@screenshotCleanTaken": {},
     "errorTakingScreenshot": "截屏时出现错误",
-    "@errorTakingScreenshot": {}
+    "@errorTakingScreenshot": {},
+    "regenerateTrickplayImages": "重新生成特技播放图片",
+    "@regenerateTrickplayImages": {}
 }
