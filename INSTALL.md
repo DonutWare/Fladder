@@ -52,7 +52,7 @@ Run `fladder.exe` to start the application.
 
 ### Homebrew
 
-You can install Fladder using Homebrew with the following command:
+You can install Fladder via the [vikingnope/fladder](https://github.com/vikingnope/homebrew-fladder) tap:
 
 ```bash
 brew install --cask vikingnope/fladder/fladder
