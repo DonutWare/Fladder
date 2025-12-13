@@ -89,6 +89,7 @@ class SettingsListTile extends StatelessWidget {
                 ),
                 Expanded(
                   child: Column(
+                    mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Material(

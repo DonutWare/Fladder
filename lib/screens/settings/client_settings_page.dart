@@ -62,7 +62,7 @@ class _ClientSettingsPageState extends ConsumerState<ClientSettingsPage> {
             },
           ),
         ]),
-        if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer) ...[
+        if (AdaptiveLayout.inputDeviceOf(context) != InputDevice.touch) ...[
           const SizedBox(height: 12),
           ...buildClientSettingsShortCuts(context, ref),
         ],

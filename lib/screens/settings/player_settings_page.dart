@@ -203,7 +203,7 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                     },
                   )),
             ),
-            if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer)
+            if (AdaptiveLayout.inputDeviceOf(context) != InputDevice.touch)
               ExpansionTile(
                 title: Text(
                   context.localized.keyboardShortCuts,
@@ -370,6 +370,22 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                           onChanged: (value) => provider.setMediaTunneling(value),
                         ),
                       ),
+                      if (ref.read(argumentsStateProvider).leanBackMode)
+                        SettingsListTile(
+                          label: Text(context.localized.playerSettingsScreensaverTitle),
+                          subLabel: Text(context.localized.playerSettingsScreensaverDesc),
+                          trailing: EnumBox(
+                            current: videoSettings.screensaver.label(context),
+                            itemBuilder: (context) => Screensaver.values
+                                .map(
+                                  (entry) => ItemActionButton(
+                                    label: Text(entry.label(context)),
+                                    action: () => provider.setScreensaver(entry),
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                        ),
                     ],
                   ),
                 PlayerOptions.libMDK => SettingsMessageBox(

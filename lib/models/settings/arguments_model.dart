@@ -12,14 +12,17 @@ abstract class ArgumentsModel with _$ArgumentsModel {
   factory ArgumentsModel({
     @Default(false) bool htpcMode,
     @Default(false) bool leanBackMode,
+    @Default(false) bool newWindow,
   }) = _ArgumentsModel;
 
-  factory ArgumentsModel.fromArguments(List<String> arguments, bool leanBackEnabled) {
+  factory ArgumentsModel.fromArguments(List<String> arguments, String windowArguments, bool leanBackEnabled) {
     arguments = arguments.map((e) => e.trim()).toList();
     leanBackMode = leanBackEnabled;
+    final parsedWindowArgs = windowArguments.split(',');
     return ArgumentsModel(
       htpcMode: arguments.contains('--htpc') || leanBackEnabled,
       leanBackMode: leanBackEnabled,
+      newWindow: parsedWindowArgs.contains('--newWindow'),
     );
   }
 }

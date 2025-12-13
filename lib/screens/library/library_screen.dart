@@ -6,6 +6,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
+import 'package:fladder/models/collection_types.dart';
 import 'package:fladder/models/library_filter_model.dart';
 import 'package:fladder/models/recommended_model.dart';
 import 'package:fladder/models/view_model.dart';
@@ -45,6 +46,11 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(libraryScreenProvider, (previous, next) {
+      if ((previous?.viewType.length ?? 0) < next.viewType.length) {
+        refreshKey?.currentState?.show();
+      }
+    });
     final libraryScreenState = ref.watch(libraryScreenProvider);
     final views = libraryScreenState.views;
     final recommendations = libraryScreenState.recommendations;
@@ -133,9 +139,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
                                       )))
                                   .toList(),
                               selectedValues: viewTypes,
-                              onSelected: (value) {
-                                ref.read(libraryScreenProvider.notifier).setViewType(value);
-                              },
+                              onSelected: (value) => ref.read(libraryScreenProvider.notifier).setViewType(value),
                             ),
                             const Padding(
                               padding: EdgeInsets.symmetric(horizontal: 4.0),
@@ -155,74 +159,71 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
                   SliverFillRemaining(
                     child: Center(child: Text(context.localized.noResults)),
                   ),
-                if (viewTypes.contains(LibraryViewType.recommended)) ...[
-                  if (recommendations.isNotEmpty)
-                    ...recommendations.where((element) => element.posters.isNotEmpty).map(
-                      (element) {
-                        return SliverToBoxAdapter(
+                if (viewTypes.contains(LibraryViewType.recommended) && recommendations.isNotEmpty) ...[
+                  ...recommendations.where((element) => element.posters.isNotEmpty).map(
+                    (element) {
+                      return SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: PosterRow(
+                            contentPadding: padding,
+                            posters: element.posters,
+                            primaryPosters: element.name is Resume,
+                            label: element.type != null
+                                ? "${element.type?.label(context)} - ${element.name.label(context)}"
+                                : element.name.label(context),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+                if (viewTypes.contains(LibraryViewType.favourites) && favourites.isNotEmpty)
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: PosterRow(
+                        contentPadding: padding,
+                        onLabelClick: () => context.pushRoute(
+                          LibrarySearchRoute(
+                            viewModelId: libraryScreenState.selectedViewModel?.id ?? "",
+                          ).withFilter(
+                            const LibraryFilterModel(
+                              favourites: true,
+                              recursive: true,
+                            ),
+                          ),
+                        ),
+                        posters: favourites,
+                        label: context.localized.favorites,
+                      ),
+                    ),
+                  ),
+                if (viewTypes.contains(LibraryViewType.genres) && genres.isNotEmpty) ...[
+                  ...genres.where((element) => element.posters.isNotEmpty).map(
+                        (element) => SliverToBoxAdapter(
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0),
                             child: PosterRow(
                               contentPadding: padding,
                               posters: element.posters,
-                              primaryPosters: element.name is Resume,
+                              onLabelClick: () => context.pushRoute(
+                                LibrarySearchRoute(
+                                  viewModelId: libraryScreenState.selectedViewModel?.id ?? "",
+                                ).withFilter(
+                                  LibraryFilterModel(
+                                    recursive: true,
+                                    genres: {(element.name as Other).customLabel: true},
+                                  ),
+                                ),
+                              ),
                               label: element.type != null
                                   ? "${element.type?.label(context)} - ${element.name.label(context)}"
                                   : element.name.label(context),
                             ),
                           ),
-                        );
-                      },
-                    ),
-                ],
-                if (viewTypes.contains(LibraryViewType.favourites))
-                  if (favourites.isNotEmpty)
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: PosterRow(
-                          contentPadding: padding,
-                          onLabelClick: () => context.pushRoute(
-                            LibrarySearchRoute(
-                              viewModelId: libraryScreenState.selectedViewModel?.id ?? "",
-                            ).withFilter(
-                              const LibraryFilterModel(
-                                favourites: true,
-                                recursive: true,
-                              ),
-                            ),
-                          ),
-                          posters: favourites,
-                          label: context.localized.favorites,
                         ),
-                      ),
-                    ),
-                if (viewTypes.contains(LibraryViewType.genres)) ...[
-                  if (genres.isNotEmpty)
-                    ...genres.where((element) => element.posters.isNotEmpty).map(
-                          (element) => SliverToBoxAdapter(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8.0),
-                              child: PosterRow(
-                                contentPadding: padding,
-                                posters: element.posters,
-                                onLabelClick: () => context.pushRoute(
-                                  LibrarySearchRoute(
-                                    viewModelId: libraryScreenState.selectedViewModel?.id ?? "",
-                                  ).withFilter(
-                                    LibraryFilterModel(
-                                      recursive: true,
-                                      genres: {(element.name as Other).customLabel: true},
-                                    ),
-                                  ),
-                                ),
-                                label: element.type != null
-                                    ? "${element.type?.label(context)} - ${element.name.label(context)}"
-                                    : element.name.label(context),
-                              ),
-                            ),
-                          ),
-                        )
+                      )
                 ],
                 const DefautlSliverBottomPadding(),
               ],
@@ -291,9 +292,15 @@ class LibraryRow extends ConsumerWidget {
                   items: viewActions.popupMenuItems(useIcons: true),
                 );
               },
-              child: Container(
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 150),
                 decoration: BoxDecoration(
-                  borderRadius: FladderTheme.defaultShape.borderRadius,
+                  color: Theme.of(context).colorScheme.surface,
+                  borderRadius: FladderTheme.smallShape.borderRadius,
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.primary.withValues(alpha: isSelected ? 1.0 : 0.0),
+                    width: isSelected ? 3 : 0,
+                  ),
                 ),
                 clipBehavior: Clip.hardEdge,
                 width: 200,
@@ -305,12 +312,19 @@ class LibraryRow extends ConsumerWidget {
                       image: view.imageData?.primary,
                       fit: BoxFit.cover,
                       placeHolder: Center(
-                        child: Text(
-                          view.name,
-                          style: Theme.of(context).textTheme.titleMedium,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.start,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          spacing: 8,
+                          children: [
+                            Icon(view.collectionType.icon),
+                            Text(
+                              view.name,
+                              style: Theme.of(context).textTheme.titleMedium,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
                         ),
                       ),
                     ),

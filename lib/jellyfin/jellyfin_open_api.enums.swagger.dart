@@ -259,6 +259,22 @@ enum CollectionTypeOptions {
   const CollectionTypeOptions(this.value);
 }
 
+enum DatabaseLockingBehaviorTypes {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('NoLock')
+  nolock('NoLock'),
+  @JsonValue('Pessimistic')
+  pessimistic('Pessimistic'),
+  @JsonValue('Optimistic')
+  optimistic('Optimistic');
+
+  final String? value;
+
+  const DatabaseLockingBehaviorTypes(this.value);
+}
+
 enum DayOfWeek {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -476,7 +492,9 @@ enum ExternalIdMediaType {
   @JsonValue('Track')
   track('Track'),
   @JsonValue('Book')
-  book('Book');
+  book('Book'),
+  @JsonValue('Recording')
+  recording('Recording');
 
   final String? value;
 
@@ -729,10 +747,6 @@ enum GroupUpdateType {
   notingroup('NotInGroup'),
   @JsonValue('GroupDoesNotExist')
   groupdoesnotexist('GroupDoesNotExist'),
-  @JsonValue('CreateGroupDenied')
-  creategroupdenied('CreateGroupDenied'),
-  @JsonValue('JoinGroupDenied')
-  joingroupdenied('JoinGroupDenied'),
   @JsonValue('LibraryAccessDenied')
   libraryaccessdenied('LibraryAccessDenied');
 
@@ -941,8 +955,6 @@ enum ItemFields {
   externalurls('ExternalUrls'),
   @JsonValue('Genres')
   genres('Genres'),
-  @JsonValue('HomePageUrl')
-  homepageurl('HomePageUrl'),
   @JsonValue('ItemCounts')
   itemcounts('ItemCounts'),
   @JsonValue('MediaSourceCount')
@@ -971,10 +983,6 @@ enum ItemFields {
   recursiveitemcount('RecursiveItemCount'),
   @JsonValue('Settings')
   settings('Settings'),
-  @JsonValue('ScreenshotImageTags')
-  screenshotimagetags('ScreenshotImageTags'),
-  @JsonValue('SeriesPrimaryImage')
-  seriesprimaryimage('SeriesPrimaryImage'),
   @JsonValue('SeriesStudio')
   seriesstudio('SeriesStudio'),
   @JsonValue('SortName')
@@ -993,22 +1001,6 @@ enum ItemFields {
   mediastreams('MediaStreams'),
   @JsonValue('SeasonUserData')
   seasonuserdata('SeasonUserData'),
-  @JsonValue('ServiceName')
-  servicename('ServiceName'),
-  @JsonValue('ThemeSongIds')
-  themesongids('ThemeSongIds'),
-  @JsonValue('ThemeVideoIds')
-  themevideoids('ThemeVideoIds'),
-  @JsonValue('ExternalEtag')
-  externaletag('ExternalEtag'),
-  @JsonValue('PresentationUniqueKey')
-  presentationuniquekey('PresentationUniqueKey'),
-  @JsonValue('InheritedParentalRatingValue')
-  inheritedparentalratingvalue('InheritedParentalRatingValue'),
-  @JsonValue('ExternalSeriesId')
-  externalseriesid('ExternalSeriesId'),
-  @JsonValue('SeriesPresentationUniqueKey')
-  seriespresentationuniquekey('SeriesPresentationUniqueKey'),
   @JsonValue('DateLastRefreshed')
   datelastrefreshed('DateLastRefreshed'),
   @JsonValue('DateLastSaved')
@@ -1128,11 +1120,7 @@ enum ItemSortBy {
   @JsonValue('ParentIndexNumber')
   parentindexnumber('ParentIndexNumber'),
   @JsonValue('IndexNumber')
-  indexnumber('IndexNumber'),
-  @JsonValue('SimilarityScore')
-  similarityscore('SimilarityScore'),
-  @JsonValue('SearchScore')
-  searchscore('SearchScore');
+  indexnumber('IndexNumber');
 
   final String? value;
 
@@ -1629,6 +1617,8 @@ enum PluginStatus {
   restart('Restart'),
   @JsonValue('Deleted')
   deleted('Deleted'),
+  @JsonValue('Superseded')
+  superseded('Superseded'),
   @JsonValue('Superceded')
   superceded('Superceded'),
   @JsonValue('Malfunctioned')
@@ -1736,7 +1726,9 @@ enum ProfileConditionValue {
   @JsonValue('AudioBitDepth')
   audiobitdepth('AudioBitDepth'),
   @JsonValue('VideoRangeType')
-  videorangetype('VideoRangeType');
+  videorangetype('VideoRangeType'),
+  @JsonValue('NumStreams')
+  numstreams('NumStreams');
 
   final String? value;
 
@@ -2071,6 +2063,24 @@ enum TaskState {
   const TaskState(this.value);
 }
 
+enum TaskTriggerInfoType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('DailyTrigger')
+  dailytrigger('DailyTrigger'),
+  @JsonValue('WeeklyTrigger')
+  weeklytrigger('WeeklyTrigger'),
+  @JsonValue('IntervalTrigger')
+  intervaltrigger('IntervalTrigger'),
+  @JsonValue('StartupTrigger')
+  startuptrigger('StartupTrigger');
+
+  final String? value;
+
+  const TaskTriggerInfoType(this.value);
+}
+
 enum TonemappingAlgorithm {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -2188,7 +2198,9 @@ enum TranscodeReason {
   @JsonValue('VideoRangeTypeNotSupported')
   videorangetypenotsupported('VideoRangeTypeNotSupported'),
   @JsonValue('VideoCodecTagNotSupported')
-  videocodectagnotsupported('VideoCodecTagNotSupported');
+  videocodectagnotsupported('VideoCodecTagNotSupported'),
+  @JsonValue('StreamCountExceedsLimit')
+  streamcountexceedslimit('StreamCountExceedsLimit');
 
   final String? value;
 
@@ -2264,7 +2276,9 @@ enum TranscodingInfoTranscodeReasons {
   @JsonValue('VideoRangeTypeNotSupported')
   videorangetypenotsupported('VideoRangeTypeNotSupported'),
   @JsonValue('VideoCodecTagNotSupported')
-  videocodectagnotsupported('VideoCodecTagNotSupported');
+  videocodectagnotsupported('VideoCodecTagNotSupported'),
+  @JsonValue('StreamCountExceedsLimit')
+  streamcountexceedslimit('StreamCountExceedsLimit');
 
   final String? value;
 
@@ -2385,6 +2399,14 @@ enum VideoRangeType {
   doviwithhlg('DOVIWithHLG'),
   @JsonValue('DOVIWithSDR')
   doviwithsdr('DOVIWithSDR'),
+  @JsonValue('DOVIWithEL')
+  doviwithel('DOVIWithEL'),
+  @JsonValue('DOVIWithHDR10Plus')
+  doviwithhdr10plus('DOVIWithHDR10Plus'),
+  @JsonValue('DOVIWithELHDR10Plus')
+  doviwithelhdr10plus('DOVIWithELHDR10Plus'),
+  @JsonValue('DOVIInvalid')
+  doviinvalid('DOVIInvalid'),
   @JsonValue('HDR10Plus')
   hdr10plus('HDR10Plus');
 
@@ -5218,11 +5240,7 @@ enum ShowsSeriesIdEpisodesGetSortBy {
   @JsonValue('ParentIndexNumber')
   parentindexnumber('ParentIndexNumber'),
   @JsonValue('IndexNumber')
-  indexnumber('IndexNumber'),
-  @JsonValue('SimilarityScore')
-  similarityscore('SimilarityScore'),
-  @JsonValue('SearchScore')
-  searchscore('SearchScore');
+  indexnumber('IndexNumber');
 
   final String? value;
 

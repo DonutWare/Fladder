@@ -81,7 +81,7 @@ class ExpressiveButton extends StatelessWidget {
     return ElevatedButton.icon(
       style: ButtonStyle(
         shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: borderRadius)),
-        elevation: WidgetStatePropertyAll(isSelected ? 4 : 0),
+        elevation: const WidgetStatePropertyAll(0),
         backgroundColor: WidgetStatePropertyAll(
             isSelected ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.surfaceContainerHighest),
         foregroundColor: WidgetStatePropertyAll(

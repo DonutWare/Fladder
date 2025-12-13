@@ -225,7 +225,7 @@ class FakeJellyfinOpenApi extends JellyfinOpenApi {
   }
 
   @override
-  Future<chopper.Response<List<BaseItemDto>>> itemsLatestGet({
+  Future<chopper.Response<List<BaseItemDto>>> usersUserIdItemsLatestGet({
     String? userId,
     String? parentId,
     List<enums.ItemFields>? fields,
@@ -289,7 +289,7 @@ class FakeJellyfinOpenApi extends JellyfinOpenApi {
   }
 
   @override
-  Future<chopper.Response<BaseItemDtoQueryResult>> itemsGet({
+  Future<chopper.Response<BaseItemDtoQueryResult>> usersUserIdItemsGet({
     String? userId,
     String? maxOfficialRating,
     bool? hasThemeSong,
@@ -681,9 +681,9 @@ class FakeJellyfinOpenApi extends JellyfinOpenApi {
   }
 
   @override
-  Future<chopper.Response<BrandingOptions>> brandingConfigurationGet() async => chopper.Response(
+  Future<chopper.Response<BrandingOptionsDto>> brandingConfigurationGet() async => chopper.Response(
         FakeHelper.fakeCorrectResponse,
-        const BrandingOptions(loginDisclaimer: "Test server"),
+        const BrandingOptionsDto(loginDisclaimer: "Test server"),
       );
 }
 

@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
-import 'package:fladder/providers/user_provider.dart';
+import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/video_properties.dart';
 
@@ -358,6 +358,10 @@ class SubStreamModel extends AudioAndSubStreamModel {
   }
 
   factory SubStreamModel.fromMediaStream(dto.MediaStream stream, Ref ref) {
+    final subStreamUrl = stream.deliveryUrl != null
+        ? "${ref.read(serverUrlProvider) ?? ""}${stream.deliveryUrl?.substring(1)}}".replaceAll(".vtt", ".srt")
+        : null;
+
     return SubStreamModel(
       name: stream.title ?? "",
       title: stream.title ?? "",
@@ -367,9 +371,7 @@ class SubStreamModel extends AudioAndSubStreamModel {
       codec: stream.codec ?? "",
       id: stream.hashCode.toString(),
       supportsExternalStream: stream.supportsExternalStream ?? false,
-      url: stream.deliveryUrl != null
-          ? "${ref.read(userProvider)?.server ?? ""}${stream.deliveryUrl}}".replaceAll(".vtt", ".srt")
-          : null,
+      url: subStreamUrl,
       isExternal: stream.isExternal ?? false,
       index: stream.index ?? -1,
     );

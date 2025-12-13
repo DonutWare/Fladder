@@ -764,7 +764,7 @@
   "@settingsPosterSize": {},
   "settingsPosterSlider": "Show scale slider",
   "@settingsPosterSlider": {},
-  "settingsProfileDesc": "Lockscreen",
+  "settingsProfileDesc": "Lockscreen, Local URL",
   "@settingsProfileDesc": {},
   "settingsProfileTitle": "Profile",
   "@settingsProfileTitle": {},
@@ -1366,5 +1366,22 @@
         "format": "jm"
       }
     }
-  }
+  },
+  "takeScreenshot": "Take screenshot",
+  "takeScreenshotClean": "Take screenshot (without subtitles)",
+  "screenshots": "Screenshots",
+  "screenshotTaken": "Screenshot saved!",
+  "screenshotCleanTaken": "Screenshot without subtitles saved!",
+  "errorTakingScreenshot": "There was an error taking the screenshot",
+  "openImeKeyboard": "Open IME keyboard",
+  "screensaverDvd": "DVD",
+  "screensaverLogo": "Logo",
+  "screensaverTime": "Time",
+  "screensaverBlack": "Black",
+  "playerSettingsScreensaverTitle": "Screensaver",
+  "playerSettingsScreensaverDesc": "Select screen saver that will be shown after no player activity",
+  "settingsLocalUrlTitle": "Local Server URL",
+  "settingsLocalUrlSetTitle": "Configure Local URL",
+  "settingsLocalUrlSetDesc": "Specify the local server address. Fladder will automatically use this URL when your device is on the same network.",
+  "regenerateTrickplayImages": "Regenerate trickplay images"
 }

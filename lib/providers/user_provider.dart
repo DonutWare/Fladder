@@ -96,19 +96,30 @@ class User extends _$User {
     String itemId, {
     MetadataRefresh? metadataRefreshMode,
     bool? replaceAllMetadata,
+    bool? replaceTrickplayImages,
   }) async {
     return api.itemsItemIdRefreshPost(
       itemId: itemId,
-      metadataRefreshMode: metadataRefreshMode,
-      imageRefreshMode: metadataRefreshMode,
+      metadataRefreshMode: switch (metadataRefreshMode) {
+        MetadataRefresh.defaultRefresh => MetadataRefresh.defaultRefresh,
+        _ => MetadataRefresh.fullRefresh,
+      },
+      imageRefreshMode: switch (metadataRefreshMode) {
+        MetadataRefresh.defaultRefresh => MetadataRefresh.defaultRefresh,
+        _ => MetadataRefresh.fullRefresh,
+      },
       replaceAllMetadata: switch (metadataRefreshMode) {
-        MetadataRefresh.fullRefresh => false,
-        MetadataRefresh.validation => true,
+        MetadataRefresh.fullRefresh => true,
         _ => false,
       },
       replaceAllImages: switch (metadataRefreshMode) {
-        MetadataRefresh.fullRefresh => true,
-        MetadataRefresh.validation => true,
+        MetadataRefresh.fullRefresh => replaceAllMetadata,
+        MetadataRefresh.validation => replaceAllMetadata,
+        _ => false,
+      },
+      replaceTrickplayImages: switch (metadataRefreshMode) {
+        MetadataRefresh.fullRefresh => replaceTrickplayImages,
+        MetadataRefresh.validation => replaceTrickplayImages,
         _ => false,
       },
     );
@@ -133,20 +144,16 @@ class User extends _$User {
     return Response(response.base, UserData.fromDto(response.body));
   }
 
-  void clear() {
-    userState = null;
-  }
-
-  void updateUser(AccountModel? user) {
-    userState = user;
-  }
-
-  void loginUser(AccountModel? user) {
-    state = user;
-  }
-
-  void setAuthMethod(Authentication method) {
-    userState = state?.copyWith(authMethod: method);
+  void clear() => userState = null;
+  void updateUser(AccountModel? user) => userState = user;
+  void loginUser(AccountModel? user) => state = user;
+  void setAuthMethod(Authentication method) => userState = state?.copyWith(authMethod: method);
+  void setLocalURL(String? value) {
+    final user = state;
+    if (user == null) return;
+    state = user.copyWith(
+      credentials: user.credentials.copyWith(localUrl: value?.isEmpty == true ? null : value),
+    );
   }
 
   void addSearchQuery(String value) {
@@ -217,5 +224,5 @@ class User extends _$User {
   void deleteAllFilters() => userState = state?.copyWith(libraryFilters: []);
 
   String? createDownloadUrl(ItemBaseModel item) =>
-      Uri.encodeFull("${state?.server}/Items/${item.id}/Download?api_key=${state?.credentials.token}");
+      Uri.encodeFull("${state?.credentials.url}/Items/${item.id}/Download?api_key=${state?.credentials.token}");
 }

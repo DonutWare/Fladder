@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:chopper/chopper.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -12,6 +13,25 @@ import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 
 part 'api_provider.g.dart';
+
+final serverUrlProvider = StateProvider<String?>((ref) {
+  final localUrlAvailable = ref.watch(localConnectionAvailableProvider);
+  final userCredentials = ref.watch(userProvider.select((value) => value?.credentials));
+  final tempUrl = ref.watch(authProvider.select((value) => value.serverLoginModel?.tempCredentials.url));
+  String? newUrl;
+
+  if (localUrlAvailable && userCredentials?.localUrl?.isNotEmpty == true) {
+    newUrl = userCredentials?.localUrl;
+  } else if (userCredentials?.url.isNotEmpty == true) {
+    newUrl = userCredentials?.url;
+  } else if (tempUrl?.isNotEmpty == true) {
+    newUrl = tempUrl;
+  } else {
+    newUrl = null;
+  }
+
+  return normalizeUrl(newUrl ?? "");
+});
 
 @riverpod
 class JellyApi extends _$JellyApi {
@@ -36,9 +56,9 @@ class JellyRequest implements Interceptor {
   @override
   FutureOr<Response<BodyType>> intercept<BodyType>(Chain<BodyType> chain) async {
     final connectivityNotifier = ref.read(connectivityStatusProvider.notifier);
+    final serverUrl = ref.read(serverUrlProvider);
     try {
-      final serverUrl = Uri.parse(
-          ref.read(userProvider)?.server ?? ref.read(authProvider).serverLoginModel?.tempCredentials.server ?? "");
+      if (serverUrl?.isEmpty == true || serverUrl == null) throw const HttpException("Failed to connect");
 
       //Use current logged in user otherwise use the authprovider
       var loginModel = ref.read(userProvider)?.credentials ?? ref.read(authProvider).serverLoginModel?.tempCredentials;
@@ -49,7 +69,7 @@ class JellyRequest implements Interceptor {
       final Response<BodyType> response = await chain.proceed(
         applyHeaders(
             chain.request.copyWith(
-              baseUri: serverUrl,
+              baseUri: Uri.parse(serverUrl),
             ),
             headers),
       );
@@ -61,6 +81,17 @@ class JellyRequest implements Interceptor {
       throw Exception('Failed to make request\n$e');
     }
   }
+}
+
+String normalizeUrl(String url) {
+  url = url.trim();
+  if (!url.startsWith("http://") && !url.startsWith("https://")) {
+    url = "http://$url";
+  }
+  if (!url.endsWith("/")) {
+    url = "$url/";
+  }
+  return url;
 }
 
 class JellyResponse implements Interceptor {

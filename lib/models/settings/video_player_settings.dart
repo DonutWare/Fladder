@@ -29,6 +29,8 @@ enum VideoHotKeys {
   prevChapter,
   fullScreen,
   skipMediaSegment,
+  takeScreenshot,
+  takeScreenshotClean,
   exit;
 
   const VideoHotKeys();
@@ -49,6 +51,8 @@ enum VideoHotKeys {
       VideoHotKeys.prevChapter => context.localized.prevChapter,
       VideoHotKeys.fullScreen => context.localized.fullScreen,
       VideoHotKeys.skipMediaSegment => context.localized.skipMediaSegment,
+      VideoHotKeys.takeScreenshot => context.localized.takeScreenshot,
+      VideoHotKeys.takeScreenshotClean => context.localized.takeScreenshotClean,
       VideoHotKeys.exit => context.localized.exit,
     };
   }
@@ -75,6 +79,7 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     String? audioDevice,
     @Default(defaultSegmentSkipValues) Map<MediaSegmentType, SegmentSkip> segmentSkipSettings,
     @Default({}) Map<VideoHotKeys, KeyCombination> hotKeys,
+    @Default(Screensaver.logo) Screensaver screensaver,
   }) = _VideoPlayerSettingsModel;
 
   double get volume => switch (defaultTargetPlatform) {
@@ -139,7 +144,7 @@ enum PlayerOptions {
   const PlayerOptions();
 
   static Iterable<PlayerOptions> get available => leanBackMode
-      ? {PlayerOptions.nativePlayer, PlayerOptions.libMPV}
+      ? {PlayerOptions.nativePlayer}
       : kIsWeb
           ? {PlayerOptions.libMPV}
           : switch (defaultTargetPlatform) {
@@ -159,6 +164,24 @@ enum PlayerOptions {
         PlayerOptions.libMDK => "MDK",
         PlayerOptions.libMPV => "MPV",
         PlayerOptions.nativePlayer => "Native",
+      };
+}
+
+enum Screensaver {
+  disabled,
+  dvd,
+  logo,
+  time,
+  black;
+
+  const Screensaver();
+
+  String label(BuildContext context) => switch (this) {
+        Screensaver.disabled => context.localized.disabled,
+        Screensaver.dvd => context.localized.screensaverDvd,
+        Screensaver.logo => context.localized.screensaverLogo,
+        Screensaver.time => context.localized.screensaverTime,
+        Screensaver.black => context.localized.screensaverBlack,
       };
 }
 
@@ -212,6 +235,9 @@ Map<VideoHotKeys, KeyCombination> get _defaultVideoHotKeys => {
           VideoHotKeys.prevChapter => KeyCombination(key: LogicalKeyboardKey.pageDown),
           VideoHotKeys.fullScreen => KeyCombination(key: LogicalKeyboardKey.keyF),
           VideoHotKeys.skipMediaSegment => KeyCombination(key: LogicalKeyboardKey.keyS),
+          VideoHotKeys.takeScreenshot => KeyCombination(key: LogicalKeyboardKey.keyG),
+          VideoHotKeys.takeScreenshotClean =>
+            KeyCombination(key: LogicalKeyboardKey.keyG, modifier: LogicalKeyboardKey.controlLeft),
           VideoHotKeys.exit => KeyCombination(key: LogicalKeyboardKey.escape),
         },
     };

@@ -27,6 +27,13 @@ final pigeonPlayerSettingsSyncProvider = Provider<void>((ref) {
       pigeon.PlayerSettingsPigeon().sendPlayerSettings(
         pigeon.PlayerSettings(
           enableTunneling: value.enableTunneling,
+          screensaver: switch (value.screensaver) {
+            Screensaver.disabled => pigeon.Screensaver.disabled,
+            Screensaver.dvd => pigeon.Screensaver.dvd,
+            Screensaver.logo => pigeon.Screensaver.logo,
+            Screensaver.time => pigeon.Screensaver.time,
+            Screensaver.black => pigeon.Screensaver.black,
+          },
           skipTypes: value.segmentSkipSettings.map(
             (key, value) => MapEntry(
               switch (key) {

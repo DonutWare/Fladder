@@ -25,6 +25,7 @@ import 'package:fladder/screens/video_player/components/video_playback_informati
 import 'package:fladder/screens/video_player/components/video_player_controls_extras.dart';
 import 'package:fladder/screens/video_player/components/video_player_options_sheet.dart';
 import 'package:fladder/screens/video_player/components/video_player_quality_controls.dart';
+import 'package:fladder/screens/video_player/components/video_player_screenshot_indicator.dart';
 import 'package:fladder/screens/video_player/components/video_player_seek_indicator.dart';
 import 'package:fladder/screens/video_player/components/video_player_speed_indicator.dart';
 import 'package:fladder/screens/video_player/components/video_player_volume_indicator.dart';
@@ -60,6 +61,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   final fadeDuration = const Duration(milliseconds: 350);
   bool showOverlay = true;
   bool wasPlaying = false;
+  SystemUiMode? _currentSystemUiMode;
 
   late final double topPadding = MediaQuery.of(context).viewPadding.top;
   late final double bottomPadding = MediaQuery.of(context).viewPadding.bottom;
@@ -126,6 +128,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                 const VideoPlayerSeekIndicator(),
                 const VideoPlayerVolumeIndicator(),
                 const VideoPlayerSpeedIndicator(),
+                const VideoPlayerScreenshotIndicator(),
                 Consumer(
                   builder: (context, ref, child) {
                     final position = ref.watch(mediaPlaybackProvider.select((value) => value.position));
@@ -625,7 +628,14 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     if (showOverlay == (value ?? !showOverlay)) return;
     setState(() => showOverlay = (value ?? !showOverlay));
     resetTimer();
-    SystemChrome.setEnabledSystemUIMode(showOverlay ? SystemUiMode.edgeToEdge : SystemUiMode.leanBack, overlays: []);
+
+    final desiredMode = showOverlay ? SystemUiMode.edgeToEdge : SystemUiMode.immersiveSticky;
+
+    if (_currentSystemUiMode != desiredMode) {
+      _currentSystemUiMode = desiredMode;
+      SystemChrome.setEnabledSystemUIMode(desiredMode, overlays: []);
+    }
+
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       systemNavigationBarColor: Colors.transparent,

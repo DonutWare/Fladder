@@ -15,10 +15,10 @@ class VideoPlayerSeekIndicator extends ConsumerStatefulWidget {
   const VideoPlayerSeekIndicator({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _VideoPlayerSeekIndicatorState();
+  ConsumerState<ConsumerStatefulWidget> createState() => VideoPlayerSeekIndicatorState();
 }
 
-class _VideoPlayerSeekIndicatorState extends ConsumerState<VideoPlayerSeekIndicator> {
+class VideoPlayerSeekIndicatorState extends ConsumerState<VideoPlayerSeekIndicator> {
   RestartableTimer? timer;
 
   bool visible = false;
@@ -53,8 +53,9 @@ class _VideoPlayerSeekIndicatorState extends ConsumerState<VideoPlayerSeekIndica
 
   @override
   Widget build(BuildContext context) {
-    return InputHandler(
-      autoFocus: true,
+    return InputHandler<VideoHotKeys>(
+      autoFocus: false,
+      listenRawKeyboard: true,
       keyMap: ref.watch(videoPlayerSettingsProvider.select((value) => value.currentShortcuts)),
       keyMapResult: (result) => _onKey(result),
       child: IgnorePointer(
@@ -88,20 +89,6 @@ class _VideoPlayerSeekIndicatorState extends ConsumerState<VideoPlayerSeekIndica
     );
   }
 
-  bool _onKey(VideoHotKeys value) {
-    switch (value) {
-      case VideoHotKeys.seekForward:
-        seekForward();
-        return true;
-      case VideoHotKeys.seekBack:
-        seekBack();
-        return true;
-      default:
-        break;
-    }
-    return false;
-  }
-
   void seekBack() {
     final seconds = -ref.read(userProvider
         .select((value) => (value?.userSettings?.skipBackDuration ?? UserSettings().skipBackDuration).inSeconds));
@@ -112,5 +99,18 @@ class _VideoPlayerSeekIndicatorState extends ConsumerState<VideoPlayerSeekIndica
     final seconds = ref.read(userProvider
         .select((value) => (value?.userSettings?.skipForwardDuration ?? UserSettings().skipForwardDuration).inSeconds));
     onSeekStart(seconds);
+  }
+
+  bool _onKey(VideoHotKeys value) {
+    switch (value) {
+      case VideoHotKeys.seekForward:
+        seekForward();
+        return true;
+      case VideoHotKeys.seekBack:
+        seekBack();
+        return true;
+      default:
+        return false;
+    }
   }
 }

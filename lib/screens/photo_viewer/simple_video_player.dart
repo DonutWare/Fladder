@@ -10,9 +10,11 @@ import 'package:window_manager/window_manager.dart';
 
 import 'package:fladder/models/items/photos_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
+import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/settings/photo_view_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/widgets/shared/fladder_slider.dart';
@@ -94,7 +96,7 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
 
     player.init(ref.read(videoPlayerSettingsProvider));
 
-    videoUrl = joinAll([ref.read(userProvider)?.server ?? "", "Videos", widget.video.id, "stream?$params"]);
+    videoUrl = joinAll([ref.read(serverUrlProvider) ?? "", "Videos", widget.video.id, "stream?$params"]);
 
     subscriptions.add(player.stateStream.listen((event) {
       setState(() {
@@ -216,6 +218,7 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
                               color: Theme.of(context).colorScheme.onSurface,
                               onPressed: () async {
                                 await player.playOrPause();
+                                if (AdaptiveLayout.isDesktop(context)) return;
                                 if (player.lastState.playing) {
                                   WakelockPlus.enable();
                                 } else {

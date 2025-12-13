@@ -11,6 +11,7 @@ import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/login/widgets/login_icon.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/screens/shared/passcode_input.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/auth_service.dart';
 import 'package:fladder/util/localization_helper.dart';
 
@@ -130,6 +131,7 @@ class _LockScreenState extends ConsumerState<LockScreen> with WidgetsBindingObse
                     padding: const EdgeInsets.all(64.0),
                     child: LoginIcon(
                       user: user,
+                      autoFocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad,
                       onPressed: () => tapLoggedInAccount(user),
                     ),
                   ),
