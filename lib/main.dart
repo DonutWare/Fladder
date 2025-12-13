@@ -336,7 +336,7 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
                 return locale;
               }
               final matchByLanguage = supportedLocales.firstWhere(
-                (l) => l == locale,
+                (l) => l.languageCode == locale.languageCode,
                 orElse: () => fallback,
               );
 
