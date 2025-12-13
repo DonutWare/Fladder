@@ -30,7 +30,7 @@ Platform-specific installation instructions can be found in this document.
 
 ### Winget
 
-You can install Fladder using winget with the following command:
+You can install Fladder using Winget:
 
 ```bash
 winget install DonutWare.Fladder
