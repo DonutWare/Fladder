@@ -2,8 +2,10 @@ id: nl.jknaapen.fladder
 runtime: org.gnome.Platform
 runtime-version: '48'
 sdk: org.gnome.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.llvm18
 
-command: Fladder
+command: fladder
 add-extensions:
   org.freedesktop.Platform.ffmpeg-full:
     directory: lib/ffmpeg
@@ -22,10 +24,11 @@ finish-args:
   - --socket=pulseaudio
   # Network access for Jellyfin streaming
   - --share=network
-  # File access for downloads/media
-  - --filesystem=home
-  # File access for downloads temporary directory
-  - --filesystem=/tmp
+  # File access for downloads/media - using xdg-download instead of full home access
+  - --filesystem=xdg-download
+  - --filesystem=xdg-music:ro
+  - --filesystem=xdg-videos:ro
+  - --filesystem=xdg-pictures:ro
   # Allow access to PipeWire socket for mpv
   - --filesystem=xdg-run/pipewire-0:ro
   # Hardware acceleration
@@ -34,7 +37,6 @@ finish-args:
   - --talk-name=org.freedesktop.Notifications
   - --talk-name=org.freedesktop.PowerManagement
   - --talk-name=org.freedesktop.ScreenSaver
-  - --talk-name=org.freedesktop.portal.*
   # DBus system bus access for NetworkManager (connectivity checking)
   - --system-talk-name=org.freedesktop.NetworkManager
 
@@ -139,16 +141,67 @@ modules:
         tag: 4.0.3
         commit: 7f7ac1840cfd914dfac69d947f0849dc50b0f695
 
+  - name: flutter-git
+    buildsystem: simple
+    build-options:
+      # Flutter needs network access to download dependencies during build
+      build-args:
+        - --share=network
+    cleanup:
+      - '*'
+    build-commands:
+      - mkdir -p /app/flutter
+      - cp -r . /app/flutter/
+      - ln -s /app/flutter/bin/flutter /app/bin/flutter
+      - ln -s /app/flutter/bin/dart /app/bin/dart
+      # Initialize Flutter (will download Dart SDK and build tools with network access)
+      - /app/flutter/bin/flutter --version
+      - /app/flutter/bin/flutter precache --linux --no-android --no-ios --no-web
+    sources:
+      - type: git
+        url: https://github.com/flutter/flutter.git
+        tag: 3.35.1
+        commit: 20f82749394e68bcfbbeee96bad384abaae09c13
+
   - name: fladder
     buildsystem: simple
+    build-options:
+      # Flutter needs network access to download pub dependencies
+      build-args:
+        - --share=network
+      # Make LLVM/clang available for Flutter build
+      append-path: /usr/lib/sdk/llvm18/bin
+      env:
+        CC: clang
+        CXX: clang++
     build-commands:
-      - mkdir -p /app/bin
-      - cp -r build/linux/x64/release/bundle/* /app/bin/
-      - chmod +x /app/bin/Fladder
-      - mkdir -p /app/share/applications
-      - mkdir -p /app/share/icons/hicolor/scalable/apps
+      # Build the app from source
+      - flutter pub get
+      - flutter build linux --release
+      
+      # Make the install script executable and run it
+      - chmod +x install-bundle.sh
+      - ./install-bundle.sh
+      
+      # Install desktop file and icon
       - install -Dm644 flatpak/Fladder.desktop /app/share/applications/${FLATPAK_ID}.desktop
       - install -Dm644 icons/fladder_icon.svg /app/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg
+      
+      # Install metainfo
+      - install -Dm644 flatpak/${FLATPAK_ID}.metainfo.xml /app/share/metainfo/${FLATPAK_ID}.metainfo.xml
     sources:
-      - type: dir
-        path: ..
+      - type: script
+        dest-filename: install-bundle.sh
+        commands:
+          - set -e
+          - BUNDLE_DIR=$(find build/linux -type d -name bundle | head -n1)
+          - echo "Found bundle at: $BUNDLE_DIR"
+          - mkdir -p /app/bin
+          - cp -rv "$BUNDLE_DIR"/* /app/bin/
+          - mv /app/bin/Fladder /app/bin/fladder
+          - chmod +x /app/bin/fladder
+      - type: git
+        url: https://github.com/DonutWare/Fladder.git
+        tag: v0.8.0
+        commit: a00b5255992ca4b6d5ba5eb5513e960ed780c198
+        # Note: Commit will be updated automatically by the GitHub workflow
