@@ -4,34 +4,61 @@ Platform-specific installation instructions can be found in this document.
 
 *Use the links below to jump to your platform.*
 
-- [Windows](#windows)
-- [macOS](#macos)
-- [Linux](#linux)
-	- [Ubuntu/Debian](#ubuntudebian)
-	- [Arch](#arch)
-	- [Fedora](#fedora)
-- [Android](#android)
-	- [Play Store](#play-store)
-	- [Manual installation](#manual)
-- [iOS](#iosipados)
-	- [Sideloadly](#sideloadly)
-- [Docker](#docker)
-- [Web](#web)
+- [Installation instructions](#installation-instructions)
+	- [Windows](#windows)
+		- [Winget](#winget)
+		- [Manual](#manual)
+			- [Installer](#installer)
+			- [Portable](#portable)
+	- [macOS](#macos)
+		- [Homebrew](#homebrew)
+		- [Manual](#manual-1)
+	- [Linux](#linux)
+		- [Ubuntu/Debian](#ubuntudebian)
+		- [Arch](#arch)
+		- [Fedora](#fedora)
+	- [Android](#android)
+		- [Play Store](#play-store)
+		- [Manual](#manual-2)
+	- [iOS/iPadOS](#iosipados)
+		- [Sideloadly](#sideloadly)
+	- [Docker](#docker)
+	- [Web](#web)
 
 
 ## Windows
 
-### Installer
+### Winget
+
+You can install Fladder using winget with the following command:
+
+```bash
+winget install DonutWare.Fladder
+```
+
+### Manual
+
+#### Installer
 
 Download the latest `.exe` installer from the [Releases](https://github.com/DonutWare/Fladder/releases) page and open it. Follow the on-screen instructions.
 
-### Portable
+#### Portable
 
 Download the latest `.zip` file from the [Releases](https://github.com/DonutWare/Fladder/releases) page and extract it somewhere on your PC.
 
 Run `fladder.exe` to start the application.
 
 ## macOS
+
+### Homebrew
+
+You can install Fladder using Homebrew with the following command:
+
+```bash
+brew install --cask vikingnope/fladder/fladder
+```
+
+### Manual
 
 1. Download the latest `*.dmg` file from the [Releases](https://github.com/DonutWare/Fladder/releases) page.
 
@@ -136,10 +163,13 @@ You can install Fladder on your server to provide an alternate Jellyfin dashboar
 
 Copy the contents of the [docker-compose.yml](https://raw.githubusercontent.com/DonutWare/Fladder/refs/heads/develop/docker-compose.yml) file and save it to your server.
 
-Run `docker-compose up -d` to start the container. It will be available on `http://<server-ip>`.
-
 > [!TIP]
-> We recommend changing the `BASE_URL` environment variable to the URL you use to access Jellyfin, as this will skip entering it when you load the web UI.
+> We recommend setting the `BASE_URL` environment variable to your Jellyfin URL. This skips the login URL step in the web UI.
+
+> [!NOTE]
+> If you prefer the rootless version, change the image in the file to: `ghcr.io/donutware/fladder-rootless:latest`
+
+Run `docker-compose up -d` to start the container. It will be available on `http://<server-ip>`.
 
 ## Web
 
