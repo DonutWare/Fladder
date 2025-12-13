@@ -1559,5 +1559,7 @@
     "screenshotCleanTaken": "Збережено скріншот без субтитрів!",
     "@screenshotCleanTaken": {},
     "errorTakingScreenshot": "Сталася помилка під час створення знімка екрана",
-    "@errorTakingScreenshot": {}
+    "@errorTakingScreenshot": {},
+    "regenerateTrickplayImages": "Регенерувати зображення для трикплею",
+    "@regenerateTrickplayImages": {}
 }
