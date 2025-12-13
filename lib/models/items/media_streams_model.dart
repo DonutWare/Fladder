@@ -358,6 +358,10 @@ class SubStreamModel extends AudioAndSubStreamModel {
   }
 
   factory SubStreamModel.fromMediaStream(dto.MediaStream stream, Ref ref) {
+    final subStreamUrl = stream.deliveryUrl != null
+        ? "${ref.read(serverUrlProvider) ?? ""}${stream.deliveryUrl?.substring(1)}}".replaceAll(".vtt", ".srt")
+        : null;
+
     return SubStreamModel(
       name: stream.title ?? "",
       title: stream.title ?? "",
@@ -367,9 +371,7 @@ class SubStreamModel extends AudioAndSubStreamModel {
       codec: stream.codec ?? "",
       id: stream.hashCode.toString(),
       supportsExternalStream: stream.supportsExternalStream ?? false,
-      url: stream.deliveryUrl != null
-          ? "${ref.read(serverUrlProvider) ?? ""}${stream.deliveryUrl}}".replaceAll(".vtt", ".srt")
-          : null,
+      url: subStreamUrl,
       isExternal: stream.isExternal ?? false,
       index: stream.index ?? -1,
     );

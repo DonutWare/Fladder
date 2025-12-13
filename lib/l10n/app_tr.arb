@@ -1473,5 +1473,17 @@
     "quickConnectEnterCodeDescription": "Giriş yapmak için aşağıdaki kodu giriniz",
     "@quickConnectEnterCodeDescription": {},
     "showMore": "Daha fazla göster",
-    "@showMore": {}
+    "@showMore": {},
+    "speedUp": "Hızlandır",
+    "@speedUp": {},
+    "speedDown": "Yavaşla",
+    "@speedDown": {},
+    "nextUpInCount": "Sıradaki",
+    "@nextUpInCount": {
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    }
 }

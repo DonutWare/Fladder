@@ -153,6 +153,8 @@ const _$VideoHotKeysEnumMap = {
   VideoHotKeys.prevChapter: 'prevChapter',
   VideoHotKeys.fullScreen: 'fullScreen',
   VideoHotKeys.skipMediaSegment: 'skipMediaSegment',
+  VideoHotKeys.takeScreenshot: 'takeScreenshot',
+  VideoHotKeys.takeScreenshotClean: 'takeScreenshotClean',
   VideoHotKeys.exit: 'exit',
 };
 

@@ -96,19 +96,30 @@ class User extends _$User {
     String itemId, {
     MetadataRefresh? metadataRefreshMode,
     bool? replaceAllMetadata,
+    bool? replaceTrickplayImages,
   }) async {
     return api.itemsItemIdRefreshPost(
       itemId: itemId,
-      metadataRefreshMode: metadataRefreshMode,
-      imageRefreshMode: metadataRefreshMode,
+      metadataRefreshMode: switch (metadataRefreshMode) {
+        MetadataRefresh.defaultRefresh => MetadataRefresh.defaultRefresh,
+        _ => MetadataRefresh.fullRefresh,
+      },
+      imageRefreshMode: switch (metadataRefreshMode) {
+        MetadataRefresh.defaultRefresh => MetadataRefresh.defaultRefresh,
+        _ => MetadataRefresh.fullRefresh,
+      },
       replaceAllMetadata: switch (metadataRefreshMode) {
-        MetadataRefresh.fullRefresh => false,
-        MetadataRefresh.validation => true,
+        MetadataRefresh.fullRefresh => true,
         _ => false,
       },
       replaceAllImages: switch (metadataRefreshMode) {
-        MetadataRefresh.fullRefresh => true,
-        MetadataRefresh.validation => true,
+        MetadataRefresh.fullRefresh => replaceAllMetadata,
+        MetadataRefresh.validation => replaceAllMetadata,
+        _ => false,
+      },
+      replaceTrickplayImages: switch (metadataRefreshMode) {
+        MetadataRefresh.fullRefresh => replaceTrickplayImages,
+        MetadataRefresh.validation => replaceTrickplayImages,
         _ => false,
       },
     );

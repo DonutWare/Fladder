@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:collection/collection.dart';
+
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/util/localization_helper.dart';
 

@@ -369,4 +369,14 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
       await ref.read(playbackModelHelper).shouldReload(newModel);
     }
   }
+
+  Future<Uint8List?> takeScreenshot() {
+    final player = _player;
+
+    if (player == null) {
+      return Future.value(null);
+    }
+
+    return player.takeScreenshot();
+  }
 }
