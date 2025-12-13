@@ -108,47 +108,9 @@ Web/Desktop [try out the web build!](https://DonutWare.github.io/Fladder)
 
 The latest executables for Windows, macOS, Linux, iOS, Android and Web can be found on the [releases page](https://github.com/DonutWare/Fladder/releases).
 
-### Winget
+You can pull the Docker version using the following tags: ```ghcr.io/donutware/fladder:latest``` or ```ghcr.io/donutware/fladder-rootless:latest```.
 
-You can install Fladder using winget with the following command: 
-
-```sh
-winget install DonutWare.Fladder
-```
-
-### Nix
-
-You can install Fladder using nix with the following command: 
-
-```sh
-nix-env -iA fladder
-```
-
-OR
-
-You can add Fladder to your packages `environment.systemPackages` by adding:
-
-```nix
-environment.systemPackages = [ pkgs.fladder ];
-```
-
-### Docker
-
-You can pull the Docker version using the following tags: 
-
-#### Root
-
-```
-ghcr.io/donutware/fladder:latest
-```
-
-#### Rootless
-
-```
-ghcr.io/donutware/fladder-rootless:latest
-```
-
-*Platform-specific installation and usage instructions can be found [here](https://github.com/DonutWare/Fladder/blob/develop/INSTALL.md).*
+*Platform-specific installation and usage instructions can be found [here](INSTALL.md).*
 
 <a href='https://play.google.com/store/apps/details?id=nl.jknaapen.fladder&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width=250/></a>
 
