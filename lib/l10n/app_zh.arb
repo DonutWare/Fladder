@@ -763,7 +763,7 @@
     "@showAlbum": {},
     "showDetails": "显示详情",
     "@showDetails": {},
-    "showEmpty": "显示空",
+    "showEmpty": "显示空项",
     "@showEmpty": {},
     "shuffleGallery": "随机播放图库",
     "@shuffleGallery": {},
