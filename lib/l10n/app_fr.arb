@@ -1551,6 +1551,6 @@
     "@screenshotCleanTaken": {},
     "errorTakingScreenshot": "Une erreur s'est produite lors de la capture d'écran",
     "@errorTakingScreenshot": {},
-    "regenerateTrickplayImages": "Régénérer les images de trickplay",
+    "regenerateTrickplayImages": "Régénérer les images Trickplay",
     "@regenerateTrickplayImages": {}
 }
