@@ -1550,5 +1550,7 @@
     "screenshotCleanTaken": "Capture d'écran sans sous-titres sauvegardée !",
     "@screenshotCleanTaken": {},
     "errorTakingScreenshot": "Une erreur s'est produite lors de la capture d'écran",
-    "@errorTakingScreenshot": {}
+    "@errorTakingScreenshot": {},
+    "regenerateTrickplayImages": "Régénérer les images de trickplay",
+    "@regenerateTrickplayImages": {}
 }
