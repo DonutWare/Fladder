@@ -1,27 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'connectivity_provider.dart';
+part of 'control_dashboard_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$connectivityStatusHash() =>
-    r'a18d136c592db8d5b8e1c0fa90f366f394d915b6';
+String _$controlDashboardHash() => r'5d6d925acafc9a0e837351cf5d29952cb1f507eb';
 
-/// See also [ConnectivityStatus].
-@ProviderFor(ConnectivityStatus)
-final connectivityStatusProvider =
-    NotifierProvider<ConnectivityStatus, ConnectionState>.internal(
-  ConnectivityStatus.new,
-  name: r'connectivityStatusProvider',
+/// See also [ControlDashboard].
+@ProviderFor(ControlDashboard)
+final controlDashboardProvider = AutoDisposeNotifierProvider<ControlDashboard,
+    ControlDashboardModel>.internal(
+  ControlDashboard.new,
+  name: r'controlDashboardProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$connectivityStatusHash,
+      : _$controlDashboardHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$ConnectivityStatus = Notifier<ConnectionState>;
+typedef _$ControlDashboard = AutoDisposeNotifier<ControlDashboardModel>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:fladder/screens/shared/flat_button.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/widgets/shared/ensure_visible.dart';
 
 class SettingsListTile extends StatelessWidget {
@@ -55,7 +56,7 @@ class SettingsListTile extends StatelessWidget {
       margin: EdgeInsets.zero,
       child: FlatButton(
         onTap: onTap,
-        autoFocus: autoFocus,
+        autoFocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad && autoFocus,
         onFocusChange: (value) {
           if (value) {
             context.ensureVisible();

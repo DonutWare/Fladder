@@ -769,6 +769,25 @@ class JellyService {
 
   Future<Response<ServerConfiguration>> systemConfigurationGet() => api.systemConfigurationGet();
   Future<Response<PublicSystemInfo>> systemInfoPublicGet() => api.systemInfoPublicGet();
+  Future<Response<SystemInfo>> systemInfoGet() => api.systemInfoGet();
+
+  Future<void> libraryRefreshPost() => api.libraryRefreshPost();
+
+  Future<void> systemRestartPost() => api.systemRestartPost();
+  Future<void> systemShutdownPost() => api.systemShutdownPost();
+
+  Future<Response<ItemCounts>> systemInfoCounts() => api.itemsCountsGet();
+
+  Future<Response<SystemStorageDto>> getStorage() => api.systemInfoStorageGet();
+
+  Future<Response<List<TaskInfo>>> getActiveTasks() => api.scheduledTasksGet();
+
+  Future<Response<List<SessionInfoDto>>> getActiveSessions({
+    int timeoutSeconds = 960,
+  }) =>
+      api.sessionsGet(
+        activeWithinSeconds: timeoutSeconds,
+      );
 
   Future<Response<UserSettings>> getCustomConfig() async {
     final response = await api.displayPreferencesDisplayPreferencesIdGet(

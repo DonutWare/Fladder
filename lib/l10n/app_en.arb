@@ -47,8 +47,16 @@
   },
   "ascending": "Ascending",
   "@ascending": {},
-  "audio": "Audio",
-  "@audio": {},
+  "audio": "{count, plural, one{Audio} other{Audio}}",
+  "@audio": {
+    "description": "Audio (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
   "autoPlay": "Auto-play",
   "@autoPlay": {},
   "backgroundBlur": "Background blur",
@@ -87,8 +95,16 @@
   "@close": {},
   "code": "Code",
   "@code": {},
-  "collectionFolder": "Collection folder",
-  "@collectionFolder": {},
+  "collectionFolder": "{count, plural, one{Collection folder} other{Collection folders}}",
+  "@collectionFolder": {
+    "description": "Collection folder (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
   "color": "Color",
   "@color": {},
   "combined": "Combined",
@@ -361,28 +377,116 @@
   "@masonry": {},
   "mediaTypeBase": "Base Type",
   "@mediaTypeBase": {},
-  "mediaTypeBook": "Book",
-  "@mediaTypeBook": {},
-  "mediaTypeBoxset": "Boxset",
-  "@mediaTypeBoxset": {},
-  "mediaTypeEpisode": "Episode",
-  "@mediaTypeEpisode": {},
-  "mediaTypeFolder": "Folder",
-  "@mediaTypeFolder": {},
-  "mediaTypeMovie": "Movie",
-  "@mediaTypeMovie": {},
-  "mediaTypePerson": "Person",
-  "@mediaTypePerson": {},
-  "mediaTypePhoto": "Photo",
-  "@mediaTypePhoto": {},
-  "mediaTypePhotoAlbum": "Photo Album",
-  "@mediaTypePhotoAlbum": {},
-  "mediaTypePlaylist": "Playlist",
-  "@mediaTypePlaylist": {},
-  "mediaTypeSeason": "Season",
-  "@mediaTypeSeason": {},
-  "mediaTypeSeries": "Series",
-  "@mediaTypeSeries": {},
+  "mediaTypeBook": "{count, plural, one{Book} other{Books}}",
+  "@mediaTypeBook": {
+    "description": "Book (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "mediaTypeBoxset": "{count, plural, one{Boxset} other{Boxsets}}",
+  "@mediaTypeBoxset": {
+    "description": "Boxset (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "mediaTypeEpisode": "{count, plural, one{Episode} other{Episodes}}",
+  "@mediaTypeEpisode": {
+    "description": "Episode (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "mediaTypeFolder": "{count, plural, one{Folder} other{Folders}}",
+  "@mediaTypeFolder": {
+    "description": "Folder (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "mediaTypeMovie": "{count, plural, one{Movie} other{Movies}}",
+  "@mediaTypeMovie": {
+    "description": "Movie (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "mediaTypePerson": "{count, plural, one{Person} other{People}}",
+  "@mediaTypePerson": {
+    "description": "Person (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "mediaTypePhoto": "{count, plural, one{Photo} other{Photos}}",
+  "@mediaTypePhoto": {
+    "description": "Photo (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "mediaTypePhotoAlbum": "{count, plural, one{Photo Album} other{Photo Albums}}",
+  "@mediaTypePhotoAlbum": {
+    "description": "Photo Album (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "mediaTypePlaylist": "{count, plural, one{Playlist} other{Playlists}}",
+  "@mediaTypePlaylist": {
+    "description": "Playlist (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "mediaTypeSeason": "{count, plural, one{Season} other{Seasons}}",
+  "@mediaTypeSeason": {
+    "description": "Season (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "mediaTypeSeries": "{count, plural, one{Series} other{Series}}",
+  "@mediaTypeSeries": {
+    "description": "Series (plural, same singular/plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
   "metaDataSavedFor": "Metadata saved for {item}",
   "@metaDataSavedFor": {
     "description": "metaDataSavedFor",
@@ -423,8 +527,16 @@
   "@moreOptions": {},
   "mouseDragSupport": "Drag using mouse",
   "@mouseDragSupport": {},
-  "musicAlbum": "Album",
-  "@musicAlbum": {},
+  "musicAlbum": "{count, plural, one{Album} other{Albums}}",
+  "@musicAlbum": {
+    "description": "Music album (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
   "name": "Name",
   "@name": {},
   "navigation": "Navigation",
@@ -907,8 +1019,16 @@
   "@useDefaults": {},
   "userName": "Username",
   "@userName": {},
-  "video": "Video",
-  "@video": {},
+  "video": "{count, plural, one{Video} other{Videos}}",
+  "@video": {
+    "description": "Video (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
   "videoScaling": "Video scaling",
   "@videoScaling": {},
   "videoScalingContain": "Contain",
@@ -1384,5 +1504,46 @@
   "settingsLocalUrlTitle": "Local Server URL",
   "settingsLocalUrlSetTitle": "Configure Local URL",
   "settingsLocalUrlSetDesc": "Specify the local server address. Fladder will automatically use this URL when your device is on the same network.",
-  "regenerateTrickplayImages": "Regenerate trickplay images"
+  "regenerateTrickplayImages": "Regenerate trickplay images",
+  "controlPanel": "Control Panel",
+  "@controlPanel": {},
+  "controlPanelDesc": "Server, Activity, Users, Library",
+  "@controlPanelDesc": {},
+  "controlDashboard": "Control Dashboard",
+  "@controlDashboard": {},
+  "serverName": "Server name",
+  "@serverName": {},
+  "serverVersion": "Server version",
+  "@serverVersion": {},
+  "webVersion": "Web version",
+  "@webVersion": {},
+  "devices": "Devices",
+  "@devices": {},
+  "used": "Used",
+  "@used": {},
+  "storagePaths": "Storage Paths",
+  "@storagePaths": {},
+  "programData": "Program Data",
+  "@programData": {},
+  "web": "Web",
+  "@web": {},
+  "cache": "Cache",
+  "@cache": {},
+  "logs": "Logs",
+  "@logs": {},
+  "transcodingTemp": "Transcoding Temp",
+  "@transcodingTemp": {},
+  "count": "Count",
+  "@count": {},
+  "scanAllLibraries": "Scan all libraries",
+  "@scanAllLibraries": {},
+  "restartServer": "Restart server",
+  "@restartServer": {},
+  "shutDownServer": "Shut down server",
+  "@shutDownServer": {},
+  "dashboardDesc": "Server, Count, Devices, Storage",
+  "@dashboardDesc": {},
+  "lastActivity": "Last activity",
+  "@lastActivity": {},
+  "activeTasks": "Active tasks"
 }

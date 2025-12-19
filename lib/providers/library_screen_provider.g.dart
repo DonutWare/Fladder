@@ -6,14 +6,17 @@ part of 'library_screen_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$libraryScreenHash() => r'97bb5fe8716c215117c4908b1f618e54e163c0d2';
+String _$libraryScreenHash() => r'eeb435cd8b8da9cd6d4fa6f7340c9e37ee8ed624';
 
 /// See also [LibraryScreen].
 @ProviderFor(LibraryScreen)
-final libraryScreenProvider = NotifierProvider<LibraryScreen, LibraryScreenModel>.internal(
+final libraryScreenProvider =
+    NotifierProvider<LibraryScreen, LibraryScreenModel>.internal(
   LibraryScreen.new,
   name: r'libraryScreenProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$libraryScreenHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$libraryScreenHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

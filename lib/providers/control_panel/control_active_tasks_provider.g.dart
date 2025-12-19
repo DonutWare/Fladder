@@ -1,27 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'connectivity_provider.dart';
+part of 'control_active_tasks_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$connectivityStatusHash() =>
-    r'a18d136c592db8d5b8e1c0fa90f366f394d915b6';
+String _$controlActiveTasksHash() =>
+    r'78280863e643e97883d664ebdb82dec2b0a3c0c8';
 
-/// See also [ConnectivityStatus].
-@ProviderFor(ConnectivityStatus)
-final connectivityStatusProvider =
-    NotifierProvider<ConnectivityStatus, ConnectionState>.internal(
-  ConnectivityStatus.new,
-  name: r'connectivityStatusProvider',
+/// See also [ControlActiveTasks].
+@ProviderFor(ControlActiveTasks)
+final controlActiveTasksProvider =
+    AutoDisposeNotifierProvider<ControlActiveTasks, List<TaskInfo>>.internal(
+  ControlActiveTasks.new,
+  name: r'controlActiveTasksProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$connectivityStatusHash,
+      : _$controlActiveTasksHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$ConnectivityStatus = Notifier<ConnectionState>;
+typedef _$ControlActiveTasks = AutoDisposeNotifier<List<TaskInfo>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

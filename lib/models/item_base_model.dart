@@ -370,24 +370,24 @@ enum FladderItemType {
         FladderItemType.video,
       };
 
-  String label(BuildContext context) => switch (this) {
+  String label(BuildContext context, {int count = 1}) => switch (this) {
         FladderItemType.baseType => context.localized.mediaTypeBase,
-        FladderItemType.audio => context.localized.audio,
-        FladderItemType.collectionFolder => context.localized.collectionFolder,
-        FladderItemType.musicAlbum => context.localized.musicAlbum,
-        FladderItemType.musicVideo => context.localized.video,
-        FladderItemType.video => context.localized.video,
-        FladderItemType.movie => context.localized.mediaTypeMovie,
-        FladderItemType.series => context.localized.mediaTypeSeries,
-        FladderItemType.season => context.localized.mediaTypeSeason,
-        FladderItemType.episode => context.localized.mediaTypeEpisode,
-        FladderItemType.photo => context.localized.mediaTypePhoto,
-        FladderItemType.person => context.localized.mediaTypePerson,
-        FladderItemType.photoAlbum => context.localized.mediaTypePhotoAlbum,
-        FladderItemType.folder => context.localized.mediaTypeFolder,
-        FladderItemType.boxset => context.localized.mediaTypeBoxset,
-        FladderItemType.playlist => context.localized.mediaTypePlaylist,
-        FladderItemType.book => context.localized.mediaTypeBook,
+        FladderItemType.audio => context.localized.audio(count),
+        FladderItemType.collectionFolder => context.localized.collectionFolder(count),
+        FladderItemType.musicAlbum => context.localized.musicAlbum(count),
+        FladderItemType.musicVideo => context.localized.video(count),
+        FladderItemType.video => context.localized.video(count),
+        FladderItemType.movie => context.localized.mediaTypeMovie(count),
+        FladderItemType.series => context.localized.mediaTypeSeries(count),
+        FladderItemType.season => context.localized.mediaTypeSeason(count),
+        FladderItemType.episode => context.localized.mediaTypeEpisode(count),
+        FladderItemType.photo => context.localized.mediaTypePhoto(count),
+        FladderItemType.person => context.localized.mediaTypePerson(count),
+        FladderItemType.photoAlbum => context.localized.mediaTypePhotoAlbum(count),
+        FladderItemType.folder => context.localized.mediaTypeFolder(count),
+        FladderItemType.boxset => context.localized.mediaTypeBoxset(count),
+        FladderItemType.playlist => context.localized.mediaTypePlaylist(count),
+        FladderItemType.book => context.localized.mediaTypeBook(count),
       };
 
   BaseItemKind get dtoKind => switch (this) {

@@ -53,7 +53,7 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
       items: [
         ...settingsListGroup(
           context,
-          SettingsLabelDivider(label: context.localized.video),
+          SettingsLabelDivider(label: context.localized.video(1)),
           [
             if (!AdaptiveLayout.of(context).isDesktop && !kIsWeb)
               Column(

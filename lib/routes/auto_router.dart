@@ -7,6 +7,7 @@ import 'package:fladder/screens/login/lock_screen.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/navigation_body.dart';
 
 const settingsPageRoute = "settings";
+const controlPanelPageRoute = "control-panel";
 
 const fullScreenRoutes = {
   PhotoViewerRoute.name,
@@ -42,6 +43,11 @@ class AutoRouter extends RootStackRouter {
           path: settingsPageRoute,
           children: _settingsChildren,
         ),
+        AutoRoute(
+          page: ControlPanelRoute.page,
+          path: controlPanelPageRoute,
+          children: _controlPanelRoutes,
+        )
       ],
     ),
     AutoRoute(page: LockRoute.page, path: '/locked'),
@@ -86,6 +92,11 @@ final List<AutoRoute> _settingsChildren = [
   AutoRoute(page: ProfileSettingsRoute.page, path: 'security'),
   AutoRoute(page: PlayerSettingsRoute.page, path: 'player'),
   AutoRoute(page: AboutSettingsRoute.page, path: 'about'),
+];
+
+final List<AutoRoute> _controlPanelRoutes = [
+  AutoRoute(page: ControlPanelSelectionRoute.page, path: 'control-panel'),
+  AutoRoute(page: ControlDashboardRoute.page, path: 'dashboard'),
 ];
 
 class LockScreenGuard extends AutoRouteGuard {
