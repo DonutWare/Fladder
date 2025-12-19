@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest package="nl.jknaapen.fladder" version="1.0.0" api-version="6.0" xmlns="http://tizen.org/ns/packages">
+    <profile name="tv"/>
+    <ui-application appid="nl.jknaapen.fladder" exec="Runner.dll" type="dotnet" multiple="false" nodisplay="false" taskmanage="true">
+        <label>fladder</label>
+        <icon>fladder_icon.png</icon>
+        <metadata key="http://tizen.org/metadata/prefer_dotnet_aot" value="true"/>
+        <metadata key="http://tizen.org/metadata/prefer_nuget_cache" value="true"/>
+    </ui-application>
+    <feature name="http://tizen.org/feature/screen.size.all"/>
+    <feature name="http://developer.samsung.com/privilege/productinfo"/>
+    <feature name="http://tizen.org/privilege/tv.inputdevice"/>
+</manifest>
