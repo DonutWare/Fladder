@@ -123,6 +123,22 @@ dependencies:
   drift_sync: ^0.14.0
   drift_db_viewer: ^2.1.0
 
+  # Tizen-specific pl<ugins
+  path_provider_tizen: ^2.1.0
+  shared_preferences_tizen: ^2.3.2
+  url_launcher_tizen: ^2.1.4
+  video_player_tizen: ^2.5.8
+  connectivity_plus_tizen: ^1.2.2
+  wakelock_plus_tizen: ^2.0.0
+  webview_flutter_tizen: ^0.9.7
+  package_info_plus_tizen: ^1.0.5
+  flutter_tizen: ^0.2.7
+  sqflite: ^2.4.2
+  sqflite_tizen: ^0.1.3
+  sqlite3: ^2.9.4
+  sqlite3_flutter_libs: ^0.5.41
+  drift_sqflite: ^2.0.1
+
   # Other
   async: ^2.13.0
   xid: ^1.2.1

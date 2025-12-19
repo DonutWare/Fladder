@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:drift/native.dart';
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,6 +18,8 @@ import 'package:fladder/models/items/trick_play_model.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/providers/user_provider.dart';
 
+import 'package:flutter_tizen/flutter_tizen.dart';
+import 'package:sqlite3/sqlite3.dart';
 part 'database_item.g.dart';
 
 const _databseName = 'syncedDatabase';
@@ -194,6 +197,14 @@ class AppDatabase extends _$AppDatabase {
   }
 
   static QueryExecutor _openConnection() {
+    if (isTizen) {
+      return _openConnectionTizen();
+    } else {
+      return _openConnectionDefault();
+    }
+  }
+
+  static QueryExecutor _openConnectionDefault() {
     return driftDatabase(
       name: _databseName,
       native: const DriftNativeOptions(
@@ -204,5 +215,16 @@ class AppDatabase extends _$AppDatabase {
         driftWorker: Uri.parse('drift_worker.dart.js'),
       ),
     );
+  }
+
+  static LazyDatabase _openConnectionTizen() {
+    return LazyDatabase(() async {
+      final dir = await getApplicationSupportDirectory();
+      final file = File(p.join(dir.path, '$_databseName.sqlite'));
+
+      return NativeDatabase.opened(
+        sqlite3.open(file.path),
+      );
+    });
   }
 }

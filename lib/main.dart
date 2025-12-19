@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
+import 'dart:ffi' as ffi; 
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -45,8 +46,11 @@ import 'package:fladder/util/svg_utils.dart';
 import 'package:fladder/util/themes_data.dart';
 import 'package:fladder/widgets/media_query_scaler.dart';
 
+import 'package:flutter_tizen/flutter_tizen.dart';
+import 'package:sqlite3/open.dart' as sqlite3_open;
+
 bool get _isDesktop {
-  if (kIsWeb) return false;
+  if (kIsWeb || isTizen) return false;
   return [
     TargetPlatform.windows,
     TargetPlatform.linux,
@@ -62,6 +66,12 @@ Future<Map<String, dynamic>> loadConfig() async {
 }
 
 void main(List<String> args) async {
+  if (isTizen) {
+    sqlite3_open.open.overrideFor(sqlite3_open.OperatingSystem.linux, () {
+      return ffi.DynamicLibrary.open('/usr/share/dotnet.tizen/lib/libsqlite3.so');
+    });
+  }
+  
   WidgetsFlutterBinding.ensureInitialized();
   final crashProvider = CrashLogNotifier();
 
