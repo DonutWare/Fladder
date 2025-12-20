@@ -8,6 +8,17 @@
         <metadata key="http://tizen.org/metadata/prefer_nuget_cache" value="true"/>
     </ui-application>
     <feature name="http://tizen.org/feature/screen.size.all"/>
-    <feature name="http://developer.samsung.com/privilege/productinfo"/>
-    <feature name="http://tizen.org/privilege/tv.inputdevice"/>
+    <privileges>
+        <privilege>http://developer.samsung.com/privilege/productinfo</privilege>
+        <privilege>http://tizen.org/privilege/internet</privilege>
+        <privilege>http://tizen.org/privilege/mediastorage</privilege>
+        <privilege>http://tizen.org/privilege/externalstorage</privilege>
+        <privilege>http://developer.samsung.com/privilege/drmplay</privilege>
+        <privilege>http://tizen.org/privilege/content.write</privilege>
+        <privilege>http://tizen.org/privilege/content.read</privilege>
+        <privilege>http://tizen.org/privilege/tv.channel</privilege>
+        <privilege>http://tizen.org/privilege/tv.display</privilege>
+        <privilege>http://tizen.org/privilege/tv.window</privilege>
+        <privilege>http://tizen.org/privilege/tv.inputdevice</privilege>
+    </privileges>
 </manifest>
