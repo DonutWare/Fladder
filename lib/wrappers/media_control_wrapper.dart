@@ -25,6 +25,7 @@ import 'package:fladder/wrappers/players/lib_mdk.dart'
 import 'package:fladder/wrappers/players/lib_mpv.dart';
 import 'package:fladder/wrappers/players/native_player.dart';
 import 'package:fladder/wrappers/players/player_states.dart';
+import 'package:fladder/wrappers/players/tizen_player.dart';
 
 class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerControlsCallback {
   MediaControlsWrapper({required this.ref});
@@ -78,6 +79,7 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
       PlayerOptions.libMDK => LibMDK(),
       PlayerOptions.libMPV => LibMPV(),
       PlayerOptions.nativePlayer => NativePlayer(),
+      PlayerOptions.tizenPlayer => TizenPlayer(),
     };
 
     setup(player);
