@@ -17,7 +17,6 @@
           inherit system;
           config = {
             allowUnfree = true;
-            android_sdk.accept_license = true;
           };
         };
 
@@ -89,23 +88,11 @@
             copyDesktopItems
           ];
 
-          # Add any necessary build-time or runtime dependencies here
           buildInputs = with pkgs; [
-            mpv
+            mpv-unwrapped
             sqlite
             alsa-lib
             libepoxy
-            gtk3
-            glib
-            util-linux
-            libselinux
-            libsepol
-            libthai
-            libdatrie
-            xorg.libXdmcp
-            xorg.libXtst
-            pcre2
-            libpulseaudio
           ];
 
           postInstall = ''
