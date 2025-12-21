@@ -45,6 +45,7 @@ dependencies:
   http: ^1.5.0
   flutter_cache_manager: ^3.4.1
   connectivity_plus: ^7.0.0
+  punycoder: ^0.2.2
 
   # State Management
   flutter_riverpod: ^2.6.1

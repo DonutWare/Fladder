@@ -1557,6 +1557,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.5.0"
+  punycoder:
+    dependency: "direct main"
+    description:
+      name: punycoder
+      sha256: aed79c05986a18782caa9bad649a4a786e840e1baaf6a2e1aa3a25d143d28e6e
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.2"
   qs_dart:
     dependency: transitive
     description:

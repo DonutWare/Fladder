@@ -1,0 +1,12 @@
+{
+  "soft_wrap": "none",
+  "preferred_line_length": 120,
+  // "max_line_length": 120
+  "lsp": {
+    "dart": {
+      "settings": {
+        "lineLength": 120
+      }
+    }
+  }
+}
