@@ -11,7 +11,7 @@ import 'package:fladder/providers/auth_provider.dart';
 import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
-
+import 'package:punycoder/punycoder.dart';
 part 'api_provider.g.dart';
 
 final serverUrlProvider = StateProvider<String?>((ref) {
@@ -56,7 +56,8 @@ class JellyRequest implements Interceptor {
   @override
   FutureOr<Response<BodyType>> intercept<BodyType>(Chain<BodyType> chain) async {
     final connectivityNotifier = ref.read(connectivityStatusProvider.notifier);
-    final serverUrl = ref.read(serverUrlProvider);
+    String? serverUrl = ref.read(serverUrlProvider);
+
     try {
       if (serverUrl?.isEmpty == true || serverUrl == null) throw const HttpException("Failed to connect");
 
@@ -88,9 +89,15 @@ String normalizeUrl(String url) {
   if (!url.startsWith("http://") && !url.startsWith("https://")) {
     url = "http://$url";
   }
-  if (!url.endsWith("/")) {
-    url = "$url/";
-  }
+  //host needs to be separated as punycodec breaks if its given any extras / or other characters
+  int? port = Uri.parse(url).port;
+  String scheme = Uri.parse(url).scheme;
+  String? host = url.replaceAll(RegExp(r'^(https?://)|(:\S+)|(/)'), ''); //removes scheme and port
+  String path = Uri.parse(url).path; //case for proxy use that requires a path
+
+  String decodedhost = const PunycodeCodec().encode(host);
+  url = "$scheme://$decodedhost:$port/$path";
+
   return url;
 }
 
