@@ -1551,5 +1551,7 @@
     "screenshotCleanTaken": "تم حفظ لقطة الشاشة بدون ترجمات!",
     "@screenshotCleanTaken": {},
     "errorTakingScreenshot": "حدث خطأ أثناء التقاط لقطة الشاشة",
-    "@errorTakingScreenshot": {}
+    "@errorTakingScreenshot": {},
+    "regenerateTrickplayImages": "إعادة توليد صور المعاينة السريعة",
+    "@regenerateTrickplayImages": {}
 }

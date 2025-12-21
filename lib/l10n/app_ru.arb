@@ -1539,5 +1539,19 @@
     "settingsLocalUrlSetTitle": "Настройки локального URL",
     "@settingsLocalUrlSetTitle": {},
     "settingsLocalUrlSetDesc": "Укажите адрес локального сервера. Fladder будет автоматически использовать этот URL, когда ваше устройство находится в той же сети.",
-    "@settingsLocalUrlSetDesc": {}
+    "@settingsLocalUrlSetDesc": {},
+    "takeScreenshot": "Сделать скриншот",
+    "@takeScreenshot": {},
+    "takeScreenshotClean": "Сделать скриншот (без субтитров)",
+    "@takeScreenshotClean": {},
+    "screenshots": "Скриншоты",
+    "@screenshots": {},
+    "screenshotTaken": "Скриншот сохранен!",
+    "@screenshotTaken": {},
+    "screenshotCleanTaken": "Скриншот без субтитров сохранен!",
+    "@screenshotCleanTaken": {},
+    "errorTakingScreenshot": "Произошла ошибка при создании скриншота",
+    "@errorTakingScreenshot": {},
+    "regenerateTrickplayImages": "Перегенерировать изображения trickplay",
+    "@regenerateTrickplayImages": {}
 }

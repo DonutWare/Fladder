@@ -213,9 +213,10 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
               ),
               if (serverCredentials.serverMessage?.isEmpty == false) ...[
                 const Divider(),
-                Text(
+                SelectableText(
                   serverCredentials.serverMessage ?? "",
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                  textAlign: TextAlign.center,
                 ),
               ],
             ],
