@@ -1561,5 +1561,7 @@
     "errorTakingScreenshot": "Сталася помилка під час створення знімка екрана",
     "@errorTakingScreenshot": {},
     "regenerateTrickplayImages": "Регенерувати зображення для трикплею",
-    "@regenerateTrickplayImages": {}
+    "@regenerateTrickplayImages": {},
+    "segmentActionSkipOnce": "Пропустити один раз",
+    "@segmentActionSkipOnce": {}
 }
