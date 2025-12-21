@@ -134,6 +134,4 @@ dependencies {
     implementation("io.coil-kt.coil3:coil-compose:3.3.0")
     implementation("io.coil-kt.coil3:coil-network-okhttp:3.3.0")
     implementation("com.materialkolor:material-kolor:4.0.5")
-
-    implementation 'org.videolan.android:libvlc-all:3.7.0-beta03'
 }
