@@ -683,7 +683,9 @@ class FakeJellyfinOpenApi extends JellyfinOpenApi {
   @override
   Future<chopper.Response<BrandingOptionsDto>> brandingConfigurationGet() async => chopper.Response(
         FakeHelper.fakeCorrectResponse,
-        const BrandingOptionsDto(loginDisclaimer: "Test server"),
+        const BrandingOptionsDto(
+            loginDisclaimer:
+                "This is a local test server, meant for evaluation purposes only.\nTo login, use the following user+password \nuser: User 1\npassword: Txnw6RWYb8yEtD"),
       );
 }
 
@@ -736,7 +738,7 @@ class FakeHelper {
 
   static List<UserDto> fakeUsers = [
     fakeCorrectUser,
-    const UserDto(id: '2', name: 'User 2'),
+    const UserDto(id: '2', name: 'Incorrect User 2'),
   ];
 
   static AuthenticationResult fakeAuthResult = AuthenticationResult(
