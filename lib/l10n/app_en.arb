@@ -1189,6 +1189,7 @@
   "mediaSegmentActions": "Media segment actions",
   "segmentActionNone": "None",
   "segmentActionAskToSkip": "Ask to skip",
+  "segmentActionSkipOnce": "Skip once",
   "segmentActionSkip": "Skip",
   "loading": "Loading",
   "exitFladderTitle": "Exit Fladder",

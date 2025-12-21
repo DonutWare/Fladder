@@ -119,8 +119,12 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
 
   Future<bool> loadPlaybackItem(PlaybackModel model, Duration startPosition) async {
     await state.stop();
-    mediaState
-        .update((state) => state.copyWith(state: VideoPlayerState.fullScreen, buffering: true, errorPlaying: false));
+    mediaState.update((state) => state.copyWith(
+          state: VideoPlayerState.fullScreen,
+          buffering: true,
+          errorPlaying: false,
+          skippedSegments: {},
+        ));
 
     final media = model.media;
     PlaybackModel? newPlaybackModel = model;
