@@ -593,7 +593,7 @@
     "@videoScalingFitHeight": {},
     "videoScalingFitWidth": "ملاءمة العرض",
     "@videoScalingFitWidth": {},
-    "videoScalingScaleDown": "تصغير",
+    "videoScalingScaleDown": "تقليص العرض",
     "@videoScalingScaleDown": {},
     "viewPhotos": "عرض الصور",
     "@viewPhotos": {},
@@ -1553,5 +1553,7 @@
     "errorTakingScreenshot": "حدث خطأ أثناء التقاط لقطة الشاشة",
     "@errorTakingScreenshot": {},
     "regenerateTrickplayImages": "إعادة توليد صور المعاينة السريعة",
-    "@regenerateTrickplayImages": {}
+    "@regenerateTrickplayImages": {},
+    "segmentActionSkipOnce": "تخط مرة واحدة",
+    "@segmentActionSkipOnce": {}
 }
