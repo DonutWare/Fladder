@@ -111,7 +111,7 @@
               name = "fladder";
               desktopName = "Fladder";
               genericName = "Jellyfin Client";
-              exec = "fladder";
+              exec = "Fladder";
               icon = "fladder";
               comment = "A simple cross-platform Jellyfin client";
               categories = [
@@ -127,7 +127,7 @@
             homepage = "https://github.com/DonutWare/Fladder";
             license = licenses.gpl3Plus;
             platforms = platforms.linux;
-            mainProgram = "fladder";
+            mainProgram = "Fladder";
           };
         };
 
