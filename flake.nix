@@ -20,10 +20,18 @@
             android_sdk.accept_license = true;
           };
         };
+
+        version = let
+          lines = pkgs.lib.splitString "\n" (builtins.readFile ./pubspec.yaml);
+          versionLine = pkgs.lib.findFirst (l: pkgs.lib.hasPrefix "version:" l) "version: 0.0.0" lines;
+          versionRaw = pkgs.lib.removePrefix "version:" versionLine;
+          versionNoBuild = pkgs.lib.head (pkgs.lib.splitString "+" versionRaw);
+        in
+          pkgs.lib.strings.trim versionNoBuild;
       in {
         packages.fladder = pkgs.flutter335.buildFlutterApplication {
           pname = "fladder";
-          version = "0.8.0";
+          inherit version;
           src = ./.;
 
           autoPubspecLock = ./pubspec.lock;
