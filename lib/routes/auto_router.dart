@@ -97,6 +97,7 @@ final List<AutoRoute> _settingsChildren = [
 final List<AutoRoute> _controlPanelRoutes = [
   AutoRoute(page: ControlPanelSelectionRoute.page, path: 'control-panel'),
   AutoRoute(page: ControlDashboardRoute.page, path: 'dashboard'),
+  AutoRoute(page: ControlActiveTasksRoute.page, path: 'active-tasks'),
 ];
 
 class LockScreenGuard extends AutoRouteGuard {

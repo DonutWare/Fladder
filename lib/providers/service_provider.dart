@@ -789,6 +789,15 @@ class JellyService {
         activeWithinSeconds: timeoutSeconds,
       );
 
+  Future<void> stopActiveTask(String taskId) => api.scheduledTasksRunningTaskIdDelete(taskId: taskId);
+  Future<void> startTask(String taskId) => api.scheduledTasksRunningTaskIdPost(taskId: taskId);
+
+  Future<Response<dynamic>> updateTaskTriggers(String taskId, {required List<TaskTriggerInfo> triggers}) =>
+      api.scheduledTasksTaskIdTriggersPost(
+        taskId: taskId,
+        body: triggers,
+      );
+
   Future<Response<UserSettings>> getCustomConfig() async {
     final response = await api.displayPreferencesDisplayPreferencesIdGet(
       displayPreferencesId: _userSettings,

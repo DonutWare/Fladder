@@ -7,7 +7,7 @@ part of 'control_active_tasks_provider.dart';
 // **************************************************************************
 
 String _$controlActiveTasksHash() =>
-    r'78280863e643e97883d664ebdb82dec2b0a3c0c8';
+    r'30ba846c6a7a29eb9d04dba955aeafeab94dffec';
 
 /// See also [ControlActiveTasks].
 @ProviderFor(ControlActiveTasks)

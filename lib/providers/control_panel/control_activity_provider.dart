@@ -13,7 +13,7 @@ import 'package:fladder/providers/service_provider.dart';
 part 'control_activity_provider.freezed.dart';
 part 'control_activity_provider.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 class ControlActivity extends _$ControlActivity {
   RestartableTimer? _refreshTimer;
 

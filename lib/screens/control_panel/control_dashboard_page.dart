@@ -9,6 +9,7 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/providers/control_panel/control_active_tasks_provider.dart';
 import 'package:fladder/providers/control_panel/control_activity_provider.dart';
 import 'package:fladder/providers/control_panel/control_dashboard_provider.dart';
+import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/control_panel/widgets/control_panel_activity_card.dart';
 import 'package:fladder/screens/control_panel/widgets/control_panel_card.dart';
 import 'package:fladder/screens/control_panel/widgets/control_panel_info_item.dart';
@@ -39,7 +40,9 @@ class _ControlDashboardPageState extends ConsumerState<ControlDashboardPage> {
     final storagePaths = controlDashboard.storagePaths;
 
     final activity = ref.watch(controlActivityProvider);
-    final activeTasks = ref.watch(controlActiveTasksProvider);
+    final activeTasks = ref.watch(controlActiveTasksProvider).where(
+          (element) => element.state == TaskState.running,
+        );
     return PullToRefresh(
       onRefresh: () => ref.read(controlDashboardProvider.notifier).refreshDashboard(),
       child: SettingsScaffold(
@@ -64,46 +67,46 @@ class _ControlDashboardPageState extends ConsumerState<ControlDashboardPage> {
           if (itemCounts != null) ...[
             _ItemCount(itemCounts: itemCounts),
           ],
-          ControlPanelCard(
-            title: context.localized.activeTasks,
-            navigationChild: true,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 4,
-              children: activeTasks.nonNulls
-                  .where(
-                    (element) => element.state == TaskState.running,
-                  )
-                  .map(
-                    (e) => Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          e.name ?? "",
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                        Row(
-                          spacing: 12,
-                          children: [
-                            Flexible(
-                              child: LinearProgressIndicator(
-                                value:
-                                    (e.currentProgressPercentage != null) ? (e.currentProgressPercentage! / 100) : null,
-                                minHeight: 8,
-                                borderRadius: BorderRadius.circular(16),
-                                backgroundColor: Theme.of(context).colorScheme.primary,
-                                color: Theme.of(context).colorScheme.primaryContainer,
+          if (activeTasks.isNotEmpty)
+            ControlPanelCard(
+              title: context.localized.activeTasks,
+              navigationChild: true,
+              onTapTitle: () => const ControlActiveTasksRoute().navigate(context),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 4,
+                children: activeTasks
+                    .map(
+                      (e) => Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            e.name ?? "",
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                          Row(
+                            spacing: 12,
+                            children: [
+                              Flexible(
+                                child: LinearProgressIndicator(
+                                  value: (e.currentProgressPercentage != null)
+                                      ? (e.currentProgressPercentage! / 100)
+                                      : null,
+                                  minHeight: 8,
+                                  borderRadius: BorderRadius.circular(16),
+                                  backgroundColor: Theme.of(context).colorScheme.primary,
+                                  color: Theme.of(context).colorScheme.primaryContainer,
+                                ),
                               ),
-                            ),
-                            Text("${e.currentProgressPercentage?.toStringAsFixed(2) ?? "0"}%"),
-                          ],
-                        ),
-                      ],
-                    ),
-                  )
-                  .toList(),
+                              Text("${e.currentProgressPercentage?.toStringAsFixed(2) ?? "0"}%"),
+                            ],
+                          ),
+                        ],
+                      ),
+                    )
+                    .toList(),
+              ),
             ),
-          ),
           if (activity.isNotEmpty)
             ControlPanelCard(
               title: context.localized.devices,

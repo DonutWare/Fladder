@@ -149,8 +149,6 @@
   "@dateLastContentAdded": {},
   "datePlayed": "Date played",
   "@datePlayed": {},
-  "days": "Days",
-  "@days": {},
   "delete": "Delete",
   "@delete": {},
   "deleteFileFromSystem": "Deleting this item {item} will delete it from both the file system and your media library. Are you sure you wish to continue?",
@@ -1545,5 +1543,129 @@
   "@dashboardDesc": {},
   "lastActivity": "Last activity",
   "@lastActivity": {},
-  "activeTasks": "Active tasks"
+  "activeTasks": "Active tasks",
+  "hours": "{count, plural, one{Hour} other{Hours}}",
+  "@hours": {
+    "description": "Pluralization for hours",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "weeks": "{count, plural, one{Week} other{Weeks}}",
+  "@weeks": {
+    "description": "Pluralization for weeks",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "months": "{count, plural, one{Month} other{Months}}",
+  "@months": {
+    "description": "Pluralization for months",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "years": "{count, plural, one{Year} other{Years}}",
+  "@years": {
+    "description": "Pluralization for years",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "days": "{count, plural, one{Day} other{Days}}",
+  "@days": {
+    "description": "Pluralization for days (keeps existing 'days' getter)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "4"
+      }
+    }
+  },
+  "timeAgo": "{time} ago",
+  "@timeAgo": {
+    "description": "timeAgo",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "lastRunTaking": "Last run {date}, taking {time}",
+  "@lastRunTaking": {
+    "description": "lastRunTaking",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "lessThenAMinute": "Less than a minute",
+  "plannedTasks": "Planned tasks",
+  "taskTriggerTypeInterval": "Interval",
+  "taskTriggerTypeDaily": "Daily",
+  "taskTriggerTypeWeekly": "Weekly",
+  "taskTriggerTypeStartup": "Startup",
+  "create": "Create",
+  "taskTriggerTypeName": "Trigger type",
+  "newTrigger": "New trigger",
+  "newTaskTrigger": "New task trigger",
+  "dayOfTheWeek": "Day of the week",
+  "time": "Time",
+  "interval": "Interval",
+  "taskTimeLimitInHours": "Time limit (hours)",
+  "taskTriggerIntervalDesc": "Every {time}",
+  "@taskTriggerIntervalDesc": {
+    "description": "Task trigger interval desc",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "taskTriggerDailyDesc": "Daily at {time}",
+  "@taskTriggerDailyDesc": {
+    "description": "taskTriggerDailyDesc",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "taskTriggerWeeklyDesc": "Weekly on {day} at {time}",
+  "@taskTriggerWeeklyDesc": {
+    "description": "taskTriggerWeeklyDesc",
+    "placeholders": {
+      "day": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "taskTriggerTimeLimitSub": "Time limit: {time}",
+  "@taskTriggerTimeLimitSub": {
+    "description": "taskTriggerTimeLimit",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  }
 }

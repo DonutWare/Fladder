@@ -121,7 +121,7 @@ List<Widget> buildClientSettingsVisual(
         trailing: SizedBox(
             width: 100,
             child: IntInputField(
-              suffix: context.localized.days,
+              suffix: context.localized.days(clientSettings.nextUpDateCutoff?.inDays ?? 1),
               controller: nextUpDaysEditor,
               onSubmitted: (value) {
                 if (value != null) {

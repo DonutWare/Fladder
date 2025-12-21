@@ -100,7 +100,8 @@ class ItemActionButton extends ItemAction {
   @override
   Widget toListItem(BuildContext context, {bool useIcons = false, bool shouldPop = true}) {
     final foregroundColor =
-        selected ? Theme.of(context).colorScheme.onPrimaryContainer : Theme.of(context).colorScheme.onSurface;
+        (selected ? Theme.of(context).colorScheme.onPrimaryContainer : Theme.of(context).colorScheme.onSurface)
+            .withAlpha(action == null ? 75 : 255);
     return ElevatedButton(
       autofocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad && selected,
       style: ButtonStyle(
