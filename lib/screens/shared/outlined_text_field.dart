@@ -142,6 +142,7 @@ class _OutlinedTextFieldState extends ConsumerState<OutlinedTextField> {
       onSubmitted: widget.onSubmitted != null
           ? (value) {
               widget.onSubmitted?.call(value);
+              if (AdaptiveLayout.inputDeviceOf(context) != InputDevice.dPad) return;
               Future.microtask(() async {
                 await Future.delayed(const Duration(milliseconds: 125));
                 _wrapperFocus.requestFocus();

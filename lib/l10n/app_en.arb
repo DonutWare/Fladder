@@ -1667,5 +1667,22 @@
         "type": "String"
       }
     }
-  }
+  },
+  "performance": "Performance",
+  "@performance": {},
+  "serverNameLabel": "Server name",
+  "@serverNameLabel": {},
+  "cachePath": "Cache path",
+  "@cachePath": {},
+  "metadataPath": "Metadata path",
+  "@metadataPath": {},
+  "maxConcurrentLibraryScanLabel": "Max concurrent library scans",
+  "@maxConcurrentLibraryScanLabel": {},
+  "maxConcurrentLibraryScanDesc": "Maximum number of parallel tasks during library scans. Leaving this empty will choose a limit based on your systems core count. WARNING: Setting this number too high may cause issues with network file systems; if you encounter problems lower this number.",
+  "@maxConcurrentLibraryScanDesc": {},
+  "maxImageDecodingThreadsLabel": "Max image decoding threads",
+  "@maxImageDecodingThreadsLabel": {},
+  "maxImageDecodingThreadsDesc": "Maximum number of image encodings that are allowed to run in parallel. Leaving this empty will choose a limit based on your systems core count.",
+  "@maxImageDecodingThreadsDesc": {},
+  "controlPanelServerDesc": "Server name, Quick Connect, Performance"
 }

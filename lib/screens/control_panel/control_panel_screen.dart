@@ -7,6 +7,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/settings/settings_scaffold.dart';
+import 'package:fladder/screens/settings/widgets/settings_label_divider.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/theme_extensions.dart';
@@ -85,6 +86,7 @@ class _ControlPanelScreenState extends ConsumerState<ControlPanelScreen> {
           showBackButtonNested: true,
           showUserIcon: true,
           items: [
+            SettingsLabelDivider(label: context.localized.server),
             SettingsListTile(
               label: Text(context.localized.dashboard),
               subLabel: Text(context.localized.dashboardDesc),
@@ -92,6 +94,13 @@ class _ControlPanelScreenState extends ConsumerState<ControlPanelScreen> {
               selected: containsRoute(const ControlDashboardRoute()),
               icon: IconsaxPlusLinear.data_2,
               onTap: () => navigateTo(const ControlDashboardRoute()),
+            ),
+            SettingsListTile(
+              label: Text(context.localized.server),
+              subLabel: Text(context.localized.controlPanelServerDesc),
+              selected: containsRoute(const ControlServerRoute()),
+              icon: IconsaxPlusLinear.barcode,
+              onTap: () => navigateTo(const ControlServerRoute()),
             ),
             SettingsListTile(
               label: Text(context.localized.plannedTasks),

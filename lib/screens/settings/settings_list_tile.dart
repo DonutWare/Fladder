@@ -12,6 +12,7 @@ class SettingsListTile extends StatelessWidget {
   final bool autoFocus;
   final IconData? icon;
   final Widget? leading;
+  final bool trailingInlineWithLabel;
   final Color? contentColor;
   final Function()? onTap;
   const SettingsListTile({
@@ -22,6 +23,7 @@ class SettingsListTile extends StatelessWidget {
     this.autoFocus = false,
     this.leading,
     this.icon,
+    this.trailingInlineWithLabel = false,
     this.contentColor,
     this.onTap,
     super.key,
@@ -75,47 +77,71 @@ class SettingsListTile extends StatelessWidget {
             ),
             child: Row(
               mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                DefaultTextStyle.merge(
-                  style: TextStyle(
-                    color: contentColor ?? Theme.of(context).colorScheme.onSurface,
-                  ),
-                  child: IconTheme(
-                    data: IconThemeData(
-                      color: contentColor ?? Theme.of(context).colorScheme.onSurface,
-                    ),
-                    child: leadingWidget,
-                  ),
-                ),
                 Expanded(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Row(
                     children: [
-                      Material(
-                        color: Colors.transparent,
-                        textStyle: Theme.of(context).textTheme.titleLarge?.copyWith(color: contentColor),
-                        child: label,
-                      ),
-                      if (subLabel != null)
-                        Material(
-                          color: Colors.transparent,
-                          textStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                                color:
-                                    (contentColor ?? Theme.of(context).colorScheme.onSurface).withValues(alpha: 0.65),
-                              ),
-                          child: subLabel,
+                      DefaultTextStyle.merge(
+                        style: TextStyle(
+                          color: contentColor ?? Theme.of(context).colorScheme.onSurface,
                         ),
+                        child: IconTheme(
+                          data: IconThemeData(
+                            color: contentColor ?? Theme.of(context).colorScheme.onSurface,
+                          ),
+                          child: leadingWidget,
+                        ),
+                      ),
+                      Flexible(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Material(
+                                    color: Colors.transparent,
+                                    textStyle: Theme.of(context).textTheme.titleLarge?.copyWith(color: contentColor),
+                                    child: label,
+                                  ),
+                                ),
+                                if (trailing != null && trailingInlineWithLabel) ...[
+                                  const SizedBox(width: 8),
+                                  Flexible(
+                                    child: ExcludeFocusTraversal(
+                                      excluding: onTap != null,
+                                      child: trailing!,
+                                    ),
+                                  ),
+                                ]
+                              ],
+                            ),
+                            if (subLabel != null)
+                              Material(
+                                color: Colors.transparent,
+                                textStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
+                                      color: (contentColor ?? Theme.of(context).colorScheme.onSurface)
+                                          .withValues(alpha: 0.65),
+                                    ),
+                                child: subLabel,
+                              ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
-                if (trailing != null)
-                  ExcludeFocusTraversal(
-                    excluding: onTap != null,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 16),
-                      child: trailing,
+                if (trailing != null && !trailingInlineWithLabel)
+                  Flexible(
+                    child: ExcludeFocusTraversal(
+                      excluding: onTap != null,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 16),
+                        child: trailing,
+                      ),
                     ),
                   )
               ],

@@ -771,6 +771,11 @@ class JellyService {
   Future<Response<PublicSystemInfo>> systemInfoPublicGet() => api.systemInfoPublicGet();
   Future<Response<SystemInfo>> systemInfoGet() => api.systemInfoGet();
 
+  Future<void> systemConfigurationPost(ServerConfiguration serverConfig) =>
+      api.systemConfigurationPost(body: serverConfig);
+
+  Future<Response<List<LocalizationOption>>> localizationOptions() => api.localizationOptionsGet();
+
   Future<void> libraryRefreshPost() => api.libraryRefreshPost();
 
   Future<void> systemRestartPost() => api.systemRestartPost();

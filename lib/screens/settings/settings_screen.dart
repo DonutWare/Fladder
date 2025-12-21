@@ -108,6 +108,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
     final hasNewUpdate = ref.watch(hasNewUpdateProvider);
 
+    final isAdmin = ref.watch(userProvider.select((value) => value?.policy?.isAdministrator ?? false));
+
     return Padding(
       padding: EdgeInsets.only(left: AdaptiveLayout.of(context).sideBarWidth),
       child: Container(
@@ -138,13 +140,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               icon: deviceIcon,
               onTap: () => navigateTo(const ClientSettingsRoute()),
             ),
-            SettingsListTile(
-              label: Text(context.localized.controlPanel),
-              subLabel: Text(context.localized.controlPanelDesc),
-              selected: containsRoute(const ControlPanelSelectionRoute()),
-              icon: IconsaxPlusLinear.chart_3,
-              onTap: () => const ControlPanelSelectionRoute().navigate(context),
-            ),
+            if (isAdmin)
+              SettingsListTile(
+                label: Text(context.localized.controlPanel),
+                subLabel: Text(context.localized.controlPanelDesc),
+                selected: containsRoute(const ControlPanelSelectionRoute()),
+                icon: IconsaxPlusLinear.chart_3,
+                onTap: () => const ControlPanelSelectionRoute().navigate(context),
+              ),
             SettingsListTile(
               label: Text(context.localized.settingsProfileTitle),
               subLabel: Text(context.localized.settingsProfileDesc),
