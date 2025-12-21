@@ -54,5 +54,224 @@
         }
     },
     "clear": "Εκκαθάριση",
-    "@clear": {}
+    "@clear": {},
+    "amoledBlack": "Μαύρο Amoled",
+    "@amoledBlack": {},
+    "clearAllSettings": "Εκκαθάριση ρυθμίσεων",
+    "@clearAllSettings": {},
+    "clearAllSettingsQuestion": "Να γίνει εκκαθάριση ρυθμίσεων;",
+    "@clearAllSettingsQuestion": {},
+    "clearChanges": "Εκκαθάριση αλλαγών",
+    "@clearChanges": {},
+    "clearSelection": "Εκκαθάριση επιλογών",
+    "@clearSelection": {},
+    "close": "Κλείσιμο",
+    "@close": {},
+    "code": "Κώδικας",
+    "@code": {},
+    "color": "Χρώμα",
+    "@color": {},
+    "communityRating": "Αξιολογήσεις Χρηστών",
+    "@communityRating": {},
+    "dashboardContinue": "Συνέχεια",
+    "@dashboardContinue": {},
+    "dashboardContinueReading": "Συνέχιση Ανάγνωσης",
+    "@dashboardContinueReading": {},
+    "dashboardContinueWatching": "Συνέχιση Παρακολούθησης",
+    "@dashboardContinueWatching": {},
+    "nextUp": "Προσεχώς",
+    "@nextUp": {},
+    "dateAdded": "Ημερομηνία προσθήκης",
+    "@dateAdded": {},
+    "datePlayed": "Ημερομηνία αναπαραγωγής",
+    "@datePlayed": {},
+    "days": "Μέρες",
+    "@days": {},
+    "delete": "Διαγραφή",
+    "@delete": {},
+    "disableFilters": "Απενεργοποίηση Φίλτρων",
+    "@disableFilters": {},
+    "displayLanguage": "Γλώσσα Εμφάνισης",
+    "@displayLanguage": {},
+    "downloadsClearTitle": "Αφαίρεση συγχρονισμένων δεδομένων",
+    "@downloadsClearTitle": {},
+    "downloadsSyncedData": "Συγχρονισμένα δεδομένα",
+    "@downloadsSyncedData": {},
+    "downloadsTitle": "Λήψεις",
+    "@downloadsTitle": {},
+    "editMetadata": "Επεξεργασία μεταδεδομένων",
+    "@editMetadata": {},
+    "error": "Σφάλμα",
+    "@error": {},
+    "failedToLoadImage": "Αδυναμία φόρτωσης εικόνας",
+    "@failedToLoadImage": {},
+    "favorites": "Αγαπημένας",
+    "@favorites": {},
+    "fetchingLibrary": "Φόρτωση αρχείων βιβλιοθήκης…",
+    "@fetchingLibrary": {},
+    "folders": "Φάκελοι",
+    "@folders": {},
+    "fontColor": "Χρώμα γραμματοσειράς",
+    "@fontColor": {},
+    "fontSize": "Μέγεθος γραμματοσειράς",
+    "@fontSize": {},
+    "grid": "Πλέγμα",
+    "@grid": {},
+    "group": "Ομαδοποίηση",
+    "@group": {},
+    "hide": "Απόκρυψη",
+    "@hide": {},
+    "home": "Σπίτι",
+    "@home": {},
+    "homeBannerCarousel": "Καρουζέλ",
+    "@homeBannerCarousel": {},
+    "identify": "Αναγνώριση",
+    "@identify": {},
+    "immediately": "Άμεσα",
+    "@immediately": {},
+    "incorrectPinTryAgain": "Λάθος PIN. Δοκιμάστε ξανά.",
+    "@incorrectPinTryAgain": {},
+    "info": "Πληροφορίες",
+    "@info": {},
+    "invalidUrlDesc": "To URL πρέπει να ξεκινάει με http(s)://",
+    "@invalidUrlDesc": {},
+    "libraryFetchNoItemsFound": "Δεν βρέθηκε κανένα στοιχείο. Δοκιμάστε διαφορετικές ρυθμίσεις",
+    "@libraryFetchNoItemsFound": {},
+    "appLockTitle": "Επιλογή τρόπου εισόδου για {userName}",
+    "@appLockTitle": {
+        "description": "Pop-up to pick a login method",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "about": "Σχετικά",
+    "@about": {},
+    "bold": "Bold",
+    "@bold": {},
+    "collectionFolder": "Φάκελος συλλογών",
+    "@collectionFolder": {},
+    "combined": "Συνδιαστικά",
+    "@combined": {},
+    "controls": "Στοιχεία ελέγχου",
+    "@controls": {},
+    "dashboard": "Πίνακας ελέγχου",
+    "@dashboard": {},
+    "dashboardContinueListening": "Συνέχεια ακρόασης",
+    "@dashboardContinueListening": {},
+    "dashboardRecentlyAdded": "Προστέθηκαν πρόσφατα σε {name}",
+    "@dashboardRecentlyAdded": {
+        "description": "Recently added on home screen",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteFileFromSystem": "Διαγράφοντας το {item} θα διαγραφεί και απο τη βιβλιοθήκη σας ΚΑΙ απο τα αρχεία σας. Θελετε σίγουρα να συνεχίσετε;",
+    "@deleteFileFromSystem": {
+        "description": "Delete file from system",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteItem": "Διαγραφή {item};",
+    "@deleteItem": {
+        "description": "deleteItem",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "descending": "Φθίνουσα",
+    "@descending": {},
+    "director": "{count, plural, other{Σκηνοθέτης} two{Σκηνοθέτες}}",
+    "@director": {
+        "description": "director",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "disabled": "Κλειστό",
+    "@disabled": {},
+    "discovered": "Ανακαλύφθηκαν",
+    "@discovered": {},
+    "downloadsPath": "Διαδρομή",
+    "@downloadsPath": {},
+    "empty": "Άδειο",
+    "@empty": {},
+    "enabled": "Ανοικτό",
+    "@enabled": {},
+    "endsAt": "Τελειώνει στις {date}",
+    "@endsAt": {
+        "description": "endsAt",
+        "placeholders": {
+            "date": {
+                "type": "DateTime",
+                "format": "jm"
+            }
+        }
+    },
+    "episode": "{count, plural, other{Επεισόδια} one{Επεισόδιο} }",
+    "@episode": {
+        "description": "episode",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "favorite": "Αγαπημένο",
+    "@favorite": {},
+    "filter": "{count, plural, other{Φίλτρα} one{Φίλτρο}}",
+    "@filter": {
+        "description": "filter",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "forceRefresh": "Αναγκαστική ανανέωση",
+    "@forceRefresh": {},
+    "genre": "{count, plural, other{Είδη} one{Είδος}}",
+    "@genre": {
+        "description": "genre",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "goTo": "Μετάβαση σε",
+    "@goTo": {},
+    "backgroundBlur": "Θόλωμα φόντου",
+    "@backgroundBlur": {},
+    "downloadsClearDesc": "Αφαίρεση όλων των συγχρονισμένων δεδομένων, διαγράφοντας όλα τα δεδομένα για κάθε συγχρονισμένο χρήστη?",
+    "@downloadsClearDesc": {},
+    "backgroundOpacity": "Αδιαφάνεια φόντου",
+    "@backgroundOpacity": {},
+    "continuePage": "Συνέχεια - Σελίδα {page}",
+    "@continuePage": {
+        "description": "Continue - page 1",
+        "placeholders": {
+            "page": {
+                "type": "int"
+            }
+        }
+    },
+    "dynamicText": "Δυναμικό",
+    "@dynamicText": {},
+    "groupBy": "Ομαδοποίηση με",
+    "@groupBy": {}
 }

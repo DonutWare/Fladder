@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -10,6 +11,15 @@ import 'package:square_progress_indicator/square_progress_indicator.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 import 'package:fladder/util/simple_duration_picker.dart';
+
+bool get _isDesktop {
+  if (kIsWeb) return false;
+  return [
+    TargetPlatform.windows,
+    TargetPlatform.linux,
+    TargetPlatform.macOS,
+  ].contains(defaultTargetPlatform);
+}
 
 class RestartableTimerController {
   late Duration _steps = const Duration(milliseconds: 32);
@@ -47,7 +57,9 @@ class RestartableTimerController {
   }
 
   RestartableTimer _startTimer() {
-    WakelockPlus.enable();
+    if (!_isDesktop) {
+      WakelockPlus.enable();
+    }
     return RestartableTimer(
       _steps,
       () {

@@ -126,6 +126,7 @@ const _$BitrateEnumMap = {
 const _$SegmentSkipEnumMap = {
   SegmentSkip.none: 'none',
   SegmentSkip.askToSkip: 'askToSkip',
+  SegmentSkip.skipOnce: 'skipOnce',
   SegmentSkip.skip: 'skip',
 };
 
@@ -153,6 +154,8 @@ const _$VideoHotKeysEnumMap = {
   VideoHotKeys.prevChapter: 'prevChapter',
   VideoHotKeys.fullScreen: 'fullScreen',
   VideoHotKeys.skipMediaSegment: 'skipMediaSegment',
+  VideoHotKeys.takeScreenshot: 'takeScreenshot',
+  VideoHotKeys.takeScreenshotClean: 'takeScreenshotClean',
   VideoHotKeys.exit: 'exit',
 };
 

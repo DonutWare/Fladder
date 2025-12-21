@@ -1458,5 +1458,13 @@
     "seekForward": "Avanzar",
     "@seekForward": {},
     "seekBack": "Retroceder",
-    "@seekBack": {}
+    "@seekBack": {},
+    "television": "Televisión",
+    "@television": {},
+    "exitFladderDesc": "¿Estás seguro de que quieres cerrar Fladder?",
+    "@exitFladderDesc": {},
+    "similarToLikedItem": "Similar al artículo que te gustó",
+    "@similarToLikedItem": {},
+    "hasLikedDirector": "Ha gustado al director",
+    "@hasLikedDirector": {}
 }

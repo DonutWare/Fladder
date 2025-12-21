@@ -1519,5 +1519,25 @@
                 "type": "int"
             }
         }
-    }
+    },
+    "openImeKeyboard": "開啟輸入法鍵盤",
+    "@openImeKeyboard": {},
+    "screensaverDvd": "DVD",
+    "@screensaverDvd": {},
+    "screensaverLogo": "Logo",
+    "@screensaverLogo": {},
+    "screensaverTime": "時間",
+    "@screensaverTime": {},
+    "screensaverBlack": "黑色",
+    "@screensaverBlack": {},
+    "playerSettingsScreensaverTitle": "螢幕保護程式",
+    "@playerSettingsScreensaverTitle": {},
+    "playerSettingsScreensaverDesc": "選擇在播放器無動作後顯示的螢幕保護程式",
+    "@playerSettingsScreensaverDesc": {},
+    "settingsLocalUrlTitle": "本地伺服器網址",
+    "@settingsLocalUrlTitle": {},
+    "settingsLocalUrlSetTitle": "配置本地網址",
+    "@settingsLocalUrlSetTitle": {},
+    "settingsLocalUrlSetDesc": "指定本地伺服器地址。當您的設備與伺服器位於同一網路時，Fladder 將自動使用此網址。",
+    "@settingsLocalUrlSetDesc": {}
 }

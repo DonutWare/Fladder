@@ -27,6 +27,13 @@ class AppDelegate: FlutterAppDelegate {
             keyEquivalent: "n"
         )
         dockMenu.addItem(newWindowItem)
+
+        let newInstanceItem = NSMenuItem(
+            title: "New Instance",
+            action: #selector(handleNewInstanceAction(_:)),
+            keyEquivalent: "n"
+        )
+        dockMenu.addItem(newInstanceItem)
         
         return dockMenu
     }
@@ -34,6 +41,10 @@ class AppDelegate: FlutterAppDelegate {
     // 4. Implement the action function
     @objc func handleNewWindowAction(_ sender: NSMenuItem) {
         self.appMenuApi?.openNewWindow(completion: {_ in print("New window opened")})
+    }
+
+    @objc func handleNewInstanceAction(_ sender: NSMenuItem) {
+        self.appMenuApi?.newInstance(completion: {_ in print("New instance opened")})
     }
     
     override func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {

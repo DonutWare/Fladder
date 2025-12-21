@@ -927,7 +927,7 @@
   "@videoScalingFitHeight": {},
   "videoScalingFitWidth": "Fit Width",
   "@videoScalingFitWidth": {},
-  "videoScalingScaleDown": "ScaleDown",
+  "videoScalingScaleDown": "Scale Down",
   "@videoScalingScaleDown": {},
   "viewPhotos": "View photos",
   "@viewPhotos": {},
@@ -1189,6 +1189,7 @@
   "mediaSegmentActions": "Media segment actions",
   "segmentActionNone": "None",
   "segmentActionAskToSkip": "Ask to skip",
+  "segmentActionSkipOnce": "Skip once",
   "segmentActionSkip": "Skip",
   "loading": "Loading",
   "exitFladderTitle": "Exit Fladder",
@@ -1367,6 +1368,12 @@
       }
     }
   },
+  "takeScreenshot": "Take screenshot",
+  "takeScreenshotClean": "Take screenshot (without subtitles)",
+  "screenshots": "Screenshots",
+  "screenshotTaken": "Screenshot saved!",
+  "screenshotCleanTaken": "Screenshot without subtitles saved!",
+  "errorTakingScreenshot": "There was an error taking the screenshot",
   "openImeKeyboard": "Open IME keyboard",
   "screensaverDvd": "DVD",
   "screensaverLogo": "Logo",
@@ -1376,5 +1383,6 @@
   "playerSettingsScreensaverDesc": "Select screen saver that will be shown after no player activity",
   "settingsLocalUrlTitle": "Local Server URL",
   "settingsLocalUrlSetTitle": "Configure Local URL",
-  "settingsLocalUrlSetDesc": "Specify the local server address. Fladder will automatically use this URL when your device is on the same network."
+  "settingsLocalUrlSetDesc": "Specify the local server address. Fladder will automatically use this URL when your device is on the same network.",
+  "regenerateTrickplayImages": "Regenerate trickplay images"
 }

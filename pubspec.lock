@@ -1022,7 +1022,7 @@ packages:
     source: hosted
     version: "1.0.0"
   image:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: image
       sha256: "4e973fcf4caae1a4be2fa0a13157aa38a8f9cb049db6529aa00b4d71abc4d928"
@@ -1557,6 +1557,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.5.0"
+  punycoder:
+    dependency: "direct main"
+    description:
+      name: punycoder
+      sha256: aed79c05986a18782caa9bad649a4a786e840e1baaf6a2e1aa3a25d143d28e6e
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.2"
   qs_dart:
     dependency: transitive
     description:

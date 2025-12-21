@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:io';
+import 'package:path/path.dart' as p;
 
 import 'package:flutter/material.dart';
 
@@ -6,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
+import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/util/debouncer.dart';
 import 'package:fladder/wrappers/media_control_wrapper.dart';
@@ -116,8 +119,12 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
 
   Future<bool> loadPlaybackItem(PlaybackModel model, Duration startPosition) async {
     await state.stop();
-    mediaState
-        .update((state) => state.copyWith(state: VideoPlayerState.fullScreen, buffering: true, errorPlaying: false));
+    mediaState.update((state) => state.copyWith(
+          state: VideoPlayerState.fullScreen,
+          buffering: true,
+          errorPlaying: false,
+          skippedSegments: {},
+        ));
 
     final media = model.media;
     PlaybackModel? newPlaybackModel = model;
@@ -149,4 +156,59 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
   }
 
   Future<void> openPlayer(BuildContext context) async => state.openPlayer(context);
+
+  Future<bool> takeScreenshot() async {
+    final syncPath = ref.read(clientSettingsProvider).syncPath;
+    // Early return here if we don't have a set/valid path. Skips actually taking the screenshot
+    // which would be discarded.
+    if (syncPath == null) {
+      return false;
+    }
+
+    final screenshotsPath = p.join(syncPath, "Screenshots");
+    final screenshotBuf = await state.takeScreenshot();
+
+    if (screenshotBuf != null) {
+      final savePathDirectory = Directory(screenshotsPath);
+      
+      // Should we try to create the directory instead?
+      if (!await savePathDirectory.exists()) {
+        return false;
+      }
+
+      final fileExtension = "png";
+      final paddingAmount = 3;
+
+      int maxNumber = 0;
+
+      await for (var file in savePathDirectory.list()) {
+        final finalSegment = file.uri.pathSegments.last;
+
+        if (file is File && p.extension(finalSegment) == ".$fileExtension") {
+          final match = RegExp(r'(\d+)').firstMatch(finalSegment);
+
+          if (match != null) {
+            final fileNumber = int.parse(match.group(0)!);
+
+            if (fileNumber > maxNumber) {
+              maxNumber = fileNumber;
+            }
+          }
+        }
+      }
+
+      maxNumber += 1;
+        
+      final maxNumberStr = maxNumber.toString().padLeft(paddingAmount, '0');
+      final screenshotName = '$maxNumberStr.$fileExtension';
+      final screenshotPath = p.join(screenshotsPath, screenshotName);
+
+      final screenshotFile = File(screenshotPath);
+      await screenshotFile.writeAsBytes(screenshotBuf);
+
+      return true;
+    }
+
+    return false;
+  }
 }

@@ -990,6 +990,7 @@ class JellyService {
     MetadataRefresh? imageRefreshMode,
     bool? replaceAllMetadata,
     bool? replaceAllImages,
+    bool? replaceTrickplayImages,
   }) =>
       api.itemsItemIdRefreshPost(
         itemId: itemId,
@@ -997,6 +998,7 @@ class JellyService {
         imageRefreshMode: imageRefreshMode?.imageRefreshMode,
         replaceAllMetadata: replaceAllMetadata,
         replaceAllImages: replaceAllImages,
+        regenerateTrickplay: replaceTrickplayImages,
       );
 
   Future<Response<UserItemDataDto>> usersUserIdFavoriteItemsItemIdPost({
