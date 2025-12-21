@@ -1,5 +1,5 @@
 {
-  description = "Fladder development environment";
+  description = "Fladder - A simple cross-platform Jellyfin client";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -18,109 +18,45 @@
         };
       in
       {
-        devShells.default = pkgs.mkShell {
+        packages.fladder = pkgs.flutter335.buildFlutterApplication {
+          pname = "fladder";
+          version = "0.8.0";
+          src = ./.;
+          
+          # This hash needs to be updated whenever pubspec.lock changes.
+          # You can find the correct hash by setting it to lib.fakeHash,
+          # running `nix build`, and copying the hash from the error message.
+          pubHash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+
+          # Add any necessary build-time or runtime dependencies here
           buildInputs = with pkgs; [
-            # Flutter Version Management
-            fvm
-
-            # Common Build Tools
-            git
-            curl
-            unzip
-            cmake
-            ninja
-            clang
-            pkg-config
-            chromium
-
-            # Linux Desktop Development Dependencies
             gtk3
             glib
-            util-linux # for libmount
-            libx11
-            libxcomposite
-            libxcursor
-            libxdamage
-            libxext
-            libxtst
-            libxkbcommon
             libepoxy
-            at-spi2-core
-            dbus
-            fontconfig
-            pango
-            cairo
-            gdk-pixbuf
-            
-            # Graphics and Mesa
-            mesa
-            mesa-demos
-            libdrm
-            libGL
-            libgbm
-            
-            # Audio
+            util-linux
+            libselinux
+            libsepol
+            libthai
+            libdatrie
+            xorg.libXdmcp
+            xorg.libXtst
+            pcre2
             libpulseaudio
-            alsa-lib
-            
-            # System libraries
-            stdenv.cc.cc
-            zlib
-            openssl
-            systemd
-            xdg-user-dirs
-
-            # Media playback
             mpv
           ];
 
-          shellHook = ''
-            echo "Welcome to the Fladder development environment!"
-            echo "Flutter version managed by fvm."
-            
-            # Ensure fvm bin is in path
-            export PATH="$PWD/.fvm/flutter_sdk/bin:$PATH"
-            
-            # Initialize XDG user directories
-            ${pkgs.xdg-user-dirs}/bin/xdg-user-dirs-update
-            
-            # Set Chrome executable for Flutter web development
-            export CHROME_EXECUTABLE="${pkgs.chromium}/bin/chromium"
-            
-            # Set up library path for Flutter-built binaries
-            export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath [
-              pkgs.gtk3
-              pkgs.glib
-              pkgs.util-linux
-              pkgs.libx11
-              pkgs.libxcomposite
-              pkgs.libxcursor
-              pkgs.libxdamage
-              pkgs.libxext
-              pkgs.libxtst
-              pkgs.libxkbcommon
-              pkgs.libepoxy
-              pkgs.at-spi2-core
-              pkgs.dbus
-              pkgs.fontconfig
-              pkgs.pango
-              pkgs.cairo
-              pkgs.gdk-pixbuf
-              pkgs.mesa
-              pkgs.mesa-demos
-              pkgs.libdrm
-              pkgs.libGL
-              pkgs.libgbm
-              pkgs.libpulseaudio
-              pkgs.alsa-lib
-              pkgs.stdenv.cc.cc
-              pkgs.zlib
-              pkgs.openssl
-              pkgs.systemd
-              pkgs.mpv
-            ]}:$LD_LIBRARY_PATH"
-          '';
+          meta = with pkgs.lib; {
+            description = "A simple cross-platform Jellyfin client";
+            homepage = "https://github.com/DonutWare/Fladder";
+            license = licenses.gpl3Plus;
+            platforms = platforms.linux;
+            mainProgram = "fladder";
+          };
         };
+
+        packages.default = self.packages.${system}.fladder;
+
+        devShells.default = import ./shell.nix { inherit pkgs; };
       }
     );
 }
