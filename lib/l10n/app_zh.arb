@@ -1552,5 +1552,7 @@
     "errorTakingScreenshot": "截屏时出现错误",
     "@errorTakingScreenshot": {},
     "regenerateTrickplayImages": "重新生成特技播放图片",
-    "@regenerateTrickplayImages": {}
+    "@regenerateTrickplayImages": {},
+    "segmentActionSkipOnce": "跳过一次",
+    "@segmentActionSkipOnce": {}
 }
