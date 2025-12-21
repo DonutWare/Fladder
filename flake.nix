@@ -6,9 +6,13 @@
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, nixpkgs, flake-utils }:
-    flake-utils.lib.eachDefaultSystem (system:
-      let
+  outputs = {
+    self,
+    nixpkgs,
+    flake-utils,
+  }:
+    flake-utils.lib.eachDefaultSystem (
+      system: let
         pkgs = import nixpkgs {
           inherit system;
           config = {
@@ -16,18 +20,21 @@
             android_sdk.accept_license = true;
           };
         };
-      in
-      {
+      in {
         packages.fladder = pkgs.flutter335.buildFlutterApplication {
           pname = "fladder";
           version = "0.8.0";
           src = ./.;
-          
+
           autoPubspecLock = ./pubspec.lock;
 
-          customSourceBuilders =
-            let
-              mkMediaKitSource = subDir: { version, src, ... }: pkgs.stdenv.mkDerivation {
+          customSourceBuilders = let
+            mkMediaKitSource = subDir: {
+              version,
+              src,
+              ...
+            }:
+              pkgs.stdenv.mkDerivation {
                 pname = "media-kit-source";
                 inherit version src;
                 installPhase = ''
@@ -38,35 +45,36 @@
                   packageRoot = ".";
                 };
               };
-            in
-            {
-              media_kit = mkMediaKitSource "media_kit";
-              media_kit_video = mkMediaKitSource "media_kit_video";
-              media_kit_libs_video = mkMediaKitSource "libs/universal/media_kit_libs_video";
-              media_kit_libs_android_video = mkMediaKitSource "libs/android/media_kit_libs_android_video";
-              media_kit_libs_ios_video = mkMediaKitSource "libs/ios/media_kit_libs_ios_video";
-              media_kit_libs_macos_video = mkMediaKitSource "libs/macos/media_kit_libs_macos_video";
-              media_kit_libs_windows_video = mkMediaKitSource "libs/windows/media_kit_libs_windows_video";
-              media_kit_libs_linux = pkgs.callPackage ./nix/media_kit_libs_linux_donutware.nix {
-                miMallocVersion = "2.1.2";
-                miMallocHash = "sha256-Kxv/b3F/lyXHC/jXnkeG2hPeiicAWeS6C90mKue+Rus=";
-              };
-
-              fvp = pkgs.callPackage ./nix/fvp.nix {
-                fvpVersion = "0.35.0";
-                fvpHash = "sha256-GaHaNYGUANhosX1Aq7ehGeGGwCxu3Ar1NxgTSyPhnhA=";
-              };
+          in {
+            media_kit = mkMediaKitSource "media_kit";
+            media_kit_video = mkMediaKitSource "media_kit_video";
+            media_kit_libs_video = mkMediaKitSource "libs/universal/media_kit_libs_video";
+            media_kit_libs_android_video = mkMediaKitSource "libs/android/media_kit_libs_android_video";
+            media_kit_libs_ios_video = mkMediaKitSource "libs/ios/media_kit_libs_ios_video";
+            media_kit_libs_macos_video = mkMediaKitSource "libs/macos/media_kit_libs_macos_video";
+            media_kit_libs_windows_video = mkMediaKitSource "libs/windows/media_kit_libs_windows_video";
+            media_kit_libs_linux = pkgs.callPackage ./nix/media_kit_libs_linux_donutware.nix {
+              miMallocVersion = "2.1.2";
+              miMallocHash = "sha256-Kxv/b3F/lyXHC/jXnkeG2hPeiicAWeS6C90mKue+Rus=";
             };
 
-          gitHashes = {
-            media_kit = "sha256-vnzIfVkkBcvqtFuhbf3WzYUTo0ea7+MYgws/+wDpNf0=";
-            media_kit_libs_android_video = "sha256-vnzIfVkkBcvqtFuhbf3WzYUTo0ea7+MYgws/+wDpNf0=";
-            media_kit_libs_ios_video = "sha256-vnzIfVkkBcvqtFuhbf3WzYUTo0ea7+MYgws/+wDpNf0=";
-            media_kit_libs_linux = "sha256-vnzIfVkkBcvqtFuhbf3WzYUTo0ea7+MYgws/+wDpNf0=";
-            media_kit_libs_macos_video = "sha256-vnzIfVkkBcvqtFuhbf3WzYUTo0ea7+MYgws/+wDpNf0=";
-            media_kit_libs_video = "sha256-vnzIfVkkBcvqtFuhbf3WzYUTo0ea7+MYgws/+wDpNf0=";
-            media_kit_libs_windows_video = "sha256-vnzIfVkkBcvqtFuhbf3WzYUTo0ea7+MYgws/+wDpNf0=";
-            media_kit_video = "sha256-vnzIfVkkBcvqtFuhbf3WzYUTo0ea7+MYgws/+wDpNf0=";
+            fvp = pkgs.callPackage ./nix/fvp.nix {
+              fvpVersion = "0.35.0";
+              fvpHash = "sha256-GaHaNYGUANhosX1Aq7ehGeGGwCxu3Ar1NxgTSyPhnhA=";
+            };
+          };
+
+          gitHashes = let
+            media_kit-hash = "sha256-vnzIfVkkBcvqtFuhbf3WzYUTo0ea7+MYgws/+wDpNf0=";
+          in {
+            media_kit = media_kit-hash;
+            media_kit_video = media_kit-hash;
+            media_kit_libs_linux = media_kit-hash;
+            media_kit_libs_video = media_kit-hash;
+            media_kit_libs_android_video = media_kit-hash;
+            media_kit_libs_ios_video = media_kit-hash;
+            media_kit_libs_macos_video = media_kit-hash;
+            media_kit_libs_windows_video = media_kit-hash;
           };
 
           nativeBuildInputs = with pkgs; [
@@ -125,7 +133,9 @@
 
         packages.default = self.packages.${system}.fladder;
 
-        devShells.default = import ./shell.nix { inherit pkgs; };
+        formatter = pkgs.nixpkgs-fmt;
+
+        devShells.default = import ./shell.nix {inherit pkgs;};
       }
     );
 }

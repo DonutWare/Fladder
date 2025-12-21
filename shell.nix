@@ -1,15 +1,16 @@
-{ pkgs ? import <nixpkgs> {
-    config = {
-      allowUnfree = true;
-      android_sdk.accept_license = true;
-    };
-  }
+{
+  pkgs ?
+    import <nixpkgs> {
+      config = {
+        allowUnfree = true;
+        android_sdk.accept_license = true;
+      };
+    },
 }:
-
 pkgs.mkShell {
   buildInputs = with pkgs; [
-    # Flutter Version Management
-    fvm
+    # Flutter
+    flutter335
 
     # Common Build Tools
     git
@@ -39,18 +40,18 @@ pkgs.mkShell {
     pango
     cairo
     gdk-pixbuf
-    
+
     # Graphics and Mesa
     mesa
     mesa-demos
     libdrm
     libGL
     libgbm
-    
+
     # Audio
     libpulseaudio
     alsa-lib
-    
+
     # System libraries
     stdenv.cc.cc
     zlib
@@ -64,17 +65,13 @@ pkgs.mkShell {
 
   shellHook = ''
     echo "Welcome to the Fladder development environment!"
-    echo "Flutter version managed by fvm."
-    
-    # Ensure fvm bin is in path
-    export PATH="$PWD/.fvm/flutter_sdk/bin:$PATH"
-    
+
     # Initialize XDG user directories
     ${pkgs.xdg-user-dirs}/bin/xdg-user-dirs-update
-    
+
     # Set Chrome executable for Flutter web development
     export CHROME_EXECUTABLE="${pkgs.chromium}/bin/chromium"
-    
+
     # Set up library path for Flutter-built binaries
     export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath [
       pkgs.gtk3
