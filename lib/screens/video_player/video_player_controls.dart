@@ -132,16 +132,22 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                 Consumer(
                   builder: (context, ref, child) {
                     final position = ref.watch(mediaPlaybackProvider.select((value) => value.position));
+                    final skippedSegments = ref.watch(mediaPlaybackProvider.select((value) => value.skippedSegments));
                     MediaSegment? segment = mediaSegments?.atPosition(position);
                     SegmentVisibility forceShow =
                         segment?.visibility(position, force: showOverlay) ?? SegmentVisibility.hidden;
                     final segmentSkipType = ref
                         .watch(videoPlayerSettingsProvider.select((value) => value.segmentSkipSettings[segment?.type]));
+
+                    final segmentId = segment != null ? '${segment.type.name}_${segment.start.inMilliseconds}' : null;
+                    final wasSkipped = segmentId != null && skippedSegments.contains(segmentId);
+
                     final autoSkip = forceShow != SegmentVisibility.hidden &&
-                        segmentSkipType == SegmentSkip.skip &&
+                        (segmentSkipType == SegmentSkip.skip || (segmentSkipType == SegmentSkip.skipOnce && !wasSkipped)) &&
                         player.lastState?.buffering == false;
+                    
                     if (autoSkip) {
-                      skipToSegmentEnd(segment);
+                      skipToSegmentEnd(segment, segmentId);
                     }
                     return Stack(
                       children: [
@@ -153,7 +159,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                               segment: segment,
                               skipType: segmentSkipType,
                               visibility: forceShow,
-                              pressedSkip: () => skipToSegmentEnd(segment),
+                              pressedSkip: () => skipToSegmentEnd(segment, null),
                             ),
                           ),
                         ),
@@ -602,11 +608,22 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     );
   }
 
-  void skipToSegmentEnd(MediaSegment? mediaSegments) {
-    final end = mediaSegments?.end;
+  void skipToSegmentEnd(MediaSegment? mediaSegment, String? segmentId) {
+    final end = mediaSegment?.end;
     if (end != null) {
       resetTimer();
       ref.read(videoPlayerProvider).seek(end);
+
+      if (segmentId != null) {
+        Future(() {
+          final currentSkipped = ref.read(mediaPlaybackProvider).skippedSegments;
+          ref.read(mediaPlaybackProvider.notifier).update(
+                (state) => state.copyWith(
+                  skippedSegments: {...currentSkipped, segmentId},
+                ),
+              );
+        });
+      }
     }
   }
 
@@ -721,7 +738,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         return true;
       case VideoHotKeys.skipMediaSegment:
         if (segment != null) {
-          skipToSegmentEnd(segment);
+          skipToSegmentEnd(segment, null);
         }
         return true;
       case VideoHotKeys.exit:
