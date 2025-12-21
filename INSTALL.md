@@ -6,20 +6,18 @@ Platform-specific installation instructions can be found in this document.
 
 - [Installation instructions](#installation-instructions)
 	- [Windows](#windows)
-		- [Winget](#winget)
-		- [Manual](#manual)
-			- [Installer](#installer)
-			- [Portable](#portable)
+		- [Installer](#installer)
+		- [Portable](#portable)
 	- [macOS](#macos)
 		- [Homebrew](#homebrew)
-		- [Manual](#manual-1)
+		- [Manual](#manual)
 	- [Linux](#linux)
 		- [Ubuntu/Debian](#ubuntudebian)
 		- [Arch](#arch)
 		- [Fedora](#fedora)
 	- [Android](#android)
 		- [Play Store](#play-store)
-		- [Manual](#manual-2)
+		- [Manual](#manual-1)
 	- [iOS/iPadOS](#iosipados)
 		- [Sideloadly](#sideloadly)
 	- [Docker](#docker)
@@ -28,21 +26,11 @@ Platform-specific installation instructions can be found in this document.
 
 ## Windows
 
-### Winget
-
-You can install Fladder using Winget:
-
-```bash
-winget install DonutWare.Fladder
-```
-
-### Manual
-
-#### Installer
+### Installer
 
 Download the latest `.exe` installer from the [Releases](https://github.com/DonutWare/Fladder/releases) page and open it. Follow the on-screen instructions.
 
-#### Portable
+### Portable
 
 Download the latest `.zip` file from the [Releases](https://github.com/DonutWare/Fladder/releases) page and extract it somewhere on your PC.
 
@@ -101,10 +89,33 @@ Download the latest Linux `.zip` file from the [Releases](https://github.com/Don
 
 Open a terminal and `cd` to the directory where you extracted Fladder to. Run `./Fladder` to open the application.
 
+### Nix
+
+You can install Fladder by adding it to your system flake inputs:
+
+```nix
+inputs.fladder.url = "github:DonutWare/Fladder/develop";
+```
+
+Then, add it to your `environment.systemPackages`:
+
+```nix
+environment.systemPackages = [
+  inputs.fladder.packages.${pkgs.system}.default
+];
+```
+
+Alternatively, you can run it directly without installing:
+
+```bash
+nix run github:DonutWare/Fladder/develop
+```
+
 ## Android
 
 > [!IMPORTANT]
 > This app is currently not compatible with Android TV, however contributions to add support are always appreciated.
+
 ### Play Store
 
 This is the recommended way to install Fladder on Android.
