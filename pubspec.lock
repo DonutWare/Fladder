@@ -2058,6 +2058,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.1"
+  subtitle:
+    dependency: "direct main"
+    description:
+      name: subtitle
+      sha256: "29115fbaa5d87c5909ffa477cbfdeec2c6ee8ac9a5ef3dce9b2db731afc79f26"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.4"
   swagger_dart_code_generator:
     dependency: "direct dev"
     description:
@@ -2142,18 +2150,18 @@ packages:
     dependency: "direct main"
     description:
       name: universal_html
-      sha256: c0bcae5c733c60f26c7dfc88b10b0fd27cbcc45cb7492311cdaa6067e21c9cd4
+      sha256: "0a1795dc516ed9fc48c6fdee8e9a99445cdce6871845d34e31c13184d7a743aa"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.0"
+    version: "2.2.5"
   universal_io:
     dependency: transitive
     description:
       name: universal_io
-      sha256: f63cbc48103236abf48e345e07a03ce5757ea86285ed313a6a032596ed9301e2
+      sha256: ba9dde5f7c6d8ec7ed856bef0eb01c425881acae7748f77dac4d5cc46f2edf04
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.1"
+    version: "2.2.3"
   universal_platform:
     dependency: transitive
     description:
@@ -2322,14 +2330,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.6.0"
-  video_player_tizen:
+  video_player_videohole:
     dependency: "direct main"
     description:
-      name: video_player_tizen
-      sha256: f629713b3a901965e04a4ab3f94988f94f0a6224d412ce416c396e148314b8d0
+      name: video_player_videohole
+      sha256: "4897cddd805b329c8236057cf554aa979d79aba4d1d85d9779fe572edbb56555"
       url: "https://pub.dev"
     source: hosted
-    version: "2.5.8"
+    version: "0.5.8"
   video_player_web:
     dependency: transitive
     description:
