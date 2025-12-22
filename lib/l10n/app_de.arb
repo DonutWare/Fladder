@@ -960,7 +960,7 @@
     "@syncOverlayDeleting": {},
     "syncStatusCanceled": "Abgebrochen",
     "@syncStatusCanceled": {},
-    "videoScalingScaleDown": "Skalierung",
+    "videoScalingScaleDown": "Herunterskalieren",
     "@videoScalingScaleDown": {},
     "addToNewCollection": "Neue Kollektion",
     "@addToNewCollection": {},
@@ -1560,5 +1560,7 @@
     "settingsLocalUrlTitle": "Lokale Server URL",
     "@settingsLocalUrlTitle": {},
     "regenerateTrickplayImages": "Trickplay-Bilder neu generieren",
-    "@regenerateTrickplayImages": {}
+    "@regenerateTrickplayImages": {},
+    "segmentActionSkipOnce": "Einmalig überspringen",
+    "@segmentActionSkipOnce": {}
 }
