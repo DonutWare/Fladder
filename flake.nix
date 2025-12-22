@@ -28,12 +28,9 @@
         in
           pkgs.lib.strings.trim versionNoBuild;
 
-        pubspecSource = pkgs.lib.fileset.toSource {
-          root = ./.;
-          fileset = pkgs.lib.fileset.unions [
-            ./pubspec.yaml
-            ./pubspec.lock
-          ];
+        pubspecLock = builtins.path {
+          path = ./pubspec.lock;
+          name = "pubspec.lock";
         };
       in {
         packages.fladder = pkgs.flutter335.buildFlutterApplication {
@@ -41,7 +38,7 @@
           inherit version;
           src = pkgs.lib.cleanSource ./.;
 
-          autoPubspecLock = "${pubspecSource}/pubspec.lock";
+          autoPubspecLock = pubspecLock;
 
           customSourceBuilders = let
             mkMediaKitSource = subDir: {
