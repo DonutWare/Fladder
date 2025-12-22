@@ -27,13 +27,21 @@
           versionNoBuild = pkgs.lib.head (pkgs.lib.splitString "+" versionRaw);
         in
           pkgs.lib.strings.trim versionNoBuild;
+
+        pubspecSource = pkgs.lib.fileset.toSource {
+          root = ./.;
+          fileset = pkgs.lib.fileset.unions [
+            ./pubspec.yaml
+            ./pubspec.lock
+          ];
+        };
       in {
         packages.fladder = pkgs.flutter335.buildFlutterApplication {
           pname = "fladder";
           inherit version;
-          src = ./.;
+          src = pkgs.lib.cleanSource ./.;
 
-          autoPubspecLock = ./pubspec.lock;
+          autoPubspecLock = "${pubspecSource}/pubspec.lock";
 
           customSourceBuilders = let
             mkMediaKitSource = subDir: {
