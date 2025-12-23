@@ -36,6 +36,8 @@ abstract class AccountModel with _$AccountModel {
     @JsonKey(includeFromJson: false, includeToJson: false) ServerConfiguration? serverConfiguration,
     @JsonKey(includeFromJson: false, includeToJson: false) UserConfiguration? userConfiguration,
     UserSettings? userSettings,
+    bool? hasPassword,
+    bool? hasConfiguredPassword,
   }) = _AccountModel;
 
   factory AccountModel.fromJson(Map<String, dynamic> json) => _$AccountModelFromJson(json);

@@ -7,7 +7,7 @@ import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/account_model.dart';
 import 'package:fladder/models/view_model.dart';
 import 'package:fladder/providers/control_panel/control_users_provider.dart';
-import 'package:fladder/screens/control_panel/control_user_edit_shared.dart';
+import 'package:fladder/screens/control_panel/control_user_edit/control_user_edit_shared.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/settings/widgets/settings_label_divider.dart';
 import 'package:fladder/screens/settings/widgets/settings_list_group.dart';

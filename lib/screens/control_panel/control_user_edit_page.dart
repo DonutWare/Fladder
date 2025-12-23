@@ -6,9 +6,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/providers/control_panel/control_users_provider.dart';
 import 'package:fladder/providers/views_provider.dart';
-import 'package:fladder/screens/control_panel/control_user_edit_access.dart';
-import 'package:fladder/screens/control_panel/control_user_edit_general.dart';
-import 'package:fladder/screens/control_panel/control_user_edit_parental_control.dart';
+import 'package:fladder/screens/control_panel/control_user_edit/control_user_edit_access.dart';
+import 'package:fladder/screens/control_panel/control_user_edit/control_user_edit_general.dart';
+import 'package:fladder/screens/control_panel/control_user_edit/control_user_edit_parental_control.dart';
+import 'package:fladder/screens/control_panel/control_user_edit/control_user_edit_password.dart';
 import 'package:fladder/screens/settings/settings_scaffold.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/filled_button_await.dart';
@@ -51,17 +52,19 @@ class _ControlUserEditPageState extends ConsumerState<ControlUserEditPage> {
       onRefresh: () => ref.read(controlUsersProvider.notifier).fetchSpecificUser(widget.userId),
       child: SettingsScaffold(
         label: context.localized.editUser,
-        bottomActions: [
-          FilledButtonAwait.tonal(
-            onPressed: () async => await provider.fetchSpecificUser(widget.userId),
-            child: Text(context.localized.cancel),
-          ),
-          const SizedBox(width: 8),
-          FilledButtonAwait(
-            onPressed: () async => await provider.saveUserPolicy(),
-            child: Text(context.localized.save),
-          )
-        ],
+        bottomActions: selectedOption == EditOptions.password
+            ? []
+            : [
+                FilledButtonAwait.tonal(
+                  onPressed: () async => await provider.fetchSpecificUser(widget.userId),
+                  child: Text(context.localized.cancel),
+                ),
+                const SizedBox(width: 8),
+                FilledButtonAwait(
+                  onPressed: () async => await provider.saveUserPolicy(),
+                  child: Text(context.localized.save),
+                )
+              ],
         items: currentUser == null
             ? []
             : [
@@ -119,31 +122,25 @@ class _ControlUserEditPageState extends ConsumerState<ControlUserEditPage> {
                       });
                     }),
                 const Divider(),
-                ...switch (selectedOption) {
-                  EditOptions.general => [
-                      UserGeneralTab(
-                        nameController: nameController,
-                        currentUser: currentUser,
-                        currentPolicy: currentPolicy,
-                        views: views,
-                      )
-                    ],
-                  EditOptions.access => [
-                      UserAccessTab(
-                        currentPolicy: currentPolicy,
-                        views: views,
-                        devices: devices,
-                      )
-                    ],
-                  EditOptions.parentalControl => [
-                      UserParentalControlTab(
-                        currentUser: currentUser,
-                        currentPolicy: currentPolicy,
-                        views: views,
-                        parentalRatings: parentalRatings,
-                      )
-                    ],
-                  EditOptions.password => [Text(context.localized.passwordSettingsComing)],
+                switch (selectedOption) {
+                  EditOptions.general => UserGeneralTab(
+                      nameController: nameController,
+                      currentUser: currentUser,
+                      currentPolicy: currentPolicy,
+                      views: views,
+                    ),
+                  EditOptions.access => UserAccessTab(
+                      currentPolicy: currentPolicy,
+                      views: views,
+                      devices: devices,
+                    ),
+                  EditOptions.parentalControl => UserParentalControlTab(
+                      currentUser: currentUser,
+                      currentPolicy: currentPolicy,
+                      views: views,
+                      parentalRatings: parentalRatings,
+                    ),
+                  EditOptions.password => const ControlUserEditPassword(),
                 },
               ],
       ),

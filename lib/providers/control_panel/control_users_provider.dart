@@ -60,6 +60,27 @@ class ControlUsers extends _$ControlUsers {
     await api.deleteUser(userId);
     await fetchUsers();
   }
+
+  Future<bool> setUserPassword({
+    required String current,
+    required String newPassword,
+    required String confirmPassword,
+  }) async {
+    final response = await api.setNewPassword(
+      userId: state.selectedUser?.id,
+      currentPassword: current,
+      newPassword: newPassword,
+      confirmPassword: confirmPassword,
+    );
+    return response.isSuccessful;
+  }
+
+  Future<bool> resetUserPassword() async {
+    final response = await api.resetPassword(
+      userId: state.selectedUser!.id,
+    );
+    return response.isSuccessful;
+  }
 }
 
 @Freezed(copyWith: true)

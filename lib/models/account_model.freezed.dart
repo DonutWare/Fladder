@@ -33,6 +33,8 @@ mixin _$AccountModel implements DiagnosticableTreeMixin {
   @JsonKey(includeFromJson: false, includeToJson: false)
   UserConfiguration? get userConfiguration;
   UserSettings? get userSettings;
+  bool? get hasPassword;
+  bool? get hasConfiguredPassword;
 
   /// Create a copy of AccountModel
   /// with the given fields replaced by the non-null parameter values.
@@ -63,12 +65,15 @@ mixin _$AccountModel implements DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('policy', policy))
       ..add(DiagnosticsProperty('serverConfiguration', serverConfiguration))
       ..add(DiagnosticsProperty('userConfiguration', userConfiguration))
-      ..add(DiagnosticsProperty('userSettings', userSettings));
+      ..add(DiagnosticsProperty('userSettings', userSettings))
+      ..add(DiagnosticsProperty('hasPassword', hasPassword))
+      ..add(
+          DiagnosticsProperty('hasConfiguredPassword', hasConfiguredPassword));
   }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, localPin: $localPin, credentials: $credentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, libraryFilters: $libraryFilters, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration, userSettings: $userSettings)';
+    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, localPin: $localPin, credentials: $credentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, libraryFilters: $libraryFilters, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration, userSettings: $userSettings, hasPassword: $hasPassword, hasConfiguredPassword: $hasConfiguredPassword)';
   }
 }
 
@@ -95,7 +100,9 @@ abstract mixin class $AccountModelCopyWith<$Res> {
       ServerConfiguration? serverConfiguration,
       @JsonKey(includeFromJson: false, includeToJson: false)
       UserConfiguration? userConfiguration,
-      UserSettings? userSettings});
+      UserSettings? userSettings,
+      bool? hasPassword,
+      bool? hasConfiguredPassword});
 
   $CredentialsModelCopyWith<$Res> get credentials;
   $UserSettingsCopyWith<$Res>? get userSettings;
@@ -128,6 +135,8 @@ class _$AccountModelCopyWithImpl<$Res> implements $AccountModelCopyWith<$Res> {
     Object? serverConfiguration = freezed,
     Object? userConfiguration = freezed,
     Object? userSettings = freezed,
+    Object? hasPassword = freezed,
+    Object? hasConfiguredPassword = freezed,
   }) {
     return _then(_self.copyWith(
       name: null == name
@@ -190,6 +199,14 @@ class _$AccountModelCopyWithImpl<$Res> implements $AccountModelCopyWith<$Res> {
           ? _self.userSettings
           : userSettings // ignore: cast_nullable_to_non_nullable
               as UserSettings?,
+      hasPassword: freezed == hasPassword
+          ? _self.hasPassword
+          : hasPassword // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      hasConfiguredPassword: freezed == hasConfiguredPassword
+          ? _self.hasConfiguredPassword
+          : hasConfiguredPassword // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 
@@ -329,7 +346,9 @@ extension AccountModelPatterns on AccountModel {
             ServerConfiguration? serverConfiguration,
             @JsonKey(includeFromJson: false, includeToJson: false)
             UserConfiguration? userConfiguration,
-            UserSettings? userSettings)?
+            UserSettings? userSettings,
+            bool? hasPassword,
+            bool? hasConfiguredPassword)?
         $default, {
     required TResult orElse(),
   }) {
@@ -351,7 +370,9 @@ extension AccountModelPatterns on AccountModel {
             _that.policy,
             _that.serverConfiguration,
             _that.userConfiguration,
-            _that.userSettings);
+            _that.userSettings,
+            _that.hasPassword,
+            _that.hasConfiguredPassword);
       case _:
         return orElse();
     }
@@ -390,7 +411,9 @@ extension AccountModelPatterns on AccountModel {
             ServerConfiguration? serverConfiguration,
             @JsonKey(includeFromJson: false, includeToJson: false)
             UserConfiguration? userConfiguration,
-            UserSettings? userSettings)
+            UserSettings? userSettings,
+            bool? hasPassword,
+            bool? hasConfiguredPassword)
         $default,
   ) {
     final _that = this;
@@ -411,7 +434,9 @@ extension AccountModelPatterns on AccountModel {
             _that.policy,
             _that.serverConfiguration,
             _that.userConfiguration,
-            _that.userSettings);
+            _that.userSettings,
+            _that.hasPassword,
+            _that.hasConfiguredPassword);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -449,7 +474,9 @@ extension AccountModelPatterns on AccountModel {
             ServerConfiguration? serverConfiguration,
             @JsonKey(includeFromJson: false, includeToJson: false)
             UserConfiguration? userConfiguration,
-            UserSettings? userSettings)?
+            UserSettings? userSettings,
+            bool? hasPassword,
+            bool? hasConfiguredPassword)?
         $default,
   ) {
     final _that = this;
@@ -470,7 +497,9 @@ extension AccountModelPatterns on AccountModel {
             _that.policy,
             _that.serverConfiguration,
             _that.userConfiguration,
-            _that.userSettings);
+            _that.userSettings,
+            _that.hasPassword,
+            _that.hasConfiguredPassword);
       case _:
         return null;
     }
@@ -497,7 +526,9 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
       this.serverConfiguration,
       @JsonKey(includeFromJson: false, includeToJson: false)
       this.userConfiguration,
-      this.userSettings})
+      this.userSettings,
+      this.hasPassword,
+      this.hasConfiguredPassword})
       : _latestItemsExcludes = latestItemsExcludes,
         _searchQueryHistory = searchQueryHistory,
         _libraryFilters = libraryFilters,
@@ -565,6 +596,10 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
   final UserConfiguration? userConfiguration;
   @override
   final UserSettings? userSettings;
+  @override
+  final bool? hasPassword;
+  @override
+  final bool? hasConfiguredPassword;
 
   /// Create a copy of AccountModel
   /// with the given fields replaced by the non-null parameter values.
@@ -599,12 +634,15 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('policy', policy))
       ..add(DiagnosticsProperty('serverConfiguration', serverConfiguration))
       ..add(DiagnosticsProperty('userConfiguration', userConfiguration))
-      ..add(DiagnosticsProperty('userSettings', userSettings));
+      ..add(DiagnosticsProperty('userSettings', userSettings))
+      ..add(DiagnosticsProperty('hasPassword', hasPassword))
+      ..add(
+          DiagnosticsProperty('hasConfiguredPassword', hasConfiguredPassword));
   }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, localPin: $localPin, credentials: $credentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, libraryFilters: $libraryFilters, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration, userSettings: $userSettings)';
+    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, localPin: $localPin, credentials: $credentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, libraryFilters: $libraryFilters, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration, userSettings: $userSettings, hasPassword: $hasPassword, hasConfiguredPassword: $hasConfiguredPassword)';
   }
 }
 
@@ -633,7 +671,9 @@ abstract mixin class _$AccountModelCopyWith<$Res>
       ServerConfiguration? serverConfiguration,
       @JsonKey(includeFromJson: false, includeToJson: false)
       UserConfiguration? userConfiguration,
-      UserSettings? userSettings});
+      UserSettings? userSettings,
+      bool? hasPassword,
+      bool? hasConfiguredPassword});
 
   @override
   $CredentialsModelCopyWith<$Res> get credentials;
@@ -669,6 +709,8 @@ class __$AccountModelCopyWithImpl<$Res>
     Object? serverConfiguration = freezed,
     Object? userConfiguration = freezed,
     Object? userSettings = freezed,
+    Object? hasPassword = freezed,
+    Object? hasConfiguredPassword = freezed,
   }) {
     return _then(_AccountModel(
       name: null == name
@@ -731,6 +773,14 @@ class __$AccountModelCopyWithImpl<$Res>
           ? _self.userSettings
           : userSettings // ignore: cast_nullable_to_non_nullable
               as UserSettings?,
+      hasPassword: freezed == hasPassword
+          ? _self.hasPassword
+          : hasPassword // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      hasConfiguredPassword: freezed == hasConfiguredPassword
+          ? _self.hasConfiguredPassword
+          : hasConfiguredPassword // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 

@@ -773,6 +773,8 @@ class JellyService {
                   avatar: imageUrl,
                   policy: e.policy,
                   lastUsed: e.lastActivityDate ?? DateTime.now(),
+                  hasPassword: e.hasPassword ?? false,
+                  hasConfiguredPassword: e.hasConfiguredPassword ?? false,
                 );
               },
             ).toList(),
@@ -1262,6 +1264,33 @@ class JellyService {
   Future<Response<AuthenticationResult>> quickConnectAuthenticate(String secret) async {
     return api.usersAuthenticateWithQuickConnectPost(
       body: QuickConnectDto(secret: secret),
+    );
+  }
+
+  Future<Response<dynamic>> resetPassword({
+    required String userId,
+  }) {
+    return api.usersPasswordPost(
+      userId: userId,
+      body: const UpdateUserPassword(
+        resetPassword: true,
+      ),
+    );
+  }
+
+  Future<Response<dynamic>> setNewPassword({
+    String? userId,
+    required String currentPassword,
+    required String newPassword,
+    required String confirmPassword,
+  }) {
+    return api.usersPasswordPost(
+      userId: userId,
+      body: UpdateUserPassword(
+        currentPassword: currentPassword,
+        newPw: newPassword,
+        currentPw: confirmPassword,
+      ),
     );
   }
 }
