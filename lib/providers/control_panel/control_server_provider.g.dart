@@ -6,7 +6,7 @@ part of 'control_server_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$controlServerHash() => r'bede1e2bd20f2fa232ca7235246512d36edf41e9';
+String _$controlServerHash() => r'6b0310b063bd0de6ba7b332f056dd5da50648af4';
 
 /// See also [ControlServer].
 @ProviderFor(ControlServer)

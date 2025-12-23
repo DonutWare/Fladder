@@ -62,10 +62,10 @@ class _ControlPanelScreenState extends ConsumerState<ControlPanelScreen> {
 
   //We have to navigate to the first screen after switching layouts && index == 0 otherwise the dual-layout is empty
   void checkForNullIndex(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final currentIndex = context.tabsRouter.activeIndex;
-      if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.dual && currentIndex == 0) {
-        context.tabsRouter.setActiveIndex(1);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await Future.delayed(const Duration(milliseconds: 125));
+      if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.dual && context.tabsRouter.activeIndex == 0) {
+        const ControlDashboardRoute().navigate(context);
       }
     });
   }
@@ -101,6 +101,12 @@ class _ControlPanelScreenState extends ConsumerState<ControlPanelScreen> {
               selected: containsRoute(const ControlServerRoute()),
               icon: IconsaxPlusLinear.barcode,
               onTap: () => navigateTo(const ControlServerRoute()),
+            ),
+            SettingsListTile(
+              label: Text(context.localized.users),
+              selected: containsRoute(const ControlUsersRoute()),
+              icon: IconsaxPlusLinear.user,
+              onTap: () => navigateTo(const ControlUsersRoute()),
             ),
             SettingsListTile(
               label: Text(context.localized.plannedTasks),

@@ -760,12 +760,55 @@ class JellyService {
     );
   }
 
+  Future<Response<List<AccountModel>>> getAllUsers() {
+    return api.usersGet().then(
+          (response) => response.copyWith(
+            body: response.body?.map(
+              (e) {
+                var imageUrl = ref.read(imageUtilityProvider).getUserImageUrl(e.id ?? "");
+                return AccountModel(
+                  name: e.name ?? "",
+                  credentials: CredentialsModel.createNewCredentials(),
+                  id: e.id ?? "",
+                  avatar: imageUrl,
+                  policy: e.policy,
+                  lastUsed: e.lastActivityDate ?? DateTime.now(),
+                );
+              },
+            ).toList(),
+          ),
+        );
+  }
+
+  Future<List<DeviceInfoDto>?> getAllDevices() async {
+    return (await api.devicesGet(
+      userId: account?.id,
+    ))
+        .body
+        ?.items;
+  }
+
+  Future<List<ParentalRating>?> getParentalRatings() async {
+    return (await api.localizationParentalRatingsGet()).body;
+  }
+
+  Future<Response<UserDto>> createNewUser(CreateUserByName user) => api.usersNewPost(body: user);
+
+  Future<void> setUserPolicy({required String id, required UserPolicy? policy}) => api.usersUserIdPolicyPost(
+        userId: id,
+        body: policy,
+      );
+
+  Future<Response<BaseItemDtoQueryResult>> libraryMediaFolders() => api.libraryMediaFoldersGet();
+
   Future<Response<AuthenticationResult>> usersAuthenticateByNamePost({
     required String userName,
     required String password,
   }) async {
     return api.usersAuthenticateByNamePost(body: AuthenticateUserByName(username: userName, pw: password));
   }
+
+  Future<void> deleteUser(String userId) => api.usersUserIdDelete(userId: userId);
 
   Future<Response<ServerConfiguration>> systemConfigurationGet() => api.systemConfigurationGet();
   Future<Response<PublicSystemInfo>> systemInfoPublicGet() => api.systemInfoPublicGet();

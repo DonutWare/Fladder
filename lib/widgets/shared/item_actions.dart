@@ -70,13 +70,15 @@ class ItemActionButton extends ItemAction {
   PopupMenuItem toPopupMenuItem({bool useIcons = false}) {
     return PopupMenuItem(
       onTap: action,
+      enabled: action != null,
       child: useIcons
           ? Builder(builder: (context) {
               return Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: Theme(
                   data: ThemeData(
-                    iconTheme: IconThemeData(color: Theme.of(context).colorScheme.onSurface),
+                    iconTheme: IconThemeData(
+                        color: Theme.of(context).colorScheme.onSurface.withAlpha(action == null ? 75 : 255)),
                   ),
                   child: Row(
                     children: [

@@ -17,8 +17,13 @@ class LoginUserGrid extends ConsumerWidget {
   final bool editMode;
   final ValueChanged<AccountModel>? onPressed;
   final ValueChanged<AccountModel>? onLongPress;
-  const LoginUserGrid({this.users = const [], this.onPressed, this.editMode = false, this.onLongPress, super.key});
-
+  const LoginUserGrid({
+    this.users = const [],
+    this.onPressed,
+    this.editMode = false,
+    this.onLongPress,
+    super.key,
+  });
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final mainAxisExtent = 175.0;

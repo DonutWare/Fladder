@@ -1,0 +1,74 @@
+import 'package:collection/collection.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
+import 'package:fladder/models/account_model.dart';
+import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/providers/service_provider.dart';
+
+part 'control_users_provider.freezed.dart';
+part 'control_users_provider.g.dart';
+
+@riverpod
+class ControlUsers extends _$ControlUsers {
+  JellyService get api => ref.read(jellyApiProvider);
+
+  @override
+  ControlUsersModel build() {
+    return ControlUsersModel();
+  }
+
+  Future<void> fetchUsers() async {
+    final users = (await api.getAllUsers()).body ?? [];
+    state = state.copyWith(users: users);
+  }
+
+  Future<void> updateSelectedUserPolicy(UserPolicy? policy) async {
+    if (state.selectedUser == null || policy == null) return;
+    state = state.copyWith(
+      editingPolicy: policy,
+    );
+  }
+
+  Future<void> saveUserPolicy() async {
+    if (state.editingPolicy == null) return;
+    await api.setUserPolicy(id: state.selectedUser!.id, policy: state.editingPolicy!);
+  }
+
+  Future<void> startEditingUser(AccountModel user) async {
+    state = state.copyWith(selectedUser: user);
+  }
+
+  Future<void> fetchSpecificUser(String? userId) async {
+    if (userId == null) return;
+    final user = (await api.getAllUsers()).body;
+    if (user != null) {
+      final selectedUser = user.firstWhereOrNull((element) => element.id == userId);
+      final devices = await api.getAllDevices();
+      final parentalRatings = await api.getParentalRatings();
+      state = state.copyWith(
+        selectedUser: selectedUser,
+        editingPolicy: selectedUser?.policy,
+        availableDevices: devices,
+        parentalRatings: parentalRatings,
+      );
+    }
+  }
+
+  Future<void> deleteUser(String userId) async {
+    await api.deleteUser(userId);
+    await fetchUsers();
+  }
+}
+
+@Freezed(copyWith: true)
+abstract class ControlUsersModel with _$ControlUsersModel {
+  factory ControlUsersModel({
+    @Default([]) List<AccountModel> users,
+    AccountModel? selectedUser,
+    UserPolicy? editingPolicy,
+    List<DeviceInfoDto>? availableDevices,
+    List<ParentalRating>? parentalRatings,
+  }) = _ControlUsersModel;
+}

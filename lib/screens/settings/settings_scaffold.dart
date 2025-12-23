@@ -95,21 +95,19 @@ class SettingsScaffold extends ConsumerWidget {
                     itemCount: items.length,
                   ),
                 ),
-                if (bottomActions.isEmpty)
-                  const SliverToBoxAdapter(child: SizedBox(height: kBottomNavigationBarHeight + 40)),
+                const SliverToBoxAdapter(child: SizedBox(height: kBottomNavigationBarHeight + 40)),
               ],
             ),
           ),
           if (bottomActions.isNotEmpty) ...{
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32)
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16)
                   .add(EdgeInsets.only(left: padding.left, right: padding.right)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: bottomActions,
               ),
             ),
-            const SizedBox(height: kBottomNavigationBarHeight + 40),
           },
         ],
       ),

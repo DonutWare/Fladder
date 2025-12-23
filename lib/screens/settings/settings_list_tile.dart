@@ -4,6 +4,32 @@ import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/widgets/shared/ensure_visible.dart';
 
+class SettingsListTileCheckbox extends StatelessWidget {
+  final Widget label;
+  final Function(bool?) onChanged;
+  final bool value;
+  const SettingsListTileCheckbox({
+    required this.label,
+    required this.onChanged,
+    required this.value,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SettingsListTile(
+      label: label,
+      onTap: () {
+        onChanged(!value);
+      },
+      trailing: Switch(
+        value: value,
+        onChanged: onChanged,
+      ),
+    );
+  }
+}
+
 class SettingsListTile extends StatelessWidget {
   final Widget label;
   final Widget? subLabel;
@@ -48,107 +74,104 @@ class SettingsListTile extends StatelessWidget {
               ),
             ),
           )
-        : leading ?? const SizedBox();
-    return Card(
-      elevation: selected ? 2 : 0,
-      color: selected ? Theme.of(context).colorScheme.surfaceContainerLow : Colors.transparent,
-      shadowColor: Colors.transparent,
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(8), bottomLeft: Radius.circular(8))),
-      margin: EdgeInsets.zero,
-      child: FlatButton(
-        onTap: onTap,
-        autoFocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad && autoFocus,
-        onFocusChange: (value) {
-          if (value) {
-            context.ensureVisible();
-          }
-        },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 12,
-          ).copyWith(
-            left: (leading ?? iconWidget) != null ? 0 : null,
-          ),
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(
-              minHeight: 50,
+        : leading;
+    return LayoutBuilder(builder: (context, constraints) {
+      return Container(
+        decoration: BoxDecoration(
+          color: selected ? Theme.of(context).colorScheme.surfaceContainerLow : Colors.transparent,
+          borderRadius: const BorderRadius.only(topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)),
+        ),
+        margin: EdgeInsets.zero,
+        child: FlatButton(
+          onTap: onTap,
+          autoFocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad && autoFocus,
+          onFocusChange: (value) {
+            if (value) {
+              context.ensureVisible();
+            }
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 6,
+            ).copyWith(
+              left: (leading ?? iconWidget) != null ? 0 : null,
             ),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Row(
-                    children: [
-                      DefaultTextStyle.merge(
-                        style: TextStyle(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(
+                minHeight: 50,
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  if (leadingWidget != null)
+                    DefaultTextStyle.merge(
+                      style: TextStyle(
+                        color: contentColor ?? Theme.of(context).colorScheme.onSurface,
+                      ),
+                      child: IconTheme(
+                        data: IconThemeData(
                           color: contentColor ?? Theme.of(context).colorScheme.onSurface,
                         ),
-                        child: IconTheme(
-                          data: IconThemeData(
-                            color: contentColor ?? Theme.of(context).colorScheme.onSurface,
-                          ),
-                          child: leadingWidget,
-                        ),
-                      ),
-                      Flexible(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: Material(
-                                    color: Colors.transparent,
-                                    textStyle: Theme.of(context).textTheme.titleLarge?.copyWith(color: contentColor),
-                                    child: label,
-                                  ),
-                                ),
-                                if (trailing != null && trailingInlineWithLabel) ...[
-                                  const SizedBox(width: 8),
-                                  Flexible(
-                                    child: ExcludeFocusTraversal(
-                                      excluding: onTap != null,
-                                      child: trailing!,
-                                    ),
-                                  ),
-                                ]
-                              ],
-                            ),
-                            if (subLabel != null)
-                              Material(
-                                color: Colors.transparent,
-                                textStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                                      color: (contentColor ?? Theme.of(context).colorScheme.onSurface)
-                                          .withValues(alpha: 0.65),
-                                    ),
-                                child: subLabel,
-                              ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                if (trailing != null && !trailingInlineWithLabel)
-                  Flexible(
-                    child: ExcludeFocusTraversal(
-                      excluding: onTap != null,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 16),
-                        child: trailing,
+                        child: leadingWidget,
                       ),
                     ),
-                  )
-              ],
+                  Expanded(
+                    flex: 1,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Material(
+                                color: Colors.transparent,
+                                textStyle: Theme.of(context).textTheme.titleMedium?.copyWith(color: contentColor),
+                                child: label,
+                              ),
+                            ),
+                            if (trailing != null && trailingInlineWithLabel) ...[
+                              const SizedBox(width: 8),
+                              Flexible(
+                                child: ExcludeFocusTraversal(
+                                  excluding: onTap != null,
+                                  child: trailing!,
+                                ),
+                              ),
+                            ]
+                          ],
+                        ),
+                        if (subLabel != null)
+                          Material(
+                            color: Colors.transparent,
+                            textStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
+                                  color:
+                                      (contentColor ?? Theme.of(context).colorScheme.onSurface).withValues(alpha: 0.65),
+                                ),
+                            child: subLabel,
+                          ),
+                      ],
+                    ),
+                  ),
+                  if (trailing != null && !trailingInlineWithLabel)
+                    ConstrainedBox(
+                      constraints: BoxConstraints(minWidth: 50, maxWidth: constraints.maxWidth * 0.5),
+                      child: ExcludeFocusTraversal(
+                        excluding: onTap != null,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 16),
+                          child: trailing,
+                        ),
+                      ),
+                    )
+                ],
+              ),
             ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

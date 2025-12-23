@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 
 class FilledButtonAwait extends StatefulWidget {
-  final FutureOr<dynamic> Function() onPressed;
+  final FutureOr<dynamic> Function()? onPressed;
   final ButtonStyle? style;
   final Widget child;
 
@@ -40,12 +40,12 @@ class FilledButtonAwaitState extends State<FilledButtonAwait> {
     if (widget._tonal) {
       return FilledButton.tonal(
           style: widget.style,
-          onPressed: loading
+          onPressed: loading && widget.onPressed != null
               ? null
               : () async {
                   setState(() => loading = true);
                   try {
-                    await widget.onPressed();
+                    await widget.onPressed?.call();
                   } catch (e) {
                     log(e.toString());
                   } finally {
@@ -71,12 +71,12 @@ class FilledButtonAwaitState extends State<FilledButtonAwait> {
     }
     return FilledButton(
         style: widget.style,
-        onPressed: loading
+        onPressed: loading && widget.onPressed != null
             ? null
             : () async {
                 setState(() => loading = true);
                 try {
-                  await widget.onPressed();
+                  await widget.onPressed?.call();
                 } catch (e) {
                   log(e.toString());
                 } finally {

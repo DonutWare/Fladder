@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:fladder/jellyfin/enum_models.dart';
+import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/account_model.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
@@ -225,4 +226,24 @@ class User extends _$User {
 
   String? createDownloadUrl(ItemBaseModel item) =>
       Uri.encodeFull("${state?.credentials.url}/Items/${item.id}/Download?api_key=${state?.credentials.token}");
+
+  Future<void> createNewUser(
+    String userName,
+    String password, {
+    required bool enableAllFolders,
+    required List<String> enabledFolders,
+  }) async {
+    final newUser = (await api.createNewUser(
+      CreateUserByName(name: userName, password: password),
+    ))
+        .body;
+    if (newUser == null) return;
+    await api.setUserPolicy(
+      id: newUser.id ?? "",
+      policy: newUser.policy?.copyWith(
+        enableAllFolders: enableAllFolders,
+        enabledFolders: enabledFolders,
+      ),
+    );
+  }
 }
