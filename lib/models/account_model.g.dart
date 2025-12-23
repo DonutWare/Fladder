@@ -34,8 +34,6 @@ _AccountModel _$AccountModelFromJson(Map<String, dynamic> json) =>
       userSettings: json['userSettings'] == null
           ? null
           : UserSettings.fromJson(json['userSettings'] as Map<String, dynamic>),
-      hasPassword: json['hasPassword'] as bool?,
-      hasConfiguredPassword: json['hasConfiguredPassword'] as bool?,
     );
 
 Map<String, dynamic> _$AccountModelToJson(_AccountModel instance) =>
@@ -52,8 +50,6 @@ Map<String, dynamic> _$AccountModelToJson(_AccountModel instance) =>
       'quickConnectState': instance.quickConnectState,
       'libraryFilters': instance.libraryFilters,
       'userSettings': instance.userSettings,
-      'hasPassword': instance.hasPassword,
-      'hasConfiguredPassword': instance.hasConfiguredPassword,
     };
 
 const _$AuthenticationEnumMap = {

@@ -29,6 +29,8 @@ class _ControlUserEditPasswordState extends ConsumerState<ControlUserEditPasswor
     final hasConfiguredPassword =
         ref.watch(controlUsersProvider.select((value) => value.selectedUser?.hasConfiguredPassword ?? false));
 
+    final currentUser = ref.watch(controlUsersProvider.select((value) => value.selectedUser));
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -93,12 +95,13 @@ class _ControlUserEditPasswordState extends ConsumerState<ControlUserEditPasswor
                       );
                       return;
                     }
-                    final success = await ref.read(controlUsersProvider.notifier).setUserPassword(
+                    final responseMessage = await ref.read(controlUsersProvider.notifier).setUserPassword(
+                          currentUser?.id,
                           current: currentPasswordController.text,
                           newPassword: newPasswordController.text,
                           confirmPassword: confirmPasswordController.text,
                         );
-                    if (success) {
+                    if (responseMessage == null) {
                       fladderSnackbar(
                         context,
                         title: context.localized.passwordChangeSuccess,
@@ -109,7 +112,7 @@ class _ControlUserEditPasswordState extends ConsumerState<ControlUserEditPasswor
                     } else {
                       fladderSnackbar(
                         context,
-                        title: context.localized.passwordChangeFailed,
+                        title: responseMessage,
                       );
                     }
                     await context.refreshData();
