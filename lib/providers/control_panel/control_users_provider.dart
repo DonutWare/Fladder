@@ -31,9 +31,10 @@ class ControlUsers extends _$ControlUsers {
     );
   }
 
-  Future<void> saveUserPolicy() async {
-    if (state.editingPolicy == null) return;
-    await api.setUserPolicy(id: state.selectedUser!.id, policy: state.editingPolicy!);
+  Future<String?> saveUserPolicy() async {
+    if (state.editingPolicy == null) return null;
+    final response = await api.setUserPolicy(id: state.selectedUser!.id, policy: state.editingPolicy!);
+    return response.isSuccessful ? null : "${response.statusCode}: ${response.body}";
   }
 
   Future<void> startEditingUser(AccountModel user) async {

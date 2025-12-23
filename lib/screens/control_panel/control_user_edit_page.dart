@@ -11,6 +11,7 @@ import 'package:fladder/screens/control_panel/control_user_edit/control_user_edi
 import 'package:fladder/screens/control_panel/control_user_edit/control_user_edit_parental_control.dart';
 import 'package:fladder/screens/control_panel/control_user_edit/control_user_edit_password.dart';
 import 'package:fladder/screens/settings/settings_scaffold.dart';
+import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/filled_button_await.dart';
 import 'package:fladder/widgets/shared/pull_to_refresh.dart';
@@ -61,7 +62,14 @@ class _ControlUserEditPageState extends ConsumerState<ControlUserEditPage> {
                 ),
                 const SizedBox(width: 8),
                 FilledButtonAwait(
-                  onPressed: () async => await provider.saveUserPolicy(),
+                  onPressed: () async {
+                    final response = await provider.saveUserPolicy();
+                    if (response == null) {
+                      fladderSnackbar(context, title: context.localized.saved);
+                    } else {
+                      fladderSnackbar(context, title: response);
+                    }
+                  },
                   child: Text(context.localized.save),
                 )
               ],

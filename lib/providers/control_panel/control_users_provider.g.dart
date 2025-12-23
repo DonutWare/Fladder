@@ -6,7 +6,7 @@ part of 'control_users_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$controlUsersHash() => r'e319cf6e8e225246b61adb3b6a1517c5ef6f1fc3';
+String _$controlUsersHash() => r'b64a295ad7ecf788b8fc4cafb0e6229de75bfc6e';
 
 /// See also [ControlUsers].
 @ProviderFor(ControlUsers)

@@ -796,7 +796,8 @@ class JellyService {
 
   Future<Response<UserDto>> createNewUser(CreateUserByName user) => api.usersNewPost(body: user);
 
-  Future<void> setUserPolicy({required String id, required UserPolicy? policy}) => api.usersUserIdPolicyPost(
+  Future<Response<dynamic>> setUserPolicy({required String id, required UserPolicy? policy}) =>
+      api.usersUserIdPolicyPost(
         userId: id,
         body: policy,
       );
