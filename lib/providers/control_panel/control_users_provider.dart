@@ -4,6 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/account_model.dart';
+import 'package:fladder/models/view_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 
@@ -48,11 +49,19 @@ class ControlUsers extends _$ControlUsers {
       final selectedUser = user.firstWhereOrNull((element) => element.id == userId);
       final devices = await api.getAllDevices();
       final parentalRatings = await api.getParentalRatings();
+      final virtualFolders = (await api.libraryVirtualFoldersGet()).body ?? [];
+      final libraries = virtualFolders
+          .map((e) => ViewModel.fromVirtualFolder(
+                e,
+                ref,
+              ))
+          .toList();
       state = state.copyWith(
         selectedUser: selectedUser,
         editingPolicy: selectedUser?.policy,
         availableDevices: devices,
         parentalRatings: parentalRatings,
+        views: libraries,
       );
     }
   }
@@ -88,6 +97,7 @@ class ControlUsers extends _$ControlUsers {
 abstract class ControlUsersModel with _$ControlUsersModel {
   factory ControlUsersModel({
     @Default([]) List<AccountModel> users,
+    @Default([]) List<ViewModel> views,
     AccountModel? selectedUser,
     UserPolicy? editingPolicy,
     List<DeviceInfoDto>? availableDevices,

@@ -15,6 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ControlUsersModel {
   List<AccountModel> get users;
+  List<ViewModel> get views;
   AccountModel? get selectedUser;
   UserPolicy? get editingPolicy;
   List<DeviceInfoDto>? get availableDevices;
@@ -30,7 +31,7 @@ mixin _$ControlUsersModel {
 
   @override
   String toString() {
-    return 'ControlUsersModel(users: $users, selectedUser: $selectedUser, editingPolicy: $editingPolicy, availableDevices: $availableDevices, parentalRatings: $parentalRatings)';
+    return 'ControlUsersModel(users: $users, views: $views, selectedUser: $selectedUser, editingPolicy: $editingPolicy, availableDevices: $availableDevices, parentalRatings: $parentalRatings)';
   }
 }
 
@@ -42,6 +43,7 @@ abstract mixin class $ControlUsersModelCopyWith<$Res> {
   @useResult
   $Res call(
       {List<AccountModel> users,
+      List<ViewModel> views,
       AccountModel? selectedUser,
       UserPolicy? editingPolicy,
       List<DeviceInfoDto>? availableDevices,
@@ -64,6 +66,7 @@ class _$ControlUsersModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? users = null,
+    Object? views = null,
     Object? selectedUser = freezed,
     Object? editingPolicy = freezed,
     Object? availableDevices = freezed,
@@ -74,6 +77,10 @@ class _$ControlUsersModelCopyWithImpl<$Res>
           ? _self.users
           : users // ignore: cast_nullable_to_non_nullable
               as List<AccountModel>,
+      views: null == views
+          ? _self.views
+          : views // ignore: cast_nullable_to_non_nullable
+              as List<ViewModel>,
       selectedUser: freezed == selectedUser
           ? _self.selectedUser
           : selectedUser // ignore: cast_nullable_to_non_nullable
@@ -203,6 +210,7 @@ extension ControlUsersModelPatterns on ControlUsersModel {
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(
             List<AccountModel> users,
+            List<ViewModel> views,
             AccountModel? selectedUser,
             UserPolicy? editingPolicy,
             List<DeviceInfoDto>? availableDevices,
@@ -213,8 +221,8 @@ extension ControlUsersModelPatterns on ControlUsersModel {
     final _that = this;
     switch (_that) {
       case _ControlUsersModel() when $default != null:
-        return $default(_that.users, _that.selectedUser, _that.editingPolicy,
-            _that.availableDevices, _that.parentalRatings);
+        return $default(_that.users, _that.views, _that.selectedUser,
+            _that.editingPolicy, _that.availableDevices, _that.parentalRatings);
       case _:
         return orElse();
     }
@@ -237,6 +245,7 @@ extension ControlUsersModelPatterns on ControlUsersModel {
   TResult when<TResult extends Object?>(
     TResult Function(
             List<AccountModel> users,
+            List<ViewModel> views,
             AccountModel? selectedUser,
             UserPolicy? editingPolicy,
             List<DeviceInfoDto>? availableDevices,
@@ -246,8 +255,8 @@ extension ControlUsersModelPatterns on ControlUsersModel {
     final _that = this;
     switch (_that) {
       case _ControlUsersModel():
-        return $default(_that.users, _that.selectedUser, _that.editingPolicy,
-            _that.availableDevices, _that.parentalRatings);
+        return $default(_that.users, _that.views, _that.selectedUser,
+            _that.editingPolicy, _that.availableDevices, _that.parentalRatings);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -269,6 +278,7 @@ extension ControlUsersModelPatterns on ControlUsersModel {
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(
             List<AccountModel> users,
+            List<ViewModel> views,
             AccountModel? selectedUser,
             UserPolicy? editingPolicy,
             List<DeviceInfoDto>? availableDevices,
@@ -278,8 +288,8 @@ extension ControlUsersModelPatterns on ControlUsersModel {
     final _that = this;
     switch (_that) {
       case _ControlUsersModel() when $default != null:
-        return $default(_that.users, _that.selectedUser, _that.editingPolicy,
-            _that.availableDevices, _that.parentalRatings);
+        return $default(_that.users, _that.views, _that.selectedUser,
+            _that.editingPolicy, _that.availableDevices, _that.parentalRatings);
       case _:
         return null;
     }
@@ -291,11 +301,13 @@ extension ControlUsersModelPatterns on ControlUsersModel {
 class _ControlUsersModel implements ControlUsersModel {
   _ControlUsersModel(
       {final List<AccountModel> users = const [],
+      final List<ViewModel> views = const [],
       this.selectedUser,
       this.editingPolicy,
       final List<DeviceInfoDto>? availableDevices,
       final List<ParentalRating>? parentalRatings})
       : _users = users,
+        _views = views,
         _availableDevices = availableDevices,
         _parentalRatings = parentalRatings;
 
@@ -306,6 +318,15 @@ class _ControlUsersModel implements ControlUsersModel {
     if (_users is EqualUnmodifiableListView) return _users;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_users);
+  }
+
+  final List<ViewModel> _views;
+  @override
+  @JsonKey()
+  List<ViewModel> get views {
+    if (_views is EqualUnmodifiableListView) return _views;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_views);
   }
 
   @override
@@ -343,7 +364,7 @@ class _ControlUsersModel implements ControlUsersModel {
 
   @override
   String toString() {
-    return 'ControlUsersModel(users: $users, selectedUser: $selectedUser, editingPolicy: $editingPolicy, availableDevices: $availableDevices, parentalRatings: $parentalRatings)';
+    return 'ControlUsersModel(users: $users, views: $views, selectedUser: $selectedUser, editingPolicy: $editingPolicy, availableDevices: $availableDevices, parentalRatings: $parentalRatings)';
   }
 }
 
@@ -357,6 +378,7 @@ abstract mixin class _$ControlUsersModelCopyWith<$Res>
   @useResult
   $Res call(
       {List<AccountModel> users,
+      List<ViewModel> views,
       AccountModel? selectedUser,
       UserPolicy? editingPolicy,
       List<DeviceInfoDto>? availableDevices,
@@ -380,6 +402,7 @@ class __$ControlUsersModelCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   $Res call({
     Object? users = null,
+    Object? views = null,
     Object? selectedUser = freezed,
     Object? editingPolicy = freezed,
     Object? availableDevices = freezed,
@@ -390,6 +413,10 @@ class __$ControlUsersModelCopyWithImpl<$Res>
           ? _self._users
           : users // ignore: cast_nullable_to_non_nullable
               as List<AccountModel>,
+      views: null == views
+          ? _self._views
+          : views // ignore: cast_nullable_to_non_nullable
+              as List<ViewModel>,
       selectedUser: freezed == selectedUser
           ? _self.selectedUser
           : selectedUser // ignore: cast_nullable_to_non_nullable

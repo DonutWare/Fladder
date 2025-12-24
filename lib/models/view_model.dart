@@ -27,6 +27,7 @@ class ViewModel {
   final ImagesData? imageData;
   final int childCount;
   final String? path;
+  final double? refreshProgress;
   ViewModel({
     required this.name,
     required this.id,
@@ -41,6 +42,7 @@ class ViewModel {
     required this.imageData,
     required this.childCount,
     required this.path,
+    this.refreshProgress,
   });
 
   ViewModel copyWith({
@@ -115,6 +117,7 @@ class ViewModel {
       playAccess: PlayAccess.none,
       childCount: 0,
       path: "",
+      refreshProgress: item.refreshProgress,
     );
   }
 

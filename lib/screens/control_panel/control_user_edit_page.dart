@@ -5,7 +5,6 @@ import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/providers/control_panel/control_users_provider.dart';
-import 'package:fladder/providers/views_provider.dart';
 import 'package:fladder/screens/control_panel/control_user_edit/control_user_edit_access.dart';
 import 'package:fladder/screens/control_panel/control_user_edit/control_user_edit_general.dart';
 import 'package:fladder/screens/control_panel/control_user_edit/control_user_edit_parental_control.dart';
@@ -45,7 +44,7 @@ class _ControlUserEditPageState extends ConsumerState<ControlUserEditPage> {
     final provider = ref.read(controlUsersProvider.notifier);
     final currentUser = userEditor.selectedUser;
     final currentPolicy = userEditor.editingPolicy;
-    final views = ref.watch(viewsProvider.select((value) => value.views));
+    final views = userEditor.views;
     final devices = userEditor.availableDevices ?? [];
     final parentalRatings = (userEditor.parentalRatings ?? []).groupListsBy((element) => element.ratingScore);
 
@@ -60,7 +59,6 @@ class _ControlUserEditPageState extends ConsumerState<ControlUserEditPage> {
                   onPressed: () async => await provider.fetchSpecificUser(widget.userId),
                   child: Text(context.localized.cancel),
                 ),
-                const SizedBox(width: 8),
                 FilledButtonAwait(
                   onPressed: () async {
                     final response = await provider.saveUserPolicy();
