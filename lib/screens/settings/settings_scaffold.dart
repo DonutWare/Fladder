@@ -101,9 +101,10 @@ class SettingsScaffold extends ConsumerWidget {
           ),
           if (bottomActions.isNotEmpty) ...{
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16)
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16)
                   .add(EdgeInsets.only(left: padding.left, right: padding.right)),
               child: Row(
+                spacing: 16,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: bottomActions,
               ),

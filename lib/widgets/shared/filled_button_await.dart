@@ -40,7 +40,7 @@ class FilledButtonAwaitState extends State<FilledButtonAwait> {
     if (widget._tonal) {
       return FilledButton.tonal(
           style: widget.style,
-          onPressed: loading && widget.onPressed != null
+          onPressed: loading || widget.onPressed == null
               ? null
               : () async {
                   setState(() => loading = true);
@@ -71,7 +71,7 @@ class FilledButtonAwaitState extends State<FilledButtonAwait> {
     }
     return FilledButton(
         style: widget.style,
-        onPressed: loading && widget.onPressed != null
+        onPressed: loading || widget.onPressed == null
             ? null
             : () async {
                 setState(() => loading = true);

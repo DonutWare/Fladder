@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:collection/collection.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 
@@ -71,9 +72,9 @@ class ItemActionButton extends ItemAction {
     return PopupMenuItem(
       onTap: action,
       enabled: action != null,
-      child: useIcons
-          ? Builder(builder: (context) {
-              return Padding(
+      child: Builder(
+        builder: (context) => useIcons
+            ? Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: Theme(
                   data: ThemeData(
@@ -88,9 +89,14 @@ class ItemActionButton extends ItemAction {
                     ],
                   ),
                 ),
-              );
-            })
-          : label,
+              )
+            : Row(
+                children: [
+                  if (label != null) Expanded(child: label!),
+                  if (selected) const Icon(IconsaxPlusBold.tick_square, size: 24),
+                ],
+              ),
+      ),
     );
   }
 

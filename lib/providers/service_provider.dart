@@ -1,6 +1,8 @@
 import 'dart:developer';
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
+
 import 'package:chopper/chopper.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -898,10 +900,11 @@ class JellyService {
     bool? includeHidden,
   }) =>
       api.userViewsGet(
-          userId: account?.id,
-          includeExternalContent: includeExternalContent,
-          presetViews: presetViews,
-          includeHidden: includeHidden);
+        userId: account?.id,
+        includeExternalContent: includeExternalContent,
+        presetViews: presetViews,
+        includeHidden: includeHidden,
+      );
 
   Future<Response<List<ExternalIdInfo>>> itemsItemIdExternalIdInfosGet({required String? itemId}) =>
       api.itemsItemIdExternalIdInfosGet(itemId: itemId);
@@ -912,6 +915,19 @@ class JellyService {
 
   Future<Response<List<RemoteSearchResult>>> itemsRemoteSearchMoviePost({required MovieInfoRemoteSearchQuery? body}) =>
       api.itemsRemoteSearchMoviePost(body: body);
+
+  Future<Response<List<CultureDto>>> localizationCulturesGet() => api.localizationCulturesGet();
+  Future<Response<List<CountryInfo>>> localizationCountriesGet() => api.localizationCountriesGet();
+  Future<Response<List<VirtualFolderInfo>>> libraryVirtualFoldersGet() => api.libraryVirtualFoldersGet();
+
+  Future<Response<LibraryOptionsResultDto>> librariesAvailableOptionsGet({
+    LibrariesAvailableOptionsGetLibraryContentType? libraryContentType,
+    bool? isNewLibrary,
+  }) =>
+      api.librariesAvailableOptionsGet(
+        libraryContentType: libraryContentType,
+        isNewLibrary: isNewLibrary,
+      );
 
   Future<Response<dynamic>> itemsRemoteSearchApplyItemIdPost({
     required String? itemId,
@@ -1291,6 +1307,71 @@ class JellyService {
         currentPassword: currentPassword,
         newPw: newPassword,
         currentPw: confirmPassword,
+      ),
+    );
+  }
+
+  Future<void> userViewsViewIdDelete({required String viewId}) async {
+    if (kDebugMode) {
+      log("Deleting view with ID: $viewId");
+      return;
+    }
+  }
+
+  Future<Response<DefaultDirectoryBrowserInfoDto>> defaultDirectoryGet() => api.environmentDefaultDirectoryBrowserGet();
+
+  Future<Response<List<FileSystemEntryInfo>>> getDriveLocations() => api.environmentDrivesGet();
+
+  Future<Response<List<FileSystemEntryInfo>>> directoryContentsGet({
+    required String? path,
+    bool? includeFiles,
+    bool? includeDirectories,
+  }) {
+    return api.environmentDirectoryContentsGet(
+      path: path,
+      includeFiles: includeFiles,
+      includeDirectories: includeDirectories,
+    );
+  }
+
+  Future<Response<String>> parentPathGet(
+    String path,
+  ) async {
+    return api.environmentParentPathGet(
+      path: path,
+    );
+  }
+
+  Future<Response<dynamic>> virtualFoldersUpdate({
+    required String id,
+    required LibraryOptions? libraryOptions,
+  }) {
+    return api.libraryVirtualFoldersLibraryOptionsPost(
+      body: UpdateLibraryOptionsDto(
+        id: id,
+        libraryOptions: libraryOptions,
+      ),
+    );
+  }
+
+  Future<Response<dynamic>> virtualFoldersPost({
+    required VirtualFolderInfo newFolder,
+    bool? refreshLibrary,
+  }) {
+    return api.libraryVirtualFoldersPost(
+      name: newFolder.name ?? "",
+      collectionType: switch (newFolder.collectionType) {
+        CollectionTypeOptions.movies => LibraryVirtualFoldersPostCollectionType.movies,
+        CollectionTypeOptions.tvshows => LibraryVirtualFoldersPostCollectionType.tvshows,
+        CollectionTypeOptions.music => LibraryVirtualFoldersPostCollectionType.music,
+        CollectionTypeOptions.books => LibraryVirtualFoldersPostCollectionType.books,
+        CollectionTypeOptions.homevideos => LibraryVirtualFoldersPostCollectionType.homevideos,
+        _ => LibraryVirtualFoldersPostCollectionType.mixed,
+      },
+      paths: newFolder.locations,
+      refreshLibrary: refreshLibrary,
+      body: AddVirtualFolderDto(
+        libraryOptions: newFolder.libraryOptions,
       ),
     );
   }

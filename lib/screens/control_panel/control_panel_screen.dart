@@ -108,6 +108,13 @@ class _ControlPanelScreenState extends ConsumerState<ControlPanelScreen> {
               icon: IconsaxPlusLinear.user,
               onTap: () => navigateTo(const ControlUsersRoute()),
             ),
+            SettingsLabelDivider(label: context.localized.library(2)),
+            SettingsListTile(
+              label: Text(context.localized.library(2)),
+              selected: containsRoute(const ControlLibrariesRoute()),
+              icon: IconsaxPlusLinear.book,
+              onTap: () => navigateTo(const ControlLibrariesRoute()),
+            ),
             SettingsLabelDivider(label: context.localized.advanced),
             SettingsListTile(
               label: Text(context.localized.plannedTasks),

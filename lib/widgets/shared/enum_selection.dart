@@ -87,6 +87,7 @@ class EnumBox<T> extends StatelessWidget {
               itemBuilder: (context) => itemList.map((e) => e.toPopupMenuItem()).toList(),
               padding: padding,
               child: labelWidget,
+              requestFocus: true,
             ),
     );
   }

@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'package:dynamic_color/dynamic_color.dart';
 
-List<Widget> settingsListGroup(BuildContext context, Widget label, List<Widget> children) {
+List<Widget> settingsListGroup(BuildContext context, Widget? label, List<Widget> children) {
   return [
-    SettingsListGroupTitle(label: label),
+    if (label != null) SettingsListGroupTitle(label: label),
     ...children.map(
       (e) {
         return SettingsListChild(
           child: e,
+          isFirst: e == children.first && label == null,
           isLast: e == children.last,
         );
       },
@@ -47,8 +48,9 @@ class SettingsListGroupTitle extends StatelessWidget {
 
 class SettingsListChild extends StatelessWidget {
   final Widget child;
+  final bool isFirst;
   final bool isLast;
-  const SettingsListChild({required this.child, this.isLast = false, super.key});
+  const SettingsListChild({required this.child, this.isFirst = false, this.isLast = false, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -60,8 +62,8 @@ class SettingsListChild extends StatelessWidget {
       decoration: BoxDecoration(
         color: color,
         borderRadius: radius.copyWith(
-          topLeft: radiusSmall,
-          topRight: radiusSmall,
+          topLeft: isFirst ? null : radiusSmall,
+          topRight: isFirst ? null : radiusSmall,
           bottomLeft: isLast ? null : radiusSmall,
           bottomRight: isLast ? null : radiusSmall,
         ),

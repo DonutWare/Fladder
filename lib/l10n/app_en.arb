@@ -1807,5 +1807,97 @@
   "passwordChangeFailed": "Failed to change password",
   "@passwordChangeFailed": {},
   "savePassword": "Save password",
-  "@savePassword": {}
+  "@savePassword": {},
+  "deleteLibraryConfirmTitle": "Delete library?",
+  "@deleteLibraryConfirmTitle": {},
+  "deleteLibraryConfirmMessage": "Are you sure you want to delete {libraryName}?\nThis action cannot be undone.",
+  "@deleteLibraryConfirmMessage": {
+    "placeholders": {
+      "libraryName": {
+        "type": "String"
+      }
+    }
+  },
+  "noLibrarySelected": "No library selected",
+  "@noLibrarySelected": {},
+  "enabledPhotos": "Enabled photos",
+  "@enabledPhotos": {},
+  "enabledLUFSScan": "Enabled LUFS Scan",
+  "@enabledLUFSScan": {},
+  "enabledRealtimeMonitoring": "Enabled realtime-monitoring",
+  "@enabledRealtimeMonitoring": {},
+  "automaticallyAddToCollection": "Automatically add to collection",
+  "@automaticallyAddToCollection": {},
+  "enabledEmbeddedTitles": "Enabled embedded titles",
+  "@enabledEmbeddedTitles": {},
+  "enabledEmbeddedExtrasTitles": "Enabled extras embedded titles",
+  "@enabledEmbeddedExtrasTitles": {},
+  "automaticRefreshInterval": "Automatic refresh interval",
+  "@automaticRefreshInterval": {},
+  "autoRefreshIntervalNote": "Enabling this can cause longer library refresh times.",
+  "@autoRefreshIntervalNote": {},
+  "preferredDownloadLanguage": "Preferred download language",
+  "@preferredDownloadLanguage": {},
+  "countryRegion": "Country/Region",
+  "@countryRegion": {},
+  "saveMetadata": "Save metadata",
+  "@saveMetadata": {},
+  "metadataFetchers": "Metadata fetchers ({type})",
+  "@metadataFetchers": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "enableAndRankMetadataFetchers": "Enable and rank your preferred metadata fetchers in order of priority.",
+  "@enableAndRankMetadataFetchers": {},
+  "enableAndRankImagesFetchers": "Enable and rank your preferred images fetchers in order of priority.",
+  "@enableAndRankImagesFetchers": {},
+  "imageFetchers": "Image fetchers ({type})",
+  "@imageFetchers": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "enableAndRankImageFetchers": "Enable and rank your preferred image fetchers in order of priority.",
+  "@enableAndRankImageFetchers": {},
+  "mediaSegmentProviders": "Media segment providers",
+  "@mediaSegmentProviders": {},
+  "enableAndRankMediaSegmentProviders": "Enable and rank your preferred mediasegment providers in order of priority.",
+  "@enableAndRankMediaSegmentProviders": {},
+  "trickplay": "Trickplay",
+  "@trickplay": {},
+  "enableTrickplayImageExtraction": "Enable trickplay image extraction",
+  "@enableTrickplayImageExtraction": {},
+  "extractTrickplayImagesDuringLibraryScan": "Extract trickplay images during library scans",
+  "@extractTrickplayImagesDuringLibraryScan": {},
+  "saveTrickplayImagesNextToMedia": "Save trickplay images next to media",
+  "@saveTrickplayImagesNextToMedia": {},
+  "chapterImages": "Chapter Images",
+  "@chapterImages": {},
+  "enableChapterImageExtraction": "Enable chapter image extraction",
+  "@enableChapterImageExtraction": {},
+  "extractChapterImagesDuringLibraryScan": "Extract chapter images during library scans",
+  "@extractChapterImagesDuringLibraryScan": {},
+  "subtitleDownloads": "Subtitle Downloads",
+  "@subtitleDownloads": {},
+  "downloadLanguages": "Download languages",
+  "@downloadLanguages": {},
+  "subtitleDownloaders": "Subtitle downloaders",
+  "@subtitleDownloaders": {},
+  "onlyPerfectSubtitleMatch": "Only download subtitles that perfectly match the media",
+  "@onlyPerfectSubtitleMatch": {},
+  "perfectSubtitleMatchDescription": "Requiring a perfect match will filter subtitles to include only those that have been tested and verified with your exact video file. Unchecking this will increase the likelihood of subtitles being downloaded, but will increase the chances of mistimed or incorrect subtitle text.",
+  "@perfectSubtitleMatchDescription": {},
+  "skipSubtitlesIfAudioMatches": "Skip if the default audio track matches the download language",
+  "@skipSubtitlesIfAudioMatches": {},
+  "skipSubtitlesIfEmbedded": "Skip if the video already contains embedded subtitles",
+  "@skipSubtitlesIfEmbedded": {},
+  "saveSubtitlesNextToMedia": "Save subtitles next to media",
+  "@saveSubtitlesNextToMedia": {},
+  "saveArtWorkNextToMedia": "Save artwork next to media files",
+  "saveArtWorkNextToMediaDesc": "Saving artwork into media folders will put them in a place where they can be easily edited."
 }

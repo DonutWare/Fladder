@@ -86,11 +86,34 @@ class ViewModel {
       parentId: item.parentId ?? "",
       recentlyAdded: [],
       imageData: ImagesData.fromBaseItem(item, ref),
+      collectionType: item.collectionType ?? CollectionType.folders,
+      playAccess: item.playAccess ?? PlayAccess.none,
+      childCount: item.childCount ?? 0,
+      path: "",
+    );
+  }
+
+  factory ViewModel.fromVirtualFolder(dto.VirtualFolderInfo item, Ref ref) {
+    return ViewModel(
+      name: item.name ?? "",
+      id: item.itemId ?? "",
+      serverId: "",
+      dateCreated: DateTime.now(),
+      canDelete: false,
+      canDownload: false,
+      parentId: "",
+      recentlyAdded: [],
+      imageData: ImagesData.fromBaseItem(
+          dto.BaseItemDto(
+            id: item.itemId,
+            imageTags: {'Primary': item.primaryImageItemId},
+          ),
+          ref),
       collectionType: CollectionType.values
               .firstWhereOrNull((element) => element.name.toLowerCase() == item.collectionType?.value?.toLowerCase()) ??
           CollectionType.folders,
-      playAccess: item.playAccess ?? PlayAccess.none,
-      childCount: item.childCount ?? 0,
+      playAccess: PlayAccess.none,
+      childCount: 0,
       path: "",
     );
   }
