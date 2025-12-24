@@ -1,15 +1,18 @@
+import 'package:flutter/material.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
+
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/providers/edit_item_provider.dart';
 import 'package:fladder/screens/metadata/edit_screens/edit_fields.dart';
 import 'package:fladder/screens/metadata/edit_screens/edit_image_content.dart';
+import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 Future<ItemBaseModel?> showEditItemPopup(
   BuildContext context,
@@ -54,11 +57,11 @@ class EditDialogSwitcher extends ConsumerStatefulWidget {
 }
 
 class _EditDialogSwitcherState extends ConsumerState<EditDialogSwitcher> with TickerProviderStateMixin {
-  late final TabController tabController = TabController(length: 5, vsync: this);
-
   Future<void> refreshEditor() async {
     return ref.read(editItemProvider.notifier).fetchInformation(widget.id);
   }
+
+  int selectedTabIndex = 0;
 
   @override
   void initState() {
@@ -108,15 +111,25 @@ class _EditDialogSwitcherState extends ConsumerState<EditDialogSwitcher> with Ti
               ),
             ),
           ),
-          Container(
-            color: Theme.of(context).colorScheme.surface,
-            child: TabBar(
-              isScrollable: true,
-              controller: tabController,
-              tabs: widgets.keys.toList(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: SegmentedButton(
+              segments: widgets.keys.map((value) => ButtonSegment(value: value, label: value)).toList(),
+              selected: {widgets.keys.elementAt(selectedTabIndex)},
+              showSelectedIcon: false,
+              onSelectionChanged: (newSelection) {
+                setState(() {
+                  selectedTabIndex = widgets.keys.toList().indexOf(newSelection.first);
+                });
+              },
             ),
           ),
-          Flexible(child: TabBarView(controller: tabController, children: widgets.values.toList())),
+          const SizedBox(height: 16),
+          Flexible(
+            child: AnimatedFadeSize(
+              child: widgets.values.elementAt(selectedTabIndex),
+            ),
+          ),
           Container(
             color: Theme.of(context).colorScheme.surface,
             child: Padding(

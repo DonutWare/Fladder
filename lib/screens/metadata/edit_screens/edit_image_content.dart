@@ -10,6 +10,8 @@ import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/shared/file_picker.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
+import 'package:fladder/util/focus_provider.dart';
+import 'package:fladder/util/localization_helper.dart';
 
 class EditImageContent extends ConsumerStatefulWidget {
   final ImageType type;
@@ -75,117 +77,104 @@ class _EditImageContentState extends ConsumerState<EditImageContent> {
           _ => [],
         }));
 
-    final serverImageCards = serverImages?.map((image) {
-          final selected = selectedImage == null;
-          return Stack(
+    Widget buildImageCard(dynamic image, {required bool isServerImage, required bool isSelected}) {
+      final tooltipMessage =
+          isServerImage ? "Server image" : "${image.providerName} - ${image.language} \n${image.width}x${image.height}";
+
+      Future<void> showDeleteDialog() async {
+        await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text("Delete image"),
+            content: const Text("Deleting is permanent are you sure?"),
+            actions: [
+              ElevatedButton(onPressed: () => Navigator.of(context).pop(), child: const Text("Cancel")),
+              FilledButton(
+                style: FilledButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.error,
+                  foregroundColor: Theme.of(context).colorScheme.onError,
+                  iconColor: Theme.of(context).colorScheme.onError,
+                ),
+                onPressed: () async {
+                  await ref.read(editItemProvider.notifier).deleteImage(widget.type, image);
+                  Navigator.of(context).pop();
+                },
+                child: const Text("Delete"),
+              )
+            ],
+          ),
+        );
+      }
+
+      return Tooltip(
+        message: tooltipMessage,
+        child: FocusButton(
+          onTap: () => ref.read(editItemProvider.notifier).selectImage(widget.type, isServerImage ? null : image),
+          onLongPress: isServerImage
+              ? () async {
+                  await showDeleteDialog();
+                }
+              : null,
+          onSecondaryTapDown: isServerImage
+              ? (details) async {
+                  await showDeleteDialog();
+                }
+              : null,
+          child: Stack(
             alignment: Alignment.center,
             children: [
               AspectRatio(
                 aspectRatio: image.ratio,
-                child: Tooltip(
-                  message: "Server image",
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: selected ? Theme.of(context).colorScheme.primary : Colors.transparent,
-                      borderRadius: BorderRadius.circular(10),
-                      border:
-                          Border.all(color: Colors.transparent, width: 4, strokeAlign: BorderSide.strokeAlignInside),
-                    ),
-                    child: Card(
-                      color: selected ? Theme.of(context).colorScheme.onPrimary : null,
-                      child: InkWell(
-                        onTap: () => ref.read(editItemProvider.notifier).selectImage(widget.type, null),
-                        child: CachedNetworkImage(
-                          cacheKey: image.hashCode.toString(),
-                          imageUrl: image.url ?? "",
-                        ),
-                      ),
-                    ),
+                child: Container(
+                  foregroundDecoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                        color: isServerImage
+                            ? Theme.of(context).colorScheme.primary
+                            : isSelected
+                                ? Colors.white
+                                : Colors.transparent,
+                        width: 4,
+                        strokeAlign: BorderSide.strokeAlignInside),
                   ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: Transform.translate(
-                  offset: const Offset(2, 2),
-                  child: IconButton.filledTonal(
-                    style: FilledButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.error,
-                      foregroundColor: Theme.of(context).colorScheme.onError,
-                      iconColor: Theme.of(context).colorScheme.onError,
-                    ),
-                    onPressed: () async {
-                      await showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          title: const Text("Delete image"),
-                          content: const Text("Deleting is permanent are you sure?"),
-                          actions: [
-                            ElevatedButton(onPressed: () => Navigator.of(context).pop(), child: const Text("Cancel")),
-                            FilledButton(
-                              style: FilledButton.styleFrom(
-                                backgroundColor: Theme.of(context).colorScheme.error,
-                                foregroundColor: Theme.of(context).colorScheme.onError,
-                                iconColor: Theme.of(context).colorScheme.onError,
-                              ),
-                              onPressed: () async {
-                                await ref.read(editItemProvider.notifier).deleteImage(widget.type, image);
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text(
-                                "Delete",
-                              ),
-                            )
-                          ],
-                        ),
-                      );
-                    },
-                    icon: const Icon(Icons.delete_rounded),
-                  ),
-                ),
-              )
-            ],
-          );
-        }) ??
-        [];
-
-    final imageCards = [...customImages, ...images].map((image) {
-      final selected = switch (widget.type) {
-        ImageType.backdrop => selections.contains(image),
-        _ => selectedImage == image,
-      };
-      return Stack(
-        alignment: Alignment.center,
-        children: [
-          AspectRatio(
-            aspectRatio: image.ratio,
-            child: Tooltip(
-              message: "${image.providerName} - ${image.language} \n${image.width}x${image.height}",
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                      color: selected ? Theme.of(context).colorScheme.primary : Colors.transparent,
-                      width: 4,
-                      strokeAlign: BorderSide.strokeAlignInside),
-                ),
-                child: Card(
-                  color: selected ? Theme.of(context).colorScheme.onPrimary : null,
-                  child: InkWell(
-                    onTap: () => ref.read(editItemProvider.notifier).selectImage(widget.type, image),
-                    child: image.imageData != null
-                        ? Image(image: Image.memory(image.imageData!).image)
-                        : CachedNetworkImage(
+                  child: Card(
+                    color: isSelected ? Theme.of(context).colorScheme.onPrimary : null,
+                    child: isServerImage
+                        ? CachedNetworkImage(
+                            cacheKey: image.hashCode.toString(),
                             imageUrl: image.url ?? "",
-                          ),
+                          )
+                        : (image.imageData != null
+                            ? Image(image: Image.memory(image.imageData!).image)
+                            : CachedNetworkImage(
+                                imageUrl: image.url ?? "",
+                              )),
                   ),
                 ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       );
-    }).toList();
+    }
+
+    final allImageCards = [
+      ...?serverImages?.map((image) {
+        final selected = selectedImage == null;
+        return buildImageCard(image, isServerImage: true, isSelected: selected);
+      }),
+      ...([...customImages, ...images].map((image) {
+        final selected = switch (widget.type) {
+          ImageType.backdrop => selections.contains(image),
+          _ => selectedImage == image,
+        };
+        return buildImageCard(image, isServerImage: false, isSelected: selected);
+      }))
+    ];
+    final hintLabel = switch (AdaptiveLayout.inputDeviceOf(context)) {
+      InputDevice.touch || InputDevice.dPad => context.localized.metadataImageLongPressTouch,
+      InputDevice.pointer => context.localized.metadataImageLongPressClick,
+    };
     return Column(
       children: [
         SizedBox(
@@ -221,6 +210,10 @@ class _EditImageContentState extends ConsumerState<EditImageContent> {
             },
           ),
         ),
+        Text(
+          hintLabel,
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
         Flexible(
           child: Stack(
             children: [
@@ -233,11 +226,10 @@ class _EditImageContentState extends ConsumerState<EditImageContent> {
                   childAspectRatio: 1.0,
                   crossAxisCount: posterSize.toInt(),
                 ),
-                children: [...serverImageCards, ...imageCards],
+                children: allImageCards,
               ),
               if (loading) const Center(child: CircularProgressIndicator.adaptive(strokeCap: StrokeCap.round)),
-              if (!loading && [...serverImageCards, ...imageCards].isEmpty)
-                Center(child: Text("No ${widget.type.value}s found"))
+              if (!loading && allImageCards.isEmpty) Center(child: Text("No ${widget.type.value}s found"))
             ],
           ),
         ),

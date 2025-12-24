@@ -1902,5 +1902,7 @@
   "saveArtWorkNextToMediaDesc": "Saving artwork into media folders will put them in a place where they can be easily edited.",
   "select": "Select",
   "newLibrary": "New Library",
-  "contentType": "Content Type"
+  "contentType": "Content Type",
+  "metadataImageLongPressTouch": "Long press to delete image",
+  "metadataImageLongPressClick": "Right-click to delete image"
 }
