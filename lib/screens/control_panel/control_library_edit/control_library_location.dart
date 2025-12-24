@@ -5,6 +5,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/providers/control_panel/control_libraries_provider.dart';
+import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/pull_to_refresh.dart';
 
 class ControlLibraryLocationEditor extends StatelessWidget {
@@ -156,7 +157,7 @@ class DirectorySelectionDialog extends ConsumerWidget {
                   title: Row(
                     spacing: 8,
                     children: [
-                      Icon(IconsaxPlusLinear.arrow_left_1),
+                      const Icon(IconsaxPlusLinear.arrow_left_1),
                       Text(directorSystem?.parentFolder ?? ''),
                     ],
                   ),
@@ -175,7 +176,7 @@ class DirectorySelectionDialog extends ConsumerWidget {
                         title: Row(
                           spacing: 8,
                           children: [
-                            Icon(IconsaxPlusLinear.arrow_right_3),
+                            const Icon(IconsaxPlusLinear.arrow_right_3),
                             Expanded(child: Text(path)),
                           ],
                         ),
@@ -192,7 +193,7 @@ class DirectorySelectionDialog extends ConsumerWidget {
                         Navigator.of(context).pop();
                       }
                     : null,
-                child: Text("Select"),
+                child: Text(context.localized.select),
               ),
               const SizedBox(height: 12),
             ],

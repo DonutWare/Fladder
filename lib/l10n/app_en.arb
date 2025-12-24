@@ -1899,5 +1899,8 @@
   "saveSubtitlesNextToMedia": "Save subtitles next to media",
   "@saveSubtitlesNextToMedia": {},
   "saveArtWorkNextToMedia": "Save artwork next to media files",
-  "saveArtWorkNextToMediaDesc": "Saving artwork into media folders will put them in a place where they can be easily edited."
+  "saveArtWorkNextToMediaDesc": "Saving artwork into media folders will put them in a place where they can be easily edited.",
+  "select": "Select",
+  "newLibrary": "New Library",
+  "contentType": "Content Type"
 }

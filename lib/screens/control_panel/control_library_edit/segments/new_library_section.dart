@@ -30,12 +30,12 @@ class NewLibrarySection extends ConsumerWidget {
       children: [
         ...settingsListGroup(
           context,
-          SettingsLabelDivider(label: "New library"),
+          SettingsLabelDivider(label: context.localized.newLibrary),
           [
             SettingsListTile(
-              label: Text("Name"),
+              label: Text(context.localized.name),
               trailing: OutlinedTextField(
-                placeHolder: "Name",
+                placeHolder: context.localized.name,
                 controller: TextEditingController(
                   text: selectedFolder.name,
                 ),
@@ -49,7 +49,7 @@ class NewLibrarySection extends ConsumerWidget {
               ),
             ),
             SettingsListTile(
-              label: Text("Content Type"),
+              label: Text(context.localized.contentType),
               trailing: EnumBox(
                 current: selectedFolder.collectionType?.name.toUpperCaseSplit() ?? context.localized.none,
                 itemBuilder: (context) => CollectionTypeOptions.values
