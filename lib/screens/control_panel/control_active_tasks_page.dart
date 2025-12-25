@@ -177,7 +177,16 @@ class _TimerSettings extends ConsumerWidget {
           spacing: 8,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(task.name ?? "", style: Theme.of(context).textTheme.titleLarge),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(task.name ?? "", style: Theme.of(context).textTheme.titleLarge),
+                IconButton(
+                  icon: const Icon(Icons.close_rounded),
+                  onPressed: () => Navigator.of(context).pop(),
+                )
+              ],
+            ),
             const Divider(),
             Text(task.description ?? "", style: Theme.of(context).textTheme.bodyMedium),
             FilledButton.icon(
@@ -278,7 +287,16 @@ class _NewTaskTriggerState extends State<_NewTaskTrigger> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         spacing: 12,
         children: [
-          Text(context.localized.newTaskTrigger, style: Theme.of(context).textTheme.titleLarge),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(context.localized.newTaskTrigger, style: Theme.of(context).textTheme.titleLarge),
+              IconButton(
+                icon: const Icon(Icons.close_rounded),
+                onPressed: () => Navigator.of(context).pop(),
+              )
+            ],
+          ),
           const Divider(),
           EnumSelection(
             label: Text(context.localized.taskTriggerTypeName),
