@@ -1925,5 +1925,17 @@
         "example": "1"
       }
     }
+  },
+  "selectFolderToAdd": "Select folder to add",
+  "@selectFolderToAdd": {},
+  "systemRootFolder": "System root folder",
+  "@systemRootFolder": {},
+  "selectedPath": "Selected path: {path}",
+  "@selectedPath": {
+    "placeholders": {
+      "path": {
+        "type": "String"
+      }
+    }
   }
 }

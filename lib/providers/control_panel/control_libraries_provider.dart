@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 
-import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -67,61 +66,12 @@ class ControlLibraries extends _$ControlLibraries {
     await api.userViewsViewIdDelete(viewId: library.id);
   }
 
-  Future<void> fetchFolders(String? parent) async {
-    String? startPath = parent;
-    if (startPath == null || startPath.isEmpty) {
-      final defaultDirectory = (await api.defaultDirectoryGet()).body;
-      startPath = defaultDirectory?.path;
-      final driveFolders = (await api.getDriveLocations()).body;
-      state = state.copyWith(
-        systemFolders: SystemFolders(
-          parentFolder: driveFolders?.firstOrNull?.path?.replaceAll('"', ''),
-          currentPath: startPath,
-          paths: driveFolders?.map((e) => e.path ?? '').toList() ?? [],
-        ),
-      );
-    } else {
-      final parentPath = (await api.parentPathGet(startPath)).body;
-      if (parentPath == null || (startPath.isEmpty || startPath == '/')) {
-        final driveFolders = (await api.getDriveLocations()).body;
-        state = state.copyWith(
-          systemFolders: SystemFolders(
-            parentFolder: driveFolders?.firstOrNull?.path?.replaceAll('"', ''),
-            currentPath: startPath,
-            paths: driveFolders?.map((e) => e.path ?? '').toList() ?? [],
-          ),
-        );
-      } else {
-        final directories = (await api.directoryContentsGet(path: startPath, includeDirectories: true)).body;
-        state = state.copyWith(
-          systemFolders: SystemFolders(
-            parentFolder: parentPath.replaceAll('"', ''),
-            currentPath: startPath,
-            paths: directories?.map((e) => e.path ?? '').toList() ?? [],
-          ),
-        );
-      }
-    }
-  }
-
-  Future<void> moveToRoot() async {
-    final driveFolders = (await api.getDriveLocations()).body;
-    state = state.copyWith(
-      systemFolders: SystemFolders(
-        parentFolder: driveFolders?.firstOrNull?.path?.replaceAll('"', ''),
-        currentPath: null,
-        paths: driveFolders?.map((e) => e.path ?? '').toList() ?? [],
-      ),
-    );
-  }
-
   Future<void> updateLibraryLocations(String? libraryId, List<String> locations) async {
     if (state.newVirtualFolder != null) {
       state = state.copyWith(
         newVirtualFolder: state.newVirtualFolder!.copyWith(
           locations: locations,
         ),
-        systemFolders: null,
       );
       return;
     }
@@ -136,7 +86,6 @@ class ControlLibraries extends _$ControlLibraries {
         }
         return e;
       }).toList(),
-      systemFolders: null,
     );
   }
 
@@ -264,17 +213,6 @@ class ControlLibraries extends _$ControlLibraries {
   }
 }
 
-class SystemFolders {
-  final String? parentFolder;
-  final String? currentPath;
-  final List<String> paths;
-  SystemFolders({
-    required this.parentFolder,
-    required this.currentPath,
-    required this.paths,
-  });
-}
-
 @Freezed(copyWith: true)
 abstract class ControlLibrariesModel with _$ControlLibrariesModel {
   const ControlLibrariesModel._();
@@ -287,7 +225,6 @@ abstract class ControlLibrariesModel with _$ControlLibrariesModel {
     @Default([]) List<jelly.CountryInfo> countries,
     @Default([]) List<jelly.VirtualFolderInfo> virtualFolders,
     jelly.LibraryOptionsResultDto? availableOptions,
-    SystemFolders? systemFolders,
   }) = _ControlLibrariesModel;
 
   bool get isSaveAble {

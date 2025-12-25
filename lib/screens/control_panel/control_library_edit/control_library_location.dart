@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
-import 'package:fladder/providers/control_panel/control_libraries_provider.dart';
+import 'package:fladder/providers/directory_browser_provider.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/pull_to_refresh.dart';
 
@@ -31,10 +31,10 @@ class ControlLibraryLocationEditor extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 child: Text(
-                  "Folders",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  context.localized.folders,
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),
               IconButton(
@@ -98,104 +98,132 @@ class DirectorySelectionDialog extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final directorSystem = ref.watch(controlLibrariesProvider.select((value) => value.systemFolders));
-    final hasParentDirectory = directorSystem?.parentFolder != null &&
-        directorSystem?.parentFolder?.isNotEmpty == true &&
-        directorSystem?.paths.contains(directorSystem.parentFolder) == false;
+    final browserState = ref.watch(directoryBrowserProvider);
+    final parentFolder = browserState.parentFolder;
+    final currentPath = browserState.currentPath;
+    final paths = browserState.paths;
+    final isLoading = browserState.loading;
+    final hasParentDirectory =
+        parentFolder != null && parentFolder.isNotEmpty == true && paths.contains(parentFolder) == false;
     return Dialog(
       child: PullToRefresh(
-        onRefresh: () async => ref.read(controlLibrariesProvider.notifier).fetchFolders(startDirectory),
+        onRefresh: () async => ref.read(directoryBrowserProvider.notifier).fetchFolders(startDirectory),
         child: Padding(
           padding: const EdgeInsets.all(12.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+          child: Stack(
             children: [
-              Row(
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Expanded(
-                    child: Text(
-                      "Select folder to add",
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    icon: const Icon(Icons.close),
-                  )
-                ],
-              ),
-              if (directorSystem?.currentPath != null)
-                Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surfaceContainer,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  padding: const EdgeInsets.all(8),
-                  child: Text(
-                    "Selected path: ${directorSystem?.currentPath ?? ''}",
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                ),
-              const Divider(),
-              if (hasParentDirectory) ...[
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  title: const Row(
-                    spacing: 8,
+                  Row(
                     children: [
-                      Icon(IconsaxPlusLinear.arrow_left_1),
-                      Text("System default"),
-                    ],
-                  ),
-                  onTap: () => ref.read(controlLibrariesProvider.notifier).moveToRoot(),
-                ),
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  title: Row(
-                    spacing: 8,
-                    children: [
-                      const Icon(IconsaxPlusLinear.arrow_left_1),
-                      Text(directorSystem?.parentFolder ?? ''),
-                    ],
-                  ),
-                  onTap: () => ref.read(controlLibrariesProvider.notifier).fetchFolders(directorSystem?.parentFolder),
-                ),
-                const Divider(),
-              ],
-              Flexible(
-                child: ListView(
-                  padding: EdgeInsets.zero,
-                  shrinkWrap: true,
-                  children: [
-                    ...?directorSystem?.paths.map(
-                      (path) => ListTile(
-                        contentPadding: EdgeInsets.zero,
-                        title: Row(
-                          spacing: 8,
-                          children: [
-                            const Icon(IconsaxPlusLinear.arrow_right_3),
-                            Expanded(child: Text(path)),
-                          ],
+                      Expanded(
+                        child: Text(
+                          context.localized.selectFolderToAdd,
+                          style: Theme.of(context).textTheme.headlineSmall,
                         ),
-                        onTap: () => ref.read(controlLibrariesProvider.notifier).fetchFolders(path),
+                      ),
+                      if (isLoading)
+                        const SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      else
+                        IconButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          icon: const Icon(Icons.close),
+                        )
+                    ],
+                  ),
+                  if (currentPath != null)
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.surfaceContainer,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      padding: const EdgeInsets.all(8),
+                      child: Text(
+                        context.localized.selectedPath(currentPath),
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ),
+                  const Divider(),
+                  if (hasParentDirectory) ...[
+                    ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      title: Row(
+                        spacing: 8,
+                        children: [
+                          const Icon(IconsaxPlusLinear.arrow_left_1),
+                          Text(context.localized.systemRootFolder),
+                        ],
+                      ),
+                      onTap: isLoading ? null : () => ref.read(directoryBrowserProvider.notifier).moveToRoot(),
+                    ),
+                    ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      title: Row(
+                        spacing: 8,
+                        children: [
+                          const Icon(IconsaxPlusLinear.arrow_left_1),
+                          Text(parentFolder),
+                        ],
+                      ),
+                      onTap: isLoading
+                          ? null
+                          : () => ref.read(directoryBrowserProvider.notifier).fetchFolders(parentFolder),
+                    ),
+                    const Divider(),
                   ],
+                  Flexible(
+                    child: ListView(
+                      padding: EdgeInsets.zero,
+                      shrinkWrap: true,
+                      children: [
+                        ...paths.map(
+                          (path) => ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            title: Row(
+                              spacing: 8,
+                              children: [
+                                const Icon(IconsaxPlusLinear.arrow_right_3),
+                                Expanded(child: Text(path)),
+                              ],
+                            ),
+                            onTap: () => ref.read(directoryBrowserProvider.notifier).fetchFolders(path),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  FilledButton(
+                    onPressed: !isLoading && onSelect != null && currentPath != null
+                        ? () {
+                            onSelect?.call(currentPath);
+                            Navigator.of(context).pop();
+                          }
+                        : null,
+                    child: Text(context.localized.select),
+                  ),
+                  const SizedBox(height: 12),
+                ],
+              ),
+              if (isLoading)
+                Positioned.fill(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surfaceContainerLowest.withAlpha(175),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
                 ),
-              ),
-              FilledButton(
-                onPressed: onSelect != null && directorSystem?.currentPath != null
-                    ? () {
-                        onSelect?.call(directorSystem?.currentPath ?? "");
-                        Navigator.of(context).pop();
-                      }
-                    : null,
-                child: Text(context.localized.select),
-              ),
-              const SizedBox(height: 12),
             ],
           ),
         ),

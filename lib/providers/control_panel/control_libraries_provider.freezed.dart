@@ -21,7 +21,6 @@ mixin _$ControlLibrariesModel implements DiagnosticableTreeMixin {
   List<jelly.CountryInfo> get countries;
   List<jelly.VirtualFolderInfo> get virtualFolders;
   jelly.LibraryOptionsResultDto? get availableOptions;
-  SystemFolders? get systemFolders;
 
   /// Create a copy of ControlLibrariesModel
   /// with the given fields replaced by the non-null parameter values.
@@ -41,13 +40,12 @@ mixin _$ControlLibrariesModel implements DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('cultures', cultures))
       ..add(DiagnosticsProperty('countries', countries))
       ..add(DiagnosticsProperty('virtualFolders', virtualFolders))
-      ..add(DiagnosticsProperty('availableOptions', availableOptions))
-      ..add(DiagnosticsProperty('systemFolders', systemFolders));
+      ..add(DiagnosticsProperty('availableOptions', availableOptions));
   }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ControlLibrariesModel(availableLibraries: $availableLibraries, selectedLibrary: $selectedLibrary, newVirtualFolder: $newVirtualFolder, cultures: $cultures, countries: $countries, virtualFolders: $virtualFolders, availableOptions: $availableOptions, systemFolders: $systemFolders)';
+    return 'ControlLibrariesModel(availableLibraries: $availableLibraries, selectedLibrary: $selectedLibrary, newVirtualFolder: $newVirtualFolder, cultures: $cultures, countries: $countries, virtualFolders: $virtualFolders, availableOptions: $availableOptions)';
   }
 }
 
@@ -64,8 +62,7 @@ abstract mixin class $ControlLibrariesModelCopyWith<$Res> {
       List<jelly.CultureDto> cultures,
       List<jelly.CountryInfo> countries,
       List<jelly.VirtualFolderInfo> virtualFolders,
-      jelly.LibraryOptionsResultDto? availableOptions,
-      SystemFolders? systemFolders});
+      jelly.LibraryOptionsResultDto? availableOptions});
 }
 
 /// @nodoc
@@ -88,7 +85,6 @@ class _$ControlLibrariesModelCopyWithImpl<$Res>
     Object? countries = null,
     Object? virtualFolders = null,
     Object? availableOptions = freezed,
-    Object? systemFolders = freezed,
   }) {
     return _then(_self.copyWith(
       availableLibraries: null == availableLibraries
@@ -119,10 +115,6 @@ class _$ControlLibrariesModelCopyWithImpl<$Res>
           ? _self.availableOptions
           : availableOptions // ignore: cast_nullable_to_non_nullable
               as jelly.LibraryOptionsResultDto?,
-      systemFolders: freezed == systemFolders
-          ? _self.systemFolders
-          : systemFolders // ignore: cast_nullable_to_non_nullable
-              as SystemFolders?,
     ));
   }
 }
@@ -227,8 +219,7 @@ extension ControlLibrariesModelPatterns on ControlLibrariesModel {
             List<jelly.CultureDto> cultures,
             List<jelly.CountryInfo> countries,
             List<jelly.VirtualFolderInfo> virtualFolders,
-            jelly.LibraryOptionsResultDto? availableOptions,
-            SystemFolders? systemFolders)?
+            jelly.LibraryOptionsResultDto? availableOptions)?
         $default, {
     required TResult orElse(),
   }) {
@@ -242,8 +233,7 @@ extension ControlLibrariesModelPatterns on ControlLibrariesModel {
             _that.cultures,
             _that.countries,
             _that.virtualFolders,
-            _that.availableOptions,
-            _that.systemFolders);
+            _that.availableOptions);
       case _:
         return orElse();
     }
@@ -271,8 +261,7 @@ extension ControlLibrariesModelPatterns on ControlLibrariesModel {
             List<jelly.CultureDto> cultures,
             List<jelly.CountryInfo> countries,
             List<jelly.VirtualFolderInfo> virtualFolders,
-            jelly.LibraryOptionsResultDto? availableOptions,
-            SystemFolders? systemFolders)
+            jelly.LibraryOptionsResultDto? availableOptions)
         $default,
   ) {
     final _that = this;
@@ -285,8 +274,7 @@ extension ControlLibrariesModelPatterns on ControlLibrariesModel {
             _that.cultures,
             _that.countries,
             _that.virtualFolders,
-            _that.availableOptions,
-            _that.systemFolders);
+            _that.availableOptions);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -313,8 +301,7 @@ extension ControlLibrariesModelPatterns on ControlLibrariesModel {
             List<jelly.CultureDto> cultures,
             List<jelly.CountryInfo> countries,
             List<jelly.VirtualFolderInfo> virtualFolders,
-            jelly.LibraryOptionsResultDto? availableOptions,
-            SystemFolders? systemFolders)?
+            jelly.LibraryOptionsResultDto? availableOptions)?
         $default,
   ) {
     final _that = this;
@@ -327,8 +314,7 @@ extension ControlLibrariesModelPatterns on ControlLibrariesModel {
             _that.cultures,
             _that.countries,
             _that.virtualFolders,
-            _that.availableOptions,
-            _that.systemFolders);
+            _that.availableOptions);
       case _:
         return null;
     }
@@ -346,8 +332,7 @@ class _ControlLibrariesModel extends ControlLibrariesModel
       final List<jelly.CultureDto> cultures = const [],
       final List<jelly.CountryInfo> countries = const [],
       final List<jelly.VirtualFolderInfo> virtualFolders = const [],
-      this.availableOptions,
-      this.systemFolders})
+      this.availableOptions})
       : _availableLibraries = availableLibraries,
         _cultures = cultures,
         _countries = countries,
@@ -397,8 +382,6 @@ class _ControlLibrariesModel extends ControlLibrariesModel
 
   @override
   final jelly.LibraryOptionsResultDto? availableOptions;
-  @override
-  final SystemFolders? systemFolders;
 
   /// Create a copy of ControlLibrariesModel
   /// with the given fields replaced by the non-null parameter values.
@@ -419,13 +402,12 @@ class _ControlLibrariesModel extends ControlLibrariesModel
       ..add(DiagnosticsProperty('cultures', cultures))
       ..add(DiagnosticsProperty('countries', countries))
       ..add(DiagnosticsProperty('virtualFolders', virtualFolders))
-      ..add(DiagnosticsProperty('availableOptions', availableOptions))
-      ..add(DiagnosticsProperty('systemFolders', systemFolders));
+      ..add(DiagnosticsProperty('availableOptions', availableOptions));
   }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ControlLibrariesModel(availableLibraries: $availableLibraries, selectedLibrary: $selectedLibrary, newVirtualFolder: $newVirtualFolder, cultures: $cultures, countries: $countries, virtualFolders: $virtualFolders, availableOptions: $availableOptions, systemFolders: $systemFolders)';
+    return 'ControlLibrariesModel(availableLibraries: $availableLibraries, selectedLibrary: $selectedLibrary, newVirtualFolder: $newVirtualFolder, cultures: $cultures, countries: $countries, virtualFolders: $virtualFolders, availableOptions: $availableOptions)';
   }
 }
 
@@ -444,8 +426,7 @@ abstract mixin class _$ControlLibrariesModelCopyWith<$Res>
       List<jelly.CultureDto> cultures,
       List<jelly.CountryInfo> countries,
       List<jelly.VirtualFolderInfo> virtualFolders,
-      jelly.LibraryOptionsResultDto? availableOptions,
-      SystemFolders? systemFolders});
+      jelly.LibraryOptionsResultDto? availableOptions});
 }
 
 /// @nodoc
@@ -468,7 +449,6 @@ class __$ControlLibrariesModelCopyWithImpl<$Res>
     Object? countries = null,
     Object? virtualFolders = null,
     Object? availableOptions = freezed,
-    Object? systemFolders = freezed,
   }) {
     return _then(_ControlLibrariesModel(
       availableLibraries: null == availableLibraries
@@ -499,10 +479,6 @@ class __$ControlLibrariesModelCopyWithImpl<$Res>
           ? _self.availableOptions
           : availableOptions // ignore: cast_nullable_to_non_nullable
               as jelly.LibraryOptionsResultDto?,
-      systemFolders: freezed == systemFolders
-          ? _self.systemFolders
-          : systemFolders // ignore: cast_nullable_to_non_nullable
-              as SystemFolders?,
     ));
   }
 }

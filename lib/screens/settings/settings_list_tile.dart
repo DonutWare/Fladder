@@ -72,7 +72,7 @@ class SettingsListTile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(selected ? 5 : 20),
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12),
+                padding: const EdgeInsets.all(12),
                 child: (leading ?? iconWidget),
               ),
             ),
@@ -98,7 +98,7 @@ class SettingsListTile extends StatelessWidget {
               horizontal: 16,
               vertical: 6,
             ).copyWith(
-              left: (leading ?? iconWidget) != null ? 0 : null,
+              left: (leading ?? iconWidget) != null ? 4 : null,
             ),
             child: ConstrainedBox(
               constraints: const BoxConstraints(
