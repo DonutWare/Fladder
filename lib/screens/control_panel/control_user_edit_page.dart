@@ -11,6 +11,7 @@ import 'package:fladder/screens/control_panel/control_user_edit/control_user_edi
 import 'package:fladder/screens/control_panel/control_user_edit/control_user_edit_password.dart';
 import 'package:fladder/screens/settings/settings_scaffold.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/screens/shared/user_icon.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/filled_button_await.dart';
 import 'package:fladder/widgets/shared/pull_to_refresh.dart';
@@ -76,17 +77,9 @@ class _ControlUserEditPageState extends ConsumerState<ControlUserEditPage> {
             : [
                 Row(
                   children: [
-                    CircleAvatar(
-                      radius: 24,
-                      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                      child: Text(
-                        currentUser.name.isNotEmpty ? currentUser.name.substring(0, 1).toUpperCase() : "?",
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onPrimaryContainer,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                    SizedBox.square(
+                      dimension: 42,
+                      child: UserIcon(user: currentUser),
                     ),
                     const SizedBox(width: 12),
                     Expanded(
@@ -143,7 +136,6 @@ class _ControlUserEditPageState extends ConsumerState<ControlUserEditPage> {
                   EditOptions.parentalControl => UserParentalControlTab(
                       currentUser: currentUser,
                       currentPolicy: currentPolicy,
-                      views: views,
                       parentalRatings: parentalRatings,
                     ),
                   EditOptions.password => const ControlUserEditPassword(),

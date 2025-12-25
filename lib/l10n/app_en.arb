@@ -1904,5 +1904,26 @@
   "newLibrary": "New Library",
   "contentType": "Content Type",
   "metadataImageLongPressTouch": "Long press to delete image",
-  "metadataImageLongPressClick": "Right-click to delete image"
+  "metadataImageLongPressClick": "Right-click to delete image",
+  "primary": "Primary",
+  "logo": "{count, plural, other{Logos} one{Logo}}",
+  "@logo": {
+    "description": "logo",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "backdrop": "{count, plural, other{Backdrops} one{Backdrop}}",
+  "@backdrop": {
+    "description": "backdrop",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  }
 }

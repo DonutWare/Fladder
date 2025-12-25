@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/account_model.dart';
-import 'package:fladder/models/view_model.dart';
 import 'package:fladder/providers/control_panel/control_users_provider.dart';
 import 'package:fladder/screens/control_panel/control_user_edit/control_user_edit_shared.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
@@ -19,13 +18,11 @@ import 'package:fladder/widgets/shared/item_actions.dart';
 class UserParentalControlTab extends ConsumerWidget {
   final AccountModel? currentUser;
   final UserPolicy? currentPolicy;
-  final List<ViewModel> views;
   final Map<ParentalRatingScore?, List<ParentalRating>> parentalRatings;
 
   const UserParentalControlTab({
     required this.currentUser,
     required this.currentPolicy,
-    required this.views,
     required this.parentalRatings,
     super.key,
   });
@@ -114,20 +111,6 @@ class UserParentalControlTab extends ConsumerWidget {
                 value: currentPolicy?.blockUnratedItems?.contains(rating) ?? false,
               ),
             ),
-            if (currentPolicy?.enableAllFolders == false)
-              ...views.map(
-                (library) => SettingsListTileCheckbox(
-                  label: Text(library.name),
-                  onChanged: (value) => provider.updateSelectedUserPolicy(
-                    currentPolicy?.copyWith(
-                      enabledFolders: currentPolicy?.enabledFolders?.contains(library.id) == true
-                          ? (currentPolicy?.enabledFolders ?? []).where((id) => id != library.id).toList()
-                          : [...(currentPolicy?.enabledFolders ?? []), library.id],
-                    ),
-                  ),
-                  value: currentPolicy?.enabledFolders?.contains(library.id) ?? false,
-                ),
-              ),
             SettingsListChild(
               child: TagsEditor(
                 label: context.localized.allowItemsTags,

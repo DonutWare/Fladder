@@ -105,12 +105,14 @@ class ViewModel {
       canDownload: false,
       parentId: "",
       recentlyAdded: [],
-      imageData: ImagesData.fromBaseItem(
-          dto.BaseItemDto(
-            id: item.itemId,
-            imageTags: {'Primary': item.primaryImageItemId},
-          ),
-          ref),
+      imageData: item.primaryImageItemId != null
+          ? ImagesData.fromBaseItem(
+              dto.BaseItemDto(
+                id: item.itemId,
+                imageTags: {'Primary': item.primaryImageItemId},
+              ),
+              ref)
+          : null,
       collectionType: CollectionType.values
               .firstWhereOrNull((element) => element.name.toLowerCase() == item.collectionType?.value?.toLowerCase()) ??
           CollectionType.folders,

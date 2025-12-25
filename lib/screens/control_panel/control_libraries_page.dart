@@ -18,6 +18,7 @@ import 'package:fladder/screens/control_panel/control_library_edit/segments/segm
 import 'package:fladder/screens/control_panel/control_library_edit/segments/subtitle_downloads_section.dart';
 import 'package:fladder/screens/control_panel/control_library_edit/segments/trickplay_section.dart';
 import 'package:fladder/screens/library/library_screen.dart';
+import 'package:fladder/screens/metadata/edit_item.dart';
 import 'package:fladder/screens/settings/settings_scaffold.dart';
 import 'package:fladder/screens/shared/default_alert_dialog.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
@@ -110,13 +111,25 @@ class ControlLibrariesPage extends ConsumerWidget {
               selectedView: libraries.selectedLibrary,
               padding: const EdgeInsets.symmetric(horizontal: 16),
               onSelected: provider.selectLibrary,
+              enableImageCache: false,
               onLongPress: (view) {},
               viewActions: (view) => [
                 ItemActionButton(
+                  label: Text(context.localized.editMetadata),
+                  icon: const Icon(IconsaxPlusLinear.gallery_edit),
+                  action: () async {
+                    await showEditItemPopup(
+                      context,
+                      view.id,
+                      options: {MetaEditOptions.primary},
+                    );
+                  },
+                ),
+                ItemActionButton(
                   label: Text(context.localized.delete),
                   icon: const Icon(IconsaxPlusLinear.trash),
-                  action: () {
-                    showDefaultAlertDialog(
+                  action: () async {
+                    await showDefaultAlertDialog(
                       context,
                       context.localized.deleteLibraryConfirmTitle,
                       context.localized.deleteLibraryConfirmMessage(view.name),

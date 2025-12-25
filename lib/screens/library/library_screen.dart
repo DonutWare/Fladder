@@ -244,6 +244,7 @@ class LibraryRow extends ConsumerWidget {
     this.onSelected,
     this.onLongPress,
     this.viewActions,
+    this.enableImageCache = true,
   });
 
   final List<ViewModel> views;
@@ -252,6 +253,7 @@ class LibraryRow extends ConsumerWidget {
   final FutureOr Function(ViewModel selected)? onSelected;
   final FutureOr Function(ViewModel selected)? onLongPress;
   final List<ItemActionButton> Function(ViewModel item)? viewActions;
+  final bool enableImageCache;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -318,6 +320,7 @@ class LibraryRow extends ConsumerWidget {
                     child: FladderImage(
                       image: view.imageData?.primary,
                       fit: BoxFit.cover,
+                      cachedImage: enableImageCache,
                       placeHolder: Center(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,

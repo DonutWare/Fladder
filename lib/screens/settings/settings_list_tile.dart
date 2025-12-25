@@ -64,7 +64,7 @@ class SettingsListTile extends StatelessWidget {
 
     final leadingWidget = (leading ?? iconWidget) != null
         ? Padding(
-            padding: const EdgeInsets.only(left: 8, right: 16.0),
+            padding: const EdgeInsets.only(right: 12.0),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 125),
               decoration: BoxDecoration(
