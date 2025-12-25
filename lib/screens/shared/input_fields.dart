@@ -23,17 +23,23 @@ class IntInputField extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 6),
-      child: OutlinedTextField(
-        controller: controller ?? TextEditingController(text: (value ?? 0).toString()),
-        keyboardType: const TextInputType.numberWithOptions(decimal: false, signed: false),
-        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        textInputAction: TextInputAction.done,
-        onSubmitted: (value) => onSubmitted?.call(int.tryParse(value)),
-        textAlign: TextAlign.center,
-        suffix: suffix,
-        placeHolder: placeHolder,
+    return ConstrainedBox(
+      constraints: const BoxConstraints(
+        minWidth: 60,
+        maxWidth: 135,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 6),
+        child: OutlinedTextField(
+          controller: controller ?? TextEditingController(text: (value ?? 0).toString()),
+          keyboardType: const TextInputType.numberWithOptions(decimal: false, signed: false),
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          textInputAction: TextInputAction.done,
+          onSubmitted: (value) => onSubmitted?.call(int.tryParse(value)),
+          textAlign: TextAlign.center,
+          suffix: suffix,
+          placeHolder: placeHolder,
+        ),
       ),
     );
   }

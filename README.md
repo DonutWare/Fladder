@@ -101,7 +101,6 @@ Web/Desktop [try out the web build!](https://DonutWare.github.io/Fladder)
 ## Planned Features
 
 * Music playback
-* Server management
 * And more???
 
 ## Download

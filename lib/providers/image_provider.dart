@@ -22,7 +22,7 @@ class ImageNotifier {
   }
 
   String getUserImageUrl(String id) {
-    return Uri.decodeFull("$currentServerUrl/Users/$id/Images/${ImageType.primary.value}");
+    return Uri.decodeFull("${currentServerUrl}Users/$id/Images/${ImageType.primary.value}");
   }
 
   String getItemsImageUrl(String? itemId,

@@ -43,6 +43,12 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> {
                 },
               ),
             ),
+          ],
+        ),
+        ...settingsListGroup(
+          context,
+          SettingsLabelDivider(label: context.localized.advanced),
+          [
             SettingsListTile(
               label: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,

@@ -4,11 +4,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:fladder/jellyfin/enum_models.dart';
+import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/account_model.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/library_filters_model.dart';
 import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/providers/image_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
@@ -44,9 +46,12 @@ class User extends _$User {
 
     final customConfig = await api.getCustomConfig();
 
+    var imageUrl = ref.read(imageUtilityProvider).getUserImageUrl(response.body?.id ?? "");
+
     if (response.isSuccessful && response.body != null) {
       userState = state?.copyWith(
         name: response.body?.name ?? state?.name ?? "",
+        avatar: imageUrl,
         policy: response.body?.policy,
         serverConfiguration: systemConfiguration.body,
         userConfiguration: response.body?.configuration,
@@ -225,4 +230,24 @@ class User extends _$User {
 
   String? createDownloadUrl(ItemBaseModel item) =>
       Uri.encodeFull("${state?.credentials.url}/Items/${item.id}/Download?api_key=${state?.credentials.token}");
+
+  Future<void> createNewUser(
+    String userName,
+    String password, {
+    required bool enableAllFolders,
+    required List<String> enabledFolders,
+  }) async {
+    final newUser = (await api.createNewUser(
+      CreateUserByName(name: userName, password: password),
+    ))
+        .body;
+    if (newUser == null) return;
+    await api.setUserPolicy(
+      id: newUser.id ?? "",
+      policy: newUser.policy?.copyWith(
+        enableAllFolders: enableAllFolders,
+        enabledFolders: enabledFolders,
+      ),
+    );
+  }
 }
