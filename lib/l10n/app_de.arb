@@ -1562,5 +1562,182 @@
     "regenerateTrickplayImages": "Trickplay-Bilder neu generieren",
     "@regenerateTrickplayImages": {},
     "segmentActionSkipOnce": "Einmalig überspringen",
-    "@segmentActionSkipOnce": {}
+    "@segmentActionSkipOnce": {},
+    "serverVersion": "Server Version",
+    "@serverVersion": {},
+    "webVersion": "Web Version",
+    "@webVersion": {},
+    "devices": "Geräte",
+    "@devices": {},
+    "storagePaths": "Speicherpfade",
+    "@storagePaths": {},
+    "web": "Web",
+    "@web": {},
+    "cache": "Cache",
+    "@cache": {},
+    "logs": "Logs",
+    "@logs": {},
+    "count": "Anzahl",
+    "@count": {},
+    "scanAllLibraries": "Alle Bibliotheken scannen",
+    "@scanAllLibraries": {},
+    "restartServer": "Server neustarten",
+    "@restartServer": {},
+    "shutDownServer": "Server herunterfahren",
+    "@shutDownServer": {},
+    "lastActivity": "Letzte Aktivität",
+    "@lastActivity": {},
+    "timeAgo": "vor {time}",
+    "@timeAgo": {
+        "description": "timeAgo",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "lessThenAMinute": "Weniger als eine Minute",
+    "@lessThenAMinute": {},
+    "plannedTasks": "Geplante Aufgaben",
+    "@plannedTasks": {},
+    "taskTriggerTypeInterval": "Intervall",
+    "@taskTriggerTypeInterval": {},
+    "taskTriggerTypeDaily": "Täglich",
+    "@taskTriggerTypeDaily": {},
+    "taskTriggerTypeWeekly": "Wöchentlich",
+    "@taskTriggerTypeWeekly": {},
+    "create": "Erstellen",
+    "@create": {},
+    "time": "Zeit",
+    "@time": {},
+    "interval": "Intervall",
+    "@interval": {},
+    "taskTimeLimitInHours": "Zeitlimit (Stunden)",
+    "@taskTimeLimitInHours": {},
+    "taskTriggerDailyDesc": "Täglich um {time}",
+    "@taskTriggerDailyDesc": {
+        "description": "taskTriggerDailyDesc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerWeeklyDesc": "Wöchentlich am {day} um {time}",
+    "@taskTriggerWeeklyDesc": {
+        "description": "taskTriggerWeeklyDesc",
+        "placeholders": {
+            "day": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerTimeLimitSub": "Zeitlimit: {time}",
+    "@taskTriggerTimeLimitSub": {
+        "description": "taskTriggerTimeLimit",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "serverNameLabel": "Servername",
+    "@serverNameLabel": {},
+    "cachePath": "Cache Pfad",
+    "@cachePath": {},
+    "metadataPath": "Metadaten Pfad",
+    "@metadataPath": {},
+    "maxConcurrentLibraryScanLabel": "Max gleichzeitige Bibliotheken Scans",
+    "@maxConcurrentLibraryScanLabel": {},
+    "controlPanelServerDesc": "Servername, Quick Connect, Leistung",
+    "@controlPanelServerDesc": {},
+    "deleteUserTitle": "Benutzer {user} löschen?",
+    "@deleteUserTitle": {
+        "description": "deleteUserTitle",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteUserDesc": "Hiermit wird der Benutzer {user} und alle zugehörigen Einstellungen gelöscht.",
+    "@deleteUserDesc": {
+        "description": "deleteUserDesc",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "userInformation": "Benutzerinformation",
+    "@userInformation": {},
+    "allowManageServer": "Erlaube diesem Nutzer die Serververwaltung",
+    "@allowManageServer": {},
+    "allowEditSubtitles": "Erlaube diesem Benutzer Untertitel zu bearbeiten",
+    "@allowEditSubtitles": {},
+    "mediaPlayback": "Medienwiedergabe",
+    "@mediaPlayback": {},
+    "allowMediaPlayback": "Medienwiedergabe erlauben",
+    "@allowMediaPlayback": {},
+    "allowVideoTranscoding": "Erlaube die Videowiedergabe, welche Transkodierung benötigt",
+    "@allowVideoTranscoding": {},
+    "allowAudioTranscoding": "Erlaube die Audiowiedergabe, die Transkodierung benötigt",
+    "@allowAudioTranscoding": {},
+    "allowMediaDeletion": "Erlaube Medienlöschung von",
+    "@allowMediaDeletion": {},
+    "allLibraries": "Alle Bibliotheken",
+    "@allLibraries": {},
+    "libraryAccess": "Bibliothekszugriff",
+    "@libraryAccess": {},
+    "enableAllLibraries": "Zugriff auf alle Bibliotheken zulassen",
+    "@enableAllLibraries": {},
+    "parentalControl": "Kindersicherung",
+    "@parentalControl": {},
+    "blockedItemsNoRating": "Blockiere Inhalte mit keiner oder nicht erkannter Altersfreigabe",
+    "@blockedItemsNoRating": {},
+    "maxParentalRating": "Maximal erlaubte Altersfreigabe",
+    "@maxParentalRating": {},
+    "allowItemsTags": "Erlaube Einträge mit Tags",
+    "@allowItemsTags": {},
+    "blockItemsTags": "Blockiere Inhalte mit Tags",
+    "@blockItemsTags": {},
+    "newLibrary": "Neue Bibliothek",
+    "@newLibrary": {},
+    "extractChapterImagesDuringLibraryScan": "Erzeuge Kapitelbilder während des Bibliothekscans",
+    "@extractChapterImagesDuringLibraryScan": {},
+    "enableChapterImageExtraction": "Extraktion von Kapitelbildern aktivieren",
+    "@enableChapterImageExtraction": {},
+    "chapterImages": "Kapitelbilder",
+    "@chapterImages": {},
+    "saveTrickplayImagesNextToMedia": "Trickplay-Bilder bei den Medien speichern",
+    "@saveTrickplayImagesNextToMedia": {},
+    "extractTrickplayImagesDuringLibraryScan": "Extrahieren von Trickplay-Bildern beim Scannen der Bibliothek",
+    "@extractTrickplayImagesDuringLibraryScan": {},
+    "enableTrickplayImageExtraction": "Extrahieren von Trickplay-Bildern aktivieren",
+    "@enableTrickplayImageExtraction": {},
+    "enableAndRankImageFetchers": "Aktiviere und ordne deine bevorzugten Bildquellen nach Präferenzen",
+    "@enableAndRankImageFetchers": {},
+    "imageFetchers": "Bildquellen ({type})",
+    "@imageFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "enableAndRankImagesFetchers": "Aktiviere und ordne deine bevorzugten Bildquellen nach Präferenzen.",
+    "@enableAndRankImagesFetchers": {},
+    "enableAndRankMetadataFetchers": "Aktiviere und ordne deine bevorzugten Metadatendownloader nach Präferenzen.",
+    "@enableAndRankMetadataFetchers": {},
+    "metadataFetchers": "Metadatendienst ({type})",
+    "@metadataFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    }
 }
