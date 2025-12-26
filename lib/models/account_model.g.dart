@@ -17,6 +17,10 @@ _AccountModel _$AccountModelFromJson(Map<String, dynamic> json) =>
               Authentication.autoLogin,
       localPin: json['localPin'] as String? ?? "",
       credentials: const CredentialsConverter().fromJson(json['credentials']),
+      seerrCredentials: json['seerrCredentials'] == null
+          ? null
+          : SeerrCredentialsModel.fromJson(
+              json['seerrCredentials'] as Map<String, dynamic>),
       latestItemsExcludes: (json['latestItemsExcludes'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
@@ -45,6 +49,7 @@ Map<String, dynamic> _$AccountModelToJson(_AccountModel instance) =>
       'authMethod': _$AuthenticationEnumMap[instance.authMethod]!,
       'localPin': instance.localPin,
       'credentials': const CredentialsConverter().toJson(instance.credentials),
+      'seerrCredentials': instance.seerrCredentials,
       'latestItemsExcludes': instance.latestItemsExcludes,
       'searchQueryHistory': instance.searchQueryHistory,
       'quickConnectState': instance.quickConnectState,

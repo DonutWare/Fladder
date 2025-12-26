@@ -22,10 +22,12 @@ mixin _$AccountModel implements DiagnosticableTreeMixin {
   String get localPin;
   @CredentialsConverter()
   CredentialsModel get credentials;
+  SeerrCredentialsModel? get seerrCredentials;
   List<String> get latestItemsExcludes;
   List<String> get searchQueryHistory;
   bool get quickConnectState;
-  List<LibraryFiltersModel> get libraryFilters;
+  List<LibraryFiltersModel>
+      get libraryFilters; //Server values not stored in the database
   @JsonKey(includeFromJson: false, includeToJson: false)
   UserPolicy? get policy;
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -60,6 +62,7 @@ mixin _$AccountModel implements DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('authMethod', authMethod))
       ..add(DiagnosticsProperty('localPin', localPin))
       ..add(DiagnosticsProperty('credentials', credentials))
+      ..add(DiagnosticsProperty('seerrCredentials', seerrCredentials))
       ..add(DiagnosticsProperty('latestItemsExcludes', latestItemsExcludes))
       ..add(DiagnosticsProperty('searchQueryHistory', searchQueryHistory))
       ..add(DiagnosticsProperty('quickConnectState', quickConnectState))
@@ -74,7 +77,7 @@ mixin _$AccountModel implements DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, localPin: $localPin, credentials: $credentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, libraryFilters: $libraryFilters, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration, hasPassword: $hasPassword, hasConfiguredPassword: $hasConfiguredPassword, userSettings: $userSettings)';
+    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, localPin: $localPin, credentials: $credentials, seerrCredentials: $seerrCredentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, libraryFilters: $libraryFilters, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration, hasPassword: $hasPassword, hasConfiguredPassword: $hasConfiguredPassword, userSettings: $userSettings)';
   }
 }
 
@@ -92,6 +95,7 @@ abstract mixin class $AccountModelCopyWith<$Res> {
       Authentication authMethod,
       String localPin,
       @CredentialsConverter() CredentialsModel credentials,
+      SeerrCredentialsModel? seerrCredentials,
       List<String> latestItemsExcludes,
       List<String> searchQueryHistory,
       bool quickConnectState,
@@ -107,6 +111,7 @@ abstract mixin class $AccountModelCopyWith<$Res> {
       UserSettings? userSettings});
 
   $CredentialsModelCopyWith<$Res> get credentials;
+  $SeerrCredentialsModelCopyWith<$Res>? get seerrCredentials;
   $UserSettingsCopyWith<$Res>? get userSettings;
 }
 
@@ -129,6 +134,7 @@ class _$AccountModelCopyWithImpl<$Res> implements $AccountModelCopyWith<$Res> {
     Object? authMethod = null,
     Object? localPin = null,
     Object? credentials = null,
+    Object? seerrCredentials = freezed,
     Object? latestItemsExcludes = null,
     Object? searchQueryHistory = null,
     Object? quickConnectState = null,
@@ -169,6 +175,10 @@ class _$AccountModelCopyWithImpl<$Res> implements $AccountModelCopyWith<$Res> {
           ? _self.credentials
           : credentials // ignore: cast_nullable_to_non_nullable
               as CredentialsModel,
+      seerrCredentials: freezed == seerrCredentials
+          ? _self.seerrCredentials
+          : seerrCredentials // ignore: cast_nullable_to_non_nullable
+              as SeerrCredentialsModel?,
       latestItemsExcludes: null == latestItemsExcludes
           ? _self.latestItemsExcludes
           : latestItemsExcludes // ignore: cast_nullable_to_non_nullable
@@ -219,6 +229,21 @@ class _$AccountModelCopyWithImpl<$Res> implements $AccountModelCopyWith<$Res> {
   $CredentialsModelCopyWith<$Res> get credentials {
     return $CredentialsModelCopyWith<$Res>(_self.credentials, (value) {
       return _then(_self.copyWith(credentials: value));
+    });
+  }
+
+  /// Create a copy of AccountModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $SeerrCredentialsModelCopyWith<$Res>? get seerrCredentials {
+    if (_self.seerrCredentials == null) {
+      return null;
+    }
+
+    return $SeerrCredentialsModelCopyWith<$Res>(_self.seerrCredentials!,
+        (value) {
+      return _then(_self.copyWith(seerrCredentials: value));
     });
   }
 
@@ -338,6 +363,7 @@ extension AccountModelPatterns on AccountModel {
             Authentication authMethod,
             String localPin,
             @CredentialsConverter() CredentialsModel credentials,
+            SeerrCredentialsModel? seerrCredentials,
             List<String> latestItemsExcludes,
             List<String> searchQueryHistory,
             bool quickConnectState,
@@ -367,6 +393,7 @@ extension AccountModelPatterns on AccountModel {
             _that.authMethod,
             _that.localPin,
             _that.credentials,
+            _that.seerrCredentials,
             _that.latestItemsExcludes,
             _that.searchQueryHistory,
             _that.quickConnectState,
@@ -405,6 +432,7 @@ extension AccountModelPatterns on AccountModel {
             Authentication authMethod,
             String localPin,
             @CredentialsConverter() CredentialsModel credentials,
+            SeerrCredentialsModel? seerrCredentials,
             List<String> latestItemsExcludes,
             List<String> searchQueryHistory,
             bool quickConnectState,
@@ -433,6 +461,7 @@ extension AccountModelPatterns on AccountModel {
             _that.authMethod,
             _that.localPin,
             _that.credentials,
+            _that.seerrCredentials,
             _that.latestItemsExcludes,
             _that.searchQueryHistory,
             _that.quickConnectState,
@@ -470,6 +499,7 @@ extension AccountModelPatterns on AccountModel {
             Authentication authMethod,
             String localPin,
             @CredentialsConverter() CredentialsModel credentials,
+            SeerrCredentialsModel? seerrCredentials,
             List<String> latestItemsExcludes,
             List<String> searchQueryHistory,
             bool quickConnectState,
@@ -498,6 +528,7 @@ extension AccountModelPatterns on AccountModel {
             _that.authMethod,
             _that.localPin,
             _that.credentials,
+            _that.seerrCredentials,
             _that.latestItemsExcludes,
             _that.searchQueryHistory,
             _that.quickConnectState,
@@ -525,6 +556,7 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
       this.authMethod = Authentication.autoLogin,
       this.localPin = "",
       @CredentialsConverter() required this.credentials,
+      this.seerrCredentials,
       final List<String> latestItemsExcludes = const [],
       final List<String> searchQueryHistory = const [],
       this.quickConnectState = false,
@@ -562,6 +594,8 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
   @override
   @CredentialsConverter()
   final CredentialsModel credentials;
+  @override
+  final SeerrCredentialsModel? seerrCredentials;
   final List<String> _latestItemsExcludes;
   @override
   @JsonKey()
@@ -594,6 +628,7 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
     return EqualUnmodifiableListView(_libraryFilters);
   }
 
+//Server values not stored in the database
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   final UserPolicy? policy;
@@ -638,6 +673,7 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('authMethod', authMethod))
       ..add(DiagnosticsProperty('localPin', localPin))
       ..add(DiagnosticsProperty('credentials', credentials))
+      ..add(DiagnosticsProperty('seerrCredentials', seerrCredentials))
       ..add(DiagnosticsProperty('latestItemsExcludes', latestItemsExcludes))
       ..add(DiagnosticsProperty('searchQueryHistory', searchQueryHistory))
       ..add(DiagnosticsProperty('quickConnectState', quickConnectState))
@@ -652,7 +688,7 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, localPin: $localPin, credentials: $credentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, libraryFilters: $libraryFilters, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration, hasPassword: $hasPassword, hasConfiguredPassword: $hasConfiguredPassword, userSettings: $userSettings)';
+    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, localPin: $localPin, credentials: $credentials, seerrCredentials: $seerrCredentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, libraryFilters: $libraryFilters, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration, hasPassword: $hasPassword, hasConfiguredPassword: $hasConfiguredPassword, userSettings: $userSettings)';
   }
 }
 
@@ -672,6 +708,7 @@ abstract mixin class _$AccountModelCopyWith<$Res>
       Authentication authMethod,
       String localPin,
       @CredentialsConverter() CredentialsModel credentials,
+      SeerrCredentialsModel? seerrCredentials,
       List<String> latestItemsExcludes,
       List<String> searchQueryHistory,
       bool quickConnectState,
@@ -688,6 +725,8 @@ abstract mixin class _$AccountModelCopyWith<$Res>
 
   @override
   $CredentialsModelCopyWith<$Res> get credentials;
+  @override
+  $SeerrCredentialsModelCopyWith<$Res>? get seerrCredentials;
   @override
   $UserSettingsCopyWith<$Res>? get userSettings;
 }
@@ -712,6 +751,7 @@ class __$AccountModelCopyWithImpl<$Res>
     Object? authMethod = null,
     Object? localPin = null,
     Object? credentials = null,
+    Object? seerrCredentials = freezed,
     Object? latestItemsExcludes = null,
     Object? searchQueryHistory = null,
     Object? quickConnectState = null,
@@ -752,6 +792,10 @@ class __$AccountModelCopyWithImpl<$Res>
           ? _self.credentials
           : credentials // ignore: cast_nullable_to_non_nullable
               as CredentialsModel,
+      seerrCredentials: freezed == seerrCredentials
+          ? _self.seerrCredentials
+          : seerrCredentials // ignore: cast_nullable_to_non_nullable
+              as SeerrCredentialsModel?,
       latestItemsExcludes: null == latestItemsExcludes
           ? _self._latestItemsExcludes
           : latestItemsExcludes // ignore: cast_nullable_to_non_nullable
@@ -802,6 +846,21 @@ class __$AccountModelCopyWithImpl<$Res>
   $CredentialsModelCopyWith<$Res> get credentials {
     return $CredentialsModelCopyWith<$Res>(_self.credentials, (value) {
       return _then(_self.copyWith(credentials: value));
+    });
+  }
+
+  /// Create a copy of AccountModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $SeerrCredentialsModelCopyWith<$Res>? get seerrCredentials {
+    if (_self.seerrCredentials == null) {
+      return null;
+    }
+
+    return $SeerrCredentialsModelCopyWith<$Res>(_self.seerrCredentials!,
+        (value) {
+      return _then(_self.copyWith(seerrCredentials: value));
     });
   }
 

@@ -6,14 +6,17 @@ part of 'user_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$showSyncButtonProviderHash() => r'c09f42cd6536425bf9417da41c83e15c135d0edb';
+String _$showSyncButtonProviderHash() =>
+    r'c09f42cd6536425bf9417da41c83e15c135d0edb';
 
 /// See also [showSyncButtonProvider].
 @ProviderFor(showSyncButtonProvider)
 final showSyncButtonProviderProvider = AutoDisposeProvider<bool>.internal(
   showSyncButtonProvider,
   name: r'showSyncButtonProviderProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$showSyncButtonProviderHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$showSyncButtonProviderHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -21,14 +24,15 @@ final showSyncButtonProviderProvider = AutoDisposeProvider<bool>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef ShowSyncButtonProviderRef = AutoDisposeProviderRef<bool>;
-String _$userHash() => r'c413e39729284c7658993f14e9ad99100d426b8b';
+String _$userHash() => r'67851827f2a12e85b9154de4c7e9e29bbd8c1964';
 
 /// See also [User].
 @ProviderFor(User)
 final userProvider = NotifierProvider<User, AccountModel?>.internal(
   User.new,
   name: r'userProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$userHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$userHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

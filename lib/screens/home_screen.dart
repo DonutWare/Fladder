@@ -24,6 +24,7 @@ enum HomeTabs {
   dashboard,
   library,
   favorites,
+  seerr,
   sync;
 
   const HomeTabs();
@@ -32,6 +33,7 @@ enum HomeTabs {
         HomeTabs.dashboard => IconsaxPlusLinear.home_1,
         HomeTabs.library => IconsaxPlusLinear.book,
         HomeTabs.favorites => IconsaxPlusLinear.heart,
+        HomeTabs.seerr => IconsaxPlusLinear.search_status,
         HomeTabs.sync => IconsaxPlusLinear.cloud,
       };
 
@@ -39,6 +41,7 @@ enum HomeTabs {
         HomeTabs.dashboard => IconsaxPlusBold.home_1,
         HomeTabs.library => IconsaxPlusBold.book,
         HomeTabs.favorites => IconsaxPlusBold.heart,
+        HomeTabs.seerr => IconsaxPlusBold.search_status,
         HomeTabs.sync => IconsaxPlusBold.cloud,
       };
 
@@ -46,6 +49,7 @@ enum HomeTabs {
         HomeTabs.dashboard => context.router.navigate(const DashboardRoute()),
         HomeTabs.library => context.router.navigate(const LibraryRoute()),
         HomeTabs.favorites => context.router.navigate(const FavouritesRoute()),
+        HomeTabs.seerr => context.router.navigate(const SeerrRoute()),
         HomeTabs.sync => context.router.navigate(const SyncedRoute()),
       };
 
@@ -53,6 +57,7 @@ enum HomeTabs {
         HomeTabs.dashboard => context.localized.dashboard,
         HomeTabs.library => context.localized.library(0),
         HomeTabs.favorites => context.localized.favorites,
+        HomeTabs.seerr => 'Seerr',
         HomeTabs.sync => context.localized.sync,
       };
 }
@@ -95,6 +100,14 @@ class HomeScreen extends ConsumerWidget {
                   onPressed: () => context.router.navigate(LibrarySearchRoute(favourites: true)),
                   child: const Icon(IconsaxPlusLinear.heart_search),
                 ),
+                action: () => e.navigate(context),
+              );
+            case HomeTabs.seerr:
+              return DestinationModel(
+                label: 'Seerr',
+                icon: Icon(e.icon),
+                selectedIcon: Icon(e.selectedIcon),
+                route: const SeerrRoute(),
                 action: () => e.navigate(context),
               );
             case HomeTabs.sync:

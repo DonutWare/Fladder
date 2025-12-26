@@ -6,6 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:fladder/jellyfin/enum_models.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/account_model.dart';
+import 'package:fladder/models/seerr_credentials_model.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/library_filters_model.dart';
@@ -164,6 +165,33 @@ class User extends _$User {
     state = user.copyWith(
       credentials: user.credentials.copyWith(localUrl: value?.isEmpty == true ? null : value),
     );
+  }
+
+  void setSeerrServerUrl(String? value) {
+    final user = state;
+    if (user == null) return;
+    final updated = (user.seerrCredentials ?? const SeerrCredentialsModel()).copyWith(
+      serverUrl: value?.trim() ?? "",
+    );
+    userState = user.copyWith(seerrCredentials: updated);
+  }
+
+  void setSeerrApiKey(String? value) {
+    final user = state;
+    if (user == null) return;
+    final updated = (user.seerrCredentials ?? const SeerrCredentialsModel()).copyWith(
+      apiKey: value?.trim() ?? "",
+    );
+    userState = user.copyWith(seerrCredentials: updated);
+  }
+
+  void setSeerrSessionCookie(String? value) {
+    final user = state;
+    if (user == null) return;
+    final updated = (user.seerrCredentials ?? const SeerrCredentialsModel()).copyWith(
+      sessionCookie: value?.trim() ?? "",
+    );
+    userState = user.copyWith(seerrCredentials: updated);
   }
 
   void addSearchQuery(String value) {
