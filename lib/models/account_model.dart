@@ -91,6 +91,15 @@ enum Authentication {
   const Authentication(this.value);
   final int value;
 
+  static Set<Authentication> get secureOptions => Authentication.values.where((element) => element.shouldLock).toSet();
+
+  bool get shouldLock => switch (this) {
+        Authentication.autoLogin => false,
+        Authentication.biometrics => true,
+        Authentication.passcode => true,
+        Authentication.none => false,
+      };
+
   bool available(BuildContext context) {
     switch (this) {
       case Authentication.none:
