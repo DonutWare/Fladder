@@ -8,9 +8,9 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/providers/edit_item_provider.dart';
 import 'package:fladder/screens/metadata/edit_screens/edit_fields.dart';
 import 'package:fladder/screens/metadata/edit_screens/edit_image_content.dart';
+import 'package:fladder/screens/shared/adaptive_dialog.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
-import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 
@@ -45,24 +45,15 @@ Future<ItemBaseModel?> showEditItemPopup(
 }) async {
   ItemBaseModel? updatedItem;
   var shouldRefresh = false;
-  await showDialog<bool>(
+  await showDialogAdaptive(
     context: context,
-    useSafeArea: false,
     builder: (context) {
-      Widget editWidget() => EditDialogSwitcher(
-            id: itemId,
-            itemUpdated: (newItem) => updatedItem = newItem,
-            refreshOnClose: (refresh) => shouldRefresh = refresh,
-            options: options,
-          );
-      return AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer
-          ? Dialog(
-              insetPadding: const EdgeInsets.all(64),
-              child: editWidget(),
-            )
-          : Dialog.fullscreen(
-              child: editWidget(),
-            );
+      return EditDialogSwitcher(
+        id: itemId,
+        itemUpdated: (newItem) => updatedItem = newItem,
+        refreshOnClose: (refresh) => shouldRefresh = refresh,
+        options: options,
+      );
     },
   );
   if (shouldRefresh == true) {
@@ -120,101 +111,91 @@ class _EditDialogSwitcherState extends ConsumerState<EditDialogSwitcher> with Ti
       }.entries.where((entry) => widget.options.contains(entry.key)),
     );
 
-    return Card(
-      color: Theme.of(context).colorScheme.surface,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(height: MediaQuery.paddingOf(context).top),
-          Container(
-            color: Theme.of(context).colorScheme.surface,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Expanded(
-                    child: Text(
-                      currentItem?.detailedName(context) ?? currentItem?.name ?? "",
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                  ),
-                  IconButton(onPressed: () => refreshEditor(), icon: const Icon(IconsaxPlusLinear.refresh))
-                ],
+    return Column(
+      spacing: 8,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16).copyWith(top: 16),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Expanded(
+                child: Text(
+                  currentItem?.detailedName(context) ?? currentItem?.name ?? "",
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
               ),
-            ),
+              IconButton(onPressed: () => refreshEditor(), icon: const Icon(IconsaxPlusLinear.refresh))
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: SegmentedButton(
-              segments: widgets.keys
-                  .map(
-                    (value) => ButtonSegment(
-                      value: value,
-                      label: Text(value.label(context)),
-                    ),
-                  )
-                  .toList(),
-              selected: {widgets.keys.elementAt(selectedTabIndex)},
-              showSelectedIcon: false,
-              onSelectionChanged: (newSelection) {
-                setState(() {
-                  selectedTabIndex = widgets.keys.toList().indexOf(newSelection.first);
-                });
-              },
-            ),
-          ),
-          const SizedBox(height: 16),
-          Flexible(
-            child: AnimatedFadeSize(
-              child: widgets.values.elementAt(selectedTabIndex),
-            ),
-          ),
-          Container(
-            color: Theme.of(context).colorScheme.surface,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  ElevatedButton(onPressed: () => Navigator.of(context).pop(), child: Text(context.localized.close)),
-                  const SizedBox(width: 16),
-                  FilledButton(
-                    onPressed: saving
-                        ? null
-                        : () async {
-                            final response = await ref.read(editItemProvider.notifier).saveInformation(widget.options);
-                            if (response != null && context.mounted) {
-                              if (response.isSuccessful) {
-                                widget.itemUpdated(response.body);
-                                fladderSnackbar(context,
-                                    title: context.localized.metaDataSavedFor(
-                                        currentItem?.detailedName(context) ?? currentItem?.name ?? ""));
-                              } else {
-                                fladderSnackbarResponse(context, response);
-                              }
-                            }
-                            widget.refreshOnClose(true);
-                            Navigator.of(context).pop();
-                          },
-                    child: saving
-                        ? SizedBox(
-                            width: 21,
-                            height: 21,
-                            child: CircularProgressIndicator.adaptive(
-                                backgroundColor: Theme.of(context).colorScheme.onPrimary, strokeCap: StrokeCap.round),
-                          )
-                        : Text(context.localized.save),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: SegmentedButton(
+            segments: widgets.keys
+                .map(
+                  (value) => ButtonSegment(
+                    value: value,
+                    label: Text(value.label(context)),
                   ),
-                ],
+                )
+                .toList(),
+            selected: {widgets.keys.elementAt(selectedTabIndex)},
+            showSelectedIcon: false,
+            onSelectionChanged: (newSelection) {
+              setState(() {
+                selectedTabIndex = widgets.keys.toList().indexOf(newSelection.first);
+              });
+            },
+          ),
+        ),
+        Flexible(
+          child: AnimatedFadeSize(
+            child: widgets.values.elementAt(selectedTabIndex),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 16),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              ElevatedButton(onPressed: () => Navigator.of(context).pop(), child: Text(context.localized.close)),
+              const SizedBox(width: 16),
+              FilledButton(
+                onPressed: saving
+                    ? null
+                    : () async {
+                        final response = await ref.read(editItemProvider.notifier).saveInformation(widget.options);
+                        if (response != null && context.mounted) {
+                          if (response.isSuccessful) {
+                            widget.itemUpdated(response.body);
+                            fladderSnackbar(context,
+                                title: context.localized
+                                    .metaDataSavedFor(currentItem?.detailedName(context) ?? currentItem?.name ?? ""));
+                          } else {
+                            fladderSnackbarResponse(context, response);
+                          }
+                        }
+                        widget.refreshOnClose(true);
+                        Navigator.of(context).pop();
+                      },
+                child: saving
+                    ? SizedBox(
+                        width: 21,
+                        height: 21,
+                        child: CircularProgressIndicator.adaptive(
+                            backgroundColor: Theme.of(context).colorScheme.onPrimary, strokeCap: StrokeCap.round),
+                      )
+                    : Text(context.localized.save),
               ),
-            ),
-          )
-        ],
-      ),
+            ],
+          ),
+        )
+      ],
     );
   }
 }

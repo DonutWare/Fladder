@@ -89,7 +89,7 @@ class SettingsScaffold extends ConsumerWidget {
                   ),
                 SliverPadding(
                   padding:
-                      MediaQuery.paddingOf(context).copyWith(top: 0).add(const EdgeInsets.symmetric(horizontal: 12)),
+                      MediaQuery.paddingOf(context).copyWith(top: 0).add(const EdgeInsets.symmetric(horizontal: 2)),
                   sliver: SliverList.separated(
                     itemBuilder: (context, index) => items[index],
                     separatorBuilder: (context, index) => SizedBox(height: itemSpacing / 2),

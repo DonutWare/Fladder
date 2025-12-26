@@ -215,22 +215,25 @@ class _EditImageContentState extends ConsumerState<EditImageContent> {
           style: Theme.of(context).textTheme.bodyMedium,
         ),
         Flexible(
-          child: Stack(
-            children: [
-              GridView(
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  mainAxisSpacing: (8 * decimal) + 8,
-                  crossAxisSpacing: (8 * decimal) + 8,
-                  childAspectRatio: 1.0,
-                  crossAxisCount: posterSize.toInt(),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Stack(
+              children: [
+                GridView(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    mainAxisSpacing: (8 * decimal) + 8,
+                    crossAxisSpacing: (8 * decimal) + 8,
+                    childAspectRatio: 1.0,
+                    crossAxisCount: posterSize.toInt(),
+                  ),
+                  children: allImageCards,
                 ),
-                children: allImageCards,
-              ),
-              if (loading) const Center(child: CircularProgressIndicator.adaptive(strokeCap: StrokeCap.round)),
-              if (!loading && allImageCards.isEmpty) Center(child: Text("No ${widget.type.value}s found"))
-            ],
+                if (loading) const Center(child: CircularProgressIndicator.adaptive(strokeCap: StrokeCap.round)),
+                if (!loading && allImageCards.isEmpty) Center(child: Text("No ${widget.type.value}s found"))
+              ],
+            ),
           ),
         ),
       ],
