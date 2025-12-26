@@ -1552,5 +1552,385 @@
     "errorTakingScreenshot": "Une erreur s'est produite lors de la capture d'écran",
     "@errorTakingScreenshot": {},
     "regenerateTrickplayImages": "Régénérer les images Trickplay",
-    "@regenerateTrickplayImages": {}
+    "@regenerateTrickplayImages": {},
+    "controlPanelDesc": "Serveur, Activité, Utilisateurs, Bibliothèque",
+    "@controlPanelDesc": {},
+    "controlDashboard": "Tableau de bord",
+    "@controlDashboard": {},
+    "serverName": "Nom du serveur",
+    "@serverName": {},
+    "serverVersion": "Version du serveur",
+    "@serverVersion": {},
+    "webVersion": "Version web",
+    "@webVersion": {},
+    "devices": "Appareils",
+    "@devices": {},
+    "used": "Utilisé",
+    "@used": {},
+    "storagePaths": "Chemin de stockage",
+    "@storagePaths": {},
+    "programData": "Données du programme",
+    "@programData": {},
+    "web": "Web",
+    "@web": {},
+    "cache": "Cache",
+    "@cache": {},
+    "logs": "Journal de bord",
+    "@logs": {},
+    "count": "Compte",
+    "@count": {},
+    "scanAllLibraries": "Scanner toutes les bibliothèques",
+    "@scanAllLibraries": {},
+    "restartServer": "Redémarrer le serveur",
+    "@restartServer": {},
+    "shutDownServer": "Éteindre le serveur",
+    "@shutDownServer": {},
+    "dashboardDesc": "Serveur, Compte, Appareils, Stockage",
+    "@dashboardDesc": {},
+    "lastActivity": "Dernière activité",
+    "@lastActivity": {},
+    "activeTasks": "Tâches actives",
+    "@activeTasks": {},
+    "timeAgo": "Il y a {time}",
+    "@timeAgo": {
+        "description": "timeAgo",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "lessThenAMinute": "Moins d'une minute",
+    "@lessThenAMinute": {},
+    "plannedTasks": "Tâches planifiées",
+    "@plannedTasks": {},
+    "taskTriggerTypeInterval": "Intervalle",
+    "@taskTriggerTypeInterval": {},
+    "taskTriggerTypeDaily": "Journalier",
+    "@taskTriggerTypeDaily": {},
+    "taskTriggerTypeWeekly": "Hebdomadaire",
+    "@taskTriggerTypeWeekly": {},
+    "taskTriggerTypeStartup": "Démarrage",
+    "@taskTriggerTypeStartup": {},
+    "create": "Créer",
+    "@create": {},
+    "taskTriggerTypeName": "Type de déclencheur",
+    "@taskTriggerTypeName": {},
+    "newTrigger": "Nouveau déclencheur",
+    "@newTrigger": {},
+    "newTaskTrigger": "Nouveau déclencheur de tâche",
+    "@newTaskTrigger": {},
+    "dayOfTheWeek": "Jour de la semaine",
+    "@dayOfTheWeek": {},
+    "time": "Temps",
+    "@time": {},
+    "interval": "Intervalle",
+    "@interval": {},
+    "taskTimeLimitInHours": "Limite de temps (heures)",
+    "@taskTimeLimitInHours": {},
+    "taskTriggerIntervalDesc": "Chaque {time}",
+    "@taskTriggerIntervalDesc": {
+        "description": "Task trigger interval desc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerDailyDesc": "Tout les jours à {time}",
+    "@taskTriggerDailyDesc": {
+        "description": "taskTriggerDailyDesc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerWeeklyDesc": "Toutes les semaines le {day} à {time}",
+    "@taskTriggerWeeklyDesc": {
+        "description": "taskTriggerWeeklyDesc",
+        "placeholders": {
+            "day": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerTimeLimitSub": "Limite de temps: {time}",
+    "@taskTriggerTimeLimitSub": {
+        "description": "taskTriggerTimeLimit",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "performance": "Performance",
+    "@performance": {},
+    "serverNameLabel": "Nom du serveur",
+    "@serverNameLabel": {},
+    "cachePath": "Chemin du cache",
+    "@cachePath": {},
+    "metadataPath": "Chemin des métadonnées",
+    "@metadataPath": {},
+    "maxConcurrentLibraryScanLabel": "Nombre maximum de scan de bibliothèques en concurrence",
+    "@maxConcurrentLibraryScanLabel": {},
+    "maxConcurrentLibraryScanDesc": "Nombres maximum de tâches en parallèle pendant les scans de bibliothèques. Laissez ceci vide pour choisir une limite en fonction du nombre de cœurs de votre système. ATTENTION: Définir un nombre trop grand peut causer des problèmes avec le système fichier du réseau; si vous rencontrez des problèmes baisser ce nombre.",
+    "@maxConcurrentLibraryScanDesc": {},
+    "maxImageDecodingThreadsLabel": "Nombre maximum de threads pour décoder les images",
+    "@maxImageDecodingThreadsLabel": {},
+    "maxImageDecodingThreadsDesc": "Nombres maximum d'encodage d'image autorisé à fonctionner en parallèle. Laissez ceci vide pour choisir une limite en fonction du nombre de cœurs de votre système.",
+    "@maxImageDecodingThreadsDesc": {},
+    "controlPanelServerDesc": "Nom du serveur, Connexion Rapide, Performance",
+    "@controlPanelServerDesc": {},
+    "deleteUserTitle": "Supprimer l'utilisateur {user}?",
+    "@deleteUserTitle": {
+        "description": "deleteUserTitle",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteUserDesc": "Ceci va supprimer l'utilisateur {user} de manière permanente ainsi que tous ses paramètres associés.",
+    "@deleteUserDesc": {
+        "description": "deleteUserDesc",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "userInformation": "Infomrations de l'utilisateur",
+    "@userInformation": {},
+    "allowManageServer": "Autoriser cet utilisateur à gérer le serveur",
+    "@allowManageServer": {},
+    "allowCollections": "Autoriser cet utilisateurs à créer des collections",
+    "@allowCollections": {},
+    "allowEditSubtitles": "Autoriser cet utilisateur à modifier les sous-titres",
+    "@allowEditSubtitles": {},
+    "featureAccess": "Accès aux fonctionnalités",
+    "@featureAccess": {},
+    "allowLiveTVAccess": "Autoriser l'accès à la TV en direct",
+    "@allowLiveTVAccess": {},
+    "allowLiveTVRecording": "Autoriser à gérer les enregistrements TV en direct",
+    "@allowLiveTVRecording": {},
+    "mediaPlayback": "Relecture média",
+    "@mediaPlayback": {},
+    "allowMediaPlayback": "Autoriser la relecture média",
+    "@allowMediaPlayback": {},
+    "allowVideoTranscoding": "Autoriser la relecture vidéo requiérant un transcodage",
+    "@allowVideoTranscoding": {},
+    "allowAudioTranscoding": "Autoriser la relecture audio requiérant un transcodage",
+    "@allowAudioTranscoding": {},
+    "allowMediaConversion": "Autoriser la relecture vidéo requiérant une conversion de média",
+    "@allowMediaConversion": {},
+    "forceRemoteTranscoding": "Forcer le transcodage de la source à distance",
+    "@forceRemoteTranscoding": {},
+    "syncplay": "Lecture Syncronisée",
+    "@syncplay": {},
+    "syncplayAccess": "Accès à Lecture Synchronisée",
+    "@syncplayAccess": {},
+    "allowMediaDeletion": "Autoriser la suppression de média",
+    "@allowMediaDeletion": {},
+    "allLibraries": "Toutes les bibliothèques",
+    "@allLibraries": {},
+    "libraryAccess": "Accès aux bibiothèques",
+    "@libraryAccess": {},
+    "enableAllLibraries": "Activer l'accès à toutes les bibliothèques",
+    "@enableAllLibraries": {},
+    "enableAllDevices": "Autoriser l'accès à tous les appareils",
+    "@enableAllDevices": {},
+    "parentalControl": "Contrôle Parental",
+    "@parentalControl": {},
+    "blockedItemsNoRating": "Items bloqués avec notations manquantes ou non reconnues",
+    "@blockedItemsNoRating": {},
+    "maxParentalRating": "Indice parental maximum",
+    "@maxParentalRating": {},
+    "allowItemsTags": "Autoriser les items avec les tags",
+    "@allowItemsTags": {},
+    "blockItemsTags": "Interdire les items avec les tags",
+    "@blockItemsTags": {},
+    "accessSchedule": "Horaire d'accès",
+    "@accessSchedule": {},
+    "accessSchedules": "Horaires d'accès",
+    "@accessSchedules": {},
+    "addAccessSchedule": "Ajouter un horaire d'accès",
+    "@addAccessSchedule": {},
+    "dayOfWeek": "Jour de la semaine",
+    "@dayOfWeek": {},
+    "startTime": "Heure de début",
+    "@startTime": {},
+    "endTime": "Heure de fin",
+    "@endTime": {},
+    "addTag": "Ajouter Tag",
+    "@addTag": {},
+    "createNewUser": "Créer un nouvel utilisateur",
+    "@createNewUser": {},
+    "createUser": "Créer un utilisateur",
+    "@createUser": {},
+    "users": "Utilisateurs",
+    "@users": {},
+    "editUser": "Modifier Utilisateur",
+    "@editUser": {},
+    "general": "Général",
+    "@general": {},
+    "access": "Accès",
+    "@access": {},
+    "passwordSettingsComing": "Paramètrage du mot de passe à venir",
+    "@passwordSettingsComing": {},
+    "endTimeMustBeAfter": "L'heure de fin doit être après l'heure de début",
+    "@endTimeMustBeAfter": {},
+    "assignLibraries": "Assigner des bibliothèques",
+    "@assignLibraries": {},
+    "enableAccessAllLibraries": "Autoriser l'accès à toutes les bibliothèques",
+    "@enableAccessAllLibraries": {},
+    "currentPassword": "Mot de passe actuel",
+    "@currentPassword": {},
+    "newPassword": "Nouveau mot de passe",
+    "@newPassword": {},
+    "confirmPassword": "Confirmer mot de passe",
+    "@confirmPassword": {},
+    "resetPassword": "Réinitialiser mot de passe",
+    "@resetPassword": {},
+    "passwordResetSuccess": "Mot de passe réinitialisé avec succès",
+    "@passwordResetSuccess": {},
+    "passwordResetFailed": "Échec de la réinitialisation du mot de passe",
+    "@passwordResetFailed": {},
+    "passwordMismatch": "Les mots de passe ne correspondent pas",
+    "@passwordMismatch": {},
+    "passwordChangeSuccess": "Mot de passe modifié avec succès",
+    "@passwordChangeSuccess": {},
+    "passwordChangeFailed": "Échec de la modification du mot de passe",
+    "@passwordChangeFailed": {},
+    "savePassword": "Sauvegareder le mot de passe",
+    "@savePassword": {},
+    "deleteLibraryConfirmTitle": "Supprimer la bibliothèque?",
+    "@deleteLibraryConfirmTitle": {},
+    "deleteLibraryConfirmMessage": "Supprimer {libraryName}?\nCette action est définitive.",
+    "@deleteLibraryConfirmMessage": {
+        "placeholders": {
+            "libraryName": {
+                "type": "String"
+            }
+        }
+    },
+    "noLibrarySelected": "Aucune bibliothèque sélectionnée",
+    "@noLibrarySelected": {},
+    "enabledPhotos": "Photos activées",
+    "@enabledPhotos": {},
+    "enabledLUFSScan": "LUFS Scan activé",
+    "@enabledLUFSScan": {},
+    "enabledRealtimeMonitoring": "Surveillance en temps réel activée",
+    "@enabledRealtimeMonitoring": {},
+    "automaticallyAddToCollection": "Ajouté automatiquement à la collection",
+    "@automaticallyAddToCollection": {},
+    "enabledEmbeddedTitles": "Titres intégrés activé",
+    "@enabledEmbeddedTitles": {},
+    "enabledEmbeddedExtrasTitles": "Titres intégrés extras activé",
+    "@enabledEmbeddedExtrasTitles": {},
+    "automaticRefreshInterval": "Intervalle de rafraîchissement automatique",
+    "@automaticRefreshInterval": {},
+    "autoRefreshIntervalNote": "Activer ceci peut entraîner un temps de rafraîchissement des bibliothèques plus long.",
+    "@autoRefreshIntervalNote": {},
+    "preferredDownloadLanguage": "Language de téléchargement préféré",
+    "@preferredDownloadLanguage": {},
+    "countryRegion": "Pays/Région",
+    "@countryRegion": {},
+    "saveMetadata": "Sauvegarder les métadonnées",
+    "@saveMetadata": {},
+    "metadataFetchers": "Récupérateurs de métadonnées ({type})",
+    "@metadataFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "enableAndRankMetadataFetchers": "Activer et ordonner vos récupérateurs de métadonnées préférés par ordre de priorité.",
+    "@enableAndRankMetadataFetchers": {},
+    "enableAndRankImagesFetchers": "Activer et ordonner vos récupérateurs d'images préférés par ordre de priorité.",
+    "@enableAndRankImagesFetchers": {},
+    "imageFetchers": "Récupérateurs d'images ({type})",
+    "@imageFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "enableAndRankImageFetchers": "Activer et ordonner vos récupérateurs d'image préférés par ordre de priorité.",
+    "@enableAndRankImageFetchers": {},
+    "mediaSegmentProviders": "Fournisseurs de segments média",
+    "@mediaSegmentProviders": {},
+    "enableAndRankMediaSegmentProviders": "Activer et ordonner vos fournisseurs de segments média préférés par ordre de priorité.",
+    "@enableAndRankMediaSegmentProviders": {},
+    "enableTrickplayImageExtraction": "Activer l'extraction d'image trickplay",
+    "@enableTrickplayImageExtraction": {},
+    "extractTrickplayImagesDuringLibraryScan": "Extraire les images trickplay durant les scans de bibliothèque",
+    "@extractTrickplayImagesDuringLibraryScan": {},
+    "saveTrickplayImagesNextToMedia": "Sauvegarder les images trickplay à côté du média",
+    "@saveTrickplayImagesNextToMedia": {},
+    "chapterImages": "Images des Chapitres",
+    "@chapterImages": {},
+    "enableChapterImageExtraction": "Activer l'extraction des images de chapitres",
+    "@enableChapterImageExtraction": {},
+    "extractChapterImagesDuringLibraryScan": "Extraire des images de chapitres durant les scans de bibliothèque",
+    "@extractChapterImagesDuringLibraryScan": {},
+    "subtitleDownloads": "Téléchargements des Sous-titres",
+    "@subtitleDownloads": {},
+    "downloadLanguages": "Télécharger les langues",
+    "@downloadLanguages": {},
+    "subtitleDownloaders": "Téléchargeurs de sous-titres",
+    "@subtitleDownloaders": {},
+    "onlyPerfectSubtitleMatch": "Télécharger seulment des sous-titres qui correspodent exactement au média",
+    "@onlyPerfectSubtitleMatch": {},
+    "perfectSubtitleMatchDescription": "Demander une correspondance parfaite va filtrer les sous-titres pour inclure seulement ceux qui ont été testés et vérifiés avec exactement votre fichier vidéo. Décocher ceci va augmeneter la probabilité de télécharger des sous-titres, mais également augmenter les chances de décélage ou de texte incorrect.",
+    "@perfectSubtitleMatchDescription": {},
+    "skipSubtitlesIfAudioMatches": "Passer si la piste audio par défaut correspond au language téléchargé",
+    "@skipSubtitlesIfAudioMatches": {},
+    "skipSubtitlesIfEmbedded": "Passer si la vidéo contient déjà des sous-titres intégrés",
+    "@skipSubtitlesIfEmbedded": {},
+    "saveSubtitlesNextToMedia": "Sauvegarder les sous-titres à côté du média",
+    "@saveSubtitlesNextToMedia": {},
+    "saveArtWorkNextToMedia": "Sauvegarder les artwork à côté des fichiers média",
+    "@saveArtWorkNextToMedia": {},
+    "saveArtWorkNextToMediaDesc": "Sauvegarder l'artwork dans le dossier média les mettra à une place où ils seront facilement modifiables.",
+    "@saveArtWorkNextToMediaDesc": {},
+    "select": "Sélectionner",
+    "@select": {},
+    "newLibrary": "Nouvelle Bibliothèque",
+    "@newLibrary": {},
+    "contentType": "Type de Contenu",
+    "@contentType": {},
+    "metadataImageLongPressTouch": "Appuyer longuement pour supprimer l'image",
+    "@metadataImageLongPressTouch": {},
+    "metadataImageLongPressClick": "Clic droit pour supprimer l'image",
+    "@metadataImageLongPressClick": {},
+    "primary": "Principal",
+    "@primary": {},
+    "backdrop": "{count, plural, other{Toiles de fond} one{Toile de fond}}",
+    "@backdrop": {
+        "description": "backdrop",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "selectFolderToAdd": "Sélectionner le dossier à ajouter",
+    "@selectFolderToAdd": {},
+    "systemRootFolder": "Dossier racine du système",
+    "@systemRootFolder": {},
+    "selectedPath": "Chemin sélectionné: {path}",
+    "@selectedPath": {
+        "placeholders": {
+            "path": {
+                "type": "String"
+            }
+        }
+    }
 }
