@@ -105,30 +105,37 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
     final minHeight = 450.0.clamp(0, size.height).toDouble();
     final maxHeight = size.height - 10;
     final sideBarPadding = AdaptiveLayout.of(context).sideBarWidth;
+    final schemeVariant = ref.watch(clientSettingsProvider.select((value) => value.schemeVariant));
     final newColorScheme = dominantColor != null
         ? ColorScheme.fromSeed(
             seedColor: dominantColor!,
             brightness: Theme.brightnessOf(context),
-            dynamicSchemeVariant: ref.watch(clientSettingsProvider.select((value) => value.schemeVariant)),
+            dynamicSchemeVariant: schemeVariant,
           )
         : null;
     final amoledBlack = ref.watch(clientSettingsProvider.select((value) => value.amoledBlack));
     final amoledOverwrite = amoledBlack ? Colors.black : null;
+
+    final themeData =
+        newColorScheme != null && ref.watch(clientSettingsProvider.select((value) => value.deriveColorsFromItem))
+            ? FladderTheme.theme(newColorScheme, schemeVariant).copyWith(
+                scaffoldBackgroundColor: amoledOverwrite,
+                cardColor: amoledOverwrite,
+                canvasColor: amoledOverwrite,
+                colorScheme: newColorScheme.copyWith(
+                  surface: amoledOverwrite,
+                  surfaceContainerHighest: amoledOverwrite,
+                  surfaceContainerLow: amoledOverwrite,
+                ),
+              )
+            : Theme.of(context).copyWith(
+                scaffoldBackgroundColor: amoledOverwrite,
+                cardColor: amoledOverwrite,
+                canvasColor: amoledOverwrite,
+              );
+
     return Theme(
-      data: Theme.of(context)
-          .copyWith(
-            colorScheme: newColorScheme,
-          )
-          .copyWith(
-            scaffoldBackgroundColor: amoledOverwrite,
-            cardColor: amoledOverwrite,
-            canvasColor: amoledOverwrite,
-            colorScheme: newColorScheme?.copyWith(
-              surface: amoledOverwrite,
-              surfaceContainerHighest: amoledOverwrite,
-              surfaceContainerLow: amoledOverwrite,
-            ),
-          ),
+      data: themeData,
       child: Builder(builder: (context) {
         return PullToRefresh(
           onRefresh: () async {
