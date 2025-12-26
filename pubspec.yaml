@@ -125,7 +125,7 @@ dependencies:
   drift_db_viewer: ^2.1.0
 
   # Tizen-specific pl<ugins
-  path_provider_tizen: ^2.1.0
+  path_provider_tizen: ^2.2.1
   shared_preferences_tizen: ^2.3.2
   url_launcher_tizen: ^2.1.4
   connectivity_plus_tizen: ^1.2.2

@@ -20,5 +20,7 @@
         <privilege>http://tizen.org/privilege/tv.display</privilege>
         <privilege>http://tizen.org/privilege/tv.window</privilege>
         <privilege>http://tizen.org/privilege/tv.inputdevice</privilege>
+        <privilege>http://tizen.org/privilege/network.get</privilege>
+        <privilege>http://tizen.org/privilege/appmanager.launch</privilege>
     </privileges>
 </manifest>
