@@ -71,18 +71,19 @@ class ControlUsers extends _$ControlUsers {
     await fetchUsers();
   }
 
-  Future<bool> setUserPassword({
+  Future<String?> setUserPassword(
+    String? userId, {
     required String current,
     required String newPassword,
     required String confirmPassword,
   }) async {
     final response = await api.setNewPassword(
-      userId: state.selectedUser?.id,
+      userId: userId,
       currentPassword: current,
       newPassword: newPassword,
       confirmPassword: confirmPassword,
     );
-    return response.isSuccessful;
+    return response.isSuccessful ? null : "${response.statusCode}: ${response.bodyString}";
   }
 
   Future<bool> resetUserPassword() async {

@@ -48,16 +48,21 @@ class User extends _$User {
 
     var imageUrl = ref.read(imageUtilityProvider).getUserImageUrl(response.body?.id ?? "");
 
+    final user = response.body;
+    if (user == null) return null;
+
     if (response.isSuccessful && response.body != null) {
       userState = state?.copyWith(
-        name: response.body?.name ?? state?.name ?? "",
+        name: user.name ?? state?.name ?? "",
+        policy: user.policy,
         avatar: imageUrl,
-        policy: response.body?.policy,
         serverConfiguration: systemConfiguration.body,
-        userConfiguration: response.body?.configuration,
+        userConfiguration: user.configuration,
         quickConnectState: quickConnectStatus.body ?? false,
-        latestItemsExcludes: response.body?.configuration?.latestItemsExcludes ?? [],
+        latestItemsExcludes: user.configuration?.latestItemsExcludes ?? [],
         userSettings: customConfig.body,
+        hasConfiguredPassword: user.hasConfiguredPassword ?? false,
+        hasPassword: user.hasPassword ?? false,
       );
       return response.copyWith(body: state);
     }

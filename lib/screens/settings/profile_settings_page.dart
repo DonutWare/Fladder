@@ -7,6 +7,7 @@ import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/settings/settings_scaffold.dart';
+import 'package:fladder/screens/settings/widgets/password_reset_dialog.dart';
 import 'package:fladder/screens/settings/widgets/settings_label_divider.dart';
 import 'package:fladder/screens/settings/widgets/settings_list_group.dart';
 import 'package:fladder/screens/shared/authenticate_button_options.dart';
@@ -30,7 +31,7 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> {
       items: [
         ...settingsListGroup(
           context,
-          SettingsLabelDivider(label: context.localized.settingSecurityApplockTitle),
+          SettingsLabelDivider(label: context.localized.settingsSecurity),
           [
             SettingsListTile(
               label: Text(context.localized.settingSecurityApplockTitle),
@@ -43,8 +44,13 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> {
                 },
               ),
             ),
+            SettingsListTile(
+              label: Text(context.localized.password),
+              onTap: () => openPasswordResetDialog(context),
+            ),
           ],
         ),
+        const SizedBox(height: 16),
         ...settingsListGroup(
           context,
           SettingsLabelDivider(label: context.localized.advanced),
