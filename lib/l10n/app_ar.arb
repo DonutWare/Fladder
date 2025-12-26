@@ -25,7 +25,7 @@
     "@appLockPasscode": {},
     "ascending": "تصاعدي",
     "@ascending": {},
-    "audio": "الصوت",
+    "audio": "{count, plural, one{صوت} other{أصوات}}",
     "@audio": {},
     "autoPlay": "تشغيل تلقائي",
     "@autoPlay": {},
@@ -64,7 +64,7 @@
     "@close": {},
     "code": "رمز",
     "@code": {},
-    "collectionFolder": "مجلد المجموعة",
+    "collectionFolder": "{count, plural, one{مجلد مجموعة} other{مجلدات المجموعات}}",
     "@collectionFolder": {},
     "color": "لون",
     "@color": {},
@@ -83,7 +83,7 @@
     },
     "controls": "عناصر التحكم",
     "@controls": {},
-    "dashboard": "لوحة التحكم",
+    "dashboard": "لوحة المعلومات",
     "@dashboard": {},
     "dashboardContinue": "متابعة",
     "@dashboardContinue": {},
@@ -99,7 +99,7 @@
     "@dateLastContentAdded": {},
     "datePlayed": "تاريخ التشغيل",
     "@datePlayed": {},
-    "days": "أيام",
+    "days": "{count, plural, one{يوم} other{أيام}}",
     "@days": {},
     "delete": "حذف",
     "@delete": {},
@@ -253,15 +253,15 @@
     "@markAsWatched": {},
     "mediaTypeBase": "النوع الأساسي",
     "@mediaTypeBase": {},
-    "mediaTypeBook": "كتاب",
+    "mediaTypeBook": "{count, plural, one{كتاب} other{كتب}}",
     "@mediaTypeBook": {},
-    "mediaTypeEpisode": "حلقة",
+    "mediaTypeEpisode": "{count, plural, one{حلقة} other{حلقات}}",
     "@mediaTypeEpisode": {},
-    "mediaTypeFolder": "مجلد",
+    "mediaTypeFolder": "{count, plural, one{مجلد} other{مجلدات}}",
     "@mediaTypeFolder": {},
-    "mediaTypeMovie": "فيلم",
+    "mediaTypeMovie": "{count, plural, one{فيلم} other{أفلام}}",
     "@mediaTypeMovie": {},
-    "mediaTypePerson": "شخص",
+    "mediaTypePerson": "{count, plural, one{شخص} other{أشخاص}}",
     "@mediaTypePerson": {},
     "metadataRefreshFull": "استبدال جميع البيانات الوصفية",
     "@metadataRefreshFull": {},
@@ -282,13 +282,13 @@
     "@moreOptions": {},
     "mouseDragSupport": "السحب باستخدام الماوس",
     "@mouseDragSupport": {},
-    "musicAlbum": "ألبوم",
+    "musicAlbum": "{count, plural, one{ألبوم موسيقي} other{ألبومات موسيقية}}",
     "@musicAlbum": {},
     "name": "الاسم",
     "@name": {},
     "navigation": "التنقل",
     "@navigation": {},
-    "navigationDashboard": "لوحة التحكم",
+    "navigationDashboard": "لوحة التنقل",
     "@navigationDashboard": {},
     "navigationFavorites": "المفضلة",
     "@navigationFavorites": {},
@@ -772,9 +772,9 @@
     "@syncStatusComplete": {},
     "libraryFetchNoItemsFound": "لم يتم العثور على عناصر. حاول استخدام إعدادات مختلفة.",
     "@libraryFetchNoItemsFound": {},
-    "mediaTypePhoto": "صورة",
+    "mediaTypePhoto": "{count, plural, one{صورة} other{صور}}",
     "@mediaTypePhoto": {},
-    "mediaTypeSeries": "مسلسل",
+    "mediaTypeSeries": "{count, plural, one{مسلسل} other{مسلسلات}}",
     "@mediaTypeSeries": {},
     "retry": "إعادة المحاولة",
     "@retry": {},
@@ -786,9 +786,9 @@
     "@noSuggestionsFound": {},
     "libraryPageSizeDesc": "حدد المقدار المراد تحميله في المرة الواحدة. القيمة 0 تُوقف تقسيم الصفحات.",
     "@libraryPageSizeDesc": {},
-    "mediaTypePhotoAlbum": "ألبوم صور",
+    "mediaTypePhotoAlbum": "{count, plural, one{ألبوم صور} other{ألبومات صور}}",
     "@mediaTypePhotoAlbum": {},
-    "mediaTypePlaylist": "قائمة تشغيل",
+    "mediaTypePlaylist": "{count, plural, one{قائمة تشغيل} other{قوائم تشغيل}}",
     "@mediaTypePlaylist": {},
     "retrievePublicListOfUsers": "استرجاع قائمة المستخدمين العامة",
     "@retrievePublicListOfUsers": {},
@@ -807,7 +807,7 @@
     "@quickConnectWrongCode": {},
     "settings": "الإعدادات",
     "@settings": {},
-    "mediaTypeSeason": "موسم",
+    "mediaTypeSeason": "{count, plural, one{موسم} other{مواسم}}",
     "@mediaTypeSeason": {},
     "normal": "عادي",
     "@normal": {},
@@ -895,7 +895,7 @@
     "@useDefaults": {},
     "userName": "اسم المستخدم",
     "@userName": {},
-    "video": "فيديو",
+    "video": "{count, plural, one{فيديو} other{فيديوهات}}",
     "@video": {},
     "videoScaling": "تحجيم الفيديو",
     "@videoScaling": {},
@@ -1164,7 +1164,7 @@
             }
         }
     },
-    "mediaTypeBoxset": "مجموعة صندوقية",
+    "mediaTypeBoxset": "{count, plural, one{مجموعة أفلام} other{مجموعات أفلام}}",
     "@mediaTypeBoxset": {},
     "minutes": "{count, plural, other{دقائق} one{دقيقة}}",
     "@minutes": {
@@ -1555,5 +1555,453 @@
     "regenerateTrickplayImages": "إعادة توليد صور المعاينة السريعة",
     "@regenerateTrickplayImages": {},
     "segmentActionSkipOnce": "تخط مرة واحدة",
-    "@segmentActionSkipOnce": {}
+    "@segmentActionSkipOnce": {},
+    "controlPanel": "لوحة التحكم",
+    "@controlPanel": {},
+    "controlPanelDesc": "الخادم، النشاط، المستخدمون، المكتبة",
+    "@controlPanelDesc": {},
+    "controlDashboard": "لوحة معلومات التحكم",
+    "@controlDashboard": {},
+    "serverName": "اسم الخادم",
+    "@serverName": {},
+    "serverVersion": "إصدار الخادم",
+    "@serverVersion": {},
+    "webVersion": "إصدار الويب",
+    "@webVersion": {},
+    "devices": "الأجهزة",
+    "@devices": {},
+    "used": "المُستخدَم",
+    "@used": {},
+    "storagePaths": "مسارات التخزين",
+    "@storagePaths": {},
+    "programData": "بيانات البرنامج",
+    "@programData": {},
+    "web": "الويب",
+    "@web": {},
+    "cache": "التخزين المؤقت",
+    "@cache": {},
+    "logs": "السجلات",
+    "@logs": {},
+    "transcodingTemp": "ملفات التحويل المؤقتة",
+    "@transcodingTemp": {},
+    "count": "العدد",
+    "@count": {},
+    "scanAllLibraries": "فحص جميع المكتبات",
+    "@scanAllLibraries": {},
+    "restartServer": "إعادة تشغيل الخادم",
+    "@restartServer": {},
+    "shutDownServer": "إيقاف تشغيل الخادم",
+    "@shutDownServer": {},
+    "dashboardDesc": "الخادم، العدد، الأجهزة، التخزين",
+    "@dashboardDesc": {},
+    "lastActivity": "آخر نشاط",
+    "@lastActivity": {},
+    "activeTasks": "المهام النشطة",
+    "@activeTasks": {},
+    "hours": "{count, plural, one{ساعة} other{ساعات}}",
+    "@hours": {
+        "description": "Pluralization for hours",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            }
+        }
+    },
+    "weeks": "{count, plural, one{أسبوع} other{أسابيع}}",
+    "@weeks": {
+        "description": "Pluralization for weeks",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "months": "{count, plural, one{شهر} other{أشهر}}",
+    "@months": {
+        "description": "Pluralization for months",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "years": "{count, plural, one{سنة} other{سنوات}}",
+    "@years": {
+        "description": "Pluralization for years",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "timeAgo": "منذ {time}",
+    "@timeAgo": {
+        "description": "timeAgo",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "lastRunTaking": "آخر تشغيل في {date}، استغرق {time}",
+    "@lastRunTaking": {
+        "description": "lastRunTaking",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "lessThenAMinute": "أقل من دقيقة",
+    "@lessThenAMinute": {},
+    "plannedTasks": "المهام المجدولة",
+    "@plannedTasks": {},
+    "taskTriggerTypeInterval": "فاصل زمني",
+    "@taskTriggerTypeInterval": {},
+    "taskTriggerTypeDaily": "يومي",
+    "@taskTriggerTypeDaily": {},
+    "taskTriggerTypeWeekly": "أسبوعي",
+    "@taskTriggerTypeWeekly": {},
+    "taskTriggerTypeStartup": "عند بدء التشغيل",
+    "@taskTriggerTypeStartup": {},
+    "create": "إنشاء",
+    "@create": {},
+    "taskTriggerTypeName": "نوع المشغل",
+    "@taskTriggerTypeName": {},
+    "newTrigger": "مشغل جديد",
+    "@newTrigger": {},
+    "newTaskTrigger": "مشغل مهمة جديد",
+    "@newTaskTrigger": {},
+    "dayOfTheWeek": "يوم من أيام الأسبوع",
+    "@dayOfTheWeek": {},
+    "time": "الوقت",
+    "@time": {},
+    "interval": "الفاصل الزمني",
+    "@interval": {},
+    "taskTimeLimitInHours": "الحد الزمني (بالساعات)",
+    "@taskTimeLimitInHours": {},
+    "taskTriggerIntervalDesc": "كل {time}",
+    "@taskTriggerIntervalDesc": {
+        "description": "Task trigger interval desc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerDailyDesc": "يوميًا في {time}",
+    "@taskTriggerDailyDesc": {
+        "description": "taskTriggerDailyDesc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerWeeklyDesc": "أسبوعياً في يوم {day} الساعة {time}",
+    "@taskTriggerWeeklyDesc": {
+        "description": "taskTriggerWeeklyDesc",
+        "placeholders": {
+            "day": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerTimeLimitSub": "الحد الزمني: {time}",
+    "@taskTriggerTimeLimitSub": {
+        "description": "taskTriggerTimeLimit",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "performance": "الأداء",
+    "@performance": {},
+    "serverNameLabel": "اسم الخادم",
+    "@serverNameLabel": {},
+    "cachePath": "مسار التخزين المؤقت",
+    "@cachePath": {},
+    "metadataPath": "مسار البيانات الوصفية",
+    "@metadataPath": {},
+    "maxConcurrentLibraryScanLabel": "الحد الأقصى لفحص المكتبات المتزامن",
+    "@maxConcurrentLibraryScanLabel": {},
+    "maxConcurrentLibraryScanDesc": "الحد الأقصى للمهام المتزامنة أثناء فحص المكتبات. ترك هذا الحقل فارغاً سيؤدي إلى اختيار حد تلقائي بناءً على عدد أنوية النظام لديك. تحذير: تعيين رقم مرتفع جداً قد يسبب مشاكل في أنظمة الملفات الشبكية؛ إذا واجهت مشاكل، قم بخفض هذا الرقم.",
+    "@maxConcurrentLibraryScanDesc": {},
+    "maxImageDecodingThreadsLabel": "الحد الأقصى لخيوط فك ترميز الصور",
+    "@maxImageDecodingThreadsLabel": {},
+    "maxImageDecodingThreadsDesc": "الحد الأقصى لعمليات ترميز الصور المسموح بتشغيلها بالتوازي. ترك هذا الحقل فارغاً سيؤدي إلى اختيار حد تلقائي بناءً على عدد أنوية النظام لديك.",
+    "@maxImageDecodingThreadsDesc": {},
+    "controlPanelServerDesc": "اسم الخادم، الاتصال السريع، الأداء",
+    "@controlPanelServerDesc": {},
+    "deleteUserTitle": "حذف المستخدم {user}؟",
+    "@deleteUserTitle": {
+        "description": "deleteUserTitle",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteUserDesc": "سيتم حذف المستخدم {user} وجميع إعداداته نهائياً.",
+    "@deleteUserDesc": {
+        "description": "deleteUserDesc",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "userInformation": "معلومات المستخدم",
+    "@userInformation": {},
+    "allowManageServer": "السماح لهذا المستخدم بإدارة الخادم",
+    "@allowManageServer": {},
+    "allowCollections": "السماح لهذا المستخدم بإدارة المجموعات",
+    "@allowCollections": {},
+    "allowEditSubtitles": "السماح لهذا المستخدم بتحرير الترجمات",
+    "@allowEditSubtitles": {},
+    "featureAccess": "الوصول إلى الميزات",
+    "@featureAccess": {},
+    "allowLiveTVAccess": "السماح بالوصول إلى البث التلفزيوني المباشر",
+    "@allowLiveTVAccess": {},
+    "allowLiveTVRecording": "السماح بإدارة تسجيلات البث التلفزيوني المباشر",
+    "@allowLiveTVRecording": {},
+    "mediaPlayback": "تشغيل الوسائط",
+    "@mediaPlayback": {},
+    "allowMediaPlayback": "السماح بتشغيل الوسائط",
+    "@allowMediaPlayback": {},
+    "allowVideoTranscoding": "السماح بتشغيل الفيديو الذي يتطلب تحويل الترميز",
+    "@allowVideoTranscoding": {},
+    "allowAudioTranscoding": "السماح بتشغيل الصوت الذي يتطلب تحويل الترميز",
+    "@allowAudioTranscoding": {},
+    "allowMediaConversion": "السماح بتشغيل الفيديو الذي يتطلب تحويل الوسائط",
+    "@allowMediaConversion": {},
+    "forceRemoteTranscoding": "فرض تحويل الترميز من المصدر البعيد",
+    "@forceRemoteTranscoding": {},
+    "syncplay": "التشغيل المتزامن",
+    "@syncplay": {},
+    "syncplayAccess": "الوصول إلى التشغيل المتزامن",
+    "@syncplayAccess": {},
+    "allowMediaDeletion": "السماح بحذف الوسائط",
+    "@allowMediaDeletion": {},
+    "allLibraries": "جميع المكتبات",
+    "@allLibraries": {},
+    "libraryAccess": "الوصول إلى المكتبة",
+    "@libraryAccess": {},
+    "enableAllLibraries": "تمكين الوصول إلى جميع المكتبات",
+    "@enableAllLibraries": {},
+    "enableAllDevices": "تمكين الوصول إلى جميع الأجهزة",
+    "@enableAllDevices": {},
+    "parentalControl": "الرقابة الأبوية",
+    "@parentalControl": {},
+    "blockedItemsNoRating": "العناصر المحجوبة بدون تقييم أو بتقييم غير معروف",
+    "@blockedItemsNoRating": {},
+    "maxParentalRating": "الحد الأقصى لتقييم الرقابة الأبوية",
+    "@maxParentalRating": {},
+    "allowItemsTags": "السماح بالعناصر التي تحتوي على وسوم",
+    "@allowItemsTags": {},
+    "blockItemsTags": "حظر العناصر التي تحتوي على وسوم",
+    "@blockItemsTags": {},
+    "accessSchedule": "جدول الوصول",
+    "@accessSchedule": {},
+    "accessSchedules": "جداول الوصول",
+    "@accessSchedules": {},
+    "addAccessSchedule": "إضافة جدول وصول",
+    "@addAccessSchedule": {},
+    "dayOfWeek": "يوم من أيام الأسبوع",
+    "@dayOfWeek": {},
+    "startTime": "وقت البدء",
+    "@startTime": {},
+    "endTime": "وقت الانتهاء",
+    "@endTime": {},
+    "addTag": "إضافة وسم",
+    "@addTag": {},
+    "createNewUser": "إنشاء مستخدم جديد",
+    "@createNewUser": {},
+    "createUser": "إنشاء مستخدم",
+    "@createUser": {},
+    "users": "المستخدمون",
+    "@users": {},
+    "editUser": "تعديل المستخدم",
+    "@editUser": {},
+    "general": "عام",
+    "@general": {},
+    "access": "الوصول",
+    "@access": {},
+    "passwordSettingsComing": "إعدادات كلمة المرور قادمة قريباً",
+    "@passwordSettingsComing": {},
+    "endTimeMustBeAfter": "يجب أن يكون وقت الانتهاء بعد وقت البدء",
+    "@endTimeMustBeAfter": {},
+    "assignLibraries": "تعيين المكتبات",
+    "@assignLibraries": {},
+    "enableAccessAllLibraries": "تمكين الوصول إلى جميع المكتبات",
+    "@enableAccessAllLibraries": {},
+    "currentPassword": "كلمة المرور الحالية",
+    "@currentPassword": {},
+    "newPassword": "كلمة المرور الجديدة",
+    "@newPassword": {},
+    "confirmPassword": "تأكيد كلمة المرور",
+    "@confirmPassword": {},
+    "resetPassword": "إعادة تعيين كلمة المرور",
+    "@resetPassword": {},
+    "passwordResetSuccess": "تم إعادة تعيين كلمة المرور بنجاح",
+    "@passwordResetSuccess": {},
+    "passwordResetFailed": "فشل في إعادة تعيين كلمة المرور",
+    "@passwordResetFailed": {},
+    "passwordMismatch": "كلمة المرور الجديدة وتأكيدها غير متطابقين",
+    "@passwordMismatch": {},
+    "passwordChangeSuccess": "تم تغيير كلمة المرور بنجاح",
+    "@passwordChangeSuccess": {},
+    "passwordChangeFailed": "فشل في تغيير كلمة المرور",
+    "@passwordChangeFailed": {},
+    "savePassword": "حفظ كلمة المرور",
+    "@savePassword": {},
+    "deleteLibraryConfirmTitle": "حذف المكتبة؟",
+    "@deleteLibraryConfirmTitle": {},
+    "deleteLibraryConfirmMessage": "هل أنت متأكد أنك تريد حذف {libraryName}؟\nلا يمكن التراجع عن هذا الإجراء.",
+    "@deleteLibraryConfirmMessage": {
+        "placeholders": {
+            "libraryName": {
+                "type": "String"
+            }
+        }
+    },
+    "noLibrarySelected": "لم يتم اختيار مكتبة",
+    "@noLibrarySelected": {},
+    "enabledPhotos": "تمكين الصور",
+    "@enabledPhotos": {},
+    "enabledLUFSScan": "تمكين فحص LUFS",
+    "@enabledLUFSScan": {},
+    "enabledRealtimeMonitoring": "تمكين المراقبة اللحظية",
+    "@enabledRealtimeMonitoring": {},
+    "automaticallyAddToCollection": "الإضافة التلقائية إلى المجموعة",
+    "@automaticallyAddToCollection": {},
+    "enabledEmbeddedTitles": "تمكين العناوين المضمنة",
+    "@enabledEmbeddedTitles": {},
+    "enabledEmbeddedExtrasTitles": "تمكين العناوين الإضافية المضمنة",
+    "@enabledEmbeddedExtrasTitles": {},
+    "automaticRefreshInterval": "فترة التحديث التلقائي",
+    "@automaticRefreshInterval": {},
+    "autoRefreshIntervalNote": "تمكين هذا الخيار قد يؤدي إلى زيادة مدة تحديث المكتبة.",
+    "@autoRefreshIntervalNote": {},
+    "preferredDownloadLanguage": "اللغة المفضلة للتنزيل",
+    "@preferredDownloadLanguage": {},
+    "countryRegion": "الدولة / المنطقة",
+    "@countryRegion": {},
+    "saveMetadata": "حفظ البيانات الوصفية",
+    "@saveMetadata": {},
+    "metadataFetchers": "أدوات جلب البيانات الوصفية ({type})",
+    "@metadataFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "enableAndRankMetadataFetchers": "تمكين وترتيب أدوات جلب البيانات الوصفية حسب الأولوية.",
+    "@enableAndRankMetadataFetchers": {},
+    "enableAndRankImagesFetchers": "تمكين وترتيب أدوات جلب الصور حسب الأولوية.",
+    "@enableAndRankImagesFetchers": {},
+    "imageFetchers": "أدوات جلب الصور ({type})",
+    "@imageFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "enableAndRankImageFetchers": "تمكين وترتيب أدوات جلب الصورة حسب الأولوية.",
+    "@enableAndRankImageFetchers": {},
+    "mediaSegmentProviders": "موفرو مقاطع الوسائط",
+    "@mediaSegmentProviders": {},
+    "enableAndRankMediaSegmentProviders": "تمكين وترتيب موفري مقاطع الوسائط حسب الأولوية.",
+    "@enableAndRankMediaSegmentProviders": {},
+    "trickplay": "التشغيل السريع (Trickplay)",
+    "@trickplay": {},
+    "enableTrickplayImageExtraction": "تمكين استخراج صور التشغيل السريع",
+    "@enableTrickplayImageExtraction": {},
+    "extractTrickplayImagesDuringLibraryScan": "استخراج صور التشغيل السريع أثناء فحص المكتبة",
+    "@extractTrickplayImagesDuringLibraryScan": {},
+    "saveTrickplayImagesNextToMedia": "حفظ صور التشغيل السريع بجانب ملفات الوسائط",
+    "@saveTrickplayImagesNextToMedia": {},
+    "chapterImages": "صور الفصول",
+    "@chapterImages": {},
+    "enableChapterImageExtraction": "تمكين استخراج صور الفصول",
+    "@enableChapterImageExtraction": {},
+    "extractChapterImagesDuringLibraryScan": "استخراج صور الفصول أثناء فحص المكتبة",
+    "@extractChapterImagesDuringLibraryScan": {},
+    "subtitleDownloads": "تنزيل الترجمات",
+    "@subtitleDownloads": {},
+    "downloadLanguages": "لغات التنزيل",
+    "@downloadLanguages": {},
+    "subtitleDownloaders": "أدوات تنزيل الترجمات",
+    "@subtitleDownloaders": {},
+    "onlyPerfectSubtitleMatch": "تنزيل الترجمات المطابقة تماماً للوسائط",
+    "@onlyPerfectSubtitleMatch": {},
+    "perfectSubtitleMatchDescription": "طلب تطابق مثالي سيقوم بتصفية الترجمات لتشمل فقط تلك التي تم اختبارها والتحقق منها مع ملف الفيديو الخاص بك. إلغاء التحديد سيزيد من احتمالية تنزيل الترجمات، لكنه يزيد أيضاً من احتمال وجود توقيت خاطئ أو نص غير دقيق.",
+    "@perfectSubtitleMatchDescription": {},
+    "skipSubtitlesIfAudioMatches": "تخطِ الترجمات إذا كانت المسار الصوتي الافتراضي يطابق لغة التنزيل",
+    "@skipSubtitlesIfAudioMatches": {},
+    "skipSubtitlesIfEmbedded": "تخطِ الترجمات إذا كان الفيديو يحتوي بالفعل على ترجمات مدمجة",
+    "@skipSubtitlesIfEmbedded": {},
+    "saveSubtitlesNextToMedia": "حفظ الترجمات بجانب ملفات الوسائط",
+    "@saveSubtitlesNextToMedia": {},
+    "saveArtWorkNextToMedia": "حفظ الصور الترويجية والملصقات الفنية بجوار ملفات الوسائط",
+    "@saveArtWorkNextToMedia": {},
+    "saveArtWorkNextToMediaDesc": "حفظ الصور الترويجية والملصقات الفنية داخل مجلدات الوسائط يضعها في مكان يسهل تعديله.",
+    "@saveArtWorkNextToMediaDesc": {},
+    "select": "اختيار",
+    "@select": {},
+    "newLibrary": "مكتبة جديدة",
+    "@newLibrary": {},
+    "contentType": "نوع المحتوى",
+    "@contentType": {},
+    "metadataImageLongPressTouch": "اضغط مطولاً لحذف الصورة",
+    "@metadataImageLongPressTouch": {},
+    "metadataImageLongPressClick": "انقر بزر الفأرة الأيمن لحذف الصورة",
+    "@metadataImageLongPressClick": {},
+    "primary": "أساسي",
+    "@primary": {},
+    "logo": "{count, plural, one{شعار} other{شعارات}}",
+    "@logo": {
+        "description": "logo",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "backdrop": "{count, plural, one{خلفية} other{خلفيات}}",
+    "@backdrop": {
+        "description": "backdrop",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "selectFolderToAdd": "اختر المجلد لإضافته",
+    "@selectFolderToAdd": {},
+    "systemRootFolder": "مجلد النظام الجذري",
+    "@systemRootFolder": {},
+    "selectedPath": "المسار المحدد: {path}",
+    "@selectedPath": {
+        "placeholders": {
+            "path": {
+                "type": "String"
+            }
+        }
+    }
 }
