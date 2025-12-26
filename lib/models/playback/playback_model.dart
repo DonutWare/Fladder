@@ -357,6 +357,12 @@ class PlaybackModelHelper {
           bitRateOptions: qualityOptions,
         );
       } else if ((mediaSource.supportsTranscoding ?? false) && mediaSource.transcodingUrl != null) {
+        final serverUrl = ref.read(serverUrlProvider) ?? "";
+        final transcodingPath = mediaSource.transcodingUrl ?? "";
+        // Ensure no double slashes in the URL
+        final transcodingUrl = serverUrl.endsWith('/') && transcodingPath.startsWith('/')
+            ? "$serverUrl${transcodingPath.substring(1)}"
+            : "$serverUrl$transcodingPath";
         return TranscodePlaybackModel(
           item: item,
           queue: libraryQueue,
@@ -364,7 +370,7 @@ class PlaybackModelHelper {
           chapters: chapters,
           trickPlay: trickPlay,
           playbackInfo: playbackInfo,
-          media: Media(url: "${ref.read(serverUrlProvider) ?? ""}${mediaSource.transcodingUrl ?? ""}"),
+          media: Media(url: transcodingUrl),
           mediaStreams: mediaStreamsWithUrls,
           bitRateOptions: qualityOptions,
         );
@@ -496,6 +502,12 @@ class PlaybackModelHelper {
         bitRateOptions: playbackModel.bitRateOptions,
       );
     } else if ((mediaSource.supportsTranscoding ?? false) && mediaSource.transcodingUrl != null) {
+      final serverUrl = ref.read(serverUrlProvider) ?? "";
+      final transcodingPath = mediaSource.transcodingUrl ?? "";
+      // Ensure no double slashes in the URL
+      final transcodingUrl = serverUrl.endsWith('/') && transcodingPath.startsWith('/')
+          ? "$serverUrl${transcodingPath.substring(1)}"
+          : "$serverUrl$transcodingPath";
       newModel = TranscodePlaybackModel(
         item: playbackModel.item,
         queue: playbackModel.queue,
@@ -503,7 +515,7 @@ class PlaybackModelHelper {
         chapters: playbackModel.chapters,
         playbackInfo: playbackInfo,
         trickPlay: playbackModel.trickPlay,
-        media: Media(url: "${ref.read(serverUrlProvider) ?? ""}${mediaSource.transcodingUrl ?? ""}"),
+        media: Media(url: transcodingUrl),
         mediaStreams: mediaStreamsWithUrls,
         bitRateOptions: playbackModel.bitRateOptions,
       );
