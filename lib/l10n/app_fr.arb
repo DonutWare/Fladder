@@ -47,7 +47,7 @@
     },
     "ascending": "Ascendant",
     "@ascending": {},
-    "audio": "Audio",
+    "audio": "{count, plural, one{Audio} other{Audio}}",
     "@audio": {},
     "autoPlay": "Lecture automatique",
     "@autoPlay": {},
@@ -87,7 +87,7 @@
     "@close": {},
     "code": "Code",
     "@code": {},
-    "collectionFolder": "Dossier de collection",
+    "collectionFolder": "{count, plural, one{Dossier de collection} other{Dossiers de collection}}",
     "@collectionFolder": {},
     "color": "Couleur",
     "@color": {},
@@ -133,7 +133,7 @@
     "@dateLastContentAdded": {},
     "datePlayed": "Date de lecture",
     "@datePlayed": {},
-    "days": "Jours",
+    "days": "{count, plural, one{Jour} other{Jours}}",
     "@days": {},
     "delete": "Supprimer",
     "@delete": {},
@@ -349,27 +349,27 @@
     "@masonry": {},
     "mediaTypeBase": "Type de base",
     "@mediaTypeBase": {},
-    "mediaTypeBook": "Livre",
+    "mediaTypeBook": "{count, plural, one{Livre} other{Livres}}",
     "@mediaTypeBook": {},
-    "mediaTypeBoxset": "Coffret",
+    "mediaTypeBoxset": "{count, plural, one{Coffret} other{Coffrets}}",
     "@mediaTypeBoxset": {},
-    "mediaTypeEpisode": "Épisode",
+    "mediaTypeEpisode": "{count, plural, one{Episode} other{Episodes}}",
     "@mediaTypeEpisode": {},
-    "mediaTypeFolder": "Dossier",
+    "mediaTypeFolder": "{count, plural, one{Dossier} other{Dossiers}}",
     "@mediaTypeFolder": {},
-    "mediaTypeMovie": "Film",
+    "mediaTypeMovie": "{count, plural, one{Film} other{Films}}",
     "@mediaTypeMovie": {},
-    "mediaTypePerson": "Personne",
+    "mediaTypePerson": "{count, plural, one{Personne} other{Personnes}}",
     "@mediaTypePerson": {},
-    "mediaTypePhoto": "Photo",
+    "mediaTypePhoto": "{count, plural, one{Photo} other{Photos}}",
     "@mediaTypePhoto": {},
-    "mediaTypePhotoAlbum": "Album photo",
+    "mediaTypePhotoAlbum": "{count, plural, one{Album Photo} other{Albums Photo}}",
     "@mediaTypePhotoAlbum": {},
-    "mediaTypePlaylist": "Liste de lecture",
+    "mediaTypePlaylist": "{count, plural, one{Liste de lecture} other{Listes de lecture}}",
     "@mediaTypePlaylist": {},
-    "mediaTypeSeason": "Saison",
+    "mediaTypeSeason": "{count, plural, one{Saison} other{Saisons}}",
     "@mediaTypeSeason": {},
-    "mediaTypeSeries": "Série",
+    "mediaTypeSeries": "{count, plural, one{Série} other{Séries}}",
     "@mediaTypeSeries": {},
     "metaDataSavedFor": "Métadonnées enregistrées pour {item}",
     "@metaDataSavedFor": {
@@ -411,7 +411,7 @@
     "@moreOptions": {},
     "mouseDragSupport": "Faire glisser avec la souris",
     "@mouseDragSupport": {},
-    "musicAlbum": "Album",
+    "musicAlbum": "{count, plural, one{Album} other{Albums}}",
     "@musicAlbum": {},
     "name": "Nom",
     "@name": {},
@@ -888,7 +888,7 @@
     "@useDefaults": {},
     "userName": "Nom d'utilisateur",
     "@userName": {},
-    "video": "Vidéo",
+    "video": "{count, plural, one{Vidéo} other{Vidéos}}",
     "@video": {},
     "videoScaling": "Mise à l'échelle de la vidéo",
     "@videoScaling": {},
@@ -1930,6 +1930,76 @@
         "placeholders": {
             "path": {
                 "type": "String"
+            }
+        }
+    },
+    "segmentActionSkipOnce": "Passer pour cette fois",
+    "@segmentActionSkipOnce": {},
+    "controlPanel": "Panneau de contrôle",
+    "@controlPanel": {},
+    "transcodingTemp": "Temporisation de transcodage",
+    "@transcodingTemp": {},
+    "hours": "{count, plural, one{Heure} other{Heures}}",
+    "@hours": {
+        "description": "Pluralization for hours",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            }
+        }
+    },
+    "weeks": "{count, plural, one{Semaine} other{Semaines}}",
+    "@weeks": {
+        "description": "Pluralization for weeks",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "months": "{count, plural, one{Mois} other{Mois}}",
+    "@months": {
+        "description": "Pluralization for months",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "years": "{count, plural, one{Année} other{Années}}",
+    "@years": {
+        "description": "Pluralization for years",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "lastRunTaking": "Dernier démarrage le {date}, prenant {time}",
+    "@lastRunTaking": {
+        "description": "lastRunTaking",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "trickplay": "Trickplay",
+    "@trickplay": {},
+    "logo": "{count, plural, other{Logos} one{Logo}}",
+    "@logo": {
+        "description": "logo",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
             }
         }
     }
