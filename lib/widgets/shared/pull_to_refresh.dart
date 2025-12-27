@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/refresh_state.dart';
+import 'package:flutter_tizen/flutter_tizen.dart';
 
 class PullToRefresh extends ConsumerStatefulWidget {
   final GlobalKey<RefreshIndicatorState>? refreshKey;
@@ -50,7 +51,7 @@ class _PullToRefreshState extends ConsumerState<PullToRefresh> {
 
   @override
   Widget build(BuildContext context) {
-    if ((AdaptiveLayout.of(context).isDesktop || kIsWeb) && widget.autoFocus) {
+    if ((AdaptiveLayout.of(context).isDesktop || kIsWeb) && widget.autoFocus && !isTizen) {
       focusNode.requestFocus();
     }
     return RefreshState(

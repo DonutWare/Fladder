@@ -317,12 +317,32 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
     final scrollBehaviour = const MaterialScrollBehavior();
     return DynamicColorBuilder(
       builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
-        final lightTheme = themeColor == null
+        final rawLightTheme = themeColor == null
             ? FladderTheme.theme(lightDynamic ?? FladderTheme.defaultScheme(Brightness.light), schemeVariant)
             : FladderTheme.theme(themeColor.schemeLight, schemeVariant);
-        final darkTheme = (themeColor == null
+        final rawDarkTheme = (themeColor == null
             ? FladderTheme.theme(darkDynamic ?? FladderTheme.defaultScheme(Brightness.dark), schemeVariant)
             : FladderTheme.theme(themeColor.schemeDark, schemeVariant));
+        final lightTheme = !isTizen
+            ? rawLightTheme
+            : rawLightTheme.copyWith(
+                pageTransitionsTheme: PageTransitionsTheme(
+                  builders: {
+                    ...rawLightTheme.pageTransitionsTheme.builders,
+                    TargetPlatform.linux: const FadeUpwardsPageTransitionsBuilder(),
+                  },
+                ),
+              );
+        final darkTheme = !isTizen
+            ? rawDarkTheme
+            : rawDarkTheme.copyWith(
+                pageTransitionsTheme: PageTransitionsTheme(
+                  builders: {
+                    ...rawDarkTheme.pageTransitionsTheme.builders,
+                    TargetPlatform.linux: const FadeUpwardsPageTransitionsBuilder(),
+                  },
+                ),
+              );
         final amoledOverwrite = amoledBlack ? Colors.black : null;
         return ThemesData(
           light: lightTheme,

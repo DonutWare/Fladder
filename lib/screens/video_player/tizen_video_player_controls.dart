@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,7 +13,6 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
-import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
@@ -25,10 +23,7 @@ import 'package:fladder/screens/video_player/components/video_playback_informati
 import 'package:fladder/screens/video_player/components/video_player_controls_extras.dart';
 import 'package:fladder/screens/video_player/components/video_player_options_sheet.dart';
 import 'package:fladder/screens/video_player/components/video_player_quality_controls.dart';
-// import 'package:fladder/screens/video_player/components/video_player_screenshot_indicator.dart';
 import 'package:fladder/screens/video_player/components/video_player_seek_indicator.dart';
-// import 'package:fladder/screens/video_player/components/video_player_speed_indicator.dart';
-// import 'package:fladder/screens/video_player/components/video_player_volume_indicator.dart';
 import 'package:fladder/screens/video_player/components/video_progress_bar.dart';
 import 'package:fladder/screens/video_player/components/video_volume_slider.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
@@ -65,11 +60,10 @@ class _TVControlsState extends ConsumerState<TVControls> {
   SystemUiMode? _currentSystemUiMode;
   String? activeIndicator;
   RestartableTimer? _activeIndicatorTimer;
-  final FocusNode _controlsFocusNode = FocusNode();
-  // Navigation for remote (D-pad) - list is built dynamically in build()
-  List<String> _navOrder = [];
-  int _navIndex = 0;
-  final Map<String, FocusNode> _navFocusNodes = {};
+  final FocusNode controlsFocusNode = FocusNode();
+  List<String> navOrder = [];
+  int navIndex = 0;
+  final Map<String, FocusNode> navFocusNodes = {};
 
   late final double topPadding = MediaQuery.of(context).viewPadding.top;
   late final double bottomPadding = MediaQuery.of(context).viewPadding.bottom;
@@ -78,9 +72,6 @@ class _TVControlsState extends ConsumerState<TVControls> {
   void initState() {
     super.initState();
     timer.reset();
-    // Register a small hardware handler to catch remote media keys that may not be
-    // present in the configured hotkey map (some remotes send LogicalKeyboardKey.mediaPlayPause,
-    // etc.). This ensures Play/Pause on Samsung remotes is handled.
     HardwareKeyboard.instance.addHandler(_tizenHardwareHandler);
   }
 
@@ -97,29 +88,24 @@ class _TVControlsState extends ConsumerState<TVControls> {
   }
 
   Widget _wrapNav(String id, Widget child) {
-    // Make this control focusable and handle activation via D-pad/select.
-    final node = _navFocusNodes.putIfAbsent(id, () => FocusNode());
+    final node = navFocusNodes.putIfAbsent(id, () => FocusNode());
     return FocusableActionDetector(
       focusNode: node,
       enabled: showOverlay,
       shortcuts: <LogicalKeySet, Intent>{
-        // Map remote 'select' to activation. Avoid mapping Enter/Space here
-        // to prevent double-activation (Enter/Space are handled by
-        // individual buttons which would otherwise be invoked twice).
-        //LogicalKeySet(LogicalKeyboardKey.select): ActivateIntent(),
       },
       actions: <Type, Action<Intent>>{
         ActivateIntent: CallbackAction<Intent>(onInvoke: (intent) {
-          _activateSelection();
+          activateSelection();
           return null;
         }),
       },
       onFocusChange: (hasFocus) {
         if (hasFocus) {
-          final idx = _navOrder.indexOf(id);
+          final idx = navOrder.indexOf(id);
           if (idx >= 0) {
             setState(() {
-              _navIndex = idx;
+              navIndex = idx;
               _setActiveIndicator(id);
             });
           }
@@ -131,7 +117,7 @@ class _TVControlsState extends ConsumerState<TVControls> {
         return Container(
           decoration: focused
               ? BoxDecoration(
-                  border: Border.all(color: Colors.white.withOpacity(0.9), width: 2),
+                  border: Border.all(color: Colors.white.withValues(alpha: 0.9), width: 2),
                   borderRadius: BorderRadius.circular(8),
                 )
               : null,
@@ -142,14 +128,9 @@ class _TVControlsState extends ConsumerState<TVControls> {
     );
   }
 
-  void _ensureNavOrder() {
-    // Build nav order based on currently visible controls.
-    // This is a best-effort list; presence of items depends on layout and input device.
+  void ensureNavOrder() {
     final List<String> order = [];
-    // Bottom control row (most important controls)
-    // Options / extra
     order.add('options');
-    // Subtitle / audio (may be present or not; we'll keep keys even if widgets not shown)
     order.add('subtitle');
     order.add('audio');
     order.add('previous');
@@ -159,40 +140,38 @@ class _TVControlsState extends ConsumerState<TVControls> {
     order.add('next');
     order.add('quality');
 
-    _navOrder = order;
-    if (_navIndex >= _navOrder.length) _navIndex = 0;
+    navOrder = order;
+    if (navIndex >= navOrder.length) navIndex = 0;
 
-    // Ensure focus nodes exist for each nav id and clean up removed ones
-    final existing = Set<String>.from(_navFocusNodes.keys);
-    for (final id in _navOrder) {
+    final existing = Set<String>.from(navFocusNodes.keys);
+    for (final id in navOrder) {
       existing.remove(id);
-      _navFocusNodes.putIfAbsent(id, () => FocusNode());
+      navFocusNodes.putIfAbsent(id, () => FocusNode());
     }
-    // Dispose any nodes that are no longer used
+
     for (final id in existing) {
-      _navFocusNodes[id]?.dispose();
-      _navFocusNodes.remove(id);
+      navFocusNodes[id]?.dispose();
+      navFocusNodes.remove(id);
     }
   }
 
   void _moveSelection(int delta) {
-    if (_navOrder.isEmpty) return;
+    if (navOrder.isEmpty) return;
     setState(() {
-      _navIndex = (_navIndex + delta) % _navOrder.length;
-      if (_navIndex < 0) _navIndex += _navOrder.length;
-      _setActiveIndicator(_navOrder[_navIndex]);
+      navIndex = (navIndex + delta) % navOrder.length;
+      if (navIndex < 0) navIndex += navOrder.length;
+      _setActiveIndicator(navOrder[navIndex]);
     });
-    // Ensure the focused node follows our selection index
-    final id = _navOrder[_navIndex];
+
+    final id = navOrder[navIndex];
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) _navFocusNodes[id]?.requestFocus();
+      if (mounted) navFocusNodes[id]?.requestFocus();
     });
   }
 
-  void _activateSelection() {
-    if (_navOrder.isEmpty) return;
-    final id = _navOrder[_navIndex];
-    // Map ids to actions
+  void activateSelection() {
+    if (navOrder.isEmpty) return;
+    final id = navOrder[navIndex];
     switch (id) {
       case 'options':
         showVideoPlayerOptions(context, () => minimizePlayer(context));
@@ -240,8 +219,8 @@ class _TVControlsState extends ConsumerState<TVControls> {
   @override
   void dispose() {
     HardwareKeyboard.instance.removeHandler(_tizenHardwareHandler);
-    _controlsFocusNode.dispose();
-    for (final node in _navFocusNodes.values) {
+    controlsFocusNode.dispose();
+    for (final node in navFocusNodes.values) {
       node.dispose();
     }
     super.dispose();
@@ -250,32 +229,27 @@ class _TVControlsState extends ConsumerState<TVControls> {
   @override
   Widget build(BuildContext context) {
     // Build nav order for remote navigation each build so it reflects visible controls
-    _ensureNavOrder();
+    ensureNavOrder();
     final mediaSegments = ref.watch(playBackModel.select((value) => value?.mediaSegments));
     final player = ref.watch(videoPlayerProvider);
     final subtitleWidget = player.subtitleWidget(showOverlay, controlsKey: _bottomControlsKey);
-    final currentShortcuts = ref.watch(videoPlayerSettingsProvider.select((value) => value.currentShortcuts));
-    // When the overlay (controls) is visible we want arrow left/right to navigate UI elements
-    // instead of seeking. Filter out seek hotkeys while overlay is visible so framework focus
-    // navigation can handle them. When overlay is hidden, keep seek hotkeys so remote arrows
-    // control seeking.
-    final effectiveKeyMap = showOverlay ? Map.of(currentShortcuts) : currentShortcuts;
-    if (showOverlay) {
-      effectiveKeyMap.remove(VideoHotKeys.seekForward);
-      effectiveKeyMap.remove(VideoHotKeys.seekBack);
-      
-      
-    }
-    effectiveKeyMap.remove(VideoHotKeys.playPause);
-    effectiveKeyMap.remove(VideoHotKeys.exit);
+    // final currentShortcuts = ref.watch(videoPlayerSettingsProvider.select((value) => value.currentShortcuts));
+    // final effectiveKeyMap = showOverlay ? Map.of(currentShortcuts) : currentShortcuts;
+
+    // if (showOverlay) {
+    //   effectiveKeyMap.remove(VideoHotKeys.seekForward);
+    //   effectiveKeyMap.remove(VideoHotKeys.seekBack);     
+    // }
+
+    //effectiveKeyMap.remove(VideoHotKeys.playPause);
+    //effectiveKeyMap.remove(VideoHotKeys.exit);
 
     return Listener(
       onPointerSignal: setVolume,
       child: InputHandler(
         autoFocus: true,
         listenRawKeyboard: true,
-        keyMap: effectiveKeyMap,
-        //keyMapResult: _onKey,
+        //keyMap: effectiveKeyMap,
         child: PopScope(
           canPop: false,
           onPopInvokedWithResult: (didPop, result) {
@@ -299,7 +273,7 @@ class _TVControlsState extends ConsumerState<TVControls> {
                           child: FocusTraversalGroup(
                             policy: OrderedTraversalPolicy(),
                             child: Focus(
-                              focusNode: _controlsFocusNode,
+                              focusNode: controlsFocusNode,
                               child: bottomButtons(context),
                             ),
                           ),
@@ -824,14 +798,14 @@ class _TVControlsState extends ConsumerState<TVControls> {
     // navigate the control buttons.
     if (showOverlay) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) _controlsFocusNode.requestFocus();
+        if (mounted) controlsFocusNode.requestFocus();
       });
     }
     if (showOverlay) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted && _navOrder.isNotEmpty) {
-          final id = _navOrder[_navIndex];
-          _navFocusNodes[id]?.requestFocus();
+        if (mounted && navOrder.isNotEmpty) {
+          final id = navOrder[navIndex];
+          navFocusNodes[id]?.requestFocus();
         }
       });
     }
@@ -933,7 +907,7 @@ class _TVControlsState extends ConsumerState<TVControls> {
       // Activation keys
       
       if (key == LogicalKeyboardKey.select || key == LogicalKeyboardKey.enter || key == LogicalKeyboardKey.space) {
-        //_activateSelection();
+        //activateSelection();
         //_setActiveIndicator('Activate');
         resetTimer();
         return true;

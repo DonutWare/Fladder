@@ -14,7 +14,7 @@ const DeviceProfile tizenProfile = DeviceProfile(
     DirectPlayProfile(
       type: DlnaProfileType.video,
       videoCodec: 'h264,hevc,vp8,vp9,av1',
-      audioCodec: 'aac,mp3,flac,wav,vorbis,opus,eac3,ac3,truehd', 
+      audioCodec: 'aac,mp3,flac,wav,vorbis,opus,eac3,ac3,truehd',
     ),
     // Audio only
     DirectPlayProfile(container: 'mp3', type: DlnaProfileType.audio),
@@ -35,8 +35,10 @@ const DeviceProfile tizenProfile = DeviceProfile(
     ),
   ],
   containerProfiles: [],
-  subtitleProfiles: [
-    SubtitleProfile(format: 'vtt', method: SubtitleDeliveryMethod.embed),
-    SubtitleProfile(format: 'srt', method: SubtitleDeliveryMethod.embed),
-  ],
+  subtitleProfiles:  [
+      SubtitleProfile(format: 'vtt', method: SubtitleDeliveryMethod.$external),
+      SubtitleProfile(format: 'ass', method: SubtitleDeliveryMethod.$external),
+      SubtitleProfile(format: 'ssa', method: SubtitleDeliveryMethod.$external),
+      SubtitleProfile(format: 'pgssub', method: SubtitleDeliveryMethod.$external),
+    ],
 );
