@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:chopper/chopper.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:punycoder/punycoder.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
@@ -11,7 +12,6 @@ import 'package:fladder/providers/auth_provider.dart';
 import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
-import 'package:punycoder/punycoder.dart';
 part 'api_provider.g.dart';
 
 final serverUrlProvider = StateProvider<String?>((ref) {
@@ -29,6 +29,10 @@ final serverUrlProvider = StateProvider<String?>((ref) {
   } else {
     newUrl = null;
   }
+
+  final newPath = normalizeUrl(newUrl ?? "");
+
+  log(newPath);
 
   return normalizeUrl(newUrl ?? "");
 });
@@ -85,20 +89,30 @@ class JellyRequest implements Interceptor {
 }
 
 String normalizeUrl(String url) {
-  url = url.trim();
-  if (!url.startsWith("http://") && !url.startsWith("https://")) {
-    url = "http://$url";
+  final trimmed = url.trim();
+  if (trimmed.isEmpty) return '';
+
+  final withScheme = (trimmed.startsWith('http://') || trimmed.startsWith('https://')) ? trimmed : 'http://$trimmed';
+  final parsed = Uri.parse(withScheme);
+
+  // Only punycode the host; keep the rest (path/query/fragment) exactly as parsed.
+  final host = parsed.host;
+  final isIpv4 = RegExp(r'^\d{1,3}(?:\.\d{1,3}){3}$').hasMatch(host);
+  final isIpv6 = host.contains(':');
+  final hasNonAscii = host.runes.any((c) => c > 0x7F);
+
+  final encodedHost = (!isIpv4 && !isIpv6 && hasNonAscii) ? const PunycodeCodec().encode(host) : host;
+
+  var normalized = parsed.replace(host: encodedHost);
+
+  final path = normalized.path;
+  if (path.isEmpty) {
+    normalized = normalized.replace(path: '/');
+  } else if (!path.endsWith('/')) {
+    normalized = normalized.replace(path: '$path/');
   }
-  //host needs to be separated as punycodec breaks if its given any extras / or other characters
-  int? port = Uri.parse(url).port;
-  String scheme = Uri.parse(url).scheme;
-  String? host = url.replaceAll(RegExp(r'^(https?://)|(:\S+)|(/)'), ''); //removes scheme and port
-  String path = Uri.parse(url).path; //case for proxy use that requires a path
 
-  String decodedhost = const PunycodeCodec().encode(host);
-  url = "$scheme://$decodedhost:$port/$path";
-
-  return url;
+  return normalized.toString();
 }
 
 class JellyResponse implements Interceptor {

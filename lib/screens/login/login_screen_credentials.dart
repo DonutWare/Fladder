@@ -39,6 +39,15 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
   bool loggingIn = false;
 
   @override
+  void dispose() {
+    serverTextController.dispose();
+    usernameController.dispose();
+    passwordController.dispose();
+    focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final existingUsers = ref.watch(authProvider.select((value) => value.accounts));
     final otherCredentials = existingUsers.map((e) => e.credentials).toList();
@@ -65,20 +74,20 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
       spacing: 16,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           spacing: 8,
           children: [
             if (existingUsers.isNotEmpty)
               IconButton.filledTonal(
                 onPressed: () => provider.goUserSelect(),
-                iconSize: 28,
+                iconSize: 36,
                 icon: const Icon(
                   IconsaxPlusLinear.arrow_left_2,
                 ),
               ),
             if (!hasBaseUrl)
-              Flexible(
+              Expanded(
                 child: OutlinedTextField(
                   controller: serverTextController,
                   onSubmitted: (value) => provider.setServer(value),
@@ -95,7 +104,7 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
               waitDuration: const Duration(seconds: 1),
               child: IconButton.filled(
                 onPressed: () => provider.setServer(serverTextController.text),
-                iconSize: 28,
+                iconSize: 36,
                 icon: const Icon(
                   IconsaxPlusLinear.refresh,
                 ),
