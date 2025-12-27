@@ -30,10 +30,6 @@ final serverUrlProvider = StateProvider<String?>((ref) {
     newUrl = null;
   }
 
-  final newPath = normalizeUrl(newUrl ?? "");
-
-  log(newPath);
-
   return normalizeUrl(newUrl ?? "");
 });
 
@@ -97,22 +93,113 @@ String normalizeUrl(String url) {
 
   // Only punycode the host; keep the rest (path/query/fragment) exactly as parsed.
   final host = parsed.host;
-  final isIpv4 = RegExp(r'^\d{1,3}(?:\.\d{1,3}){3}$').hasMatch(host);
-  final isIpv6 = host.contains(':');
+  final isIpv4 = InternetAddress.tryParse(host)?.type == InternetAddressType.IPv4;
+  final isIpv6 = InternetAddress.tryParse(host)?.type == InternetAddressType.IPv6;
   final hasNonAscii = host.runes.any((c) => c > 0x7F);
 
   final encodedHost = (!isIpv4 && !isIpv6 && hasNonAscii) ? const PunycodeCodec().encode(host) : host;
 
   var normalized = parsed.replace(host: encodedHost);
 
-  final path = normalized.path;
-  if (path.isEmpty) {
-    normalized = normalized.replace(path: '/');
-  } else if (!path.endsWith('/')) {
-    normalized = normalized.replace(path: '$path/');
+  return normalized.toString();
+}
+
+Uri? tryParseServerBaseUri(String? url) {
+  if (url == null) return null;
+  final trimmed = url.trim();
+  if (trimmed.isEmpty) return null;
+
+  final parsed = Uri.tryParse(trimmed);
+  if (parsed == null || parsed.scheme.isEmpty || parsed.host.isEmpty) return null;
+  return parsed;
+}
+
+Uri? serverBaseUri(Ref ref) => tryParseServerBaseUri(ref.read(serverUrlProvider));
+
+Uri? buildServerUriFromBase(
+  String baseUrl, {
+  List<String> pathSegments = const [],
+  String? relativeUrl,
+  Map<String, String?>? queryParameters,
+}) {
+  final base = tryParseServerBaseUri(baseUrl);
+  if (base == null) return null;
+
+  Uri? relative;
+  if (relativeUrl != null && relativeUrl.trim().isNotEmpty) {
+    relative = Uri.tryParse(relativeUrl.trim());
   }
 
-  return normalized.toString();
+  if (relative?.hasScheme == true && relative?.host.isNotEmpty == true) {
+    return relative;
+  }
+
+  final baseSegments = base.pathSegments.where((s) => s.isNotEmpty).toList(growable: false);
+  final relSegments = (relative?.pathSegments ?? const <String>[]).where((s) => s.isNotEmpty).toList(growable: false);
+  final extraSegments = pathSegments.where((s) => s.isNotEmpty).toList(growable: false);
+
+  final mergedSegments = <String>[...baseSegments, ...relSegments, ...extraSegments];
+
+  final mergedQuery = <String, String>{...?(relative?.queryParameters)};
+  if (queryParameters != null) {
+    for (final entry in queryParameters.entries) {
+      final value = entry.value;
+      if (value == null) continue;
+      mergedQuery[entry.key] = value;
+    }
+  }
+
+  if (base.hasPort) {
+    return Uri(
+      scheme: base.scheme,
+      userInfo: base.userInfo,
+      host: base.host,
+      port: base.port,
+      pathSegments: mergedSegments,
+      queryParameters: mergedQuery.isNotEmpty ? mergedQuery : null,
+      fragment: relative?.hasFragment == true ? relative!.fragment : null,
+    );
+  }
+
+  return Uri(
+    scheme: base.scheme,
+    userInfo: base.userInfo,
+    host: base.host,
+    pathSegments: mergedSegments,
+    queryParameters: mergedQuery.isNotEmpty ? mergedQuery : null,
+    fragment: relative?.hasFragment == true ? relative!.fragment : null,
+  );
+}
+
+Uri? buildServerUri(
+  Ref ref, {
+  List<String> pathSegments = const [],
+  String? relativeUrl,
+  Map<String, String?>? queryParameters,
+}) {
+  final baseUrl = ref.read(serverUrlProvider);
+  if (baseUrl == null || baseUrl.isEmpty) return null;
+  return buildServerUriFromBase(
+    baseUrl,
+    pathSegments: pathSegments,
+    relativeUrl: relativeUrl,
+    queryParameters: queryParameters,
+  );
+}
+
+String buildServerUrl(
+  Ref ref, {
+  List<String> pathSegments = const [],
+  String? relativeUrl,
+  Map<String, String?>? queryParameters,
+}) {
+  return buildServerUri(
+        ref,
+        pathSegments: pathSegments,
+        relativeUrl: relativeUrl,
+        queryParameters: queryParameters,
+      )?.toString() ??
+      '';
 }
 
 class JellyResponse implements Interceptor {

@@ -67,7 +67,8 @@ class ConnectivityStatus extends _$ConnectivityStatus {
 Future<PublicSystemInfo?> fetchSystemInfoDynamic(String baseUrl) async {
   if (baseUrl.isEmpty) return null;
   try {
-    final uri = Uri.parse(baseUrl).resolve('/System/Info/Public');
+    final uri = buildServerUriFromBase(baseUrl, pathSegments: const ['System', 'Info', 'Public']);
+    if (uri == null) return null;
     final response = await http.get(uri).timeout(const Duration(seconds: 1));
     if (response.statusCode == 200) {
       return PublicSystemInfo.fromJson(jsonDecode(response.body));
