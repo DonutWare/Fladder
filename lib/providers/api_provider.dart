@@ -88,7 +88,7 @@ String normalizeUrl(String url) {
   final trimmed = url.trim();
   if (trimmed.isEmpty) return '';
 
-  final withScheme = (trimmed.startsWith('http://') || trimmed.startsWith('https://')) ? trimmed : 'https://$trimmed';
+  final withScheme = (trimmed.startsWith('http://') || trimmed.startsWith('https://')) ? trimmed : 'http://$trimmed';
   final parsed = Uri.parse(withScheme);
 
   // Only punycode the host; keep the rest (path/query/fragment) exactly as parsed.
@@ -149,22 +149,11 @@ Uri? buildServerUriFromBase(
     }
   }
 
-  if (base.hasPort) {
-    return Uri(
-      scheme: base.scheme,
-      userInfo: base.userInfo,
-      host: base.host,
-      port: base.port,
-      pathSegments: mergedSegments,
-      queryParameters: mergedQuery.isNotEmpty ? mergedQuery : null,
-      fragment: relative?.hasFragment == true ? relative!.fragment : null,
-    );
-  }
-
   return Uri(
     scheme: base.scheme,
     userInfo: base.userInfo,
     host: base.host,
+    port: base.hasPort ? base.port : null,
     pathSegments: mergedSegments,
     queryParameters: mergedQuery.isNotEmpty ? mergedQuery : null,
     fragment: relative?.hasFragment == true ? relative!.fragment : null,
