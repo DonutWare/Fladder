@@ -1922,5 +1922,27 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "subtitleDownloads": "Untertitel-Downloads",
+    "@subtitleDownloads": {},
+    "downloadLanguages": "Herunterzuladende Sprachen",
+    "@downloadLanguages": {},
+    "subtitleDownloaders": "Untertitel-Downloader",
+    "@subtitleDownloaders": {},
+    "onlyPerfectSubtitleMatch": "Nur Untertitel herunterladen, die perfekt zum Medium passen",
+    "@onlyPerfectSubtitleMatch": {},
+    "perfectSubtitleMatchDescription": "Wenn eine perfekte Übereinstimmung vorausgesetzt wird, werden nur Untertitel heruntergeladen die mit der vorhandenen Videodatei getestet und verifiziert wurden. Das Entfernen dieses Hakens erhöht die Wahrscheinlichkeit von Untertitel-Downloads, aber erhöht gleichzeitig auch die Chance auf schlecht synchronisierte oder falsche Untertitel.",
+    "@perfectSubtitleMatchDescription": {},
+    "skipSubtitlesIfAudioMatches": "Überspringen, falls der Ton bereits der herunterladbaren Sprache entspricht",
+    "@skipSubtitlesIfAudioMatches": {},
+    "skipSubtitlesIfEmbedded": "Überspringen, falls das Video bereits eingebettete Untertitel enthält",
+    "@skipSubtitlesIfEmbedded": {},
+    "saveSubtitlesNextToMedia": "Untertitel neben Mediendateien speichern",
+    "@saveSubtitlesNextToMedia": {},
+    "saveArtWorkNextToMediaDesc": "Durch das Speichern von Bildmaterial direkt in den Medienverzeichnissen befinden sich diese an einem Ort, wo sie sehr leicht bearbeitet werden können.",
+    "@saveArtWorkNextToMediaDesc": {},
+    "primary": "Primär",
+    "@primary": {},
+    "selectFolderToAdd": "Ordner auswählen, der hinzugefügt werden soll",
+    "@selectFolderToAdd": {}
 }
