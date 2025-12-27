@@ -88,7 +88,7 @@ String normalizeUrl(String url) {
   final trimmed = url.trim();
   if (trimmed.isEmpty) return '';
 
-  final withScheme = (trimmed.startsWith('http://') || trimmed.startsWith('https://')) ? trimmed : 'http://$trimmed';
+  final withScheme = (trimmed.startsWith('http://') || trimmed.startsWith('https://')) ? trimmed : 'https://$trimmed';
   final parsed = Uri.parse(withScheme);
 
   // Only punycode the host; keep the rest (path/query/fragment) exactly as parsed.
