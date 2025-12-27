@@ -1739,5 +1739,106 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "used": "Belegt",
+    "@used": {},
+    "metadataImageLongPressTouch": "Lange Drücken um Bild zu löschen",
+    "@metadataImageLongPressTouch": {},
+    "metadataImageLongPressClick": "Rechtsklicken um Bild zu löschen",
+    "@metadataImageLongPressClick": {},
+    "controlDashboard": "System Dashboard",
+    "@controlDashboard": {},
+    "serverName": "Servername",
+    "@serverName": {},
+    "dashboardDesc": "Server, Anzahl, Geräte, Speicher",
+    "@dashboardDesc": {},
+    "lastRunTaking": "Letzte Ausführung {date}, Dauer {time}",
+    "@lastRunTaking": {
+        "description": "lastRunTaking",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerTypeName": "Auslöser-Typ",
+    "@taskTriggerTypeName": {},
+    "taskTriggerTypeStartup": "Start",
+    "@taskTriggerTypeStartup": {},
+    "newTaskTrigger": "Neuer Aufgabenauslöser",
+    "@newTaskTrigger": {},
+    "dayOfTheWeek": "Wochentag",
+    "@dayOfTheWeek": {},
+    "maxConcurrentLibraryScanDesc": "Anzahl der Maximalen parallelen Aufgaben während des Bibliotheksscans. Wenn Sie diesen Wert auf 0 lassen, wird ein Limit auf Grundlage der Kernanzahl Ihres Systems festgelegt. WARNUNG: Wenn Sie diese Zahl zu hoch einstellen, kann es zu Problemen mit Bibliotheken, die über das Netzwerk verbunden sind, kommen; wenn dies der Fall ist, senken Sie diese Zahl.",
+    "@maxConcurrentLibraryScanDesc": {},
+    "maxImageDecodingThreadsLabel": "Max Bild-Dekodierungsthreads",
+    "@maxImageDecodingThreadsLabel": {},
+    "maxImageDecodingThreadsDesc": "Maximale Anzahl von Bildkodierungen, die parallel ausgeführt werden dürfen. Lässt Du diesen Wert leer, wird ein Limit auf Grundlage der Kernanzahl deines Systems festgelegt.",
+    "@maxImageDecodingThreadsDesc": {},
+    "transcodingTemp": "Transkodierung Temp",
+    "@transcodingTemp": {},
+    "taskTriggerIntervalDesc": "Alle {time}",
+    "@taskTriggerIntervalDesc": {
+        "description": "Task trigger interval desc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "allowCollections": "Dieser Benutzer darf Sammlungen zugreifen",
+    "@allowCollections": {},
+    "featureAccess": "Funktionszugriff",
+    "@featureAccess": {},
+    "allowLiveTVAccess": "Live-TV Zugriff zulassen",
+    "@allowLiveTVAccess": {},
+    "allowLiveTVRecording": "Live-TV Aufnahmeplanung zulassen",
+    "@allowLiveTVRecording": {},
+    "forceRemoteTranscoding": "Transkodieren von externen Medienquellen erzwingen",
+    "@forceRemoteTranscoding": {},
+    "accessSchedule": "Zugangsplan",
+    "@accessSchedule": {},
+    "accessSchedules": "Zugangspläne",
+    "@accessSchedules": {},
+    "addAccessSchedule": "Zugangsplan hinzufügen",
+    "@addAccessSchedule": {},
+    "dayOfWeek": "Wochentag",
+    "@dayOfWeek": {},
+    "addTag": "Tag hinzufügen",
+    "@addTag": {},
+    "editUser": "Benutzer bearbeiten",
+    "@editUser": {},
+    "general": "Allgemein",
+    "@general": {},
+    "access": "Zugriff",
+    "@access": {},
+    "endTimeMustBeAfter": "Endzeit muss nach Startzeit liegen",
+    "@endTimeMustBeAfter": {},
+    "assignLibraries": "Bibliotheken zuordnen",
+    "@assignLibraries": {},
+    "resetPassword": "Passwort zurücksetzen",
+    "@resetPassword": {},
+    "passwordResetSuccess": "Passwort erfolgreich zurückgesetzt",
+    "@passwordResetSuccess": {},
+    "passwordMismatch": "Neues Passwort und Bestätigung stimmen nicht überein",
+    "@passwordMismatch": {},
+    "passwordChangeSuccess": "Passwort erfolgreich geändert",
+    "@passwordChangeSuccess": {},
+    "passwordChangeFailed": "Passwort konnte nicht geändert werden",
+    "@passwordChangeFailed": {},
+    "enabledLUFSScan": "LUFS Scan aktivieren",
+    "@enabledLUFSScan": {},
+    "automaticRefreshInterval": "Automatisches Refresh Intervall",
+    "@automaticRefreshInterval": {},
+    "autoRefreshIntervalNote": "Wenn aktiviert, könnten Bibliotheksaktualisierungen länger dauern.",
+    "@autoRefreshIntervalNote": {},
+    "preferredDownloadLanguage": "Bevorzugte Sprache für Downloads",
+    "@preferredDownloadLanguage": {},
+    "mediaSegmentProviders": "Mediensegment Provider",
+    "@mediaSegmentProviders": {},
+    "enableAndRankMediaSegmentProviders": "Aktiviere und ordne die Mediensegmentanbieter in einer benutzerdefinierten Reihenfolge.",
+    "@enableAndRankMediaSegmentProviders": {}
 }
