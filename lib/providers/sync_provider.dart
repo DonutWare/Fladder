@@ -506,7 +506,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
 
     if (user == null) return null;
 
-    final downloadUrl = path.joinAll([ref.read(serverUrlProvider) ?? "", "Items", syncItem.id, "Download"]);
+    final downloadUrl = buildServerUrl(ref, pathSegments: ['Items', syncItem.id, 'Download']);
 
     try {
       if (currentTask.task != null) {
@@ -515,7 +515,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
       if (!skipDownload) {
         final downloadTask = DownloadTask(
           taskId: syncItem.id,
-          url: Uri.parse(downloadUrl).toString(),
+          url: downloadUrl,
           directory: syncItem.directory.path,
           filename: syncItem.videoFileName,
           updates: Updates.statusAndProgress,

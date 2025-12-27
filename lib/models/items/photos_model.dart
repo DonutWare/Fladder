@@ -141,7 +141,14 @@ class PhotoModel extends ItemBaseModel with PhotoModelMappable {
   }
 
   String downloadPath(WidgetRef ref) {
-    return "${ref.read(serverUrlProvider)}/Items/$id/Download?api_key=${ref.read(userProvider)?.credentials.token}";
+    final baseUrl = ref.read(serverUrlProvider);
+    if (baseUrl == null || baseUrl.isEmpty) return '';
+    return buildServerUriFromBase(
+          baseUrl,
+          pathSegments: ['Items', id, 'Download'],
+          queryParameters: {'api_key': ref.read(userProvider)?.credentials.token},
+        )?.toString() ??
+        '';
   }
 
   Future<void> navigateToAlbum(BuildContext context) async {

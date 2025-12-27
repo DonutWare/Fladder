@@ -6,7 +6,6 @@ import 'package:chopper/chopper.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
-import 'package:path/path.dart';
 
 import 'package:fladder/fake/fake_jellyfin_open_api.dart';
 import 'package:fladder/jellyfin/enum_models.dart';
@@ -1214,8 +1213,26 @@ class JellyService {
           body: trickPlayModel.copyWith(
               images: sanitizedUrls
                   .map(
-                    (e) => joinAll([server, 'Videos/${item.id}/Trickplay/${trickPlayModel.width}', e]),
+                    (e) {
+                      final parsed = Uri.tryParse(e);
+                      if (parsed == null) return '';
+                      if (parsed.hasScheme && parsed.host.isNotEmpty) return parsed.toString();
+                      return buildServerUrl(
+                        ref,
+                        pathSegments: [
+                          'Videos',
+                          item.id,
+                          'Trickplay',
+                          trickPlayModel.width.toString(),
+                          ...parsed.pathSegments.where((s) => s.isNotEmpty),
+                        ],
+                        queryParameters: parsed.queryParameters.isNotEmpty
+                            ? {for (final entry in parsed.queryParameters.entries) entry.key: entry.value}
+                            : null,
+                      );
+                    },
                   )
+                  .where((e) => e.isNotEmpty)
                   .toList()));
     } catch (e) {
       log(e.toString());
