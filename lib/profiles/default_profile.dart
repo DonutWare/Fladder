@@ -19,7 +19,6 @@ DeviceProfile defaultProfile(PlayerOptions player) {
     return webProfile;
   }
   
-  // Use Tizen-specific profile for Tizen devices
   if (isTizen) {
     return tizenProfile;
   }

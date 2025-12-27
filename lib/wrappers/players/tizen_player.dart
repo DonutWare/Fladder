@@ -133,7 +133,7 @@ class TizenPlayer extends BasePlayer {
       _controller?.play(); // refresh captions
       return wanted.index;
     }
-
+    
     // Internal subtitle
     _externalSubEnabled = false;
 
@@ -154,7 +154,6 @@ class TizenPlayer extends BasePlayer {
         }
       }
     }
-//_updateState();
     return wanted.index;
   }
 
@@ -191,7 +190,6 @@ class TizenPlayer extends BasePlayer {
           alignment: Alignment.bottomCenter,
           children: <Widget>[
             VideoPlayer(_controller!),
-            //ClosedCaption(),
             GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () {
@@ -263,10 +261,12 @@ class _TizenSubtitlesState extends ConsumerState<_TizenSubtitles> {
     String subtitle = '';
 
     if (widget.useExternal && widget.externalSubtitleController != null) {
-      subtitle = widget.externalSubtitleController!.durationSearch(position)?.data.trim() ?? '';
+      subtitle = widget.externalSubtitleController?.durationSearch(position)?.data.trim() ?? '';
     } else if (!widget.useExternal) {
       subtitle = widget.controller.value.caption.text.trim();
     }
+
+    subtitle = _sanitizeSubtitle(subtitle);
 
     if (subtitle != _lastCaption) {
       setState(() {
@@ -276,7 +276,14 @@ class _TizenSubtitlesState extends ConsumerState<_TizenSubtitles> {
     }
   }
 
+  String _sanitizeSubtitle(String subtitle) {
+    if (subtitle.isEmpty) return subtitle;
 
+    final fontTagRegex = RegExp(r'</?font[^>]*>', caseSensitive: false);
+    final sanitized = subtitle.replaceAll(fontTagRegex, '');
+
+    return sanitized.trim();
+  }
 
   @override
   Widget build(BuildContext context) {
