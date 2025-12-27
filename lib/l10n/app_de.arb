@@ -684,7 +684,7 @@
     },
     "ascending": "Aufsteigend",
     "@ascending": {},
-    "audio": "Ton",
+    "audio": "{count, plural, one{Audio} other{Audio}}}",
     "@audio": {},
     "cancel": "Abbrechen",
     "@cancel": {},
