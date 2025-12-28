@@ -77,10 +77,12 @@ class _TVControlsState extends ConsumerState<TVControls> {
 
   void _setActiveIndicator(String value) {
     _activeIndicatorTimer?.cancel();
+    if (!mounted) return;
     setState(() {
       activeIndicator = value;
     });
     _activeIndicatorTimer = RestartableTimer(const Duration(seconds: 1), () {
+      if (!mounted) return;
       setState(() {
         activeIndicator = null;
       });
@@ -194,7 +196,6 @@ class _TVControlsState extends ConsumerState<TVControls> {
         doPlayPause();
         break;
       case 'seekForward':
-
         final forwardSpeed = 
           ref.read(userProvider.select((value) => value?.userSettings?.skipForwardDuration.inSeconds ?? 30));
         seekForward(ref, seconds: forwardSpeed);
@@ -219,6 +220,7 @@ class _TVControlsState extends ConsumerState<TVControls> {
   @override
   void dispose() {
     HardwareKeyboard.instance.removeHandler(_tizenHardwareHandler);
+    _activeIndicatorTimer?.cancel();
     controlsFocusNode.dispose();
     for (final node in navFocusNodes.values) {
       node.dispose();
@@ -233,23 +235,12 @@ class _TVControlsState extends ConsumerState<TVControls> {
     final mediaSegments = ref.watch(playBackModel.select((value) => value?.mediaSegments));
     final player = ref.watch(videoPlayerProvider);
     final subtitleWidget = player.subtitleWidget(showOverlay, controlsKey: _bottomControlsKey);
-    // final currentShortcuts = ref.watch(videoPlayerSettingsProvider.select((value) => value.currentShortcuts));
-    // final effectiveKeyMap = showOverlay ? Map.of(currentShortcuts) : currentShortcuts;
-
-    // if (showOverlay) {
-    //   effectiveKeyMap.remove(VideoHotKeys.seekForward);
-    //   effectiveKeyMap.remove(VideoHotKeys.seekBack);     
-    // }
-
-    //effectiveKeyMap.remove(VideoHotKeys.playPause);
-    //effectiveKeyMap.remove(VideoHotKeys.exit);
 
     return Listener(
       onPointerSignal: setVolume,
       child: InputHandler(
         autoFocus: true,
         listenRawKeyboard: true,
-        //keyMap: effectiveKeyMap,
         child: PopScope(
           canPop: false,
           onPopInvokedWithResult: (didPop, result) {
@@ -790,8 +781,23 @@ class _TVControlsState extends ConsumerState<TVControls> {
   }
 
   void toggleOverlay({bool? value}) {
-    if (showOverlay == (value ?? !showOverlay)) return;
-    setState(() => showOverlay = (value ?? !showOverlay));
+    final desiredState = value ?? !showOverlay;
+    if (showOverlay == desiredState) return;
+
+    String? indicatorToActivate;
+    setState(() {
+      showOverlay = desiredState;
+      if (showOverlay) {
+        final playPauseIndex = navOrder.indexOf('playPause');
+        if (playPauseIndex != -1) {
+          navIndex = playPauseIndex;
+          indicatorToActivate = 'playPause';
+        }
+      }
+    });
+    if (indicatorToActivate != null) {
+      _setActiveIndicator(indicatorToActivate!);
+    }
     resetTimer();
 
     // When overlay becomes visible, set focus to the controls so arrow keys
@@ -922,7 +928,7 @@ class _TVControlsState extends ConsumerState<TVControls> {
     // }
 
     // Up/Down -> volume (when overlay not visible)
-    if (key == LogicalKeyboardKey.arrowUp || key == LogicalKeyboardKey.arrowDown) {
+    if (key == LogicalKeyboardKey.arrowUp || key == LogicalKeyboardKey.arrowDown || key == LogicalKeyboardKey.select || key == LogicalKeyboardKey.enter || key == LogicalKeyboardKey.space) {
       // _setActiveIndicator('Volume');
       // do not swallow here; allow normal processing
       toggleOverlay(value: true);
