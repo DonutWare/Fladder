@@ -180,29 +180,40 @@ class TizenPlayer extends BasePlayer {
 
 
   @override
-  Widget? videoWidget(Key key, BoxFit fit) {
-    if (_controller == null || !_controller!.value.isInitialized) return null;
-
-    return Center(
-      child: AspectRatio(
-        aspectRatio: _controller!.value.aspectRatio,
-        child: Stack(
-          alignment: Alignment.bottomCenter,
-          children: <Widget>[
-            VideoPlayer(_controller!),
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () {
-                _controller!.value.isPlaying
-                    ? _controller!.pause()
-                    : _controller!.play();
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  Widget? videoWidget(
+    Key key,
+    BoxFit fit,
+  ) =>
+      _controller == null
+          ? null
+          : Container(
+              key: key,
+              color: Colors.transparent,
+              child: LayoutBuilder(
+                builder: (context, constraints) => Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    FittedBox(
+                      fit: fit,
+                      alignment: Alignment.center,
+                      child: ValueListenableBuilder<VideoPlayerValue>(
+                        valueListenable: _controller!,
+                        builder: (context, value, child) {
+                          final aspectRatio = value.isInitialized ? value.aspectRatio : 1.77;
+                          return SizedBox(
+                            width: constraints.maxWidth,
+                            child: AspectRatio(
+                              aspectRatio: aspectRatio,
+                              child: VideoPlayer(_controller!),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
 
   @override
   Widget? subtitles(bool showOverlay, {GlobalKey? controlsKey}) {
@@ -256,11 +267,14 @@ class _TizenSubtitlesState extends ConsumerState<_TizenSubtitles> {
   }
 
   void _onControllerUpdate() {
+    if (!mounted) return;
+    if (widget.controller.value.isInitialized == false) return;
+    
     final position = widget.controller.value.position;
 
     String subtitle = '';
 
-    if (widget.useExternal && widget.externalSubtitleController != null) {
+    if (widget.useExternal && widget.externalSubtitleController != null && widget.externalSubtitleController!.initialized) {
       subtitle = widget.externalSubtitleController?.durationSearch(position)?.data.trim() ?? '';
     } else if (!widget.useExternal) {
       subtitle = widget.controller.value.caption.text.trim();
