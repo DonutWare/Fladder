@@ -6,7 +6,7 @@
     "@clearChanges": {},
     "clearSelection": "Auswahl aufheben",
     "@clearSelection": {},
-    "collectionFolder": "Sammlungsordner",
+    "collectionFolder": "{count, plural, one{Collection folder} other{Collection folders}}",
     "@collectionFolder": {},
     "color": "Farbe",
     "@color": {},
@@ -35,13 +35,13 @@
             }
         }
     },
-    "mediaTypePhoto": "Foto",
+    "mediaTypePhoto": "{count, plural, one{Photo} other{Photos}}",
     "@mediaTypePhoto": {},
-    "mediaTypePlaylist": "Wiedergabeliste",
+    "mediaTypePlaylist": "{count, plural, one{Playlist} other{Playlists}}",
     "@mediaTypePlaylist": {},
-    "mediaTypePhotoAlbum": "Fotoalbum",
+    "mediaTypePhotoAlbum": "{count, plural, one{Photo Album} other{Photo Albums}}",
     "@mediaTypePhotoAlbum": {},
-    "mediaTypeSeries": "Serie",
+    "mediaTypeSeries": "{count, plural, one{Series} other{Series}}",
     "@mediaTypeSeries": {},
     "minutes": "{count, plural, other{Minuten} one{Minute} }",
     "@minutes": {
@@ -214,7 +214,7 @@
     "@dateLastContentAdded": {},
     "datePlayed": "Abgespielt am",
     "@datePlayed": {},
-    "days": "Tage",
+    "days": "{count, plural, one{Day} other{Days}}",
     "@days": {},
     "delete": "Löschen",
     "@delete": {},
@@ -409,17 +409,17 @@
     "@markAsUnwatched": {},
     "markAsWatched": "Als angeschaut markieren",
     "@markAsWatched": {},
-    "mediaTypeEpisode": "Folge",
+    "mediaTypeEpisode": "{count, plural, one{Episode} other{Episodes}}",
     "@mediaTypeEpisode": {},
-    "mediaTypeFolder": "Ordner",
+    "mediaTypeFolder": "{count, plural, one{Folder} other{Folders}}",
     "@mediaTypeFolder": {},
-    "mediaTypeMovie": "Film",
+    "mediaTypeMovie": "{count, plural, one{Movie} other{Movies}}",
     "@mediaTypeMovie": {},
-    "mediaTypePerson": "Person",
+    "mediaTypePerson": "{count, plural, one{Person} other{People}}",
     "@mediaTypePerson": {},
-    "mediaTypeBook": "Buch",
+    "mediaTypeBook": "{count, plural, one{Book} other{Books}}",
     "@mediaTypeBook": {},
-    "mediaTypeSeason": "Staffel",
+    "mediaTypeSeason": "{count, plural, one{Season} other{Seasons}}",
     "@mediaTypeSeason": {},
     "metaDataSavedFor": "Metadaten für {item} gespeichert",
     "@metaDataSavedFor": {
@@ -442,7 +442,7 @@
     "@moreOptions": {},
     "mouseDragSupport": "Mit der Maus ziehen",
     "@mouseDragSupport": {},
-    "musicAlbum": "Album",
+    "musicAlbum": "{count, plural, one{Album} other{Albums}}",
     "@musicAlbum": {},
     "name": "Name",
     "@name": {},
@@ -684,7 +684,7 @@
     },
     "ascending": "Aufsteigend",
     "@ascending": {},
-    "audio": "{count, plural, one{Audio} other{Audio}}}",
+    "audio": "{count, plural, one{Audio} other{Audio}}",
     "@audio": {},
     "cancel": "Abbrechen",
     "@cancel": {},
@@ -825,7 +825,7 @@
     "@unableToReverseAction": {},
     "unPlayed": "Nicht abgespielt",
     "@unPlayed": {},
-    "video": "Video",
+    "video": "{count, plural, one{Video} other{Videos}}",
     "@video": {},
     "videoScaling": "Videoskalierung",
     "@videoScaling": {},
@@ -1231,7 +1231,7 @@
     "@deviceOrientationLandscapeLeft": {},
     "deviceOrientationLandscapeRight": "Querformat (rechts)",
     "@deviceOrientationLandscapeRight": {},
-    "mediaTypeBoxset": "Boxset",
+    "mediaTypeBoxset": "{count, plural, one{Boxset} other{Boxsets}}",
     "@mediaTypeBoxset": {},
     "defaultLabel": "Standard",
     "@defaultLabel": {
@@ -1718,7 +1718,7 @@
     "@extractTrickplayImagesDuringLibraryScan": {},
     "enableTrickplayImageExtraction": "Extrahieren von Trickplay-Bildern aktivieren",
     "@enableTrickplayImageExtraction": {},
-    "enableAndRankImageFetchers": "Aktiviere und ordne deine bevorzugten Bildquellen nach Präferenzen",
+    "enableAndRankImageFetchers": "Aktiviere und ordne deine bevorzugten Bildquellen nach Präferenzen.",
     "@enableAndRankImageFetchers": {},
     "imageFetchers": "Bildquellen ({type})",
     "@imageFetchers": {
@@ -1944,5 +1944,71 @@
     "primary": "Primär",
     "@primary": {},
     "selectFolderToAdd": "Ordner auswählen, der hinzugefügt werden soll",
-    "@selectFolderToAdd": {}
+    "@selectFolderToAdd": {},
+    "syncplay": "Syncplay",
+    "@syncplay": {},
+    "logo": "{count, plural, other{Logos} one{Logo}}",
+    "@logo": {
+        "description": "logo",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "trickplay": "Trickplay",
+    "@trickplay": {},
+    "programData": "Program Data",
+    "@programData": {},
+    "hours": "{count, plural, one{Hour} other{Hours}}",
+    "@hours": {
+        "description": "Pluralization for hours",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            }
+        }
+    },
+    "weeks": "{count, plural, one{Week} other{Weeks}}",
+    "@weeks": {
+        "description": "Pluralization for weeks",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "months": "{count, plural, one{Month} other{Months}}",
+    "@months": {
+        "description": "Pluralization for months",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "years": "{count, plural, one{Year} other{Years}}",
+    "@years": {
+        "description": "Pluralization for years",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "backdrop": "{count, plural, other{Backdrops} one{Backdrop}}",
+    "@backdrop": {
+        "description": "backdrop",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    }
 }
