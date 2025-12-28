@@ -1,29 +1,45 @@
+import 'package:flutter/material.dart';
+
 import 'package:fladder/models/items/images_models.dart';
 
 enum SeerrRequestStatus {
+  unknown,
   pending,
-  approved,
-  declined,
+  processing,
+  partiallyAvailable,
   available,
-  unknown;
+  deleted;
 
   static SeerrRequestStatus fromRaw(int? raw) {
     return switch (raw) {
-      1 => SeerrRequestStatus.pending,
-      2 => SeerrRequestStatus.approved,
-      3 => SeerrRequestStatus.declined,
-      4 => SeerrRequestStatus.available,
+      2 => SeerrRequestStatus.pending,
+      3 => SeerrRequestStatus.processing,
+      4 => SeerrRequestStatus.partiallyAvailable,
+      5 => SeerrRequestStatus.available,
+      6 || 7 => SeerrRequestStatus.deleted,
       _ => SeerrRequestStatus.unknown,
     };
   }
 
   String get label {
     return switch (this) {
-      SeerrRequestStatus.pending => 'Pending',
-      SeerrRequestStatus.approved => 'Approved',
-      SeerrRequestStatus.declined => 'Declined',
-      SeerrRequestStatus.available => 'Available',
-      SeerrRequestStatus.unknown => '-',
+      SeerrRequestStatus.unknown => "",
+      SeerrRequestStatus.pending => "Pending",
+      SeerrRequestStatus.processing => "Requested",
+      SeerrRequestStatus.partiallyAvailable => "Partially Available",
+      SeerrRequestStatus.available => "Available",
+      SeerrRequestStatus.deleted => "Deleted",
+    };
+  }
+
+  Color get color {
+    return switch (this) {
+      SeerrRequestStatus.unknown => Colors.grey,
+      SeerrRequestStatus.pending => Colors.orange,
+      SeerrRequestStatus.processing => Colors.blue,
+      SeerrRequestStatus.partiallyAvailable => Colors.amber,
+      SeerrRequestStatus.available => Colors.green,
+      SeerrRequestStatus.deleted => Colors.red,
     };
   }
 }
@@ -51,15 +67,17 @@ class SeerrDashboardPosterModel {
   final String title;
   final String overview;
   final ImagesData images;
+  final SeerrRequestStatus status;
 
   const SeerrDashboardPosterModel({
     required this.id,
     required this.type,
     required this.tmdbId,
-    this.jellyfinItemId,
     required this.title,
     required this.overview,
     required this.images,
+    required this.status,
+    this.jellyfinItemId,
   });
 
   SeerrDashboardPosterModel copyWith({
@@ -70,6 +88,7 @@ class SeerrDashboardPosterModel {
     String? title,
     String? overview,
     ImagesData? images,
+    SeerrRequestStatus? status,
   }) {
     return SeerrDashboardPosterModel(
       id: id ?? this.id,
@@ -79,6 +98,7 @@ class SeerrDashboardPosterModel {
       title: title ?? this.title,
       overview: overview ?? this.overview,
       images: images ?? this.images,
+      status: status ?? this.status,
     );
   }
 }
@@ -95,7 +115,7 @@ class SeerrDashboardRequestItem {
 
 class SeerrDashboardModel {
   final List<SeerrDashboardPosterModel> recentlyAdded;
-  final List<SeerrDashboardRequestItem> recentRequests;
+  final List<SeerrDashboardPosterModel> recentRequests;
   final List<SeerrDashboardPosterModel> trending;
   final List<SeerrDashboardPosterModel> popularMovies;
   final List<SeerrDashboardPosterModel> expectedMovies;
@@ -112,7 +132,7 @@ class SeerrDashboardModel {
 
   SeerrDashboardModel copyWith({
     List<SeerrDashboardPosterModel>? recentlyAdded,
-    List<SeerrDashboardRequestItem>? recentRequests,
+    List<SeerrDashboardPosterModel>? recentRequests,
     List<SeerrDashboardPosterModel>? trending,
     List<SeerrDashboardPosterModel>? popularMovies,
     List<SeerrDashboardPosterModel>? expectedMovies,

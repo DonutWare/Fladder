@@ -18,12 +18,14 @@ class SeerrDashboardNotifier extends StateNotifier<SeerrDashboardModel> {
   SeerrService get api => ref.read(seerrApiProvider);
 
   Future<void> fetchDashboard() async {
-    await fetchRecentlyAdded();
-    await fetchRecentRequests();
-    await fetchTrending();
-    await fetchPopularMovies();
-    await fetchExpectedMovies();
-    await fetchExpectedSeries();
+    await Future.wait([
+      fetchRecentlyAdded(),
+      fetchRecentRequests(),
+      fetchTrending(),
+      fetchPopularMovies(),
+      fetchExpectedMovies(),
+      fetchExpectedSeries(),
+    ]);
   }
 
   Future<void> fetchRecentlyAdded() async {
@@ -70,21 +72,12 @@ class SeerrDashboardNotifier extends StateNotifier<SeerrDashboardModel> {
       }
 
       final requests = response.body?.results ?? const <seerr.MediaRequest>[];
-      final items = <SeerrDashboardRequestItem>[];
+      final items = <SeerrDashboardPosterModel>[];
 
       for (final request in requests) {
         final poster = await _posterForRequest(request);
         if (poster == null) continue;
-        final statusRaw = request.status?.toInt();
-        items.add(
-          SeerrDashboardRequestItem(
-            poster: poster,
-            meta: SeerrDashboardRequestMeta(
-              status: SeerrRequestStatus.fromRaw(statusRaw),
-              is4k: request.is4k == true,
-            ),
-          ),
-        );
+        items.add(poster);
       }
 
       state = state.copyWith(

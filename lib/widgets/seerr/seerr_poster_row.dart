@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
@@ -9,6 +10,7 @@ import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/focus_provider.dart';
+import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/ensure_visible.dart';
 import 'package:fladder/widgets/shared/horizontal_list.dart';
 
@@ -16,7 +18,6 @@ class SeerrPosterRow extends ConsumerWidget {
   final List<SeerrDashboardPosterModel> posters;
   final String label;
   final EdgeInsets contentPadding;
-  final Widget? Function(SeerrDashboardPosterModel poster)? subtitleBuilder;
   final void Function(SeerrDashboardPosterModel poster)? onTap;
   final void Function(SeerrDashboardPosterModel focused)? onFocused;
   final void Function()? onLabelClick;
@@ -25,7 +26,6 @@ class SeerrPosterRow extends ConsumerWidget {
     required this.posters,
     required this.label,
     this.contentPadding = const EdgeInsets.symmetric(horizontal: 16),
-    this.subtitleBuilder,
     this.onTap,
     this.onFocused,
     this.onLabelClick,
@@ -34,7 +34,6 @@ class SeerrPosterRow extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Keep the same dominant ratio behavior as PosterRow for non-primary posters.
     const dominantRatio = 0.55;
 
     return HorizontalList<SeerrDashboardPosterModel>(
@@ -57,7 +56,6 @@ class SeerrPosterRow extends ConsumerWidget {
           key: Key(poster.id),
           poster: poster,
           aspectRatio: dominantRatio,
-          subTitle: subtitleBuilder?.call(poster),
           onTap: onTap,
         );
       },
@@ -68,13 +66,11 @@ class SeerrPosterRow extends ConsumerWidget {
 class _SeerrPosterTile extends StatelessWidget {
   final SeerrDashboardPosterModel poster;
   final double aspectRatio;
-  final Widget? subTitle;
   final void Function(SeerrDashboardPosterModel poster)? onTap;
 
   const _SeerrPosterTile({
     required this.poster,
     required this.aspectRatio,
-    this.subTitle,
     this.onTap,
     super.key,
   });
@@ -82,7 +78,6 @@ class _SeerrPosterTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final radius = FladderTheme.smallShape.borderRadius;
-    final opacity = 0.65;
 
     ImageData? image = poster.images.primary;
     image ??= poster.images.backDrop?.lastOrNull;
@@ -120,6 +115,48 @@ class _SeerrPosterTile extends StatelessWidget {
                   ),
                 ),
               ),
+              overlays: [
+                if (poster.status != SeerrRequestStatus.unknown)
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: CircleAvatar(
+                        backgroundColor: poster.status.color,
+                        foregroundColor: Colors.white,
+                        radius: 12,
+                        child: Icon(
+                          switch (poster.status) {
+                            SeerrRequestStatus.available => IconsaxPlusBold.tick_circle,
+                            _ => IconsaxPlusBold.minus_cirlce,
+                          },
+                          size: 20,
+                        ),
+                      ),
+                    ),
+                  ),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.all(6.0),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primaryContainer,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Text(
+                        poster.type == SeerrDashboardMediaType.movie
+                            ? context.localized.mediaTypeMovie(1)
+                            : context.localized.mediaTypeSeries(1),
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: Theme.of(context).colorScheme.onPrimaryContainer,
+                            ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
             ),
           ),
           ExcludeFocus(
@@ -132,16 +169,6 @@ class _SeerrPosterTile extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
                 ),
-                if (subTitle != null)
-                  DefaultTextStyle(
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold).copyWith(
-                              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: opacity),
-                            ) ??
-                        const TextStyle(),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    child: subTitle!,
-                  ),
               ],
             ),
           ),

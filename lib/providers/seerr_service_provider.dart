@@ -26,10 +26,9 @@ class SeerrService {
     required String title,
     required String overview,
     required String? posterPath,
+    required SeerrRequestStatus? status,
     required String? backdropPath,
   }) {
-    if (tmdbId <= 0) return null;
-
     final keyPrefix = type == SeerrDashboardMediaType.movie ? 'tmdb_movie_$tmdbId' : 'tmdb_tv_$tmdbId';
     final id = type == SeerrDashboardMediaType.movie ? 'tmdb:movie:$tmdbId' : 'tmdb:tv:$tmdbId';
 
@@ -37,13 +36,13 @@ class SeerrService {
       id: id,
       type: type,
       tmdbId: tmdbId,
-      jellyfinItemId: null,
       title: title,
       overview: overview,
       images: ImagesData(
         primary: tmdbPrimaryImage(keyPrefix: keyPrefix, posterPath: posterPath),
         backDrop: tmdbBackdropImages(keyPrefix: keyPrefix, backdropPath: backdropPath),
       ),
+      status: status ?? SeerrRequestStatus.unknown,
     );
   }
 
@@ -64,6 +63,8 @@ class SeerrService {
         overview: details.overview ?? '',
         posterPath: details.posterPath,
         backdropPath: details.backdropPath,
+        status:
+            details.mediaInfo?.status != null ? SeerrRequestStatus.fromRaw(details.mediaInfo?.status?.toInt()) : null,
       );
     }
 
@@ -78,6 +79,8 @@ class SeerrService {
         overview: details.overview ?? '',
         posterPath: details.posterPath,
         backdropPath: details.backdropPath,
+        status:
+            details.mediaInfo?.status != null ? SeerrRequestStatus.fromRaw(details.mediaInfo?.status?.toInt()) : null,
       );
     }
 
@@ -155,45 +158,45 @@ class SeerrService {
     // Explicit mediaType (preferred when present).
     if (mediaType == 'movie') {
       return _posterFromDetails(
-        type: SeerrDashboardMediaType.movie,
-        tmdbId: _tmdbIdFromMap(map),
-        title: (map['title'] ?? map['originalTitle'] ?? map['name'] ?? '').toString(),
-        overview: (map['overview'] ?? '').toString(),
-        posterPath: map['posterPath']?.toString(),
-        backdropPath: map['backdropPath']?.toString(),
-      );
+          type: SeerrDashboardMediaType.movie,
+          tmdbId: _tmdbIdFromMap(map),
+          title: (map['title'] ?? map['originalTitle'] ?? map['name'] ?? '').toString(),
+          overview: (map['overview'] ?? '').toString(),
+          posterPath: map['posterPath']?.toString(),
+          backdropPath: map['backdropPath']?.toString(),
+          status: null);
     }
     if (mediaType == 'tv' || mediaType == 'series') {
       return _posterFromDetails(
-        type: SeerrDashboardMediaType.tv,
-        tmdbId: _tmdbIdFromMap(map),
-        title: (map['name'] ?? map['originalName'] ?? map['title'] ?? '').toString(),
-        overview: (map['overview'] ?? '').toString(),
-        posterPath: map['posterPath']?.toString(),
-        backdropPath: map['backdropPath']?.toString(),
-      );
+          type: SeerrDashboardMediaType.tv,
+          tmdbId: _tmdbIdFromMap(map),
+          title: (map['name'] ?? map['originalName'] ?? map['title'] ?? '').toString(),
+          overview: (map['overview'] ?? '').toString(),
+          posterPath: map['posterPath']?.toString(),
+          backdropPath: map['backdropPath']?.toString(),
+          status: null);
     }
 
     // Heuristics if mediaType is missing.
     if (map.containsKey('name') || map.containsKey('firstAirDate')) {
       return _posterFromDetails(
-        type: SeerrDashboardMediaType.tv,
-        tmdbId: _tmdbIdFromMap(map),
-        title: (map['name'] ?? map['originalName'] ?? '').toString(),
-        overview: (map['overview'] ?? '').toString(),
-        posterPath: map['posterPath']?.toString(),
-        backdropPath: map['backdropPath']?.toString(),
-      );
+          type: SeerrDashboardMediaType.tv,
+          tmdbId: _tmdbIdFromMap(map),
+          title: (map['name'] ?? map['originalName'] ?? '').toString(),
+          overview: (map['overview'] ?? '').toString(),
+          posterPath: map['posterPath']?.toString(),
+          backdropPath: map['backdropPath']?.toString(),
+          status: null);
     }
     if (map.containsKey('title') || map.containsKey('releaseDate')) {
       return _posterFromDetails(
-        type: SeerrDashboardMediaType.movie,
-        tmdbId: _tmdbIdFromMap(map),
-        title: (map['title'] ?? map['originalTitle'] ?? '').toString(),
-        overview: (map['overview'] ?? '').toString(),
-        posterPath: map['posterPath']?.toString(),
-        backdropPath: map['backdropPath']?.toString(),
-      );
+          type: SeerrDashboardMediaType.movie,
+          tmdbId: _tmdbIdFromMap(map),
+          title: (map['title'] ?? map['originalTitle'] ?? '').toString(),
+          overview: (map['overview'] ?? '').toString(),
+          posterPath: map['posterPath']?.toString(),
+          backdropPath: map['backdropPath']?.toString(),
+          status: null);
     }
 
     return null;
@@ -209,6 +212,7 @@ class SeerrService {
         overview: value.overview ?? '',
         posterPath: value.posterPath,
         backdropPath: value.backdropPath,
+        status: value.mediaInfo?.status != null ? SeerrRequestStatus.fromRaw(value.mediaInfo?.status?.toInt()) : null,
       );
     }
     if (value is TvResult) {
@@ -219,6 +223,7 @@ class SeerrService {
         overview: value.overview ?? '',
         posterPath: value.posterPath,
         backdropPath: value.backdropPath,
+        status: value.mediaInfo?.status != null ? SeerrRequestStatus.fromRaw(value.mediaInfo?.status?.toInt()) : null,
       );
     }
     if (value is PersonResult) return null;
@@ -245,6 +250,9 @@ class SeerrService {
               overview: result.overview ?? '',
               posterPath: result.posterPath,
               backdropPath: result.backdropPath,
+              status: result.mediaInfo?.status != null
+                  ? SeerrRequestStatus.fromRaw(result.mediaInfo?.status?.toInt())
+                  : null,
             ))
         .whereType<SeerrDashboardPosterModel>()
         .toList(growable: false);
@@ -261,6 +269,9 @@ class SeerrService {
               overview: result.overview ?? '',
               posterPath: result.posterPath,
               backdropPath: result.backdropPath,
+              status: result.mediaInfo?.status != null
+                  ? SeerrRequestStatus.fromRaw(result.mediaInfo?.status?.toInt())
+                  : null,
             ))
         .whereType<SeerrDashboardPosterModel>()
         .toList(growable: false);
@@ -277,6 +288,9 @@ class SeerrService {
               overview: result.overview ?? '',
               posterPath: result.posterPath,
               backdropPath: result.backdropPath,
+              status: result.mediaInfo?.status != null
+                  ? SeerrRequestStatus.fromRaw(result.mediaInfo?.status?.toInt())
+                  : null,
             ))
         .whereType<SeerrDashboardPosterModel>()
         .toList(growable: false);
