@@ -353,7 +353,7 @@
     "@mediaTypeBook": {},
     "mediaTypeBoxset": "{count, plural, one{Coffret} other{Coffrets}}",
     "@mediaTypeBoxset": {},
-    "mediaTypeEpisode": "{count, plural, one{Episode} other{Episodes}}",
+    "mediaTypeEpisode": "{count, plural, one{Épisode} other{Épisodes}}",
     "@mediaTypeEpisode": {},
     "mediaTypeFolder": "{count, plural, one{Dossier} other{Dossiers}}",
     "@mediaTypeFolder": {},
@@ -1658,7 +1658,7 @@
             }
         }
     },
-    "taskTriggerTimeLimitSub": "Limite de temps: {time}",
+    "taskTriggerTimeLimitSub": "Limite de temps : {time}",
     "@taskTriggerTimeLimitSub": {
         "description": "taskTriggerTimeLimit",
         "placeholders": {
@@ -1677,7 +1677,7 @@
     "@metadataPath": {},
     "maxConcurrentLibraryScanLabel": "Nombre maximum de scan de bibliothèques en concurrence",
     "@maxConcurrentLibraryScanLabel": {},
-    "maxConcurrentLibraryScanDesc": "Nombres maximum de tâches en parallèle pendant les scans de bibliothèques. Laissez ceci vide pour choisir une limite en fonction du nombre de cœurs de votre système. ATTENTION: Définir un nombre trop grand peut causer des problèmes avec le système fichier du réseau; si vous rencontrez des problèmes baisser ce nombre.",
+    "maxConcurrentLibraryScanDesc": "Nombres maximum de tâches en parallèle pendant les scans de bibliothèques. Laissez ceci vide pour choisir une limite en fonction du nombre de cœurs de votre système. ATTENTION : Définir un nombre trop grand peut causer des problèmes avec les fichiers distants ; si vous rencontrez des problèmes baisser ce nombre.",
     "@maxConcurrentLibraryScanDesc": {},
     "maxImageDecodingThreadsLabel": "Nombre maximum de threads pour décoder les images",
     "@maxImageDecodingThreadsLabel": {},
@@ -1685,7 +1685,7 @@
     "@maxImageDecodingThreadsDesc": {},
     "controlPanelServerDesc": "Nom du serveur, Connexion Rapide, Performance",
     "@controlPanelServerDesc": {},
-    "deleteUserTitle": "Supprimer l'utilisateur {user}?",
+    "deleteUserTitle": "Supprimer l'utilisateur {user} ?",
     "@deleteUserTitle": {
         "description": "deleteUserTitle",
         "placeholders": {
@@ -1807,7 +1807,7 @@
     "@passwordChangeFailed": {},
     "savePassword": "Sauvegareder le mot de passe",
     "@savePassword": {},
-    "deleteLibraryConfirmTitle": "Supprimer la bibliothèque?",
+    "deleteLibraryConfirmTitle": "Supprimer la bibliothèque ?",
     "@deleteLibraryConfirmTitle": {},
     "deleteLibraryConfirmMessage": "Supprimer {libraryName}?\nCette action est définitive.",
     "@deleteLibraryConfirmMessage": {
@@ -1925,7 +1925,7 @@
     "@selectFolderToAdd": {},
     "systemRootFolder": "Dossier racine du système",
     "@systemRootFolder": {},
-    "selectedPath": "Chemin sélectionné: {path}",
+    "selectedPath": "Chemin sélectionné : {path}",
     "@selectedPath": {
         "placeholders": {
             "path": {
