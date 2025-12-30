@@ -10,6 +10,7 @@ import 'package:subtitle/subtitle.dart';
 import 'package:fladder/models/settings/subtitle_settings_model.dart';
 import 'package:fladder/providers/settings/subtitle_settings_provider.dart';
 import 'package:fladder/util/subtitle_position_calculator.dart';
+import 'package:fladder/util/tizen_video_hole.dart';
 
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
@@ -40,6 +41,7 @@ class TizenPlayer extends BasePlayer {
   @override
   Future<void> loadVideo(String url, bool play) async {
     await _controller?.dispose();
+    _controller = null;
 
     final validUrl = Uri.tryParse(url)?.isAbsolute ?? false;
     _controller = validUrl
@@ -204,7 +206,7 @@ class TizenPlayer extends BasePlayer {
                             width: constraints.maxWidth,
                             child: AspectRatio(
                               aspectRatio: aspectRatio,
-                              child: VideoPlayer(_controller!),
+                              child: TizenVideoHole(_controller!),
                             ),
                           );
                         },

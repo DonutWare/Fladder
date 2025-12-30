@@ -57,6 +57,7 @@ class _ResolutionCheckerState extends ConsumerState<ResolutionChecker> {
   Future<Size> getTizenResolution() async {
     final DeviceInfoPluginTizen deviceInfoPlugin = DeviceInfoPluginTizen();
     final tizenInfo = await deviceInfoPlugin.tizenInfo;
+    // this seem to return 1920x1080 even on 4K TVs :(
     return Size(tizenInfo.screenWidth.toDouble(), tizenInfo.screenHeight.toDouble());
   }
   
