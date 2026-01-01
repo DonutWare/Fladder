@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'package:fladder/models/seerr/seerr_search_model.dart';
+import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/providers/seerr_api_provider.dart';
 
 part 'seerr_browse_provider.freezed.dart';
@@ -41,7 +41,7 @@ class SeerrSearch extends _$SeerrSearch {
 abstract class SeerrSearchModel with _$SeerrSearchModel {
   factory SeerrSearchModel({
     @Default("") String query,
-    @Default([]) List<SeerrSearchResultItem> results,
+    @Default([]) List<SeerrDashboardPosterModel> results,
     @Default(false) bool isLoading,
   }) = _SeerrSearchModel;
 }

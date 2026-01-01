@@ -69,16 +69,18 @@ class _PullToRefreshState extends ConsumerState<PullToRefresh> {
           }
           return KeyEventResult.ignored;
         },
-        child: widget.onRefresh != null
-            ? RefreshIndicator(
-                displacement: widget.displacement ?? 80 + MediaQuery.of(context).viewPadding.top,
-                key: refreshKey,
-                onRefresh: widget.onRefresh!,
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
-                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                child: widget.child,
-              )
-            : widget.child,
+        child: Builder(
+          builder: (context) => widget.onRefresh != null
+              ? RefreshIndicator(
+                  displacement: widget.displacement ?? 80 + MediaQuery.of(context).viewPadding.top,
+                  key: refreshKey,
+                  onRefresh: widget.onRefresh!,
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                  child: widget.child,
+                )
+              : widget.child,
+        ),
       ),
     );
   }

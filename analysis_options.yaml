@@ -8,7 +8,6 @@ analyzer:
     - pubspec.yaml
     - packages/**
     - lib/jellyfin/**
-    - lib/seerr/**
     - lib/**/**.g.dart
     - lib/**/**.freezed.dart
     - lib/**/**.mapped.dart

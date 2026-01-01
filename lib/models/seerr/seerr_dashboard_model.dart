@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 
+import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
+import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/images_models.dart';
+import 'package:fladder/models/items/item_shared_models.dart';
+import 'package:fladder/models/items/media_streams_model.dart';
+import 'package:fladder/models/items/movie_model.dart';
+import 'package:fladder/models/items/overview_model.dart';
+import 'package:fladder/models/items/series_model.dart';
+import 'package:fladder/seerr/seerr_models.dart';
 
 enum SeerrRequestStatus {
   unknown,
@@ -68,6 +76,9 @@ class SeerrDashboardPosterModel {
   final String overview;
   final ImagesData images;
   final SeerrRequestStatus status;
+  final List<SeerrSeason>? seasons;
+  final Map<int, SeerrRequestStatus>? seasonStatuses;
+  final SeerrMediaInfo? mediaInfo;
 
   const SeerrDashboardPosterModel({
     required this.id,
@@ -78,6 +89,9 @@ class SeerrDashboardPosterModel {
     required this.images,
     required this.status,
     this.jellyfinItemId,
+    this.seasons,
+    this.seasonStatuses,
+    this.mediaInfo,
   });
 
   SeerrDashboardPosterModel copyWith({
@@ -89,6 +103,9 @@ class SeerrDashboardPosterModel {
     String? overview,
     ImagesData? images,
     SeerrRequestStatus? status,
+    List<SeerrSeason>? seasons,
+    Map<int, SeerrRequestStatus>? seasonStatuses,
+    SeerrMediaInfo? mediaInfo,
   }) {
     return SeerrDashboardPosterModel(
       id: id ?? this.id,
@@ -99,7 +116,57 @@ class SeerrDashboardPosterModel {
       overview: overview ?? this.overview,
       images: images ?? this.images,
       status: status ?? this.status,
+      seasons: seasons ?? this.seasons,
+      seasonStatuses: seasonStatuses ?? this.seasonStatuses,
+      mediaInfo: mediaInfo ?? this.mediaInfo,
     );
+  }
+
+  ItemBaseModel? get itemBaseModel {
+    if (jellyfinItemId == null) {
+      return null;
+    }
+    switch (type) {
+      case SeerrDashboardMediaType.tv:
+        return SeriesModel(
+          name: title,
+          id: jellyfinItemId ?? '',
+          images: null,
+          originalTitle: "",
+          sortName: "",
+          status: "Ongoing",
+          overview: const OverviewModel(),
+          parentId: null,
+          playlistId: null,
+          childCount: 0,
+          primaryRatio: 0.7,
+          userData: const UserData(),
+          canDelete: false,
+          canDownload: false,
+          jellyType: BaseItemKind.series,
+        );
+      case SeerrDashboardMediaType.movie:
+        return MovieModel(
+          name: title,
+          id: jellyfinItemId ?? '',
+          images: null,
+          originalTitle: title,
+          premiereDate: DateTime.now(),
+          sortName: title,
+          status: "Released",
+          parentImages: null,
+          mediaStreams: MediaStreamsModel(versionStreams: []),
+          overview: const OverviewModel(),
+          parentId: null,
+          playlistId: null,
+          childCount: 0,
+          primaryRatio: 0.7,
+          userData: const UserData(),
+          canDelete: false,
+          canDownload: false,
+          jellyType: type == SeerrDashboardMediaType.movie ? BaseItemKind.movie : BaseItemKind.series,
+        );
+    }
   }
 }
 

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SeerrSearchModel {
   String get query;
-  List<SeerrSearchResultItem> get results;
+  List<SeerrDashboardPosterModel> get results;
   bool get isLoading;
 
   /// Create a copy of SeerrSearchModel
@@ -39,7 +39,7 @@ abstract mixin class $SeerrSearchModelCopyWith<$Res> {
       _$SeerrSearchModelCopyWithImpl;
   @useResult
   $Res call(
-      {String query, List<SeerrSearchResultItem> results, bool isLoading});
+      {String query, List<SeerrDashboardPosterModel> results, bool isLoading});
 }
 
 /// @nodoc
@@ -67,7 +67,7 @@ class _$SeerrSearchModelCopyWithImpl<$Res>
       results: null == results
           ? _self.results
           : results // ignore: cast_nullable_to_non_nullable
-              as List<SeerrSearchResultItem>,
+              as List<SeerrDashboardPosterModel>,
       isLoading: null == isLoading
           ? _self.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
@@ -169,8 +169,8 @@ extension SeerrSearchModelPatterns on SeerrSearchModel {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(
-            String query, List<SeerrSearchResultItem> results, bool isLoading)?
+    TResult Function(String query, List<SeerrDashboardPosterModel> results,
+            bool isLoading)?
         $default, {
     required TResult orElse(),
   }) {
@@ -198,8 +198,8 @@ extension SeerrSearchModelPatterns on SeerrSearchModel {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(
-            String query, List<SeerrSearchResultItem> results, bool isLoading)
+    TResult Function(String query, List<SeerrDashboardPosterModel> results,
+            bool isLoading)
         $default,
   ) {
     final _that = this;
@@ -225,8 +225,8 @@ extension SeerrSearchModelPatterns on SeerrSearchModel {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(
-            String query, List<SeerrSearchResultItem> results, bool isLoading)?
+    TResult? Function(String query, List<SeerrDashboardPosterModel> results,
+            bool isLoading)?
         $default,
   ) {
     final _that = this;
@@ -244,17 +244,17 @@ extension SeerrSearchModelPatterns on SeerrSearchModel {
 class _SeerrSearchModel implements SeerrSearchModel {
   _SeerrSearchModel(
       {this.query = "",
-      final List<SeerrSearchResultItem> results = const [],
+      final List<SeerrDashboardPosterModel> results = const [],
       this.isLoading = false})
       : _results = results;
 
   @override
   @JsonKey()
   final String query;
-  final List<SeerrSearchResultItem> _results;
+  final List<SeerrDashboardPosterModel> _results;
   @override
   @JsonKey()
-  List<SeerrSearchResultItem> get results {
+  List<SeerrDashboardPosterModel> get results {
     if (_results is EqualUnmodifiableListView) return _results;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_results);
@@ -287,7 +287,7 @@ abstract mixin class _$SeerrSearchModelCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String query, List<SeerrSearchResultItem> results, bool isLoading});
+      {String query, List<SeerrDashboardPosterModel> results, bool isLoading});
 }
 
 /// @nodoc
@@ -315,7 +315,7 @@ class __$SeerrSearchModelCopyWithImpl<$Res>
       results: null == results
           ? _self._results
           : results // ignore: cast_nullable_to_non_nullable
-              as List<SeerrSearchResultItem>,
+              as List<SeerrDashboardPosterModel>,
       isLoading: null == isLoading
           ? _self.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable

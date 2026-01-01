@@ -9,6 +9,7 @@ targets:
       - "**/providers/**/**.dart"
       - lib/util/**.dart
       - lib/jellyfin/**.dart
+      - lib/seerr/**.dart
       - "**/**_screen.dart"
       - "**/**_page.dart"
       - swagger/jellyfin-open-api.json
@@ -48,27 +49,6 @@ targets:
           input_folder: "swagger/"
           output_folder: "lib/jellyfin/"
           generate_for: swagger/jellyfin-open-api.json
-          with_converter: true
-          build_only_models: false
-          with_base_url: false
-          include_if_null: false
-          auto_apply: dependents
-
-  seerr:
-    sources:
-      - lib/seerr/**
-      - swagger/seerr-open-api.json
-      - $package$
-    builders:
-      chopper_generator:
-        options:
-          header: "//Generated seerr api code"
-          include_if_null: false
-      swagger_dart_code_generator:
-        options:
-          input_folder: "swagger/"
-          output_folder: "lib/seerr/"
-          generate_for: swagger/seerr-open-api.json
           with_converter: true
           build_only_models: false
           with_base_url: false
