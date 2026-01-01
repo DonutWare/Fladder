@@ -83,6 +83,7 @@ final List<AutoRoute> detailsRoutes = [
   AutoRoute(page: DetailsRoute.page, path: 'details'),
   AutoRoute(page: PhotoViewerRoute.page, path: "album"),
   AutoRoute(page: LibrarySearchRoute.page, path: 'library'),
+  AutoRoute(page: SeerrSearchRoute.page, path: 'seerr-search'),
 ];
 
 final List<AutoRoute> _defaultRoutes = [

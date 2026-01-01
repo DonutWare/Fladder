@@ -108,6 +108,13 @@ class HomeScreen extends ConsumerWidget {
                 icon: Icon(e.icon),
                 selectedIcon: Icon(e.selectedIcon),
                 route: const SeerrRoute(),
+                floatingActionButton: AdaptiveFab(
+                  context: context,
+                  title: context.localized.search,
+                  key: Key(e.name.capitalize()),
+                  onPressed: () => context.router.navigate(SeerrSearchRoute()),
+                  child: const Icon(IconsaxPlusLinear.search_status),
+                ),
                 action: () => e.navigate(context),
               );
             case HomeTabs.sync:
