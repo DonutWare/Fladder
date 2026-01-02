@@ -20,12 +20,12 @@ class SeerrDashboardNotifier extends StateNotifier<SeerrDashboardModel> {
   Future<void> fetchDashboard() async {
     ref.read(seerrUserProvider.notifier).refreshUser();
     await Future.wait([
+      fetchRecentlyAdded(),
       fetchRecentRequests(),
       fetchTrending(),
       fetchPopularMovies(),
       fetchExpectedMovies(),
       fetchExpectedSeries(),
-      fetchRecentlyAdded(),
     ]);
   }
 
@@ -33,7 +33,7 @@ class SeerrDashboardNotifier extends StateNotifier<SeerrDashboardModel> {
     try {
       final response = await api.media(
         filter: MediaFilter.allavailable,
-        take: 20,
+        take: 10,
         sort: MediaSort.mediaadded,
         skip: 0,
       );
@@ -118,12 +118,9 @@ class SeerrDashboardNotifier extends StateNotifier<SeerrDashboardModel> {
     Iterable<T> items,
     Future<SeerrDashboardPosterModel?> Function(T item) mapper,
   ) async {
-    final posters = <SeerrDashboardPosterModel>[];
-    for (final item in items) {
-      final poster = await mapper(item);
-      if (poster != null) posters.add(poster);
-    }
-    return posters;
+    final futures = items.map((item) => mapper(item)).toList();
+    final results = await Future.wait(futures);
+    return results.whereType<SeerrDashboardPosterModel>().toList(growable: false);
   }
 
   void clear() => state = const SeerrDashboardModel();

@@ -175,6 +175,11 @@ class SeerrService {
       final details = tvResponse.body!;
       final seasonStatusMap = _seasonStatusMap(details.mediaInfo?.seasons);
       final resolvedSeasons = _withResolvedSeasonPosters(details.seasons);
+      String? releaseYear;
+      final firstAirDate = details.firstAirDate;
+      if (firstAirDate != null && firstAirDate.isNotEmpty) {
+        releaseYear = firstAirDate.split('-').first;
+      }
       final update = _posterFromDetails(
         type: SeerrDashboardMediaType.tv,
         tmdbId: details.id?.toInt() ?? 0,
@@ -187,6 +192,7 @@ class SeerrService {
         seasons: resolvedSeasons,
         seasonStatuses: seasonStatusMap.isEmpty ? null : seasonStatusMap,
         mediaInfo: details.mediaInfo,
+        releaseYear: releaseYear,
       );
 
       if (update == null) return existing;
@@ -211,6 +217,11 @@ class SeerrService {
       final movieResponse = await movieDetails(tmdbId: tmdbId, language: language);
       if (!movieResponse.isSuccessful || movieResponse.body == null) return null;
       final details = movieResponse.body!;
+      String? releaseYear;
+      final releaseDate = details.releaseDate;
+      if (releaseDate != null && releaseDate.isNotEmpty) {
+        releaseYear = releaseDate.split('-').first;
+      }
       final update = _posterFromDetails(
         type: SeerrDashboardMediaType.movie,
         tmdbId: details.id?.toInt() ?? 0,
@@ -221,6 +232,7 @@ class SeerrService {
         backdropPath: details.backdropPath,
         status: _statusFromRaw(details.mediaInfo?.status?.toInt()),
         mediaInfo: details.mediaInfo,
+        releaseYear: releaseYear,
       );
 
       if (update == null) return existing;
