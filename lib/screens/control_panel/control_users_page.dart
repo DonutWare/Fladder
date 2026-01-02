@@ -39,12 +39,9 @@ class ControlUsersPage extends ConsumerWidget {
           SettingsLabelDivider(label: context.localized.users),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: Wrap(
-              crossAxisAlignment: WrapCrossAlignment.center,
-              alignment: WrapAlignment.center,
-              runAlignment: WrapAlignment.center,
+            child: Column(
               spacing: 16,
-              runSpacing: 16,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: users.mapIndexed(
                 (index, user) {
                   final userActions = [
@@ -139,18 +136,16 @@ class _UserListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: const BoxConstraints(
-        minHeight: 280,
-      ),
+      constraints: const BoxConstraints(minHeight: 50, maxHeight: 75),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           spacing: 8,
           children: [
@@ -170,25 +165,33 @@ class _UserListItem extends StatelessWidget {
                 ],
               ),
             ),
-            Flexible(
-              child: Text(
-                user.name,
-                maxLines: 2,
-                softWrap: true,
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-            ),
-            Flexible(
-              child: Text(
-                maxLines: 2,
-                softWrap: true,
-                overflow: TextOverflow.ellipsis,
-                "${context.localized.lastActivity} ${user.lastUsed.timeAgo(context) ?? ""}",
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Flexible(
+                    child: Text(
+                      user.name,
+                      maxLines: 2,
+                      softWrap: true,
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
+                  ),
+                  Flexible(
+                    child: Text(
+                      maxLines: 2,
+                      softWrap: true,
+                      overflow: TextOverflow.ellipsis,
+                      "${context.localized.lastActivity} ${user.lastUsed.timeAgo(context) ?? ""}",
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: Theme.of(context).colorScheme.onSurfaceVariant,
+                          ),
+                    ),
+                  ),
+                ],
               ),
-            ),
+            )
           ],
         ),
       ),
