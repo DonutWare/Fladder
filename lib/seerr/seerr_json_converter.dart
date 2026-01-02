@@ -10,7 +10,7 @@ class SeerrJsonConverter extends JsonConverter {
 
   static Map<Type, Function> get _typeDeserializers => {
         SeerrStatus: SeerrStatus.fromJson,
-        SeerrUser: SeerrUser.fromJson,
+        SeerrUserModel: SeerrUserModel.fromJson,
         SeerrUserSettings: SeerrUserSettings.fromJson,
         SeerrSonarrServer: SeerrSonarrServer.fromJson,
         SeerrSonarrServerResponse: SeerrSonarrServerResponse.fromJson,
@@ -21,6 +21,8 @@ class SeerrJsonConverter extends JsonConverter {
         SeerrRootFolder: SeerrRootFolder.fromJson,
         SeerrMovieDetails: SeerrMovieDetails.fromJson,
         SeerrTvDetails: SeerrTvDetails.fromJson,
+        SeerrUserQuota: SeerrUserQuota.fromJson,
+        SeerrQuotaEntry: SeerrQuotaEntry.fromJson,
         SeerrGenre: SeerrGenre.fromJson,
         SeerrSeason: SeerrSeason.fromJson,
         SeerrMediaInfoSeason: SeerrMediaInfoSeason.fromJson,

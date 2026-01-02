@@ -30,18 +30,18 @@ final class _$SeerrChopperService extends SeerrChopperService {
   }
 
   @override
-  Future<Response<SeerrUser>> getMe() {
+  Future<Response<SeerrUserModel>> getMe() {
     final Uri $url = Uri.parse('/api/v1/auth/me');
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
     );
-    return client.send<SeerrUser, SeerrUser>($request);
+    return client.send<SeerrUserModel, SeerrUserModel>($request);
   }
 
   @override
-  Future<Response<SeerrUser>> authenticateLocal(SeerrAuthLocalBody body) {
+  Future<Response<SeerrUserModel>> authenticateLocal(SeerrAuthLocalBody body) {
     final Uri $url = Uri.parse('/api/v1/auth/local');
     final $body = body;
     final Request $request = Request(
@@ -50,11 +50,12 @@ final class _$SeerrChopperService extends SeerrChopperService {
       client.baseUrl,
       body: $body,
     );
-    return client.send<SeerrUser, SeerrUser>($request);
+    return client.send<SeerrUserModel, SeerrUserModel>($request);
   }
 
   @override
-  Future<Response<SeerrUser>> authenticateJellyfin(SeerrAuthJellyfinBody body) {
+  Future<Response<SeerrUserModel>> authenticateJellyfin(
+      SeerrAuthJellyfinBody body) {
     final Uri $url = Uri.parse('/api/v1/auth/jellyfin');
     final $body = body;
     final Request $request = Request(
@@ -63,7 +64,18 @@ final class _$SeerrChopperService extends SeerrChopperService {
       client.baseUrl,
       body: $body,
     );
-    return client.send<SeerrUser, SeerrUser>($request);
+    return client.send<SeerrUserModel, SeerrUserModel>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> logout() {
+    final Uri $url = Uri.parse('/api/v1/auth/logout');
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<dynamic, dynamic>($request);
   }
 
   @override
@@ -214,6 +226,17 @@ final class _$SeerrChopperService extends SeerrChopperService {
       parameters: $params,
     );
     return client.send<SeerrRequestsResponse, SeerrRequestsResponse>($request);
+  }
+
+  @override
+  Future<Response<SeerrUserQuota>> getUserQuota(int userId) {
+    final Uri $url = Uri.parse('/api/v1/user/${userId}/quota');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<SeerrUserQuota, SeerrUserQuota>($request);
   }
 
   @override

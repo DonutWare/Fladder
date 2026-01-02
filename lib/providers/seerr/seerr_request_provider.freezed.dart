@@ -24,10 +24,12 @@ mixin _$SeerrRequestModel {
   List<SeerrServiceTag> get selectedTags;
   Map<int, bool> get selectedSeasons;
   Map<int, SeerrRequestStatus> get seasonStatuses;
-  SeerrUser? get currentUser;
-  SeerrUser? get selectedUser;
-  List<SeerrUser> get availableUsers;
+  Map<int, SeerrUserQuota> get userQuotas;
+  SeerrUserModel? get currentUser;
+  SeerrUserModel? get selectedUser;
+  List<SeerrUserModel> get availableUsers;
   bool get use4k;
+  bool get isAnime;
 
   /// Create a copy of SeerrRequestModel
   /// with the given fields replaced by the non-null parameter values.
@@ -39,7 +41,7 @@ mixin _$SeerrRequestModel {
 
   @override
   String toString() {
-    return 'SeerrRequestModel(poster: $poster, sonarrServers: $sonarrServers, radarrServers: $radarrServers, selectedSonarrServer: $selectedSonarrServer, selectedRadarrServer: $selectedRadarrServer, selectedProfile: $selectedProfile, selectedRootFolder: $selectedRootFolder, selectedTags: $selectedTags, selectedSeasons: $selectedSeasons, seasonStatuses: $seasonStatuses, currentUser: $currentUser, selectedUser: $selectedUser, availableUsers: $availableUsers, use4k: $use4k)';
+    return 'SeerrRequestModel(poster: $poster, sonarrServers: $sonarrServers, radarrServers: $radarrServers, selectedSonarrServer: $selectedSonarrServer, selectedRadarrServer: $selectedRadarrServer, selectedProfile: $selectedProfile, selectedRootFolder: $selectedRootFolder, selectedTags: $selectedTags, selectedSeasons: $selectedSeasons, seasonStatuses: $seasonStatuses, userQuotas: $userQuotas, currentUser: $currentUser, selectedUser: $selectedUser, availableUsers: $availableUsers, use4k: $use4k, isAnime: $isAnime)';
   }
 }
 
@@ -60,10 +62,12 @@ abstract mixin class $SeerrRequestModelCopyWith<$Res> {
       List<SeerrServiceTag> selectedTags,
       Map<int, bool> selectedSeasons,
       Map<int, SeerrRequestStatus> seasonStatuses,
-      SeerrUser? currentUser,
-      SeerrUser? selectedUser,
-      List<SeerrUser> availableUsers,
-      bool use4k});
+      Map<int, SeerrUserQuota> userQuotas,
+      SeerrUserModel? currentUser,
+      SeerrUserModel? selectedUser,
+      List<SeerrUserModel> availableUsers,
+      bool use4k,
+      bool isAnime});
 
   $SeerrSonarrServerCopyWith<$Res>? get selectedSonarrServer;
   $SeerrRadarrServerCopyWith<$Res>? get selectedRadarrServer;
@@ -93,10 +97,12 @@ class _$SeerrRequestModelCopyWithImpl<$Res>
     Object? selectedTags = null,
     Object? selectedSeasons = null,
     Object? seasonStatuses = null,
+    Object? userQuotas = null,
     Object? currentUser = freezed,
     Object? selectedUser = freezed,
     Object? availableUsers = null,
     Object? use4k = null,
+    Object? isAnime = null,
   }) {
     return _then(_self.copyWith(
       poster: freezed == poster
@@ -139,21 +145,29 @@ class _$SeerrRequestModelCopyWithImpl<$Res>
           ? _self.seasonStatuses
           : seasonStatuses // ignore: cast_nullable_to_non_nullable
               as Map<int, SeerrRequestStatus>,
+      userQuotas: null == userQuotas
+          ? _self.userQuotas
+          : userQuotas // ignore: cast_nullable_to_non_nullable
+              as Map<int, SeerrUserQuota>,
       currentUser: freezed == currentUser
           ? _self.currentUser
           : currentUser // ignore: cast_nullable_to_non_nullable
-              as SeerrUser?,
+              as SeerrUserModel?,
       selectedUser: freezed == selectedUser
           ? _self.selectedUser
           : selectedUser // ignore: cast_nullable_to_non_nullable
-              as SeerrUser?,
+              as SeerrUserModel?,
       availableUsers: null == availableUsers
           ? _self.availableUsers
           : availableUsers // ignore: cast_nullable_to_non_nullable
-              as List<SeerrUser>,
+              as List<SeerrUserModel>,
       use4k: null == use4k
           ? _self.use4k
           : use4k // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isAnime: null == isAnime
+          ? _self.isAnime
+          : isAnime // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
   }
@@ -307,10 +321,12 @@ extension SeerrRequestModelPatterns on SeerrRequestModel {
             List<SeerrServiceTag> selectedTags,
             Map<int, bool> selectedSeasons,
             Map<int, SeerrRequestStatus> seasonStatuses,
-            SeerrUser? currentUser,
-            SeerrUser? selectedUser,
-            List<SeerrUser> availableUsers,
-            bool use4k)?
+            Map<int, SeerrUserQuota> userQuotas,
+            SeerrUserModel? currentUser,
+            SeerrUserModel? selectedUser,
+            List<SeerrUserModel> availableUsers,
+            bool use4k,
+            bool isAnime)?
         $default, {
     required TResult orElse(),
   }) {
@@ -328,10 +344,12 @@ extension SeerrRequestModelPatterns on SeerrRequestModel {
             _that.selectedTags,
             _that.selectedSeasons,
             _that.seasonStatuses,
+            _that.userQuotas,
             _that.currentUser,
             _that.selectedUser,
             _that.availableUsers,
-            _that.use4k);
+            _that.use4k,
+            _that.isAnime);
       case _:
         return orElse();
     }
@@ -363,10 +381,12 @@ extension SeerrRequestModelPatterns on SeerrRequestModel {
             List<SeerrServiceTag> selectedTags,
             Map<int, bool> selectedSeasons,
             Map<int, SeerrRequestStatus> seasonStatuses,
-            SeerrUser? currentUser,
-            SeerrUser? selectedUser,
-            List<SeerrUser> availableUsers,
-            bool use4k)
+            Map<int, SeerrUserQuota> userQuotas,
+            SeerrUserModel? currentUser,
+            SeerrUserModel? selectedUser,
+            List<SeerrUserModel> availableUsers,
+            bool use4k,
+            bool isAnime)
         $default,
   ) {
     final _that = this;
@@ -383,10 +403,12 @@ extension SeerrRequestModelPatterns on SeerrRequestModel {
             _that.selectedTags,
             _that.selectedSeasons,
             _that.seasonStatuses,
+            _that.userQuotas,
             _that.currentUser,
             _that.selectedUser,
             _that.availableUsers,
-            _that.use4k);
+            _that.use4k,
+            _that.isAnime);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -417,10 +439,12 @@ extension SeerrRequestModelPatterns on SeerrRequestModel {
             List<SeerrServiceTag> selectedTags,
             Map<int, bool> selectedSeasons,
             Map<int, SeerrRequestStatus> seasonStatuses,
-            SeerrUser? currentUser,
-            SeerrUser? selectedUser,
-            List<SeerrUser> availableUsers,
-            bool use4k)?
+            Map<int, SeerrUserQuota> userQuotas,
+            SeerrUserModel? currentUser,
+            SeerrUserModel? selectedUser,
+            List<SeerrUserModel> availableUsers,
+            bool use4k,
+            bool isAnime)?
         $default,
   ) {
     final _that = this;
@@ -437,10 +461,12 @@ extension SeerrRequestModelPatterns on SeerrRequestModel {
             _that.selectedTags,
             _that.selectedSeasons,
             _that.seasonStatuses,
+            _that.userQuotas,
             _that.currentUser,
             _that.selectedUser,
             _that.availableUsers,
-            _that.use4k);
+            _that.use4k,
+            _that.isAnime);
       case _:
         return null;
     }
@@ -461,15 +487,18 @@ class _SeerrRequestModel extends SeerrRequestModel {
       final List<SeerrServiceTag> selectedTags = const [],
       final Map<int, bool> selectedSeasons = const {},
       final Map<int, SeerrRequestStatus> seasonStatuses = const {},
+      final Map<int, SeerrUserQuota> userQuotas = const {},
       this.currentUser,
       this.selectedUser,
-      final List<SeerrUser> availableUsers = const [],
-      this.use4k = false})
+      final List<SeerrUserModel> availableUsers = const [],
+      this.use4k = false,
+      this.isAnime = false})
       : _sonarrServers = sonarrServers,
         _radarrServers = radarrServers,
         _selectedTags = selectedTags,
         _selectedSeasons = selectedSeasons,
         _seasonStatuses = seasonStatuses,
+        _userQuotas = userQuotas,
         _availableUsers = availableUsers,
         super._();
 
@@ -528,14 +557,23 @@ class _SeerrRequestModel extends SeerrRequestModel {
     return EqualUnmodifiableMapView(_seasonStatuses);
   }
 
-  @override
-  final SeerrUser? currentUser;
-  @override
-  final SeerrUser? selectedUser;
-  final List<SeerrUser> _availableUsers;
+  final Map<int, SeerrUserQuota> _userQuotas;
   @override
   @JsonKey()
-  List<SeerrUser> get availableUsers {
+  Map<int, SeerrUserQuota> get userQuotas {
+    if (_userQuotas is EqualUnmodifiableMapView) return _userQuotas;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_userQuotas);
+  }
+
+  @override
+  final SeerrUserModel? currentUser;
+  @override
+  final SeerrUserModel? selectedUser;
+  final List<SeerrUserModel> _availableUsers;
+  @override
+  @JsonKey()
+  List<SeerrUserModel> get availableUsers {
     if (_availableUsers is EqualUnmodifiableListView) return _availableUsers;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_availableUsers);
@@ -544,6 +582,9 @@ class _SeerrRequestModel extends SeerrRequestModel {
   @override
   @JsonKey()
   final bool use4k;
+  @override
+  @JsonKey()
+  final bool isAnime;
 
   /// Create a copy of SeerrRequestModel
   /// with the given fields replaced by the non-null parameter values.
@@ -555,7 +596,7 @@ class _SeerrRequestModel extends SeerrRequestModel {
 
   @override
   String toString() {
-    return 'SeerrRequestModel(poster: $poster, sonarrServers: $sonarrServers, radarrServers: $radarrServers, selectedSonarrServer: $selectedSonarrServer, selectedRadarrServer: $selectedRadarrServer, selectedProfile: $selectedProfile, selectedRootFolder: $selectedRootFolder, selectedTags: $selectedTags, selectedSeasons: $selectedSeasons, seasonStatuses: $seasonStatuses, currentUser: $currentUser, selectedUser: $selectedUser, availableUsers: $availableUsers, use4k: $use4k)';
+    return 'SeerrRequestModel(poster: $poster, sonarrServers: $sonarrServers, radarrServers: $radarrServers, selectedSonarrServer: $selectedSonarrServer, selectedRadarrServer: $selectedRadarrServer, selectedProfile: $selectedProfile, selectedRootFolder: $selectedRootFolder, selectedTags: $selectedTags, selectedSeasons: $selectedSeasons, seasonStatuses: $seasonStatuses, userQuotas: $userQuotas, currentUser: $currentUser, selectedUser: $selectedUser, availableUsers: $availableUsers, use4k: $use4k, isAnime: $isAnime)';
   }
 }
 
@@ -578,10 +619,12 @@ abstract mixin class _$SeerrRequestModelCopyWith<$Res>
       List<SeerrServiceTag> selectedTags,
       Map<int, bool> selectedSeasons,
       Map<int, SeerrRequestStatus> seasonStatuses,
-      SeerrUser? currentUser,
-      SeerrUser? selectedUser,
-      List<SeerrUser> availableUsers,
-      bool use4k});
+      Map<int, SeerrUserQuota> userQuotas,
+      SeerrUserModel? currentUser,
+      SeerrUserModel? selectedUser,
+      List<SeerrUserModel> availableUsers,
+      bool use4k,
+      bool isAnime});
 
   @override
   $SeerrSonarrServerCopyWith<$Res>? get selectedSonarrServer;
@@ -614,10 +657,12 @@ class __$SeerrRequestModelCopyWithImpl<$Res>
     Object? selectedTags = null,
     Object? selectedSeasons = null,
     Object? seasonStatuses = null,
+    Object? userQuotas = null,
     Object? currentUser = freezed,
     Object? selectedUser = freezed,
     Object? availableUsers = null,
     Object? use4k = null,
+    Object? isAnime = null,
   }) {
     return _then(_SeerrRequestModel(
       poster: freezed == poster
@@ -660,21 +705,29 @@ class __$SeerrRequestModelCopyWithImpl<$Res>
           ? _self._seasonStatuses
           : seasonStatuses // ignore: cast_nullable_to_non_nullable
               as Map<int, SeerrRequestStatus>,
+      userQuotas: null == userQuotas
+          ? _self._userQuotas
+          : userQuotas // ignore: cast_nullable_to_non_nullable
+              as Map<int, SeerrUserQuota>,
       currentUser: freezed == currentUser
           ? _self.currentUser
           : currentUser // ignore: cast_nullable_to_non_nullable
-              as SeerrUser?,
+              as SeerrUserModel?,
       selectedUser: freezed == selectedUser
           ? _self.selectedUser
           : selectedUser // ignore: cast_nullable_to_non_nullable
-              as SeerrUser?,
+              as SeerrUserModel?,
       availableUsers: null == availableUsers
           ? _self._availableUsers
           : availableUsers // ignore: cast_nullable_to_non_nullable
-              as List<SeerrUser>,
+              as List<SeerrUserModel>,
       use4k: null == use4k
           ? _self.use4k
           : use4k // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isAnime: null == isAnime
+          ? _self.isAnime
+          : isAnime // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
   }

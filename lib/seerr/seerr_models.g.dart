@@ -8,9 +8,9 @@ part of 'seerr_models.dart';
 
 SeerrStatus _$SeerrStatusFromJson(Map<String, dynamic> json) => SeerrStatus(
       version: json['version'] as String?,
-      commitTag: (json['commitTag'] as num?)?.toInt(),
-      updateAvailable: json['updateAvailable'] as String?,
-      commitsBehind: json['commitsBehind'] as String?,
+      commitTag: json['commitTag'] as String?,
+      updateAvailable: json['updateAvailable'] as bool?,
+      commitsBehind: (json['commitsBehind'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$SeerrStatusToJson(SeerrStatus instance) =>
@@ -21,7 +21,8 @@ Map<String, dynamic> _$SeerrStatusToJson(SeerrStatus instance) =>
       'commitsBehind': instance.commitsBehind,
     };
 
-SeerrUser _$SeerrUserFromJson(Map<String, dynamic> json) => SeerrUser(
+SeerrUserModel _$SeerrUserModelFromJson(Map<String, dynamic> json) =>
+    SeerrUserModel(
       id: (json['id'] as num?)?.toInt(),
       email: json['email'] as String?,
       username: json['username'] as String?,
@@ -40,7 +41,8 @@ SeerrUser _$SeerrUserFromJson(Map<String, dynamic> json) => SeerrUser(
       tvQuotaDays: (json['tvQuotaDays'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$SeerrUserToJson(SeerrUser instance) => <String, dynamic>{
+Map<String, dynamic> _$SeerrUserModelToJson(SeerrUserModel instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'email': instance.email,
       'username': instance.username,
@@ -54,6 +56,40 @@ Map<String, dynamic> _$SeerrUserToJson(SeerrUser instance) => <String, dynamic>{
       'movieQuotaDays': instance.movieQuotaDays,
       'tvQuotaLimit': instance.tvQuotaLimit,
       'tvQuotaDays': instance.tvQuotaDays,
+    };
+
+SeerrUserQuota _$SeerrUserQuotaFromJson(Map<String, dynamic> json) =>
+    SeerrUserQuota(
+      movie: json['movie'] == null
+          ? null
+          : SeerrQuotaEntry.fromJson(json['movie'] as Map<String, dynamic>),
+      tv: json['tv'] == null
+          ? null
+          : SeerrQuotaEntry.fromJson(json['tv'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$SeerrUserQuotaToJson(SeerrUserQuota instance) =>
+    <String, dynamic>{
+      'movie': instance.movie,
+      'tv': instance.tv,
+    };
+
+SeerrQuotaEntry _$SeerrQuotaEntryFromJson(Map<String, dynamic> json) =>
+    SeerrQuotaEntry(
+      days: (json['days'] as num?)?.toInt(),
+      limit: (json['limit'] as num?)?.toInt(),
+      used: (json['used'] as num?)?.toInt(),
+      remaining: (json['remaining'] as num?)?.toInt(),
+      restricted: json['restricted'] as bool?,
+    );
+
+Map<String, dynamic> _$SeerrQuotaEntryToJson(SeerrQuotaEntry instance) =>
+    <String, dynamic>{
+      'days': instance.days,
+      'limit': instance.limit,
+      'used': instance.used,
+      'remaining': instance.remaining,
+      'restricted': instance.restricted,
     };
 
 SeerrUserSettings _$SeerrUserSettingsFromJson(Map<String, dynamic> json) =>
@@ -73,7 +109,7 @@ Map<String, dynamic> _$SeerrUserSettingsToJson(SeerrUserSettings instance) =>
 SeerrUsersResponse _$SeerrUsersResponseFromJson(Map<String, dynamic> json) =>
     SeerrUsersResponse(
       results: (json['results'] as List<dynamic>?)
-          ?.map((e) => SeerrUser.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => SeerrUserModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       pageInfo: json['pageInfo'] == null
           ? null
@@ -156,6 +192,9 @@ SeerrTvDetails _$SeerrTvDetailsFromJson(Map<String, dynamic> json) =>
           ? null
           : SeerrExternalIds.fromJson(
               json['externalIds'] as Map<String, dynamic>),
+      keywords: (json['keywords'] as List<dynamic>?)
+          ?.map((e) => SeerrKeyword.fromJson(e as Map<String, dynamic>))
+          .toList(),
       mediaId: _readJellyfinMediaId(json, 'mediaId') as String?,
     );
 
@@ -177,6 +216,7 @@ Map<String, dynamic> _$SeerrTvDetailsToJson(SeerrTvDetails instance) =>
       'seasons': instance.seasons,
       'mediaInfo': instance.mediaInfo,
       'externalIds': instance.externalIds,
+      'keywords': instance.keywords,
       'mediaId': instance.mediaId,
     };
 
@@ -186,6 +226,17 @@ SeerrGenre _$SeerrGenreFromJson(Map<String, dynamic> json) => SeerrGenre(
     );
 
 Map<String, dynamic> _$SeerrGenreToJson(SeerrGenre instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+    };
+
+SeerrKeyword _$SeerrKeywordFromJson(Map<String, dynamic> json) => SeerrKeyword(
+      id: (json['id'] as num?)?.toInt(),
+      name: json['name'] as String?,
+    );
+
+Map<String, dynamic> _$SeerrKeywordToJson(SeerrKeyword instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
@@ -387,10 +438,11 @@ SeerrMediaRequest _$SeerrMediaRequestFromJson(Map<String, dynamic> json) =>
       updatedAt: json['updatedAt'] as String?,
       requestedBy: json['requestedBy'] == null
           ? null
-          : SeerrUser.fromJson(json['requestedBy'] as Map<String, dynamic>),
+          : SeerrUserModel.fromJson(
+              json['requestedBy'] as Map<String, dynamic>),
       modifiedBy: json['modifiedBy'] == null
           ? null
-          : SeerrUser.fromJson(json['modifiedBy'] as Map<String, dynamic>),
+          : SeerrUserModel.fromJson(json['modifiedBy'] as Map<String, dynamic>),
       is4k: json['is4k'] as bool?,
       serverId: (json['serverId'] as num?)?.toInt(),
       profileId: (json['profileId'] as num?)?.toInt(),
@@ -619,7 +671,14 @@ _SeerrSonarrServer _$SeerrSonarrServerFromJson(Map<String, dynamic> json) =>
       baseUrl: json['baseUrl'] as String?,
       activeProfileId: (json['activeProfileId'] as num?)?.toInt(),
       activeProfileName: json['activeProfileName'] as String?,
+      activeLanguageProfileId:
+          (json['activeLanguageProfileId'] as num?)?.toInt(),
       activeDirectory: json['activeDirectory'] as String?,
+      activeAnimeProfileId: (json['activeAnimeProfileId'] as num?)?.toInt(),
+      activeAnimeLanguageProfileId:
+          (json['activeAnimeLanguageProfileId'] as num?)?.toInt(),
+      activeAnimeProfileName: json['activeAnimeProfileName'] as String?,
+      activeAnimeDirectory: json['activeAnimeDirectory'] as String?,
       is4k: json['is4k'] as bool?,
       isDefault: json['isDefault'] as bool?,
       externalUrl: json['externalUrl'] as String?,
@@ -650,7 +709,12 @@ Map<String, dynamic> _$SeerrSonarrServerToJson(_SeerrSonarrServer instance) =>
       'baseUrl': instance.baseUrl,
       'activeProfileId': instance.activeProfileId,
       'activeProfileName': instance.activeProfileName,
+      'activeLanguageProfileId': instance.activeLanguageProfileId,
       'activeDirectory': instance.activeDirectory,
+      'activeAnimeProfileId': instance.activeAnimeProfileId,
+      'activeAnimeLanguageProfileId': instance.activeAnimeLanguageProfileId,
+      'activeAnimeProfileName': instance.activeAnimeProfileName,
+      'activeAnimeDirectory': instance.activeAnimeDirectory,
       'is4k': instance.is4k,
       'isDefault': instance.isDefault,
       'externalUrl': instance.externalUrl,
@@ -699,7 +763,14 @@ _SeerrRadarrServer _$SeerrRadarrServerFromJson(Map<String, dynamic> json) =>
       baseUrl: json['baseUrl'] as String?,
       activeProfileId: (json['activeProfileId'] as num?)?.toInt(),
       activeProfileName: json['activeProfileName'] as String?,
+      activeLanguageProfileId:
+          (json['activeLanguageProfileId'] as num?)?.toInt(),
       activeDirectory: json['activeDirectory'] as String?,
+      activeAnimeProfileId: (json['activeAnimeProfileId'] as num?)?.toInt(),
+      activeAnimeLanguageProfileId:
+          (json['activeAnimeLanguageProfileId'] as num?)?.toInt(),
+      activeAnimeProfileName: json['activeAnimeProfileName'] as String?,
+      activeAnimeDirectory: json['activeAnimeDirectory'] as String?,
       is4k: json['is4k'] as bool?,
       isDefault: json['isDefault'] as bool?,
       externalUrl: json['externalUrl'] as String?,
@@ -730,7 +801,12 @@ Map<String, dynamic> _$SeerrRadarrServerToJson(_SeerrRadarrServer instance) =>
       'baseUrl': instance.baseUrl,
       'activeProfileId': instance.activeProfileId,
       'activeProfileName': instance.activeProfileName,
+      'activeLanguageProfileId': instance.activeLanguageProfileId,
       'activeDirectory': instance.activeDirectory,
+      'activeAnimeProfileId': instance.activeAnimeProfileId,
+      'activeAnimeLanguageProfileId': instance.activeAnimeLanguageProfileId,
+      'activeAnimeProfileName': instance.activeAnimeProfileName,
+      'activeAnimeDirectory': instance.activeAnimeDirectory,
       'is4k': instance.is4k,
       'isDefault': instance.isDefault,
       'externalUrl': instance.externalUrl,

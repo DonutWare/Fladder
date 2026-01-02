@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
+import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/providers/seerr/seerr_request_provider.dart';
 import 'package:fladder/screens/seerr/widgets/request_configuration_section.dart';
+import 'package:fladder/screens/seerr/widgets/request_popup_widgets.dart';
 import 'package:fladder/screens/seerr/widgets/seasons_section.dart';
 import 'package:fladder/screens/shared/adaptive_dialog.dart';
 import 'package:fladder/seerr/seerr_models.dart';
@@ -40,11 +43,11 @@ class SeerrRequestPopup extends ConsumerStatefulWidget {
 }
 
 class _SeerrRequestPopupState extends ConsumerState<SeerrRequestPopup> {
-  Widget _avatarWidget(SeerrUser? user) {
+  Widget _avatarWidget(SeerrUserModel? user) {
     final avatarUrl = user?.avatar;
     final placeholder = CircleAvatar(
       radius: 18,
-      child: Icon(Icons.person, color: Theme.of(context).colorScheme.onSurfaceVariant),
+      child: Icon(FladderItemType.person.icon, color: Theme.of(context).colorScheme.onSurfaceVariant),
     );
 
     if (avatarUrl == null || avatarUrl.isEmpty) return placeholder;
@@ -62,7 +65,7 @@ class _SeerrRequestPopupState extends ConsumerState<SeerrRequestPopup> {
     );
   }
 
-  Widget _userLabelWidget(SeerrUser? user) {
+  Widget _userLabelWidget(SeerrUserModel? user) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -81,30 +84,39 @@ class _SeerrRequestPopupState extends ConsumerState<SeerrRequestPopup> {
   @override
   Widget build(BuildContext context) {
     final notifier = ref.read(seerrRequestProvider.notifier);
-
     final requestState = ref.watch(seerrRequestProvider);
     final model = requestState.poster ?? widget.requestModel;
     final seasons = requestState.poster?.seasons ?? const <SeerrSeason>[];
     final seasonStatuses = requestState.seasonStatuses;
 
+    final currentUser = requestState.currentUser;
+    final canShowAdvancedConfiguration = currentUser?.canManageRequests ?? false;
+
     return PullToRefresh(
-      onRefresh: () {
-        return notifier.initialize(widget.requestModel);
-      },
+      onRefresh: () => notifier.initialize(widget.requestModel),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         child: Column(
+          spacing: 8,
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisSize: MainAxisSize.max,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Expanded(
+            Flexible(
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
+                  spacing: 8,
                   children: [
+                    AutoApproveBanner(user: currentUser, isTv: requestState.isTv),
+                    if (requestState.activeQuota != null && requestState.activeQuota?.hasRestrictions == true)
+                      QuotaLimitCard(
+                        quota: requestState.activeQuota!,
+                        type: model.type,
+                      ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 16,
                       children: [
                         if (model.images.primary != null)
                           ClipRRect(
@@ -116,16 +128,16 @@ class _SeerrRequestPopupState extends ConsumerState<SeerrRequestPopup> {
                                 image: model.images.primary,
                                 placeHolder: Container(
                                   color: Colors.grey,
-                                  child: const Icon(Icons.movie),
+                                  child: Icon(FladderItemType.movie.icon),
                                 ),
                               ),
                             ),
                           ),
-                        const SizedBox(width: 16),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
+                            spacing: 4,
                             children: [
                               Flexible(
                                 child: Row(
@@ -163,7 +175,6 @@ class _SeerrRequestPopupState extends ConsumerState<SeerrRequestPopup> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(height: 4),
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                 decoration: BoxDecoration(
@@ -177,37 +188,46 @@ class _SeerrRequestPopupState extends ConsumerState<SeerrRequestPopup> {
                                   style: Theme.of(context).textTheme.bodyMedium,
                                 ),
                               ),
-                              const SizedBox(height: 8),
                               SelectableText(
                                 model.overview.trim().isEmpty ? context.localized.noOverviewAvailable : model.overview,
                                 style: Theme.of(context).textTheme.bodyMedium,
                                 maxLines: 4,
                               ),
-                              const SizedBox(height: 12),
                             ],
                           ),
                         ),
                       ],
                     ),
-                    const Divider(),
                     if (model.type == SeerrDashboardMediaType.tv && seasons.isNotEmpty) ...[
+                      const Divider(),
                       SeerrSeasonsSection(
                         model: model,
                         requestState: requestState,
                         seasons: seasons,
                         seasonStatuses: seasonStatuses,
                       ),
-                      const Divider(),
                     ],
-                    RequestConfigurationSection(
-                      requestState: requestState,
-                      userLabelBuilder: _userLabelWidget,
-                    ),
+                    if (canShowAdvancedConfiguration) ...[
+                      const Divider(),
+                      RequestConfigurationSection(
+                        requestState: requestState,
+                        userLabelBuilder: _userLabelWidget,
+                      ),
+                    ],
                   ],
                 ),
               ),
             ),
-            const SizedBox(height: 24),
+            const Divider(),
+            if (requestState.hasRequestPermission == false) ...[
+              const PermissionDeniedWarning(),
+            ],
+            if (requestState.isAnime) ...[
+              Text(
+                '* This series is an anime.',
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.secondary),
+              ),
+            ],
             FilledButtonAwait(
               onPressed: requestState.canSubmitRequest
                   ? () async {
@@ -221,12 +241,11 @@ class _SeerrRequestPopupState extends ConsumerState<SeerrRequestPopup> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 spacing: 8,
                 children: [
-                  const Icon(Icons.send),
+                  const Icon(IconsaxPlusBold.send_2),
                   Text(context.localized.submitRequest),
                 ],
               ),
             ),
-            const SizedBox(height: 4),
             ElevatedButton(
               onPressed: () => context.pop(),
               child: Text(context.localized.close),

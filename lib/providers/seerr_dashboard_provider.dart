@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/providers/seerr_api_provider.dart';
 import 'package:fladder/providers/seerr_service_provider.dart';
+import 'package:fladder/providers/seerr_user_provider.dart';
 import 'package:fladder/seerr/seerr_models.dart';
 
 final seerrDashboardProvider = StateNotifierProvider<SeerrDashboardNotifier, SeerrDashboardModel>((ref) {
@@ -17,6 +18,7 @@ class SeerrDashboardNotifier extends StateNotifier<SeerrDashboardModel> {
   SeerrService get api => ref.read(seerrApiProvider);
 
   Future<void> fetchDashboard() async {
+    ref.read(seerrUserProvider.notifier).refreshUser();
     await Future.wait([
       fetchRecentRequests(),
       fetchTrending(),
@@ -123,4 +125,6 @@ class SeerrDashboardNotifier extends StateNotifier<SeerrDashboardModel> {
     }
     return posters;
   }
+
+  void clear() => state = const SeerrDashboardModel();
 }

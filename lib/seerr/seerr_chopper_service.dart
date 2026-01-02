@@ -14,13 +14,16 @@ abstract class SeerrChopperService extends ChopperService {
   Future<Response<SeerrStatus>> getStatus();
 
   @GET(path: '/auth/me')
-  Future<Response<SeerrUser>> getMe();
+  Future<Response<SeerrUserModel>> getMe();
 
   @POST(path: '/auth/local')
-  Future<Response<SeerrUser>> authenticateLocal(@Body() SeerrAuthLocalBody body);
+  Future<Response<SeerrUserModel>> authenticateLocal(@Body() SeerrAuthLocalBody body);
 
   @POST(path: '/auth/jellyfin')
-  Future<Response<SeerrUser>> authenticateJellyfin(@Body() SeerrAuthJellyfinBody body);
+  Future<Response<SeerrUserModel>> authenticateJellyfin(@Body() SeerrAuthJellyfinBody body);
+
+  @POST(path: '/auth/logout')
+  Future<Response<dynamic>> logout();
 
   @GET(path: '/service/sonarr')
   Future<Response<List<SeerrSonarrServer>>> getSonarrServers();
@@ -69,6 +72,11 @@ abstract class SeerrChopperService extends ChopperService {
     @Query('take') int? take,
     @Query('skip') int? skip,
   });
+
+  @GET(path: '/user/{userId}/quota')
+  Future<Response<SeerrUserQuota>> getUserQuota(
+    @Path('userId') int userId,
+  );
 
   @POST(path: '/request')
   Future<Response<SeerrMediaRequest>> createRequest(@Body() SeerrCreateRequestBody body);

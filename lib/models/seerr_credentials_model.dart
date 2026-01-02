@@ -15,5 +15,9 @@ abstract class SeerrCredentialsModel with _$SeerrCredentialsModel {
     @Default("") String sessionCookie,
   }) = _SeerrCredentialsModel;
 
+  bool get isConfigured {
+    return serverUrl.isNotEmpty && (apiKey.isNotEmpty || sessionCookie.isNotEmpty);
+  }
+
   factory SeerrCredentialsModel.fromJson(Map<String, dynamic> json) => _$SeerrCredentialsModelFromJson(json);
 }

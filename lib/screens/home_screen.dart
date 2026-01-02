@@ -69,6 +69,9 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final canDownload = ref.watch(showSyncButtonProviderProvider);
+    final seerrAuthenticated = ref.watch(
+      userProvider.select((user) => user?.seerrCredentials?.isConfigured ?? false),
+    );
     final destinations = HomeTabs.values
         .map((e) {
           switch (e) {
@@ -103,20 +106,22 @@ class HomeScreen extends ConsumerWidget {
                 action: () => e.navigate(context),
               );
             case HomeTabs.seerr:
-              return DestinationModel(
-                label: 'Seerr',
-                icon: Icon(e.icon),
-                selectedIcon: Icon(e.selectedIcon),
-                route: const SeerrRoute(),
-                floatingActionButton: AdaptiveFab(
-                  context: context,
-                  title: context.localized.search,
-                  key: Key(e.name.capitalize()),
-                  onPressed: () => context.router.navigate(SeerrSearchRoute()),
-                  child: const Icon(IconsaxPlusLinear.search_status),
-                ),
-                action: () => e.navigate(context),
-              );
+              if (seerrAuthenticated) {
+                return DestinationModel(
+                  label: 'Seerr',
+                  icon: Icon(e.icon),
+                  selectedIcon: Icon(e.selectedIcon),
+                  route: const SeerrRoute(),
+                  floatingActionButton: AdaptiveFab(
+                    context: context,
+                    title: context.localized.search,
+                    key: Key(e.name.capitalize()),
+                    onPressed: () => context.router.navigate(const SeerrSearchRoute()),
+                    child: const Icon(IconsaxPlusLinear.search_status),
+                  ),
+                  action: () => e.navigate(context),
+                );
+              }
             case HomeTabs.sync:
               if (canDownload && !kIsWeb) {
                 return DestinationModel(

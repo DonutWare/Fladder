@@ -31,12 +31,12 @@ class SeerrSeasonsSection extends ConsumerWidget {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 12,
       children: [
         Text(
           context.localized.season(seasons.length),
           style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
         ),
-        const SizedBox(height: 12),
         ...seasons.map((season) {
           final seasonNumber = season.seasonNumber;
           if (seasonNumber == null) return const SizedBox.shrink();

@@ -18,7 +18,7 @@ class SeerrService {
 
   Future<Response<SeerrStatus>> status() => _api.getStatus();
 
-  Future<Response<SeerrUser>> me() async {
+  Future<Response<SeerrUserModel>> me() async {
     final response = await _api.getMe();
     final user = response.body;
     if (user == null) return response;
@@ -37,13 +37,12 @@ class SeerrService {
           final response = serverSettings.body!;
           final server = response.server;
           if (server != null) {
-            sonarrServers.add(
-              server.copyWith(
-                profiles: response.profiles,
-                tags: response.tags ?? server.tags,
-                rootFolders: response.rootFolders,
-              ),
+            final updatedServer = server.copyWith(
+              profiles: response.profiles,
+              tags: response.tags ?? server.tags,
+              rootFolders: response.rootFolders ?? server.rootFolders,
             );
+            sonarrServers.add(updatedServer);
           }
         }
       }
@@ -79,13 +78,19 @@ class SeerrService {
     return radarrServers;
   }
 
-  Future<List<SeerrUser>> users({int? take, int? skip, String sort = 'displayname'}) async {
+  Future<List<SeerrUserModel>> users({int? take, int? skip, String sort = 'displayname'}) async {
     final response = await _api.getUsers(take: take, skip: skip, sort: sort);
     final results = response.body?.results ?? [];
     return results.map(_withAbsoluteAvatar).toList(growable: false);
   }
 
-  SeerrUser _withAbsoluteAvatar(SeerrUser user) {
+  Future<SeerrUserQuota?> userQuota({required int userId}) async {
+    final response = await _api.getUserQuota(userId);
+    if (!response.isSuccessful) return null;
+    return response.body;
+  }
+
+  SeerrUserModel _withAbsoluteAvatar(SeerrUserModel user) {
     final avatar = user.avatar;
     if (avatar == null || avatar.isEmpty) return user;
 
@@ -94,7 +99,7 @@ class SeerrService {
 
     if (resolvedAvatar == avatar) return user;
 
-    return SeerrUser(
+    return SeerrUserModel(
       id: user.id,
       email: user.email,
       username: user.username,
@@ -264,6 +269,7 @@ class SeerrService {
       seasons: resolvedSeasons,
       mediaInfo: body.mediaInfo,
       externalIds: body.externalIds,
+      keywords: body.keywords,
       mediaId: body.mediaId,
     );
 
@@ -476,6 +482,8 @@ class SeerrService {
     final response = await _authenticateJellyfin(username: username, password: password);
     return _requireSessionCookie(response, label: 'Jellyfin');
   }
+
+  Future<void> logout() async => await _api.logout();
 
   Future<Response<dynamic>> _authenticateJellyfin({required String username, required String password}) async {
     var response = await _api.authenticateJellyfin(

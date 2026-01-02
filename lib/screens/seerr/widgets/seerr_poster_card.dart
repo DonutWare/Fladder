@@ -6,7 +6,9 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
+import 'package:fladder/providers/seerr_user_provider.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_request_popup.dart';
+import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/focus_provider.dart';
@@ -35,6 +37,9 @@ class SeerrPosterCard extends ConsumerWidget {
     ImageData? image = poster.images.primary;
     image ??= poster.images.backDrop?.lastOrNull;
 
+    final user = ref.watch(seerrUserProvider);
+    final canRequest = user?.canRequestMedia(isTv: poster.type == SeerrDashboardMediaType.tv) ?? true;
+
     final baseItemModel = poster.itemBaseModel;
     void handleRequestAction() {
       if (onRequestAddTap != null) {
@@ -47,13 +52,13 @@ class SeerrPosterCard extends ConsumerWidget {
     final List<ItemAction> itemActions = [
       if (poster.status != SeerrRequestStatus.unknown || poster.id.isNotEmpty)
         ItemActionButton(
-          icon: const Icon(Icons.open_in_new),
+          icon: const Icon(IconsaxPlusBold.folder_open),
           label: Text(context.localized.viewRequest),
           action: () => openSeerrRequestPopup(context, poster),
         ),
-      if (poster.status == SeerrRequestStatus.unknown)
+      if (poster.status == SeerrRequestStatus.unknown && canRequest)
         ItemActionButton(
-          icon: const Icon(Icons.add),
+          icon: const Icon(IconsaxPlusBold.add),
           label: Text(context.localized.request),
           action: handleRequestAction,
         ),
@@ -75,27 +80,25 @@ class SeerrPosterCard extends ConsumerWidget {
                 : baseItemModel != null
                     ? () => baseItemModel.navigateTo(context)
                     : handleRequestAction,
-            child: ClipRRect(
-              borderRadius: radius,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: radius,
-                  color: Theme.of(context).colorScheme.surfaceContainer,
-                ),
-                foregroundDecoration: BoxDecoration(
-                  borderRadius: radius,
-                  border: Border.all(width: 1, color: Colors.white.withAlpha(45)),
-                ),
-                child: FladderImage(
-                  image: image,
-                  placeHolder: Center(
-                    child: Text(
-                      poster.title,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.labelMedium,
-                    ),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: radius,
+                color: Theme.of(context).colorScheme.surfaceContainer,
+              ),
+              foregroundDecoration: BoxDecoration(
+                borderRadius: radius,
+                border: Border.all(width: 1, color: Colors.white.withAlpha(45)),
+              ),
+              clipBehavior: Clip.hardEdge,
+              child: FladderImage(
+                image: image,
+                placeHolder: Center(
+                  child: Text(
+                    poster.title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.labelMedium,
                   ),
                 ),
               ),
@@ -103,23 +106,7 @@ class SeerrPosterCard extends ConsumerWidget {
             onSecondaryTapDown: (details) => _showContextMenu(context, itemActions, ref, details.globalPosition),
             onLongPress: () => _showBottomSheet(context, itemActions, ref),
             focusedOverlays: [
-              if (poster.jellyfinItemId != null)
-                Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: CircleAvatar(
-                      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                      foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
-                      radius: 12,
-                      child: const Icon(
-                        IconsaxPlusBold.activity,
-                        size: 20,
-                      ),
-                    ),
-                  ),
-                ),
-              if (poster.status == SeerrRequestStatus.unknown)
+              if (poster.status == SeerrRequestStatus.unknown && canRequest)
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
@@ -166,16 +153,20 @@ class SeerrPosterCard extends ConsumerWidget {
                   alignment: Alignment.topRight,
                   child: Padding(
                     padding: const EdgeInsets.all(6.0),
-                    child: CircleAvatar(
-                      backgroundColor: poster.status.color,
-                      foregroundColor: Colors.white,
-                      radius: 12,
-                      child: Icon(
-                        switch (poster.status) {
-                          SeerrRequestStatus.available => IconsaxPlusBold.tick_circle,
-                          _ => IconsaxPlusBold.minus_cirlce,
-                        },
-                        size: 20,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: poster.status.color,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(3.0),
+                        child: Icon(
+                          switch (poster.status) {
+                            SeerrRequestStatus.available => IconsaxPlusLinear.import_3,
+                            _ => Icons.remove_rounded,
+                          },
+                          size: 18,
+                        ),
                       ),
                     ),
                   ),

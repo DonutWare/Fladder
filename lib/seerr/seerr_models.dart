@@ -100,9 +100,9 @@ extension DiscoverSortByExtension on DiscoverSortBy {
 @JsonSerializable()
 class SeerrStatus {
   final String? version;
-  final int? commitTag;
-  final String? updateAvailable;
-  final String? commitsBehind;
+  final String? commitTag;
+  final bool? updateAvailable;
+  final int? commitsBehind;
 
   SeerrStatus({
     this.version,
@@ -116,7 +116,7 @@ class SeerrStatus {
 }
 
 @JsonSerializable()
-class SeerrUser {
+class SeerrUserModel {
   final int? id;
   final String? email;
   final String? username;
@@ -131,7 +131,7 @@ class SeerrUser {
   final int? tvQuotaLimit;
   final int? tvQuotaDays;
 
-  SeerrUser({
+  SeerrUserModel({
     this.id,
     this.email,
     this.username,
@@ -147,12 +147,95 @@ class SeerrUser {
     this.tvQuotaDays,
   });
 
-  factory SeerrUser.fromJson(Map<String, dynamic> json) => _$SeerrUserFromJson(json);
-  Map<String, dynamic> toJson() => _$SeerrUserToJson(this);
+  factory SeerrUserModel.fromJson(Map<String, dynamic> json) => _$SeerrUserModelFromJson(json);
+  Map<String, dynamic> toJson() => _$SeerrUserModelToJson(this);
 }
 
-extension SeerrUserLabel on SeerrUser {
+@JsonSerializable()
+class SeerrUserQuota {
+  final SeerrQuotaEntry? movie;
+  final SeerrQuotaEntry? tv;
+
+  SeerrUserQuota({this.movie, this.tv});
+
+  factory SeerrUserQuota.fromJson(Map<String, dynamic> json) => _$SeerrUserQuotaFromJson(json);
+  Map<String, dynamic> toJson() => _$SeerrUserQuotaToJson(this);
+}
+
+@JsonSerializable()
+class SeerrQuotaEntry {
+  final int? days;
+  final int? limit;
+  final int? used;
+  final int? remaining;
+  final bool? restricted;
+
+  bool get hasRestrictions => restricted == true || limit != 0;
+
+  SeerrQuotaEntry({this.days, this.limit, this.used, this.remaining, this.restricted});
+
+  factory SeerrQuotaEntry.fromJson(Map<String, dynamic> json) => _$SeerrQuotaEntryFromJson(json);
+  Map<String, dynamic> toJson() => _$SeerrQuotaEntryToJson(this);
+}
+
+//Taken from https://github.com/seerr-team/seerr/blob/develop/server/lib/permissions.ts
+enum SeerrPermission {
+  none(0),
+  admin(2),
+  manageSettings(4),
+  manageUsers(8),
+  manageRequests(16),
+  request(32),
+  vote(64),
+  autoApprove(128),
+  autoApproveMovie(256),
+  autoApproveTv(512),
+  request4k(1024),
+  request4kMovie(2048),
+  request4kTv(4096),
+  requestAdvanced(8192),
+  requestView(16384),
+  autoApprove4k(32768),
+  autoApprove4kMovie(65536),
+  autoApprove4kTv(131072),
+  requestMovie(262144),
+  requestTv(524288),
+  manageIssues(1048576),
+  viewIssues(2097152),
+  createIssues(4194304),
+  autoRequest(8388608),
+  autoRequestMovie(16777216),
+  autoRequestTv(33554432),
+  recentView(67108864),
+  watchlistView(134217728),
+  manageBlacklist(268435456),
+  viewBlacklist(1073741824);
+
+  const SeerrPermission(this.bit);
+
+  final int bit;
+}
+
+extension SeerrUserLabel on SeerrUserModel {
   String get label => displayName ?? username ?? email ?? 'Unknown';
+}
+
+extension SeerrUserPermissions on SeerrUserModel {
+  int get _permissionValue => permissions ?? 0;
+
+  bool get isAdmin => (_permissionValue & SeerrPermission.admin.bit) == SeerrPermission.admin.bit;
+
+  bool hasPermission(SeerrPermission permission) =>
+      isAdmin ? true : (_permissionValue & permission.bit) == permission.bit;
+
+  bool get canManageRequests =>
+      isAdmin || hasPermission(SeerrPermission.manageRequests) || hasPermission(SeerrPermission.requestAdvanced);
+
+  bool canRequestMedia({required bool isTv}) {
+    final baseRequest = hasPermission(SeerrPermission.request);
+    if (isTv) return baseRequest || hasPermission(SeerrPermission.requestTv);
+    return baseRequest || hasPermission(SeerrPermission.requestMovie);
+  }
 }
 
 @JsonSerializable()
@@ -173,7 +256,7 @@ class SeerrUserSettings {
 
 @JsonSerializable()
 class SeerrUsersResponse {
-  final List<SeerrUser>? results;
+  final List<SeerrUserModel>? results;
   final SeerrPageInfo? pageInfo;
 
   SeerrUsersResponse({
@@ -195,7 +278,12 @@ abstract class SeerrServer {
   String? get baseUrl;
   int? get activeProfileId;
   String? get activeProfileName;
+  int? get activeLanguageProfileId;
   String? get activeDirectory;
+  int? get activeAnimeProfileId;
+  int? get activeAnimeLanguageProfileId;
+  String? get activeAnimeProfileName;
+  String? get activeAnimeDirectory;
   bool? get is4k;
   bool? get isDefault;
   String? get externalUrl;
@@ -219,7 +307,12 @@ abstract class SeerrSonarrServer with _$SeerrSonarrServer implements SeerrServer
     String? baseUrl,
     int? activeProfileId,
     String? activeProfileName,
+    int? activeLanguageProfileId,
     String? activeDirectory,
+    int? activeAnimeProfileId,
+    int? activeAnimeLanguageProfileId,
+    String? activeAnimeProfileName,
+    String? activeAnimeDirectory,
     bool? is4k,
     bool? isDefault,
     String? externalUrl,
@@ -258,7 +351,12 @@ abstract class SeerrRadarrServer with _$SeerrRadarrServer implements SeerrServer
     String? baseUrl,
     int? activeProfileId,
     String? activeProfileName,
+    int? activeLanguageProfileId,
     String? activeDirectory,
+    int? activeAnimeProfileId,
+    int? activeAnimeLanguageProfileId,
+    String? activeAnimeProfileName,
+    String? activeAnimeDirectory,
     bool? is4k,
     bool? isDefault,
     String? externalUrl,
@@ -271,6 +369,14 @@ abstract class SeerrRadarrServer with _$SeerrRadarrServer implements SeerrServer
   }) = _SeerrRadarrServer;
 
   factory SeerrRadarrServer.fromJson(Map<String, dynamic> json) => _$SeerrRadarrServerFromJson(json);
+}
+
+extension SeerrSonarrServerDefaults on SeerrSonarrServer {
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  String? get defaultSeriesPath => activeDirectory;
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  String? get defaultAnimePath => activeAnimeDirectory;
 }
 
 @Freezed(copyWith: true, makeCollectionsUnmodifiable: false)
@@ -373,6 +479,7 @@ class SeerrTvDetails {
   final List<SeerrSeason>? seasons;
   final SeerrMediaInfo? mediaInfo;
   final SeerrExternalIds? externalIds;
+  final List<SeerrKeyword>? keywords;
   @JsonKey(readValue: _readJellyfinMediaId)
   final String? mediaId;
 
@@ -393,6 +500,7 @@ class SeerrTvDetails {
     this.seasons,
     this.mediaInfo,
     this.externalIds,
+    this.keywords,
     this.mediaId,
   });
 
@@ -412,6 +520,20 @@ class SeerrGenre {
 
   factory SeerrGenre.fromJson(Map<String, dynamic> json) => _$SeerrGenreFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrGenreToJson(this);
+}
+
+@JsonSerializable()
+class SeerrKeyword {
+  final int? id;
+  final String? name;
+
+  SeerrKeyword({
+    this.id,
+    this.name,
+  });
+
+  factory SeerrKeyword.fromJson(Map<String, dynamic> json) => _$SeerrKeywordFromJson(json);
+  Map<String, dynamic> toJson() => _$SeerrKeywordToJson(this);
 }
 
 @JsonSerializable()
@@ -612,8 +734,8 @@ class SeerrMediaRequest {
   final SeerrMedia? media;
   final String? createdAt;
   final String? updatedAt;
-  final SeerrUser? requestedBy;
-  final SeerrUser? modifiedBy;
+  final SeerrUserModel? requestedBy;
+  final SeerrUserModel? modifiedBy;
   final bool? is4k;
   final int? serverId;
   final int? profileId;

@@ -1966,6 +1966,30 @@
   "@noTags": {},
   "requestAs": "Request as",
   "@requestAs": {},
+  "requestQuotaTitle": "Request quota",
+  "@requestQuotaTitle": {},
+  "requestQuotaStatus": "{remaining} of {limit} remaining (resets every {days} days)",
+  "@requestQuotaStatus": {
+    "placeholders": {
+      "remaining": {
+        "type": "int"
+      },
+      "limit": {
+        "type": "int"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "requestQuotaLimitReached": "Request limit reached for {mediaType}.",
+  "@requestQuotaLimitReached": {
+    "placeholders": {
+      "mediaType": {
+        "type": "String"
+      }
+    }
+  },
   "submitRequest": "Submit request",
   "@submitRequest": {},
   "noOverviewAvailable": "No overview available.",

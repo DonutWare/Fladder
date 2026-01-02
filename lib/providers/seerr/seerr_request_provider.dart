@@ -5,6 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/models/seerr/seerr_item_models.dart';
 import 'package:fladder/providers/seerr_api_provider.dart';
+import 'package:fladder/providers/seerr_user_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/seerr/seerr_models.dart';
 
@@ -23,8 +24,7 @@ class SeerrRequest extends _$SeerrRequest {
   Future<void> initialize(SeerrDashboardPosterModel poster) async {
     state = state.copyWith(poster: poster);
 
-    final currentUser = await api.me();
-    final currentUserBody = currentUser.body;
+    final currentUserBody = await ref.read(seerrUserProvider.notifier).refreshUser();
     final isTv = poster.type == SeerrDashboardMediaType.tv;
 
     SeerrDashboardPosterModel updatedPoster = poster;
@@ -32,6 +32,8 @@ class SeerrRequest extends _$SeerrRequest {
       final tvDetailsResponse = await api.tvDetails(tvId: poster.tmdbId);
       if (tvDetailsResponse.isSuccessful && tvDetailsResponse.body != null) {
         final details = tvDetailsResponse.body!;
+
+        final isAnime = _isAnime(details);
 
         final Map<int, SeerrRequestStatus> seasonStatusMap = {
           for (final season in details.mediaInfo?.seasons ?? const <SeerrMediaInfoSeason>[])
@@ -58,7 +60,7 @@ class SeerrRequest extends _$SeerrRequest {
           seasonStatuses: seasonStatusMap.isEmpty ? poster.seasonStatuses : seasonStatusMap,
           mediaInfo: details.mediaInfo,
         );
-        state = state.copyWith(poster: updatedPoster);
+        state = state.copyWith(poster: updatedPoster, isAnime: isAnime);
       }
     } else if (!isTv) {
       final movieDetailsResponse = await api.movieDetails(tmdbId: poster.tmdbId);
@@ -72,6 +74,8 @@ class SeerrRequest extends _$SeerrRequest {
     if (isTv) {
       _initializeSeasonSelection(updatedPoster);
     }
+
+    await _loadQuotaForUser(currentUserBody?.id, force: true);
 
     if (isTv) {
       final servers = await api.sonarrServers();
@@ -109,6 +113,19 @@ class SeerrRequest extends _$SeerrRequest {
     state = state.copyWith(availableUsers: users);
   }
 
+  Future<void> _loadQuotaForUser(int? userId, {bool force = false}) async {
+    if (userId == null) return;
+    if (!force && state.userQuotas.containsKey(userId)) return;
+
+    final quota = await api.userQuota(userId: userId);
+    if (quota != null) {
+      state = state.copyWith(userQuotas: {...state.userQuotas, userId: quota});
+    } else if (force && state.userQuotas.containsKey(userId)) {
+      final updated = Map<int, SeerrUserQuota>.from(state.userQuotas)..remove(userId);
+      state = state.copyWith(userQuotas: updated);
+    }
+  }
+
   void selectProfile(SeerrServiceProfile profile) {
     state = state.copyWith(selectedProfile: profile);
   }
@@ -128,8 +145,9 @@ class SeerrRequest extends _$SeerrRequest {
     state = state.copyWith(selectedSeasons: current);
   }
 
-  void selectUser(SeerrUser user) {
+  Future<void> selectUser(SeerrUserModel user) async {
     state = state.copyWith(selectedUser: user);
+    await _loadQuotaForUser(user.id, force: true);
   }
 
   void selectServer(SeerrServer? server) {
@@ -182,7 +200,8 @@ class SeerrRequest extends _$SeerrRequest {
     final poster = state.poster;
     if (poster == null) return;
 
-    final userId = state.selectedUser?.id ?? state.currentUser?.id;
+    final canOverrideUser = state.currentUser?.canManageRequests ?? false;
+    final userId = canOverrideUser ? state.selectedUser?.id ?? state.currentUser?.id : null;
     final tags = state.selectedTags.map((t) => t.id).whereType<int>().toList();
     final profileId = state.selectedProfile?.id;
     final rootFolder = state.selectedRootFolder;
@@ -270,13 +289,47 @@ abstract class SeerrRequestModel with _$SeerrRequestModel {
     @Default([]) List<SeerrServiceTag> selectedTags,
     @Default({}) Map<int, bool> selectedSeasons,
     @Default({}) Map<int, SeerrRequestStatus> seasonStatuses,
-    SeerrUser? currentUser,
-    SeerrUser? selectedUser,
-    @Default([]) List<SeerrUser> availableUsers,
+    @Default({}) Map<int, SeerrUserQuota> userQuotas,
+    SeerrUserModel? currentUser,
+    SeerrUserModel? selectedUser,
+    @Default([]) List<SeerrUserModel> availableUsers,
     @Default(false) bool use4k,
+    @Default(false) bool isAnime,
   }) = _SeerrRequestModel;
 
   bool get isTv => poster?.type == SeerrDashboardMediaType.tv;
+
+  SeerrUserModel? get requestingUser => selectedUser ?? currentUser;
+
+  bool? get hasRequestPermission {
+    final user = currentUser;
+    if (user == null) return null;
+
+    final baseRequest = user.hasPermission(SeerrPermission.request);
+    if (isTv) {
+      return baseRequest || user.hasPermission(SeerrPermission.requestTv);
+    }
+    return baseRequest || user.hasPermission(SeerrPermission.requestMovie);
+  }
+
+  SeerrQuotaEntry? get activeQuota {
+    final userId = requestingUser?.id;
+    if (userId == null) return null;
+    final quota = userQuotas[userId];
+    return isTv ? quota?.tv : quota?.movie;
+  }
+
+  bool get isQuotaRestricted {
+    final quota = activeQuota;
+    if (quota == null) return false;
+    if (quota.restricted == true) return true;
+    final limit = quota.limit;
+    final remaining = quota.remaining;
+
+    if (limit == null) return false;
+    if (remaining != null && remaining <= 0) return true;
+    return false;
+  }
 
   SeerrSonarrServer? get fourKSonarr => sonarrServers.firstWhereOrNull((s) => s.is4k == true);
   SeerrRadarrServer? get fourKRadarr => radarrServers.firstWhereOrNull((s) => s.is4k == true);
@@ -314,6 +367,13 @@ abstract class SeerrRequestModel with _$SeerrRequestModel {
   }
 
   bool get canSubmitRequest {
+    if (hasRequestPermission != true) return false;
+    if (isQuotaRestricted) return false;
+
+    if (poster?.status == SeerrRequestStatus.available) {
+      return false;
+    }
+
     if (isTv) {
       return selectedSeasonNumbers?.isNotEmpty ?? false;
     }
@@ -333,6 +393,14 @@ abstract class SeerrRequestModel with _$SeerrRequestModel {
 
   List<String> get availableRootFolders => availableRootFoldersRaw.map((r) => r.path).whereType<String>().toList();
 
+  String? get defaultRootFolder {
+    final server = activeServer;
+    if (server is SeerrSonarrServer && isAnime) {
+      return server.activeAnimeDirectory ?? server.activeDirectory;
+    }
+    return server?.activeDirectory;
+  }
+
   String serverLabel(SeerrServer? server) {
     if (server == null) return 'Select Server';
     final name = server.name;
@@ -343,7 +411,9 @@ abstract class SeerrRequestModel with _$SeerrRequestModel {
 
   SeerrServiceProfile? pickProfileForServer(SeerrServer? server) {
     final profiles = server?.profiles;
-    final activeId = server?.activeProfileId;
+    final activeId = server is SeerrSonarrServer && isAnime
+        ? server.activeAnimeProfileId ?? server.activeProfileId
+        : server?.activeProfileId;
 
     if (profiles == null || profiles.isEmpty) return null;
     if (activeId == null) return profiles.first;
@@ -354,7 +424,8 @@ abstract class SeerrRequestModel with _$SeerrRequestModel {
 
   String? pickRootFolderForServer(SeerrServer? server) {
     final folders = server?.rootFolders;
-    final activeDirectory = server?.activeDirectory;
+    final activeDirectory =
+        server is SeerrSonarrServer && isAnime ? server.activeAnimeDirectory : server?.activeDirectory;
 
     final available = folders ?? const [];
     if (available.isEmpty) return activeDirectory;
@@ -363,4 +434,13 @@ abstract class SeerrRequestModel with _$SeerrRequestModel {
 
     return match?.path ?? activeDirectory ?? available.first.path;
   }
+}
+
+bool _isAnime(SeerrTvDetails details) {
+  final keywordHit = details.keywords?.any((k) => (k.name ?? '').toLowerCase() == 'anime') ?? false;
+  if (keywordHit) return true;
+  final genreHit = details.genres
+          ?.any((g) => (g.name ?? '').toLowerCase() == 'animation' || (g.name ?? '').toLowerCase() == 'anime') ??
+      false;
+  return genreHit;
 }

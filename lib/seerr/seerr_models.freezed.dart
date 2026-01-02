@@ -23,7 +23,12 @@ mixin _$SeerrSonarrServer {
   String? get baseUrl;
   int? get activeProfileId;
   String? get activeProfileName;
+  int? get activeLanguageProfileId;
   String? get activeDirectory;
+  int? get activeAnimeProfileId;
+  int? get activeAnimeLanguageProfileId;
+  String? get activeAnimeProfileName;
+  String? get activeAnimeDirectory;
   bool? get is4k;
   bool? get isDefault;
   String? get externalUrl;
@@ -47,7 +52,7 @@ mixin _$SeerrSonarrServer {
 
   @override
   String toString() {
-    return 'SeerrSonarrServer(id: $id, name: $name, hostname: $hostname, port: $port, apiKey: $apiKey, useSsl: $useSsl, baseUrl: $baseUrl, activeProfileId: $activeProfileId, activeProfileName: $activeProfileName, activeDirectory: $activeDirectory, is4k: $is4k, isDefault: $isDefault, externalUrl: $externalUrl, syncEnabled: $syncEnabled, preventSearch: $preventSearch, profiles: $profiles, tags: $tags, rootFolders: $rootFolders, activeTags: $activeTags)';
+    return 'SeerrSonarrServer(id: $id, name: $name, hostname: $hostname, port: $port, apiKey: $apiKey, useSsl: $useSsl, baseUrl: $baseUrl, activeProfileId: $activeProfileId, activeProfileName: $activeProfileName, activeLanguageProfileId: $activeLanguageProfileId, activeDirectory: $activeDirectory, activeAnimeProfileId: $activeAnimeProfileId, activeAnimeLanguageProfileId: $activeAnimeLanguageProfileId, activeAnimeProfileName: $activeAnimeProfileName, activeAnimeDirectory: $activeAnimeDirectory, is4k: $is4k, isDefault: $isDefault, externalUrl: $externalUrl, syncEnabled: $syncEnabled, preventSearch: $preventSearch, profiles: $profiles, tags: $tags, rootFolders: $rootFolders, activeTags: $activeTags)';
   }
 }
 
@@ -67,7 +72,12 @@ abstract mixin class $SeerrSonarrServerCopyWith<$Res> {
       String? baseUrl,
       int? activeProfileId,
       String? activeProfileName,
+      int? activeLanguageProfileId,
       String? activeDirectory,
+      int? activeAnimeProfileId,
+      int? activeAnimeLanguageProfileId,
+      String? activeAnimeProfileName,
+      String? activeAnimeDirectory,
       bool? is4k,
       bool? isDefault,
       String? externalUrl,
@@ -101,7 +111,12 @@ class _$SeerrSonarrServerCopyWithImpl<$Res>
     Object? baseUrl = freezed,
     Object? activeProfileId = freezed,
     Object? activeProfileName = freezed,
+    Object? activeLanguageProfileId = freezed,
     Object? activeDirectory = freezed,
+    Object? activeAnimeProfileId = freezed,
+    Object? activeAnimeLanguageProfileId = freezed,
+    Object? activeAnimeProfileName = freezed,
+    Object? activeAnimeDirectory = freezed,
     Object? is4k = freezed,
     Object? isDefault = freezed,
     Object? externalUrl = freezed,
@@ -149,9 +164,29 @@ class _$SeerrSonarrServerCopyWithImpl<$Res>
           ? _self.activeProfileName
           : activeProfileName // ignore: cast_nullable_to_non_nullable
               as String?,
+      activeLanguageProfileId: freezed == activeLanguageProfileId
+          ? _self.activeLanguageProfileId
+          : activeLanguageProfileId // ignore: cast_nullable_to_non_nullable
+              as int?,
       activeDirectory: freezed == activeDirectory
           ? _self.activeDirectory
           : activeDirectory // ignore: cast_nullable_to_non_nullable
+              as String?,
+      activeAnimeProfileId: freezed == activeAnimeProfileId
+          ? _self.activeAnimeProfileId
+          : activeAnimeProfileId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      activeAnimeLanguageProfileId: freezed == activeAnimeLanguageProfileId
+          ? _self.activeAnimeLanguageProfileId
+          : activeAnimeLanguageProfileId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      activeAnimeProfileName: freezed == activeAnimeProfileName
+          ? _self.activeAnimeProfileName
+          : activeAnimeProfileName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      activeAnimeDirectory: freezed == activeAnimeDirectory
+          ? _self.activeAnimeDirectory
+          : activeAnimeDirectory // ignore: cast_nullable_to_non_nullable
               as String?,
       is4k: freezed == is4k
           ? _self.is4k
@@ -296,7 +331,12 @@ extension SeerrSonarrServerPatterns on SeerrSonarrServer {
             String? baseUrl,
             int? activeProfileId,
             String? activeProfileName,
+            int? activeLanguageProfileId,
             String? activeDirectory,
+            int? activeAnimeProfileId,
+            int? activeAnimeLanguageProfileId,
+            String? activeAnimeProfileName,
+            String? activeAnimeDirectory,
             bool? is4k,
             bool? isDefault,
             String? externalUrl,
@@ -322,7 +362,12 @@ extension SeerrSonarrServerPatterns on SeerrSonarrServer {
             _that.baseUrl,
             _that.activeProfileId,
             _that.activeProfileName,
+            _that.activeLanguageProfileId,
             _that.activeDirectory,
+            _that.activeAnimeProfileId,
+            _that.activeAnimeLanguageProfileId,
+            _that.activeAnimeProfileName,
+            _that.activeAnimeDirectory,
             _that.is4k,
             _that.isDefault,
             _that.externalUrl,
@@ -362,7 +407,12 @@ extension SeerrSonarrServerPatterns on SeerrSonarrServer {
             String? baseUrl,
             int? activeProfileId,
             String? activeProfileName,
+            int? activeLanguageProfileId,
             String? activeDirectory,
+            int? activeAnimeProfileId,
+            int? activeAnimeLanguageProfileId,
+            String? activeAnimeProfileName,
+            String? activeAnimeDirectory,
             bool? is4k,
             bool? isDefault,
             String? externalUrl,
@@ -387,7 +437,12 @@ extension SeerrSonarrServerPatterns on SeerrSonarrServer {
             _that.baseUrl,
             _that.activeProfileId,
             _that.activeProfileName,
+            _that.activeLanguageProfileId,
             _that.activeDirectory,
+            _that.activeAnimeProfileId,
+            _that.activeAnimeLanguageProfileId,
+            _that.activeAnimeProfileName,
+            _that.activeAnimeDirectory,
             _that.is4k,
             _that.isDefault,
             _that.externalUrl,
@@ -426,7 +481,12 @@ extension SeerrSonarrServerPatterns on SeerrSonarrServer {
             String? baseUrl,
             int? activeProfileId,
             String? activeProfileName,
+            int? activeLanguageProfileId,
             String? activeDirectory,
+            int? activeAnimeProfileId,
+            int? activeAnimeLanguageProfileId,
+            String? activeAnimeProfileName,
+            String? activeAnimeDirectory,
             bool? is4k,
             bool? isDefault,
             String? externalUrl,
@@ -451,7 +511,12 @@ extension SeerrSonarrServerPatterns on SeerrSonarrServer {
             _that.baseUrl,
             _that.activeProfileId,
             _that.activeProfileName,
+            _that.activeLanguageProfileId,
             _that.activeDirectory,
+            _that.activeAnimeProfileId,
+            _that.activeAnimeLanguageProfileId,
+            _that.activeAnimeProfileName,
+            _that.activeAnimeDirectory,
             _that.is4k,
             _that.isDefault,
             _that.externalUrl,
@@ -480,7 +545,12 @@ class _SeerrSonarrServer implements SeerrSonarrServer {
       this.baseUrl,
       this.activeProfileId,
       this.activeProfileName,
+      this.activeLanguageProfileId,
       this.activeDirectory,
+      this.activeAnimeProfileId,
+      this.activeAnimeLanguageProfileId,
+      this.activeAnimeProfileName,
+      this.activeAnimeDirectory,
       this.is4k,
       this.isDefault,
       this.externalUrl,
@@ -512,7 +582,17 @@ class _SeerrSonarrServer implements SeerrSonarrServer {
   @override
   final String? activeProfileName;
   @override
+  final int? activeLanguageProfileId;
+  @override
   final String? activeDirectory;
+  @override
+  final int? activeAnimeProfileId;
+  @override
+  final int? activeAnimeLanguageProfileId;
+  @override
+  final String? activeAnimeProfileName;
+  @override
+  final String? activeAnimeDirectory;
   @override
   final bool? is4k;
   @override
@@ -549,7 +629,7 @@ class _SeerrSonarrServer implements SeerrSonarrServer {
 
   @override
   String toString() {
-    return 'SeerrSonarrServer(id: $id, name: $name, hostname: $hostname, port: $port, apiKey: $apiKey, useSsl: $useSsl, baseUrl: $baseUrl, activeProfileId: $activeProfileId, activeProfileName: $activeProfileName, activeDirectory: $activeDirectory, is4k: $is4k, isDefault: $isDefault, externalUrl: $externalUrl, syncEnabled: $syncEnabled, preventSearch: $preventSearch, profiles: $profiles, tags: $tags, rootFolders: $rootFolders, activeTags: $activeTags)';
+    return 'SeerrSonarrServer(id: $id, name: $name, hostname: $hostname, port: $port, apiKey: $apiKey, useSsl: $useSsl, baseUrl: $baseUrl, activeProfileId: $activeProfileId, activeProfileName: $activeProfileName, activeLanguageProfileId: $activeLanguageProfileId, activeDirectory: $activeDirectory, activeAnimeProfileId: $activeAnimeProfileId, activeAnimeLanguageProfileId: $activeAnimeLanguageProfileId, activeAnimeProfileName: $activeAnimeProfileName, activeAnimeDirectory: $activeAnimeDirectory, is4k: $is4k, isDefault: $isDefault, externalUrl: $externalUrl, syncEnabled: $syncEnabled, preventSearch: $preventSearch, profiles: $profiles, tags: $tags, rootFolders: $rootFolders, activeTags: $activeTags)';
   }
 }
 
@@ -571,7 +651,12 @@ abstract mixin class _$SeerrSonarrServerCopyWith<$Res>
       String? baseUrl,
       int? activeProfileId,
       String? activeProfileName,
+      int? activeLanguageProfileId,
       String? activeDirectory,
+      int? activeAnimeProfileId,
+      int? activeAnimeLanguageProfileId,
+      String? activeAnimeProfileName,
+      String? activeAnimeDirectory,
       bool? is4k,
       bool? isDefault,
       String? externalUrl,
@@ -605,7 +690,12 @@ class __$SeerrSonarrServerCopyWithImpl<$Res>
     Object? baseUrl = freezed,
     Object? activeProfileId = freezed,
     Object? activeProfileName = freezed,
+    Object? activeLanguageProfileId = freezed,
     Object? activeDirectory = freezed,
+    Object? activeAnimeProfileId = freezed,
+    Object? activeAnimeLanguageProfileId = freezed,
+    Object? activeAnimeProfileName = freezed,
+    Object? activeAnimeDirectory = freezed,
     Object? is4k = freezed,
     Object? isDefault = freezed,
     Object? externalUrl = freezed,
@@ -653,9 +743,29 @@ class __$SeerrSonarrServerCopyWithImpl<$Res>
           ? _self.activeProfileName
           : activeProfileName // ignore: cast_nullable_to_non_nullable
               as String?,
+      activeLanguageProfileId: freezed == activeLanguageProfileId
+          ? _self.activeLanguageProfileId
+          : activeLanguageProfileId // ignore: cast_nullable_to_non_nullable
+              as int?,
       activeDirectory: freezed == activeDirectory
           ? _self.activeDirectory
           : activeDirectory // ignore: cast_nullable_to_non_nullable
+              as String?,
+      activeAnimeProfileId: freezed == activeAnimeProfileId
+          ? _self.activeAnimeProfileId
+          : activeAnimeProfileId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      activeAnimeLanguageProfileId: freezed == activeAnimeLanguageProfileId
+          ? _self.activeAnimeLanguageProfileId
+          : activeAnimeLanguageProfileId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      activeAnimeProfileName: freezed == activeAnimeProfileName
+          ? _self.activeAnimeProfileName
+          : activeAnimeProfileName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      activeAnimeDirectory: freezed == activeAnimeDirectory
+          ? _self.activeAnimeDirectory
+          : activeAnimeDirectory // ignore: cast_nullable_to_non_nullable
               as String?,
       is4k: freezed == is4k
           ? _self.is4k
@@ -1086,7 +1196,12 @@ mixin _$SeerrRadarrServer {
   String? get baseUrl;
   int? get activeProfileId;
   String? get activeProfileName;
+  int? get activeLanguageProfileId;
   String? get activeDirectory;
+  int? get activeAnimeProfileId;
+  int? get activeAnimeLanguageProfileId;
+  String? get activeAnimeProfileName;
+  String? get activeAnimeDirectory;
   bool? get is4k;
   bool? get isDefault;
   String? get externalUrl;
@@ -1110,7 +1225,7 @@ mixin _$SeerrRadarrServer {
 
   @override
   String toString() {
-    return 'SeerrRadarrServer(id: $id, name: $name, hostname: $hostname, port: $port, apiKey: $apiKey, useSsl: $useSsl, baseUrl: $baseUrl, activeProfileId: $activeProfileId, activeProfileName: $activeProfileName, activeDirectory: $activeDirectory, is4k: $is4k, isDefault: $isDefault, externalUrl: $externalUrl, syncEnabled: $syncEnabled, preventSearch: $preventSearch, profiles: $profiles, tags: $tags, rootFolders: $rootFolders, activeTags: $activeTags)';
+    return 'SeerrRadarrServer(id: $id, name: $name, hostname: $hostname, port: $port, apiKey: $apiKey, useSsl: $useSsl, baseUrl: $baseUrl, activeProfileId: $activeProfileId, activeProfileName: $activeProfileName, activeLanguageProfileId: $activeLanguageProfileId, activeDirectory: $activeDirectory, activeAnimeProfileId: $activeAnimeProfileId, activeAnimeLanguageProfileId: $activeAnimeLanguageProfileId, activeAnimeProfileName: $activeAnimeProfileName, activeAnimeDirectory: $activeAnimeDirectory, is4k: $is4k, isDefault: $isDefault, externalUrl: $externalUrl, syncEnabled: $syncEnabled, preventSearch: $preventSearch, profiles: $profiles, tags: $tags, rootFolders: $rootFolders, activeTags: $activeTags)';
   }
 }
 
@@ -1130,7 +1245,12 @@ abstract mixin class $SeerrRadarrServerCopyWith<$Res> {
       String? baseUrl,
       int? activeProfileId,
       String? activeProfileName,
+      int? activeLanguageProfileId,
       String? activeDirectory,
+      int? activeAnimeProfileId,
+      int? activeAnimeLanguageProfileId,
+      String? activeAnimeProfileName,
+      String? activeAnimeDirectory,
       bool? is4k,
       bool? isDefault,
       String? externalUrl,
@@ -1164,7 +1284,12 @@ class _$SeerrRadarrServerCopyWithImpl<$Res>
     Object? baseUrl = freezed,
     Object? activeProfileId = freezed,
     Object? activeProfileName = freezed,
+    Object? activeLanguageProfileId = freezed,
     Object? activeDirectory = freezed,
+    Object? activeAnimeProfileId = freezed,
+    Object? activeAnimeLanguageProfileId = freezed,
+    Object? activeAnimeProfileName = freezed,
+    Object? activeAnimeDirectory = freezed,
     Object? is4k = freezed,
     Object? isDefault = freezed,
     Object? externalUrl = freezed,
@@ -1212,9 +1337,29 @@ class _$SeerrRadarrServerCopyWithImpl<$Res>
           ? _self.activeProfileName
           : activeProfileName // ignore: cast_nullable_to_non_nullable
               as String?,
+      activeLanguageProfileId: freezed == activeLanguageProfileId
+          ? _self.activeLanguageProfileId
+          : activeLanguageProfileId // ignore: cast_nullable_to_non_nullable
+              as int?,
       activeDirectory: freezed == activeDirectory
           ? _self.activeDirectory
           : activeDirectory // ignore: cast_nullable_to_non_nullable
+              as String?,
+      activeAnimeProfileId: freezed == activeAnimeProfileId
+          ? _self.activeAnimeProfileId
+          : activeAnimeProfileId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      activeAnimeLanguageProfileId: freezed == activeAnimeLanguageProfileId
+          ? _self.activeAnimeLanguageProfileId
+          : activeAnimeLanguageProfileId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      activeAnimeProfileName: freezed == activeAnimeProfileName
+          ? _self.activeAnimeProfileName
+          : activeAnimeProfileName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      activeAnimeDirectory: freezed == activeAnimeDirectory
+          ? _self.activeAnimeDirectory
+          : activeAnimeDirectory // ignore: cast_nullable_to_non_nullable
               as String?,
       is4k: freezed == is4k
           ? _self.is4k
@@ -1359,7 +1504,12 @@ extension SeerrRadarrServerPatterns on SeerrRadarrServer {
             String? baseUrl,
             int? activeProfileId,
             String? activeProfileName,
+            int? activeLanguageProfileId,
             String? activeDirectory,
+            int? activeAnimeProfileId,
+            int? activeAnimeLanguageProfileId,
+            String? activeAnimeProfileName,
+            String? activeAnimeDirectory,
             bool? is4k,
             bool? isDefault,
             String? externalUrl,
@@ -1385,7 +1535,12 @@ extension SeerrRadarrServerPatterns on SeerrRadarrServer {
             _that.baseUrl,
             _that.activeProfileId,
             _that.activeProfileName,
+            _that.activeLanguageProfileId,
             _that.activeDirectory,
+            _that.activeAnimeProfileId,
+            _that.activeAnimeLanguageProfileId,
+            _that.activeAnimeProfileName,
+            _that.activeAnimeDirectory,
             _that.is4k,
             _that.isDefault,
             _that.externalUrl,
@@ -1425,7 +1580,12 @@ extension SeerrRadarrServerPatterns on SeerrRadarrServer {
             String? baseUrl,
             int? activeProfileId,
             String? activeProfileName,
+            int? activeLanguageProfileId,
             String? activeDirectory,
+            int? activeAnimeProfileId,
+            int? activeAnimeLanguageProfileId,
+            String? activeAnimeProfileName,
+            String? activeAnimeDirectory,
             bool? is4k,
             bool? isDefault,
             String? externalUrl,
@@ -1450,7 +1610,12 @@ extension SeerrRadarrServerPatterns on SeerrRadarrServer {
             _that.baseUrl,
             _that.activeProfileId,
             _that.activeProfileName,
+            _that.activeLanguageProfileId,
             _that.activeDirectory,
+            _that.activeAnimeProfileId,
+            _that.activeAnimeLanguageProfileId,
+            _that.activeAnimeProfileName,
+            _that.activeAnimeDirectory,
             _that.is4k,
             _that.isDefault,
             _that.externalUrl,
@@ -1489,7 +1654,12 @@ extension SeerrRadarrServerPatterns on SeerrRadarrServer {
             String? baseUrl,
             int? activeProfileId,
             String? activeProfileName,
+            int? activeLanguageProfileId,
             String? activeDirectory,
+            int? activeAnimeProfileId,
+            int? activeAnimeLanguageProfileId,
+            String? activeAnimeProfileName,
+            String? activeAnimeDirectory,
             bool? is4k,
             bool? isDefault,
             String? externalUrl,
@@ -1514,7 +1684,12 @@ extension SeerrRadarrServerPatterns on SeerrRadarrServer {
             _that.baseUrl,
             _that.activeProfileId,
             _that.activeProfileName,
+            _that.activeLanguageProfileId,
             _that.activeDirectory,
+            _that.activeAnimeProfileId,
+            _that.activeAnimeLanguageProfileId,
+            _that.activeAnimeProfileName,
+            _that.activeAnimeDirectory,
             _that.is4k,
             _that.isDefault,
             _that.externalUrl,
@@ -1543,7 +1718,12 @@ class _SeerrRadarrServer implements SeerrRadarrServer {
       this.baseUrl,
       this.activeProfileId,
       this.activeProfileName,
+      this.activeLanguageProfileId,
       this.activeDirectory,
+      this.activeAnimeProfileId,
+      this.activeAnimeLanguageProfileId,
+      this.activeAnimeProfileName,
+      this.activeAnimeDirectory,
       this.is4k,
       this.isDefault,
       this.externalUrl,
@@ -1575,7 +1755,17 @@ class _SeerrRadarrServer implements SeerrRadarrServer {
   @override
   final String? activeProfileName;
   @override
+  final int? activeLanguageProfileId;
+  @override
   final String? activeDirectory;
+  @override
+  final int? activeAnimeProfileId;
+  @override
+  final int? activeAnimeLanguageProfileId;
+  @override
+  final String? activeAnimeProfileName;
+  @override
+  final String? activeAnimeDirectory;
   @override
   final bool? is4k;
   @override
@@ -1612,7 +1802,7 @@ class _SeerrRadarrServer implements SeerrRadarrServer {
 
   @override
   String toString() {
-    return 'SeerrRadarrServer(id: $id, name: $name, hostname: $hostname, port: $port, apiKey: $apiKey, useSsl: $useSsl, baseUrl: $baseUrl, activeProfileId: $activeProfileId, activeProfileName: $activeProfileName, activeDirectory: $activeDirectory, is4k: $is4k, isDefault: $isDefault, externalUrl: $externalUrl, syncEnabled: $syncEnabled, preventSearch: $preventSearch, profiles: $profiles, tags: $tags, rootFolders: $rootFolders, activeTags: $activeTags)';
+    return 'SeerrRadarrServer(id: $id, name: $name, hostname: $hostname, port: $port, apiKey: $apiKey, useSsl: $useSsl, baseUrl: $baseUrl, activeProfileId: $activeProfileId, activeProfileName: $activeProfileName, activeLanguageProfileId: $activeLanguageProfileId, activeDirectory: $activeDirectory, activeAnimeProfileId: $activeAnimeProfileId, activeAnimeLanguageProfileId: $activeAnimeLanguageProfileId, activeAnimeProfileName: $activeAnimeProfileName, activeAnimeDirectory: $activeAnimeDirectory, is4k: $is4k, isDefault: $isDefault, externalUrl: $externalUrl, syncEnabled: $syncEnabled, preventSearch: $preventSearch, profiles: $profiles, tags: $tags, rootFolders: $rootFolders, activeTags: $activeTags)';
   }
 }
 
@@ -1634,7 +1824,12 @@ abstract mixin class _$SeerrRadarrServerCopyWith<$Res>
       String? baseUrl,
       int? activeProfileId,
       String? activeProfileName,
+      int? activeLanguageProfileId,
       String? activeDirectory,
+      int? activeAnimeProfileId,
+      int? activeAnimeLanguageProfileId,
+      String? activeAnimeProfileName,
+      String? activeAnimeDirectory,
       bool? is4k,
       bool? isDefault,
       String? externalUrl,
@@ -1668,7 +1863,12 @@ class __$SeerrRadarrServerCopyWithImpl<$Res>
     Object? baseUrl = freezed,
     Object? activeProfileId = freezed,
     Object? activeProfileName = freezed,
+    Object? activeLanguageProfileId = freezed,
     Object? activeDirectory = freezed,
+    Object? activeAnimeProfileId = freezed,
+    Object? activeAnimeLanguageProfileId = freezed,
+    Object? activeAnimeProfileName = freezed,
+    Object? activeAnimeDirectory = freezed,
     Object? is4k = freezed,
     Object? isDefault = freezed,
     Object? externalUrl = freezed,
@@ -1716,9 +1916,29 @@ class __$SeerrRadarrServerCopyWithImpl<$Res>
           ? _self.activeProfileName
           : activeProfileName // ignore: cast_nullable_to_non_nullable
               as String?,
+      activeLanguageProfileId: freezed == activeLanguageProfileId
+          ? _self.activeLanguageProfileId
+          : activeLanguageProfileId // ignore: cast_nullable_to_non_nullable
+              as int?,
       activeDirectory: freezed == activeDirectory
           ? _self.activeDirectory
           : activeDirectory // ignore: cast_nullable_to_non_nullable
+              as String?,
+      activeAnimeProfileId: freezed == activeAnimeProfileId
+          ? _self.activeAnimeProfileId
+          : activeAnimeProfileId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      activeAnimeLanguageProfileId: freezed == activeAnimeLanguageProfileId
+          ? _self.activeAnimeLanguageProfileId
+          : activeAnimeLanguageProfileId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      activeAnimeProfileName: freezed == activeAnimeProfileName
+          ? _self.activeAnimeProfileName
+          : activeAnimeProfileName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      activeAnimeDirectory: freezed == activeAnimeDirectory
+          ? _self.activeAnimeDirectory
+          : activeAnimeDirectory // ignore: cast_nullable_to_non_nullable
               as String?,
       is4k: freezed == is4k
           ? _self.is4k
