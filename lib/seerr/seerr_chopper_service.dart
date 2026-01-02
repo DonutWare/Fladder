@@ -81,6 +81,9 @@ abstract class SeerrChopperService extends ChopperService {
   @POST(path: '/request')
   Future<Response<SeerrMediaRequest>> createRequest(@Body() SeerrCreateRequestBody body);
 
+  @DELETE(path: '/request/{requestId}')
+  Future<Response<dynamic>> deleteRequest(@Path('requestId') int requestId);
+
   @GET(path: '/media')
   Future<Response<SeerrMediaResponse>> getMedia({
     @Query('take') int? take,

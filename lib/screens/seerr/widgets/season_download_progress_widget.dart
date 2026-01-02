@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:iconsax_plus/iconsax_plus.dart';
-
 import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/util/string_extensions.dart';
 
 class SeasonDownloadProgressWidget extends StatelessWidget {
   final List<SeerrDownloadStatus> downloads;
@@ -37,15 +36,10 @@ class SeasonDownloadProgressWidget extends StatelessWidget {
         Row(
           spacing: 4,
           children: [
-            Icon(
-              IconsaxPlusLinear.document_download,
-              size: 20,
-              color: Theme.of(context).colorScheme.primary,
-            ),
             Expanded(
               child: Text(
-                '$episodeCount ${context.localized.episode(episodeCount)} ${context.localized.downloading}',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                '${context.localized.downloading.capitalize()}: $episodeCount ${context.localized.episode(episodeCount).toLowerCase()}',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: Theme.of(context).colorScheme.primary,
                       fontWeight: FontWeight.w600,
                     ),
@@ -53,7 +47,7 @@ class SeasonDownloadProgressWidget extends StatelessWidget {
             ),
             Text(
               '${percentage.toStringAsFixed(0)}%',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Theme.of(context).colorScheme.primary,
                   ),

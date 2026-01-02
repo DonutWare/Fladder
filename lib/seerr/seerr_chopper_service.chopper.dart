@@ -254,6 +254,17 @@ final class _$SeerrChopperService extends SeerrChopperService {
   }
 
   @override
+  Future<Response<dynamic>> deleteRequest(int requestId) {
+    final Uri $url = Uri.parse('/api/v1/request/${requestId}');
+    final Request $request = Request(
+      'DELETE',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response<SeerrMediaResponse>> getMedia({
     int? take,
     int? skip,

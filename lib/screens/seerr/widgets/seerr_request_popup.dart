@@ -189,6 +189,52 @@ class _SeerrRequestPopupState extends ConsumerState<SeerrRequestPopup> {
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.secondary),
               ),
             ],
+            if (requestState.canDeleteRequest) ...[
+              FilledButtonAwait(
+                style: FilledButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.errorContainer,
+                  foregroundColor: Theme.of(context).colorScheme.onErrorContainer,
+                ),
+                onPressed: () async {
+                  final confirm = await showDialog<bool>(
+                    context: context,
+                    builder: (dialogContext) => AlertDialog(
+                      title: Text(context.localized.delete),
+                      content: Text(context.localized.deleteRequestConfirmation),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.of(dialogContext).pop(false),
+                          child: Text(context.localized.cancel),
+                        ),
+                        FilledButton.tonal(
+                          style: FilledButton.styleFrom(
+                            backgroundColor: Theme.of(context).colorScheme.error,
+                            foregroundColor: Theme.of(context).colorScheme.onError,
+                          ),
+                          onPressed: () => Navigator.of(dialogContext).pop(true),
+                          child: Text(context.localized.delete),
+                        ),
+                      ],
+                    ),
+                  );
+
+                  if (confirm != true) return;
+
+                  await notifier.deleteRequest();
+                  if (context.mounted) {
+                    Navigator.of(context).pop();
+                  }
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  spacing: 8,
+                  children: [
+                    const Icon(IconsaxPlusBold.trash),
+                    Text(context.localized.delete),
+                  ],
+                ),
+              ),
+            ],
             FilledButtonAwait(
               onPressed: requestState.canSubmitRequest
                   ? () async {

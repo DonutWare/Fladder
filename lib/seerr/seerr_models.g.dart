@@ -444,6 +444,9 @@ SeerrMediaRequest _$SeerrMediaRequestFromJson(Map<String, dynamic> json) =>
           ? null
           : SeerrUserModel.fromJson(json['modifiedBy'] as Map<String, dynamic>),
       is4k: json['is4k'] as bool?,
+      seasons: (json['seasons'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
+          .toList(),
       serverId: (json['serverId'] as num?)?.toInt(),
       profileId: (json['profileId'] as num?)?.toInt(),
       rootFolder: json['rootFolder'] as String?,
@@ -459,6 +462,7 @@ Map<String, dynamic> _$SeerrMediaRequestToJson(SeerrMediaRequest instance) =>
       'requestedBy': instance.requestedBy,
       'modifiedBy': instance.modifiedBy,
       'is4k': instance.is4k,
+      'seasons': instance.seasons,
       'serverId': instance.serverId,
       'profileId': instance.profileId,
       'rootFolder': instance.rootFolder,

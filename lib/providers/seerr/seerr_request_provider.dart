@@ -40,17 +40,25 @@ class SeerrRequest extends _$SeerrRequest {
             if (season.seasonNumber != null) season.seasonNumber!: SeerrRequestStatus.fromRaw(season.status),
         };
 
+        final knownSeasonNumbers = <int>{
+          ...seasonStatusMap.keys,
+          ...?details.seasons?.map((season) => season.seasonNumber).whereType<int>(),
+        };
+
         final requests = details.mediaInfo?.requests ?? const <SeerrMediaRequest>[];
         if (requests.isNotEmpty) {
           for (final request in requests) {
             final requestStatus = SeerrRequestStatus.fromRaw(request.status);
-            if (requestStatus == SeerrRequestStatus.pending || requestStatus == SeerrRequestStatus.processing) {
-              seasonStatusMap.updateAll((key, value) {
-                if (value != SeerrRequestStatus.available && value != SeerrRequestStatus.deleted) {
-                  return requestStatus;
-                }
-                return value;
-              });
+            if (requestStatus == SeerrRequestStatus.unknown || requestStatus == SeerrRequestStatus.deleted) continue;
+
+            final requestSeasonNumbers = request.seasons?.whereType<int>().toList(growable: false);
+            final seasonsToUpdate = (requestSeasonNumbers == null || requestSeasonNumbers.isEmpty)
+                ? knownSeasonNumbers
+                : requestSeasonNumbers;
+            for (final seasonNumber in seasonsToUpdate) {
+              final current = seasonStatusMap[seasonNumber];
+              if (current == SeerrRequestStatus.available || current == SeerrRequestStatus.deleted) continue;
+              seasonStatusMap[seasonNumber] = requestStatus;
             }
           }
         }
@@ -232,6 +240,14 @@ class SeerrRequest extends _$SeerrRequest {
     }
   }
 
+  Future<void> deleteRequest() async {
+    final poster = state.poster;
+    final requestId = state.activeRequestId;
+    if (poster == null || requestId == null) return;
+
+    await api.deleteRequest(requestId: requestId);
+  }
+
   List<SeerrSeason>? _resolveSeasonPosters(List<SeerrSeason>? seasons) {
     if (seasons == null) return null;
     final serverUrl = ref.read(userProvider)?.seerrCredentials?.serverUrl;
@@ -300,6 +316,24 @@ abstract class SeerrRequestModel with _$SeerrRequestModel {
   bool get isTv => poster?.type == SeerrDashboardMediaType.tv;
 
   SeerrUserModel? get requestingUser => selectedUser ?? currentUser;
+
+  List<SeerrMediaRequest> get _activeRequests => (poster?.mediaInfo?.requests ?? const <SeerrMediaRequest>[])
+      .where(
+        (request) => request.id != null && SeerrRequestStatus.fromRaw(request.status) != SeerrRequestStatus.deleted,
+      )
+      .toList(growable: false);
+
+  bool get hasExistingRequest => _activeRequests.isNotEmpty;
+
+  int? get activeRequestId {
+    final requests = _activeRequests;
+    if (requests.isEmpty) return null;
+
+    final preferred = requests.firstWhereOrNull((request) => (request.is4k ?? false) == use4k);
+    return preferred?.id ?? requests.first.id;
+  }
+
+  bool get canDeleteRequest => (currentUser?.canManageRequests ?? false) && activeRequestId != null;
 
   bool? get hasRequestPermission {
     final user = currentUser;

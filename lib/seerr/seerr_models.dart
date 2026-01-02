@@ -737,6 +737,7 @@ class SeerrMediaRequest {
   final SeerrUserModel? requestedBy;
   final SeerrUserModel? modifiedBy;
   final bool? is4k;
+  final List<int>? seasons;
   final int? serverId;
   final int? profileId;
   final String? rootFolder;
@@ -750,6 +751,7 @@ class SeerrMediaRequest {
     this.requestedBy,
     this.modifiedBy,
     this.is4k,
+    this.seasons,
     this.serverId,
     this.profileId,
     this.rootFolder,

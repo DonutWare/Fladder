@@ -506,6 +506,10 @@ class SeerrService {
     );
   }
 
+  Future<Response<dynamic>> deleteRequest({required int requestId}) {
+    return _api.deleteRequest(requestId);
+  }
+
   Future<List<SeerrDashboardPosterModel>> searchPosters({required String query, int? page, String? language}) async {
     if (query.trim().isEmpty) return const [];
 

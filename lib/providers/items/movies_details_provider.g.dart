@@ -6,7 +6,7 @@ part of 'movies_details_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$movieDetailsHash() => r'35eb33e0fa53f1b0fc4bea301f6751d4f4ebc9da';
+String _$movieDetailsHash() => r'c7d4333948e1e1de7055238b8750b117261c1df7';
 
 /// Copied from Dart SDK
 class _SystemHash {

@@ -1220,6 +1220,7 @@
     }
   },
   "deleteFilterConfirmation": "Are you sure you want to delete this filter?",
+  "deleteRequestConfirmation": "Are you sure you want to delete this request?",
   "libraryFiltersLimitReached": "Filter limit reached (10) remove some filters",
   "libraryFiltersRemoveAll": "Remove all filters",
   "libraryFiltersRemoveAllConfirm": "This will delete all saved filters for every library",
