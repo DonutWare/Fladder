@@ -1994,5 +1994,159 @@
         }
     },
     "segmentActionSkipOnce": "Eén keer overslaan",
-    "@segmentActionSkipOnce": {}
+    "@segmentActionSkipOnce": {},
+    "recentlyAdded": "Recent toegevoegd",
+    "@recentlyAdded": {},
+    "recentRequests": "Recente verzoeken",
+    "@recentRequests": {},
+    "trending": "Trending",
+    "@trending": {},
+    "popularMovies": "Populaire films",
+    "@popularMovies": {},
+    "expectedMovies": "Verwachte films",
+    "@expectedMovies": {},
+    "expectedSeries": "Verwachte series",
+    "@expectedSeries": {},
+    "requestConfiguration": "Seerr configuratie",
+    "@requestConfiguration": {},
+    "qualityProfile": "Kwaliteitsprofiel",
+    "@qualityProfile": {},
+    "selectProfile": "Profiel selecteren",
+    "@selectProfile": {},
+    "rootFolder": "Basis map",
+    "@rootFolder": {},
+    "selectFolder": "Map selecteren",
+    "@selectFolder": {},
+    "tags": "Tags",
+    "@tags": {},
+    "noTags": "Geen tags",
+    "@noTags": {},
+    "requestAs": "Verzoek als",
+    "@requestAs": {},
+    "requestQuotaTitle": "Verzoekquotum",
+    "@requestQuotaTitle": {},
+    "requestQuotaStatus": "{remaining} van {limit} resterend (reset elke {days} dagen)",
+    "@requestQuotaStatus": {
+        "placeholders": {
+            "remaining": {
+                "type": "int"
+            },
+            "limit": {
+                "type": "int"
+            },
+            "days": {
+                "type": "int"
+            }
+        }
+    },
+    "requestQuotaLimitReached": "Verzoeklimiet bereikt voor {mediaType}.",
+    "@requestQuotaLimitReached": {
+        "placeholders": {
+            "mediaType": {
+                "type": "String"
+            }
+        }
+    },
+    "submitRequest": "Verzoek indienen",
+    "@submitRequest": {},
+    "noOverviewAvailable": "Geen overzicht beschikbaar.",
+    "@noOverviewAvailable": {},
+    "downloading": "downloaden",
+    "@downloading": {},
+    "request": "Verzoek",
+    "@request": {},
+    "viewRequest": "Verzoek bekijken",
+    "@viewRequest": {},
+    "email": "Email",
+    "@email": {},
+    "username": "Gebruikersnaam",
+    "@username": {},
+    "ok": "Ok",
+    "@ok": {},
+    "seerr": "Seerr",
+    "@seerr": {},
+    "seerrNotConfigured": "Niet geconfigureerd",
+    "@seerrNotConfigured": {},
+    "seerrLoadingUser": "Gebruiker laden",
+    "@seerrLoadingUser": {},
+    "seerrUnknownUser": "Onbekende gebruiker",
+    "@seerrUnknownUser": {},
+    "loggedInAs": "Ingelogd als {displayName}",
+    "@loggedInAs": {
+        "placeholders": {
+            "displayName": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrSetServerFirst": "Stel eerst de Seerr-server in",
+    "@seerrSetServerFirst": {},
+    "seerrLocalLoginTitle": "Seerr Lokale login",
+    "@seerrLocalLoginTitle": {},
+    "seerrJellyfinLoginTitle": "Seerr Jellyfin login",
+    "@seerrJellyfinLoginTitle": {},
+    "seerrSessionSaved": "Seerr sessie opgeslagen",
+    "@seerrSessionSaved": {},
+    "seerrStatusVersion": "Seerr: {version}",
+    "@seerrStatusVersion": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrServer": "Seerr server",
+    "@seerrServer": {},
+    "seerrAuthenticateLocal": "Seerr inloggen (lokaal)",
+    "@seerrAuthenticateLocal": {},
+    "seerrAuthenticateJellyfin": "Seerr inloggen (Jellyfin)",
+    "@seerrAuthenticateJellyfin": {},
+    "seerrSessionConfigured": "Sessie geconfigureerd",
+    "@seerrSessionConfigured": {},
+    "seerrConfigured": "Geconfigureerd",
+    "@seerrConfigured": {},
+    "seerrTestConnection": "Test Seerr verbinding",
+    "@seerrTestConnection": {},
+    "rootFolderDefaultLabel": "{folder} (Standaard)",
+    "@rootFolderDefaultLabel": {
+        "placeholders": {
+            "folder": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrAnimeSeriesNote": "* Deze serie is een anime.",
+    "@seerrAnimeSeriesNote": {},
+    "seerrAutoApproveNotice": "Verzoeken die je indient worden automatisch goedgekeurd.",
+    "@seerrAutoApproveNotice": {},
+    "seerrPermissionDenied": "Je hebt geen toestemming om dit mediatype aan te vragen.",
+    "@seerrPermissionDenied": {},
+    "seerrAuthApiKey": "API-sleutel",
+    "@seerrAuthApiKey": {},
+    "seerrAuthLocal": "Lokaal",
+    "@seerrAuthLocal": {},
+    "seerrAuthJellyfin": "Jellyfin",
+    "@seerrAuthJellyfin": {},
+    "seerrUserFetchFailed": "Kan gebruiker niet ophalen van Seerr",
+    "@seerrUserFetchFailed": {},
+    "seerrEnterServerUrlFirst": "Voer eerst een Seerr-server URL in",
+    "@seerrEnterServerUrlFirst": {},
+    "seerrApiKeySaved": "API-sleutel opgeslagen",
+    "@seerrApiKeySaved": {},
+    "seerrLoggedIn": "Ingelogd bij Seerr",
+    "@seerrLoggedIn": {},
+    "seerrConnectedToServer": "Verbonden met Seerr-server: {serverUrl}",
+    "@seerrConnectedToServer": {
+        "placeholders": {
+            "serverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "emailUsername": "Email/Gebruikersnaam",
+    "@emailUsername": {},
+    "discover": "Ontdekken",
+    "@discover": {},
+    "deleteRequestConfirmation": "Weet je zeker dat je dit vezoek wilt verwijderen?",
+    "@deleteRequestConfirmation": {}
 }
