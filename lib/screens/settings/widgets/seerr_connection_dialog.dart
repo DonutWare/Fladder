@@ -66,7 +66,6 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
     localPasswordController = TextEditingController();
     jfUsernameController = TextEditingController();
     jfPasswordController = TextEditingController();
-
     Future.microtask(_refreshSession);
   }
 
@@ -249,9 +248,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
         fladderSnackbar(context, title: e.toString());
       }
     } finally {
-      ref.read(userProvider.notifier).setSeerrSessionCookie('');
-      ref.read(userProvider.notifier).setSeerrApiKey('');
-      ref.read(seerrDashboardProvider.notifier).clear();
+      ref.read(userProvider.notifier).logoutSeerr();
       await _refreshSession();
       if (mounted) {
         setState(() {

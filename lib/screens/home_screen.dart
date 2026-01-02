@@ -108,7 +108,7 @@ class HomeScreen extends ConsumerWidget {
             case HomeTabs.seerr:
               if (seerrAuthenticated) {
                 return DestinationModel(
-                  label: 'Seerr',
+                  label: context.localized.discover,
                   icon: Icon(e.icon),
                   selectedIcon: Icon(e.selectedIcon),
                   route: const SeerrRoute(),

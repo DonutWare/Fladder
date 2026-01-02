@@ -2087,5 +2087,6 @@
     }
   },
   "emailUsername": "Email/Username",
-  "@emailUsername": {}
+  "@emailUsername": {},
+  "discover": "Discover"
 }
