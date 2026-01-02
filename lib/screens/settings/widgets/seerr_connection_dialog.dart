@@ -417,18 +417,26 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
           mainAxisSize: MainAxisSize.min,
           spacing: 12,
           children: [
-            OutlinedTextField(
-              label: context.localized.emailUsername,
-              controller: localEmailController,
-              keyboardType: TextInputType.emailAddress,
-              textInputAction: TextInputAction.next,
-            ),
-            OutlinedTextField(
-              controller: localPasswordController,
-              textInputAction: TextInputAction.done,
-              keyboardType: TextInputType.visiblePassword,
-              label: context.localized.password,
-              onSubmitted: (_) => _loginLocal(),
+            AutofillGroup(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                spacing: 12,
+                children: [
+                  OutlinedTextField(
+                    label: context.localized.emailUsername,
+                    controller: localEmailController,
+                    keyboardType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.next,
+                  ),
+                  OutlinedTextField(
+                    controller: localPasswordController,
+                    textInputAction: TextInputAction.done,
+                    keyboardType: TextInputType.visiblePassword,
+                    label: context.localized.password,
+                    onSubmitted: (_) => _loginLocal(),
+                  ),
+                ],
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -448,17 +456,25 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
           mainAxisSize: MainAxisSize.min,
           spacing: 12,
           children: [
-            OutlinedTextField(
-              label: context.localized.username,
-              controller: jfUsernameController,
-              textInputAction: TextInputAction.next,
-            ),
-            OutlinedTextField(
-              controller: jfPasswordController,
-              textInputAction: TextInputAction.done,
-              keyboardType: TextInputType.visiblePassword,
-              label: context.localized.password,
-              onSubmitted: (_) => _loginJellyfin(),
+            AutofillGroup(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                spacing: 12,
+                children: [
+                  OutlinedTextField(
+                    label: context.localized.username,
+                    controller: jfUsernameController,
+                    textInputAction: TextInputAction.next,
+                  ),
+                  OutlinedTextField(
+                    controller: jfPasswordController,
+                    textInputAction: TextInputAction.done,
+                    keyboardType: TextInputType.visiblePassword,
+                    label: context.localized.password,
+                    onSubmitted: (_) => _loginJellyfin(),
+                  ),
+                ],
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,

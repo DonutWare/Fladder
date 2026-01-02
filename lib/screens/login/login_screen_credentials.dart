@@ -140,108 +140,116 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
                           },
                         ),
                 ),
-              AutofillGroup(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  spacing: 8,
-                  children: [
-                    Flexible(
-                      child: OutlinedTextField(
-                        controller: usernameController,
-                        autoFillHints: const [AutofillHints.username],
-                        textInputAction: TextInputAction.next,
-                        autocorrect: false,
-                        onChanged: (value) => setState(() {}),
-                        label: context.localized.userName,
-                      ),
-                    ),
-                    Flexible(
-                      child: OutlinedTextField(
-                        controller: passwordController,
-                        autoFillHints: const [AutofillHints.password],
-                        keyboardType: TextInputType.visiblePassword,
-                        focusNode: focusNode,
-                        autocorrect: false,
-                        textInputAction: TextInputAction.send,
-                        onSubmitted: (value) => enterCredentialsTryLogin?.call(),
-                        onChanged: (value) => setState(() {}),
-                        label: context.localized.password,
-                      ),
-                    ),
-                    const Divider(
-                      indent: 32,
-                      endIndent: 32,
-                    ),
-                    Row(
-                      spacing: 8,
-                      children: [
-                        Expanded(
-                          child: FilledButton(
-                            onPressed: enterCredentialsTryLogin,
-                            child: loggingIn
-                                ? SizedBox(
-                                    width: 18,
-                                    height: 18,
-                                    child: CircularProgressIndicator(
-                                        color: Theme.of(context).colorScheme.inversePrimary,
-                                        strokeCap: StrokeCap.round),
-                                  )
-                                : Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(context.localized.login),
-                                      const SizedBox(width: 8),
-                                      const Icon(IconsaxPlusBold.send_1),
-                                    ],
-                                  ),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                spacing: 8,
+                children: [
+                  Flexible(
+                    child: AutofillGroup(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        spacing: 8,
+                        children: [
+                          Flexible(
+                            child: OutlinedTextField(
+                              controller: usernameController,
+                              autoFillHints: const [AutofillHints.username],
+                              textInputAction: TextInputAction.next,
+                              autocorrect: false,
+                              onChanged: (value) => setState(() {}),
+                              label: context.localized.userName,
+                            ),
                           ),
-                        ),
-                        IconButton.filledTonal(
-                          onPressed: () async {
-                            final tempSeerrUrl = ref.read(authProvider.select((value) => value.tempSeerrUrl));
-                            final result = await showAdvancedLoginOptionsDialog(
-                              context,
-                              initialSeerrUrl: tempSeerrUrl,
-                            );
-                            if (result != null) {
-                              ref.read(authProvider.notifier).setTempSeerrUrl(result);
-                            }
-                          },
-                          icon: const Icon(IconsaxPlusLinear.setting_3),
-                        ),
-                      ],
+                          Flexible(
+                            child: OutlinedTextField(
+                              controller: passwordController,
+                              autoFillHints: const [AutofillHints.password],
+                              keyboardType: TextInputType.visiblePassword,
+                              focusNode: focusNode,
+                              autocorrect: false,
+                              textInputAction: TextInputAction.send,
+                              onSubmitted: (value) => enterCredentialsTryLogin?.call(),
+                              onChanged: (value) => setState(() {}),
+                              label: context.localized.password,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    if (hasQuickConnect)
-                      FilledButton(
+                  ),
+                  const Divider(
+                    indent: 32,
+                    endIndent: 32,
+                  ),
+                  Row(
+                    spacing: 8,
+                    children: [
+                      Expanded(
+                        child: FilledButton(
+                          onPressed: enterCredentialsTryLogin,
+                          child: loggingIn
+                              ? SizedBox(
+                                  width: 18,
+                                  height: 18,
+                                  child: CircularProgressIndicator(
+                                      color: Theme.of(context).colorScheme.inversePrimary, strokeCap: StrokeCap.round),
+                                )
+                              : Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(context.localized.login),
+                                    const SizedBox(width: 8),
+                                    const Icon(IconsaxPlusBold.send_1),
+                                  ],
+                                ),
+                        ),
+                      ),
+                      IconButton.filledTonal(
                         onPressed: () async {
-                          final result = await ref.read(jellyApiProvider).quickConnectInitiate();
-                          if (result.body != null) {
-                            await openLoginCodeDialog(
-                              context,
-                              quickConnectInfo: result.body!,
-                              onAuthenticated: (context, secret) async {
-                                context.pop();
-                                if (secret.isNotEmpty) {
-                                  await loginUsingSecret(secret);
-                                }
-                              },
-                            );
-                          } else {
-                            fladderSnackbar(context, title: context.localized.quickConnectPostFailed);
+                          final tempSeerrUrl = ref.read(authProvider.select((value) => value.tempSeerrUrl));
+                          final result = await showAdvancedLoginOptionsDialog(
+                            context,
+                            initialSeerrUrl: tempSeerrUrl,
+                          );
+                          if (result != null) {
+                            ref.read(authProvider.notifier).setTempSeerrUrl(result);
                           }
                         },
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(context.localized.quickConnectLoginUsingCode),
-                            const SizedBox(width: 8),
-                            const Icon(IconsaxPlusBold.scan_barcode),
-                          ],
-                        ),
+                        icon: const Icon(IconsaxPlusLinear.setting_3),
                       ),
-                  ],
-                ),
+                    ],
+                  ),
+                  if (hasQuickConnect)
+                    FilledButton(
+                      onPressed: () async {
+                        final result = await ref.read(jellyApiProvider).quickConnectInitiate();
+                        if (result.body != null) {
+                          await openLoginCodeDialog(
+                            context,
+                            quickConnectInfo: result.body!,
+                            onAuthenticated: (context, secret) async {
+                              context.pop();
+                              if (secret.isNotEmpty) {
+                                await loginUsingSecret(secret);
+                              }
+                            },
+                          );
+                        } else {
+                          fladderSnackbar(context, title: context.localized.quickConnectPostFailed);
+                        }
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(context.localized.quickConnectLoginUsingCode),
+                          const SizedBox(width: 8),
+                          const Icon(IconsaxPlusBold.scan_barcode),
+                        ],
+                      ),
+                    ),
+                ],
               ),
               if (serverCredentials.serverMessage?.isEmpty == false) ...[
                 const Divider(),
