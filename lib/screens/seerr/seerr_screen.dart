@@ -7,6 +7,7 @@ import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/providers/seerr_dashboard_provider.dart';
 import 'package:fladder/screens/home_screen.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_poster_row.dart';
+import 'package:fladder/screens/seerr/widgets/seerr_request_banner_row.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_request_popup.dart';
 import 'package:fladder/screens/shared/nested_scaffold.dart';
 import 'package:fladder/screens/shared/nested_sliver_appbar.dart';
@@ -78,7 +79,7 @@ class _SeerrScreenState extends ConsumerState<SeerrScreen> {
                 ),
               if (dashboardState.recentRequests.isNotEmpty)
                 SliverToBoxAdapter(
-                  child: SeerrPosterRow(
+                  child: SeerrRequestBannerRow(
                     label: context.localized.recentRequests,
                     posters: dashboardState.recentRequests,
                     contentPadding: padding,

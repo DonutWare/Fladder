@@ -99,7 +99,22 @@ class SeerrDashboardNotifier extends StateNotifier<SeerrDashboardModel> {
     final tmdbId = media.tmdbId;
     final tvdbId = media.tvdbId;
     if (tmdbId == null && tvdbId == null) return null;
-    return api.fetchDashboardPosterFromIds(tmdbId: tmdbId, tvdbId: tvdbId);
+
+    final poster = await api.fetchDashboardPosterFromIds(tmdbId: tmdbId, tvdbId: tvdbId);
+    if (poster == null) return null;
+
+    List<int>? requestedSeasons;
+    if (poster.mediaInfo?.seasons != null) {
+      requestedSeasons = poster.mediaInfo!.seasons!
+          .where((season) => season.seasonNumber != null)
+          .map((season) => season.seasonNumber!)
+          .toList();
+    }
+
+    return poster.copyWith(
+      requestedBy: request.requestedBy,
+      requestedSeasons: requestedSeasons,
+    );
   }
 
   Future<void> _safeSet(

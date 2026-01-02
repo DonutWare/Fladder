@@ -216,7 +216,7 @@ enum SeerrPermission {
   final int bit;
 }
 
-extension SeerrUserLabel on SeerrUserModel {
+extension SeerrUserLabelExtension on SeerrUserModel {
   String get label => displayName ?? username ?? email ?? 'Unknown';
 }
 

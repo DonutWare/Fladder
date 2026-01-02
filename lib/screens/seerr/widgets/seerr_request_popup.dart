@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
@@ -44,44 +43,6 @@ class SeerrRequestPopup extends ConsumerStatefulWidget {
 }
 
 class _SeerrRequestPopupState extends ConsumerState<SeerrRequestPopup> {
-  Widget _avatarWidget(SeerrUserModel? user) {
-    final avatarUrl = user?.avatar;
-    final placeholder = CircleAvatar(
-      radius: 18,
-      child: Icon(FladderItemType.person.icon, color: Theme.of(context).colorScheme.onSurfaceVariant),
-    );
-
-    if (avatarUrl == null || avatarUrl.isEmpty) return placeholder;
-
-    return ClipOval(
-      child: CachedNetworkImage(
-        imageUrl: avatarUrl,
-        cacheKey: 'seerr-user-avatar-${user?.id ?? avatarUrl}',
-        width: 28,
-        height: 28,
-        fit: BoxFit.cover,
-        placeholder: (_, __) => placeholder,
-        errorWidget: (_, __, ___) => placeholder,
-      ),
-    );
-  }
-
-  Widget _userLabelWidget(SeerrUserModel? user) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        _avatarWidget(user),
-        const SizedBox(width: 8),
-        Flexible(
-          child: Text(
-            user?.label ?? context.localized.unknown,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final notifier = ref.read(seerrRequestProvider.notifier);
@@ -212,7 +173,6 @@ class _SeerrRequestPopupState extends ConsumerState<SeerrRequestPopup> {
                       const Divider(),
                       RequestConfigurationSection(
                         requestState: requestState,
-                        userLabelBuilder: _userLabelWidget,
                       ),
                     ],
                   ],

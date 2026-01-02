@@ -4,17 +4,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/providers/seerr/seerr_request_provider.dart';
 import 'package:fladder/seerr/seerr_models.dart';
+import 'package:fladder/screens/seerr/widgets/seerr_user_label.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/enum_selection.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 
 class RequestConfigurationSection extends ConsumerWidget {
   final SeerrRequestModel requestState;
-  final Widget Function(SeerrUserModel?) userLabelBuilder;
 
   const RequestConfigurationSection({
     required this.requestState,
-    required this.userLabelBuilder,
     super.key,
   });
 
@@ -118,7 +117,7 @@ class RequestConfigurationSection extends ConsumerWidget {
           EnumSelection(
             label: Text(context.localized.requestAs),
             current: requestState.selectedUser?.label ?? requestState.currentUser?.label ?? context.localized.unknown,
-            currentWidget: userLabelBuilder(requestState.selectedUser ?? requestState.currentUser),
+            currentWidget: SeerrUserLabel(user: requestState.selectedUser ?? requestState.currentUser),
             itemBuilder: (context) {
               if (requestState.availableUsers.isEmpty) {
                 Future.microtask(() => notifier.loadUsers());
@@ -129,12 +128,12 @@ class RequestConfigurationSection extends ConsumerWidget {
 
               return [
                 ItemActionButton(
-                  label: userLabelBuilder(baseUser),
+                  label: SeerrUserLabel(user: baseUser),
                   action: () => notifier.selectUser(baseUser),
                 ),
                 ...others.map(
                   (user) => ItemActionButton(
-                    label: userLabelBuilder(user),
+                    label: SeerrUserLabel(user: user),
                     action: () => notifier.selectUser(user),
                   ),
                 ),
