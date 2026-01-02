@@ -43,6 +43,30 @@ class SeerrRequestPopup extends ConsumerStatefulWidget {
 }
 
 class _SeerrRequestPopupState extends ConsumerState<SeerrRequestPopup> {
+  final FocusNode _closeButtonFocusNode = FocusNode();
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _ensureCloseButtonFocus();
+  }
+
+  void _ensureCloseButtonFocus() {
+    if (AdaptiveLayout.inputDeviceOf(context) != InputDevice.dPad) return;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _closeButtonFocusNode.requestFocus();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _closeButtonFocusNode.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final notifier = ref.read(seerrRequestProvider.notifier);
@@ -255,6 +279,7 @@ class _SeerrRequestPopupState extends ConsumerState<SeerrRequestPopup> {
             ),
             ElevatedButton(
               autofocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad,
+              focusNode: _closeButtonFocusNode,
               onPressed: () => context.pop(),
               child: Text(context.localized.close),
             )
