@@ -20,6 +20,7 @@ import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 class SeerrPosterCard extends ConsumerWidget {
   final SeerrDashboardPosterModel poster;
   final double? aspectRatio;
+  final Function(bool value)? onFocusChanged;
   final void Function(SeerrDashboardPosterModel poster)? onTap;
   final void Function(SeerrDashboardPosterModel poster)? onRequestAddTap;
 
@@ -28,6 +29,7 @@ class SeerrPosterCard extends ConsumerWidget {
     this.aspectRatio,
     this.onTap,
     this.onRequestAddTap,
+    this.onFocusChanged,
     super.key,
   });
 
@@ -81,6 +83,7 @@ class SeerrPosterCard extends ConsumerWidget {
                 : baseItemModel != null
                     ? () => baseItemModel.navigateTo(context)
                     : handleRequestAction,
+            onFocusChanged: onFocusChanged,
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: radius,

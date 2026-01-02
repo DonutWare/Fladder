@@ -18,6 +18,7 @@ import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/router_extension.dart';
 import 'package:fladder/util/sliver_list_padding.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/background_image.dart';
+import 'package:fladder/widgets/shared/ensure_visible.dart';
 import 'package:fladder/widgets/shared/grid_focus_traveler.dart';
 import 'package:fladder/widgets/shared/pull_to_refresh.dart';
 
@@ -174,14 +175,7 @@ class _SeerrSearchScreenState extends ConsumerState<SeerrSearchScreen> {
                     ),
                   ),
                 ),
-                if (searchResults.isEmpty && searchState.query.trim().isEmpty && !searchState.isLoading)
-                  SliverFillRemaining(
-                    hasScrollBody: false,
-                    child: Center(
-                      child: Text(context.localized.search),
-                    ),
-                  )
-                else if (searchResults.isEmpty && searchState.query.trim().isNotEmpty && !searchState.isLoading)
+                if (searchResults.isEmpty && !searchState.isLoading)
                   SliverFillRemaining(
                     hasScrollBody: false,
                     child: Center(
@@ -215,6 +209,11 @@ class _SeerrSearchScreenState extends ConsumerState<SeerrSearchScreen> {
                             return SeerrPosterCard(
                               key: Key(poster.id),
                               poster: poster,
+                              onFocusChanged: (value) {
+                                if (value) {
+                                  context.ensureVisible();
+                                }
+                              },
                               onTap: (poster) => openRequest(context, poster),
                             );
                           },
