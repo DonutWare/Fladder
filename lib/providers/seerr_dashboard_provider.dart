@@ -18,7 +18,7 @@ class SeerrDashboardNotifier extends StateNotifier<SeerrDashboardModel> {
   SeerrService get api => ref.read(seerrApiProvider);
 
   Future<void> fetchDashboard() async {
-    ref.read(seerrUserProvider.notifier).refreshUser();
+    await ref.read(seerrUserProvider.notifier).refreshUser();
     await Future.wait([
       fetchRecentlyAdded(),
       fetchRecentRequests(),
@@ -31,6 +31,12 @@ class SeerrDashboardNotifier extends StateNotifier<SeerrDashboardModel> {
 
   Future<void> fetchRecentlyAdded() async {
     try {
+      final user = ref.read(seerrUserProvider);
+      if (user != null && !user.canViewRecent) {
+        state = state.copyWith(recentlyAdded: const []);
+        return;
+      }
+
       final response = await api.media(
         filter: MediaFilter.allavailable,
         take: 10,

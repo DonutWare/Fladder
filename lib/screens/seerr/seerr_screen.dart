@@ -5,12 +5,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/providers/seerr_dashboard_provider.dart';
+import 'package:fladder/providers/seerr_user_provider.dart';
 import 'package:fladder/screens/home_screen.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_poster_row.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_request_banner_row.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_request_popup.dart';
 import 'package:fladder/screens/shared/nested_scaffold.dart';
 import 'package:fladder/screens/shared/nested_sliver_appbar.dart';
+import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/sliver_list_padding.dart';
@@ -43,6 +45,7 @@ class _SeerrScreenState extends ConsumerState<SeerrScreen> {
   Widget build(BuildContext context) {
     final padding = AdaptiveLayout.adaptivePadding(context);
     final dashboardState = ref.watch(seerrDashboardProvider);
+    final canViewRecent = ref.watch(seerrUserProvider.select((state) => state?.canViewRecent ?? false));
     final backgroundImages = [
       ...dashboardState.recentlyAdded,
       ...dashboardState.recentRequests,
@@ -68,7 +71,7 @@ class _SeerrScreenState extends ConsumerState<SeerrScreen> {
                 NestedSliverAppBar(parent: context)
               else
                 const DefaultSliverTopBadding(),
-              if (dashboardState.recentlyAdded.isNotEmpty)
+              if (canViewRecent && dashboardState.recentlyAdded.isNotEmpty)
                 SliverToBoxAdapter(
                   child: SeerrPosterRow(
                     label: context.localized.recentlyAdded,

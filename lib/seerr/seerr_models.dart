@@ -229,7 +229,9 @@ extension SeerrUserPermissions on SeerrUserModel {
       isAdmin ? true : (_permissionValue & permission.bit) == permission.bit;
 
   bool get canManageRequests =>
-      isAdmin || hasPermission(SeerrPermission.manageRequests) || hasPermission(SeerrPermission.requestAdvanced);
+      hasPermission(SeerrPermission.manageRequests) || hasPermission(SeerrPermission.requestAdvanced);
+
+  bool get canViewRecent => hasPermission(SeerrPermission.recentView);
 
   bool canRequestMedia({required bool isTv}) {
     final baseRequest = hasPermission(SeerrPermission.request);
@@ -737,6 +739,7 @@ class SeerrMediaRequest {
   final SeerrUserModel? requestedBy;
   final SeerrUserModel? modifiedBy;
   final bool? is4k;
+  @JsonKey(fromJson: _parseRequestSeasons)
   final List<int>? seasons;
   final int? serverId;
   final int? profileId;
@@ -759,6 +762,24 @@ class SeerrMediaRequest {
 
   factory SeerrMediaRequest.fromJson(Map<String, dynamic> json) => _$SeerrMediaRequestFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrMediaRequestToJson(this);
+}
+
+// Helper to parse seasons which can be a list of ints or a list of objects
+List<int>? _parseRequestSeasons(List<dynamic>? seasons) {
+  if (seasons == null) return null;
+
+  return seasons
+      .map<int?>((season) {
+        if (season is num) return season.toInt();
+        if (season is Map<String, dynamic>) {
+          final value = season['seasonNumber'] ?? season['season'] ?? season['id'];
+          if (value is num) return value.toInt();
+          if (value is String) return int.tryParse(value);
+        }
+        return null;
+      })
+      .whereType<int>()
+      .toList();
 }
 
 @JsonSerializable()

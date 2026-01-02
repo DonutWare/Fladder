@@ -24,9 +24,9 @@ Future<void> showSeerrConnectionDialog(BuildContext context) {
 }
 
 enum SeerrAuthTab {
-  apiKey,
+  jellyfin,
   local,
-  jellyfin;
+  apiKey;
 
   String label(BuildContext context) => switch (this) {
         SeerrAuthTab.apiKey => context.localized.seerrAuthApiKey,
@@ -50,7 +50,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
   late final TextEditingController jfUsernameController;
   late final TextEditingController jfPasswordController;
 
-  SeerrAuthTab selectedTab = SeerrAuthTab.apiKey;
+  SeerrAuthTab selectedTab = SeerrAuthTab.jellyfin;
   SeerrUserModel? seerrUser;
   bool loading = true;
   bool processing = false;
