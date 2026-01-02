@@ -1,10 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/refresh_state.dart';
 
 class PullToRefresh extends ConsumerStatefulWidget {
@@ -50,9 +48,6 @@ class _PullToRefreshState extends ConsumerState<PullToRefresh> {
 
   @override
   Widget build(BuildContext context) {
-    if ((AdaptiveLayout.of(context).isDesktop || kIsWeb) && widget.autoFocus) {
-      focusNode.requestFocus();
-    }
     return RefreshState(
       refreshKey: refreshKey,
       refreshAble: widget.contextRefresh,
@@ -69,16 +64,18 @@ class _PullToRefreshState extends ConsumerState<PullToRefresh> {
           }
           return KeyEventResult.ignored;
         },
-        child: widget.onRefresh != null
-            ? RefreshIndicator(
-                displacement: widget.displacement ?? 80 + MediaQuery.of(context).viewPadding.top,
-                key: refreshKey,
-                onRefresh: widget.onRefresh!,
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
-                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                child: widget.child,
-              )
-            : widget.child,
+        child: Builder(
+          builder: (context) => widget.onRefresh != null
+              ? RefreshIndicator(
+                  displacement: widget.displacement ?? 80 + MediaQuery.of(context).viewPadding.top,
+                  key: refreshKey,
+                  onRefresh: widget.onRefresh!,
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                  child: widget.child,
+                )
+              : widget.child,
+        ),
       ),
     );
   }

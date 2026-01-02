@@ -50,8 +50,10 @@ Future<void> openSimpleTextInput(
   String? value,
   Function(String result) onChanged,
   String title,
-  String description,
-) {
+  String description, {
+  TextInputType keyboardType = TextInputType.url,
+  String placeHolder = "http://192.168.1.1:8096, 192.168.1.1:8096",
+}) {
   return showDialog(
     context: context,
     builder: (context) => _TextInputFieldDialog(
@@ -59,6 +61,8 @@ Future<void> openSimpleTextInput(
       title: title,
       description: description,
       onChanged: onChanged,
+      keyboardType: keyboardType,
+      placeHolder: placeHolder,
     ),
   );
 }
@@ -68,11 +72,15 @@ class _TextInputFieldDialog extends ConsumerWidget {
   final String title;
   final String description;
   final Function(String result) onChanged;
+  final TextInputType keyboardType;
+  final String placeHolder;
   const _TextInputFieldDialog({
     this.value,
     required this.title,
     required this.description,
     required this.onChanged,
+    required this.keyboardType,
+    required this.placeHolder,
   });
 
   @override
@@ -100,14 +108,14 @@ class _TextInputFieldDialog extends ConsumerWidget {
               children: [
                 OutlinedTextField(
                   controller: TextEditingController(text: value),
-                  keyboardType: TextInputType.url,
+                  keyboardType: keyboardType,
                   textInputAction: TextInputAction.done,
                   onSubmitted: (value) {
                     onChanged.call(value);
                     context.pop();
                   },
                   textAlign: TextAlign.start,
-                  placeHolder: "http://192.168.1.1:8096, 192.168.1.1:8096",
+                  placeHolder: placeHolder,
                 )
               ],
             ),

@@ -10,6 +10,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/credentials_model.dart';
 import 'package:fladder/models/library_filters_model.dart';
+import 'package:fladder/models/seerr_credentials_model.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 
@@ -28,10 +29,12 @@ abstract class AccountModel with _$AccountModel {
     @Default(Authentication.autoLogin) Authentication authMethod,
     @Default("") String localPin,
     @CredentialsConverter() required CredentialsModel credentials,
+    SeerrCredentialsModel? seerrCredentials,
     @Default([]) List<String> latestItemsExcludes,
     @Default([]) List<String> searchQueryHistory,
     @Default(false) bool quickConnectState,
     @Default([]) List<LibraryFiltersModel> libraryFilters,
+    //Server values not stored in the database
     @JsonKey(includeFromJson: false, includeToJson: false) UserPolicy? policy,
     @JsonKey(includeFromJson: false, includeToJson: false) ServerConfiguration? serverConfiguration,
     @JsonKey(includeFromJson: false, includeToJson: false) UserConfiguration? userConfiguration,

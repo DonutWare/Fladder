@@ -9,12 +9,14 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/models/account_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/auth_provider.dart';
+import 'package:fladder/providers/seerr_api_provider.dart';
 import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/login/lock_screen.dart';
 import 'package:fladder/screens/login/login_code_dialog.dart';
 import 'package:fladder/screens/login/login_user_grid.dart';
+import 'package:fladder/screens/login/widgets/advanced_login_options_dialog.dart';
 import 'package:fladder/screens/login/widgets/discover_servers_widget.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
@@ -138,87 +140,116 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
                           },
                         ),
                 ),
-              AutofillGroup(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  spacing: 8,
-                  children: [
-                    Flexible(
-                      child: OutlinedTextField(
-                        controller: usernameController,
-                        autoFillHints: const [AutofillHints.username],
-                        textInputAction: TextInputAction.next,
-                        autocorrect: false,
-                        onChanged: (value) => setState(() {}),
-                        label: context.localized.userName,
-                      ),
-                    ),
-                    Flexible(
-                      child: OutlinedTextField(
-                        controller: passwordController,
-                        autoFillHints: const [AutofillHints.password],
-                        keyboardType: TextInputType.visiblePassword,
-                        focusNode: focusNode,
-                        autocorrect: false,
-                        textInputAction: TextInputAction.send,
-                        onSubmitted: (value) => enterCredentialsTryLogin?.call(),
-                        onChanged: (value) => setState(() {}),
-                        label: context.localized.password,
-                      ),
-                    ),
-                    const Divider(
-                      indent: 32,
-                      endIndent: 32,
-                    ),
-                    FilledButton(
-                      onPressed: enterCredentialsTryLogin,
-                      child: loggingIn
-                          ? SizedBox(
-                              width: 18,
-                              height: 18,
-                              child: CircularProgressIndicator(
-                                  color: Theme.of(context).colorScheme.inversePrimary, strokeCap: StrokeCap.round),
-                            )
-                          : Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(context.localized.login),
-                                const SizedBox(width: 8),
-                                const Icon(IconsaxPlusBold.send_1),
-                              ],
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                spacing: 8,
+                children: [
+                  Flexible(
+                    child: AutofillGroup(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        spacing: 8,
+                        children: [
+                          Flexible(
+                            child: OutlinedTextField(
+                              controller: usernameController,
+                              autoFillHints: const [AutofillHints.username],
+                              textInputAction: TextInputAction.next,
+                              autocorrect: false,
+                              onChanged: (value) => setState(() {}),
+                              label: context.localized.userName,
                             ),
+                          ),
+                          Flexible(
+                            child: OutlinedTextField(
+                              controller: passwordController,
+                              autoFillHints: const [AutofillHints.password],
+                              keyboardType: TextInputType.visiblePassword,
+                              focusNode: focusNode,
+                              autocorrect: false,
+                              textInputAction: TextInputAction.send,
+                              onSubmitted: (value) => enterCredentialsTryLogin?.call(),
+                              onChanged: (value) => setState(() {}),
+                              label: context.localized.password,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    if (hasQuickConnect)
-                      FilledButton(
-                        onPressed: () async {
-                          final result = await ref.read(jellyApiProvider).quickConnectInitiate();
-                          if (result.body != null) {
-                            await openLoginCodeDialog(
-                              context,
-                              quickConnectInfo: result.body!,
-                              onAuthenticated: (context, secret) async {
-                                context.pop();
-                                if (secret.isNotEmpty) {
-                                  await loginUsingSecret(secret);
-                                }
-                              },
-                            );
-                          } else {
-                            fladderSnackbar(context, title: context.localized.quickConnectPostFailed);
-                          }
-                        },
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(context.localized.quickConnectLoginUsingCode),
-                            const SizedBox(width: 8),
-                            const Icon(IconsaxPlusBold.scan_barcode),
-                          ],
+                  ),
+                  const Divider(
+                    indent: 32,
+                    endIndent: 32,
+                  ),
+                  Row(
+                    spacing: 8,
+                    children: [
+                      Expanded(
+                        child: FilledButton(
+                          onPressed: enterCredentialsTryLogin,
+                          child: loggingIn
+                              ? SizedBox(
+                                  width: 18,
+                                  height: 18,
+                                  child: CircularProgressIndicator(
+                                      color: Theme.of(context).colorScheme.inversePrimary, strokeCap: StrokeCap.round),
+                                )
+                              : Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(context.localized.login),
+                                    const SizedBox(width: 8),
+                                    const Icon(IconsaxPlusBold.send_1),
+                                  ],
+                                ),
                         ),
                       ),
-                  ],
-                ),
+                      IconButton.filledTonal(
+                        onPressed: () async {
+                          final tempSeerrUrl = ref.read(authProvider.select((value) => value.tempSeerrUrl));
+                          final result = await showAdvancedLoginOptionsDialog(
+                            context,
+                            initialSeerrUrl: tempSeerrUrl,
+                          );
+                          if (result != null) {
+                            ref.read(authProvider.notifier).setTempSeerrUrl(result);
+                          }
+                        },
+                        icon: const Icon(IconsaxPlusLinear.setting_3),
+                      ),
+                    ],
+                  ),
+                  if (hasQuickConnect)
+                    FilledButton(
+                      onPressed: () async {
+                        final result = await ref.read(jellyApiProvider).quickConnectInitiate();
+                        if (result.body != null) {
+                          await openLoginCodeDialog(
+                            context,
+                            quickConnectInfo: result.body!,
+                            onAuthenticated: (context, secret) async {
+                              context.pop();
+                              if (secret.isNotEmpty) {
+                                await loginUsingSecret(secret);
+                              }
+                            },
+                          );
+                        } else {
+                          fladderSnackbar(context, title: context.localized.quickConnectPostFailed);
+                        }
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(context.localized.quickConnectLoginUsingCode),
+                          const SizedBox(width: 8),
+                          const Icon(IconsaxPlusBold.scan_barcode),
+                        ],
+                      ),
+                    ),
+                ],
               ),
               if (serverCredentials.serverMessage?.isEmpty == false) ...[
                 const Divider(),
@@ -241,20 +272,68 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
     setState(() {
       loggingIn = true;
     });
+
     final response = await ref.read(authProvider.notifier).authenticateByName(
           usernameController.text,
           passwordController.text,
         );
+
     if (response?.isSuccessful == false) {
       fladderSnackbar(context,
           title:
               "(${response?.base.statusCode}) ${response?.base.reasonPhrase ?? context.localized.somethingWentWrongPasswordCheck}");
-    } else if (response?.body != null) {
-      loggedInGoToHome(context, ref);
+      setState(() {
+        loggingIn = false;
+      });
+      return;
     }
-    setState(() {
-      loggingIn = false;
-    });
+
+    if (response?.body == null) {
+      setState(() {
+        loggingIn = false;
+      });
+      return;
+    }
+
+    final tempSeerrUrl = ref.read(authProvider.select((value) => value.tempSeerrUrl));
+    if (tempSeerrUrl != null && tempSeerrUrl.isNotEmpty) {
+      await _tryAuthenticateSeerr(tempSeerrUrl);
+    }
+
+    if (context.mounted) {
+      await loggedInGoToHome(context, ref);
+    }
+  }
+
+  Future<void> _tryAuthenticateSeerr(String seerrUrl) async {
+    try {
+      final username = usernameController.text.trim();
+      final password = passwordController.text;
+
+      ref.read(userProvider.notifier).setSeerrServerUrl(seerrUrl);
+
+      final tempCookie = ref.read(authProvider.select((value) => value.tempSeerrSessionCookie));
+      final cookie = tempCookie ??
+          await ref.read(seerrApiProvider).authenticateJellyfin(
+                username: username,
+                password: password,
+              );
+
+      ref.read(userProvider.notifier).setSeerrSessionCookie(cookie);
+      ref.read(userProvider.notifier).setSeerrApiKey('');
+      ref.read(authProvider.notifier).setTempSeerrSessionCookie(null);
+
+      if (context.mounted) {
+        fladderSnackbar(context, title: context.localized.seerrLoggedIn);
+      }
+    } catch (e) {
+      if (context.mounted) {
+        fladderSnackbar(
+          context,
+          title: "${context.localized.seerrAuthenticateLocal}: ${e.toString()}",
+        );
+      }
+    }
   }
 
   Future<void> loginUsingSecret(String secret) async {
@@ -277,10 +356,10 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
   bool emptyFields() => usernameController.text.isEmpty;
 }
 
-void loggedInGoToHome(BuildContext context, WidgetRef ref) {
+Future<void> loggedInGoToHome(BuildContext context, WidgetRef ref) async {
   ref.read(lockScreenActiveProvider.notifier).update((state) => false);
   if (context.mounted) {
-    context.router.replaceAll([const DashboardRoute()]);
+    await context.router.replaceAll([const DashboardRoute()]);
   }
 }
 

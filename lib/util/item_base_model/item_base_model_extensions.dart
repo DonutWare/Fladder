@@ -8,6 +8,8 @@ import 'package:fladder/models/book_model.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
+import 'package:fladder/models/items/movie_model.dart';
+import 'package:fladder/models/items/series_model.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/collections/add_to_collection.dart';
@@ -326,5 +328,19 @@ extension ItemBaseModelExtensions on ItemBaseModel {
           label: Text("${type.label(context)} ${context.localized.info}"),
         ),
     ];
+  }
+
+  int? getTmdbId() {
+    final providerIds = this is MovieModel
+        ? (this as MovieModel).providerIds
+        : this is SeriesModel
+            ? (this as SeriesModel).providerIds
+            : null;
+
+    if (providerIds == null || providerIds.isEmpty) return null;
+
+    final value = providerIds['Tmdb'];
+    final parsed = int.tryParse(value.toString());
+    return parsed;
   }
 }

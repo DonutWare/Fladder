@@ -9,6 +9,7 @@ import 'package:fladder/models/account_model.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/library_filters_model.dart';
+import 'package:fladder/models/seerr_credentials_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/image_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
@@ -164,6 +165,43 @@ class User extends _$User {
     state = user.copyWith(
       credentials: user.credentials.copyWith(localUrl: value?.isEmpty == true ? null : value),
     );
+  }
+
+  void setSeerrServerUrl(String? value) {
+    final user = state;
+    if (user == null) return;
+    final updated = (user.seerrCredentials ?? const SeerrCredentialsModel()).copyWith(
+      serverUrl: value?.trim() ?? "",
+    );
+    userState = user.copyWith(seerrCredentials: updated);
+  }
+
+  void logoutSeerr() {
+    final user = state;
+    if (user == null) return;
+    final updated = (user.seerrCredentials ?? const SeerrCredentialsModel()).copyWith(
+      apiKey: "",
+      sessionCookie: "",
+    );
+    userState = user.copyWith(seerrCredentials: updated);
+  }
+
+  void setSeerrApiKey(String? value) {
+    final user = state;
+    if (user == null) return;
+    final updated = (user.seerrCredentials ?? const SeerrCredentialsModel()).copyWith(
+      apiKey: value?.trim() ?? "",
+    );
+    userState = user.copyWith(seerrCredentials: updated);
+  }
+
+  void setSeerrSessionCookie(String? value) {
+    final user = state;
+    if (user == null) return;
+    final updated = (user.seerrCredentials ?? const SeerrCredentialsModel()).copyWith(
+      sessionCookie: value?.trim() ?? "",
+    );
+    userState = user.copyWith(seerrCredentials: updated);
   }
 
   void addSearchQuery(String value) {

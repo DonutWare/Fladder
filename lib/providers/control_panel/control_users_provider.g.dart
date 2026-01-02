@@ -6,14 +6,16 @@ part of 'control_users_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$controlUsersHash() => r'bcbaaaf26f0ada3b8e2011ac0ec5ecc617cb7e8d';
+String _$controlUsersHash() => r'c75c30523c95aa41812bcdb4c6d34873cbf2bca6';
 
 /// See also [ControlUsers].
 @ProviderFor(ControlUsers)
-final controlUsersProvider = AutoDisposeNotifierProvider<ControlUsers, ControlUsersModel>.internal(
+final controlUsersProvider =
+    AutoDisposeNotifierProvider<ControlUsers, ControlUsersModel>.internal(
   ControlUsers.new,
   name: r'controlUsersProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$controlUsersHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$controlUsersHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

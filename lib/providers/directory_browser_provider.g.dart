@@ -6,7 +6,7 @@ part of 'directory_browser_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$directoryBrowserHash() => r'5c575598f634e9952ca44e0d0d3eb98edc7f9799';
+String _$directoryBrowserHash() => r'baecaa63893df6dcbcf6c940bee81f92a7cd5c92';
 
 /// See also [DirectoryBrowser].
 @ProviderFor(DirectoryBrowser)
