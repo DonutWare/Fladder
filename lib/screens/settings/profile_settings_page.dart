@@ -28,20 +28,22 @@ class ProfileSettingsPage extends ConsumerStatefulWidget {
 
 class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> {
   String _seerrStatusLabel(
+    BuildContext context,
     SeerrCredentialsModel? credentials,
     SeerrUserModel? seerrUser,
   ) {
-    if (credentials == null || credentials.serverUrl.isEmpty) return 'Not configured';
+    if (credentials == null || credentials.serverUrl.isEmpty) return context.localized.seerrNotConfigured;
 
     if (credentials.sessionCookie.isNotEmpty || credentials.apiKey.isNotEmpty) {
       if (seerrUser == null) {
-        return "Loading user";
+        return context.localized.seerrLoadingUser;
       }
-      final displayName = seerrUser.displayName ?? seerrUser.username ?? seerrUser.email ?? 'Unknown user';
-      return 'Logged in as $displayName';
+      final displayName =
+          seerrUser.displayName ?? seerrUser.username ?? seerrUser.email ?? context.localized.seerrUnknownUser;
+      return context.localized.loggedInAs(displayName);
     }
 
-    return '-';
+    return context.localized.none;
   }
 
   @override
@@ -96,7 +98,7 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> {
                   Text(context.localized.settingsLocalUrlTitle),
                 ],
               ),
-              subLabel: Text(user?.credentials.localUrl ?? "-"),
+              subLabel: Text(user?.credentials.localUrl ?? context.localized.none),
               onTap: () {
                 openSimpleTextInput(
                   context,
@@ -108,8 +110,8 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> {
               },
             ),
             SettingsListTile(
-              label: const Text('Seerr'),
-              subLabel: Text(_seerrStatusLabel(user?.seerrCredentials, seerrUser)),
+              label: Text(context.localized.seerr),
+              subLabel: Text(_seerrStatusLabel(context, user?.seerrCredentials, seerrUser)),
               onTap: () => showSeerrConnectionDialog(context),
             ),
           ],

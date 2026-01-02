@@ -36,9 +36,9 @@ class RequestConfigurationSection extends ConsumerWidget {
 
     final notifier = ref.read(seerrRequestProvider.notifier);
 
-    String rootFolderLabel(String folder, String? defaultFolder) {
+    String rootFolderLabel(BuildContext context, String folder, String? defaultFolder) {
       if (defaultFolder != null && folder == defaultFolder) {
-        return '$folder (Default)';
+        return context.localized.rootFolderDefaultLabel(folder);
       }
       return folder;
     }
@@ -79,11 +79,11 @@ class RequestConfigurationSection extends ConsumerWidget {
           EnumSelection(
             label: Text(context.localized.rootFolder),
             current: requestState.selectedRootFolder != null
-                ? rootFolderLabel(requestState.selectedRootFolder!, defaultRootFolder)
+                ? rootFolderLabel(context, requestState.selectedRootFolder!, defaultRootFolder)
                 : context.localized.selectFolder,
             itemBuilder: (context) => availableRootFolders
                 .map((folder) => ItemActionButton(
-                      label: Text(rootFolderLabel(folder, defaultRootFolder)),
+                      label: Text(rootFolderLabel(context, folder, defaultRootFolder)),
                       action: () => notifier.selectRootFolder(folder),
                     ))
                 .toList(),

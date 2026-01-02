@@ -224,7 +224,7 @@ class _SeerrRequestPopupState extends ConsumerState<SeerrRequestPopup> {
             ],
             if (requestState.isAnime) ...[
               Text(
-                '* This series is an anime.',
+                context.localized.seerrAnimeSeriesNote,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.secondary),
               ),
             ],

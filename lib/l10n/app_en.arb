@@ -1999,5 +1999,93 @@
   "request": "Request",
   "@request": {},
   "viewRequest": "View request",
-  "@viewRequest": {}
+  "@viewRequest": {},
+  "email": "Email",
+  "@email": {},
+  "username": "Username",
+  "@username": {},
+  "ok": "OK",
+  "@ok": {},
+  "seerr": "Seerr",
+  "@seerr": {},
+  "seerrNotConfigured": "Not configured",
+  "@seerrNotConfigured": {},
+  "seerrLoadingUser": "Loading user",
+  "@seerrLoadingUser": {},
+  "seerrUnknownUser": "Unknown user",
+  "@seerrUnknownUser": {},
+  "loggedInAs": "Logged in as {displayName}",
+  "@loggedInAs": {
+    "placeholders": {
+      "displayName": {
+        "type": "String"
+      }
+    }
+  },
+  "seerrSetServerFirst": "Set Seerr server first",
+  "@seerrSetServerFirst": {},
+  "seerrLocalLoginTitle": "Seerr Local Login",
+  "@seerrLocalLoginTitle": {},
+  "seerrJellyfinLoginTitle": "Seerr Jellyfin Login",
+  "@seerrJellyfinLoginTitle": {},
+  "seerrSessionSaved": "Seerr session saved",
+  "@seerrSessionSaved": {},
+  "seerrStatusVersion": "Seerr: {version}",
+  "@seerrStatusVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "seerrServer": "Seerr server",
+  "@seerrServer": {},
+  "seerrAuthenticateLocal": "Seerr authenticate (local)",
+  "@seerrAuthenticateLocal": {},
+  "seerrAuthenticateJellyfin": "Seerr authenticate (Jellyfin)",
+  "@seerrAuthenticateJellyfin": {},
+  "seerrSessionConfigured": "Session configured",
+  "@seerrSessionConfigured": {},
+  "seerrConfigured": "Configured",
+  "@seerrConfigured": {},
+  "seerrTestConnection": "Test Seerr connection",
+  "@seerrTestConnection": {},
+  "rootFolderDefaultLabel": "{folder} (Default)",
+  "@rootFolderDefaultLabel": {
+    "placeholders": {
+      "folder": {
+        "type": "String"
+      }
+    }
+  },
+  "seerrAnimeSeriesNote": "* This series is an anime.",
+  "@seerrAnimeSeriesNote": {},
+  "seerrAutoApproveNotice": "Requests you submit are auto-approved.",
+  "@seerrAutoApproveNotice": {},
+  "seerrPermissionDenied": "You do not have permission to request this media type.",
+  "@seerrPermissionDenied": {},
+  "seerrAuthApiKey": "API key",
+  "@seerrAuthApiKey": {},
+  "seerrAuthLocal": "Local",
+  "@seerrAuthLocal": {},
+  "seerrAuthJellyfin": "Jellyfin",
+  "@seerrAuthJellyfin": {},
+  "seerrUserFetchFailed": "Failed to fetch user from Seerr",
+  "@seerrUserFetchFailed": {},
+  "seerrEnterServerUrlFirst": "Enter a Seerr server URL first",
+  "@seerrEnterServerUrlFirst": {},
+  "seerrApiKeySaved": "API key saved",
+  "@seerrApiKeySaved": {},
+  "seerrLoggedIn": "Logged in to Seerr",
+  "@seerrLoggedIn": {},
+  "seerrConnectedToServer": "Connected to Seerr server: {serverUrl}",
+  "@seerrConnectedToServer": {
+    "placeholders": {
+      "serverUrl": {
+        "type": "String"
+      }
+    }
+  },
+  "emailUsername": "Email/Username",
+  "@emailUsername": {}
 }

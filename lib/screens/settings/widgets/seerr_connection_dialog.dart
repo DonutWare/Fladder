@@ -28,10 +28,10 @@ enum SeerrAuthTab {
   local,
   jellyfin;
 
-  String label(BuildContext _) => switch (this) {
-        SeerrAuthTab.apiKey => 'API key',
-        SeerrAuthTab.local => 'Local',
-        SeerrAuthTab.jellyfin => 'Jellyfin',
+  String label(BuildContext context) => switch (this) {
+        SeerrAuthTab.apiKey => context.localized.seerrAuthApiKey,
+        SeerrAuthTab.local => context.localized.seerrAuthLocal,
+        SeerrAuthTab.jellyfin => context.localized.seerrAuthJellyfin,
       };
 }
 
@@ -114,7 +114,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
       if (!mounted) return;
 
       seerrUser = user;
-      error = user == null ? 'Failed to fetch user from Seerr' : null;
+      error = user == null ? context.localized.seerrUserFetchFailed : null;
     } catch (e) {
       if (!mounted) return;
       seerrUser = null;
@@ -132,7 +132,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
     if (serverUrl.isEmpty) {
       if (showError && mounted) {
         setState(() {
-          error = 'Enter a Seerr server URL first';
+          error = context.localized.seerrEnterServerUrlFirst;
         });
       }
       return false;
@@ -157,7 +157,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
     await _refreshSession();
 
     if (mounted) {
-      fladderSnackbar(context, title: 'API key saved');
+      fladderSnackbar(context, title: context.localized.seerrApiKeySaved);
     }
 
     if (mounted) {
@@ -184,7 +184,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
       ref.read(userProvider.notifier).setSeerrApiKey('');
       await _refreshSession();
       if (mounted) {
-        fladderSnackbar(context, title: 'Logged in to Seerr');
+        fladderSnackbar(context, title: context.localized.seerrLoggedIn);
       }
     } catch (e) {
       if (mounted) {
@@ -217,7 +217,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
       ref.read(userProvider.notifier).setSeerrApiKey('');
       await _refreshSession();
       if (mounted) {
-        fladderSnackbar(context, title: 'Logged in to Seerr');
+        fladderSnackbar(context, title: context.localized.seerrLoggedIn);
       }
     } catch (e) {
       if (mounted) {
@@ -266,7 +266,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
       children: [
         Expanded(
           child: Text(
-            'Seerr',
+            context.localized.seerr,
             style: Theme.of(context).textTheme.titleLarge,
           ),
         ),
@@ -305,7 +305,8 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
 
   Widget _loggedInContent() {
     final serverUrl = ref.read(userProvider)?.seerrCredentials?.serverUrl ?? '';
-    final displayName = seerrUser?.displayName ?? seerrUser?.username ?? seerrUser?.email ?? 'Unknown user';
+    final displayName =
+        seerrUser?.displayName ?? seerrUser?.username ?? seerrUser?.email ?? context.localized.seerrUnknownUser;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -315,7 +316,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
         if (serverUrl.isNotEmpty)
           Flexible(
             child: Text(
-              'Connected to Seerr server: $serverUrl',
+              context.localized.seerrConnectedToServer(serverUrl),
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),
@@ -354,7 +355,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
       children: [
         if (error != null) _errorBanner(),
         FocusedOutlinedTextField(
-          label: 'Seerr server',
+          label: context.localized.seerrServer,
           controller: serverController,
           keyboardType: TextInputType.url,
           textInputAction: TextInputAction.next,
@@ -396,7 +397,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
           spacing: 12,
           children: [
             FocusedOutlinedTextField(
-              label: 'API key',
+              label: context.localized.seerrAuthApiKey,
               controller: apiKeyController,
               keyboardType: TextInputType.visiblePassword,
               onSubmitted: (_) => _useApiKey(),
@@ -408,7 +409,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
                   onPressed: processing ? null : _useApiKey,
                   child: processing
                       ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator())
-                      : const Text('Save'),
+                      : Text(context.localized.save),
                 ),
               ],
             ),
@@ -420,7 +421,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
           spacing: 12,
           children: [
             OutlinedTextField(
-              label: 'Email/Username',
+              label: context.localized.emailUsername,
               controller: localEmailController,
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
@@ -429,7 +430,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
               controller: localPasswordController,
               textInputAction: TextInputAction.done,
               keyboardType: TextInputType.visiblePassword,
-              label: 'Password',
+              label: context.localized.password,
               onSubmitted: (_) => _loginLocal(),
             ),
             Row(
@@ -439,7 +440,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
                   onPressed: processing ? null : _loginLocal,
                   child: processing
                       ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator())
-                      : const Text('Login'),
+                      : Text(context.localized.login),
                 ),
               ],
             ),
@@ -451,7 +452,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
           spacing: 12,
           children: [
             OutlinedTextField(
-              label: 'Username',
+              label: context.localized.username,
               controller: jfUsernameController,
               textInputAction: TextInputAction.next,
             ),
@@ -459,7 +460,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
               controller: jfPasswordController,
               textInputAction: TextInputAction.done,
               keyboardType: TextInputType.visiblePassword,
-              label: 'Password',
+              label: context.localized.password,
               onSubmitted: (_) => _loginJellyfin(),
             ),
             Row(
@@ -469,7 +470,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
                   onPressed: processing ? null : _loginJellyfin,
                   child: processing
                       ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator())
-                      : const Text('Login'),
+                      : Text(context.localized.login),
                 ),
               ],
             ),

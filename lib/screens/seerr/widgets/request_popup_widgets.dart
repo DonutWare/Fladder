@@ -37,7 +37,7 @@ class AutoApproveBanner extends StatelessWidget {
             Icon(IconsaxPlusLinear.tick_circle, color: Theme.of(context).colorScheme.onTertiaryContainer),
             Expanded(
               child: Text(
-                'Requests you submit are auto-approved.',
+                context.localized.seerrAutoApproveNotice,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: Theme.of(context).colorScheme.onTertiaryContainer,
                     ),
@@ -71,7 +71,7 @@ class PermissionDeniedWarning extends StatelessWidget {
                 Icon(IconsaxPlusBold.forbidden_2, color: Theme.of(context).colorScheme.onErrorContainer),
                 Expanded(
                   child: Text(
-                    'You do not have permission to request this media type.',
+                    context.localized.seerrPermissionDenied,
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium
