@@ -15,6 +15,8 @@ import 'package:fladder/util/poster_defaults.dart';
 import 'package:fladder/util/resolution_checker.dart';
 import 'package:fladder/widgets/keyboard/slide_in_keyboard.dart';
 
+import 'package:flutter_tizen/flutter_tizen.dart';
+
 enum InputDevice {
   touch,
   pointer,
@@ -155,7 +157,7 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
   }
 
   bool get isDesktop {
-    if (kIsWeb) return false;
+    if (kIsWeb || isTizen) return false;
     return [
       TargetPlatform.macOS,
       TargetPlatform.windows,
