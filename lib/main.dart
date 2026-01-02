@@ -266,7 +266,9 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
 
     final clientSettings = ref.read(clientSettingsProvider);
 
-    if (_isDesktop) {
+    final isFullScreen = await windowManager.isFullScreen();
+
+    if (_isDesktop && !isFullScreen) {
       WindowOptions windowOptions = WindowOptions(
         backgroundColor: Colors.transparent,
         skipTaskbar: false,
@@ -284,7 +286,7 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
           await windowManager.center();
         }
         final startupArguments = ref.read(argumentsStateProvider);
-        if (startupArguments.htpcMode && !(await windowManager.isFullScreen())) {
+        if (startupArguments.htpcMode && !isFullScreen) {
           await windowManager.setFullScreen(true);
         }
       });
