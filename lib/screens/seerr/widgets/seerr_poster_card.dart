@@ -213,7 +213,10 @@ class SeerrPosterCard extends ConsumerWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
-                ),
+                )
+              else
+                const SizedBox(height: 12),
+              const SizedBox(height: 24),
             ],
           ),
         ),
