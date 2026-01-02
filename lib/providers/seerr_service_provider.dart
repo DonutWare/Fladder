@@ -128,6 +128,7 @@ class SeerrService {
     String? jellyfinItemId,
     List<SeerrSeason>? seasons,
     Map<int, SeerrRequestStatus>? seasonStatuses,
+    String? releaseYear,
   }) {
     final keyPrefix = type == SeerrDashboardMediaType.movie ? 'tmdb_movie_$tmdbId' : 'tmdb_tv_$tmdbId';
     final id = type == SeerrDashboardMediaType.movie ? 'tmdb:movie:$tmdbId' : 'tmdb:tv:$tmdbId';
@@ -147,6 +148,7 @@ class SeerrService {
       seasons: seasons,
       seasonStatuses: seasonStatuses,
       mediaInfo: mediaInfo,
+      releaseYear: releaseYear,
     );
   }
 
@@ -342,6 +344,12 @@ class SeerrService {
         ? (item.name ?? item.originalName ?? item.title ?? '')
         : (item.title ?? item.originalTitle ?? item.name ?? '');
 
+    String? releaseYear;
+    final dateString = type == SeerrDashboardMediaType.tv ? item.firstAirDate : item.releaseDate;
+    if (dateString != null && dateString.isNotEmpty) {
+      releaseYear = dateString.split('-').first;
+    }
+
     return _posterFromDetails(
       type: type,
       tmdbId: tmdbId,
@@ -352,6 +360,7 @@ class SeerrService {
       backdropPath: item.backdropPath,
       status: item.mediaInfo?.status != null ? SeerrRequestStatus.fromRaw(item.mediaInfo?.status) : null,
       mediaInfo: item.mediaInfo,
+      releaseYear: releaseYear,
     );
   }
 
@@ -373,6 +382,42 @@ class SeerrService {
 
   Future<List<SeerrDashboardPosterModel>> discoverExpectedSeries({int? page, String? language}) async {
     final response = await _api.getDiscoverTvUpcoming(page: page, language: language);
+    final results = response.body?.results ?? const <SeerrDiscoverItem>[];
+    return results.map(_posterFromDiscoverItem).whereType<SeerrDashboardPosterModel>().toList(growable: false);
+  }
+
+  Future<List<SeerrDashboardPosterModel>> discoverRelatedMovies({
+    required int tmdbId,
+    String? language,
+  }) async {
+    final response = await _api.getMovieSimilar(tmdbId, language: language);
+    final results = response.body?.results ?? const <SeerrDiscoverItem>[];
+    return results.map(_posterFromDiscoverItem).whereType<SeerrDashboardPosterModel>().toList(growable: false);
+  }
+
+  Future<List<SeerrDashboardPosterModel>> discoverRelatedSeries({
+    required int tmdbId,
+    String? language,
+  }) async {
+    final response = await _api.getTvSimilar(tmdbId, language: language);
+    final results = response.body?.results ?? const <SeerrDiscoverItem>[];
+    return results.map(_posterFromDiscoverItem).whereType<SeerrDashboardPosterModel>().toList(growable: false);
+  }
+
+  Future<List<SeerrDashboardPosterModel>> discoverRecommendedMovies({
+    required int tmdbId,
+    String? language,
+  }) async {
+    final response = await _api.getMovieRecommendations(tmdbId, language: language);
+    final results = response.body?.results ?? const <SeerrDiscoverItem>[];
+    return results.map(_posterFromDiscoverItem).whereType<SeerrDashboardPosterModel>().toList(growable: false);
+  }
+
+  Future<List<SeerrDashboardPosterModel>> discoverRecommendedSeries({
+    required int tmdbId,
+    String? language,
+  }) async {
+    final response = await _api.getTvRecommendations(tmdbId, language: language);
     final results = response.body?.results ?? const <SeerrDiscoverItem>[];
     return results.map(_posterFromDiscoverItem).whereType<SeerrDashboardPosterModel>().toList(growable: false);
   }

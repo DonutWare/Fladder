@@ -8,9 +8,13 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/items/season_model.dart';
 import 'package:fladder/models/items/series_model.dart';
+import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/related_provider.dart';
+import 'package:fladder/providers/seerr_api_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
+import 'package:fladder/providers/user_provider.dart';
+import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 
 final seriesDetailsProvider =
     StateNotifierProvider.autoDispose.family<SeriesDetailViewNotifier, SeriesModel?, String>((ref, id) {
@@ -32,7 +36,13 @@ class SeriesDetailViewNotifier extends StateNotifier<SeriesModel?> {
       SeriesModel? newState;
       final response = await api.usersUserIdItemsItemIdGet(itemId: seriesModel.id);
       if (response.body == null) return null;
-      newState = response.bodyOrThrow as SeriesModel;
+      newState = (response.bodyOrThrow as SeriesModel).copyWith(
+        related: state?.related ?? const [],
+        seerrRelated: state?.seerrRelated ?? const [],
+        seerrRecommended: state?.seerrRecommended ?? const [],
+      );
+
+      state = newState;
 
       final seasons = await api.showsSeriesIdSeasonsGet(seriesId: seriesModel.id, fields: [
         ItemFields.mediastreams,
@@ -72,7 +82,24 @@ class SeriesDetailViewNotifier extends StateNotifier<SeriesModel?> {
       );
 
       final related = await ref.read(relatedUtilityProvider).relatedContent(seriesModel.id);
-      state = newState.copyWith(related: related.body);
+      List<SeerrDashboardPosterModel> seerrRelated = const [];
+      List<SeerrDashboardPosterModel> seerrRecommended = const [];
+
+      final seerrCreds = ref.read(userProvider)?.seerrCredentials;
+      if (seerrCreds?.isConfigured == true) {
+        final tmdbId = newState.getTmdbId();
+        if (tmdbId != null) {
+          final seerr = ref.read(seerrApiProvider);
+          seerrRelated = await seerr.discoverRelatedSeries(tmdbId: tmdbId);
+          seerrRecommended = await seerr.discoverRecommendedSeries(tmdbId: tmdbId);
+        }
+      }
+
+      state = newState.copyWith(
+        related: related.body,
+        seerrRelated: seerrRelated,
+        seerrRecommended: seerrRecommended,
+      );
       return response;
     } catch (e) {
       log("Error fetching series details: $e");

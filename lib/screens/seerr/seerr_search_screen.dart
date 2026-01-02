@@ -13,6 +13,7 @@ import 'package:fladder/screens/seerr/widgets/seerr_request_popup.dart';
 import 'package:fladder/screens/shared/nested_scaffold.dart';
 import 'package:fladder/screens/shared/outlined_text_field.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
+import 'package:fladder/util/debouncer.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/router_extension.dart';
 import 'package:fladder/util/sliver_list_padding.dart';
@@ -31,6 +32,8 @@ class SeerrSearchScreen extends ConsumerStatefulWidget {
 class _SeerrSearchScreenState extends ConsumerState<SeerrSearchScreen> {
   late final TextEditingController controller = TextEditingController();
   final ScrollController scrollController = ScrollController();
+
+  final Debouncer debouncer = Debouncer(const Duration(milliseconds: 300));
 
   @override
   void dispose() {
@@ -133,6 +136,11 @@ class _SeerrSearchScreenState extends ConsumerState<SeerrSearchScreen> {
                                       controller: controller,
                                       textInputAction: TextInputAction.search,
                                       onSubmitted: (value) => ref.read(seerrSearchProvider.notifier).submit(value),
+                                      onChanged: (value) {
+                                        debouncer.run(() {
+                                          ref.read(seerrSearchProvider.notifier).submit(value);
+                                        });
+                                      },
                                       decoration: InputDecoration(
                                         hintText: "${context.localized.search}...",
                                         contentPadding: const EdgeInsets.only(top: 13),

@@ -355,6 +355,78 @@ final class _$SeerrChopperService extends SeerrChopperService {
   }
 
   @override
+  Future<Response<SeerrDiscoverResponse>> getMovieSimilar(
+    int movieId, {
+    String? language,
+  }) {
+    final Uri $url = Uri.parse('/api/v1/movie/${movieId}/similar');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'language': language
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<SeerrDiscoverResponse, SeerrDiscoverResponse>($request);
+  }
+
+  @override
+  Future<Response<SeerrDiscoverResponse>> getTvSimilar(
+    int tvId, {
+    String? language,
+  }) {
+    final Uri $url = Uri.parse('/api/v1/tv/${tvId}/similar');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'language': language
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<SeerrDiscoverResponse, SeerrDiscoverResponse>($request);
+  }
+
+  @override
+  Future<Response<SeerrDiscoverResponse>> getMovieRecommendations(
+    int movieId, {
+    String? language,
+  }) {
+    final Uri $url = Uri.parse('/api/v1/movie/${movieId}/recommendations');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'language': language
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<SeerrDiscoverResponse, SeerrDiscoverResponse>($request);
+  }
+
+  @override
+  Future<Response<SeerrDiscoverResponse>> getTvRecommendations(
+    int tvId, {
+    String? language,
+  }) {
+    final Uri $url = Uri.parse('/api/v1/tv/${tvId}/recommendations');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'language': language
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<SeerrDiscoverResponse, SeerrDiscoverResponse>($request);
+  }
+
+  @override
   Future<Response<SeerrSearchResponse>> search({
     required String query,
     int? page,

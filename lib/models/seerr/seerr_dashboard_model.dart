@@ -79,6 +79,7 @@ class SeerrDashboardPosterModel {
   final List<SeerrSeason>? seasons;
   final Map<int, SeerrRequestStatus>? seasonStatuses;
   final SeerrMediaInfo? mediaInfo;
+  final String? releaseYear;
 
   const SeerrDashboardPosterModel({
     required this.id,
@@ -92,6 +93,7 @@ class SeerrDashboardPosterModel {
     this.seasons,
     this.seasonStatuses,
     this.mediaInfo,
+    this.releaseYear,
   });
 
   SeerrDashboardPosterModel copyWith({
@@ -106,6 +108,7 @@ class SeerrDashboardPosterModel {
     List<SeerrSeason>? seasons,
     Map<int, SeerrRequestStatus>? seasonStatuses,
     SeerrMediaInfo? mediaInfo,
+    String? releaseYear,
   }) {
     return SeerrDashboardPosterModel(
       id: id ?? this.id,
@@ -119,6 +122,7 @@ class SeerrDashboardPosterModel {
       seasons: seasons ?? this.seasons,
       seasonStatuses: seasonStatuses ?? this.seasonStatuses,
       mediaInfo: mediaInfo ?? this.mediaInfo,
+      releaseYear: releaseYear ?? this.releaseYear,
     );
   }
 
