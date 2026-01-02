@@ -47,7 +47,7 @@
     },
     "ascending": "Oplopend",
     "@ascending": {},
-    "audio": "Audio",
+    "audio": "{count, plural, one{Audio} other{Audio}}",
     "@audio": {},
     "autoPlay": "Automatisch afspelen",
     "@autoPlay": {},
@@ -87,7 +87,7 @@
     "@close": {},
     "code": "Code",
     "@code": {},
-    "collectionFolder": "Collectiemap",
+    "collectionFolder": "{count, plural, one{Collectie folder} other{Collectie folders}}",
     "@collectionFolder": {},
     "color": "Kleur",
     "@color": {},
@@ -133,7 +133,7 @@
     "@dateLastContentAdded": {},
     "datePlayed": "Datum afgespeeld",
     "@datePlayed": {},
-    "days": "Dagen",
+    "days": "{count, plural, one{Dag} other{Dagen}}",
     "@days": {},
     "delete": "Verwijderen",
     "@delete": {},
@@ -349,27 +349,27 @@
     "@masonry": {},
     "mediaTypeBase": "Basis type",
     "@mediaTypeBase": {},
-    "mediaTypeBook": "Boek",
+    "mediaTypeBook": "{count, plural, one{Boek} other{Boeken}}",
     "@mediaTypeBook": {},
-    "mediaTypeBoxset": "Boxset",
+    "mediaTypeBoxset": "{count, plural, one{Boxset} other{Boxsets}}",
     "@mediaTypeBoxset": {},
-    "mediaTypeEpisode": "Aflevering",
+    "mediaTypeEpisode": "{count, plural, one{Aflevering} other{Afleveringen}}",
     "@mediaTypeEpisode": {},
-    "mediaTypeFolder": "Map",
+    "mediaTypeFolder": "{count, plural, one{Folder} other{Folders}}",
     "@mediaTypeFolder": {},
-    "mediaTypeMovie": "Film",
+    "mediaTypeMovie": "{count, plural, one{Film} other{Films}}",
     "@mediaTypeMovie": {},
-    "mediaTypePerson": "Persoon",
+    "mediaTypePerson": "{count, plural, one{Persoon} other{Personen}}",
     "@mediaTypePerson": {},
-    "mediaTypePhoto": "Foto",
+    "mediaTypePhoto": "{count, plural, one{Foto} other{Fotos}}",
     "@mediaTypePhoto": {},
-    "mediaTypePhotoAlbum": "Foto album",
+    "mediaTypePhotoAlbum": "{count, plural, one{Foto Album} other{Foto Albums}}",
     "@mediaTypePhotoAlbum": {},
-    "mediaTypePlaylist": "Afspeellijst",
+    "mediaTypePlaylist": "{count, plural, one{Afspeellijst} other{Afspeellijsten}}",
     "@mediaTypePlaylist": {},
-    "mediaTypeSeason": "Seizoen",
+    "mediaTypeSeason": "{count, plural, one{Seizoen} other{Seizoenen}}",
     "@mediaTypeSeason": {},
-    "mediaTypeSeries": "Serie",
+    "mediaTypeSeries": "{count, plural, one{Serie} other{Series}}",
     "@mediaTypeSeries": {},
     "metaDataSavedFor": "Metadata opgeslagen voor {item}",
     "@metaDataSavedFor": {
@@ -411,7 +411,7 @@
     "@moreOptions": {},
     "mouseDragSupport": "Slepen met de muis",
     "@mouseDragSupport": {},
-    "musicAlbum": "Album",
+    "musicAlbum": "{count, plural, one{Album} other{Albums}}",
     "@musicAlbum": {},
     "name": "Naam",
     "@name": {},
@@ -818,7 +818,7 @@
     "@syncDetails": {},
     "syncOpenParent": "Ouder openen",
     "@syncOpenParent": {},
-    "syncRemoveDataDesc": "Gesynchroniseerde videogegevens verwijderen? Dit is permanent en u moet de bestanden opnieuw synchroniseren",
+    "syncRemoveDataDesc": "Gesynchroniseerde videogegevens verwijderen? Dit is permanent en je moet de bestanden opnieuw synchroniseren",
     "@syncRemoveDataDesc": {},
     "syncRemoveDataTitle": "Gesynchroniseerde gegevens verwijderen?",
     "@syncRemoveDataTitle": {},
@@ -888,7 +888,7 @@
     "@useDefaults": {},
     "userName": "Gebruikersnaam",
     "@userName": {},
-    "video": "Video",
+    "video": "{count, plural, one{Video} other{Videos}}",
     "@video": {},
     "videoScaling": "Videoschaling",
     "@videoScaling": {},
@@ -1366,7 +1366,7 @@
             }
         }
     },
-    "syncAllItemsDesc": "Hiermee worden ({itemCount}) items van '{itemName}' gesynchroniseerd naar uw apparaat.\nDit kan even duren, afhankelijk van de hoeveelheid items.",
+    "syncAllItemsDesc": "Hiermee worden ({itemCount}) items van '{itemName}' gesynchroniseerd naar jouw apparaat.\nDit kan even duren, afhankelijk van de hoeveelheid items.",
     "@syncAllItemsDesc": {
         "description": "syncAllitemsFromDesc",
         "placeholders": {
@@ -1387,7 +1387,7 @@
             }
         }
     },
-    "syncDeleteAllItemsDesc": "Hiermee worden alle gesynchroniseerde items van '{itemName}' verwijderd.\nDit is permanent en u moet ({itemCount}) bestanden opnieuw synchroniseren.",
+    "syncDeleteAllItemsDesc": "Hiermee worden alle gesynchroniseerde items van '{itemName}' verwijderd.\nDit is permanent en je moet ({itemCount}) bestanden opnieuw synchroniseren.",
     "@syncDeleteAllItemsDesc": {
         "description": "syncDeleteAllitemsFromDesc",
         "placeholders": {
@@ -1501,7 +1501,7 @@
     "@mediaTunnelingDesc": {},
     "clientSettingsUseSystemIMETitle": "Gebruik systeem toetsenbord",
     "@clientSettingsUseSystemIMETitle": {},
-    "clientSettingsUseSystemIMEDesc": "Gebruik het ingebouwde toetsenbord van uw systeem",
+    "clientSettingsUseSystemIMEDesc": "Gebruik het ingebouwde toetsenbord van jouw systeem",
     "@clientSettingsUseSystemIMEDesc": {},
     "nextUpInCount": "Volgende in {seconds}",
     "@nextUpInCount": {
@@ -1520,5 +1520,479 @@
                 "format": "jm"
             }
         }
-    }
+    },
+    "takeScreenshot": "Schermafdruk maken",
+    "@takeScreenshot": {},
+    "takeScreenshotClean": "Schermafdruk maken (zonder ondertitels)",
+    "@takeScreenshotClean": {},
+    "screenshots": "Schermafdrukken",
+    "@screenshots": {},
+    "screenshotTaken": "Schermafdruk opgeslagen!",
+    "@screenshotTaken": {},
+    "screenshotCleanTaken": "Schermafdruk zonder ondertitels opgeslagen!",
+    "@screenshotCleanTaken": {},
+    "errorTakingScreenshot": "Er is een fout opgetreden bij het maken van de schermafdruk",
+    "@errorTakingScreenshot": {},
+    "openImeKeyboard": "IME-toetsenbord openen",
+    "@openImeKeyboard": {},
+    "screensaverDvd": "DVD",
+    "@screensaverDvd": {},
+    "screensaverLogo": "Logo",
+    "@screensaverLogo": {},
+    "screensaverTime": "Tijd",
+    "@screensaverTime": {},
+    "screensaverBlack": "Zwart",
+    "@screensaverBlack": {},
+    "playerSettingsScreensaverTitle": "Screensaver",
+    "@playerSettingsScreensaverTitle": {},
+    "playerSettingsScreensaverDesc": "Selecteer screensaver die wordt weergegeven als er geen speler-activiteit is",
+    "@playerSettingsScreensaverDesc": {},
+    "settingsLocalUrlTitle": "Lokale server-URL",
+    "@settingsLocalUrlTitle": {},
+    "settingsLocalUrlSetTitle": "Lokale URL configureren",
+    "@settingsLocalUrlSetTitle": {},
+    "settingsLocalUrlSetDesc": "Geef het lokale serveradres op. Fladder zal automatisch deze URL gebruiken wanneer je apparaat op hetzelfde netwerk staat.",
+    "@settingsLocalUrlSetDesc": {},
+    "regenerateTrickplayImages": "Trickplay-afbeeldingen opnieuw genereren",
+    "@regenerateTrickplayImages": {},
+    "controlPanel": "Controlecentrum",
+    "@controlPanel": {},
+    "controlPanelDesc": "Server, Activiteit, Gebruikers, Bibliotheek",
+    "@controlPanelDesc": {},
+    "controlDashboard": "Control Dashboard",
+    "@controlDashboard": {},
+    "serverName": "Servernaam",
+    "@serverName": {},
+    "serverVersion": "Serverversie",
+    "@serverVersion": {},
+    "webVersion": "Webversie",
+    "@webVersion": {},
+    "devices": "Apparaten",
+    "@devices": {},
+    "used": "Gebruikt",
+    "@used": {},
+    "storagePaths": "Opslagpaden",
+    "@storagePaths": {},
+    "programData": "Programma-gegevens",
+    "@programData": {},
+    "web": "Web",
+    "@web": {},
+    "cache": "Cache",
+    "@cache": {},
+    "logs": "Logboeken",
+    "@logs": {},
+    "transcodingTemp": "Transcoderings Temp",
+    "@transcodingTemp": {},
+    "count": "Aantal",
+    "@count": {},
+    "scanAllLibraries": "Scan alle bibliotheken",
+    "@scanAllLibraries": {},
+    "restartServer": "Server opnieuw starten",
+    "@restartServer": {},
+    "shutDownServer": "Server afsluiten",
+    "@shutDownServer": {},
+    "dashboardDesc": "Server, Aantal, Apparaten, Opslag",
+    "@dashboardDesc": {},
+    "lastActivity": "Laatste activiteit",
+    "@lastActivity": {},
+    "activeTasks": "Actieve taken",
+    "@activeTasks": {},
+    "hours": "{count, plural, one{Uur} other{Uren}}",
+    "@hours": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            }
+        }
+    },
+    "weeks": "{count, plural, one{Week} other{Weken}}",
+    "@weeks": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "months": "{count, plural, one{Maand} other{Maanden}}",
+    "@months": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "years": "{count, plural, one{Jaar} other{Jaren}}",
+    "@years": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "timeAgo": "{time} geleden",
+    "@timeAgo": {
+        "description": "timeAgo",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "lastRunTaking": "Laatste run {date}, duurt {time}",
+    "@lastRunTaking": {
+        "description": "lastRunTaking",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "lessThenAMinute": "Minder dan een minuut",
+    "@lessThenAMinute": {},
+    "plannedTasks": "Geplande taken",
+    "@plannedTasks": {},
+    "taskTriggerTypeInterval": "Interval",
+    "@taskTriggerTypeInterval": {},
+    "taskTriggerTypeDaily": "Dagelijks",
+    "@taskTriggerTypeDaily": {},
+    "taskTriggerTypeWeekly": "Wekelijks",
+    "@taskTriggerTypeWeekly": {},
+    "taskTriggerTypeStartup": "Opstarten",
+    "@taskTriggerTypeStartup": {},
+    "create": "Maken",
+    "@create": {},
+    "taskTriggerTypeName": "Triggertype",
+    "@taskTriggerTypeName": {},
+    "newTrigger": "Nieuwe trigger",
+    "@newTrigger": {},
+    "newTaskTrigger": "Nieuwe taak-trigger",
+    "@newTaskTrigger": {},
+    "dayOfTheWeek": "Dag van de week",
+    "@dayOfTheWeek": {},
+    "time": "Tijd",
+    "@time": {},
+    "interval": "Interval",
+    "@interval": {},
+    "taskTimeLimitInHours": "Tijdslimiet (uren)",
+    "@taskTimeLimitInHours": {},
+    "taskTriggerIntervalDesc": "Elke {time}",
+    "@taskTriggerIntervalDesc": {
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerDailyDesc": "Dagelijks om {time}",
+    "@taskTriggerDailyDesc": {
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerWeeklyDesc": "Wekelijks op {day} om {time}",
+    "@taskTriggerWeeklyDesc": {
+        "placeholders": {
+            "day": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerTimeLimitSub": "Tijdslimiet: {time}",
+    "@taskTriggerTimeLimitSub": {
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "performance": "Prestaties",
+    "@performance": {},
+    "serverNameLabel": "Servernaam",
+    "@serverNameLabel": {},
+    "cachePath": "Cachepad",
+    "@cachePath": {},
+    "metadataPath": "Metadatapad",
+    "@metadataPath": {},
+    "maxConcurrentLibraryScanLabel": "Max gelijktijdige bibliotheekscans",
+    "@maxConcurrentLibraryScanLabel": {},
+    "maxConcurrentLibraryScanDesc": "Maximum aantal parallelle taken tijdens bibliotheekscans. Als je dit leeg laat, wordt een limiet gekozen op basis van het aantal kernen van jouw systeem. WAARSCHUWING: Als je dit aantal te hoog instelt, kunnen problemen optreden met netwerkbestandssystemen. Verlaag dit aantal als je problemen ondervindt.",
+    "@maxConcurrentLibraryScanDesc": {},
+    "maxImageDecodingThreadsLabel": "Max afbeelding decoding threads",
+    "@maxImageDecodingThreadsLabel": {},
+    "maxImageDecodingThreadsDesc": "Maximum aantal afbeeldingen decoding dat parallel mag worden uitgevoerd. Als je dit leeg laat, wordt een limiet gekozen op basis van het aantal kernen van jouw systeem.",
+    "@maxImageDecodingThreadsDesc": {},
+    "controlPanelServerDesc": "Servernaam, Snel verbinden, Prestaties",
+    "@controlPanelServerDesc": {},
+    "deleteUserTitle": "Gebruiker {user} verwijderen?",
+    "@deleteUserTitle": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteUserDesc": "Hiermee wordt de gebruiker {user} en alle bijbehorende instellingen permanent verwijderd.",
+    "@deleteUserDesc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "userInformation": "Gebruikersinformatie",
+    "@userInformation": {},
+    "allowManageServer": "Deze gebruiker toestaan de server te beheren",
+    "@allowManageServer": {},
+    "allowCollections": "Deze gebruiker toestaan collecties te beheren",
+    "@allowCollections": {},
+    "allowEditSubtitles": "Deze gebruiker toestaan ondertitels te bewerken",
+    "@allowEditSubtitles": {},
+    "featureAccess": "Functietoegang",
+    "@featureAccess": {},
+    "allowLiveTVAccess": "Live TV-toegang toestaan",
+    "@allowLiveTVAccess": {},
+    "allowLiveTVRecording": "Beheer van Live TV-opnames toestaan",
+    "@allowLiveTVRecording": {},
+    "mediaPlayback": "Media afspelen",
+    "@mediaPlayback": {},
+    "allowMediaPlayback": "Media afspelen toestaan",
+    "@allowMediaPlayback": {},
+    "allowVideoTranscoding": "Video afspelen die transcodering vereist toestaan",
+    "@allowVideoTranscoding": {},
+    "allowAudioTranscoding": "Audio afspelen die transcodering vereist toestaan",
+    "@allowAudioTranscoding": {},
+    "allowMediaConversion": "Video afspelen die mediaconversie vereist toestaan",
+    "@allowMediaConversion": {},
+    "forceRemoteTranscoding": "Transcodering van externe bronnen forceren",
+    "@forceRemoteTranscoding": {},
+    "syncplay": "Sync-play",
+    "@syncplay": {},
+    "syncplayAccess": "Syncplay-toegang",
+    "@syncplayAccess": {},
+    "allowMediaDeletion": "Media verwijdering toestaan",
+    "@allowMediaDeletion": {},
+    "allLibraries": "Alle bibliotheken",
+    "@allLibraries": {},
+    "libraryAccess": "Bibliotheek toegang",
+    "@libraryAccess": {},
+    "enableAccessAllLibraries": "Toegang tot alle bibliotheken inschakelen",
+    "@enableAccessAllLibraries": {},
+    "enableAllLibraries": "Toegang tot alle bibliotheken inschakelen",
+    "@enableAllLibraries": {},
+    "enableAllDevices": "Toegang tot alle apparaten inschakelen",
+    "@enableAllDevices": {},
+    "parentalControl": "Ouderlijk toezicht",
+    "@parentalControl": {},
+    "blockedItemsNoRating": "Geblokkeerde items zonder of onbekende beoordelingen",
+    "@blockedItemsNoRating": {},
+    "maxParentalRating": "Max ouderlijk toezicht beoordeling",
+    "@maxParentalRating": {},
+    "allowItemsTags": "Items met tags toestaan",
+    "@allowItemsTags": {},
+    "blockItemsTags": "Items met tags blokkeren",
+    "@blockItemsTags": {},
+    "accessSchedule": "Toegangsschema",
+    "@accessSchedule": {},
+    "accessSchedules": "Toegangsschema''s",
+    "@accessSchedules": {},
+    "addAccessSchedule": "Toegangsschema toevoegen",
+    "@addAccessSchedule": {},
+    "dayOfWeek": "Dag van de week",
+    "@dayOfWeek": {},
+    "startTime": "Starttijd",
+    "@startTime": {},
+    "endTime": "Eindtijd",
+    "@endTime": {},
+    "addTag": "Label toevoegen",
+    "@addTag": {},
+    "createNewUser": "Nieuwe gebruiker maken",
+    "@createNewUser": {},
+    "createUser": "Gebruiker maken",
+    "@createUser": {},
+    "users": "Gebruikers",
+    "@users": {},
+    "editUser": "Gebruiker bewerken",
+    "@editUser": {},
+    "general": "Algemeen",
+    "@general": {},
+    "access": "Toegang",
+    "@access": {},
+    "passwordSettingsComing": "Wachtwoordinstellingen komen binnenkort",
+    "@passwordSettingsComing": {},
+    "endTimeMustBeAfter": "Eindtijd moet na starttijd liggen",
+    "@endTimeMustBeAfter": {},
+    "assignLibraries": "Bibliotheken toewijzen",
+    "@assignLibraries": {},
+    "currentPassword": "Hudig wachtwoord",
+    "@currentPassword": {},
+    "newPassword": "Nieuw wachtwoord",
+    "@newPassword": {},
+    "confirmPassword": "Wachtwoord bevestigen",
+    "@confirmPassword": {},
+    "resetPassword": "Wachtwoord opnieuw instellen",
+    "@resetPassword": {},
+    "passwordResetSuccess": "Wachtwoord met succes opnieuw ingesteld",
+    "@passwordResetSuccess": {},
+    "passwordResetFailed": "Wachtwoord opnieuw instellen mislukt",
+    "@passwordResetFailed": {},
+    "passwordMismatch": "Nieuw wachtwoord en bevestig wachtwoord komen niet overeen",
+    "@passwordMismatch": {},
+    "passwordChangeSuccess": "Wachtwoord met succes gewijzigd",
+    "@passwordChangeSuccess": {},
+    "passwordChangeFailed": "Wachtwoord wijzigen mislukt",
+    "@passwordChangeFailed": {},
+    "savePassword": "Wachtwoord opslaan",
+    "@savePassword": {},
+    "deleteLibraryConfirmTitle": "Bibliotheek verwijderen?",
+    "@deleteLibraryConfirmTitle": {},
+    "deleteLibraryConfirmMessage": "Weet je zeker dat je {libraryName} wilt verwijderen?\nDeze actie kan niet ongedaan worden gemaakt.",
+    "@deleteLibraryConfirmMessage": {
+        "placeholders": {
+            "libraryName": {
+                "type": "String"
+            }
+        }
+    },
+    "noLibrarySelected": "Geen bibliotheek geselecteerd",
+    "@noLibrarySelected": {},
+    "enabledPhotos": "Foto''s ingeschakeld",
+    "@enabledPhotos": {},
+    "enabledLUFSScan": "LUFS Scan ingeschakeld",
+    "@enabledLUFSScan": {},
+    "enabledRealtimeMonitoring": "Real-time monitoring ingeschakeld",
+    "@enabledRealtimeMonitoring": {},
+    "automaticallyAddToCollection": "Automatisch toevoegen aan collectie",
+    "@automaticallyAddToCollection": {},
+    "enabledEmbeddedTitles": "Ingebouwde titels ingeschakeld",
+    "@enabledEmbeddedTitles": {},
+    "enabledEmbeddedExtrasTitles": "Ingebouwde extra''s titels ingeschakeld",
+    "@enabledEmbeddedExtrasTitles": {},
+    "automaticRefreshInterval": "Automatisch verversen interval",
+    "@automaticRefreshInterval": {},
+    "autoRefreshIntervalNote": "Het inschakelen hiervan kan leiden tot langere bibliotheek-vernieuwingstijden.",
+    "@autoRefreshIntervalNote": {},
+    "preferredDownloadLanguage": "Voorkeurstaal voor downloaden",
+    "@preferredDownloadLanguage": {},
+    "countryRegion": "Land/Regio",
+    "@countryRegion": {},
+    "saveMetadata": "Metadata opslaan",
+    "@saveMetadata": {},
+    "metadataFetchers": "Metadataophaler ({type})",
+    "@metadataFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "enableAndRankMetadataFetchers": "Schakel je voorkeur metadata fetcher in en rangschik deze op prioriteit.",
+    "@enableAndRankMetadataFetchers": {},
+    "enableAndRankImagesFetchers": "Schakel je voorkeur afbeeldingsophaler in en rangschik deze op prioriteit.",
+    "@enableAndRankImagesFetchers": {},
+    "imageFetchers": "Afbeeldingsophaler ({type})",
+    "@imageFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "enableAndRankImageFetchers": "Schakel je voorkeur afbeeldingsophaler in en rangschik deze op prioriteit.",
+    "@enableAndRankImageFetchers": {},
+    "mediaSegmentProviders": "Media segment aanbieders",
+    "@mediaSegmentProviders": {},
+    "enableAndRankMediaSegmentProviders": "Schakel je voorkeur mediasegment aanbieders in en rangschik deze op prioriteit.",
+    "@enableAndRankMediaSegmentProviders": {},
+    "trickplay": "Trickplay",
+    "@trickplay": {},
+    "enableTrickplayImageExtraction": "Trickplay afbeeldings extractie inschakelen",
+    "@enableTrickplayImageExtraction": {},
+    "extractTrickplayImagesDuringLibraryScan": "Trickplay afbeeldingen extraheren tijdens bibliotheekscans",
+    "@extractTrickplayImagesDuringLibraryScan": {},
+    "saveTrickplayImagesNextToMedia": "Trickplay afbeeldingen naast media opslaan",
+    "@saveTrickplayImagesNextToMedia": {},
+    "chapterImages": "Hoofdstukafbeeldingen",
+    "@chapterImages": {},
+    "enableChapterImageExtraction": "Hoofdstuk afbeeldings extractie inschakelen",
+    "@enableChapterImageExtraction": {},
+    "extractChapterImagesDuringLibraryScan": "Hoofdstuk afbeeldingen extraheren tijdens bibliotheekscans",
+    "@extractChapterImagesDuringLibraryScan": {},
+    "subtitleDownloads": "Ondertitel downloads",
+    "@subtitleDownloads": {},
+    "downloadLanguages": "Talen downloaden",
+    "@downloadLanguages": {},
+    "subtitleDownloaders": "Ondertitel downloaders",
+    "@subtitleDownloaders": {},
+    "onlyPerfectSubtitleMatch": "Download alleen ondertitels die perfect overeenkomen met de media",
+    "@onlyPerfectSubtitleMatch": {},
+    "perfectSubtitleMatchDescription": "Als je een perfecte overeenkomst vereist, worden ondertitels gefilterd om alleen die op te nemen die zijn getest en geverifieerd met jouw exacte videobestand. Als je dit uitschakelt, neemt de waarschijnlijkheid toe dat ondertitels worden gedownload, maar neemt ook de kans toe op verkeerd getimede of onjuiste ondertitel tekst.",
+    "@perfectSubtitleMatchDescription": {},
+    "skipSubtitlesIfAudioMatches": "Overslaan als het standaard audioverlies overeenkomt met de downloadtaal",
+    "@skipSubtitlesIfAudioMatches": {},
+    "skipSubtitlesIfEmbedded": "Overslaan als de video al ingebouwde ondertitels bevat",
+    "@skipSubtitlesIfEmbedded": {},
+    "saveSubtitlesNextToMedia": "Ondertitels naast media opslaan",
+    "@saveSubtitlesNextToMedia": {},
+    "saveArtWorkNextToMedia": "Artwork naast mediabestanden opslaan",
+    "@saveArtWorkNextToMedia": {},
+    "saveArtWorkNextToMediaDesc": "Artwork in mediamappen opslaan zal ze op een plaats zetten waar ze gemakkelijk kunnen worden bewerkt.",
+    "@saveArtWorkNextToMediaDesc": {},
+    "select": "Selecteer",
+    "@select": {},
+    "newLibrary": "Nieuwe bibliotheek",
+    "@newLibrary": {},
+    "contentType": "Inhoudstype",
+    "@contentType": {},
+    "metadataImageLongPressTouch": "Lang indrukken om afbeelding te verwijderen",
+    "@metadataImageLongPressTouch": {},
+    "metadataImageLongPressClick": "Klik met de rechtermuisknop om afbeelding te verwijderen",
+    "@metadataImageLongPressClick": {},
+    "primary": "Primair",
+    "@primary": {},
+    "logo": "{count, plural, one{Logo} other{Logo''s}}",
+    "@logo": {
+        "description": "logo",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "backdrop": "{count, plural, one{Achtergrond} other{Achtergronden}}",
+    "@backdrop": {
+        "description": "backdrop",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "selectFolderToAdd": "Map selecteren om toe te voegen",
+    "@selectFolderToAdd": {},
+    "systemRootFolder": "Systeemroot map",
+    "@systemRootFolder": {},
+    "selectedPath": "Geselecteerd pad: {path}",
+    "@selectedPath": {
+        "placeholders": {
+            "path": {
+                "type": "String"
+            }
+        }
+    },
+    "segmentActionSkipOnce": "Eén keer overslaan",
+    "@segmentActionSkipOnce": {}
 }
