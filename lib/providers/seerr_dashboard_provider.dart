@@ -1,19 +1,21 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
+import 'package:fladder/models/seerr/seerr_item_models.dart';
 import 'package:fladder/providers/seerr_api_provider.dart';
 import 'package:fladder/providers/seerr_service_provider.dart';
 import 'package:fladder/providers/seerr_user_provider.dart';
+import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/seerr/seerr_models.dart';
 
-final seerrDashboardProvider = StateNotifierProvider<SeerrDashboardNotifier, SeerrDashboardModel>((ref) {
-  return SeerrDashboardNotifier(ref);
-});
+part 'seerr_dashboard_provider.g.dart';
 
-class SeerrDashboardNotifier extends StateNotifier<SeerrDashboardModel> {
-  SeerrDashboardNotifier(this.ref) : super(const SeerrDashboardModel());
-
-  final Ref ref;
+@riverpod
+class SeerrDashboard extends _$SeerrDashboard {
+  @override
+  SeerrDashboardModel build() {
+    return const SeerrDashboardModel();
+  }
 
   SeerrService get api => ref.read(seerrApiProvider);
 
@@ -117,8 +119,23 @@ class SeerrDashboardNotifier extends StateNotifier<SeerrDashboardModel> {
           .toList();
     }
 
+    final requestedByUser = request.requestedBy;
+    SeerrUserModel? processedUser;
+
+    if (requestedByUser != null) {
+      final avatar = requestedByUser.avatar;
+      if (avatar != null && avatar.isNotEmpty) {
+        final serverUrl = ref.read(userProvider)?.seerrCredentials?.serverUrl;
+        final resolvedAvatar = resolveServerUrl(path: avatar, serverUrl: serverUrl);
+
+        processedUser = resolvedAvatar != avatar ? requestedByUser.copyWith(avatar: resolvedAvatar) : requestedByUser;
+      } else {
+        processedUser = requestedByUser;
+      }
+    }
+
     return poster.copyWith(
-      requestedBy: request.requestedBy,
+      requestedBy: processedUser,
       requestedSeasons: requestedSeasons,
     );
   }

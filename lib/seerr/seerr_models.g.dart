@@ -21,43 +21,6 @@ Map<String, dynamic> _$SeerrStatusToJson(SeerrStatus instance) =>
       'commitsBehind': instance.commitsBehind,
     };
 
-SeerrUserModel _$SeerrUserModelFromJson(Map<String, dynamic> json) =>
-    SeerrUserModel(
-      id: (json['id'] as num?)?.toInt(),
-      email: json['email'] as String?,
-      username: json['username'] as String?,
-      displayName: json['displayName'] as String?,
-      plexToken: json['plexToken'] as String?,
-      plexUsername: json['plexUsername'] as String?,
-      permissions: (json['permissions'] as num?)?.toInt(),
-      avatar: json['avatar'] as String?,
-      settings: json['settings'] == null
-          ? null
-          : SeerrUserSettings.fromJson(
-              json['settings'] as Map<String, dynamic>),
-      movieQuotaLimit: (json['movieQuotaLimit'] as num?)?.toInt(),
-      movieQuotaDays: (json['movieQuotaDays'] as num?)?.toInt(),
-      tvQuotaLimit: (json['tvQuotaLimit'] as num?)?.toInt(),
-      tvQuotaDays: (json['tvQuotaDays'] as num?)?.toInt(),
-    );
-
-Map<String, dynamic> _$SeerrUserModelToJson(SeerrUserModel instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'email': instance.email,
-      'username': instance.username,
-      'displayName': instance.displayName,
-      'plexToken': instance.plexToken,
-      'plexUsername': instance.plexUsername,
-      'permissions': instance.permissions,
-      'avatar': instance.avatar,
-      'settings': instance.settings,
-      'movieQuotaLimit': instance.movieQuotaLimit,
-      'movieQuotaDays': instance.movieQuotaDays,
-      'tvQuotaLimit': instance.tvQuotaLimit,
-      'tvQuotaDays': instance.tvQuotaDays,
-    };
-
 SeerrUserQuota _$SeerrUserQuotaFromJson(Map<String, dynamic> json) =>
     SeerrUserQuota(
       movie: json['movie'] == null
@@ -660,6 +623,43 @@ Map<String, dynamic> _$SeerrAuthJellyfinBodyToJson(
       'username': instance.username,
       'password': instance.password,
       if (instance.hostname case final value?) 'hostname': value,
+    };
+
+_SeerrUserModel _$SeerrUserModelFromJson(Map<String, dynamic> json) =>
+    _SeerrUserModel(
+      id: (json['id'] as num?)?.toInt(),
+      email: json['email'] as String?,
+      username: json['username'] as String?,
+      displayName: json['displayName'] as String?,
+      plexToken: json['plexToken'] as String?,
+      plexUsername: json['plexUsername'] as String?,
+      permissions: (json['permissions'] as num?)?.toInt(),
+      avatar: json['avatar'] as String?,
+      settings: json['settings'] == null
+          ? null
+          : SeerrUserSettings.fromJson(
+              json['settings'] as Map<String, dynamic>),
+      movieQuotaLimit: (json['movieQuotaLimit'] as num?)?.toInt(),
+      movieQuotaDays: (json['movieQuotaDays'] as num?)?.toInt(),
+      tvQuotaLimit: (json['tvQuotaLimit'] as num?)?.toInt(),
+      tvQuotaDays: (json['tvQuotaDays'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$SeerrUserModelToJson(_SeerrUserModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'email': instance.email,
+      'username': instance.username,
+      'displayName': instance.displayName,
+      'plexToken': instance.plexToken,
+      'plexUsername': instance.plexUsername,
+      'permissions': instance.permissions,
+      'avatar': instance.avatar,
+      'settings': instance.settings,
+      'movieQuotaLimit': instance.movieQuotaLimit,
+      'movieQuotaDays': instance.movieQuotaDays,
+      'tvQuotaLimit': instance.tvQuotaLimit,
+      'tvQuotaDays': instance.tvQuotaDays,
     };
 
 _SeerrSonarrServer _$SeerrSonarrServerFromJson(Map<String, dynamic> json) =>

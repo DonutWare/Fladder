@@ -115,40 +115,25 @@ class SeerrStatus {
   Map<String, dynamic> toJson() => _$SeerrStatusToJson(this);
 }
 
-@JsonSerializable()
-class SeerrUserModel {
-  final int? id;
-  final String? email;
-  final String? username;
-  final String? displayName;
-  final String? plexToken;
-  final String? plexUsername;
-  final int? permissions;
-  final String? avatar;
-  final SeerrUserSettings? settings;
-  final int? movieQuotaLimit;
-  final int? movieQuotaDays;
-  final int? tvQuotaLimit;
-  final int? tvQuotaDays;
-
-  SeerrUserModel({
-    this.id,
-    this.email,
-    this.username,
-    this.displayName,
-    this.plexToken,
-    this.plexUsername,
-    this.permissions,
-    this.avatar,
-    this.settings,
-    this.movieQuotaLimit,
-    this.movieQuotaDays,
-    this.tvQuotaLimit,
-    this.tvQuotaDays,
-  });
+@Freezed(copyWith: true)
+abstract class SeerrUserModel with _$SeerrUserModel {
+  const factory SeerrUserModel({
+    int? id,
+    String? email,
+    String? username,
+    String? displayName,
+    String? plexToken,
+    String? plexUsername,
+    int? permissions,
+    String? avatar,
+    SeerrUserSettings? settings,
+    int? movieQuotaLimit,
+    int? movieQuotaDays,
+    int? tvQuotaLimit,
+    int? tvQuotaDays,
+  }) = _SeerrUserModel;
 
   factory SeerrUserModel.fromJson(Map<String, dynamic> json) => _$SeerrUserModelFromJson(json);
-  Map<String, dynamic> toJson() => _$SeerrUserModelToJson(this);
 }
 
 @JsonSerializable()

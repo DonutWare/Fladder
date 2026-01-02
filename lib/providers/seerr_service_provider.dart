@@ -22,7 +22,18 @@ class SeerrService {
     final response = await _api.getMe();
     final user = response.body;
     if (user == null) return response;
-    return response.copyWith(body: _withAbsoluteAvatar(user));
+
+    final avatar = user.avatar;
+    if (avatar != null && avatar.isNotEmpty) {
+      final serverUrl = ref.read(userProvider)?.seerrCredentials?.serverUrl;
+      final resolvedAvatar = resolveServerUrl(path: avatar, serverUrl: serverUrl);
+
+      if (resolvedAvatar != avatar) {
+        return response.copyWith(body: user.copyWith(avatar: resolvedAvatar));
+      }
+    }
+
+    return response;
   }
 
   Future<List<SeerrSonarrServer>> sonarrServers() async {
@@ -81,39 +92,23 @@ class SeerrService {
   Future<List<SeerrUserModel>> users({int? take, int? skip, String sort = 'displayname'}) async {
     final response = await _api.getUsers(take: take, skip: skip, sort: sort);
     final results = response.body?.results ?? [];
-    return results.map(_withAbsoluteAvatar).toList(growable: false);
+    final serverUrl = ref.read(userProvider)?.seerrCredentials?.serverUrl;
+
+    return results.map((user) {
+      final avatar = user.avatar;
+      if (avatar == null || avatar.isEmpty) return user;
+
+      final resolvedAvatar = resolveServerUrl(path: avatar, serverUrl: serverUrl);
+      if (resolvedAvatar == avatar) return user;
+
+      return user.copyWith(avatar: resolvedAvatar);
+    }).toList(growable: false);
   }
 
   Future<SeerrUserQuota?> userQuota({required int userId}) async {
     final response = await _api.getUserQuota(userId);
     if (!response.isSuccessful) return null;
     return response.body;
-  }
-
-  SeerrUserModel _withAbsoluteAvatar(SeerrUserModel user) {
-    final avatar = user.avatar;
-    if (avatar == null || avatar.isEmpty) return user;
-
-    final serverUrl = ref.read(userProvider)?.seerrCredentials?.serverUrl;
-    final resolvedAvatar = resolveServerUrl(path: avatar, serverUrl: serverUrl);
-
-    if (resolvedAvatar == avatar) return user;
-
-    return SeerrUserModel(
-      id: user.id,
-      email: user.email,
-      username: user.username,
-      displayName: user.displayName,
-      plexToken: user.plexToken,
-      plexUsername: user.plexUsername,
-      permissions: user.permissions,
-      avatar: resolvedAvatar,
-      settings: user.settings,
-      movieQuotaLimit: user.movieQuotaLimit,
-      movieQuotaDays: user.movieQuotaDays,
-      tvQuotaLimit: user.tvQuotaLimit,
-      tvQuotaDays: user.tvQuotaDays,
-    );
   }
 
   SeerrDashboardPosterModel? _posterFromDetails({

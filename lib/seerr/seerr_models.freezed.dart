@@ -13,6 +13,559 @@ part of 'seerr_models.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
+mixin _$SeerrUserModel {
+  int? get id;
+  String? get email;
+  String? get username;
+  String? get displayName;
+  String? get plexToken;
+  String? get plexUsername;
+  int? get permissions;
+  String? get avatar;
+  SeerrUserSettings? get settings;
+  int? get movieQuotaLimit;
+  int? get movieQuotaDays;
+  int? get tvQuotaLimit;
+  int? get tvQuotaDays;
+
+  /// Create a copy of SeerrUserModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $SeerrUserModelCopyWith<SeerrUserModel> get copyWith =>
+      _$SeerrUserModelCopyWithImpl<SeerrUserModel>(
+          this as SeerrUserModel, _$identity);
+
+  /// Serializes this SeerrUserModel to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  String toString() {
+    return 'SeerrUserModel(id: $id, email: $email, username: $username, displayName: $displayName, plexToken: $plexToken, plexUsername: $plexUsername, permissions: $permissions, avatar: $avatar, settings: $settings, movieQuotaLimit: $movieQuotaLimit, movieQuotaDays: $movieQuotaDays, tvQuotaLimit: $tvQuotaLimit, tvQuotaDays: $tvQuotaDays)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $SeerrUserModelCopyWith<$Res> {
+  factory $SeerrUserModelCopyWith(
+          SeerrUserModel value, $Res Function(SeerrUserModel) _then) =
+      _$SeerrUserModelCopyWithImpl;
+  @useResult
+  $Res call(
+      {int? id,
+      String? email,
+      String? username,
+      String? displayName,
+      String? plexToken,
+      String? plexUsername,
+      int? permissions,
+      String? avatar,
+      SeerrUserSettings? settings,
+      int? movieQuotaLimit,
+      int? movieQuotaDays,
+      int? tvQuotaLimit,
+      int? tvQuotaDays});
+}
+
+/// @nodoc
+class _$SeerrUserModelCopyWithImpl<$Res>
+    implements $SeerrUserModelCopyWith<$Res> {
+  _$SeerrUserModelCopyWithImpl(this._self, this._then);
+
+  final SeerrUserModel _self;
+  final $Res Function(SeerrUserModel) _then;
+
+  /// Create a copy of SeerrUserModel
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? email = freezed,
+    Object? username = freezed,
+    Object? displayName = freezed,
+    Object? plexToken = freezed,
+    Object? plexUsername = freezed,
+    Object? permissions = freezed,
+    Object? avatar = freezed,
+    Object? settings = freezed,
+    Object? movieQuotaLimit = freezed,
+    Object? movieQuotaDays = freezed,
+    Object? tvQuotaLimit = freezed,
+    Object? tvQuotaDays = freezed,
+  }) {
+    return _then(_self.copyWith(
+      id: freezed == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      email: freezed == email
+          ? _self.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      username: freezed == username
+          ? _self.username
+          : username // ignore: cast_nullable_to_non_nullable
+              as String?,
+      displayName: freezed == displayName
+          ? _self.displayName
+          : displayName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      plexToken: freezed == plexToken
+          ? _self.plexToken
+          : plexToken // ignore: cast_nullable_to_non_nullable
+              as String?,
+      plexUsername: freezed == plexUsername
+          ? _self.plexUsername
+          : plexUsername // ignore: cast_nullable_to_non_nullable
+              as String?,
+      permissions: freezed == permissions
+          ? _self.permissions
+          : permissions // ignore: cast_nullable_to_non_nullable
+              as int?,
+      avatar: freezed == avatar
+          ? _self.avatar
+          : avatar // ignore: cast_nullable_to_non_nullable
+              as String?,
+      settings: freezed == settings
+          ? _self.settings
+          : settings // ignore: cast_nullable_to_non_nullable
+              as SeerrUserSettings?,
+      movieQuotaLimit: freezed == movieQuotaLimit
+          ? _self.movieQuotaLimit
+          : movieQuotaLimit // ignore: cast_nullable_to_non_nullable
+              as int?,
+      movieQuotaDays: freezed == movieQuotaDays
+          ? _self.movieQuotaDays
+          : movieQuotaDays // ignore: cast_nullable_to_non_nullable
+              as int?,
+      tvQuotaLimit: freezed == tvQuotaLimit
+          ? _self.tvQuotaLimit
+          : tvQuotaLimit // ignore: cast_nullable_to_non_nullable
+              as int?,
+      tvQuotaDays: freezed == tvQuotaDays
+          ? _self.tvQuotaDays
+          : tvQuotaDays // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [SeerrUserModel].
+extension SeerrUserModelPatterns on SeerrUserModel {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_SeerrUserModel value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _SeerrUserModel() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_SeerrUserModel value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _SeerrUserModel():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_SeerrUserModel value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _SeerrUserModel() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            int? id,
+            String? email,
+            String? username,
+            String? displayName,
+            String? plexToken,
+            String? plexUsername,
+            int? permissions,
+            String? avatar,
+            SeerrUserSettings? settings,
+            int? movieQuotaLimit,
+            int? movieQuotaDays,
+            int? tvQuotaLimit,
+            int? tvQuotaDays)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _SeerrUserModel() when $default != null:
+        return $default(
+            _that.id,
+            _that.email,
+            _that.username,
+            _that.displayName,
+            _that.plexToken,
+            _that.plexUsername,
+            _that.permissions,
+            _that.avatar,
+            _that.settings,
+            _that.movieQuotaLimit,
+            _that.movieQuotaDays,
+            _that.tvQuotaLimit,
+            _that.tvQuotaDays);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            int? id,
+            String? email,
+            String? username,
+            String? displayName,
+            String? plexToken,
+            String? plexUsername,
+            int? permissions,
+            String? avatar,
+            SeerrUserSettings? settings,
+            int? movieQuotaLimit,
+            int? movieQuotaDays,
+            int? tvQuotaLimit,
+            int? tvQuotaDays)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _SeerrUserModel():
+        return $default(
+            _that.id,
+            _that.email,
+            _that.username,
+            _that.displayName,
+            _that.plexToken,
+            _that.plexUsername,
+            _that.permissions,
+            _that.avatar,
+            _that.settings,
+            _that.movieQuotaLimit,
+            _that.movieQuotaDays,
+            _that.tvQuotaLimit,
+            _that.tvQuotaDays);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            int? id,
+            String? email,
+            String? username,
+            String? displayName,
+            String? plexToken,
+            String? plexUsername,
+            int? permissions,
+            String? avatar,
+            SeerrUserSettings? settings,
+            int? movieQuotaLimit,
+            int? movieQuotaDays,
+            int? tvQuotaLimit,
+            int? tvQuotaDays)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _SeerrUserModel() when $default != null:
+        return $default(
+            _that.id,
+            _that.email,
+            _that.username,
+            _that.displayName,
+            _that.plexToken,
+            _that.plexUsername,
+            _that.permissions,
+            _that.avatar,
+            _that.settings,
+            _that.movieQuotaLimit,
+            _that.movieQuotaDays,
+            _that.tvQuotaLimit,
+            _that.tvQuotaDays);
+      case _:
+        return null;
+    }
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _SeerrUserModel implements SeerrUserModel {
+  const _SeerrUserModel(
+      {this.id,
+      this.email,
+      this.username,
+      this.displayName,
+      this.plexToken,
+      this.plexUsername,
+      this.permissions,
+      this.avatar,
+      this.settings,
+      this.movieQuotaLimit,
+      this.movieQuotaDays,
+      this.tvQuotaLimit,
+      this.tvQuotaDays});
+  factory _SeerrUserModel.fromJson(Map<String, dynamic> json) =>
+      _$SeerrUserModelFromJson(json);
+
+  @override
+  final int? id;
+  @override
+  final String? email;
+  @override
+  final String? username;
+  @override
+  final String? displayName;
+  @override
+  final String? plexToken;
+  @override
+  final String? plexUsername;
+  @override
+  final int? permissions;
+  @override
+  final String? avatar;
+  @override
+  final SeerrUserSettings? settings;
+  @override
+  final int? movieQuotaLimit;
+  @override
+  final int? movieQuotaDays;
+  @override
+  final int? tvQuotaLimit;
+  @override
+  final int? tvQuotaDays;
+
+  /// Create a copy of SeerrUserModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$SeerrUserModelCopyWith<_SeerrUserModel> get copyWith =>
+      __$SeerrUserModelCopyWithImpl<_SeerrUserModel>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$SeerrUserModelToJson(
+      this,
+    );
+  }
+
+  @override
+  String toString() {
+    return 'SeerrUserModel(id: $id, email: $email, username: $username, displayName: $displayName, plexToken: $plexToken, plexUsername: $plexUsername, permissions: $permissions, avatar: $avatar, settings: $settings, movieQuotaLimit: $movieQuotaLimit, movieQuotaDays: $movieQuotaDays, tvQuotaLimit: $tvQuotaLimit, tvQuotaDays: $tvQuotaDays)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$SeerrUserModelCopyWith<$Res>
+    implements $SeerrUserModelCopyWith<$Res> {
+  factory _$SeerrUserModelCopyWith(
+          _SeerrUserModel value, $Res Function(_SeerrUserModel) _then) =
+      __$SeerrUserModelCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {int? id,
+      String? email,
+      String? username,
+      String? displayName,
+      String? plexToken,
+      String? plexUsername,
+      int? permissions,
+      String? avatar,
+      SeerrUserSettings? settings,
+      int? movieQuotaLimit,
+      int? movieQuotaDays,
+      int? tvQuotaLimit,
+      int? tvQuotaDays});
+}
+
+/// @nodoc
+class __$SeerrUserModelCopyWithImpl<$Res>
+    implements _$SeerrUserModelCopyWith<$Res> {
+  __$SeerrUserModelCopyWithImpl(this._self, this._then);
+
+  final _SeerrUserModel _self;
+  final $Res Function(_SeerrUserModel) _then;
+
+  /// Create a copy of SeerrUserModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = freezed,
+    Object? email = freezed,
+    Object? username = freezed,
+    Object? displayName = freezed,
+    Object? plexToken = freezed,
+    Object? plexUsername = freezed,
+    Object? permissions = freezed,
+    Object? avatar = freezed,
+    Object? settings = freezed,
+    Object? movieQuotaLimit = freezed,
+    Object? movieQuotaDays = freezed,
+    Object? tvQuotaLimit = freezed,
+    Object? tvQuotaDays = freezed,
+  }) {
+    return _then(_SeerrUserModel(
+      id: freezed == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      email: freezed == email
+          ? _self.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      username: freezed == username
+          ? _self.username
+          : username // ignore: cast_nullable_to_non_nullable
+              as String?,
+      displayName: freezed == displayName
+          ? _self.displayName
+          : displayName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      plexToken: freezed == plexToken
+          ? _self.plexToken
+          : plexToken // ignore: cast_nullable_to_non_nullable
+              as String?,
+      plexUsername: freezed == plexUsername
+          ? _self.plexUsername
+          : plexUsername // ignore: cast_nullable_to_non_nullable
+              as String?,
+      permissions: freezed == permissions
+          ? _self.permissions
+          : permissions // ignore: cast_nullable_to_non_nullable
+              as int?,
+      avatar: freezed == avatar
+          ? _self.avatar
+          : avatar // ignore: cast_nullable_to_non_nullable
+              as String?,
+      settings: freezed == settings
+          ? _self.settings
+          : settings // ignore: cast_nullable_to_non_nullable
+              as SeerrUserSettings?,
+      movieQuotaLimit: freezed == movieQuotaLimit
+          ? _self.movieQuotaLimit
+          : movieQuotaLimit // ignore: cast_nullable_to_non_nullable
+              as int?,
+      movieQuotaDays: freezed == movieQuotaDays
+          ? _self.movieQuotaDays
+          : movieQuotaDays // ignore: cast_nullable_to_non_nullable
+              as int?,
+      tvQuotaLimit: freezed == tvQuotaLimit
+          ? _self.tvQuotaLimit
+          : tvQuotaLimit // ignore: cast_nullable_to_non_nullable
+              as int?,
+      tvQuotaDays: freezed == tvQuotaDays
+          ? _self.tvQuotaDays
+          : tvQuotaDays // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
 mixin _$SeerrSonarrServer {
   int? get id;
   String? get name;

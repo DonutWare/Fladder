@@ -72,6 +72,8 @@ abstract mixin class $SeerrRequestModelCopyWith<$Res> {
   $SeerrSonarrServerCopyWith<$Res>? get selectedSonarrServer;
   $SeerrRadarrServerCopyWith<$Res>? get selectedRadarrServer;
   $SeerrServiceProfileCopyWith<$Res>? get selectedProfile;
+  $SeerrUserModelCopyWith<$Res>? get currentUser;
+  $SeerrUserModelCopyWith<$Res>? get selectedUser;
 }
 
 /// @nodoc
@@ -213,6 +215,34 @@ class _$SeerrRequestModelCopyWithImpl<$Res>
 
     return $SeerrServiceProfileCopyWith<$Res>(_self.selectedProfile!, (value) {
       return _then(_self.copyWith(selectedProfile: value));
+    });
+  }
+
+  /// Create a copy of SeerrRequestModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $SeerrUserModelCopyWith<$Res>? get currentUser {
+    if (_self.currentUser == null) {
+      return null;
+    }
+
+    return $SeerrUserModelCopyWith<$Res>(_self.currentUser!, (value) {
+      return _then(_self.copyWith(currentUser: value));
+    });
+  }
+
+  /// Create a copy of SeerrRequestModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $SeerrUserModelCopyWith<$Res>? get selectedUser {
+    if (_self.selectedUser == null) {
+      return null;
+    }
+
+    return $SeerrUserModelCopyWith<$Res>(_self.selectedUser!, (value) {
+      return _then(_self.copyWith(selectedUser: value));
     });
   }
 }
@@ -632,6 +662,10 @@ abstract mixin class _$SeerrRequestModelCopyWith<$Res>
   $SeerrRadarrServerCopyWith<$Res>? get selectedRadarrServer;
   @override
   $SeerrServiceProfileCopyWith<$Res>? get selectedProfile;
+  @override
+  $SeerrUserModelCopyWith<$Res>? get currentUser;
+  @override
+  $SeerrUserModelCopyWith<$Res>? get selectedUser;
 }
 
 /// @nodoc
@@ -773,6 +807,34 @@ class __$SeerrRequestModelCopyWithImpl<$Res>
 
     return $SeerrServiceProfileCopyWith<$Res>(_self.selectedProfile!, (value) {
       return _then(_self.copyWith(selectedProfile: value));
+    });
+  }
+
+  /// Create a copy of SeerrRequestModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $SeerrUserModelCopyWith<$Res>? get currentUser {
+    if (_self.currentUser == null) {
+      return null;
+    }
+
+    return $SeerrUserModelCopyWith<$Res>(_self.currentUser!, (value) {
+      return _then(_self.copyWith(currentUser: value));
+    });
+  }
+
+  /// Create a copy of SeerrRequestModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $SeerrUserModelCopyWith<$Res>? get selectedUser {
+    if (_self.selectedUser == null) {
+      return null;
+    }
+
+    return $SeerrUserModelCopyWith<$Res>(_self.selectedUser!, (value) {
+      return _then(_self.copyWith(selectedUser: value));
     });
   }
 }
