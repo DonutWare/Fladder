@@ -54,6 +54,9 @@ class _PullToRefreshState extends ConsumerState<PullToRefresh> {
       child: Focus(
         focusNode: focusNode,
         autofocus: true,
+        skipTraversal: true,
+        descendantsAreFocusable: true,
+        descendantsAreTraversable: true,
         onKeyEvent: (node, event) {
           if (event is KeyDownEvent) {
             if (event.logicalKey == LogicalKeyboardKey.f5) {

@@ -404,6 +404,10 @@ abstract class SeerrRequestModel with _$SeerrRequestModel {
     if (hasRequestPermission != true) return false;
     if (isQuotaRestricted) return false;
 
+    if (poster?.status == SeerrRequestStatus.deleted) {
+      return true;
+    }
+
     if (poster?.status == SeerrRequestStatus.available) {
       return false;
     }
