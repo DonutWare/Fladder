@@ -33,7 +33,7 @@ class _SeerrSearchScreenState extends ConsumerState<SeerrSearchScreen> {
   late final TextEditingController controller = TextEditingController();
   final ScrollController scrollController = ScrollController();
 
-  final Debouncer debouncer = Debouncer(const Duration(milliseconds: 300));
+  final Debouncer debouncer = Debouncer(const Duration(milliseconds: 500));
 
   @override
   void dispose() {
