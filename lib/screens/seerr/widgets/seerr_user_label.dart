@@ -30,7 +30,7 @@ class SeerrUserLabel extends StatelessWidget {
         : ClipOval(
             child: CachedNetworkImage(
               imageUrl: avatarUrl,
-              cacheKey: 'seerr-user-avatar-${user?.id ?? avatarUrl}',
+              cacheKey: 'seerr-avatar-${user?.id}-${user?.displayName}-$avatarUrl',
               width: 28,
               height: 28,
               fit: BoxFit.cover,
