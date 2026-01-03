@@ -22,7 +22,7 @@
     },
     "ascending": "Ascendente",
     "@ascending": {},
-    "audio": "Áudio",
+    "audio": "{count, plural, one{Áudios} other{Áudio}}",
     "@audio": {},
     "biometricsFailedCheckAgain": "Falha na biometria. Verifique as configurações e tente novamente.",
     "@biometricsFailedCheckAgain": {},
@@ -120,7 +120,7 @@
     "@controls": {},
     "clearAllSettings": "Limpar todas as configurações",
     "@clearAllSettings": {},
-    "collectionFolder": "Pasta de coleção",
+    "collectionFolder": "{count, plural, one{Pasta de Coletânea} other{Pastas de Coletânea}}",
     "@collectionFolder": {},
     "color": "Cor",
     "@color": {},
@@ -132,7 +132,7 @@
     "@datePlayed": {},
     "delete": "Excluir",
     "@delete": {},
-    "days": "Dias",
+    "days": "{count, plural, one{Dia} other{Dias}}",
     "@days": {},
     "deleteFileFromSystem": "Excluir este item {item} irá excluí-lo tanto do sistema de arquivos quanto da sua biblioteca de mídia. Tem certeza de que deseja continuar?",
     "@deleteFileFromSystem": {
@@ -172,15 +172,15 @@
     "@markAsWatched": {},
     "mediaTypeBase": "Tipo de base",
     "@mediaTypeBase": {},
-    "mediaTypeBook": "Livro",
+    "mediaTypeBook": "{count, plural, one{Livro} other{Livros}}",
     "@mediaTypeBook": {},
-    "mediaTypeEpisode": "Episódio",
+    "mediaTypeEpisode": "{count, plural, one{Episódio} other{Episódios}}",
     "@mediaTypeEpisode": {},
-    "mediaTypePerson": "Pessoa",
+    "mediaTypePerson": "{count, plural, one{Pessoa} other{Pessoas}}",
     "@mediaTypePerson": {},
-    "mediaTypePhoto": "Foto",
+    "mediaTypePhoto": "{count, plural, one{Foto} other{Fotos}}",
     "@mediaTypePhoto": {},
-    "mediaTypeSeries": "Series",
+    "mediaTypeSeries": "{count, plural, one{Série} other{Séries}}",
     "@mediaTypeSeries": {},
     "metadataRefreshFull": "Substituir todos os metadados",
     "@metadataRefreshFull": {},
@@ -296,9 +296,9 @@
     },
     "masonry": "Alvenaria",
     "@masonry": {},
-    "mediaTypeBoxset": "Boxset",
+    "mediaTypeBoxset": "{count, plural, one{Coleção} other{Coleções}}",
     "@mediaTypeBoxset": {},
-    "mediaTypeFolder": "Pasta",
+    "mediaTypeFolder": "{count, plural, one{Pasta} other{Pastas}}",
     "@mediaTypeFolder": {},
     "metaDataSavedFor": "Metadados salvos para {item}",
     "@metaDataSavedFor": {
@@ -309,13 +309,13 @@
             }
         }
     },
-    "mediaTypeMovie": "Filme",
+    "mediaTypeMovie": "{count, plural, one{Filme} other{Filmes}}",
     "@mediaTypeMovie": {},
-    "mediaTypePlaylist": "Playlist",
+    "mediaTypePlaylist": "{count, plural, one{Playlist} other{Playlists}}",
     "@mediaTypePlaylist": {},
-    "mediaTypeSeason": "Temporada",
+    "mediaTypeSeason": "{count, plural, one{Temporada} other{Temporadas}}",
     "@mediaTypeSeason": {},
-    "mediaTypePhotoAlbum": "Álbum de fotos",
+    "mediaTypePhotoAlbum": "{count, plural, one{Álbum de Foto} other{Álbuns de Fotos}}",
     "@mediaTypePhotoAlbum": {},
     "metadataRefreshDefault": "Verificar se há arquivos novos e atualizados",
     "@metadataRefreshDefault": {},
@@ -344,7 +344,7 @@
             }
         }
     },
-    "musicAlbum": "Álbum",
+    "musicAlbum": "{count, plural, one{Álbum} other{Álbuns}}",
     "@musicAlbum": {},
     "navigation": "Navegação",
     "@navigation": {},
@@ -923,7 +923,7 @@
             }
         }
     },
-    "video": "Vídeo",
+    "video": "{count, plural, one{Vídeo} other{Vídeos}}",
     "@video": {},
     "videoScaling": "Dimensionamento de vídeo",
     "@videoScaling": {},
@@ -1545,5 +1545,315 @@
     "settingsLocalUrlSetDesc": "Especifique o endereço do servidor local. O Fladder usará automaticamente este URL quando seu dispositivo estiver na mesma rede.",
     "@settingsLocalUrlSetDesc": {},
     "screensaverBlack": "Preto",
-    "@screensaverBlack": {}
+    "@screensaverBlack": {},
+    "segmentActionSkipOnce": "Pular uma vez",
+    "@segmentActionSkipOnce": {},
+    "takeScreenshot": "Capturar tela",
+    "@takeScreenshot": {},
+    "takeScreenshotClean": "Capturar tela (sem legendas)",
+    "@takeScreenshotClean": {},
+    "screenshots": "Capturas de tela",
+    "@screenshots": {},
+    "screenshotTaken": "Captura de tela salva!",
+    "@screenshotTaken": {},
+    "screenshotCleanTaken": "Captura de tela sem legendas salva!",
+    "@screenshotCleanTaken": {},
+    "errorTakingScreenshot": "Ocorreu um erro ao capturar a tela",
+    "@errorTakingScreenshot": {},
+    "regenerateTrickplayImages": "Regerar imagens trickplay",
+    "@regenerateTrickplayImages": {},
+    "controlPanel": "Painel de Controle",
+    "@controlPanel": {},
+    "controlPanelDesc": "Servidor, Atividade, Usuários, Biblioteca",
+    "@controlPanelDesc": {},
+    "controlDashboard": "Dashboard de Controle",
+    "@controlDashboard": {},
+    "serverName": "Nome do servidor",
+    "@serverName": {},
+    "serverVersion": "Versão do servidor",
+    "@serverVersion": {},
+    "webVersion": "Versão web",
+    "@webVersion": {},
+    "devices": "Dispositivos",
+    "@devices": {},
+    "used": "Usado",
+    "@used": {},
+    "storagePaths": "Caminhos de Armazenamento",
+    "@storagePaths": {},
+    "programData": "Dados do Programa",
+    "@programData": {},
+    "web": "Web",
+    "@web": {},
+    "cache": "Cache",
+    "@cache": {},
+    "logs": "Registros",
+    "@logs": {},
+    "transcodingTemp": "Transcodificação Temporária",
+    "@transcodingTemp": {},
+    "count": "Contagem",
+    "@count": {},
+    "scanAllLibraries": "Escanear todas as bibliotecas",
+    "@scanAllLibraries": {},
+    "restartServer": "Reiniciar servidor",
+    "@restartServer": {},
+    "shutDownServer": "Encerrar servidor",
+    "@shutDownServer": {},
+    "dashboardDesc": "Servidor, Contagem, Dispositivos, Armazenamento",
+    "@dashboardDesc": {},
+    "lastActivity": "Atividade mais recente",
+    "@lastActivity": {},
+    "activeTasks": "Tarefas ativas",
+    "@activeTasks": {},
+    "hours": "{count, plural, one{Hora} other{Horas}}",
+    "@hours": {
+        "description": "Pluralization for hours",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            }
+        }
+    },
+    "weeks": "{count, plural, one{Semana} other{Semanas}}",
+    "@weeks": {
+        "description": "Pluralization for weeks",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "months": "{count, plural, one{Mês} other{Meses}}",
+    "@months": {
+        "description": "Pluralization for months",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "years": "{count, plural, one{Ano} other{Anos}}",
+    "@years": {
+        "description": "Pluralization for years",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "timeAgo": "{time} atrás",
+    "@timeAgo": {
+        "description": "timeAgo",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "lastRunTaking": "Última execução {date}, com duração de {time}",
+    "@lastRunTaking": {
+        "description": "lastRunTaking",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "lessThenAMinute": "Menos de um minuto",
+    "@lessThenAMinute": {},
+    "plannedTasks": "Tarefas agendadas",
+    "@plannedTasks": {},
+    "taskTriggerTypeInterval": "Intervalo",
+    "@taskTriggerTypeInterval": {},
+    "taskTriggerTypeDaily": "Diário",
+    "@taskTriggerTypeDaily": {},
+    "taskTriggerTypeWeekly": "Semanal",
+    "@taskTriggerTypeWeekly": {},
+    "taskTriggerTypeStartup": "Na Inicialização",
+    "@taskTriggerTypeStartup": {},
+    "create": "Criar",
+    "@create": {},
+    "taskTriggerTypeName": "Tipo de gatilho",
+    "@taskTriggerTypeName": {},
+    "newTrigger": "Novo gatilho",
+    "@newTrigger": {},
+    "newTaskTrigger": "Novo gatilho de tarefa",
+    "@newTaskTrigger": {},
+    "dayOfTheWeek": "Dia da semana",
+    "@dayOfTheWeek": {},
+    "time": "Tempo",
+    "@time": {},
+    "interval": "Intervalo",
+    "@interval": {},
+    "taskTimeLimitInHours": "Limite de tempo (horas)",
+    "@taskTimeLimitInHours": {},
+    "taskTriggerIntervalDesc": "A cada {time}",
+    "@taskTriggerIntervalDesc": {
+        "description": "Task trigger interval desc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerDailyDesc": "Diariamente às {time}",
+    "@taskTriggerDailyDesc": {
+        "description": "taskTriggerDailyDesc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerWeeklyDesc": "Semanalmente no dia {day}, às {time}",
+    "@taskTriggerWeeklyDesc": {
+        "description": "taskTriggerWeeklyDesc",
+        "placeholders": {
+            "day": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerTimeLimitSub": "Limite de tempo: {time}",
+    "@taskTriggerTimeLimitSub": {
+        "description": "taskTriggerTimeLimit",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "performance": "Desempenho",
+    "@performance": {},
+    "serverNameLabel": "Nome do servidor",
+    "@serverNameLabel": {},
+    "cachePath": "Caminho do cache",
+    "@cachePath": {},
+    "metadataPath": "Caminho dos metadados",
+    "@metadataPath": {},
+    "maxConcurrentLibraryScanLabel": "Máximo de escaneamentos simultâneos da biblioteca",
+    "@maxConcurrentLibraryScanLabel": {},
+    "maxConcurrentLibraryScanDesc": "Número máximo de tarefas paralelas durante escaneamentos da biblioteca. Deixar este campo em branco selecionará um limite com base na contagem de núcleos do seu sistema. AVISO: Definir este número muito alto pode causar problemas com sistemas de arquivos em rede; se você encontrar problemas, diminua este número.",
+    "@maxConcurrentLibraryScanDesc": {},
+    "maxImageDecodingThreadsLabel": "Máx. de threads para decodificação de imagens",
+    "@maxImageDecodingThreadsLabel": {},
+    "maxImageDecodingThreadsDesc": "Número máximo de codificações de imagem que podem ser executadas em paralelo. Deixar vazio definirá um limite com base no número de núcleos do seu sistema.",
+    "@maxImageDecodingThreadsDesc": {},
+    "controlPanelServerDesc": "Nome do servidor, Conexão Rápida, Desempenho",
+    "@controlPanelServerDesc": {},
+    "deleteUserTitle": "Deletar usuário {user}?",
+    "@deleteUserTitle": {
+        "description": "deleteUserTitle",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteUserDesc": "Isso excluirá permanentemente o usuário {user} e configurações associadas.",
+    "@deleteUserDesc": {
+        "description": "deleteUserDesc",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "userInformation": "Informações de Usuário",
+    "@userInformation": {},
+    "allowManageServer": "Permitir que este usuário gerencie o servidor",
+    "@allowManageServer": {},
+    "allowCollections": "Permitir que este usuário faça coletâneas",
+    "@allowCollections": {},
+    "allowEditSubtitles": "Permitir que este usuário edite legendas",
+    "@allowEditSubtitles": {},
+    "featureAccess": "Acesso a recursos",
+    "@featureAccess": {},
+    "allowLiveTVAccess": "Permitir acesso à TV ao vivo",
+    "@allowLiveTVAccess": {},
+    "allowLiveTVRecording": "Permitir gerenciamento de gravações da TV ao vivo",
+    "@allowLiveTVRecording": {},
+    "mediaPlayback": "Reprodução de mídia",
+    "@mediaPlayback": {},
+    "allowMediaPlayback": "Permitir reprodução de mídia",
+    "@allowMediaPlayback": {},
+    "allowVideoTranscoding": "Permitir a reprodução de vídeos que exigem transcodificação",
+    "@allowVideoTranscoding": {},
+    "allowAudioTranscoding": "Permitir reprodução de áudio que requer transcodificação",
+    "@allowAudioTranscoding": {},
+    "allowMediaConversion": "Permitir a reprodução de vídeos que exigem conversão de mídia",
+    "@allowMediaConversion": {},
+    "forceRemoteTranscoding": "Forçar transcodificação em fonte remotas",
+    "@forceRemoteTranscoding": {},
+    "syncplay": "Syncplay",
+    "@syncplay": {},
+    "syncplayAccess": "Acesso ao Syncplay",
+    "@syncplayAccess": {},
+    "allowMediaDeletion": "Permitir exclusão de mídia",
+    "@allowMediaDeletion": {},
+    "allLibraries": "Todas as bibliotecas",
+    "@allLibraries": {},
+    "libraryAccess": "Acesso à Biblioteca",
+    "@libraryAccess": {},
+    "enableAllLibraries": "Habilitar acesso a todas as bibliotecas",
+    "@enableAllLibraries": {},
+    "enableAllDevices": "Habilite o acesso de todos os dispositivos",
+    "@enableAllDevices": {},
+    "parentalControl": "Controle Parental",
+    "@parentalControl": {},
+    "blockedItemsNoRating": "Itens bloqueados sem classificações ou não reconhecidas",
+    "@blockedItemsNoRating": {},
+    "maxParentalRating": "Classificação etária máxima permitida",
+    "@maxParentalRating": {},
+    "allowItemsTags": "Permitir itens com marcadores",
+    "@allowItemsTags": {},
+    "blockItemsTags": "Bloquear itens com marcadores",
+    "@blockItemsTags": {},
+    "accessSchedule": "Cronograma de acesso",
+    "@accessSchedule": {},
+    "accessSchedules": "Cronograma de acessos",
+    "@accessSchedules": {},
+    "addAccessSchedule": "Adicionar cronograma de acesso",
+    "@addAccessSchedule": {},
+    "dayOfWeek": "Dia da semana",
+    "@dayOfWeek": {},
+    "startTime": "Hora de início",
+    "@startTime": {},
+    "endTime": "Hora de fim",
+    "@endTime": {},
+    "addTag": "Adicionar Marcador",
+    "@addTag": {},
+    "createNewUser": "Criar novo usuário",
+    "@createNewUser": {},
+    "createUser": "Criar Usuário",
+    "@createUser": {},
+    "users": "Usuários",
+    "@users": {},
+    "editUser": "Editar Usuário",
+    "@editUser": {},
+    "general": "Geral",
+    "@general": {},
+    "access": "Acesso",
+    "@access": {},
+    "passwordSettingsComing": "Configurações de senha em breve",
+    "@passwordSettingsComing": {},
+    "endTimeMustBeAfter": "A hora de término deve ser posterior à hora de início",
+    "@endTimeMustBeAfter": {},
+    "deleteLibraryConfirmMessage": "Tem certeza de que deseja excluir {libraryName}?\nEsta ação não pode ser desfeita.",
+    "@deleteLibraryConfirmMessage": {
+        "placeholders": {
+            "libraryName": {
+                "type": "String"
+            }
+        }
+    }
 }

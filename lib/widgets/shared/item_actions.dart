@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:collection/collection.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 
@@ -70,13 +71,15 @@ class ItemActionButton extends ItemAction {
   PopupMenuItem toPopupMenuItem({bool useIcons = false}) {
     return PopupMenuItem(
       onTap: action,
-      child: useIcons
-          ? Builder(builder: (context) {
-              return Padding(
+      enabled: action != null,
+      child: Builder(
+        builder: (context) => useIcons
+            ? Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: Theme(
                   data: ThemeData(
-                    iconTheme: IconThemeData(color: Theme.of(context).colorScheme.onSurface),
+                    iconTheme: IconThemeData(
+                        color: Theme.of(context).colorScheme.onSurface.withAlpha(action == null ? 75 : 255)),
                   ),
                   child: Row(
                     children: [
@@ -86,9 +89,14 @@ class ItemActionButton extends ItemAction {
                     ],
                   ),
                 ),
-              );
-            })
-          : label,
+              )
+            : Row(
+                children: [
+                  if (label != null) Expanded(child: label!),
+                  if (selected) const Icon(IconsaxPlusBold.tick_square, size: 24),
+                ],
+              ),
+      ),
     );
   }
 
@@ -100,7 +108,8 @@ class ItemActionButton extends ItemAction {
   @override
   Widget toListItem(BuildContext context, {bool useIcons = false, bool shouldPop = true}) {
     final foregroundColor =
-        selected ? Theme.of(context).colorScheme.onPrimaryContainer : Theme.of(context).colorScheme.onSurface;
+        (selected ? Theme.of(context).colorScheme.onPrimaryContainer : Theme.of(context).colorScheme.onSurface)
+            .withAlpha(action == null ? 75 : 255);
     return ElevatedButton(
       autofocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad && selected,
       style: ButtonStyle(

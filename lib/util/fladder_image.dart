@@ -19,6 +19,7 @@ class FladderImage extends ConsumerWidget {
   final bool disableBlur;
   final bool blurOnly;
   final int? decodeHeight;
+  final bool cachedImage;
   const FladderImage({
     required this.image,
     this.frameBuilder,
@@ -31,6 +32,7 @@ class FladderImage extends ConsumerWidget {
     this.disableBlur = false,
     this.blurOnly = false,
     this.decodeHeight = 400,
+    this.cachedImage = true,
     super.key,
   });
 
@@ -38,7 +40,8 @@ class FladderImage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final useBluredPlaceHolder = ref.watch(clientSettingsProvider.select((value) => value.blurPlaceHolders));
     final newImage = image;
-    final imageProvider = image?.imageProvider;
+    final imageProvider = cachedImage ? image?.imageProvider : image?.nonCachedImageProvider;
+
     if (newImage == null) {
       return placeHolder ?? Container();
     } else {
@@ -46,7 +49,7 @@ class FladderImage extends ConsumerWidget {
         key: Key(newImage.key),
         fit: stackFit,
         children: [
-          if (!disableBlur && useBluredPlaceHolder && newImage.hash.isNotEmpty || blurOnly)
+          if (!disableBlur && useBluredPlaceHolder && newImage.hash.isNotEmpty || blurOnly && newImage.hash.isNotEmpty)
             Image(
               image: BlurHashImage(
                 newImage.hash,

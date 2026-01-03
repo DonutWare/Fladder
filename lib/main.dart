@@ -180,7 +180,10 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
 
     final difference = DateTime.now().difference(_lastPaused);
 
-    if (difference > timeOut && ref.read(userProvider)?.authMethod != Authentication.autoLogin) {
+    final lockMethod = ref.read(userProvider.select((value) => value?.authMethod));
+    final shouldLock = Authentication.secureOptions.contains(lockMethod);
+
+    if (difference > timeOut && shouldLock) {
       _lastPaused = DateTime.now();
 
       // Stop playback if the user was still watching a video
@@ -263,7 +266,9 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
 
     final clientSettings = ref.read(clientSettingsProvider);
 
-    if (_isDesktop) {
+    final isFullScreen = await windowManager.isFullScreen();
+
+    if (_isDesktop && !isFullScreen) {
       WindowOptions windowOptions = WindowOptions(
         backgroundColor: Colors.transparent,
         skipTaskbar: false,
@@ -281,7 +286,7 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
           await windowManager.center();
         }
         final startupArguments = ref.read(argumentsStateProvider);
-        if (startupArguments.htpcMode && !(await windowManager.isFullScreen())) {
+        if (startupArguments.htpcMode && !isFullScreen) {
           await windowManager.setFullScreen(true);
         }
       });

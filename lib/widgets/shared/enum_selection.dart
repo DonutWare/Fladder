@@ -8,10 +8,12 @@ import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 
 class EnumBox<T> extends StatelessWidget {
   final String current;
+  final Widget? currentWidget;
   final List<ItemAction> Function(BuildContext context) itemBuilder;
 
   const EnumBox({
     required this.current,
+    this.currentWidget,
     required this.itemBuilder,
     super.key,
   });
@@ -32,14 +34,11 @@ class EnumBox<T> extends StatelessWidget {
         color: Colors.transparent,
         child: Row(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Flexible(
-              child: Text(
-                current,
-                textAlign: TextAlign.start,
-              ),
+              child: currentWidget ?? Text(current, textAlign: TextAlign.start),
             ),
             const SizedBox(width: 6),
             if (itemList.length > 1)
@@ -87,19 +86,22 @@ class EnumBox<T> extends StatelessWidget {
               itemBuilder: (context) => itemList.map((e) => e.toPopupMenuItem()).toList(),
               padding: padding,
               child: labelWidget,
+              requestFocus: true,
             ),
     );
   }
 }
 
 class EnumSelection<T> extends StatelessWidget {
-  final Text label;
+  final Widget label;
   final String current;
+  final Widget? currentWidget;
   final List<ItemAction> Function(BuildContext context) itemBuilder;
   const EnumSelection({
     super.key,
     required this.label,
     required this.current,
+    this.currentWidget,
     required this.itemBuilder,
   });
 
@@ -111,9 +113,12 @@ class EnumSelection<T> extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          label,
+          DefaultTextStyle.merge(
+            style: Theme.of(context).textTheme.titleMedium,
+            child: label,
+          ),
           const Spacer(),
-          EnumBox(current: current, itemBuilder: itemBuilder),
+          EnumBox(current: current, currentWidget: currentWidget, itemBuilder: itemBuilder),
         ].toList(),
       ),
     );

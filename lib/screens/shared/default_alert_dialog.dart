@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:fladder/providers/arguments_provider.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 
 Future<void> showDefaultAlertDialog(
   BuildContext context,
@@ -24,7 +24,7 @@ Future<void> showDefaultAlertDialog(
         if (decline != null)
           Consumer(
             builder: (context, ref, child) => ElevatedButton(
-              autofocus: ref.read(argumentsStateProvider).htpcMode,
+              autofocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad,
               onPressed: () => decline.call(context),
               child: Text(declineTitle),
             ),
