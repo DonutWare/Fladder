@@ -653,13 +653,52 @@ Object? _readJellyfinMediaId(Map json, String key) {
 }
 
 Object? _readContentRatings(Map json, String key) {
-  final value = json['contentRatings'];
-  if (value == null) return null;
-  if (value is List) return value;
-  if (value is Map) {
-    final results = value['results'];
-    return results is List ? results : null;
+  // For TV shows: contentRatings.results
+  var value = json['contentRatings'];
+  if (value != null) {
+    if (value is List) return value;
+    if (value is Map) {
+      final results = value['results'];
+      if (results is List) return results;
+    }
   }
+
+  // For movies: releases.results - needs flattening
+  value = json['releases'];
+  if (value != null && value is Map) {
+    final results = value['results'];
+    if (results is List) {
+      // Flatten movie releases to match TV structure
+      return results
+          .map((release) {
+            if (release is! Map) return null;
+            final countryCode = release['iso_3166_1'];
+            final releaseDates = release['release_dates'];
+
+            // Get the first certification from release_dates
+            String? certification;
+            if (releaseDates is List && releaseDates.isNotEmpty) {
+              for (final dateInfo in releaseDates) {
+                if (dateInfo is Map) {
+                  final certValue = dateInfo['certification'];
+                  if ((certValue as String?)?.isNotEmpty ?? false) {
+                    certification = certValue as String;
+                    break;
+                  }
+                }
+              }
+            }
+
+            return {
+              'iso_3166_1': countryCode,
+              'rating': certification,
+            };
+          })
+          .where((item) => item != null && item['rating'] != null)
+          .toList();
+    }
+  }
+
   return null;
 }
 
