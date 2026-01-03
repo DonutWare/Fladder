@@ -14,6 +14,7 @@ fun ScaledContent(
     CompositionLocalProvider(
         LocalDensity provides Density(
             density = density.density * scale,
+            fontScale = density.fontScale * 1.2f,
         )
     ) {
         content()
