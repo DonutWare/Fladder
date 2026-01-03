@@ -3,6 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/providers/seerr_api_provider.dart';
+import 'package:fladder/providers/seerr_user_provider.dart';
 import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/util/map_bool_helper.dart';
 
@@ -25,8 +26,12 @@ class SeerrSearch extends _$SeerrSearch {
       final watchRegionsResponse = await api.getWatchProviderRegions();
       final watchRegions = watchRegionsResponse.body ?? [];
 
+      final currentUser = ref.read(seerrUserProvider);
+      final defaultWatchRegion = currentUser?.settings?.discoverRegion ?? 'US';
+
       state = state.copyWith(
         watchProviderRegions: watchRegions,
+        filters: state.filters.copyWith(watchRegion: defaultWatchRegion),
         initialized: true,
         isLoading: false,
       );

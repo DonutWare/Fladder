@@ -66,7 +66,7 @@ class SeerrRequest extends _$SeerrRequest {
           seasonStatuses: seasonStatusMap.isEmpty ? poster.seasonStatuses : seasonStatusMap,
           mediaInfo: details.mediaInfo,
         );
-        final userRegion = currentUserBody?.settings?.region ?? 'US';
+        final userRegion = currentUserBody?.settings?.discoverRegion ?? 'US';
         final contentRating = _extractContentRating(details.contentRatings, userRegion);
         state = state.copyWith(
           poster: updatedPoster,
@@ -82,7 +82,7 @@ class SeerrRequest extends _$SeerrRequest {
       if (movieDetailsResponse.isSuccessful && movieDetailsResponse.body != null) {
         final details = movieDetailsResponse.body!;
         updatedPoster = poster.copyWith(mediaInfo: details.mediaInfo);
-        final userRegion = currentUserBody?.settings?.region ?? 'US';
+        final userRegion = currentUserBody?.settings?.discoverRegion ?? 'US';
         final contentRating = _extractContentRating(details.contentRatings, userRegion);
         state = state.copyWith(
           poster: updatedPoster,

@@ -58,14 +58,14 @@ Map<String, dynamic> _$SeerrQuotaEntryToJson(SeerrQuotaEntry instance) =>
 SeerrUserSettings _$SeerrUserSettingsFromJson(Map<String, dynamic> json) =>
     SeerrUserSettings(
       locale: json['locale'] as String?,
-      region: json['region'] as String?,
+      discoverRegion: json['discoverRegion'] as String?,
       originalLanguage: json['originalLanguage'] as String?,
     );
 
 Map<String, dynamic> _$SeerrUserSettingsToJson(SeerrUserSettings instance) =>
     <String, dynamic>{
       'locale': instance.locale,
-      'region': instance.region,
+      'discoverRegion': instance.discoverRegion,
       'originalLanguage': instance.originalLanguage,
     };
 

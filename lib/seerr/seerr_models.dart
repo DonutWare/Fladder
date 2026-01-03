@@ -293,12 +293,12 @@ extension SeerrUserPermissions on SeerrUserModel {
 @JsonSerializable()
 class SeerrUserSettings {
   final String? locale;
-  final String? region;
+  final String? discoverRegion;
   final String? originalLanguage;
 
   SeerrUserSettings({
     this.locale,
-    this.region,
+    this.discoverRegion,
     this.originalLanguage,
   });
 
