@@ -114,7 +114,7 @@ class SeerrDashboard extends _$SeerrDashboard {
     List<int>? requestedSeasons;
     if (poster.mediaInfo?.seasons != null) {
       requestedSeasons = poster.mediaInfo!.seasons!
-          .where((season) => season.seasonNumber != null)
+          .where((season) => season.seasonNumber != null && request.seasons?.contains(season.seasonNumber) == true)
           .map((season) => season.seasonNumber!)
           .toList();
     }

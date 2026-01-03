@@ -17,7 +17,7 @@ class SeerrSearch extends _$SeerrSearch {
   }
 
   Future<void> submit([String? value]) async {
-    final query = (value ?? state.query).trim();
+    final query = (value ?? state.query);
     state = state.copyWith(query: query);
     if (query.isEmpty) {
       state = state.copyWith(results: []);

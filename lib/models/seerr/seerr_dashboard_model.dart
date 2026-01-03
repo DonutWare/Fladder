@@ -91,7 +91,7 @@ class SeerrDashboardPosterModel {
     required this.overview,
     required this.images,
     required this.status,
-    this.jellyfinItemId,
+    required this.jellyfinItemId,
     this.seasons,
     this.seasonStatuses,
     this.mediaInfo,

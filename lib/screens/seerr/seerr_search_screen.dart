@@ -214,7 +214,6 @@ class _SeerrSearchScreenState extends ConsumerState<SeerrSearchScreen> {
                                   context.ensureVisible();
                                 }
                               },
-                              onTap: (poster) => openRequest(context, poster),
                             );
                           },
                         );

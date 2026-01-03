@@ -10,7 +10,6 @@ import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/details_screens/components/media_stream_information.dart';
 import 'package:fladder/screens/details_screens/components/overview_header.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_poster_row.dart';
-import 'package:fladder/screens/seerr/widgets/seerr_request_popup.dart';
 import 'package:fladder/screens/shared/detail_scaffold.dart';
 import 'package:fladder/screens/shared/media/chapter_row.dart';
 import 'package:fladder/screens/shared/media/components/media_play_button.dart';
@@ -185,14 +184,12 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
                       posters: details.seerrRecommended,
                       label: "${context.localized.discover} ${context.localized.recommended.toLowerCase()}",
                       contentPadding: padding,
-                      onTap: (poster) => openSeerrRequestPopup(context, poster),
                     ),
                   if (details.seerrRelated.isNotEmpty)
                     SeerrPosterRow(
                       posters: details.seerrRelated,
                       label: "${context.localized.discover} ${context.localized.related.toLowerCase()}",
                       contentPadding: padding,
-                      onTap: (poster) => openSeerrRequestPopup(context, poster),
                     ),
                   if (details.overview.externalUrls?.isNotEmpty == true)
                     Padding(

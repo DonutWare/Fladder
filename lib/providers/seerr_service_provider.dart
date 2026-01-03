@@ -360,7 +360,7 @@ class SeerrService {
     return _posterFromDetails(
       type: type,
       tmdbId: tmdbId,
-      jellyfinItemId: item.mediaId,
+      jellyfinItemId: item.mediaInfo?.primaryJellyfinMediaId,
       title: title,
       overview: item.overview ?? '',
       posterPath: item.posterPath,

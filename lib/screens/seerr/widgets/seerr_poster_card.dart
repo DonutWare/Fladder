@@ -21,13 +21,11 @@ class SeerrPosterCard extends ConsumerWidget {
   final SeerrDashboardPosterModel poster;
   final double? aspectRatio;
   final Function(bool value)? onFocusChanged;
-  final void Function(SeerrDashboardPosterModel poster)? onTap;
   final void Function(SeerrDashboardPosterModel poster)? onRequestAddTap;
 
   const SeerrPosterCard({
     required this.poster,
     this.aspectRatio,
-    this.onTap,
     this.onRequestAddTap,
     this.onFocusChanged,
     super.key,
@@ -78,11 +76,7 @@ class SeerrPosterCard extends ConsumerWidget {
       children: [
         Expanded(
           child: FocusButton(
-            onTap: onTap != null
-                ? () => onTap?.call(poster)
-                : baseItemModel != null
-                    ? () => baseItemModel.navigateTo(context)
-                    : handleRequestAction,
+            onTap: baseItemModel != null ? () => baseItemModel.navigateTo(context) : handleRequestAction,
             onFocusChanged: onFocusChanged,
             child: Container(
               decoration: BoxDecoration(
