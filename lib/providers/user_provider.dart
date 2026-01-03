@@ -5,6 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:fladder/jellyfin/enum_models.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
+import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart' as enums;
 import 'package:fladder/models/account_model.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
@@ -79,6 +80,30 @@ class User extends _$User {
 
   void setRememberSubtitleSelections() async {
     final newUserConfiguration = await api.updateRememberSubtitleSelections();
+    if (newUserConfiguration != null) {
+      userState = state?.copyWith(userConfiguration: newUserConfiguration);
+    }
+  }
+
+  void updateSubtitleLanguagePreference(String? language) async {
+    final currentUserConfiguration = state?.userConfiguration;
+    if (currentUserConfiguration == null) return;
+
+    final updated = currentUserConfiguration.copyWith(
+      subtitleLanguagePreference: language?.isEmpty ?? true ? null : language,
+    );
+    final newUserConfiguration = await api.updateUserConfiguration(updated);
+    if (newUserConfiguration != null) {
+      userState = state?.copyWith(userConfiguration: newUserConfiguration);
+    }
+  }
+
+  void updateSubtitleMode(enums.SubtitlePlaybackMode? mode) async {
+    final currentUserConfiguration = state?.userConfiguration;
+    if (currentUserConfiguration == null) return;
+
+    final updated = currentUserConfiguration.copyWith(subtitleMode: mode);
+    final newUserConfiguration = await api.updateUserConfiguration(updated);
     if (newUserConfiguration != null) {
       userState = state?.copyWith(userConfiguration: newUserConfiguration);
     }

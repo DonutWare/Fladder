@@ -1284,6 +1284,10 @@ class JellyService {
     return _updateUserConfiguration(updated);
   }
 
+  Future<UserConfiguration?> updateUserConfiguration(UserConfiguration newConfiguration) {
+    return _updateUserConfiguration(newConfiguration);
+  }
+
   Future<Response<QuickConnectResult>> quickConnectInitiate() async {
     return api.quickConnectInitiatePost();
   }

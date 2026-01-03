@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart' as enums;
 import 'package:fladder/models/seerr_credentials_model.dart';
 import 'package:fladder/providers/connectivity_provider.dart';
+import 'package:fladder/providers/cultures_provider.dart';
 import 'package:fladder/providers/seerr_user_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
@@ -16,7 +19,10 @@ import 'package:fladder/screens/settings/widgets/settings_list_group.dart';
 import 'package:fladder/screens/shared/authenticate_button_options.dart';
 import 'package:fladder/screens/shared/input_fields.dart';
 import 'package:fladder/seerr/seerr_models.dart';
+import 'package:fladder/util/jellyfin_extension.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/widgets/shared/enum_selection.dart';
+import 'package:fladder/widgets/shared/item_actions.dart';
 
 @RoutePage()
 class ProfileSettingsPage extends ConsumerStatefulWidget {
@@ -50,6 +56,14 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> {
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
     final seerrUser = ref.watch(seerrUserProvider);
+    final cultures = ref.watch(culturesProvider);
+    final allowedSubModes = {
+      enums.SubtitlePlaybackMode.$default,
+      enums.SubtitlePlaybackMode.smart,
+      enums.SubtitlePlaybackMode.onlyforced,
+      enums.SubtitlePlaybackMode.always,
+      enums.SubtitlePlaybackMode.none,
+    };
     return SettingsScaffold(
       label: context.localized.settingsProfileTitle,
       items: [
@@ -71,6 +85,68 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> {
             SettingsListTile(
               label: Text(context.localized.password),
               onTap: () => openPasswordResetDialog(context),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        ...settingsListGroup(
+          context,
+          SettingsLabelDivider(label: context.localized.subtitles),
+          [
+            SettingsListTile(
+              label: Text(context.localized.settingsProfileSubtitleLanguage),
+              trailing: Builder(
+                builder: (context) {
+                  final currentCulture = cultures.firstWhereOrNull(
+                    (element) =>
+                        element.threeLetterISOLanguageName?.toLowerCase() ==
+                        user?.userConfiguration?.subtitleLanguagePreference?.toLowerCase(),
+                  );
+                  return EnumBox(
+                    current: user?.userConfiguration?.subtitleLanguagePreference == null
+                        ? context.localized.none
+                        : currentCulture?.displayName ?? context.localized.unknown,
+                    itemBuilder: (context) => [
+                      ItemActionButton(
+                        selected: user?.userConfiguration?.subtitleLanguagePreference == null,
+                        label: Text(context.localized.none),
+                        action: () {
+                          ref.read(userProvider.notifier).updateSubtitleLanguagePreference(null);
+                        },
+                      ),
+                      ...cultures.map(
+                        (e) => ItemActionButton(
+                          selected: e.threeLetterISOLanguageName?.toLowerCase() ==
+                              user?.userConfiguration?.subtitleLanguagePreference?.toLowerCase(),
+                          label: Text(e.displayName ?? e.name ?? context.localized.unknown),
+                          action: () {
+                            ref
+                                .read(userProvider.notifier)
+                                .updateSubtitleLanguagePreference(e.threeLetterISOLanguageName?.toLowerCase());
+                          },
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+            SettingsListTile(
+              label: Text(context.localized.settingsProfileSubtitleMode),
+              trailing: EnumBox(
+                current: user?.userConfiguration?.subtitleMode?.label(context) ?? context.localized.none,
+                itemBuilder: (context) => allowedSubModes
+                    .map(
+                      (mode) => ItemActionButton(
+                        selected: user?.userConfiguration?.subtitleMode == mode,
+                        label: Text(mode.label(context)),
+                        action: () {
+                          ref.read(userProvider.notifier).updateSubtitleMode(mode);
+                        },
+                      ),
+                    )
+                    .toList(),
+              ),
             ),
           ],
         ),
