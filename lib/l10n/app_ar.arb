@@ -863,7 +863,7 @@
     "@settingsPlayerMobileWarning": {},
     "settingsPlayerNativeLibassAccelTitle": "ترجمات libass الأصلية",
     "@settingsPlayerNativeLibassAccelTitle": {},
-    "settingsProfileDesc": "شاشة القفل، الرابط المحلي (URL)",
+    "settingsProfileDesc": "شاشة القفل، الرابط المحلي، Seerr",
     "@settingsProfileDesc": {},
     "settingsProfileTitle": "ملف التعريف",
     "@settingsProfileTitle": {},
@@ -2003,5 +2003,159 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "deleteRequestConfirmation": "هل أنت متأكد أنك تريد حذف هذا الطلب؟",
+    "@deleteRequestConfirmation": {},
+    "recentlyAdded": "تمت إضافته مؤخراً",
+    "@recentlyAdded": {},
+    "recentRequests": "الطلبات الأخيرة",
+    "@recentRequests": {},
+    "trending": "الشائع الآن",
+    "@trending": {},
+    "popularMovies": "الأفلام الأكثر شهرة",
+    "@popularMovies": {},
+    "expectedMovies": "الأفلام المرتقبة",
+    "@expectedMovies": {},
+    "expectedSeries": "المسلسلات المرتقبة",
+    "@expectedSeries": {},
+    "requestConfiguration": "إعدادات الطلب",
+    "@requestConfiguration": {},
+    "qualityProfile": "ملف الجودة",
+    "@qualityProfile": {},
+    "selectProfile": "اختر ملف الجودة",
+    "@selectProfile": {},
+    "rootFolder": "المجلد الجذري",
+    "@rootFolder": {},
+    "selectFolder": "اختر المجلد",
+    "@selectFolder": {},
+    "tags": "الوسوم",
+    "@tags": {},
+    "noTags": "لا توجد وسوم",
+    "@noTags": {},
+    "requestAs": "طلب باسم",
+    "@requestAs": {},
+    "requestQuotaTitle": "حصة الطلبات",
+    "@requestQuotaTitle": {},
+    "requestQuotaStatus": "متبقي {remaining} من أصل {limit} (تُعاد كل {days} يوماً)",
+    "@requestQuotaStatus": {
+        "placeholders": {
+            "remaining": {
+                "type": "int"
+            },
+            "limit": {
+                "type": "int"
+            },
+            "days": {
+                "type": "int"
+            }
+        }
+    },
+    "requestQuotaLimitReached": "تم الوصول إلى الحد الأقصى للطلبات لـ {mediaType}.",
+    "@requestQuotaLimitReached": {
+        "placeholders": {
+            "mediaType": {
+                "type": "String"
+            }
+        }
+    },
+    "submitRequest": "إرسال الطلب",
+    "@submitRequest": {},
+    "noOverviewAvailable": "لا توجد نظرة عامة متاحة.",
+    "@noOverviewAvailable": {},
+    "downloading": "جارٍ التنزيل",
+    "@downloading": {},
+    "request": "طلب",
+    "@request": {},
+    "viewRequest": "عرض الطلب",
+    "@viewRequest": {},
+    "email": "البريد الإلكتروني",
+    "@email": {},
+    "username": "اسم المستخدم",
+    "@username": {},
+    "ok": "موافق",
+    "@ok": {},
+    "seerr": "سيير (Seerr)",
+    "@seerr": {},
+    "seerrNotConfigured": "غير مُهيأ",
+    "@seerrNotConfigured": {},
+    "seerrLoadingUser": "جارٍ تحميل المستخدم",
+    "@seerrLoadingUser": {},
+    "seerrUnknownUser": "مستخدم غير معروف",
+    "@seerrUnknownUser": {},
+    "loggedInAs": "تم تسجيل الدخول باسم {displayName}",
+    "@loggedInAs": {
+        "placeholders": {
+            "displayName": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrSetServerFirst": "قم بتعيين خادم Seerr أولاً",
+    "@seerrSetServerFirst": {},
+    "seerrLocalLoginTitle": "تسجيل الدخول المحلي لـ Seerr",
+    "@seerrLocalLoginTitle": {},
+    "seerrJellyfinLoginTitle": "تسجيل الدخول عبر Jellyfin لـ Seerr",
+    "@seerrJellyfinLoginTitle": {},
+    "seerrSessionSaved": "تم حفظ جلسة Seerr",
+    "@seerrSessionSaved": {},
+    "seerrStatusVersion": "Seerr: الإصدار {version}",
+    "@seerrStatusVersion": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrServer": "خادم Seerr",
+    "@seerrServer": {},
+    "seerrAuthenticateLocal": "مصادقة Seerr (محلية)",
+    "@seerrAuthenticateLocal": {},
+    "seerrAuthenticateJellyfin": "مصادقة Seerr عبر Jellyfin",
+    "@seerrAuthenticateJellyfin": {},
+    "seerrSessionConfigured": "تم تهيئة الجلسة",
+    "@seerrSessionConfigured": {},
+    "seerrConfigured": "تم التهيئة",
+    "@seerrConfigured": {},
+    "seerrTestConnection": "اختبار اتصال Seerr",
+    "@seerrTestConnection": {},
+    "rootFolderDefaultLabel": "{folder} (افتراضي)",
+    "@rootFolderDefaultLabel": {
+        "placeholders": {
+            "folder": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrAnimeSeriesNote": "* هذه السلسلة من نوع أنمي.",
+    "@seerrAnimeSeriesNote": {},
+    "seerrAutoApproveNotice": "الطلبات التي ترسلها يتم الموافقة عليها تلقائياً.",
+    "@seerrAutoApproveNotice": {},
+    "seerrPermissionDenied": "ليس لديك صلاحية لطلب هذا النوع من الوسائط.",
+    "@seerrPermissionDenied": {},
+    "seerrAuthApiKey": "مفتاح API",
+    "@seerrAuthApiKey": {},
+    "seerrAuthLocal": "محلي",
+    "@seerrAuthLocal": {},
+    "seerrAuthJellyfin": "جيلي فين (Jellyfin)",
+    "@seerrAuthJellyfin": {},
+    "seerrUserFetchFailed": "فشل في جلب المستخدم من Seerr",
+    "@seerrUserFetchFailed": {},
+    "seerrEnterServerUrlFirst": "أدخل عنوان خادم Seerr أولاً",
+    "@seerrEnterServerUrlFirst": {},
+    "seerrApiKeySaved": "تم حفظ مفتاح API",
+    "@seerrApiKeySaved": {},
+    "seerrLoggedIn": "تم تسجيل الدخول إلى Seerr",
+    "@seerrLoggedIn": {},
+    "seerrConnectedToServer": "تم الاتصال بخادم Seerr: {serverUrl}",
+    "@seerrConnectedToServer": {
+        "placeholders": {
+            "serverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "emailUsername": "البريد الإلكتروني / اسم المستخدم",
+    "@emailUsername": {},
+    "discover": "اكتشف",
+    "@discover": {}
 }
