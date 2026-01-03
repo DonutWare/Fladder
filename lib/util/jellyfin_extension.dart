@@ -34,9 +34,22 @@ extension JellyApiExtension on JellyfinOpenApi {
 extension SyncPlayUserAccessTypeExtension on SyncPlayUserAccessType? {
   String? label(BuildContext context) {
     return switch (this) {
-      SyncPlayUserAccessType.createandjoingroups => "Create and Join Groups",
-      SyncPlayUserAccessType.joingroups => "Join Groups",
-      SyncPlayUserAccessType.none => "None",
+      SyncPlayUserAccessType.createandjoingroups => context.localized.syncplayAccessCreateAndJoinGroups,
+      SyncPlayUserAccessType.joingroups => context.localized.syncplayAccessJoinGroups,
+      SyncPlayUserAccessType.none => context.localized.syncplayAccessNone,
+      _ => context.localized.unknown,
+    };
+  }
+}
+
+extension SubtitlePlaybackModeExtension on SubtitlePlaybackMode? {
+  String label(BuildContext context) {
+    return switch (this) {
+      SubtitlePlaybackMode.$default => context.localized.subtitlePlaybackModeDefault,
+      SubtitlePlaybackMode.always => context.localized.subtitlePlaybackModeAlways,
+      SubtitlePlaybackMode.onlyforced => context.localized.subtitlePlaybackModeOnlyForced,
+      SubtitlePlaybackMode.none => context.localized.subtitlePlaybackModeNone,
+      SubtitlePlaybackMode.smart => context.localized.subtitlePlaybackModeSmart,
       _ => context.localized.unknown,
     };
   }
