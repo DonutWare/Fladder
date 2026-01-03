@@ -64,6 +64,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastCoerceIn
 import androidx.media3.exoplayer.ExoPlayer
@@ -143,11 +144,12 @@ internal fun ProgressBar(
                             color = Color.White,
                             fontWeight = FontWeight.Bold
                         ),
+                        modifier = Modifier.weight(1f),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
             }
-
-            Spacer(modifier = Modifier.weight(1f))
 
             Videolabel(playableData?.mediaInfo?.playbackType?.name?.capitalize)
             Videolabel(playableData?.mediaInfo?.videoInformation)
