@@ -47,7 +47,7 @@ class _LibraryFilterChipsState extends ConsumerState<LibraryFilterChips> {
           isSelected: true,
           icon: const Icon(IconsaxPlusBold.discover),
           label: Text(context.localized.discover),
-          onPressed: () => context.pushRoute(const SeerrSearchRoute()),
+          onPressed: () => context.pushRoute(SeerrSearchRoute()),
         ),
       if (librarySearchResults.folderOverwrite.isEmpty)
         CategoryChip(

@@ -3795,4 +3795,593 @@ class __$SeerrRootFolderCopyWithImpl<$Res>
   }
 }
 
+/// @nodoc
+mixin _$SeerrFilterModel {
+  Map<SeerrGenre, bool> get genres;
+  int? get yearGte;
+  int? get yearLte;
+  Map<SeerrWatchProvider, bool> get watchProviders;
+  Map<SeerrCertification, bool> get certifications;
+  double? get voteAverageGte;
+  double? get voteAverageLte;
+  int? get runtimeGte;
+  int? get runtimeLte;
+  String? get certificationGte;
+  String? get certificationLte;
+  SeerrSortBy get sortBy;
+  String? get watchRegion;
+  SeerrCompany? get studio;
+
+  /// Create a copy of SeerrFilterModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $SeerrFilterModelCopyWith<SeerrFilterModel> get copyWith =>
+      _$SeerrFilterModelCopyWithImpl<SeerrFilterModel>(
+          this as SeerrFilterModel, _$identity);
+
+  @override
+  String toString() {
+    return 'SeerrFilterModel(genres: $genres, yearGte: $yearGte, yearLte: $yearLte, watchProviders: $watchProviders, certifications: $certifications, voteAverageGte: $voteAverageGte, voteAverageLte: $voteAverageLte, runtimeGte: $runtimeGte, runtimeLte: $runtimeLte, certificationGte: $certificationGte, certificationLte: $certificationLte, sortBy: $sortBy, watchRegion: $watchRegion, studio: $studio)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $SeerrFilterModelCopyWith<$Res> {
+  factory $SeerrFilterModelCopyWith(
+          SeerrFilterModel value, $Res Function(SeerrFilterModel) _then) =
+      _$SeerrFilterModelCopyWithImpl;
+  @useResult
+  $Res call(
+      {Map<SeerrGenre, bool> genres,
+      int? yearGte,
+      int? yearLte,
+      Map<SeerrWatchProvider, bool> watchProviders,
+      Map<SeerrCertification, bool> certifications,
+      double? voteAverageGte,
+      double? voteAverageLte,
+      int? runtimeGte,
+      int? runtimeLte,
+      String? certificationGte,
+      String? certificationLte,
+      SeerrSortBy sortBy,
+      String? watchRegion,
+      SeerrCompany? studio});
+}
+
+/// @nodoc
+class _$SeerrFilterModelCopyWithImpl<$Res>
+    implements $SeerrFilterModelCopyWith<$Res> {
+  _$SeerrFilterModelCopyWithImpl(this._self, this._then);
+
+  final SeerrFilterModel _self;
+  final $Res Function(SeerrFilterModel) _then;
+
+  /// Create a copy of SeerrFilterModel
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? genres = null,
+    Object? yearGte = freezed,
+    Object? yearLte = freezed,
+    Object? watchProviders = null,
+    Object? certifications = null,
+    Object? voteAverageGte = freezed,
+    Object? voteAverageLte = freezed,
+    Object? runtimeGte = freezed,
+    Object? runtimeLte = freezed,
+    Object? certificationGte = freezed,
+    Object? certificationLte = freezed,
+    Object? sortBy = null,
+    Object? watchRegion = freezed,
+    Object? studio = freezed,
+  }) {
+    return _then(_self.copyWith(
+      genres: null == genres
+          ? _self.genres
+          : genres // ignore: cast_nullable_to_non_nullable
+              as Map<SeerrGenre, bool>,
+      yearGte: freezed == yearGte
+          ? _self.yearGte
+          : yearGte // ignore: cast_nullable_to_non_nullable
+              as int?,
+      yearLte: freezed == yearLte
+          ? _self.yearLte
+          : yearLte // ignore: cast_nullable_to_non_nullable
+              as int?,
+      watchProviders: null == watchProviders
+          ? _self.watchProviders
+          : watchProviders // ignore: cast_nullable_to_non_nullable
+              as Map<SeerrWatchProvider, bool>,
+      certifications: null == certifications
+          ? _self.certifications
+          : certifications // ignore: cast_nullable_to_non_nullable
+              as Map<SeerrCertification, bool>,
+      voteAverageGte: freezed == voteAverageGte
+          ? _self.voteAverageGte
+          : voteAverageGte // ignore: cast_nullable_to_non_nullable
+              as double?,
+      voteAverageLte: freezed == voteAverageLte
+          ? _self.voteAverageLte
+          : voteAverageLte // ignore: cast_nullable_to_non_nullable
+              as double?,
+      runtimeGte: freezed == runtimeGte
+          ? _self.runtimeGte
+          : runtimeGte // ignore: cast_nullable_to_non_nullable
+              as int?,
+      runtimeLte: freezed == runtimeLte
+          ? _self.runtimeLte
+          : runtimeLte // ignore: cast_nullable_to_non_nullable
+              as int?,
+      certificationGte: freezed == certificationGte
+          ? _self.certificationGte
+          : certificationGte // ignore: cast_nullable_to_non_nullable
+              as String?,
+      certificationLte: freezed == certificationLte
+          ? _self.certificationLte
+          : certificationLte // ignore: cast_nullable_to_non_nullable
+              as String?,
+      sortBy: null == sortBy
+          ? _self.sortBy
+          : sortBy // ignore: cast_nullable_to_non_nullable
+              as SeerrSortBy,
+      watchRegion: freezed == watchRegion
+          ? _self.watchRegion
+          : watchRegion // ignore: cast_nullable_to_non_nullable
+              as String?,
+      studio: freezed == studio
+          ? _self.studio
+          : studio // ignore: cast_nullable_to_non_nullable
+              as SeerrCompany?,
+    ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [SeerrFilterModel].
+extension SeerrFilterModelPatterns on SeerrFilterModel {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_SeerrFilterModel value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _SeerrFilterModel() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_SeerrFilterModel value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _SeerrFilterModel():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_SeerrFilterModel value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _SeerrFilterModel() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            Map<SeerrGenre, bool> genres,
+            int? yearGte,
+            int? yearLte,
+            Map<SeerrWatchProvider, bool> watchProviders,
+            Map<SeerrCertification, bool> certifications,
+            double? voteAverageGte,
+            double? voteAverageLte,
+            int? runtimeGte,
+            int? runtimeLte,
+            String? certificationGte,
+            String? certificationLte,
+            SeerrSortBy sortBy,
+            String? watchRegion,
+            SeerrCompany? studio)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _SeerrFilterModel() when $default != null:
+        return $default(
+            _that.genres,
+            _that.yearGte,
+            _that.yearLte,
+            _that.watchProviders,
+            _that.certifications,
+            _that.voteAverageGte,
+            _that.voteAverageLte,
+            _that.runtimeGte,
+            _that.runtimeLte,
+            _that.certificationGte,
+            _that.certificationLte,
+            _that.sortBy,
+            _that.watchRegion,
+            _that.studio);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            Map<SeerrGenre, bool> genres,
+            int? yearGte,
+            int? yearLte,
+            Map<SeerrWatchProvider, bool> watchProviders,
+            Map<SeerrCertification, bool> certifications,
+            double? voteAverageGte,
+            double? voteAverageLte,
+            int? runtimeGte,
+            int? runtimeLte,
+            String? certificationGte,
+            String? certificationLte,
+            SeerrSortBy sortBy,
+            String? watchRegion,
+            SeerrCompany? studio)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _SeerrFilterModel():
+        return $default(
+            _that.genres,
+            _that.yearGte,
+            _that.yearLte,
+            _that.watchProviders,
+            _that.certifications,
+            _that.voteAverageGte,
+            _that.voteAverageLte,
+            _that.runtimeGte,
+            _that.runtimeLte,
+            _that.certificationGte,
+            _that.certificationLte,
+            _that.sortBy,
+            _that.watchRegion,
+            _that.studio);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            Map<SeerrGenre, bool> genres,
+            int? yearGte,
+            int? yearLte,
+            Map<SeerrWatchProvider, bool> watchProviders,
+            Map<SeerrCertification, bool> certifications,
+            double? voteAverageGte,
+            double? voteAverageLte,
+            int? runtimeGte,
+            int? runtimeLte,
+            String? certificationGte,
+            String? certificationLte,
+            SeerrSortBy sortBy,
+            String? watchRegion,
+            SeerrCompany? studio)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _SeerrFilterModel() when $default != null:
+        return $default(
+            _that.genres,
+            _that.yearGte,
+            _that.yearLte,
+            _that.watchProviders,
+            _that.certifications,
+            _that.voteAverageGte,
+            _that.voteAverageLte,
+            _that.runtimeGte,
+            _that.runtimeLte,
+            _that.certificationGte,
+            _that.certificationLte,
+            _that.sortBy,
+            _that.watchRegion,
+            _that.studio);
+      case _:
+        return null;
+    }
+  }
+}
+
+/// @nodoc
+
+class _SeerrFilterModel implements SeerrFilterModel {
+  const _SeerrFilterModel(
+      {final Map<SeerrGenre, bool> genres = const {},
+      this.yearGte,
+      this.yearLte,
+      final Map<SeerrWatchProvider, bool> watchProviders = const {},
+      final Map<SeerrCertification, bool> certifications = const {},
+      this.voteAverageGte,
+      this.voteAverageLte,
+      this.runtimeGte,
+      this.runtimeLte,
+      this.certificationGte,
+      this.certificationLte,
+      this.sortBy = SeerrSortBy.popularityDesc,
+      this.watchRegion = 'US',
+      this.studio})
+      : _genres = genres,
+        _watchProviders = watchProviders,
+        _certifications = certifications;
+
+  final Map<SeerrGenre, bool> _genres;
+  @override
+  @JsonKey()
+  Map<SeerrGenre, bool> get genres {
+    if (_genres is EqualUnmodifiableMapView) return _genres;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_genres);
+  }
+
+  @override
+  final int? yearGte;
+  @override
+  final int? yearLte;
+  final Map<SeerrWatchProvider, bool> _watchProviders;
+  @override
+  @JsonKey()
+  Map<SeerrWatchProvider, bool> get watchProviders {
+    if (_watchProviders is EqualUnmodifiableMapView) return _watchProviders;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_watchProviders);
+  }
+
+  final Map<SeerrCertification, bool> _certifications;
+  @override
+  @JsonKey()
+  Map<SeerrCertification, bool> get certifications {
+    if (_certifications is EqualUnmodifiableMapView) return _certifications;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_certifications);
+  }
+
+  @override
+  final double? voteAverageGte;
+  @override
+  final double? voteAverageLte;
+  @override
+  final int? runtimeGte;
+  @override
+  final int? runtimeLte;
+  @override
+  final String? certificationGte;
+  @override
+  final String? certificationLte;
+  @override
+  @JsonKey()
+  final SeerrSortBy sortBy;
+  @override
+  @JsonKey()
+  final String? watchRegion;
+  @override
+  final SeerrCompany? studio;
+
+  /// Create a copy of SeerrFilterModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$SeerrFilterModelCopyWith<_SeerrFilterModel> get copyWith =>
+      __$SeerrFilterModelCopyWithImpl<_SeerrFilterModel>(this, _$identity);
+
+  @override
+  String toString() {
+    return 'SeerrFilterModel(genres: $genres, yearGte: $yearGte, yearLte: $yearLte, watchProviders: $watchProviders, certifications: $certifications, voteAverageGte: $voteAverageGte, voteAverageLte: $voteAverageLte, runtimeGte: $runtimeGte, runtimeLte: $runtimeLte, certificationGte: $certificationGte, certificationLte: $certificationLte, sortBy: $sortBy, watchRegion: $watchRegion, studio: $studio)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$SeerrFilterModelCopyWith<$Res>
+    implements $SeerrFilterModelCopyWith<$Res> {
+  factory _$SeerrFilterModelCopyWith(
+          _SeerrFilterModel value, $Res Function(_SeerrFilterModel) _then) =
+      __$SeerrFilterModelCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {Map<SeerrGenre, bool> genres,
+      int? yearGte,
+      int? yearLte,
+      Map<SeerrWatchProvider, bool> watchProviders,
+      Map<SeerrCertification, bool> certifications,
+      double? voteAverageGte,
+      double? voteAverageLte,
+      int? runtimeGte,
+      int? runtimeLte,
+      String? certificationGte,
+      String? certificationLte,
+      SeerrSortBy sortBy,
+      String? watchRegion,
+      SeerrCompany? studio});
+}
+
+/// @nodoc
+class __$SeerrFilterModelCopyWithImpl<$Res>
+    implements _$SeerrFilterModelCopyWith<$Res> {
+  __$SeerrFilterModelCopyWithImpl(this._self, this._then);
+
+  final _SeerrFilterModel _self;
+  final $Res Function(_SeerrFilterModel) _then;
+
+  /// Create a copy of SeerrFilterModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? genres = null,
+    Object? yearGte = freezed,
+    Object? yearLte = freezed,
+    Object? watchProviders = null,
+    Object? certifications = null,
+    Object? voteAverageGte = freezed,
+    Object? voteAverageLte = freezed,
+    Object? runtimeGte = freezed,
+    Object? runtimeLte = freezed,
+    Object? certificationGte = freezed,
+    Object? certificationLte = freezed,
+    Object? sortBy = null,
+    Object? watchRegion = freezed,
+    Object? studio = freezed,
+  }) {
+    return _then(_SeerrFilterModel(
+      genres: null == genres
+          ? _self._genres
+          : genres // ignore: cast_nullable_to_non_nullable
+              as Map<SeerrGenre, bool>,
+      yearGte: freezed == yearGte
+          ? _self.yearGte
+          : yearGte // ignore: cast_nullable_to_non_nullable
+              as int?,
+      yearLte: freezed == yearLte
+          ? _self.yearLte
+          : yearLte // ignore: cast_nullable_to_non_nullable
+              as int?,
+      watchProviders: null == watchProviders
+          ? _self._watchProviders
+          : watchProviders // ignore: cast_nullable_to_non_nullable
+              as Map<SeerrWatchProvider, bool>,
+      certifications: null == certifications
+          ? _self._certifications
+          : certifications // ignore: cast_nullable_to_non_nullable
+              as Map<SeerrCertification, bool>,
+      voteAverageGte: freezed == voteAverageGte
+          ? _self.voteAverageGte
+          : voteAverageGte // ignore: cast_nullable_to_non_nullable
+              as double?,
+      voteAverageLte: freezed == voteAverageLte
+          ? _self.voteAverageLte
+          : voteAverageLte // ignore: cast_nullable_to_non_nullable
+              as double?,
+      runtimeGte: freezed == runtimeGte
+          ? _self.runtimeGte
+          : runtimeGte // ignore: cast_nullable_to_non_nullable
+              as int?,
+      runtimeLte: freezed == runtimeLte
+          ? _self.runtimeLte
+          : runtimeLte // ignore: cast_nullable_to_non_nullable
+              as int?,
+      certificationGte: freezed == certificationGte
+          ? _self.certificationGte
+          : certificationGte // ignore: cast_nullable_to_non_nullable
+              as String?,
+      certificationLte: freezed == certificationLte
+          ? _self.certificationLte
+          : certificationLte // ignore: cast_nullable_to_non_nullable
+              as String?,
+      sortBy: null == sortBy
+          ? _self.sortBy
+          : sortBy // ignore: cast_nullable_to_non_nullable
+              as SeerrSortBy,
+      watchRegion: freezed == watchRegion
+          ? _self.watchRegion
+          : watchRegion // ignore: cast_nullable_to_non_nullable
+              as String?,
+      studio: freezed == studio
+          ? _self.studio
+          : studio // ignore: cast_nullable_to_non_nullable
+              as SeerrCompany?,
+    ));
+  }
+}
+
 // dart format on

@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'seerr_browse_provider.dart';
+part of 'seerr_search_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$seerrSearchHash() => r'89b3dab3ef993a35922853841f65e1ae4c282531';
+String _$seerrSearchHash() => r'6f30d87f150b35201d1031f1b6ba933aaee3de63';
 
 /// See also [SeerrSearch].
 @ProviderFor(SeerrSearch)

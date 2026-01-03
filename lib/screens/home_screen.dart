@@ -116,7 +116,7 @@ class HomeScreen extends ConsumerWidget {
                     context: context,
                     title: context.localized.search,
                     key: Key(e.name.capitalize()),
-                    onPressed: () => context.router.navigate(const SeerrSearchRoute()),
+                    onPressed: () => context.router.navigate(SeerrSearchRoute()),
                     child: const Icon(IconsaxPlusLinear.search_status),
                   ),
                   action: () => e.navigate(context),

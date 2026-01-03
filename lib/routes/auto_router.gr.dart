@@ -51,6 +51,7 @@ import 'package:fladder/screens/settings/settings_selection_screen.dart'
     as _i25;
 import 'package:fladder/screens/splash_screen.dart' as _i26;
 import 'package:fladder/screens/syncing/synced_screen.dart' as _i27;
+import 'package:fladder/seerr/seerr_models.dart' as _i36;
 import 'package:flutter/foundation.dart' as _i31;
 import 'package:flutter/material.dart' as _i29;
 
@@ -679,18 +680,63 @@ class SeerrRoute extends _i28.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i23.SeerrSearchScreen]
-class SeerrSearchRoute extends _i28.PageRouteInfo<void> {
-  const SeerrSearchRoute({List<_i28.PageRouteInfo>? children})
-      : super(SeerrSearchRoute.name, initialChildren: children);
+class SeerrSearchRoute extends _i28.PageRouteInfo<SeerrSearchRouteArgs> {
+  SeerrSearchRoute({
+    _i36.SeerrSearchMode? mode,
+    int? yearGte,
+    _i29.Key? key,
+    List<_i28.PageRouteInfo>? children,
+  }) : super(
+          SeerrSearchRoute.name,
+          args: SeerrSearchRouteArgs(mode: mode, yearGte: yearGte, key: key),
+          rawQueryParams: {'mode': mode, 'yearGte': yearGte},
+          initialChildren: children,
+        );
 
   static const String name = 'SeerrSearchRoute';
 
   static _i28.PageInfo page = _i28.PageInfo(
     name,
     builder: (data) {
-      return const _i23.SeerrSearchScreen();
+      final queryParams = data.queryParams;
+      final args = data.argsAs<SeerrSearchRouteArgs>(
+        orElse: () => SeerrSearchRouteArgs(
+          mode: queryParams.get('mode'),
+          yearGte: queryParams.optInt('yearGte'),
+        ),
+      );
+      return _i23.SeerrSearchScreen(
+        mode: args.mode,
+        yearGte: args.yearGte,
+        key: args.key,
+      );
     },
   );
+}
+
+class SeerrSearchRouteArgs {
+  const SeerrSearchRouteArgs({this.mode, this.yearGte, this.key});
+
+  final _i36.SeerrSearchMode? mode;
+
+  final int? yearGte;
+
+  final _i29.Key? key;
+
+  @override
+  String toString() {
+    return 'SeerrSearchRouteArgs{mode: $mode, yearGte: $yearGte, key: $key}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! SeerrSearchRouteArgs) return false;
+    return mode == other.mode && yearGte == other.yearGte && key == other.key;
+  }
+
+  @override
+  int get hashCode => mode.hashCode ^ yearGte.hashCode ^ key.hashCode;
 }
 
 /// generated route for

@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/providers/seerr_dashboard_provider.dart';
 import 'package:fladder/providers/seerr_user_provider.dart';
+import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/home_screen.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_poster_row.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_request_banner_row.dart';
@@ -51,6 +52,7 @@ class _SeerrScreenState extends ConsumerState<SeerrScreen> {
       ...dashboardState.recentRequests,
       ...dashboardState.trending,
       ...dashboardState.popularMovies,
+      ...dashboardState.popularSeries,
       ...dashboardState.expectedMovies,
       ...dashboardState.expectedSeries,
     ].map((e) => e.images).toList(growable: false);
@@ -95,6 +97,7 @@ class _SeerrScreenState extends ConsumerState<SeerrScreen> {
                     label: context.localized.trending,
                     posters: dashboardState.trending,
                     contentPadding: padding,
+                    onLabelClick: () => context.pushRoute(SeerrSearchRoute(mode: SeerrSearchMode.trending)),
                     onRequestAddTap: (poster) => openRequest(context, poster),
                   ),
                 ),
@@ -104,6 +107,17 @@ class _SeerrScreenState extends ConsumerState<SeerrScreen> {
                     label: context.localized.popularMovies,
                     posters: dashboardState.popularMovies,
                     contentPadding: padding,
+                    onLabelClick: () => context.pushRoute(SeerrSearchRoute(mode: SeerrSearchMode.discoverMovies)),
+                    onRequestAddTap: (poster) => openRequest(context, poster),
+                  ),
+                ),
+              if (dashboardState.popularSeries.isNotEmpty)
+                SliverToBoxAdapter(
+                  child: SeerrPosterRow(
+                    label: context.localized.popularSeries,
+                    posters: dashboardState.popularSeries,
+                    contentPadding: padding,
+                    onLabelClick: () => context.pushRoute(SeerrSearchRoute(mode: SeerrSearchMode.discoverTv)),
                     onRequestAddTap: (poster) => openRequest(context, poster),
                   ),
                 ),
@@ -113,6 +127,12 @@ class _SeerrScreenState extends ConsumerState<SeerrScreen> {
                     label: context.localized.expectedMovies,
                     posters: dashboardState.expectedMovies,
                     contentPadding: padding,
+                    onLabelClick: () => context.pushRoute(
+                      SeerrSearchRoute(
+                        mode: SeerrSearchMode.discoverMovies,
+                        yearGte: DateTime.now().year,
+                      ),
+                    ),
                     onRequestAddTap: (poster) => openRequest(context, poster),
                   ),
                 ),
@@ -122,6 +142,12 @@ class _SeerrScreenState extends ConsumerState<SeerrScreen> {
                     label: context.localized.expectedSeries,
                     posters: dashboardState.expectedSeries,
                     contentPadding: padding,
+                    onLabelClick: () => context.pushRoute(
+                      SeerrSearchRoute(
+                        mode: SeerrSearchMode.discoverTv,
+                        yearGte: DateTime.now().year,
+                      ),
+                    ),
                     onRequestAddTap: (poster) => openRequest(context, poster),
                   ),
                 ),

@@ -657,6 +657,8 @@
       }
     }
   },
+  "popularity": "Popularity",
+  "@popularity": {},
   "reWatch": "Re-watch",
   "@reWatch": {},
   "read": "Read {item}",
@@ -697,6 +699,8 @@
   "@related": {},
   "releaseDate": "Release date",
   "@releaseDate": {},
+  "contentRating": "Content rating",
+  "@contentRating": {},
   "removeAsFavorite": "Remove as favorite",
   "@removeAsFavorite": {},
   "removeFromCollection": "Remove from collection",
@@ -728,6 +732,38 @@
   "@retry": {},
   "runTime": "Run time",
   "@runTime": {},
+  "runtimeMinutesTitle": "Runtime (minutes)",
+  "@runtimeMinutesTitle": {},
+  "runtimeRangeMinutes": "{min} - {max} minutes",
+  "@runtimeRangeMinutes": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "minutesShort": "{count} min",
+  "@minutesShort": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "streamingServices": "Providers ({count})",
+  "@streamingServices": {
+    "description": "Streaming providers (Netflix,HBO, etc.)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
   "save": "Save",
   "@save": {},
   "saved": "Saved",
@@ -1971,6 +2007,8 @@
   "@trending": {},
   "popularMovies": "Popular movies",
   "@popularMovies": {},
+  "popularSeries": "Popular series",
+  "@popularSeries": {},
   "expectedMovies": "Expected movies",
   "@expectedMovies": {},
   "expectedSeries": "Expected series",
@@ -2115,5 +2153,7 @@
   "@emailUsername": {},
   "discover": "Discover",
   "sponsor": "Sponsor",
-  "sponsorMessage": "If you enjoy using Fladder, consider sponsoring the project to support ongoing development and improvements. Thank you for your support!"
+  "sponsorMessage": "If you enjoy using Fladder, consider sponsoring the project to support ongoing development and improvements. Thank you for your support!",
+  "min": "min",
+  "max": "max"
 }

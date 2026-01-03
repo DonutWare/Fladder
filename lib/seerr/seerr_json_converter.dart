@@ -35,10 +35,15 @@ class SeerrJsonConverter extends JsonConverter {
         SeerrMedia: SeerrMedia.fromJson,
         SeerrMediaResponse: SeerrMediaResponse.fromJson,
         SeerrDiscoverResponse: SeerrDiscoverResponse.fromJson,
-        SeerrSearchResponse: SeerrSearchResponse.fromJson,
         SeerrUsersResponse: SeerrUsersResponse.fromJson,
         SeerrAuthLocalBody: SeerrAuthLocalBody.fromJson,
         SeerrAuthJellyfinBody: SeerrAuthJellyfinBody.fromJson,
+        SeerrGenreResponse: SeerrGenreResponse.fromJson,
+        SeerrWatchProvider: SeerrWatchProvider.fromJson,
+        SeerrWatchProviderRegion: SeerrWatchProviderRegion.fromJson,
+        SeerrCertificationsResponse: SeerrCertificationsResponse.fromJson,
+        SeerrSearchCompanyResponse: SeerrSearchCompanyResponse.fromJson,
+        SeerrCompany: SeerrCompany.fromJson,
       };
 
   @override

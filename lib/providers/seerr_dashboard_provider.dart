@@ -26,6 +26,7 @@ class SeerrDashboard extends _$SeerrDashboard {
       fetchRecentRequests(),
       fetchTrending(),
       fetchPopularMovies(),
+      fetchPopularSeries(),
       fetchExpectedMovies(),
       fetchExpectedSeries(),
     ]);
@@ -87,6 +88,9 @@ class SeerrDashboard extends _$SeerrDashboard {
 
   Future<void> fetchPopularMovies() async =>
       _safeSet(() => api.discoverPopularMovies(), (items) => state.copyWith(popularMovies: items));
+
+  Future<void> fetchPopularSeries() async =>
+      _safeSet(() => api.discoverPopularSeries(), (items) => state.copyWith(popularSeries: items));
 
   Future<void> fetchExpectedMovies() async =>
       _safeSet(() => api.discoverExpectedMovies(), (items) => state.copyWith(expectedMovies: items));

@@ -311,12 +311,50 @@ final class _$SeerrChopperService extends SeerrChopperService {
     int? page,
     String? language,
     String? sortBy,
+    String? genre,
+    int? studio,
+    String? keywords,
+    String? excludeKeywords,
+    String? primaryReleaseDateGte,
+    String? primaryReleaseDateLte,
+    int? withRuntimeGte,
+    int? withRuntimeLte,
+    double? voteAverageGte,
+    double? voteAverageLte,
+    int? voteCountGte,
+    int? voteCountLte,
+    String? watchRegion,
+    String? watchProviders,
+    String? certification,
+    String? certificationGte,
+    String? certificationLte,
+    String? certificationCountry,
+    String? certificationMode,
   }) {
     final Uri $url = Uri.parse('/api/v1/discover/movies');
     final Map<String, dynamic> $params = <String, dynamic>{
       'page': page,
       'language': language,
       'sortBy': sortBy,
+      'genre': genre,
+      'studio': studio,
+      'keywords': keywords,
+      'excludeKeywords': excludeKeywords,
+      'primaryReleaseDateGte': primaryReleaseDateGte,
+      'primaryReleaseDateLte': primaryReleaseDateLte,
+      'withRuntimeGte': withRuntimeGte,
+      'withRuntimeLte': withRuntimeLte,
+      'voteAverageGte': voteAverageGte,
+      'voteAverageLte': voteAverageLte,
+      'voteCountGte': voteCountGte,
+      'voteCountLte': voteCountLte,
+      'watchRegion': watchRegion,
+      'watchProviders': watchProviders,
+      'certification': certification,
+      'certificationGte': certificationGte,
+      'certificationLte': certificationLte,
+      'certificationCountry': certificationCountry,
+      'certificationMode': certificationMode,
     };
     final Request $request = Request(
       'GET',
@@ -336,6 +374,49 @@ final class _$SeerrChopperService extends SeerrChopperService {
     final Map<String, dynamic> $params = <String, dynamic>{
       'page': page,
       'language': language,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<SeerrDiscoverResponse, SeerrDiscoverResponse>($request);
+  }
+
+  @override
+  Future<Response<SeerrDiscoverResponse>> getDiscoverTv({
+    int? page,
+    String? language,
+    String? sortBy,
+    String? genre,
+    String? keywords,
+    String? excludeKeywords,
+    String? firstAirDateGte,
+    String? firstAirDateLte,
+    double? voteAverageGte,
+    double? voteAverageLte,
+    int? voteCountGte,
+    int? voteCountLte,
+    String? watchRegion,
+    String? watchProviders,
+  }) {
+    final Uri $url = Uri.parse('/api/v1/discover/tv');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'page': page,
+      'language': language,
+      'sortBy': sortBy,
+      'genre': genre,
+      'keywords': keywords,
+      'excludeKeywords': excludeKeywords,
+      'firstAirDateGte': firstAirDateGte,
+      'firstAirDateLte': firstAirDateLte,
+      'voteAverageGte': voteAverageGte,
+      'voteAverageLte': voteAverageLte,
+      'voteCountGte': voteCountGte,
+      'voteCountLte': voteCountLte,
+      'watchRegion': watchRegion,
+      'watchProviders': watchProviders,
     };
     final Request $request = Request(
       'GET',
@@ -438,7 +519,7 @@ final class _$SeerrChopperService extends SeerrChopperService {
   }
 
   @override
-  Future<Response<SeerrSearchResponse>> search({
+  Future<Response<SeerrDiscoverResponse>> search({
     required String query,
     int? page,
     String? language,
@@ -455,6 +536,116 @@ final class _$SeerrChopperService extends SeerrChopperService {
       client.baseUrl,
       parameters: $params,
     );
-    return client.send<SeerrSearchResponse, SeerrSearchResponse>($request);
+    return client.send<SeerrDiscoverResponse, SeerrDiscoverResponse>($request);
+  }
+
+  @override
+  Future<Response<SeerrSearchCompanyResponse>> searchCompany({
+    required String query,
+    int? page,
+  }) {
+    final Uri $url = Uri.parse('/api/v1/search/company');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'query': query,
+      'page': page,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client
+        .send<SeerrSearchCompanyResponse, SeerrSearchCompanyResponse>($request);
+  }
+
+  @override
+  Future<Response<List<SeerrGenre>>> getMovieGenres() {
+    final Uri $url = Uri.parse('/api/v1/genres/movie');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<List<SeerrGenre>, SeerrGenre>($request);
+  }
+
+  @override
+  Future<Response<List<SeerrGenre>>> getTvGenres() {
+    final Uri $url = Uri.parse('/api/v1/genres/tv');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<List<SeerrGenre>, SeerrGenre>($request);
+  }
+
+  @override
+  Future<Response<List<SeerrWatchProvider>>> getMovieWatchProviders(
+      {String? watchRegion}) {
+    final Uri $url = Uri.parse('/api/v1/watchproviders/movies');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'watchRegion': watchRegion
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<List<SeerrWatchProvider>, SeerrWatchProvider>($request);
+  }
+
+  @override
+  Future<Response<List<SeerrWatchProvider>>> getTvWatchProviders(
+      {String? watchRegion}) {
+    final Uri $url = Uri.parse('/api/v1/watchproviders/tv');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'watchRegion': watchRegion
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<List<SeerrWatchProvider>, SeerrWatchProvider>($request);
+  }
+
+  @override
+  Future<Response<List<SeerrWatchProviderRegion>>> getWatchProviderRegions() {
+    final Uri $url = Uri.parse('/api/v1/watchproviders/regions');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<List<SeerrWatchProviderRegion>,
+        SeerrWatchProviderRegion>($request);
+  }
+
+  @override
+  Future<Response<SeerrCertificationsResponse>> getMovieCertifications() {
+    final Uri $url = Uri.parse('/api/v1/certifications/movie');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<SeerrCertificationsResponse,
+        SeerrCertificationsResponse>($request);
+  }
+
+  @override
+  Future<Response<SeerrCertificationsResponse>> getTvCertifications() {
+    final Uri $url = Uri.parse('/api/v1/certifications/tv');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<SeerrCertificationsResponse,
+        SeerrCertificationsResponse>($request);
   }
 }

@@ -120,7 +120,7 @@ class SeerrSeasonsSection extends ConsumerWidget {
                         ],
                       ),
                     ),
-                    if (season.posterPath != null)
+                    if (season.posterUrl != null)
                       ClipRRect(
                         borderRadius: FladderTheme.smallShape.borderRadius,
                         child: SizedBox(
@@ -128,9 +128,9 @@ class SeerrSeasonsSection extends ConsumerWidget {
                           child: AspectRatio(
                             aspectRatio: 0.67,
                             child: FladderImage(
-                              image: season.posterPath == null
+                              image: season.posterUrl == null
                                   ? null
-                                  : ImageData(path: season.posterPath!, key: 'id${season.id}_season$seasonNumber'),
+                                  : ImageData(path: season.posterUrl!, key: 'id${season.id}_season$seasonNumber'),
                               fit: BoxFit.cover,
                             ),
                           ),

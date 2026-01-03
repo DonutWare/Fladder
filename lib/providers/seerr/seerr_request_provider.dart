@@ -3,10 +3,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
-import 'package:fladder/models/seerr/seerr_item_models.dart';
 import 'package:fladder/providers/seerr_api_provider.dart';
 import 'package:fladder/providers/seerr_user_provider.dart';
-import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/seerr/seerr_models.dart';
 
 part 'seerr_request_provider.freezed.dart';
@@ -64,7 +62,7 @@ class SeerrRequest extends _$SeerrRequest {
         }
 
         updatedPoster = poster.copyWith(
-          seasons: _resolveSeasonPosters(details.seasons),
+          seasons: details.seasons,
           seasonStatuses: seasonStatusMap.isEmpty ? poster.seasonStatuses : seasonStatusMap,
           mediaInfo: details.mediaInfo,
         );
@@ -246,28 +244,6 @@ class SeerrRequest extends _$SeerrRequest {
     if (poster == null || requestId == null) return;
 
     await api.deleteRequest(requestId: requestId);
-  }
-
-  List<SeerrSeason>? _resolveSeasonPosters(List<SeerrSeason>? seasons) {
-    if (seasons == null) return null;
-    final serverUrl = ref.read(userProvider)?.seerrCredentials?.serverUrl;
-    return seasons
-        .map(
-          (season) => SeerrSeason(
-            id: season.id,
-            name: season.name,
-            overview: season.overview,
-            seasonNumber: season.seasonNumber,
-            posterPath: resolveImageUrl(
-              path: season.posterPath,
-              serverUrl: serverUrl,
-              tmdbBase: 'https://image.tmdb.org/t/p/w500',
-            ),
-            episodeCount: season.episodeCount,
-            mediaId: season.mediaId,
-          ),
-        )
-        .toList(growable: false);
   }
 
   void _initializeSeasonSelection(SeerrDashboardPosterModel poster) {

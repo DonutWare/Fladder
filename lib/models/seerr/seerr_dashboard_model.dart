@@ -197,6 +197,7 @@ class SeerrDashboardModel {
   final List<SeerrDashboardPosterModel> recentRequests;
   final List<SeerrDashboardPosterModel> trending;
   final List<SeerrDashboardPosterModel> popularMovies;
+  final List<SeerrDashboardPosterModel> popularSeries;
   final List<SeerrDashboardPosterModel> expectedMovies;
   final List<SeerrDashboardPosterModel> expectedSeries;
 
@@ -205,6 +206,7 @@ class SeerrDashboardModel {
     this.recentRequests = const [],
     this.trending = const [],
     this.popularMovies = const [],
+    this.popularSeries = const [],
     this.expectedMovies = const [],
     this.expectedSeries = const [],
   });
@@ -214,6 +216,7 @@ class SeerrDashboardModel {
     List<SeerrDashboardPosterModel>? recentRequests,
     List<SeerrDashboardPosterModel>? trending,
     List<SeerrDashboardPosterModel>? popularMovies,
+    List<SeerrDashboardPosterModel>? popularSeries,
     List<SeerrDashboardPosterModel>? expectedMovies,
     List<SeerrDashboardPosterModel>? expectedSeries,
   }) {
@@ -222,6 +225,7 @@ class SeerrDashboardModel {
       recentRequests: recentRequests ?? this.recentRequests,
       trending: trending ?? this.trending,
       popularMovies: popularMovies ?? this.popularMovies,
+      popularSeries: popularSeries ?? this.popularSeries,
       expectedMovies: expectedMovies ?? this.expectedMovies,
       expectedSeries: expectedSeries ?? this.expectedSeries,
     );
