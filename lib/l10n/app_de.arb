@@ -2104,5 +2104,65 @@
         }
     },
     "emailUsername": "E-Mail/Benutzername",
-    "@emailUsername": {}
+    "@emailUsername": {},
+    "expectedMovies": "Erwartete Filme",
+    "@expectedMovies": {},
+    "requestConfiguration": "Konfiguration anfordern",
+    "@requestConfiguration": {},
+    "qualityProfile": "Qualitätsprofil",
+    "@qualityProfile": {},
+    "selectProfile": "Profil auswählen",
+    "@selectProfile": {},
+    "rootFolder": "Wurzelverzeichnis",
+    "@rootFolder": {},
+    "requestQuotaLimitReached": "Anforderungslimit erreicht für {mediaType}.",
+    "@requestQuotaLimitReached": {
+        "placeholders": {
+            "mediaType": {
+                "type": "String"
+            }
+        }
+    },
+    "noOverviewAvailable": "Keine Übersicht verfügbar.",
+    "@noOverviewAvailable": {},
+    "downloading": "herunterladen",
+    "@downloading": {},
+    "request": "Anfrage",
+    "@request": {},
+    "username": "Benutzername",
+    "@username": {},
+    "seerr": "Seer",
+    "@seerr": {},
+    "seerrLoadingUser": "Benutzer laden",
+    "@seerrLoadingUser": {},
+    "seerrUnknownUser": "Unbekannter Benutzer",
+    "@seerrUnknownUser": {},
+    "seerrSetServerFirst": "Seerr Server zuerst einstellen",
+    "@seerrSetServerFirst": {},
+    "seerrLocalLoginTitle": "Seerr Lokale Anmeldung",
+    "@seerrLocalLoginTitle": {},
+    "seerrJellyfinLoginTitle": "Seerr Jellyfin Login",
+    "@seerrJellyfinLoginTitle": {},
+    "seerrServer": "Seerr Server",
+    "@seerrServer": {},
+    "seerrConfigured": "Konfiguriert",
+    "@seerrConfigured": {},
+    "rootFolderDefaultLabel": "{folder} (Standard)",
+    "@rootFolderDefaultLabel": {
+        "placeholders": {
+            "folder": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrAnimeSeriesNote": "* Diese Serie ist ein Anime.",
+    "@seerrAnimeSeriesNote": {},
+    "seerrAuthApiKey": "API Schlüssel",
+    "@seerrAuthApiKey": {},
+    "seerrAuthJellyfin": "Jellyfin",
+    "@seerrAuthJellyfin": {},
+    "seerrApiKeySaved": "API Schlüssel gespeichert",
+    "@seerrApiKeySaved": {},
+    "discover": "Entdecken",
+    "@discover": {}
 }
