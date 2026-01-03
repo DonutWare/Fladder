@@ -474,6 +474,23 @@ abstract class SeerrRootFolder with _$SeerrRootFolder {
   factory SeerrRootFolder.fromJson(Map<String, dynamic> json) => _$SeerrRootFolderFromJson(json);
 }
 
+@JsonSerializable()
+class SeerrContentRating {
+  @JsonKey(name: 'iso_3166_1')
+  final String? countryCode;
+  final String? rating;
+  final List<dynamic>? descriptors;
+
+  SeerrContentRating({
+    this.countryCode,
+    this.rating,
+    this.descriptors,
+  });
+
+  factory SeerrContentRating.fromJson(Map<String, dynamic> json) => _$SeerrContentRatingFromJson(json);
+  Map<String, dynamic> toJson() => _$SeerrContentRatingToJson(this);
+}
+
 @JsonSerializable(fieldRename: FieldRename.none, includeIfNull: true)
 class SeerrMovieDetails {
   final int? id;
@@ -493,6 +510,8 @@ class SeerrMovieDetails {
   final SeerrExternalIds? externalIds;
   @JsonKey(readValue: _readJellyfinMediaId)
   final String? mediaId;
+  @JsonKey(readValue: _readContentRatings)
+  final List<SeerrContentRating>? contentRatings;
 
   SeerrMovieDetails({
     this.id,
@@ -509,6 +528,7 @@ class SeerrMovieDetails {
     this.mediaInfo,
     this.externalIds,
     this.mediaId,
+    this.contentRatings,
   });
 
   factory SeerrMovieDetails.fromJson(Map<String, dynamic> json) => _$SeerrMovieDetailsFromJson(json);
@@ -538,6 +558,8 @@ class SeerrTvDetails {
   final List<SeerrKeyword>? keywords;
   @JsonKey(readValue: _readJellyfinMediaId)
   final String? mediaId;
+  @JsonKey(readValue: _readContentRatings)
+  final List<SeerrContentRating>? contentRatings;
 
   SeerrTvDetails({
     this.id,
@@ -558,6 +580,7 @@ class SeerrTvDetails {
     this.externalIds,
     this.keywords,
     this.mediaId,
+    this.contentRatings,
   });
 
   factory SeerrTvDetails.fromJson(Map<String, dynamic> json) => _$SeerrTvDetailsFromJson(json);
@@ -627,6 +650,17 @@ class SeerrSeason {
 
 Object? _readJellyfinMediaId(Map json, String key) {
   return json['jellyfinMediaId'] ?? json['jellyfinMediaId4k'];
+}
+
+Object? _readContentRatings(Map json, String key) {
+  final value = json['contentRatings'];
+  if (value == null) return null;
+  if (value is List) return value;
+  if (value is Map) {
+    final results = value['results'];
+    return results is List ? results : null;
+  }
+  return null;
 }
 
 @JsonSerializable()

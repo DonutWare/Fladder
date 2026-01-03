@@ -85,6 +85,20 @@ Map<String, dynamic> _$SeerrUsersResponseToJson(SeerrUsersResponse instance) =>
       'pageInfo': instance.pageInfo,
     };
 
+SeerrContentRating _$SeerrContentRatingFromJson(Map<String, dynamic> json) =>
+    SeerrContentRating(
+      countryCode: json['iso_3166_1'] as String?,
+      rating: json['rating'] as String?,
+      descriptors: json['descriptors'] as List<dynamic>?,
+    );
+
+Map<String, dynamic> _$SeerrContentRatingToJson(SeerrContentRating instance) =>
+    <String, dynamic>{
+      'iso_3166_1': instance.countryCode,
+      'rating': instance.rating,
+      'descriptors': instance.descriptors,
+    };
+
 SeerrMovieDetails _$SeerrMovieDetailsFromJson(Map<String, dynamic> json) =>
     SeerrMovieDetails(
       id: (json['id'] as num?)?.toInt(),
@@ -108,6 +122,10 @@ SeerrMovieDetails _$SeerrMovieDetailsFromJson(Map<String, dynamic> json) =>
           : SeerrExternalIds.fromJson(
               json['externalIds'] as Map<String, dynamic>),
       mediaId: _readJellyfinMediaId(json, 'mediaId') as String?,
+      contentRatings: (_readContentRatings(json, 'contentRatings')
+              as List<dynamic>?)
+          ?.map((e) => SeerrContentRating.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$SeerrMovieDetailsToJson(SeerrMovieDetails instance) =>
@@ -126,6 +144,7 @@ Map<String, dynamic> _$SeerrMovieDetailsToJson(SeerrMovieDetails instance) =>
       'mediaInfo': instance.mediaInfo,
       'externalIds': instance.externalIds,
       'mediaId': instance.mediaId,
+      'contentRatings': instance.contentRatings,
     };
 
 SeerrTvDetails _$SeerrTvDetailsFromJson(Map<String, dynamic> json) =>
@@ -159,6 +178,10 @@ SeerrTvDetails _$SeerrTvDetailsFromJson(Map<String, dynamic> json) =>
           ?.map((e) => SeerrKeyword.fromJson(e as Map<String, dynamic>))
           .toList(),
       mediaId: _readJellyfinMediaId(json, 'mediaId') as String?,
+      contentRatings: (_readContentRatings(json, 'contentRatings')
+              as List<dynamic>?)
+          ?.map((e) => SeerrContentRating.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$SeerrTvDetailsToJson(SeerrTvDetails instance) =>
@@ -181,6 +204,7 @@ Map<String, dynamic> _$SeerrTvDetailsToJson(SeerrTvDetails instance) =>
       'externalIds': instance.externalIds,
       'keywords': instance.keywords,
       'mediaId': instance.mediaId,
+      'contentRatings': instance.contentRatings,
     };
 
 SeerrGenre _$SeerrGenreFromJson(Map<String, dynamic> json) => SeerrGenre(

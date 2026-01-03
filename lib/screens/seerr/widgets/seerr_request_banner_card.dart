@@ -75,7 +75,7 @@ class SeerrRequestBannerCard extends ConsumerWidget {
     final requestedByUser = poster.requestedBy as SeerrUserModel?;
     final seasonsList = poster.requestedSeasons ?? [];
 
-    final overlayColor = Theme.of(context).colorScheme.tertiaryContainer;
+    final overlayColor = Theme.of(context).colorScheme.surfaceDim;
 
     return AspectRatio(
       aspectRatio: 1.2,
@@ -115,7 +115,7 @@ class SeerrRequestBannerCard extends ConsumerWidget {
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
                     colors: [
-                      overlayColor.withAlpha(150),
+                      overlayColor.withAlpha(220),
                       overlayColor.withAlpha(100),
                       overlayColor.withAlpha(50),
                     ],
@@ -138,7 +138,7 @@ class SeerrRequestBannerCard extends ConsumerWidget {
                             Text(
                               poster.releaseYear ?? '',
                               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: Colors.white70,
+                                    color: Theme.of(context).colorScheme.onSurface,
                                   ),
                             ),
                           Text(
@@ -147,10 +147,16 @@ class SeerrRequestBannerCard extends ConsumerWidget {
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context).textTheme.titleMedium?.copyWith(
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.white,
+                                  color: Theme.of(context).colorScheme.onSurface,
                                 ),
                           ),
-                          if (requestedByUser != null) SeerrUserLabel(user: requestedByUser),
+                          if (requestedByUser != null)
+                            DefaultTextStyle(
+                              child: SeerrUserLabel(user: requestedByUser),
+                              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    color: Theme.of(context).colorScheme.onSurface,
+                                  ),
+                            ),
                           if (poster.type == SeerrDashboardMediaType.tv && seasonsList.isNotEmpty)
                             Padding(
                               padding: const EdgeInsets.only(top: 4),
@@ -159,7 +165,7 @@ class SeerrRequestBannerCard extends ConsumerWidget {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                      color: Colors.white70,
+                                      color: Theme.of(context).colorScheme.onSurface,
                                     ),
                               ),
                             ),
@@ -173,7 +179,7 @@ class SeerrRequestBannerCard extends ConsumerWidget {
                               child: Text(
                                 poster.status.label,
                                 style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                                      color: Colors.white,
+                                      color: Theme.of(context).colorScheme.onSurface,
                                       fontWeight: FontWeight.bold,
                                     ),
                               ),

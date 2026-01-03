@@ -66,14 +66,31 @@ class SeerrRequest extends _$SeerrRequest {
           seasonStatuses: seasonStatusMap.isEmpty ? poster.seasonStatuses : seasonStatusMap,
           mediaInfo: details.mediaInfo,
         );
-        state = state.copyWith(poster: updatedPoster, isAnime: isAnime);
+        final userRegion = currentUserBody?.settings?.region ?? 'US';
+        final contentRating = _extractContentRating(details.contentRatings, userRegion);
+        state = state.copyWith(
+          poster: updatedPoster,
+          isAnime: isAnime,
+          genres: details.genres ?? [],
+          voteAverage: details.voteAverage,
+          contentRating: contentRating,
+          releaseDate: details.firstAirDate,
+        );
       }
     } else if (!isTv) {
       final movieDetailsResponse = await api.movieDetails(tmdbId: poster.tmdbId);
       if (movieDetailsResponse.isSuccessful && movieDetailsResponse.body != null) {
         final details = movieDetailsResponse.body!;
         updatedPoster = poster.copyWith(mediaInfo: details.mediaInfo);
-        state = state.copyWith(poster: updatedPoster);
+        final userRegion = currentUserBody?.settings?.region ?? 'US';
+        final contentRating = _extractContentRating(details.contentRatings, userRegion);
+        state = state.copyWith(
+          poster: updatedPoster,
+          genres: details.genres ?? [],
+          voteAverage: details.voteAverage,
+          contentRating: contentRating,
+          releaseDate: details.releaseDate,
+        );
       }
     }
 
@@ -287,6 +304,10 @@ abstract class SeerrRequestModel with _$SeerrRequestModel {
     @Default([]) List<SeerrUserModel> availableUsers,
     @Default(false) bool use4k,
     @Default(false) bool isAnime,
+    @Default([]) List<SeerrGenre> genres,
+    double? voteAverage,
+    String? contentRating,
+    String? releaseDate,
   }) = _SeerrRequestModel;
 
   bool get isTv => poster?.type == SeerrDashboardMediaType.tv;
@@ -457,4 +478,31 @@ bool _isAnime(SeerrTvDetails details) {
           ?.any((g) => (g.name ?? '').toLowerCase() == 'animation' || (g.name ?? '').toLowerCase() == 'anime') ??
       false;
   return genreHit;
+}
+
+String? _extractContentRating(List<SeerrContentRating>? contentRatings, String userRegion) {
+  if (contentRatings == null || contentRatings.isEmpty) return null;
+
+  final userRegionUpper = userRegion.toUpperCase();
+  String? usFallback;
+  String? anyFallback;
+
+  for (final rating in contentRatings) {
+    final countryCode = (rating.countryCode ?? '').toUpperCase();
+    final ratingValue = rating.rating;
+
+    if (ratingValue == null || ratingValue.isEmpty) continue;
+
+    if (countryCode == userRegionUpper) {
+      return ratingValue;
+    }
+
+    if (usFallback == null && countryCode == 'US') {
+      usFallback = ratingValue;
+    }
+
+    anyFallback ??= ratingValue;
+  }
+
+  return usFallback ?? anyFallback;
 }
