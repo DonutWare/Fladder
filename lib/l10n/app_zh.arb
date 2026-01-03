@@ -745,7 +745,7 @@
     "@settingsPosterSize": {},
     "settingsPosterSlider": "显示比例滑块",
     "@settingsPosterSlider": {},
-    "settingsProfileDesc": "锁屏，本地网址",
+    "settingsProfileDesc": "锁屏，本地网址，Seerr",
     "@settingsProfileDesc": {},
     "settingsProfileTitle": "个人资料",
     "@settingsProfileTitle": {},
@@ -2002,5 +2002,159 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "deleteRequestConfirmation": "您确定要删除此请求吗？",
+    "@deleteRequestConfirmation": {},
+    "recentlyAdded": "最近添加",
+    "@recentlyAdded": {},
+    "recentRequests": "最近请求",
+    "@recentRequests": {},
+    "trending": "热门趋势",
+    "@trending": {},
+    "popularMovies": "热门电影",
+    "@popularMovies": {},
+    "expectedMovies": "预计上映的电影",
+    "@expectedMovies": {},
+    "expectedSeries": "预计上映的节目",
+    "@expectedSeries": {},
+    "requestConfiguration": "请求配置",
+    "@requestConfiguration": {},
+    "qualityProfile": "质量配置文件",
+    "@qualityProfile": {},
+    "selectProfile": "选择配置文件",
+    "@selectProfile": {},
+    "rootFolder": "根文件夹",
+    "@rootFolder": {},
+    "selectFolder": "选择文件夹",
+    "@selectFolder": {},
+    "tags": "标签",
+    "@tags": {},
+    "noTags": "无标签",
+    "@noTags": {},
+    "requestAs": "请求为",
+    "@requestAs": {},
+    "requestQuotaTitle": "请求配额",
+    "@requestQuotaTitle": {},
+    "requestQuotaStatus": "{remaining} of {limit} remaining (resets every {days} days)",
+    "@requestQuotaStatus": {
+        "placeholders": {
+            "remaining": {
+                "type": "int"
+            },
+            "limit": {
+                "type": "int"
+            },
+            "days": {
+                "type": "int"
+            }
+        }
+    },
+    "requestQuotaLimitReached": "{mediaType} 的请求次数已达到上限。",
+    "@requestQuotaLimitReached": {
+        "placeholders": {
+            "mediaType": {
+                "type": "String"
+            }
+        }
+    },
+    "submitRequest": "提交请求",
+    "@submitRequest": {},
+    "noOverviewAvailable": "暂无概述。",
+    "@noOverviewAvailable": {},
+    "downloading": "下载",
+    "@downloading": {},
+    "request": "请求",
+    "@request": {},
+    "viewRequest": "查看请求",
+    "@viewRequest": {},
+    "email": "电子邮件",
+    "@email": {},
+    "username": "用户名",
+    "@username": {},
+    "ok": "确定",
+    "@ok": {},
+    "seerr": "Seerr",
+    "@seerr": {},
+    "seerrNotConfigured": "未配置",
+    "@seerrNotConfigured": {},
+    "seerrLoadingUser": "正在加载用户",
+    "@seerrLoadingUser": {},
+    "seerrUnknownUser": "未知用户",
+    "@seerrUnknownUser": {},
+    "loggedInAs": "已登录，用户名为 {displayName}",
+    "@loggedInAs": {
+        "placeholders": {
+            "displayName": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrSetServerFirst": "请先设置 Seerr 服务器",
+    "@seerrSetServerFirst": {},
+    "seerrLocalLoginTitle": "Seerr 本地登录",
+    "@seerrLocalLoginTitle": {},
+    "seerrJellyfinLoginTitle": "Seerr Jellyfin 登录",
+    "@seerrJellyfinLoginTitle": {},
+    "seerrSessionSaved": "Seerr 会话已保存",
+    "@seerrSessionSaved": {},
+    "seerrStatusVersion": "Seerr: {version}",
+    "@seerrStatusVersion": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrServer": "Seerr 服务器",
+    "@seerrServer": {},
+    "seerrAuthenticateLocal": "Seerr 身份验证（本地）",
+    "@seerrAuthenticateLocal": {},
+    "seerrAuthenticateJellyfin": "Seerr 身份验证（Jellyfin）",
+    "@seerrAuthenticateJellyfin": {},
+    "seerrSessionConfigured": "会话配置",
+    "@seerrSessionConfigured": {},
+    "seerrConfigured": "配置",
+    "@seerrConfigured": {},
+    "seerrTestConnection": "测试 Seerr 连接",
+    "@seerrTestConnection": {},
+    "rootFolderDefaultLabel": "{folder} (默认)",
+    "@rootFolderDefaultLabel": {
+        "placeholders": {
+            "folder": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrAnimeSeriesNote": "* 这部系列作品是一部动画片。",
+    "@seerrAnimeSeriesNote": {},
+    "seerrAutoApproveNotice": "您提交的请求将自动获得批准。",
+    "@seerrAutoApproveNotice": {},
+    "seerrPermissionDenied": "您无权请求此媒体类型。",
+    "@seerrPermissionDenied": {},
+    "seerrAuthApiKey": "API 密钥",
+    "@seerrAuthApiKey": {},
+    "seerrAuthLocal": "本地",
+    "@seerrAuthLocal": {},
+    "seerrAuthJellyfin": "Jellyfin",
+    "@seerrAuthJellyfin": {},
+    "seerrUserFetchFailed": "从 Seerr 获取用户失败",
+    "@seerrUserFetchFailed": {},
+    "seerrEnterServerUrlFirst": "请先输入 Seerr 服务器地址",
+    "@seerrEnterServerUrlFirst": {},
+    "seerrApiKeySaved": "API 密钥已保存",
+    "@seerrApiKeySaved": {},
+    "seerrLoggedIn": "已登录 Seerr",
+    "@seerrLoggedIn": {},
+    "seerrConnectedToServer": "已连接到 Seerr 服务器: {serverUrl}",
+    "@seerrConnectedToServer": {
+        "placeholders": {
+            "serverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "emailUsername": "电子邮件/用户名",
+    "@emailUsername": {},
+    "discover": "发现",
+    "@discover": {}
 }
