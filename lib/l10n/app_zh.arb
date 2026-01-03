@@ -2035,7 +2035,7 @@
     "@requestAs": {},
     "requestQuotaTitle": "请求配额",
     "@requestQuotaTitle": {},
-    "requestQuotaStatus": "{remaining} of {limit} remaining (resets every {days} days)",
+    "requestQuotaStatus": "{remaining} of {limit} 剩余 (每 {days} 天重置一次)",
     "@requestQuotaStatus": {
         "placeholders": {
             "remaining": {
@@ -2156,5 +2156,33 @@
     "emailUsername": "电子邮件/用户名",
     "@emailUsername": {},
     "discover": "发现",
-    "@discover": {}
+    "@discover": {},
+    "settingsProfileSubtitleLanguage": "首选字幕语言",
+    "@settingsProfileSubtitleLanguage": {},
+    "settingsProfileSubtitleLanguageTitle": "设置首选字幕语言",
+    "@settingsProfileSubtitleLanguageTitle": {},
+    "settingsProfileSubtitleLanguageDesc": "输入语言代码 (例如., 'en', 'es', 'fr')",
+    "@settingsProfileSubtitleLanguageDesc": {},
+    "settingsProfileSubtitleMode": "字幕模式",
+    "@settingsProfileSubtitleMode": {},
+    "subtitlePlaybackModeDefault": "默认",
+    "@subtitlePlaybackModeDefault": {},
+    "subtitlePlaybackModeAlways": "始终播放",
+    "@subtitlePlaybackModeAlways": {},
+    "subtitlePlaybackModeOnlyForced": "仅限强制",
+    "@subtitlePlaybackModeOnlyForced": {},
+    "subtitlePlaybackModeNone": "无",
+    "@subtitlePlaybackModeNone": {},
+    "subtitlePlaybackModeSmart": "自动",
+    "@subtitlePlaybackModeSmart": {},
+    "syncplayAccessCreateAndJoinGroups": "创建和加入群组",
+    "@syncplayAccessCreateAndJoinGroups": {},
+    "syncplayAccessJoinGroups": "加入群组",
+    "@syncplayAccessJoinGroups": {},
+    "syncplayAccessNone": "无",
+    "@syncplayAccessNone": {},
+    "sponsor": "赞助",
+    "@sponsor": {},
+    "sponsorMessage": "如果您喜欢使用 Fladder，可以考虑赞助该项目，以支持持续的开发和改进。感谢您的支持！",
+    "@sponsorMessage": {}
 }
