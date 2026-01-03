@@ -8,13 +8,14 @@ import androidx.compose.ui.unit.Density
 @Composable
 fun ScaledContent(
     scale: Float,
+    fontScale: Float,
     content: @Composable () -> Unit
 ) {
     val density = LocalDensity.current
     CompositionLocalProvider(
         LocalDensity provides Density(
             density = density.density * scale,
-            fontScale = density.fontScale * 1.2f,
+            fontScale = density.fontScale * fontScale,
         )
     ) {
         content()
