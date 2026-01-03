@@ -2089,5 +2089,7 @@
   },
   "emailUsername": "Email/Username",
   "@emailUsername": {},
-  "discover": "Discover"
+  "discover": "Discover",
+  "sponsor": "Sponsor",
+  "sponsorMessage": "If you enjoy using Fladder, consider sponsoring the project to support ongoing development and improvements. Thank you for your support!"
 }
