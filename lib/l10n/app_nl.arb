@@ -2148,5 +2148,73 @@
     "discover": "Ontdekken",
     "@discover": {},
     "deleteRequestConfirmation": "Weet je zeker dat je dit vezoek wilt verwijderen?",
-    "@deleteRequestConfirmation": {}
+    "@deleteRequestConfirmation": {},
+    "popularity": "Populariteit",
+    "@popularity": {},
+    "contentRating": "Inhoudsclassificatie",
+    "@contentRating": {},
+    "runtimeMinutesTitle": "Duur (minuten)",
+    "@runtimeMinutesTitle": {},
+    "runtimeRangeMinutes": "{min} - {max} minuten",
+    "@runtimeRangeMinutes": {
+        "placeholders": {
+            "min": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            }
+        }
+    },
+    "minutesShort": "{count} min",
+    "@minutesShort": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "streamingServices": "Streaming ({count})",
+    "@streamingServices": {
+        "description": "Streaming providers (Netflix,HBO, etc.)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "settingsProfileSubtitleLanguage": "Voorkeursondertiteltaal",
+    "@settingsProfileSubtitleLanguage": {},
+    "settingsProfileSubtitleLanguageTitle": "Stel voorkeursondertiteltaal in",
+    "@settingsProfileSubtitleLanguageTitle": {},
+    "settingsProfileSubtitleMode": "Ondertitelmodus",
+    "@settingsProfileSubtitleMode": {},
+    "subtitlePlaybackModeDefault": "Standaard",
+    "@subtitlePlaybackModeDefault": {},
+    "subtitlePlaybackModeAlways": "Altijd afspelen",
+    "@subtitlePlaybackModeAlways": {},
+    "subtitlePlaybackModeOnlyForced": "Alleen gedwongen",
+    "@subtitlePlaybackModeOnlyForced": {},
+    "subtitlePlaybackModeNone": "Geen",
+    "@subtitlePlaybackModeNone": {},
+    "subtitlePlaybackModeSmart": "Slim",
+    "@subtitlePlaybackModeSmart": {},
+    "syncplayAccessCreateAndJoinGroups": "Groepen aanmaken en lid worden",
+    "@syncplayAccessCreateAndJoinGroups": {},
+    "syncplayAccessJoinGroups": "Lid worden",
+    "@syncplayAccessJoinGroups": {},
+    "syncplayAccessNone": "Geen",
+    "@syncplayAccessNone": {},
+    "popularSeries": "Populaire series",
+    "@popularSeries": {},
+    "sponsor": "Sponsors",
+    "@sponsor": {},
+    "sponsorMessage": "Als je Fladder graag gebruikt, overweeg dan om het project te sponsoren ter ondersteuning van voortdurende ontwikkeling en verbeteringen. Bedankt voor je steun!",
+    "@sponsorMessage": {},
+    "min": "min",
+    "@min": {},
+    "max": "max",
+    "@max": {}
 }
