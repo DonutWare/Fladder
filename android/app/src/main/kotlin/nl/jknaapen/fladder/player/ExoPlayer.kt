@@ -2,6 +2,8 @@ package nl.jknaapen.fladder.player
 
 import PlaybackState
 import android.app.ActivityManager
+import android.os.Handler
+import android.os.Looper
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.activity.compose.LocalActivity
@@ -22,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.getSystemService
+import androidx.core.os.postDelayed
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.Player
@@ -181,8 +184,15 @@ internal fun ExoPlayer(
                 if (subTracks.isEmpty() && audioTracks.isEmpty()) return
 
                 if (subTracks != VideoPlayerObject.exoSubTracks.value || audioTracks != VideoPlayerObject.exoAudioTracks.value) {
-                    VideoPlayerObject.implementation.playbackData.value?.let {
-                        exoPlayer.properlySetSubAndAudioTracks(it)
+                    val playbackData = VideoPlayerObject.implementation.playbackData.value
+                    if (playbackData != null) {
+                        exoPlayer.properlySetSubAndAudioTracks(playbackData)
+                    } else {
+                        Handler(Looper.getMainLooper()).postDelayed(delayInMillis = 1.seconds.inWholeMilliseconds) {
+                            VideoPlayerObject.implementation.playbackData.value?.let {
+                                exoPlayer.properlySetSubAndAudioTracks(it)
+                            }
+                        }
                     }
                     VideoPlayerObject.exoSubTracks.value = subTracks
                     VideoPlayerObject.exoAudioTracks.value = audioTracks
