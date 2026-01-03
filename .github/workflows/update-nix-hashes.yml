@@ -25,6 +25,7 @@ jobs:
         run: |
           FLAKE_FILE="flake.nix"
           LOCK_FILE="pubspec.lock"
+          CHANGES_MADE=false
 
           # 1. Update media_kit hash
           echo "Checking media_kit..."
@@ -32,6 +33,7 @@ jobs:
 
           if [ -n "$MEDIA_KIT_REF" ]; then
             echo "Found media_kit ref: $MEDIA_KIT_REF"
+            CURRENT_HASH=$(grep 'media_kit-hash = ' "$FLAKE_FILE" | head -n 1 | awk -F'"' '{print $2}')
             
             # Calculate the Nix hash using nix-prefetch-git
             HASH_JSON=$(nix-shell -p nix-prefetch-git --run "nix-prefetch-git https://github.com/DonutWare/media-kit.git --rev $MEDIA_KIT_REF")
@@ -39,28 +41,27 @@ jobs:
             
             if [ -n "$MEDIA_KIT_HASH" ]; then
               echo "Calculated media_kit hash: $MEDIA_KIT_HASH"
-              sed -i "s/media_kit-hash = \".*\";/media_kit-hash = \"$MEDIA_KIT_HASH\";/" "$FLAKE_FILE"
+              if [ "$CURRENT_HASH" != "$MEDIA_KIT_HASH" ]; then
+                echo "media_kit hash changed from $CURRENT_HASH to $MEDIA_KIT_HASH"
+                sed -i "s/media_kit-hash = \".*\";/media_kit-hash = \"$MEDIA_KIT_HASH\";/" "$FLAKE_FILE"
+                CHANGES_MADE=true
+              else
+                echo "media_kit hash unchanged"
+              fi
             fi
           fi
 
-          # 2. Update fvp version and hash
-          echo "Checking fvp..."
-          FVP_VERSION=$(grep -A 10 "fvp:" "$LOCK_FILE" | grep "version:" | head -n 1 | awk '{print $2}' | tr -d '"')
-
-          if [ -n "$FVP_VERSION" ]; then
-            echo "Found fvp version: $FVP_VERSION"
-            FVP_URL="https://github.com/wang-bin/mdk-sdk/releases/download/v${FVP_VERSION}/mdk-sdk-linux-x64.tar.xz"
-            FVP_HASH_RAW=$(nix-prefetch-url "$FVP_URL")
-            FVP_HASH=$(nix hash to-sri --type sha256 "$FVP_HASH_RAW")
-            
-            if [ -n "$FVP_HASH" ]; then
-              echo "Calculated fvp hash: $FVP_HASH"
-              sed -i "s/fvpVersion = \".*\";/fvpVersion = \"$FVP_VERSION\";/" "$FLAKE_FILE"
-              sed -i "s/fvpHash = \".*\";/fvpHash = \"$FVP_HASH\";/" "$FLAKE_FILE"
-            fi
+          # Exit with status to indicate if changes were made
+          if [ "$CHANGES_MADE" = true ]; then
+            echo "Changes detected"
+            exit 0
+          else
+            echo "No changes detected"
+            exit 1
           fi
 
       - name: Create Pull Request
+        if: success()
         uses: peter-evans/create-pull-request@v8.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -75,4 +76,3 @@ jobs:
             Automated update of Nix hashes in `flake.nix` based on changes in `pubspec.lock`.
             
             - Updated `media_kit` hash
-            - Updated `fvp` version and hash
