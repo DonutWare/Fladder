@@ -100,11 +100,16 @@ class _AdaptiveRangeInputState extends State<AdaptiveRangeInput> {
   Widget _buildField(TextEditingController controller, bool isStart) {
     return OutlinedTextField(
       controller: controller,
-      keyboardType: TextInputType.numberWithOptions(decimal: !widget.wholeNumbers, signed: false),
-      inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))],
+      keyboardType: widget.wholeNumbers
+          ? const TextInputType.numberWithOptions(decimal: false, signed: false)
+          : const TextInputType.numberWithOptions(decimal: true, signed: false),
+      inputFormatters: [
+        FilteringTextInputFormatter.allow(
+          widget.wholeNumbers ? RegExp(r'[0-9]') : RegExp(r'[0-9.,]'),
+        ),
+      ],
       label: isStart ? context.localized.min.capitalize() : context.localized.max.capitalize(),
       onSubmitted: (_) => _commitValues(),
-      onChanged: (_) => _commitValues(),
     );
   }
 

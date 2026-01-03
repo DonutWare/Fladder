@@ -12,6 +12,7 @@ import 'package:fladder/util/debouncer.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/widgets/shared/adaptive_range_input.dart';
+import 'package:fladder/widgets/shared/ensure_visible.dart';
 
 String yearLabel(BuildContext context, SeerrFilterModel filters) {
   final minYear = filters.yearGte;
@@ -250,16 +251,23 @@ Future<void> openWatchRegionDialog(
               (region) {
                 final code = (region.iso31661 ?? 'US').toUpperCase();
                 final isSelected = code == currentRegion;
-                return CheckboxListTile(
-                  title: Text('${region.englishName ?? region.nativeName ?? region.iso31661 ?? ''} ($code)'),
-                  value: isSelected,
-                  selected: isSelected,
-                  onChanged: (value) {
-                    notifier.setWatchRegion(code);
-                    Navigator.pop(dialogContext);
-                    context.refreshData();
-                  },
-                );
+                return Builder(builder: (context) {
+                  return CheckboxListTile(
+                    title: Text('${region.englishName ?? region.nativeName ?? region.iso31661 ?? ''} ($code)'),
+                    value: isSelected,
+                    selected: isSelected,
+                    onFocusChange: (value) {
+                      if (value) {
+                        context.ensureVisible();
+                      }
+                    },
+                    onChanged: (value) {
+                      notifier.setWatchRegion(code);
+                      Navigator.pop(dialogContext);
+                      context.refreshData();
+                    },
+                  );
+                });
               },
             ).toList(),
           ),
@@ -317,8 +325,8 @@ Future<void> _showRangeDialog({
       currentEnd = null;
     } else if (newEnd != null) {
       newEnd = newEnd.clamp(min, max).toDouble();
-      if (currentStart != null && currentStart! > newEnd) {
-        currentStart = newEnd;
+      if (newStart != null && newStart > newEnd) {
+        newEnd = newStart;
       }
       currentEnd = newEnd;
     }
