@@ -635,7 +635,7 @@
     "@settingsPlayerVideoHWAccelTitle": {},
     "settingsPlayerVideoHWAccelDesc": "GPU zum Rendern von Videos verwenden (empfohlen)",
     "@settingsPlayerVideoHWAccelDesc": {},
-    "settingsProfileDesc": "Sperrbildschirm, Lokale URL",
+    "settingsProfileDesc": "Sperrbildschirm, Lokale URL, Seerr",
     "@settingsProfileDesc": {},
     "settingsProfileTitle": "Profil",
     "@settingsProfileTitle": {},
@@ -2010,5 +2010,99 @@
                 "example": "1"
             }
         }
-    }
+    },
+    "deleteRequestConfirmation": "Sind Sie sicher, dass Sie diese Anfrage löschen möchten?",
+    "@deleteRequestConfirmation": {},
+    "recentlyAdded": "Kürzlich hinzugefügt",
+    "@recentlyAdded": {},
+    "recentRequests": "Kürzlich angefragt",
+    "@recentRequests": {},
+    "trending": "Im Trend",
+    "@trending": {},
+    "popularMovies": "Beliebte Filme",
+    "@popularMovies": {},
+    "expectedSeries": "Erwartete Serien",
+    "@expectedSeries": {},
+    "selectFolder": "Ordner auswählen",
+    "@selectFolder": {},
+    "tags": "Tags",
+    "@tags": {},
+    "noTags": "Keine Tags",
+    "@noTags": {},
+    "requestAs": "Anfordern als",
+    "@requestAs": {},
+    "requestQuotaTitle": "Kontingent anfordern",
+    "@requestQuotaTitle": {},
+    "requestQuotaStatus": "{remaining} von {limit} übrig (Wird alle {days} Tage zurückgesetzt)",
+    "@requestQuotaStatus": {
+        "placeholders": {
+            "remaining": {
+                "type": "int"
+            },
+            "limit": {
+                "type": "int"
+            },
+            "days": {
+                "type": "int"
+            }
+        }
+    },
+    "submitRequest": "Anfrage senden",
+    "@submitRequest": {},
+    "viewRequest": "Anfrage einsehen",
+    "@viewRequest": {},
+    "email": "E-Mail",
+    "@email": {},
+    "ok": "OK",
+    "@ok": {},
+    "seerrNotConfigured": "Nicht eingerichtet",
+    "@seerrNotConfigured": {},
+    "loggedInAs": "Angemeldet als {displayName}",
+    "@loggedInAs": {
+        "placeholders": {
+            "displayName": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrSessionSaved": "Seerr Sitzung gespeichert",
+    "@seerrSessionSaved": {},
+    "seerrStatusVersion": "Seerr: {version}",
+    "@seerrStatusVersion": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrAuthenticateLocal": "Seerr Authentifizierung (lokal)",
+    "@seerrAuthenticateLocal": {},
+    "seerrAuthenticateJellyfin": "Seerr Authentifizierung (Jellyfin)",
+    "@seerrAuthenticateJellyfin": {},
+    "seerrSessionConfigured": "Session konfiguriert",
+    "@seerrSessionConfigured": {},
+    "seerrTestConnection": "Seerr Verbindung testen",
+    "@seerrTestConnection": {},
+    "seerrAutoApproveNotice": "Von Ihnen gesendete Anfragen werden automatisch genehmigt.",
+    "@seerrAutoApproveNotice": {},
+    "seerrPermissionDenied": "Sie haben keine Berechtigung diesen Medientyp anzufordern.",
+    "@seerrPermissionDenied": {},
+    "seerrAuthLocal": "Lokal",
+    "@seerrAuthLocal": {},
+    "seerrUserFetchFailed": "Benutzer konnte von Seerr nicht abgeholt werden",
+    "@seerrUserFetchFailed": {},
+    "seerrEnterServerUrlFirst": "Geben Sie zuerst eine Seerr Server URL ein",
+    "@seerrEnterServerUrlFirst": {},
+    "seerrLoggedIn": "Bei Seerr angemeldet",
+    "@seerrLoggedIn": {},
+    "seerrConnectedToServer": "Mit Seerr Server verbunden: {serverUrl}",
+    "@seerrConnectedToServer": {
+        "placeholders": {
+            "serverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "emailUsername": "E-Mail/Benutzername",
+    "@emailUsername": {}
 }
