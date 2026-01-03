@@ -77,7 +77,7 @@
           };
 
           gitHashes = let
-            media_kit-hash = "sha256-vnzIfVkkBcvqtFuhbf3WzYUTo0ea7+MYgws/+wDpNf0=";
+            media_kit-hash = "sha256-oJQ9sRQI4HpAIzoS995yfnzvx5ZzIubVANzbmxTt6LE=";
           in {
             media_kit = media_kit-hash;
             media_kit_video = media_kit-hash;
