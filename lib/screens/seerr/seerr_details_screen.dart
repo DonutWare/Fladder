@@ -10,6 +10,8 @@ import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/providers/seerr/seerr_details_provider.dart';
 import 'package:fladder/screens/details_screens/components/overview_header.dart';
 import 'package:fladder/screens/seerr/seerr_media_management.dart';
+import 'package:fladder/screens/seerr/widgets/download_status_label.dart';
+import 'package:fladder/screens/seerr/widgets/season_download_progress_widget.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_poster_row.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_request_popup.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_requests_sheet.dart';
@@ -119,23 +121,7 @@ class SeerrDetailsScreen extends ConsumerWidget {
                                     ),
                                   ),
                                 ),
-                                if (hasKnownStatus)
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: currentPoster.displayStatusColor,
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                    child: Text(
-                                      currentPoster.displayStatusLabel(context),
-                                      style: theme.textTheme.bodyMedium?.copyWith(
-                                        color: Colors.white,
-                                      ),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  )
+                                if (hasKnownStatus) DownloadStatusLabel(poster: currentPoster)
                               ],
                             ),
                           )
@@ -359,6 +345,7 @@ class _SeerrSeasonsSection extends StatelessWidget {
             isExpanded: isExpanded,
             episodes: episodes,
             onToggle: () => notifier.toggleSeasonExpanded(seasonNumber),
+            poster: state.poster,
           );
         }),
       ],
@@ -373,6 +360,7 @@ class _SeasonCard extends StatelessWidget {
   final bool isExpanded;
   final List<SeerrEpisode> episodes;
   final VoidCallback onToggle;
+  final SeerrDashboardPosterModel? poster;
 
   const _SeasonCard({
     required this.season,
@@ -381,10 +369,17 @@ class _SeasonCard extends StatelessWidget {
     required this.isExpanded,
     required this.episodes,
     required this.onToggle,
+    this.poster,
   });
 
   @override
   Widget build(BuildContext context) {
+    final standardDownloads =
+        poster?.mediaInfo?.downloadStatus?.where((d) => d.episode?.seasonNumber == seasonNumber).toList() ?? [];
+    final fourKDownloads =
+        poster?.mediaInfo?.downloadStatus4k?.where((d) => d.episode?.seasonNumber == seasonNumber).toList() ?? [];
+    final seasonDownloads = <SeerrDownloadStatus>[...standardDownloads, ...fourKDownloads];
+
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.secondaryContainer,
@@ -436,6 +431,10 @@ class _SeasonCard extends StatelessWidget {
                                   color: Theme.of(context).colorScheme.onSurfaceVariant.withValues(alpha: 0.7),
                                 ),
                           ),
+                        if (seasonDownloads.isNotEmpty) ...[
+                          const SizedBox(height: 8),
+                          SeasonDownloadProgressWidget(downloads: seasonDownloads),
+                        ],
                       ],
                     ),
                   ),

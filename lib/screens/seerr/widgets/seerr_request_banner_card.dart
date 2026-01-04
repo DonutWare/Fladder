@@ -9,6 +9,7 @@ import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/providers/seerr_user_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
+import 'package:fladder/screens/seerr/widgets/download_status_label.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_request_popup.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_user_label.dart';
 import 'package:fladder/seerr/seerr_models.dart';
@@ -156,13 +157,6 @@ class SeerrRequestBannerCard extends ConsumerWidget {
                                   color: Theme.of(context).colorScheme.onSurface,
                                 ),
                           ),
-                          if (requestedByUser != null)
-                            DefaultTextStyle(
-                              child: SeerrUserLabel(user: requestedByUser),
-                              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    color: Theme.of(context).colorScheme.onSurface,
-                                  ),
-                            ),
                           if (poster.type == SeerrDashboardMediaType.tv && seasonsList.isNotEmpty)
                             Padding(
                               padding: const EdgeInsets.only(top: 4),
@@ -175,20 +169,20 @@ class SeerrRequestBannerCard extends ConsumerWidget {
                                     ),
                               ),
                             ),
+                          const Spacer(),
+                          if (requestedByUser != null)
+                            DefaultTextStyle(
+                              child: SeerrUserLabel(user: requestedByUser),
+                              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    color: Theme.of(context).colorScheme.onSurface,
+                                  ),
+                            ),
                           if (poster.hasDisplayStatus)
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                              decoration: BoxDecoration(
-                                color: poster.displayStatusColor.withAlpha(200),
-                                borderRadius: FladderTheme.smallShape.borderRadius,
-                              ),
-                              child: Text(
-                                poster.displayStatusLabel(context),
-                                style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                                      color: Theme.of(context).colorScheme.onSurface,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                              ),
+                            DownloadStatusLabel(
+                              poster: poster,
+                              filterSeasons: poster.type == SeerrDashboardMediaType.tv && seasonsList.isNotEmpty
+                                  ? seasonsList
+                                  : null,
                             ),
                         ],
                       ),
