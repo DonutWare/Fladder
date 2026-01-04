@@ -2304,5 +2304,11 @@
                 "example": "1"
             }
         }
-    }
+    },
+    "removedFromSonarr": "Von Sonarr entfernt",
+    "@removedFromSonarr": {},
+    "removedFromRadarr": "Von Radarr entfernt",
+    "@removedFromRadarr": {},
+    "dataDeleted": "Daten gelöscht",
+    "@dataDeleted": {}
 }
