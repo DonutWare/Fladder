@@ -2251,6 +2251,58 @@
     "@seerrMediaStatusDeleted": {},
     "manageRequest": "Antrag auf Verwalten",
     "@manageRequest": {},
-    "requestAll": "Alle",
-    "@requestAll": {}
+    "requestAll": "Alle anfordern",
+    "@requestAll": {},
+    "seerrMediaStatusBlacklisted": "Blockliste",
+    "@seerrMediaStatusBlacklisted": {},
+    "openInSeerr": "In Seerr öffnen",
+    "@openInSeerr": {},
+    "openInSonarr": "In Sonarr öffnen",
+    "@openInSonarr": {},
+    "openInRadarr": "In Radarr öffnen",
+    "@openInRadarr": {},
+    "removeFromSonarr": "Von Sonarr entfernen",
+    "@removeFromSonarr": {},
+    "removeFromRadarr": "Von Radarr entfernen",
+    "@removeFromRadarr": {},
+    "markAllSeasonsAsAvailable": "Alle Staffeln als verfügbar markieren",
+    "@markAllSeasonsAsAvailable": {},
+    "markAsAvailable": "Als verfügbar markieren",
+    "@markAsAvailable": {},
+    "deleteData": "Daten löschen",
+    "@deleteData": {},
+    "removeSeriesFromSonarrConfirm": "Diese Serie von Sonarr entfernen? Dies wird alle Daten EINSCHLIEßLICH Dateien entfernen.",
+    "@removeSeriesFromSonarrConfirm": {},
+    "removeMovieFromRadarrConfirm": "Diesen Film von Radarr entfernen? Dies wird alle Daten EINSCHLIEßLICH Dateien entfernen.",
+    "@removeMovieFromRadarrConfirm": {},
+    "markAllSeasonsAsAvailableConfirm": "Alle Staffeln als verfügbar markieren?",
+    "@markAllSeasonsAsAvailableConfirm": {},
+    "markAsAvailableConfirm": "Als verfügbar markieren?",
+    "@markAsAvailableConfirm": {},
+    "markedAsAvailable": "Als Verfügbar markiert",
+    "@markedAsAvailable": {},
+    "deleteSeerrDataConfirm": "Alle Dateien von Seerr löschen? Diese Aktion kann nicht rückgängig gemacht werden.\nWenn die Daten noch in {service} vorhanden sind, werden diese eventuell erneut importiert.",
+    "@deleteSeerrDataConfirm": {
+        "description": "Confirmation message for deleting Seerr data",
+        "placeholders": {
+            "service": {
+                "type": "String",
+                "example": "Sonarr/Radarr"
+            }
+        }
+    },
+    "approve": "Genehmigen",
+    "@approve": {},
+    "decline": "Ablehnen",
+    "@decline": {},
+    "pendingRequests": "{count, plural, other{No pending requests} one{{count} pending request} two{{count} pending requests}}",
+    "@pendingRequests": {
+        "description": "pendingRequests",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    }
 }
