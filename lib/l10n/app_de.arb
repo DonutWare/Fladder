@@ -2238,5 +2238,7 @@
     "seerrRequestStatusFailed": "Fehlgeschlagen",
     "@seerrRequestStatusFailed": {},
     "seerrRequestStatusCompleted": "Abgeschlossen",
-    "@seerrRequestStatusCompleted": {}
+    "@seerrRequestStatusCompleted": {},
+    "seerrRequestStatusApproved": "Genehmigt",
+    "@seerrRequestStatusApproved": {}
 }
