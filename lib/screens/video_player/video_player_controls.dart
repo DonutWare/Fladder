@@ -143,9 +143,10 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                     final wasSkipped = segmentId != null && skippedSegments.contains(segmentId);
 
                     final autoSkip = forceShow != SegmentVisibility.hidden &&
-                        (segmentSkipType == SegmentSkip.skip || (segmentSkipType == SegmentSkip.skipOnce && !wasSkipped)) &&
+                        (segmentSkipType == SegmentSkip.skip ||
+                            (segmentSkipType == SegmentSkip.skipOnce && !wasSkipped)) &&
                         player.lastState?.buffering == false;
-                    
+
                     if (autoSkip) {
                       skipToSegmentEnd(segment, segmentId);
                     }
@@ -370,11 +371,14 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        if (initInputDevice == InputDevice.pointer)
+                        if (initInputDevice == InputDevice.pointer || AdaptiveLayout.of(context).isDesktop)
                           Tooltip(
-                              message: context.localized.stop,
-                              child: IconButton(
-                                  onPressed: () => closePlayer(), icon: const Icon(IconsaxPlusLinear.close_square))),
+                            message: context.localized.stop,
+                            child: IconButton(
+                              onPressed: () => closePlayer(),
+                              icon: const Icon(IconsaxPlusLinear.close_square),
+                            ),
+                          ),
                         const Spacer(),
                         if (AdaptiveLayout.viewSizeOf(context) >= ViewSize.tablet &&
                             ref.read(videoPlayerProvider).hasPlayer) ...{
@@ -387,7 +391,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                               ),
                             ),
                         },
-                        if (initInputDevice == InputDevice.pointer &&
+                        if ((initInputDevice == InputDevice.pointer || AdaptiveLayout.of(context).isDesktop) &&
                             AdaptiveLayout.viewSizeOf(context) > ViewSize.phone) ...[
                           VideoVolumeSlider(
                             onChanged: () => resetTimer(),
@@ -744,7 +748,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         }
         return true;
       case VideoHotKeys.exit:
-        disableFullScreen();
+        closePlayer();
         return false;
       case VideoHotKeys.mute:
         if (volume != 0) {

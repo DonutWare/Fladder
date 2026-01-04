@@ -268,7 +268,7 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
 
     final isFullScreen = await windowManager.isFullScreen();
 
-    if (_isDesktop && !isFullScreen) {
+    if (_isDesktop && (!isFullScreen && kDebugMode)) {
       WindowOptions windowOptions = WindowOptions(
         backgroundColor: Colors.transparent,
         skipTaskbar: false,
