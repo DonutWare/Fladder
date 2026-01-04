@@ -75,9 +75,13 @@ class SeerrDetailsScreen extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  SizedBox(
+                    height: MediaQuery.paddingOf(context).top + 16,
+                  ),
                   OverviewHeader(
-                    name: currentPoster.title,
                     minHeight: 50,
+                    name: currentPoster.title,
+                    logoAlignment: Alignment.center,
                     poster: currentPoster.images.primary != null
                         ? SizedBox(
                             width: 175,
@@ -235,11 +239,6 @@ class SeerrDetailsScreen extends ConsumerWidget {
                         ? context.localized.noOverviewAvailable
                         : currentPoster.overview,
                   ).padding(padding),
-                  if (state.people.isNotEmpty)
-                    PeopleRow(
-                      people: state.people,
-                      contentPadding: padding,
-                    ),
                   if (currentPoster.type == SeerrDashboardMediaType.tv && (currentPoster.seasons?.isNotEmpty ?? false))
                     _SeerrSeasonsSection(
                       state: state,
@@ -248,6 +247,11 @@ class SeerrDetailsScreen extends ConsumerWidget {
                       seasons: currentPoster.seasons ?? const [],
                       seasonStatuses: state.seasonStatuses,
                     ).padding(padding),
+                  if (state.people.isNotEmpty)
+                    PeopleRow(
+                      people: state.people,
+                      contentPadding: padding,
+                    ),
                   if (state.recommended.isNotEmpty)
                     SeerrPosterRow(
                       posters: state.recommended,
@@ -334,7 +338,7 @@ class _SeasonCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.tertiaryContainer.withValues(alpha: 0.25),
+        color: Theme.of(context).colorScheme.secondaryContainer,
         borderRadius: FladderTheme.smallShape.borderRadius,
       ),
       child: Column(

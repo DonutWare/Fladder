@@ -30,25 +30,27 @@ class _DetailedBannerState extends ConsumerState<DetailedBanner> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.sizeOf(context);
     final phoneOffsetHeight =
         AdaptiveLayout.viewSizeOf(context) <= ViewSize.phone ? MediaQuery.paddingOf(context).top + 80 : 0.0;
     return Stack(
+      alignment: Alignment.bottomCenter,
       children: [
-        ExcludeFocus(
+        Positioned.fill(
           child: Align(
             alignment: Alignment.topRight,
-            child: Transform.translate(
-              offset: Offset(0, -phoneOffsetHeight),
-              child: FractionallySizedBox(
-                widthFactor: 0.85,
-                child: AspectRatio(
-                  aspectRatio: 1.8,
-                  child: CustomShaderMask(
-                    child: ValueListenableBuilder(
-                      valueListenable: selectedPoster,
-                      builder: (context, value, child) => FladderImage(
-                        image: value.images?.primary,
+            child: ExcludeFocus(
+              child: Transform.translate(
+                offset: Offset(0, -phoneOffsetHeight),
+                child: FractionallySizedBox(
+                  widthFactor: 0.85,
+                  child: AspectRatio(
+                    aspectRatio: 1.8,
+                    child: CustomShaderMask(
+                      child: ValueListenableBuilder(
+                        valueListenable: selectedPoster,
+                        builder: (context, value, child) => FladderImage(
+                          image: value.images?.primary,
+                        ),
                       ),
                     ),
                   ),
@@ -57,14 +59,19 @@ class _DetailedBannerState extends ConsumerState<DetailedBanner> {
             ),
           ),
         ),
-        SizedBox(
-          width: double.infinity,
-          height: size.height * 0.85,
+        ConstrainedBox(
+          constraints: BoxConstraints(
+            maxHeight: AdaptiveLayout.viewSizeOf(context) == ViewSize.phone
+                ? MediaQuery.sizeOf(context).height * 0.75
+                : MediaQuery.sizeOf(context).height * 0.9,
+            maxWidth: double.infinity,
+          ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
+              const SizedBox(height: 32),
               Expanded(
                 child: ExcludeFocus(
                   child: Padding(
@@ -76,6 +83,7 @@ class _DetailedBannerState extends ConsumerState<DetailedBanner> {
                         builder: (context, value, child) => OverviewHeader(
                           name: value.parentBaseModel.name,
                           subTitle: value.label(context),
+                          minHeight: 50,
                           image: value.getPosters,
                           logoAlignment: AdaptiveLayout.viewSizeOf(context) <= ViewSize.phone
                               ? Alignment.center
@@ -93,21 +101,24 @@ class _DetailedBannerState extends ConsumerState<DetailedBanner> {
                   ),
                 ),
               ),
-              FocusProvider(
-                autoFocus: true,
-                child: PosterRow(
-                  primaryPosters: true,
-                  label: context.localized.nextUp,
-                  posters: widget.posters,
-                  onFocused: (poster) {
-                    context.ensureVisible(
-                      alignment: 1.0,
-                    );
-                    selectedPoster.value = poster;
-                    widget.onSelect(poster);
-                  },
-                ),
-              ),
+              Builder(builder: (context) {
+                return FocusProvider(
+                  autoFocus: true,
+                  child: PosterRow(
+                    primaryPosters: true,
+                    label: context.localized.nextUp,
+                    posters: widget.posters,
+                    onFocused: (poster) {
+                      // Overshoot fix for phones
+                      context.ensureVisible(
+                        alignment: 10.0,
+                      );
+                      selectedPoster.value = poster;
+                      widget.onSelect(poster);
+                    },
+                  ),
+                );
+              }),
               const SizedBox(height: 16)
             ],
           ),

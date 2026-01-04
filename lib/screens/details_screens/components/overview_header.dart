@@ -15,6 +15,7 @@ import 'package:fladder/util/list_padding.dart';
 class OverviewHeader extends ConsumerWidget {
   final String name;
   final double? minHeight;
+  final bool disableheader;
   final ImagesData? image;
   final Widget? mainButton;
   final Widget? poster;
@@ -34,6 +35,7 @@ class OverviewHeader extends ConsumerWidget {
   const OverviewHeader({
     required this.name,
     this.minHeight,
+    this.disableheader = false,
     this.image,
     this.mainButton,
     this.poster,
@@ -65,8 +67,9 @@ class OverviewHeader extends ConsumerWidget {
     final fullHeight =
         (MediaQuery.sizeOf(context).height - (MediaQuery.paddingOf(context).top + 150)).clamp(50, 1250).toDouble();
 
-    final crossAlignment =
-        AdaptiveLayout.viewSizeOf(context) != ViewSize.phone ? CrossAxisAlignment.start : CrossAxisAlignment.stretch;
+    final isPhone = AdaptiveLayout.viewSizeOf(context) == ViewSize.phone;
+
+    final crossAlignment = !isPhone ? CrossAxisAlignment.start : CrossAxisAlignment.stretch;
 
     return ConstrainedBox(
       constraints: BoxConstraints(
@@ -80,24 +83,44 @@ class OverviewHeader extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           spacing: 16,
           children: [
-            Flexible(
-              child: Row(
+            if (!isPhone)
+              Flexible(
+                child: Row(
+                  spacing: 16,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (poster != null) poster!,
+                    Flexible(
+                      child: ExcludeFocus(
+                        child: MediaHeader(
+                          name: name,
+                          logo: image?.logo,
+                          onTap: onTitleClicked,
+                          alignment: logoAlignment,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              )
+            else
+              Column(
                 spacing: 16,
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   if (poster != null) poster!,
-                  Flexible(
-                    child: ExcludeFocus(
-                      child: MediaHeader(
-                        name: name,
-                        logo: image?.logo,
-                        onTap: onTitleClicked,
-                        alignment: logoAlignment,
-                      ),
+                  ExcludeFocus(
+                    child: MediaHeader(
+                      name: name,
+                      logo: image?.logo,
+                      onTap: onTitleClicked,
+                      alignment: logoAlignment,
                     ),
                   )
                 ],
               ),
-            ),
             ExcludeFocus(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -125,6 +148,7 @@ class OverviewHeader extends ConsumerWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: crossAlignment,
+                spacing: 10,
                 children: [
                   Wrap(
                     spacing: 8,
@@ -185,7 +209,7 @@ class OverviewHeader extends ConsumerWidget {
                     Genres(
                       genres: genres.take(6).toList(),
                     ),
-                ].addInBetween(const SizedBox(height: 10)),
+                ],
               ),
             ),
             if (AdaptiveLayout.viewSizeOf(context) <= ViewSize.phone) ...[

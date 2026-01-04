@@ -165,9 +165,6 @@ class SeerrService {
     String? language,
     SeerrDashboardMediaType? mediaType,
   }) async {
-    if (tmdbId != null && mediaType == null) {
-      throw ArgumentError('mediaType must be provided when tmdbId is specified.');
-    }
     if (tvdbId != null) {
       if (tmdbId == null) return null;
       final tvResponse = await tvDetails(tvId: tmdbId, language: language);
