@@ -2230,5 +2230,13 @@
     "max": "max",
     "@max": {},
     "contentRating": "Altersfreigabe",
-    "@contentRating": {}
+    "@contentRating": {},
+    "seerrRequestStatusPending": "Ausstehend",
+    "@seerrRequestStatusPending": {},
+    "seerrRequestStatusDeclined": "Abgelehnt",
+    "@seerrRequestStatusDeclined": {},
+    "seerrRequestStatusFailed": "Fehlgeschlagen",
+    "@seerrRequestStatusFailed": {},
+    "seerrRequestStatusCompleted": "Abgeschlossen",
+    "@seerrRequestStatusCompleted": {}
 }
