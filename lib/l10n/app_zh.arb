@@ -93,7 +93,7 @@
     "@color": {},
     "combined": "组合",
     "@combined": {},
-    "communityRating": "社区评分",
+    "communityRating": "用户评分",
     "@communityRating": {},
     "continuePage": "继续 - 第 {page} 页",
     "@continuePage": {
@@ -1239,7 +1239,7 @@
     "@layoutModeSingle": {},
     "copiedToClipboard": "已复制到剪贴板",
     "@copiedToClipboard": {},
-    "episodeAvailable": "可用",
+    "episodeAvailable": "播出中",
     "@episodeAvailable": {},
     "episodeUnaired": "未播出",
     "@episodeUnaired": {},
@@ -1249,7 +1249,7 @@
     "@homeStreamingQualityTitle": {},
     "homeStreamingQualityDesc": "连接到家庭网络时可获得最佳流媒体质量",
     "@homeStreamingQualityDesc": {},
-    "internetStreamingQualityTitle": "移动网络质量",
+    "internetStreamingQualityTitle": "网络质量",
     "@internetStreamingQualityTitle": {},
     "internetStreamingQualityDesc": "使用移动网络时可获得最佳流媒体质量",
     "@internetStreamingQualityDesc": {},
@@ -1921,9 +1921,9 @@
     },
     "enableAndRankImageFetchers": "启用并按优先级排列您首选的图片刮削器。",
     "@enableAndRankImageFetchers": {},
-    "mediaSegmentProviders": "媒体片段提供商",
+    "mediaSegmentProviders": "媒体片段发行商",
     "@mediaSegmentProviders": {},
-    "enableAndRankMediaSegmentProviders": "启用并按优先级对您首选的媒体片段提供商进行排序。",
+    "enableAndRankMediaSegmentProviders": "启用并按优先级对您首选的媒体片段发行商进行排序。",
     "@enableAndRankMediaSegmentProviders": {},
     "trickplay": "特技播放",
     "@trickplay": {},
@@ -2186,5 +2186,91 @@
     "sponsorMessage": "如果您喜欢使用 Fladder，可以考虑赞助该项目，以支持持续的开发和改进。感谢您的支持！",
     "@sponsorMessage": {},
     "popularity": "热门",
-    "@popularity": {}
+    "@popularity": {},
+    "contentRating": "内容分级",
+    "@contentRating": {},
+    "runtimeMinutesTitle": "运行时间（分钟）",
+    "@runtimeMinutesTitle": {},
+    "runtimeRangeMinutes": "{min} - {max} 分钟",
+    "@runtimeRangeMinutes": {
+        "placeholders": {
+            "min": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            }
+        }
+    },
+    "minutesShort": "{count} 分钟",
+    "@minutesShort": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "streamingServices": "发行商 ({count})",
+    "@streamingServices": {
+        "description": "Streaming providers (Netflix,HBO, etc.)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "popularSeries": "热门节目",
+    "@popularSeries": {},
+    "min": "最小",
+    "@min": {},
+    "max": "最大",
+    "@max": {},
+    "manageRequest": "管理请求",
+    "@manageRequest": {},
+    "requestAll": "请求所有",
+    "@requestAll": {},
+    "openInSeerr": "在 Seerr 中打开",
+    "@openInSeerr": {},
+    "openInSonarr": "在 Sonarr 中打开",
+    "@openInSonarr": {},
+    "openInRadarr": "在 Radarr 中打开",
+    "@openInRadarr": {},
+    "removeFromSonarr": "从 Sonarr 中移除",
+    "@removeFromSonarr": {},
+    "removeFromRadarr": "从 Radarr 中移除",
+    "@removeFromRadarr": {},
+    "markAllSeasonsAsAvailable": "将所有季标记为播出中",
+    "@markAllSeasonsAsAvailable": {},
+    "markAsAvailable": "标记为播出中",
+    "@markAsAvailable": {},
+    "markAllSeasonsAsAvailableConfirm": "将所有季标记为播出中？",
+    "@markAllSeasonsAsAvailableConfirm": {},
+    "markAsAvailableConfirm": "标记为播出中？",
+    "@markAsAvailableConfirm": {},
+    "markedAsAvailable": "标记为播出中",
+    "@markedAsAvailable": {},
+    "deleteData": "删除数据",
+    "@deleteData": {},
+    "removeSeriesFromSonarrConfirm": "要从 Sonarr 中删除此节目吗？这将删除所有数据，包括文件。",
+    "@removeSeriesFromSonarrConfirm": {},
+    "removeMovieFromRadarrConfirm": "要从 Radarr 中删除此电影吗？这将删除所有数据，包括文件。",
+    "@removeMovieFromRadarrConfirm": {},
+    "removedFromSonarr": "从 Sonarr 中移除",
+    "@removedFromSonarr": {},
+    "removedFromRadarr": "从 Radarr 中移除",
+    "@removedFromRadarr": {},
+    "deleteSeerrDataConfirm": "确定要删除 Seerr 中的所有文件吗？此操作无法撤销。\n如果数据仍然存在于 {service} 中，则可以重新导入。",
+    "@deleteSeerrDataConfirm": {
+        "description": "Confirmation message for deleting Seerr data",
+        "placeholders": {
+            "service": {
+                "type": "String",
+                "example": "Sonarr/Radarr"
+            }
+        }
+    },
+    "dataDeleted": "数据已删除",
+    "@dataDeleted": {}
 }
