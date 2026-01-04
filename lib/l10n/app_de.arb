@@ -2164,5 +2164,71 @@
     "seerrApiKeySaved": "API Schlüssel gespeichert",
     "@seerrApiKeySaved": {},
     "discover": "Entdecken",
-    "@discover": {}
+    "@discover": {},
+    "popularity": "Popularität",
+    "@popularity": {},
+    "runtimeMinutesTitle": "Laufzeit (Minuten)",
+    "@runtimeMinutesTitle": {},
+    "runtimeRangeMinutes": "{min} - {max} Minuten",
+    "@runtimeRangeMinutes": {
+        "placeholders": {
+            "min": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            }
+        }
+    },
+    "minutesShort": "{count} Min",
+    "@minutesShort": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "streamingServices": "Anbieter ({count})",
+    "@streamingServices": {
+        "description": "Streaming providers (Netflix,HBO, etc.)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "settingsProfileSubtitleLanguage": "Bevorzugte Untertitelsprache",
+    "@settingsProfileSubtitleLanguage": {},
+    "settingsProfileSubtitleMode": "Untertitelmodus",
+    "@settingsProfileSubtitleMode": {},
+    "subtitlePlaybackModeDefault": "Standard",
+    "@subtitlePlaybackModeDefault": {},
+    "subtitlePlaybackModeAlways": "Immer abspielen",
+    "@subtitlePlaybackModeAlways": {},
+    "subtitlePlaybackModeOnlyForced": "Nur erzwungene",
+    "@subtitlePlaybackModeOnlyForced": {},
+    "subtitlePlaybackModeNone": "Keine",
+    "@subtitlePlaybackModeNone": {},
+    "subtitlePlaybackModeSmart": "Smart",
+    "@subtitlePlaybackModeSmart": {},
+    "syncplayAccessCreateAndJoinGroups": "Gruppen erstellen und beitreten",
+    "@syncplayAccessCreateAndJoinGroups": {},
+    "syncplayAccessJoinGroups": "Gruppen beitreten",
+    "@syncplayAccessJoinGroups": {},
+    "syncplayAccessNone": "Keine",
+    "@syncplayAccessNone": {},
+    "popularSeries": "Beliebte Serien",
+    "@popularSeries": {},
+    "sponsor": "Sponsor",
+    "@sponsor": {},
+    "sponsorMessage": "Wenn dir Fladder gefällt, würde ich mich sehr über eine Spende freuen. Diese trägt zur Weiterentwicklung und Verbesserung des Projektes bei. Vielen Dank für deine Unterstützung!",
+    "@sponsorMessage": {},
+    "min": "min",
+    "@min": {},
+    "max": "max",
+    "@max": {},
+    "contentRating": "Altersfreigabe",
+    "@contentRating": {}
 }
