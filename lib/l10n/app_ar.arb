@@ -2157,5 +2157,151 @@
     "emailUsername": "البريد الإلكتروني / اسم المستخدم",
     "@emailUsername": {},
     "discover": "اكتشف",
-    "@discover": {}
+    "@discover": {},
+    "popularity": "الشعبية",
+    "@popularity": {},
+    "contentRating": "تصنيف المحتوى",
+    "@contentRating": {},
+    "runtimeMinutesTitle": "مدة التشغيل (بالدقائق)",
+    "@runtimeMinutesTitle": {},
+    "runtimeRangeMinutes": "من {min} إلى {max} دقيقة",
+    "@runtimeRangeMinutes": {
+        "placeholders": {
+            "min": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            }
+        }
+    },
+    "minutesShort": "{count} دقيقه",
+    "@minutesShort": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "streamingServices": "مزودو الخدمة ({count})",
+    "@streamingServices": {
+        "description": "Streaming providers (Netflix,HBO, etc.)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "settingsProfileSubtitleLanguage": "اللغة المفضلة للترجمة",
+    "@settingsProfileSubtitleLanguage": {},
+    "settingsProfileSubtitleMode": "وضع الترجمة",
+    "@settingsProfileSubtitleMode": {},
+    "subtitlePlaybackModeDefault": "افتراضي",
+    "@subtitlePlaybackModeDefault": {},
+    "subtitlePlaybackModeAlways": "تشغيل دائم",
+    "@subtitlePlaybackModeAlways": {},
+    "subtitlePlaybackModeOnlyForced": "الترجمات الإجبارية فقط",
+    "@subtitlePlaybackModeOnlyForced": {},
+    "subtitlePlaybackModeNone": "بدون",
+    "@subtitlePlaybackModeNone": {},
+    "subtitlePlaybackModeSmart": "ذكي",
+    "@subtitlePlaybackModeSmart": {},
+    "syncplayAccessCreateAndJoinGroups": "إنشاء والانضمام إلى مجموعات",
+    "@syncplayAccessCreateAndJoinGroups": {},
+    "syncplayAccessJoinGroups": "الانضمام إلى مجموعات",
+    "@syncplayAccessJoinGroups": {},
+    "syncplayAccessNone": "بدون",
+    "@syncplayAccessNone": {},
+    "popularSeries": "المسلسلات الأكثر شهرة",
+    "@popularSeries": {},
+    "seerrRequestStatusPending": "قيد الانتظار",
+    "@seerrRequestStatusPending": {},
+    "seerrRequestStatusApproved": "تم القبول",
+    "@seerrRequestStatusApproved": {},
+    "seerrRequestStatusDeclined": "تم الرفض",
+    "@seerrRequestStatusDeclined": {},
+    "seerrRequestStatusFailed": "فشل",
+    "@seerrRequestStatusFailed": {},
+    "seerrRequestStatusCompleted": "مكتمل",
+    "@seerrRequestStatusCompleted": {},
+    "seerrMediaStatusProcessing": "جارٍ المعالجة",
+    "@seerrMediaStatusProcessing": {},
+    "seerrMediaStatusPartiallyAvailable": "متوفر جزئياً",
+    "@seerrMediaStatusPartiallyAvailable": {},
+    "seerrMediaStatusAvailable": "متوفر",
+    "@seerrMediaStatusAvailable": {},
+    "seerrMediaStatusBlacklisted": "محظور",
+    "@seerrMediaStatusBlacklisted": {},
+    "seerrMediaStatusDeleted": "محذوف",
+    "@seerrMediaStatusDeleted": {},
+    "sponsor": "راعٍ",
+    "@sponsor": {},
+    "sponsorMessage": "إذا كنت تستمتع باستخدام Fladder، فكر في رعاية المشروع لدعم تطويره وتحسينه المستمر. شكراً لدعمك!",
+    "@sponsorMessage": {},
+    "min": "الحد الأدنى",
+    "@min": {},
+    "max": "الحد الأقصى",
+    "@max": {},
+    "manageRequest": "إدارة الطلب",
+    "@manageRequest": {},
+    "requestAll": "طلب الكل",
+    "@requestAll": {},
+    "openInSeerr": "فتح في Seerr",
+    "@openInSeerr": {},
+    "openInSonarr": "فتح في Sonarr",
+    "@openInSonarr": {},
+    "openInRadarr": "فتح في Radarr",
+    "@openInRadarr": {},
+    "removeFromSonarr": "إزالة من Sonarr",
+    "@removeFromSonarr": {},
+    "removeFromRadarr": "إزالة من Radarr",
+    "@removeFromRadarr": {},
+    "markAllSeasonsAsAvailable": "تحديد جميع المواسم كمُتاحة",
+    "@markAllSeasonsAsAvailable": {},
+    "markAsAvailable": "تحديد كمُتاح",
+    "@markAsAvailable": {},
+    "deleteData": "حذف البيانات",
+    "@deleteData": {},
+    "removeSeriesFromSonarrConfirm": "هل تريد إزالة هذه السلسلة من Sonarr؟ سيتم حذف جميع البيانات بما في ذلك الملفات.",
+    "@removeSeriesFromSonarrConfirm": {},
+    "removeMovieFromRadarrConfirm": "هل تريد إزالة هذا الفيلم من Radarr؟ سيتم حذف جميع البيانات بما في ذلك الملفات.",
+    "@removeMovieFromRadarrConfirm": {},
+    "removedFromSonarr": "تمّت الإزالة من Sonarr",
+    "@removedFromSonarr": {},
+    "removedFromRadarr": "تمّت الإزالة من Radarr",
+    "@removedFromRadarr": {},
+    "markAllSeasonsAsAvailableConfirm": "تحديد جميع المواسم كمُتاحة؟",
+    "@markAllSeasonsAsAvailableConfirm": {},
+    "markAsAvailableConfirm": "تحديد كمُتاح؟",
+    "@markAsAvailableConfirm": {},
+    "markedAsAvailable": "تم التحديد كمُتاح",
+    "@markedAsAvailable": {},
+    "deleteSeerrDataConfirm": "هل تريد حذف جميع الملفات من Seerr؟ لا يمكن التراجع عن هذا الإجراء.\nإذا كانت البيانات لا تزال موجودة في {service}، يمكن إعادة استيرادها.",
+    "@deleteSeerrDataConfirm": {
+        "description": "Confirmation message for deleting Seerr data",
+        "placeholders": {
+            "service": {
+                "type": "String",
+                "example": "Sonarr/Radarr"
+            }
+        }
+    },
+    "dataDeleted": "تم حذف البيانات",
+    "@dataDeleted": {},
+    "approve": "اعتماد",
+    "@approve": {},
+    "decline": "رفض",
+    "@decline": {},
+    "pendingRequests": "{count, plural, one{{count} طلب قيد الانتظار} two{{count} طلبان قيد الانتظار} other{لا توجد طلبات قيد الانتظار}}",
+    "@pendingRequests": {
+        "description": "pendingRequests",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    }
 }
