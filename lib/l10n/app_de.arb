@@ -2240,5 +2240,17 @@
     "seerrRequestStatusCompleted": "Abgeschlossen",
     "@seerrRequestStatusCompleted": {},
     "seerrRequestStatusApproved": "Genehmigt",
-    "@seerrRequestStatusApproved": {}
+    "@seerrRequestStatusApproved": {},
+    "seerrMediaStatusProcessing": "Verarbeitung",
+    "@seerrMediaStatusProcessing": {},
+    "seerrMediaStatusPartiallyAvailable": "Teilweise verfügbar",
+    "@seerrMediaStatusPartiallyAvailable": {},
+    "seerrMediaStatusAvailable": "Verfügbar",
+    "@seerrMediaStatusAvailable": {},
+    "seerrMediaStatusDeleted": "Gelöscht",
+    "@seerrMediaStatusDeleted": {},
+    "manageRequest": "Antrag auf Verwalten",
+    "@manageRequest": {},
+    "requestAll": "Alle",
+    "@requestAll": {}
 }
