@@ -2272,5 +2272,39 @@
         }
     },
     "dataDeleted": "数据已删除",
-    "@dataDeleted": {}
+    "@dataDeleted": {},
+    "seerrRequestStatusPending": "待处理",
+    "@seerrRequestStatusPending": {},
+    "seerrRequestStatusApproved": "批准",
+    "@seerrRequestStatusApproved": {},
+    "seerrRequestStatusDeclined": "拒绝",
+    "@seerrRequestStatusDeclined": {},
+    "seerrRequestStatusFailed": "失败",
+    "@seerrRequestStatusFailed": {},
+    "seerrRequestStatusCompleted": "完成",
+    "@seerrRequestStatusCompleted": {},
+    "seerrMediaStatusProcessing": "进程",
+    "@seerrMediaStatusProcessing": {},
+    "seerrMediaStatusPartiallyAvailable": "部分可用",
+    "@seerrMediaStatusPartiallyAvailable": {},
+    "seerrMediaStatusAvailable": "可用",
+    "@seerrMediaStatusAvailable": {},
+    "seerrMediaStatusBlacklisted": "列入黑名单",
+    "@seerrMediaStatusBlacklisted": {},
+    "seerrMediaStatusDeleted": "删除",
+    "@seerrMediaStatusDeleted": {},
+    "approve": "批准",
+    "@approve": {},
+    "decline": "拒绝",
+    "@decline": {},
+    "pendingRequests": "{count, plural, other{没有待处理的请求} one{{count} 个待处理的请求} two{{count} 个待处理的请求}}",
+    "@pendingRequests": {
+        "description": "pendingRequests",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    }
 }
