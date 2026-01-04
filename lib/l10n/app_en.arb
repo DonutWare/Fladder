@@ -2102,5 +2102,49 @@
   "sponsor": "Sponsor",
   "sponsorMessage": "If you enjoy using Fladder, consider sponsoring the project to support ongoing development and improvements. Thank you for your support!",
   "min": "min",
-  "max": "max"
+  "max": "max",
+  "manageRequest": "Manage request",
+  "requestAll": "Request all",
+  "openInSeerr": "Open in Seerr",
+  "@openInSeerr": {},
+  "openInSonarr": "Open in Sonarr",
+  "@openInSonarr": {},
+  "openInRadarr": "Open in Radarr",
+  "@openInRadarr": {},
+  "removeFromSonarr": "Remove from Sonarr",
+  "@removeFromSonarr": {},
+  "removeFromRadarr": "Remove from Radarr",
+  "@removeFromRadarr": {},
+  "markAllSeasonsAsAvailable": "Mark all seasons as available",
+  "@markAllSeasonsAsAvailable": {},
+  "markAsAvailable": "Mark as available",
+  "@markAsAvailable": {},
+  "deleteData": "Delete data",
+  "@deleteData": {},
+  "removeSeriesFromSonarrConfirm": "Remove this series from Sonarr? This will remove all data INCLUDING files.",
+  "@removeSeriesFromSonarrConfirm": {},
+  "removeMovieFromRadarrConfirm": "Remove this movie from Radarr? This will remove all data INCLUDING files.",
+  "@removeMovieFromRadarrConfirm": {},
+  "removedFromSonarr": "Removed from Sonarr",
+  "@removedFromSonarr": {},
+  "removedFromRadarr": "Removed from Radarr",
+  "@removedFromRadarr": {},
+  "markAllSeasonsAsAvailableConfirm": "Mark all seasons as available?",
+  "@markAllSeasonsAsAvailableConfirm": {},
+  "markAsAvailableConfirm": "Mark as available?",
+  "@markAsAvailableConfirm": {},
+  "markedAsAvailable": "Marked as available",
+  "@markedAsAvailable": {},
+  "deleteSeerrDataConfirm": "Delete all files from Seerr? This action cannot be undone.\nIf the data is still present in {service}, it may be re-imported.",
+  "@deleteSeerrDataConfirm": {
+    "description": "Confirmation message for deleting Seerr data",
+    "placeholders": {
+      "service": {
+        "type": "String",
+        "example": "Sonarr/Radarr"
+      }
+    }
+  },
+  "dataDeleted": "Data deleted",
+  "@dataDeleted": {}
 }

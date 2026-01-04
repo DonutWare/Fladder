@@ -3796,6 +3796,552 @@ class __$SeerrRootFolderCopyWithImpl<$Res>
 }
 
 /// @nodoc
+mixin _$SeerrMediaInfo {
+  int? get id;
+  int? get tmdbId;
+  int? get tvdbId;
+  int? get status;
+  String? get jellyfinMediaId;
+  String? get jellyfinMediaId4k;
+  String? get serviceUrl;
+  List<SeerrMediaRequest>? get requests;
+  List<SeerrMediaInfoSeason>? get seasons;
+  List<SeerrDownloadStatus>? get downloadStatus;
+  List<SeerrDownloadStatus>? get downloadStatus4k;
+
+  /// Create a copy of SeerrMediaInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $SeerrMediaInfoCopyWith<SeerrMediaInfo> get copyWith =>
+      _$SeerrMediaInfoCopyWithImpl<SeerrMediaInfo>(
+          this as SeerrMediaInfo, _$identity);
+
+  /// Serializes this SeerrMediaInfo to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  String toString() {
+    return 'SeerrMediaInfo(id: $id, tmdbId: $tmdbId, tvdbId: $tvdbId, status: $status, jellyfinMediaId: $jellyfinMediaId, jellyfinMediaId4k: $jellyfinMediaId4k, serviceUrl: $serviceUrl, requests: $requests, seasons: $seasons, downloadStatus: $downloadStatus, downloadStatus4k: $downloadStatus4k)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $SeerrMediaInfoCopyWith<$Res> {
+  factory $SeerrMediaInfoCopyWith(
+          SeerrMediaInfo value, $Res Function(SeerrMediaInfo) _then) =
+      _$SeerrMediaInfoCopyWithImpl;
+  @useResult
+  $Res call(
+      {int? id,
+      int? tmdbId,
+      int? tvdbId,
+      int? status,
+      String? jellyfinMediaId,
+      String? jellyfinMediaId4k,
+      String? serviceUrl,
+      List<SeerrMediaRequest>? requests,
+      List<SeerrMediaInfoSeason>? seasons,
+      List<SeerrDownloadStatus>? downloadStatus,
+      List<SeerrDownloadStatus>? downloadStatus4k});
+}
+
+/// @nodoc
+class _$SeerrMediaInfoCopyWithImpl<$Res>
+    implements $SeerrMediaInfoCopyWith<$Res> {
+  _$SeerrMediaInfoCopyWithImpl(this._self, this._then);
+
+  final SeerrMediaInfo _self;
+  final $Res Function(SeerrMediaInfo) _then;
+
+  /// Create a copy of SeerrMediaInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? tmdbId = freezed,
+    Object? tvdbId = freezed,
+    Object? status = freezed,
+    Object? jellyfinMediaId = freezed,
+    Object? jellyfinMediaId4k = freezed,
+    Object? serviceUrl = freezed,
+    Object? requests = freezed,
+    Object? seasons = freezed,
+    Object? downloadStatus = freezed,
+    Object? downloadStatus4k = freezed,
+  }) {
+    return _then(_self.copyWith(
+      id: freezed == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      tmdbId: freezed == tmdbId
+          ? _self.tmdbId
+          : tmdbId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      tvdbId: freezed == tvdbId
+          ? _self.tvdbId
+          : tvdbId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      status: freezed == status
+          ? _self.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as int?,
+      jellyfinMediaId: freezed == jellyfinMediaId
+          ? _self.jellyfinMediaId
+          : jellyfinMediaId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      jellyfinMediaId4k: freezed == jellyfinMediaId4k
+          ? _self.jellyfinMediaId4k
+          : jellyfinMediaId4k // ignore: cast_nullable_to_non_nullable
+              as String?,
+      serviceUrl: freezed == serviceUrl
+          ? _self.serviceUrl
+          : serviceUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      requests: freezed == requests
+          ? _self.requests
+          : requests // ignore: cast_nullable_to_non_nullable
+              as List<SeerrMediaRequest>?,
+      seasons: freezed == seasons
+          ? _self.seasons
+          : seasons // ignore: cast_nullable_to_non_nullable
+              as List<SeerrMediaInfoSeason>?,
+      downloadStatus: freezed == downloadStatus
+          ? _self.downloadStatus
+          : downloadStatus // ignore: cast_nullable_to_non_nullable
+              as List<SeerrDownloadStatus>?,
+      downloadStatus4k: freezed == downloadStatus4k
+          ? _self.downloadStatus4k
+          : downloadStatus4k // ignore: cast_nullable_to_non_nullable
+              as List<SeerrDownloadStatus>?,
+    ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [SeerrMediaInfo].
+extension SeerrMediaInfoPatterns on SeerrMediaInfo {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_SeerrMediaInfo value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _SeerrMediaInfo() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_SeerrMediaInfo value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _SeerrMediaInfo():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_SeerrMediaInfo value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _SeerrMediaInfo() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            int? id,
+            int? tmdbId,
+            int? tvdbId,
+            int? status,
+            String? jellyfinMediaId,
+            String? jellyfinMediaId4k,
+            String? serviceUrl,
+            List<SeerrMediaRequest>? requests,
+            List<SeerrMediaInfoSeason>? seasons,
+            List<SeerrDownloadStatus>? downloadStatus,
+            List<SeerrDownloadStatus>? downloadStatus4k)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _SeerrMediaInfo() when $default != null:
+        return $default(
+            _that.id,
+            _that.tmdbId,
+            _that.tvdbId,
+            _that.status,
+            _that.jellyfinMediaId,
+            _that.jellyfinMediaId4k,
+            _that.serviceUrl,
+            _that.requests,
+            _that.seasons,
+            _that.downloadStatus,
+            _that.downloadStatus4k);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            int? id,
+            int? tmdbId,
+            int? tvdbId,
+            int? status,
+            String? jellyfinMediaId,
+            String? jellyfinMediaId4k,
+            String? serviceUrl,
+            List<SeerrMediaRequest>? requests,
+            List<SeerrMediaInfoSeason>? seasons,
+            List<SeerrDownloadStatus>? downloadStatus,
+            List<SeerrDownloadStatus>? downloadStatus4k)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _SeerrMediaInfo():
+        return $default(
+            _that.id,
+            _that.tmdbId,
+            _that.tvdbId,
+            _that.status,
+            _that.jellyfinMediaId,
+            _that.jellyfinMediaId4k,
+            _that.serviceUrl,
+            _that.requests,
+            _that.seasons,
+            _that.downloadStatus,
+            _that.downloadStatus4k);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            int? id,
+            int? tmdbId,
+            int? tvdbId,
+            int? status,
+            String? jellyfinMediaId,
+            String? jellyfinMediaId4k,
+            String? serviceUrl,
+            List<SeerrMediaRequest>? requests,
+            List<SeerrMediaInfoSeason>? seasons,
+            List<SeerrDownloadStatus>? downloadStatus,
+            List<SeerrDownloadStatus>? downloadStatus4k)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _SeerrMediaInfo() when $default != null:
+        return $default(
+            _that.id,
+            _that.tmdbId,
+            _that.tvdbId,
+            _that.status,
+            _that.jellyfinMediaId,
+            _that.jellyfinMediaId4k,
+            _that.serviceUrl,
+            _that.requests,
+            _that.seasons,
+            _that.downloadStatus,
+            _that.downloadStatus4k);
+      case _:
+        return null;
+    }
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _SeerrMediaInfo extends SeerrMediaInfo {
+  _SeerrMediaInfo(
+      {this.id,
+      this.tmdbId,
+      this.tvdbId,
+      this.status,
+      this.jellyfinMediaId,
+      this.jellyfinMediaId4k,
+      this.serviceUrl,
+      final List<SeerrMediaRequest>? requests,
+      final List<SeerrMediaInfoSeason>? seasons,
+      final List<SeerrDownloadStatus>? downloadStatus,
+      final List<SeerrDownloadStatus>? downloadStatus4k})
+      : _requests = requests,
+        _seasons = seasons,
+        _downloadStatus = downloadStatus,
+        _downloadStatus4k = downloadStatus4k,
+        super._();
+  factory _SeerrMediaInfo.fromJson(Map<String, dynamic> json) =>
+      _$SeerrMediaInfoFromJson(json);
+
+  @override
+  final int? id;
+  @override
+  final int? tmdbId;
+  @override
+  final int? tvdbId;
+  @override
+  final int? status;
+  @override
+  final String? jellyfinMediaId;
+  @override
+  final String? jellyfinMediaId4k;
+  @override
+  final String? serviceUrl;
+  final List<SeerrMediaRequest>? _requests;
+  @override
+  List<SeerrMediaRequest>? get requests {
+    final value = _requests;
+    if (value == null) return null;
+    if (_requests is EqualUnmodifiableListView) return _requests;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  final List<SeerrMediaInfoSeason>? _seasons;
+  @override
+  List<SeerrMediaInfoSeason>? get seasons {
+    final value = _seasons;
+    if (value == null) return null;
+    if (_seasons is EqualUnmodifiableListView) return _seasons;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  final List<SeerrDownloadStatus>? _downloadStatus;
+  @override
+  List<SeerrDownloadStatus>? get downloadStatus {
+    final value = _downloadStatus;
+    if (value == null) return null;
+    if (_downloadStatus is EqualUnmodifiableListView) return _downloadStatus;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  final List<SeerrDownloadStatus>? _downloadStatus4k;
+  @override
+  List<SeerrDownloadStatus>? get downloadStatus4k {
+    final value = _downloadStatus4k;
+    if (value == null) return null;
+    if (_downloadStatus4k is EqualUnmodifiableListView)
+      return _downloadStatus4k;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  /// Create a copy of SeerrMediaInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$SeerrMediaInfoCopyWith<_SeerrMediaInfo> get copyWith =>
+      __$SeerrMediaInfoCopyWithImpl<_SeerrMediaInfo>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$SeerrMediaInfoToJson(
+      this,
+    );
+  }
+
+  @override
+  String toString() {
+    return 'SeerrMediaInfo(id: $id, tmdbId: $tmdbId, tvdbId: $tvdbId, status: $status, jellyfinMediaId: $jellyfinMediaId, jellyfinMediaId4k: $jellyfinMediaId4k, serviceUrl: $serviceUrl, requests: $requests, seasons: $seasons, downloadStatus: $downloadStatus, downloadStatus4k: $downloadStatus4k)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$SeerrMediaInfoCopyWith<$Res>
+    implements $SeerrMediaInfoCopyWith<$Res> {
+  factory _$SeerrMediaInfoCopyWith(
+          _SeerrMediaInfo value, $Res Function(_SeerrMediaInfo) _then) =
+      __$SeerrMediaInfoCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {int? id,
+      int? tmdbId,
+      int? tvdbId,
+      int? status,
+      String? jellyfinMediaId,
+      String? jellyfinMediaId4k,
+      String? serviceUrl,
+      List<SeerrMediaRequest>? requests,
+      List<SeerrMediaInfoSeason>? seasons,
+      List<SeerrDownloadStatus>? downloadStatus,
+      List<SeerrDownloadStatus>? downloadStatus4k});
+}
+
+/// @nodoc
+class __$SeerrMediaInfoCopyWithImpl<$Res>
+    implements _$SeerrMediaInfoCopyWith<$Res> {
+  __$SeerrMediaInfoCopyWithImpl(this._self, this._then);
+
+  final _SeerrMediaInfo _self;
+  final $Res Function(_SeerrMediaInfo) _then;
+
+  /// Create a copy of SeerrMediaInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = freezed,
+    Object? tmdbId = freezed,
+    Object? tvdbId = freezed,
+    Object? status = freezed,
+    Object? jellyfinMediaId = freezed,
+    Object? jellyfinMediaId4k = freezed,
+    Object? serviceUrl = freezed,
+    Object? requests = freezed,
+    Object? seasons = freezed,
+    Object? downloadStatus = freezed,
+    Object? downloadStatus4k = freezed,
+  }) {
+    return _then(_SeerrMediaInfo(
+      id: freezed == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      tmdbId: freezed == tmdbId
+          ? _self.tmdbId
+          : tmdbId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      tvdbId: freezed == tvdbId
+          ? _self.tvdbId
+          : tvdbId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      status: freezed == status
+          ? _self.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as int?,
+      jellyfinMediaId: freezed == jellyfinMediaId
+          ? _self.jellyfinMediaId
+          : jellyfinMediaId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      jellyfinMediaId4k: freezed == jellyfinMediaId4k
+          ? _self.jellyfinMediaId4k
+          : jellyfinMediaId4k // ignore: cast_nullable_to_non_nullable
+              as String?,
+      serviceUrl: freezed == serviceUrl
+          ? _self.serviceUrl
+          : serviceUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      requests: freezed == requests
+          ? _self._requests
+          : requests // ignore: cast_nullable_to_non_nullable
+              as List<SeerrMediaRequest>?,
+      seasons: freezed == seasons
+          ? _self._seasons
+          : seasons // ignore: cast_nullable_to_non_nullable
+              as List<SeerrMediaInfoSeason>?,
+      downloadStatus: freezed == downloadStatus
+          ? _self._downloadStatus
+          : downloadStatus // ignore: cast_nullable_to_non_nullable
+              as List<SeerrDownloadStatus>?,
+      downloadStatus4k: freezed == downloadStatus4k
+          ? _self._downloadStatus4k
+          : downloadStatus4k // ignore: cast_nullable_to_non_nullable
+              as List<SeerrDownloadStatus>?,
+    ));
+  }
+}
+
+/// @nodoc
 mixin _$SeerrFilterModel {
   Map<SeerrGenre, bool> get genres;
   int? get yearGte;

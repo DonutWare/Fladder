@@ -122,7 +122,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           refreshKey: _refreshIndicatorKey,
           displacement: 80 + MediaQuery.of(context).viewPadding.top,
           onRefresh: () async => await _refreshHome(),
-          child: PinchPosterZoom(
+          child: (context) => PinchPosterZoom(
             scaleDifference: (difference) => ref.read(clientSettingsProvider.notifier).addPosterSize(difference),
             child: CustomScrollView(
               controller: AdaptiveLayout.scrollOf(context, HomeTabs.dashboard),

@@ -69,7 +69,7 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
       ),
       onRefresh: () async => await ref.read(providerInstance.notifier).fetchDetails(widget.item),
       backDrops: details.episode?.images ?? details.series?.images,
-      content: (padding) => seasonDetails != null && episodeDetails != null
+      content: (context, padding) => seasonDetails != null && episodeDetails != null
           ? Padding(
               padding: const EdgeInsets.only(bottom: 64),
               child: Column(
@@ -79,7 +79,7 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                   OverviewHeader(
                     name: details.series?.name ?? "",
                     image: seasonDetails.images,
-                    playButton: episodeDetails.playAble
+                    mainButton: episodeDetails.playAble
                         ? MediaPlayButton(
                             item: episodeDetails,
                             onPressed: (restart) async {

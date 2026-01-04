@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
@@ -7,9 +8,11 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/providers/seerr_user_provider.dart';
+import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_request_popup.dart';
 import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/theme.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -21,12 +24,10 @@ class SeerrPosterCard extends ConsumerWidget {
   final SeerrDashboardPosterModel poster;
   final double? aspectRatio;
   final Function(bool value)? onFocusChanged;
-  final void Function(SeerrDashboardPosterModel poster)? onRequestAddTap;
 
   const SeerrPosterCard({
     required this.poster,
     this.aspectRatio,
-    this.onRequestAddTap,
     this.onFocusChanged,
     super.key,
   });
@@ -42,11 +43,22 @@ class SeerrPosterCard extends ConsumerWidget {
     final canRequest = user?.canRequestMedia(isTv: poster.type == SeerrDashboardMediaType.tv) ?? true;
 
     final baseItemModel = poster.itemBaseModel;
-    void handleRequestAction() {
-      if (onRequestAddTap != null) {
-        onRequestAddTap?.call(poster);
+
+    void openRequestDetails() {
+      context.router.push(
+        SeerrDetailsRoute(
+          mediaType: poster.type == SeerrDashboardMediaType.tv ? 'tvshow' : 'movie',
+          tmdbId: poster.tmdbId,
+          poster: poster,
+        ),
+      );
+    }
+
+    void handleTapAction() {
+      if (baseItemModel != null) {
+        baseItemModel.navigateTo(context);
       } else {
-        openSeerrRequestPopup(context, poster);
+        openRequestDetails();
       }
     }
 
@@ -54,14 +66,14 @@ class SeerrPosterCard extends ConsumerWidget {
       if (poster.status != SeerrRequestStatus.unknown || poster.id.isNotEmpty)
         ItemActionButton(
           icon: const Icon(IconsaxPlusBold.folder_open),
-          label: Text(context.localized.viewRequest),
-          action: () => openSeerrRequestPopup(context, poster),
+          label: Text(context.localized.manageRequest),
+          action: openRequestDetails,
         ),
       if (poster.status == SeerrRequestStatus.unknown && canRequest)
         ItemActionButton(
           icon: const Icon(IconsaxPlusBold.add),
           label: Text(context.localized.request),
-          action: handleRequestAction,
+          action: () => openSeerrRequestPopup(context, poster),
         ),
       if (baseItemModel != null)
         ItemActionButton(
@@ -76,7 +88,7 @@ class SeerrPosterCard extends ConsumerWidget {
       children: [
         Expanded(
           child: FocusButton(
-            onTap: baseItemModel != null ? () => baseItemModel.navigateTo(context) : handleRequestAction,
+            onTap: handleTapAction,
             onFocusChanged: onFocusChanged,
             child: Container(
               decoration: BoxDecoration(
@@ -104,7 +116,9 @@ class SeerrPosterCard extends ConsumerWidget {
             onSecondaryTapDown: (details) => _showContextMenu(context, itemActions, ref, details.globalPosition),
             onLongPress: () => _showBottomSheet(context, itemActions, ref),
             focusedOverlays: [
-              if (poster.status == SeerrRequestStatus.unknown && canRequest)
+              if (poster.status == SeerrRequestStatus.unknown &&
+                  canRequest &&
+                  AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer)
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
@@ -120,7 +134,7 @@ class SeerrPosterCard extends ConsumerWidget {
                               padding: const EdgeInsets.symmetric(vertical: 6),
                               textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
                             ),
-                            onPressed: handleRequestAction,
+                            onPressed: () => openSeerrRequestPopup(context, poster),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [

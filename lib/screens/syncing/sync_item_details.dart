@@ -64,7 +64,7 @@ class _SyncItemDetailsState extends ConsumerState<SyncItemDetails> {
           syncedItem = newItem;
         });
       },
-      child: Padding(
+      child: (context) =>  Padding(
         padding: const EdgeInsets.all(12.0),
         child: SyncStatusOverlay(
           syncedItem: syncedItem,

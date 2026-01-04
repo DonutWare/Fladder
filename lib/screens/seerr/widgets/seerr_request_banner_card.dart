@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
@@ -7,6 +8,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/providers/seerr_user_provider.dart';
+import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_request_popup.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_user_label.dart';
 import 'package:fladder/seerr/seerr_models.dart';
@@ -20,12 +22,10 @@ import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 class SeerrRequestBannerCard extends ConsumerWidget {
   final SeerrDashboardPosterModel poster;
   final void Function(SeerrDashboardPosterModel poster)? onTap;
-  final void Function(SeerrDashboardPosterModel poster)? onRequestAddTap;
 
   const SeerrRequestBannerCard({
     required this.poster,
     this.onTap,
-    this.onRequestAddTap,
     super.key,
   });
 
@@ -41,13 +41,23 @@ class SeerrRequestBannerCard extends ConsumerWidget {
 
     final user = ref.watch(seerrUserProvider);
     final canRequest = user?.canRequestMedia(isTv: poster.type == SeerrDashboardMediaType.tv) ?? true;
-
     final baseItemModel = poster.itemBaseModel;
-    void handleRequestAction() {
-      if (onRequestAddTap != null) {
-        onRequestAddTap?.call(poster);
+
+    void openRequestDetails() {
+      context.router.push(
+        SeerrDetailsRoute(
+          mediaType: poster.type == SeerrDashboardMediaType.tv ? 'tvshow' : 'movie',
+          tmdbId: poster.tmdbId,
+          poster: poster,
+        ),
+      );
+    }
+
+    void handleTapAction() {
+      if (baseItemModel != null) {
+        baseItemModel.navigateTo(context);
       } else {
-        openSeerrRequestPopup(context, poster);
+        openRequestDetails();
       }
     }
 
@@ -55,14 +65,14 @@ class SeerrRequestBannerCard extends ConsumerWidget {
       if (poster.status != SeerrRequestStatus.unknown || poster.id.isNotEmpty)
         ItemActionButton(
           icon: const Icon(IconsaxPlusBold.folder_open),
-          label: Text(context.localized.viewRequest),
-          action: () => openSeerrRequestPopup(context, poster),
+          label: Text(context.localized.manageRequest),
+          action: () => openRequestDetails(),
         ),
-      if (poster.status == SeerrRequestStatus.unknown && canRequest)
+      if (canRequest)
         ItemActionButton(
           icon: const Icon(IconsaxPlusBold.add),
           label: Text(context.localized.request),
-          action: handleRequestAction,
+          action: () => openSeerrRequestPopup(context, poster),
         ),
       if (baseItemModel != null)
         ItemActionButton(
@@ -80,11 +90,7 @@ class SeerrRequestBannerCard extends ConsumerWidget {
     return AspectRatio(
       aspectRatio: 1.2,
       child: FocusButton(
-        onTap: onTap != null
-            ? () => onTap?.call(poster)
-            : baseItemModel != null
-                ? () => baseItemModel.navigateTo(context)
-                : handleRequestAction,
+        onTap: onTap != null ? () => onTap?.call(poster) : () => handleTapAction(),
         onLongPress: () => _showBottomSheet(context, itemActions, ref),
         onSecondaryTapDown: (tap) => _showContextMenu(context, itemActions, ref, tap.globalPosition),
         child: Container(

@@ -12,7 +12,7 @@ class PullToRefresh extends ConsumerStatefulWidget {
   final bool autoFocus;
   final bool contextRefresh;
   final Future<void> Function()? onRefresh;
-  final Widget child;
+  final Widget Function(BuildContext context) child;
   const PullToRefresh({
     required this.child,
     this.displacement,
@@ -67,18 +67,18 @@ class _PullToRefreshState extends ConsumerState<PullToRefresh> {
           }
           return KeyEventResult.ignored;
         },
-        child: Builder(
-          builder: (context) => widget.onRefresh != null
-              ? RefreshIndicator(
-                  displacement: widget.displacement ?? 80 + MediaQuery.of(context).viewPadding.top,
-                  key: refreshKey,
-                  onRefresh: widget.onRefresh!,
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
-                  backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                  child: widget.child,
-                )
-              : widget.child,
-        ),
+        child: widget.onRefresh != null
+            ? RefreshIndicator(
+                displacement: widget.displacement ?? 80 + MediaQuery.of(context).viewPadding.top,
+                key: refreshKey,
+                onRefresh: widget.onRefresh!,
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                child: Builder(
+                  builder: (context) => widget.child(context),
+                ),
+              )
+            : widget.child(context),
       ),
     );
   }

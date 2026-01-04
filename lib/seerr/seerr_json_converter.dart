@@ -21,6 +21,8 @@ class SeerrJsonConverter extends JsonConverter {
         SeerrRootFolder: SeerrRootFolder.fromJson,
         SeerrMovieDetails: SeerrMovieDetails.fromJson,
         SeerrTvDetails: SeerrTvDetails.fromJson,
+        SeerrSeasonDetails: SeerrSeasonDetails.fromJson,
+        SeerrEpisode: SeerrEpisode.fromJson,
         SeerrUserQuota: SeerrUserQuota.fromJson,
         SeerrQuotaEntry: SeerrQuotaEntry.fromJson,
         SeerrGenre: SeerrGenre.fromJson,

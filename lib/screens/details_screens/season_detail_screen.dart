@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/season_model.dart';
@@ -50,7 +50,7 @@ class _SeasonDetailScreenState extends ConsumerState<SeasonDetailScreen> {
         await ref.read(providerId.notifier).fetchDetails(widget.item.id);
       },
       backDrops: details?.parentImages,
-      content: (padding) => Padding(
+      content: (context, padding) => Padding(
         padding: const EdgeInsets.only(bottom: 64),
         child: details != null
             ? Column(

@@ -238,7 +238,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                     }
                   },
                   refreshOnStart: false,
-                  child: CustomScrollView(
+                  child: (context) => CustomScrollView(
                     controller: scrollController,
                     physics: const AlwaysScrollableScrollPhysics(),
                     slivers: [

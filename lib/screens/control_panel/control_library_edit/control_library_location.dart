@@ -108,7 +108,7 @@ class DirectorySelectionDialog extends ConsumerWidget {
     return Dialog(
       child: PullToRefresh(
         onRefresh: () async => ref.read(directoryBrowserProvider.notifier).fetchFolders(startDirectory),
-        child: Padding(
+        child: (context) => Padding(
           padding: const EdgeInsets.all(12.0),
           child: Stack(
             children: [

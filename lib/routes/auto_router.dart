@@ -84,6 +84,7 @@ final List<AutoRoute> detailsRoutes = [
   AutoRoute(page: PhotoViewerRoute.page, path: "album"),
   AutoRoute(page: LibrarySearchRoute.page, path: 'library'),
   AutoRoute(page: SeerrSearchRoute.page, path: 'seerr-search'),
+  AutoRoute(page: SeerrDetailsRoute.page, path: 'seerr/:mediaType/:tmdbId'),
 ];
 
 final List<AutoRoute> _defaultRoutes = [

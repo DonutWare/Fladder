@@ -45,7 +45,7 @@ class _ControlServerPageState extends ConsumerState<ControlServerPage> {
 
     return PullToRefresh(
       onRefresh: () async => await provider.fetchSettings(),
-      child: SettingsScaffold(
+      child: (context) => SettingsScaffold(
         label: context.localized.server,
         items: [
           ...settingsListGroup(

@@ -54,7 +54,7 @@ class ControlLibrariesPage extends ConsumerWidget {
       clipBehavior: Clip.hardEdge,
       child: PullToRefresh(
         onRefresh: () => provider.fetchInfo(),
-        child: SettingsScaffold(
+        child: (context) => SettingsScaffold(
           bottomActions: [
             if (selectedFolder == null)
               FilledButtonAwait(

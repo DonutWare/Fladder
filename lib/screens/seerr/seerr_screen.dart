@@ -65,7 +65,7 @@ class _SeerrScreenState extends ConsumerState<SeerrScreen> {
         ),
         body: PullToRefresh(
           onRefresh: () => ref.read(seerrDashboardProvider.notifier).fetchDashboard(),
-          child: CustomScrollView(
+          child: (context) => CustomScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             controller: AdaptiveLayout.scrollOf(context, HomeTabs.seerr),
             slivers: [
@@ -79,7 +79,6 @@ class _SeerrScreenState extends ConsumerState<SeerrScreen> {
                     label: context.localized.recentlyAdded,
                     posters: dashboardState.recentlyAdded,
                     contentPadding: padding,
-                    onRequestAddTap: (poster) => openRequest(context, poster),
                   ),
                 ),
               if (dashboardState.recentRequests.isNotEmpty)
@@ -98,7 +97,6 @@ class _SeerrScreenState extends ConsumerState<SeerrScreen> {
                     posters: dashboardState.trending,
                     contentPadding: padding,
                     onLabelClick: () => context.pushRoute(SeerrSearchRoute(mode: SeerrSearchMode.trending)),
-                    onRequestAddTap: (poster) => openRequest(context, poster),
                   ),
                 ),
               if (dashboardState.popularMovies.isNotEmpty)
@@ -108,7 +106,6 @@ class _SeerrScreenState extends ConsumerState<SeerrScreen> {
                     posters: dashboardState.popularMovies,
                     contentPadding: padding,
                     onLabelClick: () => context.pushRoute(SeerrSearchRoute(mode: SeerrSearchMode.discoverMovies)),
-                    onRequestAddTap: (poster) => openRequest(context, poster),
                   ),
                 ),
               if (dashboardState.popularSeries.isNotEmpty)
@@ -118,7 +115,6 @@ class _SeerrScreenState extends ConsumerState<SeerrScreen> {
                     posters: dashboardState.popularSeries,
                     contentPadding: padding,
                     onLabelClick: () => context.pushRoute(SeerrSearchRoute(mode: SeerrSearchMode.discoverTv)),
-                    onRequestAddTap: (poster) => openRequest(context, poster),
                   ),
                 ),
               if (dashboardState.expectedMovies.isNotEmpty)
@@ -133,7 +129,6 @@ class _SeerrScreenState extends ConsumerState<SeerrScreen> {
                         yearGte: DateTime.now().year,
                       ),
                     ),
-                    onRequestAddTap: (poster) => openRequest(context, poster),
                   ),
                 ),
               if (dashboardState.expectedSeries.isNotEmpty)
@@ -148,7 +143,6 @@ class _SeerrScreenState extends ConsumerState<SeerrScreen> {
                         yearGte: DateTime.now().year,
                       ),
                     ),
-                    onRequestAddTap: (poster) => openRequest(context, poster),
                   ),
                 ),
               const DefautlSliverBottomPadding(),

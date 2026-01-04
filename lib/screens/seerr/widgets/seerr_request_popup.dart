@@ -19,19 +19,21 @@ import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/widgets/shared/filled_button_await.dart';
 import 'package:fladder/widgets/shared/pull_to_refresh.dart';
 
 Future<void> openSeerrRequestPopup(
   BuildContext context,
   SeerrDashboardPosterModel poster,
-) {
-  return showDialogAdaptive(
+) async {
+  await showDialogAdaptive(
     context: context,
     builder: (context) => SeerrRequestPopup(
       requestModel: poster,
     ),
   );
+  await context.refreshData();
 }
 
 class SeerrRequestPopup extends ConsumerStatefulWidget {
@@ -92,7 +94,7 @@ class _SeerrRequestPopupState extends ConsumerState<SeerrRequestPopup> {
 
     return PullToRefresh(
       onRefresh: () => notifier.initialize(widget.requestModel),
-      child: Padding(
+      child: (context) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         child: Column(
           spacing: 8,
@@ -315,52 +317,6 @@ class _SeerrRequestPopupState extends ConsumerState<SeerrRequestPopup> {
               Text(
                 context.localized.seerrAnimeSeriesNote,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.secondary),
-              ),
-            ],
-            if (requestState.canDeleteRequest) ...[
-              FilledButtonAwait(
-                style: FilledButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.errorContainer,
-                  foregroundColor: Theme.of(context).colorScheme.onErrorContainer,
-                ),
-                onPressed: () async {
-                  final confirm = await showDialog<bool>(
-                    context: context,
-                    builder: (dialogContext) => AlertDialog(
-                      title: Text(context.localized.delete),
-                      content: Text(context.localized.deleteRequestConfirmation),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.of(dialogContext).pop(false),
-                          child: Text(context.localized.cancel),
-                        ),
-                        FilledButton.tonal(
-                          style: FilledButton.styleFrom(
-                            backgroundColor: Theme.of(context).colorScheme.error,
-                            foregroundColor: Theme.of(context).colorScheme.onError,
-                          ),
-                          onPressed: () => Navigator.of(dialogContext).pop(true),
-                          child: Text(context.localized.delete),
-                        ),
-                      ],
-                    ),
-                  );
-
-                  if (confirm != true) return;
-
-                  await notifier.deleteRequest();
-                  if (context.mounted) {
-                    Navigator.of(context).pop();
-                  }
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  spacing: 8,
-                  children: [
-                    const Icon(IconsaxPlusBold.trash),
-                    Text(context.localized.delete),
-                  ],
-                ),
               ),
             ],
             FilledButtonAwait(

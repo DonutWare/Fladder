@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
-import 'package:fladder/screens/shared/media/components/chip_button.dart';
 import 'package:fladder/screens/shared/media/components/media_header.dart';
 import 'package:fladder/screens/shared/media/components/small_detail_widgets.dart';
 import 'package:fladder/theme.dart';
@@ -14,8 +14,10 @@ import 'package:fladder/util/list_padding.dart';
 
 class OverviewHeader extends ConsumerWidget {
   final String name;
+  final double? minHeight;
   final ImagesData? image;
-  final Widget? playButton;
+  final Widget? mainButton;
+  final Widget? poster;
   final Widget? centerButtons;
   final EdgeInsets? padding;
   final String? subTitle;
@@ -31,8 +33,10 @@ class OverviewHeader extends ConsumerWidget {
   final List<GenreItems> genres;
   const OverviewHeader({
     required this.name,
+    this.minHeight,
     this.image,
-    this.playButton,
+    this.mainButton,
+    this.poster,
     this.centerButtons,
     this.padding,
     this.subTitle,
@@ -66,7 +70,7 @@ class OverviewHeader extends ConsumerWidget {
 
     return ConstrainedBox(
       constraints: BoxConstraints(
-        minHeight: fullHeight,
+        minHeight: minHeight ?? fullHeight,
       ),
       child: Padding(
         padding: padding ?? EdgeInsets.zero,
@@ -77,13 +81,21 @@ class OverviewHeader extends ConsumerWidget {
           spacing: 16,
           children: [
             Flexible(
-              child: ExcludeFocus(
-                child: MediaHeader(
-                  name: name,
-                  logo: image?.logo,
-                  onTap: onTitleClicked,
-                  alignment: logoAlignment,
-                ),
+              child: Row(
+                spacing: 16,
+                children: [
+                  if (poster != null) poster!,
+                  Flexible(
+                    child: ExcludeFocus(
+                      child: MediaHeader(
+                        name: name,
+                        logo: image?.logo,
+                        onTap: onTitleClicked,
+                        alignment: logoAlignment,
+                      ),
+                    ),
+                  )
+                ],
               ),
             ),
             ExcludeFocus(
@@ -91,12 +103,13 @@ class OverviewHeader extends ConsumerWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: crossAlignment,
                 children: [
-                  if (subTitle != null)
+                  if (subTitle != null && name.toLowerCase() != subTitle!.toLowerCase())
                     Flexible(
                       child: SelectableText(
                         subTitle ?? "",
                         textAlign: TextAlign.center,
                         style: mainStyle,
+                        maxLines: 1,
                       ),
                     ),
                   if (name.toLowerCase() != originalTitle?.toLowerCase() && originalTitle != null)
@@ -122,34 +135,37 @@ class OverviewHeader extends ConsumerWidget {
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
                       if (officialRating != null)
-                        ChipButton(
-                          label: officialRating.toString(),
+                        _SimpleLabel(
+                          icon: null,
+                          label: Text(officialRating.toString()),
                         ),
                       if (productionYear != null)
-                        SelectableText(
-                          productionYear.toString(),
-                          textAlign: TextAlign.center,
-                          style: subStyle,
+                        _SimpleLabel(
+                          icon: IconsaxPlusBold.calendar,
+                          color: Theme.of(context).colorScheme.surfaceBright,
+                          label: SelectableText(
+                            productionYear.toString(),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       if (runTime != null && (runTime?.inSeconds ?? 0) > 1)
-                        SelectableText(
-                          runTime.humanize.toString(),
-                          textAlign: TextAlign.center,
-                          style: subStyle,
+                        _SimpleLabel(
+                          icon: IconsaxPlusBold.timer,
+                          color: Theme.of(context).colorScheme.surfaceBright,
+                          iconColor: Theme.of(context).colorScheme.onSurface,
+                          label: SelectableText(
+                            runTime.humanize.toString(),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       if (communityRating != null)
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.star_rate_rounded,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                            Text(
-                              communityRating?.toStringAsFixed(2) ?? "",
-                              style: subStyle,
-                            ),
-                          ],
+                        _SimpleLabel(
+                          icon: IconsaxPlusBold.star_1,
+                          color: Theme.of(context).colorScheme.tertiaryContainer,
+                          iconColor: Theme.of(context).colorScheme.onTertiaryContainer,
+                          label: Text(
+                            communityRating?.toStringAsFixed(2) ?? "",
+                          ),
                         ),
                     ].addInBetween(CircleAvatar(
                       radius: 3,
@@ -173,15 +189,15 @@ class OverviewHeader extends ConsumerWidget {
               ),
             ),
             if (AdaptiveLayout.viewSizeOf(context) <= ViewSize.phone) ...[
-              if (playButton != null) playButton!,
+              if (mainButton != null) mainButton!,
               if (centerButtons != null) centerButtons!,
             ] else
               Flexible(
                 child: Row(
                   spacing: 16,
                   children: [
-                    if (playButton != null) ...[
-                      playButton!,
+                    if (mainButton != null) ...[
+                      mainButton!,
                       Container(
                         width: 2,
                         height: 12,
@@ -195,6 +211,50 @@ class OverviewHeader extends ConsumerWidget {
                   ],
                 ),
               ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SimpleLabel extends StatelessWidget {
+  final IconData? icon;
+  final Widget label;
+  final Color? color;
+  final Color? iconColor;
+  const _SimpleLabel({
+    this.icon,
+    required this.label,
+    this.color,
+    this.iconColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        borderRadius: FladderTheme.smallShape.borderRadius,
+        color: (color ?? Theme.of(context).colorScheme.surfaceBright).withAlpha(200),
+        border: Border.all(
+          color: (color ?? Theme.of(context).colorScheme.surfaceBright).withAlpha(255),
+        ),
+      ),
+      child: DefaultTextStyle(
+        style: Theme.of(context).textTheme.bodyMedium!,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (icon != null) ...[
+              Icon(
+                icon,
+                size: 18,
+                color: iconColor ?? Theme.of(context).colorScheme.onSurface,
+              ),
+              const SizedBox(width: 4),
+            ],
+            label,
           ],
         ),
       ),

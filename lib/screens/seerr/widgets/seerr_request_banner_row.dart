@@ -46,7 +46,6 @@ class SeerrRequestBannerRow extends ConsumerWidget {
                 key: Key(poster.id),
                 poster: poster,
                 onTap: onTap,
-                onRequestAddTap: onRequestAddTap,
               ),
             );
           },

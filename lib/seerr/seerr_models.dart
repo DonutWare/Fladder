@@ -112,6 +112,7 @@ typedef _SortValues = ({String movie, String tv});
 
 const String _tmdbImageBaseUrl = 'https://image.tmdb.org/t/p/w780';
 const String _tmdbPosterBaseUrl = 'https://image.tmdb.org/t/p/w500';
+const String _tmdbProfileBaseUrl = 'https://image.tmdb.org/t/p/w185';
 
 enum SeerrSortBy {
   popularityDesc,
@@ -491,6 +492,72 @@ class SeerrContentRating {
   Map<String, dynamic> toJson() => _$SeerrContentRatingToJson(this);
 }
 
+@JsonSerializable()
+class SeerrCredits {
+  final List<SeerrCast>? cast;
+  final List<SeerrCrew>? crew;
+
+  SeerrCredits({
+    this.cast,
+    this.crew,
+  });
+
+  factory SeerrCredits.fromJson(Map<String, dynamic> json) => _$SeerrCreditsFromJson(json);
+  Map<String, dynamic> toJson() => _$SeerrCreditsToJson(this);
+}
+
+@JsonSerializable()
+class SeerrCast {
+  final int? id;
+  final int? castId;
+  final String? character;
+  final String? creditId;
+  final int? gender;
+  final String? name;
+  final int? order;
+  @JsonKey(name: 'profilePath')
+  final String? internalProfilePath;
+
+  SeerrCast({
+    this.id,
+    this.castId,
+    this.character,
+    this.creditId,
+    this.gender,
+    this.name,
+    this.order,
+    this.internalProfilePath,
+  });
+
+  factory SeerrCast.fromJson(Map<String, dynamic> json) => _$SeerrCastFromJson(json);
+  Map<String, dynamic> toJson() => _$SeerrCastToJson(this);
+}
+
+@JsonSerializable()
+class SeerrCrew {
+  final int? id;
+  final String? creditId;
+  final int? gender;
+  final String? name;
+  final String? job;
+  final String? department;
+  @JsonKey(name: 'profilePath')
+  final String? internalProfilePath;
+
+  SeerrCrew({
+    this.id,
+    this.creditId,
+    this.gender,
+    this.name,
+    this.job,
+    this.department,
+    this.internalProfilePath,
+  });
+
+  factory SeerrCrew.fromJson(Map<String, dynamic> json) => _$SeerrCrewFromJson(json);
+  Map<String, dynamic> toJson() => _$SeerrCrewToJson(this);
+}
+
 @JsonSerializable(fieldRename: FieldRename.none, includeIfNull: true)
 class SeerrMovieDetails {
   final int? id;
@@ -508,6 +575,7 @@ class SeerrMovieDetails {
   final List<SeerrGenre>? genres;
   final SeerrMediaInfo? mediaInfo;
   final SeerrExternalIds? externalIds;
+  final SeerrCredits? credits;
   @JsonKey(readValue: _readJellyfinMediaId)
   final String? mediaId;
   @JsonKey(readValue: _readContentRatings)
@@ -527,6 +595,7 @@ class SeerrMovieDetails {
     this.genres,
     this.mediaInfo,
     this.externalIds,
+    this.credits,
     this.mediaId,
     this.contentRatings,
   });
@@ -556,6 +625,7 @@ class SeerrTvDetails {
   final SeerrMediaInfo? mediaInfo;
   final SeerrExternalIds? externalIds;
   final List<SeerrKeyword>? keywords;
+  final SeerrCredits? credits;
   @JsonKey(readValue: _readJellyfinMediaId)
   final String? mediaId;
   @JsonKey(readValue: _readContentRatings)
@@ -579,6 +649,7 @@ class SeerrTvDetails {
     this.mediaInfo,
     this.externalIds,
     this.keywords,
+    this.credits,
     this.mediaId,
     this.contentRatings,
   });
@@ -646,6 +717,58 @@ class SeerrSeason {
 
   factory SeerrSeason.fromJson(Map<String, dynamic> json) => _$SeerrSeasonFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrSeasonToJson(this);
+}
+
+@JsonSerializable(fieldRename: FieldRename.none, includeIfNull: true)
+class SeerrSeasonDetails {
+  final int? id;
+  final String? name;
+  final String? overview;
+  final int? seasonNumber;
+  @JsonKey(name: 'posterPath')
+  final String? internalPosterPath;
+  final List<SeerrEpisode>? episodes;
+
+  SeerrSeasonDetails({
+    this.id,
+    this.name,
+    this.overview,
+    this.seasonNumber,
+    this.internalPosterPath,
+    this.episodes,
+  });
+
+  factory SeerrSeasonDetails.fromJson(Map<String, dynamic> json) => _$SeerrSeasonDetailsFromJson(json);
+  Map<String, dynamic> toJson() => _$SeerrSeasonDetailsToJson(this);
+}
+
+@JsonSerializable(fieldRename: FieldRename.none, includeIfNull: true)
+class SeerrEpisode {
+  final int? id;
+  final String? name;
+  final String? overview;
+  final int? episodeNumber;
+  final int? seasonNumber;
+  final String? airDate;
+  @JsonKey(name: 'stillPath')
+  final String? internalStillPath;
+  final double? voteAverage;
+  final int? voteCount;
+
+  SeerrEpisode({
+    this.id,
+    this.name,
+    this.overview,
+    this.episodeNumber,
+    this.seasonNumber,
+    this.airDate,
+    this.internalStillPath,
+    this.voteAverage,
+    this.voteCount,
+  });
+
+  factory SeerrEpisode.fromJson(Map<String, dynamic> json) => _$SeerrEpisodeFromJson(json);
+  Map<String, dynamic> toJson() => _$SeerrEpisodeToJson(this);
 }
 
 Object? _readJellyfinMediaId(Map json, String key) {
@@ -780,36 +903,27 @@ class SeerrDownloadStatus {
   Map<String, dynamic> toJson() => _$SeerrDownloadStatusToJson(this);
 }
 
-@JsonSerializable()
-class SeerrMediaInfo {
-  final int? id;
-  final int? tmdbId;
-  final int? tvdbId;
-  final int? status;
-  final String? jellyfinMediaId;
-  final String? jellyfinMediaId4k;
-  final List<SeerrMediaRequest>? requests;
-  final List<SeerrMediaInfoSeason>? seasons;
-  final List<SeerrDownloadStatus>? downloadStatus;
-  final List<SeerrDownloadStatus>? downloadStatus4k;
+@Freezed(copyWith: true)
+abstract class SeerrMediaInfo with _$SeerrMediaInfo {
+  const SeerrMediaInfo._();
 
-  SeerrMediaInfo({
-    this.id,
-    this.tmdbId,
-    this.tvdbId,
-    this.status,
-    this.jellyfinMediaId,
-    this.jellyfinMediaId4k,
-    this.requests,
-    this.seasons,
-    this.downloadStatus,
-    this.downloadStatus4k,
-  });
+  factory SeerrMediaInfo({
+    int? id,
+    int? tmdbId,
+    int? tvdbId,
+    int? status,
+    String? jellyfinMediaId,
+    String? jellyfinMediaId4k,
+    String? serviceUrl,
+    List<SeerrMediaRequest>? requests,
+    List<SeerrMediaInfoSeason>? seasons,
+    List<SeerrDownloadStatus>? downloadStatus,
+    List<SeerrDownloadStatus>? downloadStatus4k,
+  }) = _SeerrMediaInfo;
 
   String? get primaryJellyfinMediaId => jellyfinMediaId4k ?? jellyfinMediaId;
 
   factory SeerrMediaInfo.fromJson(Map<String, dynamic> json) => _$SeerrMediaInfoFromJson(json);
-  Map<String, dynamic> toJson() => _$SeerrMediaInfoToJson(this);
 }
 
 @JsonSerializable()
@@ -1319,6 +1433,20 @@ extension SeerrMovieDetailsExtension on SeerrMovieDetails {
   }
 }
 
+extension SeerrCastExtension on SeerrCast {
+  String? get profileUrl {
+    if (internalProfilePath == null || internalProfilePath!.isEmpty) return null;
+    return '$_tmdbProfileBaseUrl$internalProfilePath';
+  }
+}
+
+extension SeerrCrewExtension on SeerrCrew {
+  String? get profileUrl {
+    if (internalProfilePath == null || internalProfilePath!.isEmpty) return null;
+    return '$_tmdbProfileBaseUrl$internalProfilePath';
+  }
+}
+
 extension SeerrTvDetailsExtension on SeerrTvDetails {
   String? get posterUrl {
     if (internalPosterPath == null || internalPosterPath!.isEmpty) return null;
@@ -1335,6 +1463,13 @@ extension SeerrSeasonExtension on SeerrSeason {
   String? get posterUrl {
     if (internalPosterPath == null || internalPosterPath!.isEmpty) return null;
     return '$_tmdbPosterBaseUrl$internalPosterPath';
+  }
+}
+
+extension SeerrEpisodeExtension on SeerrEpisode {
+  String? get stillUrl {
+    if (internalStillPath == null || internalStillPath!.isEmpty) return null;
+    return '$_tmdbImageBaseUrl$internalStillPath';
   }
 }
 

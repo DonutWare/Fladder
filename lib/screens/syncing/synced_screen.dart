@@ -35,7 +35,7 @@ class _SyncedScreenState extends ConsumerState<SyncedScreen> {
     return PullToRefresh(
       refreshOnStart: true,
       onRefresh: () => ref.read(syncProvider.notifier).refresh(),
-      child: NestedScaffold(
+      child: (context) => NestedScaffold(
         background: BackgroundImage(images: items.map((value) => value.images).nonNulls.toList()),
         body: CustomScrollView(
           physics: const AlwaysScrollableScrollPhysics(),

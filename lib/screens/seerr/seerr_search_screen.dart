@@ -138,7 +138,7 @@ class _SeerrSearchScreenState extends ConsumerState<SeerrSearchScreen> {
               : null,
           body: PullToRefresh(
             onRefresh: () => ref.read(seerrSearchProvider.notifier).submit(),
-            child: CustomScrollView(
+            child: (context) => CustomScrollView(
               controller: scrollController,
               physics: const AlwaysScrollableScrollPhysics(),
               slivers: [
@@ -193,7 +193,7 @@ class _SeerrSearchScreenState extends ConsumerState<SeerrSearchScreen> {
                                 children: [
                                   Expanded(
                                     child: OutlinedTextField(
-                                      autoFocus: searchState.searchMode == SeerrSearchMode.search,
+                                      autoFocus: widget.mode == SeerrSearchMode.search,
                                       controller: controller,
                                       textInputAction: TextInputAction.search,
                                       onSubmitted: (value) => ref.read(seerrSearchProvider.notifier).submit(value),

@@ -6,6 +6,7 @@ import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/providers/seerr_api_provider.dart';
 import 'package:fladder/providers/seerr_user_provider.dart';
 import 'package:fladder/seerr/seerr_models.dart';
+import 'package:fladder/util/seerr_helpers.dart';
 
 part 'seerr_request_provider.freezed.dart';
 part 'seerr_request_provider.g.dart';
@@ -31,35 +32,8 @@ class SeerrRequest extends _$SeerrRequest {
       if (tvDetailsResponse.isSuccessful && tvDetailsResponse.body != null) {
         final details = tvDetailsResponse.body!;
 
-        final isAnime = _isAnime(details);
-
-        final Map<int, SeerrRequestStatus> seasonStatusMap = {
-          for (final season in details.mediaInfo?.seasons ?? const <SeerrMediaInfoSeason>[])
-            if (season.seasonNumber != null) season.seasonNumber!: SeerrRequestStatus.fromRaw(season.status),
-        };
-
-        final knownSeasonNumbers = <int>{
-          ...seasonStatusMap.keys,
-          ...?details.seasons?.map((season) => season.seasonNumber).whereType<int>(),
-        };
-
-        final requests = details.mediaInfo?.requests ?? const <SeerrMediaRequest>[];
-        if (requests.isNotEmpty) {
-          for (final request in requests) {
-            final requestStatus = SeerrRequestStatus.fromRaw(request.status);
-            if (requestStatus == SeerrRequestStatus.unknown || requestStatus == SeerrRequestStatus.deleted) continue;
-
-            final requestSeasonNumbers = request.seasons?.whereType<int>().toList(growable: false);
-            final seasonsToUpdate = (requestSeasonNumbers == null || requestSeasonNumbers.isEmpty)
-                ? knownSeasonNumbers
-                : requestSeasonNumbers;
-            for (final seasonNumber in seasonsToUpdate) {
-              final current = seasonStatusMap[seasonNumber];
-              if (current == SeerrRequestStatus.available || current == SeerrRequestStatus.deleted) continue;
-              seasonStatusMap[seasonNumber] = requestStatus;
-            }
-          }
-        }
+        final isAnime = SeerrHelpers.isAnime(details);
+        final seasonStatusMap = SeerrHelpers.buildSeasonStatusMap(details);
 
         updatedPoster = poster.copyWith(
           seasons: details.seasons,
@@ -67,7 +41,7 @@ class SeerrRequest extends _$SeerrRequest {
           mediaInfo: details.mediaInfo,
         );
         final userRegion = currentUserBody?.settings?.discoverRegion ?? 'US';
-        final contentRating = _extractContentRating(details.contentRatings, userRegion);
+        final contentRating = SeerrHelpers.extractContentRating(details.contentRatings, userRegion);
         state = state.copyWith(
           poster: updatedPoster,
           isAnime: isAnime,
@@ -83,7 +57,7 @@ class SeerrRequest extends _$SeerrRequest {
         final details = movieDetailsResponse.body!;
         updatedPoster = poster.copyWith(mediaInfo: details.mediaInfo);
         final userRegion = currentUserBody?.settings?.discoverRegion ?? 'US';
-        final contentRating = _extractContentRating(details.contentRatings, userRegion);
+        final contentRating = SeerrHelpers.extractContentRating(details.contentRatings, userRegion);
         state = state.copyWith(
           poster: updatedPoster,
           genres: details.genres ?? [],
@@ -281,6 +255,18 @@ class SeerrRequest extends _$SeerrRequest {
       seasonStatuses: statuses,
     );
   }
+
+  void selectAllSeasons() {
+    final updatedSelection = <int, bool>{};
+    for (final seasonNumber in state.selectedSeasons.keys) {
+      if (state.isRequestedAlready(seasonNumber)) {
+        updatedSelection[seasonNumber] = false;
+      } else {
+        updatedSelection[seasonNumber] = true;
+      }
+    }
+    state = state.copyWith(selectedSeasons: updatedSelection);
+  }
 }
 
 @Freezed(copyWith: true)
@@ -401,14 +387,6 @@ abstract class SeerrRequestModel with _$SeerrRequestModel {
     if (hasRequestPermission != true) return false;
     if (isQuotaRestricted) return false;
 
-    if (poster?.status == SeerrRequestStatus.deleted) {
-      return true;
-    }
-
-    if (poster?.status == SeerrRequestStatus.available) {
-      return false;
-    }
-
     if (isTv) {
       return selectedSeasonNumbers?.isNotEmpty ?? false;
     }
@@ -469,40 +447,4 @@ abstract class SeerrRequestModel with _$SeerrRequestModel {
 
     return match?.path ?? activeDirectory ?? available.first.path;
   }
-}
-
-bool _isAnime(SeerrTvDetails details) {
-  final keywordHit = details.keywords?.any((k) => (k.name ?? '').toLowerCase() == 'anime') ?? false;
-  if (keywordHit) return true;
-  final genreHit = details.genres
-          ?.any((g) => (g.name ?? '').toLowerCase() == 'animation' || (g.name ?? '').toLowerCase() == 'anime') ??
-      false;
-  return genreHit;
-}
-
-String? _extractContentRating(List<SeerrContentRating>? contentRatings, String userRegion) {
-  if (contentRatings == null || contentRatings.isEmpty) return null;
-
-  final userRegionUpper = userRegion.toUpperCase();
-  String? usFallback;
-  String? anyFallback;
-
-  for (final rating in contentRatings) {
-    final countryCode = (rating.countryCode ?? '').toUpperCase();
-    final ratingValue = rating.rating;
-
-    if (ratingValue == null || ratingValue.isEmpty) continue;
-
-    if (countryCode == userRegionUpper) {
-      return ratingValue;
-    }
-
-    if (usFallback == null && countryCode == 'US') {
-      usFallback = ratingValue;
-    }
-
-    anyFallback ??= ratingValue;
-  }
-
-  return usFallback ?? anyFallback;
 }

@@ -15,7 +15,6 @@ class SeerrPosterRow extends ConsumerWidget {
   final String label;
   final EdgeInsets contentPadding;
   final void Function(SeerrDashboardPosterModel focused)? onFocused;
-  final void Function(SeerrDashboardPosterModel focused)? onRequestAddTap;
 
   final void Function()? onLabelClick;
 
@@ -24,7 +23,6 @@ class SeerrPosterRow extends ConsumerWidget {
     required this.label,
     this.contentPadding = const EdgeInsets.symmetric(horizontal: 16),
     this.onFocused,
-    this.onRequestAddTap,
     this.onLabelClick,
     super.key,
   });
@@ -53,7 +51,6 @@ class SeerrPosterRow extends ConsumerWidget {
           key: Key(poster.id),
           poster: poster,
           aspectRatio: dominantRatio,
-          onRequestAddTap: onRequestAddTap,
         );
       },
     );

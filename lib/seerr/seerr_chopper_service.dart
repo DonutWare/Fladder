@@ -56,6 +56,13 @@ abstract class SeerrChopperService extends ChopperService {
     @Query('language') String? language,
   });
 
+  @GET(path: '/tv/{tvId}/season/{seasonNumber}')
+  Future<Response<SeerrSeasonDetails>> getSeasonDetails(
+    @Path('tvId') int tvId,
+    @Path('seasonNumber') int seasonNumber, {
+    @Query('language') String? language,
+  });
+
   @GET(path: '/request')
   Future<Response<SeerrRequestsResponse>> getRequests({
     @Query('take') int? take,
@@ -90,6 +97,22 @@ abstract class SeerrChopperService extends ChopperService {
     @Query('skip') int? skip,
     @Query('filter') String? filter,
     @Query('sort') String? sort,
+  });
+
+  @DELETE(path: '/media/{mediaId}')
+  Future<Response<dynamic>> deleteMedia(@Path('mediaId') int mediaId);
+
+  @DELETE(path: '/media/{mediaId}/file')
+  Future<Response<dynamic>> deleteMediaFile(
+    @Path('mediaId') int mediaId, {
+    @Query('is4k') bool? is4k,
+  });
+
+  @POST(path: '/media/{mediaId}/{status}')
+  Future<Response<SeerrMediaInfo>> updateMediaStatus(
+    @Path('mediaId') int mediaId,
+    @Path('status') String status, {
+    @Body() Map<String, dynamic>? body,
   });
 
   @GET(path: '/discover/trending')

@@ -163,8 +163,11 @@ class SeerrService {
     int? tmdbId,
     int? tvdbId,
     String? language,
-    SeerrDashboardPosterModel? existing,
+    SeerrDashboardMediaType? mediaType,
   }) async {
+    if (tmdbId != null && mediaType == null) {
+      throw ArgumentError('mediaType must be provided when tmdbId is specified.');
+    }
     if (tvdbId != null) {
       if (tmdbId == null) return null;
       final tvResponse = await tvDetails(tvId: tmdbId, language: language);
@@ -176,7 +179,7 @@ class SeerrService {
       if (firstAirDate != null && firstAirDate.isNotEmpty) {
         releaseYear = firstAirDate.split('-').first;
       }
-      final update = _posterFromDetails(
+      return _posterFromDetails(
         type: SeerrDashboardMediaType.tv,
         tmdbId: details.id?.toInt() ?? 0,
         jellyfinItemId: details.mediaInfo?.primaryJellyfinMediaId,
@@ -190,63 +193,55 @@ class SeerrService {
         mediaInfo: details.mediaInfo,
         releaseYear: releaseYear,
       );
-
-      if (update == null) return existing;
-
-      return existing?.copyWith(
-            id: update.id,
-            type: update.type,
-            tmdbId: update.tmdbId,
-            jellyfinItemId: update.jellyfinItemId ?? existing.jellyfinItemId,
-            title: update.title,
-            overview: update.overview,
-            images: update.images,
-            status: update.status,
-            seasons: update.seasons ?? existing.seasons,
-            seasonStatuses: update.seasonStatuses ?? existing.seasonStatuses,
-            mediaInfo: update.mediaInfo ?? existing.mediaInfo,
-          ) ??
-          update;
     }
 
     if (tmdbId != null) {
-      final movieResponse = await movieDetails(tmdbId: tmdbId, language: language);
-      if (!movieResponse.isSuccessful || movieResponse.body == null) return null;
-      final details = movieResponse.body!;
-      String? releaseYear;
-      final releaseDate = details.releaseDate;
-      if (releaseDate != null && releaseDate.isNotEmpty) {
-        releaseYear = releaseDate.split('-').first;
+      if (mediaType == SeerrDashboardMediaType.tv) {
+        final tvResponse = await tvDetails(tvId: tmdbId, language: language);
+        if (!tvResponse.isSuccessful || tvResponse.body == null) return null;
+        final details = tvResponse.body!;
+        final seasonStatusMap = _seasonStatusMap(details.mediaInfo?.seasons);
+        String? releaseYear;
+        final firstAirDate = details.firstAirDate;
+        if (firstAirDate != null && firstAirDate.isNotEmpty) {
+          releaseYear = firstAirDate.split('-').first;
+        }
+        return _posterFromDetails(
+          type: SeerrDashboardMediaType.tv,
+          tmdbId: details.id?.toInt() ?? 0,
+          jellyfinItemId: details.mediaInfo?.primaryJellyfinMediaId,
+          title: details.name ?? '',
+          overview: details.overview ?? '',
+          posterUrl: details.posterUrl,
+          backdropUrl: details.backdropUrl,
+          status: _statusFromRaw(details.mediaInfo?.status?.toInt()),
+          seasons: details.seasons,
+          seasonStatuses: seasonStatusMap.isEmpty ? null : seasonStatusMap,
+          mediaInfo: details.mediaInfo,
+          releaseYear: releaseYear,
+        );
+      } else {
+        final movieResponse = await movieDetails(tmdbId: tmdbId, language: language);
+        if (!movieResponse.isSuccessful || movieResponse.body == null) return null;
+        final details = movieResponse.body!;
+        String? releaseYear;
+        final releaseDate = details.releaseDate;
+        if (releaseDate != null && releaseDate.isNotEmpty) {
+          releaseYear = releaseDate.split('-').first;
+        }
+        return _posterFromDetails(
+          type: SeerrDashboardMediaType.movie,
+          tmdbId: details.id?.toInt() ?? 0,
+          jellyfinItemId: details.mediaInfo?.primaryJellyfinMediaId,
+          title: details.title ?? '',
+          overview: details.overview ?? '',
+          posterUrl: details.posterUrl,
+          backdropUrl: details.backdropUrl,
+          status: _statusFromRaw(details.mediaInfo?.status?.toInt()),
+          mediaInfo: details.mediaInfo,
+          releaseYear: releaseYear,
+        );
       }
-      final update = _posterFromDetails(
-        type: SeerrDashboardMediaType.movie,
-        tmdbId: details.id?.toInt() ?? 0,
-        jellyfinItemId: details.mediaInfo?.primaryJellyfinMediaId,
-        title: details.title ?? '',
-        overview: details.overview ?? '',
-        posterUrl: details.posterUrl,
-        backdropUrl: details.backdropUrl,
-        status: _statusFromRaw(details.mediaInfo?.status?.toInt()),
-        mediaInfo: details.mediaInfo,
-        releaseYear: releaseYear,
-      );
-
-      if (update == null) return existing;
-
-      return existing?.copyWith(
-            id: update.id,
-            type: update.type,
-            tmdbId: update.tmdbId,
-            jellyfinItemId: update.jellyfinItemId ?? existing.jellyfinItemId,
-            title: update.title,
-            overview: update.overview,
-            images: update.images,
-            status: update.status,
-            seasons: update.seasons ?? existing.seasons,
-            seasonStatuses: update.seasonStatuses ?? existing.seasonStatuses,
-            mediaInfo: update.mediaInfo ?? existing.mediaInfo,
-          ) ??
-          update;
     }
 
     return null;
@@ -258,6 +253,14 @@ class SeerrService {
 
   Future<Response<SeerrTvDetails>> tvDetails({required int tvId, String? language}) {
     return _api.getTvDetails(tvId, language: language);
+  }
+
+  Future<Response<SeerrSeasonDetails>> seasonDetails({
+    required int tvId,
+    required int seasonNumber,
+    String? language,
+  }) {
+    return _api.getSeasonDetails(tvId, seasonNumber, language: language);
   }
 
   Future<Response<SeerrRequestsResponse>> listRequests({
@@ -488,6 +491,22 @@ class SeerrService {
 
   Future<Response<dynamic>> deleteRequest({required int requestId}) {
     return _api.deleteRequest(requestId);
+  }
+
+  Future<Response<dynamic>> deleteMedia({required int mediaId}) {
+    return _api.deleteMedia(mediaId);
+  }
+
+  Future<Response<dynamic>> deleteMediaFile({required int mediaId, bool? is4k}) {
+    return _api.deleteMediaFile(mediaId, is4k: is4k);
+  }
+
+  Future<Response<SeerrMediaInfo>> updateMediaStatus({
+    required int mediaId,
+    required String status,
+    Map<String, dynamic>? body,
+  }) {
+    return _api.updateMediaStatus(mediaId, status, body: body);
   }
 
   Future<List<SeerrDashboardPosterModel>> searchPosters({required String query, int? page, String? language}) async {

@@ -12,6 +12,7 @@ import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/util/input_handler.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/string_extensions.dart';
@@ -116,7 +117,9 @@ class HomeScreen extends ConsumerWidget {
                     context: context,
                     title: context.localized.search,
                     key: Key(e.name.capitalize()),
-                    onPressed: () => context.router.navigate(SeerrSearchRoute()),
+                    onPressed: () => context.router.navigate(SeerrSearchRoute(
+                      mode: SeerrSearchMode.search,
+                    )),
                     child: const Icon(IconsaxPlusLinear.search_status),
                   ),
                   action: () => e.navigate(context),

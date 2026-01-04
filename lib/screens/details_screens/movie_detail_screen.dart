@@ -64,7 +64,7 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
       ),
       onRefresh: () async => await ref.read(providerInstance.notifier).fetchDetails(widget.item),
       backDrops: details?.images,
-      content: (padding) => details != null
+      content: (context, padding) => details != null
           ? Padding(
               padding: const EdgeInsets.only(bottom: 64),
               child: Column(
@@ -75,7 +75,7 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
                     name: details.name,
                     image: details.images,
                     padding: padding,
-                    playButton: MediaPlayButton(
+                    mainButton: MediaPlayButton(
                       item: details,
                       onLongPressed: (restart) async {
                         await details.play(

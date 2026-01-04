@@ -32,7 +32,7 @@ class SeerrSeasonsSection extends ConsumerWidget {
     final notifier = ref.read(seerrRequestProvider.notifier);
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       spacing: 12,
       children: [
         Text(
@@ -151,6 +151,10 @@ class SeerrSeasonsSection extends ConsumerWidget {
             });
           },
         ),
+        FilledButton(
+          onPressed: () => notifier.selectAllSeasons(),
+          child: Text(context.localized.requestAll),
+        )
       ],
     );
   }

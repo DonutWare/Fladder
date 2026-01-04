@@ -182,6 +182,25 @@ final class _$SeerrChopperService extends SeerrChopperService {
   }
 
   @override
+  Future<Response<SeerrSeasonDetails>> getSeasonDetails(
+    int tvId,
+    int seasonNumber, {
+    String? language,
+  }) {
+    final Uri $url = Uri.parse('/api/v1/tv/${tvId}/season/${seasonNumber}');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'language': language
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<SeerrSeasonDetails, SeerrSeasonDetails>($request);
+  }
+
+  @override
   Future<Response<SeerrRequestsResponse>> getRequests({
     int? take,
     int? skip,
@@ -285,6 +304,50 @@ final class _$SeerrChopperService extends SeerrChopperService {
       parameters: $params,
     );
     return client.send<SeerrMediaResponse, SeerrMediaResponse>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> deleteMedia(int mediaId) {
+    final Uri $url = Uri.parse('/api/v1/media/${mediaId}');
+    final Request $request = Request(
+      'DELETE',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> deleteMediaFile(
+    int mediaId, {
+    bool? is4k,
+  }) {
+    final Uri $url = Uri.parse('/api/v1/media/${mediaId}/file');
+    final Map<String, dynamic> $params = <String, dynamic>{'is4k': is4k};
+    final Request $request = Request(
+      'DELETE',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<SeerrMediaInfo>> updateMediaStatus(
+    int mediaId,
+    String status, {
+    Map<String, dynamic>? body,
+  }) {
+    final Uri $url = Uri.parse('/api/v1/media/${mediaId}/${status}');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+    );
+    return client.send<SeerrMediaInfo, SeerrMediaInfo>($request);
   }
 
   @override
