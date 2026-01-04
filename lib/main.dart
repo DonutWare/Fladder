@@ -268,28 +268,25 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
 
     final isFullScreen = await windowManager.isFullScreen();
 
-    if (_isDesktop && (!isFullScreen && kDebugMode)) {
-      WindowOptions windowOptions = WindowOptions(
-        backgroundColor: Colors.transparent,
-        skipTaskbar: false,
-        titleBarStyle: TitleBarStyle.hidden,
-        title: packageInfo.appName.capitalize(),
-      );
-
+    if (_isDesktop) {
       toggleMacTrafficLights(false);
 
-      windowManager.waitUntilReadyToShow(windowOptions, () async {
-        if (!kDebugMode) {
-          await windowManager.show();
-          await windowManager.focus();
-          await windowManager.setSize(Size(clientSettings.size.x, clientSettings.size.y));
-          await windowManager.center();
-        }
-        final startupArguments = ref.read(argumentsStateProvider);
-        if (startupArguments.htpcMode && !isFullScreen) {
-          await windowManager.setFullScreen(true);
-        }
-      });
+      await windowManager.setBackgroundColor(Colors.transparent);
+      await windowManager.setSkipTaskbar(false);
+      await windowManager.setTitle(packageInfo.appName.capitalize());
+      await windowManager.setTitleBarStyle(TitleBarStyle.hidden);
+
+      if (!kDebugMode) {
+        await windowManager.show();
+        await windowManager.focus();
+        await windowManager.setSize(Size(clientSettings.size.x, clientSettings.size.y));
+        await windowManager.center();
+      }
+
+      final startupArguments = ref.read(argumentsStateProvider);
+      if (startupArguments.htpcMode && !isFullScreen) {
+        await windowManager.setFullScreen(true);
+      }
     } else {
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge, overlays: []);
       SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
