@@ -5,10 +5,10 @@ class SeerrHelpers {
   SeerrHelpers._();
 
   /// Builds a season status map from TV details, incorporating both mediaInfo seasons and requests
-  static Map<int, SeerrRequestStatus> buildSeasonStatusMap(SeerrTvDetails details) {
-    final Map<int, SeerrRequestStatus> seasonStatusMap = {
+  static Map<int, SeerrMediaStatus> buildSeasonStatusMap(SeerrTvDetails details) {
+    final Map<int, SeerrMediaStatus> seasonStatusMap = {
       for (final season in details.mediaInfo?.seasons ?? const <SeerrMediaInfoSeason>[])
-        if (season.seasonNumber != null) season.seasonNumber!: SeerrRequestStatus.fromRaw(season.status),
+        if (season.seasonNumber != null) season.seasonNumber!: SeerrMediaStatus.fromRaw(season.status),
     };
 
     final knownSeasonNumbers = <int>{
@@ -20,20 +20,36 @@ class SeerrHelpers {
     if (requests.isNotEmpty) {
       for (final request in requests) {
         final requestStatus = SeerrRequestStatus.fromRaw(request.status);
-        if (requestStatus == SeerrRequestStatus.unknown || requestStatus == SeerrRequestStatus.deleted) continue;
+        final mediaStatusFromRequest = _mediaStatusFromRequestStatus(requestStatus);
+        if (mediaStatusFromRequest == null || !mediaStatusFromRequest.isKnown) continue;
 
         final requestSeasonNumbers = request.seasons?.whereType<int>().toList(growable: false);
         final seasonsToUpdate =
             (requestSeasonNumbers == null || requestSeasonNumbers.isEmpty) ? knownSeasonNumbers : requestSeasonNumbers;
         for (final seasonNumber in seasonsToUpdate) {
           final current = seasonStatusMap[seasonNumber];
-          if (current == SeerrRequestStatus.available || current == SeerrRequestStatus.deleted) continue;
-          seasonStatusMap[seasonNumber] = requestStatus;
+          if (current == SeerrMediaStatus.available || current == SeerrMediaStatus.deleted) continue;
+          seasonStatusMap[seasonNumber] = mediaStatusFromRequest;
         }
       }
     }
 
     return seasonStatusMap;
+  }
+
+  static SeerrMediaStatus? _mediaStatusFromRequestStatus(SeerrRequestStatus status) {
+    switch (status) {
+      case SeerrRequestStatus.pending:
+        return SeerrMediaStatus.pending;
+      case SeerrRequestStatus.approved:
+        return SeerrMediaStatus.processing;
+      case SeerrRequestStatus.completed:
+        return SeerrMediaStatus.available;
+      case SeerrRequestStatus.declined:
+      case SeerrRequestStatus.failed:
+      case SeerrRequestStatus.unknown:
+        return null;
+    }
   }
 
   /// Extracts the content rating for the user's region, with US fallback

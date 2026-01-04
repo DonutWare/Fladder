@@ -24,7 +24,7 @@ mixin _$SeerrDetailsModel {
   List<SeerrDashboardPosterModel> get recommended;
   List<SeerrDashboardPosterModel> get similar;
   List<Person> get people;
-  Map<int, SeerrRequestStatus> get seasonStatuses;
+  Map<int, SeerrMediaStatus> get seasonStatuses;
   SeerrUserModel? get currentUser;
   Map<int, bool> get expandedSeasons;
   Map<int, List<SeerrEpisode>> get episodesCache;
@@ -60,7 +60,7 @@ abstract mixin class $SeerrDetailsModelCopyWith<$Res> {
       List<SeerrDashboardPosterModel> recommended,
       List<SeerrDashboardPosterModel> similar,
       List<Person> people,
-      Map<int, SeerrRequestStatus> seasonStatuses,
+      Map<int, SeerrMediaStatus> seasonStatuses,
       SeerrUserModel? currentUser,
       Map<int, bool> expandedSeasons,
       Map<int, List<SeerrEpisode>> episodesCache});
@@ -140,7 +140,7 @@ class _$SeerrDetailsModelCopyWithImpl<$Res>
       seasonStatuses: null == seasonStatuses
           ? _self.seasonStatuses
           : seasonStatuses // ignore: cast_nullable_to_non_nullable
-              as Map<int, SeerrRequestStatus>,
+              as Map<int, SeerrMediaStatus>,
       currentUser: freezed == currentUser
           ? _self.currentUser
           : currentUser // ignore: cast_nullable_to_non_nullable
@@ -275,7 +275,7 @@ extension SeerrDetailsModelPatterns on SeerrDetailsModel {
             List<SeerrDashboardPosterModel> recommended,
             List<SeerrDashboardPosterModel> similar,
             List<Person> people,
-            Map<int, SeerrRequestStatus> seasonStatuses,
+            Map<int, SeerrMediaStatus> seasonStatuses,
             SeerrUserModel? currentUser,
             Map<int, bool> expandedSeasons,
             Map<int, List<SeerrEpisode>> episodesCache)?
@@ -331,7 +331,7 @@ extension SeerrDetailsModelPatterns on SeerrDetailsModel {
             List<SeerrDashboardPosterModel> recommended,
             List<SeerrDashboardPosterModel> similar,
             List<Person> people,
-            Map<int, SeerrRequestStatus> seasonStatuses,
+            Map<int, SeerrMediaStatus> seasonStatuses,
             SeerrUserModel? currentUser,
             Map<int, bool> expandedSeasons,
             Map<int, List<SeerrEpisode>> episodesCache)
@@ -385,7 +385,7 @@ extension SeerrDetailsModelPatterns on SeerrDetailsModel {
             List<SeerrDashboardPosterModel> recommended,
             List<SeerrDashboardPosterModel> similar,
             List<Person> people,
-            Map<int, SeerrRequestStatus> seasonStatuses,
+            Map<int, SeerrMediaStatus> seasonStatuses,
             SeerrUserModel? currentUser,
             Map<int, bool> expandedSeasons,
             Map<int, List<SeerrEpisode>> episodesCache)?
@@ -429,7 +429,7 @@ class _SeerrDetailsModel extends SeerrDetailsModel {
       final List<SeerrDashboardPosterModel> recommended = const [],
       final List<SeerrDashboardPosterModel> similar = const [],
       final List<Person> people = const [],
-      final Map<int, SeerrRequestStatus> seasonStatuses = const {},
+      final Map<int, SeerrMediaStatus> seasonStatuses = const {},
       this.currentUser,
       final Map<int, bool> expandedSeasons = const {},
       final Map<int, List<SeerrEpisode>> episodesCache = const {}})
@@ -490,10 +490,10 @@ class _SeerrDetailsModel extends SeerrDetailsModel {
     return EqualUnmodifiableListView(_people);
   }
 
-  final Map<int, SeerrRequestStatus> _seasonStatuses;
+  final Map<int, SeerrMediaStatus> _seasonStatuses;
   @override
   @JsonKey()
-  Map<int, SeerrRequestStatus> get seasonStatuses {
+  Map<int, SeerrMediaStatus> get seasonStatuses {
     if (_seasonStatuses is EqualUnmodifiableMapView) return _seasonStatuses;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_seasonStatuses);
@@ -552,7 +552,7 @@ abstract mixin class _$SeerrDetailsModelCopyWith<$Res>
       List<SeerrDashboardPosterModel> recommended,
       List<SeerrDashboardPosterModel> similar,
       List<Person> people,
-      Map<int, SeerrRequestStatus> seasonStatuses,
+      Map<int, SeerrMediaStatus> seasonStatuses,
       SeerrUserModel? currentUser,
       Map<int, bool> expandedSeasons,
       Map<int, List<SeerrEpisode>> episodesCache});
@@ -633,7 +633,7 @@ class __$SeerrDetailsModelCopyWithImpl<$Res>
       seasonStatuses: null == seasonStatuses
           ? _self._seasonStatuses
           : seasonStatuses // ignore: cast_nullable_to_non_nullable
-              as Map<int, SeerrRequestStatus>,
+              as Map<int, SeerrMediaStatus>,
       currentUser: freezed == currentUser
           ? _self.currentUser
           : currentUser // ignore: cast_nullable_to_non_nullable

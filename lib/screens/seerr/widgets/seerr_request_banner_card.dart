@@ -62,7 +62,7 @@ class SeerrRequestBannerCard extends ConsumerWidget {
     }
 
     final List<ItemAction> itemActions = [
-      if (poster.status != SeerrRequestStatus.unknown || poster.id.isNotEmpty)
+      if (poster.hasDisplayStatus || poster.id.isNotEmpty)
         ItemActionButton(
           icon: const Icon(IconsaxPlusBold.folder_open),
           label: Text(context.localized.manageRequest),
@@ -175,15 +175,15 @@ class SeerrRequestBannerCard extends ConsumerWidget {
                                     ),
                               ),
                             ),
-                          if (poster.status != SeerrRequestStatus.unknown)
+                          if (poster.hasDisplayStatus)
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                               decoration: BoxDecoration(
-                                color: poster.status.color.withAlpha(200),
+                                color: poster.displayStatusColor.withAlpha(200),
                                 borderRadius: FladderTheme.smallShape.borderRadius,
                               ),
                               child: Text(
-                                poster.status.label,
+                                poster.displayStatusLabel(context),
                                 style: Theme.of(context).textTheme.labelMedium?.copyWith(
                                       color: Theme.of(context).colorScheme.onSurface,
                                       fontWeight: FontWeight.bold,

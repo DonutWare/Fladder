@@ -23,7 +23,7 @@ mixin _$SeerrRequestModel {
   String? get selectedRootFolder;
   List<SeerrServiceTag> get selectedTags;
   Map<int, bool> get selectedSeasons;
-  Map<int, SeerrRequestStatus> get seasonStatuses;
+  Map<int, SeerrMediaStatus> get seasonStatuses;
   Map<int, SeerrUserQuota> get userQuotas;
   SeerrUserModel? get currentUser;
   SeerrUserModel? get selectedUser;
@@ -65,7 +65,7 @@ abstract mixin class $SeerrRequestModelCopyWith<$Res> {
       String? selectedRootFolder,
       List<SeerrServiceTag> selectedTags,
       Map<int, bool> selectedSeasons,
-      Map<int, SeerrRequestStatus> seasonStatuses,
+      Map<int, SeerrMediaStatus> seasonStatuses,
       Map<int, SeerrUserQuota> userQuotas,
       SeerrUserModel? currentUser,
       SeerrUserModel? selectedUser,
@@ -158,7 +158,7 @@ class _$SeerrRequestModelCopyWithImpl<$Res>
       seasonStatuses: null == seasonStatuses
           ? _self.seasonStatuses
           : seasonStatuses // ignore: cast_nullable_to_non_nullable
-              as Map<int, SeerrRequestStatus>,
+              as Map<int, SeerrMediaStatus>,
       userQuotas: null == userQuotas
           ? _self.userQuotas
           : userQuotas // ignore: cast_nullable_to_non_nullable
@@ -378,7 +378,7 @@ extension SeerrRequestModelPatterns on SeerrRequestModel {
             String? selectedRootFolder,
             List<SeerrServiceTag> selectedTags,
             Map<int, bool> selectedSeasons,
-            Map<int, SeerrRequestStatus> seasonStatuses,
+            Map<int, SeerrMediaStatus> seasonStatuses,
             Map<int, SeerrUserQuota> userQuotas,
             SeerrUserModel? currentUser,
             SeerrUserModel? selectedUser,
@@ -446,7 +446,7 @@ extension SeerrRequestModelPatterns on SeerrRequestModel {
             String? selectedRootFolder,
             List<SeerrServiceTag> selectedTags,
             Map<int, bool> selectedSeasons,
-            Map<int, SeerrRequestStatus> seasonStatuses,
+            Map<int, SeerrMediaStatus> seasonStatuses,
             Map<int, SeerrUserQuota> userQuotas,
             SeerrUserModel? currentUser,
             SeerrUserModel? selectedUser,
@@ -512,7 +512,7 @@ extension SeerrRequestModelPatterns on SeerrRequestModel {
             String? selectedRootFolder,
             List<SeerrServiceTag> selectedTags,
             Map<int, bool> selectedSeasons,
-            Map<int, SeerrRequestStatus> seasonStatuses,
+            Map<int, SeerrMediaStatus> seasonStatuses,
             Map<int, SeerrUserQuota> userQuotas,
             SeerrUserModel? currentUser,
             SeerrUserModel? selectedUser,
@@ -568,7 +568,7 @@ class _SeerrRequestModel extends SeerrRequestModel {
       this.selectedRootFolder,
       final List<SeerrServiceTag> selectedTags = const [],
       final Map<int, bool> selectedSeasons = const {},
-      final Map<int, SeerrRequestStatus> seasonStatuses = const {},
+      final Map<int, SeerrMediaStatus> seasonStatuses = const {},
       final Map<int, SeerrUserQuota> userQuotas = const {},
       this.currentUser,
       this.selectedUser,
@@ -635,10 +635,10 @@ class _SeerrRequestModel extends SeerrRequestModel {
     return EqualUnmodifiableMapView(_selectedSeasons);
   }
 
-  final Map<int, SeerrRequestStatus> _seasonStatuses;
+  final Map<int, SeerrMediaStatus> _seasonStatuses;
   @override
   @JsonKey()
-  Map<int, SeerrRequestStatus> get seasonStatuses {
+  Map<int, SeerrMediaStatus> get seasonStatuses {
     if (_seasonStatuses is EqualUnmodifiableMapView) return _seasonStatuses;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_seasonStatuses);
@@ -720,7 +720,7 @@ abstract mixin class _$SeerrRequestModelCopyWith<$Res>
       String? selectedRootFolder,
       List<SeerrServiceTag> selectedTags,
       Map<int, bool> selectedSeasons,
-      Map<int, SeerrRequestStatus> seasonStatuses,
+      Map<int, SeerrMediaStatus> seasonStatuses,
       Map<int, SeerrUserQuota> userQuotas,
       SeerrUserModel? currentUser,
       SeerrUserModel? selectedUser,
@@ -818,7 +818,7 @@ class __$SeerrRequestModelCopyWithImpl<$Res>
       seasonStatuses: null == seasonStatuses
           ? _self._seasonStatuses
           : seasonStatuses // ignore: cast_nullable_to_non_nullable
-              as Map<int, SeerrRequestStatus>,
+              as Map<int, SeerrMediaStatus>,
       userQuotas: null == userQuotas
           ? _self._userQuotas
           : userQuotas // ignore: cast_nullable_to_non_nullable

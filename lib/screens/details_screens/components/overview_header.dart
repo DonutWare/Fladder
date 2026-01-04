@@ -182,7 +182,7 @@ class OverviewHeader extends ConsumerWidget {
                             textAlign: TextAlign.center,
                           ),
                         ),
-                      if (communityRating != null)
+                      if (communityRating != null && communityRating != 0.0)
                         _SimpleLabel(
                           icon: IconsaxPlusBold.star_1,
                           color: Theme.of(context).colorScheme.tertiaryContainer,

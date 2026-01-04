@@ -12,6 +12,7 @@ import 'package:fladder/screens/details_screens/components/overview_header.dart'
 import 'package:fladder/screens/seerr/seerr_media_management.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_poster_row.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_request_popup.dart';
+import 'package:fladder/screens/seerr/widgets/seerr_requests_sheet.dart';
 import 'package:fladder/screens/shared/detail_scaffold.dart';
 import 'package:fladder/screens/shared/media/expanding_overview.dart';
 import 'package:fladder/screens/shared/media/people_row.dart';
@@ -61,7 +62,9 @@ class SeerrDetailsScreen extends ConsumerWidget {
 
     final itemBaseModel = currentPoster?.itemBaseModel;
 
-    final hasKnownStatus = currentPoster?.status != SeerrRequestStatus.unknown;
+    final hasKnownStatus = currentPoster?.hasDisplayStatus ?? false;
+    final requests = state.poster?.mediaInfo?.requests ?? [];
+    final pendingRequests = requests.where((request) => request.requestStatus == SeerrRequestStatus.pending).toList();
 
     return DetailScaffold(
       label: currentPoster?.title ?? context.localized.request,
@@ -119,12 +122,12 @@ class SeerrDetailsScreen extends ConsumerWidget {
                                 if (hasKnownStatus)
                                   Container(
                                     decoration: BoxDecoration(
-                                      color: currentPoster.status.color,
+                                      color: currentPoster.displayStatusColor,
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                     child: Text(
-                                      currentPoster.status.label,
+                                      currentPoster.displayStatusLabel(context),
                                       style: theme.textTheme.bodyMedium?.copyWith(
                                         color: Colors.white,
                                       ),
@@ -144,59 +147,105 @@ class SeerrDetailsScreen extends ConsumerWidget {
                     communityRating: state.voteAverage,
                     genres:
                         state.genres.map((e) => GenreItems(id: e.id?.toString() ?? "", name: e.name ?? "")).toList(),
-                    mainButton: FocusButton(
-                      autoFocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad,
-                      onTap: () => openSeerrRequestPopup(context, currentPoster),
-                      borderRadius: radius,
-                      onFocusChanged: (value) {
-                        if (value) {
-                          context.ensureVisible(
-                            alignment: 1.0,
-                          );
-                        }
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.primaryContainer,
-                          borderRadius: radius,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            spacing: 8,
-                            children: [
-                              Flexible(
-                                child: Text(
-                                  hasKnownStatus ? context.localized.manageRequest : context.localized.request,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.fade,
-                                  style: theme.textTheme.titleMedium?.copyWith(
-                                    fontWeight: FontWeight.w700,
-                                    color: theme.colorScheme.onPrimaryContainer,
+                    mainButton: Builder(builder: (context) {
+                      return FocusButton(
+                        autoFocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad,
+                        onTap: () => openSeerrRequestPopup(context, currentPoster),
+                        borderRadius: radius,
+                        onFocusChanged: (value) {
+                          if (value) {
+                            context.ensureVisible(
+                              alignment: 1.0,
+                            );
+                          }
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: theme.colorScheme.primaryContainer,
+                            borderRadius: radius,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              spacing: 8,
+                              children: [
+                                Flexible(
+                                  child: Text(
+                                    context.localized.request,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.fade,
+                                    style: theme.textTheme.titleMedium?.copyWith(
+                                      fontWeight: FontWeight.w700,
+                                      color: theme.colorScheme.onPrimaryContainer,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Icon(
-                                hasKnownStatus ? IconsaxPlusLinear.refresh : IconsaxPlusLinear.add,
-                                color: theme.colorScheme.onPrimaryContainer,
-                              ),
-                            ],
+                                Icon(
+                                  IconsaxPlusLinear.add,
+                                  color: theme.colorScheme.onPrimaryContainer,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ),
+                      );
+                    }),
                     centerButtons: Builder(
                       builder: (context) {
                         final canManageRequests = state.currentUser?.canManageRequests ?? false;
+                        final canApproveOtherRequests = canManageRequests && requests.isNotEmpty;
                         return Wrap(
                           spacing: 8,
                           runSpacing: 8,
                           alignment: wrapAlignment,
                           crossAxisAlignment: WrapCrossAlignment.center,
                           children: [
+                            if (canApproveOtherRequests)
+                              FocusButton(
+                                autoFocus: false,
+                                onTap: () async {
+                                  await showSeerrRequestsSheet(
+                                    context: context,
+                                    poster: currentPoster,
+                                    requests: requests,
+                                    onApprove: notifier.approveRequest,
+                                    onDecline: notifier.declineRequest,
+                                  );
+                                },
+                                borderRadius: radius,
+                                onFocusChanged: (value) {
+                                  if (value) {
+                                    context.ensureVisible(
+                                      alignment: 1.0,
+                                    );
+                                  }
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: SeerrRequestStatus.pending.color,
+                                    borderRadius: radius,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      spacing: 8,
+                                      children: [
+                                        Text(
+                                          context.localized.pendingRequests(pendingRequests.length),
+                                          style: theme.textTheme.titleMedium?.copyWith(
+                                            fontWeight: FontWeight.w700,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
                             if (canManageRequests && currentPoster.mediaInfo != null)
                               FocusButton(
                                 autoFocus: false,
@@ -275,7 +324,7 @@ class _SeerrSeasonsSection extends StatelessWidget {
   final SeerrDetailsModel state;
   final SeerrDetails notifier;
   final List<SeerrSeason> seasons;
-  final Map<int, SeerrRequestStatus> seasonStatuses;
+  final Map<int, SeerrMediaStatus> seasonStatuses;
   final void Function(int seasonNumber, bool enabled) onToggle;
 
   const _SeerrSeasonsSection({
@@ -320,7 +369,7 @@ class _SeerrSeasonsSection extends StatelessWidget {
 class _SeasonCard extends StatelessWidget {
   final SeerrSeason season;
   final int seasonNumber;
-  final SeerrRequestStatus? status;
+  final SeerrMediaStatus? status;
   final bool isExpanded;
   final List<SeerrEpisode> episodes;
   final VoidCallback onToggle;
@@ -358,7 +407,7 @@ class _SeasonCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (status != null && status != SeerrRequestStatus.unknown)
+                        if (status != null && status != SeerrMediaStatus.unknown)
                           Padding(
                             padding: const EdgeInsets.only(bottom: 4),
                             child: Container(
@@ -368,7 +417,7 @@ class _SeasonCard extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
-                                status!.label,
+                                status!.label(context),
                                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                       color: Colors.white,
                                       fontWeight: FontWeight.w600,

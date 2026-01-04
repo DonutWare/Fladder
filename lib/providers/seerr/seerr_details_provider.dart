@@ -221,6 +221,20 @@ class SeerrDetails extends _$SeerrDetails {
       state = state.copyWith(episodesCache: updatedCache);
     }
   }
+
+  Future<void> approveRequest(int requestId) async {
+    final response = await api.approveRequest(requestId: requestId);
+    if (response.isSuccessful) {
+      await fetch();
+    }
+  }
+
+  Future<void> declineRequest(int requestId) async {
+    final response = await api.deleteRequest(requestId: requestId);
+    if (response.isSuccessful) {
+      await fetch();
+    }
+  }
 }
 
 @Freezed(copyWith: true)
@@ -238,7 +252,7 @@ abstract class SeerrDetailsModel with _$SeerrDetailsModel {
     @Default([]) List<SeerrDashboardPosterModel> recommended,
     @Default([]) List<SeerrDashboardPosterModel> similar,
     @Default([]) List<Person> people,
-    @Default({}) Map<int, SeerrRequestStatus> seasonStatuses,
+    @Default({}) Map<int, SeerrMediaStatus> seasonStatuses,
     SeerrUserModel? currentUser,
     @Default({}) Map<int, bool> expandedSeasons,
     @Default({}) Map<int, List<SeerrEpisode>> episodesCache,
@@ -259,6 +273,6 @@ abstract class SeerrDetailsModel with _$SeerrDetailsModel {
 
   bool isRequestedAlready(int seasonNumber) {
     final status = seasonStatuses[seasonNumber];
-    return status != null && status != SeerrRequestStatus.unknown && status != SeerrRequestStatus.deleted;
+    return status != null && status.isKnown && status != SeerrMediaStatus.deleted;
   }
 }

@@ -239,14 +239,14 @@ class SeerrRequest extends _$SeerrRequest {
 
   void _initializeSeasonSelection(SeerrDashboardPosterModel poster) {
     final seasons = poster.seasons ?? const <SeerrSeason>[];
-    final statuses = poster.seasonStatuses ?? const <int, SeerrRequestStatus>{};
+    final statuses = poster.seasonStatuses ?? const <int, SeerrMediaStatus>{};
 
     final selection = <int, bool>{};
     for (final season in seasons) {
       final number = season.seasonNumber;
       if (number == null) continue;
       final status = statuses[number];
-      final locked = status != null && (status != SeerrRequestStatus.unknown && status != SeerrRequestStatus.deleted);
+      final locked = status != null && status.isKnown && status != SeerrMediaStatus.deleted;
       selection[number] = locked;
     }
 
@@ -283,7 +283,7 @@ abstract class SeerrRequestModel with _$SeerrRequestModel {
     String? selectedRootFolder,
     @Default([]) List<SeerrServiceTag> selectedTags,
     @Default({}) Map<int, bool> selectedSeasons,
-    @Default({}) Map<int, SeerrRequestStatus> seasonStatuses,
+    @Default({}) Map<int, SeerrMediaStatus> seasonStatuses,
     @Default({}) Map<int, SeerrUserQuota> userQuotas,
     SeerrUserModel? currentUser,
     SeerrUserModel? selectedUser,
@@ -300,11 +300,13 @@ abstract class SeerrRequestModel with _$SeerrRequestModel {
 
   SeerrUserModel? get requestingUser => selectedUser ?? currentUser;
 
-  List<SeerrMediaRequest> get _activeRequests => (poster?.mediaInfo?.requests ?? const <SeerrMediaRequest>[])
-      .where(
-        (request) => request.id != null && SeerrRequestStatus.fromRaw(request.status) != SeerrRequestStatus.deleted,
-      )
-      .toList(growable: false);
+  List<SeerrMediaRequest> get _activeRequests => (poster?.mediaInfo?.requests ?? const <SeerrMediaRequest>[]).where(
+        (request) {
+          if (request.id == null) return false;
+          final status = SeerrRequestStatus.fromRaw(request.status);
+          return status == SeerrRequestStatus.pending || status == SeerrRequestStatus.approved;
+        },
+      ).toList(growable: false);
 
   bool get hasExistingRequest => _activeRequests.isNotEmpty;
 
@@ -380,7 +382,7 @@ abstract class SeerrRequestModel with _$SeerrRequestModel {
 
   bool isRequestedAlready(int seasonNumber) {
     final status = seasonStatuses[seasonNumber];
-    return status != null && status != SeerrRequestStatus.unknown && status != SeerrRequestStatus.deleted;
+    return status != null && status.isKnown && status != SeerrMediaStatus.deleted;
   }
 
   bool get canSubmitRequest {

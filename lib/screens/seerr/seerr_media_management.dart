@@ -121,7 +121,7 @@ class _MediaManagementActionsState extends ConsumerState<_MediaManagementActions
         ),
       ],
       ItemActionDivider(),
-      if (widget.poster.status != SeerrRequestStatus.available)
+      if (widget.poster.mediaStatus != SeerrMediaStatus.available)
         ItemActionButton(
           icon: const Icon(IconsaxPlusLinear.tick_circle),
           backgroundColor: Colors.green.shade900,

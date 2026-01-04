@@ -13,7 +13,6 @@ class PositionProvider extends InheritedWidget {
 
   static PositionContext of(BuildContext context) {
     final provider = context.dependOnInheritedWidgetOfExactType<PositionProvider>();
-    assert(provider != null, 'No PositionProvider found in context');
     return provider?.position ?? PositionContext.middle;
   }
 

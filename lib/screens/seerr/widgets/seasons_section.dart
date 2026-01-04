@@ -17,7 +17,7 @@ class SeerrSeasonsSection extends ConsumerWidget {
   final SeerrDashboardPosterModel model;
   final SeerrRequestModel requestState;
   final List<SeerrSeason> seasons;
-  final Map<int, SeerrRequestStatus> seasonStatuses;
+  final Map<int, SeerrMediaStatus> seasonStatuses;
 
   const SeerrSeasonsSection({
     required this.model,
@@ -87,7 +87,7 @@ class SeerrSeasonsSection extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            if (status != null && status != SeerrRequestStatus.unknown)
+                            if (status != null && status != SeerrMediaStatus.unknown)
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                                 decoration: BoxDecoration(
@@ -95,7 +95,7 @@ class SeerrSeasonsSection extends ConsumerWidget {
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Text(
-                                  status.label,
+                                  status.label(context),
                                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                         color: Colors.white,
                                         fontWeight: FontWeight.w600,

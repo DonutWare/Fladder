@@ -4,6 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/util/localization_helper.dart';
 
 part 'seerr_models.freezed.dart';
@@ -1008,6 +1009,8 @@ class SeerrMediaRequest {
     this.profileId,
     this.rootFolder,
   });
+
+  SeerrRequestStatus get requestStatus => SeerrRequestStatus.fromRaw(status);
 
   factory SeerrMediaRequest.fromJson(Map<String, dynamic> json) => _$SeerrMediaRequestFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrMediaRequestToJson(this);

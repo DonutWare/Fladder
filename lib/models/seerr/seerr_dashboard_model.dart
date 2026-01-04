@@ -9,34 +9,37 @@ import 'package:fladder/models/items/movie_model.dart';
 import 'package:fladder/models/items/overview_model.dart';
 import 'package:fladder/models/items/series_model.dart';
 import 'package:fladder/seerr/seerr_models.dart';
+import 'package:fladder/util/localization_helper.dart';
 
 enum SeerrRequestStatus {
   unknown,
   pending,
-  processing,
-  partiallyAvailable,
-  available,
-  deleted;
+  approved,
+  declined,
+  failed,
+  completed;
 
   static SeerrRequestStatus fromRaw(int? raw) {
     return switch (raw) {
-      2 => SeerrRequestStatus.pending,
-      3 => SeerrRequestStatus.processing,
-      4 => SeerrRequestStatus.partiallyAvailable,
-      5 => SeerrRequestStatus.available,
-      6 || 7 => SeerrRequestStatus.deleted,
+      1 => SeerrRequestStatus.pending,
+      2 => SeerrRequestStatus.approved,
+      3 => SeerrRequestStatus.declined,
+      4 => SeerrRequestStatus.failed,
+      5 => SeerrRequestStatus.completed,
       _ => SeerrRequestStatus.unknown,
     };
   }
 
-  String get label {
+  bool get isKnown => this != SeerrRequestStatus.unknown;
+
+  String label(BuildContext context) {
     return switch (this) {
       SeerrRequestStatus.unknown => "",
-      SeerrRequestStatus.pending => "Pending",
-      SeerrRequestStatus.processing => "Requested",
-      SeerrRequestStatus.partiallyAvailable => "Partially Available",
-      SeerrRequestStatus.available => "Available",
-      SeerrRequestStatus.deleted => "Deleted",
+      SeerrRequestStatus.pending => context.localized.seerrRequestStatusPending,
+      SeerrRequestStatus.approved => context.localized.seerrRequestStatusApproved,
+      SeerrRequestStatus.declined => context.localized.seerrRequestStatusDeclined,
+      SeerrRequestStatus.failed => context.localized.seerrRequestStatusFailed,
+      SeerrRequestStatus.completed => context.localized.seerrRequestStatusCompleted,
     };
   }
 
@@ -44,10 +47,59 @@ enum SeerrRequestStatus {
     return switch (this) {
       SeerrRequestStatus.unknown => Colors.grey,
       SeerrRequestStatus.pending => Colors.orange,
-      SeerrRequestStatus.processing => Colors.blue,
-      SeerrRequestStatus.partiallyAvailable => Colors.amber,
-      SeerrRequestStatus.available => Colors.green,
-      SeerrRequestStatus.deleted => Colors.red,
+      SeerrRequestStatus.approved => Colors.blue,
+      SeerrRequestStatus.declined => Colors.red,
+      SeerrRequestStatus.failed => Colors.deepOrange,
+      SeerrRequestStatus.completed => Colors.green,
+    };
+  }
+}
+
+enum SeerrMediaStatus {
+  unknown,
+  pending,
+  processing,
+  partiallyAvailable,
+  available,
+  blacklisted,
+  deleted;
+
+  static SeerrMediaStatus fromRaw(int? raw) {
+    return switch (raw) {
+      1 => SeerrMediaStatus.unknown,
+      2 => SeerrMediaStatus.pending,
+      3 => SeerrMediaStatus.processing,
+      4 => SeerrMediaStatus.partiallyAvailable,
+      5 => SeerrMediaStatus.available,
+      6 => SeerrMediaStatus.blacklisted,
+      7 => SeerrMediaStatus.deleted,
+      _ => SeerrMediaStatus.unknown,
+    };
+  }
+
+  bool get isKnown => this != SeerrMediaStatus.unknown;
+
+  String label(BuildContext context) {
+    return switch (this) {
+      SeerrMediaStatus.unknown => "",
+      SeerrMediaStatus.pending => context.localized.seerrRequestStatusPending,
+      SeerrMediaStatus.processing => context.localized.seerrMediaStatusProcessing,
+      SeerrMediaStatus.partiallyAvailable => context.localized.seerrMediaStatusPartiallyAvailable,
+      SeerrMediaStatus.available => context.localized.seerrMediaStatusAvailable,
+      SeerrMediaStatus.blacklisted => context.localized.seerrMediaStatusBlacklisted,
+      SeerrMediaStatus.deleted => context.localized.seerrMediaStatusDeleted,
+    };
+  }
+
+  Color get color {
+    return switch (this) {
+      SeerrMediaStatus.unknown => Colors.grey,
+      SeerrMediaStatus.pending => Colors.orange,
+      SeerrMediaStatus.processing => Colors.blue,
+      SeerrMediaStatus.partiallyAvailable => Colors.amber,
+      SeerrMediaStatus.available => Colors.green,
+      SeerrMediaStatus.blacklisted => Colors.purple,
+      SeerrMediaStatus.deleted => Colors.red,
     };
   }
 }
@@ -75,9 +127,10 @@ class SeerrDashboardPosterModel {
   final String title;
   final String overview;
   final ImagesData images;
-  final SeerrRequestStatus status;
+  final SeerrMediaStatus mediaStatus;
+  final SeerrRequestStatus? requestStatus;
   final List<SeerrSeason>? seasons;
-  final Map<int, SeerrRequestStatus>? seasonStatuses;
+  final Map<int, SeerrMediaStatus>? seasonStatuses;
   final SeerrMediaInfo? mediaInfo;
   final String? releaseYear;
   final dynamic requestedBy;
@@ -90,8 +143,9 @@ class SeerrDashboardPosterModel {
     required this.title,
     required this.overview,
     required this.images,
-    required this.status,
+    required this.mediaStatus,
     required this.jellyfinItemId,
+    this.requestStatus,
     this.seasons,
     this.seasonStatuses,
     this.mediaInfo,
@@ -108,9 +162,10 @@ class SeerrDashboardPosterModel {
     String? title,
     String? overview,
     ImagesData? images,
-    SeerrRequestStatus? status,
+    SeerrMediaStatus? mediaStatus,
+    SeerrRequestStatus? requestStatus,
     List<SeerrSeason>? seasons,
-    Map<int, SeerrRequestStatus>? seasonStatuses,
+    Map<int, SeerrMediaStatus>? seasonStatuses,
     SeerrMediaInfo? mediaInfo,
     String? releaseYear,
     dynamic requestedBy,
@@ -124,7 +179,8 @@ class SeerrDashboardPosterModel {
       title: title ?? this.title,
       overview: overview ?? this.overview,
       images: images ?? this.images,
-      status: status ?? this.status,
+      mediaStatus: mediaStatus ?? this.mediaStatus,
+      requestStatus: requestStatus ?? this.requestStatus,
       seasons: seasons ?? this.seasons,
       seasonStatuses: seasonStatuses ?? this.seasonStatuses,
       mediaInfo: mediaInfo ?? this.mediaInfo,
@@ -133,6 +189,12 @@ class SeerrDashboardPosterModel {
       requestedSeasons: requestedSeasons ?? this.requestedSeasons,
     );
   }
+
+  bool get hasDisplayStatus => (requestStatus?.isKnown ?? false) || mediaStatus.isKnown;
+
+  String displayStatusLabel(BuildContext context) => requestStatus?.label(context) ?? mediaStatus.label(context);
+
+  Color get displayStatusColor => requestStatus?.color ?? mediaStatus.color;
 
   ItemBaseModel? get itemBaseModel {
     if (jellyfinItemId == null) {

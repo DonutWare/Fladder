@@ -63,13 +63,13 @@ class SeerrPosterCard extends ConsumerWidget {
     }
 
     final List<ItemAction> itemActions = [
-      if (poster.status != SeerrRequestStatus.unknown || poster.id.isNotEmpty)
+      if (poster.hasDisplayStatus || poster.id.isNotEmpty)
         ItemActionButton(
           icon: const Icon(IconsaxPlusBold.folder_open),
           label: Text(context.localized.manageRequest),
           action: openRequestDetails,
         ),
-      if (poster.status == SeerrRequestStatus.unknown && canRequest)
+      if (!poster.hasDisplayStatus && canRequest)
         ItemActionButton(
           icon: const Icon(IconsaxPlusBold.add),
           label: Text(context.localized.request),
@@ -116,7 +116,7 @@ class SeerrPosterCard extends ConsumerWidget {
             onSecondaryTapDown: (details) => _showContextMenu(context, itemActions, ref, details.globalPosition),
             onLongPress: () => _showBottomSheet(context, itemActions, ref),
             focusedOverlays: [
-              if (poster.status == SeerrRequestStatus.unknown &&
+              if (!poster.hasDisplayStatus &&
                   canRequest &&
                   AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer)
                 Align(
@@ -160,21 +160,21 @@ class SeerrPosterCard extends ConsumerWidget {
                 ),
             ],
             overlays: [
-              if (poster.status != SeerrRequestStatus.unknown)
+              if (poster.hasDisplayStatus)
                 Align(
                   alignment: Alignment.topRight,
                   child: Padding(
                     padding: const EdgeInsets.all(6.0),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: poster.status.color,
+                        color: poster.displayStatusColor,
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(3.0),
                         child: Icon(
-                          switch (poster.status) {
-                            SeerrRequestStatus.available => IconsaxPlusLinear.import_3,
+                          switch (poster.mediaStatus) {
+                            SeerrMediaStatus.available => IconsaxPlusLinear.import_3,
                             _ => Icons.remove_rounded,
                           },
                           size: 18,

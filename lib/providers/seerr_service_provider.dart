@@ -119,13 +119,14 @@ class SeerrService {
     required String title,
     required String overview,
     required String? posterUrl,
-    required SeerrRequestStatus? status,
+    required SeerrMediaStatus? mediaStatus,
     required String? backdropUrl,
     SeerrMediaInfo? mediaInfo,
     String? jellyfinItemId,
     List<SeerrSeason>? seasons,
-    Map<int, SeerrRequestStatus>? seasonStatuses,
+    Map<int, SeerrMediaStatus>? seasonStatuses,
     String? releaseYear,
+    SeerrRequestStatus? requestStatus,
   }) {
     final keyPrefix = type == SeerrDashboardMediaType.movie ? 'tmdb_movie_$tmdbId' : 'tmdb_tv_$tmdbId';
     final id = type == SeerrDashboardMediaType.movie ? 'tmdb:movie:$tmdbId' : 'tmdb:tv:$tmdbId';
@@ -141,7 +142,8 @@ class SeerrService {
         primary: posterUrl != null ? ImageData(path: posterUrl, key: '${keyPrefix}_primary') : null,
         backDrop: backdropUrl != null ? [ImageData(path: backdropUrl, key: '${keyPrefix}_backdrop')] : null,
       ),
-      status: status ?? SeerrRequestStatus.unknown,
+      mediaStatus: mediaStatus ?? SeerrMediaStatus.unknown,
+      requestStatus: requestStatus,
       seasons: seasons,
       seasonStatuses: seasonStatuses,
       mediaInfo: mediaInfo,
@@ -149,13 +151,13 @@ class SeerrService {
     );
   }
 
-  SeerrRequestStatus? _statusFromRaw(int? raw) => raw != null ? SeerrRequestStatus.fromRaw(raw) : null;
+  SeerrMediaStatus? _mediaStatusFromRaw(int? raw) => raw != null ? SeerrMediaStatus.fromRaw(raw) : null;
 
-  Map<int, SeerrRequestStatus> _seasonStatusMap(List<SeerrMediaInfoSeason>? seasons) {
+  Map<int, SeerrMediaStatus> _seasonStatusMap(List<SeerrMediaInfoSeason>? seasons) {
     if (seasons == null) return const {};
     return {
       for (final season in seasons)
-        if (season.seasonNumber != null) season.seasonNumber!: SeerrRequestStatus.fromRaw(season.status),
+        if (season.seasonNumber != null) season.seasonNumber!: SeerrMediaStatus.fromRaw(season.status),
     };
   }
 
@@ -184,7 +186,7 @@ class SeerrService {
         overview: details.overview ?? '',
         posterUrl: details.posterUrl,
         backdropUrl: details.backdropUrl,
-        status: _statusFromRaw(details.mediaInfo?.status?.toInt()),
+        mediaStatus: _mediaStatusFromRaw(details.mediaInfo?.status?.toInt()),
         seasons: details.seasons,
         seasonStatuses: seasonStatusMap.isEmpty ? null : seasonStatusMap,
         mediaInfo: details.mediaInfo,
@@ -211,7 +213,7 @@ class SeerrService {
           overview: details.overview ?? '',
           posterUrl: details.posterUrl,
           backdropUrl: details.backdropUrl,
-          status: _statusFromRaw(details.mediaInfo?.status?.toInt()),
+          mediaStatus: _mediaStatusFromRaw(details.mediaInfo?.status?.toInt()),
           seasons: details.seasons,
           seasonStatuses: seasonStatusMap.isEmpty ? null : seasonStatusMap,
           mediaInfo: details.mediaInfo,
@@ -234,7 +236,7 @@ class SeerrService {
           overview: details.overview ?? '',
           posterUrl: details.posterUrl,
           backdropUrl: details.backdropUrl,
-          status: _statusFromRaw(details.mediaInfo?.status?.toInt()),
+          mediaStatus: _mediaStatusFromRaw(details.mediaInfo?.status?.toInt()),
           mediaInfo: details.mediaInfo,
           releaseYear: releaseYear,
         );
@@ -340,7 +342,7 @@ class SeerrService {
       overview: item.overview ?? '',
       posterUrl: item.posterUrl,
       backdropUrl: item.backdropUrl,
-      status: item.mediaInfo?.status != null ? SeerrRequestStatus.fromRaw(item.mediaInfo?.status) : null,
+      mediaStatus: item.mediaInfo?.status != null ? SeerrMediaStatus.fromRaw(item.mediaInfo?.status) : null,
       mediaInfo: item.mediaInfo,
       releaseYear: releaseYear,
     );
@@ -484,6 +486,10 @@ class SeerrService {
         tags: tags,
       ),
     );
+  }
+
+  Future<Response<SeerrMediaRequest>> approveRequest({required int requestId}) {
+    return _api.approveRequest(requestId);
   }
 
   Future<Response<dynamic>> deleteRequest({required int requestId}) {

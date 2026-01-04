@@ -156,18 +156,18 @@ class _SeerrRequestPopupState extends ConsumerState<SeerrRequestPopup> {
                                             ?.copyWith(fontWeight: FontWeight.bold),
                                       ),
                                     ),
-                                    if (model.status != SeerrRequestStatus.unknown)
+                                    if (model.hasDisplayStatus)
                                       Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Container(
                                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                                             decoration: BoxDecoration(
-                                              color: model.status.color.withAlpha(200),
+                                              color: model.displayStatusColor.withAlpha(200),
                                               borderRadius: FladderTheme.smallShape.borderRadius,
                                             ),
                                             child: Text(
-                                              model.status.label,
+                                              model.displayStatusLabel(context),
                                               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                                     color: Colors.white,
                                                     fontWeight: FontWeight.w600,

@@ -2074,6 +2074,26 @@
   "@seerrAutoApproveNotice": {},
   "seerrPermissionDenied": "You do not have permission to request this media type.",
   "@seerrPermissionDenied": {},
+  "seerrRequestStatusPending": "Pending",
+  "@seerrRequestStatusPending": {},
+  "seerrRequestStatusApproved": "Approved",
+  "@seerrRequestStatusApproved": {},
+  "seerrRequestStatusDeclined": "Declined",
+  "@seerrRequestStatusDeclined": {},
+  "seerrRequestStatusFailed": "Failed",
+  "@seerrRequestStatusFailed": {},
+  "seerrRequestStatusCompleted": "Completed",
+  "@seerrRequestStatusCompleted": {},
+  "seerrMediaStatusProcessing": "Processing",
+  "@seerrMediaStatusProcessing": {},
+  "seerrMediaStatusPartiallyAvailable": "Partially Available",
+  "@seerrMediaStatusPartiallyAvailable": {},
+  "seerrMediaStatusAvailable": "Available",
+  "@seerrMediaStatusAvailable": {},
+  "seerrMediaStatusBlacklisted": "Blacklisted",
+  "@seerrMediaStatusBlacklisted": {},
+  "seerrMediaStatusDeleted": "Deleted",
+  "@seerrMediaStatusDeleted": {},
   "seerrAuthApiKey": "API key",
   "@seerrAuthApiKey": {},
   "seerrAuthLocal": "Local",
@@ -2146,5 +2166,17 @@
     }
   },
   "dataDeleted": "Data deleted",
-  "@dataDeleted": {}
+  "@dataDeleted": {},
+  "approve": "Approve",
+  "decline": "Decline",
+  "pendingRequests": "{count, plural, other{No pending requests} one{{count} pending request} two{{count} pending requests}}",
+  "@pendingRequests": {
+    "description": "pendingRequests",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  }
 }
