@@ -1994,5 +1994,311 @@
         }
     },
     "segmentActionSkipOnce": "Eén keer overslaan",
-    "@segmentActionSkipOnce": {}
+    "@segmentActionSkipOnce": {},
+    "recentlyAdded": "Recent toegevoegd",
+    "@recentlyAdded": {},
+    "recentRequests": "Recente verzoeken",
+    "@recentRequests": {},
+    "trending": "Trending",
+    "@trending": {},
+    "popularMovies": "Populaire films",
+    "@popularMovies": {},
+    "expectedMovies": "Verwachte films",
+    "@expectedMovies": {},
+    "expectedSeries": "Verwachte series",
+    "@expectedSeries": {},
+    "requestConfiguration": "Seerr configuratie",
+    "@requestConfiguration": {},
+    "qualityProfile": "Kwaliteitsprofiel",
+    "@qualityProfile": {},
+    "selectProfile": "Profiel selecteren",
+    "@selectProfile": {},
+    "rootFolder": "Basis map",
+    "@rootFolder": {},
+    "selectFolder": "Map selecteren",
+    "@selectFolder": {},
+    "tags": "Tags",
+    "@tags": {},
+    "noTags": "Geen tags",
+    "@noTags": {},
+    "requestAs": "Verzoek als",
+    "@requestAs": {},
+    "requestQuotaTitle": "Verzoekquotum",
+    "@requestQuotaTitle": {},
+    "requestQuotaStatus": "{remaining} van {limit} resterend (reset elke {days} dagen)",
+    "@requestQuotaStatus": {
+        "placeholders": {
+            "remaining": {
+                "type": "int"
+            },
+            "limit": {
+                "type": "int"
+            },
+            "days": {
+                "type": "int"
+            }
+        }
+    },
+    "requestQuotaLimitReached": "Verzoeklimiet bereikt voor {mediaType}.",
+    "@requestQuotaLimitReached": {
+        "placeholders": {
+            "mediaType": {
+                "type": "String"
+            }
+        }
+    },
+    "submitRequest": "Verzoek indienen",
+    "@submitRequest": {},
+    "noOverviewAvailable": "Geen overzicht beschikbaar.",
+    "@noOverviewAvailable": {},
+    "downloading": "downloaden",
+    "@downloading": {},
+    "request": "Verzoek",
+    "@request": {},
+    "viewRequest": "Verzoek bekijken",
+    "@viewRequest": {},
+    "email": "Email",
+    "@email": {},
+    "username": "Gebruikersnaam",
+    "@username": {},
+    "ok": "Ok",
+    "@ok": {},
+    "seerr": "Seerr",
+    "@seerr": {},
+    "seerrNotConfigured": "Niet geconfigureerd",
+    "@seerrNotConfigured": {},
+    "seerrLoadingUser": "Gebruiker laden",
+    "@seerrLoadingUser": {},
+    "seerrUnknownUser": "Onbekende gebruiker",
+    "@seerrUnknownUser": {},
+    "loggedInAs": "Ingelogd als {displayName}",
+    "@loggedInAs": {
+        "placeholders": {
+            "displayName": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrSetServerFirst": "Stel eerst de Seerr-server in",
+    "@seerrSetServerFirst": {},
+    "seerrLocalLoginTitle": "Seerr Lokale login",
+    "@seerrLocalLoginTitle": {},
+    "seerrJellyfinLoginTitle": "Seerr Jellyfin login",
+    "@seerrJellyfinLoginTitle": {},
+    "seerrSessionSaved": "Seerr sessie opgeslagen",
+    "@seerrSessionSaved": {},
+    "seerrStatusVersion": "Seerr: {version}",
+    "@seerrStatusVersion": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrServer": "Seerr server",
+    "@seerrServer": {},
+    "seerrAuthenticateLocal": "Seerr inloggen (lokaal)",
+    "@seerrAuthenticateLocal": {},
+    "seerrAuthenticateJellyfin": "Seerr inloggen (Jellyfin)",
+    "@seerrAuthenticateJellyfin": {},
+    "seerrSessionConfigured": "Sessie geconfigureerd",
+    "@seerrSessionConfigured": {},
+    "seerrConfigured": "Geconfigureerd",
+    "@seerrConfigured": {},
+    "seerrTestConnection": "Test Seerr verbinding",
+    "@seerrTestConnection": {},
+    "rootFolderDefaultLabel": "{folder} (Standaard)",
+    "@rootFolderDefaultLabel": {
+        "placeholders": {
+            "folder": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrAnimeSeriesNote": "* Deze serie is een anime.",
+    "@seerrAnimeSeriesNote": {},
+    "seerrAutoApproveNotice": "Verzoeken die je indient worden automatisch goedgekeurd.",
+    "@seerrAutoApproveNotice": {},
+    "seerrPermissionDenied": "Je hebt geen toestemming om dit mediatype aan te vragen.",
+    "@seerrPermissionDenied": {},
+    "seerrAuthApiKey": "API-sleutel",
+    "@seerrAuthApiKey": {},
+    "seerrAuthLocal": "Lokaal",
+    "@seerrAuthLocal": {},
+    "seerrAuthJellyfin": "Jellyfin",
+    "@seerrAuthJellyfin": {},
+    "seerrUserFetchFailed": "Kan gebruiker niet ophalen van Seerr",
+    "@seerrUserFetchFailed": {},
+    "seerrEnterServerUrlFirst": "Voer eerst een Seerr-server URL in",
+    "@seerrEnterServerUrlFirst": {},
+    "seerrApiKeySaved": "API-sleutel opgeslagen",
+    "@seerrApiKeySaved": {},
+    "seerrLoggedIn": "Ingelogd bij Seerr",
+    "@seerrLoggedIn": {},
+    "seerrConnectedToServer": "Verbonden met Seerr-server: {serverUrl}",
+    "@seerrConnectedToServer": {
+        "placeholders": {
+            "serverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "emailUsername": "Email/Gebruikersnaam",
+    "@emailUsername": {},
+    "discover": "Ontdekken",
+    "@discover": {},
+    "deleteRequestConfirmation": "Weet je zeker dat je dit vezoek wilt verwijderen?",
+    "@deleteRequestConfirmation": {},
+    "popularity": "Populariteit",
+    "@popularity": {},
+    "contentRating": "Inhoudsclassificatie",
+    "@contentRating": {},
+    "runtimeMinutesTitle": "Duur (minuten)",
+    "@runtimeMinutesTitle": {},
+    "runtimeRangeMinutes": "{min} - {max} minuten",
+    "@runtimeRangeMinutes": {
+        "placeholders": {
+            "min": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            }
+        }
+    },
+    "minutesShort": "{count} min",
+    "@minutesShort": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "streamingServices": "Streaming ({count})",
+    "@streamingServices": {
+        "description": "Streaming providers (Netflix,HBO, etc.)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "settingsProfileSubtitleLanguage": "Voorkeursondertiteltaal",
+    "@settingsProfileSubtitleLanguage": {},
+    "settingsProfileSubtitleLanguageTitle": "Stel voorkeursondertiteltaal in",
+    "@settingsProfileSubtitleLanguageTitle": {},
+    "settingsProfileSubtitleMode": "Ondertitelmodus",
+    "@settingsProfileSubtitleMode": {},
+    "subtitlePlaybackModeDefault": "Standaard",
+    "@subtitlePlaybackModeDefault": {},
+    "subtitlePlaybackModeAlways": "Altijd afspelen",
+    "@subtitlePlaybackModeAlways": {},
+    "subtitlePlaybackModeOnlyForced": "Alleen gedwongen",
+    "@subtitlePlaybackModeOnlyForced": {},
+    "subtitlePlaybackModeNone": "Geen",
+    "@subtitlePlaybackModeNone": {},
+    "subtitlePlaybackModeSmart": "Slim",
+    "@subtitlePlaybackModeSmart": {},
+    "syncplayAccessCreateAndJoinGroups": "Groepen aanmaken en lid worden",
+    "@syncplayAccessCreateAndJoinGroups": {},
+    "syncplayAccessJoinGroups": "Lid worden",
+    "@syncplayAccessJoinGroups": {},
+    "syncplayAccessNone": "Geen",
+    "@syncplayAccessNone": {},
+    "popularSeries": "Populaire series",
+    "@popularSeries": {},
+    "sponsor": "Sponsors",
+    "@sponsor": {},
+    "sponsorMessage": "Als je Fladder graag gebruikt, overweeg dan om het project te sponsoren ter ondersteuning van voortdurende ontwikkeling en verbeteringen. Bedankt voor je steun!",
+    "@sponsorMessage": {},
+    "min": "min",
+    "@min": {},
+    "max": "max",
+    "@max": {},
+    "seerrRequestStatusPending": "In behandeling",
+    "@seerrRequestStatusPending": {},
+    "seerrRequestStatusApproved": "Goedgekeurd",
+    "@seerrRequestStatusApproved": {},
+    "seerrRequestStatusDeclined": "Afgewezen",
+    "@seerrRequestStatusDeclined": {},
+    "seerrRequestStatusFailed": "Mislukt",
+    "@seerrRequestStatusFailed": {},
+    "seerrRequestStatusCompleted": "Voltooid",
+    "@seerrRequestStatusCompleted": {},
+    "seerrMediaStatusProcessing": "Verwerken",
+    "@seerrMediaStatusProcessing": {},
+    "seerrMediaStatusPartiallyAvailable": "Deels beschikbaar",
+    "@seerrMediaStatusPartiallyAvailable": {},
+    "seerrMediaStatusAvailable": "Beschikbaar",
+    "@seerrMediaStatusAvailable": {},
+    "seerrMediaStatusBlacklisted": "Negeren",
+    "@seerrMediaStatusBlacklisted": {},
+    "seerrMediaStatusDeleted": "Verwijderd",
+    "@seerrMediaStatusDeleted": {},
+    "manageRequest": "Verzoek beheren",
+    "@manageRequest": {},
+    "requestAll": "Alles aanvragen",
+    "@requestAll": {},
+    "openInSeerr": "Openen in Seerr",
+    "@openInSeerr": {},
+    "openInSonarr": "Openen in Sonarr",
+    "@openInSonarr": {},
+    "openInRadarr": "Openen in Radarr",
+    "@openInRadarr": {},
+    "removeFromSonarr": "Verwijderen uit Sonarr",
+    "@removeFromSonarr": {},
+    "removeFromRadarr": "Verwijderen uit Radarr",
+    "@removeFromRadarr": {},
+    "markAllSeasonsAsAvailable": "All seizoenen markeren als beschikbaar",
+    "@markAllSeasonsAsAvailable": {},
+    "markAsAvailable": "Markeer als beschikbaar",
+    "@markAsAvailable": {},
+    "deleteData": "Data verwijderen",
+    "@deleteData": {},
+    "removeSeriesFromSonarrConfirm": "Deze serie uit Sonarr verwijderen? Dit verwijdert alle gegevens, INCLUSIEF bestanden.",
+    "@removeSeriesFromSonarrConfirm": {},
+    "removeMovieFromRadarrConfirm": "Deze film uit Radarr verwijderen? Dit verwijdert alle gegevens, INCLUSIEF bestanden.",
+    "@removeMovieFromRadarrConfirm": {},
+    "removedFromSonarr": "Verwijderd uit Sonarr",
+    "@removedFromSonarr": {},
+    "removedFromRadarr": "Verwijderd uit Radarr",
+    "@removedFromRadarr": {},
+    "markAllSeasonsAsAvailableConfirm": "All seizoenen markeren als beschikbaar?",
+    "@markAllSeasonsAsAvailableConfirm": {},
+    "markAsAvailableConfirm": "Markeren als beschikbaar?",
+    "@markAsAvailableConfirm": {},
+    "markedAsAvailable": "Gemarkeerd als beschikbaar",
+    "@markedAsAvailable": {},
+    "deleteSeerrDataConfirm": "Alle bestanden uit Seerr verwijderen? Deze actie kan niet ongedaan worden gemaakt. \nAls de data nog aanwezig is in {service}, kan deze opnieuw worden geïmporteerd.",
+    "@deleteSeerrDataConfirm": {
+        "description": "Confirmation message for deleting Seerr data",
+        "placeholders": {
+            "service": {
+                "type": "String",
+                "example": "Sonarr/Radarr"
+            }
+        }
+    },
+    "dataDeleted": "Data verwijderd",
+    "@dataDeleted": {},
+    "approve": "Goedkeuren",
+    "@approve": {},
+    "decline": "Weigeren",
+    "@decline": {},
+    "pendingRequests": "{count, plural, other{Geen lopende verzoeken} one{{count} verzoek} two{{count} verzoeken}}",
+    "@pendingRequests": {
+        "description": "pendingRequests",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "processing": "Verwerken",
+    "@processing": {},
+    "seerrDetails": "Seerr details",
+    "@seerrDetails": {}
 }

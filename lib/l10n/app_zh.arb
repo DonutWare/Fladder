@@ -93,7 +93,7 @@
     "@color": {},
     "combined": "组合",
     "@combined": {},
-    "communityRating": "社区评分",
+    "communityRating": "用户评分",
     "@communityRating": {},
     "continuePage": "继续 - 第 {page} 页",
     "@continuePage": {
@@ -745,7 +745,7 @@
     "@settingsPosterSize": {},
     "settingsPosterSlider": "显示比例滑块",
     "@settingsPosterSlider": {},
-    "settingsProfileDesc": "锁屏，本地网址",
+    "settingsProfileDesc": "锁屏，本地网址，Seerr",
     "@settingsProfileDesc": {},
     "settingsProfileTitle": "个人资料",
     "@settingsProfileTitle": {},
@@ -1239,7 +1239,7 @@
     "@layoutModeSingle": {},
     "copiedToClipboard": "已复制到剪贴板",
     "@copiedToClipboard": {},
-    "episodeAvailable": "可用",
+    "episodeAvailable": "播出中",
     "@episodeAvailable": {},
     "episodeUnaired": "未播出",
     "@episodeUnaired": {},
@@ -1249,7 +1249,7 @@
     "@homeStreamingQualityTitle": {},
     "homeStreamingQualityDesc": "连接到家庭网络时可获得最佳流媒体质量",
     "@homeStreamingQualityDesc": {},
-    "internetStreamingQualityTitle": "移动网络质量",
+    "internetStreamingQualityTitle": "网络质量",
     "@internetStreamingQualityTitle": {},
     "internetStreamingQualityDesc": "使用移动网络时可获得最佳流媒体质量",
     "@internetStreamingQualityDesc": {},
@@ -1921,9 +1921,9 @@
     },
     "enableAndRankImageFetchers": "启用并按优先级排列您首选的图片刮削器。",
     "@enableAndRankImageFetchers": {},
-    "mediaSegmentProviders": "媒体片段提供商",
+    "mediaSegmentProviders": "媒体片段发行商",
     "@mediaSegmentProviders": {},
-    "enableAndRankMediaSegmentProviders": "启用并按优先级对您首选的媒体片段提供商进行排序。",
+    "enableAndRankMediaSegmentProviders": "启用并按优先级对您首选的媒体片段发行商进行排序。",
     "@enableAndRankMediaSegmentProviders": {},
     "trickplay": "特技播放",
     "@trickplay": {},
@@ -2002,5 +2002,311 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "deleteRequestConfirmation": "您确定要删除此请求吗？",
+    "@deleteRequestConfirmation": {},
+    "recentlyAdded": "最近添加",
+    "@recentlyAdded": {},
+    "recentRequests": "最近请求",
+    "@recentRequests": {},
+    "trending": "热门趋势",
+    "@trending": {},
+    "popularMovies": "热门电影",
+    "@popularMovies": {},
+    "expectedMovies": "预计上映的电影",
+    "@expectedMovies": {},
+    "expectedSeries": "预计上映的节目",
+    "@expectedSeries": {},
+    "requestConfiguration": "请求配置",
+    "@requestConfiguration": {},
+    "qualityProfile": "质量配置文件",
+    "@qualityProfile": {},
+    "selectProfile": "选择配置文件",
+    "@selectProfile": {},
+    "rootFolder": "根文件夹",
+    "@rootFolder": {},
+    "selectFolder": "选择文件夹",
+    "@selectFolder": {},
+    "tags": "标签",
+    "@tags": {},
+    "noTags": "无标签",
+    "@noTags": {},
+    "requestAs": "请求为",
+    "@requestAs": {},
+    "requestQuotaTitle": "请求配额",
+    "@requestQuotaTitle": {},
+    "requestQuotaStatus": "{remaining} of {limit} 剩余 (每 {days} 天重置一次)",
+    "@requestQuotaStatus": {
+        "placeholders": {
+            "remaining": {
+                "type": "int"
+            },
+            "limit": {
+                "type": "int"
+            },
+            "days": {
+                "type": "int"
+            }
+        }
+    },
+    "requestQuotaLimitReached": "{mediaType} 的请求次数已达到上限。",
+    "@requestQuotaLimitReached": {
+        "placeholders": {
+            "mediaType": {
+                "type": "String"
+            }
+        }
+    },
+    "submitRequest": "提交请求",
+    "@submitRequest": {},
+    "noOverviewAvailable": "暂无概述。",
+    "@noOverviewAvailable": {},
+    "downloading": "下载",
+    "@downloading": {},
+    "request": "请求",
+    "@request": {},
+    "viewRequest": "查看请求",
+    "@viewRequest": {},
+    "email": "电子邮件",
+    "@email": {},
+    "username": "用户名",
+    "@username": {},
+    "ok": "确定",
+    "@ok": {},
+    "seerr": "Seerr",
+    "@seerr": {},
+    "seerrNotConfigured": "未配置",
+    "@seerrNotConfigured": {},
+    "seerrLoadingUser": "正在加载用户",
+    "@seerrLoadingUser": {},
+    "seerrUnknownUser": "未知用户",
+    "@seerrUnknownUser": {},
+    "loggedInAs": "已登录，用户名为 {displayName}",
+    "@loggedInAs": {
+        "placeholders": {
+            "displayName": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrSetServerFirst": "请先设置 Seerr 服务器",
+    "@seerrSetServerFirst": {},
+    "seerrLocalLoginTitle": "Seerr 本地登录",
+    "@seerrLocalLoginTitle": {},
+    "seerrJellyfinLoginTitle": "Seerr Jellyfin 登录",
+    "@seerrJellyfinLoginTitle": {},
+    "seerrSessionSaved": "Seerr 会话已保存",
+    "@seerrSessionSaved": {},
+    "seerrStatusVersion": "Seerr: {version}",
+    "@seerrStatusVersion": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrServer": "Seerr 服务器",
+    "@seerrServer": {},
+    "seerrAuthenticateLocal": "Seerr 身份验证（本地）",
+    "@seerrAuthenticateLocal": {},
+    "seerrAuthenticateJellyfin": "Seerr 身份验证（Jellyfin）",
+    "@seerrAuthenticateJellyfin": {},
+    "seerrSessionConfigured": "会话配置",
+    "@seerrSessionConfigured": {},
+    "seerrConfigured": "配置",
+    "@seerrConfigured": {},
+    "seerrTestConnection": "测试 Seerr 连接",
+    "@seerrTestConnection": {},
+    "rootFolderDefaultLabel": "{folder} (默认)",
+    "@rootFolderDefaultLabel": {
+        "placeholders": {
+            "folder": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrAnimeSeriesNote": "* 这部系列作品是一部动画片。",
+    "@seerrAnimeSeriesNote": {},
+    "seerrAutoApproveNotice": "您提交的请求将自动获得批准。",
+    "@seerrAutoApproveNotice": {},
+    "seerrPermissionDenied": "您无权请求此媒体类型。",
+    "@seerrPermissionDenied": {},
+    "seerrAuthApiKey": "API 密钥",
+    "@seerrAuthApiKey": {},
+    "seerrAuthLocal": "本地",
+    "@seerrAuthLocal": {},
+    "seerrAuthJellyfin": "Jellyfin",
+    "@seerrAuthJellyfin": {},
+    "seerrUserFetchFailed": "从 Seerr 获取用户失败",
+    "@seerrUserFetchFailed": {},
+    "seerrEnterServerUrlFirst": "请先输入 Seerr 服务器地址",
+    "@seerrEnterServerUrlFirst": {},
+    "seerrApiKeySaved": "API 密钥已保存",
+    "@seerrApiKeySaved": {},
+    "seerrLoggedIn": "已登录 Seerr",
+    "@seerrLoggedIn": {},
+    "seerrConnectedToServer": "已连接到 Seerr 服务器: {serverUrl}",
+    "@seerrConnectedToServer": {
+        "placeholders": {
+            "serverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "emailUsername": "电子邮件/用户名",
+    "@emailUsername": {},
+    "discover": "发现",
+    "@discover": {},
+    "settingsProfileSubtitleLanguage": "首选字幕语言",
+    "@settingsProfileSubtitleLanguage": {},
+    "settingsProfileSubtitleLanguageTitle": "设置首选字幕语言",
+    "@settingsProfileSubtitleLanguageTitle": {},
+    "settingsProfileSubtitleLanguageDesc": "输入语言代码 (例如., 'en', 'es', 'fr')",
+    "@settingsProfileSubtitleLanguageDesc": {},
+    "settingsProfileSubtitleMode": "字幕模式",
+    "@settingsProfileSubtitleMode": {},
+    "subtitlePlaybackModeDefault": "默认",
+    "@subtitlePlaybackModeDefault": {},
+    "subtitlePlaybackModeAlways": "始终播放",
+    "@subtitlePlaybackModeAlways": {},
+    "subtitlePlaybackModeOnlyForced": "仅限强制",
+    "@subtitlePlaybackModeOnlyForced": {},
+    "subtitlePlaybackModeNone": "无",
+    "@subtitlePlaybackModeNone": {},
+    "subtitlePlaybackModeSmart": "自动",
+    "@subtitlePlaybackModeSmart": {},
+    "syncplayAccessCreateAndJoinGroups": "创建和加入群组",
+    "@syncplayAccessCreateAndJoinGroups": {},
+    "syncplayAccessJoinGroups": "加入群组",
+    "@syncplayAccessJoinGroups": {},
+    "syncplayAccessNone": "无",
+    "@syncplayAccessNone": {},
+    "sponsor": "赞助",
+    "@sponsor": {},
+    "sponsorMessage": "如果您喜欢使用 Fladder，可以考虑赞助该项目，以支持持续的开发和改进。感谢您的支持！",
+    "@sponsorMessage": {},
+    "popularity": "热门",
+    "@popularity": {},
+    "contentRating": "内容分级",
+    "@contentRating": {},
+    "runtimeMinutesTitle": "运行时间（分钟）",
+    "@runtimeMinutesTitle": {},
+    "runtimeRangeMinutes": "{min} - {max} 分钟",
+    "@runtimeRangeMinutes": {
+        "placeholders": {
+            "min": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            }
+        }
+    },
+    "minutesShort": "{count} 分钟",
+    "@minutesShort": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "streamingServices": "发行商 ({count})",
+    "@streamingServices": {
+        "description": "Streaming providers (Netflix,HBO, etc.)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "popularSeries": "热门节目",
+    "@popularSeries": {},
+    "min": "最小",
+    "@min": {},
+    "max": "最大",
+    "@max": {},
+    "manageRequest": "管理请求",
+    "@manageRequest": {},
+    "requestAll": "请求所有",
+    "@requestAll": {},
+    "openInSeerr": "在 Seerr 中打开",
+    "@openInSeerr": {},
+    "openInSonarr": "在 Sonarr 中打开",
+    "@openInSonarr": {},
+    "openInRadarr": "在 Radarr 中打开",
+    "@openInRadarr": {},
+    "removeFromSonarr": "从 Sonarr 中移除",
+    "@removeFromSonarr": {},
+    "removeFromRadarr": "从 Radarr 中移除",
+    "@removeFromRadarr": {},
+    "markAllSeasonsAsAvailable": "将所有季标记为播出中",
+    "@markAllSeasonsAsAvailable": {},
+    "markAsAvailable": "标记为播出中",
+    "@markAsAvailable": {},
+    "markAllSeasonsAsAvailableConfirm": "将所有季标记为播出中？",
+    "@markAllSeasonsAsAvailableConfirm": {},
+    "markAsAvailableConfirm": "标记为播出中？",
+    "@markAsAvailableConfirm": {},
+    "markedAsAvailable": "标记为播出中",
+    "@markedAsAvailable": {},
+    "deleteData": "删除数据",
+    "@deleteData": {},
+    "removeSeriesFromSonarrConfirm": "要从 Sonarr 中删除此节目吗？这将删除所有数据，包括文件。",
+    "@removeSeriesFromSonarrConfirm": {},
+    "removeMovieFromRadarrConfirm": "要从 Radarr 中删除此电影吗？这将删除所有数据，包括文件。",
+    "@removeMovieFromRadarrConfirm": {},
+    "removedFromSonarr": "从 Sonarr 中移除",
+    "@removedFromSonarr": {},
+    "removedFromRadarr": "从 Radarr 中移除",
+    "@removedFromRadarr": {},
+    "deleteSeerrDataConfirm": "确定要删除 Seerr 中的所有文件吗？此操作无法撤销。\n如果数据仍然存在于 {service} 中，则可以重新导入。",
+    "@deleteSeerrDataConfirm": {
+        "description": "Confirmation message for deleting Seerr data",
+        "placeholders": {
+            "service": {
+                "type": "String",
+                "example": "Sonarr/Radarr"
+            }
+        }
+    },
+    "dataDeleted": "数据已删除",
+    "@dataDeleted": {},
+    "seerrRequestStatusPending": "待处理",
+    "@seerrRequestStatusPending": {},
+    "seerrRequestStatusApproved": "批准",
+    "@seerrRequestStatusApproved": {},
+    "seerrRequestStatusDeclined": "拒绝",
+    "@seerrRequestStatusDeclined": {},
+    "seerrRequestStatusFailed": "失败",
+    "@seerrRequestStatusFailed": {},
+    "seerrRequestStatusCompleted": "完成",
+    "@seerrRequestStatusCompleted": {},
+    "seerrMediaStatusProcessing": "进程",
+    "@seerrMediaStatusProcessing": {},
+    "seerrMediaStatusPartiallyAvailable": "部分可用",
+    "@seerrMediaStatusPartiallyAvailable": {},
+    "seerrMediaStatusAvailable": "可用",
+    "@seerrMediaStatusAvailable": {},
+    "seerrMediaStatusBlacklisted": "列入黑名单",
+    "@seerrMediaStatusBlacklisted": {},
+    "seerrMediaStatusDeleted": "删除",
+    "@seerrMediaStatusDeleted": {},
+    "approve": "批准",
+    "@approve": {},
+    "decline": "拒绝",
+    "@decline": {},
+    "pendingRequests": "{count, plural, other{没有待处理的请求} one{{count} 个待处理的请求} two{{count} 个待处理的请求}}",
+    "@pendingRequests": {
+        "description": "pendingRequests",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "processing": "进程",
+    "@processing": {}
 }
