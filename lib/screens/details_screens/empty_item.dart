@@ -37,7 +37,7 @@ class EmptyItem extends ConsumerWidget {
           }
         },
       ),
-      content: (padding) => Center(
+      content: (context, padding) => Center(
         child: Padding(
           padding: padding,
           child: Column(

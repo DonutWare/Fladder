@@ -22,11 +22,11 @@ class MediaHeader extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final maxSize = 700.0;
     final textWidget = Container(
-      height: 512,
+      constraints: const BoxConstraints(minHeight: 10, maxHeight: 200),
       alignment: Alignment.center,
       child: SelectableText(
         name,
-        textAlign: TextAlign.start,
+        textAlign: alignment == Alignment.center ? TextAlign.center : TextAlign.start,
         style: Theme.of(context).textTheme.headlineLarge?.copyWith(
               fontSize: 55,
             ),

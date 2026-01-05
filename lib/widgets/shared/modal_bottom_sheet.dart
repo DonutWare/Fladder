@@ -50,7 +50,9 @@ Future<void> showBottomSheetPill({
                         borderRadius: FladderTheme.largeShape.borderRadius,
                       ),
                     ),
-                  ),
+                  )
+                else
+                  const SizedBox(height: 8),
                 Flexible(
                   child: ListView(
                     shrinkWrap: true,

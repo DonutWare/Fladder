@@ -84,6 +84,21 @@ import nl.jknaapen.fladder.utility.visible
 import kotlin.time.Duration.Companion.seconds
 
 
+private val KEY_MAPPING = setOf(
+    Key.MediaStop,
+    Key.X,
+    Key.MediaPlay,
+    Key.MediaPlayPause,
+    Key.MediaPause,
+    Key.P,
+    Key.Back,
+    Key.Escape,
+    Key.ButtonB,
+    Key.Backspace,
+    Key.DirectionLeft,
+    Key.DirectionRight,
+)
+
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(UnstableApi::class)
 @Composable
@@ -167,8 +182,8 @@ fun CustomVideoControls(
                 }
             }
             .onKeyEvent { keyEvent: KeyEvent ->
-                if (keyEvent.type != KeyEventType.KeyDown) return@onKeyEvent false
-
+                val ignoreKeys = keyEvent.type != KeyEventType.KeyDown && !KEY_MAPPING.contains(keyEvent.key)
+                if (ignoreKeys) return@onKeyEvent false
                 when (keyEvent.key) {
                     Key.MediaStop, Key.X -> {
                         activity?.finish()
@@ -296,7 +311,7 @@ fun CustomVideoControls(
                                     Icon(
                                         Iconsax.Outline.CloseSquare,
                                         modifier = Modifier
-                                            .size(38.dp)
+                                            .size(42.dp)
                                             .focusable(false),
                                         contentDescription = "Close icon",
                                         tint = Color.White,
@@ -456,7 +471,7 @@ fun PlaybackButtons(
             ) {
                 Icon(
                     Iconsax.Outline.Refresh,
-                    modifier = Modifier.size(38.dp),
+                    modifier = Modifier.size(42.dp),
                     contentDescription = "Backwards",
                 )
                 Text(
@@ -481,7 +496,7 @@ fun PlaybackButtons(
         ) {
             Icon(
                 if (isPlaying) Iconsax.Filled.Pause else Iconsax.Filled.Play,
-                modifier = Modifier.size(40.dp),
+                modifier = Modifier.size(45.dp),
                 contentDescription = if (isPlaying) "Pause" else "Play",
             )
         }
@@ -501,7 +516,7 @@ fun PlaybackButtons(
                     Iconsax.Outline.Refresh,
                     contentDescription = "Forward",
                     modifier = Modifier
-                        .size(38.dp)
+                        .size(42.dp)
                         .scale(scaleX = -1f, scaleY = 1f),
                 )
                 Text(

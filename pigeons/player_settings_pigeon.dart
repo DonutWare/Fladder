@@ -80,6 +80,7 @@ enum SegmentType {
 enum SegmentSkip {
   ask,
   skip,
+  skipOnce,
   none,
 }
 

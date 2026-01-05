@@ -43,6 +43,7 @@ import 'package:fladder/util/macos_window_helpers.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/util/svg_utils.dart';
 import 'package:fladder/util/themes_data.dart';
+import 'package:fladder/util/window_helper.dart';
 import 'package:fladder/widgets/media_query_scaler.dart';
 
 bool get _isDesktop {
@@ -180,7 +181,10 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
 
     final difference = DateTime.now().difference(_lastPaused);
 
-    if (difference > timeOut && ref.read(userProvider)?.authMethod != Authentication.autoLogin) {
+    final lockMethod = ref.read(userProvider.select((value) => value?.authMethod));
+    final shouldLock = Authentication.secureOptions.contains(lockMethod);
+
+    if (difference > timeOut && shouldLock) {
       _lastPaused = DateTime.now();
 
       // Stop playback if the user was still watching a video
@@ -262,29 +266,15 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
     ref.read(sharedUtilityProvider).loadSettings();
 
     final clientSettings = ref.read(clientSettingsProvider);
+    final startupArguments = ref.read(argumentsStateProvider);
 
     if (_isDesktop) {
-      WindowOptions windowOptions = WindowOptions(
-        backgroundColor: Colors.transparent,
-        skipTaskbar: false,
-        titleBarStyle: TitleBarStyle.hidden,
-        title: packageInfo.appName.capitalize(),
-      );
-
       toggleMacTrafficLights(false);
-
-      windowManager.waitUntilReadyToShow(windowOptions, () async {
-        if (!kDebugMode) {
-          await windowManager.show();
-          await windowManager.focus();
-          await windowManager.setSize(Size(clientSettings.size.x, clientSettings.size.y));
-          await windowManager.center();
-        }
-        final startupArguments = ref.read(argumentsStateProvider);
-        if (startupArguments.htpcMode && !(await windowManager.isFullScreen())) {
-          await windowManager.setFullScreen(true);
-        }
-      });
+      await windowManager.setupFladderWindowChrome(
+        startupArguments,
+        clientSettings,
+        packageInfo,
+      );
     } else {
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge, overlays: []);
       SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(

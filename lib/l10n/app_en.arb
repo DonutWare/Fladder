@@ -47,8 +47,16 @@
   },
   "ascending": "Ascending",
   "@ascending": {},
-  "audio": "Audio",
-  "@audio": {},
+  "audio": "{count, plural, one{Audio} other{Audio}}",
+  "@audio": {
+    "description": "Audio (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
   "autoPlay": "Auto-play",
   "@autoPlay": {},
   "backgroundBlur": "Background blur",
@@ -87,8 +95,16 @@
   "@close": {},
   "code": "Code",
   "@code": {},
-  "collectionFolder": "Collection folder",
-  "@collectionFolder": {},
+  "collectionFolder": "{count, plural, one{Collection folder} other{Collection folders}}",
+  "@collectionFolder": {
+    "description": "Collection folder (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
   "color": "Color",
   "@color": {},
   "combined": "Combined",
@@ -133,8 +149,6 @@
   "@dateLastContentAdded": {},
   "datePlayed": "Date played",
   "@datePlayed": {},
-  "days": "Days",
-  "@days": {},
   "delete": "Delete",
   "@delete": {},
   "deleteFileFromSystem": "Deleting this item {item} will delete it from both the file system and your media library. Are you sure you wish to continue?",
@@ -281,8 +295,6 @@
   "@info": {},
   "invalidUrl": "Invalid URL",
   "@invalidUrl": {},
-  "invalidUrlDesc": "URL needs to start with http(s)://",
-  "@invalidUrlDesc": {},
   "itemCount": "Item count: {count}",
   "@itemCount": {
     "description": "Item count",
@@ -361,28 +373,116 @@
   "@masonry": {},
   "mediaTypeBase": "Base Type",
   "@mediaTypeBase": {},
-  "mediaTypeBook": "Book",
-  "@mediaTypeBook": {},
-  "mediaTypeBoxset": "Boxset",
-  "@mediaTypeBoxset": {},
-  "mediaTypeEpisode": "Episode",
-  "@mediaTypeEpisode": {},
-  "mediaTypeFolder": "Folder",
-  "@mediaTypeFolder": {},
-  "mediaTypeMovie": "Movie",
-  "@mediaTypeMovie": {},
-  "mediaTypePerson": "Person",
-  "@mediaTypePerson": {},
-  "mediaTypePhoto": "Photo",
-  "@mediaTypePhoto": {},
-  "mediaTypePhotoAlbum": "Photo Album",
-  "@mediaTypePhotoAlbum": {},
-  "mediaTypePlaylist": "Playlist",
-  "@mediaTypePlaylist": {},
-  "mediaTypeSeason": "Season",
-  "@mediaTypeSeason": {},
-  "mediaTypeSeries": "Series",
-  "@mediaTypeSeries": {},
+  "mediaTypeBook": "{count, plural, one{Book} other{Books}}",
+  "@mediaTypeBook": {
+    "description": "Book (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "mediaTypeBoxset": "{count, plural, one{Boxset} other{Boxsets}}",
+  "@mediaTypeBoxset": {
+    "description": "Boxset (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "mediaTypeEpisode": "{count, plural, one{Episode} other{Episodes}}",
+  "@mediaTypeEpisode": {
+    "description": "Episode (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "mediaTypeFolder": "{count, plural, one{Folder} other{Folders}}",
+  "@mediaTypeFolder": {
+    "description": "Folder (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "mediaTypeMovie": "{count, plural, one{Movie} other{Movies}}",
+  "@mediaTypeMovie": {
+    "description": "Movie (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "mediaTypePerson": "{count, plural, one{Person} other{People}}",
+  "@mediaTypePerson": {
+    "description": "Person (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "mediaTypePhoto": "{count, plural, one{Photo} other{Photos}}",
+  "@mediaTypePhoto": {
+    "description": "Photo (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "mediaTypePhotoAlbum": "{count, plural, one{Photo Album} other{Photo Albums}}",
+  "@mediaTypePhotoAlbum": {
+    "description": "Photo Album (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "mediaTypePlaylist": "{count, plural, one{Playlist} other{Playlists}}",
+  "@mediaTypePlaylist": {
+    "description": "Playlist (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "mediaTypeSeason": "{count, plural, one{Season} other{Seasons}}",
+  "@mediaTypeSeason": {
+    "description": "Season (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "mediaTypeSeries": "{count, plural, one{Series} other{Series}}",
+  "@mediaTypeSeries": {
+    "description": "Series (plural, same singular/plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
   "metaDataSavedFor": "Metadata saved for {item}",
   "@metaDataSavedFor": {
     "description": "metaDataSavedFor",
@@ -423,8 +523,16 @@
   "@moreOptions": {},
   "mouseDragSupport": "Drag using mouse",
   "@mouseDragSupport": {},
-  "musicAlbum": "Album",
-  "@musicAlbum": {},
+  "musicAlbum": "{count, plural, one{Album} other{Albums}}",
+  "@musicAlbum": {
+    "description": "Music album (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
   "name": "Name",
   "@name": {},
   "navigation": "Navigation",
@@ -459,8 +567,6 @@
   "@openParent": {},
   "openShow": "Open show",
   "@openShow": {},
-  "openWebLink": "Open web link",
-  "@openWebLink": {},
   "options": "Options",
   "@options": {},
   "other": "Other",
@@ -547,6 +653,8 @@
       }
     }
   },
+  "popularity": "Popularity",
+  "@popularity": {},
   "reWatch": "Re-watch",
   "@reWatch": {},
   "read": "Read {item}",
@@ -587,6 +695,8 @@
   "@related": {},
   "releaseDate": "Release date",
   "@releaseDate": {},
+  "contentRating": "Content rating",
+  "@contentRating": {},
   "removeAsFavorite": "Remove as favorite",
   "@removeAsFavorite": {},
   "removeFromCollection": "Remove from collection",
@@ -618,6 +728,38 @@
   "@retry": {},
   "runTime": "Run time",
   "@runTime": {},
+  "runtimeMinutesTitle": "Runtime (minutes)",
+  "@runtimeMinutesTitle": {},
+  "runtimeRangeMinutes": "{min} - {max} minutes",
+  "@runtimeRangeMinutes": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "minutesShort": "{count} min",
+  "@minutesShort": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "streamingServices": "Providers ({count})",
+  "@streamingServices": {
+    "description": "Streaming providers (Netflix,HBO, etc.)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
   "save": "Save",
   "@save": {},
   "saved": "Saved",
@@ -762,12 +904,24 @@
   "@settingsPosterPinch": {},
   "settingsPosterSize": "Poster size",
   "@settingsPosterSize": {},
-  "settingsPosterSlider": "Show scale slider",
-  "@settingsPosterSlider": {},
-  "settingsProfileDesc": "Lockscreen, Local URL",
+  "settingsProfileDesc": "Lockscreen, Local URL, Seerr",
   "@settingsProfileDesc": {},
   "settingsProfileTitle": "Profile",
   "@settingsProfileTitle": {},
+  "settingsProfileSubtitleLanguage": "Preferred subtitle language",
+  "@settingsProfileSubtitleLanguage": {},
+  "settingsProfileSubtitleMode": "Subtitle mode",
+  "@settingsProfileSubtitleMode": {},
+  "subtitlePlaybackModeDefault": "Default",
+  "@subtitlePlaybackModeDefault": {},
+  "subtitlePlaybackModeAlways": "Always play",
+  "@subtitlePlaybackModeAlways": {},
+  "subtitlePlaybackModeOnlyForced": "Only forced",
+  "@subtitlePlaybackModeOnlyForced": {},
+  "subtitlePlaybackModeNone": "None",
+  "@subtitlePlaybackModeNone": {},
+  "subtitlePlaybackModeSmart": "Smart",
+  "@subtitlePlaybackModeSmart": {},
   "settingsQuickConnectTitle": "Quick connect",
   "@settingsQuickConnectTitle": {},
   "settingsSecurity": "Security",
@@ -784,8 +938,6 @@
   "@showDetails": {},
   "showEmpty": "Show empty",
   "@showEmpty": {},
-  "shuffleGallery": "Shuffle gallery",
-  "@shuffleGallery": {},
   "shuffleVideos": "Shuffle videos",
   "@shuffleVideos": {},
   "somethingWentWrong": "Something went wrong",
@@ -907,8 +1059,16 @@
   "@useDefaults": {},
   "userName": "Username",
   "@userName": {},
-  "video": "Video",
-  "@video": {},
+  "video": "{count, plural, one{Video} other{Videos}}",
+  "@video": {
+    "description": "Video (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
   "videoScaling": "Video scaling",
   "@videoScaling": {},
   "videoScalingContain": "Contain",
@@ -927,12 +1087,10 @@
   "@videoScalingFitHeight": {},
   "videoScalingFitWidth": "Fit Width",
   "@videoScalingFitWidth": {},
-  "videoScalingScaleDown": "ScaleDown",
+  "videoScalingScaleDown": "Scale Down",
   "@videoScalingScaleDown": {},
   "viewPhotos": "View photos",
   "@viewPhotos": {},
-  "watchOn": "Watch on",
-  "@watchOn": {},
   "writer": "{count, plural, other{Writer} two{Writers}}",
   "@writer": {
     "description": "writer",
@@ -1001,8 +1159,6 @@
   "@syncStatusEnqueued": {},
   "syncStatusRunning": "Running",
   "@syncStatusRunning": {},
-  "syncStatusComplete": "Complete",
-  "@syncStatusComplete": {},
   "syncStatusNotFound": "Not Found",
   "@syncStatusNotFound": {},
   "syncStatusFailed": "Failed",
@@ -1015,8 +1171,6 @@
   "@syncStatusPaused": {},
   "syncStatusSynced": "Synced",
   "@syncStatusSynced": {},
-  "syncStatusPartially": "Partially",
-  "@syncStatusPartially": {},
   "syncOverlayDeleting": "Removing synced item",
   "@syncOverlayDeleting": {},
   "syncOverlaySyncing": "Syncing item details",
@@ -1102,6 +1256,7 @@
     }
   },
   "deleteFilterConfirmation": "Are you sure you want to delete this filter?",
+  "deleteRequestConfirmation": "Are you sure you want to delete this request?",
   "libraryFiltersLimitReached": "Filter limit reached (10) remove some filters",
   "libraryFiltersRemoveAll": "Remove all filters",
   "libraryFiltersRemoveAllConfirm": "This will delete all saved filters for every library",
@@ -1189,6 +1344,7 @@
   "mediaSegmentActions": "Media segment actions",
   "segmentActionNone": "None",
   "segmentActionAskToSkip": "Ask to skip",
+  "segmentActionSkipOnce": "Skip once",
   "segmentActionSkip": "Skip",
   "loading": "Loading",
   "exitFladderTitle": "Exit Fladder",
@@ -1369,7 +1525,6 @@
   },
   "takeScreenshot": "Take screenshot",
   "takeScreenshotClean": "Take screenshot (without subtitles)",
-  "screenshots": "Screenshots",
   "screenshotTaken": "Screenshot saved!",
   "screenshotCleanTaken": "Screenshot without subtitles saved!",
   "errorTakingScreenshot": "There was an error taking the screenshot",
@@ -1383,5 +1538,647 @@
   "settingsLocalUrlTitle": "Local Server URL",
   "settingsLocalUrlSetTitle": "Configure Local URL",
   "settingsLocalUrlSetDesc": "Specify the local server address. Fladder will automatically use this URL when your device is on the same network.",
-  "regenerateTrickplayImages": "Regenerate trickplay images"
+  "regenerateTrickplayImages": "Regenerate trickplay images",
+  "controlPanel": "Control Panel",
+  "@controlPanel": {},
+  "controlPanelDesc": "Server, Activity, Users, Library",
+  "@controlPanelDesc": {},
+  "controlDashboard": "Control Dashboard",
+  "@controlDashboard": {},
+  "serverName": "Server name",
+  "@serverName": {},
+  "serverVersion": "Server version",
+  "@serverVersion": {},
+  "webVersion": "Web version",
+  "@webVersion": {},
+  "devices": "Devices",
+  "@devices": {},
+  "used": "Used",
+  "@used": {},
+  "storagePaths": "Storage Paths",
+  "@storagePaths": {},
+  "programData": "Program Data",
+  "@programData": {},
+  "web": "Web",
+  "@web": {},
+  "cache": "Cache",
+  "@cache": {},
+  "logs": "Logs",
+  "@logs": {},
+  "transcodingTemp": "Transcoding Temp",
+  "@transcodingTemp": {},
+  "count": "Count",
+  "@count": {},
+  "scanAllLibraries": "Scan all libraries",
+  "@scanAllLibraries": {},
+  "restartServer": "Restart server",
+  "@restartServer": {},
+  "shutDownServer": "Shut down server",
+  "@shutDownServer": {},
+  "dashboardDesc": "Server, Count, Devices, Storage",
+  "@dashboardDesc": {},
+  "lastActivity": "Last activity",
+  "@lastActivity": {},
+  "activeTasks": "Active tasks",
+  "hours": "{count, plural, one{Hour} other{Hours}}",
+  "@hours": {
+    "description": "Pluralization for hours",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "weeks": "{count, plural, one{Week} other{Weeks}}",
+  "@weeks": {
+    "description": "Pluralization for weeks",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "months": "{count, plural, one{Month} other{Months}}",
+  "@months": {
+    "description": "Pluralization for months",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "years": "{count, plural, one{Year} other{Years}}",
+  "@years": {
+    "description": "Pluralization for years",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "days": "{count, plural, one{Day} other{Days}}",
+  "@days": {
+    "description": "Pluralization for days (keeps existing 'days' getter)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "4"
+      }
+    }
+  },
+  "timeAgo": "{time} ago",
+  "@timeAgo": {
+    "description": "timeAgo",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "lastRunTaking": "Last run {date}, taking {time}",
+  "@lastRunTaking": {
+    "description": "lastRunTaking",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "lessThenAMinute": "Less than a minute",
+  "plannedTasks": "Planned tasks",
+  "taskTriggerTypeInterval": "Interval",
+  "taskTriggerTypeDaily": "Daily",
+  "taskTriggerTypeWeekly": "Weekly",
+  "taskTriggerTypeStartup": "Startup",
+  "create": "Create",
+  "taskTriggerTypeName": "Trigger type",
+  "newTrigger": "New trigger",
+  "newTaskTrigger": "New task trigger",
+  "dayOfTheWeek": "Day of the week",
+  "time": "Time",
+  "interval": "Interval",
+  "taskTimeLimitInHours": "Time limit (hours)",
+  "taskTriggerIntervalDesc": "Every {time}",
+  "@taskTriggerIntervalDesc": {
+    "description": "Task trigger interval desc",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "taskTriggerDailyDesc": "Daily at {time}",
+  "@taskTriggerDailyDesc": {
+    "description": "taskTriggerDailyDesc",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "taskTriggerWeeklyDesc": "Weekly on {day} at {time}",
+  "@taskTriggerWeeklyDesc": {
+    "description": "taskTriggerWeeklyDesc",
+    "placeholders": {
+      "day": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "taskTriggerTimeLimitSub": "Time limit: {time}",
+  "@taskTriggerTimeLimitSub": {
+    "description": "taskTriggerTimeLimit",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "performance": "Performance",
+  "@performance": {},
+  "serverNameLabel": "Server name",
+  "@serverNameLabel": {},
+  "cachePath": "Cache path",
+  "@cachePath": {},
+  "metadataPath": "Metadata path",
+  "@metadataPath": {},
+  "maxConcurrentLibraryScanLabel": "Max concurrent library scans",
+  "@maxConcurrentLibraryScanLabel": {},
+  "maxConcurrentLibraryScanDesc": "Maximum number of parallel tasks during library scans. Leaving this empty will choose a limit based on your systems core count. WARNING: Setting this number too high may cause issues with network file systems; if you encounter problems lower this number.",
+  "@maxConcurrentLibraryScanDesc": {},
+  "maxImageDecodingThreadsLabel": "Max image decoding threads",
+  "@maxImageDecodingThreadsLabel": {},
+  "maxImageDecodingThreadsDesc": "Maximum number of image encodings that are allowed to run in parallel. Leaving this empty will choose a limit based on your systems core count.",
+  "@maxImageDecodingThreadsDesc": {},
+  "controlPanelServerDesc": "Server name, Quick Connect, Performance",
+  "@controlPanelServerDesc": {},
+  "deleteUserTitle": "Delete user {user}?",
+  "@deleteUserTitle": {
+    "description": "deleteUserTitle",
+    "placeholders": {
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteUserDesc": "This will permanently delete the user {user} and all associated settings.",
+  "@deleteUserDesc": {
+    "description": "deleteUserDesc",
+    "placeholders": {
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "userInformation": "User Information",
+  "@userInformation": {},
+  "allowManageServer": "Allow this user to manage the server",
+  "@allowManageServer": {},
+  "allowCollections": "Allow this user to collections",
+  "@allowCollections": {},
+  "allowEditSubtitles": "Allow this user edit subtitles",
+  "@allowEditSubtitles": {},
+  "featureAccess": "Feature access",
+  "@featureAccess": {},
+  "allowLiveTVAccess": "Allow live TV access",
+  "@allowLiveTVAccess": {},
+  "allowLiveTVRecording": "Allow Live TV recording management",
+  "@allowLiveTVRecording": {},
+  "mediaPlayback": "Media playback",
+  "@mediaPlayback": {},
+  "allowMediaPlayback": "Allow media playback",
+  "@allowMediaPlayback": {},
+  "allowVideoTranscoding": "Allow video playback that requires transcoding",
+  "@allowVideoTranscoding": {},
+  "allowAudioTranscoding": "Allow audio playback that requires transcoding",
+  "@allowAudioTranscoding": {},
+  "allowMediaConversion": "Allow video playback that requires media conversion",
+  "@allowMediaConversion": {},
+  "forceRemoteTranscoding": "Force remote source transcoding",
+  "@forceRemoteTranscoding": {},
+  "syncplay": "Syncplay",
+  "@syncplay": {},
+  "syncplayAccess": "Syncplay access",
+  "@syncplayAccess": {},
+  "syncplayAccessCreateAndJoinGroups": "Create and Join Groups",
+  "@syncplayAccessCreateAndJoinGroups": {},
+  "syncplayAccessJoinGroups": "Join Groups",
+  "@syncplayAccessJoinGroups": {},
+  "syncplayAccessNone": "None",
+  "@syncplayAccessNone": {},
+  "allowMediaDeletion": "Allow media deletion",
+  "@allowMediaDeletion": {},
+  "allLibraries": "All libraries",
+  "@allLibraries": {},
+  "libraryAccess": "Library Access",
+  "@libraryAccess": {},
+  "enableAllLibraries": "Enable access to all libraries",
+  "@enableAllLibraries": {},
+  "enableAllDevices": "Enable access to all devices",
+  "@enableAllDevices": {},
+  "parentalControl": "Parental Control",
+  "@parentalControl": {},
+  "blockedItemsNoRating": "Blocked items with no or unrecognized ratings",
+  "@blockedItemsNoRating": {},
+  "maxParentalRating": "Max parental rating",
+  "@maxParentalRating": {},
+  "allowItemsTags": "Allow items with tags",
+  "@allowItemsTags": {},
+  "blockItemsTags": "Block items with tags",
+  "@blockItemsTags": {},
+  "accessSchedules": "Access schedules",
+  "@accessSchedules": {},
+  "addAccessSchedule": "Add Access Schedule",
+  "@addAccessSchedule": {},
+  "dayOfWeek": "Day of the week",
+  "@dayOfWeek": {},
+  "startTime": "Start time",
+  "@startTime": {},
+  "endTime": "End time",
+  "@endTime": {},
+  "addTag": "Add Tag",
+  "@addTag": {},
+  "createNewUser": "Create new user",
+  "@createNewUser": {},
+  "createUser": "Create User",
+  "@createUser": {},
+  "users": "Users",
+  "@users": {},
+  "editUser": "Edit User",
+  "@editUser": {},
+  "general": "General",
+  "@general": {},
+  "access": "Access",
+  "@access": {},
+  "endTimeMustBeAfter": "End time must be after start time",
+  "@endTimeMustBeAfter": {},
+  "assignLibraries": "Assign Libraries",
+  "@assignLibraries": {},
+  "enableAccessAllLibraries": "Enable access to all libraries",
+  "@enableAccessAllLibraries": {},
+  "currentPassword": "Current password",
+  "@currentPassword": {},
+  "newPassword": "New password",
+  "@newPassword": {},
+  "confirmPassword": "Confirm password",
+  "@confirmPassword": {},
+  "resetPassword": "Reset password",
+  "@resetPassword": {},
+  "passwordResetSuccess": "Successfully reset password",
+  "@passwordResetSuccess": {},
+  "passwordResetFailed": "Failed to reset password",
+  "@passwordResetFailed": {},
+  "passwordMismatch": "New password and confirm password do not match",
+  "@passwordMismatch": {},
+  "passwordChangeSuccess": "Successfully changed password",
+  "@passwordChangeSuccess": {},
+  "savePassword": "Save password",
+  "@savePassword": {},
+  "deleteLibraryConfirmTitle": "Delete library?",
+  "@deleteLibraryConfirmTitle": {},
+  "deleteLibraryConfirmMessage": "Are you sure you want to delete {libraryName}?\nThis action cannot be undone.",
+  "@deleteLibraryConfirmMessage": {
+    "placeholders": {
+      "libraryName": {
+        "type": "String"
+      }
+    }
+  },
+  "noLibrarySelected": "No library selected",
+  "@noLibrarySelected": {},
+  "enabledPhotos": "Enabled photos",
+  "@enabledPhotos": {},
+  "enabledLUFSScan": "Enabled LUFS Scan",
+  "@enabledLUFSScan": {},
+  "enabledRealtimeMonitoring": "Enabled realtime-monitoring",
+  "@enabledRealtimeMonitoring": {},
+  "automaticallyAddToCollection": "Automatically add to collection",
+  "@automaticallyAddToCollection": {},
+  "enabledEmbeddedTitles": "Enabled embedded titles",
+  "@enabledEmbeddedTitles": {},
+  "enabledEmbeddedExtrasTitles": "Enabled extras embedded titles",
+  "@enabledEmbeddedExtrasTitles": {},
+  "automaticRefreshInterval": "Automatic refresh interval",
+  "@automaticRefreshInterval": {},
+  "autoRefreshIntervalNote": "Enabling this can cause longer library refresh times.",
+  "@autoRefreshIntervalNote": {},
+  "preferredDownloadLanguage": "Preferred download language",
+  "@preferredDownloadLanguage": {},
+  "countryRegion": "Country/Region",
+  "@countryRegion": {},
+  "saveMetadata": "Save metadata",
+  "@saveMetadata": {},
+  "metadataFetchers": "Metadata fetchers ({type})",
+  "@metadataFetchers": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "enableAndRankMetadataFetchers": "Enable and rank your preferred metadata fetchers in order of priority.",
+  "@enableAndRankMetadataFetchers": {},
+  "enableAndRankImagesFetchers": "Enable and rank your preferred images fetchers in order of priority.",
+  "@enableAndRankImagesFetchers": {},
+  "imageFetchers": "Image fetchers ({type})",
+  "@imageFetchers": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "mediaSegmentProviders": "Media segment providers",
+  "@mediaSegmentProviders": {},
+  "enableAndRankMediaSegmentProviders": "Enable and rank your preferred mediasegment providers in order of priority.",
+  "@enableAndRankMediaSegmentProviders": {},
+  "trickplay": "Trickplay",
+  "@trickplay": {},
+  "enableTrickplayImageExtraction": "Enable trickplay image extraction",
+  "@enableTrickplayImageExtraction": {},
+  "extractTrickplayImagesDuringLibraryScan": "Extract trickplay images during library scans",
+  "@extractTrickplayImagesDuringLibraryScan": {},
+  "saveTrickplayImagesNextToMedia": "Save trickplay images next to media",
+  "@saveTrickplayImagesNextToMedia": {},
+  "chapterImages": "Chapter Images",
+  "@chapterImages": {},
+  "enableChapterImageExtraction": "Enable chapter image extraction",
+  "@enableChapterImageExtraction": {},
+  "extractChapterImagesDuringLibraryScan": "Extract chapter images during library scans",
+  "@extractChapterImagesDuringLibraryScan": {},
+  "subtitleDownloads": "Subtitle Downloads",
+  "@subtitleDownloads": {},
+  "downloadLanguages": "Download languages",
+  "@downloadLanguages": {},
+  "subtitleDownloaders": "Subtitle downloaders",
+  "@subtitleDownloaders": {},
+  "onlyPerfectSubtitleMatch": "Only download subtitles that perfectly match the media",
+  "@onlyPerfectSubtitleMatch": {},
+  "perfectSubtitleMatchDescription": "Requiring a perfect match will filter subtitles to include only those that have been tested and verified with your exact video file. Unchecking this will increase the likelihood of subtitles being downloaded, but will increase the chances of mistimed or incorrect subtitle text.",
+  "@perfectSubtitleMatchDescription": {},
+  "skipSubtitlesIfAudioMatches": "Skip if the default audio track matches the download language",
+  "@skipSubtitlesIfAudioMatches": {},
+  "skipSubtitlesIfEmbedded": "Skip if the video already contains embedded subtitles",
+  "@skipSubtitlesIfEmbedded": {},
+  "saveSubtitlesNextToMedia": "Save subtitles next to media",
+  "@saveSubtitlesNextToMedia": {},
+  "saveArtWorkNextToMedia": "Save artwork next to media files",
+  "saveArtWorkNextToMediaDesc": "Saving artwork into media folders will put them in a place where they can be easily edited.",
+  "select": "Select",
+  "newLibrary": "New Library",
+  "contentType": "Content Type",
+  "metadataImageLongPressTouch": "Long press to delete image",
+  "metadataImageLongPressClick": "Right-click to delete image",
+  "primary": "Primary",
+  "logo": "{count, plural, other{Logos} one{Logo}}",
+  "@logo": {
+    "description": "logo",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "backdrop": "{count, plural, other{Backdrops} one{Backdrop}}",
+  "@backdrop": {
+    "description": "backdrop",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "selectFolderToAdd": "Select folder to add",
+  "@selectFolderToAdd": {},
+  "systemRootFolder": "System root folder",
+  "@systemRootFolder": {},
+  "selectedPath": "Selected path: {path}",
+  "@selectedPath": {
+    "placeholders": {
+      "path": {
+        "type": "String"
+      }
+    }
+  },
+  "recentlyAdded": "Recently added",
+  "@recentlyAdded": {},
+  "recentRequests": "Recent requests",
+  "@recentRequests": {},
+  "trending": "Trending",
+  "@trending": {},
+  "popularMovies": "Popular movies",
+  "@popularMovies": {},
+  "popularSeries": "Popular series",
+  "@popularSeries": {},
+  "expectedMovies": "Expected movies",
+  "@expectedMovies": {},
+  "expectedSeries": "Expected series",
+  "@expectedSeries": {},
+  "requestConfiguration": "Request configuration",
+  "@requestConfiguration": {},
+  "qualityProfile": "Quality profile",
+  "@qualityProfile": {},
+  "selectProfile": "Select profile",
+  "@selectProfile": {},
+  "rootFolder": "Root folder",
+  "@rootFolder": {},
+  "selectFolder": "Select folder",
+  "@selectFolder": {},
+  "tags": "Tags",
+  "@tags": {},
+  "noTags": "No tags",
+  "@noTags": {},
+  "requestAs": "Request as",
+  "@requestAs": {},
+  "requestQuotaStatus": "{remaining} of {limit} remaining (resets every {days} days)",
+  "@requestQuotaStatus": {
+    "placeholders": {
+      "remaining": {
+        "type": "int"
+      },
+      "limit": {
+        "type": "int"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "requestQuotaLimitReached": "Request limit reached for {mediaType}.",
+  "@requestQuotaLimitReached": {
+    "placeholders": {
+      "mediaType": {
+        "type": "String"
+      }
+    }
+  },
+  "submitRequest": "Submit request",
+  "@submitRequest": {},
+  "noOverviewAvailable": "No overview available.",
+  "@noOverviewAvailable": {},
+  "downloading": "downloading",
+  "@downloading": {},
+  "request": "Request",
+  "@request": {},
+  "viewRequest": "View request",
+  "@viewRequest": {},
+  "email": "Email",
+  "@email": {},
+  "username": "Username",
+  "@username": {},
+  "ok": "OK",
+  "@ok": {},
+  "seerr": "Seerr",
+  "@seerr": {},
+  "seerrNotConfigured": "Not configured",
+  "@seerrNotConfigured": {},
+  "seerrLoadingUser": "Loading user",
+  "@seerrLoadingUser": {},
+  "seerrUnknownUser": "Unknown user",
+  "@seerrUnknownUser": {},
+  "loggedInAs": "Logged in as {displayName}",
+  "@loggedInAs": {
+    "placeholders": {
+      "displayName": {
+        "type": "String"
+      }
+    }
+  },
+  "seerrServer": "Seerr server",
+  "@seerrServer": {},
+  "seerrAuthenticateLocal": "Seerr authenticate (local)",
+  "@seerrAuthenticateLocal": {},
+  "rootFolderDefaultLabel": "{folder} (Default)",
+  "@rootFolderDefaultLabel": {
+    "placeholders": {
+      "folder": {
+        "type": "String"
+      }
+    }
+  },
+  "seerrAnimeSeriesNote": "* This series is an anime.",
+  "@seerrAnimeSeriesNote": {},
+  "seerrAutoApproveNotice": "Requests you submit are auto-approved.",
+  "@seerrAutoApproveNotice": {},
+  "seerrPermissionDenied": "You do not have permission to request this media type.",
+  "@seerrPermissionDenied": {},
+  "seerrRequestStatusPending": "Pending",
+  "@seerrRequestStatusPending": {},
+  "seerrRequestStatusApproved": "Approved",
+  "@seerrRequestStatusApproved": {},
+  "seerrRequestStatusDeclined": "Declined",
+  "@seerrRequestStatusDeclined": {},
+  "seerrRequestStatusFailed": "Failed",
+  "@seerrRequestStatusFailed": {},
+  "seerrRequestStatusCompleted": "Completed",
+  "@seerrRequestStatusCompleted": {},
+  "seerrMediaStatusProcessing": "Processing",
+  "@seerrMediaStatusProcessing": {},
+  "seerrMediaStatusPartiallyAvailable": "Partially Available",
+  "@seerrMediaStatusPartiallyAvailable": {},
+  "seerrMediaStatusAvailable": "Available",
+  "@seerrMediaStatusAvailable": {},
+  "seerrMediaStatusBlacklisted": "Blacklisted",
+  "@seerrMediaStatusBlacklisted": {},
+  "seerrMediaStatusDeleted": "Deleted",
+  "@seerrMediaStatusDeleted": {},
+  "seerrAuthApiKey": "API key",
+  "@seerrAuthApiKey": {},
+  "seerrAuthLocal": "Local",
+  "@seerrAuthLocal": {},
+  "seerrAuthJellyfin": "Jellyfin",
+  "@seerrAuthJellyfin": {},
+  "seerrUserFetchFailed": "Failed to fetch user from Seerr",
+  "@seerrUserFetchFailed": {},
+  "seerrEnterServerUrlFirst": "Enter a Seerr server URL first",
+  "@seerrEnterServerUrlFirst": {},
+  "seerrApiKeySaved": "API key saved",
+  "@seerrApiKeySaved": {},
+  "seerrLoggedIn": "Logged in to Seerr",
+  "@seerrLoggedIn": {},
+  "seerrConnectedToServer": "Connected to Seerr server: {serverUrl}",
+  "@seerrConnectedToServer": {
+    "placeholders": {
+      "serverUrl": {
+        "type": "String"
+      }
+    }
+  },
+  "emailUsername": "Email/Username",
+  "@emailUsername": {},
+  "discover": "Discover",
+  "sponsor": "Sponsor",
+  "sponsorMessage": "If you enjoy using Fladder, consider sponsoring the project to support ongoing development and improvements. Thank you for your support!",
+  "min": "min",
+  "max": "max",
+  "manageRequest": "Manage request",
+  "requestAll": "Request all",
+  "openInSeerr": "Open in Seerr",
+  "@openInSeerr": {},
+  "openInSonarr": "Open in Sonarr",
+  "@openInSonarr": {},
+  "openInRadarr": "Open in Radarr",
+  "@openInRadarr": {},
+  "removeFromSonarr": "Remove from Sonarr",
+  "@removeFromSonarr": {},
+  "removeFromRadarr": "Remove from Radarr",
+  "@removeFromRadarr": {},
+  "markAllSeasonsAsAvailable": "Mark all seasons as available",
+  "@markAllSeasonsAsAvailable": {},
+  "markAsAvailable": "Mark as available",
+  "@markAsAvailable": {},
+  "deleteData": "Delete data",
+  "@deleteData": {},
+  "removeSeriesFromSonarrConfirm": "Remove this series from Sonarr? This will remove all data INCLUDING files.",
+  "@removeSeriesFromSonarrConfirm": {},
+  "removeMovieFromRadarrConfirm": "Remove this movie from Radarr? This will remove all data INCLUDING files.",
+  "@removeMovieFromRadarrConfirm": {},
+  "removedFromSonarr": "Removed from Sonarr",
+  "@removedFromSonarr": {},
+  "removedFromRadarr": "Removed from Radarr",
+  "@removedFromRadarr": {},
+  "markAllSeasonsAsAvailableConfirm": "Mark all seasons as available?",
+  "@markAllSeasonsAsAvailableConfirm": {},
+  "markAsAvailableConfirm": "Mark as available?",
+  "@markAsAvailableConfirm": {},
+  "markedAsAvailable": "Marked as available",
+  "@markedAsAvailable": {},
+  "deleteSeerrDataConfirm": "Delete all files from Seerr? This action cannot be undone.\nIf the data is still present in {service}, it may be re-imported.",
+  "@deleteSeerrDataConfirm": {
+    "description": "Confirmation message for deleting Seerr data",
+    "placeholders": {
+      "service": {
+        "type": "String",
+        "example": "Sonarr/Radarr"
+      }
+    }
+  },
+  "dataDeleted": "Data deleted",
+  "@dataDeleted": {},
+  "approve": "Approve",
+  "decline": "Decline",
+  "pendingRequests": "{count, plural, other{No pending requests} one{{count} pending request} two{{count} pending requests}}",
+  "@pendingRequests": {
+    "description": "pendingRequests",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "processing": "Processing",
+  "seerrDetails": "Seerr details"
 }

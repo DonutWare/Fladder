@@ -169,12 +169,12 @@ class LibraryScreen extends _$LibraryScreen {
       includeItemTypes: viewModel.collectionType.itemKinds.map((e) => e.dtoKind).toList(),
     );
     newRecommendations = [
-      ...newRecommendations,
       RecommendedModel(
         name: const Latest(),
         posters: latest.body?.items?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList() ?? [],
         type: null,
       ),
+      ...newRecommendations,
     ];
 
     state = state.copyWith(

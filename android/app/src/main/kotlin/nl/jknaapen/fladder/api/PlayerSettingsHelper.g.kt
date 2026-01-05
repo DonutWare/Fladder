@@ -137,7 +137,8 @@ enum class SegmentType(val raw: Int) {
 enum class SegmentSkip(val raw: Int) {
   ASK(0),
   SKIP(1),
-  NONE(2);
+  SKIP_ONCE(2),
+  NONE(3);
 
   companion object {
     fun ofRaw(raw: Int): SegmentSkip? {

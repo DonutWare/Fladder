@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
@@ -9,7 +10,10 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/library_search/library_search_options.dart';
 import 'package:fladder/providers/library_search_provider.dart';
+import 'package:fladder/providers/user_provider.dart';
+import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/shared/chips/category_chip.dart';
+import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/map_bool_helper.dart';
 import 'package:fladder/util/position_provider.dart';
@@ -34,7 +38,18 @@ class _LibraryFilterChipsState extends ConsumerState<LibraryFilterChips> {
     final hideEmpty = ref.watch(librarySearchProvider(uniqueKey).select((v) => v.filters.hideEmptyShows));
     final librarySearchResults = ref.watch(librarySearchProvider(uniqueKey));
 
+    final seerrAuthenticated = ref.watch(
+      userProvider.select((user) => user?.seerrCredentials?.isConfigured ?? false),
+    );
+
     final chips = [
+      if (seerrAuthenticated)
+        ExpressiveButton(
+          isSelected: true,
+          icon: const Icon(IconsaxPlusBold.discover),
+          label: Text(context.localized.discover),
+          onPressed: () => context.pushRoute(SeerrSearchRoute(mode: SeerrSearchMode.search)),
+        ),
       if (librarySearchResults.folderOverwrite.isEmpty)
         CategoryChip(
           label: Text(context.localized.library(2)),

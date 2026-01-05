@@ -231,7 +231,6 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                                                                 : view.collectionType.iconOutlined,
                                                           ),
                                                         ),
-                                                        decodeHeight: 64,
                                                       ),
                                                     ),
                                                   )
@@ -302,7 +301,6 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                                                                       e.collectionType.iconOutlined,
                                                                     ),
                                                                   ),
-                                                                  decodeHeight: 64,
                                                                 ),
                                                               ),
                                                             ),
