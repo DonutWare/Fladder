@@ -2310,5 +2310,7 @@
     "removedFromRadarr": "Von Radarr entfernt",
     "@removedFromRadarr": {},
     "dataDeleted": "Daten gelöscht",
-    "@dataDeleted": {}
+    "@dataDeleted": {},
+    "processing": "Verarbeitung",
+    "@processing": {}
 }
