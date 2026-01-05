@@ -41,13 +41,13 @@ class SeerrRequestBannerCard extends ConsumerWidget {
     posterImage ??= poster.images.backDrop?.lastOrNull;
 
     final user = ref.watch(seerrUserProvider);
-    final canRequest = user?.canRequestMedia(isTv: poster.type == SeerrDashboardMediaType.tv) ?? true;
+    final canRequest = user?.canRequestMedia(isTv: poster.type == SeerrMediaType.tvshow) ?? true;
     final baseItemModel = poster.itemBaseModel;
 
     void openRequestDetails() {
       context.router.push(
         SeerrDetailsRoute(
-          mediaType: poster.type == SeerrDashboardMediaType.tv ? 'tvshow' : 'movie',
+          mediaType: poster.type == SeerrMediaType.tvshow ? 'tvshow' : 'movie',
           tmdbId: poster.tmdbId,
           poster: poster,
         ),
@@ -157,7 +157,7 @@ class SeerrRequestBannerCard extends ConsumerWidget {
                                   color: Theme.of(context).colorScheme.onSurface,
                                 ),
                           ),
-                          if (poster.type == SeerrDashboardMediaType.tv && seasonsList.isNotEmpty)
+                          if (poster.type == SeerrMediaType.tvshow && seasonsList.isNotEmpty)
                             Padding(
                               padding: const EdgeInsets.only(top: 4),
                               child: Text(
@@ -180,9 +180,8 @@ class SeerrRequestBannerCard extends ConsumerWidget {
                           if (poster.hasDisplayStatus)
                             DownloadStatusLabel(
                               poster: poster,
-                              filterSeasons: poster.type == SeerrDashboardMediaType.tv && seasonsList.isNotEmpty
-                                  ? seasonsList
-                                  : null,
+                              filterSeasons:
+                                  poster.type == SeerrMediaType.tvshow && seasonsList.isNotEmpty ? seasonsList : null,
                             ),
                         ],
                       ),

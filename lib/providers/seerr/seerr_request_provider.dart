@@ -24,7 +24,7 @@ class SeerrRequest extends _$SeerrRequest {
     state = state.copyWith(poster: poster);
 
     final currentUserBody = await ref.read(seerrUserProvider.notifier).refreshUser();
-    final isTv = poster.type == SeerrDashboardMediaType.tv;
+    final isTv = poster.type == SeerrMediaType.tvshow;
 
     SeerrDashboardPosterModel updatedPoster = poster;
     if (isTv) {
@@ -176,7 +176,7 @@ class SeerrRequest extends _$SeerrRequest {
 
     final nextState = state.copyWith(use4k: enabled && state.has4k);
 
-    if (poster.type == SeerrDashboardMediaType.tv) {
+    if (poster.type == SeerrMediaType.tvshow) {
       final selectedServer = nextState.activeSonarr;
       state = nextState.copyWith(
         selectedSonarrServer: selectedServer,
@@ -203,7 +203,7 @@ class SeerrRequest extends _$SeerrRequest {
     final profileId = state.selectedProfile?.id;
     final rootFolder = state.selectedRootFolder;
 
-    final isTv = poster.type == SeerrDashboardMediaType.tv;
+    final isTv = poster.type == SeerrMediaType.tvshow;
 
     if (isTv) {
       await api.requestSeries(
@@ -296,7 +296,7 @@ abstract class SeerrRequestModel with _$SeerrRequestModel {
     String? releaseDate,
   }) = _SeerrRequestModel;
 
-  bool get isTv => poster?.type == SeerrDashboardMediaType.tv;
+  bool get isTv => poster?.type == SeerrMediaType.tvshow;
 
   SeerrUserModel? get requestingUser => selectedUser ?? currentUser;
 

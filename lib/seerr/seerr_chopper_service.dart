@@ -198,6 +198,16 @@ abstract class SeerrChopperService extends ChopperService {
     @Query('language') String? language,
   });
 
+  @GET(path: '/movie/{movieId}/ratingscombined')
+  Future<Response<SeerrRatingsResponse>> getMovieRatings(
+    @Path('movieId') int movieId,
+  );
+
+  @GET(path: '/tv/{tvId}/ratings')
+  Future<Response<SeerrRtRating>> getTvRatings(
+    @Path('tvId') int tvId,
+  );
+
   @GET(path: '/tv/{tvId}/recommendations')
   Future<Response<SeerrDiscoverResponse>> getTvRecommendations(
     @Path('tvId') int tvId, {

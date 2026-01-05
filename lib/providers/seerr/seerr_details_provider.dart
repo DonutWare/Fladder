@@ -20,7 +20,7 @@ class SeerrDetails extends _$SeerrDetails {
   @override
   SeerrDetailsModel build({
     required int tmdbId,
-    required SeerrDashboardMediaType mediaType,
+    required SeerrMediaType mediaType,
     SeerrDashboardPosterModel? poster,
   }) {
     state = SeerrDetailsModel(
@@ -54,8 +54,7 @@ class SeerrDetails extends _$SeerrDetails {
     state = state.copyWith(poster: poster);
 
     final currentUserBody = await ref.read(seerrUserProvider.notifier).refreshUser();
-    final isTv = currentMediaType == SeerrDashboardMediaType.tv;
-
+    final isTv = currentMediaType == SeerrMediaType.tvshow;
     if (isTv) {
       final tvDetailsResponse = await api.tvDetails(tvId: poster.tmdbId);
       if (tvDetailsResponse.isSuccessful && tvDetailsResponse.body != null) {
@@ -65,6 +64,8 @@ class SeerrDetails extends _$SeerrDetails {
 
         final userRegion = currentUserBody?.settings?.discoverRegion ?? 'US';
         final contentRating = SeerrHelpers.extractContentRating(details.contentRatings, userRegion);
+
+        final ratings = await api.tvRatings(poster.tmdbId);
 
         final updatedPoster = poster.copyWith(
           seasons: details.seasons,
@@ -80,6 +81,10 @@ class SeerrDetails extends _$SeerrDetails {
           releaseDate: details.firstAirDate,
           people: _mapCredits(details.credits),
           seasonStatuses: updatedPoster.seasonStatuses ?? const {},
+          externalIds: details.externalIds ?? state.externalIds,
+          ratings: SeerrRatingsResponse(
+            rt: ratings,
+          ),
         );
       }
     } else {
@@ -93,6 +98,8 @@ class SeerrDetails extends _$SeerrDetails {
           mediaInfo: details.mediaInfo,
         );
 
+        final ratings = await api.movieRatings(poster.tmdbId);
+
         state = state.copyWith(
           poster: updatedPoster,
           genres: details.genres ?? [],
@@ -100,11 +107,13 @@ class SeerrDetails extends _$SeerrDetails {
           contentRating: contentRating,
           releaseDate: details.releaseDate,
           people: _mapCredits(details.credits),
+          externalIds: details.externalIds ?? state.externalIds,
+          ratings: ratings,
         );
       }
     }
 
-    if (currentMediaType == SeerrDashboardMediaType.movie) {
+    if (currentMediaType == SeerrMediaType.movie) {
       final recommended = await api.discoverRecommendedMovies(tmdbId: poster.tmdbId);
       final related = await api.discoverRelatedMovies(tmdbId: poster.tmdbId);
       state = state.copyWith(recommended: recommended, similar: related);
@@ -243,7 +252,7 @@ abstract class SeerrDetailsModel with _$SeerrDetailsModel {
 
   const factory SeerrDetailsModel({
     int? tmdbId,
-    SeerrDashboardMediaType? mediaType,
+    SeerrMediaType? mediaType,
     SeerrDashboardPosterModel? poster,
     @Default([]) List<SeerrGenre> genres,
     double? voteAverage,
@@ -256,9 +265,11 @@ abstract class SeerrDetailsModel with _$SeerrDetailsModel {
     SeerrUserModel? currentUser,
     @Default({}) Map<int, bool> expandedSeasons,
     @Default({}) Map<int, List<SeerrEpisode>> episodesCache,
+    SeerrExternalIds? externalIds,
+    SeerrRatingsResponse? ratings,
   }) = _SeerrDetailsModel;
 
-  bool get isTv => mediaType == SeerrDashboardMediaType.tv;
+  bool get isTv => mediaType == SeerrMediaType.tvshow;
 
   bool? get hasRequestPermission {
     final user = currentUser;
@@ -269,6 +280,31 @@ abstract class SeerrDetailsModel with _$SeerrDetailsModel {
       return baseRequest || user.hasPermission(SeerrPermission.requestTv);
     }
     return baseRequest || user.hasPermission(SeerrPermission.requestMovie);
+  }
+
+  List<ExternalUrls> buildExternalUrls() {
+    final poster = this.poster;
+    final state = this;
+    if (poster == null) return [];
+
+    final urls = <ExternalUrls>[];
+    final tmdbId = poster.tmdbId;
+    final imdbId = state.externalIds?.imdbId;
+    final tvdbId = poster.mediaInfo?.tvdbId;
+    final rtUrl = state.ratings?.rt?.url;
+
+    void addUrl(String name, String? url) {
+      if (url == null || url.isEmpty) return;
+      urls.add(ExternalUrls(name: name, url: url));
+    }
+
+    addUrl('TMDB', 'https://www.themoviedb.org/${isTv ? 'tv' : 'movie'}/$tmdbId');
+    addUrl('IMDb', imdbId != null ? 'https://www.imdb.com/title/$imdbId' : null);
+    addUrl('Trakt',
+        imdbId != null ? 'https://trakt.tv/search/imdb/$imdbId?source=imdb' : 'https://trakt.tv/search/tmdb/$tmdbId');
+    addUrl('TVDB', tvdbId != null ? 'http://www.thetvdb.com/?tab=series&id=$tvdbId' : null);
+    addUrl('Rotten Tomatoes', rtUrl);
+    return urls;
   }
 
   bool isRequestedAlready(int seasonNumber) {

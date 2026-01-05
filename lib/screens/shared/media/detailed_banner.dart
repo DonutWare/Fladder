@@ -61,9 +61,10 @@ class _DetailedBannerState extends ConsumerState<DetailedBanner> {
         ),
         ConstrainedBox(
           constraints: BoxConstraints(
-            maxHeight: AdaptiveLayout.viewSizeOf(context) == ViewSize.phone
-                ? MediaQuery.sizeOf(context).height * 0.75
-                : MediaQuery.sizeOf(context).height * 0.9,
+            maxHeight: (AdaptiveLayout.viewSizeOf(context) == ViewSize.phone
+                    ? MediaQuery.sizeOf(context).height * 0.75
+                    : MediaQuery.sizeOf(context).height * 0.9)
+                .clamp(20, 1000),
             maxWidth: double.infinity,
           ),
           child: Column(
@@ -83,13 +84,12 @@ class _DetailedBannerState extends ConsumerState<DetailedBanner> {
                         builder: (context, value, child) => OverviewHeader(
                           name: value.parentBaseModel.name,
                           subTitle: value.label(context),
-                          minHeight: 50,
                           image: value.getPosters,
                           logoAlignment: AdaptiveLayout.viewSizeOf(context) <= ViewSize.phone
                               ? Alignment.center
                               : Alignment.centerLeft,
                           summary: value.overview.summary,
-                          productionYear: value.overview.productionYear,
+                          productionYear: value.overview.productionYear?.toString(),
                           runTime: value.overview.runTime,
                           genres: value.overview.genreItems,
                           studios: value.overview.studios,

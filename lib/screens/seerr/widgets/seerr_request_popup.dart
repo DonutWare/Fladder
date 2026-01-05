@@ -75,7 +75,7 @@ class _SeerrRequestPopupState extends ConsumerState<SeerrRequestPopup> {
   Future<void> openSeerrLink(BuildContext context, SeerrDashboardPosterModel model) async {
     final seerrUrl = ref.read(userProvider)?.seerrCredentials?.serverUrl;
     if (seerrUrl != null && seerrUrl.isNotEmpty) {
-      final mediaType = model.type == SeerrDashboardMediaType.movie ? 'movie' : 'tv';
+      final mediaType = model.type == SeerrMediaType.movie ? 'movie' : 'tv';
       final url = '$seerrUrl/$mediaType/${model.tmdbId}';
       launchUrl(context, url);
     }
@@ -190,7 +190,7 @@ class _SeerrRequestPopupState extends ConsumerState<SeerrRequestPopup> {
                                       borderRadius: FladderTheme.smallShape.borderRadius,
                                     ),
                                     child: Text(
-                                      model.type == SeerrDashboardMediaType.movie
+                                      model.type == SeerrMediaType.movie
                                           ? context.localized.mediaTypeMovie(1)
                                           : context.localized.mediaTypeSeries(1),
                                       style: Theme.of(context).textTheme.bodyMedium,
@@ -290,7 +290,7 @@ class _SeerrRequestPopupState extends ConsumerState<SeerrRequestPopup> {
                         ),
                       ],
                     ),
-                    if (model.type == SeerrDashboardMediaType.tv && seasons.isNotEmpty) ...[
+                    if (model.type == SeerrMediaType.tvshow && seasons.isNotEmpty) ...[
                       const Divider(),
                       SeerrSeasonsSection(
                         model: model,

@@ -47,6 +47,9 @@ class SeerrJsonConverter extends JsonConverter {
         SeerrSearchCompanyResponse: SeerrSearchCompanyResponse.fromJson,
         SeerrCompany: SeerrCompany.fromJson,
         SeerrContentRating: SeerrContentRating.fromJson,
+        SeerrRatingsResponse: SeerrRatingsResponse.fromJson,
+        SeerrRtRating: SeerrRtRating.fromJson,
+        SeerrImdbRating: SeerrImdbRating.fromJson,
       };
 
   @override

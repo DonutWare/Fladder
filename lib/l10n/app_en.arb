@@ -2179,5 +2179,6 @@
       }
     }
   },
-  "processing": "Processing"
+  "processing": "Processing",
+  "seerrDetails": "Seerr details"
 }

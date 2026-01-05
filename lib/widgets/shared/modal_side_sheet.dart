@@ -98,7 +98,7 @@ class Sheet extends StatelessWidget {
             ),
             child: Column(
               children: [
-                Flexible(child: _buildHeader(context)),
+                _buildHeader(context),
                 Expanded(
                   child: content,
                 ),

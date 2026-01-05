@@ -141,7 +141,7 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                     ),
                     padding: padding,
                     originalTitle: details.originalTitle,
-                    productionYear: details.overview.productionYear,
+                    productionYear: details.overview.yearAired.toString(),
                     runTime: details.overview.runTime,
                     studios: details.overview.studios,
                     officialRating: details.overview.parentalRating,

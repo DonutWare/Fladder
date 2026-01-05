@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SeerrDetailsModel {
   int? get tmdbId;
-  SeerrDashboardMediaType? get mediaType;
+  SeerrMediaType? get mediaType;
   SeerrDashboardPosterModel? get poster;
   List<SeerrGenre> get genres;
   double? get voteAverage;
@@ -28,6 +28,8 @@ mixin _$SeerrDetailsModel {
   SeerrUserModel? get currentUser;
   Map<int, bool> get expandedSeasons;
   Map<int, List<SeerrEpisode>> get episodesCache;
+  SeerrExternalIds? get externalIds;
+  SeerrRatingsResponse? get ratings;
 
   /// Create a copy of SeerrDetailsModel
   /// with the given fields replaced by the non-null parameter values.
@@ -39,7 +41,7 @@ mixin _$SeerrDetailsModel {
 
   @override
   String toString() {
-    return 'SeerrDetailsModel(tmdbId: $tmdbId, mediaType: $mediaType, poster: $poster, genres: $genres, voteAverage: $voteAverage, contentRating: $contentRating, releaseDate: $releaseDate, recommended: $recommended, similar: $similar, people: $people, seasonStatuses: $seasonStatuses, currentUser: $currentUser, expandedSeasons: $expandedSeasons, episodesCache: $episodesCache)';
+    return 'SeerrDetailsModel(tmdbId: $tmdbId, mediaType: $mediaType, poster: $poster, genres: $genres, voteAverage: $voteAverage, contentRating: $contentRating, releaseDate: $releaseDate, recommended: $recommended, similar: $similar, people: $people, seasonStatuses: $seasonStatuses, currentUser: $currentUser, expandedSeasons: $expandedSeasons, episodesCache: $episodesCache, externalIds: $externalIds, ratings: $ratings)';
   }
 }
 
@@ -51,7 +53,7 @@ abstract mixin class $SeerrDetailsModelCopyWith<$Res> {
   @useResult
   $Res call(
       {int? tmdbId,
-      SeerrDashboardMediaType? mediaType,
+      SeerrMediaType? mediaType,
       SeerrDashboardPosterModel? poster,
       List<SeerrGenre> genres,
       double? voteAverage,
@@ -63,7 +65,9 @@ abstract mixin class $SeerrDetailsModelCopyWith<$Res> {
       Map<int, SeerrMediaStatus> seasonStatuses,
       SeerrUserModel? currentUser,
       Map<int, bool> expandedSeasons,
-      Map<int, List<SeerrEpisode>> episodesCache});
+      Map<int, List<SeerrEpisode>> episodesCache,
+      SeerrExternalIds? externalIds,
+      SeerrRatingsResponse? ratings});
 
   $SeerrUserModelCopyWith<$Res>? get currentUser;
 }
@@ -95,6 +99,8 @@ class _$SeerrDetailsModelCopyWithImpl<$Res>
     Object? currentUser = freezed,
     Object? expandedSeasons = null,
     Object? episodesCache = null,
+    Object? externalIds = freezed,
+    Object? ratings = freezed,
   }) {
     return _then(_self.copyWith(
       tmdbId: freezed == tmdbId
@@ -104,7 +110,7 @@ class _$SeerrDetailsModelCopyWithImpl<$Res>
       mediaType: freezed == mediaType
           ? _self.mediaType
           : mediaType // ignore: cast_nullable_to_non_nullable
-              as SeerrDashboardMediaType?,
+              as SeerrMediaType?,
       poster: freezed == poster
           ? _self.poster
           : poster // ignore: cast_nullable_to_non_nullable
@@ -153,6 +159,14 @@ class _$SeerrDetailsModelCopyWithImpl<$Res>
           ? _self.episodesCache
           : episodesCache // ignore: cast_nullable_to_non_nullable
               as Map<int, List<SeerrEpisode>>,
+      externalIds: freezed == externalIds
+          ? _self.externalIds
+          : externalIds // ignore: cast_nullable_to_non_nullable
+              as SeerrExternalIds?,
+      ratings: freezed == ratings
+          ? _self.ratings
+          : ratings // ignore: cast_nullable_to_non_nullable
+              as SeerrRatingsResponse?,
     ));
   }
 
@@ -266,7 +280,7 @@ extension SeerrDetailsModelPatterns on SeerrDetailsModel {
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(
             int? tmdbId,
-            SeerrDashboardMediaType? mediaType,
+            SeerrMediaType? mediaType,
             SeerrDashboardPosterModel? poster,
             List<SeerrGenre> genres,
             double? voteAverage,
@@ -278,7 +292,9 @@ extension SeerrDetailsModelPatterns on SeerrDetailsModel {
             Map<int, SeerrMediaStatus> seasonStatuses,
             SeerrUserModel? currentUser,
             Map<int, bool> expandedSeasons,
-            Map<int, List<SeerrEpisode>> episodesCache)?
+            Map<int, List<SeerrEpisode>> episodesCache,
+            SeerrExternalIds? externalIds,
+            SeerrRatingsResponse? ratings)?
         $default, {
     required TResult orElse(),
   }) {
@@ -299,7 +315,9 @@ extension SeerrDetailsModelPatterns on SeerrDetailsModel {
             _that.seasonStatuses,
             _that.currentUser,
             _that.expandedSeasons,
-            _that.episodesCache);
+            _that.episodesCache,
+            _that.externalIds,
+            _that.ratings);
       case _:
         return orElse();
     }
@@ -322,7 +340,7 @@ extension SeerrDetailsModelPatterns on SeerrDetailsModel {
   TResult when<TResult extends Object?>(
     TResult Function(
             int? tmdbId,
-            SeerrDashboardMediaType? mediaType,
+            SeerrMediaType? mediaType,
             SeerrDashboardPosterModel? poster,
             List<SeerrGenre> genres,
             double? voteAverage,
@@ -334,7 +352,9 @@ extension SeerrDetailsModelPatterns on SeerrDetailsModel {
             Map<int, SeerrMediaStatus> seasonStatuses,
             SeerrUserModel? currentUser,
             Map<int, bool> expandedSeasons,
-            Map<int, List<SeerrEpisode>> episodesCache)
+            Map<int, List<SeerrEpisode>> episodesCache,
+            SeerrExternalIds? externalIds,
+            SeerrRatingsResponse? ratings)
         $default,
   ) {
     final _that = this;
@@ -354,7 +374,9 @@ extension SeerrDetailsModelPatterns on SeerrDetailsModel {
             _that.seasonStatuses,
             _that.currentUser,
             _that.expandedSeasons,
-            _that.episodesCache);
+            _that.episodesCache,
+            _that.externalIds,
+            _that.ratings);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -376,7 +398,7 @@ extension SeerrDetailsModelPatterns on SeerrDetailsModel {
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(
             int? tmdbId,
-            SeerrDashboardMediaType? mediaType,
+            SeerrMediaType? mediaType,
             SeerrDashboardPosterModel? poster,
             List<SeerrGenre> genres,
             double? voteAverage,
@@ -388,7 +410,9 @@ extension SeerrDetailsModelPatterns on SeerrDetailsModel {
             Map<int, SeerrMediaStatus> seasonStatuses,
             SeerrUserModel? currentUser,
             Map<int, bool> expandedSeasons,
-            Map<int, List<SeerrEpisode>> episodesCache)?
+            Map<int, List<SeerrEpisode>> episodesCache,
+            SeerrExternalIds? externalIds,
+            SeerrRatingsResponse? ratings)?
         $default,
   ) {
     final _that = this;
@@ -408,7 +432,9 @@ extension SeerrDetailsModelPatterns on SeerrDetailsModel {
             _that.seasonStatuses,
             _that.currentUser,
             _that.expandedSeasons,
-            _that.episodesCache);
+            _that.episodesCache,
+            _that.externalIds,
+            _that.ratings);
       case _:
         return null;
     }
@@ -432,7 +458,9 @@ class _SeerrDetailsModel extends SeerrDetailsModel {
       final Map<int, SeerrMediaStatus> seasonStatuses = const {},
       this.currentUser,
       final Map<int, bool> expandedSeasons = const {},
-      final Map<int, List<SeerrEpisode>> episodesCache = const {}})
+      final Map<int, List<SeerrEpisode>> episodesCache = const {},
+      this.externalIds,
+      this.ratings})
       : _genres = genres,
         _recommended = recommended,
         _similar = similar,
@@ -445,7 +473,7 @@ class _SeerrDetailsModel extends SeerrDetailsModel {
   @override
   final int? tmdbId;
   @override
-  final SeerrDashboardMediaType? mediaType;
+  final SeerrMediaType? mediaType;
   @override
   final SeerrDashboardPosterModel? poster;
   final List<SeerrGenre> _genres;
@@ -519,6 +547,11 @@ class _SeerrDetailsModel extends SeerrDetailsModel {
     return EqualUnmodifiableMapView(_episodesCache);
   }
 
+  @override
+  final SeerrExternalIds? externalIds;
+  @override
+  final SeerrRatingsResponse? ratings;
+
   /// Create a copy of SeerrDetailsModel
   /// with the given fields replaced by the non-null parameter values.
   @override
@@ -529,7 +562,7 @@ class _SeerrDetailsModel extends SeerrDetailsModel {
 
   @override
   String toString() {
-    return 'SeerrDetailsModel(tmdbId: $tmdbId, mediaType: $mediaType, poster: $poster, genres: $genres, voteAverage: $voteAverage, contentRating: $contentRating, releaseDate: $releaseDate, recommended: $recommended, similar: $similar, people: $people, seasonStatuses: $seasonStatuses, currentUser: $currentUser, expandedSeasons: $expandedSeasons, episodesCache: $episodesCache)';
+    return 'SeerrDetailsModel(tmdbId: $tmdbId, mediaType: $mediaType, poster: $poster, genres: $genres, voteAverage: $voteAverage, contentRating: $contentRating, releaseDate: $releaseDate, recommended: $recommended, similar: $similar, people: $people, seasonStatuses: $seasonStatuses, currentUser: $currentUser, expandedSeasons: $expandedSeasons, episodesCache: $episodesCache, externalIds: $externalIds, ratings: $ratings)';
   }
 }
 
@@ -543,7 +576,7 @@ abstract mixin class _$SeerrDetailsModelCopyWith<$Res>
   @useResult
   $Res call(
       {int? tmdbId,
-      SeerrDashboardMediaType? mediaType,
+      SeerrMediaType? mediaType,
       SeerrDashboardPosterModel? poster,
       List<SeerrGenre> genres,
       double? voteAverage,
@@ -555,7 +588,9 @@ abstract mixin class _$SeerrDetailsModelCopyWith<$Res>
       Map<int, SeerrMediaStatus> seasonStatuses,
       SeerrUserModel? currentUser,
       Map<int, bool> expandedSeasons,
-      Map<int, List<SeerrEpisode>> episodesCache});
+      Map<int, List<SeerrEpisode>> episodesCache,
+      SeerrExternalIds? externalIds,
+      SeerrRatingsResponse? ratings});
 
   @override
   $SeerrUserModelCopyWith<$Res>? get currentUser;
@@ -588,6 +623,8 @@ class __$SeerrDetailsModelCopyWithImpl<$Res>
     Object? currentUser = freezed,
     Object? expandedSeasons = null,
     Object? episodesCache = null,
+    Object? externalIds = freezed,
+    Object? ratings = freezed,
   }) {
     return _then(_SeerrDetailsModel(
       tmdbId: freezed == tmdbId
@@ -597,7 +634,7 @@ class __$SeerrDetailsModelCopyWithImpl<$Res>
       mediaType: freezed == mediaType
           ? _self.mediaType
           : mediaType // ignore: cast_nullable_to_non_nullable
-              as SeerrDashboardMediaType?,
+              as SeerrMediaType?,
       poster: freezed == poster
           ? _self.poster
           : poster // ignore: cast_nullable_to_non_nullable
@@ -646,6 +683,14 @@ class __$SeerrDetailsModelCopyWithImpl<$Res>
           ? _self._episodesCache
           : episodesCache // ignore: cast_nullable_to_non_nullable
               as Map<int, List<SeerrEpisode>>,
+      externalIds: freezed == externalIds
+          ? _self.externalIds
+          : externalIds // ignore: cast_nullable_to_non_nullable
+              as SeerrExternalIds?,
+      ratings: freezed == ratings
+          ? _self.ratings
+          : ratings // ignore: cast_nullable_to_non_nullable
+              as SeerrRatingsResponse?,
     ));
   }
 

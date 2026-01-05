@@ -63,7 +63,7 @@ class _SeasonDetailScreenState extends ConsumerState<SeasonDetailScreen> {
                     subTitle: details.localizedName(context),
                     onTitleClicked: () => details.parentBaseModel.navigateTo(context),
                     originalTitle: details.seriesName,
-                    productionYear: details.overview.productionYear,
+                    productionYear: details.overview.productionYear.toString(),
                     runTime: details.overview.runTime,
                     studios: details.overview.studios,
                     officialRating: details.overview.parentalRating,

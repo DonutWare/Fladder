@@ -91,6 +91,18 @@ class SeerrService {
     return radarrServers;
   }
 
+  Future<SeerrRatingsResponse?> movieRatings(int movieId) async {
+    final response = await _api.getMovieRatings(movieId);
+    if (!response.isSuccessful) return null;
+    return response.body;
+  }
+
+  Future<SeerrRtRating?> tvRatings(int tvId) async {
+    final response = await _api.getTvRatings(tvId);
+    if (!response.isSuccessful) return null;
+    return response.body;
+  }
+
   Future<List<SeerrUserModel>> users({int? take, int? skip, String sort = 'displayname'}) async {
     final response = await _api.getUsers(take: take, skip: skip, sort: sort);
     final results = response.body?.results ?? [];
@@ -114,7 +126,7 @@ class SeerrService {
   }
 
   SeerrDashboardPosterModel? _posterFromDetails({
-    required SeerrDashboardMediaType type,
+    required SeerrMediaType type,
     required int tmdbId,
     required String title,
     required String overview,
@@ -128,8 +140,8 @@ class SeerrService {
     String? releaseYear,
     SeerrRequestStatus? requestStatus,
   }) {
-    final keyPrefix = type == SeerrDashboardMediaType.movie ? 'tmdb_movie_$tmdbId' : 'tmdb_tv_$tmdbId';
-    final id = type == SeerrDashboardMediaType.movie ? 'tmdb:movie:$tmdbId' : 'tmdb:tv:$tmdbId';
+    final keyPrefix = type == SeerrMediaType.movie ? 'tmdb_movie_$tmdbId' : 'tmdb_tv_$tmdbId';
+    final id = type == SeerrMediaType.movie ? 'tmdb:movie:$tmdbId' : 'tmdb:tv:$tmdbId';
 
     return SeerrDashboardPosterModel(
       id: id,
@@ -151,8 +163,6 @@ class SeerrService {
     );
   }
 
-  SeerrMediaStatus? _mediaStatusFromRaw(int? raw) => raw != null ? SeerrMediaStatus.fromRaw(raw) : null;
-
   Map<int, SeerrMediaStatus> _seasonStatusMap(List<SeerrMediaInfoSeason>? seasons) {
     if (seasons == null) return const {};
     return {
@@ -165,7 +175,7 @@ class SeerrService {
     int? tmdbId,
     int? tvdbId,
     String? language,
-    SeerrDashboardMediaType? mediaType,
+    SeerrMediaType? mediaType,
   }) async {
     if (tvdbId != null) {
       if (tmdbId == null) return null;
@@ -179,14 +189,14 @@ class SeerrService {
         releaseYear = firstAirDate.split('-').first;
       }
       return _posterFromDetails(
-        type: SeerrDashboardMediaType.tv,
+        type: SeerrMediaType.tvshow,
         tmdbId: details.id?.toInt() ?? 0,
         jellyfinItemId: details.mediaInfo?.primaryJellyfinMediaId,
         title: details.name ?? '',
         overview: details.overview ?? '',
         posterUrl: details.posterUrl,
         backdropUrl: details.backdropUrl,
-        mediaStatus: _mediaStatusFromRaw(details.mediaInfo?.status?.toInt()),
+        mediaStatus: details.mediaInfo?.mediaStatus,
         seasons: details.seasons,
         seasonStatuses: seasonStatusMap.isEmpty ? null : seasonStatusMap,
         mediaInfo: details.mediaInfo,
@@ -195,7 +205,7 @@ class SeerrService {
     }
 
     if (tmdbId != null) {
-      if (mediaType == SeerrDashboardMediaType.tv) {
+      if (mediaType == SeerrMediaType.tvshow) {
         final tvResponse = await tvDetails(tvId: tmdbId, language: language);
         if (!tvResponse.isSuccessful || tvResponse.body == null) return null;
         final details = tvResponse.body!;
@@ -206,14 +216,14 @@ class SeerrService {
           releaseYear = firstAirDate.split('-').first;
         }
         return _posterFromDetails(
-          type: SeerrDashboardMediaType.tv,
+          type: SeerrMediaType.tvshow,
           tmdbId: details.id?.toInt() ?? 0,
           jellyfinItemId: details.mediaInfo?.primaryJellyfinMediaId,
           title: details.name ?? '',
           overview: details.overview ?? '',
           posterUrl: details.posterUrl,
           backdropUrl: details.backdropUrl,
-          mediaStatus: _mediaStatusFromRaw(details.mediaInfo?.status?.toInt()),
+          mediaStatus: details.mediaInfo?.mediaStatus,
           seasons: details.seasons,
           seasonStatuses: seasonStatusMap.isEmpty ? null : seasonStatusMap,
           mediaInfo: details.mediaInfo,
@@ -229,14 +239,14 @@ class SeerrService {
           releaseYear = releaseDate.split('-').first;
         }
         return _posterFromDetails(
-          type: SeerrDashboardMediaType.movie,
+          type: SeerrMediaType.movie,
           tmdbId: details.id?.toInt() ?? 0,
           jellyfinItemId: details.mediaInfo?.primaryJellyfinMediaId,
           title: details.title ?? '',
           overview: details.overview ?? '',
           posterUrl: details.posterUrl,
           backdropUrl: details.backdropUrl,
-          mediaStatus: _mediaStatusFromRaw(details.mediaInfo?.status?.toInt()),
+          mediaStatus: details.mediaInfo?.mediaStatus,
           mediaInfo: details.mediaInfo,
           releaseYear: releaseYear,
         );
@@ -300,20 +310,19 @@ class SeerrService {
     return results.map(_posterFromDiscoverItem).whereType<SeerrDashboardPosterModel>().toList(growable: false);
   }
 
-  SeerrDashboardMediaType? _resolveMediaType(SeerrDiscoverItem item) {
+  SeerrMediaType? _resolveMediaType(SeerrDiscoverItem item) {
     switch (item.mediaType) {
       case SeerrMediaType.movie:
-        return SeerrDashboardMediaType.movie;
-      case SeerrMediaType.tv:
-      case SeerrMediaType.series:
-        return SeerrDashboardMediaType.tv;
+        return SeerrMediaType.movie;
+      case SeerrMediaType.tvshow:
+        return SeerrMediaType.tvshow;
       case SeerrMediaType.person:
         return null;
       case null:
         if (item.mediaInfo?.tvdbId != null) {
-          return SeerrDashboardMediaType.tv;
+          return SeerrMediaType.tvshow;
         } else if (item.mediaInfo?.tmdbId != null) {
-          return SeerrDashboardMediaType.movie;
+          return SeerrMediaType.movie;
         }
         return null;
     }
@@ -324,12 +333,12 @@ class SeerrService {
     if (type == null) return null;
 
     final tmdbId = item.id ?? item.mediaInfo?.tmdbId ?? 0;
-    final title = type == SeerrDashboardMediaType.tv
+    final title = type == SeerrMediaType.tvshow
         ? (item.name ?? item.originalName ?? item.title ?? '')
         : (item.title ?? item.originalTitle ?? item.name ?? '');
 
     String? releaseYear;
-    final dateString = type == SeerrDashboardMediaType.tv ? item.firstAirDate : item.releaseDate;
+    final dateString = type == SeerrMediaType.tvshow ? item.firstAirDate : item.releaseDate;
     if (dateString != null && dateString.isNotEmpty) {
       releaseYear = dateString.split('-').first;
     }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/items/images_models.dart';
@@ -17,6 +18,7 @@ import 'package:fladder/screens/seerr/widgets/seerr_request_popup.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_requests_sheet.dart';
 import 'package:fladder/screens/shared/detail_scaffold.dart';
 import 'package:fladder/screens/shared/media/expanding_overview.dart';
+import 'package:fladder/screens/shared/media/external_urls.dart';
 import 'package:fladder/screens/shared/media/people_row.dart';
 import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/theme.dart';
@@ -42,14 +44,11 @@ class SeerrDetailsScreen extends ConsumerWidget {
     super.key,
   });
 
-  SeerrDashboardMediaType get _resolvedType =>
-      mediaType.toLowerCase() == 'tvshow' ? SeerrDashboardMediaType.tv : SeerrDashboardMediaType.movie;
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = seerrDetailsProvider(
       tmdbId: tmdbId,
-      mediaType: _resolvedType,
+      mediaType: SeerrMediaType.fromString(mediaType),
       poster: poster,
     );
     final state = ref.watch(provider);
@@ -64,9 +63,13 @@ class SeerrDetailsScreen extends ConsumerWidget {
 
     final itemBaseModel = currentPoster?.itemBaseModel;
 
+    final externalUrls = state.buildExternalUrls();
+
     final hasKnownStatus = currentPoster?.hasDisplayStatus ?? false;
     final requests = state.poster?.mediaInfo?.requests ?? [];
     final pendingRequests = requests.where((request) => request.requestStatus == SeerrRequestStatus.pending).toList();
+
+    final rottenTomatoes = state.ratings?.rt;
 
     return DetailScaffold(
       label: currentPoster?.title ?? context.localized.request,
@@ -93,9 +96,9 @@ class SeerrDetailsScreen extends ConsumerWidget {
                             child: Column(
                               mainAxisSize: MainAxisSize.max,
                               crossAxisAlignment: CrossAxisAlignment.stretch,
-                              spacing: 8,
+                              spacing: 6,
                               children: [
-                                const SizedBox(height: 16),
+                                if (hasKnownStatus) const SizedBox(height: 16),
                                 SizedBox(
                                   width: 175,
                                   child: AspectRatio(
@@ -128,9 +131,35 @@ class SeerrDetailsScreen extends ConsumerWidget {
                         : null,
                     image: currentPoster.images,
                     padding: padding,
-                    productionYear: int.tryParse(currentPoster.releaseYear ?? ''),
+                    productionYear: currentPoster.releaseYear,
                     officialRating: state.contentRating,
                     communityRating: state.voteAverage,
+                    additionalLabels: [
+                      if (rottenTomatoes != null) ...[
+                        SimpleLabel(
+                          label: Text("${rottenTomatoes.criticsScore}%"),
+                          iconWidget: SvgPicture.asset(
+                            'icons/tomato.svg',
+                            width: 16,
+                            height: 16,
+                            colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                          ),
+                          iconColor: Colors.white,
+                          color: Colors.redAccent.shade700,
+                        ),
+                        SimpleLabel(
+                          label: Text("${rottenTomatoes.audienceScore}%"),
+                          iconWidget: SvgPicture.asset(
+                            'icons/popcorn_bucket.svg',
+                            width: 16,
+                            height: 16,
+                            colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                          ),
+                          iconColor: Colors.white,
+                          color: Colors.orange.shade700,
+                        ),
+                      ],
+                    ],
                     genres:
                         state.genres.map((e) => GenreItems(id: e.id?.toString() ?? "", name: e.name ?? "")).toList(),
                     mainButton: Builder(builder: (context) {
@@ -211,7 +240,7 @@ class SeerrDetailsScreen extends ConsumerWidget {
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    color: SeerrRequestStatus.pending.color,
+                                    color: theme.colorScheme.tertiaryContainer,
                                     borderRadius: radius,
                                   ),
                                   child: Padding(
@@ -224,7 +253,7 @@ class SeerrDetailsScreen extends ConsumerWidget {
                                           context.localized.pendingRequests(pendingRequests.length),
                                           style: theme.textTheme.titleMedium?.copyWith(
                                             fontWeight: FontWeight.w700,
-                                            color: Colors.white,
+                                            color: theme.colorScheme.onTertiaryContainer,
                                           ),
                                         ),
                                       ],
@@ -274,7 +303,7 @@ class SeerrDetailsScreen extends ConsumerWidget {
                         ? context.localized.noOverviewAvailable
                         : currentPoster.overview,
                   ).padding(padding),
-                  if (currentPoster.type == SeerrDashboardMediaType.tv && (currentPoster.seasons?.isNotEmpty ?? false))
+                  if (currentPoster.type == SeerrMediaType.tvshow && (currentPoster.seasons?.isNotEmpty ?? false))
                     _SeerrSeasonsSection(
                       state: state,
                       notifier: notifier,
@@ -286,6 +315,7 @@ class SeerrDetailsScreen extends ConsumerWidget {
                     PeopleRow(
                       people: state.people,
                       contentPadding: padding,
+                      onTap: () {},
                     ),
                   if (state.recommended.isNotEmpty)
                     SeerrPosterRow(
@@ -299,6 +329,10 @@ class SeerrDetailsScreen extends ConsumerWidget {
                       label: "${context.localized.discover} ${context.localized.related.toLowerCase()}",
                       contentPadding: padding,
                     ),
+                  if (externalUrls.isNotEmpty)
+                    ExternalUrlsRow(
+                      urls: externalUrls,
+                    ).padding(padding),
                 ].addPadding(const EdgeInsets.symmetric(vertical: 16)),
               ),
             ),

@@ -136,7 +136,7 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
                       ],
                     ),
                     originalTitle: details.originalTitle,
-                    productionYear: details.overview.productionYear,
+                    productionYear: details.premiereDate.year.toString(),
                     runTime: details.overview.runTime,
                     genres: details.overview.genreItems,
                     studios: details.overview.studios,

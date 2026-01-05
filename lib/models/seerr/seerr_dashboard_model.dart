@@ -114,14 +114,9 @@ class SeerrDashboardRequestMeta {
   });
 }
 
-enum SeerrDashboardMediaType {
-  movie,
-  tv,
-}
-
 class SeerrDashboardPosterModel {
   final String id;
-  final SeerrDashboardMediaType type;
+  final SeerrMediaType type;
   final int tmdbId;
   final String? jellyfinItemId;
   final String title;
@@ -156,7 +151,7 @@ class SeerrDashboardPosterModel {
 
   SeerrDashboardPosterModel copyWith({
     String? id,
-    SeerrDashboardMediaType? type,
+    SeerrMediaType? type,
     int? tmdbId,
     String? jellyfinItemId,
     String? title,
@@ -201,7 +196,7 @@ class SeerrDashboardPosterModel {
       return null;
     }
     switch (type) {
-      case SeerrDashboardMediaType.tv:
+      case SeerrMediaType.tvshow:
         return SeriesModel(
           name: title,
           id: jellyfinItemId ?? '',
@@ -219,7 +214,7 @@ class SeerrDashboardPosterModel {
           canDownload: false,
           jellyType: BaseItemKind.series,
         );
-      case SeerrDashboardMediaType.movie:
+      case SeerrMediaType.movie:
         return MovieModel(
           name: title,
           id: jellyfinItemId ?? '',
@@ -238,8 +233,10 @@ class SeerrDashboardPosterModel {
           userData: const UserData(),
           canDelete: false,
           canDownload: false,
-          jellyType: type == SeerrDashboardMediaType.movie ? BaseItemKind.movie : BaseItemKind.series,
+          jellyType: type == SeerrMediaType.movie ? BaseItemKind.movie : BaseItemKind.series,
         );
+      default:
+        return null;
     }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
@@ -25,7 +26,8 @@ class OverviewHeader extends ConsumerWidget {
   final String? originalTitle;
   final Alignment logoAlignment;
   final Function()? onTitleClicked;
-  final int? productionYear;
+  final List<SimpleLabel> additionalLabels;
+  final String? productionYear;
   final String? summary;
   final Duration? runTime;
   final String? officialRating;
@@ -45,6 +47,7 @@ class OverviewHeader extends ConsumerWidget {
     this.originalTitle,
     this.logoAlignment = Alignment.bottomCenter,
     this.onTitleClicked,
+    this.additionalLabels = const [],
     this.productionYear,
     this.summary,
     this.runTime,
@@ -159,12 +162,12 @@ class OverviewHeader extends ConsumerWidget {
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
                       if (officialRating != null)
-                        _SimpleLabel(
+                        SimpleLabel(
                           icon: null,
                           label: Text(officialRating.toString()),
                         ),
                       if (productionYear != null)
-                        _SimpleLabel(
+                        SimpleLabel(
                           icon: IconsaxPlusBold.calendar,
                           color: Theme.of(context).colorScheme.surfaceBright,
                           label: SelectableText(
@@ -173,7 +176,7 @@ class OverviewHeader extends ConsumerWidget {
                           ),
                         ),
                       if (runTime != null && (runTime?.inSeconds ?? 0) > 1)
-                        _SimpleLabel(
+                        SimpleLabel(
                           icon: IconsaxPlusBold.timer,
                           color: Theme.of(context).colorScheme.surfaceBright,
                           iconColor: Theme.of(context).colorScheme.onSurface,
@@ -183,7 +186,7 @@ class OverviewHeader extends ConsumerWidget {
                           ),
                         ),
                       if (communityRating != null && communityRating != 0.0)
-                        _SimpleLabel(
+                        SimpleLabel(
                           icon: IconsaxPlusBold.star_1,
                           color: Theme.of(context).colorScheme.tertiaryContainer,
                           iconColor: Theme.of(context).colorScheme.onTertiaryContainer,
@@ -208,6 +211,16 @@ class OverviewHeader extends ConsumerWidget {
                   if (genres.isNotEmpty)
                     Genres(
                       genres: genres.take(6).toList(),
+                    ),
+                  if (additionalLabels.isNotEmpty)
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      direction: Axis.horizontal,
+                      alignment: WrapAlignment.center,
+                      runAlignment: WrapAlignment.center,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: additionalLabels,
                     ),
                 ],
               ),
@@ -242,31 +255,38 @@ class OverviewHeader extends ConsumerWidget {
   }
 }
 
-class _SimpleLabel extends StatelessWidget {
+class SimpleLabel extends StatelessWidget {
   final IconData? icon;
+  final Widget? iconWidget;
   final Widget label;
   final Color? color;
   final Color? iconColor;
-  const _SimpleLabel({
+  const SimpleLabel({
     this.icon,
+    this.iconWidget,
     required this.label,
     this.color,
     this.iconColor,
+    super.key,
   });
 
   @override
   Widget build(BuildContext context) {
+    final backgroundColor = (color ?? Theme.of(context).colorScheme.surfaceBright)
+        .harmonizeWith(Theme.of(context).colorScheme.primaryContainer);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
         borderRadius: FladderTheme.smallShape.borderRadius,
-        color: (color ?? Theme.of(context).colorScheme.surfaceBright).withAlpha(200),
+        color: backgroundColor.withAlpha(200),
         border: Border.all(
-          color: (color ?? Theme.of(context).colorScheme.surfaceBright).withAlpha(255),
+          color: backgroundColor.withAlpha(255),
         ),
       ),
       child: DefaultTextStyle(
-        style: Theme.of(context).textTheme.bodyMedium!,
+        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+              color: iconColor ?? Theme.of(context).colorScheme.onSurface,
+            ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -276,6 +296,10 @@ class _SimpleLabel extends StatelessWidget {
                 size: 18,
                 color: iconColor ?? Theme.of(context).colorScheme.onSurface,
               ),
+              const SizedBox(width: 4),
+            ],
+            if (iconWidget != null) ...[
+              iconWidget!,
               const SizedBox(width: 4),
             ],
             label,

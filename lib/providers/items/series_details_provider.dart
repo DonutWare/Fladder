@@ -14,6 +14,7 @@ import 'package:fladder/providers/related_provider.dart';
 import 'package:fladder/providers/seerr_api_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
+import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 
 final seriesDetailsProvider =
@@ -40,6 +41,9 @@ class SeriesDetailViewNotifier extends StateNotifier<SeriesModel?> {
         related: state?.related ?? const [],
         seerrRelated: state?.seerrRelated ?? const [],
         seerrRecommended: state?.seerrRecommended ?? const [],
+        availableEpisodes: state?.availableEpisodes ?? const [],
+        seasons: state?.seasons ?? const [],
+        canDownload: state?.canDownload ?? false,
       );
 
       state = newState;
@@ -85,13 +89,24 @@ class SeriesDetailViewNotifier extends StateNotifier<SeriesModel?> {
       List<SeerrDashboardPosterModel> seerrRelated = const [];
       List<SeerrDashboardPosterModel> seerrRecommended = const [];
 
+      String? seerrUrl;
+
       final seerrCreds = ref.read(userProvider)?.seerrCredentials;
       if (seerrCreds?.isConfigured == true) {
-        final tmdbId = newState.getTmdbId();
+        final tmdbId = newState.tmdbId;
         if (tmdbId != null) {
           final seerr = ref.read(seerrApiProvider);
           seerrRelated = await seerr.discoverRelatedSeries(tmdbId: tmdbId);
           seerrRecommended = await seerr.discoverRecommendedSeries(tmdbId: tmdbId);
+          final seerrPoster = await seerr.fetchDashboardPosterFromIds(
+            tmdbId: tmdbId,
+            mediaType: SeerrMediaType.tvshow,
+          );
+          final status = seerrPoster?.mediaInfo?.mediaStatus;
+          if (status != SeerrMediaStatus.unknown) {
+            final seerrServerUrl = ref.read(userProvider.select((value) => value?.seerrCredentials?.serverUrl));
+            seerrUrl = '${seerrServerUrl}tv/$tmdbId';
+          }
         }
       }
 
@@ -99,6 +114,9 @@ class SeriesDetailViewNotifier extends StateNotifier<SeriesModel?> {
         related: related.body,
         seerrRelated: seerrRelated,
         seerrRecommended: seerrRecommended,
+        overview: state?.overview.copyWith(
+          seerrUrl: seerrUrl,
+        ),
       );
       return response;
     } catch (e) {

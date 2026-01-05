@@ -575,6 +575,28 @@ final class _$SeerrChopperService extends SeerrChopperService {
   }
 
   @override
+  Future<Response<SeerrRatingsResponse>> getMovieRatings(int movieId) {
+    final Uri $url = Uri.parse('/api/v1/movie/${movieId}/ratingscombined');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<SeerrRatingsResponse, SeerrRatingsResponse>($request);
+  }
+
+  @override
+  Future<Response<SeerrRtRating>> getTvRatings(int tvId) {
+    final Uri $url = Uri.parse('/api/v1/tv/${tvId}/ratings');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<SeerrRtRating, SeerrRtRating>($request);
+  }
+
+  @override
   Future<Response<SeerrDiscoverResponse>> getTvRecommendations(
     int tvId, {
     String? language,

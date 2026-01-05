@@ -6,7 +6,7 @@ part of 'seerr_details_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$seerrDetailsHash() => r'664cb4360676b67e5a101dce1810d9452f300d99';
+String _$seerrDetailsHash() => r'5d32aaebe04d6322974626858e92c8b1a3149517';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -32,12 +32,12 @@ class _SystemHash {
 abstract class _$SeerrDetails
     extends BuildlessAutoDisposeNotifier<SeerrDetailsModel> {
   late final int tmdbId;
-  late final SeerrDashboardMediaType mediaType;
+  late final SeerrMediaType mediaType;
   late final SeerrDashboardPosterModel? poster;
 
   SeerrDetailsModel build({
     required int tmdbId,
-    required SeerrDashboardMediaType mediaType,
+    required SeerrMediaType mediaType,
     SeerrDashboardPosterModel? poster,
   });
 }
@@ -54,7 +54,7 @@ class SeerrDetailsFamily extends Family<SeerrDetailsModel> {
   /// See also [SeerrDetails].
   SeerrDetailsProvider call({
     required int tmdbId,
-    required SeerrDashboardMediaType mediaType,
+    required SeerrMediaType mediaType,
     SeerrDashboardPosterModel? poster,
   }) {
     return SeerrDetailsProvider(
@@ -96,7 +96,7 @@ class SeerrDetailsProvider
   /// See also [SeerrDetails].
   SeerrDetailsProvider({
     required int tmdbId,
-    required SeerrDashboardMediaType mediaType,
+    required SeerrMediaType mediaType,
     SeerrDashboardPosterModel? poster,
   }) : this._internal(
           () => SeerrDetails()
@@ -130,7 +130,7 @@ class SeerrDetailsProvider
   }) : super.internal();
 
   final int tmdbId;
-  final SeerrDashboardMediaType mediaType;
+  final SeerrMediaType mediaType;
   final SeerrDashboardPosterModel? poster;
 
   @override
@@ -197,7 +197,7 @@ mixin SeerrDetailsRef on AutoDisposeNotifierProviderRef<SeerrDetailsModel> {
   int get tmdbId;
 
   /// The parameter `mediaType` of this provider.
-  SeerrDashboardMediaType get mediaType;
+  SeerrMediaType get mediaType;
 
   /// The parameter `poster` of this provider.
   SeerrDashboardPosterModel? get poster;
@@ -211,8 +211,7 @@ class _SeerrDetailsProviderElement
   @override
   int get tmdbId => (origin as SeerrDetailsProvider).tmdbId;
   @override
-  SeerrDashboardMediaType get mediaType =>
-      (origin as SeerrDetailsProvider).mediaType;
+  SeerrMediaType get mediaType => (origin as SeerrDetailsProvider).mediaType;
   @override
   SeerrDashboardPosterModel? get poster =>
       (origin as SeerrDetailsProvider).poster;

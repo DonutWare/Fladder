@@ -93,7 +93,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
                                 image: ImagesData(
                                   logo: details.book?.getPosters?.primary,
                                 ),
-                                productionYear: details.nextUp!.overview.productionYear,
+                                productionYear: details.nextUp!.overview.productionYear.toString(),
                                 runTime: details.nextUp!.overview.runTime,
                                 genres: details.nextUp!.overview.genreItems,
                                 studios: details.nextUp!.overview.studios,

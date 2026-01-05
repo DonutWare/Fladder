@@ -40,14 +40,14 @@ class SeerrPosterCard extends ConsumerWidget {
     image ??= poster.images.backDrop?.lastOrNull;
 
     final user = ref.watch(seerrUserProvider);
-    final canRequest = user?.canRequestMedia(isTv: poster.type == SeerrDashboardMediaType.tv) ?? true;
+    final canRequest = user?.canRequestMedia(isTv: poster.type == SeerrMediaType.tvshow) ?? true;
 
     final baseItemModel = poster.itemBaseModel;
 
     void openRequestDetails() {
       context.router.push(
         SeerrDetailsRoute(
-          mediaType: poster.type == SeerrDashboardMediaType.tv ? 'tvshow' : 'movie',
+          mediaType: poster.type == SeerrMediaType.tvshow ? 'tvshow' : 'movie',
           tmdbId: poster.tmdbId,
           poster: poster,
         ),
@@ -194,7 +194,7 @@ class SeerrPosterCard extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: Text(
-                      poster.type == SeerrDashboardMediaType.movie
+                      poster.type == SeerrMediaType.movie
                           ? context.localized.mediaTypeMovie(1)
                           : context.localized.mediaTypeSeries(1),
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -217,16 +217,13 @@ class SeerrPosterCard extends ConsumerWidget {
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
               ),
-              if (poster.releaseYear?.isNotEmpty == true)
-                ClickableText(
-                  opacity: 0.65,
-                  text: poster.releaseYear.toString(),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
-                )
-              else
-                const SizedBox(height: 12),
+              ClickableText(
+                opacity: 0.65,
+                text: poster.releaseYear?.toString() ?? "",
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: 24),
             ],
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
+import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/util/localization_helper.dart';
 
 class DownloadStatusLabel extends StatelessWidget {
@@ -41,7 +42,7 @@ class DownloadStatusLabel extends StatelessWidget {
     if (hasDownloads) {
       String downloadLabel = context.localized.processing;
 
-      if (poster.type == SeerrDashboardMediaType.tv && relevantDownloads.isNotEmpty) {
+      if (poster.type == SeerrMediaType.tvshow && relevantDownloads.isNotEmpty) {
         final firstDownload = relevantDownloads.first;
         final seasonNum = firstDownload.episode?.seasonNumber;
         final episodeNum = firstDownload.episode?.episodeNumber;

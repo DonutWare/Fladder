@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
+import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/providers/seerr_search_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
@@ -46,6 +47,8 @@ class _SeerrSearchScreenState extends ConsumerState<SeerrSearchScreen> {
   final ScrollController scrollController = ScrollController();
 
   final Debouncer debouncer = Debouncer(const Duration(milliseconds: 500));
+
+  List<ImagesData> backgroundImages = [];
 
   @override
   void initState() {
@@ -111,7 +114,10 @@ class _SeerrSearchScreenState extends ConsumerState<SeerrSearchScreen> {
     );
 
     final searchResults = searchState.results;
-    final backgroundImages = searchResults.map((e) => e.images).toList(growable: false);
+
+    if (backgroundImages.isEmpty) {
+      backgroundImages = searchResults.map((e) => e.images).nonNulls.toList(growable: false);
+    }
 
     final floatingAppBar = AdaptiveLayout.layoutModeOf(context) != LayoutMode.single;
 

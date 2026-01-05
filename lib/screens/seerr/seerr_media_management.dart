@@ -1,3 +1,4 @@
+import 'package:fladder/seerr/seerr_models.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -68,7 +69,7 @@ class _MediaManagementActionsState extends ConsumerState<_MediaManagementActions
   bool _isLoading = false;
   String? _errorMessage;
 
-  late final isTvSeries = widget.poster.type == SeerrDashboardMediaType.tv;
+  late final isTvSeries = widget.poster.type == SeerrMediaType.tvshow;
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +88,7 @@ class _MediaManagementActionsState extends ConsumerState<_MediaManagementActions
       ItemActionButton(
         icon: const Icon(IconsaxPlusBold.discover),
         label: Text(context.localized.openInSeerr),
-        backgroundColor: Colors.purpleAccent.shade700,
+        backgroundColor: Colors.deepPurpleAccent.shade700,
         action: () {
           final seerrUrl = ref.read(userProvider.select((value) => value?.seerrCredentials?.serverUrl));
           if (isTvSeries) {

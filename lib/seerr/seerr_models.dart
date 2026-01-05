@@ -924,6 +924,8 @@ abstract class SeerrMediaInfo with _$SeerrMediaInfo {
 
   String? get primaryJellyfinMediaId => jellyfinMediaId4k ?? jellyfinMediaId;
 
+  SeerrMediaStatus? get mediaStatus => status != null ? SeerrMediaStatus.fromRaw(status) : null;
+
   factory SeerrMediaInfo.fromJson(Map<String, dynamic> json) => _$SeerrMediaInfoFromJson(json);
 }
 
@@ -963,6 +965,60 @@ class SeerrExternalIds {
 
   factory SeerrExternalIds.fromJson(Map<String, dynamic> json) => _$SeerrExternalIdsFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrExternalIdsToJson(this);
+}
+
+@JsonSerializable()
+class SeerrRatingsResponse {
+  final SeerrRtRating? rt;
+  final SeerrImdbRating? imdb;
+
+  SeerrRatingsResponse({
+    this.rt,
+    this.imdb,
+  });
+
+  factory SeerrRatingsResponse.fromJson(Map<String, dynamic> json) => _$SeerrRatingsResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$SeerrRatingsResponseToJson(this);
+}
+
+@JsonSerializable()
+class SeerrRtRating {
+  final String? title;
+  final int? year;
+  final int? criticsScore;
+  final String? criticsRating;
+  final int? audienceScore;
+  final String? audienceRating;
+  final String? url;
+
+  SeerrRtRating({
+    this.title,
+    this.year,
+    this.criticsScore,
+    this.criticsRating,
+    this.audienceScore,
+    this.audienceRating,
+    this.url,
+  });
+
+  factory SeerrRtRating.fromJson(Map<String, dynamic> json) => _$SeerrRtRatingFromJson(json);
+  Map<String, dynamic> toJson() => _$SeerrRtRatingToJson(this);
+}
+
+@JsonSerializable()
+class SeerrImdbRating {
+  final String? title;
+  final String? url;
+  final double? criticsScore;
+
+  SeerrImdbRating({
+    this.title,
+    this.url,
+    this.criticsScore,
+  });
+
+  factory SeerrImdbRating.fromJson(Map<String, dynamic> json) => _$SeerrImdbRatingFromJson(json);
+  Map<String, dynamic> toJson() => _$SeerrImdbRatingToJson(this);
 }
 
 @JsonSerializable()
@@ -1121,11 +1177,18 @@ enum SeerrMediaType {
   @JsonValue('movie')
   movie,
   @JsonValue('tv')
-  tv,
-  @JsonValue('series')
-  series,
+  tvshow,
   @JsonValue('person')
-  person,
+  person;
+
+  const SeerrMediaType();
+
+  static SeerrMediaType fromString(String mediaType) => switch (mediaType.toLowerCase()) {
+        'movie' => SeerrMediaType.movie,
+        'tvshow' || 'tv' => SeerrMediaType.tvshow,
+        'person' => SeerrMediaType.person,
+        _ => throw ArgumentError('Unknown media type: $mediaType'),
+      };
 }
 
 @JsonSerializable(fieldRename: FieldRename.none, includeIfNull: true)

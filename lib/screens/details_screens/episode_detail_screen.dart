@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
+import 'package:intl/intl.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/providers/items/episode_details_provider.dart';
@@ -148,7 +149,9 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                     subTitle: details.episode?.detailedName(context),
                     originalTitle: details.series?.originalTitle,
                     onTitleClicked: () => details.series?.navigateTo(context),
-                    productionYear: details.series?.overview.productionYear,
+                    productionYear: details.episode?.dateAired != null
+                        ? DateFormat.yMMMEd().format(details.episode!.dateAired!)
+                        : null,
                     runTime: details.episode?.overview.runTime,
                     studios: details.series?.overview.studios ?? [],
                     genres: details.series?.overview.genreItems ?? [],

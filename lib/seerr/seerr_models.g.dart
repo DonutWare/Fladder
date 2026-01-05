@@ -472,6 +472,60 @@ Map<String, dynamic> _$SeerrExternalIdsToJson(SeerrExternalIds instance) =>
       'twitterId': instance.twitterId,
     };
 
+SeerrRatingsResponse _$SeerrRatingsResponseFromJson(
+        Map<String, dynamic> json) =>
+    SeerrRatingsResponse(
+      rt: json['rt'] == null
+          ? null
+          : SeerrRtRating.fromJson(json['rt'] as Map<String, dynamic>),
+      imdb: json['imdb'] == null
+          ? null
+          : SeerrImdbRating.fromJson(json['imdb'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$SeerrRatingsResponseToJson(
+        SeerrRatingsResponse instance) =>
+    <String, dynamic>{
+      'rt': instance.rt,
+      'imdb': instance.imdb,
+    };
+
+SeerrRtRating _$SeerrRtRatingFromJson(Map<String, dynamic> json) =>
+    SeerrRtRating(
+      title: json['title'] as String?,
+      year: (json['year'] as num?)?.toInt(),
+      criticsScore: (json['criticsScore'] as num?)?.toInt(),
+      criticsRating: json['criticsRating'] as String?,
+      audienceScore: (json['audienceScore'] as num?)?.toInt(),
+      audienceRating: json['audienceRating'] as String?,
+      url: json['url'] as String?,
+    );
+
+Map<String, dynamic> _$SeerrRtRatingToJson(SeerrRtRating instance) =>
+    <String, dynamic>{
+      'title': instance.title,
+      'year': instance.year,
+      'criticsScore': instance.criticsScore,
+      'criticsRating': instance.criticsRating,
+      'audienceScore': instance.audienceScore,
+      'audienceRating': instance.audienceRating,
+      'url': instance.url,
+    };
+
+SeerrImdbRating _$SeerrImdbRatingFromJson(Map<String, dynamic> json) =>
+    SeerrImdbRating(
+      title: json['title'] as String?,
+      url: json['url'] as String?,
+      criticsScore: (json['criticsScore'] as num?)?.toDouble(),
+    );
+
+Map<String, dynamic> _$SeerrImdbRatingToJson(SeerrImdbRating instance) =>
+    <String, dynamic>{
+      'title': instance.title,
+      'url': instance.url,
+      'criticsScore': instance.criticsScore,
+    };
+
 SeerrRequestsResponse _$SeerrRequestsResponseFromJson(
         Map<String, dynamic> json) =>
     SeerrRequestsResponse(
@@ -653,8 +707,7 @@ Map<String, dynamic> _$SeerrDiscoverItemToJson(SeerrDiscoverItem instance) =>
 
 const _$SeerrMediaTypeEnumMap = {
   SeerrMediaType.movie: 'movie',
-  SeerrMediaType.tv: 'tv',
-  SeerrMediaType.series: 'series',
+  SeerrMediaType.tvshow: 'tv',
   SeerrMediaType.person: 'person',
 };
 
