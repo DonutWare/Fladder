@@ -9,6 +9,7 @@ import 'package:fladder/providers/related_provider.dart';
 import 'package:fladder/providers/seerr_api_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
+import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 
 part 'movies_details_provider.g.dart';
@@ -40,13 +41,25 @@ class MovieDetails extends _$MovieDetails {
 
       List<SeerrDashboardPosterModel> seerrRelated = const [];
       List<SeerrDashboardPosterModel> seerrRecommended = const [];
+
+      String? seerrUrl;
+
       final seerrCreds = ref.read(userProvider)?.seerrCredentials;
       if (seerrCreds?.isConfigured == true) {
-        final tmdbId = newState.getTmdbId();
+        final tmdbId = newState.tmdbId;
         if (tmdbId != null) {
           final seerr = ref.read(seerrApiProvider);
           seerrRelated = await seerr.discoverRelatedMovies(tmdbId: tmdbId);
           seerrRecommended = await seerr.discoverRecommendedMovies(tmdbId: tmdbId);
+          final seerrPoster = await seerr.fetchDashboardPosterFromIds(
+            tmdbId: tmdbId,
+            mediaType: SeerrMediaType.movie,
+          );
+          final status = seerrPoster?.mediaInfo?.mediaStatus;
+          if (status != SeerrMediaStatus.unknown) {
+            final seerrServerUrl = ref.read(userProvider.select((value) => value?.seerrCredentials?.serverUrl));
+            seerrUrl = '${seerrServerUrl}movie/$tmdbId';
+          }
         }
       }
 
@@ -54,6 +67,9 @@ class MovieDetails extends _$MovieDetails {
         related: related.body,
         seerrRelated: seerrRelated,
         seerrRecommended: seerrRecommended,
+        overview: state?.overview.copyWith(
+          seerrUrl: seerrUrl,
+        ),
       );
       return null;
     } catch (e) {

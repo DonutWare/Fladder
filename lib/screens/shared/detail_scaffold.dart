@@ -42,8 +42,9 @@ class DetailScaffold extends ConsumerStatefulWidget {
   final List<ItemAction>? Function(BuildContext context)? actions;
   final Color? backgroundColor;
   final ImagesData? backDrops;
-  final Function(EdgeInsets padding) content;
+  final Function(BuildContext context, EdgeInsets padding) content;
   final Future<void> Function()? onRefresh;
+  final bool posterFillsContent;
   const DetailScaffold({
     required this.label,
     this.item,
@@ -52,6 +53,7 @@ class DetailScaffold extends ConsumerStatefulWidget {
     required this.content,
     this.backDrops,
     this.onRefresh,
+    this.posterFillsContent = false,
     super.key,
   });
 
@@ -149,7 +151,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
             });
           },
           refreshOnStart: true,
-          child: Scaffold(
+          child: (context) => Scaffold(
             backgroundColor: Theme.of(context).colorScheme.surface,
             extendBodyBehindAppBar: true,
             body: Stack(
@@ -163,10 +165,10 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                         width: size.width,
                         child: FladderImage(
                           image: backgroundImage,
-                          blurOnly: true,
+                          blurOnly: !widget.posterFillsContent,
                         ),
                       ),
-                      if (backgroundImage != null)
+                      if (backgroundImage != null && !widget.posterFillsContent)
                         Align(
                           alignment: Alignment.topCenter,
                           child: Padding(
@@ -206,13 +208,19 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                           gradient: LinearGradient(
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
-                            colors: [
-                              Theme.of(context).colorScheme.surface.withValues(alpha: 0),
-                              Theme.of(context).colorScheme.surface.withValues(alpha: 0.10),
-                              Theme.of(context).colorScheme.surface.withValues(alpha: 0.35),
-                              Theme.of(context).colorScheme.surface.withValues(alpha: 0.85),
-                              Theme.of(context).colorScheme.surface,
-                            ],
+                            colors: widget.posterFillsContent
+                                ? [
+                                    Theme.of(context).colorScheme.surface.withValues(alpha: 0),
+                                    Theme.of(context).colorScheme.surface.withValues(alpha: 0.95),
+                                    Theme.of(context).colorScheme.surface.withValues(alpha: 1),
+                                  ]
+                                : [
+                                    Theme.of(context).colorScheme.surface.withValues(alpha: 0),
+                                    Theme.of(context).colorScheme.surface.withValues(alpha: 0.10),
+                                    Theme.of(context).colorScheme.surface.withValues(alpha: 0.35),
+                                    Theme.of(context).colorScheme.surface.withValues(alpha: 0.85),
+                                    Theme.of(context).colorScheme.surface,
+                                  ],
                           ),
                         ),
                       ),
@@ -234,6 +242,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                               maxWidth: size.width,
                             ),
                             child: widget.content(
+                              context,
                               padding.copyWith(
                                 left: sideBarPadding + 25 + MediaQuery.paddingOf(context).left,
                               ),

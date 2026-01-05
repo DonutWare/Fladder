@@ -110,16 +110,22 @@ class EnumSelection<T> extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       textStyle: Theme.of(context).textTheme.titleMedium,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          DefaultTextStyle.merge(
-            style: Theme.of(context).textTheme.titleMedium,
-            child: label,
-          ),
-          const Spacer(),
-          EnumBox(current: current, currentWidget: currentWidget, itemBuilder: itemBuilder),
-        ].toList(),
+      child: SizedBox(
+        width: double.infinity,
+        child: Wrap(
+          spacing: 12,
+          runSpacing: 12,
+          alignment: WrapAlignment.spaceBetween,
+          runAlignment: WrapAlignment.spaceBetween,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            DefaultTextStyle.merge(
+              style: Theme.of(context).textTheme.titleMedium,
+              child: label,
+            ),
+            EnumBox(current: current, currentWidget: currentWidget, itemBuilder: itemBuilder),
+          ].toList(),
+        ),
       ),
     );
   }

@@ -51,7 +51,7 @@ class _ControlUserEditPageState extends ConsumerState<ControlUserEditPage> {
 
     return PullToRefresh(
       onRefresh: () => ref.read(controlUsersProvider.notifier).fetchSpecificUser(widget.userId),
-      child: SettingsScaffold(
+      child: (context) => SettingsScaffold(
         label: context.localized.editUser,
         bottomActions: selectedOption == EditOptions.password
             ? []

@@ -45,7 +45,7 @@ class _ControlDashboardPageState extends ConsumerState<ControlDashboardPage> {
         );
     return PullToRefresh(
       onRefresh: () => ref.read(controlDashboardProvider.notifier).refreshDashboard(),
-      child: SettingsScaffold(
+      child: (context) => SettingsScaffold(
         label: context.localized.controlDashboard,
         itemSpacing: 12.0,
         items: [

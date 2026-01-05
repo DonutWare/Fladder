@@ -23,13 +23,17 @@ mixin _$SeerrRequestModel {
   String? get selectedRootFolder;
   List<SeerrServiceTag> get selectedTags;
   Map<int, bool> get selectedSeasons;
-  Map<int, SeerrRequestStatus> get seasonStatuses;
+  Map<int, SeerrMediaStatus> get seasonStatuses;
   Map<int, SeerrUserQuota> get userQuotas;
   SeerrUserModel? get currentUser;
   SeerrUserModel? get selectedUser;
   List<SeerrUserModel> get availableUsers;
   bool get use4k;
   bool get isAnime;
+  List<SeerrGenre> get genres;
+  double? get voteAverage;
+  String? get contentRating;
+  String? get releaseDate;
 
   /// Create a copy of SeerrRequestModel
   /// with the given fields replaced by the non-null parameter values.
@@ -41,7 +45,7 @@ mixin _$SeerrRequestModel {
 
   @override
   String toString() {
-    return 'SeerrRequestModel(poster: $poster, sonarrServers: $sonarrServers, radarrServers: $radarrServers, selectedSonarrServer: $selectedSonarrServer, selectedRadarrServer: $selectedRadarrServer, selectedProfile: $selectedProfile, selectedRootFolder: $selectedRootFolder, selectedTags: $selectedTags, selectedSeasons: $selectedSeasons, seasonStatuses: $seasonStatuses, userQuotas: $userQuotas, currentUser: $currentUser, selectedUser: $selectedUser, availableUsers: $availableUsers, use4k: $use4k, isAnime: $isAnime)';
+    return 'SeerrRequestModel(poster: $poster, sonarrServers: $sonarrServers, radarrServers: $radarrServers, selectedSonarrServer: $selectedSonarrServer, selectedRadarrServer: $selectedRadarrServer, selectedProfile: $selectedProfile, selectedRootFolder: $selectedRootFolder, selectedTags: $selectedTags, selectedSeasons: $selectedSeasons, seasonStatuses: $seasonStatuses, userQuotas: $userQuotas, currentUser: $currentUser, selectedUser: $selectedUser, availableUsers: $availableUsers, use4k: $use4k, isAnime: $isAnime, genres: $genres, voteAverage: $voteAverage, contentRating: $contentRating, releaseDate: $releaseDate)';
   }
 }
 
@@ -61,13 +65,17 @@ abstract mixin class $SeerrRequestModelCopyWith<$Res> {
       String? selectedRootFolder,
       List<SeerrServiceTag> selectedTags,
       Map<int, bool> selectedSeasons,
-      Map<int, SeerrRequestStatus> seasonStatuses,
+      Map<int, SeerrMediaStatus> seasonStatuses,
       Map<int, SeerrUserQuota> userQuotas,
       SeerrUserModel? currentUser,
       SeerrUserModel? selectedUser,
       List<SeerrUserModel> availableUsers,
       bool use4k,
-      bool isAnime});
+      bool isAnime,
+      List<SeerrGenre> genres,
+      double? voteAverage,
+      String? contentRating,
+      String? releaseDate});
 
   $SeerrSonarrServerCopyWith<$Res>? get selectedSonarrServer;
   $SeerrRadarrServerCopyWith<$Res>? get selectedRadarrServer;
@@ -105,6 +113,10 @@ class _$SeerrRequestModelCopyWithImpl<$Res>
     Object? availableUsers = null,
     Object? use4k = null,
     Object? isAnime = null,
+    Object? genres = null,
+    Object? voteAverage = freezed,
+    Object? contentRating = freezed,
+    Object? releaseDate = freezed,
   }) {
     return _then(_self.copyWith(
       poster: freezed == poster
@@ -146,7 +158,7 @@ class _$SeerrRequestModelCopyWithImpl<$Res>
       seasonStatuses: null == seasonStatuses
           ? _self.seasonStatuses
           : seasonStatuses // ignore: cast_nullable_to_non_nullable
-              as Map<int, SeerrRequestStatus>,
+              as Map<int, SeerrMediaStatus>,
       userQuotas: null == userQuotas
           ? _self.userQuotas
           : userQuotas // ignore: cast_nullable_to_non_nullable
@@ -171,6 +183,22 @@ class _$SeerrRequestModelCopyWithImpl<$Res>
           ? _self.isAnime
           : isAnime // ignore: cast_nullable_to_non_nullable
               as bool,
+      genres: null == genres
+          ? _self.genres
+          : genres // ignore: cast_nullable_to_non_nullable
+              as List<SeerrGenre>,
+      voteAverage: freezed == voteAverage
+          ? _self.voteAverage
+          : voteAverage // ignore: cast_nullable_to_non_nullable
+              as double?,
+      contentRating: freezed == contentRating
+          ? _self.contentRating
+          : contentRating // ignore: cast_nullable_to_non_nullable
+              as String?,
+      releaseDate: freezed == releaseDate
+          ? _self.releaseDate
+          : releaseDate // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 
@@ -350,13 +378,17 @@ extension SeerrRequestModelPatterns on SeerrRequestModel {
             String? selectedRootFolder,
             List<SeerrServiceTag> selectedTags,
             Map<int, bool> selectedSeasons,
-            Map<int, SeerrRequestStatus> seasonStatuses,
+            Map<int, SeerrMediaStatus> seasonStatuses,
             Map<int, SeerrUserQuota> userQuotas,
             SeerrUserModel? currentUser,
             SeerrUserModel? selectedUser,
             List<SeerrUserModel> availableUsers,
             bool use4k,
-            bool isAnime)?
+            bool isAnime,
+            List<SeerrGenre> genres,
+            double? voteAverage,
+            String? contentRating,
+            String? releaseDate)?
         $default, {
     required TResult orElse(),
   }) {
@@ -379,7 +411,11 @@ extension SeerrRequestModelPatterns on SeerrRequestModel {
             _that.selectedUser,
             _that.availableUsers,
             _that.use4k,
-            _that.isAnime);
+            _that.isAnime,
+            _that.genres,
+            _that.voteAverage,
+            _that.contentRating,
+            _that.releaseDate);
       case _:
         return orElse();
     }
@@ -410,13 +446,17 @@ extension SeerrRequestModelPatterns on SeerrRequestModel {
             String? selectedRootFolder,
             List<SeerrServiceTag> selectedTags,
             Map<int, bool> selectedSeasons,
-            Map<int, SeerrRequestStatus> seasonStatuses,
+            Map<int, SeerrMediaStatus> seasonStatuses,
             Map<int, SeerrUserQuota> userQuotas,
             SeerrUserModel? currentUser,
             SeerrUserModel? selectedUser,
             List<SeerrUserModel> availableUsers,
             bool use4k,
-            bool isAnime)
+            bool isAnime,
+            List<SeerrGenre> genres,
+            double? voteAverage,
+            String? contentRating,
+            String? releaseDate)
         $default,
   ) {
     final _that = this;
@@ -438,7 +478,11 @@ extension SeerrRequestModelPatterns on SeerrRequestModel {
             _that.selectedUser,
             _that.availableUsers,
             _that.use4k,
-            _that.isAnime);
+            _that.isAnime,
+            _that.genres,
+            _that.voteAverage,
+            _that.contentRating,
+            _that.releaseDate);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -468,13 +512,17 @@ extension SeerrRequestModelPatterns on SeerrRequestModel {
             String? selectedRootFolder,
             List<SeerrServiceTag> selectedTags,
             Map<int, bool> selectedSeasons,
-            Map<int, SeerrRequestStatus> seasonStatuses,
+            Map<int, SeerrMediaStatus> seasonStatuses,
             Map<int, SeerrUserQuota> userQuotas,
             SeerrUserModel? currentUser,
             SeerrUserModel? selectedUser,
             List<SeerrUserModel> availableUsers,
             bool use4k,
-            bool isAnime)?
+            bool isAnime,
+            List<SeerrGenre> genres,
+            double? voteAverage,
+            String? contentRating,
+            String? releaseDate)?
         $default,
   ) {
     final _that = this;
@@ -496,7 +544,11 @@ extension SeerrRequestModelPatterns on SeerrRequestModel {
             _that.selectedUser,
             _that.availableUsers,
             _that.use4k,
-            _that.isAnime);
+            _that.isAnime,
+            _that.genres,
+            _that.voteAverage,
+            _that.contentRating,
+            _that.releaseDate);
       case _:
         return null;
     }
@@ -516,13 +568,17 @@ class _SeerrRequestModel extends SeerrRequestModel {
       this.selectedRootFolder,
       final List<SeerrServiceTag> selectedTags = const [],
       final Map<int, bool> selectedSeasons = const {},
-      final Map<int, SeerrRequestStatus> seasonStatuses = const {},
+      final Map<int, SeerrMediaStatus> seasonStatuses = const {},
       final Map<int, SeerrUserQuota> userQuotas = const {},
       this.currentUser,
       this.selectedUser,
       final List<SeerrUserModel> availableUsers = const [],
       this.use4k = false,
-      this.isAnime = false})
+      this.isAnime = false,
+      final List<SeerrGenre> genres = const [],
+      this.voteAverage,
+      this.contentRating,
+      this.releaseDate})
       : _sonarrServers = sonarrServers,
         _radarrServers = radarrServers,
         _selectedTags = selectedTags,
@@ -530,6 +586,7 @@ class _SeerrRequestModel extends SeerrRequestModel {
         _seasonStatuses = seasonStatuses,
         _userQuotas = userQuotas,
         _availableUsers = availableUsers,
+        _genres = genres,
         super._();
 
   @override
@@ -578,10 +635,10 @@ class _SeerrRequestModel extends SeerrRequestModel {
     return EqualUnmodifiableMapView(_selectedSeasons);
   }
 
-  final Map<int, SeerrRequestStatus> _seasonStatuses;
+  final Map<int, SeerrMediaStatus> _seasonStatuses;
   @override
   @JsonKey()
-  Map<int, SeerrRequestStatus> get seasonStatuses {
+  Map<int, SeerrMediaStatus> get seasonStatuses {
     if (_seasonStatuses is EqualUnmodifiableMapView) return _seasonStatuses;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_seasonStatuses);
@@ -615,6 +672,21 @@ class _SeerrRequestModel extends SeerrRequestModel {
   @override
   @JsonKey()
   final bool isAnime;
+  final List<SeerrGenre> _genres;
+  @override
+  @JsonKey()
+  List<SeerrGenre> get genres {
+    if (_genres is EqualUnmodifiableListView) return _genres;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_genres);
+  }
+
+  @override
+  final double? voteAverage;
+  @override
+  final String? contentRating;
+  @override
+  final String? releaseDate;
 
   /// Create a copy of SeerrRequestModel
   /// with the given fields replaced by the non-null parameter values.
@@ -626,7 +698,7 @@ class _SeerrRequestModel extends SeerrRequestModel {
 
   @override
   String toString() {
-    return 'SeerrRequestModel(poster: $poster, sonarrServers: $sonarrServers, radarrServers: $radarrServers, selectedSonarrServer: $selectedSonarrServer, selectedRadarrServer: $selectedRadarrServer, selectedProfile: $selectedProfile, selectedRootFolder: $selectedRootFolder, selectedTags: $selectedTags, selectedSeasons: $selectedSeasons, seasonStatuses: $seasonStatuses, userQuotas: $userQuotas, currentUser: $currentUser, selectedUser: $selectedUser, availableUsers: $availableUsers, use4k: $use4k, isAnime: $isAnime)';
+    return 'SeerrRequestModel(poster: $poster, sonarrServers: $sonarrServers, radarrServers: $radarrServers, selectedSonarrServer: $selectedSonarrServer, selectedRadarrServer: $selectedRadarrServer, selectedProfile: $selectedProfile, selectedRootFolder: $selectedRootFolder, selectedTags: $selectedTags, selectedSeasons: $selectedSeasons, seasonStatuses: $seasonStatuses, userQuotas: $userQuotas, currentUser: $currentUser, selectedUser: $selectedUser, availableUsers: $availableUsers, use4k: $use4k, isAnime: $isAnime, genres: $genres, voteAverage: $voteAverage, contentRating: $contentRating, releaseDate: $releaseDate)';
   }
 }
 
@@ -648,13 +720,17 @@ abstract mixin class _$SeerrRequestModelCopyWith<$Res>
       String? selectedRootFolder,
       List<SeerrServiceTag> selectedTags,
       Map<int, bool> selectedSeasons,
-      Map<int, SeerrRequestStatus> seasonStatuses,
+      Map<int, SeerrMediaStatus> seasonStatuses,
       Map<int, SeerrUserQuota> userQuotas,
       SeerrUserModel? currentUser,
       SeerrUserModel? selectedUser,
       List<SeerrUserModel> availableUsers,
       bool use4k,
-      bool isAnime});
+      bool isAnime,
+      List<SeerrGenre> genres,
+      double? voteAverage,
+      String? contentRating,
+      String? releaseDate});
 
   @override
   $SeerrSonarrServerCopyWith<$Res>? get selectedSonarrServer;
@@ -697,6 +773,10 @@ class __$SeerrRequestModelCopyWithImpl<$Res>
     Object? availableUsers = null,
     Object? use4k = null,
     Object? isAnime = null,
+    Object? genres = null,
+    Object? voteAverage = freezed,
+    Object? contentRating = freezed,
+    Object? releaseDate = freezed,
   }) {
     return _then(_SeerrRequestModel(
       poster: freezed == poster
@@ -738,7 +818,7 @@ class __$SeerrRequestModelCopyWithImpl<$Res>
       seasonStatuses: null == seasonStatuses
           ? _self._seasonStatuses
           : seasonStatuses // ignore: cast_nullable_to_non_nullable
-              as Map<int, SeerrRequestStatus>,
+              as Map<int, SeerrMediaStatus>,
       userQuotas: null == userQuotas
           ? _self._userQuotas
           : userQuotas // ignore: cast_nullable_to_non_nullable
@@ -763,6 +843,22 @@ class __$SeerrRequestModelCopyWithImpl<$Res>
           ? _self.isAnime
           : isAnime // ignore: cast_nullable_to_non_nullable
               as bool,
+      genres: null == genres
+          ? _self._genres
+          : genres // ignore: cast_nullable_to_non_nullable
+              as List<SeerrGenre>,
+      voteAverage: freezed == voteAverage
+          ? _self.voteAverage
+          : voteAverage // ignore: cast_nullable_to_non_nullable
+              as double?,
+      contentRating: freezed == contentRating
+          ? _self.contentRating
+          : contentRating // ignore: cast_nullable_to_non_nullable
+              as String?,
+      releaseDate: freezed == releaseDate
+          ? _self.releaseDate
+          : releaseDate // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 

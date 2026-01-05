@@ -49,7 +49,7 @@ internal fun CurrentTime(
         Text(
             modifier = modifier,
             text = time,
-            style = MaterialTheme.typography.titleLarge,
+            style = MaterialTheme.typography.displayMedium,
             color = Color.White
         )
     }

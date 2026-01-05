@@ -80,7 +80,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
             }
           }
         },
-        child: AnimatedOpacity(
+        child: (context) => AnimatedOpacity(
           opacity: refreshing ? 0.75 : 1.0,
           duration: const Duration(milliseconds: 175),
           child: SizedBox.expand(

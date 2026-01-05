@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
@@ -7,6 +8,8 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/providers/seerr_user_provider.dart';
+import 'package:fladder/routes/auto_router.gr.dart';
+import 'package:fladder/screens/seerr/widgets/download_status_label.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_request_popup.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_user_label.dart';
 import 'package:fladder/seerr/seerr_models.dart';
@@ -20,12 +23,10 @@ import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 class SeerrRequestBannerCard extends ConsumerWidget {
   final SeerrDashboardPosterModel poster;
   final void Function(SeerrDashboardPosterModel poster)? onTap;
-  final void Function(SeerrDashboardPosterModel poster)? onRequestAddTap;
 
   const SeerrRequestBannerCard({
     required this.poster,
     this.onTap,
-    this.onRequestAddTap,
     super.key,
   });
 
@@ -40,29 +41,39 @@ class SeerrRequestBannerCard extends ConsumerWidget {
     posterImage ??= poster.images.backDrop?.lastOrNull;
 
     final user = ref.watch(seerrUserProvider);
-    final canRequest = user?.canRequestMedia(isTv: poster.type == SeerrDashboardMediaType.tv) ?? true;
-
+    final canRequest = user?.canRequestMedia(isTv: poster.type == SeerrMediaType.tvshow) ?? true;
     final baseItemModel = poster.itemBaseModel;
-    void handleRequestAction() {
-      if (onRequestAddTap != null) {
-        onRequestAddTap?.call(poster);
+
+    void openRequestDetails() {
+      context.router.push(
+        SeerrDetailsRoute(
+          mediaType: poster.type == SeerrMediaType.tvshow ? 'tvshow' : 'movie',
+          tmdbId: poster.tmdbId,
+          poster: poster,
+        ),
+      );
+    }
+
+    void handleTapAction() {
+      if (baseItemModel != null) {
+        baseItemModel.navigateTo(context);
       } else {
-        openSeerrRequestPopup(context, poster);
+        openRequestDetails();
       }
     }
 
     final List<ItemAction> itemActions = [
-      if (poster.status != SeerrRequestStatus.unknown || poster.id.isNotEmpty)
+      if (poster.hasDisplayStatus || poster.id.isNotEmpty)
         ItemActionButton(
           icon: const Icon(IconsaxPlusBold.folder_open),
-          label: Text(context.localized.viewRequest),
-          action: () => openSeerrRequestPopup(context, poster),
+          label: Text(context.localized.manageRequest),
+          action: () => openRequestDetails(),
         ),
-      if (poster.status == SeerrRequestStatus.unknown && canRequest)
+      if (canRequest)
         ItemActionButton(
           icon: const Icon(IconsaxPlusBold.add),
           label: Text(context.localized.request),
-          action: handleRequestAction,
+          action: () => openSeerrRequestPopup(context, poster),
         ),
       if (baseItemModel != null)
         ItemActionButton(
@@ -75,16 +86,12 @@ class SeerrRequestBannerCard extends ConsumerWidget {
     final requestedByUser = poster.requestedBy as SeerrUserModel?;
     final seasonsList = poster.requestedSeasons ?? [];
 
-    final overlayColor = Theme.of(context).colorScheme.tertiaryContainer;
+    final overlayColor = Theme.of(context).colorScheme.surfaceDim;
 
     return AspectRatio(
       aspectRatio: 1.2,
       child: FocusButton(
-        onTap: onTap != null
-            ? () => onTap?.call(poster)
-            : baseItemModel != null
-                ? () => baseItemModel.navigateTo(context)
-                : handleRequestAction,
+        onTap: onTap != null ? () => onTap?.call(poster) : () => handleTapAction(),
         onLongPress: () => _showBottomSheet(context, itemActions, ref),
         onSecondaryTapDown: (tap) => _showContextMenu(context, itemActions, ref, tap.globalPosition),
         child: Container(
@@ -115,7 +122,7 @@ class SeerrRequestBannerCard extends ConsumerWidget {
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
                     colors: [
-                      overlayColor.withAlpha(150),
+                      overlayColor.withAlpha(220),
                       overlayColor.withAlpha(100),
                       overlayColor.withAlpha(50),
                     ],
@@ -138,7 +145,7 @@ class SeerrRequestBannerCard extends ConsumerWidget {
                             Text(
                               poster.releaseYear ?? '',
                               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: Colors.white70,
+                                    color: Theme.of(context).colorScheme.onSurface,
                                   ),
                             ),
                           Text(
@@ -147,11 +154,10 @@ class SeerrRequestBannerCard extends ConsumerWidget {
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context).textTheme.titleMedium?.copyWith(
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.white,
+                                  color: Theme.of(context).colorScheme.onSurface,
                                 ),
                           ),
-                          if (requestedByUser != null) SeerrUserLabel(user: requestedByUser),
-                          if (poster.type == SeerrDashboardMediaType.tv && seasonsList.isNotEmpty)
+                          if (poster.type == SeerrMediaType.tvshow && seasonsList.isNotEmpty)
                             Padding(
                               padding: const EdgeInsets.only(top: 4),
                               child: Text(
@@ -159,24 +165,23 @@ class SeerrRequestBannerCard extends ConsumerWidget {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                      color: Colors.white70,
+                                      color: Theme.of(context).colorScheme.onSurface,
                                     ),
                               ),
                             ),
-                          if (poster.status != SeerrRequestStatus.unknown)
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                              decoration: BoxDecoration(
-                                color: poster.status.color.withAlpha(200),
-                                borderRadius: FladderTheme.smallShape.borderRadius,
-                              ),
-                              child: Text(
-                                poster.status.label,
-                                style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                              ),
+                          const Spacer(),
+                          if (requestedByUser != null)
+                            DefaultTextStyle(
+                              child: SeerrUserLabel(user: requestedByUser),
+                              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    color: Theme.of(context).colorScheme.onSurface,
+                                  ),
+                            ),
+                          if (poster.hasDisplayStatus)
+                            DownloadStatusLabel(
+                              poster: poster,
+                              filterSeasons:
+                                  poster.type == SeerrMediaType.tvshow && seasonsList.isNotEmpty ? seasonsList : null,
                             ),
                         ],
                       ),

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_blurhash/flutter_blurhash.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 import 'package:fladder/models/items/images_models.dart';
+import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 
 class FladderImage extends ConsumerWidget {
@@ -18,7 +21,6 @@ class FladderImage extends ConsumerWidget {
   final AlignmentGeometry? alignment;
   final bool disableBlur;
   final bool blurOnly;
-  final int? decodeHeight;
   final bool cachedImage;
   const FladderImage({
     required this.image,
@@ -31,7 +33,6 @@ class FladderImage extends ConsumerWidget {
     this.alignment,
     this.disableBlur = false,
     this.blurOnly = false,
-    this.decodeHeight = 400,
     this.cachedImage = true,
     super.key,
   });
@@ -42,9 +43,21 @@ class FladderImage extends ConsumerWidget {
     final newImage = image;
     final imageProvider = cachedImage ? image?.imageProvider : image?.nonCachedImageProvider;
 
+    final leanBackMode = ref.watch(argumentsStateProvider.select((value) => value.leanBackMode));
+
     if (newImage == null) {
       return placeHolder ?? Container();
     } else {
+      if (!leanBackMode && (blurOnly && newImage.hash.isEmpty && imageProvider != null)) {
+        return ImageFiltered(
+          imageFilter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
+          child: Image(
+            image: ResizeImage(imageProvider, width: 32, height: 32),
+            fit: blurFit ?? fit,
+            alignment: alignment ?? Alignment.center,
+          ),
+        );
+      }
       return Stack(
         key: Key(newImage.key),
         fit: stackFit,
@@ -66,10 +79,7 @@ class FladderImage extends ConsumerWidget {
               placeholderFit: fit,
               alignment: alignment ?? Alignment.center,
               imageErrorBuilder: imageErrorBuilder,
-              image: ResizeImage(
-                imageProvider,
-                height: decodeHeight,
-              ),
+              image: imageProvider,
             )
         ],
       );

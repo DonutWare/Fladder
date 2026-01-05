@@ -37,7 +37,7 @@ class _PersonDetailScreenState extends ConsumerState<PersonDetailScreen> {
         await ref.read(providerID.notifier).fetchPerson(widget.person);
       },
       backDrops: [...?details?.movies, ...?details?.series].random().firstOrNull?.images,
-      content: (padding) => Column(
+      content: (context, padding) => Column(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

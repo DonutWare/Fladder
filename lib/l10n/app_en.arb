@@ -295,8 +295,6 @@
   "@info": {},
   "invalidUrl": "Invalid URL",
   "@invalidUrl": {},
-  "invalidUrlDesc": "URL needs to start with http(s)://",
-  "@invalidUrlDesc": {},
   "itemCount": "Item count: {count}",
   "@itemCount": {
     "description": "Item count",
@@ -569,8 +567,6 @@
   "@openParent": {},
   "openShow": "Open show",
   "@openShow": {},
-  "openWebLink": "Open web link",
-  "@openWebLink": {},
   "options": "Options",
   "@options": {},
   "other": "Other",
@@ -657,6 +653,8 @@
       }
     }
   },
+  "popularity": "Popularity",
+  "@popularity": {},
   "reWatch": "Re-watch",
   "@reWatch": {},
   "read": "Read {item}",
@@ -697,6 +695,8 @@
   "@related": {},
   "releaseDate": "Release date",
   "@releaseDate": {},
+  "contentRating": "Content rating",
+  "@contentRating": {},
   "removeAsFavorite": "Remove as favorite",
   "@removeAsFavorite": {},
   "removeFromCollection": "Remove from collection",
@@ -728,6 +728,38 @@
   "@retry": {},
   "runTime": "Run time",
   "@runTime": {},
+  "runtimeMinutesTitle": "Runtime (minutes)",
+  "@runtimeMinutesTitle": {},
+  "runtimeRangeMinutes": "{min} - {max} minutes",
+  "@runtimeRangeMinutes": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "minutesShort": "{count} min",
+  "@minutesShort": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "streamingServices": "Providers ({count})",
+  "@streamingServices": {
+    "description": "Streaming providers (Netflix,HBO, etc.)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
   "save": "Save",
   "@save": {},
   "saved": "Saved",
@@ -872,12 +904,24 @@
   "@settingsPosterPinch": {},
   "settingsPosterSize": "Poster size",
   "@settingsPosterSize": {},
-  "settingsPosterSlider": "Show scale slider",
-  "@settingsPosterSlider": {},
   "settingsProfileDesc": "Lockscreen, Local URL, Seerr",
   "@settingsProfileDesc": {},
   "settingsProfileTitle": "Profile",
   "@settingsProfileTitle": {},
+  "settingsProfileSubtitleLanguage": "Preferred subtitle language",
+  "@settingsProfileSubtitleLanguage": {},
+  "settingsProfileSubtitleMode": "Subtitle mode",
+  "@settingsProfileSubtitleMode": {},
+  "subtitlePlaybackModeDefault": "Default",
+  "@subtitlePlaybackModeDefault": {},
+  "subtitlePlaybackModeAlways": "Always play",
+  "@subtitlePlaybackModeAlways": {},
+  "subtitlePlaybackModeOnlyForced": "Only forced",
+  "@subtitlePlaybackModeOnlyForced": {},
+  "subtitlePlaybackModeNone": "None",
+  "@subtitlePlaybackModeNone": {},
+  "subtitlePlaybackModeSmart": "Smart",
+  "@subtitlePlaybackModeSmart": {},
   "settingsQuickConnectTitle": "Quick connect",
   "@settingsQuickConnectTitle": {},
   "settingsSecurity": "Security",
@@ -894,8 +938,6 @@
   "@showDetails": {},
   "showEmpty": "Show empty",
   "@showEmpty": {},
-  "shuffleGallery": "Shuffle gallery",
-  "@shuffleGallery": {},
   "shuffleVideos": "Shuffle videos",
   "@shuffleVideos": {},
   "somethingWentWrong": "Something went wrong",
@@ -1049,8 +1091,6 @@
   "@videoScalingScaleDown": {},
   "viewPhotos": "View photos",
   "@viewPhotos": {},
-  "watchOn": "Watch on",
-  "@watchOn": {},
   "writer": "{count, plural, other{Writer} two{Writers}}",
   "@writer": {
     "description": "writer",
@@ -1119,8 +1159,6 @@
   "@syncStatusEnqueued": {},
   "syncStatusRunning": "Running",
   "@syncStatusRunning": {},
-  "syncStatusComplete": "Complete",
-  "@syncStatusComplete": {},
   "syncStatusNotFound": "Not Found",
   "@syncStatusNotFound": {},
   "syncStatusFailed": "Failed",
@@ -1133,8 +1171,6 @@
   "@syncStatusPaused": {},
   "syncStatusSynced": "Synced",
   "@syncStatusSynced": {},
-  "syncStatusPartially": "Partially",
-  "@syncStatusPartially": {},
   "syncOverlayDeleting": "Removing synced item",
   "@syncOverlayDeleting": {},
   "syncOverlaySyncing": "Syncing item details",
@@ -1489,7 +1525,6 @@
   },
   "takeScreenshot": "Take screenshot",
   "takeScreenshotClean": "Take screenshot (without subtitles)",
-  "screenshots": "Screenshots",
   "screenshotTaken": "Screenshot saved!",
   "screenshotCleanTaken": "Screenshot without subtitles saved!",
   "errorTakingScreenshot": "There was an error taking the screenshot",
@@ -1735,6 +1770,12 @@
   "@syncplay": {},
   "syncplayAccess": "Syncplay access",
   "@syncplayAccess": {},
+  "syncplayAccessCreateAndJoinGroups": "Create and Join Groups",
+  "@syncplayAccessCreateAndJoinGroups": {},
+  "syncplayAccessJoinGroups": "Join Groups",
+  "@syncplayAccessJoinGroups": {},
+  "syncplayAccessNone": "None",
+  "@syncplayAccessNone": {},
   "allowMediaDeletion": "Allow media deletion",
   "@allowMediaDeletion": {},
   "allLibraries": "All libraries",
@@ -1755,8 +1796,6 @@
   "@allowItemsTags": {},
   "blockItemsTags": "Block items with tags",
   "@blockItemsTags": {},
-  "accessSchedule": "Access schedule",
-  "@accessSchedule": {},
   "accessSchedules": "Access schedules",
   "@accessSchedules": {},
   "addAccessSchedule": "Add Access Schedule",
@@ -1781,8 +1820,6 @@
   "@general": {},
   "access": "Access",
   "@access": {},
-  "passwordSettingsComing": "Password Settings Coming Soon",
-  "@passwordSettingsComing": {},
   "endTimeMustBeAfter": "End time must be after start time",
   "@endTimeMustBeAfter": {},
   "assignLibraries": "Assign Libraries",
@@ -1805,8 +1842,6 @@
   "@passwordMismatch": {},
   "passwordChangeSuccess": "Successfully changed password",
   "@passwordChangeSuccess": {},
-  "passwordChangeFailed": "Failed to change password",
-  "@passwordChangeFailed": {},
   "savePassword": "Save password",
   "@savePassword": {},
   "deleteLibraryConfirmTitle": "Delete library?",
@@ -1863,8 +1898,6 @@
       }
     }
   },
-  "enableAndRankImageFetchers": "Enable and rank your preferred image fetchers in order of priority.",
-  "@enableAndRankImageFetchers": {},
   "mediaSegmentProviders": "Media segment providers",
   "@mediaSegmentProviders": {},
   "enableAndRankMediaSegmentProviders": "Enable and rank your preferred mediasegment providers in order of priority.",
@@ -1947,6 +1980,8 @@
   "@trending": {},
   "popularMovies": "Popular movies",
   "@popularMovies": {},
+  "popularSeries": "Popular series",
+  "@popularSeries": {},
   "expectedMovies": "Expected movies",
   "@expectedMovies": {},
   "expectedSeries": "Expected series",
@@ -1967,8 +2002,6 @@
   "@noTags": {},
   "requestAs": "Request as",
   "@requestAs": {},
-  "requestQuotaTitle": "Request quota",
-  "@requestQuotaTitle": {},
   "requestQuotaStatus": "{remaining} of {limit} remaining (resets every {days} days)",
   "@requestQuotaStatus": {
     "placeholders": {
@@ -2023,34 +2056,10 @@
       }
     }
   },
-  "seerrSetServerFirst": "Set Seerr server first",
-  "@seerrSetServerFirst": {},
-  "seerrLocalLoginTitle": "Seerr Local Login",
-  "@seerrLocalLoginTitle": {},
-  "seerrJellyfinLoginTitle": "Seerr Jellyfin Login",
-  "@seerrJellyfinLoginTitle": {},
-  "seerrSessionSaved": "Seerr session saved",
-  "@seerrSessionSaved": {},
-  "seerrStatusVersion": "Seerr: {version}",
-  "@seerrStatusVersion": {
-    "placeholders": {
-      "version": {
-        "type": "String"
-      }
-    }
-  },
   "seerrServer": "Seerr server",
   "@seerrServer": {},
   "seerrAuthenticateLocal": "Seerr authenticate (local)",
   "@seerrAuthenticateLocal": {},
-  "seerrAuthenticateJellyfin": "Seerr authenticate (Jellyfin)",
-  "@seerrAuthenticateJellyfin": {},
-  "seerrSessionConfigured": "Session configured",
-  "@seerrSessionConfigured": {},
-  "seerrConfigured": "Configured",
-  "@seerrConfigured": {},
-  "seerrTestConnection": "Test Seerr connection",
-  "@seerrTestConnection": {},
   "rootFolderDefaultLabel": "{folder} (Default)",
   "@rootFolderDefaultLabel": {
     "placeholders": {
@@ -2065,6 +2074,26 @@
   "@seerrAutoApproveNotice": {},
   "seerrPermissionDenied": "You do not have permission to request this media type.",
   "@seerrPermissionDenied": {},
+  "seerrRequestStatusPending": "Pending",
+  "@seerrRequestStatusPending": {},
+  "seerrRequestStatusApproved": "Approved",
+  "@seerrRequestStatusApproved": {},
+  "seerrRequestStatusDeclined": "Declined",
+  "@seerrRequestStatusDeclined": {},
+  "seerrRequestStatusFailed": "Failed",
+  "@seerrRequestStatusFailed": {},
+  "seerrRequestStatusCompleted": "Completed",
+  "@seerrRequestStatusCompleted": {},
+  "seerrMediaStatusProcessing": "Processing",
+  "@seerrMediaStatusProcessing": {},
+  "seerrMediaStatusPartiallyAvailable": "Partially Available",
+  "@seerrMediaStatusPartiallyAvailable": {},
+  "seerrMediaStatusAvailable": "Available",
+  "@seerrMediaStatusAvailable": {},
+  "seerrMediaStatusBlacklisted": "Blacklisted",
+  "@seerrMediaStatusBlacklisted": {},
+  "seerrMediaStatusDeleted": "Deleted",
+  "@seerrMediaStatusDeleted": {},
   "seerrAuthApiKey": "API key",
   "@seerrAuthApiKey": {},
   "seerrAuthLocal": "Local",
@@ -2089,5 +2118,67 @@
   },
   "emailUsername": "Email/Username",
   "@emailUsername": {},
-  "discover": "Discover"
+  "discover": "Discover",
+  "sponsor": "Sponsor",
+  "sponsorMessage": "If you enjoy using Fladder, consider sponsoring the project to support ongoing development and improvements. Thank you for your support!",
+  "min": "min",
+  "max": "max",
+  "manageRequest": "Manage request",
+  "requestAll": "Request all",
+  "openInSeerr": "Open in Seerr",
+  "@openInSeerr": {},
+  "openInSonarr": "Open in Sonarr",
+  "@openInSonarr": {},
+  "openInRadarr": "Open in Radarr",
+  "@openInRadarr": {},
+  "removeFromSonarr": "Remove from Sonarr",
+  "@removeFromSonarr": {},
+  "removeFromRadarr": "Remove from Radarr",
+  "@removeFromRadarr": {},
+  "markAllSeasonsAsAvailable": "Mark all seasons as available",
+  "@markAllSeasonsAsAvailable": {},
+  "markAsAvailable": "Mark as available",
+  "@markAsAvailable": {},
+  "deleteData": "Delete data",
+  "@deleteData": {},
+  "removeSeriesFromSonarrConfirm": "Remove this series from Sonarr? This will remove all data INCLUDING files.",
+  "@removeSeriesFromSonarrConfirm": {},
+  "removeMovieFromRadarrConfirm": "Remove this movie from Radarr? This will remove all data INCLUDING files.",
+  "@removeMovieFromRadarrConfirm": {},
+  "removedFromSonarr": "Removed from Sonarr",
+  "@removedFromSonarr": {},
+  "removedFromRadarr": "Removed from Radarr",
+  "@removedFromRadarr": {},
+  "markAllSeasonsAsAvailableConfirm": "Mark all seasons as available?",
+  "@markAllSeasonsAsAvailableConfirm": {},
+  "markAsAvailableConfirm": "Mark as available?",
+  "@markAsAvailableConfirm": {},
+  "markedAsAvailable": "Marked as available",
+  "@markedAsAvailable": {},
+  "deleteSeerrDataConfirm": "Delete all files from Seerr? This action cannot be undone.\nIf the data is still present in {service}, it may be re-imported.",
+  "@deleteSeerrDataConfirm": {
+    "description": "Confirmation message for deleting Seerr data",
+    "placeholders": {
+      "service": {
+        "type": "String",
+        "example": "Sonarr/Radarr"
+      }
+    }
+  },
+  "dataDeleted": "Data deleted",
+  "@dataDeleted": {},
+  "approve": "Approve",
+  "decline": "Decline",
+  "pendingRequests": "{count, plural, other{No pending requests} one{{count} pending request} two{{count} pending requests}}",
+  "@pendingRequests": {
+    "description": "pendingRequests",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "processing": "Processing",
+  "seerrDetails": "Seerr details"
 }

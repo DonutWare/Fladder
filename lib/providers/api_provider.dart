@@ -91,17 +91,18 @@ String normalizeUrl(String url) {
   final withScheme = (trimmed.startsWith('http://') || trimmed.startsWith('https://')) ? trimmed : 'http://$trimmed';
   final parsed = Uri.parse(withScheme);
 
-  // Only punycode the host; keep the rest (path/query/fragment) exactly as parsed.
+  // Only punycode non-ASCII hostnames. IP addresses are always ASCII, so no special handling needed.
   final host = parsed.host;
-  final isIpv4 = InternetAddress.tryParse(host)?.type == InternetAddressType.IPv4;
-  final isIpv6 = InternetAddress.tryParse(host)?.type == InternetAddressType.IPv6;
   final hasNonAscii = host.runes.any((c) => c > 0x7F);
 
-  final encodedHost = (!isIpv4 && !isIpv6 && hasNonAscii) ? const PunycodeCodec().encode(host) : host;
+  if (!hasNonAscii) return parsed.toString();
 
-  var normalized = parsed.replace(host: encodedHost);
-
-  return normalized.toString();
+  try {
+    final encodedHost = const PunycodeCodec().encode(host);
+    return parsed.replace(host: encodedHost).toString();
+  } catch (_) {
+    return parsed.toString();
+  }
 }
 
 Uri? tryParseServerBaseUri(String? url) {

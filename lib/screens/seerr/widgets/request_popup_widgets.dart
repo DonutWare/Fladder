@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:square_progress_indicator/square_progress_indicator.dart';
 
-import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -90,7 +89,7 @@ class PermissionDeniedWarning extends StatelessWidget {
 
 class QuotaLimitCard extends StatelessWidget {
   final SeerrQuotaEntry quota;
-  final SeerrDashboardMediaType type;
+  final SeerrMediaType type;
 
   const QuotaLimitCard({
     required this.quota,
@@ -106,9 +105,8 @@ class QuotaLimitCard extends StatelessWidget {
 
     final limitReached = quota.limit != null && quota.remaining != null && quota.remaining! <= 0;
 
-    final mediaTypeLabel = type == SeerrDashboardMediaType.movie
-        ? context.localized.mediaTypeMovie(5)
-        : context.localized.mediaTypeSeries(5);
+    final mediaTypeLabel =
+        type == SeerrMediaType.movie ? context.localized.mediaTypeMovie(5) : context.localized.mediaTypeSeries(5);
 
     return Container(
       decoration: BoxDecoration(

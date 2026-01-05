@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -97,12 +95,11 @@ Future<void> _playVideo(
   ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(state: VideoPlayerState.fullScreen));
 
   await ref.read(videoPlayerProvider.notifier).openPlayer(context);
-  if (AdaptiveLayout.of(context).isDesktop) {
+  if (AdaptiveLayout.of(context).isDesktop && defaultTargetPlatform != TargetPlatform.macOS) {
     fullScreenHelper.closeFullScreen(ref);
   }
 
   if (context.mounted) {
-    log("Finished refreshing");
     await context.refreshData();
   }
 

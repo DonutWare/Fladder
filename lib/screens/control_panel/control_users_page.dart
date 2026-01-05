@@ -32,7 +32,7 @@ class ControlUsersPage extends ConsumerWidget {
     final users = ref.watch(controlUsersProvider.select((value) => value.users));
     final provider = ref.read(controlUsersProvider.notifier);
     return PullToRefresh(
-      child: SettingsScaffold(
+      child: (context) => SettingsScaffold(
         label: context.localized.users,
         itemSpacing: 12,
         items: [

@@ -26,6 +26,7 @@ class SeerrDashboard extends _$SeerrDashboard {
       fetchRecentRequests(),
       fetchTrending(),
       fetchPopularMovies(),
+      fetchPopularSeries(),
       fetchExpectedMovies(),
       fetchExpectedSeries(),
     ]);
@@ -88,6 +89,9 @@ class SeerrDashboard extends _$SeerrDashboard {
   Future<void> fetchPopularMovies() async =>
       _safeSet(() => api.discoverPopularMovies(), (items) => state.copyWith(popularMovies: items));
 
+  Future<void> fetchPopularSeries() async =>
+      _safeSet(() => api.discoverPopularSeries(), (items) => state.copyWith(popularSeries: items));
+
   Future<void> fetchExpectedMovies() async =>
       _safeSet(() => api.discoverExpectedMovies(), (items) => state.copyWith(expectedMovies: items));
 
@@ -114,7 +118,7 @@ class SeerrDashboard extends _$SeerrDashboard {
     List<int>? requestedSeasons;
     if (poster.mediaInfo?.seasons != null) {
       requestedSeasons = poster.mediaInfo!.seasons!
-          .where((season) => season.seasonNumber != null)
+          .where((season) => season.seasonNumber != null && request.seasons?.contains(season.seasonNumber) == true)
           .map((season) => season.seasonNumber!)
           .toList();
     }

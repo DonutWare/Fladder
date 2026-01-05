@@ -43,6 +43,7 @@ import 'package:fladder/util/macos_window_helpers.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/util/svg_utils.dart';
 import 'package:fladder/util/themes_data.dart';
+import 'package:fladder/util/window_helper.dart';
 import 'package:fladder/widgets/media_query_scaler.dart';
 
 bool get _isDesktop {
@@ -265,31 +266,15 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
     ref.read(sharedUtilityProvider).loadSettings();
 
     final clientSettings = ref.read(clientSettingsProvider);
+    final startupArguments = ref.read(argumentsStateProvider);
 
-    final isFullScreen = await windowManager.isFullScreen();
-
-    if (_isDesktop && !isFullScreen) {
-      WindowOptions windowOptions = WindowOptions(
-        backgroundColor: Colors.transparent,
-        skipTaskbar: false,
-        titleBarStyle: TitleBarStyle.hidden,
-        title: packageInfo.appName.capitalize(),
-      );
-
+    if (_isDesktop) {
       toggleMacTrafficLights(false);
-
-      windowManager.waitUntilReadyToShow(windowOptions, () async {
-        if (!kDebugMode) {
-          await windowManager.show();
-          await windowManager.focus();
-          await windowManager.setSize(Size(clientSettings.size.x, clientSettings.size.y));
-          await windowManager.center();
-        }
-        final startupArguments = ref.read(argumentsStateProvider);
-        if (startupArguments.htpcMode && !isFullScreen) {
-          await windowManager.setFullScreen(true);
-        }
-      });
+      await windowManager.setupFladderWindowChrome(
+        startupArguments,
+        clientSettings,
+        packageInfo,
+      );
     } else {
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge, overlays: []);
       SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(

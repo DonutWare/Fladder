@@ -34,7 +34,7 @@ class SeerrRequestBannerRow extends ConsumerWidget {
         HorizontalList<SeerrDashboardPosterModel>(
           label: label,
           items: posters,
-          height: 200,
+          height: 225,
           contentPadding: contentPadding,
           onLabelClick: onLabelClick,
           onFocused: onFocused != null ? (index) => onFocused?.call(posters[index]) : null,
@@ -46,7 +46,6 @@ class SeerrRequestBannerRow extends ConsumerWidget {
                 key: Key(poster.id),
                 poster: poster,
                 onTap: onTap,
-                onRequestAddTap: onRequestAddTap,
               ),
             );
           },

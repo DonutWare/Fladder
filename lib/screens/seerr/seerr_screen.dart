@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/providers/seerr_dashboard_provider.dart';
 import 'package:fladder/providers/seerr_user_provider.dart';
+import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/home_screen.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_poster_row.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_request_banner_row.dart';
@@ -51,6 +52,7 @@ class _SeerrScreenState extends ConsumerState<SeerrScreen> {
       ...dashboardState.recentRequests,
       ...dashboardState.trending,
       ...dashboardState.popularMovies,
+      ...dashboardState.popularSeries,
       ...dashboardState.expectedMovies,
       ...dashboardState.expectedSeries,
     ].map((e) => e.images).toList(growable: false);
@@ -63,7 +65,7 @@ class _SeerrScreenState extends ConsumerState<SeerrScreen> {
         ),
         body: PullToRefresh(
           onRefresh: () => ref.read(seerrDashboardProvider.notifier).fetchDashboard(),
-          child: CustomScrollView(
+          child: (context) => CustomScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             controller: AdaptiveLayout.scrollOf(context, HomeTabs.seerr),
             slivers: [
@@ -77,7 +79,6 @@ class _SeerrScreenState extends ConsumerState<SeerrScreen> {
                     label: context.localized.recentlyAdded,
                     posters: dashboardState.recentlyAdded,
                     contentPadding: padding,
-                    onRequestAddTap: (poster) => openRequest(context, poster),
                   ),
                 ),
               if (dashboardState.recentRequests.isNotEmpty)
@@ -95,7 +96,7 @@ class _SeerrScreenState extends ConsumerState<SeerrScreen> {
                     label: context.localized.trending,
                     posters: dashboardState.trending,
                     contentPadding: padding,
-                    onRequestAddTap: (poster) => openRequest(context, poster),
+                    onLabelClick: () => context.pushRoute(SeerrSearchRoute(mode: SeerrSearchMode.trending)),
                   ),
                 ),
               if (dashboardState.popularMovies.isNotEmpty)
@@ -104,7 +105,16 @@ class _SeerrScreenState extends ConsumerState<SeerrScreen> {
                     label: context.localized.popularMovies,
                     posters: dashboardState.popularMovies,
                     contentPadding: padding,
-                    onRequestAddTap: (poster) => openRequest(context, poster),
+                    onLabelClick: () => context.pushRoute(SeerrSearchRoute(mode: SeerrSearchMode.discoverMovies)),
+                  ),
+                ),
+              if (dashboardState.popularSeries.isNotEmpty)
+                SliverToBoxAdapter(
+                  child: SeerrPosterRow(
+                    label: context.localized.popularSeries,
+                    posters: dashboardState.popularSeries,
+                    contentPadding: padding,
+                    onLabelClick: () => context.pushRoute(SeerrSearchRoute(mode: SeerrSearchMode.discoverTv)),
                   ),
                 ),
               if (dashboardState.expectedMovies.isNotEmpty)
@@ -113,7 +123,12 @@ class _SeerrScreenState extends ConsumerState<SeerrScreen> {
                     label: context.localized.expectedMovies,
                     posters: dashboardState.expectedMovies,
                     contentPadding: padding,
-                    onRequestAddTap: (poster) => openRequest(context, poster),
+                    onLabelClick: () => context.pushRoute(
+                      SeerrSearchRoute(
+                        mode: SeerrSearchMode.discoverMovies,
+                        yearGte: DateTime.now().year,
+                      ),
+                    ),
                   ),
                 ),
               if (dashboardState.expectedSeries.isNotEmpty)
@@ -122,7 +137,12 @@ class _SeerrScreenState extends ConsumerState<SeerrScreen> {
                     label: context.localized.expectedSeries,
                     posters: dashboardState.expectedSeries,
                     contentPadding: padding,
-                    onRequestAddTap: (poster) => openRequest(context, poster),
+                    onLabelClick: () => context.pushRoute(
+                      SeerrSearchRoute(
+                        mode: SeerrSearchMode.discoverTv,
+                        yearGte: DateTime.now().year,
+                      ),
+                    ),
                   ),
                 ),
               const DefautlSliverBottomPadding(),

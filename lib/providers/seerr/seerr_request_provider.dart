@@ -3,11 +3,10 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
-import 'package:fladder/models/seerr/seerr_item_models.dart';
 import 'package:fladder/providers/seerr_api_provider.dart';
 import 'package:fladder/providers/seerr_user_provider.dart';
-import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/seerr/seerr_models.dart';
+import 'package:fladder/util/seerr_helpers.dart';
 
 part 'seerr_request_provider.freezed.dart';
 part 'seerr_request_provider.g.dart';
@@ -25,7 +24,7 @@ class SeerrRequest extends _$SeerrRequest {
     state = state.copyWith(poster: poster);
 
     final currentUserBody = await ref.read(seerrUserProvider.notifier).refreshUser();
-    final isTv = poster.type == SeerrDashboardMediaType.tv;
+    final isTv = poster.type == SeerrMediaType.tvshow;
 
     SeerrDashboardPosterModel updatedPoster = poster;
     if (isTv) {
@@ -33,49 +32,39 @@ class SeerrRequest extends _$SeerrRequest {
       if (tvDetailsResponse.isSuccessful && tvDetailsResponse.body != null) {
         final details = tvDetailsResponse.body!;
 
-        final isAnime = _isAnime(details);
-
-        final Map<int, SeerrRequestStatus> seasonStatusMap = {
-          for (final season in details.mediaInfo?.seasons ?? const <SeerrMediaInfoSeason>[])
-            if (season.seasonNumber != null) season.seasonNumber!: SeerrRequestStatus.fromRaw(season.status),
-        };
-
-        final knownSeasonNumbers = <int>{
-          ...seasonStatusMap.keys,
-          ...?details.seasons?.map((season) => season.seasonNumber).whereType<int>(),
-        };
-
-        final requests = details.mediaInfo?.requests ?? const <SeerrMediaRequest>[];
-        if (requests.isNotEmpty) {
-          for (final request in requests) {
-            final requestStatus = SeerrRequestStatus.fromRaw(request.status);
-            if (requestStatus == SeerrRequestStatus.unknown || requestStatus == SeerrRequestStatus.deleted) continue;
-
-            final requestSeasonNumbers = request.seasons?.whereType<int>().toList(growable: false);
-            final seasonsToUpdate = (requestSeasonNumbers == null || requestSeasonNumbers.isEmpty)
-                ? knownSeasonNumbers
-                : requestSeasonNumbers;
-            for (final seasonNumber in seasonsToUpdate) {
-              final current = seasonStatusMap[seasonNumber];
-              if (current == SeerrRequestStatus.available || current == SeerrRequestStatus.deleted) continue;
-              seasonStatusMap[seasonNumber] = requestStatus;
-            }
-          }
-        }
+        final isAnime = SeerrHelpers.isAnime(details);
+        final seasonStatusMap = SeerrHelpers.buildSeasonStatusMap(details);
 
         updatedPoster = poster.copyWith(
-          seasons: _resolveSeasonPosters(details.seasons),
+          seasons: details.seasons,
           seasonStatuses: seasonStatusMap.isEmpty ? poster.seasonStatuses : seasonStatusMap,
           mediaInfo: details.mediaInfo,
         );
-        state = state.copyWith(poster: updatedPoster, isAnime: isAnime);
+        final userRegion = currentUserBody?.settings?.discoverRegion ?? 'US';
+        final contentRating = SeerrHelpers.extractContentRating(details.contentRatings, userRegion);
+        state = state.copyWith(
+          poster: updatedPoster,
+          isAnime: isAnime,
+          genres: details.genres ?? [],
+          voteAverage: details.voteAverage,
+          contentRating: contentRating,
+          releaseDate: details.firstAirDate,
+        );
       }
     } else if (!isTv) {
       final movieDetailsResponse = await api.movieDetails(tmdbId: poster.tmdbId);
       if (movieDetailsResponse.isSuccessful && movieDetailsResponse.body != null) {
         final details = movieDetailsResponse.body!;
         updatedPoster = poster.copyWith(mediaInfo: details.mediaInfo);
-        state = state.copyWith(poster: updatedPoster);
+        final userRegion = currentUserBody?.settings?.discoverRegion ?? 'US';
+        final contentRating = SeerrHelpers.extractContentRating(details.contentRatings, userRegion);
+        state = state.copyWith(
+          poster: updatedPoster,
+          genres: details.genres ?? [],
+          voteAverage: details.voteAverage,
+          contentRating: contentRating,
+          releaseDate: details.releaseDate,
+        );
       }
     }
 
@@ -187,7 +176,7 @@ class SeerrRequest extends _$SeerrRequest {
 
     final nextState = state.copyWith(use4k: enabled && state.has4k);
 
-    if (poster.type == SeerrDashboardMediaType.tv) {
+    if (poster.type == SeerrMediaType.tvshow) {
       final selectedServer = nextState.activeSonarr;
       state = nextState.copyWith(
         selectedSonarrServer: selectedServer,
@@ -214,7 +203,7 @@ class SeerrRequest extends _$SeerrRequest {
     final profileId = state.selectedProfile?.id;
     final rootFolder = state.selectedRootFolder;
 
-    final isTv = poster.type == SeerrDashboardMediaType.tv;
+    final isTv = poster.type == SeerrMediaType.tvshow;
 
     if (isTv) {
       await api.requestSeries(
@@ -248,38 +237,16 @@ class SeerrRequest extends _$SeerrRequest {
     await api.deleteRequest(requestId: requestId);
   }
 
-  List<SeerrSeason>? _resolveSeasonPosters(List<SeerrSeason>? seasons) {
-    if (seasons == null) return null;
-    final serverUrl = ref.read(userProvider)?.seerrCredentials?.serverUrl;
-    return seasons
-        .map(
-          (season) => SeerrSeason(
-            id: season.id,
-            name: season.name,
-            overview: season.overview,
-            seasonNumber: season.seasonNumber,
-            posterPath: resolveImageUrl(
-              path: season.posterPath,
-              serverUrl: serverUrl,
-              tmdbBase: 'https://image.tmdb.org/t/p/w500',
-            ),
-            episodeCount: season.episodeCount,
-            mediaId: season.mediaId,
-          ),
-        )
-        .toList(growable: false);
-  }
-
   void _initializeSeasonSelection(SeerrDashboardPosterModel poster) {
     final seasons = poster.seasons ?? const <SeerrSeason>[];
-    final statuses = poster.seasonStatuses ?? const <int, SeerrRequestStatus>{};
+    final statuses = poster.seasonStatuses ?? const <int, SeerrMediaStatus>{};
 
     final selection = <int, bool>{};
     for (final season in seasons) {
       final number = season.seasonNumber;
       if (number == null) continue;
       final status = statuses[number];
-      final locked = status != null && (status != SeerrRequestStatus.unknown && status != SeerrRequestStatus.deleted);
+      final locked = status != null && status.isKnown && status != SeerrMediaStatus.deleted;
       selection[number] = locked;
     }
 
@@ -287,6 +254,18 @@ class SeerrRequest extends _$SeerrRequest {
       selectedSeasons: selection,
       seasonStatuses: statuses,
     );
+  }
+
+  void selectAllSeasons() {
+    final updatedSelection = <int, bool>{};
+    for (final seasonNumber in state.selectedSeasons.keys) {
+      if (state.isRequestedAlready(seasonNumber)) {
+        updatedSelection[seasonNumber] = false;
+      } else {
+        updatedSelection[seasonNumber] = true;
+      }
+    }
+    state = state.copyWith(selectedSeasons: updatedSelection);
   }
 }
 
@@ -304,24 +283,30 @@ abstract class SeerrRequestModel with _$SeerrRequestModel {
     String? selectedRootFolder,
     @Default([]) List<SeerrServiceTag> selectedTags,
     @Default({}) Map<int, bool> selectedSeasons,
-    @Default({}) Map<int, SeerrRequestStatus> seasonStatuses,
+    @Default({}) Map<int, SeerrMediaStatus> seasonStatuses,
     @Default({}) Map<int, SeerrUserQuota> userQuotas,
     SeerrUserModel? currentUser,
     SeerrUserModel? selectedUser,
     @Default([]) List<SeerrUserModel> availableUsers,
     @Default(false) bool use4k,
     @Default(false) bool isAnime,
+    @Default([]) List<SeerrGenre> genres,
+    double? voteAverage,
+    String? contentRating,
+    String? releaseDate,
   }) = _SeerrRequestModel;
 
-  bool get isTv => poster?.type == SeerrDashboardMediaType.tv;
+  bool get isTv => poster?.type == SeerrMediaType.tvshow;
 
   SeerrUserModel? get requestingUser => selectedUser ?? currentUser;
 
-  List<SeerrMediaRequest> get _activeRequests => (poster?.mediaInfo?.requests ?? const <SeerrMediaRequest>[])
-      .where(
-        (request) => request.id != null && SeerrRequestStatus.fromRaw(request.status) != SeerrRequestStatus.deleted,
-      )
-      .toList(growable: false);
+  List<SeerrMediaRequest> get _activeRequests => (poster?.mediaInfo?.requests ?? const <SeerrMediaRequest>[]).where(
+        (request) {
+          if (request.id == null) return false;
+          final status = SeerrRequestStatus.fromRaw(request.status);
+          return status == SeerrRequestStatus.pending || status == SeerrRequestStatus.approved;
+        },
+      ).toList(growable: false);
 
   bool get hasExistingRequest => _activeRequests.isNotEmpty;
 
@@ -397,20 +382,12 @@ abstract class SeerrRequestModel with _$SeerrRequestModel {
 
   bool isRequestedAlready(int seasonNumber) {
     final status = seasonStatuses[seasonNumber];
-    return status != null && status != SeerrRequestStatus.unknown && status != SeerrRequestStatus.deleted;
+    return status != null && status.isKnown && status != SeerrMediaStatus.deleted;
   }
 
   bool get canSubmitRequest {
     if (hasRequestPermission != true) return false;
     if (isQuotaRestricted) return false;
-
-    if (poster?.status == SeerrRequestStatus.deleted) {
-      return true;
-    }
-
-    if (poster?.status == SeerrRequestStatus.available) {
-      return false;
-    }
 
     if (isTv) {
       return selectedSeasonNumbers?.isNotEmpty ?? false;
@@ -472,13 +449,4 @@ abstract class SeerrRequestModel with _$SeerrRequestModel {
 
     return match?.path ?? activeDirectory ?? available.first.path;
   }
-}
-
-bool _isAnime(SeerrTvDetails details) {
-  final keywordHit = details.keywords?.any((k) => (k.name ?? '').toLowerCase() == 'anime') ?? false;
-  if (keywordHit) return true;
-  final genreHit = details.genres
-          ?.any((g) => (g.name ?? '').toLowerCase() == 'animation' || (g.name ?? '').toLowerCase() == 'anime') ??
-      false;
-  return genreHit;
 }

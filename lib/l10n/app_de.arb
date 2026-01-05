@@ -635,7 +635,7 @@
     "@settingsPlayerVideoHWAccelTitle": {},
     "settingsPlayerVideoHWAccelDesc": "GPU zum Rendern von Videos verwenden (empfohlen)",
     "@settingsPlayerVideoHWAccelDesc": {},
-    "settingsProfileDesc": "Sperrbildschirm, Lokale URL",
+    "settingsProfileDesc": "Sperrbildschirm, Lokale URL, Seerr",
     "@settingsProfileDesc": {},
     "settingsProfileTitle": "Profil",
     "@settingsProfileTitle": {},
@@ -1682,9 +1682,9 @@
     "@mediaPlayback": {},
     "allowMediaPlayback": "Medienwiedergabe erlauben",
     "@allowMediaPlayback": {},
-    "allowVideoTranscoding": "Erlaube die Videowiedergabe, welche Transkodierung benötigt",
+    "allowVideoTranscoding": "Video-Wiedergabe, die Transkodierung benötigt, zulassen",
     "@allowVideoTranscoding": {},
-    "allowAudioTranscoding": "Erlaube die Audiowiedergabe, die Transkodierung benötigt",
+    "allowAudioTranscoding": "Audio-Wiedergabe, die Transkodierung benötigt, zulassen",
     "@allowAudioTranscoding": {},
     "allowMediaDeletion": "Erlaube Medienlöschung von",
     "@allowMediaDeletion": {},
@@ -1789,7 +1789,7 @@
             }
         }
     },
-    "allowCollections": "Dieser Benutzer darf Sammlungen zugreifen",
+    "allowCollections": "Dieser Benutzer darf Sammlungen verwalten",
     "@allowCollections": {},
     "featureAccess": "Funktionszugriff",
     "@featureAccess": {},
@@ -1801,9 +1801,9 @@
     "@forceRemoteTranscoding": {},
     "accessSchedule": "Zugangsplan",
     "@accessSchedule": {},
-    "accessSchedules": "Zugangspläne",
+    "accessSchedules": "Zeitbeschränkung",
     "@accessSchedules": {},
-    "addAccessSchedule": "Zugangsplan hinzufügen",
+    "addAccessSchedule": "Zeitbeschränkung hinzufügen",
     "@addAccessSchedule": {},
     "dayOfWeek": "Wochentag",
     "@dayOfWeek": {},
@@ -2010,5 +2010,307 @@
                 "example": "1"
             }
         }
-    }
+    },
+    "deleteRequestConfirmation": "Sind Sie sicher, dass Sie diese Anfrage löschen möchten?",
+    "@deleteRequestConfirmation": {},
+    "recentlyAdded": "Kürzlich hinzugefügt",
+    "@recentlyAdded": {},
+    "recentRequests": "Kürzlich angefragt",
+    "@recentRequests": {},
+    "trending": "Im Trend",
+    "@trending": {},
+    "popularMovies": "Beliebte Filme",
+    "@popularMovies": {},
+    "expectedSeries": "Erwartete Serien",
+    "@expectedSeries": {},
+    "selectFolder": "Ordner auswählen",
+    "@selectFolder": {},
+    "tags": "Tags",
+    "@tags": {},
+    "noTags": "Keine Tags",
+    "@noTags": {},
+    "requestAs": "Anfordern als",
+    "@requestAs": {},
+    "requestQuotaTitle": "Kontingent anfordern",
+    "@requestQuotaTitle": {},
+    "requestQuotaStatus": "{remaining} von {limit} übrig (Wird alle {days} Tage zurückgesetzt)",
+    "@requestQuotaStatus": {
+        "placeholders": {
+            "remaining": {
+                "type": "int"
+            },
+            "limit": {
+                "type": "int"
+            },
+            "days": {
+                "type": "int"
+            }
+        }
+    },
+    "submitRequest": "Anfrage senden",
+    "@submitRequest": {},
+    "viewRequest": "Anfrage einsehen",
+    "@viewRequest": {},
+    "email": "E-Mail",
+    "@email": {},
+    "ok": "OK",
+    "@ok": {},
+    "seerrNotConfigured": "Nicht eingerichtet",
+    "@seerrNotConfigured": {},
+    "loggedInAs": "Angemeldet als {displayName}",
+    "@loggedInAs": {
+        "placeholders": {
+            "displayName": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrSessionSaved": "Seerr Sitzung gespeichert",
+    "@seerrSessionSaved": {},
+    "seerrStatusVersion": "Seerr: {version}",
+    "@seerrStatusVersion": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrAuthenticateLocal": "Seerr Authentifizierung (lokal)",
+    "@seerrAuthenticateLocal": {},
+    "seerrAuthenticateJellyfin": "Seerr Authentifizierung (Jellyfin)",
+    "@seerrAuthenticateJellyfin": {},
+    "seerrSessionConfigured": "Session konfiguriert",
+    "@seerrSessionConfigured": {},
+    "seerrTestConnection": "Seerr Verbindung testen",
+    "@seerrTestConnection": {},
+    "seerrAutoApproveNotice": "Von Ihnen gesendete Anfragen werden automatisch genehmigt.",
+    "@seerrAutoApproveNotice": {},
+    "seerrPermissionDenied": "Sie haben keine Berechtigung diesen Medientyp anzufordern.",
+    "@seerrPermissionDenied": {},
+    "seerrAuthLocal": "Lokal",
+    "@seerrAuthLocal": {},
+    "seerrUserFetchFailed": "Benutzer konnte von Seerr nicht abgeholt werden",
+    "@seerrUserFetchFailed": {},
+    "seerrEnterServerUrlFirst": "Geben Sie zuerst eine Seerr Server URL ein",
+    "@seerrEnterServerUrlFirst": {},
+    "seerrLoggedIn": "Bei Seerr angemeldet",
+    "@seerrLoggedIn": {},
+    "seerrConnectedToServer": "Mit Seerr Server verbunden: {serverUrl}",
+    "@seerrConnectedToServer": {
+        "placeholders": {
+            "serverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "emailUsername": "E-Mail/Benutzername",
+    "@emailUsername": {},
+    "expectedMovies": "Erwartete Filme",
+    "@expectedMovies": {},
+    "requestConfiguration": "Konfiguration anfordern",
+    "@requestConfiguration": {},
+    "qualityProfile": "Qualitätsprofil",
+    "@qualityProfile": {},
+    "selectProfile": "Profil auswählen",
+    "@selectProfile": {},
+    "rootFolder": "Wurzelverzeichnis",
+    "@rootFolder": {},
+    "requestQuotaLimitReached": "Anforderungslimit erreicht für {mediaType}.",
+    "@requestQuotaLimitReached": {
+        "placeholders": {
+            "mediaType": {
+                "type": "String"
+            }
+        }
+    },
+    "noOverviewAvailable": "Keine Übersicht verfügbar.",
+    "@noOverviewAvailable": {},
+    "downloading": "herunterladen",
+    "@downloading": {},
+    "request": "Anfrage",
+    "@request": {},
+    "username": "Benutzername",
+    "@username": {},
+    "seerr": "Seer",
+    "@seerr": {},
+    "seerrLoadingUser": "Benutzer laden",
+    "@seerrLoadingUser": {},
+    "seerrUnknownUser": "Unbekannter Benutzer",
+    "@seerrUnknownUser": {},
+    "seerrSetServerFirst": "Seerr Server zuerst einstellen",
+    "@seerrSetServerFirst": {},
+    "seerrLocalLoginTitle": "Seerr Lokale Anmeldung",
+    "@seerrLocalLoginTitle": {},
+    "seerrJellyfinLoginTitle": "Seerr Jellyfin Login",
+    "@seerrJellyfinLoginTitle": {},
+    "seerrServer": "Seerr Server",
+    "@seerrServer": {},
+    "seerrConfigured": "Konfiguriert",
+    "@seerrConfigured": {},
+    "rootFolderDefaultLabel": "{folder} (Standard)",
+    "@rootFolderDefaultLabel": {
+        "placeholders": {
+            "folder": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrAnimeSeriesNote": "* Diese Serie ist ein Anime.",
+    "@seerrAnimeSeriesNote": {},
+    "seerrAuthApiKey": "API Schlüssel",
+    "@seerrAuthApiKey": {},
+    "seerrAuthJellyfin": "Jellyfin",
+    "@seerrAuthJellyfin": {},
+    "seerrApiKeySaved": "API Schlüssel gespeichert",
+    "@seerrApiKeySaved": {},
+    "discover": "Entdecken",
+    "@discover": {},
+    "popularity": "Popularität",
+    "@popularity": {},
+    "runtimeMinutesTitle": "Laufzeit (Minuten)",
+    "@runtimeMinutesTitle": {},
+    "runtimeRangeMinutes": "{min} - {max} Minuten",
+    "@runtimeRangeMinutes": {
+        "placeholders": {
+            "min": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            }
+        }
+    },
+    "minutesShort": "{count} Min",
+    "@minutesShort": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "streamingServices": "Anbieter ({count})",
+    "@streamingServices": {
+        "description": "Streaming providers (Netflix,HBO, etc.)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "settingsProfileSubtitleLanguage": "Bevorzugte Untertitelsprache",
+    "@settingsProfileSubtitleLanguage": {},
+    "settingsProfileSubtitleMode": "Untertitelmodus",
+    "@settingsProfileSubtitleMode": {},
+    "subtitlePlaybackModeDefault": "Standard",
+    "@subtitlePlaybackModeDefault": {},
+    "subtitlePlaybackModeAlways": "Immer abspielen",
+    "@subtitlePlaybackModeAlways": {},
+    "subtitlePlaybackModeOnlyForced": "Nur erzwungene",
+    "@subtitlePlaybackModeOnlyForced": {},
+    "subtitlePlaybackModeNone": "Keine",
+    "@subtitlePlaybackModeNone": {},
+    "subtitlePlaybackModeSmart": "Smart",
+    "@subtitlePlaybackModeSmart": {},
+    "syncplayAccessCreateAndJoinGroups": "Gruppen erstellen und beitreten",
+    "@syncplayAccessCreateAndJoinGroups": {},
+    "syncplayAccessJoinGroups": "Gruppen beitreten",
+    "@syncplayAccessJoinGroups": {},
+    "syncplayAccessNone": "Keine",
+    "@syncplayAccessNone": {},
+    "popularSeries": "Beliebte Serien",
+    "@popularSeries": {},
+    "sponsor": "Sponsor",
+    "@sponsor": {},
+    "sponsorMessage": "Wenn dir Fladder gefällt, würde ich mich sehr über eine Spende freuen. Diese trägt zur Weiterentwicklung und Verbesserung des Projektes bei. Vielen Dank für deine Unterstützung!",
+    "@sponsorMessage": {},
+    "min": "min",
+    "@min": {},
+    "max": "max",
+    "@max": {},
+    "contentRating": "Altersfreigabe",
+    "@contentRating": {},
+    "seerrRequestStatusPending": "Ausstehend",
+    "@seerrRequestStatusPending": {},
+    "seerrRequestStatusDeclined": "Abgelehnt",
+    "@seerrRequestStatusDeclined": {},
+    "seerrRequestStatusFailed": "Fehlgeschlagen",
+    "@seerrRequestStatusFailed": {},
+    "seerrRequestStatusCompleted": "Abgeschlossen",
+    "@seerrRequestStatusCompleted": {},
+    "seerrRequestStatusApproved": "Genehmigt",
+    "@seerrRequestStatusApproved": {},
+    "seerrMediaStatusProcessing": "Verarbeitung",
+    "@seerrMediaStatusProcessing": {},
+    "seerrMediaStatusPartiallyAvailable": "Teilweise verfügbar",
+    "@seerrMediaStatusPartiallyAvailable": {},
+    "seerrMediaStatusAvailable": "Verfügbar",
+    "@seerrMediaStatusAvailable": {},
+    "seerrMediaStatusDeleted": "Gelöscht",
+    "@seerrMediaStatusDeleted": {},
+    "manageRequest": "Antrag auf Verwalten",
+    "@manageRequest": {},
+    "requestAll": "Alle anfordern",
+    "@requestAll": {},
+    "seerrMediaStatusBlacklisted": "Blockliste",
+    "@seerrMediaStatusBlacklisted": {},
+    "openInSeerr": "In Seerr öffnen",
+    "@openInSeerr": {},
+    "openInSonarr": "In Sonarr öffnen",
+    "@openInSonarr": {},
+    "openInRadarr": "In Radarr öffnen",
+    "@openInRadarr": {},
+    "removeFromSonarr": "Von Sonarr entfernen",
+    "@removeFromSonarr": {},
+    "removeFromRadarr": "Von Radarr entfernen",
+    "@removeFromRadarr": {},
+    "markAllSeasonsAsAvailable": "Alle Staffeln als verfügbar markieren",
+    "@markAllSeasonsAsAvailable": {},
+    "markAsAvailable": "Als verfügbar markieren",
+    "@markAsAvailable": {},
+    "deleteData": "Daten löschen",
+    "@deleteData": {},
+    "removeSeriesFromSonarrConfirm": "Diese Serie von Sonarr entfernen? Dies wird alle Daten EINSCHLIEßLICH Dateien entfernen.",
+    "@removeSeriesFromSonarrConfirm": {},
+    "removeMovieFromRadarrConfirm": "Diesen Film von Radarr entfernen? Dies wird alle Daten EINSCHLIEßLICH Dateien entfernen.",
+    "@removeMovieFromRadarrConfirm": {},
+    "markAllSeasonsAsAvailableConfirm": "Alle Staffeln als verfügbar markieren?",
+    "@markAllSeasonsAsAvailableConfirm": {},
+    "markAsAvailableConfirm": "Als verfügbar markieren?",
+    "@markAsAvailableConfirm": {},
+    "markedAsAvailable": "Als Verfügbar markiert",
+    "@markedAsAvailable": {},
+    "deleteSeerrDataConfirm": "Alle Dateien von Seerr löschen? Diese Aktion kann nicht rückgängig gemacht werden.\nWenn die Daten noch in {service} vorhanden sind, werden diese eventuell erneut importiert.",
+    "@deleteSeerrDataConfirm": {
+        "description": "Confirmation message for deleting Seerr data",
+        "placeholders": {
+            "service": {
+                "type": "String",
+                "example": "Sonarr/Radarr"
+            }
+        }
+    },
+    "approve": "Genehmigen",
+    "@approve": {},
+    "decline": "Ablehnen",
+    "@decline": {},
+    "pendingRequests": "{count, plural, other{No pending requests} one{{count} pending request} two{{count} pending requests}}",
+    "@pendingRequests": {
+        "description": "pendingRequests",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "removedFromSonarr": "Von Sonarr entfernt",
+    "@removedFromSonarr": {},
+    "removedFromRadarr": "Von Radarr entfernt",
+    "@removedFromRadarr": {},
+    "dataDeleted": "Daten gelöscht",
+    "@dataDeleted": {},
+    "processing": "Verarbeitung",
+    "@processing": {}
 }

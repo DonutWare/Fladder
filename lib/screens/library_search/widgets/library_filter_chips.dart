@@ -13,6 +13,7 @@ import 'package:fladder/providers/library_search_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/shared/chips/category_chip.dart';
+import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/map_bool_helper.dart';
 import 'package:fladder/util/position_provider.dart';
@@ -47,7 +48,7 @@ class _LibraryFilterChipsState extends ConsumerState<LibraryFilterChips> {
           isSelected: true,
           icon: const Icon(IconsaxPlusBold.discover),
           label: Text(context.localized.discover),
-          onPressed: () => context.pushRoute(const SeerrSearchRoute()),
+          onPressed: () => context.pushRoute(SeerrSearchRoute(mode: SeerrSearchMode.search)),
         ),
       if (librarySearchResults.folderOverwrite.isEmpty)
         CategoryChip(
