@@ -111,7 +111,7 @@ enum SeerrSearchMode {
 
 typedef _SortValues = ({String movie, String tv});
 
-const String _tmdbImageBaseUrl = 'https://image.tmdb.org/t/p/w780';
+const String _tmdbImageBaseUrl = 'https://image.tmdb.org/t/p/original';
 const String _tmdbPosterBaseUrl = 'https://image.tmdb.org/t/p/w500';
 const String _tmdbProfileBaseUrl = 'https://image.tmdb.org/t/p/w185';
 

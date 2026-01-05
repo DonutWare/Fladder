@@ -18,7 +18,6 @@ class FladderImage extends ConsumerWidget {
   final AlignmentGeometry? alignment;
   final bool disableBlur;
   final bool blurOnly;
-  final int? decodeHeight;
   final bool cachedImage;
   const FladderImage({
     required this.image,
@@ -31,7 +30,6 @@ class FladderImage extends ConsumerWidget {
     this.alignment,
     this.disableBlur = false,
     this.blurOnly = false,
-    this.decodeHeight = 400,
     this.cachedImage = true,
     super.key,
   });
@@ -66,10 +64,7 @@ class FladderImage extends ConsumerWidget {
               placeholderFit: fit,
               alignment: alignment ?? Alignment.center,
               imageErrorBuilder: imageErrorBuilder,
-              image: ResizeImage(
-                imageProvider,
-                height: decodeHeight,
-              ),
+              image: imageProvider,
             )
         ],
       );

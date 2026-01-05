@@ -192,7 +192,6 @@ class EpisodePoster extends ConsumerWidget {
                         : ref.watch(clientSettingsProvider.select((value) => value.blurUpcomingEpisodes))
                             ? blur
                             : false,
-                    decodeHeight: 250,
                   ),
                 ),
               ),
