@@ -45,6 +45,8 @@
 * Keyboard shortcuts
 * Adaptive layout for all platforms
 * Next-up overview when watching a queue
+* Server management
+* Seerr/Jellyseerr integration
 * Platforms
   - Android + TV
   - Web + Docker
@@ -101,7 +103,7 @@ Web/Desktop [try out the web build!](https://DonutWare.github.io/Fladder)
 ## Planned Features
 
 * Music playback
-* And more???
+* [And more???](https://github.com/DonutWare/Fladder/discussions/categories/ideas)
 
 ## Download
 
