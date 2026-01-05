@@ -44,7 +44,7 @@ class MediaStreamInformation extends ConsumerWidget {
           ),
         if (mediaStream.videoStreams.isNotEmpty)
           _StreamOptionSelect(
-            label: Text(context.localized.video),
+            label: Text(context.localized.video(1)),
             current: (mediaStream.videoStreams.first).prettyName,
             itemBuilder: (context) => mediaStream.videoStreams
                 .map(
@@ -56,7 +56,7 @@ class MediaStreamInformation extends ConsumerWidget {
           ),
         if (mediaStream.audioStreams.isNotEmpty)
           _StreamOptionSelect(
-            label: Text(context.localized.audio),
+            label: Text(context.localized.audio(1)),
             current: mediaStream.currentAudioStream?.displayTitle ?? "",
             itemBuilder: (context) => [AudioStreamModel.no(), ...mediaStream.audioStreams]
                 .map(

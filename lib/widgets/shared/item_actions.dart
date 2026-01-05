@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:collection/collection.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 
@@ -39,11 +40,15 @@ class ItemActionButton extends ItemAction {
   final Widget? icon;
   final Widget? label;
   final FutureOr<void> Function()? action;
+  final Color? backgroundColor;
+  final Color? foregroundColor;
   ItemActionButton({
     this.selected = false,
     this.icon,
     this.label,
     this.action,
+    this.backgroundColor,
+    this.foregroundColor,
   });
 
   ItemActionButton copyWith({
@@ -51,17 +56,42 @@ class ItemActionButton extends ItemAction {
     Widget? icon,
     Widget? label,
     Future<void> Function()? action,
+    Color? backgroundColor,
+    Color? foregroundColor,
   }) {
     return ItemActionButton(
       selected: selected ?? this.selected,
       icon: icon ?? this.icon,
       label: label ?? this.label,
       action: action ?? this.action,
+      backgroundColor: backgroundColor ?? this.backgroundColor,
+      foregroundColor: foregroundColor ?? this.foregroundColor,
     );
   }
 
+  Color _resolveForegroundColor(BuildContext context) {
+    final theme = Theme.of(context);
+    final baseColor =
+        foregroundColor ?? (selected ? theme.colorScheme.onPrimaryContainer : theme.colorScheme.onSurface);
+    return baseColor.withAlpha(action == null ? 75 : 255);
+  }
+
+  Color _resolveBackgroundColor(BuildContext context) {
+    final theme = Theme.of(context);
+    return backgroundColor ?? (selected ? theme.colorScheme.primaryContainer : Colors.transparent);
+  }
+
   @override
-  MenuItemButton toMenuItemButton() => MenuItemButton(leadingIcon: icon, onPressed: action, child: label);
+  MenuItemButton toMenuItemButton() => MenuItemButton(
+        leadingIcon: icon,
+        onPressed: action,
+        style: ButtonStyle(
+          backgroundColor: backgroundColor == null ? null : WidgetStatePropertyAll(backgroundColor),
+          foregroundColor: foregroundColor == null ? null : WidgetStatePropertyAll(foregroundColor),
+          iconColor: foregroundColor == null ? null : WidgetStatePropertyAll(foregroundColor),
+        ),
+        child: label,
+      );
 
   @override
   Widget toButton() => IconButton(onPressed: action, icon: icon ?? const SizedBox.shrink());
@@ -70,25 +100,38 @@ class ItemActionButton extends ItemAction {
   PopupMenuItem toPopupMenuItem({bool useIcons = false}) {
     return PopupMenuItem(
       onTap: action,
-      child: useIcons
-          ? Builder(builder: (context) {
-              return Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Theme(
-                  data: ThemeData(
-                    iconTheme: IconThemeData(color: Theme.of(context).colorScheme.onSurface),
-                  ),
+      enabled: action != null,
+      child: Builder(
+        builder: (context) {
+          final resolvedForegroundColor = _resolveForegroundColor(context);
+
+          final child = useIcons
+              ? Padding(
+                  padding: const EdgeInsets.all(4.0),
                   child: Row(
                     children: [
                       if (icon != null) icon!,
                       const SizedBox(width: 8),
-                      if (label != null) Flexible(child: label!)
+                      if (label != null) Flexible(child: label!),
                     ],
                   ),
-                ),
-              );
-            })
-          : label,
+                )
+              : Row(
+                  children: [
+                    if (label != null) Expanded(child: label!),
+                    if (selected) Icon(IconsaxPlusBold.tick_square, size: 24, color: resolvedForegroundColor),
+                  ],
+                );
+
+          return IconTheme(
+            data: IconThemeData(color: resolvedForegroundColor),
+            child: DefaultTextStyle.merge(
+              style: TextStyle(color: resolvedForegroundColor),
+              child: child,
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -99,14 +142,12 @@ class ItemActionButton extends ItemAction {
 
   @override
   Widget toListItem(BuildContext context, {bool useIcons = false, bool shouldPop = true}) {
-    final foregroundColor =
-        selected ? Theme.of(context).colorScheme.onPrimaryContainer : Theme.of(context).colorScheme.onSurface;
+    final foregroundColor = _resolveForegroundColor(context);
+    final background = _resolveBackgroundColor(context);
     return ElevatedButton(
       autofocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad && selected,
       style: ButtonStyle(
-        backgroundColor: WidgetStatePropertyAll(
-          selected ? Theme.of(context).colorScheme.primaryContainer : Colors.transparent,
-        ),
+        backgroundColor: WidgetStatePropertyAll(background),
         padding: const WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 12)),
         minimumSize: const WidgetStatePropertyAll(Size(50, 50)),
         elevation: const WidgetStatePropertyAll(0),
@@ -122,21 +163,22 @@ class ItemActionButton extends ItemAction {
       child: useIcons
           ? Builder(
               builder: (context) {
-                return Theme(
-                  data: ThemeData(
-                    iconTheme: IconThemeData(color: foregroundColor),
-                  ),
+                return IconTheme(
+                  data: IconThemeData(color: foregroundColor),
                   child: Row(
                     children: [
                       if (icon != null) icon!,
                       const SizedBox(width: 8),
-                      if (label != null) Flexible(child: label!)
+                      if (label != null) Flexible(child: label!),
                     ],
                   ),
                 );
               },
             )
-          : label,
+          : DefaultTextStyle.merge(
+              style: TextStyle(color: foregroundColor),
+              child: label ?? const SizedBox.shrink(),
+            ),
     );
   }
 }

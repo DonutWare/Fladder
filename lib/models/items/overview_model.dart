@@ -27,6 +27,7 @@ class OverviewModel with OverviewModelMappable {
   final List<GenreItems> genreItems;
   final List<String> tags;
   final List<Person> people;
+  final String? seerrUrl;
   const OverviewModel({
     this.runTime,
     this.summary = "",
@@ -44,6 +45,7 @@ class OverviewModel with OverviewModelMappable {
     this.genreItems = const [],
     this.tags = const [],
     this.people = const [],
+    this.seerrUrl,
   });
 
   List<Person> get directors {

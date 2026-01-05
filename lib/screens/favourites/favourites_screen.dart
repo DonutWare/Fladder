@@ -32,7 +32,7 @@ class FavouritesScreen extends ConsumerWidget {
 
     return PullToRefresh(
       onRefresh: () async => await ref.read(favouritesProvider.notifier).fetchFavourites(),
-      child: NestedScaffold(
+      child: (context) => NestedScaffold(
         background: BackgroundImage(items: favourites.favourites.values.expand((element) => element).toList()),
         body: PinchPosterZoom(
           scaleDifference: (difference) => ref.read(clientSettingsProvider.notifier).addPosterSize(difference / 2),

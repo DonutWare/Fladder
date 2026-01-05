@@ -4,6 +4,8 @@ class SvgUtils {
   static List<String> allSvgs = [
     'icons/fladder_icon.svg',
     'icons/fladder_icon_outline.svg',
+    'icons/tomato.svg',
+    'icons/popcorn_bucket.svg'
   ];
 
   static Future<void> preCacheSVGs() async {

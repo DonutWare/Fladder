@@ -7,6 +7,7 @@ import 'package:fladder/screens/login/lock_screen.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/navigation_body.dart';
 
 const settingsPageRoute = "settings";
+const controlPanelPageRoute = "control-panel";
 
 const fullScreenRoutes = {
   PhotoViewerRoute.name,
@@ -42,6 +43,11 @@ class AutoRouter extends RootStackRouter {
           path: settingsPageRoute,
           children: _settingsChildren,
         ),
+        AutoRoute(
+          page: ControlPanelRoute.page,
+          path: controlPanelPageRoute,
+          children: _controlPanelRoutes,
+        ),
       ],
     ),
     AutoRoute(page: LockRoute.page, path: '/locked'),
@@ -54,6 +60,10 @@ final List<AutoRoute> homeRoutes = [
     page: DashboardRoute.page,
     initial: true,
     path: 'dashboard',
+  ),
+  AutoRoute(
+    page: SeerrRoute.page,
+    path: 'seerr',
   ),
   AutoRoute(
     page: FavouritesRoute.page,
@@ -73,6 +83,8 @@ final List<AutoRoute> detailsRoutes = [
   AutoRoute(page: DetailsRoute.page, path: 'details'),
   AutoRoute(page: PhotoViewerRoute.page, path: "album"),
   AutoRoute(page: LibrarySearchRoute.page, path: 'library'),
+  AutoRoute(page: SeerrSearchRoute.page, path: 'seerr-search'),
+  AutoRoute(page: SeerrDetailsRoute.page, path: 'seerr/:mediaType/:tmdbId'),
 ];
 
 final List<AutoRoute> _defaultRoutes = [
@@ -82,10 +94,20 @@ final List<AutoRoute> _defaultRoutes = [
 
 final List<AutoRoute> _settingsChildren = [
   AutoRoute(page: SettingsSelectionRoute.page, path: 'list'),
-  AutoRoute(page: ClientSettingsRoute.page, path: 'client'),
-  AutoRoute(page: ProfileSettingsRoute.page, path: 'security'),
-  AutoRoute(page: PlayerSettingsRoute.page, path: 'player'),
+  AutoRoute(page: ClientSettingsRoute.page, path: 'client', maintainState: false),
+  AutoRoute(page: ProfileSettingsRoute.page, path: 'security', maintainState: false),
+  AutoRoute(page: PlayerSettingsRoute.page, path: 'player', maintainState: false),
   AutoRoute(page: AboutSettingsRoute.page, path: 'about'),
+];
+
+final List<AutoRoute> _controlPanelRoutes = [
+  AutoRoute(page: ControlPanelSelectionRoute.page, path: 'list'),
+  AutoRoute(page: ControlDashboardRoute.page, path: 'dashboard', maintainState: false),
+  AutoRoute(page: ControlActiveTasksRoute.page, path: 'active-tasks', maintainState: false),
+  AutoRoute(page: ControlServerRoute.page, path: 'server-settings', maintainState: false),
+  AutoRoute(page: ControlUsersRoute.page, path: 'user-management', maintainState: false),
+  AutoRoute(page: ControlUserEditRoute.page, path: 'edit-user', maintainState: false),
+  AutoRoute(page: ControlLibrariesRoute.page, path: 'library-management', maintainState: false),
 ];
 
 class LockScreenGuard extends AutoRouteGuard {

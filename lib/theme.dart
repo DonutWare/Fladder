@@ -61,6 +61,11 @@ class FladderTheme {
       sliderTheme: SliderThemeData(
         trackHeight: 8,
         thumbColor: colorScheme?.onSurface,
+        valueIndicatorColor: colorScheme?.primaryContainer,
+        valueIndicatorShape: const PaddleSliderValueIndicatorShape(),
+        valueIndicatorTextStyle: textTheme.bodyMedium?.copyWith(
+          color: colorScheme?.onPrimaryContainer,
+        ),
       ),
       cardTheme: CardThemeData(
         elevation: 3,

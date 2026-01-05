@@ -44,6 +44,19 @@ class SeriesModelMapper extends SubClassMapperBase<SeriesModel> {
   static List<ItemBaseModel> _$related(SeriesModel v) => v.related;
   static const Field<SeriesModel, List<ItemBaseModel>> _f$related =
       Field('related', _$related, opt: true, def: const []);
+  static List<SeerrDashboardPosterModel> _$seerrRelated(SeriesModel v) =>
+      v.seerrRelated;
+  static const Field<SeriesModel, List<SeerrDashboardPosterModel>>
+      _f$seerrRelated =
+      Field('seerrRelated', _$seerrRelated, opt: true, def: const []);
+  static List<SeerrDashboardPosterModel> _$seerrRecommended(SeriesModel v) =>
+      v.seerrRecommended;
+  static const Field<SeriesModel, List<SeerrDashboardPosterModel>>
+      _f$seerrRecommended =
+      Field('seerrRecommended', _$seerrRecommended, opt: true, def: const []);
+  static Map<String, dynamic>? _$providerIds(SeriesModel v) => v.providerIds;
+  static const Field<SeriesModel, Map<String, dynamic>> _f$providerIds =
+      Field('providerIds', _$providerIds, opt: true);
   static String _$name(SeriesModel v) => v.name;
   static const Field<SeriesModel, String> _f$name = Field('name', _$name);
   static String _$id(SeriesModel v) => v.id;
@@ -87,6 +100,9 @@ class SeriesModelMapper extends SubClassMapperBase<SeriesModel> {
     #sortName: _f$sortName,
     #status: _f$status,
     #related: _f$related,
+    #seerrRelated: _f$seerrRelated,
+    #seerrRecommended: _f$seerrRecommended,
+    #providerIds: _f$providerIds,
     #name: _f$name,
     #id: _f$id,
     #overview: _f$overview,
@@ -119,6 +135,9 @@ class SeriesModelMapper extends SubClassMapperBase<SeriesModel> {
         sortName: data.dec(_f$sortName),
         status: data.dec(_f$status),
         related: data.dec(_f$related),
+        seerrRelated: data.dec(_f$seerrRelated),
+        seerrRecommended: data.dec(_f$seerrRecommended),
+        providerIds: data.dec(_f$providerIds),
         name: data.dec(_f$name),
         id: data.dec(_f$id),
         overview: data.dec(_f$overview),
@@ -158,6 +177,18 @@ abstract class SeriesModelCopyWith<$R, $In extends SeriesModel, $Out>
       SeasonModelCopyWith<$R, SeasonModel, SeasonModel>>? get seasons;
   ListCopyWith<$R, ItemBaseModel,
       ItemBaseModelCopyWith<$R, ItemBaseModel, ItemBaseModel>> get related;
+  ListCopyWith<
+      $R,
+      SeerrDashboardPosterModel,
+      ObjectCopyWith<$R, SeerrDashboardPosterModel,
+          SeerrDashboardPosterModel>> get seerrRelated;
+  ListCopyWith<
+      $R,
+      SeerrDashboardPosterModel,
+      ObjectCopyWith<$R, SeerrDashboardPosterModel,
+          SeerrDashboardPosterModel>> get seerrRecommended;
+  MapCopyWith<$R, String, dynamic, ObjectCopyWith<$R, dynamic, dynamic>>?
+      get providerIds;
   @override
   OverviewModelCopyWith<$R, OverviewModel, OverviewModel> get overview;
   @override
@@ -170,6 +201,9 @@ abstract class SeriesModelCopyWith<$R, $In extends SeriesModel, $Out>
       String? sortName,
       String? status,
       List<ItemBaseModel>? related,
+      List<SeerrDashboardPosterModel>? seerrRelated,
+      List<SeerrDashboardPosterModel>? seerrRecommended,
+      Map<String, dynamic>? providerIds,
       String? name,
       String? id,
       OverviewModel? overview,
@@ -213,6 +247,32 @@ class _SeriesModelCopyWithImpl<$R, $Out>
       get related => ListCopyWith($value.related,
           (v, t) => v.copyWith.$chain(t), (v) => call(related: v));
   @override
+  ListCopyWith<
+      $R,
+      SeerrDashboardPosterModel,
+      ObjectCopyWith<$R, SeerrDashboardPosterModel,
+          SeerrDashboardPosterModel>> get seerrRelated => ListCopyWith(
+      $value.seerrRelated,
+      (v, t) => ObjectCopyWith(v, $identity, t),
+      (v) => call(seerrRelated: v));
+  @override
+  ListCopyWith<
+      $R,
+      SeerrDashboardPosterModel,
+      ObjectCopyWith<$R, SeerrDashboardPosterModel,
+          SeerrDashboardPosterModel>> get seerrRecommended => ListCopyWith(
+      $value.seerrRecommended,
+      (v, t) => ObjectCopyWith(v, $identity, t),
+      (v) => call(seerrRecommended: v));
+  @override
+  MapCopyWith<$R, String, dynamic, ObjectCopyWith<$R, dynamic, dynamic>>?
+      get providerIds => $value.providerIds != null
+          ? MapCopyWith(
+              $value.providerIds!,
+              (v, t) => ObjectCopyWith(v, $identity, t),
+              (v) => call(providerIds: v))
+          : null;
+  @override
   OverviewModelCopyWith<$R, OverviewModel, OverviewModel> get overview =>
       $value.overview.copyWith.$chain((v) => call(overview: v));
   @override
@@ -226,6 +286,9 @@ class _SeriesModelCopyWithImpl<$R, $Out>
           String? sortName,
           String? status,
           List<ItemBaseModel>? related,
+          List<SeerrDashboardPosterModel>? seerrRelated,
+          List<SeerrDashboardPosterModel>? seerrRecommended,
+          Object? providerIds = $none,
           String? name,
           String? id,
           OverviewModel? overview,
@@ -245,6 +308,9 @@ class _SeriesModelCopyWithImpl<$R, $Out>
         if (sortName != null) #sortName: sortName,
         if (status != null) #status: status,
         if (related != null) #related: related,
+        if (seerrRelated != null) #seerrRelated: seerrRelated,
+        if (seerrRecommended != null) #seerrRecommended: seerrRecommended,
+        if (providerIds != $none) #providerIds: providerIds,
         if (name != null) #name: name,
         if (id != null) #id: id,
         if (overview != null) #overview: overview,
@@ -267,6 +333,10 @@ class _SeriesModelCopyWithImpl<$R, $Out>
       sortName: data.get(#sortName, or: $value.sortName),
       status: data.get(#status, or: $value.status),
       related: data.get(#related, or: $value.related),
+      seerrRelated: data.get(#seerrRelated, or: $value.seerrRelated),
+      seerrRecommended:
+          data.get(#seerrRecommended, or: $value.seerrRecommended),
+      providerIds: data.get(#providerIds, or: $value.providerIds),
       name: data.get(#name, or: $value.name),
       id: data.get(#id, or: $value.id),
       overview: data.get(#overview, or: $value.overview),
