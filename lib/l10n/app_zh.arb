@@ -2308,5 +2308,7 @@
         }
     },
     "processing": "进程",
-    "@processing": {}
+    "@processing": {},
+    "seerrDetails": "Seerr 详情",
+    "@seerrDetails": {}
 }
