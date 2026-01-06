@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
+import 'package:intl/intl.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/providers/items/episode_details_provider.dart';
@@ -69,7 +70,7 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
       ),
       onRefresh: () async => await ref.read(providerInstance.notifier).fetchDetails(widget.item),
       backDrops: details.episode?.images ?? details.series?.images,
-      content: (padding) => seasonDetails != null && episodeDetails != null
+      content: (context, padding) => seasonDetails != null && episodeDetails != null
           ? Padding(
               padding: const EdgeInsets.only(bottom: 64),
               child: Column(
@@ -79,7 +80,7 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                   OverviewHeader(
                     name: details.series?.name ?? "",
                     image: seasonDetails.images,
-                    playButton: episodeDetails.playAble
+                    mainButton: episodeDetails.playAble
                         ? MediaPlayButton(
                             item: episodeDetails,
                             onPressed: (restart) async {
@@ -148,7 +149,9 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                     subTitle: details.episode?.detailedName(context),
                     originalTitle: details.series?.originalTitle,
                     onTitleClicked: () => details.series?.navigateTo(context),
-                    productionYear: details.series?.overview.productionYear,
+                    productionYear: details.episode?.dateAired != null
+                        ? DateFormat.yMMMEd().format(details.episode!.dateAired!)
+                        : null,
                     runTime: details.episode?.overview.runTime,
                     studios: details.series?.overview.studios ?? [],
                     genres: details.series?.overview.genreItems ?? [],

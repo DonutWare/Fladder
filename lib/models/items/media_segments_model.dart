@@ -66,6 +66,7 @@ const Map<MediaSegmentType, SegmentSkip> defaultSegmentSkipValues = {
 enum SegmentSkip {
   none,
   askToSkip,
+  skipOnce,
   skip;
 
   const SegmentSkip();
@@ -73,6 +74,7 @@ enum SegmentSkip {
   String label(BuildContext context) => switch (this) {
         SegmentSkip.none => context.localized.segmentActionNone,
         SegmentSkip.askToSkip => context.localized.segmentActionAskToSkip,
+        SegmentSkip.skipOnce => context.localized.segmentActionSkipOnce,
         SegmentSkip.skip => context.localized.segmentActionSkip,
       };
 }

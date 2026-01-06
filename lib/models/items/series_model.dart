@@ -10,6 +10,7 @@ import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/overview_model.dart';
 import 'package:fladder/models/items/season_model.dart';
+import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/screens/details_screens/series_detail_screen.dart';
 
 part 'series_model.mapper.dart';
@@ -22,6 +23,9 @@ class SeriesModel extends ItemBaseModel with SeriesModelMappable {
   final String sortName;
   final String status;
   final List<ItemBaseModel> related;
+  final List<SeerrDashboardPosterModel> seerrRelated;
+  final List<SeerrDashboardPosterModel> seerrRecommended;
+  final Map<String, dynamic>? providerIds;
   const SeriesModel({
     this.availableEpisodes,
     this.seasons,
@@ -29,6 +33,9 @@ class SeriesModel extends ItemBaseModel with SeriesModelMappable {
     required this.sortName,
     required this.status,
     this.related = const [],
+    this.seerrRelated = const [],
+    this.seerrRecommended = const [],
+    this.providerIds,
     required super.name,
     required super.id,
     required super.overview,
@@ -95,5 +102,8 @@ class SeriesModel extends ItemBaseModel with SeriesModelMappable {
         canDelete: item.canDelete,
         canDownload: item.canDownload,
         status: item.status ?? "Continuing",
+        seerrRelated: const [],
+        seerrRecommended: const [],
+        providerIds: item.providerIds,
       );
 }

@@ -1,11 +1,13 @@
 import 'dart:convert';
+
 import 'package:chopper/chopper.dart';
-import 'package:fladder/models/item_base_model.dart';
-import 'package:fladder/models/item_editing_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
+import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/item_editing_model.dart';
 import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/screens/metadata/edit_item.dart';
 
 final editItemProvider =
     StateNotifierProvider.autoDispose<EditItemNotifier, ItemEditingModel>((ref) => EditItemNotifier(ref));
@@ -98,37 +100,47 @@ class EditItemNotifier extends StateNotifier<ItemEditingModel> {
     );
   }
 
-  Future<Response<ItemBaseModel>?> saveInformation() async {
+  Future<Response<ItemBaseModel>?> saveInformation(Set<MetaEditOptions> options) async {
     final currentItem = state.item;
     if (currentItem == null) return null;
     final jsonBody = state.editedJson;
     if (jsonBody == null) return null;
     state = state.copyWith(saving: true);
-    final response = await api.itemsItemIdPost(
-      itemId: currentItem.id,
-      body: BaseItemDto.fromJson(jsonBody),
-    );
-    await state.primary.setImage(
-      ImageType.primary,
-      uploadData: uploadImage,
-      uploadUrl: _setImage,
-    );
-    await state.logo.setImage(
-      ImageType.logo,
-      uploadData: uploadImage,
-      uploadUrl: _setImage,
-    );
+    Response<dynamic>? response;
+    if (options.contains(MetaEditOptions.general)) {
+      response = await api.itemsItemIdPost(
+        itemId: currentItem.id,
+        body: BaseItemDto.fromJson(jsonBody),
+      );
+    }
 
-    await state.backdrop.setImage(
-      ImageType.backdrop,
-      uploadData: uploadImage,
-      uploadUrl: _setImage,
-    );
+    if (options.contains(MetaEditOptions.primary)) {
+      await state.primary.setImage(
+        ImageType.primary,
+        uploadData: uploadImage,
+        uploadUrl: _setImage,
+      );
+    }
+    if (options.contains(MetaEditOptions.logo)) {
+      await state.logo.setImage(
+        ImageType.logo,
+        uploadData: uploadImage,
+        uploadUrl: _setImage,
+      );
+    }
+
+    if (options.contains(MetaEditOptions.backdrops)) {
+      await state.backdrop.setImage(
+        ImageType.backdrop,
+        uploadData: uploadImage,
+        uploadUrl: _setImage,
+      );
+    }
 
     final newItem = await api.usersUserIdItemsItemIdGet(itemId: currentItem.id);
 
     state = state.copyWith(saving: false);
-    return response.copyWith(body: newItem.body);
+    return response?.copyWith(body: newItem.body);
   }
 
   Future<Response<dynamic>?> uploadImage(EditingImageModel? imageModel) async {

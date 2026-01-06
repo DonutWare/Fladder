@@ -9,6 +9,12 @@ extension DurationExtensions on Duration {
   }
 }
 
+extension IntExtension on int {
+  Duration get fromRuntimeTicks {
+    return Duration(milliseconds: this ~/ 10000);
+  }
+}
+
 extension BaseItemDtoExtension on dto.BaseItemDto {
   Duration? get runTimeDuration {
     if (runTimeTicks == null) return null;

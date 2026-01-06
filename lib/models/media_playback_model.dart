@@ -15,6 +15,7 @@ class MediaPlaybackModel {
   final bool errorPlaying;
   final bool buffering;
   final bool fullScreen;
+  final Set<String> skippedSegments;
   MediaPlaybackModel({
     this.state = VideoPlayerState.disposed,
     this.playing = false,
@@ -26,6 +27,7 @@ class MediaPlaybackModel {
     this.errorPlaying = false,
     this.buffering = false,
     this.fullScreen = false,
+    this.skippedSegments = const {},
   });
 
   MediaPlaybackModel copyWith({
@@ -39,6 +41,7 @@ class MediaPlaybackModel {
     bool? errorPlaying,
     bool? buffering,
     bool? fullScreen,
+    Set<String>? skippedSegments,
   }) {
     return MediaPlaybackModel(
       state: state ?? this.state,
@@ -51,6 +54,7 @@ class MediaPlaybackModel {
       errorPlaying: errorPlaying ?? this.errorPlaying,
       buffering: buffering ?? this.buffering,
       fullScreen: fullScreen ?? this.fullScreen,
+      skippedSegments: skippedSegments ?? this.skippedSegments,
     );
   }
 }

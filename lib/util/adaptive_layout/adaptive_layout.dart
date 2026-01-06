@@ -189,6 +189,7 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
   Widget build(BuildContext context) {
     final arguments = ref.watch(argumentsStateProvider);
     final htpcMode = arguments.htpcMode;
+    final isAndroidTV = arguments.leanBackMode;
     final acceptedLayouts =
         htpcMode ? {LayoutMode.dual} : ref.watch(homeSettingsProvider.select((value) => value.screenLayouts));
     final acceptedViewSizes =
@@ -213,6 +214,8 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
 
     final mediaQuery = MediaQuery.of(context);
 
+    final useAdditionalPadding = isDesktop || kIsWeb || isAndroidTV;
+
     return ValueListenableBuilder(
       valueListenable: isKeyboardOpen,
       builder: (context, value, child) {
@@ -222,10 +225,12 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
           child: (input) => MediaQuery(
             data: mediaQuery.copyWith(
               navigationMode: input == InputDevice.dPad ? NavigationMode.directional : NavigationMode.traditional,
-              padding: (isDesktop || kIsWeb
-                  ? const EdgeInsets.only(top: defaultTitleBarHeight, bottom: 16)
+              padding: (useAdditionalPadding
+                  ? EdgeInsets.only(top: isAndroidTV ? 16 : defaultTitleBarHeight, bottom: 16)
                   : mediaQuery.padding),
-              viewPadding: isDesktop || kIsWeb ? const EdgeInsets.only(top: defaultTitleBarHeight, bottom: 16) : null,
+              viewPadding: useAdditionalPadding
+                  ? EdgeInsets.only(top: isAndroidTV ? 16 : defaultTitleBarHeight, bottom: 16)
+                  : null,
             ),
             child: AdaptiveLayout(
               data: currentLayout.copyWith(

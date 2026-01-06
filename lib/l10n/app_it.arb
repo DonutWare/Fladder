@@ -66,7 +66,7 @@
     "@close": {},
     "code": "Codice",
     "@code": {},
-    "collectionFolder": "Cartella della collezione",
+    "collectionFolder": "Cartella delle collezioni",
     "@collectionFolder": {},
     "color": "Colore",
     "@color": {},
@@ -284,9 +284,9 @@
     "@mediaTypeBook": {},
     "mediaTypeBoxset": "Cofanetto",
     "@mediaTypeBoxset": {},
-    "mediaTypeEpisode": "Episodio",
+    "mediaTypeEpisode": "Episodi",
     "@mediaTypeEpisode": {},
-    "mediaTypeFolder": "Cartella",
+    "mediaTypeFolder": "Cartelle",
     "@mediaTypeFolder": {},
     "mediaTypeMovie": "Film",
     "@mediaTypeMovie": {},
@@ -1016,7 +1016,7 @@
     "@noVideoPlayerOptions": {},
     "mdkExperimental": "L'MDK è ancora in fase sperimentale",
     "@mdkExperimental": {},
-    "skipButtonLabel": "(S)alta {segment}",
+    "skipButtonLabel": "Salta {segment}",
     "@skipButtonLabel": {
         "placeholders": {
             "segment": {
@@ -1161,5 +1161,351 @@
     "enableBackgroundPostersTitle": "Abilita poster in background",
     "@enableBackgroundPostersTitle": {},
     "enableBackgroundPostersDesc": "Mostra poster casuali nelle schermate applicabili",
-    "@enableBackgroundPostersDesc": {}
+    "@enableBackgroundPostersDesc": {},
+    "episode": "{count, plural, other{Episodi} one{Episodio} }",
+    "@episode": {
+        "description": "episode",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "filter": "{count, plural, other{Filtri} one{Filtro}}",
+    "@filter": {
+        "description": "filter",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "genre": "{count, plural, other{Generi} one{Genere}}",
+    "@genre": {
+        "description": "genre",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "label": "{count, plural, other{Etichette} one{Etichetta}}",
+    "@label": {
+        "description": "label",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "library": "{count, plural, other{Librerie} one{Libreria}}",
+    "@library": {
+        "description": "Plural",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "minutes": "{count, plural, other{Minuti} one{Minuto} }",
+    "@minutes": {
+        "description": "minute",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "rating": "{count, plural, other{Valutazioni} one{Valutazione}}",
+    "@rating": {
+        "description": "rating",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "season": "{count, plural, other{Stagioni} one{Stagione} }",
+    "@season": {
+        "description": "season",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "seconds": "{count, plural, other{Secondi} one{Secondo}}",
+    "@seconds": {
+        "description": "second",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "settingsClientTitle": "Fladder",
+    "@settingsClientTitle": {},
+    "studio": "{count, plural, other{Studi} one{Studio}}",
+    "@studio": {
+        "description": "studio",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "type": "{count, plural, other{Tipi} one{Tipo}}",
+    "@type": {
+        "description": "type",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "writer": "{count, plural, other{Scrittore} two{Scrittori}}",
+    "@writer": {
+        "description": "writer",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "year": "{count, plural, other{Anni} one{Anno}}",
+    "@year": {
+        "description": "year",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "television": "Televisione",
+    "@television": {},
+    "exitFladderDesc": "Sei sicuro di voler chiudere Fladder?",
+    "@exitFladderDesc": {},
+    "notificationDownloadingDownloading": "Scaricamento",
+    "@notificationDownloadingDownloading": {},
+    "notificationDownloadingPaused": "Scaricamento in pausa",
+    "@notificationDownloadingPaused": {},
+    "notificationDownloadingFinished": "Scaricamento completato",
+    "@notificationDownloadingFinished": {},
+    "syncAllItemsTitle": "Sincronizza tutti gli elementi da {itemName}?",
+    "@syncAllItemsTitle": {
+        "description": "syncAllItemsFrom",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncDeleteAllItemsTitle": "Cancella tutti gli elementi sincronizzati da {itemName}?",
+    "@syncDeleteAllItemsTitle": {
+        "description": "syncDeleteAllitemsFrom",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncResumeAll": "Riprendi tutti",
+    "@syncResumeAll": {},
+    "syncDeleteAll": "Cancella tutti i file",
+    "@syncDeleteAll": {},
+    "syncAllFiles": "Sincronizza tutti i file",
+    "@syncAllFiles": {},
+    "playPause": "Riproduci/Pausa",
+    "@playPause": {},
+    "seekForward": "Avanza",
+    "@seekForward": {},
+    "mute": "Muta",
+    "@mute": {},
+    "volumeUp": "Aumenta volume",
+    "@volumeUp": {},
+    "volumeDown": "Diminuisci volume",
+    "@volumeDown": {},
+    "speedUp": "Incrementa velocità",
+    "@speedUp": {},
+    "speedDown": "Diminuisci velocità",
+    "@speedDown": {},
+    "nextVideo": "Video successivo",
+    "@nextVideo": {},
+    "nextChapter": "Capitolo successivo",
+    "@nextChapter": {},
+    "fullScreen": "Schermo intero",
+    "@fullScreen": {},
+    "exit": "Esci",
+    "@exit": {},
+    "shortCutAlreadyAssigned": "Shortcut '{hotKey}' già assegnato",
+    "@shortCutAlreadyAssigned": {
+        "placeholders": {
+            "hotKey": {
+                "type": "String"
+            }
+        }
+    },
+    "blurred": "Sfocato",
+    "@blurred": {},
+    "volumeIndicator": "Volume: {volume}",
+    "@volumeIndicator": {
+        "placeholders": {
+            "volume": {
+                "type": "int"
+            }
+        }
+    },
+    "speedIndicator": "Velocità di riproduzione: {speed}",
+    "@speedIndicator": {
+        "placeholders": {
+            "speed": {
+                "type": "double"
+            }
+        }
+    },
+    "quickConnectLoginUsingCode": "Usa quick connect",
+    "@quickConnectLoginUsingCode": {},
+    "quickConnectEnterCodeDescription": "Inserisci il codice sottostante per connetterti",
+    "@quickConnectEnterCodeDescription": {},
+    "showMore": "Mostra di più",
+    "@showMore": {},
+    "clientSettingsUseSystemIMETitle": "Usa la tastiera di sistema",
+    "@clientSettingsUseSystemIMETitle": {},
+    "nextUpInCount": "Prossimo in {seconds}",
+    "@nextUpInCount": {
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "formattedTime": "{time}",
+    "@formattedTime": {
+        "description": "Formatted time",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            }
+        }
+    },
+    "openImeKeyboard": "Apri tastiera IME",
+    "@openImeKeyboard": {},
+    "screensaverDvd": "DVD",
+    "@screensaverDvd": {},
+    "screensaverLogo": "Logo",
+    "@screensaverLogo": {},
+    "screensaverTime": "Tempo",
+    "@screensaverTime": {},
+    "screensaverBlack": "Nero",
+    "@screensaverBlack": {},
+    "playerSettingsScreensaverTitle": "Salva schermo",
+    "@playerSettingsScreensaverTitle": {},
+    "playerSettingsScreensaverDesc": "Seleziona un salvaschermo che verrà mostrato dopo un tempo di inattività",
+    "@playerSettingsScreensaverDesc": {},
+    "settingsLocalUrlTitle": "URL del server locale",
+    "@settingsLocalUrlTitle": {},
+    "settingsLocalUrlSetTitle": "Configura URL locale",
+    "@settingsLocalUrlSetTitle": {},
+    "settingsLocalUrlSetDesc": "Specifica l'indirizzo del server locale. Fladder userà automaticamente questo URL quando il tuo dispositivo è nella stessa rete.",
+    "@settingsLocalUrlSetDesc": {},
+    "regenerateTrickplayImages": "Rigenera anteprime",
+    "@regenerateTrickplayImages": {},
+    "actor": "{count, plural, other{Attori} one{Attore}}",
+    "@actor": {
+        "description": "actor",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "chapter": "{count, plural, other{Capitoli} one{Capitolo}}",
+    "@chapter": {
+        "description": "chapter",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "director": "{count, plural, other{Direttore} two{Direttori}}",
+    "@director": {
+        "description": "director",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "notificationDownloadingError": "Errore di scaricamento",
+    "@notificationDownloadingError": {},
+    "tag": "{count, plural, one{Etichetta} other{Etichette}}",
+    "@tag": {
+        "description": "tag",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "prevChapter": "Capitolo precedente",
+    "@prevChapter": {},
+    "prevVideo": "Video precedente",
+    "@prevVideo": {},
+    "settingsClientDesc": "General, Tempo scaduto, Layout, Tema",
+    "@settingsClientDesc": {},
+    "guestActor": "{count, plural, other{Attori ospiti} one{Attore ospite}}",
+    "@guestActor": {
+        "description": "Guest actors",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "syncPauseAll": "Pausa tutti",
+    "@syncPauseAll": {},
+    "syncStopAll": "Ferma tutti",
+    "@syncStopAll": {},
+    "usePostersForLibraryIconsTitle": "Usa i poster come icone nella libreria",
+    "@usePostersForLibraryIconsTitle": {},
+    "usePostersForLibraryIconsDesc": "Usa i poster al posto delle icone nella libreria",
+    "@usePostersForLibraryIconsDesc": {},
+    "offline": "Offline",
+    "@offline": {},
+    "shortCuts": "Scorciatoie",
+    "@shortCuts": {},
+    "keyboardShortCuts": "Scorciatoie da tastiera",
+    "@keyboardShortCuts": {},
+    "screenshotTaken": "Screenshot salvato!",
+    "@screenshotTaken": {},
+    "takeScreenshot": "Fai uno screenshot",
+    "@takeScreenshot": {},
+    "takeScreenshotClean": "Fai uno screenshot (senza sottotitoli)",
+    "@takeScreenshotClean": {},
+    "screenshots": "Screenshots",
+    "@screenshots": {},
+    "screenshotCleanTaken": "Screenshot senza sottotitoli salvato!",
+    "@screenshotCleanTaken": {},
+    "errorTakingScreenshot": "Si è verificato un errore durante l'acquisizione dello screenshot",
+    "@errorTakingScreenshot": {}
 }

@@ -76,7 +76,7 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
 
     final itemActions = [
       ItemActionButton(
-          label: Text(context.localized.audio),
+          label: Text(context.localized.audio(1)),
           icon: Consumer(
             builder: (context, ref, child) {
               var volume = (player.lastState?.volume ?? 0) <= 0;

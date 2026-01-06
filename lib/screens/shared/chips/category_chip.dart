@@ -8,6 +8,7 @@ import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/map_bool_helper.dart';
 import 'package:fladder/widgets/shared/button_group.dart';
+import 'package:fladder/widgets/shared/ensure_visible.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 import 'package:fladder/widgets/shared/modal_side_sheet.dart';
 
@@ -200,38 +201,52 @@ class _CategoryChipEditorState<T> extends State<CategoryChipEditor<T>> {
             ),
           ),
           ...activeItems.mapIndexed((index, element) {
+            return Builder(builder: (context) {
+              return CheckboxListTile(
+                value: currentState[element.key],
+                title: widget.labelBuilder(element.key),
+                onFocusChange: (value) {
+                  if (value) {
+                    context.ensureVisible();
+                  }
+                },
+                fillColor: WidgetStateProperty.resolveWith(
+                  (states) {
+                    if (currentState[element.key] == null) {
+                      return Colors.redAccent;
+                    }
+                    return null;
+                  },
+                ),
+                tristate: true,
+                onChanged: (value) => updateKey(MapEntry(element.key, value == null ? null : element.value)),
+              );
+            });
+          }),
+          const Divider(),
+        },
+        ...otherItems.mapIndexed((index, element) {
+          return Builder(builder: (context) {
             return CheckboxListTile(
               value: currentState[element.key],
               title: widget.labelBuilder(element.key),
+              onFocusChange: (value) {
+                if (value) {
+                  context.ensureVisible();
+                }
+              },
               fillColor: WidgetStateProperty.resolveWith(
                 (states) {
-                  if (currentState[element.key] == null) {
-                    return Colors.redAccent;
+                  if (currentState[element.key] == null || states.contains(WidgetState.selected)) {
+                    return Colors.greenAccent;
                   }
                   return null;
                 },
               ),
               tristate: true,
-              onChanged: (value) => updateKey(MapEntry(element.key, value == null ? null : element.value)),
+              onChanged: (value) => updateKey(MapEntry(element.key, value != false ? null : element.value)),
             );
-          }),
-          const Divider(),
-        },
-        ...otherItems.mapIndexed((index, element) {
-          return CheckboxListTile(
-            value: currentState[element.key],
-            title: widget.labelBuilder(element.key),
-            fillColor: WidgetStateProperty.resolveWith(
-              (states) {
-                if (currentState[element.key] == null || states.contains(WidgetState.selected)) {
-                  return Colors.greenAccent;
-                }
-                return null;
-              },
-            ),
-            tristate: true,
-            onChanged: (value) => updateKey(MapEntry(element.key, value != false ? null : element.value)),
-          );
+          });
         }),
       ],
     );

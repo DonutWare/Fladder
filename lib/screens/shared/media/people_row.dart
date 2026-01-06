@@ -17,7 +17,13 @@ import 'package:fladder/widgets/shared/horizontal_list.dart';
 class PeopleRow extends ConsumerWidget {
   final List<Person> people;
   final EdgeInsets contentPadding;
-  const PeopleRow({required this.people, required this.contentPadding, super.key});
+  final Function()? onTap;
+  const PeopleRow({
+    required this.people,
+    required this.contentPadding,
+    this.onTap,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -63,13 +69,14 @@ class PeopleRow extends ConsumerWidget {
                   ),
                   foregroundDecoration: FladderTheme.defaultPosterDecoration,
                   child: FocusButton(
-                    onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => PersonDetailScreen(
-                          person: person,
-                        ),
-                      ),
-                    ),
+                    onTap: onTap ??
+                        () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => PersonDetailScreen(
+                                  person: person,
+                                ),
+                              ),
+                            ),
                     child: FladderImage(
                       image: person.image,
                       placeHolder: placeHolder(person.name),

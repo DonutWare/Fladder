@@ -7,13 +7,64 @@ import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/library_filter_model.dart';
 
-extension CollectionTypeExtension on CollectionType {
+extension CollectionTypeExtension on CollectionType? {
   IconData get iconOutlined {
     return getIconType(true);
   }
 
   IconData get icon {
     return getIconType(false);
+  }
+
+  bool get videos {
+    switch (this) {
+      case CollectionType.movies:
+      case CollectionType.tvshows:
+      case CollectionType.folders:
+      case CollectionType.homevideos:
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  bool get supportsExtras {
+    switch (this) {
+      case CollectionType.movies:
+      case CollectionType.tvshows:
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  bool get hasSubtitles {
+    switch (this) {
+      case CollectionType.movies:
+      case CollectionType.tvshows:
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  bool get audio {
+    switch (this) {
+      case CollectionType.music:
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  bool get photos {
+    switch (this) {
+      case CollectionType.homevideos:
+      case CollectionType.photos:
+        return true;
+      default:
+        return false;
+    }
   }
 
   Set<FladderItemType> get itemKinds {

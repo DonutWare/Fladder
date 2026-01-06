@@ -358,9 +358,11 @@ class SubStreamModel extends AudioAndSubStreamModel {
   }
 
   factory SubStreamModel.fromMediaStream(dto.MediaStream stream, Ref ref) {
-    final subStreamUrl = stream.deliveryUrl != null
-        ? "${ref.read(serverUrlProvider) ?? ""}${stream.deliveryUrl?.substring(1)}}".replaceAll(".vtt", ".srt")
-        : null;
+    final deliveryUrl = stream.deliveryUrl;
+    final deliveryUri = Uri.tryParse(deliveryUrl ?? '');
+    final relativeSrtUrl = deliveryUri?.replace(path: deliveryUri.path.replaceAll('.vtt', '.srt')).toString();
+
+    final subStreamUrl = relativeSrtUrl == null ? null : buildServerUrl(ref, relativeUrl: relativeSrtUrl);
 
     return SubStreamModel(
       name: stream.title ?? "",

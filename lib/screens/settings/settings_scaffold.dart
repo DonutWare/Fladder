@@ -13,6 +13,7 @@ import 'package:fladder/util/router_extension.dart';
 class SettingsScaffold extends ConsumerWidget {
   final String label;
   final ScrollController? scrollController;
+  final double itemSpacing;
   final List<Widget> items;
   final List<Widget> bottomActions;
   final bool showUserIcon;
@@ -21,6 +22,7 @@ class SettingsScaffold extends ConsumerWidget {
   const SettingsScaffold({
     required this.label,
     this.scrollController,
+    this.itemSpacing = 0.0,
     required this.items,
     this.bottomActions = const [],
     this.floatingActionButton,
@@ -86,27 +88,28 @@ class SettingsScaffold extends ConsumerWidget {
                     ),
                   ),
                 SliverPadding(
-                  padding: MediaQuery.paddingOf(context).copyWith(top: 0),
-                  sliver: SliverList.builder(
+                  padding:
+                      MediaQuery.paddingOf(context).copyWith(top: 0).add(const EdgeInsets.symmetric(horizontal: 2)),
+                  sliver: SliverList.separated(
                     itemBuilder: (context, index) => items[index],
+                    separatorBuilder: (context, index) => SizedBox(height: itemSpacing / 2),
                     itemCount: items.length,
                   ),
                 ),
-                if (bottomActions.isEmpty)
-                  const SliverToBoxAdapter(child: SizedBox(height: kBottomNavigationBarHeight + 40)),
+                const SliverToBoxAdapter(child: SizedBox(height: kBottomNavigationBarHeight + 40)),
               ],
             ),
           ),
           if (bottomActions.isNotEmpty) ...{
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32)
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16)
                   .add(EdgeInsets.only(left: padding.left, right: padding.right)),
               child: Row(
+                spacing: 16,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: bottomActions,
               ),
             ),
-            const SizedBox(height: kBottomNavigationBarHeight + 40),
           },
         ],
       ),

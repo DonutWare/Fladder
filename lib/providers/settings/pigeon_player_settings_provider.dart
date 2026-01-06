@@ -47,6 +47,7 @@ final pigeonPlayerSettingsSyncProvider = Provider<void>((ref) {
               switch (value) {
                 SegmentSkip.none => pigeon.SegmentSkip.none,
                 SegmentSkip.askToSkip => pigeon.SegmentSkip.ask,
+                SegmentSkip.skipOnce => pigeon.SegmentSkip.skipOnce,
                 SegmentSkip.skip => pigeon.SegmentSkip.skip,
               },
             ),

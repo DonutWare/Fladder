@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/util/list_padding.dart';

@@ -8,7 +8,7 @@ class MediaQueryScaler extends StatelessWidget {
   const MediaQueryScaler({
     required this.child,
     required this.enable,
-    this.scale = 1.4,
+    this.scale = 1.3,
     super.key,
   });
 

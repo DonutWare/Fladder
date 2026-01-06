@@ -1,0 +1,461 @@
+{
+    "nativeName": "Brezhoneg",
+    "@nativeName": {},
+    "about": "Diwar-benn",
+    "@about": {},
+    "accept": "Asantiñ",
+    "@accept": {},
+    "active": "Oberiant",
+    "@active": {},
+    "actor": "{count, plural, other{Aktor} one{Aktor}}",
+    "@actor": {
+        "description": "actor",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "addAsFavorite": "Ouzhpennañ d'ar re garetañ",
+    "@addAsFavorite": {},
+    "addToCollection": "Ouzhpennañ d'an dastumad",
+    "@addToCollection": {},
+    "addToPlaylist": "Ouzhpennañ d'ar roll lenn",
+    "@addToPlaylist": {},
+    "advanced": "Araokaet",
+    "@advanced": {},
+    "all": "Pep tra",
+    "@all": {},
+    "amoledBlack": "Du Amoled",
+    "@amoledBlack": {},
+    "appLockAutoLogin": "Emgevreañ",
+    "@appLockAutoLogin": {},
+    "appLockBiometrics": "Biometriezh",
+    "@appLockBiometrics": {},
+    "appLockPasscode": "Ger-tremen",
+    "@appLockPasscode": {},
+    "appLockTitle": "Termeniñ an hentad kevreañ evit {userName}",
+    "@appLockTitle": {
+        "description": "Pop-up to pick a login method",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "ascending": "War-bign",
+    "@ascending": {},
+    "audio": "Kleved",
+    "@audio": {},
+    "autoPlay": "Lenn emgefre",
+    "@autoPlay": {},
+    "backgroundBlur": "Dispisder an drekleur",
+    "@backgroundBlur": {},
+    "backgroundOpacity": "Divoullder an drekleur",
+    "@backgroundOpacity": {},
+    "biometricsFailedCheckAgain": "Biometriezh c'hwitet, gwiriit an arventennoù ha klaskit en-dro.",
+    "@biometricsFailedCheckAgain": {},
+    "bold": "Tev",
+    "@bold": {},
+    "cancel": "Nullañ",
+    "@cancel": {},
+    "change": "Kemmañ",
+    "@change": {},
+    "chapter": "{count, plural, other{Rannbennad} one{Rannbennad}}",
+    "@chapter": {
+        "description": "chapter",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "clear": "Diverkañ",
+    "@clear": {},
+    "clearAllSettings": "Diverkañ an holl arventennoù",
+    "@clearAllSettings": {},
+    "clearAllSettingsQuestion": "Diverkañ an holl arventennoù ?",
+    "@clearAllSettingsQuestion": {},
+    "clearChanges": "Diverkañ ar c'hemmoù",
+    "@clearChanges": {},
+    "clearSelection": "Diverkañ an diuzadenn",
+    "@clearSelection": {},
+    "close": "Serriñ",
+    "@close": {},
+    "code": "Kod",
+    "@code": {},
+    "collectionFolder": "Teuliad dastum",
+    "@collectionFolder": {},
+    "color": "Liv",
+    "@color": {},
+    "combined": "Kenstrollet",
+    "@combined": {},
+    "communityRating": "Priziadenn ar gumuniezh",
+    "@communityRating": {},
+    "continuePage": "Kenderc'hel - pajenn {page}",
+    "@continuePage": {
+        "description": "Continue - page 1",
+        "placeholders": {
+            "page": {
+                "type": "int"
+            }
+        }
+    },
+    "controls": "Urzhiadoù",
+    "@controls": {},
+    "dashboard": "Taolenn-vourzh",
+    "@dashboard": {},
+    "dashboardContinue": "Kenderc'hel",
+    "@dashboardContinue": {},
+    "dashboardContinueListening": "Kenderc'hel da selaou",
+    "@dashboardContinueListening": {},
+    "dashboardContinueReading": "Kenderc'hel da lenn",
+    "@dashboardContinueReading": {},
+    "dashboardContinueWatching": "Kenderc'hel da sellet",
+    "@dashboardContinueWatching": {},
+    "nextUp": "War-lerc'h",
+    "@nextUp": {},
+    "dashboardRecentlyAdded": "Nevez ouzhpennet e {name}",
+    "@dashboardRecentlyAdded": {
+        "description": "Recently added on home screen",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "dateAdded": "Deiziad ouzhpennañ",
+    "@dateAdded": {},
+    "dateLastContentAdded": "Deiziad diwezhañ ma'z eus bet ouzhpennet danvez",
+    "@dateLastContentAdded": {},
+    "datePlayed": "Deiziad lenn",
+    "@datePlayed": {},
+    "days": "Deizioù",
+    "@days": {},
+    "delete": "Dilemel",
+    "@delete": {},
+    "deleteFileFromSystem": "Dilemel an elfenn-mañ {item} e zilamo a-ziwar ar reizhiad restroù ha, war un dro, a-ziwar ho levraoueg liesvedia. Ha sur oc'h e fell deoc'h kenderc'hel ganti ?",
+    "@deleteFileFromSystem": {
+        "description": "Delete file from system",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteItem": "Dilemel {item} ?",
+    "@deleteItem": {
+        "description": "deleteItem",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "descending": "War-ziskenn",
+    "@descending": {},
+    "director": "{count, plural, other{Sevener} two{Sevener}}",
+    "@director": {
+        "description": "director",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "disableFilters": "Diweredekaat ar siloù",
+    "@disableFilters": {},
+    "disabled": "Diweredekaet",
+    "@disabled": {},
+    "discovered": "Dizolo",
+    "@discovered": {},
+    "displayLanguage": "Yezh da ziskwel",
+    "@displayLanguage": {},
+    "downloadsClearDesc": "Dilemel an holl roadennoù sinkronaet a ziverko holl roadennoù an holl implijerien sinkronaet. Ha sur oc'h ?",
+    "@downloadsClearDesc": {},
+    "downloadsClearTitle": "Diverkañ ar roadennoù sinkronaet",
+    "@downloadsClearTitle": {},
+    "downloadsPath": "Hent",
+    "@downloadsPath": {},
+    "downloadsSyncedData": "Roadennoù sinkronaet",
+    "@downloadsSyncedData": {},
+    "downloadsTitle": "Pellgargadennoù",
+    "@downloadsTitle": {},
+    "dynamicText": "Dinamik",
+    "@dynamicText": {},
+    "editMetadata": "Kemmañ ar metaroadennoù",
+    "@editMetadata": {},
+    "empty": "Goullo",
+    "@empty": {},
+    "enabled": "Gweredekaet",
+    "@enabled": {},
+    "endsAt": "a echu d'an {date}",
+    "@endsAt": {
+        "description": "endsAt",
+        "placeholders": {
+            "date": {
+                "type": "DateTime",
+                "format": "jm"
+            }
+        }
+    },
+    "episode": "{count, plural, other{Pennad} one{Pennad} }",
+    "@episode": {
+        "description": "episode",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "error": "Fazi",
+    "@error": {},
+    "failedToLoadImage": "Fazi en ur gargañ ar skeudenn",
+    "@failedToLoadImage": {},
+    "favorite": "Pennroll",
+    "@favorite": {},
+    "favorites": "Pennrolloù",
+    "@favorites": {},
+    "fetchingLibrary": "O kargañ elfennoù al levraoueg…",
+    "@fetchingLibrary": {},
+    "filter": "{count, plural, other{Sil} one{Siloù}}",
+    "@filter": {
+        "description": "filter",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "folders": "Teuliadoù",
+    "@folders": {},
+    "fontColor": "Liv ar font",
+    "@fontColor": {},
+    "fontSize": "Ment ar font",
+    "@fontSize": {},
+    "forceRefresh": "Rediañ ar freskaat",
+    "@forceRefresh": {},
+    "genre": "{count, plural, other{Rumm} one{Rumm}}",
+    "@genre": {
+        "description": "genre",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "goTo": "Mont da",
+    "@goTo": {},
+    "grid": "Kael",
+    "@grid": {},
+    "group": "Strollad",
+    "@group": {},
+    "groupBy": "Strollañ dre",
+    "@groupBy": {},
+    "heightOffset": "Rikladur uhelder",
+    "@heightOffset": {},
+    "hide": "Kuzhat",
+    "@hide": {},
+    "hideEmpty": "Kuzhat goullo",
+    "@hideEmpty": {},
+    "home": "Degemer",
+    "@home": {},
+    "homeBannerSlideshow": "Luc'hvannoù",
+    "@homeBannerSlideshow": {},
+    "homeBannerCarousel": "Karousel",
+    "@homeBannerCarousel": {},
+    "identify": "Anaout",
+    "@identify": {},
+    "immediately": "Diouzhtu",
+    "@immediately": {},
+    "incorrectPinTryAgain": "Fazi PIN, klaskit en-dro.",
+    "@incorrectPinTryAgain": {},
+    "info": "Keleier",
+    "@info": {},
+    "invalidUrl": "URL faziek",
+    "@invalidUrl": {},
+    "invalidUrlDesc": "Rankout a ra an URL kregiñ gant http(s)://",
+    "@invalidUrlDesc": {},
+    "itemCount": "Niver a elfennoù : {count}",
+    "@itemCount": {
+        "description": "Item count",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "label": "{count, plural, other{Tikdenn} one{Dikedenn}}",
+    "@label": {
+        "description": "label",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "library": "{count, plural, other{Levraoueg} one{Levraoueg}}",
+    "@library": {
+        "description": "Plural",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "libraryFetchNoItemsFound": "Elfenn ebet kavet. Klaskit gant arventennoù all.",
+    "@libraryFetchNoItemsFound": {},
+    "libraryPageSizeDesc": "Termeniñ ar c'hementad da vezañ karget en un taol. 0 a ziweredeka ar pajennaozañ.",
+    "@libraryPageSizeDesc": {},
+    "libraryPageSizeTitle": "Ment pajenn al levraoueg",
+    "@libraryPageSizeTitle": {},
+    "light": "Skañv",
+    "@light": {},
+    "list": "Roll",
+    "@list": {},
+    "lockscreen": "Skramm prennañ",
+    "@lockscreen": {},
+    "loggedIn": "Kevreet",
+    "@loggedIn": {},
+    "login": "Kevreañ",
+    "@login": {},
+    "logout": "Digevreañ",
+    "@logout": {},
+    "logoutUserPopupContent": "Digevreet e vo {userName} ha dilamet e vo an implijer a-ziwar an arload.\nRankout a reot adkevreañ war {serverName}.",
+    "@logoutUserPopupContent": {
+        "description": "Pop-up for logging out the user description",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            },
+            "serverName": {
+                "type": "String"
+            }
+        }
+    },
+    "logoutUserPopupTitle": "Digevreañ {userName}?",
+    "@logoutUserPopupTitle": {
+        "description": "Pop-up for logging out the user",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "loop": "Rodell",
+    "@loop": {},
+    "markAsUnwatched": "Merkañ evel anevezhiet",
+    "@markAsUnwatched": {},
+    "markAsWatched": "Merkañ evel evezhiet",
+    "@markAsWatched": {},
+    "masonry": "Mañsonerezh",
+    "@masonry": {},
+    "mediaTypeBase": "Seurt diaz",
+    "@mediaTypeBase": {},
+    "mediaTypeBook": "Levr",
+    "@mediaTypeBook": {},
+    "mediaTypeBoxset": "Arc'hig",
+    "@mediaTypeBoxset": {},
+    "mediaTypeEpisode": "Pennad",
+    "@mediaTypeEpisode": {},
+    "mediaTypeFolder": "Teuliad",
+    "@mediaTypeFolder": {},
+    "mediaTypeMovie": "Film",
+    "@mediaTypeMovie": {},
+    "mediaTypePerson": "Den",
+    "@mediaTypePerson": {},
+    "mediaTypePhoto": "Luc'hskeudenn",
+    "@mediaTypePhoto": {},
+    "mediaTypePhotoAlbum": "Albom skeudennoù",
+    "@mediaTypePhotoAlbum": {},
+    "mediaTypePlaylist": "Rollad lenn",
+    "@mediaTypePlaylist": {},
+    "mediaTypeSeason": "Koulzad",
+    "@mediaTypeSeason": {},
+    "mediaTypeSeries": "Stirad",
+    "@mediaTypeSeries": {},
+    "metaDataSavedFor": "Metaroadennoù enrollet evit {item}",
+    "@metaDataSavedFor": {
+        "description": "metaDataSavedFor",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "metadataRefreshDefault": "Klask restroù nevez ha hizivadennoù",
+    "@metadataRefreshDefault": {},
+    "metadataRefreshFull": "Erlec'hiañ an holl vetaroadennoù",
+    "@metadataRefreshFull": {},
+    "metadataRefreshValidation": "Klask ar metaroadennoù a vank",
+    "@metadataRefreshValidation": {},
+    "minutes": "{count, plural, other{Munut} one{Munut} }",
+    "@minutes": {
+        "description": "minute",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mode": "Doare",
+    "@mode": {},
+    "moreFrom": "Muioc'h a-berzh {info}",
+    "@moreFrom": {
+        "description": "More from",
+        "placeholders": {
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "moreOptions": "Dibaboù ouzhpenn",
+    "@moreOptions": {},
+    "mouseDragSupport": "Riklañ gant al logodenn",
+    "@mouseDragSupport": {},
+    "musicAlbum": "Albom",
+    "@musicAlbum": {},
+    "name": "Anv",
+    "@name": {},
+    "navigation": "Merdeiñ",
+    "@navigation": {},
+    "navigationDashboard": "Taolenn-vourzh",
+    "@navigationDashboard": {},
+    "navigationFavorites": "Pennrolloù",
+    "@navigationFavorites": {},
+    "navigationSync": "Sinkronaet",
+    "@navigationSync": {},
+    "never": "Morse",
+    "@never": {},
+    "noItemsSynced": "Elfenn sinkronaet ebet",
+    "@noItemsSynced": {},
+    "noItemsToShow": "Elfenn ebet da ziskouez",
+    "@noItemsToShow": {},
+    "noRating": "Notenn ebet",
+    "@noRating": {},
+    "noResults": "Disoc'h ebet",
+    "@noResults": {},
+    "noServersFound": "N'eus bet kavet servijer nevez ebet",
+    "@noServersFound": {},
+    "noSuggestionsFound": "Kinnig ebet kavet",
+    "@noSuggestionsFound": {},
+    "none": "Hini ebet",
+    "@none": {},
+    "normal": "Normal",
+    "@normal": {},
+    "notPartOfAlbum": "Distag diouzh pep albom",
+    "@notPartOfAlbum": {},
+    "openParent": "Digeriñ an teuliad kar",
+    "@openParent": {},
+    "openShow": "Digeriñ an abadenn",
+    "@openShow": {}
+}

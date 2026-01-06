@@ -26,7 +26,7 @@ List<Widget> buildClientSettingsShortCuts(
               Expanded(
                 child: Text(
                   entry.label(context),
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
               ),
               Flexible(

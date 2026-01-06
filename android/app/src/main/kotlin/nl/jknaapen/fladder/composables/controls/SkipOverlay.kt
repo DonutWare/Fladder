@@ -25,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -56,6 +57,7 @@ internal fun BoxScope.SegmentSkipOverlay(
     val segments = state?.segments ?: emptyList()
     val player = VideoPlayerObject.implementation.player
     val skipMap by PlayerSettingsObject.skipMap.collectAsState(mapOf())
+    val skippedSegments = remember { mutableStateListOf<String>() }
 
     LaunchedEffect(segments, skipMap) { }
 
@@ -65,16 +67,18 @@ internal fun BoxScope.SegmentSkipOverlay(
 
     val segmentType = activeSegment?.type?.toSegment
     val skip = skipMap[segmentType]
+    val currentSegmentId = activeSegment?.let { "${it.type}-${it.start}-${it.end}" }
 
-    fun skipSegment(segment: MediaSegment) {
+    fun skipSegment(segment: MediaSegment, segmentId: String) {
         player.seekTo(segment.end + 250.milliseconds.inWholeMilliseconds)
+        skippedSegments.add(segmentId)
     }
 
     LaunchedEffect(activeSegment, position, skipMap) {
         if (skipMap.isEmpty()) return@LaunchedEffect
-        if (activeSegment != null) {
-            if (skip == SegmentSkip.SKIP) {
-                skipSegment(activeSegment)
+        if (activeSegment != null && currentSegmentId != null) {
+            if (skip == SegmentSkip.SKIP || (skip == SegmentSkip.SKIP_ONCE && !skippedSegments.contains(currentSegmentId)) ) {
+                skipSegment(activeSegment, currentSegmentId)
             }
         }
     }

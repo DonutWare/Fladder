@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
+import 'package:fladder/models/account_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 
@@ -32,10 +33,19 @@ class ConnectivityStatus extends _$ConnectivityStatus {
 
   @override
   ConnectionState build() {
-    ref.watch(userProvider);
+    ref.listen(userProvider, (previous, next) {
+      checkLocalUrl(previous, next);
+    });
     Connectivity().onConnectivityChanged.listen(onStateChange);
     checkConnectivity();
     return ConnectionState.mobile;
+  }
+
+  void checkLocalUrl(AccountModel? previous, AccountModel? next) {
+    final newUrl = next?.credentials.localUrl;
+    if (localUrl != newUrl) {
+      checkConnectivity();
+    }
   }
 
   void onStateChange(List<ConnectivityResult> connectivityResult) async {
@@ -67,7 +77,8 @@ class ConnectivityStatus extends _$ConnectivityStatus {
 Future<PublicSystemInfo?> fetchSystemInfoDynamic(String baseUrl) async {
   if (baseUrl.isEmpty) return null;
   try {
-    final uri = Uri.parse(baseUrl).resolve('/System/Info/Public');
+    final uri = buildServerUriFromBase(baseUrl, pathSegments: const ['System', 'Info', 'Public']);
+    if (uri == null) return null;
     final response = await http.get(uri).timeout(const Duration(seconds: 1));
     if (response.statusCode == 200) {
       return PublicSystemInfo.fromJson(jsonDecode(response.body));

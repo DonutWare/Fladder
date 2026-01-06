@@ -10,6 +10,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/credentials_model.dart';
 import 'package:fladder/models/library_filters_model.dart';
+import 'package:fladder/models/seerr_credentials_model.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 
@@ -28,13 +29,17 @@ abstract class AccountModel with _$AccountModel {
     @Default(Authentication.autoLogin) Authentication authMethod,
     @Default("") String localPin,
     @CredentialsConverter() required CredentialsModel credentials,
+    SeerrCredentialsModel? seerrCredentials,
     @Default([]) List<String> latestItemsExcludes,
     @Default([]) List<String> searchQueryHistory,
     @Default(false) bool quickConnectState,
     @Default([]) List<LibraryFiltersModel> libraryFilters,
+    //Server values not stored in the database
     @JsonKey(includeFromJson: false, includeToJson: false) UserPolicy? policy,
     @JsonKey(includeFromJson: false, includeToJson: false) ServerConfiguration? serverConfiguration,
     @JsonKey(includeFromJson: false, includeToJson: false) UserConfiguration? userConfiguration,
+    @JsonKey(includeFromJson: false, includeToJson: false) bool? hasPassword,
+    @JsonKey(includeFromJson: false, includeToJson: false) bool? hasConfiguredPassword,
     UserSettings? userSettings,
   }) = _AccountModel;
 
@@ -88,6 +93,15 @@ enum Authentication {
 
   const Authentication(this.value);
   final int value;
+
+  static Set<Authentication> get secureOptions => Authentication.values.where((element) => element.shouldLock).toSet();
+
+  bool get shouldLock => switch (this) {
+        Authentication.autoLogin => false,
+        Authentication.biometrics => true,
+        Authentication.passcode => true,
+        Authentication.none => false,
+      };
 
   bool available(BuildContext context) {
     switch (this) {

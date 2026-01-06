@@ -3,9 +3,14 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/movie_model.dart';
+import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/related_provider.dart';
+import 'package:fladder/providers/seerr_api_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
+import 'package:fladder/providers/user_provider.dart';
+import 'package:fladder/seerr/seerr_models.dart';
+import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 
 part 'movies_details_provider.g.dart';
 
@@ -24,9 +29,48 @@ class MovieDetails extends _$MovieDetails {
       MovieModel? newState;
       final response = await api.usersUserIdItemsItemIdGet(itemId: item.id);
       if (response.body == null) return null;
-      newState = (response.bodyOrThrow as MovieModel).copyWith(related: state?.related);
+      newState = (response.bodyOrThrow as MovieModel).copyWith(
+        related: state?.related ?? const [],
+        seerrRelated: state?.seerrRelated ?? const [],
+        seerrRecommended: state?.seerrRecommended ?? const [],
+      );
+
+      state = newState;
+
       final related = await ref.read(relatedUtilityProvider).relatedContent(item.id);
-      state = newState.copyWith(related: related.body);
+
+      List<SeerrDashboardPosterModel> seerrRelated = const [];
+      List<SeerrDashboardPosterModel> seerrRecommended = const [];
+
+      String? seerrUrl;
+
+      final seerrCreds = ref.read(userProvider)?.seerrCredentials;
+      if (seerrCreds?.isConfigured == true) {
+        final tmdbId = newState.tmdbId;
+        if (tmdbId != null) {
+          final seerr = ref.read(seerrApiProvider);
+          seerrRelated = await seerr.discoverRelatedMovies(tmdbId: tmdbId);
+          seerrRecommended = await seerr.discoverRecommendedMovies(tmdbId: tmdbId);
+          final seerrPoster = await seerr.fetchDashboardPosterFromIds(
+            tmdbId: tmdbId,
+            mediaType: SeerrMediaType.movie,
+          );
+          final status = seerrPoster?.mediaInfo?.mediaStatus;
+          if (status != SeerrMediaStatus.unknown) {
+            final seerrServerUrl = ref.read(userProvider.select((value) => value?.seerrCredentials?.serverUrl));
+            seerrUrl = '${seerrServerUrl}movie/$tmdbId';
+          }
+        }
+      }
+
+      state = newState.copyWith(
+        related: related.body,
+        seerrRelated: seerrRelated,
+        seerrRecommended: seerrRecommended,
+        overview: state?.overview.copyWith(
+          seerrUrl: seerrUrl,
+        ),
+      );
       return null;
     } catch (e) {
       return null;

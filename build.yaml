@@ -2,15 +2,17 @@ targets:
   $default:
     sources:
       - lib/$lib$
+      - "!lib/jellyseer/**"
       - "**/models/**.dart"
       - "**/models/**/**.dart"
       - "**/providers/**.dart"
       - "**/providers/**/**.dart"
       - lib/util/**.dart
       - lib/jellyfin/**.dart
+      - lib/seerr/**.dart
       - "**/**_screen.dart"
       - "**/**_page.dart"
-      - swagger/**
+      - swagger/jellyfin-open-api.json
       - lib/routes/auto_router.dart
       - $package$
     builders:
@@ -46,7 +48,7 @@ targets:
         options:
           input_folder: "swagger/"
           output_folder: "lib/jellyfin/"
-          generate_for: swagger/**
+          generate_for: swagger/jellyfin-open-api.json
           with_converter: true
           build_only_models: false
           with_base_url: false

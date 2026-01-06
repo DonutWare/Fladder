@@ -59,7 +59,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
       backgroundColor: Theme.of(context).colorScheme.surface.withValues(alpha: 0.8),
       onRefresh: () async => await ref.read(provider.notifier).fetchDetails(widget.item),
       backDrops: details.cover,
-      content: (padding) => details.book != null
+      content: (context, padding) => details.book != null
           ? Padding(
               padding: const EdgeInsets.only(bottom: 64),
               child: Column(
@@ -76,7 +76,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
                               OverviewHeader(
                                 subTitle: details.book?.parentName ?? details.parentModel?.name,
                                 name: details.nextUp?.name ?? "",
-                                playButton: Builder(
+                                mainButton: Builder(
                                   builder: (context) {
                                     //Wrapped so the correct context is used for refreshing the pages
                                     return MediaPlayButton(
@@ -93,7 +93,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
                                 image: ImagesData(
                                   logo: details.book?.getPosters?.primary,
                                 ),
-                                productionYear: details.nextUp!.overview.productionYear,
+                                productionYear: details.nextUp!.overview.productionYear.toString(),
                                 runTime: details.nextUp!.overview.runTime,
                                 genres: details.nextUp!.overview.genreItems,
                                 studios: details.nextUp!.overview.studios,

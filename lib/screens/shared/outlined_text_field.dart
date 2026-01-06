@@ -70,7 +70,9 @@ class OutlinedTextField extends ConsumerStatefulWidget {
 }
 
 class _OutlinedTextFieldState extends ConsumerState<OutlinedTextField> {
-  late final controller = widget.controller ?? TextEditingController();
+  late final bool _ownsController = widget.controller == null;
+  late final TextEditingController controller = widget.controller ?? TextEditingController();
+  late final bool _ownsTextFocus = widget.focusNode == null;
   late final FocusNode _textFocus = widget.focusNode ?? FocusNode();
   late final FocusNode _wrapperFocus = FocusNode()
     ..addListener(() {
@@ -90,7 +92,12 @@ class _OutlinedTextFieldState extends ConsumerState<OutlinedTextField> {
 
   @override
   void dispose() {
-    _textFocus.dispose();
+    if (_ownsTextFocus) {
+      _textFocus.dispose();
+    }
+    if (_ownsController) {
+      controller.dispose();
+    }
     _wrapperFocus.dispose();
     super.dispose();
   }
@@ -142,6 +149,7 @@ class _OutlinedTextFieldState extends ConsumerState<OutlinedTextField> {
       onSubmitted: widget.onSubmitted != null
           ? (value) {
               widget.onSubmitted?.call(value);
+              if (AdaptiveLayout.inputDeviceOf(context) != InputDevice.dPad) return;
               Future.microtask(() async {
                 await Future.delayed(const Duration(milliseconds: 125));
                 _wrapperFocus.requestFocus();

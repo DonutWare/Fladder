@@ -45,6 +45,7 @@ class ImagesData {
     final itemid = item.id;
     if (itemid == null) return null;
     final imageProvider = ref.read(imageUtilityProvider);
+
     final newImgesData = ImagesData(
       primary: item.imageTags?['Primary'] != null
           ? ImageData(
@@ -242,6 +243,21 @@ class ImageData {
     if (path.startsWith("http")) {
       return CachedNetworkImageProvider(
         cacheKey: key,
+        cacheManager: CustomCacheManager.instance,
+        path,
+      );
+    } else {
+      return Image.file(
+        key: Key(key),
+        File(path),
+      ).image;
+    }
+  }
+
+  ImageProvider get nonCachedImageProvider {
+    if (path.startsWith("http")) {
+      return CachedNetworkImageProvider(
+        cacheKey: UniqueKey().toString(),
         cacheManager: CustomCacheManager.instance,
         path,
       );

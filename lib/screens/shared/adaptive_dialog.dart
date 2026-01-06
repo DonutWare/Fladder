@@ -10,8 +10,11 @@ Future<void> showDialogAdaptive({
     return showDialog(
       context: context,
       useSafeArea: false,
-      builder: (context) => Dialog(
-        child: builder(context),
+      builder: (context) => Padding(
+        padding: MediaQuery.paddingOf(context),
+        child: Dialog(
+          child: builder(context),
+        ),
       ),
     );
   } else {
@@ -19,7 +22,10 @@ Future<void> showDialogAdaptive({
       context: context,
       useSafeArea: false,
       builder: (context) => Dialog.fullscreen(
-        child: builder(context),
+        child: Padding(
+          padding: MediaQuery.paddingOf(context),
+          child: builder(context),
+        ),
       ),
     );
   }

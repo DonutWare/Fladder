@@ -27,7 +27,7 @@
     "@appLockBiometrics": {},
     "ascending": "За зростанням",
     "@ascending": {},
-    "audio": "Аудіо",
+    "audio": "{count, plural, one{Аудіо} other{Аудіо}}",
     "@audio": {},
     "bold": "Жирний",
     "@bold": {},
@@ -59,7 +59,7 @@
     "@close": {},
     "code": "Код",
     "@code": {},
-    "collectionFolder": "Тека колекції",
+    "collectionFolder": "{count, plural, one{Папка колекції} other{Папки колекцій}}",
     "@collectionFolder": {},
     "color": "Колір",
     "@color": {},
@@ -504,7 +504,7 @@
     "@videoScalingFitHeight": {},
     "videoScalingFitWidth": "Підігнати по ширині",
     "@videoScalingFitWidth": {},
-    "videoScalingScaleDown": "Зменшити",
+    "videoScalingScaleDown": "Зменшення масштабу",
     "@videoScalingScaleDown": {},
     "writer": "{count, plural, other{Сценаристи} one{Сценарист}}",
     "@writer": {
@@ -1559,5 +1559,9 @@
     "screenshotCleanTaken": "Збережено скріншот без субтитрів!",
     "@screenshotCleanTaken": {},
     "errorTakingScreenshot": "Сталася помилка під час створення знімка екрана",
-    "@errorTakingScreenshot": {}
+    "@errorTakingScreenshot": {},
+    "regenerateTrickplayImages": "Регенерувати зображення для трикплею",
+    "@regenerateTrickplayImages": {},
+    "segmentActionSkipOnce": "Пропустити один раз",
+    "@segmentActionSkipOnce": {}
 }

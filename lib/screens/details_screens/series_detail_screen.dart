@@ -9,6 +9,7 @@ import 'package:fladder/models/items/series_model.dart';
 import 'package:fladder/providers/items/series_details_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/details_screens/components/overview_header.dart';
+import 'package:fladder/screens/seerr/widgets/seerr_poster_row.dart';
 import 'package:fladder/screens/shared/detail_scaffold.dart';
 import 'package:fladder/screens/shared/media/components/media_play_button.dart';
 import 'package:fladder/screens/shared/media/components/next_up_episode.dart';
@@ -66,7 +67,7 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
       ),
       onRefresh: () => ref.read(providerId.notifier).fetchDetails(widget.item),
       backDrops: details?.images,
-      content: (padding) => details != null
+      content: (context, padding) => details != null
           ? Padding(
               padding: const EdgeInsets.only(bottom: 64),
               child: Column(
@@ -76,7 +77,7 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                   OverviewHeader(
                     name: details.name,
                     image: details.images,
-                    playButton: details.nextUp != null
+                    mainButton: details.nextUp != null
                         ? MediaPlayButton(
                             item: details.nextUp,
                             onPressed: (restart) async {
@@ -140,7 +141,7 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                     ),
                     padding: padding,
                     originalTitle: details.originalTitle,
-                    productionYear: details.overview.productionYear,
+                    productionYear: details.overview.yearAired.toString(),
                     runTime: details.overview.runTime,
                     studios: details.overview.studios,
                     officialRating: details.overview.parentalRating,
@@ -181,6 +182,18 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                     ),
                   if (details.related.isNotEmpty)
                     PosterRow(posters: details.related, contentPadding: padding, label: context.localized.related),
+                  if (details.seerrRecommended.isNotEmpty)
+                    SeerrPosterRow(
+                      posters: details.seerrRecommended,
+                      label: "${context.localized.discover} ${context.localized.recommended.toLowerCase()}",
+                      contentPadding: padding,
+                    ),
+                  if (details.seerrRelated.isNotEmpty)
+                    SeerrPosterRow(
+                      posters: details.seerrRelated,
+                      label: "${context.localized.discover} ${context.localized.related.toLowerCase()}",
+                      contentPadding: padding,
+                    ),
                   if (details.overview.externalUrls?.isNotEmpty == true)
                     Padding(
                       padding: padding,

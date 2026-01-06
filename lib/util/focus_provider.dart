@@ -139,6 +139,9 @@ class FocusButtonState extends State<FocusButton> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.onTap == null && widget.onLongPress == null && widget.onSecondaryTapDown == null) {
+      return widget.child ?? const SizedBox.shrink();
+    }
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       onEnter: (event) => onHover.value = true,

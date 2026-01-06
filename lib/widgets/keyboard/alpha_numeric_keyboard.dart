@@ -30,13 +30,23 @@ class AlphaNumericKeyboard extends ConsumerStatefulWidget {
 }
 
 class _AlphaNumericKeyboardState extends ConsumerState<AlphaNumericKeyboard> {
+  static final _numericKeyboardTypes = {
+    TextInputType.number,
+    TextInputType.phone,
+    const TextInputType.numberWithOptions(decimal: true, signed: false),
+    const TextInputType.numberWithOptions(decimal: false, signed: true),
+    const TextInputType.numberWithOptions(decimal: true, signed: true),
+  };
+
   bool usingAlpha = true;
   bool shift = false;
   late TextInputType type = widget.keyboardType;
   late TextInputAction actionType = widget.keyboardActionType;
 
+  bool get isNumericKeyboard => _numericKeyboardTypes.contains(type);
+
   List<List<String>> activeLayout(Locale locale) {
-    if (type == TextInputType.number) {
+    if (isNumericKeyboard) {
       return [
         ['1', '2', '3', '⌫'],
         ['4', '5', '6', ','],

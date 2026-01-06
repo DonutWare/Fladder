@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
-import 'package:path/path.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -92,11 +91,15 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
       'api_key': ref.read(userProvider)?.credentials.token,
     };
 
-    final params = Uri(queryParameters: directOptions).query;
-
     player.init(ref.read(videoPlayerSettingsProvider));
 
-    videoUrl = joinAll([ref.read(serverUrlProvider) ?? "", "Videos", widget.video.id, "stream?$params"]);
+    final baseUrl = ref.read(serverUrlProvider) ?? '';
+    videoUrl = buildServerUriFromBase(
+          baseUrl,
+          pathSegments: ['Videos', widget.video.id, 'stream'],
+          queryParameters: directOptions,
+        )?.toString() ??
+        '';
 
     subscriptions.add(player.stateStream.listen((event) {
       setState(() {

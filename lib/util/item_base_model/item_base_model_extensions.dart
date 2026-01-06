@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
@@ -8,8 +9,11 @@ import 'package:fladder/models/book_model.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
+import 'package:fladder/models/items/movie_model.dart';
+import 'package:fladder/models/items/series_model.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
+import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/collections/add_to_collection.dart';
 import 'package:fladder/screens/metadata/edit_item.dart';
 import 'package:fladder/screens/metadata/identifty_screen.dart';
@@ -19,6 +23,7 @@ import 'package:fladder/screens/playlists/add_to_playlists.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/screens/syncing/sync_button.dart';
 import 'package:fladder/screens/syncing/sync_item_details.dart';
+import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/util/clipboard_helper.dart';
 import 'package:fladder/util/file_downloader.dart';
 import 'package:fladder/util/item_base_model/play_item_helpers.dart';
@@ -111,6 +116,7 @@ extension ItemBaseModelExtensions on ItemBaseModel {
         (canDownload ?? false);
     final downloadUrl = ref.read(userProvider.notifier).createDownloadUrl(this);
     final syncedItemFuture = ref.read(syncProvider.notifier).getSyncedItem(id);
+    final hasSeerrData = overview.seerrUrl?.isNotEmpty == true;
     return [
       if (!exclude.contains(ItemActions.play))
         if (playAble)
@@ -289,6 +295,21 @@ extension ItemBaseModelExtensions on ItemBaseModel {
           )
         ],
       ],
+      if (hasSeerrData && tmdbId != null)
+        ItemActionButton(
+          icon: const Icon(IconsaxPlusLinear.link_21),
+          action: () {
+            context.pushRoute(SeerrDetailsRoute(
+                mediaType: switch (this) {
+                  MovieModel() => SeerrMediaType.movie,
+                  SeriesModel() => SeerrMediaType.tvshow,
+                  _ => SeerrMediaType.movie,
+                }
+                    .name,
+                tmdbId: tmdbId!));
+          },
+          label: Text(context.localized.seerrDetails),
+        ),
       if (canDelete == true)
         ItemActionButton(
           icon: Container(
@@ -326,5 +347,32 @@ extension ItemBaseModelExtensions on ItemBaseModel {
           label: Text("${type.label(context)} ${context.localized.info}"),
         ),
     ];
+  }
+
+  int? get tmdbId {
+    final providerIds = this is MovieModel
+        ? (this as MovieModel).providerIds
+        : this is SeriesModel
+            ? (this as SeriesModel).providerIds
+            : null;
+
+    if (providerIds == null || providerIds.isEmpty) return null;
+
+    final value = providerIds['Tmdb'];
+    final parsed = int.tryParse(value.toString());
+    return parsed;
+  }
+
+  int? get tvdbId {
+    final providerIds = this is MovieModel
+        ? (this as MovieModel).providerIds
+        : this is SeriesModel
+            ? (this as SeriesModel).providerIds
+            : null;
+
+    if (providerIds == null || providerIds.isEmpty) return null;
+    final value = providerIds['Tvdb'];
+    final parsed = int.tryParse(value.toString());
+    return parsed;
   }
 }

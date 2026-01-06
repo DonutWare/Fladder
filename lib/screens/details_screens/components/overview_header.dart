@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
-import 'package:fladder/screens/shared/media/components/chip_button.dart';
 import 'package:fladder/screens/shared/media/components/media_header.dart';
 import 'package:fladder/screens/shared/media/components/small_detail_widgets.dart';
 import 'package:fladder/theme.dart';
@@ -14,15 +15,19 @@ import 'package:fladder/util/list_padding.dart';
 
 class OverviewHeader extends ConsumerWidget {
   final String name;
+  final double? minHeight;
+  final bool disableheader;
   final ImagesData? image;
-  final Widget? playButton;
+  final Widget? mainButton;
+  final Widget? poster;
   final Widget? centerButtons;
   final EdgeInsets? padding;
   final String? subTitle;
   final String? originalTitle;
   final Alignment logoAlignment;
   final Function()? onTitleClicked;
-  final int? productionYear;
+  final List<SimpleLabel> additionalLabels;
+  final String? productionYear;
   final String? summary;
   final Duration? runTime;
   final String? officialRating;
@@ -31,14 +36,18 @@ class OverviewHeader extends ConsumerWidget {
   final List<GenreItems> genres;
   const OverviewHeader({
     required this.name,
+    this.minHeight,
+    this.disableheader = false,
     this.image,
-    this.playButton,
+    this.mainButton,
+    this.poster,
     this.centerButtons,
     this.padding,
     this.subTitle,
     this.originalTitle,
     this.logoAlignment = Alignment.bottomCenter,
     this.onTitleClicked,
+    this.additionalLabels = const [],
     this.productionYear,
     this.summary,
     this.runTime,
@@ -61,12 +70,13 @@ class OverviewHeader extends ConsumerWidget {
     final fullHeight =
         (MediaQuery.sizeOf(context).height - (MediaQuery.paddingOf(context).top + 150)).clamp(50, 1250).toDouble();
 
-    final crossAlignment =
-        AdaptiveLayout.viewSizeOf(context) != ViewSize.phone ? CrossAxisAlignment.start : CrossAxisAlignment.stretch;
+    final isPhone = AdaptiveLayout.viewSizeOf(context) == ViewSize.phone;
+
+    final crossAlignment = !isPhone ? CrossAxisAlignment.start : CrossAxisAlignment.stretch;
 
     return ConstrainedBox(
       constraints: BoxConstraints(
-        minHeight: fullHeight,
+        minHeight: minHeight ?? fullHeight,
       ),
       child: Padding(
         padding: padding ?? EdgeInsets.zero,
@@ -76,27 +86,56 @@ class OverviewHeader extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           spacing: 16,
           children: [
-            Flexible(
-              child: ExcludeFocus(
-                child: MediaHeader(
-                  name: name,
-                  logo: image?.logo,
-                  onTap: onTitleClicked,
-                  alignment: logoAlignment,
+            if (!isPhone)
+              Flexible(
+                child: Row(
+                  spacing: 16,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (poster != null) poster!,
+                    Flexible(
+                      child: ExcludeFocus(
+                        child: MediaHeader(
+                          name: name,
+                          logo: image?.logo,
+                          onTap: onTitleClicked,
+                          alignment: logoAlignment,
+                        ),
+                      ),
+                    )
+                  ],
                 ),
+              )
+            else
+              Column(
+                spacing: 16,
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  if (poster != null) poster!,
+                  ExcludeFocus(
+                    child: MediaHeader(
+                      name: name,
+                      logo: image?.logo,
+                      onTap: onTitleClicked,
+                      alignment: logoAlignment,
+                    ),
+                  )
+                ],
               ),
-            ),
             ExcludeFocus(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: crossAlignment,
                 children: [
-                  if (subTitle != null)
+                  if (subTitle != null && name.toLowerCase() != subTitle!.toLowerCase())
                     Flexible(
                       child: SelectableText(
                         subTitle ?? "",
                         textAlign: TextAlign.center,
                         style: mainStyle,
+                        maxLines: 1,
                       ),
                     ),
                   if (name.toLowerCase() != originalTitle?.toLowerCase() && originalTitle != null)
@@ -112,6 +151,7 @@ class OverviewHeader extends ConsumerWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: crossAlignment,
+                spacing: 10,
                 children: [
                   Wrap(
                     spacing: 8,
@@ -122,34 +162,37 @@ class OverviewHeader extends ConsumerWidget {
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
                       if (officialRating != null)
-                        ChipButton(
-                          label: officialRating.toString(),
+                        SimpleLabel(
+                          icon: null,
+                          label: Text(officialRating.toString()),
                         ),
                       if (productionYear != null)
-                        SelectableText(
-                          productionYear.toString(),
-                          textAlign: TextAlign.center,
-                          style: subStyle,
+                        SimpleLabel(
+                          icon: IconsaxPlusBold.calendar,
+                          color: Theme.of(context).colorScheme.surfaceBright,
+                          label: SelectableText(
+                            productionYear.toString(),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       if (runTime != null && (runTime?.inSeconds ?? 0) > 1)
-                        SelectableText(
-                          runTime.humanize.toString(),
-                          textAlign: TextAlign.center,
-                          style: subStyle,
+                        SimpleLabel(
+                          icon: IconsaxPlusBold.timer,
+                          color: Theme.of(context).colorScheme.surfaceBright,
+                          iconColor: Theme.of(context).colorScheme.onSurface,
+                          label: SelectableText(
+                            runTime.humanize.toString(),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
-                      if (communityRating != null)
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.star_rate_rounded,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                            Text(
-                              communityRating?.toStringAsFixed(2) ?? "",
-                              style: subStyle,
-                            ),
-                          ],
+                      if (communityRating != null && communityRating != 0.0)
+                        SimpleLabel(
+                          icon: IconsaxPlusBold.star_1,
+                          color: Theme.of(context).colorScheme.tertiaryContainer,
+                          iconColor: Theme.of(context).colorScheme.onTertiaryContainer,
+                          label: Text(
+                            communityRating?.toStringAsFixed(2) ?? "",
+                          ),
                         ),
                     ].addInBetween(CircleAvatar(
                       radius: 3,
@@ -169,19 +212,29 @@ class OverviewHeader extends ConsumerWidget {
                     Genres(
                       genres: genres.take(6).toList(),
                     ),
-                ].addInBetween(const SizedBox(height: 10)),
+                  if (additionalLabels.isNotEmpty)
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      direction: Axis.horizontal,
+                      alignment: WrapAlignment.center,
+                      runAlignment: WrapAlignment.center,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: additionalLabels,
+                    ),
+                ],
               ),
             ),
             if (AdaptiveLayout.viewSizeOf(context) <= ViewSize.phone) ...[
-              if (playButton != null) playButton!,
+              if (mainButton != null) mainButton!,
               if (centerButtons != null) centerButtons!,
             ] else
               Flexible(
                 child: Row(
                   spacing: 16,
                   children: [
-                    if (playButton != null) ...[
-                      playButton!,
+                    if (mainButton != null) ...[
+                      mainButton!,
                       Container(
                         width: 2,
                         height: 12,
@@ -195,6 +248,61 @@ class OverviewHeader extends ConsumerWidget {
                   ],
                 ),
               ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class SimpleLabel extends StatelessWidget {
+  final IconData? icon;
+  final Widget? iconWidget;
+  final Widget label;
+  final Color? color;
+  final Color? iconColor;
+  const SimpleLabel({
+    this.icon,
+    this.iconWidget,
+    required this.label,
+    this.color,
+    this.iconColor,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final backgroundColor = (color ?? Theme.of(context).colorScheme.surfaceBright)
+        .harmonizeWith(Theme.of(context).colorScheme.primaryContainer);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        borderRadius: FladderTheme.smallShape.borderRadius,
+        color: backgroundColor.withAlpha(200),
+        border: Border.all(
+          color: backgroundColor.withAlpha(255),
+        ),
+      ),
+      child: DefaultTextStyle(
+        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+              color: iconColor ?? Theme.of(context).colorScheme.onSurface,
+            ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (icon != null) ...[
+              Icon(
+                icon,
+                size: 18,
+                color: iconColor ?? Theme.of(context).colorScheme.onSurface,
+              ),
+              const SizedBox(width: 4),
+            ],
+            if (iconWidget != null) ...[
+              iconWidget!,
+              const SizedBox(width: 4),
+            ],
+            label,
           ],
         ),
       ),

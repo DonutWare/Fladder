@@ -12,6 +12,8 @@ import 'package:fladder/providers/dashboard_provider.dart';
 import 'package:fladder/providers/favourites_provider.dart';
 import 'package:fladder/providers/image_provider.dart';
 import 'package:fladder/providers/library_screen_provider.dart';
+import 'package:fladder/providers/seerr_api_provider.dart';
+import 'package:fladder/providers/seerr_dashboard_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
@@ -66,13 +68,14 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
       final quickConnectStatus = (await api.quickConnectEnabled()).body ?? false;
       final branding = await api.getBranding();
       final serverResponse = await api.systemInfoPublicGet();
+      final serverId = serverResponse.body?.id ?? "";
       state = state.copyWith(
         errorMessage: null,
         screen: quickConnectStatus ? LoginScreenType.code : LoginScreenType.login,
         serverLoginModel: newLoginModel.copyWith(
           tempCredentials: newCredentials.copyWith(
             serverName: serverResponse.body?.serverName ?? "",
-            serverId: serverResponse.body?.id ?? "",
+            serverId: serverId,
           ),
           accounts: publicUsers,
           hasQuickConnect: quickConnectStatus,
@@ -80,6 +83,9 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
         ),
         loading: false,
       );
+
+      final seerrUrl = _findSeerrUrlForServer(serverId);
+      setTempSeerrUrl(seerrUrl);
     } catch (e) {
       state = state.copyWith(
         errorMessage: context?.localized.invalidUrl,
@@ -149,7 +155,6 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
       final currentAccounts = ref.read(authProvider.notifier).getSavedAccounts();
 
       state = state.copyWith(
-        serverLoginModel: null,
         accounts: currentAccounts,
       );
 
@@ -162,6 +167,12 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
     final currentUser = ref.read(userProvider);
     state = state.copyWith(serverLoginModel: null);
     await ref.read(sharedUtilityProvider).removeAccount(currentUser);
+
+    try {
+      await ref.read(seerrApiProvider).logout();
+    } catch (e) {
+      // Ignore logout errors for seerr
+    }
     clearAllProviders();
     return null;
   }
@@ -176,6 +187,7 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
     ref.read(favouritesProvider.notifier).clear();
     ref.read(userProvider.notifier).clear();
     ref.read(libraryScreenProvider.notifier).clear();
+    ref.read(seerrDashboardProvider.notifier).clear();
   }
 
   Future<void> setServer(String server) async {
@@ -209,5 +221,27 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
       serverLoginModel: state.hasBaseUrl ? state.serverLoginModel : null,
       screen: LoginScreenType.users,
     );
+  }
+
+  String? _findSeerrUrlForServer(String? serverId) {
+    if (serverId == null || serverId.isEmpty) return null;
+    final matches = state.accounts.where(
+      (account) =>
+          account.credentials.serverId == serverId && (account.seerrCredentials?.serverUrl.isNotEmpty ?? false),
+    );
+
+    if (matches.isEmpty) return null;
+
+    final sorted = matches.toList()..sort((a, b) => b.lastUsed.compareTo(a.lastUsed));
+
+    return sorted.first.seerrCredentials?.serverUrl;
+  }
+
+  void setTempSeerrUrl(String? url) {
+    state = state.copyWith(tempSeerrUrl: url?.trim().isEmpty == true ? null : url?.trim());
+  }
+
+  void setTempSeerrSessionCookie(String? cookie) {
+    state = state.copyWith(tempSeerrSessionCookie: cookie?.trim().isEmpty == true ? null : cookie?.trim());
   }
 }
