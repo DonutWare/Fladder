@@ -109,9 +109,9 @@ Web/Desktop [try out the web build!](https://DonutWare.github.io/Fladder)
 
 The latest executables for Windows, macOS, Linux, iOS, Android and Web can be found on the [releases page](https://github.com/DonutWare/Fladder/releases).
 
-You can pull the Docker version using the following tags: ```ghcr.io/donutware/fladder:latest```. or ```ghcr.io/donutware/fladder-rootless:latest```
+You can pull the Docker version using the following tags: ```ghcr.io/donutware/fladder:latest``` or ```ghcr.io/donutware/fladder-rootless:latest```.
 
-*Platform-specific installation and usage instructions can be found [here](https://github.com/DonutWare/Fladder/blob/develop/INSTALL.md).*
+*Platform-specific installation and usage instructions can be found [here](INSTALL.md).*
 
 <a href='https://play.google.com/store/apps/details?id=nl.jknaapen.fladder&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width=250/></a>
 

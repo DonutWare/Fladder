@@ -4,19 +4,24 @@ Platform-specific installation instructions can be found in this document.
 
 *Use the links below to jump to your platform.*
 
-- [Windows](#windows)
-- [macOS](#macos)
-- [Linux](#linux)
-	- [Ubuntu/Debian](#ubuntudebian)
-	- [Arch](#arch)
-	- [Fedora](#fedora)
-- [Android](#android)
-	- [Play Store](#play-store)
-	- [Manual installation](#manual)
-- [iOS](#iosipados)
-	- [Sideloadly](#sideloadly)
-- [Docker](#docker)
-- [Web](#web)
+- [Installation instructions](#installation-instructions)
+	- [Windows](#windows)
+		- [Installer](#installer)
+		- [Portable](#portable)
+	- [macOS](#macos)
+		- [Homebrew](#homebrew)
+		- [Manual](#manual)
+	- [Linux](#linux)
+		- [Ubuntu/Debian](#ubuntudebian)
+		- [Arch](#arch)
+		- [Fedora](#fedora)
+	- [Android](#android)
+		- [Play Store](#play-store)
+		- [Manual](#manual-1)
+	- [iOS/iPadOS](#iosipados)
+		- [Sideloadly](#sideloadly)
+	- [Docker](#docker)
+	- [Web](#web)
 
 
 ## Windows
@@ -32,6 +37,16 @@ Download the latest `.zip` file from the [Releases](https://github.com/DonutWare
 Run `fladder.exe` to start the application.
 
 ## macOS
+
+### Homebrew
+
+You can install Fladder via the [vikingnope/fladder](https://github.com/vikingnope/homebrew-fladder) tap:
+
+```bash
+brew install --cask vikingnope/fladder/fladder
+```
+
+### Manual
 
 1. Download the latest `*.dmg` file from the [Releases](https://github.com/DonutWare/Fladder/releases) page.
 
@@ -74,10 +89,33 @@ Download the latest Linux `.zip` file from the [Releases](https://github.com/Don
 
 Open a terminal and `cd` to the directory where you extracted Fladder to. Run `./Fladder` to open the application.
 
+### Nix
+
+You can install Fladder by adding it to your system flake inputs:
+
+```nix
+inputs.fladder.url = "github:DonutWare/Fladder/develop";
+```
+
+Then, add it to your `environment.systemPackages`:
+
+```nix
+environment.systemPackages = [
+  inputs.fladder.packages.${pkgs.system}.default
+];
+```
+
+Alternatively, you can run it directly without installing:
+
+```bash
+nix run github:DonutWare/Fladder/develop
+```
+
 ## Android
 
 > [!IMPORTANT]
 > This app is currently not compatible with Android TV, however contributions to add support are always appreciated.
+
 ### Play Store
 
 This is the recommended way to install Fladder on Android.
@@ -136,10 +174,13 @@ You can install Fladder on your server to provide an alternate Jellyfin dashboar
 
 Copy the contents of the [docker-compose.yml](https://raw.githubusercontent.com/DonutWare/Fladder/refs/heads/develop/docker-compose.yml) file and save it to your server.
 
-Run `docker-compose up -d` to start the container. It will be available on `http://<server-ip>`.
-
 > [!TIP]
-> We recommend changing the `BASE_URL` environment variable to the URL you use to access Jellyfin, as this will skip entering it when you load the web UI.
+> We recommend setting the `BASE_URL` environment variable to your Jellyfin URL. This skips the login URL step in the web UI.
+
+> [!NOTE]
+> If you prefer the rootless version, change the image in the file to: `ghcr.io/donutware/fladder-rootless:latest`
+
+Run `docker-compose up -d` to start the container. It will be available on `http://<server-ip>`.
 
 ## Web
 
