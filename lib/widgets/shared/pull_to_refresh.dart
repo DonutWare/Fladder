@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/util/refresh_state.dart';
-import 'package:flutter_tizen/flutter_tizen.dart';
 
 class PullToRefresh extends ConsumerStatefulWidget {
   final GlobalKey<RefreshIndicatorState>? refreshKey;
