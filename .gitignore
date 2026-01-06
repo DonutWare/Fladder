@@ -78,3 +78,9 @@ Output
 
 # Generated localizations
 lib/l10n/generated
+
+# Direnv
+.direnv/
+
+# Nix Build
+result
