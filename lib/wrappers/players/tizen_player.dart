@@ -10,7 +10,6 @@ import 'package:subtitle/subtitle.dart';
 import 'package:fladder/models/settings/subtitle_settings_model.dart';
 import 'package:fladder/providers/settings/subtitle_settings_provider.dart';
 import 'package:fladder/util/subtitle_position_calculator.dart';
-import 'package:fladder/util/tizen_video_hole.dart';
 
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
@@ -202,11 +201,12 @@ class TizenPlayer extends BasePlayer {
                         valueListenable: _controller!,
                         builder: (context, value, child) {
                           final aspectRatio = value.isInitialized ? value.aspectRatio : 1.77;
+                          final scale = View.of(context).devicePixelRatio / MediaQuery.devicePixelRatioOf(context);
                           return SizedBox(
-                            width: constraints.maxWidth,
+                            width: constraints.maxWidth * scale,
                             child: AspectRatio(
                               aspectRatio: aspectRatio,
-                              child: TizenVideoHole(_controller!),
+                              child: VideoPlayer(_controller!),
                             ),
                           );
                         },
