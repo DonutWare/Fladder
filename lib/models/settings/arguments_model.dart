@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter_tizen/flutter_tizen.dart';
 
 part 'arguments_model.freezed.dart';
 
@@ -17,11 +18,11 @@ abstract class ArgumentsModel with _$ArgumentsModel {
 
   factory ArgumentsModel.fromArguments(List<String> arguments, String windowArguments, bool leanBackEnabled) {
     arguments = arguments.map((e) => e.trim()).toList();
-    leanBackMode = leanBackEnabled;
+    leanBackMode = leanBackEnabled || isTizen;
     final parsedWindowArgs = windowArguments.split(',');
     return ArgumentsModel(
-      htpcMode: arguments.contains('--htpc') || leanBackEnabled,
-      leanBackMode: leanBackEnabled,
+      htpcMode: arguments.contains('--htpc') || leanBackEnabled || isTizen,
+      leanBackMode: leanBackEnabled || isTizen,
       newWindow: parsedWindowArgs.contains('--newWindow'),
     );
   }

@@ -43,6 +43,8 @@ import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/string_extensions.dart';
 
+import 'package:flutter_tizen/flutter_tizen.dart';
+
 final syncProvider = StateNotifierProvider<SyncNotifier, SyncSettingsModel>((ref) => throw UnimplementedError());
 
 final downloadTasksProvider = StateProvider.family<DownloadStream, String?>((ref, id) => DownloadStream.empty());
@@ -169,7 +171,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
 
   late final JellyService api = ref.read(jellyApiProvider);
 
-  String? get _savePath => !kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)
+  String? get _savePath => !kIsWeb && !isTizen && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)
       ? ref.read(clientSettingsProvider.select((value) => value.syncPath))
       : mobileDirectory.path;
 

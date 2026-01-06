@@ -11,6 +11,9 @@ import 'package:fladder/models/settings/key_combinations.dart';
 import 'package:fladder/util/bitrate_helper.dart';
 import 'package:fladder/util/localization_helper.dart';
 
+
+import 'package:flutter_tizen/flutter_tizen.dart';
+
 part 'video_player_settings.freezed.dart';
 part 'video_player_settings.g.dart';
 
@@ -90,7 +93,7 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
   factory VideoPlayerSettingsModel.fromJson(Map<String, dynamic> json) => _$VideoPlayerSettingsModelFromJson(json);
 
   PlayerOptions get wantedPlayer =>
-      leanBackMode ? PlayerOptions.nativePlayer : playerOptions ?? PlayerOptions.platformDefaults;
+      leanBackMode && !isTizen ? PlayerOptions.nativePlayer : playerOptions ?? PlayerOptions.platformDefaults;
 
   Map<VideoHotKeys, KeyCombination> get currentShortcuts =>
       _defaultVideoHotKeys.map((key, value) => MapEntry(key, hotKeys[key] ?? value));
@@ -139,11 +142,12 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
 enum PlayerOptions {
   libMDK,
   libMPV,
-  nativePlayer;
+  nativePlayer,
+  tizenPlayer;
 
   const PlayerOptions();
 
-  static Iterable<PlayerOptions> get available => leanBackMode
+  static Iterable<PlayerOptions> get available => leanBackMode && !isTizen
       ? {PlayerOptions.nativePlayer}
       : kIsWeb
           ? {PlayerOptions.libMPV}
@@ -153,8 +157,10 @@ enum PlayerOptions {
             };
 
   static PlayerOptions get platformDefaults {
+    if (isTizen) return PlayerOptions.tizenPlayer;
     if (leanBackMode) return PlayerOptions.nativePlayer;
     if (kIsWeb) return PlayerOptions.libMPV;
+
     return switch (defaultTargetPlatform) {
       _ => PlayerOptions.libMPV,
     };
@@ -164,6 +170,7 @@ enum PlayerOptions {
         PlayerOptions.libMDK => "MDK",
         PlayerOptions.libMPV => "MPV",
         PlayerOptions.nativePlayer => "Native",
+        PlayerOptions.tizenPlayer => "Tizen",
       };
 }
 

@@ -359,6 +359,7 @@ class PlaybackModelHelper {
           bitRateOptions: qualityOptions,
         );
       } else if ((mediaSource.supportsTranscoding ?? false) && mediaSource.transcodingUrl != null) {
+
         return TranscodePlaybackModel(
           item: item,
           queue: libraryQueue,
@@ -500,6 +501,7 @@ class PlaybackModelHelper {
         bitRateOptions: playbackModel.bitRateOptions,
       );
     } else if ((mediaSource.supportsTranscoding ?? false) && mediaSource.transcodingUrl != null) {
+
       newModel = TranscodePlaybackModel(
         item: playbackModel.item,
         queue: playbackModel.queue,

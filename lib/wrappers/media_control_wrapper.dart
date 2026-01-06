@@ -25,9 +25,15 @@ import 'package:fladder/wrappers/players/lib_mdk.dart'
 import 'package:fladder/wrappers/players/lib_mpv.dart';
 import 'package:fladder/wrappers/players/native_player.dart';
 import 'package:fladder/wrappers/players/player_states.dart';
+import 'package:fladder/wrappers/players/tizen_player.dart';
 
 class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerControlsCallback {
   MediaControlsWrapper({required this.ref});
+
+  /// Notifier used to inform UI that subtitle source/mode changed.
+  /// Incrementing the value will notify any listeners (e.g. subtitle widgets)
+  /// so they can refresh immediately without waiting for a full controls rebuild.
+  final ValueNotifier<int> subtitleChangeNotifier = ValueNotifier<int>(0);
 
   BasePlayer? _player;
 
@@ -42,8 +48,18 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
   Stream<PlayerState>? get stateStream => _player?.stateStream;
   PlayerState? get lastState => _player?.lastState;
 
-  Widget? subtitleWidget(bool showOverlay, {GlobalKey? controlsKey}) =>
-      _player?.subtitles(showOverlay, controlsKey: controlsKey);
+  Widget? subtitleWidget(bool showOverlay, {GlobalKey? controlsKey}) {
+    final inner = _player?.subtitles(showOverlay, controlsKey: controlsKey);
+    if (inner == null) return null;
+
+    // Wrap the player's subtitle widget in a ValueListenableBuilder so we can
+    // force a rebuild when the subtitle source/mode changes without needing a
+    // full controls rebuild.
+    return ValueListenableBuilder<int>(
+      valueListenable: subtitleChangeNotifier,
+      builder: (context, _, __) => _player?.subtitles(showOverlay, controlsKey: controlsKey) ?? const SizedBox.shrink(),
+    );
+  }
   Widget? videoWidget(Key key, BoxFit fit) => _player?.videoWidget(key, fit);
 
   final Ref ref;
@@ -78,6 +94,7 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
       PlayerOptions.libMDK => LibMDK(),
       PlayerOptions.libMPV => LibMPV(),
       PlayerOptions.nativePlayer => NativePlayer(),
+      PlayerOptions.tizenPlayer => TizenPlayer(),
     };
 
     setup(player);
@@ -308,8 +325,14 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
   Future<int> setAudioTrack(AudioStreamModel? model, PlaybackModel playbackModel) async =>
       await _player?.setAudioTrack(model, playbackModel) ?? -1;
 
-  Future<int> setSubtitleTrack(SubStreamModel? model, PlaybackModel playbackModel) async =>
-      await _player?.setSubtitleTrack(model, playbackModel) ?? -1;
+  Future<int> setSubtitleTrack(SubStreamModel? model, PlaybackModel playbackModel) async {
+    final result = await _player?.setSubtitleTrack(model, playbackModel) ?? -1;
+    // Notify UI listeners that subtitle source/mode changed so subtitles can refresh
+    try {
+      subtitleChangeNotifier.value = subtitleChangeNotifier.value + 1;
+    } catch (_) {}
+    return result;
+  }
 
   Future<void> setVolume(double volume) async => _player?.setVolume(volume);
 
