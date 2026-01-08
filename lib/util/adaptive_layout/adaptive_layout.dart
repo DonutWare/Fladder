@@ -206,6 +206,7 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
           platform: currentPlatform,
           isDesktop: isDesktop,
           sideBarWidth: 0,
+          topBarHeight: 0,
           controller: scrollControllers,
           posterDefaults: posterDefaults,
         );

@@ -1510,6 +1510,7 @@
   "quickConnectLoginUsingCode": "Using quick connect",
   "quickConnectEnterCodeDescription": "Enter the code below to login",
   "showMore": "Show more",
+  "showLess": "Show less",
   "itemColorsTitle": "Item colors",
   "itemColorsDesc": "Use item's primary color to theme the details page",
   "mediaTunnelingTitle": "Media tunneling",
@@ -2230,5 +2231,8 @@
         "example": "1"
       }
     }
-  }
+  },
+  "activeTvChannels": "Active TV Channels",
+  "enableNewTVLayout": "Enable new TV layout",
+  "enableNewTVLayoutDesc": "Show larger TV style banners on the dashboard."
 }

@@ -6,6 +6,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/screens/shared/media/components/poster_image.dart';
+import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
@@ -82,7 +83,7 @@ class PosterWidget extends ConsumerWidget {
                 children: [
                   Flexible(
                     child: ClickableText(
-                      onTap: AdaptiveLayout.viewSizeOf(context) != ViewSize.phone
+                      onTap: AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer
                           ? () => poster.parentBaseModel.navigateTo(context)
                           : null,
                       text: poster.title,
@@ -159,10 +160,11 @@ class PosterPlaceHolder extends StatelessWidget {
           padding: const EdgeInsets.all(4),
           child: FocusButton(
             onTap: onTap,
-            child: Card(
-              color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.2),
-              elevation: 0,
-              shadowColor: Colors.transparent,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: FladderTheme.defaultShape.borderRadius,
+                color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.2),
+              ),
               child: Center(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),

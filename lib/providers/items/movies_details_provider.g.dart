@@ -6,7 +6,7 @@ part of 'movies_details_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$movieDetailsHash() => r'8ee6f9709112e86914800b29c7f269f12afecc92';
+String _$movieDetailsHash() => r'cef764853d7527e173927bd45b9cd0a5c78a2b63';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,7 +29,8 @@ class _SystemHash {
   }
 }
 
-abstract class _$MovieDetails extends BuildlessAutoDisposeNotifier<MovieModel?> {
+abstract class _$MovieDetails
+    extends BuildlessAutoDisposeNotifier<MovieModel?> {
   late final String arg;
 
   MovieModel? build(
@@ -72,14 +73,16 @@ class MovieDetailsFamily extends Family<MovieModel?> {
   static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
 
   @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies => _allTransitiveDependencies;
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
 
   @override
   String? get name => r'movieDetailsProvider';
 }
 
 /// See also [MovieDetails].
-class MovieDetailsProvider extends AutoDisposeNotifierProviderImpl<MovieDetails, MovieModel?> {
+class MovieDetailsProvider
+    extends AutoDisposeNotifierProviderImpl<MovieDetails, MovieModel?> {
   /// See also [MovieDetails].
   MovieDetailsProvider(
     String arg,
@@ -87,9 +90,13 @@ class MovieDetailsProvider extends AutoDisposeNotifierProviderImpl<MovieDetails,
           () => MovieDetails()..arg = arg,
           from: movieDetailsProvider,
           name: r'movieDetailsProvider',
-          debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$movieDetailsHash,
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$movieDetailsHash,
           dependencies: MovieDetailsFamily._dependencies,
-          allTransitiveDependencies: MovieDetailsFamily._allTransitiveDependencies,
+          allTransitiveDependencies:
+              MovieDetailsFamily._allTransitiveDependencies,
           arg: arg,
         );
 
@@ -131,7 +138,8 @@ class MovieDetailsProvider extends AutoDisposeNotifierProviderImpl<MovieDetails,
   }
 
   @override
-  AutoDisposeNotifierProviderElement<MovieDetails, MovieModel?> createElement() {
+  AutoDisposeNotifierProviderElement<MovieDetails, MovieModel?>
+      createElement() {
     return _MovieDetailsProviderElement(this);
   }
 
@@ -156,7 +164,8 @@ mixin MovieDetailsRef on AutoDisposeNotifierProviderRef<MovieModel?> {
   String get arg;
 }
 
-class _MovieDetailsProviderElement extends AutoDisposeNotifierProviderElement<MovieDetails, MovieModel?>
+class _MovieDetailsProviderElement
+    extends AutoDisposeNotifierProviderElement<MovieDetails, MovieModel?>
     with MovieDetailsRef {
   _MovieDetailsProviderElement(super.provider);
 

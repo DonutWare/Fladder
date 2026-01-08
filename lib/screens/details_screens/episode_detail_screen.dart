@@ -15,7 +15,7 @@ import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/screens/shared/media/chapter_row.dart';
 import 'package:fladder/screens/shared/media/components/media_play_button.dart';
 import 'package:fladder/screens/shared/media/episode_posters.dart';
-import 'package:fladder/screens/shared/media/expanding_overview.dart';
+import 'package:fladder/screens/shared/media/expanding_text.dart';
 import 'package:fladder/screens/shared/media/external_urls.dart';
 import 'package:fladder/screens/shared/media/people_row.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
@@ -157,25 +157,20 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                     genres: details.series?.overview.genreItems ?? [],
                     officialRating: details.series?.overview.parentalRating,
                     communityRating: details.series?.overview.communityRating,
+                    mediaStreamHelper: details.episode?.mediaStreams != null
+                        ? MediaStreamHelper(
+                            mediaStream: details.episode!.mediaStreams,
+                            onItemChanged: (changed) {
+                              final updateEpisode = details.episode!.copyWith(
+                                mediaStreams: changed,
+                              );
+                              ref.read(providerInstance.notifier).updateEpisode(updateEpisode);
+                            },
+                          )
+                        : null,
                   ),
-                  if (details.episode?.mediaStreams != null)
-                    Padding(
-                      padding: padding,
-                      child: MediaStreamInformation(
-                        mediaStream: details.episode!.mediaStreams,
-                        onVersionIndexChanged: (index) {
-                          ref.read(providerInstance.notifier).setVersionIndex(index);
-                        },
-                        onSubIndexChanged: (index) {
-                          ref.read(providerInstance.notifier).setSubIndex(index);
-                        },
-                        onAudioIndexChanged: (index) {
-                          ref.read(providerInstance.notifier).setAudioIndex(index);
-                        },
-                      ),
-                    ),
                   if (episodeDetails.overview.summary.isNotEmpty == true)
-                    ExpandingOverview(
+                    ExpandingText(
                       text: episodeDetails.overview.summary,
                     ).padding(padding),
                   if (episodeDetails.chapters.isNotEmpty)

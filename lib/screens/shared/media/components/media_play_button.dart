@@ -75,13 +75,6 @@ class MediaPlayButton extends ConsumerWidget {
                       bottomRight: progress != 0 ? smallRadius : radius.bottomRight,
                     ),
                     darkOverlay: false,
-                    onFocusChanged: (value) {
-                      if (value) {
-                        context.ensureVisible(
-                          alignment: 1.0,
-                        );
-                      }
-                    },
                     child: Stack(
                       alignment: Alignment.center,
                       children: [

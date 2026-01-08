@@ -14,7 +14,6 @@ import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
-import 'package:fladder/widgets/shared/clickable_text.dart';
 import 'package:fladder/widgets/shared/enum_selection.dart';
 import 'package:fladder/widgets/shared/horizontal_list.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
@@ -24,15 +23,21 @@ import 'package:fladder/widgets/shared/status_card.dart';
 class EpisodePosters extends ConsumerStatefulWidget {
   final List<EpisodeModel> episodes;
   final String? label;
+  final VerticalDirection titleActionsPosition;
   final ValueChanged<EpisodeModel> playEpisode;
   final EdgeInsets contentPadding;
+  final EpisodeModel? selectedEpisode;
   final Function(VoidCallback action, EpisodeModel episodeModel)? onEpisodeTap;
+  final Function(EpisodeModel selected)? onFocused;
   const EpisodePosters({
     this.label,
+    this.titleActionsPosition = VerticalDirection.up,
     required this.contentPadding,
     required this.playEpisode,
     required this.episodes,
     this.onEpisodeTap,
+    this.selectedEpisode,
+    this.onFocused,
     super.key,
   });
 
@@ -59,9 +64,13 @@ class _EpisodePosterState extends ConsumerState<EpisodePosters> {
 
     return HorizontalList(
       label: widget.label,
+      titleActionsPosition: widget.titleActionsPosition,
+      onFocused: (index) {
+        widget.onFocused?.call(episodes[index]);
+      },
       titleActions: [
         if (episodesBySeason.isNotEmpty && episodesBySeason.length > 1) ...{
-          const SizedBox(width: 12),
+          const SizedBox(width: 16),
           EnumBox(
             current: selectedSeason != null ? "${context.localized.season(1)} $selectedSeason" : context.localized.all,
             itemBuilder: (context) => [
@@ -81,13 +90,11 @@ class _EpisodePosterState extends ConsumerState<EpisodePosters> {
           )
         },
       ],
-      height: AdaptiveLayout.poster(context).gridRatio,
       contentPadding: widget.contentPadding,
       startIndex: indexOfCurrent,
       items: episodes,
       itemBuilder: (context, index) {
         final episode = episodes[index];
-        final isCurrentEpisode = index == indexOfCurrent;
         final tag = UniqueKey();
         return EpisodePoster(
           episode: episode,
@@ -120,7 +127,7 @@ class _EpisodePosterState extends ConsumerState<EpisodePosters> {
             context.refreshData();
           },
           actions: episode.generateActions(context, ref),
-          isCurrentEpisode: isCurrentEpisode,
+          isCurrentEpisode: widget.selectedEpisode == episode,
         );
       },
     );
@@ -147,7 +154,7 @@ class EpisodePoster extends ConsumerWidget {
     this.blur = false,
     required this.actions,
     this.onFocusChanged,
-    required this.isCurrentEpisode,
+    this.isCurrentEpisode = false,
     this.heroTag,
   });
 
@@ -183,7 +190,6 @@ class EpisodePoster extends ConsumerWidget {
                     borderRadius: FladderTheme.smallShape.borderRadius,
                     color: Theme.of(context).colorScheme.surfaceContainer,
                   ),
-                  foregroundDecoration: FladderTheme.defaultPosterDecoration,
                   child: FladderImage(
                     image: !episodeAvailable ? episode.parentImages?.primary : episode.images?.primary,
                     placeHolder: placeHolder,
@@ -295,8 +301,8 @@ class EpisodePoster extends ConsumerWidget {
                     ),
                   ),
                 Flexible(
-                  child: ClickableText(
-                    text: episode.episodeLabel(context),
+                  child: Text(
+                    episode.episodeLabel(context),
                     maxLines: 1,
                   ),
                 ),

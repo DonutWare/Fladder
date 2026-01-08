@@ -955,10 +955,7 @@ class JellyService {
         seriesId: seriesId,
         isMissing: isMissing,
         enableUserData: enableUserData,
-        fields: [
-          ...?fields,
-          ItemFields.parentid,
-        ],
+        fields: fields,
       );
       return response;
     } catch (e) {

@@ -99,6 +99,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
 
     final viewSize = AdaptiveLayout.viewSizeOf(context);
 
+    final useTVExpandedLayout = ref.watch(clientSettingsProvider.select((value) => value.useTVExpandedLayout));
+
     return MediaQuery.removeViewInsets(
       context: context,
       child: NestedScaffold(
@@ -162,7 +164,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   if (tvChannels.isNotEmpty)
                     PosterRow(
                       contentPadding: padding,
-                      label: "Active TV Channels",
+                      tvMode: useTVExpandedLayout,
+                      label: context.localized.activeTvChannels,
                       collectionAspectRatio: 0.55,
                       onLabelClick: () {
                         return LiveTvRoute().navigate(context);
@@ -172,6 +175,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   if (resumeVideo.isNotEmpty &&
                       (homeSettings.nextUp == HomeNextUp.cont || homeSettings.nextUp == HomeNextUp.separate))
                     PosterRow(
+                      tvMode: useTVExpandedLayout,
                       contentPadding: padding,
                       label: context.localized.dashboardContinueWatching,
                       posters: resumeVideo,
@@ -179,6 +183,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   if (resumeAudio.isNotEmpty &&
                       (homeSettings.nextUp == HomeNextUp.cont || homeSettings.nextUp == HomeNextUp.separate))
                     PosterRow(
+                      tvMode: useTVExpandedLayout,
                       contentPadding: padding,
                       label: context.localized.dashboardContinueListening,
                       posters: resumeAudio,
@@ -186,6 +191,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   if (resumeBooks.isNotEmpty &&
                       (homeSettings.nextUp == HomeNextUp.cont || homeSettings.nextUp == HomeNextUp.separate))
                     PosterRow(
+                      tvMode: useTVExpandedLayout,
                       contentPadding: padding,
                       label: context.localized.dashboardContinueReading,
                       posters: resumeBooks,
@@ -193,18 +199,21 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   if (dashboardData.nextUp.isNotEmpty &&
                       (homeSettings.nextUp == HomeNextUp.nextUp || homeSettings.nextUp == HomeNextUp.separate))
                     PosterRow(
+                      tvMode: useTVExpandedLayout,
                       contentPadding: padding,
                       label: context.localized.nextUp,
                       posters: dashboardData.nextUp,
                     ),
                   if ([...allResume, ...dashboardData.nextUp].isNotEmpty && homeSettings.nextUp == HomeNextUp.combined)
                     PosterRow(
+                      tvMode: useTVExpandedLayout,
                       contentPadding: padding,
                       label: context.localized.dashboardContinue,
                       posters: [...allResume, ...dashboardData.nextUp],
                     ),
                   ...views.dashboardViews.where((element) => element.recentlyAdded.isNotEmpty).map(
                         (view) => PosterRow(
+                          tvMode: useTVExpandedLayout,
                           contentPadding: padding,
                           label: context.localized.dashboardRecentlyAdded(view.name),
                           collectionAspectRatio: view.collectionType.aspectRatio,

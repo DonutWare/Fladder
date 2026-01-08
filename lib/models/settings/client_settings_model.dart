@@ -83,6 +83,7 @@ abstract class ClientSettingsModel with _$ClientSettingsModel {
     @Default(true) bool checkForUpdates,
     @Default(false) bool usePosterForLibrary,
     @Default(false) bool useSystemIME,
+    @Default(false) bool useTVExpandedLayout,
     String? lastViewedUpdate,
     int? libraryPageSize,
     @Default({}) Map<GlobalHotKeys, KeyCombination> shortcuts,
@@ -93,6 +94,7 @@ abstract class ClientSettingsModel with _$ClientSettingsModel {
       blurPlaceHolders: leanBackMode ? false : true,
       backgroundImage: leanBackMode ? BackgroundType.disabled : BackgroundType.blurred,
       themeMode: leanBackMode ? ThemeMode.dark : ThemeMode.system,
+      useTVExpandedLayout: leanBackMode,
     );
   }
 

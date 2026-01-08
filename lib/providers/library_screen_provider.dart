@@ -132,7 +132,6 @@ class LibraryScreen extends _$LibraryScreen {
         parentId: viewModel.id,
         categoryLimit: 6,
         itemLimit: 9,
-        fields: [ItemFields.mediasourcecount],
       );
       newRecommendations = [
         ...newRecommendations,
