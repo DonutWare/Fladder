@@ -2255,5 +2255,33 @@
     "seerrRequestStatusDeclined": "Recusado",
     "@seerrRequestStatusDeclined": {},
     "noOverviewAvailable": "Nenhuma visão geral disponível.",
-    "@noOverviewAvailable": {}
+    "@noOverviewAvailable": {},
+    "noTags": "Nenhuma etiqueta",
+    "@noTags": {},
+    "email": "Email",
+    "@email": {},
+    "seerrNotConfigured": "Não configurado",
+    "@seerrNotConfigured": {},
+    "seerrLoadingUser": "Carregando o usuário",
+    "@seerrLoadingUser": {},
+    "seerrUnknownUser": "Usuário desconhecido",
+    "@seerrUnknownUser": {},
+    "seerrServer": "Servidor Seerr",
+    "@seerrServer": {},
+    "seerrAuthenticateLocal": "Autenticação do Seerr (local)",
+    "@seerrAuthenticateLocal": {},
+    "rootFolderDefaultLabel": "{folder} (Padrão)",
+    "@rootFolderDefaultLabel": {
+        "placeholders": {
+            "folder": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrAnimeSeriesNote": "* Esta série é um anime.",
+    "@seerrAnimeSeriesNote": {},
+    "seerrRequestStatusPending": "Pendente",
+    "@seerrRequestStatusPending": {},
+    "seerrRequestStatusApproved": "Aprovado",
+    "@seerrRequestStatusApproved": {}
 }
