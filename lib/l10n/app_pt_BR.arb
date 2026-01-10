@@ -778,7 +778,7 @@
     "@settingsProfileTitle": {},
     "settingsQuickConnectTitle": "Conexão rápida",
     "@settingsQuickConnectTitle": {},
-    "settingsProfileDesc": "Tela de bloqueio, URL local",
+    "settingsProfileDesc": "Tela de bloqueio, URL local, Seerr",
     "@settingsProfileDesc": {},
     "settingsShowScaleSlider": "Mostrar slide do tamanho do pôster",
     "@settingsShowScaleSlider": {},
@@ -1901,7 +1901,7 @@
     "@deleteLibraryConfirmTitle": {},
     "noLibrarySelected": "Nenhuma biblioteca selecionada",
     "@noLibrarySelected": {},
-    "enabledPhotos": "Fotos habilitados",
+    "enabledPhotos": "Fotos ativadas",
     "@enabledPhotos": {},
     "enableAndRankMetadataFetchers": "Habilite e classifique seus buscadores de metadados preferidos em ordem de prioridade.",
     "@enableAndRankMetadataFetchers": {},
@@ -1989,7 +1989,7 @@
     "@contentType": {},
     "primary": "Primário",
     "@primary": {},
-    "logo": "{conta, plural, other{Logos} one{Logo}}",
+    "logo": "{count, plural, other{Logos} one{Logo}}",
     "@logo": {
         "description": "logo",
         "placeholders": {
@@ -2021,6 +2021,239 @@
     "@rootFolder": {},
     "selectFolder": "Selecione a pasta",
     "@selectFolder": {},
-    "tags": "Tags",
-    "@tags": {}
+    "tags": "Etiquetas",
+    "@tags": {},
+    "popularity": "Popularidade",
+    "@popularity": {},
+    "contentRating": "Avaliação do conteúdo",
+    "@contentRating": {},
+    "runtimeMinutesTitle": "Tempo de execução (minutos)",
+    "@runtimeMinutesTitle": {},
+    "runtimeRangeMinutes": "{min} - {max} minutos",
+    "@runtimeRangeMinutes": {
+        "placeholders": {
+            "min": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            }
+        }
+    },
+    "settingsProfileSubtitleMode": "Modo de legenda",
+    "@settingsProfileSubtitleMode": {},
+    "subtitlePlaybackModeAlways": "Sempre reproduzir",
+    "@subtitlePlaybackModeAlways": {},
+    "subtitlePlaybackModeOnlyForced": "Apenas forçada",
+    "@subtitlePlaybackModeOnlyForced": {},
+    "syncplayAccessCreateAndJoinGroups": "Criar e participar de grupos",
+    "@syncplayAccessCreateAndJoinGroups": {},
+    "syncplayAccessJoinGroups": "Participar de grupos",
+    "@syncplayAccessJoinGroups": {},
+    "resetPassword": "Redefinir senha",
+    "@resetPassword": {},
+    "passwordResetSuccess": "Senha redefinida com sucesso",
+    "@passwordResetSuccess": {},
+    "passwordResetFailed": "Falha ao redefinir a senha",
+    "@passwordResetFailed": {},
+    "passwordMismatch": "A nova senha e a senha de confirmação não coincidem",
+    "@passwordMismatch": {},
+    "passwordChangeSuccess": "Senha alterada com sucesso",
+    "@passwordChangeSuccess": {},
+    "savePassword": "Salvar senha",
+    "@savePassword": {},
+    "enabledLUFSScan": "Varredura LUFS ativada",
+    "@enabledLUFSScan": {},
+    "enabledRealtimeMonitoring": "Monitoramento em tempo real ativado",
+    "@enabledRealtimeMonitoring": {},
+    "automaticallyAddToCollection": "Adicionar automaticamente à coleção",
+    "@automaticallyAddToCollection": {},
+    "enabledEmbeddedTitles": "Títulos incorporados ativados",
+    "@enabledEmbeddedTitles": {},
+    "enabledEmbeddedExtrasTitles": "Títulos incorporados de extras ativados",
+    "@enabledEmbeddedExtrasTitles": {},
+    "automaticRefreshInterval": "Intervalo de atualização automática",
+    "@automaticRefreshInterval": {},
+    "autoRefreshIntervalNote": "Habilitar essa opção pode causar tempos de atualização da biblioteca mais longos.",
+    "@autoRefreshIntervalNote": {},
+    "preferredDownloadLanguage": "Idioma de download preferido",
+    "@preferredDownloadLanguage": {},
+    "countryRegion": "País/Região",
+    "@countryRegion": {},
+    "saveMetadata": "Salvar metadados",
+    "@saveMetadata": {},
+    "metadataFetchers": "Coletores de metadados ({type})",
+    "@metadataFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "imageFetchers": "Buscadores de imagens ({type})",
+    "@imageFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "trickplay": "Pré-visualizações de vídeo",
+    "@trickplay": {},
+    "enableTrickplayImageExtraction": "Ativar extração de imagens trickplay",
+    "@enableTrickplayImageExtraction": {},
+    "extractTrickplayImagesDuringLibraryScan": "Extrair imagens trickplay durante o escaneamento da biblioteca",
+    "@extractTrickplayImagesDuringLibraryScan": {},
+    "saveTrickplayImagesNextToMedia": "Salvar imagens de trickplay junto à mídia",
+    "@saveTrickplayImagesNextToMedia": {},
+    "enableChapterImageExtraction": "Ativar extração de imagens de capítulos",
+    "@enableChapterImageExtraction": {},
+    "extractChapterImagesDuringLibraryScan": "Extrair imagens dos capítulos durante o rastreamento da biblioteca",
+    "@extractChapterImagesDuringLibraryScan": {},
+    "subtitleDownloads": "Download de legendas",
+    "@subtitleDownloads": {},
+    "downloadLanguages": "Idiomas para Download",
+    "@downloadLanguages": {},
+    "subtitleDownloaders": "Downloaders de legendas",
+    "@subtitleDownloaders": {},
+    "seerrRequestStatusCompleted": "Concluído",
+    "@seerrRequestStatusCompleted": {},
+    "seerrMediaStatusProcessing": "Processando",
+    "@seerrMediaStatusProcessing": {},
+    "seerrAuthApiKey": "Chave da API",
+    "@seerrAuthApiKey": {},
+    "seerrUserFetchFailed": "Falha ao buscar usuário do Seerr",
+    "@seerrUserFetchFailed": {},
+    "seerrEnterServerUrlFirst": "Insira primeiro o URL do servidor Seerr",
+    "@seerrEnterServerUrlFirst": {},
+    "seerrApiKeySaved": "Chave da API salva",
+    "@seerrApiKeySaved": {},
+    "seerrLoggedIn": "Logado no Seerr",
+    "@seerrLoggedIn": {},
+    "manageRequest": "Gerenciar solicitação",
+    "@manageRequest": {},
+    "openInSeerr": "Abrir no Seerr",
+    "@openInSeerr": {},
+    "openInSonarr": "Abrir no Sonarr",
+    "@openInSonarr": {},
+    "openInRadarr": "Abrir no Radarr",
+    "@openInRadarr": {},
+    "removeFromSonarr": "Remover do Sonarr",
+    "@removeFromSonarr": {},
+    "removeFromRadarr": "Remover do Radarr",
+    "@removeFromRadarr": {},
+    "markAllSeasonsAsAvailable": "Marque todas as temporadas como disponíveis",
+    "@markAllSeasonsAsAvailable": {},
+    "markAsAvailable": "Marcar como disponível",
+    "@markAsAvailable": {},
+    "markAllSeasonsAsAvailableConfirm": "Marcar todas as temporadas como disponíveis?",
+    "@markAllSeasonsAsAvailableConfirm": {},
+    "decline": "Declínio",
+    "@decline": {},
+    "pendingRequests": "{count, plural, other{Nenhuma solicitação pendente} one{{count} solicitação pendente} two{{count} solicitações pendentes}}",
+    "@pendingRequests": {
+        "description": "pendingRequests",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "processing": "Processando",
+    "@processing": {},
+    "seerrDetails": "Detalhes do Seerr",
+    "@seerrDetails": {},
+    "onlyPerfectSubtitleMatch": "Baixe apenas legendas que correspondam perfeitamente à mídia",
+    "@onlyPerfectSubtitleMatch": {},
+    "perfectSubtitleMatchDescription": "Ao exigir uma correspondência perfeita, apenas legendas testadas e verificadas com seu arquivo de vídeo serão incluídas. Se desmarcar, mais legendas estarão disponíveis para download, porém com maior risco de estarem dessincronizadas ou com texto errado.",
+    "@perfectSubtitleMatchDescription": {},
+    "skipSubtitlesIfAudioMatches": "Ignore se a faixa de áudio padrão corresponder ao idioma do download",
+    "@skipSubtitlesIfAudioMatches": {},
+    "skipSubtitlesIfEmbedded": "Pule esta parte se o vídeo já contiver legendas incorporadas",
+    "@skipSubtitlesIfEmbedded": {},
+    "saveSubtitlesNextToMedia": "Salvar legendas junto à mídia",
+    "@saveSubtitlesNextToMedia": {},
+    "metadataImageLongPressTouch": "Pressione e segure para excluir a imagem",
+    "@metadataImageLongPressTouch": {},
+    "metadataImageLongPressClick": "Clique com o botão direito para excluir a imagem",
+    "@metadataImageLongPressClick": {},
+    "backdrop": "{count, plural, other{Imagens de Fundo} one{Imagem de Fundo}}",
+    "@backdrop": {
+        "description": "backdrop",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "recentlyAdded": "Adicionado recentemente",
+    "@recentlyAdded": {},
+    "recentRequests": "Solicitações recentes",
+    "@recentRequests": {},
+    "trending": "Tendências",
+    "@trending": {},
+    "popularMovies": "Filmes populares",
+    "@popularMovies": {},
+    "popularSeries": "Séries populares",
+    "@popularSeries": {},
+    "requestConfiguration": "Configuração da solicitação",
+    "@requestConfiguration": {},
+    "qualityProfile": "Perfil de qualidade",
+    "@qualityProfile": {},
+    "requestAs": "Solicitar como",
+    "@requestAs": {},
+    "requestQuotaStatus": "{remaining} de {limit} restantes (reinicia a cada {days} dias)",
+    "@requestQuotaStatus": {
+        "placeholders": {
+            "remaining": {
+                "type": "int"
+            },
+            "limit": {
+                "type": "int"
+            },
+            "days": {
+                "type": "int"
+            }
+        }
+    },
+    "requestQuotaLimitReached": "Limite de requisições atingido para {mediaType}.",
+    "@requestQuotaLimitReached": {
+        "placeholders": {
+            "mediaType": {
+                "type": "String"
+            }
+        }
+    },
+    "submitRequest": "Enviar solicitação",
+    "@submitRequest": {},
+    "downloading": "baixando",
+    "@downloading": {},
+    "request": "Solicitar",
+    "@request": {},
+    "viewRequest": "Visualizar solicitação",
+    "@viewRequest": {},
+    "username": "Nome de usuário",
+    "@username": {},
+    "ok": "OK",
+    "@ok": {},
+    "seerr": "Seerr",
+    "@seerr": {},
+    "loggedInAs": "Logado como {displayName}",
+    "@loggedInAs": {
+        "placeholders": {
+            "displayName": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrAutoApproveNotice": "As solicitações que você enviar serão aprovadas automaticamente.",
+    "@seerrAutoApproveNotice": {},
+    "seerrPermissionDenied": "Você não tem permissão para solicitar este tipo de mídia.",
+    "@seerrPermissionDenied": {},
+    "seerrRequestStatusDeclined": "Recusado",
+    "@seerrRequestStatusDeclined": {},
+    "noOverviewAvailable": "Nenhuma visão geral disponível.",
+    "@noOverviewAvailable": {}
 }
