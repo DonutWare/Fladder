@@ -84,7 +84,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
 
   Future<void> _updateDominantColor() async {
     if (!ref.read(clientSettingsProvider.select((value) => value.deriveColorsFromItem))) return;
-    final newImage = widget.item?.getPosters?.logo;
+    final newImage = widget.item?.getPosters?.logo ?? widget.item?.getPosters?.primary ?? backgroundImage;
     if (newImage == null) return;
 
     final provider = newImage.imageProvider;

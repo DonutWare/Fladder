@@ -9,6 +9,7 @@ import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
 import 'package:fladder/models/book_model.dart';
 import 'package:fladder/models/boxset_model.dart';
+import 'package:fladder/models/items/channel_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/items/folder_model.dart';
 import 'package:fladder/models/items/images_models.dart';
@@ -25,6 +26,7 @@ import 'package:fladder/models/playlist_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/details_screens/book_detail_screen.dart';
+import 'package:fladder/screens/details_screens/channel_detail_screen.dart';
 import 'package:fladder/screens/details_screens/details_screens.dart';
 import 'package:fladder/screens/details_screens/episode_detail_screen.dart';
 import 'package:fladder/screens/details_screens/season_detail_screen.dart';
@@ -164,6 +166,8 @@ class ItemBaseModel with ItemBaseModelMappable {
         return EpisodeDetailScreen(item: this);
       case SeriesModel series:
         return SeriesDetailScreen(item: series);
+      case ChannelModel channel:
+        return ChannelDetailScreen(item: channel);
       default:
         return EmptyItem(item: this);
     }
@@ -217,6 +221,7 @@ class ItemBaseModel with ItemBaseModelMappable {
       BaseItemKind.boxset => BoxSetModel.fromBaseDto(item, ref),
       BaseItemKind.book => BookModel.fromBaseDto(item, ref),
       BaseItemKind.playlist => PlaylistModel.fromBaseDto(item, ref),
+      BaseItemKind.tvchannel => ChannelModel.fromBaseDto(item, ref),
       _ => ItemBaseModel._fromBaseDto(item, ref)
     };
   }

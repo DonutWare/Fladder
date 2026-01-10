@@ -2181,6 +2181,14 @@
   },
   "processing": "Processing",
   "seerrDetails": "Seerr details",
+  "watchChannel": "Watch {channel}",
+  "@watchChannel": {
+    "placeholders": {
+      "channel": {
+        "type": "String"
+      }
+    }
+  },
   "specialFeature": "{count, plural, other{Special Features} one{Special Feature} }",
   "@specialFeature": {
     "description": "special feature",

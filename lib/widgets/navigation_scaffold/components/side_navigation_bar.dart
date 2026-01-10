@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/collection_types.dart';
-import 'package:fladder/models/library_filter_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/views_provider.dart';
 import 'package:fladder/routes/auto_router.dart';
@@ -204,11 +203,7 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                                             selected,
                                             true,
                                             shouldExpand,
-                                            () => context.pushRoute(
-                                              LibrarySearchRoute(
-                                                viewModelId: view.id,
-                                              ).withFilter(view.collectionType.defaultFilters),
-                                            ),
+                                            () => view.navigateToView(context),
                                             onLongPress: () => showBottomSheetPill(
                                               context: context,
                                               content: (context, scrollController) => ListView(
@@ -281,9 +276,7 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                                             .sublist(views.length - remainingCount)
                                             .map(
                                               (e) => PopupMenuItem(
-                                                onTap: () => context.pushRoute(LibrarySearchRoute(
-                                                  viewModelId: e.id,
-                                                ).withFilter(e.collectionType.defaultFilters)),
+                                                onTap: () => e.navigateToView(context),
                                                 child: Row(
                                                   spacing: 8,
                                                   children: [
