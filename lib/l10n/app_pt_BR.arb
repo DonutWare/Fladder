@@ -1902,5 +1902,125 @@
     "noLibrarySelected": "Nenhuma biblioteca selecionada",
     "@noLibrarySelected": {},
     "enabledPhotos": "Fotos habilitados",
-    "@enabledPhotos": {}
+    "@enabledPhotos": {},
+    "enableAndRankMetadataFetchers": "Habilite e classifique seus buscadores de metadados preferidos em ordem de prioridade.",
+    "@enableAndRankMetadataFetchers": {},
+    "enableAndRankImagesFetchers": "Habilite e classifique seus buscadores de imagens preferidos em ordem de prioridade.",
+    "@enableAndRankImagesFetchers": {},
+    "mediaSegmentProviders": "Provedores de segmento de mídia",
+    "@mediaSegmentProviders": {},
+    "enableAndRankMediaSegmentProviders": "Habilite e classifique seus provedores de mediasegment preferidos em ordem de prioridade.",
+    "@enableAndRankMediaSegmentProviders": {},
+    "chapterImages": "Imagens do Capítulo",
+    "@chapterImages": {},
+    "seerrRequestStatusFailed": "Falhado",
+    "@seerrRequestStatusFailed": {},
+    "seerrMediaStatusPartiallyAvailable": "Disponível parcialmente",
+    "@seerrMediaStatusPartiallyAvailable": {},
+    "seerrMediaStatusAvailable": "Disponível",
+    "@seerrMediaStatusAvailable": {},
+    "seerrMediaStatusBlacklisted": "Lista negra",
+    "@seerrMediaStatusBlacklisted": {},
+    "seerrMediaStatusDeleted": "Excluído",
+    "@seerrMediaStatusDeleted": {},
+    "seerrAuthLocal": "Local",
+    "@seerrAuthLocal": {},
+    "seerrAuthJellyfin": "Jellyfin",
+    "@seerrAuthJellyfin": {},
+    "seerrConnectedToServer": "Conectado ao servidor Seerr: {serverUrl}",
+    "@seerrConnectedToServer": {
+        "placeholders": {
+            "serverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "emailUsername": "Email / Nome do usuário",
+    "@emailUsername": {},
+    "discover": "Descobrir",
+    "@discover": {},
+    "sponsor": "Patrocinador",
+    "@sponsor": {},
+    "sponsorMessage": "Se você gosta de usar o Fladder, considere patrocinar o projeto para apoiar o desenvolvimento e melhorias contínuas. Obrigado pelo seu apoio!",
+    "@sponsorMessage": {},
+    "min": "min",
+    "@min": {},
+    "max": "máx",
+    "@max": {},
+    "requestAll": "Solicitar tudo",
+    "@requestAll": {},
+    "deleteData": "Excluir dados",
+    "@deleteData": {},
+    "removeSeriesFromSonarrConfirm": "Remover esta série de Sonarr? Isso irá remover todos os dados INCLUIANDO arquivos.",
+    "@removeSeriesFromSonarrConfirm": {},
+    "removeMovieFromRadarrConfirm": "Remover este filme de Radarr? Isso irá remover todos os dados INCLUIANDO arquivos.",
+    "@removeMovieFromRadarrConfirm": {},
+    "removedFromSonarr": "Removido de Sonarr",
+    "@removedFromSonarr": {},
+    "removedFromRadarr": "Removido de Radarr",
+    "@removedFromRadarr": {},
+    "markAsAvailableConfirm": "Marcar como disponível?",
+    "@markAsAvailableConfirm": {},
+    "markedAsAvailable": "Marcado como disponível",
+    "@markedAsAvailable": {},
+    "deleteSeerrDataConfirm": "Excluir todos os arquivos do Seerr? Esta ação não pode ser desfeita.\nSe os dados ainda estiverem presentes em {service}, pode ser re-importado.",
+    "@deleteSeerrDataConfirm": {
+        "description": "Confirmation message for deleting Seerr data",
+        "placeholders": {
+            "service": {
+                "type": "String",
+                "example": "Sonarr/Radarr"
+            }
+        }
+    },
+    "dataDeleted": "Dados excluídos",
+    "@dataDeleted": {},
+    "approve": "Aprovar",
+    "@approve": {},
+    "saveArtWorkNextToMedia": "Salvar arte ao lado de arquivos de mídia",
+    "@saveArtWorkNextToMedia": {},
+    "saveArtWorkNextToMediaDesc": "Salvar arte em pastas de mídia vai colocá-los em um lugar onde eles podem ser facilmente editados.",
+    "@saveArtWorkNextToMediaDesc": {},
+    "select": "Selecione",
+    "@select": {},
+    "newLibrary": "Nova biblioteca",
+    "@newLibrary": {},
+    "contentType": "Tipo de conteúdo",
+    "@contentType": {},
+    "primary": "Primário",
+    "@primary": {},
+    "logo": "{conta, plural, other{Logos} one{Logo}}",
+    "@logo": {
+        "description": "logo",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "selectFolderToAdd": "Selecione a pasta para adicionar",
+    "@selectFolderToAdd": {},
+    "systemRootFolder": "Pasta raiz do sistema",
+    "@systemRootFolder": {},
+    "selectedPath": "Caminho selecionado: {path}",
+    "@selectedPath": {
+        "placeholders": {
+            "path": {
+                "type": "String"
+            }
+        }
+    },
+    "expectedMovies": "Filmes esperados",
+    "@expectedMovies": {},
+    "expectedSeries": "Série esperada",
+    "@expectedSeries": {},
+    "selectProfile": "Selecione o perfil",
+    "@selectProfile": {},
+    "rootFolder": "Pasta raiz",
+    "@rootFolder": {},
+    "selectFolder": "Selecione a pasta",
+    "@selectFolder": {},
+    "tags": "Tags",
+    "@tags": {}
 }
