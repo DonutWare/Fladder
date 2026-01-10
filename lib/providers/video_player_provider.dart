@@ -278,7 +278,10 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
   /// User-initiated play - routes through SyncPlay if active
   Future<void> userPlay() async {
     if (_isSyncPlayActive) {
-      await ref.read(syncPlayProvider.notifier).requestUnpause();
+      final syncPlay = ref.read(syncPlayProvider.notifier);
+      await syncPlay.requestUnpause();
+      // Must report ready after unpause for server to broadcast play command
+      await syncPlay.reportReady(isPlaying: true);
     } else {
       await state.play();
     }

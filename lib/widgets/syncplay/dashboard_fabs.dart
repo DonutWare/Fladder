@@ -6,6 +6,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/providers/syncplay/syncplay_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/adaptive_fab.dart';
 import 'package:fladder/widgets/syncplay/syncplay_group_sheet.dart';
@@ -17,23 +18,32 @@ class DashboardFabs extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isActive = ref.watch(isSyncPlayActiveProvider);
+    final isDualLayout = AdaptiveLayout.of(context).layoutMode == LayoutMode.dual;
 
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      spacing: 8,
-      children: [
-        // SyncPlay FAB
-        _SyncPlayFabButton(isActive: isActive),
-        // Search FAB
-        AdaptiveFab(
-          context: context,
-          title: context.localized.search,
-          key: const Key('dashboard_search'),
-          onPressed: () => context.router.navigate(LibrarySearchRoute()),
-          child: const Icon(IconsaxPlusLinear.search_normal_1),
-        ).normal,
-      ],
-    );
+    final children = [
+      // SyncPlay FAB
+      _SyncPlayFabButton(isActive: isActive),
+      // Search FAB
+      AdaptiveFab(
+        context: context,
+        title: context.localized.search,
+        key: const Key('dashboard_search'),
+        onPressed: () => context.router.navigate(LibrarySearchRoute()),
+        child: const Icon(IconsaxPlusLinear.search_normal_1),
+      ).normal,
+    ];
+
+    return isDualLayout
+        ? Column(
+            mainAxisSize: MainAxisSize.min,
+            spacing: 8,
+            children: children,
+          )
+        : Row(
+            mainAxisSize: MainAxisSize.min,
+            spacing: 8,
+            children: children,
+          );
   }
 }
 

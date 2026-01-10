@@ -13,6 +13,8 @@ import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/book_viewer_provider.dart';
 import 'package:fladder/providers/items/book_details_provider.dart';
+import 'package:fladder/providers/syncplay/syncplay_models.dart';
+import 'package:fladder/providers/syncplay/syncplay_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/book_viewer/book_viewer_screen.dart';
@@ -199,7 +201,15 @@ extension ItemBaseModelExtensions on ItemBaseModel? {
   }) async {
     if (itemModel == null) return;
 
+    // If in SyncPlay group, set the queue via SyncPlay instead of playing directly
+    final isSyncPlayActive = ref.read(isSyncPlayActiveProvider);
+    if (isSyncPlayActive) {
+      await _playSyncPlay(context, itemModel, ref, startPosition: startPosition);
+      return;
+    }
+
     _showLoadingIndicator(context);
+
 
     PlaybackModel? model = await ref.read(playbackModelHelper).createPlaybackModel(
           context,
@@ -210,6 +220,27 @@ extension ItemBaseModelExtensions on ItemBaseModel? {
 
     await _playVideo(context, startPosition: startPosition, current: model, ref: ref);
   }
+}
+
+/// Play item through SyncPlay - sets the queue and lets SyncPlay handle synchronized playback
+Future<void> _playSyncPlay(
+  BuildContext context,
+  ItemBaseModel itemModel,
+  WidgetRef ref, {
+  Duration? startPosition,
+}) async {
+  final startPositionTicks = startPosition != null 
+      ? secondsToTicks(startPosition.inMilliseconds / 1000) 
+      : 0;
+
+  // Set the new queue via SyncPlay - server will broadcast to all clients
+  await ref.read(syncPlayProvider.notifier).setNewQueue(
+    itemIds: [itemModel.id],
+    playingItemPosition: 0,
+    startPositionTicks: startPositionTicks,
+  );
+
+  // The PlayQueue update from server will trigger playback via _handlePlayQueue
 }
 
 extension ItemBaseModelsBooleans on List<ItemBaseModel> {
@@ -235,6 +266,18 @@ extension ItemBaseModelsBooleans on List<ItemBaseModel> {
 
     if (shuffle) {
       expandedList.shuffle();
+    }
+
+    // If in SyncPlay group, set the queue via SyncPlay
+    final isSyncPlayActive = ref.read(isSyncPlayActiveProvider);
+    if (isSyncPlayActive) {
+      Navigator.of(context, rootNavigator: true).pop(); // Pop loading indicator
+      await ref.read(syncPlayProvider.notifier).setNewQueue(
+        itemIds: expandedList.map((e) => e.id).toList(),
+        playingItemPosition: 0,
+        startPositionTicks: 0,
+      );
+      return;
     }
 
     PlaybackModel? model = await ref.read(playbackModelHelper).createPlaybackModel(

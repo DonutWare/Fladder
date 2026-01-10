@@ -239,15 +239,19 @@ class SyncPlayController {
     int playingItemPosition = 0,
     int startPositionTicks = 0,
   }) async {
-    if (!_state.isInGroup) return;
+    if (!_state.isInGroup) {
+      log('SyncPlay: Cannot set queue - not in group');
+      return;
+    }
     try {
-      await _api.syncPlaySetNewQueuePost(
-        body: PlayRequestDto(
-          playingQueue: itemIds,
-          playingItemPosition: playingItemPosition,
-          startPositionTicks: startPositionTicks,
-        ),
+      final body = PlayRequestDto(
+        playingQueue: itemIds,
+        playingItemPosition: playingItemPosition,
+        startPositionTicks: startPositionTicks,
       );
+      log('SyncPlay: Setting new queue: ${body.toJson()}');
+      final response = await _api.syncPlaySetNewQueuePost(body: body);
+      log('SyncPlay: SetNewQueue response: ${response.statusCode} - ${response.body}');
     } catch (e) {
       log('SyncPlay: Failed to set new queue: $e');
     }
@@ -521,33 +525,41 @@ class SyncPlayController {
       positionTicks: startPositionTicks,
     ));
 
-    log('SyncPlay: PlayQueue update - playing: $playingItemId (reason: $reason, isPlaying: $isPlayingNow)');
+    log('SyncPlay: PlayQueue update - playing: $playingItemId (reason: $reason, isPlaying: $isPlayingNow, previousItemId: $previousItemId)');
 
-    // Trigger playback if this is a new item and we should be playing
-    if (playingItemId != null &&
-        playingItemId != previousItemId &&
-        (reason == 'NewPlaylist' || reason == 'SetCurrentItem' || isPlayingNow)) {
+    // Trigger playback for NewPlaylist/SetCurrentItem regardless of whether item changed
+    // (the same user who set the queue also receives the update and needs to start playing)
+    final shouldTrigger = playingItemId != null &&
+        (reason == 'NewPlaylist' || reason == 'SetCurrentItem' || 
+         (playingItemId != previousItemId && isPlayingNow));
+    
+    log('SyncPlay: shouldTrigger=$shouldTrigger (reason: $reason)');
+    
+    if (shouldTrigger) {
       log('SyncPlay: Triggering playback for item: $playingItemId');
-      _startPlayback(playingItemId, startPositionTicks);
+      _startPlayback(playingItemId!, startPositionTicks);
     }
   }
 
   /// Start playback of an item from SyncPlay
   Future<void> _startPlayback(String itemId, int startPositionTicks) async {
-    log('SyncPlay: Starting playback for item: $itemId');
+    log('SyncPlay: _startPlayback called for item: $itemId, ticks: $startPositionTicks');
 
     try {
       // Fetch the item from Jellyfin
+      log('SyncPlay: Fetching item from API...');
       final api = _ref.read(jellyApiProvider);
       final itemResponse = await api.usersUserIdItemsItemIdGet(itemId: itemId);
       final itemModel = itemResponse.body;
 
       if (itemModel == null) {
-        log('SyncPlay: Failed to fetch item $itemId');
+        log('SyncPlay: Failed to fetch item $itemId - response body was null');
         return;
       }
+      log('SyncPlay: Fetched item: ${itemModel.name}');
 
       // Create playback model (context is optional - null for SyncPlay auto-play)
+      log('SyncPlay: Creating playback model...');
       final playbackHelper = _ref.read(playbackModelHelper);
       final startPosition = Duration(microseconds: startPositionTicks ~/ 10);
 
@@ -561,8 +573,10 @@ class SyncPlayController {
         log('SyncPlay: Failed to create playback model for $itemId');
         return;
       }
+      log('SyncPlay: Playback model created successfully');
 
       // Load and play
+      log('SyncPlay: Loading playback item...');
       final loadedCorrectly = await _ref.read(videoPlayerProvider.notifier).loadPlaybackItem(
             playbackModel,
             startPosition,
@@ -572,26 +586,29 @@ class SyncPlayController {
         log('SyncPlay: Failed to load playback item $itemId');
         return;
       }
+      log('SyncPlay: Playback item loaded successfully');
 
       // Set state to fullScreen and push the VideoPlayer route
       _ref.read(mediaPlaybackProvider.notifier).update(
             (state) => state.copyWith(state: VideoPlayerState.fullScreen),
           );
+      log('SyncPlay: Set state to fullScreen');
 
       // Push VideoPlayer using the global router's navigator key
       final navigatorKey = getNavigatorKey(_ref);
+      log('SyncPlay: Navigator key: ${navigatorKey != null ? "exists" : "null"}, currentState: ${navigatorKey?.currentState != null ? "exists" : "null"}');
       if (navigatorKey?.currentState != null) {
         navigatorKey!.currentState!.push(
           MaterialPageRoute(
             builder: (context) => const VideoPlayer(),
           ),
         );
-        log('SyncPlay: Successfully started fullscreen playback for $itemId');
+        log('SyncPlay: Successfully pushed VideoPlayer route for $itemId');
       } else {
         log('SyncPlay: No navigator available, player loaded but not opened fullscreen');
       }
-    } catch (e) {
-      log('SyncPlay: Error starting playback: $e');
+    } catch (e, stackTrace) {
+      log('SyncPlay: Error starting playback: $e\n$stackTrace');
     }
   }
 

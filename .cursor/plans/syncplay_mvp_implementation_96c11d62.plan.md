@@ -149,18 +149,27 @@ The Jellyfin client at `lib/jellyfin/jellyfin_open_api.swagger.dart` already pro
 Bridge between SyncPlay and existing `BasePlayer` / `MediaControlsWrapper`:
 
 class SyncPlayPlayerAdapter {
-  final BasePlayer player;
-  bool _syncPlayAction = false; // Flag to distinguish SyncPlay vs user actions
-  
-  // Wrap play/pause/seek to set flag
-  Future<void> syncPlayPause() async {
-    _syncPlayAction = true;
-    await player.pause();
-    _syncPlayAction = false;
-  }
-  
-  // Expose streams for buffering/ready detection
-  Stream<bool> get onBuffering => player.stateStream.map((s) => s.buffering);
+
+final BasePlayer player;
+
+bool _syncPlayAction = false; // Flag to distinguish SyncPlay vs user actions
+
+// Wrap play/pause/seek to set flag
+
+Future<void> syncPlayPause() async {
+
+_syncPlayAction = true;
+
+await player.pause();
+
+_syncPlayAction = false;
+
+}
+
+// Expose streams for buffering/ready detection
+
+Stream<bool> get onBuffering => player.stateStream.map((s) => s.buffering);
+
 }
 
 ### 5. UI Components

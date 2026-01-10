@@ -107,10 +107,12 @@ class _ChapterProgressSliderState extends ConsumerState<VideoProgressBar> {
                           ),
                       onChangeEnd: (e) async {
                         currentDuration = Duration(milliseconds: e.toInt());
-                        await player.seek(Duration(milliseconds: e ~/ 1));
+                        // Route seek through SyncPlay if active
+                        widget.onPositionChanged(Duration(milliseconds: e.toInt()));
                         await Future.delayed(const Duration(milliseconds: 250));
                         if (widget.wasPlaying) {
-                          player.play();
+                          // Route play through SyncPlay if active
+                          ref.read(videoPlayerProvider.notifier).userPlay();
                         }
                         widget.timerReset.call();
                         setState(() {
@@ -122,7 +124,8 @@ class _ChapterProgressSliderState extends ConsumerState<VideoProgressBar> {
                           onHoverStart = true;
                         });
                         widget.wasPlayingChanged.call(player.lastState?.playing ?? false);
-                        player.pause();
+                        // Route pause through SyncPlay if active
+                        ref.read(videoPlayerProvider.notifier).userPause();
                       },
                       onChanged: (e) {
                         currentDuration = Duration(milliseconds: e.toInt());
