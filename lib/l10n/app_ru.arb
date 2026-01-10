@@ -1553,5 +1553,124 @@
     "errorTakingScreenshot": "Произошла ошибка при создании скриншота",
     "@errorTakingScreenshot": {},
     "regenerateTrickplayImages": "Перегенерировать изображения trickplay",
-    "@regenerateTrickplayImages": {}
+    "@regenerateTrickplayImages": {},
+    "popularity": "Популярность",
+    "@popularity": {},
+    "contentRating": "Возрастной рейтинг",
+    "@contentRating": {},
+    "runtimeMinutesTitle": "Продолжительность (в минутах)",
+    "@runtimeMinutesTitle": {},
+    "runtimeRangeMinutes": "{min} - {max} минут",
+    "@runtimeRangeMinutes": {
+        "placeholders": {
+            "min": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            }
+        }
+    },
+    "minutesShort": "{count} мин",
+    "@minutesShort": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "streamingServices": "Поставщики ({count})",
+    "@streamingServices": {
+        "description": "Streaming providers (Netflix,HBO, etc.)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "settingsProfileSubtitleLanguage": "Предпочитаемый язык субтитров",
+    "@settingsProfileSubtitleLanguage": {},
+    "settingsProfileSubtitleMode": "Режим субтитров",
+    "@settingsProfileSubtitleMode": {},
+    "subtitlePlaybackModeDefault": "По умолчанию",
+    "@subtitlePlaybackModeDefault": {},
+    "subtitlePlaybackModeAlways": "Показывать всегда",
+    "@subtitlePlaybackModeAlways": {},
+    "subtitlePlaybackModeNone": "Ничего",
+    "@subtitlePlaybackModeNone": {},
+    "subtitlePlaybackModeSmart": "Умный",
+    "@subtitlePlaybackModeSmart": {},
+    "deleteRequestConfirmation": "Вы уверены, что хотите удалить этот запрос?",
+    "@deleteRequestConfirmation": {},
+    "segmentActionSkipOnce": "Пропустить один раз",
+    "@segmentActionSkipOnce": {},
+    "controlPanel": "Панель управления",
+    "@controlPanel": {},
+    "controlPanelDesc": "Сервер, Активность, Пользователи, Библиотека",
+    "@controlPanelDesc": {},
+    "controlDashboard": "Панель управления",
+    "@controlDashboard": {},
+    "serverName": "Имя сервера",
+    "@serverName": {},
+    "serverVersion": "Версия сервера",
+    "@serverVersion": {},
+    "webVersion": "Web версия",
+    "@webVersion": {},
+    "devices": "Устройства",
+    "@devices": {},
+    "used": "Используется",
+    "@used": {},
+    "storagePaths": "Пути хранения",
+    "@storagePaths": {},
+    "web": "Веб",
+    "@web": {},
+    "cache": "Кэш",
+    "@cache": {},
+    "logs": "Логи",
+    "@logs": {},
+    "transcodingTemp": "Временное транскодирование",
+    "@transcodingTemp": {},
+    "count": "Количество",
+    "@count": {},
+    "scanAllLibraries": "Сканировать все библиотеки",
+    "@scanAllLibraries": {},
+    "restartServer": "Перезагрузить сервер",
+    "@restartServer": {},
+    "shutDownServer": "Выключить сервер",
+    "@shutDownServer": {},
+    "dashboardDesc": "Сервер, Количество, Устройства, Хранилище",
+    "@dashboardDesc": {},
+    "lastActivity": "Последняя активность",
+    "@lastActivity": {},
+    "activeTasks": "Активные задачи",
+    "@activeTasks": {},
+    "timeAgo": "{time} назад",
+    "@timeAgo": {
+        "description": "timeAgo",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "lessThenAMinute": "Менее минуты",
+    "@lessThenAMinute": {},
+    "plannedTasks": "Закреплённые задачи",
+    "@plannedTasks": {},
+    "taskTriggerTypeInterval": "Интервал",
+    "@taskTriggerTypeInterval": {},
+    "taskTriggerTypeDaily": "Ежедневно",
+    "@taskTriggerTypeDaily": {},
+    "taskTriggerTypeWeekly": "Еженедельно",
+    "@taskTriggerTypeWeekly": {},
+    "taskTriggerTypeStartup": "Запустить",
+    "@taskTriggerTypeStartup": {},
+    "create": "Создать",
+    "@create": {},
+    "taskTriggerTypeName": "Тип триггера",
+    "@taskTriggerTypeName": {},
+    "newTrigger": "Новый триггер",
+    "@newTrigger": {}
 }
