@@ -139,7 +139,7 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
                                 const EdgeInsets.symmetric(horizontal: 4).copyWith(bottom: expandedSideBar ? 10 : 0),
                             child: AnimatedFadeSize(
                               duration: const Duration(milliseconds: 250),
-                              child: shouldExpand ? actionButton(context).extended : actionButton(context).normal,
+                              child: actionButtonWidget(context, shouldExpand),
                             ),
                           ),
                         ],
@@ -358,6 +358,21 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
           onPressed: () => context.router.navigate(LibrarySearchRoute()),
           child: const Icon(IconsaxPlusLinear.search_normal_1),
         );
+  }
+
+  Widget actionButtonWidget(BuildContext context, bool expanded) {
+    final destination = (widget.currentIndex >= 0 && widget.currentIndex < widget.destinations.length)
+        ? widget.destinations[widget.currentIndex]
+        : null;
+    
+    // If there's a custom FAB widget, use it (doesn't support extended mode)
+    if (destination?.customFab != null) {
+      return destination!.customFab!;
+    }
+    
+    // Otherwise use the AdaptiveFab with extended/normal modes
+    final fab = actionButton(context);
+    return expanded ? fab.extended : fab.normal;
   }
 }
 

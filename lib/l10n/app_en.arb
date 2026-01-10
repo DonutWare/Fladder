@@ -972,6 +972,10 @@
   "@switchUser": {},
   "sync": "Sync",
   "@sync": {},
+  "syncPlay": "SyncPlay",
+  "@syncPlay": {
+    "description": "SyncPlay - synchronized playback feature"
+  },
   "syncDeleteItemDesc": "Delete all synced data for {item}?",
   "@syncDeleteItemDesc": {
     "description": "Sync delete item pop-up window",
@@ -1379,6 +1383,8 @@
   "hasLikedDirector": "Has liked director",
   "hasLikedActor": "Has liked actor",
   "latest": "Latest",
+  "leave": "Leave",
+  "@leave": {},
   "recommended": "Recommended",
   "playbackType": "Playback type",
   "playbackTypeDirect": "Direct",

@@ -10,6 +10,8 @@ import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
+import 'package:fladder/providers/syncplay/syncplay_models.dart';
+import 'package:fladder/providers/syncplay/syncplay_provider.dart';
 import 'package:fladder/util/debouncer.dart';
 import 'package:fladder/wrappers/media_control_wrapper.dart';
 
@@ -36,6 +38,12 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
 
   final Debouncer debouncer = Debouncer(const Duration(milliseconds: 125));
 
+  /// Flag to indicate if the current action is initiated by SyncPlay
+  bool _syncPlayAction = false;
+
+  /// Check if SyncPlay is active
+  bool get _isSyncPlayActive => ref.read(isSyncPlayActiveProvider);
+
   void init() async {
     debouncer.run(() async {
       await state.dispose();
@@ -56,11 +64,62 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
       if (subscription != null) {
         subscriptions.add(subscription);
       }
+
+      // Register player callbacks with SyncPlay
+      _registerSyncPlayCallbacks();
     });
   }
 
-  Future<void> updateBuffering(bool event) async =>
-      mediaState.update((state) => state.buffering == event ? state : state.copyWith(buffering: event));
+  /// Register player callbacks with SyncPlay controller
+  void _registerSyncPlayCallbacks() {
+    ref.read(syncPlayProvider.notifier).registerPlayer(
+      onPlay: () async {
+        _syncPlayAction = true;
+        await state.play();
+        _syncPlayAction = false;
+      },
+      onPause: () async {
+        _syncPlayAction = true;
+        await state.pause();
+        _syncPlayAction = false;
+      },
+      onSeek: (positionTicks) async {
+        _syncPlayAction = true;
+        final position = Duration(microseconds: positionTicks ~/ 10);
+        await state.seek(position);
+        _syncPlayAction = false;
+      },
+      onStop: () async {
+        _syncPlayAction = true;
+        await state.stop();
+        _syncPlayAction = false;
+      },
+      getPositionTicks: () {
+        final position = playbackState.position;
+        return secondsToTicks(position.inMilliseconds / 1000);
+      },
+      isPlaying: () => playbackState.playing,
+      isBuffering: () => playbackState.buffering,
+    );
+  }
+
+  Future<void> updateBuffering(bool event) async {
+    final oldState = playbackState;
+    if (oldState.buffering == event) return;
+
+    mediaState.update((state) => state.copyWith(buffering: event));
+
+    // Report buffering state to SyncPlay if active
+    if (_isSyncPlayActive && !_syncPlayAction) {
+      if (event) {
+        // Started buffering
+        ref.read(syncPlayProvider.notifier).reportBuffering();
+      } else {
+        // Finished buffering - ready
+        ref.read(syncPlayProvider.notifier).reportReady();
+      }
+    }
+  }
 
   Future<void> updateBuffer(Duration buffer) async {
     mediaState.update(
@@ -210,5 +269,46 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     }
 
     return false;
+  }
+
+  // ============================================
+  // User-initiated actions (go through SyncPlay if active)
+  // ============================================
+
+  /// User-initiated play - routes through SyncPlay if active
+  Future<void> userPlay() async {
+    if (_isSyncPlayActive) {
+      await ref.read(syncPlayProvider.notifier).requestUnpause();
+    } else {
+      await state.play();
+    }
+  }
+
+  /// User-initiated pause - routes through SyncPlay if active
+  Future<void> userPause() async {
+    if (_isSyncPlayActive) {
+      await ref.read(syncPlayProvider.notifier).requestPause();
+    } else {
+      await state.pause();
+    }
+  }
+
+  /// User-initiated seek - routes through SyncPlay if active
+  Future<void> userSeek(Duration position) async {
+    if (_isSyncPlayActive) {
+      final positionTicks = secondsToTicks(position.inMilliseconds / 1000);
+      await ref.read(syncPlayProvider.notifier).requestSeek(positionTicks);
+    } else {
+      await state.seek(position);
+    }
+  }
+
+  /// User-initiated play/pause toggle - routes through SyncPlay if active
+  Future<void> userPlayOrPause() async {
+    if (playbackState.playing) {
+      await userPause();
+    } else {
+      await userPlay();
+    }
   }
 }

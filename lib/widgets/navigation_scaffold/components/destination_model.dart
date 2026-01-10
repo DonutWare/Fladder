@@ -14,6 +14,8 @@ class DestinationModel {
   final String? tooltip;
   final Widget? badge;
   final AdaptiveFab? floatingActionButton;
+  /// Custom FAB widget - takes precedence over floatingActionButton if provided
+  final Widget? customFab;
 
   DestinationModel({
     required this.label,
@@ -24,7 +26,11 @@ class DestinationModel {
     this.tooltip,
     this.badge,
     this.floatingActionButton,
+    this.customFab,
   });
+
+  /// Returns the FAB widget to use - prefers customFab over floatingActionButton.normal
+  Widget? get fabWidget => customFab ?? floatingActionButton?.normal;
 
   /// Converts this [DestinationModel] to a [NavigationRailDestination] used in a [NavigationRail].
   NavigationRailDestination toNavigationRailDestination({EdgeInsets? padding}) {
