@@ -1855,5 +1855,52 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "minutesShort": "{count} min",
+    "@minutesShort": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "streamingServices": "Provedores ({count})",
+    "@streamingServices": {
+        "description": "Streaming providers (Netflix,HBO, etc.)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "settingsProfileSubtitleLanguage": "Idioma de legendas preferido",
+    "@settingsProfileSubtitleLanguage": {},
+    "subtitlePlaybackModeDefault": "Padrão",
+    "@subtitlePlaybackModeDefault": {},
+    "subtitlePlaybackModeNone": "Nenhuma",
+    "@subtitlePlaybackModeNone": {},
+    "subtitlePlaybackModeSmart": "Inteligente",
+    "@subtitlePlaybackModeSmart": {},
+    "deleteRequestConfirmation": "Tem certeza de que deseja excluir esta solicitação?",
+    "@deleteRequestConfirmation": {},
+    "syncplayAccessNone": "Nenhuma",
+    "@syncplayAccessNone": {},
+    "assignLibraries": "Atribuir bibliotecas",
+    "@assignLibraries": {},
+    "enableAccessAllLibraries": "Permite acesso a todas as bibliotecas",
+    "@enableAccessAllLibraries": {},
+    "currentPassword": "Senha atual",
+    "@currentPassword": {},
+    "newPassword": "Nova senha",
+    "@newPassword": {},
+    "confirmPassword": "Confirmar senha",
+    "@confirmPassword": {},
+    "deleteLibraryConfirmTitle": "Excluir biblioteca?",
+    "@deleteLibraryConfirmTitle": {},
+    "noLibrarySelected": "Nenhuma biblioteca selecionada",
+    "@noLibrarySelected": {},
+    "enabledPhotos": "Fotos habilitados",
+    "@enabledPhotos": {}
 }
