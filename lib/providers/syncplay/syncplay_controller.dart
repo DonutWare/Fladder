@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -43,6 +44,10 @@ class SyncPlayController {
 
   // Pending command timer
   Timer? _commandTimer;
+
+  // Lifecycle state for reconnection
+  String? _lastGroupId;
+  bool _wasConnected = false;
 
   // Player callbacks
   SyncPlayPlayerCallback? onPlay;
@@ -129,6 +134,7 @@ class SyncPlayController {
       await _api.syncPlayJoinPost(
         body: JoinGroupRequestDto(groupId: groupId),
       );
+      _lastGroupId = groupId;
       return true;
     } catch (e) {
       log('SyncPlay: Failed to join group: $e');
@@ -141,6 +147,7 @@ class SyncPlayController {
     if (!_state.isInGroup) return;
     try {
       await _api.syncPlayLeavePost();
+      _lastGroupId = null;
       _updateState(_state.copyWith(
         isInGroup: false,
         groupId: null,
@@ -630,6 +637,64 @@ class SyncPlayController {
   void _updateState(SyncPlayState newState) {
     _state = newState;
     _stateController.add(newState);
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Lifecycle Handling (for mobile background/resume)
+  // ─────────────────────────────────────────────────────────────────────────
+
+  /// Handle app lifecycle state changes
+  /// Call this from a WidgetsBindingObserver when app state changes
+  Future<void> handleAppLifecycleChange(AppLifecycleState lifecycleState) async {
+    switch (lifecycleState) {
+      case AppLifecycleState.paused:
+      case AppLifecycleState.inactive:
+        // App going to background - remember state for reconnection
+        _wasConnected = _wsManager?.currentState == WebSocketConnectionState.connected;
+        log('SyncPlay: App paused, wasConnected=$_wasConnected, lastGroupId=$_lastGroupId');
+        break;
+
+      case AppLifecycleState.resumed:
+        // App returning to foreground - attempt reconnection if needed
+        log('SyncPlay: App resumed, wasConnected=$_wasConnected, isInGroup=${_state.isInGroup}');
+        if (_wasConnected || _state.isInGroup) {
+          await _handleAppResume();
+        }
+        break;
+
+      case AppLifecycleState.detached:
+      case AppLifecycleState.hidden:
+        // No action needed
+        break;
+    }
+  }
+
+  /// Handle app resume - reconnect WebSocket and optionally rejoin group
+  Future<void> _handleAppResume() async {
+    // Force reconnect WebSocket
+    if (_wsManager != null) {
+      log('SyncPlay: Force reconnecting WebSocket on resume');
+      await _wsManager!.forceReconnect();
+
+      // Wait for connection to establish
+      await Future.delayed(const Duration(milliseconds: 500));
+
+      // Restart time sync if it was active
+      if (_timeSync != null) {
+        _timeSync!.start();
+        await _timeSync!.forceUpdate();
+      }
+
+      // If we were in a group but got disconnected, try to rejoin
+      if (_lastGroupId != null && !_state.isInGroup) {
+        log('SyncPlay: Attempting to rejoin group $_lastGroupId');
+        final success = await joinGroup(_lastGroupId!);
+        if (!success) {
+          log('SyncPlay: Failed to rejoin group, clearing lastGroupId');
+          _lastGroupId = null;
+        }
+      }
+    }
   }
 
   /// Dispose resources

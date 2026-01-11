@@ -89,6 +89,18 @@ class WebSocketManager {
     _updateState(WebSocketConnectionState.disconnected);
   }
 
+  /// Force reconnect (e.g., after app resume)
+  /// Resets attempt counter and immediately reconnects
+  Future<void> forceReconnect() async {
+    _reconnectTimer?.cancel();
+    _keepAliveTimer?.cancel();
+    await _channel?.sink.close();
+    _channel = null;
+    _reconnectAttempts = 0;
+    _updateState(WebSocketConnectionState.disconnected);
+    await connect();
+  }
+
   /// Send a message through WebSocket
   void send(Map<String, dynamic> message) {
     if (_currentState != WebSocketConnectionState.connected) {

@@ -65,7 +65,7 @@ final syncPlayGroupStateProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef SyncPlayGroupStateRef = AutoDisposeProviderRef<SyncPlayGroupState>;
-String _$syncPlayHash() => r'7f5fd80fef94a1c6c36050b3895b51a764116d50';
+String _$syncPlayHash() => r'50fd44361a1526442f14ef3f849b7aefca67a67d';
 
 /// Provider for SyncPlay controller instance
 ///

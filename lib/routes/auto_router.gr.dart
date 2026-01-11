@@ -353,18 +353,46 @@ class FavouritesRoute extends _i29.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i14.HomeScreen]
-class HomeRoute extends _i29.PageRouteInfo<void> {
-  const HomeRoute({List<_i29.PageRouteInfo>? children})
-      : super(HomeRoute.name, initialChildren: children);
+class HomeRoute extends _i29.PageRouteInfo<HomeRouteArgs> {
+  HomeRoute({dynamic key, List<_i29.PageRouteInfo>? children})
+      : super(
+          HomeRoute.name,
+          args: HomeRouteArgs(key: key),
+          initialChildren: children,
+        );
 
   static const String name = 'HomeRoute';
 
   static _i29.PageInfo page = _i29.PageInfo(
     name,
     builder: (data) {
-      return const _i14.HomeScreen();
+      final args = data.argsAs<HomeRouteArgs>(
+        orElse: () => const HomeRouteArgs(),
+      );
+      return _i14.HomeScreen(key: args.key);
     },
   );
+}
+
+class HomeRouteArgs {
+  const HomeRouteArgs({this.key});
+
+  final dynamic key;
+
+  @override
+  String toString() {
+    return 'HomeRouteArgs{key: $key}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! HomeRouteArgs) return false;
+    return key == other.key;
+  }
+
+  @override
+  int get hashCode => key.hashCode;
 }
 
 /// generated route for

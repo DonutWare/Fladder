@@ -276,6 +276,7 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
               ),
               const SizedBox(height: 16),
               FilledButton.icon(
+                autofocus: true, // Focus for TV navigation
                 onPressed: _createGroup,
                 icon: const Icon(IconsaxPlusLinear.add),
                 label: const Text('Create Group'),
@@ -296,6 +297,7 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
         return _GroupListTile(
           group: group,
           onTap: () => _joinGroup(group),
+          autofocus: index == 0, // Focus first item for TV navigation
         );
       },
     );
@@ -410,15 +412,18 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
 class _GroupListTile extends StatelessWidget {
   final GroupInfoDto group;
   final VoidCallback onTap;
+  final bool autofocus;
 
   const _GroupListTile({
     required this.group,
     required this.onTap,
+    this.autofocus = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      autofocus: autofocus,
       leading: CircleAvatar(
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         child: Icon(

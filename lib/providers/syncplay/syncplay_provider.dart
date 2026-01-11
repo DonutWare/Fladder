@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -9,15 +10,37 @@ import 'package:fladder/providers/syncplay/syncplay_models.dart';
 
 part 'syncplay_provider.g.dart';
 
+/// Lifecycle observer for SyncPlay - handles app background/resume
+class _SyncPlayLifecycleObserver with WidgetsBindingObserver {
+  _SyncPlayLifecycleObserver(this._controller);
+
+  final SyncPlayController _controller;
+
+  void register() {
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  void unregister() {
+    WidgetsBinding.instance.removeObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    _controller.handleAppLifecycleChange(state);
+  }
+}
+
 /// Provider for SyncPlay controller instance
 @Riverpod(keepAlive: true)
 class SyncPlay extends _$SyncPlay {
   SyncPlayController? _controller;
   StreamSubscription? _stateSubscription;
+  _SyncPlayLifecycleObserver? _lifecycleObserver;
 
   @override
   SyncPlayState build() {
     ref.onDispose(() {
+      _lifecycleObserver?.unregister();
       _stateSubscription?.cancel();
       _controller?.dispose();
     });
@@ -25,7 +48,12 @@ class SyncPlay extends _$SyncPlay {
   }
 
   SyncPlayController get controller {
-    _controller ??= SyncPlayController(ref);
+    if (_controller == null) {
+      _controller = SyncPlayController(ref);
+      // Register lifecycle observer when controller is created
+      _lifecycleObserver = _SyncPlayLifecycleObserver(_controller!);
+      _lifecycleObserver!.register();
+    }
     return _controller!;
   }
 
