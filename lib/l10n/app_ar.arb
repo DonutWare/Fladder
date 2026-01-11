@@ -2305,5 +2305,7 @@
         }
     },
     "processing": "جاري المعالجة",
-    "@processing": {}
+    "@processing": {},
+    "seerrDetails": "تفاصيل Seerr",
+    "@seerrDetails": {}
 }

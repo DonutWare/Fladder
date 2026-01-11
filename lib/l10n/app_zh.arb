@@ -1583,7 +1583,7 @@
     "@web": {},
     "used": "使用",
     "@used": {},
-    "count": "计数",
+    "count": "统计",
     "@count": {},
     "scanAllLibraries": "扫描所有媒体库",
     "@scanAllLibraries": {},
@@ -1591,7 +1591,7 @@
     "@restartServer": {},
     "shutDownServer": "关闭服务器",
     "@shutDownServer": {},
-    "dashboardDesc": "服务器，计数，设备，存储",
+    "dashboardDesc": "服务器，统计，设备，存储",
     "@dashboardDesc": {},
     "lastActivity": "上次活动",
     "@lastActivity": {},
@@ -2308,5 +2308,7 @@
         }
     },
     "processing": "进程",
-    "@processing": {}
+    "@processing": {},
+    "seerrDetails": "Seerr 详情",
+    "@seerrDetails": {}
 }

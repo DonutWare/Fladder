@@ -33,7 +33,7 @@
     "@appLockPasscode": {},
     "ascending": "Αύξουσα",
     "@ascending": {},
-    "audio": "Ήχος",
+    "audio": "{count, plural, one{Ήχος} other{Ήχοι}}",
     "@audio": {},
     "autoPlay": "Αυτόματη αναπαραγωγή",
     "@autoPlay": {},
@@ -273,5 +273,561 @@
     "dynamicText": "Δυναμικό",
     "@dynamicText": {},
     "groupBy": "Ομαδοποίηση με",
-    "@groupBy": {}
+    "@groupBy": {},
+    "dateLastContentAdded": "Ημερομηνία τελευταίας προσθήκης",
+    "@dateLastContentAdded": {},
+    "heightOffset": "Αντιστάθμιση ύψους",
+    "@heightOffset": {},
+    "hideEmpty": "Απόκρυψη κενών",
+    "@hideEmpty": {},
+    "homeBannerSlideshow": "Παρουσίαση",
+    "@homeBannerSlideshow": {},
+    "invalidUrl": "Μη έγκυρη διεύθυνση URL",
+    "@invalidUrl": {},
+    "itemCount": "Πλήθος αντικειμένων: {count}",
+    "@itemCount": {
+        "description": "Item count",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "label": "{count, plural, other{Ετικέτες} one{Ετικέτα}}",
+    "@label": {
+        "description": "label",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "library": "{count, plural, other{Βιβλιοθήκες} one{Βιβλιοθήκη}}",
+    "@library": {
+        "description": "Plural",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "libraryPageSizeDesc": "Ορίστε το πλήθος που θα φορτώνεται κάθε φορά. Το 0 απενεργοποιεί τη σελιδοποίηση.",
+    "@libraryPageSizeDesc": {},
+    "libraryPageSizeTitle": "Μέγεθος σελίδας βιβλιοθήκης",
+    "@libraryPageSizeTitle": {},
+    "light": "Φωτεινό",
+    "@light": {},
+    "list": "Λίστα",
+    "@list": {},
+    "lockscreen": "Οθόνη κλειδώματος",
+    "@lockscreen": {},
+    "loggedIn": "Συνδεδεμένος",
+    "@loggedIn": {},
+    "login": "Σύνδεση",
+    "@login": {},
+    "logout": "Αποσύνδεση",
+    "@logout": {},
+    "logoutUserPopupContent": "Αυτή η ενέργεια θα αποσυνδέσει τον χρήστη {userName} και θα τον διαγράψει από την εφαρμογή.\nΘα χρειαστεί να επανασυνδεθείτε στο {serverName}.",
+    "@logoutUserPopupContent": {
+        "description": "Pop-up for logging out the user description",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            },
+            "serverName": {
+                "type": "String"
+            }
+        }
+    },
+    "logoutUserPopupTitle": "Αποσύνδεση χρήστη {userName}?",
+    "@logoutUserPopupTitle": {
+        "description": "Pop-up for logging out the user",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "loop": "Λούπα",
+    "@loop": {},
+    "markAsUnwatched": "Σήμανση ως μη παρακολουθημένο",
+    "@markAsUnwatched": {},
+    "markAsWatched": "Σήμανση ως παρακολουθημένο",
+    "@markAsWatched": {},
+    "mediaTypeBase": "Τύπος βάσης",
+    "@mediaTypeBase": {},
+    "mediaTypeBook": "{count, plural, one{Βιβλίο} other{Βιβλία}}",
+    "@mediaTypeBook": {
+        "description": "Book (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeBoxset": "{count, plural, one{Συλλογή} other{Συλλογές}}",
+    "@mediaTypeBoxset": {
+        "description": "Boxset (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeEpisode": "{count, plural, one{Επεισόδιο} other{Επεισόδια}}",
+    "@mediaTypeEpisode": {
+        "description": "Episode (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeFolder": "{count, plural, one{Φάκελος} other{Φάκελοι}}",
+    "@mediaTypeFolder": {
+        "description": "Folder (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeMovie": "{count, plural, one{Ταινία} other{Ταινίες}}",
+    "@mediaTypeMovie": {
+        "description": "Movie (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypePerson": "{count, plural, one{Άνθρωπος} other{Άνθρωποι}}",
+    "@mediaTypePerson": {
+        "description": "Person (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypePhoto": "{count, plural, one{Φωτογραφία} other{Φωτογραφίες}}",
+    "@mediaTypePhoto": {
+        "description": "Photo (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypePhotoAlbum": "{count, plural, one{Άλμπουμ Φωτογραφίας} other{Άλμπουμ Φωτογραφιών}}",
+    "@mediaTypePhotoAlbum": {
+        "description": "Photo Album (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypePlaylist": "{count, plural, one{Λίστα Αναπαραγωγής} other{Λίστες Αναπαραγωγής}}",
+    "@mediaTypePlaylist": {
+        "description": "Playlist (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeSeason": "{count, plural, one{Κύκλος} other{Κύκλοι}}",
+    "@mediaTypeSeason": {
+        "description": "Season (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeSeries": "{count, plural, one{Σειρά} other{Σειρές}}",
+    "@mediaTypeSeries": {
+        "description": "Series (plural, same singular/plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "metaDataSavedFor": "Αποθηκεύτηκαν τα μεταδεδομένα για: {item}",
+    "@metaDataSavedFor": {
+        "description": "metaDataSavedFor",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "metadataRefreshDefault": "Σάρωση για νέα και ενημερωμένα αρχεία",
+    "@metadataRefreshDefault": {},
+    "metadataRefreshFull": "Αντικατάσταση όλων των μεταδεδομένων",
+    "@metadataRefreshFull": {},
+    "metadataRefreshValidation": "Σάρωση για μεταδεδομένα που λείπουν",
+    "@metadataRefreshValidation": {},
+    "minutes": "{count, plural, other{Λεπτά} one{Λεπτό} }",
+    "@minutes": {
+        "description": "minute",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mode": "Λειτουργία",
+    "@mode": {},
+    "moreFrom": "Περισσότερα από {info}",
+    "@moreFrom": {
+        "description": "More from",
+        "placeholders": {
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "moreOptions": "Περισσότερες επιλογές",
+    "@moreOptions": {},
+    "mouseDragSupport": "Σύρετε με το ποντίκι",
+    "@mouseDragSupport": {},
+    "musicAlbum": "{count, plural, one{Άλμπουμ} other{Άλμπουμ}}",
+    "@musicAlbum": {
+        "description": "Music album (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "name": "Όνομα",
+    "@name": {},
+    "navigation": "Πλοήγηση",
+    "@navigation": {},
+    "navigationDashboard": "Αρχική",
+    "@navigationDashboard": {},
+    "navigationFavorites": "Αγαπημένα",
+    "@navigationFavorites": {},
+    "navigationSync": "Συγχρονίστηκε",
+    "@navigationSync": {},
+    "never": "Ποτέ",
+    "@never": {},
+    "noItemsSynced": "Δεν συγχρονίστηκαν στοιχεία",
+    "@noItemsSynced": {},
+    "noItemsToShow": "Δεν υπάρχουν στοιχεία για εμφάνιση",
+    "@noItemsToShow": {},
+    "noRating": "Χωρίς βαθμολογία",
+    "@noRating": {},
+    "noResults": "Κανένα αποτέλεσμα",
+    "@noResults": {},
+    "noServersFound": "Δεν βρέθηκαν νέοι διακομιστές",
+    "@noServersFound": {},
+    "noSuggestionsFound": "Δεν βρέθηκαν προτάσεις",
+    "@noSuggestionsFound": {},
+    "none": "Κανένα",
+    "@none": {},
+    "normal": "Κανονικό",
+    "@normal": {},
+    "notPartOfAlbum": "Δεν αποτελεί μέρος κάποιου άλμπουμ",
+    "@notPartOfAlbum": {},
+    "openParent": "Προβολή γονέα",
+    "@openParent": {},
+    "openShow": "Προβολή σειράς",
+    "@openShow": {},
+    "options": "Επιλογές",
+    "@options": {},
+    "other": "Άλλο",
+    "@other": {},
+    "outlineColor": "Χρώμα περιγράμματος",
+    "@outlineColor": {},
+    "outlineSize": "Μέγεθος περιγράμματος",
+    "@outlineSize": {},
+    "overview": "Επισκόπηση",
+    "@overview": {},
+    "page": "Σελίδα {index}",
+    "@page": {
+        "description": "page",
+        "placeholders": {
+            "index": {
+                "type": "int"
+            }
+        }
+    },
+    "parentalRating": "Ηλικιακή διαβάθμιση",
+    "@parentalRating": {},
+    "password": "Κωδικός",
+    "@password": {},
+    "pathClearTitle": "Εκκαθάριση τοποθεσίας λήψεων",
+    "@pathClearTitle": {},
+    "pathEditDesc": "Αυτή η τοποθεσία ορίζεται για όλους τους χρήστες. Τυχόν συγχρονισμένα δεδομένα δεν θα είναι πλέον προσβάσιμα, αλλά θα παραμείνουν στον αποθηκευτικό σας χώρο.",
+    "@pathEditDesc": {},
+    "pathEditSelect": "Επιλέξτε προορισμό λήψεων",
+    "@pathEditSelect": {},
+    "pathEditTitle": "Αλλαγή τοποθεσίας",
+    "@pathEditTitle": {},
+    "play": "Αναπαραγωγή {item}",
+    "@play": {
+        "description": "Play with",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "playCount": "Αριθμός αναπαραγωγών",
+    "@playCount": {},
+    "playFrom": "Αναπαραγωγή από {name}",
+    "@playFrom": {
+        "description": "playFrom",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "playFromStart": "Αναπαραγωγή {name} από την αρχή",
+    "@playFromStart": {
+        "description": "speel vanaf het begin",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "playLabel": "Αναπαραγωγή",
+    "@playLabel": {},
+    "playVideos": "Αναπαραγωγή βίντεο",
+    "@playVideos": {},
+    "played": "Προβλήθηκε",
+    "@played": {},
+    "quickConnectAction": "Εισαγάγετε τον κωδικό γρήγορης σύνδεσης για",
+    "@quickConnectAction": {},
+    "quickConnectInputACode": "Εισάγετε έναν κωδικό",
+    "@quickConnectInputACode": {},
+    "quickConnectTitle": "Γρήγορη σύνδεση",
+    "@quickConnectTitle": {},
+    "quickConnectWrongCode": "Λανθασμένος κωδικός",
+    "@quickConnectWrongCode": {},
+    "random": "Τυχαίο",
+    "@random": {},
+    "rating": "{count, plural, other{Βαθμολογίες} one{Βαθμολογία}}",
+    "@rating": {
+        "description": "rating",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "popularity": "Δημοτικότητα",
+    "@popularity": {},
+    "reWatch": "Επαναπροβολή",
+    "@reWatch": {},
+    "read": "Ανάγνωση {item}",
+    "@read": {
+        "description": "read",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "readFromStart": "Ανάγνωση {item} από την αρχή",
+    "@readFromStart": {
+        "description": "Read book from start",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "recursive": "Αναδρομικά",
+    "@recursive": {},
+    "refresh": "Ανανέωση",
+    "@refresh": {},
+    "refreshMetadata": "Ανανέωση μεταδεδομένων",
+    "@refreshMetadata": {},
+    "refreshPopup": "Ανανέωση - {name}",
+    "@refreshPopup": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "refreshPopupContentMetadata": "Τα μεταδεδομένα ανανεώνονται με βάση τις ρυθμίσεις και τις υπηρεσίες διαδικτύου που είναι ενεργοποιημένες στον πίνακα ελέγχου.",
+    "@refreshPopupContentMetadata": {},
+    "related": "Σχετικά",
+    "@related": {},
+    "releaseDate": "Ημερομηνία κυκλοφορίας",
+    "@releaseDate": {},
+    "contentRating": "Βαθμολογία περιεχομένου",
+    "@contentRating": {},
+    "removeAsFavorite": "Αφαίρεση από τα αγαπημένα",
+    "@removeAsFavorite": {},
+    "removeFromCollection": "Αφαίρεση από τη συλλογή",
+    "@removeFromCollection": {},
+    "removeFromPlaylist": "Αφαίρεση από την λίστα αναπαραγωγής",
+    "@removeFromPlaylist": {},
+    "replaceAllImages": "Αντικατάσταση όλων των εικόνων",
+    "@replaceAllImages": {},
+    "replaceExistingImages": "Αντικατάσταση υπάρχοντων εικόνων",
+    "@replaceExistingImages": {},
+    "restart": "Επανεκκίνηση",
+    "@restart": {},
+    "result": "Αποτέλεσμα",
+    "@result": {},
+    "resumable": "Συνεχιζόμενο",
+    "@resumable": {},
+    "resume": "Συνέχεια {item}",
+    "@resume": {
+        "description": "resume",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "retrievePublicListOfUsers": "Ανάκτηση δημόσιας λίστας χρηστών",
+    "@retrievePublicListOfUsers": {},
+    "retry": "Επανάληψη",
+    "@retry": {},
+    "runTime": "Διάρκεια",
+    "@runTime": {},
+    "runtimeMinutesTitle": "Διάρκεια (minutes)",
+    "@runtimeMinutesTitle": {},
+    "runtimeRangeMinutes": "{min} - {max} λεπτά",
+    "@runtimeRangeMinutes": {
+        "placeholders": {
+            "min": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            }
+        }
+    },
+    "minutesShort": "{count} λεπτά",
+    "@minutesShort": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "streamingServices": "Πάροχοι ({count})",
+    "@streamingServices": {
+        "description": "Streaming providers (Netflix,HBO, etc.)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "save": "Αποθήκευση",
+    "@save": {},
+    "saved": "Αποθηκευμένο",
+    "@saved": {},
+    "scanBiometricHint": "Επαλήθευση ταυτότητας",
+    "@scanBiometricHint": {},
+    "scanLibrary": "Σάρωση βιβλιοθήκης",
+    "@scanLibrary": {},
+    "scanYourFingerprintToAuthenticate": "Σαρώστε το δακτυλικό σας αποτύπωμα για την ταυτοποίηση του χρήστη {user}",
+    "@scanYourFingerprintToAuthenticate": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "scanningName": "Σάρωση - {name}…",
+    "@scanningName": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "scrollToTop": "Κύλιση στην κορυφή",
+    "@scrollToTop": {},
+    "search": "Αναζήτηση",
+    "@search": {},
+    "season": "{count, plural, other{Κύκλοι} one{Κύκλος} }",
+    "@season": {
+        "description": "season",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "seconds": "{count, plural, other{Δευτερόλεπτα} one{Δευτερόλεπτο}}",
+    "@seconds": {
+        "description": "second",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "selectAll": "Επιλογή όλων",
+    "@selectAll": {},
+    "selectTime": "Επιλογή ώρας",
+    "@selectTime": {},
+    "selectViewType": "Επιλογή τύπου προβολής",
+    "@selectViewType": {},
+    "selected": "Επιλεγμένα",
+    "@selected": {},
+    "selectedWith": "Επιλεγμένα {info}",
+    "@selectedWith": {
+        "description": "selected",
+        "placeholders": {
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "separate": "Διαχωρισμός",
+    "@separate": {},
+    "server": "Διακομιστής",
+    "@server": {},
+    "set": "Ορισμός",
+    "@set": {
+        "description": "Use for setting a certain value",
+        "context": "Set 'time'"
+    },
+    "setIdentityTo": "Αλλαγή ταυτότητας σε {name}",
+    "@setIdentityTo": {
+        "description": "setIdentityTo",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "settingSecurityApplockTitle": "Κλείδωμα Εφαρμογής",
+    "@settingSecurityApplockTitle": {}
 }

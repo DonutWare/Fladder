@@ -2312,5 +2312,7 @@
     "dataDeleted": "Daten gelöscht",
     "@dataDeleted": {},
     "processing": "Verarbeitung",
-    "@processing": {}
+    "@processing": {},
+    "seerrDetails": "Seerr Details",
+    "@seerrDetails": {}
 }
