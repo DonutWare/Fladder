@@ -745,7 +745,7 @@
     "@settingsPosterSize": {},
     "settingsPosterSlider": "Afficher le curseur de mise à l'échelle",
     "@settingsPosterSlider": {},
-    "settingsProfileDesc": "Écran de verrouillage, URL locale",
+    "settingsProfileDesc": "Écran de verrouillage, URL locale, Seer",
     "@settingsProfileDesc": {},
     "settingsProfileTitle": "Profil",
     "@settingsProfileTitle": {},
@@ -1591,7 +1591,7 @@
     "@lastActivity": {},
     "activeTasks": "Tâches actives",
     "@activeTasks": {},
-    "timeAgo": "Il y a {time}",
+    "timeAgo": "il y a {time}",
     "@timeAgo": {
         "description": "timeAgo",
         "placeholders": {
@@ -1979,7 +1979,7 @@
             }
         }
     },
-    "lastRunTaking": "Dernier démarrage le {date}, prenant {time}",
+    "lastRunTaking": "Dernière exécution {date}, prenant {time}",
     "@lastRunTaking": {
         "description": "lastRunTaking",
         "placeholders": {
@@ -2002,5 +2002,49 @@
                 "example": "1"
             }
         }
-    }
+    },
+    "popularity": "Popularité",
+    "@popularity": {},
+    "contentRating": "Notation du contenu",
+    "@contentRating": {},
+    "runtimeMinutesTitle": "Temps d'exécution (minutes)",
+    "@runtimeMinutesTitle": {},
+    "runtimeRangeMinutes": "{min} - {max} minutes",
+    "@runtimeRangeMinutes": {
+        "placeholders": {
+            "min": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            }
+        }
+    },
+    "minutesShort": "{count} min",
+    "@minutesShort": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "streamingServices": "Fournisseurs ({count})",
+    "@streamingServices": {
+        "description": "Streaming providers (Netflix,HBO, etc.)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "settingsProfileSubtitleLanguage": "Language de sous-titres préféré",
+    "@settingsProfileSubtitleLanguage": {},
+    "settingsProfileSubtitleMode": "Mode des sous-titres",
+    "@settingsProfileSubtitleMode": {},
+    "subtitlePlaybackModeDefault": "Par défaut",
+    "@subtitlePlaybackModeDefault": {},
+    "subtitlePlaybackModeAlways": "Toujours jouer",
+    "@subtitlePlaybackModeAlways": {}
 }
