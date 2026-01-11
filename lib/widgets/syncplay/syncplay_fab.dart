@@ -50,6 +50,7 @@ class SyncPlayFab extends ConsumerWidget {
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
+      backgroundColor: Colors.transparent,
       builder: (context) => const SyncPlayGroupSheet(),
     );
   }
