@@ -1,4 +1,5 @@
 import 'package:fladder/models/items/special_feature_model.dart';
+import 'package:fladder/util/item_base_model/play_item_helpers.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -63,13 +64,13 @@ class _SpecialFeaturePosterState extends ConsumerState<SpecialFeaturesRow> {
               ? () {
                   widget.onSpecialFeatureTap?.call(
                     () {
-                      specialFeature.navigateTo(context, tag: tag);
+                      specialFeature.play(context, ref);
                     },
                     specialFeature,
                   );
                 }
               : () {
-                  specialFeature.navigateTo(context, tag: tag);
+                  specialFeature.play(context, ref);
                 },
           onLongPress: () async {
             await showBottomSheetPill(

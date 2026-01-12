@@ -676,11 +676,10 @@ class JellyService {
   }
 
   Future<Response<List<BaseItemDto>>> itemsItemIdSpecialFeaturesGet({
-    required String itemId,
-    String? userId,
+    required String itemId
   }) async {
     try {
-      return api.itemsItemIdSpecialFeaturesGet(itemId: itemId, userId: userId);
+      return api.itemsItemIdSpecialFeaturesGet(itemId: itemId, userId: account?.id);
     } catch (e) {
       return Response(http.Response("", 400), []);
     }

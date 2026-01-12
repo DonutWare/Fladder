@@ -88,9 +88,11 @@ class SpecialFeatureModel extends ItemStreamModel with SpecialFeatureModelMappab
     return progress != 0 ? context.localized.resume(string) : context.localized.play(string);
   }
 
-
   @override
   bool get syncAble => playAble;
+
+  @override
+  bool get playAble => true;
 
   @override
   factory SpecialFeatureModel.fromBaseDto(dto.BaseItemDto item, Ref ref) => SpecialFeatureModel(
