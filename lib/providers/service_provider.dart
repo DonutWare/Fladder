@@ -675,6 +675,17 @@ class JellyService {
     return response.body?.items?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList() ?? [];
   }
 
+  Future<Response<List<BaseItemDto>>> itemsItemIdSpecialFeaturesGet({
+    required String itemId,
+    String? userId,
+  }) async {
+    try {
+      return api.itemsItemIdSpecialFeaturesGet(itemId: itemId, userId: userId);
+    } catch (e) {
+      return Response(http.Response("", 400), []);
+    }
+  }
+
   Future<Response<BaseItemDtoQueryResult>> itemsItemIdSimilarGet({
     String? itemId,
     int? limit,

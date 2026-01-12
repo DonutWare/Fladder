@@ -1,4 +1,5 @@
 import 'package:chopper/chopper.dart';
+import 'package:fladder/models/items/special_feature_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
@@ -36,7 +37,13 @@ class SeasonDetailsNotifier extends StateNotifier<SeasonModel?> {
         ItemFields.parentid,
       ],
     );
-    newState = newState?.copyWith(episodes: EpisodeModel.episodesFromDto(episodes.body?.items, ref).toList());
+
+    final specialFeatures = await api.itemsItemIdSpecialFeaturesGet(itemId: seasonId);
+
+    newState = newState?.copyWith(
+        episodes: EpisodeModel.episodesFromDto(episodes.body?.items, ref).toList(),
+        specialFeatures:
+            SpecialFeatureModel.specialFeaturesFromDto(specialFeatures.body, ref).toList());
     state = newState;
     return season;
   }

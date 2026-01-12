@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:chopper/chopper.dart';
+import 'package:fladder/models/items/special_feature_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
@@ -64,6 +65,8 @@ class SeriesDetailViewNotifier extends StateNotifier<SeriesModel?> {
         ItemFields.childcount,
       ]);
 
+      final specialFeatures = await api.itemsItemIdSpecialFeaturesGet(itemId: seriesModel.id);
+
       final newEpisodes = EpisodeModel.episodesFromDto(
         episodes.body?.items,
         ref,
@@ -78,6 +81,7 @@ class SeriesDetailViewNotifier extends StateNotifier<SeriesModel?> {
                   episodes: newEpisodes.where((episode) => episode.season == element.season).toList(),
                 ))
             .toList(),
+        specialFeatures: SpecialFeatureModel.specialFeaturesFromDto(specialFeatures.body, ref)
       );
 
       newState = newState.copyWith(

@@ -2180,5 +2180,15 @@
     }
   },
   "processing": "Processing",
-  "seerrDetails": "Seerr details"
+  "seerrDetails": "Seerr details",
+  "specialFeature": "{count, plural, other{Special Features} one{Special Feature} }",
+  "@specialFeature": {
+    "description": "special feature",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  }
 }
