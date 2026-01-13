@@ -31,6 +31,7 @@ class SyncPlayController {
       reportReady: ({bool isPlaying = true}) => reportReady(isPlaying: isPlaying),
       startPlayback: _startPlayback,
       isBuffering: () => _commandHandler.isBuffering?.call() ?? false,
+      getContext: () => getNavigatorKey(_ref)?.currentContext,
     );
   }
 

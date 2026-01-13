@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/providers/syncplay/syncplay_provider.dart';
+import 'package:fladder/util/localization_helper.dart';
 
 /// Centered overlay showing SyncPlay command being processed
 class SyncPlayCommandIndicator extends ConsumerWidget {
@@ -48,7 +49,7 @@ class SyncPlayCommandIndicator extends ConsumerWidget {
                   _CommandIcon(commandType: commandType),
                   const SizedBox(height: 12),
                   Text(
-                    _getCommandLabel(commandType),
+                    _getCommandLabel(context, commandType),
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           color: Theme.of(context).colorScheme.onSurface,
                           fontWeight: FontWeight.w600,
@@ -68,7 +69,7 @@ class SyncPlayCommandIndicator extends ConsumerWidget {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        'Syncing with group...',
+                        context.localized.syncPlaySyncingWithGroup,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                               color: Theme.of(context).colorScheme.onSurfaceVariant,
                             ),
@@ -84,13 +85,13 @@ class SyncPlayCommandIndicator extends ConsumerWidget {
     );
   }
 
-  String _getCommandLabel(String? command) {
+  String _getCommandLabel(BuildContext context, String? command) {
     return switch (command) {
-      'Pause' => 'Pausing',
-      'Unpause' => 'Playing',
-      'Seek' => 'Seeking',
-      'Stop' => 'Stopping',
-      _ => 'Syncing',
+      'Pause' => context.localized.syncPlayCommandPausing,
+      'Unpause' => context.localized.syncPlayCommandPlaying,
+      'Seek' => context.localized.syncPlayCommandSeeking,
+      'Stop' => context.localized.syncPlayCommandStopping,
+      _ => context.localized.syncPlayCommandSyncing,
     };
   }
 }

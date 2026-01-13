@@ -1,6 +1,10 @@
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
+
 import 'package:fladder/models/syncplay/syncplay_models.dart';
+import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/util/localization_helper.dart';
 
 /// Callback for reporting ready state after seek
 typedef ReportReadyCallback = Future<void> Function({bool isPlaying});
@@ -16,12 +20,14 @@ class SyncPlayMessageHandler {
     required this.reportReady,
     required this.startPlayback,
     required this.isBuffering,
+    required this.getContext,
   });
 
   final void Function(SyncPlayState Function(SyncPlayState)) onStateUpdate;
   final ReportReadyCallback reportReady;
   final StartPlaybackCallback startPlayback;
   final bool Function() isBuffering;
+  final BuildContext? Function() getContext;
 
   /// Handle group update message
   void handleGroupUpdate(Map<String, dynamic> data, SyncPlayState currentState) {
@@ -74,6 +80,11 @@ class SyncPlayMessageHandler {
     if (userId == null) return;
     final participants = [...currentState.participants, userId];
     onStateUpdate((state) => state.copyWith(participants: participants));
+    
+    final context = getContext();
+    if (context != null) {
+      fladderSnackbar(context, title: context.localized.syncPlayUserJoined(userId));
+    }
     log('SyncPlay: User joined: $userId');
   }
 
@@ -82,6 +93,11 @@ class SyncPlayMessageHandler {
     final participants =
         currentState.participants.where((p) => p != userId).toList();
     onStateUpdate((state) => state.copyWith(participants: participants));
+    
+    final context = getContext();
+    if (context != null) {
+      fladderSnackbar(context, title: context.localized.syncPlayUserLeft(userId));
+    }
     log('SyncPlay: User left: $userId');
   }
 

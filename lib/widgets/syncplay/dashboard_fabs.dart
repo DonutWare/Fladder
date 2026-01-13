@@ -58,7 +58,7 @@ class _SyncPlayFabButton extends StatelessWidget {
       tag: 'syncplay_fab',
       child: IconButton.filledTonal(
         iconSize: 26,
-        tooltip: 'SyncPlay',
+        tooltip: context.localized.syncPlay,
         onPressed: () => showSyncPlaySheet(context),
         style: IconButton.styleFrom(
           backgroundColor: isActive ? Theme.of(context).colorScheme.primaryContainer : null,

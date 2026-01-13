@@ -18,7 +18,7 @@ class SyncPlayFab extends ConsumerWidget {
 
     return AdaptiveFab(
       context: context,
-      title: isActive ? context.localized.syncPlay : 'SyncPlay',
+      title: context.localized.syncPlay,
       heroTag: 'syncplay_fab',
       backgroundColor: isActive ? Theme.of(context).colorScheme.primaryContainer : null,
       onPressed: () => showSyncPlaySheet(context),

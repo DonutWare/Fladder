@@ -976,6 +976,102 @@
   "@syncPlay": {
     "description": "SyncPlay - synchronized playback feature"
   },
+  "syncPlayCreateGroup": "Create SyncPlay Group",
+  "@syncPlayCreateGroup": {},
+  "syncPlayGroupName": "Group Name",
+  "@syncPlayGroupName": {},
+  "syncPlayGroupNameHint": "Movie Night",
+  "@syncPlayGroupNameHint": {},
+  "syncPlayCreatedGroup": "Created group \"{groupName}\"",
+  "@syncPlayCreatedGroup": {
+    "placeholders": {
+      "groupName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncPlayFailedToCreateGroup": "Failed to create group",
+  "@syncPlayFailedToCreateGroup": {},
+  "syncPlayJoinedGroup": "Joined \"{groupName}\"",
+  "@syncPlayJoinedGroup": {
+    "placeholders": {
+      "groupName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncPlayFailedToJoinGroup": "Failed to join group",
+  "@syncPlayFailedToJoinGroup": {},
+  "syncPlayLeftGroup": "Left SyncPlay group",
+  "@syncPlayLeftGroup": {},
+  "syncPlayFailedToLoadGroups": "Failed to load groups",
+  "@syncPlayFailedToLoadGroups": {},
+  "syncPlayNoActiveGroups": "No active groups",
+  "@syncPlayNoActiveGroups": {},
+  "syncPlayCreateGroupHint": "Create a group to watch together",
+  "@syncPlayCreateGroupHint": {},
+  "syncPlayCreateGroupButton": "Create Group",
+  "@syncPlayCreateGroupButton": {},
+  "syncPlayGroupFallback": "SyncPlay Group",
+  "@syncPlayGroupFallback": {},
+  "syncPlayParticipants": "{count, plural, =1{1 participant} other{{count} participants}}",
+  "@syncPlayParticipants": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "syncPlayInstructions": "Browse your library and start playing something to sync with the group.",
+  "@syncPlayInstructions": {},
+  "syncPlayUnnamedGroup": "Unnamed Group",
+  "@syncPlayUnnamedGroup": {},
+  "syncPlayStateIdle": "Idle",
+  "@syncPlayStateIdle": {},
+  "syncPlayStateWaiting": "Waiting for others...",
+  "@syncPlayStateWaiting": {},
+  "syncPlayStatePaused": "Paused",
+  "@syncPlayStatePaused": {},
+  "syncPlayStatePlaying": "Playing",
+  "@syncPlayStatePlaying": {},
+  "syncPlaySyncingPause": "Syncing pause...",
+  "@syncPlaySyncingPause": {},
+  "syncPlaySyncingPlay": "Syncing play...",
+  "@syncPlaySyncingPlay": {},
+  "syncPlaySyncingSeek": "Syncing seek...",
+  "@syncPlaySyncingSeek": {},
+  "syncPlayStopping": "Stopping...",
+  "@syncPlayStopping": {},
+  "syncPlaySyncing": "Syncing...",
+  "@syncPlaySyncing": {},
+  "syncPlayCommandPausing": "Pausing",
+  "@syncPlayCommandPausing": {},
+  "syncPlayCommandPlaying": "Playing",
+  "@syncPlayCommandPlaying": {},
+  "syncPlayCommandSeeking": "Seeking",
+  "@syncPlayCommandSeeking": {},
+  "syncPlayCommandStopping": "Stopping",
+  "@syncPlayCommandStopping": {},
+  "syncPlayCommandSyncing": "Syncing",
+  "@syncPlayCommandSyncing": {},
+  "syncPlaySyncingWithGroup": "Syncing with group...",
+  "@syncPlaySyncingWithGroup": {},
+  "syncPlayUserJoined": "{userName} joined the group",
+  "@syncPlayUserJoined": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "syncPlayUserLeft": "{userName} left the group",
+  "@syncPlayUserLeft": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
   "syncDeleteItemDesc": "Delete all synced data for {item}?",
   "@syncDeleteItemDesc": {
     "description": "Sync delete item pop-up window",

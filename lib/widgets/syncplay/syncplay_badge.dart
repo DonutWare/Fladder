@@ -5,6 +5,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/syncplay/syncplay_models.dart';
 import 'package:fladder/providers/syncplay/syncplay_provider.dart';
+import 'package:fladder/util/localization_helper.dart';
 
 /// Badge widget showing SyncPlay status in the video player
 class SyncPlayBadge extends ConsumerWidget {
@@ -69,7 +70,7 @@ class SyncPlayBadge extends ConsumerWidget {
             ),
             const SizedBox(width: 6),
             Text(
-              _getProcessingText(processingCommand),
+              _getProcessingText(context, processingCommand),
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
                     color: Theme.of(context).colorScheme.onPrimaryContainer,
                     fontWeight: FontWeight.w600,
@@ -83,7 +84,7 @@ class SyncPlayBadge extends ConsumerWidget {
             ),
             const SizedBox(width: 6),
             Text(
-              groupName ?? 'SyncPlay',
+              groupName ?? context.localized.syncPlay,
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
                     color: Theme.of(context).colorScheme.onSurface,
                   ),
@@ -100,13 +101,13 @@ class SyncPlayBadge extends ConsumerWidget {
     );
   }
 
-  String _getProcessingText(String? command) {
+  String _getProcessingText(BuildContext context, String? command) {
     return switch (command) {
-      'Pause' => 'Syncing pause...',
-      'Unpause' => 'Syncing play...',
-      'Seek' => 'Syncing seek...',
-      'Stop' => 'Stopping...',
-      _ => 'Syncing...',
+      'Pause' => context.localized.syncPlaySyncingPause,
+      'Unpause' => context.localized.syncPlaySyncingPlay,
+      'Seek' => context.localized.syncPlaySyncingSeek,
+      'Stop' => context.localized.syncPlayStopping,
+      _ => context.localized.syncPlaySyncing,
     };
   }
 }

@@ -64,12 +64,12 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
 
     final group = await ref.read(syncPlayProvider.notifier).createGroup(name);
     if (group != null && mounted) {
-      fladderSnackbar(context, title: 'Created group "${group.groupName}"');
+      fladderSnackbar(context, title: context.localized.syncPlayCreatedGroup(group.groupName ?? ''));
       Navigator.of(context).pop();
     } else {
       setState(() => _isLoading = false);
       if (mounted) {
-        fladderSnackbar(context, title: 'Failed to create group');
+        fladderSnackbar(context, title: context.localized.syncPlayFailedToCreateGroup);
       }
     }
   }
@@ -79,13 +79,13 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
     return showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Create SyncPlay Group'),
+        title: Text(context.localized.syncPlayCreateGroup),
         content: TextField(
           controller: controller,
           autofocus: true,
-          decoration: const InputDecoration(
-            labelText: 'Group Name',
-            hintText: 'Movie Night',
+          decoration: InputDecoration(
+            labelText: context.localized.syncPlayGroupName,
+            hintText: context.localized.syncPlayGroupNameHint,
           ),
           onSubmitted: (value) => Navigator.of(context).pop(value),
         ),
@@ -108,12 +108,12 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
 
     final success = await ref.read(syncPlayProvider.notifier).joinGroup(group.groupId ?? '');
     if (success && mounted) {
-      fladderSnackbar(context, title: 'Joined "${group.groupName}"');
+      fladderSnackbar(context, title: context.localized.syncPlayJoinedGroup(group.groupName ?? ''));
       Navigator.of(context).pop();
     } else {
       setState(() => _isLoading = false);
       if (mounted) {
-        fladderSnackbar(context, title: 'Failed to join group');
+        fladderSnackbar(context, title: context.localized.syncPlayFailedToJoinGroup);
       }
     }
   }
@@ -121,7 +121,7 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
   Future<void> _leaveGroup() async {
     await ref.read(syncPlayProvider.notifier).leaveGroup();
     if (mounted) {
-      fladderSnackbar(context, title: 'Left SyncPlay group');
+      fladderSnackbar(context, title: context.localized.syncPlayLeftGroup);
       Navigator.of(context).pop();
     }
   }
@@ -171,7 +171,7 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
-                        'SyncPlay',
+                        context.localized.syncPlay,
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                     ),
@@ -235,7 +235,7 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
               ),
               const SizedBox(height: 16),
               Text(
-                'Failed to load groups',
+                context.localized.syncPlayFailedToLoadGroups,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               const SizedBox(height: 8),
@@ -264,12 +264,12 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
               ),
               const SizedBox(height: 16),
               Text(
-                'No active groups',
+                context.localized.syncPlayNoActiveGroups,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               const SizedBox(height: 8),
               Text(
-                'Create a group to watch together',
+                context.localized.syncPlayCreateGroupHint,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
@@ -279,7 +279,7 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
                 autofocus: true, // Focus for TV navigation
                 onPressed: _createGroup,
                 icon: const Icon(IconsaxPlusLinear.add),
-                label: const Text('Create Group'),
+                label: Text(context.localized.syncPlayCreateGroupButton),
               ),
             ],
           ),
@@ -330,11 +330,11 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      state.groupName ?? 'SyncPlay Group',
+                      state.groupName ?? context.localized.syncPlayGroupFallback,
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     Text(
-                      '${state.participants.length} participants',
+                      context.localized.syncPlayParticipants(state.participants.length),
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             color: Theme.of(context).colorScheme.onSurfaceVariant,
                           ),
@@ -354,7 +354,7 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
 
           // Instructions
           Text(
-            'Browse your library and start playing something to sync with the group.',
+            context.localized.syncPlayInstructions,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
@@ -368,22 +368,22 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
     final (icon, label, color) = switch (state.groupState) {
       SyncPlayGroupState.idle => (
           IconsaxPlusLinear.pause_circle,
-          'Idle',
+          context.localized.syncPlayStateIdle,
           Theme.of(context).colorScheme.onSurfaceVariant,
         ),
       SyncPlayGroupState.waiting => (
           IconsaxPlusLinear.timer_1,
-          'Waiting for others...',
+          context.localized.syncPlayStateWaiting,
           Theme.of(context).colorScheme.tertiary,
         ),
       SyncPlayGroupState.paused => (
           IconsaxPlusLinear.pause,
-          'Paused',
+          context.localized.syncPlayStatePaused,
           Theme.of(context).colorScheme.secondary,
         ),
       SyncPlayGroupState.playing => (
           IconsaxPlusLinear.play,
-          'Playing',
+          context.localized.syncPlayStatePlaying,
           Theme.of(context).colorScheme.primary,
         ),
     };
@@ -431,9 +431,9 @@ class _GroupListTile extends StatelessWidget {
           color: Theme.of(context).colorScheme.onPrimaryContainer,
         ),
       ),
-      title: Text(group.groupName ?? 'Unnamed Group'),
+      title: Text(group.groupName ?? context.localized.syncPlayUnnamedGroup),
       subtitle: Text(
-        '${group.participants?.length ?? 0} participants',
+        context.localized.syncPlayParticipants(group.participants?.length ?? 0),
         style: Theme.of(context).textTheme.bodySmall,
       ),
       trailing: const Icon(IconsaxPlusLinear.arrow_right_3),
