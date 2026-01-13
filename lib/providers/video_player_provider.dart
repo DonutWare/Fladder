@@ -10,7 +10,7 @@ import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
-import 'package:fladder/providers/syncplay/syncplay_models.dart';
+import 'package:fladder/models/syncplay/syncplay_models.dart';
 import 'package:fladder/providers/syncplay/syncplay_provider.dart';
 import 'package:fladder/util/debouncer.dart';
 import 'package:fladder/wrappers/media_control_wrapper.dart';

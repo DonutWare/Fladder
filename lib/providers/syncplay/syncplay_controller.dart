@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -11,21 +10,29 @@ import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/router_provider.dart';
-import 'package:fladder/providers/syncplay/syncplay_models.dart';
+import 'package:fladder/providers/syncplay/handlers/syncplay_command_handler.dart';
+import 'package:fladder/providers/syncplay/handlers/syncplay_message_handler.dart';
+import 'package:fladder/models/syncplay/syncplay_models.dart';
 import 'package:fladder/providers/syncplay/time_sync_service.dart';
 import 'package:fladder/providers/syncplay/websocket_manager.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/video_player/video_player.dart';
 
-/// Callback for player control commands from SyncPlay
-typedef SyncPlayPlayerCallback = Future<void> Function();
-typedef SyncPlaySeekCallback = Future<void> Function(int positionTicks);
-typedef SyncPlayPositionCallback = int Function();
-
 /// Controller for SyncPlay synchronized playback
 class SyncPlayController {
-  SyncPlayController(this._ref);
+  SyncPlayController(this._ref) {
+    _commandHandler = SyncPlayCommandHandler(
+      timeSync: () => _timeSync,
+      onStateUpdate: _updateStateWith,
+    );
+    _messageHandler = SyncPlayMessageHandler(
+      onStateUpdate: _updateStateWith,
+      reportReady: ({bool isPlaying = true}) => reportReady(isPlaying: isPlaying),
+      startPlayback: _startPlayback,
+      isBuffering: () => _commandHandler.isBuffering?.call() ?? false,
+    );
+  }
 
   final Ref _ref;
 
@@ -34,29 +41,27 @@ class SyncPlayController {
   StreamSubscription? _wsMessageSubscription;
   StreamSubscription? _wsStateSubscription;
 
+  late final SyncPlayCommandHandler _commandHandler;
+  late final SyncPlayMessageHandler _messageHandler;
+
   SyncPlayState _state = SyncPlayState();
   final _stateController = StreamController<SyncPlayState>.broadcast();
   Stream<SyncPlayState> get stateStream => _stateController.stream;
   SyncPlayState get state => _state;
 
-  // Last command for duplicate detection
-  LastSyncPlayCommand? _lastCommand;
-
-  // Pending command timer
-  Timer? _commandTimer;
-
   // Lifecycle state for reconnection
   String? _lastGroupId;
   bool _wasConnected = false;
 
-  // Player callbacks
-  SyncPlayPlayerCallback? onPlay;
-  SyncPlayPlayerCallback? onPause;
-  SyncPlaySeekCallback? onSeek;
-  SyncPlayPlayerCallback? onStop;
-  SyncPlayPositionCallback? getPositionTicks;
-  bool Function()? isPlaying;
-  bool Function()? isBuffering;
+  // Player callbacks (delegated to command handler)
+  set onPlay(SyncPlayPlayerCallback? callback) => _commandHandler.onPlay = callback;
+  set onPause(SyncPlayPlayerCallback? callback) => _commandHandler.onPause = callback;
+  set onSeek(SyncPlaySeekCallback? callback) => _commandHandler.onSeek = callback;
+  set onStop(SyncPlayPlayerCallback? callback) => _commandHandler.onStop = callback;
+  set getPositionTicks(SyncPlayPositionCallback? callback) =>
+      _commandHandler.getPositionTicks = callback;
+  set isPlaying(bool Function()? callback) => _commandHandler.isPlaying = callback;
+  set isBuffering(bool Function()? callback) => _commandHandler.isBuffering = callback;
 
   JellyfinOpenApi get _api => _ref.read(jellyApiProvider).api;
 
@@ -94,7 +99,7 @@ class SyncPlayController {
   /// Disconnect from SyncPlay
   Future<void> disconnect() async {
     await leaveGroup();
-    _commandTimer?.cancel();
+    _commandHandler.cancelPendingCommands();
     _wsMessageSubscription?.cancel();
     _wsStateSubscription?.cancel();
     _timeSync?.dispose();
@@ -200,7 +205,7 @@ class SyncPlayController {
       await _api.syncPlayBufferingPost(
         body: BufferRequestDto(
           when: when,
-          positionTicks: getPositionTicks?.call() ?? 0,
+          positionTicks: _commandHandler.getPositionTicks?.call() ?? 0,
           isPlaying: false,
           playlistItemId: _state.playlistItemId,
         ),
@@ -218,7 +223,7 @@ class SyncPlayController {
       await _api.syncPlayReadyPost(
         body: ReadyRequestDto(
           when: when,
-          positionTicks: getPositionTicks?.call() ?? 0,
+          positionTicks: _commandHandler.getPositionTicks?.call() ?? 0,
           isPlaying: isPlaying,
           playlistItemId: _state.playlistItemId,
         ),
@@ -275,290 +280,11 @@ class SyncPlayController {
 
     switch (messageType) {
       case 'SyncPlayCommand':
-        _handleSyncPlayCommand(data as Map<String, dynamic>);
+        _commandHandler.handleCommand(data as Map<String, dynamic>, _state);
         break;
       case 'SyncPlayGroupUpdate':
-        _handleGroupUpdate(data as Map<String, dynamic>);
+        _messageHandler.handleGroupUpdate(data as Map<String, dynamic>, _state);
         break;
-    }
-  }
-
-  void _handleSyncPlayCommand(Map<String, dynamic> data) {
-    final command = data['Command'] as String?;
-    final whenStr = data['When'] as String?;
-    final positionTicks = data['PositionTicks'] as int? ?? 0;
-    final playlistItemId = data['PlaylistItemId'] as String? ?? '';
-
-    if (command == null || whenStr == null) return;
-
-    // Check for duplicate command
-    if (_isDuplicateCommand(whenStr, positionTicks, command, playlistItemId)) {
-      log('SyncPlay: Ignoring duplicate command: $command');
-      return;
-    }
-
-    _lastCommand = LastSyncPlayCommand(
-      when: whenStr,
-      positionTicks: positionTicks,
-      command: command,
-      playlistItemId: playlistItemId,
-    );
-
-    _updateState(_state.copyWith(
-      positionTicks: positionTicks,
-      playlistItemId: playlistItemId,
-    ));
-
-    final when = DateTime.parse(whenStr);
-    _scheduleCommand(command, when, positionTicks);
-  }
-
-  bool _isDuplicateCommand(String when, int positionTicks, String command, String playlistItemId) {
-    if (_lastCommand == null) return false;
-    return _lastCommand!.when == when &&
-        _lastCommand!.positionTicks == positionTicks &&
-        _lastCommand!.command == command &&
-        _lastCommand!.playlistItemId == playlistItemId;
-  }
-
-  void _scheduleCommand(String command, DateTime serverTime, int positionTicks) {
-    if (_timeSync == null) {
-      log('SyncPlay: Cannot schedule command without time sync');
-      _executeCommand(command, positionTicks);
-      return;
-    }
-
-    final localTime = _timeSync!.remoteDateToLocal(serverTime);
-    final now = DateTime.now().toUtc();
-    final delay = localTime.difference(now);
-
-    _commandTimer?.cancel();
-
-    // Show processing indicator
-    _updateState(_state.copyWith(
-      isProcessingCommand: true,
-      processingCommandType: command,
-    ));
-
-    if (delay.isNegative) {
-      // Command is in the past - execute immediately
-      // Estimate where playback should be now
-      final estimatedTicks = _estimateCurrentTicks(positionTicks, serverTime);
-      log('SyncPlay: Executing late command: $command (${delay.inMilliseconds}ms late)');
-      _executeCommand(command, estimatedTicks);
-    } else if (delay.inMilliseconds > 5000) {
-      // Suspiciously large delay - might indicate time sync issue
-      log('SyncPlay: Warning - large delay: ${delay.inMilliseconds}ms');
-      _commandTimer = Timer(delay, () => _executeCommand(command, positionTicks));
-    } else {
-      log('SyncPlay: Scheduling command: $command in ${delay.inMilliseconds}ms');
-      _commandTimer = Timer(delay, () => _executeCommand(command, positionTicks));
-    }
-  }
-
-  int _estimateCurrentTicks(int ticks, DateTime when) {
-    if (_timeSync == null) return ticks;
-    final remoteNow = _timeSync!.localDateToRemote(DateTime.now().toUtc());
-    final elapsedMs = remoteNow.difference(when).inMilliseconds;
-    return ticks + millisecondsToTicks(elapsedMs);
-  }
-
-  Future<void> _executeCommand(String command, int positionTicks) async {
-    log('SyncPlay: Executing command: $command at $positionTicks ticks');
-
-    try {
-      switch (command) {
-        case 'Pause':
-          await onPause?.call();
-          // Seek to position if significantly different
-          final currentTicks = getPositionTicks?.call() ?? 0;
-          if ((positionTicks - currentTicks).abs() > ticksPerSecond ~/ 2) {
-            await onSeek?.call(positionTicks);
-          }
-          break;
-
-        case 'Unpause':
-          // Seek to position if significantly different
-          final currentTicks = getPositionTicks?.call() ?? 0;
-          if ((positionTicks - currentTicks).abs() > ticksPerSecond ~/ 2) {
-            await onSeek?.call(positionTicks);
-          }
-          await onPlay?.call();
-          break;
-
-        case 'Seek':
-          await onPlay?.call();
-          await onSeek?.call(positionTicks);
-          await onPause?.call();
-          // Report ready after seek
-          await reportReady(isPlaying: true);
-          break;
-
-        case 'Stop':
-          await onPause?.call();
-          await onSeek?.call(0);
-          break;
-      }
-    } finally {
-      // Clear processing state after command completes
-      _updateState(_state.copyWith(
-        isProcessingCommand: false,
-        processingCommandType: null,
-      ));
-    }
-  }
-
-  void _handleGroupUpdate(Map<String, dynamic> data) {
-    final updateType = data['Type'] as String?;
-    // final groupId = data['GroupId'] as String?; // Not needed - group info is in updateData
-    final updateData = data['Data'];
-
-    switch (updateType) {
-      case 'GroupJoined':
-        _handleGroupJoined(updateData as Map<String, dynamic>);
-        break;
-      case 'UserJoined':
-        _handleUserJoined(updateData as String?);
-        break;
-      case 'UserLeft':
-        _handleUserLeft(updateData as String?);
-        break;
-      case 'GroupLeft':
-        _handleGroupLeft();
-        break;
-      case 'GroupDoesNotExist':
-        _handleGroupDoesNotExist();
-        break;
-      case 'StateUpdate':
-        _handleStateUpdate(updateData as Map<String, dynamic>);
-        break;
-      case 'PlayQueue':
-        _handlePlayQueue(updateData as Map<String, dynamic>);
-        break;
-    }
-  }
-
-  void _handleGroupJoined(Map<String, dynamic> data) {
-    final groupId = data['GroupId'] as String?;
-    final groupName = data['GroupName'] as String?;
-    final stateStr = data['State'] as String?;
-    final participants = (data['Participants'] as List?)?.cast<String>() ?? [];
-
-    _updateState(_state.copyWith(
-      isInGroup: true,
-      groupId: groupId,
-      groupName: groupName,
-      groupState: _parseGroupState(stateStr),
-      participants: participants,
-    ));
-
-    log('SyncPlay: Joined group "$groupName" ($groupId)');
-  }
-
-  void _handleUserJoined(String? userId) {
-    if (userId == null) return;
-    final participants = [..._state.participants, userId];
-    _updateState(_state.copyWith(participants: participants));
-    log('SyncPlay: User joined: $userId');
-  }
-
-  void _handleUserLeft(String? userId) {
-    if (userId == null) return;
-    final participants = _state.participants.where((p) => p != userId).toList();
-    _updateState(_state.copyWith(participants: participants));
-    log('SyncPlay: User left: $userId');
-  }
-
-  void _handleGroupLeft() {
-    _updateState(_state.copyWith(
-      isInGroup: false,
-      groupId: null,
-      groupName: null,
-      groupState: SyncPlayGroupState.idle,
-      participants: [],
-    ));
-    log('SyncPlay: Left group');
-  }
-
-  void _handleGroupDoesNotExist() {
-    _updateState(_state.copyWith(
-      isInGroup: false,
-      groupId: null,
-      groupName: null,
-      groupState: SyncPlayGroupState.idle,
-      participants: [],
-    ));
-    log('SyncPlay: Group does not exist');
-  }
-
-  void _handleStateUpdate(Map<String, dynamic> data) {
-    final stateStr = data['State'] as String?;
-    final reason = data['Reason'] as String?;
-    final positionTicks = data['PositionTicks'] as int? ?? 0;
-
-    _updateState(_state.copyWith(
-      groupState: _parseGroupState(stateStr),
-      stateReason: reason,
-      positionTicks: positionTicks,
-    ));
-
-    log('SyncPlay: State update: $stateStr (reason: $reason)');
-
-    // Handle waiting state
-    if (_parseGroupState(stateStr) == SyncPlayGroupState.waiting) {
-      _handleWaitingState(reason);
-    }
-  }
-
-  void _handleWaitingState(String? reason) {
-    switch (reason) {
-      case 'Buffer':
-      case 'Unpause':
-        // Report ready if we're ready
-        if (!(isBuffering?.call() ?? false)) {
-          reportReady(isPlaying: true);
-        }
-        break;
-    }
-  }
-
-  void _handlePlayQueue(Map<String, dynamic> data) {
-    final playlist = data['Playlist'] as List? ?? [];
-    final playingItemIndex = data['PlayingItemIndex'] as int? ?? 0;
-    final startPositionTicks = data['StartPositionTicks'] as int? ?? 0;
-    final isPlayingNow = data['IsPlaying'] as bool? ?? false;
-    final reason = data['Reason'] as String?;
-
-    String? playingItemId;
-    String? playlistItemId;
-
-    if (playlist.isNotEmpty && playingItemIndex < playlist.length) {
-      final item = playlist[playingItemIndex] as Map<String, dynamic>;
-      playingItemId = item['ItemId'] as String?;
-      playlistItemId = item['PlaylistItemId'] as String?;
-    }
-
-    final previousItemId = _state.playingItemId;
-
-    _updateState(_state.copyWith(
-      playingItemId: playingItemId,
-      playlistItemId: playlistItemId,
-      positionTicks: startPositionTicks,
-    ));
-
-    log('SyncPlay: PlayQueue update - playing: $playingItemId (reason: $reason, isPlaying: $isPlayingNow, previousItemId: $previousItemId)');
-
-    // Trigger playback for NewPlaylist/SetCurrentItem regardless of whether item changed
-    // (the same user who set the queue also receives the update and needs to start playing)
-    final shouldTrigger = playingItemId != null &&
-        (reason == 'NewPlaylist' || reason == 'SetCurrentItem' || 
-         (playingItemId != previousItemId && isPlayingNow));
-    
-    log('SyncPlay: shouldTrigger=$shouldTrigger (reason: $reason)');
-    
-    if (shouldTrigger) {
-      log('SyncPlay: Triggering playback for item: $playingItemId');
-      _startPlayback(playingItemId!, startPositionTicks);
     }
   }
 
@@ -633,24 +359,14 @@ class SyncPlayController {
     }
   }
 
-  SyncPlayGroupState _parseGroupState(String? state) {
-    switch (state?.toLowerCase()) {
-      case 'idle':
-        return SyncPlayGroupState.idle;
-      case 'waiting':
-        return SyncPlayGroupState.waiting;
-      case 'paused':
-        return SyncPlayGroupState.paused;
-      case 'playing':
-        return SyncPlayGroupState.playing;
-      default:
-        return SyncPlayGroupState.idle;
-    }
-  }
-
   void _updateState(SyncPlayState newState) {
     _state = newState;
     _stateController.add(newState);
+  }
+
+  void _updateStateWith(SyncPlayState Function(SyncPlayState) updater) {
+    _state = updater(_state);
+    _stateController.add(_state);
   }
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -713,6 +429,7 @@ class SyncPlayController {
 
   /// Dispose resources
   Future<void> dispose() async {
+    _commandHandler.dispose();
     await disconnect();
     await _stateController.close();
   }

@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
-import 'package:fladder/providers/syncplay/syncplay_models.dart';
+import 'package:fladder/models/syncplay/syncplay_models.dart';
 import 'package:fladder/providers/syncplay/syncplay_provider.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/theme.dart';

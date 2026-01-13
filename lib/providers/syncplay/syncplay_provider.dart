@@ -6,7 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/providers/syncplay/syncplay_controller.dart';
-import 'package:fladder/providers/syncplay/syncplay_models.dart';
+import 'package:fladder/models/syncplay/syncplay_models.dart';
 
 part 'syncplay_provider.g.dart';
 

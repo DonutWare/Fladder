@@ -4,7 +4,7 @@ import 'dart:developer';
 
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-import 'package:fladder/providers/syncplay/syncplay_models.dart';
+import 'package:fladder/models/syncplay/syncplay_models.dart';
 
 /// Manages WebSocket connection to Jellyfin server for SyncPlay
 class WebSocketManager {

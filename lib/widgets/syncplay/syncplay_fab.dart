@@ -6,7 +6,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/providers/syncplay/syncplay_provider.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/adaptive_fab.dart';
-import 'package:fladder/widgets/syncplay/syncplay_group_sheet.dart';
+import 'package:fladder/widgets/syncplay/syncplay_utils.dart';
 
 /// FAB for accessing SyncPlay from the home screen
 class SyncPlayFab extends ConsumerWidget {
@@ -21,7 +21,7 @@ class SyncPlayFab extends ConsumerWidget {
       title: isActive ? context.localized.syncPlay : 'SyncPlay',
       heroTag: 'syncplay_fab',
       backgroundColor: isActive ? Theme.of(context).colorScheme.primaryContainer : null,
-      onPressed: () => _showSyncPlaySheet(context),
+      onPressed: () => showSyncPlaySheet(context),
       child: Stack(
         children: [
           Icon(
@@ -43,15 +43,5 @@ class SyncPlayFab extends ConsumerWidget {
         ],
       ),
     ).normal;
-  }
-
-  void _showSyncPlaySheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      useSafeArea: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => const SyncPlayGroupSheet(),
-    );
   }
 }

@@ -9,7 +9,7 @@ import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/adaptive_fab.dart';
-import 'package:fladder/widgets/syncplay/syncplay_group_sheet.dart';
+import 'package:fladder/widgets/syncplay/syncplay_utils.dart';
 
 /// Combined FAB for dashboard with search and SyncPlay actions
 class DashboardFabs extends ConsumerWidget {
@@ -59,7 +59,7 @@ class _SyncPlayFabButton extends StatelessWidget {
       child: IconButton.filledTonal(
         iconSize: 26,
         tooltip: 'SyncPlay',
-        onPressed: () => _showSyncPlaySheet(context),
+        onPressed: () => showSyncPlaySheet(context),
         style: IconButton.styleFrom(
           backgroundColor: isActive ? Theme.of(context).colorScheme.primaryContainer : null,
         ),
@@ -87,16 +87,6 @@ class _SyncPlayFabButton extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  void _showSyncPlaySheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      useSafeArea: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => const SyncPlayGroupSheet(),
     );
   }
 }
