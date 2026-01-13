@@ -2046,5 +2046,239 @@
     "subtitlePlaybackModeDefault": "Par défaut",
     "@subtitlePlaybackModeDefault": {},
     "subtitlePlaybackModeAlways": "Toujours jouer",
-    "@subtitlePlaybackModeAlways": {}
+    "@subtitlePlaybackModeAlways": {},
+    "subtitlePlaybackModeOnlyForced": "Seulement forcé",
+    "@subtitlePlaybackModeOnlyForced": {},
+    "subtitlePlaybackModeNone": "Aucun(e)",
+    "@subtitlePlaybackModeNone": {},
+    "subtitlePlaybackModeSmart": "Intelligent",
+    "@subtitlePlaybackModeSmart": {},
+    "deleteRequestConfirmation": "Êtes-vous sûr(e) de vouloir supprimer cette requête ?",
+    "@deleteRequestConfirmation": {},
+    "syncplayAccessCreateAndJoinGroups": "Créer et Rejoindre des Groupes",
+    "@syncplayAccessCreateAndJoinGroups": {},
+    "syncplayAccessJoinGroups": "Rejoindre des Groupes",
+    "@syncplayAccessJoinGroups": {},
+    "syncplayAccessNone": "Aucun(e)",
+    "@syncplayAccessNone": {},
+    "recentlyAdded": "Récemment ajouté",
+    "@recentlyAdded": {},
+    "recentRequests": "Requêtes récentes",
+    "@recentRequests": {},
+    "trending": "Populaire",
+    "@trending": {},
+    "popularMovies": "Films populaires",
+    "@popularMovies": {},
+    "popularSeries": "Séries populaires",
+    "@popularSeries": {},
+    "expectedMovies": "Films attendus",
+    "@expectedMovies": {},
+    "expectedSeries": "Séries attendues",
+    "@expectedSeries": {},
+    "requestConfiguration": "Demander configuration",
+    "@requestConfiguration": {},
+    "qualityProfile": "Profil de qualité",
+    "@qualityProfile": {},
+    "selectProfile": "Sélectionner profil",
+    "@selectProfile": {},
+    "rootFolder": "Dossier racine",
+    "@rootFolder": {},
+    "selectFolder": "Sélectionner dossier",
+    "@selectFolder": {},
+    "tags": "Tags",
+    "@tags": {},
+    "noTags": "Pas de tags",
+    "@noTags": {},
+    "requestAs": "Demander en tant que",
+    "@requestAs": {},
+    "requestQuotaStatus": "{remaining} sur {limit} restant (réinitialisation tous les {days} jours)",
+    "@requestQuotaStatus": {
+        "placeholders": {
+            "remaining": {
+                "type": "int"
+            },
+            "limit": {
+                "type": "int"
+            },
+            "days": {
+                "type": "int"
+            }
+        }
+    },
+    "requestQuotaLimitReached": "Limite atteinte pour {mediaType}.",
+    "@requestQuotaLimitReached": {
+        "placeholders": {
+            "mediaType": {
+                "type": "String"
+            }
+        }
+    },
+    "submitRequest": "Soumettre requête",
+    "@submitRequest": {},
+    "noOverviewAvailable": "Pas d'aperçu disponible.",
+    "@noOverviewAvailable": {},
+    "downloading": "téléchargement",
+    "@downloading": {},
+    "request": "Requête",
+    "@request": {},
+    "viewRequest": "Visualiser requête",
+    "@viewRequest": {},
+    "email": "E-mail",
+    "@email": {},
+    "username": "Nom d'utilisateur",
+    "@username": {},
+    "ok": "OK",
+    "@ok": {},
+    "seerr": "Seerr",
+    "@seerr": {},
+    "seerrNotConfigured": "Non configuré",
+    "@seerrNotConfigured": {},
+    "seerrLoadingUser": "Chargement de l'utilisateur",
+    "@seerrLoadingUser": {},
+    "seerrUnknownUser": "Utilisateur inconnu",
+    "@seerrUnknownUser": {},
+    "loggedInAs": "Connecté en tant que {displayName}",
+    "@loggedInAs": {
+        "placeholders": {
+            "displayName": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrServer": "Serveur Seerr",
+    "@seerrServer": {},
+    "seerrAuthenticateLocal": "Authentification Seerr (local)",
+    "@seerrAuthenticateLocal": {},
+    "rootFolderDefaultLabel": "{folder} (Par défaut)",
+    "@rootFolderDefaultLabel": {
+        "placeholders": {
+            "folder": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrAnimeSeriesNote": "* Cette série est un anime.",
+    "@seerrAnimeSeriesNote": {},
+    "seerrAutoApproveNotice": "Les requêtes que vous soumettez sont approuvées automatiquement.",
+    "@seerrAutoApproveNotice": {},
+    "seerrPermissionDenied": "Vous n'avez pas la permission de demander ce type de média.",
+    "@seerrPermissionDenied": {},
+    "seerrRequestStatusPending": "En attente",
+    "@seerrRequestStatusPending": {},
+    "seerrRequestStatusApproved": "Approuvé",
+    "@seerrRequestStatusApproved": {},
+    "seerrRequestStatusDeclined": "Refusé",
+    "@seerrRequestStatusDeclined": {},
+    "seerrRequestStatusFailed": "Échec",
+    "@seerrRequestStatusFailed": {},
+    "seerrRequestStatusCompleted": "Complété",
+    "@seerrRequestStatusCompleted": {},
+    "seerrMediaStatusProcessing": "En traitement",
+    "@seerrMediaStatusProcessing": {},
+    "seerrMediaStatusPartiallyAvailable": "Disponible partiellement",
+    "@seerrMediaStatusPartiallyAvailable": {},
+    "seerrMediaStatusAvailable": "Disponible",
+    "@seerrMediaStatusAvailable": {},
+    "seerrMediaStatusBlacklisted": "Sur liste noire",
+    "@seerrMediaStatusBlacklisted": {},
+    "seerrMediaStatusDeleted": "Supprimé",
+    "@seerrMediaStatusDeleted": {},
+    "seerrAuthApiKey": "Clé API",
+    "@seerrAuthApiKey": {},
+    "seerrAuthLocal": "Local",
+    "@seerrAuthLocal": {},
+    "seerrAuthJellyfin": "Jellyfin",
+    "@seerrAuthJellyfin": {},
+    "seerrUserFetchFailed": "Échec de la récupération de l'utilisateur depuis Seerr",
+    "@seerrUserFetchFailed": {},
+    "seerrEnterServerUrlFirst": "Entrer une URL de serveur Seerr d'abord",
+    "@seerrEnterServerUrlFirst": {},
+    "seerrApiKeySaved": "Clé API enregistrée",
+    "@seerrApiKeySaved": {},
+    "seerrLoggedIn": "Connexion à Seerr",
+    "@seerrLoggedIn": {},
+    "seerrConnectedToServer": "Connecté au serveur Seerr : {serverUrl}",
+    "@seerrConnectedToServer": {
+        "placeholders": {
+            "serverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "emailUsername": "E-mail/Nom d'utilisateur",
+    "@emailUsername": {},
+    "discover": "Découvrir",
+    "@discover": {},
+    "sponsor": "Sponsor",
+    "@sponsor": {},
+    "sponsorMessage": "Si vous appréciez Fladder, pensez à parrainer le projet pour aider au développement en cours ainsi que les améliorations. Merci pour votre soutien !",
+    "@sponsorMessage": {},
+    "min": "min",
+    "@min": {},
+    "max": "max",
+    "@max": {},
+    "manageRequest": "Gérer requête",
+    "@manageRequest": {},
+    "requestAll": "Tout demander",
+    "@requestAll": {},
+    "openInSeerr": "Ouvrir dans Seerr",
+    "@openInSeerr": {},
+    "openInSonarr": "Ouvrir dans Sonarr",
+    "@openInSonarr": {},
+    "openInRadarr": "Ouvrir dans Radarr",
+    "@openInRadarr": {},
+    "removeFromSonarr": "Supprimer de Sonarr",
+    "@removeFromSonarr": {},
+    "removeFromRadarr": "Supprimer de Radarr",
+    "@removeFromRadarr": {},
+    "markAllSeasonsAsAvailable": "Marquer toutes les saisons comme disponibles",
+    "@markAllSeasonsAsAvailable": {},
+    "markAsAvailable": "Marquer comme disponible",
+    "@markAsAvailable": {},
+    "deleteData": "Supprimer les données",
+    "@deleteData": {},
+    "removeSeriesFromSonarrConfirm": "Supprimer cette série de Sonarr ? Ceci supprimera toutes les données fichiers COMPRIS.",
+    "@removeSeriesFromSonarrConfirm": {},
+    "removeMovieFromRadarrConfirm": "Supprimer cette série de Radarr ? Ceci supprimera toutes les données fichiers COMPRIS.",
+    "@removeMovieFromRadarrConfirm": {},
+    "removedFromSonarr": "Supprimé de Sonarr",
+    "@removedFromSonarr": {},
+    "removedFromRadarr": "Supprimé de Radarr",
+    "@removedFromRadarr": {},
+    "markAllSeasonsAsAvailableConfirm": "Marquer toutes les saisons comme disponibles ?",
+    "@markAllSeasonsAsAvailableConfirm": {},
+    "markAsAvailableConfirm": "Marquer comme disponible ?",
+    "@markAsAvailableConfirm": {},
+    "markedAsAvailable": "Marquée comme disponible",
+    "@markedAsAvailable": {},
+    "deleteSeerrDataConfirm": "Supprimer tous les fichiers de Seerr ? Cette action ne peut pas être annulée.\nSi les données sont toujours présentes dans {service}, elles pourront être ré-importées.",
+    "@deleteSeerrDataConfirm": {
+        "description": "Confirmation message for deleting Seerr data",
+        "placeholders": {
+            "service": {
+                "type": "String",
+                "example": "Sonarr/Radarr"
+            }
+        }
+    },
+    "dataDeleted": "Donnée(s) supprimée(s)",
+    "@dataDeleted": {},
+    "approve": "Approuver",
+    "@approve": {},
+    "decline": "Refuser",
+    "@decline": {},
+    "pendingRequests": "{count, plural, other{Pas de requêtes en attente} one{{count} requête en attente} two{{count} requêtes en attente}}",
+    "@pendingRequests": {
+        "description": "pendingRequests",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "processing": "En traitement",
+    "@processing": {},
+    "seerrDetails": "Détails Seerr",
+    "@seerrDetails": {}
 }
