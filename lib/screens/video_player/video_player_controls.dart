@@ -25,6 +25,7 @@ import 'package:fladder/screens/video_player/components/video_playback_informati
 import 'package:fladder/screens/video_player/components/video_player_controls_extras.dart';
 import 'package:fladder/screens/video_player/components/video_player_options_sheet.dart';
 import 'package:fladder/screens/video_player/components/video_player_quality_controls.dart';
+import 'package:fladder/screens/video_player/components/syncplay_command_indicator.dart';
 import 'package:fladder/screens/video_player/components/video_player_screenshot_indicator.dart';
 import 'package:fladder/screens/video_player/components/video_player_seek_indicator.dart';
 import 'package:fladder/screens/video_player/components/video_player_speed_indicator.dart';
@@ -130,6 +131,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                 const VideoPlayerVolumeIndicator(),
                 const VideoPlayerSpeedIndicator(),
                 const VideoPlayerScreenshotIndicator(),
+                const SyncPlayCommandIndicator(),
                 Consumer(
                   builder: (context, ref, child) {
                     final position = ref.watch(mediaPlaybackProvider.select((value) => value.position));

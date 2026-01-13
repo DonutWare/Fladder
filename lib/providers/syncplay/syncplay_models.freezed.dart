@@ -353,6 +353,12 @@ mixin _$SyncPlayState {
   int get positionTicks;
   DateTime? get lastCommandTime;
 
+  /// Whether a SyncPlay command is currently being processed
+  bool get isProcessingCommand;
+
+  /// The type of command being processed (for UI feedback)
+  String? get processingCommandType;
+
   /// Create a copy of SyncPlayState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -363,7 +369,7 @@ mixin _$SyncPlayState {
 
   @override
   String toString() {
-    return 'SyncPlayState(isConnected: $isConnected, isInGroup: $isInGroup, groupId: $groupId, groupName: $groupName, groupState: $groupState, stateReason: $stateReason, participants: $participants, playingItemId: $playingItemId, playlistItemId: $playlistItemId, positionTicks: $positionTicks, lastCommandTime: $lastCommandTime)';
+    return 'SyncPlayState(isConnected: $isConnected, isInGroup: $isInGroup, groupId: $groupId, groupName: $groupName, groupState: $groupState, stateReason: $stateReason, participants: $participants, playingItemId: $playingItemId, playlistItemId: $playlistItemId, positionTicks: $positionTicks, lastCommandTime: $lastCommandTime, isProcessingCommand: $isProcessingCommand, processingCommandType: $processingCommandType)';
   }
 }
 
@@ -384,7 +390,9 @@ abstract mixin class $SyncPlayStateCopyWith<$Res> {
       String? playingItemId,
       String? playlistItemId,
       int positionTicks,
-      DateTime? lastCommandTime});
+      DateTime? lastCommandTime,
+      bool isProcessingCommand,
+      String? processingCommandType});
 }
 
 /// @nodoc
@@ -411,6 +419,8 @@ class _$SyncPlayStateCopyWithImpl<$Res>
     Object? playlistItemId = freezed,
     Object? positionTicks = null,
     Object? lastCommandTime = freezed,
+    Object? isProcessingCommand = null,
+    Object? processingCommandType = freezed,
   }) {
     return _then(_self.copyWith(
       isConnected: null == isConnected
@@ -457,6 +467,14 @@ class _$SyncPlayStateCopyWithImpl<$Res>
           ? _self.lastCommandTime
           : lastCommandTime // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      isProcessingCommand: null == isProcessingCommand
+          ? _self.isProcessingCommand
+          : isProcessingCommand // ignore: cast_nullable_to_non_nullable
+              as bool,
+      processingCommandType: freezed == processingCommandType
+          ? _self.processingCommandType
+          : processingCommandType // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -565,7 +583,9 @@ extension SyncPlayStatePatterns on SyncPlayState {
             String? playingItemId,
             String? playlistItemId,
             int positionTicks,
-            DateTime? lastCommandTime)?
+            DateTime? lastCommandTime,
+            bool isProcessingCommand,
+            String? processingCommandType)?
         $default, {
     required TResult orElse(),
   }) {
@@ -583,7 +603,9 @@ extension SyncPlayStatePatterns on SyncPlayState {
             _that.playingItemId,
             _that.playlistItemId,
             _that.positionTicks,
-            _that.lastCommandTime);
+            _that.lastCommandTime,
+            _that.isProcessingCommand,
+            _that.processingCommandType);
       case _:
         return orElse();
     }
@@ -615,7 +637,9 @@ extension SyncPlayStatePatterns on SyncPlayState {
             String? playingItemId,
             String? playlistItemId,
             int positionTicks,
-            DateTime? lastCommandTime)
+            DateTime? lastCommandTime,
+            bool isProcessingCommand,
+            String? processingCommandType)
         $default,
   ) {
     final _that = this;
@@ -632,7 +656,9 @@ extension SyncPlayStatePatterns on SyncPlayState {
             _that.playingItemId,
             _that.playlistItemId,
             _that.positionTicks,
-            _that.lastCommandTime);
+            _that.lastCommandTime,
+            _that.isProcessingCommand,
+            _that.processingCommandType);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -663,7 +689,9 @@ extension SyncPlayStatePatterns on SyncPlayState {
             String? playingItemId,
             String? playlistItemId,
             int positionTicks,
-            DateTime? lastCommandTime)?
+            DateTime? lastCommandTime,
+            bool isProcessingCommand,
+            String? processingCommandType)?
         $default,
   ) {
     final _that = this;
@@ -680,7 +708,9 @@ extension SyncPlayStatePatterns on SyncPlayState {
             _that.playingItemId,
             _that.playlistItemId,
             _that.positionTicks,
-            _that.lastCommandTime);
+            _that.lastCommandTime,
+            _that.isProcessingCommand,
+            _that.processingCommandType);
       case _:
         return null;
     }
@@ -701,7 +731,9 @@ class _SyncPlayState extends SyncPlayState {
       this.playingItemId,
       this.playlistItemId,
       this.positionTicks = 0,
-      this.lastCommandTime})
+      this.lastCommandTime,
+      this.isProcessingCommand = false,
+      this.processingCommandType})
       : _participants = participants,
         super._();
 
@@ -739,6 +771,15 @@ class _SyncPlayState extends SyncPlayState {
   @override
   final DateTime? lastCommandTime;
 
+  /// Whether a SyncPlay command is currently being processed
+  @override
+  @JsonKey()
+  final bool isProcessingCommand;
+
+  /// The type of command being processed (for UI feedback)
+  @override
+  final String? processingCommandType;
+
   /// Create a copy of SyncPlayState
   /// with the given fields replaced by the non-null parameter values.
   @override
@@ -749,7 +790,7 @@ class _SyncPlayState extends SyncPlayState {
 
   @override
   String toString() {
-    return 'SyncPlayState(isConnected: $isConnected, isInGroup: $isInGroup, groupId: $groupId, groupName: $groupName, groupState: $groupState, stateReason: $stateReason, participants: $participants, playingItemId: $playingItemId, playlistItemId: $playlistItemId, positionTicks: $positionTicks, lastCommandTime: $lastCommandTime)';
+    return 'SyncPlayState(isConnected: $isConnected, isInGroup: $isInGroup, groupId: $groupId, groupName: $groupName, groupState: $groupState, stateReason: $stateReason, participants: $participants, playingItemId: $playingItemId, playlistItemId: $playlistItemId, positionTicks: $positionTicks, lastCommandTime: $lastCommandTime, isProcessingCommand: $isProcessingCommand, processingCommandType: $processingCommandType)';
   }
 }
 
@@ -772,7 +813,9 @@ abstract mixin class _$SyncPlayStateCopyWith<$Res>
       String? playingItemId,
       String? playlistItemId,
       int positionTicks,
-      DateTime? lastCommandTime});
+      DateTime? lastCommandTime,
+      bool isProcessingCommand,
+      String? processingCommandType});
 }
 
 /// @nodoc
@@ -799,6 +842,8 @@ class __$SyncPlayStateCopyWithImpl<$Res>
     Object? playlistItemId = freezed,
     Object? positionTicks = null,
     Object? lastCommandTime = freezed,
+    Object? isProcessingCommand = null,
+    Object? processingCommandType = freezed,
   }) {
     return _then(_SyncPlayState(
       isConnected: null == isConnected
@@ -845,6 +890,14 @@ class __$SyncPlayStateCopyWithImpl<$Res>
           ? _self.lastCommandTime
           : lastCommandTime // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      isProcessingCommand: null == isProcessingCommand
+          ? _self.isProcessingCommand
+          : isProcessingCommand // ignore: cast_nullable_to_non_nullable
+              as bool,
+      processingCommandType: freezed == processingCommandType
+          ? _self.processingCommandType
+          : processingCommandType // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }

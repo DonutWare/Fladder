@@ -334,6 +334,12 @@ class SyncPlayController {
 
     _commandTimer?.cancel();
 
+    // Show processing indicator
+    _updateState(_state.copyWith(
+      isProcessingCommand: true,
+      processingCommandType: command,
+    ));
+
     if (delay.isNegative) {
       // Command is in the past - execute immediately
       // Estimate where playback should be now
@@ -360,37 +366,45 @@ class SyncPlayController {
   Future<void> _executeCommand(String command, int positionTicks) async {
     log('SyncPlay: Executing command: $command at $positionTicks ticks');
 
-    switch (command) {
-      case 'Pause':
-        await onPause?.call();
-        // Seek to position if significantly different
-        final currentTicks = getPositionTicks?.call() ?? 0;
-        if ((positionTicks - currentTicks).abs() > ticksPerSecond ~/ 2) {
+    try {
+      switch (command) {
+        case 'Pause':
+          await onPause?.call();
+          // Seek to position if significantly different
+          final currentTicks = getPositionTicks?.call() ?? 0;
+          if ((positionTicks - currentTicks).abs() > ticksPerSecond ~/ 2) {
+            await onSeek?.call(positionTicks);
+          }
+          break;
+
+        case 'Unpause':
+          // Seek to position if significantly different
+          final currentTicks = getPositionTicks?.call() ?? 0;
+          if ((positionTicks - currentTicks).abs() > ticksPerSecond ~/ 2) {
+            await onSeek?.call(positionTicks);
+          }
+          await onPlay?.call();
+          break;
+
+        case 'Seek':
+          await onPlay?.call();
           await onSeek?.call(positionTicks);
-        }
-        break;
+          await onPause?.call();
+          // Report ready after seek
+          await reportReady(isPlaying: true);
+          break;
 
-      case 'Unpause':
-        // Seek to position if significantly different
-        final currentTicks = getPositionTicks?.call() ?? 0;
-        if ((positionTicks - currentTicks).abs() > ticksPerSecond ~/ 2) {
-          await onSeek?.call(positionTicks);
-        }
-        await onPlay?.call();
-        break;
-
-      case 'Seek':
-        await onPlay?.call();
-        await onSeek?.call(positionTicks);
-        await onPause?.call();
-        // Report ready after seek
-        await reportReady(isPlaying: true);
-        break;
-
-      case 'Stop':
-        await onPause?.call();
-        await onSeek?.call(0);
-        break;
+        case 'Stop':
+          await onPause?.call();
+          await onSeek?.call(0);
+          break;
+      }
+    } finally {
+      // Clear processing state after command completes
+      _updateState(_state.copyWith(
+        isProcessingCommand: false,
+        processingCommandType: null,
+      ));
     }
   }
 

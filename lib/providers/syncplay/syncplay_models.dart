@@ -64,6 +64,10 @@ abstract class SyncPlayState with _$SyncPlayState {
     String? playlistItemId,
     @Default(0) int positionTicks,
     DateTime? lastCommandTime,
+    /// Whether a SyncPlay command is currently being processed
+    @Default(false) bool isProcessingCommand,
+    /// The type of command being processed (for UI feedback)
+    String? processingCommandType,
   }) = _SyncPlayState;
 
   bool get isActive => isConnected && isInGroup;

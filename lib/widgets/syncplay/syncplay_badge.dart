@@ -18,6 +18,8 @@ class SyncPlayBadge extends ConsumerWidget {
 
     final groupName = ref.watch(syncPlayGroupNameProvider);
     final groupState = ref.watch(syncPlayGroupStateProvider);
+    final isProcessing = ref.watch(syncPlayProvider.select((s) => s.isProcessingCommand));
+    final processingCommand = ref.watch(syncPlayProvider.select((s) => s.processingCommandType));
 
     final (icon, color) = switch (groupState) {
       SyncPlayGroupState.idle => (
@@ -38,40 +40,74 @@ class SyncPlayBadge extends ConsumerWidget {
         ),
     };
 
-    return Container(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.85),
+        color: isProcessing 
+            ? Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.95)
+            : Theme.of(context).colorScheme.surface.withValues(alpha: 0.85),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: color.withValues(alpha: 0.5),
-          width: 1,
+          color: isProcessing 
+              ? Theme.of(context).colorScheme.primary
+              : color.withValues(alpha: 0.5),
+          width: isProcessing ? 2 : 1,
         ),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            IconsaxPlusLinear.people,
-            size: 14,
-            color: color,
-          ),
-          const SizedBox(width: 6),
-          Text(
-            groupName ?? 'SyncPlay',
-            style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
-          ),
-          const SizedBox(width: 6),
-          Icon(
-            icon,
-            size: 12,
-            color: color,
-          ),
+          if (isProcessing) ...[
+            SizedBox(
+              width: 12,
+              height: 12,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+            const SizedBox(width: 6),
+            Text(
+              _getProcessingText(processingCommand),
+              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                    fontWeight: FontWeight.w600,
+                  ),
+            ),
+          ] else ...[
+            Icon(
+              IconsaxPlusLinear.people,
+              size: 14,
+              color: color,
+            ),
+            const SizedBox(width: 6),
+            Text(
+              groupName ?? 'SyncPlay',
+              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+            ),
+            const SizedBox(width: 6),
+            Icon(
+              icon,
+              size: 12,
+              color: color,
+            ),
+          ],
         ],
       ),
     );
+  }
+
+  String _getProcessingText(String? command) {
+    return switch (command) {
+      'Pause' => 'Syncing pause...',
+      'Unpause' => 'Syncing play...',
+      'Seek' => 'Syncing seek...',
+      'Stop' => 'Stopping...',
+      _ => 'Syncing...',
+    };
   }
 }
 
@@ -86,6 +122,7 @@ class SyncPlayIndicator extends ConsumerWidget {
     if (!isActive) return const SizedBox.shrink();
 
     final groupState = ref.watch(syncPlayGroupStateProvider);
+    final isProcessing = ref.watch(syncPlayProvider.select((s) => s.isProcessingCommand));
 
     final color = switch (groupState) {
       SyncPlayGroupState.idle => Theme.of(context).colorScheme.onSurfaceVariant,
@@ -94,17 +131,32 @@ class SyncPlayIndicator extends ConsumerWidget {
       SyncPlayGroupState.playing => Theme.of(context).colorScheme.primary,
     };
 
-    return Container(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
       padding: const EdgeInsets.all(6),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.2),
+        color: isProcessing 
+            ? Theme.of(context).colorScheme.primaryContainer
+            : color.withValues(alpha: 0.2),
         shape: BoxShape.circle,
+        border: isProcessing 
+            ? Border.all(color: Theme.of(context).colorScheme.primary, width: 2)
+            : null,
       ),
-      child: Icon(
-        IconsaxPlusBold.people,
-        size: 16,
-        color: color,
-      ),
+      child: isProcessing
+          ? SizedBox(
+              width: 16,
+              height: 16,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            )
+          : Icon(
+              IconsaxPlusBold.people,
+              size: 16,
+              color: color,
+            ),
     );
   }
 }
