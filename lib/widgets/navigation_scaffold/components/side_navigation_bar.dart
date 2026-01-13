@@ -26,6 +26,7 @@ import 'package:fladder/widgets/shared/custom_tooltip.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 import 'package:fladder/widgets/shared/simple_overflow_widget.dart';
+import 'package:fladder/widgets/syncplay/syncplay_fab.dart';
 
 final navBarNode = FocusNode();
 
@@ -364,15 +365,22 @@ class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
     final destination = (widget.currentIndex >= 0 && widget.currentIndex < widget.destinations.length)
         ? widget.destinations[widget.currentIndex]
         : null;
-    
-    // If there's a custom FAB widget, use it (doesn't support extended mode)
+
+    // If there's a custom FAB widget, use it (already includes SyncPlay for dashboard)
     if (destination?.customFab != null) {
       return destination!.customFab!;
     }
-    
-    // Otherwise use the AdaptiveFab with extended/normal modes
+
+    // Otherwise show SyncPlay + action button (same pattern as DashboardFabs)
     final fab = actionButton(context);
-    return expanded ? fab.extended : fab.normal;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      spacing: 8,
+      children: [
+        const SyncPlayFab(),
+        expanded ? fab.extended : fab.normal,
+      ],
+    );
   }
 }
 
