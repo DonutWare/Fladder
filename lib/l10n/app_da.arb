@@ -46,7 +46,7 @@
     },
     "ascending": "Stigende",
     "@ascending": {},
-    "audio": "Lyd",
+    "audio": "{count, plural, one{Lyd} other{Lyd}}",
     "@audio": {},
     "autoPlay": "Auto-afspil",
     "@autoPlay": {},
@@ -105,7 +105,7 @@
     },
     "controls": "Betjening",
     "@controls": {},
-    "dashboard": "Kontrolpanel",
+    "dashboard": "Oversigt",
     "@dashboard": {},
     "dashboardContinue": "Fortsæt",
     "@dashboardContinue": {},
@@ -132,7 +132,7 @@
     "@dateLastContentAdded": {},
     "datePlayed": "Dato afspillet",
     "@datePlayed": {},
-    "days": "Dage",
+    "days": "{count, plural, one{Dag} other{Dage}}",
     "@days": {},
     "delete": "Slet",
     "@delete": {},
@@ -362,25 +362,25 @@
     "@mediaTypeBase": {},
     "mediaTypeBook": "{count, plural, one{Bog} other{Bøger}}",
     "@mediaTypeBook": {},
-    "mediaTypeBoxset": "Bokssæt",
+    "mediaTypeBoxset": "{count, plural, one{Bokssæt} other{Bokssæt}}",
     "@mediaTypeBoxset": {},
-    "mediaTypeEpisode": "Afsnit",
+    "mediaTypeEpisode": "{count, plural, one{Afsnit} other{Afsnit}}",
     "@mediaTypeEpisode": {},
-    "mediaTypeFolder": "Mappe",
+    "mediaTypeFolder": "{count, plural, one{Mappe} other{Mapper}}",
     "@mediaTypeFolder": {},
-    "mediaTypeMovie": "Film",
+    "mediaTypeMovie": "{count, plural, one{Film} other{Film}}",
     "@mediaTypeMovie": {},
-    "mediaTypePerson": "Person",
+    "mediaTypePerson": "{count, plural, one{Person} other{Personer}}",
     "@mediaTypePerson": {},
-    "mediaTypePhoto": "Foto",
+    "mediaTypePhoto": "{count, plural, one{Foto} other{Fotos}}",
     "@mediaTypePhoto": {},
-    "mediaTypePhotoAlbum": "Fotoalbum",
+    "mediaTypePhotoAlbum": "{count, plural, one{Fotoalbum} other{Fotoalbummer}}",
     "@mediaTypePhotoAlbum": {},
-    "mediaTypePlaylist": "Spilleliste",
+    "mediaTypePlaylist": "{count, plural, one{Spilleliste} other{Spillelister}}",
     "@mediaTypePlaylist": {},
-    "mediaTypeSeason": "Sæson",
+    "mediaTypeSeason": "{count, plural, one{Sæson} other{Sæsoner}}",
     "@mediaTypeSeason": {},
-    "mediaTypeSeries": "Serier",
+    "mediaTypeSeries": "{count, plural, one{Serie} other{Serier}}",
     "@mediaTypeSeries": {},
     "metaDataSavedFor": "Metadata gemt for {item}",
     "@metaDataSavedFor": {
@@ -520,7 +520,7 @@
     "@playVideos": {},
     "played": "Afspillet",
     "@played": {},
-    "quickConnectAction": "Indtast quick connect koden for",
+    "quickConnectAction": "Indtast hurtig tilkoblingskoden for",
     "@quickConnectAction": {},
     "quickConnectInputACode": "Indtast en kode",
     "@quickConnectInputACode": {},
@@ -613,13 +613,13 @@
     "@save": {},
     "settingsHomeBannerDescription": "Vis som et diasshow, karrusel, eller skjul banneret",
     "@settingsHomeBannerDescription": {},
-    "musicAlbum": "Album",
+    "musicAlbum": "{count, plural, one{Album} other{Albummer}}",
     "@musicAlbum": {},
     "navigation": "Navigation",
     "@navigation": {},
     "normal": "Normal",
     "@normal": {},
-    "quickConnectTitle": "Quick-connect",
+    "quickConnectTitle": "Hurtig tilkobling",
     "@quickConnectTitle": {},
     "saved": "Gemt",
     "@saved": {},
@@ -764,11 +764,11 @@
     "@settingsPosterSize": {},
     "settingsPosterSlider": "Vis skaleringsslider",
     "@settingsPosterSlider": {},
-    "settingsProfileDesc": "Låseskærm, Lokal URL",
+    "settingsProfileDesc": "Låseskærm, Lokal URL, Seerr",
     "@settingsProfileDesc": {},
     "settingsProfileTitle": "Profil",
     "@settingsProfileTitle": {},
-    "settingsQuickConnectTitle": "Quick connect",
+    "settingsQuickConnectTitle": "Hurtig tilkobling",
     "@settingsQuickConnectTitle": {},
     "settingsSecurity": "Sikkerhed",
     "@settingsSecurity": {},
@@ -907,7 +907,7 @@
     "@useDefaults": {},
     "userName": "Brugernavn",
     "@userName": {},
-    "video": "{count, flertal, en{Video} andre{Videos",
+    "video": "{count, plural, one{Video} other{Videoer}}",
     "@video": {},
     "videoScaling": "Videoskalering",
     "@videoScaling": {},
@@ -1480,9 +1480,9 @@
             }
         }
     },
-    "quickConnectPostFailed": "Kunne ikke hente quick connect-kode",
+    "quickConnectPostFailed": "Kunne ikke hente hurtig tilkoblingskode",
     "@quickConnectPostFailed": {},
-    "quickConnectLoginUsingCode": "Bruger quick connect",
+    "quickConnectLoginUsingCode": "Bruger hurtig tilkobling",
     "@quickConnectLoginUsingCode": {},
     "quickConnectEnterCodeDescription": "Indtast koden nedenfor for at logge ind",
     "@quickConnectEnterCodeDescription": {},
@@ -1557,5 +1557,311 @@
     "subtitlePlaybackModeNone": "Ingen",
     "@subtitlePlaybackModeNone": {},
     "subtitlePlaybackModeSmart": "Smart",
-    "@subtitlePlaybackModeSmart": {}
+    "@subtitlePlaybackModeSmart": {},
+    "popularity": "Popularitet",
+    "@popularity": {},
+    "contentRating": "Indholdsvurdering",
+    "@contentRating": {},
+    "runtimeMinutesTitle": "Varighed (minutter)",
+    "@runtimeMinutesTitle": {},
+    "runtimeRangeMinutes": "{min} - {max} minutter",
+    "@runtimeRangeMinutes": {
+        "placeholders": {
+            "min": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            }
+        }
+    },
+    "minutesShort": "{count} min",
+    "@minutesShort": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "streamingServices": "Udbydere ({count})",
+    "@streamingServices": {
+        "description": "Streaming providers (Netflix,HBO, etc.)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "settingsProfileSubtitleLanguage": "Foretrukket undertekstsprog",
+    "@settingsProfileSubtitleLanguage": {},
+    "settingsProfileSubtitleMode": "Underteksttilstand",
+    "@settingsProfileSubtitleMode": {},
+    "subtitlePlaybackModeDefault": "Standard",
+    "@subtitlePlaybackModeDefault": {},
+    "subtitlePlaybackModeAlways": "Afspil altid",
+    "@subtitlePlaybackModeAlways": {},
+    "deleteRequestConfirmation": "Er du sikker på, at du vil slette denne anmodning?",
+    "@deleteRequestConfirmation": {},
+    "segmentActionSkipOnce": "Spring over én gang",
+    "@segmentActionSkipOnce": {},
+    "regenerateTrickplayImages": "Genskab trickplay-billeder",
+    "@regenerateTrickplayImages": {},
+    "controlPanel": "Kontrolpanel",
+    "@controlPanel": {},
+    "controlPanelDesc": "Server, Aktivitet, Brugere, Bibliotek",
+    "@controlPanelDesc": {},
+    "controlDashboard": "Kontroloversigt",
+    "@controlDashboard": {},
+    "serverName": "Servernavn",
+    "@serverName": {},
+    "serverVersion": "Serverversion",
+    "@serverVersion": {},
+    "webVersion": "Webversion",
+    "@webVersion": {},
+    "devices": "Enheder",
+    "@devices": {},
+    "used": "Brugt",
+    "@used": {},
+    "storagePaths": "Lagringsstier",
+    "@storagePaths": {},
+    "programData": "Programdata",
+    "@programData": {},
+    "web": "Web",
+    "@web": {},
+    "cache": "Cache",
+    "@cache": {},
+    "logs": "Logfiler",
+    "@logs": {},
+    "transcodingTemp": "Transkodningstemp",
+    "@transcodingTemp": {},
+    "count": "Antal",
+    "@count": {},
+    "scanAllLibraries": "Skan alle biblioteker",
+    "@scanAllLibraries": {},
+    "restartServer": "Genstart server",
+    "@restartServer": {},
+    "shutDownServer": "Sluk server",
+    "@shutDownServer": {},
+    "dashboardDesc": "Server, Antal, Enheder, Lagring",
+    "@dashboardDesc": {},
+    "lastActivity": "Sidste aktivitet",
+    "@lastActivity": {},
+    "activeTasks": "Aktive opgaver",
+    "@activeTasks": {},
+    "hours": "{count, plural, one{Time} other{Timer}}",
+    "@hours": {
+        "description": "Pluralization for hours",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            }
+        }
+    },
+    "weeks": "{count, plural, one{Uge} other{Uger}}",
+    "@weeks": {
+        "description": "Pluralization for weeks",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "months": "{count, plural, one{Måned} other{Måneder}}",
+    "@months": {
+        "description": "Pluralization for months",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "years": "{count, plural, one{År} other{År}}",
+    "@years": {
+        "description": "Pluralization for years",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "timeAgo": "for {time} siden",
+    "@timeAgo": {
+        "description": "timeAgo",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "lastRunTaking": "Sidste kørsel {date}, tog {time}",
+    "@lastRunTaking": {
+        "description": "lastRunTaking",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "lessThenAMinute": "Mindre end et minut",
+    "@lessThenAMinute": {},
+    "plannedTasks": "Planlagte opgaver",
+    "@plannedTasks": {},
+    "taskTriggerTypeInterval": "Interval",
+    "@taskTriggerTypeInterval": {},
+    "taskTriggerTypeDaily": "Dagligt",
+    "@taskTriggerTypeDaily": {},
+    "taskTriggerTypeWeekly": "Ugenligt",
+    "@taskTriggerTypeWeekly": {},
+    "taskTriggerTypeStartup": "Opstart",
+    "@taskTriggerTypeStartup": {},
+    "create": "Opret",
+    "@create": {},
+    "taskTriggerTypeName": "Triggertype",
+    "@taskTriggerTypeName": {},
+    "newTrigger": "Ny trigger",
+    "@newTrigger": {},
+    "newTaskTrigger": "Ny opgave-trigger",
+    "@newTaskTrigger": {},
+    "dayOfTheWeek": "Ugedag",
+    "@dayOfTheWeek": {},
+    "time": "Tid",
+    "@time": {},
+    "interval": "Interval",
+    "@interval": {},
+    "taskTimeLimitInHours": "Tidsgrænse (timer)",
+    "@taskTimeLimitInHours": {},
+    "taskTriggerIntervalDesc": "Hver {time}",
+    "@taskTriggerIntervalDesc": {
+        "description": "Task trigger interval desc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerDailyDesc": "Dagligt kl. {time}",
+    "@taskTriggerDailyDesc": {
+        "description": "taskTriggerDailyDesc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerWeeklyDesc": "Ugentligt {day} kl. {time}",
+    "@taskTriggerWeeklyDesc": {
+        "description": "taskTriggerWeeklyDesc",
+        "placeholders": {
+            "day": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerTimeLimitSub": "Tidsgrænse: {time}",
+    "@taskTriggerTimeLimitSub": {
+        "description": "taskTriggerTimeLimit",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "performance": "Ydeevne",
+    "@performance": {},
+    "serverNameLabel": "Servernavn",
+    "@serverNameLabel": {},
+    "cachePath": "Cachesti",
+    "@cachePath": {},
+    "metadataPath": "Metadatasti",
+    "@metadataPath": {},
+    "maxConcurrentLibraryScanLabel": "Maks. samtidige biblioteksscanninger",
+    "@maxConcurrentLibraryScanLabel": {},
+    "maxConcurrentLibraryScanDesc": "Maksimalt antal parallelle opgaver under biblioteksscanninger. Hvis dette felt efterlades tomt, vælges en grænse baseret på antallet af kerner i dit system. ADVARSEL: Hvis du sætter tallet for højt, kan det medføre problemer med netværksfilsystemer; hvis du oplever problemer, skal du reducere dette tal.",
+    "@maxConcurrentLibraryScanDesc": {},
+    "maxImageDecodingThreadsLabel": "Maks. antal tråde til billedafkodning",
+    "@maxImageDecodingThreadsLabel": {},
+    "maxImageDecodingThreadsDesc": "Maksimalt antal billedkodninger, der må køre parallelt. Hvis dette felt efterlades tomt, vælges en grænse baseret på antallet af kerner i dit system.",
+    "@maxImageDecodingThreadsDesc": {},
+    "controlPanelServerDesc": "Servernavn, Hurtig tilkobling, Ydeevne",
+    "@controlPanelServerDesc": {},
+    "deleteUserTitle": "Fjern bruger {user}?",
+    "@deleteUserTitle": {
+        "description": "deleteUserTitle",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteUserDesc": "Dette vil permanent slette brugeren {user} og alle tilknyttede indstillinger.",
+    "@deleteUserDesc": {
+        "description": "deleteUserDesc",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "userInformation": "Brugerinformation",
+    "@userInformation": {},
+    "allowManageServer": "Tillad denne bruger at administrere serveren",
+    "@allowManageServer": {},
+    "allowCollections": "Tillad denne bruger adgang til samlinger",
+    "@allowCollections": {},
+    "allowEditSubtitles": "Tillad denne bruger at redigere undertekster",
+    "@allowEditSubtitles": {},
+    "featureAccess": "Adgang til funktioner",
+    "@featureAccess": {},
+    "allowLiveTVAccess": "Tillad adgang til live-tv",
+    "@allowLiveTVAccess": {},
+    "allowLiveTVRecording": "Tillad administration af live-tv-optagelser",
+    "@allowLiveTVRecording": {},
+    "mediaPlayback": "Medieafspilning",
+    "@mediaPlayback": {},
+    "allowMediaPlayback": "Tillad medieafspilning",
+    "@allowMediaPlayback": {},
+    "allowVideoTranscoding": "Tillad videoafspilning, der kræver transkodning",
+    "@allowVideoTranscoding": {},
+    "allowAudioTranscoding": "Tillad afspilning af lyd, der kræver transkodning",
+    "@allowAudioTranscoding": {},
+    "allowMediaConversion": "Tillad videoafspilning, der kræver mediekonvertering",
+    "@allowMediaConversion": {},
+    "forceRemoteTranscoding": "Tving fjernkilde-transkodning",
+    "@forceRemoteTranscoding": {},
+    "syncplay": "Syncplay",
+    "@syncplay": {},
+    "syncplayAccess": "Syncplay adgang",
+    "@syncplayAccess": {},
+    "syncplayAccessCreateAndJoinGroups": "Opret og deltag i grupper",
+    "@syncplayAccessCreateAndJoinGroups": {},
+    "syncplayAccessJoinGroups": "Deltag i grupper",
+    "@syncplayAccessJoinGroups": {},
+    "syncplayAccessNone": "Ingen",
+    "@syncplayAccessNone": {},
+    "allowMediaDeletion": "Tillad sletning af medier",
+    "@allowMediaDeletion": {},
+    "allLibraries": "Alle biblioteker",
+    "@allLibraries": {},
+    "libraryAccess": "Biblioteksadgang",
+    "@libraryAccess": {},
+    "enableAllLibraries": "Aktivér adgang til alle biblioteker",
+    "@enableAllLibraries": {},
+    "enableAllDevices": "Aktivér adgang til alle enheder",
+    "@enableAllDevices": {},
+    "parentalControl": "Forældrekontrol",
+    "@parentalControl": {},
+    "blockedItemsNoRating": "Blokerede elementer uden eller med ukendte aldersvurderinger",
+    "@blockedItemsNoRating": {}
 }
