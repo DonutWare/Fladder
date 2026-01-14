@@ -50,8 +50,10 @@ class VideoPlayerImplementation(
                     VideoPlayerObject.setSubtitleTrackIndex(it.defaultSubtrack.toInt(), true)
                 }
 
+                val isHls = url.contains("streamMode=hls", ignoreCase = true) || url.endsWith(".m3u8", ignoreCase = true)
+
                 val subTitles = playbackData.value?.subtitleTracks ?: listOf()
-                val mediaItem = MediaItem.Builder()
+                val mediaItemBuilder = MediaItem.Builder()
                     .setUri(url)
                     .setTag(playbackData.value?.currentItem?.title)
                     .setMediaId(playbackData.value?.currentItem?.id ?: "")
@@ -64,7 +66,12 @@ class VideoPlayerImplementation(
                                 .build()
                         }
                     )
-                    .build()
+
+                if (isHls) {
+                    mediaItemBuilder.setMimeType(MimeTypes.APPLICATION_M3U8)
+                }
+
+                val mediaItem = mediaItemBuilder.build()
 
                 player?.stop()
                 player?.clearMediaItems()

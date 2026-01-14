@@ -1402,6 +1402,12 @@ class JellyService {
     );
   }
 
+  Future<Response<BaseItemDtoQueryResult>> liveTvChannelsGet() async {
+    return await api.liveTvChannelsGet(
+      userId: account?.id,
+    );
+  }
+
   Future<Response<BaseItemDtoQueryResult>> liveTvChannelProgramms({
     required List<String> channelIds,
     DateTime? minStartDate,

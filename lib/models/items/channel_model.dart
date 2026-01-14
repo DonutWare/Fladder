@@ -15,9 +15,14 @@ class ChannelModel extends ItemBaseModel {
   final String channelId;
   final List<ChannelProgram> programs;
 
+  final DateTime startDate;
+  final DateTime endDate;
+
   ChannelModel({
     required this.channelId,
     this.programs = const [],
+    required this.startDate,
+    required this.endDate,
     required super.name,
     required super.id,
     required super.overview,
@@ -68,6 +73,8 @@ class ChannelModel extends ItemBaseModel {
       name: item.name ?? "",
       id: item.id ?? "",
       childCount: item.childCount,
+      startDate: item.startDate ?? DateTime.now(),
+      endDate: item.endDate ?? DateTime.now(),
       overview: OverviewModel.fromBaseItemDto(item, ref),
       userData: UserData.fromDto(item.userData),
       parentId: item.parentId,
@@ -83,6 +90,8 @@ class ChannelModel extends ItemBaseModel {
   ChannelModel copyWithTwo({
     String? channelId,
     List<ChannelProgram>? programs,
+    DateTime? startDate,
+    DateTime? endDate,
     String? name,
     String? id,
     OverviewModel? overview,
@@ -99,6 +108,8 @@ class ChannelModel extends ItemBaseModel {
     return ChannelModel(
       channelId: channelId ?? this.channelId,
       programs: programs ?? this.programs,
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
       name: name ?? this.name,
       id: id ?? this.id,
       overview: overview ?? this.overview,

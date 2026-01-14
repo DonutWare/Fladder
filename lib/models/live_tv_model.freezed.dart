@@ -14,15 +14,79 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$LiveTvModel {
-  DateTime? get startDate;
-  DateTime? get endDate;
+  DateTime get startDate;
+  DateTime get endDate;
+  List<ChannelModel> get channels;
+  Set<String> get loadedChannelIds;
+  Set<String> get loadingChannelIds;
 
-  /// Serializes this LiveTvModel to a JSON map.
-  Map<String, dynamic> toJson();
+  /// Create a copy of LiveTvModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $LiveTvModelCopyWith<LiveTvModel> get copyWith =>
+      _$LiveTvModelCopyWithImpl<LiveTvModel>(this as LiveTvModel, _$identity);
 
   @override
   String toString() {
-    return 'LiveTvModel(startDate: $startDate, endDate: $endDate)';
+    return 'LiveTvModel(startDate: $startDate, endDate: $endDate, channels: $channels, loadedChannelIds: $loadedChannelIds, loadingChannelIds: $loadingChannelIds)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $LiveTvModelCopyWith<$Res> {
+  factory $LiveTvModelCopyWith(
+          LiveTvModel value, $Res Function(LiveTvModel) _then) =
+      _$LiveTvModelCopyWithImpl;
+  @useResult
+  $Res call(
+      {DateTime startDate,
+      DateTime endDate,
+      List<ChannelModel> channels,
+      Set<String> loadedChannelIds,
+      Set<String> loadingChannelIds});
+}
+
+/// @nodoc
+class _$LiveTvModelCopyWithImpl<$Res> implements $LiveTvModelCopyWith<$Res> {
+  _$LiveTvModelCopyWithImpl(this._self, this._then);
+
+  final LiveTvModel _self;
+  final $Res Function(LiveTvModel) _then;
+
+  /// Create a copy of LiveTvModel
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? startDate = null,
+    Object? endDate = null,
+    Object? channels = null,
+    Object? loadedChannelIds = null,
+    Object? loadingChannelIds = null,
+  }) {
+    return _then(_self.copyWith(
+      startDate: null == startDate
+          ? _self.startDate
+          : startDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      endDate: null == endDate
+          ? _self.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      channels: null == channels
+          ? _self.channels
+          : channels // ignore: cast_nullable_to_non_nullable
+              as List<ChannelModel>,
+      loadedChannelIds: null == loadedChannelIds
+          ? _self.loadedChannelIds
+          : loadedChannelIds // ignore: cast_nullable_to_non_nullable
+              as Set<String>,
+      loadingChannelIds: null == loadingChannelIds
+          ? _self.loadingChannelIds
+          : loadingChannelIds // ignore: cast_nullable_to_non_nullable
+              as Set<String>,
+    ));
   }
 }
 
@@ -119,13 +183,20 @@ extension LiveTvModelPatterns on LiveTvModel {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(DateTime? startDate, DateTime? endDate)? $default, {
+    TResult Function(
+            DateTime startDate,
+            DateTime endDate,
+            List<ChannelModel> channels,
+            Set<String> loadedChannelIds,
+            Set<String> loadingChannelIds)?
+        $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _LiveTvModel() when $default != null:
-        return $default(_that.startDate, _that.endDate);
+        return $default(_that.startDate, _that.endDate, _that.channels,
+            _that.loadedChannelIds, _that.loadingChannelIds);
       case _:
         return orElse();
     }
@@ -146,12 +217,19 @@ extension LiveTvModelPatterns on LiveTvModel {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(DateTime? startDate, DateTime? endDate) $default,
+    TResult Function(
+            DateTime startDate,
+            DateTime endDate,
+            List<ChannelModel> channels,
+            Set<String> loadedChannelIds,
+            Set<String> loadingChannelIds)
+        $default,
   ) {
     final _that = this;
     switch (_that) {
       case _LiveTvModel():
-        return $default(_that.startDate, _that.endDate);
+        return $default(_that.startDate, _that.endDate, _that.channels,
+            _that.loadedChannelIds, _that.loadingChannelIds);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -171,12 +249,19 @@ extension LiveTvModelPatterns on LiveTvModel {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(DateTime? startDate, DateTime? endDate)? $default,
+    TResult? Function(
+            DateTime startDate,
+            DateTime endDate,
+            List<ChannelModel> channels,
+            Set<String> loadedChannelIds,
+            Set<String> loadingChannelIds)?
+        $default,
   ) {
     final _that = this;
     switch (_that) {
       case _LiveTvModel() when $default != null:
-        return $default(_that.startDate, _that.endDate);
+        return $default(_that.startDate, _that.endDate, _that.channels,
+            _that.loadedChannelIds, _that.loadingChannelIds);
       case _:
         return null;
     }
@@ -184,27 +269,120 @@ extension LiveTvModelPatterns on LiveTvModel {
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _LiveTvModel implements LiveTvModel {
-  _LiveTvModel({this.startDate, this.endDate});
-  factory _LiveTvModel.fromJson(Map<String, dynamic> json) =>
-      _$LiveTvModelFromJson(json);
+  _LiveTvModel(
+      {required this.startDate,
+      required this.endDate,
+      final List<ChannelModel> channels = const [],
+      final Set<String> loadedChannelIds = const {},
+      final Set<String> loadingChannelIds = const {}})
+      : _channels = channels,
+        _loadedChannelIds = loadedChannelIds,
+        _loadingChannelIds = loadingChannelIds;
 
   @override
-  final DateTime? startDate;
+  final DateTime startDate;
   @override
-  final DateTime? endDate;
-
+  final DateTime endDate;
+  final List<ChannelModel> _channels;
   @override
-  Map<String, dynamic> toJson() {
-    return _$LiveTvModelToJson(
-      this,
-    );
+  @JsonKey()
+  List<ChannelModel> get channels {
+    if (_channels is EqualUnmodifiableListView) return _channels;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_channels);
   }
+
+  final Set<String> _loadedChannelIds;
+  @override
+  @JsonKey()
+  Set<String> get loadedChannelIds {
+    if (_loadedChannelIds is EqualUnmodifiableSetView) return _loadedChannelIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableSetView(_loadedChannelIds);
+  }
+
+  final Set<String> _loadingChannelIds;
+  @override
+  @JsonKey()
+  Set<String> get loadingChannelIds {
+    if (_loadingChannelIds is EqualUnmodifiableSetView)
+      return _loadingChannelIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableSetView(_loadingChannelIds);
+  }
+
+  /// Create a copy of LiveTvModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$LiveTvModelCopyWith<_LiveTvModel> get copyWith =>
+      __$LiveTvModelCopyWithImpl<_LiveTvModel>(this, _$identity);
 
   @override
   String toString() {
-    return 'LiveTvModel(startDate: $startDate, endDate: $endDate)';
+    return 'LiveTvModel(startDate: $startDate, endDate: $endDate, channels: $channels, loadedChannelIds: $loadedChannelIds, loadingChannelIds: $loadingChannelIds)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$LiveTvModelCopyWith<$Res>
+    implements $LiveTvModelCopyWith<$Res> {
+  factory _$LiveTvModelCopyWith(
+          _LiveTvModel value, $Res Function(_LiveTvModel) _then) =
+      __$LiveTvModelCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {DateTime startDate,
+      DateTime endDate,
+      List<ChannelModel> channels,
+      Set<String> loadedChannelIds,
+      Set<String> loadingChannelIds});
+}
+
+/// @nodoc
+class __$LiveTvModelCopyWithImpl<$Res> implements _$LiveTvModelCopyWith<$Res> {
+  __$LiveTvModelCopyWithImpl(this._self, this._then);
+
+  final _LiveTvModel _self;
+  final $Res Function(_LiveTvModel) _then;
+
+  /// Create a copy of LiveTvModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? startDate = null,
+    Object? endDate = null,
+    Object? channels = null,
+    Object? loadedChannelIds = null,
+    Object? loadingChannelIds = null,
+  }) {
+    return _then(_LiveTvModel(
+      startDate: null == startDate
+          ? _self.startDate
+          : startDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      endDate: null == endDate
+          ? _self.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      channels: null == channels
+          ? _self._channels
+          : channels // ignore: cast_nullable_to_non_nullable
+              as List<ChannelModel>,
+      loadedChannelIds: null == loadedChannelIds
+          ? _self._loadedChannelIds
+          : loadedChannelIds // ignore: cast_nullable_to_non_nullable
+              as Set<String>,
+      loadingChannelIds: null == loadingChannelIds
+          ? _self._loadingChannelIds
+          : loadingChannelIds // ignore: cast_nullable_to_non_nullable
+              as Set<String>,
+    ));
   }
 }
 

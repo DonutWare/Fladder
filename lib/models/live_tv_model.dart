@@ -1,14 +1,16 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'live_tv_model.freezed.dart';
-part 'live_tv_model.g.dart';
+import 'package:fladder/models/items/channel_model.dart';
 
-@freezed
+part 'live_tv_model.freezed.dart';
+
+@Freezed(copyWith: true)
 abstract class LiveTvModel with _$LiveTvModel {
   factory LiveTvModel({
-    DateTime? startDate,
-    DateTime? endDate,
+    required DateTime startDate,
+    required DateTime endDate,
+    @Default([]) List<ChannelModel> channels,
+    @Default({}) Set<String> loadedChannelIds,
+    @Default({}) Set<String> loadingChannelIds,
   }) = _LiveTvModel;
-
-  factory LiveTvModel.fromJson(Map<String, dynamic> json) => _$LiveTvModelFromJson(json);
 }
