@@ -907,7 +907,7 @@
     "@useDefaults": {},
     "userName": "Brugernavn",
     "@userName": {},
-    "video": "Video",
+    "video": "{count, flertal, en{Video} andre{Videos",
     "@video": {},
     "videoScaling": "Videoskalering",
     "@videoScaling": {},
@@ -1551,5 +1551,11 @@
     "settingsLocalUrlSetDesc": "Angiv den lokale serveradresse. Fladder vil automatisk bruge denne URL, når din enhed er på samme netværk.",
     "@settingsLocalUrlSetDesc": {},
     "schemeSettingsTonalSpot": "Tonalt punkt",
-    "@schemeSettingsTonalSpot": {}
+    "@schemeSettingsTonalSpot": {},
+    "subtitlePlaybackModeOnlyForced": "Kun tvunget",
+    "@subtitlePlaybackModeOnlyForced": {},
+    "subtitlePlaybackModeNone": "Ingen",
+    "@subtitlePlaybackModeNone": {},
+    "subtitlePlaybackModeSmart": "Smart",
+    "@subtitlePlaybackModeSmart": {}
 }
