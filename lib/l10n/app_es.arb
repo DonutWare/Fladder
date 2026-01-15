@@ -2058,5 +2058,219 @@
     "recentRequests": "Solicitudes recientes",
     "@recentRequests": {},
     "trending": "Trending",
-    "@trending": {}
+    "@trending": {},
+    "popularMovies": "Películas populares",
+    "@popularMovies": {},
+    "popularSeries": "Series populares",
+    "@popularSeries": {},
+    "expectedMovies": "Películas esperadas",
+    "@expectedMovies": {},
+    "expectedSeries": "Series esperadas",
+    "@expectedSeries": {},
+    "requestConfiguration": "Solicitar configuración",
+    "@requestConfiguration": {},
+    "qualityProfile": "Perfil de calidad",
+    "@qualityProfile": {},
+    "selectProfile": "Seleccionar perfil",
+    "@selectProfile": {},
+    "rootFolder": "Carpeta raíz",
+    "@rootFolder": {},
+    "selectFolder": "Seleccionar carpeta",
+    "@selectFolder": {},
+    "tags": "Etiquetas",
+    "@tags": {},
+    "noTags": "Sin etiquetas",
+    "@noTags": {},
+    "requestAs": "Solicitar como",
+    "@requestAs": {},
+    "requestQuotaStatus": "{remaining} de {limit} restante (se restablece cada {days} días)",
+    "@requestQuotaStatus": {
+        "placeholders": {
+            "remaining": {
+                "type": "int"
+            },
+            "limit": {
+                "type": "int"
+            },
+            "days": {
+                "type": "int"
+            }
+        }
+    },
+    "requestQuotaLimitReached": "Se ha alcanzado el límite de solicitudes para {mediaType}.",
+    "@requestQuotaLimitReached": {
+        "placeholders": {
+            "mediaType": {
+                "type": "String"
+            }
+        }
+    },
+    "submitRequest": "Enviar solicitud",
+    "@submitRequest": {},
+    "noOverviewAvailable": "No hay resumen disponible.",
+    "@noOverviewAvailable": {},
+    "downloading": "descargando",
+    "@downloading": {},
+    "request": "Solicitar",
+    "@request": {},
+    "viewRequest": "Ver solicitud",
+    "@viewRequest": {},
+    "email": "Correo electrónico",
+    "@email": {},
+    "username": "Nombre de usuario",
+    "@username": {},
+    "ok": "OK",
+    "@ok": {},
+    "seerr": "Seerr",
+    "@seerr": {},
+    "seerrNotConfigured": "Sin configurar",
+    "@seerrNotConfigured": {},
+    "seerrLoadingUser": "Cargando usuario",
+    "@seerrLoadingUser": {},
+    "seerrUnknownUser": "Usuario desconocido",
+    "@seerrUnknownUser": {},
+    "loggedInAs": "Iniciado sesión como {displayName}",
+    "@loggedInAs": {
+        "placeholders": {
+            "displayName": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrServer": "Servidor seerr",
+    "@seerrServer": {},
+    "seerrAuthenticateLocal": "Autenticación seerr (local)",
+    "@seerrAuthenticateLocal": {},
+    "rootFolderDefaultLabel": "{folder} (Por defecto)",
+    "@rootFolderDefaultLabel": {
+        "placeholders": {
+            "folder": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrAnimeSeriesNote": "* Esta serie es un anime.",
+    "@seerrAnimeSeriesNote": {},
+    "seerrAutoApproveNotice": "Las solicitudes que envíes se aprueban automáticamente.",
+    "@seerrAutoApproveNotice": {},
+    "seerrPermissionDenied": "No tienes permiso para solicitar este tipo de medios.",
+    "@seerrPermissionDenied": {},
+    "seerrRequestStatusPending": "Pendiente",
+    "@seerrRequestStatusPending": {},
+    "seerrRequestStatusApproved": "Aprobado",
+    "@seerrRequestStatusApproved": {},
+    "seerrRequestStatusDeclined": "Rechazado",
+    "@seerrRequestStatusDeclined": {},
+    "seerrRequestStatusFailed": "Fallido",
+    "@seerrRequestStatusFailed": {},
+    "seerrRequestStatusCompleted": "Completado",
+    "@seerrRequestStatusCompleted": {},
+    "seerrMediaStatusProcessing": "Procesando",
+    "@seerrMediaStatusProcessing": {},
+    "seerrMediaStatusPartiallyAvailable": "Disponible parcialmente",
+    "@seerrMediaStatusPartiallyAvailable": {},
+    "seerrMediaStatusAvailable": "Disponible",
+    "@seerrMediaStatusAvailable": {},
+    "seerrMediaStatusBlacklisted": "En la lista negra",
+    "@seerrMediaStatusBlacklisted": {},
+    "seerrMediaStatusDeleted": "Eliminado",
+    "@seerrMediaStatusDeleted": {},
+    "seerrAuthApiKey": "Clave API",
+    "@seerrAuthApiKey": {},
+    "seerrAuthLocal": "Local",
+    "@seerrAuthLocal": {},
+    "seerrAuthJellyfin": "Jellyfin",
+    "@seerrAuthJellyfin": {},
+    "seerrUserFetchFailed": "No se pudo recuperar el usuario de Seerr",
+    "@seerrUserFetchFailed": {},
+    "seerrEnterServerUrlFirst": "Introduzca primero la URL del servidor Seerr",
+    "@seerrEnterServerUrlFirst": {},
+    "seerrApiKeySaved": "Clave API guardada",
+    "@seerrApiKeySaved": {},
+    "seerrLoggedIn": "Iniciado sesión en Seerr",
+    "@seerrLoggedIn": {},
+    "seerrConnectedToServer": "Conectado al servidor Seerr: {serverUrl}",
+    "@seerrConnectedToServer": {
+        "placeholders": {
+            "serverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "emailUsername": "Correo electrónico/Nombre de usuario",
+    "@emailUsername": {},
+    "discover": "Descubrir",
+    "@discover": {},
+    "sponsor": "Patrocinador",
+    "@sponsor": {},
+    "sponsorMessage": "Si disfrutas utilizando Fladder, considera patrocinar el proyecto para apoyar su desarrollo y mejoras continuas. ¡Gracias por tu apoyo!",
+    "@sponsorMessage": {},
+    "min": "min",
+    "@min": {},
+    "max": "max",
+    "@max": {},
+    "manageRequest": "Gestionar solicitud",
+    "@manageRequest": {},
+    "requestAll": "Solicitar todo",
+    "@requestAll": {},
+    "openInSeerr": "Abrir en Seerr",
+    "@openInSeerr": {},
+    "openInSonarr": "Abrir en Sonarr",
+    "@openInSonarr": {},
+    "openInRadarr": "Abrir en Radarr",
+    "@openInRadarr": {},
+    "removeFromSonarr": "Eliminar de Sonarr",
+    "@removeFromSonarr": {},
+    "removeFromRadarr": "Eliminar de Radarr",
+    "@removeFromRadarr": {},
+    "markAllSeasonsAsAvailable": "Marcar todas las temporadas como disponibles",
+    "@markAllSeasonsAsAvailable": {},
+    "markAsAvailable": "Marcar como disponible",
+    "@markAsAvailable": {},
+    "deleteData": "Borrar datos",
+    "@deleteData": {},
+    "removeSeriesFromSonarrConfirm": "¿Quieres eliminar esta serie de Sonarr? Esto eliminará todos los datos, INCLUIDOS los archivos.",
+    "@removeSeriesFromSonarrConfirm": {},
+    "removeMovieFromRadarrConfirm": "¿Quieres eliminar esta serie de Radarr? Esto eliminará todos los datos, INCLUIDOS los archivos.",
+    "@removeMovieFromRadarrConfirm": {},
+    "removedFromSonarr": "Eliminado de Sonarr",
+    "@removedFromSonarr": {},
+    "removedFromRadarr": "Eliminado de Radarr",
+    "@removedFromRadarr": {},
+    "markAllSeasonsAsAvailableConfirm": "¿Marcar todas las temporadas como disponibles?",
+    "@markAllSeasonsAsAvailableConfirm": {},
+    "markAsAvailableConfirm": "¿Marcar como disponible?",
+    "@markAsAvailableConfirm": {},
+    "markedAsAvailable": "Marcado como disponible",
+    "@markedAsAvailable": {},
+    "deleteSeerrDataConfirm": "¿Desea eliminar todos los archivos de Seerr? Esta acción no se puede deshacer.\nSi los datos aún están presentes en {service}, se pueden volver a importar.",
+    "@deleteSeerrDataConfirm": {
+        "description": "Confirmation message for deleting Seerr data",
+        "placeholders": {
+            "service": {
+                "type": "String",
+                "example": "Sonarr/Radarr"
+            }
+        }
+    },
+    "dataDeleted": "Datos borrados",
+    "@dataDeleted": {},
+    "approve": "Aprobar",
+    "@approve": {},
+    "decline": "Rechazar",
+    "@decline": {},
+    "pendingRequests": "{count, plural, other{No hay solicitudes pendientes} one{{count} solicitud pendiente} two{{count} solicitudes pendientes}}",
+    "@pendingRequests": {
+        "description": "pendingRequests",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "processing": "Procesando",
+    "@processing": {},
+    "seerrDetails": "Destalles de Seerr",
+    "@seerrDetails": {}
 }
