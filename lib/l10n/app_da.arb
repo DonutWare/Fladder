@@ -2117,5 +2117,17 @@
     "email": "Email",
     "@email": {},
     "username": "Brugernavn",
-    "@username": {}
+    "@username": {},
+    "viewRequest": "Vis anmodning",
+    "@viewRequest": {},
+    "ok": "OK",
+    "@ok": {},
+    "seerr": "Seerr",
+    "@seerr": {},
+    "seerrNotConfigured": "Ikke konfigureret",
+    "@seerrNotConfigured": {},
+    "seerrLoadingUser": "Indlæser bruger",
+    "@seerrLoadingUser": {},
+    "seerrUnknownUser": "Ukendt bruger",
+    "@seerrUnknownUser": {}
 }
