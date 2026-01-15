@@ -1936,6 +1936,186 @@
     "@tags": {},
     "noTags": "Ingen tags",
     "@noTags": {},
-    "requestAs": "Anmod om",
-    "@requestAs": {}
+    "requestAs": "Anmod som",
+    "@requestAs": {},
+    "maxParentalRating": "Maks. aldersmærkning",
+    "@maxParentalRating": {},
+    "allowItemsTags": "Tillad elementer med tags",
+    "@allowItemsTags": {},
+    "blockItemsTags": "Bloker elementer med tags",
+    "@blockItemsTags": {},
+    "accessSchedules": "Adgangsskemaer",
+    "@accessSchedules": {},
+    "addAccessSchedule": "Tilføj Adgangsskema",
+    "@addAccessSchedule": {},
+    "dayOfWeek": "Ugedag",
+    "@dayOfWeek": {},
+    "endTime": "Sluttid",
+    "@endTime": {},
+    "addTag": "Tilføj tag",
+    "@addTag": {},
+    "createNewUser": "Opret ny bruger",
+    "@createNewUser": {},
+    "createUser": "Opret bruger",
+    "@createUser": {},
+    "general": "Generalt",
+    "@general": {},
+    "access": "Adgang",
+    "@access": {},
+    "endTimeMustBeAfter": "Sluttid skal være efter starttid",
+    "@endTimeMustBeAfter": {},
+    "assignLibraries": "Tildel biblioteker",
+    "@assignLibraries": {},
+    "passwordResetSuccess": "Adgangskode nulstillet",
+    "@passwordResetSuccess": {},
+    "passwordResetFailed": "Nulstilling af adgangskode mislykkedes",
+    "@passwordResetFailed": {},
+    "passwordMismatch": "Ny adgangskode og bekræft adgangskode stemmer ikke overens",
+    "@passwordMismatch": {},
+    "passwordChangeSuccess": "Adgangskode ændret succesfuldt",
+    "@passwordChangeSuccess": {},
+    "deleteLibraryConfirmTitle": "Vil du slette biblioteket?",
+    "@deleteLibraryConfirmTitle": {},
+    "noLibrarySelected": "Intet bibliotek valgt",
+    "@noLibrarySelected": {},
+    "enabledLUFSScan": "Aktiveret LUFS-scan",
+    "@enabledLUFSScan": {},
+    "autoRefreshIntervalNote": "Aktivering af dette kan medføre længere tid ved opdatering af biblioteket.",
+    "@autoRefreshIntervalNote": {},
+    "preferredDownloadLanguage": "Foretrukket download-sprog",
+    "@preferredDownloadLanguage": {},
+    "countryRegion": "Land/region",
+    "@countryRegion": {},
+    "metadataFetchers": "Hentning af metadata ({type})",
+    "@metadataFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "enableAndRankMetadataFetchers": "Aktivér og ranger dine foretrukne metadata-hentere efter prioritet.",
+    "@enableAndRankMetadataFetchers": {},
+    "enableAndRankImagesFetchers": "Aktivér og ranger dine foretrukne billedhentere efter prioritet.",
+    "@enableAndRankImagesFetchers": {},
+    "imageFetchers": "Billedhentere ({type})",
+    "@imageFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "mediaSegmentProviders": "Udbydere af mediesegmenter",
+    "@mediaSegmentProviders": {},
+    "enableAndRankMediaSegmentProviders": "Aktivér og ranger dine foretrukne udbydere af mediesegmenter efter prioritet.",
+    "@enableAndRankMediaSegmentProviders": {},
+    "trickplay": "Trickplay",
+    "@trickplay": {},
+    "enableTrickplayImageExtraction": "Aktivér udtrækning af trickplay-billeder",
+    "@enableTrickplayImageExtraction": {},
+    "extractTrickplayImagesDuringLibraryScan": "Udtræk trickplay-billeder under biblioteksscanninger",
+    "@extractTrickplayImagesDuringLibraryScan": {},
+    "saveTrickplayImagesNextToMedia": "Gem trickplay-billeder ved siden af mediefilerne",
+    "@saveTrickplayImagesNextToMedia": {},
+    "enableChapterImageExtraction": "Aktivér udtrækning af kapitelbilleder",
+    "@enableChapterImageExtraction": {},
+    "extractChapterImagesDuringLibraryScan": "Udtræk kapitelbilleder under biblioteksscanninger",
+    "@extractChapterImagesDuringLibraryScan": {},
+    "subtitleDownloads": "Undertekstdownloads",
+    "@subtitleDownloads": {},
+    "downloadLanguages": "Download-sprog",
+    "@downloadLanguages": {},
+    "subtitleDownloaders": "Underteksthentere",
+    "@subtitleDownloaders": {},
+    "onlyPerfectSubtitleMatch": "Hent kun undertekster, der passer perfekt til mediet",
+    "@onlyPerfectSubtitleMatch": {},
+    "perfectSubtitleMatchDescription": "Krav om perfekt match vil filtrere undertekster, så kun dem, der er testet og verificeret med din nøjagtige videofil, inkluderes. Hvis du fjerner markeringen, øges sandsynligheden for, at undertekster bliver hentet, men risikoen for, at de er tidsmæssigt forskudte eller indeholder fejl, stiger.",
+    "@perfectSubtitleMatchDescription": {},
+    "skipSubtitlesIfAudioMatches": "Spring over, hvis standardlydsporet matcher download-sproget",
+    "@skipSubtitlesIfAudioMatches": {},
+    "skipSubtitlesIfEmbedded": "Spring over, hvis videoen allerede indeholder indlejrede undertekster",
+    "@skipSubtitlesIfEmbedded": {},
+    "saveSubtitlesNextToMedia": "Gem undertekster ved siden af mediefilerne",
+    "@saveSubtitlesNextToMedia": {},
+    "saveArtWorkNextToMedia": "Gem grafik ved siden af mediefilerne",
+    "@saveArtWorkNextToMedia": {},
+    "saveArtWorkNextToMediaDesc": "Hvis grafikken gemmes i mediemapperne, placeres den et sted, hvor den nemt kan redigeres.",
+    "@saveArtWorkNextToMediaDesc": {},
+    "metadataImageLongPressTouch": "Hold nede for at slette billedet",
+    "@metadataImageLongPressTouch": {},
+    "primary": "Primær",
+    "@primary": {},
+    "logo": "{count, plural, other{Logoer} one{Logo}}",
+    "@logo": {
+        "description": "logo",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "backdrop": "{count, plural, one{Baggrundsbillede} other{Baggrundsbilleder}}",
+    "@backdrop": {
+        "description": "backdrop",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "selectFolderToAdd": "Vælg mappe, der skal tilføjes",
+    "@selectFolderToAdd": {},
+    "systemRootFolder": "Systemets rodmappe",
+    "@systemRootFolder": {},
+    "selectedPath": "Valgt sti: {path}",
+    "@selectedPath": {
+        "placeholders": {
+            "path": {
+                "type": "String"
+            }
+        }
+    },
+    "expectedSeries": "Forventede serier",
+    "@expectedSeries": {},
+    "requestConfiguration": "Anmodningsindstillinger",
+    "@requestConfiguration": {},
+    "rootFolder": "Rodmappe",
+    "@rootFolder": {},
+    "requestQuotaStatus": "{remaining} ud af {limit} tilbage (nulstilles hver {days} dag)",
+    "@requestQuotaStatus": {
+        "placeholders": {
+            "remaining": {
+                "type": "int"
+            },
+            "limit": {
+                "type": "int"
+            },
+            "days": {
+                "type": "int"
+            }
+        }
+    },
+    "requestQuotaLimitReached": "Grænse for anmodninger nået for {mediaType}.",
+    "@requestQuotaLimitReached": {
+        "placeholders": {
+            "mediaType": {
+                "type": "String"
+            }
+        }
+    },
+    "submitRequest": "Send anmodning",
+    "@submitRequest": {},
+    "noOverviewAvailable": "Ingen oversigt tilgængelig.",
+    "@noOverviewAvailable": {},
+    "downloading": "downloader",
+    "@downloading": {},
+    "request": "Anmod",
+    "@request": {},
+    "email": "Email",
+    "@email": {},
+    "username": "Brugernavn",
+    "@username": {}
 }
