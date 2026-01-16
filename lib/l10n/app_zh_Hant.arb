@@ -1539,5 +1539,200 @@
     "settingsLocalUrlSetTitle": "配置本地網址",
     "@settingsLocalUrlSetTitle": {},
     "settingsLocalUrlSetDesc": "指定本地伺服器地址。當您的設備與伺服器位於同一網路時，Fladder 將自動使用此網址。",
-    "@settingsLocalUrlSetDesc": {}
+    "@settingsLocalUrlSetDesc": {},
+    "popularity": "熱門",
+    "@popularity": {},
+    "contentRating": "內容分級",
+    "@contentRating": {},
+    "runtimeMinutesTitle": "運行時間 (分鐘)",
+    "@runtimeMinutesTitle": {},
+    "runtimeRangeMinutes": "{min} - {max} 分鐘",
+    "@runtimeRangeMinutes": {
+        "placeholders": {
+            "min": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            }
+        }
+    },
+    "minutesShort": "{count} 分鐘",
+    "@minutesShort": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "streamingServices": "發行商 ({count})",
+    "@streamingServices": {
+        "description": "Streaming providers (Netflix,HBO, etc.)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "settingsProfileSubtitleLanguage": "偏好字幕語言",
+    "@settingsProfileSubtitleLanguage": {},
+    "settingsProfileSubtitleMode": "字幕模式",
+    "@settingsProfileSubtitleMode": {},
+    "subtitlePlaybackModeDefault": "預設",
+    "@subtitlePlaybackModeDefault": {},
+    "subtitlePlaybackModeAlways": "始終播放",
+    "@subtitlePlaybackModeAlways": {},
+    "subtitlePlaybackModeOnlyForced": "僅限強制",
+    "@subtitlePlaybackModeOnlyForced": {},
+    "subtitlePlaybackModeNone": "無",
+    "@subtitlePlaybackModeNone": {},
+    "subtitlePlaybackModeSmart": "自動",
+    "@subtitlePlaybackModeSmart": {},
+    "deleteRequestConfirmation": "您確定要刪除此請求嗎？",
+    "@deleteRequestConfirmation": {},
+    "segmentActionSkipOnce": "略過一次",
+    "@segmentActionSkipOnce": {},
+    "takeScreenshot": "截圖",
+    "@takeScreenshot": {},
+    "takeScreenshotClean": "截圖 (不含字幕)",
+    "@takeScreenshotClean": {},
+    "screenshotTaken": "截圖已保存！",
+    "@screenshotTaken": {},
+    "screenshotCleanTaken": "無字幕截圖已保存！",
+    "@screenshotCleanTaken": {},
+    "errorTakingScreenshot": "截圖時發生錯誤",
+    "@errorTakingScreenshot": {},
+    "regenerateTrickplayImages": "重新技巧播放圖像",
+    "@regenerateTrickplayImages": {},
+    "controlPanel": "控制面板",
+    "@controlPanel": {},
+    "controlPanelDesc": "伺服器, 活動, 使用者, 媒體庫",
+    "@controlPanelDesc": {},
+    "controlDashboard": "控制面板",
+    "@controlDashboard": {},
+    "serverName": "伺服器名稱",
+    "@serverName": {},
+    "serverVersion": "伺服器版本",
+    "@serverVersion": {},
+    "webVersion": "網頁版",
+    "@webVersion": {},
+    "devices": "裝置",
+    "@devices": {},
+    "used": "使用",
+    "@used": {},
+    "storagePaths": "儲存路徑",
+    "@storagePaths": {},
+    "programData": "程式資料",
+    "@programData": {},
+    "web": "網頁",
+    "@web": {},
+    "cache": "快取",
+    "@cache": {},
+    "logs": "記錄",
+    "@logs": {},
+    "transcodingTemp": "轉碼暫存",
+    "@transcodingTemp": {},
+    "count": "統計",
+    "@count": {},
+    "scanAllLibraries": "掃描所有媒體庫",
+    "@scanAllLibraries": {},
+    "restartServer": "重啟伺服器",
+    "@restartServer": {},
+    "shutDownServer": "關閉伺服器",
+    "@shutDownServer": {},
+    "dashboardDesc": "伺服器, 統計, 裝置, 儲存",
+    "@dashboardDesc": {},
+    "lastActivity": "上次活動",
+    "@lastActivity": {},
+    "activeTasks": "執行中任務",
+    "@activeTasks": {},
+    "hours": "{count, plural, one{小時} other{小時}}",
+    "@hours": {
+        "description": "Pluralization for hours",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            }
+        }
+    },
+    "weeks": "{count, plural, one{星期} other{星期}}",
+    "@weeks": {
+        "description": "Pluralization for weeks",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "months": "{count, plural, one{月} other{月}}",
+    "@months": {
+        "description": "Pluralization for months",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "years": "{count, plural, one{年} other{年}}",
+    "@years": {
+        "description": "Pluralization for years",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "timeAgo": "{time} 前",
+    "@timeAgo": {
+        "description": "timeAgo",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "lastRunTaking": "上次執行日期 {date}, 耗時 {time}",
+    "@lastRunTaking": {
+        "description": "lastRunTaking",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "lessThenAMinute": "不到一分鐘",
+    "@lessThenAMinute": {},
+    "plannedTasks": "規畫任務",
+    "@plannedTasks": {},
+    "taskTriggerTypeInterval": "間隔",
+    "@taskTriggerTypeInterval": {},
+    "taskTriggerTypeDaily": "每日",
+    "@taskTriggerTypeDaily": {},
+    "taskTriggerTypeWeekly": "每週",
+    "@taskTriggerTypeWeekly": {},
+    "taskTriggerTypeStartup": "啟動",
+    "@taskTriggerTypeStartup": {},
+    "create": "建立",
+    "@create": {},
+    "taskTriggerTypeName": "觸發類型",
+    "@taskTriggerTypeName": {},
+    "newTrigger": "新觸發器",
+    "@newTrigger": {},
+    "newTaskTrigger": "新任務觸發器",
+    "@newTaskTrigger": {},
+    "dayOfTheWeek": "星期幾",
+    "@dayOfTheWeek": {},
+    "time": "時間",
+    "@time": {},
+    "interval": "間隔",
+    "@interval": {}
 }
