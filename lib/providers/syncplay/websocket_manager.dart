@@ -126,8 +126,10 @@ class WebSocketManager {
       final message = json.decode(data as String) as Map<String, dynamic>;
       final messageType = message['MessageType'] as String?;
       
-      // Log all received messages for debugging
-      log('WebSocket: Received message type: $messageType');
+      // Log all received messages for debugging (except KeepAlive spam)
+      if (messageType != 'KeepAlive') {
+        log('WebSocket: Received message: $message');
+      }
 
       // Handle ForceKeepAlive to set up keep-alive interval
       if (messageType == 'ForceKeepAlive') {
@@ -138,7 +140,7 @@ class WebSocketManager {
       // Forward message to listeners
       _messageController.add(message);
     } catch (e) {
-      log('Failed to parse WebSocket message: $e');
+      log('Failed to parse WebSocket message: $e\nRaw data: $data');
     }
   }
 

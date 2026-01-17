@@ -17,7 +17,6 @@ import 'package:fladder/providers/syncplay/time_sync_service.dart';
 import 'package:fladder/providers/syncplay/websocket_manager.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
-import 'package:fladder/screens/video_player/video_player.dart';
 
 /// Controller for SyncPlay synchronized playback
 class SyncPlayController {
@@ -86,6 +85,7 @@ class SyncPlayController {
     _timeSync!.start();
 
     // Initialize WebSocket
+    log('SyncPlay: Initializing WebSocket with deviceId: ${user.credentials.deviceId}');
     _wsManager = WebSocketManager(
       serverUrl: serverUrl,
       token: user.credentials.token,
