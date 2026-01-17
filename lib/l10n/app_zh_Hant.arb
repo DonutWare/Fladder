@@ -1734,5 +1734,90 @@
     "time": "時間",
     "@time": {},
     "interval": "間隔",
-    "@interval": {}
+    "@interval": {},
+    "taskTimeLimitInHours": "時間限制 (小時)",
+    "@taskTimeLimitInHours": {},
+    "taskTriggerIntervalDesc": "每 {time}",
+    "@taskTriggerIntervalDesc": {
+        "description": "Task trigger interval desc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerDailyDesc": "每天 {time}",
+    "@taskTriggerDailyDesc": {
+        "description": "taskTriggerDailyDesc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerWeeklyDesc": "每週 {day} 的 {time}",
+    "@taskTriggerWeeklyDesc": {
+        "description": "taskTriggerWeeklyDesc",
+        "placeholders": {
+            "day": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerTimeLimitSub": "時間限制: {time}",
+    "@taskTriggerTimeLimitSub": {
+        "description": "taskTriggerTimeLimit",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "performance": "效能",
+    "@performance": {},
+    "serverNameLabel": "伺服器名稱",
+    "@serverNameLabel": {},
+    "cachePath": "快取路徑",
+    "@cachePath": {},
+    "metadataPath": "中繼資料路徑",
+    "@metadataPath": {},
+    "maxConcurrentLibraryScanLabel": "最大並發掃描數量",
+    "@maxConcurrentLibraryScanLabel": {},
+    "maxConcurrentLibraryScanDesc": "媒體庫掃描期間的最大並行任務數量。若留空，將根據您系統的核心數量選擇限制。警告：將此數值設定過高可能會導致網路檔案系統出現問題；如果您遇到問題，請降低此數值。",
+    "@maxConcurrentLibraryScanDesc": {},
+    "maxImageDecodingThreadsLabel": "最大圖片解碼執行緒數",
+    "@maxImageDecodingThreadsLabel": {},
+    "maxImageDecodingThreadsDesc": "允許同時運行的圖像編碼最大數量。若留空，將根據您系統的核心數量選擇限制。",
+    "@maxImageDecodingThreadsDesc": {},
+    "controlPanelServerDesc": "伺服器名稱, 快速連線, 效能",
+    "@controlPanelServerDesc": {},
+    "deleteUserTitle": "刪除使用者 {user}?",
+    "@deleteUserTitle": {
+        "description": "deleteUserTitle",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteUserDesc": "這將永久刪除使用者 {user} 及所有相關設定。",
+    "@deleteUserDesc": {
+        "description": "deleteUserDesc",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "userInformation": "使用者資訊",
+    "@userInformation": {},
+    "allowManageServer": "允許此使用者管理伺服器",
+    "@allowManageServer": {},
+    "allowCollections": "允許此用戶進入合集",
+    "@allowCollections": {},
+    "allowEditSubtitles": "允許此用戶編輯字幕",
+    "@allowEditSubtitles": {}
 }
