@@ -370,6 +370,22 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     }
   }
 
+  // SyncPlay-aware user actions from native player
+  @override
+  void onUserPlay() {
+    ref.read(videoPlayerProvider.notifier).userPlay();
+  }
+
+  @override
+  void onUserPause() {
+    ref.read(videoPlayerProvider.notifier).userPause();
+  }
+
+  @override
+  void onUserSeek(int positionMs) {
+    ref.read(videoPlayerProvider.notifier).userSeek(Duration(milliseconds: positionMs));
+  }
+
   Future<Uint8List?> takeScreenshot() {
     final player = _player;
 

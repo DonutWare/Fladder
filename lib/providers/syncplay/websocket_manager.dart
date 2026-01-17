@@ -60,6 +60,7 @@ class WebSocketManager {
     _updateState(WebSocketConnectionState.connecting);
 
     try {
+      log('WebSocket: Connecting to ${_webSocketUri.toString().replaceAll(RegExp(r'api_key=[^&]+'), 'api_key=***')}');
       _channel = WebSocketChannel.connect(_webSocketUri);
       await _channel!.ready;
 
@@ -124,6 +125,9 @@ class WebSocketManager {
     try {
       final message = json.decode(data as String) as Map<String, dynamic>;
       final messageType = message['MessageType'] as String?;
+      
+      // Log all received messages for debugging
+      log('WebSocket: Received message type: $messageType');
 
       // Handle ForceKeepAlive to set up keep-alive interval
       if (messageType == 'ForceKeepAlive') {
