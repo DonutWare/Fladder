@@ -63,6 +63,7 @@ class SyncPlayController {
       _commandHandler.getPositionTicks = callback;
   set isPlaying(bool Function()? callback) => _commandHandler.isPlaying = callback;
   set isBuffering(bool Function()? callback) => _commandHandler.isBuffering = callback;
+  set onReportReady(SyncPlayReportReadyCallback? callback) => _commandHandler.onReportReady = callback;
 
   JellyfinOpenApi get _api => _ref.read(jellyApiProvider).api;
 
@@ -136,11 +137,25 @@ class SyncPlayController {
 
   /// Join an existing SyncPlay group
   Future<bool> joinGroup(String groupId) async {
+    // Check if already in a group
+    if (_state.isInGroup) {
+      log('SyncPlay: Already in a group, leaving first...');
+      await leaveGroup();
+    }
+    
+    // Check if WebSocket is connected
+    if (!_state.isConnected) {
+      log('SyncPlay: WebSocket not connected, cannot join group');
+      return false;
+    }
+    
     try {
+      log('SyncPlay: Joining group: $groupId');
       await _api.syncPlayJoinPost(
         body: JoinGroupRequestDto(groupId: groupId),
       );
       _lastGroupId = groupId;
+      log('SyncPlay: Join request sent successfully');
       return true;
     } catch (e) {
       log('SyncPlay: Failed to join group: $e');
@@ -271,21 +286,31 @@ class SyncPlayController {
   }
 
   void _handleConnectionState(WebSocketConnectionState wsState) {
+    log('SyncPlay: WebSocket connection state: $wsState');
     final isConnected = wsState == WebSocketConnectionState.connected;
     _updateState(_state.copyWith(isConnected: isConnected));
+    log('SyncPlay: isConnected updated to: $isConnected');
   }
 
   void _handleMessage(Map<String, dynamic> message) {
     final messageType = message['MessageType'] as String?;
     final data = message['Data'];
+    
+    log('SyncPlay: Received WebSocket message: $messageType');
 
     switch (messageType) {
       case 'SyncPlayCommand':
         _commandHandler.handleCommand(data as Map<String, dynamic>, _state);
         break;
       case 'SyncPlayGroupUpdate':
+        log('SyncPlay: GroupUpdate data: $data');
         _messageHandler.handleGroupUpdate(data as Map<String, dynamic>, _state);
         break;
+      default:
+        // Log unhandled message types for debugging
+        if (messageType?.startsWith('SyncPlay') == true) {
+          log('SyncPlay: Unhandled SyncPlay message type: $messageType');
+        }
     }
   }
 
@@ -336,24 +361,24 @@ class SyncPlayController {
       }
       log('SyncPlay: Playback item loaded successfully');
 
-      // Set state to fullScreen and push the VideoPlayer route
+      // Set state to fullScreen
       _ref.read(mediaPlaybackProvider.notifier).update(
             (state) => state.copyWith(state: VideoPlayerState.fullScreen),
           );
       log('SyncPlay: Set state to fullScreen');
 
-      // Push VideoPlayer using the global router's navigator key
+      // Open the player - this handles both native (Android TV) and Flutter players correctly
+      // For Android TV (NativePlayer), this launches the native activity
+      // For other platforms, this opens the Flutter VideoPlayer
       final navigatorKey = getNavigatorKey(_ref);
-      log('SyncPlay: Navigator key: ${navigatorKey != null ? "exists" : "null"}, currentState: ${navigatorKey?.currentState != null ? "exists" : "null"}');
-      if (navigatorKey?.currentState != null) {
-        navigatorKey!.currentState!.push(
-          MaterialPageRoute(
-            builder: (context) => const VideoPlayer(),
-          ),
-        );
-        log('SyncPlay: Successfully pushed VideoPlayer route for $itemId');
+      final context = navigatorKey?.currentContext;
+      log('SyncPlay: Navigator context: ${context != null ? "exists" : "null"}');
+      
+      if (context != null) {
+        await _ref.read(videoPlayerProvider.notifier).openPlayer(context);
+        log('SyncPlay: Successfully opened player for $itemId');
       } else {
-        log('SyncPlay: No navigator available, player loaded but not opened fullscreen');
+        log('SyncPlay: No navigator context available, player loaded but not opened fullscreen');
       }
     } catch (e, stackTrace) {
       log('SyncPlay: Error starting playback: $e\n$stackTrace');

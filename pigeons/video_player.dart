@@ -244,4 +244,14 @@ abstract class VideoPlayerControlsCallback {
   void onStop();
   void swapSubtitleTrack(int value);
   void swapAudioTrack(int value);
+  
+  /// User-initiated play action from native player (for SyncPlay integration)
+  void onUserPlay();
+  
+  /// User-initiated pause action from native player (for SyncPlay integration)
+  void onUserPause();
+  
+  /// User-initiated seek action from native player (for SyncPlay integration)
+  /// Position is in milliseconds
+  void onUserSeek(int positionMs);
 }

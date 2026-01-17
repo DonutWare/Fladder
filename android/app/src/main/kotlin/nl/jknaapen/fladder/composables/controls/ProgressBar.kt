@@ -277,7 +277,8 @@ internal fun RowScope.SimpleProgressBar(
                     onUserInteraction()
                     val clickRelativeOffset = offset.x / width.toFloat()
                     val newPosition = duration.milliseconds * clickRelativeOffset.toDouble()
-                    player.seekTo(newPosition.toLong(DurationUnit.MILLISECONDS))
+                    // Route through Flutter for SyncPlay support
+                    VideoPlayerObject.videoPlayerControls?.onUserSeek(newPosition.toLong(DurationUnit.MILLISECONDS)) {}
                 }
             }
             .pointerInput(Unit) {
@@ -299,7 +300,8 @@ internal fun RowScope.SimpleProgressBar(
                     },
                     onDragEnd = {
                         onScrubbingChanged(false)
-                        player.seekTo(internalTempPosition)
+                        // Route through Flutter for SyncPlay support
+                        VideoPlayerObject.videoPlayerControls?.onUserSeek(internalTempPosition) {}
                     },
                     onDragCancel = {
                         onScrubbingChanged(false)
@@ -478,7 +480,8 @@ internal fun RowScope.SimpleProgressBar(
                             if (!scrubbingTimeLine) {
                                 onTempPosChanged(position)
                                 onScrubbingChanged(true)
-                                player.pause()
+                                // Route through Flutter for SyncPlay support
+                                VideoPlayerObject.videoPlayerControls?.onUserPause {}
                             }
                             val newPos = max(
                                 0L,
@@ -499,7 +502,8 @@ internal fun RowScope.SimpleProgressBar(
                             if (!scrubbingTimeLine) {
                                 onTempPosChanged(position)
                                 onScrubbingChanged(true)
-                                player.pause()
+                                // Route through Flutter for SyncPlay support
+                                VideoPlayerObject.videoPlayerControls?.onUserPause {}
                             }
                             val newPos = min(player.duration.takeIf { it > 0 } ?: 1L,
                                 tempPosition + scrubSpeedResult())
@@ -510,8 +514,9 @@ internal fun RowScope.SimpleProgressBar(
 
                         Enter, Spacebar, ButtonSelect, DirectionCenter -> {
                             if (scrubbingTimeLine) {
-                                player.seekTo(tempPosition)
-                                player.play()
+                                // Route through Flutter for SyncPlay support
+                                VideoPlayerObject.videoPlayerControls?.onUserSeek(tempPosition) {}
+                                VideoPlayerObject.videoPlayerControls?.onUserPlay {}
                                 onScrubbingChanged(false)
                                 true
                             } else false
@@ -520,7 +525,8 @@ internal fun RowScope.SimpleProgressBar(
                         Escape, Back -> {
                             if (scrubbingTimeLine) {
                                 onScrubbingChanged(false)
-                                player.play()
+                                // Route through Flutter for SyncPlay support
+                                VideoPlayerObject.videoPlayerControls?.onUserPlay {}
                                 true
                             }
                             false

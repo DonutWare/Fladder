@@ -128,6 +128,8 @@ class SyncPlay extends _$SyncPlay {
     controller.getPositionTicks = getPositionTicks;
     controller.isPlaying = isPlaying;
     controller.isBuffering = isBuffering;
+    // Wire up reportReady callback so command handler can report ready after seek
+    controller.onReportReady = () => controller.reportReady();
   }
 
   /// Unregister player callbacks
@@ -139,6 +141,7 @@ class SyncPlay extends _$SyncPlay {
     controller.getPositionTicks = null;
     controller.isPlaying = null;
     controller.isBuffering = null;
+    controller.onReportReady = null;
   }
 }
 

@@ -41,8 +41,20 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
   /// Flag to indicate if the current action is initiated by SyncPlay
   bool _syncPlayAction = false;
 
+  /// Timestamp of last SyncPlay command execution (for cooldown)
+  DateTime? _lastSyncPlayCommandTime;
+
+  /// Cooldown period after SyncPlay command during which we don't auto-report ready
+  static const _syncPlayCooldown = Duration(milliseconds: 500);
+
   /// Check if SyncPlay is active
   bool get _isSyncPlayActive => ref.read(isSyncPlayActiveProvider);
+
+  /// Check if we're in the SyncPlay cooldown period
+  bool get _inSyncPlayCooldown {
+    if (_lastSyncPlayCommandTime == null) return false;
+    return DateTime.now().difference(_lastSyncPlayCommandTime!) < _syncPlayCooldown;
+  }
 
   void init() async {
     debouncer.run(() async {
@@ -75,22 +87,26 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     ref.read(syncPlayProvider.notifier).registerPlayer(
       onPlay: () async {
         _syncPlayAction = true;
+        _lastSyncPlayCommandTime = DateTime.now();
         await state.play();
         _syncPlayAction = false;
       },
       onPause: () async {
         _syncPlayAction = true;
+        _lastSyncPlayCommandTime = DateTime.now();
         await state.pause();
         _syncPlayAction = false;
       },
       onSeek: (positionTicks) async {
         _syncPlayAction = true;
+        _lastSyncPlayCommandTime = DateTime.now();
         final position = Duration(microseconds: positionTicks ~/ 10);
         await state.seek(position);
         _syncPlayAction = false;
       },
       onStop: () async {
         _syncPlayAction = true;
+        _lastSyncPlayCommandTime = DateTime.now();
         await state.stop();
         _syncPlayAction = false;
       },
@@ -110,7 +126,8 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     mediaState.update((state) => state.copyWith(buffering: event));
 
     // Report buffering state to SyncPlay if active
-    if (_isSyncPlayActive && !_syncPlayAction) {
+    // Skip if we're in the cooldown period after a SyncPlay command to prevent feedback loops
+    if (_isSyncPlayActive && !_syncPlayAction && !_inSyncPlayCooldown) {
       if (event) {
         // Started buffering
         ref.read(syncPlayProvider.notifier).reportBuffering();
@@ -302,7 +319,13 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
       final positionTicks = secondsToTicks(position.inMilliseconds / 1000);
       await ref.read(syncPlayProvider.notifier).requestSeek(positionTicks);
     } else {
+      // Remember if we were playing before seek
+      final wasPlaying = playbackState.playing;
       await state.seek(position);
+      // Resume playback if we were playing before (for native player consistency)
+      if (wasPlaying && !playbackState.playing) {
+        await state.play();
+      }
     }
   }
 

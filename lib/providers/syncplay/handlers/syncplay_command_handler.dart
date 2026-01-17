@@ -8,6 +8,7 @@ import 'package:fladder/providers/syncplay/time_sync_service.dart';
 typedef SyncPlayPlayerCallback = Future<void> Function();
 typedef SyncPlaySeekCallback = Future<void> Function(int positionTicks);
 typedef SyncPlayPositionCallback = int Function();
+typedef SyncPlayReportReadyCallback = Future<void> Function();
 
 /// Handles scheduling and execution of SyncPlay commands
 class SyncPlayCommandHandler {
@@ -33,6 +34,9 @@ class SyncPlayCommandHandler {
   SyncPlayPositionCallback? getPositionTicks;
   bool Function()? isPlaying;
   bool Function()? isBuffering;
+  
+  // Report ready callback (to tell server we're ready after seek)
+  SyncPlayReportReadyCallback? onReportReady;
 
   /// Handle incoming SyncPlay command from WebSocket
   void handleCommand(Map<String, dynamic> data, SyncPlayState currentState) {
@@ -125,26 +129,35 @@ class SyncPlayCommandHandler {
       switch (command) {
         case 'Pause':
           await onPause?.call();
-          // Seek to position if significantly different
+          // Only seek if position is significantly different (>1 second)
           final currentTicks = getPositionTicks?.call() ?? 0;
-          if ((positionTicks - currentTicks).abs() > ticksPerSecond ~/ 2) {
+          if ((positionTicks - currentTicks).abs() > ticksPerSecond) {
             await onSeek?.call(positionTicks);
           }
           break;
 
         case 'Unpause':
-          // Seek to position if significantly different
+          // Play first - getting playback started quickly is more important than perfect position
+          await onPlay?.call();
+          // Only seek if position is significantly different (>1 second)
+          // Small differences will self-correct during playback
           final currentTicks = getPositionTicks?.call() ?? 0;
-          if ((positionTicks - currentTicks).abs() > ticksPerSecond ~/ 2) {
+          if ((positionTicks - currentTicks).abs() > ticksPerSecond) {
             await onSeek?.call(positionTicks);
           }
-          await onPlay?.call();
           break;
 
         case 'Seek':
-          await onPlay?.call();
-          await onSeek?.call(positionTicks);
+          // Pause first to stop any ongoing playback
           await onPause?.call();
+          // Seek to the target position
+          await onSeek?.call(positionTicks);
+          // Report ready after seek so server knows to send unpause
+          // If we're buffering, the buffering state handler will report ready when done
+          // If we're not buffering, report ready immediately
+          if (isBuffering?.call() != true) {
+            await onReportReady?.call();
+          }
           break;
 
         case 'Stop':
