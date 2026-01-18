@@ -46,7 +46,7 @@
     },
     "ascending": "升序",
     "@ascending": {},
-    "audio": "音訊",
+    "audio": "{count, plural, one{音訊} other{音訊}}",
     "@audio": {},
     "autoPlay": "自動播放",
     "@autoPlay": {},
@@ -86,7 +86,7 @@
     "@close": {},
     "code": "代碼",
     "@code": {},
-    "collectionFolder": "收藏資料夾",
+    "collectionFolder": "{count, plural, one{收藏資料夾} other{收藏資料夾}}",
     "@collectionFolder": {},
     "color": "顏色",
     "@color": {},
@@ -132,7 +132,7 @@
     "@dateLastContentAdded": {},
     "datePlayed": "播放日期",
     "@datePlayed": {},
-    "days": "天",
+    "days": "{count, plural, one{天} other{天}}",
     "@days": {},
     "delete": "刪除",
     "@delete": {},
@@ -360,27 +360,27 @@
     "@masonry": {},
     "mediaTypeBase": "基礎類型",
     "@mediaTypeBase": {},
-    "mediaTypeBook": "書籍",
+    "mediaTypeBook": "{count, plural, one{書籍} other{書籍}}",
     "@mediaTypeBook": {},
-    "mediaTypeBoxset": "套裝",
+    "mediaTypeBoxset": "{count, plural, one{套裝} other{套裝}}",
     "@mediaTypeBoxset": {},
-    "mediaTypeEpisode": "劇集",
+    "mediaTypeEpisode": "{count, plural, one{劇集} other{劇集}}",
     "@mediaTypeEpisode": {},
-    "mediaTypeFolder": "資料夾",
+    "mediaTypeFolder": "{count, plural, one{資料夾} other{資料夾}}",
     "@mediaTypeFolder": {},
-    "mediaTypeMovie": "電影",
+    "mediaTypeMovie": "{count, plural, one{電影} other{電影}}",
     "@mediaTypeMovie": {},
-    "mediaTypePerson": "人物",
+    "mediaTypePerson": "{count, plural, one{人物} other{人物}}",
     "@mediaTypePerson": {},
-    "mediaTypePhoto": "相片",
+    "mediaTypePhoto": "{count, plural, one{相片} other{相片}}",
     "@mediaTypePhoto": {},
-    "mediaTypePhotoAlbum": "相簿",
+    "mediaTypePhotoAlbum": "{count, plural, one{相簿} other{相簿}}",
     "@mediaTypePhotoAlbum": {},
-    "mediaTypePlaylist": "播放清單",
+    "mediaTypePlaylist": "{count, plural, one{播放清單} other{播放清單}}",
     "@mediaTypePlaylist": {},
-    "mediaTypeSeason": "季",
+    "mediaTypeSeason": "{count, plural, one{季} other{季}}",
     "@mediaTypeSeason": {},
-    "mediaTypeSeries": "節目",
+    "mediaTypeSeries": "{count, plural, one{節目} other{節目}}",
     "@mediaTypeSeries": {},
     "metaDataSavedFor": "{item} 的元數據已儲存",
     "@metaDataSavedFor": {
@@ -422,7 +422,7 @@
     "@moreOptions": {},
     "mouseDragSupport": "使用滑鼠拖曳",
     "@mouseDragSupport": {},
-    "musicAlbum": "專輯",
+    "musicAlbum": "{count, plural, one{專輯} other{專輯}}",
     "@musicAlbum": {},
     "name": "名稱",
     "@name": {},
@@ -764,7 +764,7 @@
     "@settingsPosterSize": {},
     "settingsPosterSlider": "顯示比例滑桿",
     "@settingsPosterSlider": {},
-    "settingsProfileDesc": "鎖定畫面",
+    "settingsProfileDesc": "鎖定畫面, 本地 URL, Seerr",
     "@settingsProfileDesc": {},
     "settingsProfileTitle": "個人資料",
     "@settingsProfileTitle": {},
@@ -907,7 +907,7 @@
     "@useDefaults": {},
     "userName": "使用者名稱",
     "@userName": {},
-    "video": "影片",
+    "video": "{count, plural, one{影片} other{影片}}",
     "@video": {},
     "videoScaling": "影片縮放",
     "@videoScaling": {},
@@ -1539,5 +1539,737 @@
     "settingsLocalUrlSetTitle": "配置本地網址",
     "@settingsLocalUrlSetTitle": {},
     "settingsLocalUrlSetDesc": "指定本地伺服器地址。當您的設備與伺服器位於同一網路時，Fladder 將自動使用此網址。",
-    "@settingsLocalUrlSetDesc": {}
+    "@settingsLocalUrlSetDesc": {},
+    "popularity": "熱門",
+    "@popularity": {},
+    "contentRating": "內容分級",
+    "@contentRating": {},
+    "runtimeMinutesTitle": "運行時間 (分鐘)",
+    "@runtimeMinutesTitle": {},
+    "runtimeRangeMinutes": "{min} - {max} 分鐘",
+    "@runtimeRangeMinutes": {
+        "placeholders": {
+            "min": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            }
+        }
+    },
+    "minutesShort": "{count} 分鐘",
+    "@minutesShort": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "streamingServices": "發行商 ({count})",
+    "@streamingServices": {
+        "description": "Streaming providers (Netflix,HBO, etc.)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "settingsProfileSubtitleLanguage": "偏好字幕語言",
+    "@settingsProfileSubtitleLanguage": {},
+    "settingsProfileSubtitleMode": "字幕模式",
+    "@settingsProfileSubtitleMode": {},
+    "subtitlePlaybackModeDefault": "預設",
+    "@subtitlePlaybackModeDefault": {},
+    "subtitlePlaybackModeAlways": "始終播放",
+    "@subtitlePlaybackModeAlways": {},
+    "subtitlePlaybackModeOnlyForced": "僅限強制",
+    "@subtitlePlaybackModeOnlyForced": {},
+    "subtitlePlaybackModeNone": "無",
+    "@subtitlePlaybackModeNone": {},
+    "subtitlePlaybackModeSmart": "自動",
+    "@subtitlePlaybackModeSmart": {},
+    "deleteRequestConfirmation": "您確定要刪除此請求嗎？",
+    "@deleteRequestConfirmation": {},
+    "segmentActionSkipOnce": "略過一次",
+    "@segmentActionSkipOnce": {},
+    "takeScreenshot": "截圖",
+    "@takeScreenshot": {},
+    "takeScreenshotClean": "截圖 (不含字幕)",
+    "@takeScreenshotClean": {},
+    "screenshotTaken": "截圖已保存！",
+    "@screenshotTaken": {},
+    "screenshotCleanTaken": "無字幕截圖已保存！",
+    "@screenshotCleanTaken": {},
+    "errorTakingScreenshot": "截圖時發生錯誤",
+    "@errorTakingScreenshot": {},
+    "regenerateTrickplayImages": "重新技巧播放圖像",
+    "@regenerateTrickplayImages": {},
+    "controlPanel": "控制面板",
+    "@controlPanel": {},
+    "controlPanelDesc": "伺服器, 活動, 使用者, 媒體庫",
+    "@controlPanelDesc": {},
+    "controlDashboard": "控制面板",
+    "@controlDashboard": {},
+    "serverName": "伺服器名稱",
+    "@serverName": {},
+    "serverVersion": "伺服器版本",
+    "@serverVersion": {},
+    "webVersion": "網頁版",
+    "@webVersion": {},
+    "devices": "裝置",
+    "@devices": {},
+    "used": "使用",
+    "@used": {},
+    "storagePaths": "儲存路徑",
+    "@storagePaths": {},
+    "programData": "程式資料",
+    "@programData": {},
+    "web": "網頁",
+    "@web": {},
+    "cache": "快取",
+    "@cache": {},
+    "logs": "記錄",
+    "@logs": {},
+    "transcodingTemp": "轉碼暫存",
+    "@transcodingTemp": {},
+    "count": "統計",
+    "@count": {},
+    "scanAllLibraries": "掃描所有媒體庫",
+    "@scanAllLibraries": {},
+    "restartServer": "重啟伺服器",
+    "@restartServer": {},
+    "shutDownServer": "關閉伺服器",
+    "@shutDownServer": {},
+    "dashboardDesc": "伺服器, 統計, 裝置, 儲存",
+    "@dashboardDesc": {},
+    "lastActivity": "上次活動",
+    "@lastActivity": {},
+    "activeTasks": "執行中任務",
+    "@activeTasks": {},
+    "hours": "{count, plural, one{小時} other{小時}}",
+    "@hours": {
+        "description": "Pluralization for hours",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            }
+        }
+    },
+    "weeks": "{count, plural, one{星期} other{星期}}",
+    "@weeks": {
+        "description": "Pluralization for weeks",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "months": "{count, plural, one{月} other{月}}",
+    "@months": {
+        "description": "Pluralization for months",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "years": "{count, plural, one{年} other{年}}",
+    "@years": {
+        "description": "Pluralization for years",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "timeAgo": "{time} 前",
+    "@timeAgo": {
+        "description": "timeAgo",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "lastRunTaking": "上次執行日期 {date}, 耗時 {time}",
+    "@lastRunTaking": {
+        "description": "lastRunTaking",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "lessThenAMinute": "不到一分鐘",
+    "@lessThenAMinute": {},
+    "plannedTasks": "規畫任務",
+    "@plannedTasks": {},
+    "taskTriggerTypeInterval": "間隔",
+    "@taskTriggerTypeInterval": {},
+    "taskTriggerTypeDaily": "每日",
+    "@taskTriggerTypeDaily": {},
+    "taskTriggerTypeWeekly": "每週",
+    "@taskTriggerTypeWeekly": {},
+    "taskTriggerTypeStartup": "啟動",
+    "@taskTriggerTypeStartup": {},
+    "create": "建立",
+    "@create": {},
+    "taskTriggerTypeName": "觸發類型",
+    "@taskTriggerTypeName": {},
+    "newTrigger": "新觸發器",
+    "@newTrigger": {},
+    "newTaskTrigger": "新任務觸發器",
+    "@newTaskTrigger": {},
+    "dayOfTheWeek": "星期幾",
+    "@dayOfTheWeek": {},
+    "time": "時間",
+    "@time": {},
+    "interval": "間隔",
+    "@interval": {},
+    "taskTimeLimitInHours": "時間限制 (小時)",
+    "@taskTimeLimitInHours": {},
+    "taskTriggerIntervalDesc": "每 {time}",
+    "@taskTriggerIntervalDesc": {
+        "description": "Task trigger interval desc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerDailyDesc": "每天 {time}",
+    "@taskTriggerDailyDesc": {
+        "description": "taskTriggerDailyDesc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerWeeklyDesc": "每週 {day} 的 {time}",
+    "@taskTriggerWeeklyDesc": {
+        "description": "taskTriggerWeeklyDesc",
+        "placeholders": {
+            "day": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerTimeLimitSub": "時間限制: {time}",
+    "@taskTriggerTimeLimitSub": {
+        "description": "taskTriggerTimeLimit",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "performance": "效能",
+    "@performance": {},
+    "serverNameLabel": "伺服器名稱",
+    "@serverNameLabel": {},
+    "cachePath": "快取路徑",
+    "@cachePath": {},
+    "metadataPath": "中繼資料路徑",
+    "@metadataPath": {},
+    "maxConcurrentLibraryScanLabel": "最大並發掃描數量",
+    "@maxConcurrentLibraryScanLabel": {},
+    "maxConcurrentLibraryScanDesc": "媒體庫掃描期間的最大並行任務數量。若留空，將根據您系統的核心數量選擇限制。警告：將此數值設定過高可能會導致網路檔案系統出現問題；如果您遇到問題，請降低此數值。",
+    "@maxConcurrentLibraryScanDesc": {},
+    "maxImageDecodingThreadsLabel": "最大圖片解碼執行緒數",
+    "@maxImageDecodingThreadsLabel": {},
+    "maxImageDecodingThreadsDesc": "允許同時運行的圖像編碼最大數量。若留空，將根據您系統的核心數量選擇限制。",
+    "@maxImageDecodingThreadsDesc": {},
+    "controlPanelServerDesc": "伺服器名稱, 快速連線, 效能",
+    "@controlPanelServerDesc": {},
+    "deleteUserTitle": "刪除使用者 {user}?",
+    "@deleteUserTitle": {
+        "description": "deleteUserTitle",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteUserDesc": "這將永久刪除使用者 {user} 及所有相關設定。",
+    "@deleteUserDesc": {
+        "description": "deleteUserDesc",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "userInformation": "使用者資訊",
+    "@userInformation": {},
+    "allowManageServer": "允許此使用者管理伺服器",
+    "@allowManageServer": {},
+    "allowCollections": "允許此用戶進入合集",
+    "@allowCollections": {},
+    "allowEditSubtitles": "允許此用戶編輯字幕",
+    "@allowEditSubtitles": {},
+    "featureAccess": "功能存取",
+    "@featureAccess": {},
+    "allowLiveTVAccess": "允許直播電視存取",
+    "@allowLiveTVAccess": {},
+    "allowLiveTVRecording": "允許直播電視錄影管理",
+    "@allowLiveTVRecording": {},
+    "mediaPlayback": "媒體播放",
+    "@mediaPlayback": {},
+    "allowMediaPlayback": "允許媒體播放",
+    "@allowMediaPlayback": {},
+    "allowVideoTranscoding": "允許需要轉碼的影片播放",
+    "@allowVideoTranscoding": {},
+    "allowAudioTranscoding": "允許需要轉碼的音訊播放",
+    "@allowAudioTranscoding": {},
+    "allowMediaConversion": "允許需要媒體轉換的影片播放",
+    "@allowMediaConversion": {},
+    "forceRemoteTranscoding": "強制遠端來源轉碼",
+    "@forceRemoteTranscoding": {},
+    "syncplay": "同步播放",
+    "@syncplay": {},
+    "syncplayAccess": "同步播放存取",
+    "@syncplayAccess": {},
+    "syncplayAccessCreateAndJoinGroups": "建立與加入群組",
+    "@syncplayAccessCreateAndJoinGroups": {},
+    "syncplayAccessJoinGroups": "加入群組",
+    "@syncplayAccessJoinGroups": {},
+    "syncplayAccessNone": "無",
+    "@syncplayAccessNone": {},
+    "allowMediaDeletion": "允許刪除媒體",
+    "@allowMediaDeletion": {},
+    "allLibraries": "所有媒體庫",
+    "@allLibraries": {},
+    "libraryAccess": "媒體庫存取",
+    "@libraryAccess": {},
+    "enableAllLibraries": "啟用所有媒體庫的存取權限",
+    "@enableAllLibraries": {},
+    "enableAllDevices": "允許存取所有裝置",
+    "@enableAllDevices": {},
+    "parentalControl": "家長控制",
+    "@parentalControl": {},
+    "blockedItemsNoRating": "未分級或無法識別的封鎖項目",
+    "@blockedItemsNoRating": {},
+    "maxParentalRating": "最高家長評級",
+    "@maxParentalRating": {},
+    "allowItemsTags": "允許帶有標籤的項目",
+    "@allowItemsTags": {},
+    "blockItemsTags": "以標籤封鎖項目",
+    "@blockItemsTags": {},
+    "accessSchedules": "存取排程",
+    "@accessSchedules": {},
+    "addAccessSchedule": "新增存取排程",
+    "@addAccessSchedule": {},
+    "dayOfWeek": "星期幾",
+    "@dayOfWeek": {},
+    "startTime": "開始時間",
+    "@startTime": {},
+    "endTime": "結束時間",
+    "@endTime": {},
+    "addTag": "新增標籤",
+    "@addTag": {},
+    "createNewUser": "建立新使用者",
+    "@createNewUser": {},
+    "createUser": "建立使用者",
+    "@createUser": {},
+    "users": "使用者",
+    "@users": {},
+    "editUser": "編輯使用者",
+    "@editUser": {},
+    "general": "一般",
+    "@general": {},
+    "access": "存取",
+    "@access": {},
+    "endTimeMustBeAfter": "結束時間必須晚於開始時間",
+    "@endTimeMustBeAfter": {},
+    "assignLibraries": "指派媒體庫",
+    "@assignLibraries": {},
+    "enableAccessAllLibraries": "啟用所有媒體庫的存取權限",
+    "@enableAccessAllLibraries": {},
+    "currentPassword": "目前密碼",
+    "@currentPassword": {},
+    "newPassword": "新密碼",
+    "@newPassword": {},
+    "confirmPassword": "確認密碼",
+    "@confirmPassword": {},
+    "resetPassword": "重置密碼",
+    "@resetPassword": {},
+    "passwordResetSuccess": "密碼已成功重設",
+    "@passwordResetSuccess": {},
+    "passwordResetFailed": "無法重設密碼",
+    "@passwordResetFailed": {},
+    "passwordMismatch": "新密碼與確認密碼不符",
+    "@passwordMismatch": {},
+    "passwordChangeSuccess": "密碼已成功更改",
+    "@passwordChangeSuccess": {},
+    "savePassword": "儲存密碼",
+    "@savePassword": {},
+    "deleteLibraryConfirmTitle": "刪除媒體庫？",
+    "@deleteLibraryConfirmTitle": {},
+    "deleteLibraryConfirmMessage": "您確定要刪除 {libraryName} 嗎？\n此動作無法復原。",
+    "@deleteLibraryConfirmMessage": {
+        "placeholders": {
+            "libraryName": {
+                "type": "String"
+            }
+        }
+    },
+    "noLibrarySelected": "未選擇媒體庫",
+    "@noLibrarySelected": {},
+    "enabledPhotos": "啟用照片",
+    "@enabledPhotos": {},
+    "enabledLUFSScan": "啟用 LUFS 掃描",
+    "@enabledLUFSScan": {},
+    "enabledRealtimeMonitoring": "啟用即時監控",
+    "@enabledRealtimeMonitoring": {},
+    "automaticallyAddToCollection": "自動加入合集",
+    "@automaticallyAddToCollection": {},
+    "enabledEmbeddedTitles": "已啟用內嵌標題",
+    "@enabledEmbeddedTitles": {},
+    "enabledEmbeddedExtrasTitles": "已啟用附加內容內嵌標題",
+    "@enabledEmbeddedExtrasTitles": {},
+    "automaticRefreshInterval": "自動重新整理間隔",
+    "@automaticRefreshInterval": {},
+    "autoRefreshIntervalNote": "啟用此功能可能會導致媒體庫重新整理時間變長。",
+    "@autoRefreshIntervalNote": {},
+    "preferredDownloadLanguage": "偏好的下載語言",
+    "@preferredDownloadLanguage": {},
+    "countryRegion": "國家/地區",
+    "@countryRegion": {},
+    "saveMetadata": "儲存中繼資料",
+    "@saveMetadata": {},
+    "metadataFetchers": "中繼資料擷取器 ({type})",
+    "@metadataFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "enableAndRankMetadataFetchers": "啟用並依優先順序排列您偏好的中繼資料擷取器。",
+    "@enableAndRankMetadataFetchers": {},
+    "enableAndRankImagesFetchers": "啟用並依優先順序排序您偏好的圖片擷取工具。",
+    "@enableAndRankImagesFetchers": {},
+    "imageFetchers": "圖片擷取器 ({type})",
+    "@imageFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "mediaSegmentProviders": "媒體片段提供者",
+    "@mediaSegmentProviders": {},
+    "enableAndRankMediaSegmentProviders": "啟用並依優先順序排序您偏好的媒體片段提供者。",
+    "@enableAndRankMediaSegmentProviders": {},
+    "trickplay": "技巧播放",
+    "@trickplay": {},
+    "enableTrickplayImageExtraction": "啟用預覽圖擷取",
+    "@enableTrickplayImageExtraction": {},
+    "extractTrickplayImagesDuringLibraryScan": "在媒體庫掃描期間擷取縮圖預覽圖片",
+    "@extractTrickplayImagesDuringLibraryScan": {},
+    "saveTrickplayImagesNextToMedia": "將影片縮圖儲存於媒體文件旁邊",
+    "@saveTrickplayImagesNextToMedia": {},
+    "chapterImages": "章節圖片",
+    "@chapterImages": {},
+    "enableChapterImageExtraction": "啟用章節圖片擷取",
+    "@enableChapterImageExtraction": {},
+    "extractChapterImagesDuringLibraryScan": "在媒體庫掃描期間擷取章節圖片",
+    "@extractChapterImagesDuringLibraryScan": {},
+    "subtitleDownloads": "字幕下載",
+    "@subtitleDownloads": {},
+    "downloadLanguages": "下載語言",
+    "@downloadLanguages": {},
+    "subtitleDownloaders": "字幕下載器",
+    "@subtitleDownloaders": {},
+    "onlyPerfectSubtitleMatch": "僅下載與媒體完全匹配的字幕",
+    "@onlyPerfectSubtitleMatch": {},
+    "perfectSubtitleMatchDescription": "要求\"完全符合\"將過濾只包含已使用您的視訊檔案進行測試與驗證的字幕。若取消勾選此選項，將提高字幕下載的機率，但同時也會增加字幕時間錯誤或內容不正確的風險。",
+    "@perfectSubtitleMatchDescription": {},
+    "skipSubtitlesIfAudioMatches": "若預設音軌符合下載語言則略過",
+    "@skipSubtitlesIfAudioMatches": {},
+    "skipSubtitlesIfEmbedded": "若影片已內嵌字幕，則跳過",
+    "@skipSubtitlesIfEmbedded": {},
+    "saveSubtitlesNextToMedia": "將字幕儲存於媒體旁",
+    "@saveSubtitlesNextToMedia": {},
+    "saveArtWorkNextToMedia": "將藝術圖儲存在媒體檔案旁邊",
+    "@saveArtWorkNextToMedia": {},
+    "saveArtWorkNextToMediaDesc": "將藝術圖儲存到媒體資料夾中，可以將它們放置在一個易於編輯的位置。",
+    "@saveArtWorkNextToMediaDesc": {},
+    "select": "選擇",
+    "@select": {},
+    "newLibrary": "新增媒體庫",
+    "@newLibrary": {},
+    "contentType": "內容類型",
+    "@contentType": {},
+    "metadataImageLongPressTouch": "長按刪除圖片",
+    "@metadataImageLongPressTouch": {},
+    "metadataImageLongPressClick": "以滑鼠右鍵點擊來刪除圖片",
+    "@metadataImageLongPressClick": {},
+    "primary": "主要",
+    "@primary": {},
+    "selectFolderToAdd": "選擇要新增的資料夾",
+    "@selectFolderToAdd": {},
+    "systemRootFolder": "系統根目錄資料夾",
+    "@systemRootFolder": {},
+    "selectedPath": "已選路徑: {path}",
+    "@selectedPath": {
+        "placeholders": {
+            "path": {
+                "type": "String"
+            }
+        }
+    },
+    "logo": "{count, plural, other{標誌} one{標誌}}",
+    "@logo": {
+        "description": "logo",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "backdrop": "{count, plural, other{背景圖} one{背景圖}}",
+    "@backdrop": {
+        "description": "backdrop",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "recentlyAdded": "最近添加",
+    "@recentlyAdded": {},
+    "recentRequests": "最近的請求",
+    "@recentRequests": {},
+    "trending": "熱門趨勢",
+    "@trending": {},
+    "popularMovies": "熱門電影",
+    "@popularMovies": {},
+    "popularSeries": "熱門節目",
+    "@popularSeries": {},
+    "expectedMovies": "預計上映的電影",
+    "@expectedMovies": {},
+    "expectedSeries": "預計上映的節目",
+    "@expectedSeries": {},
+    "requestConfiguration": "請求設定",
+    "@requestConfiguration": {},
+    "qualityProfile": "品質設定檔",
+    "@qualityProfile": {},
+    "selectProfile": "選擇設定檔",
+    "@selectProfile": {},
+    "rootFolder": "根目錄",
+    "@rootFolder": {},
+    "selectFolder": "選取資料夾",
+    "@selectFolder": {},
+    "tags": "標籤",
+    "@tags": {},
+    "noTags": "無標籤",
+    "@noTags": {},
+    "requestAs": "請求為",
+    "@requestAs": {},
+    "requestQuotaStatus": "還剩 {remaining} / {limit} (每 {days} 天重置一次)",
+    "@requestQuotaStatus": {
+        "placeholders": {
+            "remaining": {
+                "type": "int"
+            },
+            "limit": {
+                "type": "int"
+            },
+            "days": {
+                "type": "int"
+            }
+        }
+    },
+    "requestQuotaLimitReached": "{mediaType} 的請求次數以達上限。",
+    "@requestQuotaLimitReached": {
+        "placeholders": {
+            "mediaType": {
+                "type": "String"
+            }
+        }
+    },
+    "submitRequest": "送出請求",
+    "@submitRequest": {},
+    "noOverviewAvailable": "沒有可用的概覽。",
+    "@noOverviewAvailable": {},
+    "downloading": "正在下載",
+    "@downloading": {},
+    "request": "請求",
+    "@request": {},
+    "viewRequest": "查看請求",
+    "@viewRequest": {},
+    "email": "電子郵件",
+    "@email": {},
+    "username": "使用者名稱",
+    "@username": {},
+    "ok": "確定",
+    "@ok": {},
+    "seerr": "Seerr",
+    "@seerr": {},
+    "seerrNotConfigured": "未設置",
+    "@seerrNotConfigured": {},
+    "seerrLoadingUser": "正在載入使用者",
+    "@seerrLoadingUser": {},
+    "seerrUnknownUser": "未知使用者",
+    "@seerrUnknownUser": {},
+    "loggedInAs": "已登入為 {displayName}",
+    "@loggedInAs": {
+        "placeholders": {
+            "displayName": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrServer": "Seerr 伺服器",
+    "@seerrServer": {},
+    "seerrAuthenticateLocal": "Seerr 身份驗證 (本地)",
+    "@seerrAuthenticateLocal": {},
+    "rootFolderDefaultLabel": "{folder} (預設)",
+    "@rootFolderDefaultLabel": {
+        "placeholders": {
+            "folder": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrAnimeSeriesNote": "* 這系列是一部動畫片。",
+    "@seerrAnimeSeriesNote": {},
+    "seerrAutoApproveNotice": "您提交的請求已自動批准。",
+    "@seerrAutoApproveNotice": {},
+    "seerrPermissionDenied": "您沒有權限請求此媒體類型。",
+    "@seerrPermissionDenied": {},
+    "seerrRequestStatusPending": "待處理",
+    "@seerrRequestStatusPending": {},
+    "seerrRequestStatusApproved": "核准",
+    "@seerrRequestStatusApproved": {},
+    "seerrRequestStatusDeclined": "拒絕",
+    "@seerrRequestStatusDeclined": {},
+    "seerrRequestStatusFailed": "失敗",
+    "@seerrRequestStatusFailed": {},
+    "seerrRequestStatusCompleted": "完成",
+    "@seerrRequestStatusCompleted": {},
+    "seerrMediaStatusProcessing": "處理中",
+    "@seerrMediaStatusProcessing": {},
+    "seerrMediaStatusPartiallyAvailable": "部分可用",
+    "@seerrMediaStatusPartiallyAvailable": {},
+    "seerrMediaStatusAvailable": "可用",
+    "@seerrMediaStatusAvailable": {},
+    "seerrMediaStatusBlacklisted": "列入黑名單",
+    "@seerrMediaStatusBlacklisted": {},
+    "seerrMediaStatusDeleted": "刪除",
+    "@seerrMediaStatusDeleted": {},
+    "seerrAuthApiKey": "API 密鑰",
+    "@seerrAuthApiKey": {},
+    "seerrAuthLocal": "本地",
+    "@seerrAuthLocal": {},
+    "seerrAuthJellyfin": "Jellyfin",
+    "@seerrAuthJellyfin": {},
+    "seerrUserFetchFailed": "無法從 Seerr 取得使用者資料",
+    "@seerrUserFetchFailed": {},
+    "seerrEnterServerUrlFirst": "請先輸入 Seerr 伺服器 URL",
+    "@seerrEnterServerUrlFirst": {},
+    "seerrApiKeySaved": "API 密鑰已存檔",
+    "@seerrApiKeySaved": {},
+    "seerrLoggedIn": "已登入 Seerr",
+    "@seerrLoggedIn": {},
+    "seerrConnectedToServer": "已連接至 Seerr 伺服器: {serverUrl}",
+    "@seerrConnectedToServer": {
+        "placeholders": {
+            "serverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "emailUsername": "電子郵件/使用者名稱",
+    "@emailUsername": {},
+    "discover": "探索",
+    "@discover": {},
+    "sponsor": "贊助",
+    "@sponsor": {},
+    "sponsorMessage": "如果您喜歡使用 Fladder，請考慮贊助此專案以支持持續的開發與改進。感謝您的支持！",
+    "@sponsorMessage": {},
+    "min": "最小",
+    "@min": {},
+    "max": "最大",
+    "@max": {},
+    "manageRequest": "管理請求",
+    "@manageRequest": {},
+    "requestAll": "請求全部",
+    "@requestAll": {},
+    "openInSeerr": "在 Seerr 中開啟",
+    "@openInSeerr": {},
+    "openInSonarr": "在 Sonarr 中開啟",
+    "@openInSonarr": {},
+    "openInRadarr": "在 Radarr 中開啟",
+    "@openInRadarr": {},
+    "removeFromSonarr": "從 Sonarr 中移除",
+    "@removeFromSonarr": {},
+    "removeFromRadarr": "從 Radarr 中移除",
+    "@removeFromRadarr": {},
+    "markAllSeasonsAsAvailable": "將所有季標示為播出中",
+    "@markAllSeasonsAsAvailable": {},
+    "markAsAvailable": "標示為播出中",
+    "@markAsAvailable": {},
+    "deleteData": "刪除資料",
+    "@deleteData": {},
+    "removeSeriesFromSonarrConfirm": "要從 Sonarr 移除這個節目嗎？這將會移除所有資料，包含檔案。",
+    "@removeSeriesFromSonarrConfirm": {},
+    "removeMovieFromRadarrConfirm": "從 Radarr 中移除這部電影嗎？這將移除所有數據，包括檔案。",
+    "@removeMovieFromRadarrConfirm": {},
+    "removedFromSonarr": "從 Sonarr 中移除",
+    "@removedFromSonarr": {},
+    "removedFromRadarr": "從 Radarr 中移除",
+    "@removedFromRadarr": {},
+    "markAllSeasonsAsAvailableConfirm": "將所有季標示為播出中？",
+    "@markAllSeasonsAsAvailableConfirm": {},
+    "markAsAvailableConfirm": "標示為播出中？",
+    "@markAsAvailableConfirm": {},
+    "markedAsAvailable": "標示為播出中",
+    "@markedAsAvailable": {},
+    "deleteSeerrDataConfirm": "要從 Seerr 刪除所有檔案嗎？此動作無法還原。\n如果資料仍存在於 {service} 中，則可能可以重新匯入。",
+    "@deleteSeerrDataConfirm": {
+        "description": "Confirmation message for deleting Seerr data",
+        "placeholders": {
+            "service": {
+                "type": "String",
+                "example": "Sonarr/Radarr"
+            }
+        }
+    },
+    "dataDeleted": "資料已刪除",
+    "@dataDeleted": {},
+    "approve": "核准",
+    "@approve": {},
+    "decline": "拒絕",
+    "@decline": {},
+    "pendingRequests": "{count, plural, other{沒有待處理的請求} one{{count} 個待處理的請求} two{{count} 個待處理的請求}}",
+    "@pendingRequests": {
+        "description": "pendingRequests",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "processing": "處理中",
+    "@processing": {},
+    "seerrDetails": "Seerr 詳情",
+    "@seerrDetails": {}
 }
