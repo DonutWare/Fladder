@@ -457,5 +457,7 @@
     "openParent": "Digeriñ an teuliad kar",
     "@openParent": {},
     "openShow": "Digeriñ an abadenn",
-    "@openShow": {}
+    "@openShow": {},
+    "seerrDetails": "Munudoù Seerr",
+    "@seerrDetails": {}
 }
