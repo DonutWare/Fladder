@@ -17,6 +17,7 @@ import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
+import 'package:logging/logging.dart' as logging;
 
 final seriesDetailsProvider =
     StateNotifierProvider.autoDispose.family<SeriesDetailViewNotifier, SeriesModel?, String>((ref, id) {
@@ -73,9 +74,9 @@ class SeriesDetailViewNotifier extends StateNotifier<SeriesModel?> {
       List<BaseItemDto> specialFeatures;
       try {
         specialFeatures = (await api.itemsItemIdSpecialFeaturesGet(itemId: seriesModel.id)).body ?? [];
-      } on Exception catch (e) {
+      } on Exception catch (e, s) {
         specialFeatures = [];
-        log("Failed to get special features for series id ${seriesModel.id} due to $e");
+        log("Failed to get special features for series id ${seriesModel.id} due to $e", level: logging.Level.WARNING.value, error: e, stackTrace: s);
       }
 
       final episodesCanDownload = newEpisodes.any((episode) => episode.canDownload == true);
