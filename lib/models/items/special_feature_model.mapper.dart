@@ -24,12 +24,6 @@ class SpecialFeatureModelMapper
   @override
   final String id = 'SpecialFeatureModel';
 
-  static List<Chapter> _$chapters(SpecialFeatureModel v) => v.chapters;
-  static const Field<SpecialFeatureModel, List<Chapter>> _f$chapters =
-      Field('chapters', _$chapters, opt: true, def: const []);
-  static ItemLocation? _$location(SpecialFeatureModel v) => v.location;
-  static const Field<SpecialFeatureModel, ItemLocation> _f$location =
-      Field('location', _$location, opt: true);
   static DateTime? _$dateAired(SpecialFeatureModel v) => v.dateAired;
   static const Field<SpecialFeatureModel, DateTime> _f$dateAired =
       Field('dateAired', _$dateAired, opt: true);
@@ -78,8 +72,6 @@ class SpecialFeatureModelMapper
 
   @override
   final MappableFields<SpecialFeatureModel> fields = const {
-    #chapters: _f$chapters,
-    #location: _f$location,
     #dateAired: _f$dateAired,
     #name: _f$name,
     #id: _f$id,
@@ -109,8 +101,6 @@ class SpecialFeatureModelMapper
 
   static SpecialFeatureModel _instantiate(DecodingData data) {
     return SpecialFeatureModel(
-        chapters: data.dec(_f$chapters),
-        location: data.dec(_f$location),
         dateAired: data.dec(_f$dateAired),
         name: data.dec(_f$name),
         id: data.dec(_f$id),
@@ -148,16 +138,13 @@ extension SpecialFeatureModelValueCopy<$R, $Out>
 
 abstract class SpecialFeatureModelCopyWith<$R, $In extends SpecialFeatureModel,
     $Out> implements ItemStreamModelCopyWith<$R, $In, $Out> {
-  ListCopyWith<$R, Chapter, ObjectCopyWith<$R, Chapter, Chapter>> get chapters;
   @override
   OverviewModelCopyWith<$R, OverviewModel, OverviewModel> get overview;
   @override
   UserDataCopyWith<$R, UserData, UserData> get userData;
   @override
   $R call(
-      {List<Chapter>? chapters,
-      ItemLocation? location,
-      DateTime? dateAired,
+      {DateTime? dateAired,
       String? name,
       String? id,
       OverviewModel? overview,
@@ -185,10 +172,6 @@ class _SpecialFeatureModelCopyWithImpl<$R, $Out>
   late final ClassMapperBase<SpecialFeatureModel> $mapper =
       SpecialFeatureModelMapper.ensureInitialized();
   @override
-  ListCopyWith<$R, Chapter, ObjectCopyWith<$R, Chapter, Chapter>>
-      get chapters => ListCopyWith($value.chapters,
-          (v, t) => ObjectCopyWith(v, $identity, t), (v) => call(chapters: v));
-  @override
   OverviewModelCopyWith<$R, OverviewModel, OverviewModel> get overview =>
       $value.overview.copyWith.$chain((v) => call(overview: v));
   @override
@@ -196,9 +179,7 @@ class _SpecialFeatureModelCopyWithImpl<$R, $Out>
       $value.userData.copyWith.$chain((v) => call(userData: v));
   @override
   $R call(
-          {List<Chapter>? chapters,
-          Object? location = $none,
-          Object? dateAired = $none,
+          {Object? dateAired = $none,
           String? name,
           String? id,
           OverviewModel? overview,
@@ -214,8 +195,6 @@ class _SpecialFeatureModelCopyWithImpl<$R, $Out>
           Object? canDownload = $none,
           Object? jellyType = $none}) =>
       $apply(FieldCopyWithData({
-        if (chapters != null) #chapters: chapters,
-        if (location != $none) #location: location,
         if (dateAired != $none) #dateAired: dateAired,
         if (name != null) #name: name,
         if (id != null) #id: id,
@@ -234,8 +213,6 @@ class _SpecialFeatureModelCopyWithImpl<$R, $Out>
       }));
   @override
   SpecialFeatureModel $make(CopyWithData data) => SpecialFeatureModel(
-      chapters: data.get(#chapters, or: $value.chapters),
-      location: data.get(#location, or: $value.location),
       dateAired: data.get(#dateAired, or: $value.dateAired),
       name: data.get(#name, or: $value.name),
       id: data.get(#id, or: $value.id),

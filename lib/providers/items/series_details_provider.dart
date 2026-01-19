@@ -65,24 +65,29 @@ class SeriesDetailViewNotifier extends StateNotifier<SeriesModel?> {
         ItemFields.childcount,
       ]);
 
-      final specialFeatures = await api.itemsItemIdSpecialFeaturesGet(itemId: seriesModel.id);
-
       final newEpisodes = EpisodeModel.episodesFromDto(
         episodes.body?.items,
         ref,
       );
 
+      List<BaseItemDto> specialFeatures;
+      try {
+        specialFeatures = (await api.itemsItemIdSpecialFeaturesGet(itemId: seriesModel.id)).body ?? [];
+      } on Exception catch (e) {
+        specialFeatures = [];
+        log("Failed to get special features for series id ${seriesModel.id} due to $e");
+      }
+
       final episodesCanDownload = newEpisodes.any((episode) => episode.canDownload == true);
 
       newState = newState.copyWith(
-        seasons: SeasonModel.seasonsFromDto(seasons.body?.items, ref)
-            .map((element) => element.copyWith(
-                  canDownload: true,
-                  episodes: newEpisodes.where((episode) => episode.season == element.season).toList(),
-                ))
-            .toList(),
-        specialFeatures: SpecialFeatureModel.specialFeaturesFromDto(specialFeatures.body, ref)
-      );
+          seasons: SeasonModel.seasonsFromDto(seasons.body?.items, ref)
+              .map((element) => element.copyWith(
+                    canDownload: true,
+                    episodes: newEpisodes.where((episode) => episode.season == element.season).toList(),
+                  ))
+              .toList(),
+          specialFeatures: SpecialFeatureModel.specialFeaturesFromDto(specialFeatures, ref));
 
       newState = newState.copyWith(
         canDownload: episodesCanDownload,

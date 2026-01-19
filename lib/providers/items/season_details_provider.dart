@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:chopper/chopper.dart';
 import 'package:fladder/models/items/special_feature_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -38,12 +40,17 @@ class SeasonDetailsNotifier extends StateNotifier<SeasonModel?> {
       ],
     );
 
-    final specialFeatures = await api.itemsItemIdSpecialFeaturesGet(itemId: seasonId);
+    List<BaseItemDto> specialFeatures;
+    try {
+      specialFeatures = (await api.itemsItemIdSpecialFeaturesGet(itemId: seasonId)).body ?? [];
+    } on Exception catch (e) {
+      specialFeatures = [];
+      log("Failed to get special features for season id $seasonId due to $e");
+    }
 
     newState = newState?.copyWith(
         episodes: EpisodeModel.episodesFromDto(episodes.body?.items, ref).toList(),
-        specialFeatures:
-            SpecialFeatureModel.specialFeaturesFromDto(specialFeatures.body, ref).toList());
+        specialFeatures: SpecialFeatureModel.specialFeaturesFromDto(specialFeatures, ref).toList());
     state = newState;
     return season;
   }

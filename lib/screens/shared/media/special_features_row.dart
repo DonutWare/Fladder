@@ -20,7 +20,7 @@ import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 import 'package:fladder/widgets/shared/status_card.dart';
 
-class SpecialFeaturesRow extends ConsumerStatefulWidget {
+class SpecialFeaturesRow extends ConsumerWidget {
   final List<SpecialFeatureModel> specialFeatures;
   final String? label;
   final ValueChanged<SpecialFeatureModel> playSpecialFeature;
@@ -36,21 +36,12 @@ class SpecialFeaturesRow extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _SpecialFeaturePosterState();
-}
-
-class _SpecialFeaturePosterState extends ConsumerState<SpecialFeaturesRow> {
-  List<SpecialFeatureModel> get specialFeatures {
-    return widget.specialFeatures;
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return HorizontalList(
-      label: widget.label,
+      label: label,
       titleActions: [],
       height: AdaptiveLayout.poster(context).gridRatio,
-      contentPadding: widget.contentPadding,
+      contentPadding: contentPadding,
       startIndex: null,
       items: specialFeatures,
       itemBuilder: (context, index) {
@@ -60,9 +51,9 @@ class _SpecialFeaturePosterState extends ConsumerState<SpecialFeaturesRow> {
           specialFeature: specialFeature,
           heroTag: tag,
           blur: false,
-          onTap: widget.onSpecialFeatureTap != null
+          onTap: onSpecialFeatureTap != null
               ? () {
-                  widget.onSpecialFeatureTap?.call(
+                  onSpecialFeatureTap?.call(
                     () {
                       specialFeature.play(context, ref);
                     },
@@ -80,14 +71,16 @@ class _SpecialFeaturePosterState extends ConsumerState<SpecialFeaturesRow> {
                 return ListView(
                   shrinkWrap: true,
                   controller: scrollController,
-                  children:
-                      specialFeature.generateActions(context, ref).listTileItems(context, useIcons: true).toList(),
+                  children: specialFeature
+                      .generateActions(context, ref, exclude: {ItemActions.details})
+                      .listTileItems(context, useIcons: true)
+                      .toList(),
                 );
               },
             );
             context.refreshData();
           },
-          actions: specialFeature.generateActions(context, ref),
+          actions: specialFeature.generateActions(context, ref, exclude: {ItemActions.details}),
         );
       },
     );
