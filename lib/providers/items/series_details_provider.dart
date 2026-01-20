@@ -76,7 +76,8 @@ class SeriesDetailViewNotifier extends StateNotifier<SeriesModel?> {
         specialFeatures = (await api.itemsItemIdSpecialFeaturesGet(itemId: seriesModel.id)).body ?? [];
       } on Exception catch (e, s) {
         specialFeatures = [];
-        log("Failed to get special features for series id ${seriesModel.id} due to $e", level: logging.Level.WARNING.value, error: e, stackTrace: s);
+        log("Failed to get special features for series id ${seriesModel.id} due to $e",
+            level: logging.Level.WARNING.value, error: e, stackTrace: s);
       }
 
       final episodesCanDownload = newEpisodes.any((episode) => episode.canDownload == true);

@@ -46,7 +46,8 @@ class SeasonDetailsNotifier extends StateNotifier<SeasonModel?> {
       specialFeatures = (await api.itemsItemIdSpecialFeaturesGet(itemId: seasonId)).body ?? [];
     } on Exception catch (e, s) {
       specialFeatures = [];
-      log("Failed to get special features for season id $seasonId due to $e", level: logging.Level.WARNING.value, error: e, stackTrace: s);
+      log("Failed to get special features for season id $seasonId due to $e",
+          level: logging.Level.WARNING.value, error: e, stackTrace: s);
     }
 
     newState = newState?.copyWith(

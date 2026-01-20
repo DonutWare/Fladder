@@ -53,7 +53,7 @@ class SpecialFeaturesRow extends ConsumerWidget {
           specialFeature: specialFeature,
           heroTag: tag,
           blur: false,
-          onTap: () => { onSpecialFeatureTap(specialFeature, context, ref) },
+          onTap: () => {onSpecialFeatureTap(specialFeature, context, ref)},
           onLongPress: () async {
             await showBottomSheetPill(
               context: context,
