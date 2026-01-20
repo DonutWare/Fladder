@@ -23,17 +23,19 @@ import 'package:fladder/widgets/shared/status_card.dart';
 class SpecialFeaturesRow extends ConsumerWidget {
   final List<SpecialFeatureModel> specialFeatures;
   final String? label;
-  final ValueChanged<SpecialFeatureModel> playSpecialFeature;
   final EdgeInsets contentPadding;
-  final Function(VoidCallback action, SpecialFeatureModel specialFeatureModel)? onSpecialFeatureTap;
+  final Function(SpecialFeatureModel specialFeatureModel, BuildContext context, WidgetRef ref) onSpecialFeatureTap;
   const SpecialFeaturesRow({
     this.label,
     required this.contentPadding,
-    required this.playSpecialFeature,
     required this.specialFeatures,
-    this.onSpecialFeatureTap,
+    this.onSpecialFeatureTap = defaultOnSpecialFeatureTap,
     super.key,
   });
+
+  static void defaultOnSpecialFeatureTap(SpecialFeatureModel specialFeature, BuildContext context, WidgetRef ref) {
+    specialFeature.play(context, ref);
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -51,18 +53,7 @@ class SpecialFeaturesRow extends ConsumerWidget {
           specialFeature: specialFeature,
           heroTag: tag,
           blur: false,
-          onTap: onSpecialFeatureTap != null
-              ? () {
-                  onSpecialFeatureTap?.call(
-                    () {
-                      specialFeature.play(context, ref);
-                    },
-                    specialFeature,
-                  );
-                }
-              : () {
-                  specialFeature.play(context, ref);
-                },
+          onTap: () => { onSpecialFeatureTap(specialFeature, context, ref) },
           onLongPress: () async {
             await showBottomSheetPill(
               context: context,

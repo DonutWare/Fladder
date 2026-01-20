@@ -185,10 +185,6 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                     SpecialFeaturesRow(
                         contentPadding: padding,
                         label: context.localized.specialFeature(details.specialFeatures?.length ?? 2),
-                        playSpecialFeature: (specialFeature) async {
-                          await specialFeature.play(context, ref);
-                          ref.read(providerId.notifier).fetchDetails(widget.item);
-                        },
                         specialFeatures: details.specialFeatures ?? []),
                   if (details.related.isNotEmpty)
                     PosterRow(posters: details.related, contentPadding: padding, label: context.localized.related),

@@ -170,10 +170,6 @@ class _SeasonDetailScreenState extends ConsumerState<SeasonDetailScreen> {
                   if (details.specialFeatures.isNotEmpty)
                     SpecialFeaturesRow(
                         contentPadding: padding,
-                        playSpecialFeature: (specialFeature) async {
-                          await specialFeature.play(context, ref);
-                          ref.read(providerId.notifier).fetchDetails(widget.item.id);
-                        },
                         label: context.localized.specialFeature(details.specialFeatures.length),
                         specialFeatures: details.specialFeatures),
                   if (details.overview.externalUrls?.isNotEmpty == true)
