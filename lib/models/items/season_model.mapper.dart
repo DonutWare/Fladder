@@ -15,6 +15,7 @@ class SeasonModelMapper extends SubClassMapperBase<SeasonModel> {
       MapperContainer.globals.use(_instance = SeasonModelMapper._());
       ItemBaseModelMapper.ensureInitialized().addSubMapper(_instance!);
       EpisodeModelMapper.ensureInitialized();
+      SpecialFeatureModelMapper.ensureInitialized();
       OverviewModelMapper.ensureInitialized();
       UserDataMapper.ensureInitialized();
     }
@@ -33,6 +34,11 @@ class SeasonModelMapper extends SubClassMapperBase<SeasonModel> {
   static List<EpisodeModel> _$episodes(SeasonModel v) => v.episodes;
   static const Field<SeasonModel, List<EpisodeModel>> _f$episodes =
       Field('episodes', _$episodes, opt: true, def: const []);
+  static List<SpecialFeatureModel> _$specialFeatures(SeasonModel v) =>
+      v.specialFeatures;
+  static const Field<SeasonModel, List<SpecialFeatureModel>>
+      _f$specialFeatures =
+      Field('specialFeatures', _$specialFeatures, opt: true, def: const []);
   static int _$episodeCount(SeasonModel v) => v.episodeCount;
   static const Field<SeasonModel, int> _f$episodeCount =
       Field('episodeCount', _$episodeCount);
@@ -84,6 +90,7 @@ class SeasonModelMapper extends SubClassMapperBase<SeasonModel> {
     #parentImages: _f$parentImages,
     #seasonName: _f$seasonName,
     #episodes: _f$episodes,
+    #specialFeatures: _f$specialFeatures,
     #episodeCount: _f$episodeCount,
     #seriesId: _f$seriesId,
     #season: _f$season,
@@ -117,6 +124,7 @@ class SeasonModelMapper extends SubClassMapperBase<SeasonModel> {
         parentImages: data.dec(_f$parentImages),
         seasonName: data.dec(_f$seasonName),
         episodes: data.dec(_f$episodes),
+        specialFeatures: data.dec(_f$specialFeatures),
         episodeCount: data.dec(_f$episodeCount),
         seriesId: data.dec(_f$seriesId),
         season: data.dec(_f$season),
@@ -155,6 +163,11 @@ abstract class SeasonModelCopyWith<$R, $In extends SeasonModel, $Out>
     implements ItemBaseModelCopyWith<$R, $In, $Out> {
   ListCopyWith<$R, EpisodeModel,
       EpisodeModelCopyWith<$R, EpisodeModel, EpisodeModel>> get episodes;
+  ListCopyWith<
+      $R,
+      SpecialFeatureModel,
+      SpecialFeatureModelCopyWith<$R, SpecialFeatureModel,
+          SpecialFeatureModel>> get specialFeatures;
   @override
   OverviewModelCopyWith<$R, OverviewModel, OverviewModel> get overview;
   @override
@@ -164,6 +177,7 @@ abstract class SeasonModelCopyWith<$R, $In extends SeasonModel, $Out>
       {ImagesData? parentImages,
       String? seasonName,
       List<EpisodeModel>? episodes,
+      List<SpecialFeatureModel>? specialFeatures,
       int? episodeCount,
       String? seriesId,
       int? season,
@@ -197,6 +211,15 @@ class _SeasonModelCopyWithImpl<$R, $Out>
       get episodes => ListCopyWith($value.episodes,
           (v, t) => v.copyWith.$chain(t), (v) => call(episodes: v));
   @override
+  ListCopyWith<
+      $R,
+      SpecialFeatureModel,
+      SpecialFeatureModelCopyWith<$R, SpecialFeatureModel,
+          SpecialFeatureModel>> get specialFeatures => ListCopyWith(
+      $value.specialFeatures,
+      (v, t) => v.copyWith.$chain(t),
+      (v) => call(specialFeatures: v));
+  @override
   OverviewModelCopyWith<$R, OverviewModel, OverviewModel> get overview =>
       $value.overview.copyWith.$chain((v) => call(overview: v));
   @override
@@ -207,6 +230,7 @@ class _SeasonModelCopyWithImpl<$R, $Out>
           {Object? parentImages = $none,
           String? seasonName,
           List<EpisodeModel>? episodes,
+          List<SpecialFeatureModel>? specialFeatures,
           int? episodeCount,
           String? seriesId,
           int? season,
@@ -227,6 +251,7 @@ class _SeasonModelCopyWithImpl<$R, $Out>
         if (parentImages != $none) #parentImages: parentImages,
         if (seasonName != null) #seasonName: seasonName,
         if (episodes != null) #episodes: episodes,
+        if (specialFeatures != null) #specialFeatures: specialFeatures,
         if (episodeCount != null) #episodeCount: episodeCount,
         if (seriesId != null) #seriesId: seriesId,
         if (season != null) #season: season,
@@ -249,6 +274,7 @@ class _SeasonModelCopyWithImpl<$R, $Out>
       parentImages: data.get(#parentImages, or: $value.parentImages),
       seasonName: data.get(#seasonName, or: $value.seasonName),
       episodes: data.get(#episodes, or: $value.episodes),
+      specialFeatures: data.get(#specialFeatures, or: $value.specialFeatures),
       episodeCount: data.get(#episodeCount, or: $value.episodeCount),
       seriesId: data.get(#seriesId, or: $value.seriesId),
       season: data.get(#season, or: $value.season),
