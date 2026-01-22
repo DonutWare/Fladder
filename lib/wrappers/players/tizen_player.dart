@@ -82,9 +82,9 @@ class TizenPlayer extends BasePlayer {
   }
 
   @override
-  Future<void> pause() => _controller?.pause() ?? Future.value();
+  Future<void> pause() async => _controller?.pause();
   @override
-  Future<void> play() => _controller?.play() ?? Future.value();
+  Future<void> play() async => _controller?.play();
   @override
   Future<void> playOrPause() async => lastState.playing ? _controller?.pause() : _controller?.play();
   @override

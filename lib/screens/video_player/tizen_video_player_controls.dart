@@ -189,7 +189,7 @@ class _TVControlsState extends ConsumerState<TVControls> {
         break;
       case 'seekBack':
         final backwardSpeed = 
-          ref.read(userProvider.select((value) => value?.userSettings?.skipBackDuration.inSeconds ?? 10));
+          ref.read(userProvider.select((value) => value?.userSettings?.skipBackDuration.inSeconds ?? 30));
         seekBack(ref, seconds: backwardSpeed);
         break;
       case 'playPause':
@@ -698,8 +698,8 @@ class _TVControlsState extends ConsumerState<TVControls> {
   }
 
   Widget seekBackwardButton(WidgetRef ref) {
-    final backwardSpeed = 10;
-        //ref.read(userProvider.select((value) => value?.userSettings?.skipBackDuration.inSeconds ?? 30));
+    final backwardSpeed = 
+      ref.read(userProvider.select((value) => value?.userSettings?.skipBackDuration.inSeconds ?? 30));
      return _wrapNav(
        'seekBack',
        IconButton(
@@ -901,36 +901,15 @@ class _TVControlsState extends ConsumerState<TVControls> {
         resetTimer();
         return true;
       }
-      // if (key == LogicalKeyboardKey.arrowUp) {
-      //   // Move up a few steps (best-effort grid movement)
-      //   _moveSelection(-3);
-      //   return true;
-      // }
-      // if (key == LogicalKeyboardKey.arrowDown) {
-      //   _moveSelection(3);
-      //   return true;
-      // }
-      // Activation keys
       
       if (key == LogicalKeyboardKey.select || key == LogicalKeyboardKey.enter || key == LogicalKeyboardKey.space) {
-        //activateSelection();
-        //_setActiveIndicator('Activate');
         resetTimer();
         return true;
       }
     }
 
-    // // Arrow keys -> seek indicator (when overlay not visible)
-    // if (key == LogicalKeyboardKey.arrowLeft || key == LogicalKeyboardKey.arrowRight) {
-    //   _setActiveIndicator('Seek');
-    //   // do not swallow here; other handlers (seek indicator) will process the key
-    //   return false;
-    // }
-
     // Up/Down -> volume (when overlay not visible)
     if (key == LogicalKeyboardKey.arrowUp || key == LogicalKeyboardKey.arrowDown || key == LogicalKeyboardKey.select || key == LogicalKeyboardKey.enter || key == LogicalKeyboardKey.space) {
-      // _setActiveIndicator('Volume');
-      // do not swallow here; allow normal processing
       toggleOverlay(value: true);
       return false;
     }
