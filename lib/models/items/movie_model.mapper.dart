@@ -14,6 +14,7 @@ class MovieModelMapper extends SubClassMapperBase<MovieModel> {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = MovieModelMapper._());
       ItemStreamModelMapper.ensureInitialized().addSubMapper(_instance!);
+      SpecialFeatureModelMapper.ensureInitialized();
       ItemBaseModelMapper.ensureInitialized();
       OverviewModelMapper.ensureInitialized();
       UserDataMapper.ensureInitialized();
@@ -33,6 +34,10 @@ class MovieModelMapper extends SubClassMapperBase<MovieModel> {
   static List<Chapter> _$chapters(MovieModel v) => v.chapters;
   static const Field<MovieModel, List<Chapter>> _f$chapters =
       Field('chapters', _$chapters, opt: true, def: const []);
+  static List<SpecialFeatureModel> _$specialFeatures(MovieModel v) =>
+      v.specialFeatures;
+  static const Field<MovieModel, List<SpecialFeatureModel>> _f$specialFeatures =
+      Field('specialFeatures', _$specialFeatures, opt: true, def: const []);
   static DateTime _$premiereDate(MovieModel v) => v.premiereDate;
   static const Field<MovieModel, DateTime> _f$premiereDate =
       Field('premiereDate', _$premiereDate);
@@ -103,6 +108,7 @@ class MovieModelMapper extends SubClassMapperBase<MovieModel> {
     #originalTitle: _f$originalTitle,
     #path: _f$path,
     #chapters: _f$chapters,
+    #specialFeatures: _f$specialFeatures,
     #premiereDate: _f$premiereDate,
     #sortName: _f$sortName,
     #status: _f$status,
@@ -141,6 +147,7 @@ class MovieModelMapper extends SubClassMapperBase<MovieModel> {
         originalTitle: data.dec(_f$originalTitle),
         path: data.dec(_f$path),
         chapters: data.dec(_f$chapters),
+        specialFeatures: data.dec(_f$specialFeatures),
         premiereDate: data.dec(_f$premiereDate),
         sortName: data.dec(_f$sortName),
         status: data.dec(_f$status),
@@ -183,6 +190,11 @@ extension MovieModelValueCopy<$R, $Out>
 abstract class MovieModelCopyWith<$R, $In extends MovieModel, $Out>
     implements ItemStreamModelCopyWith<$R, $In, $Out> {
   ListCopyWith<$R, Chapter, ObjectCopyWith<$R, Chapter, Chapter>> get chapters;
+  ListCopyWith<
+      $R,
+      SpecialFeatureModel,
+      SpecialFeatureModelCopyWith<$R, SpecialFeatureModel,
+          SpecialFeatureModel>> get specialFeatures;
   ListCopyWith<$R, ItemBaseModel,
       ItemBaseModelCopyWith<$R, ItemBaseModel, ItemBaseModel>> get related;
   ListCopyWith<
@@ -206,6 +218,7 @@ abstract class MovieModelCopyWith<$R, $In extends MovieModel, $Out>
       {String? originalTitle,
       String? path,
       List<Chapter>? chapters,
+      List<SpecialFeatureModel>? specialFeatures,
       DateTime? premiereDate,
       String? sortName,
       String? status,
@@ -242,6 +255,15 @@ class _MovieModelCopyWithImpl<$R, $Out>
   ListCopyWith<$R, Chapter, ObjectCopyWith<$R, Chapter, Chapter>>
       get chapters => ListCopyWith($value.chapters,
           (v, t) => ObjectCopyWith(v, $identity, t), (v) => call(chapters: v));
+  @override
+  ListCopyWith<
+      $R,
+      SpecialFeatureModel,
+      SpecialFeatureModelCopyWith<$R, SpecialFeatureModel,
+          SpecialFeatureModel>> get specialFeatures => ListCopyWith(
+      $value.specialFeatures,
+      (v, t) => v.copyWith.$chain(t),
+      (v) => call(specialFeatures: v));
   @override
   ListCopyWith<$R, ItemBaseModel,
           ItemBaseModelCopyWith<$R, ItemBaseModel, ItemBaseModel>>
@@ -284,6 +306,7 @@ class _MovieModelCopyWithImpl<$R, $Out>
           {String? originalTitle,
           Object? path = $none,
           List<Chapter>? chapters,
+          List<SpecialFeatureModel>? specialFeatures,
           DateTime? premiereDate,
           String? sortName,
           String? status,
@@ -309,6 +332,7 @@ class _MovieModelCopyWithImpl<$R, $Out>
         if (originalTitle != null) #originalTitle: originalTitle,
         if (path != $none) #path: path,
         if (chapters != null) #chapters: chapters,
+        if (specialFeatures != null) #specialFeatures: specialFeatures,
         if (premiereDate != null) #premiereDate: premiereDate,
         if (sortName != null) #sortName: sortName,
         if (status != null) #status: status,
@@ -336,6 +360,7 @@ class _MovieModelCopyWithImpl<$R, $Out>
       originalTitle: data.get(#originalTitle, or: $value.originalTitle),
       path: data.get(#path, or: $value.path),
       chapters: data.get(#chapters, or: $value.chapters),
+      specialFeatures: data.get(#specialFeatures, or: $value.specialFeatures),
       premiereDate: data.get(#premiereDate, or: $value.premiereDate),
       sortName: data.get(#sortName, or: $value.sortName),
       status: data.get(#status, or: $value.status),
