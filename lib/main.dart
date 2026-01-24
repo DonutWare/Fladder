@@ -295,14 +295,27 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
     final language = ref.watch(clientSettingsProvider
         .select((value) => value.selectedLocale ?? WidgetsBinding.instance.platformDispatcher.locale));
     final scrollBehaviour = const MaterialScrollBehavior();
+    final isLinux = defaultTargetPlatform == TargetPlatform.linux;
     return DynamicColorBuilder(
       builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
-        final lightTheme = themeColor == null
+        final baseLightTheme = themeColor == null
             ? FladderTheme.theme(lightDynamic ?? FladderTheme.defaultScheme(Brightness.light), schemeVariant)
             : FladderTheme.theme(themeColor.schemeLight, schemeVariant);
-        final darkTheme = (themeColor == null
+        final baseDarkTheme = (themeColor == null
             ? FladderTheme.theme(darkDynamic ?? FladderTheme.defaultScheme(Brightness.dark), schemeVariant)
             : FladderTheme.theme(themeColor.schemeDark, schemeVariant));
+
+        // Apply Chinese font for non-Linux platforms (Windows, macOS, Android, iOS)
+        final lightTheme = isLinux
+            ? baseLightTheme
+            : FladderTheme.applyChineseFontToTheme(
+                lightTheme: baseLightTheme,
+                darkTheme: baseDarkTheme,
+              );
+        final darkTheme = isLinux
+            ? baseDarkTheme
+            : FladderTheme.applyChineseFontToDarkTheme(darkTheme: baseDarkTheme);
+
         final amoledOverwrite = amoledBlack ? Colors.black : null;
         return ThemesData(
           light: lightTheme,
