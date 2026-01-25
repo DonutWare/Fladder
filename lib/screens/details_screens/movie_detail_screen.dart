@@ -1,3 +1,4 @@
+import 'package:fladder/screens/shared/media/special_features_row.dart';
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
@@ -177,6 +178,11 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
                       people: details.overview.people,
                       contentPadding: padding,
                     ),
+                  if (details.specialFeatures.isNotEmpty)
+                    SpecialFeaturesRow(
+                        contentPadding: padding,
+                        label: context.localized.specialFeature(details.specialFeatures.length),
+                        specialFeatures: details.specialFeatures),
                   if (details.related.isNotEmpty)
                     PosterRow(posters: details.related, contentPadding: padding, label: "Related"),
                   if (details.seerrRecommended.isNotEmpty)
