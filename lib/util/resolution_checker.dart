@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:device_info_plus_tizen/device_info_plus_tizen.dart';
+import 'package:flutter_tizen/flutter_tizen.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:screen_retriever/screen_retriever.dart';
@@ -20,12 +22,14 @@ class _ResolutionCheckerState extends ConsumerState<ResolutionChecker> {
   Size? lastResolution;
   Timer? _timer;
 
+  
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((value) async {
       if (ref.read(argumentsStateProvider).htpcMode) {
-        lastResolution = (await screenRetriever.getPrimaryDisplay()).size;
+        lastResolution = isTizen ? await getTizenResolution() : (await screenRetriever.getPrimaryDisplay()).size;
         _timer = Timer.periodic(const Duration(seconds: 2), (timer) => checkResolution());
       }
     });
@@ -33,7 +37,7 @@ class _ResolutionCheckerState extends ConsumerState<ResolutionChecker> {
 
   Future<void> checkResolution() async {
     if (!mounted) return;
-    final newResolution = (await screenRetriever.getPrimaryDisplay()).size;
+    final newResolution = isTizen ? await getTizenResolution() : (await screenRetriever.getPrimaryDisplay()).size;
     if (lastResolution != newResolution) {
       lastResolution = newResolution;
       shouldSetResolution();
@@ -50,6 +54,13 @@ class _ResolutionCheckerState extends ConsumerState<ResolutionChecker> {
     }
   }
 
+  Future<Size> getTizenResolution() async {
+    final DeviceInfoPluginTizen deviceInfoPlugin = DeviceInfoPluginTizen();
+    final tizenInfo = await deviceInfoPlugin.tizenInfo;
+    // this seem to return 1920x1080 even on 4K TVs :(
+    return Size(tizenInfo.screenWidth.toDouble(), tizenInfo.screenHeight.toDouble());
+  }
+  
   @override
   void dispose() {
     _timer?.cancel();

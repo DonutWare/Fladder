@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest package="nl.jknaapen.fladder" version="0.8.1" api-version="6.0" xmlns="http://tizen.org/ns/packages">
+    <profile name="tv"/>
+    <ui-application appid="nl.jknaapen.fladder" exec="Runner.dll" type="dotnet" multiple="false" nodisplay="false" taskmanage="true">
+        <label>fladder</label>
+        <icon>fladder_icon.png</icon>
+        <metadata key="http://tizen.org/metadata/prefer_dotnet_aot" value="true"/>
+        <metadata key="http://tizen.org/metadata/prefer_nuget_cache" value="true"/>
+    </ui-application>
+    <feature name="http://tizen.org/feature/screen.size.all"/>
+    <privileges>
+        <privilege>http://developer.samsung.com/privilege/productinfo</privilege>
+        <privilege>http://tizen.org/privilege/internet</privilege>
+        <privilege>http://tizen.org/privilege/mediastorage</privilege>
+        <privilege>http://tizen.org/privilege/externalstorage</privilege>
+        <privilege>http://developer.samsung.com/privilege/drmplay</privilege>
+        <privilege>http://tizen.org/privilege/content.write</privilege>
+        <privilege>http://tizen.org/privilege/content.read</privilege>
+        <privilege>http://tizen.org/privilege/tv.channel</privilege>
+        <privilege>http://tizen.org/privilege/tv.display</privilege>
+        <privilege>http://tizen.org/privilege/tv.window</privilege>
+        <privilege>http://tizen.org/privilege/tv.inputdevice</privilege>
+        <privilege>http://tizen.org/privilege/network.get</privilege>
+        <privilege>http://tizen.org/privilege/appmanager.launch</privilege>
+    </privileges>
+</manifest>

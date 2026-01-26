@@ -11,6 +11,8 @@ import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/video_player/components/video_player_next_wrapper.dart';
 import 'package:fladder/screens/video_player/video_player_controls.dart';
+import 'package:fladder/screens/video_player/tizen_video_player_controls.dart';
+import 'package:flutter_tizen/flutter_tizen.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/themes_data.dart';
 import 'package:fladder/widgets/shared/back_intent_dpad.dart';
@@ -113,7 +115,7 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
                         : videoFit,
                   ),
                 ),
-                controls: const DesktopControls(),
+                controls: isTizen ? const TVControls() : const DesktopControls(),
                 overlays: [
                   if (errorPlaying) const _VideoErrorWidget(),
                 ],

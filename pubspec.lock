@@ -337,6 +337,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
+  connectivity_plus_tizen:
+    dependency: "direct main"
+    description:
+      name: connectivity_plus_tizen
+      sha256: "7f4ede84d702af8b3f56dbfb880e6772f3cf39e0498335753302db93aa562b11"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.2"
   convert:
     dependency: transitive
     description:
@@ -465,6 +473,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.0"
+  device_info_plus_tizen:
+    dependency: "direct main"
+    description:
+      name: device_info_plus_tizen
+      sha256: "54cea0bb09f772e35cfabcf5f2920a8e615f98e6eecba9f102ea4a8762adad44"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.0"
   diffutil_dart:
     dependency: transitive
     description:
@@ -505,6 +521,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.7"
+  drift_sqflite:
+    dependency: "direct main"
+    description:
+      name: drift_sqflite
+      sha256: dd1afbd72555b7a72ebf053926078d8c302059af4f1eb22040fc27a056429acb
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   drift_sync:
     dependency: "direct main"
     description:
@@ -784,6 +808,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_tizen:
+    dependency: "direct main"
+    description:
+      name: flutter_tizen
+      sha256: "5df51a022828127d8d3bf2af32e67b746b764b1209193148fd33b0d7b7c122a7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.7"
   flutter_typeahead:
     dependency: "direct main"
     description:
@@ -1365,6 +1397,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.1"
+  package_info_plus_tizen:
+    dependency: "direct main"
+    description:
+      name: package_info_plus_tizen
+      sha256: "5e85dd353e08b8a0c4ec52fdda8da6b591344b1440956b720553c52a5cb57b7e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.5"
   page_transition:
     dependency: "direct main"
     description:
@@ -1437,6 +1477,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.2"
+  path_provider_tizen:
+    dependency: "direct main"
+    description:
+      name: path_provider_tizen
+      sha256: d896d52410f4b84c5673dadec2ed188104efb39243dd743a470d5d06cebb096f
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.1"
   path_provider_windows:
     dependency: transitive
     description:
@@ -1805,6 +1853,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.1"
+  shared_preferences_tizen:
+    dependency: "direct main"
+    description:
+      name: shared_preferences_tizen
+      sha256: fbf7194c2f6d97c68e254257172bb44a3a34a6ecfaceeedd208b5bf69d836b21
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.2"
   shared_preferences_web:
     dependency: transitive
     description:
@@ -1883,7 +1939,7 @@ packages:
     source: hosted
     version: "1.10.1"
   sqflite:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: sqflite
       sha256: e2297b1da52f127bc7a3da11439985d9b536f75070f3325e62ada69a5c585d03
@@ -1922,8 +1978,16 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.0"
+  sqflite_tizen:
+    dependency: "direct main"
+    description:
+      name: sqflite_tizen
+      sha256: fb144054bd7ebccbb4737eea0f948f6b5e6b45a832f797c3fbd3792d08aeefee
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.3"
   sqlite3:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: sqlite3
       sha256: "3145bd74dcdb4fd6f5c6dda4d4e4490a8087d7f286a14dee5d37087290f0f8a2"
@@ -1931,13 +1995,13 @@ packages:
     source: hosted
     version: "2.9.4"
   sqlite3_flutter_libs:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: sqlite3_flutter_libs
-      sha256: "69c80d812ef2500202ebd22002cbfc1b6565e9ff56b2f971e757fac5d42294df"
+      sha256: "1e800ebe7f85a80a66adacaa6febe4d5f4d8b75f244e9838a27cb2ffc7aec08d"
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.40"
+    version: "0.5.41"
   sqlparser:
     dependency: transitive
     description:
@@ -2002,6 +2066,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.1"
+  subtitle:
+    dependency: "direct main"
+    description:
+      name: subtitle
+      sha256: "29115fbaa5d87c5909ffa477cbfdeec2c6ee8ac9a5ef3dce9b2db731afc79f26"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.4"
   swagger_dart_code_generator:
     dependency: "direct dev"
     description:
@@ -2042,6 +2114,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.2"
+  tizen_app_control:
+    dependency: transitive
+    description:
+      name: tizen_app_control
+      sha256: "1822a0815434db29b0ac3cf8c37c4d4ad33da08704f68701a926bc99550ccda1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.3"
+  tizen_interop:
+    dependency: transitive
+    description:
+      name: tizen_interop
+      sha256: "46303c36a7e45491ce0149c77a3f54f3d57654938983c482ab0363a8ebe6ee27"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.0"
   transparent_image:
     dependency: "direct main"
     description:
@@ -2070,18 +2158,18 @@ packages:
     dependency: "direct main"
     description:
       name: universal_html
-      sha256: c0bcae5c733c60f26c7dfc88b10b0fd27cbcc45cb7492311cdaa6067e21c9cd4
+      sha256: "0a1795dc516ed9fc48c6fdee8e9a99445cdce6871845d34e31c13184d7a743aa"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.0"
+    version: "2.2.5"
   universal_io:
     dependency: transitive
     description:
       name: universal_io
-      sha256: f63cbc48103236abf48e345e07a03ce5757ea86285ed313a6a032596ed9301e2
+      sha256: ba9dde5f7c6d8ec7ed856bef0eb01c425881acae7748f77dac4d5cc46f2edf04
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.1"
+    version: "2.2.3"
   universal_platform:
     dependency: transitive
     description:
@@ -2146,6 +2234,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.2"
+  url_launcher_tizen:
+    dependency: "direct main"
+    description:
+      name: url_launcher_tizen
+      sha256: c959c3d77b3bff18258faf36dd1f8f647ddac56549860fcf5b2894c46f3989d8
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.4"
   url_launcher_web:
     dependency: transitive
     description:
@@ -2242,6 +2338,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.6.0"
+  video_player_videohole:
+    dependency: "direct main"
+    description:
+      name: video_player_videohole
+      sha256: "4897cddd805b329c8236057cf554aa979d79aba4d1d85d9779fe572edbb56555"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.8"
   video_player_web:
     dependency: transitive
     description:
@@ -2282,6 +2386,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.0"
+  wakelock_plus_tizen:
+    dependency: "direct main"
+    description:
+      name: wakelock_plus_tizen
+      sha256: "12bb99ccc5503bdc98d850b6fb01ac424e05d78c9805dc1c80d01c5d73a70a00"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   watcher:
     dependency: transitive
     description:
@@ -2346,6 +2458,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.14.0"
+  webview_flutter_tizen:
+    dependency: "direct main"
+    description:
+      name: webview_flutter_tizen
+      sha256: "174b10f846f613da6327e8f11dea3a69f55d69edea47625e576de6182dfb8320"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.9.7"
   webview_flutter_wkwebview:
     dependency: transitive
     description:
