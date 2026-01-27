@@ -185,6 +185,8 @@
   "@disableFilters": {},
   "disabled": "Off",
   "@disabled": {},
+  "disableTitleBarTitle": "Disable the title bar",
+  "disableTitleBarDesc": "Disable the title bar on Windows and Linux",
   "discovered": "Discovered",
   "@discovered": {},
   "displayLanguage": "Display language",

@@ -22,6 +22,12 @@ List<Widget> buildClientSettingsVisual(
   TextEditingController libraryPageSizeController,
 ) {
   final clientSettings = ref.watch(clientSettingsProvider);
+
+  final platform = AdaptiveLayout.of(context).platform;
+  final supportsWindowControls =
+      platform == TargetPlatform.windows ||
+      platform == TargetPlatform.linux;
+      
   Locale currentLocale = WidgetsBinding.instance.platformDispatcher.locale;
   return settingsListGroup(
     context,
@@ -116,6 +122,19 @@ List<Widget> buildClientSettingsVisual(
               ref.read(clientSettingsProvider.notifier).update((cb) => cb.copyWith(usePosterForLibrary: value)),
         ),
       ),
+      if (supportsWindowControls)
+        SettingsListTile(
+          label: Text(context.localized.disableTitleBarTitle),
+          subLabel: Text(context.localized.disableTitleBarDesc),
+          onTap: () => ref
+              .read(clientSettingsProvider.notifier)
+              .update((cb) => cb.copyWith(disableTitleBar: !clientSettings.disableTitleBar)),
+          trailing: Switch(
+            value: clientSettings.disableTitleBar,
+            onChanged: (value) =>
+                ref.read(clientSettingsProvider.notifier).update((cb) => cb.copyWith(disableTitleBar: value)),
+          ),
+        ),
       SettingsListTile(
         label: Text(context.localized.settingsNextUpCutoffDays),
         trailing: IntInputField(

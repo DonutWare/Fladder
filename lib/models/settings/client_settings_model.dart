@@ -82,6 +82,7 @@ abstract class ClientSettingsModel with _$ClientSettingsModel {
     @Default(BackgroundType.blurred) BackgroundType backgroundImage,
     @Default(true) bool checkForUpdates,
     @Default(false) bool usePosterForLibrary,
+    @Default(false) bool disableTitleBar,
     @Default(false) bool useSystemIME,
     String? lastViewedUpdate,
     int? libraryPageSize,
