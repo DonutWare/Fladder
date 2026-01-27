@@ -38,6 +38,7 @@ mixin _$ClientSettingsModel implements DiagnosticableTreeMixin {
   BackgroundType get backgroundImage;
   bool get checkForUpdates;
   bool get usePosterForLibrary;
+  bool get disableTitleBar;
   bool get useSystemIME;
   String? get lastViewedUpdate;
   int? get libraryPageSize;
@@ -83,6 +84,7 @@ mixin _$ClientSettingsModel implements DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('backgroundImage', backgroundImage))
       ..add(DiagnosticsProperty('checkForUpdates', checkForUpdates))
       ..add(DiagnosticsProperty('usePosterForLibrary', usePosterForLibrary))
+      ..add(DiagnosticsProperty('disableTitleBar', disableTitleBar))
       ..add(DiagnosticsProperty('useSystemIME', useSystemIME))
       ..add(DiagnosticsProperty('lastViewedUpdate', lastViewedUpdate))
       ..add(DiagnosticsProperty('libraryPageSize', libraryPageSize))
@@ -91,7 +93,7 @@ mixin _$ClientSettingsModel implements DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ClientSettingsModel(syncPath: $syncPath, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, themeMode: $themeMode, themeColor: $themeColor, deriveColorsFromItem: $deriveColorsFromItem, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundImage: $backgroundImage, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, useSystemIME: $useSystemIME, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
+    return 'ClientSettingsModel(syncPath: $syncPath, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, themeMode: $themeMode, themeColor: $themeColor, deriveColorsFromItem: $deriveColorsFromItem, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundImage: $backgroundImage, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, disableTitleBar: $disableTitleBar, useSystemIME: $useSystemIME, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
   }
 }
 
@@ -125,6 +127,7 @@ abstract mixin class $ClientSettingsModelCopyWith<$Res> {
       BackgroundType backgroundImage,
       bool checkForUpdates,
       bool usePosterForLibrary,
+      bool disableTitleBar,
       bool useSystemIME,
       String? lastViewedUpdate,
       int? libraryPageSize,
@@ -167,6 +170,7 @@ class _$ClientSettingsModelCopyWithImpl<$Res>
     Object? backgroundImage = null,
     Object? checkForUpdates = null,
     Object? usePosterForLibrary = null,
+    Object? disableTitleBar = null,
     Object? useSystemIME = null,
     Object? lastViewedUpdate = freezed,
     Object? libraryPageSize = freezed,
@@ -264,6 +268,10 @@ class _$ClientSettingsModelCopyWithImpl<$Res>
       usePosterForLibrary: null == usePosterForLibrary
           ? _self.usePosterForLibrary
           : usePosterForLibrary // ignore: cast_nullable_to_non_nullable
+              as bool,
+      disableTitleBar: null == disableTitleBar
+          ? _self.disableTitleBar
+          : disableTitleBar // ignore: cast_nullable_to_non_nullable
               as bool,
       useSystemIME: null == useSystemIME
           ? _self.useSystemIME
@@ -402,6 +410,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             BackgroundType backgroundImage,
             bool checkForUpdates,
             bool usePosterForLibrary,
+            bool disableTitleBar,
             bool useSystemIME,
             String? lastViewedUpdate,
             int? libraryPageSize,
@@ -436,6 +445,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             _that.backgroundImage,
             _that.checkForUpdates,
             _that.usePosterForLibrary,
+            _that.disableTitleBar,
             _that.useSystemIME,
             _that.lastViewedUpdate,
             _that.libraryPageSize,
@@ -484,6 +494,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             BackgroundType backgroundImage,
             bool checkForUpdates,
             bool usePosterForLibrary,
+            bool disableTitleBar,
             bool useSystemIME,
             String? lastViewedUpdate,
             int? libraryPageSize,
@@ -517,6 +528,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             _that.backgroundImage,
             _that.checkForUpdates,
             _that.usePosterForLibrary,
+            _that.disableTitleBar,
             _that.useSystemIME,
             _that.lastViewedUpdate,
             _that.libraryPageSize,
@@ -564,6 +576,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             BackgroundType backgroundImage,
             bool checkForUpdates,
             bool usePosterForLibrary,
+            bool disableTitleBar,
             bool useSystemIME,
             String? lastViewedUpdate,
             int? libraryPageSize,
@@ -597,6 +610,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             _that.backgroundImage,
             _that.checkForUpdates,
             _that.usePosterForLibrary,
+            _that.disableTitleBar,
             _that.useSystemIME,
             _that.lastViewedUpdate,
             _that.libraryPageSize,
@@ -635,6 +649,7 @@ class _ClientSettingsModel extends ClientSettingsModel
       this.backgroundImage = BackgroundType.blurred,
       this.checkForUpdates = true,
       this.usePosterForLibrary = false,
+      this.disableTitleBar = false,
       this.useSystemIME = false,
       this.lastViewedUpdate,
       this.libraryPageSize,
@@ -712,6 +727,9 @@ class _ClientSettingsModel extends ClientSettingsModel
   final bool usePosterForLibrary;
   @override
   @JsonKey()
+  final bool disableTitleBar;
+  @override
+  @JsonKey()
   final bool useSystemIME;
   @override
   final String? lastViewedUpdate;
@@ -771,6 +789,7 @@ class _ClientSettingsModel extends ClientSettingsModel
       ..add(DiagnosticsProperty('backgroundImage', backgroundImage))
       ..add(DiagnosticsProperty('checkForUpdates', checkForUpdates))
       ..add(DiagnosticsProperty('usePosterForLibrary', usePosterForLibrary))
+      ..add(DiagnosticsProperty('disableTitleBar', disableTitleBar))
       ..add(DiagnosticsProperty('useSystemIME', useSystemIME))
       ..add(DiagnosticsProperty('lastViewedUpdate', lastViewedUpdate))
       ..add(DiagnosticsProperty('libraryPageSize', libraryPageSize))
@@ -779,7 +798,7 @@ class _ClientSettingsModel extends ClientSettingsModel
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ClientSettingsModel(syncPath: $syncPath, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, themeMode: $themeMode, themeColor: $themeColor, deriveColorsFromItem: $deriveColorsFromItem, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundImage: $backgroundImage, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, useSystemIME: $useSystemIME, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
+    return 'ClientSettingsModel(syncPath: $syncPath, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, themeMode: $themeMode, themeColor: $themeColor, deriveColorsFromItem: $deriveColorsFromItem, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundImage: $backgroundImage, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, disableTitleBar: $disableTitleBar, useSystemIME: $useSystemIME, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
   }
 }
 
@@ -815,6 +834,7 @@ abstract mixin class _$ClientSettingsModelCopyWith<$Res>
       BackgroundType backgroundImage,
       bool checkForUpdates,
       bool usePosterForLibrary,
+      bool disableTitleBar,
       bool useSystemIME,
       String? lastViewedUpdate,
       int? libraryPageSize,
@@ -857,6 +877,7 @@ class __$ClientSettingsModelCopyWithImpl<$Res>
     Object? backgroundImage = null,
     Object? checkForUpdates = null,
     Object? usePosterForLibrary = null,
+    Object? disableTitleBar = null,
     Object? useSystemIME = null,
     Object? lastViewedUpdate = freezed,
     Object? libraryPageSize = freezed,
@@ -954,6 +975,10 @@ class __$ClientSettingsModelCopyWithImpl<$Res>
       usePosterForLibrary: null == usePosterForLibrary
           ? _self.usePosterForLibrary
           : usePosterForLibrary // ignore: cast_nullable_to_non_nullable
+              as bool,
+      disableTitleBar: null == disableTitleBar
+          ? _self.disableTitleBar
+          : disableTitleBar // ignore: cast_nullable_to_non_nullable
               as bool,
       useSystemIME: null == useSystemIME
           ? _self.useSystemIME
