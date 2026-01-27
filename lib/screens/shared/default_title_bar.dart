@@ -9,7 +9,6 @@ import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/widgets/full_screen_helpers/full_screen_wrapper.dart';
 import 'package:fladder/widgets/shared/offline_banner.dart';
-import 'package:fladder/models/settings/client_settings_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 
 class DefaultTitleBar extends ConsumerStatefulWidget {
