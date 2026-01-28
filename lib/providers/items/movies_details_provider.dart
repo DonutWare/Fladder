@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:chopper/chopper.dart';
+import 'package:fladder/models/items/special_feature_model.dart';
+import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:fladder/models/item_base_model.dart';
@@ -11,6 +15,7 @@ import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
+import 'package:logging/logging.dart' as logging;
 
 part 'movies_details_provider.g.dart';
 
@@ -37,7 +42,18 @@ class MovieDetails extends _$MovieDetails {
 
       state = newState;
 
+      List<BaseItemDto> specialFeatures;
+      try {
+        specialFeatures = (await api.itemsItemIdSpecialFeaturesGet(itemId: item.id)).body ?? [];
+      } on Exception catch (e, s) {
+        specialFeatures = [];
+        log("Failed to get special features for movie id ${item.id} due to $e",
+            level: logging.Level.WARNING.value, error: e, stackTrace: s);
+      }
+
       final related = await ref.read(relatedUtilityProvider).relatedContent(item.id);
+      final List<SpecialFeatureModel> specialFeatureModel =
+          SpecialFeatureModel.specialFeaturesFromDto(specialFeatures, ref).toList();
 
       List<SeerrDashboardPosterModel> seerrRelated = const [];
       List<SeerrDashboardPosterModel> seerrRecommended = const [];
@@ -70,6 +86,7 @@ class MovieDetails extends _$MovieDetails {
         overview: state?.overview.copyWith(
           seerrUrl: seerrUrl,
         ),
+        specialFeatures: specialFeatureModel
       );
       return null;
     } catch (e) {

@@ -1,3 +1,5 @@
+import 'package:fladder/screens/shared/media/special_features_row.dart';
+import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,7 +16,6 @@ import 'package:fladder/screens/shared/media/expanding_overview.dart';
 import 'package:fladder/screens/shared/media/external_urls.dart';
 import 'package:fladder/screens/shared/media/people_row.dart';
 import 'package:fladder/screens/shared/media/person_list_.dart';
-import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/people_extension.dart';
@@ -165,6 +166,11 @@ class _SeasonDetailScreenState extends ConsumerState<SeasonDetailScreen> {
                       people: details.overview.people.guestActors,
                       contentPadding: padding,
                     ),
+                  if (details.specialFeatures.isNotEmpty)
+                    SpecialFeaturesRow(
+                        contentPadding: padding,
+                        label: context.localized.specialFeature(details.specialFeatures.length),
+                        specialFeatures: details.specialFeatures),
                   if (details.overview.externalUrls?.isNotEmpty == true)
                     Padding(
                       padding: padding,

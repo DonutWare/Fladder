@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:chopper/chopper.dart';
+import 'package:fladder/models/items/special_feature_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
@@ -6,6 +9,7 @@ import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/items/season_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
+import 'package:logging/logging.dart' as logging;
 
 final seasonDetailsProvider =
     StateNotifierProvider.autoDispose.family<SeasonDetailsNotifier, SeasonModel?, String>((ref, id) {
@@ -36,7 +40,19 @@ class SeasonDetailsNotifier extends StateNotifier<SeasonModel?> {
         ItemFields.parentid,
       ],
     );
-    newState = newState?.copyWith(episodes: EpisodeModel.episodesFromDto(episodes.body?.items, ref).toList());
+
+    List<BaseItemDto> specialFeatures;
+    try {
+      specialFeatures = (await api.itemsItemIdSpecialFeaturesGet(itemId: seasonId)).body ?? [];
+    } on Exception catch (e, s) {
+      specialFeatures = [];
+      log("Failed to get special features for season id $seasonId due to $e",
+          level: logging.Level.WARNING.value, error: e, stackTrace: s);
+    }
+
+    newState = newState?.copyWith(
+        episodes: EpisodeModel.episodesFromDto(episodes.body?.items, ref).toList(),
+        specialFeatures: SpecialFeatureModel.specialFeaturesFromDto(specialFeatures, ref).toList());
     state = newState;
     return season;
   }

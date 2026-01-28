@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'package:fladder/models/items/special_feature_model.dart';
 import 'package:flutter/material.dart';
 
 import 'package:collection/collection.dart';
@@ -22,6 +23,7 @@ class SeasonModel extends ItemBaseModel with SeasonModelMappable {
   final ImagesData? parentImages;
   final String seasonName;
   final List<EpisodeModel> episodes;
+  final List<SpecialFeatureModel> specialFeatures;
   final int episodeCount;
   final String seriesId;
   final int season;
@@ -30,6 +32,7 @@ class SeasonModel extends ItemBaseModel with SeasonModelMappable {
     required this.parentImages,
     required this.seasonName,
     this.episodes = const [],
+    this.specialFeatures = const [],
     required this.episodeCount,
     required this.seriesId,
     required this.season,

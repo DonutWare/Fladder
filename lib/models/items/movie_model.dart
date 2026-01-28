@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'package:fladder/models/items/special_feature_model.dart';
 import 'package:flutter/material.dart';
 
 import 'package:dart_mappable/dart_mappable.dart';
@@ -27,6 +28,7 @@ class MovieModel extends ItemStreamModel with MovieModelMappable {
   final String sortName;
   final String status;
   final List<ItemBaseModel> related;
+  final List<SpecialFeatureModel> specialFeatures;
   final List<SeerrDashboardPosterModel> seerrRelated;
   final List<SeerrDashboardPosterModel> seerrRecommended;
   final Map<String, dynamic>? providerIds;
@@ -35,6 +37,7 @@ class MovieModel extends ItemStreamModel with MovieModelMappable {
     required this.originalTitle,
     this.path,
     this.chapters = const [],
+    this.specialFeatures = const [],
     required this.premiereDate,
     required this.sortName,
     required this.status,

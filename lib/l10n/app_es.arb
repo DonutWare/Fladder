@@ -47,7 +47,7 @@
     },
     "ascending": "Ascendente",
     "@ascending": {},
-    "audio": "Audio",
+    "audio": "{count, plural, one{Audio} other{Audio}}",
     "@audio": {},
     "autoPlay": "Reproducción automática",
     "@autoPlay": {},
@@ -87,7 +87,7 @@
     "@close": {},
     "code": "Código",
     "@code": {},
-    "collectionFolder": "Carpeta de colección",
+    "collectionFolder": "{count, plural, one{Carpeta de colección} other{Carpetas de colección}}",
     "@collectionFolder": {},
     "color": "Color",
     "@color": {},
@@ -133,7 +133,7 @@
     "@dateLastContentAdded": {},
     "datePlayed": "Fecha de reproducción",
     "@datePlayed": {},
-    "days": "Días",
+    "days": "{count, plural, one{Día} other{Días}}",
     "@days": {},
     "delete": "Eliminar",
     "@delete": {},
@@ -349,27 +349,27 @@
     "@masonry": {},
     "mediaTypeBase": "Tipo base",
     "@mediaTypeBase": {},
-    "mediaTypeBook": "Libro",
+    "mediaTypeBook": "Libro{count, plural, one{Libro} other{Libros}}",
     "@mediaTypeBook": {},
-    "mediaTypeBoxset": "Conjunto de cajas",
+    "mediaTypeBoxset": "{count, plural, one{Colección} other{Colecciones}}",
     "@mediaTypeBoxset": {},
-    "mediaTypeEpisode": "Episodio",
+    "mediaTypeEpisode": "{count, plural, one{Episodio} other{Episodios}}",
     "@mediaTypeEpisode": {},
-    "mediaTypeFolder": "Carpeta",
+    "mediaTypeFolder": "{count, plural, one{Carpeta} other{Carpetas}}",
     "@mediaTypeFolder": {},
-    "mediaTypeMovie": "Película",
+    "mediaTypeMovie": "{count, plural, one{Película} other{Película}}",
     "@mediaTypeMovie": {},
-    "mediaTypePerson": "Persona",
+    "mediaTypePerson": "{count, plural, one{Persona} other{Personas}}",
     "@mediaTypePerson": {},
-    "mediaTypePhoto": "Foto",
+    "mediaTypePhoto": "{count, plural, one{Foto} other{Fotos}}",
     "@mediaTypePhoto": {},
-    "mediaTypePhotoAlbum": "Álbum de fotos",
+    "mediaTypePhotoAlbum": "{count, plural, one{Álbum de fotos} other{Álbumes de fotos}}",
     "@mediaTypePhotoAlbum": {},
-    "mediaTypePlaylist": "Lista de reproducción",
+    "mediaTypePlaylist": "{count, plural, one{Lista de reproducción} other{Listas de reproducción}}",
     "@mediaTypePlaylist": {},
-    "mediaTypeSeason": "Temporada",
+    "mediaTypeSeason": "{count, plural, one{Temporada} other{Temporadas}}",
     "@mediaTypeSeason": {},
-    "mediaTypeSeries": "Serie",
+    "mediaTypeSeries": "{count, plural, one{Serie} other{Series}}",
     "@mediaTypeSeries": {},
     "metaDataSavedFor": "Metadatos guardados para {item}",
     "@metaDataSavedFor": {
@@ -411,7 +411,7 @@
     "@moreOptions": {},
     "mouseDragSupport": "Arrastrar con el ratón",
     "@mouseDragSupport": {},
-    "musicAlbum": "Álbum",
+    "musicAlbum": "{count, plural, one{Álbum} other{Álbumes}}",
     "@musicAlbum": {},
     "name": "Nombre",
     "@name": {},
@@ -745,7 +745,7 @@
     "@settingsPosterSize": {},
     "settingsPosterSlider": "Mostrar control deslizante de escala",
     "@settingsPosterSlider": {},
-    "settingsProfileDesc": "Pantalla de bloqueo",
+    "settingsProfileDesc": "Pantalla de bloqueo, URL local, Seerr",
     "@settingsProfileDesc": {},
     "settingsProfileTitle": "Perfil",
     "@settingsProfileTitle": {},
@@ -888,7 +888,7 @@
     "@useDefaults": {},
     "userName": "Nombre de usuario",
     "@userName": {},
-    "video": "Video",
+    "video": "{count, plural, one{Video} other{Videos}}",
     "@video": {},
     "videoScaling": "Escalado de video",
     "@videoScaling": {},
@@ -1466,5 +1466,811 @@
     "similarToLikedItem": "Similar al artículo que te gustó",
     "@similarToLikedItem": {},
     "hasLikedDirector": "Ha gustado al director",
-    "@hasLikedDirector": {}
+    "@hasLikedDirector": {},
+    "popularity": "Popularidad",
+    "@popularity": {},
+    "contentRating": "Clasificación del contenido",
+    "@contentRating": {},
+    "runtimeMinutesTitle": "Duración (minutos)",
+    "@runtimeMinutesTitle": {},
+    "runtimeRangeMinutes": "{min} - {max} minutos",
+    "@runtimeRangeMinutes": {
+        "placeholders": {
+            "min": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            }
+        }
+    },
+    "minutesShort": "{count} min",
+    "@minutesShort": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "streamingServices": "Proveedores ({count})",
+    "@streamingServices": {
+        "description": "Streaming providers (Netflix,HBO, etc.)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "settingsProfileSubtitleLanguage": "Idioma preferido para los subtítulos",
+    "@settingsProfileSubtitleLanguage": {},
+    "settingsProfileSubtitleMode": "Modo de subtítulos",
+    "@settingsProfileSubtitleMode": {},
+    "subtitlePlaybackModeDefault": "Por defecto",
+    "@subtitlePlaybackModeDefault": {},
+    "subtitlePlaybackModeAlways": "Reproducir siempre",
+    "@subtitlePlaybackModeAlways": {},
+    "subtitlePlaybackModeOnlyForced": "Solo forzado",
+    "@subtitlePlaybackModeOnlyForced": {},
+    "subtitlePlaybackModeNone": "Ninguno",
+    "@subtitlePlaybackModeNone": {},
+    "subtitlePlaybackModeSmart": "Inteligente",
+    "@subtitlePlaybackModeSmart": {},
+    "deleteRequestConfirmation": "¿Estás seguro de que deseas eliminar esta solicitud?",
+    "@deleteRequestConfirmation": {},
+    "segmentActionSkipOnce": "Saltar una vez",
+    "@segmentActionSkipOnce": {},
+    "guestActor": "{count, plural, other{Actores invitados} one{Actor invitado}}",
+    "@guestActor": {
+        "description": "Guest actors",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "hasLikedActor": "Actor marcado como favorito",
+    "@hasLikedActor": {},
+    "playbackTypeTranscode": "Transcodificación",
+    "@playbackTypeTranscode": {},
+    "blurred": "Borroso",
+    "@blurred": {},
+    "quickConnectPostFailed": "No se pudo obtener el código de conexión rápida",
+    "@quickConnectPostFailed": {},
+    "quickConnectLoginUsingCode": "Usando la conexión rápida",
+    "@quickConnectLoginUsingCode": {},
+    "quickConnectEnterCodeDescription": "Introduzca el siguiente código para iniciar sesión",
+    "@quickConnectEnterCodeDescription": {},
+    "showMore": "Mostrar más",
+    "@showMore": {},
+    "itemColorsTitle": "Colores del artículo",
+    "@itemColorsTitle": {},
+    "itemColorsDesc": "Utiliza el color principal del artículo para crear el tema de la página de detalles",
+    "@itemColorsDesc": {},
+    "mediaTunnelingTitle": "Túnel de medios",
+    "@mediaTunnelingTitle": {},
+    "mediaTunnelingDesc": "Habilitar el túnel multimedia para el reproductor nativo",
+    "@mediaTunnelingDesc": {},
+    "clientSettingsUseSystemIMETitle": "Utilizar el teclado del sistema",
+    "@clientSettingsUseSystemIMETitle": {},
+    "clientSettingsUseSystemIMEDesc": "Utilice el teclado integrado que proporciona su sistema",
+    "@clientSettingsUseSystemIMEDesc": {},
+    "nextUpInCount": "Siguiente en {seconds}",
+    "@nextUpInCount": {
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "formattedTime": "{time}",
+    "@formattedTime": {
+        "description": "Formatted time",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            }
+        }
+    },
+    "takeScreenshot": "Hacer captura de pantalla",
+    "@takeScreenshot": {},
+    "takeScreenshotClean": "Hacer captura de pantalla (sin subtítulos)",
+    "@takeScreenshotClean": {},
+    "screenshotTaken": "¡Captura de pantalla guardada!",
+    "@screenshotTaken": {},
+    "screenshotCleanTaken": "¡Captura de pantalla sin subtítulos guardada!",
+    "@screenshotCleanTaken": {},
+    "errorTakingScreenshot": "Se ha producido un error al realizar la captura de pantalla",
+    "@errorTakingScreenshot": {},
+    "openImeKeyboard": "Abrir teclado IME",
+    "@openImeKeyboard": {},
+    "screensaverDvd": "DVD",
+    "@screensaverDvd": {},
+    "screensaverLogo": "Logo",
+    "@screensaverLogo": {},
+    "screensaverTime": "Tiempo",
+    "@screensaverTime": {},
+    "screensaverBlack": "Negro",
+    "@screensaverBlack": {},
+    "playerSettingsScreensaverTitle": "Salvapantallas",
+    "@playerSettingsScreensaverTitle": {},
+    "playerSettingsScreensaverDesc": "Selecciona el salvapantallas que se mostrará cuando no haya actividad del reproductor",
+    "@playerSettingsScreensaverDesc": {},
+    "settingsLocalUrlTitle": "URL del servidor local",
+    "@settingsLocalUrlTitle": {},
+    "settingsLocalUrlSetTitle": "Configurar URL local",
+    "@settingsLocalUrlSetTitle": {},
+    "settingsLocalUrlSetDesc": "Especifica la dirección del servidor local. Fladder utilizará automáticamente esta URL cuando tu dispositivo esté en la misma red.",
+    "@settingsLocalUrlSetDesc": {},
+    "regenerateTrickplayImages": "Regenerar imágenes trickplay",
+    "@regenerateTrickplayImages": {},
+    "controlPanel": "Panel de control",
+    "@controlPanel": {},
+    "controlPanelDesc": "Servidor, Actividad, Usuarios, Biblioteca",
+    "@controlPanelDesc": {},
+    "controlDashboard": "Panel de control",
+    "@controlDashboard": {},
+    "serverName": "Nombre del servidor",
+    "@serverName": {},
+    "serverVersion": "Versión del servidor",
+    "@serverVersion": {},
+    "webVersion": "Versión web",
+    "@webVersion": {},
+    "devices": "Dispositivos",
+    "@devices": {},
+    "used": "Usados",
+    "@used": {},
+    "storagePaths": "Rutas de almacenamiento",
+    "@storagePaths": {},
+    "programData": "Datos del programa",
+    "@programData": {},
+    "web": "Web",
+    "@web": {},
+    "cache": "Caché",
+    "@cache": {},
+    "logs": "Logs",
+    "@logs": {},
+    "transcodingTemp": "Transcodificación temp",
+    "@transcodingTemp": {},
+    "count": "Contar",
+    "@count": {},
+    "scanAllLibraries": "Escanear todas las bibliotecas",
+    "@scanAllLibraries": {},
+    "restartServer": "Reiniciar servidor",
+    "@restartServer": {},
+    "shutDownServer": "Apagar servidor",
+    "@shutDownServer": {},
+    "dashboardDesc": "Servidor, recuento, dispositivos, almacenamiento",
+    "@dashboardDesc": {},
+    "lastActivity": "Última actividad",
+    "@lastActivity": {},
+    "activeTasks": "Tareas activas",
+    "@activeTasks": {},
+    "hours": "{count, plural, one{Hora} other{Horas}}",
+    "@hours": {
+        "description": "Pluralization for hours",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            }
+        }
+    },
+    "weeks": "{count, plural, one{Semana} other{Semanas}}",
+    "@weeks": {
+        "description": "Pluralization for weeks",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "months": "{count, plural, one{Mes} other{Meses}}",
+    "@months": {
+        "description": "Pluralization for months",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "years": "{count, plural, one{Año} other{Años}}",
+    "@years": {
+        "description": "Pluralization for years",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "timeAgo": "hace {time}",
+    "@timeAgo": {
+        "description": "timeAgo",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "lastRunTaking": "Última ejecución {date}, duró {time}",
+    "@lastRunTaking": {
+        "description": "lastRunTaking",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "lessThenAMinute": "Menos de un minuto",
+    "@lessThenAMinute": {},
+    "plannedTasks": "Tareas planificadas",
+    "@plannedTasks": {},
+    "taskTriggerTypeInterval": "Intervalo",
+    "@taskTriggerTypeInterval": {},
+    "taskTriggerTypeDaily": "Diario",
+    "@taskTriggerTypeDaily": {},
+    "taskTriggerTypeWeekly": "Semanal",
+    "@taskTriggerTypeWeekly": {},
+    "taskTriggerTypeStartup": "Inicio",
+    "@taskTriggerTypeStartup": {},
+    "create": "Crear",
+    "@create": {},
+    "taskTriggerTypeName": "Tipo de activador",
+    "@taskTriggerTypeName": {},
+    "newTrigger": "Nuevo activador",
+    "@newTrigger": {},
+    "newTaskTrigger": "Nuevo activador de tareas",
+    "@newTaskTrigger": {},
+    "dayOfTheWeek": "Día de la semana",
+    "@dayOfTheWeek": {},
+    "time": "Hora",
+    "@time": {},
+    "interval": "Intervalo",
+    "@interval": {},
+    "taskTimeLimitInHours": "Límite de tiempo (horas)",
+    "@taskTimeLimitInHours": {},
+    "taskTriggerIntervalDesc": "Cada {time}",
+    "@taskTriggerIntervalDesc": {
+        "description": "Task trigger interval desc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerDailyDesc": "Diariamente a las {time}",
+    "@taskTriggerDailyDesc": {
+        "description": "taskTriggerDailyDesc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerWeeklyDesc": "Semanalmente el {day} a las {time}",
+    "@taskTriggerWeeklyDesc": {
+        "description": "taskTriggerWeeklyDesc",
+        "placeholders": {
+            "day": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerTimeLimitSub": "Límite de tiempo: {time}",
+    "@taskTriggerTimeLimitSub": {
+        "description": "taskTriggerTimeLimit",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "performance": "Rendimiento",
+    "@performance": {},
+    "serverNameLabel": "Nombre del servidor",
+    "@serverNameLabel": {},
+    "cachePath": "Ruta del caché",
+    "@cachePath": {},
+    "metadataPath": "Ruta de los metadatos",
+    "@metadataPath": {},
+    "maxConcurrentLibraryScanLabel": "Escaneos simultáneos máximos de la biblioteca",
+    "@maxConcurrentLibraryScanLabel": {},
+    "maxConcurrentLibraryScanDesc": "Número máximo de tareas paralelas durante los escaneos de la biblioteca. Si se deja vacío, se elegirá un límite basado en el número de núcleos de su sistema. ADVERTENCIA: Establecer un número demasiado alto puede causar problemas con los sistemas de archivos de red; si encuentra problemas, reduzca este número.",
+    "@maxConcurrentLibraryScanDesc": {},
+    "maxImageDecodingThreadsLabel": "Número máximo de subprocesos de decodificación de imágenes",
+    "@maxImageDecodingThreadsLabel": {},
+    "maxImageDecodingThreadsDesc": "Número máximo de codificaciones de imágenes que se pueden ejecutar en paralelo. Si se deja este campo vacío, se elegirá un límite basado en el número de núcleos de su sistema.",
+    "@maxImageDecodingThreadsDesc": {},
+    "controlPanelServerDesc": "Nombre del servidor, Conexión rápida, Rendimiento",
+    "@controlPanelServerDesc": {},
+    "deleteUserTitle": "¿Borrar al usuario {user}?",
+    "@deleteUserTitle": {
+        "description": "deleteUserTitle",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteUserDesc": "Esto eliminará permanentemente al usuario {user} y todos los ajustes asociados.",
+    "@deleteUserDesc": {
+        "description": "deleteUserDesc",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "userInformation": "Información de usuario",
+    "@userInformation": {},
+    "allowManageServer": "Permitir a este usuario administrar el servidor",
+    "@allowManageServer": {},
+    "allowCollections": "Permitir este usuario en las colecciones",
+    "@allowCollections": {},
+    "allowEditSubtitles": "Permitir a este usuario editar subtítulos",
+    "@allowEditSubtitles": {},
+    "featureAccess": "Acceso a funciones",
+    "@featureAccess": {},
+    "allowLiveTVAccess": "Permitir el acceso a la televisión en directo",
+    "@allowLiveTVAccess": {},
+    "allowLiveTVRecording": "Permitir la gestión de grabaciones de televisión en directo",
+    "@allowLiveTVRecording": {},
+    "mediaPlayback": "Reproducción de medios",
+    "@mediaPlayback": {},
+    "allowMediaPlayback": "Permitir la reproducción de medios",
+    "@allowMediaPlayback": {},
+    "allowVideoTranscoding": "Permitir la reproducción de vídeos que requieren transcodificación",
+    "@allowVideoTranscoding": {},
+    "allowAudioTranscoding": "Permitir la reproducción de audio que requiere transcodificación",
+    "@allowAudioTranscoding": {},
+    "allowMediaConversion": "Permitir la reproducción de vídeos que requieran conversión de medios",
+    "@allowMediaConversion": {},
+    "forceRemoteTranscoding": "Forzar la transcodificación de la fuente remota",
+    "@forceRemoteTranscoding": {},
+    "syncplay": "Syncplay",
+    "@syncplay": {},
+    "syncplayAccess": "Acceso a syncplay",
+    "@syncplayAccess": {},
+    "syncplayAccessCreateAndJoinGroups": "Crear y unirse a grupos",
+    "@syncplayAccessCreateAndJoinGroups": {},
+    "syncplayAccessJoinGroups": "Unirse a grupos",
+    "@syncplayAccessJoinGroups": {},
+    "syncplayAccessNone": "Ninguno",
+    "@syncplayAccessNone": {},
+    "allowMediaDeletion": "Permitir la eliminación de medios",
+    "@allowMediaDeletion": {},
+    "allLibraries": "Todas las bibliotecas",
+    "@allLibraries": {},
+    "libraryAccess": "Acceso a la biblioteca",
+    "@libraryAccess": {},
+    "enableAllLibraries": "Habilitar el acceso a todas las bibliotecas",
+    "@enableAllLibraries": {},
+    "enableAllDevices": "Habilitar el acceso a todos los dispositivos",
+    "@enableAllDevices": {},
+    "parentalControl": "Control parental",
+    "@parentalControl": {},
+    "blockedItemsNoRating": "Elementos bloqueados sin calificación o con calificaciones no reconocidas",
+    "@blockedItemsNoRating": {},
+    "maxParentalRating": "Clasificación parental máxima",
+    "@maxParentalRating": {},
+    "allowItemsTags": "Permitir elementos con etiquetas",
+    "@allowItemsTags": {},
+    "blockItemsTags": "Bloquear elementos con etiquetas",
+    "@blockItemsTags": {},
+    "accessSchedules": "Horarios de acceso",
+    "@accessSchedules": {},
+    "addAccessSchedule": "Añadir horario de acceso",
+    "@addAccessSchedule": {},
+    "dayOfWeek": "Día de la semana",
+    "@dayOfWeek": {},
+    "startTime": "Hora de inicio",
+    "@startTime": {},
+    "endTime": "Hora de finalización",
+    "@endTime": {},
+    "addTag": "Añadir etiqueta",
+    "@addTag": {},
+    "createNewUser": "Crear un nuevo usuario",
+    "@createNewUser": {},
+    "createUser": "Crear usuario",
+    "@createUser": {},
+    "users": "Usuarios",
+    "@users": {},
+    "editUser": "Editar usuario",
+    "@editUser": {},
+    "general": "General",
+    "@general": {},
+    "access": "Acceso",
+    "@access": {},
+    "endTimeMustBeAfter": "La hora de finalización debe ser posterior a la hora de inicio",
+    "@endTimeMustBeAfter": {},
+    "assignLibraries": "Asignar bibliotecas",
+    "@assignLibraries": {},
+    "enableAccessAllLibraries": "Habilitar el acceso a todas las bibliotecas",
+    "@enableAccessAllLibraries": {},
+    "currentPassword": "Contraseña actual",
+    "@currentPassword": {},
+    "newPassword": "Nueva contraseña",
+    "@newPassword": {},
+    "confirmPassword": "Confirmar contraseña",
+    "@confirmPassword": {},
+    "resetPassword": "Restablecer contraseña",
+    "@resetPassword": {},
+    "passwordResetSuccess": "Contraseña restablecida correctamente",
+    "@passwordResetSuccess": {},
+    "passwordResetFailed": "Error al reestablecer la contraseña",
+    "@passwordResetFailed": {},
+    "passwordMismatch": "La nueva contraseña y la confirmación de la contraseña no coinciden",
+    "@passwordMismatch": {},
+    "passwordChangeSuccess": "Contraseña cambiada correctamente",
+    "@passwordChangeSuccess": {},
+    "savePassword": "Guardar contraseña",
+    "@savePassword": {},
+    "deleteLibraryConfirmTitle": "¿Eliminar biblioteca?",
+    "@deleteLibraryConfirmTitle": {},
+    "deleteLibraryConfirmMessage": "¿Está seguro de que desea eliminar {libraryName}?\nEsta acción no se puede deshacer.",
+    "@deleteLibraryConfirmMessage": {
+        "placeholders": {
+            "libraryName": {
+                "type": "String"
+            }
+        }
+    },
+    "noLibrarySelected": "No se ha seleccionado ninguna biblioteca",
+    "@noLibrarySelected": {},
+    "enabledPhotos": "Fotos habilitadas",
+    "@enabledPhotos": {},
+    "enabledLUFSScan": "Escaneo LUFS habilitado",
+    "@enabledLUFSScan": {},
+    "enabledRealtimeMonitoring": "Monitorización en tiempo real habilitada",
+    "@enabledRealtimeMonitoring": {},
+    "automaticallyAddToCollection": "Añadir automáticamente a la colección",
+    "@automaticallyAddToCollection": {},
+    "enabledEmbeddedTitles": "Títulos incrustados habilitados",
+    "@enabledEmbeddedTitles": {},
+    "enabledEmbeddedExtrasTitles": "Habilitar títulos incrustados en los extras",
+    "@enabledEmbeddedExtrasTitles": {},
+    "automaticRefreshInterval": "Intervalo de actualización automática",
+    "@automaticRefreshInterval": {},
+    "autoRefreshIntervalNote": "Habilitar esta opción puede provocar tiempos de actualización de la biblioteca más largos.",
+    "@autoRefreshIntervalNote": {},
+    "preferredDownloadLanguage": "Idioma preferido para la descarga",
+    "@preferredDownloadLanguage": {},
+    "countryRegion": "País/Región",
+    "@countryRegion": {},
+    "saveMetadata": "Guardar metadatos",
+    "@saveMetadata": {},
+    "metadataFetchers": "Recopiladores de metadatos ({type})",
+    "@metadataFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "enableAndRankMetadataFetchers": "Habilita y clasifica tus buscadores de metadatos preferidos por orden de prioridad.",
+    "@enableAndRankMetadataFetchers": {},
+    "enableAndRankImagesFetchers": "Habilita y clasifica tus buscadores de imágenes preferidos por orden de prioridad.",
+    "@enableAndRankImagesFetchers": {},
+    "imageFetchers": "Buscadores de imágenes ({type})",
+    "@imageFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "mediaSegmentProviders": "Proveedores del segmento de medios",
+    "@mediaSegmentProviders": {},
+    "enableAndRankMediaSegmentProviders": "Habilite y clasifique sus proveedores de segmentos de medios preferidos por orden de prioridad.",
+    "@enableAndRankMediaSegmentProviders": {},
+    "trickplay": "Trickplay",
+    "@trickplay": {},
+    "enableTrickplayImageExtraction": "Habilitar la extracción de imágenes trickplay",
+    "@enableTrickplayImageExtraction": {},
+    "extractTrickplayImagesDuringLibraryScan": "Extraer imágenes trickplay durante los escaneos de la biblioteca",
+    "@extractTrickplayImagesDuringLibraryScan": {},
+    "saveTrickplayImagesNextToMedia": "Guardar imágenes trickplay junto a medios",
+    "@saveTrickplayImagesNextToMedia": {},
+    "chapterImages": "Imágenes del capítulo",
+    "@chapterImages": {},
+    "enableChapterImageExtraction": "Habilitar la extracción de imágenes de capítulo",
+    "@enableChapterImageExtraction": {},
+    "extractChapterImagesDuringLibraryScan": "Extraer imágenes de capítulos durante los escaneos de la biblioteca",
+    "@extractChapterImagesDuringLibraryScan": {},
+    "subtitleDownloads": "Descargas de subtítulos",
+    "@subtitleDownloads": {},
+    "downloadLanguages": "Idiomas de descarga",
+    "@downloadLanguages": {},
+    "subtitleDownloaders": "Descargadores de subtítulos",
+    "@subtitleDownloaders": {},
+    "onlyPerfectSubtitleMatch": "Descarga solo subtítulos que coincidan perfectamente con el contenido multimedia",
+    "@onlyPerfectSubtitleMatch": {},
+    "perfectSubtitleMatchDescription": "Exigir una coincidencia perfecta filtrará los subtítulos para incluir solo aquellos que hayan sido probados y verificados con tu archivo de vídeo exacto. Desmarcar esta opción aumentará la probabilidad de que se descarguen subtítulos, pero también incrementará las posibilidades de que el texto esté desincronizado o sea incorrecto.",
+    "@perfectSubtitleMatchDescription": {},
+    "skipSubtitlesIfAudioMatches": "Omitir si la pista de audio predeterminada coincide con el idioma de la descarga",
+    "@skipSubtitlesIfAudioMatches": {},
+    "skipSubtitlesIfEmbedded": "Omitir si el vídeo ya contiene subtítulos incrustados",
+    "@skipSubtitlesIfEmbedded": {},
+    "saveSubtitlesNextToMedia": "Guardar subtítulos junto a los archivos multimedia",
+    "@saveSubtitlesNextToMedia": {},
+    "saveArtWorkNextToMedia": "Guardar ilustraciones junto a los archivos multimedia",
+    "@saveArtWorkNextToMedia": {},
+    "saveArtWorkNextToMediaDesc": "Guardar las ilustraciones en carpetas multimedia las colocará en un lugar donde se puedan editar fácilmente.",
+    "@saveArtWorkNextToMediaDesc": {},
+    "select": "Seleccionar",
+    "@select": {},
+    "newLibrary": "Biblioteca nueva",
+    "@newLibrary": {},
+    "contentType": "Tipo de contenido",
+    "@contentType": {},
+    "metadataImageLongPressTouch": "Mantenga pulsado para eliminar la imagen",
+    "@metadataImageLongPressTouch": {},
+    "metadataImageLongPressClick": "Clic derecho para eliminar la imagen",
+    "@metadataImageLongPressClick": {},
+    "primary": "Primario",
+    "@primary": {},
+    "logo": "{count, plural, other{Logos} one{Logo}}",
+    "@logo": {
+        "description": "logo",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "backdrop": "{count, plural, other{Imágenes de fondo} one{Imagen de fondo}}",
+    "@backdrop": {
+        "description": "backdrop",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "selectFolderToAdd": "Selecciona la carpeta para añadir",
+    "@selectFolderToAdd": {},
+    "systemRootFolder": "Carpeta raíz del sistema",
+    "@systemRootFolder": {},
+    "selectedPath": "Ruta seleccionada: {path}",
+    "@selectedPath": {
+        "placeholders": {
+            "path": {
+                "type": "String"
+            }
+        }
+    },
+    "recentlyAdded": "Añadido recientemente",
+    "@recentlyAdded": {},
+    "recentRequests": "Solicitudes recientes",
+    "@recentRequests": {},
+    "trending": "Trending",
+    "@trending": {},
+    "popularMovies": "Películas populares",
+    "@popularMovies": {},
+    "popularSeries": "Series populares",
+    "@popularSeries": {},
+    "expectedMovies": "Películas esperadas",
+    "@expectedMovies": {},
+    "expectedSeries": "Series esperadas",
+    "@expectedSeries": {},
+    "requestConfiguration": "Solicitar configuración",
+    "@requestConfiguration": {},
+    "qualityProfile": "Perfil de calidad",
+    "@qualityProfile": {},
+    "selectProfile": "Seleccionar perfil",
+    "@selectProfile": {},
+    "rootFolder": "Carpeta raíz",
+    "@rootFolder": {},
+    "selectFolder": "Seleccionar carpeta",
+    "@selectFolder": {},
+    "tags": "Etiquetas",
+    "@tags": {},
+    "noTags": "Sin etiquetas",
+    "@noTags": {},
+    "requestAs": "Solicitar como",
+    "@requestAs": {},
+    "requestQuotaStatus": "{remaining} de {limit} restante (se restablece cada {days} días)",
+    "@requestQuotaStatus": {
+        "placeholders": {
+            "remaining": {
+                "type": "int"
+            },
+            "limit": {
+                "type": "int"
+            },
+            "days": {
+                "type": "int"
+            }
+        }
+    },
+    "requestQuotaLimitReached": "Se ha alcanzado el límite de solicitudes para {mediaType}.",
+    "@requestQuotaLimitReached": {
+        "placeholders": {
+            "mediaType": {
+                "type": "String"
+            }
+        }
+    },
+    "submitRequest": "Enviar solicitud",
+    "@submitRequest": {},
+    "noOverviewAvailable": "No hay resumen disponible.",
+    "@noOverviewAvailable": {},
+    "downloading": "descargando",
+    "@downloading": {},
+    "request": "Solicitar",
+    "@request": {},
+    "viewRequest": "Ver solicitud",
+    "@viewRequest": {},
+    "email": "Correo electrónico",
+    "@email": {},
+    "username": "Nombre de usuario",
+    "@username": {},
+    "ok": "OK",
+    "@ok": {},
+    "seerr": "Seerr",
+    "@seerr": {},
+    "seerrNotConfigured": "Sin configurar",
+    "@seerrNotConfigured": {},
+    "seerrLoadingUser": "Cargando usuario",
+    "@seerrLoadingUser": {},
+    "seerrUnknownUser": "Usuario desconocido",
+    "@seerrUnknownUser": {},
+    "loggedInAs": "Iniciado sesión como {displayName}",
+    "@loggedInAs": {
+        "placeholders": {
+            "displayName": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrServer": "Servidor seerr",
+    "@seerrServer": {},
+    "seerrAuthenticateLocal": "Autenticación seerr (local)",
+    "@seerrAuthenticateLocal": {},
+    "rootFolderDefaultLabel": "{folder} (Por defecto)",
+    "@rootFolderDefaultLabel": {
+        "placeholders": {
+            "folder": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrAnimeSeriesNote": "* Esta serie es un anime.",
+    "@seerrAnimeSeriesNote": {},
+    "seerrAutoApproveNotice": "Las solicitudes que envíes se aprueban automáticamente.",
+    "@seerrAutoApproveNotice": {},
+    "seerrPermissionDenied": "No tienes permiso para solicitar este tipo de medios.",
+    "@seerrPermissionDenied": {},
+    "seerrRequestStatusPending": "Pendiente",
+    "@seerrRequestStatusPending": {},
+    "seerrRequestStatusApproved": "Aprobado",
+    "@seerrRequestStatusApproved": {},
+    "seerrRequestStatusDeclined": "Rechazado",
+    "@seerrRequestStatusDeclined": {},
+    "seerrRequestStatusFailed": "Fallido",
+    "@seerrRequestStatusFailed": {},
+    "seerrRequestStatusCompleted": "Completado",
+    "@seerrRequestStatusCompleted": {},
+    "seerrMediaStatusProcessing": "Procesando",
+    "@seerrMediaStatusProcessing": {},
+    "seerrMediaStatusPartiallyAvailable": "Disponible parcialmente",
+    "@seerrMediaStatusPartiallyAvailable": {},
+    "seerrMediaStatusAvailable": "Disponible",
+    "@seerrMediaStatusAvailable": {},
+    "seerrMediaStatusBlacklisted": "En la lista negra",
+    "@seerrMediaStatusBlacklisted": {},
+    "seerrMediaStatusDeleted": "Eliminado",
+    "@seerrMediaStatusDeleted": {},
+    "seerrAuthApiKey": "Clave API",
+    "@seerrAuthApiKey": {},
+    "seerrAuthLocal": "Local",
+    "@seerrAuthLocal": {},
+    "seerrAuthJellyfin": "Jellyfin",
+    "@seerrAuthJellyfin": {},
+    "seerrUserFetchFailed": "No se pudo recuperar el usuario de Seerr",
+    "@seerrUserFetchFailed": {},
+    "seerrEnterServerUrlFirst": "Introduzca primero la URL del servidor Seerr",
+    "@seerrEnterServerUrlFirst": {},
+    "seerrApiKeySaved": "Clave API guardada",
+    "@seerrApiKeySaved": {},
+    "seerrLoggedIn": "Iniciado sesión en Seerr",
+    "@seerrLoggedIn": {},
+    "seerrConnectedToServer": "Conectado al servidor Seerr: {serverUrl}",
+    "@seerrConnectedToServer": {
+        "placeholders": {
+            "serverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "emailUsername": "Correo electrónico/Nombre de usuario",
+    "@emailUsername": {},
+    "discover": "Descubrir",
+    "@discover": {},
+    "sponsor": "Patrocinador",
+    "@sponsor": {},
+    "sponsorMessage": "Si disfrutas utilizando Fladder, considera patrocinar el proyecto para apoyar su desarrollo y mejoras continuas. ¡Gracias por tu apoyo!",
+    "@sponsorMessage": {},
+    "min": "min",
+    "@min": {},
+    "max": "max",
+    "@max": {},
+    "manageRequest": "Gestionar solicitud",
+    "@manageRequest": {},
+    "requestAll": "Solicitar todo",
+    "@requestAll": {},
+    "openInSeerr": "Abrir en Seerr",
+    "@openInSeerr": {},
+    "openInSonarr": "Abrir en Sonarr",
+    "@openInSonarr": {},
+    "openInRadarr": "Abrir en Radarr",
+    "@openInRadarr": {},
+    "removeFromSonarr": "Eliminar de Sonarr",
+    "@removeFromSonarr": {},
+    "removeFromRadarr": "Eliminar de Radarr",
+    "@removeFromRadarr": {},
+    "markAllSeasonsAsAvailable": "Marcar todas las temporadas como disponibles",
+    "@markAllSeasonsAsAvailable": {},
+    "markAsAvailable": "Marcar como disponible",
+    "@markAsAvailable": {},
+    "deleteData": "Borrar datos",
+    "@deleteData": {},
+    "removeSeriesFromSonarrConfirm": "¿Quieres eliminar esta serie de Sonarr? Esto eliminará todos los datos, INCLUIDOS los archivos.",
+    "@removeSeriesFromSonarrConfirm": {},
+    "removeMovieFromRadarrConfirm": "¿Quieres eliminar esta serie de Radarr? Esto eliminará todos los datos, INCLUIDOS los archivos.",
+    "@removeMovieFromRadarrConfirm": {},
+    "removedFromSonarr": "Eliminado de Sonarr",
+    "@removedFromSonarr": {},
+    "removedFromRadarr": "Eliminado de Radarr",
+    "@removedFromRadarr": {},
+    "markAllSeasonsAsAvailableConfirm": "¿Marcar todas las temporadas como disponibles?",
+    "@markAllSeasonsAsAvailableConfirm": {},
+    "markAsAvailableConfirm": "¿Marcar como disponible?",
+    "@markAsAvailableConfirm": {},
+    "markedAsAvailable": "Marcado como disponible",
+    "@markedAsAvailable": {},
+    "deleteSeerrDataConfirm": "¿Desea eliminar todos los archivos de Seerr? Esta acción no se puede deshacer.\nSi los datos aún están presentes en {service}, se pueden volver a importar.",
+    "@deleteSeerrDataConfirm": {
+        "description": "Confirmation message for deleting Seerr data",
+        "placeholders": {
+            "service": {
+                "type": "String",
+                "example": "Sonarr/Radarr"
+            }
+        }
+    },
+    "dataDeleted": "Datos borrados",
+    "@dataDeleted": {},
+    "approve": "Aprobar",
+    "@approve": {},
+    "decline": "Rechazar",
+    "@decline": {},
+    "pendingRequests": "{count, plural, other{No hay solicitudes pendientes} one{{count} solicitud pendiente} two{{count} solicitudes pendientes}}",
+    "@pendingRequests": {
+        "description": "pendingRequests",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "processing": "Procesando",
+    "@processing": {},
+    "seerrDetails": "Destalles de Seerr",
+    "@seerrDetails": {}
 }

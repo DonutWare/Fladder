@@ -1,3 +1,4 @@
+import 'package:fladder/screens/shared/media/special_features_row.dart';
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
@@ -180,6 +181,11 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                       people: details.overview.people,
                       contentPadding: padding,
                     ),
+                  if (details.specialFeatures?.isNotEmpty ?? false)
+                    SpecialFeaturesRow(
+                        contentPadding: padding,
+                        label: context.localized.specialFeature(details.specialFeatures?.length ?? 2),
+                        specialFeatures: details.specialFeatures ?? []),
                   if (details.related.isNotEmpty)
                     PosterRow(posters: details.related, contentPadding: padding, label: context.localized.related),
                   if (details.seerrRecommended.isNotEmpty)
