@@ -21,6 +21,8 @@ class SyncPlayMessageHandler {
     required this.startPlayback,
     required this.isBuffering,
     required this.getContext,
+    required this.onGroupJoined,
+    required this.onGroupJoinFailed,
   });
 
   final void Function(SyncPlayState Function(SyncPlayState)) onStateUpdate;
@@ -28,6 +30,8 @@ class SyncPlayMessageHandler {
   final StartPlaybackCallback startPlayback;
   final bool Function() isBuffering;
   final BuildContext? Function() getContext;
+  final void Function() onGroupJoined;
+  final void Function() onGroupJoinFailed;
 
   /// Handle group update message
   void handleGroupUpdate(Map<String, dynamic> data, SyncPlayState currentState) {
@@ -49,6 +53,9 @@ class SyncPlayMessageHandler {
         break;
       case 'GroupDoesNotExist':
         _handleGroupDoesNotExist();
+        break;
+      case 'NotInGroup':
+        _handleNotInGroup();
         break;
       case 'StateUpdate':
         _handleStateUpdate(updateData as Map<String, dynamic>);
@@ -74,6 +81,9 @@ class SyncPlayMessageHandler {
         ));
 
     log('SyncPlay: Joined group "$groupName" ($groupId)');
+    
+    // Notify controller that group join was confirmed
+    onGroupJoined();
   }
 
   void _handleUserJoined(String? userId, SyncPlayState currentState) {
@@ -121,6 +131,23 @@ class SyncPlayMessageHandler {
           participants: [],
         ));
     log('SyncPlay: Group does not exist');
+    
+    // Notify controller that group join failed
+    onGroupJoinFailed();
+  }
+
+  void _handleNotInGroup() {
+    onStateUpdate((state) => state.copyWith(
+          isInGroup: false,
+          groupId: null,
+          groupName: null,
+          groupState: SyncPlayGroupState.idle,
+          participants: [],
+        ));
+    log('SyncPlay: Not in group - server rejected operation');
+    
+    // Notify controller that group join failed
+    onGroupJoinFailed();
   }
 
   void _handleStateUpdate(Map<String, dynamic> data) {

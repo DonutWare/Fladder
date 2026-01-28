@@ -88,7 +88,7 @@ class SyncPlay extends _$SyncPlay {
   Future<void> requestPause() => controller.requestPause();
 
   /// Request unpause/play
-  Future<void> requestUnpause() => controller.requestUnpause();
+  Future<void> requestUnpause() async => await controller.requestUnpause();
 
   /// Request seek
   Future<void> requestSeek(int positionTicks) => controller.requestSeek(positionTicks);
@@ -120,6 +120,7 @@ class SyncPlay extends _$SyncPlay {
     required int Function() getPositionTicks,
     required bool Function() isPlaying,
     required bool Function() isBuffering,
+    Future<void> Function(int positionTicks)? onSeekRequested,
   }) {
     controller.onPlay = onPlay;
     controller.onPause = onPause;
@@ -128,6 +129,7 @@ class SyncPlay extends _$SyncPlay {
     controller.getPositionTicks = getPositionTicks;
     controller.isPlaying = isPlaying;
     controller.isBuffering = isBuffering;
+    controller.onSeekRequested = onSeekRequested;
     // Wire up reportReady callback so command handler can report ready after seek
     controller.onReportReady = () => controller.reportReady();
   }
@@ -141,6 +143,7 @@ class SyncPlay extends _$SyncPlay {
     controller.getPositionTicks = null;
     controller.isPlaying = null;
     controller.isBuffering = null;
+    controller.onSeekRequested = null;
     controller.onReportReady = null;
   }
 }

@@ -35,6 +35,9 @@ class SyncPlayCommandHandler {
   bool Function()? isPlaying;
   bool Function()? isBuffering;
   
+  // New callback to signal that a seek has been requested by someone else
+  SyncPlaySeekCallback? onSeekRequested;
+  
   // Report ready callback (to tell server we're ready after seek)
   SyncPlayReportReadyCallback? onReportReady;
 
@@ -64,6 +67,11 @@ class SyncPlayCommandHandler {
           positionTicks: positionTicks,
           playlistItemId: playlistItemId,
         ));
+
+    // If it's a Seek command, notify the player immediately so it can report buffering
+    if (command == 'Seek') {
+      onSeekRequested?.call(positionTicks);
+    }
 
     final when = DateTime.parse(whenStr);
     _scheduleCommand(command, when, positionTicks);

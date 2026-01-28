@@ -1,22 +1,20 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
-
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
+import 'package:fladder/models/syncplay/syncplay_models.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/router_provider.dart';
 import 'package:fladder/providers/syncplay/handlers/syncplay_command_handler.dart';
 import 'package:fladder/providers/syncplay/handlers/syncplay_message_handler.dart';
-import 'package:fladder/models/syncplay/syncplay_models.dart';
 import 'package:fladder/providers/syncplay/time_sync_service.dart';
 import 'package:fladder/providers/syncplay/websocket_manager.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Controller for SyncPlay synchronized playback
 class SyncPlayController {
@@ -27,10 +25,13 @@ class SyncPlayController {
     );
     _messageHandler = SyncPlayMessageHandler(
       onStateUpdate: _updateStateWith,
-      reportReady: ({bool isPlaying = true}) => reportReady(isPlaying: isPlaying),
+      reportReady: ({bool isPlaying = true}) =>
+          reportReady(isPlaying: isPlaying),
       startPlayback: _startPlayback,
       isBuffering: () => _commandHandler.isBuffering?.call() ?? false,
       getContext: () => getNavigatorKey(_ref)?.currentContext,
+      onGroupJoined: _onGroupJoined,
+      onGroupJoinFailed: _onGroupJoinFailed,
     );
   }
 
@@ -53,16 +54,28 @@ class SyncPlayController {
   String? _lastGroupId;
   bool _wasConnected = false;
 
+  // Completer for waiting on group join confirmation
+  Completer<bool>? _joinGroupCompleter;
+
   // Player callbacks (delegated to command handler)
-  set onPlay(SyncPlayPlayerCallback? callback) => _commandHandler.onPlay = callback;
-  set onPause(SyncPlayPlayerCallback? callback) => _commandHandler.onPause = callback;
-  set onSeek(SyncPlaySeekCallback? callback) => _commandHandler.onSeek = callback;
-  set onStop(SyncPlayPlayerCallback? callback) => _commandHandler.onStop = callback;
+  set onPlay(SyncPlayPlayerCallback? callback) =>
+      _commandHandler.onPlay = callback;
+  set onPause(SyncPlayPlayerCallback? callback) =>
+      _commandHandler.onPause = callback;
+  set onSeek(SyncPlaySeekCallback? callback) =>
+      _commandHandler.onSeek = callback;
+  set onStop(SyncPlayPlayerCallback? callback) =>
+      _commandHandler.onStop = callback;
   set getPositionTicks(SyncPlayPositionCallback? callback) =>
       _commandHandler.getPositionTicks = callback;
-  set isPlaying(bool Function()? callback) => _commandHandler.isPlaying = callback;
-  set isBuffering(bool Function()? callback) => _commandHandler.isBuffering = callback;
-  set onReportReady(SyncPlayReportReadyCallback? callback) => _commandHandler.onReportReady = callback;
+  set isPlaying(bool Function()? callback) =>
+      _commandHandler.isPlaying = callback;
+  set isBuffering(bool Function()? callback) =>
+      _commandHandler.isBuffering = callback;
+  set onSeekRequested(SyncPlaySeekCallback? callback) =>
+      _commandHandler.onSeekRequested = callback;
+  set onReportReady(SyncPlayReportReadyCallback? callback) =>
+      _commandHandler.onReportReady = callback;
 
   JellyfinOpenApi get _api => _ref.read(jellyApiProvider).api;
 
@@ -92,7 +105,8 @@ class SyncPlayController {
       deviceId: user.credentials.deviceId,
     );
 
-    _wsStateSubscription = _wsManager!.connectionState.listen(_handleConnectionState);
+    _wsStateSubscription =
+        _wsManager!.connectionState.listen(_handleConnectionState);
     _wsMessageSubscription = _wsManager!.messages.listen(_handleMessage);
 
     await _wsManager!.connect();
@@ -136,31 +150,67 @@ class SyncPlayController {
   }
 
   /// Join an existing SyncPlay group
+  /// Returns true only after receiving GroupJoined confirmation from WebSocket
   Future<bool> joinGroup(String groupId) async {
     // Check if already in a group
     if (_state.isInGroup) {
       log('SyncPlay: Already in a group, leaving first...');
       await leaveGroup();
     }
-    
+
     // Check if WebSocket is connected
     if (!_state.isConnected) {
       log('SyncPlay: WebSocket not connected, cannot join group');
       return false;
     }
-    
+
     try {
       log('SyncPlay: Joining group: $groupId');
+
+      // Create completer to wait for GroupJoined confirmation
+      _joinGroupCompleter = Completer<bool>();
+
       await _api.syncPlayJoinPost(
         body: JoinGroupRequestDto(groupId: groupId),
       );
       _lastGroupId = groupId;
-      log('SyncPlay: Join request sent successfully');
-      return true;
+      log('SyncPlay: Join request sent, waiting for confirmation...');
+
+      // Wait for GroupJoined message with timeout
+      final confirmed = await _joinGroupCompleter!.future.timeout(
+        const Duration(seconds: 5),
+        onTimeout: () {
+          log('SyncPlay: Timeout waiting for GroupJoined confirmation');
+          return false;
+        },
+      );
+
+      _joinGroupCompleter = null;
+
+      if (confirmed) {
+        log('SyncPlay: Group join confirmed');
+      } else {
+        log('SyncPlay: Group join not confirmed');
+        _lastGroupId = null;
+      }
+
+      return confirmed;
     } catch (e) {
       log('SyncPlay: Failed to join group: $e');
+      _joinGroupCompleter?.complete(false);
+      _joinGroupCompleter = null;
       return false;
     }
+  }
+
+  /// Called by message handler when GroupJoined is received
+  void _onGroupJoined() {
+    _joinGroupCompleter?.complete(true);
+  }
+
+  /// Called by message handler when NotInGroup/GroupDoesNotExist is received
+  void _onGroupJoinFailed() {
+    _joinGroupCompleter?.complete(false);
   }
 
   /// Leave the current SyncPlay group
@@ -295,7 +345,7 @@ class SyncPlayController {
   void _handleMessage(Map<String, dynamic> message) {
     final messageType = message['MessageType'] as String?;
     final data = message['Data'];
-    
+
     log('SyncPlay: Received WebSocket message: $messageType');
 
     switch (messageType) {
@@ -350,10 +400,11 @@ class SyncPlayController {
 
       // Load and play
       log('SyncPlay: Loading playback item...');
-      final loadedCorrectly = await _ref.read(videoPlayerProvider.notifier).loadPlaybackItem(
-            playbackModel,
-            startPosition,
-          );
+      final loadedCorrectly =
+          await _ref.read(videoPlayerProvider.notifier).loadPlaybackItem(
+                playbackModel,
+                startPosition,
+              );
 
       if (!loadedCorrectly) {
         log('SyncPlay: Failed to load playback item $itemId');
@@ -373,7 +424,7 @@ class SyncPlayController {
       final navigatorKey = getNavigatorKey(_ref);
       final context = navigatorKey?.currentContext;
       log('SyncPlay: Navigator context: ${context != null ? "exists" : "null"}');
-      
+
       if (context != null) {
         await _ref.read(videoPlayerProvider.notifier).openPlayer(context);
         log('SyncPlay: Successfully opened player for $itemId');
@@ -401,12 +452,14 @@ class SyncPlayController {
 
   /// Handle app lifecycle state changes
   /// Call this from a WidgetsBindingObserver when app state changes
-  Future<void> handleAppLifecycleChange(AppLifecycleState lifecycleState) async {
+  Future<void> handleAppLifecycleChange(
+      AppLifecycleState lifecycleState) async {
     switch (lifecycleState) {
       case AppLifecycleState.paused:
       case AppLifecycleState.inactive:
         // App going to background - remember state for reconnection
-        _wasConnected = _wsManager?.currentState == WebSocketConnectionState.connected;
+        _wasConnected =
+            _wsManager?.currentState == WebSocketConnectionState.connected;
         log('SyncPlay: App paused, wasConnected=$_wasConnected, lastGroupId=$_lastGroupId');
         break;
 
