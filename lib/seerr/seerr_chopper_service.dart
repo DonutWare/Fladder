@@ -17,10 +17,16 @@ abstract class SeerrChopperService extends ChopperService {
   Future<Response<SeerrUserModel>> getMe();
 
   @POST(path: '/auth/local')
-  Future<Response<SeerrUserModel>> authenticateLocal(@Body() SeerrAuthLocalBody body);
+  Future<Response<SeerrUserModel>> authenticateLocal(
+    @Body() SeerrAuthLocalBody body, {
+    Map<String, String>? headers,
+  });
 
   @POST(path: '/auth/jellyfin')
-  Future<Response<SeerrUserModel>> authenticateJellyfin(@Body() SeerrAuthJellyfinBody body);
+  Future<Response<SeerrUserModel>> authenticateJellyfin(
+    @Body() SeerrAuthJellyfinBody body, {
+    Map<String, String>? headers,
+  });
 
   @POST(path: '/auth/logout')
   Future<Response<dynamic>> logout();

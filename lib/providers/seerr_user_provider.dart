@@ -16,17 +16,17 @@ class SeerrUser extends _$SeerrUser {
   Future<void> _fetchUser() async {
     final api = ref.read(seerrApiProvider);
     final response = await api.me();
-    if (response.isSuccessful && response.body != null) {
-      state = response.body;
+    if (response.isSuccessful && response.body is SeerrUserModel) {
+      state = response.body as SeerrUserModel;
     }
   }
 
   Future<SeerrUserModel?> refreshUser() async {
     final api = ref.read(seerrApiProvider);
     final response = await api.me();
-    if (response.isSuccessful) {
-      state = response.body;
-      return response.body;
+    if (response.isSuccessful && response.body is SeerrUserModel) {
+      state = response.body as SeerrUserModel;
+      return response.body as SeerrUserModel;
     }
     return null;
   }

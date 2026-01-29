@@ -1401,12 +1401,14 @@ class SeerrAuthLocalBody {
 class SeerrAuthJellyfinBody {
   final String username;
   final String password;
+  final Map<String, String>? customHeaders;
   @JsonKey(includeIfNull: false)
   final String? hostname;
 
   SeerrAuthJellyfinBody({
     required this.username,
     required this.password,
+    this.customHeaders,
     this.hostname,
   });
 
