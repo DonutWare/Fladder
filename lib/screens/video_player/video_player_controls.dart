@@ -105,12 +105,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                   ),
                 ),
                 if (subtitleWidget != null) subtitleWidget,
-                if (AdaptiveLayout.of(context).isDesktop)
-                  Consumer(builder: (context, ref, child) {
-                    final playing = ref.watch(mediaPlaybackProvider.select((value) => value.playing));
-                    final buffering = ref.watch(mediaPlaybackProvider.select((value) => value.buffering));
-                    return playButton(playing, buffering);
-                  }),
+
                 IgnorePointer(
                   ignoring: !showOverlay,
                   child: AnimatedOpacity(
@@ -171,28 +166,6 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget playButton(bool playing, bool buffering) {
-    return Align(
-      alignment: Alignment.center,
-      child: AnimatedScale(
-        curve: Curves.easeInOutCubicEmphasized,
-        scale: playing
-            ? 0
-            : buffering
-                ? 0
-                : 1,
-        duration: const Duration(milliseconds: 250),
-        child: IconButton.outlined(
-          onPressed: () => ref.read(videoPlayerProvider).play(),
-          isSelected: true,
-          iconSize: 65,
-          tooltip: "Resume video",
-          icon: const Icon(IconsaxPlusBold.play),
         ),
       ),
     );
