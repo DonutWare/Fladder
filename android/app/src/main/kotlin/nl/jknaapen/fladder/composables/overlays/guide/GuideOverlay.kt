@@ -3,6 +3,7 @@ package nl.jknaapen.fladder.composables.overlays.guide
 import GuideChannel
 import GuideProgram
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
@@ -206,9 +207,14 @@ fun GuideOverlay(
             }
         }
 
+        val animatedSizeFraction by animateFloatAsState(
+            if (showGuide) 0.5f else 1f,
+            label = "guideSizeFraction"
+        )
+
         Box(
             modifier = Modifier
-                .fillMaxSize(if (showGuide) 0.5f else 1f)
+                .fillMaxSize(animatedSizeFraction)
                 .align(Alignment.TopStart)
         ) {
             overlay(!showGuide)

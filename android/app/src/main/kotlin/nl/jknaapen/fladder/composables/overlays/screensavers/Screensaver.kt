@@ -33,7 +33,7 @@ internal fun ScreenSaver(
     val selectedType by PlayerSettingsObject.screenSaver.collectAsState(Screensaver.LOGO)
     val guideActive by VideoPlayerObject.guideVisible.collectAsState(false)
 
-    if (!leanBackEnabled(LocalContext.current) || selectedType == Screensaver.DISABLED || guideActive) {
+    if (!leanBackEnabled(LocalContext.current) || selectedType == Screensaver.DISABLED) {
         content()
         return
     }
@@ -57,7 +57,7 @@ internal fun ScreenSaver(
     }
 
     LaunchedEffect(playerInactive, selectedType, lastInteraction.longValue) {
-        if (playerInactive) {
+        if (playerInactive && !guideActive) {
             delay(5.minutes)
             screenSaverActive = true
         } else {
