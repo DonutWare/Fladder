@@ -161,6 +161,10 @@ fun guessSubtitleMimeType(fileName: String): String = when {
 }
 
 fun ExoPlayer.properlySetSubAndAudioTracks(playableData: PlayableData) {
+    if (playableData.mediaInfo.playbackType == PlaybackType.TV) {
+        // In TV mode, do not set tracks here as they are handled differently
+        return
+    }
     try {
         val currentSubIndex = playableData.defaultSubtrack
         val indexOfSubtitleTrack =
