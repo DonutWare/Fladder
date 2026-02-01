@@ -9,7 +9,7 @@
     "seerr",
     "Seerr"
   ],
-  "dart.flutterSdkPath": ".fvm/versions/3.35.1",
+  "dart.flutterSdkPath": ".fvm/versions/3.35.7",
   "search.exclude": {
     "**/.fvm": true
   },
