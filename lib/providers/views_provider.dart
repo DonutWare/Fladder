@@ -18,6 +18,7 @@ const enableCollectionTypes = {
   CollectionType.boxsets,
   CollectionType.playlists,
   CollectionType.photos,
+  CollectionType.livetv,
   CollectionType.folders,
 };
 
@@ -35,9 +36,7 @@ class ViewsNotifier extends StateNotifier<ViewsModel> {
   Future<ViewsModel?> fetchViews() async {
     if (state.loading) return null;
     final showAllCollections = ref.read(clientSettingsProvider.select((value) => value.showAllCollectionTypes));
-    final response = await api.usersUserIdViewsGet(
-      includeExternalContent: showAllCollections,
-    );
+    final response = await api.usersUserIdViewsGet();
     final createdViews = response.body?.items?.map((e) => ViewModel.fromBodyDto(e, ref)).where((element) {
       return showAllCollections ? true : enableCollectionTypes.contains(element.collectionType);
     });

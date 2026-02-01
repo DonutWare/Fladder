@@ -35,3 +35,4 @@ internal fun Translate(
 
     content(value.orEmpty())
 }
+

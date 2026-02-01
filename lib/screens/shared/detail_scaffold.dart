@@ -84,7 +84,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
 
   Future<void> _updateDominantColor() async {
     if (!ref.read(clientSettingsProvider.select((value) => value.deriveColorsFromItem))) return;
-    final newImage = widget.item?.getPosters?.logo;
+    final newImage = widget.item?.getPosters?.logo ?? widget.item?.getPosters?.primary ?? backgroundImage;
     if (newImage == null) return;
 
     final provider = newImage.imageProvider;
@@ -229,23 +229,17 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                         width: size.width,
                         color: widget.backgroundColor,
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          bottom: 0,
-                          top: MediaQuery.of(context).padding.top,
-                        ),
-                        child: FocusScope(
-                          autofocus: true,
-                          child: ConstrainedBox(
-                            constraints: BoxConstraints(
-                              minHeight: size.height,
-                              maxWidth: size.width,
-                            ),
-                            child: widget.content(
-                              context,
-                              padding.copyWith(
-                                left: sideBarPadding + 25 + MediaQuery.paddingOf(context).left,
-                              ),
+                      FocusScope(
+                        autofocus: true,
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minHeight: size.height,
+                            maxWidth: size.width,
+                          ),
+                          child: widget.content(
+                            context,
+                            padding.copyWith(
+                              left: sideBarPadding + 25 + MediaQuery.paddingOf(context).left,
                             ),
                           ),
                         ),

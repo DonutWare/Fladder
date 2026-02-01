@@ -5,15 +5,19 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:audio_service/audio_service.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smtc_windows/smtc_windows.dart' if (dart.library.html) 'package:fladder/stubs/web/smtc_web.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/items/channel_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
+import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/providers/live_tv_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
@@ -105,6 +109,12 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
       await (_player as NativePlayer).sendPlaybackDataToNative(context, model, startPosition);
     }
     return _player?.loadVideo(model.media?.url ?? "", play);
+  }
+
+  Future<void> updateTVGuide(TVGuideModel guide) async {
+    if (_player is NativePlayer) {
+      (_player as NativePlayer).sendTVGuideModel(guide);
+    }
   }
 
   Future<void> openPlayer(BuildContext context) async => _player?.open(context);
@@ -368,6 +378,39 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     if (newModel != null) {
       await ref.read(playbackModelHelper).shouldReload(newModel);
     }
+  }
+
+  @override
+  Future<void> loadProgram(GuideChannel selection) async {
+    final channelId = selection.channelId;
+    final model = await ref.read(liveTvProvider.notifier).fetchDashboard();
+    final channel = model.channels.firstWhereOrNull((c) => c.id == channelId);
+    if (channel != null) {
+      await ref.read(playbackModelHelper).loadTVChannel(channel);
+    }
+  }
+
+  @override
+  Future<List<GuideProgram>> fetchProgramsForChannel(String channelId) async {
+    final channel =
+        (await ref.read(jellyApiProvider).usersUserIdItemsItemIdGet(itemId: channelId)).body as ChannelModel;
+
+    final programs = await ref.read(liveTvProvider.notifier).fetchProgramsForChannel(channel);
+
+    final context = ref.read(localizationContextProvider);
+
+    return programs
+        .map((p) => GuideProgram(
+              id: p.id,
+              channelId: channelId,
+              name: p.name,
+              startMs: p.startDate.millisecondsSinceEpoch,
+              endMs: p.endDate.millisecondsSinceEpoch,
+              primaryPoster: p.images?.primary?.path,
+              overview: p.overview,
+              subTitle: context != null ? p.subLabel(context) : null,
+            ))
+        .toList();
   }
 
   Future<Uint8List?> takeScreenshot() {

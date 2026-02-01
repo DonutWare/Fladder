@@ -1,4 +1,3 @@
-// poster_image.dart
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -140,8 +139,7 @@ class PosterImage extends ConsumerWidget {
                       ),
                     ],
                   ),
-                if ((poster.userData.progress > 0 && poster.userData.progress < 100) &&
-                    poster.type != FladderItemType.book) ...{
+                if ((poster.progress > 0 && poster.progress < 100) && poster.type != FladderItemType.book) ...{
                   const SizedBox(
                     height: 4,
                   ),
@@ -154,7 +152,7 @@ class PosterImage extends ConsumerWidget {
                       child: LinearProgressIndicator(
                         minHeight: 7.5,
                         backgroundColor: Theme.of(context).colorScheme.onPrimary.withValues(alpha: 0.5),
-                        value: poster.userData.progress / 100,
+                        value: poster.progress / 100,
                         borderRadius: BorderRadius.circular(2),
                       ),
                     ),

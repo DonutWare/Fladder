@@ -176,7 +176,7 @@ class _ControlPanelActivityCardState extends State<ControlPanelActivityCard> {
                                   ),
                                   if (playState != null && nowPlayingItem != null) ...[
                                     Text(
-                                      "${playState.currentPosition.humanizeSmall ?? ""} / -${(nowPlayingItem.overview.runTime! - playState.currentPosition).humanizeSmall}",
+                                      "${playState.currentPosition.humanizeSmall ?? ""} / -${(nowPlayingItem.overview.runTime ?? Duration.zero - playState.currentPosition).humanizeSmall}",
                                     ),
                                   ]
                                 ],

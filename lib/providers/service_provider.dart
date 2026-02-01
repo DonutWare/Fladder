@@ -1401,6 +1401,40 @@ class JellyService {
       ),
     );
   }
+
+  Future<Response<BaseItemDtoQueryResult>> liveTvChannelsGet({
+    int? limit,
+  }) async {
+    return await api.liveTvChannelsGet(
+      limit: limit,
+      userId: account?.id,
+      addCurrentProgram: true,
+    );
+  }
+
+  Future<Response<BaseItemDtoQueryResult>> liveTvChannelPrograms({
+    required List<String> channelIds,
+    DateTime? minStartDate,
+    DateTime? maxStartDate,
+    DateTime? minEndDate,
+    DateTime? maxEndDate,
+  }) async {
+    return await api.liveTvProgramsGet(
+      channelIds: channelIds,
+      userId: account?.id,
+      minStartDate: minStartDate,
+      maxStartDate: maxStartDate,
+      minEndDate: minEndDate,
+      maxEndDate: maxEndDate,
+      enableUserData: false,
+      sortBy: [ItemSortBy.startdate],
+      fields: [
+        ItemFields.overview,
+        ItemFields.parentid,
+      ],
+      enableTotalRecordCount: false,
+    );
+  }
 }
 
 extension ParsedMap on Map<String, dynamic> {

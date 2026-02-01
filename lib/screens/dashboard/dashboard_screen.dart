@@ -87,6 +87,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     final resumeVideo = dashboardData.resumeVideo;
     final resumeAudio = dashboardData.resumeAudio;
     final resumeBooks = dashboardData.resumeBooks;
+    final tvChannels = dashboardData.activePrograms;
 
     final allResume = [...resumeVideo, ...resumeAudio, ...resumeBooks].toList();
 
@@ -158,6 +159,16 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     ),
                   ),
                 ...[
+                  if (tvChannels.isNotEmpty)
+                    PosterRow(
+                      contentPadding: padding,
+                      label: "Active TV Channels",
+                      collectionAspectRatio: 0.55,
+                      onLabelClick: () {
+                        return LiveTvRoute().navigate(context);
+                      },
+                      posters: tvChannels,
+                    ),
                   if (resumeVideo.isNotEmpty &&
                       (homeSettings.nextUp == HomeNextUp.cont || homeSettings.nextUp == HomeNextUp.separate))
                     PosterRow(
@@ -197,27 +208,32 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                           contentPadding: padding,
                           label: context.localized.dashboardRecentlyAdded(view.name),
                           collectionAspectRatio: view.collectionType.aspectRatio,
-                          onLabelClick: () => context.router.push(
-                            LibrarySearchRoute(
-                              viewModelId: view.id,
-                              types: switch (view.collectionType) {
-                                CollectionType.tvshows => {
-                                    FladderItemType.episode: true,
-                                  },
-                                _ => {},
-                              },
-                              sortingOptions: switch (view.collectionType) {
-                                CollectionType.books ||
-                                CollectionType.boxsets ||
-                                CollectionType.folders ||
-                                CollectionType.music =>
-                                  SortingOptions.dateLastContentAdded,
-                                _ => SortingOptions.dateAdded,
-                              },
-                              sortOrder: SortingOrder.descending,
-                              recursive: true,
-                            ),
-                          ),
+                          onLabelClick: () {
+                            if (view.collectionType == CollectionType.livetv) {
+                              return LiveTvRoute().navigate(context);
+                            }
+                            return context.router.push(
+                              LibrarySearchRoute(
+                                viewModelId: view.id,
+                                types: switch (view.collectionType) {
+                                  CollectionType.tvshows => {
+                                      FladderItemType.episode: true,
+                                    },
+                                  _ => {},
+                                },
+                                sortingOptions: switch (view.collectionType) {
+                                  CollectionType.books ||
+                                  CollectionType.boxsets ||
+                                  CollectionType.folders ||
+                                  CollectionType.music =>
+                                    SortingOptions.dateLastContentAdded,
+                                  _ => SortingOptions.dateAdded,
+                                },
+                                sortOrder: SortingOrder.descending,
+                                recursive: true,
+                              ),
+                            );
+                          },
                           posters: view.recentlyAdded,
                         ),
                       ),

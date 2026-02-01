@@ -23,12 +23,15 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.input.key.type
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import nl.jknaapen.fladder.utility.conditional
 
 @Composable
 internal fun CustomButton(
@@ -36,10 +39,14 @@ internal fun CustomButton(
     onClick: () -> Unit,
     enabled: Boolean = true,
     enableScaledFocus: Boolean = false,
+    clickAnimation: Boolean = true,
     backgroundColor: Color = Color.White.copy(alpha = 0.1f),
     foreGroundColor: Color = Color.White,
     backgroundFocusedColor: Color = Color.White,
     foreGroundFocusedColor: Color = Color.Black,
+    shape: Shape = CircleShape,
+    onFocused: ((Boolean) -> Unit)? = null,
+    padding: Dp = 12.dp,
     icon: @Composable () -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
@@ -102,9 +109,17 @@ internal fun CustomButton(
                 }
                 return@onKeyEvent false
             }
-            .scale(animatedScale)
-            .background(currentBackgroundColor, shape = CircleShape)
-            .onFocusChanged { isFocused = it.isFocused }
+            .conditional(
+                condition = clickAnimation,
+                {
+                    scale(animatedScale)
+                }
+            )
+            .background(currentBackgroundColor, shape = shape)
+            .onFocusChanged {
+                isFocused = it.isFocused
+                onFocused?.invoke(it.isFocused)
+            }
             .clickable(
                 enabled = enabled,
                 interactionSource = interactionSource,
@@ -115,7 +130,7 @@ internal fun CustomButton(
         contentAlignment = Alignment.Center
     ) {
         CompositionLocalProvider(LocalContentColor provides currentContentColor) {
-            Box(modifier = Modifier.padding(12.dp)) {
+            Box(modifier = Modifier.padding(padding)) {
                 icon()
             }
         }

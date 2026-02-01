@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/items/channel_model.dart';
 import 'package:fladder/models/items/chapters_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
@@ -21,6 +22,7 @@ import 'package:fladder/models/playback/direct_playback_model.dart';
 import 'package:fladder/models/playback/offline_playback_model.dart';
 import 'package:fladder/models/playback/playback_options_dialogue.dart';
 import 'package:fladder/models/playback/transcode_playback_model.dart';
+import 'package:fladder/models/playback/tv_playback_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/models/video_stream_model.dart';
@@ -35,6 +37,7 @@ import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/util/bitrate_helper.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/list_extensions.dart';
+import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/map_bool_helper.dart';
 import 'package:fladder/util/streams_selection.dart';
 import 'package:fladder/wrappers/media_control_wrapper.dart';
@@ -58,7 +61,8 @@ extension PlaybackModelExtension on PlaybackModel? {
         DirectPlaybackModel _ => PlaybackType.directStream.name(context),
         TranscodePlaybackModel _ => PlaybackType.transcode.name(context),
         OfflinePlaybackModel _ => PlaybackType.offline.name(context),
-        _ => null
+        TvPlaybackModel _ => PlaybackType.tv.name(context),
+        _ => context.localized.unknown,
       };
 }
 
@@ -141,6 +145,27 @@ class PlaybackModelHelper {
     return newModel;
   }
 
+  Future<void> loadTVChannel(ChannelModel? channel) async {
+    if (channel == null) return;
+    ref.read(videoPlayerProvider).pause();
+    ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(buffering: true));
+    final currentModel = ref.read(playBackModel);
+    final newModel = (await createPlaybackModel(
+          null,
+          channel,
+          forcedPlaybackType: PlaybackType.tv,
+          oldModel: currentModel,
+        )) ??
+        await _createOfflinePlaybackModel(
+          channel,
+          null,
+          await ref.read(syncProvider.notifier).getSyncedItem(channel.id),
+          oldModel: currentModel,
+        );
+    if (newModel == null) return;
+    ref.read(videoPlayerProvider.notifier).loadPlaybackItem(newModel, Duration.zero);
+  }
+
   Future<OfflinePlaybackModel?> _createOfflinePlaybackModel(
     ItemBaseModel item,
     MediaStreamsModel? streamModel,
@@ -173,6 +198,7 @@ class PlaybackModelHelper {
     PlaybackModel? oldModel,
     List<ItemBaseModel>? libraryQueue,
     bool showPlaybackOptions = false,
+    PlaybackType? forcedPlaybackType,
     Duration? startPosition,
   }) async {
     try {
@@ -214,10 +240,10 @@ class PlaybackModelHelper {
         if (!context.mounted) return null;
 
         return switch (playbackType) {
-          PlaybackType.directStream || PlaybackType.transcode => await _createServerPlaybackModel(
+          PlaybackType.directStream || PlaybackType.transcode || PlaybackType.tv => await _createServerPlaybackModel(
               fullItem,
               item.streamModel,
-              playbackType,
+              forcedPlaybackType ?? playbackType,
               oldModel: oldModel,
               libraryQueue: queue,
               startPosition: startPosition,
@@ -233,7 +259,7 @@ class PlaybackModelHelper {
         return (await _createServerPlaybackModel(
               fullItem,
               item.streamModel,
-              PlaybackType.directStream,
+              forcedPlaybackType ?? PlaybackType.directStream,
               startPosition: startPosition,
               oldModel: oldModel,
               libraryQueue: queue,
@@ -347,17 +373,29 @@ class PlaybackModelHelper {
           queryParameters: directOptions,
         );
 
-        return DirectPlaybackModel(
-          item: item,
-          queue: libraryQueue,
-          mediaSegments: mediaSegments?.body,
-          chapters: chapters,
-          playbackInfo: playbackInfo,
-          trickPlay: trickPlay,
-          media: Media(url: mediaPath ?? playbackUrl),
-          mediaStreams: mediaStreamsWithUrls,
-          bitRateOptions: qualityOptions,
-        );
+        if (type == PlaybackType.tv) {
+          final tvModel = TvPlaybackModel(
+            channel: item as ChannelModel,
+            item: item,
+            queue: libraryQueue,
+            playbackInfo: playbackInfo,
+            media: Media(url: mediaPath ?? playbackUrl),
+          );
+          tvModel.startTracking(ref);
+          return tvModel;
+        } else {
+          return DirectPlaybackModel(
+            item: item,
+            queue: libraryQueue,
+            mediaSegments: mediaSegments?.body,
+            chapters: chapters,
+            playbackInfo: playbackInfo,
+            trickPlay: trickPlay,
+            media: Media(url: mediaPath ?? playbackUrl),
+            mediaStreams: mediaStreamsWithUrls,
+            bitRateOptions: qualityOptions,
+          );
+        }
       } else if ((mediaSource.supportsTranscoding ?? false) && mediaSource.transcodingUrl != null) {
         return TranscodePlaybackModel(
           item: item,
