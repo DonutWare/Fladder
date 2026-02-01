@@ -265,7 +265,7 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
                         ),
                         IconButton(
                           onPressed: () => widget.showGuide(true),
-                          icon: const Icon(IconsaxPlusLinear.slider_horizontal),
+                          icon: const Icon(IconsaxPlusBold.slider_vertical),
                         ),
                       ],
                     ),

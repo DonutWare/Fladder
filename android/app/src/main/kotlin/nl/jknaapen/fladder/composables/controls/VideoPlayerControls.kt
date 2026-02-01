@@ -62,6 +62,7 @@ import io.github.rabehx.iconsax.filled.Flash
 import io.github.rabehx.iconsax.filled.Forward
 import io.github.rabehx.iconsax.filled.Pause
 import io.github.rabehx.iconsax.filled.Play
+import io.github.rabehx.iconsax.filled.SliderVertical
 import io.github.rabehx.iconsax.filled.Subtitle
 import io.github.rabehx.iconsax.outline.CloseSquare
 import io.github.rabehx.iconsax.outline.Refresh
@@ -587,7 +588,7 @@ internal fun RowScope.RightButtons(
                 },
             ) {
                 Icon(
-                    Iconsax.Filled.Check,
+                    Iconsax.Filled.SliderVertical,
                     contentDescription = "TV Guide",
                 )
             }
