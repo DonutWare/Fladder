@@ -348,6 +348,10 @@ enum FladderItemType {
   book(
     icon: IconsaxPlusLinear.book,
     selectedicon: IconsaxPlusBold.book,
+  ),
+  tvchannel(
+    icon: IconsaxPlusLinear.slider_horizontal,
+    selectedicon: IconsaxPlusBold.slider_horizontal,
   );
 
   const FladderItemType({required this.icon, required this.selectedicon});
@@ -359,6 +363,7 @@ enum FladderItemType {
         FladderItemType.folder => 0.8,
         FladderItemType.musicAlbum => 0.8,
         FladderItemType.baseType => 0.8,
+        FladderItemType.tvchannel => 0.8,
         _ => 0.55,
       };
 
@@ -368,6 +373,7 @@ enum FladderItemType {
         FladderItemType.season,
         FladderItemType.movie,
         FladderItemType.musicVideo,
+        FladderItemType.tvchannel,
       };
 
   static Set<FladderItemType> get galleryItem => {
@@ -393,6 +399,7 @@ enum FladderItemType {
         FladderItemType.boxset => context.localized.mediaTypeBoxset(count),
         FladderItemType.playlist => context.localized.mediaTypePlaylist(count),
         FladderItemType.book => context.localized.mediaTypeBook(count),
+        FladderItemType.tvchannel => context.localized.mediaTypeTV(count),
       };
 
   BaseItemKind get dtoKind => switch (this) {
@@ -413,6 +420,7 @@ enum FladderItemType {
         FladderItemType.boxset => BaseItemKind.boxset,
         FladderItemType.playlist => BaseItemKind.playlist,
         FladderItemType.book => BaseItemKind.book,
+        FladderItemType.tvchannel => BaseItemKind.tvchannel,
       };
 
   final IconData icon;

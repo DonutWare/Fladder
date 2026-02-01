@@ -77,6 +77,8 @@ extension CollectionTypeExtension on CollectionType? {
         return {FladderItemType.series};
       case CollectionType.homevideos:
         return {FladderItemType.photoAlbum, FladderItemType.folder, FladderItemType.photo, FladderItemType.video};
+      case CollectionType.livetv:
+        return {FladderItemType.tvchannel};
       default:
         return {};
     }

@@ -43,6 +43,7 @@ enum PlaybackType {
   direct,
   transcoded,
   offline,
+  tv,
 }
 
 enum MediaSegmentType {
@@ -693,6 +694,199 @@ class PlaybackState {
 ;
 }
 
+class TVGuideModel {
+  TVGuideModel({
+    required this.channels,
+    required this.startMs,
+    required this.endMs,
+    this.currentProgram,
+  });
+
+  List<GuideChannel> channels;
+
+  int startMs;
+
+  int endMs;
+
+  GuideProgram? currentProgram;
+
+  List<Object?> _toList() {
+    return <Object?>[
+      channels,
+      startMs,
+      endMs,
+      currentProgram,
+    ];
+  }
+
+  Object encode() {
+    return _toList();  }
+
+  static TVGuideModel decode(Object result) {
+    result as List<Object?>;
+    return TVGuideModel(
+      channels: (result[0] as List<Object?>?)!.cast<GuideChannel>(),
+      startMs: result[1]! as int,
+      endMs: result[2]! as int,
+      currentProgram: result[3] as GuideProgram?,
+    );
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  bool operator ==(Object other) {
+    if (other is! TVGuideModel || other.runtimeType != runtimeType) {
+      return false;
+    }
+    if (identical(this, other)) {
+      return true;
+    }
+    return _deepEquals(encode(), other.encode());
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  int get hashCode => Object.hashAll(_toList())
+;
+}
+
+class GuideChannel {
+  GuideChannel({
+    required this.channelId,
+    required this.name,
+    this.logoUrl,
+    required this.programs,
+    required this.programsLoaded,
+  });
+
+  String channelId;
+
+  String name;
+
+  String? logoUrl;
+
+  List<GuideProgram> programs;
+
+  bool programsLoaded;
+
+  List<Object?> _toList() {
+    return <Object?>[
+      channelId,
+      name,
+      logoUrl,
+      programs,
+      programsLoaded,
+    ];
+  }
+
+  Object encode() {
+    return _toList();  }
+
+  static GuideChannel decode(Object result) {
+    result as List<Object?>;
+    return GuideChannel(
+      channelId: result[0]! as String,
+      name: result[1]! as String,
+      logoUrl: result[2] as String?,
+      programs: (result[3] as List<Object?>?)!.cast<GuideProgram>(),
+      programsLoaded: result[4]! as bool,
+    );
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  bool operator ==(Object other) {
+    if (other is! GuideChannel || other.runtimeType != runtimeType) {
+      return false;
+    }
+    if (identical(this, other)) {
+      return true;
+    }
+    return _deepEquals(encode(), other.encode());
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  int get hashCode => Object.hashAll(_toList())
+;
+}
+
+class GuideProgram {
+  GuideProgram({
+    required this.id,
+    required this.channelId,
+    required this.name,
+    required this.startMs,
+    required this.endMs,
+    this.primaryPoster,
+    this.overview,
+    this.subTitle,
+  });
+
+  String id;
+
+  String channelId;
+
+  String name;
+
+  int startMs;
+
+  int endMs;
+
+  String? primaryPoster;
+
+  String? overview;
+
+  String? subTitle;
+
+  List<Object?> _toList() {
+    return <Object?>[
+      id,
+      channelId,
+      name,
+      startMs,
+      endMs,
+      primaryPoster,
+      overview,
+      subTitle,
+    ];
+  }
+
+  Object encode() {
+    return _toList();  }
+
+  static GuideProgram decode(Object result) {
+    result as List<Object?>;
+    return GuideProgram(
+      id: result[0]! as String,
+      channelId: result[1]! as String,
+      name: result[2]! as String,
+      startMs: result[3]! as int,
+      endMs: result[4]! as int,
+      primaryPoster: result[5] as String?,
+      overview: result[6] as String?,
+      subTitle: result[7] as String?,
+    );
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  bool operator ==(Object other) {
+    if (other is! GuideProgram || other.runtimeType != runtimeType) {
+      return false;
+    }
+    if (identical(this, other)) {
+      return true;
+    }
+    return _deepEquals(encode(), other.encode());
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  int get hashCode => Object.hashAll(_toList())
+;
+}
+
 
 class _PigeonCodec extends StandardMessageCodec {
   const _PigeonCodec();
@@ -737,6 +931,15 @@ class _PigeonCodec extends StandardMessageCodec {
     }    else if (value is PlaybackState) {
       buffer.putUint8(140);
       writeValue(buffer, value.encode());
+    }    else if (value is TVGuideModel) {
+      buffer.putUint8(141);
+      writeValue(buffer, value.encode());
+    }    else if (value is GuideChannel) {
+      buffer.putUint8(142);
+      writeValue(buffer, value.encode());
+    }    else if (value is GuideProgram) {
+      buffer.putUint8(143);
+      writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
     }
@@ -771,6 +974,12 @@ class _PigeonCodec extends StandardMessageCodec {
         return StartResult.decode(readValue(buffer)!);
       case 140: 
         return PlaybackState.decode(readValue(buffer)!);
+      case 141: 
+        return TVGuideModel.decode(readValue(buffer)!);
+      case 142: 
+        return GuideChannel.decode(readValue(buffer)!);
+      case 143: 
+        return GuideProgram.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
     }
@@ -891,6 +1100,34 @@ class VideoPlayerApi {
       binaryMessenger: pigeonVar_binaryMessenger,
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[playableData]);
+    final List<Object?>? pigeonVar_replyList =
+        await pigeonVar_sendFuture as List<Object?>?;
+    if (pigeonVar_replyList == null) {
+      throw _createConnectionError(pigeonVar_channelName);
+    } else if (pigeonVar_replyList.length > 1) {
+      throw PlatformException(
+        code: pigeonVar_replyList[0]! as String,
+        message: pigeonVar_replyList[1] as String?,
+        details: pigeonVar_replyList[2],
+      );
+    } else if (pigeonVar_replyList[0] == null) {
+      throw PlatformException(
+        code: 'null-error',
+        message: 'Host platform returned null value for non-null return value.',
+      );
+    } else {
+      return (pigeonVar_replyList[0] as bool?)!;
+    }
+  }
+
+  Future<bool> sendTVGuideModel(TVGuideModel guide) async {
+    final String pigeonVar_channelName = 'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.sendTVGuideModel$pigeonVar_messageChannelSuffix';
+    final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[guide]);
     final List<Object?>? pigeonVar_replyList =
         await pigeonVar_sendFuture as List<Object?>?;
     if (pigeonVar_replyList == null) {
@@ -1153,6 +1390,10 @@ abstract class VideoPlayerControlsCallback {
 
   void swapAudioTrack(int value);
 
+  void loadProgram(GuideChannel selection);
+
+  Future<List<GuideProgram>> fetchProgramsForChannel(String channelId);
+
   static void setUp(VideoPlayerControlsCallback? api, {BinaryMessenger? binaryMessenger, String messageChannelSuffix = '',}) {
     messageChannelSuffix = messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '';
     {
@@ -1254,6 +1495,56 @@ abstract class VideoPlayerControlsCallback {
           try {
             api.swapAudioTrack(arg_value!);
             return wrapResponse(empty: true);
+          } on PlatformException catch (e) {
+            return wrapResponse(error: e);
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
+          }
+        });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.loadProgram$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
+      if (api == null) {
+        pigeonVar_channel.setMessageHandler(null);
+      } else {
+        pigeonVar_channel.setMessageHandler((Object? message) async {
+          assert(message != null,
+          'Argument for dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.loadProgram was null.');
+          final List<Object?> args = (message as List<Object?>?)!;
+          final GuideChannel? arg_selection = (args[0] as GuideChannel?);
+          assert(arg_selection != null,
+              'Argument for dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.loadProgram was null, expected non-null GuideChannel.');
+          try {
+            api.loadProgram(arg_selection!);
+            return wrapResponse(empty: true);
+          } on PlatformException catch (e) {
+            return wrapResponse(error: e);
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
+          }
+        });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.fetchProgramsForChannel$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
+      if (api == null) {
+        pigeonVar_channel.setMessageHandler(null);
+      } else {
+        pigeonVar_channel.setMessageHandler((Object? message) async {
+          assert(message != null,
+          'Argument for dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.fetchProgramsForChannel was null.');
+          final List<Object?> args = (message as List<Object?>?)!;
+          final String? arg_channelId = (args[0] as String?);
+          assert(arg_channelId != null,
+              'Argument for dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.fetchProgramsForChannel was null, expected non-null String.');
+          try {
+            final List<GuideProgram> output = await api.fetchProgramsForChannel(arg_channelId!);
+            return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
           }          catch (e) {

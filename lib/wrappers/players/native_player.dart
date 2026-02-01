@@ -9,6 +9,7 @@ import 'package:fladder/models/playback/direct_playback_model.dart';
 import 'package:fladder/models/playback/offline_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/playback/transcode_playback_model.dart';
+import 'package:fladder/models/playback/tv_playback_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/src/video_player_helper.g.dart';
 import 'package:fladder/wrappers/players/base_player.dart';
@@ -114,6 +115,10 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
   @override
   Stream<PlayerState> get stateStream => _stateController.stream;
 
+  Future<void> sendTVGuideModel(TVGuideModel guide) async {
+    await player.sendTVGuideModel(guide);
+  }
+
   Future<void> sendPlaybackDataToNative(
     BuildContext? context,
     PlaybackModel model,
@@ -182,6 +187,7 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
           DirectPlaybackModel() => PlaybackType.direct,
           OfflinePlaybackModel() => PlaybackType.offline,
           TranscodePlaybackModel() => PlaybackType.transcoded,
+          TvPlaybackModel() => PlaybackType.tv,
           _ => PlaybackType.direct,
         },
         videoInformation: model.item.streamModel?.mediaInfoTag ?? " ",

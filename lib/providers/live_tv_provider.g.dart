@@ -6,12 +6,11 @@ part of 'live_tv_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$liveTvHash() => r'913766c26e360bfde734fbf5194f8af0628e326e';
+String _$liveTvHash() => r'6a05d12da523128e03bc4848653332bc1053510b';
 
 /// See also [LiveTv].
 @ProviderFor(LiveTv)
-final liveTvProvider =
-    AutoDisposeNotifierProvider<LiveTv, LiveTvModel>.internal(
+final liveTvProvider = NotifierProvider<LiveTv, LiveTvModel>.internal(
   LiveTv.new,
   name: r'liveTvProvider',
   debugGetCreateSourceHash:
@@ -20,6 +19,6 @@ final liveTvProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$LiveTv = AutoDisposeNotifier<LiveTvModel>;
+typedef _$LiveTv = Notifier<LiveTvModel>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

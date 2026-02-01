@@ -83,7 +83,8 @@ class FlutterError (
 enum class PlaybackType(val raw: Int) {
   DIRECT(0),
   TRANSCODED(1),
-  OFFLINE(2);
+  OFFLINE(2),
+  TV(3);
 
   companion object {
     fun ofRaw(raw: Int): PlaybackType? {
@@ -523,6 +524,132 @@ data class PlaybackState (
 
   override fun hashCode(): Int = toList().hashCode()
 }
+
+/** Generated class from Pigeon that represents data sent in messages. */
+data class TVGuideModel (
+  val channels: List<GuideChannel>,
+  val startMs: Long,
+  val endMs: Long,
+  val currentProgram: GuideProgram? = null
+)
+ {
+  companion object {
+    fun fromList(pigeonVar_list: List<Any?>): TVGuideModel {
+      val channels = pigeonVar_list[0] as List<GuideChannel>
+      val startMs = pigeonVar_list[1] as Long
+      val endMs = pigeonVar_list[2] as Long
+      val currentProgram = pigeonVar_list[3] as GuideProgram?
+      return TVGuideModel(channels, startMs, endMs, currentProgram)
+    }
+  }
+  fun toList(): List<Any?> {
+    return listOf(
+      channels,
+      startMs,
+      endMs,
+      currentProgram,
+    )
+  }
+  override fun equals(other: Any?): Boolean {
+    if (other !is TVGuideModel) {
+      return false
+    }
+    if (this === other) {
+      return true
+    }
+    return VideoPlayerHelperPigeonUtils.deepEquals(toList(), other.toList())  }
+
+  override fun hashCode(): Int = toList().hashCode()
+}
+
+/** Generated class from Pigeon that represents data sent in messages. */
+data class GuideChannel (
+  val channelId: String,
+  val name: String,
+  val logoUrl: String? = null,
+  val programs: List<GuideProgram>,
+  val programsLoaded: Boolean
+)
+ {
+  companion object {
+    fun fromList(pigeonVar_list: List<Any?>): GuideChannel {
+      val channelId = pigeonVar_list[0] as String
+      val name = pigeonVar_list[1] as String
+      val logoUrl = pigeonVar_list[2] as String?
+      val programs = pigeonVar_list[3] as List<GuideProgram>
+      val programsLoaded = pigeonVar_list[4] as Boolean
+      return GuideChannel(channelId, name, logoUrl, programs, programsLoaded)
+    }
+  }
+  fun toList(): List<Any?> {
+    return listOf(
+      channelId,
+      name,
+      logoUrl,
+      programs,
+      programsLoaded,
+    )
+  }
+  override fun equals(other: Any?): Boolean {
+    if (other !is GuideChannel) {
+      return false
+    }
+    if (this === other) {
+      return true
+    }
+    return VideoPlayerHelperPigeonUtils.deepEquals(toList(), other.toList())  }
+
+  override fun hashCode(): Int = toList().hashCode()
+}
+
+/** Generated class from Pigeon that represents data sent in messages. */
+data class GuideProgram (
+  val id: String,
+  val channelId: String,
+  val name: String,
+  val startMs: Long,
+  val endMs: Long,
+  val primaryPoster: String? = null,
+  val overview: String? = null,
+  val subTitle: String? = null
+)
+ {
+  companion object {
+    fun fromList(pigeonVar_list: List<Any?>): GuideProgram {
+      val id = pigeonVar_list[0] as String
+      val channelId = pigeonVar_list[1] as String
+      val name = pigeonVar_list[2] as String
+      val startMs = pigeonVar_list[3] as Long
+      val endMs = pigeonVar_list[4] as Long
+      val primaryPoster = pigeonVar_list[5] as String?
+      val overview = pigeonVar_list[6] as String?
+      val subTitle = pigeonVar_list[7] as String?
+      return GuideProgram(id, channelId, name, startMs, endMs, primaryPoster, overview, subTitle)
+    }
+  }
+  fun toList(): List<Any?> {
+    return listOf(
+      id,
+      channelId,
+      name,
+      startMs,
+      endMs,
+      primaryPoster,
+      overview,
+      subTitle,
+    )
+  }
+  override fun equals(other: Any?): Boolean {
+    if (other !is GuideProgram) {
+      return false
+    }
+    if (this === other) {
+      return true
+    }
+    return VideoPlayerHelperPigeonUtils.deepEquals(toList(), other.toList())  }
+
+  override fun hashCode(): Int = toList().hashCode()
+}
 private open class VideoPlayerHelperPigeonCodec : StandardMessageCodec() {
   override fun readValueOfType(type: Byte, buffer: ByteBuffer): Any? {
     return when (type) {
@@ -586,6 +713,21 @@ private open class VideoPlayerHelperPigeonCodec : StandardMessageCodec() {
           PlaybackState.fromList(it)
         }
       }
+      141.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          TVGuideModel.fromList(it)
+        }
+      }
+      142.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          GuideChannel.fromList(it)
+        }
+      }
+      143.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          GuideProgram.fromList(it)
+        }
+      }
       else -> super.readValueOfType(type, buffer)
     }
   }
@@ -637,6 +779,18 @@ private open class VideoPlayerHelperPigeonCodec : StandardMessageCodec() {
       }
       is PlaybackState -> {
         stream.write(140)
+        writeValue(stream, value.toList())
+      }
+      is TVGuideModel -> {
+        stream.write(141)
+        writeValue(stream, value.toList())
+      }
+      is GuideChannel -> {
+        stream.write(142)
+        writeValue(stream, value.toList())
+      }
+      is GuideProgram -> {
+        stream.write(143)
         writeValue(stream, value.toList())
       }
       else -> super.writeValue(stream, value)
@@ -715,6 +869,7 @@ interface NativeVideoActivity {
 /** Generated interface from Pigeon that represents a handler of messages from Flutter. */
 interface VideoPlayerApi {
   fun sendPlayableModel(playableData: PlayableData, callback: (Result<Boolean>) -> Unit)
+  fun sendTVGuideModel(guide: TVGuideModel, callback: (Result<Boolean>) -> Unit)
   fun open(url: String, play: Boolean, callback: (Result<Boolean>) -> Unit)
   fun setLooping(looping: Boolean)
   /** Sets the volume, with 0.0 being muted and 1.0 being full volume. */
@@ -744,6 +899,26 @@ interface VideoPlayerApi {
             val args = message as List<Any?>
             val playableDataArg = args[0] as PlayableData
             api.sendPlayableModel(playableDataArg) { result: Result<Boolean> ->
+              val error = result.exceptionOrNull()
+              if (error != null) {
+                reply.reply(VideoPlayerHelperPigeonUtils.wrapError(error))
+              } else {
+                val data = result.getOrNull()
+                reply.reply(VideoPlayerHelperPigeonUtils.wrapResult(data))
+              }
+            }
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.sendTVGuideModel$separatedMessageChannelSuffix", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val guideArg = args[0] as TVGuideModel
+            api.sendTVGuideModel(guideArg) { result: Result<Boolean> ->
               val error = result.exceptionOrNull()
               if (error != null) {
                 reply.reply(VideoPlayerHelperPigeonUtils.wrapError(error))
@@ -1014,6 +1189,43 @@ class VideoPlayerControlsCallback(private val binaryMessenger: BinaryMessenger, 
           callback(Result.failure(FlutterError(it[0] as String, it[1] as String, it[2] as String?)))
         } else {
           callback(Result.success(Unit))
+        }
+      } else {
+        callback(Result.failure(VideoPlayerHelperPigeonUtils.createConnectionError(channelName)))
+      } 
+    }
+  }
+  fun loadProgram(selectionArg: GuideChannel, callback: (Result<Unit>) -> Unit)
+{
+    val separatedMessageChannelSuffix = if (messageChannelSuffix.isNotEmpty()) ".$messageChannelSuffix" else ""
+    val channelName = "dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.loadProgram$separatedMessageChannelSuffix"
+    val channel = BasicMessageChannel<Any?>(binaryMessenger, channelName, codec)
+    channel.send(listOf(selectionArg)) {
+      if (it is List<*>) {
+        if (it.size > 1) {
+          callback(Result.failure(FlutterError(it[0] as String, it[1] as String, it[2] as String?)))
+        } else {
+          callback(Result.success(Unit))
+        }
+      } else {
+        callback(Result.failure(VideoPlayerHelperPigeonUtils.createConnectionError(channelName)))
+      } 
+    }
+  }
+  fun fetchProgramsForChannel(channelIdArg: String, callback: (Result<List<GuideProgram>>) -> Unit)
+{
+    val separatedMessageChannelSuffix = if (messageChannelSuffix.isNotEmpty()) ".$messageChannelSuffix" else ""
+    val channelName = "dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.fetchProgramsForChannel$separatedMessageChannelSuffix"
+    val channel = BasicMessageChannel<Any?>(binaryMessenger, channelName, codec)
+    channel.send(listOf(channelIdArg)) {
+      if (it is List<*>) {
+        if (it.size > 1) {
+          callback(Result.failure(FlutterError(it[0] as String, it[1] as String, it[2] as String?)))
+        } else if (it[0] == null) {
+          callback(Result.failure(FlutterError("null-error", "Flutter api returned null value for non-null return value.", "")))
+        } else {
+          val output = it[0] as List<GuideProgram>
+          callback(Result.success(output))
         }
       } else {
         callback(Result.failure(VideoPlayerHelperPigeonUtils.createConnectionError(channelName)))

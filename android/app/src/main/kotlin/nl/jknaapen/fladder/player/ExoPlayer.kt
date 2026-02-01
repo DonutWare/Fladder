@@ -45,6 +45,7 @@ import androidx.media3.ui.PlayerView
 import io.github.peerless2012.ass.media.kt.buildWithAssSupport
 import io.github.peerless2012.ass.media.type.AssRenderType
 import kotlinx.coroutines.delay
+import nl.jknaapen.fladder.composables.overlays.guide.GuideOverlay
 import nl.jknaapen.fladder.composables.overlays.NextUpOverlay
 import nl.jknaapen.fladder.messengers.properlySetSubAndAudioTracks
 import nl.jknaapen.fladder.objects.PlayerSettingsObject
@@ -218,49 +219,66 @@ internal fun ExoPlayer(
     val fillScreen by PlayerSettingsObject.fillScreen.collectAsState(false)
     val videoFit by PlayerSettingsObject.videoFit.collectAsState(AspectRatioFrameLayout.RESIZE_MODE_FIT)
 
+    val isTVPlayback by VideoPlayerObject.implementation.isTVMode.collectAsState(false)
+
+    @Composable
+    fun createPlayer(showControls: Boolean) {
+        AndroidView(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = Color.Black)
+                .conditional(!fillScreen) {
+                    displayCutoutPadding()
+                },
+            factory = {
+                PlayerView(it).apply {
+                    player = exoPlayer
+                    useController = false
+                    resizeMode = videoFit
+                    layoutParams = ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                    )
+                    keepScreenOn = false
+                    subtitleView?.apply {
+                        setStyle(
+                            CaptionStyleCompat(
+                                android.graphics.Color.WHITE,
+                                android.graphics.Color.TRANSPARENT,
+                                android.graphics.Color.TRANSPARENT,
+                                CaptionStyleCompat.EDGE_TYPE_OUTLINE,
+                                android.graphics.Color.BLACK,
+                                null
+                            )
+                        )
+                    }
+                }
+            },
+        )
+        if (showControls)
+            CompositionLocalProvider(LocalPlayer provides exoPlayer) {
+                controls(exoPlayer)
+            }
+    }
+
     AllowedOrientations(
         acceptedOrientations
     ) {
-        NextUpOverlay(
-            modifier = Modifier
-                .fillMaxSize()
-        ) { showControls ->
-            AndroidView(
+        when (isTVPlayback) {
+            true -> GuideOverlay(
+                modifier = Modifier.fillMaxSize(),
+                overlay = {
+                    createPlayer(showControls = it)
+                }
+            )
+
+            false -> NextUpOverlay(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .background(color = Color.Black)
-                    .conditional(!fillScreen) {
-                        displayCutoutPadding()
-                    },
-                factory = {
-                    PlayerView(it).apply {
-                        player = exoPlayer
-                        useController = false
-                        resizeMode = videoFit
-                        layoutParams = ViewGroup.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT,
-                            ViewGroup.LayoutParams.MATCH_PARENT,
-                        )
-                        keepScreenOn = false
-                        subtitleView?.apply {
-                            setStyle(
-                                CaptionStyleCompat(
-                                    android.graphics.Color.WHITE,
-                                    android.graphics.Color.TRANSPARENT,
-                                    android.graphics.Color.TRANSPARENT,
-                                    CaptionStyleCompat.EDGE_TYPE_OUTLINE,
-                                    android.graphics.Color.BLACK,
-                                    null
-                                )
-                            )
-                        }
-                    }
+                    .fillMaxSize(),
+                overlay = {
+                    createPlayer(showControls = it)
                 },
             )
-            if (showControls)
-                CompositionLocalProvider(LocalPlayer provides exoPlayer) {
-                    controls(exoPlayer)
-                }
         }
     }
 }

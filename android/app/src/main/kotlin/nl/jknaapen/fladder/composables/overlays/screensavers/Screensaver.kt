@@ -1,8 +1,6 @@
 package nl.jknaapen.fladder.composables.overlays.screensavers
 
 import Screensaver
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -28,14 +26,14 @@ import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.leanBackEnabled
 import kotlin.time.Duration.Companion.minutes
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 internal fun ScreenSaver(
     content: @Composable () -> Unit,
 ) {
     val selectedType by PlayerSettingsObject.screenSaver.collectAsState(Screensaver.LOGO)
+    val guideActive by VideoPlayerObject.guideVisible.collectAsState(false)
 
-    if (!leanBackEnabled(LocalContext.current) || selectedType == Screensaver.DISABLED) {
+    if (!leanBackEnabled(LocalContext.current) || selectedType == Screensaver.DISABLED || guideActive) {
         content()
         return
     }

@@ -22,12 +22,12 @@ class ChannelDetails extends _$ChannelDetails {
     final channelModel = channelResponse.bodyOrThrow as ChannelModel;
     state = channelModel;
 
-    final programsResponse = await api.liveTvChannelProgramms(
+    final programsResponse = await api.liveTvChannelPrograms(
       channelIds: [state?.id ?? id],
       minEndDate: DateTime.now(),
     );
 
-    state = state?.copyWithTwo(
+    state = state?.copyChannelWith(
       programs: programsResponse.body?.items?.map((e) => ChannelProgram.fromBaseDto(e, ref)).toList() ?? [],
     );
   }

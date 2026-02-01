@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'package:async/async.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:media_kit/media_kit.dart' as mpv;
@@ -27,6 +29,12 @@ class LibMPV extends BasePlayer {
   Stream<PlayerState> get stateStream => _stateController.stream;
 
   StreamSubscription<bool>? _onCompleted;
+
+  RestartableTimer? _retryTimer;
+  DateTime _firstLoadAttempt = DateTime.now();
+  final Duration _maxRetryDuration = const Duration(minutes: 1);
+  final Duration _currentRetryDuration = const Duration(seconds: 5);
+  Completer<void>? _loadCompleter;
 
   @override
   Future<void> init(VideoPlayerSettingsModel settings) async {
@@ -75,6 +83,8 @@ class LibMPV extends BasePlayer {
     _player?.stop();
     _player?.dispose();
     _player = null;
+    _retryTimer?.cancel();
+    _retryTimer = null;
   }
 
   void setState(PlayerState state) {
@@ -84,8 +94,47 @@ class LibMPV extends BasePlayer {
 
   @override
   Future<void> loadVideo(String url, bool play) async {
+    _loadCompleter = Completer<void>();
     await _player?.open(mpv.Media(url), play: play);
+    _firstLoadAttempt = DateTime.now();
+
+    _retryTimer?.cancel();
+    _retryTimer = null;
+
+    _retryTimer = RestartableTimer(
+      _currentRetryDuration,
+      () async {
+        await Future.delayed(const Duration(milliseconds: 150));
+        if (DateTime.now().isAfter(_firstLoadAttempt.add(_maxRetryDuration))) {
+          log("Max retry duration reached, stopping retries.");
+          _retryTimer?.cancel();
+          _retryTimer = null;
+        } else {
+          if (lastState.buffering == false) {
+            _finishedLoading();
+          } else {
+            log("Retrying to load video $url");
+            _player?.open(mpv.Media(url), play: play);
+            _retryTimer?.reset();
+          }
+        }
+      },
+    );
+    _loadCompleter?.future.then(
+      (value) async {
+        await Future.delayed(const Duration(milliseconds: 150));
+        if (play && !lastState.playing) {
+          await _player?.play();
+        }
+      },
+    );
     return setState(lastState.update(buffering: true));
+  }
+
+  void _finishedLoading() {
+    _loadCompleter?.complete();
+    _retryTimer?.cancel();
+    _retryTimer = null;
   }
 
   @override

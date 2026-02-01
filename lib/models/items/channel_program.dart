@@ -3,8 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
+import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/items/channel_model.dart';
 import 'package:fladder/models/items/images_models.dart';
+import 'package:fladder/models/items/item_shared_models.dart';
+import 'package:fladder/models/items/overview_model.dart';
 import 'package:fladder/util/localization_helper.dart';
 
 part 'channel_program.freezed.dart';
@@ -35,7 +40,7 @@ abstract class ChannelProgram with _$ChannelProgram {
   factory ChannelProgram.fromBaseDto(dto.BaseItemDto item, Ref ref) {
     return ChannelProgram(
       id: item.id ?? "",
-      channelId: item.channelId ?? "",
+      channelId: item.channelId ?? item.parentId ?? "",
       name: item.name ?? "",
       officialRating: item.officialRating ?? "",
       productionYear: item.productionYear ?? 0,
@@ -50,6 +55,24 @@ abstract class ChannelProgram with _$ChannelProgram {
     );
   }
 
+  ChannelModel get channel => ChannelModel(
+        channelId: channelId,
+        iCurrentProgram: null,
+        startDate: DateTime.now(),
+        endDate: DateTime.now(),
+        name: "",
+        id: channelId,
+        images: null,
+        overview: const OverviewModel(),
+        parentId: "",
+        playlistId: "",
+        childCount: 0,
+        primaryRatio: 0,
+        userData: const UserData(),
+        canDelete: false,
+        canDownload: false,
+      );
+
   String subLabel(BuildContext context) => isSeries
       ? "$episodeTitle - ${seasonAnnotation(context)}$parentIndexNumber: ${episodeAnnotation(context)}$indexNumber"
       : name;
@@ -60,4 +83,21 @@ abstract class ChannelProgram with _$ChannelProgram {
 
   String seasonAnnotation(BuildContext context) => context.localized.season(1)[0];
   String episodeAnnotation(BuildContext context) => context.localized.episode(1)[0];
+
+  ItemBaseModel toItemBaseModel() {
+    return ItemBaseModel(
+      id: id,
+      name: name,
+      overview: OverviewModel(summary: overview ?? "", productionYear: productionYear),
+      parentId: channelId,
+      playlistId: "",
+      images: images,
+      childCount: 0,
+      primaryRatio: 0,
+      userData: const UserData(),
+      canDownload: false,
+      canDelete: false,
+      jellyType: BaseItemKind.tvchannel,
+    );
+  }
 }

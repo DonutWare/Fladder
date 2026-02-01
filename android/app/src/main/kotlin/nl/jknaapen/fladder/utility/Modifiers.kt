@@ -20,6 +20,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -92,7 +93,10 @@ fun Modifier.defaultSelected(defaultSelected: Boolean): Modifier {
  * Conditional if modifier
  */
 @Composable
-fun Modifier.conditional(condition: Boolean, modifier: Modifier.() -> Modifier): Modifier {
+fun Modifier.conditional(
+    condition: Boolean,
+    modifier: @Composable Modifier.() -> Modifier
+): Modifier {
     return if (condition) {
         then(modifier(Modifier))
     } else {
@@ -122,3 +126,16 @@ fun Modifier.visible(
             }
         )
 }
+
+
+fun Modifier.offsetByPercent(x: Float = 1f, y: Float = 1f) = this.then(
+    Modifier.layout { measurable, constraints ->
+        val placeable = measurable.measure(constraints)
+        layout(placeable.width, placeable.height) {
+            placeable.placeRelative(
+                x = (constraints.maxWidth * x).toInt(),
+                y = (constraints.maxHeight * y).toInt()
+            )
+        }
+    }
+)

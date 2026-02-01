@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart' as dto;
@@ -15,6 +16,16 @@ class ChannelModel extends ItemBaseModel {
   final String channelId;
   final List<ChannelProgram> programs;
 
+  final ChannelProgram? iCurrentProgram;
+
+  ChannelProgram? get currentProgram =>
+      iCurrentProgram ??
+      programs.firstWhereOrNull((p) {
+        final now = DateTime.now();
+        return p.startDate.isBefore(now) && p.endDate.isAfter(now);
+      }) ??
+      programs.firstOrNull;
+
   final DateTime startDate;
   final DateTime endDate;
 
@@ -23,6 +34,7 @@ class ChannelModel extends ItemBaseModel {
     this.programs = const [],
     required this.startDate,
     required this.endDate,
+    required this.iCurrentProgram,
     required super.name,
     required super.id,
     required super.overview,
@@ -48,7 +60,7 @@ class ChannelModel extends ItemBaseModel {
   }
 
   @override
-  ItemBaseModel get parentBaseModel => copyWith(id: parentId);
+  ItemBaseModel get parentBaseModel => this;
 
   @override
   bool get playAble => true;
@@ -59,7 +71,18 @@ class ChannelModel extends ItemBaseModel {
   String playText(BuildContext context) => context.localized.read(name);
 
   @override
-  double get progress => userData.progress != 0 ? 100 : 0;
+  double get progress {
+    final currentProgram = this.currentProgram;
+    if (currentProgram == null) {
+      return 0;
+    }
+    final totalDuration = currentProgram.endDate.difference(currentProgram.startDate).inSeconds;
+    final elapsed = DateTime.now().difference(currentProgram.startDate).inSeconds;
+    if (totalDuration == 0) {
+      return 0;
+    }
+    return (elapsed / totalDuration) * 100;
+  }
 
   @override
   String? unplayedLabel(BuildContext context) => userData.progress != 0 ? context.localized.page(currentPage) : null;
@@ -67,11 +90,30 @@ class ChannelModel extends ItemBaseModel {
   @override
   String playButtonLabel(BuildContext context) => context.localized.watchChannel(name);
 
+  @override
+  String? get subText => currentProgram?.name;
+
+  @override
+  String? subTextShort(BuildContext context) {
+    return currentProgram != null
+        ? "${context.localized.formattedTime(currentProgram?.startDate ?? DateTime.now())} - ${context.localized.formattedTime(currentProgram?.endDate ?? DateTime.now())}"
+        : null;
+  }
+
+  @override
+  ImagesData? get getPosters => images?.copyWith(
+        primary: () => programs.firstOrNull?.images?.primary ?? images?.primary,
+        backDrop: () => programs.firstOrNull?.images?.backDrop,
+        logo: () => images?.primary,
+      );
+
   factory ChannelModel.fromBaseDto(BaseItemDto item, Ref ref) {
+    final images = ImagesData.fromBaseItem(item, ref);
     return ChannelModel(
-      channelId: item.channelId ?? "0",
+      channelId: item.channelId ?? item.parentId ?? "0",
       name: item.name ?? "",
       id: item.id ?? "",
+      iCurrentProgram: item.currentProgram != null ? ChannelProgram.fromBaseDto(item.currentProgram!, ref) : null,
       childCount: item.childCount,
       startDate: item.startDate ?? DateTime.now(),
       endDate: item.endDate ?? DateTime.now(),
@@ -79,7 +121,9 @@ class ChannelModel extends ItemBaseModel {
       userData: UserData.fromDto(item.userData),
       parentId: item.parentId,
       playlistId: item.playlistItemId,
-      images: ImagesData.fromBaseItem(item, ref),
+      images: images?.copyWith(
+        logo: () => images.primary,
+      ),
       canDelete: item.canDelete,
       canDownload: item.canDownload,
       primaryRatio: item.primaryImageAspectRatio,
@@ -87,11 +131,34 @@ class ChannelModel extends ItemBaseModel {
     );
   }
 
-  ChannelModel copyWithTwo({
+  ChannelModel withoutProgress() {
+    return ChannelModel(
+      channelId: channelId,
+      programs: [],
+      iCurrentProgram: null,
+      startDate: startDate,
+      endDate: endDate,
+      name: name,
+      id: id,
+      overview: overview,
+      parentId: parentId,
+      playlistId: playlistId,
+      images: images,
+      childCount: childCount,
+      primaryRatio: primaryRatio,
+      userData: userData,
+      jellyType: jellyType,
+      canDownload: canDownload,
+      canDelete: canDelete,
+    );
+  }
+
+  ChannelModel copyChannelWith({
     String? channelId,
     List<ChannelProgram>? programs,
     DateTime? startDate,
     DateTime? endDate,
+    ChannelProgram? currentProgram,
     String? name,
     String? id,
     OverviewModel? overview,
@@ -108,6 +175,7 @@ class ChannelModel extends ItemBaseModel {
     return ChannelModel(
       channelId: channelId ?? this.channelId,
       programs: programs ?? this.programs,
+      iCurrentProgram: currentProgram ?? iCurrentProgram,
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
       name: name ?? this.name,

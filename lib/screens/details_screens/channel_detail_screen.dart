@@ -40,6 +40,7 @@ class _ChannelDetailScreenState extends ConsumerState<ChannelDetailScreen> {
     return DetailScaffold(
       label: channel?.name ?? '',
       item: channel,
+      backDrops: channel?.getPosters,
       actions: (context) => channel?.generateActions(
         context,
         ref,
@@ -55,78 +56,83 @@ class _ChannelDetailScreenState extends ConsumerState<ChannelDetailScreen> {
       ),
       onRefresh: () async => await ref.read(providerInstance.notifier).fetchDetails(widget.item.id),
       content: (context, padding) => channel != null
-          ? Padding(
-              padding: const EdgeInsets.only(top: 64).add(padding),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  OverviewHeader(
-                    name: channel.name,
-                    image: channel.images?.copyWith(
-                      logo: () => channel.images?.primary,
-                    ),
-                    mainButton: MediaPlayButton(
-                      item: channel,
-                      onPressed: (restart) {
-                        channel.play(context, ref);
-                      },
-                    ),
-                    minHeight: 50,
-                    centerButtons: Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      alignment: wrapAlignment,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: [
-                        SelectableIconButton(
-                          onPressed: () async {
-                            await ref
-                                .read(userProvider.notifier)
-                                .setAsFavorite(!channel.userData.isFavourite, channel.id);
-                          },
-                          selected: channel.userData.isFavourite,
-                          selectedIcon: IconsaxPlusBold.heart,
-                          icon: IconsaxPlusLinear.heart,
-                        ),
-                        SelectableIconButton(
-                          onPressed: () async {
-                            await showBottomSheetPill(
-                              context: context,
-                              content: (context, scrollController) => ListView(
-                                controller: scrollController,
-                                shrinkWrap: true,
-                                children: channel.generateActions(context, ref).listTileItems(context, useIcons: true),
-                              ),
-                            );
-                          },
-                          selected: false,
-                          icon: IconsaxPlusLinear.more,
-                        ),
-                      ],
-                    ),
-                  ),
-                  ...channel.programsMap.entries.map(
-                    (e) => Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
+          ? Container(
+              color: Theme.of(context).colorScheme.surface.withAlpha(175),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 64).add(padding),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    OverviewHeader(
+                      name: channel.name,
+                      image: channel.images?.copyWith(
+                        logo: () => channel.images?.primary,
+                      ),
+                      mainButton: MediaPlayButton(
+                        //Remove programs when playing channel to avoid progress report
+                        item: channel.withoutProgress(),
+                        onPressed: (restart) {
+                          channel.play(context, ref);
+                        },
+                      ),
+                      minHeight: 50,
+                      centerButtons: Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        alignment: wrapAlignment,
+                        crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
-                          Text(
-                            DateFormat.yMMMMd().format(e.key),
-                            textAlign: TextAlign.start,
-                            style: Theme.of(context).textTheme.titleLarge,
+                          SelectableIconButton(
+                            onPressed: () async {
+                              await ref
+                                  .read(userProvider.notifier)
+                                  .setAsFavorite(!channel.userData.isFavourite, channel.id);
+                            },
+                            selected: channel.userData.isFavourite,
+                            selectedIcon: IconsaxPlusBold.heart,
+                            icon: IconsaxPlusLinear.heart,
                           ),
-                          const Divider(),
-                          ...e.value.map(
-                            (program) => ChannelProgramItem(program: program),
+                          SelectableIconButton(
+                            onPressed: () async {
+                              await showBottomSheetPill(
+                                context: context,
+                                content: (context, scrollController) => ListView(
+                                  controller: scrollController,
+                                  shrinkWrap: true,
+                                  children:
+                                      channel.generateActions(context, ref).listTileItems(context, useIcons: true),
+                                ),
+                              );
+                            },
+                            selected: false,
+                            icon: IconsaxPlusLinear.more,
                           ),
                         ],
                       ),
                     ),
-                  ),
-                ],
+                    ...channel.programsMap.entries.map(
+                      (e) => Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              DateFormat.yMMMMd().format(e.key),
+                              textAlign: TextAlign.start,
+                              style: Theme.of(context).textTheme.titleLarge,
+                            ),
+                            const Divider(),
+                            ...e.value.map(
+                              (program) => ChannelProgramItem(program: program),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             )
           : Container(),

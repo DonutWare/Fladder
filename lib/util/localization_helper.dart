@@ -100,4 +100,20 @@ class _TranslationsMessgener extends messenger.TranslationsPigeon {
 
   @override
   String hoursAndMinutes(String time) => context.localized.formattedTime(DateTime.parse(time).toLocal());
+
+  @override
+  String decline() => context.localized.decline;
+
+  @override
+  String now() => context.localized.now;
+
+  @override
+  String switchChannel() => context.localized.switchChannel;
+
+  @override
+  String switchChannelDesc(String programName, String channelName) =>
+      context.localized.switchChannelDesc(programName, channelName);
+
+  @override
+  String watch() => context.localized.watch;
 }

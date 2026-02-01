@@ -19,6 +19,10 @@ import 'package:fladder/util/localization_helper.dart';
 part 'library_screen_provider.freezed.dart';
 part 'library_screen_provider.g.dart';
 
+Set<CollectionType> get excludedTypes => {
+      CollectionType.folders,
+    };
+
 enum LibraryViewType {
   recommended,
   favourites,
@@ -67,7 +71,8 @@ class LibraryScreen extends _$LibraryScreen {
   Future<void> fetchAllLibraries() async {
     final views = await ref.read(viewsProvider.notifier).fetchViews();
     state = state.copyWith(
-        views: views?.views.where((element) => element.collectionType != CollectionType.folders).toList() ?? []);
+      views: views?.views.where((element) => !excludedTypes.contains(element.collectionType)).toList() ?? [],
+    );
     if (state.views.isEmpty) return;
     final viewModel = state.selectedViewModel ?? state.views.firstOrNull;
     if (viewModel == null) return;

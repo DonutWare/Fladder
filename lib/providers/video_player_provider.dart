@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:path/path.dart' as p;
 
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path/path.dart' as p;
 
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
@@ -170,7 +170,7 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
 
     if (screenshotBuf != null) {
       final savePathDirectory = Directory(screenshotsPath);
-      
+
       // Should we try to create the directory instead?
       if (!await savePathDirectory.exists()) {
         return false;
@@ -198,7 +198,7 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
       }
 
       maxNumber += 1;
-        
+
       final maxNumberStr = maxNumber.toString().padLeft(paddingAmount, '0');
       final screenshotName = '$maxNumberStr.$fileExtension';
       final screenshotPath = p.join(screenshotsPath, screenshotName);
