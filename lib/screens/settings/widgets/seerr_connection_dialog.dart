@@ -398,7 +398,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4),
               child: Text(
-                'Custom headers',
+                context.localized.seerrCustomHeaders,
                 style: Theme.of(context).textTheme.bodySmall,
               ),
             ),
@@ -407,7 +407,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
                 Expanded(
                   flex: 3,
                   child: OutlinedTextField(
-                    label: 'Header',
+                    label: context.localized.seerrHeader,
                     controller: headerKeyController,
                     textInputAction: TextInputAction.next,
                   ),
@@ -416,7 +416,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
                 Expanded(
                   flex: 4,
                   child: OutlinedTextField(
-                    label: 'Value',
+                    label: context.localized.seerrHeaderValue,
                     controller: headerValueController,
                     textInputAction: TextInputAction.done,
                     onSubmitted: (_) => _addHeader(),

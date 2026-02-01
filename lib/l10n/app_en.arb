@@ -2116,6 +2116,12 @@
       }
     }
   },
+  "seerrCustomHeaders": "Custom headers",
+  "@seerrCustomHeaders": {},
+  "seerrHeader": "Header",
+  "@seerrHeader": {},
+  "seerrHeaderValue": "Value",
+  "@seerrHeaderValue": {},
   "emailUsername": "Email/Username",
   "@emailUsername": {},
   "discover": "Discover",
