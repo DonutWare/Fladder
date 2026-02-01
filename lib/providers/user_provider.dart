@@ -229,6 +229,24 @@ class User extends _$User {
     userState = user.copyWith(seerrCredentials: updated);
   }
 
+  void setSeerrCustomHeaders(Map<String, String> headers) {
+    final user = state;
+    if (user == null) return;
+    final updated = (user.seerrCredentials ?? const SeerrCredentialsModel()).copyWith(
+      customHeaders: headers,
+    );
+    userState = user.copyWith(seerrCredentials: updated);
+  }
+
+  void clearSeerrCustomHeaders() {
+    final user = state;
+    if (user == null) return;
+    final updated = (user.seerrCredentials ?? const SeerrCredentialsModel()).copyWith(
+      customHeaders: {},
+    );
+    userState = user.copyWith(seerrCredentials: updated);
+  }
+
   void addSearchQuery(String value) {
     if (value.isEmpty) return;
     final newList = state?.searchQueryHistory.toList() ?? [];

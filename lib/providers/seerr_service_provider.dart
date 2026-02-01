@@ -632,9 +632,10 @@ class SeerrService {
 
   SeerrDashboardPosterModel? posterFromDiscoverItem(SeerrDiscoverItem item) => _posterFromDiscoverItem(item);
 
-  Future<String> authenticateLocal({required String email, required String password}) async {
+  Future<String> authenticateLocal({required String email, required String password, Map<String, String>? headers}) async {
     final response = await _api.authenticateLocal(
       SeerrAuthLocalBody(email: email, password: password),
+      headers: headers,
     );
     if (!response.isSuccessful) {
       throw HttpException('Local authentication failed (${response.statusCode})');
@@ -646,16 +647,17 @@ class SeerrService {
     return cookie;
   }
 
-  Future<String> authenticateJellyfin({required String username, required String password}) async {
-    final response = await _authenticateJellyfin(username: username, password: password);
+  Future<String> authenticateJellyfin({required String username, required String password, Map<String, String>? headers}) async {
+    final response = await _authenticateJellyfin(username: username, password: password, headers: headers);
     return _requireSessionCookie(response, label: 'Jellyfin');
   }
 
   Future<void> logout() async => await _api.logout();
 
-  Future<Response<dynamic>> _authenticateJellyfin({required String username, required String password}) async {
+  Future<Response<dynamic>> _authenticateJellyfin({required String username, required String password, Map<String, String>? headers}) async {
     var response = await _api.authenticateJellyfin(
       SeerrAuthJellyfinBody(username: username, password: password),
+      headers: headers,
     );
 
     if (!response.isSuccessful && _shouldRetryWithHostname(response)) {
@@ -665,6 +667,7 @@ class SeerrService {
           password: password,
           hostname: Platform.localHostname,
         ),
+        headers: headers,
       );
     }
 

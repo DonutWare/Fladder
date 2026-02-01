@@ -41,7 +41,10 @@ final class _$SeerrChopperService extends SeerrChopperService {
   }
 
   @override
-  Future<Response<SeerrUserModel>> authenticateLocal(SeerrAuthLocalBody body) {
+  Future<Response<SeerrUserModel>> authenticateLocal(
+    SeerrAuthLocalBody body, {
+    Map<String, String>? headers,
+  }) {
     final Uri $url = Uri.parse('/api/v1/auth/local');
     final $body = body;
     final Request $request = Request(
@@ -55,7 +58,9 @@ final class _$SeerrChopperService extends SeerrChopperService {
 
   @override
   Future<Response<SeerrUserModel>> authenticateJellyfin(
-      SeerrAuthJellyfinBody body) {
+    SeerrAuthJellyfinBody body, {
+    Map<String, String>? headers,
+  }) {
     final Uri $url = Uri.parse('/api/v1/auth/jellyfin');
     final $body = body;
     final Request $request = Request(
