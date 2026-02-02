@@ -1585,5 +1585,42 @@
                 "example": "1"
             }
         }
+    },
+    "mediaTypeTV": "{count, plural, one{Canal de televisión} other{Canales de televisión}}",
+    "@mediaTypeTV": {
+        "description": "TV Channel (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "playbackTypeTV": "Televisión",
+    "seerrCustomHeaders": "Encabezados personalizados",
+    "seerrHeader": "Encabezado",
+    "seerrHeaderValue": "Valor",
+    "watch": "Ver",
+    "watchChannel": "Ver {channel}",
+    "@watchChannel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            }
+        }
+    },
+    "now": "Ahora",
+    "noPrograms": "No hay programas disponibles",
+    "switchChannel": "Cambiar de canal",
+    "switchChannelDesc": "¿Quieres ver \"{programName}\" en {channelName}?",
+    "@switchChannelDesc": {
+        "placeholders": {
+            "programName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
     }
 }
