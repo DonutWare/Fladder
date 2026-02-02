@@ -1608,5 +1608,42 @@
                 "example": "1"
             }
         }
+    },
+    "mediaTypeTV": "{count, plural, one{电视台} other{电视台}}",
+    "@mediaTypeTV": {
+        "description": "TV Channel (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "playbackTypeTV": "电视",
+    "seerrCustomHeaders": "自定义标头",
+    "seerrHeader": "标头",
+    "seerrHeaderValue": "值",
+    "watch": "观看",
+    "watchChannel": "观看 {channel}",
+    "@watchChannel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            }
+        }
+    },
+    "now": "现今",
+    "noPrograms": "暂无可用程序",
+    "switchChannel": "切换频道",
+    "switchChannelDesc": "您想在 {channelName} 上观看 \"{programName}\" 吗？",
+    "@switchChannelDesc": {
+        "placeholders": {
+            "programName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
     }
 }
