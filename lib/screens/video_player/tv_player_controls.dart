@@ -157,7 +157,7 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
   }
 
   Widget topButtons(BuildContext context) {
-    final currentItem = ref.watch(playBackModel.select((value) => value?.item));
+    final channel = ref.watch(playBackModel.select((value) => value is TvPlaybackModel ? value.channel : null));
     final maxHeight = 150.clamp(50, (MediaQuery.sizeOf(context).height * 0.25).clamp(51, double.maxFinite)).toDouble();
     return Container(
       decoration: BoxDecoration(
@@ -186,7 +186,7 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    if (currentItem != null)
+                    if (channel != null)
                       Expanded(
                         child: Row(
                           children: [
@@ -196,7 +196,7 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
                                   maxHeight: maxHeight,
                                 ),
                                 child: ItemLogo(
-                                  item: currentItem,
+                                  item: channel,
                                   imageAlignment: Alignment.topLeft,
                                   textStyle: Theme.of(context).textTheme.headlineLarge,
                                 ),
@@ -337,7 +337,7 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
       builder: (context, ref, child) {
         final tvModel = ref.watch(playBackModel.select((value) => value is TvPlaybackModel ? value : null));
         final tvChannel = tvModel;
-        final currentProgram = tvChannel?.currentProgram;
+        final currentProgram = tvChannel?.playingProgram;
         final playbackModel = ref.watch(playBackModel);
         final item = playbackModel?.item;
         final subLabel = currentProgram?.subLabel(context);

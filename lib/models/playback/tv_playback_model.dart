@@ -29,8 +29,10 @@ class TvPlaybackModel extends PlaybackModel {
 
   final ChannelProgram? currentProgram;
 
+  ChannelProgram? get playingProgram => currentProgram ?? channel.iCurrentProgram;
+
   @override
-  ItemBaseModel get item => currentProgram != null ? currentProgram!.toItemBaseModel() : channel;
+  ItemBaseModel get item => playingProgram?.toItemBaseModel() ?? channel;
 
   final Duration? position;
   final Duration? duration;
@@ -65,7 +67,7 @@ class TvPlaybackModel extends PlaybackModel {
   }
 
   void _tick(Ref ref) {
-    final currentProgram = this.currentProgram;
+    final currentProgram = playingProgram;
     if (currentProgram == null) {
       return;
     }
