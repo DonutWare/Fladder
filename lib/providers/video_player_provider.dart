@@ -1,19 +1,17 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:path/path.dart' as p;
-
-import 'package:flutter/material.dart';
-
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
+import 'package:fladder/models/syncplay/syncplay_models.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
-import 'package:fladder/models/syncplay/syncplay_models.dart';
 import 'package:fladder/providers/syncplay/syncplay_provider.dart';
 import 'package:fladder/util/debouncer.dart';
 import 'package:fladder/wrappers/media_control_wrapper.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path/path.dart' as p;
 
 final mediaPlaybackProvider =
     StateProvider<MediaPlaybackModel>((ref) => MediaPlaybackModel());
@@ -119,6 +117,11 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
             await state.seek(position);
             _syncPlayAction = false;
           },
+          onSeekRequested: (positionTicks) async {
+            // This is called when another user seeks, we should report buffering immediately
+            _isReloading = true;
+            ref.read(syncPlayProvider.notifier).reportBuffering();
+          },
           onStop: () async {
             _syncPlayAction = true;
             _lastSyncPlayCommandTime = DateTime.now();
@@ -152,7 +155,9 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
         ref.read(syncPlayProvider.notifier).reportBuffering();
       } else {
         // Finished buffering - ready
-        ref.read(syncPlayProvider.notifier).reportReady();
+        ref
+            .read(syncPlayProvider.notifier)
+            .reportReady(isPlaying: playbackState.playing);
       }
     }
   }
@@ -254,13 +259,15 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
           _isReloading = false;
 
           // Only auto-play if syncplay is NOT active
-          // When syncplay is active, the buffering→ready transition (in updateBuffering)
-          // will report ready to syncplay, and syncplay will coordinate the unpause
+          // When syncplay is active, we report ready (not playing) and wait for the group command
           if (!syncPlayActive) {
             state.play();
           } else {
-            // For SyncPlay, we report ready now that reload AND seek are done
-            await ref.read(syncPlayProvider.notifier).reportReady();
+            // For SyncPlay, we report ready now that reload AND seek are done.
+            // We report NOT playing so the server sends an explicit Unpause command.
+            await ref
+                .read(syncPlayProvider.notifier)
+                .reportReady(isPlaying: false);
           }
           ref.read(playBackModel.notifier).update((state) => newPlaybackModel);
         },
@@ -341,10 +348,9 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
   /// User-initiated play - routes through SyncPlay if active
   Future<void> userPlay() async {
     if (_isSyncPlayActive) {
-      final syncPlay = ref.read(syncPlayProvider.notifier);
-      await syncPlay.requestUnpause();
-      // Must report ready after unpause for server to broadcast play command
-      await syncPlay.reportReady(isPlaying: true);
+      // Just request unpause. The server will put the group in Waiting state,
+      // and our buffering listener will report Ready(isPlaying: false) when appropriate.
+      await ref.read(syncPlayProvider.notifier).requestUnpause();
     } else {
       await state.play();
     }

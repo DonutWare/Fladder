@@ -1,12 +1,12 @@
 import 'dart:async';
 
+import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
+import 'package:fladder/models/syncplay/syncplay_models.dart';
+import 'package:fladder/providers/syncplay/syncplay_controller.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
-import 'package:fladder/providers/syncplay/syncplay_controller.dart';
-import 'package:fladder/models/syncplay/syncplay_models.dart';
 
 part 'syncplay_provider.g.dart';
 
@@ -50,9 +50,11 @@ class SyncPlay extends _$SyncPlay {
   SyncPlayController get controller {
     if (_controller == null) {
       _controller = SyncPlayController(ref);
-      // Register lifecycle observer when controller is created
-      _lifecycleObserver = _SyncPlayLifecycleObserver(_controller!);
-      _lifecycleObserver!.register();
+      // Register lifecycle observer when controller is created (except on Web)
+      if (!kIsWeb) {
+        _lifecycleObserver = _SyncPlayLifecycleObserver(_controller!);
+        _lifecycleObserver!.register();
+      }
     }
     return _controller!;
   }
@@ -76,7 +78,8 @@ class SyncPlay extends _$SyncPlay {
   Future<List<GroupInfoDto>> listGroups() => controller.listGroups();
 
   /// Create a new SyncPlay group
-  Future<GroupInfoDto?> createGroup(String groupName) => controller.createGroup(groupName);
+  Future<GroupInfoDto?> createGroup(String groupName) =>
+      controller.createGroup(groupName);
 
   /// Join an existing group
   Future<bool> joinGroup(String groupId) => controller.joinGroup(groupId);
@@ -91,13 +94,14 @@ class SyncPlay extends _$SyncPlay {
   Future<void> requestUnpause() async => await controller.requestUnpause();
 
   /// Request seek
-  Future<void> requestSeek(int positionTicks) => controller.requestSeek(positionTicks);
+  Future<void> requestSeek(int positionTicks) =>
+      controller.requestSeek(positionTicks);
 
   /// Report buffering state
   Future<void> reportBuffering() => controller.reportBuffering();
 
   /// Report ready state
-  Future<void> reportReady({bool isPlaying = true}) => 
+  Future<void> reportReady({bool isPlaying = true}) =>
       controller.reportReady(isPlaying: isPlaying);
 
   /// Set a new queue/playlist
@@ -105,11 +109,12 @@ class SyncPlay extends _$SyncPlay {
     required List<String> itemIds,
     int playingItemPosition = 0,
     int startPositionTicks = 0,
-  }) => controller.setNewQueue(
-    itemIds: itemIds,
-    playingItemPosition: playingItemPosition,
-    startPositionTicks: startPositionTicks,
-  );
+  }) =>
+      controller.setNewQueue(
+        itemIds: itemIds,
+        playingItemPosition: playingItemPosition,
+        startPositionTicks: startPositionTicks,
+      );
 
   /// Register player callbacks
   void registerPlayer({

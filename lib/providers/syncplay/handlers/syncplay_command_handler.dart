@@ -34,10 +34,10 @@ class SyncPlayCommandHandler {
   SyncPlayPositionCallback? getPositionTicks;
   bool Function()? isPlaying;
   bool Function()? isBuffering;
-  
+
   // New callback to signal that a seek has been requested by someone else
   SyncPlaySeekCallback? onSeekRequested;
-  
+
   // Report ready callback (to tell server we're ready after seek)
   SyncPlayReportReadyCallback? onReportReady;
 
@@ -80,13 +80,21 @@ class SyncPlayCommandHandler {
   bool _isDuplicateCommand(
       String when, int positionTicks, String command, String playlistItemId) {
     if (_lastCommand == null) return false;
+
+    // For Unpause commands, if we are not currently playing, we should NEVER treat it as a duplicate
+    // to ensure the player actually resumes.
+    if (command == 'Unpause' && isPlaying?.call() == false) {
+      return false;
+    }
+
     return _lastCommand!.when == when &&
         _lastCommand!.positionTicks == positionTicks &&
         _lastCommand!.command == command &&
         _lastCommand!.playlistItemId == playlistItemId;
   }
 
-  void _scheduleCommand(String command, DateTime serverTime, int positionTicks) {
+  void _scheduleCommand(
+      String command, DateTime serverTime, int positionTicks) {
     final timeSyncService = timeSync();
     if (timeSyncService == null) {
       log('SyncPlay: Cannot schedule command without time sync');
@@ -115,10 +123,12 @@ class SyncPlayCommandHandler {
     } else if (delay.inMilliseconds > 5000) {
       // Suspiciously large delay - might indicate time sync issue
       log('SyncPlay: Warning - large delay: ${delay.inMilliseconds}ms');
-      _commandTimer = Timer(delay, () => _executeCommand(command, positionTicks));
+      _commandTimer =
+          Timer(delay, () => _executeCommand(command, positionTicks));
     } else {
       log('SyncPlay: Scheduling command: $command in ${delay.inMilliseconds}ms');
-      _commandTimer = Timer(delay, () => _executeCommand(command, positionTicks));
+      _commandTimer =
+          Timer(delay, () => _executeCommand(command, positionTicks));
     }
   }
 

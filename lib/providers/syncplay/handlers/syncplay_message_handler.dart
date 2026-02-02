@@ -1,10 +1,9 @@
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
-
 import 'package:fladder/models/syncplay/syncplay_models.dart';
 import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:flutter/material.dart';
 
 /// Callback for reporting ready state after seek
 typedef ReportReadyCallback = Future<void> Function({bool isPlaying});
@@ -34,7 +33,8 @@ class SyncPlayMessageHandler {
   final void Function() onGroupJoinFailed;
 
   /// Handle group update message
-  void handleGroupUpdate(Map<String, dynamic> data, SyncPlayState currentState) {
+  void handleGroupUpdate(
+      Map<String, dynamic> data, SyncPlayState currentState) {
     final updateType = data['Type'] as String?;
     final updateData = data['Data'];
 
@@ -81,7 +81,7 @@ class SyncPlayMessageHandler {
         ));
 
     log('SyncPlay: Joined group "$groupName" ($groupId)');
-    
+
     // Notify controller that group join was confirmed
     onGroupJoined();
   }
@@ -90,10 +90,11 @@ class SyncPlayMessageHandler {
     if (userId == null) return;
     final participants = [...currentState.participants, userId];
     onStateUpdate((state) => state.copyWith(participants: participants));
-    
+
     final context = getContext();
     if (context != null) {
-      fladderSnackbar(context, title: context.localized.syncPlayUserJoined(userId));
+      fladderSnackbar(context,
+          title: context.localized.syncPlayUserJoined(userId));
     }
     log('SyncPlay: User joined: $userId');
   }
@@ -103,10 +104,11 @@ class SyncPlayMessageHandler {
     final participants =
         currentState.participants.where((p) => p != userId).toList();
     onStateUpdate((state) => state.copyWith(participants: participants));
-    
+
     final context = getContext();
     if (context != null) {
-      fladderSnackbar(context, title: context.localized.syncPlayUserLeft(userId));
+      fladderSnackbar(context,
+          title: context.localized.syncPlayUserLeft(userId));
     }
     log('SyncPlay: User left: $userId');
   }
@@ -131,7 +133,7 @@ class SyncPlayMessageHandler {
           participants: [],
         ));
     log('SyncPlay: Group does not exist');
-    
+
     // Notify controller that group join failed
     onGroupJoinFailed();
   }
@@ -145,7 +147,7 @@ class SyncPlayMessageHandler {
           participants: [],
         ));
     log('SyncPlay: Not in group - server rejected operation');
-    
+
     // Notify controller that group join failed
     onGroupJoinFailed();
   }
@@ -181,8 +183,7 @@ class SyncPlayMessageHandler {
     }
   }
 
-  void _handlePlayQueue(
-      Map<String, dynamic> data, SyncPlayState currentState) {
+  void _handlePlayQueue(Map<String, dynamic> data, SyncPlayState currentState) {
     final playlist = data['Playlist'] as List? ?? [];
     final playingItemIndex = data['PlayingItemIndex'] as int? ?? 0;
     final startPositionTicks = data['StartPositionTicks'] as int? ?? 0;

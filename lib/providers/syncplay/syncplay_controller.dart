@@ -13,6 +13,7 @@ import 'package:fladder/providers/syncplay/time_sync_service.dart';
 import 'package:fladder/providers/syncplay/websocket_manager.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -454,6 +455,9 @@ class SyncPlayController {
   /// Call this from a WidgetsBindingObserver when app state changes
   Future<void> handleAppLifecycleChange(
       AppLifecycleState lifecycleState) async {
+    // On web, we want to stay connected even in background and avoid forced reconnection on resume.
+    if (kIsWeb) return;
+
     switch (lifecycleState) {
       case AppLifecycleState.paused:
       case AppLifecycleState.inactive:
