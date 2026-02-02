@@ -39,6 +39,7 @@ import io.github.rabehx.iconsax.filled.Play
 import io.github.rabehx.iconsax.filled.Refresh
 import io.github.rabehx.iconsax.filled.Stop
 import nl.jknaapen.fladder.objects.Localized
+import nl.jknaapen.fladder.objects.Translate
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 
 /**
@@ -85,13 +86,26 @@ fun BoxScope.SyncPlayCommandOverlay(
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                Text(
-                    text = getCommandLabel(syncPlayState.commandType),
-                    style = MaterialTheme.typography.titleMedium.copy(
-                        fontWeight = FontWeight.SemiBold,
-                        color = MaterialTheme.colorScheme.onSurface
+                Translate(
+                    callback = { cb ->
+                        when (syncPlayState.commandType) {
+                            "Pause" -> Localized.syncPlayCommandPausing(cb)
+                            "Unpause" -> Localized.syncPlayCommandPlaying(cb)
+                            "Seek" -> Localized.syncPlayCommandSeeking(cb)
+                            "Stop" -> Localized.syncPlayCommandStopping(cb)
+                            else -> Localized.syncPlayCommandSyncing(cb)
+                        }
+                    },
+                    key = syncPlayState.commandType
+                ) { label ->
+                    Text(
+                        text = label,
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
                     )
-                )
+                }
 
                 Spacer(modifier = Modifier.height(4.dp))
 
@@ -107,12 +121,14 @@ fun BoxScope.SyncPlayCommandOverlay(
 
                     Spacer(modifier = Modifier.width(8.dp))
 
-                    Text(
-                        text = Localized.syncPlaySyncingWithGroup(),
-                        style = MaterialTheme.typography.bodySmall.copy(
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                    Translate({ Localized.syncPlaySyncingWithGroup(it) }) { syncingText ->
+                        Text(
+                            text = syncingText,
+                            style = MaterialTheme.typography.bodySmall.copy(
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
                         )
-                    )
+                    }
                 }
             }
         }
@@ -147,12 +163,3 @@ private fun CommandIcon(commandType: String?) {
     }
 }
 
-private fun getCommandLabel(commandType: String?): String {
-    return when (commandType) {
-        "Pause" -> Localized.syncPlayCommandPausing()
-        "Unpause" -> Localized.syncPlayCommandPlaying()
-        "Seek" -> Localized.syncPlayCommandSeeking()
-        "Stop" -> Localized.syncPlayCommandStopping()
-        else -> Localized.syncPlayCommandSyncing()
-    }
-}
