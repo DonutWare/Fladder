@@ -53,7 +53,9 @@ class SeerrRequest implements Interceptor {
     final apiKey = creds?.apiKey.trim() ?? '';
     final cookie = creds?.sessionCookie.trim() ?? '';
 
-    final headers = _authHeaders(apiKey: apiKey, cookie: cookie);
+    final authHeaders = _authHeaders(apiKey: apiKey, cookie: cookie);
+    final customHeaders = creds?.customHeaders ?? <String, String>{};
+    final headers = {...authHeaders, ...customHeaders};
     final apiBaseUri = Uri.parse(serverUrl);
 
     Uri resolvedRequestUri;

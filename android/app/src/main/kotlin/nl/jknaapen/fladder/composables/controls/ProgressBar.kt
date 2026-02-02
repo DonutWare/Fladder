@@ -2,8 +2,8 @@ package nl.jknaapen.fladder.composables.controls
 
 import MediaSegment
 import MediaSegmentType
+import TVGuideModel
 import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -83,9 +82,169 @@ import kotlin.time.Duration.Companion.seconds
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 internal fun ProgressBar(
+    modifier: Modifier = Modifier,
+    player: ExoPlayer,
+    bottomControlFocusRequester: FocusRequester,
+    onUserInteraction: () -> Unit = {}
+) {
+    val tvGuide by VideoPlayerObject.tvGuide.collectAsState(null)
+
+    tvGuide?.let {
+        TVProgressBar(
+            modifier = modifier,
+            player = player,
+            tvGuide = it,
+            bottomControlFocusRequester = bottomControlFocusRequester,
+            onUserInteraction = onUserInteraction
+        )
+    } ?: run {
+        StandardProgressBar(
+            modifier = modifier,
+            player = player,
+            bottomControlFocusRequester = bottomControlFocusRequester,
+            onUserInteraction = onUserInteraction
+        )
+    }
+}
+
+@Composable
+internal fun TVProgressBar(
+    modifier: Modifier = Modifier,
+    player: ExoPlayer,
+    tvGuide: TVGuideModel,
+    bottomControlFocusRequester: FocusRequester,
+    onUserInteraction: () -> Unit = {}
+) {
+    val playbackData by VideoPlayerObject.implementation.playbackData.collectAsState(null)
+    val currentProgram = tvGuide.currentProgram
+
+    var displayDuration by remember { mutableLongStateOf(0L) }
+    var displayPosition by remember { mutableLongStateOf(0L) }
+
+    LaunchedEffect(currentProgram) {
+        while (true) {
+            if (currentProgram != null && player.isPlaying) {
+                val now = System.currentTimeMillis()
+                val start = currentProgram.startMs
+                val end = currentProgram.endMs
+
+                displayPosition = if (now < start) 0L else now - start
+                displayDuration = end - start
+            }
+            delay(1000)
+        }
+    }
+
+    fun calculatedDateFromLong(ms: Long): String {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val instant = java.time.Instant.ofEpochMilli(ms)
+            val zoneId = java.time.ZoneId.systemDefault()
+            java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME
+                .withZone(zoneId)
+                .format(instant)
+        } else {
+            val calendar = java.util.Calendar.getInstance()
+            calendar.timeInMillis = ms
+            val tz = calendar.timeZone
+            val sdf = java.text.SimpleDateFormat(
+                "yyyy-MM-dd'T'HH:mm:ssXXX",
+                java.util.Locale.getDefault()
+            )
+            sdf.timeZone = tz
+            sdf.format(calendar.time)
+        }
+    }
+
+    Column(
+        verticalArrangement = Arrangement.spacedBy(4.dp, alignment = Alignment.CenterVertically)
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            currentProgram?.let { program ->
+                Translate(
+                    { Localized.endsAt(calculatedDateFromLong(program.endMs), it) },
+                    program.endMs
+                ) { endDateString ->
+                    val programLabel = listOf(
+                        program.name,
+                        endDateString
+                    ).filterNot { it.isBlank() }.joinToString(separator = " - ")
+                    if (programLabel.isNotBlank()) {
+                        Text(
+                            text = programLabel,
+                            style = MaterialTheme.typography.titleMedium.copy(
+                                color = Color.White,
+                                fontWeight = FontWeight.Bold
+                            ),
+                            modifier = Modifier.weight(1f),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                }
+            }
+            Videolabel(playbackData?.mediaInfo?.playbackType?.name?.capitalize)
+            Videolabel(playbackData?.mediaInfo?.videoInformation)
+        }
+
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(
+                12.dp,
+                alignment = Alignment.CenterHorizontally
+            ),
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier.fillMaxWidth()
+        ) {
+            val timeTextStyle = MaterialTheme.typography.titleMedium.copy(
+                fontWeight = FontWeight.Bold
+            )
+
+            val textWidth = measureTextWidth("-" + formatTime(displayDuration), timeTextStyle)
+
+            Text(
+                formatTime(displayPosition),
+                color = Color.White,
+                modifier = Modifier.widthIn(min = textWidth),
+                textAlign = TextAlign.Start,
+                maxLines = 1,
+                style = timeTextStyle
+            )
+            SimpleProgressBar(
+                player,
+                bottomControlFocusRequester,
+                onUserInteraction,
+                0L,
+                false,
+                duration = displayDuration,
+                position = displayPosition,
+                onTempPosChanged = {
+                },
+                onScrubbingChanged = {
+                }
+            )
+            Text(
+                "-" + formatTime(
+                    (displayDuration - displayPosition).fastCoerceIn(
+                        minimumValue = 0L,
+                        maximumValue = displayDuration
+                    )
+                ),
+                color = Color.White,
+                textAlign = TextAlign.End,
+                modifier = Modifier.widthIn(min = textWidth),
+                maxLines = 1,
+                style = timeTextStyle
+            )
+        }
+    }
+}
+
+@Composable
+internal fun StandardProgressBar(
     modifier: Modifier = Modifier,
     player: ExoPlayer,
     bottomControlFocusRequester: FocusRequester,
@@ -183,6 +342,7 @@ internal fun ProgressBar(
                 onUserInteraction,
                 tempPosition,
                 scrubbingTimeLine,
+                duration = duration,
                 onTempPosChanged = {
                     tempPosition = it
                 },
@@ -238,14 +398,19 @@ internal fun RowScope.SimpleProgressBar(
     onUserInteraction: () -> Unit,
     tempPosition: Long,
     scrubbingTimeLine: Boolean,
+    duration: Long = 0L,
+    position: Long = 0L,
     onTempPosChanged: (Long) -> Unit = {},
     onScrubbingChanged: (Boolean) -> Unit = {}
 ) {
     val playbackData by VideoPlayerObject.implementation.playbackData.collectAsState()
 
     var width by remember { mutableIntStateOf(0) }
-    val position by VideoPlayerObject.position.collectAsState(0L)
-    val duration by VideoPlayerObject.duration.collectAsState(0L)
+    val playerPosition by VideoPlayerObject.position.collectAsState(0L)
+    val playerDuration by VideoPlayerObject.duration.collectAsState(0L)
+
+    val effectiveDuration = if (duration > 0L) duration else playerDuration
+    val effectivePosition = if (position > 0L || duration > 0L) position else playerPosition
 
     val slideBarShape = RoundedCornerShape(size = 8.dp)
 
@@ -253,12 +418,18 @@ internal fun RowScope.SimpleProgressBar(
 
     var internalTempPosition by remember { mutableLongStateOf(0L) }
 
-    val progress by remember(scrubbingTimeLine, tempPosition, position) {
+    val progress by remember(
+        scrubbingTimeLine,
+        tempPosition,
+        effectivePosition,
+        effectiveDuration
+    ) {
         derivedStateOf {
+            if (effectiveDuration <= 0L) return@derivedStateOf 0f
             if (scrubbingTimeLine) {
-                tempPosition.toFloat() / duration.toFloat()
+                tempPosition.toFloat() / effectiveDuration.toFloat()
             } else {
-                position.toFloat() / duration.toFloat()
+                effectivePosition.toFloat() / effectiveDuration.toFloat()
             }
         }
     }
@@ -276,7 +447,8 @@ internal fun RowScope.SimpleProgressBar(
                 detectTapGestures { offset ->
                     onUserInteraction()
                     val clickRelativeOffset = offset.x / width.toFloat()
-                    val newPosition = duration.milliseconds * clickRelativeOffset.toDouble()
+                    val newPosition =
+                        effectiveDuration.milliseconds * clickRelativeOffset.toDouble()
                     // Route through Flutter for SyncPlay support
                     VideoPlayerObject.videoPlayerControls?.onUserSeek(newPosition.toLong(DurationUnit.MILLISECONDS)) {}
                 }
@@ -292,8 +464,9 @@ internal fun RowScope.SimpleProgressBar(
                         onUserInteraction()
                         change.consume()
                         val relative = change.position.x / size.width.toFloat()
-                        internalTempPosition = (duration.milliseconds * relative.toDouble())
-                            .toLong(DurationUnit.MILLISECONDS)
+                        internalTempPosition =
+                            (effectiveDuration.milliseconds * relative.toDouble())
+                                .toLong(DurationUnit.MILLISECONDS)
                         onTempPosChanged(
                             internalTempPosition
                         )
@@ -342,7 +515,7 @@ internal fun RowScope.SimpleProgressBar(
             val density = LocalDensity.current
 
             val mediaSegments = playbackData?.segments
-            if (width > 0 && duration.toDuration(DurationUnit.MILLISECONDS) > Duration.ZERO) {
+            if (width > 0 && effectiveDuration.toDuration(DurationUnit.MILLISECONDS) > Duration.ZERO) {
                 mediaSegments?.forEach { segment ->
                     val segStartMs = max(
                         0.0,
@@ -354,7 +527,7 @@ internal fun RowScope.SimpleProgressBar(
                         segment.end.toDuration(DurationUnit.MILLISECONDS)
                             .toDouble(DurationUnit.MILLISECONDS)
                     )
-                    val durMs = duration.toDouble().coerceAtLeast(1.0)
+                    val durMs = effectiveDuration.toDouble().coerceAtLeast(1.0)
 
                     if (segStartMs >= durMs) return@forEach
 
@@ -385,13 +558,13 @@ internal fun RowScope.SimpleProgressBar(
             chapters.forEach { chapter ->
                 val chapterDuration = chapter.time.toDuration(DurationUnit.SECONDS)
                     .toDouble(DurationUnit.SECONDS)
-                val isAfterCurrentPositon = chapterDuration > position.toDouble()
+                val isAfterCurrentPositon = chapterDuration > effectivePosition.toDouble()
                 val segStartMs = max(
                     0.0,
                     chapterDuration
                 )
 
-                val durMs = duration.toDouble().coerceAtLeast(1.0)
+                val durMs = effectiveDuration.toDouble().coerceAtLeast(1.0)
                 val startPx = (width * (segStartMs / durMs)).toFloat()
 
 
@@ -454,7 +627,7 @@ internal fun RowScope.SimpleProgressBar(
                     if (!state.isFocused) {
                         onScrubbingChanged(false)
                     } else {
-                        onTempPosChanged(position)
+                        onTempPosChanged(effectivePosition)
                     }
                 }
                 .focusable(enabled = true)
@@ -478,7 +651,7 @@ internal fun RowScope.SimpleProgressBar(
                                 speed++
                             }
                             if (!scrubbingTimeLine) {
-                                onTempPosChanged(position)
+                                onTempPosChanged(effectivePosition)
                                 onScrubbingChanged(true)
                                 // Route through Flutter for SyncPlay support
                                 VideoPlayerObject.videoPlayerControls?.onUserPause {}
@@ -500,7 +673,7 @@ internal fun RowScope.SimpleProgressBar(
                                 speed++
                             }
                             if (!scrubbingTimeLine) {
-                                onTempPosChanged(position)
+                                onTempPosChanged(effectivePosition)
                                 onScrubbingChanged(true)
                                 // Route through Flutter for SyncPlay support
                                 VideoPlayerObject.videoPlayerControls?.onUserPause {}

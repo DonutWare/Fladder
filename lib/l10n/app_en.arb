@@ -483,6 +483,16 @@
       }
     }
   },
+  "mediaTypeTV": "{count, plural, one{TV Channel} other{TV Channels}}",
+  "@mediaTypeTV": {
+    "description": "TV Channel (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
   "metaDataSavedFor": "Metadata saved for {item}",
   "@metaDataSavedFor": {
     "description": "metaDataSavedFor",
@@ -1486,6 +1496,7 @@
   "playbackTypeDirect": "Direct",
   "playbackTypeTranscode": "Transcode",
   "playbackTypeOffline": "Offline",
+  "playbackTypeTV": "TV",
   "latestReleases": "Latest releases",
   "autoCheckForUpdates": "Periodically check for updates",
   "newReleaseFoundTitle": "Update {newRelease} available!",
@@ -2218,6 +2229,12 @@
       }
     }
   },
+  "seerrCustomHeaders": "Custom headers",
+  "@seerrCustomHeaders": {},
+  "seerrHeader": "Header",
+  "@seerrHeader": {},
+  "seerrHeaderValue": "Value",
+  "@seerrHeaderValue": {},
   "emailUsername": "Email/Username",
   "@emailUsername": {},
   "discover": "Discover",
@@ -2283,6 +2300,29 @@
   },
   "processing": "Processing",
   "seerrDetails": "Seerr details",
+  "watch": "Watch",
+  "watchChannel": "Watch {channel}",
+  "@watchChannel": {
+    "placeholders": {
+      "channel": {
+        "type": "String"
+      }
+    }
+  },
+  "now": "Now",
+  "noPrograms": "No programs available",
+  "switchChannel": "Switch channel",
+  "switchChannelDesc": "Do you want to watch \"{programName}\" on {channelName}?",
+  "@switchChannelDesc": {
+    "placeholders": {
+      "programName": {
+        "type": "String"
+      },
+      "channelName": {
+        "type": "String"
+      }
+    }
+  },
   "specialFeature": "{count, plural, other{Special Features} one{Special Feature} }",
   "@specialFeature": {
     "description": "special feature",

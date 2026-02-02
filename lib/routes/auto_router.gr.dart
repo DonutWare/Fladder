@@ -9,15 +9,15 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i36;
+import 'dart:async' as _i37;
 
-import 'package:auto_route/auto_route.dart' as _i29;
-import 'package:collection/collection.dart' as _i34;
-import 'package:fladder/models/item_base_model.dart' as _i31;
-import 'package:fladder/models/items/photos_model.dart' as _i35;
+import 'package:auto_route/auto_route.dart' as _i30;
+import 'package:collection/collection.dart' as _i35;
+import 'package:fladder/models/item_base_model.dart' as _i32;
+import 'package:fladder/models/items/photos_model.dart' as _i36;
 import 'package:fladder/models/library_search/library_search_options.dart'
-    as _i33;
-import 'package:fladder/models/seerr/seerr_dashboard_model.dart' as _i37;
+    as _i34;
+import 'package:fladder/models/seerr/seerr_dashboard_model.dart' as _i38;
 import 'package:fladder/routes/nested_details_screen.dart' as _i12;
 import 'package:fladder/screens/control_panel/control_active_tasks_page.dart'
     as _i3;
@@ -38,34 +38,35 @@ import 'package:fladder/screens/home_screen.dart' as _i14;
 import 'package:fladder/screens/library/library_screen.dart' as _i15;
 import 'package:fladder/screens/library_search/library_search_screen.dart'
     as _i16;
-import 'package:fladder/screens/login/lock_screen.dart' as _i17;
-import 'package:fladder/screens/login/login_screen.dart' as _i18;
-import 'package:fladder/screens/photo_viewer/photo_viewer_screen.dart' as _i19;
-import 'package:fladder/screens/seerr/seerr_details_screen.dart' as _i22;
-import 'package:fladder/screens/seerr/seerr_screen.dart' as _i23;
-import 'package:fladder/screens/seerr/seerr_search_screen.dart' as _i24;
+import 'package:fladder/screens/live_tv/live_tv_screen.dart' as _i17;
+import 'package:fladder/screens/login/lock_screen.dart' as _i18;
+import 'package:fladder/screens/login/login_screen.dart' as _i19;
+import 'package:fladder/screens/photo_viewer/photo_viewer_screen.dart' as _i20;
+import 'package:fladder/screens/seerr/seerr_details_screen.dart' as _i23;
+import 'package:fladder/screens/seerr/seerr_screen.dart' as _i24;
+import 'package:fladder/screens/seerr/seerr_search_screen.dart' as _i25;
 import 'package:fladder/screens/settings/about_settings_page.dart' as _i1;
 import 'package:fladder/screens/settings/client_settings_page.dart' as _i2;
-import 'package:fladder/screens/settings/player_settings_page.dart' as _i20;
-import 'package:fladder/screens/settings/profile_settings_page.dart' as _i21;
-import 'package:fladder/screens/settings/settings_screen.dart' as _i25;
+import 'package:fladder/screens/settings/player_settings_page.dart' as _i21;
+import 'package:fladder/screens/settings/profile_settings_page.dart' as _i22;
+import 'package:fladder/screens/settings/settings_screen.dart' as _i26;
 import 'package:fladder/screens/settings/settings_selection_screen.dart'
-    as _i26;
-import 'package:fladder/screens/splash_screen.dart' as _i27;
-import 'package:fladder/screens/syncing/synced_screen.dart' as _i28;
-import 'package:fladder/seerr/seerr_models.dart' as _i38;
-import 'package:flutter/foundation.dart' as _i32;
-import 'package:flutter/material.dart' as _i30;
+    as _i27;
+import 'package:fladder/screens/splash_screen.dart' as _i28;
+import 'package:fladder/screens/syncing/synced_screen.dart' as _i29;
+import 'package:fladder/seerr/seerr_models.dart' as _i39;
+import 'package:flutter/foundation.dart' as _i33;
+import 'package:flutter/material.dart' as _i31;
 
 /// generated route for
 /// [_i1.AboutSettingsPage]
-class AboutSettingsRoute extends _i29.PageRouteInfo<void> {
-  const AboutSettingsRoute({List<_i29.PageRouteInfo>? children})
+class AboutSettingsRoute extends _i30.PageRouteInfo<void> {
+  const AboutSettingsRoute({List<_i30.PageRouteInfo>? children})
       : super(AboutSettingsRoute.name, initialChildren: children);
 
   static const String name = 'AboutSettingsRoute';
 
-  static _i29.PageInfo page = _i29.PageInfo(
+  static _i30.PageInfo page = _i30.PageInfo(
     name,
     builder: (data) {
       return const _i1.AboutSettingsPage();
@@ -75,13 +76,13 @@ class AboutSettingsRoute extends _i29.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i2.ClientSettingsPage]
-class ClientSettingsRoute extends _i29.PageRouteInfo<void> {
-  const ClientSettingsRoute({List<_i29.PageRouteInfo>? children})
+class ClientSettingsRoute extends _i30.PageRouteInfo<void> {
+  const ClientSettingsRoute({List<_i30.PageRouteInfo>? children})
       : super(ClientSettingsRoute.name, initialChildren: children);
 
   static const String name = 'ClientSettingsRoute';
 
-  static _i29.PageInfo page = _i29.PageInfo(
+  static _i30.PageInfo page = _i30.PageInfo(
     name,
     builder: (data) {
       return const _i2.ClientSettingsPage();
@@ -91,13 +92,13 @@ class ClientSettingsRoute extends _i29.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i3.ControlActiveTasksPage]
-class ControlActiveTasksRoute extends _i29.PageRouteInfo<void> {
-  const ControlActiveTasksRoute({List<_i29.PageRouteInfo>? children})
+class ControlActiveTasksRoute extends _i30.PageRouteInfo<void> {
+  const ControlActiveTasksRoute({List<_i30.PageRouteInfo>? children})
       : super(ControlActiveTasksRoute.name, initialChildren: children);
 
   static const String name = 'ControlActiveTasksRoute';
 
-  static _i29.PageInfo page = _i29.PageInfo(
+  static _i30.PageInfo page = _i30.PageInfo(
     name,
     builder: (data) {
       return const _i3.ControlActiveTasksPage();
@@ -107,13 +108,13 @@ class ControlActiveTasksRoute extends _i29.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i4.ControlDashboardPage]
-class ControlDashboardRoute extends _i29.PageRouteInfo<void> {
-  const ControlDashboardRoute({List<_i29.PageRouteInfo>? children})
+class ControlDashboardRoute extends _i30.PageRouteInfo<void> {
+  const ControlDashboardRoute({List<_i30.PageRouteInfo>? children})
       : super(ControlDashboardRoute.name, initialChildren: children);
 
   static const String name = 'ControlDashboardRoute';
 
-  static _i29.PageInfo page = _i29.PageInfo(
+  static _i30.PageInfo page = _i30.PageInfo(
     name,
     builder: (data) {
       return const _i4.ControlDashboardPage();
@@ -123,13 +124,13 @@ class ControlDashboardRoute extends _i29.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i5.ControlLibrariesPage]
-class ControlLibrariesRoute extends _i29.PageRouteInfo<void> {
-  const ControlLibrariesRoute({List<_i29.PageRouteInfo>? children})
+class ControlLibrariesRoute extends _i30.PageRouteInfo<void> {
+  const ControlLibrariesRoute({List<_i30.PageRouteInfo>? children})
       : super(ControlLibrariesRoute.name, initialChildren: children);
 
   static const String name = 'ControlLibrariesRoute';
 
-  static _i29.PageInfo page = _i29.PageInfo(
+  static _i30.PageInfo page = _i30.PageInfo(
     name,
     builder: (data) {
       return const _i5.ControlLibrariesPage();
@@ -139,13 +140,13 @@ class ControlLibrariesRoute extends _i29.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i6.ControlPanelScreen]
-class ControlPanelRoute extends _i29.PageRouteInfo<void> {
-  const ControlPanelRoute({List<_i29.PageRouteInfo>? children})
+class ControlPanelRoute extends _i30.PageRouteInfo<void> {
+  const ControlPanelRoute({List<_i30.PageRouteInfo>? children})
       : super(ControlPanelRoute.name, initialChildren: children);
 
   static const String name = 'ControlPanelRoute';
 
-  static _i29.PageInfo page = _i29.PageInfo(
+  static _i30.PageInfo page = _i30.PageInfo(
     name,
     builder: (data) {
       return const _i6.ControlPanelScreen();
@@ -155,13 +156,13 @@ class ControlPanelRoute extends _i29.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i7.ControlPanelSelectionScreen]
-class ControlPanelSelectionRoute extends _i29.PageRouteInfo<void> {
-  const ControlPanelSelectionRoute({List<_i29.PageRouteInfo>? children})
+class ControlPanelSelectionRoute extends _i30.PageRouteInfo<void> {
+  const ControlPanelSelectionRoute({List<_i30.PageRouteInfo>? children})
       : super(ControlPanelSelectionRoute.name, initialChildren: children);
 
   static const String name = 'ControlPanelSelectionRoute';
 
-  static _i29.PageInfo page = _i29.PageInfo(
+  static _i30.PageInfo page = _i30.PageInfo(
     name,
     builder: (data) {
       return const _i7.ControlPanelSelectionScreen();
@@ -171,13 +172,13 @@ class ControlPanelSelectionRoute extends _i29.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i8.ControlServerPage]
-class ControlServerRoute extends _i29.PageRouteInfo<void> {
-  const ControlServerRoute({List<_i29.PageRouteInfo>? children})
+class ControlServerRoute extends _i30.PageRouteInfo<void> {
+  const ControlServerRoute({List<_i30.PageRouteInfo>? children})
       : super(ControlServerRoute.name, initialChildren: children);
 
   static const String name = 'ControlServerRoute';
 
-  static _i29.PageInfo page = _i29.PageInfo(
+  static _i30.PageInfo page = _i30.PageInfo(
     name,
     builder: (data) {
       return const _i8.ControlServerPage();
@@ -188,11 +189,11 @@ class ControlServerRoute extends _i29.PageRouteInfo<void> {
 /// generated route for
 /// [_i9.ControlUserEditPage]
 class ControlUserEditRoute
-    extends _i29.PageRouteInfo<ControlUserEditRouteArgs> {
+    extends _i30.PageRouteInfo<ControlUserEditRouteArgs> {
   ControlUserEditRoute({
     String? userId,
-    _i30.Key? key,
-    List<_i29.PageRouteInfo>? children,
+    _i31.Key? key,
+    List<_i30.PageRouteInfo>? children,
   }) : super(
           ControlUserEditRoute.name,
           args: ControlUserEditRouteArgs(userId: userId, key: key),
@@ -202,7 +203,7 @@ class ControlUserEditRoute
 
   static const String name = 'ControlUserEditRoute';
 
-  static _i29.PageInfo page = _i29.PageInfo(
+  static _i30.PageInfo page = _i30.PageInfo(
     name,
     builder: (data) {
       final queryParams = data.queryParams;
@@ -220,7 +221,7 @@ class ControlUserEditRouteArgs {
 
   final String? userId;
 
-  final _i30.Key? key;
+  final _i31.Key? key;
 
   @override
   String toString() {
@@ -240,13 +241,13 @@ class ControlUserEditRouteArgs {
 
 /// generated route for
 /// [_i10.ControlUsersPage]
-class ControlUsersRoute extends _i29.PageRouteInfo<void> {
-  const ControlUsersRoute({List<_i29.PageRouteInfo>? children})
+class ControlUsersRoute extends _i30.PageRouteInfo<void> {
+  const ControlUsersRoute({List<_i30.PageRouteInfo>? children})
       : super(ControlUsersRoute.name, initialChildren: children);
 
   static const String name = 'ControlUsersRoute';
 
-  static _i29.PageInfo page = _i29.PageInfo(
+  static _i30.PageInfo page = _i30.PageInfo(
     name,
     builder: (data) {
       return const _i10.ControlUsersPage();
@@ -256,13 +257,13 @@ class ControlUsersRoute extends _i29.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i11.DashboardScreen]
-class DashboardRoute extends _i29.PageRouteInfo<void> {
-  const DashboardRoute({List<_i29.PageRouteInfo>? children})
+class DashboardRoute extends _i30.PageRouteInfo<void> {
+  const DashboardRoute({List<_i30.PageRouteInfo>? children})
       : super(DashboardRoute.name, initialChildren: children);
 
   static const String name = 'DashboardRoute';
 
-  static _i29.PageInfo page = _i29.PageInfo(
+  static _i30.PageInfo page = _i30.PageInfo(
     name,
     builder: (data) {
       return const _i11.DashboardScreen();
@@ -272,13 +273,13 @@ class DashboardRoute extends _i29.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i12.DetailsScreen]
-class DetailsRoute extends _i29.PageRouteInfo<DetailsRouteArgs> {
+class DetailsRoute extends _i30.PageRouteInfo<DetailsRouteArgs> {
   DetailsRoute({
     String id = '',
-    _i31.ItemBaseModel? item,
+    _i32.ItemBaseModel? item,
     Object? tag,
-    _i32.Key? key,
-    List<_i29.PageRouteInfo>? children,
+    _i33.Key? key,
+    List<_i30.PageRouteInfo>? children,
   }) : super(
           DetailsRoute.name,
           args: DetailsRouteArgs(id: id, item: item, tag: tag, key: key),
@@ -288,7 +289,7 @@ class DetailsRoute extends _i29.PageRouteInfo<DetailsRouteArgs> {
 
   static const String name = 'DetailsRoute';
 
-  static _i29.PageInfo page = _i29.PageInfo(
+  static _i30.PageInfo page = _i30.PageInfo(
     name,
     builder: (data) {
       final queryParams = data.queryParams;
@@ -310,11 +311,11 @@ class DetailsRouteArgs {
 
   final String id;
 
-  final _i31.ItemBaseModel? item;
+  final _i32.ItemBaseModel? item;
 
   final Object? tag;
 
-  final _i32.Key? key;
+  final _i33.Key? key;
 
   @override
   String toString() {
@@ -337,13 +338,13 @@ class DetailsRouteArgs {
 
 /// generated route for
 /// [_i13.FavouritesScreen]
-class FavouritesRoute extends _i29.PageRouteInfo<void> {
-  const FavouritesRoute({List<_i29.PageRouteInfo>? children})
+class FavouritesRoute extends _i30.PageRouteInfo<void> {
+  const FavouritesRoute({List<_i30.PageRouteInfo>? children})
       : super(FavouritesRoute.name, initialChildren: children);
 
   static const String name = 'FavouritesRoute';
 
-  static _i29.PageInfo page = _i29.PageInfo(
+  static _i30.PageInfo page = _i30.PageInfo(
     name,
     builder: (data) {
       return const _i13.FavouritesScreen();
@@ -353,13 +354,13 @@ class FavouritesRoute extends _i29.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i14.HomeScreen]
-class HomeRoute extends _i29.PageRouteInfo<void> {
-  const HomeRoute({List<_i29.PageRouteInfo>? children})
+class HomeRoute extends _i30.PageRouteInfo<void> {
+  const HomeRoute({List<_i30.PageRouteInfo>? children})
       : super(HomeRoute.name, initialChildren: children);
 
   static const String name = 'HomeRoute';
 
-  static _i29.PageInfo page = _i29.PageInfo(
+  static _i30.PageInfo page = _i30.PageInfo(
     name,
     builder: (data) {
       return const _i14.HomeScreen();
@@ -369,13 +370,13 @@ class HomeRoute extends _i29.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i15.LibraryScreen]
-class LibraryRoute extends _i29.PageRouteInfo<void> {
-  const LibraryRoute({List<_i29.PageRouteInfo>? children})
+class LibraryRoute extends _i30.PageRouteInfo<void> {
+  const LibraryRoute({List<_i30.PageRouteInfo>? children})
       : super(LibraryRoute.name, initialChildren: children);
 
   static const String name = 'LibraryRoute';
 
-  static _i29.PageInfo page = _i29.PageInfo(
+  static _i30.PageInfo page = _i30.PageInfo(
     name,
     builder: (data) {
       return const _i15.LibraryScreen();
@@ -385,18 +386,18 @@ class LibraryRoute extends _i29.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i16.LibrarySearchScreen]
-class LibrarySearchRoute extends _i29.PageRouteInfo<LibrarySearchRouteArgs> {
+class LibrarySearchRoute extends _i30.PageRouteInfo<LibrarySearchRouteArgs> {
   LibrarySearchRoute({
     String? viewModelId,
     List<String>? folderId,
     bool? favourites,
-    _i33.SortingOrder? sortOrder,
-    _i33.SortingOptions? sortingOptions,
-    Map<_i31.FladderItemType, bool>? types,
+    _i34.SortingOrder? sortOrder,
+    _i34.SortingOptions? sortingOptions,
+    Map<_i32.FladderItemType, bool>? types,
     Map<String, bool>? genres,
     bool? recursive,
-    _i32.Key? key,
-    List<_i29.PageRouteInfo>? children,
+    _i33.Key? key,
+    List<_i30.PageRouteInfo>? children,
   }) : super(
           LibrarySearchRoute.name,
           args: LibrarySearchRouteArgs(
@@ -425,7 +426,7 @@ class LibrarySearchRoute extends _i29.PageRouteInfo<LibrarySearchRouteArgs> {
 
   static const String name = 'LibrarySearchRoute';
 
-  static _i29.PageInfo page = _i29.PageInfo(
+  static _i30.PageInfo page = _i30.PageInfo(
     name,
     builder: (data) {
       final queryParams = data.queryParams;
@@ -475,17 +476,17 @@ class LibrarySearchRouteArgs {
 
   final bool? favourites;
 
-  final _i33.SortingOrder? sortOrder;
+  final _i34.SortingOrder? sortOrder;
 
-  final _i33.SortingOptions? sortingOptions;
+  final _i34.SortingOptions? sortingOptions;
 
-  final Map<_i31.FladderItemType, bool>? types;
+  final Map<_i32.FladderItemType, bool>? types;
 
   final Map<String, bool>? genres;
 
   final bool? recursive;
 
-  final _i32.Key? key;
+  final _i33.Key? key;
 
   @override
   String toString() {
@@ -497,12 +498,12 @@ class LibrarySearchRouteArgs {
     if (identical(this, other)) return true;
     if (other is! LibrarySearchRouteArgs) return false;
     return viewModelId == other.viewModelId &&
-        const _i34.ListEquality().equals(folderId, other.folderId) &&
+        const _i35.ListEquality().equals(folderId, other.folderId) &&
         favourites == other.favourites &&
         sortOrder == other.sortOrder &&
         sortingOptions == other.sortingOptions &&
-        const _i34.MapEquality().equals(types, other.types) &&
-        const _i34.MapEquality().equals(genres, other.genres) &&
+        const _i35.MapEquality().equals(types, other.types) &&
+        const _i35.MapEquality().equals(genres, other.genres) &&
         recursive == other.recursive &&
         key == other.key;
   }
@@ -510,57 +511,109 @@ class LibrarySearchRouteArgs {
   @override
   int get hashCode =>
       viewModelId.hashCode ^
-      const _i34.ListEquality().hash(folderId) ^
+      const _i35.ListEquality().hash(folderId) ^
       favourites.hashCode ^
       sortOrder.hashCode ^
       sortingOptions.hashCode ^
-      const _i34.MapEquality().hash(types) ^
-      const _i34.MapEquality().hash(genres) ^
+      const _i35.MapEquality().hash(types) ^
+      const _i35.MapEquality().hash(genres) ^
       recursive.hashCode ^
       key.hashCode;
 }
 
 /// generated route for
-/// [_i17.LockScreen]
-class LockRoute extends _i29.PageRouteInfo<void> {
-  const LockRoute({List<_i29.PageRouteInfo>? children})
+/// [_i17.LiveTvScreen]
+class LiveTvRoute extends _i30.PageRouteInfo<LiveTvRouteArgs> {
+  LiveTvRoute({
+    String viewId = "",
+    _i31.Key? key,
+    List<_i30.PageRouteInfo>? children,
+  }) : super(
+          LiveTvRoute.name,
+          args: LiveTvRouteArgs(viewId: viewId, key: key),
+          rawQueryParams: {'viewId': viewId},
+          initialChildren: children,
+        );
+
+  static const String name = 'LiveTvRoute';
+
+  static _i30.PageInfo page = _i30.PageInfo(
+    name,
+    builder: (data) {
+      final queryParams = data.queryParams;
+      final args = data.argsAs<LiveTvRouteArgs>(
+        orElse: () =>
+            LiveTvRouteArgs(viewId: queryParams.getString('viewId', "")),
+      );
+      return _i17.LiveTvScreen(viewId: args.viewId, key: args.key);
+    },
+  );
+}
+
+class LiveTvRouteArgs {
+  const LiveTvRouteArgs({this.viewId = "", this.key});
+
+  final String viewId;
+
+  final _i31.Key? key;
+
+  @override
+  String toString() {
+    return 'LiveTvRouteArgs{viewId: $viewId, key: $key}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! LiveTvRouteArgs) return false;
+    return viewId == other.viewId && key == other.key;
+  }
+
+  @override
+  int get hashCode => viewId.hashCode ^ key.hashCode;
+}
+
+/// generated route for
+/// [_i18.LockScreen]
+class LockRoute extends _i30.PageRouteInfo<void> {
+  const LockRoute({List<_i30.PageRouteInfo>? children})
       : super(LockRoute.name, initialChildren: children);
 
   static const String name = 'LockRoute';
 
-  static _i29.PageInfo page = _i29.PageInfo(
+  static _i30.PageInfo page = _i30.PageInfo(
     name,
     builder: (data) {
-      return const _i17.LockScreen();
+      return const _i18.LockScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i18.LoginScreen]
-class LoginRoute extends _i29.PageRouteInfo<void> {
-  const LoginRoute({List<_i29.PageRouteInfo>? children})
+/// [_i19.LoginScreen]
+class LoginRoute extends _i30.PageRouteInfo<void> {
+  const LoginRoute({List<_i30.PageRouteInfo>? children})
       : super(LoginRoute.name, initialChildren: children);
 
   static const String name = 'LoginRoute';
 
-  static _i29.PageInfo page = _i29.PageInfo(
+  static _i30.PageInfo page = _i30.PageInfo(
     name,
     builder: (data) {
-      return const _i18.LoginScreen();
+      return const _i19.LoginScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i19.PhotoViewerScreen]
-class PhotoViewerRoute extends _i29.PageRouteInfo<PhotoViewerRouteArgs> {
+/// [_i20.PhotoViewerScreen]
+class PhotoViewerRoute extends _i30.PageRouteInfo<PhotoViewerRouteArgs> {
   PhotoViewerRoute({
-    List<_i35.PhotoModel>? items,
+    List<_i36.PhotoModel>? items,
     String? selected,
-    _i36.Future<List<_i35.PhotoModel>>? loadingItems,
-    _i30.Key? key,
-    List<_i29.PageRouteInfo>? children,
+    _i37.Future<List<_i36.PhotoModel>>? loadingItems,
+    _i31.Key? key,
+    List<_i30.PageRouteInfo>? children,
   }) : super(
           PhotoViewerRoute.name,
           args: PhotoViewerRouteArgs(
@@ -575,7 +628,7 @@ class PhotoViewerRoute extends _i29.PageRouteInfo<PhotoViewerRouteArgs> {
 
   static const String name = 'PhotoViewerRoute';
 
-  static _i29.PageInfo page = _i29.PageInfo(
+  static _i30.PageInfo page = _i30.PageInfo(
     name,
     builder: (data) {
       final queryParams = data.queryParams;
@@ -583,7 +636,7 @@ class PhotoViewerRoute extends _i29.PageRouteInfo<PhotoViewerRouteArgs> {
         orElse: () =>
             PhotoViewerRouteArgs(selected: queryParams.optString('selectedId')),
       );
-      return _i19.PhotoViewerScreen(
+      return _i20.PhotoViewerScreen(
         items: args.items,
         selected: args.selected,
         loadingItems: args.loadingItems,
@@ -601,13 +654,13 @@ class PhotoViewerRouteArgs {
     this.key,
   });
 
-  final List<_i35.PhotoModel>? items;
+  final List<_i36.PhotoModel>? items;
 
   final String? selected;
 
-  final _i36.Future<List<_i35.PhotoModel>>? loadingItems;
+  final _i37.Future<List<_i36.PhotoModel>>? loadingItems;
 
-  final _i30.Key? key;
+  final _i31.Key? key;
 
   @override
   String toString() {
@@ -618,7 +671,7 @@ class PhotoViewerRouteArgs {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! PhotoViewerRouteArgs) return false;
-    return const _i34.ListEquality().equals(items, other.items) &&
+    return const _i35.ListEquality().equals(items, other.items) &&
         selected == other.selected &&
         loadingItems == other.loadingItems &&
         key == other.key;
@@ -626,53 +679,53 @@ class PhotoViewerRouteArgs {
 
   @override
   int get hashCode =>
-      const _i34.ListEquality().hash(items) ^
+      const _i35.ListEquality().hash(items) ^
       selected.hashCode ^
       loadingItems.hashCode ^
       key.hashCode;
 }
 
 /// generated route for
-/// [_i20.PlayerSettingsPage]
-class PlayerSettingsRoute extends _i29.PageRouteInfo<void> {
-  const PlayerSettingsRoute({List<_i29.PageRouteInfo>? children})
+/// [_i21.PlayerSettingsPage]
+class PlayerSettingsRoute extends _i30.PageRouteInfo<void> {
+  const PlayerSettingsRoute({List<_i30.PageRouteInfo>? children})
       : super(PlayerSettingsRoute.name, initialChildren: children);
 
   static const String name = 'PlayerSettingsRoute';
 
-  static _i29.PageInfo page = _i29.PageInfo(
+  static _i30.PageInfo page = _i30.PageInfo(
     name,
     builder: (data) {
-      return const _i20.PlayerSettingsPage();
+      return const _i21.PlayerSettingsPage();
     },
   );
 }
 
 /// generated route for
-/// [_i21.ProfileSettingsPage]
-class ProfileSettingsRoute extends _i29.PageRouteInfo<void> {
-  const ProfileSettingsRoute({List<_i29.PageRouteInfo>? children})
+/// [_i22.ProfileSettingsPage]
+class ProfileSettingsRoute extends _i30.PageRouteInfo<void> {
+  const ProfileSettingsRoute({List<_i30.PageRouteInfo>? children})
       : super(ProfileSettingsRoute.name, initialChildren: children);
 
   static const String name = 'ProfileSettingsRoute';
 
-  static _i29.PageInfo page = _i29.PageInfo(
+  static _i30.PageInfo page = _i30.PageInfo(
     name,
     builder: (data) {
-      return const _i21.ProfileSettingsPage();
+      return const _i22.ProfileSettingsPage();
     },
   );
 }
 
 /// generated route for
-/// [_i22.SeerrDetailsScreen]
-class SeerrDetailsRoute extends _i29.PageRouteInfo<SeerrDetailsRouteArgs> {
+/// [_i23.SeerrDetailsScreen]
+class SeerrDetailsRoute extends _i30.PageRouteInfo<SeerrDetailsRouteArgs> {
   SeerrDetailsRoute({
     required String mediaType,
     required int tmdbId,
-    _i37.SeerrDashboardPosterModel? poster,
-    _i30.Key? key,
-    List<_i29.PageRouteInfo>? children,
+    _i38.SeerrDashboardPosterModel? poster,
+    _i31.Key? key,
+    List<_i30.PageRouteInfo>? children,
   }) : super(
           SeerrDetailsRoute.name,
           args: SeerrDetailsRouteArgs(
@@ -687,7 +740,7 @@ class SeerrDetailsRoute extends _i29.PageRouteInfo<SeerrDetailsRouteArgs> {
 
   static const String name = 'SeerrDetailsRoute';
 
-  static _i29.PageInfo page = _i29.PageInfo(
+  static _i30.PageInfo page = _i30.PageInfo(
     name,
     builder: (data) {
       final pathParams = data.inheritedPathParams;
@@ -697,7 +750,7 @@ class SeerrDetailsRoute extends _i29.PageRouteInfo<SeerrDetailsRouteArgs> {
           tmdbId: pathParams.getInt('tmdbId'),
         ),
       );
-      return _i22.SeerrDetailsScreen(
+      return _i23.SeerrDetailsScreen(
         mediaType: args.mediaType,
         tmdbId: args.tmdbId,
         poster: args.poster,
@@ -719,9 +772,9 @@ class SeerrDetailsRouteArgs {
 
   final int tmdbId;
 
-  final _i37.SeerrDashboardPosterModel? poster;
+  final _i38.SeerrDashboardPosterModel? poster;
 
-  final _i30.Key? key;
+  final _i31.Key? key;
 
   @override
   String toString() {
@@ -744,29 +797,29 @@ class SeerrDetailsRouteArgs {
 }
 
 /// generated route for
-/// [_i23.SeerrScreen]
-class SeerrRoute extends _i29.PageRouteInfo<void> {
-  const SeerrRoute({List<_i29.PageRouteInfo>? children})
+/// [_i24.SeerrScreen]
+class SeerrRoute extends _i30.PageRouteInfo<void> {
+  const SeerrRoute({List<_i30.PageRouteInfo>? children})
       : super(SeerrRoute.name, initialChildren: children);
 
   static const String name = 'SeerrRoute';
 
-  static _i29.PageInfo page = _i29.PageInfo(
+  static _i30.PageInfo page = _i30.PageInfo(
     name,
     builder: (data) {
-      return const _i23.SeerrScreen();
+      return const _i24.SeerrScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i24.SeerrSearchScreen]
-class SeerrSearchRoute extends _i29.PageRouteInfo<SeerrSearchRouteArgs> {
+/// [_i25.SeerrSearchScreen]
+class SeerrSearchRoute extends _i30.PageRouteInfo<SeerrSearchRouteArgs> {
   SeerrSearchRoute({
-    _i38.SeerrSearchMode? mode,
+    _i39.SeerrSearchMode? mode,
     int? yearGte,
-    _i30.Key? key,
-    List<_i29.PageRouteInfo>? children,
+    _i31.Key? key,
+    List<_i30.PageRouteInfo>? children,
   }) : super(
           SeerrSearchRoute.name,
           args: SeerrSearchRouteArgs(mode: mode, yearGte: yearGte, key: key),
@@ -776,7 +829,7 @@ class SeerrSearchRoute extends _i29.PageRouteInfo<SeerrSearchRouteArgs> {
 
   static const String name = 'SeerrSearchRoute';
 
-  static _i29.PageInfo page = _i29.PageInfo(
+  static _i30.PageInfo page = _i30.PageInfo(
     name,
     builder: (data) {
       final queryParams = data.queryParams;
@@ -786,7 +839,7 @@ class SeerrSearchRoute extends _i29.PageRouteInfo<SeerrSearchRouteArgs> {
           yearGte: queryParams.optInt('yearGte'),
         ),
       );
-      return _i24.SeerrSearchScreen(
+      return _i25.SeerrSearchScreen(
         mode: args.mode,
         yearGte: args.yearGte,
         key: args.key,
@@ -798,11 +851,11 @@ class SeerrSearchRoute extends _i29.PageRouteInfo<SeerrSearchRouteArgs> {
 class SeerrSearchRouteArgs {
   const SeerrSearchRouteArgs({this.mode, this.yearGte, this.key});
 
-  final _i38.SeerrSearchMode? mode;
+  final _i39.SeerrSearchMode? mode;
 
   final int? yearGte;
 
-  final _i30.Key? key;
+  final _i31.Key? key;
 
   @override
   String toString() {
@@ -821,44 +874,44 @@ class SeerrSearchRouteArgs {
 }
 
 /// generated route for
-/// [_i25.SettingsScreen]
-class SettingsRoute extends _i29.PageRouteInfo<void> {
-  const SettingsRoute({List<_i29.PageRouteInfo>? children})
+/// [_i26.SettingsScreen]
+class SettingsRoute extends _i30.PageRouteInfo<void> {
+  const SettingsRoute({List<_i30.PageRouteInfo>? children})
       : super(SettingsRoute.name, initialChildren: children);
 
   static const String name = 'SettingsRoute';
 
-  static _i29.PageInfo page = _i29.PageInfo(
+  static _i30.PageInfo page = _i30.PageInfo(
     name,
     builder: (data) {
-      return const _i25.SettingsScreen();
+      return const _i26.SettingsScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i26.SettingsSelectionScreen]
-class SettingsSelectionRoute extends _i29.PageRouteInfo<void> {
-  const SettingsSelectionRoute({List<_i29.PageRouteInfo>? children})
+/// [_i27.SettingsSelectionScreen]
+class SettingsSelectionRoute extends _i30.PageRouteInfo<void> {
+  const SettingsSelectionRoute({List<_i30.PageRouteInfo>? children})
       : super(SettingsSelectionRoute.name, initialChildren: children);
 
   static const String name = 'SettingsSelectionRoute';
 
-  static _i29.PageInfo page = _i29.PageInfo(
+  static _i30.PageInfo page = _i30.PageInfo(
     name,
     builder: (data) {
-      return const _i26.SettingsSelectionScreen();
+      return const _i27.SettingsSelectionScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i27.SplashScreen]
-class SplashRoute extends _i29.PageRouteInfo<SplashRouteArgs> {
+/// [_i28.SplashScreen]
+class SplashRoute extends _i30.PageRouteInfo<SplashRouteArgs> {
   SplashRoute({
     dynamic Function(bool)? loggedIn,
-    _i30.Key? key,
-    List<_i29.PageRouteInfo>? children,
+    _i31.Key? key,
+    List<_i30.PageRouteInfo>? children,
   }) : super(
           SplashRoute.name,
           args: SplashRouteArgs(loggedIn: loggedIn, key: key),
@@ -867,13 +920,13 @@ class SplashRoute extends _i29.PageRouteInfo<SplashRouteArgs> {
 
   static const String name = 'SplashRoute';
 
-  static _i29.PageInfo page = _i29.PageInfo(
+  static _i30.PageInfo page = _i30.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<SplashRouteArgs>(
         orElse: () => const SplashRouteArgs(),
       );
-      return _i27.SplashScreen(loggedIn: args.loggedIn, key: args.key);
+      return _i28.SplashScreen(loggedIn: args.loggedIn, key: args.key);
     },
   );
 }
@@ -883,7 +936,7 @@ class SplashRouteArgs {
 
   final dynamic Function(bool)? loggedIn;
 
-  final _i30.Key? key;
+  final _i31.Key? key;
 
   @override
   String toString() {
@@ -902,17 +955,17 @@ class SplashRouteArgs {
 }
 
 /// generated route for
-/// [_i28.SyncedScreen]
-class SyncedRoute extends _i29.PageRouteInfo<void> {
-  const SyncedRoute({List<_i29.PageRouteInfo>? children})
+/// [_i29.SyncedScreen]
+class SyncedRoute extends _i30.PageRouteInfo<void> {
+  const SyncedRoute({List<_i30.PageRouteInfo>? children})
       : super(SyncedRoute.name, initialChildren: children);
 
   static const String name = 'SyncedRoute';
 
-  static _i29.PageInfo page = _i29.PageInfo(
+  static _i30.PageInfo page = _i30.PageInfo(
     name,
     builder: (data) {
-      return const _i28.SyncedScreen();
+      return const _i29.SyncedScreen();
     },
   );
 }

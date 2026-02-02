@@ -28,4 +28,10 @@ abstract class TranslationsPigeon {
   String hoursAndMinutes(String time);
 
   String endsAt(String time);
+
+  String switchChannel();
+  String switchChannelDesc(String programName, String channelName);
+  String watch();
+  String now();
+  String decline();
 }

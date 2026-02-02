@@ -137,6 +137,9 @@ dependencies:
   macos_window_utils: ^1.9.0
   web_socket_channel: ^3.0.3
 
+  # Fix cjk font rendering issue on Windows
+  chinese_font_library: ^1.2.0
+
 dependency_overrides:
   media_kit:
     git:

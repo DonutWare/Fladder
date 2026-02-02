@@ -7,8 +7,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/media_playback_model.dart';
+import 'package:fladder/models/playback/playback_model.dart';
+import 'package:fladder/models/playback/tv_playback_model.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
+import 'package:fladder/screens/video_player/components/video_player_guide_wrapper.dart';
 import 'package:fladder/screens/video_player/components/video_player_next_wrapper.dart';
 import 'package:fladder/screens/video_player/video_player_controls.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
@@ -27,6 +30,8 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
 
   bool errorPlaying = false;
   bool playing = false;
+
+  late PlaybackModel? currentPlaybackModel = ref.read(playBackModel);
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -75,6 +80,20 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
 
     final playerController = ref.watch(videoPlayerProvider.select((value) => value));
 
+    //Watch playbackModel type changes to switch between normal players
+    ref.listen(
+      playBackModel,
+      (previous, next) {
+        if (next == null) return;
+        if (previous.runtimeType != next.runtimeType) {
+          setState(() {
+            currentPlaybackModel = next;
+            errorPlaying = false;
+          });
+        }
+      },
+    );
+
     ref.listen(
       videoPlayerSettingsProvider.select((value) => value.allowedOrientations),
       (previous, next) {
@@ -82,6 +101,14 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
           SystemChrome.setPreferredOrientations(next?.isNotEmpty == true ? next!.toList() : DeviceOrientation.values);
         }
       },
+    );
+
+    final player = Padding(
+      padding: fillScreen ? EdgeInsets.zero : EdgeInsets.only(left: padding.left, right: padding.right),
+      child: playerController.videoWidget(
+        const Key("VideoPlayer"),
+        fillScreen ? (MediaQuery.of(context).orientation == Orientation.portrait ? videoFit : BoxFit.cover) : videoFit,
+      ),
     );
 
     return BackIntentDpad(
@@ -103,21 +130,19 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
                 }
                 lastScale = 0.0;
               },
-              child: VideoPlayerNextWrapper(
-                video: Padding(
-                  padding: fillScreen ? EdgeInsets.zero : EdgeInsets.only(left: padding.left, right: padding.right),
-                  child: playerController.videoWidget(
-                    const Key("VideoPlayer"),
-                    fillScreen
-                        ? (MediaQuery.of(context).orientation == Orientation.portrait ? videoFit : BoxFit.cover)
-                        : videoFit,
+              child: switch (currentPlaybackModel) {
+                TvPlaybackModel _ => VideoPlayerGuideWrapper(
+                    key: const Key("VideoPlayerGuideWrapper"),
+                    child: player,
                   ),
-                ),
-                controls: const DesktopControls(),
-                overlays: [
-                  if (errorPlaying) const _VideoErrorWidget(),
-                ],
-              ),
+                _ => VideoPlayerNextWrapper(
+                    video: player,
+                    controls: const DesktopControls(),
+                    overlays: [
+                      if (errorPlaying) const _VideoErrorWidget(),
+                    ],
+                  ),
+              },
             ),
           ),
         ),

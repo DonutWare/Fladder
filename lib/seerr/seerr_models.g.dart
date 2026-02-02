@@ -825,6 +825,9 @@ SeerrAuthJellyfinBody _$SeerrAuthJellyfinBodyFromJson(
     SeerrAuthJellyfinBody(
       username: json['username'] as String,
       password: json['password'] as String,
+      customHeaders: (json['customHeaders'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
+      ),
       hostname: json['hostname'] as String?,
     );
 
@@ -833,6 +836,7 @@ Map<String, dynamic> _$SeerrAuthJellyfinBodyToJson(
     <String, dynamic>{
       'username': instance.username,
       'password': instance.password,
+      if (instance.customHeaders case final value?) 'customHeaders': value,
       if (instance.hostname case final value?) 'hostname': value,
     };
 

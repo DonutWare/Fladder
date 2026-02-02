@@ -26,7 +26,7 @@ class MediaHeader extends ConsumerWidget {
       alignment: Alignment.center,
       child: SelectableText(
         name,
-        textAlign: alignment == Alignment.center ? TextAlign.center : TextAlign.start,
+        textAlign: TextAlign.center,
         style: Theme.of(context).textTheme.headlineLarge?.copyWith(
               fontSize: 55,
             ),

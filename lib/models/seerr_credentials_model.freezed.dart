@@ -17,6 +17,7 @@ mixin _$SeerrCredentialsModel {
   String get serverUrl;
   String get apiKey;
   String get sessionCookie;
+  Map<String, String> get customHeaders;
 
   /// Create a copy of SeerrCredentialsModel
   /// with the given fields replaced by the non-null parameter values.
@@ -31,7 +32,7 @@ mixin _$SeerrCredentialsModel {
 
   @override
   String toString() {
-    return 'SeerrCredentialsModel(serverUrl: $serverUrl, apiKey: $apiKey, sessionCookie: $sessionCookie)';
+    return 'SeerrCredentialsModel(serverUrl: $serverUrl, apiKey: $apiKey, sessionCookie: $sessionCookie, customHeaders: $customHeaders)';
   }
 }
 
@@ -41,7 +42,11 @@ abstract mixin class $SeerrCredentialsModelCopyWith<$Res> {
           $Res Function(SeerrCredentialsModel) _then) =
       _$SeerrCredentialsModelCopyWithImpl;
   @useResult
-  $Res call({String serverUrl, String apiKey, String sessionCookie});
+  $Res call(
+      {String serverUrl,
+      String apiKey,
+      String sessionCookie,
+      Map<String, String> customHeaders});
 }
 
 /// @nodoc
@@ -60,6 +65,7 @@ class _$SeerrCredentialsModelCopyWithImpl<$Res>
     Object? serverUrl = null,
     Object? apiKey = null,
     Object? sessionCookie = null,
+    Object? customHeaders = null,
   }) {
     return _then(_self.copyWith(
       serverUrl: null == serverUrl
@@ -74,6 +80,10 @@ class _$SeerrCredentialsModelCopyWithImpl<$Res>
           ? _self.sessionCookie
           : sessionCookie // ignore: cast_nullable_to_non_nullable
               as String,
+      customHeaders: null == customHeaders
+          ? _self.customHeaders
+          : customHeaders // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
     ));
   }
 }
@@ -171,14 +181,16 @@ extension SeerrCredentialsModelPatterns on SeerrCredentialsModel {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String serverUrl, String apiKey, String sessionCookie)?
+    TResult Function(String serverUrl, String apiKey, String sessionCookie,
+            Map<String, String> customHeaders)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _SeerrCredentialsModel() when $default != null:
-        return $default(_that.serverUrl, _that.apiKey, _that.sessionCookie);
+        return $default(_that.serverUrl, _that.apiKey, _that.sessionCookie,
+            _that.customHeaders);
       case _:
         return orElse();
     }
@@ -199,13 +211,15 @@ extension SeerrCredentialsModelPatterns on SeerrCredentialsModel {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String serverUrl, String apiKey, String sessionCookie)
+    TResult Function(String serverUrl, String apiKey, String sessionCookie,
+            Map<String, String> customHeaders)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _SeerrCredentialsModel():
-        return $default(_that.serverUrl, _that.apiKey, _that.sessionCookie);
+        return $default(_that.serverUrl, _that.apiKey, _that.sessionCookie,
+            _that.customHeaders);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -225,13 +239,15 @@ extension SeerrCredentialsModelPatterns on SeerrCredentialsModel {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String serverUrl, String apiKey, String sessionCookie)?
+    TResult? Function(String serverUrl, String apiKey, String sessionCookie,
+            Map<String, String> customHeaders)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _SeerrCredentialsModel() when $default != null:
-        return $default(_that.serverUrl, _that.apiKey, _that.sessionCookie);
+        return $default(_that.serverUrl, _that.apiKey, _that.sessionCookie,
+            _that.customHeaders);
       case _:
         return null;
     }
@@ -242,8 +258,12 @@ extension SeerrCredentialsModelPatterns on SeerrCredentialsModel {
 @JsonSerializable()
 class _SeerrCredentialsModel extends SeerrCredentialsModel {
   const _SeerrCredentialsModel(
-      {this.serverUrl = "", this.apiKey = "", this.sessionCookie = ""})
-      : super._();
+      {this.serverUrl = "",
+      this.apiKey = "",
+      this.sessionCookie = "",
+      final Map<String, String> customHeaders = const {}})
+      : _customHeaders = customHeaders,
+        super._();
   factory _SeerrCredentialsModel.fromJson(Map<String, dynamic> json) =>
       _$SeerrCredentialsModelFromJson(json);
 
@@ -256,6 +276,14 @@ class _SeerrCredentialsModel extends SeerrCredentialsModel {
   @override
   @JsonKey()
   final String sessionCookie;
+  final Map<String, String> _customHeaders;
+  @override
+  @JsonKey()
+  Map<String, String> get customHeaders {
+    if (_customHeaders is EqualUnmodifiableMapView) return _customHeaders;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_customHeaders);
+  }
 
   /// Create a copy of SeerrCredentialsModel
   /// with the given fields replaced by the non-null parameter values.
@@ -275,7 +303,7 @@ class _SeerrCredentialsModel extends SeerrCredentialsModel {
 
   @override
   String toString() {
-    return 'SeerrCredentialsModel(serverUrl: $serverUrl, apiKey: $apiKey, sessionCookie: $sessionCookie)';
+    return 'SeerrCredentialsModel(serverUrl: $serverUrl, apiKey: $apiKey, sessionCookie: $sessionCookie, customHeaders: $customHeaders)';
   }
 }
 
@@ -287,7 +315,11 @@ abstract mixin class _$SeerrCredentialsModelCopyWith<$Res>
       __$SeerrCredentialsModelCopyWithImpl;
   @override
   @useResult
-  $Res call({String serverUrl, String apiKey, String sessionCookie});
+  $Res call(
+      {String serverUrl,
+      String apiKey,
+      String sessionCookie,
+      Map<String, String> customHeaders});
 }
 
 /// @nodoc
@@ -306,6 +338,7 @@ class __$SeerrCredentialsModelCopyWithImpl<$Res>
     Object? serverUrl = null,
     Object? apiKey = null,
     Object? sessionCookie = null,
+    Object? customHeaders = null,
   }) {
     return _then(_SeerrCredentialsModel(
       serverUrl: null == serverUrl
@@ -320,6 +353,10 @@ class __$SeerrCredentialsModelCopyWithImpl<$Res>
           ? _self.sessionCookie
           : sessionCookie // ignore: cast_nullable_to_non_nullable
               as String,
+      customHeaders: null == customHeaders
+          ? _self._customHeaders
+          : customHeaders // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
     ));
   }
 }

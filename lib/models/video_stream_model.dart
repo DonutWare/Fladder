@@ -18,18 +18,21 @@ import 'package:fladder/util/localization_helper.dart';
 enum PlaybackType {
   directStream,
   offline,
-  transcode;
+  transcode,
+  tv;
 
   IconData get icon => switch (this) {
         PlaybackType.offline => IconsaxPlusLinear.cloud,
         PlaybackType.directStream => IconsaxPlusLinear.arrow_right_1,
         PlaybackType.transcode => IconsaxPlusLinear.convert,
+        PlaybackType.tv => IconsaxPlusLinear.video_horizontal,
       };
 
   String name(BuildContext context) => switch (this) {
         PlaybackType.directStream => context.localized.playbackTypeDirect,
         PlaybackType.offline => context.localized.playbackTypeOffline,
-        PlaybackType.transcode => context.localized.playbackTypeTranscode
+        PlaybackType.transcode => context.localized.playbackTypeTranscode,
+        PlaybackType.tv => context.localized.playbackTypeTV,
       };
 }
 

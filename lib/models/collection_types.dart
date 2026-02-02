@@ -77,6 +77,8 @@ extension CollectionTypeExtension on CollectionType? {
         return {FladderItemType.series};
       case CollectionType.homevideos:
         return {FladderItemType.photoAlbum, FladderItemType.folder, FladderItemType.photo, FladderItemType.video};
+      case CollectionType.livetv:
+        return {FladderItemType.tvchannel};
       default:
         return {};
     }
@@ -100,6 +102,8 @@ extension CollectionTypeExtension on CollectionType? {
         return outlined ? IconsaxPlusLinear.book : IconsaxPlusBold.book;
       case CollectionType.playlists:
         return outlined ? IconsaxPlusLinear.archive : IconsaxPlusBold.archive;
+      case CollectionType.livetv:
+        return outlined ? IconsaxPlusLinear.video_square : IconsaxPlusBold.video_square;
       default:
         return IconsaxPlusLinear.information;
     }

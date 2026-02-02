@@ -109,6 +109,7 @@ class _ChapterProgressSliderState extends ConsumerState<VideoProgressBar> {
                         currentDuration = Duration(milliseconds: e.toInt());
                         // Route seek through SyncPlay if active
                         widget.onPositionChanged(Duration(milliseconds: e.toInt()));
+                        widget.onPositionChanged.call(Duration(milliseconds: e.toInt()));
                         await Future.delayed(const Duration(milliseconds: 250));
                         if (widget.wasPlaying) {
                           // Route play through SyncPlay if active

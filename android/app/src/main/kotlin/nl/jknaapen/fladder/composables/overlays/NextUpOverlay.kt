@@ -59,7 +59,7 @@ import kotlin.time.toDuration
 @Composable
 internal fun NextUpOverlay(
     modifier: Modifier = Modifier,
-    content: @Composable BoxScope.(Boolean) -> Unit,
+    overlay: @Composable BoxScope.(showControls: Boolean) -> Unit,
 ) {
     val nextVideo by VideoPlayerObject.nextUpVideo.collectAsState(null)
 
@@ -70,7 +70,7 @@ internal fun NextUpOverlay(
         return Box(
             modifier = Modifier.fillMaxSize()
         ) {
-            content(true)
+            overlay(true)
         }
     }
 
@@ -150,7 +150,7 @@ internal fun NextUpOverlay(
                     }
                 )
         ) {
-            content(!showNextUp)
+            overlay(!showNextUp)
         }
 
         Column(
