@@ -882,6 +882,12 @@ interface VideoPlayerApi {
   /** Seeks to the given playback position, in milliseconds. */
   fun seekTo(position: Long)
   fun stop()
+  /**
+   * Sets the SyncPlay command state for the native player overlay.
+   * [processing] indicates if a SyncPlay command is being processed.
+   * [commandType] is the type of command (e.g., "Pause", "Unpause", "Seek", "Stop").
+   */
+  fun setSyncPlayCommandState(processing: Boolean, commandType: String?)
 
   companion object {
     /** The codec used by VideoPlayerApi. */
@@ -1073,6 +1079,25 @@ interface VideoPlayerApi {
           channel.setMessageHandler(null)
         }
       }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.setSyncPlayCommandState$separatedMessageChannelSuffix", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val processingArg = args[0] as Boolean
+            val commandTypeArg = args[1] as String?
+            val wrapped: List<Any?> = try {
+              api.setSyncPlayCommandState(processingArg, commandTypeArg)
+              listOf(null)
+            } catch (exception: Throwable) {
+              VideoPlayerHelperPigeonUtils.wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
     }
   }
 }
@@ -1192,7 +1217,7 @@ class VideoPlayerControlsCallback(private val binaryMessenger: BinaryMessenger, 
         }
       } else {
         callback(Result.failure(VideoPlayerHelperPigeonUtils.createConnectionError(channelName)))
-      }
+      } 
     }
   }
   fun loadProgram(selectionArg: GuideChannel, callback: (Result<Unit>) -> Unit)
@@ -1209,7 +1234,7 @@ class VideoPlayerControlsCallback(private val binaryMessenger: BinaryMessenger, 
         }
       } else {
         callback(Result.failure(VideoPlayerHelperPigeonUtils.createConnectionError(channelName)))
-      }
+      } 
     }
   }
   fun fetchProgramsForChannel(channelIdArg: String, callback: (Result<List<GuideProgram>>) -> Unit)
@@ -1247,7 +1272,7 @@ class VideoPlayerControlsCallback(private val binaryMessenger: BinaryMessenger, 
         }
       } else {
         callback(Result.failure(VideoPlayerHelperPigeonUtils.createConnectionError(channelName)))
-      }
+      } 
     }
   }
   /** User-initiated pause action from native player (for SyncPlay integration) */
@@ -1265,7 +1290,7 @@ class VideoPlayerControlsCallback(private val binaryMessenger: BinaryMessenger, 
         }
       } else {
         callback(Result.failure(VideoPlayerHelperPigeonUtils.createConnectionError(channelName)))
-      }
+      } 
     }
   }
   /**
@@ -1286,7 +1311,7 @@ class VideoPlayerControlsCallback(private val binaryMessenger: BinaryMessenger, 
         }
       } else {
         callback(Result.failure(VideoPlayerHelperPigeonUtils.createConnectionError(channelName)))
-      }
+      } 
     }
   }
 }

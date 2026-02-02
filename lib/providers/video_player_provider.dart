@@ -1,11 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
-
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:path/path.dart' as p;
-
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/syncplay/syncplay_models.dart';
@@ -89,7 +84,30 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
 
       // Register player callbacks with SyncPlay
       _registerSyncPlayCallbacks();
+
+      // Listen to SyncPlay state changes for native player overlay
+      _setupSyncPlayStateListener();
     });
+  }
+
+  /// Set up listener to forward SyncPlay command state to native player
+  void _setupSyncPlayStateListener() {
+    ref.listen<SyncPlayState>(
+      syncPlayProvider,
+      (previous, next) {
+        // Only forward to native player if it's active
+        if (state.isNativePlayerActive) {
+          // Check if the relevant state changed
+          if (previous?.isProcessingCommand != next.isProcessingCommand ||
+              previous?.processingCommandType != next.processingCommandType) {
+            state.updateSyncPlayCommandState(
+              next.isProcessingCommand,
+              next.processingCommandType,
+            );
+          }
+        }
+      },
+    );
   }
 
   /// Manually set the reloading state (e.g. before fetching new PlaybackInfo)

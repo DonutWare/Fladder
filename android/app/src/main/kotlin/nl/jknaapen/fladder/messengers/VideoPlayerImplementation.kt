@@ -142,6 +142,10 @@ class VideoPlayerImplementation(
         player?.stop()
     }
 
+    override fun setSyncPlayCommandState(processing: Boolean, commandType: String?) {
+        VideoPlayerObject.setSyncPlayCommandState(processing, commandType)
+    }
+
     fun init(exoPlayer: ExoPlayer?) {
         player = exoPlayer
         //exoPlayer initializes after the playbackData is set for the first load

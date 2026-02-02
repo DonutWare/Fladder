@@ -73,6 +73,7 @@ import nl.jknaapen.fladder.composables.dialogs.AudioPicker
 import nl.jknaapen.fladder.composables.dialogs.ChapterSelectionSheet
 import nl.jknaapen.fladder.composables.dialogs.PlaybackSpeedPicker
 import nl.jknaapen.fladder.composables.dialogs.SubtitlePicker
+import nl.jknaapen.fladder.composables.overlays.SyncPlayCommandOverlay
 import nl.jknaapen.fladder.composables.shared.CurrentTime
 import nl.jknaapen.fladder.objects.PlayerSettingsObject
 import nl.jknaapen.fladder.objects.VideoPlayerObject
@@ -359,6 +360,7 @@ fun CustomVideoControls(
         }
         SegmentSkipOverlay()
         SeekOverlay(value = currentSkipTime)
+        SyncPlayCommandOverlay()
         if (buffering && !playing) {
             CircularProgressIndicator(
                 modifier = Modifier

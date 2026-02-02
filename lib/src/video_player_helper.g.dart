@@ -974,11 +974,11 @@ class _PigeonCodec extends StandardMessageCodec {
         return StartResult.decode(readValue(buffer)!);
       case 140: 
         return PlaybackState.decode(readValue(buffer)!);
-      case 141:
+      case 141: 
         return TVGuideModel.decode(readValue(buffer)!);
-      case 142:
+      case 142: 
         return GuideChannel.decode(readValue(buffer)!);
-      case 143:
+      case 143: 
         return GuideProgram.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
@@ -1326,6 +1326,32 @@ class VideoPlayerApi {
       binaryMessenger: pigeonVar_binaryMessenger,
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
+    final List<Object?>? pigeonVar_replyList =
+        await pigeonVar_sendFuture as List<Object?>?;
+    if (pigeonVar_replyList == null) {
+      throw _createConnectionError(pigeonVar_channelName);
+    } else if (pigeonVar_replyList.length > 1) {
+      throw PlatformException(
+        code: pigeonVar_replyList[0]! as String,
+        message: pigeonVar_replyList[1] as String?,
+        details: pigeonVar_replyList[2],
+      );
+    } else {
+      return;
+    }
+  }
+
+  /// Sets the SyncPlay command state for the native player overlay.
+  /// [processing] indicates if a SyncPlay command is being processed.
+  /// [commandType] is the type of command (e.g., "Pause", "Unpause", "Seek", "Stop").
+  Future<void> setSyncPlayCommandState(bool processing, String? commandType) async {
+    final String pigeonVar_channelName = 'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.setSyncPlayCommandState$pigeonVar_messageChannelSuffix';
+    final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[processing, commandType]);
     final List<Object?>? pigeonVar_replyList =
         await pigeonVar_sendFuture as List<Object?>?;
     if (pigeonVar_replyList == null) {
