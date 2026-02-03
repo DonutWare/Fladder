@@ -49,6 +49,7 @@ _VideoPlayerSettingsModel _$VideoPlayerSettingsModelFromJson(
               Screensaver.logo,
       enableSpeedBoost: json['enableSpeedBoost'] as bool? ?? false,
       speedBoostRate: (json['speedBoostRate'] as num?)?.toDouble() ?? 2.0,
+      enableDoubleTapSeek: json['enableDoubleTapSeek'] as bool? ?? true,
     );
 
 Map<String, dynamic> _$VideoPlayerSettingsModelToJson(
@@ -77,6 +78,7 @@ Map<String, dynamic> _$VideoPlayerSettingsModelToJson(
       'screensaver': _$ScreensaverEnumMap[instance.screensaver]!,
       'enableSpeedBoost': instance.enableSpeedBoost,
       'speedBoostRate': instance.speedBoostRate,
+      'enableDoubleTapSeek': instance.enableDoubleTapSeek,
     };
 
 const _$BoxFitEnumMap = {

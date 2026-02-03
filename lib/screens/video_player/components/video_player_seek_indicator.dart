@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:async/async.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/account_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
@@ -10,6 +11,11 @@ import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/util/input_handler.dart';
 import 'package:fladder/util/localization_helper.dart';
+
+/// Provider to trigger the seek indicator from outside (e.g., double-tap).
+/// The value is the number of seconds (positive for forward, negative for backward).
+/// Set to null when not triggered externally.
+final seekIndicatorTriggerProvider = StateProvider<int?>((ref) => null);
 
 class VideoPlayerSeekIndicator extends ConsumerStatefulWidget {
   const VideoPlayerSeekIndicator({super.key});
@@ -53,6 +59,21 @@ class VideoPlayerSeekIndicatorState extends ConsumerState<VideoPlayerSeekIndicat
 
   @override
   Widget build(BuildContext context) {
+    // Listen for external triggers (e.g., double-tap seek)
+    ref.listen(
+      seekIndicatorTriggerProvider,
+      (previous, next) {
+        if (next != null) {
+          onSeekStart(next);
+          // Reset the provider after handling
+          Future.microtask(() => ref.read(seekIndicatorTriggerProvider.notifier).state = null);
+        }
+      },
+    );
+
+    final isForward = seekPosition > 0;
+    final displayValue = seekPosition.abs();
+
     return InputHandler<VideoHotKeys>(
       autoFocus: false,
       listenRawKeyboard: true,
@@ -72,13 +93,18 @@ class VideoPlayerSeekIndicatorState extends ConsumerState<VideoPlayerSeekIndicat
                 padding: const EdgeInsets.all(16.0),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
+                  spacing: 12,
                   children: [
+                    Icon(
+                      isForward ? IconsaxPlusLinear.forward : IconsaxPlusLinear.backward,
+                      color: Colors.white,
+                    ),
                     Text(
-                      seekPosition > 0
-                          ? "+$seekPosition ${context.localized.seconds(seekPosition)}"
-                          : "$seekPosition ${context.localized.seconds(seekPosition)}",
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    )
+                      "$displayValue ${context.localized.seconds(displayValue)}",
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: Colors.white,
+                          ),
+                    ),
                   ],
                 ),
               ),

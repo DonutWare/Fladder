@@ -251,6 +251,16 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                     )
                   : Container(),
             ),
+            if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.touch)
+              SettingsListTile(
+                label: Text(context.localized.enableDoubleTapSeekTitle),
+                subLabel: Text(context.localized.enableDoubleTapSeekDesc),
+                onTap: () => provider.setEnableDoubleTapSeek(!videoSettings.enableDoubleTapSeek),
+                trailing: Switch(
+                  value: videoSettings.enableDoubleTapSeek,
+                  onChanged: (value) => provider.setEnableDoubleTapSeek(value),
+                ),
+              ),
             if (AdaptiveLayout.inputDeviceOf(context) != InputDevice.touch)
               ExpansionTile(
                 title: Text(

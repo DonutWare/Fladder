@@ -6,7 +6,7 @@ part of 'live_tv_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$liveTvHash() => r'6a05d12da523128e03bc4848653332bc1053510b';
+String _$liveTvHash() => r'06fb75eeafd5f2d1bc860c2da7b7ca493a58d743';
 
 /// See also [LiveTv].
 @ProviderFor(LiveTv)

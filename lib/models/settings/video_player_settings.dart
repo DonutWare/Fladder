@@ -82,6 +82,7 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     @Default(Screensaver.logo) Screensaver screensaver,
     @Default(false) bool enableSpeedBoost,
     @Default(2.0) double speedBoostRate,
+    @Default(true) bool enableDoubleTapSeek,
   }) = _VideoPlayerSettingsModel;
 
   double get volume => switch (defaultTargetPlatform) {

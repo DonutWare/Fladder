@@ -68,6 +68,8 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   Timer? _spacebarHoldTimer;
   DateTime? _spacebarDownTime;
 
+  Offset? _doubleTapPosition;
+
   late final double topPadding = MediaQuery.of(context).viewPadding.top;
   late final double bottomPadding = MediaQuery.of(context).viewPadding.bottom;
 
@@ -151,12 +153,40 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                 Positioned.fill(
                   child: GestureDetector(
                     onTap: initInputDevice == InputDevice.pointer ? () => player.playOrPause() : () => toggleOverlay(),
-                    onDoubleTap:
-                        initInputDevice == InputDevice.pointer ? () => fullScreenHelper.toggleFullScreen(ref) : null,
+                    onDoubleTapDown: initInputDevice == InputDevice.touch
+                        ? (details) {
+                            final doubleTapSeekEnabled =
+                                ref.read(videoPlayerSettingsProvider.select((value) => value.enableDoubleTapSeek));
+                            if (doubleTapSeekEnabled) {
+                              _doubleTapPosition = details.globalPosition;
+                            }
+                          }
+                        : null,
+                    onDoubleTap: initInputDevice == InputDevice.pointer
+                        ? () => fullScreenHelper.toggleFullScreen(ref)
+                        : () {
+                            final doubleTapSeekEnabled =
+                                ref.read(videoPlayerSettingsProvider.select((value) => value.enableDoubleTapSeek));
+                            if (!doubleTapSeekEnabled) return;
+
+                            final screenWidth = MediaQuery.sizeOf(context).width;
+                            final tapX = _doubleTapPosition?.dx ?? screenWidth / 2;
+                            if (tapX < screenWidth / 2) {
+                              final backwardSpeed = ref.read(
+                                  userProvider.select((value) => value?.userSettings?.skipBackDuration.inSeconds ?? 30));
+                              seekBackWithIndicator(ref, seconds: backwardSpeed);
+                            } else {
+                              final forwardSpeed = ref.read(userProvider
+                                  .select((value) => value?.userSettings?.skipForwardDuration.inSeconds ?? 30));
+                              seekForwardWithIndicator(ref, seconds: forwardSpeed);
+                            }
+                            _doubleTapPosition = null;
+                          },
                     onLongPressStart: initInputDevice == InputDevice.touch
                         ? (details) {
                             final settings = ref.read(videoPlayerSettingsProvider);
-                            if (settings.enableSpeedBoost) {
+                            final isPlaying = ref.read(mediaPlaybackProvider.select((value) => value.playing));
+                            if (settings.enableSpeedBoost && isPlaying) {
                               _activateSpeedBoost();
                             }
                           }
@@ -708,6 +738,14 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     resetTimer();
     final newPosition = (mediaPlayback.position.inSeconds + seconds).clamp(0, mediaPlayback.duration.inSeconds);
     ref.read(videoPlayerProvider).seek(Duration(seconds: newPosition));
+  }
+
+  void seekBackWithIndicator(WidgetRef ref, {int seconds = 15}) {
+    ref.read(seekIndicatorTriggerProvider.notifier).state = -seconds;
+  }
+
+  void seekForwardWithIndicator(WidgetRef ref, {int seconds = 15}) {
+    ref.read(seekIndicatorTriggerProvider.notifier).state = seconds;
   }
 
   void toggleOverlay({bool? value}) {
