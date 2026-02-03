@@ -1611,5 +1611,42 @@
                 "example": "1"
             }
         }
+    },
+    "mediaTypeTV": "{count, plural, one{قناة تلفزيونية} other{قنوات تلفزيونية}}",
+    "@mediaTypeTV": {
+        "description": "TV Channel (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "playbackTypeTV": "تلفزيون",
+    "seerrCustomHeaders": "رؤوس مخصصة",
+    "seerrHeader": "رأس",
+    "seerrHeaderValue": "قيمة",
+    "watch": "شاهد",
+    "watchChannel": "شاهد {channel}",
+    "@watchChannel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            }
+        }
+    },
+    "now": "الآن",
+    "noPrograms": "لا توجد برامج متاحة",
+    "switchChannel": "غيّر القناة",
+    "switchChannelDesc": "هل تريد مشاهدة \"{programName}\" على {channelName}؟",
+    "@switchChannelDesc": {
+        "placeholders": {
+            "programName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
     }
 }
