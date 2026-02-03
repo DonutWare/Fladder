@@ -115,6 +115,13 @@ class _ControlPanelScreenState extends ConsumerState<ControlPanelScreen> {
               icon: IconsaxPlusLinear.book,
               onTap: () => navigateTo(const ControlLibrariesRoute()),
             ),
+            SettingsListTile(
+              label: Text(context.localized.liveTV),
+              subLabel: Text(context.localized.liveTvManageTunersEpg),
+              selected: containsRoute(const ControlLiveTvRoute()),
+              icon: IconsaxPlusLinear.video_circle,
+              onTap: () => navigateTo(const ControlLiveTvRoute()),
+            ),
             SettingsLabelDivider(label: context.localized.advanced),
             SettingsListTile(
               label: Text(context.localized.plannedTasks),

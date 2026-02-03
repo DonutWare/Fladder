@@ -1,4 +1,3 @@
-import 'package:fladder/seerr/seerr_models.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,7 +6,9 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/providers/seerr_api_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
+import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/screens/shared/media/external_urls.dart';
+import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -199,9 +200,7 @@ class _MediaManagementActionsState extends ConsumerState<_MediaManagementActions
     try {
       await action();
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(successMessage)),
-        );
+        fladderSnackbar(context, title: successMessage);
         Navigator.of(context).pop();
         widget.onActionComplete();
       }
