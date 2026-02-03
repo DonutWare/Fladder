@@ -63,6 +63,11 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   bool wasPlaying = false;
   SystemUiMode? _currentSystemUiMode;
 
+  bool _speedBoostActive = false;
+  double? _originalSpeed;
+  Timer? _spacebarHoldTimer;
+  DateTime? _spacebarDownTime;
+
   late final double topPadding = MediaQuery.of(context).viewPadding.top;
   late final double bottomPadding = MediaQuery.of(context).viewPadding.bottom;
 
@@ -73,16 +78,62 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   }
 
   @override
+  void dispose() {
+    _spacebarHoldTimer?.cancel();
+    _deactivateSpeedBoost();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final mediaSegments = ref.watch(playBackModel.select((value) => value?.mediaSegments));
     final player = ref.watch(videoPlayerProvider);
     final subtitleWidget = player.subtitleWidget(showOverlay, controlsKey: _bottomControlsKey);
+    final isDesktop = AdaptiveLayout.of(context).isDesktop || kIsWeb;
+    final speedBoostEnabled = ref.watch(videoPlayerSettingsProvider.select((value) => value.enableSpeedBoost));
+    
     return Listener(
       onPointerSignal: setVolume,
       child: InputHandler(
         autoFocus: true,
         keyMap: ref.watch(videoPlayerSettingsProvider.select((value) => value.currentShortcuts)),
         keyMapResult: _onKey,
+        onKeyEvent: isDesktop && speedBoostEnabled
+            ? (node, event) {
+                if (event.logicalKey == LogicalKeyboardKey.space) {
+                  if (event is KeyDownEvent) {
+                    _spacebarDownTime = DateTime.now();
+                    _spacebarHoldTimer?.cancel();
+                    _spacebarHoldTimer = Timer(const Duration(milliseconds: 250), () {
+                      if (mounted && !_speedBoostActive && _spacebarDownTime != null) {
+                        _activateSpeedBoost();
+                      }
+                    });
+                    return KeyEventResult.handled;
+                  } else if (event is KeyRepeatEvent) {
+                    return KeyEventResult.handled;
+                  } else if (event is KeyUpEvent) {
+                    final downTime = _spacebarDownTime;
+                    _spacebarDownTime = null;
+                    _spacebarHoldTimer?.cancel();
+                    _spacebarHoldTimer = null;
+                    
+                    if (_speedBoostActive) {
+                      _deactivateSpeedBoost();
+                      return KeyEventResult.handled;
+                    } else if (downTime != null) {
+                      final duration = DateTime.now().difference(downTime);
+                      if (duration.inMilliseconds < 250) {
+                        ref.read(videoPlayerProvider).playOrPause();
+                      }
+                      return KeyEventResult.handled;
+                    }
+                    return KeyEventResult.handled;
+                  }
+                }
+                return KeyEventResult.ignored;
+              }
+            : null,
         child: PopScope(
           canPop: false,
           onPopInvokedWithResult: (didPop, result) {
@@ -102,6 +153,19 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                     onTap: initInputDevice == InputDevice.pointer ? () => player.playOrPause() : () => toggleOverlay(),
                     onDoubleTap:
                         initInputDevice == InputDevice.pointer ? () => fullScreenHelper.toggleFullScreen(ref) : null,
+                    onLongPressStart: initInputDevice == InputDevice.touch
+                        ? (details) {
+                            final settings = ref.read(videoPlayerSettingsProvider);
+                            if (settings.enableSpeedBoost) {
+                              _activateSpeedBoost();
+                            }
+                          }
+                        : null,
+                    onLongPressEnd: initInputDevice == InputDevice.touch
+                        ? (details) {
+                            _deactivateSpeedBoost();
+                          }
+                        : null,
                   ),
                 ),
                 if (subtitleWidget != null) subtitleWidget,
@@ -712,6 +776,29 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     }
   }
 
+  void _activateSpeedBoost() {
+    if (_speedBoostActive) return;
+
+    final settings = ref.read(videoPlayerSettingsProvider);
+    if (!settings.enableSpeedBoost) return;
+
+    _originalSpeed = ref.read(playbackRateProvider);
+    _speedBoostActive = true;
+    ref.read(videoPlayerProvider).setSpeed(settings.speedBoostRate);
+    ref.read(playbackRateProvider.notifier).state = settings.speedBoostRate;
+  }
+
+  void _deactivateSpeedBoost() {
+    if (!_speedBoostActive) return;
+
+    _speedBoostActive = false;
+    if (_originalSpeed != null) {
+      ref.read(videoPlayerProvider).setSpeed(_originalSpeed!);
+      ref.read(playbackRateProvider.notifier).state = _originalSpeed!;
+      _originalSpeed = null;
+    }
+  }
+
   bool _onKey(VideoHotKeys value) {
     final mediaSegments = ref.read(playBackModel.select((value) => value?.mediaSegments));
     final position = ref.read(mediaPlaybackProvider).position;
@@ -722,6 +809,9 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
 
     switch (value) {
       case VideoHotKeys.playPause:
+        if (_speedBoostActive || _spacebarDownTime != null) {
+          return false;
+        }
         ref.read(videoPlayerProvider).playOrPause();
         return true;
       case VideoHotKeys.volumeUp:

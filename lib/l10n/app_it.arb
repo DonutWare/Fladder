@@ -1376,6 +1376,14 @@
             }
         }
     },
+    "enableSpeedBoostTitle": "Abilita speed boost",
+    "@enableSpeedBoostTitle": {},
+    "enableSpeedBoostDesc": "Tieni premuto lo schermo (mobile) o la barra spaziatrice (desktop) per aumentare temporaneamente la velocità di riproduzione",
+    "@enableSpeedBoostDesc": {},
+    "speedBoostRateTitle": "Velocità speed boost",
+    "@speedBoostRateTitle": {},
+    "speedBoostRateDesc": "Velocità di riproduzione quando lo speed boost è attivato",
+    "@speedBoostRateDesc": {},
     "quickConnectLoginUsingCode": "Usa quick connect",
     "@quickConnectLoginUsingCode": {},
     "quickConnectEnterCodeDescription": "Inserisci il codice sottostante per connetterti",

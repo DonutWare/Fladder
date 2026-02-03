@@ -1506,6 +1506,14 @@
       }
     }
   },
+  "enableSpeedBoostTitle": "Enable speed boost",
+  "@enableSpeedBoostTitle": {},
+  "enableSpeedBoostDesc": "Hold screen (mobile) or spacebar (desktop) to temporarily increase playback speed",
+  "@enableSpeedBoostDesc": {},
+  "speedBoostRateTitle": "Speed boost rate",
+  "@speedBoostRateTitle": {},
+  "speedBoostRateDesc": "Playback speed when speed boost is activated",
+  "@speedBoostRateDesc": {},
   "quickConnectPostFailed": "Failed to get quick connect code",
   "quickConnectLoginUsingCode": "Using quick connect",
   "quickConnectEnterCodeDescription": "Enter the code below to login",

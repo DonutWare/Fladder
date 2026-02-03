@@ -126,4 +126,11 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
       }
     }
   }
+  
+  void setEnableSpeedBoost(bool value) => state = state.copyWith(enableSpeedBoost: value);
+
+  void setSpeedBoostRate(double value) {
+    final clampedValue = value.clamp(0.25, 3.0);
+    state = state.copyWith(speedBoostRate: clampedValue);
+  }
 }
