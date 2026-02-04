@@ -1615,5 +1615,42 @@
                 "example": "1"
             }
         }
+    },
+    "mediaTypeTV": "{count, plural, one{TV Sender} other{TV Sender}}",
+    "@mediaTypeTV": {
+        "description": "TV Channel (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "playbackTypeTV": "TV",
+    "seerrCustomHeaders": "Benutzerdefinierte Header",
+    "seerrHeader": "Header",
+    "seerrHeaderValue": "Wert",
+    "now": "Aktuell",
+    "noPrograms": "Kein Programm verfügbar",
+    "switchChannel": "Sender wechseln",
+    "switchChannelDesc": "Möchtest du \"{programName}\" auf {channelName} schauen?",
+    "@switchChannelDesc": {
+        "placeholders": {
+            "programName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "watch": "Schauen",
+    "watchChannel": "{channel} schauen",
+    "@watchChannel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            }
+        }
     }
 }
