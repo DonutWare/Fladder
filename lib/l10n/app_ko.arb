@@ -731,5 +731,39 @@
     "updateFilterForLibrary": "필터 업데이트",
     "defaultFilterForLibrary": "라이브러리 기본 필터",
     "unableToPlayBooksOnWeb": "현재 웹에서는 도서를 볼 수 없어요",
-    "errorOpeningMedia": "이 미디어를 재생하는 중 문제가 발생했어요"
+    "errorOpeningMedia": "이 미디어를 재생하는 중 문제가 발생했어요",
+    "mediaTypeTV": "{count, plural, one{TV 채널} other{TV 채널}}",
+    "@mediaTypeTV": {
+        "description": "TV Channel (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "popularity": "인기도",
+    "contentRating": "심의",
+    "runtimeMinutesTitle": "상영 시간 (분)",
+    "runtimeRangeMinutes": "{min} ~ {max} 분",
+    "@runtimeRangeMinutes": {
+        "placeholders": {
+            "min": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            }
+        }
+    },
+    "setIdentityTo": "{name}로 식별했어요",
+    "@setIdentityTo": {
+        "description": "setIdentityTo",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "settingsBlurredPlaceholderTitle": "로딩시 블러 표시"
 }
