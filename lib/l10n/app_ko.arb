@@ -765,5 +765,24 @@
             }
         }
     },
-    "settingsBlurredPlaceholderTitle": "로딩시 블러 표시"
+    "settingsBlurredPlaceholderTitle": "로딩시 블러 표시",
+    "minutesShort": "{count} 분",
+    "@minutesShort": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "streamingServices": "공급자 ({count})",
+    "@streamingServices": {
+        "description": "Streaming providers (Netflix,HBO, etc.)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    }
 }
