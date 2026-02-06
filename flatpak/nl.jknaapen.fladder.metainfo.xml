@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>nl.jknaapen.fladder</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MPL-2.0</project_license>
+  <name>Fladder</name>
+  <summary>A simple cross-platform Jellyfin client</summary>
+  
+  <description>
+    <p>
+      Fladder is a modern, cross-platform Jellyfin client that provides a seamless
+      media streaming experience. Built with Flutter, it offers a beautiful and
+      intuitive interface for accessing your Jellyfin media library.
+    </p>
+    <p>Features:</p>
+    <ul>
+      <li>Stream movies, TV shows, and music from your Jellyfin server</li>
+      <li>Beautiful and responsive user interface</li>
+      <li>Hardware-accelerated video playback</li>
+      <li>Support for multiple profiles</li>
+      <li>Offline media downloads</li>
+      <li>Cross-platform compatibility</li>
+    </ul>
+  </description>
+  
+  <launchable type="desktop-id">nl.jknaapen.fladder.desktop</launchable>
+  
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/DonutWare/Fladder/develop/assets/marketing/screenshots/Tablet/Dashboard.png</image>
+      <caption>Main dashboard</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/DonutWare/Fladder/develop/assets/marketing/screenshots/Tablet/Library.png</image>
+      <caption>Media library view</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/DonutWare/Fladder/develop/assets/marketing/screenshots/Tablet/Details.png</image>
+      <caption>Content details</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/DonutWare/Fladder/develop/assets/marketing/screenshots/Tablet/Player.png</image>
+      <caption>Video player</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/DonutWare/Fladder/develop/assets/marketing/screenshots/Tablet/Library_Search.png</image>
+      <caption>Library search</caption>
+    </screenshot>
+  </screenshots>
+  
+  <url type="homepage">https://github.com/DonutWare/Fladder</url>
+  <url type="bugtracker">https://github.com/DonutWare/Fladder/issues</url>
+  <url type="vcs-browser">https://github.com/DonutWare/Fladder</url>
+  
+  <developer id="nl.jknaapen">
+    <name>DonutWare</name>
+  </developer>
+  
+  <content_rating type="oars-1.1">
+    <content_attribute id="social-info">mild</content_attribute>
+  </content_rating>
+  
+  <releases>
+    <release version="0.9.0" date="2026-01-05">
+      <description>
+        <p>Latest release - see GitHub for detailed changelog</p>
+      </description>
+    </release>
+  </releases>
+  
+  <requires>
+    <internet>always</internet>
+  </requires>
+  
+  <categories>
+    <category>AudioVideo</category>
+    <category>Player</category>
+  </categories>
+  
+  <keywords>
+    <keyword>jellyfin</keyword>
+    <keyword>media</keyword>
+    <keyword>streaming</keyword>
+    <keyword>video</keyword>
+    <keyword>audio</keyword>
+    <keyword>music</keyword>
+  </keywords>
+</component>
