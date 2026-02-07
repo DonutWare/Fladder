@@ -70,7 +70,7 @@ class _DetailedBannerState extends ConsumerState<DetailedBanner> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.max,
             children: [
               const SizedBox(height: 32),
               Expanded(
@@ -88,7 +88,12 @@ class _DetailedBannerState extends ConsumerState<DetailedBanner> {
                           logoAlignment: AdaptiveLayout.viewSizeOf(context) <= ViewSize.phone
                               ? Alignment.center
                               : Alignment.centerLeft,
-                          summary: value.overview.summary,
+                          summary: Text(
+                            value.overview.summary,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: AdaptiveLayout.viewSizeOf(context) == ViewSize.phone ? 5 : 3,
+                          ),
                           productionYear: value.overview.productionYear?.toString(),
                           runTime: value.overview.runTime,
                           genres: value.overview.genreItems,
@@ -109,7 +114,6 @@ class _DetailedBannerState extends ConsumerState<DetailedBanner> {
                     label: context.localized.nextUp,
                     posters: widget.posters,
                     onFocused: (poster) {
-                      // Overshoot fix for phones
                       context.ensureVisible(
                         alignment: 10.0,
                       );

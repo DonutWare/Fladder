@@ -113,7 +113,7 @@ class RequestConfigurationSection extends ConsumerWidget {
                   )),
             ],
           ),
-        if (requestState.currentUser != null)
+        if (requestState.currentUser?.canManageUsers == true)
           EnumSelection(
             label: Text(context.localized.requestAs),
             current: requestState.selectedUser?.label ?? requestState.currentUser?.label ?? context.localized.unknown,

@@ -78,6 +78,9 @@ class _InputDetectorState extends State<InputDetector> {
 
   void _updateInputDevice(InputDevice device) {
     if (_currentInput != device) {
+      if (device != InputDevice.dPad) {
+        FocusManager.instance.primaryFocus?.unfocus();
+      }
       setState(() {
         _currentInput = device;
       });

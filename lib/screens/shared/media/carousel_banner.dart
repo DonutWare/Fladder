@@ -37,6 +37,7 @@ class _CarouselBannerState extends ConsumerState<CarouselBanner> {
 
   @override
   Widget build(BuildContext context) {
+    final parentContext = context;
     return MouseRegion(
       onEnter: (event) => setState(() => showControls = true),
       onExit: (event) => setState(() => showControls = false),
@@ -71,8 +72,10 @@ class _CarouselBannerState extends ConsumerState<CarouselBanner> {
                             return FocusButton(
                               onTap: () => widget.items[index].navigateTo(context),
                               borderRadius: border,
-                              onFocusChanged: (hover) {
-                                context.ensureVisible();
+                              onFocusChanged: (focused) {
+                                if (focused) {
+                                  parentContext.ensureVisible();
+                                }
                               },
                               onLongPress: AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer
                                   ? null

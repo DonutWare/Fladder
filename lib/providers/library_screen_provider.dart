@@ -110,6 +110,10 @@ class LibraryScreen extends _$LibraryScreen {
       parentId: viewModel.id,
       limit: 9,
       enableUserData: true,
+      fields: [
+        ItemFields.overview,
+        ItemFields.primaryimageaspectratio,
+      ],
       enableImageTypes: [
         ImageType.primary,
         ImageType.banner,
@@ -131,8 +135,11 @@ class LibraryScreen extends _$LibraryScreen {
       final response = await api.moviesRecommendationsGet(
         parentId: viewModel.id,
         categoryLimit: 6,
+        fields: [
+          ItemFields.overview,
+          ItemFields.primaryimageaspectratio,
+        ],
         itemLimit: 9,
-        fields: [ItemFields.mediasourcecount],
       );
       newRecommendations = [
         ...newRecommendations,
@@ -146,7 +153,11 @@ class LibraryScreen extends _$LibraryScreen {
         parentId: viewModel.id,
         limit: 9,
         imageTypeLimit: 1,
-        fields: [ItemFields.mediasourcecount, ItemFields.primaryimageaspectratio],
+        fields: [
+          ItemFields.mediasourcecount,
+          ItemFields.primaryimageaspectratio,
+          ItemFields.overview,
+        ],
       );
       newRecommendations = [
         ...newRecommendations,
@@ -174,12 +185,12 @@ class LibraryScreen extends _$LibraryScreen {
       includeItemTypes: viewModel.collectionType.itemKinds.map((e) => e.dtoKind).toList(),
     );
     newRecommendations = [
+      ...newRecommendations,
       RecommendedModel(
         name: const Latest(),
         posters: latest.body?.items?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList() ?? [],
         type: null,
       ),
-      ...newRecommendations,
     ];
 
     state = state.copyWith(
@@ -196,8 +207,9 @@ class LibraryScreen extends _$LibraryScreen {
       includeItemTypes: viewModel.collectionType.itemKinds.map((e) => e.dtoKind).toList(),
       enableImageTypes: [ImageType.primary],
       fields: [
-        ItemFields.primaryimageaspectratio,
         ItemFields.mediasourcecount,
+        ItemFields.primaryimageaspectratio,
+        ItemFields.overview,
       ],
       enableTotalRecordCount: false,
     );
@@ -233,8 +245,9 @@ class LibraryScreen extends _$LibraryScreen {
         includeItemTypes: viewModel.collectionType.itemKinds.map((e) => e.dtoKind).toList(),
         enableImageTypes: [ImageType.primary],
         fields: [
-          ItemFields.primaryimageaspectratio,
           ItemFields.mediasourcecount,
+          ItemFields.primaryimageaspectratio,
+          ItemFields.overview,
         ],
         sortBy: [ItemSortBy.random],
         enableTotalRecordCount: false,

@@ -52,8 +52,11 @@ class FocusButton extends StatefulWidget {
   final Function()? onLongPress;
   final Function(TapDownDetails)? onSecondaryTapDown;
   final bool darkOverlay;
+  final bool visualizeFocus;
+  final bool forceFocusOutline;
   final Function(bool focus)? onFocusChanged;
   final BorderRadiusGeometry? borderRadius;
+  final KeyEventResult Function(FocusNode node, KeyEvent event)? onKeyEvent;
 
   const FocusButton({
     this.child,
@@ -65,8 +68,11 @@ class FocusButton extends StatefulWidget {
     this.onLongPress,
     this.onSecondaryTapDown,
     this.darkOverlay = true,
+    this.visualizeFocus = true,
+    this.forceFocusOutline = false,
     this.onFocusChanged,
     this.borderRadius,
+    this.onKeyEvent,
     super.key,
   });
 
@@ -85,6 +91,11 @@ class FocusButtonState extends State<FocusButton> {
 
   KeyEventResult _handleKey(FocusNode node, KeyEvent event) {
     if (!node.hasFocus) return KeyEventResult.ignored;
+
+    if (widget.onKeyEvent != null) {
+      final result = widget.onKeyEvent!(node, event);
+      if (result == KeyEventResult.handled) return result;
+    }
 
     if (acceptKeys.contains(event.logicalKey)) {
       if (event is KeyDownEvent) {
@@ -163,6 +174,7 @@ class FocusButtonState extends State<FocusButton> {
           child: ValueListenableBuilder(
             valueListenable: onHover,
             builder: (context, value, child) {
+              final hasFocus = widget.forceFocusOutline ? true : value;
               return AnimatedContainer(
                 duration: const Duration(milliseconds: 200),
                 curve: Curves.easeInOut,
@@ -172,13 +184,15 @@ class FocusButtonState extends State<FocusButton> {
                 ),
                 foregroundDecoration: BoxDecoration(
                   borderRadius: widget.borderRadius ?? FladderTheme.smallShape.borderRadius,
-                  color: widget.darkOverlay
-                      ? Theme.of(context).colorScheme.primaryFixedDim.withValues(alpha: value ? 0.10 : 0.0)
+                  color: widget.darkOverlay && widget.visualizeFocus
+                      ? Theme.of(context).colorScheme.primaryFixedDim.withValues(alpha: hasFocus ? 0.10 : 0.0)
                       : null,
-                  border: Border.all(
-                    width: value ? 3.5 : 2,
-                    color: Theme.of(context).colorScheme.primary.withValues(alpha: value ? 1 : 0.0),
-                  ),
+                  border: widget.visualizeFocus
+                      ? Border.all(
+                          width: hasFocus ? 3.5 : 2,
+                          color: Theme.of(context).colorScheme.primary.withValues(alpha: hasFocus ? 1 : 0.0),
+                        )
+                      : null,
                 ),
                 child: FlatButton(
                   onTap: widget.onTap,
@@ -190,7 +204,7 @@ class FocusButtonState extends State<FocusButton> {
                     if (widget.focusedOverlays.isNotEmpty)
                       Positioned.fill(
                         child: AnimatedOpacity(
-                          opacity: value ? 1 : 0,
+                          opacity: hasFocus ? 1 : 0,
                           duration: const Duration(milliseconds: 250),
                           child: Stack(
                             children: [...widget.focusedOverlays],

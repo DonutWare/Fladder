@@ -8,7 +8,11 @@ extension DurationExtensions on Duration? {
     final duration = this!;
     final hours = duration.inHours != 0 ? '${duration.inHours.toString()}h' : null;
     final minutes = duration.inMinutes % 60 != 0 ? '${duration.inMinutes % 60}m'.padLeft(3, '0') : null;
-    final seconds = duration.inSeconds % 60 != 0 ? '${duration.inSeconds % 60}s'.padLeft(3, '0') : null;
+    final seconds = duration.inMinutes >= 10
+        ? null
+        : duration.inSeconds % 60 != 0
+            ? '${duration.inSeconds % 60}s'.padLeft(3, '0')
+            : null;
     final result = [hours, minutes, seconds].nonNulls.map((e) => e).join(' ');
     return result.isNotEmpty ? result : null;
   }
