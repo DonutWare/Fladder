@@ -107,6 +107,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
     final minHeight = 450.0.clamp(0, size.height).toDouble();
     final maxHeight = size.height - 10;
     final sideBarPadding = AdaptiveLayout.of(context).sideBarWidth;
+    final topBarPadding = AdaptiveLayout.of(context).topBarHeight;
     final schemeVariant = ref.watch(clientSettingsProvider.select((value) => value.schemeVariant));
     final newColorScheme = dominantColor != null
         ? ColorScheme.fromSeed(
@@ -117,6 +118,9 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
         : null;
     final amoledBlack = ref.watch(clientSettingsProvider.select((value) => value.amoledBlack));
     final amoledOverwrite = amoledBlack ? Colors.black : null;
+
+    final useTVExpandedLayout = ref.watch(clientSettingsProvider.select((value) => value.useTVExpandedLayout)) &&
+        AdaptiveLayout.viewSizeOf(context) == ViewSize.television;
 
     final themeData =
         newColorScheme != null && ref.watch(clientSettingsProvider.select((value) => value.deriveColorsFromItem))
@@ -174,7 +178,10 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                           child: Padding(
                             padding: EdgeInsets.only(left: (sideBarPadding - 25).clamp(0, double.infinity)),
                             child: FadeEdges(
-                              leftFade: AdaptiveLayout.layoutModeOf(context) != LayoutMode.single ? 0.05 : 0.0,
+                              leftFade:
+                                  AdaptiveLayout.layoutModeOf(context) != LayoutMode.single && !useTVExpandedLayout
+                                      ? 0.05
+                                      : 0.0,
                               bottomFade: 0.3,
                               child: ConstrainedBox(
                                 constraints: BoxConstraints(
@@ -256,6 +263,9 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                           .copyWith(left: sideBarPadding + MediaQuery.paddingOf(context).left)
                           .add(
                             const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          )
+                          .add(
+                            EdgeInsets.only(top: topBarPadding),
                           ),
                       child: Row(
                         children: [

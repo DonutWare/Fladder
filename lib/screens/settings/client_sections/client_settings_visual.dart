@@ -89,6 +89,15 @@ List<Widget> buildClientSettingsVisual(
         ),
       ),
       SettingsListTile(
+        label: Text(context.localized.enableNewTVLayout),
+        subLabel: Text(context.localized.enableNewTVLayoutDesc),
+        onTap: () => ref.read(clientSettingsProvider.notifier).setExpandedTVLayout(!clientSettings.useTVExpandedLayout),
+        trailing: Switch(
+          value: clientSettings.useTVExpandedLayout,
+          onChanged: (value) => ref.read(clientSettingsProvider.notifier).setExpandedTVLayout(value),
+        ),
+      ),
+      SettingsListTile(
         label: Text(context.localized.enableBackgroundPostersTitle),
         subLabel: Text(context.localized.enableBackgroundPostersDesc),
         trailing: EnumBox(

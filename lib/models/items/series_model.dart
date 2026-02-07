@@ -1,4 +1,3 @@
-import 'package:fladder/models/items/special_feature_model.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:dart_mappable/dart_mappable.dart';
@@ -11,6 +10,7 @@ import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/overview_model.dart';
 import 'package:fladder/models/items/season_model.dart';
+import 'package:fladder/models/items/special_feature_model.dart';
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/screens/details_screens/series_detail_screen.dart';
 
@@ -20,6 +20,7 @@ part 'series_model.mapper.dart';
 class SeriesModel extends ItemBaseModel with SeriesModelMappable {
   final List<EpisodeModel>? availableEpisodes;
   final List<SeasonModel>? seasons;
+  final EpisodeModel? selectedEpisode;
   final List<SpecialFeatureModel>? specialFeatures;
   final String originalTitle;
   final String sortName;
@@ -31,6 +32,7 @@ class SeriesModel extends ItemBaseModel with SeriesModelMappable {
   const SeriesModel({
     this.availableEpisodes,
     this.seasons,
+    this.selectedEpisode,
     this.specialFeatures,
     required this.originalTitle,
     required this.sortName,
@@ -59,7 +61,7 @@ class SeriesModel extends ItemBaseModel with SeriesModelMappable {
   String detailedName(BuildContext context) => name;
 
   @override
-  ItemBaseModel get parentBaseModel => this;
+  ItemBaseModel get parentBaseModel => copyWith(id: parentId ?? id);
 
   @override
   Widget get detailScreenWidget => SeriesDetailScreen(item: this);
