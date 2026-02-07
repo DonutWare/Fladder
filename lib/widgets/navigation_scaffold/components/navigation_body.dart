@@ -10,6 +10,7 @@ import 'package:fladder/routes/auto_router.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/destination_model.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/side_navigation_bar.dart';
+import 'package:fladder/widgets/navigation_scaffold/components/top_navigation_bar.dart';
 import 'package:fladder/widgets/shared/back_intent_dpad.dart';
 
 class NavigationBody extends ConsumerStatefulWidget {
@@ -65,13 +66,16 @@ class _NavigationBodyState extends ConsumerState<NavigationBody> {
           child: widget.child,
         );
 
+    final newTVLayout = AdaptiveLayout.viewSizeOf(context) >= ViewSize.television &&
+        ref.watch(clientSettingsProvider.select((value) => value.useTVExpandedLayout));
+
     return BackIntentDpad(
       child: FocusTraversalGroup(
         policy: GlobalFallbackTraversalPolicy(fallbackNode: navBarNode),
         child: switch (AdaptiveLayout.layoutOf(context)) {
           ViewSize.phone => paddedChild(),
           ViewSize.tablet => hasOverlay
-              ? SideNavigationBar(
+              ? SideNavigationRail(
                   currentIndex: widget.currentIndex,
                   destinations: widget.destinations,
                   currentLocation: widget.currentLocation,
@@ -79,13 +83,21 @@ class _NavigationBodyState extends ConsumerState<NavigationBody> {
                   scaffoldKey: widget.drawerKey,
                 )
               : paddedChild(),
-          ViewSize.desktop || ViewSize.television => SideNavigationBar(
-              currentIndex: widget.currentIndex,
-              destinations: widget.destinations,
-              currentLocation: widget.currentLocation,
-              child: paddedChild(),
-              scaffoldKey: widget.drawerKey,
-            )
+          ViewSize.desktop || ViewSize.television => newTVLayout
+              ? TopNavigationBar(
+                  currentIndex: widget.currentIndex,
+                  destinations: widget.destinations,
+                  currentLocation: widget.currentLocation,
+                  child: paddedChild(),
+                  scaffoldKey: widget.drawerKey,
+                )
+              : SideNavigationRail(
+                  currentIndex: widget.currentIndex,
+                  destinations: widget.destinations,
+                  currentLocation: widget.currentLocation,
+                  child: paddedChild(),
+                  scaffoldKey: widget.drawerKey,
+                ),
         },
       ),
     );

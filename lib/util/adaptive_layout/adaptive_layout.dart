@@ -137,7 +137,8 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
   List<LayoutPoints> layoutPoints = [
     LayoutPoints(start: 0, end: 599, type: ViewSize.phone),
     LayoutPoints(start: 600, end: 1919, type: ViewSize.tablet),
-    LayoutPoints(start: 1920, end: 3180, type: ViewSize.desktop),
+    LayoutPoints(start: 1920, end: 2560, type: ViewSize.desktop),
+    LayoutPoints(start: 2561, end: double.infinity, type: ViewSize.television),
   ];
   late ViewSize viewSize = ViewSize.tablet;
   late LayoutMode layoutMode = LayoutMode.single;
@@ -225,10 +226,10 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
             data: mediaQuery.copyWith(
               navigationMode: input == InputDevice.dPad ? NavigationMode.directional : NavigationMode.traditional,
               padding: (useAdditionalPadding
-                  ? EdgeInsets.only(top: isAndroidTV ? 16 : defaultTitleBarHeight, bottom: 16)
+                  ? EdgeInsets.only(top: isAndroidTV ? 12 : defaultTitleBarHeight, bottom: 16)
                   : mediaQuery.padding),
               viewPadding: useAdditionalPadding
-                  ? EdgeInsets.only(top: isAndroidTV ? 16 : defaultTitleBarHeight, bottom: 16)
+                  ? EdgeInsets.only(top: isAndroidTV ? 12 : defaultTitleBarHeight, bottom: 16)
                   : null,
             ),
             child: AdaptiveLayout(
@@ -258,11 +259,4 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
       },
     );
   }
-}
-
-double? get topPadding {
-  return switch (defaultTargetPlatform) {
-    TargetPlatform.linux || TargetPlatform.windows || TargetPlatform.macOS => 35,
-    _ => null
-  };
 }

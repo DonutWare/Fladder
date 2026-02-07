@@ -55,6 +55,7 @@ const _$HomeBannerEnumMap = {
   HomeBanner.carousel: 'carousel',
   HomeBanner.banner: 'banner',
   HomeBanner.detailedBanner: 'detailedBanner',
+  HomeBanner.tvSliderBanner: 'tvSliderBanner',
 };
 
 const _$HomeCarouselSettingsEnumMap = {

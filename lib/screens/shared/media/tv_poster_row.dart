@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
@@ -24,6 +25,8 @@ import 'package:fladder/widgets/shared/ensure_visible.dart';
 import 'package:fladder/widgets/shared/horizontal_list.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
+
+const Duration _kAnimationDuration = Duration(milliseconds: 250);
 
 class TVPosterRow extends ConsumerStatefulWidget {
   final List<ItemBaseModel> posters;
@@ -54,7 +57,6 @@ class TVPosterRow extends ConsumerStatefulWidget {
 class _TVPosterRowState extends ConsumerState<TVPosterRow> {
   static const double _smallAspectRatio = 0.67;
   static const double _largeAspectRatio = 1.76;
-  static const Duration _kAnimationDuration = Duration(milliseconds: 250);
 
   int _selectedIndex = 0;
   bool _hasFocus = false;
@@ -110,7 +112,7 @@ class _TVPosterRowState extends ConsumerState<TVPosterRow> {
               if (hasFocus) {
                 await Future.delayed(animationDelay);
                 context.ensureVisible(
-                  alignment: 0.05,
+                  alignment: 0.3,
                 );
               }
               setState(() => _hasFocus = hasFocus);
@@ -135,6 +137,12 @@ class _TVPosterRowState extends ConsumerState<TVPosterRow> {
                 width: _itemWidth(index, posterHeight),
                 selected: isSelected,
                 focused: isFocused,
+                onFocusChanged: (focused) {
+                  if (focused) {
+                    setState(() => _selectedIndex = index);
+                    widget.onFocused?.call(poster);
+                  }
+                },
                 primaryPosters: isFocused || widget.primaryPosters,
                 onTap: () => poster.navigateTo(context, ref: ref),
               );
@@ -143,15 +151,20 @@ class _TVPosterRowState extends ConsumerState<TVPosterRow> {
         ),
         Padding(
           padding: widget.contentPadding,
-          child: _hasFocus
-              ? AnimatedFadeSize(
-                  duration: _kAnimationDuration,
-                  child: _TVBottomInfo(
-                    key: ValueKey(selectedPoster.id),
-                    poster: selectedPoster,
-                  ),
-                )
-              : const SizedBox.shrink(),
+          child: AnimatedSize(
+            duration: _kAnimationDuration ~/ 4,
+            curve: Curves.easeInOut,
+            alignment: Alignment.topLeft,
+            child: _hasFocus
+                ? AnimatedFadeSize(
+                    duration: _kAnimationDuration,
+                    child: _TVBottomInfo(
+                      key: ValueKey(selectedPoster.id),
+                      poster: selectedPoster,
+                    ),
+                  )
+                : const SizedBox.shrink(),
+          ),
         )
       ],
     );
@@ -164,6 +177,7 @@ class _TVPosterItem extends ConsumerWidget {
   final double height;
   final bool selected;
   final bool focused;
+  final Function(bool focused)? onFocusChanged;
   final bool primaryPosters;
   final VoidCallback onTap;
 
@@ -173,6 +187,7 @@ class _TVPosterItem extends ConsumerWidget {
     required this.height,
     required this.selected,
     required this.focused,
+    this.onFocusChanged,
     required this.primaryPosters,
     required this.onTap,
   });
@@ -181,22 +196,32 @@ class _TVPosterItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final overlayColor = Theme.of(context).colorScheme.surfaceContainer.harmonizeWith(Colors.black);
 
+    final radius = FladderTheme.defaultShape.borderRadius;
+
     return FocusButton(
       onTap: onTap,
       onLongPress: () => _showBottomSheet(context, ref),
       onSecondaryTapDown: (details) => _showContextMenu(context, ref, details.globalPosition),
+      onFocusChanged: onFocusChanged,
       child: AnimatedContainer(
-        duration: _TVPosterRowState._kAnimationDuration,
+        duration: _kAnimationDuration,
         curve: Curves.easeInOut,
         width: width,
         height: height,
         child: Container(
-          decoration: FladderTheme.defaultPosterDecoration,
+          decoration: BoxDecoration(
+            borderRadius: radius,
+            color: Theme.of(context).colorScheme.surfaceContainer,
+          ),
+          foregroundDecoration: BoxDecoration(
+            borderRadius: radius,
+            border: Border.all(width: 1, color: Colors.white.withAlpha(45)),
+          ),
           clipBehavior: Clip.hardEdge,
           child: Stack(
             children: [
               AnimatedSwitcher(
-                duration: _TVPosterRowState._kAnimationDuration,
+                duration: _kAnimationDuration,
                 transitionBuilder: (child, animation) => FadeTransition(opacity: animation, child: child),
                 child: FladderImage(
                   key: ValueKey(primaryPosters ? 'primary' : 'secondary'),
@@ -238,7 +263,7 @@ class _TVPosterItem extends ConsumerWidget {
                   ),
                 ),
                 BottomOverlaysContainer(
-                  showFavourite: poster.userData.isFavourite,
+                  showFavourite: false,
                   showProgress: true,
                   progress: poster.progress,
                   progressHeight: 8.5,
@@ -299,99 +324,105 @@ class _TVBottomInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final opacity = 0.65;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: 6,
-      children: switch (poster) {
-        ChannelModel model => [
-            ClickableText(
-              onTap: AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer
-                  ? () => poster.parentBaseModel.navigateTo(context)
-                  : null,
-              text: model.title,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                if (model.subText?.isNotEmpty ?? false)
-                  Flexible(
-                    child: ClickableText(
-                      opacity: opacity,
-                      text: model.subText ?? "",
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 1500),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 6,
+        children: switch (poster) {
+          ChannelModel model => [
+              ClickableText(
+                onTap: AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer
+                    ? () => poster.parentBaseModel.navigateTo(context)
+                    : null,
+                text: model.title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  if (model.subText?.isNotEmpty ?? false)
+                    Flexible(
+                      child: ClickableText(
+                        opacity: opacity,
+                        text: model.subText ?? "",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+                      ),
+                    )
+                  else
+                    Flexible(
+                      child: ClickableText(
+                        opacity: opacity,
+                        text: model.subTextShort(context) ?? "",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+                      ),
                     ),
-                  )
-                else
-                  Flexible(
-                    child: ClickableText(
-                      opacity: opacity,
-                      text: model.subTextShort(context) ?? "",
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
-                    ),
+                ],
+              ),
+              ClickableText(
+                opacity: opacity,
+                text: model.subText?.isNotEmpty ?? false ? model.subTextShort(context) ?? "" : "",
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+              ),
+            ],
+          EpisodeModel episode => [
+              Row(
+                spacing: 12,
+                children: [
+                  Text(
+                    episode.episodeLabel(context),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
                   ),
-              ],
-            ),
-            ClickableText(
-              opacity: opacity,
-              text: model.subText?.isNotEmpty ?? false ? model.subTextShort(context) ?? "" : "",
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
-            ),
-          ],
-        EpisodeModel episode => [
-            Row(
-              spacing: 12,
-              children: [
-                Text(
-                  episode.episodeLabel(context),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                  CircleAvatar(
+                    radius: 3,
+                    backgroundColor: Theme.of(context).colorScheme.onSurface,
+                  ),
+                  MetadataLabels(
+                    favourite: poster.userData.isFavourite ? true : null,
+                    officialRating: episode.overview.parentalRating,
+                    productionYear: episode.overview.productionYear?.toString(),
+                    communityRating: episode.overview.communityRating,
+                    runTime: episode.overview.runTime,
+                    watched: episode.userData.played == true ? true : null,
+                  ),
+                ],
+              ),
+              Text(
+                episode.overview.summary,
+                style: Theme.of(context).textTheme.bodyLarge,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          _ => [
+              MetadataLabels(
+                favourite: poster.userData.isFavourite ? true : null,
+                officialRating: poster.overview.parentalRating,
+                productionYear: poster.overview.productionYear?.toString(),
+                communityRating: poster.overview.communityRating,
+                runTime: poster.overview.runTime,
+                watched: poster.userData.played == true ? true : null,
+              ),
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxHeight: 100),
+                child: HtmlWidget(
+                  poster.overview.summary,
+                  textStyle: Theme.of(context).textTheme.bodyLarge,
                 ),
-                CircleAvatar(
-                  radius: 3,
-                  backgroundColor: Theme.of(context).colorScheme.onSurface,
-                ),
-                MetadataLabels(
-                  officialRating: episode.overview.parentalRating,
-                  productionYear: episode.overview.productionYear?.toString(),
-                  communityRating: episode.overview.communityRating,
-                  runTime: episode.overview.runTime,
-                  watched: episode.userData.played == true ? true : null,
-                ),
-              ],
-            ),
-            Text(
-              episode.overview.summary,
-              style: Theme.of(context).textTheme.bodyLarge,
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
-        _ => [
-            MetadataLabels(
-              officialRating: poster.overview.parentalRating,
-              productionYear: poster.overview.productionYear?.toString(),
-              communityRating: poster.overview.communityRating,
-              runTime: poster.overview.runTime,
-              watched: poster.userData.played == true ? true : null,
-            ),
-            Text(
-              poster.overview.summary,
-              style: Theme.of(context).textTheme.bodyLarge,
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
-      },
+              ),
+            ],
+        },
+      ),
     );
   }
 }

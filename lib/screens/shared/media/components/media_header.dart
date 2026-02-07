@@ -35,32 +35,30 @@ class MediaHeader extends ConsumerWidget {
       ),
     );
 
-    return Center(
-      child: ConstrainedBox(
-        constraints: BoxConstraints(
-          maxHeight: (MediaQuery.sizeOf(context).height * 0.275).clamp(0, maxSize),
-          maxWidth: MediaQuery.sizeOf(context).width.clamp(0, maxSize),
-        ),
-        child: Stack(
-          children: [
-            logo != null
-                ? FladderImage(
-                    image: logo,
-                    disableBlur: true,
-                    alignment: alignment,
-                    imageErrorBuilder: (context, object, stack) => textWidget,
-                    placeHolder: const SizedBox(height: 0),
-                    fit: BoxFit.contain,
-                  )
-                : textWidget,
-            if (onTap != null)
-              Positioned.fill(
-                child: GestureDetector(
-                  onTap: onTap,
-                ),
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxHeight: (MediaQuery.sizeOf(context).height * 0.275).clamp(0, maxSize),
+        maxWidth: MediaQuery.sizeOf(context).width.clamp(0, maxSize),
+      ),
+      child: Stack(
+        children: [
+          logo != null
+              ? FladderImage(
+                  image: logo,
+                  disableBlur: true,
+                  alignment: alignment,
+                  imageErrorBuilder: (context, object, stack) => textWidget,
+                  placeHolder: const SizedBox(height: 0),
+                  fit: BoxFit.contain,
+                )
+              : textWidget,
+          if (onTap != null)
+            Positioned.fill(
+              child: GestureDetector(
+                onTap: onTap,
               ),
-          ],
-        ),
+            ),
+        ],
       ),
     );
   }

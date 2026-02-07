@@ -117,7 +117,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         child: SettingsScaffold(
           label: context.localized.settings,
           scrollController: scrollController,
-          showBackButtonNested: true,
+          showBackButtonNested: AdaptiveLayout.inputDeviceOf(context) != InputDevice.dPad,
           showUserIcon: true,
           items: [
             if (hasNewUpdate && newRelease != null) ...[

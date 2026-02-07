@@ -28,13 +28,13 @@ import 'package:fladder/widgets/shared/simple_overflow_widget.dart';
 
 final navBarNode = FocusNode();
 
-class SideNavigationBar extends ConsumerStatefulWidget {
+class SideNavigationRail extends ConsumerStatefulWidget {
   final int currentIndex;
   final List<DestinationModel> destinations;
   final String currentLocation;
   final Widget child;
   final GlobalKey<ScaffoldState> scaffoldKey;
-  const SideNavigationBar({
+  const SideNavigationRail({
     required this.currentIndex,
     required this.destinations,
     required this.currentLocation,
@@ -44,10 +44,10 @@ class SideNavigationBar extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _SideNavigationBarState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _SideNavigationRail();
 }
 
-class _SideNavigationBarState extends ConsumerState<SideNavigationBar> {
+class _SideNavigationRail extends ConsumerState<SideNavigationRail> {
   bool expandedSideBar = false;
 
   @override

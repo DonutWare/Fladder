@@ -6,7 +6,7 @@ part of 'library_screen_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$libraryScreenHash() => r'd948ac9de3d55d0db8587c01dbac512622b41342';
+String _$libraryScreenHash() => r'5841098435816a9d30708538cba5aaa8f59834aa';
 
 /// See also [LibraryScreen].
 @ProviderFor(LibraryScreen)

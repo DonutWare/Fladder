@@ -285,6 +285,9 @@
   "@homeBannerSlideshow": {},
   "homeBannerCarousel": "Carousel",
   "@homeBannerCarousel": {},
+  "homeBannerDetailed": "Detailed",
+  "@homeBannerDetailed": {},
+  "homeBannerTV": "TV",
   "identify": "Identify",
   "@identify": {},
   "immediately": "Immediately",
@@ -2234,5 +2237,5 @@
   },
   "activeTvChannels": "Active TV Channels",
   "enableNewTVLayout": "Enable new TV layout",
-  "enableNewTVLayoutDesc": "Show larger TV style banners on the dashboard."
+  "enableNewTVLayoutDesc": "Show larger TV style banners on the dashboard. This will become the default layout in a future release."
 }

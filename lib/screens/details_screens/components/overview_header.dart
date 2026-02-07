@@ -215,11 +215,13 @@ class OverviewHeader extends ConsumerWidget {
                     if (poster != null) poster!,
                     Flexible(
                       child: ExcludeFocus(
-                        child: MediaHeader(
-                          name: name,
-                          logo: image?.logo,
-                          onTap: onTitleClicked,
-                          alignment: logoAlignment,
+                        child: Center(
+                          child: MediaHeader(
+                            name: name,
+                            logo: image?.logo,
+                            onTap: onTitleClicked,
+                            alignment: logoAlignment,
+                          ),
                         ),
                       ),
                     )
@@ -235,11 +237,13 @@ class OverviewHeader extends ConsumerWidget {
                 children: [
                   if (poster != null) poster!,
                   ExcludeFocus(
-                    child: MediaHeader(
-                      name: name,
-                      logo: image?.logo,
-                      onTap: onTitleClicked,
-                      alignment: logoAlignment,
+                    child: Center(
+                      child: MediaHeader(
+                        name: name,
+                        logo: image?.logo,
+                        onTap: onTitleClicked,
+                        alignment: logoAlignment,
+                      ),
                     ),
                   )
                 ],
@@ -357,6 +361,7 @@ class OverviewHeader extends ConsumerWidget {
 }
 
 class MetadataLabels extends StatelessWidget {
+  final bool? favourite;
   final String? officialRating;
   final String? productionYear;
   final Duration? runTime;
@@ -364,6 +369,7 @@ class MetadataLabels extends StatelessWidget {
   final bool? watched;
 
   const MetadataLabels({
+    this.favourite,
     this.officialRating,
     this.productionYear,
     this.runTime,
@@ -420,6 +426,13 @@ class MetadataLabels extends StatelessWidget {
             icon: watched == true ? IconsaxPlusBold.eye : IconsaxPlusLinear.eye_slash,
             color: Theme.of(context).colorScheme.primary,
             iconColor: Theme.of(context).colorScheme.onPrimary,
+            label: const SizedBox.shrink(),
+          ),
+        if (favourite != null)
+          SimpleLabel(
+            icon: favourite == true ? IconsaxPlusBold.heart : IconsaxPlusLinear.heart,
+            color: Theme.of(context).colorScheme.error,
+            iconColor: Theme.of(context).colorScheme.onError,
             label: const SizedBox.shrink(),
           ),
       ].addInBetween(CircleAvatar(

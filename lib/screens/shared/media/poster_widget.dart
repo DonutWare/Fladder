@@ -155,35 +155,32 @@ class PosterPlaceHolder extends StatelessWidget {
       aspectRatio: aspectRatio,
       child: FractionallySizedBox(
         alignment: Alignment.topCenter,
-        heightFactor: 0.85,
-        child: Padding(
-          padding: const EdgeInsets.all(4),
-          child: FocusButton(
-            onTap: onTap,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: FladderTheme.defaultShape.borderRadius,
-                color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.2),
-              ),
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    spacing: 8,
-                    children: [
-                      const Icon(
-                        IconsaxPlusLinear.more_square,
-                        size: 46,
-                      ),
-                      Text(
-                        context.localized.showMore,
-                        style: Theme.of(context).textTheme.labelMedium,
-                      )
-                    ],
-                  ),
+        heightFactor: 1,
+        child: FocusButton(
+          onTap: onTap,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: FladderTheme.defaultShape.borderRadius,
+              color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.1),
+            ),
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  spacing: 8,
+                  children: [
+                    const Icon(
+                      IconsaxPlusLinear.more_square,
+                      size: 46,
+                    ),
+                    Text(
+                      context.localized.showMore,
+                      style: Theme.of(context).textTheme.labelMedium,
+                    )
+                  ],
                 ),
               ),
             ),

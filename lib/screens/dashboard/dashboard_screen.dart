@@ -76,10 +76,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     final padding = AdaptiveLayout.adaptivePadding(context);
-    final bannerType = AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad
-        ? HomeBanner.detailedBanner
-        : ref.watch(homeSettingsProvider.select((value) => value.homeBanner));
-
+    final bannerType = ref.watch(homeSettingsProvider.select((value) => value.homeBanner));
     final dashboardData = ref.watch(dashboardProvider);
     final views = ref.watch(viewsProvider);
     final homeSettings = ref.watch(homeSettingsProvider);
@@ -211,7 +208,12 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                       label: context.localized.dashboardContinue,
                       posters: [...allResume, ...dashboardData.nextUp],
                     ),
-                  ...views.dashboardViews.where((element) => element.recentlyAdded.isNotEmpty).map(
+                  ...views.dashboardViews
+                      .where(
+                        (element) =>
+                            element.recentlyAdded.isNotEmpty && element.collectionType != CollectionType.livetv,
+                      )
+                      .map(
                         (view) => PosterRow(
                           tvMode: useTVExpandedLayout,
                           contentPadding: padding,

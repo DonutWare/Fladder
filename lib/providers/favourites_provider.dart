@@ -64,6 +64,10 @@ class FavouritesNotifier extends StateNotifier<FavouritesModel> {
           isFavorite: true,
           recursive: true,
           limit: 15,
+          fields: [
+            ItemFields.overview,
+            ItemFields.genres,
+          ],
           includeItemTypes: includeItemTypes,
           sortOrder: [SortOrder.ascending],
           sortBy: [ItemSortBy.seriessortname, ItemSortBy.sortname, ItemSortBy.datelastcontentadded],

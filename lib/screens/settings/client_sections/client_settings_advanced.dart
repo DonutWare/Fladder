@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/home_settings_provider.dart';
@@ -8,6 +9,7 @@ import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/settings/widgets/settings_label_divider.dart';
 import 'package:fladder/screens/settings/widgets/settings_list_group.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
+import 'package:fladder/util/list_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/option_dialogue.dart';
 
@@ -41,10 +43,20 @@ List<Widget> buildClientSettingsAdvanced(BuildContext context, WidgetRef ref) {
           elevation: 0,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(ref
-                .watch(homeSettingsProvider.select((value) => value.layoutStates.toList()))
-                .map((e) => e.label(context))
-                .join(', ')),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children:
+                  ref.watch(homeSettingsProvider.select((value) => value.layoutStates.toList())).mapWithLast((e, last) {
+                final isCurrent = AdaptiveLayout.viewSizeOf(context) == e;
+                return Row(
+                  spacing: 4,
+                  children: [
+                    if (isCurrent) const Icon(IconsaxPlusLinear.tick_circle, size: 16),
+                    Text("${e.label(context)}${!last ? ", " : ""}"),
+                  ],
+                );
+              }).toList(),
+            ),
           ),
         ),
       ),
@@ -73,10 +85,21 @@ List<Widget> buildClientSettingsAdvanced(BuildContext context, WidgetRef ref) {
           elevation: 0,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(ref
-                .watch(homeSettingsProvider.select((value) => value.screenLayouts.toList()))
-                .map((e) => e.label(context))
-                .join(', ')),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: ref
+                  .watch(homeSettingsProvider.select((value) => value.screenLayouts.toList()))
+                  .mapWithLast((e, last) {
+                final isCurrent = AdaptiveLayout.layoutModeOf(context) == e;
+                return Row(
+                  spacing: 4,
+                  children: [
+                    if (isCurrent) const Icon(IconsaxPlusLinear.tick_circle, size: 16),
+                    Text("${e.label(context)}${!last ? ", " : ""}"),
+                  ],
+                );
+              }).toList(),
+            ),
           ),
         ),
       ),
