@@ -91,6 +91,8 @@ class _EpisodePosterState extends ConsumerState<EpisodePosters> {
         }()
     };
 
+    final hasSeasons = episodesBySeason.isNotEmpty && episodesBySeason.length > 1;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -103,29 +105,27 @@ class _EpisodePosterState extends ConsumerState<EpisodePosters> {
             widget.onFocused?.call(episodes[index]);
           },
           titleActions: [
-            if (episodesBySeason.isNotEmpty && episodesBySeason.length > 1 && !isDPad) ...{
+            if (!isDPad && hasSeasons) ...{
               const SizedBox(width: 16),
-              if (!isDPad)
-                EnumBox(
-                  current: selectedSeason != null
-                      ? constructSeasonNames[selectedSeason!] ?? "${context.localized.season(1)} ${selectedSeason!}"
-                      : context.localized.all,
-                  onFocusChanged: (focused) {},
-                  itemBuilder: (context) => [
-                    ItemActionButton(
-                      label: Text(context.localized.all),
-                      action: () => setState(() => selectedSeason = null),
+              EnumBox(
+                current: selectedSeason != null
+                    ? constructSeasonNames[selectedSeason!] ?? "${context.localized.season(1)} ${selectedSeason!}"
+                    : context.localized.all,
+                itemBuilder: (context) => [
+                  ItemActionButton(
+                    label: Text(context.localized.all),
+                    action: () => setState(() => selectedSeason = null),
+                  ),
+                  ...episodesBySeason.entries.map(
+                    (e) => ItemActionButton(
+                      label: Text(constructSeasonNames[e.key] ?? "${context.localized.season(1)} ${e.key}"),
+                      action: () {
+                        setState(() => selectedSeason = e.key);
+                      },
                     ),
-                    ...episodesBySeason.entries.map(
-                      (e) => ItemActionButton(
-                        label: Text(constructSeasonNames[e.key] ?? "${context.localized.season(1)} ${e.key}"),
-                        action: () {
-                          setState(() => selectedSeason = e.key);
-                        },
-                      ),
-                    )
-                  ],
-                )
+                  )
+                ],
+              )
             }
           ],
           contentPadding: widget.contentPadding,
@@ -169,7 +169,7 @@ class _EpisodePosterState extends ConsumerState<EpisodePosters> {
             );
           },
         ),
-        if (isDPad)
+        if (isDPad && hasSeasons)
           FocusRow(
             focusNode: seasonFocusNode,
             child: Container(
