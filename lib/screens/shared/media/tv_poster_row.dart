@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
@@ -12,7 +11,6 @@ import 'package:fladder/models/items/channel_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/screens/details_screens/components/overview_header.dart';
-import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/screens/shared/media/components/media_header.dart';
 import 'package:fladder/screens/shared/media/components/poster_overlays.dart';
 import 'package:fladder/theme.dart';
@@ -26,7 +24,7 @@ import 'package:fladder/widgets/shared/horizontal_list.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 
-const Duration _kAnimationDuration = Duration(milliseconds: 250);
+const Duration _kAnimationDuration = Duration(milliseconds: 200);
 
 class TVPosterRow extends ConsumerStatefulWidget {
   final List<ItemBaseModel> posters;
@@ -149,23 +147,17 @@ class _TVPosterRowState extends ConsumerState<TVPosterRow> {
             },
           ),
         ),
-        Padding(
-          padding: widget.contentPadding,
-          child: AnimatedSize(
-            duration: _kAnimationDuration ~/ 4,
-            curve: Curves.easeInOut,
-            alignment: Alignment.topLeft,
-            child: _hasFocus
-                ? AnimatedFadeSize(
-                    duration: _kAnimationDuration,
-                    child: _TVBottomInfo(
-                      key: ValueKey(selectedPoster.id),
-                      poster: selectedPoster,
-                    ),
-                  )
-                : const SizedBox.shrink(),
-          ),
-        )
+        if (_hasFocus)
+          Padding(
+            padding: widget.contentPadding,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: 125),
+              child: _TVBottomInfo(
+                key: ValueKey(selectedPoster.id),
+                poster: selectedPoster,
+              ),
+            ),
+          )
       ],
     );
   }
@@ -223,11 +215,18 @@ class _TVPosterItem extends ConsumerWidget {
               AnimatedSwitcher(
                 duration: _kAnimationDuration,
                 transitionBuilder: (child, animation) => FadeTransition(opacity: animation, child: child),
-                child: FladderImage(
-                  key: ValueKey(primaryPosters ? 'primary' : 'secondary'),
-                  image: focused ? poster.tvPosterLarge : poster.tvPosterSmall,
-                  placeHolder: const _TVPosterPlaceholder(),
-                ),
+                child: focused
+                    ? FladderImage(
+                        key: ValueKey(poster.tvPosterLarge?.key ?? "${poster.id}_large"),
+                        image: poster.tvPosterLarge,
+                        disableBlur: true,
+                        placeHolder: const _TVPosterPlaceholder(),
+                      )
+                    : FladderImage(
+                        key: ValueKey(poster.tvPosterSmall?.key ?? "${poster.id}_small"),
+                        image: poster.tvPosterSmall,
+                        placeHolder: const _TVPosterPlaceholder(),
+                      ),
               ),
               if (focused) ...[
                 Positioned.fill(
@@ -413,12 +412,11 @@ class _TVBottomInfo extends StatelessWidget {
                 runTime: poster.overview.runTime,
                 watched: poster.userData.played == true ? true : null,
               ),
-              ConstrainedBox(
-                constraints: const BoxConstraints(maxHeight: 100),
-                child: HtmlWidget(
-                  poster.overview.summary,
-                  textStyle: Theme.of(context).textTheme.bodyLarge,
-                ),
+              Text(
+                poster.overview.summary,
+                style: Theme.of(context).textTheme.bodyLarge,
+                maxLines: 4,
+                overflow: TextOverflow.ellipsis,
               ),
             ],
         },

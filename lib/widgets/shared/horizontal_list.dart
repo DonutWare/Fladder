@@ -20,7 +20,7 @@ class HorizontalList<T> extends ConsumerStatefulWidget {
   final bool autoFocus;
   final String? label;
   final List<Widget> titleActions;
-  final VerticalDirection titleActionsPosition;
+  final VerticalDirection? titleActionsPosition;
   final Function()? onLabelClick;
   final String? subtext;
   final List<T> items;
@@ -289,15 +289,14 @@ class _HorizontalListState extends ConsumerState<HorizontalList> with TickerProv
         ].addPadding(const EdgeInsets.symmetric(horizontal: 6)),
       ),
     );
+    final hasLabel = widget.label != null || widget.titleActions.isNotEmpty;
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       spacing: 8,
       children: [
-        if ((widget.label != null || widget.titleActions.isNotEmpty) &&
-            widget.titleActionsPosition == VerticalDirection.up)
-          titleBarWidget,
+        if (hasLabel && widget.titleActionsPosition == VerticalDirection.up) titleBarWidget,
         FocusRow(
           focusNode: parentNode,
           traversalPolicy: HorizontalRailFocus(
@@ -367,7 +366,7 @@ class _HorizontalListState extends ConsumerState<HorizontalList> with TickerProv
               clipBehavior: Clip.none,
               scrollDirection: Axis.horizontal,
               padding: widget.contentPadding,
-              cacheExtent: _firstItemWidth ?? 250 * 3,
+              cacheExtent: _firstItemWidth ?? 250,
               itemBuilder: (context, index) => index == widget.items.length
                   ? PosterPlaceHolder(
                       onTap: widget.onLabelClick ?? () {},
@@ -384,9 +383,7 @@ class _HorizontalListState extends ConsumerState<HorizontalList> with TickerProv
             ),
           ),
         ),
-        if ((widget.label != null || widget.titleActions.isNotEmpty) &&
-            widget.titleActionsPosition == VerticalDirection.down)
-          titleBarWidget,
+        if (hasLabel && widget.titleActionsPosition == VerticalDirection.down) titleBarWidget,
       ],
     );
   }

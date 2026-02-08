@@ -80,27 +80,21 @@ class _BackgroundImageState extends ConsumerState<BackgroundImage> {
 
     final backgroundOpacity = ref.watch(clientSettingsProvider.select((value) => value.backgroundImage.opacityValues));
 
-    return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 500),
-      layoutBuilder: (currentChild, previousChildren) {
-        return Container(
-          foregroundDecoration: BoxDecoration(
-            color: Theme.of(context).scaffoldBackgroundColor.withValues(alpha: backgroundOpacity),
+    return RepaintBoundary(
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 500),
+        child: ColorFiltered(
+          key: ValueKey(image.key),
+          colorFilter: ColorFilter.mode(
+            Theme.of(context).scaffoldBackgroundColor.withValues(alpha: backgroundOpacity),
+            BlendMode.srcOver,
           ),
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              ...previousChildren,
-              if (currentChild != null) currentChild,
-            ],
+          child: FladderImage(
+            image: image,
+            fit: BoxFit.cover,
+            blurOnly: settings == BackgroundType.blurred,
           ),
-        );
-      },
-      child: FladderImage(
-        key: ValueKey(image.key),
-        image: image,
-        fit: BoxFit.cover,
-        blurOnly: settings == BackgroundType.blurred,
+        ),
       ),
     );
   }

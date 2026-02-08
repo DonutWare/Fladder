@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/items/episode_model.dart';
+import 'package:fladder/models/items/season_model.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/sync/sync_provider_helpers.dart';
@@ -12,9 +14,11 @@ import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
+import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/widgets/shared/enum_selection.dart';
+import 'package:fladder/widgets/shared/focus_row.dart';
 import 'package:fladder/widgets/shared/horizontal_list.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
@@ -22,8 +26,9 @@ import 'package:fladder/widgets/shared/status_card.dart';
 
 class EpisodePosters extends ConsumerStatefulWidget {
   final List<EpisodeModel> episodes;
+  final List<SeasonModel> seasons;
   final String? label;
-  final VerticalDirection titleActionsPosition;
+  final VerticalDirection? titleActionsPosition;
   final ValueChanged<EpisodeModel> playEpisode;
   final EdgeInsets contentPadding;
   final EpisodeModel? selectedEpisode;
@@ -35,6 +40,7 @@ class EpisodePosters extends ConsumerStatefulWidget {
     required this.contentPadding,
     required this.playEpisode,
     required this.episodes,
+    this.seasons = const [],
     this.onEpisodeTap,
     this.selectedEpisode,
     this.onFocused,
@@ -48,6 +54,8 @@ class EpisodePosters extends ConsumerStatefulWidget {
 class _EpisodePosterState extends ConsumerState<EpisodePosters> {
   late int? selectedSeason = widget.episodes.nextUp?.season;
 
+  final FocusNode seasonFocusNode = FocusNode();
+
   List<EpisodeModel> get episodes {
     if (selectedSeason == null) {
       return widget.episodes;
@@ -57,79 +65,157 @@ class _EpisodePosterState extends ConsumerState<EpisodePosters> {
   }
 
   @override
+  void dispose() {
+    seasonFocusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final indexOfCurrent = (episodes.nextUp != null ? episodes.indexOf(episodes.nextUp!) : 0).clamp(0, episodes.length);
     final episodesBySeason = widget.episodes.episodesBySeason;
     final allPlayed = episodes.allPlayed;
 
-    return HorizontalList(
-      label: widget.label,
-      titleActionsPosition: widget.titleActionsPosition,
-      onFocused: (index) {
-        widget.onFocused?.call(episodes[index]);
-      },
-      titleActions: [
-        if (episodesBySeason.isNotEmpty && episodesBySeason.length > 1) ...{
-          const SizedBox(width: 16),
-          EnumBox(
-            current: selectedSeason != null ? "${context.localized.season(1)} $selectedSeason" : context.localized.all,
-            itemBuilder: (context) => [
-              ItemActionButton(
-                label: Text(context.localized.all),
-                action: () => setState(() => selectedSeason = null),
-              ),
-              ...episodesBySeason.entries.map(
-                (e) => ItemActionButton(
-                  label: Text("${context.localized.season(1)} ${e.key}"),
-                  action: () {
-                    setState(() => selectedSeason = e.key);
-                  },
-                ),
-              )
-            ],
-          )
-        },
-      ],
-      contentPadding: widget.contentPadding,
-      startIndex: indexOfCurrent,
-      items: episodes,
-      itemBuilder: (context, index) {
-        final episode = episodes[index];
-        final tag = UniqueKey();
-        return EpisodePoster(
-          episode: episode,
-          heroTag: tag,
-          blur: allPlayed ? false : indexOfCurrent < index,
-          onTap: widget.onEpisodeTap != null
-              ? () {
-                  widget.onEpisodeTap?.call(
-                    () {
+    final isDPad = AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad;
+
+    final constructSeasonNames = <int, String>{
+      for (final entry in episodesBySeason.entries)
+        entry.key: () {
+          if (widget.seasons.isNotEmpty) {
+            final season = widget.seasons.firstWhereOrNull((element) => element.season == entry.key);
+            if (season != null) {
+              return season.name;
+            }
+          }
+          return "${context.localized.season(1)} ${entry.key}";
+        }()
+    };
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      spacing: 16,
+      children: [
+        HorizontalList(
+          label: widget.label,
+          titleActionsPosition: widget.titleActionsPosition,
+          onFocused: (index) {
+            widget.onFocused?.call(episodes[index]);
+          },
+          titleActions: [
+            if (episodesBySeason.isNotEmpty && episodesBySeason.length > 1 && !isDPad) ...{
+              const SizedBox(width: 16),
+              if (!isDPad)
+                EnumBox(
+                  current: selectedSeason != null
+                      ? constructSeasonNames[selectedSeason!] ?? "${context.localized.season(1)} ${selectedSeason!}"
+                      : context.localized.all,
+                  onFocusChanged: (focused) {},
+                  itemBuilder: (context) => [
+                    ItemActionButton(
+                      label: Text(context.localized.all),
+                      action: () => setState(() => selectedSeason = null),
+                    ),
+                    ...episodesBySeason.entries.map(
+                      (e) => ItemActionButton(
+                        label: Text(constructSeasonNames[e.key] ?? "${context.localized.season(1)} ${e.key}"),
+                        action: () {
+                          setState(() => selectedSeason = e.key);
+                        },
+                      ),
+                    )
+                  ],
+                )
+            }
+          ],
+          contentPadding: widget.contentPadding,
+          startIndex: indexOfCurrent,
+          items: episodes,
+          itemBuilder: (context, index) {
+            final episode = episodes[index];
+            final tag = UniqueKey();
+            return EpisodePoster(
+              episode: episode,
+              heroTag: tag,
+              blur: allPlayed ? false : indexOfCurrent < index,
+              onTap: widget.onEpisodeTap != null
+                  ? () {
+                      widget.onEpisodeTap?.call(
+                        () {
+                          episode.navigateTo(context, tag: tag);
+                        },
+                        episode,
+                      );
+                    }
+                  : () {
                       episode.navigateTo(context, tag: tag);
                     },
-                    episode,
-                  );
-                }
-              : () {
-                  episode.navigateTo(context, tag: tag);
-                },
-          onLongPress: () async {
-            await showBottomSheetPill(
-              context: context,
-              item: episode,
-              content: (context, scrollController) {
-                return ListView(
-                  shrinkWrap: true,
-                  controller: scrollController,
-                  children: episode.generateActions(context, ref).listTileItems(context, useIcons: true).toList(),
+              onLongPress: () async {
+                await showBottomSheetPill(
+                  context: context,
+                  item: episode,
+                  content: (context, scrollController) {
+                    return ListView(
+                      shrinkWrap: true,
+                      controller: scrollController,
+                      children: episode.generateActions(context, ref).listTileItems(context, useIcons: true).toList(),
+                    );
+                  },
                 );
+                context.refreshData();
               },
+              actions: episode.generateActions(context, ref),
+              isCurrentEpisode: widget.selectedEpisode == episode,
             );
-            context.refreshData();
           },
-          actions: episode.generateActions(context, ref),
-          isCurrentEpisode: widget.selectedEpisode == episode,
-        );
-      },
+        ),
+        if (isDPad)
+          FocusRow(
+            focusNode: seasonFocusNode,
+            child: Container(
+              padding: widget.contentPadding,
+              height: 40,
+              child: Row(
+                spacing: 8,
+                children: [
+                  Flexible(
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Builder(builder: (context) {
+                        return Row(
+                          children: [
+                            ItemActionButton(
+                              selected: selectedSeason == null,
+                              label: Text(context.localized.all),
+                              action: () => setState(() => selectedSeason = null),
+                            ),
+                            ...episodesBySeason.entries.map(
+                              (e) => ItemActionButton(
+                                selected: selectedSeason == e.key,
+                                label: Text(constructSeasonNames[e.key] ?? "${context.localized.season(1)} ${e.key}"),
+                                action: () {
+                                  setState(() => selectedSeason = e.key);
+                                },
+                              ),
+                            ),
+                          ]
+                              .groupButtons(
+                                context,
+                                useIcons: true,
+                                shouldPop: false,
+                              )
+                              .addInBetween(
+                                const SizedBox(width: 12),
+                              ),
+                        );
+                      }),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+      ],
     );
   }
 }

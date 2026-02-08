@@ -164,25 +164,33 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                             },
                           )
                         : null,
-                    summary: ExpandingText(
-                      text: details.overview.summary,
-                      onFocusChange: (onFocus) {
-                        if (onFocus) {
-                          context.ensureVisible(alignment: 1.0);
-                        }
-                      },
-                    ),
                     communityRating: details.overview.communityRating,
                   ),
+                  if (details.overview.summary.isNotEmpty)
+                    Padding(
+                      padding: padding,
+                      child: Builder(builder: (context) {
+                        return ExpandingText(
+                          text: details.overview.summary,
+                          onFocusChange: (onFocus) {
+                            if (onFocus) {
+                              context.ensureVisible(alignment: 1);
+                            }
+                          },
+                        );
+                      }),
+                    ),
                   if (details.availableEpisodes?.isNotEmpty ?? false)
                     Builder(builder: (context) {
                       return EpisodePosters(
                         contentPadding: padding,
                         selectedEpisode: currentEpisode,
-                        titleActionsPosition: VerticalDirection.down,
+                        seasons: details.seasons ?? [],
+                        titleActionsPosition:
+                            AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad ? null : VerticalDirection.down,
                         label: context.localized.episode(details.availableEpisodes?.length ?? 2),
                         onFocused: (episode) {
-                          context.ensureVisible(alignment: 1);
+                          context.ensureVisible(alignment: 0.8);
                         },
                         onEpisodeTap: (action, episode) async {
                           action();

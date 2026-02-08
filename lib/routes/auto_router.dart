@@ -16,6 +16,7 @@ const fullScreenRoutes = {
 const topBarNoBlurRoutes = {
   SettingsRoute.name,
   ControlPanelRoute.name,
+  DetailsRoute.name,
 };
 
 @AutoRouterConfig(replaceInRouteName: 'Screen|Page,Route')

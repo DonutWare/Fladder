@@ -176,32 +176,36 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                         Align(
                           alignment: Alignment.topCenter,
                           child: Padding(
-                            padding: EdgeInsets.only(left: (sideBarPadding - 25).clamp(0, double.infinity)),
-                            child: FadeEdges(
-                              leftFade:
-                                  AdaptiveLayout.layoutModeOf(context) != LayoutMode.single && !useTVExpandedLayout
-                                      ? 0.05
-                                      : 0.0,
-                              bottomFade: 0.3,
-                              child: ConstrainedBox(
-                                constraints: BoxConstraints(
-                                  minWidth: double.infinity,
-                                  minHeight: minHeight - 20,
-                                  maxHeight: maxHeight.clamp(minHeight, 2500) - 20,
-                                ),
-                                child: FadeInImage(
-                                  placeholder: ResizeImage(
-                                    backgroundImage!.imageProvider,
-                                    height: maxHeight ~/ 1.5,
+                            padding: EdgeInsets.only(
+                                left: (sideBarPadding - 25).clamp(0, double.infinity), top: topBarPadding),
+                            child: RepaintBoundary(
+                              child: FadeEdges(
+                                topFade: topBarPadding > 0 ? 0.1 : 0.0,
+                                leftFade:
+                                    AdaptiveLayout.layoutModeOf(context) != LayoutMode.single && !useTVExpandedLayout
+                                        ? 0.05
+                                        : 0.0,
+                                bottomFade: 0.3,
+                                child: ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                    minWidth: double.infinity,
+                                    minHeight: minHeight - 20,
+                                    maxHeight: maxHeight.clamp(minHeight, 2500) - 20,
                                   ),
-                                  placeholderColor: Colors.transparent,
-                                  fit: BoxFit.cover,
-                                  alignment: Alignment.topCenter,
-                                  placeholderFit: BoxFit.cover,
-                                  excludeFromSemantics: true,
-                                  image: ResizeImage(
-                                    backgroundImage!.imageProvider,
-                                    height: maxHeight ~/ 1.5,
+                                  child: FadeInImage(
+                                    placeholder: ResizeImage(
+                                      backgroundImage!.imageProvider,
+                                      height: maxHeight ~/ 1.5,
+                                    ),
+                                    placeholderColor: Colors.transparent,
+                                    fit: BoxFit.cover,
+                                    alignment: Alignment.topCenter,
+                                    placeholderFit: BoxFit.cover,
+                                    excludeFromSemantics: true,
+                                    image: ResizeImage(
+                                      backgroundImage!.imageProvider,
+                                      height: maxHeight ~/ 1.5,
+                                    ),
                                   ),
                                 ),
                               ),
