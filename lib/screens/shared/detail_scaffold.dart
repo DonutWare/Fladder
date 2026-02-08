@@ -67,6 +67,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
   Color? dominantColor;
 
   ImageProvider? _lastRequestedImage;
+  ImageData? _lastColorImage;
 
   @override
   void didUpdateWidget(covariant DetailScaffold oldWidget) {
@@ -85,14 +86,15 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
   Future<void> _updateDominantColor() async {
     if (!ref.read(clientSettingsProvider.select((value) => value.deriveColorsFromItem))) return;
     final newImage = widget.item?.getPosters?.logo ?? widget.item?.getPosters?.primary ?? backgroundImage;
-    if (newImage == null) return;
+    if (newImage == null || identical(newImage, _lastColorImage)) return;
+    _lastColorImage = newImage;
 
     final provider = newImage.imageProvider;
     _lastRequestedImage = provider;
 
     final newColor = await getDominantColor(provider);
 
-    if (!mounted || _lastRequestedImage != provider) return;
+    if (!mounted || !identical(_lastRequestedImage, provider)) return;
 
     setState(() {
       dominantColor = newColor;
