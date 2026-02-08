@@ -110,7 +110,7 @@ class _TVPosterRowState extends ConsumerState<TVPosterRow> {
               if (hasFocus) {
                 await Future.delayed(animationDelay);
                 context.ensureVisible(
-                  alignment: 0.3,
+                  alignment: 0.35,
                 );
               }
               setState(() => _hasFocus = hasFocus);

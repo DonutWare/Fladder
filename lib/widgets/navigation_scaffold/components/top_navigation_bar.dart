@@ -84,12 +84,16 @@ class TopNavigationBar extends ConsumerWidget {
             ),
           ),
         ),
-        Positioned.fill(
-          child: useBlurredBackground
-              ? IgnorePointer(
-                  child: RepaintBoundary(
-                    child: ShaderMask(
-                      shaderCallback: (background) {
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          height: height,
+          child: RepaintBoundary(
+            child: IgnorePointer(
+              child: useBlurredBackground
+                  ? ShaderMask(
+                      shaderCallback: (bounds) {
                         return LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
@@ -99,25 +103,14 @@ class TopNavigationBar extends ConsumerWidget {
                             Colors.white.withAlpha(0),
                           ],
                         ).createShader(
-                          Rect.fromLTRB(
-                            0,
-                            10,
-                            background.width,
-                            height,
-                          ),
+                          Rect.fromLTRB(0, 10, bounds.width, bounds.height),
                         );
                       },
                       blendMode: BlendMode.dstIn,
                       child: const BackgroundImage(),
-                    ),
-                  ),
-                )
-              : IgnorePointer(
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: Container(
+                    )
+                  : Container(
                       width: double.infinity,
-                      height: height,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           begin: Alignment.topCenter,
@@ -130,8 +123,8 @@ class TopNavigationBar extends ConsumerWidget {
                         ),
                       ),
                     ),
-                  ),
-                ),
+            ),
+          ),
         ),
         RepaintBoundary(
           child: FocusScope(

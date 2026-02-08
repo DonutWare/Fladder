@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 import 'package:flutter_blurhash/flutter_blurhash.dart';
@@ -50,16 +48,6 @@ class FladderImage extends ConsumerWidget {
     if (newImage == null) {
       return placeHolder ?? Container();
     } else {
-      if (!leanBackMode && (blurOnly && newImage.hash.isEmpty && imageProvider != null)) {
-        return ImageFiltered(
-          imageFilter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
-          child: Image(
-            image: ResizeImage(imageProvider, width: 32, height: 32),
-            fit: blurFit ?? fit,
-            alignment: alignment ?? Alignment.center,
-          ),
-        );
-      }
       return Stack(
         key: Key(newImage.key),
         fit: stackFit,

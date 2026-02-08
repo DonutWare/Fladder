@@ -82,12 +82,11 @@ class _BackgroundImageState extends ConsumerState<BackgroundImage> {
 
     return RepaintBoundary(
       child: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 500),
-        child: ColorFiltered(
+        duration: const Duration(milliseconds: 250),
+        child: Container(
           key: ValueKey(image.key),
-          colorFilter: ColorFilter.mode(
-            Theme.of(context).scaffoldBackgroundColor.withValues(alpha: backgroundOpacity),
-            BlendMode.srcOver,
+          foregroundDecoration: BoxDecoration(
+            color: Theme.of(context).scaffoldBackgroundColor.withValues(alpha: backgroundOpacity),
           ),
           child: FladderImage(
             image: image,
