@@ -336,6 +336,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                     icon: Icon(
                       mediaPlayback.playing ? IconsaxPlusBold.pause : IconsaxPlusBold.play,
                     ),
+                    tooltip: mediaPlayback.playing ? "Pause video" : "Resume video",
                   ),
                   seekForwardButton(ref),
                   nextVideoButton,
