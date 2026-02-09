@@ -1615,5 +1615,22 @@
     },
     "switchChannel": "Changer de chaîne",
     "activeTvChannels": "Chaînes TV actives",
-    "enableNewTVLayout": "Activer la nouvelle disposition TV"
+    "enableNewTVLayout": "Activer la nouvelle disposition TV",
+    "homeBannerTV": "TV",
+    "playbackTypeTV": "TV",
+    "seerrCustomHeaders": "En-têtes personnalisés",
+    "seerrHeaderValue": "Valeur",
+    "now": "Maintenant",
+    "noPrograms": "Aucun programme disponible",
+    "switchChannelDesc": "Voulez-vous regarder \"{programName}\" sur {channelName} ?",
+    "@switchChannelDesc": {
+        "placeholders": {
+            "programName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    }
 }
