@@ -1645,5 +1645,11 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "homeBannerDetailed": "详情",
+    "homeBannerTV": "电视",
+    "showLess": "显示更少",
+    "activeTvChannels": "活动的电视频道",
+    "enableNewTVLayout": "启用新的电视布局",
+    "enableNewTVLayoutDesc": "在控制台上显示更大的电视风格横幅广告。这将成为未来版本中的默认布局。"
 }
