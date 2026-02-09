@@ -67,6 +67,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
   Color? dominantColor;
 
   ImageProvider? _lastRequestedImage;
+  ImageData? _lastColorImage;
 
   @override
   void didUpdateWidget(covariant DetailScaffold oldWidget) {
@@ -85,14 +86,15 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
   Future<void> _updateDominantColor() async {
     if (!ref.read(clientSettingsProvider.select((value) => value.deriveColorsFromItem))) return;
     final newImage = widget.item?.getPosters?.logo ?? widget.item?.getPosters?.primary ?? backgroundImage;
-    if (newImage == null) return;
+    if (newImage == null || identical(newImage, _lastColorImage)) return;
+    _lastColorImage = newImage;
 
     final provider = newImage.imageProvider;
     _lastRequestedImage = provider;
 
     final newColor = await getDominantColor(provider);
 
-    if (!mounted || _lastRequestedImage != provider) return;
+    if (!mounted || !identical(_lastRequestedImage, provider)) return;
 
     setState(() {
       dominantColor = newColor;
@@ -176,32 +178,36 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                         Align(
                           alignment: Alignment.topCenter,
                           child: Padding(
-                            padding: EdgeInsets.only(left: (sideBarPadding - 25).clamp(0, double.infinity)),
-                            child: FadeEdges(
-                              leftFade:
-                                  AdaptiveLayout.layoutModeOf(context) != LayoutMode.single && !useTVExpandedLayout
-                                      ? 0.05
-                                      : 0.0,
-                              bottomFade: 0.3,
-                              child: ConstrainedBox(
-                                constraints: BoxConstraints(
-                                  minWidth: double.infinity,
-                                  minHeight: minHeight - 20,
-                                  maxHeight: maxHeight.clamp(minHeight, 2500) - 20,
-                                ),
-                                child: FadeInImage(
-                                  placeholder: ResizeImage(
-                                    backgroundImage!.imageProvider,
-                                    height: maxHeight ~/ 1.5,
+                            padding: EdgeInsets.only(
+                                left: (sideBarPadding - 25).clamp(0, double.infinity), top: topBarPadding),
+                            child: RepaintBoundary(
+                              child: FadeEdges(
+                                topFade: topBarPadding > 0 ? 0.1 : 0.0,
+                                leftFade:
+                                    AdaptiveLayout.layoutModeOf(context) != LayoutMode.single && !useTVExpandedLayout
+                                        ? 0.05
+                                        : 0.0,
+                                bottomFade: 0.3,
+                                child: ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                    minWidth: double.infinity,
+                                    minHeight: minHeight - 20,
+                                    maxHeight: maxHeight.clamp(minHeight, 2500) - 20,
                                   ),
-                                  placeholderColor: Colors.transparent,
-                                  fit: BoxFit.cover,
-                                  alignment: Alignment.topCenter,
-                                  placeholderFit: BoxFit.cover,
-                                  excludeFromSemantics: true,
-                                  image: ResizeImage(
-                                    backgroundImage!.imageProvider,
-                                    height: maxHeight ~/ 1.5,
+                                  child: FadeInImage(
+                                    placeholder: ResizeImage(
+                                      backgroundImage!.imageProvider,
+                                      height: maxHeight ~/ 1.5,
+                                    ),
+                                    placeholderColor: Colors.transparent,
+                                    fit: BoxFit.cover,
+                                    alignment: Alignment.topCenter,
+                                    placeholderFit: BoxFit.cover,
+                                    excludeFromSemantics: true,
+                                    image: ResizeImage(
+                                      backgroundImage!.imageProvider,
+                                      height: maxHeight ~/ 1.5,
+                                    ),
                                   ),
                                 ),
                               ),

@@ -52,153 +52,169 @@ class TopNavigationBar extends ConsumerWidget {
 
     return Stack(
       children: [
-        FocusScope(
-          node: _contentScopeNode,
-          child: Actions(
-            actions: <Type, Action<Intent>>{
-              DirectionalFocusIntent: CallbackAction<DirectionalFocusIntent>(
-                onInvoke: (intent) {
-                  final current = primaryFocus;
-                  if (current == null) return null;
+        RepaintBoundary(
+          child: FocusScope(
+            node: _contentScopeNode,
+            child: Actions(
+              actions: <Type, Action<Intent>>{
+                DirectionalFocusIntent: CallbackAction<DirectionalFocusIntent>(
+                  onInvoke: (intent) {
+                    final current = primaryFocus;
+                    if (current == null) return null;
 
-                  if (intent.direction == TraversalDirection.up) {
-                    final handled = current.focusInDirection(TraversalDirection.up);
-                    if (!handled) {
-                      _lastContentFocus = current;
-                      _focusTopBar();
+                    if (intent.direction == TraversalDirection.up) {
+                      final handled = current.focusInDirection(TraversalDirection.up);
+                      if (!handled) {
+                        _lastContentFocus = current;
+                        _focusTopBar();
+                      }
+                    } else {
+                      current.focusInDirection(intent.direction);
                     }
-                  } else {
-                    current.focusInDirection(intent.direction);
-                  }
-                  return null;
-                },
+                    return null;
+                  },
+                ),
+              },
+              child: AdaptiveLayoutBuilder(
+                adaptiveLayout: AdaptiveLayout.of(context).copyWith(
+                  topBarHeight: barHeight + padding,
+                ),
+                child: (context) => child,
               ),
-            },
-            child: AdaptiveLayoutBuilder(
-              adaptiveLayout: AdaptiveLayout.of(context).copyWith(
-                topBarHeight: barHeight + padding,
-              ),
-              child: (context) => child,
             ),
           ),
         ),
-        Positioned.fill(
-          child: IgnorePointer(
-            child: ShaderMask(
-              shaderCallback: (background) {
-                return LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.white,
-                    Colors.white.withAlpha(200),
-                    Colors.white.withAlpha(0),
-                  ],
-                ).createShader(
-                  Rect.fromLTRB(
-                    0,
-                    10,
-                    background.width,
-                    height,
-                  ),
-                );
-              },
-              blendMode: BlendMode.dstIn,
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          height: height,
+          child: RepaintBoundary(
+            child: IgnorePointer(
               child: useBlurredBackground
-                  ? const BackgroundImage()
+                  ? ShaderMask(
+                      shaderCallback: (bounds) {
+                        return LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.white,
+                            Colors.white.withAlpha(200),
+                            Colors.white.withAlpha(0),
+                          ],
+                        ).createShader(
+                          Rect.fromLTRB(0, 10, bounds.width, bounds.height),
+                        );
+                      },
+                      blendMode: BlendMode.dstIn,
+                      child: const BackgroundImage(),
+                    )
                   : Container(
-                      color: Theme.of(context).colorScheme.surface,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Theme.of(context).colorScheme.surface.withAlpha(255),
+                            Theme.of(context).colorScheme.surface.withAlpha(175),
+                            Theme.of(context).colorScheme.surface.withAlpha(0),
+                          ],
+                        ),
+                      ),
                     ),
             ),
           ),
         ),
-        FocusScope(
-          node: topBarNode,
-          child: FocusTraversalGroup(
-            policy: _TopBarTraversalPolicy(),
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: SizedBox(
-                height: height,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 18),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      actionButton(context).normal,
-                      Flexible(
-                        child: FittedBox(
-                          fit: BoxFit.scaleDown,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              ...destinations.mapIndexed(
-                                (index, destination) {
-                                  final isActive = currentIndex == index;
-                                  final icon = isActive ? destination.selectedIcon : destination.icon;
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                    child: FocusButton(
-                                      onTap: () {
-                                        _lastContentFocus = null;
-                                        destination.action?.call();
-                                      },
-                                      darkOverlay: false,
-                                      borderRadius: buttonShape.borderRadius,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: Theme.of(context).colorScheme.primary.withAlpha(isActive ? 50 : 0),
-                                          borderRadius: buttonShape.borderRadius,
-                                        ),
-                                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                                        child: IconTheme(
-                                          data: Theme.of(context).iconTheme.copyWith(
-                                                color: isActive
-                                                    ? Theme.of(context).colorScheme.primary
-                                                    : Theme.of(context).iconTheme.color,
-                                              ),
-                                          child: Row(
-                                            spacing: 6,
-                                            children: [
-                                              if (icon != null) icon,
-                                              Text(
-                                                destination.label,
-                                                style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                                                      color: isActive
-                                                          ? Theme.of(context).colorScheme.primary
-                                                          : Theme.of(context).textTheme.titleMedium!.color,
-                                                    ),
-                                              ),
-                                            ],
+        RepaintBoundary(
+          child: FocusScope(
+            node: topBarNode,
+            child: FocusTraversalGroup(
+              policy: _TopBarTraversalPolicy(),
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: SizedBox(
+                  height: height,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 18),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        actionButton(context).normal,
+                        Flexible(
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                ...destinations.mapIndexed(
+                                  (index, destination) {
+                                    final isActive = currentIndex == index;
+                                    final icon = isActive ? destination.selectedIcon : destination.icon;
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                      child: FocusButton(
+                                        onTap: () {
+                                          _lastContentFocus = null;
+                                          destination.action?.call();
+                                        },
+                                        darkOverlay: false,
+                                        borderRadius: buttonShape.borderRadius,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Theme.of(context).colorScheme.primary.withAlpha(isActive ? 50 : 0),
+                                            borderRadius: buttonShape.borderRadius,
+                                          ),
+                                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                          child: IconTheme(
+                                            data: Theme.of(context).iconTheme.copyWith(
+                                                  color: isActive
+                                                      ? Theme.of(context).colorScheme.primary
+                                                      : Theme.of(context).iconTheme.color,
+                                                ),
+                                            child: Row(
+                                              spacing: 6,
+                                              children: [
+                                                if (icon != null) icon,
+                                                Text(
+                                                  destination.label,
+                                                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                                                        color: isActive
+                                                            ? Theme.of(context).colorScheme.primary
+                                                            : Theme.of(context).textTheme.titleMedium!.color,
+                                                      ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ],
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      NavigationButton(
-                        label: context.localized.settings,
-                        selected: currentLocation.contains(const SettingsRoute().routeName),
-                        selectedIcon: const Icon(IconsaxPlusBold.setting_3),
-                        horizontal: true,
-                        expanded: false,
-                        icon: const ExcludeFocusTraversal(child: SettingsUserIcon()),
-                        onPressed: () {
-                          if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.single) {
-                            context.router.push(const SettingsRoute());
-                          } else {
-                            context.router.push(const ClientSettingsRoute());
-                          }
-                        },
-                      ),
-                    ],
+                        NavigationButton(
+                          label: context.localized.settings,
+                          selected: currentLocation.contains(const SettingsRoute().routeName),
+                          selectedIcon: const Icon(IconsaxPlusBold.setting_3),
+                          horizontal: true,
+                          expanded: false,
+                          icon: const ExcludeFocusTraversal(child: SettingsUserIcon()),
+                          onPressed: () {
+                            if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.single) {
+                              context.router.push(const SettingsRoute());
+                            } else {
+                              context.router.push(const ClientSettingsRoute());
+                            }
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

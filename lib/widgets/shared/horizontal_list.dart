@@ -20,7 +20,7 @@ class HorizontalList<T> extends ConsumerStatefulWidget {
   final bool autoFocus;
   final String? label;
   final List<Widget> titleActions;
-  final VerticalDirection titleActionsPosition;
+  final VerticalDirection? titleActionsPosition;
   final Function()? onLabelClick;
   final String? subtext;
   final List<T> items;
@@ -289,35 +289,58 @@ class _HorizontalListState extends ConsumerState<HorizontalList> with TickerProv
         ].addPadding(const EdgeInsets.symmetric(horizontal: 6)),
       ),
     );
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      spacing: 8,
-      children: [
-        if ((widget.label != null || widget.titleActions.isNotEmpty) &&
-            widget.titleActionsPosition == VerticalDirection.up)
-          titleBarWidget,
-        FocusRow(
-          focusNode: parentNode,
-          traversalPolicy: HorizontalRailFocus(
-            parentNode: parentNode,
-            scrollController: _scrollController,
-            firstItemWidth: _firstItemWidth ?? 250,
-            onFocused: (node, {int? intervalMillis}) {
-              lastFocused = node;
-              final correctIndex = _getCorrectIndexForNode(node);
-              if (correctIndex != -1) {
-                widget.onFocused?.call(correctIndex);
-                final duration = _durationForInterval(intervalMillis);
-                _scrollToPosition(correctIndex, duration: duration);
+    final hasLabel = widget.label != null || widget.titleActions.isNotEmpty;
+    return RepaintBoundary(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        spacing: 8,
+        children: [
+          if (hasLabel && widget.titleActionsPosition == VerticalDirection.up) titleBarWidget,
+          FocusRow(
+            focusNode: parentNode,
+            traversalPolicy: HorizontalRailFocus(
+              parentNode: parentNode,
+              scrollController: _scrollController,
+              firstItemWidth: _firstItemWidth ?? 250,
+              onFocused: (node, {int? intervalMillis}) {
+                lastFocused = node;
+                final correctIndex = _getCorrectIndexForNode(node);
+                if (correctIndex != -1) {
+                  widget.onFocused?.call(correctIndex);
+                  final duration = _durationForInterval(intervalMillis);
+                  _scrollToPosition(correctIndex, duration: duration);
+                }
+              },
+            ),
+            onFocusChange: (value) {
+              widget.onFocusChange?.call(value);
+              if (value && hasFocus != value) {
+                hasFocus = value;
+                final nodesOnSameRow = _nodesInRow(parentNode);
+                final currentNode = nodesOnSameRow.contains(lastFocused)
+                    ? lastFocused
+                    : _firstFullyVisibleNode(context, nodesOnSameRow);
+
+                if (currentNode != null) {
+                  lastFocused = currentNode;
+                  final correctIndex = _getCorrectIndexForNode(currentNode);
+
+                  if (widget.onFocused != null) {
+                    if (correctIndex != -1) {
+                      widget.onFocused!(correctIndex);
+                    }
+                  } else {
+                    context.ensureVisible();
+                  }
+                  currentNode.requestFocus();
+                }
+              } else {
+                hasFocus = false;
               }
             },
-          ),
-          onFocusChange: (value) {
-            widget.onFocusChange?.call(value);
-            if (value && hasFocus != value) {
-              hasFocus = value;
+            onGroupFocused: (groupNode) {
               final nodesOnSameRow = _nodesInRow(parentNode);
               final currentNode =
                   nodesOnSameRow.contains(lastFocused) ? lastFocused : _firstFullyVisibleNode(context, nodesOnSameRow);
@@ -325,69 +348,46 @@ class _HorizontalListState extends ConsumerState<HorizontalList> with TickerProv
               if (currentNode != null) {
                 lastFocused = currentNode;
                 final correctIndex = _getCorrectIndexForNode(currentNode);
-
                 if (widget.onFocused != null) {
-                  if (correctIndex != -1) {
-                    widget.onFocused!(correctIndex);
-                  }
+                  if (correctIndex != -1) widget.onFocused!(correctIndex);
                 } else {
                   context.ensureVisible();
                 }
                 currentNode.requestFocus();
               }
-            } else {
-              hasFocus = false;
-            }
-          },
-          onGroupFocused: (groupNode) {
-            final nodesOnSameRow = _nodesInRow(parentNode);
-            final currentNode =
-                nodesOnSameRow.contains(lastFocused) ? lastFocused : _firstFullyVisibleNode(context, nodesOnSameRow);
-
-            if (currentNode != null) {
-              lastFocused = currentNode;
-              final correctIndex = _getCorrectIndexForNode(currentNode);
-              if (widget.onFocused != null) {
-                if (correctIndex != -1) widget.onFocused!(correctIndex);
-              } else {
-                context.ensureVisible();
-              }
-              currentNode.requestFocus();
-            }
-          },
-          child: SizedBox(
-            height: widget.height ??
-                ((AdaptiveLayout.poster(context).size *
-                            ref.watch(clientSettingsProvider.select((value) => value.posterSize))) /
-                        math.pow((widget.dominantRatio ?? 1.0), 0.55)) *
-                    0.72,
-            child: ListView.separated(
-              key: _listViewKey,
-              controller: _scrollController,
-              clipBehavior: Clip.none,
-              scrollDirection: Axis.horizontal,
-              padding: widget.contentPadding,
-              cacheExtent: _firstItemWidth ?? 250 * 3,
-              itemBuilder: (context, index) => index == widget.items.length
-                  ? PosterPlaceHolder(
-                      onTap: widget.onLabelClick ?? () {},
-                      aspectRatio: widget.dominantRatio ?? AdaptiveLayout.poster(context).ratio,
-                    )
-                  : Container(
-                      key: index == 0 ? _firstItemKey : null,
-                      child: widget.itemBuilder(context, index),
-                    ),
-              separatorBuilder: (context, index) => SizedBox(width: contentPadding),
-              itemCount: widget.onLabelClick != null && AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad
-                  ? widget.items.length + 1
-                  : widget.items.length,
+            },
+            child: SizedBox(
+              height: widget.height ??
+                  ((AdaptiveLayout.poster(context).size *
+                              ref.watch(clientSettingsProvider.select((value) => value.posterSize))) /
+                          math.pow((widget.dominantRatio ?? 1.0), 0.55)) *
+                      0.72,
+              child: ListView.separated(
+                key: _listViewKey,
+                controller: _scrollController,
+                clipBehavior: Clip.none,
+                scrollDirection: Axis.horizontal,
+                padding: widget.contentPadding,
+                cacheExtent: _firstItemWidth ?? 250,
+                itemBuilder: (context, index) => index == widget.items.length
+                    ? PosterPlaceHolder(
+                        onTap: widget.onLabelClick ?? () {},
+                        aspectRatio: widget.dominantRatio ?? AdaptiveLayout.poster(context).ratio,
+                      )
+                    : Container(
+                        key: index == 0 ? _firstItemKey : null,
+                        child: widget.itemBuilder(context, index),
+                      ),
+                separatorBuilder: (context, index) => SizedBox(width: contentPadding),
+                itemCount: widget.onLabelClick != null && AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad
+                    ? widget.items.length + 1
+                    : widget.items.length,
+              ),
             ),
           ),
-        ),
-        if ((widget.label != null || widget.titleActions.isNotEmpty) &&
-            widget.titleActionsPosition == VerticalDirection.down)
-          titleBarWidget,
-      ],
+          if (hasLabel && widget.titleActionsPosition == VerticalDirection.down) titleBarWidget,
+        ],
+      ),
     );
   }
 

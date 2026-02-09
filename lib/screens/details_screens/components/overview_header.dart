@@ -78,7 +78,7 @@ class OverviewHeader extends ConsumerWidget {
         );
 
     final fullHeight =
-        (MediaQuery.sizeOf(context).height - (MediaQuery.paddingOf(context).top + 150)).clamp(50, 1250).toDouble();
+        (MediaQuery.sizeOf(context).height - (MediaQuery.paddingOf(context).top + 50)).clamp(50, 1250).toDouble();
 
     final isPhone = AdaptiveLayout.viewSizeOf(context) == ViewSize.phone;
 
@@ -204,7 +204,7 @@ class OverviewHeader extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: crossAlignment,
           mainAxisSize: MainAxisSize.min,
-          spacing: 16,
+          spacing: 12,
           children: [
             if (!isPhone)
               Flexible(
@@ -298,27 +298,31 @@ class OverviewHeader extends ConsumerWidget {
             ),
             if (summary != null) summary!,
             if (AdaptiveLayout.viewSizeOf(context) <= ViewSize.phone)
-              ...[
-                if (mainButton != null) mainButton!,
-                if (mediaStreamHelper != null)
-                  Center(
-                    child: FittedBox(
-                      child: Row(
-                        spacing: 4,
-                        mainAxisSize: MainAxisSize.min,
-                        children: streamOptionsButtons,
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                spacing: 6,
+                children: [
+                  if (mainButton != null) mainButton!,
+                  if (mediaStreamHelper != null)
+                    Center(
+                      child: FittedBox(
+                        child: Row(
+                          spacing: 4,
+                          mainAxisSize: MainAxisSize.min,
+                          children: streamOptionsButtons,
+                        ),
                       ),
                     ),
-                  ),
-                if (centerButtons != null) centerButtons!,
-              ].addInBetween(
-                Center(
-                  child: Container(
-                    width: 12,
-                    height: 2,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.onSurface.withAlpha(64),
-                      borderRadius: FladderTheme.smallShape.borderRadius,
+                  if (centerButtons != null) centerButtons!,
+                ].addInBetween(
+                  Center(
+                    child: Container(
+                      width: 12,
+                      height: 2,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.onSurface.withAlpha(64),
+                        borderRadius: FladderTheme.smallShape.borderRadius,
+                      ),
                     ),
                   ),
                 ),
@@ -426,14 +430,12 @@ class MetadataLabels extends StatelessWidget {
             icon: watched == true ? IconsaxPlusBold.eye : IconsaxPlusLinear.eye_slash,
             color: Theme.of(context).colorScheme.primary,
             iconColor: Theme.of(context).colorScheme.onPrimary,
-            label: const SizedBox.shrink(),
           ),
         if (favourite != null)
           SimpleLabel(
             icon: favourite == true ? IconsaxPlusBold.heart : IconsaxPlusLinear.heart,
             color: Theme.of(context).colorScheme.error,
             iconColor: Theme.of(context).colorScheme.onError,
-            label: const SizedBox.shrink(),
           ),
       ].addInBetween(CircleAvatar(
         radius: 3,
@@ -446,13 +448,13 @@ class MetadataLabels extends StatelessWidget {
 class SimpleLabel extends StatelessWidget {
   final IconData? icon;
   final Widget? iconWidget;
-  final Widget label;
+  final Widget? label;
   final Color? color;
   final Color? iconColor;
   const SimpleLabel({
     this.icon,
     this.iconWidget,
-    required this.label,
+    this.label,
     this.color,
     this.iconColor,
     super.key,
@@ -477,20 +479,16 @@ class SimpleLabel extends StatelessWidget {
             ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
+          spacing: 4,
           children: [
-            if (icon != null) ...[
+            if (icon != null)
               Icon(
                 icon,
                 size: 21,
                 color: iconColor ?? Theme.of(context).colorScheme.onSurface,
               ),
-              const SizedBox(width: 4),
-            ],
-            if (iconWidget != null) ...[
-              iconWidget!,
-              const SizedBox(width: 4),
-            ],
-            label,
+            if (iconWidget != null) iconWidget!,
+            if (label != null) label!
           ],
         ),
       ),
