@@ -1516,5 +1516,9 @@
     "screenshotCleanTaken": "Screenshot senza sottotitoli salvato!",
     "@screenshotCleanTaken": {},
     "errorTakingScreenshot": "Si è verificato un errore durante l'acquisizione dello screenshot",
-    "@errorTakingScreenshot": {}
+    "@errorTakingScreenshot": {},
+    "enableDoubleTapSeekTitle": "Doppio tap per avanzare/indietreggiare/play/pausa",
+    "@enableDoubleTapSeekTitle": {},
+    "enableDoubleTapSeekDesc": "Doppio tap a sinistra/destra dello schermo per avanzare/indietreggiare. Doppio tap al centro per play/pausa",
+    "@enableDoubleTapSeekDesc": {}
 }

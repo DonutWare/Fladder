@@ -12,14 +12,21 @@ import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/util/input_handler.dart';
 import 'package:fladder/util/localization_helper.dart';
 
-/// Provider to trigger the seek indicator from outside (e.g., double-tap).
-/// The value is the number of seconds (positive for forward, negative for backward).
-/// Set to null when not triggered externally.
-final seekIndicatorTriggerProvider = StateProvider<int?>((ref) => null);
+/// Controller to trigger the seek indicator from outside (e.g., double-tap).
+/// The parent widget creates this controller and passes it to [VideoPlayerSeekIndicator],
+/// then calls [seekBack] or [seekForward] to trigger the indicator.
+class SeekIndicatorController {
+  VoidCallback? _seekBack;
+  VoidCallback? _seekForward;
+
+  void seekBack() => _seekBack?.call();
+  void seekForward() => _seekForward?.call();
+}
 
 class VideoPlayerSeekIndicator extends ConsumerStatefulWidget {
-  const VideoPlayerSeekIndicator({super.key});
+  final SeekIndicatorController? controller;
 
+  const VideoPlayerSeekIndicator({this.controller, super.key});
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => VideoPlayerSeekIndicatorState();
 }
@@ -29,6 +36,13 @@ class VideoPlayerSeekIndicatorState extends ConsumerState<VideoPlayerSeekIndicat
 
   bool visible = false;
   int seekPosition = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.controller?._seekBack = seekBack;
+    widget.controller?._seekForward = seekForward;
+  }
 
   void onSeekEnd() {
     setState(() {
@@ -59,18 +73,6 @@ class VideoPlayerSeekIndicatorState extends ConsumerState<VideoPlayerSeekIndicat
 
   @override
   Widget build(BuildContext context) {
-    // Listen for external triggers (e.g., double-tap seek)
-    ref.listen(
-      seekIndicatorTriggerProvider,
-      (previous, next) {
-        if (next != null) {
-          onSeekStart(next);
-          // Reset the provider after handling
-          Future.microtask(() => ref.read(seekIndicatorTriggerProvider.notifier).state = null);
-        }
-      },
-    );
-
     final isForward = seekPosition > 0;
     final displayValue = seekPosition.abs();
 

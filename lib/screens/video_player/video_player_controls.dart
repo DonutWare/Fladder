@@ -68,6 +68,8 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
 
   Offset? _doubleTapPosition;
 
+  final SeekIndicatorController _seekController = SeekIndicatorController();
+
   late final double topPadding = MediaQuery.of(context).viewPadding.top;
   late final double bottomPadding = MediaQuery.of(context).viewPadding.bottom;
 
@@ -151,7 +153,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                     ),
                   ),
                 ),
-                const VideoPlayerSeekIndicator(),
+                VideoPlayerSeekIndicator(controller: _seekController),
                 const VideoPlayerVolumeIndicator(),
                 const VideoPlayerSpeedIndicator(),
                 const VideoPlayerScreenshotIndicator(),
@@ -672,12 +674,12 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     ref.read(videoPlayerProvider).seek(Duration(seconds: newPosition));
   }
 
-  void seekBackWithIndicator(WidgetRef ref, {int seconds = 15}) {
-    ref.read(seekIndicatorTriggerProvider.notifier).state = -seconds;
+  void seekBackWithIndicator() {
+    _seekController.seekBack();
   }
 
-  void seekForwardWithIndicator(WidgetRef ref, {int seconds = 15}) {
-    ref.read(seekIndicatorTriggerProvider.notifier).state = seconds;
+  void seekForwardWithIndicator() {
+    _seekController.seekForward();
   }
 
   void toggleOverlay({bool? value}) {
@@ -808,15 +810,14 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
 
     final screenWidth = MediaQuery.sizeOf(context).width;
     final tapX = _doubleTapPosition?.dx ?? screenWidth / 2;
+    final zoneThird = screenWidth / 3;
 
-    if (tapX < screenWidth / 2) {
-      final backwardSpeed =
-          ref.read(userProvider.select((value) => value?.userSettings?.skipBackDuration.inSeconds ?? 30));
-      seekBackWithIndicator(ref, seconds: backwardSpeed);
+    if (tapX < zoneThird) {
+      seekBackWithIndicator();
+    } else if (tapX > zoneThird * 2) {
+      seekForwardWithIndicator();
     } else {
-      final forwardSpeed =
-          ref.read(userProvider.select((value) => value?.userSettings?.skipForwardDuration.inSeconds ?? 30));
-      seekForwardWithIndicator(ref, seconds: forwardSpeed);
+      ref.read(videoPlayerProvider).playOrPause();
     }
     _doubleTapPosition = null;
   }
