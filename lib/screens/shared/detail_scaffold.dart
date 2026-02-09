@@ -29,8 +29,8 @@ import 'package:fladder/widgets/shared/pull_to_refresh.dart';
 Future<Color?> getDominantColor(ImageProvider imageProvider) async {
   final paletteGenerator = await PaletteGeneratorMaster.fromImageProvider(
     imageProvider,
-    size: const Size(200, 200),
-    maximumColorCount: 20,
+    size: const Size(16, 16),
+    maximumColorCount: 2,
   );
 
   return paletteGenerator.dominantColor?.color;
@@ -85,7 +85,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
 
   Future<void> _updateDominantColor() async {
     if (!ref.read(clientSettingsProvider.select((value) => value.deriveColorsFromItem))) return;
-    final newImage = widget.item?.getPosters?.logo ?? widget.item?.getPosters?.primary ?? backgroundImage;
+    final newImage = widget.item?.getPosters?.logo;
     if (newImage == null || identical(newImage, _lastColorImage)) return;
     _lastColorImage = newImage;
 
