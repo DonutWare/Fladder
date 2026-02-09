@@ -1589,5 +1589,31 @@
                 "example": "1"
             }
         }
-    }
+    },
+    "enableNewTVLayoutDesc": "Afficher des bannières plus grandes, comme à la télévision, sur le tableau de bord. Ceci deviendra la disposition par défaut dans le futur.",
+    "homeBannerDetailed": "Détails",
+    "mediaTypeTV": "{count, plural, one{Chaîne TV} other{Chaînes TV}}",
+    "@mediaTypeTV": {
+        "description": "TV Channel (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "showLess": "Moins",
+    "seerrHeader": "En-tête",
+    "watch": "Regarder",
+    "watchChannel": "Regarder {channel}",
+    "@watchChannel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            }
+        }
+    },
+    "switchChannel": "Changer de chaîne",
+    "activeTvChannels": "Chaînes TV actives",
+    "enableNewTVLayout": "Activer la nouvelle disposition TV"
 }
