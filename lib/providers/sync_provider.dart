@@ -38,7 +38,7 @@ import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/sync/background_download_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
-import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/string_extensions.dart';
@@ -276,15 +276,15 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
         String? selectedDirectory =
             await FilePicker.platform.getDirectoryPath(dialogTitle: context.localized.syncSelectDownloadsFolder);
         if (selectedDirectory?.isEmpty == true && context.mounted) {
-          fladderSnackbar(context, title: context.localized.syncNoFolderSetup);
+          FladderSnack.show(context.localized.syncNoFolderSetup, context: context);
           return;
         }
         ref.read(clientSettingsProvider.notifier).setSyncPath(selectedDirectory);
       }
 
       if (context.mounted) {
-        fladderSnackbar(context,
-            title: context.localized.syncAddItemForSyncing(item.detailedName(context) ?? "Unknown"));
+        FladderSnack.show(context.localized.syncAddItemForSyncing(item.detailedName(context) ?? "Unknown"),
+            context: context);
       }
       final newSync = switch (item) {
         EpisodeModel episode => await syncSeries(item.parentBaseModel, episode: episode),
@@ -294,17 +294,18 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
         _ => null
       };
       if (context.mounted) {
-        fladderSnackbar(context,
-            title: newSync != null
+        FladderSnack.show(
+            newSync != null
                 ? context.localized.startedSyncingItem(item.detailedName(context) ?? "Unknown")
-                : context.localized.unableToSyncItem(item.detailedName(context) ?? "Unknown"));
+                : context.localized.unableToSyncItem(item.detailedName(context) ?? "Unknown"),
+            context: context);
       }
 
       return;
     } catch (e) {
       log('Error adding sync item: ${e.toString()}');
       if (context?.mounted == true) {
-        fladderSnackbar(context!, title: context.localized.somethingWentWrong);
+        FladderSnack.show(context!.localized.somethingWentWrong, context: context);
       }
     }
   }
@@ -345,7 +346,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     } catch (e) {
       log('Error deleting synced item ${e.toString()}');
       state = state.copyWith(items: state.items.map((e) => e.copyWith(markedForDelete: false)).toList());
-      fladderSnackbar(context, title: context.localized.syncRemoveUnableToDeleteItem);
+      FladderSnack.show(context.localized.syncRemoveUnableToDeleteItem, context: context);
       return false;
     }
   }

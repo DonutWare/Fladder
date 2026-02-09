@@ -345,7 +345,7 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
             },
             builder: (context, child) => MediaQueryScaler(
               child: LocalizationContextWrapper(
-                child: ScaffoldMessenger(child: child ?? Container()),
+                child: child ?? Container(),
                 currentLocale: language,
               ),
               enable: ref.read(argumentsStateProvider).leanBackMode,

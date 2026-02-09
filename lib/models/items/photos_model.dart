@@ -12,7 +12,7 @@ import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/overview_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
-import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 
@@ -153,7 +153,7 @@ class PhotoModel extends ItemBaseModel with PhotoModelMappable {
 
   Future<void> navigateToAlbum(BuildContext context) async {
     if ((albumId ?? parentId) == null) {
-      fladderSnackbar(context, title: context.localized.notPartOfAlbum);
+      FladderSnack.show(context.localized.notPartOfAlbum, context: context);
       return;
     }
     await parentBaseModel.navigateTo(context);

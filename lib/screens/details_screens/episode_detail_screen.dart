@@ -11,7 +11,7 @@ import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/details_screens/components/media_stream_information.dart';
 import 'package:fladder/screens/details_screens/components/overview_header.dart';
 import 'package:fladder/screens/shared/detail_scaffold.dart';
-import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/media/chapter_row.dart';
 import 'package:fladder/screens/shared/media/components/media_play_button.dart';
 import 'package:fladder/screens/shared/media/episode_posters.dart';
@@ -199,7 +199,8 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                           .moreFrom("${context.localized.season(1).toLowerCase()} ${episodeDetails.season}"),
                       onEpisodeTap: (action, episodeModel) {
                         if (episodeModel.id == episodeDetails.id) {
-                          fladderSnackbar(context, title: context.localized.selectedWith(context.localized.episode(0)));
+                          FladderSnack.show(context.localized.selectedWith(context.localized.episode(0)),
+                              context: context);
                         } else {
                           action();
                         }

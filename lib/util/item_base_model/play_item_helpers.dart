@@ -18,8 +18,8 @@ import 'package:fladder/providers/book_viewer_provider.dart';
 import 'package:fladder/providers/items/book_details_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/book_viewer/book_viewer_screen.dart';
-import 'package:fladder/screens/shared/fladder_snackbar.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/list_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -72,7 +72,7 @@ Future<void> _playVideo(
   if (current == null) {
     if (context.mounted) {
       Navigator.of(context, rootNavigator: true).pop();
-      fladderSnackbar(context, title: context.localized.unableToPlayMedia);
+      FladderSnack.show(context.localized.unableToPlayMedia, context: context);
     }
     return;
   }
@@ -87,7 +87,7 @@ Future<void> _playVideo(
   if (!loadedCorrectly) {
     if (context.mounted) {
       Navigator.of(context, rootNavigator: true).pop();
-      fladderSnackbar(context, title: context.localized.errorOpeningMedia);
+      FladderSnack.show(context.localized.errorOpeningMedia, context: context);
     }
     return;
   }
@@ -118,7 +118,7 @@ extension BookBaseModelExtension on BookModel? {
     BuildContext? parentContext,
   }) async {
     if (kIsWeb) {
-      fladderSnackbar(context, title: context.localized.unableToPlayBooksOnWeb);
+      FladderSnack.show(context.localized.unableToPlayBooksOnWeb, context: context);
       return;
     }
     if (this == null) {

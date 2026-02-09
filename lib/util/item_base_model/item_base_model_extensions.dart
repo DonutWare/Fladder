@@ -20,7 +20,7 @@ import 'package:fladder/screens/metadata/identifty_screen.dart';
 import 'package:fladder/screens/metadata/info_screen.dart';
 import 'package:fladder/screens/metadata/refresh_metadata.dart';
 import 'package:fladder/screens/playlists/add_to_playlists.dart';
-import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/syncing/sync_button.dart';
 import 'package:fladder/screens/syncing/sync_item_details.dart';
 import 'package:fladder/seerr/seerr_models.dart';
@@ -325,7 +325,9 @@ extension ItemBaseModelExtensions on ItemBaseModel {
                 context.refreshData();
               }
             } else {
-              fladderSnackbarResponse(context, response);
+              if (response != null) {
+                FladderSnack.showResponse(response: response);
+              }
             }
           },
           label: Text(context.localized.delete),
