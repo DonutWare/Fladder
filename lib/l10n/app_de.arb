@@ -1657,5 +1657,6 @@
     "homeBannerTV": "TV",
     "showLess": "Weniger anzeigen",
     "activeTvChannels": "Aktive TV Kanäle",
-    "enableNewTVLayout": "Neues TV Layout aktivieren"
+    "enableNewTVLayout": "Neues TV Layout aktivieren",
+    "enableNewTVLayoutDesc": "Zeige größere TV-Stil Banner auf dem Dashboard. Dies wird zum Standardlayout in einer zukünftigen Version."
 }
