@@ -1652,5 +1652,10 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "homeBannerDetailed": "Ausführlich",
+    "homeBannerTV": "TV",
+    "showLess": "Weniger anzeigen",
+    "activeTvChannels": "Aktive TV Kanäle",
+    "enableNewTVLayout": "Neues TV Layout aktivieren"
 }
