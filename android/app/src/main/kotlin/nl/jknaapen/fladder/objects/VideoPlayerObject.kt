@@ -104,5 +104,17 @@ object VideoPlayerObject {
         guideVisible.value = !guideVisible.value
     }
 
+    // SyncPlay command state for overlay
+    data class SyncPlayCommandState(
+        val processing: Boolean = false,
+        val commandType: String? = null
+    )
+
+    val syncPlayCommandState = MutableStateFlow(SyncPlayCommandState())
+
+    fun setSyncPlayCommandState(processing: Boolean, commandType: String?) {
+        syncPlayCommandState.value = SyncPlayCommandState(processing, commandType)
+    }
+
     var currentActivity: VideoPlayerActivity? = null
 }

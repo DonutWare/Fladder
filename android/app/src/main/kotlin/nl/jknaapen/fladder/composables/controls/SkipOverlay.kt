@@ -69,7 +69,8 @@ internal fun BoxScope.SegmentSkipOverlay(
     val currentSegmentId = activeSegment?.let { "${it.type}-${it.start}-${it.end}" }
 
     fun skipSegment(segment: MediaSegment, segmentId: String) {
-        player.seekTo(segment.end + 250.milliseconds.inWholeMilliseconds)
+        // Route through Flutter for SyncPlay support
+        VideoPlayerObject.videoPlayerControls?.onUserSeek(segment.end + 250.milliseconds.inWholeMilliseconds) {}
         skippedSegments.add(segmentId)
     }
 
@@ -108,7 +109,8 @@ internal fun BoxScope.SegmentSkipOverlay(
             enableScaledFocus = true,
             onClick = {
                 activeSegment?.let {
-                    player.seekTo(it.end)
+                    // Route through Flutter for SyncPlay support
+                    VideoPlayerObject.videoPlayerControls?.onUserSeek(it.end) {}
                 }
             }
         ) {

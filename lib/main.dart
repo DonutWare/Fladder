@@ -25,6 +25,7 @@ import 'package:fladder/models/settings/arguments_model.dart';
 import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/providers/crash_log_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
+import 'package:fladder/providers/router_provider.dart';
 import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
@@ -201,6 +202,11 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     windowManager.addListener(this);
+    // Make router available globally for SyncPlay and other providers
+    // Deferred to avoid modifying provider during build phase
+    Future.microtask(() {
+      ref.read(routerProvider.notifier).state = autoRouter;
+    });
     _init();
   }
 

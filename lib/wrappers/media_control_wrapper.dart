@@ -117,6 +117,16 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     }
   }
 
+  /// Check if the native Android player is currently active
+  bool get isNativePlayerActive => _player is NativePlayer;
+
+  /// Update SyncPlay command state for the native player overlay
+  Future<void> updateSyncPlayCommandState(bool processing, String? commandType) async {
+    if (_player is NativePlayer) {
+      await (_player as NativePlayer).player.setSyncPlayCommandState(processing, commandType);
+    }
+  }
+
   Future<void> openPlayer(BuildContext context) async => _player?.open(context);
 
   void _subscribePlayer() {
@@ -411,6 +421,22 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
               subTitle: context != null ? p.subLabel(context) : null,
             ))
         .toList();
+  }
+
+  // SyncPlay-aware user actions from native player
+  @override
+  void onUserPlay() {
+    ref.read(videoPlayerProvider.notifier).userPlay();
+  }
+
+  @override
+  void onUserPause() {
+    ref.read(videoPlayerProvider.notifier).userPause();
+  }
+
+  @override
+  void onUserSeek(int positionMs) {
+    ref.read(videoPlayerProvider.notifier).userSeek(Duration(milliseconds: positionMs));
   }
 
   Future<Uint8List?> takeScreenshot() {

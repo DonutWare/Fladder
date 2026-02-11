@@ -4,7 +4,8 @@ import 'package:pigeon/pigeon.dart';
   PigeonOptions(
     dartOut: 'lib/src/video_player_helper.g.dart',
     dartOptions: DartOptions(),
-    kotlinOut: 'android/app/src/main/kotlin/nl/jknaapen/fladder/api/VideoPlayerHelper.g.kt',
+    kotlinOut:
+        'android/app/src/main/kotlin/nl/jknaapen/fladder/api/VideoPlayerHelper.g.kt',
     kotlinOptions: KotlinOptions(),
     dartPackageName: 'nl_jknaapen_fladder.video',
   ),
@@ -211,6 +212,11 @@ abstract class VideoPlayerApi {
   void seekTo(int position);
 
   void stop();
+
+  /// Sets the SyncPlay command state for the native player overlay.
+  /// [processing] indicates if a SyncPlay command is being processed.
+  /// [commandType] is the type of command (e.g., "Pause", "Unpause", "Seek", "Stop").
+  void setSyncPlayCommandState(bool processing, String? commandType);
 }
 
 class PlaybackState {
@@ -303,4 +309,14 @@ abstract class VideoPlayerControlsCallback {
   void loadProgram(GuideChannel selection);
   @async
   List<GuideProgram> fetchProgramsForChannel(String channelId);
+
+  /// User-initiated play action from native player (for SyncPlay integration)
+  void onUserPlay();
+
+  /// User-initiated pause action from native player (for SyncPlay integration)
+  void onUserPause();
+
+  /// User-initiated seek action from native player (for SyncPlay integration)
+  /// Position is in milliseconds
+  void onUserSeek(int positionMs);
 }

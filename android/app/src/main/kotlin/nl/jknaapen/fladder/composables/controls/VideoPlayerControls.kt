@@ -73,6 +73,7 @@ import nl.jknaapen.fladder.composables.dialogs.AudioPicker
 import nl.jknaapen.fladder.composables.dialogs.ChapterSelectionSheet
 import nl.jknaapen.fladder.composables.dialogs.PlaybackSpeedPicker
 import nl.jknaapen.fladder.composables.dialogs.SubtitlePicker
+import nl.jknaapen.fladder.composables.overlays.SyncPlayCommandOverlay
 import nl.jknaapen.fladder.composables.shared.CurrentTime
 import nl.jknaapen.fladder.objects.PlayerSettingsObject
 import nl.jknaapen.fladder.objects.VideoPlayerObject
@@ -151,7 +152,8 @@ fun CustomVideoControls(
     LaunchedEffect(lastSeekInteraction.longValue) {
         delay(1.seconds)
         if (currentSkipTime == 0L) return@LaunchedEffect
-        player?.seekTo(position + currentSkipTime)
+        // Route through Flutter for SyncPlay support
+        VideoPlayerObject.videoPlayerControls?.onUserSeek(position + currentSkipTime) {}
         currentSkipTime = 0L
     }
 
@@ -176,17 +178,19 @@ fun CustomVideoControls(
                     }
 
                     Key.MediaPlay -> {
-                        player?.play()
+                        // Route through Flutter for SyncPlay support
+                        VideoPlayerObject.videoPlayerControls?.onUserPlay {}
                         return@keyEvent true
                     }
 
                     Key.MediaPlayPause -> {
                         player?.let {
                             if (it.isPlaying) {
-                                it.pause()
+                                // Route through Flutter for SyncPlay support
+                                VideoPlayerObject.videoPlayerControls?.onUserPause {}
                                 updateLastInteraction()
                             } else {
-                                it.play()
+                                VideoPlayerObject.videoPlayerControls?.onUserPlay {}
                             }
                         }
                         return@keyEvent true
@@ -194,7 +198,8 @@ fun CustomVideoControls(
                     }
 
                     Key.MediaPause, Key.P -> {
-                        player?.pause()
+                        // Route through Flutter for SyncPlay support
+                        VideoPlayerObject.videoPlayerControls?.onUserPause {}
                         updateLastInteraction()
                         return@keyEvent true
                     }
@@ -355,6 +360,7 @@ fun CustomVideoControls(
         }
         SegmentSkipOverlay()
         SeekOverlay(value = currentSkipTime)
+        SyncPlayCommandOverlay()
         if (buffering && !playing) {
             CircularProgressIndicator(
                 modifier = Modifier
@@ -387,7 +393,8 @@ fun CustomVideoControls(
     if (showChapterDialog) {
         ChapterSelectionSheet(
             onSelected = {
-                exoPlayer.seekTo(it.time)
+                // Route through Flutter for SyncPlay support
+                VideoPlayerObject.videoPlayerControls?.onUserSeek(it.time) {}
                 showChapterDialog = false
             },
             onDismiss = {
@@ -448,9 +455,10 @@ fun PlaybackButtons(
             }
             CustomButton(
                 onClick = {
-                    player.seekTo(
-                        player.currentPosition - backwardSpeed.inWholeMilliseconds
-                    )
+                    // Route through Flutter for SyncPlay support
+                VideoPlayerObject.videoPlayerControls?.onUserSeek(
+                    player.currentPosition - backwardSpeed.inWholeMilliseconds
+                ) {}
                 },
             ) {
                 Box(
@@ -476,11 +484,12 @@ fun PlaybackButtons(
                 .defaultSelected(true),
             enableScaledFocus = true,
             onClick = {
+                // Route through Flutter for SyncPlay support
                 if (player.isPlaying) {
-                    player.pause()
+                    VideoPlayerObject.videoPlayerControls?.onUserPause {}
                     onPause()
                 } else {
-                    player.play()
+                    VideoPlayerObject.videoPlayerControls?.onUserPlay {}
                 }
             },
         ) {
@@ -493,9 +502,10 @@ fun PlaybackButtons(
         if (!isTVMode) {
             CustomButton(
                 onClick = {
-                    player.seekTo(
-                        player.currentPosition + forwardSpeed.inWholeMilliseconds
-                    )
+                    // Route through Flutter for SyncPlay support
+                VideoPlayerObject.videoPlayerControls?.onUserSeek(
+                    player.currentPosition + forwardSpeed.inWholeMilliseconds
+                ) {}
                 },
             ) {
                 Box(

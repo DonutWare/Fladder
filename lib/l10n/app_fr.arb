@@ -801,6 +801,106 @@
     "@switchUser": {},
     "sync": "Synchroniser",
     "@sync": {},
+    "syncPlay": "SyncPlay",
+    "@syncPlay": {
+        "description": "SyncPlay - fonctionnalité de lecture synchronisée"
+    },
+    "syncPlayCreateGroup": "Créer un groupe SyncPlay",
+    "@syncPlayCreateGroup": {},
+    "syncPlayGroupName": "Nom du groupe",
+    "@syncPlayGroupName": {},
+    "syncPlayGroupNameHint": "Soirée cinéma",
+    "@syncPlayGroupNameHint": {},
+    "syncPlayCreatedGroup": "Groupe \"{groupName}\" créé",
+    "@syncPlayCreatedGroup": {
+        "placeholders": {
+            "groupName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncPlayFailedToCreateGroup": "Échec de la création du groupe",
+    "@syncPlayFailedToCreateGroup": {},
+    "syncPlayJoinedGroup": "Rejoint \"{groupName}\"",
+    "@syncPlayJoinedGroup": {
+        "placeholders": {
+            "groupName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncPlayFailedToJoinGroup": "Échec de la connexion au groupe",
+    "@syncPlayFailedToJoinGroup": {},
+    "syncPlayLeftGroup": "Groupe SyncPlay quitté",
+    "@syncPlayLeftGroup": {},
+    "syncPlayFailedToLoadGroups": "Échec du chargement des groupes",
+    "@syncPlayFailedToLoadGroups": {},
+    "syncPlayNoActiveGroups": "Aucun groupe actif",
+    "@syncPlayNoActiveGroups": {},
+    "syncPlayCreateGroupHint": "Créez un groupe pour regarder ensemble",
+    "@syncPlayCreateGroupHint": {},
+    "syncPlayCreateGroupButton": "Créer un groupe",
+    "@syncPlayCreateGroupButton": {},
+    "syncPlayGroupFallback": "Groupe SyncPlay",
+    "@syncPlayGroupFallback": {},
+    "syncPlayParticipants": "{count, plural, =1{1 participant} other{{count} participants}}",
+    "@syncPlayParticipants": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "syncPlayInstructions": "Parcourez votre bibliothèque et lancez une lecture pour synchroniser avec le groupe.",
+    "@syncPlayInstructions": {},
+    "syncPlayUnnamedGroup": "Groupe sans nom",
+    "@syncPlayUnnamedGroup": {},
+    "syncPlayStateIdle": "Inactif",
+    "@syncPlayStateIdle": {},
+    "syncPlayStateWaiting": "En attente des autres...",
+    "@syncPlayStateWaiting": {},
+    "syncPlayStatePaused": "En pause",
+    "@syncPlayStatePaused": {},
+    "syncPlayStatePlaying": "Lecture en cours",
+    "@syncPlayStatePlaying": {},
+    "syncPlaySyncingPause": "Synchronisation pause...",
+    "@syncPlaySyncingPause": {},
+    "syncPlaySyncingPlay": "Synchronisation lecture...",
+    "@syncPlaySyncingPlay": {},
+    "syncPlaySyncingSeek": "Synchronisation position...",
+    "@syncPlaySyncingSeek": {},
+    "syncPlayStopping": "Arrêt...",
+    "@syncPlayStopping": {},
+    "syncPlaySyncing": "Synchronisation...",
+    "@syncPlaySyncing": {},
+    "syncPlayCommandPausing": "Mise en pause",
+    "@syncPlayCommandPausing": {},
+    "syncPlayCommandPlaying": "Lecture",
+    "@syncPlayCommandPlaying": {},
+    "syncPlayCommandSeeking": "Recherche",
+    "@syncPlayCommandSeeking": {},
+    "syncPlayCommandStopping": "Arrêt",
+    "@syncPlayCommandStopping": {},
+    "syncPlayCommandSyncing": "Synchronisation",
+    "@syncPlayCommandSyncing": {},
+    "syncPlaySyncingWithGroup": "Synchronisation avec le groupe...",
+    "@syncPlaySyncingWithGroup": {},
+    "syncPlayUserJoined": "{userName} a rejoint le groupe",
+    "@syncPlayUserJoined": {
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncPlayUserLeft": "{userName} a quitté le groupe",
+    "@syncPlayUserLeft": {
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
     "syncDeleteItemDesc": "Supprimer toutes les données synchronisées pour {item} ?",
     "@syncDeleteItemDesc": {
         "description": "Fenêtre contextuelle de suppression d'élément synchronisé",

@@ -1340,6 +1340,32 @@ class VideoPlayerApi {
       return;
     }
   }
+
+  /// Sets the SyncPlay command state for the native player overlay.
+  /// [processing] indicates if a SyncPlay command is being processed.
+  /// [commandType] is the type of command (e.g., "Pause", "Unpause", "Seek", "Stop").
+  Future<void> setSyncPlayCommandState(bool processing, String? commandType) async {
+    final String pigeonVar_channelName = 'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.setSyncPlayCommandState$pigeonVar_messageChannelSuffix';
+    final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[processing, commandType]);
+    final List<Object?>? pigeonVar_replyList =
+        await pigeonVar_sendFuture as List<Object?>?;
+    if (pigeonVar_replyList == null) {
+      throw _createConnectionError(pigeonVar_channelName);
+    } else if (pigeonVar_replyList.length > 1) {
+      throw PlatformException(
+        code: pigeonVar_replyList[0]! as String,
+        message: pigeonVar_replyList[1] as String?,
+        details: pigeonVar_replyList[2],
+      );
+    } else {
+      return;
+    }
+  }
 }
 
 abstract class VideoPlayerListenerCallback {
@@ -1393,6 +1419,16 @@ abstract class VideoPlayerControlsCallback {
   void loadProgram(GuideChannel selection);
 
   Future<List<GuideProgram>> fetchProgramsForChannel(String channelId);
+
+  /// User-initiated play action from native player (for SyncPlay integration)
+  void onUserPlay();
+
+  /// User-initiated pause action from native player (for SyncPlay integration)
+  void onUserPause();
+
+  /// User-initiated seek action from native player (for SyncPlay integration)
+  /// Position is in milliseconds
+  void onUserSeek(int positionMs);
 
   static void setUp(VideoPlayerControlsCallback? api, {BinaryMessenger? binaryMessenger, String messageChannelSuffix = '',}) {
     messageChannelSuffix = messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '';
@@ -1545,6 +1581,69 @@ abstract class VideoPlayerControlsCallback {
           try {
             final List<GuideProgram> output = await api.fetchProgramsForChannel(arg_channelId!);
             return wrapResponse(result: output);
+          } on PlatformException catch (e) {
+            return wrapResponse(error: e);
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
+          }
+        });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.onUserPlay$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
+      if (api == null) {
+        pigeonVar_channel.setMessageHandler(null);
+      } else {
+        pigeonVar_channel.setMessageHandler((Object? message) async {
+          try {
+            api.onUserPlay();
+            return wrapResponse(empty: true);
+          } on PlatformException catch (e) {
+            return wrapResponse(error: e);
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
+          }
+        });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.onUserPause$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
+      if (api == null) {
+        pigeonVar_channel.setMessageHandler(null);
+      } else {
+        pigeonVar_channel.setMessageHandler((Object? message) async {
+          try {
+            api.onUserPause();
+            return wrapResponse(empty: true);
+          } on PlatformException catch (e) {
+            return wrapResponse(error: e);
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
+          }
+        });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.onUserSeek$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
+      if (api == null) {
+        pigeonVar_channel.setMessageHandler(null);
+      } else {
+        pigeonVar_channel.setMessageHandler((Object? message) async {
+          assert(message != null,
+          'Argument for dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.onUserSeek was null.');
+          final List<Object?> args = (message as List<Object?>?)!;
+          final int? arg_positionMs = (args[0] as int?);
+          assert(arg_positionMs != null,
+              'Argument for dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.onUserSeek was null, expected non-null int.');
+          try {
+            api.onUserSeek(arg_positionMs!);
+            return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
           }          catch (e) {

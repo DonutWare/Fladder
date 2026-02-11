@@ -1,23 +1,25 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:fladder/models/media_playback_model.dart';
+import 'package:fladder/models/playback/playback_model.dart';
+import 'package:fladder/models/syncplay/syncplay_models.dart';
+import 'package:fladder/providers/settings/client_settings_provider.dart';
+import 'package:fladder/providers/settings/video_player_settings_provider.dart';
+import 'package:fladder/providers/syncplay/syncplay_provider.dart';
+import 'package:fladder/util/debouncer.dart';
+import 'package:fladder/wrappers/media_control_wrapper.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' as p;
 
-import 'package:fladder/models/media_playback_model.dart';
-import 'package:fladder/models/playback/playback_model.dart';
-import 'package:fladder/providers/settings/client_settings_provider.dart';
-import 'package:fladder/providers/settings/video_player_settings_provider.dart';
-import 'package:fladder/util/debouncer.dart';
-import 'package:fladder/wrappers/media_control_wrapper.dart';
-
-final mediaPlaybackProvider = StateProvider<MediaPlaybackModel>((ref) => MediaPlaybackModel());
+final mediaPlaybackProvider =
+    StateProvider<MediaPlaybackModel>((ref) => MediaPlaybackModel());
 
 final playBackModel = StateProvider<PlaybackModel?>((ref) => null);
 
-final videoPlayerProvider = StateNotifierProvider<VideoPlayerNotifier, MediaControlsWrapper>((ref) {
+final videoPlayerProvider =
+    StateNotifierProvider<VideoPlayerNotifier, MediaControlsWrapper>((ref) {
   final videoPlayer = VideoPlayerNotifier(ref);
   videoPlayer.init();
   return videoPlayer;
@@ -36,8 +38,31 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
 
   final Debouncer debouncer = Debouncer(const Duration(milliseconds: 125));
 
+  /// Flag to indicate if the current action is initiated by SyncPlay
+  bool _syncPlayAction = false;
+
+  /// Flag to indicate if we are reloading the video (e.g. for transcoding or audio track change)
+  bool _isReloading = false;
+
+  /// Timestamp of last SyncPlay command execution (for cooldown)
+  DateTime? _lastSyncPlayCommandTime;
+
+  /// Cooldown period after SyncPlay command during which we don't auto-report ready
+  static const _syncPlayCooldown = Duration(milliseconds: 500);
+
+  /// Check if SyncPlay is active
+  bool get _isSyncPlayActive => ref.read(isSyncPlayActiveProvider);
+
+  /// Check if we're in the SyncPlay cooldown period
+  bool get _inSyncPlayCooldown {
+    if (_lastSyncPlayCommandTime == null) return false;
+    return DateTime.now().difference(_lastSyncPlayCommandTime!) <
+        _syncPlayCooldown;
+  }
+
   void init() async {
     debouncer.run(() async {
+      _isReloading = false;
       await state.dispose();
       await state.init();
 
@@ -56,11 +81,109 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
       if (subscription != null) {
         subscriptions.add(subscription);
       }
+
+      // Register player callbacks with SyncPlay
+      _registerSyncPlayCallbacks();
+
+      // Listen to SyncPlay state changes for native player overlay
+      _setupSyncPlayStateListener();
     });
   }
 
-  Future<void> updateBuffering(bool event) async =>
-      mediaState.update((state) => state.buffering == event ? state : state.copyWith(buffering: event));
+  /// Set up listener to forward SyncPlay command state to native player
+  void _setupSyncPlayStateListener() {
+    ref.listen<SyncPlayState>(
+      syncPlayProvider,
+      (previous, next) {
+        // Only forward to native player if it's active
+        if (state.isNativePlayerActive) {
+          // Check if the relevant state changed
+          if (previous?.isProcessingCommand != next.isProcessingCommand ||
+              previous?.processingCommandType != next.processingCommandType) {
+            state.updateSyncPlayCommandState(
+              next.isProcessingCommand,
+              next.processingCommandType,
+            );
+          }
+        }
+      },
+    );
+  }
+
+  /// Manually set the reloading state (e.g. before fetching new PlaybackInfo)
+  void setReloading(bool value) {
+    _isReloading = value;
+    if (value && _isSyncPlayActive) {
+      ref.read(syncPlayProvider.notifier).reportBuffering();
+    }
+  }
+
+  /// Register player callbacks with SyncPlay controller
+  void _registerSyncPlayCallbacks() {
+    ref.read(syncPlayProvider.notifier).registerPlayer(
+          onPlay: () async {
+            _syncPlayAction = true;
+            _lastSyncPlayCommandTime = DateTime.now();
+            await state.play();
+            _syncPlayAction = false;
+          },
+          onPause: () async {
+            _syncPlayAction = true;
+            _lastSyncPlayCommandTime = DateTime.now();
+            await state.pause();
+            _syncPlayAction = false;
+          },
+          onSeek: (positionTicks) async {
+            _syncPlayAction = true;
+            _lastSyncPlayCommandTime = DateTime.now();
+            final position = Duration(microseconds: positionTicks ~/ 10);
+            await state.seek(position);
+            _syncPlayAction = false;
+          },
+          onSeekRequested: (positionTicks) async {
+            // This is called when another user seeks, we should report buffering immediately
+            _isReloading = true;
+            ref.read(syncPlayProvider.notifier).reportBuffering();
+          },
+          onStop: () async {
+            _syncPlayAction = true;
+            _lastSyncPlayCommandTime = DateTime.now();
+            await state.stop();
+            _syncPlayAction = false;
+          },
+          getPositionTicks: () {
+            final position = playbackState.position;
+            return secondsToTicks(position.inMilliseconds / 1000);
+          },
+          isPlaying: () => playbackState.playing,
+          isBuffering: () => _isReloading || playbackState.buffering,
+        );
+  }
+
+  Future<void> updateBuffering(bool event) async {
+    final oldState = playbackState;
+    if (oldState.buffering == event) return;
+
+    mediaState.update((state) => state.copyWith(buffering: event));
+
+    // Report buffering state to SyncPlay if active
+    // Skip if we're in the cooldown period after a SyncPlay command to prevent feedback loops
+    // Also skip if we are currently reloading (we'll report manually when done)
+    if (_isSyncPlayActive &&
+        !_syncPlayAction &&
+        !_inSyncPlayCooldown &&
+        !_isReloading) {
+      if (event) {
+        // Started buffering
+        ref.read(syncPlayProvider.notifier).reportBuffering();
+      } else {
+        // Finished buffering - ready
+        ref
+            .read(syncPlayProvider.notifier)
+            .reportReady(isPlaying: playbackState.playing);
+      }
+    }
+  }
 
   Future<void> updateBuffer(Duration buffer) async {
     mediaState.update(
@@ -88,7 +211,8 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     mediaState.update(
       (state) => state.copyWith(playing: event),
     );
-    ref.read(playBackModel)?.updatePlaybackPosition(currentState.position, currentState.playing, ref);
+    ref.read(playBackModel)?.updatePlaybackPosition(
+        currentState.position, currentState.playing, ref);
   }
 
   Future<void> updatePosition(Duration event) async {
@@ -109,7 +233,9 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
             position: event,
             lastPosition: position,
           ));
-      ref.read(playBackModel)?.updatePlaybackPosition(position, playbackState.playing, ref);
+      ref
+          .read(playBackModel)
+          ?.updatePlaybackPosition(position, playbackState.playing, ref);
     } else {
       mediaState.update((value) => value.copyWith(
             position: event,
@@ -117,7 +243,15 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     }
   }
 
-  Future<bool> loadPlaybackItem(PlaybackModel model, Duration startPosition) async {
+  Future<bool> loadPlaybackItem(
+      PlaybackModel model, Duration startPosition) async {
+    _isReloading = true;
+
+    // Explicitly report buffering to SyncPlay if active before stopping/loading
+    if (_isSyncPlayActive) {
+      ref.read(syncPlayProvider.notifier).reportBuffering();
+    }
+
     await state.stop();
     mediaState.update((state) => state.copyWith(
           state: VideoPlayerState.fullScreen,
@@ -128,6 +262,9 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
 
     final media = model.media;
     PlaybackModel? newPlaybackModel = model;
+
+    // Capture syncplay state before async operations
+    final syncPlayActive = _isSyncPlayActive;
 
     if (media != null) {
       await state.loadVideo(model, startPosition, false);
@@ -141,7 +278,20 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
           }
           await state.setAudioTrack(null, model);
           await state.setSubtitleTrack(null, model);
-          state.play();
+
+          _isReloading = false;
+
+          // Only auto-play if syncplay is NOT active
+          // When syncplay is active, we report ready (not playing) and wait for the group command
+          if (!syncPlayActive) {
+            state.play();
+          } else {
+            // For SyncPlay, we report ready now that reload AND seek are done.
+            // We report NOT playing so the server sends an explicit Unpause command.
+            await ref
+                .read(syncPlayProvider.notifier)
+                .reportReady(isPlaying: false);
+          }
           ref.read(playBackModel.notifier).update((state) => newPlaybackModel);
         },
       );
@@ -151,11 +301,13 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
       return true;
     }
 
+    _isReloading = false;
     mediaState.update((state) => state.copyWith(errorPlaying: true));
     return false;
   }
 
-  Future<void> openPlayer(BuildContext context) async => state.openPlayer(context);
+  Future<void> openPlayer(BuildContext context) async =>
+      state.openPlayer(context);
 
   Future<bool> takeScreenshot() async {
     final syncPath = ref.read(clientSettingsProvider).syncPath;
@@ -210,5 +362,54 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     }
 
     return false;
+  }
+
+  // ============================================
+  // User-initiated actions (go through SyncPlay if active)
+  // ============================================
+
+  /// User-initiated play - routes through SyncPlay if active
+  Future<void> userPlay() async {
+    if (_isSyncPlayActive) {
+      // Just request unpause. The server will put the group in Waiting state,
+      // and our buffering listener will report Ready(isPlaying: false) when appropriate.
+      await ref.read(syncPlayProvider.notifier).requestUnpause();
+    } else {
+      await state.play();
+    }
+  }
+
+  /// User-initiated pause - routes through SyncPlay if active
+  Future<void> userPause() async {
+    if (_isSyncPlayActive) {
+      await ref.read(syncPlayProvider.notifier).requestPause();
+    } else {
+      await state.pause();
+    }
+  }
+
+  /// User-initiated seek - routes through SyncPlay if active
+  Future<void> userSeek(Duration position) async {
+    if (_isSyncPlayActive) {
+      final positionTicks = secondsToTicks(position.inMilliseconds / 1000);
+      await ref.read(syncPlayProvider.notifier).requestSeek(positionTicks);
+    } else {
+      // Remember if we were playing before seek
+      final wasPlaying = playbackState.playing;
+      await state.seek(position);
+      // Resume playback if we were playing before (for native player consistency)
+      if (wasPlaying && !playbackState.playing) {
+        await state.play();
+      }
+    }
+  }
+
+  /// User-initiated play/pause toggle - routes through SyncPlay if active
+  Future<void> userPlayOrPause() async {
+    if (playbackState.playing) {
+      await userPause();
+    } else {
+      await userPlay();
+    }
   }
 }

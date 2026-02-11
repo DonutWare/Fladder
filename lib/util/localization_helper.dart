@@ -116,4 +116,23 @@ class _TranslationsMessgener extends messenger.TranslationsPigeon {
 
   @override
   String watch() => context.localized.watch;
+
+  // SyncPlay overlay strings
+  @override
+  String syncPlaySyncingWithGroup() => context.localized.syncPlaySyncingWithGroup;
+
+  @override
+  String syncPlayCommandPausing() => context.localized.syncPlayCommandPausing;
+
+  @override
+  String syncPlayCommandPlaying() => context.localized.syncPlayCommandPlaying;
+
+  @override
+  String syncPlayCommandSeeking() => context.localized.syncPlayCommandSeeking;
+
+  @override
+  String syncPlayCommandStopping() => context.localized.syncPlayCommandStopping;
+
+  @override
+  String syncPlayCommandSyncing() => context.localized.syncPlayCommandSyncing;
 }

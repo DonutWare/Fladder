@@ -1,10 +1,5 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:fladder/models/book_model.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/channel_model.dart';
@@ -16,6 +11,7 @@ import 'package:fladder/models/video_stream_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/book_viewer_provider.dart';
 import 'package:fladder/providers/items/book_details_provider.dart';
+import 'package:fladder/providers/syncplay/syncplay_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/book_viewer/book_viewer_screen.dart';
@@ -25,6 +21,11 @@ import 'package:fladder/util/list_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/widgets/full_screen_helpers/full_screen_wrapper.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../models/syncplay/syncplay_models.dart';
 
 Future<void> _showLoadingIndicator(BuildContext context) async {
   return showDialog(
@@ -77,12 +78,14 @@ Future<void> _playVideo(
     return;
   }
 
-  final actualStartPosition = startPosition ?? await current.startDuration() ?? Duration.zero;
+  final actualStartPosition =
+      startPosition ?? await current.startDuration() ?? Duration.zero;
 
-  final loadedCorrectly = await ref.read(videoPlayerProvider.notifier).loadPlaybackItem(
-        current,
-        actualStartPosition,
-      );
+  final loadedCorrectly =
+      await ref.read(videoPlayerProvider.notifier).loadPlaybackItem(
+            current,
+            actualStartPosition,
+          );
 
   if (!loadedCorrectly) {
     if (context.mounted) {
@@ -95,10 +98,13 @@ Future<void> _playVideo(
   //Pop loading screen
   Navigator.of(context, rootNavigator: true).pop();
 
-  ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(state: VideoPlayerState.fullScreen));
+  ref
+      .read(mediaPlaybackProvider.notifier)
+      .update((state) => state.copyWith(state: VideoPlayerState.fullScreen));
 
   await ref.read(videoPlayerProvider.notifier).openPlayer(context);
-  if (AdaptiveLayout.of(context).isDesktop && defaultTargetPlatform != TargetPlatform.macOS) {
+  if (AdaptiveLayout.of(context).isDesktop &&
+      defaultTargetPlatform != TargetPlatform.macOS) {
     fullScreenHelper.closeFullScreen(ref);
   }
 
@@ -114,7 +120,9 @@ extension BookBaseModelExtension on BookModel? {
     BuildContext context,
     WidgetRef ref, {
     int? currentPage,
-    AutoDisposeStateNotifierProvider<BookDetailsProviderNotifier, BookProviderModel>? provider,
+    AutoDisposeStateNotifierProvider<BookDetailsProviderNotifier,
+            BookProviderModel>?
+        provider,
     BuildContext? parentContext,
   }) async {
     if (kIsWeb) {
@@ -128,7 +136,9 @@ extension BookBaseModelExtension on BookModel? {
 
     if (newProvider == null) {
       newProvider = bookDetailsProvider(this?.id ?? "");
-      await ref.watch(bookDetailsProvider(this?.id ?? "").notifier).fetchDetails(this!);
+      await ref
+          .watch(bookDetailsProvider(this?.id ?? "").notifier)
+          .fetchDetails(this!);
     }
 
     ref.read(bookViewerProvider.notifier).fetchBook(this);
@@ -149,7 +159,9 @@ extension PhotoAlbumExtension on PhotoAlbumModel? {
     BuildContext context,
     WidgetRef ref, {
     int? currentPage,
-    AutoDisposeStateNotifierProvider<BookDetailsProviderNotifier, BookProviderModel>? provider,
+    AutoDisposeStateNotifierProvider<BookDetailsProviderNotifier,
+            BookProviderModel>?
+        provider,
     BuildContext? parentContext,
   }) async {
     _showLoadingIndicator(context);
@@ -159,7 +171,8 @@ extension PhotoAlbumExtension on PhotoAlbumModel? {
     final api = ref.read(jellyApiProvider);
     final getChildItems = await api.itemsGet(
         parentId: albumModel.id,
-        includeItemTypes: FladderItemType.galleryItem.map((e) => e.dtoKind).toList(),
+        includeItemTypes:
+            FladderItemType.galleryItem.map((e) => e.dtoKind).toList(),
         recursive: true);
     final photos = getChildItems.body?.items.whereType<PhotoModel>() ?? [];
 
@@ -226,7 +239,9 @@ extension ItemBaseModelExtensions on ItemBaseModel? {
         PhotoAlbumModel album => album.play(context, ref),
         BookModel book => book.play(context, ref),
         ChannelModel channel => channel.play(context, ref),
-        _ => _default(context, this, ref, startPosition: startPosition, showPlaybackOption: showPlaybackOption),
+        _ => _default(context, this, ref,
+            startPosition: startPosition,
+            showPlaybackOption: showPlaybackOption),
       };
 
   Future<void> _default(
@@ -238,21 +253,53 @@ extension ItemBaseModelExtensions on ItemBaseModel? {
   }) async {
     if (itemModel == null) return;
 
+    // If in SyncPlay group, set the queue via SyncPlay instead of playing directly
+    final isSyncPlayActive = ref.read(isSyncPlayActiveProvider);
+    if (isSyncPlayActive) {
+      await _playSyncPlay(context, itemModel, ref,
+          startPosition: startPosition);
+      return;
+    }
+
     _showLoadingIndicator(context);
 
-    PlaybackModel? model = await ref.read(playbackModelHelper).createPlaybackModel(
-          context,
-          itemModel,
-          showPlaybackOptions: showPlaybackOption,
-          startPosition: startPosition,
-        );
+    PlaybackModel? model =
+        await ref.read(playbackModelHelper).createPlaybackModel(
+              context,
+              itemModel,
+              showPlaybackOptions: showPlaybackOption,
+              startPosition: startPosition,
+            );
 
-    await _playVideo(context, startPosition: startPosition, current: model, ref: ref);
+    await _playVideo(context,
+        startPosition: startPosition, current: model, ref: ref);
   }
 }
 
+/// Play item through SyncPlay - sets the queue and lets SyncPlay handle synchronized playback
+Future<void> _playSyncPlay(
+  BuildContext context,
+  ItemBaseModel itemModel,
+  WidgetRef ref, {
+  Duration? startPosition,
+}) async {
+  final startPositionTicks = startPosition != null
+      ? secondsToTicks(startPosition.inMilliseconds / 1000)
+      : 0;
+
+  // Set the new queue via SyncPlay - server will broadcast to all clients
+  await ref.read(syncPlayProvider.notifier).setNewQueue(
+    itemIds: [itemModel.id],
+    playingItemPosition: 0,
+    startPositionTicks: startPositionTicks,
+  );
+
+  // The PlayQueue update from server will trigger playback via _handlePlayQueue
+}
+
 extension ItemBaseModelsBooleans on List<ItemBaseModel> {
-  Future<void> playLibraryItems(BuildContext context, WidgetRef ref, {bool shuffle = false}) async {
+  Future<void> playLibraryItems(BuildContext context, WidgetRef ref,
+      {bool shuffle = false}) async {
     if (isEmpty) return;
 
     _showLoadingIndicator(context);
@@ -261,26 +308,45 @@ extension ItemBaseModelsBooleans on List<ItemBaseModel> {
     List<List<ItemBaseModel>> newList = await Future.wait(map((element) async {
       switch (element.type) {
         case FladderItemType.series:
-          return await ref.read(jellyApiProvider).fetchEpisodeFromShow(seriesId: element.id);
+          return await ref
+              .read(jellyApiProvider)
+              .fetchEpisodeFromShow(seriesId: element.id);
         default:
           return [element];
       }
     }));
 
-    var expandedList =
-        newList.expand((element) => element).toList().where((element) => element.playAble).toList().uniqueBy(
-              (value) => value.id,
-            );
+    var expandedList = newList
+        .expand((element) => element)
+        .toList()
+        .where((element) => element.playAble)
+        .toList()
+        .uniqueBy(
+          (value) => value.id,
+        );
 
     if (shuffle) {
       expandedList.shuffle();
     }
 
-    PlaybackModel? model = await ref.read(playbackModelHelper).createPlaybackModel(
-          context,
-          expandedList.firstOrNull,
-          libraryQueue: expandedList,
-        );
+    // If in SyncPlay group, set the queue via SyncPlay
+    final isSyncPlayActive = ref.read(isSyncPlayActiveProvider);
+    if (isSyncPlayActive) {
+      Navigator.of(context, rootNavigator: true).pop(); // Pop loading indicator
+      await ref.read(syncPlayProvider.notifier).setNewQueue(
+            itemIds: expandedList.map((e) => e.id).toList(),
+            playingItemPosition: 0,
+            startPositionTicks: 0,
+          );
+      return;
+    }
+
+    PlaybackModel? model =
+        await ref.read(playbackModelHelper).createPlaybackModel(
+              context,
+              expandedList.firstOrNull,
+              libraryQueue: expandedList,
+            );
 
     if (context.mounted) {
       await _playVideo(context, ref: ref, queue: expandedList, current: model);
