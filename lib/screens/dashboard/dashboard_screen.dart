@@ -254,8 +254,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     .mapIndexed(
                       (index, child) => SliverToBoxAdapter(
                         child: FocusProvider(
-                          autoFocus:
-                              bannerType != HomeBanner.detailedBanner || homeCarouselItems.isEmpty ? index == 0 : false,
+                          autoFocus: homeCarouselItems.isEmpty ? index == 0 : false,
                           child: child,
                         ),
                       ),

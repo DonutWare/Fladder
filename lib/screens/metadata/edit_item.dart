@@ -11,6 +11,7 @@ import 'package:fladder/screens/metadata/edit_screens/edit_image_content.dart';
 import 'package:fladder/screens/shared/adaptive_dialog.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 
@@ -128,7 +129,12 @@ class _EditDialogSwitcherState extends ConsumerState<EditDialogSwitcher> with Ti
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
               ),
-              IconButton(onPressed: () => refreshEditor(), icon: const Icon(IconsaxPlusLinear.refresh))
+              IconButton(
+                  autofocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad,
+                  onPressed: () => refreshEditor(),
+                  icon: const Icon(
+                    IconsaxPlusLinear.refresh,
+                  ))
             ],
           ),
         ),

@@ -120,6 +120,7 @@ class _FocusedFullBannerState extends ConsumerState<TVSliderBanner> {
           onLongPress: () => _showBottomSheet(context, ref),
           onSecondaryTapDown: (details) => _showContextMenu(context, ref, details.globalPosition),
           visualizeFocus: false,
+          autoFocus: isDpad,
           borderRadius: radius,
           onKeyEvent: _handleFocusKeyEvent,
           onFocusChanged: (focused) {
@@ -164,26 +165,6 @@ class _FocusedFullBannerState extends ConsumerState<TVSliderBanner> {
               ),
             ),
           ),
-          focusedOverlays: [
-            Align(
-              alignment: Alignment.topRight,
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: ExcludeFocus(
-                  child: _NavigationIndicator(
-                    items: widget.items,
-                    currentIndex: _currentIndex,
-                    onTap: (index) {
-                      setState(() {
-                        _slideDirection = index > _currentIndex ? _SlideDirection.right : _SlideDirection.left;
-                        _currentIndex = index;
-                      });
-                    },
-                  ),
-                ),
-              ),
-            ),
-          ],
           overlays: [
             Align(
               alignment: Alignment.bottomLeft,
@@ -200,17 +181,40 @@ class _FocusedFullBannerState extends ConsumerState<TVSliderBanner> {
                         child: _BannerInfoOverlay(poster: _currentItem),
                       ),
                     ),
-                    MediaPlayButton(
-                      item: _currentItem,
-                      forceFocusOutline: _hasFocus,
-                      showRestartOption: !isDpad,
-                      onPressed: (restart) {
-                        if (restart) {
-                          _currentItem.play(context, ref, startPosition: Duration.zero);
-                        } else {
-                          _currentItem.play(context, ref);
-                        }
-                      },
+                    Row(
+                      spacing: 16,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        MediaPlayButton(
+                          item: _currentItem,
+                          forceFocusOutline: _hasFocus,
+                          showRestartOption: !isDpad,
+                          onPressed: (restart) {
+                            if (restart) {
+                              _currentItem.play(context, ref, startPosition: Duration.zero);
+                            } else {
+                              _currentItem.play(context, ref);
+                            }
+                          },
+                        ),
+                        AnimatedOpacity(
+                          opacity: _hasFocus ? 1.0 : 0.0,
+                          duration: _kAnimationDuration,
+                          child: ExcludeFocus(
+                            child: _NavigationIndicator(
+                              items: widget.items,
+                              currentIndex: _currentIndex,
+                              onTap: (index) {
+                                setState(() {
+                                  _slideDirection =
+                                      index > _currentIndex ? _SlideDirection.right : _SlideDirection.left;
+                                  _currentIndex = index;
+                                });
+                              },
+                            ),
+                          ),
+                        )
+                      ],
                     )
                   ],
                 ),
@@ -268,7 +272,8 @@ class _BannerInfoOverlay extends StatelessWidget {
       spacing: 8,
       children: [
         Expanded(
-          child: Container(
+          child: FractionallySizedBox(
+            heightFactor: 0.65,
             child: MediaHeader(
               name: poster.name,
               alignment: Alignment.topLeft,

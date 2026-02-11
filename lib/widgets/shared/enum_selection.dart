@@ -10,12 +10,14 @@ import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 class EnumBox<T> extends StatelessWidget {
   final String? current;
   final Widget? currentWidget;
+  final bool autoFocus;
   final List<ItemAction> Function(BuildContext context) itemBuilder;
   final Function(bool focused)? onFocusChanged;
 
   const EnumBox({
     this.current,
     this.currentWidget,
+    this.autoFocus = false,
     required this.itemBuilder,
     this.onFocusChanged,
     super.key,
@@ -86,6 +88,7 @@ class EnumBox<T> extends StatelessWidget {
           ? FocusButton(
               child: labelWidget,
               darkOverlay: false,
+              autoFocus: autoFocus,
               borderRadius: borderRadius,
               onFocusChanged: onFocusChanged ??
                   (value) {

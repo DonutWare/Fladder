@@ -149,6 +149,18 @@ class FocusButtonState extends State<FocusButton> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      if (widget.autoFocus && !focusNode.hasFocus) {
+        focusNode.requestFocus();
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     if (widget.onTap == null && widget.onLongPress == null && widget.onSecondaryTapDown == null) {
       return widget.child ?? const SizedBox.shrink();

@@ -70,6 +70,7 @@ class _RefreshPopupDialogState extends ConsumerState<RefreshPopupDialog> {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: EnumBox(
                   current: refreshMode.label(context),
+                  autoFocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad,
                   itemBuilder: (context) => MetadataRefresh.values
                       .map((value) => ItemActionButton(
                             label: Text(value.label(context)),
