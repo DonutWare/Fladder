@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fladder/jellyfin/enum_models.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
-import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/enum_selection.dart';
@@ -120,9 +120,9 @@ class _RefreshPopupDialogState extends ConsumerState<RefreshPopupDialog> {
                                   replaceAllMetadata: replaceAllMetadata,
                                 );
                             if (!response.isSuccessful) {
-                              fladderSnackbarResponse(context, response);
+                              FladderSnack.showResponse(response: response);
                             } else {
-                              fladderSnackbar(context, title: context.localized.scanningName(widget.name));
+                              FladderSnack.show(context.localized.scanningName(widget.name));
                             }
                             Navigator.of(context).pop();
                           },

@@ -8,7 +8,7 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/providers/items/identify_provider.dart';
 import 'package:fladder/screens/shared/adaptive_dialog.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
-import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/focused_outlined_text_field.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -279,11 +279,10 @@ class _IdentifyScreenState extends ConsumerState<IdentifyScreen> {
                                   ? () async {
                                       final response = await ref.read(provider.notifier).setIdentity(result);
                                       if (response?.isSuccessful == true && context.mounted) {
-                                        fladderSnackbar(context,
-                                            title: context.localized.setIdentityTo(result.name ?? ""));
+                                        FladderSnack.show(context.localized.setIdentityTo(result.name ?? ""),
+                                            context: context);
                                       } else if (context.mounted) {
-                                        fladderSnackbarResponse(context, response,
-                                            altTitle: context.localized.somethingWentWrong);
+                                        FladderSnack.showResponse(response: response);
                                       }
 
                                       if (context.mounted) {

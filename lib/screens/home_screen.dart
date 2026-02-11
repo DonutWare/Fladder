@@ -11,7 +11,7 @@ import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
-import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/util/input_handler.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -167,38 +167,40 @@ class HomeScreen extends ConsumerWidget {
         })
         .nonNulls
         .toList();
-    return InputHandler<GlobalHotKeys>(
-      autoFocus: false,
-      keyMapResult: (result) {
-        switch (result) {
-          case GlobalHotKeys.search:
-            context.navigateTo(LibrarySearchRoute());
-            return true;
-          case GlobalHotKeys.exit:
-            Future.microtask(() async {
-              final manager = WindowManager.instance;
-              if (await manager.isClosable()) {
-                manager.close();
-              } else {
-                fladderSnackbar(context, title: context.localized.somethingWentWrong);
-              }
-            });
-            return true;
-        }
-      },
-      keyMap: ref.watch(clientSettingsProvider.select((value) => value.currentShortcuts)),
-      child: HeroControllerScope(
-        controller: HeroController(),
-        child: AutoRouter(
-          builder: (context, child) {
-            return CustomKeyboardWrapper(
-              child: NavigationScaffold(
-                destinations: destinations.nonNulls.toList(),
-                currentRouteName: context.router.current.name,
-                nestedChild: child,
-              ),
-            );
-          },
+    return NotificationManagerInitializer(
+      child: InputHandler<GlobalHotKeys>(
+        autoFocus: false,
+        keyMapResult: (result) {
+          switch (result) {
+            case GlobalHotKeys.search:
+              context.navigateTo(LibrarySearchRoute());
+              return true;
+            case GlobalHotKeys.exit:
+              Future.microtask(() async {
+                final manager = WindowManager.instance;
+                if (await manager.isClosable()) {
+                  manager.close();
+                } else {
+                  FladderSnack.show(context.localized.somethingWentWrong, context: context);
+                }
+              });
+              return true;
+          }
+        },
+        keyMap: ref.watch(clientSettingsProvider.select((value) => value.currentShortcuts)),
+        child: HeroControllerScope(
+          controller: HeroController(),
+          child: AutoRouter(
+            builder: (context, child) {
+              return CustomKeyboardWrapper(
+                child: NavigationScaffold(
+                  destinations: destinations.nonNulls.toList(),
+                  currentRouteName: context.router.current.name,
+                  nestedChild: child,
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
