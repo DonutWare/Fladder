@@ -7,6 +7,8 @@ import 'package:collection/collection.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
+import 'package:fladder/util/focus_provider.dart';
+import 'package:fladder/widgets/shared/ensure_visible.dart';
 
 abstract class ItemAction {
   Widget toMenuItemButton();
@@ -14,6 +16,7 @@ abstract class ItemAction {
   Widget toLabel();
   Widget toListItem(BuildContext context, {bool useIcons = false, bool shouldPop = true});
   Widget toButton();
+  Widget toGroupButton(BuildContext context, {required bool useIcons, required bool shouldPop});
 }
 
 class ItemActionDivider extends ItemAction {
@@ -33,6 +36,9 @@ class ItemActionDivider extends ItemAction {
 
   @override
   Widget toButton() => Container();
+
+  @override
+  Widget toGroupButton(BuildContext context, {required bool useIcons, required bool shouldPop}) => const Divider();
 }
 
 class ItemActionButton extends ItemAction {
@@ -181,6 +187,55 @@ class ItemActionButton extends ItemAction {
             ),
     );
   }
+
+  @override
+  Widget toGroupButton(BuildContext context, {required bool useIcons, required bool shouldPop}) {
+    final backgroundColor =
+        selected ? Theme.of(context).colorScheme.primaryContainer : Theme.of(context).colorScheme.surfaceContainer;
+    final foregroundColor =
+        selected ? Theme.of(context).colorScheme.onPrimaryContainer : Theme.of(context).colorScheme.onSurface;
+
+    final labelWidget = label ?? const Text("");
+    final textStyle =
+        Theme.of(context).textTheme.bodyLarge?.copyWith(color: foregroundColor, fontWeight: FontWeight.bold) ??
+            TextStyle(
+              color: foregroundColor,
+              fontWeight: FontWeight.bold,
+            );
+    return Builder(
+      builder: (buttonContext) {
+        return FocusButton(
+          onTap: () {
+            if (shouldPop) {
+              Navigator.of(context).pop();
+            }
+            action?.call();
+          },
+          onFocusChanged: (focus) {
+            if (focus) {
+              buttonContext.ensureVisible(
+                alignment: 0,
+                onlyNearest: true,
+              );
+            }
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              color: backgroundColor,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            alignment: Alignment.center,
+            constraints: const BoxConstraints(minHeight: 40, minWidth: 60),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            child: DefaultTextStyle(
+              style: textStyle,
+              child: labelWidget,
+            ),
+          ),
+        );
+      },
+    );
+  }
 }
 
 extension ItemActionExtension on List<ItemAction> {
@@ -193,6 +248,12 @@ extension ItemActionExtension on List<ItemAction> {
 
   List<Widget> listTileItems(BuildContext context, {bool useIcons = false, bool shouldPop = true}) {
     return map((e) => e.toListItem(context, useIcons: useIcons, shouldPop: shouldPop))
+        .whereNotIndexed((index, element) => (index == 0 && element is Divider))
+        .toList();
+  }
+
+  List<Widget> groupButtons(BuildContext context, {bool useIcons = false, bool shouldPop = true}) {
+    return map((e) => e.toGroupButton(context, useIcons: useIcons, shouldPop: shouldPop))
         .whereNotIndexed((index, element) => (index == 0 && element is Divider))
         .toList();
   }

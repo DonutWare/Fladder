@@ -318,9 +318,7 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
                 lightTheme: baseLightTheme,
                 darkTheme: baseDarkTheme,
               );
-        final darkTheme = isLinux
-            ? baseDarkTheme
-            : FladderTheme.applyChineseFontToDarkTheme(darkTheme: baseDarkTheme);
+        final darkTheme = isLinux ? baseDarkTheme : FladderTheme.applyChineseFontToDarkTheme(darkTheme: baseDarkTheme);
 
         final amoledOverwrite = amoledBlack ? Colors.black : null;
         return ThemesData(

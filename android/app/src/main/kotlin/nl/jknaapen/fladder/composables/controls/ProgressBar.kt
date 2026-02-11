@@ -187,8 +187,8 @@ internal fun TVProgressBar(
                     }
                 }
             }
-            Videolabel(playbackData?.mediaInfo?.playbackType?.name?.capitalize)
-            Videolabel(playbackData?.mediaInfo?.videoInformation)
+            VideoLabel(playbackData?.mediaInfo?.playbackType?.name?.capitalize)
+            VideoLabel(playbackData?.mediaInfo?.videoInformation)
         }
 
         Row(
@@ -310,8 +310,8 @@ internal fun StandardProgressBar(
                 }
             }
 
-            Videolabel(playableData?.mediaInfo?.playbackType?.name?.capitalize)
-            Videolabel(playableData?.mediaInfo?.videoInformation)
+            VideoLabel(playableData?.mediaInfo?.playbackType?.name?.capitalize)
+            VideoLabel(playableData?.mediaInfo?.videoInformation)
         }
         Row(
             horizontalArrangement = Arrangement.spacedBy(
@@ -343,6 +343,7 @@ internal fun StandardProgressBar(
                 tempPosition,
                 scrubbingTimeLine,
                 duration = duration,
+                position = position,
                 onTempPosChanged = {
                     tempPosition = it
                 },
@@ -368,7 +369,7 @@ internal fun StandardProgressBar(
 }
 
 @Composable
-private fun Videolabel(value: String?) {
+private fun VideoLabel(value: String?) {
     if (value.isNullOrBlank()) return
 
     Box(

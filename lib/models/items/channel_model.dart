@@ -71,6 +71,12 @@ class ChannelModel extends ItemBaseModel {
   String playText(BuildContext context) => context.localized.read(name);
 
   @override
+  ImageData? get bannerImage => getPosters?.backDrop?.lastOrNull ?? images?.primary ?? getPosters?.primary;
+
+  @override
+  ImageData? get tvPosterLarge => getPosters?.primary ?? getPosters?.backDrop?.lastOrNull;
+
+  @override
   double get progress {
     final currentProgram = this.currentProgram;
     if (currentProgram == null) {

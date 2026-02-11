@@ -127,6 +127,12 @@ class ItemBaseModel with ItemBaseModelMappable {
 
   ImageData? get bannerImage => images?.primary ?? getPosters?.randomBackDrop ?? getPosters?.primary;
 
+  ImageData? get tvPosterLarge => getPosters?.backDrop?.lastOrNull ?? images?.primary ?? getPosters?.primary;
+  ImageData? get tvPosterSmall => getPosters?.primary ?? getPosters?.backDrop?.lastOrNull;
+
+  ImageData? get tvPosterLogo =>
+      getPosters?.logo ?? images?.logo ?? parentBaseModel.images?.logo ?? parentBaseModel.getPosters?.logo;
+
   bool get playAble => false;
 
   bool get syncAble => false;
@@ -193,9 +199,11 @@ class ItemBaseModel with ItemBaseModelMappable {
           ),
         );
         break;
+      case EpisodeModel model:
+        context.router.push(DetailsRoute(id: model.parentId ?? id, item: this, tag: tag));
+        break;
       case BookModel _:
       case MovieModel _:
-      case EpisodeModel _:
       case SeriesModel _:
       case SeasonModel _:
       case PersonModel _:
@@ -266,17 +274,6 @@ class ItemBaseModel with ItemBaseModelMappable {
         FolderModel _ => FladderItemType.folder,
         ItemBaseModel _ => FladderItemType.baseType,
       };
-
-  @override
-  bool operator ==(covariant ItemBaseModel other) {
-    if (identical(this, other)) return true;
-    return other.id == id;
-  }
-
-  @override
-  int get hashCode {
-    return id.hashCode ^ type.hashCode;
-  }
 }
 
 // Currently supported types

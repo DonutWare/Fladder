@@ -283,6 +283,8 @@ extension SeerrUserPermissions on SeerrUserModel {
   bool get canManageRequests =>
       hasPermission(SeerrPermission.manageRequests) || hasPermission(SeerrPermission.requestAdvanced);
 
+  bool get canManageUsers => hasPermission(SeerrPermission.manageUsers);
+
   bool get canViewRecent => hasPermission(SeerrPermission.recentView);
 
   bool canRequestMedia({required bool isTv}) {
