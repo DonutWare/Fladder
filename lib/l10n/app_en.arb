@@ -1509,6 +1509,18 @@
       }
     }
   },
+  "enableSpeedBoostTitle": "Enable speed boost",
+  "@enableSpeedBoostTitle": {},
+  "enableSpeedBoostDesc": "Hold screen (mobile) or spacebar (desktop) to temporarily increase playback speed",
+  "@enableSpeedBoostDesc": {},
+  "speedBoostRateTitle": "Speed boost rate",
+  "@speedBoostRateTitle": {},
+  "speedBoostRateDesc": "Playback speed when speed boost is activated",
+  "@speedBoostRateDesc": {},
+  "enableDoubleTapSeekTitle": "Double-tap to seek/play/pause",
+  "@enableDoubleTapSeekTitle": {},
+  "enableDoubleTapSeekDesc": "Double-tap left/right side of the screen to seek backward/forward. Double-tap center to play/pause",
+  "@enableDoubleTapSeekDesc": {},
   "quickConnectPostFailed": "Failed to get quick connect code",
   "quickConnectLoginUsingCode": "Using quick connect",
   "quickConnectEnterCodeDescription": "Enter the code below to login",
