@@ -34,6 +34,14 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
   bool editUsersMode = false;
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(authProvider.notifier).initModel();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final screen = ref.watch(authProvider.select((value) => value.screen));
     final accounts = ref.watch(authProvider.select((value) => value.accounts));
