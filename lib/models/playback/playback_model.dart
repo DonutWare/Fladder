@@ -36,7 +36,6 @@ import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/util/bitrate_helper.dart';
 import 'package:fladder/util/duration_extensions.dart';
-import 'package:fladder/util/list_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/map_bool_helper.dart';
 import 'package:fladder/util/streams_selection.dart';
@@ -96,8 +95,17 @@ class PlaybackModel {
   Future<PlaybackModel>? setAudio(AudioStreamModel? model, MediaControlsWrapper player) => throw UnimplementedError();
   Future<PlaybackModel>? setQualityOption(Map<Bitrate, bool> map) => throw UnimplementedError();
 
-  ItemBaseModel? get nextVideo => queue.nextOrNull(item);
-  ItemBaseModel? get previousVideo => queue.previousOrNull(item);
+  ItemBaseModel? get nextVideo {
+    final index = queue.indexWhere((e) => e.id == item.id);
+    if (index == -1 || index + 1 >= queue.length) return null;
+    return queue.elementAt(index + 1);
+  }
+
+  ItemBaseModel? get previousVideo {
+    final index = queue.indexWhere((e) => e.id == item.id);
+    if (index <= 0) return null;
+    return queue.elementAt(index - 1);
+  }
 
   PlaybackModel copyWith() => throw UnimplementedError();
 
@@ -150,18 +158,29 @@ class PlaybackModelHelper {
     ref.read(videoPlayerProvider).pause();
     ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(buffering: true));
     final currentModel = ref.read(playBackModel);
-    final newModel = (await createPlaybackModel(
-          null,
-          channel,
-          forcedPlaybackType: PlaybackType.tv,
-          oldModel: currentModel,
-        )) ??
+
+    PlaybackModel? serverModel;
+    try {
+      serverModel = await createPlaybackModel(
+        null,
+        channel,
+        forcedPlaybackType: PlaybackType.tv,
+        oldModel: currentModel,
+      ).timeout(const Duration(seconds: 8), onTimeout: () {
+        return null;
+      });
+    } catch (e) {
+      serverModel = null;
+    }
+
+    final newModel = serverModel ??
         await _createOfflinePlaybackModel(
           channel,
           null,
           await ref.read(syncProvider.notifier).getSyncedItem(channel.id),
           oldModel: currentModel,
         );
+
     if (newModel == null) return;
     ref.read(videoPlayerProvider.notifier).loadPlaybackItem(newModel, Duration.zero);
   }
@@ -215,9 +234,13 @@ class PlaybackModelHelper {
 
       if (firstItemToPlay == null) return null;
 
-      final fullItem = (await api.usersUserIdItemsItemIdGet(itemId: firstItemToPlay.id)).body;
+      final fullItemResponse = await api.usersUserIdItemsItemIdGet(itemId: firstItemToPlay.id);
 
-      if (fullItem == null) return null;
+      final fullItem = fullItemResponse.body;
+
+      if (fullItem == null) {
+        return null;
+      }
 
       SyncedItem? syncedItem = await ref.read(syncProvider.notifier).getSyncedItem(fullItem.id);
 
@@ -323,7 +346,7 @@ class PlaybackModelHelper {
           subtitleStreamIndex: subStreamIndex,
           enableTranscoding: true,
           autoOpenLiveStream: true,
-          deviceProfile: ref.read(videoProfileProvider),
+          deviceProfile: type != PlaybackType.tv ? ref.read(videoProfileProvider) : null,
           userId: userId,
           enableDirectPlay: type != PlaybackType.transcode,
           enableDirectStream: type != PlaybackType.transcode,
@@ -335,11 +358,15 @@ class PlaybackModelHelper {
 
       PlaybackInfoResponse? playbackInfo = response.body;
 
-      if (playbackInfo == null) return null;
+      if (playbackInfo == null) {
+        return null;
+      }
 
       final mediaSource = playbackInfo.mediaSources?[newStreamModel?.versionStreamIndex ?? 0];
 
-      if (mediaSource == null) return null;
+      if (mediaSource == null) {
+        return null;
+      }
 
       final mediaStreamsWithUrls = MediaStreamsModel.fromMediaStreamsList(playbackInfo.mediaSources, ref).copyWith(
         defaultAudioStreamIndex: audioStreamIndex,
@@ -347,10 +374,25 @@ class PlaybackModelHelper {
       );
 
       final mediaSegments = await api.mediaSegmentsGet(id: item.id);
-      final trickPlay = (await api.getTrickPlay(item: item, ref: ref))?.body;
+
+      final trickPlayResp = await api.getTrickPlay(item: item, ref: ref);
+
+      final trickPlay = trickPlayResp?.body;
       final chapters = item.overview.chapters ?? [];
 
       final mediaPath = isValidVideoUrl(mediaSource.path ?? "");
+
+      if (type == PlaybackType.tv && mediaPath != null) {
+        final tvModel = TvPlaybackModel(
+          channel: item as ChannelModel,
+          item: item,
+          queue: libraryQueue,
+          playbackInfo: playbackInfo,
+          media: Media(url: mediaPath),
+        );
+        tvModel.startTracking(ref);
+        return tvModel;
+      }
 
       if ((mediaSource.supportsDirectStream ?? false) || (mediaSource.supportsDirectPlay ?? false)) {
         final Map<String, String?> directOptions = {
@@ -373,29 +415,17 @@ class PlaybackModelHelper {
           queryParameters: directOptions,
         );
 
-        if (type == PlaybackType.tv) {
-          final tvModel = TvPlaybackModel(
-            channel: item as ChannelModel,
-            item: item,
-            queue: libraryQueue,
-            playbackInfo: playbackInfo,
-            media: Media(url: mediaPath ?? playbackUrl),
-          );
-          tvModel.startTracking(ref);
-          return tvModel;
-        } else {
-          return DirectPlaybackModel(
-            item: item,
-            queue: libraryQueue,
-            mediaSegments: mediaSegments?.body,
-            chapters: chapters,
-            playbackInfo: playbackInfo,
-            trickPlay: trickPlay,
-            media: Media(url: mediaPath ?? playbackUrl),
-            mediaStreams: mediaStreamsWithUrls,
-            bitRateOptions: qualityOptions,
-          );
-        }
+        return DirectPlaybackModel(
+          item: item,
+          queue: libraryQueue,
+          mediaSegments: mediaSegments?.body,
+          chapters: chapters,
+          playbackInfo: playbackInfo,
+          trickPlay: trickPlay,
+          media: Media(url: mediaPath ?? playbackUrl),
+          mediaStreams: mediaStreamsWithUrls,
+          bitRateOptions: qualityOptions,
+        );
       } else if ((mediaSource.supportsTranscoding ?? false) && mediaSource.transcodingUrl != null) {
         return TranscodePlaybackModel(
           item: item,
