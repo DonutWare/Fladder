@@ -163,9 +163,7 @@ class SubtitleText extends ConsumerWidget {
     super.key,
   });
 
-  // The reference width for calculating the visible text scale factor.
   static const kTextScaleFactorReferenceWidth = 1920.0;
-  // The reference height for calculating the visible text scale factor.
   static const kTextScaleFactorReferenceHeight = 1080.0;
 
   @override
@@ -185,7 +183,6 @@ class SubtitleText extends ConsumerWidget {
                     .clamp(0.0, 1.0),
               )));
 
-          // Function to calculate the height of the text
           double getTextHeight(BuildContext context, String text, TextStyle style) {
             final TextPainter textPainter = TextPainter(
               text: TextSpan(text: text, style: style),
@@ -196,20 +193,22 @@ class SubtitleText extends ConsumerWidget {
             return textPainter.height;
           }
 
-          // Calculate the available height for the text alignment
           double availableHeight = constraints.maxHeight;
 
-          // Calculate the desired position based on the percentage
-          double desiredPosition = availableHeight * offset;
+          final double safeAvailableHeight =
+              availableHeight.isFinite ? availableHeight : MediaQuery.of(context).size.height;
 
-          // Get the height of the Text widget with the current font style
+          final double desiredPosition = (safeAvailableHeight * offset).clamp(0.0, double.infinity);
+
           double textHeight = getTextHeight(context, text, subModel.style);
+          final double safeTextHeight = textHeight.isFinite ? textHeight : 0.0;
 
-          // Calculate the position to keep the text within visible bounds
-          double position = desiredPosition - textHeight / 2;
+          final double maxPosition = math.max(0.0, safeAvailableHeight - safeTextHeight);
 
-          // Ensure the text doesn't go off-screen
-          position = position.clamp(0, availableHeight - textHeight);
+          double position =
+              (desiredPosition - safeTextHeight / 2).isFinite ? (desiredPosition - safeTextHeight / 2) : 0.0;
+
+          position = position.clamp(0.0, maxPosition);
 
           return Visibility(
             visible: text.isEmpty ? false : true,
