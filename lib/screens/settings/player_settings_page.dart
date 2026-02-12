@@ -28,6 +28,7 @@ import 'package:fladder/util/bitrate_helper.dart';
 import 'package:fladder/util/box_fit_extension.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/enum_selection.dart';
+import 'package:fladder/widgets/shared/fladder_slider.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 
 @RoutePage()
@@ -199,6 +200,67 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                 },
               ),
             ),
+            SettingsListTile(
+              label: Text(context.localized.enableSpeedBoostTitle),
+              subLabel: Text(context.localized.enableSpeedBoostDesc),
+              onTap: () => provider.setEnableSpeedBoost(!videoSettings.enableSpeedBoost),
+              trailing: Switch(
+                value: videoSettings.enableSpeedBoost,
+                onChanged: (value) => provider.setEnableSpeedBoost(value),
+              ),
+            ),
+            AnimatedFadeSize(
+              child: videoSettings.enableSpeedBoost
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            context.localized.speedBoostRateTitle,
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                          if (context.localized.speedBoostRateDesc.isNotEmpty)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 8),
+                              child: Text(
+                                context.localized.speedBoostRateDesc,
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                            ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: FladderSlider(
+                                  min: 0.25,
+                                  max: 3.0,
+                                  value: videoSettings.speedBoostRate,
+                                  divisions: 55,
+                                  onChanged: (value) => provider.setSpeedBoostRate(value),
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Text(
+                                "${videoSettings.speedBoostRate.toStringAsFixed(2)}x",
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    )
+                  : Container(),
+            ),
+            if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.touch)
+              SettingsListTile(
+                label: Text(context.localized.enableDoubleTapSeekTitle),
+                subLabel: Text(context.localized.enableDoubleTapSeekDesc),
+                onTap: () => provider.setEnableDoubleTapSeek(!videoSettings.enableDoubleTapSeek),
+                trailing: Switch(
+                  value: videoSettings.enableDoubleTapSeek,
+                  onChanged: (value) => provider.setEnableDoubleTapSeek(value),
+                ),
+              ),
             if (AdaptiveLayout.inputDeviceOf(context) != InputDevice.touch)
               ExpansionTile(
                 title: Text(

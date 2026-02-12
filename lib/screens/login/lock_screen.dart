@@ -9,7 +9,7 @@ import 'package:fladder/models/account_model.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/login/widgets/login_icon.dart';
-import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/passcode_input.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/auth_service.dart';
@@ -80,7 +80,7 @@ class _LockScreenState extends ConsumerState<LockScreen> with WidgetsBindingObse
             if (newPin == user.localPin) {
               handleLogin(user);
             } else {
-              fladderSnackbar(context, title: context.localized.incorrectPinTryAgain);
+              FladderSnack.show(context.localized.incorrectPinTryAgain, context: context);
             }
           });
         }
@@ -94,49 +94,51 @@ class _LockScreenState extends ConsumerState<LockScreen> with WidgetsBindingObse
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
-    return PopScope(
-      canPop: false,
-      onPopInvokedWithResult: (didPop, result) {
-        if (!poppingLockScreen) {
-          SystemNavigator.pop();
-        }
-      },
-      child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          tooltip: context.localized.login,
-          onPressed: () {
-            ref.read(lockScreenActiveProvider.notifier).update((state) => false);
-            context.router.replaceAll([const LoginRoute()]);
-          },
-          child: const Icon(IconsaxPlusLinear.arrow_swap_horizontal),
-        ),
-        body: Center(
-          child: Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            alignment: WrapAlignment.center,
-            runAlignment: WrapAlignment.center,
-            direction: Axis.vertical,
-            children: [
-              const Icon(
-                IconsaxPlusLinear.lock_1,
-                size: 38,
-              ),
-              if (user != null)
-                ConstrainedBox(
-                  constraints: const BoxConstraints(
-                    maxHeight: 400,
-                    maxWidth: 400,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(64.0),
-                    child: LoginIcon(
-                      user: user,
-                      autoFocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad,
-                      onPressed: () => tapLoggedInAccount(user),
+    return NotificationManagerInitializer(
+      child: PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) {
+          if (!poppingLockScreen) {
+            SystemNavigator.pop();
+          }
+        },
+        child: Scaffold(
+          floatingActionButton: FloatingActionButton(
+            tooltip: context.localized.login,
+            onPressed: () {
+              ref.read(lockScreenActiveProvider.notifier).update((state) => false);
+              context.router.replaceAll([const LoginRoute()]);
+            },
+            child: const Icon(IconsaxPlusLinear.arrow_swap_horizontal),
+          ),
+          body: Center(
+            child: Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              alignment: WrapAlignment.center,
+              runAlignment: WrapAlignment.center,
+              direction: Axis.vertical,
+              children: [
+                const Icon(
+                  IconsaxPlusLinear.lock_1,
+                  size: 38,
+                ),
+                if (user != null)
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      maxHeight: 400,
+                      maxWidth: 400,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(64.0),
+                      child: LoginIcon(
+                        user: user,
+                        autoFocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad,
+                        onPressed: () => tapLoggedInAccount(user),
+                      ),
                     ),
                   ),
-                ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

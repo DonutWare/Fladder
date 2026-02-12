@@ -41,8 +41,8 @@ enum BackgroundType {
 
   double get opacityValues => switch (this) {
         BackgroundType.disabled => 1.0,
-        BackgroundType.enabled => 0.7,
-        BackgroundType.blurred => 0.5,
+        BackgroundType.enabled => 0.75,
+        BackgroundType.blurred => 0.75,
       };
 
   String label(BuildContext context) {
@@ -83,6 +83,7 @@ abstract class ClientSettingsModel with _$ClientSettingsModel {
     @Default(true) bool checkForUpdates,
     @Default(false) bool usePosterForLibrary,
     @Default(false) bool useSystemIME,
+    @Default(false) bool useTVExpandedLayout,
     String? lastViewedUpdate,
     int? libraryPageSize,
     @Default({}) Map<GlobalHotKeys, KeyCombination> shortcuts,
@@ -93,6 +94,7 @@ abstract class ClientSettingsModel with _$ClientSettingsModel {
       blurPlaceHolders: leanBackMode ? false : true,
       backgroundImage: leanBackMode ? BackgroundType.disabled : BackgroundType.blurred,
       themeMode: leanBackMode ? ThemeMode.dark : ThemeMode.system,
+      useTVExpandedLayout: false,
     );
   }
 

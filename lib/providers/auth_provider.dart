@@ -19,7 +19,7 @@ import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/views_provider.dart';
 import 'package:fladder/screens/login/lock_screen.dart';
-import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/util/fladder_config.dart';
 import 'package:fladder/util/localization_helper.dart';
 
@@ -34,10 +34,9 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
 
   late final JellyService api = ref.read(jellyApiProvider);
 
-  BuildContext? context;
+  BuildContext? get localContext => ref.read(localizationContextProvider);
 
-  Future<void> initModel(BuildContext newContext) async {
-    context ??= newContext;
+  Future<void> initModel() async {
     ref.read(userProvider.notifier).clear();
     final currentAccounts = ref.read(authProvider.notifier).getSavedAccounts();
     ref.read(lockScreenActiveProvider.notifier).update((state) => true);
@@ -88,12 +87,10 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
       setTempSeerrUrl(seerrUrl);
     } catch (e) {
       state = state.copyWith(
-        errorMessage: context?.localized.invalidUrl,
+        errorMessage: localContext?.localized.invalidUrl,
         loading: false,
       );
-      if (context != null) {
-        fladderSnackbar(context!, title: context!.localized.unableToConnectHost);
-      }
+      FladderSnack.show(localContext?.localized.unableToConnectHost ?? "");
     }
   }
 

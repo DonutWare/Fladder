@@ -4,7 +4,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/screens/settings/widgets/settings_list_group.dart';
-import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/outlined_text_field.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/extensions/day_of_week_extensions.dart';
@@ -141,7 +141,7 @@ class AccessSchedulesEditor extends StatelessWidget {
                               );
                               if (startTime.hour > endTime.hour ||
                                   (startTime.hour == endTime.hour && startTime.minute >= endTime.minute)) {
-                                fladderSnackbar(context, title: context.localized.endTimeMustBeAfter);
+                                FladderSnack.show(context.localized.endTimeMustBeAfter, context: context);
                                 return;
                               }
                               onAddSchedule?.call(schedule);

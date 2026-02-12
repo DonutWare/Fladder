@@ -78,22 +78,22 @@ class _BackgroundImageState extends ConsumerState<BackgroundImage> {
 
     if (!enabled || image == null) return const SizedBox.shrink();
 
-    return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 500),
-      layoutBuilder: (currentChild, previousChildren) {
-        return Stack(
-          fit: StackFit.expand,
-          children: [
-            ...previousChildren,
-            if (currentChild != null) currentChild,
-          ],
-        );
-      },
-      child: FladderImage(
-        key: ValueKey(image.key),
-        image: image,
-        fit: BoxFit.cover,
-        blurOnly: settings == BackgroundType.blurred,
+    final backgroundOpacity = ref.watch(clientSettingsProvider.select((value) => value.backgroundImage.opacityValues));
+
+    return RepaintBoundary(
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 250),
+        child: Container(
+          key: ValueKey(image.key),
+          foregroundDecoration: BoxDecoration(
+            color: Theme.of(context).scaffoldBackgroundColor.withValues(alpha: backgroundOpacity),
+          ),
+          child: FladderImage(
+            image: image,
+            fit: BoxFit.cover,
+            blurOnly: settings == BackgroundType.blurred,
+          ),
+        ),
       ),
     );
   }

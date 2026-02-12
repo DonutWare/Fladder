@@ -11,7 +11,7 @@ import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/details_screens/components/overview_header.dart';
 import 'package:fladder/screens/shared/detail_scaffold.dart';
 import 'package:fladder/screens/shared/media/components/media_play_button.dart';
-import 'package:fladder/screens/shared/media/expanding_overview.dart';
+import 'package:fladder/screens/shared/media/expanding_text.dart';
 import 'package:fladder/screens/shared/media/external_urls.dart';
 import 'package:fladder/screens/shared/media/poster_list_item.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
@@ -155,7 +155,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
                     ],
                   ).padding(padding),
                   if (details.nextUp!.overview.summary.isNotEmpty == true)
-                    ExpandingOverview(
+                    ExpandingText(
                       text: details.nextUp!.overview.summary,
                     ).padding(padding),
                   if (details.chapters.length > 1)

@@ -1,4 +1,3 @@
-import 'package:fladder/screens/shared/media/special_features_row.dart';
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
@@ -14,10 +13,11 @@ import 'package:fladder/screens/seerr/widgets/seerr_poster_row.dart';
 import 'package:fladder/screens/shared/detail_scaffold.dart';
 import 'package:fladder/screens/shared/media/chapter_row.dart';
 import 'package:fladder/screens/shared/media/components/media_play_button.dart';
-import 'package:fladder/screens/shared/media/expanding_overview.dart';
+import 'package:fladder/screens/shared/media/expanding_text.dart';
 import 'package:fladder/screens/shared/media/external_urls.dart';
 import 'package:fladder/screens/shared/media/people_row.dart';
 import 'package:fladder/screens/shared/media/poster_row.dart';
+import 'package:fladder/screens/shared/media/special_features_row.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/item_base_model/play_item_helpers.dart';
@@ -143,22 +143,17 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
                     studios: details.overview.studios,
                     officialRating: details.overview.parentalRating,
                     communityRating: details.overview.communityRating,
+                    mediaStreamHelper: details.mediaStreams.isNotEmpty
+                        ? MediaStreamHelper(
+                            mediaStream: details.mediaStreams,
+                            onItemChanged: (changed) {
+                              ref.read(providerInstance.notifier).setMediaStreamHelper(changed);
+                            },
+                          )
+                        : null,
                   ),
-                  if (details.mediaStreams.isNotEmpty)
-                    MediaStreamInformation(
-                      onVersionIndexChanged: (index) {
-                        ref.read(providerInstance.notifier).setVersionIndex(index);
-                      },
-                      onSubIndexChanged: (index) {
-                        ref.read(providerInstance.notifier).setSubIndex(index);
-                      },
-                      onAudioIndexChanged: (index) {
-                        ref.read(providerInstance.notifier).setAudioIndex(index);
-                      },
-                      mediaStream: details.mediaStreams,
-                    ).padding(padding),
                   if (details.overview.summary.isNotEmpty == true)
-                    ExpandingOverview(
+                    ExpandingText(
                       text: details.overview.summary,
                     ).padding(padding),
                   if (details.chapters.isNotEmpty)
@@ -184,7 +179,11 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
                         label: context.localized.specialFeature(details.specialFeatures.length),
                         specialFeatures: details.specialFeatures),
                   if (details.related.isNotEmpty)
-                    PosterRow(posters: details.related, contentPadding: padding, label: "Related"),
+                    PosterRow(
+                      posters: details.related,
+                      contentPadding: padding,
+                      label: context.localized.related,
+                    ),
                   if (details.seerrRecommended.isNotEmpty)
                     SeerrPosterRow(
                       posters: details.seerrRecommended,

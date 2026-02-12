@@ -118,6 +118,7 @@ const _$FladderItemTypeEnumMap = {
   FladderItemType.boxset: 'boxset',
   FladderItemType.playlist: 'playlist',
   FladderItemType.book: 'book',
+  FladderItemType.tvchannel: 'tvchannel',
 };
 
 const _$SortingOptionsEnumMap = {

@@ -1,6 +1,11 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/foundation.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:fladder/models/settings/arguments_model.dart';
+import 'package:fladder/util/string_extensions.dart';
 
 part 'application_info.freezed.dart';
 
@@ -9,7 +14,7 @@ final applicationInfoProvider = StateProvider<ApplicationInfo>((ref) {
     name: "",
     version: "",
     buildNumber: "",
-    os: "",
+    platform: defaultTargetPlatform,
   );
 });
 
@@ -21,13 +26,24 @@ abstract class ApplicationInfo with _$ApplicationInfo {
     required String name,
     required String version,
     required String buildNumber,
-    required String os,
+    required TargetPlatform platform,
   }) = _ApplicationInfo;
 
-  String get versionPlatformBuild => "$version ($os)\n#$buildNumber";
+  String get platformLabel {
+    final leanbackMode = leanBackMode;
+    final label = platform.name.capitalize();
+    return switch (platform) {
+      TargetPlatform.macOS => "macOS",
+      TargetPlatform.iOS => "iOS",
+      TargetPlatform.android => kIsWeb ? "$label Web" : (leanbackMode ? "$label TV" : label),
+      _ => !kIsWeb ? label : "$label Web",
+    };
+  }
 
-  String get versionAndPlatform => "$version ($os)";
+  String get versionPlatformBuild => "$version ($platformLabel)\n#$buildNumber";
+
+  String get versionAndPlatform => "$version ($platformLabel)";
 
   @override
-  String toString() => 'ApplicationInfo(name: $name, version: $version, os: $os)';
+  String toString() => 'ApplicationInfo(name: $name, version: $version, platform: $platformLabel)';
 }

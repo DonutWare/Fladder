@@ -101,4 +101,6 @@ class ClientSettingsNotifier extends StateNotifier<ClientSettingsModel> {
       state = state.copyWith(shortcuts: state.shortcuts.setOrRemove(newEntry, state.defaultShortCuts));
 
   Future<void> closeDirectory() => DirectoryBookmark().closeDirectory(syncPathKey);
+
+  void setExpandedTVLayout(bool value) => state = state.copyWith(useTVExpandedLayout: value);
 }

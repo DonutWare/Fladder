@@ -197,7 +197,7 @@ class SeerrRequest extends _$SeerrRequest {
     final poster = state.poster;
     if (poster == null) return;
 
-    final canOverrideUser = state.currentUser?.canManageRequests ?? false;
+    final canOverrideUser = state.currentUser?.canManageUsers ?? false;
     final userId = canOverrideUser ? state.selectedUser?.id ?? state.currentUser?.id : null;
     final tags = state.selectedTags.map((t) => t.id).whereType<int>().toList();
     final profileId = state.selectedProfile?.id;

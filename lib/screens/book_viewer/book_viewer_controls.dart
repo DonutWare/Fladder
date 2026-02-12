@@ -14,7 +14,7 @@ import 'package:fladder/providers/settings/book_viewer_settings_provider.dart';
 import 'package:fladder/screens/book_viewer/book_viewer_chapters.dart';
 import 'package:fladder/screens/book_viewer/book_viewer_settings.dart';
 import 'package:fladder/screens/shared/default_title_bar.dart';
-import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/input_handler.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -316,7 +316,7 @@ class _BookViewerControlsState extends ConsumerState<BookViewerControls> {
                                                 },
                                               );
                                             }
-                                          : () => fladderSnackbar(context, title: "No other chapters"),
+                                          : () => FladderSnack.show("No other chapters", context: context),
                                       icon: const Icon(IconsaxPlusLinear.bookmark_2),
                                     )
                                   ],

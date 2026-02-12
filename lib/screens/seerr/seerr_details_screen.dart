@@ -17,7 +17,7 @@ import 'package:fladder/screens/seerr/widgets/seerr_poster_row.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_request_popup.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_requests_sheet.dart';
 import 'package:fladder/screens/shared/detail_scaffold.dart';
-import 'package:fladder/screens/shared/media/expanding_overview.dart';
+import 'package:fladder/screens/shared/media/expanding_text.dart';
 import 'package:fladder/screens/shared/media/external_urls.dart';
 import 'package:fladder/screens/shared/media/people_row.dart';
 import 'package:fladder/seerr/seerr_models.dart';
@@ -298,7 +298,7 @@ class SeerrDetailsScreen extends ConsumerWidget {
                       },
                     ),
                   ),
-                  ExpandingOverview(
+                  ExpandingText(
                     text: currentPoster.overview.trim().isEmpty
                         ? context.localized.noOverviewAvailable
                         : currentPoster.overview,

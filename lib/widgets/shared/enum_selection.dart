@@ -2,21 +2,27 @@ import 'package:flutter/material.dart';
 
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/focus_provider.dart';
+import 'package:fladder/util/position_provider.dart';
 import 'package:fladder/widgets/shared/ensure_visible.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 
 class EnumBox<T> extends StatelessWidget {
-  final String current;
+  final String? current;
   final Widget? currentWidget;
+  final bool autoFocus;
   final List<ItemAction> Function(BuildContext context) itemBuilder;
+  final Function(bool focused)? onFocusChanged;
 
   const EnumBox({
-    required this.current,
+    this.current,
     this.currentWidget,
+    this.autoFocus = false,
     required this.itemBuilder,
+    this.onFocusChanged,
     super.key,
-  });
+  }) : assert(
+            current != null || currentWidget != null, "At least one of 'current' or 'currentWidget' must be provided");
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +31,14 @@ class EnumBox<T> extends StatelessWidget {
     final itemList = itemBuilder(context);
     final useBottomSheet = AdaptiveLayout.inputDeviceOf(context) != InputDevice.pointer;
 
+    final foreGroundColor = Theme.of(context).colorScheme.onPrimaryContainer;
+
+    final hasMultipleItems = itemList.length > 1;
+
     final labelWidget = Padding(
       padding: padding,
       child: Material(
-        textStyle: textStyle?.copyWith(
-            fontWeight: FontWeight.bold,
-            color: itemList.length > 1 ? Theme.of(context).colorScheme.onPrimaryContainer : null),
+        textStyle: textStyle?.copyWith(fontWeight: FontWeight.bold, color: foreGroundColor),
         color: Colors.transparent,
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -38,7 +46,15 @@ class EnumBox<T> extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Flexible(
-              child: currentWidget ?? Text(current, textAlign: TextAlign.start),
+              child: currentWidget != null
+                  ? DefaultTextStyle.merge(
+                      style: textStyle?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: foreGroundColor,
+                      ),
+                      child: currentWidget!,
+                    )
+                  : Text(current ?? "", textAlign: TextAlign.start),
             ),
             const SizedBox(width: 6),
             if (itemList.length > 1)
@@ -50,19 +66,36 @@ class EnumBox<T> extends StatelessWidget {
         ),
       ),
     );
-    return Card(
-      color: itemList.length > 1 ? Theme.of(context).colorScheme.primaryContainer : Colors.transparent,
-      shadowColor: Colors.transparent,
-      elevation: 0,
+    final position = PositionProvider.of(context);
+    final borderRadius = BorderRadius.horizontal(
+      left:
+          position == null || position == PositionContext.first ? const Radius.circular(16) : const Radius.circular(4),
+      right:
+          position == null || position == PositionContext.last ? const Radius.circular(16) : const Radius.circular(4),
+    );
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.primaryContainer.withAlpha(hasMultipleItems ? 255 : 100),
+        borderRadius: borderRadius,
+        border: BoxBorder.all(
+          color: Theme.of(context).colorScheme.primaryContainer,
+          strokeAlign: BorderSide.strokeAlignInside,
+          width: 1,
+        ),
+      ),
+      clipBehavior: Clip.hardEdge,
       child: useBottomSheet
           ? FocusButton(
               child: labelWidget,
               darkOverlay: false,
-              onFocusChanged: (value) {
-                if (value) {
-                  context.ensureVisible();
-                }
-              },
+              autoFocus: autoFocus,
+              borderRadius: borderRadius,
+              onFocusChanged: onFocusChanged ??
+                  (value) {
+                    if (value) {
+                      context.ensureVisible();
+                    }
+                  },
               onTap: itemList.length > 1
                   ? () => showBottomSheetPill(
                         context: context,

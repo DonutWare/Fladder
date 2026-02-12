@@ -10,7 +10,7 @@ import 'package:fladder/providers/seerr_user_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/shared/adaptive_dialog.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
-import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/focused_outlined_text_field.dart';
 import 'package:fladder/screens/shared/outlined_text_field.dart';
 import 'package:fladder/seerr/seerr_models.dart';
@@ -184,7 +184,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
     await _refreshSession();
 
     if (mounted) {
-      fladderSnackbar(context, title: context.localized.seerrApiKeySaved);
+      FladderSnack.show(context.localized.seerrApiKeySaved, context: context);
     }
 
     if (mounted) {
@@ -204,20 +204,20 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
 
     try {
       final cookie = await ref.read(seerrApiProvider).authenticateLocal(
-        email: localEmailController.text.trim(),
-        password: localPasswordController.text,
-        headers: customHeaders.isEmpty ? null : customHeaders,
+            email: localEmailController.text.trim(),
+            password: localPasswordController.text,
+            headers: customHeaders.isEmpty ? null : customHeaders,
           );
       ref.read(userProvider.notifier).setSeerrSessionCookie(cookie);
       ref.read(userProvider.notifier).setSeerrApiKey('');
       await _refreshSession();
       if (mounted) {
-        fladderSnackbar(context, title: context.localized.seerrLoggedIn);
+        FladderSnack.show(context.localized.seerrLoggedIn, context: context);
       }
     } catch (e) {
       if (mounted) {
         error = e.toString();
-        fladderSnackbar(context, title: e.toString());
+        FladderSnack.show(e.toString(), context: context);
       }
     } finally {
       if (mounted) {
@@ -238,20 +238,20 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
 
     try {
       final cookie = await ref.read(seerrApiProvider).authenticateJellyfin(
-        username: jfUsernameController.text.trim(),
-        password: jfPasswordController.text,
-        headers: customHeaders.isEmpty ? null : customHeaders,
+            username: jfUsernameController.text.trim(),
+            password: jfPasswordController.text,
+            headers: customHeaders.isEmpty ? null : customHeaders,
           );
       ref.read(userProvider.notifier).setSeerrSessionCookie(cookie);
       ref.read(userProvider.notifier).setSeerrApiKey('');
       await _refreshSession();
       if (mounted) {
-        fladderSnackbar(context, title: context.localized.seerrLoggedIn);
+        FladderSnack.show(context.localized.seerrLoggedIn, context: context);
       }
     } catch (e) {
       if (mounted) {
         error = e.toString();
-        fladderSnackbar(context, title: e.toString());
+        FladderSnack.show(e.toString(), context: context);
       }
     } finally {
       if (mounted) {
@@ -275,7 +275,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
     } catch (e) {
       if (mounted) {
         error = e.toString();
-        fladderSnackbar(context, title: e.toString());
+        FladderSnack.show(e.toString(), context: context);
       }
     } finally {
       ref.read(userProvider.notifier).logoutSeerr();

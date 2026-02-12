@@ -112,7 +112,7 @@ void main(List<String> args) async {
     name: packageInfo.appName.capitalize(),
     version: packageInfo.version,
     buildNumber: packageInfo.buildNumber,
-    os: !kIsWeb ? defaultTargetPlatform.name.capitalize() : "${defaultTargetPlatform.name.capitalize()} Web",
+    platform: defaultTargetPlatform,
   );
 
   runApp(
@@ -312,9 +312,7 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
                 lightTheme: baseLightTheme,
                 darkTheme: baseDarkTheme,
               );
-        final darkTheme = isLinux
-            ? baseDarkTheme
-            : FladderTheme.applyChineseFontToDarkTheme(darkTheme: baseDarkTheme);
+        final darkTheme = isLinux ? baseDarkTheme : FladderTheme.applyChineseFontToDarkTheme(darkTheme: baseDarkTheme);
 
         final amoledOverwrite = amoledBlack ? Colors.black : null;
         return ThemesData(
@@ -347,7 +345,7 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
             },
             builder: (context, child) => MediaQueryScaler(
               child: LocalizationContextWrapper(
-                child: ScaffoldMessenger(child: child ?? Container()),
+                child: child ?? Container(),
                 currentLocale: language,
               ),
               enable: ref.read(argumentsStateProvider).leanBackMode,

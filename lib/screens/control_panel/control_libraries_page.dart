@@ -21,7 +21,7 @@ import 'package:fladder/screens/library/library_screen.dart';
 import 'package:fladder/screens/metadata/edit_item.dart';
 import 'package:fladder/screens/settings/settings_scaffold.dart';
 import 'package:fladder/screens/shared/default_alert_dialog.dart';
-import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
@@ -87,9 +87,9 @@ class ControlLibrariesPage extends ConsumerWidget {
                           currentOptions,
                         );
                         if (responseMessage != null) {
-                          fladderSnackbar(context, title: responseMessage);
+                          FladderSnack.show(responseMessage, context: context);
                         } else {
-                          fladderSnackbar(context, title: context.localized.saved);
+                          FladderSnack.show(context.localized.saved, context: context);
                         }
                       }
                     : null,

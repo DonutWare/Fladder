@@ -9,7 +9,7 @@ import 'package:window_manager/window_manager.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
-import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/screens/video_player/video_player.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
@@ -128,7 +128,7 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
         },
         direction: DismissDirection.vertical,
         child: InkWell(
-          onLongPress: () => fladderSnackbar(context, title: "Swipe up/down to open/close the player"),
+          onLongPress: () => FladderSnack.show("Swipe up/down to open/close the player", context: context),
           child: Card(
             elevation: 5,
             color: Theme.of(context).colorScheme.primaryContainer,

@@ -13,6 +13,12 @@ const fullScreenRoutes = {
   PhotoViewerRoute.name,
 };
 
+const topBarNoBlurRoutes = {
+  SettingsRoute.name,
+  ControlPanelRoute.name,
+  DetailsRoute.name,
+};
+
 @AutoRouterConfig(replaceInRouteName: 'Screen|Page,Route')
 class AutoRouter extends RootStackRouter {
   AutoRouter({

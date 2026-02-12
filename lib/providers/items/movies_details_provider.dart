@@ -1,12 +1,14 @@
 import 'dart:developer';
 
 import 'package:chopper/chopper.dart';
-import 'package:fladder/models/items/special_feature_model.dart';
-import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
+import 'package:logging/logging.dart' as logging;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/movie_model.dart';
+import 'package:fladder/models/items/special_feature_model.dart';
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/related_provider.dart';
@@ -15,7 +17,6 @@ import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
-import 'package:logging/logging.dart' as logging;
 
 part 'movies_details_provider.g.dart';
 
@@ -80,29 +81,20 @@ class MovieDetails extends _$MovieDetails {
       }
 
       state = newState.copyWith(
-        related: related.body,
-        seerrRelated: seerrRelated,
-        seerrRecommended: seerrRecommended,
-        overview: state?.overview.copyWith(
-          seerrUrl: seerrUrl,
-        ),
-        specialFeatures: specialFeatureModel
-      );
+          related: related.body,
+          seerrRelated: seerrRelated,
+          seerrRecommended: seerrRecommended,
+          overview: state?.overview.copyWith(
+            seerrUrl: seerrUrl,
+          ),
+          specialFeatures: specialFeatureModel);
       return null;
     } catch (e) {
       return null;
     }
   }
 
-  void setSubIndex(int index) {
-    state = state?.copyWith(mediaStreams: state?.mediaStreams.copyWith(defaultSubStreamIndex: index));
-  }
-
-  void setAudioIndex(int index) {
-    state = state?.copyWith(mediaStreams: state?.mediaStreams.copyWith(defaultAudioStreamIndex: index));
-  }
-
-  void setVersionIndex(int index) {
-    state = state?.copyWith(mediaStreams: state?.mediaStreams.copyWith(versionStreamIndex: index));
+  void setMediaStreamHelper(MediaStreamsModel changed) {
+    state = state?.copyWith(mediaStreams: changed);
   }
 }

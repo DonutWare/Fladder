@@ -63,6 +63,13 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   bool wasPlaying = false;
   SystemUiMode? _currentSystemUiMode;
 
+  bool _speedBoostActive = false;
+  double? _originalSpeed;
+
+  Offset? _doubleTapPosition;
+
+  final SeekIndicatorController _seekController = SeekIndicatorController();
+
   late final double topPadding = MediaQuery.of(context).viewPadding.top;
   late final double bottomPadding = MediaQuery.of(context).viewPadding.bottom;
 
@@ -73,16 +80,33 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   }
 
   @override
+  void dispose() {
+    _deactivateSpeedBoost();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final mediaSegments = ref.watch(playBackModel.select((value) => value?.mediaSegments));
     final player = ref.watch(videoPlayerProvider);
     final subtitleWidget = player.subtitleWidget(showOverlay, controlsKey: _bottomControlsKey);
+    final isDesktop = AdaptiveLayout.of(context).isDesktop || kIsWeb;
+    final speedBoostEnabled = ref.watch(videoPlayerSettingsProvider.select((value) => value.enableSpeedBoost));
+
     return Listener(
       onPointerSignal: setVolume,
       child: InputHandler(
         autoFocus: true,
         keyMap: ref.watch(videoPlayerSettingsProvider.select((value) => value.currentShortcuts)),
         keyMapResult: _onKey,
+        onKeyEvent: isDesktop && speedBoostEnabled
+            ? (node, event) {
+                if (event.logicalKey == LogicalKeyboardKey.space) {
+                  return _handleSpacebarEvent(event);
+                }
+                return KeyEventResult.ignored;
+              }
+            : null,
         child: PopScope(
           canPop: false,
           onPopInvokedWithResult: (didPop, result) {
@@ -100,8 +124,12 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                 Positioned.fill(
                   child: GestureDetector(
                     onTap: initInputDevice == InputDevice.pointer ? () => player.playOrPause() : () => toggleOverlay(),
-                    onDoubleTap:
-                        initInputDevice == InputDevice.pointer ? () => fullScreenHelper.toggleFullScreen(ref) : null,
+                    onDoubleTapDown: initInputDevice == InputDevice.touch ? _handleDoubleTapDown : null,
+                    onDoubleTap: initInputDevice == InputDevice.pointer
+                        ? () => fullScreenHelper.toggleFullScreen(ref)
+                        : _handleDoubleTapSeek,
+                    onLongPressStart: initInputDevice == InputDevice.touch ? _handleLongPressStart : null,
+                    onLongPressEnd: initInputDevice == InputDevice.touch ? _handleLongPressEnd : null,
                   ),
                 ),
                 if (subtitleWidget != null) subtitleWidget,
@@ -125,7 +153,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                     ),
                   ),
                 ),
-                const VideoPlayerSeekIndicator(),
+                VideoPlayerSeekIndicator(controller: _seekController),
                 const VideoPlayerVolumeIndicator(),
                 const VideoPlayerSpeedIndicator(),
                 const VideoPlayerScreenshotIndicator(),
@@ -646,6 +674,14 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     ref.read(videoPlayerProvider).seek(Duration(seconds: newPosition));
   }
 
+  void seekBackWithIndicator() {
+    _seekController.seekBack();
+  }
+
+  void seekForwardWithIndicator() {
+    _seekController.seekForward();
+  }
+
   void toggleOverlay({bool? value}) {
     if (showOverlay == (value ?? !showOverlay)) return;
     setState(() => showOverlay = (value ?? !showOverlay));
@@ -712,6 +748,92 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     }
   }
 
+  void _activateSpeedBoost() {
+    if (_speedBoostActive) return;
+
+    final settings = ref.read(videoPlayerSettingsProvider);
+    if (!settings.enableSpeedBoost) return;
+
+    _originalSpeed = ref.read(playbackRateProvider);
+    _speedBoostActive = true;
+    ref.read(videoPlayerProvider).setSpeed(settings.speedBoostRate);
+    ref.read(playbackRateProvider.notifier).state = settings.speedBoostRate;
+  }
+
+  void _deactivateSpeedBoost() {
+    if (!_speedBoostActive) return;
+
+    _speedBoostActive = false;
+    if (_originalSpeed != null) {
+      ref.read(videoPlayerProvider).setSpeed(_originalSpeed!);
+      ref.read(playbackRateProvider.notifier).state = _originalSpeed!;
+      _originalSpeed = null;
+    }
+  }
+
+  // --- Keyboard Speed Boost Handler (Desktop) ---
+
+  KeyEventResult _handleSpacebarEvent(KeyEvent event) {
+    if (event is KeyDownEvent) {
+      return KeyEventResult.handled;
+    } else if (event is KeyRepeatEvent) {
+      final isPlaying = ref.read(mediaPlaybackProvider.select((value) => value.playing));
+      if (isPlaying) {
+        _activateSpeedBoost();
+      }
+      return KeyEventResult.handled;
+    } else if (event is KeyUpEvent) {
+      if (_speedBoostActive) {
+        _deactivateSpeedBoost();
+      } else {
+        ref.read(videoPlayerProvider).playOrPause();
+      }
+      return KeyEventResult.handled;
+    }
+    return KeyEventResult.ignored;
+  }
+
+  // --- Touch Gesture Handlers (Mobile) ---
+
+  void _handleDoubleTapDown(TapDownDetails details) {
+    final doubleTapSeekEnabled =
+        ref.read(videoPlayerSettingsProvider.select((value) => value.enableDoubleTapSeek));
+    if (doubleTapSeekEnabled) {
+      _doubleTapPosition = details.globalPosition;
+    }
+  }
+
+  void _handleDoubleTapSeek() {
+    final doubleTapSeekEnabled =
+        ref.read(videoPlayerSettingsProvider.select((value) => value.enableDoubleTapSeek));
+    if (!doubleTapSeekEnabled) return;
+
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final tapX = _doubleTapPosition?.dx ?? screenWidth / 2;
+    final zoneThird = screenWidth / 3;
+
+    if (tapX < zoneThird) {
+      seekBackWithIndicator();
+    } else if (tapX > zoneThird * 2) {
+      seekForwardWithIndicator();
+    } else {
+      ref.read(videoPlayerProvider).playOrPause();
+    }
+    _doubleTapPosition = null;
+  }
+
+  void _handleLongPressStart(LongPressStartDetails details) {
+    final settings = ref.read(videoPlayerSettingsProvider);
+    final isPlaying = ref.read(mediaPlaybackProvider.select((value) => value.playing));
+    if (settings.enableSpeedBoost && isPlaying) {
+      _activateSpeedBoost();
+    }
+  }
+
+  void _handleLongPressEnd(LongPressEndDetails details) {
+    _deactivateSpeedBoost();
+  }
+
   bool _onKey(VideoHotKeys value) {
     final mediaSegments = ref.read(playBackModel.select((value) => value?.mediaSegments));
     final position = ref.read(mediaPlaybackProvider).position;
@@ -722,6 +844,9 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
 
     switch (value) {
       case VideoHotKeys.playPause:
+        if (_speedBoostActive) {
+          return false;
+        }
         ref.read(videoPlayerProvider).playOrPause();
         return true;
       case VideoHotKeys.volumeUp:

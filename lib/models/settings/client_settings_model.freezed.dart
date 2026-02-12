@@ -39,6 +39,7 @@ mixin _$ClientSettingsModel implements DiagnosticableTreeMixin {
   bool get checkForUpdates;
   bool get usePosterForLibrary;
   bool get useSystemIME;
+  bool get useTVExpandedLayout;
   String? get lastViewedUpdate;
   int? get libraryPageSize;
   Map<GlobalHotKeys, KeyCombination> get shortcuts;
@@ -84,6 +85,7 @@ mixin _$ClientSettingsModel implements DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('checkForUpdates', checkForUpdates))
       ..add(DiagnosticsProperty('usePosterForLibrary', usePosterForLibrary))
       ..add(DiagnosticsProperty('useSystemIME', useSystemIME))
+      ..add(DiagnosticsProperty('useTVExpandedLayout', useTVExpandedLayout))
       ..add(DiagnosticsProperty('lastViewedUpdate', lastViewedUpdate))
       ..add(DiagnosticsProperty('libraryPageSize', libraryPageSize))
       ..add(DiagnosticsProperty('shortcuts', shortcuts));
@@ -91,7 +93,7 @@ mixin _$ClientSettingsModel implements DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ClientSettingsModel(syncPath: $syncPath, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, themeMode: $themeMode, themeColor: $themeColor, deriveColorsFromItem: $deriveColorsFromItem, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundImage: $backgroundImage, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, useSystemIME: $useSystemIME, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
+    return 'ClientSettingsModel(syncPath: $syncPath, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, themeMode: $themeMode, themeColor: $themeColor, deriveColorsFromItem: $deriveColorsFromItem, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundImage: $backgroundImage, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, useSystemIME: $useSystemIME, useTVExpandedLayout: $useTVExpandedLayout, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
   }
 }
 
@@ -126,6 +128,7 @@ abstract mixin class $ClientSettingsModelCopyWith<$Res> {
       bool checkForUpdates,
       bool usePosterForLibrary,
       bool useSystemIME,
+      bool useTVExpandedLayout,
       String? lastViewedUpdate,
       int? libraryPageSize,
       Map<GlobalHotKeys, KeyCombination> shortcuts});
@@ -168,6 +171,7 @@ class _$ClientSettingsModelCopyWithImpl<$Res>
     Object? checkForUpdates = null,
     Object? usePosterForLibrary = null,
     Object? useSystemIME = null,
+    Object? useTVExpandedLayout = null,
     Object? lastViewedUpdate = freezed,
     Object? libraryPageSize = freezed,
     Object? shortcuts = null,
@@ -268,6 +272,10 @@ class _$ClientSettingsModelCopyWithImpl<$Res>
       useSystemIME: null == useSystemIME
           ? _self.useSystemIME
           : useSystemIME // ignore: cast_nullable_to_non_nullable
+              as bool,
+      useTVExpandedLayout: null == useTVExpandedLayout
+          ? _self.useTVExpandedLayout
+          : useTVExpandedLayout // ignore: cast_nullable_to_non_nullable
               as bool,
       lastViewedUpdate: freezed == lastViewedUpdate
           ? _self.lastViewedUpdate
@@ -403,6 +411,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             bool checkForUpdates,
             bool usePosterForLibrary,
             bool useSystemIME,
+            bool useTVExpandedLayout,
             String? lastViewedUpdate,
             int? libraryPageSize,
             Map<GlobalHotKeys, KeyCombination> shortcuts)?
@@ -437,6 +446,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             _that.checkForUpdates,
             _that.usePosterForLibrary,
             _that.useSystemIME,
+            _that.useTVExpandedLayout,
             _that.lastViewedUpdate,
             _that.libraryPageSize,
             _that.shortcuts);
@@ -485,6 +495,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             bool checkForUpdates,
             bool usePosterForLibrary,
             bool useSystemIME,
+            bool useTVExpandedLayout,
             String? lastViewedUpdate,
             int? libraryPageSize,
             Map<GlobalHotKeys, KeyCombination> shortcuts)
@@ -518,6 +529,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             _that.checkForUpdates,
             _that.usePosterForLibrary,
             _that.useSystemIME,
+            _that.useTVExpandedLayout,
             _that.lastViewedUpdate,
             _that.libraryPageSize,
             _that.shortcuts);
@@ -565,6 +577,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             bool checkForUpdates,
             bool usePosterForLibrary,
             bool useSystemIME,
+            bool useTVExpandedLayout,
             String? lastViewedUpdate,
             int? libraryPageSize,
             Map<GlobalHotKeys, KeyCombination> shortcuts)?
@@ -598,6 +611,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             _that.checkForUpdates,
             _that.usePosterForLibrary,
             _that.useSystemIME,
+            _that.useTVExpandedLayout,
             _that.lastViewedUpdate,
             _that.libraryPageSize,
             _that.shortcuts);
@@ -636,6 +650,7 @@ class _ClientSettingsModel extends ClientSettingsModel
       this.checkForUpdates = true,
       this.usePosterForLibrary = false,
       this.useSystemIME = false,
+      this.useTVExpandedLayout = false,
       this.lastViewedUpdate,
       this.libraryPageSize,
       final Map<GlobalHotKeys, KeyCombination> shortcuts = const {}})
@@ -714,6 +729,9 @@ class _ClientSettingsModel extends ClientSettingsModel
   @JsonKey()
   final bool useSystemIME;
   @override
+  @JsonKey()
+  final bool useTVExpandedLayout;
+  @override
   final String? lastViewedUpdate;
   @override
   final int? libraryPageSize;
@@ -772,6 +790,7 @@ class _ClientSettingsModel extends ClientSettingsModel
       ..add(DiagnosticsProperty('checkForUpdates', checkForUpdates))
       ..add(DiagnosticsProperty('usePosterForLibrary', usePosterForLibrary))
       ..add(DiagnosticsProperty('useSystemIME', useSystemIME))
+      ..add(DiagnosticsProperty('useTVExpandedLayout', useTVExpandedLayout))
       ..add(DiagnosticsProperty('lastViewedUpdate', lastViewedUpdate))
       ..add(DiagnosticsProperty('libraryPageSize', libraryPageSize))
       ..add(DiagnosticsProperty('shortcuts', shortcuts));
@@ -779,7 +798,7 @@ class _ClientSettingsModel extends ClientSettingsModel
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ClientSettingsModel(syncPath: $syncPath, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, themeMode: $themeMode, themeColor: $themeColor, deriveColorsFromItem: $deriveColorsFromItem, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundImage: $backgroundImage, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, useSystemIME: $useSystemIME, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
+    return 'ClientSettingsModel(syncPath: $syncPath, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, themeMode: $themeMode, themeColor: $themeColor, deriveColorsFromItem: $deriveColorsFromItem, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundImage: $backgroundImage, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, useSystemIME: $useSystemIME, useTVExpandedLayout: $useTVExpandedLayout, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
   }
 }
 
@@ -816,6 +835,7 @@ abstract mixin class _$ClientSettingsModelCopyWith<$Res>
       bool checkForUpdates,
       bool usePosterForLibrary,
       bool useSystemIME,
+      bool useTVExpandedLayout,
       String? lastViewedUpdate,
       int? libraryPageSize,
       Map<GlobalHotKeys, KeyCombination> shortcuts});
@@ -858,6 +878,7 @@ class __$ClientSettingsModelCopyWithImpl<$Res>
     Object? checkForUpdates = null,
     Object? usePosterForLibrary = null,
     Object? useSystemIME = null,
+    Object? useTVExpandedLayout = null,
     Object? lastViewedUpdate = freezed,
     Object? libraryPageSize = freezed,
     Object? shortcuts = null,
@@ -958,6 +979,10 @@ class __$ClientSettingsModelCopyWithImpl<$Res>
       useSystemIME: null == useSystemIME
           ? _self.useSystemIME
           : useSystemIME // ignore: cast_nullable_to_non_nullable
+              as bool,
+      useTVExpandedLayout: null == useTVExpandedLayout
+          ? _self.useTVExpandedLayout
+          : useTVExpandedLayout // ignore: cast_nullable_to_non_nullable
               as bool,
       lastViewedUpdate: freezed == lastViewedUpdate
           ? _self.lastViewedUpdate

@@ -37,7 +37,7 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
       ImageType.banner,
     }.toList();
 
-    final fieldsToFetch = [
+    final fieldsToFetch = {
       ItemFields.parentid,
       ItemFields.mediastreams,
       ItemFields.mediasources,
@@ -45,8 +45,8 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
       ItemFields.candownload,
       ItemFields.primaryimageaspectratio,
       ItemFields.overview,
-      ItemFields.genres,
-    ];
+      ItemFields.airtime,
+    };
 
     if (viewTypes.containsAny([CollectionType.livetv])) {
       List<ChannelModel> channels = (await api.liveTvChannelsGet(limit: limit))
@@ -73,7 +73,7 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
     if (viewTypes.containsAny([CollectionType.movies, CollectionType.tvshows])) {
       final resumeVideoResponse = await api.usersUserIdItemsResumeGet(
         enableImageTypes: imagesToFetch,
-        fields: fieldsToFetch,
+        fields: fieldsToFetch.toList(),
         mediaTypes: [MediaType.video],
         enableTotalRecordCount: false,
         limit: limit,
@@ -87,7 +87,7 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
     if (viewTypes.contains(CollectionType.music)) {
       final resumeAudioResponse = await api.usersUserIdItemsResumeGet(
         enableImageTypes: imagesToFetch,
-        fields: fieldsToFetch,
+        fields: fieldsToFetch.toList(),
         mediaTypes: [MediaType.audio],
         enableTotalRecordCount: false,
         limit: limit,
@@ -101,7 +101,7 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
     if (viewTypes.contains(CollectionType.books)) {
       final resumeBookResponse = await api.usersUserIdItemsResumeGet(
         enableImageTypes: imagesToFetch,
-        fields: fieldsToFetch,
+        fields: fieldsToFetch.toList(),
         mediaTypes: [MediaType.book],
         enableTotalRecordCount: false,
         limit: limit,
@@ -115,7 +115,7 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
     final nextResponse = await api.showsNextUpGet(
       nextUpDateCutoff: DateTime.now().subtract(
           ref.read(clientSettingsProvider.select((value) => value.nextUpDateCutoff ?? const Duration(days: 28)))),
-      fields: fieldsToFetch,
+      fields: fieldsToFetch.toList(),
     );
 
     final next = nextResponse.body?.items

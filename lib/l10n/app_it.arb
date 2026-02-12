@@ -1,4 +1,5 @@
 {
+    "@@locale": "it",
     "accept": "Accetta",
     "@accept": {},
     "addAsFavorite": "Aggiungi ai preferiti",
@@ -1376,6 +1377,14 @@
             }
         }
     },
+    "enableSpeedBoostTitle": "Abilita speed boost",
+    "@enableSpeedBoostTitle": {},
+    "enableSpeedBoostDesc": "Tieni premuto lo schermo (mobile) o la barra spaziatrice (desktop) per aumentare temporaneamente la velocità di riproduzione",
+    "@enableSpeedBoostDesc": {},
+    "speedBoostRateTitle": "Velocità speed boost",
+    "@speedBoostRateTitle": {},
+    "speedBoostRateDesc": "Velocità di riproduzione quando lo speed boost è attivato",
+    "@speedBoostRateDesc": {},
     "quickConnectLoginUsingCode": "Usa quick connect",
     "@quickConnectLoginUsingCode": {},
     "quickConnectEnterCodeDescription": "Inserisci il codice sottostante per connetterti",
@@ -1507,5 +1516,9 @@
     "screenshotCleanTaken": "Screenshot senza sottotitoli salvato!",
     "@screenshotCleanTaken": {},
     "errorTakingScreenshot": "Si è verificato un errore durante l'acquisizione dello screenshot",
-    "@errorTakingScreenshot": {}
+    "@errorTakingScreenshot": {},
+    "enableDoubleTapSeekTitle": "Doppio tap per avanzare/indietreggiare/play/pausa",
+    "@enableDoubleTapSeekTitle": {},
+    "enableDoubleTapSeekDesc": "Doppio tap a sinistra/destra dello schermo per avanzare/indietreggiare. Doppio tap al centro per play/pausa",
+    "@enableDoubleTapSeekDesc": {}
 }

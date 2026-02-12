@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/providers/playlist_provider.dart';
 import 'package:fladder/screens/shared/adaptive_dialog.dart';
-import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/outlined_text_field.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/alert_content.dart';
@@ -81,10 +81,11 @@ class _AddToPlaylistState extends ConsumerState<AddToPlaylist> {
                                 name: controller.text,
                               );
                           if (context.mounted) {
-                            fladderSnackbar(context,
-                                title: response.isSuccessful
+                            FladderSnack.show(
+                                response.isSuccessful
                                     ? context.localized.addedToPlaylist(controller.text)
-                                    : '${context.localized.somethingWentWrong} - (${response.statusCode}) - ${response.base.reasonPhrase}');
+                                    : '${context.localized.somethingWentWrong} - (${response.statusCode}) - ${response.base.reasonPhrase}',
+                                context: context);
                           }
                           setState(() => controller.text = '');
                         }
@@ -119,10 +120,11 @@ class _AddToPlaylistState extends ConsumerState<AddToPlaylist> {
                                 onPressed: () async {
                                   final response = await ref.read(provider.notifier).addToPlaylist(playlist: e.key);
                                   if (context.mounted) {
-                                    fladderSnackbar(context,
-                                        title: response.isSuccessful
+                                    FladderSnack.show(
+                                        response.isSuccessful
                                             ? context.localized.addedToPlaylist(controller.text)
-                                            : '${context.localized.somethingWentWrong} - (${response.statusCode}) - ${response.base.reasonPhrase}');
+                                            : '${context.localized.somethingWentWrong} - (${response.statusCode}) - ${response.base.reasonPhrase}',
+                                        context: context);
                                   }
                                 },
                                 icon: Icon(Icons.add_rounded, color: Theme.of(context).colorScheme.primary),
