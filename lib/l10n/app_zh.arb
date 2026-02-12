@@ -1651,5 +1651,11 @@
     "showLess": "显示更少",
     "activeTvChannels": "活动的电视频道",
     "enableNewTVLayout": "启用新的电视布局",
-    "enableNewTVLayoutDesc": "在控制台上显示更大的电视风格横幅广告。这将成为未来版本中的默认布局。"
+    "enableNewTVLayoutDesc": "在控制台上显示更大的电视风格横幅广告。这将成为未来版本中的默认布局。",
+    "enableSpeedBoostTitle": "启用加速功能",
+    "enableSpeedBoostDesc": "按住屏幕（移动设备）或空格键（电脑）可暂时提高播放速度",
+    "speedBoostRateTitle": "速度倍率",
+    "speedBoostRateDesc": "加速激活时的播放速度",
+    "enableDoubleTapSeekTitle": "双击即可快进/播放/暂停",
+    "enableDoubleTapSeekDesc": "双击屏幕左侧/右侧可快进/快退。双击屏幕中央可播放/暂停"
 }
