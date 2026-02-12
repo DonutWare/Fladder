@@ -18,7 +18,7 @@
     "addToPlaylist": "Tambahkan ke Daftar Putar",
     "advanced": "Lanjutan",
     "all": "Semua",
-    "amoledBlack": "Hitam AMOLED",
+    "amoledBlack": "Hitam Amoled",
     "appLockAutoLogin": "Login Otomatis",
     "appLockBiometrics": "Biometrik",
     "appLockPasscode": "Kode Sandi",
@@ -26,7 +26,7 @@
     "autoPlay": "Putar Otomatis",
     "backgroundBlur": "Blur Latar Belakang",
     "backgroundOpacity": "Opasitas Latar Belakang",
-    "biometricsFailedCheckAgain": "Biometrik gagal. Silakan coba lagi",
+    "biometricsFailedCheckAgain": "Autentikasi biometrik gagal. Periksa pengaturan dan coba lagi.",
     "bold": "Tebal",
     "cancel": "Batal",
     "change": "Ubah",
@@ -813,5 +813,33 @@
     "switchChannel": "Ganti Saluran",
     "activeTvChannels": "Saluran TV Aktif",
     "enableNewTVLayout": "Aktifkan Tata Letak TV Baru",
-    "enableNewTVLayoutDesc": "Gunakan tata letak baru untuk antarmuka TV"
+    "enableNewTVLayoutDesc": "Gunakan tata letak baru untuk antarmuka TV",
+    "appLockTitle": "Atur metode masuk untuk {userName}",
+    "@appLockTitle": {
+        "description": "Pop-up to pick a login method",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "collectionFolder": "{count, plural, one{Folder koleksi} other{Folder koleksi}}",
+    "@collectionFolder": {
+        "description": "Collection folder (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "dashboardRecentlyAdded": "Baru ditambahkan di {name}",
+    "@dashboardRecentlyAdded": {
+        "description": "Recently added on home screen",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    }
 }
