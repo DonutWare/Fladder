@@ -10,7 +10,6 @@ import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
-import 'package:fladder/util/debouncer.dart';
 import 'package:fladder/wrappers/media_control_wrapper.dart';
 
 final mediaPlaybackProvider = StateProvider<MediaPlaybackModel>((ref) => MediaPlaybackModel());
@@ -34,29 +33,25 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
 
   MediaPlaybackModel get playbackState => ref.read(mediaPlaybackProvider);
 
-  final Debouncer debouncer = Debouncer(const Duration(milliseconds: 125));
+  Future<void> init() async {
+    await state.dispose();
+    await state.init();
 
-  void init() async {
-    debouncer.run(() async {
-      await state.dispose();
-      await state.init();
+    for (final s in subscriptions) {
+      s.cancel();
+    }
 
-      for (final s in subscriptions) {
-        s.cancel();
-      }
-
-      final subscription = state.stateStream?.listen((value) {
-        updateBuffering(value.buffering);
-        updateBuffer(value.buffer);
-        updatePlaying(value.playing);
-        updatePosition(value.position);
-        updateDuration(value.duration);
-      });
-
-      if (subscription != null) {
-        subscriptions.add(subscription);
-      }
+    final subscription = state.stateStream?.listen((value) {
+      updateBuffering(value.buffering);
+      updateBuffer(value.buffer);
+      updatePlaying(value.playing);
+      updatePosition(value.position);
+      updateDuration(value.duration);
     });
+
+    if (subscription != null) {
+      subscriptions.add(subscription);
+    }
   }
 
   Future<void> updateBuffering(bool event) async =>
@@ -132,6 +127,7 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     if (media != null) {
       await state.loadVideo(model, startPosition, false);
       await state.setVolume(ref.read(videoPlayerSettingsProvider).volume);
+
       state.stateStream?.takeWhile((event) => event.buffering == true).listen(
         null,
         onDone: () async {
