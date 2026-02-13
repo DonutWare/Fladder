@@ -498,7 +498,7 @@
     "unknown": "Sconosciuto",
     "useDefaults": "Usa i valori predefiniti",
     "userName": "Nome utente",
-    "video": "Video",
+    "video": "{count, plural, one{Video} other{Video}}",
     "videoScaling": "Ridimensionamento video",
     "videoScalingContain": "Contenere",
     "videoScalingCover": "Copertina",
@@ -1165,5 +1165,34 @@
     "seerrServer": "Server Seerr",
     "deleteRequestConfirmation": "Sei sicuro che vuoi cancellare questa richiesta?",
     "segmentActionSkipOnce": "Salta una volta",
-    "playbackTypeTV": "TV"
+    "playbackTypeTV": "TV",
+    "contentRating": "Valutazione dei contenuti",
+    "runtimeMinutesTitle": "Tempo d'esecuzione (minuti)",
+    "streamingServices": "Fornitori ({count})",
+    "@streamingServices": {
+        "description": "Streaming providers (Netflix,HBO, etc.)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "subtitlePlaybackModeDefault": "Predefinito",
+    "videoScalingFillScreenNotif": "La modalità a schermo intero sovrascrive l'adattamento video, con rotazione orizzontale",
+    "syncDeleteAllItemsDesc": "Questo cancellerà tutti gli elementi sincronizzati da '{itemName}'.\nQuesta operazione è definitiva e sarà necessario risincronizzare ({itemCount}) file.",
+    "@syncDeleteAllItemsDesc": {
+        "description": "syncDeleteAllitemsFromDesc",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            },
+            "itemCount": {
+                "type": "int"
+            }
+        }
+    },
+    "seekBack": "Torna indietro",
+    "skipMediaSegment": "Salta segmento",
+    "quickConnectPostFailed": "Impossibile ottenere il codice di connessione rapida"
 }
