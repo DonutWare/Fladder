@@ -10,18 +10,20 @@ import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.input.key.type
 
 private val HANDLED_KEYS = setOf(
-    Key.MediaStop,
     Key.X,
+    Key.P,
+    Key.MediaStop,
     Key.MediaPlay,
     Key.MediaPlayPause,
     Key.MediaPause,
-    Key.P,
     Key.Back,
     Key.Escape,
     Key.ButtonB,
     Key.Backspace,
     Key.DirectionLeft,
     Key.DirectionRight,
+    Key.DirectionUp,
+    Key.DirectionDown,
 )
 
 @Composable
@@ -33,11 +35,10 @@ fun Modifier.keyEvent(
     return this
         .onKeyEvent { keyEvent: KeyEvent ->
             val ignoreKeys =
-                keyEvent.type != KeyEventType.KeyDown && !allKeys.contains(keyEvent.key)
+                keyEvent.type != KeyEventType.KeyDown || !allKeys.contains(keyEvent.key)
             if (ignoreKeys) {
                 return@onKeyEvent false
-            } else {
-                return@onKeyEvent onKeyEvent(keyEvent)
             }
+            return@onKeyEvent onKeyEvent(keyEvent)
         }
 }
