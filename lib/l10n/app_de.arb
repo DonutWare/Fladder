@@ -1658,5 +1658,11 @@
     "showLess": "Weniger anzeigen",
     "activeTvChannels": "Aktive TV Kanäle",
     "enableNewTVLayout": "Neues TV Layout aktivieren",
-    "enableNewTVLayoutDesc": "Zeige größere TV-Stil Banner auf dem Dashboard. Dies wird zum Standardlayout in einer zukünftigen Version."
+    "enableNewTVLayoutDesc": "Zeige größere TV-Stil Banner auf dem Dashboard. Dies wird zum Standardlayout in einer zukünftigen Version.",
+    "enableSpeedBoostTitle": "Beschleunigung aktivieren",
+    "enableSpeedBoostDesc": "Bildschirm (Touch) oder Leertaste (PC) gedrückt halten, um die Wiedergabegeschwindigkeit temporär zu erhöhen",
+    "speedBoostRateTitle": "Beschleunigungsrate",
+    "speedBoostRateDesc": "Wiedergabegeschwindigkeit bei aktivierter Beschleunigung",
+    "enableDoubleTapSeekTitle": "Doppelt tippen zum spulen/starten/pausieren",
+    "enableDoubleTapSeekDesc": "Linke/Rechte Bildschirmhälfte doppelt tippen um zurück/nach vorne zu springen. Zum Abspielen/pausieren doppelt in die Bildschirmmitte tippen"
 }
