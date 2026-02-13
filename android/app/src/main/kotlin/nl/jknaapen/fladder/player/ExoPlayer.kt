@@ -11,7 +11,6 @@ import androidx.annotation.OptIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
@@ -183,16 +182,22 @@ internal fun ExoPlayer(
                 val subTracks = exoPlayer.getSubtitleTracks()
                 val audioTracks = exoPlayer.getAudioTracks()
 
+                val subsInitialized = VideoPlayerObject.implementation.subsInitialized
+
                 if (subTracks.isEmpty() && audioTracks.isEmpty()) return
 
-                val playbackData = VideoPlayerObject.implementation.playbackData.value
-                Handler(Looper.getMainLooper()).postDelayed(delayInMillis = 1.seconds.inWholeMilliseconds) {
-                    playbackData?.let {
-                        exoPlayer.properlySetSubAndAudioTracks(it)
+                if (!subsInitialized) {
+                    VideoPlayerObject.implementation.subsInitialized = true
+                    val playbackData = VideoPlayerObject.implementation.playbackData.value
+                    Handler(Looper.getMainLooper()).postDelayed(delayInMillis = 1.seconds.inWholeMilliseconds) {
+                        playbackData?.let {
+                            exoPlayer.properlySetSubAndAudioTracks(it)
+                        }
+                        VideoPlayerObject.exoSubTracks.value = subTracks
+                        VideoPlayerObject.exoAudioTracks.value = audioTracks
                     }
-                    VideoPlayerObject.exoSubTracks.value = subTracks
-                    VideoPlayerObject.exoAudioTracks.value = audioTracks
                 }
+
             }
         }
         exoPlayer.addListener(listener)

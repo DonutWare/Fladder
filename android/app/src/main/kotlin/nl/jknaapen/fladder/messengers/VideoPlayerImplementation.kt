@@ -32,6 +32,8 @@ class VideoPlayerImplementation(
     var player: ExoPlayer? = null
     val playbackData: MutableStateFlow<PlayableData?> = MutableStateFlow(null)
 
+    var subsInitialized = false
+
     val isTVMode: Flow<Boolean> = playbackData.asStateFlow().map {
         it?.mediaInfo?.playbackType == PlaybackType.TV
     }
@@ -114,6 +116,7 @@ class VideoPlayerImplementation(
                 }
                 player?.playWhenReady = play
                 callback(Result.success(true))
+                subsInitialized = false
                 return@postDelayed
             } catch (e: Exception) {
                 println("Error playing video $e")
@@ -154,6 +157,7 @@ class VideoPlayerImplementation(
 
     fun init(exoPlayer: ExoPlayer?) {
         player = exoPlayer
+        subsInitialized = false
         //exoPlayer initializes after the playbackData is set for the first load
         playbackData.value?.let { playData ->
             VideoPlayerObject.setAudioTrackIndex(playData.defaultAudioTrack.toInt(), true)
