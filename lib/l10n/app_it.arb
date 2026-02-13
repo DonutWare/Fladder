@@ -70,7 +70,7 @@
     "dateAdded": "Data aggiunta",
     "dateLastContentAdded": "Data ultimo contenuto aggiunto",
     "datePlayed": "Data riproduzione",
-    "days": "Giorni",
+    "days": "{count, plural, one{Giorno} other{Giorni}}",
     "delete": "Elimina",
     "deleteFileFromSystem": "L'eliminazione di questo elemento {item} lo eliminerà sia dal file system che dalla libreria multimediale. Vuoi continuare?",
     "@deleteFileFromSystem": {
@@ -1194,5 +1194,210 @@
     },
     "seekBack": "Torna indietro",
     "skipMediaSegment": "Salta segmento",
-    "quickConnectPostFailed": "Impossibile ottenere il codice di connessione rapida"
+    "quickConnectPostFailed": "Impossibile ottenere il codice di connessione rapida",
+    "backgroundColor": "Colore sfondo",
+    "skipForwardLength": "Lunghezza salto avanti",
+    "skipBackLength": "Lunghezza salto indietro",
+    "showLess": "Mostra meno",
+    "itemColorsTitle": "Colore elementi",
+    "itemColorsDesc": "Usa il colore primario dell'elemento come tema della pagina dei dettagli",
+    "mediaTunnelingTitle": "Tunneling multimediale",
+    "mediaTunnelingDesc": "Abilita tunnelling multimediale per player nativo",
+    "clientSettingsUseSystemIMEDesc": "Usa la tastiera predefinita fornita dal sistema",
+    "controlPanel": "Pannello di controllo",
+    "controlPanelDesc": "Server, Attività, Utenti, Libreria",
+    "controlDashboard": "Pannello di controllo",
+    "serverName": "Nome del server",
+    "serverVersion": "Versione del server",
+    "webVersion": "Versione web",
+    "devices": "Dispositivi",
+    "used": "Usato",
+    "storagePaths": "Percorsi di archiviazione",
+    "web": "Web",
+    "cache": "Cache",
+    "logs": "Log",
+    "transcodingTemp": "File temporanei di transcodifica",
+    "scanAllLibraries": "Scansiona tutte le librerie",
+    "lastActivity": "Ultima attività",
+    "activeTasks": "Operazioni pianificate",
+    "hours": "{count, plural, one{Ora} other{Ore}}",
+    "@hours": {
+        "description": "Pluralization for hours",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            }
+        }
+    },
+    "weeks": "{count, plural, one{Settimana} other{Settimane}}",
+    "@weeks": {
+        "description": "Pluralization for weeks",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "months": "{count, plural, one{Mese} other{Mesi}}",
+    "@months": {
+        "description": "Pluralization for months",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "years": "{count, plural, one{Anno} other{Anni}}",
+    "@years": {
+        "description": "Pluralization for years",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "timeAgo": "{time} fa",
+    "@timeAgo": {
+        "description": "timeAgo",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "lastRunTaking": "Ultima esecuzione {date}, durata {time}",
+    "@lastRunTaking": {
+        "description": "lastRunTaking",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "lessThenAMinute": "Meno di un minuto",
+    "plannedTasks": "Attività pianificate",
+    "taskTriggerTypeInterval": "Intervallo",
+    "taskTriggerTypeDaily": "Giornaliero",
+    "taskTriggerTypeWeekly": "Settimanale",
+    "taskTriggerTypeStartup": "Avvio",
+    "create": "Crea",
+    "taskTriggerTypeName": "Tipo di attivazione",
+    "newTrigger": "Nuova attivazione",
+    "newTaskTrigger": "Nuova attivazione attività",
+    "dayOfTheWeek": "Giorno della settimana",
+    "time": "Tempo",
+    "interval": "Intervallo",
+    "taskTimeLimitInHours": "Limite di tempo (ore)",
+    "taskTriggerIntervalDesc": "Ogni {time}",
+    "@taskTriggerIntervalDesc": {
+        "description": "Task trigger interval desc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerDailyDesc": "Giornaliero alle {time}",
+    "@taskTriggerDailyDesc": {
+        "description": "taskTriggerDailyDesc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerWeeklyDesc": "Settimanale: {day} alle {time}",
+    "@taskTriggerWeeklyDesc": {
+        "description": "taskTriggerWeeklyDesc",
+        "placeholders": {
+            "day": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerTimeLimitSub": "Tempo limite:{time}",
+    "@taskTriggerTimeLimitSub": {
+        "description": "taskTriggerTimeLimit",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "performance": "Prestazioni",
+    "serverNameLabel": "Nome del server",
+    "cachePath": "Percorso della cache",
+    "metadataPath": "Percorso metadati",
+    "programData": "Dati del programma",
+    "count": "Conteggio",
+    "dashboardDesc": "Server, Conteggio, Dispositivi, Archiviazione",
+    "maxConcurrentLibraryScanLabel": "Scansioni simultanee massime della libreria",
+    "maxConcurrentLibraryScanDesc": "Numero massimo di attività parallele durante le scansioni della libreria. Lasciando questo campo vuoto, verrà scelto un limite in base al numero di core del sistema. ATTENZIONE: impostare un valore troppo alto può causare problemi con i file system di rete; se si riscontrano problemi, ridurre questo numero.",
+    "maxImageDecodingThreadsLabel": "Thread massimi per la decodifica delle immagini",
+    "maxImageDecodingThreadsDesc": "Numero massimo di codifiche di immagini consentite in parallelo. Lasciando questo campo vuoto, verrà scelto un limite in base al numero di core del sistema.",
+    "controlPanelServerDesc": "Nome del server, Connessione rapida, Prestazioni",
+    "deleteUserTitle": "Cancellare utente {user}?",
+    "@deleteUserTitle": {
+        "description": "deleteUserTitle",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteUserDesc": "Questo eliminerà permanentemente l'utente {user} e tutte le relative impostazioni.",
+    "@deleteUserDesc": {
+        "description": "deleteUserDesc",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "userInformation": "Informazioni utente",
+    "allowManageServer": "Consenti a questo utente di gestire il server",
+    "allowEditSubtitles": "Consenti a questo utente di modificare i sottotitoli",
+    "featureAccess": "Accesso alle funzionalità",
+    "allowLiveTVAccess": "Consenti l'accesso live TV",
+    "allowLiveTVRecording": "Consenti la gestione delle registrazioni Live TV",
+    "mediaPlayback": "Riproduzione multimediale",
+    "allowMediaPlayback": "Consenti riproduzione multimediale",
+    "allowVideoTranscoding": "Consenti riproduzione multimediale che richiede la transcodifica",
+    "allowAudioTranscoding": "Consenti la riproduzione audio che richiede transcodifica",
+    "allowMediaConversion": "Consenti la riproduzione video che richiede la conversione multimediale",
+    "syncAllItemsDesc": "Verranno sincronizzati {itemCount} elementi da '{itemName}' sul tuo dispositivo.\nL'operazione potrebbe richiedere del tempo a seconda del numero di elementi.",
+    "@syncAllItemsDesc": {
+        "description": "syncAllitemsFromDesc",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            },
+            "itemCount": {
+                "type": "int"
+            }
+        }
+    },
+    "forceRemoteTranscoding": "Forza transcodifica per sorgenti remote",
+    "syncplay": "SyncPlay",
+    "syncplayAccess": "Accesso SyncPlay",
+    "syncplayAccessCreateAndJoinGroups": "Crea e partecipa ai gruppi",
+    "syncplayAccessJoinGroups": "Partecipa ai gruppi",
+    "syncplayAccessNone": "Nessuno",
+    "allowMediaDeletion": "Consenti eliminazione media",
+    "allLibraries": "Tutte le librerie",
+    "libraryAccess": "Accesso libreria",
+    "enableAllLibraries": "Abilita l'accesso a tutte le librerie",
+    "enableAllDevices": "Abilita l'accesso a tutti i dispositivi",
+    "parentalControl": "Filtro famiglia",
+    "blockedItemsNoRating": "Blocca elementi senza classificazione o con classificazione sconosciuta"
 }
