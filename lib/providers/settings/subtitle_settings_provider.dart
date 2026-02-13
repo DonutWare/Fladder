@@ -22,7 +22,7 @@ class SubtitleSettingsNotifier extends StateNotifier<SubtitleSettingsModel> {
   set state(SubtitleSettingsModel value) {
     super.state = value;
     ref.read(sharedUtilityProvider).subtitleSettings = value;
-    if (!kIsWeb && Platform.isAndroid && super.state != value) {
+    if (!kIsWeb && Platform.isAndroid) {
       pigeon.VideoPlayerApi().setSubtitleSettings(
         pigeon.SubtitleSettings(
           fontSize: state.fontSize,
@@ -56,4 +56,7 @@ class SubtitleSettingsNotifier extends StateNotifier<SubtitleSettingsModel> {
       state = state.copyWith(backGroundColor: state.backGroundColor.withValues(alpha: value));
 
   SubtitleSettingsModel setShadowIntensity(double value) => state = state.copyWith(shadow: value);
+
+  SubtitleSettingsModel setBackgroundColor(Color color) =>
+      state = state.copyWith(backGroundColor: color.withValues(alpha: state.backGroundColor.a));
 }

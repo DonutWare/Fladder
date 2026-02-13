@@ -945,6 +945,7 @@
   "@settingsVisual": {},
   "shadow": "Shadow",
   "@shadow": {},
+  "backgroundColor": "Background color",
   "showAlbum": "Show album",
   "@showAlbum": {},
   "showDetails": "Show details",

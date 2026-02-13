@@ -28,6 +28,7 @@ final sharedUtilityProvider = Provider<SharedUtility>((ref) {
   final sharedPrefs = ref.watch(sharedPreferencesProvider);
 
   ref.read(pigeonPlayerSettingsSyncProvider);
+
   return SharedUtility(ref: ref, sharedPreferences: sharedPrefs);
 });
 
