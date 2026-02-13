@@ -155,10 +155,10 @@ class VideoPlayerImplementation(
     fun init(exoPlayer: ExoPlayer?) {
         player = exoPlayer
         //exoPlayer initializes after the playbackData is set for the first load
-        playbackData.value?.let {
-            VideoPlayerObject.setAudioTrackIndex(it.defaultAudioTrack.toInt(), true)
-            VideoPlayerObject.setSubtitleTrackIndex(it.defaultSubtrack.toInt(), true)
-            open(it.url, true, callback = {})
+        playbackData.value?.let { playData ->
+            VideoPlayerObject.setAudioTrackIndex(playData.defaultAudioTrack.toInt(), true)
+            VideoPlayerObject.setSubtitleTrackIndex(playData.defaultSubtrack.toInt(), true)
+            open(playData.url, true, callback = {})
         }
     }
 }
