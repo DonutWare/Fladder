@@ -446,6 +446,20 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                                 .toList(),
                           ),
                         ),
+                      SettingsListTile(
+                        label: Text(context.localized.settingsPlayerCustomSubtitlesTitle),
+                        subLabel: Text(context.localized.settingsPlayerCustomSubtitlesDesc),
+                        onTap: videoSettings.useLibass
+                            ? null
+                            : () {
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: true,
+                                  useSafeArea: false,
+                                  builder: (context) => const SubtitleEditor(),
+                                );
+                              },
+                      ),
                     ],
                   ),
                 PlayerOptions.libMDK => SettingsMessageBox(

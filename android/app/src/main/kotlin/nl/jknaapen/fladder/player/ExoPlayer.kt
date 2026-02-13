@@ -11,6 +11,7 @@ import androidx.annotation.OptIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
@@ -45,6 +46,7 @@ import androidx.media3.ui.PlayerView
 import io.github.peerless2012.ass.media.kt.buildWithAssSupport
 import io.github.peerless2012.ass.media.type.AssRenderType
 import kotlinx.coroutines.delay
+
 import nl.jknaapen.fladder.composables.overlays.guide.GuideOverlay
 import nl.jknaapen.fladder.composables.overlays.NextUpOverlay
 import nl.jknaapen.fladder.messengers.properlySetSubAndAudioTracks
@@ -158,7 +160,6 @@ internal fun ExoPlayer(
             }
 
             override fun onPlaybackStateChanged(playbackState: Int) {
-
                 videoHost.setPlaybackState(
                     PlaybackState(
                         position = exoPlayer.currentPosition,
@@ -184,16 +185,10 @@ internal fun ExoPlayer(
 
                 if (subTracks.isEmpty() && audioTracks.isEmpty()) return
 
-                if (subTracks != VideoPlayerObject.exoSubTracks.value || audioTracks != VideoPlayerObject.exoAudioTracks.value) {
-                    val playbackData = VideoPlayerObject.implementation.playbackData.value
-                    if (playbackData != null) {
-                        exoPlayer.properlySetSubAndAudioTracks(playbackData)
-                    } else {
-                        Handler(Looper.getMainLooper()).postDelayed(delayInMillis = 1.seconds.inWholeMilliseconds) {
-                            VideoPlayerObject.implementation.playbackData.value?.let {
-                                exoPlayer.properlySetSubAndAudioTracks(it)
-                            }
-                        }
+                val playbackData = VideoPlayerObject.implementation.playbackData.value
+                Handler(Looper.getMainLooper()).postDelayed(delayInMillis = 1.seconds.inWholeMilliseconds) {
+                    playbackData?.let {
+                        exoPlayer.properlySetSubAndAudioTracks(it)
                     }
                     VideoPlayerObject.exoSubTracks.value = subTracks
                     VideoPlayerObject.exoAudioTracks.value = audioTracks
@@ -220,6 +215,7 @@ internal fun ExoPlayer(
     val videoFit by PlayerSettingsObject.videoFit.collectAsState(AspectRatioFrameLayout.RESIZE_MODE_FIT)
 
     val isTVPlayback by VideoPlayerObject.implementation.isTVMode.collectAsState(false)
+    val nativeSubtitleSettings by PlayerSettingsObject.subtitleSettings.collectAsState(null)
 
     @Composable
     fun createPlayer(showControls: Boolean) {
@@ -249,6 +245,32 @@ internal fun ExoPlayer(
                                 CaptionStyleCompat.EDGE_TYPE_OUTLINE,
                                 android.graphics.Color.BLACK,
                                 null
+                            )
+                        )
+                    }
+                }
+            },
+            update = { view ->
+                nativeSubtitleSettings?.let { subtitleSettings ->
+                    view.subtitleView?.apply {
+                        setApplyEmbeddedFontSizes(false)
+
+                        val frac =
+                            (subtitleSettings.fontSize / 1080.0).toFloat().coerceIn(0.01f, 1f)
+                        setFractionalTextSize(frac)
+
+                        setBottomPaddingFraction(
+                            subtitleSettings.verticalOffset.toFloat().coerceIn(0f, 0.5f)
+                        )
+
+                        setStyle(
+                            CaptionStyleCompat(
+                                subtitleSettings.color.toInt(),
+                                subtitleSettings.backgroundColor.toInt(),
+                                android.graphics.Color.TRANSPARENT,
+                                CaptionStyleCompat.EDGE_TYPE_OUTLINE,
+                                subtitleSettings.outlineColor.toInt(),
+                                if (subtitleSettings.fontWeight >= 700) android.graphics.Typeface.DEFAULT_BOLD else android.graphics.Typeface.DEFAULT
                             )
                         )
                     }
