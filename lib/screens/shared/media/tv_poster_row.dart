@@ -219,7 +219,6 @@ class _TVPosterItem extends ConsumerWidget {
                     ? FladderImage(
                         key: ValueKey(poster.tvPosterLarge?.key ?? "${poster.id}_large"),
                         image: poster.tvPosterLarge,
-                        disableBlur: true,
                         placeHolder: const _TVPosterPlaceholder(),
                       )
                     : FladderImage(
