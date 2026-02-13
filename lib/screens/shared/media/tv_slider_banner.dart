@@ -312,7 +312,10 @@ class _BannerInfoOverlay extends StatelessWidget {
               ),
               Text(
                 episode.overview.summary,
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.white.withValues(alpha: opacity)),
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: Colors.white.withValues(alpha: opacity),
+                      fontWeight: FontWeight.bold,
+                    ),
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -331,7 +334,10 @@ class _BannerInfoOverlay extends StatelessWidget {
               ),
               Text(
                 poster.overview.summary,
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.white.withValues(alpha: opacity)),
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: Colors.white.withValues(alpha: opacity),
+                      fontWeight: FontWeight.bold,
+                    ),
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
               ),
