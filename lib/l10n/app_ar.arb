@@ -1622,7 +1622,7 @@
             }
         }
     },
-    "playbackTypeTV": "تلفزيون",
+    "playbackTypeTV": "تلفاز",
     "seerrCustomHeaders": "رؤوس مخصصة",
     "seerrHeader": "رأس",
     "seerrHeaderValue": "قيمة",
@@ -1648,5 +1648,17 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "homeBannerDetailed": "تفصيلي",
+    "homeBannerTV": "التلفاز",
+    "enableSpeedBoostTitle": "تفعيل تعزيز السرعة",
+    "enableSpeedBoostDesc": "اضغط مطولاً على الشاشة (الهاتف) أو زر المسافة (الحاسوب) لزيادة سرعة التشغيل مؤقتاً",
+    "speedBoostRateTitle": "معدل تعزيز السرعة",
+    "speedBoostRateDesc": "سرعة التشغيل عند تفعيل تعزيز السرعة",
+    "enableDoubleTapSeekTitle": "النقر المزدوج للتقديم/التشغيل/الإيقاف",
+    "enableDoubleTapSeekDesc": "انقر مرتين على يسار/يمين الشاشة للرجوع أو التقديم. انقر مرتين في الوسط للتشغيل أو الإيقاف",
+    "showLess": "عرض أقل",
+    "activeTvChannels": "القنوات التلفزيونية النشطة",
+    "enableNewTVLayout": "تفعيل تصميم التلفاز الجديد",
+    "enableNewTVLayoutDesc": "عرض لافتات أكبر بأسلوب التلفاز في لوحة التحكم. سيصبح هذا التصميم الافتراضي في إصدار لاحق"
 }
