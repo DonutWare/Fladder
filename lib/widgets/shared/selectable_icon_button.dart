@@ -10,13 +10,14 @@ import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/widgets/shared/ensure_visible.dart';
 
 class SelectableIconButton extends ConsumerStatefulWidget {
-  final FutureOr<dynamic> Function() onPressed;
+  final FutureOr<void> Function() onPressed;
   final String? label;
   final IconData icon;
   final IconData? selectedIcon;
   final bool selected;
   final Color? backgroundColor;
   final Color? iconColor;
+  final bool refreshOnEnd;
   const SelectableIconButton({
     required this.onPressed,
     required this.selected,
@@ -25,6 +26,7 @@ class SelectableIconButton extends ConsumerStatefulWidget {
     this.label,
     this.backgroundColor,
     this.iconColor,
+    this.refreshOnEnd = true,
     super.key,
   });
 
@@ -80,7 +82,7 @@ class _SelectableIconButtonState extends ConsumerState<SelectableIconButton> {
                 } catch (e) {
                   log(e.toString());
                 } finally {
-                  if (context.mounted) await context.refreshData();
+                  if (context.mounted && widget.refreshOnEnd) await context.refreshData();
                   setState(() => loading = false);
                 }
               },

@@ -62,6 +62,7 @@ class DetailScaffold extends ConsumerStatefulWidget {
 }
 
 class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
+  late ItemBaseModel? item = widget.item;
   List<ImageData>? lastImages;
   ImageData? backgroundImage;
   Color? dominantColor;
@@ -74,6 +75,9 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
     super.didUpdateWidget(oldWidget);
     updateImage();
     _updateDominantColor();
+    if (widget.item != null && widget.item?.id != item?.id) {
+      item = widget.item;
+    }
   }
 
   void updateImage() {
@@ -295,18 +299,18 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  if (widget.item != null) ...[
-                                    ref.watch(syncedItemProvider(widget.item)).when(
+                                  if (item != null) ...[
+                                    ref.watch(syncedItemProvider(item)).when(
                                           error: (error, stackTrace) => const SizedBox.shrink(),
                                           data: (syncedItem) {
                                             if (syncedItem == null &&
                                                 ref.read(userProvider.select(
                                                   (value) => value?.canDownload ?? false,
                                                 )) &&
-                                                widget.item?.syncAble == true) {
+                                                item?.syncAble == true) {
                                               return IconButton(
                                                 onPressed: () =>
-                                                    ref.read(syncProvider.notifier).addSyncItem(context, widget.item!),
+                                                    ref.read(syncProvider.notifier).addSyncItem(context, item!),
                                                 icon: const Icon(
                                                   IconsaxPlusLinear.arrow_down_2,
                                                 ),
@@ -314,7 +318,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                                             } else if (syncedItem != null) {
                                               return IconButton(
                                                 onPressed: () => showSyncItemDetails(context, syncedItem, ref),
-                                                icon: SyncButton(item: widget.item!, syncedItem: syncedItem),
+                                                icon: SyncButton(item: item!, syncedItem: syncedItem),
                                               );
                                             }
                                             return const SizedBox.shrink();
@@ -329,7 +333,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                                             tooltip: context.localized.moreOptions,
                                             enabled: newActions?.isNotEmpty == true,
                                             icon: Icon(
-                                              widget.item!.type.icon,
+                                              item!.type.icon,
                                               color: Theme.of(context).colorScheme.onSurface,
                                             ),
                                             itemBuilder: (context) => newActions?.popupMenuItems(useIcons: true) ?? [],
@@ -345,7 +349,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                                               ),
                                             ),
                                             icon: Icon(
-                                              widget.item!.type.icon,
+                                              item!.type.icon,
                                             ),
                                           );
                                         }

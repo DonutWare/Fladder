@@ -70,7 +70,7 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
       ),
       onRefresh: () async => await ref.read(providerInstance.notifier).fetchDetails(widget.item),
       backDrops: details.episode?.images ?? details.series?.images,
-      content: (context, padding) => seasonDetails != null && episodeDetails != null
+      content: (detailsContext, padding) => seasonDetails != null && episodeDetails != null
           ? Padding(
               padding: const EdgeInsets.only(bottom: 64),
               child: Column(
@@ -85,7 +85,7 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                             item: episodeDetails,
                             onPressed: (restart) async {
                               await details.episode.play(
-                                context,
+                                detailsContext,
                                 ref,
                                 startPosition: restart ? Duration.zero : null,
                               );
@@ -93,7 +93,7 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                             },
                             onLongPressed: (restart) async {
                               await details.episode.play(
-                                context,
+                                detailsContext,
                                 ref,
                                 showPlaybackOption: true,
                                 startPosition: restart ? Duration.zero : null,
@@ -129,14 +129,16 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                           icon: IconsaxPlusLinear.tick_circle,
                         ),
                         SelectableIconButton(
+                          refreshOnEnd: false,
                           onPressed: () async {
                             await showBottomSheetPill(
-                              context: context,
+                              context: detailsContext,
                               content: (context, scrollController) => ListView(
                                 controller: scrollController,
                                 shrinkWrap: true,
-                                children:
-                                    episodeDetails.generateActions(context, ref).listTileItems(context, useIcons: true),
+                                children: episodeDetails
+                                    .generateActions(detailsContext, ref)
+                                    .listTileItems(context, useIcons: true),
                               ),
                             );
                           },
@@ -146,9 +148,9 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                       ].nonNulls.toList(),
                     ),
                     padding: padding,
-                    subTitle: details.episode?.detailedName(context),
+                    subTitle: details.episode?.detailedName(detailsContext),
                     originalTitle: details.series?.originalTitle,
-                    onTitleClicked: () => details.series?.navigateTo(context),
+                    onTitleClicked: () => details.series?.navigateTo(detailsContext),
                     productionYear: details.episode?.dateAired != null
                         ? DateFormat.yMMMEd().format(details.episode!.dateAired!)
                         : null,
@@ -178,7 +180,7 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                       chapters: episodeDetails.chapters,
                       contentPadding: padding,
                       onPressed: (chapter) async {
-                        await details.episode?.play(context, ref, startPosition: chapter.startPosition);
+                        await details.episode?.play(detailsContext, ref, startPosition: chapter.startPosition);
                         ref.read(providerInstance.notifier).fetchDetails(widget.item);
                       },
                     ),
@@ -195,18 +197,18 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                   if (details.episodes.length > 1)
                     EpisodePosters(
                       contentPadding: padding,
-                      label: context.localized
-                          .moreFrom("${context.localized.season(1).toLowerCase()} ${episodeDetails.season}"),
+                      label: detailsContext.localized
+                          .moreFrom("${detailsContext.localized.season(1).toLowerCase()} ${episodeDetails.season}"),
                       onEpisodeTap: (action, episodeModel) {
                         if (episodeModel.id == episodeDetails.id) {
-                          FladderSnack.show(context.localized.selectedWith(context.localized.episode(0)),
-                              context: context);
+                          FladderSnack.show(detailsContext.localized.selectedWith(detailsContext.localized.episode(0)),
+                              context: detailsContext);
                         } else {
                           action();
                         }
                       },
                       playEpisode: (episode) => episode.play(
-                        context,
+                        detailsContext,
                         ref,
                       ),
                       episodes: details.episodes.where((element) => element.season == episodeDetails.season).toList(),
