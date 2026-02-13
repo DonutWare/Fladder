@@ -1,6 +1,7 @@
 package nl.jknaapen.fladder.messengers
 
 import PlayableData
+import SubtitleSettings
 import TVGuideModel
 import VideoPlayerApi
 import android.os.Handler
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
+import nl.jknaapen.fladder.objects.PlayerSettingsObject
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.clearAudioTrack
 import nl.jknaapen.fladder.utility.clearSubtitleTrack
@@ -57,6 +59,14 @@ class VideoPlayerImplementation(
         } catch (e: Exception) {
             println("Error sending TV guide model: $e")
             callback(Result.success(false))
+        }
+    }
+
+    override fun setSubtitleSettings(settings: SubtitleSettings) {
+        try {
+            PlayerSettingsObject.subtitleSettings.value = settings
+        } catch (e: Exception) {
+            println("Error setting subtitle settings: $e")
         }
     }
 

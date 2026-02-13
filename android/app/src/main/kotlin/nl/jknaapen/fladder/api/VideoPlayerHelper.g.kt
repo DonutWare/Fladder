@@ -526,6 +526,55 @@ data class PlaybackState (
 }
 
 /** Generated class from Pigeon that represents data sent in messages. */
+data class SubtitleSettings (
+  val fontSize: Double,
+  val fontWeight: Long,
+  val verticalOffset: Double,
+  val color: Long,
+  val outlineColor: Long,
+  val outlineSize: Double,
+  val backgroundColor: Long,
+  val shadow: Double
+)
+ {
+  companion object {
+    fun fromList(pigeonVar_list: List<Any?>): SubtitleSettings {
+      val fontSize = pigeonVar_list[0] as Double
+      val fontWeight = pigeonVar_list[1] as Long
+      val verticalOffset = pigeonVar_list[2] as Double
+      val color = pigeonVar_list[3] as Long
+      val outlineColor = pigeonVar_list[4] as Long
+      val outlineSize = pigeonVar_list[5] as Double
+      val backgroundColor = pigeonVar_list[6] as Long
+      val shadow = pigeonVar_list[7] as Double
+      return SubtitleSettings(fontSize, fontWeight, verticalOffset, color, outlineColor, outlineSize, backgroundColor, shadow)
+    }
+  }
+  fun toList(): List<Any?> {
+    return listOf(
+      fontSize,
+      fontWeight,
+      verticalOffset,
+      color,
+      outlineColor,
+      outlineSize,
+      backgroundColor,
+      shadow,
+    )
+  }
+  override fun equals(other: Any?): Boolean {
+    if (other !is SubtitleSettings) {
+      return false
+    }
+    if (this === other) {
+      return true
+    }
+    return VideoPlayerHelperPigeonUtils.deepEquals(toList(), other.toList())  }
+
+  override fun hashCode(): Int = toList().hashCode()
+}
+
+/** Generated class from Pigeon that represents data sent in messages. */
 data class TVGuideModel (
   val channels: List<GuideChannel>,
   val startMs: Long,
@@ -715,15 +764,20 @@ private open class VideoPlayerHelperPigeonCodec : StandardMessageCodec() {
       }
       141.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          TVGuideModel.fromList(it)
+          SubtitleSettings.fromList(it)
         }
       }
       142.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          GuideChannel.fromList(it)
+          TVGuideModel.fromList(it)
         }
       }
       143.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          GuideChannel.fromList(it)
+        }
+      }
+      144.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
           GuideProgram.fromList(it)
         }
@@ -781,16 +835,20 @@ private open class VideoPlayerHelperPigeonCodec : StandardMessageCodec() {
         stream.write(140)
         writeValue(stream, value.toList())
       }
-      is TVGuideModel -> {
+      is SubtitleSettings -> {
         stream.write(141)
         writeValue(stream, value.toList())
       }
-      is GuideChannel -> {
+      is TVGuideModel -> {
         stream.write(142)
         writeValue(stream, value.toList())
       }
-      is GuideProgram -> {
+      is GuideChannel -> {
         stream.write(143)
+        writeValue(stream, value.toList())
+      }
+      is GuideProgram -> {
+        stream.write(144)
         writeValue(stream, value.toList())
       }
       else -> super.writeValue(stream, value)
@@ -882,6 +940,7 @@ interface VideoPlayerApi {
   /** Seeks to the given playback position, in milliseconds. */
   fun seekTo(position: Long)
   fun stop()
+  fun setSubtitleSettings(settings: SubtitleSettings)
 
   companion object {
     /** The codec used by VideoPlayerApi. */
@@ -1063,6 +1122,24 @@ interface VideoPlayerApi {
           channel.setMessageHandler { _, reply ->
             val wrapped: List<Any?> = try {
               api.stop()
+              listOf(null)
+            } catch (exception: Throwable) {
+              VideoPlayerHelperPigeonUtils.wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.setSubtitleSettings$separatedMessageChannelSuffix", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val settingsArg = args[0] as SubtitleSettings
+            val wrapped: List<Any?> = try {
+              api.setSubtitleSettings(settingsArg)
               listOf(null)
             } catch (exception: Throwable) {
               VideoPlayerHelperPigeonUtils.wrapError(exception)

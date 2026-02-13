@@ -21,6 +21,7 @@ final pigeonPlayerSettingsSyncProvider = Provider<void>((ref) {
         (value) => value.themeColor?.color.toARGB32(),
       ),
     );
+
     final value = ref.read(videoPlayerSettingsProvider);
 
     if (!kIsWeb && Platform.isAndroid) {
