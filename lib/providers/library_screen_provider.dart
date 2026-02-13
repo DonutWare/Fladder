@@ -104,7 +104,10 @@ class LibraryScreen extends _$LibraryScreen {
   Future<void> loadResume(ViewModel viewModel) async {}
 
   Future<void> loadRecommendations(ViewModel viewModel) async {
-    List<RecommendedModel> newRecommendations = [];
+    RecommendedModel continueRecommendations = RecommendedModel(name: const Continue(), posters: []);
+    RecommendedModel nextUpRecommendations = RecommendedModel(name: const NextUp(), posters: []);
+    RecommendedModel latestRecommendations = RecommendedModel(name: const Latest(), posters: []);
+    List<RecommendedModel> otherRecommendations = [];
 
     final resume = await api.usersUserIdItemsResumeGet(
       parentId: viewModel.id,
@@ -122,14 +125,11 @@ class LibraryScreen extends _$LibraryScreen {
       mediaTypes: [MediaType.video],
       enableTotalRecordCount: false,
     );
-    newRecommendations = [
-      ...newRecommendations,
-      RecommendedModel(
-        name: const Resume(),
-        posters: resume.body?.items?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList() ?? [],
-        type: null,
-      ),
-    ];
+    continueRecommendations = RecommendedModel(
+      name: const Continue(),
+      posters: resume.body?.items?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList() ?? [],
+      type: null,
+    );
 
     if (viewModel.collectionType == CollectionType.movies) {
       final response = await api.moviesRecommendationsGet(
@@ -141,13 +141,11 @@ class LibraryScreen extends _$LibraryScreen {
         ],
         itemLimit: 9,
       );
-      newRecommendations = [
-        ...newRecommendations,
-        ...(response.body?.map(
-              (e) => RecommendedModel.fromBaseDto(e, ref),
-            ) ??
-            [])
-      ];
+      otherRecommendations = (response.body?.map(
+                (e) => RecommendedModel.fromBaseDto(e, ref),
+              ) ??
+              [])
+          .toList();
     } else {
       final nextUp = await api.showsNextUpGet(
         parentId: viewModel.id,
@@ -159,42 +157,33 @@ class LibraryScreen extends _$LibraryScreen {
           ItemFields.overview,
         ],
       );
-      newRecommendations = [
-        ...newRecommendations,
-        RecommendedModel(
-          name: const NextUp(),
-          posters: nextUp.body?.items
-                  ?.map(
-                    (e) => ItemBaseModel.fromBaseDto(
-                      e,
-                      ref,
-                    ),
-                  )
-                  .toList() ??
-              [],
-          type: null,
-        )
-      ];
-    }
-
-    final latest = await api.usersUserIdItemsGet(
-      parentId: viewModel.id,
-      sortBy: [ItemSortBy.datelastcontentadded, ItemSortBy.datecreated, ItemSortBy.sortname],
-      sortOrder: [SortOrder.descending],
-      limit: 9,
-      includeItemTypes: viewModel.collectionType.itemKinds.map((e) => e.dtoKind).toList(),
-    );
-    newRecommendations = [
-      ...newRecommendations,
-      RecommendedModel(
+      final latest = await api.usersUserIdItemsGet(
+        parentId: viewModel.id,
+        sortBy: [ItemSortBy.datelastcontentadded, ItemSortBy.datecreated, ItemSortBy.sortname],
+        sortOrder: [SortOrder.descending],
+        limit: 9,
+        includeItemTypes: viewModel.collectionType.itemKinds.map((e) => e.dtoKind).toList(),
+      );
+      latestRecommendations = RecommendedModel(
         name: const Latest(),
         posters: latest.body?.items?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList() ?? [],
         type: null,
-      ),
-    ];
+      );
+
+      nextUpRecommendations = RecommendedModel(
+        name: const NextUp(),
+        posters: nextUp.body?.items?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList() ?? [],
+        type: null,
+      );
+    }
 
     state = state.copyWith(
-      recommendations: newRecommendations,
+      recommendations: [
+        continueRecommendations,
+        nextUpRecommendations,
+        latestRecommendations,
+        ...otherRecommendations,
+      ]..removeWhere((element) => element.posters.isEmpty),
     );
   }
 
