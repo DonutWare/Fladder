@@ -1641,5 +1641,12 @@
     },
     "activeTvChannels": "Actieve TV kanalen",
     "enableNewTVLayout": "Schakel nieuwe TV-indeling in",
-    "enableNewTVLayoutDesc": "Toon grotere tv-achtige banners op het dashboard. Dit zal de standaardindeling worden in een toekomstige release."
+    "enableNewTVLayoutDesc": "Toon grotere tv-achtige banners op het dashboard. Dit zal de standaardindeling worden in een toekomstige release.",
+    "backgroundColor": "Achtergrond kleur",
+    "enableSpeedBoostTitle": "Snel afspelen inschakelen",
+    "enableSpeedBoostDesc": "Houd het scherm ingedrukt (mobiel) of de spatiebalk (desktop) om de afspeelsnelheid tijdelijk te verhogen",
+    "speedBoostRateTitle": "Snelheidsboost",
+    "speedBoostRateDesc": "Afspeelsnelheid wanneer snelheidsboost is geactiveerd",
+    "enableDoubleTapSeekTitle": "Dubbel tikken om te zoeken/afspelen/pauzeren",
+    "enableDoubleTapSeekDesc": "Dubbel tikken aan de linker/rechterkant van het scherm om naar achteren/vooruit te zoeken. Dubbel tik het midden om af te spelen/pauzeren"
 }
