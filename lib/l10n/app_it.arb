@@ -23,7 +23,7 @@
     "ascending": "Crescente",
     "appLockBiometrics": "Biometria",
     "appLockPasscode": "Codice",
-    "audio": "Audio",
+    "audio": "{count, plural, one{Audio} other{Audio}}",
     "amoledBlack": "Amoled nero",
     "backgroundBlur": "Sfocatura dello sfondo",
     "backgroundOpacity": "Opacità dello sfondo",
@@ -38,7 +38,7 @@
     "clearSelection": "Cancella selezione",
     "close": "Chiudi",
     "code": "Codice",
-    "collectionFolder": "Cartella delle collezioni",
+    "collectionFolder": "{count, plural, one{Collezione cartella} other{Collezione cartelle}}",
     "color": "Colore",
     "combined": "Combinato",
     "communityRating": "Valutazione della Community",
@@ -183,17 +183,17 @@
     "markAsWatched": "Contrassegna come guardato",
     "masonry": "Massoneria",
     "mediaTypeBase": "Tipo base",
-    "mediaTypeBook": "Libro",
-    "mediaTypeBoxset": "Cofanetto",
-    "mediaTypeEpisode": "Episodi",
-    "mediaTypeFolder": "Cartelle",
-    "mediaTypeMovie": "Film",
-    "mediaTypePerson": "Persona",
-    "mediaTypePhoto": "Foto",
-    "mediaTypePhotoAlbum": "Album fotografico",
-    "mediaTypePlaylist": "Scaletta",
-    "mediaTypeSeason": "Stagione",
-    "mediaTypeSeries": "Serie",
+    "mediaTypeBook": "{count, plural, one{libro} other{libri}}",
+    "mediaTypeBoxset": "{count, plural, one{Cofanetto} other{Cofanetti}}",
+    "mediaTypeEpisode": "{count, plural, one{Episodio} other{Episodi}}",
+    "mediaTypeFolder": "{count, plural, one{Cartella} other{Cartelle}}",
+    "mediaTypeMovie": "{count, plural, one{Film} other{Film}}",
+    "mediaTypePerson": "{count, plural, one{Persona} other{Persone}}",
+    "mediaTypePhoto": "{count, plural, one{Foto} other{Foto}}",
+    "mediaTypePhotoAlbum": "{count, plural, one{Album fotografico} other{Album fotografici}}",
+    "mediaTypePlaylist": "{count, plural, one{Scaletta} other{Scalette}}",
+    "mediaTypeSeason": "{count, plural, one{Stagione} other{Stagioni}}",
+    "mediaTypeSeries": "{count, plural, one{Serie} other{Serie}}",
     "metaDataSavedFor": "Metadati salvati per {item}",
     "@metaDataSavedFor": {
         "description": "metaDataSavedFor",
@@ -218,7 +218,7 @@
     },
     "moreOptions": "Altre opzioni",
     "mouseDragSupport": "Trascinare con il mouse",
-    "musicAlbum": "Album",
+    "musicAlbum": "{count, plural, one{Album} other{Album}}",
     "name": "Nome",
     "navigation": "Navigazione",
     "navigationDashboard": "Dashboard",
@@ -427,11 +427,11 @@
     "settingsPosterPinch": "Zooma e pizzica per ingrandire i poster",
     "settingsPosterSize": "Formato poster",
     "settingsPosterSlider": "Mostra cursore scala",
-    "settingsProfileDesc": "Schermata di blocco",
+    "settingsProfileDesc": "Schermata di blocco, URL locale, Seerr",
     "settingsProfileTitle": "Profilo",
-    "settingsQuickConnectTitle": "Connessione veloce",
+    "settingsQuickConnectTitle": "Connessione rapida",
     "settingsSecurity": "Sicurezza",
-    "settingsShowScaleSlider": "Mostra diapositiva in formato poster",
+    "settingsShowScaleSlider": "Mostra diappositiva in formato poster",
     "settingsVisual": "Visuale",
     "shadow": "Ombra",
     "showAlbum": "Mostra album",
@@ -1059,5 +1059,111 @@
     "screenshotCleanTaken": "Screenshot senza sottotitoli salvato!",
     "errorTakingScreenshot": "Si è verificato un errore durante l'acquisizione dello screenshot",
     "enableDoubleTapSeekTitle": "Doppio tap per avanzare/indietreggiare/play/pausa",
-    "enableDoubleTapSeekDesc": "Doppio tap a sinistra/destra dello schermo per avanzare/indietreggiare. Doppio tap al centro per play/pausa"
+    "enableDoubleTapSeekDesc": "Doppio tap a sinistra/destra dello schermo per avanzare/indietreggiare. Doppio tap al centro per play/pausa",
+    "homeBannerDetailed": "Dettagliato",
+    "homeBannerTV": "TV",
+    "assignLibraries": "Assegna librerie",
+    "enableAccessAllLibraries": "Abilita accesso a tutte le librerie",
+    "currentPassword": "Password attuale",
+    "newPassword": "Nuova password",
+    "confirmPassword": "Conferma password",
+    "resetPassword": "Reimposta password",
+    "passwordResetSuccess": "Password reimpostata con successo",
+    "passwordResetFailed": "Impossibile reimpostare la password",
+    "passwordMismatch": "Nuova password e conferma password non coincidono",
+    "passwordChangeSuccess": "password cambiata con successo",
+    "savePassword": "Salva password",
+    "deleteLibraryConfirmTitle": "Cancellare libreria?",
+    "deleteLibraryConfirmMessage": "Sei sicuro di volere cancellare {libraryName}?\nQuesta azione non può essere annullata",
+    "@deleteLibraryConfirmMessage": {
+        "placeholders": {
+            "libraryName": {
+                "type": "String"
+            }
+        }
+    },
+    "noLibrarySelected": "Nessuna libreria selezionata",
+    "enabledPhotos": "Foto abilitate",
+    "enabledLUFSScan": "Abilita scansione LUFS",
+    "enabledRealtimeMonitoring": "Abilita monitoraggio in tempo reale",
+    "automaticallyAddToCollection": "Aggiungi automaticamente alla collezione",
+    "editUser": "Modifica utente",
+    "general": "Generale",
+    "access": "Accesso",
+    "enabledEmbeddedTitles": "Abilita titoli incorporati",
+    "enabledEmbeddedExtrasTitles": "Abilita titoli incorporati extra",
+    "automaticRefreshInterval": "Intervallo di aggiornamento automatico",
+    "approve": "Approva",
+    "decline": "Rifiuta",
+    "popularity": "Popolarità",
+    "restartServer": "Riavvia server",
+    "shutDownServer": "Spegni server",
+    "countryRegion": "Paese/Regione",
+    "saveMetadata": "Salva metadati",
+    "mediaTypeTV": "{count, plural, one{Canale TV} other{Canali TV}}",
+    "@mediaTypeTV": {
+        "description": "TV Channel (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "runtimeRangeMinutes": "{min} - {max} minuti",
+    "@runtimeRangeMinutes": {
+        "placeholders": {
+            "min": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            }
+        }
+    },
+    "minutesShort": "{count} min",
+    "@minutesShort": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "settingsProfileSubtitleLanguage": "Lingua sottotitoli preferita",
+    "settingsProfileSubtitleMode": "Modalità sottotitolo",
+    "subtitlePlaybackModeOnlyForced": "Solo forzati",
+    "subtitlePlaybackModeNone": "Nessuno",
+    "subtitlePlaybackModeSmart": "Intelligente",
+    "subtitlePlaybackModeAlways": "Riproduci sempre",
+    "markAsAvailable": "Segna come disponibile",
+    "min": "Minimo",
+    "max": "Massimo",
+    "seerrEnterServerUrlFirst": "Prima inserisci un server Seerr",
+    "seerrApiKeySaved": "Chiave API salvata",
+    "seerrLoggedIn": "Accesso in Seerr",
+    "seerrConnectedToServer": "Connesso al server Seerr: {serverUrl}",
+    "@seerrConnectedToServer": {
+        "placeholders": {
+            "serverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrAuthLocal": "Locale",
+    "seerrAuthJellyfin": "Jellyfin",
+    "seerrMediaStatusAvailable": "Disponibile",
+    "seerrUnknownUser": "Utente sconosciuto",
+    "loggedInAs": "Connesso come {displayName}",
+    "@loggedInAs": {
+        "placeholders": {
+            "displayName": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrServer": "Server Seerr",
+    "deleteRequestConfirmation": "Sei sicuro che vuoi cancellare questa richiesta?",
+    "segmentActionSkipOnce": "Salta una volta",
+    "playbackTypeTV": "TV"
 }
