@@ -96,7 +96,7 @@ class EnumBox<T> extends StatelessWidget {
                       context.ensureVisible();
                     }
                   },
-              onTap: itemList.length > 1
+              onTap: hasMultipleItems
                   ? () => showBottomSheetPill(
                         context: context,
                         content: (context, scrollController) => ListView(
@@ -115,7 +115,7 @@ class EnumBox<T> extends StatelessWidget {
           : PopupMenuButton(
               tooltip: '',
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-              enabled: itemList.length > 1,
+              enabled: hasMultipleItems,
               itemBuilder: (context) => itemList.map((e) => e.toPopupMenuItem()).toList(),
               padding: padding,
               child: labelWidget,

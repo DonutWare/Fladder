@@ -7,6 +7,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
+import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/screens/details_screens/components/media_stream_information.dart';
 import 'package:fladder/screens/shared/media/components/media_header.dart';
 import 'package:fladder/screens/shared/media/components/small_detail_widgets.dart';
@@ -143,7 +144,7 @@ class OverviewHeader extends ConsumerWidget {
               ),
             ],
           ),
-          itemBuilder: (context) => mediaStreamHelper!.mediaStream.audioStreams
+          itemBuilder: (context) => [AudioStreamModel.no(), ...mediaStreamHelper!.mediaStream.audioStreams]
               .mapIndexed((index, e) => ItemActionButton(
                     selected: mediaStreamHelper!.mediaStream.currentAudioStream == e,
                     label: Text(e.displayTitle),
@@ -178,7 +179,7 @@ class OverviewHeader extends ConsumerWidget {
               ),
             ],
           ),
-          itemBuilder: (context) => mediaStreamHelper!.mediaStream.subStreams
+          itemBuilder: (context) => [SubStreamModel.no(), ...mediaStreamHelper!.mediaStream.subStreams]
               .mapIndexed((index, e) => ItemActionButton(
                     selected: mediaStreamHelper!.mediaStream.currentSubStream == e,
                     label: Text(e.displayTitle),
