@@ -37,7 +37,7 @@ abstract class ChannelProgram with _$ChannelProgram {
 
   factory ChannelProgram.fromJson(Map<String, dynamic> json) => _$ChannelProgramFromJson(json);
 
-  factory ChannelProgram.fromBaseDto(dto.BaseItemDto item, Ref ref) {
+  factory ChannelProgram.fromBaseDto(dto.BaseItemDto item, Ref? ref) {
     return ChannelProgram(
       id: item.id ?? "",
       channelId: item.channelId ?? item.parentId ?? "",
@@ -49,7 +49,7 @@ abstract class ChannelProgram with _$ChannelProgram {
       episodeTitle: item.episodeTitle,
       startDate: (item.startDate ?? DateTime.now()).toLocal(),
       endDate: (item.endDate ?? DateTime.now()).toLocal(),
-      images: ImagesData.fromBaseItem(item, ref),
+      images: ref != null ? ImagesData.fromBaseItem(item, ref) : null,
       isSeries: item.isSeries ?? false,
       overview: item.overview,
     );

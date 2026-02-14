@@ -113,13 +113,14 @@ class ChannelModel extends ItemBaseModel {
         logo: () => images?.primary,
       );
 
-  factory ChannelModel.fromBaseDto(BaseItemDto item, Ref ref) {
-    final images = ImagesData.fromBaseItem(item, ref);
+  factory ChannelModel.fromBaseDto(BaseItemDto item, Ref? ref) {
+    final images = ref != null ? ImagesData.fromBaseItem(item, ref) : null;
     return ChannelModel(
       channelId: item.channelId ?? item.parentId ?? "0",
       name: item.name ?? "",
       id: item.id ?? "",
-      iCurrentProgram: item.currentProgram != null ? ChannelProgram.fromBaseDto(item.currentProgram!, ref) : null,
+      iCurrentProgram:
+          (ref != null && item.currentProgram != null) ? ChannelProgram.fromBaseDto(item.currentProgram!, ref) : null,
       childCount: item.childCount,
       startDate: item.startDate ?? DateTime.now(),
       endDate: item.endDate ?? DateTime.now(),

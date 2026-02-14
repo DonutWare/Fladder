@@ -170,29 +170,63 @@ class EpisodeModel extends ItemStreamModel with EpisodeModelMappable {
   bool get syncAble => playAble;
 
   @override
-  factory EpisodeModel.fromBaseDto(dto.BaseItemDto item, Ref ref) => EpisodeModel(
+  factory EpisodeModel.fromBaseDto(dto.BaseItemDto item, Ref? ref) {
+    if (ref == null) {
+      return EpisodeModel(
         seriesName: item.seriesName,
-        name: item.name ?? "",
-        id: item.id ?? "",
-        childCount: item.childCount,
-        overview: OverviewModel.fromBaseItemDto(item, ref),
-        userData: UserData.fromDto(item.userData),
-        parentId: item.seriesId,
-        playlistId: item.playlistItemId,
-        dateAired: item.premiereDate,
-        chapters: Chapter.chaptersFromInfo(item.id ?? "", item.chapters ?? [], ref),
-        images: ImagesData.fromBaseItem(item, ref),
-        primaryRatio: item.primaryImageAspectRatio,
         season: item.parentIndexNumber ?? 0,
         episode: item.indexNumber ?? 0,
         episodeEnd: item.indexNumberEnd,
+        chapters: const [],
         location: ItemLocation.fromDto(item.locationType),
-        parentImages: ImagesData.fromBaseItemParent(item, ref),
+        dateAired: item.premiereDate,
+        name: item.name ?? "",
+        id: item.id ?? "",
+        overview: OverviewModel(
+          summary: item.overview ?? "",
+          yearAired: item.productionYear,
+          productionYear: item.productionYear,
+          dateAdded: item.dateCreated,
+          genres: item.genres ?? [],
+        ),
+        parentId: item.seriesId,
+        playlistId: item.playlistItemId,
+        images: null,
+        childCount: item.childCount,
+        primaryRatio: item.primaryImageAspectRatio,
+        userData: UserData.fromDto(item.userData),
+        parentImages: null,
+        mediaStreams: MediaStreamsModel(versionStreams: []),
         canDelete: item.canDelete,
         canDownload: item.canDownload,
-        mediaStreams: MediaStreamsModel.fromMediaStreamsList(item.mediaSources, ref),
         jellyType: item.type,
       );
+    }
+
+    return EpisodeModel(
+      seriesName: item.seriesName,
+      name: item.name ?? "",
+      id: item.id ?? "",
+      childCount: item.childCount,
+      overview: OverviewModel.fromBaseItemDto(item, ref),
+      userData: UserData.fromDto(item.userData),
+      parentId: item.seriesId,
+      playlistId: item.playlistItemId,
+      dateAired: item.premiereDate,
+      chapters: Chapter.chaptersFromInfo(item.id ?? "", item.chapters ?? [], ref),
+      images: ImagesData.fromBaseItem(item, ref),
+      primaryRatio: item.primaryImageAspectRatio,
+      season: item.parentIndexNumber ?? 0,
+      episode: item.indexNumber ?? 0,
+      episodeEnd: item.indexNumberEnd,
+      location: ItemLocation.fromDto(item.locationType),
+      parentImages: ImagesData.fromBaseItemParent(item, ref),
+      canDelete: item.canDelete,
+      canDownload: item.canDownload,
+      mediaStreams: MediaStreamsModel.fromMediaStreamsList(item.mediaSources, ref),
+      jellyType: item.type,
+    );
+  }
 
   static List<EpisodeModel> episodesFromDto(List<dto.BaseItemDto>? dto, Ref ref) {
     return dto?.map((e) => EpisodeModel.fromBaseDto(e, ref)).toList() ?? [];

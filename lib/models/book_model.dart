@@ -58,7 +58,7 @@ class BookModel extends ItemBaseModel {
           ? "${context.localized.restart} $name"
           : context.localized.read(name);
 
-  factory BookModel.fromBaseDto(BaseItemDto item, Ref ref) {
+  factory BookModel.fromBaseDto(BaseItemDto item, Ref? ref) {
     return BookModel(
       name: item.name ?? "",
       id: item.id ?? "",
@@ -68,7 +68,7 @@ class BookModel extends ItemBaseModel {
       userData: UserData.fromDto(item.userData),
       parentId: item.parentId,
       playlistId: item.playlistItemId,
-      images: ImagesData.fromBaseItem(item, ref),
+      images: ref != null ? ImagesData.fromBaseItem(item, ref) : null,
       canDelete: item.canDelete,
       canDownload: item.canDownload,
       primaryRatio: item.primaryImageAspectRatio,

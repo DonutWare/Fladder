@@ -47,5 +47,18 @@
 		<true/>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
+
+		<!-- URL scheme for deep linking (example: fladder://details?id=xyz) -->
+		<key>CFBundleURLTypes</key>
+		<array>
+			<dict>
+				<key>CFBundleURLName</key>
+				<string>fladder</string>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>fladder</string>
+				</array>
+			</dict>
+		</array>
 	</dict>
 </plist>

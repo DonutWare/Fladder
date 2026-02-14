@@ -46,7 +46,7 @@ class PhotoAlbumModel extends ItemBaseModel with PhotoAlbumModelMappable {
   @override
   ItemBaseModel get parentBaseModel => copyWith(id: parentId);
 
-  factory PhotoAlbumModel.fromBaseDto(dto.BaseItemDto item, Ref ref) {
+  factory PhotoAlbumModel.fromBaseDto(dto.BaseItemDto item, Ref? ref) {
     return PhotoAlbumModel(
       name: item.name ?? "",
       id: item.id ?? "",
@@ -55,7 +55,7 @@ class PhotoAlbumModel extends ItemBaseModel with PhotoAlbumModelMappable {
       userData: UserData.fromDto(item.userData),
       parentId: item.parentId,
       playlistId: item.playlistItemId,
-      images: ImagesData.fromBaseItem(item, ref),
+      images: ref != null ? ImagesData.fromBaseItem(item, ref) : null,
       primaryRatio: item.primaryImageAspectRatio,
       canDelete: item.canDelete,
       canDownload: item.canDownload,
@@ -117,7 +117,7 @@ class PhotoModel extends ItemBaseModel with PhotoModelMappable {
   @override
   bool get unWatched => false;
 
-  factory PhotoModel.fromBaseDto(dto.BaseItemDto item, Ref ref) {
+  factory PhotoModel.fromBaseDto(dto.BaseItemDto item, Ref? ref) {
     return PhotoModel(
       name: item.name ?? "",
       id: item.id ?? "",
@@ -129,8 +129,8 @@ class PhotoModel extends ItemBaseModel with PhotoModelMappable {
       primaryRatio: double.tryParse(item.aspectRatio ?? "") ?? item.primaryImageAspectRatio ?? 1.0,
       dateTaken: item.dateCreated,
       albumId: item.albumId,
-      thumbnail: ImagesData.fromBaseItem(item, ref),
-      images: ImagesData.fromBaseItem(item, ref, getOriginalSize: true),
+      thumbnail: ref != null ? ImagesData.fromBaseItem(item, ref) : null,
+      images: ref != null ? ImagesData.fromBaseItem(item, ref, getOriginalSize: true) : null,
       canDelete: item.canDelete,
       canDownload: item.canDownload,
       internalType: switch (item.type) {

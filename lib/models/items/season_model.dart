@@ -50,7 +50,7 @@ class SeasonModel extends ItemBaseModel with SeasonModelMappable {
     required super.canDownload,
     super.jellyType,
   });
-  factory SeasonModel.fromBaseDto(dto.BaseItemDto item, Ref ref) {
+  factory SeasonModel.fromBaseDto(dto.BaseItemDto item, Ref? ref) {
     return SeasonModel(
       name: item.name ?? "",
       id: item.id ?? "",
@@ -60,11 +60,11 @@ class SeasonModel extends ItemBaseModel with SeasonModelMappable {
       userData: UserData.fromDto(item.userData),
       parentId: item.seasonId ?? item.parentId,
       playlistId: item.playlistItemId,
-      images: ImagesData.fromBaseItem(item, ref),
+      images: ref != null ? ImagesData.fromBaseItem(item, ref) : null,
       primaryRatio: item.primaryImageAspectRatio,
       seasonName: item.seasonName ?? "",
       episodeCount: item.episodeCount ?? 0,
-      parentImages: ImagesData.fromBaseItemParent(item, ref, primary: const Size(2000, 2000)),
+      parentImages: ref != null ? ImagesData.fromBaseItemParent(item, ref, primary: const Size(2000, 2000)) : null,
       seriesId: item.seriesId ?? item.parentId ?? item.id ?? "",
       canDelete: item.canDelete,
       canDownload: item.canDownload,
@@ -104,7 +104,7 @@ class SeasonModel extends ItemBaseModel with SeasonModelMappable {
         userData: const UserData(),
       );
 
-  static List<SeasonModel> seasonsFromDto(List<dto.BaseItemDto>? dto, Ref ref) {
+  static List<SeasonModel> seasonsFromDto(List<dto.BaseItemDto>? dto, Ref? ref) {
     return dto?.map((e) => SeasonModel.fromBaseDto(e, ref)).toList() ?? [];
   }
 }

@@ -89,7 +89,7 @@ class SpecialFeatureModel extends ItemStreamModel with SpecialFeatureModelMappab
   bool get playAble => true;
 
   @override
-  factory SpecialFeatureModel.fromBaseDto(dto.BaseItemDto item, Ref ref) => SpecialFeatureModel(
+  factory SpecialFeatureModel.fromBaseDto(dto.BaseItemDto item, Ref? ref) => SpecialFeatureModel(
         name: item.name ?? "",
         id: item.id ?? "",
         childCount: 0,
@@ -98,16 +98,18 @@ class SpecialFeatureModel extends ItemStreamModel with SpecialFeatureModelMappab
         parentId: item.parentId ?? "",
         playlistId: item.playlistItemId,
         dateAired: item.premiereDate,
-        images: ImagesData.fromBaseItem(item, ref),
+        images: ref != null ? ImagesData.fromBaseItem(item, ref) : null,
         primaryRatio: item.primaryImageAspectRatio,
-        parentImages: ImagesData.fromBaseItemParent(item, ref),
+        parentImages: ref != null ? ImagesData.fromBaseItemParent(item, ref) : null,
         canDelete: item.canDelete,
         canDownload: item.canDownload,
-        mediaStreams: MediaStreamsModel.fromMediaStreamsList(item.mediaSources, ref),
+        mediaStreams: ref != null
+            ? MediaStreamsModel.fromMediaStreamsList(item.mediaSources, ref)
+            : MediaStreamsModel(versionStreams: []),
         jellyType: item.type,
       );
 
-  static List<SpecialFeatureModel> specialFeaturesFromDto(List<dto.BaseItemDto>? dto, Ref ref) {
+  static List<SpecialFeatureModel> specialFeaturesFromDto(List<dto.BaseItemDto>? dto, Ref? ref) {
     return dto?.map((e) => SpecialFeatureModel.fromBaseDto(e, ref)).toList() ?? [];
   }
 }

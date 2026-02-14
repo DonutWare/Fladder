@@ -92,15 +92,23 @@ class SeriesModel extends ItemBaseModel with SeriesModelMappable {
   @override
   bool get syncAble => true;
 
-  factory SeriesModel.fromBaseDto(dto.BaseItemDto item, Ref ref) => SeriesModel(
+  factory SeriesModel.fromBaseDto(dto.BaseItemDto item, Ref? ref) {
+    if (ref == null) {
+      return SeriesModel(
         name: item.name ?? "",
         id: item.id ?? "",
         childCount: item.childCount,
-        overview: OverviewModel.fromBaseItemDto(item, ref),
+        overview: OverviewModel(
+          summary: item.overview ?? "",
+          yearAired: item.productionYear,
+          productionYear: item.productionYear,
+          dateAdded: item.dateCreated,
+          genres: item.genres ?? [],
+        ),
         userData: UserData.fromDto(item.userData),
         parentId: item.parentId,
         playlistId: item.playlistItemId,
-        images: ImagesData.fromBaseItem(item, ref),
+        images: null,
         primaryRatio: item.primaryImageAspectRatio,
         originalTitle: item.originalTitle ?? "",
         sortName: item.sortName ?? "",
@@ -111,4 +119,26 @@ class SeriesModel extends ItemBaseModel with SeriesModelMappable {
         seerrRecommended: const [],
         providerIds: item.providerIds,
       );
+    }
+
+    return SeriesModel(
+      name: item.name ?? "",
+      id: item.id ?? "",
+      childCount: item.childCount,
+      overview: OverviewModel.fromBaseItemDto(item, ref),
+      userData: UserData.fromDto(item.userData),
+      parentId: item.parentId,
+      playlistId: item.playlistItemId,
+      images: ImagesData.fromBaseItem(item, ref),
+      primaryRatio: item.primaryImageAspectRatio,
+      originalTitle: item.originalTitle ?? "",
+      sortName: item.sortName ?? "",
+      canDelete: item.canDelete,
+      canDownload: item.canDownload,
+      status: item.status ?? "Continuing",
+      seerrRelated: const [],
+      seerrRecommended: const [],
+      providerIds: item.providerIds,
+    );
+  }
 }

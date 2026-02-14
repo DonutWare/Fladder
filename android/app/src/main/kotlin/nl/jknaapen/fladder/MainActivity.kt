@@ -65,6 +65,12 @@ class MainActivity : AudioServiceFragmentActivity(), NativeVideoActivity {
         }
     }
 
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        // Ensure the Activity's intent is updated so Flutter (and plugins / AutoRoute) receive runtime deep-links.
+        setIntent(intent)
+    }
+
     override fun launchActivity(callback: (Result<StartResult>) -> Unit) {
         try {
             videoPlayerCallback = callback

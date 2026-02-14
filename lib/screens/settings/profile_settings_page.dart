@@ -23,6 +23,7 @@ import 'package:fladder/screens/shared/authenticate_button_options.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/input_fields.dart';
 import 'package:fladder/seerr/seerr_models.dart';
+import 'package:fladder/services/notification_service.dart';
 import 'package:fladder/util/jellyfin_extension.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/enum_selection.dart';
@@ -196,37 +197,49 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> {
             ),
             if (ref.read(supportsNotificationsProvider) || kDebugMode) ...[
               SettingsListTileCheckbox(
-                label: Text('Update notifications'),
+                label: const Text('Update notifications'),
                 value: user?.updateNotificationsEnabled ?? false,
-                onChanged: (val) {
+                onChanged: (val) async {
                   final current = ref.read(userProvider);
-                  if (current != null && val != null) {
-                    ref.read(userProvider.notifier).userState = current.copyWith(updateNotificationsEnabled: val);
+                  if (current == null || val == null) return;
+
+                  ref.read(userProvider.notifier).userState = current.copyWith(updateNotificationsEnabled: val);
+
+                  if (val) {
+                    await NotificationService.init();
+                    await NotificationService.requestPermission();
+                    await ref.read(updateNotificationsProvider).registerBackgroundTask();
+                  } else {
+                    await ref.read(updateNotificationsProvider).unregisterBackgroundTask();
                   }
                 },
               ),
-              if (kDebugMode)
-                SettingsListTile(
-                  label: Text('Test update notifications'),
-                  subLabel: Text('Fetch last 50 items for accessible libraries and show any new items'),
-                  onTap: () async {
-                    final updateNotifications = ref.read(updateNotificationsProvider);
-                    final newLastSeen = await updateNotifications.checkAllAccountsForNewItems(ignorePreference: true);
+              SettingsListTile(
+                label: const Text('Test update notifications'),
+                subLabel: const Text('Fetch last 50 items for accessible libraries and show any new items'),
+                onTap: () async {
+                  final updateNotifications = ref.read(updateNotificationsProvider);
+                  final newLastSeen = await updateNotifications.checkAllAccountsForNewItems(ignorePreference: true);
 
-                    for (final entry in newLastSeen.lastSeen) {
-                      final account = ref
-                          .read(sharedUtilityProvider)
-                          .getAccounts()
-                          .firstWhereOrNull((acc) => acc.id == entry.userId);
-                      if (account == null) continue;
+                  for (final entry in newLastSeen.lastSeen) {
+                    final account =
+                        ref.read(sharedUtilityProvider).getAccounts().firstWhereOrNull((acc) => acc.id == entry.userId);
+                    if (account == null) continue;
 
-                      final newCount = entry.lastSeenIds.length;
-                      FladderSnack.show(
-                        'New items for ${account.name} (${account.credentials.serverName}, $newCount new items)',
-                      );
-                    }
-                  },
-                ),
+                    final newCount = entry.lastSeenIds.length;
+                    FladderSnack.show(
+                      'New items for ${account.name} (${account.credentials.serverName}, $newCount new items)',
+                    );
+                  }
+                },
+              ),
+              SettingsListTile(
+                label: const Text('Show notification (debug)'),
+                subLabel: const Text('Show a native notification with the latest ~5 items for the active account'),
+                onTap: () async {
+                  await ref.read(updateNotificationsProvider).debugShowLatestNotificationForActiveUser();
+                },
+              ),
             ],
           ],
         ),

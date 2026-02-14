@@ -213,7 +213,7 @@ class ItemBaseModel with ItemBaseModelMappable {
     }
   }
 
-  factory ItemBaseModel.fromBaseDto(dto.BaseItemDto item, Ref ref) {
+  factory ItemBaseModel.fromBaseDto(dto.BaseItemDto item, Ref? ref) {
     return switch (item.type) {
       BaseItemKind.photo || BaseItemKind.video => PhotoModel.fromBaseDto(item, ref),
       BaseItemKind.photoalbum => PhotoAlbumModel.fromBaseDto(item, ref),
@@ -234,7 +234,7 @@ class ItemBaseModel with ItemBaseModelMappable {
     };
   }
 
-  factory ItemBaseModel._fromBaseDto(dto.BaseItemDto item, Ref ref) {
+  factory ItemBaseModel._fromBaseDto(dto.BaseItemDto item, Ref? ref) {
     return ItemBaseModel(
       name: item.name ?? "",
       id: item.id ?? "",
@@ -243,7 +243,7 @@ class ItemBaseModel with ItemBaseModelMappable {
       userData: UserData.fromDto(item.userData),
       parentId: item.parentId,
       playlistId: item.playlistItemId,
-      images: ImagesData.fromBaseItem(item, ref),
+      images: ref != null ? ImagesData.fromBaseItem(item, ref) : null,
       primaryRatio: item.primaryImageAspectRatio,
       canDelete: item.canDelete,
       canDownload: item.canDownload,

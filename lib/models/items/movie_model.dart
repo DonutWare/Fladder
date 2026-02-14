@@ -92,7 +92,39 @@ class MovieModel extends ItemStreamModel with MovieModelMappable {
   @override
   bool get syncAble => true;
 
-  factory MovieModel.fromBaseDto(dto.BaseItemDto item, Ref ref) {
+  factory MovieModel.fromBaseDto(dto.BaseItemDto item, Ref? ref) {
+    if (ref == null) {
+      return MovieModel(
+        name: item.name ?? "",
+        id: item.id ?? "",
+        childCount: item.childCount,
+        overview: OverviewModel(
+          summary: item.overview ?? "",
+          yearAired: item.productionYear,
+          productionYear: item.productionYear,
+          dateAdded: item.dateCreated,
+          genres: item.genres ?? [],
+        ),
+        userData: UserData.fromDto(item.userData),
+        parentId: item.parentId,
+        playlistId: item.playlistItemId,
+        sortName: item.sortName ?? "",
+        status: item.status ?? "",
+        originalTitle: item.originalTitle ?? "",
+        images: null,
+        primaryRatio: item.primaryImageAspectRatio,
+        chapters: const [],
+        premiereDate: item.premiereDate ?? DateTime.now(),
+        parentImages: null,
+        canDelete: item.canDelete,
+        canDownload: item.canDownload,
+        mediaStreams: MediaStreamsModel(versionStreams: []),
+        seerrRelated: const [],
+        seerrRecommended: const [],
+        providerIds: item.providerIds,
+      );
+    }
+
     return MovieModel(
       name: item.name ?? "",
       id: item.id ?? "",
