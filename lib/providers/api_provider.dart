@@ -48,6 +48,31 @@ class JellyApi extends _$JellyApi {
       );
 }
 
+JellyfinOpenApi createJellyfinApiForAccount(Ref ref, String baseUrl, Map<String, String> headers) {
+  return JellyfinOpenApi.create(
+    interceptors: [
+      _TempJellyRequest(baseUrl: baseUrl, headers: headers),
+      JellyResponse(ref),
+      HttpLoggingInterceptor(level: Level.basic),
+    ],
+  );
+}
+
+class _TempJellyRequest implements Interceptor {
+  _TempJellyRequest({required this.baseUrl, required this.headers});
+
+  final String baseUrl;
+  final Map<String, String> headers;
+
+  @override
+  FutureOr<Response<BodyType>> intercept<BodyType>(Chain<BodyType> chain) async {
+    if (baseUrl.isEmpty) throw const HttpException('No server URL provided for temp request');
+
+    final request = applyHeaders(chain.request.copyWith(baseUri: Uri.parse(baseUrl)), headers);
+    return chain.proceed(request);
+  }
+}
+
 class JellyRequest implements Interceptor {
   JellyRequest(this.ref);
 
@@ -61,7 +86,7 @@ class JellyRequest implements Interceptor {
     try {
       if (serverUrl?.isEmpty == true || serverUrl == null) throw const HttpException("Failed to connect");
 
-      //Use current logged in user otherwise use the authprovider
+      //Use current logged in user otherwise use the authProvider
       var loginModel = ref.read(userProvider)?.credentials ?? ref.read(authProvider).serverLoginModel?.tempCredentials;
 
       if (loginModel == null) throw UnimplementedError();

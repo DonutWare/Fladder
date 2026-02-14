@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
@@ -9,6 +10,8 @@ import 'package:fladder/models/seerr_credentials_model.dart';
 import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/cultures_provider.dart';
 import 'package:fladder/providers/seerr_user_provider.dart';
+import 'package:fladder/providers/shared_provider.dart';
+import 'package:fladder/providers/update_notifications_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/settings/settings_scaffold.dart';
@@ -17,6 +20,7 @@ import 'package:fladder/screens/settings/widgets/seerr_connection_dialog.dart';
 import 'package:fladder/screens/settings/widgets/settings_label_divider.dart';
 import 'package:fladder/screens/settings/widgets/settings_list_group.dart';
 import 'package:fladder/screens/shared/authenticate_button_options.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/input_fields.dart';
 import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/util/jellyfin_extension.dart';
@@ -190,6 +194,40 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> {
               subLabel: Text(_seerrStatusLabel(context, user?.seerrCredentials, seerrUser)),
               onTap: () => showSeerrConnectionDialog(context),
             ),
+            if (ref.read(supportsNotificationsProvider) || kDebugMode) ...[
+              SettingsListTileCheckbox(
+                label: Text('Update notifications'),
+                value: user?.updateNotificationsEnabled ?? false,
+                onChanged: (val) {
+                  final current = ref.read(userProvider);
+                  if (current != null && val != null) {
+                    ref.read(userProvider.notifier).userState = current.copyWith(updateNotificationsEnabled: val);
+                  }
+                },
+              ),
+              if (kDebugMode)
+                SettingsListTile(
+                  label: Text('Test update notifications'),
+                  subLabel: Text('Fetch last 50 items for accessible libraries and show any new items'),
+                  onTap: () async {
+                    final updateNotifications = ref.read(updateNotificationsProvider);
+                    final newLastSeen = await updateNotifications.checkAllAccountsForNewItems(ignorePreference: true);
+
+                    for (final entry in newLastSeen.lastSeen) {
+                      final account = ref
+                          .read(sharedUtilityProvider)
+                          .getAccounts()
+                          .firstWhereOrNull((acc) => acc.id == entry.userId);
+                      if (account == null) continue;
+
+                      final newCount = entry.lastSeenIds.length;
+                      FladderSnack.show(
+                        'New items for ${account.name} (${account.credentials.serverName}, $newCount new items)',
+                      );
+                    }
+                  },
+                ),
+            ],
           ],
         ),
       ],

@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:fladder/models/account_model.dart';
+import 'package:fladder/models/last_seen_notifications_model.dart';
 import 'package:fladder/models/settings/client_settings_model.dart';
 import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/models/settings/subtitle_settings_model.dart';
@@ -183,6 +184,19 @@ class SharedUtility {
     });
   }
 
+  LastSeenNotificationsModel getLastSeenNotifications() {
+    try {
+      return LastSeenNotificationsModel.fromJson(jsonDecode(sharedPreferences.getString(_serverLastSeenKey) ?? ""));
+    } catch (e) {
+      log(e.toString());
+      return const LastSeenNotificationsModel();
+    }
+  }
+
+  Future<void> setLastSeenNotifications(LastSeenNotificationsModel serverLastSeen) async {
+    sharedPreferences.setString(_serverLastSeenKey, jsonEncode(serverLastSeen.toJson()));
+  }
+
   SubtitleSettingsModel get subtitleSettings {
     try {
       return SubtitleSettingsModel.fromJson(sharedPreferences.getString(_subtitleSettingsKey) ?? "");
@@ -230,3 +244,6 @@ const String _videoPlayerSettingsKey = 'videoPlayerSettings';
 const String _subtitleSettingsKey = 'subtitleSettings';
 const String _bookViewSettingsKey = 'bookViewSettings';
 const String _photoViewSettingsKey = 'photoViewSettings';
+
+// serverKey -> list of last-seen item ids (keeps a range we can compare against)
+const String _serverLastSeenKey = 'serverLastSeen';

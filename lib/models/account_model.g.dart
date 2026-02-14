@@ -35,6 +35,8 @@ _AccountModel _$AccountModelFromJson(Map<String, dynamic> json) =>
                   LibraryFiltersModel.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      updateNotificationsEnabled:
+          json['updateNotificationsEnabled'] as bool? ?? false,
       userSettings: json['userSettings'] == null
           ? null
           : UserSettings.fromJson(json['userSettings'] as Map<String, dynamic>),
@@ -54,6 +56,7 @@ Map<String, dynamic> _$AccountModelToJson(_AccountModel instance) =>
       'searchQueryHistory': instance.searchQueryHistory,
       'quickConnectState': instance.quickConnectState,
       'libraryFilters': instance.libraryFilters,
+      'updateNotificationsEnabled': instance.updateNotificationsEnabled,
       'userSettings': instance.userSettings,
     };
 

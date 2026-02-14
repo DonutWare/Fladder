@@ -34,6 +34,10 @@ abstract class AccountModel with _$AccountModel {
     @Default([]) List<String> searchQueryHistory,
     @Default(false) bool quickConnectState,
     @Default([]) List<LibraryFiltersModel> libraryFilters,
+
+    // Update notification settings (local)
+    @Default(false) bool updateNotificationsEnabled,
+
     //Server values not stored in the database
     @JsonKey(includeFromJson: false, includeToJson: false) UserPolicy? policy,
     @JsonKey(includeFromJson: false, includeToJson: false) ServerConfiguration? serverConfiguration,
