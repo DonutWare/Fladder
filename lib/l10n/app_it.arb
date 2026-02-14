@@ -1399,5 +1399,51 @@
     "enableAllLibraries": "Abilita l'accesso a tutte le librerie",
     "enableAllDevices": "Abilita l'accesso a tutti i dispositivi",
     "parentalControl": "Filtro famiglia",
-    "blockedItemsNoRating": "Blocca elementi senza classificazione o con classificazione sconosciuta"
+    "blockedItemsNoRating": "Blocca elementi senza classificazione o con classificazione sconosciuta",
+    "allowItemsTags": "Consenti elementi con etichette",
+    "blockItemsTags": "Blocca elementi con etichette",
+    "accessSchedules": "Orari di accesso",
+    "addAccessSchedule": "Aggiungi orario di accesso",
+    "dayOfWeek": "Giorno della settimana",
+    "startTime": "Ora di inizio",
+    "endTime": "Ora di fine",
+    "addTag": "Aggiungi etichetta",
+    "createNewUser": "Crea nuovo utente",
+    "createUser": "Crea utente",
+    "users": "Utenti",
+    "endTimeMustBeAfter": "L'ora di fine deve essere successiva all'ora di inizio",
+    "autoRefreshIntervalNote": "Abilitare questa opzione può allungare i tempi di aggiornamento della libreria.",
+    "preferredDownloadLanguage": "Lingua di scaricamento preferita",
+    "metadataFetchers": "Recuperatori di metadati ({type})",
+    "@metadataFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "enableAndRankMetadataFetchers": "Abilita e ordina i recuperatori di metadati preferiti in base alla priorità.",
+    "enableAndRankImagesFetchers": "Abilita e ordina i recuperatori di immagini preferiti in base alla priorità.",
+    "imageFetchers": "Recuperatori di immagini ({type})",
+    "@imageFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "mediaSegmentProviders": "Fornitori di segmenti multimediali",
+    "enableAndRankMediaSegmentProviders": "Abilita e ordina i recuperatori di segmenti multimediali preferiti in base alla priorità.",
+    "trickplay": "Trickplay",
+    "enableTrickplayImageExtraction": "Abilita estrazione immagini trickplay",
+    "extractTrickplayImagesDuringLibraryScan": "Estrai immagini trickplay durante le scansioni della libreria",
+    "saveTrickplayImagesNextToMedia": "Salva immagini trickplay accanto ai media",
+    "chapterImages": "Immagini dei capitoli",
+    "enableChapterImageExtraction": "Abilita estrazione immagini capitoli",
+    "extractChapterImagesDuringLibraryScan": "Estrai immagini capitoli durante le scansioni della libreria",
+    "subtitleDownloads": "Scarica sottotitoli",
+    "downloadLanguages": "Scarica lingue",
+    "subtitleDownloaders": "Scaricatori di sottotitoli",
+    "onlyPerfectSubtitleMatch": "Scarica solo sottotitoli che corrispondono perfettamente al video",
+    "perfectSubtitleMatchDescription": "Richiedere una corrispondenza perfetta filtrerà i sottotitoli includendo solo quelli testati e verificati con il tuo file video specifico. Disattivando questa opzione aumenterai le probabilità di scaricare i sottotitoli, ma aumenterà anche il rischio di testi fuori sincrono o errati."
 }
