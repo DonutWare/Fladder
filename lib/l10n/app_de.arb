@@ -1664,5 +1664,6 @@
     "speedBoostRateTitle": "Beschleunigungsrate",
     "speedBoostRateDesc": "Wiedergabegeschwindigkeit bei aktivierter Beschleunigung",
     "enableDoubleTapSeekTitle": "Doppelt tippen zum spulen/starten/pausieren",
-    "enableDoubleTapSeekDesc": "Linke/Rechte Bildschirmhälfte doppelt tippen um zurück/nach vorne zu springen. Zum Abspielen/pausieren doppelt in die Bildschirmmitte tippen"
+    "enableDoubleTapSeekDesc": "Linke/Rechte Bildschirmhälfte doppelt tippen um zurück/nach vorne zu springen. Zum Abspielen/pausieren doppelt in die Bildschirmmitte tippen",
+    "backgroundColor": "Hintergrundfarbe"
 }
