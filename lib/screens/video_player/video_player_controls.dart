@@ -445,12 +445,10 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         final item = playbackModel?.item;
         final List<String?> details = [
           if (AdaptiveLayout.of(context).isDesktop) item?.label(context),
-          mediaPlayback.duration.inMinutes < mediaPlayback.position.inMinutes
-              ? context.localized.endsAt(DateTime.now().add(Duration(
-                  milliseconds: (mediaPlayback.duration.inMilliseconds - mediaPlayback.position.inMilliseconds) ~/
-                      ref.read(playbackRateProvider),
-                )))
-              : null
+          context.localized.endsAt(DateTime.now().add(Duration(
+            milliseconds: (mediaPlayback.duration.inMilliseconds - mediaPlayback.position.inMilliseconds) ~/
+                ref.read(playbackRateProvider),
+          )))
         ];
         return Column(
           mainAxisSize: MainAxisSize.min,
@@ -796,16 +794,14 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   // --- Touch Gesture Handlers (Mobile) ---
 
   void _handleDoubleTapDown(TapDownDetails details) {
-    final doubleTapSeekEnabled =
-        ref.read(videoPlayerSettingsProvider.select((value) => value.enableDoubleTapSeek));
+    final doubleTapSeekEnabled = ref.read(videoPlayerSettingsProvider.select((value) => value.enableDoubleTapSeek));
     if (doubleTapSeekEnabled) {
       _doubleTapPosition = details.globalPosition;
     }
   }
 
   void _handleDoubleTapSeek() {
-    final doubleTapSeekEnabled =
-        ref.read(videoPlayerSettingsProvider.select((value) => value.enableDoubleTapSeek));
+    final doubleTapSeekEnabled = ref.read(videoPlayerSettingsProvider.select((value) => value.enableDoubleTapSeek));
     if (!doubleTapSeekEnabled) return;
 
     final screenWidth = MediaQuery.sizeOf(context).width;
