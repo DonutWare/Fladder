@@ -79,7 +79,7 @@ class ControlLiveTvPage extends ConsumerWidget {
                   ...listingProviders.map(
                     (provider) => ListingProviderCard(
                       provider: provider,
-                      onEdit: () => _editListingProvider(context, ref, provider),
+                      onEdit: () => _editListingProvider(context, ref, provider, tunerHosts),
                       onDelete: () => _deleteListingProvider(context, ref, provider),
                     ),
                   ),
@@ -162,10 +162,11 @@ class ControlLiveTvPage extends ConsumerWidget {
     }
   }
 
-  Future<void> _editListingProvider(BuildContext context, WidgetRef ref, ListingsProviderInfo provider) async {
+  Future<void> _editListingProvider(
+      BuildContext context, WidgetRef ref, ListingsProviderInfo provider, List<TunerHostInfo> tunerHosts) async {
     final result = await showDialog<ListingsProviderInfo>(
       context: context,
-      builder: (context) => ListingProviderEditDialog(provider: provider),
+      builder: (context) => ListingProviderEditDialog(provider: provider, availableTuners: tunerHosts),
     );
 
     if (result != null && context.mounted) {

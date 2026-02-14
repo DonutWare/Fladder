@@ -34,9 +34,12 @@ class RefreshGuideButton extends ConsumerWidget {
           children: [
             ElevatedButton.icon(
               onPressed: () async {
+                final liveTvState = ref.watch(controlLiveTvProvider);
+                final tunerHosts = liveTvState.liveTvOptions?.tunerHosts ?? [];
+
                 final result = await showDialog<ListingsProviderInfo>(
                   context: context,
-                  builder: (context) => const ListingProviderEditDialog(),
+                  builder: (context) => ListingProviderEditDialog(availableTuners: tunerHosts),
                 );
                 if (result != null && context.mounted) {
                   final response = await FladderSnack.showResponse<ListingsProviderInfo>(
