@@ -1657,5 +1657,6 @@
     "speedBoostRateTitle": "速度倍率",
     "speedBoostRateDesc": "加速激活时的播放速度",
     "enableDoubleTapSeekTitle": "双击即可快进/播放/暂停",
-    "enableDoubleTapSeekDesc": "双击屏幕左侧/右侧可快进/快退。双击屏幕中央可播放/暂停"
+    "enableDoubleTapSeekDesc": "双击屏幕左侧/右侧可快进/快退。双击屏幕中央可播放/暂停",
+    "backgroundColor": "背景颜色"
 }
