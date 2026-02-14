@@ -6,7 +6,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/providers/seerr_api_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
-import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/media/external_urls.dart';
 import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
@@ -200,7 +200,7 @@ class _MediaManagementActionsState extends ConsumerState<_MediaManagementActions
     try {
       await action();
       if (mounted) {
-        fladderSnackbar(context, title: successMessage);
+        FladderSnack.show(successMessage);
         Navigator.of(context).pop();
         widget.onActionComplete();
       }

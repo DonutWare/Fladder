@@ -40,3 +40,14 @@ extension ResponseFutureExtensions<T> on Future<Response<T>> {
     }
   }
 }
+
+extension ResponseExtensions<T> on Response<T> {
+  ApiResult<T> get apiResult {
+    if (isSuccessful) {
+      return ApiResult.success(bodyOrThrow);
+    } else {
+      final body = this.body?.toString() ?? base.reasonPhrase ?? '';
+      return ApiResult.failure(ApiError(statusCode: base.statusCode, message: body));
+    }
+  }
+}

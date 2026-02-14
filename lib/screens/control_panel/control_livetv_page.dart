@@ -13,7 +13,7 @@ import 'package:fladder/screens/control_panel/control_livetv/tuner_host_card.dar
 import 'package:fladder/screens/control_panel/control_livetv/tuner_host_edit_dialog.dart';
 import 'package:fladder/screens/control_panel/widgets/control_panel_card.dart';
 import 'package:fladder/screens/settings/settings_scaffold.dart';
-import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/widgets/shared/pull_to_refresh.dart';
@@ -102,8 +102,7 @@ class ControlLiveTvPage extends ConsumerWidget {
     );
 
     if (result != null && context.mounted) {
-      final response = await fladderSnackbarApiResult<TunerHostInfo>(
-        context,
+      final response = await FladderSnack.showResponse<TunerHostInfo>(
         ref.read(controlLiveTvProvider.notifier).addTunerHost(result),
         successTitle: context.localized.tunerHostAddedSuccessfully,
         errorTitle: (err) => context.localized.failedToAddTunerHost(err),
@@ -121,8 +120,7 @@ class ControlLiveTvPage extends ConsumerWidget {
     );
 
     if (result != null && context.mounted) {
-      final response = await fladderSnackbarApiResult<TunerHostInfo>(
-        context,
+      final response = await FladderSnack.showResponse<TunerHostInfo>(
         ref.read(controlLiveTvProvider.notifier).updateTunerHost(tunerHost, result),
         successTitle: context.localized.tunerHostUpdatedSuccessfully,
         errorTitle: (err) => context.localized.failedToUpdateTunerHost(err),
@@ -153,8 +151,7 @@ class ControlLiveTvPage extends ConsumerWidget {
     );
 
     if (confirmed == true && tunerHost.id != null && context.mounted) {
-      final response = await fladderSnackbarApiResult<dynamic>(
-        context,
+      final response = await FladderSnack.showResponse<dynamic>(
         ref.read(controlLiveTvProvider.notifier).deleteTunerHost(tunerHost.id!),
         successTitle: context.localized.tunerHostDeletedSuccessfully,
         errorTitle: (err) => context.localized.failedToDeleteTunerHost(err),
@@ -172,8 +169,7 @@ class ControlLiveTvPage extends ConsumerWidget {
     );
 
     if (result != null && context.mounted) {
-      final response = await fladderSnackbarApiResult<ListingsProviderInfo>(
-        context,
+      final response = await FladderSnack.showResponse<ListingsProviderInfo>(
         ref.read(controlLiveTvProvider.notifier).updateListingProvider(provider, result),
         successTitle: context.localized.epgProviderUpdatedSuccessfully,
         errorTitle: (err) => context.localized.failedToUpdateEpgProvider(err),
@@ -204,8 +200,7 @@ class ControlLiveTvPage extends ConsumerWidget {
     );
 
     if (confirmed == true && provider.id != null && context.mounted) {
-      final response = await fladderSnackbarApiResult<dynamic>(
-        context,
+      final response = await FladderSnack.showResponse<dynamic>(
         ref.read(controlLiveTvProvider.notifier).deleteListingProvider(provider.id!),
         successTitle: context.localized.epgProviderDeletedSuccessfully,
         errorTitle: (err) => context.localized.failedToDeleteEpgProvider(err),
