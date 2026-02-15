@@ -122,17 +122,8 @@ Future<bool> performHeadlessUpdateCheck({int limit = 25, bool debug = false}) as
         log("Account ${acc.id}: ${unseen.length} new items found (debug mode: $debug)");
 
         if (unseen.isNotEmpty) {
-          final newIdsOrdered = [
-            ...unseen.map((e) => e.id),
-            ...prevIds,
-          ];
-          final deduped = <String>[];
-          for (final id in newIdsOrdered) {
-            if (id.isEmpty) continue;
-            if (!deduped.contains(id)) deduped.add(id);
-          }
-          final capped = deduped.take(limit).toList();
-          final saved = LastSeenModel(userId: userKey, lastSeenIds: capped);
+          final capped = unseen.take(limit).toList();
+          final saved = LastSeenModel(userId: userKey, lastSeenIds: capped.map((e) => e.id).toList());
           lastSeenSnapshot =
               lastSeenSnapshot.copyWith(lastSeen: replaceOrAppendLastSeen(lastSeenSnapshot.lastSeen, saved));
 
@@ -142,12 +133,12 @@ Future<bool> performHeadlessUpdateCheck({int limit = 25, bool debug = false}) as
           final itemTitles = <String>[];
           final itemBodies = <String?>[];
           final itemPayloads = <String?>[];
-          for (final m in unseen) {
-            final pair = notificationTitleBodyForItem(m, l10n);
-            final title = pair.key.isNotEmpty ? pair.key : (m.name.isNotEmpty ? m.name : l10n.unknown);
+          for (final item in unseen) {
+            final pair = notificationTitleBodyForItem(item, l10n);
+            final title = pair.key.isNotEmpty ? pair.key : (item.name.isNotEmpty ? item.name : l10n.unknown);
             itemTitles.add(title);
             itemBodies.add(pair.value);
-            itemPayloads.add(buildDetailsDeepLink(m.id));
+            itemPayloads.add(buildDetailsDeepLink(item.id));
           }
 
           final summaryText = l10n.notificationNewItems(itemTitles.length);
@@ -189,6 +180,8 @@ Future<List<dto.BaseItemDto>> _fetchLatestItems(String baseUrl, String userId, S
       return body
           .whereType<Map<String, dynamic>>()
           .map((m) => dto.BaseItemDto.fromJson(Map<String, dynamic>.from(m)))
+          .toList()
+          .reversed
           .toList();
     }
     return [];
