@@ -19,6 +19,7 @@ mixin _$ClientSettingsModel implements DiagnosticableTreeMixin {
   Vector2 get size;
   Duration? get timeOut;
   Duration? get nextUpDateCutoff;
+  Duration get updateNotificationsInterval;
   ThemeMode get themeMode;
   ColorThemes? get themeColor;
   bool get deriveColorsFromItem;
@@ -64,6 +65,8 @@ mixin _$ClientSettingsModel implements DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('size', size))
       ..add(DiagnosticsProperty('timeOut', timeOut))
       ..add(DiagnosticsProperty('nextUpDateCutoff', nextUpDateCutoff))
+      ..add(DiagnosticsProperty(
+          'updateNotificationsInterval', updateNotificationsInterval))
       ..add(DiagnosticsProperty('themeMode', themeMode))
       ..add(DiagnosticsProperty('themeColor', themeColor))
       ..add(DiagnosticsProperty('deriveColorsFromItem', deriveColorsFromItem))
@@ -93,7 +96,7 @@ mixin _$ClientSettingsModel implements DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ClientSettingsModel(syncPath: $syncPath, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, themeMode: $themeMode, themeColor: $themeColor, deriveColorsFromItem: $deriveColorsFromItem, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundImage: $backgroundImage, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, useSystemIME: $useSystemIME, useTVExpandedLayout: $useTVExpandedLayout, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
+    return 'ClientSettingsModel(syncPath: $syncPath, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, updateNotificationsInterval: $updateNotificationsInterval, themeMode: $themeMode, themeColor: $themeColor, deriveColorsFromItem: $deriveColorsFromItem, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundImage: $backgroundImage, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, useSystemIME: $useSystemIME, useTVExpandedLayout: $useTVExpandedLayout, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
   }
 }
 
@@ -109,6 +112,7 @@ abstract mixin class $ClientSettingsModelCopyWith<$Res> {
       Vector2 size,
       Duration? timeOut,
       Duration? nextUpDateCutoff,
+      Duration updateNotificationsInterval,
       ThemeMode themeMode,
       ColorThemes? themeColor,
       bool deriveColorsFromItem,
@@ -152,6 +156,7 @@ class _$ClientSettingsModelCopyWithImpl<$Res>
     Object? size = null,
     Object? timeOut = freezed,
     Object? nextUpDateCutoff = freezed,
+    Object? updateNotificationsInterval = null,
     Object? themeMode = null,
     Object? themeColor = freezed,
     Object? deriveColorsFromItem = null,
@@ -197,6 +202,10 @@ class _$ClientSettingsModelCopyWithImpl<$Res>
           ? _self.nextUpDateCutoff
           : nextUpDateCutoff // ignore: cast_nullable_to_non_nullable
               as Duration?,
+      updateNotificationsInterval: null == updateNotificationsInterval
+          ? _self.updateNotificationsInterval
+          : updateNotificationsInterval // ignore: cast_nullable_to_non_nullable
+              as Duration,
       themeMode: null == themeMode
           ? _self.themeMode
           : themeMode // ignore: cast_nullable_to_non_nullable
@@ -392,6 +401,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             Vector2 size,
             Duration? timeOut,
             Duration? nextUpDateCutoff,
+            Duration updateNotificationsInterval,
             ThemeMode themeMode,
             ColorThemes? themeColor,
             bool deriveColorsFromItem,
@@ -427,6 +437,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             _that.size,
             _that.timeOut,
             _that.nextUpDateCutoff,
+            _that.updateNotificationsInterval,
             _that.themeMode,
             _that.themeColor,
             _that.deriveColorsFromItem,
@@ -476,6 +487,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             Vector2 size,
             Duration? timeOut,
             Duration? nextUpDateCutoff,
+            Duration updateNotificationsInterval,
             ThemeMode themeMode,
             ColorThemes? themeColor,
             bool deriveColorsFromItem,
@@ -510,6 +522,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             _that.size,
             _that.timeOut,
             _that.nextUpDateCutoff,
+            _that.updateNotificationsInterval,
             _that.themeMode,
             _that.themeColor,
             _that.deriveColorsFromItem,
@@ -558,6 +571,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             Vector2 size,
             Duration? timeOut,
             Duration? nextUpDateCutoff,
+            Duration updateNotificationsInterval,
             ThemeMode themeMode,
             ColorThemes? themeColor,
             bool deriveColorsFromItem,
@@ -592,6 +606,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             _that.size,
             _that.timeOut,
             _that.nextUpDateCutoff,
+            _that.updateNotificationsInterval,
             _that.themeMode,
             _that.themeColor,
             _that.deriveColorsFromItem,
@@ -631,6 +646,7 @@ class _ClientSettingsModel extends ClientSettingsModel
       this.size = const Vector2(x: 1280, y: 720),
       this.timeOut = const Duration(seconds: 30),
       this.nextUpDateCutoff,
+      this.updateNotificationsInterval = const Duration(hours: 1),
       this.themeMode = ThemeMode.system,
       this.themeColor,
       this.deriveColorsFromItem = true,
@@ -672,6 +688,9 @@ class _ClientSettingsModel extends ClientSettingsModel
   final Duration? timeOut;
   @override
   final Duration? nextUpDateCutoff;
+  @override
+  @JsonKey()
+  final Duration updateNotificationsInterval;
   @override
   @JsonKey()
   final ThemeMode themeMode;
@@ -769,6 +788,8 @@ class _ClientSettingsModel extends ClientSettingsModel
       ..add(DiagnosticsProperty('size', size))
       ..add(DiagnosticsProperty('timeOut', timeOut))
       ..add(DiagnosticsProperty('nextUpDateCutoff', nextUpDateCutoff))
+      ..add(DiagnosticsProperty(
+          'updateNotificationsInterval', updateNotificationsInterval))
       ..add(DiagnosticsProperty('themeMode', themeMode))
       ..add(DiagnosticsProperty('themeColor', themeColor))
       ..add(DiagnosticsProperty('deriveColorsFromItem', deriveColorsFromItem))
@@ -798,7 +819,7 @@ class _ClientSettingsModel extends ClientSettingsModel
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ClientSettingsModel(syncPath: $syncPath, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, themeMode: $themeMode, themeColor: $themeColor, deriveColorsFromItem: $deriveColorsFromItem, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundImage: $backgroundImage, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, useSystemIME: $useSystemIME, useTVExpandedLayout: $useTVExpandedLayout, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
+    return 'ClientSettingsModel(syncPath: $syncPath, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, updateNotificationsInterval: $updateNotificationsInterval, themeMode: $themeMode, themeColor: $themeColor, deriveColorsFromItem: $deriveColorsFromItem, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundImage: $backgroundImage, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, useSystemIME: $useSystemIME, useTVExpandedLayout: $useTVExpandedLayout, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
   }
 }
 
@@ -816,6 +837,7 @@ abstract mixin class _$ClientSettingsModelCopyWith<$Res>
       Vector2 size,
       Duration? timeOut,
       Duration? nextUpDateCutoff,
+      Duration updateNotificationsInterval,
       ThemeMode themeMode,
       ColorThemes? themeColor,
       bool deriveColorsFromItem,
@@ -859,6 +881,7 @@ class __$ClientSettingsModelCopyWithImpl<$Res>
     Object? size = null,
     Object? timeOut = freezed,
     Object? nextUpDateCutoff = freezed,
+    Object? updateNotificationsInterval = null,
     Object? themeMode = null,
     Object? themeColor = freezed,
     Object? deriveColorsFromItem = null,
@@ -904,6 +927,10 @@ class __$ClientSettingsModelCopyWithImpl<$Res>
           ? _self.nextUpDateCutoff
           : nextUpDateCutoff // ignore: cast_nullable_to_non_nullable
               as Duration?,
+      updateNotificationsInterval: null == updateNotificationsInterval
+          ? _self.updateNotificationsInterval
+          : updateNotificationsInterval // ignore: cast_nullable_to_non_nullable
+              as Duration,
       themeMode: null == themeMode
           ? _self.themeMode
           : themeMode // ignore: cast_nullable_to_non_nullable

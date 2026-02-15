@@ -129,7 +129,7 @@ class _IdentifyScreenState extends ConsumerState<IdentifyScreen> {
             children: [
               Expanded(
                 child: Text(
-                  widget.item.detailedName(context) ?? widget.item.name,
+                  widget.item.detailedName(context.localized) ?? widget.item.name,
                   style: Theme.of(context).textTheme.titleLarge,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
@@ -277,14 +277,10 @@ class _IdentifyScreenState extends ConsumerState<IdentifyScreen> {
                             child: IconButton(
                               onPressed: !processing
                                   ? () async {
-                                      final response = await ref.read(provider.notifier).setIdentity(result);
-                                      if (response?.isSuccessful == true && context.mounted) {
-                                        FladderSnack.show(context.localized.setIdentityTo(result.name ?? ""),
-                                            context: context);
-                                      } else if (context.mounted) {
-                                        FladderSnack.showResponse(response: response);
-                                      }
-
+                                      await FladderSnack.showResponse(
+                                        ref.read(provider.notifier).setIdentity(result),
+                                        successTitle: context.localized.setIdentityTo(result.name ?? ""),
+                                      );
                                       if (context.mounted) {
                                         Navigator.of(context).pop();
                                       }

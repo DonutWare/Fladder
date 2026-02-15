@@ -148,7 +148,7 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                       ].nonNulls.toList(),
                     ),
                     padding: padding,
-                    subTitle: details.episode?.detailedName(detailsContext),
+                    subTitle: details.episode?.detailedName(detailsContext.localized),
                     originalTitle: details.series?.originalTitle,
                     onTitleClicked: () => details.series?.navigateTo(detailsContext),
                     productionYear: details.episode?.dateAired != null

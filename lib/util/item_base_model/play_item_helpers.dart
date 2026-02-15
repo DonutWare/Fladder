@@ -299,6 +299,8 @@ class _LoadIndicatorCancelable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final radius = const BorderRadius.all(Radius.circular(4));
+
     return Dialog(
       constraints: const BoxConstraints(
         maxWidth: 450,
@@ -330,7 +332,14 @@ class _LoadIndicatorCancelable extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Container(
-                                decoration: FladderTheme.defaultPosterDecoration,
+                                decoration: BoxDecoration(
+                                  borderRadius: radius,
+                                  color: Theme.of(context).colorScheme.surfaceContainer,
+                                ),
+                                foregroundDecoration: BoxDecoration(
+                                  borderRadius: radius,
+                                  border: Border.all(width: 1, color: Colors.white.withAlpha(45)),
+                                ),
                                 clipBehavior: Clip.hardEdge,
                                 child: FladderImage(
                                   image: item!.getPosters?.primary,

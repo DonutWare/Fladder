@@ -31,7 +31,7 @@ class FolderModel extends ItemBaseModel with FolderModelMappable {
     super.jellyType,
   });
 
-  factory FolderModel.fromBaseDto(BaseItemDto item, Ref ref) {
+  factory FolderModel.fromBaseDto(BaseItemDto item, Ref? ref) {
     return FolderModel(
       name: item.name ?? "",
       id: item.id ?? "",
@@ -40,7 +40,7 @@ class FolderModel extends ItemBaseModel with FolderModelMappable {
       userData: UserData.fromDto(item.userData),
       parentId: item.parentId,
       playlistId: item.playlistItemId,
-      images: ImagesData.fromBaseItem(item, ref),
+      images: ref != null ? ImagesData.fromBaseItem(item, ref) : null,
       primaryRatio: item.primaryImageAspectRatio,
       items: [],
       canDelete: item.canDelete,

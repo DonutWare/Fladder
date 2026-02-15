@@ -340,10 +340,10 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
     setState(() {
       loggingIn = true;
     });
-    final response = await ref.read(authProvider.notifier).authenticateUsingSecret(secret);
-    if (response?.isSuccessful == false) {
-      FladderSnack.showResponse(response: response);
-    } else if (response?.body != null) {
+    final response = await FladderSnack.showResponse(
+      ref.read(authProvider.notifier).authenticateUsingSecret(secret),
+    );
+    if (response.isSuccess && context.mounted) {
       loggedInGoToHome(context, ref);
     }
     setState(() {

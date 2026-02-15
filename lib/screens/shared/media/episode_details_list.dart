@@ -77,7 +77,7 @@ class EpisodeDetailsList extends ConsumerWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 SelectableText(
-                                  episode.seasonEpisodeLabel(context),
+                                  episode.seasonEpisodeLabel(context.localized),
                                   style: textStyle,
                                 ),
                                 if (episode.overview.runTime != null)

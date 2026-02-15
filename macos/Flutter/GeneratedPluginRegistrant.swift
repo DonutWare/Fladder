@@ -12,6 +12,7 @@ import desktop_drop
 import desktop_multi_window
 import dynamic_color
 import file_picker
+import flutter_local_notifications
 import fvp
 import just_audio
 import local_auth_darwin
@@ -40,6 +41,7 @@ func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   FlutterMultiWindowPlugin.register(with: registry.registrar(forPlugin: "FlutterMultiWindowPlugin"))
   DynamicColorPlugin.register(with: registry.registrar(forPlugin: "DynamicColorPlugin"))
   FilePickerPlugin.register(with: registry.registrar(forPlugin: "FilePickerPlugin"))
+  FlutterLocalNotificationsPlugin.register(with: registry.registrar(forPlugin: "FlutterLocalNotificationsPlugin"))
   FvpPlugin.register(with: registry.registrar(forPlugin: "FvpPlugin"))
   JustAudioPlugin.register(with: registry.registrar(forPlugin: "JustAudioPlugin"))
   LocalAuthPlugin.register(with: registry.registrar(forPlugin: "LocalAuthPlugin"))

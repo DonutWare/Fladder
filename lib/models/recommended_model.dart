@@ -1,36 +1,34 @@
-import 'package:flutter/material.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
-import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/l10n/generated/app_localizations.dart';
 
 sealed class NameSwitch {
   const NameSwitch();
 
-  String label(BuildContext context);
+  String label(AppLocalizations l10n);
 }
 
 class Continue extends NameSwitch {
   const Continue();
 
   @override
-  String label(BuildContext context) => context.localized.dashboardContinue;
+  String label(AppLocalizations l10n) => l10n.dashboardContinue;
 }
 
 class NextUp extends NameSwitch {
   const NextUp();
 
   @override
-  String label(BuildContext context) => context.localized.nextUp;
+  String label(AppLocalizations l10n) => l10n.nextUp;
 }
 
 class Latest extends NameSwitch {
   const Latest();
 
   @override
-  String label(BuildContext context) => context.localized.latest;
+  String label(AppLocalizations l10n) => l10n.latest;
 }
 
 class Other extends NameSwitch {
@@ -39,17 +37,17 @@ class Other extends NameSwitch {
   const Other(this.customLabel);
 
   @override
-  String label(BuildContext context) => customLabel;
+  String label(AppLocalizations l10n) => customLabel;
 }
 
 extension RecommendationTypeExtenstion on RecommendationType {
-  String label(BuildContext context) => switch (this) {
-        RecommendationType.similartorecentlyplayed => context.localized.similarToRecentlyPlayed,
-        RecommendationType.similartolikeditem => context.localized.similarToLikedItem,
-        RecommendationType.hasdirectorfromrecentlyplayed => context.localized.hasDirectorFromRecentlyPlayed,
-        RecommendationType.hasactorfromrecentlyplayed => context.localized.hasActorFromRecentlyPlayed,
-        RecommendationType.haslikeddirector => context.localized.hasLikedDirector,
-        RecommendationType.haslikedactor => context.localized.hasLikedActor,
+  String label(AppLocalizations l10n) => switch (this) {
+        RecommendationType.similartorecentlyplayed => l10n.similarToRecentlyPlayed,
+        RecommendationType.similartolikeditem => l10n.similarToLikedItem,
+        RecommendationType.hasdirectorfromrecentlyplayed => l10n.hasDirectorFromRecentlyPlayed,
+        RecommendationType.hasactorfromrecentlyplayed => l10n.hasActorFromRecentlyPlayed,
+        RecommendationType.haslikeddirector => l10n.hasLikedDirector,
+        RecommendationType.haslikedactor => l10n.hasLikedActor,
         _ => "",
       };
 }

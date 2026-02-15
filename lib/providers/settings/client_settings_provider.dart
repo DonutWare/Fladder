@@ -10,6 +10,7 @@ import 'package:fladder/models/settings/client_settings_model.dart';
 import 'package:fladder/models/settings/key_combinations.dart';
 import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
+import 'package:fladder/providers/update_notifications_provider.dart';
 import 'package:fladder/src/directory_bookmark.g.dart';
 import 'package:fladder/util/custom_color_themes.dart';
 import 'package:fladder/util/debouncer.dart';
@@ -66,6 +67,11 @@ class ClientSettingsNotifier extends StateNotifier<ClientSettingsModel> {
   void setBlurPlaceholders(bool value) => state = state.copyWith(blurPlaceHolders: value);
 
   void setTimeOut(Duration? duration) => state = state.copyWith(timeOut: duration);
+
+  void setUpdateNotificationsInterval(Duration duration) {
+    state = state.copyWith(updateNotificationsInterval: duration);
+    ref.read(updateNotificationsProvider).registerBackgroundTask();
+  }
 
   void setBlurEpisodes(bool value) => state = state.copyWith(blurUpcomingEpisodes: value);
 

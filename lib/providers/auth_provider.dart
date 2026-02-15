@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/account_model.dart';
+import 'package:fladder/models/api_result.dart';
 import 'package:fladder/models/credentials_model.dart';
 import 'package:fladder/models/login_screen_model.dart';
 import 'package:fladder/providers/api_provider.dart';
@@ -117,10 +118,10 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
     }
   }
 
-  Future<Response<AccountModel>?> authenticateUsingSecret(String secret) async {
+  Future<ApiResult<AccountModel>> authenticateUsingSecret(String secret) async {
     clearAllProviders();
     var response = await api.quickConnectAuthenticate(secret);
-    return _createAccountModel(response);
+    return _createAccountModel(response).apiResult;
   }
 
   Future<Response<AccountModel>?> authenticateByName(String userName, String password) async {
@@ -129,9 +130,9 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
     return _createAccountModel(response);
   }
 
-  Future<Response<AccountModel>?> _createAccountModel(Response<AuthenticationResult> response) async {
+  Future<Response<AccountModel>> _createAccountModel(Response<AuthenticationResult> response) async {
     CredentialsModel? credentials = state.serverLoginModel?.tempCredentials;
-    if (credentials == null) return null;
+    if (credentials == null) return Response(response.base, null);
     if (response.isSuccessful && (response.body?.accessToken?.isNotEmpty ?? false)) {
       var serverResponse = await api.systemInfoPublicGet();
       credentials = credentials.copyWith(

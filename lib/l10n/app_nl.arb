@@ -1105,7 +1105,8 @@
     "dashboardDesc": "Server, Aantal, Apparaten, Opslag",
     "lastActivity": "Laatste activiteit",
     "activeTasks": "Actieve taken",
-    "hours": "{count, plural, one{Uur} other{Uren}}",
+    "@activeTasks": {},
+    "hours": "{count, plural, one{Uur} other{Uur}}",
     "@hours": {
         "placeholders": {
             "count": {
@@ -1589,64 +1590,19 @@
     },
     "processing": "Verwerken",
     "seerrDetails": "Seerr details",
-    "homeBannerDetailed": "Gedetailleerd",
-    "homeBannerTV": "TV",
-    "mediaTypeTV": "{count, plural, one{TV Kanaal} other{TV Kanalen}}",
-    "@mediaTypeTV": {
-        "description": "TV Channel (plural)",
+    "@seerrDetails": {},
+    "updateNotifications": "Update notificaties",
+    "notificationChannelDescription": "Notificaties voor nieuw toegevoegde items",
+    "@notificationChannelDescription": {},
+    "notificationNewEpisodes": "Nieuwe afleveringen toegevoegd",
+    "@notificationNewEpisodes": {},
+    "notificationNewItems": "{count, plural, one{{count} nieuw item} other{{count} nieuwe items}}",
+    "@notificationNewItems": {
+        "description": "Plural for number of new items in a notification",
         "placeholders": {
             "count": {
-                "type": "int",
-                "example": "1"
+                "type": "int"
             }
         }
-    },
-    "playbackTypeTV": "TV",
-    "showLess": "Laat minder zien",
-    "seerrCustomHeaders": "Aangepaste headers",
-    "seerrHeader": "Header",
-    "seerrHeaderValue": "Waarde",
-    "watch": "Bekijken",
-    "watchChannel": "{channel} bekijken",
-    "@watchChannel": {
-        "placeholders": {
-            "channel": {
-                "type": "String"
-            }
-        }
-    },
-    "now": "Nu",
-    "noPrograms": "Geen programmas beschikbaar",
-    "switchChannel": "Kanaal wisselen",
-    "switchChannelDesc": "Wil je \"{programName}\" kijken op {channelName}?",
-    "@switchChannelDesc": {
-        "placeholders": {
-            "programName": {
-                "type": "String"
-            },
-            "channelName": {
-                "type": "String"
-            }
-        }
-    },
-    "specialFeature": "{count, plural, other{Speciale Features} one{Speciale Feature} }",
-    "@specialFeature": {
-        "description": "special feature",
-        "placeholders": {
-            "count": {
-                "type": "int",
-                "example": "1"
-            }
-        }
-    },
-    "activeTvChannels": "Actieve TV kanalen",
-    "enableNewTVLayout": "Schakel nieuwe TV-indeling in",
-    "enableNewTVLayoutDesc": "Toon grotere tv-achtige banners op het dashboard. Dit zal de standaardindeling worden in een toekomstige release.",
-    "backgroundColor": "Achtergrond kleur",
-    "enableSpeedBoostTitle": "Snel afspelen inschakelen",
-    "enableSpeedBoostDesc": "Houd het scherm ingedrukt (mobiel) of de spatiebalk (desktop) om de afspeelsnelheid tijdelijk te verhogen",
-    "speedBoostRateTitle": "Snelheidsboost",
-    "speedBoostRateDesc": "Afspeelsnelheid wanneer snelheidsboost is geactiveerd",
-    "enableDoubleTapSeekTitle": "Dubbel tikken om te zoeken/afspelen/pauzeren",
-    "enableDoubleTapSeekDesc": "Dubbel tikken aan de linker/rechterkant van het scherm om naar achteren/vooruit te zoeken. Dubbel tik het midden om af te spelen/pauzeren"
+    }
 }

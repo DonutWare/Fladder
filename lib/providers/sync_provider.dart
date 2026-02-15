@@ -283,7 +283,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
       }
 
       if (context.mounted) {
-        FladderSnack.show(context.localized.syncAddItemForSyncing(item.detailedName(context) ?? "Unknown"),
+        FladderSnack.show(context.localized.syncAddItemForSyncing(item.detailedName(context.localized) ?? "Unknown"),
             context: context);
       }
       final newSync = switch (item) {
@@ -296,8 +296,8 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
       if (context.mounted) {
         FladderSnack.show(
             newSync != null
-                ? context.localized.startedSyncingItem(item.detailedName(context) ?? "Unknown")
-                : context.localized.unableToSyncItem(item.detailedName(context) ?? "Unknown"),
+                ? context.localized.startedSyncingItem(item.detailedName(context.localized) ?? "Unknown")
+                : context.localized.unableToSyncItem(item.detailedName(context.localized) ?? "Unknown"),
             context: context);
       }
 

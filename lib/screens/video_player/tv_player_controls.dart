@@ -340,7 +340,7 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
         final currentProgram = tvChannel?.playingProgram;
         final playbackModel = ref.watch(playBackModel);
         final item = playbackModel?.item;
-        final subLabel = currentProgram?.subLabel(context);
+        final subLabel = currentProgram?.subLabel(context.localized);
 
         // Calculate duration and position based on program times if available
         late Duration displayDuration;
@@ -360,11 +360,11 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
         final List<String?> details = currentProgram != null
             ? [
                 currentProgram.name,
-                if (subLabel != currentProgram.name) currentProgram.subLabel(context),
+                if (subLabel != currentProgram.name) currentProgram.subLabel(context.localized),
                 context.localized.endsAt(currentProgram.endDate),
               ]
             : [
-                if (AdaptiveLayout.of(context).isDesktop) item?.label(context),
+                if (AdaptiveLayout.of(context).isDesktop) item?.label(context.localized),
                 displayDuration.inMinutes < displayPosition.inMinutes
                     ? context.localized.endsAt(DateTime.now().add(Duration(
                         milliseconds: (displayDuration.inMilliseconds - displayPosition.inMilliseconds) ~/
@@ -464,7 +464,7 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
       builder: (context, ref, child) {
         final previousVideo = ref.watch(playBackModel.select((value) => value?.previousVideo));
         return Tooltip(
-          message: previousVideo?.detailedName(context) ?? "",
+          message: previousVideo?.detailedName(context.localized) ?? "",
           textAlign: TextAlign.center,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
@@ -494,7 +494,7 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
       builder: (context, ref, child) {
         final nextVideo = ref.watch(playBackModel.select((value) => value?.nextVideo));
         return Tooltip(
-          message: nextVideo?.detailedName(context) ?? "",
+          message: nextVideo?.detailedName(context.localized) ?? "",
           textAlign: TextAlign.center,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
