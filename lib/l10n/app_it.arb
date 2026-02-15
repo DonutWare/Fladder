@@ -1641,5 +1641,143 @@
         }
     },
     "activeTvChannels": "Attiva canali TV",
-    "noOverviewAvailable": "Nessuna panoramica disponibile."
+    "noOverviewAvailable": "Nessuna panoramica disponibile.",
+    "liveTV": "Live TV",
+    "liveTvManageTunersEpg": "Gestisci i sintonizzatori e i fornitori EPG",
+    "tunerDevices": "Sintonizzatori",
+    "epgGuideProviders": "Fornitori guida EPG",
+    "noTunerDevicesConfigured": "Nessun sintonizzatore configurato",
+    "noEpgProvidersConfigured": "Nessun fornitore EPG configurato",
+    "addTunerDevice": "Aggiungi sintonizzatore",
+    "addProvider": "Aggiungi fornitore",
+    "tunerHostAddedSuccessfully": "Host sintonizzatore aggiunto con successo",
+    "failedToAddTunerHost": "Impossibile aggiungere l'host sintonizzatore: {error}",
+    "@failedToAddTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "tunerHostUpdatedSuccessfully": "Host sintonizzatore aggiornato con successo",
+    "failedToUpdateTunerHost": "Impossibile aggiornare l'host sintonizzatore: {error}",
+    "@failedToUpdateTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteTunerHost": "Elimina host sintonizzatore",
+    "deleteTunerHostConfirm": "Sei sicuro di voler eliminare \"{name}\"?",
+    "@deleteTunerHostConfirm": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "tunerHostDeletedSuccessfully": "Host sintonizzatore eliminato con successo",
+    "failedToDeleteTunerHost": "Impossibile eliminare l'host sintonizzatore: {error}",
+    "@failedToDeleteTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "epgProviderAddedSuccessfully": "Fornitore EPG aggiunto con successo",
+    "failedToAddEpgProvider": "Impossibile aggiungere il fornitore EPG: {error}",
+    "@failedToAddEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "epgProviderUpdatedSuccessfully": "Fornitore EPG aggiornato con successo",
+    "failedToUpdateEpgProvider": "Impossibile aggiornare il fornitore EPG: {error}",
+    "@failedToUpdateEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteEpgProvider": "Elimina fornitore EPG",
+    "url": "URL",
+    "deleteEpgProviderConfirm": "Sei sicuro di voler eliminare questo fornitore?",
+    "epgProviderDeletedSuccessfully": "Fornitore EPG eliminato con successo",
+    "failedToDeleteEpgProvider": "Impossibile eliminare il fornitore EPG: {error}",
+    "@failedToDeleteEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "editTunerDevice": "Modifica sintonizzatore",
+    "friendlyName": "Nome descrittivo",
+    "userAgent": "User Agent",
+    "userAgentOptional": "User Agent (opzionale)",
+    "maxConcurrentStreams": "Numero massimo di stream simultanei",
+    "addEpgProvider": "Aggiungi fornitore EPG",
+    "editEpgProvider": "Modifica fornitore EPG",
+    "xmltvPathUrl": "Percorso/URL XMLTV",
+    "enableAllTuners": "Abilita per tutti i sintonizzatori",
+    "enabledTuners": "Sintonizzatori abilitati",
+    "selectTuners": "Seleziona sintonizzatori",
+    "moviePrefix": "Prefisso film",
+    "movieCategories": "Categorie film",
+    "newsCategories": "Categorie news",
+    "sportsCategories": "Categorie sport",
+    "kidsCategories": "Categorie bambini",
+    "fileOrUrl": "File o URL",
+    "tunerIpAddress": "Indirizzo IP sintonizzatore",
+    "fallbackMaxBitrate": "Bitrate massimo di fallback (Mbps)",
+    "concurrentStreams": "Numero massimo di stream simultanei",
+    "concurrentStreamsHint": "0 = Illimitati",
+    "allowFmp4Container": "Consenti contenitore di transcodifica fMP4",
+    "allowStreamSharing": "Consenti condivisione dello stream",
+    "enableStreamLooping": "Abilita riproduzione ciclica dello stream",
+    "ignoreDts": "Ignora timestamp DTS",
+    "readAtNativeFramerate": "Leggi a framerate nativo",
+    "importFavoritesOnly": "Importa solo i canali preferiti",
+    "allowHWTranscoding": "Consenti transcodifica hardware",
+    "detectDevices": "Rileva dispositivi",
+    "discoveredDevices": "Dispositivi rilevati",
+    "noDevicesFound": "Nessun dispositivo trovato",
+    "failedToDiscoverDevices": "Impossibile rilevare i dispositivi: {error}",
+    "@failedToDiscoverDevices": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "path": "Percorso",
+    "maxConcurrentStreamsLabel": "Numero massimo di stream simultanei",
+    "noCategories": "Nessuna categoria",
+    "moviePrefixSubLabel": "Se ai titoli dei film viene applicato un prefisso, inseriscilo qui affinché il server possa elaborarlo correttamente.",
+    "movieCategoriesSubLabel": "Categorie da assegnare ai canali che corrispondono al prefisso film",
+    "newsCategoriesSubLabel": "Categorie da assegnare ai canali che corrispondono al prefisso news",
+    "sportsCategoriesSubLabel": "Categorie da assegnare ai canali che corrispondono al prefisso sport",
+    "kidsCategoriesSubLabel": "Categorie da assegnare ai canali che corrispondono al prefisso bambini",
+    "notifications": "Notifiche",
+    "showNewItemNotificationTitle": "Controlla nuovi elementi",
+    "notificationChannelDescription": "Notifiche per gli elementi aggiunti di recente",
+    "notificationNewEpisodes": "Nuovi episodi aggiunti",
+    "notificationNewItems": "{count, plural, one{{count} nuovo elemento} other{{count} nuovi elementi}}",
+    "@notificationNewItems": {
+        "description": "Plural for number of new items in a notification",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "notificationTimerIOSWarning": " iOS decide quando e se eseguire gli aggiornamenti; le notifiche potrebbero subire ritardi o non essere visualizzate affatto.",
+    "updateCheckInterval": "Intervallo controllo aggiornamenti",
+    "updateCheckIntervalDesc": "Frequenza di esecuzione del processo in background",
+    "notificationsIntervalClientReminder": "L'intervallo di notifica è impostato per tutti gli utenti."
 }
